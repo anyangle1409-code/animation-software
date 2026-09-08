@@ -99,9 +99,9 @@ const box = (
 
 export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
   dumbbell: [
-    bar(0.016, 0.13),
-    disc(0.052, 0.062, [0, 0, -0.085], 'rubber', 6),
-    disc(0.052, 0.062, [0, 0, 0.085], 'rubber', 6),
+    bar(0.015, 0.12),
+    disc(0.048, 0.035, [0, 0, -0.075], 'rubber', 32),
+    disc(0.048, 0.035, [0, 0, 0.075], 'rubber', 32),
   ],
 
   barbell: [

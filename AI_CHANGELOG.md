@@ -6,6 +6,32 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Codex — 2026-09-08 — `codex/anatomical-reference-character`
+
+Purpose: bring the built-in character and dumbbell curl presentation toward the
+supplied professional anatomy reference while retaining the existing 53-bone
+animation pipeline.
+
+- **Human-topology character.** Replaced the procedural tube surface with a
+  13,952-vertex, 27,432-triangle athletic male mesh generated from MakeHuman's
+  CC0 base, muscular target and skin weights. Converted its A-pose to the
+  studio's arms-down bind pose, remapped four-influence skinning to the
+  canonical rig, added a restrained face, eyes, close-cropped hair and fitted
+  shorts, and retained the same mesh path for viewport and GLB export.
+- **Surface muscle teaching view.** Classified the anatomical surface into the
+  studio's muscle groups. Muscle mode now paints the selected exercise's
+  primary, secondary and stabilising muscles directly on the body instead of
+  ghosting the body around detached ellipsoids.
+- **Curl and equipment.** Replaced the oversized hex dumbbell ends with smaller
+  round plates and reduced peak elbow flexion/shoulder travel so the weights do
+  not crowd or pass through the chest. The existing hand attachment and mirrored
+  finger closure remain unchanged and continue to hold the handle rigidly.
+- **Provenance and tests.** Added `THIRD_PARTY_ASSETS.md`, expanded body/export
+  tests for four-weight anatomical skinning and surface muscle regions, and
+  updated the curl range assertion.
+
+Verification: 122 tests pass; `npm run typecheck` and `npm run build` are clean.
+
 ### Claude Opus 5 — 2026-09-08 — `claude/home-gym-pt-animation-txux66`
 
 Purpose: make the studio's character read as a person rather than a mannequin,

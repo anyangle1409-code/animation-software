@@ -3,9 +3,10 @@ import type { RigBone, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { BodyBlob, BodyChain, Ring } from './profiles';
 import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
+import { buildAnatomicalBodyGeometry } from './anatomical';
 
 /**
- * Loft the body profiles into one skinned mesh.
+ * Build the body as one skinned mesh.
  *
  * Each chain becomes a single tube of elliptical rings running along several
  * bones, built in the rig's rest pose so the bind matrix stays identity. Rings
@@ -13,8 +14,9 @@ import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
  * is what lets an elbow crease and a shoulder round over instead of two rigid
  * parts scissoring past one another.
  *
- * The result is a single indexed geometry, used by the viewport and by the GLB
- * exporter alike.
+ * The default is the human-topology anatomical body. The original profile
+ * loft remains below as a diagnostic fallback. Both produce one indexed
+ * geometry shared by the viewport and GLB exporter.
  */
 export interface BodyGeometry {
   geometry: BufferGeometry;
@@ -22,7 +24,7 @@ export interface BodyGeometry {
   triangles: number;
 }
 
-/** glTF skinning always carries four influences; a joint only ever needs two. */
+/** glTF skinning carries four influences per vertex. */
 const INFLUENCES = 4;
 
 /** One ring, resolved onto the bone it belongs to. */
@@ -52,6 +54,11 @@ const colourOf = (hex: string | undefined): Color => {
 };
 
 export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
+  return buildAnatomicalBodyGeometry(rig);
+}
+
+/** Retained as a diagnostic fallback for the profile editor and tests. */
+export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
   const skinIndices: number[] = [];
@@ -282,7 +289,7 @@ function ringsWithDomes(
 
 /**
  * The character's surface, shared by the viewport and the exporter. Colour comes
- * from the vertex attribute, so the material itself stays white and unlit skin,
+ * from the vertex attribute, so the material itself stays white and the skin,
  * shorts and eyes all come out of one draw call.
  */
 export const BODY_MATERIAL = {

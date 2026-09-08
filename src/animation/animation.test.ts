@@ -51,7 +51,7 @@ describe('clip generation', () => {
     const bottom = toDeg(sampleClip(clip, 0).pose.rotations.forearm_l?.x ?? 0);
     const top = toDeg(sampleClip(clip, 2).pose.rotations.forearm_l?.x ?? 0);
     expect(bottom).toBeCloseTo(6, 3);
-    expect(top).toBeCloseTo(138, 3);
+    expect(top).toBeCloseTo(126, 3);
   });
 
   it('names phases across the timeline', () => {

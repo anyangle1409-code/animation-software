@@ -1,10 +1,13 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
-import { Euler, Matrix4, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
+import { Color, Euler, Matrix4, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
 import { EULER_ORDER } from '../rig/types';
 import { skeleton } from '../editor/store';
 import { buildSkinnedRig } from '../body/skin';
 import { useSceneState } from './sceneState';
+import { useStudio } from '../editor/store';
+import { MUSCLE_GROUP_IDS } from '../muscles/groups';
+import { ACTIVATION_STYLES, activationMap, activationOf } from '../muscles/activation';
 
 export interface MannequinViewProps {
   opacity?: number;
@@ -15,13 +18,15 @@ export interface MannequinViewProps {
    * which is the one thing the muscle view exists to show.
    */
   depthWrite?: boolean;
+  /** Paint exercise activation directly onto the anatomical skin surface. */
+  highlightMuscles?: boolean;
 }
 
 const UNIT = new Vector3(1, 1, 1);
 
 /**
- * The character: one skinned body, lofted from the body profiles and driven by
- * the same pose everything else reads.
+ * The character: one anatomical skinned body driven by the same pose everything
+ * else reads.
  *
  * It is built by the same function the GLB exporter uses, so what the studio
  * shows and what the exported file contains are the same mesh, bound to the
@@ -31,9 +36,16 @@ export function MannequinView({
   opacity = 1,
   colour = '#ffffff',
   depthWrite = true,
+  highlightMuscles = false,
 }: MannequinViewProps) {
   const scene = useSceneState();
   const rig = useMemo(() => buildSkinnedRig(skeleton), []);
+  const involvement = useStudio((state) => state.document.exercise.muscles);
+  const activation = useMemo(() => activationMap(involvement), [involvement]);
+  const baseColours = useMemo(
+    () => new Float32Array((rig.mesh.geometry.getAttribute('color').array as ArrayLike<number>)),
+    [rig],
+  );
 
   const scratch = useMemo(
     () => ({
@@ -58,6 +70,33 @@ export function MannequinView({
     material.depthWrite = depthWrite;
     material.needsUpdate = true;
   }, [rig, colour, opacity, depthWrite]);
+
+  useEffect(() => {
+    const attribute = rig.mesh.geometry.getAttribute('color');
+    const groups = rig.mesh.geometry.getAttribute('muscleGroup');
+    const colourValue = new Color();
+    for (let vertex = 0; vertex < attribute.count; vertex += 1) {
+      const groupNumber = groups?.getX(vertex) ?? 0;
+      if (!highlightMuscles || groupNumber === 0) {
+        attribute.setXYZ(
+          vertex,
+          baseColours[vertex * 3],
+          baseColours[vertex * 3 + 1],
+          baseColours[vertex * 3 + 2],
+        );
+        continue;
+      }
+      const group = MUSCLE_GROUP_IDS[groupNumber - 1];
+      const level = activationOf(activation, group);
+      if (level === 'inactive') {
+        colourValue.set('#b8bdc2');
+      } else {
+        colourValue.set(ACTIVATION_STYLES[level].colour);
+      }
+      attribute.setXYZ(vertex, colourValue.r, colourValue.g, colourValue.b);
+    }
+    attribute.needsUpdate = true;
+  }, [rig, baseColours, highlightMuscles, activation]);
 
   useEffect(() => () => {
     (rig.mesh.material as MeshStandardMaterial).dispose();

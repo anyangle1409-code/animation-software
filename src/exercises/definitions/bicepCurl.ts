@@ -62,9 +62,10 @@ export const bicepCurl: ExerciseDefinition = {
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
-      // Elbows travel forward a few degrees, which is normal, not a fault.
-      upperarm_l: { x: 12, z: -8 },
-      upperarm_r: { x: 12, z: 8 },
+      // A small forward drift keeps the elbows natural without letting the
+      // dumbbells crowd the chest at the top of the curl.
+      upperarm_l: { x: 7, z: -7 },
+      upperarm_r: { x: 7, z: 7 },
       hand_l: { z: 2 },
       hand_r: { z: -2 },
     },
@@ -75,8 +76,8 @@ export const bicepCurl: ExerciseDefinition = {
    * the poses above, which keeps the interesting numbers in one short list.
    */
   jointTargets: [
-    { bone: 'forearm_l', axis: 'x', start: 6, peak: 138, role: 'prime', range: { min: 0, max: 145 } },
-    { bone: 'forearm_r', axis: 'x', start: 6, peak: 138, role: 'prime', range: { min: 0, max: 145 } },
+    { bone: 'forearm_l', axis: 'x', start: 6, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
+    { bone: 'forearm_r', axis: 'x', start: 6, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
     // Supination is held throughout: the palms face up from the bottom.
     { bone: 'forearm_l', axis: 'y', start: 72, peak: 80, role: 'support' },
     { bone: 'forearm_r', axis: 'y', start: -72, peak: -80, role: 'support' },

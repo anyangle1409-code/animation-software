@@ -6,7 +6,6 @@ import type { BoneName } from '../rig/boneNames';
 import { Color } from 'three';
 import { buildBodyGeometry } from './mesh';
 import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
-import { MUSCLE_GROUP_IDS } from '../muscles/groups';
 
 const rig = canonicalSkeleton;
 const { geometry, vertices, triangles } = buildBodyGeometry(rig);
@@ -15,13 +14,8 @@ const skinIndex = geometry.getAttribute('skinIndex');
 const skinWeight = geometry.getAttribute('skinWeight');
 
 /** The bone that holds most of a vertex. */
-const ownerOf = (index: number): BoneName => {
-  const weights = [skinWeight.getX(index), skinWeight.getY(index), skinWeight.getZ(index), skinWeight.getW(index)];
-  const slots = [skinIndex.getX(index), skinIndex.getY(index), skinIndex.getZ(index), skinIndex.getW(index)];
-  let strongest = 0;
-  for (let slot = 1; slot < 4; slot += 1) if (weights[slot] > weights[strongest]) strongest = slot;
-  return rig.bones[slots[strongest]].name;
-};
+const ownerOf = (index: number): BoneName =>
+  rig.bones[skinWeight.getX(index) >= 0.5 ? skinIndex.getX(index) : skinIndex.getY(index)].name;
 
 interface Extent {
   halfWidth: number;
@@ -29,15 +23,15 @@ interface Extent {
   high: number;
 }
 
-/** Uint8 vertex colours approximate the linear-space palette. */
+/** Vertex colours come straight from the palette, so they compare exactly. */
 const matches = (
   colour: { getX(i: number): number; getY(i: number): number; getZ(i: number): number },
   index: number,
   target: Color,
 ): boolean =>
-  Math.abs(colour.getX(index) - target.r) < 0.005 &&
-  Math.abs(colour.getY(index) - target.g) < 0.005 &&
-  Math.abs(colour.getZ(index) - target.b) < 0.005;
+  Math.abs(colour.getX(index) - target.r) < 1e-4 &&
+  Math.abs(colour.getY(index) - target.g) < 1e-4 &&
+  Math.abs(colour.getZ(index) - target.b) < 1e-4;
 
 const extentOf = (bones: BoneName[]): Extent => {
   const wanted = new Set(bones);
@@ -74,9 +68,9 @@ describe('body mesh', () => {
 
     // Anthropometry for a 1.75 m adult, in metres across.
     expect(head.halfWidth * 2).toBeGreaterThan(0.14);
-    expect(head.halfWidth * 2).toBeLessThan(0.29);
+    expect(head.halfWidth * 2).toBeLessThan(0.19);
     expect(chest.halfWidth * 2).toBeGreaterThan(0.33);
-    expect(hips.halfWidth * 2).toBeGreaterThan(0.3);
+    expect(hips.halfWidth * 2).toBeGreaterThan(0.32);
     // A waist narrower than both the ribcage and the hips is what gives the
     // figure a human silhouette rather than a barrel.
     expect(waist.halfWidth).toBeLessThan(chest.halfWidth);
@@ -92,7 +86,7 @@ describe('body mesh', () => {
     // A deltoid that rises far above the joint reads as a shoulder pad, and the
     // arm then looks bolted on rather than attached.
     expect(deltoid.high - shoulderJoint).toBeLessThan(0.05);
-    expect(deltoid.high).toBeGreaterThan(shoulderJoint - 0.01);
+    expect(deltoid.high).toBeGreaterThan(shoulderJoint);
     // Shoulder width, deltoid to deltoid.
     expect(deltoid.halfWidth * 2).toBeGreaterThan(0.4);
     expect(deltoid.halfWidth * 2).toBeLessThan(0.48);
@@ -119,12 +113,12 @@ describe('body mesh', () => {
     expect(volume).toBeLessThan(0.13);
   });
 
-  it('weights every vertex to four bones at most, summing to one', () => {
+  it('weights every vertex to two bones at most, summing to one', () => {
     for (let index = 0; index < position.count; index += 1) {
-      const sum = skinWeight.getX(index) + skinWeight.getY(index) + skinWeight.getZ(index) + skinWeight.getW(index);
+      const sum = skinWeight.getX(index) + skinWeight.getY(index);
       expect(sum, `vertex ${index}`).toBeCloseTo(1, 5);
-      expect(skinWeight.getX(index)).toBeGreaterThanOrEqual(0);
-      expect(skinWeight.getW(index)).toBeGreaterThanOrEqual(0);
+      expect(skinWeight.getZ(index)).toBe(0);
+      expect(skinWeight.getW(index)).toBe(0);
     }
   });
 
@@ -142,7 +136,7 @@ describe('body mesh', () => {
       const along = tail.clone().sub(head);
       const t = Math.max(0, Math.min(1, point.clone().sub(head).dot(along) / along.lengthSq()));
       const nearest = head.clone().addScaledVector(along, t);
-      expect(point.distanceTo(nearest), `${bone.name} vertex ${index}`).toBeLessThan(0.5);
+      expect(point.distanceTo(nearest), `${bone.name} vertex ${index}`).toBeLessThan(0.24);
     }
   });
 
@@ -201,32 +195,16 @@ describe('body mesh', () => {
       if (!isSclera && !isIris) continue;
       // Both sit in the head, above the shoulders and in front of the ears.
       expect(position.getY(index)).toBeGreaterThan(1.55);
-      expect(position.getZ(index)).toBeGreaterThan(-0.01);
+      expect(position.getZ(index)).toBeGreaterThan(0.05);
     }
     expect(seen.sclera).toBeGreaterThan(40);
     expect(seen.iris).toBeGreaterThan(40);
     expect(ownerOf(0)).toBeDefined();
   });
 
-  it('maps exercise muscles onto the anatomical surface', () => {
-    const groups = geometry.getAttribute('muscleGroup');
-    const biceps = MUSCLE_GROUP_IDS.indexOf('biceps') + 1;
-    const flexors = MUSCLE_GROUP_IDS.indexOf('forearm_flexors') + 1;
-    let bicepsVertices = 0;
-    let flexorVertices = 0;
-    for (let index = 0; index < groups.count; index += 1) {
-      expect(groups.getX(index)).toBeGreaterThanOrEqual(0);
-      expect(groups.getX(index)).toBeLessThanOrEqual(MUSCLE_GROUP_IDS.length);
-      if (groups.getX(index) === biceps) bicepsVertices += 1;
-      if (groups.getX(index) === flexors) flexorVertices += 1;
-    }
-    expect(bicepsVertices).toBeGreaterThan(40);
-    expect(flexorVertices).toBeGreaterThan(40);
-  });
-
   it('stays small enough to export comfortably', () => {
-    expect(vertices).toBeLessThan(16000);
-    expect(triangles).toBeLessThan(30000);
+    expect(vertices).toBeLessThan(12000);
+    expect(triangles).toBeLessThan(20000);
   });
 
   it('names a bone that exists for every profile it defines', () => {

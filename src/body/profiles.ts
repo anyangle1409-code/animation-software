@@ -75,18 +75,18 @@ export interface BodyBlob {
 }
 
 /**
- * The character's reference-style palette. A cool anatomical grey keeps the
- * shape readable while the activation colours carry the coaching signal.
+ * The character's palette. Skin is a warm mid tone so the red muscle
+ * highlighting reads against it; clothing remains dark and unobtrusive.
  */
 export const BODY_COLOURS = {
-  skin: '#cfd3d6',
-  shorts: '#202226',
-  waistband: '#2d3035',
-  sclera: '#eceef0',
-  iris: '#343a40',
-  lips: '#aeb3b8',
-  brow: '#555b62',
-  hair: '#17191c',
+  skin: '#c8a184',
+  shorts: '#24272e',
+  waistband: '#31353e',
+  sclera: '#ded4c8',
+  iris: '#2f3a46',
+  lips: '#a9705f',
+  brow: '#7a5b47',
+  hair: '#3b3029',
 } as const;
 
 const ring = (t: number, rx: number, rz: number, oz = 0, ox = 0, colour?: string): Ring => ({

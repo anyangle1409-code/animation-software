@@ -3,7 +3,6 @@ import type { RigBone, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { BodyBlob, BodyChain, Ring } from './profiles';
 import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
-import { buildAnatomicalBodyGeometry } from './anatomical';
 
 /**
  * Build the body as one skinned mesh.
@@ -14,9 +13,7 @@ import { buildAnatomicalBodyGeometry } from './anatomical';
  * is what lets an elbow crease and a shoulder round over instead of two rigid
  * parts scissoring past one another.
  *
- * The default is the human-topology anatomical body. The original profile
- * loft remains below as a diagnostic fallback. Both produce one indexed
- * geometry shared by the viewport and GLB exporter.
+ * The result is one indexed geometry shared by the viewport and GLB exporter.
  */
 export interface BodyGeometry {
   geometry: BufferGeometry;
@@ -24,7 +21,7 @@ export interface BodyGeometry {
   triangles: number;
 }
 
-/** glTF skinning carries four influences per vertex. */
+/** glTF skinning carries four slots; the profile mesh uses at most two. */
 const INFLUENCES = 4;
 
 /** One ring, resolved onto the bone it belongs to. */
@@ -54,10 +51,10 @@ const colourOf = (hex: string | undefined): Color => {
 };
 
 export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
-  return buildAnatomicalBodyGeometry(rig);
+  return buildProfileBodyGeometry(rig);
 }
 
-/** Retained as a diagnostic fallback for the profile editor and tests. */
+/** Build the profile-based surface used by the character and exporter. */
 export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
   const positions: number[] = [];
   const indices: number[] = [];

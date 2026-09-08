@@ -213,13 +213,10 @@ function Figure() {
       {(viewMode === 'skeleton' || viewMode === 'combined') && (
         <SkeletonView ghosted={viewMode === 'combined'} />
       )}
-      {viewMode === 'combined' && <MuscleView />}
+      {(viewMode === 'muscles' || viewMode === 'combined') && <MuscleView />}
       {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <MannequinView />)}
       {viewMode === 'muscles' && (
-        // The reference presentation paints activation onto the skin surface,
-        // so the person remains readable instead of becoming a ghost around
-        // detached anatomical blobs.
-        <MannequinView highlightMuscles />
+        <MannequinView opacity={0.24} depthWrite={false} />
       )}
       {showEquipment && <EquipmentView />}
       {showIkHandles && <IKHandles />}

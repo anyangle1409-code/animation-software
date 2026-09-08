@@ -8,34 +8,26 @@ definitions, or repository configuration.
 
 ### Codex — 2026-09-08 — `codex/anatomical-reference-character`
 
-Purpose: bring the built-in character and dumbbell curl presentation toward the
-supplied professional anatomy reference while retaining the existing 53-bone
-animation pipeline.
+Purpose: improve the dumbbell curl while recording and withdrawing an
+unsuccessful imported-character experiment.
 
-- **Human-topology character.** Replaced the procedural tube surface with a
-  13,952-vertex, 27,432-triangle athletic male mesh generated from MakeHuman's
-  CC0 base, muscular target and skin weights. Converted its A-pose to the
-  studio's arms-down bind pose, remapped four-influence skinning to the
-  canonical rig, added a restrained face, eyes, close-cropped hair and fitted
-  shorts, and retained the same mesh path for viewport and GLB export.
-- **Surface muscle teaching view.** Classified the anatomical surface into the
-  studio's muscle groups. Muscle mode now paints the selected exercise's
-  primary, secondary and stabilising muscles directly on the body instead of
-  ghosting the body around detached ellipsoids.
-- **Curl and equipment.** Replaced the oversized hex dumbbell ends with smaller
-  round plates and reduced peak elbow flexion/shoulder travel so the weights do
-  not crowd or pass through the chest. The existing hand attachment and mirrored
-  finger closure remain unchanged and continue to hold the handle rigidly.
-- **Provenance and tests.** Added `THIRD_PARTY_ASSETS.md`, expanded body/export
-  tests for four-weight anatomical skinning and surface muscle regions, and
-  updated the curl range assertion.
-- **GitHub transfer correction.** Replaced the single generated mesh module,
-  which was truncated by the first GitHub blob upload, with six independently
-  capped data modules (largest 298 kB). The committed blobs were downloaded and
-  compared byte-for-byte with the tested local files before this correction was
-  reported complete.
+- **Retained:** replaced the oversized hex dumbbell ends with smaller round
+  plates and reduced peak elbow flexion/shoulder travel so the weights do not
+  crowd the chest. The existing grip placement and mirrored finger closure are
+  unchanged.
+- **Rejected and removed:** an attempted MakeHuman-to-canonical remap passed
+  static mesh and bone tests but failed in the real posed preview. Its bind pose
+  was incompatible with the canonical skeleton, causing torn shoulders and
+  torso sections and fingers to explode away from both hands. The body also did
+  not match the requested athletic male reference. All generated mesh data,
+  surface-highlighting changes and third-party asset files from that attempt
+  have been removed; the last known-good profile character is restored.
+- **Regression coverage:** added a contracted-curl skin test which transforms
+  every vertex and rejects detached or exploded geometry. This covers the visual
+  failure that the earlier bone-only tests missed.
 
-Verification: 122 tests pass; `npm run typecheck` and `npm run build` are clean.
+Verification: 122 tests pass, including the new fully posed skin check;
+`npm run typecheck` and `npm run build` are clean.
 
 ### Claude Opus 5 — 2026-09-08 — `claude/home-gym-pt-animation-txux66`
 

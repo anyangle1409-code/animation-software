@@ -35,22 +35,20 @@ describe('skinned rig', () => {
     let shared = 0;
 
     for (let index = 0; index < weights.count; index += 1) {
-      const sum = weights.getX(index) + weights.getY(index) + weights.getZ(index) + weights.getW(index);
+      const sum = weights.getX(index) + weights.getY(index);
       expect(sum, `vertex ${index}`).toBeCloseTo(1, 5);
-      // Four influences preserve the source mesh's smooth shoulder and face
-      // deformation while remaining directly representable in glTF.
-      expect(weights.getX(index)).toBeGreaterThanOrEqual(0);
-      expect(weights.getW(index)).toBeGreaterThanOrEqual(0);
+      expect(weights.getZ(index)).toBe(0);
+      expect(weights.getW(index)).toBe(0);
 
       if (weights.getY(index) === 0) continue;
       shared += 1;
       // A vertex may only be shared with a bone on the other side of one of
       // its own joints — its parent or one of its children. That is what makes
       // a joint crease instead of a limb detaching.
-      for (let slot = 0; slot < 4; slot += 1) {
-        const boneIndex = [bones.getX(index), bones.getY(index), bones.getZ(index), bones.getW(index)][slot];
-        expect(boneIndex, `vertex ${index} influence ${slot}`).toBeLessThan(skeleton.bones.length);
-      }
+      const own = skeleton.bones[bones.getX(index)];
+      const other = skeleton.bones[bones.getY(index)];
+      const jointed = other.name === own.parent || own.children.includes(other.name);
+      expect(jointed, `vertex ${index}: ${own.name} shared with ${other.name}`).toBe(true);
     }
 
     // The whole point of the body mesh: joints are shared, not rigid.
@@ -64,6 +62,31 @@ describe('skinned rig', () => {
     const exported = new Vector3().setFromMatrixPosition(head.matrixWorld);
     // The bind pose is the rig's rest pose, so bones start where the rig says.
     expect(exported.distanceTo(evaluation.head('head', new Vector3()))).toBeLessThan(0.35);
+  });
+
+  it('keeps the complete skin together in the contracted curl pose', () => {
+    const posed = buildSkinnedRig(skeleton);
+    const holder = new Object3D();
+    holder.add(posed.mesh);
+    const mixer = new AnimationMixer(holder);
+    mixer.clipAction(bakeClip(studioClip, skeleton, { fps: 30 }).clip).play();
+    mixer.setTime(2);
+    holder.updateMatrixWorld(true);
+    posed.skeleton.update();
+
+    const positions = posed.mesh.geometry.getAttribute('position');
+    const point = new Vector3();
+    for (let index = 0; index < positions.count; index += 1) {
+      point.fromBufferAttribute(positions, index);
+      posed.mesh.applyBoneTransform(index, point);
+      expect(Number.isFinite(point.x) && Number.isFinite(point.y) && Number.isFinite(point.z)).toBe(true);
+      // This catches a mesh bound in a different rest pose: fingers and limb
+      // strips otherwise explode metres away while all bone-only tests pass.
+      expect(Math.abs(point.x), `vertex ${index} x`).toBeLessThan(0.65);
+      expect(point.y, `vertex ${index} y`).toBeGreaterThan(-0.1);
+      expect(point.y, `vertex ${index} y`).toBeLessThan(1.9);
+      expect(Math.abs(point.z), `vertex ${index} z`).toBeLessThan(0.65);
+    }
   });
 });
 

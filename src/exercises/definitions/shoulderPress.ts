@@ -40,7 +40,7 @@ export const shoulderPress: ExerciseDefinition = {
         position: vec3(0, 0, 0),
         rotation: vec3(0, 0, 0),
         visible: true,
-        attachment: { mode: 'hand', side: 'l', socket: 'grip', gripOffset: vec3(0, 0.045, 0) },
+        attachment: { mode: 'hand', side: 'l', socket: 'grip' },
       },
       {
         id: 'dumbbell_r',
@@ -50,7 +50,7 @@ export const shoulderPress: ExerciseDefinition = {
         position: vec3(0, 0, 0),
         rotation: vec3(0, 0, 0),
         visible: true,
-        attachment: { mode: 'hand', side: 'r', socket: 'grip', gripOffset: vec3(0, 0.045, 0) },
+        attachment: { mode: 'hand', side: 'r', socket: 'grip' },
       },
     ],
   },

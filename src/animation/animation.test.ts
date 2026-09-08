@@ -8,6 +8,7 @@ import { closesLoop, sampleClip } from './clip';
 import { resolveFrame } from './pipeline';
 import { validateClip } from './validate';
 import { ease } from './easing';
+import { anatomicalGripOffset } from '../equipment/attach';
 
 const skeleton = canonicalSkeleton;
 const evaluation = new PoseEvaluation(skeleton);
@@ -126,10 +127,46 @@ describe('resolved frames', () => {
     for (let time = 0; time <= clip.duration; time += 0.25) {
       const frame = resolveFrame(skeleton, evaluation, clip, time);
       evaluation.apply(frame.pose);
-      const dumbbell = frame.equipment.get('dumbbell_l');
-      expect(dumbbell).toBeDefined();
-      const gripInHand = evaluation.localToWorld('hand_l', { x: 0, y: 0.045, z: 0 }, new Vector3());
-      expect(dumbbell!.position.distanceTo(gripInHand)).toBeLessThan(1e-6);
+      for (const side of ['l', 'r'] as const) {
+        const dumbbell = frame.equipment.get(`dumbbell_${side}`);
+        expect(dumbbell).toBeDefined();
+        const gripInHand = evaluation.localToWorld(
+          `hand_${side}`,
+          anatomicalGripOffset(side),
+          new Vector3(),
+        );
+        expect(dumbbell!.position.distanceTo(gripInHand)).toBeLessThan(1e-6);
+      }
+    }
+  });
+
+  it('centres each dumbbell handle inside the curled fingers', () => {
+    for (let time = 0; time <= clip.duration; time += 0.25) {
+      const frame = resolveFrame(skeleton, evaluation, clip, time);
+      evaluation.apply(frame.pose);
+      for (const side of ['l', 'r'] as const) {
+        const hand = `hand_${side}` as const;
+        const handle = evaluation.worldToLocal(
+          hand,
+          frame.equipment.get(`dumbbell_${side}`)!.position,
+          new Vector3(),
+        );
+        const knuckle = evaluation.worldToLocal(
+          hand,
+          evaluation.head(`middle_01_${side}`, new Vector3()),
+          new Vector3(),
+        );
+        const fingertip = evaluation.worldToLocal(
+          hand,
+          evaluation.tail(`middle_03_${side}`, new Vector3()),
+          new Vector3(),
+        );
+        const fingerCentre = knuckle.clone().add(fingertip).multiplyScalar(0.5);
+
+        // The handle should sit in the loop formed by the closed finger, not
+        // back inside the solid palm. This is invariant throughout the curl.
+        expect(handle.distanceTo(fingerCentre)).toBeLessThan(0.018);
+      }
     }
   });
 

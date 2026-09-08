@@ -62,7 +62,7 @@ function resolveInstance(
 
   if (attachment.mode === 'hand') {
     const hand = attachment.side === 'l' ? 'hand_l' : 'hand_r';
-    const grip = attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+    const grip = attachment.gripOffset ?? anatomicalGripOffset(attachment.side);
     const matrix = new Matrix4()
       .copy(evaluation.matrix(hand))
       .multiply(new Matrix4().makeTranslation(grip.x, grip.y, grip.z));
@@ -105,6 +105,14 @@ function resolveInstance(
     quaternion,
     matrix: new Matrix4().compose(position, quaternion, UNIT),
   };
+}
+
+/**
+ * Centre of a cylindrical handle inside the curled fingers, in hand-local
+ * coordinates. The palm-facing axis is mirrored between hands.
+ */
+export function anatomicalGripOffset(side: 'l' | 'r'): { x: number; y: number; z: number } {
+  return { x: side === 'l' ? -0.025 : 0.025, y: 0.085, z: 0 };
 }
 
 function decompose(id: string, matrix: Matrix4): EquipmentTransform {

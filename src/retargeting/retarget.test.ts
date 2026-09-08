@@ -6,7 +6,8 @@ import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { createMapping, guessMapping, isMappingUsable, reportMapping } from './boneMap';
-import { applyRetarget, bindRetarget, readCharacter, resetCharacter } from './retarget';
+import { applyRetarget, bindRetarget, readCharacter, resetCharacter, retargetedBoneMatrix } from './retarget';
+import { resolveRetargetedEquipment } from '../equipment/attach';
 
 const skeleton = canonicalSkeleton;
 
@@ -158,5 +159,43 @@ describe('retargeting', () => {
 
     resetCharacter(character);
     expect(character.bones.get('forearm_l')!.quaternion.angleTo(before)).toBeLessThan(1e-6);
+  });
+
+  it('applies and resets root translation and rotation on the character root', () => {
+    const character = buildCharacter({ names: identityNames });
+    character.root.position.set(2, 3, 4);
+    character.root.rotation.set(0, 0.2, 0);
+    character.root.updateMatrixWorld(true);
+    character.rootRestPosition.copy(character.root.position);
+    character.rootRestQuaternion.copy(character.root.quaternion);
+    const mapping = createMapping('Root motion', 'identity');
+    mapping.bones = guessMapping(character.boneNames);
+    const binding = bindRetarget(character, mapping);
+    const pose = restPose();
+    pose.rootPosition = { x: 0.1, y: -0.2, z: 0.3 };
+    pose.rootRotation = { x: 0, y: 0.4, z: 0 };
+
+    applyRetarget(binding, pose);
+    expect(character.root.position.x).toBeCloseTo(2 + 0.1 * binding.scale, 6);
+    expect(character.root.position.y).toBeCloseTo(3 - 0.2 * binding.scale, 6);
+    expect(character.root.quaternion.angleTo(binding.rootRestQuaternion)).toBeGreaterThan(0.35);
+
+    resetCharacter(character);
+    expect(character.root.position.distanceTo(binding.rootRestPosition)).toBeLessThan(1e-8);
+    expect(character.root.quaternion.angleTo(binding.rootRestQuaternion)).toBeLessThan(1e-7);
+  });
+
+  it('places hand-held equipment from the retargeted hand frame', () => {
+    const character = buildCharacter({ names: mixamoNames, tPose: true });
+    const mapping = createMapping('Equipment', 'mixamo');
+    mapping.bones = guessMapping(character.boneNames);
+    const binding = bindRetarget(character, mapping);
+    applyRetarget(binding, sampleClip(clip, 2).pose);
+
+    const transforms = resolveRetargetedEquipment(binding, clip.equipment);
+    const expected = new Vector3(0, 0.045, 0).applyMatrix4(
+      retargetedBoneMatrix(binding, 'hand_l')!,
+    );
+    expect(transforms.get('dumbbell_l')!.position.distanceTo(expected)).toBeLessThan(1e-6);
   });
 });

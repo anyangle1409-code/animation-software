@@ -10,6 +10,9 @@ import { bakeClip } from './clipBuilder';
 import { buildSkinnedRig } from './rigBuilder';
 import { exportAnimationJson, exportMetadataJson, SKELETON_ID } from './json';
 import { exportGlb } from './glb';
+import { exportRetargetedGlb } from './retargeted';
+import { bindRetarget, readCharacter } from '../retargeting/retarget';
+import { createMapping, guessMapping } from '../retargeting/boneMap';
 
 const skeleton = canonicalSkeleton;
 const studioClip = generateClip(skeleton, bicepCurl);
@@ -188,5 +191,30 @@ describe('glb export', () => {
     // Much smaller than the full export — that is the point of the option.
     const full = await exportGlb(studioClip, bicepCurl, { fps: 20 });
     expect(buffer.byteLength).toBeLessThan((await full.arrayBuffer()).byteLength);
+  });
+
+  it('bakes the clip and equipment onto an imported character', async () => {
+    const importedRig = buildSkinnedRig(skeleton);
+    importedRig.mesh.name = 'Test_Imported_Character';
+    const character = readCharacter(importedRig.mesh);
+    const mapping = createMapping('Imported', 'test');
+    mapping.bones = guessMapping(character.boneNames);
+    const binding = bindRetarget(character, mapping);
+
+    const blob = await exportRetargetedGlb(studioClip, binding, { fps: 20 });
+    const buffer = await blob.arrayBuffer();
+    const view = new DataView(buffer);
+    const jsonLength = view.getUint32(12, true);
+    const json = JSON.parse(
+      new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
+    ) as { animations: { name: string; channels: unknown[] }[]; nodes: { name?: string }[]; skins?: unknown[] };
+
+    expect(json.animations[0].name).toBe('bicep_curl');
+    expect(json.animations[0].channels.length).toBeGreaterThan(10);
+    expect(json.skins?.length).toBeGreaterThan(0);
+    const names = json.nodes.map((node) => node.name);
+    expect(names).toContain('Test_Imported_Character');
+    expect(names).toContain('equipment_dumbbell_l');
+    expect(names).toContain('equipment_dumbbell_r');
   });
 });

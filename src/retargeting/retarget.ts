@@ -1,4 +1,4 @@
-import { Box3, Euler, Object3D, Quaternion, Vector3 } from 'three';
+import { Box3, Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { Bone, SkinnedMesh } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton } from '../rig/skeleton';
@@ -17,11 +17,14 @@ export interface TargetCharacter {
   restWorldPosition: Map<string, Vector3>;
   restWorld: Map<string, Quaternion>;
   restLocal: Map<string, Quaternion>;
+  /** Scene-root transform as imported, restored around every root-motion clip. */
+  rootRestPosition: Vector3;
+  rootRestQuaternion: Quaternion;
   height: number;
   meshes: SkinnedMesh[];
 }
 
-interface BoundBone {
+export interface BoundBone {
   canonical: BoneName;
   bone: Bone;
   restLocal: Quaternion;
@@ -37,8 +40,9 @@ export interface RetargetBinding {
   character: TargetCharacter;
   mapping: BoneMapping;
   bones: BoundBone[];
-  hips: Bone | null;
-  hipsRest: Vector3;
+  boneByCanonical: Map<BoneName, BoundBone>;
+  rootRestPosition: Vector3;
+  rootRestQuaternion: Quaternion;
   /** Target height divided by the canonical rig's height. */
   scale: number;
 }
@@ -82,17 +86,13 @@ export function bindRetarget(
     });
   }
 
-  const hipsName = mapping.bones.pelvis;
-  const hips = hipsName ? character.bones.get(hipsName) ?? null : null;
-  const hipsRest =
-    (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || new Vector3();
-
   return {
     character,
     mapping,
     bones,
-    hips,
-    hipsRest,
+    boneByCanonical: new Map(bones.map((entry) => [entry.canonical, entry])),
+    rootRestPosition: character.rootRestPosition.clone(),
+    rootRestQuaternion: character.rootRestQuaternion.clone(),
     scale: character.height / RIG_HEIGHT,
   };
 }
@@ -100,6 +100,7 @@ export function bindRetarget(
 const scratchEuler = new Euler(0, 0, 0, EULER_ORDER);
 const scratchRotation = new Quaternion();
 const scratchConjugate = new Quaternion();
+const scratchRootRotation = new Quaternion();
 
 /**
  * Apply a canonical pose to a bound character. The pose is read directly — no
@@ -119,15 +120,24 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
     entry.bone.quaternion.copy(entry.restLocal).multiply(scratchConjugate);
   }
 
-  if (binding.hips) {
-    // Root motion scales with the character, so a taller model squats to the
-    // same depth relative to its own legs rather than sinking into the floor.
-    binding.hips.position.set(
-      binding.hipsRest.x + pose.rootPosition.x * binding.scale,
-      binding.hipsRest.y + pose.rootPosition.y * binding.scale,
-      binding.hipsRest.z + pose.rootPosition.z * binding.scale,
-    );
-  }
+  // Apply whole-body motion to the imported scene root. Writing a world-space
+  // hip position into Bone.position is wrong for rigs whose armature has a
+  // transformed parent, and it also loses root rotation entirely.
+  binding.character.root.position.set(
+    binding.rootRestPosition.x + pose.rootPosition.x * binding.scale,
+    binding.rootRestPosition.y + pose.rootPosition.y * binding.scale,
+    binding.rootRestPosition.z + pose.rootPosition.z * binding.scale,
+  );
+  scratchEuler.set(
+    pose.rootRotation.x,
+    pose.rootRotation.y,
+    pose.rootRotation.z,
+    EULER_ORDER,
+  );
+  scratchRootRotation.setFromEuler(scratchEuler);
+  binding.character.root.quaternion
+    .copy(binding.rootRestQuaternion)
+    .multiply(scratchRootRotation);
 
   binding.character.root.updateMatrixWorld(true);
 }
@@ -219,7 +229,18 @@ export function readCharacter(root: Object3D): TargetCharacter {
   const box = new Box3().setFromObject(root);
   const height = Math.max(0.5, box.max.y - box.min.y);
 
-  return { root, bones, boneNames, restWorld, restLocal, restWorldPosition, height, meshes };
+  return {
+    root,
+    bones,
+    boneNames,
+    restWorld,
+    restLocal,
+    restWorldPosition,
+    rootRestPosition: root.position.clone(),
+    rootRestQuaternion: root.quaternion.clone(),
+    height,
+    meshes,
+  };
 }
 
 /** Put a character back into the rest pose it was imported in. */
@@ -228,5 +249,24 @@ export function resetCharacter(character: TargetCharacter): void {
     const rest = character.restLocal.get(name);
     if (rest) bone.quaternion.copy(rest);
   }
+  character.root.position.copy(character.rootRestPosition);
+  character.root.quaternion.copy(character.rootRestQuaternion);
   character.root.updateMatrixWorld(true);
+}
+
+/**
+ * World transform of a retargeted bone expressed in the canonical anatomical
+ * frame. Equipment can therefore follow the real character's hand position
+ * without inheriting an arbitrary Mixamo/Meshy bone-axis convention.
+ */
+export function retargetedBoneMatrix(
+  binding: RetargetBinding,
+  canonical: BoneName,
+  target = new Matrix4(),
+): Matrix4 | null {
+  const entry = binding.boneByCanonical.get(canonical);
+  if (!entry) return null;
+  return target
+    .copy(entry.bone.matrixWorld)
+    .multiply(new Matrix4().makeRotationFromQuaternion(entry.correction));
 }

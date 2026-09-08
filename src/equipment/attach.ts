@@ -1,10 +1,13 @@
 import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import type { PoseEvaluation } from '../rig/skeleton';
+import type { BoneName } from '../rig/boneNames';
 import { EULER_ORDER } from '../rig/types';
 import { toRad } from '../core/math';
 import type { EquipmentInstance } from './types';
 import { equipmentSocket } from './library';
 import type { SocketTransform } from '../constraints/locks';
+import type { RetargetBinding } from '../retargeting/retarget';
+import { retargetedBoneMatrix } from '../retargeting/retarget';
 
 export interface EquipmentTransform {
   id: string;
@@ -28,17 +31,48 @@ export function resolveEquipment(
   evaluation: PoseEvaluation,
   instances: EquipmentInstance[],
 ): Map<string, EquipmentTransform> {
+  return resolveWithHands(
+    instances,
+    (bone) => evaluation.matrix(bone),
+    (bone, point, target) => evaluation.localToWorld(bone, point, target),
+  );
+}
+
+/** Resolve equipment from the hands of an imported, retargeted character. */
+export function resolveRetargetedEquipment(
+  binding: RetargetBinding,
+  instances: EquipmentInstance[],
+): Map<string, EquipmentTransform> {
+  return resolveWithHands(
+    instances,
+    (bone) => retargetedBoneMatrix(binding, bone),
+    (bone, point, target) => {
+      const matrix = retargetedBoneMatrix(binding, bone);
+      return matrix ? target.set(point.x, point.y, point.z).applyMatrix4(matrix) : null;
+    },
+  );
+}
+
+type HandMatrix = (bone: BoneName) => Matrix4 | null;
+type HandPoint = (bone: BoneName, point: { x: number; y: number; z: number }, target: Vector3) => Vector3 | null;
+
+function resolveWithHands(
+  instances: EquipmentInstance[],
+  handMatrix: HandMatrix,
+  handPoint: HandPoint,
+): Map<string, EquipmentTransform> {
   const out = new Map<string, EquipmentTransform>();
   for (const instance of instances) {
-    const transform = resolveInstance(evaluation, instance);
+    const transform = resolveInstance(instance, handMatrix, handPoint);
     if (transform) out.set(instance.id, transform);
   }
   return out;
 }
 
 function resolveInstance(
-  evaluation: PoseEvaluation,
   instance: EquipmentInstance,
+  handMatrix: HandMatrix,
+  handPoint: HandPoint,
 ): EquipmentTransform | null {
   const attachment = instance.attachment;
 
@@ -61,10 +95,12 @@ function resolveInstance(
   }
 
   if (attachment.mode === 'hand') {
-    const hand = attachment.side === 'l' ? 'hand_l' : 'hand_r';
+    const hand: BoneName = attachment.side === 'l' ? 'hand_l' : 'hand_r';
     const grip = attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+    const resolvedHand = handMatrix(hand);
+    if (!resolvedHand) return null;
     const matrix = new Matrix4()
-      .copy(evaluation.matrix(hand))
+      .copy(resolvedHand)
       .multiply(new Matrix4().makeTranslation(grip.x, grip.y, grip.z));
     // The socket sits at the grip, so the item's own origin is offset back by it.
     const socketLocal = equipmentSocket(instance.kind, attachment.socket);
@@ -82,8 +118,9 @@ function resolveInstance(
 
   // Two-handed: the bar spans the two grips.
   const grip = attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
-  const left = evaluation.localToWorld('hand_l', grip, new Vector3());
-  const right = evaluation.localToWorld('hand_r', grip, new Vector3());
+  const left = handPoint('hand_l', grip, new Vector3());
+  const right = handPoint('hand_r', grip, new Vector3());
+  if (!left || !right) return null;
   const axis = new Vector3().subVectors(right, left);
   if (axis.lengthSq() < 1e-8) return null;
   axis.normalize();

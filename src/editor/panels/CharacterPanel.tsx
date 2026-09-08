@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import type { BoneName } from '../../rig/boneNames';
-import { boneLabel } from '../../rig/boneNames';
+import { ALL_BONES, boneLabel } from '../../rig/boneNames';
 import { REQUIRED_BONES } from '../../retargeting/boneMap';
 import { useCharacter } from '../characterStore';
 import { useStudio } from '../store';
@@ -12,7 +12,7 @@ import { useStudio } from '../store';
  */
 export function CharacterPanel() {
   const input = useRef<HTMLInputElement | null>(null);
-  const { name, character, mapping, report, status, load, setBone, clear, persist } =
+  const { name, character, mapping, report, status, load, clear, persist } =
     useCharacter();
   const setViewMode = useStudio((state) => state.setViewMode);
 
@@ -86,27 +86,51 @@ export function CharacterPanel() {
             Anything the guesser could not identify is left blank rather than
             matched to something that merely looks right.
           </p>
-          <div className="mapping-list">
-            {REQUIRED_BONES.map((bone: BoneName) => (
-              <label key={bone} className="mapping-row">
-                <span className="mapping-row__name">{boneLabel(bone)}</span>
-                <select
-                  value={mapping.bones[bone] ?? ''}
-                  onChange={(event) => setBone(bone, event.target.value || null)}
-                  className={mapping.bones[bone] ? '' : 'is-missing'}
-                >
-                  <option value="">— unmapped —</option>
-                  {character.boneNames.map((target) => (
-                    <option key={target} value={target}>
-                      {target}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ))}
-          </div>
+          <MappingRows bones={REQUIRED_BONES} />
+
+          <details>
+            <summary>
+              Optional bones and fingers ({report.mapped.length - REQUIRED_BONES.filter((bone) => mapping.bones[bone]).length}
+              /{ALL_BONES.length - REQUIRED_BONES.length} mapped)
+            </summary>
+            <p className="panel__note">
+              Map these when the automatic match misses fingers, toes, clavicles
+              or intermediate spine bones. Finger mapping is required for a
+              convincing equipment grip.
+            </p>
+            <MappingRows bones={ALL_BONES.filter((bone) => !REQUIRED_BONES.includes(bone))} />
+          </details>
         </>
       )}
     </section>
+  );
+}
+
+function MappingRows({ bones }: { bones: readonly BoneName[] }) {
+  const character = useCharacter((state) => state.character);
+  const mapping = useCharacter((state) => state.mapping);
+  const setBone = useCharacter((state) => state.setBone);
+  if (!character || !mapping) return null;
+
+  return (
+    <div className="mapping-list">
+      {bones.map((bone) => (
+        <label key={bone} className="mapping-row">
+          <span className="mapping-row__name">{boneLabel(bone)}</span>
+          <select
+            value={mapping.bones[bone] ?? ''}
+            onChange={(event) => setBone(bone, event.target.value || null)}
+            className={mapping.bones[bone] ? '' : 'is-missing'}
+          >
+            <option value="">— unmapped —</option>
+            {character.boneNames.map((target) => (
+              <option key={target} value={target}>
+                {target}
+              </option>
+            ))}
+          </select>
+        </label>
+      ))}
+    </div>
   );
 }

@@ -17,6 +17,8 @@ import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
+import { applyRetarget } from '../retargeting/retarget';
+import { resolveRetargetedEquipment } from '../equipment/attach';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -43,6 +45,17 @@ function FrameDriver() {
     }
     scene.frame = resolveFrame(skeleton, scene.evaluation, clip, time, { anchors });
     scene.evaluation.apply(scene.frame.pose);
+
+    // When the real character is visible, drive it first and derive equipment
+    // from its retargeted hands rather than from the mannequin's proportions.
+    const character = useCharacter.getState();
+    if (store.viewMode === 'character' && character.binding) {
+      applyRetarget(character.binding, scene.frame.pose);
+      scene.frame.equipment = resolveRetargetedEquipment(
+        character.binding,
+        clip.equipment,
+      );
+    }
   }, -1);
 
   return null;

@@ -34,7 +34,16 @@ export async function importCharacter(file: File): Promise<ImportedCharacter> {
   }
 
   const mapping = createMapping(root.name, `${root.name} (${character.bones.size} bones)`);
-  mapping.bones = guessMapping(character.boneNames);
+  const saved = loadMappings().find((entry) => entry.id === mapping.id);
+  const guessed = guessMapping(character.boneNames);
+  const available = new Set(character.boneNames);
+  mapping.bones = { ...guessed };
+  for (const [canonical, target] of Object.entries(saved?.bones ?? {})) {
+    if (target && available.has(target)) {
+      mapping.bones[canonical as keyof typeof mapping.bones] = target;
+    }
+  }
+  if (saved) mapping.createdAt = saved.createdAt;
   mapping.characterHeight = character.height;
 
   return { name: root.name, character, mapping, report: reportMapping(mapping) };

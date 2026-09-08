@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { exportGlb } from '../../export/glb';
+import { exportRetargetedGlb } from '../../export/retargeted';
 import { exportAnimationJson, exportMetadataJson } from '../../export/json';
 import { downloadBlob, downloadJson } from '../../export/download';
 import { skeleton, useStudio } from '../store';
+import { useCharacter } from '../characterStore';
 
 type Status = { kind: 'idle' | 'busy' | 'done' | 'error'; message?: string };
 
@@ -12,6 +14,9 @@ export function ExportPanel() {
   const [fps, setFps] = useState(30);
   const [includeEquipment, setIncludeEquipment] = useState(true);
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
+  const characterName = useCharacter((state) => state.name);
+  const binding = useCharacter((state) => state.binding);
+  const mappingReport = useCharacter((state) => state.report);
 
   const run = async (label: string, task: () => Promise<void> | void) => {
     setStatus({ kind: 'busy', message: `Building ${label}…` });
@@ -66,6 +71,31 @@ export function ExportPanel() {
       >
         Export {clip.name}.glb
       </button>
+
+      <h3>Imported character GLB</h3>
+      <p className="panel__note">
+        Bakes this clip onto the loaded character's own skeleton and positions
+        equipment from that character's hands.
+      </p>
+      <button
+        type="button"
+        disabled={!binding || Boolean(mappingReport?.missingRequired.length)}
+        onClick={() =>
+          binding &&
+          run('character GLB', async () => {
+            const blob = await exportRetargetedGlb(clip, binding, { fps, includeEquipment });
+            const safeName = (characterName ?? 'character').replace(/[^a-z0-9_-]+/gi, '_');
+            downloadBlob(blob, `${clip.name}.${safeName}.glb`);
+          })
+        }
+      >
+        {binding ? `Export ${characterName ?? 'character'}` : 'Import a character first'}
+      </button>
+      {binding && mappingReport && mappingReport.missingRequired.length > 0 && (
+        <p className="panel__note is-warn">
+          Map every required body bone before exporting this character.
+        </p>
+      )}
 
       <h3>Clip only</h3>
       <p className="panel__note">

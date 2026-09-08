@@ -2,13 +2,15 @@ import type { ExerciseDefinition } from './types';
 import { bicepCurl } from './definitions/bicepCurl';
 import { pushUp } from './definitions/pushUp';
 import { airSquat } from './definitions/airSquat';
+import { shoulderPress } from './definitions/shoulderPress';
+import { pullUp } from './definitions/pullUp';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
  * small set first — one arm exercise, one whole-body pressing movement, one
  * lower-body movement — rather than filled with variations of the same thing.
  */
-export const EXERCISES: ExerciseDefinition[] = [bicepCurl, pushUp, airSquat];
+export const EXERCISES: ExerciseDefinition[] = [bicepCurl, pushUp, airSquat, shoulderPress, pullUp];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));
 

@@ -103,6 +103,12 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
     sockets: [
       socket('hooks', 'J-hooks', [0, 1.42, 0], 'mount'),
       socket('safety', 'Safety bars', [0, 0.85, 0], 'mount'),
+      // The rack's top crossbar runs along world X, so its grips are turned a
+      // quarter turn: +Z is the thumb direction, and both thumbs point inwards.
+      // The grips sit 8 cm below the bar itself, because an arm chain solves for
+      // the wrist and a hand wrapped over a bar carries it at the knuckles.
+      socket('pullup_l', 'Pull-up bar (L)', [-0.24, 1.97, 0], 'grip', [0, 90, 0]),
+      socket('pullup_r', 'Pull-up bar (R)', [0.24, 1.97, 0], 'grip', [0, -90, 0]),
     ],
   },
   cable_handle: {

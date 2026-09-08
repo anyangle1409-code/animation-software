@@ -29,12 +29,31 @@ describe('skinned rig', () => {
     }
   });
 
-  it('binds every vertex to exactly one bone', () => {
+  it('weights every vertex to its own bone, sharing only across a real joint', () => {
     const weights = rig.mesh.geometry.getAttribute('skinWeight');
+    const bones = rig.mesh.geometry.getAttribute('skinIndex');
+    let shared = 0;
+
     for (let index = 0; index < weights.count; index += 1) {
-      expect(weights.getX(index)).toBe(1);
-      expect(weights.getY(index)).toBe(0);
+      const sum = weights.getX(index) + weights.getY(index);
+      expect(sum, `vertex ${index}`).toBeCloseTo(1, 5);
+      // Only two influences are ever used, so the third and fourth stay empty.
+      expect(weights.getZ(index)).toBe(0);
+      expect(weights.getW(index)).toBe(0);
+
+      if (weights.getY(index) === 0) continue;
+      shared += 1;
+      // A vertex may only be shared with a bone on the other side of one of
+      // its own joints — its parent or one of its children. That is what makes
+      // a joint crease instead of a limb detaching.
+      const own = skeleton.bones[bones.getX(index)];
+      const other = skeleton.bones[bones.getY(index)];
+      const jointed = other.name === own.parent || own.children.includes(other.name);
+      expect(jointed, `vertex ${index}: ${own.name} shared with ${other.name}`).toBe(true);
     }
+
+    // The whole point of the body mesh: joints are shared, not rigid.
+    expect(shared).toBeGreaterThan(weights.count * 0.1);
   });
 
   it('stands in the rest pose at bind time', () => {

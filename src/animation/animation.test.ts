@@ -63,6 +63,36 @@ describe('clip generation', () => {
   });
 });
 
+describe('grip', () => {
+  const pose = sampleClip(clip, 0).pose;
+
+  it('closes both hands by the same amount', () => {
+    // Finger flexion is a handed axis, so the two hands take opposite signs.
+    // Sending both the same sign silently opens the right hand: the limits
+    // clamp the extension away and the fingers end up flat.
+    const evaluated = new PoseEvaluation(skeleton).apply(pose);
+    const reach = (side: 'l' | 'r') =>
+      evaluated
+        .head(`middle_01_${side}`, new Vector3())
+        .distanceTo(evaluated.tail(`middle_03_${side}`, new Vector3()));
+
+    expect(reach('r')).toBeCloseTo(reach('l'), 6);
+    // A closed hand is much shorter than an open one: 9.5 cm of finger folds
+    // to a little over half that.
+    expect(reach('l')).toBeLessThan(0.07);
+  });
+
+  it('mirrors every finger joint rather than clamping one hand flat', () => {
+    for (const finger of ['thumb', 'index', 'middle', 'ring', 'pinky'] as const) {
+      for (const segment of ['01', '02', '03'] as const) {
+        const left = pose.rotations[`${finger}_${segment}_l`];
+        const right = pose.rotations[`${finger}_${segment}_r`];
+        expect(right?.z, `${finger}_${segment}`).toBeCloseTo(-(left?.z ?? 0), 9);
+      }
+    }
+  });
+});
+
 describe('resistance-training easing', () => {
   it('starts and ends a lift at rest rather than at full speed', () => {
     const delta = 1e-4;

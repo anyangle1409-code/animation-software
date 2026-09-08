@@ -121,12 +121,20 @@ function buildPose(
 /**
  * Close the fingers to the degree the grip needs. Authored per exercise rather
  * than per finger — nobody wants to keyframe thirty knuckles.
+ *
+ * Finger flexion lives on z, which is a handed axis: the two hands curl towards
+ * opposite world directions, so the right hand takes the negative angle. Sending
+ * both hands the same sign extends the right hand's fingers instead of closing
+ * them, and the joint limits then clamp it into a flat, open palm.
  */
 export function applyGrip(pose: Pose, hands: HandSpec): void {
   const closure = Math.max(0, Math.min(1, hands.closure));
   if (closure <= 0) return;
-  const sides: Side[] = ['l', 'r'];
-  for (const side of sides) {
+  const sides: { side: Side; sign: number }[] = [
+    { side: 'l', sign: 1 },
+    { side: 'r', sign: -1 },
+  ];
+  for (const { side, sign } of sides) {
     for (const finger of FINGERS) {
       const isThumb = finger === 'thumb';
       const segments = isThumb ? [40, 30, 20] : [78, 95, 60];
@@ -136,7 +144,7 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
         pose.rotations[bone] = {
           x: existing?.x ?? 0,
           y: existing?.y ?? 0,
-          z: toRad(maximum * closure),
+          z: sign * toRad(maximum * closure),
         };
       });
     }

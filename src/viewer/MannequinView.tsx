@@ -1,18 +1,10 @@
-import { useMemo } from 'react';
-import type { BoneName } from '../rig/boneNames';
-import { isFingerBone } from '../rig/boneNames';
+import { useFrame } from '@react-three/fiber';
+import { useEffect, useMemo } from 'react';
+import { Euler, Matrix4, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
+import { EULER_ORDER } from '../rig/types';
 import { skeleton } from '../editor/store';
-import { BoneGroups } from './BoneGroups';
-
-/** Bones drawn as a solid body segment, with how far the segment is padded. */
-const SEGMENT_SCALE: Partial<Record<BoneName, number>> = {
-  head: 0.62,
-  neck: 0.9,
-  pelvis: 1.35,
-  spine_01: 1.1,
-  spine_02: 1.1,
-  spine_03: 1.05,
-};
+import { buildSkinnedRig } from '../body/skin';
+import { useSceneState } from './sceneState';
 
 export interface MannequinViewProps {
   opacity?: number;
@@ -24,39 +16,85 @@ export interface MannequinViewProps {
   depthWrite?: boolean;
 }
 
+const UNIT = new Vector3(1, 1, 1);
+
 /**
- * A plain anatomical mannequin: one capsule per bone, sized from the rig's own
- * soft-tissue radii. Deliberately simple — the point of this stage is that the
- * movement is right, and a mannequin makes joint positions easy to read.
+ * The character: one skinned body, lofted from the body profiles and driven by
+ * the same pose everything else reads.
+ *
+ * It is built by the same function the GLB exporter uses, so what the studio
+ * shows and what the exported file contains are the same mesh, bound to the
+ * same bones, with the same weights.
  */
 export function MannequinView({
   opacity = 1,
   colour = '#c9d3e0',
   depthWrite = true,
 }: MannequinViewProps) {
-  const bones = useMemo(() => skeleton.names.filter((name) => name !== 'root'), []);
+  const scene = useSceneState();
+  const rig = useMemo(() => buildSkinnedRig(skeleton), []);
 
-  return (
-    <BoneGroups bones={bones}>
-      {(name, length, radius) => {
-        if (length < 0.004) return null;
-        const isFinger = isFingerBone(name);
-        const scale = SEGMENT_SCALE[name] ?? 1;
-        const capsuleLength = Math.max(0.001, length * scale - radius * 0.6);
-        return (
-          <mesh position={[0, length / 2, 0]} castShadow receiveShadow raycast={() => null}>
-            <capsuleGeometry args={[radius, capsuleLength, isFinger ? 2 : 4, isFinger ? 6 : 12]} />
-            <meshStandardMaterial
-              color={colour}
-              transparent={opacity < 1}
-              opacity={opacity}
-              depthWrite={depthWrite}
-              roughness={0.72}
-              metalness={0.04}
-            />
-          </mesh>
-        );
-      }}
-    </BoneGroups>
+  const scratch = useMemo(
+    () => ({
+      euler: new Euler(0, 0, 0, EULER_ORDER),
+      quaternion: new Quaternion(),
+      local: new Quaternion(),
+      placement: new Matrix4(),
+      offset: new Vector3(),
+    }),
+    [],
   );
+
+  useEffect(() => {
+    for (const bone of rig.bones) bone.matrixAutoUpdate = false;
+  }, [rig]);
+
+  useEffect(() => {
+    const material = rig.mesh.material as MeshStandardMaterial;
+    material.color.set(colour);
+    material.opacity = opacity;
+    material.transparent = opacity < 1;
+    material.depthWrite = depthWrite;
+    material.needsUpdate = true;
+  }, [rig, colour, opacity, depthWrite]);
+
+  useEffect(() => () => {
+    (rig.mesh.material as MeshStandardMaterial).dispose();
+  }, [rig]);
+
+  useFrame(() => {
+    const pose = scene.frame?.pose;
+    if (!pose) return;
+
+    for (const rigBone of skeleton.bones) {
+      const bone = rig.boneByName.get(rigBone.name);
+      if (!bone) continue;
+      const rotation = pose.rotations[rigBone.name];
+      scratch.euler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
+      scratch.quaternion
+        .copy(rigBone.restLocalQuaternion)
+        .multiply(scratch.local.setFromEuler(scratch.euler));
+      bone.matrix.compose(scratch.offset.copy(rigBone.offset), scratch.quaternion, UNIT);
+
+      if (rigBone.parent === null) {
+        // The root additionally carries the rig's world placement, exactly as
+        // the pose evaluation does — root motion is part of the animation.
+        scratch.euler.set(
+          pose.rootRotation.x,
+          pose.rootRotation.y,
+          pose.rootRotation.z,
+          EULER_ORDER,
+        );
+        scratch.placement.compose(
+          scratch.offset.set(pose.rootPosition.x, pose.rootPosition.y, pose.rootPosition.z),
+          scratch.quaternion.setFromEuler(scratch.euler),
+          UNIT,
+        );
+        bone.matrix.premultiply(scratch.placement);
+      }
+    }
+    rig.root.updateMatrixWorld(true);
+  });
+
+  return <primitive object={rig.mesh} />;
 }

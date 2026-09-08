@@ -13,7 +13,7 @@ keyframe generation driven by structured exercise data.
 
 ## Status
 
-Three exercises prove the engine, chosen because they exercise different parts
+Five exercises prove the engine, chosen because they exercise different parts
 of it:
 
 | Exercise | What it proves |
@@ -21,8 +21,10 @@ of it:
 | Dumbbell Bicep Curl | shoulder/elbow/wrist plus an implement rigidly held in each hand |
 | Push-Up | four floor contacts at once, whole-body rigid constraint, root motion |
 | Bodyweight Squat | hips, knees and ankles with the feet locked to the floor |
+| Dumbbell Shoulder Press | the shoulder through nearly its whole abduction range, loaded |
+| Pull-Up | no floor contact at all — the hands are locked to a rack's own grip sockets and the whole body is solved from them |
 
-All three generate clean: every technique rule the exercise defines passes at
+All five generate clean: every technique rule the exercise defines passes at
 every sampled frame, every IK target is reachable, and each clip returns
 exactly to its opening pose.
 
@@ -30,6 +32,11 @@ exactly to its opening pose.
 
 - **Canonical rig** — 53 bones including fingers and toes, every joint with
   anatomical rotation limits and named axes ("Flexion", "Abduction", …)
+- **Anatomical body** — one skinned mesh lofted from cross-section profiles:
+  a trunk from crotch to crown, limbs as continuous tubes, joints whose vertices
+  are shared between the two bones either side of them so an elbow creases
+  instead of scissoring. The viewport and the GLB exporter build it from the
+  same data, so what you see is what the file contains
 - **Forward kinematics** with per-joint clamping, pose mirroring and blending
 - **Inverse kinematics** — analytic two-bone solvers for both arms and both
   legs, with pole targets for elbow and knee direction, hinge joints solved as
@@ -112,4 +119,5 @@ frame convention, and the decisions behind them.
 | `<clip>.anim.json` | rotation tracks, plus a three.js-native clip | custom players |
 | `<exercise>.json` | the full exercise definition and derived timings | the exercise database |
 
-Clip names are app-friendly slugs: `bicep_curl`, `push_up`, `air_squat`.
+Clip names are app-friendly slugs: `bicep_curl`, `push_up`, `air_squat`,
+`shoulder_press`, `pull_up`.

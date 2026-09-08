@@ -8,6 +8,7 @@ Each directory owns one concern and depends only on the ones above it.
 src/
   core/          numeric helpers, ids
   rig/           canonical skeleton, joint limits, poses, forward kinematics
+  body/          the character's surface: profiles, skinning, the skinned mesh
   ik/            two-bone solvers, pole targets, bone aiming
   constraints/   contact locks, technique rules and their evaluator
   equipment/     equipment definitions, geometry data, attachment solving
@@ -64,6 +65,13 @@ Handedness is likewise explicit: a right-handed rotation about Z carries +Y
 towards −X, so on the character's left side (which lives at −X) positive z is
 *ad*duction. Left-side limits are authored once and mirrored, flipping the y and
 z ranges and swapping their labels.
+
+Anything that writes a y or z angle for both sides has to flip the sign, and
+forgetting to is silent rather than loud: the grip generator once sent both
+hands the same finger flexion, which closed the left hand and *extended* the
+right one into its limits — a flat open palm holding a dumbbell, with no error
+anywhere. `applyGrip` and `applyStance` both carry an explicit per-side sign,
+and a test checks the two hands close by the same amount.
 
 ### Rest pose
 
@@ -150,6 +158,43 @@ stationary contacts, distances, relative positions, left/right symmetry and
 three-point alignment. The same objects drive the checker and the editor's
 technique panel, so what is enforced and what is documented cannot drift apart.
 
+## The body
+
+The character's surface is data, in `body/profiles.ts`: a list of **chains**,
+each a continuous tube of elliptical cross-sections running along several bones.
+The trunk is one chain from the crotch to the crown; an arm is one chain from
+the shoulder to the fingertips. Every ring gives a half-width across its bone, a
+half-depth front to back, and an offset for the shapes that are not centred on a
+bone — a calf, a set of glutes, the face.
+
+Two decisions matter:
+
+**Chains, not one capsule per bone.** The first version built a capsule for each
+bone. Where two capsules met they z-fought along the overlap, which drew a hard
+ring around every joint, and when a joint bent the two rigid volumes scissored
+through one another. A chain has no join to fight over: the wall runs straight
+from the last ring of one bone to the first ring of the next.
+
+**Vertices are shared across a joint.** A ring within a blend width of a joint
+splits its weight between the two bones either side of it — evenly at the joint,
+entirely to one bone a blend width away. That single rule creases an elbow,
+rounds a shoulder and folds a hip, and it is why the exported mesh is no longer
+one bone per vertex. Nothing needs more than two influences.
+
+Small features — a nose, ears, a chin, the pad at the base of a thumb — are
+ellipsoids that intersect the surface they sit on. How deep they sit is the
+whole trick: buried to their own radius they lie almost tangent to the skin and
+the two surfaces fight for pixels; sitting on the surface they read as balls
+stuck on. Half a radius in crosses the skin at about 60° and reads as one form.
+
+The viewport and the GLB exporter call the same `buildSkinnedRig`, so the figure
+on screen is the figure in the file — bound to the same bones, with the same
+weights. `body/body.test.ts` holds the mesh to a person's proportions: the crown
+at the rig's stated height, the soles on the floor, a waist narrower than both
+ribcage and hips, a deltoid that does not rise into a shoulder pad, and a
+positive enclosed volume of roughly the right size, which is what catches a
+surface accidentally wound inside out.
+
 ## Muscles
 
 A muscle is defined by an origin and an insertion, both in bone space. Because
@@ -176,10 +221,10 @@ every exercise retargets onto it with no further work.
 ## Export
 
 The GLB exporter builds a real skinned rig — a `Bone` hierarchy matching the
-canonical skeleton and one `SkinnedMesh` bound to it, each body segment weighted
-entirely to its own bone. The clip is baked by running the full frame pipeline
-at every sample, so what is exported is what the studio showed, not the raw
-keyframes before constraints.
+canonical skeleton and one `SkinnedMesh` bound to it, from the same body
+profiles the viewport uses, joint weights included. The clip is baked by running
+the full frame pipeline at every sample, so what is exported is what the studio
+showed, not the raw keyframes before constraints.
 
 A constant track is reduced to two keys, but only *dropped* when its constant
 value is the bone's rest value. Dropping a constant track that differs from rest

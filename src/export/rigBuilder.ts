@@ -1,103 +1,27 @@
 import {
   BoxGeometry,
-  Bone,
   BufferGeometry,
-  CapsuleGeometry,
   CylinderGeometry,
   Euler,
-  Float32BufferAttribute,
   Matrix4,
   Mesh,
   MeshStandardMaterial,
   Object3D,
   Quaternion,
-  Skeleton as ThreeSkeleton,
-  SkinnedMesh,
   SphereGeometry,
   TorusGeometry,
   Vector3,
 } from 'three';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import type { BoneName } from '../rig/boneNames';
-import { canonicalSkeleton } from '../rig/skeleton';
-import type { Skeleton } from '../rig/skeleton';
 import { EQUIPMENT_PARTS, MATERIALS } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 import type { EquipmentKind } from '../equipment/types';
 
-export interface BuiltRig {
-  root: Bone;
-  bones: Bone[];
-  boneByName: Map<BoneName, Bone>;
-  mesh: SkinnedMesh;
-  skeleton: ThreeSkeleton;
-}
-
 /**
- * Build a real skinned rig for export: a bone hierarchy matching the canonical
- * skeleton, and one mesh bound to it.
- *
- * Each body segment is weighted entirely to its own bone. That is exactly right
- * for a mannequin — the segments are rigid — and it means the exported GLB
- * animates in any engine that can play skinned glTF, with no custom code.
+ * The character itself lives in `body/`, because the viewport builds the same
+ * mesh from the same profiles — what the studio shows is what the file holds.
  */
-export function buildSkinnedRig(rig: Skeleton = canonicalSkeleton): BuiltRig {
-  const bones: Bone[] = [];
-  const boneByName = new Map<BoneName, Bone>();
-
-  for (const rigBone of rig.bones) {
-    const bone = new Bone();
-    bone.name = rigBone.name;
-    bone.position.copy(rigBone.offset);
-    bone.quaternion.copy(rigBone.restLocalQuaternion);
-    bones.push(bone);
-    boneByName.set(rigBone.name, bone);
-    if (rigBone.parent) boneByName.get(rigBone.parent)!.add(bone);
-  }
-
-  const root = boneByName.get(rig.bones[0].name)!;
-  root.updateMatrixWorld(true);
-
-  const pieces: BufferGeometry[] = [];
-  rig.bones.forEach((rigBone, index) => {
-    if (rigBone.length < 0.004 || rigBone.name === 'root') return;
-    const radius = rigBone.definition.radius;
-    const geometry = new CapsuleGeometry(
-      radius,
-      Math.max(0.001, rigBone.length - radius * 0.6),
-      3,
-      8,
-    );
-    geometry.translate(0, rigBone.length / 2, 0);
-    // Place the segment in the bind pose, so the bind matrix stays identity.
-    geometry.applyMatrix4(boneByName.get(rigBone.name)!.matrixWorld);
-
-    const count = geometry.attributes.position.count;
-    const skinIndices = new Uint16Array(count * 4);
-    const skinWeights = new Float32Array(count * 4);
-    for (let vertex = 0; vertex < count; vertex += 1) {
-      skinIndices[vertex * 4] = index;
-      skinWeights[vertex * 4] = 1;
-    }
-    geometry.setAttribute('skinIndex', new Float32BufferAttribute(skinIndices, 4));
-    geometry.setAttribute('skinWeight', new Float32BufferAttribute(skinWeights, 4));
-    pieces.push(geometry);
-  });
-
-  const merged = mergeGeometries(pieces, false);
-  if (!merged) throw new Error('Failed to merge the mannequin geometry');
-
-  const mesh = new SkinnedMesh(
-    merged,
-    new MeshStandardMaterial({ color: '#c9d3e0', roughness: 0.72, metalness: 0.04 }),
-  );
-  mesh.name = 'HGPT_Mannequin';
-  const skeleton = new ThreeSkeleton(bones);
-  mesh.add(root);
-  mesh.bind(skeleton);
-
-  return { root, bones, boneByName, mesh, skeleton };
-}
+export { buildSkinnedRig, MANNEQUIN_NAME } from '../body/skin';
+export type { BuiltRig } from '../body/skin';
 
 /** Build a plain three.js object for a piece of equipment, from the shared data. */
 export function buildEquipmentObject(kind: EquipmentKind): Object3D {

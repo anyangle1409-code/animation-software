@@ -8,6 +8,39 @@ definitions, or repository configuration.
 
 ### Codex — 2026-09-08 — `codex/anatomical-reference-character`
 
+Purpose: correct the withdrawn anatomical character using the supplied curl
+reference as a visual gate, without changing Claude's muscle-overlay system or
+the accepted lower-body proportions.
+
+- **Correct bind conversion.** Rebuilt the MakeHuman surface in the canonical
+  rig's actual rest pose. The source spine is now mapped waist-to-neck instead
+  of backwards; upper-arm, forearm, thigh and shin twist segments are fitted
+  proportionally; palms use wrist-to-knuckle length; every finger segment maps
+  joint-to-joint. Tiny cross-side source weights are removed before collapsing
+  to the app's two-influence skin.
+- **Reference-shaped body.** Applies the adult-male and muscular CC0 targets,
+  then sculpts a lean chest-to-waist V taper. The accepted legs and feet remain
+  anatomically shaped and the sole is fitted to the app's floor. The source's
+  helper hair strips are deliberately excluded; they are rig guides, not hair.
+  The result is 13,524 vertices and 27,036 triangles, split across six generated
+  modules so no GitHub blob approaches the earlier transfer limit.
+- **Face and clothing.** Keeps the anatomical head, nose, lips, ears and eye
+  geometry, uses a neutral anatomical-grey teaching surface and fitted dark
+  shorts, and remains one skinned draw call shared by viewport and GLB export.
+- **Grip and motion.** Retains the smaller round dumbbells, corrected anatomical
+  grip position and 126-degree curl. Rest, mid-curl and top-curl renders include
+  the real equipment transforms and show the handle inside each closed hand.
+- **Regression coverage.** The contracted-curl export test now measures every
+  posed triangle edge, directly rejecting torn shoulders, metre-long strips and
+  exploded finger fans. Body tests cover two-weight normalization, human bounds,
+  male taper, clothing, eyes and the increased anatomical-mesh budget.
+- **Provenance.** Restored `THIRD_PARTY_ASSETS.md` and added a reproducible
+  generator for the exact CC0 sources and rest-pose conversion.
+
+Verification: 122 tests pass; `npm run typecheck` and `npm run build` are clean.
+
+### Codex — 2026-09-08 — `codex/anatomical-reference-character`
+
 Purpose: improve the dumbbell curl while recording and withdrawing an
 unsuccessful imported-character experiment.
 

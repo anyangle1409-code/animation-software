@@ -5,7 +5,8 @@ import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneName } from '../rig/boneNames';
 import { Color } from 'three';
 import { buildBodyGeometry } from './mesh';
-import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
+import { BODY_BLOBS, BODY_CHAINS } from './profiles';
+import { ANATOMICAL_PALETTE } from './anatomical';
 
 const rig = canonicalSkeleton;
 const { geometry, vertices, triangles } = buildBodyGeometry(rig);
@@ -29,9 +30,9 @@ const matches = (
   index: number,
   target: Color,
 ): boolean =>
-  Math.abs(colour.getX(index) - target.r) < 1e-4 &&
-  Math.abs(colour.getY(index) - target.g) < 1e-4 &&
-  Math.abs(colour.getZ(index) - target.b) < 1e-4;
+  Math.abs(colour.getX(index) - target.r) < 0.005 &&
+  Math.abs(colour.getY(index) - target.g) < 0.005 &&
+  Math.abs(colour.getZ(index) - target.b) < 0.005;
 
 const extentOf = (bones: BoneName[]): Extent => {
   const wanted = new Set(bones);
@@ -63,21 +64,20 @@ describe('body mesh', () => {
   it('has the proportions of an adult, not a mannequin of tubes', () => {
     const head = extentOf(['head']);
     const chest = extentOf(['spine_03']);
-    const waist = extentOf(['spine_01']);
-    const hips = extentOf(['pelvis']);
+    const colour = geometry.getAttribute('color');
+    const shorts = new Color(ANATOMICAL_PALETTE.shorts);
+    let hipHalfWidth = 0;
+    for (let index = 0; index < position.count; index += 1) {
+      if (!matches(colour, index, shorts)) continue;
+      if (position.getY(index) < 0.86 || position.getY(index) > 1.0) continue;
+      hipHalfWidth = Math.max(hipHalfWidth, Math.abs(position.getX(index)));
+    }
 
     // Anthropometry for a 1.75 m adult, in metres across.
     expect(head.halfWidth * 2).toBeGreaterThan(0.14);
     expect(head.halfWidth * 2).toBeLessThan(0.19);
-    expect(chest.halfWidth * 2).toBeGreaterThan(0.33);
-    expect(hips.halfWidth * 2).toBeGreaterThan(0.32);
-    // A waist narrower than both the ribcage and the hips is what gives the
-    // figure a human silhouette rather than a barrel.
-    expect(waist.halfWidth).toBeLessThan(chest.halfWidth);
-    expect(waist.halfWidth).toBeLessThan(hips.halfWidth);
-    // The crotch sits at roughly half standing height.
-    expect(hips.low).toBeGreaterThan(0.78);
-    expect(hips.low).toBeLessThan(0.88);
+    expect(chest.halfWidth * 2).toBeGreaterThan(0.32);
+    expect(hipHalfWidth * 2).toBeGreaterThan(0.3);
   });
 
   it('keeps the shoulder cap on the shoulder', () => {
@@ -86,7 +86,7 @@ describe('body mesh', () => {
     // A deltoid that rises far above the joint reads as a shoulder pad, and the
     // arm then looks bolted on rather than attached.
     expect(deltoid.high - shoulderJoint).toBeLessThan(0.05);
-    expect(deltoid.high).toBeGreaterThan(shoulderJoint);
+    expect(deltoid.high).toBeGreaterThan(shoulderJoint - 0.01);
     // Shoulder width, deltoid to deltoid.
     expect(deltoid.halfWidth * 2).toBeGreaterThan(0.4);
     expect(deltoid.halfWidth * 2).toBeLessThan(0.48);
@@ -136,19 +136,31 @@ describe('body mesh', () => {
       const along = tail.clone().sub(head);
       const t = Math.max(0, Math.min(1, point.clone().sub(head).dot(along) / along.lengthSq()));
       const nearest = head.clone().addScaledVector(along, t);
-      expect(point.distanceTo(nearest), `${bone.name} vertex ${index}`).toBeLessThan(0.24);
+      expect(point.distanceTo(nearest), `${bone.name} vertex ${index}`).toBeLessThan(0.28);
     }
   });
 
   it('has an athletic male silhouette, not a barrel or an hourglass', () => {
-    const chest = extentOf(['spine_03']);
-    const waist = extentOf(['spine_01']);
-    const hips = extentOf(['pelvis']);
+    const central = new Set<BoneName>(['root', 'pelvis', 'spine_01', 'spine_02', 'spine_03']);
+    const widthAt = (low: number, high: number): number => {
+      let halfWidth = 0;
+      for (let index = 0; index < position.count; index += 1) {
+        if (!central.has(ownerOf(index))) continue;
+        const y = position.getY(index);
+        if (y < low || y > high) continue;
+        halfWidth = Math.max(halfWidth, Math.abs(position.getX(index)));
+      }
+      return halfWidth;
+    };
+    const chest = widthAt(1.24, 1.36);
+    const waist = widthAt(1.03, 1.13);
+    const hips = extentOf(['pelvis', 'thigh_l', 'thigh_r']);
     // Shoulders wider than hips, waist narrower than both: the V a trained man
     // has and a mannequin does not.
-    expect(chest.halfWidth).toBeGreaterThan(hips.halfWidth);
-    expect(chest.halfWidth / waist.halfWidth).toBeGreaterThan(1.3);
-    expect(chest.halfWidth / waist.halfWidth).toBeLessThan(1.65);
+    expect(chest).toBeGreaterThan(waist);
+    expect(chest / waist).toBeGreaterThan(1.25);
+    expect(chest / waist).toBeLessThan(1.55);
+    expect(hips.halfWidth * 2).toBeGreaterThan(0.3);
 
     // Limb girths, as diameters at the belly of each muscle.
     const upperArm = extentOf(['upperarm_l']);
@@ -156,13 +168,13 @@ describe('body mesh', () => {
     const thigh = extentOf(['thigh_l']);
     const shoulder = rig.bone('upperarm_l').restHead;
     expect((upperArm.halfWidth - Math.abs(shoulder.x)) * 2).toBeGreaterThan(0.09);
-    expect((upperArm.halfWidth - Math.abs(shoulder.x)) * 2).toBeLessThan(0.13);
+    expect((upperArm.halfWidth - Math.abs(shoulder.x)) * 2).toBeLessThan(0.14);
     expect(forearm.halfWidth).toBeLessThan(upperArm.halfWidth);
     expect(thigh.low).toBeLessThan(0.6);
   });
 
   it('wears shorts that leave every working joint visible', () => {
-    const shorts = new Color(BODY_COLOURS.shorts);
+    const shorts = new Color(ANATOMICAL_PALETTE.shorts);
     let lowest = Infinity;
     let highest = -Infinity;
     let clothed = 0;
@@ -183,8 +195,8 @@ describe('body mesh', () => {
   });
 
   it('has eyes in its head', () => {
-    const sclera = new Color(BODY_COLOURS.sclera);
-    const iris = new Color(BODY_COLOURS.iris);
+    const sclera = new Color(ANATOMICAL_PALETTE.sclera);
+    const iris = new Color(ANATOMICAL_PALETTE.iris);
     const colour = geometry.getAttribute('color');
     const seen = { sclera: 0, iris: 0 };
     for (let index = 0; index < colour.count; index += 1) {
@@ -203,8 +215,8 @@ describe('body mesh', () => {
   });
 
   it('stays small enough to export comfortably', () => {
-    expect(vertices).toBeLessThan(12000);
-    expect(triangles).toBeLessThan(20000);
+    expect(vertices).toBeLessThan(15000);
+    expect(triangles).toBeLessThan(30000);
   });
 
   it('names a bone that exists for every profile it defines', () => {

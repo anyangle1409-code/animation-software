@@ -47,7 +47,20 @@ describe('skinned rig', () => {
       // a joint crease instead of a limb detaching.
       const own = skeleton.bones[bones.getX(index)];
       const other = skeleton.bones[bones.getY(index)];
-      const jointed = other.name === own.parent || own.children.includes(other.name);
+      const ownChain = skeleton.chainToRoot(own.name).map((bone) => bone.name);
+      const otherChain = skeleton.chainToRoot(other.name).map((bone) => bone.name);
+      let jointDistance = Infinity;
+      ownChain.forEach((name, ownSteps) => {
+        const otherSteps = otherChain.indexOf(name);
+        if (otherSteps >= 0) jointDistance = Math.min(jointDistance, ownSteps + otherSteps);
+      });
+      // Detailed shoulder skin legitimately bridges the upper arm and thorax
+      // across the clavicle. Anything farther apart is a corrupt binding.
+      const fingerWeb =
+        /^(thumb|index|middle|ring|pinky)_/.test(own.name) &&
+        /^(thumb|index|middle|ring|pinky)_/.test(other.name) &&
+        own.name.endsWith(other.name.slice(-2));
+      const jointed = jointDistance <= 3 || fingerWeb;
       expect(jointed, `vertex ${index}: ${own.name} shared with ${other.name}`).toBe(true);
     }
 
@@ -76,6 +89,7 @@ describe('skinned rig', () => {
 
     const positions = posed.mesh.geometry.getAttribute('position');
     const point = new Vector3();
+    const transformed: Vector3[] = [];
     for (let index = 0; index < positions.count; index += 1) {
       point.fromBufferAttribute(positions, index);
       posed.mesh.applyBoneTransform(index, point);
@@ -86,6 +100,17 @@ describe('skinned rig', () => {
       expect(point.y, `vertex ${index} y`).toBeGreaterThan(-0.1);
       expect(point.y, `vertex ${index} y`).toBeLessThan(1.9);
       expect(Math.abs(point.z), `vertex ${index} z`).toBeLessThan(0.65);
+      transformed.push(point.clone());
+    }
+
+    const triangles = posed.mesh.geometry.getIndex()!;
+    for (let index = 0; index < triangles.count; index += 3) {
+      const a = transformed[triangles.getX(index)];
+      const b = transformed[triangles.getX(index + 1)];
+      const c = transformed[triangles.getX(index + 2)];
+      // This is the direct regression for the bad preview: no triangle may
+      // become a metre-long shoulder strip or an exploded finger fan.
+      expect(Math.max(a.distanceTo(b), b.distanceTo(c), c.distanceTo(a))).toBeLessThan(0.1);
     }
   });
 });

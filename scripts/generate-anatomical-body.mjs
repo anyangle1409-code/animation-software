@@ -263,6 +263,43 @@ for (let compact = 0; compact < originalIndices.length; compact += 1) {
     total = 1;
   }
   targetPoint.multiplyScalar(1 / total);
+  // The max-muscle source has high, squared-off deltoid caps. Round the outer
+  // shoulder around the actual humeral joint and give the upper edge a gentle
+  // neck-to-deltoid slope. Weighting the correction prevents a seam where the
+  // chest, clavicle and upper arm meet.
+  const shoulderWeight = [...aggregated.entries()].reduce(
+    (sum, [name, weight]) => sum + (
+      name === 'spine_03' || name.startsWith('clavicle_') || name.startsWith('upperarm_')
+        ? weight
+        : 0
+    ),
+    0,
+  ) / total;
+  if (shoulderWeight > 0 && targetPoint.y > 1.30 && targetPoint.y < 1.50) {
+    const sign = Math.sign(targetPoint.x) || 1;
+    const width = Math.abs(targetPoint.x);
+    if (width > 0.17) {
+      const roundedWidth = 0.17 + (width - 0.17) * 0.74;
+      targetPoint.x = sign * (width + (roundedWidth - width) * shoulderWeight);
+    }
+    const shoulderTop = 1.476 - 0.22 * Math.max(0, Math.abs(targetPoint.x) - 0.05);
+    if (targetPoint.y > shoulderTop) {
+      targetPoint.y -= (targetPoint.y - shoulderTop) * 0.82 * shoulderWeight;
+    }
+  }
+
+  // The source forehead reads too tall on the compact coaching rig. Compress
+  // the head vertically from its neck base, keep the crown at the rig height,
+  // and add a little width at the cranium/temples for an adult-human profile.
+  const headWeight = (aggregated.get('head') ?? 0) / total;
+  if (headWeight > 0) {
+    const oldY = targetPoint.y;
+    const compressedY = 1.52 + (oldY - 1.52) * 0.92 + 0.018;
+    targetPoint.y += (compressedY - oldY) * headWeight;
+    const headWidth = oldY > 1.65 ? 1.08 : oldY > 1.56 ? 1.04 : 0.99;
+    targetPoint.x *= 1 + (headWidth - 1) * headWeight;
+  }
+
   // Refine the macro target into the lean V-shaped torso from the exercise
   // reference: a defined chest, a compact waist and natural hips. Blend the
   // sculpt by central-bone weight so the deltoid and hip seams stay continuous.
@@ -331,4 +368,3 @@ fs.writeFileSync(`${destination}/anatomicalSkinWeights.ts`, generated +
 fs.writeFileSync(`${destination}/anatomicalColours.ts`, generated +
   `export const ANATOMICAL_COLOURS = '${encode(colours)}';\n`);
 console.log({ vertices: originalIndices.length, triangles: indices.length / 3, unmappedVertices, scale });
-

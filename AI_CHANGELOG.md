@@ -6,6 +6,19 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Codex — 2026-09-08 — approved shoulder and head refinement
+
+- Rounded and narrowed the raised, squared-off deltoid caps and introduced a
+  natural neck-to-shoulder slope without moving the underlying shoulder joints.
+- Shortened the elongated head profile and added restrained width through the
+  cranium and temples while keeping the crown aligned to the 1.75 m rig.
+- Preserved the approved torso, legs, feet, curl motion, dumbbell placement and
+  two-handed grip from the preceding correction.
+
+The user approved the rest, mid-curl and top-curl validation render before this
+change was committed. Verification: 122 tests pass; `npm run typecheck` and
+`npm run build` are clean.
+
 ### Codex — 2026-09-08 — `codex/anatomical-reference-character`
 
 Purpose: correct the withdrawn anatomical character using the supplied curl

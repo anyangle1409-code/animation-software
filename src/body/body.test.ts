@@ -3,8 +3,9 @@ import { Vector3 } from 'three';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneName } from '../rig/boneNames';
+import { Color } from 'three';
 import { buildBodyGeometry } from './mesh';
-import { BODY_BLOBS, BODY_CHAINS } from './profiles';
+import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
 
 const rig = canonicalSkeleton;
 const { geometry, vertices, triangles } = buildBodyGeometry(rig);
@@ -21,6 +22,16 @@ interface Extent {
   low: number;
   high: number;
 }
+
+/** Vertex colours come straight from the palette, so they compare exactly. */
+const matches = (
+  colour: { getX(i: number): number; getY(i: number): number; getZ(i: number): number },
+  index: number,
+  target: Color,
+): boolean =>
+  Math.abs(colour.getX(index) - target.r) < 1e-4 &&
+  Math.abs(colour.getY(index) - target.g) < 1e-4 &&
+  Math.abs(colour.getZ(index) - target.b) < 1e-4;
 
 const extentOf = (bones: BoneName[]): Extent => {
   const wanted = new Set(bones);
@@ -127,6 +138,68 @@ describe('body mesh', () => {
       const nearest = head.clone().addScaledVector(along, t);
       expect(point.distanceTo(nearest), `${bone.name} vertex ${index}`).toBeLessThan(0.24);
     }
+  });
+
+  it('has an athletic male silhouette, not a barrel or an hourglass', () => {
+    const chest = extentOf(['spine_03']);
+    const waist = extentOf(['spine_01']);
+    const hips = extentOf(['pelvis']);
+    // Shoulders wider than hips, waist narrower than both: the V a trained man
+    // has and a mannequin does not.
+    expect(chest.halfWidth).toBeGreaterThan(hips.halfWidth);
+    expect(chest.halfWidth / waist.halfWidth).toBeGreaterThan(1.3);
+    expect(chest.halfWidth / waist.halfWidth).toBeLessThan(1.65);
+
+    // Limb girths, as diameters at the belly of each muscle.
+    const upperArm = extentOf(['upperarm_l']);
+    const forearm = extentOf(['forearm_l']);
+    const thigh = extentOf(['thigh_l']);
+    const shoulder = rig.bone('upperarm_l').restHead;
+    expect((upperArm.halfWidth - Math.abs(shoulder.x)) * 2).toBeGreaterThan(0.09);
+    expect((upperArm.halfWidth - Math.abs(shoulder.x)) * 2).toBeLessThan(0.13);
+    expect(forearm.halfWidth).toBeLessThan(upperArm.halfWidth);
+    expect(thigh.low).toBeLessThan(0.6);
+  });
+
+  it('wears shorts that leave every working joint visible', () => {
+    const shorts = new Color(BODY_COLOURS.shorts);
+    let lowest = Infinity;
+    let highest = -Infinity;
+    let clothed = 0;
+    const colour = geometry.getAttribute('color');
+    for (let index = 0; index < colour.count; index += 1) {
+      const near = matches(colour, index, shorts);
+      if (!near) continue;
+      clothed += 1;
+      lowest = Math.min(lowest, position.getY(index));
+      highest = Math.max(highest, position.getY(index));
+    }
+
+    expect(clothed).toBeGreaterThan(60);
+    // Waistband on the hip, hem at mid-thigh: elbows, knees, shoulders and the
+    // whole torso stay bare, which is where the muscle highlighting lands.
+    expect(highest).toBeLessThan(1.05);
+    expect(lowest).toBeGreaterThan(0.68);
+  });
+
+  it('has eyes in its head', () => {
+    const sclera = new Color(BODY_COLOURS.sclera);
+    const iris = new Color(BODY_COLOURS.iris);
+    const colour = geometry.getAttribute('color');
+    const seen = { sclera: 0, iris: 0 };
+    for (let index = 0; index < colour.count; index += 1) {
+      const isSclera = matches(colour, index, sclera);
+      const isIris = matches(colour, index, iris);
+      if (isSclera) seen.sclera += 1;
+      if (isIris) seen.iris += 1;
+      if (!isSclera && !isIris) continue;
+      // Both sit in the head, above the shoulders and in front of the ears.
+      expect(position.getY(index)).toBeGreaterThan(1.55);
+      expect(position.getZ(index)).toBeGreaterThan(0.05);
+    }
+    expect(seen.sclera).toBeGreaterThan(40);
+    expect(seen.iris).toBeGreaterThan(40);
+    expect(ownerOf(0)).toBeDefined();
   });
 
   it('stays small enough to export comfortably', () => {

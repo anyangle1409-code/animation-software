@@ -1,8 +1,8 @@
-import { BufferAttribute, BufferGeometry, Quaternion, Vector3 } from 'three';
+import { BufferAttribute, BufferGeometry, Color, Quaternion, Vector3 } from 'three';
 import type { RigBone, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { BodyBlob, BodyChain, Ring } from './profiles';
-import { BODY_BLOBS, BODY_CHAINS } from './profiles';
+import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
 
 /**
  * Loft the body profiles into one skinned mesh.
@@ -35,11 +35,28 @@ interface PlacedRing {
   ownWeight: number;
 }
 
+/**
+ * Surface colour is a vertex attribute rather than a second material, so skin,
+ * shorts, eyes and lips all ship in one mesh with one draw call — which is what
+ * keeps the character cheap enough for the phone app.
+ */
+const colourCache = new Map<string, Color>();
+const colourOf = (hex: string | undefined): Color => {
+  const key = hex ?? BODY_COLOURS.skin;
+  let colour = colourCache.get(key);
+  if (!colour) {
+    colour = new Color(key);
+    colourCache.set(key, colour);
+  }
+  return colour;
+};
+
 export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
   const skinIndices: number[] = [];
   const skinWeights: number[] = [];
+  const colours: number[] = [];
 
   const boneIndex = new Map<string, number>();
   rig.bones.forEach((bone, index) => boneIndex.set(bone.name, index));
@@ -47,13 +64,16 @@ export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeomet
   const scratch = new Vector3();
   const rotation = new Quaternion();
 
-  function pushVertex(placed: PlacedRing, local: Vector3): number {
+  function pushVertex(placed: PlacedRing, local: Vector3, colour?: string): number {
     const index = positions.length / 3;
     scratch
       .copy(local)
       .applyQuaternion(rotation.copy(placed.bone.restWorldQuaternion))
       .add(placed.bone.restHead);
     positions.push(scratch.x, scratch.y, scratch.z);
+
+    const tint = colourOf(colour ?? placed.ring.colour);
+    colours.push(tint.r, tint.g, tint.b);
 
     const blended = placed.other !== null && placed.ownWeight < 1;
     const bones = [placed.own, blended ? (placed.other as number) : placed.own, 0, 0];
@@ -120,8 +140,8 @@ export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeomet
   }
 
   function addBlob(bone: RigBone, blob: BodyBlob) {
-    const stacks = 8;
-    const slices = 12;
+    const stacks = Math.max(4, Math.round((blob.detail ?? 8) * 0.75));
+    const slices = blob.detail ?? 12;
     const start = positions.length / 3;
     const placed: PlacedRing = {
       ring: { t: 0, rx: 0, rz: 0 },
@@ -141,6 +161,7 @@ export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeomet
             blob.centre[1] + blob.radii[1] * Math.cos(phi),
             blob.centre[2] + blob.radii[2] * Math.sin(phi) * Math.sin(theta),
           ),
+          blob.colour,
         );
       }
     }
@@ -163,6 +184,7 @@ export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeomet
   geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
   geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(skinIndices), 4));
   geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(skinWeights), 4));
+  geometry.setAttribute('color', new BufferAttribute(new Float32Array(colours), 3));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
   geometry.computeBoundingBox();
@@ -258,5 +280,14 @@ function ringsWithDomes(
   return out;
 }
 
-/** The mannequin's surface, shared by the viewport and the exporter. */
-export const BODY_MATERIAL = { color: '#c9d3e0', roughness: 0.62, metalness: 0.03 } as const;
+/**
+ * The character's surface, shared by the viewport and the exporter. Colour comes
+ * from the vertex attribute, so the material itself stays white and unlit skin,
+ * shorts and eyes all come out of one draw call.
+ */
+export const BODY_MATERIAL = {
+  color: '#ffffff',
+  vertexColors: true,
+  roughness: 0.68,
+  metalness: 0.02,
+} as const;

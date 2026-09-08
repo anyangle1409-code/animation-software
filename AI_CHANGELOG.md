@@ -6,6 +6,48 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude Opus 5 — 2026-09-08 — `claude/home-gym-pt-animation-txux66`
+
+Purpose: make the studio's character read as a person rather than a mannequin,
+and make the muscle overlay usable as exercise instruction.
+
+Preserved Codex's `067e90db` grip work unchanged: `anatomicalGripOffset` is
+still what places a one-hand attachment, and its two animation tests still run.
+
+- **Character.** Re-authored the body profiles as an athletic adult male:
+  V-taper from a 0.39 m chest to a 0.27 m waist, deltoid caps, biceps and
+  triceps mass, a forearm flare into a narrow wrist, patella at the knee, and a
+  calf. Added a face — eyeballs with irises and lids, brow, nose, lips, jaw
+  corners, ears — and a close-cropped hair shell.
+- **Clothing.** Surface colour is now a vertex attribute on the same single
+  mesh, so skin, dark fitted shorts, waistband, eyes, lips and hair cost one
+  draw call between them. The shorts run from the hip to mid-thigh, leaving
+  every joint the exercises work bare.
+- **Muscle overlay.** Each belly is now built on an anatomical frame — length
+  along the muscle, width across the body, depth through the skin — instead of
+  spreading along an arbitrary axis. Bellies taper into tendon at both ends and
+  are fitted against the body at runtime, so none of them break the skin during
+  the curl and none exceed 7 mm in any other exercise. Re-placed all 21 muscle
+  definitions against the new surface.
+- **Highlighting.** Primary muscles are now a clear red, secondary a softer
+  orange, stabilisers close to flesh tone and untargeted muscles almost
+  invisible. For the curl this leaves both biceps as the obvious highlight, with
+  the forearm flexors and front deltoids behind them.
+- **Grip.** The thumb now extends at the knuckle and folds over, laying it along
+  the handle instead of sweeping it past the palm. This rig has no
+  carpometacarpal joint, so the thumb cannot oppose across the palm; along the
+  bar is as close to a wrap as its joint limits allow.
+- **Backdrop.** A studio/light backdrop toggle, so app-facing captures come out
+  on a clean light stage instead of the editor's dark one.
+- **Tests.** New `body/body.test.ts` cases for the male silhouette, the shorts'
+  coverage and the eyes; a new `muscles/muscles.test.ts` covering containment,
+  attachment, left/right mirroring, the biceps through the curl and the
+  activation palette; a new `equipment/grip.test.ts` checking each handle stays
+  wrapped by the fingers and thumb and rigid in the hand throughout both
+  dumbbell exercises.
+
+Verification: 121 tests pass; `npm run typecheck` and `npm run build` are clean.
+
 ### Codex — 2026-09-08 — `codex/fix-dumbbell-grip-position`
 
 Purpose: keep dumbbell handles visibly enclosed by the fingers throughout

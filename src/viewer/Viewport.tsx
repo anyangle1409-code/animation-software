@@ -3,7 +3,7 @@ import { Grid, OrbitControls, TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { currentAnchors, skeleton, useStudio } from '../editor/store';
+import { BACKDROPS, currentAnchors, skeleton, useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
@@ -216,7 +216,9 @@ function Figure() {
       {(viewMode === 'muscles' || viewMode === 'combined') && <MuscleView />}
       {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <MannequinView />)}
       {viewMode === 'muscles' && (
-        <MannequinView opacity={0.1} colour="#93a2b8" depthWrite={false} />
+        // Enough of the body to read as a person around the muscles, and not a
+        // shade more: the highlighting is the point of this view.
+        <MannequinView opacity={0.24} depthWrite={false} />
       )}
       {showEquipment && <EquipmentView />}
       {showIkHandles && <IKHandles />}
@@ -229,6 +231,7 @@ export function Viewport() {
   const controls = useRef<OrbitControlsImpl | null>(null);
   const showGrid = useStudio((state) => state.showGrid);
   const selectBone = useStudio((state) => state.selectBone);
+  const backdrop = BACKDROPS[useStudio((state) => state.backdrop)];
 
   return (
     <SceneStateContext.Provider value={scene}>
@@ -238,8 +241,8 @@ export function Viewport() {
         camera={{ position: [2.3, 1.35, 2.7], fov: 38, near: 0.05, far: 100 }}
         onPointerMissed={() => selectBone(null)}
       >
-        <color attach="background" args={['#12151a']} />
-        <hemisphereLight intensity={0.55} groundColor="#20242c" color="#dfe8f5" />
+        <color attach="background" args={[backdrop.background]} />
+        <hemisphereLight intensity={0.62} groundColor={backdrop.ground} color="#f0f4fb" />
         <directionalLight
           position={[3, 5, 4]}
           intensity={1.5}
@@ -261,9 +264,9 @@ export function Viewport() {
           <Grid
             args={[12, 12]}
             cellSize={0.25}
-            cellColor="#2a313c"
+            cellColor={backdrop.cell}
             sectionSize={1}
-            sectionColor="#3d4756"
+            sectionColor={backdrop.section}
             fadeDistance={14}
             infiniteGrid
             position={[0, 0.001, 0]}
@@ -271,7 +274,7 @@ export function Viewport() {
         )}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[24, 24]} />
-          <meshStandardMaterial color="#171b21" roughness={0.95} />
+          <meshStandardMaterial color={backdrop.ground} roughness={0.95} />
         </mesh>
 
         <OrbitControls

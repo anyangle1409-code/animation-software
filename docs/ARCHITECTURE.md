@@ -181,11 +181,21 @@ entirely to one bone a blend width away. That single rule creases an elbow,
 rounds a shoulder and folds a hip, and it is why the exported mesh is no longer
 one bone per vertex. Nothing needs more than two influences.
 
-Small features — a nose, ears, a chin, the pad at the base of a thumb — are
-ellipsoids that intersect the surface they sit on. How deep they sit is the
+Small features — a nose, ears, lips, eyeballs, the pad at the base of a thumb —
+are ellipsoids that intersect the surface they sit on. How deep they sit is the
 whole trick: buried to their own radius they lie almost tangent to the skin and
 the two surfaces fight for pixels; sitting on the surface they read as balls
 stuck on. Half a radius in crosses the skin at about 60° and reads as one form.
+
+Colour is a vertex attribute rather than a second material: skin, shorts,
+waistband, eyes, lips and hair all ship in one mesh with one draw call, which is
+what keeps the character cheap enough for the phone app.
+
+`body/containment.ts` answers "is this point inside the character?" from the
+profiles rather than the built mesh. Because the profiles are authored in each
+bone's own frame, the same test works in any pose, and it is what lets the
+muscle overlay be checked automatically — a belly poking out through the skin
+becomes a number rather than an opinion.
 
 The viewport and the GLB exporter call the same `buildSkinnedRig`, so the figure
 on screen is the figure in the file — bound to the same bones, with the same
@@ -202,6 +212,21 @@ those two points ride their own bones, the muscle follows the skeleton for free:
 bend the elbow and the biceps shortens and thickens, with no second rig to keep
 in sync. Activation levels come from the exercise definition, never from
 inspecting the animation at runtime.
+
+Each belly is built on an explicit frame — length along the muscle, width across
+the body, depth through the skin — with "outward" taken from the direction the
+muscle's own origin sits off its bone. An earlier version spread sheet muscles
+along whatever axis the maths happened to pick, which sent the abdominals seven
+centimetres out through the stomach.
+
+Two things then keep a belly under the skin. It is **tapered**, stopping short of
+both attachments in tendon, because a belly drawn all the way to the bone cuts
+the corner of a bent joint and appears outside the arm. And it is **fitted**: its
+own surface is measured against the profiles and pulled in until it clears them.
+However carefully a muscle is authored, a pose can bring the skin closer than
+the belly is wide — a raised arm pulls the pectoral's line across the armpit —
+and a muscle cutting through the surface is the one thing an exercise
+demonstration must never show.
 
 ## Retargeting
 

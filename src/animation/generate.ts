@@ -137,12 +137,17 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
   for (const { side, sign } of sides) {
     for (const finger of FINGERS) {
       const isThumb = finger === 'thumb';
-      const segments = isThumb ? [40, 30, 20] : [78, 95, 60];
+      // The thumb does not curl like the other four. This rig starts it at the
+      // knuckle, with no carpometacarpal joint to oppose with, so it cannot come
+      // back across the palm: extending the base and folding the two segments
+      // beyond it lays the thumb along the handle, against the bar and beside
+      // the index finger, instead of sweeping it past the palm into the air.
+      const segments = isThumb ? [-22, 60, 60] : [78, 95, 60];
       segments.forEach((maximum, index) => {
         const bone = `${finger}_0${index + 1}_${side}` as BoneName;
         const existing = pose.rotations[bone];
         pose.rotations[bone] = {
-          x: existing?.x ?? 0,
+          x: isThumb && index === 0 ? toRad(-14 * closure) : existing?.x ?? 0,
           y: existing?.y ?? 0,
           z: sign * toRad(maximum * closure),
         };

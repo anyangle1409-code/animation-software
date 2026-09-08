@@ -18,6 +18,8 @@ export function Toolbar() {
   const setViewMode = useStudio((state) => state.setViewMode);
   const camera = useStudio((state) => state.camera);
   const setCamera = useStudio((state) => state.setCamera);
+  const backdrop = useStudio((state) => state.backdrop);
+  const setBackdrop = useStudio((state) => state.setBackdrop);
   const undo = useStudio((state) => state.undo);
   const redo = useStudio((state) => state.redo);
   const canUndo = useStudio((state) => state.history.past.length > 0);
@@ -54,6 +56,14 @@ export function Toolbar() {
           </button>
         ))}
       </div>
+
+      <label className="field">
+        <span className="field__label">Backdrop</span>
+        <select value={backdrop} onChange={(event) => setBackdrop(event.target.value as never)}>
+          <option value="studio">Studio</option>
+          <option value="light">Light</option>
+        </select>
+      </label>
 
       <label className="field">
         <span className="field__label">Camera</span>

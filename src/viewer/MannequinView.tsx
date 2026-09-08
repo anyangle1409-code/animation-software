@@ -8,6 +8,7 @@ import { useSceneState } from './sceneState';
 
 export interface MannequinViewProps {
   opacity?: number;
+  /** Multiplies the body's own vertex colours; white leaves them as authored. */
   colour?: string;
   /**
    * A ghosted body must not write depth, or it hides the muscles inside it —
@@ -28,7 +29,7 @@ const UNIT = new Vector3(1, 1, 1);
  */
 export function MannequinView({
   opacity = 1,
-  colour = '#c9d3e0',
+  colour = '#ffffff',
   depthWrite = true,
 }: MannequinViewProps) {
   const scene = useSceneState();

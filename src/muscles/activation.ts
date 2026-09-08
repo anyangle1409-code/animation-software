@@ -15,11 +15,16 @@ export interface ActivationStyle {
  * definition — nothing here inspects the animation and guesses, which is what
  * keeps the studio's overlay and Home Gym PT's exercise database in agreement.
  */
+/**
+ * Four steps, and only the first is meant to catch the eye. A demonstration
+ * that lights up half the body teaches nothing, so the stabilisers sit close to
+ * flesh tone and the untargeted muscles barely register at all.
+ */
 export const ACTIVATION_STYLES: Record<ActivationLevel, ActivationStyle> = {
-  primary: { colour: '#e8402f', emissive: 0.55, opacity: 0.97, label: 'Primary' },
-  secondary: { colour: '#f0873a', emissive: 0.3, opacity: 0.92, label: 'Secondary' },
-  stabiliser: { colour: '#e0c65a', emissive: 0.12, opacity: 0.82, label: 'Stabiliser' },
-  inactive: { colour: '#8d6f74', emissive: 0, opacity: 0.55, label: 'Not targeted' },
+  primary: { colour: '#df1f14', emissive: 0.5, opacity: 1, label: 'Primary' },
+  secondary: { colour: '#ef7038', emissive: 0.22, opacity: 0.95, label: 'Secondary' },
+  stabiliser: { colour: '#c3a288', emissive: 0.02, opacity: 0.7, label: 'Stabiliser' },
+  inactive: { colour: '#a89283', emissive: 0, opacity: 0.35, label: 'Not targeted' },
 };
 
 export function activationMap(

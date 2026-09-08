@@ -17,12 +17,13 @@ import { FINGERS } from '../rig/boneNames';
  * two rigid parts scissoring through each other.
  *
  * Everything the viewport shows and everything the GLB exports is lofted from
- * this one list, so the mannequin in the studio and the mesh in the exported
+ * this one list, so the character in the studio and the mesh in the exported
  * file cannot drift apart.
  *
- * Numbers are metres on the canonical 1.75 m rig, and anthropometric rather than
- * decorative: 0.44 m across the shoulders, 0.34 m across the hips, a 0.24 m deep
- * chest, a wrist half the thickness of the forearm.
+ * The figure is an athletic adult male on the canonical 1.75 m rig, and the
+ * numbers are anthropometric rather than decorative: 0.46 m across the
+ * shoulders, 0.36 m across the chest, a 0.28 m waist, 0.34 m hips, a 0.32 m
+ * upper-arm girth. Trained, not inflated.
  */
 export interface Ring {
   /** Position along the bone: 0 is its joint, 1 its far end. */
@@ -35,6 +36,8 @@ export interface Ring {
   ox?: number;
   /** Forward offset of the ring's centre — a belly, a calf, a set of glutes. */
   oz?: number;
+  /** Surface colour from this ring on, for clothing. Defaults to skin. */
+  colour?: string;
 }
 
 export interface BodyPart {
@@ -59,16 +62,45 @@ export interface BodyChain {
   domeEnd?: number;
 }
 
-/** A small rigid lump — a nose, an ear, a thumb pad — riding one bone. */
+/** A small rigid lump — a nose, an ear, an eyeball — riding one bone. */
 export interface BodyBlob {
   bone: BoneName;
   /** Centre in the bone's own frame. */
   centre: [number, number, number];
   /** Radii along the bone's x, y and z. */
   radii: [number, number, number];
+  colour?: string;
+  /** Rings around the blob; small features need fewer. */
+  detail?: number;
 }
 
-const ring = (t: number, rx: number, rz: number, oz = 0, ox = 0): Ring => ({ t, rx, rz, oz, ox });
+/**
+ * The character's palette. Skin is a warm mid tone rather than the old grey, so
+ * the red muscle highlighting reads against it; the shorts are dark enough to
+ * sit quietly behind the arms and torso, which is where the coaching happens.
+ */
+export const BODY_COLOURS = {
+  skin: '#c8a184',
+  shorts: '#24272e',
+  waistband: '#31353e',
+  sclera: '#ded4c8',
+  iris: '#2f3a46',
+  lips: '#a9705f',
+  brow: '#7a5b47',
+  hair: '#3b3029',
+} as const;
+
+const ring = (t: number, rx: number, rz: number, oz = 0, ox = 0, colour?: string): Ring => ({
+  t,
+  rx,
+  rz,
+  oz,
+  ox,
+  ...(colour ? { colour } : {}),
+});
+
+const clothed = (t: number, rx: number, rz: number, oz = 0, ox = 0): Ring =>
+  ring(t, rx, rz, oz, ox, BODY_COLOURS.shorts);
 
 // ---------------------------------------------------------------------------
 // Trunk: crotch to crown, six bones, one tube
@@ -76,67 +108,89 @@ const ring = (t: number, rx: number, rz: number, oz = 0, ox = 0): Ring => ({ t, 
 
 const TRUNK: BodyChain = {
   id: 'trunk',
-  sides: 20,
+  sides: 22,
   domeStart: 0.28,
   domeEnd: 0.6,
   parts: [
     {
       // The pelvis bone is 8 cm long but the body around it is a quarter of a
-      // metre, so its rings reach well below their own joint.
+      // metre, so its rings reach well below their own joint. All of it is
+      // inside the shorts, whose waistband sits on the hip at the top ring.
       bone: 'pelvis',
       rings: [
-        ring(-1.15, 0.121, 0.09, -0.008),
-        ring(-0.95, 0.148, 0.102, -0.016),
-        ring(-0.6, 0.167, 0.111, -0.016),
-        ring(-0.1, 0.166, 0.108, -0.006),
-        ring(0.45, 0.157, 0.102, 0),
-        ring(0.95, 0.15, 0.1, 0.003),
+        clothed(-1.15, 0.124, 0.093, -0.008),
+        clothed(-0.95, 0.151, 0.105, -0.017),
+        clothed(-0.6, 0.17, 0.114, -0.018),
+        clothed(-0.1, 0.168, 0.111, -0.007),
+        clothed(0.45, 0.157, 0.104, 0),
+        // Waistband: a hair wider than the skin under it, like fabric.
+        ring(0.88, 0.152, 0.102, 0.003, 0, BODY_COLOURS.waistband),
+        ring(1.0, 0.145, 0.098, 0.004),
       ],
     },
     {
+      // Waist. Narrower than both the ribcage above and the hips below, which
+      // is the whole of the V-taper.
       bone: 'spine_01',
       blend: 0.06,
-      rings: [ring(0.1, 0.147, 0.1, 0.004), ring(0.45, 0.141, 0.099, 0.006), ring(0.8, 0.139, 0.1, 0.006)],
+      rings: [
+        ring(0.15, 0.139, 0.097, 0.005),
+        ring(0.5, 0.135, 0.095, 0.007),
+        ring(0.85, 0.137, 0.098, 0.007),
+      ],
     },
     {
+      // Lower ribcage flaring into the lats.
       bone: 'spine_02',
       blend: 0.06,
-      rings: [ring(0.05, 0.142, 0.103, 0.005), ring(0.45, 0.153, 0.111, 0.002), ring(0.85, 0.166, 0.117, 0)],
+      rings: [
+        ring(0.08, 0.142, 0.102, 0.006),
+        ring(0.45, 0.158, 0.112, 0.003),
+        ring(0.85, 0.176, 0.119, 0),
+      ],
     },
     {
+      // Chest and shoulder shelf. The pectoral mass sits forward of the bone,
+      // which is why the ring centres move with it.
       bone: 'spine_03',
       blend: 0.06,
       rings: [
-        ring(0.05, 0.171, 0.119, -0.002),
-        ring(0.35, 0.181, 0.121, -0.004),
-        ring(0.62, 0.183, 0.114, -0.009),
-        ring(0.88, 0.169, 0.098, -0.015),
+        ring(0.05, 0.182, 0.118, -0.002),
+        // Under-pec ledge, then the pectoral mass above it: a male chest is a
+        // full ribcage with a shelf, not a pair of mounds.
+        ring(0.24, 0.191, 0.121, 0),
+        ring(0.42, 0.194, 0.124, 0.002),
+        ring(0.62, 0.193, 0.12, -0.004),
+        ring(0.82, 0.183, 0.105, -0.014),
+        ring(0.96, 0.163, 0.093, -0.018),
       ],
     },
     {
+      // Neck: thick at the base where the trapezius carries it, then a column.
       bone: 'neck',
       blend: 0.05,
       rings: [
-        ring(0.02, 0.107, 0.088, -0.016),
-        ring(0.3, 0.068, 0.066, -0.008),
-        ring(0.62, 0.059, 0.06, -0.005),
-        ring(0.9, 0.057, 0.059, -0.003),
+        ring(0.02, 0.104, 0.089, -0.017),
+        ring(0.3, 0.072, 0.07, -0.009),
+        ring(0.62, 0.063, 0.064, -0.005),
+        ring(0.9, 0.061, 0.063, -0.003),
       ],
     },
     {
-      // Skull: cranium, brow, cheekbones, and a jaw tapering to the chin. The
-      // face sits forward of the bone, because the bone runs up the middle of
-      // the head and a face does not.
+      // Skull: cranium, brow, cheekbones, and a jaw with corners. The face sits
+      // forward of the bone, because the bone runs up the middle of the head
+      // and a face does not.
       bone: 'head',
       blend: 0.035,
       rings: [
-        ring(0.02, 0.064, 0.07, 0.006),
-        ring(0.12, 0.073, 0.086, 0.018),
-        ring(0.26, 0.079, 0.096, 0.021),
-        ring(0.42, 0.083, 0.102, 0.016),
-        ring(0.56, 0.084, 0.103, 0.009),
-        ring(0.68, 0.081, 0.099, 0.002),
-        ring(0.78, 0.073, 0.09, -0.005),
+        ring(0.02, 0.066, 0.073, 0.008),
+        ring(0.1, 0.076, 0.088, 0.019),
+        ring(0.2, 0.082, 0.097, 0.023),
+        ring(0.32, 0.084, 0.101, 0.021),
+        ring(0.46, 0.084, 0.103, 0.016),
+        ring(0.6, 0.083, 0.103, 0.009),
+        ring(0.72, 0.079, 0.098, 0.001),
+        ring(0.82, 0.07, 0.088, -0.007),
       ],
     },
   ],
@@ -154,12 +208,23 @@ const clavicle = (side: Side): BodyChain => ({
     {
       bone: `clavicle_${side}` as BoneName,
       blend: 0.03,
-      rings: [ring(0.15, 0.03, 0.046, -0.012), ring(0.6, 0.028, 0.042, -0.007), ring(0.92, 0.032, 0.046, -0.002)],
+      rings: [
+        ring(0.15, 0.032, 0.048, -0.012),
+        ring(0.6, 0.03, 0.044, -0.007),
+        ring(0.92, 0.034, 0.048, -0.002),
+      ],
     },
   ],
 });
 
-/** Shoulder to fingertips: deltoid cap, biceps belly, forearm flare, palm. */
+/**
+ * Shoulder to fingertips.
+ *
+ * The shapes a coach looks at are all here: the deltoid cap over the joint, the
+ * biceps belly forward of the bone and the triceps behind it, a narrow elbow
+ * with the forearm flaring immediately below it, and a wrist half the thickness
+ * of the forearm above it.
+ */
 const arm = (side: Side): BodyChain => ({
   id: `arm_${side}`,
   sides: 14,
@@ -170,23 +235,27 @@ const arm = (side: Side): BodyChain => ({
       bone: `upperarm_${side}` as BoneName,
       blend: 0.05,
       rings: [
-        ring(-0.06, 0.051, 0.05, -0.002),
-        ring(0.02, 0.055, 0.054, 0.002),
-        ring(0.15, 0.054, 0.053, 0.004),
-        ring(0.4, 0.049, 0.051, 0.005),
-        ring(0.68, 0.043, 0.046, 0.003),
-        ring(0.92, 0.038, 0.04, 0),
+        ring(-0.06, 0.055, 0.054, -0.002),
+        ring(0.02, 0.061, 0.059, 0.002),
+        ring(0.16, 0.06, 0.06, 0.006),
+        ring(0.34, 0.057, 0.059, 0.007),
+        ring(0.55, 0.05, 0.053, 0.004),
+        ring(0.78, 0.043, 0.046, 0.001),
+        // The elbow itself: narrow across, a little deeper for the olecranon.
+        ring(0.95, 0.037, 0.041, -0.003),
       ],
     },
     {
       bone: `forearm_${side}` as BoneName,
       blend: 0.05,
       rings: [
-        ring(0.06, 0.038, 0.041, 0.001),
-        ring(0.22, 0.044, 0.045, 0.002),
-        ring(0.5, 0.037, 0.038, 0.001),
-        ring(0.75, 0.03, 0.03, 0),
-        ring(0.95, 0.026, 0.025, 0),
+        ring(0.05, 0.04, 0.044, 0.001),
+        ring(0.2, 0.049, 0.05, 0.003),
+        ring(0.42, 0.043, 0.044, 0.002),
+        ring(0.66, 0.033, 0.033, 0.001),
+        ring(0.88, 0.028, 0.027, 0),
+        // Wrist.
+        ring(0.98, 0.026, 0.024, 0),
       ],
     },
     {
@@ -195,10 +264,10 @@ const arm = (side: Side): BodyChain => ({
       bone: `hand_${side}` as BoneName,
       blend: 0.025,
       rings: [
-        ring(0.08, 0.022, 0.031, 0.003),
-        ring(0.4, 0.021, 0.038, 0.004),
-        ring(0.78, 0.019, 0.039, 0.004),
-        ring(1.0, 0.017, 0.035, 0.002),
+        ring(0.08, 0.023, 0.032, 0.003),
+        ring(0.4, 0.022, 0.039, 0.004),
+        ring(0.78, 0.02, 0.04, 0.004),
+        ring(1.0, 0.018, 0.036, 0.002),
       ],
     },
   ],
@@ -208,34 +277,42 @@ const arm = (side: Side): BodyChain => ({
 // Legs
 // ---------------------------------------------------------------------------
 
-/** Hip to ankle: glute and quadriceps sweep, knee, calf, then a narrow ankle. */
+/**
+ * Hip to ankle. The shorts end at mid-thigh, on their own pair of rings so the
+ * hem is a clean line rather than a gradient, and the quadriceps sweep, knee and
+ * calf are all below it where they can be seen.
+ */
 const leg = (side: Side): BodyChain => ({
   id: `leg_${side}`,
   sides: 16,
-  domeStart: 0.5,
   domeEnd: 0.4,
   parts: [
     {
       bone: `thigh_${side}` as BoneName,
       blend: 0.07,
       rings: [
-        ring(-0.08, 0.086, 0.097, -0.012),
-        ring(0.08, 0.089, 0.098, -0.008),
-        ring(0.35, 0.081, 0.088, -0.002),
-        ring(0.62, 0.07, 0.076, 0.001),
-        ring(0.87, 0.059, 0.061, 0.002),
+        clothed(-0.04, 0.083, 0.094, -0.012),
+        clothed(0.08, 0.092, 0.101, -0.008),
+        clothed(0.26, 0.086, 0.094, -0.004),
+        // Hem, then the leg itself a few millimetres narrower.
+        clothed(0.4, 0.081, 0.088, -0.001),
+        ring(0.43, 0.08, 0.087, -0.001),
+        ring(0.62, 0.074, 0.08, 0.001),
+        // Knee: the patella stands forward of the joint.
+        ring(0.86, 0.061, 0.062, 0.004),
+        ring(0.98, 0.057, 0.06, 0.005),
       ],
     },
     {
       bone: `shin_${side}` as BoneName,
       blend: 0.06,
       rings: [
-        ring(0.06, 0.053, 0.058, -0.002),
-        ring(0.17, 0.056, 0.063, -0.014),
-        ring(0.36, 0.052, 0.06, -0.016),
-        ring(0.6, 0.044, 0.047, -0.01),
-        ring(0.84, 0.035, 0.035, -0.002),
-        ring(0.99, 0.032, 0.031, 0.002),
+        ring(0.05, 0.055, 0.061, 0),
+        ring(0.16, 0.061, 0.069, -0.015),
+        ring(0.35, 0.057, 0.064, -0.018),
+        ring(0.58, 0.046, 0.049, -0.011),
+        ring(0.82, 0.036, 0.036, -0.002),
+        ring(0.99, 0.033, 0.032, 0.002),
       ],
     },
   ],
@@ -256,17 +333,21 @@ const foot = (side: Side): BodyChain => ({
       bone: `foot_${side}` as BoneName,
       blend: 0.035,
       rings: [
-        ring(-0.4, 0.033, 0.035, 0.029),
-        ring(-0.18, 0.038, 0.044, 0.022),
-        ring(0.12, 0.04, 0.049, 0.013),
-        ring(0.5, 0.042, 0.044, 0.008),
-        ring(0.85, 0.044, 0.038, 0.005),
+        ring(-0.4, 0.034, 0.036, 0.029),
+        ring(-0.18, 0.039, 0.045, 0.022),
+        ring(0.12, 0.041, 0.05, 0.013),
+        ring(0.5, 0.043, 0.045, 0.008),
+        ring(0.85, 0.045, 0.039, 0.005),
       ],
     },
     {
       bone: `toe_${side}` as BoneName,
       blend: 0.022,
-      rings: [ring(0.05, 0.043, 0.033, 0.007), ring(0.55, 0.041, 0.029, 0.006), ring(0.95, 0.033, 0.023, 0.005)],
+      rings: [
+        ring(0.05, 0.044, 0.034, 0.007),
+        ring(0.55, 0.042, 0.03, 0.006),
+        ring(0.95, 0.034, 0.024, 0.005),
+      ],
     },
   ],
 });
@@ -276,11 +357,11 @@ const foot = (side: Side): BodyChain => ({
 // ---------------------------------------------------------------------------
 
 const FINGER_RADIUS: Record<string, [number, number, number]> = {
-  thumb: [0.0125, 0.011, 0.0092],
-  index: [0.0102, 0.0092, 0.008],
-  middle: [0.0105, 0.0095, 0.0082],
-  ring: [0.0099, 0.009, 0.0077],
-  pinky: [0.009, 0.008, 0.0069],
+  thumb: [0.0128, 0.0113, 0.0095],
+  index: [0.0105, 0.0095, 0.0082],
+  middle: [0.0108, 0.0098, 0.0085],
+  ring: [0.0102, 0.0093, 0.008],
+  pinky: [0.0093, 0.0083, 0.0072],
 };
 
 const fingerChains = (side: Side): BodyChain[] =>
@@ -294,7 +375,11 @@ const fingerChains = (side: Side): BodyChain[] =>
       parts: radii.map((radius, index) => ({
         bone: `${finger}_0${index + 1}_${side}` as BoneName,
         blend: 0.009,
-        rings: [ring(0.04, radius, radius * 0.95), ring(0.55, radius * 0.97, radius * 0.92), ring(0.96, radius * 0.9, radius * 0.86)],
+        rings: [
+          ring(0.04, radius, radius * 0.95),
+          ring(0.55, radius * 0.97, radius * 0.92),
+          ring(0.96, radius * 0.9, radius * 0.86),
+        ],
       })),
     };
   });
@@ -314,24 +399,83 @@ const perSide = (side: Side): BodyChain[] => [
 export const BODY_CHAINS: BodyChain[] = [TRUNK, ...perSide('l'), ...perSide('r')];
 
 /**
- * Features too small to be worth a chain of their own. A nose and a pair of ears
- * are the difference between a head and an egg.
+ * Features too small to be worth a chain of their own, and the face.
  *
  * Each one is a closed ellipsoid that intersects the surface it sits on, so how
  * deep it sits is what decides whether it reads as anatomy. Buried to its own
  * radius it lies almost tangent to the skin and the two surfaces fight for the
- * same pixels; sitting on the surface it reads as a ball stuck on. Half a radius
- * in crosses the skin at about 60° and looks like one form. The skull's face
- * front stands about 0.118 m ahead of the head bone.
+ * same pixels; sitting on the surface it reads as a ball stuck on. Roughly half
+ * a radius in crosses the skin at about 60° and looks like one form.
+ *
+ * The skull's face front stands about 0.12 m ahead of the head bone, and its
+ * side about 0.084 m out, which is what every number below is measured from.
  */
+const EYE_X = 0.032;
+const EYE_Y = 0.112;
+const EYE_Z = 0.107;
+
+const eye = (sign: 1 | -1): BodyBlob[] => [
+  // The eyeball sits in its socket with only the front third proud, so it reads
+  // as an eye rather than as a bead on the surface.
+  {
+    bone: 'head',
+    centre: [sign * EYE_X, EYE_Y, EYE_Z],
+    radii: [0.0125, 0.0115, 0.0115],
+    colour: BODY_COLOURS.sclera,
+    detail: 8,
+  },
+  // Iris and pupil, only just proud of the eyeball.
+  {
+    bone: 'head',
+    centre: [sign * (EYE_X + 0.001), EYE_Y - 0.0005, EYE_Z + 0.0075],
+    radii: [0.0068, 0.0068, 0.005],
+    colour: BODY_COLOURS.iris,
+    detail: 8,
+  },
+  // Upper lid: a skin-coloured shell over the top of the eyeball, which is what
+  // stops an open sphere looking like a doll's eye.
+  {
+    bone: 'head',
+    centre: [sign * EYE_X, EYE_Y + 0.0105, EYE_Z - 0.004],
+    radii: [0.017, 0.008, 0.013],
+    detail: 8,
+  },
+  // Lower lid and the cheekbone under it.
+  {
+    bone: 'head',
+    centre: [sign * EYE_X, EYE_Y - 0.0125, EYE_Z - 0.006],
+    radii: [0.02, 0.009, 0.014],
+    detail: 8,
+  },
+  // Brow ridge above the eye, angled slightly out.
+  {
+    bone: 'head',
+    centre: [sign * 0.031, 0.132, 0.087],
+    radii: [0.026, 0.008, 0.011],
+    colour: BODY_COLOURS.brow,
+    detail: 8,
+  },
+];
+
 export const BODY_BLOBS: BodyBlob[] = [
-  // Nose: one ridge down the middle of the face.
-  { bone: 'head', centre: [0, 0.088, 0.11], radii: [0.0095, 0.032, 0.014] },
-  // Chin and jaw.
-  { bone: 'head', centre: [0, 0.024, 0.086], radii: [0.031, 0.019, 0.016] },
-  // Ears.
-  { bone: 'head', centre: [-0.077, 0.078, -0.004], radii: [0.009, 0.023, 0.014] },
-  { bone: 'head', centre: [0.077, 0.078, -0.004], radii: [0.009, 0.023, 0.014] },
+  ...eye(1),
+  ...eye(-1),
+  // Nose: a ridge down the middle of the face, then the tip.
+  { bone: 'head', centre: [0, 0.098, 0.108], radii: [0.013, 0.03, 0.015] },
+  { bone: 'head', centre: [0, 0.075, 0.112], radii: [0.0165, 0.013, 0.014] },
+  // Mouth: an upper and a lower lip, both barely proud of the face.
+  { bone: 'head', centre: [0, 0.05, 0.1], radii: [0.022, 0.005, 0.008], colour: BODY_COLOURS.lips, detail: 10 },
+  { bone: 'head', centre: [0, 0.041, 0.099], radii: [0.02, 0.0055, 0.008], colour: BODY_COLOURS.lips, detail: 10 },
+  // Chin and jaw corners.
+  { bone: 'head', centre: [0, 0.024, 0.089], radii: [0.03, 0.019, 0.016] },
+  { bone: 'head', centre: [-0.062, 0.04, 0.04], radii: [0.016, 0.018, 0.026] },
+  { bone: 'head', centre: [0.062, 0.04, 0.04], radii: [0.016, 0.018, 0.026] },
+  // Ears, standing a few millimetres proud of the skull.
+  { bone: 'head', centre: [-0.079, 0.078, -0.004], radii: [0.009, 0.023, 0.014] },
+  { bone: 'head', centre: [0.079, 0.078, -0.004], radii: [0.009, 0.023, 0.014] },
+  // A close crop rather than modelled hair: a shell over the crown and back of
+  // the skull only, tapering out at the hairline so it never reaches the face.
+  { bone: 'head', centre: [0, 0.176, -0.014], radii: [0.091, 0.064, 0.107], colour: BODY_COLOURS.hair, detail: 16 },
   // The pad at the base of each thumb.
   { bone: 'hand_l', centre: [0, 0.03, 0.03], radii: [0.017, 0.028, 0.014] },
   { bone: 'hand_r', centre: [0, 0.03, 0.03], radii: [0.017, 0.028, 0.014] },

@@ -27,6 +27,27 @@ import type { CameraPresetId } from '../viewer/cameraTypes';
 
 export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character';
 
+/**
+ * The studio's own dark stage, or a clean light one. The light backdrop is what
+ * app-facing captures use, so a demonstration frame does not arrive in Home Gym
+ * PT with the editor's chrome colours behind it.
+ */
+export type Backdrop = 'studio' | 'light';
+
+export interface BackdropStyle {
+  background: string;
+  ground: string;
+  cell: string;
+  section: string;
+}
+
+export const BACKDROPS: Record<Backdrop, BackdropStyle> = {
+  studio: { background: '#12151a', ground: '#171b21', cell: '#2a313c', section: '#3d4756' },
+  // The ground matches the background, so a capture has no horizon line across
+  // it — only the figure and its shadow.
+  light: { background: '#eef1f5', ground: '#eef1f5', cell: '#e1e6ed', section: '#d5dce6' },
+};
+
 /** Everything an undo step restores. Selection and playback are deliberately outside. */
 export interface StudioDocument {
   exercise: ExerciseDefinition;
@@ -54,6 +75,8 @@ interface StudioState {
   showEquipment: boolean;
   showIkHandles: boolean;
   showGrid: boolean;
+  /** Studio dark, or the light backdrop used for app-facing captures. */
+  backdrop: Backdrop;
   gizmoMode: 'rotate' | 'translate';
   camera: CameraPresetId;
 
@@ -75,6 +98,7 @@ interface StudioState {
   setViewMode: (mode: ViewMode) => void;
   setCamera: (preset: CameraPresetId) => void;
   toggle: (key: 'showJoints' | 'showEquipment' | 'showIkHandles' | 'showGrid') => void;
+  setBackdrop: (backdrop: Backdrop) => void;
   setGizmoMode: (mode: 'rotate' | 'translate') => void;
 
   // --- editing ------------------------------------------------------------
@@ -182,6 +206,7 @@ export const useStudio = create<StudioState>((set, get) => {
     showEquipment: true,
     showIkHandles: true,
     showGrid: true,
+    backdrop: 'studio',
     gizmoMode: 'rotate',
     camera: 'recommended',
 
@@ -201,6 +226,7 @@ export const useStudio = create<StudioState>((set, get) => {
     selectEquipment: (equipmentId) =>
       set({ selection: { bone: null, handle: null, equipmentId } }),
     setViewMode: (viewMode) => set({ viewMode }),
+    setBackdrop: (backdrop) => set({ backdrop }),
     setCamera: (camera) => set({ camera }),
     toggle: (key) => set({ [key]: !get()[key] } as Partial<StudioState>),
     setGizmoMode: (gizmoMode) => set({ gizmoMode }),

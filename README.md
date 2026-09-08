@@ -32,11 +32,14 @@ exactly to its opening pose.
 
 - **Canonical rig** — 53 bones including fingers and toes, every joint with
   anatomical rotation limits and named axes ("Flexion", "Abduction", …)
-- **Anatomical body** — one skinned mesh lofted from cross-section profiles:
-  a trunk from crotch to crown, limbs as continuous tubes, joints whose vertices
-  are shared between the two bones either side of them so an elbow creases
-  instead of scissoring. The viewport and the GLB exporter build it from the
-  same data, so what you see is what the file contains
+- **Anatomical character** — an athletic adult male as one skinned mesh lofted
+  from cross-section profiles: a trunk from crotch to crown, limbs as continuous
+  tubes, joints whose vertices are shared between the two bones either side of
+  them so an elbow creases instead of scissoring, a face with eyes, nose, mouth
+  and jaw, and fitted shorts that leave every working joint bare. Skin, clothing
+  and eyes are vertex colours on that one mesh, so the whole character is a
+  single draw call. The viewport and the GLB exporter build it from the same
+  data, so what you see is what the file contains
 - **Forward kinematics** with per-joint clamping, pose mirroring and blending
 - **Inverse kinematics** — analytic two-bone solvers for both arms and both
   legs, with pole targets for elbow and knee direction, hinge joints solved as
@@ -56,8 +59,11 @@ exactly to its opening pose.
 - **Timeline editor** — play, scrub, keyframes, easing, duration, tempo, copy,
   paste, mirror, undo/redo
 - **Muscle overlay** — 43 muscle bellies bound between origin and insertion, so
-  they shorten and thicken with the joints; primary, secondary and stabiliser
-  highlighting comes from the exercise definition
+  they shorten and thicken with the joints. Each belly is built on an anatomical
+  frame — length along the muscle, width across the body, depth through the
+  skin — and fitted to the body it sits under, so it can never break the
+  surface. Primary muscles read bright red, secondary a softer orange and
+  stabilisers barely at all; the levels come from the exercise definition
 - **Retargeting** — import a rigged GLB, auto-guess a bone mapping, correct it
   by hand, and drive the imported character from the same animation
 - **Export** — animated GLB (skinned rig, clip and equipment), clip-only GLB

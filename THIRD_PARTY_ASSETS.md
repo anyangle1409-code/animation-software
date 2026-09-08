@@ -2,8 +2,9 @@
 
 ## MakeHuman anatomical base
 
-The built-in anatomical character geometry in `src/body/anatomicalData.ts` is
-generated from the MakeHuman project's explicitly CC0-released assets:
+The built-in anatomical character geometry in the six generated
+`src/body/anatomical*.ts` data modules is generated from the MakeHuman project's
+explicitly CC0-released assets:
 
 - `makehuman/data/3dobjs/base.obj`, blob `d26635e9326e3cca30778fd7b9c00062b03cce09`
 - `makehuman/data/rigs/default_weights.mhw`, blob `66185806afacf87749be8e5cf6dbf66496b2a6b0`

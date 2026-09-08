@@ -29,6 +29,11 @@ animation pipeline.
 - **Provenance and tests.** Added `THIRD_PARTY_ASSETS.md`, expanded body/export
   tests for four-weight anatomical skinning and surface muscle regions, and
   updated the curl range assertion.
+- **GitHub transfer correction.** Replaced the single generated mesh module,
+  which was truncated by the first GitHub blob upload, with six independently
+  capped data modules (largest 298 kB). The committed blobs were downloaded and
+  compared byte-for-byte with the tested local files before this correction was
+  reported complete.
 
 Verification: 122 tests pass; `npm run typecheck` and `npm run build` are clean.
 

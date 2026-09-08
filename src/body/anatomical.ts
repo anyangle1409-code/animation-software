@@ -5,14 +5,14 @@ import { MUSCLE_GROUP_IDS } from '../muscles/groups';
 import type { MuscleGroupId } from '../muscles/groups';
 import type { BodyGeometry } from './mesh';
 import {
-  ANATOMICAL_COLOURS,
-  ANATOMICAL_INDICES,
-  ANATOMICAL_POSITIONS,
-  ANATOMICAL_SKIN_INDICES,
-  ANATOMICAL_SKIN_WEIGHTS,
   ANATOMICAL_TRIANGLE_COUNT,
   ANATOMICAL_VERTEX_COUNT,
-} from './anatomicalData';
+} from './anatomicalMeta';
+import { ANATOMICAL_POSITIONS } from './anatomicalPositions';
+import { ANATOMICAL_INDICES } from './anatomicalIndices';
+import { ANATOMICAL_SKIN_INDICES } from './anatomicalSkinIndices';
+import { ANATOMICAL_SKIN_WEIGHTS } from './anatomicalSkinWeights';
+import { ANATOMICAL_COLOURS } from './anatomicalColours';
 
 const decode = (encoded: string): Uint8Array => {
   const binary = atob(encoded);

@@ -6,6 +6,23 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Codex — 2026-09-09 — skin, eyes and clothing-seam preview
+
+- Replaced the grey teaching surface with a warm natural skin palette while
+  preserving the existing red/orange active-muscle overlay.
+- Rebuilt the eyes as visible sclera with separate brown irises and pupils,
+  slightly compressed vertically and positioned inside the existing sockets.
+  The eye surfaces remain part of the same head-skinned draw call.
+- Replaced interpolated vertex-colour clothing boundaries with geometric cuts
+  through triangles at the waist and mid-thigh. The resulting waistband and
+  hems are straight, share the body's skin binding and remain poseable without
+  grey fringes or saw-tooth triangle edges.
+- Preserved the approved head, shoulders, torso, legs, feet, grip, dumbbells and
+  bicep-curl motion. The generated mesh is 13,952 vertices and 27,460 triangles.
+
+The user approved the full-body and detail validation renders before commit.
+Verification: 122 tests pass; `npm run typecheck` and `npm run build` are clean.
+
 ### Codex — 2026-09-08 — approved shoulder and head refinement
 
 - Rounded and narrowed the raised, squared-off deltoid caps and introduced a

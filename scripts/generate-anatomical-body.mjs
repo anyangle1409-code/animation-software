@@ -225,10 +225,17 @@ const linearByte = (hex) => [...hex.matchAll(/[0-9a-f]{2}/gi)].map(([pair]) => {
   const linear = channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
   return Math.round(linear * 255);
 });
-const skin = linearByte('b9bec2');
+const skin = linearByte('c8a184');
 const shorts = linearByte('202226');
-const eye = linearByte('eceef0');
-const iris = linearByte('343a40');
+const eye = linearByte('f0e7dc');
+const iris = linearByte('5a4030');
+const pupil = linearByte('171413');
+const surface = new Array(originalIndices.length);
+const shortsEligible = new Array(originalIndices.length).fill(false);
+const eyeBounds = new Map([
+  ['helper-l-eye', { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity, maxZ: -Infinity }],
+  ['helper-r-eye', { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity, maxZ: -Infinity }],
+]);
 
 let unmappedVertices = 0;
 for (let compact = 0; compact < originalIndices.length; compact += 1) {
@@ -300,6 +307,14 @@ for (let compact = 0; compact < originalIndices.length; compact += 1) {
     targetPoint.x *= 1 + (headWidth - 1) * headWeight;
   }
 
+  // The eye helpers sit exactly against the socket in the source. After the
+  // rig conversion the lids can occlude them, making the face look hollow.
+  // Bring the complete eye forward slightly while keeping it inside the lids.
+  if (part === 'helper-l-eye' || part === 'helper-r-eye') {
+    targetPoint.y = 1.593 + (targetPoint.y - 1.593) * 0.62;
+    targetPoint.z += 0.012;
+  }
+
   // Refine the macro target into the lean V-shaped torso from the exercise
   // reference: a defined chest, a compact waist and natural hips. Blend the
   // sculpt by central-bone weight so the deltoid and hip seams stay continuous.
@@ -322,6 +337,14 @@ for (let compact = 0; compact < originalIndices.length; compact += 1) {
   if (targetPoint.y < 0.08) {
     targetPoint.y += 0.053 * Math.max(0, Math.min(1, (0.08 - targetPoint.y) / 0.133));
   }
+  if (eyeBounds.has(part)) {
+    const bounds = eyeBounds.get(part);
+    bounds.minX = Math.min(bounds.minX, targetPoint.x);
+    bounds.maxX = Math.max(bounds.maxX, targetPoint.x);
+    bounds.minY = Math.min(bounds.minY, targetPoint.y);
+    bounds.maxY = Math.max(bounds.maxY, targetPoint.y);
+    bounds.maxZ = Math.max(bounds.maxZ, targetPoint.z);
+  }
   positions.set(targetPoint.toArray(), compact * 3);
 
   // The app deliberately caps the coaching character at two influences. This
@@ -334,37 +357,159 @@ for (let compact = 0; compact < originalIndices.length; compact += 1) {
   }
 
   let colour = skin;
-  if (part === 'helper-l-eye' || part === 'helper-r-eye') colour = vertices[vertex][2] > 1.34 ? iris : eye;
-  else if (
+  let surfaceKind = 'skin';
+  if (part === 'helper-l-eye' || part === 'helper-r-eye') {
+    colour = eye;
+    surfaceKind = 'sclera';
+  } else if (
     targetPoint.y >= 0.76 && targetPoint.y <= 1.04 &&
     ['root', 'pelvis', 'spine_01', 'thigh_l', 'thigh_r'].includes(top[0][0])
-  ) colour = shorts;
+  ) {
+    colour = shorts;
+    surfaceKind = 'shorts';
+  }
+  shortsEligible[compact] = part === 'body' &&
+    ['root', 'pelvis', 'spine_01', 'thigh_l', 'thigh_r'].includes(top[0][0]);
   colours.set(colour, compact * 3);
+  surface[compact] = surfaceKind;
 }
 
+// Interpolating colour across a triangle made the waistband and hems look like
+// ragged grey wedges. Split only vertices on a surface-colour boundary so every
+// triangle has one colour and every seam follows a real mesh edge.
+const outputPositions = [];
+const outputColours = [];
+const outputSkinIndices = [];
+const outputSkinWeights = [];
 const indices = [];
+const outputVertex = new Map();
+const palette = { skin, shorts, sclera: eye, iris, pupil };
+const recordForCompact = (compact) => ({
+  key: `${compact}`,
+  position: [...positions.slice(compact * 3, compact * 3 + 3)],
+  indices: [...skinIndices.slice(compact * 4, compact * 4 + 4)],
+  weights: [...skinWeights.slice(compact * 4, compact * 4 + 4)],
+});
+const vertexForSurface = (record, kind) => {
+  const key = `${record.key}:${kind}`;
+  const existing = outputVertex.get(key);
+  if (existing !== undefined) return existing;
+  const index = outputPositions.length / 3;
+  outputVertex.set(key, index);
+  outputPositions.push(...record.position);
+  outputColours.push(...palette[kind]);
+  outputSkinIndices.push(...record.indices);
+  outputSkinWeights.push(...record.weights);
+  return index;
+};
+const intersection = (a, b, plane) => {
+  const t = (plane - a.position[1]) / (b.position[1] - a.position[1]);
+  const influence = new Map();
+  for (let slot = 0; slot < 4; slot += 1) {
+    influence.set(a.indices[slot], (influence.get(a.indices[slot]) ?? 0) + a.weights[slot] * (1 - t));
+    influence.set(b.indices[slot], (influence.get(b.indices[slot]) ?? 0) + b.weights[slot] * t);
+  }
+  const top = [...influence.entries()].sort((left, right) => right[1] - left[1]).slice(0, 2);
+  const total = top.reduce((sum, [, weight]) => sum + weight, 0) || 1;
+  const edge = [a.key, b.key].sort().join('|');
+  return {
+    key: `cut:${edge}:${plane}`,
+    position: a.position.map((value, axis) => value + (b.position[axis] - value) * t),
+    indices: [top[0][0], top[1]?.[0] ?? top[0][0], top[0][0], top[0][0]],
+    weights: [top[0][1] / total, (top[1]?.[1] ?? 0) / total, 0, 0],
+  };
+};
+const clipAt = (polygon, plane, keepAbove) => {
+  const result = [];
+  for (let index = 0; index < polygon.length; index += 1) {
+    const current = polygon[index];
+    const next = polygon[(index + 1) % polygon.length];
+    const currentInside = keepAbove ? current.position[1] >= plane : current.position[1] <= plane;
+    const nextInside = keepAbove ? next.position[1] >= plane : next.position[1] <= plane;
+    if (currentInside && nextInside) result.push(next);
+    else if (currentInside && !nextInside) result.push(intersection(current, next, plane));
+    else if (!currentInside && nextInside) result.push(intersection(current, next, plane), next);
+  }
+  return result;
+};
+const emitPolygon = (polygon, kind) => {
+  if (polygon.length < 3) return;
+  const mapped = polygon.map((record) => vertexForSurface(record, kind));
+  for (let index = 1; index < mapped.length - 1; index += 1) {
+    indices.push(mapped[0], mapped[index], mapped[index + 1]);
+  }
+};
+
 for (const face of faces) {
   if (face.length < 3) continue;
   // Mirroring X reverses winding.
   for (let i = 1; i < face.length - 1; i += 1) {
-    indices.push(compactIndex.get(face[0]), compactIndex.get(face[i + 1]), compactIndex.get(face[i]));
+    const triangle = [face[0], face[i + 1], face[i]];
+    const compact = triangle.map((vertex) => compactIndex.get(vertex));
+    const polygon = compact.map(recordForCompact);
+    const part = vertexGroup.get(triangle[0]);
+    if (part === 'helper-l-eye' || part === 'helper-r-eye') {
+      emitPolygon(polygon, 'sclera');
+    } else if (compact.filter((vertex) => shortsEligible[vertex]).length >= 2) {
+      const hem = 0.78;
+      const waist = 1.02;
+      emitPolygon(clipAt(polygon, hem, false), 'skin');
+      emitPolygon(clipAt(clipAt(polygon, hem, true), waist, false), 'shorts');
+      emitPolygon(clipAt(polygon, waist, true), 'skin');
+    } else {
+      emitPolygon(polygon, 'skin');
+    }
   }
 }
+
+// The source helper is a single eyeball surface, so colouring its front rings
+// turns the entire eyelid opening dark. Add compact iris and pupil discs just
+// above the sclera instead. They share the head binding and remain one draw.
+const headIndex = canonicalIndex.get('head');
+const addEyeDisc = (centreX, centreY, z, radiusX, radiusY, kind, detail = 16) => {
+  const append = (x, y) => {
+    const index = outputPositions.length / 3;
+    outputPositions.push(x, y, z);
+    outputColours.push(...palette[kind]);
+    outputSkinIndices.push(headIndex, headIndex, headIndex, headIndex);
+    outputSkinWeights.push(1, 0, 0, 0);
+    return index;
+  };
+  const centre = append(centreX, centreY);
+  const rim = Array.from({ length: detail }, (_, index) => {
+    const angle = (index / detail) * Math.PI * 2;
+    return append(centreX + Math.cos(angle) * radiusX, centreY + Math.sin(angle) * radiusY);
+  });
+  for (let index = 0; index < detail; index += 1) {
+    indices.push(centre, rim[index], rim[(index + 1) % detail]);
+  }
+};
+for (const bounds of eyeBounds.values()) {
+  const centreX = (bounds.minX + bounds.maxX) / 2;
+  const centreY = (bounds.minY + bounds.maxY) / 2;
+  addEyeDisc(centreX, centreY, bounds.maxZ + 0.0008, 0.010, 0.009, 'iris');
+  addEyeDisc(centreX, centreY, bounds.maxZ + 0.0012, 0.0042, 0.0042, 'pupil');
+}
+
+const finalPositions = new Float32Array(outputPositions);
+const finalColours = new Uint8Array(outputColours);
+const finalSkinIndices = new Uint16Array(outputSkinIndices);
+const finalSkinWeights = new Float32Array(outputSkinWeights);
 
 const encode = (array) => Buffer.from(array.buffer).toString('base64');
 const destination = `${project}/src/body`;
 const generated = '// Generated from MakeHuman CC0 assets. See THIRD_PARTY_ASSETS.md.\n';
 fs.writeFileSync(`${destination}/anatomicalMeta.ts`, generated +
-  `export const ANATOMICAL_VERTEX_COUNT = ${originalIndices.length};\n` +
+  `export const ANATOMICAL_VERTEX_COUNT = ${finalPositions.length / 3};\n` +
   `export const ANATOMICAL_TRIANGLE_COUNT = ${indices.length / 3};\n`);
 fs.writeFileSync(`${destination}/anatomicalPositions.ts`, generated +
-  `export const ANATOMICAL_POSITIONS = '${encode(positions)}';\n`);
+  `export const ANATOMICAL_POSITIONS = '${encode(finalPositions)}';\n`);
 fs.writeFileSync(`${destination}/anatomicalIndices.ts`, generated +
   `export const ANATOMICAL_INDICES = '${encode(new Uint16Array(indices))}';\n`);
 fs.writeFileSync(`${destination}/anatomicalSkinIndices.ts`, generated +
-  `export const ANATOMICAL_SKIN_INDICES = '${encode(skinIndices)}';\n`);
+  `export const ANATOMICAL_SKIN_INDICES = '${encode(finalSkinIndices)}';\n`);
 fs.writeFileSync(`${destination}/anatomicalSkinWeights.ts`, generated +
-  `export const ANATOMICAL_SKIN_WEIGHTS = '${encode(skinWeights)}';\n`);
+  `export const ANATOMICAL_SKIN_WEIGHTS = '${encode(finalSkinWeights)}';\n`);
 fs.writeFileSync(`${destination}/anatomicalColours.ts`, generated +
-  `export const ANATOMICAL_COLOURS = '${encode(colours)}';\n`);
-console.log({ vertices: originalIndices.length, triangles: indices.length / 3, unmappedVertices, scale });
+  `export const ANATOMICAL_COLOURS = '${encode(finalColours)}';\n`);
+console.log({ vertices: finalPositions.length / 3, triangles: indices.length / 3, unmappedVertices, scale });

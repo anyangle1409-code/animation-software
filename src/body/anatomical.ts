@@ -10,10 +10,11 @@ import { ANATOMICAL_SKIN_WEIGHTS } from './anatomicalSkinWeights';
 import type { BodyGeometry } from './mesh';
 
 export const ANATOMICAL_PALETTE = {
-  skin: '#b9bec2',
+  skin: '#c8a184',
   shorts: '#202226',
-  sclera: '#eceef0',
-  iris: '#343a40',
+  sclera: '#f0e7dc',
+  iris: '#5a4030',
+  pupil: '#171413',
 } as const;
 
 const bytes = (encoded: string): Uint8Array => {

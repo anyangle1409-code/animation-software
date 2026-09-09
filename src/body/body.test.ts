@@ -197,20 +197,25 @@ describe('body mesh', () => {
   it('has eyes in its head', () => {
     const sclera = new Color(ANATOMICAL_PALETTE.sclera);
     const iris = new Color(ANATOMICAL_PALETTE.iris);
+    const pupil = new Color(ANATOMICAL_PALETTE.pupil);
     const colour = geometry.getAttribute('color');
-    const seen = { sclera: 0, iris: 0 };
+    const seen = { sclera: 0, iris: 0, pupil: 0 };
     for (let index = 0; index < colour.count; index += 1) {
       const isSclera = matches(colour, index, sclera);
       const isIris = matches(colour, index, iris);
+      const isPupil = matches(colour, index, pupil);
       if (isSclera) seen.sclera += 1;
       if (isIris) seen.iris += 1;
-      if (!isSclera && !isIris) continue;
+      if (isPupil) seen.pupil += 1;
+      if (!isSclera && !isIris && !isPupil) continue;
       // Both sit in the head, above the shoulders and in front of the ears.
       expect(position.getY(index)).toBeGreaterThan(1.55);
       expect(position.getZ(index)).toBeGreaterThan(0.05);
     }
     expect(seen.sclera).toBeGreaterThan(40);
-    expect(seen.iris).toBeGreaterThan(40);
+    expect(seen.sclera).toBeGreaterThan(seen.iris);
+    expect(seen.iris).toBeGreaterThan(20);
+    expect(seen.pupil).toBeGreaterThan(20);
     expect(ownerOf(0)).toBeDefined();
   });
 

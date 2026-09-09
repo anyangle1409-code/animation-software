@@ -3,7 +3,7 @@ import { Grid, OrbitControls, TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { BACKDROPS, currentAnchors, skeleton, useStudio } from '../editor/store';
+import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
@@ -213,8 +213,15 @@ function Figure() {
       {(viewMode === 'skeleton' || viewMode === 'combined') && (
         <SkeletonView ghosted={viewMode === 'combined'} />
       )}
-      {(viewMode === 'muscles' || viewMode === 'combined') && <MuscleView />}
+      {showsMuscleBellies(viewMode) && <MuscleView />}
       {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <MannequinView />)}
+      {/*
+        The anatomy view is one continuous surface and nothing else: the muscle
+        bellies are never mounted beside it, at any activation, because a
+        balloon floating inside the arm is exactly what this view exists to
+        replace.
+      */}
+      {viewMode === 'anatomy' && <MannequinView variant="ecorche" />}
       {viewMode === 'muscles' && (
         <MannequinView opacity={0.24} depthWrite={false} />
       )}
@@ -240,25 +247,33 @@ export function Viewport() {
         onPointerMissed={() => selectBone(null)}
       >
         <color attach="background" args={[backdrop.background]} />
-        <hemisphereLight intensity={0.62} groundColor={backdrop.ground} color="#f0f4fb" />
+        <hemisphereLight
+          intensity={backdrop.lighting.ambient}
+          groundColor={backdrop.ground}
+          color="#f0f4fb"
+        />
         <directionalLight
           position={[3, 5, 4]}
-          intensity={1.5}
-          castShadow
+          intensity={backdrop.lighting.key}
+          castShadow={!backdrop.floorless}
           shadow-mapSize={[1024, 1024]}
           shadow-camera-left={-3}
           shadow-camera-right={3}
           shadow-camera-top={3}
           shadow-camera-bottom={-3}
         />
-        <directionalLight position={[-3, 2.5, -2]} intensity={0.45} color="#9fc4ff" />
+        <directionalLight
+          position={[-3, 2.5, -2]}
+          intensity={backdrop.lighting.rim}
+          color={backdrop.lighting.rimColour}
+        />
 
         <FrameDriver />
         <Figure />
         <Gizmo />
         <HandleGizmo />
 
-        {showGrid && (
+        {showGrid && !backdrop.floorless && (
           <Grid
             args={[12, 12]}
             cellSize={0.25}
@@ -270,10 +285,12 @@ export function Viewport() {
             position={[0, 0.001, 0]}
           />
         )}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[24, 24]} />
-          <meshStandardMaterial color={backdrop.ground} roughness={0.95} />
-        </mesh>
+        {!backdrop.floorless && (
+          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+            <planeGeometry args={[24, 24]} />
+            <meshStandardMaterial color={backdrop.ground} roughness={0.95} />
+          </mesh>
+        )}
 
         <OrbitControls
           ref={controls}

@@ -4,6 +4,7 @@ import {
   Skeleton as ThreeSkeleton,
   SkinnedMesh,
 } from 'three';
+import type { BufferGeometry, Material } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -20,6 +21,15 @@ export interface BuiltRig {
 export const MANNEQUIN_NAME = 'HGPT_Mannequin';
 
 /**
+ * A different surface on the same bones — the anatomy view swaps both, and
+ * nothing else does. Omitting them gives the character the exporter writes.
+ */
+export interface SkinnedRigOptions {
+  geometry?: BufferGeometry;
+  material?: Material;
+}
+
+/**
  * Build the character: a bone hierarchy matching the canonical skeleton, and
  * one skinned body bound to it.
  *
@@ -27,7 +37,10 @@ export const MANNEQUIN_NAME = 'HGPT_Mannequin';
  * figure on screen is the figure in the exported file — there is no second,
  * drifting copy of the character.
  */
-export function buildSkinnedRig(rig: Skeleton = canonicalSkeleton): BuiltRig {
+export function buildSkinnedRig(
+  rig: Skeleton = canonicalSkeleton,
+  options: SkinnedRigOptions = {},
+): BuiltRig {
   const bones: Bone[] = [];
   const boneByName = new Map<BoneName, Bone>();
 
@@ -44,8 +57,9 @@ export function buildSkinnedRig(rig: Skeleton = canonicalSkeleton): BuiltRig {
   const root = boneByName.get(rig.bones[0].name)!;
   root.updateMatrixWorld(true);
 
-  const { geometry } = buildBodyGeometry(rig);
-  const mesh = new SkinnedMesh(geometry, new MeshStandardMaterial({ ...BODY_MATERIAL }));
+  const geometry = options.geometry ?? buildBodyGeometry(rig).geometry;
+  const material = options.material ?? new MeshStandardMaterial({ ...BODY_MATERIAL });
+  const mesh = new SkinnedMesh(geometry, material);
   mesh.name = MANNEQUIN_NAME;
   mesh.castShadow = true;
   mesh.receiveShadow = true;

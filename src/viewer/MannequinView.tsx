@@ -2,9 +2,21 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import { Euler, Matrix4, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
 import { EULER_ORDER } from '../rig/types';
-import { skeleton } from '../editor/store';
+import { skeleton, useStudio } from '../editor/store';
 import { buildSkinnedRig } from '../body/skin';
+import { applyActivation, buildEcorcheGeometry, createEcorcheMaterial } from '../body/ecorche';
+import { applyElbowCorrective, buildElbowCorrective, elbowFlexion } from '../body/elbow';
+
+/**
+ * On. The widened skin blend rounds the crease but leaves the inside of the
+ * elbow passing through itself at high flexion, so the pose-space correction is
+ * carrying that part.
+ */
+const ELBOW_CORRECTIVE = true;
 import { useSceneState } from './sceneState';
+
+/** The character's own surface, or the same body read as an écorché. */
+export type BodyVariant = 'skin' | 'ecorche';
 
 export interface MannequinViewProps {
   opacity?: number;
@@ -15,6 +27,7 @@ export interface MannequinViewProps {
    * which is the one thing the muscle view exists to show.
    */
   depthWrite?: boolean;
+  variant?: BodyVariant;
 }
 
 const UNIT = new Vector3(1, 1, 1);
@@ -31,9 +44,35 @@ export function MannequinView({
   opacity = 1,
   colour = '#ffffff',
   depthWrite = true,
+  variant = 'skin',
 }: MannequinViewProps) {
   const scene = useSceneState();
-  const rig = useMemo(() => buildSkinnedRig(skeleton), []);
+  const involvement = useStudio((state) => state.document.exercise.muscles);
+  const rig = useMemo(
+    () =>
+      variant === 'ecorche'
+        ? buildSkinnedRig(skeleton, {
+            geometry: buildEcorcheGeometry(skeleton),
+            material: createEcorcheMaterial(),
+          })
+        : buildSkinnedRig(skeleton),
+    [variant],
+  );
+
+  // Which muscles the exercise works is data, and it can change under the view,
+  // so the scalar the shader reads is rebuilt rather than baked once.
+  useEffect(() => {
+    if (variant !== 'ecorche') return;
+    applyActivation(rig.mesh.geometry, involvement);
+  }, [rig, variant, involvement]);
+
+  // The elbow correction is bind-pose data, so it belongs to the geometry and is
+  // rebuilt only when the geometry is.
+  const elbow = useMemo(
+    () => (variant === 'ecorche' && ELBOW_CORRECTIVE ? buildElbowCorrective(rig.mesh.geometry, skeleton) : null),
+    [rig, variant],
+  );
+  const flexion = useMemo<[number, number]>(() => [-1, -1], [elbow]);
 
   const scratch = useMemo(
     () => ({
@@ -66,6 +105,18 @@ export function MannequinView({
   useFrame(() => {
     const pose = scene.frame?.pose;
     if (!pose) return;
+
+    if (elbow) {
+      const left = elbowFlexion(scene.evaluation, 'l');
+      const right = elbowFlexion(scene.evaluation, 'r');
+      // Rewriting the bind pose uploads a buffer, so only do it when the angle
+      // has actually moved.
+      if (Math.abs(left - flexion[0]) > 0.002 || Math.abs(right - flexion[1]) > 0.002) {
+        flexion[0] = left;
+        flexion[1] = right;
+        applyElbowCorrective(rig.mesh.geometry, elbow, flexion);
+      }
+    }
 
     for (const rigBone of skeleton.bones) {
       const bone = rig.boneByName.get(rigBone.name);

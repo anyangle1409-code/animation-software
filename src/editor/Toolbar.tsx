@@ -9,6 +9,7 @@ const VIEW_MODES: { id: ViewMode; label: string }[] = [
   { id: 'muscles', label: 'Muscles' },
   { id: 'combined', label: 'Combined' },
   { id: 'character', label: 'Character' },
+  { id: 'anatomy', label: 'Anatomy' },
 ];
 
 export function Toolbar() {
@@ -62,6 +63,7 @@ export function Toolbar() {
         <select value={backdrop} onChange={(event) => setBackdrop(event.target.value as never)}>
           <option value="studio">Studio</option>
           <option value="light">Light</option>
+          <option value="void">Void</option>
         </select>
       </label>
 

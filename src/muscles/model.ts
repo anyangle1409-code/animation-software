@@ -254,7 +254,7 @@ const mirrorOffset = (offset: Vec3): Vec3 => vec3(-offset.x, offset.y, offset.z)
 const mirrorBone = (bone: BoneName): BoneName =>
   bone.endsWith('_l') ? (`${bone.slice(0, -2)}_r` as BoneName) : bone;
 
-function mirrorMuscle(muscle: MuscleDefinition): MuscleDefinition {
+export function mirrorMuscle(muscle: MuscleDefinition): MuscleDefinition {
   return {
     ...muscle,
     ...(muscle.outward ? { outward: mirrorOffset(muscle.outward) } : {}),
@@ -277,36 +277,46 @@ export interface MuscleInstance extends MuscleDefinition {
   fitBones: ReadonlySet<string>;
 }
 
-function build(): MuscleInstance[] {
-  const evaluation = new PoseEvaluation(canonicalSkeleton).apply(restPose());
-  const origin = new Vector3();
-  const insertion = new Vector3();
+const restScratch = { origin: new Vector3(), insertion: new Vector3() };
+let restEvaluation: PoseEvaluation | undefined;
 
-  const withRest = (muscle: MuscleDefinition, side: Side | null): MuscleInstance => {
-    evaluation.localToWorld(muscle.origin.bone, muscle.origin.offset, origin);
-    evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertion);
-    const authored = muscle.outward ?? vec3(muscle.origin.offset.x, 0, muscle.origin.offset.z);
-    const outwardAxis = new Vector3(authored.x, authored.y, authored.z);
-    if (outwardAxis.lengthSq() < 1e-8) outwardAxis.set(0, 0, 1);
-    const bones = new Set<string>([muscle.origin.bone, muscle.insertion.bone]);
-    for (const bone of [muscle.origin.bone, muscle.insertion.bone]) {
-      const parent = canonicalSkeleton.bone(bone).parent;
-      if (parent && parent !== 'root') bones.add(parent);
-    }
-    return {
-      ...muscle,
-      id: side ? `${muscle.group}_${side}` : muscle.group,
-      side,
-      restLength: Math.max(0.02, origin.distanceTo(insertion)),
-      outwardAxis: outwardAxis.normalize(),
-      fitBones: bones,
-    };
+/**
+ * Place a definition on the rest skeleton and measure the things that only have
+ * to be worked out once: its rest length, its outward axis and the bones its
+ * belly is fitted against.
+ *
+ * Exported because the anatomy view builds shape-only bellies of its own — a
+ * brachialis, a brachioradialis — which must be fitted by exactly this
+ * machinery without joining `MUSCLES` and appearing as overlay balloons.
+ */
+export function muscleInstance(muscle: MuscleDefinition, side: Side | null): MuscleInstance {
+  const evaluation = (restEvaluation ??= new PoseEvaluation(canonicalSkeleton).apply(restPose()));
+  const { origin, insertion } = restScratch;
+  evaluation.localToWorld(muscle.origin.bone, muscle.origin.offset, origin);
+  evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertion);
+  const authored = muscle.outward ?? vec3(muscle.origin.offset.x, 0, muscle.origin.offset.z);
+  const outwardAxis = new Vector3(authored.x, authored.y, authored.z);
+  if (outwardAxis.lengthSq() < 1e-8) outwardAxis.set(0, 0, 1);
+  const bones = new Set<string>([muscle.origin.bone, muscle.insertion.bone]);
+  for (const bone of [muscle.origin.bone, muscle.insertion.bone]) {
+    const parent = canonicalSkeleton.bone(bone).parent;
+    if (parent && parent !== 'root') bones.add(parent);
+  }
+  return {
+    ...muscle,
+    id: side ? `${muscle.group}_${side}` : muscle.group,
+    side,
+    restLength: Math.max(0.02, origin.distanceTo(insertion)),
+    outwardAxis: outwardAxis.normalize(),
+    fitBones: bones,
   };
+}
 
+function build(): MuscleInstance[] {
   return [
-    ...LEFT_MUSCLES.map((muscle) => withRest(muscle, 'l')),
-    ...LEFT_MUSCLES.map((muscle) => withRest(mirrorMuscle(muscle), 'r')),
-    ...CENTRE_MUSCLES.map((muscle) => withRest(muscle, null)),
+    ...LEFT_MUSCLES.map((muscle) => muscleInstance(muscle, 'l')),
+    ...LEFT_MUSCLES.map((muscle) => muscleInstance(mirrorMuscle(muscle), 'r')),
+    ...CENTRE_MUSCLES.map((muscle) => muscleInstance(muscle, null)),
   ];
 }
 

@@ -6,6 +6,50 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-09 — Anatomy view: sculpted arm and elbow deformation
+
+Adds a fifth view mode, `Anatomy`, beside Skeleton / Muscles / Combined /
+Character. It renders the same skinned body as a greyscale écorché on a black
+stage. Nothing in this entry changes the Character view, the muscle overlay, the
+exercise definitions, the rig, the IK, the grip, the animation timing or the GLB
+export; the anatomy geometry is built separately and the character's own surface
+is asserted bit-identical before and after.
+
+- **Muscle relief from the existing model.** Each belly in `muscles/model.ts` is
+  read as a continuous 0–1 field over the bind-pose surface and used to displace
+  it along its own normals, so a muscle is form rather than colour. Nine fields:
+  three deltoid heads, biceps, triceps, forearm flexors and extensors, plus a
+  brachialis and a brachioradialis that exist in `body/ecorche.ts` as shape only
+  — no group id, no activation row, never a belly in the overlay. Peak relief is
+  13.0 mm and the mean is 4.1 mm over 1,062 vertices.
+- **Arm surface settling.** The source mesh carries a horizontal band across the
+  upper arm, visible in Character mode too, which made the relief read as bulges
+  stacked on a segmented tube. A few weight-limited Laplacian passes over the arm
+  region remove it. Mesh seams are welded for the purpose so a split vertex ring
+  does not shade like an edge.
+- **Elbow skin blend.** The character hands the humerus over to the forearm
+  across roughly 40 mm on one side of the joint and 20 mm on the other, which
+  deforms like a hinge between two tubes. Anatomy mode redistributes that pair's
+  share on a smooth ramp, symmetric and ±50 mm.
+- **Elbow pose corrective.** A bind-space offset scaled by elbow flexion, driven
+  by `4·s·(1−s)` on the forearm's weight share — strongest where blend skinning
+  actually collapses. Exactly zero at extension, so the clip still loops;
+  symmetric left to right; bounded at 25 mm.
+- **Activation colour is built and held at zero.** `ECORCHE_GREYSCALE` keeps the
+  view in grey while the anatomy is being judged. The per-group field, the
+  shader hook and the border threshold all still work.
+- **Local refinement is written and switched off.** `body/refine.ts` does
+  red-green subdivision of a named region with interpolated skin weights. A
+  triangle-by-triangle audit showed most high-flexion surface contact is the
+  upper arm meeting the forearm rather than elbow-ring density, so it is not used
+  here. The note at the top of `body/elbow.ts` records what was measured and why
+  the remaining contact was accepted.
+
+The user approved each stage from rendered previews before this checkpoint, and
+approved the elbow result explicitly. Verification: 137 tests pass — the
+repository's own 122 unmodified, plus 15 for the anatomy build — and
+`npm run typecheck` and `npm run build` are clean.
+
 ### Codex — 2026-09-09 — skin, eyes and clothing-seam preview
 
 - Replaced the grey teaching surface with a warm natural skin palette while

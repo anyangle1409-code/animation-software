@@ -25,27 +25,78 @@ import { emptyHistory, pushHistory, redo, undo } from './history';
 import type { History } from './history';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 
-export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character';
+export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character' | 'anatomy';
+
+/**
+ * Which modes draw the muscle bellies as separate meshes. The anatomy view is
+ * deliberately not one of them: it is a single continuous surface, and a belly
+ * floating inside the arm is the thing it exists to replace.
+ */
+export const showsMuscleBellies = (mode: ViewMode): boolean =>
+  mode === 'muscles' || mode === 'combined';
 
 /**
  * The studio's own dark stage, or a clean light one. The light backdrop is what
  * app-facing captures use, so a demonstration frame does not arrive in Home Gym
  * PT with the editor's chrome colours behind it.
  */
-export type Backdrop = 'studio' | 'light';
+export type Backdrop = 'studio' | 'light' | 'void';
 
 export interface BackdropStyle {
   background: string;
   ground: string;
   cell: string;
   section: string;
+  /**
+   * A stage with no floor at all: no grid, no ground plane, no cast shadow, so
+   * the figure is the only thing in frame. This is what the anatomy view is
+   * meant to be seen on.
+   */
+  floorless?: boolean;
+  /**
+   * The stage's own lighting. It belongs to the backdrop rather than to the
+   * viewport, because a figure lit for a bright room reads flat against black —
+   * relief on an unlit stage has to come from the key and the rim.
+   */
+  lighting: {
+    ambient: number;
+    key: number;
+    rim: number;
+    rimColour: string;
+  };
 }
 
+const WORKING_LIGHT = { ambient: 0.62, key: 1.5, rim: 0.45, rimColour: '#9fc4ff' };
+
 export const BACKDROPS: Record<Backdrop, BackdropStyle> = {
-  studio: { background: '#12151a', ground: '#171b21', cell: '#2a313c', section: '#3d4756' },
+  studio: {
+    background: '#12151a',
+    ground: '#171b21',
+    cell: '#2a313c',
+    section: '#3d4756',
+    lighting: WORKING_LIGHT,
+  },
   // The ground matches the background, so a capture has no horizon line across
   // it — only the figure and its shadow.
-  light: { background: '#eef1f5', ground: '#eef1f5', cell: '#e1e6ed', section: '#d5dce6' },
+  light: {
+    background: '#eef1f5',
+    ground: '#eef1f5',
+    cell: '#e1e6ed',
+    section: '#d5dce6',
+    lighting: WORKING_LIGHT,
+  },
+  void: {
+    background: '#000000',
+    ground: '#000000',
+    cell: '#000000',
+    section: '#000000',
+    floorless: true,
+    // Low ambient and a strong rim: on black, the edge light is what separates
+    // the figure from the background and what makes muscle relief legible. The
+    // ambient is nonetheless lifted off the floor, because at 0.14 a recess as
+    // deep as an eye socket goes to pure black and reads as a hole in the head.
+    lighting: { ambient: 0.24, key: 1.7, rim: 1.0, rimColour: '#cfd8e6' },
+  },
 };
 
 /** Everything an undo step restores. Selection and playback are deliberately outside. */

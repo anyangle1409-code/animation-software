@@ -160,8 +160,15 @@ const ECORCHE_BYTES: Record<PalettePart, [number, number, number]> = {
 
 /**
  * Restate the body's colours in the écorché palette. Flesh becomes muscle grey;
- * clothing, sclera, iris and pupil keep their role. A colour that matches
- * nothing is left as it is rather than guessed at.
+ * hair, clothing, sclera, iris and pupil keep their role.
+ *
+ * The character's hairline is painted as a blend from skin to hair across the
+ * band the cut fades over, so the surface carries colours that are no palette
+ * entry exactly. Those are restated as the entry they are nearest to: this view
+ * is a *restatement* of the body into six roles, and a vertex two thirds of the
+ * way into the hair belongs to the hair. Leaving them unmatched instead let the
+ * character's skin tone through into the anatomy view, which is what put an
+ * orange cast on the scalp.
  */
 export function ecorcheColours(geometry: BufferGeometry): Uint8Array {
   const colour = geometry.getAttribute('color');
@@ -170,12 +177,21 @@ export function ecorcheColours(geometry: BufferGeometry): Uint8Array {
     const r = Math.round(colour.getX(index) * 255);
     const g = Math.round(colour.getY(index) * 255);
     const b = Math.round(colour.getZ(index) * 255);
+
     let replacement: [number, number, number] = [r, g, b];
+    let nearest = Infinity;
     for (const part of PALETTE_PARTS) {
       const [sr, sg, sb] = SOURCE_BYTES[part];
-      if (Math.abs(r - sr) <= 1 && Math.abs(g - sg) <= 1 && Math.abs(b - sb) <= 1) {
+      const distance = (r - sr) ** 2 + (g - sg) ** 2 + (b - sb) ** 2;
+      if (distance <= 3) {
+        // An exact match, give or take the rounding either side.
         replacement = ECORCHE_BYTES[part];
+        nearest = 0;
         break;
+      }
+      if (distance < nearest) {
+        nearest = distance;
+        replacement = ECORCHE_BYTES[part];
       }
     }
     out.set(replacement, index * 3);

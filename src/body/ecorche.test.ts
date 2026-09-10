@@ -23,6 +23,7 @@ import {
   ECORCHE_GROUPS,
   ECORCHE_SAFE_MAX,
   ECORCHE_SAFE_MOVE,
+  ECORCHE_PALETTE,
   ECORCHE_UNMAPPED,
   applyActivation,
   blendedSkinMatrix,
@@ -510,8 +511,23 @@ describe('the anatomy view', () => {
     for (let index = 0; index < colours.length; index += 3) {
       distinct.add(`${colours[index]},${colours[index + 1]},${colours[index + 2]}`);
     }
-    // Muscle, clothing, sclera, iris and pupil: the same five parts the
-    // character has, restated rather than reduced.
-    expect(distinct.size).toBe(5);
+    // Muscle, hair, clothing, sclera, iris and pupil: the same six parts the
+    // character has, restated rather than reduced. Every vertex lands on one of
+    // them — including the graded hairline, which has no exact palette colour
+    // and must still be restated rather than left as skin.
+    expect(distinct.size).toBe(6);
+    const palette = new Set(
+      Object.values(ECORCHE_PALETTE).map((hex) => {
+        const value = Number.parseInt(hex.slice(1), 16);
+        return [16, 8, 0]
+          .map((shift) => {
+            const channel = ((value >> shift) & 255) / 255;
+            const linear = channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+            return Math.round(linear * 255);
+          })
+          .join(',');
+      }),
+    );
+    for (const entry of distinct) expect(palette.has(entry), entry).toBe(true);
   });
 });

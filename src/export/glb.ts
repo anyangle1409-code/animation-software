@@ -11,8 +11,9 @@ import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { equipmentSocket } from '../equipment/library';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
-import { buildEquipmentObject, buildSkinnedRig } from './rigBuilder';
-import type { ShoulderCorrective } from '../body/shoulder';
+import { buildEquipmentObject } from './rigBuilder';
+import { characterSource } from '../character';
+import type { CharacterSource } from '../character';
 
 export interface GlbExportOptions {
   /** Sampling rate for the baked clip. */
@@ -24,6 +25,12 @@ export interface GlbExportOptions {
    * can share one downloaded character instead of duplicating the whole mesh.
    */
   clipOnly?: boolean;
+  /**
+   * Which character to write. Defaults to the registered default, so the
+   * exported file is the character the studio is showing rather than a
+   * hard-wired mesh.
+   */
+  character?: CharacterSource | string;
 }
 
 /**
@@ -39,24 +46,24 @@ export async function exportGlb(
   options: GlbExportOptions = {},
 ): Promise<Blob> {
   const { includeEquipment = true, clipOnly = false } = options;
-  const rig = buildSkinnedRig(canonicalSkeleton);
-  // The mesh carries the shoulder correctives as morph targets; the clip has to
-  // carry their weights, or the exported animation deforms differently from the
-  // studio wherever an arm is raised.
-  const shoulders = rig.mesh.geometry.userData.shoulders as ShoulderCorrective[] | undefined;
+  const source =
+    typeof options.character === 'object' ? options.character : characterSource(options.character);
+  const character = await source.build(canonicalSkeleton);
+  // Whatever the character's deformation stack does beyond posing bones —
+  // morph-target correctives, most of it — has to be baked in as well, or the
+  // exported animation deforms differently from the studio.
   const baked = bakeClip(studioClip, canonicalSkeleton, {
     fps: options.fps,
-    shoulders: clipOnly ? [] : shoulders,
-    mesh: rig.mesh.name,
+    deformation: clipOnly ? null : character.deformation?.sampler?.() ?? null,
   });
 
   const scene = new Group();
   scene.name = exercise.clipName;
 
   if (clipOnly) {
-    scene.add(rig.root);
+    scene.add(character.root);
   } else {
-    scene.add(rig.mesh);
+    scene.add(character.object);
   }
 
   const animations = [baked.clip];
@@ -70,7 +77,9 @@ export async function exportGlb(
       if (instance.attachment.mode === 'hand') {
         // Rigidly parented to the hand bone: no extra animation needed, and the
         // attachment stays exact in whatever engine plays the file.
-        const hand = rig.boneByName.get(instance.attachment.side === 'l' ? 'hand_l' : 'hand_r');
+        // The bones are canonical whatever surface is on them, so a hand-held
+        // item attaches the same way for every character.
+        const hand = character.boneByName.get(instance.attachment.side === 'l' ? 'hand_l' : 'hand_r');
         const socket = equipmentSocket(instance.kind, instance.attachment.socket);
         const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
         const matrix = handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 });

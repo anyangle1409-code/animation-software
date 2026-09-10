@@ -3,12 +3,12 @@ import {
   Euler,
   InterpolateLinear,
   Matrix4,
-  NumberKeyframeTrack,
   Quaternion,
   QuaternionKeyframeTrack,
   Vector3,
   VectorKeyframeTrack,
 } from 'three';
+import type { KeyframeTrack } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -17,8 +17,8 @@ import type { StudioClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { sampleClip } from '../animation/clip';
 import { lockAnchors } from '../constraints/locks';
-import { shoulderInfluences } from '../body/shoulder';
-import type { ShoulderCorrective } from '../body/shoulder';
+import type { DeformationSampler } from '../character/types';
+import { compressTrack } from './tracks';
 
 export interface BakedClip {
   clip: AnimationClip;
@@ -41,7 +41,7 @@ export interface BakedClip {
 export function bakeClip(
   studioClip: StudioClip,
   rig: Skeleton = canonicalSkeleton,
-  options: { fps?: number; shoulders?: ShoulderCorrective[]; mesh?: string } = {},
+  options: { fps?: number; deformation?: DeformationSampler | null } = {},
 ): BakedClip {
   const fps = options.fps ?? studioClip.fps;
   const evaluation = new PoseEvaluation(rig);
@@ -61,14 +61,10 @@ export function bakeClip(
   const localQuaternion = new Quaternion();
   const poseQuaternion = new Quaternion();
   const euler = new Euler(0, 0, 0, EULER_ORDER);
-  // The shoulder correctives ride along as morph-target weights, sampled from
-  // the same pose the bones are sampled from and by the same function the
-  // viewport uses. Without them the exported file would deform differently from
-  // the studio at every raised arm.
-  const shoulders = options.shoulders ?? [];
-  const morphTracks = new Map<number, number[]>();
-  const morphScratch: number[] = [];
-  const morphDelta = new Quaternion();
+  // Whatever the character's own deformation stack does per frame beyond
+  // posing bones — morph-target correctives, most of it — is sampled from the
+  // same poses, so the exported file deforms the way the studio does.
+  const deformation = options.deformation ?? null;
 
   for (let index = 0; index <= frameCount; index += 1) {
     // The final sample lands exactly on the loop point rather than near it.
@@ -77,16 +73,7 @@ export function bakeClip(
 
     const frame = resolveFrame(rig, evaluation, studioClip, time, { anchors });
 
-    for (const corrective of shoulders) {
-      const rotation = frame.pose.rotations[corrective.bone];
-      euler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
-      shoulderInfluences(corrective, morphDelta.setFromEuler(euler), morphScratch);
-      corrective.targets.forEach((target, slot) => {
-        const track = morphTracks.get(target) ?? [];
-        track.push(morphScratch[slot]);
-        morphTracks.set(target, track);
-      });
-    }
+    deformation?.sample(frame.pose);
 
     for (const bone of rig.bones) {
       const rotation = frame.pose.rotations[bone.name];
@@ -128,7 +115,7 @@ export function bakeClip(
     }
   }
 
-  const tracks: (QuaternionKeyframeTrack | VectorKeyframeTrack | NumberKeyframeTrack)[] = [];
+  const tracks: KeyframeTrack[] = [];
   const loopTimes = [times[0], times[times.length - 1]];
 
   for (const bone of rig.bones) {
@@ -164,18 +151,7 @@ export function bakeClip(
     );
   }
 
-  for (const [target, values] of [...morphTracks].sort((one, two) => one[0] - two[0])) {
-    const compressed = compressTrack(values, 1, [0]);
-    if (!compressed) continue;
-    tracks.push(
-      new NumberKeyframeTrack(
-        `${options.mesh ?? 'HGPT_Mannequin'}.morphTargetInfluences[${target}]`,
-        compressed.constant ? loopTimes : times,
-        compressed.values,
-        InterpolateLinear,
-      ),
-    );
-  }
+  if (deformation) tracks.push(...deformation.tracks(times));
 
   const clip = new AnimationClip(studioClip.name, studioClip.duration, tracks);
   // A stable id keeps repeated exports byte-identical, which makes the output
@@ -183,42 +159,6 @@ export function bakeClip(
   // types the field as read-only, but it is a plain assignable property.
   (clip as { uuid: string }).uuid = `hgpt-clip-${studioClip.name}`;
   return { clip, equipmentTracks, times, fps };
-}
-
-interface CompressedTrack {
-  values: number[];
-  constant: boolean;
-}
-
-/**
- * Shrink a sampled track.
- *
- * A track that never changes is reduced to two keys — but only dropped
- * altogether when its constant value is the bone's rest value. Dropping a
- * constant track that differs from rest would silently reset the bone: a
- * planted foot, a closed grip or a set stance would all snap back on export.
- */
-function compressTrack(
-  values: number[],
-  stride: number,
-  restValue: number[],
-): CompressedTrack | null {
-  if (values.length < stride) return null;
-  if (!isStatic(values, stride)) return { values, constant: false };
-
-  const first = values.slice(0, stride);
-  const atRest = first.every((value, index) => Math.abs(value - restValue[index]) < 1e-6);
-  if (atRest) return null;
-  return { values: [...first, ...first], constant: true };
-}
-
-/** True when every sample of a track is the same, so the track can be dropped. */
-function isStatic(values: number[], stride: number): boolean {
-  if (values.length <= stride) return true;
-  for (let index = stride; index < values.length; index += 1) {
-    if (Math.abs(values[index] - values[index % stride]) > 1e-6) return false;
-  }
-  return true;
 }
 
 /** Local transform of a hand-held item relative to the hand bone that carries it. */

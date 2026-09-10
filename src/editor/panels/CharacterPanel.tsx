@@ -3,6 +3,7 @@ import type { BoneName } from '../../rig/boneNames';
 import { boneLabel } from '../../rig/boneNames';
 import { REQUIRED_BONES } from '../../retargeting/boneMap';
 import { useCharacter } from '../characterStore';
+import { characterSources } from '../../character';
 import { useStudio } from '../store';
 
 /**
@@ -12,18 +13,54 @@ import { useStudio } from '../store';
  */
 export function CharacterPanel() {
   const input = useRef<HTMLInputElement | null>(null);
-  const { name, character, mapping, report, status, load, setBone, clear, persist } =
-    useCharacter();
+  const {
+    name,
+    character,
+    mapping,
+    report,
+    rebind,
+    status,
+    sourceId,
+    sourceStatus,
+    bindMode,
+    setSource,
+    setBindMode,
+    load,
+    setBone,
+    clear,
+    persist,
+  } = useCharacter();
   const setViewMode = useStudio((state) => state.setViewMode);
+  const sources = characterSources();
 
   return (
     <section className="panel">
       <h2>Character</h2>
       <p className="panel__note">
-        Animation is authored on the canonical skeleton and retargeted onto
-        whichever character you load, so an exercise never has to be re-animated
-        per model.
+        Animation is authored on the canonical skeleton and driven onto
+        whichever character is selected, so an exercise never has to be
+        re-animated per model.
       </p>
+
+      <label className="mapping-row">
+        <span className="mapping-row__name">Character</span>
+        <select value={sourceId} onChange={(event) => setSource(event.target.value)}>
+          {sources.map((source) => (
+            <option key={source.id} value={source.id}>
+              {source.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      {sourceStatus.kind === 'error' && <div className="status is-warn">{sourceStatus.message}</div>}
+
+      <label className="mapping-row">
+        <span className="mapping-row__name">Imports bind by</span>
+        <select value={bindMode} onChange={(event) => setBindMode(event.target.value as 'rebind' | 'retarget')}>
+          <option value="rebind">Rebinding onto the studio rig</option>
+          <option value="retarget">Retargeting its own skeleton</option>
+        </select>
+      </label>
 
       <input
         ref={input}
@@ -53,9 +90,25 @@ export function CharacterPanel() {
       {status.kind === 'loading' && <div className="status is-ok">{status.message}</div>}
       {status.kind === 'error' && <div className="status is-warn">{status.message}</div>}
 
-      {!character && (
+      {rebind && rebind.length > 0 && (
+        <div className="status is-ok">
+          <strong>{name}</strong>
+          <div className="status__row">
+            {rebind.reduce((total, part) => total + part.vertices, 0)} vertices rebound onto{' '}
+            {rebind[0].mappedBones.length} mapped bones, scaled ×{rebind[0].scale.toFixed(2)}.
+          </div>
+          {rebind.some((part) => part.orphaned > 0) && (
+            <div className="status__row">
+              {rebind.reduce((total, part) => total + part.orphaned, 0)} vertices had no mapped
+              bone and were pinned to the pelvis.
+            </div>
+          )}
+        </div>
+      )}
+
+      {!character && !rebind && (
         <p className="panel__empty">
-          No character loaded — the viewport shows the standard mannequin.
+          No character imported — the viewport shows the selected built-in character.
         </p>
       )}
 

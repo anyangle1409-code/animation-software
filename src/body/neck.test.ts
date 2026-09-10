@@ -35,7 +35,7 @@ const character = buildBodyGeometry(skeleton).geometry;
 /** The same mesh with the repair switched off — the binding as the source encodes it. */
 const source = buildBodyGeometry(skeleton, { repair: false }).geometry;
 /** The same mesh with only the neck's own two repairs applied. */
-const neckOnly = buildBodyGeometry(skeleton, { fins: false, shoulder: false }).geometry;
+const neckOnly = buildBodyGeometry(skeleton, { head: false, fins: false, shoulder: false }).geometry;
 const anatomy = buildEcorcheGeometry(skeleton);
 /**
  * The corrected surface carrying the source's own binding. The only way to ask

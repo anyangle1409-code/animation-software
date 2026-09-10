@@ -4,14 +4,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
-import { useCharacter } from '../editor/characterStore';
+import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
 import { restWorldQuaternion } from '../ik/orient';
 import { createSceneState, SceneStateContext, useSceneState } from './sceneState';
 import { SkeletonView } from './SkeletonView';
-import { MannequinView } from './MannequinView';
+import { CharacterFigure } from './CharacterFigure';
 import { CharacterView } from './CharacterView';
 import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
@@ -207,6 +207,9 @@ function Figure() {
   const showEquipment = useStudio((state) => state.showEquipment);
   const showIkHandles = useStudio((state) => state.showIkHandles);
   const hasCharacter = useCharacter((state) => state.binding !== null);
+  // Asked, not assumed: a textured import carries no écorché mapping, and the
+  // anatomy view falls back to the plain surface rather than rendering noise.
+  const anatomy = activeCapabilities(useCharacter((state) => state.sourceId)).anatomy;
 
   return (
     <>
@@ -214,17 +217,15 @@ function Figure() {
         <SkeletonView ghosted={viewMode === 'combined'} />
       )}
       {showsMuscleBellies(viewMode) && <MuscleView />}
-      {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <MannequinView />)}
+      {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <CharacterFigure />)}
       {/*
         The anatomy view is one continuous surface and nothing else: the muscle
         bellies are never mounted beside it, at any activation, because a
         balloon floating inside the arm is exactly what this view exists to
         replace.
       */}
-      {viewMode === 'anatomy' && <MannequinView variant="ecorche" />}
-      {viewMode === 'muscles' && (
-        <MannequinView opacity={0.24} depthWrite={false} />
-      )}
+      {viewMode === 'anatomy' && <CharacterFigure variant={anatomy ? 'ecorche' : 'skin'} />}
+      {viewMode === 'muscles' && <CharacterFigure opacity={0.24} depthWrite={false} />}
       {showEquipment && <EquipmentView />}
       {showIkHandles && <IKHandles />}
     </>

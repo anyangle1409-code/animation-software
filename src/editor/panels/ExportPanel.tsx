@@ -3,12 +3,14 @@ import { exportGlb } from '../../export/glb';
 import { exportAnimationJson, exportMetadataJson } from '../../export/json';
 import { downloadBlob, downloadJson } from '../../export/download';
 import { skeleton, useStudio } from '../store';
+import { useCharacter } from '../characterStore';
 
 type Status = { kind: 'idle' | 'busy' | 'done' | 'error'; message?: string };
 
 export function ExportPanel() {
   const clip = useStudio((state) => state.document.clip);
   const exercise = useStudio((state) => state.document.exercise);
+  const sourceId = useCharacter((state) => state.sourceId);
   const [fps, setFps] = useState(30);
   const [includeEquipment, setIncludeEquipment] = useState(true);
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
@@ -59,7 +61,11 @@ export function ExportPanel() {
         className="primary"
         onClick={() =>
           run('GLB', async () => {
-            const blob = await exportGlb(clip, exercise, { fps, includeEquipment });
+            const blob = await exportGlb(clip, exercise, {
+              fps,
+              includeEquipment,
+              character: sourceId,
+            });
             downloadBlob(blob, `${clip.name}.glb`);
           })
         }

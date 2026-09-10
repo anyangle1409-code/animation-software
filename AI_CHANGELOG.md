@@ -6,6 +6,78 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-10 — the character layer, made replaceable
+
+The visible character was welded to the animation. `buildSkinnedRig` imported
+one mesh builder, the viewport imported another, the exporter hardcoded the
+first, and the surface was bound to the rig by *bone index* — so no externally
+authored mesh could be dropped in without editing all three. This separates the
+three layers the studio actually has:
+
+1. **Rig** (`src/rig`) — bones, limits, poses. Unchanged, and knows nothing
+   about surfaces.
+2. **Skinning/deformation** (`src/character`, new) — how a surface attaches to
+   those bones, plus whatever per-character corrections it needs.
+3. **Visible mesh** — supplied by a `CharacterSource` and replaceable without
+   touching either layer above.
+
+**The interface.** A `CharacterSource` has an id, a label, a declared set of
+capabilities and an async `build(rig)`. Every source ends at
+`assembleCharacter`, which binds its surfaces to a freshly built canonical bone
+hierarchy, so the studio and the exporter cannot drift apart: both ask the
+registry for a source and pose what comes back through `applyCharacterPose`.
+
+**Registered characters.** `builtin` is the existing anatomical surface, still
+the default. `procedural` is the original tube-and-blob mannequin, kept as a
+diagnostic model — cheap, obviously synthetic, and with trivially predictable
+weights, which is what you want when the question is whether a deformation
+problem is in the rig or in the mesh. `registerBundledCharacter(...)` is the
+one call that will put a higher-quality GLB in front of the animation; nothing
+is registered yet, because there is no asset yet.
+
+**Rebinding by bone name.** `rebindToCanonical` takes an imported skinned mesh
+and re-places every vertex through `q = Σ wᵢ · (Cⱼ · S · Bᵢ⁻¹) · p` — out of
+each source bone's bind frame, through a uniform height scale, into the
+canonical bone's rest frame — then rewrites the skin indices to our bone order.
+Bones our rig does not carry (twist bones, helpers) hand their weight to the
+nearest mapped ancestor. UVs and materials survive untouched, which is the
+point: a textured, mapped, higher-quality mesh keeps everything that makes it
+higher quality. Two honest limits, both documented at the function: proportions
+follow the rig rather than the model, and custom normals, tangents and morph
+targets are authored against the old bind pose, so they are dropped and the
+normals recomputed.
+
+**Deformation stacks are per character.** The elbow corrective and the armpit
+morph correctives are authored against particular vertices of the built-in
+mesh, so they now live in that character's own stack and are handed to nobody
+else — asserted by test. The exporter no longer knows what a shoulder
+corrective is: it asks the active character's stack for a sampler and bakes
+whatever tracks come back.
+
+**Capability, not assumption.** The anatomy view asks
+`capabilities.anatomy` before mounting the écorché variant; a textured import
+says no and gets the plain surface rather than a mis-mapped one.
+
+**Imports keep both routes.** Rebinding onto the studio rig is the default and
+produces an ordinary registered character — equipment, grip and export all work
+on it unchanged. Retargeting the model's own skeleton is retained beside it for
+a character whose proportions must be preserved. The panel gained a character
+picker and a bind-mode picker and nothing else; the larger character-management
+UI is deliberately not built.
+
+Untouched: the canonical skeleton, joint limits, IK, contacts and grip,
+equipment sockets, exercise definitions, the biceps-curl motion, animation
+validation and timing.
+
+Verified: the built-in character still builds, binds and animates; a GLB loaded
+through the new source architecture rebinds onto the canonical rig and is
+driven by the same curl; the dumbbell is exported as a child of `hand_r` for an
+imported character as for the built-in one; posed bone rotations match the
+baked clip's tracks at four points through the rep; and swapping characters
+live in the viewport keeps the dumbbells in the hands. 168 of 169 tests pass —
+the one failure is the unfinished head pass from the previous round, recorded
+below, not a regression from this work.
+
 ### Claude — 2026-09-09 — shoulder junction folds, and the armpit
 
 Two defects, both the source's, both on the shared surface so the Character

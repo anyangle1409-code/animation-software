@@ -1,13 +1,9 @@
-import {
-  Bone,
-  MeshStandardMaterial,
-  Skeleton as ThreeSkeleton,
-  SkinnedMesh,
-} from 'three';
-import type { BufferGeometry, Material } from 'three';
+import { MeshStandardMaterial, SkinnedMesh } from 'three';
+import type { Bone, BufferGeometry, Material, Skeleton as ThreeSkeleton } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
+import { buildCanonicalBones } from '../character/bones';
 import { buildBodyGeometry, BODY_MATERIAL } from './mesh';
 
 export interface BuiltRig {
@@ -30,32 +26,19 @@ export interface SkinnedRigOptions {
 }
 
 /**
- * Build the character: a bone hierarchy matching the canonical skeleton, and
- * one skinned body bound to it.
+ * Build the built-in character: the canonical bone hierarchy with one skinned
+ * body bound to it.
  *
- * The same function backs the studio viewport and the GLB exporter, so the
- * figure on screen is the figure in the exported file — there is no second,
- * drifting copy of the character.
+ * The general path is `characterSource(id).build(rig)` in `src/character`,
+ * which is what the studio and the exporter use. This remains as the direct
+ * route to the built-in surface for tests and tools that want it without the
+ * registry.
  */
 export function buildSkinnedRig(
   rig: Skeleton = canonicalSkeleton,
   options: SkinnedRigOptions = {},
 ): BuiltRig {
-  const bones: Bone[] = [];
-  const boneByName = new Map<BoneName, Bone>();
-
-  for (const rigBone of rig.bones) {
-    const bone = new Bone();
-    bone.name = rigBone.name;
-    bone.position.copy(rigBone.offset);
-    bone.quaternion.copy(rigBone.restLocalQuaternion);
-    bones.push(bone);
-    boneByName.set(rigBone.name, bone);
-    if (rigBone.parent) boneByName.get(rigBone.parent)!.add(bone);
-  }
-
-  const root = boneByName.get(rig.bones[0].name)!;
-  root.updateMatrixWorld(true);
+  const { root, bones, boneByName, skeleton } = buildCanonicalBones(rig);
 
   const geometry = options.geometry ?? buildBodyGeometry(rig).geometry;
   const material = options.material ?? new MeshStandardMaterial({ ...BODY_MATERIAL });
@@ -64,7 +47,6 @@ export function buildSkinnedRig(
   mesh.castShadow = true;
   mesh.receiveShadow = true;
 
-  const skeleton = new ThreeSkeleton(bones);
   mesh.add(root);
   mesh.bind(skeleton);
 

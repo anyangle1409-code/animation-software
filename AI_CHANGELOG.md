@@ -6,6 +6,231 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-09 — shoulder junction folds, and the armpit
+
+Two defects, both the source's, both on the shared surface so the Character
+view, the Anatomy view and the GLB export get the same repair.
+
+**The fins.** A row of vertices at y ≈ 1.40, from 20 mm to 100 mm either side of
+the midline, alternated in and out of the surface by 11 to 20 mm — a zig-zag
+along the top of the trapezius that read as a pale fin from behind. Everything
+else in that region deviates from its own neighbourhood by about 1.5 mm, which
+is what curvature looks like at this vertex spacing, so the fold is noise an
+order of magnitude above the anatomy. `smoothShoulderFins` measures each vertex
+against the mean of its neighbours along its normal and removes only the part of
+that deviation above 4 mm, so a real ridge is inside the threshold and untouched:
+a clamp on outliers, not a smoothing pass. 48 vertices move, by at most 15.8 mm,
+and the worst deviation falls from 19.5 mm to 5.6 mm.
+
+- Self-intersecting non-adjacent triangle pairs around the shoulders fall from
+  188 to 146: 46 of the fold's own pairs removed and 4 created.
+- The four that remain cannot be removed from this side. The fin is a doubled
+  sheet, and the leaf underneath has to travel out through the leaf above it to
+  reach the surface they should share. Every guard tried against that — halving
+  the corners of a crossing triangle, dropping them outright, dropping only the
+  corner moving towards the other sheet — cascaded through the fold and took the
+  whole repair back to nothing. Resolving them means moving the leaf above too,
+  which is the outer shoulder.
+
+**The armpit.** The source hands the axilla a scrambled binding: adjacent
+vertices on the same sheet of skin, 40 mm from the humerus axis and 200 mm below
+the shoulder joint, are bound one to the upper arm outright and the next to the
+second spine segment outright. Raising the arm swings one and leaves the other,
+so a 15 mm edge reaches 130 mm.
+
+`correctArmpitWeights` recovers the two sheets by majority over each vertex's own
+ring, counts rows out from the fold where they meet, and grades the arm's share
+across five rows either side. Two influences per vertex throughout, and the
+majority owner of every vertex is preserved — the ribcage stays the ribcage —
+so the body's own proportion tests measure the same chest and shoulder width
+afterwards. 772 vertices are regraded and the worst step in the arm's share
+across an edge falls from 0.69 to 0.16.
+
+That is as far as weights can go, and the reason is arithmetic rather than
+tuning. An edge carries (difference in the arm's share) × (how far its ends
+swing). At 100° of abduction the axilla swings about 180 mm, so a 12 mm edge
+holds 2× only if the share changes by less than 0.07 across it — fifteen rows
+from arm to torso. The surface has about six rows to give, and widening the band
+past them drags the chest up with the arm. Every graded weighting tried, from a
+six-row blend to an edge-by-edge relaxation against a per-edge ceiling, lands
+between 4× and 12×.
+
+**So the binding keeps the crease and a corrective takes the tearing.**
+`buildArmpitCorrectives` skins the surface at eighteen sampled shoulder poses per
+side, repairs each one directly — over-stretched edges pulled together,
+over-squashed ones pushed apart, inside the shoulder's field and nowhere else —
+and carries the repair back through the skinning matrices into bind space, where
+it becomes a morph target. Eleven samples are textbook lifts and seven are taken
+from the exercise clips themselves, because the exercises twist the shoulder as
+they raise it — the pull-up by more than 40° — and an earlier version driven by
+abduction and forward-lift angles alone made the pull-up *worse*, 5.3× to 8.4×,
+by applying shapes built for a shoulder that was not there. The shapes are
+blended by how close the shoulder is to each sample, normalised so they never
+sum to more than one correction.
+
+They are ordinary glTF morph targets with an ordinary weights track: `bakeClip`
+samples the influences from the same pose the bones come from, using the same
+function the viewport uses, so the exported animation deforms exactly as the
+studio does. The exported file grows from 1.0 MB to 7.0 MB, because glTF stores
+each morph target as a full-length vertex array and three's exporter does not
+emit the sparse form these would compress to.
+
+Worst stretch and squash across the shoulder and armpit, excluding the elbow,
+for the source binding and for this one:
+
+| | source | repaired |
+| --- | --- | --- |
+| one arm abducted, 30–130° | 6.23 / 0.56 | 1.80 / 0.54 |
+| one arm forward, 45–120° | 5.69 / 0.36 | 1.51 / 0.54 |
+| both arms, 30–165° | 7.81 / 0.09 | 3.87 / 0.12 |
+| dumbbell curl | 1.55 / 0.63 | 1.55 / 0.63 |
+| shoulder press | 7.33 / 0.09 | 3.39 / 0.22 |
+| push-up | 4.56 / 0.47 | 3.37 / 0.48 |
+| pull-up | 8.68 / 0.10 | 4.31 / 0.20 |
+
+**Against the limits declared for this round — 2.0× stretch, 0.35× compression —
+one arm at a time meets them through the whole range the exercises use, and the
+curl meets them. Both arms together, one arm past 130°, and the loaded press,
+push-up and pull-up do not.** They are between two and three times better than
+the binding they replace and they are not yet right. The tests hold the measured
+values as ceilings so none of it can be given back quietly.
+
+Triangle orientation and area in the posed shoulder, against the same poses on
+the source: inverted triangles 62 against 50 at 60° of abduction, 372 against
+364 at 100°, 680 against 674 at 150°, 847 against 788 at 150° of forward lift —
+the folding at extreme angles is the character's own and this work adds a little
+to it. Self-intersecting pairs in the same region go the other way, and by much
+more: 14 against 46 at 60°, 10 against 46 at 100°, 13 against 46 at 150°, 260
+against 386 at 150° forward.
+
+Bind positions: 76 vertices move in total across every shared repair now in
+place, by at most 29.9 mm, all of them on the back of the neck and the top of the
+shoulders. The full-body silhouette is unchanged — same shoulder width, same
+chest, same waist — and the repository's own proportion tests check it.
+
+Verification: 158 tests pass — the repository's own 122 unmodified, plus 36 for
+the anatomy build, of which 9 are new for the shoulder: the folds flattened, the
+armpit regraded without moving a single vertex's owner, two influences per vertex
+everywhere, nothing moving until an arm lifts, one arm inside the declared limits
+through its range, the improvement over the source, no exercise made worse by the
+correctives, the correctives present in the exported GLB with a weights track
+that actually rises, and the anatomy view carrying the same shapes.
+`npm run typecheck` and `npm run build` are clean.
+
+### Claude — 2026-09-09 — head-to-neck weights and the nape ledge, shared by every consumer
+
+The character's generator binds by a single rule near the top of the body —
+`if (part !== 'body' || sourcePoint.y > 1.50) influences = [{ sourceName: 'head', weight: 1 }]`
+— so everything above 1.50 m in the source becomes head:1.00 with no blend. On
+the finished mesh that leaves 3,868 vertices bound wholly to the head, reaching
+down to y = 1.397, and only seven vertices in the whole body carrying both head
+and neck weight. The neck bone runs from 1.420 to 1.520 and drives almost none
+of the surface over it, so the neck does not deform: it is rigid with the skull,
+and the transition to the chest happens as a step at the edge of the head's
+region rather than along the neck.
+
+The same rule also decides which conversion transform each source vertex is
+carried through, and the head's transform does not land where the spine's does.
+So the seam is a ledge in the surface as well as a cliff in the weights: down the
+midline the back of the neck sits at z = -35 mm from y = 1.39 to 1.41 and then
+steps back to -69 mm across a single 13 mm row, and the nape overhangs a recess.
+
+Both repairs now live in `src/body/neck.ts` and run from
+`buildAnatomicalBodyGeometry` — the one place the decoded surface is built — so
+the studio's Character view, the Anatomy view and the GLB exporter all get the
+same corrected mesh without any of them asking for it. The earlier Anatomy-only
+copies of both are gone.
+
+- **A chain, not a blend.** Spine to neck over the lower half of the head-bound
+  block, neck to head over the upper, each a straight ramp in height. Two
+  influences per vertex, never three, and the partner switch is a level surface
+  at 1.45 m so head weight is never adjacent to spine weight. 1,347 vertices
+  rewritten, 1,213 of them previously head:1.00.
+- **The block is taken whole, never cut off by radius.** Every version with a
+  radial taper inside it put head weight against spine weight out at the edge
+  and tore the surface open; pulled in to 85 mm it measures worse too, taking
+  rotation from 1.29× to 1.59×.
+- **The neck's sideways reach is trimmed** beyond 65 mm — its own surface at the
+  base — fading to nothing by 145 mm. The source gave the neck bone a share of
+  twelve vertices on the top of each shoulder, out to 170 mm on the deltoid; a
+  head turn stretched an 8.6 mm edge there to 2.15× and squashed its mirror to
+  0.31×. On the shoulder the freed share goes to the collarbone rather than the
+  arm, so lifting the arm behaves exactly as it did before, to within float
+  noise.
+- **Positions and colours are untouched.** This changes which bones drive the
+  neck, not where the neck is, and a test compares every position and colour
+  component against the source build.
+
+Deformation across every edge the repair touches, measured against the same
+edges on the source binding (stretch / squash):
+
+| pose | repaired | source |
+| --- | --- | --- |
+| flexion 20° | 1.158 / 0.732 | 2.937 / 0.839 |
+| extension 20° | 1.266 / 0.839 | 2.748 / 0.249 |
+| rotation 25°, either way | 1.294 / 0.828 | 2.213 / 0.310 |
+| flexion 15° with 20° turn | 1.218 / 0.743 | 2.779 / 0.188 |
+
+The limits — no more than 1.30× stretch, no less than 0.60× compression — were
+fixed before the weighting was tuned, and the weighting was changed until it met
+them rather than the other way round. Maximum influences per vertex: 2. Largest
+step in the head's share across an edge: 1.00 before, 0.43 after — and the
+largest one left is a 32 mm edge inside the throat, which is the ramp's own
+gradient rather than a boundary. The largest step between any two bones is 0.94,
+between the collarbone and the top of the spine on the shoulder: two bones that
+hold still together, so it is a step in the weights and nothing in the skin.
+
+`correctNeckLedge` closes the ledge, on the shared mesh, before anything reads
+it — the weight repair included, because it finds the seam from the source's own
+head binding. The seam and the step are measured from the mesh itself in 2.5 mm
+bands with a 13 mm window, every band keyed on |x| so the result is mirrored by
+construction, and each row under the seam slides back towards the nape's depth:
+most at the seam, less further down, nothing at all 55 mm below it or 85 mm out
+to the side. The ledge becomes a slope from the nape into the upper trapezius.
+
+- **40 vertices move, by at most 29.9 mm**, all of them on the back of the neck.
+  The step being closed is 34.2 mm and the row directly under the seam has to
+  reach the nape, so that is the floor for closing it without moving the head
+  block — which carries the face, the jaw, the ears and the hairline, and is
+  untouched. Spreading the ramp further would move more rows, not fewer
+  millimetres.
+- **Depth only.** No vertex moves sideways or vertically, and none moves
+  forwards. The trapezius ridge is a lateral form, so sliding the surface back in
+  depth cannot flatten it — which is what an earlier smoothing pass over the same
+  region did, and why this one is not a smoothing pass.
+- **Nothing new folds.** No triangle in the mesh turns over or is pinched below a
+  quarter of its area, and a Möller-Trumbore pass over the 768 triangles round
+  the neck finds 70 intersecting non-adjacent pairs against the source's 74: the
+  correction removes four and adds none. The remaining 70 are the source's own
+  shoulder fold, untouched here.
+- The largest gap between neighbouring rows down the midline falls from 34.2 mm
+  to 9.6 mm, which is the spacing the rest of the neck already has.
+
+The Anatomy view's private levelling pass is deleted: it was a second correction
+for the same defect applied to one mode only. Anatomy now inherits the corrected
+base and sculpts relief on top of it, and a guard over the whole écorché surface
+damps any displacement — from any stage — that would leave a triangle facing
+against the character's own. Of its 27,460 triangles, 0 do.
+
+**Unresolved when this landed, and taken up in the round above.** Raising the arm
+tore the armpit: 5.20× stretch at 60°, 8.03× at 100°, and 0.12× compression at
+45° of forward flexion, on edges where the thorax meets the upper arm. Those
+numbers were the character's own — the source mesh measured identically, before
+any of this work — and nothing in this entry changed them. The shoulder round
+above brings them down by two to three times and does not finish the job; the
+figure is not ready for exercise production while any of it stands.
+
+Verification: 150 tests pass — the repository's own 122 unmodified, plus 28 for
+the anatomy build, of which 13 cover this junction: two influences summing to
+one, head share handed over by position, left/right symmetry, deformation limits
+under neutral, flexion, extension, both rotations and a combined pose, the arm
+left as the source had it, colours unchanged and movement confined to the back of
+the neck in depth alone, the ledge closed into a slope and mirrored, no triangle
+turned over or pinched anywhere in the mesh, Character and Anatomy sharing one
+corrected base, and both the corrected weights and the corrected positions read
+back out of a decoded GLB export. `npm run typecheck` and `npm run build` are
+clean.
+
 ### Claude — 2026-09-09 — Anatomy view: sculpted arm and elbow deformation
 
 Adds a fifth view mode, `Anatomy`, beside Skeleton / Muscles / Combined /

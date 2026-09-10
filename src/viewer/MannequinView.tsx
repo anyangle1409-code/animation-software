@@ -6,6 +6,8 @@ import { skeleton, useStudio } from '../editor/store';
 import { buildSkinnedRig } from '../body/skin';
 import { applyActivation, buildEcorcheGeometry, createEcorcheMaterial } from '../body/ecorche';
 import { applyElbowCorrective, buildElbowCorrective, elbowFlexion } from '../body/elbow';
+import { shoulderInfluences } from '../body/shoulder';
+import type { ShoulderCorrective } from '../body/shoulder';
 
 /**
  * On. The widened skin blend rounds the crease but leaves the inside of the
@@ -81,6 +83,7 @@ export function MannequinView({
       local: new Quaternion(),
       placement: new Matrix4(),
       offset: new Vector3(),
+      shoulder: [] as number[],
     }),
     [],
   );
@@ -146,6 +149,25 @@ export function MannequinView({
       }
     }
     rig.root.updateMatrixWorld(true);
+
+    // The shoulder correctives. Their influences come from the same rotation the
+    // bones were just given, and the exporter derives them the same way from the
+    // baked pose, so the viewport and the downloaded file deform alike.
+    const shoulders = rig.mesh.geometry.userData.shoulders as ShoulderCorrective[] | undefined;
+    const influences = rig.mesh.morphTargetInfluences;
+    if (shoulders && influences) {
+      for (const corrective of shoulders) {
+        const bone = rig.boneByName.get(corrective.bone);
+        const rigBone = skeleton.bones.find((each) => each.name === corrective.bone);
+        if (!bone || !rigBone) continue;
+        scratch.quaternion.setFromRotationMatrix(bone.matrix);
+        scratch.local.copy(rigBone.restLocalQuaternion).invert().multiply(scratch.quaternion);
+        shoulderInfluences(corrective, scratch.local, scratch.shoulder);
+        corrective.targets.forEach((target, slot) => {
+          influences[target] = scratch.shoulder[slot];
+        });
+      }
+    }
   });
 
   return <primitive object={rig.mesh} />;

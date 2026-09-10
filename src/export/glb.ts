@@ -12,6 +12,7 @@ import type { ExerciseDefinition } from '../exercises/types';
 import { equipmentSocket } from '../equipment/library';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject, buildSkinnedRig } from './rigBuilder';
+import type { ShoulderCorrective } from '../body/shoulder';
 
 export interface GlbExportOptions {
   /** Sampling rate for the baked clip. */
@@ -39,7 +40,15 @@ export async function exportGlb(
 ): Promise<Blob> {
   const { includeEquipment = true, clipOnly = false } = options;
   const rig = buildSkinnedRig(canonicalSkeleton);
-  const baked = bakeClip(studioClip, canonicalSkeleton, { fps: options.fps });
+  // The mesh carries the shoulder correctives as morph targets; the clip has to
+  // carry their weights, or the exported animation deforms differently from the
+  // studio wherever an arm is raised.
+  const shoulders = rig.mesh.geometry.userData.shoulders as ShoulderCorrective[] | undefined;
+  const baked = bakeClip(studioClip, canonicalSkeleton, {
+    fps: options.fps,
+    shoulders: clipOnly ? [] : shoulders,
+    mesh: rig.mesh.name,
+  });
 
   const scene = new Group();
   scene.name = exercise.clipName;

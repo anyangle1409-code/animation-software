@@ -4,6 +4,7 @@ import { canonicalSkeleton } from '../rig/skeleton';
 import type { BodyBlob, BodyChain, Ring } from './profiles';
 import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
 import { buildAnatomicalBodyGeometry } from './anatomical';
+import type { AnatomicalOptions } from './anatomical';
 
 /**
  * Build the body as one skinned mesh.
@@ -51,8 +52,11 @@ const colourOf = (hex: string | undefined): Color => {
   return colour;
 };
 
-export function buildBodyGeometry(rig: Skeleton = canonicalSkeleton): BodyGeometry {
-  return buildAnatomicalBodyGeometry(rig);
+export function buildBodyGeometry(
+  rig: Skeleton = canonicalSkeleton,
+  options: AnatomicalOptions = {},
+): BodyGeometry {
+  return buildAnatomicalBodyGeometry(rig, options);
 }
 
 /** Build the profile-based surface used by the character and exporter. */

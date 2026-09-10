@@ -3,6 +3,7 @@ import {
   Euler,
   InterpolateLinear,
   Matrix4,
+  NumberKeyframeTrack,
   Quaternion,
   QuaternionKeyframeTrack,
   Vector3,
@@ -16,6 +17,8 @@ import type { StudioClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { sampleClip } from '../animation/clip';
 import { lockAnchors } from '../constraints/locks';
+import { shoulderInfluences } from '../body/shoulder';
+import type { ShoulderCorrective } from '../body/shoulder';
 
 export interface BakedClip {
   clip: AnimationClip;
@@ -38,7 +41,7 @@ export interface BakedClip {
 export function bakeClip(
   studioClip: StudioClip,
   rig: Skeleton = canonicalSkeleton,
-  options: { fps?: number } = {},
+  options: { fps?: number; shoulders?: ShoulderCorrective[]; mesh?: string } = {},
 ): BakedClip {
   const fps = options.fps ?? studioClip.fps;
   const evaluation = new PoseEvaluation(rig);
@@ -58,6 +61,14 @@ export function bakeClip(
   const localQuaternion = new Quaternion();
   const poseQuaternion = new Quaternion();
   const euler = new Euler(0, 0, 0, EULER_ORDER);
+  // The shoulder correctives ride along as morph-target weights, sampled from
+  // the same pose the bones are sampled from and by the same function the
+  // viewport uses. Without them the exported file would deform differently from
+  // the studio at every raised arm.
+  const shoulders = options.shoulders ?? [];
+  const morphTracks = new Map<number, number[]>();
+  const morphScratch: number[] = [];
+  const morphDelta = new Quaternion();
 
   for (let index = 0; index <= frameCount; index += 1) {
     // The final sample lands exactly on the loop point rather than near it.
@@ -65,6 +76,17 @@ export function bakeClip(
     times.push(time);
 
     const frame = resolveFrame(rig, evaluation, studioClip, time, { anchors });
+
+    for (const corrective of shoulders) {
+      const rotation = frame.pose.rotations[corrective.bone];
+      euler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
+      shoulderInfluences(corrective, morphDelta.setFromEuler(euler), morphScratch);
+      corrective.targets.forEach((target, slot) => {
+        const track = morphTracks.get(target) ?? [];
+        track.push(morphScratch[slot]);
+        morphTracks.set(target, track);
+      });
+    }
 
     for (const bone of rig.bones) {
       const rotation = frame.pose.rotations[bone.name];
@@ -106,7 +128,7 @@ export function bakeClip(
     }
   }
 
-  const tracks: (QuaternionKeyframeTrack | VectorKeyframeTrack)[] = [];
+  const tracks: (QuaternionKeyframeTrack | VectorKeyframeTrack | NumberKeyframeTrack)[] = [];
   const loopTimes = [times[0], times[times.length - 1]];
 
   for (const bone of rig.bones) {
@@ -137,6 +159,19 @@ export function bakeClip(
         `${rootBone.name}.position`,
         rootTrack.constant ? loopTimes : times,
         rootTrack.values,
+        InterpolateLinear,
+      ),
+    );
+  }
+
+  for (const [target, values] of [...morphTracks].sort((one, two) => one[0] - two[0])) {
+    const compressed = compressTrack(values, 1, [0]);
+    if (!compressed) continue;
+    tracks.push(
+      new NumberKeyframeTrack(
+        `${options.mesh ?? 'HGPT_Mannequin'}.morphTargetInfluences[${target}]`,
+        compressed.constant ? loopTimes : times,
+        compressed.values,
         InterpolateLinear,
       ),
     );

@@ -40,7 +40,7 @@ export const showsMuscleBellies = (mode: ViewMode): boolean =>
  * app-facing captures use, so a demonstration frame does not arrive in Home Gym
  * PT with the editor's chrome colours behind it.
  */
-export type Backdrop = 'studio' | 'light' | 'void';
+export type Backdrop = 'studio' | 'light' | 'void' | 'study';
 
 export interface BackdropStyle {
   background: string;
@@ -96,6 +96,23 @@ export const BACKDROPS: Record<Backdrop, BackdropStyle> = {
     // ambient is nonetheless lifted off the floor, because at 0.14 a recess as
     // deep as an eye socket goes to pure black and reads as a hole in the head.
     lighting: { ambient: 0.24, key: 1.7, rim: 1.0, rimColour: '#cfd8e6' },
+  },
+  study: {
+    background: '#000000',
+    // Not the background: this is what the hemisphere light fills from below, and
+    // a black floor colour is what leaves the underside of every form unlit.
+    ground: '#4a4a4a',
+    cell: '#000000',
+    section: '#000000',
+    floorless: true,
+    /**
+     * Diagnostic lighting. The void rig is a presentation rig — a hard key and a
+     * strong rim flatter the figure and can make a chest look fuller than its
+     * geometry. This one is deliberately dull: most of the light is ambient, the
+     * key is weak enough not to blow a highlight, and what is left is the form
+     * itself. Use it to judge shape, not to show the model off.
+     */
+    lighting: { ambient: 1.05, key: 0.6, rim: 0.28, rimColour: '#ffffff' },
   },
 };
 

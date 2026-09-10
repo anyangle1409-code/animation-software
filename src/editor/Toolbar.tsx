@@ -64,6 +64,7 @@ export function Toolbar() {
           <option value="studio">Studio</option>
           <option value="light">Light</option>
           <option value="void">Void</option>
+          <option value="study">Study</option>
         </select>
       </label>
 

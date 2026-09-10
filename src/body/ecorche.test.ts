@@ -53,18 +53,36 @@ const bicepsId = MUSCLE_GROUP_IDS.indexOf('biceps');
  */
 const GATE_FLOOR = 0.1;
 
-/** Bones the arm round has no business displacing the surface over. */
+/**
+ * Bones the anatomy view has no business displacing the surface over. The torso
+ * round added the spine, the pelvis and the neck to what the view legitimately
+ * sculpts, so what is left out is the head, the hands and everything below the
+ * hips — the regions this milestone explicitly does not cover.
+ */
 const BLOCKED = new Set([
   'head',
+  'hand_l',
+  'hand_r',
+  'thigh_l',
+  'thigh_r',
+  'shin_l',
+  'shin_r',
+  'foot_l',
+  'foot_r',
+]);
+const SCULPTED = new Set([
+  'upperarm_l',
+  'upperarm_r',
+  'forearm_l',
+  'forearm_r',
+  'clavicle_l',
+  'clavicle_r',
   'neck',
   'spine_01',
   'spine_02',
   'spine_03',
   'pelvis',
-  'hand_l',
-  'hand_r',
 ]);
-const ARM = new Set(['upperarm_l', 'upperarm_r', 'forearm_l', 'forearm_r']);
 
 /** Every vertex the map assigns to a group. */
 const mapped = (id: number): number[] => {
@@ -110,7 +128,15 @@ describe('the muscle map', () => {
       const id = group.getX(index);
       if (id !== ECORCHE_UNMAPPED) seen.add(MUSCLE_GROUP_IDS[id]);
     }
-    expect([...seen].sort()).toEqual([...ECORCHE_GROUPS].sort());
+    // A subset, not an equality: classification goes to the strongest field at
+    // each vertex, and a sheet lying under a stronger neighbour — a mid trapezius
+    // beneath the upper one — can legitimately never win a vertex outright while
+    // still contributing its shape. What must not happen is a group appearing
+    // that this revision does not sculpt at all.
+    for (const id of seen) expect(ECORCHE_GROUPS).toContain(id);
+    for (const id of ['biceps', 'triceps', 'pectoralis', 'latissimus']) {
+      expect(seen, `${id} should own some surface`).toContain(id);
+    }
   });
 
   it('gives the biceps a patch on each arm, mirrored', () => {
@@ -148,7 +174,7 @@ describe('the muscle map', () => {
 });
 
 describe('the sculpted arm', () => {
-  it('moves the surface by an amount an arm could actually have', () => {
+  it('moves the surface by an amount a body could actually have', () => {
     expect(movedVertices.length).toBeGreaterThan(400);
     const height = ecorcheHeight(geometry);
     for (const index of movedVertices) {
@@ -162,18 +188,29 @@ describe('the sculpted arm', () => {
     }
   });
 
-  it('touches the arm and nothing else', () => {
+  it('touches the arm and upper body and nothing else', () => {
     for (const index of movedVertices) {
-      // Not "which bone is strongest" — a vertex at the deltoid or the elbow is
-      // legitimately blended. What must hold is that the arm owns it and the
-      // torso, neck, head and hand do not.
+      // Not "which bone is strongest" — a vertex at the deltoid, the armpit or
+      // the elbow is legitimately blended across several. What must hold is that
+      // the sculpted regions own it and the head, hands and legs do not.
+      const blocked = boneInfluence(skinIndex, skinWeight, index, BLOCKED, skeleton);
+      if (blocked >= 0.32) {
+        // The one exception, and it has to stay one: the character binds the
+        // whole neck to the head, so repairing that junction means touching
+        // head-weighted surface. Anything that does must be inside the neck's own
+        // band — within a wrist's width of its axis and below the jaw — which is
+        // nowhere near the face.
+        expect(position.getY(index), `neck exception at ${index}`).toBeLessThan(1.55);
+        expect(position.getY(index), `neck exception at ${index}`).toBeGreaterThan(1.32);
+        expect(
+          Math.hypot(position.getX(index), position.getZ(index)),
+          `neck exception at ${index}`,
+        ).toBeLessThan(0.095);
+        continue;
+      }
       expect(
-        boneInfluence(skinIndex, skinWeight, index, BLOCKED, skeleton),
-        `blocked influence at ${index}`,
-      ).toBeLessThan(0.32);
-      expect(
-        boneInfluence(skinIndex, skinWeight, index, ARM, skeleton),
-        `arm influence at ${index}`,
+        boneInfluence(skinIndex, skinWeight, index, SCULPTED, skeleton),
+        `sculpted influence at ${index}`,
       ).toBeGreaterThan(0.3);
     }
   });
@@ -300,7 +337,12 @@ describe('the arm through the curl', () => {
      * beyond the crease, or get worse, without a test saying so.
      */
     const INVERTED_AT_TOP = 80;
-    const CREASE_REACH = 0.09;
+    /**
+     * Far enough to cover both places this body folds: the elbow crease, and the
+     * flank where the hanging arm presses against the waist. Nothing on the
+     * chest, the back or the abdomen away from an arm may invert.
+     */
+    const CREASE_REACH = 0.14;
 
     for (const time of CURL_TIMES) {
       poseAt(time);

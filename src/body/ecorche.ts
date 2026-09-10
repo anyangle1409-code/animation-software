@@ -114,6 +114,7 @@ export const ECORCHE_COLOUR_THRESHOLD = 0.42;
  */
 export const ECORCHE_PALETTE = {
   muscle: '#a9a49b',
+  hair: '#3a3833',
   shorts: '#15161a',
   sclera: '#9d9891',
   iris: '#7c7871',
@@ -136,11 +137,12 @@ function linearBytes(hex: string): [number, number, number] {
 }
 
 /** Which part of the character a vertex colour belongs to. */
-const PALETTE_PARTS = ['skin', 'shorts', 'sclera', 'iris', 'pupil'] as const;
+const PALETTE_PARTS = ['skin', 'hair', 'shorts', 'sclera', 'iris', 'pupil'] as const;
 type PalettePart = (typeof PALETTE_PARTS)[number];
 
 const SOURCE_BYTES: Record<PalettePart, [number, number, number]> = {
   skin: linearBytes(ANATOMICAL_PALETTE.skin),
+  hair: linearBytes(ANATOMICAL_PALETTE.hair),
   shorts: linearBytes(ANATOMICAL_PALETTE.shorts),
   sclera: linearBytes(ANATOMICAL_PALETTE.sclera),
   iris: linearBytes(ANATOMICAL_PALETTE.iris),
@@ -149,6 +151,7 @@ const SOURCE_BYTES: Record<PalettePart, [number, number, number]> = {
 
 const ECORCHE_BYTES: Record<PalettePart, [number, number, number]> = {
   skin: linearBytes(ECORCHE_PALETTE.muscle),
+  hair: linearBytes(ECORCHE_PALETTE.hair),
   shorts: linearBytes(ECORCHE_PALETTE.shorts),
   sclera: linearBytes(ECORCHE_PALETTE.sclera),
   iris: linearBytes(ECORCHE_PALETTE.iris),
@@ -224,6 +227,8 @@ const BRACHIORADIALIS: MuscleDefinition = {
  */
 interface FieldSpec {
   id: string;
+  /** Which limb guard applies — see `armGuard` and `torsoGuard`. */
+  region: 'arm' | 'torso';
   /** The group whose activation colours this field, or null for shape only. */
   group: MuscleGroupId | null;
   /** Present for the bellies the muscle model does not carry. */
@@ -236,6 +241,15 @@ interface FieldSpec {
   /** Half-angle of the arc it claims, degrees, at its middle and at its ends. */
   arcMiddle: number;
   arcEnd: number;
+  /**
+   * Fraction of that arc held at full strength before the field starts to fade,
+   * 0 to 1. A spindle leaves this alone and peaks along one line, which is what
+   * a biceps does. A sheet does not: a pectoral is the same thickness across
+   * most of its width and only thins at its border, and without a plateau the
+   * field would put its whole crown on the sheet's centre line and read as a
+   * ridge instead of a plate.
+   */
+  plateau?: number;
   /**
    * Axial falloff exponents. +Y runs origin to insertion, so `distal` is the
    * end the muscle inserts on: a biceps rises gently out from under the deltoid
@@ -265,6 +279,7 @@ interface FieldSpec {
 const ARM_FIELDS: readonly FieldSpec[] = [
   {
     id: 'biceps',
+    region: 'arm',
     group: 'biceps',
     amplitude: 0.017,
     along: 1.12,
@@ -280,6 +295,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'brachialis',
+    region: 'arm',
     group: null,
     definition: BRACHIALIS,
     amplitude: 0.009,
@@ -293,6 +309,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'triceps',
+    region: 'arm',
     group: 'triceps',
     amplitude: 0.0138,
     along: 1.24,
@@ -305,6 +322,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'deltoid_anterior',
+    region: 'arm',
     group: 'deltoid_anterior',
     amplitude: 0.012,
     along: 1.42,
@@ -317,6 +335,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'deltoid_medial',
+    region: 'arm',
     group: 'deltoid_medial',
     amplitude: 0.0152,
     along: 1.42,
@@ -329,6 +348,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'deltoid_posterior',
+    region: 'arm',
     group: 'deltoid_posterior',
     amplitude: 0.012,
     along: 1.42,
@@ -341,6 +361,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'brachioradialis',
+    region: 'arm',
     group: null,
     definition: BRACHIORADIALIS,
     amplitude: 0.0095,
@@ -354,6 +375,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'forearm_flexors',
+    region: 'arm',
     group: 'forearm_flexors',
     amplitude: 0.008,
     along: 1.1,
@@ -368,6 +390,7 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
   {
     id: 'forearm_extensors',
+    region: 'arm',
     group: 'forearm_extensors',
     amplitude: 0.007,
     along: 1.1,
@@ -380,9 +403,122 @@ const ARM_FIELDS: readonly FieldSpec[] = [
   },
 ];
 
+/**
+ * The upper body. Sheets rather than spindles: a pectoral or a latissimus lies
+ * flat against the ribs and covers a wide arc, so these carry much wider arcs
+ * and much lower crowns than the arm's fields. The point is that the torso stops
+ * reading as one smooth slab, not that every muscle announces itself.
+ *
+ * The studio's model has no serratus, so the lateral rib contour is left to the
+ * lower edge of the pectoral, the oblique's flank and the latissimus running
+ * down to the waist. Nothing here invents a belly the model does not have.
+ */
+const TORSO_FIELDS: readonly FieldSpec[] = [
+  {
+    id: 'pectoralis',
+    region: 'torso',
+    group: 'pectoralis',
+    amplitude: 0.0118,
+    along: 1.02,
+    radius: 1.05,
+    // A sheet: nearly two thirds of the way round from its own face. The wide
+    // plateau is what gives it a border — held flat across most of its width, the
+    // field has somewhere to fall from, and the lower edge reads under flat light
+    // instead of dissolving into the ribs.
+    arcMiddle: 84,
+    arcEnd: 34,
+    plateau: 0.76,
+    // +Y runs sternum to humerus, so the fuller end is the sternal one. Not too
+    // full: left higher, the field runs up onto the collarbone and the chest
+    // gets a bony shelf across the top of it.
+    proximal: 1.3,
+    distal: 1.55,
+    gate: { bones: ['spine_03', 'clavicle', 'upperarm'], low: 0.3, high: 0.62 },
+  },
+  {
+    id: 'trapezius_upper',
+    region: 'torso',
+    group: 'trapezius_upper',
+    amplitude: 0.008,
+    along: 3.2,
+    radius: 2.6,
+    arcMiddle: 80,
+    arcEnd: 34,
+    plateau: 0.6,
+    proximal: 1.2,
+    distal: 1.2,
+    gate: { bones: ['neck', 'clavicle', 'spine_03'], low: 0.3, high: 0.6 },
+  },
+  {
+    id: 'trapezius_mid',
+    region: 'torso',
+    group: 'trapezius_mid',
+    amplitude: 0.0098,
+    along: 2.6,
+    radius: 2.4,
+    arcMiddle: 82,
+    arcEnd: 34,
+    plateau: 0.6,
+    proximal: 1.2,
+    distal: 1.2,
+    gate: { bones: ['clavicle', 'spine_03', 'spine_02'], low: 0.3, high: 0.6 },
+  },
+  {
+    id: 'latissimus',
+    region: 'torso',
+    group: 'latissimus',
+    amplitude: 0.0108,
+    along: 1.02,
+    radius: 0.62,
+    arcMiddle: 76,
+    arcEnd: 30,
+    plateau: 0.58,
+    // +Y runs from the lower back up to the armpit: broad below, drawn to a
+    // tendon above, which is what gives the taper into the waist.
+    proximal: 0.95,
+    distal: 1.9,
+    gate: { bones: ['spine_01', 'spine_02', 'spine_03', 'upperarm'], low: 0.3, high: 0.62 },
+  },
+  {
+    id: 'obliques',
+    region: 'torso',
+    group: 'obliques',
+    amplitude: 0.0072,
+    along: 1.0,
+    // The flank sits a good deal further out than the belly the model places
+    // under it, so these reaches are wide on purpose.
+    radius: 0.78,
+    arcMiddle: 70,
+    arcEnd: 28,
+    plateau: 0.55,
+    proximal: 1.35,
+    distal: 1.15,
+    gate: { bones: ['pelvis', 'spine_01', 'spine_02'], low: 0.3, high: 0.6 },
+  },
+  {
+    id: 'rectus_abdominis',
+    region: 'torso',
+    group: 'rectus_abdominis',
+    // Restrained on purpose: an abdominal wall that reads at all is enough, and
+    // a defined six-pack on an otherwise smooth body looks stuck on.
+    amplitude: 0.0076,
+    along: 0.98,
+    radius: 0.9,
+    arcMiddle: 56,
+    arcEnd: 24,
+    plateau: 0.5,
+    proximal: 1.35,
+    distal: 1.2,
+    gate: { bones: ['pelvis', 'spine_01', 'spine_02', 'spine_03'], low: 0.35, high: 0.65 },
+  },
+];
+
+/** Every field the anatomy view sculpts. */
+const FIELDS: readonly FieldSpec[] = [...ARM_FIELDS, ...TORSO_FIELDS];
+
 /** The groups the surface can classify and colour. Shape-only fields are not here. */
 export const ECORCHE_GROUPS: readonly MuscleGroupId[] = [
-  ...new Set(ARM_FIELDS.map((field) => field.group).filter((group): group is MuscleGroupId => group !== null)),
+  ...new Set(FIELDS.map((field) => field.group).filter((group): group is MuscleGroupId => group !== null)),
 ];
 
 const SIDES: readonly Side[] = ['l', 'r'];
@@ -394,9 +530,11 @@ interface BoundField {
   gate: ReadonlySet<string>;
 }
 
+const sided = new Set(['upperarm', 'forearm', 'hand', 'clavicle', 'thigh', 'shin', 'foot']);
+
 function bindFields(): BoundField[] {
   const bound: BoundField[] = [];
-  for (const spec of ARM_FIELDS) {
+  for (const spec of FIELDS) {
     for (const side of SIDES) {
       const definition = spec.definition
         ? side === 'l'
@@ -405,12 +543,21 @@ function bindFields(): BoundField[] {
         : undefined;
       const muscle = definition
         ? muscleInstance(definition, side)
-        : MUSCLES.find((entry) => entry.group === spec.group && entry.side === side);
-      if (!muscle) continue;
+        : MUSCLES.find(
+            (entry) =>
+              entry.group === spec.group && (entry.side === side || entry.side === null),
+          );
+      // A muscle on the centre line has no side, so it is bound once and the
+      // second pass would otherwise sculpt it twice.
+      if (!muscle || (muscle.side === null && side !== 'l')) continue;
+      // A gate names bone stems. The paired ones take the side; the ones on the
+      // centre line — spine, pelvis, neck — are already whole names.
       bound.push({
         spec,
         muscle,
-        gate: new Set(spec.gate.bones.map((stem) => `${stem}_${side}`)),
+        gate: new Set(
+          spec.gate.bones.map((stem) => (sided.has(stem) ? `${stem}_${side}` : stem)),
+        ),
       });
     }
   }
@@ -506,7 +653,7 @@ export function buildMuscleMap(geometry: BufferGeometry, rig: Skeleton = canonic
   const mask = new Float32Array(count);
   const best = new Float32Array(count);
 
-  const guard = armGuard(geometry, rig);
+  const guards = { arm: armGuard(geometry, rig), torso: torsoGuard(geometry, rig) };
   const evaluation = new PoseEvaluation(rig).apply(restPose());
   const transform = createMuscleTransform();
   const point = new Vector3();
@@ -516,6 +663,7 @@ export function buildMuscleMap(geometry: BufferGeometry, rig: Skeleton = canonic
   const face = new Vector3();
 
   for (const { spec, muscle, gate } of bindFields()) {
+    const guard = guards[spec.region];
     resolveMuscle(evaluation, muscle, transform);
     // The belly's own axes: +Y is the direction its fibres run, +Z the face it
     // presents to the skin.
@@ -540,6 +688,9 @@ export function buildMuscleMap(geometry: BufferGeometry, rig: Skeleton = canonic
       if (radius < 1e-6) continue;
 
       const { arcCos, radiusScale } = spindle(spec, Math.abs(span));
+      // Where the fade starts: at the crown for a spindle, part-way out for a
+      // sheet.
+      const plateauCos = spec.plateau ? Math.cos(Math.acos(arcCos) * (1 - spec.plateau)) : 1;
       const reach = radiusLimit * radiusScale;
       if (radius >= reach) continue;
       // Radial is a soft cut-off rather than a shape: the skin sits at roughly
@@ -549,7 +700,7 @@ export function buildMuscleMap(geometry: BufferGeometry, rig: Skeleton = canonic
 
       const facing = across.dot(face) / radius;
       if (facing <= arcCos) continue;
-      const angular = smoothstep(arcCos, 1, facing);
+      const angular = smoothstep(arcCos, plateauCos, facing);
 
       const taper = Math.cos((Math.abs(span) * Math.PI) / 2);
       const axial = taper ** (span < 0 ? spec.proximal : spec.distal);
@@ -642,6 +793,227 @@ function weldNormals(geometry: BufferGeometry, weld: Int32Array): void {
 }
 
 /**
+ * Conservative proportion corrections to the upper body, in the bind pose.
+ *
+ * Muscle relief alone could not get this torso to read as athletic, because the
+ * shapes underneath it are not athletic: the source surface carries soft breast
+ * forms where a pectoral plate should be, and a rounded lower abdomen. Relief
+ * laid over those reads as muscle drawn on a different body.
+ *
+ * Three corrections, each a smooth bounded pull with no hard edge anywhere, and
+ * each at most 9 mm — small enough that the character is recognisably the same
+ * person, large enough that the chest reads as a plate and the waist as a waist.
+ * They are applied to the anatomy geometry only, before the fields are sampled,
+ * so the muscle relief sits on the corrected shape.
+ */
+const TORSO_SHAPE = {
+  /** Flattening across the breast, into a pectoral plate. */
+  chest: 0.0085,
+  /** Drawing in the lower abdomen. */
+  belly: 0.011,
+  /** Narrowing the flanks. */
+  waist: 0.006,
+};
+
+/** A smooth 0 → 1 → 0 hat across a span. */
+const hat = (value: number, low: number, high: number): number => {
+  if (value <= low || value >= high) return 0;
+  return Math.sin((Math.PI * (value - low)) / (high - low));
+};
+
+function shapeTorso(geometry: BufferGeometry, rig: Skeleton, weld: Int32Array): void {
+  const position = geometry.getAttribute('position');
+  const skinIndex = geometry.getAttribute('skinIndex');
+  const skinWeight = geometry.getAttribute('skinWeight');
+  const own = new Set<string>(['spine_01', 'spine_02', 'spine_03', 'pelvis']);
+  const guard = torsoGuard(geometry, rig);
+  const normal = geometry.getAttribute('normal');
+  const pit = pitGuard(geometry, weld);
+  const offset = new Float32Array(position.count * 3);
+  const allowed = new Uint8Array(position.count);
+
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    const owned =
+      smoothstep(0.45, 0.8, boneInfluence(skinIndex, skinWeight, vertex, own, rig)) * guard[vertex];
+    if (owned <= 0) continue;
+    allowed[vertex] = 1;
+
+    const x = position.getX(vertex);
+    const y = position.getY(vertex);
+    const z = position.getZ(vertex);
+    const side = Math.abs(x);
+
+    // Only where the surface actually faces the way it is being pulled. The
+    // navel is a pit: its rim faces sideways and inward, and drawing that back
+    // along with the wall around it closes the dimple through itself.
+    const facesFront = smoothstep(0.2, 0.55, normal.getZ(vertex));
+    const facesSide = smoothstep(0.2, 0.55, Math.abs(normal.getX(vertex)));
+
+    // The breast, pulled back towards the ribs. Peaks off the centre line so the
+    // sternum is left where it is.
+    const chest =
+      TORSO_SHAPE.chest * hat(y, 1.215, 1.34) * hat(side, 0.005, 0.125) * smoothstep(0.07, 0.105, z);
+    // The lower abdomen, drawn in but not hollowed.
+    const belly =
+      TORSO_SHAPE.belly * hat(y, 1.02, 1.215) * smoothstep(0.05, 0.09, z) * (1 - smoothstep(0.085, 0.14, side));
+    // The flanks, for the taper into the waist.
+    const waist = TORSO_SHAPE.waist * hat(y, 1.0, 1.25) * smoothstep(0.065, 0.1, side);
+
+    offset[vertex * 3] = -Math.sign(x) * waist * owned * facesSide * pit[vertex];
+    offset[vertex * 3 + 2] = -(chest + belly) * owned * facesFront * pit[vertex];
+  }
+
+  // Smooth the correction, not the surface. Ownership comes from skin weight,
+  // and a weight boundary running across the belly makes neighbouring vertices
+  // move by different amounts — enough, at the rim of something as small as the
+  // navel, to turn a triangle inside out. Relaxing the offsets first keeps
+  // neighbours moving together and leaves the detail where it is.
+  relaxVectorField(geometry, offset, weld, allowed, 4);
+
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    if (offset[vertex * 3] === 0 && offset[vertex * 3 + 2] === 0) continue;
+    position.setXYZ(
+      vertex,
+      position.getX(vertex) + offset[vertex * 3],
+      position.getY(vertex) + offset[vertex * 3 + 1],
+      position.getZ(vertex) + offset[vertex * 3 + 2],
+    );
+  }
+  position.needsUpdate = true;
+  geometry.computeVertexNormals();
+  weldNormals(geometry, weld);
+}
+
+/**
+ * How much of a displacement a vertex can take before it turns its own
+ * neighbourhood inside out.
+ *
+ * Offsetting a surface along its normals shrinks anything concave: a pit whose
+ * radius of curvature is smaller than the offset closes through itself. The
+ * navel is the clear case — a few millimetres across, and every field that
+ * reaches the abdominal wall would push its rim past its floor. So each vertex
+ * is measured against the centroid of its neighbours: where they sit outward of
+ * it along its own normal, it is in a hollow, and its allowance falls away.
+ */
+function pitGuard(geometry: BufferGeometry, weld: Int32Array): Float32Array {
+  const index = geometry.getIndex();
+  const position = geometry.getAttribute('position');
+  const normal = geometry.getAttribute('normal');
+  const count = position.count;
+  const guard = new Float32Array(count).fill(1);
+  if (!index) return guard;
+
+  const sum = new Float32Array(count * 3);
+  const span = new Float32Array(count);
+  const degree = new Uint32Array(count);
+  const corner = [0, 0, 0];
+  const here = new Vector3();
+  const there = new Vector3();
+
+  for (let triangle = 0; triangle < index.count; triangle += 3) {
+    corner[0] = weld[index.getX(triangle)];
+    corner[1] = weld[index.getX(triangle + 1)];
+    corner[2] = weld[index.getX(triangle + 2)];
+    for (let self = 0; self < 3; self += 1) {
+      here.fromBufferAttribute(position, corner[self]);
+      for (let other = 0; other < 3; other += 1) {
+        if (other === self || corner[other] === corner[self]) continue;
+        there.fromBufferAttribute(position, corner[other]);
+        sum[corner[self] * 3] += there.x;
+        sum[corner[self] * 3 + 1] += there.y;
+        sum[corner[self] * 3 + 2] += there.z;
+        span[corner[self]] += here.distanceTo(there);
+        degree[corner[self]] += 1;
+      }
+    }
+  }
+
+  for (let vertex = 0; vertex < count; vertex += 1) {
+    const owner = weld[vertex];
+    if (degree[owner] === 0) continue;
+    here.fromBufferAttribute(position, owner);
+    there
+      .set(sum[owner * 3], sum[owner * 3 + 1], sum[owner * 3 + 2])
+      .divideScalar(degree[owner])
+      .sub(here);
+    const hollow = there.dot(
+      new Vector3(normal.getX(owner), normal.getY(owner), normal.getZ(owner)),
+    );
+    const edge = span[owner] / degree[owner];
+    guard[vertex] = 1 - smoothstep(0.02 * edge, 0.16 * edge, hollow);
+  }
+  return guard;
+}
+
+/**
+ * Raise a surface out of its own hollows, in a named region.
+ *
+ * Smoothing was the first thing tried on the neck's notch and it is the wrong
+ * tool: a Laplacian pass drags the trapezius ridge either side of the valley
+ * down towards it, and at enough strength to close the notch it turns the ridge
+ * inside out. This does the opposite — it moves outward, only where the surface
+ * is concave, and by an amount that falls to nothing as the hollow does. A flat
+ * or convex vertex is untouched, so nothing is added where nothing was missing,
+ * and displacement away from a concavity cannot fold it.
+ */
+
+/** Laplacian smoothing of a per-vertex vector, over welded mesh adjacency. */
+function relaxVectorField(
+  geometry: BufferGeometry,
+  field: Float32Array,
+  weld: Int32Array,
+  allowed: Uint8Array,
+  iterations: number,
+  lambda = 0.5,
+): void {
+  const index = geometry.getIndex();
+  if (!index) return;
+  const count = field.length / 3;
+  const sum = new Float32Array(count * 3);
+  const degree = new Uint16Array(count);
+  const corner = [0, 0, 0];
+
+  for (let pass = 0; pass < iterations; pass += 1) {
+    sum.fill(0);
+    degree.fill(0);
+    for (let triangle = 0; triangle < index.count; triangle += 3) {
+      corner[0] = weld[index.getX(triangle)];
+      corner[1] = weld[index.getX(triangle + 1)];
+      corner[2] = weld[index.getX(triangle + 2)];
+      for (let self = 0; self < 3; self += 1) {
+        for (let other = 0; other < 3; other += 1) {
+          if (other === self || corner[other] === corner[self]) continue;
+          for (let axis = 0; axis < 3; axis += 1) {
+            sum[corner[self] * 3 + axis] += field[corner[other] * 3 + axis];
+          }
+          degree[corner[self]] += 1;
+        }
+      }
+    }
+    for (let vertex = 0; vertex < count; vertex += 1) {
+      if (weld[vertex] !== vertex || degree[vertex] === 0) continue;
+      // Outside the region that owns the correction the field stays at zero, so
+      // smoothing cannot walk it onto a hip or a shoulder that was excluded.
+      if (!allowed[vertex]) {
+        field[vertex * 3] = 0;
+        field[vertex * 3 + 1] = 0;
+        field[vertex * 3 + 2] = 0;
+        continue;
+      }
+      for (let axis = 0; axis < 3; axis += 1) {
+        const mean = sum[vertex * 3 + axis] / degree[vertex];
+        field[vertex * 3 + axis] += lambda * (mean - field[vertex * 3 + axis]);
+      }
+    }
+    for (let vertex = 0; vertex < count; vertex += 1) {
+      const owner = weld[vertex];
+      if (owner === vertex) continue;
+      for (let axis = 0; axis < 3; axis += 1) field[vertex * 3 + axis] = field[owner * 3 + axis];
+    }
+  }
+}
+
+/**
  * Nothing that belongs to the torso, the neck, the head or the hands.
  *
  * The gates on the individual fields are about which muscle owns a vertex; this
@@ -663,7 +1035,35 @@ function armGuard(geometry: BufferGeometry, rig: Skeleton): Float32Array {
     'spine_03',
     'pelvis',
   ]);
-  for (const side of SIDES) blocked.add(`hand_${side}`);
+  for (const side of SIDES) {
+    blocked.add(`hand_${side}`).add(`thigh_${side}`).add(`shin_${side}`).add(`foot_${side}`);
+  }
+
+  const guard = new Float32Array(count);
+  for (let vertex = 0; vertex < count; vertex += 1) {
+    guard[vertex] = 1 - smoothstep(0.08, 0.3, boneInfluence(skinIndex, skinWeight, vertex, blocked, rig));
+  }
+  return guard;
+}
+
+/**
+ * The other half of the same idea: nothing that belongs to the head, the arms
+ * below the shoulder, or the legs.
+ *
+ * The torso's own muscles legitimately reach onto the humerus — the pectoral and
+ * the latissimus both insert there, and a sheet that stopped at the shoulder
+ * joint would leave a seam across the armpit — so the humerus is allowed and it
+ * is the forearm and beyond that are shut out.
+ */
+function torsoGuard(geometry: BufferGeometry, rig: Skeleton): Float32Array {
+  const skinIndex = geometry.getAttribute('skinIndex');
+  const skinWeight = geometry.getAttribute('skinWeight');
+  const count = skinIndex.count;
+  const blocked = new Set<string>(['head']);
+  for (const side of SIDES) {
+    blocked.add(`forearm_${side}`).add(`hand_${side}`);
+    blocked.add(`thigh_${side}`).add(`shin_${side}`).add(`foot_${side}`);
+  }
 
   const guard = new Float32Array(count);
   for (let vertex = 0; vertex < count; vertex += 1) {
@@ -698,6 +1098,7 @@ function armRegion(geometry: BufferGeometry, rig: Skeleton): Float32Array {
   }
   return region;
 }
+
 
 /**
  * Settle the surface itself, inside the arm fields and nowhere else.
@@ -864,6 +1265,11 @@ export function sculptRelief(
   weld: Int32Array,
   rig: Skeleton = canonicalSkeleton,
 ): void {
+  const pit = pitGuard(geometry, weld);
+  for (let vertex = 0; vertex < map.height.length; vertex += 1) {
+    map.height[vertex] *= pit[vertex];
+    map.peak[vertex] *= pit[vertex];
+  }
   const position = geometry.getAttribute('position');
   const normal = geometry.getAttribute('normal');
   const point = new Vector3();
@@ -970,14 +1376,105 @@ function refineArm(geometry: BufferGeometry, rig: Skeleton): BufferGeometry {
   );
 }
 
+/**
+ * Pull back any displacement that turned a triangle over.
+ *
+ * Every stage here moves the surface along its own normals and each one guards
+ * its own region, but a vertex can be moved by two of them — the neck levelling
+ * and the torso, say — and neither sees the other's contribution. This is the
+ * one check over the finished result: a triangle that ends up facing against the
+ * way the character's own surface faced, or collapsed to a sliver of it, has the
+ * *total* displacement of its corners halved, repeatedly, until it does not.
+ *
+ * Damping the corners rather than the last stage's contribution keeps it
+ * independent of the order the stages ran in, and it costs relief only on the
+ * triangles that were about to fold.
+ */
+function keepFacing(geometry: BufferGeometry, rest: Float32Array): number {
+  const index = geometry.getIndex();
+  if (!index) return 0;
+  const position = geometry.getAttribute('position');
+  const count = position.count;
+
+  const move = new Float32Array(count * 3);
+  for (let vertex = 0; vertex < count * 3; vertex += 1) {
+    move[vertex] = (position.array as ArrayLike<number>)[vertex] - rest[vertex];
+  }
+
+  const first = new Vector3();
+  const second = new Vector3();
+  const third = new Vector3();
+  const before = new Vector3();
+  const after = new Vector3();
+  const facing = (corner: number[], scale: number, out: Vector3) => {
+    const at = (slot: number, point: Vector3) =>
+      point.set(
+        rest[corner[slot] * 3] + move[corner[slot] * 3] * scale,
+        rest[corner[slot] * 3 + 1] + move[corner[slot] * 3 + 1] * scale,
+        rest[corner[slot] * 3 + 2] + move[corner[slot] * 3 + 2] * scale,
+      );
+    at(0, first);
+    at(1, second);
+    at(2, third);
+    return out.crossVectors(second.sub(first), third.sub(first));
+  };
+
+  let damped = 0;
+  for (let pass = 0; pass < 14; pass += 1) {
+    let touched = false;
+    for (let triangle = 0; triangle < index.count; triangle += 3) {
+      const corner = [index.getX(triangle), index.getX(triangle + 1), index.getX(triangle + 2)];
+      if (!corner.some((vertex) => move[vertex * 3] || move[vertex * 3 + 1] || move[vertex * 3 + 2])) {
+        continue;
+      }
+      facing(corner, 0, before);
+      facing(corner, 1, after);
+      if (before.lengthSq() < 1e-20 || after.lengthSq() < 1e-20) continue;
+      // Facing the same way, and still a triangle rather than a sliver of one.
+      if (after.dot(before) > 0 && after.length() / before.length() > 0.25) continue;
+      for (const vertex of corner) {
+        move[vertex * 3] *= 0.5;
+        move[vertex * 3 + 1] *= 0.5;
+        move[vertex * 3 + 2] *= 0.5;
+      }
+      touched = true;
+      damped += 1;
+    }
+    if (!touched) break;
+  }
+
+  if (damped === 0) return 0;
+  for (let vertex = 0; vertex < count; vertex += 1) {
+    position.setXYZ(
+      vertex,
+      rest[vertex * 3] + move[vertex * 3],
+      rest[vertex * 3 + 1] + move[vertex * 3 + 1],
+      rest[vertex * 3 + 2] + move[vertex * 3 + 2],
+    );
+  }
+  position.needsUpdate = true;
+  geometry.computeVertexNormals();
+  return damped;
+}
+
 /** The écorché body: the character's own geometry, read as fields, sculpted and repainted. */
 export function buildEcorcheGeometry(rig: Skeleton = canonicalSkeleton): BufferGeometry {
   const source = buildBodyGeometry(rig).geometry;
   const geometry = REFINE_ARM ? refineArm(source, rig) : source;
+  const rest = Float32Array.from(geometry.getAttribute('position').array as ArrayLike<number>);
   blendElbowWeights(geometry, rig);
   const weld = buildWeld(geometry);
+  // Nothing to do at the junction any more. `buildAnatomicalBodyGeometry`
+  // repairs both halves of it for every consumer — the head-to-neck binding and
+  // the ledge the conversion transforms left at the nape — so the fields and the
+  // relief below already sit on the corrected surface and read its corrected
+  // weights. An Anatomy-only levelling pass used to run here; it was a second
+  // correction for the same defect, applied to one mode only, and the shared fix
+  // replaced it.
+  shapeTorso(geometry, rig, weld);
   const map = buildMuscleMap(geometry, rig);
   sculptRelief(geometry, map, weld, rig);
+  geometry.userData.unfolded = keepFacing(geometry, rest);
   const count = geometry.getAttribute('position').count;
 
   // Categorical, so explicitly not normalised: these are ids, not colours.

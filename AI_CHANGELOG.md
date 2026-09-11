@@ -6,6 +6,41 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-11 — importing a Rigify character, and imports with holes in them
+
+Two importer changes, found by putting a real Rigify-rigged GLB through the new
+character layer. Both are general; neither is specific to that file.
+
+**Rigify deform names.** `DEF-upper_arm.L`, `DEF-spine.003` and the rest matched
+nothing, so a Rigify export arrived with 30 of 53 bones mapped and every one of
+them a finger. Its spine is numbered rather than named — `DEF-spine` is the
+pelvis and `DEF-spine.006` the head — so the synonyms now carry the whole set.
+The test file maps 52 of 53; only our own synthetic `root` is left, which has
+no counterpart in any character.
+
+**Vertices the rig cannot use.** The rebind already handed an unmapped bone's
+weight to its nearest mapped ancestor. Two cases defeat that: a face rig
+parented to the armature rather than to the head, so walking up reaches
+nothing; and `neutral_bone`, the placeholder Blender's exporter gives vertices
+that belong to no vertex group at all. Both used to be pinned to the pelvis,
+which dragged whole limbs across the hips as long shards. Each such vertex now
+binds rigidly to the bone nearest it at bind time, so it rides the part of the
+body it sits on.
+
+That is a graceful failure, not a repair, and it is reported as one: the count
+comes back in `RebindReport.orphaned` and the character panel says the vertices
+carried no usable weight — a gap in the file's own weighting, not in the
+import. On the file that prompted this, 1,922 of 10,839 vertices (17.7%) are
+unweighted, symmetric at 961 a side, all outboard of the elbow: both forearms
+and both hands. Rigid binding keeps them attached to the right limb; it cannot
+make them deform, and the arms still shred through a curl. The fix belongs in
+the asset.
+
+Four character tests were given an explicit 30 s timeout. Building the built-in
+surface runs every repair pass over 14k vertices, which is seconds rather than
+milliseconds, and it was tripping vitest's 5 s default on a slower machine. No
+assertion changed.
+
 ### Claude — 2026-09-10 — the character layer, made replaceable
 
 The visible character was welded to the animation. `buildSkinnedRig` imported

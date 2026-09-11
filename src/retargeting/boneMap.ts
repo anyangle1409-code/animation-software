@@ -32,31 +32,38 @@ export const createMapping = (label: string, sourceRig: string): BoneMapping => 
  * Naming conventions the studio recognises. Most rigged characters — Mixamo,
  * Meshy, Rigify, Unreal, VRM — use one of a small number of naming styles, so
  * a first-pass mapping can nearly always be guessed and then corrected by hand.
+ *
+ * Rigify's deform bones (`DEF-upper_arm.L`) are listed alongside the rest.
+ * Its spine is numbered rather than named — `DEF-spine` is the pelvis and
+ * `DEF-spine.006` the head — and everything it carries that we do not (twist
+ * halves, the face rig, `DEF-spine.005`) is left unmapped on purpose: the
+ * rebind hands an unmapped bone's weight to its nearest mapped ancestor, which
+ * is where that surface rides anyway.
  */
 const SYNONYMS: Partial<Record<BoneName, string[]>> = {
   root: ['root', 'armature', 'reference', 'hips_root'],
-  pelvis: ['pelvis', 'hips', 'hip', 'mixamorighips', 'bip01pelvis', 'j_bip_c_hips'],
-  spine_01: ['spine', 'spine1', 'spine_01', 'mixamorigspine', 'j_bip_c_spine', 'abdomen'],
-  spine_02: ['spine2', 'spine_02', 'chest', 'mixamorigspine1', 'j_bip_c_chest'],
-  spine_03: ['spine3', 'spine_03', 'upperchest', 'chest2', 'mixamorigspine2', 'j_bip_c_upperchest'],
-  neck: ['neck', 'mixamorigneck', 'j_bip_c_neck'],
-  head: ['head', 'mixamorighead', 'j_bip_c_head'],
-  clavicle_l: ['leftshoulder', 'clavicle_l', 'shoulder_l', 'l_clavicle', 'mixamorigleftshoulder'],
-  upperarm_l: ['leftarm', 'upperarm_l', 'arm_l', 'l_upperarm', 'mixamorigleftarm', 'upper_arm_l'],
-  forearm_l: ['leftforearm', 'lowerarm_l', 'forearm_l', 'l_forearm', 'mixamorigleftforearm'],
-  hand_l: ['lefthand', 'hand_l', 'l_hand', 'mixamoriglefthand'],
-  clavicle_r: ['rightshoulder', 'clavicle_r', 'shoulder_r', 'r_clavicle', 'mixamorigrightshoulder'],
-  upperarm_r: ['rightarm', 'upperarm_r', 'arm_r', 'r_upperarm', 'mixamorigrightarm', 'upper_arm_r'],
-  forearm_r: ['rightforearm', 'lowerarm_r', 'forearm_r', 'r_forearm', 'mixamorigrightforearm'],
-  hand_r: ['righthand', 'hand_r', 'r_hand', 'mixamorigrighthand'],
-  thigh_l: ['leftupleg', 'thigh_l', 'upperleg_l', 'l_thigh', 'mixamorigleftupleg'],
-  shin_l: ['leftleg', 'calf_l', 'shin_l', 'lowerleg_l', 'l_calf', 'mixamorigleftleg'],
-  foot_l: ['leftfoot', 'foot_l', 'l_foot', 'mixamorigleftfoot'],
-  toe_l: ['lefttoebase', 'ball_l', 'toe_l', 'l_toe', 'mixamoriglefttoebase'],
-  thigh_r: ['rightupleg', 'thigh_r', 'upperleg_r', 'r_thigh', 'mixamorigrightupleg'],
-  shin_r: ['rightleg', 'calf_r', 'shin_r', 'lowerleg_r', 'r_calf', 'mixamorigrightleg'],
-  foot_r: ['rightfoot', 'foot_r', 'r_foot', 'mixamorigrightfoot'],
-  toe_r: ['righttoebase', 'ball_r', 'toe_r', 'r_toe', 'mixamorigrighttoebase'],
+  pelvis: ['pelvis', 'hips', 'hip', 'mixamorighips', 'bip01pelvis', 'j_bip_c_hips', 'def-spine'],
+  spine_01: ['spine', 'spine1', 'spine_01', 'mixamorigspine', 'j_bip_c_spine', 'abdomen', 'def-spine.001'],
+  spine_02: ['spine2', 'spine_02', 'chest', 'mixamorigspine1', 'j_bip_c_chest', 'def-spine.002'],
+  spine_03: ['spine3', 'spine_03', 'upperchest', 'chest2', 'mixamorigspine2', 'j_bip_c_upperchest', 'def-spine.003'],
+  neck: ['neck', 'mixamorigneck', 'j_bip_c_neck', 'def-spine.004'],
+  head: ['head', 'mixamorighead', 'j_bip_c_head', 'def-spine.006'],
+  clavicle_l: ['leftshoulder', 'clavicle_l', 'shoulder_l', 'l_clavicle', 'mixamorigleftshoulder', 'def-shoulder.l'],
+  upperarm_l: ['leftarm', 'upperarm_l', 'arm_l', 'l_upperarm', 'mixamorigleftarm', 'upper_arm_l', 'def-upper_arm.l'],
+  forearm_l: ['leftforearm', 'lowerarm_l', 'forearm_l', 'l_forearm', 'mixamorigleftforearm', 'def-forearm.l'],
+  hand_l: ['lefthand', 'hand_l', 'l_hand', 'mixamoriglefthand', 'def-hand.l'],
+  clavicle_r: ['rightshoulder', 'clavicle_r', 'shoulder_r', 'r_clavicle', 'mixamorigrightshoulder', 'def-shoulder.r'],
+  upperarm_r: ['rightarm', 'upperarm_r', 'arm_r', 'r_upperarm', 'mixamorigrightarm', 'upper_arm_r', 'def-upper_arm.r'],
+  forearm_r: ['rightforearm', 'lowerarm_r', 'forearm_r', 'r_forearm', 'mixamorigrightforearm', 'def-forearm.r'],
+  hand_r: ['righthand', 'hand_r', 'r_hand', 'mixamorigrighthand', 'def-hand.r'],
+  thigh_l: ['leftupleg', 'thigh_l', 'upperleg_l', 'l_thigh', 'mixamorigleftupleg', 'def-thigh.l'],
+  shin_l: ['leftleg', 'calf_l', 'shin_l', 'lowerleg_l', 'l_calf', 'mixamorigleftleg', 'def-shin.l'],
+  foot_l: ['leftfoot', 'foot_l', 'l_foot', 'mixamorigleftfoot', 'def-foot.l'],
+  toe_l: ['lefttoebase', 'ball_l', 'toe_l', 'l_toe', 'mixamoriglefttoebase', 'def-toe.l'],
+  thigh_r: ['rightupleg', 'thigh_r', 'upperleg_r', 'r_thigh', 'mixamorigrightupleg', 'def-thigh.r'],
+  shin_r: ['rightleg', 'calf_r', 'shin_r', 'lowerleg_r', 'r_calf', 'mixamorigrightleg', 'def-shin.r'],
+  foot_r: ['rightfoot', 'foot_r', 'r_foot', 'mixamorigrightfoot', 'def-foot.r'],
+  toe_r: ['righttoebase', 'ball_r', 'toe_r', 'r_toe', 'mixamorigrighttoebase', 'def-toe.r'],
 };
 
 const normalise = (name: string): string =>

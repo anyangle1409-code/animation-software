@@ -99,8 +99,9 @@ export function CharacterPanel() {
           </div>
           {rebind.some((part) => part.orphaned > 0) && (
             <div className="status__row">
-              {rebind.reduce((total, part) => total + part.orphaned, 0)} vertices had no mapped
-              bone and were pinned to the pelvis.
+              {rebind.reduce((total, part) => total + part.orphaned, 0)} vertices carried no
+              usable weight and were bound rigidly to the nearest bone — a gap in the file's
+              own weighting, not in the import.
             </div>
           )}
         </div>

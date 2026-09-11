@@ -65,7 +65,9 @@ describe('the character registry', () => {
 });
 
 describe('the built-in character', () => {
-  it('still builds, binds to the canonical rig and animates', async () => {
+  // Building the built-in surface runs every repair pass over 14k vertices,
+  // which is seconds rather than milliseconds on a cold machine.
+  it('still builds, binds to the canonical rig and animates', { timeout: 30_000 }, async () => {
     const character = await builtinCharacter.build(rig);
 
     expect(character.bones).toHaveLength(rig.bones.length);
@@ -89,7 +91,7 @@ describe('the built-in character', () => {
     character.dispose();
   });
 
-  it('keeps its mesh-specific correctives, and hands them to the exporter', async () => {
+  it('keeps its mesh-specific correctives, and hands them to the exporter', { timeout: 30_000 }, async () => {
     const character = await builtinCharacter.build(rig);
     expect(character.deformation).not.toBeNull();
 
@@ -190,6 +192,58 @@ describe('rebinding a surface by bone name', () => {
     const moved = new Vector3(position.getX(0), position.getY(0), position.getZ(0));
     expect(moved.distanceTo(spine.restHead)).toBeCloseTo(0.0, 2);
   });
+
+  it('reads a Rigify deform rig by name', () => {
+    // Rigify numbers its spine rather than naming it, and prefixes every deform
+    // bone. Blender's exporter strips the dots on the way out, which the
+    // normaliser already handles.
+    const bones = guessMapping([
+      'DEF-spine', 'DEF-spine001', 'DEF-spine002', 'DEF-spine003', 'DEF-spine004',
+      'DEF-spine006', 'DEF-shoulderR', 'DEF-upper_armR', 'DEF-forearmR', 'DEF-handR',
+      'DEF-thighR', 'DEF-shinR', 'DEF-footR', 'DEF-toeR', 'neutral_bone',
+    ]);
+    expect(bones.pelvis).toBe('DEF-spine');
+    expect(bones.spine_03).toBe('DEF-spine003');
+    expect(bones.neck).toBe('DEF-spine004');
+    expect(bones.head).toBe('DEF-spine006');
+    expect(bones.clavicle_r).toBe('DEF-shoulderR');
+    expect(bones.upperarm_r).toBe('DEF-upper_armR');
+    expect(bones.forearm_r).toBe('DEF-forearmR');
+    expect(bones.hand_r).toBe('DEF-handR');
+    expect(bones.foot_r).toBe('DEF-footR');
+    // The exporter's placeholder for unweighted vertices is not a body part.
+    expect(Object.values(bones)).not.toContain('neutral_bone');
+  });
+
+  it('binds an unweighted vertex to the bone nearest it, and says so', () => {
+    const mesh = foreignCharacter();
+    // A third bone carrying no canonical meaning at all — the shape Blender's
+    // exporter leaves behind when a vertex belongs to no vertex group.
+    const skinIndex = mesh.geometry.getAttribute('skinIndex');
+    skinIndex.setXYZW(2, 1, 0, 0, 0);
+    const mapping = createMapping('foreign', 'test');
+    mapping.bones = { pelvis: 'mixamorigHips' };
+    mapping.characterHeight = 1.75;
+
+    const report = rebindToCanonical(mesh, mapping, rig);
+
+    // The spine and twist bones are both unmapped now, so every vertex falls
+    // back — and lands on the pelvis because that is the only bone there is.
+    expect(report.orphaned).toBe(0);
+    expect(report.reassigned).toBe(3);
+
+    // With nothing mapped at all the surface still has to survive.
+    const bare = foreignCharacter();
+    const empty = createMapping('bare', 'test');
+    empty.bones = {};
+    empty.characterHeight = 1.75;
+    const bareReport = rebindToCanonical(bare, empty, rig);
+    expect(bareReport.orphaned).toBe(3);
+    const bareIndex = bare.geometry.getAttribute('skinIndex');
+    for (let vertex = 0; vertex < bareIndex.count; vertex += 1) {
+      expect(Number.isInteger(bareIndex.getX(vertex))).toBe(true);
+    }
+  });
 });
 
 describe('a GLB character through the source architecture', () => {
@@ -257,7 +311,7 @@ describe('a GLB character through the source architecture', () => {
 });
 
 describe('the viewport and the exported file', () => {
-  it('pose the same character the same way', async () => {
+  it('pose the same character the same way', { timeout: 30_000 }, async () => {
     const character = await builtinCharacter.build(rig);
     const baked = bakeClip(studioClip, rig, { fps: 20 });
 

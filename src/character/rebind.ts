@@ -42,7 +42,12 @@ export interface RebindReport {
   unmappedBones: string[];
   /** Vertices with at least one influence moved to an ancestor bone. */
   reassigned: number;
-  /** Vertices left with no mapped influence at all, pinned to the pelvis. */
+  /**
+   * Vertices whose influences the rig could not use at all — an unweighted
+   * vertex, or one on a bone with no canonical counterpart anywhere above it.
+   * Each is bound rigidly to the bone nearest it instead. A large count means
+   * the file has a hole in its weighting, not that the import failed.
+   */
   orphaned: number;
   /** Uniform scale applied to match the rig's height. */
   scale: number;
@@ -84,6 +89,12 @@ export function rebindToCanonical(
     if (target) byTargetName.set(target, canonical as BoneName);
   }
 
+  // Where each source bone sits at bind time, used both for the placement
+  // below and for the proximity fallback.
+  const bindHead = sourceBones.map((_, index) =>
+    new Vector3().setFromMatrixPosition(mesh.skeleton.boneInverses[index].clone().invert()),
+  );
+
   const owner: (BoneName | null)[] = [];
   const inherited: boolean[] = [];
   for (const bone of sourceBones) {
@@ -102,6 +113,11 @@ export function rebindToCanonical(
     owner.push(found);
     inherited.push(found !== null && steps > 0);
   }
+
+  /** The source bones that did find a canonical bone, for the fallback below. */
+  const anchors = sourceBones
+    .map((_, index) => index)
+    .filter((index) => owner[index] !== null);
 
   // The model's height, measured in the bind space the weights are expressed
   // in, so a centimetre-scaled export is handled like any other.
@@ -129,10 +145,6 @@ export function rebindToCanonical(
   });
 
   const pelvis = canonicalIndex.get('pelvis') ?? 0;
-  // Where a vertex with no usable influence goes: onto the pelvis if the model
-  // has one, otherwise simply scaled about the origin.
-  const pelvisSource = owner.findIndex((name) => name === 'pelvis');
-  const pelvisPlacement = pelvisSource >= 0 ? placement[pelvisSource]! : scaleMatrix;
 
   const mapped = new Set<string>();
   const unmapped = new Set<string>();
@@ -170,10 +182,28 @@ export function rebindToCanonical(
 
     blended.set(0, 0, 0);
     if (total <= 0) {
-      // Nothing usable: park it on the pelvis rather than drop it, so the
-      // surface stays closed and the fault is visible instead of silent.
-      blended.copy(source).applyMatrix4(pelvisPlacement);
-      writeSkin(skinIndex, skinWeight, vertex, [{ bone: pelvis, weight: 1 }]);
+      // No influence this rig can use. Two rigs in three do this somewhere: a
+      // face rig parented to the armature rather than to the head, or the
+      // placeholder bone Blender's exporter gives vertices that were left out
+      // of every vertex group. Rather than pin them to the root — which drags
+      // whole limbs across the body — each such vertex takes the bone nearest
+      // to it at bind time, so it rides the part of the body it sits on.
+      // It is a repair, not a rescue: the vertex becomes rigid with one bone
+      // and is counted in the report so the gap is visible rather than silent.
+      let nearest = Infinity;
+      let chosen = anchors[0] ?? 0;
+      for (const anchor of anchors) {
+        const distance = source.distanceToSquared(bindHead[anchor]);
+        if (distance < nearest) {
+          nearest = distance;
+          chosen = anchor;
+        }
+      }
+      const matrix = placement[chosen];
+      blended.copy(source).applyMatrix4(matrix ?? scaleMatrix);
+      writeSkin(skinIndex, skinWeight, vertex, [
+        { bone: canonicalIndex.get(owner[chosen]!) ?? pelvis, weight: 1 },
+      ]);
       orphaned += 1;
     } else {
       for (const slot of slots) {

@@ -6,6 +6,12 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-12 — absolute imported-character pose transfer
+
+Imported characters now take the canonical resolved pose as an absolute anatomical target instead of adding canonical deltas to the asset rest pose. This brings A/T-posed arms into the exercise pose and lets authored-open hands reproduce the canonical grip while preserving the source skeleton, bone lengths, weights and passive helper/twist bones.
+
+The retargeter evaluates canonical world bone frames, aligns them to the imported character facing direction, converts them through each source bone authored-to-anatomical basis correction, and writes the resulting local rotations through the source hierarchy. Regression coverage includes a deliberately T-posed character and an authored-open hand; the grip assertion checks finger segment directions because authored bone roll can differ even when the anatomical segment is correct.
+
 ### Claude — 2026-09-12 — imported characters are preserved, not rebuilt
 
 The rig is a *driver*, not a skin skeleton. The import path now says so.

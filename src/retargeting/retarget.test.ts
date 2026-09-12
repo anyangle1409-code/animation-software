@@ -12,10 +12,14 @@ const skeleton = canonicalSkeleton;
 
 /**
  * A stand-in imported character: the canonical rig rebuilt under a different
- * naming convention, optionally with its arms in a T-pose so the rest poses of
- * the two rigs genuinely differ.
+ * naming convention, optionally with a deliberately different authored rest
+ * pose. Real characters often arrive A/T-posed with open, spread fingers.
  */
-function buildCharacter(options: { names: (name: string) => string; tPose?: boolean }) {
+function buildCharacter(options: {
+  names: (name: string) => string;
+  tPose?: boolean;
+  openHand?: boolean;
+}) {
   const group = new Group();
   const bones = new Map<string, Bone>();
 
@@ -29,6 +33,18 @@ function buildCharacter(options: { names: (name: string) => string; tPose?: bool
       const side = rigBone.name.endsWith('_l') ? -1 : 1;
       bone.quaternion.multiply(
         new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), (side * Math.PI) / 2),
+      );
+    }
+    if (
+      options.openHand &&
+      /^(thumb|index|middle|ring|pinky)_01_[lr]$/.test(rigBone.name)
+    ) {
+      // Fan the proximal finger bones away from the canonical hand pose. The
+      // exact axis is unimportant; the point is that a canonical grip must not
+      // be treated as a delta on top of this authored spread.
+      const side = rigBone.name.endsWith('_l') ? 1 : -1;
+      bone.quaternion.multiply(
+        new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), side * 0.38),
       );
     }
     bones.set(rigBone.name, bone);
@@ -117,7 +133,7 @@ describe('retargeting', () => {
     }
   });
 
-  it('carries the movement onto a T-posed rig rather than copying raw angles', () => {
+  it('uses the canonical pose absolutely instead of preserving a T-pose rest', () => {
     const character = buildCharacter({ names: mixamoNames, tPose: true });
     const mapping = createMapping('T-pose', 'mixamo');
     mapping.bones = guessMapping(character.boneNames);
@@ -126,18 +142,23 @@ describe('retargeting', () => {
     const worldOf = (canonical: 'upperarm_l' | 'forearm_l' | 'hand_l') =>
       new Vector3().setFromMatrixPosition(bone(canonical).matrixWorld);
 
-    // Applying the source rest pose must leave the character in its own rest
-    // pose — arms horizontal — not drag it into the source's arms-down pose.
     const binding = bindRetarget(character, mapping);
-    applyRetarget(binding, restPose());
-    const elbowAtRest = worldOf('forearm_l');
-    expect(elbowAtRest.y).toBeGreaterThan(1.35);
-    expect(elbowAtRest.x).toBeLessThan(-0.4);
+    const rest = restPose();
+    applyRetarget(binding, rest);
+    evaluation.apply(rest);
 
-    // Curling the source elbow bends the target's elbow by the same angle,
-    // even though the two arms start from completely different orientations.
+    // The source was authored with horizontal arms, but canonical zero means
+    // canonical rest: the target arm must come down rather than staying in its
+    // source T pose.
+    const targetUpper = bone('upperarm_l').getWorldQuaternion(new Quaternion());
+    expect(targetUpper.angleTo(evaluation.quaternion('upperarm_l'))).toBeLessThan(1e-5);
+    expect(worldOf('forearm_l').y).toBeCloseTo(evaluation.head('forearm_l').y, 5);
+
+    // Curling the source elbow still bends the target by the canonical amount.
     resetCharacter(character);
-    applyRetarget(binding, poseFromDegrees({ forearm_l: { x: 120 } }));
+    const flexedPose = poseFromDegrees({ forearm_l: { x: 120 } });
+    applyRetarget(binding, flexedPose);
+    evaluation.apply(flexedPose);
     const shoulder = worldOf('upperarm_l');
     const elbow = worldOf('forearm_l');
     const hand = worldOf('hand_l');
@@ -147,16 +168,42 @@ describe('retargeting', () => {
     expect(bend).toBeCloseTo(120, 0);
   });
 
-  it('puts the character back in its rest pose on reset', () => {
-    const character = buildCharacter({ names: identityNames });
+  it('closes an authored-open hand to the canonical grip pose', () => {
+    const character = buildCharacter({ names: identityNames, openHand: true });
+    const mapping = createMapping('Open hand', 'identity');
+    mapping.bones = guessMapping(character.boneNames);
+    const binding = bindRetarget(character, mapping);
+
+    const pose = sampleClip(clip, 0).pose; // bicep curl includes its dumbbell grip
+    applyRetarget(binding, pose);
+    evaluation.apply(pose);
+
+    for (const name of [
+      'thumb_01_l',
+      'thumb_02_l',
+      'index_01_l',
+      'middle_02_l',
+      'ring_02_r',
+      'pinky_03_r',
+    ] as const) {
+      const target = character.bones.get(name)!.getWorldQuaternion(new Quaternion());
+      expect(target.angleTo(evaluation.quaternion(name)), name).toBeLessThan(1e-5);
+    }
+  });
+
+  it('puts the character back in its authored rest pose on reset', () => {
+    const character = buildCharacter({ names: identityNames, tPose: true, openHand: true });
     const mapping = createMapping('Same', 'identity');
     mapping.bones = guessMapping(character.boneNames);
-    const before = character.bones.get('forearm_l')!.quaternion.clone();
+    const beforeArm = character.bones.get('upperarm_l')!.quaternion.clone();
+    const beforeFinger = character.bones.get('index_01_l')!.quaternion.clone();
 
     applyRetarget(bindRetarget(character, mapping), sampleClip(clip, 2).pose);
-    expect(character.bones.get('forearm_l')!.quaternion.angleTo(before)).toBeGreaterThan(0.5);
+    expect(character.bones.get('upperarm_l')!.quaternion.angleTo(beforeArm)).toBeGreaterThan(0.5);
+    expect(character.bones.get('index_01_l')!.quaternion.angleTo(beforeFinger)).toBeGreaterThan(0.1);
 
     resetCharacter(character);
-    expect(character.bones.get('forearm_l')!.quaternion.angleTo(before)).toBeLessThan(1e-6);
+    expect(character.bones.get('upperarm_l')!.quaternion.angleTo(beforeArm)).toBeLessThan(1e-6);
+    expect(character.bones.get('index_01_l')!.quaternion.angleTo(beforeFinger)).toBeLessThan(1e-6);
   });
 });

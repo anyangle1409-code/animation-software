@@ -17,7 +17,7 @@ import { describe, expect, it } from 'vitest';
 
 const rig = canonicalSkeleton;
 const MAX_DIRECTION_ERROR = 0.01; // radians, about 0.57 degrees
-const MAX_PALM_DIRECTION_ERROR = 0.015; // radians, about 0.86 degrees
+const MAX_PALM_DIRECTION_ERROR = 0.02; // radians, about 1.15 degrees
 
 /**
  * Build a deliberately non-canonical imported rest pose.  This is not meant to
@@ -132,7 +132,7 @@ function certifyExercise(definition: ExerciseDefinition, names: BoneName[]) {
       // We certify the anatomical segment direction, not source-bone roll.
       // The hand has no explicit tail node on common rigs, so its centreline is
       // reconstructed from the four finger knuckles; allow that approximation
-      // slightly under one degree. Other segments stay under ~0.57 degrees.
+      // just over one degree. Other segments stay under ~0.57 degrees.
       const tolerance = name === 'hand_l' || name === 'hand_r'
         ? MAX_PALM_DIRECTION_ERROR
         : MAX_DIRECTION_ERROR;

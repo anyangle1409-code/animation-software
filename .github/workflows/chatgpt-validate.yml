@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
@@ -16,8 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -27,74 +25,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Persist corrected grip regression test and changelog
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          test_path = Path('src/retargeting/retarget.test.ts')
-          text = test_path.read_text()
-          old = """    for (const name of [
-                'thumb_01_l',
-                'thumb_02_l',
-                'index_01_l',
-                'middle_02_l',
-                'ring_02_r',
-                'pinky_03_r',
-              ] as const) {
-                const target = character.bones.get(name)!.getWorldQuaternion(new Quaternion());
-                expect(target.angleTo(evaluation.quaternion(name)), name).toBeLessThan(1e-5);
-              }
-          """
-          new = """    const segments = [
-                ['thumb_01_l', 'thumb_02_l'],
-                ['thumb_02_l', 'thumb_03_l'],
-                ['index_01_l', 'index_02_l'],
-                ['middle_02_l', 'middle_03_l'],
-                ['ring_02_r', 'ring_03_r'],
-                ['pinky_02_r', 'pinky_03_r'],
-              ] as const;
-              for (const [name, child] of segments) {
-                const targetHead = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
-                const targetTail = new Vector3().setFromMatrixPosition(character.bones.get(child)!.matrixWorld);
-                const targetDirection = targetTail.sub(targetHead).normalize();
-                const expectedHead = evaluation.head(name, new Vector3());
-                const expectedTail = evaluation.head(child, new Vector3());
-                const expectedDirection = expectedTail.sub(expectedHead).normalize();
-                expect(targetDirection.angleTo(expectedDirection), `${name}->${child}`).toBeLessThan(1e-5);
-              }
-          """
-          if old in text:
-              test_path.write_text(text.replace(old, new))
-          elif new not in text:
-              raise SystemExit('Neither the old nor corrected grip assertion block was found')
-
-          changelog = Path('AI_CHANGELOG.md')
-          log = changelog.read_text()
-          heading = '### ChatGPT — 2026-09-12 — absolute imported-character pose transfer'
-          if heading not in log:
-              entry = """### ChatGPT — 2026-09-12 — absolute imported-character pose transfer
-
-Imported characters now take the canonical resolved pose as an absolute anatomical target instead of adding canonical deltas to whatever rest pose the asset shipped with. This brings A/T-posed arms down into the exercise pose and lets open/spread source hands reproduce the canonical grip while preserving the source skeleton, bone lengths, weights and passive helper/twist bones.
-
-The retargeter evaluates the canonical world bone frames, aligns them to the imported character's facing direction, converts them through each source bone's authored-to-anatomical basis correction, then writes the resulting local rotations through the source hierarchy. Regression coverage includes a deliberately T-posed character and an authored-open hand. The grip assertion compares finger segment directions, because a source bone's raw world quaternion can legitimately differ when its authored roll differs even though its anatomical segment is correct.
-
-"""
-              marker = '## Unreleased\n\n'
-              if marker not in log:
-                  raise SystemExit('Unreleased changelog marker not found')
-              changelog.write_text(log.replace(marker, marker + entry, 1))
-          PY
-
-          if ! git diff --quiet -- src/retargeting/retarget.test.ts AI_CHANGELOG.md; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/retargeting/retarget.test.ts AI_CHANGELOG.md
-            git commit -m "Fix absolute retarget grip regression test"
-            git push origin HEAD:chatgpt/absolute-retarget-imports
-          fi
 
       - name: Unit tests
         run: npm test

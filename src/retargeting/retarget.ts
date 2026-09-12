@@ -171,6 +171,34 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
 }
 
 /**
+ * The hand bone ends through the centre of the palm, not at the thumb root.
+ * Rigify (and many other rigs) has no explicit node at that tail; its hand bone
+ * fans directly into the five digits.  Averaging the four finger knuckles gives
+ * a stable palm-longitudinal axis and avoids making the hand frame depend on
+ * whichever child happens to be listed first (normally the thumb).
+ */
+function palmTail(
+  canonical: 'hand_l' | 'hand_r',
+  character: TargetCharacter,
+  mapping: BoneMapping,
+): Vector3 | null {
+  const side = canonical.endsWith('_l') ? 'l' : 'r';
+  const roots = [`index_01_${side}`, `middle_01_${side}`, `ring_01_${side}`, `pinky_01_${side}`] as BoneName[];
+  const positions: Vector3[] = [];
+
+  for (const root of roots) {
+    const mapped = mapping.bones[root];
+    const position = mapped ? character.restWorldPosition.get(mapped) : undefined;
+    if (position) positions.push(position);
+  }
+
+  if (positions.length < 2) return null;
+  const average = new Vector3();
+  for (const position of positions) average.add(position);
+  return average.multiplyScalar(1 / positions.length);
+}
+
+/**
  * The far end of a target bone at rest, taken from whichever bone our own rig
  * says comes next. Using our topology rather than the character's avoids being
  * confused by twist bones and other rig-specific extras.
@@ -183,6 +211,12 @@ function restTail(
   head: Vector3,
 ): Vector3 | null {
   const rigBone = rig.bone(canonical);
+
+  if (canonical === 'hand_l' || canonical === 'hand_r') {
+    const palm = palmTail(canonical, character, mapping);
+    if (palm && palm.distanceTo(head) > 1e-4) return palm;
+  }
+
   for (const childName of rigBone.children) {
     const mapped = mapping.bones[childName];
     const position = mapped ? character.restWorldPosition.get(mapped) : undefined;

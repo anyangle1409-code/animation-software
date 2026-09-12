@@ -1,10 +1,9 @@
-import { Box3, Euler, Object3D, Quaternion, Vector3 } from 'three';
+import { Box3, Object3D, Quaternion, Vector3 } from 'three';
 import type { Bone, SkinnedMesh } from 'three';
 import type { BoneName } from '../rig/boneNames';
-import { boneFrame, canonicalSkeleton } from '../rig/skeleton';
+import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
-import { EULER_ORDER } from '../rig/types';
 import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from './boneMap';
 
@@ -26,9 +25,14 @@ interface BoundBone {
   bone: Bone;
   restLocal: Quaternion;
   /**
-   * Change of basis from the canonical bone frame to this bone's own frame.
-   * Joint angles are transferred through it, so a canonical elbow flexion
-   * becomes an elbow flexion on the target however its bones are oriented.
+   * Change of basis from the target bone's authored frame to its anatomical
+   * frame. In the rest pose: actualWorld * correction = anatomicalFrame.
+   *
+   * That relation is kept when posing: the canonical rig supplies the desired
+   * anatomical frame in world space, then correction^-1 takes it back into the
+   * source bone's own authored basis. This is what lets an A-posed/open-hand
+   * character reproduce an arms-down/closed-hand canonical pose absolutely,
+   * instead of merely adding deltas to whatever rest pose the asset shipped in.
    */
   correction: Quaternion;
 }
@@ -41,18 +45,24 @@ export interface RetargetBinding {
   hipsRest: Vector3;
   /** Target height divided by the canonical rig's height. */
   scale: number;
+  /** Canonical forward kinematics reused for every transferred frame. */
+  evaluation: PoseEvaluation;
+  /** Rotate canonical world frames into the direction the imported character faces. */
+  worldAlignment: Quaternion;
 }
+
+const WORLD_FORWARD = new Vector3(0, 0, 1);
 
 /**
  * Work out, once, how each of the character's bones relates to ours.
  *
- * Transferring a world-space rotation only works when both rigs share a rest
- * pose — do it to a T-posed import of an A-posed animation and elbow flexion
- * arrives as a forearm twist. So each target bone gets its own anatomical frame
- * built the same way ours are (+Y along the bone, +Z forward), and joint angles
- * are carried through the difference between the two frames. An elbow then
- * flexes by the same number of degrees whatever pose the character was
- * modelled in.
+ * Each target bone gets an anatomical frame built the same way as the canonical
+ * rig (+Y along the bone, +Z forward). The binding remembers how that frame
+ * relates to the bone's authored frame. At runtime we transfer the canonical
+ * *world anatomical frame* onto the target, not a rotation delta from the
+ * target's rest pose. That distinction matters for real assets: an A-posed arm
+ * must come down when the exercise says the arm is down, and an open/spread
+ * rest hand must still close when the exercise asks for a grip.
  */
 export function bindRetarget(
   character: TargetCharacter,
@@ -94,30 +104,32 @@ export function bindRetarget(
     hips,
     hipsRest,
     scale: character.height / RIG_HEIGHT,
+    evaluation: new PoseEvaluation(rig),
+    worldAlignment: new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward),
   };
 }
 
-const scratchEuler = new Euler(0, 0, 0, EULER_ORDER);
-const scratchRotation = new Quaternion();
-const scratchConjugate = new Quaternion();
+const scratchDesiredFrame = new Quaternion();
+const scratchDesiredWorld = new Quaternion();
+const scratchParentWorld = new Quaternion();
+const scratchLocal = new Quaternion();
+const scratchInverseCorrection = new Quaternion();
 
 /**
- * Apply a canonical pose to a bound character. The pose is read directly — no
- * forward kinematics needed, because every rotation is already expressed in the
- * joint's own frame.
+ * Apply the canonical pose as an absolute anatomical target.
+ *
+ * `PoseEvaluation` gives the canonical bone frame in world space. The imported
+ * bone's `correction` says how its authored bone basis relates to that same
+ * anatomical frame, so:
+ *
+ *   desiredActualWorld = desiredAnatomicalWorld * correction^-1
+ *
+ * We then convert that world rotation back into the target bone's local space.
+ * Bone lengths, offsets, hierarchy, skin weights and passive helper/twist bones
+ * remain the imported character's own; only mapped bone rotations are driven.
  */
 export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
-  for (const entry of binding.bones) {
-    const rotation = pose.rotations[entry.canonical];
-    scratchEuler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
-    scratchRotation.setFromEuler(scratchEuler);
-
-    // correction · rotation · correction⁻¹ re-expresses the joint angle in the
-    // target bone's own basis.
-    scratchConjugate.copy(entry.correction).multiply(scratchRotation);
-    scratchConjugate.multiply(scratchRotation.copy(entry.correction).invert());
-    entry.bone.quaternion.copy(entry.restLocal).multiply(scratchConjugate);
-  }
+  binding.evaluation.apply(pose);
 
   if (binding.hips) {
     // Root motion scales with the character, so a taller model squats to the
@@ -127,6 +139,32 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
       binding.hipsRest.y + pose.rootPosition.y * binding.scale,
       binding.hipsRest.z + pose.rootPosition.z * binding.scale,
     );
+  }
+
+  // Parents must be current before a child's desired world rotation can be
+  // converted to local space. `bones` follows canonical hierarchy order, and
+  // updating each driven bone also refreshes passive source bones below it.
+  binding.character.root.updateMatrixWorld(true);
+  for (const entry of binding.bones) {
+    scratchDesiredFrame
+      .copy(binding.worldAlignment)
+      .multiply(binding.evaluation.quaternion(entry.canonical));
+    scratchDesiredWorld
+      .copy(scratchDesiredFrame)
+      .multiply(scratchInverseCorrection.copy(entry.correction).invert());
+
+    if (entry.bone.parent) {
+      entry.bone.parent.getWorldQuaternion(scratchParentWorld);
+      scratchLocal
+        .copy(scratchParentWorld)
+        .invert()
+        .multiply(scratchDesiredWorld);
+    } else {
+      scratchLocal.copy(scratchDesiredWorld);
+    }
+
+    entry.bone.quaternion.copy(scratchLocal);
+    entry.bone.updateMatrixWorld(true);
   }
 
   binding.character.root.updateMatrixWorld(true);

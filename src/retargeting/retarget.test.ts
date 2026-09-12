@@ -178,16 +178,25 @@ describe('retargeting', () => {
     applyRetarget(binding, pose);
     evaluation.apply(pose);
 
-    for (const name of [
-      'thumb_01_l',
-      'thumb_02_l',
-      'index_01_l',
-      'middle_02_l',
-      'ring_02_r',
-      'pinky_03_r',
-    ] as const) {
-      const target = character.bones.get(name)!.getWorldQuaternion(new Quaternion());
-      expect(target.angleTo(evaluation.quaternion(name)), name).toBeLessThan(1e-5);
+    // A source bone may have a different authored roll even when its anatomical
+    // segment is in exactly the right place. Judge the segment direction rather
+    // than comparing raw bone quaternions.
+    const segments = [
+      ['thumb_01_l', 'thumb_02_l'],
+      ['thumb_02_l', 'thumb_03_l'],
+      ['index_01_l', 'index_02_l'],
+      ['middle_02_l', 'middle_03_l'],
+      ['ring_02_r', 'ring_03_r'],
+      ['pinky_02_r', 'pinky_03_r'],
+    ] as const;
+    for (const [name, child] of segments) {
+      const targetHead = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+      const targetTail = new Vector3().setFromMatrixPosition(character.bones.get(child)!.matrixWorld);
+      const targetDirection = targetTail.sub(targetHead).normalize();
+      const expectedHead = evaluation.head(name, new Vector3());
+      const expectedTail = evaluation.head(child, new Vector3());
+      const expectedDirection = expectedTail.sub(expectedHead).normalize();
+      expect(targetDirection.angleTo(expectedDirection), `${name}->${child}`).toBeLessThan(1e-5);
     }
   });
 

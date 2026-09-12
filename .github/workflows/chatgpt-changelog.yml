@@ -1,0 +1,31 @@
+name: ChatGPT changelog
+
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add changelog entry once
+        shell: bash
+        run: |
+          python -c "from pathlib import Path; p=Path('AI_CHANGELOG.md'); s=p.read_text(); h='### ChatGPT — 2026-09-12 — absolute imported-character pose transfer'; e=h+'\n\nImported characters now take the canonical resolved pose as an absolute anatomical target instead of adding canonical deltas to the asset rest pose. This brings A/T-posed arms into the exercise pose and lets authored-open hands reproduce the canonical grip while preserving the source skeleton, bone lengths, weights and passive helper/twist bones.\n\nThe retargeter evaluates canonical world bone frames, aligns them to the imported character facing direction, converts them through each source bone authored-to-anatomical basis correction, and writes the resulting local rotations through the source hierarchy. Regression coverage includes a deliberately T-posed character and an authored-open hand; the grip assertion checks finger segment directions because authored bone roll can differ even when the anatomical segment is correct.\n\n'; m='## Unreleased\n\n'; p.write_text(s if h in s else s.replace(m,m+e,1))"
+
+          if ! git diff --quiet -- AI_CHANGELOG.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add AI_CHANGELOG.md
+            git commit -m "Document absolute imported-character retargeting"
+            git push origin HEAD:chatgpt/absolute-retarget-imports
+          fi

@@ -1,7 +1,8 @@
-import type { Bone, KeyframeTrack, Object3D, SkinnedMesh, Skeleton as ThreeSkeleton } from 'three';
+import type { Bone, KeyframeTrack, Matrix4, Object3D, SkinnedMesh, Skeleton as ThreeSkeleton } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
+
 
 /**
  * The character layer.
@@ -68,7 +69,10 @@ export interface DeformationSampler {
   tracks(times: number[]): KeyframeTrack[];
 }
 
-/** A character built and bound to the canonical bones, ready to mount or export. */
+/** Which side a hand-held item is carried on. */
+export type Side = 'l' | 'r';
+
+/** A character built and ready to mount or export. */
 export interface CharacterBuild {
   /** Id of the source that produced it. */
   source: string;
@@ -82,6 +86,34 @@ export interface CharacterBuild {
   meshes: SkinnedMesh[];
   deformation: DeformationStack | null;
   capabilities: CharacterCapabilities;
+
+  /**
+   * How this character is posed, when it is not bound to the canonical bones.
+   *
+   * A character that keeps its own skeleton — an import, preserved rather than
+   * rebound — is driven by transferring joint angles onto that skeleton. It
+   * supplies the transfer here, and `applyCharacterPose` uses it instead of
+   * writing the canonical bone matrices directly.
+   */
+  driver?: (pose: Pose) => void;
+
+  /**
+   * Where a hand is, in the canonical hand frame, for the equipment a hand
+   * carries. Null or absent means the character's bones *are* the canonical
+   * bones and the frame pipeline's own transform already applies.
+   *
+   * A preserved import has its own proportions, so its hand is not where the
+   * canonical hand is. Equipment follows this rather than the rig, which is
+   * what keeps a dumbbell in the hand of a character the rig only drives.
+   */
+  handMatrix?: (side: Side, target: Matrix4) => Matrix4 | null;
+
+  /**
+   * Animation tracks for this character's own skeleton, when the canonical
+   * bone tracks do not describe it. The exporter bakes these instead.
+   */
+  sampler?: () => DeformationSampler | null;
+
   dispose(): void;
 }
 

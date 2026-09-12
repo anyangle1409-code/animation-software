@@ -1,6 +1,8 @@
 import {
   Group,
+  Matrix4,
   Object3D,
+  Quaternion,
   QuaternionKeyframeTrack,
   Vector3,
   VectorKeyframeTrack,
@@ -13,7 +15,7 @@ import { equipmentSocket } from '../equipment/library';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject } from './rigBuilder';
 import { characterSource } from '../character';
-import type { CharacterSource } from '../character';
+import type { CharacterBuild, CharacterSource } from '../character';
 
 export interface GlbExportOptions {
   /** Sampling rate for the baked clip. */
@@ -52,9 +54,17 @@ export async function exportGlb(
   // Whatever the character's deformation stack does beyond posing bones —
   // morph-target correctives, most of it — has to be baked in as well, or the
   // exported animation deforms differently from the studio.
+  // A character with its own skeleton carries the animation on that skeleton:
+  // the canonical bone tracks would name bones the exported file has no nodes
+  // for, and the character's own sampler holds the retargeted rotations.
+  const ownSkeleton = Boolean(character.driver);
+  const sampler = clipOnly
+    ? null
+    : character.sampler?.() ?? character.deformation?.sampler?.() ?? null;
   const baked = bakeClip(studioClip, canonicalSkeleton, {
     fps: options.fps,
-    deformation: clipOnly ? null : character.deformation?.sampler?.() ?? null,
+    deformation: sampler,
+    boneTracks: !(ownSkeleton && !clipOnly),
   });
 
   const scene = new Group();
@@ -77,14 +87,28 @@ export async function exportGlb(
       if (instance.attachment.mode === 'hand') {
         // Rigidly parented to the hand bone: no extra animation needed, and the
         // attachment stays exact in whatever engine plays the file.
-        // The bones are canonical whatever surface is on them, so a hand-held
-        // item attaches the same way for every character.
-        const hand = character.boneByName.get(instance.attachment.side === 'l' ? 'hand_l' : 'hand_r');
+        // Parented to the hand bone, whichever skeleton that hand belongs to,
+        // so the attachment stays exact in whatever engine plays the file.
+        const side = instance.attachment.side === 'l' ? 'hand_l' : 'hand_r';
+        const hand = character.boneByName.get(side);
         const socket = equipmentSocket(instance.kind, instance.attachment.socket);
         const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
         const matrix = handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 });
-        object.applyMatrix4(matrix);
-        hand?.add(object);
+        if (hand) {
+          // A preserved import holds its own basis and its own scale. Undo
+          // both, so the item sits in the hand at its real size.
+          const local = new Matrix4();
+          if (hand.matrixWorld) {
+            hand.updateWorldMatrix(true, false);
+            const worldScale = new Vector3().setFromMatrixScale(hand.matrixWorld);
+            const inverse = 1 / (worldScale.x || 1);
+            local.makeScale(inverse, inverse, inverse);
+          }
+          const basis = correctionFor(character, side);
+          if (basis) local.multiply(new Matrix4().makeRotationFromQuaternion(basis));
+          object.applyMatrix4(local.multiply(matrix));
+          hand.add(object);
+        }
       } else if (instance.attachment.mode === 'static') {
         object.position.set(instance.position.x, instance.position.y, instance.position.z);
         scene.add(object);
@@ -126,4 +150,22 @@ function applyBakedEquipmentTrack(
     new VectorKeyframeTrack(`${object.name}.position`, baked.times, track.position),
     new QuaternionKeyframeTrack(`${object.name}.quaternion`, baked.times, track.quaternion),
   );
+}
+
+/**
+ * How a character's hand bone is rotated relative to the canonical hand it
+ * stands in for. Read back out of `handMatrix`, which is the one place that
+ * change of basis is worked out.
+ */
+function correctionFor(character: CharacterBuild, side: 'hand_l' | 'hand_r'): Quaternion | null {
+  if (!character.handMatrix) return null;
+  const bone = character.boneByName.get(side);
+  const world = character.handMatrix(side === 'hand_l' ? 'l' : 'r', new Matrix4());
+  if (!bone || !world) return null;
+  bone.updateWorldMatrix(true, false);
+  const boneRotation = new Quaternion().setFromRotationMatrix(
+    new Matrix4().extractRotation(bone.matrixWorld),
+  );
+  const canonical = new Quaternion().setFromRotationMatrix(new Matrix4().extractRotation(world));
+  return boneRotation.invert().multiply(canonical);
 }

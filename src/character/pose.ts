@@ -28,6 +28,16 @@ export function applyCharacterPose(
   pose: Pose,
   evaluation?: PoseEvaluation,
 ): void {
+  // A character that kept its own skeleton drives itself: the canonical bones
+  // are not its bones, so its joint angles come through its own transfer.
+  if (character.driver) {
+    character.driver(pose);
+    if (character.deformation && evaluation) {
+      character.deformation.update({ rig, pose, evaluation, character });
+    }
+    return;
+  }
+
   for (const rigBone of rig.bones) {
     const bone = character.boneByName.get(rigBone.name);
     if (!bone) continue;

@@ -1,6 +1,6 @@
 import { builtinCharacter, proceduralCharacter } from './builtin';
-import { glbCharacterSource } from './glbSource';
-import type { GlbCharacterOptions } from './glbSource';
+import { retargetedCharacterSource } from './retargetSource';
+import type { RetargetedCharacterOptions } from './retargetSource';
 import type { CharacterSource } from './types';
 
 /**
@@ -54,11 +54,13 @@ registerCharacterSource(proceduralCharacter);
  *
  * This is the whole of the work needed to put a higher-quality character in
  * front of the existing animation: drop the file in `public/characters/`, call
- * this once at startup, and the studio, the anatomy fallback and the exporter
- * all follow. Nothing is registered yet — there is no asset to register.
+ * this once at startup, and the studio and the exporter follow. The character
+ * is preserved as authored — its own skeleton, bind pose and weights — and the
+ * canonical rig drives it. Nothing is registered yet: there is no asset to
+ * register.
  */
-export function registerBundledCharacter(options: GlbCharacterOptions): CharacterSource {
-  const source = registerCharacterSource(glbCharacterSource(options));
+export function registerBundledCharacter(options: RetargetedCharacterOptions): CharacterSource {
+  const source = registerCharacterSource(retargetedCharacterSource(options));
   setDefaultCharacter(source.id);
   return source;
 }

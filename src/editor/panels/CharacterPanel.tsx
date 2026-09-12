@@ -3,6 +3,7 @@ import type { BoneName } from '../../rig/boneNames';
 import { boneLabel } from '../../rig/boneNames';
 import { REQUIRED_BONES } from '../../retargeting/boneMap';
 import { useCharacter } from '../characterStore';
+import type { BindMode } from '../characterStore';
 import { characterSources } from '../../character';
 import { useStudio } from '../store';
 
@@ -15,10 +16,10 @@ export function CharacterPanel() {
   const input = useRef<HTMLInputElement | null>(null);
   const {
     name,
-    character,
     mapping,
     report,
     rebind,
+    imported,
     status,
     sourceId,
     sourceStatus,
@@ -56,9 +57,9 @@ export function CharacterPanel() {
 
       <label className="mapping-row">
         <span className="mapping-row__name">Imports bind by</span>
-        <select value={bindMode} onChange={(event) => setBindMode(event.target.value as 'rebind' | 'retarget')}>
-          <option value="rebind">Rebinding onto the studio rig</option>
-          <option value="retarget">Retargeting its own skeleton</option>
+        <select value={bindMode} onChange={(event) => setBindMode(event.target.value as BindMode)}>
+          <option value="preserve">Preserving the model (recommended)</option>
+          <option value="rebind">Rebinding onto the studio rig (diagnostic)</option>
         </select>
       </label>
 
@@ -80,7 +81,7 @@ export function CharacterPanel() {
         <button type="button" className="primary" onClick={() => input.current?.click()}>
           Import rigged GLB
         </button>
-        {character && (
+        {name && (
           <button type="button" onClick={clear}>
             Remove
           </button>
@@ -89,6 +90,25 @@ export function CharacterPanel() {
 
       {status.kind === 'loading' && <div className="status is-ok">{status.message}</div>}
       {status.kind === 'error' && <div className="status is-warn">{status.message}</div>}
+
+      {imported && (
+        <div className={`status ${imported.mapping.missingRequired.length === 0 ? 'is-ok' : 'is-warn'}`}>
+          <strong>{name}</strong>
+          <div className="status__row">
+            {imported.vertices} vertices and {imported.bones} bones, kept as authored.{' '}
+            {imported.height.toFixed(2)} m tall, scaled ×{imported.scale.toFixed(2)}.
+          </div>
+          <div className="status__row">
+            {imported.driven} bones driven by the rig; {imported.passive} left at rest — twists,
+            helpers and the face rig, riding their parents as authored.
+          </div>
+          {imported.mapping.missingRequired.length > 0 && (
+            <div className="status__row">
+              Still unmapped: {imported.mapping.missingRequired.join(', ')}.
+            </div>
+          )}
+        </div>
+      )}
 
       {rebind && rebind.length > 0 && (
         <div className="status is-ok">
@@ -107,28 +127,14 @@ export function CharacterPanel() {
         </div>
       )}
 
-      {!character && !rebind && (
+      {!imported && !rebind && (
         <p className="panel__empty">
           No character imported — the viewport shows the selected built-in character.
         </p>
       )}
 
-      {character && mapping && report && (
+      {mapping && report && (
         <>
-          <div className={`status ${report.missingRequired.length === 0 ? 'is-ok' : 'is-warn'}`}>
-            <strong>{name}</strong>
-            <div className="status__row">
-              {character.bones.size} bones, {character.height.toFixed(2)} m tall.
-            </div>
-            <div className="status__row">
-              {report.mapped.length} bones mapped
-              {report.missingRequired.length > 0
-                ? `, ${report.missingRequired.length} required bones still unmapped`
-                : ' — ready to retarget'}
-              .
-            </div>
-          </div>
-
           <div className="button-row">
             <button type="button" onClick={persist}>
               Save mapping for reuse
@@ -150,11 +156,13 @@ export function CharacterPanel() {
                   className={mapping.bones[bone] ? '' : 'is-missing'}
                 >
                   <option value="">— unmapped —</option>
-                  {character.boneNames.map((target) => (
-                    <option key={target} value={target}>
-                      {target}
-                    </option>
-                  ))}
+                  {Object.values(mapping.bones)
+                    .filter((target): target is string => Boolean(target))
+                    .map((target) => (
+                      <option key={target} value={target}>
+                        {target}
+                      </option>
+                    ))}
                 </select>
               </label>
             ))}

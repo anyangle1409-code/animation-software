@@ -41,7 +41,16 @@ export interface BakedClip {
 export function bakeClip(
   studioClip: StudioClip,
   rig: Skeleton = canonicalSkeleton,
-  options: { fps?: number; deformation?: DeformationSampler | null } = {},
+  options: {
+    fps?: number;
+    deformation?: DeformationSampler | null;
+    /**
+     * Off when the character has its own skeleton: the canonical bone tracks
+     * then describe a rig the exported file does not contain, and the
+     * character's own sampler carries the animation instead.
+     */
+    boneTracks?: boolean;
+  } = {},
 ): BakedClip {
   const fps = options.fps ?? studioClip.fps;
   const evaluation = new PoseEvaluation(rig);
@@ -118,7 +127,7 @@ export function bakeClip(
   const tracks: KeyframeTrack[] = [];
   const loopTimes = [times[0], times[times.length - 1]];
 
-  for (const bone of rig.bones) {
+  for (const bone of options.boneTracks === false ? [] : rig.bones) {
     const values = quaternions.get(bone.name)!;
     const rest = [
       bone.restLocalQuaternion.x,
@@ -139,7 +148,7 @@ export function bakeClip(
 
   const rootBone = rig.bones[0];
   const restPosition = [rootBone.offset.x, rootBone.offset.y, rootBone.offset.z];
-  const rootTrack = compressTrack(rootPositions, 3, restPosition);
+  const rootTrack = options.boneTracks === false ? null : compressTrack(rootPositions, 3, restPosition);
   if (rootTrack) {
     tracks.push(
       new VectorKeyframeTrack(

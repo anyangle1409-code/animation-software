@@ -4,6 +4,7 @@ export type {
   CharacterCapabilities,
   CharacterSource,
   CharacterVariant,
+  Side,
   DeformationContext,
   DeformationSampler,
   DeformationStack,
@@ -13,6 +14,12 @@ export { buildCanonicalBones } from './bones';
 export { builtinCharacter, proceduralCharacter } from './builtin';
 export { glbCharacterSource } from './glbSource';
 export type { GlbCharacterOptions, GlbCharacterSource } from './glbSource';
+export { retargetedCharacterSource, retargetSampler } from './retargetSource';
+export type {
+  ImportReport,
+  RetargetedCharacterOptions,
+  RetargetedCharacterSource,
+} from './retargetSource';
 export { rebindToCanonical } from './rebind';
 export type { RebindReport } from './rebind';
 export {

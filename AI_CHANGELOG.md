@@ -6,6 +6,64 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-12 — imported characters are preserved, not rebuilt
+
+The rig is a *driver*, not a skin skeleton. The import path now says so.
+
+Rebinding rebuilt an imported surface onto the 53 canonical bones by
+re-placing every vertex through a blend of per-bone transforms. Measured
+against the file's own rest pose on a 160-bone Rigify character, that moved
+**37.8% of edges beyond ±20%, 21.7% beyond ±50%, 5.8% past double, worst
+33.2×** — before a single frame was played. It was the cause of the faceted
+torso and clawed hands, not the asset.
+
+`retargetedCharacterSource` replaces it for imports. The file's vertices,
+inverse bind matrices, weights and bone hierarchy are untouched; the canonical
+rig's joint angles are transferred onto the mapped source bones each frame,
+through the change of basis `bindRetarget` already worked out. The same
+measurement now reads **0.00% at every threshold, worst 1.00×**. The only
+change made to a character is a uniform scale on its root so a model of any
+height stands at the rig's scale — and because `applyRetarget` already scales
+root motion by the model's height, the two cancel and a step is a step.
+
+Three optional members on `CharacterBuild` carry it, so nothing else in the
+app had to learn about retargeting:
+
+- `driver` — how a character that kept its own skeleton is posed.
+  `applyCharacterPose` branches on it and is otherwise unchanged.
+- `handMatrix` — the character's own hand, restated in the canonical hand's
+  basis, so the rig's grip offsets apply unchanged. A preserved import has its
+  own proportions, so its hands are not the rig's hands; equipment follows
+  this instead. The export additionally cancels the root scale, so a dumbbell
+  parented to an imported hand stays a real dumbbell.
+- `sampler` — the animation on the character's own bones. `bakeClip` gained
+  `boneTracks`, off for such a character, because the canonical bone tracks
+  would name bones the exported file has no nodes for.
+
+Bones the rig does not drive — twist bones, helpers, a whole face rig, 108 of
+160 on the test character — stay in the source hierarchy at rest and ride
+their parents, which is what they were authored to do. They are not "unmapped
+weight" to be redistributed, and the orphaned-vertex concept does not exist on
+this path.
+
+Imports default to preserving. Rebinding stays selectable, labelled a
+diagnostic: it is still the only way to see a character on the studio's own
+proportions. The old retargeting side channel (`CharacterView`, the store's
+`binding`) is gone — an import is now an ordinary registered source, which is
+precisely what makes equipment and export work on it.
+
+Six regression tests (`imported.test.ts`) run on a Rigify-shaped fixture
+round-tripped through a real GLB, so no asset enters the repository: rest
+geometry identical vertex for vertex; the angle arriving at the character's
+elbow is the angle the rig holds; twist bones keep their authored local
+transform through the rep and travel with the arm; helper bones count as
+undriven rather than unweighted; the grip frame is the hand's own to within a
+micrometre at four points in the rep; and the exported GLB carries the
+imported mesh and skeleton, parents the dumbbell to the character's own hand
+bone, and plays back to within a millimetre of the viewport.
+
+The built-in character is untouched and remains the default. 177 tests pass.
+
 ### Claude — 2026-09-11 — importing a Rigify character, and imports with holes in them
 
 Two importer changes, found by putting a real Rigify-rigged GLB through the new

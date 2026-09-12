@@ -79,6 +79,7 @@ export function CharacterFigure({
 function useCharacterBuild(sourceId: string, variant: CharacterVariant): CharacterBuild | null {
   const [build, setBuild] = useState<CharacterBuild | null>(null);
   const setStatus = useCharacter((state) => state.setSourceStatus);
+  const setActive = useCharacter((state) => state.setActive);
 
   useEffect(() => {
     let cancelled = false;
@@ -94,6 +95,9 @@ function useCharacterBuild(sourceId: string, variant: CharacterVariant): Charact
           return;
         }
         setBuild(next);
+        // Published, so the systems that have to follow the character rather
+        // than the rig — equipment, above all — can find it.
+        setActive(next);
         setStatus({ kind: 'idle' });
       })
       .catch((error: Error) => {
@@ -103,9 +107,16 @@ function useCharacterBuild(sourceId: string, variant: CharacterVariant): Charact
     return () => {
       cancelled = true;
     };
-  }, [sourceId, variant, setStatus]);
+  }, [sourceId, variant, setStatus, setActive]);
 
-  useEffect(() => () => build?.dispose(), [build]);
+  useEffect(
+    () => () => {
+      if (!build) return;
+      setActive(null);
+      build.dispose();
+    },
+    [build, setActive],
+  );
 
   return build;
 }

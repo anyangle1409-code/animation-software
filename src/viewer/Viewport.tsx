@@ -12,7 +12,6 @@ import { restWorldQuaternion } from '../ik/orient';
 import { createSceneState, SceneStateContext, useSceneState } from './sceneState';
 import { SkeletonView } from './SkeletonView';
 import { CharacterFigure } from './CharacterFigure';
-import { CharacterView } from './CharacterView';
 import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
@@ -206,7 +205,6 @@ function Figure() {
   const viewMode = useStudio((state) => state.viewMode);
   const showEquipment = useStudio((state) => state.showEquipment);
   const showIkHandles = useStudio((state) => state.showIkHandles);
-  const hasCharacter = useCharacter((state) => state.binding !== null);
   // Asked, not assumed: a textured import carries no écorché mapping, and the
   // anatomy view falls back to the plain surface rather than rendering noise.
   const anatomy = activeCapabilities(useCharacter((state) => state.sourceId)).anatomy;
@@ -217,7 +215,7 @@ function Figure() {
         <SkeletonView ghosted={viewMode === 'combined'} />
       )}
       {showsMuscleBellies(viewMode) && <MuscleView />}
-      {viewMode === 'character' && (hasCharacter ? <CharacterView /> : <CharacterFigure />)}
+      {viewMode === 'character' && <CharacterFigure />}
       {/*
         The anatomy view is one continuous surface and nothing else: the muscle
         bellies are never mounted beside it, at any activation, because a

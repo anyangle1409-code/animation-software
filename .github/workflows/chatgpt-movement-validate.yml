@@ -1,0 +1,64 @@
+name: ChatGPT movement validation
+
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: Record movement certification in changelog
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('AI_CHANGELOG.md')
+          s = p.read_text()
+          heading = '### ChatGPT — 2026-09-12 — whole-body imported-character movement certification'
+          if heading not in s:
+              entry = heading + '\n\n' + (
+                  'Added a whole-body retarget regression suite that deliberately authors the source character in a non-canonical rest pose, then checks five representative exercise families across five points in each clip. The suite covers squat (torso, hips, knees, ankles), bicep curl (upper arm, elbow, wrist, fingers), shoulder press, push-up, and pull-up. It compares anatomical segment directions rather than raw bone quaternions so different source-bone roll remains valid. The purpose is to prove the absolute-pose importer is general, not a bicep-curl special case.\n\n'
+                  'The real candidate GLB remains outside the repository. Its skin-weight audit is therefore separate from this code regression suite. A temporary branch-only GitHub Actions workflow runs tests, typecheck and the production build for this certification work.\n\n'
+              )
+              marker = '## Unreleased\n\n'
+              if marker not in s:
+                  raise SystemExit('Unreleased marker not found')
+              p.write_text(s.replace(marker, marker + entry, 1))
+          PY
+
+          if ! git diff --quiet -- AI_CHANGELOG.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add AI_CHANGELOG.md
+            git commit -m "Document whole-body movement certification"
+            git push origin HEAD:chatgpt/absolute-retarget-imports
+          fi

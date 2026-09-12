@@ -9,7 +9,9 @@ import { pushUp } from '../exercises/definitions/pushUp';
 import { shoulderPress } from '../exercises/definitions/shoulderPress';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import type { BoneMapping } from './boneMap';
 import { createMapping, guessMapping } from './boneMap';
+import type { TargetCharacter } from './retarget';
 import { applyRetarget, bindRetarget, readCharacter } from './retarget';
 import { describe, expect, it } from 'vitest';
 
@@ -60,6 +62,58 @@ function biasedCharacter() {
   return readCharacter(root);
 }
 
+function palmRoots(side: 'l' | 'r'): BoneName[] {
+  return [`index_01_${side}`, `middle_01_${side}`, `ring_01_${side}`, `pinky_01_${side}`] as BoneName[];
+}
+
+/**
+ * Return an anatomical segment direction on the imported character.  Most
+ * bones end at the next canonical joint.  Hands are different: their bone tail
+ * sits through the centre of the palm while the hierarchy fans directly into
+ * five digits, so we use the four finger knuckles rather than the thumb child.
+ */
+function targetDirection(
+  character: TargetCharacter,
+  mapping: BoneMapping,
+  name: BoneName,
+): Vector3 {
+  const targetName = mapping.bones[name]!;
+  const head = new Vector3().setFromMatrixPosition(character.bones.get(targetName)!.matrixWorld);
+
+  if (name === 'hand_l' || name === 'hand_r') {
+    const side = name.endsWith('_l') ? 'l' : 'r';
+    const palm = new Vector3();
+    for (const root of palmRoots(side)) {
+      const mapped = mapping.bones[root]!;
+      palm.add(new Vector3().setFromMatrixPosition(character.bones.get(mapped)!.matrixWorld));
+    }
+    palm.multiplyScalar(0.25);
+    return palm.sub(head).normalize();
+  }
+
+  const child = rig.bone(name).children[0];
+  expect(child, `${name} must have a child for direction certification`).toBeDefined();
+  const mappedChild = mapping.bones[child]!;
+  const tail = new Vector3().setFromMatrixPosition(character.bones.get(mappedChild)!.matrixWorld);
+  return tail.sub(head).normalize();
+}
+
+function expectedDirection(evaluation: PoseEvaluation, name: BoneName): Vector3 {
+  const head = evaluation.head(name, new Vector3());
+
+  if (name === 'hand_l' || name === 'hand_r') {
+    const side = name.endsWith('_l') ? 'l' : 'r';
+    const palm = new Vector3();
+    for (const root of palmRoots(side)) palm.add(evaluation.head(root, new Vector3()));
+    palm.multiplyScalar(0.25);
+    return palm.sub(head).normalize();
+  }
+
+  const child = rig.bone(name).children[0];
+  expect(child, `${name} must have a child for direction certification`).toBeDefined();
+  return evaluation.head(child, new Vector3()).sub(head).normalize();
+}
+
 function certifyExercise(definition: ExerciseDefinition, names: BoneName[]) {
   const character = biasedCharacter();
   const mapping = createMapping(`Certification: ${definition.name}`, 'identity');
@@ -74,27 +128,12 @@ function certifyExercise(definition: ExerciseDefinition, names: BoneName[]) {
     evaluation.apply(pose);
 
     for (const name of names) {
-      const child = rig.bone(name).children[0];
-      expect(child, `${name} must have a child for direction certification`).toBeDefined();
-      const targetName = mapping.bones[name]!;
-      const targetChild = mapping.bones[child]!;
-      const targetHead = new Vector3().setFromMatrixPosition(
-        character.bones.get(targetName)!.matrixWorld,
-      );
-      const targetTail = new Vector3().setFromMatrixPosition(
-        character.bones.get(targetChild)!.matrixWorld,
-      );
-      const targetDirection = targetTail.sub(targetHead).normalize();
-      const expectedHead = evaluation.head(name, new Vector3());
-      const expectedTail = evaluation.head(child, new Vector3());
-      const expectedDirection = expectedTail.sub(expectedHead).normalize();
-
       // We certify the anatomical segment direction, not source-bone roll.
       // A sub-degree allowance covers floating point and authored frame
       // differences while still failing the old delta-based A/T-pose error by
       // a very large margin.
       expect(
-        targetDirection.angleTo(expectedDirection),
+        targetDirection(character, mapping, name).angleTo(expectedDirection(evaluation, name)),
         `${definition.id} ${name} at ${fraction}`,
       ).toBeLessThan(MAX_DIRECTION_ERROR);
     }

@@ -23,6 +23,8 @@ This entry is the current cross-assistant handover for the candidate male charac
 
 **Guardrails.** Do not change the model, exercise definitions, canonical rig, weights, or retargeting algorithm unless a new measured defect requires it. Preserve the absolute anatomical pose, source skeleton, hand sockets and equipment lock. Run a focused rendered inspection after each corrective and run the full automated suite only for a retained change. Update this file with measurements and exact asset hash whenever a new candidate is produced.
 
+**Continuation review — 2026-09-13.** Re-inspected the latest elbow-corrective render. It improves bend volume without altering curl-bottom shoulders. The residual angular elbow contour is topology-limited; do not amplify this corrective blindly. The next retained visual change should be a measured, raised-arm-only shoulder/axilla shape or a wrist/palm shape, with before/after renders and contact checks.
+
 
 ### ChatGPT — 2026-09-12 — whole-body imported-character movement certification
 

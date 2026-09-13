@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Codex — 2026-09-13 — imported character: elbow corrective and handover
+
+This entry is the current cross-assistant handover for the candidate male character. Continue from branch `chatgpt/absolute-retarget-imports`; do not merge it. The active candidate remains external to the repository: `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` (SHA-256 `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`). Its supplied source file remains untouched.
+
+**What is now in the production path.** The preserved-source-skeleton absolute-retarget path remains mandatory. The import still keeps the character's vertices, source hierarchy, inverse binds and skin weights; no destructive canonical rebind is used. Curl rest and peak upper-arm rotations were reduced so the shoulders sit naturally at the bottom of the curl. The candidate received symmetric forearm/elbow blend-weight repair, wrist-cuff settling and localized hip smoothing. It also contains opt-in `homeGymPT.elbowCorrective` metadata, interpreted by `src/character/importedDeformation.ts`: a conservative, symmetric pose-driven morph activates only with elbow flexion (maximum 18 mm inside and 9 mm outside), and is baked into exported GLBs through the same sampler as the viewport.
+
+**Validated current state.** `npm test`: 190 passed, 1 optional skipped. `npm run build`: passed (only the pre-existing bundle-size warning). The real-character optional diagnostic passes. An exported curl GLB has the source mesh's `morphTargetInfluences` track with a peak influence of 0.99999946. Prior contact measurements remain within millimetres: pull-up hand grip maximum 1.036 mm; push-up hand surface approximately -0.05 to +6.01 mm from the floor; squat foot approximately -2.30 to +0.001 mm. All ten fingers remain isolated from the opposite hand and forearm.
+
+**Visual work still needed — do these as targeted pose correctives, not broad smoothing or rebinding.**
+
+1. **Shoulder/armpit:** the curl bottom is improved, but overhead press/pull-up still need a low-amplitude, candidate-specific shoulder-cap/axilla corrective. A prior broad shoulder-weight pass increased local strain; do not repeat it. Keep the corrective zero around rest and curl-bottom.
+2. **Elbow:** the new correction removes the worst hinge-like collapse but cannot fully change the low-density elbow silhouette. Visually inspect curl mid/top and pull-up top before adjusting its deliberately small limits.
+3. **Wrist, palm and grip:** hand placement and equipment attachment are stable, but the wrist-to-palm transition and knuckle contour need a local pose shape. Do not redistribute broad forearm weights. Confirm each finger and thumb still wraps the handle after any change.
+4. **Hips/groin, knees and feet:** deep squat still needs a candidate-specific groin/hip shape and restrained knee treatment; localized hip smoothing alone is not enough. Preserve floor contacts and never introduce general knee smoothing.
+
+**Guardrails.** Do not change the model, exercise definitions, canonical rig, weights, or retargeting algorithm unless a new measured defect requires it. Preserve the absolute anatomical pose, source skeleton, hand sockets and equipment lock. Run a focused rendered inspection after each corrective and run the full automated suite only for a retained change. Update this file with measurements and exact asset hash whenever a new candidate is produced.
+
+
 ### ChatGPT — 2026-09-12 — whole-body imported-character movement certification
 
 Added a whole-body retarget regression suite that deliberately authors the source character in a non-canonical rest pose, then checks five representative exercise families across five points in each clip. The suite covers squat (torso, hips, knees, ankles), bicep curl (upper arm, elbow, wrist, fingers), shoulder press, push-up, and pull-up. It compares anatomical segment directions rather than raw bone quaternions so different source-bone roll remains valid. The purpose is to prove the absolute-pose importer is general, not a bicep-curl special case.

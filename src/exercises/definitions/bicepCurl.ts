@@ -48,9 +48,10 @@ export const bicepCurl: ExerciseDefinition = {
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
-      // Upper arms hang just clear of the torso.
-      upperarm_l: { x: 2, z: -6 },
-      upperarm_r: { x: 2, z: 6 },
+      // Upper arms hang vertically and just clear of the torso. On broad
+      // imported shoulders, extra abduction reads as a shrug at the bottom.
+      upperarm_l: { x: 0, z: -3 },
+      upperarm_r: { x: 0, z: 3 },
       hand_l: { z: 4 },
       hand_r: { z: -4 },
     },
@@ -64,8 +65,8 @@ export const bicepCurl: ExerciseDefinition = {
       neck: { x: -2 },
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
-      upperarm_l: { x: 7, z: -7 },
-      upperarm_r: { x: 7, z: 7 },
+      upperarm_l: { x: 4, z: -4 },
+      upperarm_r: { x: 4, z: 4 },
       hand_l: { z: 2 },
       hand_r: { z: -2 },
     },

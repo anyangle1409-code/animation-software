@@ -28,6 +28,7 @@ import type {
   Side,
 } from './types';
 import { RetargetContactResolver } from './retargetContact';
+import { importedElbowDeformation } from './importedDeformation';
 
 /**
  * An imported character, preserved.
@@ -206,6 +207,13 @@ export function retargetedCharacterSource(
         }
       };
 
+      const deformation = importedElbowDeformation(
+        character.meshes as SkinnedMesh[],
+        boneByName,
+        rig,
+        scene.userData?.homeGymPT?.elbowCorrective,
+      );
+
       const build: CharacterBuild = {
         source: source.id,
         root,
@@ -214,14 +222,14 @@ export function retargetedCharacterSource(
         skeleton: character.meshes[0].skeleton,
         object: scene,
         meshes: character.meshes as SkinnedMesh[],
-        deformation: null,
+        deformation,
         capabilities: source.capabilities,
 
         driver: drive,
 
         handMatrix,
 
-        sampler: () => retargetSampler(binding, drive),
+        sampler: () => combineSamplers(retargetSampler(binding, drive), deformation?.sampler?.() ?? null),
 
         dispose() {
           for (const mesh of character.meshes) {
@@ -238,6 +246,22 @@ export function retargetedCharacterSource(
   };
 
   return source;
+}
+
+function combineSamplers(
+  primary: DeformationSampler,
+  secondary: DeformationSampler | null,
+): DeformationSampler {
+  if (!secondary) return primary;
+  return {
+    sample(pose, context) {
+      primary.sample(pose, context);
+      secondary.sample(pose, context);
+    },
+    tracks(times) {
+      return [...primary.tracks(times), ...secondary.tracks(times)];
+    },
+  };
 }
 
 /**

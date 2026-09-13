@@ -3,13 +3,14 @@
 The candidate uses the preserved source skeleton and absolute retarget production path. Contact correction, hand/wrist fitting, localized hip smoothing, and the curl elbow/relaxed-arm follow-up are included. The original upload remains unchanged.
 
 Input SHA-256: `854cc1193498b49722ea7ccce92d47d8ba6166b3fc0055cb4666675b710e5a49`  
-Current candidate SHA-256: `2d974bfd2b0be85cbfb309ad7649a6ca1d8aa45536c2f1f74c75e27939aa8eb2`
+Current candidate SHA-256: `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`
 
 ## Production changes
 
 - Final canonical contact targets are passed into preserved imported characters.
 - Source-skeleton IK resolves floor and equipment contact for the imported proportions.
 - The fitted GLB has isolated bilateral fingers, a blended wrist cuff, a localized hip transition, and a wider upper/forearm blend at each elbow.
+- An opt-in elbow morph target restores up to 18 mm of inner-fold volume and 9 mm over the elbow point as flexion approaches its maximum. It is driven by the measured joint angle and is zero on a straight arm.
 - The curl bottom now uses 3° upper-arm clearance and no forward shoulder flexion, rather than 6° clearance and 2° flexion. The contracted pose uses 4° clearance and 4° forward drift rather than 7° of each.
 - The curl still reaches 126° elbow flexion; its range was not shortened to hide the deformation.
 
@@ -19,6 +20,7 @@ No mesh topology, model proportions, skeleton, exercise timing, repetitions, equ
 
 - **190 regular automated tests passed; 1 optional asset test skipped in that run.**
 - The optional production diagnostic was run explicitly with the candidate GLB: **passed**.
+- An exported candidate GLB was parsed again; its merged elbow morph animation track reached 0.999999 influence at full flexion.
 - TypeScript and production build passed. The existing bundle-size warning remains.
 - At the fully contracted curl, arm-region edges above 2× rest length fell from 44 to 12; all-mesh edges above 2× fell from 60 to 30.
 - At pull-up top, arm-region edges above 2× fell from 57 to 29; all-mesh edges above 2× fell from 124 to 96.
@@ -31,7 +33,7 @@ No mesh topology, model proportions, skeleton, exercise timing, repetitions, equ
 
 | Movement | Verdict | Exact result |
 |---|---|---|
-| Dumbbell bicep curl | **NEEDS MINOR FIX** | Bottom shoulders read more relaxed and contracted elbow stretching is substantially reduced. The elbow remains angular because the source topology has limited loops around the joint; minor handle/skin intersections and knuckle faceting remain. |
+| Dumbbell bicep curl | **NEEDS MINOR FIX** | Bottom shoulders read more relaxed, contracted elbow stretching is substantially reduced, and a joint-driven shape restores volume through the bend. Some faceting remains because the source topology has limited loops around the joint; minor handle/skin intersections and knuckle faceting remain. |
 | Bodyweight squat | **NEEDS MINOR FIX** | Feet maintain contact, but flattened groin/inner-thigh shaping and angular knee folds remain at depth. |
 | Dumbbell shoulder press | **NEEDS MINOR FIX** | Grips remain locked; overhead shoulder/armpit creasing and wrist/knuckle faceting remain. |
 | Push-up | **NEEDS MINOR FIX** | Palms and feet stay on the floor; low-poly wrist and knuckle folds remain. |

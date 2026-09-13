@@ -98,6 +98,19 @@ describe('bone mapping', () => {
     expect(isMappingUsable(mapping)).toBe(true);
   });
 
+  it('prefers Rigify deform bones when control bones are also exported', () => {
+    const bones = guessMapping([
+      'root', 'hips', 'DEF-spine', 'spine', 'DEF-spine.001', 'chest',
+      'DEF-spine.002', 'upperchest', 'DEF-spine.003', 'neck', 'DEF-spine.004',
+      'head', 'DEF-spine.006', 'shoulder.L', 'DEF-shoulder.L',
+    ]);
+    expect(bones.pelvis).toBe('DEF-spine');
+    expect(bones.spine_02).toBe('DEF-spine.002');
+    expect(bones.neck).toBe('DEF-spine.004');
+    expect(bones.head).toBe('DEF-spine.006');
+    expect(bones.clavicle_l).toBe('DEF-shoulder.L');
+  });
+
   it('leaves bones it cannot identify blank rather than guessing', () => {
     const mapping = createMapping('Sparse', 'unknown');
     mapping.bones = guessMapping(['Hips', 'Spine', 'Blob_A', 'Blob_B']);

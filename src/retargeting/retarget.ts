@@ -99,7 +99,24 @@ export function bindRetarget(
     const tail = restTail(rigBone.name, character, mapping, rig, head);
     if (!tail) continue;
 
-    const targetFrame = boneFrame(head, tail, forward);
+    let targetFrame = boneFrame(head, tail, forward);
+    // Hands can be rolled relative to the body's forward axis in the authored
+    // rest pose. Knuckle spread supplies their actual palm plane.
+    if (/^(hand|thumb|index|middle|ring|pinky)_/.test(rigBone.name)) {
+      const side = rigBone.name.endsWith('_l') ? 'l' : 'r';
+      const index = mapping.bones[`index_01_${side}`];
+      const pinky = mapping.bones[`pinky_01_${side}`];
+      const indexPosition = index && character.restWorldPosition.get(index);
+      const pinkyPosition = pinky && character.restWorldPosition.get(pinky);
+      if (indexPosition && pinkyPosition && indexPosition.distanceTo(pinkyPosition) > 1e-4) {
+        const width = indexPosition.clone().sub(pinkyPosition);
+        const rigWidth = rig.bone(`index_01_${side}`).restHead.clone()
+          .sub(rig.bone(`pinky_01_${side}`).restHead);
+        const rigPalmFrame = boneFrame(rigBone.restHead, rigBone.restTail, rigWidth);
+        targetFrame = boneFrame(head, tail, width)
+          .multiply(rigPalmFrame.invert()).multiply(rigBone.restWorldQuaternion);
+      }
+    }
     bones.push({
       canonical: rigBone.name,
       bone,

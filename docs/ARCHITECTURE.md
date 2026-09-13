@@ -78,6 +78,13 @@ and a test checks the two hands close by the same amount.
 The arms hang vertically at rest. An A-pose with built-in splay would silently
 add several degrees to every shoulder angle an exercise author writes down.
 
+Imported hands use the source skeleton's index-to-pinky knuckle line to recover
+the palm plane. This keeps finger flexion anatomical when the source hand frame
+differs from the body's general forward axis. A repaired character may also
+store small per-hand grip-frame offsets in `scene.userData.homeGymPT` so
+equipment placement follows the actual palm surface without changing exercise
+definitions.
+
 ## Euler order — and why it is `XZY`
 
 Rotations are stored as Euler angles because joint limits, the editor's numeric

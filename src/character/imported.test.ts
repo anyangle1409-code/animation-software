@@ -306,6 +306,21 @@ describe('an imported character', () => {
     character.dispose();
   });
 
+  it('applies a character-authored grip-frame calibration', async () => {
+    const source = retargetedCharacterSource({
+      id: 'calibrated', label: 'Calibrated', data: fixture.data,
+      gripFrameOffsets: { r: { x: 0.01, y: 0.02, z: -0.03 } },
+    });
+    const character = await source.build(rig);
+    const { frame, evaluation } = curlPose(studioClip.duration * TOP);
+    applyCharacterPose(character, rig, frame.pose, evaluation);
+    const held = character.handMatrix!('r', new Matrix4())!;
+    const grip = new Vector3().setFromMatrixPosition(held);
+    const hand = boneAt(character, 'DEF-hand.R');
+    expect(grip.distanceTo(hand)).toBeCloseTo(Math.sqrt(0.0014), 6);
+    character.dispose();
+  });
+
   it('exports its own mesh and skeleton, posed as the viewport poses it', async () => {
     const source = importedSource();
     const blob = await exportGlb(studioClip, bicepCurl, { fps: 20, character: source });

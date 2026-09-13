@@ -72,6 +72,8 @@ export interface RetargetedCharacterOptions {
   data?: ArrayBuffer;
   /** A mapping to use instead of guessing — from the panel, or saved earlier. */
   mapping?: BoneMapping;
+  /** Per-hand grip-frame calibration in studio metres, after basis transfer. */
+  gripFrameOffsets?: Partial<Record<Side, { x: number; y: number; z: number }>>;
 }
 
 export interface ImportReport {
@@ -119,6 +121,8 @@ export function retargetedCharacterSource(
       }
 
       const mapping = options.mapping ?? guessedMapping(options.label, scene, character.boneNames);
+      const embeddedGripOffsets = readGripOffsets(scene.userData?.homeGymPT?.gripFrameOffsets);
+      const gripOffsets = options.gripFrameOffsets ?? embeddedGripOffsets;
       const binding = bindRetarget(character, mapping, rig);
 
       // The one change made to the character: a uniform scale so a model of
@@ -188,7 +192,10 @@ export function retargetedCharacterSource(
           scratch.position.setFromMatrixPosition(scratch.matrix);
           scratch.basis.extractRotation(scratch.matrix);
           scratch.rotation.setFromRotationMatrix(scratch.basis).multiply(change);
-          return target.compose(scratch.position, scratch.rotation, scratch.unit);
+          target.compose(scratch.position, scratch.rotation, scratch.unit);
+          const offset = gripOffsets?.[side];
+          if (offset) target.multiply(new Matrix4().makeTranslation(offset.x, offset.y, offset.z));
+          return target;
         },
 
         sampler: () => retargetSampler(binding),
@@ -283,4 +290,16 @@ function topmost(bones: Bone[]): Bone {
     }
   }
   return best;
+}
+
+
+function readGripOffsets(value: unknown): Partial<Record<Side, { x: number; y: number; z: number }>> | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const result: Partial<Record<Side, { x: number; y: number; z: number }>> = {};
+  for (const side of ['l', 'r'] as const) {
+    const raw = (value as Record<string, unknown>)[side];
+    if (!Array.isArray(raw) || raw.length !== 3 || !raw.every(Number.isFinite)) continue;
+    result[side] = { x: Number(raw[0]), y: Number(raw[1]), z: Number(raw[2]) };
+  }
+  return result.l || result.r ? result : undefined;
 }

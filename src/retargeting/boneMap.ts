@@ -94,7 +94,13 @@ export function guessMapping(characterBones: string[]): Partial<Record<BoneName,
 
   for (const canonical of CORE_BONES) {
     const options = SYNONYMS[canonical] ?? [canonical];
-    for (const option of options) {
+    // When a Rigify export includes both controls and DEF bones, the skin is
+    // weighted to DEF. Prefer those exact deform candidates over controls with
+    // shorter human-readable names such as hips, chest, neck and head.
+    const ordered = [...options].sort((a, b) =>
+      Number(normalise(b).startsWith('def')) - Number(normalise(a).startsWith('def')),
+    );
+    for (const option of ordered) {
       if (claim(canonical, byNormalised.get(normalise(option)))) break;
     }
   }

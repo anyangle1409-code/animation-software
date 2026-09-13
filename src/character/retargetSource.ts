@@ -22,10 +22,12 @@ import type { RetargetBinding } from '../retargeting/retarget';
 import { compressTrack } from '../export/tracks';
 import type {
   CharacterBuild,
+  CharacterPoseContext,
   CharacterSource,
   DeformationSampler,
   Side,
 } from './types';
+import { RetargetContactResolver } from './retargetContact';
 
 /**
  * An imported character, preserved.
@@ -167,6 +169,43 @@ export function retargetedCharacterSource(
         unit: new Vector3(1, 1, 1),
       };
 
+      const handMatrix = (side: Side, target: Matrix4): Matrix4 | null => {
+        const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;
+        const bone = boneByName.get(name);
+        const change = correction.get(name);
+        if (!bone || !change) return null;
+        // The bone's world placement, with its own basis rotated into the
+        // canonical hand's, so grip offsets written against the rig apply
+        // unchanged. Scale is dropped: the dumbbell is a real dumbbell.
+        scratch.matrix.copy(bone.matrixWorld);
+        scratch.position.setFromMatrixPosition(scratch.matrix);
+        scratch.basis.extractRotation(scratch.matrix);
+        scratch.rotation.setFromRotationMatrix(scratch.basis).multiply(change);
+        target.compose(scratch.position, scratch.rotation, scratch.unit);
+        const offset = gripOffsets?.[side];
+        if (offset) target.multiply(new Matrix4().makeTranslation(offset.x, offset.y, offset.z));
+        return target;
+      };
+
+      const contacts = new RetargetContactResolver(binding, boneByName, handMatrix);
+      const drive = (pose: Pose, context?: CharacterPoseContext) => {
+        if (!context?.contacts?.length) {
+          applyRetarget(binding, pose);
+          return;
+        }
+        const rootOffset = new Vector3();
+        // A shorter imported limb can be unable to reach a fixed contact. Move
+        // this character's body by the shared residual, then let each source
+        // limb solve the remaining error. A few bounded passes converge the
+        // four-point push-up support as well as the suspended pull-up body.
+        for (let pass = 0; pass < 8; pass += 1) {
+          applyRetarget(binding, pose, rootOffset);
+          const residual = contacts.apply(context.contacts);
+          if (!residual || residual.length() <= 0.001) break;
+          rootOffset.add(contacts.rootOffset(residual));
+        }
+      };
+
       const build: CharacterBuild = {
         source: source.id,
         root,
@@ -178,27 +217,11 @@ export function retargetedCharacterSource(
         deformation: null,
         capabilities: source.capabilities,
 
-        driver: (pose: Pose) => applyRetarget(binding, pose),
+        driver: drive,
 
-        handMatrix: (side: Side, target: Matrix4) => {
-          const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;
-          const bone = boneByName.get(name);
-          const change = correction.get(name);
-          if (!bone || !change) return null;
-          // The bone's world placement, with its own basis rotated into the
-          // canonical hand's, so grip offsets written against the rig apply
-          // unchanged. Scale is dropped: the dumbbell is a real dumbbell.
-          scratch.matrix.copy(bone.matrixWorld);
-          scratch.position.setFromMatrixPosition(scratch.matrix);
-          scratch.basis.extractRotation(scratch.matrix);
-          scratch.rotation.setFromRotationMatrix(scratch.basis).multiply(change);
-          target.compose(scratch.position, scratch.rotation, scratch.unit);
-          const offset = gripOffsets?.[side];
-          if (offset) target.multiply(new Matrix4().makeTranslation(offset.x, offset.y, offset.z));
-          return target;
-        },
+        handMatrix,
 
-        sampler: () => retargetSampler(binding),
+        sampler: () => retargetSampler(binding, drive),
 
         dispose() {
           for (const mesh of character.meshes) {
@@ -224,14 +247,17 @@ export function retargetedCharacterSource(
  * the source bones and hold the rotations and translations produced — the same
  * ones the viewport applies, sampled from the same poses.
  */
-export function retargetSampler(binding: RetargetBinding): DeformationSampler {
+export function retargetSampler(
+  binding: RetargetBinding,
+  drive: (pose: Pose, context?: CharacterPoseContext) => void = (pose) => applyRetarget(binding, pose),
+): DeformationSampler {
   const bones = [...binding.character.bones.values()];
   const rotations = new Map(bones.map(bone => [bone.name, [] as number[]]));
   const positions = new Map(bones.map(bone => [bone.name, [] as number[]]));
 
   return {
-    sample(pose: Pose) {
-      applyRetarget(binding, pose);
+    sample(pose: Pose, context?: CharacterPoseContext) {
+      drive(pose, context);
       for (const bone of bones) {
         rotations.get(bone.name)!.push(...bone.quaternion.toArray());
         positions.get(bone.name)!.push(...bone.position.toArray());

@@ -1,53 +1,53 @@
-# Repaired hand candidate validation
+# Contact-corrected character validation
 
-**The bilateral hand-weight repair succeeds for independent finger control and substantially improves weighted grips. The character is still a candidate because push-up floor contact, pull-up bar contact and deep-squat shaping need further work.**
+**The previous push-up and pull-up failures are corrected. The character now keeps its real palm, sole and grip surfaces on their contacts through the preserved-skeleton production path. Remaining defects are local shaping issues.**
 
 Input SHA-256: `854cc1193498b49722ea7ccce92d47d8ba6166b3fc0055cb4666675b710e5a49`  
-Repaired candidate SHA-256: `cc758295db337bbf7b040d229ec03c4eecbf566f8bc923011732f333149e5144`
+Contact-corrected candidate SHA-256: `e1c60f1367d7d491903a4a9cf7abe862804c8236d63cb612d35f6d4ce51a1208`
 
-The original file remains unchanged. The repaired copy retains 10,839 vertices and the authored surface. Rest-pose skinned positions differ by at most 0.0006 mm, from floating-point export precision. The repaired runtime skeleton contains 160 deform bones. The source's twelve weight slots were consolidated so the strongest four influences used by Three.js describe each repaired vertex consistently.
+The original upload remains unchanged. The repaired copy retains 10,839 vertices. Its rest-pose skinned surface differs from the supplied file by at most 0.0007 mm, which is floating-point export precision.
 
-## What changed
+## Changes
 
-- Removed finger/thumb influence from unrelated hand and forearm vertices.
-- Fitted the wrist and 15 finger joints per hand to the actual mesh branches.
-- Rebuilt each finger's weights independently and mirrored the verified repair to the right hand.
-- Aligned split upper-arm/forearm deform pivots with the physical shoulder–elbow–wrist path.
-- Stored per-hand grip-frame calibration in the GLB metadata.
-- Updated the importer to prefer Rigify `DEF` bones when control bones are present, orient palms from the knuckle line, and read grip-frame calibration.
+- Passed the final canonical lock targets into preserved imported characters.
+- Added bounded source-skeleton IK for different arm and leg proportions.
+- Measured floor contact from the imported palm and sole triangles rather than wrist and ankle pivots.
+- Added source toe support automatically for the horizontal four-point push-up position.
+- Applied character-only root reach compensation where a shorter source limb cannot reach the floor or pull-up bar.
+- Oriented the actual imported palm from its knuckle line to the resolved contact frame.
+- Smoothed the repaired GLB's forearm-to-hand weight transition for loaded wrist extension.
 
-No exercise definition was changed.
+No exercise definition was changed. The source skeleton, mesh topology and bind-based production path remain in use.
 
 ## Verification
 
-- **189 regular automated tests passed; 1 optional asset test skipped in the regular run.**
-- The optional production diagnostic was then run explicitly with the repaired GLB: **1 passed**.
+- **190 regular automated tests passed; 1 optional asset test skipped in the regular run.**
+- The optional production diagnostic was run explicitly with this GLB: **passed**.
 - TypeScript and production build passed. The existing bundle-size warning remains.
-- All 10 proximal finger chains were rotated independently by 30°. Every finger moved its own side; zero opposite-side or central/forearm vertices moved more than 3 mm.
-- Mapped anatomical-frame error stayed below 0.031°. Dumbbells remained locked to their hand frames to numerical precision.
+- Across 61 samples, push-up palms stayed from 0.00005 mm below to 6.01 mm above the floor; push-up foot surfaces stayed from 1.35 mm below to 0.29 mm above it.
+- Squat foot-surface penetration stayed below 2.30 mm.
+- Pull-up grip-frame error stayed below 1.04 mm.
+- Every finger and thumb still passed the independent 30° isolation test, with zero opposite-side or forearm leakage.
+- The absolute anatomical transfer still replaces the source A-pose/open-hand rest. Contacted limbs then receive the small source-proportion correction needed to put the actual surface on the intended floor or bar.
 
 ## Movement verdicts
 
 | Movement | Verdict | Exact result |
 |---|---|---|
-| Dumbbell bicep curl | **NEEDS MINOR FIX** | Both hands close coherently around the handle at bottom, halfway and top, and equipment stays locked. Small handle/skin intersections and angular low-poly knuckle folds remain. Peak maximum edge strain is 4.31×, down from about 17.4× in the supplied arm-repaired GLB. |
-| Bodyweight squat | **NEEDS MINOR FIX** | Hands remain coherent. Deep position still has flattened inner-thigh/groin shaping and angular knee folds. Left-foot bone drift is 79.4 mm across 61 samples. |
-| Dumbbell shoulder press | **NEEDS MINOR FIX** | Both hands keep a closed equipment grip overhead. Shoulder/armpit creasing and faceted wrist/knuckle transitions remain. Peak sampled maximum edge strain is 4.92×. |
-| Push-up | **FAIL** | Fingers are now coherent, but the hands are not planted as flat palms; the skinned hand reaches about 45 mm below the intended floor plane at the bottom capture. Left-hand bone drift is 25.9 mm. |
-| Pull-up | **FAIL** | Fingers are coherent, but bar enclosure and contact are not held throughout the rep. Left-hand bone drift is 39.0 mm. A source-proportion contact solve is still needed. |
+| Dumbbell bicep curl | **NEEDS MINOR FIX** | Both hands close around the handles and the dumbbells remain rigidly locked. Small handle/skin intersections and angular knuckle folds remain. Maximum sampled edge strain is 3.82×. |
+| Bodyweight squat | **NEEDS MINOR FIX** | Both feet now maintain floor contact within 2.30 mm. The deepest pose still has flattened groin/inner-thigh shaping and angular knee folds. Maximum sampled edge strain is 3.68×. |
+| Dumbbell shoulder press | **NEEDS MINOR FIX** | Closed grips remain locked at full overhead. Shoulder/armpit creasing and faceted wrist/knuckle transitions remain. Maximum sampled edge strain is 3.68×. |
+| Push-up | **NEEDS MINOR FIX** | Both palms are flat and the hands and feet stay on the floor. Maximum palm clearance is 6.01 mm and maximum foot penetration is 1.35 mm. Low-poly wrist and knuckle folds remain. Maximum sampled edge strain is 3.85×. |
+| Pull-up | **NEEDS MINOR FIX** | Both grip frames stay within 1.04 mm of the bar and the fingers remain wrapped at the bottom and top. Minor bar/skin intersection and angular wrist folds remain. Maximum sampled edge strain is 8.23×. |
 
-## Quantitative comparison
+## Quantitative deformation
 
-| Movement | Maximum edge strain after repair |
+| Movement | Maximum sampled edge strain |
 |---|---:|
-| Curl | 4.31× |
-| Squat | 3.41× |
-| Shoulder press | 4.92× |
-| Push-up | 5.39× |
-| Pull-up | 6.74× |
+| Curl | 3.82× |
+| Squat | 3.68× |
+| Shoulder press | 3.68× |
+| Push-up | 3.85× |
+| Pull-up | 8.23× |
 
-These maxima identify local deformation and do not alone determine visual acceptance. Fifteen key poses and 61 trajectory samples per movement were measured through the preserved-skeleton production path.
-
-## Limits and next repair
-
-The screenshots are offline renders of the actual production-posed triangles rather than live Animation Studio WebGL screenshots. The next code task is a character-aware contact layer that uses the imported hand/foot surface offsets when resolving floor and bar locks. After that, the remaining deep-squat hip/knee weights and overhead shoulder folds should be refined on another preserved copy.
+Fifteen representative poses and 61 trajectory samples per contact movement were measured. The screenshots are offline renders of the actual production-posed triangles rather than captures of the Studio user interface.

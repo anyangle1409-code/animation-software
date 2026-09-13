@@ -143,3 +143,12 @@ export type LockMode =
   | 'floor'
   /** Rigidly follow an equipment socket. */
   | 'equipment';
+
+/** The final world-space contact target produced by the frame pipeline. */
+export interface ResolvedContact {
+  chain: IKChainId;
+  mode: LockMode;
+  target: Vec3;
+  /** Final end-effector orientation resolved from the lock or equipment socket. */
+  aim?: { direction: Vec3; forward?: Vec3 };
+}

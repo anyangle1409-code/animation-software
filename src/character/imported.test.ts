@@ -21,6 +21,7 @@ import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
+import { pushUp } from '../exercises/definitions/pushUp';
 import { exportGlb } from '../export/glb';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';
@@ -276,7 +277,7 @@ describe('an imported character', () => {
     // It rides its parent: posing the character moves it, and it does not fly
     // off to the origin or stay pinned while the body moves.
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
-    applyCharacterPose(character, rig, frame.pose, evaluation);
+    applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     helper.updateWorldMatrix(true, false);
     const posed = new Vector3().setFromMatrixPosition(helper.matrixWorld);
     expect(posed.length()).toBeGreaterThan(0.1);
@@ -318,6 +319,25 @@ describe('an imported character', () => {
     const grip = new Vector3().setFromMatrixPosition(held);
     const hand = boneAt(character, 'DEF-hand.R');
     expect(grip.distanceTo(hand)).toBeCloseTo(Math.sqrt(0.0014), 6);
+    character.dispose();
+  });
+
+  it('passes resolved contacts into the preserved source-proportion solve', async () => {
+    const character = await importedSource().build(rig);
+    const clip = generateClip(rig, pushUp);
+    const evaluation = new PoseEvaluation(rig);
+    const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+
+    for (const fraction of [0, 0.45]) {
+      const frame = resolveFrame(rig, evaluation, clip, clip.duration * fraction, { anchors });
+      expect(frame.contacts).toHaveLength(2);
+      applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
+      const grip = new Vector3().setFromMatrixPosition(character.handMatrix!('r', new Matrix4())!);
+      const target = frame.contacts.find((contact) => contact.chain === 'arm_r')!.target;
+      // This fixture uses the same opposite-side convention as the real asset.
+      expect(Math.abs(grip.x + target.x)).toBeLessThan(0.02);
+      expect(Math.abs(grip.z - target.z)).toBeLessThan(0.02);
+    }
     character.dispose();
   });
 
@@ -367,7 +387,7 @@ describe('an imported character', () => {
 
     const character = await importedSource().build(rig);
     const { frame, evaluation } = curlPose(time);
-    applyCharacterPose(character, rig, frame.pose, evaluation);
+    applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     const shown = boneAt(character, 'DEF-hand.R');
     const written = new Vector3().setFromMatrixPosition((playedHand as unknown as Object3D).matrixWorld);
 
@@ -385,4 +405,3 @@ describe('an imported character', () => {
     character.dispose();
   }, 30_000);
 });
-

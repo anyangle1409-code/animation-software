@@ -146,6 +146,15 @@ pose**, computed once per clip and reused for every frame. Deriving a contact
 height from the mesh instead asks the limb to reach somewhere it cannot, and the
 foot visibly sinks and slides.
 
+A preserved import receives the resolved lock targets after the canonical
+solve. Its own limb lengths can differ, so a bounded source-skeleton IK pass
+places the imported palm or sole on the same contact while keeping its authored
+hierarchy and bind matrices. Floor contact is measured from the distal skinned
+surface rather than the wrist or ankle pivot. A horizontal four-point support
+also adds the imported toe surfaces, and a small character-only root correction
+handles source limbs that cannot otherwise reach a fixed bar or floor. The
+canonical pose and exercise definition are not rewritten.
+
 Where an exercise's whole body moves — the push-up, the squat — the root
 placement is *derived* rather than guessed: it is the position that puts the
 contacts back on their anchors for the authored joint angles. The locks then

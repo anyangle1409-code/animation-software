@@ -2,6 +2,7 @@ import type { Bone, KeyframeTrack, Matrix4, Object3D, SkinnedMesh, Skeleton as T
 import type { BoneName } from '../rig/boneNames';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
+import type { ResolvedContact } from '../constraints/types';
 
 
 /**
@@ -43,6 +44,11 @@ export interface DeformationContext {
   character: CharacterBuild;
 }
 
+/** Per-frame data a proportion-aware imported character may need. */
+export interface CharacterPoseContext {
+  contacts?: ResolvedContact[];
+}
+
 /**
  * Per-frame corrections belonging to one character.
  *
@@ -64,7 +70,7 @@ export interface DeformationStack {
 /** Bakes a stack's per-frame state into animation tracks. */
 export interface DeformationSampler {
   /** One resolved pose, in clip order. */
-  sample(pose: Pose): void;
+  sample(pose: Pose, context?: CharacterPoseContext): void;
   /** The tracks for everything sampled so far. */
   tracks(times: number[]): KeyframeTrack[];
 }
@@ -95,7 +101,7 @@ export interface CharacterBuild {
    * supplies the transfer here, and `applyCharacterPose` uses it instead of
    * writing the canonical bone matrices directly.
    */
-  driver?: (pose: Pose) => void;
+  driver?: (pose: Pose, context?: CharacterPoseContext) => void;
 
   /**
    * Where a hand is, in the canonical hand frame, for the equipment a hand

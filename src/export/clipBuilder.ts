@@ -82,7 +82,7 @@ export function bakeClip(
 
     const frame = resolveFrame(rig, evaluation, studioClip, time, { anchors });
 
-    deformation?.sample(frame.pose);
+    deformation?.sample(frame.pose, { contacts: frame.contacts });
 
     for (const bone of rig.bones) {
       const rotation = frame.pose.rotations[bone.name];

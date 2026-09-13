@@ -2,7 +2,7 @@ import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
 import { EULER_ORDER } from '../rig/types';
-import type { CharacterBuild } from './types';
+import type { CharacterBuild, CharacterPoseContext } from './types';
 
 const UNIT = new Vector3(1, 1, 1);
 const scratch = {
@@ -27,11 +27,12 @@ export function applyCharacterPose(
   rig: Skeleton,
   pose: Pose,
   evaluation?: PoseEvaluation,
+  context?: CharacterPoseContext,
 ): void {
   // A character that kept its own skeleton drives itself: the canonical bones
   // are not its bones, so its joint angles come through its own transfer.
   if (character.driver) {
-    character.driver(pose);
+    character.driver(pose, context);
     if (character.deformation && evaluation) {
       character.deformation.update({ rig, pose, evaluation, character });
     }

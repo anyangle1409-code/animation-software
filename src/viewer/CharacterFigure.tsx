@@ -62,7 +62,7 @@ export function CharacterFigure({
   useFrame(() => {
     const pose = scene.frame?.pose;
     if (!pose || !build) return;
-    applyCharacterPose(build, skeleton, pose, scene.evaluation);
+    applyCharacterPose(build, skeleton, pose, scene.evaluation, { contacts: scene.frame?.contacts });
   });
 
   if (!build) return null;

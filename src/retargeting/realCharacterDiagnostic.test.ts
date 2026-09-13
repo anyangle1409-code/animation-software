@@ -135,7 +135,7 @@ real('real imported-character production diagnostic', () => {
 
       for (const fraction of fractions) {
         const frame = resolveFrame(rig, evaluation, clip, clip.duration * fraction, { anchors });
-        applyCharacterPose(character, rig, frame.pose, evaluation);
+        applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
         character.object.updateMatrixWorld(true);
 
         const meshStats = character.meshes.map((mesh) => ({

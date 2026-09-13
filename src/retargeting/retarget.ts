@@ -201,7 +201,11 @@ const scratchInverseCorrection = new Quaternion();
  * branches receive local translations, and detached Rigify detail branches
  * follow their anatomical parent. Connected helper bones retain their offsets.
  */
-export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
+export function applyRetarget(
+  binding: RetargetBinding,
+  pose: Pose,
+  rootOffset = new Vector3(),
+): void {
   binding.evaluation.apply(pose);
 
   binding.character.root.updateMatrixWorld(true);
@@ -220,8 +224,9 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
     rootRotation.premultiply(binding.worldAlignment).multiply(binding.worldAlignment.clone().invert());
     const origin = new Vector3().setFromMatrixPosition(binding.restRootWorld);
     hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(new Vector3(
-      pose.rootPosition.x * (binding.mirrorSides ? -1 : 1),
-      pose.rootPosition.y, pose.rootPosition.z,
+      (pose.rootPosition.x + rootOffset.x) * (binding.mirrorSides ? -1 : 1),
+      pose.rootPosition.y + rootOffset.y,
+      pose.rootPosition.z + rootOffset.z,
     ).multiplyScalar(binding.scale).applyQuaternion(binding.worldAlignment));
     // Account for display transforms applied after binding, once only.
     hipsPosition.applyMatrix4(sceneDelta);

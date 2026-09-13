@@ -4,7 +4,7 @@ import type { IKGoal, IKResult } from '../ik/types';
 import { solveGoals } from '../ik/solve';
 import { resolveLocks } from '../constraints/locks';
 import type { Vec3 } from '../rig/types';
-import type { EffectorLock } from '../constraints/types';
+import type { EffectorLock, ResolvedContact } from '../constraints/types';
 import { resolveEquipment, socketResolver } from '../equipment/attach';
 import type { EquipmentTransform } from '../equipment/attach';
 import type { EquipmentInstance } from '../equipment/types';
@@ -18,6 +18,8 @@ export interface ResolvedFrame {
   pose: Pose;
   equipment: Map<string, EquipmentTransform>;
   ikResults: IKResult[];
+  /** Final lock targets, for preserved characters with different proportions. */
+  contacts: ResolvedContact[];
   phaseId?: string;
 }
 
@@ -63,12 +65,14 @@ export function resolveFrame(
 
   let transforms = resolveEquipment(evaluation, equipment);
   const activeLocks = locks.filter((lock) => lock.enabled);
+  let finalLockGoals: IKGoal[] = [];
 
   if (activeLocks.length > 0) {
     const passes = activeLocks.some((lock) => lock.mode === 'equipment') ? 2 : 1;
     for (let pass = 0; pass < passes; pass += 1) {
       const resolver = socketResolver(equipment, transforms);
       const lockGoals = resolveLocks(evaluation, pose, activeLocks, resolver, options.anchors);
+      finalLockGoals = lockGoals;
       const results = solveGoals(skeleton, evaluation, pose, lockGoals);
       if (pass === passes - 1) ikResults.push(...results);
       evaluation.apply(pose);
@@ -76,7 +80,13 @@ export function resolveFrame(
     }
   }
 
-  return { time, pose, equipment: transforms, ikResults, phaseId: sample.phaseId };
+  const contacts = finalLockGoals.map((goal) => ({
+    chain: goal.chain,
+    mode: activeLocks.find((lock) => lock.chain === goal.chain)?.mode ?? 'world',
+    target: { ...goal.target },
+    ...(goal.endAim ? { aim: goal.endAim } : {}),
+  }));
+  return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
 }
 
 function goalsFromKeyframe(ik: Partial<Record<IKChainId, KeyframeIK>>): IKGoal[] {

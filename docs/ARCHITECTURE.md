@@ -230,18 +230,36 @@ demonstration must never show.
 
 ## Retargeting
 
-Transferring a world-space rotation onto another rig only works when both rigs
-share a rest pose. Applied to a T-posed import of an A-posed animation, elbow
-flexion arrives as a forearm twist.
+Imported characters use their original skeleton, inverse bind matrices and
+weights. Each mapped bone receives the canonical absolute anatomical frame,
+converted through the source bone's authored basis. This replaces an imported
+A-pose/open-hand rest orientation rather than adding exercise deltas to it.
+Forward direction comes from the feet; the thigh positions identify an opposite
+left/right convention. Reflection conjugates rotations, never the mesh.
 
-So each target bone gets its own anatomical frame, built exactly the way ours
-are, from its rest direction and the character's own forward (detected from its
-feet). Joint angles are then carried through the change of basis between the two
-frames. An elbow flexes by the same number of degrees whatever pose the
-character was modelled in.
+Some Rigify deform-only GLBs omit constraints and export shoulders, arms,
+thighs and detail bones as armature siblings. The binding captures their rest
+attachment to the mapped anatomical parent. At runtime these branches receive
+local translations (and rigid transforms for recognised face, breast and pelvis
+details), without reparenting bones or rebinding the mesh. Connected helpers
+retain their source offsets. Facial branches are not used as a head bone's tail;
+Rigify leaf bones use their authored +Y shaft when no tail node is exported.
 
-Mappings are stored separately from exercises: a character is mapped once, and
-every exercise retargets onto it with no further work.
+Root rotation rotates the resting pelvis around the scene origin before root
+translation is applied. Scene transforms introduced after binding are applied
+once. Reset restores both local rotations and local positions.
+
+Imported animation export samples rotations and positions of all source bones,
+including virtual attachments and detail followers. Rest-valued tracks are
+removed by the usual compression; remaining tracks reproduce viewport posing.
+
+Mappings remain separate from exercise definitions. Correct bone frames do not
+certify skin deformation: an asset with misplaced pivots or inappropriate
+weights can still tear under a mathematically correct pose. Source proportions
+also differ from the canonical contact solver's proportions. Hand-carried
+objects follow source hand bones, but floor/bar contacts and actual mesh grip
+require independent validation. The optional real-character test is a coarse
+catastrophic-strain guard, not visual approval.
 
 ## Export
 

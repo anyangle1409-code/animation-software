@@ -1,8 +1,9 @@
-import { Box3, Object3D, Quaternion, Vector3 } from 'three';
+import { Box3, Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { Bone, SkinnedMesh } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
+import { EULER_ORDER } from '../rig/types';
 import type { Pose } from '../rig/types';
 import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from './boneMap';
@@ -16,6 +17,7 @@ export interface TargetCharacter {
   restWorldPosition: Map<string, Vector3>;
   restWorld: Map<string, Quaternion>;
   restLocal: Map<string, Quaternion>;
+  restPosition: Map<string, Vector3>;
   height: number;
   meshes: SkinnedMesh[];
 }
@@ -43,12 +45,26 @@ export interface RetargetBinding {
   bones: BoundBone[];
   hips: Bone | null;
   hipsRest: Vector3;
+  /** Scene transform when rest-world measurements were captured. */
+  restRootWorld: Matrix4;
   /** Target height divided by the canonical rig's height. */
   scale: number;
   /** Canonical forward kinematics reused for every transferred frame. */
   evaluation: PoseEvaluation;
   /** Rotate canonical world frames into the direction the imported character faces. */
   worldAlignment: Quaternion;
+  mirrorSides: boolean;
+  /** Virtual attachments drive disconnected exported branches without rebinding. */
+  attachments: Map<Bone, { parent: Bone; offset: Vector3 }>;
+  followers: { bone: Bone; parent: Bone; offset: Matrix4 }[];
+}
+
+/** Recognised Rigify detail branches whose constraints are absent in glTF. */
+function detailParent(name: string): BoneName | null {
+  if (/^DEF[-_](?:jaw|chin|lip|tongue|teeth|nose|cheek|brow|forehead|lid|eye|ear|temple)/i.test(name)) return 'head';
+  if (/^DEF[-_]breast/i.test(name)) return 'spine_03';
+  if (/^DEF[-_]pelvis/i.test(name)) return 'pelvis';
+  return null;
 }
 
 const WORLD_FORWARD = new Vector3(0, 0, 1);
@@ -97,12 +113,51 @@ export function bindRetarget(
   const hipsRest =
     (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || new Vector3();
 
+  // Some deform-only exports omit Rigify constraints: thighs, shoulders and
+  // upper arms then become armature siblings, as do face bones. Reconstruct
+  // only their runtime attachment, retaining the exported hierarchy/bind data.
+  const attachments = new Map<Bone, { parent: Bone; offset: Vector3 }>();
+  const byCanonical = new Map(bones.map(b => [b.canonical, b]));
+  const hasAncestor = (bone: Bone, parent: Bone) => {
+    let walk = bone.parent;
+    while (walk) { if (walk === parent) return true; walk = walk.parent; }
+    return false;
+  };
+  for (const entry of bones) {
+    const parentName = rig.bone(entry.canonical).parent;
+    const parent = parentName ? byCanonical.get(parentName)?.bone : undefined;
+    if (parent && !hasAncestor(entry.bone, parent)) {
+      attachments.set(entry.bone, {
+        parent,
+        offset: character.restWorldPosition.get(entry.bone.name)!.clone()
+          .applyMatrix4(parent.matrixWorld.clone().invert()),
+      });
+    }
+  }
+  const followers: RetargetBinding['followers'] = [];
+  const mapped = new Set(bones.map(b => b.bone));
+  for (const bone of character.bones.values()) {
+    if (mapped.has(bone)) continue;
+    const parentName = detailParent(bone.name);
+    const parent = parentName ? byCanonical.get(parentName)?.bone : undefined;
+    if (!parent || hasAncestor(bone, parent)) continue;
+    if (followers.some(f => hasAncestor(bone, f.bone))) continue;
+    followers.push({ bone, parent,
+      offset: parent.matrixWorld.clone().invert().multiply(bone.matrixWorld) });
+  }
+  const left = mapping.bones.thigh_l && character.restWorldPosition.get(mapping.bones.thigh_l);
+  const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
+  const alignedRight = new Vector3(1, 0, 0).applyQuaternion(new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward));
+  const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
+
   return {
     character,
     mapping,
     bones,
     hips,
     hipsRest,
+    restRootWorld: character.root.matrixWorld.clone(),
+    attachments, followers, mirrorSides,
     scale: character.height / RIG_HEIGHT,
     evaluation: new PoseEvaluation(rig),
     worldAlignment: new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward),
@@ -125,20 +180,34 @@ const scratchInverseCorrection = new Quaternion();
  *   desiredActualWorld = desiredAnatomicalWorld * correction^-1
  *
  * We then convert that world rotation back into the target bone's local space.
- * Bone lengths, offsets, hierarchy, skin weights and passive helper/twist bones
- * remain the imported character's own; only mapped bone rotations are driven.
+ * The source hierarchy and bind data remain intact. Disconnected deform
+ * branches receive local translations, and detached Rigify detail branches
+ * follow their anatomical parent. Connected helper bones retain their offsets.
  */
 export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
   binding.evaluation.apply(pose);
 
+  binding.character.root.updateMatrixWorld(true);
+  const sceneDelta = binding.character.root.matrixWorld.clone()
+    .multiply(binding.restRootWorld.clone().invert());
+  const sceneRotation = new Quaternion().setFromRotationMatrix(
+    new Matrix4().extractRotation(sceneDelta),
+  );
+  let hipsPosition: Vector3 | null = null;
+  // Rotate the resting pelvis about the scene origin before adding root motion.
   if (binding.hips) {
-    // Root motion scales with the character, so a taller model squats to the
-    // same depth relative to its own legs rather than sinking into the floor.
-    binding.hips.position.set(
-      binding.hipsRest.x + pose.rootPosition.x * binding.scale,
-      binding.hipsRest.y + pose.rootPosition.y * binding.scale,
-      binding.hipsRest.z + pose.rootPosition.z * binding.scale,
-    );
+    const rootRotation = new Quaternion().setFromEuler(new Euler(
+      pose.rootRotation.x, pose.rootRotation.y, pose.rootRotation.z, EULER_ORDER,
+    ));
+    if (binding.mirrorSides) { rootRotation.y *= -1; rootRotation.z *= -1; }
+    rootRotation.premultiply(binding.worldAlignment).multiply(binding.worldAlignment.clone().invert());
+    const origin = new Vector3().setFromMatrixPosition(binding.restRootWorld);
+    hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(new Vector3(
+      pose.rootPosition.x * (binding.mirrorSides ? -1 : 1),
+      pose.rootPosition.y, pose.rootPosition.z,
+    ).multiplyScalar(binding.scale).applyQuaternion(binding.worldAlignment));
+    // Account for display transforms applied after binding, once only.
+    hipsPosition.applyMatrix4(sceneDelta);
   }
 
   // Parents must be current before a child's desired world rotation can be
@@ -146,9 +215,24 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
   // updating each driven bone also refreshes passive source bones below it.
   binding.character.root.updateMatrixWorld(true);
   for (const entry of binding.bones) {
-    scratchDesiredFrame
-      .copy(binding.worldAlignment)
-      .multiply(binding.evaluation.quaternion(entry.canonical));
+    scratchDesiredFrame.copy(binding.evaluation.quaternion(entry.canonical));
+    // S R S reflects a rotation into an opposite side convention while keeping
+    // a proper right-handed bone frame. Geometry itself is never reflected.
+    if (binding.mirrorSides) {
+      scratchDesiredFrame.y *= -1;
+      scratchDesiredFrame.z *= -1;
+    }
+    scratchDesiredFrame.premultiply(binding.worldAlignment).premultiply(sceneRotation);
+    if (entry.bone === binding.hips && hipsPosition) {
+      if (entry.bone.parent) entry.bone.parent.worldToLocal(hipsPosition);
+      entry.bone.position.copy(hipsPosition);
+    }
+    const attachment = binding.attachments.get(entry.bone);
+    if (attachment && entry.bone !== binding.hips) {
+      const position = attachment.offset.clone().applyMatrix4(attachment.parent.matrixWorld);
+      if (entry.bone.parent) entry.bone.parent.worldToLocal(position);
+      entry.bone.position.copy(position);
+    }
     scratchDesiredWorld
       .copy(scratchDesiredFrame)
       .multiply(scratchInverseCorrection.copy(entry.correction).invert());
@@ -167,6 +251,14 @@ export function applyRetarget(binding: RetargetBinding, pose: Pose): void {
     entry.bone.updateMatrixWorld(true);
   }
 
+  for (const follower of binding.followers) {
+    const world = follower.parent.matrixWorld.clone().multiply(follower.offset);
+    const local = follower.bone.parent
+      ? follower.bone.parent.matrixWorld.clone().invert().multiply(world) : world;
+    // These are rigid attachments; preserve the source bone's authored scale.
+    local.decompose(follower.bone.position, follower.bone.quaternion, new Vector3());
+    follower.bone.updateMatrixWorld(true);
+  }
   binding.character.root.updateMatrixWorld(true);
 }
 
@@ -228,10 +320,18 @@ function restTail(
   const targetName = mapping.bones[canonical];
   const bone = targetName ? character.bones.get(targetName) : undefined;
   for (const child of bone?.children ?? []) {
+    // Facial/accessory branches do not define the shaft of their parent bone.
+    if (detailParent(child.name)) continue;
     const position = character.restWorldPosition.get(child.name);
     if (position && position.distanceTo(head) > 1e-4) return position;
   }
 
+  // Rigify's leaf deform bones have an authored +Y shaft even though glTF
+  // omits the tail. A canonical fallback points an A-posed fingertip elsewhere.
+  if (bone && /^DEF[-_]/i.test(bone.name)) {
+    const orientation = character.restWorld.get(bone.name)!;
+    return head.clone().add(new Vector3(0, 0.05, 0).applyQuaternion(orientation));
+  }
   const direction = rigBone.restTail.clone().sub(rigBone.restHead);
   if (direction.lengthSq() < 1e-9) return null;
   return head.clone().add(direction);
@@ -281,17 +381,19 @@ export function readCharacter(root: Object3D): TargetCharacter {
 
   const restWorld = new Map<string, Quaternion>();
   const restLocal = new Map<string, Quaternion>();
+  const restPosition = new Map<string, Vector3>();
   const restWorldPosition = new Map<string, Vector3>();
   for (const [name, bone] of bones) {
     restWorld.set(name, bone.getWorldQuaternion(new Quaternion()));
     restLocal.set(name, bone.quaternion.clone());
+    restPosition.set(name, bone.position.clone());
     restWorldPosition.set(name, new Vector3().setFromMatrixPosition(bone.matrixWorld));
   }
 
   const box = new Box3().setFromObject(root);
   const height = Math.max(0.5, box.max.y - box.min.y);
 
-  return { root, bones, boneNames, restWorld, restLocal, restWorldPosition, height, meshes };
+  return { root, bones, boneNames, restWorld, restLocal, restPosition, restWorldPosition, height, meshes };
 }
 
 /** Put a character back into the rest pose it was imported in. */
@@ -299,6 +401,8 @@ export function resetCharacter(character: TargetCharacter): void {
   for (const [name, bone] of character.bones) {
     const rest = character.restLocal.get(name);
     if (rest) bone.quaternion.copy(rest);
+    const position = character.restPosition.get(name);
+    if (position) bone.position.copy(position);
   }
   character.root.updateMatrixWorld(true);
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Bone, Group, Quaternion, Vector3 } from 'three';
+import { AnimationClip, AnimationMixer, Bone, Group, LoopOnce, Matrix4, Quaternion, Vector3 } from 'three';
+import { retargetSampler } from '../character/retargetSource';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { poseFromDegrees, restPose } from '../rig/pose';
 import { generateClip } from '../animation/generate';
@@ -200,6 +201,35 @@ describe('retargeting', () => {
     }
   });
 
+  it('transfers asymmetric motion into the source side convention without reflecting geometry', () => {
+    const original = buildCharacter({ names: identityNames });
+    const group = new Group();
+    const bones = new Map<string, Bone>();
+    for (const definition of skeleton.bones) {
+      const source = original.bones.get(definition.name)!;
+      const bone = new Bone(); bone.name = source.name;
+      bone.position.copy(source.getWorldPosition(new Vector3())); bone.position.x *= -1;
+      bone.quaternion.copy(source.getWorldQuaternion(new Quaternion()));
+      bone.quaternion.y *= -1; bone.quaternion.z *= -1;
+      group.add(bone); bones.set(bone.name, bone);
+    }
+    group.updateMatrixWorld(true);
+    for (const definition of skeleton.bones) {
+      if (definition.parent) bones.get(definition.parent)!.attach(bones.get(definition.name)!);
+    }
+    const character = readCharacter(group);
+    const mapping = createMapping('Opposite sides', 'identity'); mapping.bones = guessMapping(character.boneNames);
+    const binding = bindRetarget(character, mapping);
+    expect(binding.mirrorSides).toBe(true);
+    const pose = poseFromDegrees({ upperarm_l: { x: -40, z: 20 }, forearm_l: { x: 110 }, thigh_r: { x: 30 } });
+    applyRetarget(binding, pose); evaluation.apply(pose);
+    for (const name of ['hand_l', 'forearm_l', 'hand_r', 'foot_r'] as const) {
+      const expected = evaluation.head(name, new Vector3()); expected.x *= -1;
+      expect(character.bones.get(name)!.getWorldPosition(new Vector3()).distanceTo(expected), name).toBeLessThan(1e-6);
+    }
+    expect(group.scale.toArray()).toEqual([1, 1, 1]);
+  });
+
   it('puts the character back in its authored rest pose on reset', () => {
     const character = buildCharacter({ names: identityNames, tPose: true, openHand: true });
     const mapping = createMapping('Same', 'identity');
@@ -214,5 +244,106 @@ describe('retargeting', () => {
     resetCharacter(character);
     expect(character.bones.get('upperarm_l')!.quaternion.angleTo(beforeArm)).toBeLessThan(1e-6);
     expect(character.bones.get('index_01_l')!.quaternion.angleTo(beforeFinger)).toBeLessThan(1e-6);
+  });
+});
+
+
+describe('disconnected source deform branches', () => {
+  function fixture(detached: boolean) {
+    const original = buildCharacter({ names: identityNames });
+    const group = original.root;
+    if (detached) {
+      for (const name of ['thigh_l', 'thigh_r', 'clavicle_l', 'clavicle_r', 'upperarm_l', 'upperarm_r']) {
+        group.attach(original.bones.get(name)!);
+      }
+    }
+    for (const [name, parentName] of [
+      ['DEF-jaw', 'head'], ['DEF-breastL', 'spine_03'], ['DEF-pelvisL', 'pelvis'],
+    ]) {
+      const detail = new Bone();
+      detail.name = name;
+      detail.position.set(0.02, 0.03, 0.04);
+      original.bones.get(parentName)!.add(detail);
+      group.updateMatrixWorld(true);
+      if (detached) group.attach(detail);
+    }
+    const character = readCharacter(group);
+    const mapping = createMapping('Fixture', 'identity');
+    mapping.bones = guessMapping(character.boneNames);
+    return bindRetarget(character, mapping);
+  }
+
+  it('matches connected attachments through root rotation and translation without reparenting', () => {
+    const connected = fixture(false);
+    const detached = fixture(true);
+    const parents = [...detached.character.bones.values()].map(b => b.parent);
+    const pose = poseFromDegrees({ thigh_l: { x: 80 }, upperarm_l: { x: -65 }, spine_03: { x: 15 } });
+    pose.rootRotation.x = Math.PI / 2;
+    pose.rootPosition = { x: 0.12, y: 0.2, z: -0.1 };
+    applyRetarget(connected, pose);
+    applyRetarget(detached, pose);
+    for (const [name, bone] of detached.character.bones) {
+      const expected = connected.character.bones.get(name)!;
+      expect(bone.getWorldPosition(new Vector3()).distanceTo(expected.getWorldPosition(new Vector3())), name).toBeLessThan(1e-6);
+      expect(bone.getWorldQuaternion(new Quaternion()).angleTo(expected.getWorldQuaternion(new Quaternion())), name).toBeLessThan(1e-6);
+    }
+    expect([...detached.character.bones.values()].map(b => b.parent)).toEqual(parents);
+    // The pelvis must rotate about the root, not remain at standing height.
+    expect(detached.hips!.getWorldPosition(new Vector3()).y).toBeCloseTo(pose.rootPosition.y * detached.scale, 6);
+    resetCharacter(detached.character);
+    for (const [name, bone] of detached.character.bones) {
+      expect(bone.position.distanceTo(detached.character.restPosition.get(name)!)).toBeLessThan(1e-9);
+      expect(bone.quaternion.angleTo(detached.character.restLocal.get(name)!)).toBeLessThan(1e-6);
+    }
+  });
+
+  it('applies a post-import scene transform once, including to the pelvis', () => {
+    const plain = fixture(true);
+    const transformed = fixture(true);
+    const pose = poseFromDegrees({ thigh_l: { x: 60 }, forearm_r: { x: 100 } });
+    pose.rootRotation.x = 0.6;
+    pose.rootPosition.y = -0.2;
+    const root = transformed.character.root;
+    root.position.set(1, 2, -3);
+    root.rotation.y = 0.7;
+    root.scale.setScalar(0.8);
+    root.updateMatrixWorld(true);
+    const transform = root.matrixWorld.clone();
+    applyRetarget(plain, pose);
+    applyRetarget(transformed, pose);
+    for (const [name, bone] of transformed.character.bones) {
+      const expected = plain.character.bones.get(name)!.getWorldPosition(new Vector3()).applyMatrix4(transform);
+      expect(bone.getWorldPosition(new Vector3()).distanceTo(expected), name).toBeLessThan(1e-6);
+    }
+  });
+
+  it('bakes every virtual attachment into source animation tracks and resets positions', () => {
+    const binding = fixture(true);
+    const sampler = retargetSampler(binding);
+    const poses = [restPose(), poseFromDegrees({ thigh_l: { x: 80 }, spine_03: { x: 20 }, upperarm_l: { x: -90 } })];
+    poses[1].rootPosition.y = -0.25;
+    poses[1].rootRotation.x = 0.7;
+    const expected: Map<string, Matrix4>[] = [];
+    for (const pose of poses) {
+      sampler.sample(pose);
+      expected.push(new Map([...binding.character.bones].map(([name, bone]) => [name, bone.matrixWorld.clone()])));
+    }
+    const tracks = sampler.tracks([0, 1]);
+    expect(tracks.some(t => t.name === 'thigh_l.position')).toBe(true);
+    expect(tracks.some(t => t.name === 'DEF-jaw.position')).toBe(true);
+    for (const [name, bone] of binding.character.bones) {
+      expect(bone.position.distanceTo(binding.character.restPosition.get(name)!)).toBeLessThan(1e-9);
+    }
+    const mixer = new AnimationMixer(binding.character.root);
+    const action = mixer.clipAction(new AnimationClip('source', 1, tracks));
+    action.setLoop(LoopOnce, 1); action.clampWhenFinished = true; action.play();
+    for (const time of [0, 1]) {
+      mixer.setTime(time);
+      binding.character.root.updateMatrixWorld(true);
+      for (const [name, bone] of binding.character.bones) {
+        const error = Math.max(...bone.matrixWorld.elements.map((v, i) => Math.abs(v - expected[time].get(name)!.elements[i])));
+        expect(error, name).toBeLessThan(1e-6);
+      }
+    }
   });
 });

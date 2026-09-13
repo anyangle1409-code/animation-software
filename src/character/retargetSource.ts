@@ -50,9 +50,9 @@ import type {
  *   21.7% of edges by more than half their length before a single frame was
  *   played. Here the measured change is zero beyond the uniform scale.
  * - **Bones the rig does not have keep working.** Twist bones, helper bones
- *   and a whole face rig stay in the source hierarchy at their rest pose and
- *   ride their parents, which is what they were authored to do. They are not
- *   "unmapped weight" to be redistributed — they are simply not driven.
+ *   and face details stay in the source hierarchy. Connected helpers ride
+ *   their parents; detached Rigify detail branches receive rigid attachment
+ *   transforms. Their weights are never redistributed.
  * - **Proportions stay the model's own.** A longer forearm stays longer.
  *
  * The cost is that the character's hands are no longer where the canonical
@@ -83,7 +83,7 @@ export interface ImportReport {
   vertices: number;
   /** Source bones the canonical rig drives. */
   driven: number;
-  /** Source bones left at rest, riding their parents: twists, helpers, the face. */
+  /** Bones without canonical joint targets, including attached detail branches. */
   passive: number;
 }
 
@@ -214,61 +214,37 @@ export function retargetedCharacterSource(
  * The retargeted animation, on the character's own skeleton.
  *
  * The exported file has to carry the character it shows, so its tracks name
- * the source bones and hold the rotations the transfer produced — the same
+ * the source bones and hold the rotations and translations produced — the same
  * ones the viewport applies, sampled from the same poses.
  */
 export function retargetSampler(binding: RetargetBinding): DeformationSampler {
-  const rotations = new Map<string, number[]>();
-  const hips: number[] = [];
-  for (const bound of binding.bones) rotations.set(bound.bone.name, []);
+  const bones = [...binding.character.bones.values()];
+  const rotations = new Map(bones.map(bone => [bone.name, [] as number[]]));
+  const positions = new Map(bones.map(bone => [bone.name, [] as number[]]));
 
   return {
     sample(pose: Pose) {
       applyRetarget(binding, pose);
-      for (const bound of binding.bones) {
-        const { x, y, z, w } = bound.bone.quaternion;
-        rotations.get(bound.bone.name)!.push(x, y, z, w);
-      }
-      if (binding.hips) {
-        hips.push(binding.hips.position.x, binding.hips.position.y, binding.hips.position.z);
+      for (const bone of bones) {
+        rotations.get(bone.name)!.push(...bone.quaternion.toArray());
+        positions.get(bone.name)!.push(...bone.position.toArray());
       }
     },
-
     tracks(times: number[]): KeyframeTrack[] {
       const built: KeyframeTrack[] = [];
       const loopTimes = [times[0], times[times.length - 1]];
-
-      for (const bound of binding.bones) {
-        const values = rotations.get(bound.bone.name)!;
-        const rest = [bound.restLocal.x, bound.restLocal.y, bound.restLocal.z, bound.restLocal.w];
-        const compressed = compressTrack(values, 4, rest);
-        if (!compressed) continue;
-        built.push(
-          new QuaternionKeyframeTrack(
-            `${bound.bone.name}.quaternion`,
-            compressed.constant ? loopTimes : times,
-            compressed.values,
-          ),
-        );
+      for (const bone of bones) {
+        const rotation = compressTrack(rotations.get(bone.name)!, 4,
+          binding.character.restLocal.get(bone.name)!.toArray());
+        if (rotation) built.push(new QuaternionKeyframeTrack(
+          `${bone.name}.quaternion`, rotation.constant ? loopTimes : times, rotation.values,
+        ));
+        const position = compressTrack(positions.get(bone.name)!, 3,
+          binding.character.restPosition.get(bone.name)!.toArray());
+        if (position) built.push(new VectorKeyframeTrack(
+          `${bone.name}.position`, position.constant ? loopTimes : times, position.values, InterpolateLinear,
+        ));
       }
-
-      if (binding.hips && hips.length >= 3) {
-        const rest = [binding.hipsRest.x, binding.hipsRest.y, binding.hipsRest.z];
-        const compressed = compressTrack(hips, 3, rest);
-        if (compressed) {
-          built.push(
-            new VectorKeyframeTrack(
-              `${binding.hips.name}.position`,
-              compressed.constant ? loopTimes : times,
-              compressed.values,
-              InterpolateLinear,
-            ),
-          );
-        }
-      }
-
-      // Baking moved the character; leave it as the file had it, so what is
-      // written out is the bind pose plus an animation, not a frozen frame.
       resetCharacter(binding.character);
       return built;
     },

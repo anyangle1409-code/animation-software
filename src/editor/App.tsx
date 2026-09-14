@@ -41,6 +41,13 @@ export function App() {
         togglePlay();
       } else if (event.key.toLowerCase() === 'k') {
         setKeyframe();
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        const store = useStudio.getState();
+        const direction = event.key === 'ArrowLeft' ? -1 : 1;
+        const frames = event.shiftKey ? 5 : 1;
+        store.pause();
+        store.setTime(store.time + (direction * frames) / store.document.clip.fps);
       }
     };
     window.addEventListener('keydown', onKey);

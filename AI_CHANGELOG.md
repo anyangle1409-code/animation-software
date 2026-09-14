@@ -6,6 +6,12 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — same-frame corrective comparison presets
+
+Added one-tap 0/25/50/75/100% presets to each character-level corrective tuning control. Unlike the existing strain-sweep review action, these presets change only corrective strength and deliberately leave the playhead untouched. This lets an author hold the curl on the exact same peak frame and tap through candidate strengths for a fair elbow-silhouette A/B before consulting strain metrics.
+
+The existing whole-rep sweep remains separate and still restores the pre-scan value/pose; its `Review this value at worst P99` action can still move to each candidate's measured worst frame. No exercise pose, skin weights, authored default or automatic approval threshold is changed by the new presets.
+
 
 ### ChatGPT — 2026-09-14 — consolidated movement review summary
 

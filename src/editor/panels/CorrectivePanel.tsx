@@ -88,6 +88,26 @@ export function CorrectivePanel() {
                   setWholeRep(null);
                 }}
               />
+              <div className="button-row">
+                {[0, 0.25, 0.5, 0.75, 1].map((fraction) => {
+                  const preset = control.min + (control.max - control.min) * fraction;
+                  return (
+                    <button
+                      type="button"
+                      key={`${control.id}-preset-${fraction}`}
+                      className={Math.abs(control.value - preset) < 1e-9 ? 'is-active' : ''}
+                      onClick={() => {
+                        control.set(preset);
+                        refreshControls((value) => value + 1);
+                        setWholeRep(null);
+                      }}
+                    >
+                      {Math.round(fraction * 100)}%
+                    </button>
+                  );
+                })}
+              </div>
+              <small>Preset comparison changes only corrective strength; the playhead stays on the same frame for a fair silhouette A/B.</small>
               {control.note && <small>{control.note}</small>}
               <div className="button-row">
                 <button

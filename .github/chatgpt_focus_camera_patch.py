@@ -29,16 +29,17 @@ if old not in text:
 path.write_text(text.replace(old, new, 1), encoding='utf-8')
 
 # 3) Viewport: Focus selected follows the resolved joint after FrameDriver has
-# evaluated the current frame. This affects only camera position/target/FOV.
+# evaluated the current frame. This affects only camera position/target/FOV and
+# reuses scratch vectors so playback creates no per-frame garbage.
 path = Path('src/viewer/Viewport.tsx')
 text = path.read_text(encoding='utf-8')
 old = "function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl | null> }) {\n  const preset = useStudio((state) => state.camera);\n  const recommendation = useStudio((state) => state.document.exercise.camera);\n  const { camera } = useThree();\n  const goal = useRef<{ position: Vector3; target: Vector3; fov: number } | null>(null);"
-new = "function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl | null> }) {\n  const scene = useSceneState();\n  const preset = useStudio((state) => state.camera);\n  const recommendation = useStudio((state) => state.document.exercise.camera);\n  const selectedBone = useStudio((state) => state.selection.bone);\n  const { camera } = useThree();\n  const goal = useRef<{ position: Vector3; target: Vector3; fov: number } | null>(null);\n  const focusTarget = useRef(new Vector3());\n  const focusPosition = useRef(new Vector3());"
+new = "function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl | null> }) {\n  const scene = useSceneState();\n  const preset = useStudio((state) => state.camera);\n  const recommendation = useStudio((state) => state.document.exercise.camera);\n  const selectedBone = useStudio((state) => state.selection.bone);\n  const { camera } = useThree();\n  const goal = useRef<{ position: Vector3; target: Vector3; fov: number } | null>(null);\n  const focusTarget = useRef(new Vector3());\n  const focusPosition = useRef(new Vector3());\n  const focusOffset = useRef(new Vector3());"
 if old not in text:
     raise SystemExit('CameraRig declaration anchor not found')
 text = text.replace(old, new, 1)
 old = "  useFrame((_, delta) => {\n    const destination = goal.current;\n    if (!destination || !controls.current) return;\n    const blend = Math.min(1, delta * 6);"
-new = "  useFrame((_, delta) => {\n    if (preset === 'focus' && selectedBone && controls.current) {\n      scene.evaluation.head(selectedBone, focusTarget.current);\n      const side = selectedBone.endsWith('_l') ? -1 : selectedBone.endsWith('_r') ? 1 : 1;\n      focusPosition.current\n        .copy(focusTarget.current)\n        .add(new Vector3(side * 0.58, 0.20, 0.78));\n      const blend = Math.min(1, delta * 7);\n      camera.position.lerp(focusPosition.current, blend);\n      controls.current.target.lerp(focusTarget.current, blend);\n      if ('fov' in camera) {\n        camera.fov += (32 - camera.fov) * blend;\n        camera.updateProjectionMatrix();\n      }\n      controls.current.update();\n      return;\n    }\n\n    const destination = goal.current;\n    if (!destination || !controls.current) return;\n    const blend = Math.min(1, delta * 6);"
+new = "  useFrame((_, delta) => {\n    if (preset === 'focus' && selectedBone && controls.current) {\n      scene.evaluation.head(selectedBone, focusTarget.current);\n      const side = selectedBone.endsWith('_l') ? -1 : selectedBone.endsWith('_r') ? 1 : 1;\n      focusOffset.current.set(side * 0.58, 0.20, 0.78);\n      focusPosition.current.copy(focusTarget.current).add(focusOffset.current);\n      const blend = Math.min(1, delta * 7);\n      camera.position.lerp(focusPosition.current, blend);\n      controls.current.target.lerp(focusTarget.current, blend);\n      if ('fov' in camera) {\n        camera.fov += (32 - camera.fov) * blend;\n        camera.updateProjectionMatrix();\n      }\n      controls.current.update();\n      return;\n    }\n\n    const destination = goal.current;\n    if (!destination || !controls.current) return;\n    const blend = Math.min(1, delta * 6);"
 if old not in text:
     raise SystemExit('CameraRig frame anchor not found')
 path.write_text(text.replace(old, new, 1), encoding='utf-8')

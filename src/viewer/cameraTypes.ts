@@ -5,6 +5,7 @@ export const CAMERA_PRESET_IDS = [
   'rear',
   'three_quarter',
   'top',
+  'focus',
   'free',
   'recommended',
 ] as const;

@@ -49,10 +49,15 @@ function FrameDriver() {
 
 /** Moves the camera to the selected preset, then hands control back to orbit. */
 function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl | null> }) {
+  const scene = useSceneState();
   const preset = useStudio((state) => state.camera);
   const recommendation = useStudio((state) => state.document.exercise.camera);
+  const selectedBone = useStudio((state) => state.selection.bone);
   const { camera } = useThree();
   const goal = useRef<{ position: Vector3; target: Vector3; fov: number } | null>(null);
+  const focusTarget = useRef(new Vector3());
+  const focusPosition = useRef(new Vector3());
+  const focusOffset = useRef(new Vector3());
 
   useEffect(() => {
     const setup = resolveCamera(preset, recommendation);
@@ -62,6 +67,22 @@ function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl |
   }, [preset, recommendation]);
 
   useFrame((_, delta) => {
+    if (preset === 'focus' && selectedBone && controls.current) {
+      scene.evaluation.head(selectedBone, focusTarget.current);
+      const side = selectedBone.endsWith('_l') ? -1 : selectedBone.endsWith('_r') ? 1 : 1;
+      focusOffset.current.set(side * 0.58, 0.20, 0.78);
+      focusPosition.current.copy(focusTarget.current).add(focusOffset.current);
+      const blend = Math.min(1, delta * 7);
+      camera.position.lerp(focusPosition.current, blend);
+      controls.current.target.lerp(focusTarget.current, blend);
+      if ('fov' in camera) {
+        camera.fov += (32 - camera.fov) * blend;
+        camera.updateProjectionMatrix();
+      }
+      controls.current.update();
+      return;
+    }
+
     const destination = goal.current;
     if (!destination || !controls.current) return;
     const blend = Math.min(1, delta * 6);

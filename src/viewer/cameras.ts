@@ -19,7 +19,7 @@ const setup = (position: [number, number, number], target: [number, number, numb
  * which is what an app demonstration needs — a tight crop on the working joint
  * is useless for showing someone how a lift looks.
  */
-export const CAMERA_PRESETS: Record<Exclude<CameraPresetId, 'recommended' | 'free'>, CameraSetup> = {
+export const CAMERA_PRESETS: Record<Exclude<CameraPresetId, 'recommended' | 'free' | 'focus'>, CameraSetup> = {
   front: setup([0, 1.05, 3.4], [0, 1.0, 0]),
   left: setup([-3.4, 1.05, 0], [0, 1.0, 0]),
   right: setup([3.4, 1.05, 0], [0, 1.0, 0]),
@@ -35,6 +35,7 @@ export const CAMERA_LABELS: Record<CameraPresetId, string> = {
   rear: 'Rear',
   three_quarter: '3/4',
   top: 'Top',
+  focus: 'Focus selected',
   free: 'Free orbit',
   recommended: 'Recommended',
 };
@@ -44,7 +45,7 @@ export function resolveCamera(
   preset: CameraPresetId,
   recommendation: CameraRecommendation,
 ): CameraSetup | null {
-  if (preset === 'free') return null;
+  if (preset === 'free' || preset === 'focus') return null;
   if (preset === 'recommended') {
     if (recommendation.position && recommendation.target) {
       return {

@@ -9,6 +9,7 @@ import type { MuscleInstance } from './model';
 const skeleton = canonicalSkeleton;
 const evaluation = new PoseEvaluation(skeleton);
 const transform = createMuscleTransform();
+type Degrees = Parameters<typeof poseFromDegrees>[0];
 
 function muscle(group: MuscleInstance['group'], side: MuscleInstance['side'] = 'l'): MuscleInstance {
   const found = MUSCLES.find((entry) => entry.group === group && entry.side === side);
@@ -16,7 +17,7 @@ function muscle(group: MuscleInstance['group'], side: MuscleInstance['side'] = '
   return found;
 }
 
-function stretch(entry: MuscleInstance, rotations: Parameters<typeof poseFromDegrees>[0]): number {
+function stretch(entry: MuscleInstance, rotations: Degrees): number {
   evaluation.apply(poseFromDegrees(rotations));
   resolveMuscle(evaluation, entry, transform);
   return transform.stretch;
@@ -45,10 +46,8 @@ describe('functional muscle paths', () => {
   });
 
   it('makes biceps shorten and triceps lengthen during isolated elbow flexion', () => {
-    const biceps = muscle('biceps');
-    const triceps = muscle('triceps');
-    expect(stretch(biceps, { forearm_l: { x: 120 } })).toBeLessThan(0.9);
-    expect(stretch(triceps, { forearm_l: { x: 120 } })).toBeGreaterThan(1.04);
+    expect(stretch(muscle('biceps'), { forearm_l: { x: 120 } })).toBeLessThan(0.9);
+    expect(stretch(muscle('triceps'), { forearm_l: { x: 120 } })).toBeGreaterThan(1.04);
   });
 
   it('makes forearm flexors/extensors oppose one another through wrist flexion', () => {
@@ -66,9 +65,40 @@ describe('functional muscle paths', () => {
   });
 
   it('makes quadriceps lengthen and hamstrings shorten through knee flexion', () => {
-    const quadriceps = muscle('quadriceps');
-    const hamstrings = muscle('hamstrings');
-    expect(stretch(quadriceps, { shin_l: { x: -110 } })).toBeGreaterThan(1.08);
-    expect(stretch(hamstrings, { shin_l: { x: -110 } })).toBeLessThan(0.9);
+    expect(stretch(muscle('quadriceps'), { shin_l: { x: -110 } })).toBeGreaterThan(1.08);
+    expect(stretch(muscle('hamstrings'), { shin_l: { x: -110 } })).toBeLessThan(0.9);
+  });
+
+  it('shortens the shoulder movers in their isolated trainer-level actions', () => {
+    expect(stretch(muscle('pectoralis'), { upperarm_l: { x: 60 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('pectoralis'), { upperarm_l: { z: 30 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('deltoid_anterior'), { upperarm_l: { x: 60 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('deltoid_medial'), { upperarm_l: { z: -60 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('deltoid_posterior'), { upperarm_l: { x: -30 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('latissimus'), { upperarm_l: { x: -30 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('latissimus'), { upperarm_l: { z: 30 } })).toBeLessThan(0.98);
+  });
+
+  it('shortens the scapular and trunk groups in their isolated actions', () => {
+    expect(stretch(muscle('trapezius_upper'), { clavicle_l: { z: -10 } })).toBeLessThan(0.995);
+    expect(stretch(muscle('trapezius_mid'), { clavicle_l: { x: -12 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('erector_upper'), { spine_03: { x: -10 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('erector_mid'), { spine_02: { x: -10 } })).toBeLessThan(0.98);
+    expect(stretch(muscle('erector_lower'), { spine_01: { x: -10 } })).toBeLessThan(0.98);
+    expect(
+      stretch(muscle('rectus_abdominis', null), {
+        spine_01: { x: 20 }, spine_02: { x: 15 }, spine_03: { x: 10 },
+      }),
+    ).toBeLessThan(0.9);
+    expect(
+      stretch(muscle('obliques'), { spine_01: { z: 12 }, spine_02: { z: 12 } }),
+    ).toBeLessThan(0.9);
+  });
+
+  it('shortens the hip and ankle movers in their isolated actions', () => {
+    expect(stretch(muscle('gluteus'), { thigh_l: { x: -20 } })).toBeLessThan(0.95);
+    expect(stretch(muscle('calves'), { foot_l: { x: -30 } })).toBeLessThan(0.995);
+    expect(stretch(muscle('hip_adductors'), { thigh_l: { z: 20 } })).toBeLessThan(0.95);
+    expect(stretch(muscle('hip_abductors'), { thigh_l: { z: -30 } })).toBeLessThan(0.95);
   });
 });

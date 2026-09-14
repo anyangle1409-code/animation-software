@@ -124,10 +124,16 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   },
   {
     group: 'deltoid_medial',
-    origin: at('clavicle_l', 0.016, 0.13, 0),
-    insertion: at('upperarm_l', 0.026, 0.14, 0),
+    // Lateral acromion to deltoid tuberosity. The previous line sat too far
+    // inside the shoulder and actually lengthened as the arm abducted.
+    origin: at('clavicle_l', 0.03, 0.15, 0),
+    insertion: at('upperarm_l', 0.05, 0.11, 0),
     thickness: 0.042,
     bulge: 0.3,
+    // Shortens only the rendered belly, not the functional path. The 0.84
+    // value is the largest measured taper that keeps the lateral head inside
+    // the skin through the curl while preserving the corrected abduction path.
+    taper: 0.84,
   },
   {
     group: 'deltoid_posterior',
@@ -141,10 +147,12 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   // --- chest and back ----------------------------------------------------
   {
     group: 'pectoralis',
+    // Preserve the proven visible chest-to-humerus line. A hidden functional
+    // via point on the proximal humerus supplies the wrap needed for the same
+    // trainer-level pectoral group to shorten in both flexion and adduction,
+    // without pulling the rendered belly through the armpit in a pull-up.
     origin: at('spine_03', -0.045, 0.04, 0.082),
-    // The insertion sits at the head of the humerus rather than down its shaft:
-    // with the arm overhead, a belly drawn to mid-humerus cuts straight across
-    // the armpit and out through the skin.
+    via: [at('upperarm_l', 0.02, 0.02, -0.02)],
     insertion: at('upperarm_l', 0.014, 0.028, 0.012),
     thickness: 0.032,
     bulge: 0.3,
@@ -153,7 +161,11 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   },
   {
     group: 'latissimus',
+    // Preserve the proven visible lat line and use a hidden proximal-humerus
+    // via point for functional length. This keeps pull-up containment unchanged
+    // while making both shoulder extension and adduction shorten the path.
     origin: at('spine_01', -0.055, 0.02, -0.06),
+    via: [at('upperarm_l', 0.04, 0.04, 0.04)],
     insertion: at('upperarm_l', 0.014, 0.028, -0.014),
     thickness: 0.032,
     bulge: 0.25,

@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — resolved bilateral motion symmetry
+
+Added a whole-rep bilateral motion diagnostic for paired joints. Rather than comparing raw left/right Euler values, it samples the final clip and mirrors each sampled pose through the canonical rig's existing `mirrorPose()` transform, which preserves flexion and flips the handed axial/abduction axes exactly as editor mirroring does. The actual opposite-side joint is then compared against that mirrored expectation using shortest-path angular deltas.
+
+The Joint workspace now reports maximum and RMS mirror mismatch with the exact worst timestamp and a jump-to-frame action. This measures the resolved animation after timing/easing rather than merely checking that stored timing settings match. It remains descriptive because unilateral exercises may intentionally be asymmetric; for bilateral curls it provides a direct check that both arms actually follow the same mirrored path.
+
+Regression coverage proves a synthetic forearm path containing flexion plus handed axial rotation reads essentially zero error when correctly mirrored, then detects an intentional 10° one-sided flexion change on the X axis at the final frame.
+
+
 ### ChatGPT — 2026-09-14 — selected-joint keyframe transition continuity
 
 Extended selected-joint motion diagnostics with a phase-boundary continuity pass. For every interior keyframe, the Studio now samples one authored frame immediately before and after the boundary, computes shortest-path incoming/outgoing angular velocity per axis, and records the largest velocity jump. The Joint workspace shows the worst boundary, axis, timestamp and incoming/outgoing speeds with a direct jump-to-frame action.

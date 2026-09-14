@@ -1,7 +1,8 @@
 import { sampleClip, sortedKeyframes, type StudioClip } from '../animation/clip';
 import { AXES, type Axis } from '../rig/types';
-import type { BoneName } from '../rig/boneNames';
-import { boneRotation } from '../rig/pose';
+import { mirrorBoneName, type BoneName } from '../rig/boneNames';
+import { boneRotation, mirrorPose } from '../rig/pose';
+import type { Skeleton } from '../rig/skeleton';
 import { toDeg } from '../core/math';
 
 export interface MotionWorstPoint {
@@ -185,4 +186,61 @@ export function measureJointTransitions(
   }
 
   return { bone, fps, points, maxJump };
+}
+
+
+export interface BilateralMotionSymmetryDiagnostic {
+  bone: BoneName;
+  opposite: BoneName;
+  fps: number;
+  sampleCount: number;
+  rmsErrorDeg: number;
+  maxError: MotionWorstPoint;
+}
+
+/**
+ * Compare the sampled opposite-side joint against the exact pose produced by
+ * the canonical rig's mirror transform.
+ *
+ * Flexion, axial rotation and ab/adduction therefore use the same handedness
+ * rules as editor mirroring. Zero means a perfect bilateral mirror; non-zero is
+ * descriptive because some exercises intentionally move asymmetrically.
+ */
+export function measureBilateralMotionSymmetry(
+  clip: StudioClip,
+  skeleton: Skeleton,
+  bone: BoneName,
+): BilateralMotionSymmetryDiagnostic | null {
+  const opposite = mirrorBoneName(bone);
+  if (opposite === bone) return null;
+  const fps = clip.fps > 0 ? clip.fps : 30;
+  const lastFrame = Math.max(1, Math.ceil(clip.duration * fps));
+  let sampleCount = 0;
+  let squared = 0;
+  let components = 0;
+  let maxError: MotionWorstPoint = { axis: 'x', value: 0, time: 0 };
+
+  for (let frame = 0; frame <= lastFrame; frame += 1) {
+    const time = Math.min(clip.duration, frame / fps);
+    const pose = sampleClip(clip, time).pose;
+    const mirrored = mirrorPose(skeleton, pose);
+    const actual = boneRotation(pose, opposite);
+    const expected = boneRotation(mirrored, opposite);
+    for (const axis of AXES) {
+      const error = Math.abs(toDeg(shortestAngleDelta(expected[axis], actual[axis])));
+      squared += error * error;
+      components += 1;
+      if (error > maxError.value) maxError = { axis, value: error, time };
+    }
+    sampleCount += 1;
+  }
+
+  return {
+    bone,
+    opposite,
+    fps,
+    sampleCount,
+    rmsErrorDeg: components > 0 ? Math.sqrt(squared / components) : 0,
+    maxError,
+  };
 }

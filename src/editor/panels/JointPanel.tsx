@@ -8,7 +8,11 @@ import { EASING_LABELS } from '../../animation/easing';
 import type { EasingKind, PhaseJointTiming } from '../../exercises/types';
 import { toDeg, toRad } from '../../core/math';
 import { skeleton, useStudio } from '../store';
-import { measureJointMotion, measureJointTransitions } from '../motionDiagnostics';
+import {
+  measureBilateralMotionSymmetry,
+  measureJointMotion,
+  measureJointTransitions,
+} from '../motionDiagnostics';
 import { measureJointCoordination } from '../coordinationDiagnostics';
 
 /** Numeric, limit-aware control for one joint axis. */
@@ -88,6 +92,10 @@ export function JointPanel() {
   );
   const transitions = useMemo(
     () => (selected ? measureJointTransitions(clip, selected) : null),
+    [clip, selected],
+  );
+  const bilateral = useMemo(
+    () => (selected ? measureBilateralMotionSymmetry(clip, skeleton, selected) : null),
     [clip, selected],
   );
   const keyframes = useMemo(() => sortedKeyframes(clip), [clip]);
@@ -209,6 +217,12 @@ export function JointPanel() {
                 ? `${transitions.maxJump.velocityJumpDegPerSec.toFixed(1)}°/s · ${transitions.maxJump.axis.toUpperCase()} · ${transitions.maxJump.time.toFixed(2)}s${transitions.maxJump.label ? ` · ${transitions.maxJump.label}` : ''}`
                 : 'No interior keyframe boundary'}
             </dd>
+            {bilateral && (
+              <>
+                <dt>Bilateral mirror mismatch</dt>
+                <dd>{bilateral.maxError.value.toFixed(2)}° max · {bilateral.rmsErrorDeg.toFixed(2)}° RMS · {bilateral.maxError.time.toFixed(2)}s</dd>
+              </>
+            )}
           </dl>
           <div className="button-row">
             <button type="button" onClick={() => setTime(motion.maxSpeed.time)}>
@@ -222,10 +236,20 @@ export function JointPanel() {
                 Jump to worst keyframe transition
               </button>
             )}
+            {bilateral && (
+              <button type="button" onClick={() => setTime(bilateral.maxError.time)}>
+                Jump to worst bilateral mismatch
+              </button>
+            )}
           </div>
           {transitions?.maxJump && (
             <p className="panel__note">
               At that boundary: incoming {transitions.maxJump.incomingDegPerSec.toFixed(1)}°/s, outgoing {transitions.maxJump.outgoingDegPerSec.toFixed(1)}°/s. A stop into a hold can be intentional; use this to locate the transition, not as an automatic failure.
+            </p>
+          )}
+          {bilateral && (
+            <p className="panel__note">
+              Bilateral comparison uses the rig's exact mirror transform against {boneLabel(bilateral.opposite)} at every authored frame. Zero means an exact mirror; asymmetry may still be intentional for unilateral exercises.
             </p>
           )}
           <details>

@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { StudioClip } from '../animation/clip';
 import { restPose } from '../rig/pose';
+import { canonicalSkeleton } from '../rig/skeleton';
 import { vec3 } from '../rig/types';
-import { measureJointMotion, measureJointTransitions } from './motionDiagnostics';
+import {
+  measureBilateralMotionSymmetry,
+  measureJointMotion,
+  measureJointTransitions,
+} from './motionDiagnostics';
 
 const linearForearmClip = (): StudioClip => {
   const start = restPose();
@@ -80,6 +85,27 @@ describe('selected-joint motion diagnostics', () => {
     ];
     const diagnostic = measureJointTransitions(clip, 'forearm_l');
     expect(diagnostic.maxJump?.velocityJumpDegPerSec ?? 0).toBeLessThan(1e-8);
+  });
+
+
+  it('measures resolved left/right motion against the rig mirror transform', () => {
+    const clip = linearForearmClip();
+    clip.keyframes[0].pose.rotations.forearm_l = vec3(0, (30 * Math.PI) / 180, 0);
+    clip.keyframes[0].pose.rotations.forearm_r = vec3(0, (-30 * Math.PI) / 180, 0);
+    clip.keyframes[1].pose.rotations.forearm_l = vec3(Math.PI / 2, (40 * Math.PI) / 180, 0);
+    clip.keyframes[1].pose.rotations.forearm_r = vec3(Math.PI / 2, (-40 * Math.PI) / 180, 0);
+
+    const symmetric = measureBilateralMotionSymmetry(clip, canonicalSkeleton, 'forearm_l');
+    expect(symmetric).not.toBeNull();
+    expect(symmetric!.opposite).toBe('forearm_r');
+    expect(symmetric!.maxError.value).toBeLessThan(1e-8);
+    expect(symmetric!.rmsErrorDeg).toBeLessThan(1e-8);
+
+    clip.keyframes[1].pose.rotations.forearm_r = vec3((80 * Math.PI) / 180, (-40 * Math.PI) / 180, 0);
+    const asymmetric = measureBilateralMotionSymmetry(clip, canonicalSkeleton, 'forearm_l');
+    expect(asymmetric?.maxError.axis).toBe('x');
+    expect(asymmetric?.maxError.value).toBeCloseTo(10, 6);
+    expect(asymmetric?.maxError.time).toBeCloseTo(1, 8);
   });
 
 });

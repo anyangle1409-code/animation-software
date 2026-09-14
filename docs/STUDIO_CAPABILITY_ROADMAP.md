@@ -72,6 +72,13 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Before/after A/B view plus mesh-strain diagnostics.
 - No destructive rebinding of imported characters.
 
+### Implemented corrective inspection foundation
+
+- Dedicated Correctives workspace discovers mesh-specific `homeGymPT_*` morph correctives on the active character.
+- Live driver influence, affected-vertex count, authored maximum displacement and current maximum displacement are shown at the playhead.
+- `Correctives on` / `Raw skinning` is a viewport-only A/B bypass; the accepted clip, source mesh, deformation sampler and export remain untouched.
+- Relative and absolute source morph conventions are measured correctly, and unrelated expression/body morphs are never suppressed by the A/B control.
+
 ## 7. Diagnostics and approval
 
 - Focus-selected camera and joint-angle readout.

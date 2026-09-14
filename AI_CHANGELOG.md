@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — corrective-deformation inspection workspace
+
+Added a dedicated Correctives workspace for judging mesh-specific joint deformation without modifying the accepted animation. `src/character/correctiveDiagnostics.ts` discovers Studio-authored `homeGymPT_*` morphs on the active character and reports their live morph influence, affected vertex count, authored maximum displacement and current influence-scaled maximum displacement. Measurement respects the geometry's existing relative/absolute morph convention.
+
+Added a viewport-only **Correctives on / Raw skinning** A/B switch. Normal `applyCharacterPose` and the character's deformation stack still run first; when Raw skinning is selected the viewport then zeros only `homeGymPT_*` influences. The Studio document, source geometry, deformation sampler and export path are not changed, and unrelated morphs such as facial expressions remain untouched. This provides a safe way to judge whether elbow/shoulder correctives genuinely improve the moving silhouette before promoting or tuning them. Regression coverage checks relative and absolute displacement measurement plus selective suppression.
+
+
 ### ChatGPT — 2026-09-14 — per-instance equipment socket authoring
 
 Added direct socket-level authoring for **static equipment**. Equipment instances can now carry local `socketOverrides` without mutating `EQUIPMENT_LIBRARY`; `equipmentSocketForInstance` resolves the effective socket and the production attachment/contact resolver uses that effective value. Selecting a static socket in the Equipment workspace moves the existing Studio transform gizmo onto the socket. Translate/Rotate edits are converted back into equipment-local position/rotation, regenerate the deterministic clip, and participate in normal undo/redo history. Exact local position/rotation inputs and `Reset socket` are available alongside the gizmo.

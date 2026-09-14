@@ -13,10 +13,11 @@ import { ComparisonPanel } from './panels/ComparisonPanel';
 import { GripPanel } from './panels/GripPanel';
 import { ContactPanel } from './panels/ContactPanel';
 import { EquipmentPanel } from './panels/EquipmentPanel';
+import { CorrectivePanel } from './panels/CorrectivePanel';
 import { useStudio } from './store';
 
 type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
-type RightTab = 'exercise' | 'muscles' | 'technique' | 'compare' | 'export';
+type RightTab = 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'export';
 
 export function App() {
   const [leftTab, setLeftTab] = useState<LeftTab>('joint');
@@ -154,6 +155,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={rightTab === 'correctives' ? 'is-active' : ''}
+              onClick={() => setRightTab('correctives')}
+            >
+              Correctives
+            </button>
+            <button
+              type="button"
               className={rightTab === 'compare' ? 'is-active' : ''}
               onClick={() => setRightTab('compare')}
             >
@@ -171,6 +179,7 @@ export function App() {
             {rightTab === 'exercise' && <ExercisePanel />}
             {rightTab === 'muscles' && <MusclePanel />}
             {rightTab === 'technique' && <TechniquePanel />}
+            {rightTab === 'correctives' && <CorrectivePanel />}
             {rightTab === 'compare' && <ComparisonPanel />}
             {rightTab === 'export' && <ExportPanel />}
           </div>

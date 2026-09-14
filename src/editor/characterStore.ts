@@ -48,6 +48,8 @@ interface CharacterState {
 
   /** The character currently built and mounted, for the systems that follow it. */
   active: CharacterBuild | null;
+  /** Viewport-only A/B switch; export remains production-correct. */
+  correctivesPreview: boolean;
 
   name: string | null;
   mapping: BoneMapping | null;
@@ -57,6 +59,7 @@ interface CharacterState {
   setSource: (id: string) => void;
   setSourceStatus: (status: Status) => void;
   setActive: (build: CharacterBuild | null) => void;
+  setCorrectivesPreview: (enabled: boolean) => void;
   setBindMode: (mode: BindMode) => void;
   load: (file: File, mode?: BindMode) => Promise<void>;
   setBone: (canonical: BoneName, targetBone: string | null) => void;
@@ -75,6 +78,7 @@ export const useCharacter = create<CharacterState>((set, get) => ({
   rebind: null,
   imported: null,
   active: null,
+  correctivesPreview: true,
 
   name: null,
   mapping: null,
@@ -86,6 +90,7 @@ export const useCharacter = create<CharacterState>((set, get) => ({
   setSourceStatus: (sourceStatus) => set({ sourceStatus }),
 
   setActive: (active) => set({ active }),
+  setCorrectivesPreview: (correctivesPreview) => set({ correctivesPreview }),
 
   setBindMode: (bindMode) => set({ bindMode }),
 

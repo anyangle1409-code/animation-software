@@ -985,3 +985,49 @@ code {
   gap: 8px;
   margin-bottom: 7px;
 }
+
+
+.corrective-ab {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+
+.corrective-list {
+  display: grid;
+  gap: 7px;
+}
+
+.corrective-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  padding: 8px;
+}
+
+.corrective-card__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.corrective-card__head span {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.corrective-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 8px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.corrective-metrics strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--text);
+}

@@ -6,6 +6,7 @@ import { useCharacter } from '../editor/characterStore';
 import { applyActivation } from '../body/ecorche';
 import { applyCharacterPose, characterSource } from '../character';
 import type { CharacterBuild, CharacterVariant } from '../character';
+import { suppressCorrectives } from '../character/correctiveDiagnostics';
 import { useSceneState } from './sceneState';
 
 export interface CharacterFigureProps {
@@ -38,6 +39,7 @@ export function CharacterFigure({
   const involvement = useStudio((state) => state.document.exercise.muscles);
   const sourceId = useCharacter((state) => state.sourceId);
   const build = useCharacterBuild(sourceId, variant);
+  const correctivesPreview = useCharacter((state) => state.correctivesPreview);
 
   // Which muscles the exercise works is data, and it can change under the view,
   // so the scalar the shader reads is rebuilt rather than baked once.
@@ -63,6 +65,7 @@ export function CharacterFigure({
     const pose = scene.frame?.pose;
     if (!pose || !build) return;
     applyCharacterPose(build, skeleton, pose, scene.evaluation, { contacts: scene.frame?.contacts });
+    if (!correctivesPreview) suppressCorrectives(build.meshes);
   });
 
   if (!build) return null;

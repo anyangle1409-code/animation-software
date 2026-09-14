@@ -6,6 +6,13 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — preserve imported morph conventions
+
+Hardened the candidate-specific imported deformation path for future characters that already carry expressions or body-shape morphs. `importedElbowDeformation` previously set `geometry.morphTargetsRelative = true` whenever it appended the elbow corrective. Three.js uses one morph convention for the entire geometry, so that could reinterpret a source character's pre-existing absolute morph targets. The importer now leaves the source convention untouched: on relative geometries the elbow target remains a delta; on absolute geometries it writes base position plus the same corrective delta. The current male candidate's rendered result is unchanged; this is an importer-safety correction, not another elbow-shape change.
+
+Added two regression cases alongside the directional elbow tests. They seed a character with a pre-existing absolute morph and with a pre-existing relative morph, append the corrective, and verify both the convention flag and the original morph data remain unchanged. The existing opt-in and 8 mm directional safety-cap tests remain. Final Node 22 validation: `npm run typecheck` passed; `npm test` passed **198 tests with 1 optional real-character diagnostic skipped** across 17 files; `npm run build` passed with only the existing >500 kB Vite chunk advisory. `docs/CHARACTER_CANDIDATE_REPAIR.md` now records this guardrail and the 198/1 result.
+
+
 ### ChatGPT — 2026-09-14 — directional outer-elbow review candidate
 
 Continued the bicep-curl realism pass against the proven Library character `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` version 5 (SHA-256 `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`). The proven v5 asset remains unchanged. Added an explicitly opt-in `elbowCorrective.outerSmooth` capability to `src/character/importedDeformation.ts`, plus focused regression coverage in `src/character/importedDeformation.test.ts`. The new path does not amplify the retained 18 mm / 9 mm radial elbow morph. Instead it measures the imported mesh's bind-pose one-ring curvature and settles only the posterior elbow along the source surface normal towards the local surface average. Added displacement is capped at 8 mm and shares the measured elbow-flexion drive, so it is zero at extension. The code supports both ordinary and interleaved Three.js geometry attributes. No topology, weights, inverse binds, canonical rig, retargeting algorithm, exercise range, grip or equipment attachment was changed.

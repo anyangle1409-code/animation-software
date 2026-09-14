@@ -15,10 +15,21 @@ import type { SkinProbe } from '../body/containment';
  * skeleton for free: bend the elbow and the biceps shortens and thickens, with
  * no separate rig to keep in sync.
  */
+export interface MuscleAttachment {
+  bone: BoneName;
+  offset: Vec3;
+}
+
 export interface MuscleDefinition {
   group: MuscleGroupId;
-  origin: { bone: BoneName; offset: Vec3 };
-  insertion: { bone: BoneName; offset: Vec3 };
+  origin: MuscleAttachment;
+  insertion: MuscleAttachment;
+  /**
+   * Optional anatomical wrap/via points between origin and insertion. These
+   * affect functional path length (and therefore shortening/bulging) without
+   * forcing the visible belly to cut straight through a joint.
+   */
+  via?: MuscleAttachment[];
   /** Radius at the belly, metres. */
   thickness: number;
   /** How much the belly thickens as the muscle shortens, 0 to 1. */
@@ -71,6 +82,9 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   {
     group: 'triceps',
     origin: at('upperarm_l', 0.003, 0.055, -0.018),
+    // The tendon wraps behind the elbow. Without this posterior via point a
+    // straight chord incorrectly SHORTENS as the elbow flexes.
+    via: [at('upperarm_l', 0.002, 0.292, -0.035)],
     insertion: at('forearm_l', 0.002, 0.018, -0.01),
     thickness: 0.031,
     bulge: 0.3,
@@ -78,18 +92,23 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   {
     group: 'forearm_flexors',
     origin: at('forearm_l', -0.003, 0.035, 0.015),
-    insertion: at('forearm_l', -0.002, 0.185, 0.005),
+    // Cross the wrist onto the hand so wrist flexion changes functional length.
+    // A shorter belly taper keeps the visible muscle mass in the forearm while
+    // the tendon-like end follows the hand.
+    insertion: at('hand_l', -0.02, 0.02, 0.01),
     thickness: 0.025,
     bulge: 0.2,
     spread: 1.1,
+    taper: 0.72,
   },
   {
     group: 'forearm_extensors',
     origin: at('forearm_l', 0.004, 0.035, -0.015),
-    insertion: at('forearm_l', 0.003, 0.185, -0.005),
+    insertion: at('hand_l', 0.02, 0.02, -0.01),
     thickness: 0.023,
     bulge: 0.2,
     spread: 1.1,
+    taper: 0.72,
   },
 
   // --- shoulder ----------------------------------------------------------
@@ -202,6 +221,9 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   {
     group: 'quadriceps',
     origin: at('thigh_l', 0, 0.07, 0.04),
+    // Approximate the patellar/anterior-knee wrap. The functional path must
+    // lengthen continuously as the knee flexes instead of cutting across it.
+    via: [at('thigh_l', 0, 0.415, 0.05)],
     insertion: at('shin_l', 0, 0.03, 0.03),
     thickness: 0.045,
     bulge: 0.35,
@@ -258,6 +280,14 @@ export function mirrorMuscle(muscle: MuscleDefinition): MuscleDefinition {
   return {
     ...muscle,
     ...(muscle.outward ? { outward: mirrorOffset(muscle.outward) } : {}),
+    ...(muscle.via
+      ? {
+          via: muscle.via.map((attachment) => ({
+            bone: mirrorBone(attachment.bone),
+            offset: mirrorOffset(attachment.offset),
+          })),
+        }
+      : {}),
     origin: { bone: mirrorBone(muscle.origin.bone), offset: mirrorOffset(muscle.origin.offset) },
     insertion: {
       bone: mirrorBone(muscle.insertion.bone),
@@ -269,7 +299,9 @@ export function mirrorMuscle(muscle: MuscleDefinition): MuscleDefinition {
 export interface MuscleInstance extends MuscleDefinition {
   id: string;
   side: Side | null;
-  /** Origin-to-insertion distance in the rest pose, for the bulge calculation. */
+  /** Full functional origin -> via point(s) -> insertion path. */
+  path: readonly MuscleAttachment[];
+  /** Functional path length in the rest pose, for the bulge calculation. */
   restLength: number;
   /** Unit outward direction in the origin bone's frame. */
   outwardAxis: Vector3;
@@ -278,7 +310,22 @@ export interface MuscleInstance extends MuscleDefinition {
 }
 
 const restScratch = { origin: new Vector3(), insertion: new Vector3() };
+const pathScratchA = new Vector3();
+const pathScratchB = new Vector3();
 let restEvaluation: PoseEvaluation | undefined;
+
+function measurePath(evaluation: PoseEvaluation, path: readonly MuscleAttachment[]): number {
+  if (path.length < 2) return 0;
+  evaluation.localToWorld(path[0].bone, path[0].offset, pathScratchA);
+  let total = 0;
+  for (let index = 1; index < path.length; index += 1) {
+    const attachment = path[index];
+    evaluation.localToWorld(attachment.bone, attachment.offset, pathScratchB);
+    total += pathScratchA.distanceTo(pathScratchB);
+    pathScratchA.copy(pathScratchB);
+  }
+  return total;
+}
 
 /**
  * Place a definition on the rest skeleton and measure the things that only have
@@ -292,21 +339,27 @@ let restEvaluation: PoseEvaluation | undefined;
 export function muscleInstance(muscle: MuscleDefinition, side: Side | null): MuscleInstance {
   const evaluation = (restEvaluation ??= new PoseEvaluation(canonicalSkeleton).apply(restPose()));
   const { origin, insertion } = restScratch;
+  const path: readonly MuscleAttachment[] = [
+    muscle.origin,
+    ...(muscle.via ?? []),
+    muscle.insertion,
+  ];
   evaluation.localToWorld(muscle.origin.bone, muscle.origin.offset, origin);
   evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertion);
   const authored = muscle.outward ?? vec3(muscle.origin.offset.x, 0, muscle.origin.offset.z);
   const outwardAxis = new Vector3(authored.x, authored.y, authored.z);
   if (outwardAxis.lengthSq() < 1e-8) outwardAxis.set(0, 0, 1);
-  const bones = new Set<string>([muscle.origin.bone, muscle.insertion.bone]);
-  for (const bone of [muscle.origin.bone, muscle.insertion.bone]) {
-    const parent = canonicalSkeleton.bone(bone).parent;
+  const bones = new Set<string>(path.map((attachment) => attachment.bone));
+  for (const attachment of path) {
+    const parent = canonicalSkeleton.bone(attachment.bone).parent;
     if (parent && parent !== 'root') bones.add(parent);
   }
   return {
     ...muscle,
     id: side ? `${muscle.group}_${side}` : muscle.group,
     side,
-    restLength: Math.max(0.02, origin.distanceTo(insertion)),
+    path,
+    restLength: Math.max(0.02, measurePath(evaluation, path)),
     outwardAxis: outwardAxis.normalize(),
     fitBones: bones,
   };
@@ -373,8 +426,12 @@ export function resolveMuscle(
   evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertionScratch);
   directionScratch.subVectors(insertionScratch, originScratch);
 
+  // Keep the visible belly aligned between its authored end points, but drive
+  // contraction from the full anatomical path. This lets a tendon wrap around
+  // an elbow/knee while retaining the inexpensive fitted ellipsoid renderer.
   const length = Math.max(0.01, directionScratch.length());
-  const stretch = length / muscle.restLength;
+  const functionalLength = Math.max(0.01, measurePath(evaluation, muscle.path));
+  const stretch = functionalLength / muscle.restLength;
   const bulge = 1 + (muscle.bulge ?? 0.25) * Math.max(-0.5, Math.min(0.9, 1 / stretch - 1));
 
   out.position.copy(originScratch).addScaledVector(directionScratch, 0.5);

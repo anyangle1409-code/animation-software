@@ -7,6 +7,14 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — parent/child joint coordination diagnostics
+
+Added `src/editor/coordinationDiagnostics.ts` to measure selected-joint versus anatomical-parent sequencing inside the current keyframe segment. It samples the actual generated clip at authored FPS, measures 3-axis shortest-path excursion from the segment start, identifies the first meaningful motion (5% of excursion with a 0.1° floor), records 95% finish timing, and reports parent-onset lag. A joint moving less than 0.25° is treated as near-isometric rather than being assigned a fake onset. There is deliberately no universal good/bad lag threshold because sequencing depends on the exercise.
+
+The Joint workspace now shows selected/parent excursion and onset, parent onset lag, a direct `Select parent to tune timing` action, and `Jump to parent onset`. For the bicep curl this means selecting the forearm makes elbow flexion versus upper-arm/shoulder contribution directly inspectable, while the existing Segment timing controls remain the one place that changes delay/finish/easing. Regression coverage proves a synthetic upper-arm support motion with a 50% authored delay begins materially after an immediately moving forearm, and proves a truly stationary parent is reported as near-isometric.
+
+
+
 ### ChatGPT — 2026-09-14 — whole-rep deformation worst-point review
 
 Added `src/editor/strainReview.ts`, an on-demand authoring scan that poses the active character through every authored clip frame using the same `resolveFrame()` + `applyCharacterPose()` production path, measures the existing bind-vs-posed edge-strain diagnostic, and records worst P95/P99/max strain plus severe compression/stretch-count timestamps per mesh. The scan respects the current Correctives-on/Raw-skinning viewport mode and always restores the character to the pre-scan playhead pose in a `finally` block. Its per-frame edge budget is bounded so this remains an interactive locator, not a force or finite-element model.

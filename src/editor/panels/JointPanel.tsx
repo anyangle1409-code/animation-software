@@ -9,6 +9,7 @@ import type { EasingKind, PhaseJointTiming } from '../../exercises/types';
 import { toDeg, toRad } from '../../core/math';
 import { skeleton, useStudio } from '../store';
 import { measureJointMotion } from '../motionDiagnostics';
+import { measureJointCoordination } from '../coordinationDiagnostics';
 
 /** Numeric, limit-aware control for one joint axis. */
 function AxisRow({ bone, axis, value }: { bone: BoneName; axis: Axis; value: number }) {
@@ -95,6 +96,14 @@ export function JointPanel() {
   const segmentFrom = keyframes[segmentIndex];
   const segmentTo = keyframes[segmentIndex + 1];
   const timing = selected && segmentFrom ? segmentFrom.jointTiming?.[selected] : undefined;
+  const parentBone = selected ? skeleton.bone(selected).parent : null;
+  const coordination = useMemo(
+    () =>
+      selected && parentBone && segmentFrom && segmentTo
+        ? measureJointCoordination(clip, selected, parentBone, segmentFrom.time, segmentTo.time)
+        : null,
+    [clip, parentBone, segmentFrom, segmentTo, selected],
+  );
 
   const bones = useMemo(
     () =>
@@ -204,6 +213,45 @@ export function JointPanel() {
         </div>
       ) : (
         <p className="panel__empty">Select a joint to inspect its motion through the full rep.</p>
+      )}
+
+      <h3>Joint coordination</h3>
+      {selected && parentBone && coordination ? (
+        <div className="joint-coordination">
+          <p className="panel__hint">
+            Current segment · <strong>{boneLabel(selected)}</strong> compared with its parent
+            <strong> {boneLabel(parentBone)}</strong>. Onset is the first meaningful movement, not
+            a pass/fail judgement.
+          </p>
+          <dl className="spec-list">
+            <dt>{boneLabel(selected)} excursion</dt>
+            <dd>{coordination.lead.excursionDeg.toFixed(1)}°</dd>
+            <dt>{boneLabel(selected)} onset</dt>
+            <dd>{coordination.lead.onsetPercent === null ? 'Near-isometric' : `${Math.round(coordination.lead.onsetPercent * 100)}% · ${coordination.lead.onsetTime!.toFixed(2)}s`}</dd>
+            <dt>{boneLabel(parentBone)} excursion</dt>
+            <dd>{coordination.support.excursionDeg.toFixed(1)}°</dd>
+            <dt>{boneLabel(parentBone)} onset</dt>
+            <dd>{coordination.support.onsetPercent === null ? 'Near-isometric' : `${Math.round(coordination.support.onsetPercent * 100)}% · ${coordination.support.onsetTime!.toFixed(2)}s`}</dd>
+            <dt>Parent onset lag</dt>
+            <dd>{coordination.onsetLagSeconds === null ? '—' : `${coordination.onsetLagSeconds >= 0 ? '+' : ''}${coordination.onsetLagSeconds.toFixed(2)}s`}</dd>
+          </dl>
+          <div className="button-row">
+            <button type="button" onClick={() => selectBone(parentBone)}>
+              Select parent to tune timing
+            </button>
+            {coordination.support.onsetTime !== null && (
+              <button type="button" onClick={() => setTime(coordination.support.onsetTime!)}>
+                Jump to parent onset
+              </button>
+            )}
+          </div>
+          <p className="panel__note">
+            For a curl, selecting the forearm compares elbow flexion with upper-arm contribution.
+            Use Segment timing on the parent to delay or soften that secondary movement.
+          </p>
+        </div>
+      ) : (
+        <p className="panel__empty">Select a non-root joint before the final keyframe to compare its timing with its parent.</p>
       )}
 
       <h3>Segment timing</h3>

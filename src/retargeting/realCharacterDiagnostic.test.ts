@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Matrix4, Vector3 } from 'three';
-import type { SkinnedMesh } from 'three';
+import { Bone, BufferGeometry, Float32BufferAttribute, Matrix4, MeshBasicMaterial, Skeleton, SkinnedMesh, Vector3 } from 'three';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
@@ -80,17 +79,16 @@ function percentile(values: number[], fraction: number): number {
 }
 
 function strain(mesh: SkinnedMesh, set: EdgeSet) {
-  const position = mesh.geometry.getAttribute('position');
   const one = new Vector3();
   const two = new Vector3();
   const ratios: number[] = [];
 
   mesh.skeleton.update();
   set.edges.forEach(([a, b], slot) => {
-    one.fromBufferAttribute(position, a);
-    two.fromBufferAttribute(position, b);
-    mesh.applyBoneTransform(a, one);
-    mesh.applyBoneTransform(b, two);
+    // Three's vertex evaluator applies both morph targets and skinning in the
+    // rendered order. applyBoneTransform alone silently ignores correctives.
+    mesh.getVertexPosition(a, one);
+    mesh.getVertexPosition(b, two);
     ratios.push(one.distanceTo(two) / set.rest[slot]);
   });
 
@@ -108,6 +106,35 @@ function strain(mesh: SkinnedMesh, set: EdgeSet) {
 }
 
 const real = path ? describe : describe.skip;
+
+describe('production strain measurement includes pose shapes', () => {
+  for (const relative of [true, false]) {
+    it(`measures ${relative ? 'relative' : 'absolute'} morphs before skinning`, () => {
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 1, 0, 0, 0, 1, 0], 3));
+      geometry.setIndex([0, 1, 2]);
+      geometry.setAttribute('skinIndex', new Float32BufferAttribute(new Array(12).fill(0), 4));
+      geometry.setAttribute('skinWeight', new Float32BufferAttribute([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+      geometry.morphTargetsRelative = relative;
+      geometry.morphAttributes.position = [new Float32BufferAttribute(
+        relative ? [0, 0, 0, 1, 0, 0, 0, 0, 0] : [0, 0, 0, 2, 0, 0, 0, 1, 0], 3,
+      )];
+      const mesh = new SkinnedMesh(geometry, new MeshBasicMaterial());
+      const bone = new Bone();
+      mesh.add(bone);
+      mesh.bind(new Skeleton([bone]));
+      const edges = meshEdges(mesh);
+      expect(strain(mesh, edges).max).toBeCloseTo(1);
+      mesh.morphTargetInfluences![0] = 1;
+      expect(strain(mesh, edges).max).toBeCloseTo(2);
+      mesh.morphTargetInfluences![0] = 0;
+      expect(strain(mesh, edges).max).toBeCloseTo(1);
+      geometry.dispose();
+      (mesh.material as MeshBasicMaterial).dispose();
+      mesh.skeleton.dispose();
+    });
+  }
+});
 
 real('real imported-character production diagnostic', () => {
   it('measures representative whole-body exercises through the production importer', async () => {

@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Codex — 2026-09-14 — correction to wrist diagnosis; morph-aware strain test
+
+**This supersedes the earlier claim that the candidate has no mixed wrist weights.** The imported source names are `DEF-forearmL`, `DEF-forearmL001`, and `DEF-handL` (mirrored on the right). The trial's `matchingBones` recognized the base name and dotted suffixes only, so it silently omitted the split forearm helper. Counting that exact helper reveals 313 vertices per side with both hand and forearm weights; 167 per side satisfy the trial's radius, pair-weight and blend gates. The zero-displacement experiment therefore did not establish a topology limitation.
+
+The real-character test also measured only `applyBoneTransform`, omitting all pose morphs. It now uses `SkinnedMesh.getVertexPosition`, which includes morphing before skinning. Two always-on regression tests verify relative and absolute morph targets, including returning to zero influence. Full suite: **192 passed, 1 optional skipped**. With the real candidate supplied, the diagnostic's three tests pass. Build/typecheck passes; existing bundle-size warning remains. Passing the catastrophic strain ceiling is not visual certification.
+
+Removed the uncommitted rejected shoulder/wrist prototypes from the local production modules, returning those two modules to their current remote contents. No model, weights, exercise, retargeting or active corrective changes are included in this checkpoint. Candidate SHA remains `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`.
+
+Next: account explicitly for sanitized split-helper names when constructing a new isolated wrist trial. Do not silently change the shared elbow matcher without a separate comparison, because that would expand the existing elbow correction's affected region. Drive wrist bend relative to its forearm, not from the hand's world orientation (which also changes when the torso/shoulder moves). Validate activation, affected vertices, morph-aware strain, floor contacts and close-up rendered grip before retaining a shape. The prior images were offline renders of production-posed triangles, not live Studio screenshots; that visual acceptance step is still outstanding.
+
 ### Codex — 2026-09-13 — imported character: elbow corrective and handover
 
 This entry is the current cross-assistant handover for the candidate male character. Continue from branch `chatgpt/absolute-retarget-imports`; do not merge it. The active candidate remains external to the repository: `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` (SHA-256 `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`). Its supplied source file remains untouched.

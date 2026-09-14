@@ -11,6 +11,7 @@ import type {
   FootSpec,
   MovementPhase,
   PoseSpec,
+  PhaseJointTiming,
 } from '../exercises/types';
 import { tempoDuration } from '../exercises/types';
 import type { IKChainId } from '../ik/types';
@@ -47,6 +48,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     pose: clonePose(poses.start),
     ik: cloneIK(ik.start),
     easing: phases[0].easing,
+    jointTiming: cloneJointTiming(phases[0].jointTiming),
     phaseId: phases[0].id,
     label: exercise.startPose.label,
   });
@@ -60,6 +62,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
       pose: clonePose(poses[phase.to]),
       ik: cloneIK(ik[phase.to]),
       easing: next?.easing ?? 'lift',
+      jointTiming: cloneJointTiming(next?.jointTiming),
       phaseId: next?.id,
       label: phase.to === 'peak' ? exercise.peakPose.label : exercise.startPose.label,
     });
@@ -213,6 +216,17 @@ function cloneIK(
   for (const [chain, value] of Object.entries(ik)) {
     if (!value) continue;
     out[chain as IKChainId] = { ...value, target: { ...value.target }, pole: { ...value.pole } };
+  }
+  return out;
+}
+
+function cloneJointTiming(
+  timing: Partial<Record<BoneName, PhaseJointTiming>> | undefined,
+): Partial<Record<BoneName, PhaseJointTiming>> | undefined {
+  if (!timing) return undefined;
+  const out: Partial<Record<BoneName, PhaseJointTiming>> = {};
+  for (const [bone, value] of Object.entries(timing)) {
+    if (value) out[bone as BoneName] = { ...value };
   }
   return out;
 }

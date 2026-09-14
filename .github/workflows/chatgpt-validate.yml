@@ -18,6 +18,18 @@ jobs:
       - run: npm ci
       - name: Apply staged animation workspace
         run: python .github/chatgpt_animation_workspace.py
+      - name: Calibrate floating-point playback assertion
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/editor/playback.test.ts')
+          text = path.read_text(encoding='utf-8')
+          old = "    expect(advancePlaybackTime(4.9, 0.25, 5, true, null)).toEqual({ time: 0.15, ended: false });"
+          new = "    const wrapped = advancePlaybackTime(4.9, 0.25, 5, true, null);\n    expect(wrapped.ended).toBe(false);\n    expect(wrapped.time).toBeCloseTo(0.15, 10);"
+          if text.count(old) != 1:
+              raise SystemExit('expected playback assertion not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite

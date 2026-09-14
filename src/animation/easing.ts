@@ -15,6 +15,11 @@ export const EASINGS: Record<EasingKind, (t: number) => number> = {
   easeOut: (t) => 1 - (1 - t) * (1 - t),
   easeInOut: (t) => (t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t)),
   lift: (t) => (1 - Math.cos(Math.PI * t)) / 2,
+  // Fifth-order minimum-jerk trajectory. Unlike the cosine lift curve, both
+  // velocity and acceleration are zero at each end. That matters when a
+  // secondary joint starts part-way through a phase: it eases out of a held
+  // position without a visible acceleration step.
+  minimumJerk: (t) => t * t * t * (10 + t * (-15 + 6 * t)),
   grind: (t) => {
     // Slow through the mid-range sticking point, smooth at both ends.
     const shaped = t + (0.5 * Math.sin(2 * Math.PI * t)) / (2 * Math.PI);
@@ -33,6 +38,7 @@ export const EASING_LABELS: Record<EasingKind, string> = {
   easeOut: 'Ease out',
   easeInOut: 'Ease in-out',
   lift: 'Lift (smooth)',
+  minimumJerk: 'Natural (minimum jerk)',
   grind: 'Grind (slow mid-range)',
   hold: 'Hold',
 };

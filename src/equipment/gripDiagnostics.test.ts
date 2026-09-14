@@ -5,6 +5,7 @@ import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { shoulderPress } from '../exercises/definitions/shoulderPress';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { GRIP_CLOSURE_PRESETS, measureGripFit } from './gripDiagnostics';
+import { FINGERS } from '../rig/boneNames';
 
 const skeleton = canonicalSkeleton;
 
@@ -31,7 +32,31 @@ describe('grip authoring diagnostics', () => {
         expect(fit.withinEnvelope, `${side} at ${time.toFixed(2)}s`).toBe(true);
         expect(fit.reachUse).toBeLessThan(1);
         expect(fit.wrapCoverageDeg).toBeGreaterThan(190);
+        expect(Object.keys(fit.digitReachUse).sort()).toEqual([...FINGERS].sort());
+        for (const finger of FINGERS) {
+          expect(fit.digitReachUse[finger]).toBeGreaterThanOrEqual(0);
+          expect(fit.digitReachUse[finger]).toBeLessThan(1);
+        }
+        expect(fit.reachUse).toBeCloseTo(Math.max(...Object.values(fit.digitReachUse)), 10);
       }
     }
   });
+
+  it('identifies the digit carrying the largest reach value', () => {
+    const exercise = structuredClone(bicepCurl);
+    exercise.hands.digitClosure = { pinky: 0.35 };
+    const clip = generateClip(skeleton, exercise);
+    const evaluation = new PoseEvaluation(skeleton);
+    const frame = resolveFrame(skeleton, evaluation, clip, 0);
+    evaluation.apply(frame.pose);
+    const equipment = frame.equipment.get('dumbbell_l');
+    expect(equipment).toBeDefined();
+    const fit = measureGripFit(evaluation, equipment!, 'l');
+    const largest = FINGERS.reduce((best, finger) =>
+      fit.digitReachUse[finger] > fit.digitReachUse[best] ? finger : best,
+    );
+    expect(fit.reachUse).toBeCloseTo(fit.digitReachUse[largest], 10);
+    expect(fit.digitReachUse.pinky).not.toBeCloseTo(fit.digitReachUse.index, 6);
+  });
+
 });

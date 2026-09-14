@@ -1,11 +1,12 @@
 import { Vector3 } from 'three';
-import type { BoneName, Side } from '../rig/boneNames';
+import type { BoneName, Finger, Side } from '../rig/boneNames';
 import type { PoseEvaluation } from '../rig/skeleton';
 import { twoHandGripOffsets, type EquipmentTransform } from './attach';
 import type { EquipmentInstance } from './types';
 import { equipmentSocketForInstance } from './library';
 
 interface GripContactPoint {
+  finger: Finger;
   bone: BoneName;
   along: number;
   reach: number;
@@ -15,6 +16,8 @@ export interface GripFitMeasurement {
   side: Side;
   /** Largest measured distance as a fraction of that contact's allowed reach. */
   reachUse: number;
+  /** Largest reach use for each digit; values above 1 exceed the authored geometric envelope. */
+  digitReachUse: Record<Finger, number>;
   /** Largest angular opening between neighbouring contacts around the handle. */
   widestGapDeg: number;
   /** Complement of the widest gap; useful as an intuitive wrap readout. */
@@ -30,14 +33,14 @@ export const GRIP_CLOSURE_PRESETS = [
 ] as const;
 
 export const gripContactPoints = (side: Side): GripContactPoint[] => [
-  { bone: `index_02_${side}` as BoneName, along: 0.5, reach: 0.032 },
-  { bone: `index_03_${side}` as BoneName, along: 1, reach: 0.04 },
-  { bone: `middle_02_${side}` as BoneName, along: 0.5, reach: 0.032 },
-  { bone: `middle_03_${side}` as BoneName, along: 1, reach: 0.04 },
-  { bone: `ring_02_${side}` as BoneName, along: 0.5, reach: 0.034 },
-  { bone: `pinky_02_${side}` as BoneName, along: 0.5, reach: 0.038 },
-  { bone: `thumb_02_${side}` as BoneName, along: 0.5, reach: 0.042 },
-  { bone: `thumb_03_${side}` as BoneName, along: 1, reach: 0.032 },
+  { finger: 'index', bone: `index_02_${side}` as BoneName, along: 0.5, reach: 0.032 },
+  { finger: 'index', bone: `index_03_${side}` as BoneName, along: 1, reach: 0.04 },
+  { finger: 'middle', bone: `middle_02_${side}` as BoneName, along: 0.5, reach: 0.032 },
+  { finger: 'middle', bone: `middle_03_${side}` as BoneName, along: 1, reach: 0.04 },
+  { finger: 'ring', bone: `ring_02_${side}` as BoneName, along: 0.5, reach: 0.034 },
+  { finger: 'pinky', bone: `pinky_02_${side}` as BoneName, along: 0.5, reach: 0.038 },
+  { finger: 'thumb', bone: `thumb_02_${side}` as BoneName, along: 0.5, reach: 0.042 },
+  { finger: 'thumb', bone: `thumb_03_${side}` as BoneName, along: 1, reach: 0.032 },
 ];
 
 const pointOf = (evaluation: PoseEvaluation, bone: BoneName, along: number): Vector3 =>
@@ -60,11 +63,20 @@ export function measureGripFit(
   const across = new Vector3().crossVectors(up, axis).normalize();
 
   let reachUse = 0;
+  const digitReachUse: Record<Finger, number> = {
+    thumb: 0,
+    index: 0,
+    middle: 0,
+    ring: 0,
+    pinky: 0,
+  };
   const angles: number[] = [];
   for (const point of gripContactPoints(side)) {
     const offset = pointOf(evaluation, point.bone, point.along).sub(handle);
     offset.addScaledVector(axis, -offset.dot(axis));
-    reachUse = Math.max(reachUse, offset.length() / point.reach);
+    const contactReachUse = offset.length() / point.reach;
+    reachUse = Math.max(reachUse, contactReachUse);
+    digitReachUse[point.finger] = Math.max(digitReachUse[point.finger], contactReachUse);
     angles.push(Math.atan2(offset.dot(up), offset.dot(across)));
   }
 
@@ -77,6 +89,7 @@ export function measureGripFit(
   return {
     side,
     reachUse,
+    digitReachUse,
     widestGapDeg,
     wrapCoverageDeg: 360 - widestGapDeg,
     withinEnvelope: reachUse < 1 && widestGapDeg < 170,

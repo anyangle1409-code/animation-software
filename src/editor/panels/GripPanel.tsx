@@ -237,6 +237,20 @@ export function GripPanel() {
                 <dt>Largest open gap</dt>
                 <dd>{fit.widestGapDeg.toFixed(1)}°</dd>
               </dl>
+              <h4>Digit reach</h4>
+              <dl className="spec-list">
+                {FINGERS.map((finger) => {
+                  const reach = fit.digitReachUse[finger];
+                  return (
+                    <div key={`digit-reach-${finger}`} className="spec-list__pair">
+                      <dt>{finger.charAt(0).toUpperCase() + finger.slice(1)}</dt>
+                      <dd className={reach >= 1 ? 'status-warn' : undefined}>
+                        {Math.round(reach * 100)}%
+                      </dd>
+                    </div>
+                  );
+                })}
+              </dl>
             </div>
           ))}
         </div>
@@ -246,9 +260,8 @@ export function GripPanel() {
         </p>
       )}
       <p className="panel__hint">
-        Grip X/Y/Z is the handle centre in hand-local millimetres; orientation is a hand-local Euler calibration in degrees. “Within envelope” uses the same
-        finger reach and wrap geometry as the Studio's grip regression. It is an animation-fit diagnostic,
-        not a force or injury-safety score.
+        Grip X/Y/Z is the handle centre in hand-local millimetres; orientation is a hand-local Euler calibration in degrees. “Within envelope” and each digit percentage use the same
+        contact-reach and wrap geometry as the Studio's grip regression. A digit above 100% has exceeded that authored geometric envelope; this is not a literal mesh-penetration, force or injury-safety score.
       </p>
 
 

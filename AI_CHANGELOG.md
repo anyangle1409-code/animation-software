@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — per-digit grip reach diagnostics
+
+Extended the existing geometric grip diagnostic so every contact point is tagged with its owning digit and `GripFitMeasurement` now reports `digitReachUse` for thumb/index/middle/ring/pinky alongside the established overall `reachUse`. Each digit value is the maximum distance-to-handle-centre-line divided by that contact point's existing allowed reach. Overall `reachUse` remains exactly the maximum of those five digit values, so the established envelope and Review gate semantics do not change.
+
+The Grip workspace now lists live per-digit percentages below each single-hand handle fit. Values at or above 100% are visually flagged and the UI explicitly says this means the authored **geometric contact-reach envelope** has been exceeded; it is not presented as literal mesh penetration, force, or injury risk. This pairs directly with the new per-digit closure sliders: an author can see which digit is the outlier and trim only that digit instead of translating the whole dumbbell or changing unrelated fingers. Regression coverage proves all five digit metrics exist throughout the retained curl/shoulder-press reps, remain inside the current accepted envelope, and that global reach is exactly the maximum digit reach.
+
+
 ### ChatGPT — 2026-09-14 — per-digit deterministic grip closure
 
 Added optional `HandSpec.digitClosure` overrides for `thumb`, `index`, `middle`, `ring` and `pinky`. Each value is an absolute 0..1 closure for that digit; unspecified digits continue to use the existing global `hands.closure`. `applyGrip()` now chooses the digit-specific value before applying the active equipment-aware grip profile, including the thumb opposition proxy. The field is absent by default, so the accepted 85% dumbbell curl remains numerically identical until an author explicitly trims a digit.

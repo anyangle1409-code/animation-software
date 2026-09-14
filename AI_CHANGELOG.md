@@ -27,6 +27,8 @@ This entry is the current cross-assistant handover for the candidate male charac
 
 **Fresh production evidence — 2026-09-14.** Regenerated all six requested key poses from the current candidate with the corrective applied before skinning: curl bottom/top, deepest squat, press overhead, push-up bottom and pull-up top. The focused real-GLB production diagnostic passes; the full suite remains 190 passed / 1 optional skipped and the production build succeeds. This confirms the current import has 52 required mapped bones, 160 source bones and 10,839 vertices. Keep the correction as-is: full-mesh maximum edge ratios are still dominated by original hand/wrist and pull-up topology (pull-up reaches 8.47× during the cycle), not a reason to increase the elbow morph.
 
+**Rejected experiment — 2026-09-14.** Tested a raised-arm-only shoulder-cap/axilla morph (zero at curl bottom; 566 local vertices; maximum press displacement 3.31 mm). It produced too little visible improvement and increased press compression slightly (105 to 111 edges below half rest length). It is not in the candidate: the active asset has been restored to SHA-256 `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`. Do not repeat this radial inflation approach; the remaining shoulder defect needs a pose-specific directional shape, not a spherical push.
+
 
 ### ChatGPT — 2026-09-12 — whole-body imported-character movement certification
 

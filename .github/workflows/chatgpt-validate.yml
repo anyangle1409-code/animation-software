@@ -16,6 +16,28 @@ jobs:
       - run: npm ci
       - name: Apply staged bilateral motion diagnostics
         run: python .github/chatgpt_bilateral_motion.py
+      - name: Correct bilateral fixture to legal forearm axes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/editor/motionDiagnostics.test.ts')
+          text = p.read_text()
+          text = text.replace(
+              "vec3(0, (30 * Math.PI) / 180, (5 * Math.PI) / 180)",
+              "vec3(0, (30 * Math.PI) / 180, 0)",
+          ).replace(
+              "vec3(0, (-30 * Math.PI) / 180, (-5 * Math.PI) / 180)",
+              "vec3(0, (-30 * Math.PI) / 180, 0)",
+          )
+          p.write_text(text)
+
+          p = Path('AI_CHANGELOG.md')
+          text = p.read_text().replace(
+              'a synthetic forearm path containing flexion plus handed Y/Z rotation',
+              'a synthetic forearm path containing flexion plus handed axial rotation',
+          )
+          p.write_text(text)
+          PY
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite

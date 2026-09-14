@@ -6,6 +6,7 @@ on:
       - chatgpt/absolute-retarget-imports
     paths:
       - '.github/chatgpt_two_hand_review_gate.py'
+      - '.github/chatgpt_two_hand_review_gate_fix.py'
       - '.github/workflows/chatgpt-validate.yml'
 
 permissions:
@@ -22,7 +23,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Apply staged two-hand review gate
-        run: python .github/chatgpt_two_hand_review_gate.py
+        run: |
+          python .github/chatgpt_two_hand_review_gate.py
+          python .github/chatgpt_two_hand_review_gate_fix.py
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite
@@ -34,6 +37,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/editor/review.ts src/editor/review.test.ts docs/STUDIO_CAPABILITY_ROADMAP.md AI_CHANGELOG.md
-          git rm .github/chatgpt_two_hand_review_gate.py .github/workflows/chatgpt-validate.yml
+          git rm .github/chatgpt_two_hand_review_gate.py .github/chatgpt_two_hand_review_gate_fix.py .github/workflows/chatgpt-validate.yml
           git commit -m "feat: gate review on two-hand equipment fit"
           git push

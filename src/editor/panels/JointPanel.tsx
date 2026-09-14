@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { BoneName } from '../../rig/boneNames';
 import { boneLabel, isFingerBone } from '../../rig/boneNames';
 import { AXES } from '../../rig/types';
@@ -71,13 +71,19 @@ export function JointPanel() {
   const mirrorCurrentPose = useStudio((state) => state.mirrorCurrentPose);
   const mirrorSide = useStudio((state) => state.mirrorSide);
   const hasClipboard = useStudio((state) => state.clipboard !== null);
+  const [showFingerJoints, setShowFingerJoints] = useState(false);
 
   const pose = useMemo(() => sampleClip(clip, time).pose, [clip, time]);
   const rotation = selected ? pose.rotations[selected] : undefined;
 
   const bones = useMemo(
-    () => skeleton.names.filter((name) => name !== 'root' && !isFingerBone(name)),
-    [],
+    () =>
+      skeleton.names.filter(
+        (name) =>
+          name !== 'root' &&
+          (showFingerJoints || !isFingerBone(name) || name === selected),
+      ),
+    [selected, showFingerJoints],
   );
 
   return (
@@ -98,6 +104,19 @@ export function JointPanel() {
           ))}
         </select>
       </label>
+
+      <label className="field field--check">
+        <input
+          type="checkbox"
+          checked={showFingerJoints}
+          onChange={(event) => setShowFingerJoints(event.target.checked)}
+        />
+        <span>Show individual finger joints</span>
+      </label>
+      <p className="panel__hint">
+        Fine hand mode exposes all 30 thumb/finger segments. They use the same anatomical limits,
+        keyframing, undo/redo, mirroring and Focus selected camera as the larger joints.
+      </p>
 
       {selected ? (
         <>

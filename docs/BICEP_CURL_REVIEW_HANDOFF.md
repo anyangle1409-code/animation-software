@@ -39,7 +39,7 @@ These measurements do **not** support another speculative curl-motion change. Th
 - **Corrective tuning** is character-level and export-aware. The active viewport and GLB export sampler share the same value.
 - **Same-frame corrective presets:** **0 / 25 / 50 / 75 / 100%**; these change only corrective strength and deliberately leave the playhead on the exact same frame.
 - **Corrective strain sweep:** on-demand 0/25/50/75/100% whole-rep P99/max scan. It restores the pre-scan tuning/pose and can jump to each candidate's worst P99 frame.
-- **Correctives on / Raw skinning** remains a viewport-only A/B and does not alter the clip/source mesh/export.
+- **Correctives on / Raw skinning** remains a viewport-only A/B and does not alter the clip/source mesh/export. Production visual sign-off is disabled in Raw skinning, and any permanent export-aware corrective change increments the character deformation revision so an older sign-off cannot remain valid.
 
 Latest full validation after the grip-review pass: **285 passed, 1 optional real-character diagnostic skipped, across 35 test files.** TypeScript and production build both pass. Existing notes only: Vite >500 kB chunk advisory and the already-known npm audit report of 2 moderate vulnerabilities.
 

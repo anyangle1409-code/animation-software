@@ -21,14 +21,18 @@ export function ReviewPanel() {
   const setTime = useStudio((state) => state.setTime);
   const sourceId = useCharacter((state) => state.sourceId);
   const sourceStatus = useCharacter((state) => state.sourceStatus);
+  const correctivesPreview = useCharacter((state) => state.correctivesPreview);
+  const deformationRevision = useCharacter((state) => state.deformationRevision);
 
   const review = useMemo(
     () => reviewExercise(skeleton, document.exercise, document.clip),
     [document],
   );
   const visualPassed =
-    visualReview?.document === document && visualReview.characterSourceId === sourceId;
-  const approved = review.automatedPass && visualPassed;
+    visualReview?.document === document &&
+    visualReview.characterSourceId === sourceId &&
+    visualReview.deformationRevision === deformationRevision;
+  const approved = review.automatedPass && visualPassed && correctivesPreview;
   const reviewBone: BoneName | null =
     selectedBone ?? (document.exercise.id === 'dumbbell_bicep_curl' ? 'forearm_l' : null);
   const movement = useMemo(() => {
@@ -140,19 +144,27 @@ export function ReviewPanel() {
       <h3>Visual sign-off</h3>
       <p className="panel__hint">
         This remains a human decision: normal-speed and slow-motion movement, joint silhouette,
-        grip contact, equipment stability and overall naturalness. Any document edit or character
-        change invalidates the sign-off automatically.
+        grip contact, equipment stability and overall naturalness. Any document edit, character
+        change or export-aware deformation tuning change invalidates the sign-off automatically. Raw
+        skinning is diagnostic only and cannot be signed off because export uses production correctives.
       </p>
       <div className="button-row">
         <button
           type="button"
-          disabled={!review.automatedPass || sourceStatus.kind !== 'idle'}
+          disabled={!review.automatedPass || sourceStatus.kind !== 'idle' || !correctivesPreview}
           className={visualPassed ? 'is-active' : ''}
-          onClick={() => (visualPassed ? clearVisualReview() : markVisualReview(sourceId))}
+          onClick={() =>
+            visualPassed
+              ? clearVisualReview()
+              : markVisualReview(sourceId, deformationRevision)
+          }
         >
           {visualPassed ? 'Clear visual sign-off' : 'Mark visual review passed'}
         </button>
       </div>
+      {!correctivesPreview && (
+        <p className="panel__note">Enable Correctives on before production visual sign-off.</p>
+      )}
       <p className="panel__note">Automated review sampled {review.sampledFrames} frames.</p>
     </section>
   );

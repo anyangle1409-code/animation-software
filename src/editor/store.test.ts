@@ -326,8 +326,12 @@ describe('visual review sign-off identity', () => {
   it('binds sign-off to the exact document and character source', () => {
     useStudio.getState().loadExercise('dumbbell_bicep_curl');
     const reviewed = useStudio.getState().document;
-    useStudio.getState().markVisualReview('import-v5');
-    expect(useStudio.getState().visualReview).toEqual({ document: reviewed, characterSourceId: 'import-v5' });
+    useStudio.getState().markVisualReview('import-v5', 3);
+    expect(useStudio.getState().visualReview).toEqual({
+      document: reviewed,
+      characterSourceId: 'import-v5',
+      deformationRevision: 3,
+    });
 
     useStudio.getState().setGripClosure(0.8);
     expect(useStudio.getState().visualReview?.document).not.toBe(useStudio.getState().document);
@@ -420,5 +424,23 @@ describe('per-digit grip closure authoring', () => {
     useStudio.getState().undo();
     expect(useStudio.getState().document.exercise.hands.digitClosure?.thumb).toBeCloseTo(0.7, 8);
     expect(useStudio.getState().document.exercise.hands.digitClosure?.pinky).toBeCloseTo(0.6, 8);
+  });
+});
+
+
+describe('visual review identity', () => {
+  it('records character deformation revision and becomes stale after a document edit', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    const signedDocument = useStudio.getState().document;
+    useStudio.getState().markVisualReview('review-character', 7);
+    expect(useStudio.getState().visualReview).toEqual({
+      document: signedDocument,
+      characterSourceId: 'review-character',
+      deformationRevision: 7,
+    });
+
+    useStudio.getState().setGripClosure(0.8);
+    expect(useStudio.getState().document).not.toBe(signedDocument);
+    expect(useStudio.getState().visualReview?.document).toBe(signedDocument);
   });
 });

@@ -50,6 +50,8 @@ interface CharacterState {
   active: CharacterBuild | null;
   /** Viewport-only A/B switch; export remains production-correct. */
   correctivesPreview: boolean;
+  /** Changes whenever production-visible character deformation identity changes. */
+  deformationRevision: number;
 
   name: string | null;
   mapping: BoneMapping | null;
@@ -60,6 +62,7 @@ interface CharacterState {
   setSourceStatus: (status: Status) => void;
   setActive: (build: CharacterBuild | null) => void;
   setCorrectivesPreview: (enabled: boolean) => void;
+  setDeformationControl: (id: string, value: number) => void;
   setBindMode: (mode: BindMode) => void;
   load: (file: File, mode?: BindMode) => Promise<void>;
   setBone: (canonical: BoneName, targetBone: string | null) => void;
@@ -79,18 +82,32 @@ export const useCharacter = create<CharacterState>((set, get) => ({
   imported: null,
   active: null,
   correctivesPreview: true,
+  deformationRevision: 0,
 
   name: null,
   mapping: null,
   report: null,
   status: { kind: 'idle' },
 
-  setSource: (sourceId) => set({ sourceId }),
+  setSource: (sourceId) => {
+    const state = get();
+    if (state.sourceId === sourceId) return;
+    set({ sourceId, deformationRevision: state.deformationRevision + 1 });
+  },
 
   setSourceStatus: (sourceStatus) => set({ sourceStatus }),
 
   setActive: (active) => set({ active }),
   setCorrectivesPreview: (correctivesPreview) => set({ correctivesPreview }),
+  setDeformationControl: (id, value) => {
+    const state = get();
+    const control = state.active?.deformation?.controls?.find((item) => item.id === id);
+    if (!control) return;
+    const before = control.value;
+    control.set(value);
+    if (Math.abs(control.value - before) <= 1e-9) return;
+    set({ deformationRevision: state.deformationRevision + 1 });
+  },
 
   setBindMode: (bindMode) => set({ bindMode }),
 
@@ -125,6 +142,7 @@ export const useCharacter = create<CharacterState>((set, get) => ({
     importedLabel = '';
     set({
       sourceId: defaultCharacterId(),
+      deformationRevision: get().deformationRevision + 1,
       name: null,
       mapping: null,
       report: null,
@@ -168,6 +186,7 @@ async function registerImport(
     probe.dispose();
     set({
       sourceId: source.id,
+      deformationRevision: useCharacter.getState().deformationRevision + 1,
       name: importedLabel,
       mapping: mapping ?? null,
       report: source.lastReport?.mapping ?? null,

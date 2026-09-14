@@ -20,6 +20,7 @@ export function CorrectivePanel() {
   const active = useCharacter((state) => state.active);
   const enabled = useCharacter((state) => state.correctivesPreview);
   const setEnabled = useCharacter((state) => state.setCorrectivesPreview);
+  const setDeformationControl = useCharacter((state) => state.setDeformationControl);
   const diagnostics = active ? correctiveDiagnostics(active.meshes) : [];
   const controls = active?.deformation?.controls ?? [];
   const [, refreshControls] = useState(0);
@@ -83,7 +84,7 @@ export function CorrectivePanel() {
                 step={control.step}
                 value={control.value}
                 onChange={(event) => {
-                  control.set(Number(event.target.value));
+                  setDeformationControl(control.id, Number(event.target.value));
                   refreshControls((value) => value + 1);
                   setWholeRep(null);
                 }}
@@ -97,7 +98,7 @@ export function CorrectivePanel() {
                       key={`${control.id}-preset-${fraction}`}
                       className={Math.abs(control.value - preset) < 1e-9 ? 'is-active' : ''}
                       onClick={() => {
-                        control.set(preset);
+                        setDeformationControl(control.id, preset);
                         refreshControls((value) => value + 1);
                         setWholeRep(null);
                       }}
@@ -114,7 +115,7 @@ export function CorrectivePanel() {
                   type="button"
                   disabled={Math.abs(control.value - control.defaultValue) < 1e-9}
                   onClick={() => {
-                    control.set(control.defaultValue);
+                    setDeformationControl(control.id, control.defaultValue);
                     refreshControls((value) => value + 1);
                     setWholeRep(null);
                     setSweep(null);
@@ -156,7 +157,7 @@ export function CorrectivePanel() {
                         type="button"
                         disabled={!point.p99}
                         onClick={() => {
-                          control.set(point.value);
+                          setDeformationControl(control.id, point.value);
                           refreshControls((value) => value + 1);
                           setWholeRep(null);
                           if (point.p99) setTime(point.p99.time);

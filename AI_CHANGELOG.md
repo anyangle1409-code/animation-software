@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — bind visual sign-off to production deformation state
+
+Closed an approval-integrity gap introduced by live export-aware character correctives. Visual sign-off previously matched only Studio document identity plus character source id, so changing a character-level elbow corrective after sign-off could leave the old approval looking current even though GLB export would now use a different deformation value.
+
+Character state now carries a monotonic `deformationRevision`. Persistent corrective UI edits route through a revision-aware setter that increments only when the effective control value really changes; no-op/unknown writes do not advance it. Successful preserved/rebound imports and import mapping rebuilds also advance the revision because the stable `import` source id alone cannot distinguish different loaded character content. The temporary whole-rep corrective sweep still manipulates/restores the raw control directly, so a diagnostic scan that ends on the original value does not invalidate approval.
+
+Visual sign-off records the current deformation revision and Review requires document identity + character source + deformation revision to match. Production approval is also suppressed and the sign-off button disabled while `Raw skinning` preview is active, because export always uses production correctives. Returning to Correctives on restores an otherwise-current sign-off only when no production value changed.
+
+Regression coverage verifies revision changes only for effective control edits and that Studio sign-off records the character revision alongside its existing document-reference identity.
+
 ### ChatGPT — 2026-09-14 — fine grip closure and curl review frames
 
 Grip review now has one-tap 65/70/75/80/85% fine closure presets in addition to the broader Loose/Training/Closed presets. Fine presets use the existing deterministic `setGripClosure` path and deliberately leave the playhead, wrist and equipment transform untouched, so thumb opposition, four-finger wrap and palm loading can be compared on the exact same pose.

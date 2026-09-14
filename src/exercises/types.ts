@@ -83,6 +83,24 @@ export interface PoseIKTarget {
 }
 
 /**
+ * Optional timing for one bone inside a movement phase. Values are normalised
+ * to the phase: 0 is the phase start and 1 is the phase end. The bone remains at
+ * the source pose until `delay`, then reaches the destination by `finish`.
+ *
+ * This is intentionally per bone rather than per axis. Secondary body motion —
+ * a shoulder settling late in a curl, for example — should stay anatomically
+ * coherent instead of moving flexion and abduction on unrelated clocks.
+ */
+export interface PhaseJointTiming {
+  /** Normalised phase progress before this bone begins moving. Default 0. */
+  delay?: number;
+  /** Normalised phase progress by which this bone has arrived. Default 1. */
+  finish?: number;
+  /** Optional curve for this bone; defaults to the phase easing. */
+  easing?: EasingKind;
+}
+
+/**
  * One segment of a repetition. Phases carry the tempo, so a 2-1-2 cadence is
  * data rather than a hard-coded curve.
  */
@@ -96,6 +114,11 @@ export interface MovementPhase {
   /** How the movement accelerates through the phase. */
   easing: EasingKind;
   contraction: 'eccentric' | 'concentric' | 'isometric';
+  /**
+   * Per-bone timing overrides for secondary motion. Prime movers normally omit
+   * this and use the phase curve unchanged.
+   */
+  jointTiming?: Partial<Record<BoneName, PhaseJointTiming>>;
 }
 
 export type EasingKind =

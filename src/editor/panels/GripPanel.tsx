@@ -4,6 +4,7 @@ import { anatomicalGripOffset } from '../../equipment/attach';
 import { GRIP_CLOSURE_PRESETS, measureGripFit, measureTwoHandFit } from '../../equipment/gripDiagnostics';
 import { equipmentSocketForInstance } from '../../equipment/library';
 import type { Vec3 } from '../../rig/types';
+import { FINGERS, type Finger } from '../../rig/boneNames';
 import { GRIP_PROFILE_LIST } from '../../exercises/gripProfiles';
 import { PoseEvaluation } from '../../rig/skeleton';
 import { skeleton, useStudio } from '../store';
@@ -14,6 +15,8 @@ export function GripPanel() {
   const time = useStudio((state) => state.time);
   const setGripClosure = useStudio((state) => state.setGripClosure);
   const setGripPreset = useStudio((state) => state.setGripPreset);
+  const setGripDigitClosure = useStudio((state) => state.setGripDigitClosure);
+  const clearGripDigitClosures = useStudio((state) => state.clearGripDigitClosures);
   const setEquipmentGripOffset = useStudio((state) => state.setEquipmentGripOffset);
   const setEquipmentGripRotation = useStudio((state) => state.setEquipmentGripRotation);
   const setTwoHandGripWidth = useStudio((state) => state.setTwoHandGripWidth);
@@ -134,6 +137,43 @@ export function GripPanel() {
         Presets only change deterministic finger closure; they do not move the wrist, equipment or
         accepted arm animation. Changes remain undoable.
       </p>
+
+      <details className="grip-digit-details">
+        <summary>Fine-tune individual digits</summary>
+        <p className="panel__hint">
+          Use these only when one digit needs less or more wrap. Unchanged digits continue to follow
+          the global closure above, so the authored grip profile stays deterministic.
+        </p>
+        {FINGERS.map((finger: Finger) => {
+          const overridden = exercise.hands.digitClosure?.[finger];
+          const value = overridden ?? exercise.hands.closure;
+          return (
+            <label className="field" key={finger}>
+              <span className="field__label">
+                {finger.charAt(0).toUpperCase() + finger.slice(1)} · {Math.round(value * 100)}%
+                {overridden !== undefined ? ' · custom' : ''}
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={value}
+                onChange={(event) => setGripDigitClosure(finger, Number(event.target.value))}
+              />
+            </label>
+          );
+        })}
+        <div className="button-row">
+          <button
+            type="button"
+            disabled={!exercise.hands.digitClosure}
+            onClick={clearGripDigitClosures}
+          >
+            Reset all digits to global closure
+          </button>
+        </div>
+      </details>
 
       <h3>Current handle fit</h3>
       {measurements.length > 0 ? (

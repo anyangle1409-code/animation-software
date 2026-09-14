@@ -1,4 +1,4 @@
-import type { BoneName } from '../rig/boneNames';
+import type { BoneName, Finger } from '../rig/boneNames';
 import type { Vec3 } from '../rig/types';
 import type { EffectorLock, TechniqueRule } from '../constraints/types';
 import type { EquipmentInstance, EquipmentKind } from '../equipment/types';
@@ -167,6 +167,8 @@ export interface HandSpec {
   orientation: 'neutral' | 'supinated' | 'pronated' | 'rotating';
   /** How tightly the fingers close, 0 open to 1 fully closed. */
   closure: number;
+  /** Optional absolute closure for an individual digit; unspecified digits use `closure`. */
+  digitClosure?: Partial<Record<Finger, number>>;
 }
 
 export type GripKind = 'none' | 'dumbbell' | 'bar' | 'floor' | 'handle' | 'rope';

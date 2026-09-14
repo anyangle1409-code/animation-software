@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Vector3 } from 'three';
-import type { BoneName } from '../rig/boneNames';
+import type { BoneName, Finger } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Axis, Pose, Vec3 } from '../rig/types';
 import {
@@ -203,6 +203,8 @@ interface StudioState {
   setTempo: (tempo: Partial<Tempo>) => void;
   setGripClosure: (closure: number) => void;
   setGripPreset: (preset: GripKind | null) => void;
+  setGripDigitClosure: (finger: Finger, closure: number | null) => void;
+  clearGripDigitClosures: () => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
   setEquipmentGripRotation: (instanceId: string, rotation: Vec3 | null) => void;
   setTwoHandGripWidth: (instanceId: string, width: number | null) => void;
@@ -550,6 +552,29 @@ export const useStudio = create<StudioState>((set, get) => {
         const hands = { ...document.exercise.hands };
         if (preset === null || preset === hands.grip) delete hands.gripPreset;
         else hands.gripPreset = preset;
+        const exercise = { ...document.exercise, hands };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+
+    setGripDigitClosure: (finger, closure) =>
+      commit((document) => {
+        const hands = { ...document.exercise.hands };
+        const digitClosure = { ...(hands.digitClosure ?? {}) };
+        const value = closure === null ? null : Math.max(0, Math.min(1, closure));
+        if (value === null || Math.abs(value - hands.closure) < 1e-9) delete digitClosure[finger];
+        else digitClosure[finger] = value;
+        if (Object.keys(digitClosure).length > 0) hands.digitClosure = digitClosure;
+        else delete hands.digitClosure;
+        const exercise = { ...document.exercise, hands };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+    clearGripDigitClosures: () =>
+      commit((document) => {
+        if (!document.exercise.hands.digitClosure) return document;
+        const hands = { ...document.exercise.hands };
+        delete hands.digitClosure;
         const exercise = { ...document.exercise, hands };
         return { exercise, clip: generateClip(skeleton, exercise) };
       }),

@@ -142,7 +142,6 @@ function buildPose(
  */
 export function applyGrip(pose: Pose, hands: HandSpec): void {
   const closure = Math.max(0, Math.min(1, hands.closure));
-  if (closure <= 0) return;
   const profile = gripProfile(hands.gripPreset ?? hands.grip);
   const sides: { side: Side; sign: number }[] = [
     { side: 'l', sign: 1 },
@@ -150,6 +149,8 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
   ];
   for (const { side, sign } of sides) {
     for (const finger of FINGERS) {
+      const digitClosure = Math.max(0, Math.min(1, hands.digitClosure?.[finger] ?? closure));
+      if (digitClosure <= 0) continue;
       const isThumb = finger === 'thumb';
       const segments = isThumb ? profile.thumb : profile.fingers;
       segments.forEach((maximum, index) => {
@@ -158,10 +159,10 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
         pose.rotations[bone] = {
           x:
             isThumb && index === 0
-              ? toRad(profile.thumbOppositionX * closure)
+              ? toRad(profile.thumbOppositionX * digitClosure)
               : existing?.x ?? 0,
           y: existing?.y ?? 0,
-          z: sign * toRad(maximum * closure),
+          z: sign * toRad(maximum * digitClosure),
         };
       });
     }

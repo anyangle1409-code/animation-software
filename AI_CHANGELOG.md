@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — per-digit deterministic grip closure
+
+Added optional `HandSpec.digitClosure` overrides for `thumb`, `index`, `middle`, `ring` and `pinky`. Each value is an absolute 0..1 closure for that digit; unspecified digits continue to use the existing global `hands.closure`. `applyGrip()` now chooses the digit-specific value before applying the active equipment-aware grip profile, including the thumb opposition proxy. The field is absent by default, so the accepted 85% dumbbell curl remains numerically identical until an author explicitly trims a digit.
+
+The Grip workspace now contains a collapsed `Fine-tune individual digits` section with five deterministic sliders and one-shot reset. `setGripDigitClosure()` and `clearGripDigitClosures()` regenerate through normal undo/redo history; setting a digit back to the global closure removes the redundant override rather than persisting noise. Regression coverage proves a pinky-only trim leaves index closure at the accepted baseline, thumb trim drives both thumb-base opposition and thumb wrap, and store edits/reset/undo behave correctly. This is the intended next tool for thumb/pinky intersection cleanup before considering any whole-dumbbell translation.
+
+
 ### ChatGPT — 2026-09-14 — two-hand equipment review gate
 
 Extended the conservative Review workspace with a separate `Two-hand equipment fit` gate. Every `attachment.mode === 'hands'` instance is now measured at the same sampled production frames used for the rest of review. The gate uses `measureTwoHandFit()` and blocks Ready-for-visual-review when either left/right grip socket exceeds the existing 5 mm bilateral envelope. Failure detail reports worst socket error and worst absolute spacing mismatch; exercises with no two-hand equipment mark this gate not applicable and remain unaffected.

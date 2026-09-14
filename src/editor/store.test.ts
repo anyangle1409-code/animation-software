@@ -359,3 +359,31 @@ describe('hand-local grip orientation calibration', () => {
     expect(instance.attachment.gripOffset).toEqual({ x: -0.02, y: 0.08, z: 0.004 });
   });
 });
+
+
+
+describe('per-digit grip closure authoring', () => {
+  it('adds an undoable symmetric digit override and removes redundant values', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    expect(useStudio.getState().document.exercise.hands.digitClosure).toBeUndefined();
+    useStudio.getState().setGripDigitClosure('pinky', 0.62);
+    expect(useStudio.getState().document.exercise.hands.digitClosure?.pinky).toBeCloseTo(0.62, 8);
+    useStudio.getState().undo();
+    expect(useStudio.getState().document.exercise.hands.digitClosure).toBeUndefined();
+    useStudio.getState().redo();
+    expect(useStudio.getState().document.exercise.hands.digitClosure?.pinky).toBeCloseTo(0.62, 8);
+    useStudio.getState().setGripDigitClosure('pinky', 0.85);
+    expect(useStudio.getState().document.exercise.hands.digitClosure).toBeUndefined();
+  });
+
+  it('clears all digit trims in one undoable edit', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    useStudio.getState().setGripDigitClosure('thumb', 0.7);
+    useStudio.getState().setGripDigitClosure('pinky', 0.6);
+    useStudio.getState().clearGripDigitClosures();
+    expect(useStudio.getState().document.exercise.hands.digitClosure).toBeUndefined();
+    useStudio.getState().undo();
+    expect(useStudio.getState().document.exercise.hands.digitClosure?.thumb).toBeCloseTo(0.7, 8);
+    expect(useStudio.getState().document.exercise.hands.digitClosure?.pinky).toBeCloseTo(0.6, 8);
+  });
+});

@@ -40,4 +40,24 @@ describe('equipment-aware grip profiles', () => {
     expect(Math.abs(deg(pose.rotations.index_01_l?.z))).toBeLessThan(1);
     expect(Math.abs(deg(pose.rotations.index_02_l?.z))).toBeLessThan(1);
   });
+
+  it('can trim one digit without changing the rest of the accepted dumbbell grip', () => {
+    const exercise = structuredClone(getExercise('dumbbell_bicep_curl'));
+    exercise.hands.digitClosure = { pinky: 0.6 };
+    const pose = generateClip(canonicalSkeleton, exercise).keyframes[0].pose;
+    expect(deg(pose.rotations.pinky_01_l?.z)).toBeCloseTo(78 * 0.6, 8);
+    expect(deg(pose.rotations.pinky_02_l?.z)).toBeCloseTo(95 * 0.6, 8);
+    expect(deg(pose.rotations.index_01_l?.z)).toBeCloseTo(78 * 0.85, 8);
+    expect(deg(pose.rotations.index_02_l?.z)).toBeCloseTo(95 * 0.85, 8);
+  });
+
+  it('uses the individual thumb closure for both opposition and wrap', () => {
+    const exercise = structuredClone(getExercise('dumbbell_bicep_curl'));
+    exercise.hands.digitClosure = { thumb: 0.7 };
+    const pose = generateClip(canonicalSkeleton, exercise).keyframes[0].pose;
+    expect(deg(pose.rotations.thumb_01_l?.x)).toBeCloseTo(-14 * 0.7, 8);
+    expect(deg(pose.rotations.thumb_01_l?.z)).toBeCloseTo(-22 * 0.7, 8);
+    expect(deg(pose.rotations.index_01_l?.z)).toBeCloseTo(78 * 0.85, 8);
+  });
+
 });

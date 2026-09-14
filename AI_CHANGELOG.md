@@ -25,6 +25,8 @@ This entry is the current cross-assistant handover for the candidate male charac
 
 **Continuation review — 2026-09-13.** Re-inspected the latest elbow-corrective render. It improves bend volume without altering curl-bottom shoulders. The residual angular elbow contour is topology-limited; do not amplify this corrective blindly. The next retained visual change should be a measured, raised-arm-only shoulder/axilla shape or a wrist/palm shape, with before/after renders and contact checks.
 
+**Fresh production evidence — 2026-09-14.** Regenerated all six requested key poses from the current candidate with the corrective applied before skinning: curl bottom/top, deepest squat, press overhead, push-up bottom and pull-up top. The focused real-GLB production diagnostic passes; the full suite remains 190 passed / 1 optional skipped and the production build succeeds. This confirms the current import has 52 required mapped bones, 160 source bones and 10,839 vertices. Keep the correction as-is: full-mesh maximum edge ratios are still dominated by original hand/wrist and pull-up topology (pull-up reaches 8.47× during the cycle), not a reason to increase the elbow morph.
+
 
 ### ChatGPT — 2026-09-12 — whole-body imported-character movement certification
 

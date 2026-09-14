@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — semantic pose-marker authoring
+
+Added semantic pose landmarks directly to `Keyframe` as `marker?: 'start' | 'transition' | 'peak' | 'return'`. Generated exercise clips now classify their deterministic boundaries as Start, first arrival at Peak, intermediate Transition boundaries, and final Return. Markers are metadata only: they do not change pose interpolation, IK, joint timing, contacts, equipment or export motion. The Timeline renders the landmarks as labelled keyframes and exposes an editable Marker selector for the keyframe under the playhead. Marker edits use the existing document history, so undo/redo works normally and clearing a marker leaves the underlying pose untouched.
+
+The bicep-curl template now generates `[start, peak, transition, transition, return]` across its existing five keyframes. Regression coverage checks deterministic marker generation, undoable marker editing and marker clearing without pose mutation. The Studio capability roadmap now records pose markers as implemented.
+
+
 ### ChatGPT — 2026-09-14 — joint timing, loop-range authoring, and completed shoulder biomechanics
 
 Retained animation-workspace commit `d4340d2` adds a real review/authoring layer rather than another exercise-specific workaround. The timeline now supports custom **Set In / Set Out / Clear range** playback ranges with a visible overlay. Custom ranges are editor playback state only and never alter the exported clip; they normalise to the clip, preserve at least one frame, rescale with duration changes, reset on exercise changes, and are ignored when Loop is disabled. Playback math is isolated in `src/editor/playback.ts` and covered by dedicated tests. The Joint panel now exposes the existing phase-local bone timing system for the selected bone in the segment under the playhead: custom start delay, finish point, and optional easing override. These edits write to `Keyframe.jointTiming`, use normal undo/redo history, and preserve the existing deterministic animation pipeline. The implementation roadmap was updated to mark this animation-authoring foundation as present.

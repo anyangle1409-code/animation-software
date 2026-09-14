@@ -687,3 +687,36 @@ code {
 .timeline__playhead {
   z-index: 4;
 }
+
+
+/* ---------- semantic pose markers ---------- */
+
+.timeline__key.has-marker::after {
+  content: attr(data-marker-label);
+  position: absolute;
+  left: 50%;
+  top: -19px;
+  transform: translateX(-50%) rotate(-45deg);
+  transform-origin: center;
+  white-space: nowrap;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.timeline__key.marker-start {
+  box-shadow: 0 0 0 2px rgba(79, 214, 160, 0.34);
+}
+
+.timeline__key.marker-peak {
+  box-shadow: 0 0 0 2px rgba(255, 196, 92, 0.42);
+}
+
+.timeline__key.marker-return {
+  box-shadow: 0 0 0 2px rgba(111, 190, 255, 0.38);
+}
+
+.timeline__key.marker-transition {
+  box-shadow: 0 0 0 2px rgba(177, 139, 255, 0.3);
+}

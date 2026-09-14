@@ -76,3 +76,30 @@ describe('animation workspace authoring state', () => {
     expect(useStudio.getState().loopRange).toBeNull();
   });
 });
+
+
+describe('pose marker authoring', () => {
+  beforeEach(() => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+  });
+
+  it('edits a keyframe marker through undoable document history', () => {
+    const frame = useStudio.getState().document.clip.keyframes[1];
+    expect(frame.marker).toBe('peak');
+
+    useStudio.getState().setKeyframeMarker(frame.id, 'transition');
+    expect(useStudio.getState().document.clip.keyframes[1].marker).toBe('transition');
+
+    useStudio.getState().undo();
+    expect(useStudio.getState().document.clip.keyframes[1].marker).toBe('peak');
+  });
+
+  it('can clear a generated marker without changing the keyframe motion', () => {
+    const before = useStudio.getState().document.clip.keyframes[0];
+    const x = before.pose.rotations.forearm_l?.x;
+    useStudio.getState().setKeyframeMarker(before.id, null);
+    const after = useStudio.getState().document.clip.keyframes[0];
+    expect(after.marker).toBeUndefined();
+    expect(after.pose.rotations.forearm_l?.x).toBe(x);
+  });
+});

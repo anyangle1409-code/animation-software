@@ -8,6 +8,8 @@ import { blendPoses, clonePose } from '../rig/pose';
 import { ease } from './easing';
 import { clamp, lerpAngle } from '../core/math';
 
+export type PoseMarkerKind = 'start' | 'transition' | 'peak' | 'return';
+
 export interface KeyframeIK {
   enabled: boolean;
   target: Vec3;
@@ -26,6 +28,8 @@ export interface Keyframe {
   easing: EasingKind;
   /** Optional per-bone timing used from this keyframe to the next. */
   jointTiming?: Partial<Record<BoneName, PhaseJointTiming>>;
+  /** Semantic landmark used by the Studio timeline; it does not alter motion. */
+  marker?: PoseMarkerKind;
   label?: string;
   phaseId?: string;
 }

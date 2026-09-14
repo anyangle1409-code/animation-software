@@ -21,6 +21,16 @@ describe('clip generation', () => {
     expect(clip.name).toBe('bicep_curl');
   });
 
+  it('adds deterministic semantic pose markers for review', () => {
+    expect(clip.keyframes.map((frame) => frame.marker)).toEqual([
+      'start',
+      'peak',
+      'transition',
+      'transition',
+      'return',
+    ]);
+  });
+
   it('closes the loop exactly', () => {
     expect(closesLoop(clip)).toBe(true);
     const start = sampleClip(clip, 0);

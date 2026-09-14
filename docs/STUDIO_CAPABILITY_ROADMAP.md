@@ -36,6 +36,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Exact one-frame stepping plus 1/4× and 1/2× review speeds.
 - Custom In/Out loop ranges for repeated inspection of a difficult rep segment.
 - Selected-bone timing authoring for delay, finish point and easing on each keyframe segment.
+- Semantic Start / Transition / Peak / Return pose markers are generated deterministically and editable on keyframes.
 - Individual finger/thumb joint authoring remains available through the same joint workspace.
 
 ## 4. Hand / grip workspace

@@ -15,7 +15,7 @@ import type {
 } from '../exercises/types';
 import { tempoDuration } from '../exercises/types';
 import type { IKChainId } from '../ik/types';
-import type { Keyframe, KeyframeIK, StudioClip } from './clip';
+import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
 
 /**
  * Build an animation from an exercise definition.
@@ -50,12 +50,20 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     easing: phases[0].easing,
     jointTiming: cloneJointTiming(phases[0].jointTiming),
     phaseId: phases[0].id,
+    marker: 'start',
     label: exercise.startPose.label,
   });
 
   phases.forEach((phase, index) => {
     time += phaseDuration(exercise, phase);
     const next = phases[index + 1];
+    const previous = phases[index - 1];
+    const isLast = index === phases.length - 1;
+    const marker: PoseMarkerKind = isLast
+      ? 'return'
+      : phase.to === 'peak' && previous?.to !== 'peak'
+        ? 'peak'
+        : 'transition';
     keyframes.push({
       id: nextId('kf'),
       time: round(time),
@@ -64,6 +72,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
       easing: next?.easing ?? 'lift',
       jointTiming: cloneJointTiming(next?.jointTiming),
       phaseId: next?.id,
+      marker,
       label: phase.to === 'peak' ? exercise.peakPose.label : exercise.startPose.label,
     });
   });

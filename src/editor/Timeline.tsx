@@ -3,12 +3,20 @@ import { EASING_LABELS } from '../animation/easing';
 import type { EasingKind } from '../exercises/types';
 import { phaseBoundaries } from '../animation/generate';
 import { sortedKeyframes } from '../animation/clip';
+import type { PoseMarkerKind } from '../animation/clip';
 import { useStudio } from './store';
 
 const PHASE_COLOURS: Record<string, string> = {
   concentric: '#2f5d4a',
   eccentric: '#3a4a6b',
   isometric: '#4a4030',
+};
+
+const POSE_MARKER_LABELS: Record<PoseMarkerKind, string> = {
+  start: 'Start',
+  transition: 'Transition',
+  peak: 'Peak',
+  return: 'Return',
 };
 
 export function Timeline() {
@@ -28,6 +36,7 @@ export function Timeline() {
   const setKeyframe = useStudio((state) => state.setKeyframe);
   const deleteKeyframe = useStudio((state) => state.deleteKeyframe);
   const setKeyframeEasing = useStudio((state) => state.setKeyframeEasing);
+  const setKeyframeMarker = useStudio((state) => state.setKeyframeMarker);
   const setDuration = useStudio((state) => state.setDuration);
 
   const track = useRef<HTMLDivElement | null>(null);
@@ -147,6 +156,27 @@ export function Timeline() {
         </button>
         {current && (
           <label className="field field--inline">
+            <span className="field__label">Marker</span>
+            <select
+              value={current.marker ?? ''}
+              onChange={(event) =>
+                setKeyframeMarker(
+                  current.id,
+                  event.target.value ? (event.target.value as PoseMarkerKind) : null,
+                )
+              }
+            >
+              <option value="">None</option>
+              {Object.entries(POSE_MARKER_LABELS).map(([kind, label]) => (
+                <option key={kind} value={kind}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {current && (
+          <label className="field field--inline">
             <span className="field__label">Easing</span>
             <select
               value={current.easing}
@@ -205,9 +235,10 @@ export function Timeline() {
           <button
             key={frame.id}
             type="button"
-            className={`timeline__key ${current?.id === frame.id ? 'is-current' : ''}`}
+            className={`timeline__key ${frame.marker ? `has-marker marker-${frame.marker}` : ''} ${current?.id === frame.id ? 'is-current' : ''}`}
+            data-marker-label={frame.marker ? POSE_MARKER_LABELS[frame.marker] : undefined}
             style={{ left: `${(frame.time / clip.duration) * 100}%` }}
-            title={`${frame.label ?? 'Keyframe'} at ${frame.time.toFixed(2)}s`}
+            title={`${frame.marker ? `${POSE_MARKER_LABELS[frame.marker]} · ` : ''}${frame.label ?? 'Keyframe'} at ${frame.time.toFixed(2)}s`}
             onPointerDown={(event) => {
               event.stopPropagation();
               setTime(frame.time);

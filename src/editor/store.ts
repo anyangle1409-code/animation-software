@@ -10,7 +10,7 @@ import {
   mirrorSideInPlace,
   restPose,
 } from '../rig/pose';
-import type { StudioClip, Keyframe } from '../animation/clip';
+import type { StudioClip, Keyframe, PoseMarkerKind } from '../animation/clip';
 import { sampleClip, sortedKeyframes } from '../animation/clip';
 import { generateClip, phaseDuration } from '../animation/generate';
 import { validateClip } from '../animation/validate';
@@ -183,6 +183,7 @@ interface StudioState {
   deleteKeyframe: (id: string) => void;
   moveKeyframe: (id: string, time: number) => void;
   setKeyframeEasing: (id: string, easing: Keyframe['easing']) => void;
+  setKeyframeMarker: (id: string, marker: PoseMarkerKind | null) => void;
   setJointTiming: (id: string, bone: BoneName, timing: PhaseJointTiming | null) => void;
   copyPose: () => void;
   pastePose: () => void;
@@ -396,6 +397,14 @@ export const useStudio = create<StudioState>((set, get) => {
       editClip((clip) => ({
         ...clip,
         keyframes: clip.keyframes.map((frame) => (frame.id === id ? { ...frame, easing } : frame)),
+      })),
+
+    setKeyframeMarker: (id, marker) =>
+      editClip((clip) => ({
+        ...clip,
+        keyframes: clip.keyframes.map((frame) =>
+          frame.id === id ? { ...frame, marker: marker ?? undefined } : frame,
+        ),
       })),
 
     setJointTiming: (id, bone, timing) =>

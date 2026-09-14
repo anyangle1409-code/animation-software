@@ -16,6 +16,8 @@ jobs:
       - run: npm ci
       - name: Apply staged visual review identity fix
         run: python .github/chatgpt_visual_review_revision.py
+      - name: Migrate existing visual review regression
+        run: python .github/chatgpt_visual_review_revision_fix.py
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite
@@ -27,6 +29,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/editor/characterStore.ts src/editor/characterStore.test.ts src/editor/store.ts src/editor/store.test.ts src/editor/panels/CorrectivePanel.tsx src/editor/panels/ReviewPanel.tsx docs/STUDIO_CAPABILITY_ROADMAP.md docs/BICEP_CURL_REVIEW_HANDOFF.md AI_CHANGELOG.md
-          git rm .github/chatgpt_visual_review_revision.py .github/workflows/chatgpt-validate.yml
+          git rm .github/chatgpt_visual_review_revision.py .github/chatgpt_visual_review_revision_fix.py .github/workflows/chatgpt-validate.yml
           git commit -m "fix: bind visual review to deformation state"
           git push

@@ -90,6 +90,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Live surface-strain diagnostics sample posed mesh edges against bind geometry and report P95/P99/max strain plus >20% compression/stretch counts; rigid transforms correctly read as zero strain.
 - On-demand whole-rep strain review scans the active character at the authored clip FPS, records worst P99/max deformation timestamps for each mesh, restores the current playhead pose, and can jump directly to the worst frame in either Correctives-on or Raw-skinning mode.
 - Imported elbow outer-smoothing is now a bounded 0–100% character-level control. The retained radial volume morph remains separate, the measured candidate morph stays capped at 8 mm, and the active viewport plus GLB export sampler share the exact same source-level tuning value.
+- Corrective tuning can run an on-demand 0/25/50/75/100% whole-rep strain sweep, report worst P99/max frame for each value, restore the pre-scan tuning and pose, and jump to any measured value for visual review without automatically choosing a winner.
 
 ## 7. Diagnostics and approval
 

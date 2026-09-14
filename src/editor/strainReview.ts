@@ -1,7 +1,7 @@
 import { resolveFrame } from '../animation/pipeline';
 import type { StudioClip } from '../animation/clip';
 import { applyCharacterPose } from '../character';
-import type { CharacterBuild } from '../character';
+import type { CharacterBuild, DeformationControl } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
 import { meshStrainDiagnostics } from '../character/meshStrain';
 import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
@@ -91,4 +91,72 @@ export function scanMeshStrainWorstCases(
   }
 
   return [...out.values()].filter((item) => Number.isFinite(item.max.value));
+}
+
+
+export interface CorrectiveSweepWorstPoint extends TimedStrainValue {
+  mesh: string;
+}
+
+export interface CorrectiveSweepPoint {
+  value: number;
+  p99: CorrectiveSweepWorstPoint | null;
+  max: CorrectiveSweepWorstPoint | null;
+  items: MeshStrainWorstPoint[];
+}
+
+function worstAcross(
+  items: MeshStrainWorstPoint[],
+  metric: 'p99' | 'max',
+): CorrectiveSweepWorstPoint | null {
+  let worst: CorrectiveSweepWorstPoint | null = null;
+  for (const item of items) {
+    const value = item[metric];
+    if (!worst || value.value > worst.value) {
+      worst = { mesh: item.mesh, value: value.value, time: value.time };
+    }
+  }
+  return worst;
+}
+
+/**
+ * Compare a bounded character-level deformation control at explicit values.
+ *
+ * This is deliberately an authoring measurement, not an optimiser: it never
+ * chooses a winner or changes the accepted value. Every point reuses the same
+ * whole-rep production pose/strain path, then the original control value and
+ * playhead pose are restored even if a scan throws.
+ */
+export function scanDeformationControlSweep(
+  character: CharacterBuild,
+  control: DeformationControl,
+  rig: Skeleton,
+  clip: StudioClip,
+  correctivesEnabled: boolean,
+  restoreTime: number,
+  values: readonly number[] = [0, 0.25, 0.5, 0.75, 1],
+  maxEdgesPerMesh = 600,
+): CorrectiveSweepPoint[] {
+  const original = control.value;
+  const result: CorrectiveSweepPoint[] = [];
+  try {
+    for (const requested of values) {
+      control.set(requested);
+      const value = control.value;
+      const items = scanMeshStrainWorstCases(
+        character,
+        rig,
+        clip,
+        correctivesEnabled,
+        restoreTime,
+        maxEdgesPerMesh,
+      );
+      result.push({ value, p99: worstAcross(items, 'p99'), max: worstAcross(items, 'max'), items });
+    }
+  } finally {
+    control.set(original);
+    const evaluation = new PoseEvaluation(rig);
+    applyAtTime(character, rig, clip, restoreTime, correctivesEnabled, evaluation);
+  }
+  return result;
 }

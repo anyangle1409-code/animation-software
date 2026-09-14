@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — whole-rep corrective candidate sweep
+
+Added an on-demand deformation-control sweep on top of the export-aware elbow tuning. The Correctives workspace can now evaluate 0/25/50/75/100% outer-elbow smoothing through the existing production whole-rep strain path and reports the worst P99 and maximum-edge strain frame for every candidate value. Each result can be loaded directly at its worst P99 frame for close visual inspection.
+
+The sweep is deliberately diagnostic rather than an optimiser: it never chooses or permanently changes a corrective value. A `finally` restoration returns both the source-level control and the mounted character to the pre-scan playhead pose even if a scan fails. Raw-skinning mode disables the sweep because candidate-strength comparisons would otherwise all be suppressed. The default per-mesh edge budget is lower than a single full review to keep the five-point comparison interactive while preserving identical samples across candidates.
+
+Regression coverage uses a low-FPS/low-edge-budget character scan, proves the requested values are all visited, confirms finite worst-frame results, and verifies the exact pre-scan source value is restored afterwards.
+
+
 ### ChatGPT — 2026-09-14 — export-aware outer-elbow corrective tuning
 
 Split the imported elbow's optional directional outer-smoothing from the retained radial volume corrective when a retargeted character is built for interactive authoring. The radial `homeGymPT_elbow_*` target is unchanged; a separate `homeGymPT_elbow_outer_*` target contains the full measured directional candidate and keeps the existing 8 mm bind-space displacement cap. Its authoring value is bounded to 0–100%, so the editor can never amplify that candidate beyond the measured cap.

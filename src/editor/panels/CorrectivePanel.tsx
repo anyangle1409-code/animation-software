@@ -3,7 +3,12 @@ import { correctiveDiagnostics } from '../../character/correctiveDiagnostics';
 import { meshStrainDiagnostics, type MeshStrainDiagnostic } from '../../character/meshStrain';
 import { useCharacter } from '../characterStore';
 import { skeleton, useStudio } from '../store';
-import { scanMeshStrainWorstCases, type MeshStrainWorstPoint } from '../strainReview';
+import {
+  scanDeformationControlSweep,
+  scanMeshStrainWorstCases,
+  type CorrectiveSweepPoint,
+  type MeshStrainWorstPoint,
+} from '../strainReview';
 
 const mm = (metres: number): string => `${(metres * 1000).toFixed(1)} mm`;
 
@@ -20,6 +25,7 @@ export function CorrectivePanel() {
   const [, refreshControls] = useState(0);
   const [strain, setStrain] = useState<MeshStrainDiagnostic[]>([]);
   const [wholeRep, setWholeRep] = useState<{ enabled: boolean; items: MeshStrainWorstPoint[] } | null>(null);
+  const [sweep, setSweep] = useState<{ controlId: string; points: CorrectiveSweepPoint[] } | null>(null);
 
   useEffect(() => {
     if (!active) {
@@ -32,7 +38,10 @@ export function CorrectivePanel() {
     return () => window.clearInterval(timer);
   }, [active, enabled]);
 
-  useEffect(() => setWholeRep(null), [active, clip, enabled]);
+  useEffect(() => {
+    setWholeRep(null);
+    setSweep(null);
+  }, [active, clip, enabled]);
 
   const scanWholeRep = () => {
     if (!active) return;
@@ -88,11 +97,60 @@ export function CorrectivePanel() {
                     control.set(control.defaultValue);
                     refreshControls((value) => value + 1);
                     setWholeRep(null);
+                    setSweep(null);
                   }}
                 >
                   Reset authored value
                 </button>
+                <button
+                  type="button"
+                  disabled={!active || !enabled}
+                  onClick={() => {
+                    if (!active) return;
+                    const points = scanDeformationControlSweep(
+                      active,
+                      control,
+                      skeleton,
+                      clip,
+                      enabled,
+                      time,
+                    );
+                    setSweep({ controlId: control.id, points });
+                    refreshControls((value) => value + 1);
+                  }}
+                >
+                  Compare 0–100%
+                </button>
               </div>
+              {!enabled && (
+                <small>Enable Correctives on before comparing candidate strengths.</small>
+              )}
+              {sweep?.controlId === control.id && (
+                <div className="strain-list">
+                  {sweep.points.map((point) => (
+                    <div className="strain-card" key={`sweep-${control.id}-${point.value}`}>
+                      <strong>{Math.round(point.value * 100)}%</strong>
+                      <span>Worst P99 {point.p99 ? `${(point.p99.value * 100).toFixed(1)}% · ${point.p99.time.toFixed(2)}s` : '—'}</span>
+                      <span>Worst edge {point.max ? `${(point.max.value * 100).toFixed(1)}% · ${point.max.time.toFixed(2)}s` : '—'}</span>
+                      <button
+                        type="button"
+                        disabled={!point.p99}
+                        onClick={() => {
+                          control.set(point.value);
+                          refreshControls((value) => value + 1);
+                          setWholeRep(null);
+                          if (point.p99) setTime(point.p99.time);
+                        }}
+                      >
+                        Review this value at worst P99
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {sweep?.controlId === control.id && (
+                <small>The sweep restores the value that was active before scanning. Results measure strain only; silhouette and natural motion still require visual review.</small>
+              )}
             </div>
           ))}
         </>

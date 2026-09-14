@@ -88,6 +88,12 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Exercise-specific technique validators.
 - One explicit Approved state only after automated checks and visual review pass.
 
+### Implemented review/approval foundation
+
+- Dedicated Review workspace aggregates conservative automated gates for technique errors, loop closure, IK reachability, explicit contact locks and the supported single-hand dumbbell grip envelope.
+- Automated success means **Ready for visual review**, never automatic approval. A separate visual sign-off is required for naturalness, joint silhouette, grip/contact appearance and equipment stability.
+- Visual sign-off is bound to the exact Studio document identity and active character source; edits or character swaps invalidate it automatically. Only automated-pass + matching visual sign-off displays `APPROVED`.
+
 ## 8. Template-driven scale
 
 - Reusable movement families (curl, press, row/pull, squat, hinge, lunge, calf raise, core, locomotion).

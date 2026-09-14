@@ -1059,3 +1059,54 @@ code {
 .strain-card small {
   color: var(--muted);
 }
+
+
+.review-status {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.review-status.is-approved,
+.review-status.is-ready {
+  border-color: var(--accent);
+}
+
+.review-status span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.review-gates {
+  display: grid;
+  gap: 6px;
+}
+
+.review-gates article {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  padding: 8px;
+}
+
+.review-gates article.is-fail {
+  border-color: var(--danger, #b85c5c);
+}
+
+.review-gates p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.review-gates small {
+  margin-left: 6px;
+  color: var(--muted);
+}

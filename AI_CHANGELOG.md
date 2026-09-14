@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — conservative review and approval workspace
+
+Added a dedicated Review workspace that aggregates the checks the Studio can measure honestly before an exercise is considered ready for human sign-off. `src/editor/review.ts` runs the exercise technique validator, loop closure, unreachable IK scan, explicit lock/contact diagnostics across the clip and the established single-hand dumbbell grip envelope where applicable. Technique **errors** block; technique warnings are surfaced but do not masquerade as fatal errors. Contacts block on unresolved, limited, over-extended or >5 mm error samples. The grip gate is explicitly scoped to the cylindrical dumbbell case the existing geometry diagnostic supports; unsupported equipment is reported as not applicable rather than falsely certified.
+
+Automated success now means only **READY FOR VISUAL REVIEW**. `APPROVED` requires a separate human visual sign-off for natural motion, silhouette, grip/contact appearance and equipment stability. That sign-off is transient and bound to both the exact `StudioDocument` object and active character source id, so any document edit or character swap invalidates it automatically; undoing exactly back to the reviewed document can restore it. Regression coverage proves the retained dumbbell curl clears the measurable gates, an impossible world-space arm lock blocks both contact/IK readiness, and visual sign-off follows exact document identity.
+
+
 ### ChatGPT — 2026-09-14 — live surface-strain diagnostics
 
 Extended the Correctives workspace with an objective surface-deformation readout. `src/character/meshStrain.ts` samples posed `SkinnedMesh.getVertexPosition` edge lengths against the same edges in bind geometry, so normal rigid character/world movement cancels out while non-rigid skinning/morph distortion remains measurable. The panel refreshes at 5 Hz and reports P95, P99 and maximum absolute edge strain, counts of sampled edges compressed by >20% or stretched by >20%, and the sample count per mesh. The sampling budget is bounded per mesh so diagnostics do not require scanning every dense-mesh edge every rendered frame.

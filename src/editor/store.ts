@@ -142,6 +142,7 @@ interface StudioState {
   speed: number;
   loopRange: LoopRange | null;
   comparison: { a: PoseSnapshot | null; b: PoseSnapshot | null };
+  visualReview: { document: StudioDocument; characterSourceId: string } | null;
 
   selection: Selection;
   viewMode: ViewMode;
@@ -167,6 +168,8 @@ interface StudioState {
   setLoopRange: (range: LoopRange | null) => void;
   captureComparison: (slot: 'a' | 'b') => void;
   clearComparison: (slot?: 'a' | 'b') => void;
+  markVisualReview: (characterSourceId: string) => void;
+  clearVisualReview: () => void;
 
   // --- selection and display ---------------------------------------------
   selectBone: (bone: BoneName | null) => void;
@@ -285,6 +288,7 @@ export const useStudio = create<StudioState>((set, get) => {
     speed: 1,
     loopRange: null,
     comparison: { a: null, b: null },
+    visualReview: null,
 
     selection: { bone: null, handle: null, equipmentId: null, socketId: null },
     viewMode: 'combined',
@@ -321,6 +325,9 @@ export const useStudio = create<StudioState>((set, get) => {
       };
       set({ comparison: { ...state.comparison, [slot]: snapshot } });
     },
+    markVisualReview: (characterSourceId) =>
+      set({ visualReview: { document: get().document, characterSourceId } }),
+    clearVisualReview: () => set({ visualReview: null }),
     clearComparison: (slot) => {
       const comparison = get().comparison;
       set({

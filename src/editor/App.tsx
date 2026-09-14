@@ -14,10 +14,11 @@ import { GripPanel } from './panels/GripPanel';
 import { ContactPanel } from './panels/ContactPanel';
 import { EquipmentPanel } from './panels/EquipmentPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
+import { ReviewPanel } from './panels/ReviewPanel';
 import { useStudio } from './store';
 
 type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
-type RightTab = 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'export';
+type RightTab = 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
 
 export function App() {
   const [leftTab, setLeftTab] = useState<LeftTab>('joint');
@@ -169,6 +170,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={rightTab === 'review' ? 'is-active' : ''}
+              onClick={() => setRightTab('review')}
+            >
+              Review
+            </button>
+            <button
+              type="button"
               className={rightTab === 'export' ? 'is-active' : ''}
               onClick={() => setRightTab('export')}
             >
@@ -181,6 +189,7 @@ export function App() {
             {rightTab === 'technique' && <TechniquePanel />}
             {rightTab === 'correctives' && <CorrectivePanel />}
             {rightTab === 'compare' && <ComparisonPanel />}
+            {rightTab === 'review' && <ReviewPanel />}
             {rightTab === 'export' && <ExportPanel />}
           </div>
         </aside>

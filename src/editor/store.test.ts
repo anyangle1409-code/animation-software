@@ -284,3 +284,21 @@ describe('equipment socket authoring', () => {
     expect(useStudio.getState().history.past.length).toBe(historyCount);
   });
 });
+
+
+
+describe('visual review sign-off identity', () => {
+  it('binds sign-off to the exact document and character source', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    const reviewed = useStudio.getState().document;
+    useStudio.getState().markVisualReview('import-v5');
+    expect(useStudio.getState().visualReview).toEqual({ document: reviewed, characterSourceId: 'import-v5' });
+
+    useStudio.getState().setGripClosure(0.8);
+    expect(useStudio.getState().visualReview?.document).not.toBe(useStudio.getState().document);
+
+    useStudio.getState().undo();
+    expect(useStudio.getState().document).toBe(reviewed);
+    expect(useStudio.getState().visualReview?.characterSourceId).toBe('import-v5');
+  });
+});

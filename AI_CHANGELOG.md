@@ -7,6 +7,14 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — whole-rep deformation worst-point review
+
+Added `src/editor/strainReview.ts`, an on-demand authoring scan that poses the active character through every authored clip frame using the same `resolveFrame()` + `applyCharacterPose()` production path, measures the existing bind-vs-posed edge-strain diagnostic, and records worst P95/P99/max strain plus severe compression/stretch-count timestamps per mesh. The scan respects the current Correctives-on/Raw-skinning viewport mode and always restores the character to the pre-scan playhead pose in a `finally` block. Its per-frame edge budget is bounded so this remains an interactive locator, not a force or finite-element model.
+
+The Correctives workspace now exposes `Scan full rep` and shows the mode that was scanned, worst P99/max values and timestamps, severe-count worst points, and jump-to-frame controls. This gives elbow/shoulder corrective review a direct route to the frame where surface deformation is objectively worst before comparing the silhouette. Regression coverage builds the real built-in character, runs a deliberately low-FPS/low-edge-budget scan for CI cost, and verifies finite bounded worst-frame results.
+
+
+
 ### ChatGPT — 2026-09-14 — selected-joint motion-quality diagnostics
 
 Added `src/editor/motionDiagnostics.ts`, which samples the selected joint at the clip's authored FPS and measures per-axis angular speed and angular acceleration using shortest-path angle deltas. Crossing the ±180° representation boundary therefore cannot create a false 358° snap. The diagnostic reports the worst speed and acceleration with responsible axis/timestamp and deliberately has no universal pass/fail threshold: these are animation-quality signals, not force or injury estimates.

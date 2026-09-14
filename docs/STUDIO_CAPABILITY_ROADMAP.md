@@ -86,6 +86,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - `Correctives on` / `Raw skinning` is a viewport-only A/B bypass; the accepted clip, source mesh, deformation sampler and export remain untouched.
 - Relative and absolute source morph conventions are measured correctly, and unrelated expression/body morphs are never suppressed by the A/B control.
 - Live surface-strain diagnostics sample posed mesh edges against bind geometry and report P95/P99/max strain plus >20% compression/stretch counts; rigid transforms correctly read as zero strain.
+- On-demand whole-rep strain review scans the active character at the authored clip FPS, records worst P99/max deformation timestamps for each mesh, restores the current playhead pose, and can jump directly to the worst frame in either Correctives-on or Raw-skinning mode.
 
 ## 7. Diagnostics and approval
 

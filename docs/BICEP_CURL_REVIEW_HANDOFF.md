@@ -2,8 +2,26 @@
 
 **Prepared:** 2026-09-14  
 **Working branch:** `chatgpt/absolute-retarget-imports`  
-**Current retained head before this handoff update:** `1edbd65f3cf19e10986e60875a7724b9e3ad9619`  
+**Audited retained production head:** `4e34c043a04b81585aaae54e826b994cade0c6eb`  
+**Audit scope:** documentation and branch hygiene only; no Studio or motion change.  
 **Do not merge yet.**
+
+## CLAUDE — START HERE TOMORROW
+
+1. Read `AI_CHANGELOG.md` and this handoff before changing anything.
+2. Checkout `chatgpt/absolute-retarget-imports` and use the proven `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` **version 5** (SHA-256 `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`).
+3. Do **not** rewrite the curl motion. Its measured movement is mechanically clean.
+4. Load Dumbbell Bicep Curl, go to **Peak (2.00s)**, hold the same camera/frame and compare elbow corrective strength at **0 / 25 / 50 / 75 / 100%**.
+5. Review grip closure at **85 / 80 / 75 / 70 / 65%** using **Bottom / Mid lift / Peak / Mid lower / Return**.
+6. Use per-digit tuning only if global closure cannot solve the thumb/pinky issue without opening another digit too far.
+7. Do not revive rejected subdivision, broad shoulder smoothing, whole-dumbbell translation, destructive rebind, or direct Rigify-finger experiments.
+8. Make a permanent change only after a live same-frame visual comparison. Record the chosen document identity, v5 character identity and deformation revision with the approval.
+
+The remaining visual work is primarily **elbow surface/silhouette at peak flexion** and **hand/dumbbell grip/contact**. Treat other changes as out of scope unless a live review exposes a genuine regression.
+
+## Final branch hygiene audit
+
+At audited production head `4e34c043a04b81585aaae54e826b994cade0c6eb`, the tracked tree contains no `.github` workflow, temporary Python helper, scratch output or unfinished experiment artifact. Files named `*Diagnostics.ts` and their tests are retained production review controls with validation coverage; they are not temporary files. This final audit adds documentation only, so the latest validated code state remains **287 passed, 1 optional real-character diagnostic skipped, across 36 test files**, with TypeScript and production build passing. No workflow was rerun for this documentation-only change.
 
 ## Retained curl state
 

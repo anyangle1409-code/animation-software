@@ -6,6 +6,12 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — final Claude handoff audit
+
+Audited branch `chatgpt/absolute-retarget-imports` at retained production head `4e34c043a04b81585aaae54e826b994cade0c6eb`. The tracked tree contains no temporary `.github` workflow, Python staging helper, scratch output or unfinished experiment file. Production diagnostic modules and their tests remain because they are validated Studio review controls. No Studio feature, character, deformation, grip or curl-motion code changed in this audit.
+
+Refreshed `docs/BICEP_CURL_REVIEW_HANDOFF.md` with a **CLAUDE — START HERE TOMORROW** sequence, proven v5 asset identity, latest validation (287 passed + 1 optional skip across 36 files), retained controls, rejected experiments, exact elbow/grip comparison order and sign-off integrity requirements. Remaining visual work is explicitly limited to peak-flexion elbow surface/silhouette and hand/dumbbell grip/contact unless live review finds a genuine regression. Because this commit is documentation-only, validation was not rerun; it inherits the immediately preceding fully validated code state. Do not merge.
+
 ### ChatGPT — 2026-09-14 — align curl coaching wording with validated natural elbow drift
 
 Updated the `elbow_drift` correction text from “pinned under the shoulders through the whole range” to “roughly under the shoulders; allow only a small natural drift near the top.” This is a wording-only change: the retained curl motion, technique thresholds and generated clip are unchanged. It removes a contradiction between the coaching copy and the validated 4° / ~21.55 mm late upper-arm/elbow contribution that is intentionally present to keep the curl lifelike rather than mechanically pinned.

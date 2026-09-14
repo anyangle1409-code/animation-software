@@ -89,9 +89,34 @@ export const bicepCurl: ExerciseDefinition = {
   ],
 
   phases: [
-    { id: 'concentric', label: 'Curl up', to: 'peak', easing: 'lift', contraction: 'concentric' },
+    {
+      id: 'concentric',
+      label: 'Curl up',
+      to: 'peak',
+      easing: 'lift',
+      contraction: 'concentric',
+      // The elbow leads the rep. The upper arm stays relaxed beside the torso
+      // through most of the curl, then makes only the small authored 4° drift
+      // near the top instead of moving in lock-step with the forearm.
+      jointTiming: {
+        upperarm_l: { delay: 0.55 },
+        upperarm_r: { delay: 0.55 },
+      },
+    },
     { id: 'squeeze', label: 'Squeeze', to: 'peak', easing: 'hold', contraction: 'isometric' },
-    { id: 'eccentric', label: 'Lower', to: 'start', easing: 'lift', contraction: 'eccentric' },
+    {
+      id: 'eccentric',
+      label: 'Lower',
+      to: 'start',
+      easing: 'lift',
+      contraction: 'eccentric',
+      // On the way down the elbow starts opening first; the shoulder settles
+      // back a fraction later so the bottom position reads loose, not shrugged.
+      jointTiming: {
+        upperarm_l: { delay: 0.2 },
+        upperarm_r: { delay: 0.2 },
+      },
+    },
     { id: 'reset', label: 'Reset', to: 'start', easing: 'hold', contraction: 'isometric' },
   ],
 

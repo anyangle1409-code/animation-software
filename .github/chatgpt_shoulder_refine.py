@@ -43,10 +43,10 @@ if text.count(old_pec) != 1:
     raise SystemExit('expected one staged pectoral block')
 text = text.replace(old_pec, new_pec, 1)
 
-old_lat = """    // The lat wraps onto the anterior/proximal humerus before its insertion.
-    // That route makes both shoulder extension and adduction shorten the path,
-    // instead of a straight posterior chord lengthening during extension.
-    origin: at('spine_01', -0.055, 0.02, -0.06),
+old_lat = """    origin: at('spine_01', -0.055, 0.02, -0.06),
+    // The tendon wraps around the proximal humerus to its anterior insertion.
+    // This is what lets the same path correctly shorten for both shoulder
+    // extension and adduction rather than behaving like a straight back strap.
     via: [at('upperarm_l', 0.04, 0.03, 0.04)],
     insertion: at('upperarm_l', 0.04, 0.04, 0.01),
     thickness: 0.032,

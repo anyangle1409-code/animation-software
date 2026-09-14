@@ -5,13 +5,14 @@ import { Timeline } from './Timeline';
 import { JointPanel } from './panels/JointPanel';
 import { IKPanel } from './panels/IKPanel';
 import { ExercisePanel } from './panels/ExercisePanel';
+import { MusclePanel } from './panels/MusclePanel';
 import { TechniquePanel } from './panels/TechniquePanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { useStudio } from './store';
 
 type LeftTab = 'joint' | 'ik' | 'character';
-type RightTab = 'exercise' | 'technique' | 'export';
+type RightTab = 'exercise' | 'muscles' | 'technique' | 'export';
 
 export function App() {
   const [leftTab, setLeftTab] = useState<LeftTab>('joint');
@@ -104,6 +105,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={rightTab === 'muscles' ? 'is-active' : ''}
+              onClick={() => setRightTab('muscles')}
+            >
+              Muscles
+            </button>
+            <button
+              type="button"
               className={rightTab === 'technique' ? 'is-active' : ''}
               onClick={() => setRightTab('technique')}
             >
@@ -119,6 +127,7 @@ export function App() {
           </nav>
           <div className="studio__side-body">
             {rightTab === 'exercise' && <ExercisePanel />}
+            {rightTab === 'muscles' && <MusclePanel />}
             {rightTab === 'technique' && <TechniquePanel />}
             {rightTab === 'export' && <ExportPanel />}
           </div>

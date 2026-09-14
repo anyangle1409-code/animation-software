@@ -64,6 +64,39 @@ function elbowFixture() {
   return { mesh, boneByName };
 }
 
+function morphOffset(mesh: SkinnedMesh, morph: BufferAttribute, vertex: number) {
+  const base = mesh.geometry.getAttribute('position');
+  const baseX = mesh.geometry.morphTargetsRelative ? 0 : base.getX(vertex);
+  const baseY = mesh.geometry.morphTargetsRelative ? 0 : base.getY(vertex);
+  const baseZ = mesh.geometry.morphTargetsRelative ? 0 : base.getZ(vertex);
+  return {
+    x: morph.getX(vertex) - baseX,
+    y: morph.getY(vertex) - baseY,
+    z: morph.getZ(vertex) - baseZ,
+  };
+}
+
+function addExistingMorph(mesh: SkinnedMesh, relative: boolean) {
+  const position = mesh.geometry.getAttribute('position');
+  const values = new Float32Array(position.count * 3);
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    const start = vertex * 3;
+    if (!relative) {
+      values[start] = position.getX(vertex);
+      values[start + 1] = position.getY(vertex);
+      values[start + 2] = position.getZ(vertex);
+    }
+  }
+  // Give the pre-existing target an easily checked, non-zero expression delta.
+  values[0] += 0.012;
+  const expression = new BufferAttribute(values, 3);
+  expression.name = 'existing_expression';
+  mesh.geometry.morphTargetsRelative = relative;
+  mesh.geometry.morphAttributes.position = [expression];
+  mesh.updateMorphTargets();
+  return expression;
+}
+
 describe('imported elbow directional smoothing', () => {
   it('is explicitly opt-in', () => {
     const { mesh, boneByName } = elbowFixture();
@@ -86,18 +119,49 @@ describe('imported elbow directional smoothing', () => {
     );
     expect(deformation).not.toBeNull();
 
-    const morph = mesh.geometry.morphAttributes.position?.[0];
+    const morph = mesh.geometry.morphAttributes.position?.[0] as BufferAttribute | undefined;
     expect(morph).toBeDefined();
     let maximum = 0;
     for (let vertex = 0; vertex < morph!.count; vertex += 1) {
-      const length = Math.hypot(morph!.getX(vertex), morph!.getY(vertex), morph!.getZ(vertex));
-      maximum = Math.max(maximum, length);
+      const offset = morphOffset(mesh, morph!, vertex);
+      maximum = Math.max(maximum, Math.hypot(offset.x, offset.y, offset.z));
     }
 
     // The 20 mm polygonal centre is pulled towards its neighbours, but the
     // candidate guardrail limits any one vertex to 8 mm in bind space.
-    expect(morph!.getZ(4)).toBeGreaterThan(0.005);
+    expect(morphOffset(mesh, morph!, 4).z).toBeGreaterThan(0.005);
     expect(maximum).toBeLessThanOrEqual(0.008001);
     expect(mesh.morphTargetInfluences?.[0]).toBe(0);
   });
+
+  for (const relative of [false, true]) {
+    it(`preserves pre-existing ${relative ? 'relative' : 'absolute'} morph targets`, () => {
+      const { mesh, boneByName } = elbowFixture();
+      const expression = addExistingMorph(mesh, relative);
+      const before = Array.from(expression.array as ArrayLike<number>);
+
+      const deformation = importedElbowDeformation(
+        [mesh],
+        boneByName,
+        canonicalSkeleton,
+        { enabled: true, inner: 0, outer: 0, outerSmooth: 1 },
+      );
+      expect(deformation).not.toBeNull();
+      expect(mesh.geometry.morphTargetsRelative).toBe(relative);
+
+      const morphs = mesh.geometry.morphAttributes.position as BufferAttribute[];
+      expect(morphs).toHaveLength(2);
+      expect(Array.from(morphs[0].array as ArrayLike<number>)).toEqual(before);
+      expect(morphs[0].name).toBe('existing_expression');
+
+      const corrective = morphs[1];
+      let maximum = 0;
+      for (let vertex = 0; vertex < corrective.count; vertex += 1) {
+        const offset = morphOffset(mesh, corrective, vertex);
+        maximum = Math.max(maximum, Math.hypot(offset.x, offset.y, offset.z));
+      }
+      expect(maximum).toBeGreaterThan(0.005);
+      expect(maximum).toBeLessThanOrEqual(0.008001);
+    });
+  }
 });

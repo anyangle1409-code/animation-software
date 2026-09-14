@@ -16,6 +16,7 @@ import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
+import { advancePlaybackTime } from '../editor/playback';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -30,14 +31,15 @@ function FrameDriver() {
     const store = useStudio.getState();
     let time = store.time;
     if (store.playing) {
-      time += Math.min(delta, 0.1) * store.speed;
-      if (time >= clip.duration) {
-        if (store.loop) time %= clip.duration;
-        else {
-          time = clip.duration;
-          store.pause();
-        }
-      }
+      const advanced = advancePlaybackTime(
+        time,
+        Math.min(delta, 0.1) * store.speed,
+        clip.duration,
+        store.loop,
+        store.loopRange,
+      );
+      time = advanced.time;
+      if (advanced.ended) store.pause();
       store.setTime(time);
     }
     scene.frame = resolveFrame(skeleton, scene.evaluation, clip, time, { anchors });

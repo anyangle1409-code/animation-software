@@ -31,6 +31,13 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Pose markers for start / transition / peak / return.
 - Side-by-side candidate comparison without changing the accepted clip.
 
+### Implemented animation-authoring foundation
+
+- Exact one-frame stepping plus 1/4× and 1/2× review speeds.
+- Custom In/Out loop ranges for repeated inspection of a difficult rep segment.
+- Selected-bone timing authoring for delay, finish point and easing on each keyframe segment.
+- Individual finger/thumb joint authoring remains available through the same joint workspace.
+
 ## 4. Hand / grip workspace
 
 - Grip presets for dumbbell, barbell, cable handle, pull-up bar, neutral handle and floor contact.

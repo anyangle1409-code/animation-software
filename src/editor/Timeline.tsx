@@ -21,6 +21,8 @@ export function Timeline() {
   const togglePlay = useStudio((state) => state.togglePlay);
   const loop = useStudio((state) => state.loop);
   const setLoop = useStudio((state) => state.setLoop);
+  const loopRange = useStudio((state) => state.loopRange);
+  const setLoopRange = useStudio((state) => state.setLoopRange);
   const speed = useStudio((state) => state.speed);
   const setSpeed = useStudio((state) => state.setSpeed);
   const setKeyframe = useStudio((state) => state.setKeyframe);
@@ -34,10 +36,23 @@ export function Timeline() {
   const current = keyframes.find((frame) => Math.abs(frame.time - time) < 0.5 / clip.fps);
   const currentFrame = Math.round(time * clip.fps);
   const totalFrames = Math.round(clip.duration * clip.fps);
+  const oneFrame = 1 / clip.fps;
 
   const stepFrame = (frames: number) => {
     pause();
     setTime(time + frames / clip.fps);
+  };
+
+  const setLoopIn = () => {
+    const end = Math.max(loopRange?.end ?? clip.duration, time + oneFrame);
+    setLoopRange({ start: time, end });
+    setLoop(true);
+  };
+
+  const setLoopOut = () => {
+    const start = Math.min(loopRange?.start ?? 0, time - oneFrame);
+    setLoopRange({ start, end: time });
+    setLoop(true);
   };
 
   const scrub = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -90,6 +105,22 @@ export function Timeline() {
           <input type="checkbox" checked={loop} onChange={(event) => setLoop(event.target.checked)} />
           <span>Loop</span>
         </label>
+        <div className="timeline__range-controls" aria-label="Loop range controls">
+          <button type="button" onClick={setLoopIn} title="Set loop start to playhead">
+            Set In
+          </button>
+          <button type="button" onClick={setLoopOut} title="Set loop end to playhead">
+            Set Out
+          </button>
+          <button type="button" onClick={() => setLoopRange(null)} disabled={!loopRange}>
+            Clear range
+          </button>
+          {loopRange && (
+            <span className="timeline__range-readout">
+              {loopRange.start.toFixed(2)}–{loopRange.end.toFixed(2)}s
+            </span>
+          )}
+        </div>
         <label className="field field--inline">
           <span className="field__label">Duration</span>
           <input
@@ -158,6 +189,17 @@ export function Timeline() {
             <span>{phase.label}</span>
           </div>
         ))}
+
+        {loopRange && (
+          <div
+            className={`timeline__loop-range ${loop ? 'is-active' : ''}`}
+            style={{
+              left: `${(loopRange.start / clip.duration) * 100}%`,
+              width: `${((loopRange.end - loopRange.start) / clip.duration) * 100}%`,
+            }}
+            title={`Loop range ${loopRange.start.toFixed(2)}–${loopRange.end.toFixed(2)}s`}
+          />
+        )}
 
         {keyframes.map((frame) => (
           <button

@@ -16,7 +16,7 @@ import { generateClip, phaseDuration } from '../animation/generate';
 import { validateClip } from '../animation/validate';
 import type { ClipValidation } from '../animation/validate';
 import { lockAnchors } from '../constraints/locks';
-import type { ExerciseDefinition, Tempo } from '../exercises/types';
+import type { ExerciseDefinition, PhaseJointTiming, Tempo } from '../exercises/types';
 import { EXERCISES, getExercise } from '../exercises/library';
 import type { IKChainId } from '../ik/types';
 import { goalFromPose } from '../ik/solve';
@@ -24,6 +24,7 @@ import { nextId } from '../core/id';
 import { emptyHistory, pushHistory, redo, undo } from './history';
 import type { History } from './history';
 import type { CameraPresetId } from '../viewer/cameraTypes';
+import { normalizeLoopRange, type LoopRange } from './playback';
 
 export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character' | 'anatomy';
 
@@ -136,6 +137,7 @@ interface StudioState {
   playing: boolean;
   loop: boolean;
   speed: number;
+  loopRange: LoopRange | null;
 
   selection: Selection;
   viewMode: ViewMode;
@@ -158,6 +160,7 @@ interface StudioState {
   togglePlay: () => void;
   setLoop: (loop: boolean) => void;
   setSpeed: (speed: number) => void;
+  setLoopRange: (range: LoopRange | null) => void;
 
   // --- selection and display ---------------------------------------------
   selectBone: (bone: BoneName | null) => void;
@@ -180,6 +183,7 @@ interface StudioState {
   deleteKeyframe: (id: string) => void;
   moveKeyframe: (id: string, time: number) => void;
   setKeyframeEasing: (id: string, easing: Keyframe['easing']) => void;
+  setJointTiming: (id: string, bone: BoneName, timing: PhaseJointTiming | null) => void;
   copyPose: () => void;
   pastePose: () => void;
   mirrorCurrentPose: () => void;
@@ -268,6 +272,7 @@ export const useStudio = create<StudioState>((set, get) => {
     playing: false,
     loop: true,
     speed: 1,
+    loopRange: null,
 
     selection: { bone: null, handle: null, equipmentId: null },
     viewMode: 'combined',
@@ -288,6 +293,10 @@ export const useStudio = create<StudioState>((set, get) => {
     togglePlay: () => set({ playing: !get().playing }),
     setLoop: (loop) => set({ loop }),
     setSpeed: (speed) => set({ speed }),
+    setLoopRange: (range) => {
+      const clip = get().document.clip;
+      set({ loopRange: normalizeLoopRange(range, clip.duration, clip.fps) });
+    },
 
     selectBone: (bone) =>
       set({ selection: { bone, handle: null, equipmentId: null } }),
@@ -307,6 +316,7 @@ export const useStudio = create<StudioState>((set, get) => {
         history: emptyHistory<StudioDocument>(),
         time: 0,
         playing: false,
+        loopRange: null,
         validation: null,
         camera: 'recommended',
         selection: { bone: null, handle: null, equipmentId: null },
@@ -388,6 +398,31 @@ export const useStudio = create<StudioState>((set, get) => {
         keyframes: clip.keyframes.map((frame) => (frame.id === id ? { ...frame, easing } : frame)),
       })),
 
+    setJointTiming: (id, bone, timing) =>
+      editClip((clip) => ({
+        ...clip,
+        keyframes: clip.keyframes.map((frame) => {
+          if (frame.id !== id) return frame;
+          const jointTiming: Partial<Record<BoneName, PhaseJointTiming>> = {
+            ...(frame.jointTiming ?? {}),
+          };
+          if (!timing) delete jointTiming[bone];
+          else {
+            const delay = Math.max(0, Math.min(1, timing.delay ?? 0));
+            const finish = Math.max(delay, Math.max(0, Math.min(1, timing.finish ?? 1)));
+            jointTiming[bone] = {
+              delay,
+              finish,
+              ...(timing.easing ? { easing: timing.easing } : {}),
+            };
+          }
+          return {
+            ...frame,
+            jointTiming: Object.keys(jointTiming).length > 0 ? jointTiming : undefined,
+          };
+        }),
+      })),
+
     copyPose: () => {
       const { document, time } = get();
       set({ clipboard: sampleClip(document.clip, time).pose });
@@ -412,6 +447,7 @@ export const useStudio = create<StudioState>((set, get) => {
       }),
 
     setDuration: (duration) => {
+      const previous = get().document.clip;
       const next = Math.max(0.2, duration);
       editClip((clip) => {
         const scale = next / clip.duration;
@@ -424,7 +460,18 @@ export const useStudio = create<StudioState>((set, get) => {
           })),
         };
       });
-      set({ time: Math.min(get().time, next) });
+      const range = get().loopRange;
+      const scale = next / previous.duration;
+      set({
+        time: Math.min(get().time, next),
+        loopRange: range
+          ? normalizeLoopRange(
+              { start: range.start * scale, end: range.end * scale },
+              next,
+              previous.fps,
+            )
+          : null,
+      });
     },
 
     setTempo: (tempo) =>

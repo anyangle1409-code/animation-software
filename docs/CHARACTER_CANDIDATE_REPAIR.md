@@ -59,3 +59,10 @@ The optional external-asset diagnostic is skipped in ordinary CI because the rea
 | Squat hip/groin | **Needs minor fix** | Keep separate from the curl template; prior broad weight and generic forward-push trials were rejected. |
 
 All comparison renders produced during this repair work are offline renders of the actual production-posed triangles. They are evidence for deformation and silhouette review, not literal captures of the live Studio viewport.
+
+## Live grip review tooling
+
+The Studio now exposes the exercise's **Grip closure** in the Exercise panel. It is a normal undoable exercise edit and regenerates through the production clip generator; the authored curl default remains 85%. Use this instead of editing finger bones or source-rig rotations by hand when reviewing the remaining handle/skin intersections.
+
+Baseline production evidence at 85% finds 103 surface vertices per hand inside the 15 mm-radius dumbbell handle, concentrated in hand/palm (30), thumb (28) and pinky (25), with far less overlap at the middle finger (3). This pattern repeats in the shoulder press, so do not move the whole dumbbell as the first response. Tomorrow, visually compare 85/80/75/70/65% using the actual imported candidate and keep the lowest-overlap value only if all digits still form a secure, natural wrap and the thumb/palm remain convincing. These saved collision counts are a diagnostic baseline, not live-v5 visual certification.
+

@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — two-hand equipment review gate
+
+Extended the conservative Review workspace with a separate `Two-hand equipment fit` gate. Every `attachment.mode === 'hands'` instance is now measured at the same sampled production frames used for the rest of review. The gate uses `measureTwoHandFit()` and blocks Ready-for-visual-review when either left/right grip socket exceeds the existing 5 mm bilateral envelope. Failure detail reports worst socket error and worst absolute spacing mismatch; exercises with no two-hand equipment mark this gate not applicable and remain unaffected.
+
+The grip review loop now resolves a single production frame when either supported dumbbell or two-hand checks are needed, avoiding a second solver pass for the same sample. Regression coverage appends a synthetic rigid barbell to the push-up only inside the test because its hand joints are world-locked throughout the rep. The synthetic bar deliberately uses the hand origins as its grip targets, avoiding normal in-palm offsets whose world position changes as the wrist rotates. Default 80 cm sockets correctly block automated approval; the test then measures the actual locked-hand separation, calibrates only the bar grip sockets with `withTwoHandGripWidth()`, regenerates, and proves the full review returns green. Earlier curl and in-palm fixtures were deliberately rejected because the new gate correctly detected their changing bilateral grip-point spacing. No accepted exercise definition or animation was changed.
+
+
 ### ChatGPT — 2026-09-14 — rigid two-hand socket calibration
 
 Replaced the placeholder `hands` attachment (which merely drew equipment along the line between both hands) with a rigid socket-fit solver. Two-hand equipment now uses its actual authored `leftSocket`/`rightSocket` positions, maps their midpoint and axis onto the two hand-local grip targets, and never non-uniformly scales the item. Any difference between hand separation and socket separation remains a measurable symmetric residual rather than being hidden by wrist/elbow/shoulder compensation. Optional left/right grip offsets and a scalar `gripRoll` are now part of the two-hand attachment data.

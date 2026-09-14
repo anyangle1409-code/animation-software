@@ -93,7 +93,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 
 ### Implemented review/approval foundation
 
-- Dedicated Review workspace aggregates conservative automated gates for technique errors, loop closure, IK reachability, explicit contact locks and the supported single-hand dumbbell grip envelope.
+- Dedicated Review workspace aggregates conservative automated gates for technique errors, loop closure, IK reachability, explicit contact locks, the supported single-hand dumbbell grip envelope, and rigid two-hand socket alignment.
 - Automated success means **Ready for visual review**, never automatic approval. A separate visual sign-off is required for naturalness, joint silhouette, grip/contact appearance and equipment stability.
 - Visual sign-off is bound to the exact Studio document identity and active character source; edits or character swaps invalidate it automatically. Only automated-pass + matching visual sign-off displays `APPROVED`.
 

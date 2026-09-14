@@ -7,10 +7,10 @@ import { validateClip } from '../animation/validate';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
 import { contactDiagnostics } from '../constraints/contactDiagnostics';
-import { measureGripFit } from '../equipment/gripDiagnostics';
+import { measureGripFit, measureTwoHandFit } from '../equipment/gripDiagnostics';
 
 export interface ReviewGate {
-  id: 'technique' | 'loop' | 'ik' | 'contacts' | 'grip';
+  id: 'technique' | 'loop' | 'ik' | 'contacts' | 'grip' | 'twoHandGrip';
   label: string;
   passed: boolean;
   detail: string;
@@ -53,9 +53,16 @@ export function reviewExercise(
   let gripChecks = 0;
   let worstReachUse = 0;
   let widestGripGap = 0;
+  let twoHandFailures = 0;
+  let twoHandChecks = 0;
+  let worstTwoHandError = 0;
+  let worstTwoHandSpacingError = 0;
 
   const supportedGripInstances = clip.equipment.filter(
     (instance) => instance.kind === 'dumbbell' && instance.attachment.mode === 'hand',
+  );
+  const twoHandInstances = clip.equipment.filter(
+    (instance) => instance.attachment.mode === 'hands',
   );
 
   for (let index = 0; index <= frames; index += 1) {
@@ -74,7 +81,7 @@ export function reviewExercise(
       }
     }
 
-    if (supportedGripInstances.length > 0) {
+    if (supportedGripInstances.length > 0 || twoHandInstances.length > 0) {
       const gripEvaluation = new PoseEvaluation(rig);
       const frame = resolveFrame(rig, gripEvaluation, clip, time, { anchors });
       gripEvaluation.apply(frame.pose);
@@ -90,6 +97,23 @@ export function reviewExercise(
         worstReachUse = Math.max(worstReachUse, fit.reachUse);
         widestGripGap = Math.max(widestGripGap, fit.widestGapDeg);
         if (!fit.withinEnvelope) gripFailures += 1;
+      }
+      for (const instance of twoHandInstances) {
+        if (instance.attachment.mode !== 'hands') continue;
+        const equipment = frame.equipment.get(instance.id);
+        if (!equipment) {
+          twoHandFailures += 1;
+          continue;
+        }
+        const fit = measureTwoHandFit(gripEvaluation, instance, equipment);
+        if (!fit) {
+          twoHandFailures += 1;
+          continue;
+        }
+        twoHandChecks += 1;
+        worstTwoHandError = Math.max(worstTwoHandError, fit.leftError, fit.rightError);
+        worstTwoHandSpacingError = Math.max(worstTwoHandSpacingError, Math.abs(fit.separationError));
+        if (!fit.withinEnvelope) twoHandFailures += 1;
       }
     }
   }
@@ -139,6 +163,17 @@ export function reviewExercise(
           ? `${gripChecks} grip samples pass; max reach ${Math.round(worstReachUse * 100)}%, widest gap ${widestGripGap.toFixed(1)}°.`
           : `${gripFailures} of ${gripChecks} grip samples need review.`,
       applicable: supportedGripInstances.length > 0,
+    },
+    {
+      id: 'twoHandGrip',
+      label: 'Two-hand equipment fit',
+      passed: twoHandFailures === 0,
+      detail: twoHandInstances.length === 0
+        ? 'Not applicable: no rigid two-hand equipment attachment.'
+        : twoHandFailures === 0
+          ? `${twoHandChecks} bilateral samples pass; worst socket error ${(worstTwoHandError * 1000).toFixed(1)} mm.`
+          : `${twoHandFailures} sampled bilateral fits exceed the 5 mm envelope; worst socket error ${(worstTwoHandError * 1000).toFixed(1)} mm, spacing mismatch ${(worstTwoHandSpacingError * 1000).toFixed(1)} mm.`,
+      applicable: twoHandInstances.length > 0,
     },
   ];
 

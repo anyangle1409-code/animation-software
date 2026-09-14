@@ -128,6 +128,8 @@ export type EasingKind =
   | 'easeInOut'
   /** Resistance-training feel: decelerate into the peak, accelerate out of it. */
   | 'lift'
+  /** Fifth-order minimum-jerk curve: zero velocity and acceleration at both ends. */
+  | 'minimumJerk'
   /** Slow through the mid-range sticking point. */
   | 'grind'
   | 'hold';

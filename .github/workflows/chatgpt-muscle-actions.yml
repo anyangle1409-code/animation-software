@@ -1,14 +1,14 @@
-name: ChatGPT shoulder muscle path sweep
+name: ChatGPT validate shoulder muscle biomechanics
 on:
   push:
     branches:
       - chatgpt/absolute-retarget-imports
 permissions:
-  contents: read
+  contents: write
 jobs:
-  audit:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,125 +16,19 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Create shoulder path sweep
+      - name: Apply staged shoulder biomechanics fix
+        run: python .github/chatgpt_shoulder_muscle_fix.py
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Full test suite
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Retain validated changes and clean temporary gate
         run: |
-          cat > src/muscles/__shoulder_sweep.test.ts <<'EOF'
-          import { describe, expect, it } from 'vitest';
-          import { poseFromDegrees } from '../rig/pose';
-          import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-          import { createMuscleTransform, muscleInstance, resolveMuscle } from './model';
-          import type { MuscleDefinition } from './model';
-          import { vec3 } from '../rig/types';
-
-          const skeleton = canonicalSkeleton;
-          const evaluation = new PoseEvaluation(skeleton);
-          const transform = createMuscleTransform();
-          const at = (bone: any, x: number, y: number, z: number) => ({ bone, offset: vec3(x, y, z) });
-
-          function stretch(def: MuscleDefinition, rotations: Parameters<typeof poseFromDegrees>[0]) {
-            const instance = muscleInstance(def, 'l');
-            evaluation.apply(poseFromDegrees(rotations));
-            resolveMuscle(evaluation, instance, transform);
-            return transform.stretch;
-          }
-
-          describe('shoulder muscle path parameter sweep', () => {
-            it('finds candidates that satisfy isolated anatomical actions', () => {
-              const delt: any[] = [];
-              for (const ox of [0, 0.01, 0.02, 0.03, 0.04]) {
-                for (const oy of [0.10, 0.12, 0.14, 0.15]) {
-                  for (const ix of [-0.05, -0.025, 0, 0.025, 0.05, 0.075]) {
-                    for (const iy of [0.08, 0.11, 0.14, 0.17, 0.20]) {
-                      const def: MuscleDefinition = {
-                        group: 'deltoid_medial',
-                        origin: at('clavicle_l', ox, oy, 0),
-                        insertion: at('upperarm_l', ix, iy, 0),
-                        thickness: 0.042,
-                        bulge: 0.3,
-                      };
-                      const abduction = stretch(def, { upperarm_l: { z: -60 } });
-                      const restLength = muscleInstance(def, 'l').restLength;
-                      const score = Math.abs(abduction - 0.88) + Math.abs(restLength - 0.14) * 0.4;
-                      delt.push({ ox, oy, ix, iy, abduction, restLength, score });
-                    }
-                  }
-                }
-              }
-              delt.sort((a, b) => a.score - b.score);
-
-              const lat: any[] = [];
-              for (const ix of [-0.04, -0.02, 0, 0.02, 0.04]) {
-                for (const iy of [0.01, 0.025, 0.04, 0.06, 0.08]) {
-                  for (const iz of [-0.07, -0.05, -0.03, -0.01, 0.01, 0.03]) {
-                    const direct: MuscleDefinition = {
-                      group: 'latissimus',
-                      origin: at('spine_01', -0.055, 0.02, -0.06),
-                      insertion: at('upperarm_l', ix, iy, iz),
-                      thickness: 0.032,
-                      bulge: 0.25,
-                      flatten: 0.55,
-                      spread: 1.5,
-                    };
-                    const extension = stretch(direct, { upperarm_l: { x: -30 } });
-                    const adduction = stretch(direct, { upperarm_l: { z: 30 } });
-                    const restLength = muscleInstance(direct, 'l').restLength;
-                    const penalty = Math.max(0, extension - 0.995) * 8 + Math.max(0, adduction - 0.995) * 8;
-                    const score = penalty + Math.abs(extension - 0.95) + Math.abs(adduction - 0.95) + Math.abs(restLength - 0.45) * 0.1;
-                    lat.push({ kind: 'direct', ix, iy, iz, extension, adduction, restLength, score });
-
-                    for (const vy of [0.01, 0.03, 0.05]) {
-                      for (const vz of [-0.08, -0.05, -0.02, 0.01, 0.04]) {
-                        const wrapped: MuscleDefinition = { ...direct, via: [at('upperarm_l', ix, vy, vz)] };
-                        const ext2 = stretch(wrapped, { upperarm_l: { x: -30 } });
-                        const add2 = stretch(wrapped, { upperarm_l: { z: 30 } });
-                        const rest2 = muscleInstance(wrapped, 'l').restLength;
-                        const penalty2 = Math.max(0, ext2 - 0.995) * 8 + Math.max(0, add2 - 0.995) * 8;
-                        const score2 = penalty2 + Math.abs(ext2 - 0.95) + Math.abs(add2 - 0.95) + Math.abs(rest2 - 0.45) * 0.1;
-                        lat.push({ kind: 'via', ix, iy, iz, vy, vz, extension: ext2, adduction: add2, restLength: rest2, score: score2 });
-                      }
-                    }
-                  }
-                }
-              }
-              lat.sort((a, b) => a.score - b.score);
-
-              const pec: any[] = [];
-              for (const ox of [-0.065, -0.045, -0.025, -0.005]) {
-                for (const oy of [0.02, 0.04, 0.07, 0.10]) {
-                  for (const oz of [0.06, 0.08, 0.10, 0.12]) {
-                    for (const ix of [-0.03, 0, 0.02, 0.04]) {
-                      for (const iy of [0.01, 0.03, 0.05, 0.07]) {
-                        for (const iz of [0.01, 0.03, 0.05, 0.07, 0.09]) {
-                          const def: MuscleDefinition = {
-                            group: 'pectoralis',
-                            origin: at('spine_03', ox, oy, oz),
-                            insertion: at('upperarm_l', ix, iy, iz),
-                            thickness: 0.032,
-                            bulge: 0.3,
-                            flatten: 0.6,
-                            spread: 1.6,
-                          };
-                          const flexion = stretch(def, { upperarm_l: { x: 60 } });
-                          const adduction = stretch(def, { upperarm_l: { z: 30 } });
-                          const restLength = muscleInstance(def, 'l').restLength;
-                          const penalty = Math.max(0, flexion - 0.995) * 8 + Math.max(0, adduction - 0.995) * 8;
-                          const score = penalty + Math.abs(flexion - 0.94) + Math.abs(adduction - 0.94) + Math.abs(restLength - 0.22) * 0.2;
-                          pec.push({ ox, oy, oz, ix, iy, iz, flexion, adduction, restLength, score });
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              pec.sort((a, b) => a.score - b.score);
-
-              console.log('DELT_BEST=' + JSON.stringify(delt.slice(0, 20)));
-              console.log('LAT_BEST=' + JSON.stringify(lat.slice(0, 25)));
-              console.log('PEC_BEST=' + JSON.stringify(pec.slice(0, 25)));
-              expect(delt.length).toBeGreaterThan(0);
-              expect(lat.length).toBeGreaterThan(0);
-              expect(pec.length).toBeGreaterThan(0);
-            });
-          });
-          EOF
-      - run: npx vitest run src/muscles/__shoulder_sweep.test.ts --reporter=verbose
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/muscles/model.ts src/muscles/functions.test.ts
+          git rm .github/chatgpt_shoulder_muscle_fix.py .github/workflows/chatgpt-muscle-actions.yml
+          git commit -m "feat: correct shoulder muscle functional paths"
+          git push

@@ -1,0 +1,105 @@
+name: ChatGPT Whole Muscle Audit
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Create temporary muscle audit
+        run: |
+          cat > src/muscles/__functional_audit.test.ts <<'EOF'
+          import { describe, it } from 'vitest';
+          import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+          import { generateClip } from '../animation/generate';
+          import { resolveFrame } from '../animation/pipeline';
+          import { EXERCISES } from '../exercises/library';
+          import { MUSCLE_GROUPS, MUSCLE_GROUP_IDS } from './groups';
+          import { MUSCLES, createMuscleTransform, resolveMuscle } from './model';
+          import { activationMap, activationOf } from './activation';
+
+          const skeleton = canonicalSkeleton;
+          const evaluation = new PoseEvaluation(skeleton);
+          const transform = createMuscleTransform();
+
+          const isInSubtree = (root: string, bone: string) =>
+            root === bone || skeleton.isAncestorOf(root as any, bone as any);
+
+          describe('whole muscle functional audit', () => {
+            it('prints joint-span, activation and dynamic-length diagnostics', () => {
+              const spanIssues: string[] = [];
+              for (const group of MUSCLE_GROUP_IDS) {
+                const meta = MUSCLE_GROUPS[group];
+                for (const actsOn of meta.actsOn) {
+                  const side = actsOn.endsWith('_l') ? 'l' : actsOn.endsWith('_r') ? 'r' : null;
+                  const candidates = MUSCLES.filter((m) => m.group === group && (side === null || m.side === side));
+                  const spans = candidates.some((m) => {
+                    const a = isInSubtree(actsOn, m.origin.bone);
+                    const b = isInSubtree(actsOn, m.insertion.bone);
+                    return a !== b;
+                  });
+                  if (!spans) spanIssues.push(`${group}:${actsOn}`);
+                }
+              }
+
+              const coverage = MUSCLE_GROUP_IDS.map((group) => {
+                const active = EXERCISES.flatMap((exercise) => {
+                  const map = activationMap(exercise.muscles);
+                  const level = activationOf(map, group);
+                  return level === 'inactive' ? [] : [`${exercise.id}:${level}`];
+                });
+                return { group, active };
+              });
+
+              const dynamic = MUSCLES.map((muscle) => {
+                let globalMin = Infinity;
+                let globalMax = -Infinity;
+                let maxExercise = '';
+                const perExercise = EXERCISES.map((exercise) => {
+                  const clip = generateClip(skeleton, exercise);
+                  let min = Infinity;
+                  let max = -Infinity;
+                  for (let i = 0; i < 12; i += 1) {
+                    const time = clip.duration * (i / 12);
+                    const frame = resolveFrame(skeleton, evaluation, clip, time);
+                    evaluation.apply(frame.pose);
+                    resolveMuscle(evaluation, muscle, transform);
+                    min = Math.min(min, transform.stretch);
+                    max = Math.max(max, transform.stretch);
+                  }
+                  if (max - min > globalMax - globalMin || !Number.isFinite(globalMin)) maxExercise = exercise.id;
+                  globalMin = Math.min(globalMin, min);
+                  globalMax = Math.max(globalMax, max);
+                  return { exercise: exercise.id, min, max, range: max - min };
+                });
+                return {
+                  id: muscle.id,
+                  group: muscle.group,
+                  side: muscle.side,
+                  origin: muscle.origin.bone,
+                  insertion: muscle.insertion.bone,
+                  min: globalMin,
+                  max: globalMax,
+                  range: globalMax - globalMin,
+                  maxExercise,
+                  perExercise,
+                };
+              });
+
+              console.log('MUSCLE_SPAN_ISSUES=' + JSON.stringify(spanIssues));
+              console.log('MUSCLE_ACTIVATION_COVERAGE=' + JSON.stringify(coverage));
+              console.log('MUSCLE_DYNAMIC_AUDIT=' + JSON.stringify(dynamic));
+            });
+          });
+          EOF
+      - run: npx vitest run src/muscles/__functional_audit.test.ts --reporter=verbose

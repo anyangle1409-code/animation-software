@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-09-14  
 **Working branch:** `chatgpt/absolute-retarget-imports`  
-**Current retained head before this handoff update:** `b2a7db71adea054383d22282e3660a04e78d9a62`  
+**Current retained head before this handoff update:** `1edbd65f3cf19e10986e60875a7724b9e3ad9619`  
 **Do not merge yet.**
 
 ## Retained curl state
@@ -41,7 +41,7 @@ These measurements do **not** support another speculative curl-motion change. Th
 - **Corrective strain sweep:** on-demand 0/25/50/75/100% whole-rep P99/max scan. It restores the pre-scan tuning/pose and can jump to each candidate's worst P99 frame.
 - **Correctives on / Raw skinning** remains a viewport-only A/B and does not alter the clip/source mesh/export. Production visual sign-off is disabled in Raw skinning, and any permanent export-aware corrective change increments the character deformation revision so an older sign-off cannot remain valid.
 
-Latest full validation after the grip-review pass: **285 passed, 1 optional real-character diagnostic skipped, across 35 test files.** TypeScript and production build both pass. Existing notes only: Vite >500 kB chunk advisory and the already-known npm audit report of 2 moderate vulnerabilities.
+Latest full validation after the deformation-aware visual-review pass: **287 passed, 1 optional real-character diagnostic skipped, across 36 test files.** TypeScript and production build both pass. Existing notes only: Vite >500 kB chunk advisory and the already-known npm audit report of 2 moderate vulnerabilities.
 
 ## Character assets
 
@@ -112,5 +112,6 @@ The concentration on palm/thumb/pinky is why whole-dumbbell translation remains 
 - `9451538` — consolidated movement review diagnostics.
 - `f6c1ce9` — same-frame corrective presets.
 - `b2a7db7` — fine grip review controls and curl review frames.
+- `1edbd65` — visual sign-off bound to production deformation state.
 
 The shared `AI_CHANGELOG.md` contains the detailed implementation reasoning and validation history. Claude should read **both** that changelog and this handoff before making the next curl change.

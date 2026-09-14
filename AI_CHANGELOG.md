@@ -6,6 +6,12 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — align curl coaching wording with validated natural elbow drift
+
+Updated the `elbow_drift` correction text from “pinned under the shoulders through the whole range” to “roughly under the shoulders; allow only a small natural drift near the top.” This is a wording-only change: the retained curl motion, technique thresholds and generated clip are unchanged. It removes a contradiction between the coaching copy and the validated 4° / ~21.55 mm late upper-arm/elbow contribution that is intentionally present to keep the curl lifelike rather than mechanically pinned.
+
+The bicep-curl handoff was also refreshed to the deformation-aware approval checkpoint (287 passing tests + 1 optional skip across 36 files).
+
 ### ChatGPT — 2026-09-14 — bind visual sign-off to production deformation state
 
 Closed an approval-integrity gap introduced by live export-aware character correctives. Visual sign-off previously matched only Studio document identity plus character source id, so changing a character-level elbow corrective after sign-off could leave the old approval looking current even though GLB export would now use a different deformation value.

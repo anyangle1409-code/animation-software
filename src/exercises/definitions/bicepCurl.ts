@@ -360,7 +360,7 @@ export const bicepCurl: ExerciseDefinition = {
       label: 'Elbows drifting forward',
       description: 'The elbows travel forward so the front delts take the work.',
       ruleId: 'elbow_under_shoulder_l',
-      correction: 'Keep the elbows pinned under the shoulders through the whole range.',
+      correction: 'Keep the elbows roughly under the shoulders; allow only a small natural drift near the top.',
     },
     {
       id: 'partial_range',

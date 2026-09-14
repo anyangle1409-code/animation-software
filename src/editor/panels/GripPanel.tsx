@@ -145,6 +145,52 @@ export function GripPanel() {
         accepted arm animation. Changes remain undoable.
       </p>
 
+      <h4>Fine closure A/B</h4>
+      <div className="button-row grip-presets">
+        {[0.65, 0.7, 0.75, 0.8, 0.85].map((closure) => (
+          <button
+            type="button"
+            key={`fine-closure-${closure}`}
+            className={Math.abs(exercise.hands.closure - closure) < 1e-6 ? 'is-active' : ''}
+            onClick={() => setGripClosure(closure)}
+          >
+            {Math.round(closure * 100)}%
+          </button>
+        ))}
+      </div>
+      <p className="panel__note">
+        Fine presets leave the playhead untouched, so thumb opposition, finger wrap and palm loading
+        can be compared on the exact same pose.
+      </p>
+
+      {exercise.id === 'dumbbell_bicep_curl' && (
+        <>
+          <h4>Curl review frames</h4>
+          <div className="button-row grip-presets">
+            {[
+              { label: 'Bottom', time: 0 },
+              { label: 'Mid lift', time: 1 },
+              { label: 'Peak', time: 2 },
+              { label: 'Mid lower', time: 4 },
+              { label: 'Return', time: 5 },
+            ].map((point) => (
+              <button
+                type="button"
+                key={`curl-grip-frame-${point.label}`}
+                className={Math.abs(time - point.time) < 1 / Math.max(1, clip.fps) ? 'is-active' : ''}
+                onClick={() => setTime(point.time)}
+              >
+                {point.label}
+              </button>
+            ))}
+          </div>
+          <p className="panel__note">
+            Review the same closure at bottom, mid-concentric, peak, mid-eccentric and return before
+            accepting a permanent grip change.
+          </p>
+        </>
+      )}
+
       <details className="grip-digit-details">
         <summary>Fine-tune individual digits</summary>
         <p className="panel__hint">

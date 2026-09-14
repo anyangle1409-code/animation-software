@@ -6,6 +6,12 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### ChatGPT — 2026-09-14 — fine grip closure and curl review frames
+
+Grip review now has one-tap 65/70/75/80/85% fine closure presets in addition to the broader Loose/Training/Closed presets. Fine presets use the existing deterministic `setGripClosure` path and deliberately leave the playhead, wrist and equipment transform untouched, so thumb opposition, four-finger wrap and palm loading can be compared on the exact same pose.
+
+Dumbbell Bicep Curl additionally exposes Bottom (0.00s), Mid lift (1.00s), Peak (2.00s), Mid lower (4.00s) and Return (5.00s) review buttons directly in the Grip workspace. This matches the retained review plan while keeping the authored 85% closure unchanged until a visual decision is made. No per-digit override, handle offset, wrist angle or exercise motion is changed automatically.
+
 ### ChatGPT — 2026-09-14 — same-frame corrective comparison presets
 
 Added one-tap 0/25/50/75/100% presets to each character-level corrective tuning control. Unlike the existing strain-sweep review action, these presets change only corrective strength and deliberately leave the playhead untouched. This lets an author hold the curl on the exact same peak frame and tap through candidate strengths for a fair elbow-silhouette A/B before consulting strain metrics.

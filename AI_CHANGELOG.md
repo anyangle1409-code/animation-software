@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — non-destructive A/B pose comparison
+
+Added transient Reference A / Candidate B pose snapshots to the Studio. `comparison` state lives outside `StudioDocument`, so capturing, clearing and viewing snapshots do **not** mutate the accepted clip, do not create undo-history entries and do not affect export. The new Compare panel renders both snapshots side by side as deterministic front-view projections of the canonical core skeleton and, when a joint is selected, shows exact X/Y/Z angles for A and B plus the signed delta. This is intended for judging shoulder/elbow/body-position refinements before deciding whether a clip edit should be kept.
+
+`src/editor/comparison.ts` owns the pure front-view projection helper, with tests keeping all projected endpoints inside the normalised viewport and confirming that the curl peak visibly differs from the start at the forearm. Store regressions verify A/B capture leaves the document/history untouched and that loading another exercise clears stale snapshots. The capability roadmap now records non-destructive A/B pose comparison as implemented.
+
+
 ### ChatGPT — 2026-09-14 — semantic pose-marker authoring
 
 Added semantic pose landmarks directly to `Keyframe` as `marker?: 'start' | 'transition' | 'peak' | 'return'`. Generated exercise clips now classify their deterministic boundaries as Start, first arrival at Peak, intermediate Transition boundaries, and final Return. Markers are metadata only: they do not change pose interpolation, IK, joint timing, contacts, equipment or export motion. The Timeline renders the landmarks as labelled keyframes and exposes an editable Marker selector for the keyframe under the playhead. Marker edits use the existing document history, so undo/redo works normally and clearing a marker leaves the underlying pose untouched.

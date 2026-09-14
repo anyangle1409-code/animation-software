@@ -25,6 +25,7 @@ import { emptyHistory, pushHistory, redo, undo } from './history';
 import type { History } from './history';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 import { normalizeLoopRange, type LoopRange } from './playback';
+import type { PoseSnapshot } from './comparison';
 
 export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character' | 'anatomy';
 
@@ -138,6 +139,7 @@ interface StudioState {
   loop: boolean;
   speed: number;
   loopRange: LoopRange | null;
+  comparison: { a: PoseSnapshot | null; b: PoseSnapshot | null };
 
   selection: Selection;
   viewMode: ViewMode;
@@ -161,6 +163,8 @@ interface StudioState {
   setLoop: (loop: boolean) => void;
   setSpeed: (speed: number) => void;
   setLoopRange: (range: LoopRange | null) => void;
+  captureComparison: (slot: 'a' | 'b') => void;
+  clearComparison: (slot?: 'a' | 'b') => void;
 
   // --- selection and display ---------------------------------------------
   selectBone: (bone: BoneName | null) => void;
@@ -274,6 +278,7 @@ export const useStudio = create<StudioState>((set, get) => {
     loop: true,
     speed: 1,
     loopRange: null,
+    comparison: { a: null, b: null },
 
     selection: { bone: null, handle: null, equipmentId: null },
     viewMode: 'combined',
@@ -298,6 +303,26 @@ export const useStudio = create<StudioState>((set, get) => {
       const clip = get().document.clip;
       set({ loopRange: normalizeLoopRange(range, clip.duration, clip.fps) });
     },
+    captureComparison: (slot) => {
+      const state = get();
+      const sample = sampleClip(state.document.clip, state.time);
+      const frame = keyframeAt(state.document.clip, state.time);
+      const snapshot: PoseSnapshot = {
+        pose: clonePose(sample.pose),
+        time: state.time,
+        ...(frame?.marker ? { marker: frame.marker } : {}),
+        ...(frame?.label ? { label: frame.label } : {}),
+      };
+      set({ comparison: { ...state.comparison, [slot]: snapshot } });
+    },
+    clearComparison: (slot) => {
+      const comparison = get().comparison;
+      set({
+        comparison: slot
+          ? { ...comparison, [slot]: null }
+          : { a: null, b: null },
+      });
+    },
 
     selectBone: (bone) =>
       set({ selection: { bone, handle: null, equipmentId: null } }),
@@ -318,6 +343,7 @@ export const useStudio = create<StudioState>((set, get) => {
         time: 0,
         playing: false,
         loopRange: null,
+        comparison: { a: null, b: null },
         validation: null,
         camera: 'recommended',
         selection: { bone: null, handle: null, equipmentId: null },

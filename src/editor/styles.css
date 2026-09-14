@@ -720,3 +720,75 @@ code {
 .timeline__key.marker-transition {
   box-shadow: 0 0 0 2px rgba(177, 139, 255, 0.3);
 }
+
+
+/* ---------- non-destructive pose A/B comparison ---------- */
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+
+.comparison-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  padding: 8px;
+}
+
+.comparison-card__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 11px;
+}
+
+.comparison-card__head span {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison-card__diagram {
+  display: block;
+  width: 100%;
+  height: 210px;
+  margin-top: 6px;
+}
+
+.comparison-card__diagram line {
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0.82;
+}
+
+.comparison-card__empty {
+  min-height: 210px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.comparison-delta {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.comparison-delta__grid {
+  display: grid;
+  grid-template-columns: 0.7fr 1fr 1fr 1fr;
+  gap: 5px 8px;
+  align-items: center;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison-delta__row {
+  display: contents;
+}

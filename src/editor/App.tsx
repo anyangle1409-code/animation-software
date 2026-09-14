@@ -9,10 +9,11 @@ import { MusclePanel } from './panels/MusclePanel';
 import { TechniquePanel } from './panels/TechniquePanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
+import { ComparisonPanel } from './panels/ComparisonPanel';
 import { useStudio } from './store';
 
 type LeftTab = 'joint' | 'ik' | 'character';
-type RightTab = 'exercise' | 'muscles' | 'technique' | 'export';
+type RightTab = 'exercise' | 'muscles' | 'technique' | 'compare' | 'export';
 
 export function App() {
   const [leftTab, setLeftTab] = useState<LeftTab>('joint');
@@ -126,6 +127,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={rightTab === 'compare' ? 'is-active' : ''}
+              onClick={() => setRightTab('compare')}
+            >
+              Compare
+            </button>
+            <button
+              type="button"
               className={rightTab === 'export' ? 'is-active' : ''}
               onClick={() => setRightTab('export')}
             >
@@ -136,6 +144,7 @@ export function App() {
             {rightTab === 'exercise' && <ExercisePanel />}
             {rightTab === 'muscles' && <MusclePanel />}
             {rightTab === 'technique' && <TechniquePanel />}
+            {rightTab === 'compare' && <ComparisonPanel />}
             {rightTab === 'export' && <ExportPanel />}
           </div>
         </aside>

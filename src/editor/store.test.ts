@@ -103,3 +103,38 @@ describe('pose marker authoring', () => {
     expect(after.pose.rotations.forearm_l?.x).toBe(x);
   });
 });
+
+
+describe('non-destructive pose comparison', () => {
+  beforeEach(() => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+  });
+
+  it('captures A/B poses without touching the document or undo history', () => {
+    const document = useStudio.getState().document;
+    const historyCount = useStudio.getState().history.past.length;
+
+    useStudio.getState().setTime(0);
+    useStudio.getState().captureComparison('a');
+    useStudio.getState().setTime(2);
+    useStudio.getState().captureComparison('b');
+
+    const state = useStudio.getState();
+    expect(state.document).toBe(document);
+    expect(state.history.past.length).toBe(historyCount);
+    expect(state.comparison.a?.time).toBe(0);
+    expect(state.comparison.b?.time).toBe(2);
+    expect(state.comparison.a?.marker).toBe('start');
+    expect(state.comparison.b?.marker).toBe('peak');
+    expect(state.comparison.a?.pose.rotations.forearm_l?.x).not.toBe(
+      state.comparison.b?.pose.rotations.forearm_l?.x,
+    );
+  });
+
+  it('clears snapshots when a different exercise is loaded', () => {
+    useStudio.getState().captureComparison('a');
+    expect(useStudio.getState().comparison.a).not.toBeNull();
+    useStudio.getState().loadExercise('air_squat');
+    expect(useStudio.getState().comparison).toEqual({ a: null, b: null });
+  });
+});

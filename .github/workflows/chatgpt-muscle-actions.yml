@@ -1,14 +1,14 @@
-name: ChatGPT validate shoulder muscle biomechanics
+name: ChatGPT shoulder containment taper sweep
 on:
   push:
     branches:
       - chatgpt/absolute-retarget-imports
 permissions:
-  contents: write
+  contents: read
 jobs:
-  validate:
+  sweep:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,27 +18,85 @@ jobs:
       - run: npm ci
       - name: Apply staged shoulder biomechanics fix
         run: python .github/chatgpt_shoulder_muscle_fix.py
-      - name: Calibrate visible belly containment
+      - name: Create containment taper sweep
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('src/muscles/model.ts')
-          text = path.read_text(encoding='utf-8')
-          text = text.replace("origin: at('clavicle_l', 0.03, 0.15, 0),\n    insertion: at('upperarm_l', 0.05, 0.11, 0),\n    thickness: 0.042", "origin: at('clavicle_l', 0.03, 0.15, 0),\n    insertion: at('upperarm_l', 0.05, 0.11, 0),\n    thickness: 0.0415")
-          text = text.replace("origin: at('spine_03', -0.025, 0.1, 0.12),\n    insertion: at('upperarm_l', 0, 0.05, 0.01),\n    thickness: 0.032", "origin: at('spine_03', -0.025, 0.1, 0.12),\n    insertion: at('upperarm_l', 0, 0.05, 0.01),\n    thickness: 0.0319")
-          path.write_text(text, encoding='utf-8')
-          PY
-      - name: Typecheck
-        run: npm run typecheck
-      - name: Full test suite
-        run: npm test
-      - name: Production build
-        run: npm run build
-      - name: Retain validated changes and clean temporary gate
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/muscles/model.ts src/muscles/functions.test.ts
-          git rm .github/chatgpt_shoulder_muscle_fix.py .github/workflows/chatgpt-muscle-actions.yml
-          git commit -m "feat: correct shoulder muscle functional paths"
-          git push
+          cat > src/muscles/__containment_sweep.test.ts <<'EOF'
+          import { describe, expect, it } from 'vitest';
+          import { Vector3 } from 'three';
+          import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+          import { generateClip } from '../animation/generate';
+          import { resolveFrame } from '../animation/pipeline';
+          import { EXERCISES, getExercise } from '../exercises/library';
+          import { skinDepth } from '../body/containment';
+          import { MUSCLES, createMuscleTransform, resolveMuscle } from './model';
+          import type { MuscleInstance } from './model';
+
+          const skeleton = canonicalSkeleton;
+          const evaluation = new PoseEvaluation(skeleton);
+          const transform = createMuscleTransform();
+
+          function bellyPoints(muscle: MuscleInstance): Vector3[] {
+            resolveMuscle(evaluation, muscle, transform);
+            const points: Vector3[] = [];
+            for (let i = 0; i <= 8; i += 1) {
+              const phi = (i / 8) * Math.PI;
+              for (let j = 0; j < 12; j += 1) {
+                const theta = (j / 12) * Math.PI * 2;
+                points.push(new Vector3(
+                  Math.sin(phi) * Math.cos(theta),
+                  Math.cos(phi),
+                  Math.sin(phi) * Math.sin(theta),
+                ).multiply(transform.scale).applyQuaternion(transform.quaternion).add(transform.position));
+              }
+            }
+            return points;
+          }
+
+          function worstDepth(muscle: MuscleInstance): number {
+            let worst = -Infinity;
+            for (const point of bellyPoints(muscle)) worst = Math.max(worst, skinDepth(evaluation, point).depth);
+            return worst;
+          }
+
+          describe('shoulder containment taper sweep', () => {
+            it('prints the smallest visual shortening needed to retain containment', () => {
+              const deltBase = MUSCLES.find((m) => m.id === 'deltoid_medial_l')!;
+              const pecBase = MUSCLES.find((m) => m.id === 'pectoralis_l')!;
+              const curl = getExercise('dumbbell_bicep_curl');
+              const curlClip = generateClip(skeleton, curl);
+              const delt: any[] = [];
+              for (const taper of [0.86, 0.85, 0.84, 0.83, 0.82, 0.80, 0.78, 0.76]) {
+                const muscle = { ...deltBase, taper };
+                let worst = -Infinity;
+                for (const time of [0, curlClip.duration * 0.25, 2.5, curlClip.duration * 0.75]) {
+                  const frame = resolveFrame(skeleton, evaluation, curlClip, time);
+                  evaluation.apply(frame.pose);
+                  worst = Math.max(worst, worstDepth(muscle));
+                }
+                delt.push({ taper, worst });
+              }
+
+              const pec: any[] = [];
+              for (const taper of [0.86, 0.85, 0.84, 0.83, 0.82, 0.80, 0.78, 0.76, 0.74, 0.72]) {
+                const muscle = { ...pecBase, taper };
+                let worst = -Infinity;
+                let where = '';
+                for (const exercise of EXERCISES) {
+                  const clip = generateClip(skeleton, exercise);
+                  for (const fraction of [0, 0.25, 0.5, 0.75]) {
+                    const frame = resolveFrame(skeleton, evaluation, clip, clip.duration * fraction);
+                    evaluation.apply(frame.pose);
+                    const depth = worstDepth(muscle);
+                    if (depth > worst) { worst = depth; where = `${exercise.id}@${fraction}`; }
+                  }
+                }
+                pec.push({ taper, worst, where });
+              }
+              console.log('DELT_TAPER=' + JSON.stringify(delt));
+              console.log('PEC_TAPER=' + JSON.stringify(pec));
+              expect(delt.length).toBeGreaterThan(0);
+              expect(pec.length).toBeGreaterThan(0);
+            });
+          });
+          EOF
+      - run: npx vitest run src/muscles/__containment_sweep.test.ts --reporter=verbose

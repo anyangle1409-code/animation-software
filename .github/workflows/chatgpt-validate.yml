@@ -6,6 +6,7 @@ on:
       - chatgpt/absolute-retarget-imports
     paths:
       - '.github/chatgpt_two_hand_calibration.py'
+      - '.github/chatgpt_two_hand_calibration_fix.py'
       - '.github/workflows/chatgpt-validate.yml'
 
 permissions:
@@ -22,7 +23,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Apply staged rigid two-hand calibration
-        run: python .github/chatgpt_two_hand_calibration.py
+        run: |
+          python .github/chatgpt_two_hand_calibration.py
+          python .github/chatgpt_two_hand_calibration_fix.py
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite
@@ -34,6 +37,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/equipment/types.ts src/equipment/library.ts src/equipment/attach.ts src/equipment/gripDiagnostics.ts src/equipment/twoHandAttachment.test.ts src/viewer/EquipmentView.tsx src/editor/store.ts src/editor/panels/GripPanel.tsx docs/STUDIO_CAPABILITY_ROADMAP.md AI_CHANGELOG.md
-          git rm .github/chatgpt_two_hand_calibration.py .github/workflows/chatgpt-validate.yml
+          git rm .github/chatgpt_two_hand_calibration.py .github/chatgpt_two_hand_calibration_fix.py .github/workflows/chatgpt-validate.yml
           git commit -m "feat: add rigid two-hand equipment calibration"
           git push

@@ -99,31 +99,90 @@ function resolveInstance(
     return decompose(instance.id, matrix);
   }
 
-  // Two-handed: the bar spans the two grips.
-  const grip = attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
-  const left = evaluation.localToWorld('hand_l', grip, new Vector3());
-  const right = evaluation.localToWorld('hand_r', grip, new Vector3());
-  const axis = new Vector3().subVectors(right, left);
-  if (axis.lengthSq() < 1e-8) return null;
-  axis.normalize();
-
-  // Keep the bar level: its local +Y stays as close to world up as the grip allows.
-  const up = new Vector3(0, 1, 0).addScaledVector(axis, -axis.y);
-  if (up.lengthSq() < 1e-8) up.set(0, 0, 1).addScaledVector(axis, -axis.z);
-  up.normalize();
-  const side = new Vector3().crossVectors(up, axis).normalize();
-
-  const quaternion = new Quaternion().setFromRotationMatrix(
-    new Matrix4().makeBasis(side, up, axis),
+  const matrix = twoHandAttachmentMatrix(
+    evaluation.matrix('hand_l'),
+    evaluation.matrix('hand_r'),
+    instance,
   );
-  const centre = left.clone().add(right).multiplyScalar(0.5);
-  const position = centre;
+  return matrix ? decompose(instance.id, matrix) : null;
+}
+
+
+/** Hand-local targets used by a rigid two-hand attachment. */
+export function twoHandGripOffsets(instance: EquipmentInstance): {
+  left: { x: number; y: number; z: number };
+  right: { x: number; y: number; z: number };
+} | null {
+  if (instance.attachment.mode !== 'hands') return null;
+  const fallback = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
   return {
-    id: instance.id,
-    position,
-    quaternion,
-    matrix: new Matrix4().compose(position, quaternion, UNIT),
+    left: instance.attachment.leftGripOffset ?? fallback,
+    right: instance.attachment.rightGripOffset ?? fallback,
   };
+}
+
+/**
+ * Fit one rigid two-hand equipment instance from its actual authored grip
+ * sockets to the two hand-local grip targets. The midpoint and socket axis are
+ * matched exactly; if socket separation differs from hand separation the
+ * residual is reported by the grip diagnostics rather than being hidden by
+ * wrist/arm compensation or non-rigid scaling.
+ */
+export function twoHandAttachmentMatrix(
+  leftHand: Matrix4,
+  rightHand: Matrix4,
+  instance: EquipmentInstance,
+): Matrix4 | null {
+  if (instance.attachment.mode !== 'hands') return null;
+  const offsets = twoHandGripOffsets(instance);
+  if (!offsets) return null;
+  const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
+  const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
+  if (!leftSocket || !rightSocket) return null;
+
+  const leftTarget = new Vector3(offsets.left.x, offsets.left.y, offsets.left.z).applyMatrix4(leftHand);
+  const rightTarget = new Vector3(offsets.right.x, offsets.right.y, offsets.right.z).applyMatrix4(rightHand);
+  const worldAxis = new Vector3().subVectors(rightTarget, leftTarget);
+  const localAxis = new Vector3(
+    rightSocket.position.x - leftSocket.position.x,
+    rightSocket.position.y - leftSocket.position.y,
+    rightSocket.position.z - leftSocket.position.z,
+  );
+  if (worldAxis.lengthSq() < 1e-8 || localAxis.lengthSq() < 1e-8) return null;
+  worldAxis.normalize();
+  localAxis.normalize();
+
+  const basisFor = (axis: Vector3, preferredUp: Vector3) => {
+    const up = preferredUp.clone().addScaledVector(axis, -preferredUp.dot(axis));
+    if (up.lengthSq() < 1e-8) {
+      up.set(1, 0, 0).addScaledVector(axis, -axis.x);
+    }
+    up.normalize();
+    const side = new Vector3().crossVectors(up, axis).normalize();
+    return new Matrix4().makeBasis(side, up, axis);
+  };
+
+  const localBasis = basisFor(localAxis, Y_AXIS);
+  const worldBasis = basisFor(worldAxis, Y_AXIS);
+  const localQ = new Quaternion().setFromRotationMatrix(localBasis);
+  const worldQ = new Quaternion().setFromRotationMatrix(worldBasis);
+  const quaternion = worldQ.multiply(localQ.invert());
+  const roll = instance.attachment.gripRoll ?? 0;
+  if (Math.abs(roll) > 1e-9) {
+    quaternion.premultiply(
+      new Quaternion().setFromAxisAngle(worldAxis, toRad(roll)),
+    );
+  }
+
+  const localMid = new Vector3(
+    (leftSocket.position.x + rightSocket.position.x) / 2,
+    (leftSocket.position.y + rightSocket.position.y) / 2,
+    (leftSocket.position.z + rightSocket.position.z) / 2,
+  );
+  const worldMid = leftTarget.clone().add(rightTarget).multiplyScalar(0.5);
+  const rotatedLocalMid = localMid.clone().applyQuaternion(quaternion);
+  const position = worldMid.sub(rotatedLocalMid);
+  return new Matrix4().compose(position, quaternion, UNIT);
 }
 
 /**

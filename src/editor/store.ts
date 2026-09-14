@@ -26,7 +26,7 @@ import type { History } from './history';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 import { normalizeLoopRange, type LoopRange } from './playback';
 import type { PoseSnapshot } from './comparison';
-import { equipmentSocket } from '../equipment/library';
+import { equipmentSocket, withTwoHandGripWidth } from '../equipment/library';
 
 export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character' | 'anatomy';
 
@@ -205,6 +205,8 @@ interface StudioState {
   setGripPreset: (preset: GripKind | null) => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
   setEquipmentGripRotation: (instanceId: string, rotation: Vec3 | null) => void;
+  setTwoHandGripWidth: (instanceId: string, width: number | null) => void;
+  setTwoHandGripRoll: (instanceId: string, degrees: number | null) => void;
   setEquipmentTransform: (instanceId: string, transform: { position?: Vec3; rotation?: Vec3 }) => void;
   setEquipmentSocketTransform: (instanceId: string, socketId: string, transform: { position?: Vec3; rotation?: Vec3 } | null) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
@@ -585,6 +587,39 @@ export const useStudio = create<StudioState>((set, get) => {
           }
           const { gripRotation: _gripRotation, ...attachment } = instance.attachment;
           return { ...instance, attachment };
+        });
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+
+    setTwoHandGripWidth: (instanceId, width) =>
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) =>
+          instance.id === instanceId ? withTwoHandGripWidth(instance, width) : instance,
+        );
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+    setTwoHandGripRoll: (instanceId, degrees) =>
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) => {
+          if (instance.id !== instanceId || instance.attachment.mode !== 'hands') return instance;
+          if (degrees === null || Math.abs(degrees) < 1e-9) {
+            const { gripRoll: _gripRoll, ...attachment } = instance.attachment;
+            return { ...instance, attachment };
+          }
+          return {
+            ...instance,
+            attachment: { ...instance.attachment, gripRoll: degrees },
+          };
         });
         const exercise = {
           ...document.exercise,

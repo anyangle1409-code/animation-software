@@ -190,3 +190,72 @@ export function equipmentSocketForInstance(
         : {}),
   };
 }
+
+
+/**
+ * Return a copy of a two-hand equipment instance with its two authored grip
+ * sockets moved symmetrically to the requested separation. Passing null removes
+ * only the positional calibration and restores the library socket positions;
+ * any socket-rotation override remains intact.
+ */
+export function withTwoHandGripWidth(
+  instance: EquipmentInstance,
+  width: number | null,
+): EquipmentInstance {
+  if (instance.attachment.mode !== 'hands') return instance;
+  const { leftSocket, rightSocket } = instance.attachment;
+  const left = equipmentSocketForInstance(instance, leftSocket);
+  const right = equipmentSocketForInstance(instance, rightSocket);
+  if (!left || !right) return instance;
+
+  const socketOverrides: EquipmentInstance['socketOverrides'] = {
+    ...(instance.socketOverrides ?? {}),
+  };
+
+  const setPosition = (socketId: string, position: EquipmentSocket['position'] | null) => {
+    const previous = socketOverrides?.[socketId] ?? {};
+    if (!position) {
+      const { position: _position, ...remaining } = previous;
+      if (Object.keys(remaining).length > 0) socketOverrides![socketId] = remaining;
+      else delete socketOverrides![socketId];
+      return;
+    }
+    socketOverrides![socketId] = { ...previous, position: { ...position } };
+  };
+
+  if (width === null) {
+    setPosition(leftSocket, null);
+    setPosition(rightSocket, null);
+  } else {
+    const requested = Math.max(0.1, Math.min(2.0, width));
+    const midpoint = {
+      x: (left.position.x + right.position.x) / 2,
+      y: (left.position.y + right.position.y) / 2,
+      z: (left.position.z + right.position.z) / 2,
+    };
+    const axis = {
+      x: right.position.x - left.position.x,
+      y: right.position.y - left.position.y,
+      z: right.position.z - left.position.z,
+    };
+    const length = Math.hypot(axis.x, axis.y, axis.z) || 1;
+    const half = requested / 2;
+    const unit = { x: axis.x / length, y: axis.y / length, z: axis.z / length };
+    setPosition(leftSocket, {
+      x: midpoint.x - unit.x * half,
+      y: midpoint.y - unit.y * half,
+      z: midpoint.z - unit.z * half,
+    });
+    setPosition(rightSocket, {
+      x: midpoint.x + unit.x * half,
+      y: midpoint.y + unit.y * half,
+      z: midpoint.z + unit.z * half,
+    });
+  }
+
+  return {
+    ...instance,
+    socketOverrides:
+      socketOverrides && Object.keys(socketOverrides).length > 0 ? socketOverrides : undefined,
+  };
+}

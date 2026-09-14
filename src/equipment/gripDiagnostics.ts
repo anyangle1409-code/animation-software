@@ -1,7 +1,9 @@
 import { Vector3 } from 'three';
 import type { BoneName, Side } from '../rig/boneNames';
 import type { PoseEvaluation } from '../rig/skeleton';
-import type { EquipmentTransform } from './attach';
+import { twoHandGripOffsets, type EquipmentTransform } from './attach';
+import type { EquipmentInstance } from './types';
+import { equipmentSocketForInstance } from './library';
 
 interface GripContactPoint {
   bone: BoneName;
@@ -78,5 +80,57 @@ export function measureGripFit(
     widestGapDeg,
     wrapCoverageDeg: 360 - widestGapDeg,
     withinEnvelope: reachUse < 1 && widestGapDeg < 170,
+  };
+}
+
+
+export interface TwoHandFitMeasurement {
+  leftError: number;
+  rightError: number;
+  targetSeparation: number;
+  socketSeparation: number;
+  separationError: number;
+  withinEnvelope: boolean;
+}
+
+/**
+ * Measure positional fit of a rigid two-hand item at the current frame. A
+ * spacing mismatch is deliberately visible: the solver never scales the bar or
+ * moves the wrists to hide it.
+ */
+export function measureTwoHandFit(
+  evaluation: PoseEvaluation,
+  instance: EquipmentInstance,
+  equipment: EquipmentTransform,
+): TwoHandFitMeasurement | null {
+  if (instance.attachment.mode !== 'hands') return null;
+  const offsets = twoHandGripOffsets(instance);
+  const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
+  const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
+  if (!offsets || !leftSocket || !rightSocket) return null;
+
+  const leftTarget = evaluation.localToWorld('hand_l', offsets.left, new Vector3());
+  const rightTarget = evaluation.localToWorld('hand_r', offsets.right, new Vector3());
+  const leftActual = new Vector3(
+    leftSocket.position.x,
+    leftSocket.position.y,
+    leftSocket.position.z,
+  ).applyMatrix4(equipment.matrix);
+  const rightActual = new Vector3(
+    rightSocket.position.x,
+    rightSocket.position.y,
+    rightSocket.position.z,
+  ).applyMatrix4(equipment.matrix);
+  const targetSeparation = leftTarget.distanceTo(rightTarget);
+  const socketSeparation = leftActual.distanceTo(rightActual);
+  const leftError = leftActual.distanceTo(leftTarget);
+  const rightError = rightActual.distanceTo(rightTarget);
+  return {
+    leftError,
+    rightError,
+    targetSeparation,
+    socketSeparation,
+    separationError: socketSeparation - targetSeparation,
+    withinEnvelope: Math.max(leftError, rightError) <= 0.005,
   };
 }

@@ -5,6 +5,7 @@ import { useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
+import { twoHandAttachmentMatrix } from '../equipment/attach';
 import { EquipmentMesh } from './equipmentMeshes';
 import { useSceneState } from './sceneState';
 
@@ -52,6 +53,20 @@ export function EquipmentView() {
         group.matrix.multiplyMatrices(held, scratch.local);
         group.matrixWorldNeedsUpdate = true;
         continue;
+      }
+
+      if (instance?.attachment.mode === 'hands' && character?.handMatrix) {
+        const leftHand = character.handMatrix('l', new Matrix4());
+        const rightHand = character.handMatrix('r', new Matrix4());
+        const local = leftHand && rightHand
+          ? twoHandAttachmentMatrix(leftHand, rightHand, instance)
+          : null;
+        if (local) {
+          group.visible = true;
+          group.matrix.copy(local);
+          group.matrixWorldNeedsUpdate = true;
+          continue;
+        }
       }
 
       if (!transform) {

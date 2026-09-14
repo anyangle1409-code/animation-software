@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — rigid two-hand socket calibration
+
+Replaced the placeholder `hands` attachment (which merely drew equipment along the line between both hands) with a rigid socket-fit solver. Two-hand equipment now uses its actual authored `leftSocket`/`rightSocket` positions, maps their midpoint and axis onto the two hand-local grip targets, and never non-uniformly scales the item. Any difference between hand separation and socket separation remains a measurable symmetric residual rather than being hidden by wrist/elbow/shoulder compensation. Optional left/right grip offsets and a scalar `gripRoll` are now part of the two-hand attachment data.
+
+Added `withTwoHandGripWidth()` for per-exercise contact-width authoring: it moves only the two grip socket positions symmetrically along their existing local axis and can reset those positions back to immutable library defaults without erasing unrelated socket-rotation overrides. The Grip workspace reports left/right socket error, hand separation and socket separation, and exposes undoable grip-width plus bar-roll controls. Preserved-source imported characters use the same `twoHandAttachmentMatrix()` from their live left/right hand matrices, so their preview no longer falls back to canonical two-hand placement.
+
+Regression coverage uses a synthetic barbell rather than changing any accepted exercise definition. It proves the raw 80 cm barbell sockets expose their real spacing residual, calibrated socket width lands both contacts within numerical tolerance with a rigid determinant of 1, roll changes orientation without moving either grip contact, and arbitrary imported-character hand matrices use the same solver.
+
+
 ### ChatGPT — 2026-09-14 — hand-local grip orientation calibration
 
 Extended one-hand equipment attachments with optional `gripRotation` Euler degrees. Production placement is now `hand frame × calibrated grip transform × inverse equipment socket transform`, so the equipment socket remains pinned to the exact same hand-local grip centre while the handle can rotate inside the palm. The full socket transform includes socket orientation as well as position, improving future non-zero-angle handles while preserving the current zero-rotation dumbbell baseline. The preserved-source-skeleton `EquipmentView` uses the same transform through the extended `handAttachmentMatrix`, so imported-character preview and export/runtime placement agree.

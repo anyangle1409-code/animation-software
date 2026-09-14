@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { resolveFrame } from '../../animation/pipeline';
 import { anatomicalGripOffset } from '../../equipment/attach';
-import { GRIP_CLOSURE_PRESETS, measureGripFit } from '../../equipment/gripDiagnostics';
+import { GRIP_CLOSURE_PRESETS, measureGripFit, measureTwoHandFit } from '../../equipment/gripDiagnostics';
+import { equipmentSocketForInstance } from '../../equipment/library';
 import type { Vec3 } from '../../rig/types';
 import { GRIP_PROFILE_LIST } from '../../exercises/gripProfiles';
 import { PoseEvaluation } from '../../rig/skeleton';
@@ -15,6 +16,8 @@ export function GripPanel() {
   const setGripPreset = useStudio((state) => state.setGripPreset);
   const setEquipmentGripOffset = useStudio((state) => state.setEquipmentGripOffset);
   const setEquipmentGripRotation = useStudio((state) => state.setEquipmentGripRotation);
+  const setTwoHandGripWidth = useStudio((state) => state.setTwoHandGripWidth);
+  const setTwoHandGripRoll = useStudio((state) => state.setTwoHandGripRoll);
 
   const measurements = useMemo(() => {
     const evaluation = new PoseEvaluation(skeleton);
@@ -33,6 +36,36 @@ export function GripPanel() {
         rotation: instance.attachment.gripRotation ?? { x: 0, y: 0, z: 0 },
         isCustomRotation: Boolean(instance.attachment.gripRotation),
         fit: measureGripFit(evaluation, transform, instance.attachment.side),
+      }];
+    });
+  }, [clip, exercise.equipment.instances, time]);
+
+  const twoHandMeasurements = useMemo(() => {
+    const evaluation = new PoseEvaluation(skeleton);
+    const frame = resolveFrame(skeleton, evaluation, clip, time);
+    evaluation.apply(frame.pose);
+    return exercise.equipment.instances.flatMap((instance) => {
+      if (instance.attachment.mode !== 'hands') return [];
+      const transform = frame.equipment.get(instance.id);
+      if (!transform) return [];
+      const fit = measureTwoHandFit(evaluation, instance, transform);
+      const left = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
+      const right = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
+      if (!fit || !left || !right) return [];
+      return [{
+        id: instance.id,
+        label: instance.label ?? instance.id,
+        fit,
+        width: Math.hypot(
+          right.position.x - left.position.x,
+          right.position.y - left.position.y,
+          right.position.z - left.position.z,
+        ),
+        roll: instance.attachment.gripRoll ?? 0,
+        hasWidthOverride: Boolean(
+          instance.socketOverrides?.[instance.attachment.leftSocket]?.position ||
+          instance.socketOverrides?.[instance.attachment.rightSocket]?.position
+        ),
       }];
     });
   }, [clip, exercise.equipment.instances, time]);
@@ -177,6 +210,77 @@ export function GripPanel() {
         finger reach and wrap geometry as the Studio's grip regression. It is an animation-fit diagnostic,
         not a force or injury-safety score.
       </p>
+
+
+      {twoHandMeasurements.length > 0 && (
+        <>
+          <h3>Two-hand rigid fit</h3>
+          <div className="grip-fit-list">
+            {twoHandMeasurements.map(({ id, label, fit, width, roll, hasWidthOverride }) => (
+              <div className="grip-fit" key={`two-hand-${id}`}>
+                <div className="grip-fit__head">
+                  <strong>{label}</strong>
+                  <span className={fit.withinEnvelope ? 'status-ok' : 'status-warn'}>
+                    {fit.withinEnvelope ? 'Sockets aligned' : 'Calibrate spacing'}
+                  </span>
+                </div>
+                <div className="grip-offset-grid">
+                  <label className="field">
+                    <span className="field__label">Grip width · cm</span>
+                    <input
+                      type="number"
+                      step={1}
+                      min={10}
+                      max={200}
+                      value={Number((width * 100).toFixed(1))}
+                      onChange={(event) => setTwoHandGripWidth(id, Number(event.target.value) / 100)}
+                    />
+                  </label>
+                  <label className="field">
+                    <span className="field__label">Bar roll · °</span>
+                    <input
+                      type="number"
+                      step={1}
+                      value={Number(roll.toFixed(1))}
+                      onChange={(event) => setTwoHandGripRoll(id, Number(event.target.value))}
+                    />
+                  </label>
+                </div>
+                <div className="button-row">
+                  <button
+                    type="button"
+                    disabled={!hasWidthOverride}
+                    onClick={() => setTwoHandGripWidth(id, null)}
+                  >
+                    Reset grip width
+                  </button>
+                  <button
+                    type="button"
+                    disabled={Math.abs(roll) < 1e-9}
+                    onClick={() => setTwoHandGripRoll(id, null)}
+                  >
+                    Reset roll
+                  </button>
+                </div>
+                <dl className="spec-list">
+                  <dt>Left socket error</dt>
+                  <dd>{(fit.leftError * 1000).toFixed(1)} mm</dd>
+                  <dt>Right socket error</dt>
+                  <dd>{(fit.rightError * 1000).toFixed(1)} mm</dd>
+                  <dt>Hands separation</dt>
+                  <dd>{(fit.targetSeparation * 100).toFixed(1)} cm</dd>
+                  <dt>Socket separation</dt>
+                  <dd>{(fit.socketSeparation * 100).toFixed(1)} cm</dd>
+                </dl>
+              </div>
+            ))}
+          </div>
+          <p className="panel__hint">
+            Two-hand equipment is always rigid. Grip width moves only the authored contact sockets
+            along the item; the solver never scales the bar or moves wrists/shoulders to hide a mismatch.
+          </p>
+        </>
+      )}
     </section>
   );
 }

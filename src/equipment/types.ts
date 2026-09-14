@@ -92,5 +92,11 @@ export type EquipmentAttachment =
       /** Sockets gripped by the left and right hands. */
       leftSocket: string;
       rightSocket: string;
+      /** Shared hand-local grip point retained for backwards compatibility. */
       gripOffset?: Vec3;
+      /** Optional side-specific hand-local grip points. */
+      leftGripOffset?: Vec3;
+      rightGripOffset?: Vec3;
+      /** Roll of the rigid two-hand item around the line joining both grips, degrees. */
+      gripRoll?: number;
     };

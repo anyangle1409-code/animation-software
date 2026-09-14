@@ -1,0 +1,20 @@
+name: ChatGPT Grip Handover
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+permissions:
+  contents: write
+jobs:
+  handover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python .github/chatgpt_grip_handover.py
+      - run: |
+          git config user.name ChatGPT
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          if git diff --quiet -- AI_CHANGELOG.md docs/CHARACTER_CANDIDATE_REPAIR.md; then exit 0; fi
+          git add AI_CHANGELOG.md docs/CHARACTER_CANDIDATE_REPAIR.md
+          git commit -m 'docs: log live grip tuning handover'
+          git push

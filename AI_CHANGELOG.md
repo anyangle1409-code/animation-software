@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — selected-joint spatial path diagnostics
+
+Added a whole-rep spatial path diagnostic for the selected joint. It evaluates the canonical forward kinematics at the authored clip FPS, measures the selected bone head relative to its anatomical parent's head, and reports maximum 3D drift from the starting relative position, total relative path length, final return error and the exact worst timestamp. Root/world translation is removed by construction.
+
+This is especially useful for the bicep-curl review: selecting `forearm_l` or `forearm_r` means the measured point is the elbow joint and the parent anchor is the upper-arm/shoulder joint. Pure elbow flexion therefore reads zero elbow drift, while upper-arm/shoulder contribution moves the elbow and becomes directly measurable in millimetres. The Joint workspace can jump straight to the maximum-drift frame. Values remain descriptive because many exercises intentionally translate joints.
+
+Regression coverage proves a 90° forearm-flexion clip leaves the elbow point fixed, then adds a 10° upper-arm out-and-back path and verifies substantial measured drift, a midpoint worst frame, non-zero travelled path and essentially zero return error.
+
+
 ### ChatGPT — 2026-09-14 — resolved bilateral motion symmetry
 
 Added a whole-rep bilateral motion diagnostic for paired joints. Rather than comparing raw left/right Euler values, it samples the final clip and mirrors each sampled pose through the canonical rig's existing `mirrorPose()` transform, which preserves flexion and flips the handed axial/abduction axes exactly as editor mirroring does. The actual opposite-side joint is then compared against that mirrored expectation using shortest-path angular deltas.

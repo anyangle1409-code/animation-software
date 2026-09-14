@@ -41,6 +41,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Segment-local joint coordination compares the selected joint against its anatomical parent, reporting excursion, meaningful-motion onset and onset lag; the parent can be selected directly for timing edits, making elbow-led/shoulder-follow sequencing explicit without extra stop/start keys.
 - Bilateral timing symmetry is explicit: the Joint workspace compares delay/finish/easing against the anatomical opposite and can copy selected-side timing to the other side in one undoable edit without changing pose angles.
 - Whole-rep resolved bilateral motion symmetry now samples the final clip and compares the opposite joint against the canonical rig's exact mirror transform, reporting maximum and RMS angular mismatch with a jump to the worst frame; intentional unilateral asymmetry remains descriptive rather than failed.
+- Selected-joint spatial path diagnostics track the joint head relative to its anatomical parent, reporting maximum drift, total relative path length, return error and the worst timestamp. For a selected forearm this directly measures elbow wander relative to the shoulder while removing whole-body/root translation.
 - Semantic Start / Transition / Peak / Return pose markers are generated deterministically and editable on keyframes.
 - Non-destructive A/B pose snapshots provide side-by-side front-view comparison plus selected-joint angle deltas.
 - Individual finger/thumb joint authoring remains available through the same joint workspace.

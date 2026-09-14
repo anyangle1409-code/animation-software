@@ -1,8 +1,9 @@
+import { Vector3 } from 'three';
 import { sampleClip, sortedKeyframes, type StudioClip } from '../animation/clip';
 import { AXES, type Axis } from '../rig/types';
 import { mirrorBoneName, type BoneName } from '../rig/boneNames';
 import { boneRotation, mirrorPose } from '../rig/pose';
-import type { Skeleton } from '../rig/skeleton';
+import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
 import { toDeg } from '../core/math';
 
 export interface MotionWorstPoint {
@@ -242,5 +243,81 @@ export function measureBilateralMotionSymmetry(
     sampleCount,
     rmsErrorDeg: components > 0 ? Math.sqrt(squared / components) : 0,
     maxError,
+  };
+}
+
+
+export interface JointPathDiagnostic {
+  bone: BoneName;
+  parent: BoneName;
+  fps: number;
+  sampleCount: number;
+  /** Largest 3D movement of the joint-from-parent vector away from its start. */
+  maxDriftMetres: number;
+  maxDriftTime: number;
+  /** Distance travelled by that relative joint point through the whole clip. */
+  pathLengthMetres: number;
+  /** Difference between final and starting relative joint positions. */
+  returnErrorMetres: number;
+}
+
+/**
+ * Measure the selected joint head relative to its anatomical parent joint.
+ *
+ * World/root translation is deliberately removed. Selecting a forearm therefore
+ * measures how far the elbow wanders relative to the shoulder, while pure elbow
+ * flexion leaves the elbow joint itself stationary. The metric is descriptive:
+ * many exercises intentionally move a joint through space.
+ */
+export function measureJointPath(
+  clip: StudioClip,
+  skeleton: Skeleton,
+  bone: BoneName,
+): JointPathDiagnostic | null {
+  const parent = skeleton.bone(bone).parent;
+  if (!parent) return null;
+  const fps = clip.fps > 0 ? clip.fps : 30;
+  const lastFrame = Math.max(1, Math.ceil(clip.duration * fps));
+  const evaluation = new PoseEvaluation(skeleton);
+  const joint = new Vector3();
+  const anchor = new Vector3();
+  const relative = new Vector3();
+  const start = new Vector3();
+  const previous = new Vector3();
+  let sampleCount = 0;
+  let maxDriftMetres = 0;
+  let maxDriftTime = 0;
+  let pathLengthMetres = 0;
+
+  for (let frame = 0; frame <= lastFrame; frame += 1) {
+    const time = Math.min(clip.duration, frame / fps);
+    evaluation.apply(sampleClip(clip, time).pose);
+    evaluation.head(bone, joint);
+    evaluation.head(parent, anchor);
+    relative.subVectors(joint, anchor);
+    if (sampleCount === 0) {
+      start.copy(relative);
+      previous.copy(relative);
+    } else {
+      pathLengthMetres += relative.distanceTo(previous);
+      previous.copy(relative);
+    }
+    const drift = relative.distanceTo(start);
+    if (drift > maxDriftMetres) {
+      maxDriftMetres = drift;
+      maxDriftTime = time;
+    }
+    sampleCount += 1;
+  }
+
+  return {
+    bone,
+    parent,
+    fps,
+    sampleCount,
+    maxDriftMetres,
+    maxDriftTime,
+    pathLengthMetres,
+    returnErrorMetres: relative.distanceTo(start),
   };
 }

@@ -6,6 +6,7 @@ import { vec3 } from '../rig/types';
 import {
   measureBilateralMotionSymmetry,
   measureJointMotion,
+  measureJointPath,
   measureJointTransitions,
 } from './motionDiagnostics';
 
@@ -106,6 +107,32 @@ describe('selected-joint motion diagnostics', () => {
     expect(asymmetric?.maxError.axis).toBe('x');
     expect(asymmetric?.maxError.value).toBeCloseTo(10, 6);
     expect(asymmetric?.maxError.time).toBeCloseTo(1, 8);
+  });
+
+
+  it('measures elbow drift from upper-arm motion rather than from elbow flexion itself', () => {
+    const flexionOnly = linearForearmClip();
+    const fixedElbow = measureJointPath(flexionOnly, canonicalSkeleton, 'forearm_l');
+    expect(fixedElbow).not.toBeNull();
+    expect(fixedElbow!.parent).toBe('upperarm_l');
+    expect(fixedElbow!.maxDriftMetres).toBeLessThan(1e-9);
+    expect(fixedElbow!.pathLengthMetres).toBeLessThan(1e-9);
+
+    const moving = linearForearmClip();
+    const middle = restPose();
+    middle.rotations.upperarm_l = vec3((10 * Math.PI) / 180, 0, 0);
+    const end = restPose();
+    moving.keyframes = [
+      { id: 'start', time: 0, pose: restPose(), ik: {}, easing: 'linear' },
+      { id: 'middle', time: 0.5, pose: middle, ik: {}, easing: 'linear' },
+      { id: 'end', time: 1, pose: end, ik: {}, easing: 'hold' },
+    ];
+    const path = measureJointPath(moving, canonicalSkeleton, 'forearm_l');
+    expect(path).not.toBeNull();
+    expect(path!.maxDriftMetres).toBeGreaterThan(0.02);
+    expect(path!.maxDriftTime).toBeCloseTo(0.5, 6);
+    expect(path!.pathLengthMetres).toBeGreaterThan(path!.maxDriftMetres * 1.9);
+    expect(path!.returnErrorMetres).toBeLessThan(1e-9);
   });
 
 });

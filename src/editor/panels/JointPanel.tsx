@@ -11,6 +11,7 @@ import { skeleton, useStudio } from '../store';
 import {
   measureBilateralMotionSymmetry,
   measureJointMotion,
+  measureJointPath,
   measureJointTransitions,
 } from '../motionDiagnostics';
 import { measureJointCoordination } from '../coordinationDiagnostics';
@@ -96,6 +97,10 @@ export function JointPanel() {
   );
   const bilateral = useMemo(
     () => (selected ? measureBilateralMotionSymmetry(clip, skeleton, selected) : null),
+    [clip, selected],
+  );
+  const jointPath = useMemo(
+    () => (selected ? measureJointPath(clip, skeleton, selected) : null),
     [clip, selected],
   );
   const keyframes = useMemo(() => sortedKeyframes(clip), [clip]);
@@ -223,6 +228,14 @@ export function JointPanel() {
                 <dd>{bilateral.maxError.value.toFixed(2)}° max · {bilateral.rmsErrorDeg.toFixed(2)}° RMS · {bilateral.maxError.time.toFixed(2)}s</dd>
               </>
             )}
+            {jointPath && (
+              <>
+                <dt>Joint drift from parent</dt>
+                <dd>{(jointPath.maxDriftMetres * 1000).toFixed(1)} mm max · {jointPath.maxDriftTime.toFixed(2)}s</dd>
+                <dt>Relative joint path</dt>
+                <dd>{(jointPath.pathLengthMetres * 1000).toFixed(1)} mm travelled · {(jointPath.returnErrorMetres * 1000).toFixed(1)} mm return error</dd>
+              </>
+            )}
           </dl>
           <div className="button-row">
             <button type="button" onClick={() => setTime(motion.maxSpeed.time)}>
@@ -241,6 +254,11 @@ export function JointPanel() {
                 Jump to worst bilateral mismatch
               </button>
             )}
+            {jointPath && (
+              <button type="button" onClick={() => setTime(jointPath.maxDriftTime)}>
+                Jump to maximum joint drift
+              </button>
+            )}
           </div>
           {transitions?.maxJump && (
             <p className="panel__note">
@@ -250,6 +268,11 @@ export function JointPanel() {
           {bilateral && (
             <p className="panel__note">
               Bilateral comparison uses the rig's exact mirror transform against {boneLabel(bilateral.opposite)} at every authored frame. Zero means an exact mirror; asymmetry may still be intentional for unilateral exercises.
+            </p>
+          )}
+          {jointPath && (
+            <p className="panel__note">
+              Spatial drift is the selected joint head relative to {boneLabel(jointPath.parent)}, so whole-body/root translation is removed. Selecting a forearm measures elbow wander relative to its shoulder; pure elbow flexion alone does not move that joint point.
             </p>
           )}
           <details>

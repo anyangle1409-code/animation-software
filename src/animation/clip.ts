@@ -1,11 +1,12 @@
+import type { BoneName } from '../rig/boneNames';
 import type { Pose, Vec3 } from '../rig/types';
-import type { EasingKind } from '../exercises/types';
+import type { EasingKind, PhaseJointTiming } from '../exercises/types';
 import type { EffectorLock } from '../constraints/types';
 import type { EquipmentInstance } from '../equipment/types';
 import type { IKChainId } from '../ik/types';
 import { blendPoses, clonePose } from '../rig/pose';
 import { ease } from './easing';
-import { clamp } from '../core/math';
+import { clamp, lerpAngle } from '../core/math';
 
 export interface KeyframeIK {
   enabled: boolean;
@@ -23,6 +24,8 @@ export interface Keyframe {
   ik: Partial<Record<IKChainId, KeyframeIK>>;
   /** Easing used from this keyframe to the next. */
   easing: EasingKind;
+  /** Optional per-bone timing used from this keyframe to the next. */
+  jointTiming?: Partial<Record<BoneName, PhaseJointTiming>>;
   label?: string;
   phaseId?: string;
 }
@@ -54,7 +57,9 @@ export const sortedKeyframes = (clip: StudioClip): Keyframe[] =>
 
 /**
  * Sample the clip at `time`. Poses are blended with the easing of the keyframe
- * being left, so a phase's tempo lives on its own keyframe.
+ * being left, so a phase's tempo lives on its own keyframe. A phase may also
+ * delay or finish individual bones independently; that is used for secondary
+ * body motion without inserting extra stop-start keyframes into a smooth rep.
  */
 export function sampleClip(clip: StudioClip, time: number): ClipSample {
   const keyframes = sortedKeyframes(clip);
@@ -76,8 +81,11 @@ export function sampleClip(clip: StudioClip, time: number): ClipSample {
   const span = to.time - from.time;
   const raw = span <= 1e-9 ? 0 : (t - from.time) / span;
   const blend = ease(from.easing, raw);
+  const pose = blendPoses(from.pose, to.pose, blend);
+  applyJointTiming(pose, from, to, raw);
+
   return {
-    pose: blendPoses(from.pose, to.pose, blend),
+    pose,
     ik: blendIK(from.ik, to.ik, blend),
     phaseId: from.phaseId,
     index,
@@ -86,6 +94,36 @@ export function sampleClip(clip: StudioClip, time: number): ClipSample {
 
 const wrap = (time: number, duration: number): number =>
   duration <= 0 ? 0 : ((time % duration) + duration) % duration;
+
+/**
+ * Override the ordinary phase blend for explicitly timed bones. `delay` and
+ * `finish` are normalised phase positions, so tempo changes do not alter the
+ * intended coordination. The local easing starts and ends at zero velocity for
+ * `lift`, keeping a delayed stabiliser smooth rather than snapping into motion.
+ */
+function applyJointTiming(pose: Pose, from: Keyframe, to: Keyframe, raw: number): void {
+  for (const [name, timing] of Object.entries(from.jointTiming ?? {})) {
+    if (!timing) continue;
+    const bone = name as BoneName;
+    const delay = clamp(timing.delay ?? 0, 0, 1);
+    const finish = Math.max(delay, clamp(timing.finish ?? 1, 0, 1));
+    const timingSpan = finish - delay;
+    const localRaw =
+      timingSpan <= 1e-9
+        ? raw >= finish
+          ? 1
+          : 0
+        : clamp((raw - delay) / timingSpan, 0, 1);
+    const localBlend = ease(timing.easing ?? from.easing, localRaw);
+    const a = from.pose.rotations[bone] ?? { x: 0, y: 0, z: 0 };
+    const b = to.pose.rotations[bone] ?? { x: 0, y: 0, z: 0 };
+    pose.rotations[bone] = {
+      x: lerpAngle(a.x, b.x, localBlend),
+      y: lerpAngle(a.y, b.y, localBlend),
+      z: lerpAngle(a.z, b.z, localBlend),
+    };
+  }
+}
 
 function cloneIK(
   ik: Partial<Record<IKChainId, KeyframeIK>>,

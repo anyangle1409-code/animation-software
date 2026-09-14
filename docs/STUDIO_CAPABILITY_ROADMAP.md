@@ -62,7 +62,8 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Target and actual effector positions, millimetre contact error, solver reachability and physical over-extension are reported from the same production frame pipeline used by the viewport.
 - Contact inspection is non-destructive; lock enable/disable still uses normal undoable clip editing.
 - Static equipment is selectable in the viewport/Equipment workspace and can be translated or rotated with exact numeric inputs or the existing transform gizmo; edits regenerate the deterministic clip through normal undo/redo history.
-- Hand-driven equipment rejects world-transform authoring because its attachment solver owns that transform; hand placement remains in the Grip workspace. Equipment socket inventory is visible per selected object.
+- Hand-driven equipment rejects world-transform authoring because its attachment solver owns that transform; hand placement remains in the Grip workspace.
+- Static equipment sockets are individually selectable and can be translated/rotated in equipment-local space through exact controls or the viewport gizmo. Overrides are per exercise instance and reset cleanly to immutable library defaults.
 
 ## 6. Corrective deformation workspace
 

@@ -1,4 +1,4 @@
-import type { EquipmentDefinition, EquipmentKind, EquipmentSocket } from './types';
+import type { EquipmentDefinition, EquipmentInstance, EquipmentKind, EquipmentSocket } from './types';
 import { vec3 } from '../rig/types';
 
 /**
@@ -169,4 +169,24 @@ export const EQUIPMENT_LIST = Object.values(EQUIPMENT_LIBRARY);
 
 export function equipmentSocket(kind: EquipmentKind, socketId: string): EquipmentSocket | null {
   return EQUIPMENT_LIBRARY[kind].sockets.find((entry) => entry.id === socketId) ?? null;
+}
+
+
+/** Effective socket for one exercise equipment instance, including local overrides. */
+export function equipmentSocketForInstance(
+  instance: EquipmentInstance,
+  socketId: string,
+): EquipmentSocket | null {
+  const base = equipmentSocket(instance.kind, socketId);
+  if (!base) return null;
+  const override = instance.socketOverrides?.[socketId];
+  return {
+    ...base,
+    position: override?.position ? { ...override.position } : { ...base.position },
+    ...(override?.rotation
+      ? { rotation: { ...override.rotation } }
+      : base.rotation
+        ? { rotation: { ...base.rotation } }
+        : {}),
+  };
 }

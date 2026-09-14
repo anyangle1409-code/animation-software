@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react';
 import { Group, Matrix4 } from 'three';
 import { useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
-import { equipmentSocket } from '../equipment/library';
+import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
 import { EquipmentMesh } from './equipmentMeshes';
 import { useSceneState } from './sceneState';
@@ -41,7 +41,7 @@ export function EquipmentView() {
           : null;
 
       if (held && instance?.attachment.mode === 'hand') {
-        const socket = equipmentSocket(instance.kind, instance.attachment.socket);
+        const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
         scratch.local.copy(handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }));
         group.visible = true;

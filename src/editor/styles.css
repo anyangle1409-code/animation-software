@@ -960,3 +960,28 @@ code {
   margin-top: 4px;
   color: var(--muted);
 }
+
+
+.equipment-socket {
+  width: 100%;
+  text-align: left;
+}
+
+.equipment-socket.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+
+.socket-editor {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+
+.socket-editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+}

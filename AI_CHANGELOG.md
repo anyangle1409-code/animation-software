@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — per-instance equipment socket authoring
+
+Added direct socket-level authoring for **static equipment**. Equipment instances can now carry local `socketOverrides` without mutating `EQUIPMENT_LIBRARY`; `equipmentSocketForInstance` resolves the effective socket and the production attachment/contact resolver uses that effective value. Selecting a static socket in the Equipment workspace moves the existing Studio transform gizmo onto the socket. Translate/Rotate edits are converted back into equipment-local position/rotation, regenerate the deterministic clip, and participate in normal undo/redo history. Exact local position/rotation inputs and `Reset socket` are available alongside the gizmo.
+
+The scope is deliberately guarded: hand- and two-hand-driven equipment reject socket authoring so handle placement continues to have one owner, the Grip/attachment workspace. This prevents competing edits between a moving hand socket and grip-centre calibration. Regressions verify that moving the pull-up rack's left grip socket changes the real production contact target, undo restores the original socket, reset removes the per-instance override, and a dumbbell socket edit creates no document/history change.
+
+
 ### ChatGPT — 2026-09-14 — static equipment transform authoring
 
 Added a dedicated Equipment workspace for selecting exercise equipment, inspecting its declared sockets and authoring **static** world transforms. Static objects such as the pull-up rack can now be translated/rotated either through exact numeric controls (position in centimetres, rotation in degrees) or through the Studio's existing Translate / Rotate gizmo. `setEquipmentTransform` edits the exercise definition, regenerates the deterministic clip and participates in normal undo/redo history, so moving a rack also moves the equipment sockets that contact locks resolve against.

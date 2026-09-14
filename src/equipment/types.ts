@@ -64,6 +64,8 @@ export interface EquipmentInstance {
   /** World transform when the item is not driven by an attachment. */
   position: Vec3;
   rotation: Vec3;
+  /** Per-exercise local socket calibration. Library defaults remain unchanged. */
+  socketOverrides?: Partial<Record<string, { position?: Vec3; rotation?: Vec3 }>>;
   /**
    * How the item is bound into the scene. `hand` makes the item rigidly follow
    * a hand; `hands` keeps a single bar between two hands, moving symmetrically;

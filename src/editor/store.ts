@@ -26,6 +26,7 @@ import type { History } from './history';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 import { normalizeLoopRange, type LoopRange } from './playback';
 import type { PoseSnapshot } from './comparison';
+import { equipmentSocket } from '../equipment/library';
 
 export type ViewMode = 'skeleton' | 'muscles' | 'combined' | 'character' | 'anatomy';
 
@@ -128,6 +129,7 @@ export interface Selection {
   bone: BoneName | null;
   handle: { chain: IKChainId; kind: 'target' | 'pole' } | null;
   equipmentId: string | null;
+  socketId: string | null;
 }
 
 interface StudioState {
@@ -170,6 +172,7 @@ interface StudioState {
   selectBone: (bone: BoneName | null) => void;
   selectHandle: (handle: Selection['handle']) => void;
   selectEquipment: (id: string | null) => void;
+  selectSocket: (equipmentId: string, socketId: string | null) => void;
   setViewMode: (mode: ViewMode) => void;
   setCamera: (preset: CameraPresetId) => void;
   toggle: (key: 'showJoints' | 'showEquipment' | 'showIkHandles' | 'showGrid') => void;
@@ -198,6 +201,7 @@ interface StudioState {
   setGripClosure: (closure: number) => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
   setEquipmentTransform: (instanceId: string, transform: { position?: Vec3; rotation?: Vec3 }) => void;
+  setEquipmentSocketTransform: (instanceId: string, socketId: string, transform: { position?: Vec3; rotation?: Vec3 } | null) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
   runValidation: () => void;
 
@@ -282,7 +286,7 @@ export const useStudio = create<StudioState>((set, get) => {
     loopRange: null,
     comparison: { a: null, b: null },
 
-    selection: { bone: null, handle: null, equipmentId: null },
+    selection: { bone: null, handle: null, equipmentId: null, socketId: null },
     viewMode: 'combined',
     showJoints: true,
     showEquipment: true,
@@ -327,10 +331,12 @@ export const useStudio = create<StudioState>((set, get) => {
     },
 
     selectBone: (bone) =>
-      set({ selection: { bone, handle: null, equipmentId: null } }),
-    selectHandle: (handle) => set({ selection: { bone: null, handle, equipmentId: null } }),
+      set({ selection: { bone, handle: null, equipmentId: null, socketId: null } }),
+    selectHandle: (handle) => set({ selection: { bone: null, handle, equipmentId: null, socketId: null } }),
     selectEquipment: (equipmentId) =>
-      set({ selection: { bone: null, handle: null, equipmentId } }),
+      set({ selection: { bone: null, handle: null, equipmentId, socketId: null } }),
+    selectSocket: (equipmentId, socketId) =>
+      set({ selection: { bone: null, handle: null, equipmentId, socketId } }),
     setViewMode: (viewMode) => set({ viewMode }),
     setBackdrop: (backdrop) => set({ backdrop }),
     setCamera: (camera) => set({ camera }),
@@ -348,7 +354,7 @@ export const useStudio = create<StudioState>((set, get) => {
         comparison: { a: null, b: null },
         validation: null,
         camera: 'recommended',
-        selection: { bone: null, handle: null, equipmentId: null },
+        selection: { bone: null, handle: null, equipmentId: null, socketId: null },
       });
     },
 
@@ -565,6 +571,51 @@ export const useStudio = create<StudioState>((set, get) => {
               }
             : instance,
         );
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      });
+    },
+
+
+    setEquipmentSocketTransform: (instanceId, socketId, transform) => {
+      const current = get().document.exercise.equipment.instances.find(
+        (instance) => instance.id === instanceId,
+      );
+      // Socket calibration is currently for static equipment. Hand-driven
+      // handles remain owned by the Grip workspace to avoid two competing
+      // ways of moving the same contact point.
+      if (!current || current.attachment.mode !== 'static' || !equipmentSocket(current.kind, socketId)) return;
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) => {
+          if (instance.id !== instanceId) return instance;
+          const socketOverrides: Partial<Record<string, { position?: Vec3; rotation?: Vec3 }>> = {
+            ...(instance.socketOverrides ?? {}),
+          };
+          if (!transform) {
+            delete socketOverrides[socketId];
+          } else {
+            const previous = socketOverrides[socketId] ?? {};
+            socketOverrides[socketId] = {
+              ...(transform.position
+                ? { position: { ...transform.position } }
+                : previous.position
+                  ? { position: { ...previous.position } }
+                  : {}),
+              ...(transform.rotation
+                ? { rotation: { ...transform.rotation } }
+                : previous.rotation
+                  ? { rotation: { ...previous.rotation } }
+                  : {}),
+            };
+          }
+          return {
+            ...instance,
+            socketOverrides: Object.keys(socketOverrides).length > 0 ? socketOverrides : undefined,
+          };
+        });
         const exercise = {
           ...document.exercise,
           equipment: { ...document.exercise.equipment, instances },

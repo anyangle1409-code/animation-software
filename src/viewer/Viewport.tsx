@@ -1,7 +1,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Grid, OrbitControls, TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Euler, Object3D, Quaternion, Vector3 } from 'three';
+import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
@@ -18,6 +18,7 @@ import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
 import { advancePlaybackTime } from '../editor/playback';
+import { equipmentSocketForInstance } from '../equipment/library';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -113,8 +114,17 @@ function Gizmo() {
   const gizmoMode = useStudio((state) => state.gizmoMode);
   const setBoneRotation = useStudio((state) => state.setBoneRotation);
   const setEquipmentTransform = useStudio((state) => state.setEquipmentTransform);
+  const setEquipmentSocketTransform = useStudio((state) => state.setEquipmentSocketTransform);
   const equipment = useStudio((state) => state.document.clip.equipment);
   const [proxy] = useState(() => new Object3D());
+  const socketScratch = useMemo(() => ({
+    local: new Matrix4(),
+    world: new Matrix4(),
+    inverse: new Matrix4(),
+    position: new Vector3(),
+    quaternion: new Quaternion(),
+    scale: new Vector3(),
+  }), []);
   const dragging = useRef(false);
   const { scene: root } = useThree();
 
@@ -129,6 +139,10 @@ function Gizmo() {
     ? equipment.find((instance) => instance.id === selection.equipmentId) ?? null
     : null;
   const editableEquipment = selectedEquipment?.attachment.mode === 'static' ? selectedEquipment : null;
+  const selectedSocket =
+    editableEquipment && selection.socketId
+      ? equipmentSocketForInstance(editableEquipment, selection.socketId)
+      : null;
 
   useFrame(() => {
     if (dragging.current) return;
@@ -140,6 +154,23 @@ function Gizmo() {
     if (editableEquipment) {
       const transform = scene.frame?.equipment.get(editableEquipment.id);
       if (!transform) return;
+      if (selectedSocket) {
+        socketScratch.local.compose(
+          socketScratch.position.set(selectedSocket.position.x, selectedSocket.position.y, selectedSocket.position.z),
+          socketScratch.quaternion.setFromEuler(
+            new Euler(
+              (selectedSocket.rotation?.x ?? 0) * Math.PI / 180,
+              (selectedSocket.rotation?.y ?? 0) * Math.PI / 180,
+              (selectedSocket.rotation?.z ?? 0) * Math.PI / 180,
+              EULER_ORDER,
+            ),
+          ),
+          socketScratch.scale.set(1, 1, 1),
+        );
+        socketScratch.world.multiplyMatrices(transform.matrix, socketScratch.local);
+        socketScratch.world.decompose(proxy.position, proxy.quaternion, socketScratch.scale);
+        return;
+      }
       proxy.position.copy(transform.position);
       proxy.quaternion.copy(transform.quaternion);
     }
@@ -180,6 +211,29 @@ function Gizmo() {
 
         const equipmentId = state.selection.equipmentId;
         if (!equipmentId || !editableEquipment || editableEquipment.id !== equipmentId) return;
+        const socketId = state.selection.socketId;
+        if (socketId && selectedSocket) {
+          const transform = scene.frame?.equipment.get(equipmentId);
+          if (!transform) return;
+          proxy.updateMatrix();
+          socketScratch.inverse.copy(transform.matrix).invert();
+          socketScratch.local.multiplyMatrices(socketScratch.inverse, proxy.matrix);
+          socketScratch.local.decompose(
+            socketScratch.position,
+            socketScratch.quaternion,
+            socketScratch.scale,
+          );
+          const euler = new Euler().setFromQuaternion(socketScratch.quaternion, EULER_ORDER);
+          setEquipmentSocketTransform(equipmentId, socketId, {
+            position: {
+              x: socketScratch.position.x,
+              y: socketScratch.position.y,
+              z: socketScratch.position.z,
+            },
+            rotation: { x: toDeg(euler.x), y: toDeg(euler.y), z: toDeg(euler.z) },
+          });
+          return;
+        }
         if (gizmoMode === 'translate') {
           setEquipmentTransform(equipmentId, {
             position: { x: proxy.position.x, y: proxy.position.y, z: proxy.position.z },

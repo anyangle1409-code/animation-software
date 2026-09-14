@@ -3,7 +3,7 @@ import type { PoseEvaluation } from '../rig/skeleton';
 import { EULER_ORDER } from '../rig/types';
 import { toRad } from '../core/math';
 import type { EquipmentInstance } from './types';
-import { equipmentSocket } from './library';
+import { equipmentSocketForInstance } from './library';
 import type { SocketTransform } from '../constraints/locks';
 
 export interface EquipmentTransform {
@@ -67,7 +67,7 @@ function resolveInstance(
       .copy(evaluation.matrix(hand))
       .multiply(new Matrix4().makeTranslation(grip.x, grip.y, grip.z));
     // The socket sits at the grip, so the item's own origin is offset back by it.
-    const socketLocal = equipmentSocket(instance.kind, attachment.socket);
+    const socketLocal = equipmentSocketForInstance(instance, attachment.socket);
     if (socketLocal) {
       matrix.multiply(
         new Matrix4().makeTranslation(
@@ -135,7 +135,7 @@ export function socketResolver(
     const instance = byId.get(equipmentId);
     const transform = transforms.get(equipmentId);
     if (!instance || !transform) return null;
-    const local = equipmentSocket(instance.kind, socketId);
+    const local = equipmentSocketForInstance(instance, socketId);
     if (!local) return null;
 
     const localMatrix = new Matrix4().compose(

@@ -229,3 +229,58 @@ describe('static equipment authoring', () => {
     expect(useStudio.getState().history.past.length).toBe(historyCount);
   });
 });
+
+
+
+describe('equipment socket authoring', () => {
+  it('moves a static rack socket through the production contact resolver and undo', () => {
+    useStudio.getState().loadExercise('pull_up');
+    const before = useStudio.getState().document;
+    const originalClip = before.clip;
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const originalFrame = resolveFrame(canonicalSkeleton, evaluation, originalClip, 0);
+    const originalTarget = originalFrame.contacts.find((contact) => contact.chain === 'arm_l')!.target.x;
+
+    useStudio.getState().setEquipmentSocketTransform('rack', 'pullup_l', {
+      position: { x: -0.30, y: 1.97, z: 0 },
+      rotation: { x: 0, y: 90, z: 0 },
+    });
+
+    const edited = useStudio.getState();
+    const rack = edited.document.exercise.equipment.instances.find((instance) => instance.id === 'rack')!;
+    expect(rack.socketOverrides?.pullup_l?.position).toEqual({ x: -0.30, y: 1.97, z: 0 });
+    const frame = resolveFrame(canonicalSkeleton, new PoseEvaluation(canonicalSkeleton), edited.document.clip, 0);
+    const target = frame.contacts.find((contact) => contact.chain === 'arm_l')!.target.x;
+    expect(target).toBeCloseTo(-0.30, 8);
+    expect(target).not.toBeCloseTo(originalTarget, 4);
+
+    edited.undo();
+    const restored = useStudio.getState().document.exercise.equipment.instances.find(
+      (instance) => instance.id === 'rack',
+    )!;
+    expect(restored.socketOverrides).toBeUndefined();
+  });
+
+  it('resets an instance socket to its library default without touching the global definition', () => {
+    useStudio.getState().loadExercise('pull_up');
+    useStudio.getState().setEquipmentSocketTransform('rack', 'pullup_l', {
+      position: { x: -0.31, y: 1.96, z: 0.01 },
+    });
+    useStudio.getState().setEquipmentSocketTransform('rack', 'pullup_l', null);
+    const rack = useStudio.getState().document.exercise.equipment.instances.find(
+      (instance) => instance.id === 'rack',
+    )!;
+    expect(rack.socketOverrides).toBeUndefined();
+  });
+
+  it('keeps hand-driven handle calibration owned by the Grip workspace', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    const before = useStudio.getState().document;
+    const historyCount = useStudio.getState().history.past.length;
+    useStudio.getState().setEquipmentSocketTransform('dumbbell_l', 'grip', {
+      position: { x: 1, y: 1, z: 1 },
+    });
+    expect(useStudio.getState().document).toBe(before);
+    expect(useStudio.getState().history.past.length).toBe(historyCount);
+  });
+});

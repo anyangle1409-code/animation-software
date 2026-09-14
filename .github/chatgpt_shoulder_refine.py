@@ -43,5 +43,25 @@ if text.count(old_pec) != 1:
     raise SystemExit('expected one staged pectoral block')
 text = text.replace(old_pec, new_pec, 1)
 
+old_lat = """    // The lat wraps onto the anterior/proximal humerus before its insertion.
+    // That route makes both shoulder extension and adduction shorten the path,
+    // instead of a straight posterior chord lengthening during extension.
+    origin: at('spine_01', -0.055, 0.02, -0.06),
+    via: [at('upperarm_l', 0.04, 0.03, 0.04)],
+    insertion: at('upperarm_l', 0.04, 0.04, 0.01),
+    thickness: 0.032,
+"""
+new_lat = """    // Preserve the proven visible lat line and use a hidden proximal-humerus
+    // via point for functional length. This keeps pull-up containment unchanged
+    // while making both shoulder extension and adduction shorten the path.
+    origin: at('spine_01', -0.055, 0.02, -0.06),
+    via: [at('upperarm_l', 0.04, 0.04, 0.04)],
+    insertion: at('upperarm_l', 0.014, 0.028, -0.014),
+    thickness: 0.032,
+"""
+if text.count(old_lat) != 1:
+    raise SystemExit('expected one staged latissimus block')
+text = text.replace(old_lat, new_lat, 1)
+
 path.write_text(text, encoding='utf-8')
 print('Applied measured containment-safe shoulder refinements')

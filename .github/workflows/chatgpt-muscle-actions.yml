@@ -18,6 +18,16 @@ jobs:
       - run: npm ci
       - name: Apply staged shoulder biomechanics fix
         run: python .github/chatgpt_shoulder_muscle_fix.py
+      - name: Calibrate visible belly containment
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/muscles/model.ts')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace("origin: at('clavicle_l', 0.03, 0.15, 0),\n    insertion: at('upperarm_l', 0.05, 0.11, 0),\n    thickness: 0.042", "origin: at('clavicle_l', 0.03, 0.15, 0),\n    insertion: at('upperarm_l', 0.05, 0.11, 0),\n    thickness: 0.0415")
+          text = text.replace("origin: at('spine_03', -0.025, 0.1, 0.12),\n    insertion: at('upperarm_l', 0, 0.05, 0.01),\n    thickness: 0.032", "origin: at('spine_03', -0.025, 0.1, 0.12),\n    insertion: at('upperarm_l', 0, 0.05, 0.01),\n    thickness: 0.0319")
+          path.write_text(text, encoding='utf-8')
+          PY
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite

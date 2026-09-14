@@ -11,9 +11,10 @@ import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { ComparisonPanel } from './panels/ComparisonPanel';
 import { GripPanel } from './panels/GripPanel';
+import { ContactPanel } from './panels/ContactPanel';
 import { useStudio } from './store';
 
-type LeftTab = 'joint' | 'grip' | 'ik' | 'character';
+type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'character';
 type RightTab = 'exercise' | 'muscles' | 'technique' | 'compare' | 'export';
 
 export function App() {
@@ -86,6 +87,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={leftTab === 'contacts' ? 'is-active' : ''}
+              onClick={() => setLeftTab('contacts')}
+            >
+              Contacts
+            </button>
+            <button
+              type="button"
               className={leftTab === 'character' ? 'is-active' : ''}
               onClick={() => setLeftTab('character')}
             >
@@ -96,6 +104,7 @@ export function App() {
             {leftTab === 'joint' && <JointPanel />}
             {leftTab === 'grip' && <GripPanel />}
             {leftTab === 'ik' && <IKPanel />}
+            {leftTab === 'contacts' && <ContactPanel />}
             {leftTab === 'character' && <CharacterPanel />}
           </div>
         </aside>

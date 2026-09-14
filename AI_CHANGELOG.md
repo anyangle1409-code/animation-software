@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — live contact and reachability workspace
+
+Added a dedicated Contacts tab that inspects floor, world and equipment locks at the current playhead using the **same `resolveFrame` production pipeline and analytical IK result used by the viewport**. Each lock now has a live target position, final hand/foot effector position, world-space error in millimetres, solver `reached` state and explicit physical over-extension state. Equipment locks also show the equipment/socket pair they resolve through. This is diagnostic-only: it does not add a second solver, hidden correction, safety score or movement change.
+
+`src/constraints/contactDiagnostics.ts` is the pure inspection layer. Regression coverage verifies the bicep-curl floor contacts, pull-up rack socket contacts and a deliberately impossible world-space arm target; the impossible target must surface as `overextended` rather than being silently presented as a valid contact. Lock enable/disable remains the existing undoable clip edit. The Studio roadmap now records the contact-inspection foundation as implemented; equipment move/rotate authoring remains the next separate step.
+
+
 ### ChatGPT — 2026-09-14 — hand-local grip-centre calibration
 
 Extended the Grip workspace with per-instance handle-centre calibration. Each hand-attached dumbbell now exposes X/Y/Z in hand-local millimetres. Editing writes `attachment.gripOffset` through the normal Studio document history, regenerates the deterministic clip, and therefore updates both the rendered equipment position and live grip-fit diagnostics immediately. `Reset anatomical centre` removes the override and returns to `anatomicalGripOffset(side)` rather than baking a duplicate default value.

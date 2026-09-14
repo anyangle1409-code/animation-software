@@ -56,6 +56,12 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Explicit world/equipment/floor contact locks.
 - Live contact-distance and reachability diagnostics.
 
+### Implemented equipment/contact foundation
+
+- Dedicated Contacts workspace inspects every floor / world / equipment lock at the live playhead.
+- Target and actual effector positions, millimetre contact error, solver reachability and physical over-extension are reported from the same production frame pipeline used by the viewport.
+- Contact inspection is non-destructive; lock enable/disable still uses normal undoable clip editing.
+
 ## 6. Corrective deformation workspace
 
 - Joint-angle-driven corrective shapes for elbow, shoulder, hip, knee and wrist when skinning alone is insufficient.

@@ -161,6 +161,8 @@ export interface HandSpec {
   /** Distance between the hands, metres. */
   width?: number;
   grip: GripKind;
+  /** Optional hand-shape override; semantic equipment grip remains `grip`. */
+  gripPreset?: GripKind;
   /** Where the palms face at the start of the movement. */
   orientation: 'neutral' | 'supinated' | 'pronated' | 'rotating';
   /** How tightly the fingers close, 0 open to 1 fully closed. */

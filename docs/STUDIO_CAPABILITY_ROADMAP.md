@@ -40,6 +40,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Non-destructive A/B pose snapshots provide side-by-side front-view comparison plus selected-joint angle deltas.
 - Individual finger/thumb joint authoring remains available through the same joint workspace.
 - Dedicated Grip workspace provides undoable closure presets and live measured finger/handle fit using the established regression envelope.
+- Equipment-aware deterministic hand-shape profiles now distinguish dumbbell, bar/pull-up, neutral handle, rope/thick-handle, floor/open-palm and relaxed grips; an optional authoring override changes hand shape without changing the exercise's semantic equipment grip.
 - Per-instance hand-local grip-centre calibration edits handle X/Y/Z in millimetres, updates diagnostics live, and can reset to the anatomical default.
 
 ## 4. Hand / grip workspace

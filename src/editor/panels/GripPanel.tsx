@@ -3,6 +3,7 @@ import { resolveFrame } from '../../animation/pipeline';
 import { anatomicalGripOffset } from '../../equipment/attach';
 import { GRIP_CLOSURE_PRESETS, measureGripFit } from '../../equipment/gripDiagnostics';
 import type { Vec3 } from '../../rig/types';
+import { GRIP_PROFILE_LIST } from '../../exercises/gripProfiles';
 import { PoseEvaluation } from '../../rig/skeleton';
 import { skeleton, useStudio } from '../store';
 
@@ -11,6 +12,7 @@ export function GripPanel() {
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
   const setGripClosure = useStudio((state) => state.setGripClosure);
+  const setGripPreset = useStudio((state) => state.setGripPreset);
   const setEquipmentGripOffset = useStudio((state) => state.setEquipmentGripOffset);
 
   const measurements = useMemo(() => {
@@ -42,6 +44,26 @@ export function GripPanel() {
       <p className="panel__hint">
         Tune the generated hand closure here. Individual thumb and finger segments remain available
         in Joint → Show individual finger joints for final contact corrections.
+      </p>
+
+      <h3>Hand shape</h3>
+      <label className="field">
+        <span className="field__label">Grip profile</span>
+        <select
+          value={exercise.hands.gripPreset ?? exercise.hands.grip}
+          onChange={(event) => {
+            const value = event.target.value as typeof exercise.hands.grip;
+            setGripPreset(value === exercise.hands.grip ? null : value);
+          }}
+        >
+          {GRIP_PROFILE_LIST.map((profile) => (
+            <option key={profile.id} value={profile.id}>{profile.label}</option>
+          ))}
+        </select>
+      </label>
+      <p className="panel__note">
+        The exercise still records its semantic grip as <strong>{exercise.hands.grip}</strong>. This
+        selector only overrides the generated finger/thumb shape for authoring.
       </p>
 
       <h3>Closure</h3>

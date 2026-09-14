@@ -302,3 +302,25 @@ describe('visual review sign-off identity', () => {
     expect(useStudio.getState().visualReview?.characterSourceId).toBe('import-v5');
   });
 });
+
+
+
+describe('grip profile authoring', () => {
+  it('adds an undoable hand-shape override without changing semantic equipment grip', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    expect(useStudio.getState().document.exercise.hands.grip).toBe('dumbbell');
+    expect(useStudio.getState().document.exercise.hands.gripPreset).toBeUndefined();
+    useStudio.getState().setGripPreset('handle');
+    expect(useStudio.getState().document.exercise.hands.grip).toBe('dumbbell');
+    expect(useStudio.getState().document.exercise.hands.gripPreset).toBe('handle');
+    useStudio.getState().undo();
+    expect(useStudio.getState().document.exercise.hands.gripPreset).toBeUndefined();
+  });
+
+  it('clears a redundant override when reset to the semantic grip', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    useStudio.getState().setGripPreset('rope');
+    useStudio.getState().setGripPreset('dumbbell');
+    expect(useStudio.getState().document.exercise.hands.gripPreset).toBeUndefined();
+  });
+});

@@ -16,7 +16,7 @@ import { generateClip, phaseDuration } from '../animation/generate';
 import { validateClip } from '../animation/validate';
 import type { ClipValidation } from '../animation/validate';
 import { lockAnchors } from '../constraints/locks';
-import type { ExerciseDefinition, PhaseJointTiming, Tempo } from '../exercises/types';
+import type { ExerciseDefinition, GripKind, PhaseJointTiming, Tempo } from '../exercises/types';
 import { EXERCISES, getExercise } from '../exercises/library';
 import type { IKChainId } from '../ik/types';
 import { goalFromPose } from '../ik/solve';
@@ -202,6 +202,7 @@ interface StudioState {
   setDuration: (duration: number) => void;
   setTempo: (tempo: Partial<Tempo>) => void;
   setGripClosure: (closure: number) => void;
+  setGripPreset: (preset: GripKind | null) => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
   setEquipmentTransform: (instanceId: string, transform: { position?: Vec3; rotation?: Vec3 }) => void;
   setEquipmentSocketTransform: (instanceId: string, socketId: string, transform: { position?: Vec3; rotation?: Vec3 } | null) => void;
@@ -537,6 +538,16 @@ export const useStudio = create<StudioState>((set, get) => {
           ...document.exercise,
           hands: { ...document.exercise.hands, closure: normalized },
         };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+
+    setGripPreset: (preset) =>
+      commit((document) => {
+        const hands = { ...document.exercise.hands };
+        if (preset === null || preset === hands.grip) delete hands.gripPreset;
+        else hands.gripPreset = preset;
+        const exercise = { ...document.exercise, hands };
         return { exercise, clip: generateClip(skeleton, exercise) };
       }),
 

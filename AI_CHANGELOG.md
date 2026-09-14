@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — equipment-aware deterministic grip profiles
+
+Replaced the one-size-fits-all finger generator with explicit deterministic profiles for `dumbbell`, `bar`, `handle`, `rope`, `floor` and `none`. The **dumbbell profile exactly preserves the previous production values** (`[78,95,60]` finger flexion, `[-22,60,60]` thumb Z and -14° thumb-base X at closure 1), so the accepted bicep-curl hand shape does not silently change. Bar/pull-up, neutral handle and rope profiles now have distinct finger/distal-thumb closure values; thumb-base opposition stays at the canonical rig's real -14° limit rather than asking the joint for impossible extra travel; the floor profile is intentionally near-open, matching a planted palm rather than a cylindrical wrap.
+
+`HandSpec.grip` remains the semantic equipment grip. A new optional `gripPreset` is only a generated hand-shape override, allowing authoring experiments without falsely changing exercise/equipment metadata. The Grip workspace exposes this as a profile selector and `setGripPreset` regenerates deterministically through normal undo/redo history. Regressions preserve the exact dumbbell baseline, prove bar/handle/rope generate distinct shapes, keep push-up fingers effectively open at its 5% closure, and verify the override is undoable while semantic grip remains unchanged.
+
+
 ### ChatGPT — 2026-09-14 — conservative review and approval workspace
 
 Added a dedicated Review workspace that aggregates the checks the Studio can measure honestly before an exercise is considered ready for human sign-off. `src/editor/review.ts` runs the exercise technique validator, loop closure, unreachable IK scan, explicit lock/contact diagnostics across the clip and the established single-hand dumbbell grip envelope where applicable. Technique **errors** block; technique warnings are surfaced but do not masquerade as fatal errors. Contacts block on unresolved, limited, over-extended or >5 mm error samples. The grip gate is explicitly scoped to the cylindrical dumbbell case the existing geometry diagnostic supports; unsupported equipment is reported as not applicable rather than falsely certified.

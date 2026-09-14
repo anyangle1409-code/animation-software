@@ -1,42 +1,60 @@
 # Imported character repair validation
 
-The candidate uses the preserved source skeleton and absolute retarget production path. Contact correction, hand/wrist fitting, localized hip smoothing, and the curl elbow/relaxed-arm follow-up are included. The original upload remains unchanged.
+The production path preserves the imported source skeleton, bind data, mesh, weights and proportions, then transfers the canonical anatomical pose onto that source rig. The current proven character remains `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` version 5. A separate review copy adds only metadata that opts into the new directional outer-elbow corrective; it does not replace the proven candidate.
 
-Input SHA-256: `854cc1193498b49722ea7ccce92d47d8ba6166b3fc0055cb4666675b710e5a49`  
-Current candidate SHA-256: `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`
+Proven v5 SHA-256: `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`  
+Directional-elbow review SHA-256: `8e8df9e8adcf43e0e6473bf98efadb05a31075031f9124787429ec2aedca99e4`
 
-## Production changes
+## Current production changes
 
-- Final canonical contact targets are passed into preserved imported characters.
-- Source-skeleton IK resolves floor and equipment contact for the imported proportions.
-- The fitted GLB has isolated bilateral fingers, a blended wrist cuff, a localized hip transition, and a wider upper/forearm blend at each elbow.
-- An opt-in elbow morph target restores up to 18 mm of inner-fold volume and 9 mm over the elbow point as flexion approaches its maximum. It is driven by the measured joint angle and is zero on a straight arm.
-- The curl bottom now uses 3° upper-arm clearance and no forward shoulder flexion, rather than 6° clearance and 2° flexion. The contracted pose uses 4° clearance and 4° forward drift rather than 7° of each.
-- The curl still reaches 126° elbow flexion; its range was not shortened to hide the deformation.
+- Imported characters keep their authored skeleton, inverse binds, vertices and skin weights; the canonical rig is a driver rather than a replacement skin skeleton.
+- Character-aware contact correction and calibrated hand frames keep equipment and floor/bar contacts aligned to imported proportions.
+- The proven v5 candidate contains the verified bilateral finger/hand repair, wrist cuff transition, local hip repair and widened elbow weight transition.
+- The retained elbow corrective remains flexion-driven and candidate-specific: up to 18 mm on the inner fold and 9 mm over the elbow point, including the source rig's numbered split forearm helpers. It is zero when the elbow is extended.
+- The curl bottom uses relaxed clavicles, 3° upper-arm clearance and no forward shoulder flexion. Peak elbow flexion remains 126°; the range was not shortened to hide deformation.
+- Curl coordination is now phase-local: elbow flexion begins first, while the upper arms wait until 55% of the concentric before completing only the authored 4° forward drift. On the eccentric they wait until 20% before settling. That secondary movement uses a fifth-order minimum-jerk curve so it joins the held pose with zero velocity and zero acceleration.
 
-No mesh topology, model proportions, skeleton, exercise timing, repetitions, equipment, muscle data, or contact rules were changed in the elbow follow-up.
+## Directional outer-elbow review candidate
+
+The importer now supports an additional optional `elbowCorrective.outerSmooth` value. It is not a generic smoothing pass and is inactive for every character unless its own metadata enables it.
+
+When enabled, the corrective measures the imported mesh's bind-pose one-ring curvature around the posterior elbow and moves only the outer elbow along the source surface normal towards the local surface average. The added bind-space displacement is capped at 8 mm and shares the existing measured elbow-flexion drive, so it remains zero at extension. No topology, skin weights, rig, inverse bind matrices, exercise range or equipment attachment changes are made.
+
+The separate review GLB sets `outerSmooth: 1.0`; its geometry, skeleton, weights and existing grip calibration are otherwise byte-for-byte the same as proven v5.
+
+Local production-geometry measurements on the review trial were favourable rather than a trade-off:
+
+| Pose | Baseline P95 | Review P95 | Baseline P99 | Review P99 | Severe compression change |
+|---|---:|---:|---:|---:|---:|
+| Curl peak, 126° | 1.515× | 1.496× | 1.633× | 1.620× | 14 → 14 |
+| Shoulder press racked, 100° | 1.393× | 1.388× | 1.557× | 1.535× | 11 → 11 |
+| Push-up bottom approximation, 90° | 1.348× | 1.338× | 1.501× | 1.473× | 7 → 7 |
+| Pull-up top approximation, 144° | 1.558× | 1.552× | 1.795× | 1.776× | 23 → 23 |
+
+These cross-pose figures are local deformation checks, not a substitute for tomorrow's visual Studio review. The largest additional posed displacement at curl peak was about 6.9 mm.
+
+A local elbow-subdivision experiment was also tested and rejected. It roughly halved median local edge length (about 25.6 mm to 13.2 mm) but increased local compression and did not improve the silhouette enough to justify changing topology. Do not use subdivision merely to hide the remaining elbow faceting, and do not amplify the retained radial corrective: that earlier experiment added bulk without repairing the silhouette.
 
 ## Verification
 
-- **190 regular automated tests passed; 1 optional asset test skipped in that run.**
-- The optional production diagnostic was run explicitly with the candidate GLB: **passed**.
-- An exported candidate GLB was parsed again; its merged elbow morph animation track reached 0.999999 influence at full flexion.
-- TypeScript and production build passed. The existing bundle-size warning remains.
-- At the fully contracted curl, arm-region edges above 2× rest length fell from 44 to 12; all-mesh edges above 2× fell from 60 to 30.
-- At pull-up top, arm-region edges above 2× fell from 57 to 29; all-mesh edges above 2× fell from 124 to 96.
-- Curl bottom remains at 4 arm-region edges above 2×. Curl midpoint changed from 20 to 22 whole-mesh edges above 2×, while its maximum and 99th-percentile strain remained effectively unchanged.
-- Push-up and shoulder-press peak metrics remained unchanged.
-- Every finger and thumb passed the independent isolation probe with zero opposite-side or central/forearm leakage.
-- Absolute anatomical transfer replaces the source A-pose and open-hand rest.
+Current branch validation on Node 22 after the directional importer change:
 
-## Current visual verdicts
+- `npm run typecheck` — **passed**.
+- `npm test` — **196 passed, 1 optional real-character diagnostic skipped** (17 test files passed).
+- `npm run build` — **passed**, with only the existing >500 kB chunk-size advisory.
+- New regression tests verify that directional smoothing is explicitly opt-in and that no added bind-space offset can exceed the 8 mm safety cap.
+- The proven v5 candidate remains unchanged and available for A/B comparison.
 
-| Movement | Verdict | Exact result |
+The optional external-asset diagnostic is skipped in ordinary CI because the real GLB is not committed. Proven v5 passed the production real-character diagnostic in the preceding retained validation. The new review candidate should be visually inspected in the Studio tomorrow before its metadata is promoted to the shared candidate.
+
+## Current visual priorities
+
+| Area | Current status | Next review |
 |---|---|---|
-| Dumbbell bicep curl | **NEEDS MINOR FIX** | Bottom shoulders read more relaxed, contracted elbow stretching is substantially reduced, and a joint-driven shape restores volume through the bend. Some faceting remains because the source topology has limited loops around the joint; minor handle/skin intersections and knuckle faceting remain. |
-| Bodyweight squat | **NEEDS MINOR FIX** | Feet maintain contact, but flattened groin/inner-thigh shaping and angular knee folds remain at depth. |
-| Dumbbell shoulder press | **NEEDS MINOR FIX** | Grips remain locked; overhead shoulder/armpit creasing and wrist/knuckle faceting remain. |
-| Push-up | **NEEDS MINOR FIX** | Palms and feet stay on the floor; low-poly wrist and knuckle folds remain. |
-| Pull-up | **NEEDS MINOR FIX** | Grip frames remain locked and elbow strain is reduced; bar/skin intersections and loaded wrist folds remain. |
+| Bicep curl motion | **Improved / review** | Judge the new elbow-before-shoulder sequencing through the moving rep, especially the late 4° shoulder drift and eccentric settling. |
+| Elbow silhouette | **Review candidate ready** | Compare proven v5 against the `OUTER_ELBOW` review copy at mid and full curl. Retain `outerSmooth` only if the visual contour is clearly better. |
+| Grip / fingers | **Needs minor visual polish** | Equipment is rigidly attached and fingers are isolated; inspect the remaining small handle/skin intersections and angular knuckle folds rather than redistributing broad forearm weights. |
+| Shoulders / axilla | **Needs minor visual polish** | Curl bottom is relaxed. Raised-arm shoulder/axilla work should remain a separate low-amplitude directional corrective; a prior broad radial inflation trial was rejected. |
+| Squat hip/groin | **Needs minor fix** | Keep separate from the curl template; prior broad weight and generic forward-push trials were rejected. |
 
-The screenshots are offline renders of the actual production-posed triangles rather than captures of the Studio interface. Edge ratios and visual inspection do not constitute a complete collision or all-frame self-intersection proof.
+All comparison renders produced during this repair work are offline renders of the actual production-posed triangles. They are evidence for deformation and silhouette review, not literal captures of the live Studio viewport.

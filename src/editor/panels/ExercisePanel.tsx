@@ -6,6 +6,7 @@ import { useStudio } from '../store';
 export function ExercisePanel() {
   const exercise = useStudio((state) => state.document.exercise);
   const setTempo = useStudio((state) => state.setTempo);
+  const setGripClosure = useStudio((state) => state.setGripClosure);
 
   const tempoFields = [
     { key: 'eccentric' as const, label: 'Eccentric (lower)' },
@@ -62,6 +63,21 @@ export function ExercisePanel() {
         <dt>Grip</dt>
         <dd>
           {exercise.hands.grip}, {exercise.hands.orientation}
+        </dd>
+        <dt>Grip closure</dt>
+        <dd>
+          <label className="grip-closure">
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.05}
+              value={exercise.hands.closure}
+              aria-label="Grip closure"
+              onChange={(event) => setGripClosure(Number(event.target.value))}
+            />
+            <span>{Math.round(exercise.hands.closure * 100)}%</span>
+          </label>
         </dd>
         <dt>Hand width</dt>
         <dd>{exercise.hands.width ? `${(exercise.hands.width * 100).toFixed(0)} cm` : '—'}</dd>

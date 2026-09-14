@@ -186,6 +186,7 @@ interface StudioState {
   mirrorSide: (from: 'l' | 'r') => void;
   setDuration: (duration: number) => void;
   setTempo: (tempo: Partial<Tempo>) => void;
+  setGripClosure: (closure: number) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
   runValidation: () => void;
 
@@ -429,6 +430,16 @@ export const useStudio = create<StudioState>((set, get) => {
     setTempo: (tempo) =>
       commit((document) => {
         const exercise = { ...document.exercise, tempo: { ...document.exercise.tempo, ...tempo } };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+    setGripClosure: (closure) =>
+      commit((document) => {
+        const normalized = Math.max(0, Math.min(1, closure));
+        const exercise = {
+          ...document.exercise,
+          hands: { ...document.exercise.hands, closure: normalized },
+        };
         return { exercise, clip: generateClip(skeleton, exercise) };
       }),
 

@@ -17,7 +17,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Apply staged biomechanics upgrade
-        run: python .github/chatgpt_muscle_upgrade.py
+        run: |
+          sed -i 's/taper: 0.68/taper: 0.72/g' .github/chatgpt_muscle_upgrade.py
+          python .github/chatgpt_muscle_upgrade.py
       - name: Typecheck
         run: npm run typecheck
       - name: Full test suite

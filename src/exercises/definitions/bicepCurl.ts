@@ -97,10 +97,11 @@ export const bicepCurl: ExerciseDefinition = {
       contraction: 'concentric',
       // The elbow leads the rep. The upper arm stays relaxed beside the torso
       // through most of the curl, then makes only the small authored 4° drift
-      // near the top instead of moving in lock-step with the forearm.
+      // near the top instead of moving in lock-step with the forearm. Minimum
+      // jerk keeps the delayed shoulder from visibly "switching on".
       jointTiming: {
-        upperarm_l: { delay: 0.55 },
-        upperarm_r: { delay: 0.55 },
+        upperarm_l: { delay: 0.55, easing: 'minimumJerk' },
+        upperarm_r: { delay: 0.55, easing: 'minimumJerk' },
       },
     },
     { id: 'squeeze', label: 'Squeeze', to: 'peak', easing: 'hold', contraction: 'isometric' },
@@ -113,8 +114,8 @@ export const bicepCurl: ExerciseDefinition = {
       // On the way down the elbow starts opening first; the shoulder settles
       // back a fraction later so the bottom position reads loose, not shrugged.
       jointTiming: {
-        upperarm_l: { delay: 0.2 },
-        upperarm_r: { delay: 0.2 },
+        upperarm_l: { delay: 0.2, easing: 'minimumJerk' },
+        upperarm_r: { delay: 0.2, easing: 'minimumJerk' },
       },
     },
     { id: 'reset', label: 'Reset', to: 'start', easing: 'hold', contraction: 'isometric' },

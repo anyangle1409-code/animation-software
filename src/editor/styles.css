@@ -829,3 +829,16 @@ code {
 .status-warn {
   color: #f0bd69;
 }
+
+
+.grip-offset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.grip-offset-grid input {
+  min-width: 0;
+  width: 100%;
+}

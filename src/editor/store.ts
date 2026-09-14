@@ -196,6 +196,7 @@ interface StudioState {
   setDuration: (duration: number) => void;
   setTempo: (tempo: Partial<Tempo>) => void;
   setGripClosure: (closure: number) => void;
+  setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
   runValidation: () => void;
 
@@ -521,6 +522,26 @@ export const useStudio = create<StudioState>((set, get) => {
         const exercise = {
           ...document.exercise,
           hands: { ...document.exercise.hands, closure: normalized },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+    setEquipmentGripOffset: (instanceId, offset) =>
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) => {
+          if (instance.id !== instanceId || instance.attachment.mode !== 'hand') return instance;
+          if (offset) {
+            return {
+              ...instance,
+              attachment: { ...instance.attachment, gripOffset: { ...offset } },
+            };
+          }
+          const { gripOffset: _gripOffset, ...attachment } = instance.attachment;
+          return { ...instance, attachment };
+        });
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
         };
         return { exercise, clip: generateClip(skeleton, exercise) };
       }),

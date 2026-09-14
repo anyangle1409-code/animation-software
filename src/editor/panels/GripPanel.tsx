@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { resolveFrame } from '../../animation/pipeline';
+import { anatomicalGripOffset } from '../../equipment/attach';
 import { GRIP_CLOSURE_PRESETS, measureGripFit } from '../../equipment/gripDiagnostics';
+import type { Vec3 } from '../../rig/types';
 import { PoseEvaluation } from '../../rig/skeleton';
 import { skeleton, useStudio } from '../store';
 
@@ -9,6 +11,7 @@ export function GripPanel() {
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
   const setGripClosure = useStudio((state) => state.setGripClosure);
+  const setEquipmentGripOffset = useStudio((state) => state.setEquipmentGripOffset);
 
   const measurements = useMemo(() => {
     const evaluation = new PoseEvaluation(skeleton);
@@ -21,10 +24,17 @@ export function GripPanel() {
       return [{
         id: instance.id,
         label: instance.label ?? instance.id,
+        side: instance.attachment.side,
+        offset: instance.attachment.gripOffset ?? anatomicalGripOffset(instance.attachment.side),
+        isCustomOffset: Boolean(instance.attachment.gripOffset),
         fit: measureGripFit(evaluation, transform, instance.attachment.side),
       }];
     });
   }, [clip, exercise.equipment.instances, time]);
+
+  const updateOffset = (id: string, current: Vec3, axis: keyof Vec3, millimetres: number) => {
+    setEquipmentGripOffset(id, { ...current, [axis]: millimetres / 1000 });
+  };
 
   return (
     <section className="panel grip-panel">
@@ -66,13 +76,35 @@ export function GripPanel() {
       <h3>Current handle fit</h3>
       {measurements.length > 0 ? (
         <div className="grip-fit-list">
-          {measurements.map(({ id, label, fit }) => (
+          {measurements.map(({ id, label, offset, isCustomOffset, fit }) => (
             <div className="grip-fit" key={id}>
               <div className="grip-fit__head">
                 <strong>{label}</strong>
                 <span className={fit.withinEnvelope ? 'status-ok' : 'status-warn'}>
                   {fit.withinEnvelope ? 'Within envelope' : 'Review fit'}
                 </span>
+              </div>
+              <div className="grip-offset-grid">
+                {(['x', 'y', 'z'] as const).map((axis) => (
+                  <label className="field" key={axis}>
+                    <span className="field__label">Grip {axis.toUpperCase()} · mm</span>
+                    <input
+                      type="number"
+                      step={1}
+                      value={Math.round(offset[axis] * 1000)}
+                      onChange={(event) => updateOffset(id, offset, axis, Number(event.target.value))}
+                    />
+                  </label>
+                ))}
+              </div>
+              <div className="button-row">
+                <button
+                  type="button"
+                  disabled={!isCustomOffset}
+                  onClick={() => setEquipmentGripOffset(id, null)}
+                >
+                  Reset anatomical centre
+                </button>
               </div>
               <dl className="spec-list">
                 <dt>Contact reach used</dt>
@@ -91,8 +123,9 @@ export function GripPanel() {
         </p>
       )}
       <p className="panel__hint">
-        “Within envelope” uses the same finger reach and wrap geometry as the Studio's grip regression.
-        It is an animation-fit diagnostic, not a force or injury-safety score.
+        Grip X/Y/Z is the handle centre in hand-local millimetres. “Within envelope” uses the same
+        finger reach and wrap geometry as the Studio's grip regression. It is an animation-fit diagnostic,
+        not a force or injury-safety score.
       </p>
     </section>
   );

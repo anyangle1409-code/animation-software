@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — hand-local grip-centre calibration
+
+Extended the Grip workspace with per-instance handle-centre calibration. Each hand-attached dumbbell now exposes X/Y/Z in hand-local millimetres. Editing writes `attachment.gripOffset` through the normal Studio document history, regenerates the deterministic clip, and therefore updates both the rendered equipment position and live grip-fit diagnostics immediately. `Reset anatomical centre` removes the override and returns to `anatomicalGripOffset(side)` rather than baking a duplicate default value.
+
+The calibration is deliberately equipment-only: it does not change wrist, elbow, shoulder or finger animation automatically. This makes it suitable for fixing the visual case where a handle sits too deep/shallow in the hand without corrupting an accepted curl motion. Regressions verify custom offsets are undoable, actually drive the resolved dumbbell to the requested hand-local point, and reset back to the implicit anatomical default. The capability roadmap now records grip-centre calibration as implemented.
+
+
 ### ChatGPT — 2026-09-14 — measurable hand/grip workspace
 
 Added a dedicated Grip tab for the curl/hand-authoring workflow. It keeps the existing deterministic finger generator and existing 30-joint fine-hand editing rather than introducing a second hand rig. The panel exposes an exact closure slider plus Loose 70%, Training 85%, and Closed 100% quick presets; all use the existing `setGripClosure` document edit, regenerate deterministically and remain undoable.

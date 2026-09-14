@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
+import { Vector3 } from 'three';
+import { resolveFrame } from '../animation/pipeline';
+import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { useStudio } from './store';
 
 const radians = (degrees: number) => (degrees * Math.PI) / 180;
@@ -136,5 +139,49 @@ describe('non-destructive pose comparison', () => {
     expect(useStudio.getState().comparison.a).not.toBeNull();
     useStudio.getState().loadExercise('air_squat');
     expect(useStudio.getState().comparison).toEqual({ a: null, b: null });
+  });
+});
+
+
+describe('equipment grip-offset calibration', () => {
+  beforeEach(() => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+  });
+
+  it('stores an undoable custom hand-local grip centre', () => {
+    const custom = { x: -0.02, y: 0.08, z: 0.006 };
+    useStudio.getState().setEquipmentGripOffset('dumbbell_l', custom);
+    const instance = useStudio.getState().document.exercise.equipment.instances.find(
+      (entry) => entry.id === 'dumbbell_l',
+    )!;
+    expect(instance.attachment.mode).toBe('hand');
+    if (instance.attachment.mode !== 'hand') throw new Error('Expected hand attachment');
+    expect(instance.attachment.gripOffset).toEqual(custom);
+
+    useStudio.getState().undo();
+    const restored = useStudio.getState().document.exercise.equipment.instances.find(
+      (entry) => entry.id === 'dumbbell_l',
+    )!;
+    expect(restored.attachment.mode).toBe('hand');
+    if (restored.attachment.mode !== 'hand') throw new Error('Expected hand attachment');
+    expect(restored.attachment.gripOffset).toBeUndefined();
+  });
+
+  it('moves the resolved dumbbell to the authored local grip centre and can reset it', () => {
+    const custom = { x: -0.018, y: 0.082, z: 0.004 };
+    useStudio.getState().setEquipmentGripOffset('dumbbell_l', custom);
+    const clip = useStudio.getState().document.clip;
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const frame = resolveFrame(canonicalSkeleton, evaluation, clip, 0);
+    evaluation.apply(frame.pose);
+    const expected = evaluation.localToWorld('hand_l', custom, new Vector3());
+    expect(frame.equipment.get('dumbbell_l')!.position.distanceTo(expected)).toBeLessThan(1e-9);
+
+    useStudio.getState().setEquipmentGripOffset('dumbbell_l', null);
+    const reset = useStudio.getState().document.exercise.equipment.instances.find(
+      (entry) => entry.id === 'dumbbell_l',
+    )!;
+    if (reset.attachment.mode !== 'hand') throw new Error('Expected hand attachment');
+    expect(reset.attachment.gripOffset).toBeUndefined();
   });
 });

@@ -4,7 +4,7 @@ import {
   NumberKeyframeTrack,
   Vector3,
 } from 'three';
-import type { Bone, BufferGeometry, KeyframeTrack, SkinnedMesh } from 'three';
+import type { Bone, BufferGeometry, InterleavedBufferAttribute, KeyframeTrack, SkinnedMesh } from 'three';
 import type { Skeleton } from '../rig/skeleton';
 import { PoseEvaluation as RigPoseEvaluation } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
@@ -97,7 +97,7 @@ function appendTarget(
   const radial = new Vector3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
-    point.fromBufferAttribute(position, vertex);
+    pointFrom(position, vertex, point);
     const away = point.clone().sub(joint);
     if (away.length() > reach) continue;
     const weights = elbowPairWeights(
@@ -165,8 +165,8 @@ function appendTarget(
 }
 
 function elbowPairWeights(
-  skinIndex: BufferAttribute,
-  skinWeight: BufferAttribute,
+  skinIndex: BufferAttribute | InterleavedBufferAttribute,
+  skinWeight: BufferAttribute | InterleavedBufferAttribute,
   vertex: number,
   upperIndices: Set<number>,
   lowerIndices: Set<number>,
@@ -218,8 +218,8 @@ function addOuterSmoothing(
 ): void {
   const index = geometry.getIndex();
   const position = geometry.getAttribute('position');
-  const skinIndex = geometry.getAttribute('skinIndex') as BufferAttribute | undefined;
-  const skinWeight = geometry.getAttribute('skinWeight') as BufferAttribute | undefined;
+  const skinIndex = geometry.getAttribute('skinIndex');
+  const skinWeight = geometry.getAttribute('skinWeight');
   if (!index || !position || !skinIndex || !skinWeight) return;
 
   const neighbours = Array.from({ length: position.count }, () => new Set<number>());
@@ -239,9 +239,9 @@ function addOuterSmoothing(
     neighbours[ib].add(ia).add(ic);
     neighbours[ic].add(ia).add(ib);
 
-    a.fromBufferAttribute(position, ia);
-    b.fromBufferAttribute(position, ib);
-    c.fromBufferAttribute(position, ic);
+    pointFrom(position, ia, a);
+    pointFrom(position, ib, b);
+    pointFrom(position, ic, c);
     face.crossVectors(edgeOne.subVectors(b, a), edgeTwo.subVectors(c, a));
     for (const vertex of [ia, ib, ic]) {
       normals[vertex * 3] += face.x;
@@ -291,7 +291,7 @@ function addOuterSmoothing(
     if (!adjacent.size) continue;
     mean.set(0, 0, 0);
     for (const neighbour of adjacent) {
-      neighbourPoint.fromBufferAttribute(position, neighbour);
+      pointFrom(position, neighbour, neighbourPoint);
       mean.add(neighbourPoint);
     }
     mean.multiplyScalar(1 / adjacent.size);
@@ -317,7 +317,7 @@ function addOuterSmoothing(
 }
 
 function pointFrom(
-  position: BufferAttribute,
+  position: BufferAttribute | InterleavedBufferAttribute,
   vertex: number,
   target: Vector3,
 ): Vector3 {

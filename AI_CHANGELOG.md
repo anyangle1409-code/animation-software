@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — consolidated movement review summary
+
+The Review workspace now brings the selected joint's existing movement diagnostics together beside the automated gates and human sign-off: maximum angular speed/acceleration, worst keyframe velocity discontinuity, resolved bilateral mirror mismatch, spatial joint drift and return error. Every measured problem point has a direct navigation action, and `Focus review joint` selects the joint and enters the close Focus camera.
+
+For Dumbbell Bicep Curl, Review defaults to `forearm_l` when no joint is already selected, making the elbow review immediately useful without changing selection state until the author explicitly focuses it. Selecting another joint anywhere in the Studio takes over the Review summary. These movement signals remain descriptive navigation aids and do not silently add new automated approval thresholds.
+
+Regression coverage now exercises the retained curl through the same summary ingredients and proves its forearm motion is finite, has an inspectable interior transition, remains bilaterally mirrored, moves the elbow through the small authored upper-arm contribution and returns the elbow to its starting relative position by the end of the rep.
+
+
 ### ChatGPT — 2026-09-14 — selected-joint spatial path diagnostics
 
 Added a whole-rep spatial path diagnostic for the selected joint. It evaluates the canonical forward kinematics at the authored clip FPS, measures the selected bone head relative to its anatomical parent's head, and reports maximum 3D drift from the starting relative position, total relative path length, final return error and the exact worst timestamp. Root/world translation is removed by construction.

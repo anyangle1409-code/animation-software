@@ -7,6 +7,12 @@ import { measureTwoHandFit } from '../equipment/gripDiagnostics';
 import { withTwoHandGripWidth } from '../equipment/library';
 import type { EquipmentInstance } from '../equipment/types';
 import { reviewExercise } from './review';
+import {
+  measureBilateralMotionSymmetry,
+  measureJointMotion,
+  measureJointPath,
+  measureJointTransitions,
+} from './motionDiagnostics';
 
 const clone = <T>(value: T): T => structuredClone(value);
 
@@ -78,6 +84,26 @@ describe('exercise review gate', () => {
     const calibratedGate = calibratedReview.gates.find((gate) => gate.id === 'twoHandGrip');
     expect(calibratedGate?.passed).toBe(true);
     expect(calibratedReview.automatedPass).toBe(true);
+  });
+
+
+  it('keeps the retained curl measurable for one-place elbow movement review', () => {
+    const exercise = getExercise('dumbbell_bicep_curl');
+    const clip = generateClip(canonicalSkeleton, exercise);
+    const motion = measureJointMotion(clip, 'forearm_l');
+    const transitions = measureJointTransitions(clip, 'forearm_l');
+    const bilateral = measureBilateralMotionSymmetry(clip, canonicalSkeleton, 'forearm_l');
+    const path = measureJointPath(clip, canonicalSkeleton, 'forearm_l');
+
+    expect(motion.maxSpeed.value).toBeGreaterThan(0);
+    expect(Number.isFinite(motion.maxAcceleration.value)).toBe(true);
+    expect(transitions.maxJump).not.toBeNull();
+    expect(bilateral).not.toBeNull();
+    expect(bilateral!.maxError.value).toBeLessThan(1e-6);
+    expect(path).not.toBeNull();
+    expect(path!.parent).toBe('upperarm_l');
+    expect(path!.maxDriftMetres).toBeGreaterThan(0);
+    expect(path!.returnErrorMetres).toBeLessThan(1e-6);
   });
 
 });

@@ -7,6 +7,14 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — explicit bilateral joint-timing symmetry
+
+Added `copyJointTimingToOpposite()` to the Studio store. It uses the canonical anatomical mirror bone, copies the selected segment's explicit delay/finish/easing to the opposite side in one normal undoable document edit, and copies **timing only**—pose rotations and IK remain untouched. If the selected side has no explicit joint timing, copying clears the opposite override so both sides use the same phase-default timing. Centre-line bones are a no-op.
+
+The Joint workspace now compares the selected joint's effective delay/finish/easing with its left/right counterpart and displays `Timing matched` or `Timing differs`, plus a `Copy selected timing to opposite side` action when needed. This closes a real authoring gap: pose mirroring alone never guaranteed bilateral motion timing. Regression coverage verifies a custom left upper-arm timing copies exactly to the right and undo restores the prior right-side timing, and verifies copying a default-timed left hand clears a stale right-hand override.
+
+
+
 ### ChatGPT — 2026-09-14 — parent/child joint coordination diagnostics
 
 Added `src/editor/coordinationDiagnostics.ts` to measure selected-joint versus anatomical-parent sequencing inside the current keyframe segment. It samples the actual generated clip at authored FPS, measures 3-axis shortest-path excursion from the segment start, identifies the first meaningful motion (5% of excursion with a 0.1° floor), records 95% finish timing, and reports parent-onset lag. A joint moving less than 0.25° is treated as near-isometric rather than being assigned a fake onset. There is deliberately no universal good/bad lag threshold because sequencing depends on the exercise.

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { BoneName } from '../../rig/boneNames';
-import { boneLabel, isFingerBone } from '../../rig/boneNames';
+import { boneLabel, isFingerBone, mirrorBoneName } from '../../rig/boneNames';
 import { AXES } from '../../rig/types';
 import type { Axis } from '../../rig/types';
 import { sortedKeyframes, sampleClip } from '../../animation/clip';
@@ -76,6 +76,7 @@ export function JointPanel() {
   const mirrorCurrentPose = useStudio((state) => state.mirrorCurrentPose);
   const mirrorSide = useStudio((state) => state.mirrorSide);
   const setJointTiming = useStudio((state) => state.setJointTiming);
+  const copyJointTimingToOpposite = useStudio((state) => state.copyJointTimingToOpposite);
   const hasClipboard = useStudio((state) => state.clipboard !== null);
   const [showFingerJoints, setShowFingerJoints] = useState(false);
 
@@ -96,6 +97,16 @@ export function JointPanel() {
   const segmentFrom = keyframes[segmentIndex];
   const segmentTo = keyframes[segmentIndex + 1];
   const timing = selected && segmentFrom ? segmentFrom.jointTiming?.[selected] : undefined;
+  const oppositeBone = selected ? mirrorBoneName(selected) : null;
+  const oppositeTiming = oppositeBone && oppositeBone !== selected && segmentFrom
+    ? segmentFrom.jointTiming?.[oppositeBone]
+    : undefined;
+  const timingMatchesOpposite = Boolean(
+    oppositeBone && oppositeBone !== selected &&
+    (timing?.delay ?? 0) === (oppositeTiming?.delay ?? 0) &&
+    (timing?.finish ?? 1) === (oppositeTiming?.finish ?? 1) &&
+    (timing?.easing ?? '') === (oppositeTiming?.easing ?? ''),
+  );
   const parentBone = selected ? skeleton.bone(selected).parent : null;
   const coordination = useMemo(
     () =>
@@ -327,6 +338,29 @@ export function JointPanel() {
                 the shoulder joins a curl—without inserting stop/start keyframes.
               </p>
             </>
+          )}
+          {oppositeBone && oppositeBone !== selected && (
+            <div className="joint-timing-symmetry">
+              <h4>Left/right timing</h4>
+              <p className="panel__hint">
+                Opposite joint: <strong>{boneLabel(oppositeBone)}</strong> ·{' '}
+                <span className={timingMatchesOpposite ? 'status-ok' : 'status-warn'}>
+                  {timingMatchesOpposite ? 'Timing matched' : 'Timing differs'}
+                </span>
+              </p>
+              <button
+                type="button"
+                disabled={timingMatchesOpposite}
+                onClick={() => copyJointTimingToOpposite(segmentFrom.id, selected)}
+              >
+                Copy selected timing to opposite side
+              </button>
+              <p className="panel__note">
+                Copies delay, finish and easing only. Pose angles stay untouched, and the edit uses
+                normal undo/redo history. If this side uses phase-default timing, the opposite side
+                is reset to the same default.
+              </p>
+            </div>
           )}
         </div>
       ) : (

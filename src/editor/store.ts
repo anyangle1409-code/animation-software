@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Vector3 } from 'three';
 import type { BoneName, Finger } from '../rig/boneNames';
+import { mirrorBoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Axis, Pose, Vec3 } from '../rig/types';
 import {
@@ -195,6 +196,7 @@ interface StudioState {
   setKeyframeEasing: (id: string, easing: Keyframe['easing']) => void;
   setKeyframeMarker: (id: string, marker: PoseMarkerKind | null) => void;
   setJointTiming: (id: string, bone: BoneName, timing: PhaseJointTiming | null) => void;
+  copyJointTimingToOpposite: (id: string, bone: BoneName) => void;
   copyPose: () => void;
   pastePose: () => void;
   mirrorCurrentPose: () => void;
@@ -478,6 +480,27 @@ export const useStudio = create<StudioState>((set, get) => {
           };
         }),
       })),
+
+    copyJointTimingToOpposite: (id, bone) => {
+      const opposite = mirrorBoneName(bone);
+      if (opposite === bone) return;
+      editClip((clip) => ({
+        ...clip,
+        keyframes: clip.keyframes.map((frame) => {
+          if (frame.id !== id) return frame;
+          const source = frame.jointTiming?.[bone];
+          const jointTiming: Partial<Record<BoneName, PhaseJointTiming>> = {
+            ...(frame.jointTiming ?? {}),
+          };
+          if (source) jointTiming[opposite] = { ...source };
+          else delete jointTiming[opposite];
+          return {
+            ...frame,
+            jointTiming: Object.keys(jointTiming).length > 0 ? jointTiming : undefined,
+          };
+        }),
+      }));
+    },
 
     copyPose: () => {
       const { document, time } = get();

@@ -57,6 +57,41 @@ describe('animation workspace authoring state', () => {
     ).toBeUndefined();
   });
 
+  it('copies selected joint timing to the anatomical opposite through one undoable edit', () => {
+    const first = useStudio.getState().document.clip.keyframes[0];
+    useStudio.getState().setJointTiming(first.id, 'upperarm_l', {
+      delay: 0.31,
+      finish: 0.88,
+      easing: 'minimumJerk',
+    });
+    const beforeCopy = useStudio.getState().document.clip.keyframes.find((frame) => frame.id === first.id)!
+      .jointTiming?.upperarm_r;
+
+    useStudio.getState().copyJointTimingToOpposite(first.id, 'upperarm_l');
+    const after = useStudio.getState().document.clip.keyframes.find((frame) => frame.id === first.id)!;
+    expect(after.jointTiming?.upperarm_r).toEqual(after.jointTiming?.upperarm_l);
+
+    useStudio.getState().undo();
+    expect(
+      useStudio.getState().document.clip.keyframes.find((frame) => frame.id === first.id)?.jointTiming
+        ?.upperarm_r,
+    ).toEqual(beforeCopy);
+  });
+
+  it('clears opposite custom timing when the selected side uses phase-default timing', () => {
+    const first = useStudio.getState().document.clip.keyframes[0];
+    useStudio.getState().setJointTiming(first.id, 'hand_r', { delay: 0.4, finish: 0.9 });
+    expect(
+      useStudio.getState().document.clip.keyframes.find((frame) => frame.id === first.id)?.jointTiming
+        ?.hand_r,
+    ).toBeDefined();
+    useStudio.getState().copyJointTimingToOpposite(first.id, 'hand_l');
+    expect(
+      useStudio.getState().document.clip.keyframes.find((frame) => frame.id === first.id)?.jointTiming
+        ?.hand_r,
+    ).toBeUndefined();
+  });
+
   it('normalises invalid joint timing rather than creating an impossible segment', () => {
     const first = useStudio.getState().document.clip.keyframes[0];
     useStudio.getState().setJointTiming(first.id, 'head', { delay: 2, finish: -1 });

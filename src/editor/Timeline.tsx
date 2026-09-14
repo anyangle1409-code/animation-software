@@ -17,6 +17,7 @@ export function Timeline() {
   const time = useStudio((state) => state.time);
   const setTime = useStudio((state) => state.setTime);
   const playing = useStudio((state) => state.playing);
+  const pause = useStudio((state) => state.pause);
   const togglePlay = useStudio((state) => state.togglePlay);
   const loop = useStudio((state) => state.loop);
   const setLoop = useStudio((state) => state.setLoop);
@@ -31,6 +32,13 @@ export function Timeline() {
   const keyframes = useMemo(() => sortedKeyframes(clip), [clip]);
   const phases = useMemo(() => phaseBoundaries(exercise), [exercise]);
   const current = keyframes.find((frame) => Math.abs(frame.time - time) < 0.5 / clip.fps);
+  const currentFrame = Math.round(time * clip.fps);
+  const totalFrames = Math.round(clip.duration * clip.fps);
+
+  const stepFrame = (frames: number) => {
+    pause();
+    setTime(time + frames / clip.fps);
+  };
 
   const scrub = (event: React.PointerEvent<HTMLDivElement>) => {
     const element = track.current;
@@ -46,8 +54,27 @@ export function Timeline() {
         <button type="button" className="primary" onClick={togglePlay}>
           {playing ? 'Pause' : 'Play'}
         </button>
+        <button
+          type="button"
+          onClick={() => stepFrame(-1)}
+          disabled={time <= 0}
+          title="Previous animation frame (Left Arrow)"
+        >
+          ‹ Frame
+        </button>
+        <button
+          type="button"
+          onClick={() => stepFrame(1)}
+          disabled={time >= clip.duration}
+          title="Next animation frame (Right Arrow)"
+        >
+          Frame ›
+        </button>
         <span className="timeline__time">
           {time.toFixed(2)}s / {clip.duration.toFixed(2)}s
+        </span>
+        <span className="timeline__time">
+          {currentFrame}f / {totalFrames}f
         </span>
         <label className="field field--inline">
           <span className="field__label">Speed</span>

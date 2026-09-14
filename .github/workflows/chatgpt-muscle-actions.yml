@@ -1,0 +1,91 @@
+name: ChatGPT isolated muscle action audit
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Create isolated-action audit
+        run: |
+          cat > src/muscles/__action_audit.test.ts <<'EOF'
+          import { describe, expect, it } from 'vitest';
+          import type { Pose } from '../rig/types';
+          import { poseFromDegrees } from '../rig/pose';
+          import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+          import { MUSCLES, createMuscleTransform, resolveMuscle } from './model';
+          import type { MuscleGroupId } from './groups';
+
+          const skeleton = canonicalSkeleton;
+          const evaluation = new PoseEvaluation(skeleton);
+          const transform = createMuscleTransform();
+
+          type Degrees = Parameters<typeof poseFromDegrees>[0];
+          type Direction = 'shorten' | 'lengthen';
+          interface AuditCase {
+            group: MuscleGroupId;
+            action: string;
+            rotations: Degrees;
+            expected: Direction;
+          }
+
+          const cases: AuditCase[] = [
+            { group: 'pectoralis', action: 'shoulder flexion', rotations: { upperarm_l: { x: 60 } }, expected: 'shorten' },
+            { group: 'pectoralis', action: 'shoulder adduction', rotations: { upperarm_l: { z: 30 } }, expected: 'shorten' },
+            { group: 'deltoid_anterior', action: 'shoulder flexion', rotations: { upperarm_l: { x: 60 } }, expected: 'shorten' },
+            { group: 'deltoid_medial', action: 'shoulder abduction', rotations: { upperarm_l: { z: -60 } }, expected: 'shorten' },
+            { group: 'deltoid_posterior', action: 'shoulder extension', rotations: { upperarm_l: { x: -30 } }, expected: 'shorten' },
+            { group: 'biceps', action: 'elbow flexion', rotations: { forearm_l: { x: 120 } }, expected: 'shorten' },
+            { group: 'triceps', action: 'elbow flexion antagonist', rotations: { forearm_l: { x: 120 } }, expected: 'lengthen' },
+            { group: 'forearm_flexors', action: 'wrist flexion', rotations: { hand_l: { z: 60 } }, expected: 'shorten' },
+            { group: 'forearm_extensors', action: 'wrist extension', rotations: { hand_l: { z: -60 } }, expected: 'shorten' },
+            { group: 'trapezius_upper', action: 'clavicle elevation', rotations: { clavicle_l: { z: -10 } }, expected: 'shorten' },
+            { group: 'trapezius_mid', action: 'clavicle retraction', rotations: { clavicle_l: { x: -12 } }, expected: 'shorten' },
+            { group: 'latissimus', action: 'shoulder adduction', rotations: { upperarm_l: { z: 30 } }, expected: 'shorten' },
+            { group: 'latissimus', action: 'shoulder extension', rotations: { upperarm_l: { x: -30 } }, expected: 'shorten' },
+            { group: 'erector_upper', action: 'upper-spine extension', rotations: { spine_03: { x: -10 } }, expected: 'shorten' },
+            { group: 'erector_mid', action: 'mid-spine extension', rotations: { spine_02: { x: -10 } }, expected: 'shorten' },
+            { group: 'erector_lower', action: 'lower-spine extension', rotations: { spine_01: { x: -10 } }, expected: 'shorten' },
+            { group: 'rectus_abdominis', action: 'trunk flexion', rotations: { spine_01: { x: 20 }, spine_02: { x: 15 }, spine_03: { x: 10 } }, expected: 'shorten' },
+            { group: 'obliques', action: 'left side-bend', rotations: { spine_01: { z: 12 }, spine_02: { z: 12 } }, expected: 'shorten' },
+            { group: 'gluteus', action: 'hip extension', rotations: { thigh_l: { x: -20 } }, expected: 'shorten' },
+            { group: 'quadriceps', action: 'knee flexion antagonist', rotations: { shin_l: { x: -110 } }, expected: 'lengthen' },
+            { group: 'hamstrings', action: 'knee flexion', rotations: { shin_l: { x: -110 } }, expected: 'shorten' },
+            { group: 'calves', action: 'plantarflexion', rotations: { foot_l: { x: -30 } }, expected: 'shorten' },
+            { group: 'hip_adductors', action: 'hip adduction', rotations: { thigh_l: { z: 20 } }, expected: 'shorten' },
+            { group: 'hip_abductors', action: 'hip abduction', rotations: { thigh_l: { z: -30 } }, expected: 'shorten' },
+          ];
+
+          function stretch(group: MuscleGroupId, rotations: Degrees): number {
+            const muscle = MUSCLES.find((entry) => entry.group === group && (entry.side === 'l' || entry.side === null));
+            if (!muscle) throw new Error(`missing ${group}`);
+            const pose: Pose = poseFromDegrees(rotations);
+            evaluation.apply(pose);
+            resolveMuscle(evaluation, muscle, transform);
+            return transform.stretch;
+          }
+
+          describe('isolated muscle action audit', () => {
+            it('prints direction and magnitude for every modeled action', () => {
+              const results = cases.map((entry) => {
+                const value = stretch(entry.group, entry.rotations);
+                const delta = (value - 1) * 100;
+                const observed: Direction | 'neutral' = delta < -0.5 ? 'shorten' : delta > 0.5 ? 'lengthen' : 'neutral';
+                return { ...entry, rotations: undefined, stretch: value, deltaPercent: delta, observed, matches: observed === entry.expected };
+              });
+              console.log('ISOLATED_MUSCLE_ACTIONS=' + JSON.stringify(results));
+              expect(results.every((entry) => Number.isFinite(entry.stretch))).toBe(true);
+            });
+          });
+          EOF
+      - run: npx vitest run src/muscles/__action_audit.test.ts --reporter=verbose

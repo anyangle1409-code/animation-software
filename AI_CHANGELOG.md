@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — export-aware outer-elbow corrective tuning
+
+Split the imported elbow's optional directional outer-smoothing from the retained radial volume corrective when a retargeted character is built for interactive authoring. The radial `homeGymPT_elbow_*` target is unchanged; a separate `homeGymPT_elbow_outer_*` target contains the full measured directional candidate and keeps the existing 8 mm bind-space displacement cap. Its authoring value is bounded to 0–100%, so the editor can never amplify that candidate beyond the measured cap.
+
+The retargeted character source owns one shared outer-smoothing tuning object for its lifetime. Viewport builds and fresh GLB export builds from that source therefore read the same value rather than keeping a viewport-only override. The Correctives workspace exposes the control with an authored-value reset, while Raw skinning remains a separate non-destructive A/B bypass. Exercise data, source vertices, source skin weights and the preserved skeleton remain untouched.
+
+Regression coverage starts from a v5-style authored value of 0%, proves the tunable outer target is available without changing the retained radial path, verifies the live deformation influence responds to the control, verifies the export deformation sampler bakes the same influence, and proves out-of-range edits clamp to the safe 0–100% interval.
+
+
 ### ChatGPT — 2026-09-14 — explicit bilateral joint-timing symmetry
 
 Added `copyJointTimingToOpposite()` to the Studio store. It uses the canonical anatomical mirror bone, copies the selected segment's explicit delay/finish/easing to the opposite side in one normal undoable document edit, and copies **timing only**—pose rotations and IK remain untouched. If the selected side has no explicit joint timing, copying clears the opposite override so both sides use the same phase-default timing. Centre-line bones are a no-op.

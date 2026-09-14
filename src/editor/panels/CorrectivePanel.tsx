@@ -16,6 +16,8 @@ export function CorrectivePanel() {
   const enabled = useCharacter((state) => state.correctivesPreview);
   const setEnabled = useCharacter((state) => state.setCorrectivesPreview);
   const diagnostics = active ? correctiveDiagnostics(active.meshes) : [];
+  const controls = active?.deformation?.controls ?? [];
+  const [, refreshControls] = useState(0);
   const [strain, setStrain] = useState<MeshStrainDiagnostic[]>([]);
   const [wholeRep, setWholeRep] = useState<{ enabled: boolean; items: MeshStrainWorstPoint[] } | null>(null);
 
@@ -54,6 +56,47 @@ export function CorrectivePanel() {
           Raw skinning
         </button>
       </div>
+
+      {controls.length > 0 && (
+        <>
+          <h3>Corrective tuning</h3>
+          <p className="panel__hint">
+            Character-specific and export-aware. These controls change neither the exercise clip nor
+            the source skin weights; the active character and GLB export share the same value.
+          </p>
+          {controls.map((control) => (
+            <div className="strain-card" key={control.id}>
+              <strong>{control.label} · {Math.round(control.value * 100)}%</strong>
+              <input
+                type="range"
+                min={control.min}
+                max={control.max}
+                step={control.step}
+                value={control.value}
+                onChange={(event) => {
+                  control.set(Number(event.target.value));
+                  refreshControls((value) => value + 1);
+                  setWholeRep(null);
+                }}
+              />
+              {control.note && <small>{control.note}</small>}
+              <div className="button-row">
+                <button
+                  type="button"
+                  disabled={Math.abs(control.value - control.defaultValue) < 1e-9}
+                  onClick={() => {
+                    control.set(control.defaultValue);
+                    refreshControls((value) => value + 1);
+                    setWholeRep(null);
+                  }}
+                >
+                  Reset authored value
+                </button>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
 
       {!active && <p className="panel__empty">No active character is mounted.</p>}
       {active && diagnostics.length === 0 && (

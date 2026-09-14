@@ -8,7 +8,8 @@ import {
   Skeleton as ThreeSkeleton,
   SkinnedMesh,
 } from 'three';
-import { canonicalSkeleton } from '../rig/skeleton';
+import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import { restPose } from '../rig/pose';
 import type { BoneName } from '../rig/boneNames';
 import { importedElbowDeformation } from './importedDeformation';
 
@@ -164,4 +165,60 @@ describe('imported elbow directional smoothing', () => {
       expect(maximum).toBeLessThanOrEqual(0.008001);
     });
   }
+
+  it('tunes outer smoothing live and bakes the same value through the export sampler', () => {
+    const { mesh, boneByName } = elbowFixture();
+    const tuning = { outerSmooth: 0, defaultOuterSmooth: 0 };
+    const deformation = importedElbowDeformation(
+      [mesh],
+      boneByName,
+      canonicalSkeleton,
+      { enabled: true, inner: 0, outer: 0, outerSmooth: 0 },
+      tuning,
+    );
+    expect(deformation).not.toBeNull();
+    const control = deformation!.controls?.find((entry) => entry.id === 'elbowOuterSmooth');
+    expect(control).toBeDefined();
+    expect(control!.value).toBe(0);
+
+    const outerIndex = mesh.morphTargetDictionary?.homeGymPT_elbow_outer_l;
+    expect(typeof outerIndex).toBe('number');
+    const pose = restPose();
+    pose.rotations.forearm_l = { x: (120 * Math.PI) / 180, y: 0, z: 0 };
+    const evaluation = new PoseEvaluation(canonicalSkeleton).apply(pose);
+
+    deformation!.update({
+      rig: canonicalSkeleton,
+      pose,
+      evaluation,
+      character: null as never,
+    });
+    expect(mesh.morphTargetInfluences?.[outerIndex as number]).toBe(0);
+
+    control!.set(1);
+    deformation!.update({
+      rig: canonicalSkeleton,
+      pose,
+      evaluation,
+      character: null as never,
+    });
+    const live = mesh.morphTargetInfluences?.[outerIndex as number] ?? 0;
+    expect(live).toBeGreaterThan(0.5);
+
+    const sampler = deformation!.sampler?.();
+    expect(sampler).not.toBeNull();
+    sampler!.sample(restPose());
+    sampler!.sample(pose);
+    const track = sampler!.tracks([0, 1]).find((entry) =>
+      entry.name.includes('homeGymPT_elbow_outer_l'),
+    );
+    expect(track).toBeDefined();
+    expect(Number(track!.values[track!.values.length - 1])).toBeCloseTo(live, 6);
+
+    control!.set(2);
+    expect(control!.value).toBe(1);
+    control!.set(-1);
+    expect(control!.value).toBe(0);
+  });
+
 });

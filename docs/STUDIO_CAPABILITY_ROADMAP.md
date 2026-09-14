@@ -89,6 +89,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Relative and absolute source morph conventions are measured correctly, and unrelated expression/body morphs are never suppressed by the A/B control.
 - Live surface-strain diagnostics sample posed mesh edges against bind geometry and report P95/P99/max strain plus >20% compression/stretch counts; rigid transforms correctly read as zero strain.
 - On-demand whole-rep strain review scans the active character at the authored clip FPS, records worst P99/max deformation timestamps for each mesh, restores the current playhead pose, and can jump directly to the worst frame in either Correctives-on or Raw-skinning mode.
+- Imported elbow outer-smoothing is now a bounded 0–100% character-level control. The retained radial volume morph remains separate, the measured candidate morph stays capped at 8 mm, and the active viewport plus GLB export sampler share the exact same source-level tuning value.
 
 ## 7. Diagnostics and approval
 

@@ -11,7 +11,7 @@ import type { BoneName, Side } from '../rig/boneNames';
 import type { Pose } from '../rig/types';
 import { elbowFlexion } from '../body/elbow';
 import { compressTrack } from '../export/tracks';
-import type { DeformationSampler, DeformationStack } from './types';
+import type { DeformationControl, DeformationSampler, DeformationStack } from './types';
 
 export interface ImportedElbowCorrectiveOptions {
   enabled?: boolean;
@@ -30,12 +30,22 @@ export interface ImportedElbowCorrectiveOptions {
   outerSmooth?: number;
 }
 
+export interface ImportedElbowRuntimeTuning {
+  /** 0 = retained radial corrective only; 1 = full measured outer-smoothing candidate. */
+  outerSmooth: number;
+  /** Source-authored value used by Reset in the editor. */
+  defaultOuterSmooth: number;
+}
+
 interface Target {
   mesh: SkinnedMesh;
   side: Side;
   influence: number;
   name: string;
+  scale: () => number;
 }
+
+const clampOuterSmooth = (value: number): number => Math.min(1, Math.max(0, value));
 
 /** Build opt-in pose shapes for an imported mesh's own elbow topology. */
 export function importedElbowDeformation(
@@ -43,22 +53,45 @@ export function importedElbowDeformation(
   boneByName: Map<BoneName, Bone>,
   rig: Skeleton,
   options?: ImportedElbowCorrectiveOptions,
+  tuning?: ImportedElbowRuntimeTuning,
 ): DeformationStack | null {
   if (!options?.enabled) return null;
   const targets: Target[] = [];
+  let hasTunableOuter = false;
   for (const mesh of meshes) {
     for (const side of ['l', 'r'] as const) {
-      const target = appendTarget(mesh, boneByName, side, options);
-      if (target) targets.push(target);
+      const built = appendTargets(mesh, boneByName, side, options, tuning);
+      targets.push(...built.targets);
+      hasTunableOuter ||= built.hasTunableOuter;
     }
   }
   if (!targets.length) return null;
 
+  const controls: DeformationControl[] | undefined = tuning && hasTunableOuter
+    ? [{
+        id: 'elbowOuterSmooth',
+        label: 'Outer elbow smoothing',
+        min: 0,
+        max: 1,
+        step: 0.05,
+        defaultValue: clampOuterSmooth(tuning.defaultOuterSmooth),
+        get value() {
+          return clampOuterSmooth(tuning.outerSmooth);
+        },
+        set(value: number) {
+          tuning.outerSmooth = clampOuterSmooth(value);
+        },
+        note: '0% preserves the retained radial corrective; 100% is the measured directional outer-elbow candidate. The morph itself remains capped at 8 mm.',
+      }]
+    : undefined;
+
   return {
+    controls,
     update({ evaluation }) {
       for (const target of targets) {
         if (target.mesh.morphTargetInfluences) {
-          target.mesh.morphTargetInfluences[target.influence] = elbowFlexion(evaluation, target.side);
+          target.mesh.morphTargetInfluences[target.influence] =
+            elbowFlexion(evaluation, target.side) * target.scale();
         }
       }
     },
@@ -66,18 +99,19 @@ export function importedElbowDeformation(
   };
 }
 
-function appendTarget(
+function appendTargets(
   mesh: SkinnedMesh,
   boneByName: Map<BoneName, Bone>,
   side: Side,
   options: ImportedElbowCorrectiveOptions,
-): Target | null {
+  tuning?: ImportedElbowRuntimeTuning,
+): { targets: Target[]; hasTunableOuter: boolean } {
   const upper = boneByName.get(`upperarm_${side}` as BoneName);
   const lower = boneByName.get(`forearm_${side}` as BoneName);
-  if (!upper || !lower) return null;
+  if (!upper || !lower) return { targets: [], hasTunableOuter: false };
   const upperIndices = matchingBones(mesh, upper.name, options.includeSplitHelpers);
   const lowerIndices = matchingBones(mesh, lower.name, options.includeSplitHelpers);
-  if (!upperIndices.size || !lowerIndices.size) return null;
+  if (!upperIndices.size || !lowerIndices.size) return { targets: [], hasTunableOuter: false };
 
   mesh.updateWorldMatrix(true, false);
   const joint = mesh.worldToLocal(lower.getWorldPosition(new Vector3()));
@@ -87,12 +121,12 @@ function appendTarget(
   const position = mesh.geometry.getAttribute('position');
   const skinIndex = mesh.geometry.getAttribute('skinIndex');
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
-  if (!position || !skinIndex || !skinWeight) return null;
+  if (!position || !skinIndex || !skinWeight) return { targets: [], hasTunableOuter: false };
 
   const reach = options.reach ?? 0.095;
   const innerAmount = options.inner ?? 0.012;
   const outerAmount = options.outer ?? 0.006;
-  const delta = new Float32Array(position.count * 3);
+  const radialDelta = new Float32Array(position.count * 3);
   const point = new Vector3();
   const radial = new Vector3();
 
@@ -120,16 +154,55 @@ function appendTarget(
     const outer = Math.max(0, -facing) ** 1.5;
     const push = (innerAmount * inner + outerAmount * outer) * centrality * pair;
     if (push < 1e-5) continue;
-    delta[vertex * 3] = radial.x * push;
-    delta[vertex * 3 + 1] = radial.y * push;
-    delta[vertex * 3 + 2] = radial.z * push;
+    radialDelta[vertex * 3] = radial.x * push;
+    radialDelta[vertex * 3 + 1] = radial.y * push;
+    radialDelta[vertex * 3 + 2] = radial.z * push;
   }
 
+  const targets: Target[] = [];
+  if (tuning) {
+    const base = appendMorphTarget(
+      mesh,
+      side,
+      radialDelta,
+      `homeGymPT_elbow_${side}`,
+      () => 1,
+    );
+    if (base) targets.push(base);
+
+    // Build the full measured candidate once, then vary only its influence.
+    // This keeps the authored bind-space displacement cap intact: the editor
+    // control is bounded to 0..1 and never amplifies the 8 mm candidate target.
+    const outerDelta = new Float32Array(position.count * 3);
+    addOuterSmoothing(
+      mesh.geometry,
+      outerDelta,
+      joint,
+      axis,
+      forward,
+      upperIndices,
+      lowerIndices,
+      reach,
+      1,
+    );
+    const outer = appendMorphTarget(
+      mesh,
+      side,
+      outerDelta,
+      `homeGymPT_elbow_outer_${side}`,
+      () => clampOuterSmooth(tuning.outerSmooth),
+    );
+    if (outer) targets.push(outer);
+    return { targets, hasTunableOuter: Boolean(outer) };
+  }
+
+  // Legacy/non-interactive path is byte-for-byte in spirit with the previous
+  // behaviour: directional smoothing is folded into the one elbow target.
   const outerSmooth = Math.max(0, options.outerSmooth ?? 0);
   if (outerSmooth > 0) {
     addOuterSmoothing(
       mesh.geometry,
-      delta,
+      radialDelta,
       joint,
       axis,
       forward,
@@ -139,7 +212,24 @@ function appendTarget(
       outerSmooth,
     );
   }
+  const target = appendMorphTarget(
+    mesh,
+    side,
+    radialDelta,
+    `homeGymPT_elbow_${side}`,
+    () => 1,
+  );
+  return { targets: target ? [target] : [], hasTunableOuter: false };
+}
 
+function appendMorphTarget(
+  mesh: SkinnedMesh,
+  side: Side,
+  delta: Float32Array,
+  name: string,
+  scale: () => number,
+): Target | null {
+  const position = mesh.geometry.getAttribute('position');
   let affected = 0;
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     const start = vertex * 3;
@@ -156,17 +246,17 @@ function appendTarget(
   // Three.js stores one morph convention per geometry. Do not flip an imported
   // character from absolute to relative morphs (or vice versa) just to append
   // this corrective: doing so would reinterpret every pre-existing expression
-  // or body shape. Encode the new target in the geometry's existing convention.
+  // or body shape. Encode every new target in the existing convention.
   const morph = mesh.geometry.morphTargetsRelative
     ? new BufferAttribute(delta, 3)
     : absoluteMorph(position, delta);
-  morph.name = `homeGymPT_elbow_${side}`;
+  morph.name = name;
   const attributes = mesh.geometry.morphAttributes.position ?? [];
   mesh.geometry.morphAttributes.position = [...attributes, morph];
   mesh.updateMorphTargets();
   const influence = mesh.morphTargetDictionary?.[morph.name] ?? attributes.length;
   if (mesh.morphTargetInfluences) mesh.morphTargetInfluences[influence] = 0;
-  return { mesh, side, influence, name: morph.name };
+  return { mesh, side, influence, name: morph.name, scale };
 }
 
 function elbowPairWeights(
@@ -366,7 +456,9 @@ function correctiveSampler(targets: Target[], rig: Skeleton): DeformationSampler
   return {
     sample(pose: Pose) {
       evaluation.apply(pose);
-      targets.forEach((target, index) => values[index].push(elbowFlexion(evaluation, target.side)));
+      targets.forEach((target, index) =>
+        values[index].push(elbowFlexion(evaluation, target.side) * target.scale()),
+      );
     },
     tracks(times: number[]): KeyframeTrack[] {
       const loopTimes = [times[0], times[times.length - 1]];

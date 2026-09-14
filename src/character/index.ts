@@ -6,6 +6,7 @@ export type {
   CharacterVariant,
   Side,
   DeformationContext,
+  DeformationControl,
   DeformationSampler,
   DeformationStack,
 } from './types';

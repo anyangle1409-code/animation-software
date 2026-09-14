@@ -29,6 +29,7 @@ import type {
 } from './types';
 import { RetargetContactResolver } from './retargetContact';
 import { importedElbowDeformation } from './importedDeformation';
+import type { ImportedElbowRuntimeTuning } from './importedDeformation';
 
 /**
  * An imported character, preserved.
@@ -100,6 +101,9 @@ export interface RetargetedCharacterSource extends CharacterSource {
 export function retargetedCharacterSource(
   options: RetargetedCharacterOptions,
 ): RetargetedCharacterSource {
+  const elbowTuning: ImportedElbowRuntimeTuning = { outerSmooth: 0, defaultOuterSmooth: 0 };
+  let elbowTuningInitialised = false;
+
   const source: RetargetedCharacterSource = {
     id: options.id,
     label: options.label,
@@ -207,11 +211,20 @@ export function retargetedCharacterSource(
         }
       };
 
+      const elbowOptions = scene.userData?.homeGymPT?.elbowCorrective;
+      if (elbowOptions?.enabled && !elbowTuningInitialised) {
+        const authored = Number(elbowOptions.outerSmooth ?? 0);
+        const bounded = Number.isFinite(authored) ? Math.min(1, Math.max(0, authored)) : 0;
+        elbowTuning.outerSmooth = bounded;
+        elbowTuning.defaultOuterSmooth = bounded;
+        elbowTuningInitialised = true;
+      }
       const deformation = importedElbowDeformation(
         character.meshes as SkinnedMesh[],
         boneByName,
         rig,
-        scene.userData?.homeGymPT?.elbowCorrective,
+        elbowOptions,
+        elbowOptions?.enabled ? elbowTuning : undefined,
       );
 
       const build: CharacterBuild = {

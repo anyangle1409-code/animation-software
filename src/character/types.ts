@@ -56,9 +56,26 @@ export interface CharacterPoseContext {
  * particular vertices — so they travel with the source that needs them and are
  * never inherited by another. A well-weighted mesh may have none at all.
  */
+export interface DeformationControl {
+  /** Stable id for authoring UI and tests. */
+  id: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  /** Value authored in the character source before interactive review. */
+  defaultValue: number;
+  /** Current source-level value; export reads the same backing state. */
+  readonly value: number;
+  note?: string;
+  set(value: number): void;
+}
+
 export interface DeformationStack {
   /** Called each frame, after the bone matrices have been written. */
   update(context: DeformationContext): void;
+  /** Character-specific authoring controls shared with the export sampler. */
+  controls?: readonly DeformationControl[];
   /**
    * A sampler for the exporter, or null when nothing extra needs baking. The
    * viewport and the exported file must deform alike, so anything `update`

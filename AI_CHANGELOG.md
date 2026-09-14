@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — hand-local grip orientation calibration
+
+Extended one-hand equipment attachments with optional `gripRotation` Euler degrees. Production placement is now `hand frame × calibrated grip transform × inverse equipment socket transform`, so the equipment socket remains pinned to the exact same hand-local grip centre while the handle can rotate inside the palm. The full socket transform includes socket orientation as well as position, improving future non-zero-angle handles while preserving the current zero-rotation dumbbell baseline. The preserved-source-skeleton `EquipmentView` uses the same transform through the extended `handAttachmentMatrix`, so imported-character preview and export/runtime placement agree.
+
+The Grip workspace now exposes exact X/Y/Z orientation degrees per one-hand equipment instance plus independent `Reset orientation`; centre calibration and orientation reset do not erase each other. `setEquipmentGripRotation` regenerates through normal document history and is undoable. Regressions verify a rotated dumbbell keeps its socket/grip centre exactly fixed in world space, undo restores the original document, and resetting orientation leaves a custom grip centre intact. This calibration changes equipment placement only; it never twists the wrist, elbow, shoulder or finger animation to compensate.
+
+
 ### ChatGPT — 2026-09-14 — equipment-aware deterministic grip profiles
 
 Replaced the one-size-fits-all finger generator with explicit deterministic profiles for `dumbbell`, `bar`, `handle`, `rope`, `floor` and `none`. The **dumbbell profile exactly preserves the previous production values** (`[78,95,60]` finger flexion, `[-22,60,60]` thumb Z and -14° thumb-base X at closure 1), so the accepted bicep-curl hand shape does not silently change. Bar/pull-up, neutral handle and rope profiles now have distinct finger/distal-thumb closure values; thumb-base opposition stays at the canonical rig's real -14° limit rather than asking the joint for impossible extra travel; the floor profile is intentionally near-open, matching a planted palm rather than a cylindrical wrap.

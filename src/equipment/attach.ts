@@ -63,19 +63,38 @@ function resolveInstance(
   if (attachment.mode === 'hand') {
     const hand = attachment.side === 'l' ? 'hand_l' : 'hand_r';
     const grip = attachment.gripOffset ?? anatomicalGripOffset(attachment.side);
-    const matrix = new Matrix4()
-      .copy(evaluation.matrix(hand))
-      .multiply(new Matrix4().makeTranslation(grip.x, grip.y, grip.z));
-    // The socket sits at the grip, so the item's own origin is offset back by it.
+    const gripQuaternion = new Quaternion().setFromEuler(
+      new Euler(
+        toRad(attachment.gripRotation?.x ?? 0),
+        toRad(attachment.gripRotation?.y ?? 0),
+        toRad(attachment.gripRotation?.z ?? 0),
+        EULER_ORDER,
+      ),
+    );
+    const gripMatrix = new Matrix4().compose(
+      new Vector3(grip.x, grip.y, grip.z),
+      gripQuaternion,
+      UNIT,
+    );
+    const matrix = new Matrix4().copy(evaluation.matrix(hand)).multiply(gripMatrix);
+    // The equipment socket itself — position and orientation — is what meets
+    // the calibrated hand frame. Inverting the full socket transform keeps the
+    // contact point fixed while allowing the handle to rotate in the palm.
     const socketLocal = equipmentSocketForInstance(instance, attachment.socket);
     if (socketLocal) {
-      matrix.multiply(
-        new Matrix4().makeTranslation(
-          -socketLocal.position.x,
-          -socketLocal.position.y,
-          -socketLocal.position.z,
+      const socketMatrix = new Matrix4().compose(
+        new Vector3(socketLocal.position.x, socketLocal.position.y, socketLocal.position.z),
+        new Quaternion().setFromEuler(
+          new Euler(
+            toRad(socketLocal.rotation?.x ?? 0),
+            toRad(socketLocal.rotation?.y ?? 0),
+            toRad(socketLocal.rotation?.z ?? 0),
+            EULER_ORDER,
+          ),
         ),
+        UNIT,
       );
+      matrix.multiply(socketMatrix.invert());
     }
     return decompose(instance.id, matrix);
   }

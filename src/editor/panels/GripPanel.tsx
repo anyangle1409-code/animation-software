@@ -14,6 +14,7 @@ export function GripPanel() {
   const setGripClosure = useStudio((state) => state.setGripClosure);
   const setGripPreset = useStudio((state) => state.setGripPreset);
   const setEquipmentGripOffset = useStudio((state) => state.setEquipmentGripOffset);
+  const setEquipmentGripRotation = useStudio((state) => state.setEquipmentGripRotation);
 
   const measurements = useMemo(() => {
     const evaluation = new PoseEvaluation(skeleton);
@@ -29,6 +30,8 @@ export function GripPanel() {
         side: instance.attachment.side,
         offset: instance.attachment.gripOffset ?? anatomicalGripOffset(instance.attachment.side),
         isCustomOffset: Boolean(instance.attachment.gripOffset),
+        rotation: instance.attachment.gripRotation ?? { x: 0, y: 0, z: 0 },
+        isCustomRotation: Boolean(instance.attachment.gripRotation),
         fit: measureGripFit(evaluation, transform, instance.attachment.side),
       }];
     });
@@ -36,6 +39,10 @@ export function GripPanel() {
 
   const updateOffset = (id: string, current: Vec3, axis: keyof Vec3, millimetres: number) => {
     setEquipmentGripOffset(id, { ...current, [axis]: millimetres / 1000 });
+  };
+
+  const updateRotation = (id: string, current: Vec3, axis: keyof Vec3, degrees: number) => {
+    setEquipmentGripRotation(id, { ...current, [axis]: degrees });
   };
 
   return (
@@ -98,7 +105,7 @@ export function GripPanel() {
       <h3>Current handle fit</h3>
       {measurements.length > 0 ? (
         <div className="grip-fit-list">
-          {measurements.map(({ id, label, offset, isCustomOffset, fit }) => (
+          {measurements.map(({ id, label, offset, isCustomOffset, rotation, isCustomRotation, fit }) => (
             <div className="grip-fit" key={id}>
               <div className="grip-fit__head">
                 <strong>{label}</strong>
@@ -119,6 +126,20 @@ export function GripPanel() {
                   </label>
                 ))}
               </div>
+              <h4>Handle orientation</h4>
+              <div className="grip-offset-grid">
+                {(['x', 'y', 'z'] as const).map((axis) => (
+                  <label className="field" key={`rotation-${axis}`}>
+                    <span className="field__label">Grip {axis.toUpperCase()} · °</span>
+                    <input
+                      type="number"
+                      step={1}
+                      value={Number(rotation[axis].toFixed(1))}
+                      onChange={(event) => updateRotation(id, rotation, axis, Number(event.target.value))}
+                    />
+                  </label>
+                ))}
+              </div>
               <div className="button-row">
                 <button
                   type="button"
@@ -126,6 +147,13 @@ export function GripPanel() {
                   onClick={() => setEquipmentGripOffset(id, null)}
                 >
                   Reset anatomical centre
+                </button>
+                <button
+                  type="button"
+                  disabled={!isCustomRotation}
+                  onClick={() => setEquipmentGripRotation(id, null)}
+                >
+                  Reset orientation
                 </button>
               </div>
               <dl className="spec-list">
@@ -145,7 +173,7 @@ export function GripPanel() {
         </p>
       )}
       <p className="panel__hint">
-        Grip X/Y/Z is the handle centre in hand-local millimetres. “Within envelope” uses the same
+        Grip X/Y/Z is the handle centre in hand-local millimetres; orientation is a hand-local Euler calibration in degrees. “Within envelope” uses the same
         finger reach and wrap geometry as the Studio's grip regression. It is an animation-fit diagnostic,
         not a force or injury-safety score.
       </p>

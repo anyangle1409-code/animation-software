@@ -14,6 +14,8 @@ import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { EULER_ORDER } from '../rig/types';
 import type { StudioClip } from '../animation/clip';
+import type { Vec3 } from '../rig/types';
+import { toRad } from '../core/math';
 import { resolveFrame } from '../animation/pipeline';
 import { sampleClip } from '../animation/clip';
 import { lockAnchors } from '../constraints/locks';
@@ -174,10 +176,25 @@ export function bakeClip(
 export function handAttachmentMatrix(
   grip: { x: number; y: number; z: number },
   socket: { x: number; y: number; z: number },
+  options: { gripRotation?: Vec3; socketRotation?: Vec3 } = {},
 ): Matrix4 {
-  return new Matrix4()
-    .makeTranslation(grip.x, grip.y, grip.z)
-    .multiply(new Matrix4().makeTranslation(-socket.x, -socket.y, -socket.z));
+  const gripRotation = options.gripRotation ?? { x: 0, y: 0, z: 0 };
+  const socketRotation = options.socketRotation ?? { x: 0, y: 0, z: 0 };
+  const gripMatrix = new Matrix4().compose(
+    new Vector3(grip.x, grip.y, grip.z),
+    new Quaternion().setFromEuler(
+      new Euler(toRad(gripRotation.x), toRad(gripRotation.y), toRad(gripRotation.z), EULER_ORDER),
+    ),
+    new Vector3(1, 1, 1),
+  );
+  const socketMatrix = new Matrix4().compose(
+    new Vector3(socket.x, socket.y, socket.z),
+    new Quaternion().setFromEuler(
+      new Euler(toRad(socketRotation.x), toRad(socketRotation.y), toRad(socketRotation.z), EULER_ORDER),
+    ),
+    new Vector3(1, 1, 1),
+  );
+  return gripMatrix.multiply(socketMatrix.invert());
 }
 
 export const zeroVector = new Vector3();

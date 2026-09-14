@@ -324,3 +324,38 @@ describe('grip profile authoring', () => {
     expect(useStudio.getState().document.exercise.hands.gripPreset).toBeUndefined();
   });
 });
+
+
+
+describe('hand-local grip orientation calibration', () => {
+  it('rotates a dumbbell in the hand without moving its grip centre and is undoable', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    const before = useStudio.getState().document;
+    const custom = { x: 8, y: -4, z: 12 };
+    useStudio.getState().setEquipmentGripRotation('dumbbell_l', custom);
+    const state = useStudio.getState();
+    const instance = state.document.exercise.equipment.instances.find((entry) => entry.id === 'dumbbell_l')!;
+    if (instance.attachment.mode !== 'hand') throw new Error('Expected hand attachment');
+    expect(instance.attachment.gripRotation).toEqual(custom);
+
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const frame = resolveFrame(canonicalSkeleton, evaluation, state.document.clip, 0);
+    evaluation.apply(frame.pose);
+    const expected = evaluation.localToWorld('hand_l', { x: -0.025, y: 0.085, z: 0 }, new Vector3());
+    expect(frame.equipment.get('dumbbell_l')!.position.distanceTo(expected)).toBeLessThan(1e-9);
+
+    state.undo();
+    expect(useStudio.getState().document).toBe(before);
+  });
+
+  it('can reset orientation independently of the calibrated grip centre', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    useStudio.getState().setEquipmentGripOffset('dumbbell_l', { x: -0.02, y: 0.08, z: 0.004 });
+    useStudio.getState().setEquipmentGripRotation('dumbbell_l', { x: 0, y: 10, z: 0 });
+    useStudio.getState().setEquipmentGripRotation('dumbbell_l', null);
+    const instance = useStudio.getState().document.exercise.equipment.instances.find((entry) => entry.id === 'dumbbell_l')!;
+    if (instance.attachment.mode !== 'hand') throw new Error('Expected hand attachment');
+    expect(instance.attachment.gripRotation).toBeUndefined();
+    expect(instance.attachment.gripOffset).toEqual({ x: -0.02, y: 0.08, z: 0.004 });
+  });
+});

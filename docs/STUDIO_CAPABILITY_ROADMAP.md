@@ -42,6 +42,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Dedicated Grip workspace provides undoable closure presets and live measured finger/handle fit using the established regression envelope.
 - Equipment-aware deterministic hand-shape profiles now distinguish dumbbell, bar/pull-up, neutral handle, rope/thick-handle, floor/open-palm and relaxed grips; an optional authoring override changes hand shape without changing the exercise's semantic equipment grip.
 - Per-instance hand-local grip-centre calibration edits handle X/Y/Z in millimetres, updates diagnostics live, and can reset to the anatomical default.
+- Per-instance hand-local grip orientation calibration rotates one-hand equipment around the same socket/contact centre without twisting wrist/arm animation; position and orientation reset independently.
 
 ## 4. Hand / grip workspace
 

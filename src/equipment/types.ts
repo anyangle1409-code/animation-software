@@ -84,6 +84,8 @@ export type EquipmentAttachment =
       socket: string;
       /** Offset of the grip within the hand, in the hand bone's local frame. */
       gripOffset?: Vec3;
+      /** Equipment orientation relative to the hand grip frame, Euler degrees. */
+      gripRotation?: Vec3;
     }
   | {
       mode: 'hands';

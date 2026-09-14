@@ -43,7 +43,11 @@ export function EquipmentView() {
       if (held && instance?.attachment.mode === 'hand') {
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
-        scratch.local.copy(handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }));
+        scratch.local.copy(handAttachmentMatrix(
+          grip,
+          socket?.position ?? { x: 0, y: 0, z: 0 },
+          { gripRotation: instance.attachment.gripRotation, socketRotation: socket?.rotation },
+        ));
         group.visible = true;
         group.matrix.multiplyMatrices(held, scratch.local);
         group.matrixWorldNeedsUpdate = true;

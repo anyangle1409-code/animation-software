@@ -204,6 +204,7 @@ interface StudioState {
   setGripClosure: (closure: number) => void;
   setGripPreset: (preset: GripKind | null) => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
+  setEquipmentGripRotation: (instanceId: string, rotation: Vec3 | null) => void;
   setEquipmentTransform: (instanceId: string, transform: { position?: Vec3; rotation?: Vec3 }) => void;
   setEquipmentSocketTransform: (instanceId: string, socketId: string, transform: { position?: Vec3; rotation?: Vec3 } | null) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
@@ -562,6 +563,27 @@ export const useStudio = create<StudioState>((set, get) => {
             };
           }
           const { gripOffset: _gripOffset, ...attachment } = instance.attachment;
+          return { ...instance, attachment };
+        });
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      }),
+
+
+    setEquipmentGripRotation: (instanceId, rotation) =>
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) => {
+          if (instance.id !== instanceId || instance.attachment.mode !== 'hand') return instance;
+          if (rotation) {
+            return {
+              ...instance,
+              attachment: { ...instance.attachment, gripRotation: { ...rotation } },
+            };
+          }
+          const { gripRotation: _gripRotation, ...attachment } = instance.attachment;
           return { ...instance, attachment };
         });
         const exercise = {

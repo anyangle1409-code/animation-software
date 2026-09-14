@@ -7,6 +7,14 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — whole-rep grip worst-point review
+
+Added `src/editor/gripReview.ts` to scan every authored animation frame at `clip.fps` through the same production `resolveFrame()` pipeline used by the viewport. For each single-hand equipment instance it records the worst contact-reach value and exact timestamp for thumb/index/middle/ring/pinky, plus the overall worst digit. The scan reuses the established `measureGripFit()` envelope and is diagnostic only: it never edits finger closure, equipment placement, wrist/arm pose or the accepted clip.
+
+The Grip workspace now shows one jump button per digit with its whole-rep worst percentage and timestamp. Selecting it moves the playhead directly to the measured frame so localized thumb/pinky problems can be inspected without blind scrubbing. Regression coverage proves both retained curl dumbbells are scanned, worst points lie on authored frame times, re-measuring each recorded timestamp reproduces the stored digit value, and the overall value equals the maximum digit worst case.
+
+
+
 ### ChatGPT — 2026-09-14 — per-digit grip reach diagnostics
 
 Extended the existing geometric grip diagnostic so every contact point is tagged with its owning digit and `GripFitMeasurement` now reports `digitReachUse` for thumb/index/middle/ring/pinky alongside the established overall `reachUse`. Each digit value is the maximum distance-to-handle-centre-line divided by that contact point's existing allowed reach. Overall `reachUse` remains exactly the maximum of those five digit values, so the established envelope and Review gate semantics do not change.

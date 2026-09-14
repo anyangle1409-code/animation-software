@@ -8,11 +8,13 @@ import { FINGERS, type Finger } from '../../rig/boneNames';
 import { GRIP_PROFILE_LIST } from '../../exercises/gripProfiles';
 import { PoseEvaluation } from '../../rig/skeleton';
 import { skeleton, useStudio } from '../store';
+import { scanGripWorstCases } from '../gripReview';
 
 export function GripPanel() {
   const exercise = useStudio((state) => state.document.exercise);
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
+  const setTime = useStudio((state) => state.setTime);
   const setGripClosure = useStudio((state) => state.setGripClosure);
   const setGripPreset = useStudio((state) => state.setGripPreset);
   const setGripDigitClosure = useStudio((state) => state.setGripDigitClosure);
@@ -42,6 +44,11 @@ export function GripPanel() {
       }];
     });
   }, [clip, exercise.equipment.instances, time]);
+
+  const wholeRepById = useMemo(
+    () => new Map(scanGripWorstCases(skeleton, clip).map((sweep) => [sweep.instanceId, sweep])),
+    [clip],
+  );
 
   const twoHandMeasurements = useMemo(() => {
     const evaluation = new PoseEvaluation(skeleton);
@@ -251,6 +258,30 @@ export function GripPanel() {
                   );
                 })}
               </dl>
+              {wholeRepById.get(id) && (
+                <>
+                  <h4>Worst points in rep</h4>
+                  <div className="button-row grip-worst-points">
+                    {FINGERS.map((finger) => {
+                      const worst = wholeRepById.get(id)!.digits[finger];
+                      return (
+                        <button
+                          type="button"
+                          key={`worst-${id}-${finger}`}
+                          className={worst.reachUse >= 1 ? 'status-warn' : undefined}
+                          onClick={() => setTime(worst.time)}
+                          title={`Jump to ${finger} worst point`}
+                        >
+                          {finger.charAt(0).toUpperCase() + finger.slice(1)} · {Math.round(worst.reachUse * 100)}% · {worst.time.toFixed(2)}s
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="panel__note">
+                    Frame-by-frame at {clip.fps} fps. Tap a digit to inspect its worst measured frame.
+                  </p>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -261,7 +292,7 @@ export function GripPanel() {
       )}
       <p className="panel__hint">
         Grip X/Y/Z is the handle centre in hand-local millimetres; orientation is a hand-local Euler calibration in degrees. “Within envelope” and each digit percentage use the same
-        contact-reach and wrap geometry as the Studio's grip regression. A digit above 100% has exceeded that authored geometric envelope; this is not a literal mesh-penetration, force or injury-safety score.
+        contact-reach and wrap geometry as the Studio's grip regression. Whole-rep worst points scan every authored animation frame at the clip FPS. A digit above 100% has exceeded that authored geometric envelope; this is not a literal mesh-penetration, force or injury-safety score.
       </p>
 
 

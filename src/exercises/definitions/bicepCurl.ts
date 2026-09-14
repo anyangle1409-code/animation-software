@@ -48,6 +48,8 @@ export const bicepCurl: ExerciseDefinition = {
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
+      clavicle_l: { z: 5 },
+      clavicle_r: { z: -5 },
       // Upper arms hang vertically and just clear of the torso. On broad
       // imported shoulders, extra abduction reads as a shrug at the bottom.
       upperarm_l: { x: 0, z: -3 },
@@ -63,6 +65,8 @@ export const bicepCurl: ExerciseDefinition = {
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
+      clavicle_l: { z: 5 },
+      clavicle_r: { z: -5 },
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
       upperarm_l: { x: 4, z: -4 },

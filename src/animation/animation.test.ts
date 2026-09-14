@@ -119,6 +119,22 @@ describe('resistance-training easing', () => {
     expect(ease('lift', 0.6) - ease('lift', 0.5)).toBeGreaterThan(ease('lift', 0.1) - ease('lift', 0));
   });
 
+  it('gives delayed secondary motion zero velocity and acceleration at both ends', () => {
+    const delta = 1e-4;
+    const start0 = ease('minimumJerk', 0);
+    const start1 = ease('minimumJerk', delta);
+    const start2 = ease('minimumJerk', delta * 2);
+    const end0 = ease('minimumJerk', 1);
+    const end1 = ease('minimumJerk', 1 - delta);
+    const end2 = ease('minimumJerk', 1 - delta * 2);
+
+    expect(start1 / delta).toBeLessThan(1e-4);
+    expect((end0 - end1) / delta).toBeLessThan(1e-4);
+    expect(Math.abs((start2 - 2 * start1 + start0) / (delta * delta))).toBeLessThan(0.02);
+    expect(Math.abs((end2 - 2 * end1 + end0) / (delta * delta))).toBeLessThan(0.02);
+    expect(ease('minimumJerk', 0.5)).toBeCloseTo(0.5, 12);
+  });
+
   it('holds still through a hold phase', () => {
     expect(ease('hold', 0.5)).toBe(0);
   });

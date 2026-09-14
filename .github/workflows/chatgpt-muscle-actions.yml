@@ -1,4 +1,4 @@
-name: ChatGPT isolated muscle action audit
+name: ChatGPT shoulder muscle path sweep
 on:
   push:
     branches:
@@ -16,76 +16,125 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Create isolated-action audit
+      - name: Create shoulder path sweep
         run: |
-          cat > src/muscles/__action_audit.test.ts <<'EOF'
+          cat > src/muscles/__shoulder_sweep.test.ts <<'EOF'
           import { describe, expect, it } from 'vitest';
-          import type { Pose } from '../rig/types';
           import { poseFromDegrees } from '../rig/pose';
           import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-          import { MUSCLES, createMuscleTransform, resolveMuscle } from './model';
-          import type { MuscleGroupId } from './groups';
+          import { createMuscleTransform, muscleInstance, resolveMuscle } from './model';
+          import type { MuscleDefinition } from './model';
+          import { vec3 } from '../rig/types';
 
           const skeleton = canonicalSkeleton;
           const evaluation = new PoseEvaluation(skeleton);
           const transform = createMuscleTransform();
+          const at = (bone: any, x: number, y: number, z: number) => ({ bone, offset: vec3(x, y, z) });
 
-          type Degrees = Parameters<typeof poseFromDegrees>[0];
-          type Direction = 'shorten' | 'lengthen';
-          interface AuditCase {
-            group: MuscleGroupId;
-            action: string;
-            rotations: Degrees;
-            expected: Direction;
-          }
-
-          const cases: AuditCase[] = [
-            { group: 'pectoralis', action: 'shoulder flexion', rotations: { upperarm_l: { x: 60 } }, expected: 'shorten' },
-            { group: 'pectoralis', action: 'shoulder adduction', rotations: { upperarm_l: { z: 30 } }, expected: 'shorten' },
-            { group: 'deltoid_anterior', action: 'shoulder flexion', rotations: { upperarm_l: { x: 60 } }, expected: 'shorten' },
-            { group: 'deltoid_medial', action: 'shoulder abduction', rotations: { upperarm_l: { z: -60 } }, expected: 'shorten' },
-            { group: 'deltoid_posterior', action: 'shoulder extension', rotations: { upperarm_l: { x: -30 } }, expected: 'shorten' },
-            { group: 'biceps', action: 'elbow flexion', rotations: { forearm_l: { x: 120 } }, expected: 'shorten' },
-            { group: 'triceps', action: 'elbow flexion antagonist', rotations: { forearm_l: { x: 120 } }, expected: 'lengthen' },
-            { group: 'forearm_flexors', action: 'wrist flexion', rotations: { hand_l: { z: 60 } }, expected: 'shorten' },
-            { group: 'forearm_extensors', action: 'wrist extension', rotations: { hand_l: { z: -60 } }, expected: 'shorten' },
-            { group: 'trapezius_upper', action: 'clavicle elevation', rotations: { clavicle_l: { z: -10 } }, expected: 'shorten' },
-            { group: 'trapezius_mid', action: 'clavicle retraction', rotations: { clavicle_l: { x: -12 } }, expected: 'shorten' },
-            { group: 'latissimus', action: 'shoulder adduction', rotations: { upperarm_l: { z: 30 } }, expected: 'shorten' },
-            { group: 'latissimus', action: 'shoulder extension', rotations: { upperarm_l: { x: -30 } }, expected: 'shorten' },
-            { group: 'erector_upper', action: 'upper-spine extension', rotations: { spine_03: { x: -10 } }, expected: 'shorten' },
-            { group: 'erector_mid', action: 'mid-spine extension', rotations: { spine_02: { x: -10 } }, expected: 'shorten' },
-            { group: 'erector_lower', action: 'lower-spine extension', rotations: { spine_01: { x: -10 } }, expected: 'shorten' },
-            { group: 'rectus_abdominis', action: 'trunk flexion', rotations: { spine_01: { x: 20 }, spine_02: { x: 15 }, spine_03: { x: 10 } }, expected: 'shorten' },
-            { group: 'obliques', action: 'left side-bend', rotations: { spine_01: { z: 12 }, spine_02: { z: 12 } }, expected: 'shorten' },
-            { group: 'gluteus', action: 'hip extension', rotations: { thigh_l: { x: -20 } }, expected: 'shorten' },
-            { group: 'quadriceps', action: 'knee flexion antagonist', rotations: { shin_l: { x: -110 } }, expected: 'lengthen' },
-            { group: 'hamstrings', action: 'knee flexion', rotations: { shin_l: { x: -110 } }, expected: 'shorten' },
-            { group: 'calves', action: 'plantarflexion', rotations: { foot_l: { x: -30 } }, expected: 'shorten' },
-            { group: 'hip_adductors', action: 'hip adduction', rotations: { thigh_l: { z: 20 } }, expected: 'shorten' },
-            { group: 'hip_abductors', action: 'hip abduction', rotations: { thigh_l: { z: -30 } }, expected: 'shorten' },
-          ];
-
-          function stretch(group: MuscleGroupId, rotations: Degrees): number {
-            const muscle = MUSCLES.find((entry) => entry.group === group && (entry.side === 'l' || entry.side === null));
-            if (!muscle) throw new Error(`missing ${group}`);
-            const pose: Pose = poseFromDegrees(rotations);
-            evaluation.apply(pose);
-            resolveMuscle(evaluation, muscle, transform);
+          function stretch(def: MuscleDefinition, rotations: Parameters<typeof poseFromDegrees>[0]) {
+            const instance = muscleInstance(def, 'l');
+            evaluation.apply(poseFromDegrees(rotations));
+            resolveMuscle(evaluation, instance, transform);
             return transform.stretch;
           }
 
-          describe('isolated muscle action audit', () => {
-            it('prints direction and magnitude for every modeled action', () => {
-              const results = cases.map((entry) => {
-                const value = stretch(entry.group, entry.rotations);
-                const delta = (value - 1) * 100;
-                const observed: Direction | 'neutral' = delta < -0.5 ? 'shorten' : delta > 0.5 ? 'lengthen' : 'neutral';
-                return { ...entry, rotations: undefined, stretch: value, deltaPercent: delta, observed, matches: observed === entry.expected };
-              });
-              console.log('ISOLATED_MUSCLE_ACTIONS=' + JSON.stringify(results));
-              expect(results.every((entry) => Number.isFinite(entry.stretch))).toBe(true);
+          describe('shoulder muscle path parameter sweep', () => {
+            it('finds candidates that satisfy isolated anatomical actions', () => {
+              const delt: any[] = [];
+              for (const ox of [0, 0.01, 0.02, 0.03, 0.04]) {
+                for (const oy of [0.10, 0.12, 0.14, 0.15]) {
+                  for (const ix of [-0.05, -0.025, 0, 0.025, 0.05, 0.075]) {
+                    for (const iy of [0.08, 0.11, 0.14, 0.17, 0.20]) {
+                      const def: MuscleDefinition = {
+                        group: 'deltoid_medial',
+                        origin: at('clavicle_l', ox, oy, 0),
+                        insertion: at('upperarm_l', ix, iy, 0),
+                        thickness: 0.042,
+                        bulge: 0.3,
+                      };
+                      const abduction = stretch(def, { upperarm_l: { z: -60 } });
+                      const restLength = muscleInstance(def, 'l').restLength;
+                      const score = Math.abs(abduction - 0.88) + Math.abs(restLength - 0.14) * 0.4;
+                      delt.push({ ox, oy, ix, iy, abduction, restLength, score });
+                    }
+                  }
+                }
+              }
+              delt.sort((a, b) => a.score - b.score);
+
+              const lat: any[] = [];
+              for (const ix of [-0.04, -0.02, 0, 0.02, 0.04]) {
+                for (const iy of [0.01, 0.025, 0.04, 0.06, 0.08]) {
+                  for (const iz of [-0.07, -0.05, -0.03, -0.01, 0.01, 0.03]) {
+                    const direct: MuscleDefinition = {
+                      group: 'latissimus',
+                      origin: at('spine_01', -0.055, 0.02, -0.06),
+                      insertion: at('upperarm_l', ix, iy, iz),
+                      thickness: 0.032,
+                      bulge: 0.25,
+                      flatten: 0.55,
+                      spread: 1.5,
+                    };
+                    const extension = stretch(direct, { upperarm_l: { x: -30 } });
+                    const adduction = stretch(direct, { upperarm_l: { z: 30 } });
+                    const restLength = muscleInstance(direct, 'l').restLength;
+                    const penalty = Math.max(0, extension - 0.995) * 8 + Math.max(0, adduction - 0.995) * 8;
+                    const score = penalty + Math.abs(extension - 0.95) + Math.abs(adduction - 0.95) + Math.abs(restLength - 0.45) * 0.1;
+                    lat.push({ kind: 'direct', ix, iy, iz, extension, adduction, restLength, score });
+
+                    for (const vy of [0.01, 0.03, 0.05]) {
+                      for (const vz of [-0.08, -0.05, -0.02, 0.01, 0.04]) {
+                        const wrapped: MuscleDefinition = { ...direct, via: [at('upperarm_l', ix, vy, vz)] };
+                        const ext2 = stretch(wrapped, { upperarm_l: { x: -30 } });
+                        const add2 = stretch(wrapped, { upperarm_l: { z: 30 } });
+                        const rest2 = muscleInstance(wrapped, 'l').restLength;
+                        const penalty2 = Math.max(0, ext2 - 0.995) * 8 + Math.max(0, add2 - 0.995) * 8;
+                        const score2 = penalty2 + Math.abs(ext2 - 0.95) + Math.abs(add2 - 0.95) + Math.abs(rest2 - 0.45) * 0.1;
+                        lat.push({ kind: 'via', ix, iy, iz, vy, vz, extension: ext2, adduction: add2, restLength: rest2, score: score2 });
+                      }
+                    }
+                  }
+                }
+              }
+              lat.sort((a, b) => a.score - b.score);
+
+              const pec: any[] = [];
+              for (const ox of [-0.065, -0.045, -0.025, -0.005]) {
+                for (const oy of [0.02, 0.04, 0.07, 0.10]) {
+                  for (const oz of [0.06, 0.08, 0.10, 0.12]) {
+                    for (const ix of [-0.03, 0, 0.02, 0.04]) {
+                      for (const iy of [0.01, 0.03, 0.05, 0.07]) {
+                        for (const iz of [0.01, 0.03, 0.05, 0.07, 0.09]) {
+                          const def: MuscleDefinition = {
+                            group: 'pectoralis',
+                            origin: at('spine_03', ox, oy, oz),
+                            insertion: at('upperarm_l', ix, iy, iz),
+                            thickness: 0.032,
+                            bulge: 0.3,
+                            flatten: 0.6,
+                            spread: 1.6,
+                          };
+                          const flexion = stretch(def, { upperarm_l: { x: 60 } });
+                          const adduction = stretch(def, { upperarm_l: { z: 30 } });
+                          const restLength = muscleInstance(def, 'l').restLength;
+                          const penalty = Math.max(0, flexion - 0.995) * 8 + Math.max(0, adduction - 0.995) * 8;
+                          const score = penalty + Math.abs(flexion - 0.94) + Math.abs(adduction - 0.94) + Math.abs(restLength - 0.22) * 0.2;
+                          pec.push({ ox, oy, oz, ix, iy, iz, flexion, adduction, restLength, score });
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              pec.sort((a, b) => a.score - b.score);
+
+              console.log('DELT_BEST=' + JSON.stringify(delt.slice(0, 20)));
+              console.log('LAT_BEST=' + JSON.stringify(lat.slice(0, 25)));
+              console.log('PEC_BEST=' + JSON.stringify(pec.slice(0, 25)));
+              expect(delt.length).toBeGreaterThan(0);
+              expect(lat.length).toBeGreaterThan(0);
+              expect(pec.length).toBeGreaterThan(0);
             });
           });
           EOF
-      - run: npx vitest run src/muscles/__action_audit.test.ts --reporter=verbose
+      - run: npx vitest run src/muscles/__shoulder_sweep.test.ts --reporter=verbose

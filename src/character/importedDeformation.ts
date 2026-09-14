@@ -18,6 +18,7 @@ export interface ImportedElbowCorrectiveOptions {
   reach?: number;
   inner?: number;
   outer?: number;
+  includeSplitHelpers?: boolean;
 }
 
 interface Target {
@@ -65,8 +66,8 @@ function appendTarget(
   const upper = boneByName.get(`upperarm_${side}` as BoneName);
   const lower = boneByName.get(`forearm_${side}` as BoneName);
   if (!upper || !lower) return null;
-  const upperIndices = matchingBones(mesh, upper.name);
-  const lowerIndices = matchingBones(mesh, lower.name);
+  const upperIndices = matchingBones(mesh, upper.name, options.includeSplitHelpers);
+  const lowerIndices = matchingBones(mesh, lower.name, options.includeSplitHelpers);
   if (!upperIndices.size || !lowerIndices.size) return null;
 
   mesh.updateWorldMatrix(true, false);
@@ -130,10 +131,10 @@ function appendTarget(
   return { mesh, side, influence, name: morph.name };
 }
 
-function matchingBones(mesh: SkinnedMesh, base: string): Set<number> {
+function matchingBones(mesh: SkinnedMesh, base: string, includeSplitHelpers = false): Set<number> {
   const result = new Set<number>();
   mesh.skeleton.bones.forEach((bone, index) => {
-    if (bone.name === base || bone.name.startsWith(`${base}.`)) result.add(index);
+    if (bone.name === base || bone.name.startsWith(`${base}.`) || (includeSplitHelpers && bone.name.startsWith(base) && /^\d+$/.test(bone.name.slice(base.length)))) result.add(index);
   });
   return result;
 }

@@ -1,0 +1,51 @@
+name: ChatGPT AI Handover Logger
+
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+
+permissions:
+  contents: write
+
+jobs:
+  log-handover:
+    if: github.event.head_commit.message != 'docs: log phase-local joint timing handover'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Prepend ChatGPT handover
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('AI_CHANGELOG.md')
+          text = path.read_text(encoding='utf-8')
+          marker = '## Unreleased\n'
+          entry = '''
+### ChatGPT — 2026-09-14 — phase-local joint timing; natural curl shoulder sequencing
+
+Reviewed the animation generator itself rather than changing the character asset. The generator previously exposed only phase-level easing, so every joint moved on the same normalized clock between the authored start and peak poses. Added optional `MovementPhase.jointTiming` with per-bone `delay`, `finish`, and easing. `generateClip` carries that timing onto the outgoing phase keyframe and `sampleClip` remaps only explicitly timed bones; all other joints keep the existing resistance-training easing. No intermediate stop-start keyframes are inserted.
+
+The dumbbell curl is the first validation use. Both upper arms now remain at the relaxed bottom position until 55% of the concentric while elbow flexion begins immediately, then complete only the already-authored 4° forward drift near the top. On the eccentric, the elbows begin opening first and the upper arms wait until 20% of the phase before settling back. Start and peak poses, the 5.5 s repetition tempo, 126° peak elbow flexion, clavicle depression, supinated grip, finger closure, equipment attachment, contact locks, canonical rig, imported-character retargeting, skin weights and candidate GLB are unchanged.
+
+Regression coverage now explicitly checks elbow-before-shoulder sequencing in addition to the existing loop, grip, equipment rigidity, contact, symmetry and technique validation. Branch validation on Node 22: `npm run typecheck` passed; `npm test` passed **193 tests with 1 optional real-character diagnostic skipped**; `npm run build` passed with only the pre-existing >500 kB chunk warning. No character asset was changed by this software pass.
+'''
+          if '### ChatGPT — 2026-09-14 — phase-local joint timing; natural curl shoulder sequencing' not in text:
+              if marker not in text:
+                  raise SystemExit('Unreleased marker not found')
+              text = text.replace(marker, marker + '\n' + entry, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+          git config user.name "ChatGPT"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- AI_CHANGELOG.md; then
+            echo "Handover already present"
+            exit 0
+          fi
+          git add AI_CHANGELOG.md
+          git commit -m "docs: log phase-local joint timing handover"
+          git push

@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — static equipment transform authoring
+
+Added a dedicated Equipment workspace for selecting exercise equipment, inspecting its declared sockets and authoring **static** world transforms. Static objects such as the pull-up rack can now be translated/rotated either through exact numeric controls (position in centimetres, rotation in degrees) or through the Studio's existing Translate / Rotate gizmo. `setEquipmentTransform` edits the exercise definition, regenerates the deterministic clip and participates in normal undo/redo history, so moving a rack also moves the equipment sockets that contact locks resolve against.
+
+Hand- and two-hand-driven objects are deliberately protected: a world-transform edit is ignored without creating an undo step because their final transform belongs to the attachment/grip solver and would otherwise be overwritten on the next frame. The Equipment panel directs those cases back to the Grip workspace instead. Regressions verify a static rack transform reaches both the exercise definition and generated clip and is restored by undo, while a dumbbell hand attachment cannot be misleadingly world-transformed. The roadmap now records static equipment transform authoring as implemented; direct socket-selection/gizmo authoring remains a later refinement.
+
+
 ### ChatGPT — 2026-09-14 — live contact and reachability workspace
 
 Added a dedicated Contacts tab that inspects floor, world and equipment locks at the current playhead using the **same `resolveFrame` production pipeline and analytical IK result used by the viewport**. Each lock now has a live target position, final hand/foot effector position, world-space error in millimetres, solver `reached` state and explicit physical over-extension state. Equipment locks also show the equipment/socket pair they resolve through. This is diagnostic-only: it does not add a second solver, hidden correction, safety score or movement change.

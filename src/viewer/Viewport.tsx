@@ -8,6 +8,7 @@ import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
+import { toDeg } from '../core/math';
 import { restWorldQuaternion } from '../ik/orient';
 import { createSceneState, SceneStateContext, useSceneState } from './sceneState';
 import { SkeletonView } from './SkeletonView';
@@ -111,6 +112,8 @@ function Gizmo() {
   const selection = useStudio((state) => state.selection);
   const gizmoMode = useStudio((state) => state.gizmoMode);
   const setBoneRotation = useStudio((state) => state.setBoneRotation);
+  const setEquipmentTransform = useStudio((state) => state.setEquipmentTransform);
+  const equipment = useStudio((state) => state.document.clip.equipment);
   const [proxy] = useState(() => new Object3D());
   const dragging = useRef(false);
   const { scene: root } = useThree();
@@ -122,14 +125,27 @@ function Gizmo() {
     };
   }, [root, proxy]);
 
+  const selectedEquipment = selection.equipmentId
+    ? equipment.find((instance) => instance.id === selection.equipmentId) ?? null
+    : null;
+  const editableEquipment = selectedEquipment?.attachment.mode === 'static' ? selectedEquipment : null;
+
   useFrame(() => {
     if (dragging.current) return;
-    if (!selection.bone) return;
-    proxy.position.copy(scene.evaluation.head(selection.bone, new Vector3()));
-    proxy.quaternion.copy(scene.evaluation.quaternion(selection.bone));
+    if (selection.bone) {
+      proxy.position.copy(scene.evaluation.head(selection.bone, new Vector3()));
+      proxy.quaternion.copy(scene.evaluation.quaternion(selection.bone));
+      return;
+    }
+    if (editableEquipment) {
+      const transform = scene.frame?.equipment.get(editableEquipment.id);
+      if (!transform) return;
+      proxy.position.copy(transform.position);
+      proxy.quaternion.copy(transform.quaternion);
+    }
   });
 
-  const target = selection.bone ? proxy : null;
+  const target = selection.bone || editableEquipment ? proxy : null;
   if (!target) return null;
 
   return (
@@ -144,20 +160,36 @@ function Gizmo() {
         dragging.current = false;
       }}
       onObjectChange={() => {
-        const bone = useStudio.getState().selection.bone;
-        if (!bone) return;
-        if (gizmoMode === 'translate') {
-          // Translating a joint is meaningless on a fixed-length skeleton; the
-          // gizmo drives IK targets instead, handled below.
+        const state = useStudio.getState();
+        const bone = state.selection.bone;
+        if (bone) {
+          if (gizmoMode === 'translate') {
+            // Translating a joint is meaningless on a fixed-length skeleton; the
+            // gizmo drives IK targets instead, handled below.
+            return;
+          }
+          const rest = restWorldQuaternion(skeleton, scene.evaluation, bone, new Quaternion());
+          const local = rest.clone().invert().multiply(proxy.quaternion);
+          const euler = new Euler().setFromQuaternion(local, EULER_ORDER);
+          setBoneRotation(
+            bone,
+            clampRotation(skeleton.bone(bone), { x: euler.x, y: euler.y, z: euler.z }),
+          );
           return;
         }
-        const rest = restWorldQuaternion(skeleton, scene.evaluation, bone, new Quaternion());
-        const local = rest.clone().invert().multiply(proxy.quaternion);
-        const euler = new Euler().setFromQuaternion(local, EULER_ORDER);
-        setBoneRotation(
-          bone,
-          clampRotation(skeleton.bone(bone), { x: euler.x, y: euler.y, z: euler.z }),
-        );
+
+        const equipmentId = state.selection.equipmentId;
+        if (!equipmentId || !editableEquipment || editableEquipment.id !== equipmentId) return;
+        if (gizmoMode === 'translate') {
+          setEquipmentTransform(equipmentId, {
+            position: { x: proxy.position.x, y: proxy.position.y, z: proxy.position.z },
+          });
+          return;
+        }
+        const euler = new Euler().setFromQuaternion(proxy.quaternion, EULER_ORDER);
+        setEquipmentTransform(equipmentId, {
+          rotation: { x: toDeg(euler.x), y: toDeg(euler.y), z: toDeg(euler.z) },
+        });
       }}
     />
   );

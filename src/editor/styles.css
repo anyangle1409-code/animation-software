@@ -898,3 +898,65 @@ code {
   overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
 }
+
+
+/* ---------- static equipment authoring ---------- */
+
+.equipment-list {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+
+.equipment-list button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.equipment-list small {
+  color: var(--muted);
+}
+
+.equipment-transform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.equipment-transform-grid > strong {
+  grid-column: 1 / -1;
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+.equipment-sockets {
+  display: grid;
+  gap: 6px;
+}
+
+.equipment-socket {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  padding: 7px 8px;
+  font-size: 11px;
+}
+
+.equipment-socket > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.equipment-socket span {
+  color: var(--muted);
+}
+
+.equipment-socket code {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+}

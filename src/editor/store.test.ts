@@ -185,3 +185,47 @@ describe('equipment grip-offset calibration', () => {
     expect(reset.attachment.gripOffset).toBeUndefined();
   });
 });
+
+
+describe('static equipment authoring', () => {
+  it('moves static equipment through normal document history and undo', () => {
+    useStudio.getState().loadExercise('pull_up');
+    const before = useStudio.getState().document;
+    const beforeRack = before.exercise.equipment.instances.find((instance) => instance.id === 'rack')!;
+
+    useStudio.getState().setEquipmentTransform('rack', {
+      position: { x: 0.12, y: 0.04, z: -0.08 },
+      rotation: { x: 0, y: 7, z: 0 },
+    });
+
+    const edited = useStudio.getState();
+    const rack = edited.document.exercise.equipment.instances.find((instance) => instance.id === 'rack')!;
+    const clipRack = edited.document.clip.equipment.find((instance) => instance.id === 'rack')!;
+    expect(rack.position).toEqual({ x: 0.12, y: 0.04, z: -0.08 });
+    expect(rack.rotation).toEqual({ x: 0, y: 7, z: 0 });
+    expect(clipRack.position).toEqual(rack.position);
+    expect(clipRack.rotation).toEqual(rack.rotation);
+    expect(edited.history.past.at(-1)).toBe(before);
+
+    edited.undo();
+    const restored = useStudio.getState().document.exercise.equipment.instances.find(
+      (instance) => instance.id === 'rack',
+    )!;
+    expect(restored.position).toEqual(beforeRack.position);
+    expect(restored.rotation).toEqual(beforeRack.rotation);
+  });
+
+  it('refuses misleading world-transform edits on hand-driven equipment', () => {
+    useStudio.getState().loadExercise('dumbbell_bicep_curl');
+    const before = useStudio.getState().document;
+    const historyCount = useStudio.getState().history.past.length;
+
+    useStudio.getState().setEquipmentTransform('dumbbell_l', {
+      position: { x: 4, y: 4, z: 4 },
+      rotation: { x: 45, y: 45, z: 45 },
+    });
+
+    expect(useStudio.getState().document).toBe(before);
+    expect(useStudio.getState().history.past.length).toBe(historyCount);
+  });
+});

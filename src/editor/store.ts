@@ -197,6 +197,7 @@ interface StudioState {
   setTempo: (tempo: Partial<Tempo>) => void;
   setGripClosure: (closure: number) => void;
   setEquipmentGripOffset: (instanceId: string, offset: Vec3 | null) => void;
+  setEquipmentTransform: (instanceId: string, transform: { position?: Vec3; rotation?: Vec3 }) => void;
   setLockEnabled: (lockId: string, enabled: boolean) => void;
   runValidation: () => void;
 
@@ -545,6 +546,32 @@ export const useStudio = create<StudioState>((set, get) => {
         };
         return { exercise, clip: generateClip(skeleton, exercise) };
       }),
+
+    setEquipmentTransform: (instanceId, transform) => {
+      const current = get().document.exercise.equipment.instances.find(
+        (instance) => instance.id === instanceId,
+      );
+      // Hand-driven equipment belongs to the grip/attachment system. A world
+      // transform edit would be overwritten by the next resolved frame, so do
+      // not create a misleading undo step for it.
+      if (!current || current.attachment.mode !== 'static') return;
+      commit((document) => {
+        const instances = document.exercise.equipment.instances.map((instance) =>
+          instance.id === instanceId
+            ? {
+                ...instance,
+                position: transform.position ? { ...transform.position } : { ...instance.position },
+                rotation: transform.rotation ? { ...transform.rotation } : { ...instance.rotation },
+              }
+            : instance,
+        );
+        const exercise = {
+          ...document.exercise,
+          equipment: { ...document.exercise.equipment, instances },
+        };
+        return { exercise, clip: generateClip(skeleton, exercise) };
+      });
+    },
 
     setLockEnabled: (lockId, enabled) =>
       editClip((clip) => ({

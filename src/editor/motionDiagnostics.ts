@@ -1,4 +1,4 @@
-import { sampleClip, type StudioClip } from '../animation/clip';
+import { sampleClip, sortedKeyframes, type StudioClip } from '../animation/clip';
 import { AXES, type Axis } from '../rig/types';
 import type { BoneName } from '../rig/boneNames';
 import { boneRotation } from '../rig/pose';
@@ -109,4 +109,80 @@ export function measureJointMotion(
     maxSpeed,
     maxAcceleration,
   };
+}
+
+
+export interface JointTransitionPoint {
+  keyframeId: string;
+  time: number;
+  label?: string;
+  axis: Axis;
+  incomingDegPerSec: number;
+  outgoingDegPerSec: number;
+  velocityJumpDegPerSec: number;
+}
+
+export interface JointTransitionDiagnostic {
+  bone: BoneName;
+  fps: number;
+  points: JointTransitionPoint[];
+  maxJump: JointTransitionPoint | null;
+}
+
+/**
+ * Measure angular-velocity continuity immediately before and after each
+ * interior keyframe for one joint.
+ *
+ * This complements whole-rep acceleration: it answers whether the sharpest
+ * change is specifically attached to a phase/keyframe boundary. A deliberate
+ * stop into a hold can legitimately have a large change, so no universal
+ * failure threshold is assigned.
+ */
+export function measureJointTransitions(
+  clip: StudioClip,
+  bone: BoneName,
+): JointTransitionDiagnostic {
+  const fps = clip.fps > 0 ? clip.fps : 30;
+  const step = 1 / fps;
+  const frames = sortedKeyframes(clip);
+  const points: JointTransitionPoint[] = [];
+  let maxJump: JointTransitionPoint | null = null;
+
+  for (let index = 1; index < frames.length - 1; index += 1) {
+    const frame = frames[index];
+    const beforeTime = Math.max(frames[index - 1].time, frame.time - step);
+    const afterTime = Math.min(frames[index + 1].time, frame.time + step);
+    const inDt = frame.time - beforeTime;
+    const outDt = afterTime - frame.time;
+    if (inDt <= 1e-10 || outDt <= 1e-10) continue;
+
+    const before = boneRotation(sampleClip(clip, beforeTime).pose, bone);
+    const at = boneRotation(sampleClip(clip, frame.time).pose, bone);
+    const after = boneRotation(sampleClip(clip, afterTime).pose, bone);
+
+    let boundary: JointTransitionPoint | null = null;
+    for (const axis of AXES) {
+      const incoming = toDeg(shortestAngleDelta(before[axis], at[axis])) / inDt;
+      const outgoing = toDeg(shortestAngleDelta(at[axis], after[axis])) / outDt;
+      const jump = Math.abs(outgoing - incoming);
+      if (!boundary || jump > boundary.velocityJumpDegPerSec) {
+        boundary = {
+          keyframeId: frame.id,
+          time: frame.time,
+          ...(frame.label ? { label: frame.label } : {}),
+          axis,
+          incomingDegPerSec: incoming,
+          outgoingDegPerSec: outgoing,
+          velocityJumpDegPerSec: jump,
+        };
+      }
+    }
+    if (!boundary) continue;
+    points.push(boundary);
+    if (!maxJump || boundary.velocityJumpDegPerSec > maxJump.velocityJumpDegPerSec) {
+      maxJump = boundary;
+    }
+  }
+
+  return { bone, fps, points, maxJump };
 }

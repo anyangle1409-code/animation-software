@@ -8,7 +8,7 @@ import { EASING_LABELS } from '../../animation/easing';
 import type { EasingKind, PhaseJointTiming } from '../../exercises/types';
 import { toDeg, toRad } from '../../core/math';
 import { skeleton, useStudio } from '../store';
-import { measureJointMotion } from '../motionDiagnostics';
+import { measureJointMotion, measureJointTransitions } from '../motionDiagnostics';
 import { measureJointCoordination } from '../coordinationDiagnostics';
 
 /** Numeric, limit-aware control for one joint axis. */
@@ -84,6 +84,10 @@ export function JointPanel() {
   const rotation = selected ? pose.rotations[selected] : undefined;
   const motion = useMemo(
     () => (selected ? measureJointMotion(clip, selected) : null),
+    [clip, selected],
+  );
+  const transitions = useMemo(
+    () => (selected ? measureJointTransitions(clip, selected) : null),
     [clip, selected],
   );
   const keyframes = useMemo(() => sortedKeyframes(clip), [clip]);
@@ -199,6 +203,12 @@ export function JointPanel() {
             <dd>
               {motion.maxAcceleration.value.toFixed(0)}°/s² · {motion.maxAcceleration.axis.toUpperCase()} · {motion.maxAcceleration.time.toFixed(2)}s
             </dd>
+            <dt>Largest keyframe velocity jump</dt>
+            <dd>
+              {transitions?.maxJump
+                ? `${transitions.maxJump.velocityJumpDegPerSec.toFixed(1)}°/s · ${transitions.maxJump.axis.toUpperCase()} · ${transitions.maxJump.time.toFixed(2)}s${transitions.maxJump.label ? ` · ${transitions.maxJump.label}` : ''}`
+                : 'No interior keyframe boundary'}
+            </dd>
           </dl>
           <div className="button-row">
             <button type="button" onClick={() => setTime(motion.maxSpeed.time)}>
@@ -207,7 +217,17 @@ export function JointPanel() {
             <button type="button" onClick={() => setTime(motion.maxAcceleration.time)}>
               Jump to sharpest change
             </button>
+            {transitions?.maxJump && (
+              <button type="button" onClick={() => setTime(transitions.maxJump!.time)}>
+                Jump to worst keyframe transition
+              </button>
+            )}
           </div>
+          {transitions?.maxJump && (
+            <p className="panel__note">
+              At that boundary: incoming {transitions.maxJump.incomingDegPerSec.toFixed(1)}°/s, outgoing {transitions.maxJump.outgoingDegPerSec.toFixed(1)}°/s. A stop into a hold can be intentional; use this to locate the transition, not as an automatic failure.
+            </p>
+          )}
           <details>
             <summary>Per-axis motion</summary>
             <dl className="spec-list">

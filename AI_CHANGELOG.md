@@ -7,6 +7,15 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — selected-joint keyframe transition continuity
+
+Extended selected-joint motion diagnostics with a phase-boundary continuity pass. For every interior keyframe, the Studio now samples one authored frame immediately before and after the boundary, computes shortest-path incoming/outgoing angular velocity per axis, and records the largest velocity jump. The Joint workspace shows the worst boundary, axis, timestamp and incoming/outgoing speeds with a direct jump-to-frame action.
+
+This is intentionally descriptive rather than a universal pass/fail rule: a deliberate transition into a squeeze/hold can legitimately stop the joint. The purpose is to separate a keyframe/phase-boundary snap from a speed or acceleration peak occurring elsewhere in the movement, which is particularly useful when reviewing the curl elbow and late upper-arm contribution.
+
+Regression coverage proves a 90°/s linear hinge stopping at a middle keyframe is localised as a 90°/s X-axis jump at exactly 0.5 s, while two adjacent linear segments with the same velocity report essentially zero boundary discontinuity.
+
+
 ### ChatGPT — 2026-09-14 — whole-rep corrective candidate sweep
 
 Added an on-demand deformation-control sweep on top of the export-aware elbow tuning. The Correctives workspace can now evaluate 0/25/50/75/100% outer-elbow smoothing through the existing production whole-rep strain path and reports the worst P99 and maximum-edge strain frame for every candidate value. Each result can be loaded directly at its worst P99 frame for close visual inspection.

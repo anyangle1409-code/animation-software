@@ -37,6 +37,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Custom In/Out loop ranges for repeated inspection of a difficult rep segment.
 - Selected-bone timing authoring for delay, finish point and easing on each keyframe segment.
 - Selected-joint frame-by-frame motion diagnostics report worst angular speed and acceleration with exact timestamps and jump-to-frame controls, giving elbow/shoulder timing review an objective signal without imposing a universal movement threshold.
+- Keyframe transition continuity compares incoming/outgoing angular velocity around every interior keyframe, reports the largest per-axis velocity jump and exact boundary, and can jump directly there; intentional stops/holds remain descriptive rather than automatically failed.
 - Segment-local joint coordination compares the selected joint against its anatomical parent, reporting excursion, meaningful-motion onset and onset lag; the parent can be selected directly for timing edits, making elbow-led/shoulder-follow sequencing explicit without extra stop/start keys.
 - Bilateral timing symmetry is explicit: the Joint workspace compares delay/finish/easing against the anatomical opposite and can copy selected-side timing to the other side in one undoable edit without changing pose angles.
 - Semantic Start / Transition / Peak / Return pose markers are generated deterministically and editable on keyframes.

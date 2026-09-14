@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { StudioClip } from '../animation/clip';
 import { restPose } from '../rig/pose';
 import { vec3 } from '../rig/types';
-import { measureJointMotion } from './motionDiagnostics';
+import { measureJointMotion, measureJointTransitions } from './motionDiagnostics';
 
 const linearForearmClip = (): StudioClip => {
   const start = restPose();
@@ -46,4 +46,40 @@ describe('selected-joint motion diagnostics', () => {
     const diagnostic = measureJointMotion(clip, 'forearm_l');
     expect(diagnostic.axes.x.maxSpeedDegPerSec).toBeCloseTo(60, 8);
   });
+
+  it('localises a velocity discontinuity to the keyframe where a moving joint stops', () => {
+    const clip = linearForearmClip();
+    const middle = restPose();
+    middle.rotations.forearm_l = vec3(Math.PI / 4, 0, 0);
+    const end = restPose();
+    end.rotations.forearm_l = vec3(Math.PI / 4, 0, 0);
+    clip.keyframes = [
+      { id: 'start', time: 0, pose: restPose(), ik: {}, easing: 'linear' },
+      { id: 'stop', time: 0.5, pose: middle, ik: {}, easing: 'linear', label: 'Stop here' },
+      { id: 'end', time: 1, pose: end, ik: {}, easing: 'hold' },
+    ];
+
+    const diagnostic = measureJointTransitions(clip, 'forearm_l');
+    expect(diagnostic.points).toHaveLength(1);
+    expect(diagnostic.maxJump?.keyframeId).toBe('stop');
+    expect(diagnostic.maxJump?.time).toBeCloseTo(0.5, 8);
+    expect(diagnostic.maxJump?.axis).toBe('x');
+    expect(diagnostic.maxJump?.incomingDegPerSec).toBeCloseTo(90, 6);
+    expect(diagnostic.maxJump?.outgoingDegPerSec).toBeCloseTo(0, 6);
+    expect(diagnostic.maxJump?.velocityJumpDegPerSec).toBeCloseTo(90, 6);
+  });
+
+  it('reports near-zero boundary jump when both segments keep the same linear velocity', () => {
+    const clip = linearForearmClip();
+    const middle = restPose();
+    middle.rotations.forearm_l = vec3(Math.PI / 4, 0, 0);
+    clip.keyframes = [
+      { id: 'start', time: 0, pose: restPose(), ik: {}, easing: 'linear' },
+      { id: 'middle', time: 0.5, pose: middle, ik: {}, easing: 'linear' },
+      clip.keyframes[1],
+    ];
+    const diagnostic = measureJointTransitions(clip, 'forearm_l');
+    expect(diagnostic.maxJump?.velocityJumpDegPerSec ?? 0).toBeLessThan(1e-8);
+  });
+
 });

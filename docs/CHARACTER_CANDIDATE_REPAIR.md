@@ -11,6 +11,7 @@ Directional-elbow review SHA-256: `8e8df9e8adcf43e0e6473bf98efadb05a31075031f912
 - Character-aware contact correction and calibrated hand frames keep equipment and floor/bar contacts aligned to imported proportions.
 - The proven v5 candidate contains the verified bilateral finger/hand repair, wrist cuff transition, local hip repair and widened elbow weight transition.
 - The retained elbow corrective remains flexion-driven and candidate-specific: up to 18 mm on the inner fold and 9 mm over the elbow point, including the source rig's numbered split forearm helpers. It is zero when the elbow is extended.
+- Imported corrective targets preserve the source geometry's existing morph convention. An absolute-morph character stays absolute; a relative-morph character stays relative, so adding the elbow corrective cannot reinterpret pre-existing facial or body morph targets.
 - The curl bottom uses relaxed clavicles, 3° upper-arm clearance and no forward shoulder flexion. Peak elbow flexion remains 126°; the range was not shortened to hide deformation.
 - Curl coordination is now phase-local: elbow flexion begins first, while the upper arms wait until 55% of the concentric before completing only the authored 4° forward drift. On the eccentric they wait until 20% before settling. That secondary movement uses a fifth-order minimum-jerk curve so it joins the held pose with zero velocity and zero acceleration.
 
@@ -37,12 +38,12 @@ A local elbow-subdivision experiment was also tested and rejected. It roughly ha
 
 ## Verification
 
-Current branch validation on Node 22 after the directional importer change:
+Current branch validation on Node 22 after the directional importer and morph-preservation changes:
 
 - `npm run typecheck` — **passed**.
-- `npm test` — **196 passed, 1 optional real-character diagnostic skipped** (17 test files passed).
+- `npm test` — **198 passed, 1 optional real-character diagnostic skipped** (17 test files passed).
 - `npm run build` — **passed**, with only the existing >500 kB chunk-size advisory.
-- New regression tests verify that directional smoothing is explicitly opt-in and that no added bind-space offset can exceed the 8 mm safety cap.
+- Regression coverage verifies that directional smoothing is explicitly opt-in, no added bind-space offset can exceed the 8 mm safety cap, and pre-existing absolute/relative morph targets remain in their original convention unchanged.
 - The proven v5 candidate remains unchanged and available for A/B comparison.
 
 The optional external-asset diagnostic is skipped in ordinary CI because the real GLB is not committed. Proven v5 passed the production real-character diagnostic in the preceding retained validation. The new review candidate should be visually inspected in the Studio tomorrow before its metadata is promoted to the shared candidate.

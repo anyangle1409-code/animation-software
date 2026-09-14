@@ -39,6 +39,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Semantic Start / Transition / Peak / Return pose markers are generated deterministically and editable on keyframes.
 - Non-destructive A/B pose snapshots provide side-by-side front-view comparison plus selected-joint angle deltas.
 - Individual finger/thumb joint authoring remains available through the same joint workspace.
+- Dedicated Grip workspace provides undoable closure presets and live measured finger/handle fit using the established regression envelope.
 
 ## 4. Hand / grip workspace
 

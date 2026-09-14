@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — measurable hand/grip workspace
+
+Added a dedicated Grip tab for the curl/hand-authoring workflow. It keeps the existing deterministic finger generator and existing 30-joint fine-hand editing rather than introducing a second hand rig. The panel exposes an exact closure slider plus Loose 70%, Training 85%, and Closed 100% quick presets; all use the existing `setGripClosure` document edit, regenerate deterministically and remain undoable.
+
+Added `src/equipment/gripDiagnostics.ts`, which measures each hand-held cylindrical handle against the same geometric concepts already enforced by the grip regression: maximum finger/thumb reach use and angular enclosure around the handle. The UI reports contact reach used, wrap coverage, largest open gap, and an explicit `Within envelope` / `Review fit` authoring status. This is intentionally described as animation-fit geometry, not a force or injury-safety score. New regressions confirm the preset set includes the curl's authored 85% default and that both the dumbbell curl and shoulder press remain inside the measurable envelope across 13 samples per repetition. The capability roadmap now records the Grip workspace as implemented.
+
+
 ### ChatGPT — 2026-09-14 — non-destructive A/B pose comparison
 
 Added transient Reference A / Candidate B pose snapshots to the Studio. `comparison` state lives outside `StudioDocument`, so capturing, clearing and viewing snapshots do **not** mutate the accepted clip, do not create undo-history entries and do not affect export. The new Compare panel renders both snapshots side by side as deterministic front-view projections of the canonical core skeleton and, when a joint is selected, shows exact X/Y/Z angles for A and B plus the signed delta. This is intended for judging shoulder/elbow/body-position refinements before deciding whether a clip edit should be kept.

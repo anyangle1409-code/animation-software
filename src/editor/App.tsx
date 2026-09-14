@@ -10,9 +10,10 @@ import { TechniquePanel } from './panels/TechniquePanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { ComparisonPanel } from './panels/ComparisonPanel';
+import { GripPanel } from './panels/GripPanel';
 import { useStudio } from './store';
 
-type LeftTab = 'joint' | 'ik' | 'character';
+type LeftTab = 'joint' | 'grip' | 'ik' | 'character';
 type RightTab = 'exercise' | 'muscles' | 'technique' | 'compare' | 'export';
 
 export function App() {
@@ -71,6 +72,13 @@ export function App() {
             </button>
             <button
               type="button"
+              className={leftTab === 'grip' ? 'is-active' : ''}
+              onClick={() => setLeftTab('grip')}
+            >
+              Grip
+            </button>
+            <button
+              type="button"
               className={leftTab === 'ik' ? 'is-active' : ''}
               onClick={() => setLeftTab('ik')}
             >
@@ -86,6 +94,7 @@ export function App() {
           </nav>
           <div className="studio__side-body">
             {leftTab === 'joint' && <JointPanel />}
+            {leftTab === 'grip' && <GripPanel />}
             {leftTab === 'ik' && <IKPanel />}
             {leftTab === 'character' && <CharacterPanel />}
           </div>

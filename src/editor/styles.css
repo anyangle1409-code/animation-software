@@ -792,3 +792,40 @@ code {
 .comparison-delta__row {
   display: contents;
 }
+
+
+/* ---------- hand / grip workspace ---------- */
+
+.grip-presets button.is-active {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.grip-fit-list {
+  display: grid;
+  gap: 8px;
+}
+
+.grip-fit {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  padding: 9px;
+}
+
+.grip-fit__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+.status-ok {
+  color: #76d6a7;
+}
+
+.status-warn {
+  color: #f0bd69;
+}

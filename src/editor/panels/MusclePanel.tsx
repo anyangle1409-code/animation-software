@@ -8,6 +8,7 @@ import {
   type MuscleReading,
 } from '../../muscles/diagnostics';
 import { skeleton, useStudio } from '../store';
+import './MusclePanel.css';
 
 const REGIONS = ['all', 'chest', 'shoulders', 'arms', 'back', 'core', 'legs'] as const;
 type RegionFilter = (typeof REGIONS)[number];

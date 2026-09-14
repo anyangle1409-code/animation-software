@@ -54,6 +54,21 @@ describe('clip generation', () => {
     expect(top).toBeCloseTo(126, 3);
   });
 
+  it('lets the elbow lead while the upper arm stays quiet early in the curl', () => {
+    const halfwayUp = sampleClip(clip, 1);
+    expect(toDeg(halfwayUp.pose.rotations.forearm_l?.x ?? 0)).toBeGreaterThan(50);
+    expect(toDeg(halfwayUp.pose.rotations.upperarm_l?.x ?? 0)).toBeCloseTo(0, 6);
+    expect(toDeg(halfwayUp.pose.rotations.upperarm_r?.x ?? 0)).toBeCloseTo(0, 6);
+
+    const lateUp = sampleClip(clip, 1.5);
+    expect(toDeg(lateUp.pose.rotations.upperarm_l?.x ?? 0)).toBeGreaterThan(0);
+    expect(toDeg(lateUp.pose.rotations.upperarm_l?.x ?? 0)).toBeLessThan(4);
+
+    const earlyDown = sampleClip(clip, 3.3);
+    expect(toDeg(earlyDown.pose.rotations.forearm_l?.x ?? 0)).toBeLessThan(126);
+    expect(toDeg(earlyDown.pose.rotations.upperarm_l?.x ?? 0)).toBeCloseTo(4, 6);
+  });
+
   it('names phases across the timeline', () => {
     expect(phaseBoundaries(bicepCurl).map((entry) => [entry.phase.id, entry.start, entry.end])).toEqual([
       ['concentric', 0, 2],

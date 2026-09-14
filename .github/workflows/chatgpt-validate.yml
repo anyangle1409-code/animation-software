@@ -1,0 +1,39 @@
+name: ChatGPT validate grip orientation
+
+on:
+  push:
+    branches:
+      - chatgpt/absolute-retarget-imports
+    paths:
+      - '.github/chatgpt_grip_orientation.py'
+      - '.github/workflows/chatgpt-validate.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Apply staged hand-local grip orientation
+        run: python .github/chatgpt_grip_orientation.py
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Full test suite
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Retain validated grip orientation and clean temporary gate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/equipment/types.ts src/equipment/attach.ts src/export/clipBuilder.ts src/viewer/EquipmentView.tsx src/editor/store.ts src/editor/store.test.ts src/editor/panels/GripPanel.tsx docs/STUDIO_CAPABILITY_ROADMAP.md AI_CHANGELOG.md
+          git rm .github/chatgpt_grip_orientation.py .github/workflows/chatgpt-validate.yml
+          git commit -m "feat: add hand-local grip orientation calibration"
+          git push

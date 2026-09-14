@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { correctiveDiagnostics } from '../../character/correctiveDiagnostics';
+import { meshStrainDiagnostics, type MeshStrainDiagnostic } from '../../character/meshStrain';
 import { useCharacter } from '../characterStore';
 import { useStudio } from '../store';
 
@@ -11,6 +13,18 @@ export function CorrectivePanel() {
   const enabled = useCharacter((state) => state.correctivesPreview);
   const setEnabled = useCharacter((state) => state.setCorrectivesPreview);
   const diagnostics = active ? correctiveDiagnostics(active.meshes) : [];
+  const [strain, setStrain] = useState<MeshStrainDiagnostic[]>([]);
+
+  useEffect(() => {
+    if (!active) {
+      setStrain([]);
+      return;
+    }
+    const update = () => setStrain(meshStrainDiagnostics(active.meshes));
+    update();
+    const timer = window.setInterval(update, 200);
+    return () => window.clearInterval(timer);
+  }, [active, enabled]);
 
   return (
     <section className="panel corrective-panel">
@@ -34,6 +48,26 @@ export function CorrectivePanel() {
         <p className="panel__empty">This character exposes no Home Gym PT corrective morphs.</p>
       )}
 
+      <h3>Surface strain</h3>
+      <p className="panel__hint">
+        Sampled edge-length change versus bind geometry. P95/P99 are robust whole-surface signals;
+        severe counts are edges compressed or stretched by more than 20%.
+      </p>
+      <div className="strain-list">
+        {strain.map((item) => (
+          <div key={item.mesh} className="strain-card">
+            <strong>{item.mesh}</strong>
+            <span>P95 {(item.p95 * 100).toFixed(1)}%</span>
+            <span>P99 {(item.p99 * 100).toFixed(1)}%</span>
+            <span>Max {(item.max * 100).toFixed(1)}%</span>
+            <span>Compression &gt;20% · {item.severeCompression}</span>
+            <span>Stretch &gt;20% · {item.severeStretch}</span>
+            <small>{item.sampledEdges} sampled edges</small>
+          </div>
+        ))}
+      </div>
+
+      <h3>Corrective morphs</h3>
       <div className="corrective-list">
         {diagnostics.map((item) => (
           <article key={`${item.mesh}-${item.name}`} className="corrective-card">

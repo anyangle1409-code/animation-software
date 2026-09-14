@@ -7,6 +7,13 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — live surface-strain diagnostics
+
+Extended the Correctives workspace with an objective surface-deformation readout. `src/character/meshStrain.ts` samples posed `SkinnedMesh.getVertexPosition` edge lengths against the same edges in bind geometry, so normal rigid character/world movement cancels out while non-rigid skinning/morph distortion remains measurable. The panel refreshes at 5 Hz and reports P95, P99 and maximum absolute edge strain, counts of sampled edges compressed by >20% or stretched by >20%, and the sample count per mesh. The sampling budget is bounded per mesh so diagnostics do not require scanning every dense-mesh edge every rendered frame.
+
+Regression coverage proves a rigidly moved one-bone mesh reports zero strain and a known relative morph stretch is detected at the expected 50% maximum. These values are diagnostic geometry signals, not injury/force estimates. They are intended to be read alongside the viewport-only Correctives on / Raw skinning A/B switch when deciding whether a joint corrective actually improves deformation rather than merely changing silhouette.
+
+
 ### ChatGPT — 2026-09-14 — corrective-deformation inspection workspace
 
 Added a dedicated Correctives workspace for judging mesh-specific joint deformation without modifying the accepted animation. `src/character/correctiveDiagnostics.ts` discovers Studio-authored `homeGymPT_*` morphs on the active character and reports their live morph influence, affected vertex count, authored maximum displacement and current influence-scaled maximum displacement. Measurement respects the geometry's existing relative/absolute morph convention.

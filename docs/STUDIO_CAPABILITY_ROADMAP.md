@@ -78,6 +78,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Live driver influence, affected-vertex count, authored maximum displacement and current maximum displacement are shown at the playhead.
 - `Correctives on` / `Raw skinning` is a viewport-only A/B bypass; the accepted clip, source mesh, deformation sampler and export remain untouched.
 - Relative and absolute source morph conventions are measured correctly, and unrelated expression/body morphs are never suppressed by the A/B control.
+- Live surface-strain diagnostics sample posed mesh edges against bind geometry and report P95/P99/max strain plus >20% compression/stretch counts; rigid transforms correctly read as zero strain.
 
 ## 7. Diagnostics and approval
 

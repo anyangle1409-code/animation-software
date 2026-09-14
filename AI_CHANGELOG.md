@@ -29,6 +29,8 @@ This entry is the current cross-assistant handover for the candidate male charac
 
 **Rejected experiment — 2026-09-14.** Tested a raised-arm-only shoulder-cap/axilla morph (zero at curl bottom; 566 local vertices; maximum press displacement 3.31 mm). It produced too little visible improvement and increased press compression slightly (105 to 111 edges below half rest length). It is not in the candidate: the active asset has been restored to SHA-256 `706c4aa1951628e8f210daf1b082d34f43881cf75c8e9523e3e23b513318c9cd`. Do not repeat this radial inflation approach; the remaining shoulder defect needs a pose-specific directional shape, not a spherical push.
 
+**Rejected wrist test — 2026-09-14.** Tested a loaded wrist-cuff shape gated by hand rotation. It moved zero vertices in every representative pose because this asset has no forearm/hand mixed-weight ring for the correction to govern. The candidate was immediately restored to the same SHA above. A wrist improvement requires a topology-aware shape based on the actual rigid ownership boundary, not a conventional blend-ring morph.
+
 
 ### ChatGPT — 2026-09-12 — whole-body imported-character movement certification
 

@@ -8,6 +8,7 @@ import { EASING_LABELS } from '../../animation/easing';
 import type { EasingKind, PhaseJointTiming } from '../../exercises/types';
 import { toDeg, toRad } from '../../core/math';
 import { skeleton, useStudio } from '../store';
+import { measureJointMotion } from '../motionDiagnostics';
 
 /** Numeric, limit-aware control for one joint axis. */
 function AxisRow({ bone, axis, value }: { bone: BoneName; axis: Axis; value: number }) {
@@ -68,6 +69,7 @@ export function JointPanel() {
   const selectBone = useStudio((state) => state.selectBone);
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
+  const setTime = useStudio((state) => state.setTime);
   const copyPose = useStudio((state) => state.copyPose);
   const pastePose = useStudio((state) => state.pastePose);
   const mirrorCurrentPose = useStudio((state) => state.mirrorCurrentPose);
@@ -78,6 +80,10 @@ export function JointPanel() {
 
   const pose = useMemo(() => sampleClip(clip, time).pose, [clip, time]);
   const rotation = selected ? pose.rotations[selected] : undefined;
+  const motion = useMemo(
+    () => (selected ? measureJointMotion(clip, selected) : null),
+    [clip, selected],
+  );
   const keyframes = useMemo(() => sortedKeyframes(clip), [clip]);
   const segmentIndex = useMemo(() => {
     let index = 0;
@@ -155,6 +161,49 @@ export function JointPanel() {
         <p className="panel__empty">
           Click a joint in the viewport, or choose one above, to rotate it.
         </p>
+      )}
+
+      <h3>Motion quality</h3>
+      {selected && motion ? (
+        <div className="joint-motion-diagnostic">
+          <p className="panel__hint">
+            Frame-by-frame at {motion.fps} fps using shortest-path joint angles. These are animation
+            diagnostics, not force or injury thresholds.
+          </p>
+          <dl className="spec-list">
+            <dt>Highest angular speed</dt>
+            <dd>
+              {motion.maxSpeed.value.toFixed(1)}°/s · {motion.maxSpeed.axis.toUpperCase()} · {motion.maxSpeed.time.toFixed(2)}s
+            </dd>
+            <dt>Highest angular acceleration</dt>
+            <dd>
+              {motion.maxAcceleration.value.toFixed(0)}°/s² · {motion.maxAcceleration.axis.toUpperCase()} · {motion.maxAcceleration.time.toFixed(2)}s
+            </dd>
+          </dl>
+          <div className="button-row">
+            <button type="button" onClick={() => setTime(motion.maxSpeed.time)}>
+              Jump to fastest frame
+            </button>
+            <button type="button" onClick={() => setTime(motion.maxAcceleration.time)}>
+              Jump to sharpest change
+            </button>
+          </div>
+          <details>
+            <summary>Per-axis motion</summary>
+            <dl className="spec-list">
+              {AXES.map((axis) => (
+                <div className="spec-list__pair" key={`motion-${axis}`}>
+                  <dt>{axis.toUpperCase()}</dt>
+                  <dd>
+                    {motion.axes[axis].maxSpeedDegPerSec.toFixed(1)}°/s · {motion.axes[axis].maxAccelerationDegPerSec2.toFixed(0)}°/s²
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </details>
+        </div>
+      ) : (
+        <p className="panel__empty">Select a joint to inspect its motion through the full rep.</p>
       )}
 
       <h3>Segment timing</h3>

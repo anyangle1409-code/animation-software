@@ -36,6 +36,7 @@ An exercise is ready for the PT app only when the Studio can author, inspect and
 - Exact one-frame stepping plus 1/4× and 1/2× review speeds.
 - Custom In/Out loop ranges for repeated inspection of a difficult rep segment.
 - Selected-bone timing authoring for delay, finish point and easing on each keyframe segment.
+- Selected-joint frame-by-frame motion diagnostics report worst angular speed and acceleration with exact timestamps and jump-to-frame controls, giving elbow/shoulder timing review an objective signal without imposing a universal movement threshold.
 - Semantic Start / Transition / Peak / Return pose markers are generated deterministically and editable on keyframes.
 - Non-destructive A/B pose snapshots provide side-by-side front-view comparison plus selected-joint angle deltas.
 - Individual finger/thumb joint authoring remains available through the same joint workspace.

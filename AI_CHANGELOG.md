@@ -7,6 +7,14 @@ definitions, or repository configuration.
 ## Unreleased
 
 
+### ChatGPT — 2026-09-14 — selected-joint motion-quality diagnostics
+
+Added `src/editor/motionDiagnostics.ts`, which samples the selected joint at the clip's authored FPS and measures per-axis angular speed and angular acceleration using shortest-path angle deltas. Crossing the ±180° representation boundary therefore cannot create a false 358° snap. The diagnostic reports the worst speed and acceleration with responsible axis/timestamp and deliberately has no universal pass/fail threshold: these are animation-quality signals, not force or injury estimates.
+
+The Joint workspace now exposes the whole-rep maxima, per-axis values, and `Jump to fastest frame` / `Jump to sharpest change` controls. This pairs with the existing Focus-selected camera and per-joint segment timing so elbow snapping, shoulder take-over or abrupt secondary timing can be located first and then tuned without changing unrelated joints. Regression coverage proves a synthetic linear 90°/s hinge reads 90°/s with effectively zero acceleration and verifies shortest-path handling across +179°/-179°.
+
+
+
 ### ChatGPT — 2026-09-14 — whole-rep grip worst-point review
 
 Added `src/editor/gripReview.ts` to scan every authored animation frame at `clip.fps` through the same production `resolveFrame()` pipeline used by the viewport. For each single-hand equipment instance it records the worst contact-reach value and exact timestamp for thumb/index/middle/ring/pinky, plus the overall worst digit. The scan reuses the established `measureGripFit()` envelope and is diagnostic only: it never edits finger closure, equipment placement, wrist/arm pose or the accepted clip.

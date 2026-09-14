@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { Bone, BufferGeometry, Float32BufferAttribute, Matrix4, MeshBasicMaterial, Skeleton, SkinnedMesh, Vector3 } from 'three';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
+import type { StudioClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
 import { airSquat } from '../exercises/definitions/airSquat';
@@ -13,6 +14,9 @@ import { shoulderPress } from '../exercises/definitions/shoulderPress';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { applyCharacterPose } from '../character/pose';
 import { retargetedCharacterSource } from '../character/retargetSource';
+import type { CharacterBuild, Side } from '../character/types';
+import { equipmentSocket } from '../equipment/library';
+import { handAttachmentMatrix } from '../export/clipBuilder';
 
 /**
  * Optional production-path diagnostic for a real imported character.
@@ -25,7 +29,8 @@ import { retargetedCharacterSource } from '../character/retargetSource';
  *
  * The test goes through the same preserved-import, resolveFrame and
  * applyCharacterPose path the Studio uses, samples the five representative
- * exercise families, and prints mesh strain plus hand-frame continuity.  It is
+ * exercise families, and prints mesh strain, hand-frame continuity and
+ * dumbbell-handle/skin clearance.  It is
  * a measurement harness, not a substitute for visual approval.
  */
 
@@ -105,6 +110,74 @@ function strain(mesh: SkinnedMesh, set: EdgeSet) {
   };
 }
 
+const DUMBBELL_HANDLE_RADIUS = 0.015;
+const DUMBBELL_HANDLE_HALF_LENGTH = 0.06;
+
+/**
+ * Measure the visible imported skin against the exact handle transform used by
+ * the viewport. This is diagnostic only: a sparse mesh can miss a triangle-level
+ * intersection even when no vertex enters the cylinder, so the number is useful
+ * for A/B calibration but is not a pass/fail threshold. Negative clearance means
+ * at least one posed skin vertex is inside the 15 mm-radius handle volume.
+ */
+function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip) {
+  const result: Record<Side, { penetratingVertices: number; minClearanceMm: number | null; sampledVertices: number } | null> = {
+    l: null,
+    r: null,
+  };
+  if (!character.handMatrix) return result;
+
+  const vertex = new Vector3();
+  const handleLocal = new Vector3();
+
+  for (const side of ['l', 'r'] as const) {
+    const instance = clip.equipment.find(
+      (entry) =>
+        entry.kind === 'dumbbell' &&
+        entry.attachment.mode === 'hand' &&
+        entry.attachment.side === side,
+    );
+    if (!instance || instance.attachment.mode !== 'hand') continue;
+
+    const hand = character.handMatrix(side, new Matrix4());
+    if (!hand) continue;
+    const socket = equipmentSocket(instance.kind, instance.attachment.socket);
+    const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+    const equipment = new Matrix4().multiplyMatrices(
+      hand,
+      handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }),
+    );
+    const toHandle = equipment.clone().invert();
+
+    let penetratingVertices = 0;
+    let sampledVertices = 0;
+    let minClearance = Number.POSITIVE_INFINITY;
+
+    for (const mesh of character.meshes) {
+      mesh.skeleton.update();
+      mesh.updateWorldMatrix(true, false);
+      const count = mesh.geometry.getAttribute('position').count;
+      for (let index = 0; index < count; index += 1) {
+        mesh.getVertexPosition(index, vertex);
+        handleLocal.copy(vertex).applyMatrix4(mesh.matrixWorld).applyMatrix4(toHandle);
+        if (Math.abs(handleLocal.z) > DUMBBELL_HANDLE_HALF_LENGTH) continue;
+        sampledVertices += 1;
+        const clearance = Math.hypot(handleLocal.x, handleLocal.y) - DUMBBELL_HANDLE_RADIUS;
+        minClearance = Math.min(minClearance, clearance);
+        if (clearance < 0) penetratingVertices += 1;
+      }
+    }
+
+    result[side] = {
+      penetratingVertices,
+      minClearanceMm: Number.isFinite(minClearance) ? Number((minClearance * 1000).toFixed(3)) : null,
+      sampledVertices,
+    };
+  }
+
+  return result;
+}
+
 const real = path ? describe : describe.skip;
 
 describe('production strain measurement includes pose shapes', () => {
@@ -178,7 +251,8 @@ real('real imported-character production diagnostic', () => {
             : null;
         }
 
-        samples.push({ fraction, meshStats, hands });
+        const handleSkin = dumbbellHandleSkinClearance(character, clip);
+        samples.push({ fraction, meshStats, hands, handleSkin });
 
         for (const stat of meshStats) {
           expect(Number.isFinite(stat.max)).toBe(true);

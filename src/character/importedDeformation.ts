@@ -153,9 +153,14 @@ function appendTarget(
   }
   if (!affected) return null;
 
-  const morph = new BufferAttribute(delta, 3);
+  // Three.js stores one morph convention per geometry. Do not flip an imported
+  // character from absolute to relative morphs (or vice versa) just to append
+  // this corrective: doing so would reinterpret every pre-existing expression
+  // or body shape. Encode the new target in the geometry's existing convention.
+  const morph = mesh.geometry.morphTargetsRelative
+    ? new BufferAttribute(delta, 3)
+    : absoluteMorph(position, delta);
   morph.name = `homeGymPT_elbow_${side}`;
-  mesh.geometry.morphTargetsRelative = true;
   const attributes = mesh.geometry.morphAttributes.position ?? [];
   mesh.geometry.morphAttributes.position = [...attributes, morph];
   mesh.updateMorphTargets();
@@ -322,6 +327,21 @@ function pointFrom(
   target: Vector3,
 ): Vector3 {
   return target.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
+}
+
+/** Build an absolute-position morph target without changing the source convention. */
+function absoluteMorph(
+  position: BufferAttribute | InterleavedBufferAttribute,
+  delta: Float32Array,
+): BufferAttribute {
+  const values = new Float32Array(position.count * 3);
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    const start = vertex * 3;
+    values[start] = position.getX(vertex) + delta[start];
+    values[start + 1] = position.getY(vertex) + delta[start + 1];
+    values[start + 2] = position.getZ(vertex) + delta[start + 2];
+  }
+  return new BufferAttribute(values, 3);
 }
 
 function matchingBones(mesh: SkinnedMesh, base: string, includeSplitHelpers = false): Set<number> {

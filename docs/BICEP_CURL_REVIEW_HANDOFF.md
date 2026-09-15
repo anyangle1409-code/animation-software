@@ -50,9 +50,18 @@ substantial pinky penetration at the authored grip, which points the other way.
    occlusion: closest approach −5.86 mm (left) and −5.81 mm (right), with three thigh
    vertices inside a plate on each side. Documented, not fixed — every sanctioned lever
    costs more than the 6 mm it buys, and whole-dumbbell translation remains rejected.
-4. **Wrist extension beyond human range in other exercises.** The push-up drives the wrist
-   115.4° from bind and the pull-up 102.6°. This is a motion-side observation only; no
-   exercise definition was changed and none should be on the strength of the hand repair.
+4. **Push-up wrist extension.** Re-measured anatomically on 2026-09-15: the earlier
+   115.4°/102.6° pair were quaternion magnitudes, not wrist angles. The **pull-up is fine**
+   — almost all of its figure is forearm pronation (79–101°, normal for an overhand grip),
+   true angulation never exceeds 53°, and no change is needed. The **push-up is real**:
+   102.7° of wrist extension at the top of the rep and 74.8° at the bottom, against a
+   typical human limit of 70–80°, because the shoulder sits 218 mm ahead of the hand and
+   the forearm leans 25° off vertical instead of standing up. Fixing it means moving the
+   hand contact forward roughly 20 cm, which is an exercise-definition change and has
+   **not** been made. See `AI_CHANGELOG.md`.
+5. **Gym shorts clothing candidate**, awaiting review — see `docs/SHORTS_CANDIDATE_REVIEW.md`.
+   A separate skinned mesh over proven v5; the body mesh, its weights and the skeleton are
+   byte-identical. Not promoted.
 
 ## CLAUDE — START HERE TOMORROW
 

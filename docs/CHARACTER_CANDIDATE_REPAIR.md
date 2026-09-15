@@ -119,10 +119,20 @@ marginally. The dumbbell remains rigid and centred, and the curl motion is untou
 
 - **The pull-up's worst triangle is not a weighting problem.** Triangle `1227/4391/4397`
   retains 2.2% of its area, unchanged at every cap, and its blends are 0.466 / 0.427 /
-  0.288 — a gradient well inside the cap. It collapses from rotation magnitude alone: the
-  pull-up drives the wrist **102.6°** from bind and the push-up **115.4°**, both beyond
-  human wrist extension. That is a motion-side observation; no exercise definition was
-  changed and none should be on the strength of this repair.
+  0.288 — a gradient well inside the cap. It collapses from rotation magnitude alone.
+
+  **Correction (2026-09-15).** The 102.6° and 115.4° figures quoted here originally were
+  the magnitude of the relative quaternion between hand and forearm helper — flexion,
+  deviation and forearm twist added together — and are not wrist extension angles. Measured
+  anatomically, the **pull-up's is an artefact**: almost all of it is forearm pronation
+  (79–101°, normal for an overhand grip), true wrist angulation never exceeds 53°, and the
+  visible forearm-to-hand angle never exceeds 33°. What collapses that triangle is the
+  pronation concentrated at the hand bone, not a wrist bend. The **push-up's is real**:
+  102.7° of true extension at the top of the rep, 74.8° at the bottom, against a typical
+  human limit of 70–80°, caused by the shoulder sitting 218 mm ahead of the hand so the
+  forearm leans 25° off vertical. Both remain motion-side observations; no exercise
+  definition was changed and none should be on the strength of this repair. See
+  `AI_CHANGELOG.md` for the full decomposition.
 - **v5's own wrist weighting is marginally asymmetric.** 559 of 1,790 wrist edges differ
   between the hands by up to 0.019 in blend, although the multiset of vertex values mirrors
   exactly and the topology matches (726 vertices, 1,790 edges, mean valence 5.156 per side).

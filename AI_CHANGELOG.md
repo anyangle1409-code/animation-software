@@ -6,6 +6,37 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-15 — wrist angles re-measured, and a gym-shorts candidate (assets only, nothing promoted)
+
+Three things, none of which changes the Studio, an exercise definition, the curl motion, grip closure or a corrective. No GLB is committed and neither character candidate is promoted.
+
+**1. The reported push-up and pull-up wrist angles were the wrong measurement.** The earlier 115.4° and 102.6° figures were the *magnitude* of the relative quaternion between the hand and the forearm's split helper — one number covering flexion, deviation and forearm twist at once, which cannot be compared with a clinical range. Re-measuring it properly means splitting the relative rotation the way the body does it: a twist about the forearm's long axis first (pronation/supination, a radioulnar motion that is not wrist motion at all), then a swing, resolved onto the two anatomical wrist axes *after* the twist has been applied to them. The axes come from the character's own bind geometry — forearm long axis, palm normal from the metacarpal plane, and their cross product — and everything is reported as a change from bind so the A-pose offset cannot masquerade as movement. The decomposition closes exactly (extension and deviation recombine to the swing to 0.0000°) and is cross-checked against the plain world-space angle between the forearm's direction and the hand's.
+
+Two earlier attempts at this got it wrong in instructive ways, both corrected: carrying world-space bind axes through the *posed* parent orientation reported a 95° sideways deviation that was really a pronation, and rotating the wrist axes by `change · swing⁻¹` rather than by the twist itself left the components failing to account for the swing.
+
+| | push-up | pull-up |
+|---|---|---|
+| old reported figure | 115.4° | 102.6° |
+| true wrist extension (+) / flexion (−) | **+102.7°** at the top, +74.8° at the bottom | **−34.1°** (flexion) |
+| radial / ulnar deviation | 29–34° radial | 7.7° radial at the hang → 21.4° ulnar at the peak |
+| forearm pronation | 61–91° | 79–101° |
+| plain forearm-to-hand angle | 115.6° at the top, 90.2° at the bottom | 7.7°–32.9° |
+| left/right mismatch | 0.0000° | 0.0000° |
+
+**The pull-up figure was an artefact.** Almost all of the 102.6° is forearm pronation, which is exactly what an overhand bar grip requires and is within human range; true wrist angulation never exceeds 53°, and the forearm-to-hand angle you would see never exceeds 33°. Deviation peaks at 21.4° ulnar, well inside the usual 30–35°. No change is needed.
+
+**The push-up figure was real, and understated the problem's nature.** The hand is flat on the floor (hand tilt 1.5° throughout, correct), but the forearm leans 64.9° from the floor at the top instead of standing near vertical, because the shoulder sits 218 mm horizontally ahead of the hand. Wrist extension is therefore 102.7° at the top and 74.8° at the bottom; typical active human extension is 70–80°. The bottom of the rep is fine, the top is roughly 20–30° past the limit, and the cause is hand placement rather than anything in the rig or the weighting. A fix would move the hand contact forward by about 20 cm so the forearm stands up — which is an exercise-definition change, so it is recorded here and **not made**.
+
+**2. Hand/wrist weight repair candidate reviewed against proven v5** on identical frames and cameras at curl Peak, curl Bottom, shoulder press, push-up and pull-up. The fingertip shards and the wrist facet are gone, knuckle definition survives, and no cross-exercise pose is worse. No further weight edit was made: no regression was found. Still not promoted. Full detail and before/after measurements remain in `docs/CHARACTER_CANDIDATE_REPAIR.md`.
+
+**3. Gym shorts as a separate clothing mesh.** `HomeGymPT_Male_SHORTS_CANDIDATE.glb`, SHA-256 `cdca3f3e3d05bf81181c2be8809ab2e62a03cdce33233082a245c4b275444dfa`, built on **proven v5** so the garment can be judged without the unapproved hand repair in the picture; `HomeGymPT_Male_SHORTS_ON_HAND_WRIST_DEMO.glb` (`d0405ba7ec5a138ce466cd59071c5b27af467815e5a16dcc05335f8cf4e584ce`) is the same garment over the hand/wrist candidate. 1,380 vertices, 2,764 triangles, influenced only by pelvis, thigh and lower-spine bones.
+
+The garment is a shell lifted off the character's own surface and **inherits the skin weights of the body surface each vertex came from**. That is what makes a cloth solver unnecessary: linear blend skinning is linear, so a vertex at `body + offset` carrying the body's own weights lands at `skinned body + M·offset` in every pose, and the standoff is preserved by construction. The body mesh is byte-identical, 0 of 10,839 vertices changed influence, the inverse binds and the skin's joint list are unchanged, and of 162 nodes exactly one changed — the armature root gained the garment as a child. No new bone, no cloth simulation, no rebinding, no body edit to make the garment fit.
+
+Containment was measured rather than eyeballed: for every covered skin vertex, the closest point on the garment's outer surface (point to triangle, since the garment's vertices are 15–25 mm apart and a thigh can push between two of them) and which side of the cloth that skin is on. Outside the squat the worst reading is 2–3 mm, always in the gluteal cleft or at the perineum where the garment's triangles are far larger than the crease they span; the deepest squat reaches −15 mm at the front of the pelvis. Neither is visible in any render, and both are recorded in `docs/SHORTS_CANDIDATE_REVIEW.md` as the first things to check in review rather than smoothed over.
+
+Validation: `npm test` 287 passed + 1 optional skip across 36 files, `npm run typecheck` and `npm run build` pass, and the optional real-character diagnostic passes against both shorts assets. Proven v5 still hashes to `dfb0fea6…`.
+
 ### Claude — 2026-09-15 — hand/wrist handover weight repair candidate (asset only, not promoted)
 
 Produced `HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb` (SHA-256 `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`) from proven v5 by local skin-weight redistribution at two handover rings. Proven v5 is untouched and still hashes to `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`. No repository code changed; neither GLB is committed. The candidate is **not** promoted and the bundled/default character is unchanged.

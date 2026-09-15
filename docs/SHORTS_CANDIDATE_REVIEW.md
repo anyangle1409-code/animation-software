@@ -201,6 +201,48 @@ backdrop. Observations:
   shadow and a rear view shows almost nothing. `void` is rim-lit and is the only
   one that reaches the figure from behind. That cost this review a round.
 
+## Front-crotch refinement candidates — awaiting review
+
+The promoted garment's front still reads as too anatomical below the flattened
+panel. Three shorts-only candidates address it; the body is byte-identical to
+baseline v6 in all three, so this stays independently reviewable from the
+shoulder work. **None is promoted.**
+
+| Candidate | Midline prominence | Worst push-up containment | SHA-256 |
+|---|---|---|---|
+| promoted (current) | 8.26 mm | −2.33 mm | `0761fb04…b0d6` |
+| F1 — mild | 6.64 mm | −12.29 mm | `b20237ca57a2b59227428d54e83267eba3d635e67d7fcd04f8009fde7216e2e8` |
+| F2 — medium | 5.15 mm | −6.13 mm | `57145f8c2e7b058e6e1c5ee42ee41fbeecdc9283189b73924a5f5b758ef05dd4` |
+| F3 — strong (**preferred**) | **5.10 mm** | **−2.33 mm** | `aedbe91fd957b865c81ee85b1e4858e1872b406814b190ecac76e130adcc917b` |
+
+Prominence is how far the garment's front midline stands proud of a straight line
+drawn from the waistband down to the inseam — the bulge as the eye reads it.
+
+**The first three attempts went the wrong way.** Raising the front panel's
+standoff and clearance from 19/13 mm to 31/22 mm made the prominence *worse*,
+8.26 → 11.73 mm, because the clearance floor is enforced per vertex against that
+vertex's own patch of skin: the floor is therefore a scaled copy of the anatomy,
+and raising it inflates the shape rather than flattening it.
+
+The real fault was in which region owned the lower front. The inseam was selected
+by height and midline distance alone, so it claimed the front of the garment as
+well as the part that runs between the legs — and the inseam is deliberately
+tight, 3.5 mm, which shrink-wrapped exactly the area in question. Gating the
+inseam on depth as well, so it only owns what is actually between the legs, and
+letting the flattened front panel reach further down, fixes it with the standoff
+left at the promoted values.
+
+Containment is the reason F3 is preferred over F2 rather than the other way
+round. Flattening further pushes the panel further off the body everywhere, so
+the strong candidate is also the safest: F1 and F2 introduce push-up breaches of
+−12.29 mm and −6.13 mm that the promoted garment does not have, while F3 matches
+the promoted figure exactly. Squat, curl and press containment are unchanged
+across all three, including the −15 mm deep-squat reading, which none of them
+affects.
+
+F3 was checked through curl peak, shoulder press, push-up bottom and the deepest
+squat, front and side. The deep-squat result is unchanged.
+
 ## Known issues and risks
 
 - The −15 mm deep-squat reading at the front of the pelvis, above. Unchanged by

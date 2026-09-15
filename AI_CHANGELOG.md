@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-15 — front-crotch and shoulder-slope candidates (nothing promoted)
+
+Two refinement tracks on promoted baseline v6, kept deliberately separate so each can be reviewed without the other: the shorts candidates carry an untouched v6 body, and the shoulder candidates carry no garment. Neither is promoted, no GLB is committed, and v5 still hashes to `dfb0fea6…`. Full detail in `docs/SHORTS_CANDIDATE_REVIEW.md` and the new `docs/SHOULDER_SLOPE_CANDIDATES.md`.
+
+**Shorts front crotch.** Three candidates, F1/F2/F3, measured by how far the garment's front midline stands proud of a straight line from waistband to inseam: 8.26 mm promoted → 6.64 / 5.15 / **5.10** mm. The first three attempts made it *worse* (up to 11.73 mm): raising the panel's standoff inflates the shape rather than flattening it, because the clearance floor is enforced per vertex against that vertex's own skin and is therefore a scaled copy of the anatomy. The actual fault was that the inseam region was selected by height and midline distance alone, so it claimed the lower *front* as well as the part between the legs — and the inseam is deliberately tight at 3.5 mm, which shrink-wrapped precisely the area complained about. Gating the inseam on depth too, and letting the flattened panel reach further down, fixes it at the promoted standoff. **F3 is preferred**, and containment is why: flattening pushes the panel further off the body everywhere, so F1 and F2 introduce push-up breaches of −12.29 mm and −6.13 mm that the promoted garment does not have, while F3 matches it exactly at −2.33 mm.
+
+**Shoulder slope.** Three candidates, A/B/C, at 9.6 / 16.0 / 23.9 mm peak drop. The shoulder falls away from the neck by 49.5, 27.9, 18.0, **10.5**, 26.3, 7.8 mm band by band — that near-flat step is the shelf that reads as square, the line running out level and then dropping off a cliff at the deltoid. A first attempt lowered only the middle of the span and tapered back to zero at the deltoid, which made the outer half flatter still; the shape now used is a ramp that reaches full depth around 55% out and holds through the deltoid, applied only to up-facing surfaces so the deltoid's outer silhouette is untouched, followed by a local relaxation to round the corner. **B is preferred** as the smallest that clearly resolves it.
+
+882 of 10,839 vertices move for B, confined to the shoulder girdle, and only `POSITION` and `NORMAL` differ from baseline v6 — weights, skeleton, inverse binds, topology, UVs and colours are byte-identical, so arm length, retargeting, the exercise definitions and the accepted motion cannot have moved. Above 0.5 mm the change is exactly mirrored, 209 vertices a side, worst paired difference 0.015 mm. Whole-body strain is unchanged: maximum stretch identical in all five exercise families, P95 within 0.003 and P99 within 0.013, and the real-character diagnostic passes.
+
+A note on method, because it cost time twice: the band-by-band height metric used to find the shelf takes the highest vertex in each vertical slice, and it disagreed with the renders more than once. It was useful for locating the problem and useless for judging the fix.
+
 ### Claude — 2026-09-15 — promoted: baseline v6, and the shorts layer over it
 
 Both candidates were visually approved and are now the production character. The curl motion, the elbow corrective (0%) and global grip closure (85%) were not reopened.

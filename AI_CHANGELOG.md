@@ -6,6 +6,28 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-15 — promoted: baseline v6, and the shorts layer over it
+
+Both candidates were visually approved and are now the production character. The curl motion, the elbow corrective (0%) and global grip closure (85%) were not reopened.
+
+| Asset | SHA-256 | Role |
+|---|---|---|
+| `HomeGymPT_Male_BASELINE_v6.glb` | `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` | baseline body — byte-identical to the approved hand/wrist candidate |
+| `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` | `0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6` | shipped default, garment over that body |
+| `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` | `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f` | retained v5 fallback, untouched |
+
+**A defect was found in the last confirmation and fixed before promoting.** The deepest squat from behind was the one view never explicitly reviewed, and it showed the waistband as a hard sawtooth — roughly eight triangle-sized teeth of bare skin biting into the garment across the lower back. It had been invisible until now because all four backdrops key the figure from the front, so every earlier rear capture had the seat in shadow; only the rim-lit `void` backdrop reaches a figure from behind.
+
+The cause was not what it looked like. The waistband was not collapsing: the outer shell keeps 7.4–9.5 mm of standoff at every frame of the squat. It was the cut. A triangle is usable only when all three corners pass the region test, and the test demanded ≥90% of a vertex's weight on the hip and thigh bones — so a triangle straddling the waistband, whose third corner sits further up the back on a higher spine bone, was dropped whole. The clean line the clip would have cut came out as a row of missing triangles. The region test now excludes only the arms, which is the one thing that genuinely must be excluded, and keeps the torso surface continuous. Two smaller faults went with it: the rim closing the hem and waistband was wound from index-sorted edge keys, so half of it faced inwards and was culled, and the lining floor was raised from 0.45× to 0.7× of the local clearance. The garment is now 1,410 vertices and 2,824 triangles.
+
+**How promotion works.** The registry already had `registerBundledCharacter` for this and nothing had ever used it. The binaries stay out of the repository — they are large, and the studio has to run for anyone who clones it without them — so they live in `public/characters/` behind a `*.glb` ignore, and a new `src/character/bundled.ts` probes for them at startup: the dressed body becomes the default, the bare body is registered alongside it so deformation can still be reviewed on skin, and finding neither leaves the built-in procedural character in place.
+
+Two things about that were not obvious and are worth recording. The probe asks for one byte with a `Range` header rather than issuing a `HEAD`, because static file middleware does not reliably answer `HEAD` for files served out of a public directory — the first version reported both present assets as missing. And registering a source is not enough to select it: the character store captures the default source id when its module is first evaluated, which happens before any probe can finish, so `main.tsx` sets the choice explicitly once registration resolves. Six regression tests cover the probe's shape, the index.html-for-a-missing-path case, both present/absent combinations and a throwing fetch.
+
+Validation: `npm run typecheck` and `npm run build` pass; the optional real-character diagnostic passes against both promoted assets; garment containment is unchanged by the fix. `npm test` is **292 passed, 1 skipped, 1 failed** — `src/editor/strainReview.test.ts` times out on vitest's 5-second default while building the built-in character. That failure reproduces with these changes stashed, so it is a slower container rather than a regression; the test has no explicit timeout and the repo has no convention for adding one, so it was left alone rather than quietly adjusted.
+
+The push-up hand-placement finding is deliberately **not** part of this promotion and remains a future exercise-definition fix.
+
 ### Claude — 2026-09-15 — wrist angles re-measured, and a gym-shorts candidate (assets only, nothing promoted)
 
 Three things, none of which changes the Studio, an exercise definition, the curl motion, grip closure or a corrective. No GLB is committed and neither character candidate is promoted.

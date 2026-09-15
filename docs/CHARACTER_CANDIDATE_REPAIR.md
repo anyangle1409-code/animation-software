@@ -1,5 +1,13 @@
 # Imported character repair validation
 
+> **Promoted 2026-09-15.** The hand/wrist handover weight repair was visually
+> approved and is now the production baseline, shipped as
+> `HomeGymPT_Male_BASELINE_v6.glb` (SHA-256
+> `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`, byte-identical
+> to the approved candidate). Proven v5 is retained untouched as the fallback and
+> still hashes to `dfb0fea6…`. Everything below describes how the repair was made
+> and measured; it is now history rather than a proposal.
+
 The production path preserves the imported source skeleton, bind data, mesh, weights and proportions, then transfers the canonical anatomical pose onto that source rig. The current proven character remains `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` version 5. A separate review copy adds only metadata that opts into the new directional outer-elbow corrective; it does not replace the proven candidate.
 
 Proven v5 SHA-256: `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`  

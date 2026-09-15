@@ -34,23 +34,29 @@ distance relative to the allowed reach envelope; a lower percentage does not mea
 finger and a higher one does not mean a tighter finger. The saved collision evidence shows
 substantial pinky penetration at the authored grip, which points the other way.
 
-### What is still open
+### Promoted 2026-09-15
 
-1. **Hand/wrist deformation.** A repair candidate exists and is awaiting approval — see
-   `docs/CHARACTER_CANDIDATE_REPAIR.md`. `HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb`,
-   SHA-256 `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`. It is skin
-   weights only, at the four MCP handover rings and the wrist ring, both sides, 314 of
-   10,839 vertices. Proven v5 is not overwritten. **It is not promoted; the bundled/default
-   character is unchanged.**
-2. **Palm loading and thumb opposition** at 85% closure. The underside review shows the
+**The baseline character is now `HomeGymPT_Male_BASELINE_v6.glb`**, SHA-256
+`46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` — the approved
+hand/wrist handover weight repair, byte-identical to the candidate that was reviewed. The
+studio ships it dressed, as `HomeGymPT_Male_BASELINE_v6_SHORTS.glb`
+(`0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6`), with the bare body
+registered alongside it so deformation can still be reviewed on skin. Proven v5 is retained
+untouched as the fallback and still hashes to `dfb0fea6…`.
+
+Neither promotion reopened the curl motion, the elbow corrective or global grip closure.
+
+### What is still open
+1. **Palm loading and thumb opposition** at 85% closure. The underside review shows the
    weight hanging in the finger hooks with a visible palm gap, and weak thumb opposition.
    The weight repair leaves both unchanged, deliberately. This is a separate visual
    decision, to be taken after the deformation fix is accepted.
-3. **Dumbbell/thigh overlap at the curl bottom.** A true 3D intersection, not screen-space
+2. **Dumbbell/thigh overlap at the curl bottom.** A true 3D intersection, not screen-space
    occlusion: closest approach −5.86 mm (left) and −5.81 mm (right), with three thigh
    vertices inside a plate on each side. Documented, not fixed — every sanctioned lever
    costs more than the 6 mm it buys, and whole-dumbbell translation remains rejected.
-4. **Push-up wrist extension.** Re-measured anatomically on 2026-09-15: the earlier
+3. **Push-up wrist extension.** *(Future exercise-definition fix — deliberately not part
+   of the character promotion.)* Re-measured anatomically on 2026-09-15: the earlier
    115.4°/102.6° pair were quaternion magnitudes, not wrist angles. The **pull-up is fine**
    — almost all of its figure is forearm pronation (79–101°, normal for an overhand grip),
    true angulation never exceeds 53°, and no change is needed. The **push-up is real**:
@@ -59,14 +65,14 @@ substantial pinky penetration at the authored grip, which points the other way.
    the forearm leans 25° off vertical instead of standing up. Fixing it means moving the
    hand contact forward roughly 20 cm, which is an exercise-definition change and has
    **not** been made. See `AI_CHANGELOG.md`.
-5. **Gym shorts clothing candidate**, awaiting review — see `docs/SHORTS_CANDIDATE_REVIEW.md`.
-   A separate skinned mesh over proven v5; the body mesh, its weights and the skeleton are
-   byte-identical. Not promoted.
+4. **A −15 mm deep-squat reading** at the front of the pelvis where the shorts panel meets
+   the body. Measured, not visible in any capture, and unexplained rather than dismissed —
+   see `docs/SHORTS_CANDIDATE_REVIEW.md`.
 
 ## CLAUDE — START HERE TOMORROW
 
 1. Read `AI_CHANGELOG.md` and this handoff before changing anything.
-2. Checkout `chatgpt/absolute-retarget-imports` and use the proven `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` **version 5** (SHA-256 `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`).
+2. Checkout `chatgpt/absolute-retarget-imports`. The character is now **baseline v6**, registered automatically from `public/characters/` — `HomeGymPT_Male_BASELINE_v6.glb` for deformation review, `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` as the shipped default. Proven v5 (`dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`) is the retained fallback; use it for A/B, not as the working character.
 3. Do **not** rewrite the curl motion. Its measured movement is mechanically clean, and it is now visually accepted as well.
 4. The elbow corrective stays at **0%** and global grip closure stays at **85%**. Both comparisons are complete; do not rerun them as new work.
 5. Do not revive rejected subdivision, broad shoulder smoothing, whole-dumbbell translation, destructive rebind, or direct Rigify-finger experiments.
@@ -154,11 +160,9 @@ settled at 0% and global closure at 85%. What follows is the remaining order.
 1. ~~Judge the whole rep at normal speed.~~ Done; accepted.
 2. ~~Compare elbow corrective 0 / 25 / 50 / 75 / 100% at Peak.~~ Done; 0% retained.
 3. ~~Compare grip closure 85 / 80 / 75 / 70 / 65%.~~ Done; 85% retained.
-4. Review the **hand/wrist weight repair candidate** against proven v5 on the same frames
-   and cameras: curl Peak for the fingertip silhouette, curl Bottom for the wrist-to-palm
-   contour, then the stressed hand poses in shoulder press, push-up and pull-up. Accept only
-   if the knuckles keep their definition and no exercise looks softer than v5.
-5. If the candidate is accepted, decide **palm loading and thumb opposition** separately, on
+4. ~~Review the hand/wrist weight repair candidate against proven v5.~~ Done; approved and
+   promoted as baseline v6. The shorts layer was approved and promoted with it.
+5. Decide **palm loading and thumb opposition** separately, on
    the underside view at Bottom and Peak. Per-digit trims are the tool for that, not global
    closure, and not `digitReachUse` percentages on their own.
 6. Leave the ~6 mm dumbbell/thigh overlap documented. Do not translate the whole dumbbell,

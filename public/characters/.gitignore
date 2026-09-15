@@ -1,0 +1,5 @@
+# The production character binaries are large and live outside the repository.
+# Drop HomeGymPT_Male_BASELINE_v6.glb and HomeGymPT_Male_BASELINE_v6_SHORTS.glb
+# here and the studio registers them at startup; without them it falls back to
+# the built-in procedural character.
+*.glb

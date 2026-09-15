@@ -5,32 +5,53 @@ skinned mesh added alongside the character's own; the body mesh, its weights and
 the skeleton are untouched, and no exercise definition, curl motion, grip closure
 or corrective was changed to accommodate them.
 
-**Not promoted.** The bundled/default character is unchanged and both existing
-GLBs are intact.
+**Promoted 2026-09-15**, after a waistband defect found in the deepest rear squat
+was fixed (below). The garment ships over the promoted hand/wrist baseline.
 
 ## Assets
 
-| File | Body | SHA-256 |
-|---|---|---|
-| `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` | proven v5, untouched | `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f` |
-| `HomeGymPT_Male_SHORTS_CANDIDATE.glb` | proven v5 | `cdca3f3e3d05bf81181c2be8809ab2e62a03cdce33233082a245c4b275444dfa` |
-| `HomeGymPT_Male_SHORTS_ON_HAND_WRIST_DEMO.glb` | hand/wrist weight candidate | `d0405ba7ec5a138ce466cd59071c5b27af467815e5a16dcc05335f8cf4e584ce` |
+| File | Body | SHA-256 | Role |
+|---|---|---|---|
+| `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` | baseline v6 | `0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6` | **shipped default** |
+| `HomeGymPT_Male_BASELINE_v6.glb` | baseline v6 | `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` | body alone, for deformation review |
+| `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` | proven v5 | `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f` | retained fallback, untouched |
 
-The primary shorts candidate is built on **proven v5**, so the garment can be
-judged without the unapproved hand repair in the picture. The demo file is the
-same garment over the hand/wrist candidate, for anyone who wants to see both at
-once; the two changes stay independently reviewable because the garment is its
-own mesh and the hand repair is only skin weights.
+Review copies built on v5 during the review, kept for reference:
+`HomeGymPT_Male_SHORTS_CANDIDATE.glb` and
+`HomeGymPT_Male_SHORTS_ON_HAND_WRIST_DEMO.glb`. The garment was reviewed on
+**v5** deliberately, so it could be judged without the then-unapproved hand
+repair in the picture; the two changes stayed independently reviewable because
+the garment is its own mesh and the hand repair is only skin weights.
+
+## How it is shipped
+
+The two production binaries are large and stay out of the repository. They live
+in `public/characters/`, which carries a `.gitignore` for `*.glb`, and
+`src/character/bundled.ts` probes for them at startup and registers what it
+finds: the dressed body as the default, the bare body alongside it so a
+deformation review can still see the skin. Find neither and the studio keeps its
+built-in procedural character, so a fresh clone still runs.
+
+The probe asks for one byte with a `Range` header rather than issuing a `HEAD`:
+static file middleware does not reliably answer `HEAD` for files served out of a
+public directory, and the first version of this probe reported both present
+assets as missing. It also checks the content type, because a dev server answers
+a missing path with `index.html` and a 200 rather than a 404.
+
+One further wrinkle, recorded because it is not obvious: registering the source
+is not enough to select it. The character store captures the default source id
+when its module is first evaluated, which happens before any asset probe can
+finish, so `main.tsx` sets the choice explicitly once registration resolves.
 
 ## Construction
 
 The garment is a shell lifted off the character's own surface:
 
-1. Body triangles whose vertices carry at least 90% of their weight on
-   `DEF-spine`, `DEF-spine.001`, `DEF-pelvis.L/R`, `DEF-thigh.L/R` or
-   `DEF-thigh.L/R.001` are taken as the covered region. The bone test matters:
-   the character binds in an A-pose with the hands beside the hips, so a purely
-   vertical band would have swept the fingers into the garment.
+1. Body triangles are taken as the covered region unless a corner carries more
+   than 5% of its weight on an arm bone. Excluding the arms is necessary — the
+   character binds in an A-pose with the hands beside the hips, so a purely
+   vertical band would sweep the fingers into the garment — and excluding
+   anything more is harmful: see the waistband defect below.
 2. That patch is clipped to a waistband at y = 1.175 and a hem at y = 0.82 in
    model units — mid-thigh on a 2.02 m model. Clipping cuts the triangles rather
    than selecting whole ones, so the waistband and both leg openings are clean
@@ -67,21 +88,51 @@ viewport sets every material's colour to white; a `baseColorFactor` is
 overwritten before it reaches the screen. Linear RGB (0.075, 0.079, 0.090) with
 roughness 0.94 and zero metalness — a matte dark charcoal, no logo, no branding.
 
+## The waistband defect, found at the last check
+
+The deepest squat seen from behind was the one view not explicitly reviewed
+before approval, and it was worth the look. The waistband came out as a **hard
+sawtooth** — roughly eight triangle-sized teeth of bare skin biting down into the
+garment across the lower back, plainly visible once the figure was lit from
+behind on the rim-lit `void` backdrop. Every earlier rear capture had been shot
+on a front-keyed backdrop, where the seat is in shadow and the edge cannot be
+read at all.
+
+It was not what it looked like. The waistband was not collapsing onto the body:
+measured through the squat, the outer shell keeps 7.4 to 9.5 mm of standoff at
+every frame. The cause was in the cut. A triangle is only usable when all three
+of its corners pass the region test, and the original test demanded that a vertex
+carry at least 90% of its weight on the hip and thigh bones. A triangle straddling
+the waistband has its third corner further up the back, where the weights belong
+to a higher spine bone — so that triangle failed and was dropped whole, and the
+clean line the clip would have cut came out as a row of missing triangles instead.
+
+The fix inverts the test: the region now excludes only what must be excluded,
+which is the arms — the character binds in an A-pose with the hands beside the
+hips, squarely inside the band the shorts are cut from — and keeps the torso
+surface continuous. The waistband is a clean line at the deepest squat from
+behind, from a rear three-quarter, and from above and behind.
+
+Two smaller things were corrected in the same pass: the rim closing the hem and
+waistband was wound from index-sorted edge keys, so half of it faced inwards and
+was culled by single-sided rendering, and the lining floor was raised from 0.45×
+to 0.7× of the local clearance.
+
 ## The garment
 
-- 1,380 vertices, 2,764 triangles (690 on the outer shell, 690 on the lining).
+- 1,410 vertices, 2,824 triangles (705 on the outer shell, 705 on the lining).
 - Spans y 0.818 to 1.177 in model units: waistband just above the hip crest,
   hem at mid-thigh.
 - Influenced only by hip and thigh bones, in this proportion:
 
 | Bone | Share of total weight |
 |---|---|
-| `DEF-thigh.L` / `DEF-thigh.R` | 390.1 / 389.2 |
-| `DEF-pelvis.R` / `DEF-pelvis.L` | 194.3 / 193.5 |
-| `DEF-spine` | 72.4 |
+| `DEF-thigh.L` / `DEF-thigh.R` | 391.2 / 390.3 |
+| `DEF-pelvis.R` / `DEF-pelvis.L` | 203.0 / 202.2 |
+| `DEF-spine` | 74.1 |
 | `DEF-thigh.R.001` / `DEF-thigh.L.001` | 48.4 / 48.4 |
-| `DEF-spine.001` | 39.6 |
-| `DEF-spine.002` | 4.1 |
+| `DEF-spine.001` | 46.7 |
+| `DEF-spine.002` | 5.6 |
 
 No spine bone above `DEF-spine.002`, no knee, no arm, no new bone.
 
@@ -130,8 +181,10 @@ studio currently has, and is used in its place.
 ## Visual review
 
 Front, side and rear at standing, half depth and deepest squat; hip and groin
-close-ups at standing and deepest; and the curl bottom, shoulder press, push-up
-bottom and pull-up. Observations:
+close-ups at standing and deepest; the curl bottom, shoulder press, push-up
+bottom and pull-up; and — for the final check — the deepest squat from behind,
+from a rear three-quarter and from above and behind, on the rim-lit `void`
+backdrop. Observations:
 
 - The waistband sits above the hip crest and stays there through the squat.
 - The hem stays on the thigh and opens naturally as the knee comes forward; the
@@ -141,12 +194,19 @@ bottom and pull-up. Observations:
   were chosen against.
 - No floating cloth, no waistband distortion, no left/right asymmetry, and no
   contact with hands or equipment in any tested pose.
-- The rear view on the `studio` backdrop is strongly backlit and is a poor
-  surface for judging the seat; use `study` or `light` for that.
+- The seat is covered through the whole squat, the gluteal cleft shows no break,
+  and the waistband is a clean line after the fix above.
+- **Judge the rear on the `void` backdrop.** All four backdrops key the figure
+  from the front, so on `studio`, `light` and `study` alike the seat falls into
+  shadow and a rear view shows almost nothing. `void` is rim-lit and is the only
+  one that reaches the figure from behind. That cost this review a round.
 
 ## Known issues and risks
 
-- The −15 mm deep-squat reading at the front of the pelvis, above.
+- The −15 mm deep-squat reading at the front of the pelvis, above. Unchanged by
+  the waistband fix, and still not visible in the front, side or hip crops at the
+  deepest squat — but it remains measured rather than explained, and a low
+  front-three-quarter close-up at 2.20 s would settle it.
 - The 2–3 mm readings in the gluteal cleft and at the perineum.
 - The garment inherits the body's weights exactly, so it also inherits the body's
   behaviour: where the body self-intersects in a deep squat, the cloth follows.

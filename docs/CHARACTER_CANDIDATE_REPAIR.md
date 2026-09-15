@@ -3,7 +3,146 @@
 The production path preserves the imported source skeleton, bind data, mesh, weights and proportions, then transfers the canonical anatomical pose onto that source rig. The current proven character remains `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` version 5. A separate review copy adds only metadata that opts into the new directional outer-elbow corrective; it does not replace the proven candidate.
 
 Proven v5 SHA-256: `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`  
-Directional-elbow review SHA-256: `8e8df9e8adcf43e0e6473bf98efadb05a31075031f9124787429ec2aedca99e4`
+Directional-elbow review SHA-256: `8e8df9e8adcf43e0e6473bf98efadb05a31075031f9124787429ec2aedca99e4`  
+Hand/wrist weight repair candidate SHA-256: `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`
+
+## Hand/wrist handover weight repair candidate — awaiting approval
+
+`HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb`  
+SHA-256: `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`
+
+Built from proven v5 by local skin-weight redistribution only. **Proven v5 was not
+overwritten and still hashes to `dfb0fea6…`.** Neither GLB is committed; the candidate
+is not promoted and the bundled/default character is unchanged.
+
+### What the defect actually was
+
+The fingertip "shards" at curl Peak and the wrist-to-palm facet at curl Bottom are one
+defect, not two. In v5 the influence hands over from one bone to the next across a
+*single* mesh edge: the steepest edge measured **1.000** at `DEF-hand.*` →
+`DEF-f_middle.01.*` and `DEF-f_ring.01.*` (one end fully hand, the other fully finger,
+with no transition at all) and **0.990** at `DEF-forearm.*.001` → `DEF-hand.*`. When the
+joint bends, the two ends of that edge travel on different arcs and the triangle between
+them folds shut.
+
+Three candidate causes were ruled out by measurement rather than by eye:
+
+- **Not the character correctives.** The four `homeGymPT_elbow*` targets move 106 and 72
+  vertices per side, all dominated by `DEF-upper_arm*001` / `DEF-forearm*` /
+  `DEF-forearm*001`. Not one hand, palm, finger or wrist vertex is touched, so Correctives
+  on versus Raw skinning cannot change either defect. (The naive test reports the whole
+  mesh because this asset's morph convention is absolute, not relative; the footprint above
+  is measured against each target's own base position.)
+- **Not handle intersection.** Of the 40 worst spike vertices, none lie inside the 15 mm
+  handle cylinder.
+- **Not bind topology.** The hand contains no needle triangle (aspect > 20) either in bind
+  or posed.
+
+### The repair
+
+For each of ten named bone pairs — the four MCP rings and the wrist ring, per side — the
+vertex's **pooled** weight on the two bones is held fixed and only the split between them
+moves. Total skin weight therefore stays exactly 1.0 by construction and no third bone is
+affected. An edge steeper than a gradient cap is relaxed by exactly its excess, iterated to
+convergence with a Jacobi sweep so the outcome does not depend on the order edges happen to
+be visited — which is what keeps the two hands identical, their vertices being numbered
+differently. Editing is confined to vertices lying on an over-steep edge or one mesh ring
+out from one; everything beyond is pinned, so the change cannot creep up the forearm or out
+along the fingers.
+
+Caps of 0.55 / 0.45 / 0.40 / 0.35 / 0.28 were generated and reviewed on matched Studio
+stills. 0.55, 0.45 and 0.40 leave visible angular points at the ring and pinky fingertips.
+0.28 over-smooths: the push-up wrist degrades from 0.0495 to 0.0178 worst area retention.
+**0.35 is the smallest cap that removes the visible shards and the facet**, so it is the
+candidate. The ~40% retained-area figure was treated as a review target, not a goal: the
+chosen cap reaches 0.199 at curl Peak, and was selected on the stills rather than on that
+number.
+
+### What changed, and what did not
+
+314 of 10,839 vertices, 2.90%. Byte-identical between v5 and the candidate: `POSITION`,
+`NORMAL`, `TEXCOORD_0`, `TEXCOORD_1`, `COLOR_0`, `JOINTS_1`, `JOINTS_2`, `WEIGHTS_1`,
+`WEIGHTS_2`, the index buffer, the node hierarchy, the skin definition and the inverse bind
+matrices. Only `JOINTS_0` and `WEIGHTS_0` differ. Worst |weight sum − 1| is 5.2 × 10⁻⁸.
+Hand-area vertices still carry at most 4 influences, sorted descending, which is the
+source's own convention — and the one that matters, because three.js reads only
+`JOINTS_0`/`WEIGHTS_0` and renormalises them.
+
+Because the repair changes weights only, the bind pose is unchanged by construction: at
+bind every bone matrix is identity relative to its inverse bind, so the skinned result is
+independent of the weights. A pinned bind-geometry checksum confirms it, and a full-figure
+render diff finds changes confined to the two hands and wrists (0.055% of pixels, the
+remainder being single-pixel anti-aliasing noise along silhouettes).
+
+### Measured against v5
+
+Production path, pinned 1,440-triangle handover set, aspect normalised so an equilateral
+triangle scores 1:
+
+| Pose | worst area retained | worst aspect | triangles < 25% | triangles < 40% |
+|---|---|---|---|---|
+| Curl Peak 2.00s | 0.040 → **0.199** | 38.9 → **27.8** | 22 → **8** | 46 → **32** |
+| Curl Bottom 0.00s | 0.060 → **0.175** | 29.7 → **27.8** | 22 → **8** | 46 → **32** |
+| Shoulder press | 0.0035 → **0.224** | 437.8 → **27.8** | 22 → **6** | 46 → **32** |
+| Push-up 45% | 0.0495 → **0.0567** | 41.3 → **34.1** | 18 → 30 | 52 → 64 |
+| Pull-up 45% | 0.0220 → 0.0220 | 108.6 → 108.6 | 36 → **16** | 85 → **83** |
+
+Whole-rep edge strain, all five exercise families:
+
+| Exercise | max stretch | P99 | P95 |
+|---|---|---|---|
+| Bicep curl | 3.820 → **2.183** | 1.4503 → 1.4461 | 1.1978 → 1.1985 |
+| Air squat | 3.677 → **2.109** | 1.3996 → 1.3978 | 1.1716 → 1.1727 |
+| Shoulder press | 3.677 → **2.867** | 1.7094 → 1.6822 | 1.2320 → 1.2318 |
+| Push-up | 3.848 → **2.274** | 1.6516 → 1.6485 | 1.2396 → 1.2380 |
+| Pull-up | 8.475 → **4.151** | 1.9430 → 1.8954 | 1.2833 → 1.2822 |
+
+Edges stretched beyond 2× fall everywhere (curl 22 → 12, press 128 → 114, pull-up 94 → 64).
+The cost is a small rise in mildly compressed edges (curl 117 → 119, push-up 51 → 63 below
+0.5×): the extreme collapse is spread rather than concentrated.
+
+Grip, curl, all five review frames:
+
+| Measure | v5 | candidate |
+|---|---|---|
+| Reach use | 0.9262 | 0.9262 |
+| Wrap coverage | 205.39° | 205.39° |
+| Within envelope | yes | yes |
+| Handle penetration, per hand | 103 vertices | 101 vertices |
+| Deepest penetration | 14.57 mm | 14.05 mm |
+
+Reach and wrap are identical because `measureGripFit` reads the canonical rig, not the
+skin; a weight repair cannot move them. The handle figures are skin-derived and improve
+marginally. The dumbbell remains rigid and centred, and the curl motion is untouched.
+
+### Residuals recorded, not hidden
+
+- **The pull-up's worst triangle is not a weighting problem.** Triangle `1227/4391/4397`
+  retains 2.2% of its area, unchanged at every cap, and its blends are 0.466 / 0.427 /
+  0.288 — a gradient well inside the cap. It collapses from rotation magnitude alone: the
+  pull-up drives the wrist **102.6°** from bind and the push-up **115.4°**, both beyond
+  human wrist extension. That is a motion-side observation; no exercise definition was
+  changed and none should be on the strength of this repair.
+- **v5's own wrist weighting is marginally asymmetric.** 559 of 1,790 wrist edges differ
+  between the hands by up to 0.019 in blend, although the multiset of vertex values mirrors
+  exactly and the topology matches (726 vertices, 1,790 edges, mean valence 5.156 per side).
+  That is why the repair band is 93 vertices on the left and 81 on the right. Above 1% of
+  weight the change is exactly symmetric — 143 vertices per side, net weight moved per bone
+  identical to four decimal places — and the residue is six left-side vertices moving
+  between 0.1% and 1%, which is below any visible threshold.
+- **Palm gap and thumb opposition are unchanged**, as intended. They remain a separate
+  visual decision after this deformation fix is accepted.
+- **The ~6 mm dumbbell/thigh overlap at the curl bottom is unchanged** and remains
+  documented rather than fixed. Closest approach −5.86 mm (left) and −5.81 mm (right), three
+  thigh vertices inside a plate per side. It is a true 3D intersection, not screen-space
+  occlusion.
+
+### Validation for this candidate
+
+- `npm test` — **287 passed, 1 optional real-character diagnostic skipped, 36 files.**
+- `npm run typecheck` — passed. `npm run build` — passed, existing >500 kB chunk advisory only.
+- Optional real-character diagnostic run against **both** GLBs; passes on each.
+- Grip closure remains **85%** and the elbow corrective remains **0%**. Neither changed.
 
 ## Current production changes
 

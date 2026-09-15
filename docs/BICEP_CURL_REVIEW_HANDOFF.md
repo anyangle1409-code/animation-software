@@ -6,18 +6,64 @@
 **Audit scope:** documentation and branch hygiene only; no Studio or motion change.  
 **Do not merge yet.**
 
+## Review status — 2026-09-15
+
+Three of the four questions this handoff opened are now closed.
+
+**Curl motion — visually accepted. Do not reopen.** All 166 clip frames were measured on
+the imported v5 through the production path, and the rep was watched at 1× and 0.25×. Worst
+hand-path jerk 0.595 mm; dumbbell position jerk 0.879 mm; dumbbell rotation jerk 0.187°;
+elbow jerk 0.164° at a maximum 3.14°/frame (94.2°/s, matching the retained profile); wrist
+0.004°/frame. Clavicle world-Y travel 0.00 mm, so there is no shoulder hike. Mirrored hand
+mismatch 0.00 mm. The handle sits 101.83 mm from the hand bone with 0.000 mm variation
+through the rep, so the dumbbells are rigid and contact is never lost.
+
+**Elbow corrective — stays at 0%.** The bounded directional outer pass is visually inert at
+Peak: 402 of 1,369,000 pixels change between 0% and 100%, silhouette contour moves ≤ 1 px,
+and strain is unchanged (P99 55.7% at all five settings). The 72 vertices per side move
+7.77 mm in bind space but only 4.65 mm posed, of which 0.55–0.75 mm mean is perpendicular to
+any candidate camera.
+
+**Global grip closure — stays at 85%.** The relationship runs opposite to this document's
+earlier assumption: 85% gives reach use 93% "Within envelope", and *lowering* closure
+*raises* reach use (80% → 98%, 75% → 104% "Review fit", 70% → 110%, 65% → 116%). At 65% the
+fingers visibly detach from the handle at Bottom.
+
+Do **not** infer per-digit closure direction from `digitReachUse` alone. It is a geometric
+distance relative to the allowed reach envelope; a lower percentage does not mean a looser
+finger and a higher one does not mean a tighter finger. The saved collision evidence shows
+substantial pinky penetration at the authored grip, which points the other way.
+
+### What is still open
+
+1. **Hand/wrist deformation.** A repair candidate exists and is awaiting approval — see
+   `docs/CHARACTER_CANDIDATE_REPAIR.md`. `HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb`,
+   SHA-256 `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`. It is skin
+   weights only, at the four MCP handover rings and the wrist ring, both sides, 314 of
+   10,839 vertices. Proven v5 is not overwritten. **It is not promoted; the bundled/default
+   character is unchanged.**
+2. **Palm loading and thumb opposition** at 85% closure. The underside review shows the
+   weight hanging in the finger hooks with a visible palm gap, and weak thumb opposition.
+   The weight repair leaves both unchanged, deliberately. This is a separate visual
+   decision, to be taken after the deformation fix is accepted.
+3. **Dumbbell/thigh overlap at the curl bottom.** A true 3D intersection, not screen-space
+   occlusion: closest approach −5.86 mm (left) and −5.81 mm (right), with three thigh
+   vertices inside a plate on each side. Documented, not fixed — every sanctioned lever
+   costs more than the 6 mm it buys, and whole-dumbbell translation remains rejected.
+4. **Wrist extension beyond human range in other exercises.** The push-up drives the wrist
+   115.4° from bind and the pull-up 102.6°. This is a motion-side observation only; no
+   exercise definition was changed and none should be on the strength of the hand repair.
+
 ## CLAUDE — START HERE TOMORROW
 
 1. Read `AI_CHANGELOG.md` and this handoff before changing anything.
 2. Checkout `chatgpt/absolute-retarget-imports` and use the proven `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` **version 5** (SHA-256 `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`).
-3. Do **not** rewrite the curl motion. Its measured movement is mechanically clean.
-4. Load Dumbbell Bicep Curl, go to **Peak (2.00s)**, hold the same camera/frame and compare elbow corrective strength at **0 / 25 / 50 / 75 / 100%**.
-5. Review grip closure at **85 / 80 / 75 / 70 / 65%** using **Bottom / Mid lift / Peak / Mid lower / Return**.
-6. Use per-digit tuning only if global closure cannot solve the thumb/pinky issue without opening another digit too far.
-7. Do not revive rejected subdivision, broad shoulder smoothing, whole-dumbbell translation, destructive rebind, or direct Rigify-finger experiments.
-8. Make a permanent change only after a live same-frame visual comparison. Record the chosen document identity, v5 character identity and deformation revision with the approval.
+3. Do **not** rewrite the curl motion. Its measured movement is mechanically clean, and it is now visually accepted as well.
+4. The elbow corrective stays at **0%** and global grip closure stays at **85%**. Both comparisons are complete; do not rerun them as new work.
+5. Do not revive rejected subdivision, broad shoulder smoothing, whole-dumbbell translation, destructive rebind, or direct Rigify-finger experiments.
+6. Make a permanent change only after a live same-frame visual comparison. Record the chosen document identity, character identity and deformation revision with the approval.
 
-The remaining visual work is primarily **elbow surface/silhouette at peak flexion** and **hand/dumbbell grip/contact**. Treat other changes as out of scope unless a live review exposes a genuine regression.
+The remaining visual work is the four open items listed above.
 
 ## Final branch hygiene audit
 
@@ -70,6 +116,18 @@ SHA-256: `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`
 
 This remains the proven asset and has **not** been overwritten.
 
+### Hand/wrist weight repair candidate — awaiting approval
+
+`HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb`  
+SHA-256: `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`
+
+Skin weights only, at the `DEF-hand.*` ↔ `DEF-f_{index,middle,ring,pinky}.01.*` rings and
+the `DEF-forearm.*.001` ↔ `DEF-hand.*` ring, both sides. Topology, bind geometry, skeleton,
+inverse binds, UVs, colours and the other joint/weight sets are byte-identical to v5. Full
+diagnosis, cap selection and before/after measurements are in
+`docs/CHARACTER_CANDIDATE_REPAIR.md`. Not promoted; v5 remains the proven asset and the
+fallback.
+
 ### Historical review-only outer-elbow asset
 
 `HomeGymPT_Male_HAND_REPAIR_OUTER_ELBOW_CANDIDATE.glb`  
@@ -81,16 +139,23 @@ The directional outer pass remains capped at **8 mm** additional bind-space disp
 
 ## Next visual review order
 
-1. Load the proven v5 character with **Dumbbell Bicep Curl**. Keep authored grip closure at **85%** initially.
-2. In Review, judge the whole rep once at normal speed: relaxed shoulders, still torso, natural elbow path, neutral wrist and rigid dumbbells.
-3. Use the default forearm Movement Review / **Focus review joint** and inspect the live elbow through the rep. Do not change motion based only on the old three-frame offline preview; the current numeric motion diagnostics are clean.
-4. Set the playhead to **Peak (2.00s)**. In Correctives, keep the exact same frame/camera and tap **0 / 25 / 50 / 75 / 100%**. Judge outer elbow contour, flattening, pinching and whether the bend reads like flesh around a joint rather than a hinge.
-5. If needed, run **Compare 0–100%** to see strain at each candidate's worst P99 frame. Use strain as supporting evidence only; do not let it choose the visual winner automatically.
-6. Keep a non-zero permanent outer corrective only if it is clearly more human at peak **and** remains natural through bottom/mid/return. The authored baseline remains the fallback.
-7. In Grip, compare **85 / 80 / 75 / 70 / 65%** on the same frame, then use the direct **Bottom / Mid lift / Peak / Mid lower / Return** buttons. Judge all four fingers around the handle, thumb opposition, palm loading, dumbbell centring/rigidity and left/right symmetry.
-8. Also inspect shoulder-press start before permanently lowering global closure; the same hand model must still work outside the curl.
-9. If one global closure cannot solve thumb/pinky overlap without making another digit too open, move to **per-digit closure trims** on the real imported character. Do not translate the whole dumbbell as the first fix and do not revive direct source-Rigify finger rotations.
-10. Only after elbow silhouette **and** grip are visually accepted should the curl be treated as the template for scaling to more exercises.
+Steps 1–3 below are complete: the curl motion is visually accepted, the elbow corrective is
+settled at 0% and global closure at 85%. What follows is the remaining order.
+
+1. ~~Judge the whole rep at normal speed.~~ Done; accepted.
+2. ~~Compare elbow corrective 0 / 25 / 50 / 75 / 100% at Peak.~~ Done; 0% retained.
+3. ~~Compare grip closure 85 / 80 / 75 / 70 / 65%.~~ Done; 85% retained.
+4. Review the **hand/wrist weight repair candidate** against proven v5 on the same frames
+   and cameras: curl Peak for the fingertip silhouette, curl Bottom for the wrist-to-palm
+   contour, then the stressed hand poses in shoulder press, push-up and pull-up. Accept only
+   if the knuckles keep their definition and no exercise looks softer than v5.
+5. If the candidate is accepted, decide **palm loading and thumb opposition** separately, on
+   the underside view at Bottom and Peak. Per-digit trims are the tool for that, not global
+   closure, and not `digitReachUse` percentages on their own.
+6. Leave the ~6 mm dumbbell/thigh overlap documented. Do not translate the whole dumbbell,
+   change stance or change the curl motion to fix it.
+7. Only once hand deformation **and** grip contact are visually accepted should the curl be
+   treated as the template for scaling to more exercises.
 
 ## Grip collision baseline
 

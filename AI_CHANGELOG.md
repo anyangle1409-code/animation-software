@@ -6,6 +6,42 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-15 — hand/wrist handover weight repair candidate (asset only, not promoted)
+
+Produced `HomeGymPT_Male_HAND_WRIST_WEIGHT_CANDIDATE.glb` (SHA-256 `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed`) from proven v5 by local skin-weight redistribution at two handover rings. Proven v5 is untouched and still hashes to `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`. No repository code changed; neither GLB is committed. The candidate is **not** promoted and the bundled/default character is unchanged.
+
+**Diagnosis.** The fingertip "shards" at curl Peak and the wrist-to-palm facet at curl Bottom are the same defect: the influence hands over from one bone to the next across a *single* mesh edge. Measured on v5, the steepest edge in each handover was `DEF-hand.*`→`DEF-f_middle.01.*` and `DEF-hand.*`→`DEF-f_ring.01.*` at **1.000** — one end of the edge fully hand, the other fully finger — and `DEF-forearm.*.001`→`DEF-hand.*` at **0.990**. When the joint bends, the two ends travel on different arcs and the triangle between them folds shut: 22 of the 1,440 handover triangles retained under 25% of their bind area at curl Peak, the worst at 4.0%, and the shoulder press drove one wrist triangle to **0.35%** of its area at only 33.4° of wrist bend.
+
+Character correctives are not involved: the four `homeGymPT_elbow*` targets move 106 and 72 vertices per side, all on `DEF-upper_arm*001`/`DEF-forearm*`/`DEF-forearm*001`, and touch no hand, palm, finger or wrist vertex. Nor is it handle intersection: of the 40 worst spike vertices, none lie inside the 15 mm handle cylinder. Nor is it bind topology: the hand contains no needle triangle (aspect > 20) in bind or posed.
+
+**Repair.** For each of ten named bone pairs — the four MCP rings and the wrist ring, per side — the vertex's *pooled* weight on the two bones is held fixed and only the split between them is moved, so total skin weight stays exactly 1.0 by construction and no third bone is touched. An edge steeper than a gradient cap is relaxed by exactly the excess, iterated to convergence with a Jacobi sweep so the result does not depend on edge-visit order. Editing is confined to vertices on an over-steep edge or one mesh ring out; everything beyond that is pinned, so the change cannot creep up the forearm or along the fingers.
+
+Caps of 0.55 / 0.45 / 0.40 / 0.35 / 0.28 were generated and reviewed on matched Studio stills. 0.55, 0.45 and 0.40 leave visible angular points at the ring and pinky fingertips; 0.28 over-smooths and degrades the push-up wrist (worst area retention 0.0495 → 0.0178). **0.35 is the smallest cap that removes the visible shards and the facet**, and is the candidate.
+
+**What changed.** 314 of 10,839 vertices (2.90%). `POSITION`, `NORMAL`, `TEXCOORD_0/1`, `COLOR_0`, `JOINTS_1/2`, `WEIGHTS_1/2`, the index buffer, the node hierarchy, the skin definition and the inverse bind matrices are all byte-identical; only `JOINTS_0`/`WEIGHTS_0` differ. Worst |weight sum − 1| is 5.2 × 10⁻⁸; hand-area vertices still use at most 4 influences, sorted descending, matching the source's convention. Net weight moved per bone is identical left and right to four decimal places.
+
+**Measured against v5** (production path, pinned 1,440-triangle handover set; aspect normalised so equilateral = 1):
+
+| Pose | worst area retained | worst aspect | triangles < 25% |
+|---|---|---|---|
+| Curl Peak | 0.040 → **0.199** | 38.9 → **27.8** | 22 → **8** |
+| Curl Bottom | 0.060 → **0.175** | 29.7 → **27.8** | 22 → **8** |
+| Shoulder press | 0.0035 → **0.224** | 437.8 → **27.8** | 22 → **6** |
+| Push-up 45% | 0.0495 → **0.0567** | 41.3 → **34.1** | 18 → 30 |
+| Pull-up 45% | 0.0220 → 0.0220 | 108.6 → 108.6 | 36 → **16** |
+
+Whole-rep edge strain improves on every exercise family: maximum stretch falls (curl 3.820 → 2.183, squat 3.677 → 2.109, press 3.677 → 2.867, push-up 3.848 → 2.274, pull-up 8.475 → 4.151) and P99 falls slightly, while P95 is unchanged to ±0.004. The cost is a small rise in mildly compressed edges (curl 117 → 119, push-up 51 → 63 below 0.5×) — the extreme collapse is spread rather than concentrated.
+
+Grip is unaffected where it is rig-derived (reach use 0.9262, wrap 205.39°, within envelope — identical, because `measureGripFit` reads the canonical rig, not the skin) and marginally better where it is skin-derived (handle penetration 103 → 101 vertices per hand, deepest 14.57 → 14.05 mm). The dumbbell stays rigid and centred; the curl motion is untouched.
+
+**Not fixed, and why.** The pull-up's worst triangle (`1227/4391/4397`, 2.2% area) has blends 0.466/0.427/0.288 — a gradient well inside the cap. It collapses from the rotation magnitude alone: the pull-up drives the wrist **102.6°** and the push-up **115.4°** from bind, beyond human wrist extension. That is a motion-side observation, recorded here rather than acted on; no exercise definition was changed.
+
+Also recorded: v5's own wrist weighting is very slightly asymmetric at the edge level — 559 of 1,790 wrist edges differ between the hands by up to 0.019 in blend, although the vertex-value multiset mirrors exactly. That is why the repair band is 93 vertices on the left and 81 on the right. Above 1% of weight the change is exactly symmetric (143 vertices per side); the residue is six left-side vertices moving between 0.1% and 1%.
+
+The palm gap and weak thumb opposition seen at 85% closure are unchanged by this repair, as intended; they remain a separate visual decision. The ~6 mm dumbbell/thigh overlap at the curl bottom is likewise unchanged and still documented rather than fixed.
+
+**Validation.** `npm test` 287 passed + 1 optional skip across 36 files; `npm run typecheck` and `npm run build` pass. The optional real-character diagnostic was run against both GLBs and passes on each. Grip closure remains 85% and the elbow corrective remains 0%; neither was changed.
+
 ### ChatGPT — 2026-09-14 — final Claude handoff audit
 
 Audited branch `chatgpt/absolute-retarget-imports` at retained production head `4e34c043a04b81585aaae54e826b994cade0c6eb`. The tracked tree contains no temporary `.github` workflow, Python staging helper, scratch output or unfinished experiment file. Production diagnostic modules and their tests remain because they are validated Studio review controls. No Studio feature, character, deformation, grip or curl-motion code changed in this audit.

@@ -28,6 +28,7 @@ import type {
   Side,
 } from './types';
 import { RetargetContactResolver } from './retargetContact';
+import { solvedGripFor } from './solvedGrip';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
@@ -198,8 +199,24 @@ export function retargetedCharacterSource(
         return target;
       };
 
+      // The solved handle centre, applied here so the renderer, the exporter
+      // and the diagnostics all read one corrected offset and cannot diverge.
+      const solutionId = scene.userData?.homeGymPT?.gripSolutionId
+        ? String(scene.userData.homeGymPT.gripSolutionId)
+        : handleOffsets
+          ? 'homeGymPTMale'
+          : undefined;
+      const centre = solvedGripFor(solutionId, 'dumbbell')?.handleCentre;
       const gripOffset = handleOffsets
-        ? (side: Side) => handleOffsets[side] ?? anatomicalGripOffset(side)
+        ? (side: Side) => {
+            const embedded = handleOffsets[side] ?? anatomicalGripOffset(side);
+            if (!centre) return embedded;
+            return {
+              x: embedded.x + (side === 'l' ? centre.x : -centre.x),
+              y: embedded.y + centre.y,
+              z: embedded.z + centre.z,
+            };
+          }
         : undefined;
 
       const contacts = new RetargetContactResolver(binding, boneByName, handMatrix);
@@ -257,11 +274,7 @@ export function retargetedCharacterSource(
         // also carries its own handle offsets — those were measured on the
         // same hand. A different body sets its own id in the GLB and is
         // solved in its own right rather than inheriting this one.
-        ...(scene.userData?.homeGymPT?.gripSolutionId
-          ? { gripSolutionId: String(scene.userData.homeGymPT.gripSolutionId) }
-          : handleOffsets
-            ? { gripSolutionId: 'homeGymPTMale' }
-            : {}),
+        ...(solutionId ? { gripSolutionId: solutionId } : {}),
 
         sampler: () => combineSamplers(retargetSampler(binding, drive), deformation?.sampler?.() ?? null),
 

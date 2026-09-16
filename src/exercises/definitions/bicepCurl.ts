@@ -61,8 +61,8 @@ export const bicepCurl: ExerciseDefinition = {
       // against its own baseline while the elbow leads, and still drifts 4°
       // late for the squeeze. 4.3° is the smallest value measured to lift the
       // plate clear (+1.74/+1.82 mm, nothing inside); 4.0° still buried it.
-      upperarm_l: { x: 4.3, z: -3 },
-      upperarm_r: { x: 4.3, z: 3 },
+      upperarm_l: { x: 4.55, z: -3 },
+      upperarm_r: { x: 4.55, z: 3 },
       hand_l: { z: 4 },
       hand_r: { z: -4 },
     },
@@ -79,8 +79,8 @@ export const bicepCurl: ExerciseDefinition = {
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
       // 4° of drift above the rebased neutral, as before.
-      upperarm_l: { x: 8.3, z: -4 },
-      upperarm_r: { x: 8.3, z: 4 },
+      upperarm_l: { x: 8.55, z: -4 },
+      upperarm_r: { x: 8.55, z: 4 },
       hand_l: { z: 2 },
       hand_r: { z: -2 },
     },

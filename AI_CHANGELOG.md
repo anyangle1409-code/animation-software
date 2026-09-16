@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Phase 1 LOCKED: 4.55° rebase reconciles the full-fist grip with thigh clearance
+
+Executing the final compatibility decision; result in `docs/REFERENCE_BODY_PHASE1_LOCKED.md`. Nothing promoted or merged.
+
+Only the three authorised rebases were tried, start and peak moved by the same delta. Bottom/Return thigh clearance at the −9 mm handle centre: 4.3° (frozen) −0.88/−0.80 mm with a vertex inside; 4.5° +1.27/+1.36; **4.55° +1.81/+1.90**; 4.6° +2.35/+2.44, all three authorised values clear. The rebase buys clearance about 10.7 mm per degree — far faster than the 0.29 mm per mm the handle sweep implied — because it rotates the hanging forearm away from the thigh rather than sliding the weight along it. **4.55° retained**: 4.5° clears but only to +1.27, short of the preferred +1.5–2.0 band; 4.6° would optimise past the smallest passing value.
+
+Retained together: `startPose.upperarm_l/r.x = 4.55°` with `peakPose = 8.55°`, the −9 mm proximal handle centre, and the unchanged close-until-contact solver. The handle correction lives in `solvedGrip.handleCentre` beside the solved angles — they were solved together and neither is right alone — and is applied where `gripOffset` is built, so renderer and exporter cannot diverge.
+
+Measured: fingers −0.46/−0.36/−0.22/−0.11 mm with **zero inside**, thumb +1.18 mm opposing, palm loaded at −2.54 mm, wrap 252°, both hands identical to the digit. Relative upper-arm drift **exactly 4.000000°** with the elbow profile untouched at 6 → 66 → 126 → 6°. **All 22 authored technique rules pass**, including `shoulder_quiet_*`, `elbow_not_inward_*` and `elbow_under_shoulder_*`; nothing unreachable, loop closes. Renderer vs exporter 0.0000 mm at t = 0, 2, 4 both sides. Shoulder press reuses the grip with identical figures and no per-exercise tuning. Full suite 297 passed / 1 skipped / 1 failed (pre-existing `strainReview` timeout); typecheck clean.
+
+The three-quarter render shows all four digits curling around and under the handle with the fingertips continuing beneath it, the thumb opposing over the top and the handle deep in the palm. **All twelve acceptance criteria pass and Phase 1 is locked.**
+
 ### Claude — 2026-09-16 — Phase 1: proximal handle-centre sweep blocked by curl thigh clearance
 
 Executing the follow-on sweep in `docs/REFERENCE_BODY_PHASE1_GRIP_SOLVER.md`; result in `docs/REFERENCE_BODY_PHASE1_HANDLE_SWEEP.md`. Solver kept unchanged, **nothing new retained**, Phase 1 not locked, Stage 2 not started.

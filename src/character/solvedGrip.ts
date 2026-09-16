@@ -14,6 +14,16 @@ export interface SolvedGrip {
   thumbOppositionX: number;
   /** The handle radius in metres these angles were solved against. */
   radius: number;
+  /**
+   * A correction to the character's embedded handle centre, in metres, in the
+   * frame `handleGripOffsets` is expressed in. x is mirrored with the hand.
+   *
+   * It belongs with the solved angles rather than in the asset: the two were
+   * solved together and neither is right without the other. Applying it where
+   * `gripOffset` is built keeps the renderer, the exporter and the diagnostics
+   * on one centre by construction.
+   */
+  handleCentre?: { x: number; y: number; z: number };
 }
 
 /**
@@ -50,11 +60,19 @@ const SOLVED: Record<string, Partial<Record<GripKind, SolvedGrip>>> = {
     dumbbell: {
       radius: 0.015,
       thumbOppositionX: 16.47,
+      // 9 mm proximally, deeper into the palm. Measured, not chosen: at the
+      // embedded centre every MCP locked almost immediately because the handle
+      // sat against the knuckle row, so the fingers could not roll over it and
+      // the index barely closed at 30.4 degrees. Moving the centre back frees
+      // all four together while the palm loads from -1.14 mm to -2.54 mm.
+      // 6 mm still leaves the lower fingers at the handle's side; 12 mm is no
+      // better in kind and spends the thumb's clearance down to -0.19 mm.
+      handleCentre: { x: 0, y: -0.009, z: 0 },
       digits: {
-        index: [35.75, 95.0, 60.0],
-        middle: [58.5, 83.12, 60.0],
-        ring: [58.5, 67.29, 60.0],
-        pinky: [22.75, 39.58, 60.0],
+        index: [61.75, 95.0, 57.5],
+        middle: [71.5, 83.12, 52.5],
+        ring: [65.0, 71.25, 47.5],
+        pinky: [35.75, 51.46, 60.0],
         thumb: [-22.0, 60.0, 60.0],
       },
     },

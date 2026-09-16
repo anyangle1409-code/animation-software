@@ -165,6 +165,75 @@ Stop and report rather than forcing a solution if any of these become necessary:
 
 Do not start Stage 2 until Phase 1 is genuinely locked.
 
+## Follow-on decision — controlled proximal handle-centre sweep
+
+Current solver result at branch HEAD `899a9d93bb8ae4f3181a4e2886682b91ab934b81` is **not yet accepted as the final grip**.
+
+The close-until-contact solver itself is retained as the correct mechanism, but the current solved shape reaches only about **240° wrap**. The high-zoom axial render shows an open arc of roughly 120° under the handle: all four digits contact, the palm is loaded, and the thumb opposes, but the fingertips do not finish curling underneath enough for the hand to read as the user's approved full-fist grip.
+
+The measured reason is that every MCP locks early because the character-specific handle centre sits too close to the MCP/knuckle row. This is now authorised as the next controlled variable.
+
+### Authorised test
+
+Perform a **small controlled sweep moving only the character-specific held-handle centre proximally/deeper into the palm**. For every tested centre:
+
+1. re-run the existing close-until-contact solver from scratch;
+2. solve all four fingers and the cylindrical-grip thumb behaviour;
+3. measure contact using the repaired finite-cylinder harness;
+4. render a high-zoom matched view of the resulting grip;
+5. record palm loading, finger penetration, wrap, thumb clearance/locking and left/right symmetry.
+
+Do not optimise wrap angle alone. The final arbiter remains the visual target: a natural **fist around the handle**, not a numerical circle-coverage maximum.
+
+### Selection rule
+
+Retain the **smallest proximal handle-centre shift** that simultaneously produces:
+
+- a convincing full-fist / power-grip appearance;
+- the handle visibly deeper in the palm;
+- all four fingers curling substantially around and under the handle;
+- fingertips continuing under the handle rather than stopping at the sides;
+- natural thumb opposition/locking;
+- a loaded palm with no large air gap;
+- no meaningful finger-through-handle penetration;
+- no finger self-intersection or implausible joint angle;
+- correct bilateral mirroring.
+
+Do not keep moving the handle after those conditions are met just to increase wrap.
+
+### Preserve while sweeping
+
+Do not alter:
+
+- frozen Stage 1 forearm correction;
+- frozen curl motion, including the retained +4.3° neutral rebase;
+- Stage 1 shoulder state;
+- finger lengths;
+- MCP locations;
+- topology or skin weights;
+- the close-until-contact solver mechanism.
+
+Keep the thumb correction character/grip-family specific. Do **not** globally flip the shared thumb constant as part of this sweep.
+
+### Regression checks for the retained centre
+
+Before Phase 1 can lock, re-check at minimum:
+
+- curl Bottom / Mid / Peak / Return;
+- Bottom/Return dumbbell-to-thigh clearance;
+- shoulder press grip/contact;
+- at least one second cylindrical-handle use to prove reuse;
+- left/right symmetry;
+- renderer/exporter agreement;
+- thumb behaviour;
+- hand/wrist deformation and equipment lock.
+
+If a tested centre gives a visually convincing true fist and all acceptance criteria pass, **retain it, lock Phase 1, and continue automatically with Phases 2–5 in `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`**.
+
+If no proximal centre can achieve the target without unloading the palm, creating penetration, or forcing implausible finger geometry, stop and report the measured blocker. Do not change finger lengths, MCP placement, weights or topology without a new decision.
+
+Keep usage low. Do not promote or merge.
+
 ## After Phase 1
 
 Once the reusable power grip passes and is retained, continue from **Phase 2** in `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`:

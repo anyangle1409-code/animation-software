@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1 forward-clearance sweep (nothing retained)
+
+Executing `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE.md`. No asset or source change; Stage 1 is not frozen and Stage 2 has not started. Table in the new `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE_RESULT.md`.
+
+Swept `startPose.upperarm_l/r.x` at 0, 1.0, 1.5, 2.0 and 2.5° with abduction held at 3°. Bottom and Return are identical at every value. Clearance: **−13.59/−13.73 → −9.69/−9.72 → −7.45/−7.32 → −5.66/−5.53 → −3.87/−3.79 mm**, with the grip moving 0 → 28.6 mm forward. **Monotonic, unlike the abduction sweep** — the root-cause diagnosis confirming itself, since forward travel is along the contact normal where lateral travel was tangent to it. Improvement is a near-constant 3.89 mm per degree and the dumbbell barely rotates (0.8° of axis change at the largest value), so this is translation rather than reorientation. Bilateral mismatch ≤ 0.14 mm throughout.
+
+**No tested value clears, so nothing was retained** and the sweep stopped there as instructed rather than climbing to larger angles. Extrapolating the linear relationship: **~3.5° for zero clearance, ~4.0° for a 2 mm margin** — about 40 and 46 mm of forward grip travel. That is more than the diagnostic's 14 mm estimate, and the sweep shows why: only **0.34 mm of clearance is gained per millimetre of forward travel**, because the thigh's front surface is oblique rather than facing straight forward. The escape direction was right; the conversion rate was optimistic.
+
+Mid lift, Peak and Mid lower stay clear with zero vertices inside at every value and improve slightly (Mid lift 174.6 → 188.7 mm at 1.5°, Mid lower 200.1 → 203.9). Peak is unchanged to the last digit because `peakPose` was not touched. `validateClip` over the whole rep reports **zero violations and a closed loop at every tested value**, covering `elbow_not_inward_*`, `elbow_under_shoulder_*` and `shoulder_quiet_*` — 2.5° sits well inside that envelope's [−5°, +10°]. The constraint side is clear the whole way; it is the geometry that has not cleared.
+
 ### Claude — 2026-09-16 — Stage 1 curl contact root cause (diagnostic only)
 
 Per `docs/REFERENCE_BODY_STAGE1_CONTACT_DIAGNOSTIC.md`. No asset, pose, rule or source file changed; Stage 1 is not frozen and Stage 2 has not started. Full table and the diagnostic image in the new `docs/REFERENCE_BODY_STAGE1_CONTACT_ROOTCAUSE.md`.

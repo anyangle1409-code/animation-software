@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1: forearm proportion correction (candidate only, nothing promoted)
+
+Stage 1 of `docs/REFERENCE_BODY_TWO_STAGE_DECISION.md`. Shoulder chain untouched — Stage 2 not started. Candidate `HomeGymPT_Male_FOREARM_CANDIDATE.glb` (`f48d48e5…5ebe9`) plus a dressed copy (`2d1434e8…70901`), built on the refmatch candidate; v7, v6 and proven v5 unchanged. Detail in the new `docs/REFERENCE_BODY_STAGE1_FOREARM.md`.
+
+The forearm is lengthened along its own axis to the canonical rig's proportion, 10.93% → 14.86% of figure height (+79.2 mm model, +68.7 mm studio), both sides. The twist helper sits at 50.0% along and moves by its own share, so the forearm stretches uniformly instead of putting all the new length in the distal half. 2038 vertices moved, worst 79.2 mm, worst left/right difference 0.001 mm across 4178 mirrored pairs. **Skin weights unchanged** — `JOINTS_0`, `WEIGHTS_0`, `TEXCOORD_0`, `COLOR_0` and all 19304 triangles are bit-identical, bone names and joint count identical. Inverse binds rewritten for **42 of 160 joints**, exactly the moved chain; the first attempt recomputed all 160 and silently rewrote every untouched bone by the 1.29e-5 the file's node graph and stored inverse binds already differ by, which is invisible but is not "the forearm chain only".
+
+**Contacts re-derived themselves from their own rules — nothing was nudged.** Push-up hands moved 0–8.8 mm and stayed on the floor, pull-up hands 0–1.2 mm and stayed on the bar, while free hands in curl, press and squat moved the full 68.7 mm. Bilateral mirror error 0.000 mm everywhere. Press rack rises 1.587 → 1.654 m and lockout 1.964 → 2.032 m.
+
+Push-up true wrist extension 102.66° → **95.45°**, so the skeletal correction improves the documented hand-placement problem by 7.2° but does not solve it — 95° is still past a plausible wrist, and it stays an exercise-definition question. Curl and press wrist angles are bit-identical, which is the check that accepted motion was not rewritten to accommodate the new proportions. The v5→v6 hand/wrist handover repair sits in the stretched region and does not regress: max ring aspect 27.756173 → 27.756327. Strain P95 and P99 improve or hold in all five families; the only increase anywhere is push-up maximum stretch, +0.033, and pull-up over-3× improves 126 → 112.
+
+**One regression, and it should be cleared before Stage 2:** the curl-bottom dumbbell/thigh overlap roughly doubles, −6.65 → −13.85 mm, because the longer forearm hangs the weight 69 mm further down a thigh that is no narrower there. Across the sampled frames the worst overlap actually improves slightly (15.59 → 13.99 mm) since the mid-lower frame gains 10.8 mm, but the bottom frame is worse than both the refmatch candidate and v7. It is contact calibration, not motion, and per the guardrails wants the dumbbell's placement rule re-derived rather than the weight nudged. Also worth recording: the harness that measures it was reading the grip rather than the leg, because `GLTFLoader` sanitises `DEF-hand.L` to `DEF-handL` and the pattern excluding the holding arm matched nothing — it returned an identical −14.58 mm for three different bodies, which is how it was caught. Fixed, and it now reproduces the documented v7 figure exactly (−5.86 / −5.81 mm, three thigh vertices).
+
+Typecheck and build clean; suite 292 passed, 1 skipped, 1 failed — the pre-existing `strainReview` timeout.
+
 ### Claude — 2026-09-16 — rig review: measured skeletal proposal (investigation only, nothing implemented)
 
 Investigation for `docs/REFERENCE_BODY_RIG_REVIEW.md`. No asset written, nothing implemented, promoted or merged. Proposal in the new `docs/REFERENCE_BODY_RIG_PROPOSAL.md`, with the current-vs-proposed joint overlay at `scratchpad/reference-fit/07_joints_current_vs_proposed.png`.

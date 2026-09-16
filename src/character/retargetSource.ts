@@ -28,6 +28,7 @@ import type {
   Side,
 } from './types';
 import { RetargetContactResolver } from './retargetContact';
+import { anatomicalGripOffset } from '../equipment/attach';
 import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
 
@@ -130,6 +131,11 @@ export function retargetedCharacterSource(
       const mapping = options.mapping ?? guessedMapping(options.label, scene, character.boneNames);
       const embeddedGripOffsets = readGripOffsets(scene.userData?.homeGymPT?.gripFrameOffsets);
       const gripOffsets = options.gripFrameOffsets ?? embeddedGripOffsets;
+      // Where a handle sits inside this character's closed fist, measured on
+      // its own wrapping fingers. Separate from the grip *frame* above, which
+      // is the palm contact point; stacking the canonical constant on that
+      // frame put the handle outside the fist.
+      const handleOffsets = readGripOffsets(scene.userData?.homeGymPT?.handleGripOffsets);
       const binding = bindRetarget(character, mapping, rig);
 
       // The one change made to the character: a uniform scale so a model of
@@ -192,6 +198,10 @@ export function retargetedCharacterSource(
         return target;
       };
 
+      const gripOffset = handleOffsets
+        ? (side: Side) => handleOffsets[side] ?? anatomicalGripOffset(side)
+        : undefined;
+
       const contacts = new RetargetContactResolver(binding, boneByName, handMatrix);
       const drive = (pose: Pose, context?: CharacterPoseContext) => {
         if (!context?.contacts?.length) {
@@ -241,6 +251,7 @@ export function retargetedCharacterSource(
         driver: drive,
 
         handMatrix,
+        ...(gripOffset ? { gripOffset } : {}),
 
         sampler: () => combineSamplers(retargetSampler(binding, drive), deformation?.sampler?.() ?? null),
 

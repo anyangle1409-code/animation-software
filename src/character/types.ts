@@ -130,6 +130,13 @@ export interface CharacterBuild {
    * what keeps a dumbbell in the hand of a character the rig only drives.
    */
   handMatrix?: (side: Side, target: Matrix4) => Matrix4 | null;
+  
+  /**
+   * Centre of a held cylindrical handle inside this character's closed fist,
+   * in the frame `handMatrix` returns. Distinct from that frame's own origin,
+   * which is the palm contact point floor and bar locks aim at.
+   */
+  gripOffset?(side: Side): { x: number; y: number; z: number };
 
   /**
    * Animation tracks for this character's own skeleton, when the canonical

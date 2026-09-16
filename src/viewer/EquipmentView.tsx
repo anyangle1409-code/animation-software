@@ -5,7 +5,7 @@ import { useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
-import { twoHandAttachmentMatrix } from '../equipment/attach';
+import { twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
 import { EquipmentMesh } from './equipmentMeshes';
 import { useSceneState } from './sceneState';
 
@@ -43,7 +43,13 @@ export function EquipmentView() {
 
       if (held && instance?.attachment.mode === 'hand') {
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
-        const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+        // The character's own handle centre, not a canonical constant: this
+        // character carries its own grip frame, and stacking the canonical
+        // offset on top of it put the handle outside the fist.
+        const grip =
+          instance.attachment.gripOffset ??
+          character?.gripOffset?.(instance.attachment.side) ??
+          anatomicalGripOffset(instance.attachment.side);
         scratch.local.copy(handAttachmentMatrix(
           grip,
           socket?.position ?? { x: 0, y: 0, z: 0 },

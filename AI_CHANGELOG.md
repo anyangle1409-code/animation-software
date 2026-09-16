@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1: grip single source of truth; curl-bottom clearance still open
+
+Executing `docs/REFERENCE_BODY_STAGE1_SIGNOFF_DECISION.md`. Stage 2 has not started; nothing promoted or merged. Candidate `HomeGymPT_Male_STAGE1_CANDIDATE.glb` (`c0d4b690…1eefb`) — geometry, skeleton, weights and inverse binds identical to the forearm candidate, one scene-extras entry added. Detail in the new `docs/REFERENCE_BODY_STAGE1_GRIP_SOT.md`.
+
+**Part A, done.** The character now carries `handleGripOffsets` (`l [0.0174, 0.0542, 0.0083]`, mirrored) — the centre of a held handle inside its **closed** fist, in the frame `handMatrix` returns, measured as the centroid of the vertices on the middle phalanges of all four fingers and the thumb at 85% closure. It is deliberately separate from the `gripFrameOffsets` the character already had: that frame's origin is the palm *contact* point, which `RetargetContactResolver` uses as the arm's target for floor and bar locks, so moving it to the handle centre would have shifted every push-up and pull-up contact by 54 mm. The measurement also explains the earlier failure — `handMatrix`'s origin is 58.3 mm from the hand bone and the handle centre a further 57 mm out, so the shipped `{0, 0.045, 0}` stopped ~9 mm short (inside the fist, hence plausible) while `anatomicalGripOffset` overshot by ~31 mm with its mirrored x on the opposite sign. `CharacterBuild` gains `gripOffset?(side)`; the viewer and exporter use it and both literals are gone; the exporter now takes `handMatrix` directly instead of rebuilding the frame from scale and basis by hand, which had left exported items short of the palm by the grip-frame offset; `twoHandGripOffsets` falls back per side. Renderer and exporter agree to **0.0000 mm** at t = 0, 2 and 4 s both sides, and the rendered handle sits in the fist with the fingers over the bar.
+
+One honest shortfall on criterion 3: the **solver** cannot use the same transform without a frame of lag. Threading the character's hand frame into `resolveFrame` was tried and failed by 528 mm, because the pipeline resolves equipment *before* `applyCharacterPose` — which is why the renderer reads `handMatrix` at draw time. It was backed out. There is now one offset *definition*, applied in the character's frame for drawing and export and on the canonical hand for lock solving, which is the correct value for the rig the solver actually works on.
+
+**Part B.** Under the unified rule the curl reads Bottom/Return −13.59/−13.73 mm with 3 thigh vertices inside, and Mid lift, Peak and Mid lower clear by 175–200 mm with nothing inside. Bilateral difference 0.14 mm.
+
+**Part C, stopped rather than forced.** Swept curl-bottom abduction at 3, 5, 6, 7, 8, 9 and 11° (the authored technique rule permits up to 20°). No value clears and the relationship is not monotonic, so "the smallest value giving genuine clearance" does not exist to be chosen. The reason shows in the hand-to-leg gap: going from 3° to 9° does not move the hand off the thigh at all (3.84 → 3.40 mm), so the abduction is absorbed between shoulder and hand and the weight rotates in place rather than translating clear. Best residual is −5.4 mm at 7°, better than the current −13.6 mm, but unexplained — retaining it would be the "move it until one frame looks correct" the guardrails forbid. No motion change retained; the curl is untouched.
+
+Eleven sign-off criteria met, criterion 3 partial, criterion 5 not met. Stage 1 is not frozen. Press cross-check clear by 299–466 mm with nothing inside and exact symmetry; typecheck and build clean; suite 292 passed, 1 skipped, 1 failed (pre-existing `strainReview` timeout).
+
 ### Claude — 2026-09-16 — Stage 1 curl contact: calibration attempted, reverted, sign-off held
 
 Executing `docs/REFERENCE_BODY_STAGE1_NEXT.md`. Stage 1 is **not signed off** and Stage 2 has not started. No asset changed and no source change retained; the tracked tree is clean. Detail in the new `docs/REFERENCE_BODY_STAGE1_CONTACT.md`.

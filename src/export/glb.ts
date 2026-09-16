@@ -12,6 +12,7 @@ import { canonicalSkeleton } from '../rig/skeleton';
 import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { equipmentSocket } from '../equipment/library';
+import { anatomicalGripOffset } from '../equipment/attach';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject } from './rigBuilder';
 import { characterSource } from '../character';
@@ -92,20 +93,29 @@ export async function exportGlb(
         const side = instance.attachment.side === 'l' ? 'hand_l' : 'hand_r';
         const hand = character.boneByName.get(side);
         const socket = equipmentSocket(instance.kind, instance.attachment.socket);
-        const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+        const grip =
+          instance.attachment.gripOffset ??
+          character.gripOffset?.(instance.attachment.side) ??
+          anatomicalGripOffset(instance.attachment.side);
         const matrix = handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 });
         if (hand) {
-          // A preserved import holds its own basis and its own scale. Undo
-          // both, so the item sits in the hand at its real size.
+          hand.updateWorldMatrix(true, false);
+          // Take the grip frame from the character rather than rebuilding it:
+          // handMatrix already drops the import's scale, applies its basis
+          // correction and its own grip frame offset. Reconstructing only the
+          // first two here left the exported item short of the palm by that
+          // offset, so the exported file and the viewport disagreed.
+          const frame = character.handMatrix?.(instance.attachment.side, new Matrix4());
           const local = new Matrix4();
-          if (hand.matrixWorld) {
-            hand.updateWorldMatrix(true, false);
+          if (frame) {
+            local.copy(hand.matrixWorld).invert().multiply(frame);
+          } else {
             const worldScale = new Vector3().setFromMatrixScale(hand.matrixWorld);
             const inverse = 1 / (worldScale.x || 1);
             local.makeScale(inverse, inverse, inverse);
+            const basis = correctionFor(character, side);
+            if (basis) local.multiply(new Matrix4().makeRotationFromQuaternion(basis));
           }
-          const basis = correctionFor(character, side);
-          if (basis) local.multiply(new Matrix4().makeRotationFromQuaternion(basis));
           object.applyMatrix4(local.multiply(matrix));
           hand.add(object);
         }

@@ -114,10 +114,12 @@ export function twoHandGripOffsets(instance: EquipmentInstance): {
   right: { x: number; y: number; z: number };
 } | null {
   if (instance.attachment.mode !== 'hands') return null;
-  const fallback = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
+  // Per side, so the mirrored palm axis is respected rather than both hands
+  // taking one shared offset.
+  const shared = instance.attachment.gripOffset;
   return {
-    left: instance.attachment.leftGripOffset ?? fallback,
-    right: instance.attachment.rightGripOffset ?? fallback,
+    left: instance.attachment.leftGripOffset ?? shared ?? anatomicalGripOffset('l'),
+    right: instance.attachment.rightGripOffset ?? shared ?? anatomicalGripOffset('r'),
   };
 }
 

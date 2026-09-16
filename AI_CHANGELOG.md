@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1 curl contact: calibration attempted, reverted, sign-off held
+
+Executing `docs/REFERENCE_BODY_STAGE1_NEXT.md`. Stage 1 is **not signed off** and Stage 2 has not started. No asset changed and no source change retained; the tracked tree is clean. Detail in the new `docs/REFERENCE_BODY_STAGE1_CONTACT.md`.
+
+**Correcting my own Stage 1 report.** The regression I flagged — curl-bottom overlap doubling from −6.65 to −13.85 mm — is measurement-rule dependent. The harness, like the viewer, stacks a canonical-rig constant on the character's own grip frame; under `anatomicalGripOffset`, which the constraint pipeline has always used, the chain reads v7 −10.24, refmatch −10.61, **Stage 1 −9.91 mm** — Stage 1 is the least overlapping and by far the most symmetric (0.04 mm left/right against v7's 0.51 mm).
+
+**The contact cannot be cleared by calibration.** The hand is already touching the leg: closest hand-surface to leg-surface at curl bottom is 3.10 mm on v7, 2.19 mm on refmatch and **3.84 mm on Stage 1** — again the best of the three. A dumbbell's inboard plate reaches 92.5 mm from the grip centre, so with the hand 2–4 mm off the thigh that plate is inside the leg for any grip centre that keeps the handle in the palm. Clearing it needs a few degrees of arm abduction at the curl bottom, which is a motion change this pass may not make. Contact exists only at Bottom and Return (the same pose); Mid lift, Peak and Mid lower clear by 157–235 mm with nothing inside.
+
+**What was tried and reverted.** Three paths disagree about the grip offset: the viewer and exporter use `{0, 0.045, 0}` while `resolveEquipment` uses `anatomicalGripOffset` — so the drawn weight and the solved one sit 40 mm apart up the palm and 25 mm across. Unifying on the anatomical rule improved the number and passed all 33 focused equipment/grip/export tests, but rendered it puts the handle outside the fist with the fingers behind the bar, so it was reverted. The arithmetic explains both: the character already carries `gripFrameOffsets` in scene extras (`l [0.015, 0.055, 0.012]`) which `handMatrix` applies, putting its origin 58.3 mm from the hand bone; measured on the character's own wrapping fingers the handle centre is a further **(±17.4, 54.2, 8.3) mm**; the shipped literal lands ~9 mm short of that (inside the fist, which is why it looks right) and the anatomical constant ~31 mm past it, with its mirrored x on the opposite sign to this character's frame. `anatomicalGripOffset` is authored against the canonical hand and overshoots a character that carries its own grip frame. The divergence is a real defect but the right value is per-character, not either constant.
+
+Eight of nine sign-off criteria are met; criterion 5 is not. The options are to abduct the arm slightly at the curl bottom (motion change, needs approval), accept ~10 mm at one pose of the rep, or calibrate the grip frame per character and stop the renderer adding a canonical constant — which fixes the drawn/solved divergence but not the contact. Suite 292 passed, 1 skipped, 1 failed (pre-existing `strainReview` timeout); typecheck and build clean.
+
 ### Claude — 2026-09-16 — Stage 1: forearm proportion correction (candidate only, nothing promoted)
 
 Stage 1 of `docs/REFERENCE_BODY_TWO_STAGE_DECISION.md`. Shoulder chain untouched — Stage 2 not started. Candidate `HomeGymPT_Male_FOREARM_CANDIDATE.glb` (`f48d48e5…5ebe9`) plus a dressed copy (`2d1434e8…70901`), built on the refmatch candidate; v7, v6 and proven v5 unchanged. Detail in the new `docs/REFERENCE_BODY_STAGE1_FOREARM.md`.

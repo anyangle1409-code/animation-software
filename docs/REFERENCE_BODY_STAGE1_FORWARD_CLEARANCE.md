@@ -1,7 +1,7 @@
 # Stage 1 — authorised forward-clearance test before Stage 2
 
 **Branch:** `chatgpt/absolute-retarget-imports`  
-**Starting head:** `9535756a5b19821f17e7926ba3b92a53f315c530`  
+**Current head before this note:** `7bbf12a75a78b8890c693c41bfe6d3bc02bc9f3e`  
 **Do not promote, merge, freeze Stage 1, or start Stage 2 yet.**
 
 Current candidate remains:
@@ -9,159 +9,180 @@ Current candidate remains:
 - `HomeGymPT_Male_STAGE1_CANDIDATE.glb`
 - SHA-256 `c0d4b6905fc7ff5e3341e84843bdcf02f6086814bdb2f93e0e04454a69f1eefb`
 
-The root-cause diagnostic in `docs/REFERENCE_BODY_STAGE1_CONTACT_DIAGNOSTIC.md` established the remaining Bottom/Return dumbbell contact is on the **front surface of the upper thigh**. The contact normal is approximately `+z` (forward). Shoulder abduction moves the arm mainly in `+x`, tangent to that surface, so the plate slides across the thigh instead of lifting away from it.
+The root-cause diagnostic established that the remaining Bottom/Return dumbbell contact is on the **front surface of the upper thigh**. The contact normal is primarily forward (`+z`). Shoulder abduction moves the arm mainly laterally (`+x`), tangent to that surface, so it slides the plate across the thigh instead of lifting it away.
 
-The prior non-monotonic abduction sweep is therefore understood and must not be used to choose a retained angle. The required escape direction is forward, not lateral.
+The first authorised shoulder-flexion sweep has now confirmed the diagnosis. Nothing from that sweep was retained.
 
-## Authorisation
+## Evidence from the completed 0–2.5° sweep
 
-Permission is granted to test a **narrow, isolated shoulder-flexion correction at Curl Bottom/Return only**.
+Curl abduction remained fixed at **3°**. Only `startPose.upperarm_l/r.x` was varied.
 
-This is not permission to redesign the curl.
+Bottom and Return are identical at every tested value:
 
-Keep the current curl abduction at **3°**. Do not use additional abduction as the clearance mechanism.
+| forward shoulder flexion | grip Δz | clearance L / R | vertices inside L / R |
+|---:|---:|---:|---:|
+| 0.0° | 0.0 mm | -13.59 / -13.73 mm | 3 / 3 |
+| 1.0° | 11.4 mm | -9.69 / -9.72 mm | 2 / 2 |
+| 1.5° | 17.2 mm | -7.45 / -7.32 mm | 3 / 3 |
+| 2.0° | 22.9 mm | -5.66 / -5.53 mm | 3 / 3 |
+| 2.5° | 28.6 mm | -3.87 / -3.79 mm | 2 / 2 |
 
-The next variable to test is the curl start/end shoulder-flexion channel (`startPose.upperarm_l/r.x` or the exact equivalent identified in the current exercise definition).
+The result is monotonic: approximately **3.89 mm of clearance improvement per degree** over the tested range. The dumbbell axis changes by only about **0.8°** at 2.5°, so this is a translation effect rather than an equipment-orientation workaround.
 
-The diagnostic estimate is that about **14 mm** of forward grip translation is required to remove the current penetration, and about **20 mm** provides a sensible practical margin. Because the hand hangs roughly 0.55 m below the shoulder, approximately 2° of shoulder flexion is expected to produce about 19 mm of forward movement. That estimate is only a starting point; the retained value must come from real geometry.
+Mid lift, Peak and Mid lower remain clear at every tested value with zero vertices inside. `validateClip` across the full rep reported zero violations and a closed loop for all tested values, including the existing `elbow_not_inward_*`, `elbow_under_shoulder_*` and `shoulder_quiet_*` checks.
 
-## Minimal test sweep
+The earlier 14–20 mm forward-travel estimate was optimistic because the thigh's front surface is oblique. The measured conversion is only about **0.34 mm of clearance per millimetre of forward grip travel**.
 
-Test, without retaining until measured:
+Extrapolation from the measured sweep indicates roughly:
 
-- current baseline: 0° additional shoulder flexion;
-- +1.0°;
-- +1.5°;
-- +2.0°;
-- +2.5°.
+- **3.5°** for approximately zero clearance;
+- **4.0°** for approximately a 2 mm positive margin;
+- **4.3°** for approximately a 3 mm margin.
 
-If 2.5° still does not produce reliable positive clearance on both sides, stop and report before testing materially larger values. Do not continue increasing the angle blindly.
+These are predictions only. The retained value must come from real geometry and visual review.
 
-For every value, measure **both left and right** at:
+---
 
-- Bottom;
-- Return.
+## Extended authorisation
 
-Also re-check the already-clear frames:
+Permission is now granted to test exactly these additional Bottom/Return forward-flexion values:
 
-- Mid lift;
-- Peak;
-- Mid lower.
+- **3.5°**;
+- **4.0°**;
+- **4.3°**.
 
-Use the real Stage 1 character, character-specific `handleGripOffsets`, real dumbbell geometry and the corrected body-contact diagnostic.
+Keep curl abduction fixed at **3°** throughout.
 
-## Required measurements
+This is still a focused test, not blanket permission to redesign the curl.
 
-For each test value record at minimum:
+### Test all three, but retain only if justified
 
-- shoulder-flexion value;
-- grip-centre forward (`z`) displacement versus the current Bottom pose;
-- inboard plate forward displacement;
-- closest plate-to-thigh signed distance, L/R;
-- number of body/thigh vertices inside the plate, L/R;
-- exact nearest body region;
+For each value, measure both sides at Bottom and Return using the real Stage 1 character, character-specific `handleGripOffsets`, real dumbbell geometry and the corrected body-contact diagnostic.
+
+Also verify Mid lift, Peak and Mid lower remain clear.
+
+Record at minimum:
+
+- actual plate-to-upper-thigh signed clearance, L/R;
+- number of body vertices inside the inboard plate, L/R;
+- forward grip-centre displacement versus the current 0° start pose;
+- dumbbell-axis/orientation delta versus the current pose;
 - elbow world position;
-- grip-centre world position;
-- dumbbell orientation delta versus the current pose;
-- bilateral mismatch.
+- bilateral mismatch;
+- technique-rule result across the complete 5.5 s loop.
 
-The retained value, if any, is the **smallest tested shoulder-flexion change** that gives genuine positive plate/thigh clearance on both sides with a modest practical margin and no worse contact elsewhere in the rep.
+## Visual comparison is mandatory
 
-Do not choose an angle because it looks good from one camera.
+Produce matched Bottom-pose renders for:
+
+- the current retained curl start pose;
+- 3.5°;
+- 4.0°;
+- 4.3° if it is needed numerically.
+
+Use the same camera/crop/character/equipment so the only visible motion difference is the authorised shoulder-flexion term.
+
+The purpose is to verify that the arm still reads as a natural relaxed dumbbell-curl start rather than a visible forward reach.
+
+Do not select a value from clearance numbers alone.
+
+---
+
+## Retention rule
+
+The retained value must be the **smallest tested angle** that satisfies all of these:
+
+1. genuine positive plate/thigh clearance on both sides at Bottom and Return;
+2. preferably at least about **2 mm practical margin**, rather than a barely positive numerical result;
+3. zero new collision at Mid lift, Peak or Mid lower;
+4. natural-looking relaxed curl start/end pose with no obvious forward reaching;
+5. `elbow_not_inward_*`, `elbow_under_shoulder_*` and `shoulder_quiet_*` all still pass through the complete rep;
+6. bilateral behaviour remains effectively mirrored;
+7. dumbbell remains rigid and correctly seated in the fist;
+8. no material wrist/elbow/shoulder deformation regression.
+
+### Expected decision logic
+
+- If **3.5°** unexpectedly gives a stable practical margin on both sides and looks natural, it may be retained because it is the smaller value.
+- If 3.5° is approximately zero/too marginal and **4.0°** gives about 2 mm or more on both sides **and looks natural**, retain **4.0°**.
+- Use **4.3° only if 4.0° does not produce a reliable practical margin** and 4.3° still looks anatomically natural.
+- If 4.0° clears numerically but already reads as an obvious forward reach, **stop instead of forcing 4.3°**.
+- If 4.3° still does not meet clearance + visual acceptance, stop and report; do not continue climbing beyond 4.3° without a new decision.
+
+Do not interpolate and retain an untested value unless the measured results explicitly justify a smaller follow-up micro-test first.
+
+---
 
 ## Motion guardrails
 
-All of the following must remain unchanged except for the specifically authorised minimal Bottom/Return shoulder-flexion clearance term:
+All of the following remain locked except for the specifically authorised minimal Bottom/Return shoulder-flexion term:
 
 - forearm proportion: **14.86% of figure height**;
-- shoulder-chain bind geometry and Stage 2 shoulder width;
+- canonical/source shoulder width and Stage 2 shoulder work;
 - curl abduction: **3°**;
-- elbow-flexion profile, including the accepted 6° → 126° movement;
-- 5.5 s timing / rep structure;
+- elbow-flexion profile, including accepted **6° → 126°** movement;
+- 5.5 s rep timing and phase structure;
 - forearm supination profile;
 - accepted clavicle depression/behaviour;
 - grip closure: **85%**;
 - elbow corrective: **0%**;
+- character-aware `handleGripOffsets`;
 - dumbbell rigidity relative to the hand;
-- left/right symmetry;
-- character-aware `handleGripOffsets` result;
-- topology, weights and Stage 1 forearm bind correction.
+- topology and weights;
+- Stage 1 forearm bind correction;
+- left/right symmetry.
 
-Do not translate the dumbbell independently to create clearance.
+Do not independently translate or rotate the dumbbell to manufacture clearance.
 
-## Blend requirement
+## Blend requirement if a value is retained
 
-If a shoulder-flexion value is retained, apply it only where needed around Bottom/Return and blend it smoothly into the already accepted trajectory.
+The authorised flexion belongs at Bottom/Return only and must blend smoothly into the already accepted trajectory.
 
-Do not introduce a visible shoulder jerk or a new upper-arm motion through the main lifting phase.
+- no visible shoulder jerk;
+- no discontinuity in angular velocity;
+- no new forward drift through the main lifting phase;
+- eccentric path must mirror cleanly so Return matches Bottom;
+- Peak remains the existing accepted Peak unless objective evidence demands otherwise.
 
-The final curve must return exactly and symmetrically on the eccentric so Return matches Bottom.
+Use the smallest temporal window that looks and measures natural.
 
-Use the smallest temporal window that gives a natural transition, but do not create a discontinuity in angular velocity.
+---
 
-## Technique constraints to re-check
+## Stage 1 sign-off after a successful retained value
 
-Explicitly re-run and report the existing technique checks that could be affected by forward shoulder flexion, including the exact current rule names for:
+If one of the authorised values satisfies the clearance and visual criteria:
 
-- `elbow_not_inward_*`;
-- `elbow_under_shoulder_*`;
-- any shoulder-quiet / shoulder-position envelope relevant to the curl.
-
-The proposed ~2° change is expected to remain inside the existing `shoulder_quiet_*` range of approximately `[-5°, +10°]`, but this must be verified, not assumed.
-
-Also verify:
-
-- handle remains centred in the fist;
-- finger/thumb grip remains natural;
-- wrist angle does not materially regress;
-- elbow silhouette remains natural at Bottom and through the transition;
-- dumbbell does not create a new contact with the hip, pelvis or opposite body region;
-- Mid lift, Peak and Mid lower remain comfortably clear.
-
-## Acceptance rule
-
-A retained forward-clearance correction is acceptable only if all are true:
-
-1. Bottom and Return have genuine positive plate/thigh clearance on both sides;
-2. a small practical margin remains rather than exactly zero clearance;
-3. the retained angle is the smallest tested value meeting that condition;
-4. no new collision appears at Mid lift, Peak or Mid lower;
-5. `elbow_not_inward_*`, `elbow_under_shoulder_*` and shoulder-envelope checks still pass;
-6. curl timing, elbow flexion, supination, clavicle behaviour, 85% grip and 0% corrective remain unchanged;
-7. the change looks anatomically normal — no obvious forward shoulder reach or altered curl style;
-8. bilateral symmetry remains negligible;
-9. hand/wrist deformation remains no worse than current Stage 1;
-10. focused tests pass without weakening thresholds.
-
-If the smallest clearing value visibly changes the style of the curl or violates technique constraints, stop and report instead of forcing sign-off.
-
-## After the clearance test
-
-If the minimal forward-flexion correction satisfies the acceptance rule:
-
-1. retain that one change;
+1. retain that single minimal motion change;
 2. re-run the full Stage 1 validation once;
-3. update the Stage 1 documentation/change log;
-4. freeze Stage 1 only if every previous sign-off criterion is now met.
+3. confirm the forearm correction, grip source-of-truth work and hand/wrist repair remain intact;
+4. confirm shoulder press/shared dumbbell behaviour remains clean;
+5. update the Stage 1 documentation and `AI_CHANGELOG.md` with the retained result;
+6. freeze Stage 1 only if all prior Stage 1 sign-off criteria are now met.
 
-Only **after Stage 1 is frozen** may Stage 2 shoulder widening begin.
+Do **not** promote or merge as part of this task.
 
-Do not fix the remaining push-up wrist/hand-placement issue yet; that remains deferred until after Stage 2.
+Stage 2 may begin only after Stage 1 is explicitly frozen and reported clean.
 
-## Report before any Stage 2 work
+The push-up wrist/hand-placement issue remains deferred until after Stage 2 because shoulder widening will change shoulder-to-hand geometry again.
+
+---
+
+## Report before Stage 2
 
 Return concisely with:
 
 - branch HEAD;
-- exact shoulder-flexion values tested;
-- clearance table for Bottom/Return, L/R;
-- retained value, if any, and why it was the minimum;
-- measured forward grip/plate displacement;
-- confirmation Mid/Peak/Mid-lower remain clear;
-- technique-rule results (`elbow_not_inward_*`, `elbow_under_shoulder_*`, shoulder envelope);
-- confirmation all other accepted curl mechanics are unchanged;
-- deformation/strain/focused-test result for the retained value;
-- final Stage 1 candidate filename + SHA-256 if the asset changes;
+- 3.5° / 4.0° / 4.3° clearance results, L/R;
+- inside-vertex counts;
+- measured grip forward travel;
+- visual verdict for each materially relevant candidate;
+- exact retained value, if any, and why it is the minimum acceptable value;
+- confirmation Mid lift / Peak / Mid lower remain clear;
+- `elbow_not_inward_*`, `elbow_under_shoulder_*`, `shoulder_quiet_*` results;
+- confirmation elbow flexion, supination, clavicle behaviour, timing, 85% grip, 0% corrective and 3° abduction remain unchanged;
+- hand/wrist deformation and strain result;
+- typecheck/test/build result;
+- final Stage 1 candidate filename + SHA-256 if changed;
 - explicit statement whether Stage 1 is frozen;
 - explicit statement that Stage 2 has not started.
 

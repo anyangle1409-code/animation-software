@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1: +4.3° upper-arm neutral rebase retained
+
+Executing `docs/REFERENCE_BODY_STAGE1_REBASE_TEST.md`. The rebase passes every acceptance criterion and is retained. Nothing promoted or merged, Stage 2 has not started, and the asset is unchanged — this is motion only, so the candidate remains `HomeGymPT_Male_STAGE1_CANDIDATE.glb` (`c0d4b690…1eefb`). Detail in the new `docs/REFERENCE_BODY_STAGE1_REBASE_RESULT.md`.
+
+Two poses, one channel: `startPose.upperarm_l/r.x` 0° → 4.3° and `peakPose.upperarm_l/r.x` 4° → 8.3°. Both moved by the same amount, which is what makes it a rebase of the neutral rather than a reshaping of the curve — sampled every 0.05 s across the rep on both arms, the **worst deviation from exactly +4.3° is 0.000000°**. Measured against its own baseline the curve is unchanged: 0° while the elbow leads, 1.5867° at 1.5 s, 4° for the squeeze, 0° on return.
+
+The behavioural test in `animation.test.ts` was generalised, not weakened: it now measures drift from the curl's own start-pose neutral instead of a hard-coded zero, keeps every tolerance (six decimals), and **adds** an assertion that the loop returns to that neutral on both sides.
+
+Clearance on the retained curve: Bottom and Return **+1.74/+1.82 mm with zero vertices inside**, and every other frame improved — Mid lift +214.9 mm (up 40), Peak +201.2 (up 12), Mid lower +240.4 (up 40). No new hip, pelvis or groin contact; bilateral mismatch ≤ 0.09 mm. `validateClip` reports zero violations and a closed loop, covering `elbow_not_inward_*`, `elbow_under_shoulder_*` and `shoulder_quiet_*` — the late absolute 8.3° is inside that envelope's [−5°, +10°], verified by the rule passing. Strain is identical across all five exercises bar the curl's P99 improving 1.4806 → 1.4759; hand/wrist rings, shoulder press and the renderer/exporter grip agreement (0.0000 mm) are unchanged. Typecheck and build clean; suite 292 passed, 1 skipped, 1 failed (pre-existing `strainReview` timeout). Visually, Bottom and Return are indistinguishable from the accepted curve and Mid lift/Peak read as the same strict curl.
+
+Twelve of thirteen Stage 1 sign-off criteria now pass. The one exception is the carried-over partial on the grip source of truth — the solver stays in canonical space because the pipeline resolves equipment before the character is posed — which `docs/REFERENCE_BODY_STAGE1_CONTACT_DIAGNOSTIC.md` explicitly accepted. Stage 1 has **not** been declared frozen on that basis; that call is the user's.
+
 ### Claude — 2026-09-16 — Stage 1 extended forward-clearance test (nothing retained)
 
 Executing the extended 3.5°/4.0°/4.3° authorisation. No asset or source change; Stage 1 is not frozen and Stage 2 has not started. Detail in the new `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE_EXTENDED.md`.

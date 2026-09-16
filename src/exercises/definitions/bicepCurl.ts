@@ -50,10 +50,19 @@ export const bicepCurl: ExerciseDefinition = {
       neck: { x: -2 },
       clavicle_l: { z: 5 },
       clavicle_r: { z: -5 },
-      // Upper arms hang vertically and just clear of the torso. On broad
-      // imported shoulders, extra abduction reads as a shrug at the bottom.
-      upperarm_l: { x: 0, z: -3 },
-      upperarm_r: { x: 0, z: 3 },
+      // Upper arms hang just clear of the torso. On broad imported shoulders
+      // extra abduction reads as a shrug at the bottom, so the clearance the
+      // hanging dumbbell needs is taken forward instead: its inboard plate sits
+      // on the front of the upper thigh, whose surface normal points forward,
+      // and sideways travel only slides the plate along that surface.
+      //
+      // The whole upper-arm flexion curve is rebased by 4.3° rather than only
+      // its start, so the relative motion is untouched — the arm is still quiet
+      // against its own baseline while the elbow leads, and still drifts 4°
+      // late for the squeeze. 4.3° is the smallest value measured to lift the
+      // plate clear (+1.74/+1.82 mm, nothing inside); 4.0° still buried it.
+      upperarm_l: { x: 4.3, z: -3 },
+      upperarm_r: { x: 4.3, z: 3 },
       hand_l: { z: 4 },
       hand_r: { z: -4 },
     },
@@ -69,8 +78,9 @@ export const bicepCurl: ExerciseDefinition = {
       clavicle_r: { z: -5 },
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
-      upperarm_l: { x: 4, z: -4 },
-      upperarm_r: { x: 4, z: 4 },
+      // 4° of drift above the rebased neutral, as before.
+      upperarm_l: { x: 8.3, z: -4 },
+      upperarm_r: { x: 8.3, z: 4 },
       hand_l: { z: 2 },
       hand_r: { z: -2 },
     },

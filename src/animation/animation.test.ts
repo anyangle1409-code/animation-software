@@ -65,18 +65,32 @@ describe('clip generation', () => {
   });
 
   it('lets the elbow lead while the upper arm stays quiet early in the curl', () => {
+    // Measured against the curl's own neutral rather than against zero. The
+    // behaviour being protected is relative — quiet while the elbow leads, then
+    // a delayed 4° drift for the squeeze, then back to neutral — and the
+    // neutral itself is 4.3° forward so the hanging dumbbell's inboard plate
+    // clears the front of the thigh at the bottom.
+    const baseline = bicepCurl.startPose.joints.upperarm_l?.x ?? 0;
+    const baselineRight = bicepCurl.startPose.joints.upperarm_r?.x ?? 0;
+    const drift = (sample: ReturnType<typeof sampleClip>, bone: 'upperarm_l' | 'upperarm_r') =>
+      toDeg(sample.pose.rotations[bone]?.x ?? 0) - (bone === 'upperarm_l' ? baseline : baselineRight);
+
     const halfwayUp = sampleClip(clip, 1);
     expect(toDeg(halfwayUp.pose.rotations.forearm_l?.x ?? 0)).toBeGreaterThan(50);
-    expect(toDeg(halfwayUp.pose.rotations.upperarm_l?.x ?? 0)).toBeCloseTo(0, 6);
-    expect(toDeg(halfwayUp.pose.rotations.upperarm_r?.x ?? 0)).toBeCloseTo(0, 6);
+    expect(drift(halfwayUp, 'upperarm_l')).toBeCloseTo(0, 6);
+    expect(drift(halfwayUp, 'upperarm_r')).toBeCloseTo(0, 6);
 
     const lateUp = sampleClip(clip, 1.5);
-    expect(toDeg(lateUp.pose.rotations.upperarm_l?.x ?? 0)).toBeGreaterThan(0);
-    expect(toDeg(lateUp.pose.rotations.upperarm_l?.x ?? 0)).toBeLessThan(4);
+    expect(drift(lateUp, 'upperarm_l')).toBeGreaterThan(0);
+    expect(drift(lateUp, 'upperarm_l')).toBeLessThan(4);
 
     const earlyDown = sampleClip(clip, 3.3);
     expect(toDeg(earlyDown.pose.rotations.forearm_l?.x ?? 0)).toBeLessThan(126);
-    expect(toDeg(earlyDown.pose.rotations.upperarm_l?.x ?? 0)).toBeCloseTo(4, 6);
+    expect(drift(earlyDown, 'upperarm_l')).toBeCloseTo(4, 6);
+
+    // The loop must come back to the same neutral it started from.
+    expect(drift(sampleClip(clip, 5.5), 'upperarm_l')).toBeCloseTo(0, 6);
+    expect(drift(sampleClip(clip, 5.5), 'upperarm_r')).toBeCloseTo(0, 6);
   });
 
   it('names phases across the timeline', () => {

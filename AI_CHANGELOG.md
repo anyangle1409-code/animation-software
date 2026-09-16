@@ -6,6 +6,14 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1 frozen; Phase 1 grip diagnosed, not locked
+
+Stage 1 is frozen as the Stage 2 baseline per `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`, recorded in the new `docs/REFERENCE_BODY_STAGE1_FROZEN.md`. Candidate `HomeGymPT_Male_STAGE1_CANDIDATE.glb` (`c0d4b690…1eefb`). Nothing promoted or merged.
+
+Phase 1, the reusable full-fist grip, is diagnosed but **not** locked and nothing was retained. Established: the handle intersects the hand at *every* placement and closure — searching the whole hand-local grid for the centre that minimises penetration while keeping ≥300° wrap gives a best of 6.76 mm over 29 vertices at (19.0, 55.0) mm, within 2 mm of the shipped offset, with only 4.61 mm over 2 vertices on the fingers and 344° of wrap. The binding constraint is the **palm**, which does not move with closure — which is why sweeping closure 0.45 → 0.85 leaves penetration unchanged. A handle sunk a few mm into the palm is normal; fingers through it is what reads badly, and only two finger vertices are. Closure does reach the character: canonical `middle_02_l.z` 38.00° → 80.75°, the character's bone moving 23 mm and a dominated surface vertex 41 mm.
+
+It is not locked because the measurement is not yet trustworthy: classifying vertices by dominant bone reports the middle phalanges 13.5 mm inside, classifying by summed finger weight reports 4.6 mm and two vertices, and those cannot both be right. An earlier largest-inscribed-cylinder solve returned 18.1 mm of clearance that the direct penetration measure contradicts, and a sweep of five per-joint finger profiles returned byte-identical results — a harness fault, not a finding. Tuning a reusable profile against a metric that changes answer with its own vertex filter would produce a false convergence, so the next step is to settle the classification and slab once, check the harness against a high-zoom render, and only then tune. Phases 2–5 have not been started.
+
 ### Claude — 2026-09-16 — Stage 1: +4.3° upper-arm neutral rebase retained
 
 Executing `docs/REFERENCE_BODY_STAGE1_REBASE_TEST.md`. The rebase passes every acceptance criterion and is retained. Nothing promoted or merged, Stage 2 has not started, and the asset is unchanged — this is motion only, so the candidate remains `HomeGymPT_Male_STAGE1_CANDIDATE.glb` (`c0d4b690…1eefb`). Detail in the new `docs/REFERENCE_BODY_STAGE1_REBASE_RESULT.md`.

@@ -12,8 +12,10 @@ was fixed (below). The garment ships over the promoted hand/wrist baseline.
 
 | File | Body | SHA-256 | Role |
 |---|---|---|---|
-| `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` | baseline v6 | `0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6` | **shipped default** |
-| `HomeGymPT_Male_BASELINE_v6.glb` | baseline v6 | `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` | body alone, for deformation review |
+| `HomeGymPT_Male_BASELINE_v7_SHORTS.glb` | baseline v7 | `a5bec8fac0ce014d2ce96bcdb7b4cb846cfc65ee92ef5364f08ca0f7a2976f66` | **shipped default** — F3 garment |
+| `HomeGymPT_Male_BASELINE_v7.glb` | baseline v7 | `54222af34402281351b60d8bc2fb66f7e3fdf77d2c03eb869b5581d03adb16c4` | body alone, for deformation review |
+| `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` | baseline v6 | `0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6` | retained fallback, untouched |
+| `HomeGymPT_Male_BASELINE_v6.glb` | baseline v6 | `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` | retained fallback, untouched |
 | `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` | proven v5 | `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f` | retained fallback, untouched |
 
 Review copies built on v5 during the review, kept for reference:
@@ -201,7 +203,13 @@ backdrop. Observations:
   shadow and a rear view shows almost nothing. `void` is rim-lit and is the only
   one that reaches the figure from behind. That cost this review a round.
 
-## Front-crotch refinement candidates — awaiting review
+## Front-crotch refinement candidates — F3 promoted 2026-09-16
+
+> F3 was approved and is now the production garment, shipped over the promoted
+> v7 body as `HomeGymPT_Male_BASELINE_v7_SHORTS.glb`. The garment in that file
+> is the approved F3 mesh **transplanted verbatim**, not rebuilt — see
+> *Reproducing F3* below. F1 and F2 remain unpromoted.
+
 
 The promoted garment's front still reads as too anatomical below the flattened
 panel. Three shorts-only candidates address it; the body is byte-identical to
@@ -242,6 +250,28 @@ affects.
 
 F3 was checked through curl peak, shoulder press, push-up bottom and the deepest
 squat, front and side. The deep-squat result is unchanged.
+
+### Reproducing F3
+
+The builder no longer reproduces F3 bit for bit from the parameters recorded in
+the file's own `asset.extras`. Rebuilding with exactly those values leaves 204
+of 1410 garment vertices in a different place, worst 6.6 mm, all of them in the
+front panel (x ±0.141, y 0.895–1.113, z 0.081–0.152) — the region the F
+candidates were iterating on. Only `SMOOTH` and `OUTWARD` are unrecorded, and
+neither explains it: sweeping `SMOOTH` ∈ {8, 12, 16} × `OUTWARD` ∈ {40, 70, 100,
+140} never reaches zero, and 12/70 is already the closest. The remaining
+difference is a change to `scratchpad/repair/shorts.mjs` itself that landed
+after F3 was written, and the scratchpad is not under version control, so it
+cannot be recovered.
+
+The promoted asset therefore carries the approved F3 garment transplanted onto
+the v7 body rather than a rebuild: `POSITION`, `NORMAL`, `JOINTS_0`,
+`WEIGHTS_0`, `COLOR_0` and the indices of the garment are all bit-identical to
+`SHORTS_FRONT_F3.glb`, and the body is bit-identical to `SHOULDER_B.glb`.
+Shipping the rebuild would have promoted something the review never saw.
+
+This is not a defect in either candidate, but it does mean the garment's build
+is currently reproducible only from the approved GLB.
 
 **The rear of the garment is untouched.** Comparing F3's garment vertex for
 vertex against the promoted shorts, every vertex behind the hip centre line

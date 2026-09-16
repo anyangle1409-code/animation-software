@@ -1,5 +1,12 @@
 # Shoulder slope candidates — review
 
+> **B promoted 2026-09-16.** Candidate B was approved and is now the production
+> body, shipped as `HomeGymPT_Male_BASELINE_v7.glb` (SHA-256
+> `54222af34402281351b60d8bc2fb66f7e3fdf77d2c03eb869b5581d03adb16c4`), whose
+> geometry is bit-identical to `SHOULDER_B.glb` — only `asset.extras` gained the
+> promotion chain. Baseline v6 and proven v5 are retained untouched. A and C
+> remain unpromoted.
+
 Body-shape candidates only. Nothing else moves: the skeleton, the skin weights,
 the inverse bind matrices, the topology, the UVs and the vertex colours are all
 byte-identical to promoted baseline v6, so arm length, retargeting, the exercise

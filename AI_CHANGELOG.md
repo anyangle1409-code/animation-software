@@ -6,6 +6,28 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — promote shoulder B as baseline v7 and F3 as the production shorts
+
+Both approved candidates promoted, separately, on `chatgpt/absolute-retarget-imports`. Nothing merged.
+
+| File | SHA-256 | Role |
+|---|---|---|
+| `HomeGymPT_Male_BASELINE_v7.glb` | `54222af34402281351b60d8bc2fb66f7e3fdf77d2c03eb869b5581d03adb16c4` | new baseline body — v6 + shoulder slope B |
+| `HomeGymPT_Male_BASELINE_v7_SHORTS.glb` | `a5bec8fac0ce014d2ce96bcdb7b4cb846cfc65ee92ef5364f08ca0f7a2976f66` | new shipped default — that body + garment F3 |
+| `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` | `0761fb048510a80ce4aa8835f05a0007697086dcc60cd46a1ddb6e8ccc47b0d6` | retained fallback, untouched |
+| `HomeGymPT_Male_BASELINE_v6.glb` | `46180b5741216f823e4f1e0030a06d65fff0f10bd1d7b132e4c36a0814a410ed` | retained fallback, untouched |
+| `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` | `dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f` | proven v5, retained fallback, untouched |
+
+Promotion chain: proven v5 (hand/wrist handover weights) → v6 (promoted baseline) → v7 (shoulder slope B), with garment F3 over v7. `src/character/bundled.ts` now points at the v7 pair; the GLBs stay out of git behind `public/characters/.gitignore`.
+
+**Verification, attribute by attribute.** The v7 body is bit-identical to the approved `SHOULDER_B.glb` in `POSITION`, `NORMAL`, `JOINTS_0`, `WEIGHTS_0`, `TEXCOORD_0`, `COLOR_0` and indices — only `asset.extras` gained the promotion chain. Against v6 it differs in `POSITION` and `NORMAL` alone, 884 vertices, worst 20.0 mm; `JOINTS_0`, `WEIGHTS_0`, `TEXCOORD_0`, `COLOR_0` and the indices are identical, the node graph is identical, and the inverse bind matrices differ by exactly 0. Curl motion, the 0% elbow corrective, the 85% grip closure, retargeting, the skeleton, the weights and the exercise definitions are therefore untouched. In the dressed file the body is bit-identical to v7 and the garment bit-identical to the approved F3.
+
+**The two changes do not interact.** Rebuilding the garment over the v7 body produces a mesh bit-identical to rebuilding it over v6 — the shoulder edit provably has no effect on the shorts. It cannot: the lowest vertex the shoulder edit touches sits at y 1.467 and the garment's waistband tops out at y 1.177, a clear 289.3 mm. The containment figures measured for F3 against v6 therefore carry over unchanged.
+
+**Unexpected difference, and what was done about it.** The garment builder no longer reproduces F3 bit for bit from the parameters recorded in F3's own `asset.extras`: 204 of 1410 vertices land elsewhere, worst 6.6 mm, all in the front panel the F candidates were iterating on. The two unrecorded knobs do not explain it — sweeping `SMOOTH` ∈ {8,12,16} × `OUTWARD` ∈ {40,70,100,140} never reaches zero and the recorded 12/70 is already closest — so `scratchpad/repair/shorts.mjs` itself changed after F3 was written, and the scratchpad is not under version control. Rather than ship a 6.6 mm variant the review never saw, the shipped garment is the approved F3 mesh transplanted onto the v7 body verbatim. Recorded in `docs/SHORTS_CANDIDATE_REVIEW.md` under *Reproducing F3*.
+
+**Validation.** Typecheck clean. Test suite 292 passed, 1 skipped, 1 failed — the pre-existing `strainReview` 5-second timeout, which reproduces with all changes stashed and is environmental. Studio smoke test: both v7 sources register, the dressed one loads as the default, and the figure renders with the new shoulder line and the F3 shorts (`scratchpad/refine/shots/V7_default_front.png`). Re-running the containment and strain harnesses would have measured geometry already proved bit-identical, so they were not repeated.
+
 ### Claude — 2026-09-16 — review of shorts F3 and shoulder B (nothing promoted)
 
 Independent visual review of the two candidates in the Studio, on the documented comparison poses. Both hold up; neither is promoted and no asset changed. Two findings, both recorded in the candidate docs.

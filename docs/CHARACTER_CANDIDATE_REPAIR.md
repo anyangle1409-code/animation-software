@@ -7,6 +7,12 @@
 > to the approved candidate). Proven v5 is retained untouched as the fallback and
 > still hashes to `dfb0fea6…`. Everything below describes how the repair was made
 > and measured; it is now history rather than a proposal.
+>
+> **Superseded 2026-09-16** by `HomeGymPT_Male_BASELINE_v7.glb`
+> (`54222af34402281351b60d8bc2fb66f7e3fdf77d2c03eb869b5581d03adb16c4`), which is
+> this same repair plus the approved shoulder slope. The weight repair described
+> below is carried into v7 unchanged — v7 differs from v6 only in bind-pose
+> `POSITION` and `NORMAL` over the shoulder girdle. v6 is retained untouched.
 
 The production path preserves the imported source skeleton, bind data, mesh, weights and proportions, then transfers the canonical anatomical pose onto that source rig. The current proven character remains `HomeGymPT_Male_HAND_REPAIR_CANDIDATE.glb` version 5. A separate review copy adds only metadata that opts into the new directional outer-elbow corrective; it does not replace the proven candidate.
 

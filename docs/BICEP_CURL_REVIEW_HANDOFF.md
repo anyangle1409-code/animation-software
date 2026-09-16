@@ -44,6 +44,19 @@ studio ships it dressed, as `HomeGymPT_Male_BASELINE_v6_SHORTS.glb`
 registered alongside it so deformation can still be reviewed on skin. Proven v5 is retained
 untouched as the fallback and still hashes to `dfb0fea6…`.
 
+### Promoted 2026-09-16 — baseline v7
+
+**The baseline character is now `HomeGymPT_Male_BASELINE_v7.glb`**, SHA-256
+`54222af34402281351b60d8bc2fb66f7e3fdf77d2c03eb869b5581d03adb16c4` — baseline v6 plus the
+approved shoulder-slope candidate B, geometry bit-identical to `SHOULDER_B.glb`. The studio
+ships it dressed, as `HomeGymPT_Male_BASELINE_v7_SHORTS.glb`
+(`a5bec8fac0ce014d2ce96bcdb7b4cb846cfc65ee92ef5364f08ca0f7a2976f66`), carrying the approved
+front-crotch garment F3. Promotion chain: proven v5 → v6 (hand/wrist weights) → v7 (shoulder
+slope B), garment F3. v6, v6 dressed and v5 are all retained untouched at the hashes above,
+and the skeleton, inverse binds, weights, topology, UVs and vertex colours are unchanged
+throughout, so the curl motion, the 0% elbow corrective, the 85% grip closure, retargeting
+and the exercise definitions are all untouched by this promotion.
+
 Neither promotion reopened the curl motion, the elbow corrective or global grip closure.
 
 ### What is still open
@@ -72,7 +85,7 @@ Neither promotion reopened the curl motion, the elbow corrective or global grip 
 ## CLAUDE — START HERE TOMORROW
 
 1. Read `AI_CHANGELOG.md` and this handoff before changing anything.
-2. Checkout `chatgpt/absolute-retarget-imports`. The character is now **baseline v6**, registered automatically from `public/characters/` — `HomeGymPT_Male_BASELINE_v6.glb` for deformation review, `HomeGymPT_Male_BASELINE_v6_SHORTS.glb` as the shipped default. Proven v5 (`dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`) is the retained fallback; use it for A/B, not as the working character.
+2. Checkout `chatgpt/absolute-retarget-imports`. The character is now **baseline v7**, registered automatically from `public/characters/` — `HomeGymPT_Male_BASELINE_v7.glb` for deformation review, `HomeGymPT_Male_BASELINE_v7_SHORTS.glb` as the shipped default. Baseline v6, v6 dressed and proven v5 (`dfb0fea61e4053412f4213a5904dab1ed06b416003faf4ef0eb13c27e8d5702f`) are the retained fallbacks; use them for A/B, not as the working character.
 3. Do **not** rewrite the curl motion. Its measured movement is mechanically clean, and it is now visually accepted as well.
 4. The elbow corrective stays at **0%** and global grip closure stays at **85%**. Both comparisons are complete; do not rerun them as new work.
 5. Do not revive rejected subdivision, broad shoulder smoothing, whole-dumbbell translation, destructive rebind, or direct Rigify-finger experiments.

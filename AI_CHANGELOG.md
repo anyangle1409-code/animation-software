@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Phase 2: Stage 2 shoulder widening measured and derived; canonical half backed out
+
+Result in `docs/REFERENCE_BODY_PHASE2_SHOULDER.md`. Nothing promoted or merged; tree green at 298 passed / 1 skipped / 0 failed.
+
+Re-verifying the overlay was worth it — the numbers differ from the old rig proposal, which measured a different row. Against the reference, the current Stage 1 candidate is inside 0.8% on every landmark except the shoulders, which are **−4.17% of height** short. (The ankle row's +3.16 is not a body finding: the reference's feet are cropped dark so its ankle measures near zero.)
+
+The transform translates the whole arm chain outward from `DEF-upper_arm.*`; nothing is scaled, so upper-arm and forearm lengths are untouched and the clavicle simply spans further. No mass is added — deltoid inflation is what the decision rules out. The response was measured rather than assumed, since the deltoid seam is shared with the torso: 2.090% per side overshoots to +0.36, and **1.924% per side (33.7 mm studio) lands the shoulder span exactly on the reference at Δ 0.00**. The span gains 1.083× the applied shift, slightly more than one for one rather than less as the old proposal expected, and the shoulder landmark's *height* mismatch independently falls from +2.6% to +0.4%.
+
+Candidate `HomeGymPT_Male_STAGE2_CANDIDATE.glb` (`173ef5df…09f4d`) built by the new `stage2_shoulder.mjs`: 3086 vertex moves, inverse binds rewritten for **48 of 160 joints** (the moved chain only), weights/joints/UVs/colours/indices/topology unchanged, earlier candidates untouched. Worst left/right difference 0.712 mm — traced to the asset's own weights, not the edit: the residual scales exactly with the shift (0.712/0.774 = 0.920 vs 1.924/2.090 = 0.921) and the arm weight mask itself differs by up to 0.0183 at mirrored pairs, which at 33.7 mm is 0.618 mm of it. Weights are preserved rather than papered over, per the constraint.
+
+**The canonical half is backed out.** Implemented as one constant over the clavicle tail and everything outboard, it widens the rig correctly but breaks nine tests. Three were genuinely re-derivable: the press/push-up/pull-up width envelopes are absolute spans whose own labels state shoulder-relative intent, so shifting them and the authored `hands.width` by the added 67.3 mm preserves it — the press then validates clean. The rest are not. Pull-up hands are locked to the rack's fixed `pullup_l/r` sockets, not `hands.width`, so `full_hang_l/r` still fail and fixing it means the grip must *track* shoulder width instead of being a property of the rack — a design change, not a re-derivation; push-up's `body_line` fails the same way through its fixed floor placement; and the procedural body silhouette and muscle bellies are built from the rig and need widening in step or a belly leaves the skin. Rather than rush contact re-derivations on push-up and pull-up, the canonical change is reverted with the derivation recorded, so applying it later is execution rather than re-derivation. Phases 3–5 not started.
+
 ### Claude — 2026-09-16 — Phase 1 LOCKED: 4.55° rebase reconciles the full-fist grip with thigh clearance
 
 Executing the final compatibility decision; result in `docs/REFERENCE_BODY_PHASE1_LOCKED.md`. Nothing promoted or merged.

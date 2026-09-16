@@ -234,6 +234,94 @@ If no proximal centre can achieve the target without unloading the palm, creatin
 
 Keep usage low. Do not promote or merge.
 
+## Final Phase 1 compatibility decision — keep the −9 mm full-fist target and buy back curl clearance
+
+The proximal handle-centre sweep has now isolated the final Phase 1 compatibility trade-off.
+
+Measured result:
+
+- **−9 mm along the handle-frame proximal/deeper-in-palm direction is the grip target to preserve**;
+- it is the smallest tested shift that visually reads as the user's approved true full-fist grip;
+- at −9 mm the palm remains loaded (about −2.54 mm), the thumb remains clear (about +1.18 mm), and no meaningful finger penetration remains;
+- 0 mm leaves the index standing off the bar;
+- −6 mm still leaves the lower fingers at the side of the handle;
+- −12 mm adds no meaningful visual benefit and spends almost all thumb clearance;
+- therefore do **not** compromise to −5 mm merely to preserve the old curl clearance: it still does not achieve the accepted grip and leaves essentially no useful clearance margin.
+
+The only blocker is curl Bottom/Return dumbbell-to-thigh clearance. The measured relationship is approximately:
+
+| proximal grip shift | Bottom / Return clearance |
+| --- | --- |
+| 0 mm | +1.74 / +1.82 mm |
+| −3 mm | +0.70 / +0.78 mm |
+| −5 mm | +0.09 / +0.17 mm |
+| −6 mm | −0.18 / −0.10 mm |
+| −9 mm | −0.88 / −0.80 mm |
+
+The full-fist target therefore needs only about **2.6 mm of world-space clearance bought back** relative to the current frozen curl.
+
+### Authorised final compatibility test
+
+Keep the **−9 mm proximal handle-centre target** and the existing close-until-contact solver unchanged.
+
+Test only a tiny additional neutral upper-arm flexion rebase using the same already-proven mechanism that created the frozen +4.3° Stage 1 rebase.
+
+Test exactly:
+
+- `startPose.upperarm_l/r.x = 4.5°`, with `peakPose.upperarm_l/r.x = 8.5°`;
+- `startPose.upperarm_l/r.x = 4.55°`, with `peakPose.upperarm_l/r.x = 8.55°`;
+- `startPose.upperarm_l/r.x = 4.6°`, with `peakPose.upperarm_l/r.x = 8.6°`.
+
+For every test value, move start and peak by the **same delta** so the existing relative late upper-arm drift remains exactly **4.0°**. Do not reshape the authored curve.
+
+Do not change:
+
+- elbow-flexion profile;
+- supination profile;
+- timing or easing;
+- clavicle behaviour;
+- abduction;
+- corrected forearm length;
+- Stage 1 shoulder state;
+- finger solver;
+- finger lengths/MCP placement;
+- topology or weights.
+
+### Measure for every value
+
+At minimum report:
+
+- curl Bottom/Return dumbbell-to-thigh clearance, both sides;
+- whether any dumbbell/thigh vertices are inside;
+- −9 mm grip palm loading;
+- finger penetration/contact;
+- thumb clearance/locking;
+- Bottom / Mid / Peak / Return technique and visual silhouette;
+- `shoulder_quiet_*`, `elbow_not_inward_*`, `elbow_under_shoulder_*` results;
+- bilateral symmetry;
+- renderer/exporter agreement;
+- shoulder-press grip/contact regression check.
+
+### Selection rule
+
+Retain the **smallest tested neutral rebase** that simultaneously:
+
+1. preserves the visually accepted −9 mm full-fist grip;
+2. gives genuine positive dumbbell-to-thigh clearance on both sides at Bottom and Return;
+3. preferably restores a practical margin around **+1.5 to +2.0 mm** rather than merely touching zero;
+4. keeps the late upper-arm motion exactly 4.0° relative to its own neutral;
+5. stays inside the existing shoulder-technique envelope;
+6. still reads visually as a strict natural curl with no forward reach or shoulder swing;
+7. introduces no new contact/deformation regression.
+
+Do not optimise beyond the smallest passing value.
+
+If one of 4.5° / 4.55° / 4.6° passes, retain **that rebase + the −9 mm handle centre + the current solved grip**, lock Phase 1, update the relevant result docs/changelog, then continue automatically with Phases 2–5 in `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`.
+
+If none of the three passes, stop and report the exact measured blocker. Do not move MCPs, alter finger lengths, change weights/topology, or invent a different curl path without a new decision.
+
+Keep usage low. Do not promote or merge.
+
 ## After Phase 1
 
 Once the reusable power grip passes and is retained, continue from **Phase 2** in `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`:

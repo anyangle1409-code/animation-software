@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Phase 1: proximal handle-centre sweep blocked by curl thigh clearance
+
+Executing the follow-on sweep in `docs/REFERENCE_BODY_PHASE1_GRIP_SOLVER.md`; result in `docs/REFERENCE_BODY_PHASE1_HANDLE_SWEEP.md`. Solver kept unchanged, **nothing new retained**, Phase 1 not locked, Stage 2 not started.
+
+Direction established by probing rather than assumed: in the handle's own frame the palm centroid sits at (−29.5, −85.2, −18.0) mm and the wrist at (−32.4, −109.2, −20.3) mm, so −y is both proximal and deeper into the palm. Along it the MCPs free steadily and together (index 30.4° → 52.5° → 60.8°), confirming the diagnosis that the handle sits against the knuckle row so the proximal phalanges reach it before the fingers can roll over it. The −x arm is rejected: it sinks the handle 6–9 mm into the palm and drives the thumb through it.
+
+Judged on a new three-quarter render with the bar as a real cylinder and lambert shading from triangle normals — the axial view cannot settle this, since a fingertip closing under the handle is at the far end and gets clipped. **−9 mm is the answer by the decision's selection rule**: the smallest shift that reads as a true fist, with all four digits curling under, palm loaded at −2.54 mm, thumb clear at +1.18 mm and nothing penetrating. 0 mm leaves the index standing off the bar, −6 mm leaves the lower fingers at the handle's side, −12 mm is no better in kind and spends the thumb down to −0.19 mm.
+
+**It cannot be taken.** −9 mm breaks the curl's dumbbell-to-thigh clearance, which is on the decision's own regression list. The trade is linear and the budget tiny: 1 mm of proximal shift costs about 0.29 mm of clearance, and Stage 1 left only 1.74 mm. Measured — 0 mm: +1.74/+1.82, nothing inside; −3 mm: +0.70/+0.78; −5 mm: +0.09/+0.17; −6 mm: −0.18/−0.10 with a vertex inside; −9 mm: −0.88/−0.80. The most that keeps the thigh clear is about −5 mm with no real margin, and −5 mm does not give the fist. A convincing grip needs ~9 mm proximal; the frozen curl allows ~5 mm. Both the curl motion and MCP placement are out of scope here, so this is the report rather than the lock.
+
+Retained: nothing new. `solvedGrip.ts` stays at the validated 0 mm solution from `899a9d9` and thigh clearance is re-measured back at +1.74/+1.82 mm. One unrelated fix kept: a template literal in `solvedGrip.test.ts` widened a bone name to `string` and failed `tsc` — the tests passed but the project typecheck did not, which shipped in `899a9d9`.
+
 ### Claude — 2026-09-16 — Phase 1: close-until-contact cylindrical grip solver, implemented but not locked
 
 Executing `docs/REFERENCE_BODY_PHASE1_GRIP_SOLVER.md`; result in `docs/REFERENCE_BODY_PHASE1_GRIP_SOLVER_RESULT.md`. Stage 2 not started, nothing promoted or merged.

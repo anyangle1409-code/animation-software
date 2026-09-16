@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { FINGERS } from '../rig/boneNames';
+import type { BoneName } from '../rig/boneNames';
 import { gripProfile } from '../exercises/gripProfiles';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { solvedGripFor } from './solvedGrip';
@@ -42,7 +43,7 @@ describe('solved cylindrical grip', () => {
     const closure = bicepCurl.hands.closure;
     for (const finger of FINGERS) {
       solved!.digits[finger].forEach((maximum, index) => {
-        const bone = canonicalSkeleton.byName.get(`${finger}_0${index + 1}_l`);
+        const bone = canonicalSkeleton.byName.get(`${finger}_0${index + 1}_l` as BoneName);
         expect(bone, `${finger}_0${index + 1}_l`).toBeDefined();
         const limit = bone!.definition.limits.z;
         const applied = maximum * closure;

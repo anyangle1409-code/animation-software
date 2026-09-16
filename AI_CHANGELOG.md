@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — reference body match candidate (nothing promoted)
+
+Front-reference fit of the production body against the supplied photograph, per `docs/REFERENCE_BODY_MATCH_HANDOFF.md`. One candidate, `HomeGymPT_Male_REFMATCH_CANDIDATE.glb` (`19f350ad…52f4c`) plus a dressed copy (`309e751d…8e7ff`); v7, v6 and proven v5 are untouched. Full detail and the evidence set in the new `docs/REFERENCE_BODY_MATCH.md`.
+
+3127 of 10839 vertices moved, worst 30.6 mm. `JOINTS_0`, `WEIGHTS_0`, `TEXCOORD_0`, `COLOR_0` and all 19304 triangles are bit-identical to v7, the node graph is identical and the inverse bind matrices differ by exactly 0 — only `POSITION` and `NORMAL` changed, so the skeleton, retargeting, the exercise definitions, the accepted curl motion, the 0% elbow corrective and the 85% grip closure cannot have moved.
+
+**The headline finding is that the biggest mismatch is skeletal and must not be sculpted away.** v7's shoulders are 3.45% of body height narrower than the reference's, and a silhouette-driven optimiser closes most of that with 30 mm of deltoid mass. Measuring the outer radius from each figure's *own* humerus axis shows why that is wrong: v7's arm is already the thicker of the two at every level. The span gap is where the arm attaches — the reference's humerus axis sits 10.64% of height from the midline, v7's at 8.23%, 2.41% per side. Matching it with geometry would need ~48 mm of radial mass per deltoid. Constraining the term to what the radii support costs 0.01 points of score, so the inflation was buying a number rather than a shape. Closing it properly means a wider clavicle and shoulder joint in the rig, which is a separate decision.
+
+What did change, each term set from a measurement: deltoid/upper arm −5 mm and forearm +7 mm radial (from the radii), thigh −5 mm and calf −6 mm (from the landmark table), a 26 mm shoulder-yoke drop, hips −5.5% and waist −8% lateral, and a +18% lower-ribcage flare — v7 holds 16.8% of height at the 68% band where the reference reaches 19.4%, which is the difference between a column and a V. Silhouette disagreement 17.10% → 15.86%; bands off by more than 1.5% of height, 29 of 49 → 23 of 49.
+
+Method notes, because three of them changed the answer: 2912 vertices carry more than four influences so the CPU skinner has to normalise exactly as three.js does (without it, vertices land 678 mm out); the bind pose is a wide A-pose, so horizontal bands measure an arm's length rather than its width and reported the arm growing toward the wrist; and stance moves a silhouette outline exactly the way thickness does, so arm hang and leg abduction are fitted before any shape is judged — doing that made a strong apparent leg-shape error disappear entirely.
+
+Strain is unchanged across all five exercise families (P95 within 0.009, P99 within 0.024, max within 0.025, over-3× counts identical bar a pull-up improvement from 146 to 126). Validated at ten poses against v7 on matched frames with no pinching, collapse or self-intersection. Typecheck and build clean; suite 292 passed, 1 skipped, 1 failed — the pre-existing `strainReview` timeout. The approved F3 garment transplants onto the candidate with the closest body-to-garment approach improving from 0.67 mm to 1.97 mm.
+
 ### Claude — 2026-09-16 — promote shoulder B as baseline v7 and F3 as the production shorts
 
 Both approved candidates promoted, separately, on `chatgpt/absolute-retarget-imports`. Nothing merged.

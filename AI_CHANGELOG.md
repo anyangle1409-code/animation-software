@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — rig review: measured skeletal proposal (investigation only, nothing implemented)
+
+Investigation for `docs/REFERENCE_BODY_RIG_REVIEW.md`. No asset written, nothing implemented, promoted or merged. Proposal in the new `docs/REFERENCE_BODY_RIG_PROPOSAL.md`, with the current-vs-proposed joint overlay at `scratchpad/reference-fit/07_joints_current_vs_proposed.png`.
+
+**Comparing the character against the canonical rig as well as the photograph splits the problem in two, and they want different decisions.** As a percentage of figure height: shoulder lateral offset is 9.71 on the canonical rig, 9.68 on the character, 10.64 on the reference; forearm length is 14.86 canonical, **10.93 character**, ~14.7 reference. The forearm is a defect — the character disagrees with the canonical rig, the reference and standard anthropometry (≈0.146H) by the same ~4% of height, so correcting it moves toward all three at once. The shoulder width is a style choice — the character and the canonical rig agree to within 0.03% of height, and only the reference is wider, so widening the character moves it *away* from the rig its animation is authored on unless that rig changes too.
+
+Proposal per side: lateral shift of the whole arm chain 1.83% of height (37.0 mm model, 32.1 mm studio) and forearm lengthening 3.92% (79.2 mm / 68.7 mm); upper arm unchanged at 0.17% off. Projected shoulder span 31.34% against the reference's 31.34%, shoulder line 60.5° → 55.5° against 53.3° — **so the slope reaches the reference within about 2° with no further yoke sculpting**, because the line was too steep from a short run rather than a wrong angle. Neutral wrist 54.68% → 51.07% against 49.3%; the remaining 1.77% is left rather than lengthening past the canonical rig's own proportion.
+
+The joints would *not* stay plausibly inside the current surface: the proposed shoulder lands at the outer edge of the deltoid and the proposed wrist inside the hand mesh, so the arm surface must translate and stretch with its bones and the inverse bind matrices be recomputed — weights and topology need not change. Downstream, the retarget path needs no code change (it writes orientations onto a preserved source skeleton) but every hand contact moves: curl, press, push-up and pull-up contacts and the dumbbell attachment all need recalibrating from their own rules rather than by hand, and the v5→v6 hand/wrist weight repair sits exactly in the stretched region and is the most likely regression. Recommendation: take the forearm correction, hold the shoulder widening for a separate decision that includes `src/rig/humanoid.ts`.
+
 ### Claude — 2026-09-16 — reference body match candidate (nothing promoted)
 
 Front-reference fit of the production body against the supplied photograph, per `docs/REFERENCE_BODY_MATCH_HANDOFF.md`. One candidate, `HomeGymPT_Male_REFMATCH_CANDIDATE.glb` (`19f350ad…52f4c`) plus a dressed copy (`309e751d…8e7ff`); v7, v6 and proven v5 are untouched. Full detail and the evidence set in the new `docs/REFERENCE_BODY_MATCH.md`.

@@ -85,6 +85,16 @@ frames.
   further and still reads as an athletic build rather than a dropped shoulder.
   **B is recommended** as the smallest that clearly resolves it.
 
+**Correction to the push-up check.** The first pass recorded the push-up as
+checked, but its captures are worthless: the crop used for every exercise frames
+the upper body of a *standing* figure, and the prone push-up pose falls outside
+it, so `XB_pushUp_*` contains floor and nothing else. Re-captured on the full
+viewport (`PB0_pushUpFull_{left,front}`, `PBB_pushUpFull_{left,front}`, sheeted
+as `SHEET_shoulder_pushup`), the pose is clean on B: the trapezius runs into the
+deltoid with a rounded corner under load, and there is no pinch, crease or
+collapse at the loaded shoulder. The strain figures above were always
+independent of this and are unaffected.
+
 ## Known limits
 
 - The judgement is a silhouette judgement, and the band-by-band height metric

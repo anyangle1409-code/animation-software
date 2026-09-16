@@ -243,6 +243,13 @@ affects.
 F3 was checked through curl peak, shoulder press, push-up bottom and the deepest
 squat, front and side. The deep-squat result is unchanged.
 
+**The rear of the garment is untouched.** Comparing F3's garment vertex for
+vertex against the promoted shorts, every vertex behind the hip centre line
+(z < 0) is bit-identical — 0 moved — and all 416 that move are in front, within
+y 0.818 to 1.148, worst 20.2 mm. The deepest rear squat view that was explicitly
+confirmed before promoting the garment therefore carries over to F3 unchanged,
+and does not need re-reviewing for this candidate.
+
 ## Known issues and risks
 
 - The −15 mm deep-squat reading at the front of the pelvis, above. Unchanged by

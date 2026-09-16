@@ -6,6 +6,14 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — review of shorts F3 and shoulder B (nothing promoted)
+
+Independent visual review of the two candidates in the Studio, on the documented comparison poses. Both hold up; neither is promoted and no asset changed. Two findings, both recorded in the candidate docs.
+
+**The shoulder-B push-up check was not evidenced.** `docs/SHOULDER_SLOPE_CANDIDATES.md` listed the push-up among the validated poses, but the crop used by the exercise capture script frames the upper body of a standing figure and the prone pose falls outside it — the saved images are floor. Re-captured on the full viewport: the pose is clean, the trapezius meets the deltoid in a rounded corner under load, and there is no pinch or collapse at the loaded shoulder. The recorded strain numbers never depended on those images and are unchanged.
+
+**F3 does not touch the back of the garment.** Vertex for vertex against the promoted shorts, every garment vertex behind the hip centre line is bit-identical; all 416 that move are in front, between y 0.818 and 1.148, worst 20.2 mm. The rear deep-squat view confirmed before the garment was promoted therefore carries over to F3 without re-review.
+
 ### Claude — 2026-09-15 — front-crotch and shoulder-slope candidates (nothing promoted)
 
 Two refinement tracks on promoted baseline v6, kept deliberately separate so each can be reviewed without the other: the shorts candidates carry an untouched v6 body, and the shoulder candidates carry no garment. Neither is promoted, no GLB is committed, and v5 still hashes to `dfb0fea6…`. Full detail in `docs/SHORTS_CANDIDATE_REVIEW.md` and the new `docs/SHOULDER_SLOPE_CANDIDATES.md`.

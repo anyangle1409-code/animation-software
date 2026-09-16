@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1 extended forward-clearance test (nothing retained)
+
+Executing the extended 3.5°/4.0°/4.3° authorisation. No asset or source change; Stage 1 is not frozen and Stage 2 has not started. Detail in the new `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE_EXTENDED.md`.
+
+**4.3° clears the contact**: +1.74/+1.82 mm with zero vertices inside, against −6.60/−6.53 at 3.5° and −1.40/−1.33 at 4.0°. The full-range sweep is *not* monotonic — 2.5° measured −3.87 mm last round but 3.5° measures −6.60 — so the forward sweep samples the thigh's surface relief just as the abduction sweep did, and the earlier "3.89 mm per degree" was a smooth local patch rather than a law. A neighbourhood micro-test (4.1° −0.36, 4.2° +0.69, 4.3° +1.74, 4.4° +2.79) shows a clean ~1.05 mm per 0.1° gradient, so 4.3°'s positive result is real rather than perched on a bump. 4.2° clears but only barely, which the retention rule excludes, making 4.3° the smallest acceptable authorised value. Mid lift, Peak and Mid lower stay clear and improve; Peak is unchanged to the last digit. `validateClip` reports zero violations and a closed loop at every value. The matched Bottom renders at 0/3.5/4.0/4.3° are near indistinguishable — no forward reach.
+
+**It was still not retained, because the authorised mechanism cannot produce a Bottom/Return-only change here.** The upper-arm flexion channel is driven from the start pose with a 0.55 s delay, so setting the start value holds it through the whole concentric: with 4.3° applied the channel reads 4.300° at 0 s, 4.300° at 1.0 s, 4.000° at 2.0 s and back to 4.300° — flat across the rep. The accepted curl's own character, the upper arm held at exactly 0° through the first second while the elbow leads, disappears. That is caught by the committed assertion `animation.test.ts > "lets the elbow lead while the upper arm stays quiet early in the curl"`, which requires 0° at t = 1.0 s to six decimals. The guardrails forbid weakening tests, and that test is the accepted motion written down.
+
+Three routes remain, all needing a decision: add a keyframe returning the channel to 0° by t ≈ 1.0 s (clears, but introduces a 4.3° upper-arm sweep in the phase the curl deliberately keeps quiet); accept the flattened channel (the upper arm moves *less* overall, 4.3 → 4.0 → 4.3 instead of 0 → 4 → 0, but it retires an accepted property of the curl and the test guarding it); or clear the contact outside the curl pose, where the only remaining levers are dumbbell dimensions and grip orientation, both locked.
+
 ### Claude — 2026-09-16 — Stage 1 forward-clearance sweep (nothing retained)
 
 Executing `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE.md`. No asset or source change; Stage 1 is not frozen and Stage 2 has not started. Table in the new `docs/REFERENCE_BODY_STAGE1_FORWARD_CLEARANCE_RESULT.md`.

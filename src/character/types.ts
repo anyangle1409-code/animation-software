@@ -1,6 +1,7 @@
 import type { Bone, KeyframeTrack, Matrix4, Object3D, SkinnedMesh, Skeleton as ThreeSkeleton } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
+import type { GripKind } from '../exercises/types';
 import type { Pose } from '../rig/types';
 import type { ResolvedContact } from '../constraints/types';
 
@@ -47,6 +48,13 @@ export interface DeformationContext {
 /** Per-frame data a proportion-aware imported character may need. */
 export interface CharacterPoseContext {
   contacts?: ResolvedContact[];
+  /**
+   * What the hands are holding this frame, for a character that carries a
+   * solved grip. The canonical pose already has the authored profile baked
+   * into its finger rotations; this says which family and how closed, so the
+   * solved rows can be substituted at the character's own proportions.
+   */
+  grip?: { kind: GripKind; closure: number };
 }
 
 /**
@@ -137,6 +145,11 @@ export interface CharacterBuild {
    * which is the palm contact point floor and bar locks aim at.
    */
   gripOffset?(side: Side): { x: number; y: number; z: number };
+  /**
+   * Key into the solved-grip table in `./solvedGrip`. A character without one
+   * poses its fingers straight from the authored profile, as before.
+   */
+  gripSolutionId?: string;
 
   /**
    * Animation tracks for this character's own skeleton, when the canonical

@@ -1,6 +1,7 @@
 import type { BoneName } from '../rig/boneNames';
 import type { Pose, Vec3 } from '../rig/types';
 import type { EasingKind, PhaseJointTiming } from '../exercises/types';
+import type { HandSpec } from '../exercises/types';
 import type { EffectorLock } from '../constraints/types';
 import type { EquipmentInstance } from '../equipment/types';
 import type { IKChainId } from '../ik/types';
@@ -45,6 +46,13 @@ export interface StudioClip {
   keyframes: Keyframe[];
   locks: EffectorLock[];
   equipment: EquipmentInstance[];
+  /**
+   * The grip the clip was generated with. The finger rotations in the poses
+   * already carry it, but a character with its own solved grip needs to know
+   * which family and how closed, to substitute its own angles for the
+   * authored ones.
+   */
+  hands?: HandSpec;
 }
 
 export interface ClipSample {

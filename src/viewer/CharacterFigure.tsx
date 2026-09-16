@@ -37,6 +37,9 @@ export function CharacterFigure({
 }: CharacterFigureProps) {
   const scene = useSceneState();
   const involvement = useStudio((state) => state.document.exercise.muscles);
+  // What the hands are holding, so a character with its own solved grip can
+  // substitute it for the authored profile baked into the canonical pose.
+  const hands = useStudio((state) => state.document.exercise.hands);
   const sourceId = useCharacter((state) => state.sourceId);
   const build = useCharacterBuild(sourceId, variant);
   const correctivesPreview = useCharacter((state) => state.correctivesPreview);
@@ -64,7 +67,10 @@ export function CharacterFigure({
   useFrame(() => {
     const pose = scene.frame?.pose;
     if (!pose || !build) return;
-    applyCharacterPose(build, skeleton, pose, scene.evaluation, { contacts: scene.frame?.contacts });
+    applyCharacterPose(build, skeleton, pose, scene.evaluation, {
+      contacts: scene.frame?.contacts,
+      grip: { kind: hands.grip, closure: hands.closure },
+    });
     if (!correctivesPreview) suppressCorrectives(build.meshes);
   });
 

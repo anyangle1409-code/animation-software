@@ -88,6 +88,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     keyframes,
     locks: exercise.locks.map((lock) => ({ ...lock })),
     equipment: exercise.equipment.instances.map((instance) => ({ ...instance })),
+    hands: { ...exercise.hands },
   };
 }
 

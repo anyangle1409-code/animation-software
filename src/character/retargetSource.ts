@@ -252,6 +252,16 @@ export function retargetedCharacterSource(
 
         handMatrix,
         ...(gripOffset ? { gripOffset } : {}),
+        // Which solved grip this character may use. A solved grip is measured
+        // on one body's fingers, so it is only offered to a character that
+        // also carries its own handle offsets — those were measured on the
+        // same hand. A different body sets its own id in the GLB and is
+        // solved in its own right rather than inheriting this one.
+        ...(scene.userData?.homeGymPT?.gripSolutionId
+          ? { gripSolutionId: String(scene.userData.homeGymPT.gripSolutionId) }
+          : handleOffsets
+            ? { gripSolutionId: 'homeGymPTMale' }
+            : {}),
 
         sampler: () => combineSamplers(retargetSampler(binding, drive), deformation?.sampler?.() ?? null),
 

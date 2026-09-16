@@ -34,7 +34,10 @@ function applyAtTime(
 ): void {
   const frame = resolveFrame(rig, evaluation, clip, time);
   evaluation.apply(frame.pose);
-  applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
+  applyCharacterPose(character, rig, frame.pose, evaluation, {
+    contacts: frame.contacts,
+    ...(clip.hands ? { grip: { kind: clip.hands.grip, closure: clip.hands.closure } } : {}),
+  });
   if (!correctivesEnabled) suppressCorrectives(character.meshes);
 }
 

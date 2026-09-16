@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-16 — Stage 1 curl contact root cause (diagnostic only)
+
+Per `docs/REFERENCE_BODY_STAGE1_CONTACT_DIAGNOSTIC.md`. No asset, pose, rule or source file changed; Stage 1 is not frozen and Stage 2 has not started. Full table and the diagnostic image in the new `docs/REFERENCE_BODY_STAGE1_CONTACT_ROOTCAUSE.md`.
+
+**The control axis and the collision normal are orthogonal.** The inboard plate is a 48 mm-radius disc hanging in front of and across the thigh, and the contact is on the thigh's **front** surface, whose normal is ≈ +z. Shoulder abduction translates the weight along +x, tangent to that surface, so the plate slides along the thigh instead of lifting off it. The signature is that the closest body point tracks the plate laterally almost one for one: plate centre x 103 → 195 mm, closest point x 111 → 199 mm.
+
+That also rules out the other candidates. Not a cancelled abduction — it transmits exactly as a shoulder rotation should (shoulder Δx 0.0 at every angle, elbow +10.4 → +41.4 mm, grip +22.9 → +91.6 mm, all monotonic) and the grip centre's distance to the body rises monotonically 31.0 → 83.3 mm. **My earlier "the abduction is absorbed" reading was wrong**: it compared closest hand-mesh to closest leg-mesh vertices, a pair free to sit anywhere on either surface, instead of tracking the grip centre. Not the hip or pelvis either — the closest vertex is dominated by `DEF-thigh.*` at every angle, at y 729–778 mm. And not an equipment-orientation error: the handle axis rotates by only 1.9–7.6° across the whole sweep.
+
+**Why the sweep was non-monotonic:** the depth samples the thigh's local relief as the plate slides across it. At 6° and 7° the closest point is the *same vertex* (x 138, y 733, z 66) while the plate moves 11 mm further out, so the reading falls to −5.4 mm; at 8° the contact jumps to a new vertex at x 162 and it returns to −13 mm. The 7° figure was one bump's position relative to the disc, which is exactly why retaining it would have been wrong.
+
+**Minimum clearance required: about 14 mm of forward translation at the grip (20 mm with margin), in +z, not +x** — penetration at the retained 3° pose is 13.59/13.73 mm along a contact normal of ≈ +z. No lateral movement clears it, because the thigh's frontal surface spans the whole lateral range the arm can reach. Return is identical to Bottom to the last digit; the two sides mirror within 0.6 mm.
+
+Single smallest next change to test, **not applied**: `startPose.upperarm_l/r.x` from 0° to ~2° — shoulder flexion rather than abduction, one scalar on one channel, worth ~19 mm forward at the grip, and already inside the authored `shoulder_quiet_*` envelope of [−5°, +10°]. The earlier Part C authorisation was for abduction, and this shows lateral is the wrong axis, so it needs its own approval.
+
 ### Claude — 2026-09-16 — Stage 1: grip single source of truth; curl-bottom clearance still open
 
 Executing `docs/REFERENCE_BODY_STAGE1_SIGNOFF_DECISION.md`. Stage 2 has not started; nothing promoted or merged. Candidate `HomeGymPT_Male_STAGE1_CANDIDATE.glb` (`c0d4b690…1eefb`) — geometry, skeleton, weights and inverse binds identical to the forearm candidate, one scene-extras entry added. Detail in the new `docs/REFERENCE_BODY_STAGE1_GRIP_SOT.md`.

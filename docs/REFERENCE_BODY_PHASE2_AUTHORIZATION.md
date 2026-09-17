@@ -4,7 +4,7 @@
 **Starting HEAD:** `03c77730567da8d2861ca94d5b7febbb7927831b`  
 **Phase 1 is locked. Phase 2 derivation is accepted. Do not promote or merge.**
 
-This file resolves the two explicit decisions that blocked execution of the already-derived Stage 2 shoulder widening. The derivation itself is complete; the next step is implementation and validation, not re-derivation.
+This file resolves the explicit decisions needed to execute and finish the already-derived Stage 2 shoulder widening. The derivation itself is complete; the next step is implementation and validation, not re-derivation.
 
 ## Locked Phase 1 state
 
@@ -37,13 +37,32 @@ Current finding:
 
 - every major landmark is within about **0.8% of figure height** of the supplied reference except the shoulders;
 - current shoulder span is about **4.17% of figure height too narrow**;
-- widening must be achieved by translating the arm/shoulder chain outward from `DEF-upper_arm.*`, not by scaling arm lengths and not by adding fake deltoid mass;
-- measured response shows **1.924% of figure height per side** is the retained target because it lands shoulder span on the reference;
+- widening must be achieved structurally through the clavicle/shoulder/arm chain, not by scaling arm lengths and not by adding fake deltoid mass;
+- measured response shows **1.924% of figure height per side** is the retained target direction;
 - the shoulder landmark vertical mismatch independently improves from about **+2.6% to +0.4%**;
-- the already-built character-side candidate from the derivation used 48/160 inverse binds changed, with skin weights, UVs and topology unchanged;
 - the residual left/right mismatch is inherited from the source asset's own asymmetric weights and is not a reason to deform one side differently.
 
-Use the recorded derivation as the execution source. Re-check the numbers after application, but do not re-open the search unless the actual retained geometry differs from the measured response.
+The first character-side implementation was proven invalid because translating `DEF-upper_arm.*` sideways changed the clavicle-tail direction without updating the clavicle's stored rest orientation, and a matrix-order error compounded it. That method is superseded by the corrected bind representation below.
+
+## Proven Stage 2 bind/retarget fix
+
+The corrected character widening is now the retained implementation method:
+
+- clavicle head remains fixed;
+- clavicle tail moves to the widened shoulder position;
+- clavicle stored rest orientation rotates by the exact tail-direction change, about **10.147°**, symmetrically;
+- affected arm descendants follow the new clavicle tail;
+- matrix composition uses the verified glTF/row-major order established against an independent reader;
+- the tool re-reads its own output and verifies achieved placement;
+- clavicle heads remain fixed to **0.00 mm**;
+- arm chains move purely laterally by about **38.82 mm** on both sides;
+- achieved placement is exact to numerical noise;
+- import height/scale remain identical to the locked Stage 1 character;
+- bones outside the arm chain remain stationary under the same canonical poses;
+- locked Phase 1 grip contact remains identical to the digit on the widened rig;
+- curl Bottom/Return thigh clearance improves rather than regresses.
+
+Do **not** reopen or replace this bind fix unless a later retained change proves an actual regression. The character and canonical rig must always be validated as a matched pair.
 
 ---
 
@@ -105,19 +124,79 @@ The aim is:
 
 ---
 
+# Decision 3 — local containment-proxy armpit bridge is authorised
+
+After the corrected bind/retarget implementation and full Stage 2 re-application, one small containment failure remains:
+
+- `pectoralis_l` reaches about **7.84 mm outside** the containment skin in push-up against the existing **7 mm** allowance;
+- latissimus reaches about **7.34 mm outside**;
+- both exit nearest `spine_03`, at the lateral chest/armpit transition;
+- the visible chest must not widen and the moved deltoid/upper-arm section must remain at the new shoulder position;
+- permitted muscle-placement/taper/flatten/outward adjustments were measured and do not solve the problem cleanly;
+- the residual is therefore treated as a **local gap in the containment proxy coverage**, not evidence that the visible torso or muscle bellies need more mass.
+
+### Authorised fix
+
+Open the containment/profile skin's coverage **locally and symmetrically** through the lateral chest → armpit → moved deltoid/upper-arm transition.
+
+This is a proxy/coverage correction only. It is **not** permission to change the rendered body silhouette or make the character bulkier.
+
+Use the smallest smooth bridge that:
+
+- brings both pectoralis and latissimus comfortably back inside the existing **7 mm** allowance;
+- gives a small sensible safety margin rather than targeting a fragile 6.99 mm pass;
+- remains local to the shoulder/armpit transition around the `spine_03` lateral chest edge;
+- is left/right symmetric;
+- joins the fixed chest region to the widened shoulder/deltoid region without a discontinuity;
+- does not create excess containment volume elsewhere.
+
+### Hard constraints
+
+Do **not**:
+
+- widen the visible chest or ribcage;
+- change waist width;
+- scale the pectoralis or latissimus belly;
+- inflate deltoid mass;
+- change the accepted Stage 2 shoulder span merely to satisfy containment;
+- alter Phase 1 grip/curl work;
+- relax or globally raise the **7 mm** containment threshold;
+- use a broad torso-wide proxy expansion when a local armpit bridge solves the measured gap.
+
+The expected correction is small — the present overages are under 1 mm beyond the existing allowance — so prefer the minimum smooth local proxy adjustment that clears both muscles with margin.
+
+### Stage 2 completion rule after this fix
+
+After applying the local containment bridge, rerun focused Stage 2 validation and then the full suite once.
+
+Stage 2 may be locked when:
+
+- `pectoralis_l` and latissimus both pass the existing containment limit;
+- all four exercises still validate cleanly;
+- the matched Stage 2 character/canonical-rig bind equivalence remains intact;
+- shoulder span and silhouette remain unchanged from the accepted Stage 2 result;
+- Phase 1 grip/contact and curl mechanics remain preserved;
+- typecheck/build pass;
+- the full suite is green apart from any clearly pre-existing environmental skip/timeout already documented;
+- no new structural regression remains.
+
+If those conditions pass, **lock Stage 2 and continue automatically to Phases 3–5**. Do not stop for another approval merely because the proxy bridge was the last Stage 2 blocker.
+
+---
+
 # Stage 2 execution sequence
 
 1. Start from the locked Phase 1 state.
-2. Apply the accepted **1.924% H per-side** shoulder/arm-chain lateral shift to the character candidate using the previously derived method.
+2. Apply the accepted Stage 2 shoulder widening using the **corrected clavicle-rest/bind method** above; do not return to the broken rigid child-translation method.
 3. Widen the matching canonical rig shoulder/clavicle chain by the same intended anatomical change.
 4. Recompute only the inverse binds/rest data genuinely affected by the moved chain.
 5. Keep upper-arm and forearm lengths unchanged.
 6. Keep skin weights/topology unchanged unless a fresh, local, objective failure proves a correction is necessary.
-7. Re-derive the explicitly shoulder-relative press/push-up/pull-up widths.
-8. Move pull-up equipment sockets/contact anchors with the shoulder-derived grip target where required so the hands remain on the physical bar.
-9. Update only shoulder-dependent procedural-body and muscle anchors/placements so the widened rig stays inside the body.
+7. Re-apply the already-derived explicitly shoulder-relative press/push-up/pull-up widths, rack sockets and measured pull-up hang correction without re-deriving their values unless current geometry proves a mismatch.
+8. Re-apply the already-derived 2-hop shoulder surface ramp and shoulder-dependent procedural-body/muscle anchor changes.
+9. Apply Decision 3's smallest local containment-proxy armpit bridge only if the recorded pectoralis/latissimus residual still reproduces.
 10. Preserve the locked full-fist grip solver and Phase 1 curl mechanics.
-11. Produce a separate Stage 2 candidate; do not overwrite fallbacks.
+11. Produce/retain a separate Stage 2 candidate; do not overwrite fallbacks.
 12. Run focused Stage 2 validation first; run the expensive full suite only on the retained candidate.
 
 ## Stage 2 acceptance

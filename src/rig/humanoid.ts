@@ -369,7 +369,38 @@ function buildFingerBones(): BoneDefinition[] {
   return bones;
 }
 
-const LEFT_ALL = [...LEFT_BONES, ...buildFingerBones()];
+/**
+ * Stage 2 shoulder widening, metres outboard per side.
+ *
+ * The canonical rig was narrower across the shoulders than the supplied
+ * physique reference by 4.17% of figure height. Half of that per side, at
+ * RIG_HEIGHT (1.75, declared below this point), is this. The character's own
+ * arm chain is translated by the same fraction of its own height, so the two
+ * stay in step — a grip or a contact solved on one is solved on the other.
+ *
+ * The whole arm translates; nothing is scaled. Upper-arm and forearm lengths
+ * are untouched, and the clavicle simply spans further, which is what a wider
+ * shoulder is. No mass is added: widening by inflating the deltoid was
+ * considered and rejected.
+ */
+export const SHOULDER_WIDENING = 0.01924 * 1.75;
+
+/** The chain that moves: everything outboard of the sternoclavicular joint. */
+const widened = (bones: BoneDefinition[]): BoneDefinition[] =>
+  bones.map((bone) => {
+    if (bone.name === 'clavicle_l') {
+      // Its head stays at the sternum; only the tail follows the arm.
+      return { ...bone, tail: vec3(bone.tail.x - SHOULDER_WIDENING, bone.tail.y, bone.tail.z) };
+    }
+    if (!/^(upperarm|forearm|hand|thumb|index|middle|ring|pinky)/.test(bone.name)) return bone;
+    return {
+      ...bone,
+      head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z),
+      tail: vec3(bone.tail.x - SHOULDER_WIDENING, bone.tail.y, bone.tail.z),
+    };
+  });
+
+const LEFT_ALL = widened([...LEFT_BONES, ...buildFingerBones()]);
 
 /** Every bone of the canonical rig, parents always before their children. */
 export const HUMANOID_BONES: BoneDefinition[] = [

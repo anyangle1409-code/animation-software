@@ -1,3 +1,4 @@
+import { SHOULDER_WIDENING } from '../rig/humanoid';
 import type { EquipmentDefinition, EquipmentInstance, EquipmentKind, EquipmentSocket } from './types';
 import { vec3 } from '../rig/types';
 
@@ -107,8 +108,12 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
       // quarter turn: +Z is the thumb direction, and both thumbs point inwards.
       // The grips sit 8 cm below the bar itself, because an arm chain solves for
       // the wrist and a hand wrapped over a bar carries it at the knuckles.
-      socket('pullup_l', 'Pull-up bar (L)', [-0.24, 1.97, 0], 'grip', [0, 90, 0]),
-      socket('pullup_r', 'Pull-up bar (R)', [0.24, 1.97, 0], 'grip', [0, -90, 0]),
+      // The grip spacing is shoulder-relative, not a fixed property of the
+      // rack: the exercise asks for a grip "just wider than the shoulders", so
+      // the sockets carry the Stage 2 shoulder widening. The bar is 1.3 m wide
+      // with uprights at +/-0.62, so +/-0.274 is comfortably on it.
+      socket('pullup_l', 'Pull-up bar (L)', [-(0.24 + SHOULDER_WIDENING), 1.97, 0], 'grip', [0, 90, 0]),
+      socket('pullup_r', 'Pull-up bar (R)', [0.24 + SHOULDER_WIDENING, 1.97, 0], 'grip', [0, -90, 0]),
     ],
   },
   cable_handle: {

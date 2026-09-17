@@ -18,7 +18,13 @@ import { vec3 } from '../../rig/types';
  */
 
 /** Root placement at each end of the repetition. */
-const HANG = { y: -0.055, z: -0.06 };
+// The hang height is not free: the body hangs from the bar, so its height
+// follows from arm length and where the shoulder sits. Stage 2's longer
+// clavicle lifts the shoulder 8.1 mm in this pose, which shortened
+// shoulder-to-bar to 549 mm against a 560 mm arm and bent the elbow to 22.8
+// degrees. Dropping the root by that same 8.1 mm restores the dead hang.
+// Arm lengths are unchanged.
+const HANG = { y: -0.0631, z: -0.06 };
 const TOP = { y: 0.5, z: -0.2 };
 
 /**
@@ -118,7 +124,7 @@ export const pullUp: ExerciseDefinition = {
 
   tempo: { eccentric: 2, pauseStretched: 0.5, concentric: 1.4, pauseContracted: 0.5 },
 
-  hands: { grip: 'bar', orientation: 'pronated', closure: 0.95, width: 0.48 },
+  hands: { grip: 'bar', orientation: 'pronated', closure: 0.95, width: 0.547 },
   feet: { width: 0.2, toeOut: 0, planted: false },
 
   locks: [
@@ -174,8 +180,8 @@ export const pullUp: ExerciseDefinition = {
       from: { bone: 'hand_l' },
       to: { bone: 'hand_r' },
       axis: 'x',
-      min: 0.42,
-      max: 0.56,
+      min: 0.487,
+      max: 0.627,
     },
     {
       kind: 'relativePosition',

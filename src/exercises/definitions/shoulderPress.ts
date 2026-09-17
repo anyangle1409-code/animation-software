@@ -83,7 +83,7 @@ export const shoulderPress: ExerciseDefinition = {
 
   tempo: { eccentric: 2, pauseStretched: 0.5, concentric: 1.6, pauseContracted: 0.6 },
 
-  hands: { grip: 'dumbbell', orientation: 'pronated', closure: 0.85, width: 0.96 },
+  hands: { grip: 'dumbbell', orientation: 'pronated', closure: 0.85, width: 1.027 },
   feet: { width: 0.32, toeOut: 6, planted: true },
 
   locks: [
@@ -271,8 +271,8 @@ export const shoulderPress: ExerciseDefinition = {
       from: { bone: 'hand_l' },
       to: { bone: 'hand_r' },
       axis: 'x',
-      min: 0.45,
-      max: 1.05,
+      min: 0.517,
+      max: 1.117,
     },
     {
       kind: 'symmetry',

@@ -1,3 +1,4 @@
+import { SHOULDER_WIDENING } from '../rig/humanoid';
 import { Matrix4, Quaternion, Vector3 } from 'three';
 import type { BoneName, Side } from '../rig/boneNames';
 import { PoseEvaluation } from '../rig/skeleton';
@@ -116,7 +117,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   // they follow the girdle when it shrugs and the arm when it lifts.
   {
     group: 'deltoid_anterior',
-    origin: at('clavicle_l', 0.01, 0.1, 0.022),
+    origin: at('clavicle_l', 0.01, 0.1 + SHOULDER_WIDENING, 0.022),
     insertion: at('upperarm_l', 0.006, 0.13, 0.024),
     thickness: 0.036,
     bulge: 0.3,
@@ -125,8 +126,13 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   {
     group: 'deltoid_medial',
     // Lateral acromion to deltoid tuberosity. The previous line sat too far
-    // inside the shoulder and actually lengthened as the arm abducted.
-    origin: at('clavicle_l', 0.03, 0.15, 0),
+    // inside the shoulder and actually lengthened as the arm abducted — and it
+    // did so again under Stage 2 until the origin followed: all three deltoid
+    // origins sit a fixed distance from the clavicle's LATERAL end, which moved
+    // outward with the shoulder, so the along-bone offset carries the widening.
+    // Measured, deltoid_medial went back to lengthening (1.0045) in its own
+    // abduction before this. The anchors translate; no belly is scaled.
+    origin: at('clavicle_l', 0.03, 0.15 + SHOULDER_WIDENING, 0),
     insertion: at('upperarm_l', 0.05, 0.11, 0),
     thickness: 0.042,
     bulge: 0.3,
@@ -137,7 +143,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   },
   {
     group: 'deltoid_posterior',
-    origin: at('clavicle_l', 0.008, 0.11, -0.024),
+    origin: at('clavicle_l', 0.008, 0.11 + SHOULDER_WIDENING, -0.024),
     insertion: at('upperarm_l', 0.006, 0.13, -0.026),
     thickness: 0.036,
     bulge: 0.3,
@@ -151,9 +157,16 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // via point on the proximal humerus supplies the wrap needed for the same
     // trainer-level pectoral group to shorten in both flexion and adduction,
     // without pulling the rendered belly through the armpit in a pull-up.
-    origin: at('spine_03', -0.045, 0.04, 0.082),
+    // Stage 2 moved the humerus 33.7 mm outward and the pectoral and lat
+    // insertions rode out with it while the armpit skin did not follow that
+    // far, leaving both bellies outside the surface in a push-up — 10.0 mm and
+    // 7.5 mm against a 7 mm allowance. Both are brought onto the humerus shaft,
+    // a 10 mm translation smaller than the widening itself and where the
+    // pectoralis major actually inserts. Nothing is scaled: thickness, bulge,
+    // flatten and spread are untouched and the functional via points unmoved.
+    origin: at('spine_03', -0.065, 0.04, 0.082),
     via: [at('upperarm_l', 0.02, 0.02, -0.02)],
-    insertion: at('upperarm_l', 0.014, 0.028, 0.012),
+    insertion: at('upperarm_l', 0.004, 0.028, 0.012),
     thickness: 0.032,
     bulge: 0.3,
     flatten: 0.6,
@@ -164,9 +177,9 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // Preserve the proven visible lat line and use a hidden proximal-humerus
     // via point for functional length. This keeps pull-up containment unchanged
     // while making both shoulder extension and adduction shorten the path.
-    origin: at('spine_01', -0.055, 0.02, -0.06),
+    origin: at('spine_01', -0.07, 0.02, -0.06),
     via: [at('upperarm_l', 0.04, 0.04, 0.04)],
-    insertion: at('upperarm_l', 0.014, 0.028, -0.014),
+    insertion: at('upperarm_l', 0.004, 0.028, -0.014),
     thickness: 0.032,
     bulge: 0.25,
     flatten: 0.55,

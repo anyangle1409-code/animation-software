@@ -1,3 +1,4 @@
+import { SHOULDER_WIDENING } from '../rig/humanoid';
 import { describe, expect, it } from 'vitest';
 import { Vector3 } from 'three';
 import { canonicalSkeleton } from '../rig/skeleton';
@@ -87,9 +88,11 @@ describe('body mesh', () => {
     // arm then looks bolted on rather than attached.
     expect(deltoid.high - shoulderJoint).toBeLessThan(0.05);
     expect(deltoid.high).toBeGreaterThan(shoulderJoint - 0.01);
-    // Shoulder width, deltoid to deltoid.
-    expect(deltoid.halfWidth * 2).toBeGreaterThan(0.4);
-    expect(deltoid.halfWidth * 2).toBeLessThan(0.48);
+    // Shoulder width, deltoid to deltoid. Both ends carry the Stage 2 widening:
+    // the envelope is shoulder-relative by definition, and the reference span it
+    // is chasing is 0.2969 of height, about 520 mm.
+    expect(deltoid.halfWidth * 2).toBeGreaterThan(0.4 + SHOULDER_WIDENING * 2);
+    expect(deltoid.halfWidth * 2).toBeLessThan(0.48 + SHOULDER_WIDENING * 2);
   });
 
   it('encloses a body-sized volume, wound outwards', () => {

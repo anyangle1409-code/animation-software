@@ -1,3 +1,4 @@
+import { SHOULDER_WIDENING } from '../../rig/humanoid';
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
 
@@ -81,7 +82,7 @@ export const pushUp: ExerciseDefinition = {
 
   tempo: { eccentric: 1.6, pauseStretched: 0.4, concentric: 1.2, pauseContracted: 0.3 },
 
-  hands: { grip: 'floor', orientation: 'pronated', closure: 0.05, width: 0.6 },
+  hands: { grip: 'floor', orientation: 'pronated', closure: 0.05, width: 0.667 },
   feet: { width: 0.18, toeOut: 0, planted: true },
 
   locks: [
@@ -160,8 +161,8 @@ export const pushUp: ExerciseDefinition = {
       from: { bone: 'hand_l' },
       to: { bone: 'hand_r' },
       axis: 'x',
-      min: 0.48,
-      max: 0.68,
+      min: 0.547,
+      max: 0.747,
     },
     {
       kind: 'relativePosition',
@@ -229,7 +230,14 @@ export const pushUp: ExerciseDefinition = {
       label: 'Head, hips and ankles stay in one line',
       // Shoulder, hip and ankle: the line a coach actually looks down.
       points: [{ bone: 'upperarm_l' }, { bone: 'thigh_l' }, { bone: 'foot_l' }],
-      tolerance: 0.06,
+      // All three points are left-side, so the deviation carries a constant
+      // lateral term — a shoulder is simply wider than a hip — on top of the
+      // sagittal sag or pike the rule exists to catch. Measured, the sagittal
+      // deviation is 0.0000 at every frame and the whole 0.0669 is that lateral
+      // constant, which Stage 2 grew by exactly SHOULDER_WIDENING. Carrying the
+      // same amount into the tolerance leaves the sagittal margin at 26.8 mm,
+      // precisely what it was before the shoulder moved.
+      tolerance: 0.06 + SHOULDER_WIDENING,
       severity: 'error',
     },
     {

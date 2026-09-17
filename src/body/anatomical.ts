@@ -7,6 +7,7 @@ import { canonicalSkeleton } from '../rig/skeleton';
 import { ANATOMICAL_COLOURS } from './anatomicalColours';
 import { ANATOMICAL_INDICES } from './anatomicalIndices';
 import { ANATOMICAL_TRIANGLE_COUNT, ANATOMICAL_VERTEX_COUNT } from './anatomicalMeta';
+import { SHOULDER_WIDENING } from '../rig/humanoid';
 import { ANATOMICAL_POSITIONS } from './anatomicalPositions';
 import { ANATOMICAL_SKIN_INDICES } from './anatomicalSkinIndices';
 import { ANATOMICAL_SKIN_WEIGHTS } from './anatomicalSkinWeights';
@@ -42,14 +43,115 @@ export interface AnatomicalOptions {
   shoulder?: boolean;
 }
 
+/**
+ * Carry the Stage 2 shoulder widening into the baked surface.
+ *
+ * The bones moved outward; this surface is baked against where they used to be,
+ * so without this the arm hangs off a shoulder no longer under it — the
+ * measured symptom was upper-arm girth collapsing from 97 mm to 30 mm, because
+ * girth is read as the arm's own width beyond the shoulder head.
+ *
+ * The transition has to spread over several edges. The shift is 33.7 mm and the
+ * median shoulder edge is 7 mm, so any mask that turns over within one edge
+ * moves its two ends past each other and inverts it: shifting by raw skin
+ * weight took the worst edge to 5.5% of its rest length against a 10% floor.
+ * Averaging the weight field was worse still and bled the shift up into the
+ * neck. So the field is built by graph distance instead — vertices the arm owns
+ * outright are held at 1, and the rest ramps to 0 over HOPS edges of the
+ * surface, smooth by construction rather than by averaging.
+ *
+ * The band is local to the shoulder seam and decays to nothing well before the
+ * chest, waist and ribcage the reference already places within tolerance, so
+ * the torso is not widened and no belly is scaled. Measured at HOPS = 2 the
+ * shoulder's worst and tightest edge strains both come out BETTER than leaving
+ * the surface unshifted (5.215 against 5.308, and 0.1580 against 0.1324).
+ *
+ * Applied at build time rather than re-baked: the encoded arrays stay as
+ * authored and one constant drives the rig, the character and this surface.
+ */
+function widenShoulders(
+  rig: Skeleton,
+  position: BufferAttribute,
+  joints: BufferAttribute,
+  weights: BufferAttribute,
+  index: BufferAttribute,
+): void {
+  const arm = /^(upperarm|forearm|hand|thumb|index|middle|ring|pinky)_(l|r)$|^(thumb|index|middle|ring|pinky)_0[123]_(l|r)$/;
+  const side = rig.bones.map((bone) => (arm.test(bone.name) ? (bone.name.endsWith('_l') ? -1 : 1) : 0));
+  const share = new Float32Array(position.count);
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    let signed = 0;
+    let total = 0;
+    for (let lane = 0; lane < 4; lane += 1) {
+      const weight = weights.getComponent(vertex, lane);
+      if (weight <= 0) continue;
+      total += weight;
+      signed += weight * (side[joints.getComponent(vertex, lane)] ?? 0);
+    }
+    share[vertex] = total > 0 ? signed / total : 0;
+  }
+
+  const HOPS = 2;
+  const neighbours: number[][] = Array.from({ length: position.count }, () => []);
+  for (let triangle = 0; triangle < index.count; triangle += 3) {
+    const a = index.getX(triangle);
+    const b = index.getX(triangle + 1);
+    const c = index.getX(triangle + 2);
+    neighbours[a].push(b, c);
+    neighbours[b].push(a, c);
+    neighbours[c].push(a, b);
+  }
+  const field = new Float32Array(position.count);
+  for (const sign of [-1, 1]) {
+    const hop = new Int32Array(position.count).fill(-1);
+    let frontier: number[] = [];
+    for (let vertex = 0; vertex < position.count; vertex += 1) {
+      if (share[vertex] * sign < 0.95) continue;
+      hop[vertex] = 0;
+      frontier.push(vertex);
+    }
+    for (let distance = 1; distance <= HOPS && frontier.length; distance += 1) {
+      const next: number[] = [];
+      for (const vertex of frontier)
+        for (const other of neighbours[vertex]) {
+          if (hop[other] !== -1) continue;
+          // Never ramp across the body's midline into the other side.
+          if (position.getX(other) * sign < 0) continue;
+          hop[other] = distance;
+          next.push(other);
+        }
+      frontier = next;
+    }
+    for (let vertex = 0; vertex < position.count; vertex += 1) {
+      if (hop[vertex] < 0) continue;
+      const t = 1 - hop[vertex] / (HOPS + 1);
+      // Smoothstep, so the band meets the arm and the torso with zero gradient.
+      field[vertex] += sign * t * t * (3 - 2 * t);
+    }
+  }
+
+  for (let vertex = 0; vertex < position.count; vertex += 1) {
+    if (field[vertex] === 0) continue;
+    position.setX(vertex, position.getX(vertex) + field[vertex] * SHOULDER_WIDENING);
+  }
+}
+
 export function buildAnatomicalBodyGeometry(
-  _rig: Skeleton = canonicalSkeleton,
+  rig: Skeleton = canonicalSkeleton,
   options: AnatomicalOptions = {},
 ): BodyGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(float32(ANATOMICAL_POSITIONS), 3));
   geometry.setAttribute('skinIndex', new BufferAttribute(uint16(ANATOMICAL_SKIN_INDICES), 4));
   geometry.setAttribute('skinWeight', new BufferAttribute(float32(ANATOMICAL_SKIN_WEIGHTS), 4));
+  geometry.setIndex(new BufferAttribute(uint16(ANATOMICAL_INDICES), 1));
+  widenShoulders(
+    rig,
+    geometry.getAttribute('position') as BufferAttribute,
+    geometry.getAttribute('skinIndex') as BufferAttribute,
+    geometry.getAttribute('skinWeight') as BufferAttribute,
+    geometry.getIndex() as BufferAttribute,
+  );
   geometry.setAttribute('color', new BufferAttribute(bytes(ANATOMICAL_COLOURS), 3, true));
   geometry.setIndex(new BufferAttribute(uint16(ANATOMICAL_INDICES), 1));
   // The source binds everything above 1.50 m in its own space to the head alone.
@@ -61,22 +163,22 @@ export function buildAnatomicalBodyGeometry(
   if (repair && options.head !== false) {
     // The head first: it only moves head-owned surface, and the neck repair
     // below reads the source's head binding, which this does not touch.
-    geometry.userData.head = shapeHead(geometry, _rig);
+    geometry.userData.head = shapeHead(geometry, rig);
   }
   if (repair && options.neck !== false) {
     // Positions before weights: the ledge is found from the source's own head
     // binding, which the weight repair is about to rewrite.
-    geometry.userData.ledge = correctNeckLedge(geometry, _rig);
+    geometry.userData.ledge = correctNeckLedge(geometry, rig);
   }
   if (repair && options.fins !== false) {
     geometry.userData.fins = smoothShoulderFins(geometry);
   }
   if (repair && options.neck !== false) {
-    geometry.userData.neck = correctNeckWeights(geometry, _rig);
+    geometry.userData.neck = correctNeckWeights(geometry, rig);
   }
   if (repair && options.shoulder !== false) {
-    geometry.userData.armpit = correctArmpitWeights(geometry, _rig);
-    buildArmpitCorrectives(geometry, _rig);
+    geometry.userData.armpit = correctArmpitWeights(geometry, rig);
+    buildArmpitCorrectives(geometry, rig);
   }
   geometry.computeVertexNormals();
   geometry.computeBoundingBox();

@@ -71,3 +71,31 @@ If all checks pass, report the promotion as **delivered** and ready for a separa
 If metadata preservation unexpectedly changes body geometry, skeleton, weights, grip behaviour, clothing fit or any locked exercise result beyond the intended metadata activation, stop and report rather than compensating elsewhere.
 
 **Do not merge. Do not modify `retargetSource.ts` to infer the grip solution.**
+
+---
+
+# User-priority scope after this delivery fix
+
+Once the dressed-default metadata fix above is complete and validated, **do not continue into any other exercise work**. The immediate product goal is deliberately narrower:
+
+1. **Finish and visually approve the bicep curl on the real bundled dressed v8 character.**
+   - Run the actual app/rendered production character, not a generated approximation.
+   - Review one complete Bottom → Mid → Peak → Return loop.
+   - Provide/inspect full-body plus close-up views of the hands/dumbbells, elbows and shoulders.
+   - If anything still looks wrong, work only on genuine bicep-curl visual/mechanical issues until the curl is accepted.
+2. **Then refine the character/model appearance to the user's preferred look.**
+   - Model appearance work comes before expanding the exercise library.
+   - Preserve the accepted curl mechanics/grip while changing the model.
+   - Use objective checks to make sure model edits do not regress the accepted curl.
+3. **Freeze the accepted bicep curl and final model together.**
+4. **Only after the user explicitly approves both should work start on another exercise.**
+
+Until that approval:
+
+- do not start new squat, shoulder-press, push-up or pull-up improvement work;
+- do not use remaining time/usage to broaden the exercise set;
+- do not merge merely because production validation is green;
+- keep existing non-curl exercises as regression checks only when required to prove a shared change did not break them;
+- keep usage low and prefer focused diagnostics over broad exploratory work.
+
+The next visible milestone after the metadata delivery fix is therefore **a trustworthy working preview of the actual dressed v8 bicep curl**, followed by model refinement — not another exercise.

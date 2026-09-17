@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Promotion: the reference body is now the bundled production character
+
+Record: `REFERENCE_BODY_PROMOTION.md`. Not merged.
+
+The two verified final candidates are now `public/characters/HomeGymPT_Male_BASELINE_v8.glb` and `..._v8_SHORTS.glb`, copied byte-for-byte and re-hashed in place: `951c2c39…963ee0` and `841b01d6…306d72`, both matching the recorded values exactly. The code change is only the two URLs in `bundled.ts` plus the drop-in note in `public/characters/.gitignore`; v7 and v6 stay as unreferenced A/B fallbacks.
+
+Validated on the files in `public/characters/` rather than the candidates. The bundled body reproduces every locked figure: renderer vs exporter 0.0000 mm, grip contacts identical to Phase 1 (−0.46/−0.36/−0.22/−0.11 mm zero inside, thumb +1.18, palm −2.54, wrap 252°), forearm twist 9.1° → 21.0° with the hand at 57.7°, girth bins unchanged, push-up wrist 81.18° with a 0.0001° bilateral mismatch, and dumbbell-to-thigh clearance +4.68/+4.79 mm with nothing inside. Typecheck clean, build clean, full suite 298 passed / 1 skipped / 0 failed.
+
+**One production-only finding, reported rather than fixed.** The dressed file is the app's default character, and it does not carry `handleGripOffsets` — the extra that `retargetSource.ts` requires before it wires up a solved grip. Measured on the bundled files, the bare body reports `gripSolutionId=homeGymPTMale` and a grip offset of (0.0174, 0.0452, 0.0083), the authored 0.0542 less the locked −9 mm handle centre; the dressed default reports neither. So the thigh clearance Phase 1 was partly built to fix reads +4.68/+4.79 mm on the bare body and −16.66/−16.62 mm with 8 vertices inside on the shipped default.
+
+That is not a regression: v7 dressed is −16.56 mm on the same 8 vertices, so the shipped default moves 0.1 mm, which is the residual of the Stage 2 shoulder shift with no solved grip to absorb it. Everything else is equal or better and the bare body goes from a 16.6 mm penetration to 4.7 mm of clearance, so the promotion stands. But the Phase 1 grip work currently reaches only the deformation-review character, not the one the app shows.
+
+It is fixable rather than a rebuild because the body inside the dressed file is the same body — mesh `Mike_Freeman`, 10,839 vertices, worst vertex difference 0.0000 mm, same 160 bones — so the offsets solved on those fingers are valid there; `dress.mjs` rebuilds scene extras from a template and drops the key. I did not take either remedy: carrying the key through `dress.mjs` produces new bytes and the instruction was to verify the promoted files still match the recorded hashes, and declaring the solution in code is an executable change beyond promotion that loosens a deliberate rule. Rebuilding the dressed asset is the better of the two, with its new hash and thigh clearance re-verified.
+
+Also noted: there is no v8 `.correspondence.json`. Nothing in `src/` reads it, so production is unaffected, but the `clothing`, `waistband` and `clothdebug` diagnostics cannot run against the promoted dressed file until `shorts.mjs` regenerates one.
+
 ### Claude — 2026-09-17 — Final acceptance close-out: both carried-forward items accepted
 
 Executes `REFERENCE_BODY_FINAL_ACCEPTANCE_DECISION.md`. Documentation only — no executable code or asset touched, so the full suite was not re-run. Nothing promoted, nothing merged.

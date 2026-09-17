@@ -17,8 +17,8 @@ import { retargetedCharacterSource } from './retargetSource';
  * default when it finds nothing. A missing asset is not an error.
  */
 
-export const BASELINE_CHARACTER_URL = 'characters/HomeGymPT_Male_BASELINE_v7.glb';
-export const DRESSED_CHARACTER_URL = 'characters/HomeGymPT_Male_BASELINE_v7_SHORTS.glb';
+export const BASELINE_CHARACTER_URL = 'characters/HomeGymPT_Male_BASELINE_v8.glb';
+export const DRESSED_CHARACTER_URL = 'characters/HomeGymPT_Male_BASELINE_v8_SHORTS.glb';
 
 async function present(url: string): Promise<boolean> {
   try {

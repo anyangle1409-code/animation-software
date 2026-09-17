@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Model phase B item 7: skin and material
+
+Record: `MODEL_PHASE_B_SKIN_MATERIAL.md`. Candidates only, production v8 byte-identical, not merged. Nothing else in the refinement list touched.
+
+**The body primitive carried no material at all**, so glTF's default applied — base colour white, metallic 1.0, roughness 1.0 — which is precisely the dull grey mannequin look. The shorts, which do carry a material, read as believable fabric in the same frame; that contrast was the tell. `COLOR_0` existed but was uniformly white and contributing nothing.
+
+The change had to be split to match the renderer's own design. `CharacterFigure` sets `material.color` from its `colour` prop on every build and says so — "multiplies the body's own vertex colours; white leaves them as authored" — so a `baseColorFactor` would be overwritten at load. Tone therefore goes in `COLOR_0`; roughness and metalness, which the app never touches, go on a new `HomeGymPT_Skin` material (metallic 0, roughness 0.5).
+
+Tone is linear 0.5704/0.3186/0.2140, sRGB 0.780/0.600/0.500. Subtle anatomical definition comes from the mesh's own surface rather than geometry: the discrete mean-curvature sign, scaled by local edge length, multiplying the tone over a 0.860–1.050 range. Neighbours are gathered by position so a UV seam cannot leave a bright line down an arm.
+
+Verified material-and-colour only: on the dressed candidate every body attribute, both UV sets, joints, weights and indices are identical, COLOR_0 differs in 32,517 components (10,839 × RGB, alpha untouched), and the **shorts mesh and its material are byte-identical**. COLOR_0 matches between bare and dressed, so the pair stays equivalent. Candidates `d71b70bc…c18f2be` and `8d07100f…6f08f27ca`; the Phase A and production assets remain as rollback.
+
+**A capture bug worth recording.** The first before/after came out pixel-identical — rgb(105,105,105) on the chest in both — and sampling pixels rather than trusting the screenshots is what caught it. Every import registers under the same `'import'` source id and the preserve branch of `registerImport` does not bump `deformationRevision`, so a second import into one session reuses the cached build and never renders. That is app behaviour, not the asset; I did not change it, since it is neither a curl problem nor part of this item. Capturing each asset in its own session fixed it: the chest then reads rgb(178,142,121) after, and the face goes from rgb(0,0,0) — the metallic default rendered it black — to rgb(81,55,42).
+
+Captures use the `light` backdrop, the same key/ambient rig as the working studio on a neutral ground, with no selection gizmo in any frame.
+
+One judgement call left open: at close range roughness 0.5 gives a slightly wet sheen across the clavicles and shoulder tops. Raising it to about 0.6 would dull them. Left at 0.5 because the reference board's own photographs show pronounced studio sheen there, so it is defensible against the target — but it is one number to change. Roughness and tone are single values for the whole body; per-region variation needs textures, which is a later item.
+
 ### Claude — 2026-09-17 — Model phase A: forearm/wrist/hand faceting repaired on candidates
 
 Record: `MODEL_PHASE_A_SURFACE_REPAIR.md`. Candidates only, production v8 byte-identical and kept as rollback, not merged.

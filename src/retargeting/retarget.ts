@@ -57,7 +57,53 @@ export interface RetargetBinding {
   /** Virtual attachments drive disconnected exported branches without rebinding. */
   attachments: Map<Bone, { parent: Bone; offset: Vector3 }>;
   followers: { bone: Bone; parent: Bone; offset: Matrix4 }[];
+  /**
+   * Deform twist helpers that must carry a share of their chain's axial twist.
+   *
+   * A Rigify deform forearm is two bones so that pronation winds gradually from
+   * elbow to wrist. A connected helper otherwise just rides its parent, and
+   * measured on the push-up that is exactly what happened: `DEF-forearmL` and
+   * `DEF-forearmL001` both read 9.1 degrees of long-axis twist at the bottom
+   * while the hand read 57.7, so the whole 48.6 degree step landed in the wrist
+   * and the forearm surface collapsed into a flattened strap instead of winding.
+   *
+   * Each entry gives the helper a fraction of the axial twist between its
+   * driven parent and the distal bone. The distal bone is driven afterwards in
+   * canonical order and its world orientation is set absolutely, so its final
+   * transform is unchanged by this — only the surface between them winds.
+   */
+  twistHelpers: TwistHelper[];
 }
+
+export interface TwistHelper {
+  bone: Bone;
+  /** The driven bone above it, whose twist it shares. */
+  proximal: BoneName;
+  /** The driven bone below it, which defines the twist to share. */
+  distal: BoneName;
+  /** Authored local rotation, which the share is composed onto. */
+  restLocal: Quaternion;
+  /** The helper's own long axis, in its local frame. */
+  axis: Vector3;
+  /** Distal-relative-to-proximal orientation in the bind pose. */
+  restRelative: Quaternion;
+  fraction: number;
+}
+
+/**
+ * How much of the forearm's axial twist its deform helper carries.
+ *
+ * Swept at 0.25, 0.50 and 0.75. The helper's measured twist scales linearly
+ * with it (15.0, 21.0, 26.9 degrees at push-up Bottom against 9.1 on the
+ * proximal bone) and the hand's final orientation is 57.7 degrees in every
+ * case, so the choice is about the gradient alone.
+ *
+ * 0.5 is retained: it is the anatomical convention for a two-bone deform
+ * forearm, and it measurably improves the distal taper toward the bind profile
+ * (the outer girth bins go 35.6 and 30.5 mm at share 0 to 37.4 and 32.9 mm,
+ * against 33.5 mm in the bind pose) without the larger deviation 0.75 adds.
+ */
+export const FOREARM_TWIST_SHARE = 0.5;
 
 /** Recognised Rigify detail branches whose constraints are absent in glTF. */
 function detailParent(name: string): BoneName | null {
@@ -125,6 +171,41 @@ export function bindRetarget(
     });
   }
 
+  // Twist helpers: a source bone sitting between a driven bone and its driven
+  // child, which the export leaves as a passive rider. Only the forearm is
+  // wired up — the upper arm has one too, but nothing measured requires it, and
+  // the decision is explicit that this stays evidence-driven.
+  const twistHelpers: TwistHelper[] = [];
+  for (const side of ['l', 'r'] as const) {
+    const proximal = `forearm_${side}` as BoneName;
+    const distal = `hand_${side}` as BoneName;
+    const parentName = mapping.bones[proximal];
+    const childName = mapping.bones[distal];
+    if (!parentName || !childName) continue;
+    const parentBone = character.bones.get(parentName);
+    const childBone = character.bones.get(childName);
+    if (!parentBone || !childBone) continue;
+    // The helper is the child's parent, when that is not the driven bone itself.
+    const helper = childBone.parent as Bone | null;
+    if (!helper || helper === parentBone || helper.parent !== parentBone) continue;
+    parentBone.updateWorldMatrix(true, true);
+    const axis = childBone.getWorldPosition(new Vector3());
+    helper.worldToLocal(axis);
+    if (axis.lengthSq() < 1e-12) continue;
+    const proximalRest = character.restWorld.get(parentName);
+    const distalRest = character.restWorld.get(childName);
+    if (!proximalRest || !distalRest) continue;
+    twistHelpers.push({
+      bone: helper,
+      proximal,
+      distal,
+      restLocal: helper.quaternion.clone(),
+      axis: axis.normalize(),
+      restRelative: proximalRest.clone().invert().multiply(distalRest),
+      fraction: FOREARM_TWIST_SHARE,
+    });
+  }
+
   const hipsName = mapping.bones.pelvis;
   const hips = hipsName ? character.bones.get(hipsName) ?? null : null;
   const hipsRest =
@@ -174,7 +255,7 @@ export function bindRetarget(
     hips,
     hipsRest,
     restRootWorld: character.root.matrixWorld.clone(),
-    attachments, followers, mirrorSides,
+    attachments, followers, twistHelpers, mirrorSides,
     scale: character.height / RIG_HEIGHT,
     evaluation: new PoseEvaluation(rig),
     worldAlignment: new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward),
@@ -186,6 +267,12 @@ const scratchDesiredWorld = new Quaternion();
 const scratchParentWorld = new Quaternion();
 const scratchLocal = new Quaternion();
 const scratchInverseCorrection = new Quaternion();
+const scratchTwistFrame = new Quaternion();
+const scratchTwistCorrection = new Quaternion();
+const scratchTwistDelta = new Quaternion();
+const scratchTwistRest = new Quaternion();
+const scratchTwistShare = new Quaternion();
+const scratchTwistVector = new Vector3();
 
 /**
  * Apply the canonical pose as an absolute anatomical target.
@@ -236,6 +323,7 @@ export function applyRetarget(
   // converted to local space. `bones` follows canonical hierarchy order, and
   // updating each driven bone also refreshes passive source bones below it.
   binding.character.root.updateMatrixWorld(true);
+  const byCanonicalEntry = new Map(binding.bones.map((entry) => [entry.canonical, entry]));
   for (const entry of binding.bones) {
     scratchDesiredFrame.copy(binding.evaluation.quaternion(entry.canonical));
     // S R S reflects a rotation into an opposite side convention while keeping
@@ -271,6 +359,40 @@ export function applyRetarget(
 
     entry.bone.quaternion.copy(scratchLocal);
     entry.bone.updateMatrixWorld(true);
+
+    // Hand a share of this chain's axial twist to its deform helper, before the
+    // distal bone is driven. The distal bone's world orientation is set
+    // absolutely a few iterations later, against whatever its parent has become,
+    // so this winds the surface between them without moving the hand.
+    for (const helper of binding.twistHelpers) {
+      if (helper.proximal !== entry.canonical) continue;
+      const distal = byCanonicalEntry.get(helper.distal);
+      if (!distal) continue;
+      scratchTwistFrame.copy(binding.evaluation.quaternion(distal.canonical));
+      if (binding.mirrorSides) {
+        scratchTwistFrame.y *= -1;
+        scratchTwistFrame.z *= -1;
+      }
+      scratchTwistFrame
+        .premultiply(binding.worldAlignment)
+        .premultiply(sceneRotation)
+        .multiply(scratchTwistCorrection.copy(distal.correction).invert());
+      // The change in the distal bone's orientation relative to this one, since
+      // the bind pose. Only its component about the long axis is redistributed.
+      scratchTwistDelta
+        .copy(scratchDesiredWorld)
+        .invert()
+        .multiply(scratchTwistFrame)
+        .multiply(scratchTwistRest.copy(helper.restRelative).invert());
+      scratchTwistVector.set(scratchTwistDelta.x, scratchTwistDelta.y, scratchTwistDelta.z);
+      const along = scratchTwistVector.dot(helper.axis);
+      const angle = 2 * Math.atan2(along, scratchTwistDelta.w);
+      const wrapped = angle > Math.PI ? angle - 2 * Math.PI : angle <= -Math.PI ? angle + 2 * Math.PI : angle;
+      helper.bone.quaternion
+        .copy(helper.restLocal)
+        .multiply(scratchTwistShare.setFromAxisAngle(helper.axis, wrapped * helper.fraction));
+      helper.bone.updateMatrixWorld(true);
+    }
   }
 
   for (const follower of binding.followers) {

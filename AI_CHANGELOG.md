@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Model phase A: forearm/wrist/hand faceting repaired on candidates
+
+Record: `MODEL_PHASE_A_SURFACE_REPAIR.md`. Candidates only, production v8 byte-identical and kept as rollback, not merged.
+
+**The diagnosis changed what the fix needed to be.** In *both* v7 and v8 the stored normals match per-vertex normals computed without welding co-located duplicates — mean deviation 0.00° — so that convention is the asset's own, not a v8 defect. The mesh splits topology at UV seams, duplicating vertices at one position, and with unwelded normals the two sides agree only while the surface is smooth across the seam. The Stage 1/2 arm work moved each side's *neighbours* differently, so v8's two sides now disagree by up to 138.3° and the seam shades as a hard blocky facet. The vertices are still exactly co-located; the surrounding surface is what changed. That is why it shows at Bottom on a straight arm as well as at Peak.
+
+The repair welds the normal at exactly those seams — the normalised mean of each disagreeing group's own stored normals — and matches the v7 reference body's seam groups by vertex index so intentional hard edges survive instead of being smoothed by a blanket pass. 313 groups welded (709 vertices), 7 reference hard edges preserved, largest shift 69.1°.
+
+Seams go 320 groups / 723 vertices / 138.3° → **7 / 14 / 71.0°**, landing exactly on v7's profile, and smoothness comes out better than v7 (219 vertices over 15° from the geometry's own normal, against v7's 283). The untouched 73.6° worst deviation is a pre-existing scalp hard edge identical in all three bodies.
+
+Verified normals-only attribute by attribute: POSITION, both UV sets, COLOR_0, all three JOINTS and WEIGHTS sets, indices, inverse binds, nodes, scene extras and skin joints are all identical; NORMAL differs in 2,127 components, exactly the 709 welded vertices.
+
+Candidates `b3dc70e1…89fdf09` (bare) and `71c5bdef…89fe42da9` (dressed, built through the repaired dressing step with its own correspondence). Every locked figure is unchanged: bare↔dressed 0.0000 mm and 0 of 10,839 posed vertices, grip contacts and 252° wrap identical, renderer/exporter 0.0000 mm, thigh clearance +4.68/+4.79 mm body-only and +0.48/+0.64 mm with the garment, clothing non-interpenetrating at 1.97 mm, and the three correspondence consumers passing.
+
+Before/after came from the running app: the bundled dressed v8 proven loaded, shots taken, then the candidate imported through the app's own GLB import (reported as 12,249 vertices / 160 bones / 52 driven, matching production) and shot from the same camera, bone focus and frames. The checker facets on the forearm are gone and nothing else in the frame moves.
+
+**Two geometry findings are reported rather than masked.** The surface is genuinely creased at those seams — the welded normal differs from the stored one by a mean of 12.5°, which is the crease the Stage work left — so the repair shades across it in v7's convention rather than removing it. And 22 vertex pairs welded in v7 are no longer exactly co-located in v8, separated by up to 1.109 mm: small surface cracks a normals pass cannot close. Neither is visible at review distance; both would need a geometry decision Phase A cannot take.
+
 ### Claude — 2026-09-17 — Dressed production delivery fix: the shipped default is now the v8 character
 
 Record: `REFERENCE_BODY_DRESSED_METADATA_DELIVERY.md`. Bare v8 unchanged, dressed v8 rebuilt, promotion now delivered. `retargetSource.ts` untouched — no inference or fallback path added. Not merged.

@@ -18,12 +18,16 @@ The assets are gitignored, so the hashes are the only record that travels with t
 | Role | File | SHA-256 |
 |---|---|---|
 | Final candidate body | `scratchpad/reference-fit/HomeGymPT_Male_STAGE2_CANDIDATE.glb` | `951c2c3966a00caaa39fd5aaad063e852ac3d5e6e33fa0b3dd574e5040963ee0` |
-| Final dressed candidate | `scratchpad/reference-fit/HomeGymPT_Male_STAGE2_CANDIDATE_SHORTS.glb` | `841b01d6abb5649af8929f6b147b6aafbf95da4ecf13c2ea09f7f3e570306d72` |
+| Final dressed candidate | `scratchpad/reference-fit/HomeGymPT_Male_STAGE2_CANDIDATE_SHORTS.glb` | `cc728366022315b031cfae7ec9cdf4b4bac245b93f708a25ae2f845f115722e3` |
 
 The dressed candidate was rebuilt from the retained body with
 `node scratchpad/reference-fit/dress.mjs`. Closest body-to-garment approach moved from
 **0.67 mm** on the previous v7 pass to **1.97 mm** here — more clearance, and no
 interpenetration anywhere.
+
+**The dressed hash above supersedes `841b01d6…306d72`.** That earlier file had the right body
+vertices but kept the template's rest pose, bind matrices and character metadata, so it was not
+the same character as the bare body. See `REFERENCE_BODY_DRESSED_METADATA_DELIVERY.md`.
 
 `HomeGymPT_Male_STAGE1_CANDIDATE.glb`
 (`c0d4b6905fc7ff5e3341e84843bdcf02f6086814bdb2f93e0e04454a69f1eefb`) is retained only as the

@@ -6,6 +6,28 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Dressed production delivery fix: the shipped default is now the v8 character
+
+Record: `REFERENCE_BODY_DRESSED_METADATA_DELIVERY.md`. Bare v8 unchanged, dressed v8 rebuilt, promotion now delivered. `retargetSource.ts` untouched — no inference or fallback path added. Not merged.
+
+**The defect was larger than the authorisation recorded, and the metadata was the least of it.** `dress.mjs` builds the dressed asset by transplanting a body into the *previous generation's* dressed file, because the garment is approved geometry the builder cannot reproduce bit for bit. It carried `POSITION` and `NORMAL` and two `asset.extras` keys; the node matrices, the inverse bind matrices and `scene.extras.homeGymPT` all silently kept v7's values. The node matrices are the ones that mattered: `readCharacter` derives every bone's rest orientation from the node hierarchy, not from the bind matrices, so with v7's 50 arm-chain matrices in place the promoted default posed exactly like v7 — **73.14 mm** of hand displacement at the curl bottom and 3,650 of 10,839 posed vertices wrong — while every vertex-level check passed, because the bind vertices were right and only the posed result was wrong.
+
+**A mistake of mine this exposed.** I reported in the promotion doc that the dressed skeleton matched the bare body's. Every node in these files uses `matrix`, never TRS, and my comparison read `translation` and `rotation` — so it compared absent fields and reported 0.0000 mm for 50 joints that differed by up to 6.813e-2. The first guard I wrote for this fix repeated the error and passed for the same reason. It now compares `matrix` and refuses if a source joint uses TRS. The promotion doc's "same body" claim was true of its vertices and false of its rest pose; that section is annotated rather than rewritten.
+
+The dressing step now carries everything describing the body from the source and proves its assumptions instead of inheriting them, throwing rather than degrading quietly: 160 joint matrices (50 changed), 160 inverse binds matched by joint *name* (50 changed), the full `homeGymPT` extras, and a garment-safety check — the garment is skinned to 9 joints, 50 were re-bound, 0 overlap, so the clothing fit provably cannot have changed. Values are carried, never hard-coded.
+
+The correspondence file is regenerated as the garment's own map rather than by re-running `shorts.mjs`, which *builds* a garment and would write a map for a garment this file does not contain. The map is topological and neither mesh's topology changes, so it still describes this pair — validated, not assumed: 1,410 entries for 1,410 vertices, every index in range, every garment vertex within 37.53 mm of its mapped body point. Format unchanged. All three consumers — `clothing`, `waistband`, `clothdebug` — now run against the promoted asset and pass.
+
+New dressed hash **`cc728366…5722e3`**, superseding `841b01d6…306d72` as the decision anticipated; the rebuild is deterministic. Bare body re-verified unchanged at `951c2c39…963ee0`.
+
+Validated on `public/characters/`: the dressed default resolves the same `gripSolutionId=homeGymPTMale` and the same offsets (0.0174, 0.0452, 0.0083), curl thigh clearance is back to **+4.68/+4.79 mm with zero inside**, finger contacts, thumb, palm, wrap, renderer/exporter agreement, push-up wrist, twist share and girth all match the locked figures, and clothing stays non-interpenetrating. Equivalence to the bare body — the check that was missing — is now **0.0000 mm** at the hand and **0 of 10,839** posed vertices. Unasked bonus: measured *including* the garment, clearance is +0.48/+0.64 mm with nothing inside; the dumbbell used to pass through the shorts.
+
+**The `strainReview` timeout became reproducible** — failing in the full suite and in isolation. Diagnosed rather than assumed: it imports nothing from `public/characters/`, running the procedural character against the canonical skeleton, and no `src/` file had changed, so the asset work cannot have caused it. It needs 6.2 s against vitest's 5 s default, which is why the same code has sat on both sides of the line. Applied the permitted remedy — a 20 s per-test timeout on that one test — after confirming with `--testTimeout=30000` that both assertions pass unchanged. Code under test untouched.
+
+One new permanent guard, `scratchpad/repair/dressed_equivalence.test.mts`: the dressed default must carry the same grip solution as the bare body and pose identically to it. Every existing harness ran one file at a time, so nothing compared the pair — which is how this shipped. Confirmed to have teeth against the stale pairing. `overlap.test.mts` gained an opt-in `SKIN_ONLY`, since a clearance figure over a dressed file includes the garment and is not comparable with the bare body's.
+
+Typecheck clean, build clean, full suite 298 passed / 1 skipped / 0 failed.
+
 ### Claude — 2026-09-17 — Promotion: the reference body is now the bundled production character
 
 Record: `REFERENCE_BODY_PROMOTION.md`. Not merged.

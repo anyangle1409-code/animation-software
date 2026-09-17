@@ -9,6 +9,10 @@ import type { DeformationControl } from '../character';
 const skeleton = canonicalSkeleton;
 
 describe('whole-rep deformation review', () => {
+  // CPU skinning over a whole rep costs about 6 s here, against vitest's 5 s
+  // default. It has been over and under that line on the same code depending on
+  // machine load, which read as an intermittent failure; the scan itself is
+  // bounded and its assertions are unchanged, so the budget is what moves.
   it('finds finite worst strain frames and restores a bounded diagnostic scan', async () => {
     const character = await builtinCharacter.build(skeleton);
     try {
@@ -28,7 +32,7 @@ describe('whole-rep deformation review', () => {
     } finally {
       character.dispose();
     }
-  });
+  }, 20_000);
 
   it('sweeps explicit corrective values and restores the original source value', async () => {
     const character = await builtinCharacter.build(skeleton);

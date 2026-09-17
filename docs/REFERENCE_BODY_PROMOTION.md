@@ -14,7 +14,7 @@ the locked Phase 1 grip. That needs a decision before this counts as fully deliv
 | Production file | Source candidate | SHA-256 (verified after promotion) |
 |---|---|---|
 | `public/characters/HomeGymPT_Male_BASELINE_v8.glb` | `HomeGymPT_Male_STAGE2_CANDIDATE.glb` | `951c2c3966a00caaa39fd5aaad063e852ac3d5e6e33fa0b3dd574e5040963ee0` ✓ |
-| `public/characters/HomeGymPT_Male_BASELINE_v8_SHORTS.glb` | `HomeGymPT_Male_STAGE2_CANDIDATE_SHORTS.glb` | `841b01d6abb5649af8929f6b147b6aafbf95da4ecf13c2ea09f7f3e570306d72` ✓ |
+| `public/characters/HomeGymPT_Male_BASELINE_v8_SHORTS.glb` | `HomeGymPT_Male_STAGE2_CANDIDATE_SHORTS.glb` | `841b01d6…306d72` — **superseded**, see the note below |
 
 Both were copied byte-for-byte and re-hashed in place after promotion. Both match the recorded
 values exactly, so the promoted production assets are the same bytes the review pack validated.
@@ -48,6 +48,12 @@ Whole-project gates after promotion: **typecheck clean**, **build clean**, **ful
 298 passed / 1 skipped / 0 failed**. The `strainReview` timeout did not reproduce.
 
 ## Production-only finding — the shipped default does not get the solved grip
+
+> **Resolved 2026-09-17** by `REFERENCE_BODY_DRESSED_METADATA_DELIVERY.md`. The dressed asset was
+> rebuilt and its SHA-256 is now `cc728366022315b031cfae7ec9cdf4b4bac245b93f708a25ae2f845f115722e3`.
+> The finding below was also **understated**: the missing metadata was one of three things the
+> dressing step failed to carry. The rest pose and the bind matrices were stale too, so the
+> shipped default was not the v8 character at all. The section is kept as written for the record.
 
 **The dressed file is the app's default character**, because `registerBundledCharacters` calls
 `registerBundledCharacter` for it, which calls `setDefaultCharacter`. It is what the app shows

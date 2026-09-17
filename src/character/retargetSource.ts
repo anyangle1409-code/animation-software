@@ -25,6 +25,7 @@ import type {
   CharacterPoseContext,
   CharacterSource,
   DeformationSampler,
+  DeformationStack,
   Side,
 } from './types';
 import { RetargetContactResolver } from './retargetContact';
@@ -32,6 +33,8 @@ import { solvedGripFor } from './solvedGrip';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
+import { importedMuscleDeformation } from './muscleDeformation';
+import type { MuscleRuntimeTuning } from './muscleDeformation';
 
 /**
  * An imported character, preserved.
@@ -105,6 +108,7 @@ export function retargetedCharacterSource(
 ): RetargetedCharacterSource {
   const elbowTuning: ImportedElbowRuntimeTuning = { outerSmooth: 0, defaultOuterSmooth: 0 };
   let elbowTuningInitialised = false;
+  const muscleTuning: MuscleRuntimeTuning = { amount: 1, defaultAmount: 1 };
 
   const source: RetargetedCharacterSource = {
     id: options.id,
@@ -246,13 +250,24 @@ export function retargetedCharacterSource(
         elbowTuning.defaultOuterSmooth = bounded;
         elbowTuningInitialised = true;
       }
-      const deformation = importedElbowDeformation(
+      const elbow = importedElbowDeformation(
         character.meshes as SkinnedMesh[],
         boneByName,
         rig,
         elbowOptions,
         elbowOptions?.enabled ? elbowTuning : undefined,
       );
+      // Built after the elbow correctives, because the muscle layer supplies
+      // morph normals and three.js indexes those by position-morph slot — it
+      // has to see every target the geometry already carries.
+      const muscle = importedMuscleDeformation(
+        character.meshes as SkinnedMesh[],
+        boneByName,
+        rig,
+        scene.userData?.homeGymPT?.muscleDeformation,
+        muscleTuning,
+      );
+      const deformation = composeDeformation(elbow, muscle);
 
       const build: CharacterBuild = {
         source: source.id,
@@ -293,6 +308,36 @@ export function retargetedCharacterSource(
   };
 
   return source;
+}
+
+/**
+ * Run several deformation layers as one stack.
+ *
+ * `CharacterBuild` carries a single stack, and the layers are independent —
+ * each owns its own morph targets — so updating both in order and concatenating
+ * their controls is the whole composition.
+ */
+function composeDeformation(
+  ...layers: (DeformationStack | null)[]
+): DeformationStack | null {
+  const present = layers.filter((layer): layer is DeformationStack => layer !== null);
+  if (present.length <= 1) return present[0] ?? null;
+  const controls = present.flatMap((layer) => layer.controls ?? []);
+  return {
+    ...(controls.length ? { controls } : {}),
+    update(context) {
+      for (const layer of present) layer.update(context);
+    },
+    sampler: () =>
+      present.reduce<DeformationSampler | null>(
+        (combined, layer) => {
+          const next = layer.sampler?.() ?? null;
+          if (!combined) return next;
+          return next ? combineSamplers(combined, next) : combined;
+        },
+        null,
+      ),
+  };
 }
 
 function combineSamplers(

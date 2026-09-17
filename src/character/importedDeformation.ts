@@ -37,13 +37,16 @@ export interface ImportedElbowRuntimeTuning {
   defaultOuterSmooth: number;
 }
 
-interface Target {
+/** One flexion-driven morph target on one mesh, for one side of the body. */
+export interface CorrectiveTarget {
   mesh: SkinnedMesh;
   side: Side;
   influence: number;
   name: string;
   scale: () => number;
 }
+
+type Target = CorrectiveTarget;
 
 const clampOuterSmooth = (value: number): number => Math.min(1, Math.max(0, value));
 
@@ -450,7 +453,14 @@ function matchingBones(mesh: SkinnedMesh, base: string, includeSplitHelpers = fa
   return result;
 }
 
-function correctiveSampler(targets: Target[], rig: Skeleton): DeformationSampler {
+/**
+ * Bake a set of flexion-driven correctives into animation tracks.
+ *
+ * Shared with the arm-muscle layer: both are driven by `elbowFlexion` on the
+ * same side, so both bake the same way, and a second copy of this would be a
+ * second place for the viewport and the exporter to drift apart.
+ */
+export function correctiveSampler(targets: Target[], rig: Skeleton): DeformationSampler {
   const evaluation = new RigPoseEvaluation(rig);
   const values = targets.map(() => [] as number[]);
   return {

@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Curl realism layer, Stage 1: pose-dependent arm muscle deformation
+
+Record: `BICEP_CURL_REALISM_STAGE1.md`. Candidate for review, nothing promoted, not merged. Stage 1 only — no supination, no timing change, no other exercise.
+
+New `src/character/muscleDeformation.ts` adds three corrective morph targets per arm — biceps belly (swelling and drawing axially toward its own middle), brachialis at the humerus/forearm junction, and the proximal forearm flexor mass — driven by the existing `elbowFlexion`. Because that driver is exactly 0 in the rest pose, "Bottom returns exactly to the accepted baseline shape" is a property of the construction: **0 of 12,249 vertices move at Bottom and Return, and every `bottom`/`return` before-after capture pair is byte-identical in the renderer**. At Peak the belly gains 7.7% anterior radius (+3.31 mm) against 1.3%/1.6% at the proximal and distal rings, so the mass appears where a biceps is rather than along the whole arm, and the belly's working length drops 1.9%.
+
+The layer supplies morph **normals** as well as positions, since a silhouette that swells while the shading stays flat barely reads as fuller. That needed care: three.js indexes `morphAttributes.normal` by position-morph slot, so this is built after the elbow correctives and pads their slots with no-change normals. `importedDeformation.ts` was not re-authored — it only gained an `export` on `correctiveSampler` so both layers bake identically and the viewport and exporter cannot drift. `retargetSource.ts` gained a small `composeDeformation`, as `CharacterBuild` carries a single stack.
+
+One regression found and fixed mid-round: the first captures showed crumpled faceting across the face, neck and chest, because the normal morph differenced against the asset's *stored* normals — and this asset's convention is unwelded per-vertex normals with deliberate hard edges at the scalp and neck, so at full influence the fill rewrote the whole body to welded smooth normals and undid the Phase A repair. The reference is now the smooth field recomputed from the undisplaced positions, which cancels the convention out and leaves a delta that is exactly zero wherever the surface does not move. Guarded per slot, by region.
+
+Every locked figure unchanged: 22 technique rules with no violations and the loop closed, renderer-vs-exporter grip 0.0000 mm, thigh clearance +0.48/+0.64 mm, palm contact −2.54 mm, bare↔dressed equivalence 0.0000 mm over 10,839 vertices, and the project suite at 298 passed with no threshold loosened. The layer is code-side, so no accepted GLB was re-authored; it is exposed as **Arm muscle contraction** in the Correctives panel and can be taken to 0%. No reference video was attached this turn, so the amplitudes are anatomical judgement rather than a match to the reference.
+
 ### Claude — 2026-09-17 — Model phase B item 7: skin and material
 
 Record: `MODEL_PHASE_B_SKIN_MATERIAL.md`. Candidates only, production v8 byte-identical, not merged. Nothing else in the refinement list touched.

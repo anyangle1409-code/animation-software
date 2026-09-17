@@ -173,6 +173,50 @@ The −4° column does visibly pull the deltoid back over the arm and flatten th
 line, which is the useful part of this exercise: it shows the correction is real and shows exactly
 what it costs.
 
+## 7. User-supplied anatomical visual target
+
+The user has now supplied a side-view photograph of a muscular person performing a dumbbell curl.
+Use that image as a **relationship / alignment reference only**, not as an identity or body-shape
+copy target. The same image should be attached to the execution prompt whenever this correction is
+worked on, because the important requirement is visual.
+
+The key relationship shown by the reference is:
+
+- the rounded deltoid cap sits **over the humeral/upper-arm axis** rather than visibly ahead of it;
+- the upper arm appears to **hang from underneath the shoulder cap**, so shoulder → upper arm reads
+  as one stacked anatomical chain;
+- the deltoid may have normal anterior fullness, but there is no separate forward shoulder ledge
+  with the arm visually trailing behind it;
+- the elbow can move slightly forward during flexion without carrying the entire shoulder girdle
+  forward;
+- at rest/Bottom the upper arm should still read as naturally suspended under the shoulder rather
+  than displaced anteriorly to manufacture dumbbell clearance.
+
+This visual target supports fixing the **rest-pose / joint-chain alignment** rather than shifting the
+deltoid mesh cosmetically. Do not copy the reference person's exact physique, skin, face, equipment,
+or camera perspective.
+
+### User decision after seeing the trade-off
+
+The user has authorised pursuing the **true-fix candidate** rather than retaining the temporary
+clavicle/curl workaround:
+
+1. keep the current accepted character + curl completely intact as rollback;
+2. create a separate candidate that moves the imported shoulder/upper-arm rest alignment toward an
+   anatomically stacked position, using the smallest posterior correction that removes the obvious
+   anterior shoulder protrusion when compared with the attached reference;
+3. do **not** use a mesh-only cosmetic shift;
+4. do **not** keep the temporary −4° clavicle curl edit as the solution;
+5. after changing the rest alignment, re-solve the grip/curl against the corrected chain rather
+   than preserving the old forward-biased shoulder merely to protect clearance;
+6. re-establish grip quality, neutral wrist, natural elbow path, dumbbell/shorts clearance, loop
+   continuity and all relevant guards before proposing retention;
+7. show matched Bottom/Mid/Peak/Return plus side and 3/4 shoulder close-ups against the attached
+   visual target; stop for user review before promotion.
+
+The target is **anatomical stacking first, then re-solving the exercise around it** — not moving the
+arm backward blindly and not sacrificing the accepted mechanical quality without evidence.
+
 ## Diagnostic harnesses
 
 Gitignored, under `scratchpad/repair/`: `shoulderz.test.mts` (joint chain, ribcage reference),

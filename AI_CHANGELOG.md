@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Side-view shoulder alignment: diagnosis only, no change made
+
+Record: `SHOULDER_ALIGNMENT_DIAGNOSIS.md`. No geometry, pose, rig or asset change. Not merged.
+
+Asked whether the anterior shoulder reading comes from the joint pose, the deltoid mesh, or both. It is the **joint pose**, and the mesh is exonerated.
+
+**Not the curl:** `clavicle_l` and `upperarm_l` sit at identical z (28.4, 15.2 mm) at Bottom, Mid and Peak — the shoulder joint does not move through the rep.
+
+**Not the mesh:** measured as the cap's cross-section *around* the humerus axis rather than as a z range over shoulder-weighted vertices (that set reaches back over the scapula to −113 mm and drags a centroid posterior). The envelope is symmetric about the humerus — 0.1 mm asymmetry at the acromion, −4.3 mm over the sleeve, leaning *posterior*. The forward mass bias decays smoothly from +13.1 to +6.1 mm down the arm, which is normal anterior-deltoid fullness. Identical to 0.1–0.5 mm in CORNER_FINAL, the Phase A candidate and the promoted production v8, so no round of this phase created it.
+
+**It is the joint pose, in two parts.** The canonical rig puts `upperarm_l` at z = 0 with a vertical humerus; the imported rest pose puts it at +15.2 mm, **56.7 mm forward of `spine_03`** and 56.8 mm forward of the ribcage mid-depth. Separately, `bicepCurl.ts` authors `upperarm_l: { x: 4.55 }` at Bottom, which its own comment records as load-bearing: the dumbbell's thigh clearance is taken forward because abduction read as a shrug, and "4.0° still buried it".
+
+**Why the fix is blocked:** clavicle retraction on x is worth 3.6 mm of shoulder z per degree (y does nothing, z breaks `dumbbells_aligned`), but the arm root and hand are rigidly coupled. Dumbbell-to-shorts clearance at Bottom goes from +0.48/+0.64 mm with 0 vertices inside to **−1.14/−0.69 mm with 2 inside each side** at −4°. The whole budget is half a millimetre.
+
+So the smallest correction needed to centre the cap over the upper arm is **zero** — it is already centred — and the term that would change the appearance needs the bind/rest pose or the accepted curl mechanics, which `MODEL_APPEARANCE_PHASE.md` reserves for the user. Shipping a 6 mm cap shift instead would have risked the accepted armpit and clavicle work to change the silhouette by almost nothing. Four options with costs are recorded in the doc. Before/after captures use a clavicle −4° candidate from a temporary `bicepCurl.ts` edit, reverted immediately after capture with a verified-clean tree.
+
 ### Claude — 2026-09-17 — Curl realism layer, Stage 1: pose-dependent arm muscle deformation
 
 Record: `BICEP_CURL_REALISM_STAGE1.md`. Candidate for review, nothing promoted, not merged. Stage 1 only — no supination, no timing change, no other exercise.

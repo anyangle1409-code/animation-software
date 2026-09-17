@@ -331,3 +331,104 @@ Stop only if:
 Keep usage low by using focused diagnostics during iteration and expensive full validation only on retained candidates.
 
 **Do not promote or merge.**
+
+---
+
+# Current execution state — Phase 4 root-cause authorization
+
+This section supersedes the earlier Phase 4 historical estimates above. **Stage 2 is locked and Phase 3 has passed. Do not reopen either unless the Phase 4 work exposes a genuine measured regression. Phase 5 has not started.**
+
+Current branch state entering this decision: `7a0cdfa43815366be52c1844d801509e9b8982c8`.
+
+## Proven Phase 4 measurements
+
+The first post-Stage-2 wrist reading of roughly 43–51° was invalid because it compared canonical-rig bone axes. The accepted diagnostic works on the **actual character wrist**, decomposes twist/swing, and accounts for the **14.62° hand-to-forearm bind-pose offset**.
+
+Use these as the current facts:
+
+- true wrist extension: about **92.10°**;
+- pronation: about **72.4–97.9°** across the measured push-up poses;
+- deviation: about **−12.7° to −37°**;
+- bilateral wrist measurements agree to about **0.0001°**;
+- shoulder-ahead-of-hand: about **173 mm at Top** and **245 mm at Bottom**;
+- palm remains planted to about **0.3 mm**;
+- the historical ~20 cm hand-placement estimate is not an authorised offset and must not be copied into the final pose.
+
+Stage 2 did not solve the push-up wrist problem. A true extension near 92° remains excessive relative to the intended practical range, and the remaining visible forearm-deformation cause is not yet proven.
+
+## Decision — evidence first, then placement before weights
+
+The next Phase 4 work is a **controlled root-cause sequence**. Do not jump directly to reweighting and do not hide a skinning defect by moving the pose without evidence.
+
+### 1. Produce trustworthy silhouette evidence first
+
+Repair/replace the failed diagnostic render and inspect the **actual skinned character**, not canonical bone axes or a broken vertex subset.
+
+At Push-up Top and Bottom produce matched, fixed-camera evidence showing at minimum:
+
+- side view of wrist → forearm → elbow;
+- three-quarter view of the same chain;
+- skeleton/joint-centre overlay;
+- palm/floor contact;
+- complete forearm surface/silhouette without the previous unreliable vertex filter.
+
+The render must be good enough to distinguish a pose/contact problem from a twist/skinning problem. Do not make a retained deformation change until this evidence is trustworthy.
+
+### 2. Test hand placement / wrist geometry before skin weights
+
+With geometry, skin weights and Stage 2 proportions unchanged, test only the push-up hand/floor contact placement needed to reduce true wrist extension from ~92° into a plausible working range, initially targeting roughly **70–75°** as the diagnostic band.
+
+Requirements:
+
+- derive the **minimum** forward/back placement change from the current Stage 2 anatomy and measured wrist geometry;
+- do not apply the old ~20 cm estimate by assumption;
+- keep the palm planted and stable;
+- preserve proper push-up technique and the already-validated Stage 2 shoulder-width logic;
+- preserve bilateral symmetry;
+- keep the push-up planted-palm contact completely separate from the cylindrical full-fist grip system.
+
+For each useful placement candidate re-measure:
+
+- true wrist extension;
+- pronation;
+- deviation;
+- shoulder-ahead-of-hand;
+- forearm angle;
+- elbow position;
+- palm/floor contact;
+- wrist→forearm and elbow→forearm silhouette.
+
+### 3. Use the silhouette result to choose the next source-level fix
+
+If bringing the wrist into the plausible band also removes the visible forearm collapse/twist, treat **placement/wrist geometry as the root cause** and do not reweight the forearm.
+
+If the wrist/placement is corrected but the forearm still deforms badly, leave that placement result available as evidence and diagnose **pronation/twist distribution next** before touching skin weights.
+
+Only if:
+
+1. hand placement is anatomically/technically correct;
+2. wrist extension is plausible;
+3. pronation/twist distribution is proven appropriate;
+4. and the skinned forearm still pinches, collapses, corkscrews or loses volume,
+
+may a local skin-weight correction be considered.
+
+Any weight correction must then be the smallest local change at the demonstrated defect; do not broadly reweight the arm or disturb the locked Stage 1 forearm work.
+
+## Phase 4 acceptance before Phase 5
+
+Phase 4 may be retained only when Push-up Top and Bottom show:
+
+- plausible true wrist extension;
+- stable planted palms;
+- natural forearm volume and silhouette;
+- no pinching/collapse or corkscrew radius-ulna appearance;
+- smooth wrist→forearm and elbow→forearm transitions;
+- bilateral symmetry;
+- proper push-up technique;
+- no compensating shoulder/chest/spine regression;
+- Stage 1 grip/curl and locked Stage 2 results unaffected.
+
+If those conditions pass, continue automatically into **Phase 5 cleanup and final review pack**. If the evidence instead shows that a destructive rewrite or unresolved structural conflict is required, stop and report it rather than forcing a pass.
+
+Keep usage low. Do not promote or merge.

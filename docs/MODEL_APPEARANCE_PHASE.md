@@ -30,6 +30,38 @@ The production GLBs and correspondence files are intentionally gitignored. Work 
 
 Do not overwrite the accepted production assets at the start of this phase. Create candidate outputs first and retain the accepted delivered v8 as the rollback reference until the user approves the model appearance.
 
+## Approved visual reference direction
+
+The user has supplied an **AI-generated Home Gym PT character reference board** in the conversation immediately before this phase. When this phase is executed, the same reference-board image should be attached/provided alongside the prompt so it can be judged visually rather than from prose alone.
+
+Use that board as the main **appearance-direction reference**, not as an identity match and not as a new rig/pose authority.
+
+The intended appearance shown by the board is:
+
+- realistic, contemporary athletic male rather than a mannequin/cartoon look;
+- muscular and lean but still natural and believable for a fitness/PT character;
+- broad, naturally sloping/relaxed shoulders — **not elevated or shrugged**;
+- defined chest, arms and forearms with a narrow athletic waist and balanced legs;
+- clean human proportions rather than exaggerated bodybuilding mass;
+- realistic hands and forearms with smooth surface shading;
+- short, textured dark-brown hair with tidy/tapered sides;
+- relaxed, focused neutral expression rather than a strained or blank face;
+- natural-looking eyes, approximately light blue/grey in the board;
+- subtle facial stubble rather than a heavy beard;
+- realistic skin/material response rather than the current flat grey mannequin presentation;
+- simple dark athletic shorts.
+
+The board contains front, 3/4, side and back body views plus dedicated head/face, chest/shoulder, arm, forearm/hand, hair and eye references. Use each panel for the feature it depicts rather than forcing one camera view to define everything.
+
+### Reference limits
+
+- Do **not** treat the generated person as a real individual to reproduce exactly; it is a design target.
+- Do **not** use the reference to change the accepted bicep-curl pose or movement.
+- Do **not** infer exact height or absolute body dimensions from the board.
+- Do **not** add trainers/footwear merely because they appear in the reference board; preserve the current feet unless the user separately requests footwear.
+- Do **not** substantially bulk up or shrink the character without visual review; aim for the reference silhouette while protecting the accepted rig/deformation work.
+- If matching a visual feature would require changing rig proportions, weights, topology, bind/rest pose or accepted curl mechanics, stop and show the trade-off before doing it.
+
 ## Phase A — fix the objective surface defect first
 
 The accepted curl preview exposed a real model-surface defect: hard/blocky faceting on the forearms, wrists and hands.
@@ -73,22 +105,29 @@ After Phase A is visually clean, prepare a neutral model-review pack from the **
 - full-body front;
 - full-body 3/4;
 - full-body side;
+- full-body back;
 - upper-body/front close-up;
-- face/head close-up;
+- face/head front and 3/4 close-ups;
 - hands/forearms close-up;
 - accepted curl at Bottom and Peak so model edits can be checked against the locked movement.
 
-Then stop for user review before making broad subjective changes.
+Compare the candidate directly with the supplied reference board using the same or as-close-as-practical camera angles. Then stop for user review before making broad subjective changes.
 
-Previously requested appearance direction to keep in mind and visually reconfirm with the user:
+### Visual refinement order
 
-- improve the head/shoulder silhouette first;
-- add suitable hair;
-- make the face more relaxed/natural;
-- improve the eyes;
-- preserve legs/feet unless the user now asks for changes.
+Unless the user changes the priority after seeing the review pack, work in this order:
 
-Do **not** assume exact hair style, face shape, eye colour, skin/material look, body size or other subjective details without user direction. Work one visual area at a time so accepted parts are not repeatedly disturbed.
+1. surface/normal quality, especially forearms, wrists and hands;
+2. head/neck/shoulder silhouette and relaxed shoulder line;
+3. overall physique/silhouette against the front/3/4/side/back reference views;
+4. face shape and relaxed expression;
+5. eyes;
+6. hair;
+7. skin/material presentation;
+8. shorts/material finishing;
+9. final hands/forearms visual pass.
+
+Do not change everything at once. Present a candidate after meaningful visual stages so the user can steer the look without repeatedly disturbing accepted work.
 
 ## Model-edit guardrails
 
@@ -110,7 +149,7 @@ If an appearance edit changes deformation or motion, treat that as a regression 
 The model phase is complete only when the user explicitly approves:
 
 1. the repaired surface quality;
-2. the final character appearance; and
+2. the final character appearance against the supplied visual reference direction; and
 3. the accepted bicep curl still running correctly on that final character.
 
 Only then may the final model + curl be frozen together and another exercise become eligible for work.

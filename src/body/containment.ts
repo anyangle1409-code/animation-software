@@ -1,6 +1,7 @@
 import { Matrix4, Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
+import type { BoneName } from '../rig/boneNames';
 import type { Ring } from './profiles';
 import { BODY_CHAINS } from './profiles';
 
@@ -30,6 +31,56 @@ interface Section {
 
 let sections: Section[] | null = null;
 
+/**
+ * Containment-only coverage across the lateral chest → armpit → deltoid gap.
+ *
+ * Stage 2 moved the arm chain 33.7 mm outboard. The chest correctly did not
+ * follow, and the deltoid/upper-arm sections correctly went with the humerus,
+ * which leaves a band between them that no profile section covers. The
+ * pectoral and latissimus bellies cross that band: measured on the widened rig
+ * they reach 9.86 mm and 19.93 mm outside the surface — in the press and the
+ * pull-up respectively — against a 7 mm allowance, where before the widening
+ * they sat at 4.43 mm and under 4 mm.
+ *
+ * These sections exist ONLY here. `BODY_CHAINS` feeds
+ * `buildProfileBodyGeometry`, which is a rendered surface, so putting the
+ * bridge there would widen the visible chest. This is a proxy correction: it
+ * changes where a belly is allowed to be, and nothing about what is drawn or
+ * how much mass the character has.
+ *
+ * Sized from the measured points rather than guessed. Both worst points land
+ * near the clavicle's lateral end — the latissimus at t 0.848, x −61.8,
+ * z −10.0 mm, the pectoral at t 0.800, x −34.7, z +26.2 mm in clavicle-local
+ * millimetres — so the ring is offset to sit over them instead of being
+ * enlarged concentrically, which would add volume on the far side for nothing.
+ * It spans only the outer half of the clavicle; `sectionAt` caps the tube
+ * beyond its end rings, so the medial chest is unaffected.
+ */
+const bridgeRing = (t: number, rx: number, rz: number, ox: number, oz: number): Ring =>
+  ({ t, rx, rz, ox, oz });
+
+const ARMPIT_BRIDGE: { bone: BoneName; rings: Ring[] }[] = (['clavicle_l', 'clavicle_r'] as BoneName[]).map(
+  (bone) => {
+    // The two clavicle frames are NOT reflections of one another here: applying
+    // the same negative ox to both moved the left ring into the armpit and the
+    // right one inboard, which fixed one side and left the other untouched.
+    // Measured, so the offset is flipped explicitly.
+    const sign = bone.endsWith('_l') ? 1 : -1;
+    return {
+      bone,
+      rings: [
+        bridgeRing(0.5, 0.03, 0.03, sign * -0.026, 0.004),
+        bridgeRing(0.8, 0.05, 0.046, sign * -0.05, 0.006),
+        // The far station reaches the deltoid. The latissimus passes behind the
+        // shoulder here — its worst point measures 85 mm posterior to the upper
+        // arm's axis, at the clavicle's very end — so this ring carries both the
+        // outboard offset and the front-to-back depth to meet it.
+        bridgeRing(1.0, 0.055, 0.052, sign * -0.06, -0.006),
+      ],
+    };
+  },
+);
+
 function buildSections(rig: Skeleton): Section[] {
   const out: Section[] = [];
   for (const chain of BODY_CHAINS) {
@@ -41,6 +92,14 @@ function buildSections(rig: Skeleton): Section[] {
         rings: [...part.rings].sort((a, b) => a.t - b.t),
       });
     }
+  }
+  for (const part of ARMPIT_BRIDGE) {
+    if (!rig.has(part.bone)) continue;
+    out.push({
+      bone: part.bone,
+      length: rig.bone(part.bone).length,
+      rings: [...part.rings].sort((a, b) => a.t - b.t),
+    });
   }
   return out;
 }

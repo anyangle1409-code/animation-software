@@ -164,7 +164,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // a 10 mm translation smaller than the widening itself and where the
     // pectoralis major actually inserts. Nothing is scaled: thickness, bulge,
     // flatten and spread are untouched and the functional via points unmoved.
-    origin: at('spine_03', -0.065, 0.04, 0.082),
+    origin: at('spine_03', -0.045, 0.04, 0.082),
     via: [at('upperarm_l', 0.02, 0.02, -0.02)],
     insertion: at('upperarm_l', 0.004, 0.028, 0.012),
     thickness: 0.032,
@@ -177,7 +177,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // Preserve the proven visible lat line and use a hidden proximal-humerus
     // via point for functional length. This keeps pull-up containment unchanged
     // while making both shoulder extension and adduction shorten the path.
-    origin: at('spine_01', -0.07, 0.02, -0.06),
+    origin: at('spine_01', -0.055, 0.02, -0.06),
     via: [at('upperarm_l', 0.04, 0.04, 0.04)],
     insertion: at('upperarm_l', 0.004, 0.028, -0.014),
     thickness: 0.032,

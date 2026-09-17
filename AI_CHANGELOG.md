@@ -6,6 +6,16 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Final acceptance close-out: both carried-forward items accepted
+
+Executes `REFERENCE_BODY_FINAL_ACCEPTANCE_DECISION.md`. Documentation only — no executable code or asset touched, so the full suite was not re-run. Nothing promoted, nothing merged.
+
+The push-up wrist item is now recorded as **accepted by rest-relative rotation (≈66.6°)** rather than unresolved. The criterion for this character is extension measured against its own neutral hand-to-forearm rest orientation, not the raw world-axis angle: the asset carries a 14.62° hand-to-forearm rest offset that a raw target does not account for, so the earlier 70–75° band was a diagnostic band, not a criterion. At the retained z = 1.295 the raw angle is 81.18°, which is ≈66.6° from rest, with the palm planted, both sides identical and every authored push-up rule clean. The hands were not moved forward, `forearm_vertical` was not weakened, and weights, Stage 1 geometry, Stage 2 proportions and the 0.50 twist-helper share are untouched.
+
+The `strainReview` timeout stays documented as non-blocking historical evidence: flaky under full-suite load, passing in isolation, absent from the final validated run, and not grounds for changing the code under test.
+
+Both candidate hashes re-verified byte-for-byte against the recorded values — body `951c2c39…963ee0` (2,303,308 bytes) and dressed `841b01d6…306d72` (2,416,592 bytes). Neither was regenerated or overwritten.
+
 ### Claude — 2026-09-17 — Phase 5: cleanup and review pack; reference body one-pass run complete
 
 Review pack: `REFERENCE_BODY_PHASE5_REVIEW_PACK.md`. Phases 1–5 are complete on this branch. Nothing promoted, nothing merged.

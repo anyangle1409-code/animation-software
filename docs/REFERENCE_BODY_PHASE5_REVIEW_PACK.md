@@ -4,8 +4,12 @@
 **Nothing promoted. Nothing merged.**
 
 This closes Phase 5 of `docs/REFERENCE_BODY_ONE_PASS_COMPLETION.md`. Stage 1 was frozen on
-entry; Stage 2, Phase 3 and Phase 4 are locked. Two items are unresolved and are stated as
-such below rather than being written up as passes.
+entry; Stage 2, Phase 3 and Phase 4 are locked, and Phases 1–5 are complete.
+
+The two items this pack originally carried forward as unresolved have since been accepted by
+`docs/REFERENCE_BODY_FINAL_ACCEPTANCE_DECISION.md`, and the section below has been updated to
+record that. Nothing has been promoted and nothing has been merged; promotion remains a
+separate, explicit decision.
 
 ## Candidate assets
 
@@ -99,7 +103,8 @@ clips still typecheck.
 
 - **Typecheck** — clean.
 - **Build** — clean (`built in 5.69s`).
-- **Full suite** — **298 passed, 1 skipped, 0 failed.**
+- **Full suite** — **298 passed, 1 skipped, 0 failed.** This is the final validated code
+  state. Documentation-only updates after it, including this one, did not re-run it.
 - **Tracked tree** — clean at the Phase 5 commit.
 
 Cross-exercise regression on the shared retarget change, all eleven required poses:
@@ -127,21 +132,35 @@ The hand does not move at any fraction, which is the constraint that mattered. M
 bins along the forearm's own axis: bind `55.2/56.7/50.3/43.3/33.5` mm against posed Bottom
 `58.7/51.7/48.6/41.5/37.4/32.9` mm over 177 forearm vertices.
 
-## Unresolved — carried forward, not closed
+## Both carried-forward items — now accepted
 
-**1. The push-up wrist cannot reach the authorised 70–75° band.** The band needs the hands at
-about `z = 1.34`, but the authored `forearm_vertical` rule caps elbow-to-wrist `dz` at 60 mm and
-`z = 1.30` already gives 64.3 mm. With a flat planted palm, wrist extension *is* the forearm's
-angle from the floor, so a near-vertical forearm and a sub-75° wrist are geometrically
-incompatible — this is not a tuning failure. Retained `z = 1.295`, giving **81.18°** axis angle,
-which is ≈66.6° of rotation from rest once the character's 14.62° bind offset is accounted for.
-All push-up rules are clean at that value. Resolving it properly needs a new decision on which
-of the two requirements gives way.
+Resolved by `docs/REFERENCE_BODY_FINAL_ACCEPTANCE_DECISION.md`. Neither is an open defect.
 
-**2. `strainReview` full-suite timeout.** It has intermittently exceeded the 5 s vitest timeout
-under full-suite load while passing in isolation. It did **not** reproduce on the final Phase 5
-run (0 failures), so it is recorded as a flaky environmental timeout rather than a defect. If it
-returns, the fix is a per-test timeout on that file, not a change to the code under test.
+**1. Push-up wrist — accepted by rest-relative rotation (≈66.6°).** The acceptance criterion for
+this character is wrist extension measured **against the character's own neutral hand-to-forearm
+rest orientation**, not the raw forearm/hand world-axis angle. The asset carries a built-in
+**14.62°** hand-to-forearm rest offset that a raw axis-angle target does not account for, so the
+earlier 70–75° band stands as a diagnostic band rather than a criterion.
+
+At the retained `z = 1.295` the raw axis angle is **81.18°**, which is **≈66.6° of actual
+extension from rest** — anatomically plausible, palm planted, bilateral, and clean against every
+authored push-up rule. The geometry also shows why the raw band could not be met: it needs the
+hands near `z = 1.34`, while `z = 1.30` already exceeds the `forearm_vertical` rule's 60 mm
+elbow-to-wrist `dz` cap. With a flat planted palm, extension *is* the forearm's angle from the
+floor, so the raw target and the near-vertical-forearm requirement are geometrically
+incompatible; the rest-relative reading is the correct measurement, not a concession.
+
+Explicitly not done, per the decision: the hands were not moved forward to make the raw number
+read 70–75°, `forearm_vertical` was not weakened, and weights, Stage 1 geometry, Stage 2
+proportions and the retained 0.50 forearm twist-helper share are untouched.
+
+**2. `strainReview` timeout — non-blocking historical evidence.** It intermittently exceeded the
+5 s vitest timeout under full-suite load while passing in isolation. It did **not** reproduce on
+the final validated run (298 / 1 / 0), so it is environmental and flaky rather than a product
+defect, and it does not block acceptance. The code under test was not changed for it. If it
+returns consistently under full-suite load while still passing in isolation, the permitted
+response is a targeted per-test timeout adjustment, after confirming the test's own result is
+unchanged.
 
 ## Corrections to my own earlier reporting
 
@@ -174,5 +193,11 @@ output. No retained harness imported a removed one.
 
 ## Status
 
-Phases 1–5 are complete on this branch, with the two items above unresolved and stated. Nothing
-has been promoted and nothing has been merged.
+Phases 1–5 are complete and locked on this branch. Both carried-forward items are accepted: the
+push-up wrist on rest-relative rotation (≈66.6°), and the `strainReview` timeout as non-blocking
+historical evidence. No executable code or asset changed during the acceptance close-out, and
+both candidate hashes were re-verified as matching.
+
+The branch is ready for a promotion decision. Nothing has been promoted and nothing has been
+merged — replacing bundled assets, promoting, and merging each remain a separate explicit user
+decision.

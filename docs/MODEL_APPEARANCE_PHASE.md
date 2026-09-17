@@ -155,3 +155,49 @@ The model phase is complete only when the user explicitly approves:
 Only then may the final model + curl be frozen together and another exercise become eligible for work.
 
 **Do not merge during this phase unless the user separately authorises it.**
+
+---
+
+# Review round 2 — upper-body appearance (user review, 2026-09-17)
+
+Added by Claude from the user's review of the Phase A + skin/material captures, before any
+further change, so this file stays the joint source of truth for the phase.
+
+## Accepted so far
+
+- **Phase A normals repair — accepted.** The Phase A candidates are the working baseline.
+- **Skin and material — delivered for review** (`MODEL_PHASE_B_SKIN_MATERIAL.md`), candidates
+  `d71b70bc…c18f2be` / `8d07100f…f08f27ca`. Not yet explicitly approved; carried forward as the
+  base for this round.
+
+## This round's scope, in the user's priority order
+
+This **supersedes** the generic "visual refinement order" above for the next round of work. Items
+1–4 only; nothing else.
+
+1. **Rear rib / armpit protrusion.** An odd protrusion on the back/side torso near the rear rib
+   and armpit area.
+2. **Armpit placement and transition**, so it reads naturally from the front and 3/4 views.
+3. **Pointed shoulder silhouette in side view** — the shoulders should read rounder and more
+   natural.
+4. **Overall torso shape against the reference board**: cleaner pec shape, more natural
+   chest-to-shoulder and chest-to-armpit flow, clearer V-taper, tighter waist and obliques, and
+   more refined abs and lower torso.
+
+## Constraints restated for this round
+
+Unchanged and not to be touched:
+
+- locked bicep-curl mechanics and loop;
+- grip solution and dumbbell contact;
+- the Stage 2 shoulder-width work;
+- every already-approved validation result.
+
+What this round *may* change: body vertex positions on the torso and shoulder/armpit region.
+What it may **not** change: topology, skin weights, the skeleton, joint matrices, inverse binds,
+bind/rest pose, `scene.extras.homeGymPT`, the garment, or any exercise definition. Shoulder span
+must measure the same before and after.
+
+Deliverable: review-ready matched comparison captures (front, 3/4, side, and close-ups where
+needed) plus a short written summary of what changed, what remains, and any blocker. Then stop.
+No merge, no promotion.

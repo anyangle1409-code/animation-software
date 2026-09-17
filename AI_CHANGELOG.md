@@ -6,6 +6,36 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-17 — Phase 5: cleanup and review pack; reference body one-pass run complete
+
+Review pack: `REFERENCE_BODY_PHASE5_REVIEW_PACK.md`. Phases 1–5 are complete on this branch. Nothing promoted, nothing merged.
+
+Final candidate body `HomeGymPT_Male_STAGE2_CANDIDATE.glb` (`951c2c39…963ee0`) and dressed candidate `HomeGymPT_Male_STAGE2_CANDIDATE_SHORTS.glb` (`841b01d6…306d72`), the latter rebuilt from the retained body: closest body-to-garment approach 0.67 mm on the previous pass to 1.97 mm here, so more clearance and no interpenetration. The assets are gitignored, so those hashes are the only record that travels with the branch.
+
+Typecheck clean, build clean, and the full suite **298 passed / 1 skipped / 0 failed** — the intermittent `strainReview` timeout did not reproduce on this run, so it is recorded as a flaky environmental timeout rather than a defect.
+
+Diagnostics pruned from 34 MB to 436 KB: the `wrist`/`wrist2`/`wrist3` iterations, `griptune` and `gripframe` (both superseded by `gripsolver`) and every stale text and render output removed; no retained harness imported a removed one. The harnesses on the permanent validation path stay.
+
+Two items are carried forward unresolved rather than written up as passes. The push-up wrist cannot reach the authorised 70–75° band: with a flat planted palm, extension *is* the forearm's angle from the floor, so a near-vertical forearm and a sub-75° wrist are geometrically incompatible, and the authored `forearm_vertical` cap is already broken at z = 1.30. Retained z = 1.295 at 81.18°, all rules clean; which requirement gives way needs a new decision. And the `strainReview` timeout above, should it return.
+
+The review pack also records four corrections to my own earlier reporting, because decision documents were written partly on the strength of those claims — the "flattened strap" read that measurement did not support, a wrist angle taken off canonical-rig axes instead of the character, a containment residual understated by a test that throws on its first failure, and a strain column that could only ever read 1.000.
+
+### Claude — 2026-09-17 — Phase 4 locked: forearm twist distributed in the retargeting layer; Stage 2 locked; Phase 3 passed
+
+Result docs: `REFERENCE_BODY_STAGE2_LOCKED.md`, `REFERENCE_BODY_PHASE3_VALIDATION.md`, `REFERENCE_BODY_PHASE4_ROOTCAUSE.md`, `REFERENCE_BODY_PHASE4_TWIST.md`. Nothing promoted or merged.
+
+**Stage 2 locked** with a containment-only armpit bridge. The recorded residual had understated the gap because `muscles.test` asserts inside its loop and throws on the first failure: surveying every muscle over every exercise, the latissimus was 19.93 mm outside in the pull-up and the pectoralis 9.86 mm in the press, against under 4 mm and 4.43 mm before the widening. Three rings on each clavicle in `containment.ts` only — `BODY_CHAINS` feeds a rendered surface, so the bridge cannot live there — sized from the measured points including 85 mm of posterior depth where the latissimus passes behind the shoulder. The clavicle frames are not reflections for this purpose, so the offset is flipped explicitly per side. Latissimus now under 4 mm and pectoralis 4.14 mm, the latter better than its pre-widening baseline. Nothing scaled, no chest widened, threshold untouched.
+
+**Phase 3 passed**: all eleven required poses report clean technique, nothing unreachable, every belly inside the 7 mm allowance. A strain column was dropped from the harness after it read exactly 1.000 everywhere — three.js skins on the GPU, so `mesh.geometry` never moves; strain stays with `shoulder.test` and `strainReview`, which do the CPU skinning.
+
+**Phase 4.** Push-up placement was tested before weights, as required. Wrist extension falls monotonically as the hands move forward, but the 70–75° band needs z ≈ 1.34 while the authored `forearm_vertical` rule caps elbow-to-wrist dz at 60 mm, which z = 1.30 already breaks. With a flat planted palm, extension *is* the forearm's angle from the floor, so a near-vertical forearm and a sub-75° wrist are geometrically incompatible. Retained **z = 1.295**, the best the authored technique allows: 92.10° → **81.18°**, all rules clean, palm planted, sides identical; less the 14.62° bind offset that is ≈66.6° of rotation from rest.
+
+Placement did not change the forearm, so twist was measured next and the defect was real: every helper carried exactly its parent's twist — `forearmL` and `forearmL001` both 9.1° at Bottom while the hand read 57.7°, so the whole 48.6° step landed in one wrist joint. `bindRetarget` now recognises a deform twist helper and `applyRetarget` gives it a share of the axial twist between its driven parent and child, decomposing the relative rotation so only the long-axis component moves. The hand is driven afterwards against its updated parent, so its orientation is untouched — **57.7° at every fraction tested**. Swept 0.25/0.50/0.75; the share scales linearly (15.0, 21.0, 26.9°) and the hand never moves, so the gradient is the only criterion. **0.50 retained**, the convention for a two-bone deform forearm, which also nudges the distal taper back toward the bind profile. Only the forearm helper is wired; the upper arm shows the same pattern but nothing measured requires it. No weights, topology or bind repair touched.
+
+**A correction worth recording:** I had described the push-up forearm as a "flattened, faceted strap" from my own renders, and the twist work was authorised on that basis. Measured girth does not support it — binned along its own axis the posed forearm holds its bind girth within a few millimetres and the distal bins *grow* (33.5 mm bind against 35.6–38.2 mm posed). There was no pinch, collapse or corkscrew; the strap look came from my render's flat shading and camera. The twist defect was real and is fixed on its own merits, but it was not repairing a collapse.
+
+Cross-exercise regression on the shared retarget change: all four technique rule sets clean, curl and press grips identical to the locked Phase 1 figures (fingers −0.46/−0.36/−0.22/−0.11 mm, thumb +1.18, palm −2.54, wrap 252°), curl thigh clearance unchanged at +4.68/+4.79 mm, renderer vs exporter 0.0000 mm, containment inside allowance at all eleven poses with push-up Top improving 3.77 → 3.48 mm.
+
 ### Claude — 2026-09-17 — Phase 2: bind representation fixed, equivalence proven, Stage 2 re-applied (one open item)
 
 Result in `docs/REFERENCE_BODY_PHASE2_REAPPLIED.md`. Candidate `HomeGymPT_Male_STAGE2_CANDIDATE.glb` (`951c2c39…63ee0`). Phase 1 preserved exactly; nothing promoted or merged. **The branch carries one failing test**, named below.

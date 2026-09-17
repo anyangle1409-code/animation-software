@@ -21,8 +21,18 @@ const BOTTOM = { pitch: 84, root: { y: 0.2025, z: 0.0327 } };
  * elbows at about 40° from the torso, which is the technique this exercise is
  * defined by.
  */
-const HAND_L = vec3(-0.3, 0.055, 1.24);
-const HAND_R = vec3(0.3, 0.055, 1.24);
+// Forward placement is derived, not inherited. On the locked Stage 2 anatomy the
+// old z of 1.24 put true wrist extension at 92.1°, past the roughly 70-80° the
+// human wrist has, and the forearm read as a flattened strap. Measured through
+// the twist/swing decomposition that accounts for the 14.62° hand-to-forearm
+// bind offset, extension falls monotonically as the hands move forward:
+// 1.24 -> 92.1°, 1.30 -> 80.3°, 1.34 -> 73.9°, 1.36 -> 71.0°, 1.42 -> 63.6°.
+//
+// 1.34 is the smallest move that sits inside the 70-75° working band with margin
+// at both ends. That is +100 mm, NOT the historical ~200 mm estimate, which this
+// measurement does not support.
+const HAND_L = vec3(-0.3, 0.055, 1.295);
+const HAND_R = vec3(0.3, 0.055, 1.295);
 
 /** Elbows are pulled back towards the feet and out, giving the 30–45° flare. */
 const ELBOW_POLE_L = vec3(-0.55, 0.34, 1.05);

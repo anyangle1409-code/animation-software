@@ -164,7 +164,13 @@ const LEFT_BONES: BoneDefinition[] = [
     name: 'clavicle_l',
     parent: 'spine_03',
     head: vec3(-0.02, 1.42, 0.012),
-    tail: vec3(-0.17, 1.44, 0),
+    // The clavicle angles back from the sternoclavicular joint to the acromion.
+    // It used to run almost straight out (4.5° of posterior angle), which put
+    // the shoulder girdle — and with it the whole arm — in front of the
+    // ribcage, reading as a forward shoulder ledge in side view. A real
+    // clavicle angles back 15-20°; this tail gives 17.5°, and the arm chain
+    // below follows it so the deltoid stacks over the humerus.
+    tail: vec3(-0.17, 1.44, -0.035),
     limits: joint(
       limit(-18, 18, 'Protraction', 'Retraction'),
       null,
@@ -175,8 +181,8 @@ const LEFT_BONES: BoneDefinition[] = [
   {
     name: 'upperarm_l',
     parent: 'clavicle_l',
-    head: vec3(-0.17, 1.44, 0),
-    tail: vec3(-0.17, 1.14, 0),
+    head: vec3(-0.17, 1.44, -0.035),
+    tail: vec3(-0.17, 1.14, -0.035),
     limits: joint(
       limit(-60, 180, 'Flexion', 'Extension'),
       limit(-90, 90, 'External rotation', 'Internal rotation'),
@@ -187,8 +193,8 @@ const LEFT_BONES: BoneDefinition[] = [
   {
     name: 'forearm_l',
     parent: 'upperarm_l',
-    head: vec3(-0.17, 1.14, 0),
-    tail: vec3(-0.17, 0.88, 0),
+    head: vec3(-0.17, 1.14, -0.035),
+    tail: vec3(-0.17, 0.88, -0.035),
     limits: joint(
       limit(-5, 150, 'Flexion', 'Extension'),
       limit(-85, 85, 'Supination', 'Pronation'),
@@ -199,8 +205,8 @@ const LEFT_BONES: BoneDefinition[] = [
   {
     name: 'hand_l',
     parent: 'forearm_l',
-    head: vec3(-0.17, 0.88, 0),
-    tail: vec3(-0.17, 0.79, 0),
+    head: vec3(-0.17, 0.88, -0.035),
+    tail: vec3(-0.17, 0.79, -0.035),
     limits: joint(
       limit(-30, 20, 'Radial deviation', 'Ulnar deviation'),
       null,
@@ -275,39 +281,45 @@ interface FingerSpec {
  * At rest the arms hang with the palms facing the thighs, so the fingers spread
  * along Z: the index finger sits towards the front of the body, the little
  * finger towards the back.
+ *
+ * These are absolute world rest positions, so they carry the arm chain's own
+ * z offset (-0.035, from the clavicle's corrected rest angle). Leaving them on
+ * the old centre line would tilt the hand's measured axis by
+ * atan(0.035 / 0.09) = 21.3 deg, because the palm axis is derived from the mean
+ * knuckle position rather than from the hand bone's tail.
  */
 const FINGER_SPECS: FingerSpec[] = [
   {
     finger: 'thumb',
-    knuckle: vec3(-0.163, 0.852, 0.022),
+    knuckle: vec3(-0.163, 0.852, -0.013),
     direction: vec3(0.06, -0.72, 0.69),
     segments: [0.042, 0.032, 0.024],
     radius: 0.011,
   },
   {
     finger: 'index',
-    knuckle: vec3(-0.171, 0.789, 0.032),
+    knuckle: vec3(-0.171, 0.789, -0.003),
     direction: vec3(-0.01, -1, 0.02),
     segments: [0.042, 0.026, 0.02],
     radius: 0.0095,
   },
   {
     finger: 'middle',
-    knuckle: vec3(-0.172, 0.788, 0.011),
+    knuckle: vec3(-0.172, 0.788, -0.024),
     direction: vec3(0, -1, 0),
     segments: [0.046, 0.028, 0.021],
     radius: 0.0095,
   },
   {
     finger: 'ring',
-    knuckle: vec3(-0.171, 0.789, -0.01),
+    knuckle: vec3(-0.171, 0.789, -0.045),
     direction: vec3(0.005, -1, -0.015),
     segments: [0.042, 0.026, 0.02],
     radius: 0.009,
   },
   {
     finger: 'pinky',
-    knuckle: vec3(-0.168, 0.792, -0.03),
+    knuckle: vec3(-0.168, 0.792, -0.065),
     direction: vec3(0.01, -1, -0.03),
     segments: [0.034, 0.021, 0.017],
     radius: 0.008,

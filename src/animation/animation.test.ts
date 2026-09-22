@@ -58,10 +58,14 @@ describe('clip generation', () => {
   });
 
   it('curls through the authored range', () => {
+    // Read from the definition rather than repeating its numbers here: the
+    // assertion worth keeping is that the clip reaches what the exercise
+    // authored, not that the author picked any particular angle.
+    const elbow = bicepCurl.jointTargets.find((t) => t.bone === 'forearm_l' && t.axis === 'x');
     const bottom = toDeg(sampleClip(clip, 0).pose.rotations.forearm_l?.x ?? 0);
     const top = toDeg(sampleClip(clip, 2).pose.rotations.forearm_l?.x ?? 0);
-    expect(bottom).toBeCloseTo(6, 3);
-    expect(top).toBeCloseTo(126, 3);
+    expect(bottom).toBeCloseTo(elbow!.start, 3);
+    expect(top).toBeCloseTo(elbow!.peak, 3);
   });
 
   it('lets the elbow lead while the upper arm stays quiet early in the curl', () => {

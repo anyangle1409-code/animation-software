@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-22 — Shoulder alignment true fix: corrected clavicle rest angle, curl re-solved
+
+Record: `SHOULDER_ALIGNMENT_TRUE_FIX.md`. Candidate for review, not promoted, not merged. Rollback is `git revert` — the change is code-only and the character binaries are unchanged.
+
+**The asset could not carry the fix.** Editing `DEF-upper_arm.{L,R}` in the GLB moves the rest pose (local z −26.70 → −66.70 for a 40 mm shift) but not the posed character: a measured Jacobian over 50 mm rest-space probes is rank ≈ 1, all three directions producing posed motion along one lateral axis, with magnitudes tracking the clavicle→shoulder *distance* (+40.9 predicted vs +40.10 measured). The posed arm root is placed from the canonical clavicle's frame, so the imported rest direction is absorbed; a 40 mm asset edit moved the posed shoulder 1.0 mm.
+
+**The real defect was in the canonical rig.** `clavicle_l` ran from `(-0.02, 1.42, 0.012)` to `(-0.17, 1.44, 0)` — 4.5° of posterior angle, where a real clavicle angles back 15–20°. That put the shoulder girdle and the whole arm in front of the ribcage. The tail moves to `(-0.17, 1.44, -0.035)` (17.5°) and the arm chain follows, staying connected and vertical. The five finger knuckles are absolute world rest positions and move with it — leaving them behind tilts the hand's measured axis by `atan(0.035/0.09) = 21.3°`, which was 4 of the 13 failures the first attempt produced.
+
+**The curl was re-solved, not protected.** Abduction was re-tested rather than inherited and still breaks `upper_arm_clear`. Buying clearance with more forward humerus tilt would reinstate what the correction removes, so it comes from the elbow instead: Bottom angle 6° → 16°, and the upper arm relaxes from 4.55° → 3° (Peak 8.55° → 7°, keeping the authored 4° drift).
+
+Result: shoulder forward offset **+56.8 → +19.6 mm** (−65%), humerus tilt **3.87° → 3.22°** (more vertical, not less), dumbbell↔shorts clearance **+0.48/+0.64 → +1.99/+2.15 mm** with nothing inside. Grip contacts, 343° wrap, renderer-vs-exporter agreement (0.0000 mm) and bare↔dressed equivalence (0.0000 mm over 10,839 vertices) are all identical, because the grip lives in the hand's own frame and a root translation carries the fist with it. Technique clean, loop closed.
+
+**Cost, reported not hidden:** suite is 290 passed / 8 failed. All 8 are outside the curl — Push-Up IK targets and contacts (the hands plant on the floor and the arm root moved 35 mm), the écorché sculpt, the procedural-body shoulder metric, a deltoid belly, and the two-hand grip-socket gate. Fixing them means re-authoring other exercises and the procedural body, which the model-appearance phase reserves. One test was updated as part of the change: `animation.test.ts > curls through the authored range` now reads the angles from `bicepCurl.jointTargets` instead of duplicating them.
+
+Character binaries and review renders are now committed to the repository for external review.
+
 ### Claude — 2026-09-17 — Side-view shoulder alignment: diagnosis only, no change made
 
 Record: `SHOULDER_ALIGNMENT_DIAGNOSIS.md`. No geometry, pose, rig or asset change. Not merged.

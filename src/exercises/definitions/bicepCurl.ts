@@ -50,19 +50,21 @@ export const bicepCurl: ExerciseDefinition = {
       neck: { x: -2 },
       clavicle_l: { z: 5 },
       clavicle_r: { z: -5 },
-      // Upper arms hang just clear of the torso. On broad imported shoulders
-      // extra abduction reads as a shrug at the bottom, so the clearance the
-      // hanging dumbbell needs is taken forward instead: its inboard plate sits
-      // on the front of the upper thigh, whose surface normal points forward,
-      // and sideways travel only slides the plate along that surface.
+      // Upper arms hang just clear of the torso. Abduction still reads as a
+      // shrug at the bottom, so it is not the lever here either.
       //
-      // The whole upper-arm flexion curve is rebased by 4.3° rather than only
-      // its start, so the relative motion is untouched — the arm is still quiet
-      // against its own baseline while the elbow leads, and still drifts 4°
-      // late for the squeeze. 4.3° is the smallest value measured to lift the
-      // plate clear (+1.74/+1.82 mm, nothing inside); 4.0° still buried it.
-      upperarm_l: { x: 4.55, z: -3 },
-      upperarm_r: { x: 4.55, z: 3 },
+      // The clearance the hanging dumbbell needs used to be taken forward, by
+      // rebasing the whole upper-arm flexion curve 4.3°. That was measured
+      // against a shoulder girdle sitting 57 mm in front of the ribcage; with
+      // the clavicle's rest angle corrected the arm root is back where it
+      // belongs, and buying clearance by tilting the humerus forward would
+      // simply reinstate the thing that correction removes.
+      //
+      // So the clearance now comes from the elbow instead (see `jointTargets`),
+      // and the upper arm is free to hang closer to vertical: 3° rather than
+      // 4.55°, which measures 3.22° of true sagittal tilt against 3.87° before.
+      upperarm_l: { x: 3, z: -3 },
+      upperarm_r: { x: 3, z: 3 },
       hand_l: { z: 4 },
       hand_r: { z: -4 },
     },
@@ -78,9 +80,9 @@ export const bicepCurl: ExerciseDefinition = {
       clavicle_r: { z: -5 },
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
-      // 4° of drift above the rebased neutral, as before.
-      upperarm_l: { x: 8.55, z: -4 },
-      upperarm_r: { x: 8.55, z: 4 },
+      // 4° of drift above the neutral above, as before.
+      upperarm_l: { x: 7, z: -4 },
+      upperarm_r: { x: 7, z: 4 },
       hand_l: { z: 2 },
       hand_r: { z: -2 },
     },
@@ -91,8 +93,13 @@ export const bicepCurl: ExerciseDefinition = {
    * the poses above, which keeps the interesting numbers in one short list.
    */
   jointTargets: [
-    { bone: 'forearm_l', axis: 'x', start: 6, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
-    { bone: 'forearm_r', axis: 'x', start: 6, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
+    // 16° at the bottom, not 6°. This is where the hanging dumbbell's thigh
+    // clearance is bought now: bending the elbow lifts the plate off the leg
+    // without tilting the humerus forward, so the corrected shoulder alignment
+    // is not spent to protect it. A soft elbow at the bottom of a dumbbell curl
+    // is also what a lifter actually does; locking out is the exception.
+    { bone: 'forearm_l', axis: 'x', start: 16, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
+    { bone: 'forearm_r', axis: 'x', start: 16, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
     // Supination is held throughout: the palms face up from the bottom.
     { bone: 'forearm_l', axis: 'y', start: 72, peak: 80, role: 'support' },
     { bone: 'forearm_r', axis: 'y', start: -72, peak: -80, role: 'support' },

@@ -1,0 +1,22 @@
+{
+  "reference_files_unchanged": 400,
+  "v1_artifacts_unchanged": true,
+  "production_source_copy_unchanged": true,
+  "rig_nodes_skins_animations_exact": true,
+  "original_binary_prefix_exact": true,
+  "bare_difference": "Only shorts node mesh attachment removed; all body, rig and binary data identical",
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v2.blend": {
+      "bytes": 3386591,
+      "sha256": "4d6a6c0d8505c9533f0fbf8a1c01f4a606b687a8b5fd85c89c6357e845762076"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v2.glb": {
+      "bytes": 6852772,
+      "sha256": "46029aced0f59ac476b6355196a2eb284729cc690e14d177d1a09842f055f763"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v2_BARE.glb": {
+      "bytes": 6852764,
+      "sha256": "43b141bb9e4f44bcba5cfa4a33787050a4eab561e709842185bc0940c662c13b"
+    }
+  }
+}

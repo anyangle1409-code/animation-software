@@ -1,0 +1,276 @@
+{
+  "sources": {
+    "baseline": {
+      "mapping": {
+        "mapped": [
+          "pelvis",
+          "spine_01",
+          "spine_02",
+          "spine_03",
+          "neck",
+          "head",
+          "clavicle_l",
+          "upperarm_l",
+          "forearm_l",
+          "hand_l",
+          "clavicle_r",
+          "upperarm_r",
+          "forearm_r",
+          "hand_r",
+          "thigh_l",
+          "shin_l",
+          "foot_l",
+          "toe_l",
+          "thigh_r",
+          "shin_r",
+          "foot_r",
+          "toe_r",
+          "thumb_01_l",
+          "thumb_02_l",
+          "thumb_03_l",
+          "index_01_l",
+          "index_02_l",
+          "index_03_l",
+          "middle_01_l",
+          "middle_02_l",
+          "middle_03_l",
+          "ring_01_l",
+          "ring_02_l",
+          "ring_03_l",
+          "pinky_01_l",
+          "pinky_02_l",
+          "pinky_03_l",
+          "thumb_01_r",
+          "thumb_02_r",
+          "thumb_03_r",
+          "index_01_r",
+          "index_02_r",
+          "index_03_r",
+          "middle_01_r",
+          "middle_02_r",
+          "middle_03_r",
+          "ring_01_r",
+          "ring_02_r",
+          "ring_03_r",
+          "pinky_01_r",
+          "pinky_02_r",
+          "pinky_03_r"
+        ],
+        "missing": [
+          "root"
+        ],
+        "missingRequired": []
+      },
+      "height": 2.0175788345244436,
+      "scale": 0.8673762680567009,
+      "bones": 160,
+      "vertices": 12249,
+      "driven": 52,
+      "passive": 108
+    },
+    "candidate": {
+      "mapping": {
+        "mapped": [
+          "pelvis",
+          "spine_01",
+          "spine_02",
+          "spine_03",
+          "neck",
+          "head",
+          "clavicle_l",
+          "upperarm_l",
+          "forearm_l",
+          "hand_l",
+          "clavicle_r",
+          "upperarm_r",
+          "forearm_r",
+          "hand_r",
+          "thigh_l",
+          "shin_l",
+          "foot_l",
+          "toe_l",
+          "thigh_r",
+          "shin_r",
+          "foot_r",
+          "toe_r",
+          "thumb_01_l",
+          "thumb_02_l",
+          "thumb_03_l",
+          "index_01_l",
+          "index_02_l",
+          "index_03_l",
+          "middle_01_l",
+          "middle_02_l",
+          "middle_03_l",
+          "ring_01_l",
+          "ring_02_l",
+          "ring_03_l",
+          "pinky_01_l",
+          "pinky_02_l",
+          "pinky_03_l",
+          "thumb_01_r",
+          "thumb_02_r",
+          "thumb_03_r",
+          "index_01_r",
+          "index_02_r",
+          "index_03_r",
+          "middle_01_r",
+          "middle_02_r",
+          "middle_03_r",
+          "ring_01_r",
+          "ring_02_r",
+          "ring_03_r",
+          "pinky_01_r",
+          "pinky_02_r",
+          "pinky_03_r"
+        ],
+        "missing": [
+          "root"
+        ],
+        "missingRequired": []
+      },
+      "height": 2.0175788345244436,
+      "scale": 0.8673762680567009,
+      "bones": 160,
+      "vertices": 32443,
+      "driven": 52,
+      "passive": 108
+    }
+  },
+  "exercises": [
+    {
+      "name": "Dumbbell Bicep Curl",
+      "frames": 26,
+      "handMaxDifferenceMm": 0,
+      "boneMatrixMaxDifference": 0,
+      "equipmentMatrixMaxDifference": 0,
+      "techniqueViolations": [],
+      "unreachable": [],
+      "loopClosed": true
+    },
+    {
+      "name": "Push-Up",
+      "frames": 26,
+      "handMaxDifferenceMm": 0,
+      "boneMatrixMaxDifference": 0,
+      "equipmentMatrixMaxDifference": 0,
+      "techniqueViolations": [
+        "elbow_flare_l",
+        "elbow_flare_r"
+      ],
+      "unreachable": [
+        {
+          "time": 0,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 0,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.1037735849056602,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.1037735849056602,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.169811320754717,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.169811320754717,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.2358490566037736,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.2358490566037736,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.30188679245283,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.30188679245283,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.3679245283018866,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.3679245283018866,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.4339622641509435,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.4339622641509435,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.5,
+          "chain": "arm_l",
+          "error": 0.005561993353507835
+        },
+        {
+          "time": 3.5,
+          "chain": "arm_r",
+          "error": 0.005561993353507835
+        }
+      ],
+      "loopClosed": true
+    },
+    {
+      "name": "Bodyweight Squat",
+      "frames": 26,
+      "handMaxDifferenceMm": 0,
+      "boneMatrixMaxDifference": 0,
+      "equipmentMatrixMaxDifference": 0,
+      "techniqueViolations": [],
+      "unreachable": [],
+      "loopClosed": true
+    },
+    {
+      "name": "Dumbbell Shoulder Press",
+      "frames": 26,
+      "handMaxDifferenceMm": 0,
+      "boneMatrixMaxDifference": 0,
+      "equipmentMatrixMaxDifference": 0,
+      "techniqueViolations": [],
+      "unreachable": [],
+      "loopClosed": true
+    },
+    {
+      "name": "Pull-Up",
+      "frames": 26,
+      "handMaxDifferenceMm": 0,
+      "boneMatrixMaxDifference": 0,
+      "equipmentMatrixMaxDifference": 0,
+      "techniqueViolations": [],
+      "unreachable": [],
+      "loopClosed": true
+    }
+  ]
+}

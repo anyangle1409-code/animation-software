@@ -1,0 +1,26 @@
+{
+Traceback (most recent call last):
+  "source_vertices": 10839,
+  "new_vertices": 20194,
+  "mean_lost_weight": 0.004775004718806102,
+  "max_lost_weight": 0.20824213615207887,
+  "count_loss_above_1_percent": 2073,
+  "count_loss_above_5_percent": 722,
+  "count_loss_above_10_percent": 72,
+  "shoulder_new_vertices": 2042,
+  "shoulder_max_lost_weight": 0.03872525233905266
+}
+Worst 5:
+{'vertex': 22057, 'edge': (5310, 5314), 'loss': 0.20824213615207887, 'near_shoulder': False, 'posed_midpoint': [-0.06249894943958529, 1.5743432498385947, -0.04372758417417488], 'retained': [{'bone': 'def-spine.006', 'weight': 0.33614785809432113}, {'bone': 'def-spine.005', 'weight': 0.22208725482752428}, {'bone': 'def-jaw.r.001', 'weight': 0.12115276012683598}, {'bone': 'def-ear.r.003', 'weight': 0.11237002306886336}], 'discarded': [{'bone': 'def-jaw.r', 'weight': 0.10974872145682357}, {'bone': 'def-ear.r.004', 'weight': 0.09849341469525529}]}
+  File "C:\Users\Mark\Documents\animation-software\HIGH_DETAIL_MESH_WORK\scripts\audit_weights_v2.py", line 130, in <module>
+    assert report["max_lost_weight"] <= max_allowed_loss + 1e-7, f"new midpoint loses {report['max_lost_weight']:.3%} of skin weight"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: new midpoint loses 20.824% of skin weight
+{'vertex': 13347, 'edge': (2305, 2310), 'loss': 0.20822467252407562, 'near_shoulder': False, 'posed_midpoint': [0.06249439417286956, 1.5743416949243823, -0.04372786143981872], 'retained': [{'bone': 'def-spine.006', 'weight': 0.33615111609991805}, {'bone': 'def-spine.005', 'weight': 0.22211626771183182}, {'bone': 'def-jaw.l.001', 'weight': 0.12113442695369481}, {'bone': 'def-ear.l.003', 'weight': 0.11237353816943234}], 'discarded': [{'bone': 'def-jaw.l', 'weight': 0.10973345068464493}, {'bone': 'def-ear.l.004', 'weight': 0.09849122183943071}]}
+{'vertex': 22058, 'edge': (5308, 5310), 'loss': 0.19309309972440303, 'near_shoulder': False, 'posed_midpoint': [-0.06432694045543433, 1.578639645654599, -0.043073029025811706], 'retained': [{'bone': 'def-spine.006', 'weight': 0.3904594508801583}, {'bone': 'def-ear.r.003', 'weight': 0.21002112988651997}, {'bone': 'def-spine.005', 'weight': 0.10560561495401434}, {'bone': 'def-jaw.r.001', 'weight': 0.10082071520377595}], 'discarded': [{'bone': 'def-ear.r.004', 'weight': 0.09849341469525529}, {'bone': 'def-jaw.r', 'weight': 0.09459968502914763}]}
+{'vertex': 24416, 'edge': (5307, 5309), 'loss': 0.19309309972440303, 'near_shoulder': False, 'posed_midpoint': [-0.06432694045543433, 1.578639645654599, -0.043073029025811706], 'retained': [{'bone': 'def-spine.006', 'weight': 0.3904594508801583}, {'bone': 'def-ear.r.003', 'weight': 0.21002112988651997}, {'bone': 'def-spine.005', 'weight': 0.10560561495401434}, {'bone': 'def-jaw.r.001', 'weight': 0.10082071520377595}], 'discarded': [{'bone': 'def-ear.r.004', 'weight': 0.09849341469525529}, {'bone': 'def-jaw.r', 'weight': 0.09459968502914763}]}
+{'vertex': 13346, 'edge': (2303, 2305), 'loss': 0.1930778253938895, 'near_shoulder': False, 'posed_midpoint': [0.06432535198038006, 1.5786402169232383, -0.04307402226912539], 'retained': [{'bone': 'def-spine.006', 'weight': 0.3904800153784339}, {'bone': 'def-ear.l.003', 'weight': 0.2100394117026492}, {'bone': 'def-spine.005', 'weight': 0.10560300268660178}, {'bone': 'def-jaw.l.001', 'weight': 0.10079972148912657}], 'discarded': [{'bone': 'def-ear.l.004', 'weight': 0.09849122183943071}, {'bone': 'def-jaw.l', 'weight': 0.09458660355445876}]}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit
+

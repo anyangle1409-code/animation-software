@@ -1,0 +1,773 @@
+{
+  "source_vertices": 10839,
+  "new_vertices": 19472,
+  "mean_lost_weight": 0.00213412944293584,
+  "max_lost_weight": 0.049803409774584195,
+  "count_loss_above_1_percent": 1351,
+  "count_loss_above_5_percent": 0,
+  "count_loss_above_10_percent": 0,
+  "shoulder_new_vertices": 2042,
+  "shoulder_max_lost_weight": 0.03872525233905266,
+  "worst_20": [
+    {
+      "vertex": 20487,
+      "edge": [
+        4938,
+        5385
+      ],
+      "loss": 0.049803409774584195,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.047565526047893485,
+        1.544404036066675,
+        -0.009838817934180004
+      ],
+      "retained": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.4917010331229317
+        },
+        {
+          "bone": "def-jaw",
+          "weight": 0.20179344984485476
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.19851365099815604
+        },
+        {
+          "bone": "def-jaw.r.001",
+          "weight": 0.058188437043672915
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-spine.004",
+          "weight": 0.049803409774584195
+        }
+      ]
+    },
+    {
+      "vertex": 20495,
+      "edge": [
+        4938,
+        5397
+      ],
+      "loss": 0.049803409774584195,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.048950956472103166,
+        1.544892018373261,
+        -0.011914305211372954
+      ],
+      "retained": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.4752193825661215
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.21646681683475466
+        },
+        {
+          "bone": "def-jaw",
+          "weight": 0.18557198545179018
+        },
+        {
+          "bone": "def-jaw.r.001",
+          "weight": 0.07293838183608352
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-spine.004",
+          "weight": 0.049803409774584195
+        }
+      ]
+    },
+    {
+      "vertex": 12044,
+      "edge": [
+        1955,
+        2375
+      ],
+      "loss": 0.04980310602999016,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.047565764081964876,
+        1.5444044673307675,
+        -0.009838791773984758
+      ],
+      "retained": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.4916996569498331
+        },
+        {
+          "bone": "def-jaw",
+          "weight": 0.20178554120735212
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.19852664778528484
+        },
+        {
+          "bone": "def-jaw.l.001",
+          "weight": 0.05818502552328937
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-spine.004",
+          "weight": 0.04980310602999012
+        }
+      ]
+    },
+    {
+      "vertex": 12049,
+      "edge": [
+        1955,
+        2387
+      ],
+      "loss": 0.04980310602999016,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.04895150251849298,
+        1.5448921398412971,
+        -0.011914064482492775
+      ],
+      "retained": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.47521664074734826
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.2164812168996092
+        },
+        {
+          "bone": "def-jaw",
+          "weight": 0.1855647241488073
+        },
+        {
+          "bone": "def-jaw.l.001",
+          "weight": 0.0729343175115153
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-spine.004",
+          "weight": 0.04980310602999012
+        }
+      ]
+    },
+    {
+      "vertex": 12716,
+      "edge": [
+        2149,
+        2629
+      ],
+      "loss": 0.049590037311595614,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.0240856655788056,
+        1.6402813434519574,
+        0.03176690803063944
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.5412174257832258
+        },
+        {
+          "bone": "def-tongue.001",
+          "weight": 0.19197446967900877
+        },
+        {
+          "bone": "def-tongue",
+          "weight": 0.16695765084839864
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.05026039174523901
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-brow.b.l.003",
+          "weight": 0.049590037311595635
+        }
+      ]
+    },
+    {
+      "vertex": 21532,
+      "edge": [
+        6193,
+        6204
+      ],
+      "loss": 0.04952955165284356,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.07399326289604738,
+        1.588822137210925,
+        -0.05766674879211503
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.3711335114644941
+        },
+        {
+          "bone": "def-ear.r.003",
+          "weight": 0.29494989938606575
+        },
+        {
+          "bone": "def-ear.r.004",
+          "weight": 0.233900672367431
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.0504863595197149
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.r",
+          "weight": 0.04952955165284361
+        }
+      ]
+    },
+    {
+      "vertex": 13118,
+      "edge": [
+        3131,
+        3142
+      ],
+      "loss": 0.049527810770975345,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.07399306690412799,
+        1.5888231433260946,
+        -0.057667189487047535
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.37113089275350486
+        },
+        {
+          "bone": "def-ear.l.003",
+          "weight": 0.2949635286786054
+        },
+        {
+          "bone": "def-ear.l.004",
+          "weight": 0.23389596629574932
+        },
+        {
+          "bone": "def-spine.005",
+          "weight": 0.050481792398933766
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.l",
+          "weight": 0.049527810770975365
+        }
+      ]
+    },
+    {
+      "vertex": 25987,
+      "edge": [
+        6891,
+        7055
+      ],
+      "loss": 0.04928625716802326,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.1060456566467239,
+        1.4440475475774497,
+        -0.1337947788413485
+      ],
+      "retained": [
+        {
+          "bone": "def-shoulder.r",
+          "weight": 0.4112591880019716
+        },
+        {
+          "bone": "def-spine.003",
+          "weight": 0.3651458640299497
+        },
+        {
+          "bone": "def-upper_arm.r",
+          "weight": 0.12290669975774333
+        },
+        {
+          "bone": "def-spine.004",
+          "weight": 0.05140200748386939
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-breast.r",
+          "weight": 0.0492862571680233
+        }
+      ]
+    },
+    {
+      "vertex": 17613,
+      "edge": [
+        3737,
+        3880
+      ],
+      "loss": 0.04928531722728691,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.10604565851088321,
+        1.4440470434685437,
+        -0.13379478185916194
+      ],
+      "retained": [
+        {
+          "bone": "def-shoulder.l",
+          "weight": 0.41125560495475044
+        },
+        {
+          "bone": "def-spine.003",
+          "weight": 0.36514970090626164
+        },
+        {
+          "bone": "def-upper_arm.l",
+          "weight": 0.12290656912495065
+        },
+        {
+          "bone": "def-spine.004",
+          "weight": 0.05140280778675039
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-breast.l",
+          "weight": 0.04928531722728693
+        }
+      ]
+    },
+    {
+      "vertex": 22865,
+      "edge": [
+        6586,
+        6590
+      ],
+      "loss": 0.04904045939684443,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.058808250496719644,
+        1.0587845014134176,
+        -0.10429381059532881
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.001",
+          "weight": 0.5780106941951817
+        },
+        {
+          "bone": "def-pelvis.r",
+          "weight": 0.1980768561180346
+        },
+        {
+          "bone": "def-spine",
+          "weight": 0.10398379533630137
+        },
+        {
+          "bone": "def-spine.002",
+          "weight": 0.07088821565923363
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-thigh.r",
+          "weight": 0.04904045939684429
+        }
+      ]
+    },
+    {
+      "vertex": 20936,
+      "edge": [
+        4887,
+        5361
+      ],
+      "loss": 0.04901536299255338,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.06659010989096639,
+        1.629734810578709,
+        -0.02720696095490252
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.6393109536197977
+        },
+        {
+          "bone": "def-ear.r.004",
+          "weight": 0.16020764719699276
+        },
+        {
+          "bone": "def-ear.r",
+          "weight": 0.09605825740886116
+        },
+        {
+          "bone": "def-jaw.r",
+          "weight": 0.05540777438840785
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.r.003",
+          "weight": 0.049015362992553414
+        }
+      ]
+    },
+    {
+      "vertex": 12510,
+      "edge": [
+        1912,
+        2353
+      ],
+      "loss": 0.04901177313251148,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.06658954417475554,
+        1.6297351047854172,
+        -0.027207184091731264
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.6393296713021102
+        },
+        {
+          "bone": "def-ear.l.004",
+          "weight": 0.1601969466270609
+        },
+        {
+          "bone": "def-ear.l",
+          "weight": 0.0960504757696586
+        },
+        {
+          "bone": "def-jaw.l",
+          "weight": 0.0554111760012796
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.l.003",
+          "weight": 0.04901177313251147
+        }
+      ]
+    },
+    {
+      "vertex": 21719,
+      "edge": [
+        5094,
+        5372
+      ],
+      "loss": 0.04893790175530566,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.06716789923889738,
+        1.6172508872698912,
+        -0.020895384726318838
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.5986474363288767
+        },
+        {
+          "bone": "def-jaw.r",
+          "weight": 0.1694604475511066
+        },
+        {
+          "bone": "def-ear.r.004",
+          "weight": 0.12127139837683792
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.06168279300573767
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.r.003",
+          "weight": 0.048937901755305636
+        }
+      ]
+    },
+    {
+      "vertex": 24446,
+      "edge": [
+        5372,
+        6425
+      ],
+      "loss": 0.04893790175530566,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.06693695210269887,
+        1.6134842959744837,
+        -0.02437266796775078
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.578682582567748
+        },
+        {
+          "bone": "def-jaw.r",
+          "weight": 0.18283883106952567
+        },
+        {
+          "bone": "def-ear.r.004",
+          "weight": 0.12556662073881952
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.06397407068142176
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.r.003",
+          "weight": 0.048937901755305636
+        }
+      ]
+    },
+    {
+      "vertex": 13304,
+      "edge": [
+        2099,
+        2363
+      ],
+      "loss": 0.04893175169248454,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.06716995628217426,
+        1.6172505981570446,
+        -0.020895066290780848
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.598671205726971
+        },
+        {
+          "bone": "def-jaw.l",
+          "weight": 0.16946410613968588
+        },
+        {
+          "bone": "def-ear.l.004",
+          "weight": 0.1212549430172751
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.06167802061304081
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.l.003",
+          "weight": 0.048931751692484496
+        }
+      ]
+    },
+    {
+      "vertex": 16065,
+      "edge": [
+        2363,
+        3361
+      ],
+      "loss": 0.048931751692484426,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.06693896566067166,
+        1.6134842281238448,
+        -0.02437242457262441
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.5787007089252441
+        },
+        {
+          "bone": "def-jaw.l",
+          "weight": 0.18284760929575034
+        },
+        {
+          "bone": "def-ear.l.004",
+          "weight": 0.12555112305732125
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.0639688073987281
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.l.003",
+          "weight": 0.048931751692484496
+        }
+      ]
+    },
+    {
+      "vertex": 21156,
+      "edge": [
+        5144,
+        5151
+      ],
+      "loss": 0.048911331674551306,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.013772427614017996,
+        1.6378044447064761,
+        0.03231278146328163
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.4188016751773116
+        },
+        {
+          "bone": "def-tongue.001",
+          "weight": 0.24800544131490565
+        },
+        {
+          "bone": "def-tongue",
+          "weight": 0.2321173281674887
+        },
+        {
+          "bone": "def-brow.b.r.003",
+          "weight": 0.05216424589554969
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.048911331674551334
+        }
+      ]
+    },
+    {
+      "vertex": 22699,
+      "edge": [
+        5151,
+        5681
+      ],
+      "loss": 0.048911331674551306,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.012750139790131548,
+        1.6385330219555572,
+        0.034027933599360946
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.42610428815465173
+        },
+        {
+          "bone": "def-tongue.001",
+          "weight": 0.2450783141696516
+        },
+        {
+          "bone": "def-tongue",
+          "weight": 0.23083608757874058
+        },
+        {
+          "bone": "def-brow.b.r.003",
+          "weight": 0.04906999584474431
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.048911331674551334
+        }
+      ]
+    },
+    {
+      "vertex": 12724,
+      "edge": [
+        2148,
+        2155
+      ],
+      "loss": 0.048896742534932036,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        0.013772331870504213,
+        1.6378052489084984,
+        0.03231300019174183
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.41983054248346463
+        },
+        {
+          "bone": "def-tongue.001",
+          "weight": 0.2481314747771346
+        },
+        {
+          "bone": "def-tongue",
+          "weight": 0.2318649222441947
+        },
+        {
+          "bone": "def-brow.b.l.003",
+          "weight": 0.05127632247287835
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.04889674253493212
+        }
+      ]
+    },
+    {
+      "vertex": 20709,
+      "edge": [
+        4979,
+        6415
+      ],
+      "loss": 0.04882399025348483,
+      "near_shoulder": false,
+      "posed_midpoint": [
+        -0.06390914220031549,
+        1.6015909676400204,
+        -0.018273966454501602
+      ],
+      "retained": [
+        {
+          "bone": "def-spine.006",
+          "weight": 0.5175378103811052
+        },
+        {
+          "bone": "def-tongue.002",
+          "weight": 0.1866755969831224
+        },
+        {
+          "bone": "def-jaw.r",
+          "weight": 0.1776383937257799
+        },
+        {
+          "bone": "def-jaw.r.001",
+          "weight": 0.06932423799813119
+        }
+      ],
+      "discarded": [
+        {
+          "bone": "def-ear.r.004",
+          "weight": 0.04882399025348487
+        }
+      ]
+    }
+  ]
+}

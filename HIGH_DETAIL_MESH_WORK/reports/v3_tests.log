@@ -1,0 +1,102 @@
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/animation-software/HIGH_DETAIL_MESH_WORK/validation
+
+stdout | scratchpad/repair/review_v2.test.mts > compares all five exercises with frozen rig, correctives and actual equipment frames
+[{"name":"Dumbbell Bicep Curl","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Push-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":["elbow_flare_l","elbow_flare_r"],"unreachable":[{"time":0,"chain":"arm_l","error":0.005561993353507835},{"time":0,"chain":"arm_r","error":0.005561993353507835},{"time":3.1037735849056602,"chain":"arm_l","error":0.005561993353507835},{"time":3.1037735849056602,"chain":"arm_r","error":0.005561993353507835},{"time":3.169811320754717,"chain":"arm_l","error":0.005561993353507835},{"time":3.169811320754717,"chain":"arm_r","error":0.005561993353507835},{"time":3.2358490566037736,"chain":"arm_l","error":0.005561993353507835},{"time":3.2358490566037736,"chain":"arm_r","error":0.005561993353507835},{"time":3.30188679245283,"chain":"arm_l","error":0.005561993353507835},{"time":3.30188679245283,"chain":"arm_r","error":0.005561993353507835},{"time":3.3679245283018866,"chain":"arm_l","error":0.005561993353507835},{"time":3.3679245283018866,"chain":"arm_r","error":0.005561993353507835},{"time":3.4339622641509435,"chain":"arm_l","error":0.005561993353507835},{"time":3.4339622641509435,"chain":"arm_r","error":0.005561993353507835},{"time":3.5,"chain":"arm_l","error":0.005561993353507835},{"time":3.5,"chain":"arm_r","error":0.005561993353507835}],"loopClosed":true},{"name":"Bodyweight Squat","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Shoulder Press","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Pull-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true}]
+
+ ✓ scratchpad/repair/review_v2.test.mts (1 test) 13858ms
+   ✓ compares all five exercises with frozen rig, correctives and actual equipment frames  13856ms
+stdout | scratchpad/repair/dressed_equivalence.test.mts > the dressed default matches the bare body it was built from > carries the same solved grip and poses identically
+EQUIV solution: bare=homeGymPTMale dressed=homeGymPTMale
+EQUIV grip offset: bare={"x":0.0174,"y":0.0452,"z":0.0083} dressed={"x":0.0174,"y":0.0452,"z":0.0083}
+EQUIV posed hand difference: 0.0000 mm
+EQUIV worst posed body vertex difference: 0.0000 mm over 30311 vertices
+
+ ✓ scratchpad/repair/dressed_equivalence.test.mts (1 test) 1679ms
+   ✓ the dressed default matches the bare body it was built from > carries the same solved grip and poses identically  1676ms
+stdout | scratchpad/repair/gripmetric.test.mts > corrected grip metric > measures the fist against the real capped bar, and proves the sweep moves the mesh
+
+CORRECTED GRIP METRIC — capped bar r=15.0mm half=60.0mm, summed-weight classification
+profile | frame | PIP° | checksum | fingers near/in | palm near/in | thumb near/in | wrap°
+shipped    | Bottom |  80.8 |  720647090 |    -10.75/46 |      -2.54/2 |    -10.35/24 | 343
+shipped    | Mid    |  80.8 |  228259218 |    -10.75/46 |      -2.54/2 |    -10.35/24 | 343
+shipped    | Peak   |  80.8 |  573020197 |    -10.75/46 |      -2.54/2 |    -10.35/24 | 343
+deeper PIP | Bottom |  91.8 |  716860032 |    -13.10/70 |      -2.54/2 |    -10.35/24 | 349
+deeper PIP | Mid    |  91.8 |  224547225 |    -13.10/70 |      -2.54/2 |    -10.35/24 | 349
+deeper PIP | Peak   |  91.8 |  572962431 |    -13.10/70 |      -2.54/2 |    -10.35/24 | 349
+deeper MCP | Bottom |  80.8 |  719994030 |    -13.68/57 |      -2.54/2 |    -10.35/24 | 346
+deeper MCP | Mid    |  80.8 |  216910391 |    -13.68/57 |      -2.54/2 |    -10.35/24 | 346
+deeper MCP | Peak   |  80.8 |  560820974 |    -13.68/57 |      -2.54/2 |    -10.35/24 | 346
+deeper DIP | Bottom |  80.8 |  720218795 |    -13.20/50 |      -2.54/2 |    -10.35/24 | 345
+deeper DIP | Mid    |  80.8 |  228169456 |    -13.20/50 |      -2.54/2 |    -10.35/24 | 345
+deeper DIP | Peak   |  80.8 |  573389424 |    -13.20/50 |      -2.54/2 |    -10.35/24 | 345
+full fist  | Bottom |  91.8 |  714397393 |    -12.38/83 |      -2.54/2 |     -9.26/16 | 350
+full fist  | Mid    |  91.8 |  212664747 |    -12.38/83 |      -2.54/2 |     -9.26/16 | 350
+full fist  | Peak   |  91.8 |  562056056 |    -12.38/83 |      -2.54/2 |     -9.26/16 | 350
+open       | Bottom |  46.8 |  718996126 |      -4.99/3 |      -2.54/2 |     -8.47/31 | 224
+open       | Mid    |  46.8 |  264047216 |      -4.99/3 |      -2.54/2 |     -8.47/31 | 224
+open       | Peak   |  46.8 |  615763425 |      -4.99/3 |      -2.54/2 |     -8.47/31 | 224
+
+ ✓ scratchpad/repair/gripmetric.test.mts (1 test) 1464ms
+   ✓ corrected grip metric > measures the fist against the real capped bar, and proves the sweep moves the mesh  1462ms
+stdout | scratchpad/repair/sagittal.test.mts > sagittal shoulder-to-upper-arm profile > compares the humerus axis with the arm mass midline, height by height
+
+================ HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v3.glb — side Bottom ================
+  clavicle tail / AC point  x 15.9  y 1407.6  z 28.4
+  upper-arm joint centre    x 214.9  y 1412.1  z -21.9
+  elbow                     x 205.3  y 1115.6  z -5.2
+  joint centre relative to the clavicle tail: below -4.5 mm, behind 50.4 mm, lateral 199.0 mm
+  humerus sagittal tilt 3.22°
+  deltoid apex (arm-owned)      y 1444.0  z -47.8  -> 31.9 mm ABOVE the joint
+  acromion/trap apex (clav-owned) y 1476.5  z -81.7  -> 64.4 mm above the joint
+  outer trunk apex              y 1478.9                -> 66.8 mm above the joint
+
+  band y      n   back z   front z   midline   thick   axis z   axis-midline
+   1440.1    34    -83.8       9.5     -37.1    93.3    -23.5           13.6
+   1422.1    54   -106.7      21.2     -42.7   127.9    -22.5           20.2
+   1404.1    51   -114.8      22.6     -46.1   137.4    -21.5           24.6
+   1386.1    51   -115.4      21.3     -47.1   136.7    -20.5           26.6
+   1368.1    60   -117.0      18.4     -49.3   135.4    -19.5           29.9
+   1350.1    64   -114.4      13.8     -50.3   128.1    -18.5           31.8
+   1332.1    64   -112.2      15.3     -48.4   127.6    -17.4           31.0
+   1314.1    71   -110.4      19.8     -45.3   130.2    -16.4           28.8
+   1296.1    79   -109.3      22.5     -43.4   131.7    -15.4           28.0
+   1278.1    63   -107.2      27.3     -39.9   134.4    -14.4           25.5
+   1260.1    54   -101.8      29.8     -36.0   131.5    -13.4           22.6
+   1242.1    49    -97.8      33.9     -31.9   131.6    -12.4           19.6
+   1224.1    53    -90.9      37.5     -26.7   128.4    -11.4           15.3
+   1206.1    57    -83.9      36.4     -23.7   120.3    -10.3           13.4
+   1188.1    45    -74.1      31.7     -21.2   105.8     -9.3           11.9
+
+  >> mean axis-minus-midline over the CAP  (at/above the joint): 19.5 mm
+  >> mean axis-minus-midline over the SHAFT (below the joint): 23.7 mm
+     (+ = the bone runs ahead of the mass it sits in)
+
+ ✓ scratchpad/repair/sagittal.test.mts (1 test) 1305ms
+   ✓ sagittal shoulder-to-upper-arm profile > compares the humerus axis with the arm mass midline, height by height  1302ms
+stdout | scratchpad/repair/overlap.test.mts > dumbbell clearance > measures closest approach to the leg at the curl bottom
+DUMBBELL_CLEARANCE Bottom  l: 1.99 mm (0 in, worst at plate x-46 y-3 z-94, radial 46)   r: 2.15 mm (0 in, worst at plate x46 y-3 z-95, radial 46)
+DUMBBELL_CLEARANCE Mid lift  l: 168.81 mm (0 in, worst at plate x-78 y-202 z-257, radial 217)   r: 168.80 mm (0 in, worst at plate x78 y-202 z-257, radial 217)
+DUMBBELL_CLEARANCE Peak  l: 160.30 mm (0 in, worst at plate x68 y-197 z-166, radial 208)   r: 160.28 mm (0 in, worst at plate x-68 y-197 z-166, radial 208)
+DUMBBELL_CLEARANCE Mid lower  l: 191.71 mm (0 in, worst at plate x-86 y-224 z-265, radial 240)   r: 191.71 mm (0 in, worst at plate x86 y-224 z-265, radial 240)
+DUMBBELL_CLEARANCE Return  l: 1.99 mm (0 in, worst at plate x-46 y-3 z-94, radial 46)   r: 2.15 mm (0 in, worst at plate x46 y-3 z-95, radial 46)
+
+ ✓ scratchpad/repair/overlap.test.mts (1 test) 1261ms
+   ✓ dumbbell clearance > measures closest approach to the leg at the curl bottom  1259ms
+stdout | scratchpad/repair/gripagree.test.mts > grip frame agreement > renderer, solver and exporter resolve the same handle transform
+GRIP_AGREE t=0 l: rendered vs exported 0.0000 mm
+GRIP_AGREE t=0 r: rendered vs exported 0.0000 mm
+GRIP_AGREE t=2 l: rendered vs exported 0.0000 mm
+GRIP_AGREE t=2 r: rendered vs exported 0.0000 mm
+GRIP_AGREE t=4 l: rendered vs exported 0.0000 mm
+GRIP_AGREE t=4 r: rendered vs exported 0.0000 mm
+
+ ✓ scratchpad/repair/gripagree.test.mts (1 test) 883ms
+   ✓ grip frame agreement > renderer, solver and exporter resolve the same handle transform  880ms
+
+ Test Files  6 passed (6)
+      Tests  6 passed (6)
+   Start at  20:03:10
+   Duration  31.44s (transform 2.10s, setup 342ms, collect 7.41s, tests 20.45s, environment 2ms, prepare 1.30s)
+
+

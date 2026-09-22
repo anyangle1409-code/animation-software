@@ -1,6 +1,2 @@
-# Next action
-First review candidate is ready: open REVIEW.md and renders/REVIEW_CONTACT_SHEET.jpg.
+V3 review candidate ready. Start with REVIEW_V3.md and the two renders_v3 review sheets. The next candidate-only phase is deliberate overhead armpit topology/weight work, then hand/knee anatomy and skin textures. Compare every proposed corrective with the frozen reference at identical poses. Keep v1/v2/v3 checkpoints, production assets, frozen rig, bundled.ts, exercise mechanics and production references unchanged. No merge or promotion.
 
-Before production readiness, refine overhead armpits/posterior deltoid balance, inspect continuous exercise motion, audit new-vertex influence truncation, improve joint topology and inherited hand/knee anatomy, then author skin textures. Repeat candidate compatibility and sagittal checks after each mesh change. Use checkpoints/CANDIDATE_v1_03_surface_gain_0.90.blend as the accepted review checkpoint, not the earlier rejected experiments.
-
-Keep all work in this candidate workspace. Do not change rig positions, production assets, bundled.ts, exercise mechanics or production references. No promotion or merge.

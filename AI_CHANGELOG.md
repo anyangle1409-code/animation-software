@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-22 — Phase 1: the right-hand half of every exercise is derived, not typed twice
+
+Commits `749b5e3` and `6487feb`. Suite **320 passed / 1 skipped**, typecheck and build clean. Production assets, the rig and the retargeting path untouched.
+
+Of the 87 technique rules across the five exercises, 60 were one of 30 hand-written mirror pairs — 30 chances to get a sign backwards, with the drift already visible in the same rule being spelled `feet_planted_l` in the curl and `foot_planted_l` in the squat and the press. This is the duplication a generator would otherwise mass-produce, which is why it comes before family templates rather than after.
+
+**`src/exercises/mirror.ts`** — the left side is authored and the right derived, through `bilateralRule`, `bilateralJointTarget`, `bilateralLock`, `bilateralJoints` and `bilateralTiming`. No convention is invented: the rig already mirrors bones and joint limits, and the muscle model already mirrors bone-local offsets. What needed working out is that **rule bounds do not mirror uniformly, because the evaluator does not measure them uniformly** — `jointAngle` is a signed bone-local Euler so its bounds reflect on y and z but not x; `relativePosition` is a signed world-axis delta so they reflect on x but not y or z; `segmentAngle`, `distance`, `stationary` and `alignment` all reduce to an absolute value or a length, so their bounds are mirror-invariant. Reflecting a range is `[-max, -min]`, not negation, and a one-sided range swaps which end is open.
+
+**Held to the work it replaced.** The primitives had to reproduce all 30 hand-authored pairs exactly, and that caught two real defects on the first run: a `-0` where structural equality wants `0`, and a dropped equipment `socket` that would have pointed both hands at the `pullup_l` end of the bar.
+
+**Proved byte-identical.** Each migration step was compared against a fixture of the normalised definitions plus **61 fully resolved frames per exercise** — every bone's world position through FK, IK, contact locks and equipment attachment. All five exercises came back identical at every step. Definitions lose 426 lines and gain 129.
+
+**The ground truth is spent, and the tautological tests were removed rather than left green and hollow.** The right-hand halves are derived now, so asserting the derivation reproduces them asserts only that a function equals itself. What replaces it does not decay: every exercise's resolved motion must be its own mirror, measured through the solver and the locks that the mirroring code cannot see — **0.0000 mm for all five, over every bone of every frame**. Alongside it the convention is checked to be its own inverse, the bone-local reflection claim is measured against the rest skeleton rather than asserted, and a count guards against un-migrating the library back to hand-written twins.
+
+**`src/exercises/presets.ts`** — two rules every exercise needs, `plantedContact` and `evenSides`, each with five uses. Three other candidates were **rejected on the evidence**: tempo profiles (all five tempos differ and no two share a field, so a named set would be invented, not extracted), a torso-angle preset (four rules measure a segment against vertical at 8, 10, 18 and 50 degrees under three names — four intents sharing a shape), and grip presets (`GRIP_PROFILES` already does it). `plantedContact` fixes the id from the bone rather than taking it, which closes the naming drift; `evenSides` derives the right-hand point through `mirrorPoint`, closing the last place a left and a right were written separately.
+
+Two ids change and nothing else does: `feet_planted_l/r` → `foot_planted_l/r`, and `toes_planted_l/r` → `toe_planted_l/r` with its label corrected from "Left foot stays planted" to "Left toes stay planted" — the rule reads the toe tip, not the foot. Neither is referenced outside its own definition, and against the pre-Phase-1 fixture those four rules are the only difference across all five exercises, with every resolved frame unchanged.
+
 ### Claude — 2026-09-22 — Phase 0: closed the clavicle-correction regression and added the shared-rig gate
 
 Record: `PHASE0_FOUNDATION_FREEZE.md`. Suite back to green — **307 passed / 1 skipped**, against the 298/1 baseline at `be1ad21` plus the 9 new gate tests. Typecheck and build clean. `src/rig/humanoid.ts` bone values, the accepted curl, the production GLBs and the retargeting path are all untouched.

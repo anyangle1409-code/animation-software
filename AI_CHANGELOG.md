@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-22 — Shoulder-to-upper-arm junction: diagnosed as mesh-side, candidate rejected
+
+Record: `SHOULDER_JUNCTION_DIAGNOSIS.md`. One candidate tested and rejected on its own measurements. Nothing retained, working tree clean, suite unchanged at 290/8.
+
+The remaining "arm originates from the anterior face of the shoulder" is **the mesh/skin around an otherwise-correct joint**, proved by an invariance test rather than argued. Moving the joint 21.6 mm vertically changed the deltoid's relationship to it by **exactly 0.0 mm** — the deltoid is arm-owned, so every joint move carries its own cap with it, and no joint-position lever can change how the arm sits inside its own deltoid.
+
+The two defining numbers are both mesh properties: only **7.8 mm** of arm-owned mass sits above the joint centre where a deltoid should rise 25–35 mm, and that mass sits **26.7 mm anterior** of the bone (apex z +4.8 against joint z −21.9). So the humerus begins at the top of its own mass, with the mass leading in front of it.
+
+The other three candidate causes are ruled out: the upper-arm rest humerus is vertical by construction; the clavicle endpoint is the only lever that moves the posed joint but moves the acromion and deltoid with it; and the joint's own placement is now good (z −21.9, girdle +19.6 mm, tilt 3.22°). Re-confirmed that canonical `upperarm_l.head` does not reach the posed joint at all — moving it down 25 mm left the joint unchanged to the tenth of a millimetre.
+
+Candidate tested: clavicle tail y 1.440 → 1.420. Joint movement 21.6 mm down / 0.7 mm back, reported separately from mesh movement — 3,650 vertices moved, mean 16.98 mm, and the 255 arm-owned vertices moved mean **20.73 mm**, one-for-one with the joint. Guards all held; it was rejected because it does not fix the defect and renders worse, dropping the arm away from the trapezius.
+
+Targets handed to the separate mesh candidate: deltoid mass above the joint 7.8 → 25–35 mm, and apex z +4.8 → at or behind −21.9. Both checkable with `sagittal.test.mts`, now in the handoff.
+
+Three arm-surface selection methods were tried before one held up; the first two reached the lat and ribcage and reported implausible 115–148 mm arm depths, which would have produced the same conclusion for the wrong reason. Recorded in the doc.
+
 ### Claude — 2026-09-22 — Shoulder alignment true fix: corrected clavicle rest angle, curl re-solved
 
 Record: `SHOULDER_ALIGNMENT_TRUE_FIX.md`. Candidate for review, not promoted, not merged. Rollback is `git revert` — the change is code-only and the character binaries are unchanged.

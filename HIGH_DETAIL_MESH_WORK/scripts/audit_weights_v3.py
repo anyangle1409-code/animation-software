@@ -78,7 +78,7 @@ def midpoint(a, b):
     top = ranked[:4]
     kept = sum(value for _, value in top)
     lost = max(0, sum(influence.values()) - kept)
-    if version == "v3" and lost > 0.05:
+    if version.startswith("v3") and lost > 0.05:
         return
     index = count + len(records)
     edge_to_vertex[edge] = index

@@ -40,3 +40,5 @@ V2 review milestone: cap original-vertex mean backward motion reduced 32.315 to 
 ## V3 candidate checkpoint
 Weight audit showed v2's 20.82% maximum discarded influence occurs at neck/jaw midpoints; shoulder maximum is 3.87%. A 5% ceiling was verified red on v2, then the v3 builder skipped only the unsafe midpoint edges. V3 has 57,721 triangles and maximum new-vertex loss 4.98%. Shoulder sculpt and original vertices/weights are unchanged. Six focused tests passed cleanly over 26 frames per exercise; bare/dressed, grip, clearance and sagittal checks pass. Integrity report confirms 400 source files and all v2 deliverables unchanged, zero degenerate body triangles and no edges shared by more than two faces. Overhead armpit fold is visible in the frozen reference too; no speculative corrective added. See REVIEW_V3.md.
 
+Reproduction audit: scripts/bootstrap_from_repo.py verified the 400 pinned files; the v3_rebuild run made a byte-identical GLB (SHA-256 07d1b809cb6ae649ee86cbb8e747b43274a557bb9f4f32b685bd50c19a31c16c). The posed sculpt reference and hash manifest are packaged for branch review. See REPRODUCE_V3.md.
+

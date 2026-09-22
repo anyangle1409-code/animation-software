@@ -17,7 +17,7 @@ def smooth(t):t=np.clip(t,0,1);return t*t*(3-2*t)
 args=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
 gain=float(args[0]) if args else 1.0
 version=args[1] if len(args)>1 else 'v3'
-loss_limit=.05 if version=='v3' else None
+loss_limit=.05 if version.startswith('v3') else None
 for side in ['L','R']:
  sh=np.array(ref['shoulders'][side]);arm=np.array([w[side] for w in shares]);rel=posed-sh
  height=smooth((rel[:,1]+.090)/.085)*(1-smooth((rel[:,1]-.045)/.045))

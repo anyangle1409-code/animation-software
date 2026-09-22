@@ -39,3 +39,5 @@ The inherited face, hands, knees and some joint flow remain coarse despite the h
 
 Use v3 only in the isolated review workflow. Do not merge or promote it to production.
 
+`REPRODUCE_V3.md` describes the branch-contained inputs and verified isolated rebuild. The rebuilt GLB's SHA-256 matched the reviewed v3 GLB exactly on Blender 5.2.1.
+

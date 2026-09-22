@@ -1,6 +1,7 @@
 import { SHOULDER_WIDENING } from '../../rig/humanoid';
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
+import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
 
 /**
  * Standard push-up.
@@ -54,14 +55,13 @@ const BOTTOM = { pitch: 85.54, root: { y: 0.2062, z: 0.0382 } };
 // 1.34 is the smallest move that sits inside the 70-75° working band with margin
 // at both ends. That is +100 mm, NOT the historical ~200 mm estimate, which this
 // measurement does not support.
+// Only the left is authored; the right hand and its pole are the mirror of these.
 const HAND_L = vec3(-0.3, 0.055, 1.295);
-const HAND_R = vec3(0.3, 0.055, 1.295);
 
 /** Elbows are pulled back towards the feet and out, giving the 30–45° flare. */
 const ELBOW_POLE_L = vec3(-0.55, 0.34, 1.05);
-const ELBOW_POLE_R = vec3(0.55, 0.34, 1.05);
 
-const bodyJoints = {
+const bodyJoints = bilateralJoints({
   // The trunk is held rigid: a push-up is one unit, not a spine exercise.
   spine_01: { x: 0 },
   spine_02: { x: 0 },
@@ -70,11 +70,9 @@ const bodyJoints = {
   head: { x: -10 },
   // Toes tucked under, which is what puts the body on the balls of the feet.
   foot_l: { x: 25 },
-  foot_r: { x: 25 },
   // A starting guess for the arms; the hand locks solve them exactly.
   upperarm_l: { x: 85, z: -14 },
-  upperarm_r: { x: 85, z: 14 },
-};
+});
 
 export const pushUp: ExerciseDefinition = {
   id: 'push_up',
@@ -95,15 +93,14 @@ export const pushUp: ExerciseDefinition = {
 
   peakPose: {
     label: 'Bottom',
-    joints: { ...bodyJoints, upperarm_l: { x: 62, z: -34 }, upperarm_r: { x: 62, z: 34 } },
+    joints: { ...bodyJoints, ...bilateralJoints({ upperarm_l: { x: 62, z: -34 } }) },
     root: { position: { y: BOTTOM.root.y, z: BOTTOM.root.z }, rotation: { x: BOTTOM.pitch } },
   },
 
   jointTargets: [
     // The elbow angles the hand locks produce; listed because they are what a
     // coach would describe, and checked by the technique rules below.
-    { bone: 'forearm_l', axis: 'x', start: 18, peak: 90, role: 'prime' },
-    { bone: 'forearm_r', axis: 'x', start: 18, peak: 90, role: 'prime' },
+    ...bilateralJointTarget({ bone: 'forearm_l', axis: 'x', start: 18, peak: 90, role: 'prime' }),
   ],
 
   phases: [
@@ -119,7 +116,7 @@ export const pushUp: ExerciseDefinition = {
   feet: { width: 0.18, toeOut: 0, planted: true },
 
   locks: [
-    {
+    ...bilateralLock({
       id: 'hand_l',
       chain: 'arm_l',
       mode: 'world',
@@ -128,16 +125,7 @@ export const pushUp: ExerciseDefinition = {
       // Palms flat: fingers point forward, thumbs turned slightly inward.
       aim: { direction: vec3(0, 0, 1), forward: vec3(1, 0, 0) },
       enabled: true,
-    },
-    {
-      id: 'hand_r',
-      chain: 'arm_r',
-      mode: 'world',
-      position: HAND_R,
-      pole: ELBOW_POLE_R,
-      aim: { direction: vec3(0, 0, 1), forward: vec3(-1, 0, 0) },
-      enabled: true,
-    },
+    }),
   ],
 
   muscles: {
@@ -155,38 +143,22 @@ export const pushUp: ExerciseDefinition = {
   },
 
   technique: [
-    {
+    ...bilateralRule({
       kind: 'stationary',
       id: 'hand_planted_l',
       label: 'Left hand stays planted',
       point: { bone: 'hand_l' },
       tolerance: 0.01,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'hand_planted_r',
-      label: 'Right hand stays planted',
-      point: { bone: 'hand_r' },
-      tolerance: 0.01,
-      severity: 'error',
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'stationary',
       id: 'toes_planted_l',
       label: 'Left foot stays planted',
       point: { bone: 'toe_l', along: 1 },
       tolerance: 0.012,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'toes_planted_r',
-      label: 'Right foot stays planted',
-      point: { bone: 'toe_r', along: 1 },
-      tolerance: 0.012,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'distance',
       id: 'hands_width',
@@ -197,7 +169,7 @@ export const pushUp: ExerciseDefinition = {
       min: 0.547,
       max: 0.747,
     },
-    {
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'elbow_flare_l',
       label: 'Left elbow stays 30–45° from the torso, not flared wide',
@@ -206,18 +178,8 @@ export const pushUp: ExerciseDefinition = {
       axis: 'x',
       min: -0.26,
       max: -0.07,
-    },
-    {
-      kind: 'relativePosition',
-      id: 'elbow_flare_r',
-      label: 'Right elbow stays 30–45° from the torso, not flared wide',
-      point: { bone: 'forearm_r' },
-      relativeTo: { bone: 'upperarm_r' },
-      axis: 'x',
-      min: 0.07,
-      max: 0.26,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'elbow_behind_l',
       label: 'Left elbow tracks back towards the feet',
@@ -226,18 +188,8 @@ export const pushUp: ExerciseDefinition = {
       axis: 'z',
       min: -0.3,
       max: -0.04,
-    },
-    {
-      kind: 'relativePosition',
-      id: 'elbow_behind_r',
-      label: 'Right elbow tracks back towards the feet',
-      point: { bone: 'forearm_r' },
-      relativeTo: { bone: 'upperarm_r' },
-      axis: 'z',
-      min: -0.3,
-      max: -0.04,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'distance',
       id: 'forearm_vertical_l',
       label: 'Left forearm is near vertical at the bottom',
@@ -246,17 +198,7 @@ export const pushUp: ExerciseDefinition = {
       axis: 'z',
       max: 0.06,
       phases: ['bottom'],
-    },
-    {
-      kind: 'distance',
-      id: 'forearm_vertical_r',
-      label: 'Right forearm is near vertical at the bottom',
-      from: { bone: 'forearm_r' },
-      to: { bone: 'hand_r' },
-      axis: 'z',
-      max: 0.06,
-      phases: ['bottom'],
-    },
+    }),
     {
       kind: 'alignment',
       id: 'body_line',
@@ -300,8 +242,7 @@ export const pushUp: ExerciseDefinition = {
       right: { bone: 'forearm_r' },
       tolerance: 0.02,
       severity: 'error',
-    },
-  ],
+    },],
 
   commonErrors: [
     {

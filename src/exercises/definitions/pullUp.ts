@@ -1,5 +1,6 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
+import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
 
 /**
  * Strict bodyweight pull-up from the crossbar of a rack.
@@ -31,14 +32,11 @@ const TOP = { y: 0.5, z: -0.2 };
  * Knees bent, feet behind. A 2.05 m bar is not high enough to hang from with
  * the legs straight, which is exactly why people cross their ankles behind them.
  */
-const legs = {
+const legs = bilateralJoints({
   thigh_l: { x: -10 },
-  thigh_r: { x: -10 },
   shin_l: { x: -70 },
-  shin_r: { x: -70 },
   foot_l: { x: -20 },
-  foot_r: { x: -20 },
-};
+});
 
 export const pullUp: ExerciseDefinition = {
   id: 'pull_up',
@@ -69,19 +67,18 @@ export const pullUp: ExerciseDefinition = {
     label: 'Dead hang',
     joints: {
       ...legs,
-      // Shoulders ride up at the bottom of a hang; they are pulled down and
-      // back on the way up, which is where the movement actually starts.
-      clavicle_l: { z: -14 },
-      clavicle_r: { z: 14 },
-      spine_01: { x: 2 },
-      spine_02: { x: 0 },
-      spine_03: { x: 0 },
-      neck: { x: -4 },
-      // A starting guess only: the grip locks solve both arms exactly.
-      upperarm_l: { z: -170 },
-      upperarm_r: { z: 170 },
-      forearm_l: { x: 6 },
-      forearm_r: { x: 6 },
+      ...bilateralJoints({
+        // Shoulders ride up at the bottom of a hang; they are pulled down and
+        // back on the way up, which is where the movement actually starts.
+        clavicle_l: { z: -14 },
+        spine_01: { x: 2 },
+        spine_02: { x: 0 },
+        spine_03: { x: 0 },
+        neck: { x: -4 },
+        // A starting guess only: the grip locks solve both arms exactly.
+        upperarm_l: { z: -170 },
+        forearm_l: { x: 6 },
+      }),
     },
     root: { position: { y: HANG.y, z: HANG.z } },
   },
@@ -90,18 +87,17 @@ export const pullUp: ExerciseDefinition = {
     label: 'Chin to the bar',
     joints: {
       ...legs,
-      clavicle_l: { z: 10 },
-      clavicle_r: { z: -10 },
-      // The chest opens towards the bar and the head comes back to clear it.
-      spine_01: { x: -6 },
-      spine_02: { x: -8 },
-      spine_03: { x: -6 },
-      neck: { x: -26 },
-      head: { x: -14 },
-      upperarm_l: { z: -140 },
-      upperarm_r: { z: 140 },
-      forearm_l: { x: 120 },
-      forearm_r: { x: 120 },
+      ...bilateralJoints({
+        clavicle_l: { z: 10 },
+        // The chest opens towards the bar and the head comes back to clear it.
+        spine_01: { x: -6 },
+        spine_02: { x: -8 },
+        spine_03: { x: -6 },
+        neck: { x: -26 },
+        head: { x: -14 },
+        upperarm_l: { z: -140 },
+        forearm_l: { x: 120 },
+      }),
     },
     root: { position: { y: TOP.y, z: TOP.z } },
   },
@@ -109,10 +105,10 @@ export const pullUp: ExerciseDefinition = {
   jointTargets: [
     // What the grip locks produce, written down because it is what a coach
     // would describe and what the technique rules below check.
-    { bone: 'forearm_l', axis: 'x', start: 12, peak: 144, role: 'prime', range: { min: 0, max: 150 } },
-    { bone: 'forearm_r', axis: 'x', start: 12, peak: 144, role: 'prime', range: { min: 0, max: 150 } },
-    { bone: 'clavicle_l', axis: 'z', start: -14, peak: 10, role: 'support' },
-    { bone: 'clavicle_r', axis: 'z', start: 14, peak: -10, role: 'support' },
+    ...bilateralJointTarget({
+      bone: 'forearm_l', axis: 'x', start: 12, peak: 144, role: 'prime', range: { min: 0, max: 150 },
+    }),
+    ...bilateralJointTarget({ bone: 'clavicle_l', axis: 'z', start: -14, peak: 10, role: 'support' }),
   ],
 
   phases: [
@@ -128,7 +124,7 @@ export const pullUp: ExerciseDefinition = {
   feet: { width: 0.2, toeOut: 0, planted: false },
 
   locks: [
-    {
+    ...bilateralLock({
       id: 'grip_l',
       chain: 'arm_l',
       mode: 'equipment',
@@ -138,16 +134,7 @@ export const pullUp: ExerciseDefinition = {
       // rather than turning it into a shrug.
       pole: vec3(-0.5, 1.05, 0.02),
       enabled: true,
-    },
-    {
-      id: 'grip_r',
-      chain: 'arm_r',
-      mode: 'equipment',
-      equipmentId: 'rack',
-      socket: 'pullup_r',
-      pole: vec3(0.5, 1.05, 0.02),
-      enabled: true,
-    },
+    }),
   ],
 
   muscles: {
@@ -157,22 +144,14 @@ export const pullUp: ExerciseDefinition = {
   },
 
   technique: [
-    {
+    ...bilateralRule({
       kind: 'stationary',
       id: 'grip_fixed_l',
       label: 'Left hand does not move on the bar',
       point: { bone: 'hand_l' },
       tolerance: 0.005,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'grip_fixed_r',
-      label: 'Right hand does not move on the bar',
-      point: { bone: 'hand_r' },
-      tolerance: 0.005,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'distance',
       id: 'grip_width',
@@ -196,7 +175,7 @@ export const pullUp: ExerciseDefinition = {
       phases: ['top'],
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'full_hang_l',
       label: 'Left elbow straightens at the bottom',
@@ -205,17 +184,7 @@ export const pullUp: ExerciseDefinition = {
       max: 20,
       phases: ['hang'],
       severity: 'error',
-    },
-    {
-      kind: 'jointAngle',
-      id: 'full_hang_r',
-      label: 'Right elbow straightens at the bottom',
-      bone: 'forearm_r',
-      axis: 'x',
-      max: 20,
-      phases: ['hang'],
-      severity: 'error',
-    },
+    }),
     {
       kind: 'relativePosition',
       id: 'hang_depth',
@@ -227,7 +196,7 @@ export const pullUp: ExerciseDefinition = {
       phases: ['hang'],
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'top_flexion_l',
       label: 'Left elbow finishes fully bent',
@@ -236,18 +205,8 @@ export const pullUp: ExerciseDefinition = {
       min: 105,
       phases: ['top'],
       severity: 'error',
-    },
-    {
-      kind: 'jointAngle',
-      id: 'top_flexion_r',
-      label: 'Right elbow finishes fully bent',
-      bone: 'forearm_r',
-      axis: 'x',
-      min: 105,
-      phases: ['top'],
-      severity: 'error',
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'elbows_below_hands_l',
       label: 'Left elbow stays below the hand — the arm pulls, it does not shrug',
@@ -256,17 +215,7 @@ export const pullUp: ExerciseDefinition = {
       axis: 'y',
       max: -0.15,
       severity: 'error',
-    },
-    {
-      kind: 'relativePosition',
-      id: 'elbows_below_hands_r',
-      label: 'Right elbow stays below the hand — the arm pulls, it does not shrug',
-      point: { bone: 'forearm_r' },
-      relativeTo: { bone: 'hand_r' },
-      axis: 'y',
-      max: -0.15,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'relativePosition',
       id: 'no_swing',
@@ -304,8 +253,7 @@ export const pullUp: ExerciseDefinition = {
       bone: 'spine_02',
       reference: 'vertical',
       max: 18,
-    },
-  ],
+    },],
 
   commonErrors: [
     {

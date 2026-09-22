@@ -1,5 +1,6 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
+import { bilateralJointTarget, bilateralLock, bilateralRule } from '../mirror';
 
 /**
  * Standing two-arm dumbbell overhead press.
@@ -64,14 +65,10 @@ export const shoulderPress: ExerciseDefinition = {
    * come overhead, which is what stops the dumbbells finishing out to the side.
    */
   jointTargets: [
-    { bone: 'upperarm_l', axis: 'z', start: -72, peak: -170, role: 'prime', range: { min: -175, max: -30 } },
-    { bone: 'upperarm_r', axis: 'z', start: 72, peak: 170, role: 'prime', range: { min: 30, max: 175 } },
-    { bone: 'forearm_l', axis: 'x', start: 100, peak: 8, role: 'prime', range: { min: 0, max: 120 } },
-    { bone: 'forearm_r', axis: 'x', start: 100, peak: 8, role: 'prime', range: { min: 0, max: 120 } },
-    { bone: 'upperarm_l', axis: 'y', start: 70, peak: 10, role: 'support' },
-    { bone: 'upperarm_r', axis: 'y', start: -70, peak: -10, role: 'support' },
-    { bone: 'upperarm_l', axis: 'x', start: 14, peak: 4, role: 'support' },
-    { bone: 'upperarm_r', axis: 'x', start: 14, peak: 4, role: 'support' },
+    ...bilateralJointTarget({ bone: 'upperarm_l', axis: 'z', start: -72, peak: -170, role: 'prime', range: { min: -175, max: -30 } }),
+    ...bilateralJointTarget({ bone: 'forearm_l', axis: 'x', start: 100, peak: 8, role: 'prime', range: { min: 0, max: 120 } }),
+    ...bilateralJointTarget({ bone: 'upperarm_l', axis: 'y', start: 70, peak: 10, role: 'support' }),
+    ...bilateralJointTarget({ bone: 'upperarm_l', axis: 'x', start: 14, peak: 4, role: 'support' }),
   ],
 
   phases: [
@@ -87,8 +84,7 @@ export const shoulderPress: ExerciseDefinition = {
   feet: { width: 0.32, toeOut: 6, planted: true },
 
   locks: [
-    { id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true },
-    { id: 'foot_r', chain: 'leg_r', mode: 'floor', enabled: true },
+    ...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true }),
   ],
 
   muscles: {
@@ -106,22 +102,14 @@ export const shoulderPress: ExerciseDefinition = {
   },
 
   technique: [
-    {
+    ...bilateralRule({
       kind: 'stationary',
       id: 'foot_planted_l',
       label: 'Left foot stays planted',
       point: { bone: 'foot_l' },
       tolerance: 0.012,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'foot_planted_r',
-      label: 'Right foot stays planted',
-      point: { bone: 'foot_r' },
-      tolerance: 0.012,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'segmentAngle',
       id: 'torso_upright',
@@ -151,7 +139,7 @@ export const shoulderPress: ExerciseDefinition = {
       phases: ['racked'],
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'lockout_l',
       label: 'Left elbow locks out overhead',
@@ -161,19 +149,8 @@ export const shoulderPress: ExerciseDefinition = {
       max: 15,
       phases: ['lockout'],
       severity: 'error',
-    },
-    {
-      kind: 'jointAngle',
-      id: 'lockout_r',
-      label: 'Right elbow locks out overhead',
-      bone: 'forearm_r',
-      axis: 'x',
-      min: 0,
-      max: 15,
-      phases: ['lockout'],
-      severity: 'error',
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'overhead_l',
       label: 'Left dumbbell finishes over the shoulder, not out to the side',
@@ -184,19 +161,7 @@ export const shoulderPress: ExerciseDefinition = {
       max: 0.02,
       phases: ['lockout'],
       severity: 'error',
-    },
-    {
-      kind: 'relativePosition',
-      id: 'overhead_r',
-      label: 'Right dumbbell finishes over the shoulder, not out to the side',
-      point: { bone: 'hand_r' },
-      relativeTo: { bone: 'upperarm_r' },
-      axis: 'x',
-      min: -0.02,
-      max: 0.16,
-      phases: ['lockout'],
-      severity: 'error',
-    },
+    }),
     {
       kind: 'relativePosition',
       id: 'press_height',
@@ -208,7 +173,7 @@ export const shoulderPress: ExerciseDefinition = {
       phases: ['lockout'],
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'distance',
       id: 'wrist_over_elbow_l',
       label: 'Left wrist stays stacked over the elbow',
@@ -216,17 +181,8 @@ export const shoulderPress: ExerciseDefinition = {
       to: { bone: 'hand_l' },
       axis: 'x',
       max: 0.1,
-    },
-    {
-      kind: 'distance',
-      id: 'wrist_over_elbow_r',
-      label: 'Right wrist stays stacked over the elbow',
-      from: { bone: 'forearm_r' },
-      to: { bone: 'hand_r' },
-      axis: 'x',
-      max: 0.1,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'press_plane_l',
       label: 'Left dumbbell stays in the plane of the shoulder, not pressed out in front',
@@ -235,18 +191,8 @@ export const shoulderPress: ExerciseDefinition = {
       axis: 'z',
       min: -0.12,
       max: 0.14,
-    },
-    {
-      kind: 'relativePosition',
-      id: 'press_plane_r',
-      label: 'Right dumbbell stays in the plane of the shoulder, not pressed out in front',
-      point: { bone: 'hand_r' },
-      relativeTo: { bone: 'upperarm_r' },
-      axis: 'z',
-      min: -0.12,
-      max: 0.14,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'wrist_neutral_l',
       label: 'Left wrist stays neutral under the dumbbell',
@@ -254,16 +200,7 @@ export const shoulderPress: ExerciseDefinition = {
       axis: 'z',
       min: -12,
       max: 12,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'wrist_neutral_r',
-      label: 'Right wrist stays neutral under the dumbbell',
-      bone: 'hand_r',
-      axis: 'z',
-      min: -12,
-      max: 12,
-    },
+    }),
     {
       kind: 'distance',
       id: 'hand_width',
@@ -282,8 +219,7 @@ export const shoulderPress: ExerciseDefinition = {
       right: { bone: 'hand_r', along: 1 },
       tolerance: 0.02,
       severity: 'error',
-    },
-  ],
+    },],
 
   commonErrors: [
     {

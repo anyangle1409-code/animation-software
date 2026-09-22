@@ -1,5 +1,12 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
+import {
+  bilateralJoints,
+  bilateralJointTarget,
+  bilateralLock,
+  bilateralRule,
+  bilateralTiming,
+} from '../mirror';
 
 /**
  * Standing two-arm dumbbell curl.
@@ -44,12 +51,11 @@ export const bicepCurl: ExerciseDefinition = {
 
   startPose: {
     label: 'Arms extended',
-    joints: {
+    joints: bilateralJoints({
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
       clavicle_l: { z: 5 },
-      clavicle_r: { z: -5 },
       // Upper arms hang just clear of the torso. Abduction still reads as a
       // shrug at the bottom, so it is not the lever here either.
       //
@@ -64,28 +70,23 @@ export const bicepCurl: ExerciseDefinition = {
       // and the upper arm is free to hang closer to vertical: 3° rather than
       // 4.55°, which measures 3.22° of true sagittal tilt against 3.87° before.
       upperarm_l: { x: 3, z: -3 },
-      upperarm_r: { x: 3, z: 3 },
       hand_l: { z: 4 },
-      hand_r: { z: -4 },
-    },
+    }),
   },
 
   peakPose: {
     label: 'Contracted',
-    joints: {
+    joints: bilateralJoints({
       spine_01: { x: 2 },
       spine_02: { x: -1 },
       neck: { x: -2 },
       clavicle_l: { z: 5 },
-      clavicle_r: { z: -5 },
       // A small forward drift keeps the elbows natural without letting the
       // dumbbells crowd the chest at the top of the curl.
       // 4° of drift above the neutral above, as before.
       upperarm_l: { x: 7, z: -4 },
-      upperarm_r: { x: 7, z: 4 },
       hand_l: { z: 2 },
-      hand_r: { z: -2 },
-    },
+    }),
   },
 
   /**
@@ -98,11 +99,11 @@ export const bicepCurl: ExerciseDefinition = {
     // without tilting the humerus forward, so the corrected shoulder alignment
     // is not spent to protect it. A soft elbow at the bottom of a dumbbell curl
     // is also what a lifter actually does; locking out is the exception.
-    { bone: 'forearm_l', axis: 'x', start: 16, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
-    { bone: 'forearm_r', axis: 'x', start: 16, peak: 126, role: 'prime', range: { min: 0, max: 145 } },
+    ...bilateralJointTarget({
+      bone: 'forearm_l', axis: 'x', start: 16, peak: 126, role: 'prime', range: { min: 0, max: 145 },
+    }),
     // Supination is held throughout: the palms face up from the bottom.
-    { bone: 'forearm_l', axis: 'y', start: 72, peak: 80, role: 'support' },
-    { bone: 'forearm_r', axis: 'y', start: -72, peak: -80, role: 'support' },
+    ...bilateralJointTarget({ bone: 'forearm_l', axis: 'y', start: 72, peak: 80, role: 'support' }),
   ],
 
   phases: [
@@ -116,10 +117,7 @@ export const bicepCurl: ExerciseDefinition = {
       // through most of the curl, then makes only the small authored 4° drift
       // near the top instead of moving in lock-step with the forearm. Minimum
       // jerk keeps the delayed shoulder from visibly "switching on".
-      jointTiming: {
-        upperarm_l: { delay: 0.55, easing: 'minimumJerk' },
-        upperarm_r: { delay: 0.55, easing: 'minimumJerk' },
-      },
+      jointTiming: bilateralTiming({ upperarm_l: { delay: 0.55, easing: 'minimumJerk' } }),
     },
     { id: 'squeeze', label: 'Squeeze', to: 'peak', easing: 'hold', contraction: 'isometric' },
     {
@@ -130,10 +128,7 @@ export const bicepCurl: ExerciseDefinition = {
       contraction: 'eccentric',
       // On the way down the elbow starts opening first; the shoulder settles
       // back a fraction later so the bottom position reads loose, not shrugged.
-      jointTiming: {
-        upperarm_l: { delay: 0.2, easing: 'minimumJerk' },
-        upperarm_r: { delay: 0.2, easing: 'minimumJerk' },
-      },
+      jointTiming: bilateralTiming({ upperarm_l: { delay: 0.2, easing: 'minimumJerk' } }),
     },
     { id: 'reset', label: 'Reset', to: 'start', easing: 'hold', contraction: 'isometric' },
   ],
@@ -143,10 +138,7 @@ export const bicepCurl: ExerciseDefinition = {
   hands: { grip: 'dumbbell', orientation: 'supinated', closure: 0.85, width: 0.42 },
   feet: { width: 0.32, toeOut: 6, planted: true },
 
-  locks: [
-    { id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true },
-    { id: 'foot_r', chain: 'leg_r', mode: 'floor', enabled: true },
-  ],
+  locks: [...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true })],
 
   muscles: {
     primary: ['biceps'],
@@ -155,22 +147,14 @@ export const bicepCurl: ExerciseDefinition = {
   },
 
   technique: [
-    {
+    ...bilateralRule({
       kind: 'stationary',
       id: 'feet_planted_l',
       label: 'Left foot stays planted',
       point: { bone: 'foot_l' },
       tolerance: 0.012,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'feet_planted_r',
-      label: 'Right foot stays planted',
-      point: { bone: 'foot_r' },
-      tolerance: 0.012,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'segmentAngle',
       id: 'torso_upright',
@@ -188,7 +172,7 @@ export const bicepCurl: ExerciseDefinition = {
       tolerance: 0.05,
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'shoulder_relaxed_l',
       label: 'Left shoulder stays relaxed, not shrugged',
@@ -197,18 +181,8 @@ export const bicepCurl: ExerciseDefinition = {
       min: 0,
       max: 10,
       severity: 'error',
-    },
-    {
-      kind: 'jointAngle',
-      id: 'shoulder_relaxed_r',
-      label: 'Right shoulder stays relaxed, not shrugged',
-      bone: 'clavicle_r',
-      axis: 'z',
-      min: -10,
-      max: 0,
-      severity: 'error',
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'upper_arm_clear_l',
       label: 'Left upper arm stays slightly clear of the torso',
@@ -216,17 +190,8 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'z',
       min: -20,
       max: -3,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'upper_arm_clear_r',
-      label: 'Right upper arm stays slightly clear of the torso',
-      bone: 'upperarm_r',
-      axis: 'z',
-      min: 3,
-      max: 20,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'elbow_not_inward_l',
       label: 'Left elbow does not tuck in towards the chest',
@@ -234,17 +199,8 @@ export const bicepCurl: ExerciseDefinition = {
       relativeTo: { bone: 'spine_03' },
       axis: 'x',
       max: -0.13,
-    },
-    {
-      kind: 'relativePosition',
-      id: 'elbow_not_inward_r',
-      label: 'Right elbow does not tuck in towards the chest',
-      point: { bone: 'forearm_r' },
-      relativeTo: { bone: 'spine_03' },
-      axis: 'x',
-      min: 0.13,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'elbow_under_shoulder_l',
       label: 'Left elbow stays roughly below the shoulder',
@@ -253,18 +209,8 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'z',
       min: -0.06,
       max: 0.12,
-    },
-    {
-      kind: 'relativePosition',
-      id: 'elbow_under_shoulder_r',
-      label: 'Right elbow stays roughly below the shoulder',
-      point: { bone: 'forearm_r' },
-      relativeTo: { bone: 'upperarm_r' },
-      axis: 'z',
-      min: -0.06,
-      max: 0.12,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'shoulder_quiet_l',
       label: 'Left shoulder does not take over the lift',
@@ -272,17 +218,8 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'x',
       min: -5,
       max: 10,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'shoulder_quiet_r',
-      label: 'Right shoulder does not take over the lift',
-      bone: 'upperarm_r',
-      axis: 'x',
-      min: -5,
-      max: 10,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'supinated_grip_l',
       label: 'Left palm stays supinated',
@@ -290,17 +227,8 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'y',
       min: 65,
       max: 90,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'supinated_grip_r',
-      label: 'Right palm stays supinated',
-      bone: 'forearm_r',
-      axis: 'y',
-      min: -90,
-      max: -65,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'wrist_deviation_l',
       label: 'Left wrist does not deviate sideways',
@@ -308,17 +236,8 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'x',
       min: -10,
       max: 10,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'wrist_deviation_r',
-      label: 'Right wrist does not deviate sideways',
-      bone: 'hand_r',
-      axis: 'x',
-      min: -10,
-      max: 10,
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'jointAngle',
       id: 'wrist_neutral_l',
       label: 'Left wrist stays neutral',
@@ -326,16 +245,7 @@ export const bicepCurl: ExerciseDefinition = {
       axis: 'z',
       min: -12,
       max: 15,
-    },
-    {
-      kind: 'jointAngle',
-      id: 'wrist_neutral_r',
-      label: 'Right wrist stays neutral',
-      bone: 'hand_r',
-      axis: 'z',
-      min: -15,
-      max: 12,
-    },
+    }),
     {
       kind: 'distance',
       id: 'hands_shoulder_width',

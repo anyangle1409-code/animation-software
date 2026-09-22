@@ -1,5 +1,6 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
+import { bilateralJointTarget, bilateralJoints, bilateralRule } from '../mirror';
 
 /**
  * Bodyweight squat.
@@ -13,13 +14,11 @@ import { vec3 } from '../../rig/types';
 const STANCE = { width: 0.42, toeOut: 12 };
 
 /** Arms come forward as a counterweight, which is what keeps the squat upright. */
-const armsDown = { upperarm_l: { x: 8, z: -2 }, upperarm_r: { x: 8, z: 2 } };
-const armsForward = {
+const armsDown = bilateralJoints({ upperarm_l: { x: 8, z: -2 } });
+const armsForward = bilateralJoints({
   upperarm_l: { x: 78, z: -6 },
-  upperarm_r: { x: 78, z: 6 },
   forearm_l: { x: 14 },
-  forearm_r: { x: 14 },
-};
+});
 
 export const airSquat: ExerciseDefinition = {
   id: 'air_squat',
@@ -66,13 +65,10 @@ export const airSquat: ExerciseDefinition = {
   },
 
   jointTargets: [
-    { bone: 'thigh_l', axis: 'x', start: 2, peak: 100, role: 'prime', range: { min: -5, max: 120 } },
-    { bone: 'thigh_r', axis: 'x', start: 2, peak: 100, role: 'prime', range: { min: -5, max: 120 } },
-    { bone: 'shin_l', axis: 'x', start: -2, peak: -114, role: 'prime', range: { min: -125, max: 0 } },
-    { bone: 'shin_r', axis: 'x', start: -2, peak: -114, role: 'prime', range: { min: -125, max: 0 } },
+    ...bilateralJointTarget({ bone: 'thigh_l', axis: 'x', start: 2, peak: 100, role: 'prime', range: { min: -5, max: 120 } }),
+    ...bilateralJointTarget({ bone: 'shin_l', axis: 'x', start: -2, peak: -114, role: 'prime', range: { min: -125, max: 0 } }),
     // The shin travels forward over a planted foot, so the ankle must follow it.
-    { bone: 'foot_l', axis: 'x', start: 0, peak: 26, role: 'support' },
-    { bone: 'foot_r', axis: 'x', start: 0, peak: 26, role: 'support' },
+    ...bilateralJointTarget({ bone: 'foot_l', axis: 'x', start: 0, peak: 26, role: 'support' }),
   ],
 
   phases: [
@@ -108,38 +104,22 @@ export const airSquat: ExerciseDefinition = {
   },
 
   technique: [
-    {
+    ...bilateralRule({
       kind: 'stationary',
       id: 'foot_planted_l',
       label: 'Left foot stays planted',
       point: { bone: 'foot_l' },
       tolerance: 0.015,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'foot_planted_r',
-      label: 'Right foot stays planted',
-      point: { bone: 'foot_r' },
-      tolerance: 0.015,
-      severity: 'error',
-    },
-    {
+    }),
+    ...bilateralRule({
       kind: 'stationary',
       id: 'heel_down_l',
       label: 'Left heel stays on the floor',
       point: { bone: 'foot_l', offset: { x: 0, y: -0.04, z: 0 } },
       tolerance: 0.025,
       severity: 'error',
-    },
-    {
-      kind: 'stationary',
-      id: 'heel_down_r',
-      label: 'Right heel stays on the floor',
-      point: { bone: 'foot_r', offset: { x: 0, y: -0.04, z: 0 } },
-      tolerance: 0.025,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'segmentAngle',
       id: 'torso_angle',
@@ -149,7 +129,7 @@ export const airSquat: ExerciseDefinition = {
       max: 50,
       severity: 'error',
     },
-    {
+    ...bilateralRule({
       kind: 'relativePosition',
       id: 'knee_tracking_l',
       label: 'Left knee tracks over the foot, never caving inwards',
@@ -161,18 +141,7 @@ export const airSquat: ExerciseDefinition = {
       min: -0.06,
       max: 0.09,
       severity: 'error',
-    },
-    {
-      kind: 'relativePosition',
-      id: 'knee_tracking_r',
-      label: 'Right knee tracks over the foot, never caving inwards',
-      point: { bone: 'shin_r' },
-      relativeTo: { bone: 'foot_r' },
-      axis: 'x',
-      min: -0.09,
-      max: 0.06,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'relativePosition',
       id: 'depth',
@@ -220,8 +189,7 @@ export const airSquat: ExerciseDefinition = {
       bone: 'shin_l',
       reference: 'vertical',
       max: 45,
-    },
-  ],
+    },],
 
   commonErrors: [
     {

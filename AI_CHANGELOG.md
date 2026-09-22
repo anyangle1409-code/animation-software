@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-22 — Phase 2: the curl becomes a family, proved by a hammer curl
+
+Commit `f644d98`. Suite **337 passed / 1 skipped**, typecheck and build clean. The accepted curl's motion is unchanged; production assets, the rig and the retargeting path are untouched.
+
+**The variant is 19 lines of data** against the 311 the curl used to be — the plan's success criterion for this phase. `src/exercises/families/curl.ts` holds everything a curl is; `hammerCurl.ts` holds only what makes it a hammer curl.
+
+**A builder, not a base object to merge into.** Most of an `ExerciseDefinition` is arrays, and deep-merging arrays has no good answer: override by index is brittle, by id needs every entry to carry one, concatenation cannot remove anything. A typed `CurlVariant` has none of that ambiguity — and it is the shape the generator needs, being much closer to what an intent parser produces from *"a standing hammer curl with 12 kg dumbbells"* than a partial definition would be.
+
+**The re-expressed curl is the same exercise.** Against a fixture of the normalised definition plus 61 fully resolved frames, the only difference in the whole library is one rule id: `supinated_grip_l/r` → `grip_held_l/r`, same bone, axis, bounds and label. The rule now checks whichever grip the variant declares, rather than carrying a name that only fits one variant. Joint targets, locks, both poses and every frame identical.
+
+**`hands.orientation` was documentation.** One reader in the codebase — a display string — while the forearm's real rotation came from a separately authored joint target, so an exercise could claim a neutral grip and supinate 72°. Not academic: the plan's own intent-parser example turns "hammer curl" into `grip: neutral`, which would have produced a supinated curl. The family now derives the caption, the forearm rotation and the technique rule's band from one row of `GRIPS`, so they cannot disagree, and a new test holds the whole library to it. **`hands.width` is dead in the same way** and is left alone deliberately — noted, not silently wired.
+
+**The hammer curl collided, and every existing gate passed it.** A dumbbell held neutral turns its plates to face the leg, presenting their full 48 mm radius where a supinated one presents a 17.5 mm edge. At the family's 3° of abduction the plate drove **16.92 mm into the thigh, 82 vertices inside**, while technique rules, IK reachability, loop closure and contact drift all reported clean. 12° is determined, not chosen: 11° leaves 2.26 mm, 13° clears 22.98 mm but pushes the hands past `hands_shoulder_width`, and 12° clears **11.41 mm** with nothing inside — more room than the reference curl's own 9.75 mm.
+
+**So the measurement became a gate.** `src/exercises/dumbbellClearance.test.ts` measures every hand-held dumbbell against the production character's legs and trunk across the whole repetition, using an analytic envelope rather than the render mesh. A narrow first instalment of Phase 5, not the whole of it, but it covers the case that bit: re-introducing the collision fails with `closest -16.92 mm at r dumbbell at 4.81s, against thighR — 82 vertices inside`. The hand, fingers and forearm are excluded deliberately — a gripped handle is *supposed* to sink into the palm, and including them reports an identical pose-independent penetration for every exercise, which is how the exclusion was arrived at.
+
+Rendered and reviewed on the production character: the neutral grip reads correctly through the rep, the dumbbells stay fore-aft, the elbow leads, nothing clips.
+
 ### Claude — 2026-09-22 — Phase 1: the right-hand half of every exercise is derived, not typed twice
 
 Commits `749b5e3` and `6487feb`. Suite **320 passed / 1 skipped**, typecheck and build clean. Production assets, the rig and the retargeting path untouched.

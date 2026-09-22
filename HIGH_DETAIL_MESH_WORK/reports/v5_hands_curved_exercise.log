@@ -1,0 +1,19 @@
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/animation-software/HIGH_DETAIL_MESH_WORK/validation
+
+stdout | scratchpad/repair/review_v3.test.mts > compares all five exercises with frozen rig, correctives and actual equipment frames
+EXERCISE_DIFFERENCE Dumbbell Bicep Curl { maxBones: 0, maxHand: 0, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Push-Up { maxBones: 0, maxHand: 0, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Bodyweight Squat { maxBones: 0, maxHand: 0, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Dumbbell Shoulder Press { maxBones: 0, maxHand: 0, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Pull-Up { maxBones: 0, maxHand: 0, maxEquipment: 0 }
+[{"name":"Dumbbell Bicep Curl","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Push-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":["elbow_flare_l","elbow_flare_r"],"unreachable":[{"time":0,"chain":"arm_l","error":0.005561993353507835},{"time":0,"chain":"arm_r","error":0.005561993353507835},{"time":3.1037735849056602,"chain":"arm_l","error":0.005561993353507835},{"time":3.1037735849056602,"chain":"arm_r","error":0.005561993353507835},{"time":3.169811320754717,"chain":"arm_l","error":0.005561993353507835},{"time":3.169811320754717,"chain":"arm_r","error":0.005561993353507835},{"time":3.2358490566037736,"chain":"arm_l","error":0.005561993353507835},{"time":3.2358490566037736,"chain":"arm_r","error":0.005561993353507835},{"time":3.30188679245283,"chain":"arm_l","error":0.005561993353507835},{"time":3.30188679245283,"chain":"arm_r","error":0.005561993353507835},{"time":3.3679245283018866,"chain":"arm_l","error":0.005561993353507835},{"time":3.3679245283018866,"chain":"arm_r","error":0.005561993353507835},{"time":3.4339622641509435,"chain":"arm_l","error":0.005561993353507835},{"time":3.4339622641509435,"chain":"arm_r","error":0.005561993353507835},{"time":3.5,"chain":"arm_l","error":0.005561993353507835},{"time":3.5,"chain":"arm_r","error":0.005561993353507835}],"loopClosed":true},{"name":"Bodyweight Squat","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Shoulder Press","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Pull-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true}]
+
+ ✓ scratchpad/repair/review_v3.test.mts (1 test) 15532ms
+   ✓ compares all five exercises with frozen rig, correctives and actual equipment frames  15527ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  21:27:52
+   Duration  21.53s (transform 1.16s, setup 26ms, collect 5.37s, tests 15.53s, environment 0ms, prepare 212ms)
+

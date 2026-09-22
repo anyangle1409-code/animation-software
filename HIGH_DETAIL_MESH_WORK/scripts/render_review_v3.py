@@ -34,8 +34,11 @@ def render(p,views):
   if name.startswith('shoulder'):
    joint_near=d['meshes'][0]['positions'][3913]
    focus=Vector((joint_near[0]-.02,-joint_near[2],joint_near[1]));scale=.50
-  if name=='hand':focus=Vector((.21,-.30,1.10));scale=.45
-  if d['exercise']=='Push-Up':focus=Vector((0,-.55,.48));scale=1.85
+  if name=='hand':
+   ownership=json.loads((R/'reports/sculpt_reference.json').read_text())['ownership']
+   ids=[i for i,w in enumerate(ownership) if w['hand']>.8 and positions[i][0]>0]
+   n=len(ids);focus=Vector((sum(positions[i][0] for i in ids)/n,-sum(positions[i][2] for i in ids)/n,sum(positions[i][1] for i in ids)/n));scale=.34
+  if d['exercise']=='Push-Up' and name!='hand':focus=Vector((0,-.55,.48));scale=1.85
   for ob in sc.objects:
    if ob.get('review_equipment'):ob.hide_render=name.startswith('shoulder')
   cam.location=focus+direction;cam.rotation_euler=(focus-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=scale
@@ -48,6 +51,9 @@ if mode=='initial':
 elif mode=='target':
  for exercise in ['dumbbell_shoulder_press','pull_up']:
   render(poseRoot/f'{exercise}_peak_candidate.json',['shoulder_side','shoulder_three_quarter'])
+elif mode=='hands':
+ for exercise,label in [('dumbbell_bicep_curl','bottom'),('push_up','bottom'),('pull_up','peak')]:
+  render(poseRoot/f'{exercise}_{label}_candidate.json',['hand'])
 elif mode=='overhead':
  for exercise in ['dumbbell_shoulder_press','pull_up']:
   for label in ['bottom','sample_12','peak']:

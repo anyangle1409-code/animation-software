@@ -1,0 +1,67 @@
+# Byte-for-byte manifest
+
+Generated at HEAD 6a80e39b3fc5a208b3d7c20d30931228dad7b3fb on branch chatgpt/absolute-retarget-imports.
+Every file below was copied from the repository without modification and verified byte-for-byte
+with `cmp` against its source: 58 files checked, 0 mismatches. Source paths are listed in
+GPT_MESH_HANDOFF.md under "What is in this package".
+
+handoff path                                                             bytes          sha256
+------------                                                             -----          ------
+characters/HomeGymPT_Male_CORNER_FINAL.glb                               2303476        b08844339fb66e54a290eb9687fdc48296d087e4cbbb83981041a03d8501cc7a
+characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb                        2417316        fe30c1dadb1dca442b79155cf3bb662e7b22b4f6f48ee806258fde798e34a71b
+characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb.correspondence.json    30513          531568e176f592230dc7ef3686df82a50c9a794bcd5762dd234bc485351a9e92
+docs/BICEP_CURL_REALISM_STAGE1.md                                        10568          e2edb50efcb168bae782fb5bf03cf15b3ebe55124984fda096a6d6df8b52ed59
+docs/MODEL_APPEARANCE_PHASE.md                                           10749          3b7d2c8c3f3d234aae331aca1faac0ac90420f14142e0a390b945443a54425fa
+docs/SHOULDER_ALIGNMENT_DIAGNOSIS.md                                     13383          c83d02e914352694ca91c19dd0af7d7623157868841edc9790a0c388d4597921
+docs/SHOULDER_ALIGNMENT_TRUE_FIX.md                                      9582           9149b6ca8b2b76d5204527c71ddfa1cc011e7b7c4aac63559ac142000683b25d
+harnesses/armroot.mjs                                                    4881           88011b57bcec7fa56b6310beda992130521af1551010ba3d3a1c285086596c8c
+harnesses/armrootsweep.test.mts                                          9933           4c702220c66ec26fa511cd7e84ff0e5807ac7f8be1cfa98ac01daa3f696bb328
+harnesses/capsector.test.mts                                             11330          74e525f68e0b2a5458561ad769a0625fc21eab5d18f526edf1bcec8218a6a895
+harnesses/clavsweep.test.mts                                             6509           96e811b424da93e8c45320fc560df9603bd2477fce665ceb83f6123a2a1b958f
+harnesses/dressed_equivalence.test.mts                                   4268           9f0c84b26ee0edf5fb421f21cad90ffcb40ec5f96e0c249006e652c73d8f7cee
+harnesses/glb.mjs                                                        4793           1081d79b20638b2ef7b1e646e695b43ab806a6384cdb258e0acbd5840ceece7c
+harnesses/gripagree.test.mts                                             3997           3d58c60f2f0faf3de2b1efc8f1f3d0c1f6f50f263d757ba9476f91f46a20c648
+harnesses/gripmetric.test.mts                                            11454          951c6b12f4ebdd259a9a8d97e3db75be1f9d8c17daa1f9ec0a57b73673f3a52e
+harnesses/muscle.test.mts                                                16992          4e5f8362cc73c32ead67c82ef42944a9eaedd55218ccb4afca6bbf97c0e8395e
+harnesses/overlap.test.mts                                               9159           bf8c18f1f412b10a0d809b5ec6604fee429afd93ea50358a2a7950bf51e503c9
+harnesses/shoulderz.test.mts                                             9107           ab1ef156863b74e67a2e0713ad3d8b317112990fa6706ea7ed1ed1478d39df9f
+harnesses/technique.test.mts                                             1905           81d0d9aac8011f2ef80dd1ab1f11947b64de04b0049ad1ab421ee8d7829d3e3f
+harnesses/vitest.config.mts                                              554            7c751d460050cd5e2bf89847d5bd8eca912192daf5f659f256ceebece8882293
+renders/muscle-stage1/close_clavicle_l_peak_ab.png                       298773         2089df6d62eb42793154ff91ac1372d6d670379ad3e08394f8570d0ef7c13f18
+renders/muscle-stage1/close_forearm_l_peak_ab.png                        215052         9a1e84cfcb125c13d1875f03d454f04cf7bfbf01a5a84839e6ba75918ec5bd7e
+renders/muscle-stage1/close_hand_l_peak_ab.png                           312682         b44c41e6a4874beed5189394270307c3f61008b8956e90cfeb972162cd314ecd
+renders/muscle-stage1/close_upperarm_l_mid_ab.png                        255226         6c2a008998855ac0112b640cf2b8e61bfca8273b76ea543a6f1ad3693213c36c
+renders/muscle-stage1/close_upperarm_l_peak_ab.png                       237897         18c7319edd72046edd47a42452a9440f6f2c5104228a62785e3d5086a71ee0f2
+renders/muscle-stage1/front_mid_ab.png                                   266569         d6e3780ff8a9637c75e9cb0c0aaddfb9e27de06c47a03dd075ffbd6139f2fc80
+renders/muscle-stage1/front_peak_ab.png                                  253532         26be2566b33f783e91896db40f2a6bcc9faf1dcebcbbcd474d26c9311d80aebc
+renders/muscle-stage1/left_peak_ab.png                                   185979         ddb718bdfa138571565b548872e9364b30476e4e9dfe05400f82fd7c5c7169c0
+renders/muscle-stage1/loop_front.png                                     585447         701bcd5a3f3c80c4fdf971676762759baa5f7ad93f327ab90a5c1f55ae77cd74
+renders/muscle-stage1/loop_three_quarter.png                             467903         296fbd2478d9d35ead681f6dde6ce313b6fada9f7f79c0f7b28745953e113a9a
+renders/muscle-stage1/three_quarter_peak_ab.png                          320791         27e0d14d679074f68a1813f7df733dc2a4d8cd7e1a245a9df7b362f4d916c2f0
+renders/shoulder-diagnosis/01_left_bottom_ab.png                         98740          6fa5439d5bcb94429309dab521ab1bf71c40a5a8f210877df5ec901bc87a6641
+renders/shoulder-diagnosis/02_left_peak_ab.png                           121584         919f032b858b8ede222ec63dc9e24349fb0e0d1185296a4fac987cde38193967
+renders/shoulder-diagnosis/03_three_quarter_bottom_ab.png                156139         30790d2b9051410a4403ee14c1731fbaf17fcec06ab79f6a847f990f4a0b5be8
+renders/shoulder-diagnosis/04_three_quarter_peak_ab.png                  190057         8da6a55871a8657905540a9fb8b0b3d8644354219ea700a7c029ff752036eb52
+renders/shoulder-diagnosis/05_left_bottom_hip_ab.png                     94909          bfca2a62d88be06c32a55ea42537b58f2cef0dd0d3180c56bc0d03a759a6788d
+renders/shoulder-true-fix/hip_clearance_ab.png                           117260         2ecbc99fa799df3e78f6415eea59304cd0349adcbdeeb09266585892f52e0462
+renders/shoulder-true-fix/loop_front.png                                 512490         be33963184a6853a7c7ce94cf8339203defe59a0b85afecbe5bb4b7c710a1d5f
+renders/shoulder-true-fix/loop_left.png                                  321848         1d1b0a9b7c5b2921006fefdbab4174a763419f04d71f76672f4c81e88c8f39bb
+renders/shoulder-true-fix/loop_three_quarter.png                         610224         1867dbc50a0bd7ec20dd59e5a5f6a0e273d9a9b245298716a497496e9d7b8276
+renders/shoulder-true-fix/shoulder_side_bottom_ab.png                    124913         68bce34584b57ee62d19bf675aa29a859b36ae7730e8ab2edafb4141534e902e
+renders/shoulder-true-fix/shoulder_side_peak_ab.png                      148939         bce6458184f6f19929444462db201602acaf2f572e34a29ba41b9114dbd68b20
+renders/shoulder-true-fix/shoulder_tq_bottom_ab.png                      169324         f46e6f5ea19a34c446d299f58738445719f97f2fbbfd592914cd86c03bbe6ebb
+renders/shoulder-true-fix/shoulder_tq_peak_ab.png                        198625         94bbe1925fcea7dc8f7f2cfbe0a4f66071b7d6a150b8797e2767378d18417b76
+renders/shoulder-true-fix/side_full_bottom_ab.png                        245112         4f72f9adcebc3168f3a11a92da90fcb276bfc5219b9070bdf1ca14ebbf3560f0
+rig-and-code/src/character/importedDeformation.ts                        16771          11fda00933c36d5327c59f2446ecd767cd0ba238011f3d999cea5a4c963484bc
+rig-and-code/src/character/muscleDeformation.ts                          19147          4713b43e05beb46e85563363b2a7b5e38a7fea7eae3735b42358281b0bef88cb
+rig-and-code/src/character/retargetSource.ts                             17870          5b3e69fd469b3dfe1c59f93ed08bcf71e8c2b72faebde1274c6d46126363ff3a
+rig-and-code/src/character/types.ts                                      6773           4588350d2eb8652bcd471a684ff4cf21b62e495602bdef4979957cd702daca98
+rig-and-code/src/exercises/definitions/bicepCurl.ts                      12100          2432e069f36a95faaeb556d42b3ea05588d59fc682ce4a742a0e3ba28baec042
+rig-and-code/src/retargeting/retarget.ts                                 24002          aab84409f72df671c46d42fd9708913820c3b3fa19bca71a3769744e79e1efe8
+rig-and-code/src/rig/boneNames.ts                                        2669           c6a97ab345fcec0bbe9d66d5d095f5675c1549d9590476001385a575a2e3b6e7
+rig-and-code/src/rig/humanoid.ts                                         13382          3327bdf19e1d4c81a970af985409646399d2d6584e270a79a5cd145f7eecf6c2
+rig-and-code/src/rig/index.ts                                            134            fcd6dd70b2bf2d4128b133bc8de9b7a269c4be6251c3d9ca6787a8ef6c29f710
+rig-and-code/src/rig/pose.ts                                             7557           b6d0d688b6a90fca261300985a03d0bf5b3080c71fd71846a220a4d36bcc1bfe
+rig-and-code/src/rig/rig.test.ts                                         6025           7ccd180022cf1ab1d5796772c048498adf245d3baf8530a616bcebf51f33be46
+rig-and-code/src/rig/skeleton.ts                                         8264           7d275370fc096a2707264db3db3cc57a673455aa8b63357cfa49e4df4feb1342
+rig-and-code/src/rig/types.ts                                            3176           de4e65fc517be6d2f8f0794df47b8a048f518c85a30732c82e817aa5d680bb0e

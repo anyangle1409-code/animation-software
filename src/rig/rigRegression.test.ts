@@ -111,7 +111,13 @@ describe('shared-rig regression', () => {
       // quietly zeroed to make the check pass.
       expect(SHOULDER_SETBACK).toBeGreaterThan(0.01);
       expect(SHOULDER_WIDENING).toBeGreaterThan(0.01);
-    });
+      // Building the anatomical surface decodes and repairs the whole baked
+      // body, which takes about 3.5 s on its own and tips past vitest's 5 s
+      // default under full-suite contention. It failed intermittently, roughly
+      // one run in two, as a timeout rather than an assertion — the same shape
+      // as the neck test's earlier flake. The work is genuinely this size, so
+      // the budget says so rather than the test being made to do less.
+    }, 60_000);
   });
 
   describe('every exercise still meets its own contract', () => {

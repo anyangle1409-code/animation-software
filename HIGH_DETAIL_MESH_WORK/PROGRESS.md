@@ -42,3 +42,5 @@ Weight audit showed v2's 20.82% maximum discarded influence occurs at neck/jaw m
 
 Reproduction audit: scripts/bootstrap_from_repo.py verified the 400 pinned files; the v3_rebuild run made a byte-identical GLB (SHA-256 07d1b809cb6ae649ee86cbb8e747b43274a557bb9f4f32b685bd50c19a31c16c). The posed sculpt reference and hash manifest are packaged for branch review. See REPRODUCE_V3.md.
 
+## V4B axilla checkpoint
+Tracked 224 fixed original edges per axilla through frozen, V3, V4 and V4B posed meshes. V3's broad cap sculpt increased overhead underarm compression; V4 restricted it medially, then V4B tapered the lower anterior fold. Shoulder-press peak severe compression (left/right) fell from V3 43/41 to V4B 16/16; frozen is 7/6. V4B keeps the curl-shoulder objective (31.0 mm cap height, apex z −47.4 mm) and unchanged rig. Six focused checks and the five-exercise motion review pass. Frozen sources and V3 assets remain hash-identical. See REVIEW_V4B.md. The fold is improved, not solved.

@@ -1,0 +1,26 @@
+{
+  "reference_files_unchanged": 400,
+  "v3_artifacts_unchanged": true,
+  "source_rig_skin_animation_and_materials_equal": true,
+  "v3_original_nonposition_attributes_equal": true,
+  "bare_body_and_binary_equal": true,
+  "body_vertices": 30311,
+  "body_triangles": 57721,
+  "degenerate_triangles": 0,
+  "nonmanifold_edges_more_than_two_faces": 0,
+  "source_nonmanifold_edges_more_than_two_faces": 0,
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v4b.glb": {
+      "bytes": 6749248,
+      "sha256": "bba52a7eebcd845508209b82c6171efd48067b68032e8bb18a25ce5c64aab455"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v4b_BARE.glb": {
+      "bytes": 6749240,
+      "sha256": "dd08e54d0ba2b63bdef7481730bf405c46813a22a54f149f3b69d864cd28e8b0"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v4b.blend": {
+      "bytes": 3307816,
+      "sha256": "3c6789251ef07d2589e537666137f15d3bcbda08dc711acd2da56fcac7430916"
+    }
+  }
+}

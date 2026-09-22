@@ -45,6 +45,9 @@ def render(p,views):
 mode=sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'initial'
 if mode=='initial':
  for who in ['baseline','candidate']:render(poseRoot/f'dumbbell_bicep_curl_bottom_{who}.json',['side','shoulder_side','shoulder_three_quarter'])
+elif mode=='target':
+ for exercise in ['dumbbell_shoulder_press','pull_up']:
+  render(poseRoot/f'{exercise}_peak_candidate.json',['shoulder_side','shoulder_three_quarter'])
 elif mode=='overhead':
  for exercise in ['dumbbell_shoulder_press','pull_up']:
   for label in ['bottom','sample_12','peak']:
@@ -59,6 +62,5 @@ else:
   if d['exercise']=='Dumbbell Bicep Curl' and d['label']=='bottom':views=['front','side','three_quarter','back','shoulder_side','shoulder_three_quarter']
   elif d['label']=='peak':views=['front','side','three_quarter']
   render(p,views)
-
 
 

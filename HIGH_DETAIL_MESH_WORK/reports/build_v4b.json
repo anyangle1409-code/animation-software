@@ -1,0 +1,14 @@
+{
+  "body_triangles": 57721,
+  "source_body_triangles": 19304,
+  "vertices": 30311,
+  "original_vertices": 10839,
+  "original_hand_vertices_untouched": 1852,
+  "sculpt_vertices": 786,
+  "max_sculpt_mm": 31.17788624551534,
+  "new_vertex_weight_loss_max": 0.049803409774584195,
+  "new_vertex_weight_loss_mean": 0.00213412944293584,
+  "gain": 0.9,
+  "influence_loss_limit": 0.05,
+  "source_rig_and_metadata_equal": true
+}

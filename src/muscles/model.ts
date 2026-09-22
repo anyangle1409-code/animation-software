@@ -117,7 +117,20 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   // they follow the girdle when it shrugs and the arm when it lifts.
   {
     group: 'deltoid_anterior',
-    origin: at('clavicle_l', 0.01, 0.1 + SHOULDER_WIDENING, 0.022),
+    // The local z was 0.022 until the clavicle's rest angle was corrected. The
+    // anchor itself never stopped tracking the bone — measured, it sits 24.17 mm
+    // off the clavicle's axis before and after, and its world position swung
+    // back 24.9 mm with the girdle exactly as it should. What changed is what it
+    // swung *into*: the chest is bound to spine_03 and rightly did not move, so
+    // the belly's anterior face came to lie 2.187 mm outside the pectoral
+    // surface at the curl's peak, against 1.344 mm inside it before.
+    //
+    // 0.016 is the largest offset that puts it back inside — worst depth over
+    // the curl -1.020 mm — while leaving the flexion action well clear of the
+    // agonist floor (stretch 0.829 at 60 deg of shoulder flexion, against the
+    // 0.98 the functional test requires). The medial and posterior heads are
+    // unaffected and keep their own anchors.
+    origin: at('clavicle_l', 0.01, 0.1 + SHOULDER_WIDENING, 0.016),
     insertion: at('upperarm_l', 0.006, 0.13, 0.024),
     thickness: 0.036,
     bulge: 0.3,

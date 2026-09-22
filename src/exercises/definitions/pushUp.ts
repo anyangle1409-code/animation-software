@@ -11,9 +11,32 @@ import { vec3 } from '../../rig/types';
  * stay pinned while the body pivots on them, and world locks hold the hands.
  */
 
-/** Where the toes are planted, and the root placement that pins them there. */
-const TOP = { pitch: 74, root: { y: 0.1758, z: -0.0004 } };
-const BOTTOM = { pitch: 84, root: { y: 0.2025, z: 0.0327 } };
+/**
+ * Where the toes are planted, and the root placement that pins them there.
+ *
+ * Pitch and root are one parameter, not three: the leg pose holds the toe tip at
+ * a fixed offset in the root's own frame, so pinning it to the floor gives
+ * `root = toeWorld - R(pitch) · toeLocal`. Both rows below are that expression
+ * evaluated at their pitch, which is how the original 74/84 pair was derived.
+ *
+ * The pitches changed with the clavicle's corrected rest angle. That correction
+ * moved the whole arm chain 35 mm posterior, and a push-up body is prone, so
+ * posterior is *up*: the shoulder rose 33.7 mm off the floor at every body
+ * angle. At the old 74° the arm then had to span 565.3 mm to reach a hand fixed
+ * on the floor, 5.3 mm more than the 560 mm it has — the arm locked out, ran out
+ * of reach, and with no bend left the elbow could not sit out to the side
+ * (flare fell from 110.3 mm to 57.3 mm, through the 70 mm floor the technique
+ * rule sets).
+ *
+ * Both pitches therefore increase by the amount that puts the shoulder back
+ * where it was. Measured, this reproduces the pre-correction push-up exactly:
+ * shoulder height 572.7 mm at the top and 353.0 mm at the bottom, against
+ * 572.7 and 353.0 before — 0.0 mm at both ends, with the 219.7 mm stroke and
+ * the toes on the floor unchanged. The hand placement, the elbow poles and
+ * every technique rule are untouched.
+ */
+const TOP = { pitch: 75.59, root: { y: 0.1804, z: 0.0045 } };
+const BOTTOM = { pitch: 85.54, root: { y: 0.2062, z: 0.0382 } };
 
 /**
  * Hands stay exactly here for the whole repetition. The placement is not a

@@ -397,6 +397,24 @@ function buildFingerBones(): BoneDefinition[] {
  */
 export const SHOULDER_WIDENING = 0.01924 * 1.75;
 
+/**
+ * Shoulder setback, metres posterior — the companion to the widening above.
+ *
+ * The clavicle's corrected rest angle (17.5° back from the sternoclavicular
+ * joint, against the 4.5° it used to run at) carries its tail, and with it the
+ * whole arm chain and the five finger knuckles, this far behind the old centre
+ * line. Those bone positions are written out literally above rather than
+ * derived here, so that the accepted rig keeps exactly the values it was
+ * reviewed with; `rigRegression.test.ts` asserts the two agree.
+ *
+ * It is declared as a constant because the rig is not the only thing that has
+ * to know. The baked anatomical surface is authored against where the bones
+ * used to be, so it needs the same offset applied at build time — the identical
+ * problem SHOULDER_WIDENING already solves in the x axis, and it is solved the
+ * same way, through one constant rather than two re-bakes.
+ */
+export const SHOULDER_SETBACK = 0.035;
+
 /** The chain that moves: everything outboard of the sternoclavicular joint. */
 const widened = (bones: BoneDefinition[]): BoneDefinition[] =>
   bones.map((bone) => {

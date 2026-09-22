@@ -7,6 +7,7 @@ import {
   bilateralRule,
   bilateralTiming,
 } from '../mirror';
+import { evenSides, plantedContact } from '../presets';
 
 /**
  * Standing two-arm dumbbell curl.
@@ -147,14 +148,7 @@ export const bicepCurl: ExerciseDefinition = {
   },
 
   technique: [
-    ...bilateralRule({
-      kind: 'stationary',
-      id: 'feet_planted_l',
-      label: 'Left foot stays planted',
-      point: { bone: 'foot_l' },
-      tolerance: 0.012,
-      severity: 'error',
-    }),
+    ...plantedContact({ point: { bone: 'foot_l' }, tolerance: 0.012, label: 'Left foot stays planted' }),
     {
       kind: 'segmentAngle',
       id: 'torso_upright',
@@ -256,15 +250,12 @@ export const bicepCurl: ExerciseDefinition = {
       min: 0.26,
       max: 0.56,
     },
-    {
-      kind: 'symmetry',
+    evenSides({
       id: 'dumbbells_aligned',
       label: 'Both dumbbells stay level with one another',
-      left: { bone: 'hand_l', along: 1 },
-      right: { bone: 'hand_r', along: 1 },
+      point: { bone: 'hand_l', along: 1 },
       tolerance: 0.03,
-      severity: 'error',
-    },
+    }),
   ],
 
   commonErrors: [

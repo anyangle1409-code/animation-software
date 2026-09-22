@@ -1,6 +1,7 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
+import { evenSides } from '../presets';
 
 /**
  * Strict bodyweight pull-up from the crossbar of a rack.
@@ -237,15 +238,12 @@ export const pullUp: ExerciseDefinition = {
       max: 5,
       severity: 'error',
     },
-    {
-      kind: 'symmetry',
+    evenSides({
       id: 'even_pull',
       label: 'Both sides pull evenly',
-      left: { bone: 'forearm_l' },
-      right: { bone: 'forearm_r' },
+      point: { bone: 'forearm_l' },
       tolerance: 0.02,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'segmentAngle',
       id: 'trunk_line',
@@ -253,7 +251,8 @@ export const pullUp: ExerciseDefinition = {
       bone: 'spine_02',
       reference: 'vertical',
       max: 18,
-    },],
+    },
+  ],
 
   commonErrors: [
     {

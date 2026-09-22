@@ -2,6 +2,7 @@ import { SHOULDER_WIDENING } from '../../rig/humanoid';
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
+import { evenSides, plantedContact } from '../presets';
 
 /**
  * Standard push-up.
@@ -143,21 +144,11 @@ export const pushUp: ExerciseDefinition = {
   },
 
   technique: [
-    ...bilateralRule({
-      kind: 'stationary',
-      id: 'hand_planted_l',
-      label: 'Left hand stays planted',
-      point: { bone: 'hand_l' },
-      tolerance: 0.01,
-      severity: 'error',
-    }),
-    ...bilateralRule({
-      kind: 'stationary',
-      id: 'toes_planted_l',
-      label: 'Left foot stays planted',
+    ...plantedContact({ point: { bone: 'hand_l' }, tolerance: 0.01, label: 'Left hand stays planted' }),
+    ...plantedContact({
       point: { bone: 'toe_l', along: 1 },
       tolerance: 0.012,
-      severity: 'error',
+      label: 'Left toes stay planted',
     }),
     {
       kind: 'distance',
@@ -234,15 +225,13 @@ export const pushUp: ExerciseDefinition = {
       min: -6,
       max: 6,
     },
-    {
-      kind: 'symmetry',
+    evenSides({
       id: 'even_press',
       label: 'Both sides press evenly',
-      left: { bone: 'forearm_l' },
-      right: { bone: 'forearm_r' },
+      point: { bone: 'forearm_l' },
       tolerance: 0.02,
-      severity: 'error',
-    },],
+    }),
+  ],
 
   commonErrors: [
     {

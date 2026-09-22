@@ -1,6 +1,7 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralLock, bilateralRule } from '../mirror';
+import { evenSides, plantedContact } from '../presets';
 
 /**
  * Standing two-arm dumbbell overhead press.
@@ -102,14 +103,7 @@ export const shoulderPress: ExerciseDefinition = {
   },
 
   technique: [
-    ...bilateralRule({
-      kind: 'stationary',
-      id: 'foot_planted_l',
-      label: 'Left foot stays planted',
-      point: { bone: 'foot_l' },
-      tolerance: 0.012,
-      severity: 'error',
-    }),
+    ...plantedContact({ point: { bone: 'foot_l' }, tolerance: 0.012, label: 'Left foot stays planted' }),
     {
       kind: 'segmentAngle',
       id: 'torso_upright',
@@ -211,15 +205,13 @@ export const shoulderPress: ExerciseDefinition = {
       min: 0.517,
       max: 1.117,
     },
-    {
-      kind: 'symmetry',
+    evenSides({
       id: 'even_press',
       label: 'Both dumbbells stay level with one another',
-      left: { bone: 'hand_l', along: 1 },
-      right: { bone: 'hand_r', along: 1 },
+      point: { bone: 'hand_l', along: 1 },
       tolerance: 0.02,
-      severity: 'error',
-    },],
+    }),
+  ],
 
   commonErrors: [
     {

@@ -1,6 +1,7 @@
 import type { ExerciseDefinition } from '../types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralRule } from '../mirror';
+import { evenSides, plantedContact } from '../presets';
 
 /**
  * Bodyweight squat.
@@ -104,14 +105,7 @@ export const airSquat: ExerciseDefinition = {
   },
 
   technique: [
-    ...bilateralRule({
-      kind: 'stationary',
-      id: 'foot_planted_l',
-      label: 'Left foot stays planted',
-      point: { bone: 'foot_l' },
-      tolerance: 0.015,
-      severity: 'error',
-    }),
+    ...plantedContact({ point: { bone: 'foot_l' }, tolerance: 0.015, label: 'Left foot stays planted' }),
     ...bilateralRule({
       kind: 'stationary',
       id: 'heel_down_l',
@@ -163,15 +157,12 @@ export const airSquat: ExerciseDefinition = {
       max: 16,
       severity: 'error',
     },
-    {
-      kind: 'symmetry',
+    evenSides({
       id: 'even_knees',
       label: 'Both knees bend evenly',
-      left: { bone: 'shin_l' },
-      right: { bone: 'shin_r' },
+      point: { bone: 'shin_l' },
       tolerance: 0.02,
-      severity: 'error',
-    },
+    }),
     {
       kind: 'distance',
       id: 'stance_width',
@@ -189,7 +180,8 @@ export const airSquat: ExerciseDefinition = {
       bone: 'shin_l',
       reference: 'vertical',
       max: 45,
-    },],
+    },
+  ],
 
   commonErrors: [
     {

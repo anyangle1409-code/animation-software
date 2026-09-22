@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-22 — Phase 5, first step: the collision envelope comes from the equipment's own geometry
+
+Commit `b24ac3f`. Suite **338 passed / 1 skipped**, typecheck and build clean.
+
+The dumbbell guard added with the curl family hard-coded one item's shape and could only ever measure that item. `EQUIPMENT_PARTS` already describes every kind as primitives in its own frame, and is the single description the viewport and the GLB exporter both build from — so **`src/constraints/collision.ts` derives the envelope from it**. The shape being measured is now the shape being drawn and exported, rather than a third copy free to drift from both.
+
+The module returns a signed distance and deliberately does **not** decide policy: what counts as too close differs between a dumbbell beside a thigh and a bar against a chest. Two approximations, both conservative so the error can only make a guard stricter — a tapered cylinder is measured at its widest, a torus as its full swept ring even when its arc is partial.
+
+**Checked against the envelope it replaces** over an 80,000-point grid: **100.000% sign agreement**, so inside and outside are identical, which is what a guard depends on. Within 20 mm of the surface — the band a clearance guard actually operates in — the worst difference is 4.375 mm, at a plate rim corner where the old `max()` composition under-reported and this computes the true Euclidean distance. That is why the curl now reads **11.46 mm where it read 9.75 mm**: the measurement got more accurate, the exercise did not move.
+
+The guard generalises with it — every exercise with visible equipment rather than hand-held dumbbells only, reported per item rather than per exercise, so the **pull-up's rack is measured from its own parts with no new code** (240.52 mm at its closest, against the chest at 1.43 s). Re-introducing the hammer curl's collision still fails it, now attributed per side: −16.86 mm left, −16.92 mm right, 41 vertices each.
+
+The numbers print whichever way the check goes. A number only seen when it fails is a number nobody knows the value of.
+
+Still scoped to equipment against legs and trunk. **Body against body is not claimed** — an arm crossing a chest needs a different notion of acceptable, because real bodies touch.
+
 ### Claude — 2026-09-22 — Phase 2: the curl becomes a family, proved by a hammer curl
 
 Commit `f644d98`. Suite **337 passed / 1 skipped**, typecheck and build clean. The accepted curl's motion is unchanged; production assets, the rig and the retargeting path are untouched.

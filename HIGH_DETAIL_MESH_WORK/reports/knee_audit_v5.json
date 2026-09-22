@@ -1,0 +1,628 @@
+{
+  "knees": {
+    "L": {
+      "centre": [
+        0.1852708143962873,
+        0.40960113256080244,
+        0.2059224648329445
+      ],
+      "region_vertices": 263,
+      "median_residual_mm": 1.9072314432672786,
+      "p95_residual_mm": 5.6745237854328705,
+      "top": [
+        {
+          "vertex": 4417,
+          "residual_mm": 14.884985628253236,
+          "offset_mm": [
+            56.5,
+            146.8,
+            82.0
+          ],
+          "valence": 5
+        },
+        {
+          "vertex": 4003,
+          "residual_mm": 13.160629904203551,
+          "offset_mm": [
+            47.7,
+            155.8,
+            58.5
+          ],
+          "valence": 7
+        },
+        {
+          "vertex": 4002,
+          "residual_mm": 8.726705772611853,
+          "offset_mm": [
+            61.4,
+            155.4,
+            56.4
+          ],
+          "valence": 8
+        },
+        {
+          "vertex": 4008,
+          "residual_mm": 8.093324464947433,
+          "offset_mm": [
+            36.8,
+            161.7,
+            63.7
+          ],
+          "valence": 7
+        },
+        {
+          "vertex": 10701,
+          "residual_mm": 8.00608880436913,
+          "offset_mm": [
+            -13.6,
+            -32.4,
+            -44.7
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 32035,
+          "residual_mm": 7.020124955482749,
+          "offset_mm": [
+            -19.5,
+            -33.5,
+            -33.2
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 10425,
+          "residual_mm": 6.9855821319100375,
+          "offset_mm": [
+            -24.2,
+            13.4,
+            -22.7
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10684,
+          "residual_mm": 6.743513323642918,
+          "offset_mm": [
+            -11.5,
+            -19.6,
+            -27.9
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10622,
+          "residual_mm": 6.741319672204032,
+          "offset_mm": [
+            64.8,
+            29.2,
+            -33.4
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10380,
+          "residual_mm": 6.585569530771361,
+          "offset_mm": [
+            -27.4,
+            -35.7,
+            -25.5
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 10702,
+          "residual_mm": 6.359306422315468,
+          "offset_mm": [
+            -13.6,
+            -32.4,
+            -44.7
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 10406,
+          "residual_mm": 6.0298259872427575,
+          "offset_mm": [
+            13.2,
+            28.6,
+            -47.5
+          ],
+          "valence": 5
+        },
+        {
+          "vertex": 32101,
+          "residual_mm": 5.998733566587528,
+          "offset_mm": [
+            -32.5,
+            -38.9,
+            -20.6
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 21343,
+          "residual_mm": 5.692206495444231,
+          "offset_mm": [
+            40.0,
+            164.1,
+            48.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 4004,
+          "residual_mm": 5.515379395330663,
+          "offset_mm": [
+            47.7,
+            155.8,
+            58.5
+          ],
+          "valence": 3
+        },
+        {
+          "vertex": 10401,
+          "residual_mm": 5.452862451231095,
+          "offset_mm": [
+            -38.3,
+            -42.9,
+            -21.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 10399,
+          "residual_mm": 5.379128705831337,
+          "offset_mm": [
+            -34.5,
+            -52.4,
+            -34.4
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10400,
+          "residual_mm": 5.292334525991532,
+          "offset_mm": [
+            -38.3,
+            -42.9,
+            -21.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 32189,
+          "residual_mm": 5.2603614656473745,
+          "offset_mm": [
+            -5.4,
+            -13.5,
+            -25.8
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 32196,
+          "residual_mm": 5.256748559988473,
+          "offset_mm": [
+            -13.9,
+            20.5,
+            -25.2
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10658,
+          "residual_mm": 5.239789654905676,
+          "offset_mm": [
+            19.8,
+            24.7,
+            -11.8
+          ],
+          "valence": 7
+        },
+        {
+          "vertex": 32192,
+          "residual_mm": 5.2247814900910985,
+          "offset_mm": [
+            -31.2,
+            3.3,
+            -26.3
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 32199,
+          "residual_mm": 5.212848411939107,
+          "offset_mm": [
+            4.9,
+            28.1,
+            -37.6
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10424,
+          "residual_mm": 4.554712106131245,
+          "offset_mm": [
+            -37.6,
+            -7.1,
+            -31.2
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 10681,
+          "residual_mm": 4.506190270373766,
+          "offset_mm": [
+            -43.6,
+            -41.2,
+            -33.8
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 32123,
+          "residual_mm": 4.4954223503219,
+          "offset_mm": [
+            16.1,
+            27.0,
+            -29.0
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 32184,
+          "residual_mm": 4.38382295478121,
+          "offset_mm": [
+            -46.9,
+            -39.4,
+            -42.4
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 10685,
+          "residual_mm": 4.3059623064550685,
+          "offset_mm": [
+            0.5,
+            -7.1,
+            -23.3
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 32177,
+          "residual_mm": 4.2963774402884525,
+          "offset_mm": [
+            -47.0,
+            -39.4,
+            -42.4
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 32042,
+          "residual_mm": 4.281514687571668,
+          "offset_mm": [
+            -20.0,
+            -33.6,
+            -33.1
+          ],
+          "valence": 4
+        }
+      ]
+    },
+    "R": {
+      "centre": [
+        -0.1852708040322565,
+        0.4096011411180053,
+        0.20592247050179566
+      ],
+      "region_vertices": 263,
+      "median_residual_mm": 1.8604330922256815,
+      "p95_residual_mm": 5.508833476662844,
+      "top": [
+        {
+          "vertex": 7603,
+          "residual_mm": 14.888877903429933,
+          "offset_mm": [
+            -56.5,
+            146.8,
+            82.0
+          ],
+          "valence": 5
+        },
+        {
+          "vertex": 7191,
+          "residual_mm": 13.164016844263143,
+          "offset_mm": [
+            -47.7,
+            155.8,
+            58.5
+          ],
+          "valence": 7
+        },
+        {
+          "vertex": 7189,
+          "residual_mm": 8.727150442564962,
+          "offset_mm": [
+            -61.4,
+            155.4,
+            56.4
+          ],
+          "valence": 8
+        },
+        {
+          "vertex": 7195,
+          "residual_mm": 8.095669735968563,
+          "offset_mm": [
+            -36.8,
+            161.7,
+            63.7
+          ],
+          "valence": 7
+        },
+        {
+          "vertex": 9351,
+          "residual_mm": 8.006892143649042,
+          "offset_mm": [
+            13.6,
+            -32.4,
+            -44.7
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31087,
+          "residual_mm": 7.021421816139105,
+          "offset_mm": [
+            19.5,
+            -33.5,
+            -33.2
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 9068,
+          "residual_mm": 6.952613613952798,
+          "offset_mm": [
+            24.2,
+            13.4,
+            -22.8
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9271,
+          "residual_mm": 6.7625362407051055,
+          "offset_mm": [
+            -64.9,
+            29.2,
+            -33.0
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9333,
+          "residual_mm": 6.7477894400956755,
+          "offset_mm": [
+            11.5,
+            -19.6,
+            -27.9
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9022,
+          "residual_mm": 6.585465934876565,
+          "offset_mm": [
+            27.4,
+            -35.7,
+            -25.6
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 9350,
+          "residual_mm": 6.359230713666538,
+          "offset_mm": [
+            13.6,
+            -32.4,
+            -44.7
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31154,
+          "residual_mm": 5.999528639814431,
+          "offset_mm": [
+            32.5,
+            -38.9,
+            -20.6
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 29858,
+          "residual_mm": 5.69207061053434,
+          "offset_mm": [
+            -40.0,
+            164.1,
+            48.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 7190,
+          "residual_mm": 5.514958808686782,
+          "offset_mm": [
+            -47.7,
+            155.8,
+            58.5
+          ],
+          "valence": 3
+        },
+        {
+          "vertex": 9043,
+          "residual_mm": 5.453705488447422,
+          "offset_mm": [
+            38.3,
+            -42.9,
+            -21.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 9042,
+          "residual_mm": 5.379467408902987,
+          "offset_mm": [
+            34.5,
+            -52.4,
+            -34.4
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9044,
+          "residual_mm": 5.292091265272037,
+          "offset_mm": [
+            38.3,
+            -42.9,
+            -21.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31243,
+          "residual_mm": 5.256018868455401,
+          "offset_mm": [
+            5.4,
+            -13.5,
+            -25.8
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 31244,
+          "residual_mm": 5.2116641023585135,
+          "offset_mm": [
+            13.9,
+            20.5,
+            -25.3
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 31240,
+          "residual_mm": 5.210422210038156,
+          "offset_mm": [
+            31.2,
+            3.3,
+            -26.4
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 31246,
+          "residual_mm": 4.612633838218148,
+          "offset_mm": [
+            -2.8,
+            16.3,
+            -21.2
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9307,
+          "residual_mm": 4.600135798195922,
+          "offset_mm": [
+            -20.1,
+            24.1,
+            -11.7
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9067,
+          "residual_mm": 4.552332048099277,
+          "offset_mm": [
+            37.6,
+            -7.1,
+            -31.2
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 9331,
+          "residual_mm": 4.505959235373476,
+          "offset_mm": [
+            43.6,
+            -41.2,
+            -33.8
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31231,
+          "residual_mm": 4.384107586580306,
+          "offset_mm": [
+            46.9,
+            -39.4,
+            -42.4
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31229,
+          "residual_mm": 4.295698452296065,
+          "offset_mm": [
+            47.0,
+            -39.4,
+            -42.4
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 9334,
+          "residual_mm": 4.281632783022073,
+          "offset_mm": [
+            -0.5,
+            -7.1,
+            -23.3
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 31089,
+          "residual_mm": 4.281605237289995,
+          "offset_mm": [
+            20.0,
+            -33.6,
+            -33.1
+          ],
+          "valence": 4
+        },
+        {
+          "vertex": 31178,
+          "residual_mm": 4.22766755272957,
+          "offset_mm": [
+            -54.4,
+            30.7,
+            -26.6
+          ],
+          "valence": 6
+        },
+        {
+          "vertex": 31149,
+          "residual_mm": 4.222476022614384,
+          "offset_mm": [
+            28.5,
+            -52.6,
+            -40.7
+          ],
+          "valence": 6
+        }
+      ]
+    }
+  }
+}

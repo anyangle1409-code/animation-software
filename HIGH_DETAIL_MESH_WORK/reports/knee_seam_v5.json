@@ -1,0 +1,100 @@
+{
+  "asset": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v5_hands_curved.glb",
+  "squat_time": 2,
+  "knees": {
+    "L": {
+      "boundary_edges": 28,
+      "parallel_paths": 2,
+      "vertices_per_path": 15,
+      "max_gap_at_squat_mm": 0.5781421789560609,
+      "mean_gap_at_squat_mm": 0.14331154394178325,
+      "max_gap_at_rest_mm": 0.669051468372345,
+      "paired_joint_sets_equal": true,
+      "max_paired_weight_difference": 0.0,
+      "max_paired_normal_angle_deg": 0.02797645330429077,
+      "paths": [
+        [
+          10617,
+          31856,
+          10277,
+          32556,
+          10701,
+          32042,
+          10379,
+          32107,
+          10400,
+          32515,
+          10681,
+          32184,
+          10421,
+          32427,
+          10645
+        ],
+        [
+          10618,
+          31817,
+          10278,
+          32557,
+          10702,
+          32035,
+          10380,
+          32101,
+          10401,
+          32516,
+          10682,
+          32177,
+          10422,
+          32430,
+          10646
+        ]
+      ]
+    },
+    "R": {
+      "boundary_edges": 28,
+      "parallel_paths": 2,
+      "vertices_per_path": 15,
+      "max_gap_at_squat_mm": 0.578122430256646,
+      "mean_gap_at_squat_mm": 0.14321730207471572,
+      "max_gap_at_rest_mm": 0.6690266728401184,
+      "paired_joint_sets_equal": true,
+      "max_paired_weight_difference": 0.0,
+      "max_paired_normal_angle_deg": 0.02797645330429077,
+      "paths": [
+        [
+          9266,
+          30870,
+          8920,
+          31610,
+          9350,
+          31087,
+          9022,
+          31154,
+          9043,
+          31569,
+          9330,
+          31229,
+          9064,
+          31484,
+          9294
+        ],
+        [
+          9267,
+          30903,
+          8921,
+          31606,
+          9351,
+          31089,
+          9023,
+          31155,
+          9044,
+          31565,
+          9331,
+          31231,
+          9065,
+          31476,
+          9295
+        ]
+      ]
+    }
+  }
+}

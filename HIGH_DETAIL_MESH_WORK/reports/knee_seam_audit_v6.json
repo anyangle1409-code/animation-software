@@ -1,0 +1,86 @@
+{
+  "candidate": "v6_knee_seam",
+  "poses": {
+    "air_squat_bottom_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "air_squat_peak_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "air_squat_return_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "air_squat_sample_12_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_bicep_curl_bottom_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_bicep_curl_peak_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_bicep_curl_return_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_bicep_curl_sample_12_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_shoulder_press_bottom_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_shoulder_press_peak_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_shoulder_press_return_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "dumbbell_shoulder_press_sample_12_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "pull_up_bottom_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "pull_up_peak_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "pull_up_return_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "pull_up_sample_12_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "push_up_bottom_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "push_up_peak_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "push_up_return_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "push_up_sample_12_candidate": {
+      "L": 0.0,
+      "R": 0.0
+    }
+  },
+  "max_gap_mm": 0.0
+}

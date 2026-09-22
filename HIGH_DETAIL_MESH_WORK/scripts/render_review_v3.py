@@ -30,7 +30,7 @@ def render(p,views):
  positions=d['meshes'][0]['positions'];lo=min(v[1] for v in positions);hi=max(v[1] for v in positions);mid=(lo+hi)/2;extent=max(hi-lo,1.0)
  for name in views:
   focus=Vector((0,0,mid));scale=extent*1.2
-  direction=Vector({'front':(0,-5,.12),'side':(5,0,.12),'three_quarter':(4,-6,1),'back':(0,5,.12),'shoulder_side':(5,0,.12),'shoulder_three_quarter':(4,-6,.5),'hand':(4,-6,.5)}[name])
+  direction=Vector({'front':(0,-5,.12),'side':(5,0,.12),'three_quarter':(4,-6,1),'back':(0,5,.12),'shoulder_side':(5,0,.12),'shoulder_three_quarter':(4,-6,.5),'hand':(4,-6,.5),'knee_front':(0,-5,.12),'knee_side':(5,0,.12),'knee_three_quarter':(4,-6,.5)}[name])
   if name.startswith('shoulder'):
    joint_near=d['meshes'][0]['positions'][3913]
    focus=Vector((joint_near[0]-.02,-joint_near[2],joint_near[1]));scale=.50
@@ -38,6 +38,9 @@ def render(p,views):
    ownership=json.loads((R/'reports/sculpt_reference.json').read_text())['ownership']
    ids=[i for i,w in enumerate(ownership) if w['hand']>.8 and positions[i][0]>0]
    n=len(ids);focus=Vector((sum(positions[i][0] for i in ids)/n,-sum(positions[i][2] for i in ids)/n,sum(positions[i][1] for i in ids)/n));scale=.34
+  if name.startswith('knee'):
+   joint=json.loads((R/'reports/squat_sculpt_reference_v5.json').read_text())['knees']['L']
+   focus=Vector((joint[0],-joint[2],joint[1]));scale=.38
   if d['exercise']=='Push-Up' and name!='hand':focus=Vector((0,-.55,.48));scale=1.85
   for ob in sc.objects:
    if ob.get('review_equipment'):ob.hide_render=name.startswith('shoulder')
@@ -54,6 +57,8 @@ elif mode=='target':
 elif mode=='hands':
  for exercise,label in [('dumbbell_bicep_curl','bottom'),('push_up','bottom'),('pull_up','peak')]:
   render(poseRoot/f'{exercise}_{label}_candidate.json',['hand'])
+elif mode=='knees':
+ render(poseRoot/'air_squat_peak_candidate.json',['knee_front','knee_side','knee_three_quarter'])
 elif mode=='overhead':
  for exercise in ['dumbbell_shoulder_press','pull_up']:
   for label in ['bottom','sample_12','peak']:

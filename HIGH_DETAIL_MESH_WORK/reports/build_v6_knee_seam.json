@@ -1,0 +1,7 @@
+{
+  "base": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v5_hands_curved.glb",
+  "matched_pairs": 30,
+  "max_rest_vertex_move_mm": 0.33452575331902407,
+  "skin_weights_unchanged": true,
+  "rig_animation_materials_metadata_unchanged": true
+}

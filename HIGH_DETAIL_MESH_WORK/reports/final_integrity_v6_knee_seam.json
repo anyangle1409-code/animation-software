@@ -1,0 +1,27 @@
+{
+  "reference_files_unchanged": 400,
+  "v5_artifacts_unchanged": true,
+  "source_rig_skin_animation_and_materials_equal": true,
+  "v5_all_nonposition_attributes_equal": true,
+  "changed_vertices_limited_to_knee_paths": true,
+  "bare_body_and_binary_equal": true,
+  "body_vertices": 33089,
+  "body_triangles": 62961,
+  "degenerate_triangles": 0,
+  "nonmanifold_edges_more_than_two_faces": 0,
+  "source_nonmanifold_edges_more_than_two_faces": 0,
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb": {
+      "bytes": 7145488,
+      "sha256": "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb": {
+      "bytes": 7145480,
+      "sha256": "0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend": {
+      "bytes": 3559791,
+      "sha256": "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df"
+    }
+  }
+}

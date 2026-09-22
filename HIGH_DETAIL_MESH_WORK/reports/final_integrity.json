@@ -1,0 +1,31 @@
+{
+  "reference_files_verified": 400,
+  "reference_changes": [],
+  "validation_source_changes": [],
+  "rig_metadata_exact": {
+    "nodes": true,
+    "skins": true,
+    "scenes": true,
+    "animations": true,
+    "materials": true,
+    "textures": true,
+    "images": true,
+    "samplers": true
+  },
+  "original_binary_preserved": true,
+  "shorts_mesh_unchanged": true,
+  "body_uv_attributes": [
+    "TEXCOORD_0",
+    "TEXCOORD_1"
+  ],
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v1.glb": {
+      "bytes": 6852772,
+      "sha256": "a2c7a43aa48c7387383e5ca9665791bb0daabd22139cc24323ac758d2c717b7d"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v1.blend": {
+      "bytes": 3387041,
+      "sha256": "aa03b15ae42b249e16828b699904e6a13f0d6d7efb9709859c9673ef1eba8ff1"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import type { ExerciseDefinition } from './types';
 import { bicepCurl } from './definitions/bicepCurl';
+import { hammerCurl } from './definitions/hammerCurl';
 import { pushUp } from './definitions/pushUp';
 import { airSquat } from './definitions/airSquat';
 import { shoulderPress } from './definitions/shoulderPress';
@@ -9,8 +10,20 @@ import { pullUp } from './definitions/pullUp';
  * Every exercise the studio knows about. The engine is deliberately proven on a
  * small set first — one arm exercise, one whole-body pressing movement, one
  * lower-body movement — rather than filled with variations of the same thing.
+ *
+ * The hammer curl is the exception, and it is here to prove something rather
+ * than to pad the list: it is the first exercise built from a movement family
+ * instead of copied from a sibling, so it is the measure of whether a variant
+ * really is a short override.
  */
-export const EXERCISES: ExerciseDefinition[] = [bicepCurl, pushUp, airSquat, shoulderPress, pullUp];
+export const EXERCISES: ExerciseDefinition[] = [
+  bicepCurl,
+  hammerCurl,
+  pushUp,
+  airSquat,
+  shoulderPress,
+  pullUp,
+];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));
 

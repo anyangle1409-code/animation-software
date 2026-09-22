@@ -44,7 +44,11 @@ describe('bicep curl realism guardrails', () => {
           : target,
       ),
     };
-    expect(violations(exercise)).toContain('supinated_grip_l');
+    // `grip_held_l` was `supinated_grip_l` until the curl family made the grip a
+    // parameter: the rule now checks whichever grip the variant declares, so a
+    // hammer curl is held to neutral by the same id rather than to a name that
+    // only fits one variant.
+    expect(violations(exercise)).toContain('grip_held_l');
   });
 
   it('rejects sideways wrist deviation', () => {

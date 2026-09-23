@@ -3,7 +3,7 @@
 Run from HIGH_DETAIL_MESH_WORK:
     python scripts/run_candidate_gates.py --version v7_example
 
-The exact source commit is 19ca602 (hgpt_canonical_v3). The source is extracted
+The frozen hierarchy is 19ca602 (hgpt_canonical_v3); runtime validation uses 614033b with the mirrored-hand retarget fix. The source is extracted
 into validation_63 without merging it into the mesh-review branch.
 """
 
@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 VALIDATION=ROOT/"validation_63"
 REPAIR=VALIDATION/"scratchpad"/"repair"
-RIG_SHA="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe"
+RIG_SHA="614033b256d869230ea273522620467401b0bc71"
 
 GUARDS=[
  "sagittal.test.mts",
@@ -94,7 +94,8 @@ def main():
             cwd=VALIDATION,env=env,log=ROOT/"reports"/f"{version}_rig63_exercises.log")
 
     print("\nCANDIDATE GATES PASS AGAINST",RIG_SHA)
-    print("skeleton: hgpt_canonical_v3 / 63 bones")
+    print("skeleton: hgpt_canonical_v3 / 63 bones (freeze 19ca602)")
+    print("runtime source: 614033b (mirrored-hand roll fixed)")
     print("guards:",ROOT/"reports"/f"{version}_rig63_guards.log")
     if not args.skip_exercise:print("exercises:",ROOT/"reports"/f"{version}_rig63_exercises.log")
 

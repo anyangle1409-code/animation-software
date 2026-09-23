@@ -22,7 +22,7 @@ def run(args):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--version",required=True)
-    ap.add_argument("--task",required=True,choices=("knee","hand","material"))
+    ap.add_argument("--task",required=True,choices=("knee","hand","material","shoulder"))
     ap.add_argument("--overhead",action="store_true")
     args=ap.parse_args()
 
@@ -44,7 +44,7 @@ def main():
         run([sys.executable,ROOT/"scripts"/"guard_hand_floor_vertices.py",candidate,"--strict"])
 
     cmd=[sys.executable,ROOT/"scripts"/"prepare_review_pack.py","--version",args.version]
-    if args.overhead:cmd.append("--overhead")
+    if args.overhead or args.task=="shoulder":cmd.append("--overhead")
     run(cmd)
     run([sys.executable,ROOT/"scripts"/"checkpoint_candidate.py","--version",args.version])
     print("\nFINISH WORKFLOW PASS")

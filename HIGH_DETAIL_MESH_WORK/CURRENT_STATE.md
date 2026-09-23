@@ -6,7 +6,7 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 The latest reviewed geometry baseline is **V6 knee seam**. The V6 asset itself was created at commit `b2203cfccd30d6835473ef2e1dee37965da22d02`.
 
-The canonical runtime skeleton is now the frozen **63-bone canonical skeleton** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). Read `RIG_63_FREEZE.md`.
+The canonical hierarchy is frozen at **63 bones** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). The current validated runtime/retarget source is `614033b256d869230ea273522620467401b0bc71`, which fixes mirrored-character hand roll without changing the frozen hierarchy. Read `RIG_63_FREEZE.md`.
 
 Current candidate assets:
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
@@ -45,7 +45,7 @@ The canonical hierarchy is now frozen. The production GLB itself was not changed
 
 ## Validation baseline
 
-New candidates must be validated against the frozen 63-bone source commit. `RESUME_WORK.bat` prepares an isolated `validation_63` tree from `19ca602` without merging source changes into this mesh-review branch.
+New candidates must be validated against the current v3 runtime source `614033b256d869230ea273522620467401b0bc71`, while the structural freeze remains `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe`. `RESUME_WORK.bat` prepares an isolated `validation_63` tree from the runtime source without merging it into this mesh-review branch.
 
 ## Fast path on the laptop
 
@@ -64,4 +64,4 @@ Use `knee`, `hand`, `material`, or `shoulder`. The finish workflow runs the froz
 
 ## Do not
 
-Do not overwrite V6, modify production assets, change exercise mechanics to accommodate a mesh, loosen guards to make a candidate pass, enable scapular rhythm during mesh-only work, or change the frozen canonical hierarchy. Remaining hand-roll, palm-export and mannequin-hand issues belong outside the skeleton.
+Do not overwrite V6, modify production assets, change exercise mechanics to accommodate a mesh, loosen guards to make a candidate pass, enable scapular rhythm during mesh-only work, or change the frozen canonical hierarchy. The mirrored hand-roll issue is fixed. Remaining grip refit, palm-export and mannequin-hand issues belong outside the skeleton.

@@ -15,13 +15,12 @@ Current priority while the final canonical rig is being settled separately:
 - Third: skin/material work.
 - Hold: final shoulder/chest/back/armpit weights and final shoulder deformation tuning until the scapula-capable canonical rig is confirmed.
 
-After every exported candidate, prefer the one-command Windows path:
+After every exported candidate, the shortest path is:
 
 ```text
-RUN_CANDIDATE_GATES.bat <version>
-RUN_REVIEW_PACK.bat <version>
+FINISH_CANDIDATE.bat <version> <task>
 ```
 
-For hand work also run `scripts/guard_hand_floor_vertices.py`; for knee work also run `scripts/audit_knee_topology_candidate.py`.
+where `<task>` is `knee`, `hand`, or `material`. This runs the standard gates, task-specific audit, visual review pack, and checkpoint automatically. The lower-level `RUN_CANDIDATE_GATES.bat` and `RUN_REVIEW_PACK.bat` remain available for partial reruns.
 
 Do not merge, promote, overwrite V6, alter production assets, or retune exercises to make a mesh candidate pass. Older handoff/review files are historical unless `CURRENT_STATE.md` points to them.

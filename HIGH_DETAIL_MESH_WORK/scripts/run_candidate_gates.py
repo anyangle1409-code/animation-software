@@ -74,13 +74,16 @@ def ensure_harnesses():
         raise SystemExit(f"Missing exercise review harness: {review}")
 
 def vitest_command():
+    local = VALIDATION / "node_modules" / ".bin" / ("vitest.cmd" if os.name == "nt" else "vitest")
+    if local.is_file():
+        return [str(local), "run"]
     pnpm = shutil.which("pnpm")
     if pnpm:
         return [pnpm, "exec", "vitest", "run"]
     npx = shutil.which("npx")
     if npx:
         return [npx, "--no-install", "vitest", "run"]
-    raise SystemExit("Neither pnpm nor npx is available on PATH. Install project dependencies first.")
+    raise SystemExit("Vitest is unavailable. Install the validation dependencies first.")
 
 def main():
     ap = argparse.ArgumentParser()

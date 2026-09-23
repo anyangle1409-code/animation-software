@@ -1,5 +1,12 @@
-Read LAPTOP_CONTINUATION_HANDOFF.md first when resuming on the Blender laptop.
+Read CURRENT_STATE.md and WORK_START_HERE.md first when resuming on the Blender laptop.
 
-V6 knee seam is the latest separate review revision. Read REVIEW_V6_KNEE_SEAM.md, REVIEW_V5_HANDS.md, REVIEW_V4B.md and their comparison sheets. Next: retopologize the still-open medial-knee strips into connected anatomical loops and reshape the pointed overhang; three local smoothing/contour trials failed. Then model realistic finger/thumb/palm forms on V5's contact-safe topology, resolve the inherited overhead axilla fold, and author skin materials. Keep the frozen shoulder joint/rig, original grip/contact behavior, all prior candidates and production untouched. Push each completed candidate-only part to a review branch; do not merge or promote.
+V6 knee seam is the latest reviewed geometry baseline. Read REVIEW_V6_KNEE_SEAM.md, REVIEW_V5_HANDS.md and REVIEW_V4B.md as supporting history.
 
-Important sequencing update: final shoulder/chest/back/armpit weighting must wait for the separately audited scapula-capable canonical rig to be confirmed. Knee retopology, contact-safe hand anatomy and skin-material work may continue as isolated candidates in the meantime. Do not merge or promote.
+Next autonomous modelling order:
+1. retopologize the still-open medial-knee strips into connected anatomical loops and reshape the pointed overhang;
+2. model realistic finger/thumb/palm/wrist forms on V5/V6's contact-safe topology;
+3. refine skin materials.
+
+Use START_CANDIDATE.bat <version> to create a fresh candidate working file. After editing and exporting the dressed GLB, use FINISH_CANDIDATE.bat <version> <task> so the bare variant, guards, task-specific audit, visual review pack and checkpoint are handled automatically.
+
+Final shoulder/chest/back/armpit weighting must wait for the separately audited scapula-capable canonical rig to be confirmed. Keep the existing rig/exercises/grip/contact behavior and all production assets untouched. Do not merge or promote.

@@ -1,0 +1,12 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.glb",
+  "source_sha256": "f6346ac4da1508cc15bb16d6406d7cc0cc8c97a92c173d57d2d422bcb9a59d6d",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
+  "changed_vertices": 1207,
+  "mirrored_pairs": 634,
+  "max_rest_move_mm": 9.07066240563477,
+  "dome_peak_reduction_mm": 5.5,
+  "medial_smoothing_iterations": 4,
+  "tendon_peak_definition_mm": 1.8,
+  "unchanged": "indices, UVs, weights, rig, animations, material, equipment, all non-knee body positions"
+}

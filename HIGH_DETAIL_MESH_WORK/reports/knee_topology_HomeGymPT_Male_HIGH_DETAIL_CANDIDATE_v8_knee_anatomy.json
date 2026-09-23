@@ -1,0 +1,19 @@
+{
+  "candidate": "C:\\Users\\Mark\\Documents\\animation-software\\HIGH_DETAIL_MESH_WORK\\_repo_checkout\\HIGH_DETAIL_MESH_WORK\\HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
+  "radius_m": 0.18,
+  "baseline_v6_local_boundary_edges": {
+    "L": 74,
+    "R": 74
+  },
+  "candidate_local_boundary_edges": {
+    "L": 75,
+    "R": 74
+  },
+  "delta": {
+    "L": 1,
+    "R": 0
+  },
+  "candidate_vertices": 33089,
+  "candidate_triangles": 62961,
+  "note": "Lower local open-boundary counts are expected from a true connected knee retopology, but visual deformation and the full guards remain authoritative."
+}

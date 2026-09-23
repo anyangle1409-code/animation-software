@@ -1,0 +1,27 @@
+{
+  "v7_sha256_unchanged": "f6346ac4da1508cc15bb16d6406d7cc0cc8c97a92c173d57d2d422bcb9a59d6d",
+  "protected_glb_fields_unchanged": true,
+  "changed_knee_vertices": 1206,
+  "left_right_changed": [
+    602,
+    604
+  ],
+  "left_right_displacement_sum_mm": [
+    1238.528350375092,
+    1226.466657848269
+  ],
+  "max_rest_move_mm": 9.07066235814191,
+  "saved_pose_count": 28,
+  "max_paired_seam_pose_gap_mm": 0.0,
+  "topology": {
+    "vertices": 33089,
+    "triangles": 62961,
+    "degenerate_triangles": 0,
+    "nonmanifold_edges_gt2": 0
+  },
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy_BARE.glb": "1edb5f37a89e782b35ad82696892932edbb8b51da7f8484f1e7838b7d8d890b1",
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.blend": "704cb5f9bf1ef53a4c1bda1100f261844d8153034b18ef2ad045a75adb37c9ef"
+  }
+}

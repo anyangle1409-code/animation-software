@@ -1,0 +1,12 @@
+{
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.blend",
+  "vertices": 33059,
+  "triangles": 62961,
+  "uv_loop_counts": {
+    "UVMap": 188883,
+    "UVMap.001": 188883
+  },
+  "moved_blend_vertices": 1178,
+  "max_v7_mapping_distance_mm": 0.0,
+  "v7_welded_topology_retained": true
+}

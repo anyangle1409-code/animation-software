@@ -21,9 +21,9 @@ Read this file first, then run `RESUME_WORK.bat`.
 - Build: clean
 
 ### Mesh / Blender workspace
-- Work branch: `codex-high-detail-candidate-v6-knee-review-20260922`
-- Reviewed geometry baseline: **V6 knee seam**
-- New review candidate awaiting acceptance: **V7 knee retopology**; see `REVIEW_V7_KNEE_RETOPOLOGY.md`
+- Work branch: `codex-high-detail-candidate-v8-knee-anatomy-review-20260923`
+- Accepted knee topology: **V7 knee retopology**; V6 remains preserved.
+- New local-anatomy review candidate awaiting acceptance: **V8 knee anatomy**; see `REVIEW_V8_KNEE_ANATOMY.md`
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`

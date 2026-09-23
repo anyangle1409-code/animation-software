@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parent
 TARGET=ROOT/"validation_63"
 LEGACY=ROOT/"validation"
-RIG_SHA="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe"
+RIG_SHA="614033b256d869230ea273522620467401b0bc71"
 MARKER=TARGET/".rig_source_commit"
 ARCHIVE_CANDIDATES=[
  "src","package.json","package-lock.json","pnpm-lock.yaml","tsconfig.json","vite.config.ts",
@@ -25,17 +25,17 @@ def has_commit():
 
 def ensure_commit():
     if has_commit():return
-    print("63-bone freeze commit not present locally; fetching source branch...")
+    print("current v3 runtime source commit not present locally; fetching source branch...")
     fetch=git("fetch","origin","chatgpt/absolute-retarget-imports",check=False,capture=False)
     if fetch.returncode!=0 or not has_commit():
-        raise SystemExit("Could not obtain frozen 63-bone commit. Fetch origin/chatgpt/absolute-retarget-imports and rerun.")
+        raise SystemExit("Could not obtain current v3 runtime source commit. Fetch origin/chatgpt/absolute-retarget-imports and rerun.")
 
 def exists_at_commit(path):
     return git("cat-file","-e",f"{RIG_SHA}:{path}",check=False).returncode==0
 
 def extract_source():
     paths=[p for p in ARCHIVE_CANDIDATES if exists_at_commit(p)]
-    if "src" not in paths or "package.json" not in paths:raise SystemExit("Frozen rig commit missing required paths")
+    if "src" not in paths or "package.json" not in paths:raise SystemExit("Current v3 runtime source missing required paths")
     blob=subprocess.check_output(["git","archive","--format=tar",RIG_SHA,*paths],cwd=REPO)
     if TARGET.exists():shutil.rmtree(TARGET)
     TARGET.mkdir(parents=True)
@@ -77,7 +77,7 @@ def main():
     if MARKER.is_file() and MARKER.read_text().strip()==RIG_SHA and (TARGET/"src"/"rig"/"frozen.test.ts").is_file():
         print("validation_63 already prepared at",RIG_SHA);deps();return
     extract_source();copy_review_harness();MARKER.write_text(RIG_SHA+"\n");deps()
-    print("Prepared isolated 63-bone validation source:",TARGET)
+    print("Prepared isolated v3 validation source:",TARGET)
     print("Source commit:",RIG_SHA)
 
 if __name__=="__main__":main()

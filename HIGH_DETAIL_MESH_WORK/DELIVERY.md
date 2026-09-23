@@ -1,7 +1,27 @@
-# Candidate delivery
+# Current candidate delivery
 
-This branch is for Claude review only. No production promotion.
+This branch is a separate high-detail mesh review workspace. Nothing here is production-promoted.
 
-Start with CLAUDE_HANDOFF.md and REVIEW.md. Both candidate binaries, the render contact sheet, key reports and build/review scripts are included. Individual full-size renders and earlier checkpoints remain in the local ZIP; this repository delivery is a compact subset.
+The authoritative entry point is `CURRENT_STATE.md`, followed by `WORK_START_HERE.md` and `LAPTOP_CONTINUATION_HANDOFF.md`.
 
-Completed: supplied sagittal measurement and sampled five-exercise compatibility comparisons. Pending acceptance: dedicated grip-contact, 343-degree finger-wrap, dumbbell/shorts-clearance, renderer/exporter agreement and bare/dressed-equivalence guards. The sampled compatibility checks are not substitutes for those guards. No new bare candidate is included.
+Latest reviewed geometry baseline: **V6 knee seam**.
+
+Included:
+- dressed V6 GLB
+- bare V6 GLB
+- editable V6 Blender file
+- V1–V6 review history
+- validation logs and hashes
+- candidate reproduction scripts
+- Work/laptop continuation instructions
+- preflight and fast structural checks
+- one-command runtime gate runner
+- automatic candidate checkpointing
+- generic visual review-pack generation
+- hand floor-contact protection audit
+- knee topology audit
+- final-rig compatibility checker and intake checklist
+
+The earlier version of this file described the first candidate and said several guards/bare output were still pending. That is historical and no longer current: V6 includes a bare asset and the focused guards were run successfully.
+
+No merge or production promotion is requested.

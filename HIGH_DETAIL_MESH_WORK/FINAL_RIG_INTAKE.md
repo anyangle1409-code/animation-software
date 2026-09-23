@@ -1,46 +1,27 @@
-# Final rig intake — completed for the shoulder-girdle baseline
+# Final rig intake — superseded by canonical v3 freeze
 
-The canonical-rig intake was completed on 2026-09-23.
+The earlier 55-bone shoulder-girdle intake at `c2372c1` is retained as history only.
 
-## Confirmed
+The current authoritative canonical structure is:
 
-- source commit: `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`
-- `chatgpt/absolute-retarget-imports`: verified at that commit
-- `claude/home-gym-pt-animation-txux66`: verified at that commit
-- canonical count: 55 bones
-- `scapula_l/r`: neutral at rest
-- scapular rhythm: disabled
-- scapula skin weights: not painted
-- upper-arm limits: unchanged
-- retargeter: nearest mapped descendant for rest direction; nearest mapped ancestor for attachments
-- mannequin baked skin: resolved through the 53 baked bone names
-- export skeleton id: `hgpt_canonical_v2`
-- suite: 388 passed / 1 skipped; typecheck/build clean
-- no production GLB/Blend asset was changed by this commit
+- commit: `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe`
+- skeleton ID: `hgpt_canonical_v3`
+- canonical bones: 63
+- hierarchy: structurally frozen
+- metacarpals: four per hand added
+- thumb base: `thumb_01` provides the CMC/opposition control; no extra thumb-base bone
+- canonical twist bones: none
+- scapular rhythm: off
+- palm cupping/thumb twist: structurally available but not driven by exercises
+- skin weights: unchanged
+- tests: 418 passed / 1 skipped / 51 files
+- typecheck/build: clean
 
-See `RIG_55_BASELINE.md` for the accepted equivalence evidence and mesh implications.
+Read `RIG_63_FREEZE.md` and `CURRENT_STATE.md` for the current source of truth.
 
-## Meaning for the high-detail mesh
+The remaining issues do **not** reopen the skeleton:
+1. mirrored-character hand-roll retargeting
+2. correct production palm-bone export/binding if palm cupping is to deform the production mesh
+3. mannequin hand-shape mismatch
 
-Do **not** rebind V6 merely because the canonical runtime rig now has 55 bones. Current scapula-less character assets remain supported through the retarget fallback and were proven equivalent.
-
-The next asset-level shoulder stage is separate:
-1. keep/build suitable shoulder/back/chest/armpit topology
-2. introduce/use scapula deform influences in a candidate character asset when the binding pass starts
-3. prove neutral equivalence
-4. paint/tune local girdle weights
-5. only later enable/tune scapular rhythm
-
-## Remaining pre-final-weight decisions
-
-Still open unless a later source commit settles them:
-- palm-arch / hand-base decision
-- thumb-twist decision
-- forearm twist distribution
-- carrying angle
-
-The hand-base/thumb decision blocks **final hand weighting**, not knee retopology, hand geometry or material work.
-
-## External consumer warning
-
-Animation exports from this baseline are `hgpt_canonical_v2`: two extra joints are present and upper-arm local rotations are relative to the scapula. Any external consumer still assuming the 53-joint v1 layout must be updated before consuming new exports.
+Any final weighting/binding work should target `hgpt_canonical_v3` and preserve the frozen hierarchy.

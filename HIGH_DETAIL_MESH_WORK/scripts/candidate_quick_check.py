@@ -101,6 +101,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("candidate", type=Path)
     parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE)
+    parser.add_argument("--allow-materials", action="store_true",
+                        help="Allow materials/textures/images/samplers to differ while keeping rig/animation protected")
     args = parser.parse_args()
 
     candidate = args.candidate.resolve()
@@ -111,10 +113,9 @@ def main():
     base_doc, base_bin = load_glb(baseline)
     cand_doc, cand_bin = load_glb(candidate)
 
-    protected = (
-        "nodes", "skins", "scenes", "animations",
-        "materials", "textures", "images", "samplers"
-    )
+    protected = ["nodes", "skins", "scenes", "animations"]
+    if not args.allow_materials:
+        protected += ["materials", "textures", "images", "samplers"]
     changed = [field for field in protected if cand_doc.get(field) != base_doc.get(field)]
     if changed:
         raise AssertionError(
@@ -139,6 +140,7 @@ def main():
         "baseline": str(baseline),
         "candidate": str(candidate),
         "protected_glb_fields_unchanged": True,
+        "materials_allowed_to_change": bool(args.allow_materials),
         "baseline_stats": base_stats,
         "candidate_stats": cand_stats,
         "quick_guard": "PASS",

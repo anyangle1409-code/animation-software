@@ -1,6 +1,8 @@
-# HOME GYM PT candidate handoff to Claude
+# Historical first-candidate Claude handoff
 
-Please review this separate test candidate against the shared playbook. It is a first review candidate, not production approved. Read REVIEW.md, PROGRESS.md and NEXT_ACTION.md first. Review the supplied renders and validation reports before proposing further candidate-only changes.
+**Historical note:** this file describes the original first review candidate and is retained for provenance. It is not the current continuation instruction. For current work, read `CURRENT_STATE.md`, `WORK_START_HERE.md`, `LAPTOP_CONTINUATION_HANDOFF.md`, and the latest numbered review first.
+
+## Original handoff text\n\nPlease review this separate test candidate against the shared playbook. It is a first review candidate, not production approved. Read REVIEW.md, PROGRESS.md and NEXT_ACTION.md first. Review the supplied renders and validation reports before proposing further candidate-only changes.
 
 Keep production models, bundled.ts, production references, all exercise mechanics, grip/equipment logic, animation definitions and the frozen rig untouched. Do not move the shoulder joint, clavicle or upper-arm root. Do not promote, merge or replace production assets.
 

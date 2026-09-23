@@ -6,6 +6,24 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — A second family, a third curl, and a variant withdrawn on measurement
+
+Commit `691555f`. Suite **360 passed / 1 skipped**, typecheck and build clean.
+
+**The press family exists to test whether `families/curl.ts` was a pattern or a curl-shaped coincidence.** It holds, with one thing the curl never needed: rules scoped to phases. A press checks the same joint against opposite bounds at different moments — the elbow bends past 85° at the rack and locks out overhead — and `TechniqueRule.phases` already carried that. A test asserts every phase a rule names actually exists, since a rule naming a phase that does not silently never runs.
+
+**`stance.ts`**, on the same evidence rule as `presets.ts`: the two families already said four things identically — the planted-foot rule with its 12 mm tolerance, the floor locks, the foot spec, the dumbbell pair. The torso rule stays apart (8° for a press because leaning back makes it an incline press; 10° for a curl because it's about not swinging) — same shape, different reason.
+
+The re-expressed press is the same exercise: across the whole library the only difference against the fixture is two **added** rules on the press, `grip_held_l/r`. Its `orientation: 'pronated'` had been an unchecked caption and now carries a band from the same row that sets the motion.
+
+**A neutral-grip press was built as the second variant and withdrawn.** Calibrated against the curls, whose grips are known (hammer 6.9°, supinated 145.7°), a true palms-facing position needed ~80–85° of forearm supination — the joint's own limit — and shoulder rotation barely moved it (168°→162° across 70°→60°). That is a modelling gap, not a tuning problem. The family's header says so, and a test asserts the single variant so adding a second is deliberate rather than a quiet change in what the coverage means.
+
+**The reverse curl takes its place** — the pronated grip row already existed and was already covered, so the exercise is a description and a grip name.
+
+It also gave the collision gate **its first unprompted catch**: on its first run, before anyone looked at it, the gate reported the dumbbell 5.50 mm into the thigh with 8 vertices inside. Abduction was the obvious lever and measurement rejected it — a ridge rather than a slope, running 0.79, 2.39, 4.21, 5.70, 0.47 and −4.76 mm across 4°–6.5°, so any passing value sits one degree from a failing one. Elbow angle is monotonic (20°→2.96 mm, 22°→6.77, 23°→11.49, 24°→16.69) and is the lever the family already documents for this. 23° clears at 11.49 mm against the curl's 11.46 and the hammer's 11.68.
+
+**The clearance gate was checked for time aliasing** while chasing that, since non-monotonic results often mean the sampler is missing the worst frame. It is not: the minimum is identical at 40, 160 and 400 samples across every abduction tested. Only the count of vertices inside scales with sample density, as it should.
+
 ### Claude — 2026-09-23 — Phase 5: arm against trunk, guarded against regression
 
 Commit `6e5711f`. Suite **344 passed / 1 skipped**, typecheck and build clean.

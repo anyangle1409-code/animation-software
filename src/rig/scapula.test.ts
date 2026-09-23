@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
-import { skeletonWithoutScapula } from './withoutScapula';
+import { skeletonV1 } from './earlierRigs';
 import { restPose } from './pose';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -18,7 +18,7 @@ import { shoulderPress } from '../exercises/definitions/shoulderPress';
  * The scapulae are structural: they sit between the clavicles and the upper
  * arms and nothing moves them. That is a strong claim about a change to the
  * hierarchy every exercise runs through, so it is held here against the rig
- * as it was — `skeletonWithoutScapula`, derived from the same definitions, which
+ * as it was — `skeletonV1`, derived from the same definitions, which
  * reproduces the pre-scapula baseline bit for bit.
  *
  * Equality is to 1e-12, not bitwise. The extra bone adds one quaternion product
@@ -26,12 +26,13 @@ import { shoulderPress } from '../exercises/definitions/shoulderPress';
  * bits of about a third of all values, by at most 2.7e-15.
  */
 const rig = canonicalSkeleton;
-const legacy = skeletonWithoutScapula();
+const legacy = skeletonV1();
 const NUMERIC = 1e-12;
 
 describe('the scapulae', () => {
   it('hang from the clavicles and carry the arms, on both sides', () => {
-    expect(rig.bones).toHaveLength(55);
+    // 55 when they were added; the metacarpals since make 63 (palm.test.ts).
+    expect(rig.bones.filter((bone) => bone.name.startsWith('scapula_'))).toHaveLength(2);
     for (const side of ['l', 'r'] as const) {
       const scapula = rig.bone(`scapula_${side}`);
       expect(scapula.parent).toBe(`clavicle_${side}`);
@@ -52,6 +53,9 @@ describe('the scapulae', () => {
       expect(now.restHead.distanceTo(bone.restHead), bone.name).toBeLessThan(NUMERIC);
       expect(now.restTail.distanceTo(bone.restTail), bone.name).toBeLessThan(NUMERIC);
       expect(1 - Math.abs(now.restWorldQuaternion.dot(bone.restWorldQuaternion)), bone.name).toBeLessThan(NUMERIC);
+      // The thumb base has since gained an axis and a wider sweep; palm.test.ts
+      // holds its old ranges inside the new ones.
+      if (/^thumb_01_/.test(bone.name)) continue;
       expect(now.definition.limits, bone.name).toEqual(bone.definition.limits);
     }
     // The shoulder's anatomical parent joint is still the clavicle's.
@@ -61,6 +65,9 @@ describe('the scapulae', () => {
       if (/^upperarm_/.test(bone.name)) continue;
       expect(rig.jointParent(bone.name), bone.name).toBe(bone.parent);
     }
+    // The upper arm is the only bone hinged exactly where its parent is.
+    expect(rig.bones.filter((bone) => bone.parent && rig.jointParent(bone.name) !== bone.parent).map((bone) => bone.name))
+      .toEqual(['upperarm_l', 'upperarm_r']);
   });
 
   it('turn about the axes their limits name', () => {

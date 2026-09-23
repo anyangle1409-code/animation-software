@@ -1,6 +1,7 @@
 import { Box3, Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { Bone, SkinnedMesh } from 'three';
 import type { BoneName } from '../rig/boneNames';
+import { isMetacarpal } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { EULER_ORDER } from '../rig/types';
@@ -128,9 +129,10 @@ const WORLD_FORWARD = new Vector3(0, 0, 1);
  */
 export function bindRetarget(
   character: TargetCharacter,
-  mapping: BoneMapping,
+  requested: BoneMapping,
   rig: Skeleton = canonicalSkeleton,
 ): RetargetBinding {
+  const mapping = plausiblePalms(character, requested);
   const forward = detectForward(character, mapping);
   const bones: BoundBone[] = [];
 
@@ -251,6 +253,32 @@ export function bindRetarget(
   const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
   const alignedRight = new Vector3(1, 0, 0).applyQuaternion(new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward));
   const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
+
+  // Metacarpals ride the hand. Their frames are taken from the target hand's
+  // own frame and the canonical rig's hand-to-metacarpal rest rotation, not
+  // from the target palm bone's direction, so at rest a mapped palm bone sits
+  // exactly where riding its hand would put it, and a metacarpal's motion
+  // arrives as rotation relative to the hand. Transferring them absolutely,
+  // like a limb, would turn every palm bone by however far the character's
+  // knuckle fan differs from the rig's the moment the hand is driven at all.
+  const byCanonicalBound = new Map(bones.map((entry) => [entry.canonical, entry]));
+  for (const entry of bones) {
+    if (!isMetacarpal(entry.canonical)) continue;
+    const hand = byCanonicalBound.get(`hand_${entry.canonical.slice(-1)}` as BoneName);
+    const restWorld = character.restWorld.get(entry.bone.name);
+    if (!hand || !restWorld) continue;
+    const handRest = character.restWorld.get(hand.bone.name)!;
+    const handFrame = handRest.clone().multiply(hand.correction);
+    const relative = rig.bone(`hand_${entry.canonical.slice(-1)}` as BoneName).restWorldQuaternion.clone()
+      .invert()
+      .multiply(rig.bone(entry.canonical).restWorldQuaternion);
+    // The same reflection applyRetarget gives every canonical frame.
+    if (mirrorSides) {
+      relative.y *= -1;
+      relative.z *= -1;
+    }
+    entry.correction.copy(restWorld.clone().invert().multiply(handFrame.multiply(relative)));
+  }
 
   return {
     character,
@@ -436,6 +464,40 @@ function palmTail(
   const average = new Vector3();
   for (const position of positions) average.add(position);
   return average.multiplyScalar(1 / positions.length);
+}
+
+/**
+ * A mapping with any palm bone that cannot be a metacarpal left out.
+ *
+ * A metacarpal runs from the carpus to its finger's knuckle, so its base lies
+ * inside the hand: no further from the knuckle than the wrist is, and along
+ * roughly the same line. The production character's `DEF-palm` bones fail
+ * both by a wide margin — each sits 207-213 mm from its knuckle, half as far
+ * again as the wrist, and 99-146 mm behind it — because its export kept the
+ * joints and lost their placement. Driven, such a joint would swing its
+ * finger's root through an arc 20 cm across. Unmapped, the finger simply
+ * hangs from the hand, as it does on a character with no palm bones at all.
+ */
+export function plausiblePalms(character: TargetCharacter, mapping: BoneMapping): BoneMapping {
+  let result = mapping;
+  for (const [canonical, target] of Object.entries(mapping.bones) as [BoneName, string][]) {
+    if (!target || !isMetacarpal(canonical)) continue;
+    const side = canonical.slice(-1);
+    const finger = canonical.slice('metacarpal_'.length, -2);
+    const handName = mapping.bones[`hand_${side}` as BoneName];
+    const rootName = mapping.bones[`${finger}_01_${side}` as BoneName];
+    const base = character.restWorldPosition.get(target);
+    const wrist = handName ? character.restWorldPosition.get(handName) : undefined;
+    const knuckle = rootName ? character.restWorldPosition.get(rootName) : undefined;
+    const plausible =
+      !!base && !!wrist && !!knuckle &&
+      base.distanceTo(knuckle) <= wrist.distanceTo(knuckle) * 1.05 &&
+      knuckle.clone().sub(base).angleTo(knuckle.clone().sub(wrist)) <= (30 * Math.PI) / 180;
+    if (plausible) continue;
+    if (result === mapping) result = { ...mapping, bones: { ...mapping.bones } };
+    delete result.bones[canonical];
+  }
+  return result;
 }
 
 /**

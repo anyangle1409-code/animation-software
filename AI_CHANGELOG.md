@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — The palm, the thumb's third axis, and the skeleton frozen at v3
+
+Suite **418 passed / 1 skipped** (51 files; was 388 / 48), typecheck and build clean. The canonical rig is **63 bones** and is now **STRUCTURALLY FROZEN** as `hgpt_canonical_v3` — `docs/CANONICAL_SKELETON_FREEZE.md`, held by `src/rig/frozen.test.ts` (hierarchy and every rest head/tail to the micrometre).
+
+**Added.** `metacarpal_{index,middle,ring,pinky}_{l,r}` between each hand and finger root; the finger roots re-hang from them with every world rest transform unchanged. `thumb_01` — which *is* the thumb metacarpal, its head the CMC joint — gains an axial axis: x −85..20 (flexion across the palm / extension), y ±20 (pronation / supination), z −25..60 (palmar abduction / retroposition). Its old ranges sit inside the new ones. Nothing drives any of it: cupping, opposition twist and scapular rhythm stay off in exercise motion.
+
+**The production palm bones could not be measured from.** Every `DEF-palm` sits 207–213 mm from its own knuckle and 99–146 mm behind the wrist, points 16–37° off the wrist-to-knuckle line, is rolled about 84° from the hand, and carries no skin weight. So the metacarpals were derived from the canonical knuckles, adult male metacarpal lengths scaled to this 187 mm hand, and bases converging to half the knuckle spread (a 31 mm carpal row); on the production hand every derived line lies inside the skin, 1.9–15 mm from it. The retargeter guesses palm bones by name (canonical, Unreal, Rigify) but only drives one that passes `plausiblePalms` — base inside its hand — which refuses all eight production joints, so its fingers still hang from its hand. Mapped palm bones are retargeted relative to the hand, so at rest they ride it exactly, same-side or mirrored.
+
+**Ranges from measured demand.** Pad-to-pad opposition with the thumb metacarpal ≥30° out of the palm reaches every finger inside the limits (gap ≤ 0.09 mm, pads 153–173° face to face; thumb x −30 / −46 / −62 / −72 from index to little finger). Power grip needs no cupping — the little finger already lies 18.3 mm from the bar's centre line against a 38 mm allowance. Metacarpal ranges: index and middle ±3; ring spread ±5, turn ±10, flexion −5..15; little finger ±8, ±15, −5..30.
+
+**63, not 65.** No dedicated CMC bone: `thumb_01` is the metacarpal on the production character too (`DEF-thumb.01`, 45 mm, child `DEF-thumb.02`), three axes at one pivot span every orientation, and opposition succeeds within the limits.
+
+**Equivalence against v2 (`c2372c1`)**, baseline dumped before any change: canonical frames 452,620 values, worst 5.6e-16; production bones and grips 1.3e-15; production vertices 1.3e-15 m; mannequin vertices 1.3e-15 m; contacts and technique results identical; equipment and arm-vs-trunk clearance unchanged to 0.01 mm. Export: only the four finger-root tracks change, metacarpal rest × new = old to float32 precision; all 63 bones play back through three.js onto the studio pose within 1e-5 m for all seven exercises. `skeletonV1()`/`skeletonV2()` (`src/rig/earlierRigs.ts`, replacing `withoutScapula.ts`) reproduce their versions' recorded baselines bit for bit.
+
+**Found, not fixed (predates this pass).** For a mirrored character — the production character is one — the retargeter places the hand's knuckle fan about 5.5° off the mirrored rig, against 0.5° same-side; measured identically on the 55-bone rig with no palm bones. It belongs to hand retargeting and should be looked at before grip weights are judged.
+
 ### Claude — 2026-09-23 — The scapulae join the skeleton, at rest, and nothing moves
 
 Suite **388 passed / 1 skipped** (48 files; was 364 / 45), typecheck and build clean. The canonical rig is now **55 bones**: `scapula_l/r` sit between each clavicle and upper arm. They are **structural only** — no rhythm, no IK, no authored target drives them, and no weights are painted to them yet. This follows the capability audit (the girdle was the one area needing a bone) and the scratchpad spike that proved a neutral scapula is safe.

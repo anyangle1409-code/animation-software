@@ -1,5 +1,5 @@
-import type { BoneName, Finger, Side } from './boneNames';
-import { FINGERS, SIDES } from './boneNames';
+import type { BoneName, Finger, MetacarpalFinger, Side } from './boneNames';
+import { FINGERS, METACARPAL_FINGERS, SIDES } from './boneNames';
 import type { AxisLimit, BoneDefinition, JointLimits, Vec3 } from './types';
 import { vec3 } from './types';
 
@@ -367,6 +367,7 @@ const FINGER_SPECS: FingerSpec[] = [
  */
 function fingerLimits(segment: number, finger: Finger): JointLimits {
   const isBase = segment === 0;
+  if (finger === 'thumb' && isBase) return thumbBaseLimits();
   const flexion =
     finger === 'thumb'
       ? [-25, 60]
@@ -382,9 +383,124 @@ function fingerLimits(segment: number, finger: Finger): JointLimits {
   );
 }
 
+/**
+ * The thumb's metacarpal. Its head is the carpometacarpal joint — the
+ * production character's `DEF-thumb.01` is the same bone, 45 mm long with the
+ * proximal phalanx as its child — so the joint that lets a thumb oppose is
+ * this bone's own, and three axes on it are the whole of it. A dedicated CMC
+ * bone was tested for and not needed: at the same pivot it adds nothing, and
+ * with this pivot the thumb pad already meets every fingertip pad.
+ *
+ * Measured, left hand, 10-20° each: -x sweeps the thumb across the palm
+ * towards the little finger, +z lifts it out of the palm plane, -y turns its
+ * pad towards the fingers. The ranges are what pad-to-pad opposition asked for
+ * with the metacarpal stood at least 30° out of the palm (0 mm gap, pads 150°
+ * or more face to face), searched for the least excursion that reaches it:
+ *
+ *   index  x -35  z 25     middle x -50  z 26
+ *   ring   x -55..-67 z 27-31   pinky x -85  z 25-30 (pinky metacarpal turned)
+ *   axial twist within ±6 throughout
+ *
+ * The sweep looks large because this thumb rests 44° out from the index in the
+ * palm plane; from that rest, reaching the little finger is the rest angle
+ * plus the ~45° of flexion a real carpometacarpal joint has. The old ±14 on x
+ * and -25..60 on z are kept inside the new ranges, so no existing pose moves.
+ */
+function thumbBaseLimits(): JointLimits {
+  return joint(
+    limit(-85, 20, 'Extension', 'Flexion across the palm'),
+    limit(-20, 20, 'Supination', 'Pronation'),
+    limit(-25, 60, 'Palmar abduction', 'Retroposition'),
+  );
+}
+
+/**
+ * Metacarpal lengths, adult male means — index 68, middle 65, ring 57, little
+ * 53 mm — for a 190 mm hand, scaled to this rig's 187 mm (wrist crease to the
+ * middle fingertip).
+ */
+const METACARPAL_LENGTH: Record<MetacarpalFinger, number> = {
+  index: 0.068,
+  middle: 0.065,
+  ring: 0.057,
+  pinky: 0.053,
+};
+const HAND_LENGTH = 0.187;
+const REFERENCE_HAND_LENGTH = 0.19;
+
+/**
+ * How far the metacarpal bases gather towards one another at the carpus: their
+ * spread is this fraction of the knuckles'. At 0.5 the four bases span 31 mm,
+ * the width of the distal carpal row; swept from 0.5 to 1.0 against the
+ * production character's hand, every metacarpal line stayed inside the skin,
+ * and 0.5 kept the bases furthest from it (10.6 to 14.6 mm).
+ */
+const METACARPAL_CONVERGENCE = 0.5;
+
+/**
+ * The palm's joints, measured against what the hand has to do.
+ *
+ * Power grip asked for none: in the dumbbell grip the little finger already
+ * lies 18.3 mm from the bar's centre line, against the grip test's 38 mm, and
+ * cupping only lifts it away. Opposition is what needs the palm — the little
+ * finger's metacarpal turned 10-15° towards the thumb and spread 5-8°, the
+ * ring's about 10° — and index and middle, as in a real hand, barely move.
+ *
+ * Axes, measured on the left little finger: +z flexes the knuckle palmward
+ * (cupping), +x spreads it towards the thumb side, +y turns the finger towards
+ * the thumb.
+ */
+function metacarpalLimits(finger: MetacarpalFinger): JointLimits {
+  const range: Record<MetacarpalFinger, { spread: number; turn: number; flexion: [number, number] }> = {
+    index: { spread: 3, turn: 3, flexion: [-3, 3] },
+    middle: { spread: 3, turn: 3, flexion: [-3, 3] },
+    ring: { spread: 5, turn: 10, flexion: [-5, 15] },
+    pinky: { spread: 8, turn: 15, flexion: [-5, 30] },
+  };
+  const { spread, turn, flexion } = range[finger];
+  return joint(
+    limit(-spread, spread, 'Spread towards thumb', 'Spread towards little finger'),
+    limit(-turn, turn, 'Rotation towards thumb', 'Rotation away from thumb'),
+    limit(flexion[0], flexion[1], 'Flexion', 'Extension'),
+  );
+}
+
+/**
+ * A metacarpal, from its carpometacarpal joint to the finger's knuckle.
+ *
+ * The production character carries palm bones, but they cannot be measured
+ * from: every `DEF-palm` joint sits 207-213 mm from its own knuckle and 99-146
+ * mm behind the wrist, points 16-37° off the wrist-to-knuckle line, and has no
+ * skin weight at all — the export kept the joints and lost their placement. So
+ * the knuckle (the finger's existing head) fixes the tail, the anatomical
+ * length fixes how far back the base is, and the carpal-row convergence fixes
+ * where across the palm; the base stays in the palm plane of its knuckle.
+ */
+function metacarpal(finger: MetacarpalFinger, knuckles: Record<MetacarpalFinger, Vec3>): BoneDefinition {
+  const knuckle = knuckles[finger];
+  const centre = METACARPAL_FINGERS.reduce((sum, name) => sum + knuckles[name].z, 0) / METACARPAL_FINGERS.length;
+  const length = METACARPAL_LENGTH[finger] * (HAND_LENGTH / REFERENCE_HAND_LENGTH);
+  const baseZ = centre + (knuckle.z - centre) * METACARPAL_CONVERGENCE;
+  const across = knuckle.z - baseZ;
+  return {
+    name: `metacarpal_${finger}_l` as BoneName,
+    parent: 'hand_l',
+    head: vec3(knuckle.x, knuckle.y + Math.sqrt(length * length - across * across), baseZ),
+    tail: knuckle,
+    limits: metacarpalLimits(finger),
+    radius: 0.008,
+    minor: true,
+  };
+}
+
 function buildFingerBones(): BoneDefinition[] {
   const bones: BoneDefinition[] = [];
+  const knuckles = Object.fromEntries(
+    FINGER_SPECS.filter((spec) => spec.finger !== 'thumb').map((spec) => [spec.finger, spec.knuckle]),
+  ) as Record<MetacarpalFinger, Vec3>;
   for (const spec of FINGER_SPECS) {
+    const hasMetacarpal = spec.finger !== 'thumb';
+    if (hasMetacarpal) bones.push(metacarpal(spec.finger as MetacarpalFinger, knuckles));
     const length = Math.hypot(spec.direction.x, spec.direction.y, spec.direction.z);
     const unit = vec3(
       spec.direction.x / length,
@@ -400,8 +516,10 @@ function buildFingerBones(): BoneDefinition[] {
       );
       bones.push({
         name: `${spec.finger}_0${index + 1}_l` as BoneName,
+        // A finger hangs from its metacarpal; the thumb's first segment is its
+        // metacarpal, and hangs from the hand.
         parent: (index === 0
-          ? 'hand_l'
+          ? hasMetacarpal ? `metacarpal_${spec.finger}_l` : 'hand_l'
           : `${spec.finger}_0${index}_l`) as BoneName,
         head,
         tail,
@@ -461,7 +579,7 @@ const widened = (bones: BoneDefinition[]): BoneDefinition[] =>
       // angle stays where it was measured on the back.
       return { ...bone, head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z) };
     }
-    if (!/^(upperarm|forearm|hand|thumb|index|middle|ring|pinky)/.test(bone.name)) return bone;
+    if (!/^(upperarm|forearm|hand|metacarpal|thumb|index|middle|ring|pinky)/.test(bone.name)) return bone;
     return {
       ...bone,
       head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z),

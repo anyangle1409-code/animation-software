@@ -4,7 +4,7 @@ import { Matrix4, Vector3 } from 'three';
 import type { SkinnedMesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import { skeletonWithoutScapula } from '../rig/withoutScapula';
+import { skeletonV1 } from '../rig/earlierRigs';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
@@ -27,7 +27,7 @@ import { bindRetarget, readCharacter } from './retarget';
  */
 const ASSET =
   process.env.REAL_CHARACTER_GLB ?? 'review-assets/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb';
-const legacy = skeletonWithoutScapula();
+const legacy = skeletonV1();
 /** Rounding: the extra bone changes the last bits of the arm chain, no more. */
 const NUMERIC = 1e-9;
 

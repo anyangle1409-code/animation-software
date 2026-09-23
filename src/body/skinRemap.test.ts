@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Euler, Quaternion, Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import { skeletonWithoutScapula } from '../rig/withoutScapula';
+import { skeletonV1 } from '../rig/earlierRigs';
 import { EULER_ORDER } from '../rig/types';
 import type { Skeleton } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
@@ -20,7 +20,7 @@ import { buildSkinnedRig } from './skin';
  * bound to the wrong bone. The skin is resolved by name instead, and held here
  * to the names it was baked with, on the 55-bone rig and the 53-bone rig alike.
  */
-const legacy = skeletonWithoutScapula();
+const legacy = skeletonV1();
 
 const baked = (() => {
   const decoded = atob(ANATOMICAL_SKIN_INDICES);

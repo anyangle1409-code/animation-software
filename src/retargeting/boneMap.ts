@@ -1,5 +1,5 @@
 import type { BoneName } from '../rig/boneNames';
-import { ALL_BONES, CORE_BONES } from '../rig/boneNames';
+import { ALL_BONES, CORE_BONES, METACARPAL_BONES } from '../rig/boneNames';
 
 /**
  * A reusable mapping from the canonical rig onto a character's own bone names.
@@ -40,7 +40,28 @@ export const createMapping = (label: string, sourceRig: string): BoneMapping => 
  * rebind hands an unmapped bone's weight to its nearest mapped ancestor, which
  * is where that surface rides anyway.
  */
+const PALM_INDEX: Record<string, string> = { index: '01', middle: '02', ring: '03', pinky: '04' };
+/**
+ * Metacarpals: the canonical name, the Unreal convention (`index_metacarpal_l`)
+ * and Rigify's deform palm (`DEF-palm.01.L` is the index). A guessed palm bone
+ * still has to pass `plausiblePalms` before it is driven.
+ */
+const metacarpalSynonyms = (): Partial<Record<BoneName, string[]>> =>
+  Object.fromEntries(
+    (['l', 'r'] as const).flatMap((side) =>
+      (['index', 'middle', 'ring', 'pinky'] as const).map((finger) => [
+        `metacarpal_${finger}_${side}`,
+        [
+          `metacarpal_${finger}_${side}`,
+          `${finger}_metacarpal_${side}`,
+          `def-palm.${PALM_INDEX[finger]}.${side}`,
+        ],
+      ]),
+    ),
+  );
+
 const SYNONYMS: Partial<Record<BoneName, string[]>> = {
+  ...metacarpalSynonyms(),
   root: ['root', 'armature', 'reference', 'hips_root'],
   pelvis: ['pelvis', 'hips', 'hip', 'mixamorighips', 'bip01pelvis', 'j_bip_c_hips', 'def-spine'],
   spine_01: ['spine', 'spine1', 'spine_01', 'mixamorigspine', 'j_bip_c_spine', 'abdomen', 'def-spine.001'],
@@ -92,7 +113,7 @@ export function guessMapping(characterBones: string[]): Partial<Record<BoneName,
     return true;
   };
 
-  for (const canonical of CORE_BONES) {
+  for (const canonical of [...CORE_BONES, ...METACARPAL_BONES]) {
     const options = SYNONYMS[canonical] ?? [canonical];
     // When a Rigify export includes both controls and DEF bones, the skin is
     // weighted to DEF. Prefer those exact deform candidates over controls with

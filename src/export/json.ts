@@ -12,14 +12,21 @@ import { MUSCLE_GROUPS } from '../muscles/groups';
 export const ANIMATION_FORMAT = 'hgpt-animation';
 export const METADATA_FORMAT = 'hgpt-exercise';
 /**
- * The skeleton exported rotations are written against. v2 is the 55-bone rig:
- * the scapulae sit between the clavicles and the upper arms, so an upper arm's
- * local rotation is now relative to its scapula. World motion is unchanged —
- * scapula rest × v2 upper-arm local reproduces the v1 upper-arm local — but a
- * reader still bound to v1's hierarchy would misapply the new tracks, which is
- * why the identifier changes.
+ * The skeleton exported rotations are written against — structurally frozen
+ * at v3 (see `docs/CANONICAL_SKELETON_FREEZE.md` and `rig/frozen.test.ts`).
+ *
+ *   v1  53 bones
+ *   v2  55: scapulae between clavicles and upper arms, so an upper arm's local
+ *       rotation became relative to its scapula
+ *   v3  63: a metacarpal between each hand and finger, so a finger root's
+ *       local rotation is relative to its metacarpal; the thumb base gains an
+ *       axial axis
+ *
+ * World motion is the same across all three — each version's rest × the new
+ * local reproduces the old local — but a reader bound to an earlier hierarchy
+ * would misapply the changed tracks, which is why the identifier changes.
  */
-export const SKELETON_ID = 'hgpt_canonical_v2';
+export const SKELETON_ID = 'hgpt_canonical_v3';
 
 export interface AnimationJson {
   format: typeof ANIMATION_FORMAT;

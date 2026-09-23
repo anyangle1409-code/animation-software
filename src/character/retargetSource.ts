@@ -168,7 +168,9 @@ export function retargetedCharacterSource(
       );
 
       source.lastReport = {
-        mapping: reportMapping(mapping),
+        // What was bound, not what was guessed: a palm bone that fails the
+        // plausibility check is not driven, and is not reported as mapped.
+        mapping: reportMapping(binding.mapping),
         height: character.height,
         scale,
         bones: bones.length,

@@ -47,7 +47,26 @@ export const CORE_BONES = [
 
 export type CoreBoneName = (typeof CORE_BONES)[number];
 export type FingerBoneName = `${Finger}_${FingerSegment}_${Side}`;
-export type BoneName = CoreBoneName | FingerBoneName;
+
+/**
+ * The four fingers that have a metacarpal of their own in the rig. The thumb's
+ * metacarpal is `thumb_01` — its head is the carpometacarpal joint — so it is
+ * not repeated here.
+ */
+export const METACARPAL_FINGERS = ['index', 'middle', 'ring', 'pinky'] as const;
+export type MetacarpalFinger = (typeof METACARPAL_FINGERS)[number];
+export type MetacarpalBoneName = `metacarpal_${MetacarpalFinger}_${Side}`;
+export type BoneName = CoreBoneName | MetacarpalBoneName | FingerBoneName;
+
+export const METACARPAL_BONES: MetacarpalBoneName[] = SIDES.flatMap((side) =>
+  METACARPAL_FINGERS.map((finger): MetacarpalBoneName => `metacarpal_${finger}_${side}`),
+);
+
+/**
+ * The palm's articulation: structural, like the scapulae. Exercises leave them
+ * at rest, so a hand is the rigid palm it always was until cupping is authored.
+ */
+export const isMetacarpal = (name: BoneName): name is MetacarpalBoneName => name.startsWith('metacarpal_');
 
 export const FINGER_BONES: FingerBoneName[] = SIDES.flatMap((side) =>
   FINGERS.flatMap((finger) =>
@@ -55,7 +74,7 @@ export const FINGER_BONES: FingerBoneName[] = SIDES.flatMap((side) =>
   ),
 );
 
-export const ALL_BONES: BoneName[] = [...CORE_BONES, ...FINGER_BONES];
+export const ALL_BONES: BoneName[] = [...CORE_BONES, ...METACARPAL_BONES, ...FINGER_BONES];
 
 export const isFingerBone = (name: BoneName): name is FingerBoneName =>
   FINGERS.some((finger) => name.startsWith(`${finger}_`));

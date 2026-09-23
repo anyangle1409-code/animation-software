@@ -26,9 +26,18 @@ def main():
     ap.add_argument("--overhead",action="store_true")
     args=ap.parse_args()
 
-    run([sys.executable,ROOT/"scripts"/"run_candidate_gates.py","--version",args.version])
-
     candidate=ROOT/f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{args.version}.glb"
+    bare=ROOT/f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{args.version}_BARE.glb"
+    blend=ROOT/f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{args.version}.blend"
+    if not candidate.is_file():
+        raise SystemExit(f"Missing dressed candidate GLB: {candidate}")
+    if not blend.is_file():
+        raise SystemExit(f"Missing editable candidate Blend: {blend}")
+    if not bare.is_file():
+        print("Bare GLB missing; creating it from the dressed candidate.")
+        run([sys.executable,ROOT/"scripts"/"make_bare_variant.py",args.version])
+
+    run([sys.executable,ROOT/"scripts"/"run_candidate_gates.py","--version",args.version])
     if args.task=="knee":
         run([sys.executable,ROOT/"scripts"/"audit_knee_topology_candidate.py",candidate])
     elif args.task=="hand":

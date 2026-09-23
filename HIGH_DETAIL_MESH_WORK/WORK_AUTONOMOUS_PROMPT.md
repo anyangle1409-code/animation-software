@@ -1,20 +1,21 @@
 # Work autonomous continuation prompt
 
-Use this text when handing the mesh candidate back to Work on the Blender laptop.
-
-> Open the latest `codex-high-detail-candidate-v6-knee-review-20260922` branch. Read `HIGH_DETAIL_MESH_WORK/CURRENT_STATE.md` and `WORK_START_HERE.md` first, then follow their instruction precedence.
+> Open the latest `codex-high-detail-candidate-v6-knee-review-20260922` branch. Read `HIGH_DETAIL_MESH_WORK/CURRENT_STATE.md`, `RIG_55_BASELINE.md` and `WORK_START_HERE.md` first.
 >
-> Run `HIGH_DETAIL_MESH_WORK/RESUME_WORK.bat`. Create each fresh editable candidate with `START_CANDIDATE.bat <version>` so V6 remains untouched and the AUDIT selection groups are available.
+> Run `HIGH_DETAIL_MESH_WORK/RESUME_WORK.bat`. It must prepare the isolated `validation_55` tree from exact source commit `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`. Do not validate new candidates only against the older 53-bone snapshot.
 >
-> Continue autonomously in this order while the final canonical rig is being completed separately:
-> 1. true medial-knee retopology into connected anatomical joint loops, including patella/tendon/medial-knee shape;
-> 2. realistic finger/thumb/palm/wrist anatomy while preserving the push-up floor-contact guard;
-> 3. skin/material refinement.
+> Create each fresh editable candidate with `START_CANDIDATE.bat <version>` so V6 remains untouched.
 >
-> Do not finalise shoulder/chest/back/armpit weights or scapular deformation against the old hierarchy. Do not change the frozen rig, exercises, IK, grips, contacts, equipment transforms, production assets or `bundled.ts`.
+> Continue autonomously in this order unless visual evidence makes a narrower local correction necessary:
+> 1. true medial-knee retopology and anatomical knee shaping;
+> 2. realistic hand/finger/thumb/palm/wrist geometry while preserving the push-up floor-contact guard;
+> 3. skin/material refinement;
+> 4. if time remains, shoulder/back/chest/armpit topology/geometry preparation for the confirmed scapula structure.
 >
-> Save the edited Blend file and export the dressed GLB using the same version suffix. Then run `FINISH_CANDIDATE.bat <version> <task>`, where task is `knee`, `hand` or `material`. Let that workflow create the bare GLB if needed, run the structural/runtime gates, perform the task-specific audit, render the review pack and write the checkpoint/review scaffold.
+> The canonical shoulder girdle is now settled at 55 bones. Scapulae remain neutral, rhythm is off, and the current production GLB itself has no newly painted scapula weights. Do not enable scapular rhythm or claim final scapula weighting during this mesh-only pass.
 >
-> Reject a failed candidate rather than loosening thresholds or altering accepted mechanics. Preserve every prior candidate. Keep working without asking me for routine implementation decisions. Stop only for a genuine structural decision, an unsatisfied guard that would require changing accepted mechanics, or arrival of the final canonical rig.
+> Do not finalise hand weights until the palm-arch/thumb-twist decision is settled. Do not assume forearm twist distribution or carrying angle were settled by the scapula commit.
 >
-> For an accepted checkpoint, complete the generated review note with exact modelling changes, validation totals, hashes and remaining limitations. Do not merge or promote without explicit approval.
+> Save the edited Blend file and export the dressed GLB using the same version suffix. Run `FINISH_CANDIDATE.bat <version> <task>`. Reject failures rather than loosening thresholds or changing accepted exercise mechanics.
+>
+> Preserve every prior candidate and keep working without asking for routine implementation decisions. Stop only for a genuine structural decision or a regression that would require changing accepted mechanics. Do not merge or promote without explicit approval.

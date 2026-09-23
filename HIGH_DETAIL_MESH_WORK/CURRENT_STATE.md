@@ -4,9 +4,9 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 ## Current status
 
-The latest reviewed geometry baseline is **V6 knee seam**. The V6 asset itself was created at commit `b2203cfccd30d6835473ef2e1dee37965da22d02`. Later commits on this branch are preparation/automation only unless a newer review file explicitly says otherwise.
+The latest reviewed geometry baseline is **V6 knee seam**. The V6 asset itself was created at commit `b2203cfccd30d6835473ef2e1dee37965da22d02`.
 
-The canonical runtime skeleton is now the confirmed **55-bone structural baseline** at `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`. Read `RIG_55_BASELINE.md`.
+The canonical runtime skeleton is now the confirmed **55-bone structural baseline** at `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2` (`hgpt_canonical_v2`). Read `RIG_55_BASELINE.md`.
 
 Current candidate assets:
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
@@ -16,8 +16,6 @@ Current candidate assets:
 Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable state.
 
 ## Instruction precedence
-
-When instructions disagree, use this order:
 
 1. `CURRENT_STATE.md`
 2. `RIG_55_BASELINE.md`
@@ -44,15 +42,13 @@ Work may continue autonomously on:
 - production promotion
 - final scapula deform weighting until a candidate character asset explicitly contains/uses scapula deform influences and neutral equivalence is re-proven
 
-The runtime rig is confirmed; the current production GLB itself was not changed by `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`, so V6 remains a valid geometry source and does not need an immediate rebind.
+The runtime rig is confirmed; the production GLB itself was not changed by the scapula commit, so V6 remains a valid geometry source and does not need an immediate rebind.
 
 ## Validation baseline
 
-New candidates must be validated against the confirmed 55-bone source commit, not only the historical 53-bone validation snapshot. `RESUME_WORK.bat` prepares an isolated `validation_55` tree from `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2` without merging source changes into this mesh-review branch.
+New candidates must be validated against the confirmed 55-bone source commit, not only the historical 53-bone validation snapshot. `RESUME_WORK.bat` prepares an isolated `validation_55` tree from `c2372c1` without merging source changes into this mesh-review branch.
 
 ## Fast path on the laptop
-
-From `HIGH_DETAIL_MESH_WORK`:
 
 ```text
 RESUME_WORK.bat
@@ -65,7 +61,7 @@ After editing the generated Blend file and exporting the dressed GLB:
 FINISH_CANDIDATE.bat <version> <task>
 ```
 
-Use `knee`, `hand`, or `material` for `<task>`. That command runs structural/runtime gates against rig v2, the task-specific audit, the visual review pack, and candidate checkpointing.
+Use `knee`, `hand`, `material`, or `shoulder`. The finish workflow runs the rig-v2 structural/runtime gates, task-specific audit where available, visual review pack, and checkpointing.
 
 ## Do not
 

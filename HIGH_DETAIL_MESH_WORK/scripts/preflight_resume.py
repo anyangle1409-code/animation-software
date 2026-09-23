@@ -6,16 +6,16 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parent
-RIG_SHA="c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2"
+RIG_SHA="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe"
 EXPECTED={
  "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb":"ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
  "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb":"0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
  "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend":"2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df",
 }
 REQUIRED=[
- "CURRENT_STATE.md","RIG_55_BASELINE.md","LAPTOP_CONTINUATION_HANDOFF.md","NEXT_ACTION.md",
+ "CURRENT_STATE.md","RIG_63_FREEZE.md","LAPTOP_CONTINUATION_HANDOFF.md","NEXT_ACTION.md",
  "REVIEW_V6_KNEE_SEAM.md","reports/final_integrity_v6_knee_seam.json",
- "reports/hand_contact_guard_v5.json","scripts/prepare_rig55_validation.py",
+ "reports/hand_contact_guard_v5.json","scripts/prepare_rig63_validation.py",
  "scripts/run_candidate_gates.py","scripts/finish_candidate.py"
 ]
 
@@ -39,7 +39,7 @@ for name,expected in EXPECTED.items():
     actual=sha256(path);print(f"{'OK' if actual==expected else 'MISMATCH':8} {name}")
     if actual!=expected:errors.append(f"hash mismatch: {name}")
 
-print("Rig v2 commit local:", "YES" if git_ok("cat-file","-e",f"{RIG_SHA}^{{commit}}") else "NO (resume will fetch it)")
+print("Rig v3 freeze commit local:", "YES" if git_ok("cat-file","-e",f"{RIG_SHA}^{{commit}}") else "NO (resume will fetch it)")
 integrity=ROOT/"reports/final_integrity_v6_knee_seam.json"
 if integrity.is_file():
     data=json.loads(integrity.read_text())

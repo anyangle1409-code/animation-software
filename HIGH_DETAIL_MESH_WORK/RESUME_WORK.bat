@@ -5,12 +5,12 @@ python scripts\audit_prep_workspace.py
 if errorlevel 1 exit /b %errorlevel%
 python scripts\preflight_resume.py
 if errorlevel 1 exit /b %errorlevel%
-python scripts\prepare_rig55_validation.py
+python scripts\prepare_rig63_validation.py
 if errorlevel 1 exit /b %errorlevel%
 echo.
-echo Read CURRENT_STATE.md and RIG_55_BASELINE.md.
-echo Rig baseline: hgpt_canonical_v2 / 55 bones / c2372c1.
+echo Read CURRENT_STATE.md and RIG_63_FREEZE.md.
+echo Rig baseline: hgpt_canonical_v3 / 63 bones / 19ca602.
 echo Start a fresh candidate with START_CANDIDATE.bat version.
 echo After editing/exporting, use FINISH_CANDIDATE.bat version task.
 echo Ready: knee retopology, hand geometry, materials, shoulder topology planning.
-echo Hold final hand weights and scapular rhythm until their remaining decisions are settled.
+echo Hierarchy is structurally frozen. Keep scapular rhythm off; treat hand-roll/palm-export issues as retarget/asset work.

@@ -33,7 +33,7 @@ Task:
 The finish workflow:
 1. creates the bare GLB if needed
 2. runs the fast structural check
-3. validates against exact rig source c2372c1 / hgpt_canonical_v2
+3. validates against exact rig source 19ca602 / hgpt_canonical_v3
 4. runs the focused runtime guards
 5. runs the current all-exercise comparison
 6. runs the task-specific hand/knee audit when applicable

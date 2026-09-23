@@ -1,0 +1,20 @@
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/animation-software/HIGH_DETAIL_MESH_WORK/_v10_hand_checkout/HIGH_DETAIL_MESH_WORK/validation_63
+
+stdout | scratchpad/repair/review_hand_geometry.test.mts > compares all five exercises with frozen rig, correctives and actual equipment frames
+EXERCISE_DIFFERENCE Dumbbell Bicep Curl { maxBones: 0, maxHand: 0.005673537754926026, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Dumbbell Hammer Curl { maxBones: 0, maxHand: 0.005673537754925892, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Dumbbell Reverse Curl { maxBones: 0, maxHand: 0.0056735377549260255, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Push-Up { maxBones: 0, maxHand: 0.00567353775492614, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Bodyweight Squat { maxBones: 0, maxHand: 0.005673537754926003, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Dumbbell Shoulder Press { maxBones: 0, maxHand: 0.005673537754926093, maxEquipment: 0 }
+EXERCISE_DIFFERENCE Pull-Up { maxBones: 0, maxHand: 0.005673537754926051, maxEquipment: 0 }
+[{"name":"Dumbbell Bicep Curl","frames":26,"handMaxDifferenceMm":5.673537754926026,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Hammer Curl","frames":26,"handMaxDifferenceMm":5.673537754925892,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Reverse Curl","frames":26,"handMaxDifferenceMm":5.673537754926025,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Push-Up","frames":26,"handMaxDifferenceMm":5.67353775492614,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Bodyweight Squat","frames":26,"handMaxDifferenceMm":5.673537754926003,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Shoulder Press","frames":26,"handMaxDifferenceMm":5.673537754926093,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Pull-Up","frames":26,"handMaxDifferenceMm":5.673537754926051,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"pushupFloorMaxDifferenceMm":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true}]
+
+ ✓ scratchpad/repair/review_hand_geometry.test.mts (1 test) 33902ms
+   ✓ compares all five exercises with frozen rig, correctives and actual equipment frames  33897ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  22:48:04
+   Duration  37.73s (transform 835ms, setup 28ms, collect 3.06s, tests 33.90s, environment 0ms, prepare 196ms)

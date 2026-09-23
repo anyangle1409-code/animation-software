@@ -25,7 +25,7 @@
     "version": "v9_hand_geometry_review",
     "branch": "codex-high-detail-candidate-v9-hand-anatomy-review-20260923",
     "source_geometry_version": "v8_knee_anatomy",
-    "status": "review_pending_not_accepted_not_production",
+    "status": "rejected_experimental_preserved_not_production",
     "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.glb",
     "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review_BARE.glb",
     "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.blend",
@@ -39,6 +39,29 @@
     "protected_floor_vertices_unchanged": 682,
     "max_rest_displacement_mm": 1.7512,
     "validation": "all focused guards and sampled exercises pass; visual improvement remains modest",
+    "grip_refit_started": false,
+    "production_asset_promoted": false
+  },
+  "hand_retopology_review_candidate": {
+    "version": "v10_hand_retopology",
+    "branch": "codex-high-detail-candidate-v10-hand-anatomy-review-20260923",
+    "source_geometry_version": "v8_knee_anatomy",
+    "status": "visual_review_pending_not_accepted_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology.blend",
+    "sha256": {
+      "dressed_glb": "ed79408a301e2ff0e0e9efda501742c5f641fe56ce5ed65ff0f335a3fba35139",
+      "bare_glb": "61513e4bf41ad1ca090b53a146faf7c9492334baef3a097b1fc1e90b712decff",
+      "blend": "b5be923de63821cd043d953f66118de2ec7a35db4940aa24520dffaead67094a"
+    },
+    "body_vertices": 46675,
+    "body_triangles": 89795,
+    "new_hand_blender_vertices": 13586,
+    "protected_floor_vertices_unchanged": 682,
+    "changed_non_hand_vertices": 0,
+    "new_vertex_max_lost_skin_weight": 0.0,
+    "validation": "five focused guards and seven exercises over 26 frames pass; visual caveats in REVIEW_V10_HAND_ANATOMY.md",
     "grip_refit_started": false,
     "production_asset_promoted": false
   },

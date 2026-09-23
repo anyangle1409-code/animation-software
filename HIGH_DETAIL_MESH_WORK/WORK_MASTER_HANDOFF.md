@@ -21,9 +21,9 @@ Read this file first, then run `RESUME_WORK.bat`.
 - Build: clean
 
 ### Mesh / Blender workspace
-- Work branch: codex-high-detail-candidate-v9-hand-anatomy-review-20260923
+- Work branch: `codex-high-detail-candidate-v10-hand-anatomy-review-20260923`
 - Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
-- Phase B review candidate: V9 hand geometry review, derived from V8. It passes structural, floor-contact and exercise guards but remains visually modest; inherited finger and wrist facets remain. Stop for curl, push-up and pull-up visual review before further hand retopology or Phase C grip refit. See REVIEW_V9_HAND_GEOMETRY_REVIEW.md.
+- Phase B review candidate: V10 hand retopology from V8. V9 is preserved as rejected/experimental. V10 passes structural, floor-contact and exercise guards, but visible finger facets, thumb-web seam and wrist segmentation remain. Stop for V10 visual review before any grip refit. See `REVIEW_V10_HAND_ANATOMY.md` and the three matched V8/V10 review boards in `renders_v10_hand_retopology/`.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
@@ -245,4 +245,4 @@ Do not promote automatically.
 
 ## 10. Immediate next action
 
-V8 is the accepted knee geometry checkpoint. Start a separate Phase B hand-anatomy candidate from V8. Preserve original hand/floor-contact vertices and all frozen rig and exercise behavior. After validation, show curl, push-up and pull-up hand close-ups and stop for visual review before grip refit. Do not promote V8 or the hand candidate automatically.
+V8 is the accepted knee geometry checkpoint. V10 is the separate Phase B hand-anatomy review candidate from V8. Its validation and matched open/fist/exercise close-ups are complete. Show those images for visual review and stop before grip refit. If the remaining facets or seams are unacceptable, build a new candidate without altering V8, V9, V10, the rig or production assets. Do not promote any candidate automatically.

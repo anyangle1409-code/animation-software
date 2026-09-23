@@ -92,7 +92,8 @@ def main():
 
     if not args.skip_exercise:
         if args.task=="hand":
-            run([sys.executable,ROOT/"scripts"/"prepare_hand_review_harness.py"],cwd=ROOT)
+            hand_limit=["10"] if version.startswith("v10_hand_") else []
+            run([sys.executable,ROOT/"scripts"/"prepare_hand_review_harness.py",*hand_limit],cwd=ROOT)
             review=str((REPAIR/"review_hand_geometry.test.mts").relative_to(VALIDATION))
         else:
             review=str((REPAIR/"review_v3.test.mts").relative_to(VALIDATION))

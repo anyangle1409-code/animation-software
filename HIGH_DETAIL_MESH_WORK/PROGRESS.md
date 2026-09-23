@@ -1,5 +1,13 @@
 # Candidate progress
 
+## 2026-09-23 — V10 Blender hand-retopology review checkpoint
+
+V8 remains the accepted body/knee geometry baseline. The user rejected V9 as a hand anatomy solution while preserving it as experimental. V10 was built from V8 in an isolated candidate branch; it adds 13,586 local Blender hand/wrist vertices through edge subdivision and anatomical sculpt fields. The editable Blend, dressed GLB, bare GLB and matched open/fist/exercise images are separate assets.
+
+An early V10 pass had bone-blend ridges. A trial using an older pose reference made that worse and was discarded. Correcting added bind positions against the actual pinned-runtime curl matrices limited the adjustment to 1.361 mm. A stronger smoothing trial caused eight overlapping-edge failures and was discarded. The saved pass uses limited local smoothing and passes the topology check with zero degenerate/non-manifold edges.
+
+The saved V10 passes five focused runtime guards, seven exercises over 26 frames, bare/dressed equivalence and the protected floor check. Bone and equipment matrices match V8; all 682 protected original floor vertices and all non-hand original vertices are fixed. Review renders still show faceted fingertips/joint bands, a thumb-web seam and a segmented wrist transition. V10 is not accepted or promoted. Stop for visual anatomy review before grip refit. See `REVIEW_V10_HAND_ANATOMY.md`.
+
 2026-09-22. User authorised this Windows workspace as the equivalent of the Linux path.
 
 Source branch chatgpt/absolute-retarget-imports, pinned snapshot f9cca7c34880a2c5e30b63a42c762d7fd99205e8 (archive, not a production checkout). Playbook and handoff reviewed, including historical rejected rig experiments; current mesh-only instruction takes precedence. All 63 manifest entries pass byte-size and SHA-256 verification. Blender 5.2.1 LTS launches.

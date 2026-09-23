@@ -80,11 +80,11 @@ def render(p,views):
     lo=min(v[1] for v in positions);hi=max(v[1] for v in positions);mid=(lo+hi)/2;extent=max(hi-lo,1.0)
     for name in views:
         focus=Vector((0,0,mid));scale=extent*1.2
-        direction=Vector({"front":(0,-5,.12),"side":(5,0,.12),"three_quarter":(4,-6,1),"back":(0,5,.12),"shoulder_side":(5,0,.12),"shoulder_three_quarter":(4,-6,.5),"hand":(4,-6,.5),"hand_back":(4,6,.8),"hand_side":(5,0,.5),"knee_front":(0,-5,.12),"knee_side":(5,0,.12),"knee_three_quarter":(4,-6,.5)}[name])
+        direction=Vector({"front":(0,-5,.12),"side":(5,0,.12),"three_quarter":(4,-6,1),"back":(0,5,.12),"shoulder_side":(5,0,.12),"shoulder_three_quarter":(4,-6,.5),"hand":(4,-6,.5),"hand_back":(4,6,.8),"hand_side":(5,0,.5),"hand_web":(5,-5,3),"knee_front":(0,-5,.12),"knee_side":(5,0,.12),"knee_three_quarter":(4,-6,.5)}[name])
         if name.startswith("shoulder"):
             focus=reference_focus(p,"shoulder") or focus;scale=.50
         elif name.startswith("hand"):
-            focus=reference_focus(p,"hand") or focus;scale=.34
+            focus=reference_focus(p,"hand") or focus;scale=.20 if name=="hand_web" else .34
         elif name.startswith("knee"):
             focus=reference_focus(p,"knee") or focus;scale=.38
         if d["exercise"]=="Push-Up" and name!="hand":focus=Vector((0,-.55,.48));scale=1.85
@@ -106,6 +106,12 @@ elif mode=="hands_compare":
         for kind in ("baseline","candidate"):
             p=poseRoot/f"{exercise}_{label}_{kind}.json"
             if p.exists():render(p,["hand","hand_back"] if exercise=="pull_up" else ["hand"])
+elif mode=="hand_studies":
+    for label,views in (("open_hand",["hand","hand_back","hand_web"]),
+                        ("closed_fist",["hand","hand_back","hand_side"])):
+        for kind in ("baseline","candidate"):
+            p=poseRoot/f"{label}_review_{kind}.json"
+            if p.exists():render(p,views)
 elif mode=="knees":
     p=poseRoot/"air_squat_peak_candidate.json"
     if p.exists():render(p,["knee_front","knee_side","knee_three_quarter"])

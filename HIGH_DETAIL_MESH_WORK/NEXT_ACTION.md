@@ -1,20 +1,18 @@
-# Next action after V9 hand geometry review
+# Next action: V10 hand anatomy visual review
 
-V8 remains the accepted knee geometry baseline. V9 is a separate, unaccepted
-hand-only review candidate. Do not promote either to production.
+V8 is the accepted body/knee geometry baseline. V9 is rejected/experimental.
+V10 is a separate, mechanically validated hand-retopology review candidate
+derived from V8. None is promoted to production.
 
-Inspect the matched V8/V9 closeups in renders_v9_hand_geometry_review for
-curl, push-up and pull-up. The V9 sculpt passes the frozen rig and exercise
-guards, including unchanged push-up floor contact and equipment matrices.
-Visible improvement is modest, and the inherited polygonal finger tips,
-thumb/web and wrist bands remain. See REVIEW_V9_HAND_GEOMETRY_REVIEW.md.
+Show the matched V8/V10 open-hand, equipment-free closed-fist, and exercise
+comparison boards in `renders_v10_hand_retopology/`. The full-size PNGs are
+there too. Ask for visual acceptance of V10 anatomy before any curl-grip refit.
+The remaining visible issues are faceted fingertips/joint bands, a thumb-web
+seam in some views, and a segmented wrist transition.
 
-Phase B hand anatomy is not yet accepted. If V9 is insufficient, the next
-candidate-side task is hand topology and sculpting in Blender using V8/V9
-as references, while preserving the protected floor vertices, frozen
-hgpt_canonical_v3 hierarchy, corrected hand frame from 614033b, UV/weight
-compatibility, exercise mechanics and all non-hand geometry. Do not start
-Phase C curl-grip refit until hand geometry passes visual review.
-
-Preserve V6, V7 and V8. Do not change production assets, bundled.ts, asset
-references, accepted mechanics, grip/contact logic or the frozen rig.
+If V10 is rejected, keep all candidates and make V11 candidate-side anatomy
+changes only. Preserve the 682 protected floor-contact original vertices,
+V8's non-hand geometry, frozen `hgpt_canonical_v3` hierarchy, runtime
+`614033b`, UV/weight compatibility, equipment and exercises. Re-run the
+same guard suite and matched pose reviews. Do not touch production files,
+`bundled.ts`, references or grip mechanics.

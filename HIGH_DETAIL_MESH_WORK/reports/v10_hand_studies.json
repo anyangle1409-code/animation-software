@@ -1,0 +1,26 @@
+{
+  "open_hand_baseline": {
+    "meshVertices": [
+      33089,
+      1410
+    ]
+  },
+  "closed_fist_baseline": {
+    "meshVertices": [
+      33089,
+      1410
+    ]
+  },
+  "open_hand_candidate": {
+    "meshVertices": [
+      46675,
+      1410
+    ]
+  },
+  "closed_fist_candidate": {
+    "meshVertices": [
+      46675,
+      1410
+    ]
+  }
+}

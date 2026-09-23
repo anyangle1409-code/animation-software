@@ -1,0 +1,16 @@
+{
+  "source_v8": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology.blend",
+  "body_vertices_before": 33059,
+  "body_vertices_after": 46645,
+  "body_faces_before": 62961,
+  "body_faces_after": 89795,
+  "first_split_edges": 8438,
+  "second_split_edges": 5148,
+  "finger_sculpt_vertices": 11456,
+  "palm_sculpt_vertices": 16696,
+  "mirrored_pairs": 8455,
+  "protected_floor_vertices": 682,
+  "protected_original_max_move_mm": 0.0,
+  "nonhand_original_max_move_mm": 0.0
+}

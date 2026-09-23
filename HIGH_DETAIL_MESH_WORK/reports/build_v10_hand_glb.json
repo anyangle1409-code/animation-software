@@ -1,0 +1,14 @@
+{
+  "source_v8_sha256": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+  "candidate_sha256": "ed79408a301e2ff0e0e9efda501742c5f641fe56ce5ed65ff0f335a3fba35139",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology.glb",
+  "bytes": 13825956,
+  "body_vertices": 46675,
+  "body_triangles": 89795,
+  "original_vertices_preserved_as_prefix": 33089,
+  "new_blender_vertices": 13586,
+  "new_gltf_vertices": 13586,
+  "new_vertex_max_lost_weight": 0.0,
+  "original_uv_mapping_max_error": 2.9802322387695312e-08,
+  "nodes_skins_animations_materials_equal_v8": true
+}

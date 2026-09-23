@@ -1,0 +1,8 @@
+{
+  "added_vertices_corrected": 13586,
+  "median_rest_correction_mm": 0.07897852557560062,
+  "p95_rest_correction_mm": 0.5986091438793476,
+  "max_rest_correction_mm": 1.3607653941741447,
+  "max_posed_interpolation_error_before_mm": 0.9652227202252216,
+  "original_vertices_unchanged": 33059
+}

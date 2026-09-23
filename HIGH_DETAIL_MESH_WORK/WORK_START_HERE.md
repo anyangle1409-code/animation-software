@@ -2,10 +2,11 @@
 
 Use this file when resuming on the Blender laptop.
 
-1. Read `LAPTOP_CONTINUATION_HANDOFF.md`.
-2. Run `python scripts/preflight_resume.py`.
-3. Reproduce/verify V6 before editing.
-4. Continue only candidate-only work.
+1. Read `CURRENT_STATE.md`.
+2. Read `LAPTOP_CONTINUATION_HANDOFF.md`.
+3. Run `RESUME_WORK.bat` (or `python scripts/preflight_resume.py`).
+4. Reproduce/verify V6 before editing.
+5. Continue only candidate-only work.
 
 Current priority while the final canonical rig is being settled separately:
 
@@ -14,12 +15,13 @@ Current priority while the final canonical rig is being settled separately:
 - Third: skin/material work.
 - Hold: final shoulder/chest/back/armpit weights and final shoulder deformation tuning until the scapula-capable canonical rig is confirmed.
 
-For every new candidate GLB, run:
+After every exported candidate, prefer the one-command Windows path:
 
 ```text
-python scripts/candidate_quick_check.py path/to/new_candidate.glb
+RUN_CANDIDATE_GATES.bat <version>
+RUN_REVIEW_PACK.bat <version>
 ```
 
-This catches accidental rig/animation/material changes and basic topology damage before running the slower exercise/Blender validation.
+For hand work also run `scripts/guard_hand_floor_vertices.py`; for knee work also run `scripts/audit_knee_topology_candidate.py`.
 
-Do not merge, promote, overwrite V6, alter production assets, or retune exercises to make a mesh candidate pass.
+Do not merge, promote, overwrite V6, alter production assets, or retune exercises to make a mesh candidate pass. Older handoff/review files are historical unless `CURRENT_STATE.md` points to them.

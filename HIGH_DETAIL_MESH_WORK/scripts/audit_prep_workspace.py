@@ -42,6 +42,6 @@ if errors:
     for e in errors:print("-",e)
     raise SystemExit(1)
 print("PASS")
-print("Geometry baseline: V6 knee seam")
+print("Geometry baseline:",base.get("version","unknown"))
 print("Rig baseline: 19ca602 / hgpt_canonical_v3 / 63 bones")
 print("Laptop flow: RESUME_WORK.bat -> START_CANDIDATE.bat -> edit/export -> FINISH_CANDIDATE.bat")

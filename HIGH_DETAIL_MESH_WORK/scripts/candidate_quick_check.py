@@ -4,7 +4,7 @@ Usage:
     python scripts/candidate_quick_check.py path/to/candidate.glb
     python scripts/candidate_quick_check.py path/to/candidate.glb --baseline path/to/baseline.glb
 
-The default baseline is reviewed V6. This is intentionally a fast guard, not a
+The default baseline is accepted V8 knee geometry. This is intentionally a fast guard, not a
 replacement for the exercise, contact, clearance, renderer/exporter or visual tests.
 """
 
@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_BASELINE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb"
+DEFAULT_BASELINE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb"
 
 DTYPE = {
     5120: "i1",

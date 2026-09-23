@@ -22,8 +22,8 @@ Read this file first, then run `RESUME_WORK.bat`.
 
 ### Mesh / Blender workspace
 - Work branch: `codex-high-detail-candidate-v8-knee-anatomy-review-20260923`
-- Accepted knee topology: **V7 knee retopology**; V6 remains preserved.
-- New local-anatomy review candidate awaiting acceptance: **V8 knee anatomy**; see `REVIEW_V8_KNEE_ANATOMY.md`
+- Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
+- Phase B is active: build a separate hand-anatomy geometry candidate from V8, then stop for curl, push-up and pull-up visual review before Phase C grip refit.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
@@ -105,8 +105,8 @@ Work should improve the geometry first. Final asset binding/weighting comes afte
 
 ## 5. Work to do now — in order
 
-### Phase A — knee retopology
-Do this first.
+### Phase A — knee retopology — accepted V8 geometry checkpoint
+This phase is complete for geometry review. V8 retains V7's connected topology; preserve both candidates.
 
 Goal:
 - replace the still-open medial-knee strips with connected anatomical loops
@@ -118,8 +118,8 @@ Goal:
 
 Do not fake the fix with pose offsets.
 
-### Phase B — hand geometry
-After the knee candidate is reviewed.
+### Phase B — hand geometry — current phase
+Use V8 as the geometry source. Stop for hand visual review before Phase C grip refit.
 
 Improve:
 - finger shape
@@ -245,6 +245,4 @@ Do not promote automatically.
 
 ## 10. Immediate next action
 
-Phase A has a first validated V7 knee candidate. V6 remains the read-only accepted baseline until review. Inspect `REVIEW_V7_KNEE_RETOPOLOGY.md` and `renders_v7_knee_retopology/V7_KNEE_V6_COMPARISON.jpg`. The pointed squat flap is substantially reduced, but a small medial notch and simplified patellar dome remain. Decide whether the knee needs another candidate pass before treating V7 as the next geometry baseline.
-
-Stop for this knee review before moving into the hand geometry pass. Do not promote V7 automatically.
+V8 is the accepted knee geometry checkpoint. Start a separate Phase B hand-anatomy candidate from V8. Preserve original hand/floor-contact vertices and all frozen rig and exercise behavior. After validation, show curl, push-up and pull-up hand close-ups and stop for visual review before grip refit. Do not promote V8 or the hand candidate automatically.

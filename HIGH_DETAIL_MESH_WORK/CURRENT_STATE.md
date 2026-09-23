@@ -4,16 +4,16 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 ## Current status
 
-The latest accepted knee **topology** is V7. V6 remains the preserved earlier geometry baseline; its asset was created at commit `b2203cfccd30d6835473ef2e1dee37965da22d02`.
+The accepted knee **geometry baseline** is V8, built on the accepted V7 connected topology. V6 and V7 remain preserved historical candidates.
 
-V8 knee anatomy is a new, validated **review candidate** built from V7. Read `REVIEW_V8_KNEE_ANATOMY.md` and the matched-camera V7/V8 deepest-squat knee comparison. Stop for this review before Phase B hand geometry.
+The user accepted V8 after reviewing the matched V7/V8 deepest-squat knee comparison. It is the geometry source for Phase B hand anatomy, not a production asset. Phase B must stop for hand visual review before grip refit.
 
 The canonical hierarchy is frozen at **63 bones** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). The current validated runtime/retarget source is `614033b256d869230ea273522620467401b0bc71`, which fixes mirrored-character hand roll without changing the frozen hierarchy. Read `RIG_63_FREEZE.md`.
 
 Current candidate assets:
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb`
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy_BARE.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.blend`
 
 Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable state.
 
@@ -24,14 +24,14 @@ Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable sta
 3. `WORK_START_HERE.md`
 4. `LAPTOP_CONTINUATION_HANDOFF.md`
 5. `FINAL_RIG_INTAKE.md`
-6. latest numbered review, currently `REVIEW_V6_KNEE_SEAM.md`
+6. latest accepted geometry review, currently `REVIEW_V8_KNEE_ANATOMY.md`
 7. `PROGRESS.md`
 8. older review/reproduction notes as historical evidence only
 
 ## Ready work
 
 Work may continue autonomously on:
-- true medial-knee retopology and anatomical knee shaping
+- Phase B realistic hand/finger/thumb/palm/wrist **geometry** using V8 as source
 - realistic hand/finger/thumb/palm/wrist **geometry** while preserving the floor-contact guard
 - skin/material refinement
 - shoulder/back/chest/armpit topology and geometry planning against the confirmed scapula structure

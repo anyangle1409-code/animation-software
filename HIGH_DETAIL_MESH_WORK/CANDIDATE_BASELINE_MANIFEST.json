@@ -2,21 +2,24 @@
   "schema_version": 3,
   "workspace": "HIGH_DETAIL_MESH_WORK",
   "geometry_baseline": {
-    "branch": "codex-high-detail-candidate-v6-knee-review-20260922",
-    "asset_commit": "b2203cfccd30d6835473ef2e1dee37965da22d02",
-    "version": "v6_knee_seam",
-    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb",
-    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb",
-    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend",
+    "branch": "codex-high-detail-candidate-v8-knee-anatomy-review-20260923",
+    "asset_commit": "faa15cf84332367ec0e78a692d3ce116f7507125",
+    "version": "v8_knee_anatomy",
+    "status": "accepted_knee_geometry_checkpoint_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.blend",
     "sha256": {
-      "dressed_glb": "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
-      "bare_glb": "0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
-      "blend": "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df"
+      "dressed_glb": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+      "bare_glb": "1edb5f37a89e782b35ad82696892932edbb8b51da7f8484f1e7838b7d8d890b1",
+      "blend": "704cb5f9bf1ef53a4c1bda1100f261844d8153034b18ef2ad045a75adb37c9ef"
     },
     "body_vertices": 33089,
     "body_triangles": 62961,
     "degenerate_triangles": 0,
-    "nonmanifold_edges_gt2": 0
+    "nonmanifold_edges_gt2": 0,
+    "source_topology": "v7_knee_retopology",
+    "production_asset_promoted": false
   },
   "rig_baseline": {
     "branches": [
@@ -52,13 +55,13 @@
     {
       "priority": 1,
       "id": "knee_retopology",
-      "status": "ready",
+      "status": "accepted_v8_geometry",
       "task": "Replace the still-open medial-knee strips with connected anatomical joint loops and reshape patella/tendon/medial-knee silhouette."
     },
     {
       "priority": 2,
       "id": "hand_anatomy_geometry",
-      "status": "ready",
+      "status": "in_progress",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
       "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },
@@ -99,8 +102,25 @@
     "unexplained rig, animation, material, skin or retarget changes appear"
   ],
   "open_nonstructural_items": [
-    "curl grip should be re-fit/reviewed in the corrected hand frame; widest finger-wrap gap increased from 36° to 66°",
+    "curl grip should be re-fit/reviewed in the corrected hand frame; widest finger-wrap gap increased from 36\u00c2\u00b0 to 66\u00c2\u00b0",
     "production palm bones need correct re-export/binding before visible palm cupping",
     "mannequin hand shape disagrees with canonical knuckles"
-  ]
+  ],
+  "preserved_v6_baseline": {
+    "branch": "codex-high-detail-candidate-v6-knee-review-20260922",
+    "asset_commit": "b2203cfccd30d6835473ef2e1dee37965da22d02",
+    "version": "v6_knee_seam",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend",
+    "sha256": {
+      "dressed_glb": "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
+      "bare_glb": "0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
+      "blend": "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df"
+    },
+    "body_vertices": 33089,
+    "body_triangles": 62961,
+    "degenerate_triangles": 0,
+    "nonmanifold_edges_gt2": 0
+  }
 }

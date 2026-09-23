@@ -1,7 +1,7 @@
-# V8 knee anatomy refinement — review candidate
+# V8 knee anatomy refinement — accepted geometry checkpoint
 
-V7 is the user-accepted knee topology. V8 changes its visible patellar shape only;
-it is held for visual review before any hand geometry begins.
+V7 is the user-accepted knee topology. V8 changes its visible patellar shape only.
+After reviewing the matched renders, the user accepted V8 as the knee geometry baseline for Phase B. This does not promote V8 to production.
 
 ## Geometry
 
@@ -25,4 +25,4 @@ Inspect `renders_v8_knee_anatomy/V8_V7_DEEPEST_SQUAT_KNEE_COMPARISON.jpg` for ma
 
 ## Status
 
-Review candidate only. Stop before hand geometry; do not promote or merge automatically.
+Accepted knee geometry source for the separate Phase B hand candidate. Do not promote or merge into production automatically.

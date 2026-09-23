@@ -14,6 +14,7 @@ import { retargetedCharacterSource } from '../character/retargetSource';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
+import { dominantBone, posedVertex } from '../character/posedMesh';
 import { EXERCISES } from './library';
 
 /**
@@ -66,38 +67,6 @@ const MARGIN = 0.002;
 /** The surface equipment must not reach: legs and trunk. */
 const BODY = /^(thigh|pelvis|shin|spine|breast|neck)/i;
 
-function posedPoint(mesh: SkinnedMesh, index: number, out: Vector3): Vector3 {
-  const position = mesh.geometry.getAttribute('position');
-  out.fromBufferAttribute(position, index);
-  const morphs = mesh.geometry.morphAttributes.position ?? [];
-  const influences = mesh.morphTargetInfluences ?? [];
-  const relative = mesh.geometry.morphTargetsRelative === true;
-  for (let slot = 0; slot < morphs.length; slot += 1) {
-    const weight = influences[slot] ?? 0;
-    if (!weight) continue;
-    const morph = morphs[slot];
-    out.x += (relative ? morph.getX(index) : morph.getX(index) - position.getX(index)) * weight;
-    out.y += (relative ? morph.getY(index) : morph.getY(index) - position.getY(index)) * weight;
-    out.z += (relative ? morph.getZ(index) : morph.getZ(index) - position.getZ(index)) * weight;
-  }
-  mesh.applyBoneTransform(index, out);
-  return mesh.localToWorld(out);
-}
-
-function dominantBone(mesh: SkinnedMesh, index: number): string {
-  const skinIndex = mesh.geometry.getAttribute('skinIndex');
-  const skinWeight = mesh.geometry.getAttribute('skinWeight');
-  let best = -1;
-  let bone = '';
-  for (let lane = 0; lane < 4; lane += 1) {
-    const weight = skinWeight.getComponent(index, lane);
-    if (weight > best) {
-      best = weight;
-      bone = mesh.skeleton.bones[skinIndex.getComponent(index, lane)]?.name ?? '';
-    }
-  }
-  return bone.replace(/^DEF-?/, '');
-}
 
 const armed = EXERCISES.filter((exercise) =>
   exercise.equipment.instances.some((instance) => instance.visible),
@@ -163,7 +132,7 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
             instance.kind,
             placement,
             count,
-            (index, out) => (measured[index] ? posedPoint(body!, index, out) : null),
+            (index, out) => (measured[index] ? posedVertex(body!, index, out) : null),
             (index) => `${instance.id} at ${time.toFixed(2)}s, against ${dominantBone(body!, index)}`,
             sample,
           );

@@ -114,6 +114,83 @@ export function equipmentDistance(kind: EquipmentKind, point: Vector3): number {
   return closest;
 }
 
+/**
+ * A uniform grid over a set of points, for closest-approach queries.
+ *
+ * Body against body is a different problem from body against equipment: there
+ * is no analytic envelope to measure against, only one cloud of surface points
+ * against another, and the naive loop is the product of the two. An arm and a
+ * trunk are a few thousand vertices each, over forty frames, over every
+ * exercise — enough that the naive form stops being a test and starts being a
+ * batch job.
+ *
+ * The grid is rebuilt per frame because the body moves; that cost is linear and
+ * small beside the query it saves.
+ */
+export class PointGrid {
+  private readonly cells = new Map<string, number[]>();
+
+  constructor(private readonly cell: number) {}
+
+  private key(x: number, y: number, z: number): string {
+    return `${Math.floor(x / this.cell)},${Math.floor(y / this.cell)},${Math.floor(z / this.cell)}`;
+  }
+
+  add(index: number, point: Vector3): void {
+    const key = this.key(point.x, point.y, point.z);
+    const bucket = this.cells.get(key);
+    if (bucket) bucket.push(index);
+    else this.cells.set(key, [index]);
+  }
+
+  /**
+   * The nearest added point, searched by expanding shells of cells.
+   *
+   * `rings` caps the search. A fixed one-cell neighbourhood is the obvious
+   * implementation and is a trap: it silently reports "nothing near" for
+   * anything past one cell, which reads as a measurement and is not one. Here
+   * the shell expands until it finds something, and returning `null` means
+   * genuinely nothing within `rings` cells — a fact the caller must report as a
+   * bound rather than as a distance.
+   */
+  nearest(
+    point: Vector3,
+    rings: number,
+    position: (index: number, out: Vector3) => Vector3,
+    scratchPoint = new Vector3(),
+  ): { index: number; distance: number } | null {
+    const cx = Math.floor(point.x / this.cell);
+    const cy = Math.floor(point.y / this.cell);
+    const cz = Math.floor(point.z / this.cell);
+    let best = Number.POSITIVE_INFINITY;
+    let found = -1;
+
+    for (let ring = 0; ring <= rings; ring += 1) {
+      for (let dx = -ring; dx <= ring; dx += 1) {
+        for (let dy = -ring; dy <= ring; dy += 1) {
+          for (let dz = -ring; dz <= ring; dz += 1) {
+            // Only the new shell each time round; the interior was searched already.
+            if (ring > 0 && Math.max(Math.abs(dx), Math.abs(dy), Math.abs(dz)) < ring) continue;
+            const bucket = this.cells.get(`${cx + dx},${cy + dy},${cz + dz}`);
+            if (!bucket) continue;
+            for (const index of bucket) {
+              const distance = point.distanceTo(position(index, scratchPoint));
+              if (distance < best) {
+                best = distance;
+                found = index;
+              }
+            }
+          }
+        }
+      }
+      // One more shell after the first hit: a point in a diagonal neighbour can
+      // be closer than one in the cell that produced it.
+      if (found >= 0 && ring > 0) break;
+    }
+    return found >= 0 ? { index: found, distance: best } : null;
+  }
+}
+
 export interface ClearanceSample {
   /** Signed distance, metres. Negative means the body is inside the item. */
   closest: number;

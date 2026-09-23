@@ -56,26 +56,10 @@ python scripts/preflight_resume.py
 After a new candidate is exported:
 
 ```text
-RUN_CANDIDATE_GATES.bat <version>
+FINISH_CANDIDATE.bat <version> <task>
 ```
 
-Then generate a visual review pack:
-
-```text
-RUN_REVIEW_PACK.bat <version>
-```
-
-For a hand candidate, additionally run:
-
-```text
-python scripts/guard_hand_floor_vertices.py HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_<version>.glb
-```
-
-For a knee candidate, additionally run:
-
-```text
-python scripts/audit_knee_topology_candidate.py HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_<version>.glb
-```
+Use `knee`, `hand`, or `material` for `<task>`. That command runs structural/runtime gates, the task-specific audit, the visual review pack, and candidate checkpointing.
 
 ## Do not
 

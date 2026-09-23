@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import glob
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -74,8 +76,11 @@ if integrity.is_file():
     print("degenerate:", data.get("degenerate_triangles"),
           " nonmanifold>2:", data.get("nonmanifold_edges_more_than_two_faces"))
 
-blender = shutil.which("blender")
-if blender:
+blender = os.environ.get("BLENDER_EXE") or shutil.which("blender")
+if not blender and os.name == "nt":
+    matches = sorted(glob.glob(r"C:\\Program Files\\Blender Foundation\\Blender *\\blender.exe"), reverse=True)
+    blender = matches[0] if matches else None
+if blender and Path(blender).is_file():
     try:
         version = subprocess.check_output(
             [blender, "--version"], text=True, stderr=subprocess.STDOUT
@@ -83,8 +88,9 @@ if blender:
     except Exception:
         version = "Blender found but version query failed"
     print("Blender:   ", version)
+    print("Blender exe:", blender)
 else:
-    print("Blender:    not found on PATH (Work may still launch it by full path)")
+    print("Blender:    not found; set BLENDER_EXE if it is installed outside PATH")
 
 if errors:
     print("\nPRE-FLIGHT FAILED")

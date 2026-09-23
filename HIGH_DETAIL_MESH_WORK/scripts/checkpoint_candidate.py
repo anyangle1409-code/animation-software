@@ -75,9 +75,14 @@ def main():
             for key, path in files.items()
         },
         "glb": glb_stats(files["dressed_glb"]),
+        "rig_baseline": {
+            "commit": "c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2",
+            "skeleton_id": "hgpt_canonical_v2",
+            "canonical_bones": 55,
+        },
         "expected_followup_logs": [
-            f"reports/{version}_guards.log",
-            f"reports/{version}_exercise.log",
+            f"reports/{version}_rig55_guards.log",
+            f"reports/{version}_rig55_exercises.log",
             f"reports/exercise_validation_{version}.json",
         ],
     }
@@ -106,7 +111,7 @@ List rig, weights, exercise, grip/contact, equipment, material or other invarian
 Record:
 - candidate quick check
 - focused guard result
-- five-exercise result
+- current all-exercise result against c2372c1 / hgpt_canonical_v2
 - any region-specific audit
 - visual review views inspected
 

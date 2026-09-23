@@ -1,7 +1,7 @@
 # Work start here
 
-1. Read `CURRENT_STATE.md` and `RIG_55_BASELINE.md`.
-2. Run `RESUME_WORK.bat`. It prepares the exact 55-bone validation source at `c2372c1`.
+1. Read `CURRENT_STATE.md` and `RIG_63_FREEZE.md`.
+2. Run `RESUME_WORK.bat`. It prepares the exact frozen 63-bone validation source at `19ca602`.
 3. Read `CANDIDATE_OUTPUT_CONTRACT.md`.
 4. Use `START_CANDIDATE.bat <version>` for a fresh editable working copy.
 5. Keep all work candidate-only.
@@ -12,7 +12,7 @@ Current priority:
 - third: skin/material work
 - fourth, if time remains: shoulder/back/chest/armpit topology/geometry preparation for the confirmed scapula structure
 
-The 55-bone rig is confirmed. Do **not** finalise hand weights yet, do not enable scapular rhythm, and do not claim final scapula weighting until a candidate character asset explicitly contains/uses scapula deform influences and neutral equivalence is re-proven.
+The 63-bone hierarchy is structurally frozen. Do not change it. Keep scapular rhythm off; palm/thumb motion remains undriven until the final asset binding/weight pass is ready.
 
 After export:
 

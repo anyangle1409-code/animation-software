@@ -1,4 +1,7 @@
-# Confirmed 55-bone structural baseline
+# Historical 55-bone shoulder baseline
+
+**Superseded by `RIG_63_FREEZE.md` / `hgpt_canonical_v3` at `19ca602`. Retained for provenance only.**
+
 
 The canonical shoulder-girdle structure is now confirmed.
 

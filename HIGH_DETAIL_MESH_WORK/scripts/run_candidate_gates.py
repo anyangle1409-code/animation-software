@@ -56,6 +56,7 @@ def vitest_command():
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--version",required=True)
+    ap.add_argument("--task",choices=("knee","hand","material","shoulder"),default="knee")
     ap.add_argument("--skip-exercise",action="store_true")
     args=ap.parse_args()
     version=args.version
@@ -64,7 +65,9 @@ def main():
     if not dressed.is_file():raise SystemExit(f"Missing candidate: {dressed}")
     if not bare.is_file():raise SystemExit(f"Missing bare candidate: {bare}")
 
-    run([sys.executable,ROOT/"scripts"/"candidate_quick_check.py",dressed],cwd=ROOT)
+    quick=[sys.executable,ROOT/"scripts"/"candidate_quick_check.py",dressed]
+    if args.task=="material":quick.append("--allow-materials")
+    run(quick,cwd=ROOT)
     ensure_rig55_source()
 
     for name in GUARDS+["vitest.config.mts","review_v3.test.mts"]:

@@ -76,7 +76,8 @@ def main():
         },
         "glb": glb_stats(files["dressed_glb"]),
         "rig_baseline": {
-            "commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+            "freeze_commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+            "runtime_validation_commit": "614033b256d869230ea273522620467401b0bc71",
             "skeleton_id": "hgpt_canonical_v3",
             "canonical_bones": 63,
         },
@@ -111,7 +112,7 @@ List rig, weights, exercise, grip/contact, equipment, material or other invarian
 Record:
 - candidate quick check
 - focused guard result
-- current all-exercise result against c2372c1 / hgpt_canonical_v3
+- current all-exercise result against runtime source 614033b / hgpt_canonical_v3
 - any region-specific audit
 - visual review views inspected
 

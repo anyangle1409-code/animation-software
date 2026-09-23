@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parent
-RIG_SHA="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe"
+RIG_SHA="614033b256d869230ea273522620467401b0bc71"
 EXPECTED={
  "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb":"ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
  "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb":"0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
@@ -39,7 +39,7 @@ for name,expected in EXPECTED.items():
     actual=sha256(path);print(f"{'OK' if actual==expected else 'MISMATCH':8} {name}")
     if actual!=expected:errors.append(f"hash mismatch: {name}")
 
-print("Rig v3 freeze commit local:", "YES" if git_ok("cat-file","-e",f"{RIG_SHA}^{{commit}}") else "NO (resume will fetch it)")
+print("Current v3 runtime source local:", "YES" if git_ok("cat-file","-e",f"{RIG_SHA}^{{commit}}") else "NO (resume will fetch it)")
 integrity=ROOT/"reports/final_integrity_v6_knee_seam.json"
 if integrity.is_file():
     data=json.loads(integrity.read_text())

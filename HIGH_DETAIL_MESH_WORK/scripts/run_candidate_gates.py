@@ -91,7 +91,11 @@ def main():
         cwd=VALIDATION,env=env,log=ROOT/"reports"/f"{version}_rig63_guards.log")
 
     if not args.skip_exercise:
-        review=str((REPAIR/"review_v3.test.mts").relative_to(VALIDATION))
+        if args.task=="hand":
+            run([sys.executable,ROOT/"scripts"/"prepare_hand_review_harness.py"],cwd=ROOT)
+            review=str((REPAIR/"review_hand_geometry.test.mts").relative_to(VALIDATION))
+        else:
+            review=str((REPAIR/"review_v3.test.mts").relative_to(VALIDATION))
         run(runner+["--config",str(config.relative_to(VALIDATION)),review],
             cwd=VALIDATION,env=env,log=ROOT/"reports"/f"{version}_rig63_exercises.log")
 

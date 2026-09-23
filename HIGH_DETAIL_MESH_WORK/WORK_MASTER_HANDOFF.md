@@ -21,16 +21,16 @@ Read this file first, then run `RESUME_WORK.bat`.
 - Build: clean
 
 ### Mesh / Blender workspace
-- Work branch: `codex-high-detail-candidate-v8-knee-anatomy-review-20260923`
+- Work branch: codex-high-detail-candidate-v9-hand-anatomy-review-20260923
 - Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
-- Phase B is active: build a separate hand-anatomy geometry candidate from V8, then stop for curl, push-up and pull-up visual review before Phase C grip refit.
+- Phase B review candidate: V9 hand geometry review, derived from V8. It passes structural, floor-contact and exercise guards but remains visually modest; inherited finger and wrist facets remain. Stop for curl, push-up and pull-up visual review before further hand retopology or Phase C grip refit. See REVIEW_V9_HAND_GEOMETRY_REVIEW.md.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb`
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend`
 - V6 body: 33,089 vertices / 62,961 triangles
-- V6 remains the geometry source and must not be overwritten.
+- V8 is the current geometry source. V6, V7 and V8 must not be overwritten.
 
 ## 2. What is finished and must not be reopened
 

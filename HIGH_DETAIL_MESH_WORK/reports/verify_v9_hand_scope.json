@@ -1,0 +1,11 @@
+{
+  "source_v8_sha256": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+  "candidate_sha256": "e8c9c936fe971e3b6ac952970604d51bd7ae2bd0cd49ee0cea640edf96ddf4ac",
+  "changed_hand_vertices": 3932,
+  "changed_non_hand_vertices": 0,
+  "protected_floor_vertices_unchanged": 682,
+  "max_rest_displacement_mm": 1.7512005540057307,
+  "glb_json_identical": true,
+  "all_other_binary_bytes_identical": true,
+  "uv_weight_index_and_inverse_bind_data_identical": true
+}

@@ -1,0 +1,33 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
+  "source_sha256": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.glb",
+  "changed_hand_vertices": 3940,
+  "changed_original_hand_vertices": 1166,
+  "changed_added_hand_vertices": 2774,
+  "left_right_changed": [
+    1970,
+    1970
+  ],
+  "mirrored_exact_pairs": 1932,
+  "max_rest_move_mm": 1.7511741977024857,
+  "minimum_floor_clearance_of_changed_vertices_mm": 26.938157685570044,
+  "digit_support": {
+    "index_L": 223,
+    "middle_L": 256,
+    "ring_L": 216,
+    "pinky_L": 229,
+    "thumb_L": 43,
+    "index_R": 223,
+    "middle_R": 256,
+    "ring_R": 216,
+    "pinky_R": 229,
+    "thumb_R": 43
+  },
+  "lap_gain": 0.0,
+  "edge_fraction": 0.3,
+  "allow_original_hand_vertices": true,
+  "shape_gain": 1.5,
+  "minimum_triangle_orientation_cosine": 0.12925508067537303,
+  "unchanged": "protected floor-contact positions; non-hand positions; UVs, weights, indices, rig, animations, materials and mechanics"
+}

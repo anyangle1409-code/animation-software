@@ -21,6 +21,27 @@
     "source_topology": "v7_knee_retopology",
     "production_asset_promoted": false
   },
+  "hand_review_candidate": {
+    "version": "v9_hand_geometry_review",
+    "branch": "codex-high-detail-candidate-v9-hand-anatomy-review-20260923",
+    "source_geometry_version": "v8_knee_anatomy",
+    "status": "review_pending_not_accepted_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.blend",
+    "sha256": {
+      "dressed_glb": "e8c9c936fe971e3b6ac952970604d51bd7ae2bd0cd49ee0cea640edf96ddf4ac",
+      "bare_glb": "b9cb40233c183f63ec853ea3bdf5e931b81eb57dd128b03c99b4de4710801ea7",
+      "blend": "9e9ce76dcfc36264981bbaf4e2bfb5df09e633055608f3a156adc86c46fc4af8"
+    },
+    "changed_hand_vertices": 3932,
+    "changed_non_hand_vertices": 0,
+    "protected_floor_vertices_unchanged": 682,
+    "max_rest_displacement_mm": 1.7512,
+    "validation": "all focused guards and sampled exercises pass; visual improvement remains modest",
+    "grip_refit_started": false,
+    "production_asset_promoted": false
+  },
   "rig_baseline": {
     "branches": [
       "chatgpt/absolute-retarget-imports",
@@ -61,7 +82,7 @@
     {
       "priority": 2,
       "id": "hand_anatomy_geometry",
-      "status": "in_progress",
+      "status": "review_pending",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
       "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },

@@ -1,0 +1,12 @@
+{
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.blend",
+  "body_vertices": 33059,
+  "body_triangles": 62961,
+  "uv_loop_counts": {
+    "UVMap": 188883,
+    "UVMap.001": 188883
+  },
+  "moved_blend_vertices": 3932,
+  "max_source_mapping_distance_mm": 7.450580596923828e-06,
+  "v8_knee_topology_retained": true
+}

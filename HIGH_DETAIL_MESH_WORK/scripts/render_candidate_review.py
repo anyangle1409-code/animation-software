@@ -43,6 +43,7 @@ def build(p):
                 bpy.ops.mesh.primitive_uv_sphere_add(segments=24,ring_count=12,radius=part["radius"]);shape=Matrix.Identity(4)
             else: continue
             ob=bpy.context.object;ob["review_equipment"]=True
+            ob["review_vertical_support"]=part["shape"]=="box" and part["size"][1]>1.0
             local=Matrix.Translation(Vector(part.get("position",[0,0,0])))@Euler(part.get("rotation",[0,0,0]),"XYZ").to_matrix().to_4x4()
             ob.matrix_world=C@em@local@shape
             ob.data.materials.append(metal if part["material"]=="metal" else rubber)
@@ -79,16 +80,16 @@ def render(p,views):
     lo=min(v[1] for v in positions);hi=max(v[1] for v in positions);mid=(lo+hi)/2;extent=max(hi-lo,1.0)
     for name in views:
         focus=Vector((0,0,mid));scale=extent*1.2
-        direction=Vector({"front":(0,-5,.12),"side":(5,0,.12),"three_quarter":(4,-6,1),"back":(0,5,.12),"shoulder_side":(5,0,.12),"shoulder_three_quarter":(4,-6,.5),"hand":(4,-6,.5),"knee_front":(0,-5,.12),"knee_side":(5,0,.12),"knee_three_quarter":(4,-6,.5)}[name])
+        direction=Vector({"front":(0,-5,.12),"side":(5,0,.12),"three_quarter":(4,-6,1),"back":(0,5,.12),"shoulder_side":(5,0,.12),"shoulder_three_quarter":(4,-6,.5),"hand":(4,-6,.5),"hand_back":(4,6,.8),"hand_side":(5,0,.5),"knee_front":(0,-5,.12),"knee_side":(5,0,.12),"knee_three_quarter":(4,-6,.5)}[name])
         if name.startswith("shoulder"):
             focus=reference_focus(p,"shoulder") or focus;scale=.50
-        elif name=="hand":
+        elif name.startswith("hand"):
             focus=reference_focus(p,"hand") or focus;scale=.34
         elif name.startswith("knee"):
             focus=reference_focus(p,"knee") or focus;scale=.38
         if d["exercise"]=="Push-Up" and name!="hand":focus=Vector((0,-.55,.48));scale=1.85
         for ob in sc.objects:
-            if ob.get("review_equipment"):ob.hide_render=name.startswith("shoulder")
+            if ob.get("review_equipment"):ob.hide_render=name.startswith("shoulder") or (d["exercise"]=="Pull-Up" and name.startswith("hand") and ob.get("review_vertical_support"))
         cam.location=focus+direction;cam.rotation_euler=(focus-cam.location).to_track_quat("-Z","Y").to_euler();cam.data.ortho_scale=scale
         out=f"{p.stem}_{name}";sc.render.filepath=str(renderRoot/f"{out}.png");bpy.ops.render.render(write_still=True);print("RENDER",out,flush=True)
     if "candidate" in p.stem and d["label"]=="peak":
@@ -100,6 +101,11 @@ if mode=="hands":
     for exercise,label in [("dumbbell_bicep_curl","bottom"),("push_up","bottom"),("pull_up","peak")]:
         p=poseRoot/f"{exercise}_{label}_candidate.json"
         if p.exists():render(p,["hand"])
+elif mode=="hands_compare":
+    for exercise,label in [("dumbbell_bicep_curl","bottom"),("push_up","bottom"),("pull_up","peak")]:
+        for kind in ("baseline","candidate"):
+            p=poseRoot/f"{exercise}_{label}_{kind}.json"
+            if p.exists():render(p,["hand","hand_back"] if exercise=="pull_up" else ["hand"])
 elif mode=="knees":
     p=poseRoot/"air_squat_peak_candidate.json"
     if p.exists():render(p,["knee_front","knee_side","knee_three_quarter"])
@@ -107,6 +113,9 @@ elif mode=="target":
     for exercise in ["dumbbell_shoulder_press","pull_up"]:
         p=poseRoot/f"{exercise}_peak_candidate.json"
         if p.exists():render(p,["shoulder_side","shoulder_three_quarter"])
+elif mode=="pullup_hands":
+    p=poseRoot/"pull_up_peak_candidate.json"
+    if p.exists():render(p,["hand","hand_back","hand_side"])
 else:
     for p in sorted(poseRoot.glob("*candidate.json")):
         d=json.loads(p.read_text())

@@ -1,7 +1,20 @@
-# Next action after V8 knee acceptance
+# Next action after V9 hand geometry review
 
-The user accepted V8 as the knee geometry baseline. V8 retains V7's connected topology. Read `WORK_MASTER_HANDOFF.md`, `REVIEW_V8_KNEE_ANATOMY.md`, and the baseline manifest. Start Phase B from V8, in a separate hand-anatomy candidate.
+V8 remains the accepted knee geometry baseline. V9 is a separate, unaccepted
+hand-only review candidate. Do not promote either to production.
 
-Improve finger, thumb web/base, palm and wrist surface shape while keeping original hand contact vertices, the frozen rig, corrected hand frame, exercise mechanics, and all non-hand geometry unchanged. Validate the hand candidate against runtime `614033b` and the protected floor-contact guard. Generate close-up curl, push-up and pull-up hand images. Stop for visual review before grip refit. Preserve V6, V7 and V8; do not promote production.
+Inspect the matched V8/V9 closeups in renders_v9_hand_geometry_review for
+curl, push-up and pull-up. The V9 sculpt passes the frozen rig and exercise
+guards, including unchanged push-up floor contact and equipment matrices.
+Visible improvement is modest, and the inherited polygonal finger tips,
+thumb/web and wrist bands remain. See REVIEW_V9_HAND_GEOMETRY_REVIEW.md.
 
-The canonical hierarchy is frozen at 63 bones, commit `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe`; candidate runtime validation uses `614033b256d869230ea273522620467401b0bc71`. Do not change production assets, accepted exercise mechanics, grip/contact guards, `bundled.ts`, or the frozen rig. Do not promote automatically.
+Phase B hand anatomy is not yet accepted. If V9 is insufficient, the next
+candidate-side task is hand topology and sculpting in Blender using V8/V9
+as references, while preserving the protected floor vertices, frozen
+hgpt_canonical_v3 hierarchy, corrected hand frame from 614033b, UV/weight
+compatibility, exercise mechanics and all non-hand geometry. Do not start
+Phase C curl-grip refit until hand geometry passes visual review.
+
+Preserve V6, V7 and V8. Do not change production assets, bundled.ts, asset
+references, accepted mechanics, grip/contact logic or the frozen rig.

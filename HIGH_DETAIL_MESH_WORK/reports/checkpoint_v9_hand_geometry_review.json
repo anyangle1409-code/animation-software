@@ -1,0 +1,41 @@
+{
+  "version": "v9_hand_geometry_review",
+  "branch": "codex-high-detail-candidate-v9-hand-anatomy-review-20260923",
+  "head": "1d28087365ac000173ebf74f01b0f8a07afdf8e0",
+  "artifacts": {
+    "dressed_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.glb",
+      "bytes": 7145488,
+      "sha256": "e8c9c936fe971e3b6ac952970604d51bd7ae2bd0cd49ee0cea640edf96ddf4ac"
+    },
+    "bare_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review_BARE.glb",
+      "bytes": 7145480,
+      "sha256": "b9cb40233c183f63ec853ea3bdf5e931b81eb57dd128b03c99b4de4710801ea7"
+    },
+    "blend": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review.blend",
+      "bytes": 3585084,
+      "sha256": "9e9ce76dcfc36264981bbaf4e2bfb5df09e633055608f3a156adc86c46fc4af8"
+    }
+  },
+  "glb": {
+    "body_vertices": 33089,
+    "body_triangles": 62961,
+    "nodes": 163,
+    "skins": 1,
+    "animations": 0,
+    "materials": 2
+  },
+  "rig_baseline": {
+    "freeze_commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+    "runtime_validation_commit": "614033b256d869230ea273522620467401b0bc71",
+    "skeleton_id": "hgpt_canonical_v3",
+    "canonical_bones": 63
+  },
+  "expected_followup_logs": [
+    "reports/v9_hand_geometry_review_rig63_guards.log",
+    "reports/v9_hand_geometry_review_rig63_exercises.log",
+    "reports/exercise_validation_v9_hand_geometry_review.json"
+  ]
+}

@@ -68,3 +68,24 @@ The user accepted V7's connected knee topology and requested one final local ana
 ## V8 knee geometry accepted — 2026-09-23
 
 The user reviewed the matched V7/V8 deepest-squat renders and accepted V8 as the knee geometry baseline, retaining V7's topology. V7 and V8 remain separate preserved candidate assets; neither is promoted to production. The baseline manifest now points new candidate work at V8 while retaining the V6 historical baseline and the frozen `hgpt_canonical_v3` / runtime `614033b` references. Phase B hand anatomy may proceed from V8; grip refit remains held until after hand visual review.
+
+## 2026-09-23 — V8 acceptance and Phase B V9 hand review
+
+V8 is recorded as the accepted knee geometry checkpoint; V7 and V8 remain
+preserved and unpromoted. The current hand review candidate derives exactly
+from V8: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v9_hand_geometry_review
+(dressed, bare and editable Blend).
+
+The first hand-only added-vertex smoothing pass introduced dark seams and was
+rejected. A no-smoothing pass avoided seams but had little visible effect.
+The reviewed pass adjusts both eligible original and added hand surface
+vertices, leaving 682 protected floor vertices and all non-hand vertices
+unchanged. A later smoothing trial again showed wrist slits and was rejected.
+
+The reviewed V9 passes structural, five focused runtime guards, seven exercise
+comparisons over 26 frames each, strict floor-contact guard, bare/dressed
+equivalence and V8 binary scope verification. Bone and equipment matrices
+match exactly. The matched hand closeups show a modest shape change, while
+inherited polygonal finger tips, thumb/web and wrist bands remain. The user
+must visually review it before any grip refit; hand anatomy is not yet
+accepted. No production, rig, UV, weight, exercise or grip files changed.\n

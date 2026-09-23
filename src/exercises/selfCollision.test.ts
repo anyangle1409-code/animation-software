@@ -58,6 +58,7 @@ const mm = (metres: number) => `${(metres * 1000).toFixed(2)} mm`;
 const BASELINE: Record<string, number> = {
   dumbbell_bicep_curl: 0.00466,
   dumbbell_hammer_curl: 0.00502,
+  dumbbell_reverse_curl: 0.00259,
   push_up: 0.00789,
   air_squat: 0.00136,
   dumbbell_shoulder_press: 0.00195,

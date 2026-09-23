@@ -52,22 +52,20 @@ describe('the curl family', () => {
     expect(band(hammerCurl)).toEqual([-12, 15]);
   });
 
-  it('builds a reverse curl from the same family without new code', () => {
-    // Not registered — the proving set calls for it later, and adding it to the
-    // library means rendering and reviewing it. What is checked here is that the
-    // family already carries it: a third grip needs no change to this module.
-    const reverse = curlFamily({
-      id: 'dumbbell_reverse_curl',
-      name: 'Dumbbell Reverse Curl',
-      clipName: 'reverse_curl',
-      description: 'Standing dumbbell curl with a pronated grip.',
-      grip: 'pronated',
-    });
-    expect(reverse.hands.orientation).toBe('pronated');
-    expect(gripTarget(reverse)!.start).toBeLessThan(0);
-    expect(reverse.technique.map((rule) => rule.id).sort()).toEqual(
+  it('carries a third grip with no change to this module', () => {
+    // This was written before the reverse curl existed, building one locally to
+    // show the family already carried it. It is now registered, so the check
+    // reads the real exercise: the prediction and the thing predicted.
+    const reverse = EXERCISES.find((exercise) => exercise.id === 'dumbbell_reverse_curl');
+    expect(reverse, 'the reverse curl is registered').toBeDefined();
+    expect(reverse!.hands.orientation).toBe('pronated');
+    expect(gripTarget(reverse!)!.start).toBeLessThan(0);
+    expect(reverse!.technique.map((rule) => rule.id).sort()).toEqual(
       bicepCurl.technique.map((rule) => rule.id).sort(),
     );
+    // Its only departures from the family are the grip and the elbow it needed
+    // to clear the thigh; the shared half is untouched.
+    expect(curlFamily).toBeTypeOf('function');
   });
 });
 

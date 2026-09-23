@@ -59,8 +59,11 @@ const mm = (metres: number) => `${(metres * 1000).toFixed(2)} mm`;
 /**
  * A margin rather than a floor at zero, because zero passes a plate that grazes
  * the shorts, which reads as a collision even when it technically is not. The
- * curls measure 9.75 mm and 11.41 mm, so 2 mm sits well clear of both while
- * still failing anything that actually touches.
+ * tightest items in the library are the curls' dumbbells at 11.46 mm and
+ * 11.68 mm, so 2 mm sits well clear of both while still failing anything that
+ * actually touches. (Those read 9.75 and 11.41 before the envelope was derived
+ * from EQUIPMENT_PARTS; the measurement got more accurate at plate rim corners,
+ * the exercises did not move.)
  */
 const MARGIN = 0.002;
 

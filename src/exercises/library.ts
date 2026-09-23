@@ -1,6 +1,7 @@
 import type { ExerciseDefinition } from './types';
 import { bicepCurl } from './definitions/bicepCurl';
 import { hammerCurl } from './definitions/hammerCurl';
+import { reverseCurl } from './definitions/reverseCurl';
 import { pushUp } from './definitions/pushUp';
 import { airSquat } from './definitions/airSquat';
 import { shoulderPress } from './definitions/shoulderPress';
@@ -19,6 +20,7 @@ import { pullUp } from './definitions/pullUp';
 export const EXERCISES: ExerciseDefinition[] = [
   bicepCurl,
   hammerCurl,
+  reverseCurl,
   pushUp,
   airSquat,
   shoulderPress,

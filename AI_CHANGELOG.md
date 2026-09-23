@@ -6,6 +6,33 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — Phase 5: arm against trunk, guarded against regression
+
+Commit `6e5711f`. Suite **344 passed / 1 skipped**, typecheck and build clean.
+
+Body against body, alongside the body-against-equipment check already in place. **A regression guard rather than a threshold, and the measurements are why.**
+
+A fixed floor was the obvious design and the numbers killed it. An arm hanging at the side genuinely rests against the chest:
+
+| exercise | closest arm↔trunk | where |
+|---|---:|---|
+| Bodyweight squat | 1.36 mm | upper arm → breast |
+| Shoulder press | 1.95 mm | upper arm → breast |
+| Pull-up | 2.02 mm | upper arm → breast |
+| Bicep curl | 4.66 mm | forearm → pelvis |
+| Hammer curl | 5.03 mm | upper arm → breast |
+| Push-up | 7.90 mm | upper arm → breast |
+
+Normal anatomy already sits inside any floor that would also catch real interpenetration, so a floor separates *"arms by the sides"* from *"arms not by the sides"* rather than good from bad. Each exercise is held against what it measures now, plus a hard check that no two surfaces are ever coincident. Reducing the curl's abduction from 3° to 0° takes it from 4.66 mm to 1.01 mm and fails the guard, naming the exercise, measurement, baseline and location.
+
+**Two mistakes found on the way, both by assertions rather than by reading.**
+
+The first version matched arm vertices with `/^(upperarm|forearm)/` and a side test of `endsWith('L')`. Imported deform bones are named `upper_armL`, `upper_armL001`, `forearmL001` — so the pattern missed the upper arm entirely and the side test dropped every numbered segment. It measured **74 vertices of proximal forearm while reporting it as "the arm"**, and its numbers (6.35 mm for the curl, 27.98 mm for the squat) were wrong in both magnitude and ordering. A vertex-count assertion caught it.
+
+The second was in the grid search: a fixed one-cell neighbourhood reports "nothing near" for anything past one cell, which reads as a measurement and is not one. The push-up and press both came back as `Infinity` and would have been recorded as clear. The shell now expands until it finds something, and finding nothing is reported as a bound rather than a distance.
+
+Supporting work, both behaviour-preserving: `PointGrid` joins `collision.ts`; `posedVertex` and `dominantBone` move to `character/posedMesh.ts`, where the ordering that makes them correct — morphs at their influence, then the skin transform, then the world matrix — is documented once instead of copied a third time. The equipment guard reports identical numbers through the shared helpers.
+
 ### Claude — 2026-09-22 — Phase 5, first step: the collision envelope comes from the equipment's own geometry
 
 Commit `b24ac3f`. Suite **338 passed / 1 skipped**, typecheck and build clean.

@@ -8,20 +8,29 @@ import { plantedContact } from './presets';
 /**
  * How a standing exercise meets the floor, and what it holds.
  *
- * Extracted on the same evidence rule as `presets.ts`: only what two families
- * already say *identically*. Comparing the curl family against the shoulder
- * press, four things matched word for word — the planted-foot rule with its
- * 12 mm tolerance, the pair of floor locks, the foot spec, and the pair of
- * hand-held dumbbells. Everything else differs for a reason. The press holds
- * its torso to 8° where the curl allows 10°, and that is the difference between
- * a movement that must not lean back to cheat the weight overhead and one that
- * must not swing it up; flattening the two to save five lines would erase the
- * distinction rather than share it.
+ * Extracted on the same evidence rule as `presets.ts`: only what several
+ * exercises already say *identically*, or say the same way with different
+ * numbers. What is shared here is the *shape* of standing on two locked feet —
+ * a foot spec, a pair of floor locks, and a rule that holds each foot still.
+ * Every standing exercise in the library needs exactly those three, and needed
+ * them before this file existed.
  *
- * The point is not the lines saved. It is that "standing on two planted feet"
- * is now one definition, so a future family cannot invent a third foot
- * tolerance, and the generator has one thing to reach for rather than a choice
- * between three spellings.
+ * ## The numbers are parameters, and finding that out was the point
+ *
+ * An earlier version of this file hard-coded a 32 cm stance, 6° of toe-out and a
+ * 12 mm tolerance, and claimed in its own comment that the curl, the press *and*
+ * the squat had settled on those independently. Two of the three had. The squat
+ * stands 42 cm wide with 12° of toe-out and allows 15 mm of foot drift, and it
+ * has good reasons for all three: a squat needs a wider base to descend into,
+ * the toes turn out so the knees can track over them, and a foot carrying a body
+ * through half a metre of vertical travel deforms more under its own load than
+ * one standing still under a curl.
+ *
+ * So the extraction was right and the constants were not. They are arguments
+ * now, with the upper-body values as defaults because that is what two of the
+ * three callers want, and the squat passing its own. Sharing the shape while
+ * letting the numbers differ is the whole distinction — the same one that keeps
+ * the curl's 10° torso rule apart from the press's 8°.
  */
 
 /** The feet: their spec, their floor locks and the rule that holds them still. */
@@ -31,21 +40,34 @@ export interface PlantedStance {
   technique: TechniqueRule[];
 }
 
-/**
- * A shoulder-width stance with both feet locked to the floor.
- *
- * The 12 mm tolerance is what the curl, the press and the squat all settled on
- * independently — tight enough that a sliding foot fails, loose enough that the
- * solver's own sub-millimetre motion does not.
- */
-export function plantedStance(): PlantedStance {
+export interface StanceOptions {
+  /** Distance between the feet, metres. */
+  width?: number;
+  /** Toe-out angle, degrees. */
+  toeOut?: number;
+  /**
+   * How far a foot may drift over the repetition, metres.
+   *
+   * Tight enough that a sliding foot fails, loose enough that the solver's own
+   * motion does not. Standing exercises hold 12 mm; a squat allows 15 mm because
+   * the foot carries the whole body through its descent.
+   */
+  tolerance?: number;
+}
+
+/** A stance with both feet locked to the floor. */
+export function plantedStance({
+  width = 0.32,
+  toeOut = 6,
+  tolerance = 0.012,
+}: StanceOptions = {}): PlantedStance {
   return {
-    feet: { width: 0.32, toeOut: 6, planted: true },
+    feet: { width, toeOut, planted: true },
     locks: [...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true })],
     technique: [
       ...plantedContact({
         point: { bone: 'foot_l' },
-        tolerance: 0.012,
+        tolerance,
         label: 'Left foot stays planted',
       }),
     ],

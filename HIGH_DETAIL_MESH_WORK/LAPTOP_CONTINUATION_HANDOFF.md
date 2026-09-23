@@ -5,7 +5,7 @@ Purpose: make the next Blender/Work session deterministic and keep the high-deta
 ## Current review baseline
 
 Branch: `codex-high-detail-candidate-v6-knee-review-20260922`  
-Commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
+V6 asset commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`\n\nLater commits on this branch may contain preparation/automation only. Use `CURRENT_STATE.md` and the live branch HEAD for continuation.
 
 Latest candidate:
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`

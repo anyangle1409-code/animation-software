@@ -6,7 +6,9 @@ Use this file when resuming on the Blender laptop.
 2. Read `LAPTOP_CONTINUATION_HANDOFF.md`.
 3. Run `RESUME_WORK.bat` (or `python scripts/preflight_resume.py`).
 4. Reproduce/verify V6 before editing.
-5. Continue only candidate-only work.
+5. Read `CANDIDATE_OUTPUT_CONTRACT.md`.
+6. Use `START_CANDIDATE.bat <version>` for a fresh editable working copy.
+7. Continue only candidate-only work.
 
 Current priority while the final canonical rig is being settled separately:
 

@@ -1,122 +1,74 @@
 # Laptop continuation handoff
 
-Purpose: make the next Blender/Work session deterministic and keep the high-detail mesh work isolated from production while the canonical rig is being finalized.
+Purpose: let Work spend its time in Blender rather than rediscovering state or rebuilding validation setup.
 
-## Current review baseline
+## Exact baselines
 
-Branch: `codex-high-detail-candidate-v6-knee-review-20260922`  
-V6 asset commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`\n\nLater commits on this branch may contain preparation/automation only. Use `CURRENT_STATE.md` and the live branch HEAD for continuation.
+Mesh geometry baseline:
+- branch: `codex-high-detail-candidate-v6-knee-review-20260922`
+- V6 asset commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
+- dressed GLB SHA-256: `ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306`
+- bare GLB SHA-256: `0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0`
+- Blend SHA-256: `2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df`
+- 33,089 body vertices / 62,961 triangles
 
-Latest candidate:
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb`
-- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend`
+Canonical runtime baseline:
+- commit: `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`
+- 55 bones
+- `scapula_l/r` between clavicle and upper arm
+- scapulae neutral, rhythm off, no scapula weights
+- export ID `hgpt_canonical_v2`
+- 388 passed / 1 skipped; typecheck/build clean
 
-Recorded hashes:
-- dressed GLB: `ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306`
-- bare GLB: `0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0`
-- blend: `2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df`
+The scapula commit changes runtime/source structure, not the production character GLB binary. Existing scapula-less character assets are supported by the retarget fallback and were proven equivalent.
 
-V6 body: 33,089 vertices / 62,961 triangles. Integrity report records zero degenerate triangles and zero edges shared by more than two faces.
+## V6 open work
 
-## What V6 proves
+Knee:
+- V6 aligned two nearly coincident medial boundary strips to 0 mm gap
+- the strips remain topologically open
+- the pointed medial-knee overhang remains
+- next step is real connected anatomical knee loops plus deliberate patella/tendon/medial shaping
 
-V6 is a candidate-only knee-seam checkpoint derived from V5.
+Hands:
+- V5/V6 provide denser contact-safe topology
+- preserve the 682 push-up floor-contact guard vertices
+- improve finger volume, thumb web/base, palm and wrist geometry
+- do not finalise hand weights before the hand-base/thumb-twist decision
 
-- The paired inner-knee gap that reached 0.58 mm in V5 is 0 mm in all saved V6 pose snapshots.
-- The largest individual rest-position move was 0.335 mm.
-- The original rig, skin weights, animations, exercise definitions, grip/equipment logic and production references were not changed.
-- Six focused guards passed: shoulder sagittal target, bare/dressed equivalence, grip/343-degree wrap, renderer/exporter agreement, dumbbell/shorts clearance, and the sampled five-exercise review.
-- Original hand positions, all 160 existing production-character bone matrices, and equipment transforms matched the frozen dressed reference in the sampled review.
-- All 400 pinned source files and V5 deliverables were verified unchanged.
+Shoulder:
+- shoulder/scapula structure is now confirmed
+- geometry/topology planning may proceed against it
+- final scapula deform weighting still requires a candidate asset with actual scapula influences and fresh neutral-equivalence proof
+- rhythm remains off
 
-This is not a finished mesh.
+Materials:
+- may proceed independently while production assets remain untouched
 
-## Known open mesh work
-
-### 1. Knee
-The medial knee is only geometrically aligned, not topologically repaired. Two open boundary strips remain. The pointed medial overhang remains.
-
-Next real knee step: retopologize the medial-knee strips into connected anatomical joint loops and deliberately shape the patella/tendon/medial-knee transition. Do not repeat the three rejected broad smoothing/contour trials as if they were a solution.
-
-### 2. Hands
-V5/V6 provide denser, contact-safe hand topology but not finished anatomy.
-
-Preserve the 682 original push-up floor-contact guard vertices in `reports/hand_contact_guard_v5.json`. Do not alter the floor-contact solution just to improve appearance. Model finger volumes, thumb web/base, palm forms and wrist transition around that constraint, then re-run grip and floor-contact checks.
-
-### 3. Shoulder / axilla
-Do not make a final shoulder/chest/back/armpit weighting decision against the old frozen hierarchy.
-
-The canonical-rig audit and scapula spike performed after this candidate showed that a scapula-bearing hierarchy is likely to be adopted. The structural rig change is being handled separately on `chatgpt/absolute-retarget-imports`.
-
-Safe before that rig lands:
-- geometry study
-- topology planning
-- material work
-- non-destructive shoulder surface experiments kept as separate candidates
-
-Hold until the final rig is confirmed:
-- final shoulder/chest/back/armpit skin weights
-- final scapular deformation tuning
-- any production promotion
-
-### 4. Materials
-Final skin materials are still pending and can be worked on independently of the rig, provided production assets remain untouched.
-
-## Reproduce the V6 baseline first
-
-From `HIGH_DETAIL_MESH_WORK`, with Blender 5.2+:
+## Laptop flow
 
 ```text
-python scripts/bootstrap_from_repo.py
-blender --background --factory-startup --python scripts/build_candidate_v6_knee_seam.py -- v6_knee_seam_rebuild
-python scripts/make_bare_variant.py v6_knee_seam_rebuild
+RESUME_WORK.bat
+START_CANDIDATE.bat <version>
 ```
 
-The reviewed V6 dressed rebuild was byte-identical on Blender 5.2.1. Reproduce and verify the baseline before doing new modelling so any later difference is attributable to the new work.
+Edit in Blender and export the dressed GLB using the same version suffix.
 
-## When the finalized canonical rig is available
+Then:
 
-Do not merge this review branch into the production/source branch just to obtain the rig.
+```text
+FINISH_CANDIDATE.bat <version> <task>
+```
 
-Use the V6/V-next mesh as a geometry source and migrate it deliberately onto the confirmed rig in a fresh candidate checkout.
-
-Required order:
-
-1. Record the exact source-rig commit and candidate commit.
-2. Confirm the final canonical hierarchy and any retarget changes first.
-3. Confirm the pre-weight decisions for forearm twist distribution and carrying angle.
-4. Transfer/rebind the candidate mesh to the confirmed production-character hierarchy without changing exercise mechanics.
-5. With any new scapula bones neutral, prove current exercise output remains equivalent within numerical tolerance before painting them.
-6. Paint shoulder-blade/back/chest/armpit regions across the final girdle bones.
-7. Only after the weights support it, enable/tune scapular rhythm.
-8. Re-run full current source tests plus all candidate mesh guards and visual exercise stress poses.
-
-If the final source character gains new deform bones, do not assume old positional joint indices remain valid. Map/remap by bone name.
-
-## Mandatory regression gates after each candidate-only modelling step
-
-At minimum re-run:
-- bare/dressed equivalence
-- grip contact and finger wrap
-- push-up floor contact
-- renderer/exporter agreement
-- dumbbell/shorts clearance
-- knee/hip deformation checks for squat changes
-- overhead shoulder/axilla checks for shoulder changes
-- sampled motion review for curl, squat, shoulder press, push-up and pull-up
-- the latest full source test/build suite from the exact rig commit being targeted
-
-Preserve all previous candidates and comparison renders. Create a new review branch for each accepted candidate-only step. Do not overwrite V6.
+The finish workflow creates the bare variant if missing, validates against rig v2/c2372c1, runs the task audit, renders review sheets and writes checkpoint metadata.
 
 ## Stop conditions
 
-Stop rather than forcing a visual fix if any edit:
-- changes exercise mechanics, IK targets, contact/grip logic or accepted equipment transforms
-- alters production/bundled assets
-- requires loosening a validation threshold merely to pass
-- changes floor-contact behavior through new low hand vertices
-- creates a shoulder improvement that depends on the pre-scapula hierarchy
-- introduces unexplained topology, skin-weight, or retarget differences
+Stop rather than forcing a visual fix if an edit:
+- changes accepted exercise mechanics, IK, grips, contacts or equipment transforms
+- requires loosening a guard
+- unexpectedly changes hand floor contact
+- requires scapular rhythm just to make a mesh-only candidate acceptable
+- creates unexplained rig/skin/retarget differences
 
-The goal is to arrive at the final rig with the best geometry candidate intact, then do one intentional final binding/weight/deformation pass instead of repeatedly repainting against obsolete skeletons.
+Preserve every previous candidate. No production promotion without explicit approval.

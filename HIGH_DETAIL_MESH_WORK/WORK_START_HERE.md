@@ -1,10 +1,12 @@
 # Work start here
 
 1. Read `CURRENT_STATE.md` and `RIG_63_FREEZE.md`.
-2. Run `RESUME_WORK.bat`. It prepares the exact frozen 63-bone validation source at `19ca602`.
+2. Run `RESUME_WORK.bat`. It prepares the current v3 runtime validation source at `614033b`; the 63-bone hierarchy itself remains frozen at `19ca602`.
 3. Read `CANDIDATE_OUTPUT_CONTRACT.md`.
 4. Use `START_CANDIDATE.bat <version>` for a fresh editable working copy.
 5. Keep all work candidate-only.
+
+The mirrored hand-roll retarget issue is already fixed. Final hand/grip review should use the corrected frame; note the curl's widest finger-wrap gap is now 66° and may need refitting during the hand/weight pass.
 
 Current priority:
 - first: true medial-knee retopology and patella/tendon/medial-knee shaping

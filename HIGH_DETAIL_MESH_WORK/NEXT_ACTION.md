@@ -1,1 +1,5 @@
+Read LAPTOP_CONTINUATION_HANDOFF.md first when resuming on the Blender laptop.
+
 V6 knee seam is the latest separate review revision. Read REVIEW_V6_KNEE_SEAM.md, REVIEW_V5_HANDS.md, REVIEW_V4B.md and their comparison sheets. Next: retopologize the still-open medial-knee strips into connected anatomical loops and reshape the pointed overhang; three local smoothing/contour trials failed. Then model realistic finger/thumb/palm forms on V5's contact-safe topology, resolve the inherited overhead axilla fold, and author skin materials. Keep the frozen shoulder joint/rig, original grip/contact behavior, all prior candidates and production untouched. Push each completed candidate-only part to a review branch; do not merge or promote.
+
+Important sequencing update: final shoulder/chest/back/armpit weighting must wait for the separately audited scapula-capable canonical rig to be confirmed. Knee retopology, contact-safe hand anatomy and skin-material work may continue as isolated candidates in the meantime. Do not merge or promote.

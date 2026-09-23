@@ -59,10 +59,14 @@ The canonical metacarpals were therefore derived from the known knuckles and sta
 
 All derived metacarpals lie inside the production hand skin.
 
+## Fixed since the freeze
+
+The pre-existing mirrored-character hand-roll retarget error was fixed in `614033b256d869230ea273522620467401b0bc71` without changing the frozen hierarchy. The production character now matches same-side hand orientation; curls measure about 0.72° residual roll and press/squat 0.00°.
+
 ## Remaining non-structural items
 
 These do not reopen the hierarchy:
-1. mirrored-character hand roll retarget issue (~5.5° knuckle-fan roll versus ~0.5° same-side)
+1. the curl grip should be re-fit/reviewed in the corrected hand frame; its widest finger-wrap gap changed from 36° to 66°
 2. production palm bones must be re-exported/rebound correctly if visible palm cupping is wanted on that asset
 3. mannequin hand shape does not fully agree with the canonical knuckle geometry
 

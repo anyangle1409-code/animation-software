@@ -50,10 +50,11 @@ The canonical rig is being handled separately on `chatgpt/absolute-retarget-impo
 From `HIGH_DETAIL_MESH_WORK`:
 
 ```text
-python scripts/preflight_resume.py
+RESUME_WORK.bat
+START_CANDIDATE.bat <version>
 ```
 
-After a new candidate is exported:
+After editing the generated Blend file and exporting the dressed GLB:
 
 ```text
 FINISH_CANDIDATE.bat <version> <task>

@@ -1,59 +1,46 @@
-# Final rig intake checklist
+# Final rig intake — completed for the shoulder-girdle baseline
 
-Use this immediately when Claude finishes the canonical-rig work.
+The canonical-rig intake was completed on 2026-09-23.
 
-Do not begin rebinding the high-detail mesh until the items below are known.
+## Confirmed
 
-## Record first
+- source commit: `c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2`
+- `chatgpt/absolute-retarget-imports`: verified at that commit
+- `claude/home-gym-pt-animation-txux66`: verified at that commit
+- canonical count: 55 bones
+- `scapula_l/r`: neutral at rest
+- scapular rhythm: disabled
+- scapula skin weights: not painted
+- upper-arm limits: unchanged
+- retargeter: nearest mapped descendant for rest direction; nearest mapped ancestor for attachments
+- mannequin baked skin: resolved through the 53 baked bone names
+- export skeleton id: `hgpt_canonical_v2`
+- suite: 388 passed / 1 skipped; typecheck/build clean
+- no production GLB/Blend asset was changed by this commit
 
-- exact `chatgpt/absolute-retarget-imports` commit SHA
-- whether the canonical count is 55 bones
-- whether `scapula_l/r` are neutral by default
-- whether scapular rhythm is still disabled
-- exact retargeter changes shipped
-- whether the production-character GLB itself gained new deform bones or only the canonical/runtime rig changed
-- whether forearm twist distribution changed
-- whether carrying angle changed
-- full test/build totals
+See `RIG_55_BASELINE.md` for the accepted equivalence evidence and mesh implications.
 
-## Compatibility check
+## Meaning for the high-detail mesh
 
-If there is a new or changed GLB, run:
+Do **not** rebind V6 merely because the canonical runtime rig now has 55 bones. Current scapula-less character assets remain supported through the retarget fallback and were proven equivalent.
 
-```text
-python scripts/compare_rig_compatibility.py \
-  HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb \
-  PATH_TO_FINAL_RIG_GLb \
-  --json reports/final_rig_compatibility.json
-```
+The next asset-level shoulder stage is separate:
+1. keep/build suitable shoulder/back/chest/armpit topology
+2. introduce/use scapula deform influences in a candidate character asset when the binding pass starts
+3. prove neutral equivalence
+4. paint/tune local girdle weights
+5. only later enable/tune scapular rhythm
 
-Interpretation:
+## Remaining pre-final-weight decisions
 
-- added/reparented named nodes: inspect before binding
-- added/removed skin joints: weights/inverse binds need explicit handling
-- duplicate node names: stop and resolve ambiguity
-- no structural GLB change: the high-detail mesh can stay on its current source-character hierarchy and the new canonical mapping can be validated without rebinding first
-
-## Before final weights
-
-Must be settled or explicitly waived:
-- scapula hierarchy and default neutral state
+Still open unless a later source commit settles them:
+- palm-arch / hand-base decision
+- thumb-twist decision
 - forearm twist distribution
 - carrying angle
-- hand-base/palm-bone decision
-- shoulder/chest/back/armpit topology adequacy
 
-## First proof after any rebind
+The hand-base/thumb decision blocks **final hand weighting**, not knee retopology, hand geometry or material work.
 
-Before artistic weight tuning:
-1. neutral pose equivalence
-2. curl Bottom/Mid/Peak/Return
-3. squat stand/deepest
-4. shoulder press bottom/overhead
-5. push-up top/bottom
-6. pull-up bottom/top
-7. hand/equipment lock
-8. foot-floor lock
-9. renderer/exporter agreement
+## External consumer warning
 
-Only once those are stable should scapula weights/rhythm and final corrective/deformation tuning start.
+Animation exports from this baseline are `hgpt_canonical_v2`: two extra joints are present and upper-arm local rotations are relative to the scapula. Any external consumer still assuming the 53-joint v1 layout must be updated before consuming new exports.

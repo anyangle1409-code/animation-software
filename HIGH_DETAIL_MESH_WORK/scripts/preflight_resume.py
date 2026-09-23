@@ -1,102 +1,58 @@
 """Fast laptop resume preflight for the isolated high-detail mesh workspace."""
 
 from __future__ import annotations
-
-import glob
-import hashlib
-import json
-import os
-import shutil
-import subprocess
+import glob,hashlib,json,os,shutil,subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = {
-    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb":
-        "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
-    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb":
-        "0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
-    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend":
-        "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df",
+ROOT=Path(__file__).resolve().parents[1]
+REPO=ROOT.parent
+RIG_SHA="c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2"
+EXPECTED={
+ "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb":"ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
+ "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb":"0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
+ "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend":"2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df",
 }
-REQUIRED = [
-    "LAPTOP_CONTINUATION_HANDOFF.md",
-    "NEXT_ACTION.md",
-    "REVIEW_V6_KNEE_SEAM.md",
-    "REVIEW_V5_HANDS.md",
-    "REVIEW_V4B.md",
-    "reports/final_integrity_v6_knee_seam.json",
-    "reports/hand_contact_guard_v5.json",
-    "scripts/build_candidate_v6_knee_seam.py",
-    "scripts/verify_v6_knee_seam.py",
+REQUIRED=[
+ "CURRENT_STATE.md","RIG_55_BASELINE.md","LAPTOP_CONTINUATION_HANDOFF.md","NEXT_ACTION.md",
+ "REVIEW_V6_KNEE_SEAM.md","reports/final_integrity_v6_knee_seam.json",
+ "reports/hand_contact_guard_v5.json","scripts/prepare_rig55_validation.py",
+ "scripts/run_candidate_gates.py","scripts/finish_candidate.py"
 ]
 
-def sha256(path: Path) -> str:
-    h = hashlib.sha256()
+def sha256(path):
+    h=hashlib.sha256()
     with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            h.update(chunk)
+        for chunk in iter(lambda:stream.read(1024*1024),b""):h.update(chunk)
     return h.hexdigest()
 
-def run_git(*args: str) -> str:
-    try:
-        return subprocess.check_output(
-            ["git", *args], cwd=ROOT.parent, text=True, stderr=subprocess.DEVNULL
-        ).strip()
-    except Exception:
-        return "unavailable"
+def git_ok(*args):
+    return subprocess.run(["git",*args],cwd=REPO,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
 
-errors = []
+errors=[]
 print("HOME GYM PT mesh-work preflight")
-print("=" * 34)
-print("git branch:", run_git("branch", "--show-current"))
-print("git HEAD:  ", run_git("rev-parse", "HEAD"))
-
+print("="*34)
 for relative in REQUIRED:
-    path = ROOT / relative
-    if not path.is_file():
-        errors.append(f"missing required file: {relative}")
+    if not (ROOT/relative).is_file():errors.append(f"missing required file: {relative}")
+for name,expected in EXPECTED.items():
+    path=ROOT/name
+    if not path.is_file():errors.append(f"missing V6 baseline artifact: {name}");continue
+    actual=sha256(path);print(f"{'OK' if actual==expected else 'MISMATCH':8} {name}")
+    if actual!=expected:errors.append(f"hash mismatch: {name}")
 
-for name, expected in EXPECTED.items():
-    path = ROOT / name
-    if not path.is_file():
-        errors.append(f"missing V6 baseline artifact: {name}")
-        continue
-    actual = sha256(path)
-    status = "OK" if actual == expected else "MISMATCH"
-    print(f"{status:8} {name}")
-    if actual != expected:
-        errors.append(f"hash mismatch: {name}\n  expected {expected}\n  actual   {actual}")
-
-integrity = ROOT / "reports/final_integrity_v6_knee_seam.json"
+print("Rig v2 commit local:", "YES" if git_ok("cat-file","-e",f"{RIG_SHA}^{{commit}}") else "NO (resume will fetch it)")
+integrity=ROOT/"reports/final_integrity_v6_knee_seam.json"
 if integrity.is_file():
-    data = json.loads(integrity.read_text())
-    print("V6 body:  ", data.get("body_vertices"), "vertices /",
-          data.get("body_triangles"), "triangles")
-    print("degenerate:", data.get("degenerate_triangles"),
-          " nonmanifold>2:", data.get("nonmanifold_edges_more_than_two_faces"))
+    data=json.loads(integrity.read_text())
+    print("V6 body:",data.get("body_vertices"),"vertices /",data.get("body_triangles"),"triangles")
 
-blender = os.environ.get("BLENDER_EXE") or shutil.which("blender")
-if not blender and os.name == "nt":
-    matches = sorted(glob.glob(r"C:\\Program Files\\Blender Foundation\\Blender *\\blender.exe"), reverse=True)
-    blender = matches[0] if matches else None
-if blender and Path(blender).is_file():
-    try:
-        version = subprocess.check_output(
-            [blender, "--version"], text=True, stderr=subprocess.STDOUT
-        ).splitlines()[0]
-    except Exception:
-        version = "Blender found but version query failed"
-    print("Blender:   ", version)
-    print("Blender exe:", blender)
-else:
-    print("Blender:    not found; set BLENDER_EXE if it is installed outside PATH")
+blender=os.environ.get("BLENDER_EXE") or shutil.which("blender")
+if not blender and os.name=="nt":
+    matches=sorted(glob.glob(r"C:\Program Files\Blender Foundation\Blender *\blender.exe"),reverse=True)
+    blender=matches[0] if matches else None
+print("Blender:",blender or "not found; set BLENDER_EXE")
 
 if errors:
     print("\nPRE-FLIGHT FAILED")
-    for error in errors:
-        print("-", error)
+    for error in errors:print("-",error)
     raise SystemExit(1)
-
 print("\nPRE-FLIGHT PASS")
-print("Next: reproduce V6 before modelling, then work from WORK_START_HERE.md.")

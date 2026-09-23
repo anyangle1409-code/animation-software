@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AnimationClip, AnimationMixer, Object3D, Quaternion, Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import type { BoneName } from '../rig/boneNames';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
@@ -13,6 +14,18 @@ import { exportGlb } from './glb';
 
 const skeleton = canonicalSkeleton;
 const studioClip = generateClip(skeleton, bicepCurl);
+
+/**
+ * A bone and the joints above it, counted as joints rather than bones: a bone
+ * hinged exactly at its parent's head (the upper arm under the scapula) adds
+ * no joint between itself and the clavicle, so it adds no step either. For
+ * every bone of the 53-bone rig this is exactly its chain to the root.
+ */
+const jointChain = (name: BoneName): BoneName[] => {
+  const chain = [name];
+  for (let parent = skeleton.jointParent(name); parent; parent = skeleton.jointParent(parent)) chain.push(parent);
+  return chain;
+};
 
 describe('skinned rig', () => {
   const rig = buildSkinnedRig(skeleton);
@@ -47,8 +60,8 @@ describe('skinned rig', () => {
       // a joint crease instead of a limb detaching.
       const own = skeleton.bones[bones.getX(index)];
       const other = skeleton.bones[bones.getY(index)];
-      const ownChain = skeleton.chainToRoot(own.name).map((bone) => bone.name);
-      const otherChain = skeleton.chainToRoot(other.name).map((bone) => bone.name);
+      const ownChain = jointChain(own.name);
+      const otherChain = jointChain(other.name);
       let jointDistance = Infinity;
       ownChain.forEach((name, ownSteps) => {
         const otherSteps = otherChain.indexOf(name);

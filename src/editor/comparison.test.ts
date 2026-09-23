@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { generateClip } from '../animation/generate';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { canonicalSkeleton } from '../rig/skeleton';
+import { CORE_BONES } from '../rig/boneNames';
 import { frontPoseDiagram } from './comparison';
 
 const clip = generateClip(canonicalSkeleton, bicepCurl);
@@ -23,5 +24,15 @@ describe('pose comparison diagram', () => {
     const peak = frontPoseDiagram(clip.keyframes[1].pose).find((line) => line.bone === 'forearm_l')!;
     const distance = Math.hypot(start.x2 - peak.x2, start.y2 - peak.y2);
     expect(distance).toBeGreaterThan(0.08);
+  });
+
+  it('leaves the scapulae out, and draws every limb segment it drew before', () => {
+    // A scapula lies in the plane of the back; seen from the front it would be
+    // a diagonal across the chest.
+    const bones = frontPoseDiagram(clip.keyframes[0].pose).map((line) => line.bone);
+    expect(bones).not.toContain('scapula_l');
+    expect(bones).not.toContain('scapula_r');
+    expect(bones).toEqual(CORE_BONES.filter((bone) => bone !== 'root' && !/^scapula_/.test(bone)));
+    expect(bones).toHaveLength(22);
   });
 });

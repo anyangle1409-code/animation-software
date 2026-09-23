@@ -139,6 +139,27 @@ export class Skeleton {
     return out;
   }
 
+  /**
+   * The nearest ancestor that is a different joint — whose head does not sit
+   * on this bone's own head.
+   *
+   * Usually that is simply the parent. The exception is a bone hinged exactly
+   * where its parent is: the upper arm hangs from the scapula at the scapula's
+   * own head, the acromioclavicular joint, so measuring a shoulder "relative to
+   * its parent joint" against the scapula would measure it against itself. The
+   * joint the shoulder moves relative to is the clavicle's, one step further up.
+   */
+  jointParent(name: BoneName): BoneName | null {
+    const bone = this.bone(name);
+    let current = bone.parent;
+    while (current) {
+      const candidate = this.bone(current);
+      if (candidate.restHead.distanceTo(bone.restHead) > 1e-9) return current;
+      current = candidate.parent;
+    }
+    return null;
+  }
+
   isAncestorOf(ancestor: BoneName, descendant: BoneName): boolean {
     let current = this.bone(descendant).parent;
     while (current) {

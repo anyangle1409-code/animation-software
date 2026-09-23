@@ -179,8 +179,42 @@ const LEFT_BONES: BoneDefinition[] = [
     radius: 0.035,
   },
   {
-    name: 'upperarm_l',
+    // The shoulder blade, hinged to the clavicle at the acromioclavicular joint
+    // and carrying the arm. Its head is the clavicle's tail (which the widening
+    // below moves with it); its tail is the inferior angle, 2 cm under the back
+    // skin measured on the production character (-169 mm at 85 mm from the
+    // midline, 1.25 m up), so the bone lies along the blade's lateral border.
+    //
+    // It is structural only. Nothing drives it: every exercise leaves it at
+    // rest, and at rest the arm below it is where it always was — the upper
+    // arm keeps its world rest frame, and its local angles still mean exactly
+    // what they meant under the clavicle. A scapulohumeral rhythm, and the
+    // weights that would let the back surface follow it, are later decisions.
+    //
+    // Axes, measured rather than assumed (left side, 10° each):
+    //   -z swings the inferior angle 36 mm out from the spine: upward rotation.
+    //      Pivoting at the acromion it also drops 25 mm; the rise real upward
+    //      rotation shows comes from the clavicle elevating above it.
+    //   +x drives the inferior angle 40 mm forward into the ribs: posterior tilt.
+    //   +y presses the medial border 14 mm in against the ribs: external
+    //      rotation, so winging is -y.
+    // The limits cover what a measured scapulohumeral rhythm asked for at full
+    // elevation (32.7° up, 18.7° of tilt), with margin. With nothing driving the
+    // bone, they constrain only hand edits.
+    name: 'scapula_l',
     parent: 'clavicle_l',
+    head: vec3(-0.17, 1.44, -0.035),
+    tail: vec3(-0.09, 1.25, -0.15),
+    limits: joint(
+      limit(-10, 30, 'Posterior tilt', 'Anterior tilt'),
+      limit(-25, 25, 'External rotation', 'Internal rotation'),
+      limit(-45, 10, 'Downward rotation', 'Upward rotation'),
+    ),
+    radius: 0.03,
+  },
+  {
+    name: 'upperarm_l',
+    parent: 'scapula_l',
     head: vec3(-0.17, 1.44, -0.035),
     tail: vec3(-0.17, 1.14, -0.035),
     limits: joint(
@@ -421,6 +455,11 @@ const widened = (bones: BoneDefinition[]): BoneDefinition[] =>
     if (bone.name === 'clavicle_l') {
       // Its head stays at the sternum; only the tail follows the arm.
       return { ...bone, tail: vec3(bone.tail.x - SHOULDER_WIDENING, bone.tail.y, bone.tail.z) };
+    }
+    if (bone.name === 'scapula_l') {
+      // Hinged at the clavicle's tail, so its head follows it; the inferior
+      // angle stays where it was measured on the back.
+      return { ...bone, head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z) };
     }
     if (!/^(upperarm|forearm|hand|thumb|index|middle|ring|pinky)/.test(bone.name)) return bone;
     return {

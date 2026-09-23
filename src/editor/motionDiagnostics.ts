@@ -274,7 +274,7 @@ export function measureJointPath(
   skeleton: Skeleton,
   bone: BoneName,
 ): JointPathDiagnostic | null {
-  const parent = skeleton.bone(bone).parent;
+  const parent = skeleton.jointParent(bone);
   if (!parent) return null;
   const fps = clip.fps > 0 ? clip.fps : 30;
   const lastFrame = Math.max(1, Math.ceil(clip.duration * fps));

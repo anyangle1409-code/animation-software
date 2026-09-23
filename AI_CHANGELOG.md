@@ -6,6 +6,33 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — The scapulae join the skeleton, at rest, and nothing moves
+
+Suite **388 passed / 1 skipped** (48 files; was 364 / 45), typecheck and build clean. The canonical rig is now **55 bones**: `scapula_l/r` sit between each clavicle and upper arm. They are **structural only** — no rhythm, no IK, no authored target drives them, and no weights are painted to them yet. This follows the capability audit (the girdle was the one area needing a bone) and the scratchpad spike that proved a neutral scapula is safe.
+
+**Geometry.** Head at the acromioclavicular joint (the clavicle's tail, which is also the shoulder joint), tail at the inferior angle 2 cm under the production character's back skin, `(∓0.09, 1.25, −0.15)`. Axes were measured, not assumed: −z (left) swings the inferior angle 36 mm out, which is upward rotation; +x drives it 40 mm into the ribs, posterior tilt; +y presses the medial border in, external rotation. Limits −45..10 / −10..30 / ±25 cover what a measured rhythm asked for, with margin.
+
+**Equivalence, against a baseline dumped before any change** (7 exercises; values compared by bone name):
+
+| | values | bit-identical | worst difference |
+|---|---|---|---|
+| canonical frames: bone matrices, pose angles, root, equipment (61 frames each) | 436,394 | 64.5% | 2.7e-15 |
+| production character: all 160 bones + both hand/grip frames (21 frames each) | 381,024 | 78.4% | 5.4e-15 |
+| production character posed vertices | 1,365,714 | 71.5% | 1.8e-15 m |
+| procedural mannequin posed vertices | 1,464,960 | 75.1% | 1.8e-15 m |
+| contacts and technique violations | — | identical | 0 violations before and after |
+
+Not bitwise: the extra bone adds one quaternion product to each arm chain. Equipment clearance and arm-vs-trunk clearance reproduce their recorded values to the hundredth of a millimetre.
+
+**The dependencies the spike proved, shipped with it.**
+- *Retargeter*: a bone's rest direction now falls back to its nearest mapped canonical descendant, and attachments go to the nearest mapped canonical ancestor. Without this the production character — whose deform hierarchy is flattened — had its clavicles turned 6.75° and both upper arms cut loose. Direct children are still tried first, so every bone whose children are mapped resolves exactly as before.
+- *Certification*: a flattened-hierarchy case, clavicle included, with joint positions checked to 1 mm. It passes at 0.0000° / 0.0000 mm; with the retarget fix reverted it fails every exercise (clavicle 6.5°–77°, shoulder 46.6 mm). The five connected cases pass either way — they could never have caught it. Its thighs are flattened but not rolled: a rolled thigh turns the feet, the retargeter reads facing from the feet, and a 0.35° body re-alignment would hide the millimetre being watched.
+- *Mannequin skin*: the baked `ANATOMICAL_SKIN_INDICES` is positional; it is now resolved through `ANATOMICAL_SKIN_BONES`, the 53 names it was baked against. Read positionally, 8,387 of 13,952 vertices would have bound to the wrong bone (reverted, the test puts vertices 2.45 m out).
+- *Bone lists*: `scapula_l/r` in `CORE_BONES`; `isScapula`; `Skeleton.jointParent`, the nearest ancestor that is a different joint, now used where "parent joint" is meant — the joint-path diagnostic (which would otherwise measure the shoulder against itself) and muscle fitting (which keeps the clavicle for upper-arm muscles).
+- *Comparison and export*: the front-view diagram leaves the scapulae out (seen from the front a blade is a diagonal across the chest). Exported skeletons gain two joints; upper-arm tracks are now local to the scapula — every other track is bit-identical, and scapula rest × new upper-arm local reproduces the old upper-arm local to float32 track precision — so `SKELETON_ID` moves to `hgpt_canonical_v2`. The export skin test counts joints, not bones, keeping its 3-step bound.
+
+**Deliberately not done.** No scapulohumeral rhythm, no weight changes, no limit changes to the upper arm (which still carries full overhead elevation on its own), no mapping synonyms beyond the canonical name.
+
 ### Claude — 2026-09-23 — The squat becomes the third family, and disproves two of its own claims
 
 Commit `09bc84c`. Suite **364 passed / 1 skipped**, typecheck and build clean. Every exercise in the library — the squat included — is **byte-identical** afterwards: normalised definitions plus 61 fully resolved frames each, all seven unchanged.

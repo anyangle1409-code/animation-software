@@ -25,6 +25,42 @@ const bytes = (encoded: string): Uint8Array => {
 const float32 = (encoded: string): Float32Array => new Float32Array(bytes(encoded).buffer);
 const uint16 = (encoded: string): Uint16Array => new Uint16Array(bytes(encoded).buffer);
 
+/**
+ * The bones `ANATOMICAL_SKIN_INDICES` numbers, in the order it numbers them.
+ *
+ * The baked skin stores each influence as a position in the rig's bone list,
+ * and that list was the 53-bone rig's when it was generated. Positions are not
+ * a stable name for a bone: inserting the scapulae after the clavicles shifted
+ * every bone below them, and read positionally the baked skin would have bound
+ * 8,387 of the 13,952 vertices to the wrong bone. So the positions are resolved
+ * to names through this table and then to whatever index the rig in use gives
+ * each name. The table is data about the baked file and must never be edited
+ * to follow the rig; it changes only if the skin itself is re-baked.
+ */
+export const ANATOMICAL_SKIN_BONES: readonly string[] = [
+  'root', 'pelvis', 'spine_01', 'spine_02', 'spine_03', 'neck', 'head', 'clavicle_l', 'upperarm_l',
+  'forearm_l', 'hand_l', 'thigh_l', 'shin_l', 'foot_l', 'toe_l', 'thumb_01_l', 'thumb_02_l',
+  'thumb_03_l', 'index_01_l', 'index_02_l', 'index_03_l', 'middle_01_l', 'middle_02_l',
+  'middle_03_l', 'ring_01_l', 'ring_02_l', 'ring_03_l', 'pinky_01_l', 'pinky_02_l', 'pinky_03_l',
+  'clavicle_r', 'upperarm_r', 'forearm_r', 'hand_r', 'thigh_r', 'shin_r', 'foot_r', 'toe_r',
+  'thumb_01_r', 'thumb_02_r', 'thumb_03_r', 'index_01_r', 'index_02_r', 'index_03_r',
+  'middle_01_r', 'middle_02_r', 'middle_03_r', 'ring_01_r', 'ring_02_r', 'ring_03_r', 'pinky_01_r',
+  'pinky_02_r', 'pinky_03_r',
+];
+
+/** The baked influences, renumbered for `rig` by bone name. */
+function skinIndicesFor(rig: Skeleton): Uint16Array {
+  const baked = uint16(ANATOMICAL_SKIN_INDICES);
+  const slots = ANATOMICAL_SKIN_BONES.map((name) => {
+    if (!rig.has(name)) {
+      throw new Error(`The anatomical skin binds to "${name}", which this rig does not have.`);
+    }
+    return rig.bone(name).index;
+  });
+  for (let entry = 0; entry < baked.length; entry += 1) baked[entry] = slots[baked[entry]];
+  return baked;
+}
+
 /** Build the reproducible anatomical surface in the canonical rig's bind pose. */
 export interface AnatomicalOptions {
   /**
@@ -167,7 +203,7 @@ export function buildAnatomicalBodyGeometry(
 ): BodyGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(float32(ANATOMICAL_POSITIONS), 3));
-  geometry.setAttribute('skinIndex', new BufferAttribute(uint16(ANATOMICAL_SKIN_INDICES), 4));
+  geometry.setAttribute('skinIndex', new BufferAttribute(skinIndicesFor(rig), 4));
   geometry.setAttribute('skinWeight', new BufferAttribute(float32(ANATOMICAL_SKIN_WEIGHTS), 4));
   geometry.setIndex(new BufferAttribute(uint16(ANATOMICAL_INDICES), 1));
   realignArmSurface(

@@ -222,7 +222,11 @@ export function bindRetarget(
     return false;
   };
   for (const entry of bones) {
-    const parentName = rig.bone(entry.canonical).parent;
+    // The nearest *mapped* canonical ancestor, not merely the parent: a bone
+    // the character lacks — the scapula, between the clavicle and the upper
+    // arm — must not cut the arm loose from the shoulder it hangs from.
+    let parentName = rig.bone(entry.canonical).parent;
+    while (parentName && !byCanonical.has(parentName)) parentName = rig.bone(parentName).parent;
     const parent = parentName ? byCanonical.get(parentName)?.bone : undefined;
     if (parent && !hasAncestor(entry.bone, parent)) {
       attachments.set(entry.bone, {
@@ -435,6 +439,31 @@ function palmTail(
 }
 
 /**
+ * The nearest mapped canonical descendant's rest position, searching through
+ * unmapped bones depth-first in canonical child order.
+ */
+function mappedDescendant(
+  children: readonly BoneName[],
+  character: TargetCharacter,
+  mapping: BoneMapping,
+  rig: Skeleton,
+  head: Vector3,
+): Vector3 | null {
+  for (const childName of children) {
+    if (mapping.bones[childName]) continue;
+    const grandchildren = rig.bone(childName).children;
+    for (const grandchild of grandchildren) {
+      const mapped = mapping.bones[grandchild];
+      const position = mapped ? character.restWorldPosition.get(mapped) : undefined;
+      if (position && position.distanceTo(head) > 1e-4) return position;
+    }
+    const deeper = mappedDescendant(grandchildren, character, mapping, rig, head);
+    if (deeper) return deeper;
+  }
+  return null;
+}
+
+/**
  * The far end of a target bone at rest, taken from whichever bone our own rig
  * says comes next. Using our topology rather than the character's avoids being
  * confused by twist bones and other rig-specific extras.
@@ -458,6 +487,17 @@ function restTail(
     const position = mapped ? character.restWorldPosition.get(mapped) : undefined;
     if (position && position.distanceTo(head) > 1e-4) return position;
   }
+
+  // No direct child is mapped: look through the unmapped ones to the nearest
+  // mapped descendant. This is what lets the canonical rig carry bones a
+  // character does not have. The clavicle's only canonical child is the
+  // scapula, which no imported character maps, so without this the clavicle
+  // would lose the upper arm that defines its shaft and fall back to whatever
+  // the character's own export says — on the production character, a 6.75°
+  // different frame. Direct children are still tried first, above, so a bone
+  // whose children are mapped resolves exactly as it always did.
+  const descendant = mappedDescendant(rigBone.children, character, mapping, rig, head);
+  if (descendant) return descendant;
 
   // A leaf, or a bone whose children are unmapped: follow the character's own
   // hierarchy, and failing that extend along the canonical bone's direction.

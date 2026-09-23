@@ -389,7 +389,8 @@ export function muscleInstance(muscle: MuscleDefinition, side: Side | null): Mus
   if (outwardAxis.lengthSq() < 1e-8) outwardAxis.set(0, 0, 1);
   const bones = new Set<string>(path.map((attachment) => attachment.bone));
   for (const attachment of path) {
-    const parent = canonicalSkeleton.bone(attachment.bone).parent;
+    // The joint above the attachment, not a bone hinged at the same point.
+    const parent = canonicalSkeleton.jointParent(attachment.bone);
     if (parent && parent !== 'root') bones.add(parent);
   }
   return {

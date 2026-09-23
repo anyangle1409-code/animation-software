@@ -11,7 +11,15 @@ import { MUSCLE_GROUPS } from '../muscles/groups';
 
 export const ANIMATION_FORMAT = 'hgpt-animation';
 export const METADATA_FORMAT = 'hgpt-exercise';
-export const SKELETON_ID = 'hgpt_canonical_v1';
+/**
+ * The skeleton exported rotations are written against. v2 is the 55-bone rig:
+ * the scapulae sit between the clavicles and the upper arms, so an upper arm's
+ * local rotation is now relative to its scapula. World motion is unchanged —
+ * scapula rest × v2 upper-arm local reproduces the v1 upper-arm local — but a
+ * reader still bound to v1's hierarchy would misapply the new tracks, which is
+ * why the identifier changes.
+ */
+export const SKELETON_ID = 'hgpt_canonical_v2';
 
 export interface AnimationJson {
   format: typeof ANIMATION_FORMAT;

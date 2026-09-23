@@ -26,10 +26,12 @@ export const CORE_BONES = [
   'neck',
   'head',
   'clavicle_l',
+  'scapula_l',
   'upperarm_l',
   'forearm_l',
   'hand_l',
   'clavicle_r',
+  'scapula_r',
   'upperarm_r',
   'forearm_r',
   'hand_r',
@@ -57,6 +59,13 @@ export const ALL_BONES: BoneName[] = [...CORE_BONES, ...FINGER_BONES];
 
 export const isFingerBone = (name: BoneName): name is FingerBoneName =>
   FINGERS.some((finger) => name.startsWith(`${finger}_`));
+
+/**
+ * The shoulder blades. Structural: they carry the arm from the clavicle but
+ * nothing drives them yet, no imported character is expected to have them,
+ * and views built from limb segments leave them out.
+ */
+export const isScapula = (name: BoneName): boolean => name === 'scapula_l' || name === 'scapula_r';
 
 /** The side a bone belongs to, or null for centre-line bones. */
 export function boneSide(name: BoneName): Side | null {

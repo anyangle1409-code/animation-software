@@ -37,7 +37,7 @@ def main():
         print("Bare GLB missing; creating it from the dressed candidate.")
         run([sys.executable,ROOT/"scripts"/"make_bare_variant.py",args.version])
 
-    run([sys.executable,ROOT/"scripts"/"run_candidate_gates.py","--version",args.version])
+    run([sys.executable,ROOT/"scripts"/"run_candidate_gates.py","--version",args.version,"--task",args.task])
     if args.task=="knee":
         run([sys.executable,ROOT/"scripts"/"audit_knee_topology_candidate.py",candidate])
     elif args.task=="hand":

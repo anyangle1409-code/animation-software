@@ -19,7 +19,6 @@
     "nonmanifold_edges_gt2": 0
   },
   "rig_baseline": {
-    "commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
     "branches": [
       "chatgpt/absolute-retarget-imports",
       "claude/home-gym-pt-animation-txux66"
@@ -33,9 +32,12 @@
     "palm_cupping_driven": false,
     "thumb_twist_driven": false,
     "production_asset_binary_changed": false,
-    "tests": "418 passed / 1 skipped, 51 files",
+    "tests": "426 passed / 1 skipped, 52 files",
     "typecheck": "clean",
-    "build": "clean"
+    "build": "clean",
+    "freeze_commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+    "runtime_validation_commit": "614033b256d869230ea273522620467401b0bc71",
+    "hand_roll_fix": true
   },
   "proven_in_v6": [
     "inner-knee paired seam gap is 0 mm in saved V6 pose snapshots",
@@ -97,7 +99,7 @@
     "unexplained rig, animation, material, skin or retarget changes appear"
   ],
   "open_nonstructural_items": [
-    "mirrored-character hand-roll retarget issue",
+    "curl grip should be re-fit/reviewed in the corrected hand frame; widest finger-wrap gap increased from 36° to 66°",
     "production palm bones need correct re-export/binding before visible palm cupping",
     "mannequin hand shape disagrees with canonical knuckles"
   ]

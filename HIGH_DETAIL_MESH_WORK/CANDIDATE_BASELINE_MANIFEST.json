@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "workspace": "HIGH_DETAIL_MESH_WORK",
   "geometry_baseline": {
     "branch": "codex-high-detail-candidate-v6-knee-review-20260922",
@@ -19,22 +19,21 @@
     "nonmanifold_edges_gt2": 0
   },
   "rig_baseline": {
-    "commit": "c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2",
+    "commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
     "branches": [
       "chatgpt/absolute-retarget-imports",
       "claude/home-gym-pt-animation-txux66"
     ],
-    "canonical_bones": 55,
-    "skeleton_id": "hgpt_canonical_v2",
-    "scapulae": [
-      "scapula_l",
-      "scapula_r"
-    ],
-    "scapula_default": "rest",
+    "canonical_bones": 63,
+    "skeleton_id": "hgpt_canonical_v3",
+    "structurally_frozen": true,
+    "metacarpals": 8,
+    "thumb_base": "thumb_01 is the CMC/metacarpal control; no extra thumb bone",
     "scapular_rhythm": false,
-    "scapula_weights_painted": false,
+    "palm_cupping_driven": false,
+    "thumb_twist_driven": false,
     "production_asset_binary_changed": false,
-    "tests": "388 passed / 1 skipped, 48 files",
+    "tests": "418 passed / 1 skipped, 51 files",
     "typecheck": "clean",
     "build": "clean"
   },
@@ -59,7 +58,7 @@
       "id": "hand_anatomy_geometry",
       "status": "ready",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
-      "note": "Do not finalise hand weights until hand-base/thumb-twist architecture is settled."
+      "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },
     {
       "priority": 3,
@@ -82,18 +81,13 @@
       "task": "Final shoulder/chest/back/armpit binding and deformation tuning."
     }
   ],
-  "unresolved_structural_decisions": [
-    "palm-arch / hand-base",
-    "thumb-twist",
-    "forearm twist distribution unless a later commit settles it",
-    "carrying angle unless a later commit settles it"
-  ],
+  "unresolved_structural_decisions": [],
   "required_tools": {
     "resume": "RESUME_WORK.bat",
-    "prepare_rig55_validation": "python scripts/prepare_rig55_validation.py",
     "start_candidate": "START_CANDIDATE.bat <version>",
     "finish_candidate": "FINISH_CANDIDATE.bat <version> <task>",
-    "rig_compare": "python scripts/compare_rig_compatibility.py OLD.glb NEW.glb --json reports/final_rig_compatibility.json"
+    "rig_compare": "python scripts/compare_rig_compatibility.py OLD.glb NEW.glb --json reports/final_rig_compatibility.json",
+    "prepare_rig63_validation": "python scripts/prepare_rig63_validation.py"
   },
   "stop_conditions": [
     "a visual fix requires changing accepted exercise mechanics, IK, grip/contact, or equipment transforms",
@@ -101,5 +95,10 @@
     "new hand geometry changes floor contact unexpectedly",
     "scapular rhythm is required to make a mesh-only candidate look acceptable",
     "unexplained rig, animation, material, skin or retarget changes appear"
+  ],
+  "open_nonstructural_items": [
+    "mirrored-character hand-roll retarget issue",
+    "production palm bones need correct re-export/binding before visible palm cupping",
+    "mannequin hand shape disagrees with canonical knuckles"
   ]
 }

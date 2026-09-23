@@ -6,6 +6,34 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — The squat becomes the third family, and disproves two of its own claims
+
+Commit `09bc84c`. Suite **364 passed / 1 skipped**, typecheck and build clean. Every exercise in the library — the squat included — is **byte-identical** afterwards: normalised definitions plus 61 fully resolved frames each, all seven unchanged.
+
+**Shared.** The standing stance — foot spec, floor locks, planted rule — is the same *shape* below the waist as above it. The squat had authored its locks inline where the upper body used the shared helper; those now come from one place.
+
+**Not shared, and correcting it is what this turned up.** `plantedStance` had baked in 32 cm, 6° of toe-out and a 12 mm foot tolerance, claiming in its own comment that the curl, the press **and** the squat had settled on those independently. Two of the three had. A squat stands **42 cm** wide with **12°** of toe-out and allows **15 mm** of drift — a wider base to descend into, toes turned out so the knees track over them, and a foot carrying a whole body through half a metre of travel deforming more than one standing still under a curl. Those are parameters now, with the upper-body values as defaults.
+
+**Not extracted, deliberately.** Heel contact, knee tracking, depth and shin angle all look like lower-body primitives rather than squat rules, and probably are — but this is the only lower-body exercise, and one instance cannot tell a shared rule from a local one.
+
+**The modelling gap, which was not what it looked like.** The family's first draft claimed breaking the depth bundle "leaves the locks to absorb the difference, which they do by moving the feet". Measured, **the feet do not move**: drift holds at 0.25 mm through every probe, including deliberately inconsistent ones, because the locks keep the contact and pay for it in joint angles instead.
+
+What actually happens is stronger — **the hip and knee `jointTargets` are outputs, not inputs**:
+
+| changed | asked hip/knee/ankle | resolved | pelvis y |
+|---|---|---|---|
+| *shipped* | 100 / −114 / 26 | 101.5 / −112.8 / 26.0 | 510 mm |
+| hip → 85 | **85** / −114 / 26 | **100.9** / −112.8 / 26.0 | 510 mm |
+| knee → −95 | 100 / **−95** / 26 | 101.5 / **−112.8** / 26.0 | 510 mm |
+| ankle → 16 | 100 / −114 / **16** | 101.5 / −112.8 / **16.0** | 510 mm |
+| root y → −0.34 | 100 / −114 / 26 | 88.5 / −97.8 / 26.0 | **610 mm** |
+
+The root placement is the only control. The ankle is the exception and does drive, because a `floor` lock fixes where the foot is, not which way it points.
+
+That matters beyond the squat: those hip and knee numbers are what the definition documents, what a coach reads and what the technique rules check, so a variant changing them without the root would describe a movement different from the one it plays — and **nothing else in the codebase would notice**. `squat.test.ts` now measures the agreement, holding hip and knee to 3° of the solved result (they currently show 1.5° and 1.2°; an inconsistent bundle produces 16°).
+
+An earlier reading had the sample time wrong, taking mid-descent for the bottom of a 2/0.4/1.6/0.4 tempo. The figures above are from the bottom hold.
+
 ### Claude — 2026-09-23 — A second family, a third curl, and a variant withdrawn on measurement
 
 Commit `691555f`. Suite **360 passed / 1 skipped**, typecheck and build clean.

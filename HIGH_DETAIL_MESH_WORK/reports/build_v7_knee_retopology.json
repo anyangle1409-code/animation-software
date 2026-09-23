@@ -1,0 +1,11 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.glb",
+  "moved_vertices": 1059,
+  "mirrored_pairs": 537,
+  "max_rest_move_mm": 25.14607349650572,
+  "uv0_and_uv1_unchanged": true,
+  "rig_skin_animation_material_fields_unchanged": true,
+  "glb_uv_split_pairs": 30,
+  "note": "Editable Blend welds pairs as one topology; GLB duplicates vertices at UV0 island seam."
+}

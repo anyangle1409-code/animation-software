@@ -6,6 +6,8 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 The latest reviewed geometry baseline is **V6 knee seam**. The V6 asset itself was created at commit `b2203cfccd30d6835473ef2e1dee37965da22d02`.
 
+V7 knee retopology is a new, validated **review candidate**, not yet the accepted baseline. Read `REVIEW_V7_KNEE_RETOPOLOGY.md` and the matched-camera knee comparison before further modelling. The master handoff requires stopping for this review before Phase B hand geometry.
+
 The canonical hierarchy is frozen at **63 bones** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). The current validated runtime/retarget source is `614033b256d869230ea273522620467401b0bc71`, which fixes mirrored-character hand roll without changing the frozen hierarchy. Read `RIG_63_FREEZE.md`.
 
 Current candidate assets:

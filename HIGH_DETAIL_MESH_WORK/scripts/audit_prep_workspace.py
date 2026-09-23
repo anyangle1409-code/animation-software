@@ -31,7 +31,7 @@ else:
         if not path.is_file():errors.append(f"missing baseline artifact {path.name}")
         elif not expected or sha(path)!=expected:errors.append(f"baseline hash mismatch {path.name}")
     rig=m.get("rig_baseline",{})
-    if rig.get("commit")!="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe":errors.append("manifest rig baseline is not 19ca602")
+    if rig.get("freeze_commit")!="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe":errors.append("manifest rig baseline is not 19ca602")
     if rig.get("canonical_bones")!=63:errors.append("manifest canonical bone count is not 63")
 
 print("PREPARATION WORKSPACE AUDIT")

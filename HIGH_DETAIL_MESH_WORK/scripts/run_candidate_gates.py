@@ -27,14 +27,16 @@ GUARDS=[
 def run(cmd,cwd=None,env=None,log=None):
     print("+"," ".join(str(x) for x in cmd),flush=True)
     proc=subprocess.Popen([str(x) for x in cmd],cwd=str(cwd) if cwd else None,env=env,
-        stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,errors="replace")
+        stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding="utf-8",errors="replace")
     chunks=[]
     assert proc.stdout is not None
     for line in proc.stdout:
-        print(line,end="");chunks.append(line)
+        sys.stdout.buffer.write(line.encode("utf-8",errors="replace"))
+        sys.stdout.buffer.flush()
+        chunks.append(line)
     code=proc.wait()
     if log:
-        log.parent.mkdir(parents=True,exist_ok=True);log.write_text("".join(chunks))
+        log.parent.mkdir(parents=True,exist_ok=True);log.write_text("".join(chunks),encoding="utf-8")
     if code:raise SystemExit(code)
 
 def ensure_rig63_source():

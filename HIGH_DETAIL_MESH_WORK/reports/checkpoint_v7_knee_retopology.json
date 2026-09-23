@@ -1,0 +1,41 @@
+{
+  "version": "v7_knee_retopology",
+  "branch": "codex-high-detail-candidate-v6-knee-review-20260922",
+  "head": "9e7bc18b2ed1ff2c3e9798724986311c46570dc2",
+  "artifacts": {
+    "dressed_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.glb",
+      "bytes": 7145488,
+      "sha256": "f6346ac4da1508cc15bb16d6406d7cc0cc8c97a92c173d57d2d422bcb9a59d6d"
+    },
+    "bare_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology_BARE.glb",
+      "bytes": 7145480,
+      "sha256": "08c6ff33a07900880773e363583b2d6a5dce638e204f4dca4623925e9ebee410"
+    },
+    "blend": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.blend",
+      "bytes": 3585563,
+      "sha256": "eeeae666812fb61a00f98bcde308dbbdc38ffd112ead3a9294424094e30a6622"
+    }
+  },
+  "glb": {
+    "body_vertices": 33089,
+    "body_triangles": 62961,
+    "nodes": 163,
+    "skins": 1,
+    "animations": 0,
+    "materials": 2
+  },
+  "rig_baseline": {
+    "freeze_commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+    "runtime_validation_commit": "614033b256d869230ea273522620467401b0bc71",
+    "skeleton_id": "hgpt_canonical_v3",
+    "canonical_bones": 63
+  },
+  "expected_followup_logs": [
+    "reports/v7_knee_retopology_rig63_guards.log",
+    "reports/v7_knee_retopology_rig63_exercises.log",
+    "reports/exercise_validation_v7_knee_retopology.json"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.blend",
+  "body_vertices_before": 33089,
+  "body_vertices_after": 33059,
+  "triangles_unchanged": 62961,
+  "uv_loop_counts_unchanged": {
+    "UVMap": 188883,
+    "UVMap.001": 188883
+  },
+  "welded_pairs": 30,
+  "frozen_rig_objects_unedited": true
+}

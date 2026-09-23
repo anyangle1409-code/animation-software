@@ -1,0 +1,13 @@
+{
+  "body_vertices": 33059,
+  "body_triangles": 62961,
+  "local_boundary_edges_in_blend": {
+    "L": 19,
+    "R": 18
+  },
+  "uv_loop_counts": {
+    "UVMap": 188883,
+    "UVMap.001": 188883
+  },
+  "armature_objects": 1
+}

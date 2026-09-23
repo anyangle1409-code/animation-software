@@ -1,0 +1,33 @@
+{
+  "v6_sha256_unchanged": "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
+  "pinned_source_files_unchanged": 400,
+  "reference_source": "pinned Git archive f9cca7c",
+  "glb_document_equal_to_v6": true,
+  "uv_skin_weights_indices_equal_to_v6": true,
+  "changed_position_vertices": 1078,
+  "max_rest_move_mm": 25.14608906558031,
+  "changed_positions_knee_region_only": true,
+  "body_stats": {
+    "vertices": 33089,
+    "triangles": 62961,
+    "degenerate_triangles": 0,
+    "nonmanifold_edges_gt2": 0
+  },
+  "paired_seam_rest_gap_mm": 0.0,
+  "saved_pose_count": 28,
+  "max_paired_seam_pose_gap_mm": 0.0,
+  "artifacts": {
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.glb": {
+      "bytes": 7145488,
+      "sha256": "f6346ac4da1508cc15bb16d6406d7cc0cc8c97a92c173d57d2d422bcb9a59d6d"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology_BARE.glb": {
+      "bytes": 7145480,
+      "sha256": "08c6ff33a07900880773e363583b2d6a5dce638e204f4dca4623925e9ebee410"
+    },
+    "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.blend": {
+      "bytes": 3585563,
+      "sha256": "eeeae666812fb61a00f98bcde308dbbdc38ffd112ead3a9294424094e30a6622"
+    }
+  }
+}

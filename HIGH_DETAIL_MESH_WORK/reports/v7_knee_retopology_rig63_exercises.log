@@ -1,0 +1,13 @@
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/animation-software/HIGH_DETAIL_MESH_WORK/_repo_checkout/HIGH_DETAIL_MESH_WORK/validation_63
+
+stdout | scratchpad/repair/review_v3.test.mts > compares all five exercises with frozen rig, correctives and actual equipment frames
+[{"name":"Dumbbell Bicep Curl","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Hammer Curl","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Reverse Curl","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Push-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Bodyweight Squat","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Dumbbell Shoulder Press","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true},{"name":"Pull-Up","frames":26,"handMaxDifferenceMm":0,"boneMatrixMaxDifference":0,"equipmentMatrixMaxDifference":0,"techniqueViolations":[],"unreachable":[],"loopClosed":true}]
+
+ ✓ scratchpad/repair/review_v3.test.mts (1 test) 19095ms
+   ✓ compares all five exercises with frozen rig, correctives and actual equipment frames  19091ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  18:23:07
+   Duration  24.73s (transform 1.03s, setup 112ms, collect 4.83s, tests 19.09s, environment 0ms, prepare 256ms)

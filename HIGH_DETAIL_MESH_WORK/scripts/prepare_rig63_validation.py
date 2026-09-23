@@ -1,14 +1,21 @@
 """Prepare isolated validation from frozen 63-bone canonical source."""
 
 from __future__ import annotations
-import io,json,os,shutil,subprocess,tarfile
+import hashlib,io,json,os,shutil,subprocess,tarfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parent
 TARGET=ROOT/"validation_63"
 LEGACY=ROOT/"validation"
+if not (LEGACY/"node_modules").is_dir() and (ROOT.parents[1]/"validation"/"node_modules").is_dir():
+    LEGACY=ROOT.parents[1]/"validation"
 RIG_SHA="614033b256d869230ea273522620467401b0bc71"
+FROZEN_SHA="f9cca7c34880a2c5e30b63a42c762d7fd99205e8"
+FROZEN_FILES={
+    "HomeGymPT_Male_CORNER_FINAL.glb":"b08844339fb66e54a290eb9687fdc48296d087e4cbbb83981041a03d8501cc7a",
+    "HomeGymPT_Male_CORNER_FINAL_SHORTS.glb":"fe30c1dadb1dca442b79155cf3bb662e7b22b4f6f48ee806258fde798e34a71b",
+}
 MARKER=TARGET/".rig_source_commit"
 ARCHIVE_CANDIDATES=[
  "src","package.json","package-lock.json","pnpm-lock.yaml","tsconfig.json","vite.config.ts",
@@ -29,6 +36,20 @@ def ensure_commit():
     fetch=git("fetch","origin","chatgpt/absolute-retarget-imports",check=False,capture=False)
     if fetch.returncode!=0 or not has_commit():
         raise SystemExit("Could not obtain current v3 runtime source commit. Fetch origin/chatgpt/absolute-retarget-imports and rerun.")
+
+def ensure_frozen_reference():
+    destination=ROOT/"reference"/f"anyangle1409-code-animation-software-{FROZEN_SHA[:7]}"/"HOME_GYM_PT_GPT_MESH_HANDOFF"/"characters"
+    for name,expected in FROZEN_FILES.items():
+        target=destination/name
+        if not target.is_file():
+            source=f"{FROZEN_SHA}:HOME_GYM_PT_GPT_MESH_HANDOFF/characters/{name}"
+            data=subprocess.check_output(["git","show",source],cwd=REPO)
+            if hashlib.sha256(data).hexdigest()!=expected:raise SystemExit(f"Frozen repo reference hash mismatch: {name}")
+            destination.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(data)
+        if hashlib.sha256(target.read_bytes()).hexdigest()!=expected:
+            raise SystemExit(f"Frozen local reference hash mismatch: {name}")
+    print("Verified frozen bare/dressed references from",FROZEN_SHA[:7])
 
 def exists_at_commit(path):
     return git("cat-file","-e",f"{RIG_SHA}:{path}",check=False).returncode==0
@@ -73,6 +94,7 @@ def deps():
     subprocess.run([npm,"ci"],cwd=TARGET,check=True)
 
 def main():
+    ensure_frozen_reference()
     ensure_commit()
     if MARKER.is_file() and MARKER.read_text().strip()==RIG_SHA and (TARGET/"src"/"rig"/"frozen.test.ts").is_file():
         print("validation_63 already prepared at",RIG_SHA);deps();return

@@ -1,13 +1,7 @@
-Read CURRENT_STATE.md and RIG_55_BASELINE.md first.
+# Next action after V7 knee review candidate
 
-V6 knee seam remains the latest reviewed geometry baseline. The canonical runtime baseline is now c2372c1 / 55 bones / hgpt_canonical_v2.
+V6 remains the latest **reviewed** geometry baseline. V7 is a separate knee candidate awaiting review on the `codex-high-detail-candidate-v7-knee-review-20260923` branch. Read `WORK_MASTER_HANDOFF.md` and `REVIEW_V7_KNEE_RETOPOLOGY.md`, then inspect `renders_v7_knee_retopology/V7_KNEE_V6_COMPARISON.jpg`.
 
-Next autonomous modelling order:
-1. retopologize the still-open medial-knee strips into connected anatomical loops and reshape the pointed overhang;
-2. model realistic finger/thumb/palm/wrist geometry on the contact-safe topology;
-3. refine skin materials;
-4. if time remains, prepare shoulder/back/chest/armpit topology/geometry for the confirmed scapula structure.
+The V7 squat knee is visibly cleaner, but a small medial notch and simplified patellar dome remain. Do not accept this as production ready without reviewing those views and deformation. If V7 is accepted as the next geometry baseline, continue to Phase B hand anatomy. If the knee contour needs another pass, make a new candidate based on V7, improve that local region, and rerun the supplied guards. Preserve V6 and V7.
 
-Use START_CANDIDATE.bat <version> to create a fresh working copy. After editing/exporting, use FINISH_CANDIDATE.bat <version> <task>. Validation must run against validation_55 prepared from c2372c1.
-
-Do not finalise hand weights, enable scapular rhythm, or promote production assets. Final scapula deform weighting requires an explicit character-asset binding pass and fresh neutral-equivalence proof.
+The canonical hierarchy is frozen at 63 bones, commit `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe`; candidate runtime validation uses `614033b256d869230ea273522620467401b0bc71`. Do not change production assets, accepted exercise mechanics, grip/contact guards, `bundled.ts`, or the frozen rig. Do not promote automatically.

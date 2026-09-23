@@ -1,0 +1,8 @@
+{
+  "version": "v7_knee_retopology",
+  "base": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend",
+  "base_sha256": "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df",
+  "candidate_blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v7_knee_retopology.blend",
+  "candidate_sha256": "843318ee9b7138ad972e017172082a855083a2c8c150befdc9060bfd447cfaf6",
+  "note": "AUDIT_* groups are selection helpers only; candidate remains review-only."
+}

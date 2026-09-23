@@ -135,13 +135,21 @@ export function retargetedCharacterSource(
 
       const mapping = options.mapping ?? guessedMapping(options.label, scene, character.boneNames);
       const embeddedGripOffsets = readGripOffsets(scene.userData?.homeGymPT?.gripFrameOffsets);
-      const gripOffsets = options.gripFrameOffsets ?? embeddedGripOffsets;
       // Where a handle sits inside this character's closed fist, measured on
       // its own wrapping fingers. Separate from the grip *frame* above, which
       // is the palm contact point; stacking the canonical constant on that
       // frame put the handle outside the fist.
       const handleOffsets = readGripOffsets(scene.userData?.homeGymPT?.handleGripOffsets);
       const binding = bindRetarget(character, mapping, rig);
+
+      // Grip metadata embedded in an asset names places on its own mesh — the
+      // centre of its closed fist, its palm's contact point — measured in the
+      // hand frame of the day. Unless it says it was measured in the corrected
+      // frame, that was the frame before mirrored characters' palm roll was
+      // reflected, and it is turned into the current one so it still names the
+      // same places. Offsets a caller passes are taken as given.
+      const turn = handFrameTurn(scene.userData?.homeGymPT?.offsetFrame, binding.legacyHandFrame);
+      const gripOffsets = options.gripFrameOffsets ?? inHandFrame(embeddedGripOffsets, turn);
 
       // The one change made to the character: a uniform scale so a model of
       // any height stands at the rig's scale. `applyRetarget` already scales
@@ -216,12 +224,13 @@ export function retargetedCharacterSource(
       const gripOffset = handleOffsets
         ? (side: Side) => {
             const embedded = handleOffsets[side] ?? anatomicalGripOffset(side);
-            if (!centre) return embedded;
-            return {
-              x: embedded.x + (side === 'l' ? centre.x : -centre.x),
-              y: embedded.y + centre.y,
-              z: embedded.z + centre.z,
-            };
+            // The embedded centre and the solved correction to it were both
+            // measured in the old frame; they are summed there, then turned.
+            const summed = centre
+              ? new Vector3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
+              : new Vector3(embedded.x, embedded.y, embedded.z);
+            summed.applyQuaternion(turn[side]);
+            return { x: summed.x, y: summed.y, z: summed.z };
           }
         : undefined;
 
@@ -400,6 +409,40 @@ export function retargetSampler(
       return built;
     },
   };
+}
+
+/**
+ * The frame embedded grip metadata declares itself measured in. `hand-v2` is
+ * the hand frame with mirrored characters' palm roll reflected; anything else,
+ * including no declaration — every asset delivered before the correction —
+ * was measured in the frame before it.
+ */
+export const CORRECTED_HAND_FRAME = 'hand-v2';
+
+/** The turn that brings embedded grip offsets into the current hand frame. */
+export function handFrameTurn(
+  declared: unknown,
+  legacyHandFrame: Record<Side, Quaternion>,
+): Record<Side, Quaternion> {
+  return declared === CORRECTED_HAND_FRAME
+    ? { l: new Quaternion(), r: new Quaternion() }
+    : legacyHandFrame;
+}
+
+/** Offsets expressed in the hand frame they were measured in, turned into the current one. */
+export function inHandFrame(
+  offsets: Partial<Record<Side, { x: number; y: number; z: number }>> | undefined,
+  turn: Record<Side, Quaternion>,
+): Partial<Record<Side, { x: number; y: number; z: number }>> | undefined {
+  if (!offsets) return offsets;
+  const result: Partial<Record<Side, { x: number; y: number; z: number }>> = {};
+  for (const side of ['l', 'r'] as const) {
+    const offset = offsets[side];
+    if (!offset) continue;
+    const turned = new Vector3(offset.x, offset.y, offset.z).applyQuaternion(turn[side]);
+    result[side] = { x: turned.x, y: turned.y, z: turned.z };
+  }
+  return result;
 }
 
 async function loadScene(options: RetargetedCharacterOptions): Promise<Object3D> {

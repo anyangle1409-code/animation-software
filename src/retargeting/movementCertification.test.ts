@@ -339,3 +339,108 @@ describe('flattened-hierarchy movement certification, collarbone included', () =
     );
   });
 });
+
+/**
+ * A mirrored character must retarget exactly as well as a same-side one.
+ *
+ * The production character is mirrored — its left side lies where the rig's
+ * right is — and every canonical frame is reflected into it at runtime. A
+ * rig-space rotation baked into a binding without the same reflection shows
+ * up only on mirrored characters, and did: the hand and finger roll correction
+ * turned a mirrored character's knuckle fan 5.5° (the thumb base 8.6°), against
+ * 0.5° same-side, while every same-side certification passed.
+ *
+ * So the same character is built both ways — the mirrored one carrying each
+ * side's geometry on the other side of the body — and each is held to the rig
+ * through every exercise. Whatever error a same-side character has, the
+ * mirrored one must have too, bone for bone, and nothing more.
+ */
+function sidedCharacter(mirrored: boolean) {
+  const root = new Group();
+  const bones = new Map<string, Bone>();
+  const swap = (name: string) => (mirrored ? name.replace(/_([lr])$/, (_, s) => (s === 'l' ? '_r' : '_l')) : name);
+  for (const definition of rig.bones) {
+    const source = rig.bone(swap(definition.name) as BoneName);
+    const bone = new Bone();
+    bone.name = definition.name;
+    bone.position.copy(source.offset);
+    bone.quaternion.copy(source.restLocalQuaternion);
+    // Rolled rests on the hand and every digit, so the binding has to work
+    // out each one's anatomical frame rather than inherit it.
+    const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
+    const rotate = (axis: Vector3, degrees: number) =>
+      bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
+    if (/^hand_/.test(definition.name)) rotate(new Vector3(0, 1, 0), side * 21);
+    if (/^(thumb|index|middle|ring|pinky)_0[123]_/.test(definition.name)) rotate(new Vector3(0, 1, 0), side * 17);
+    bones.set(definition.name, bone);
+    if (definition.parent) bones.get(definition.parent)!.add(bone);
+    else root.add(bone);
+  }
+  root.updateMatrixWorld(true);
+  return readCharacter(root);
+}
+
+/** Every segment direction of the arm, hand, thumb and fingers, as the certification measures them. */
+const HAND_CHAIN: BoneName[] = (['l', 'r'] as const).flatMap((side) => [
+  `forearm_${side}`, `hand_${side}`,
+  ...(['thumb', 'index', 'middle', 'ring', 'pinky'] as const).flatMap((finger) =>
+    (['01', '02'] as const).map((segment) => `${finger}_${segment}_${side}`)),
+] as BoneName[]);
+
+function sidedErrors(mirrored: boolean, definition: ExerciseDefinition) {
+  const character = sidedCharacter(mirrored);
+  const mapping = createMapping(`Sided: ${definition.name}`, 'identity');
+  mapping.bones = guessMapping(character.boneNames);
+  const binding = bindRetarget(character, mapping);
+  expect(binding.mirrorSides).toBe(mirrored);
+  const clip = generateClip(rig, definition);
+  const evaluation = new PoseEvaluation(rig);
+  // Positions read back on the rig's side of the body.
+  const at = (name: string) => {
+    const position = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+    return mirrored ? position.setX(-position.x) : position;
+  };
+  const errors: number[] = [];
+  for (const fraction of [0, 0.2, 0.45, 0.7, 0.95]) {
+    const pose = sampleClip(clip, clip.duration * fraction).pose;
+    applyRetarget(binding, pose);
+    evaluation.apply(pose);
+    for (const name of HAND_CHAIN) {
+      const child = name.startsWith('hand_')
+        ? null
+        : (rig.bone(name).children.find((next) => !next.startsWith('metacarpal_')) ?? rig.bone(name).children[0]);
+      if (child) {
+        errors.push(at(child).sub(at(name)).angleTo(
+          evaluation.head(child, new Vector3()).sub(evaluation.head(name, new Vector3()))));
+      }
+    }
+    // The hand's roll: its knuckle fan, index to little finger.
+    for (const side of ['l', 'r'] as const) {
+      errors.push(at(`index_01_${side}`).sub(at(`pinky_01_${side}`)).angleTo(
+        evaluation.head(`index_01_${side}`, new Vector3()).sub(evaluation.head(`pinky_01_${side}`, new Vector3()))));
+    }
+  }
+  return errors;
+}
+
+describe('mirrored and same-side characters retarget the hand alike', () => {
+  it.each([
+    ['bicep curl', bicepCurl],
+    ['shoulder press', shoulderPress],
+    ['pull-up', pullUp],
+    ['push-up', pushUp],
+    ['air squat', airSquat],
+  ] as [string, ExerciseDefinition][])('%s: every hand, thumb and finger segment, and the knuckle fan', (_label, definition) => {
+    const same = sidedErrors(false, definition);
+    const mirrored = sidedErrors(true, definition);
+    expect(mirrored).toHaveLength(same.length);
+    let worst = 0;
+    same.forEach((error, index) => { worst = Math.max(worst, Math.abs(mirrored[index] - error)); });
+    // Identical to rounding — not merely both small. An angle read through
+    // arccos near zero resolves only to about sqrt(2·ε) ≈ 1.5e-8 rad, so that is
+    // the floor; before the fix the two differed by 0.088 rad (5.1°).
+    expect(worst).toBeLessThan(1e-7);
+    // And the same-side error itself is the certification's own palm bound.
+    expect(Math.max(...same)).toBeLessThan(MAX_PALM_DIRECTION_ERROR);
+  });
+});

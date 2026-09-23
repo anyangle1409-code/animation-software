@@ -55,6 +55,15 @@ export interface RetargetBinding {
   /** Rotate canonical world frames into the direction the imported character faces. */
   worldAlignment: Quaternion;
   mirrorSides: boolean;
+  /**
+   * Per side, the turn from the hand frame this binding used before mirrored
+   * characters' palm roll was reflected to the frame it uses now: the identity
+   * on a same-side character, and a 5.5° turn about the hand's own axis on a
+   * mirrored one. Offsets measured against the old frame — a delivered asset's
+   * embedded grip metadata — are brought into the new one by it, so what they
+   * describe on the mesh (a fist's centre, a palm's contact point) stays put.
+   */
+  legacyHandFrame: Record<'l' | 'r', Quaternion>;
   /** Virtual attachments drive disconnected exported branches without rebinding. */
   attachments: Map<Bone, { parent: Bone; offset: Vector3 }>;
   followers: { bone: Bone; parent: Bone; offset: Matrix4 }[];
@@ -135,6 +144,16 @@ export function bindRetarget(
   const mapping = plausiblePalms(character, requested);
   const forward = detectForward(character, mapping);
   const bones: BoundBone[] = [];
+  // Whether this character's left is on the rig's right. Every canonical frame
+  // is reflected into it at runtime (applyRetarget), so any rig-space rotation
+  // built into a correction here has to be reflected the same way — see the
+  // palm roll below. Known from the thighs and the facing alone, before any
+  // bone is bound.
+  const left = mapping.bones.thigh_l && character.restWorldPosition.get(mapping.bones.thigh_l);
+  const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
+  const alignedRight = new Vector3(1, 0, 0).applyQuaternion(new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward));
+  const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
+  const legacyHandFrame = { l: new Quaternion(), r: new Quaternion() };
 
   for (const rigBone of rig.bones) {
     const targetName = mapping.bones[rigBone.name];
@@ -161,8 +180,21 @@ export function bindRetarget(
         const rigWidth = rig.bone(`index_01_${side}`).restHead.clone()
           .sub(rig.bone(`pinky_01_${side}`).restHead);
         const rigPalmFrame = boneFrame(rigBone.restHead, rigBone.restTail, rigWidth);
-        targetFrame = boneFrame(head, tail, width)
-          .multiply(rigPalmFrame.invert()).multiply(rigBone.restWorldQuaternion);
+        // The roll from the rig's knuckle-plane frame to its anatomical frame:
+        // a turn of 2.7-4.3° about the bone's own axis. It is a rig-space
+        // rotation, so on a mirrored character it must be reflected like every
+        // other canonical frame is at runtime — a turn about the bone axis
+        // reverses under reflection. Applied unreflected it rolled a mirrored
+        // character's hands and fingers by twice the angle: the knuckle fan sat
+        // 5.5° off (8.6° for the thumb base), against 0.5° same-side.
+        const roll = rigPalmFrame.invert().multiply(rigBone.restWorldQuaternion);
+        const unreflected = roll.clone();
+        if (mirrorSides) {
+          roll.y *= -1;
+          roll.z *= -1;
+        }
+        targetFrame = boneFrame(head, tail, width).multiply(roll);
+        if (rigBone.name === `hand_${side}`) legacyHandFrame[side].copy(roll).invert().multiply(unreflected);
       }
     }
     bones.push({
@@ -249,10 +281,6 @@ export function bindRetarget(
     followers.push({ bone, parent,
       offset: parent.matrixWorld.clone().invert().multiply(bone.matrixWorld) });
   }
-  const left = mapping.bones.thigh_l && character.restWorldPosition.get(mapping.bones.thigh_l);
-  const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
-  const alignedRight = new Vector3(1, 0, 0).applyQuaternion(new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward));
-  const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
 
   // Metacarpals ride the hand. Their frames are taken from the target hand's
   // own frame and the canonical rig's hand-to-metacarpal rest rotation, not
@@ -287,7 +315,7 @@ export function bindRetarget(
     hips,
     hipsRest,
     restRootWorld: character.root.matrixWorld.clone(),
-    attachments, followers, twistHelpers, mirrorSides,
+    attachments, followers, twistHelpers, mirrorSides, legacyHandFrame,
     scale: character.height / RIG_HEIGHT,
     evaluation: new PoseEvaluation(rig),
     worldAlignment: new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward),

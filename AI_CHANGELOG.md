@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-23 — Mirrored characters' hands no longer roll 5.5° off
+
+Suite **426 passed / 1 skipped** (52 files; was 418 / 51), typecheck and build clean. No change to the frozen 63-bone skeleton, rest transforms, exercises, weights, palm motion or scapular rhythm; canonical frames, export tracks and the mannequin are bit-identical.
+
+**Root cause.** A hand's, thumb's or finger's retarget target is its bone frame on the character, times the rig's roll from knuckle-plane frame to anatomical frame (hand 2.770°, fingers 2.75–2.80°, thumb base 4.313°). That roll is a rig-space rotation. Every other canonical frame is reflected for a mirrored character, but this one was not, so on a mirrored character it turned the wrong way, an error of 2× the angle: 5.54° predicted, 5.554° measured. **Fix** (`src/retargeting/retarget.ts`): `mirrorSides` is decided before any bone is bound, and the roll is reflected `(x, −y, −z, w)` when it is set. Same-side characters are untouched.
+
+**Measured, production character (mirrored)**, knuckle-fan roll about the forearm vs the rig: curls 6.24° → 0.72°; press and squat 5.54° → 0.00°. Synthetic mirrored hand 5.554° → 0.490°, now equal to same-side (the 0.49° is shared by both). Character bones: hand 5.54°, fingers 5.49°, thumb 8.63°, `DEF-forearm.001` 2.78° (its locked 50% share), `DEF-palm` riders 5.54°; wrist positions unchanged.
+
+**Grip metadata.** The production asset's `gripFrameOffsets` (palm contact point) and `handleGripOffsets` (fist centre) were measured in the old hand frame. `bindRetarget` now returns `legacyHandFrame`, the turn from the old frame to the corrected one: identity same-side, 5.54° about the hand axis mirrored. `retargetedCharacterSource` carries embedded offsets, and the solved handle centre, through it, so they still name the same places on the mesh. An asset measured after the fix declares `offsetFrame: "hand-v2"` and is not turned. Offsets passed by a caller are used as given.
+
+**Grip and contact deltas (per side, before → after).** Hand world position unchanged: curls, press and squat 0; push-up 0.04 mm; pull-up 0. Curl and press handle centre follows the corrected fist, 1.4–1.8 mm. Dumbbell handle: deepest −12.3 → −13.4 mm; hand vertices inside it per frame 70 → 49; within 5 mm 140 → 123; widest finger-wrap gap 36° → 66°. Push-up floor: lowest vertex 0.00 mm unchanged; vertices within 12 mm 119 → 143. Pull-up bar: deepest −26.5 → −26.9 mm; inside per frame 354 → 351; within 5 mm 470 → 472. The wider curl wrap gap is expected: the solved grip's finger curls were fitted under the rolled hand. It belongs to the hand-weight/grip review.
+
+**Tests.** `movementCertification.test.ts`: the same character built mirrored and same-side retargets the forearm, hand, thumb and finger segments and the knuckle fan identically through curl, press, pull-up, push-up and squat (< 1e-7 rad; failed by 0.088 rad before). New `mirroredHands.test.ts`: on the production asset, the fan's roll matches the rig within 1° and left equals right in every exercise not re-solved by the contact solver (6.24° before). The turn is 2 × 2.77° about the hand axis, and embedded offsets are turned only when undeclared.
+
 ### Claude — 2026-09-23 — The palm, the thumb's third axis, and the skeleton frozen at v3
 
 Suite **418 passed / 1 skipped** (51 files; was 388 / 48), typecheck and build clean. The canonical rig is **63 bones** and is now **STRUCTURALLY FROZEN** as `hgpt_canonical_v3` — `docs/CANONICAL_SKELETON_FREEZE.md`, held by `src/rig/frozen.test.ts` (hierarchy and every rest head/tail to the micrometre).

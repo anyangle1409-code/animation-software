@@ -2,9 +2,9 @@
 
 Use this text when handing the mesh candidate back to Work on the Blender laptop.
 
-> Open the latest `codex-high-detail-candidate-v6-knee-review-20260922` branch and work only there or on a new candidate-only branch derived from it. Read `HIGH_DETAIL_MESH_WORK/WORK_START_HERE.md`, `LAPTOP_CONTINUATION_HANDOFF.md`, `FINAL_RIG_INTAKE.md`, `REVIEW_V6_KNEE_SEAM.md`, `REVIEW_V5_HANDS.md` and `REVIEW_V4B.md` first. Run `python HIGH_DETAIL_MESH_WORK/scripts/preflight_resume.py` before editing.
+> Open the latest `codex-high-detail-candidate-v6-knee-review-20260922` branch. Read `HIGH_DETAIL_MESH_WORK/CURRENT_STATE.md` and `WORK_START_HERE.md` first, then follow their instruction precedence.
 >
-> Reproduce/verify the V6 baseline before modelling. If useful, create the review-only tagged Blender copy with `scripts/tag_v6_review_regions.py`; its `AUDIT_*` groups are selection helpers only and must never become deform weights.
+> Run `HIGH_DETAIL_MESH_WORK/RESUME_WORK.bat`. Create each fresh editable candidate with `START_CANDIDATE.bat <version>` so V6 remains untouched and the AUDIT selection groups are available.
 >
 > Continue autonomously in this order while the final canonical rig is being completed separately:
 > 1. true medial-knee retopology into connected anatomical joint loops, including patella/tendon/medial-knee shape;
@@ -13,21 +13,8 @@ Use this text when handing the mesh candidate back to Work on the Blender laptop
 >
 > Do not finalise shoulder/chest/back/armpit weights or scapular deformation against the old hierarchy. Do not change the frozen rig, exercises, IK, grips, contacts, equipment transforms, production assets or `bundled.ts`.
 >
-> After each exported candidate, run `scripts/candidate_quick_check.py` first. Reject failed candidates immediately before spending time on the slower tests. Then run the relevant existing focused guards and five-exercise visual/motion review. Preserve every prior candidate and create a new review checkpoint rather than overwriting V6.
+> Save the edited Blend file and export the dressed GLB using the same version suffix. Then run `FINISH_CANDIDATE.bat <version> <task>`, where task is `knee`, `hand` or `material`. Let that workflow create the bare GLB if needed, run the structural/runtime gates, perform the task-specific audit, render the review pack and write the checkpoint/review scaffold.
 >
-> Keep working without asking me for routine implementation decisions. Stop and report only if a genuine structural decision is required, a validation guard cannot be satisfied without changing accepted mechanics, or the final canonical rig arrives and the task moves into rebinding/final weighting.
+> Reject a failed candidate rather than loosening thresholds or altering accepted mechanics. Preserve every prior candidate. Keep working without asking me for routine implementation decisions. Stop only for a genuine structural decision, an unsatisfied guard that would require changing accepted mechanics, or arrival of the final canonical rig.
 >
-> For each accepted checkpoint, update the review note with exact geometry changes, validation totals, hashes and remaining limitations.
-
-## Optional Blender navigation helper
-
-The following creates a separate V6 working copy with named selection groups for:
-- left/right knee seam
-- a two-edge-ring knee work region
-- the protected push-up floor-contact vertices
-
-```text
-blender --background --factory-startup --python scripts/tag_v6_review_regions.py -- HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_WORK_READY.blend
-```
-
-The helper intentionally does not move vertices or change topology/skin weights.
+> For an accepted checkpoint, complete the generated review note with exact modelling changes, validation totals, hashes and remaining limitations. Do not merge or promote without explicit approval.

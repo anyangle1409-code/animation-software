@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "workspace": "HIGH_DETAIL_MESH_WORK",
+  "baseline": {
+    "branch": "codex-high-detail-candidate-v6-knee-review-20260922",
+    "version": "v6_knee_seam",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.blend",
+    "sha256": {
+      "dressed_glb": "ff39e07735697d5423968a8ec1c05f2c6c68fced0d757ea1b4047096bc7a5306",
+      "bare_glb": "0170b3673d7a050e8aacd2683347cfa6dd000719dba0a6862c16bd7a4a5723e0",
+      "blend": "2a2d0326129ce5c2555c596a49a281d655f33acfd7bbd9514cad3e759586a0df"
+    },
+    "body_vertices": 33089,
+    "body_triangles": 62961,
+    "degenerate_triangles": 0,
+    "nonmanifold_edges_gt2": 0
+  },
+  "proven_in_v6": [
+    "inner-knee paired seam gap is 0 mm in saved V6 pose snapshots",
+    "bare/dressed posed equivalence guard passes",
+    "grip/343-degree wrap guard passes",
+    "renderer/exporter agreement guard passes",
+    "dumbbell/shorts clearance guard passes",
+    "five-exercise sampled motion comparison preserves hands, bone matrices and equipment transforms",
+    "400 pinned source files and V5 deliverables verified unchanged"
+  ],
+  "work_queue": [
+    {
+      "priority": 1,
+      "id": "knee_retopology",
+      "status": "ready",
+      "task": "Replace the still-open medial-knee strips with connected anatomical joint loops and reshape patella/tendon/medial-knee silhouette.",
+      "preserve": [
+        "exercise mechanics",
+        "existing rig",
+        "skin behavior outside intended local region"
+      ],
+      "accept_when": [
+        "no visible pointed medial overhang",
+        "clean squat deformation",
+        "no new topology defects",
+        "full relevant guards pass"
+      ]
+    },
+    {
+      "priority": 2,
+      "id": "hand_anatomy",
+      "status": "ready",
+      "task": "Model realistic finger, thumb web/base, palm and wrist transition on V5/V6 contact-safe topology.",
+      "preserve": [
+        "682 push-up floor-contact guard vertices",
+        "grip/contact behavior",
+        "equipment transforms"
+      ],
+      "accept_when": [
+        "better close-up anatomy",
+        "push-up floor contact unchanged",
+        "grip guards pass"
+      ]
+    },
+    {
+      "priority": 3,
+      "id": "skin_materials",
+      "status": "ready",
+      "task": "Refine skin/material appearance without changing rig or exercise behavior.",
+      "preserve": [
+        "geometry unless separately reviewed",
+        "production assets"
+      ]
+    },
+    {
+      "priority": 4,
+      "id": "shoulder_final_weights",
+      "status": "blocked",
+      "blocked_by": "final scapula-capable canonical rig from chatgpt/absolute-retarget-imports",
+      "task": "Final shoulder/chest/back/armpit binding and deformation tuning."
+    }
+  ],
+  "pre_final_weight_decisions": [
+    "final scapula hierarchy/default neutral state",
+    "forearm twist distribution",
+    "carrying angle decision",
+    "hand-base/palm-bone decision if pursued"
+  ],
+  "required_tools": {
+    "preflight": "python scripts/preflight_resume.py",
+    "quick_check": "python scripts/candidate_quick_check.py HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_<version>.glb",
+    "full_candidate_gates": "python scripts/run_candidate_gates.py --version <version>",
+    "checkpoint": "python scripts/checkpoint_candidate.py --version <version>",
+    "rig_compare": "python scripts/compare_rig_compatibility.py OLD.glb NEW.glb --json reports/final_rig_compatibility.json"
+  },
+  "stop_conditions": [
+    "a visual fix requires changing accepted exercise mechanics, IK, grip/contact, or equipment transforms",
+    "a threshold must be loosened merely to pass",
+    "new hand geometry changes floor contact unexpectedly",
+    "shoulder work depends on the obsolete pre-scapula hierarchy",
+    "unexplained rig, animation, material, skin or retarget changes appear"
+  ]
+}

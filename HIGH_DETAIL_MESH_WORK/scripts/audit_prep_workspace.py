@@ -7,10 +7,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/"CANDIDATE_BASELINE_MANIFEST.json"
 REQUIRED=[
- "CURRENT_STATE.md","RIG_55_BASELINE.md","WORK_START_HERE.md","LAPTOP_CONTINUATION_HANDOFF.md",
+ "CURRENT_STATE.md","RIG_63_FREEZE.md","WORK_START_HERE.md","LAPTOP_CONTINUATION_HANDOFF.md",
  "FINAL_RIG_INTAKE.md","CANDIDATE_OUTPUT_CONTRACT.md","WORK_AUTONOMOUS_PROMPT.md",
  "RESUME_WORK.bat","START_CANDIDATE.bat","FINISH_CANDIDATE.bat",
- "scripts/preflight_resume.py","scripts/prepare_rig55_validation.py","scripts/start_candidate.py",
+ "scripts/preflight_resume.py","scripts/prepare_rig63_validation.py","scripts/start_candidate.py",
  "scripts/finish_candidate.py","scripts/candidate_quick_check.py","scripts/run_candidate_gates.py",
  "scripts/prepare_review_pack.py","scripts/render_candidate_review.py","scripts/checkpoint_candidate.py",
  "scripts/guard_hand_floor_vertices.py","scripts/audit_knee_topology_candidate.py",
@@ -31,8 +31,8 @@ else:
         if not path.is_file():errors.append(f"missing baseline artifact {path.name}")
         elif not expected or sha(path)!=expected:errors.append(f"baseline hash mismatch {path.name}")
     rig=m.get("rig_baseline",{})
-    if rig.get("commit")!="c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2":errors.append("manifest rig baseline is not c2372c1")
-    if rig.get("canonical_bones")!=55:errors.append("manifest canonical bone count is not 55")
+    if rig.get("commit")!="19ca602ca2f2a821237dcf5b1b50c7906d86b0fe":errors.append("manifest rig baseline is not 19ca602")
+    if rig.get("canonical_bones")!=63:errors.append("manifest canonical bone count is not 63")
 
 print("PREPARATION WORKSPACE AUDIT")
 print("="*27)
@@ -43,5 +43,5 @@ if errors:
     raise SystemExit(1)
 print("PASS")
 print("Geometry baseline: V6 knee seam")
-print("Rig baseline: c2372c1 / hgpt_canonical_v2 / 55 bones")
+print("Rig baseline: 19ca602 / hgpt_canonical_v3 / 63 bones")
 print("Laptop flow: RESUME_WORK.bat -> START_CANDIDATE.bat -> edit/export -> FINISH_CANDIDATE.bat")

@@ -1,6 +1,6 @@
 """Generate standard visual-review renders and contact sheets for a candidate.
 
-Requires pose JSON from run_candidate_gates.py and Blender on PATH.
+Requires pose JSON from run_candidate_gates.py and Blender.
 
 Usage:
     python scripts/prepare_review_pack.py --version v7_example
@@ -8,10 +8,20 @@ Usage:
 """
 
 from __future__ import annotations
-import argparse,os,shutil,subprocess,sys
+import argparse,glob,os,shutil,subprocess,sys
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
+
+def find_blender():
+    explicit=os.environ.get("BLENDER_EXE")
+    if explicit and Path(explicit).is_file():return explicit
+    found=shutil.which("blender")
+    if found:return found
+    if os.name=="nt":
+        matches=sorted(glob.glob(r"C:\Program Files\Blender Foundation\Blender *\blender.exe"),reverse=True)
+        if matches:return matches[0]
+    return None
 
 def run(cmd,env=None):
     print("+"," ".join(str(x) for x in cmd),flush=True)
@@ -24,11 +34,11 @@ def main():
     poses=ROOT/"reports"/f"poses_{args.version}"
     if not poses.is_dir():
         raise SystemExit(f"Missing {poses}. Run scripts/run_candidate_gates.py first.")
-    blender=shutil.which("blender")
+    blender=find_blender()
     if not blender:
-        raise SystemExit("Blender not found on PATH")
+        raise SystemExit("Blender not found. Set BLENDER_EXE to blender.exe or add Blender to PATH.")
     env=os.environ.copy();env["RENDER_VERSION"]=args.version
-    renderer=ROOT/"scripts"/"render_review_v3.py"
+    renderer=ROOT/"scripts"/"render_candidate_review.py"
     run([blender,"--background","--factory-startup","--python",renderer,"--","all"],env)
     run([blender,"--background","--factory-startup","--python",renderer,"--","hands"],env)
     run([blender,"--background","--factory-startup","--python",renderer,"--","knees"],env)

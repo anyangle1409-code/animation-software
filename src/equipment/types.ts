@@ -73,6 +73,12 @@ export interface EquipmentInstance {
    */
   attachment: EquipmentAttachment;
   visible: boolean;
+  /**
+   * The body rests on this item — sits on a bench, lies on a pad. Clearance is
+   * then the opposite question from a dumbbell's: the body should meet it, and
+   * may press a little way in as soft tissue does, but must not sink through.
+   */
+  supportsBody?: boolean;
 }
 
 export type EquipmentAttachment =

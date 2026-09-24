@@ -102,6 +102,66 @@ export function plantedStance({
 }
 
 /**
+ * Which way a flat left foot points, turned out by `toeOut` degrees: the
+ * canonical foot bone at rest runs from the ankle (8 cm up) down to the ball of
+ * the foot (2.5 cm up, 14 cm ahead), and its +Z faces up and forward. This is a
+ * foot flat on the floor as the rig stands, which is what a lock's `aim` needs
+ * when the opening frame cannot supply it — a movement that starts seated or
+ * bent over. `stance.test.ts` holds it to the rig.
+ */
+export function flatFootAim(toeOut: number): { direction: Vec3; forward: Vec3 } {
+  const length = Math.hypot(0.055, 0.14);
+  const turn = (-toeOut * Math.PI) / 180;
+  const along = (y: number, z: number) => vec3(z * Math.sin(turn), y, z * Math.cos(turn));
+  return { direction: along(-0.055 / length, 0.14 / length), forward: along(0.14 / length, 0.055 / length) };
+}
+
+/** Ankle height, metres, of a foot flat on the floor: the canonical `foot_l` head. */
+export const ANKLE_HEIGHT = 0.08;
+
+export interface SeatedStanceOptions {
+  /** Distance between the ankles, metres. */
+  width: number;
+  /** Toe-out, degrees. */
+  toeOut: number;
+  /** How far in front of the hips the ankles are planted, metres. */
+  forward: number;
+}
+
+/**
+ * Sitting with both feet flat on the floor in front.
+ *
+ * A seated repetition opens seated, and a floor lock takes its anchor from the
+ * opening frame — wherever the authored leg angles happen to put the feet. So
+ * the feet are placed outright, position and orientation, and the legs are
+ * solved to them from the first frame, the way the row pins its standing feet.
+ * Toe-out is carried by the pinned orientation, not by the ankle.
+ */
+export function seatedStance({ width, toeOut, forward }: SeatedStanceOptions): PlantedStance {
+  const left = vec3(-width / 2, ANKLE_HEIGHT, forward);
+  return {
+    feet: { width, toeOut, planted: true },
+    locks: [
+      ...bilateralLock({
+        id: 'foot_l',
+        chain: 'leg_l',
+        mode: 'floor',
+        position: left,
+        aim: flatFootAim(toeOut),
+        enabled: true,
+      }),
+    ],
+    technique: [
+      ...plantedContact({
+        point: { bone: 'foot_l' },
+        tolerance: 0.012,
+        label: 'Left foot stays planted',
+      }),
+    ],
+  };
+}
+
+/**
  * The heels stay on the floor.
  *
  * Checked apart from the foot it belongs to, because a heel lifts while the foot

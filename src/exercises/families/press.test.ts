@@ -3,6 +3,13 @@ import { EXERCISES } from '../library';
 import { shoulderPress } from '../definitions/shoulderPress';
 import { bicepCurl } from '../definitions/bicepCurl';
 import { pressFamily } from './press';
+import { seatedShoulderPress } from '../definitions/seatedShoulderPress';
+import { Vector3 } from 'three';
+import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
+import { generateClip } from '../../animation/generate';
+import { resolveFrame } from '../../animation/pipeline';
+import { lockAnchors } from '../../constraints/locks';
+import { sampleClip } from '../../animation/clip';
 
 /**
  * The press family exists to answer one question: was the pattern in
@@ -14,15 +21,15 @@ import { pressFamily } from './press';
  * that could not express that would have been a curl builder wearing a general
  * name.
  *
- * **It has one registered variant, and that is a real limitation, not an
- * oversight.** With one caller, a change to the shared half is checked against
- * the exercise it was made for and nothing else — the same vacuum the curl
- * family's variant-count test exists to prevent. A neutral-grip press was built
- * as the second and withdrawn: measured against the curls, whose grips are
- * known, reaching a true palms-facing position needed roughly 80–85° of forearm
- * supination, which is the joint's own limit, and shoulder rotation barely moved
- * it. That is a modelling gap rather than a tuning problem, and shipping an
- * exercise built on a guess would have been worse than shipping one variant.
+ * **Its second variant changes the support, not the press.** A neutral-grip
+ * press was built as the second and withdrawn: measured against the curls,
+ * whose grips are known, reaching a true palms-facing position needed roughly
+ * 80–85° of forearm supination, which is the joint's own limit, and shoulder
+ * rotation barely moved it. That is a modelling gap rather than a tuning
+ * problem. The seated press is the second instead: the identical press — grip,
+ * range, tempo, every rule — with the body sat on a flat bench. It checks the
+ * shared half against a second caller from the other direction: everything the
+ * press is must survive a change of everything below the shoulders.
  */
 describe('the press family', () => {
   it('scopes rules to phases, which is what a curl never needed', () => {
@@ -72,12 +79,44 @@ describe('the press family', () => {
     expect(shoulderPress.hands.orientation).toBe('pronated');
   });
 
-  it('has exactly one registered variant, which the header explains', () => {
-    // Asserted so that adding a second is a deliberate act that updates this
+  it('has exactly two registered variants, which the header explains', () => {
+    // Asserted so that adding another is a deliberate act that updates this
     // test and the header with it, rather than quietly changing what the
     // family's coverage means.
     const presses = EXERCISES.filter((exercise) => exercise.clipName.includes('press'));
-    expect(presses.map((exercise) => exercise.id)).toEqual(['dumbbell_shoulder_press']);
+    expect(presses.map((exercise) => exercise.id)).toEqual([
+      'dumbbell_shoulder_press',
+      'seated_dumbbell_shoulder_press',
+    ]);
     expect(pressFamily).toBeTypeOf('function');
+  });
+
+  it('presses exactly the same way seated', () => {
+    const arms = (exercise: typeof shoulderPress) =>
+      exercise.jointTargets.filter((target) => /^(upperarm|forearm|hand)_/.test(target.bone));
+    expect(arms(seatedShoulderPress)).toEqual(arms(shoulderPress));
+    expect(seatedShoulderPress.technique).toEqual(shoulderPress.technique);
+    expect(seatedShoulderPress.phases).toEqual(shoulderPress.phases);
+    expect(seatedShoulderPress.tempo).toEqual(shoulderPress.tempo);
+    expect(seatedShoulderPress.hands).toEqual(shoulderPress.hands);
+  });
+
+  it('sits on the bench and stays sat through the whole repetition', () => {
+    const bench = seatedShoulderPress.equipment.instances.find((instance) => instance.kind === 'flat_bench');
+    expect(bench?.supportsBody).toBe(true);
+    expect(bench?.attachment.mode).toBe('static');
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const clip = generateClip(canonicalSkeleton, seatedShoulderPress);
+    const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+    for (let step = 0; step <= 40; step += 1) {
+      const time = (step / 40) * clip.duration;
+      evaluation.apply(resolveFrame(canonicalSkeleton, evaluation, clip, time, { anchors }).pose);
+      const pelvis = evaluation.head('pelvis', new Vector3());
+      // 16 cm above the pad's top, where the production character's seat meets it.
+      expect(pelvis.y, `pelvis at ${time.toFixed(2)}s`).toBeCloseTo(0.62, 9);
+      // Hips and knees bent about a right angle, feet flat in front.
+      const hip = (evaluation.head('shin_l', new Vector3()).y - evaluation.head('thigh_l', new Vector3()).y);
+      expect(Math.abs(hip), `thigh near horizontal at ${time.toFixed(2)}s`).toBeLessThan(0.1);
+    }
   });
 });

@@ -67,6 +67,19 @@ const mm = (metres: number) => `${(metres * 1000).toFixed(2)} mm`;
  */
 const MARGIN = 0.002;
 
+/**
+ * Equipment the body rests on — a bench it sits on — is asked the opposite
+ * question. It must be *reached*: a seat the body hovers above is not being sat
+ * on, so the deepest point may be no more than 3 mm clear. And it may be pressed
+ * into, because the flesh of a seated thigh and buttock flattens under the whole
+ * upper body, but only by as much as that flesh would: a skinned mesh does not
+ * flatten, so its surface passes into the pad where the real one would spread,
+ * and 15 mm is held as the most that can pass for compression rather than
+ * sinking. Every vertex is still measured; the count inside is reported, not
+ * failed on.
+ */
+const SUPPORT = { resting: 0.003, compression: 0.015 };
+
 /** The surface equipment must not reach: legs and trunk. */
 const BODY = /^(thigh|pelvis|shin|spine|breast|neck)/i;
 
@@ -147,15 +160,24 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
       expect(worst.size, 'equipment measured').toBeGreaterThan(0);
       // Printed whichever way it goes, in the plan's report shape: a number that
       // is only seen when it fails is a number nobody knows the value of.
+      const supports = new Set(clip.equipment.filter((instance) => instance.supportsBody).map((instance) => instance.id));
       for (const [id, sample] of worst) {
+        const pass = supports.has(id)
+          ? sample.closest <= SUPPORT.resting && sample.closest >= -SUPPORT.compression
+          : sample.inside === 0 && sample.closest > MARGIN;
         console.log(
-          `  ${sample.inside === 0 && sample.closest > MARGIN ? 'PASS' : 'FAIL'}  ` +
-            `${exercise.id.padEnd(24)} ${id.padEnd(12)} closest ${mm(sample.closest).padStart(10)}` +
-            `  inside ${sample.inside}  (${sample.where})`,
+          `  ${pass ? 'PASS' : 'FAIL'}  ` +
+            `${exercise.id.padEnd(24)} ${id.padEnd(12)} ${supports.has(id) ? 'deepest' : 'closest'} ` +
+            `${mm(sample.closest).padStart(10)}  inside ${sample.inside}  (${sample.where})`,
         );
       }
       for (const [id, sample] of worst) {
         const report = `${exercise.id} / ${id}: closest ${mm(sample.closest)} at ${sample.where}`;
+        if (supports.has(id)) {
+          expect(sample.closest, `${report} — the body does not reach what it rests on`).toBeLessThanOrEqual(SUPPORT.resting);
+          expect(sample.closest, `${report} — the body sinks into what it rests on`).toBeGreaterThanOrEqual(-SUPPORT.compression);
+          continue;
+        }
         expect(sample.inside, `${report} — ${sample.inside} body vertices inside`).toBe(0);
         expect(sample.closest, report).toBeGreaterThan(MARGIN);
       }

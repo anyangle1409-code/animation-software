@@ -8,7 +8,7 @@ import type {
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralRule } from '../mirror';
 import { evenSides } from '../presets';
-import { handDumbbells, plantedStance } from '../stance';
+import { handDumbbells, plantedStance, seatedStance } from '../stance';
 
 /**
  * The overhead press family.
@@ -82,6 +82,9 @@ const GRIPS: Record<PressGrip, GripSpec> = {
   },
 };
 
+/** What holds the body up while the arms press. */
+export type PressSupport = 'standing' | 'seated';
+
 export interface PressVariant {
   id: string;
   name: string;
@@ -89,6 +92,8 @@ export interface PressVariant {
   description: string;
   /** What the palms do, as motion rather than as a caption. */
   grip: PressGrip;
+  /** Standing on the floor, or seated on a flat bench. Standing by default. */
+  support?: PressSupport;
   /** Load per hand, kilograms. */
   mass?: number;
   /** Humerus abduction at the rack and at lockout, degrees. */
@@ -116,11 +121,38 @@ const BRACED = {
   neck: { x: -2 },
 };
 
+/**
+ * Sitting on the end of a flat bench, feet flat on the floor in front.
+ *
+ * The pad's top is 46 cm up. The pelvis joint sits where the production
+ * character's seat meets the pad without hovering or sinking (`SEAT.pelvis`):
+ * measured, its thighs press 9 mm into the pad at the deepest, where 58 cm
+ * sank them 44 mm and 61 cm 18 mm. Hips and knees bend about 80°, shins near
+ * vertical over ankles planted 40 cm ahead. The bench runs back from under the thighs, so its front legs stand
+ * between the calves and its foot rail behind the heels.
+ */
+const SEAT = {
+  pelvis: { y: 0.62, z: 0 },
+  bench: vec3(0, 0, -0.45),
+  feet: { width: 0.4, toeOut: 8, forward: 0.4 },
+};
+const SEATED_LEGS = {
+  thigh_l: { x: 90 },
+  thigh_r: { x: 90 },
+  shin_l: { x: -90 },
+  shin_r: { x: -90 },
+};
+
 export function pressFamily(variant: PressVariant): ExerciseDefinition {
   const grip = GRIPS[variant.grip];
   const abduction = variant.abduction ?? ABDUCTION;
   const elbow = variant.elbow ?? ELBOW;
-  const stance = plantedStance();
+  const seated = variant.support === 'seated';
+  const stance = seated ? seatedStance(SEAT.feet) : plantedStance();
+  const root = seated
+    ? { position: { y: SEAT.pelvis.y - 0.95, z: SEAT.pelvis.z } }
+    : undefined;
+  const body = seated ? { ...BRACED, ...SEATED_LEGS } : { ...BRACED };
 
   return {
     id: variant.id,
@@ -129,10 +161,28 @@ export function pressFamily(variant: PressVariant): ExerciseDefinition {
     category: 'upper_push',
     description: variant.description,
 
-    equipment: { required: ['dumbbell'], instances: handDumbbells(variant.mass ?? 12) },
+    equipment: seated
+      ? {
+          required: ['dumbbell', 'flat_bench'],
+          instances: [
+            ...handDumbbells(variant.mass ?? 12),
+            {
+              id: 'bench',
+              kind: 'flat_bench' as const,
+              label: 'Bench',
+              mass: 0,
+              position: SEAT.bench,
+              rotation: vec3(0, 0, 0),
+              visible: true,
+              attachment: { mode: 'static' as const },
+              supportsBody: true,
+            },
+          ],
+        }
+      : { required: ['dumbbell'], instances: handDumbbells(variant.mass ?? 12) },
 
-    startPose: { label: 'Racked', joints: { ...BRACED } },
-    peakPose: { label: 'Overhead', joints: { ...BRACED } },
+    startPose: { label: 'Racked', joints: { ...body }, ...(root ? { root } : {}) },
+    peakPose: { label: 'Overhead', joints: { ...body }, ...(root ? { root } : {}) },
 
     jointTargets: [
       ...bilateralJointTarget({

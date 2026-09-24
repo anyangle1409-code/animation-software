@@ -6,6 +6,21 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — A seated press: the first exercise that rests the body on equipment
+
+Suite **497 passed / 1 skipped** (56 files; was 478 / 55), typecheck and build clean. The nine existing exercises are **byte-identical**, the standing press included, although its family changed.
+
+**Added.** `definitions/seatedShoulderPress.ts`. The press family gains `support: 'standing' | 'seated'`, and the roadmap's own example command, "a seated dumbbell shoulder press", is now one line of variant. The press is identical to the standing one (joint targets, rules, phases, tempo and grip, asserted equal). The body sits on the end of a flat bench (the library's `flat_bench`, placed static behind the hips), with hips and knees bent about 80° and the feet flat 40 cm in front. Zero violations; every IK target reached; loop closed; the pelvis holds its seat through the rep.
+
+**Resting on equipment is a new kind of contact.** `EquipmentInstance.supportsBody` marks an item the body rests on, and the clearance test asks the opposite question of it:
+
+- The body must *reach* it: the deepest point is no more than 3 mm clear.
+- It may press in only as far as soft tissue would: 15 mm at most.
+
+Seat height was set against the production character. 58 cm sank the thighs 44 mm into the pad, 61 cm 18 mm, and 62 cm 9 mm, which was taken. Dumbbells clear the body by 347 mm. Upper arm to chest measures 1.95 mm, the standing press's exact value, recorded as its baseline. Hand roll matches the rig.
+
+**Flat feet without a standing first frame.** `flatFootAim(toeOut)` is the rig's resting foot turned out about the vertical; `stance.test.ts` holds it to the skeleton. `seatedStance()` pins the feet outright, position and orientation. The feet test now covers the seated press (ankle 8 cm up, toe on the floor, both constant).
+
 ### Claude — 2026-09-24 — The horizontal pull becomes the fifth family, with a dumbbell bent-over row
 
 Suite **478 passed / 1 skipped** (55 files; was 458 / 54), typecheck and build clean. The eight existing exercises are **byte-identical** (definitions, 61 resolved frames, contacts, rule results). No engine change: the family is built from what the hinge added.

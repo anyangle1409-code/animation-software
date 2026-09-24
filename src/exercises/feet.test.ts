@@ -19,8 +19,9 @@ import { EXERCISES } from './library';
  *
  * It covers every exercise that stands on its feet: floor-locked legs, and at
  * the first frame the ankle at standing height with the toe tip on the floor.
- * That takes in a row that starts bent over, and leaves out the push-up, which
- * is up on its toes and pivots on them. The pull-up hangs.
+ * That takes in a row that starts bent over and a press that sits, and leaves
+ * out the push-up, which is up on its toes and pivots on them. The pull-up
+ * hangs.
  *
  * ## The squat is a known defect, held to what it does now
  *
@@ -74,6 +75,7 @@ describe('standing feet', () => {
       'dumbbell_reverse_curl',
       'dumbbell_romanian_deadlift',
       'dumbbell_shoulder_press',
+      'seated_dumbbell_shoulder_press',
     ]);
   });
 

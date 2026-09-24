@@ -67,6 +67,8 @@ const BASELINE: Record<string, number> = {
   dumbbell_romanian_deadlift: 0.00117,
   // At the stretch, arms hanging beside the chest.
   dumbbell_bent_over_row: 0.00152,
+  // The standing press's arms, sat down: the same 1.95 mm.
+  seated_dumbbell_shoulder_press: 0.00195,
 };
 
 /**

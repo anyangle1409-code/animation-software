@@ -245,4 +245,6 @@ Do not promote automatically.
 
 ## 10. Immediate next action
 
-V8 is the accepted knee geometry checkpoint. V10 is the separate Phase B hand-anatomy review candidate from V8. Its validation and matched open/fist/exercise close-ups are complete. Show those images for visual review and stop before grip refit. If the remaining facets or seams are unacceptable, build a new candidate without altering V8, V9, V10, the rig or production assets. Do not promote any candidate automatically.
+V10 is the current mechanically validated hand-topology checkpoint but is not visually accepted. Read `V11_HAND_CLEANUP_PLAN.md`.
+
+Create V11 from V10 and do only the focused hand cleanup: fingertips, finger-joint banding, thumb-index web seam and wrist transition. Preserve all V10 mechanical safeguards. Do not refit grips yet. Generate matched V10/V11 review boards and stop for visual acceptance before Phase C.

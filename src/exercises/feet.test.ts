@@ -17,9 +17,10 @@ import { EXERCISES } from './library';
  * as a body instead: the toe tip's height and the foot's direction, through the
  * whole repetition, as the studio shows it (with the clip's contact anchors).
  *
- * It covers every exercise that stands on its feet: floor-locked legs and an
- * upright start. The push-up is left out on purpose — it pivots on its toes —
- * and the pull-up hangs.
+ * It covers every exercise that stands on its feet: floor-locked legs, and at
+ * the first frame the ankle at standing height with the toe tip on the floor.
+ * That takes in a row that starts bent over, and leaves out the push-up, which
+ * is up on its toes and pivots on them. The pull-up hangs.
  *
  * ## The squat is a known defect, held to what it does now
  *
@@ -47,16 +48,27 @@ const KNOWN_DEFECTS: Record<string, { toe: number; direction: number }> = {
   air_squat: { toe: 0.0666, direction: 29.3 },
 };
 
+/** Flat on the floor at the first frame: ankle at standing height, toe tip down. */
+function startsFlat(exercise: (typeof EXERCISES)[number]): boolean {
+  const evaluation = new PoseEvaluation(rig);
+  const clip = generateClip(rig, exercise);
+  const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+  evaluation.apply(resolveFrame(rig, evaluation, clip, 0, { anchors }).pose);
+  const ankle = evaluation.head('foot_l', new Vector3()).y;
+  const toe = evaluation.tail('toe_l', new Vector3()).y;
+  return Math.abs(ankle - 0.082) < 0.01 && toe < 0.03;
+}
+
 const standing = EXERCISES.filter(
   (exercise) =>
-    exercise.locks.some((lock) => lock.mode === 'floor' && lock.chain.startsWith('leg')) &&
-    !exercise.startPose.root?.rotation,
+    exercise.locks.some((lock) => lock.mode === 'floor' && lock.chain.startsWith('leg')) && startsFlat(exercise),
 );
 
 describe('standing feet', () => {
   it('cover every exercise that stands', () => {
     expect(standing.map((exercise) => exercise.id).sort()).toEqual([
       'air_squat',
+      'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',
       'dumbbell_hammer_curl',
       'dumbbell_reverse_curl',

@@ -6,6 +6,20 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The horizontal pull becomes the fifth family, with a dumbbell bent-over row
+
+Suite **478 passed / 1 skipped** (55 files; was 458 / 54), typecheck and build clean. The eight existing exercises are **byte-identical** (definitions, 61 resolved frames, contacts, rule results). No engine change: the family is built from what the hinge added.
+
+**Added.** `families/row.ts` and `definitions/bentOverRow.ts`. The body holds a hinge, 50° forward, with the pelvis 15 cm behind the ankles and the knees soft (27°). The arms row from a straight hang to elbows driven back past the ribs, with a neutral grip and 14 kg a hand. At the squeeze the forearm hangs 3.9° off vertical and the elbow finishes level with the back. A shallower pull (−25°/88°) tipped the forearm 12° forward, curling the dumbbell; a deeper one (−35°/80°) started to push it back. Rules: flat lower and upper back, torso bent 40–65°, **torso still** (chest within 2 cm: no heaving), hips high, soft knees, elbow past the back at the squeeze, elbows in, forearm near vertical, shoulders down, neutral grip and wrist, heels down, feet planted, dumbbells level. Zero violations; every IK target reached; loop closed.
+
+**Production character.** Dumbbells clear the thighs by 10.9 mm at the squeeze (the curls: 11.5), nothing inside. Upper arm to chest 1.52 mm at the stretch, recorded as its baseline. Hand roll matches the rig within 1°. Feet held flat, toe height and direction constant.
+
+**What the hinge could not give it.** The row *starts* bent over, and a floor lock anchors from the opening frame, so it anchored the feet wherever the bent-over leg angles put them: toe tip 5 mm under the floor. The row pins its feet to where and how the hinge's stand (`FOOT_L`, position and orientation). `row.test.ts` holds the pin to the hinge's measured anchors, so a stance or rig change is caught.
+
+**Feet test.** "Standing" is now defined physically: ankle at standing height and toe on the floor at the first frame. That takes in the row, which opens bent over, and still leaves out the push-up, which is up on its toes.
+
+**Tests.** New `row.test.ts`: the feet pin matches the hinge (0.1 mm, 0.02°); the chest and pelvis hold still through the rep (1e-6 m); the leg angles agree with the held hinge; forearm under the weight and elbow level with the back at the squeeze; one registered variant.
+
 ### Claude — 2026-09-24 — Standing feet are checked as a whole foot; the squat's are a recorded defect
 
 New `src/exercises/feet.test.ts`. Every planted-foot rule measures a *point* (the ankle, or just behind it), and a foot can rotate about that point without moving it. So this measures the whole foot, as the studio shows it, through every standing exercise: the toe tip's height and the foot's direction. The curls, the press and the Romanian deadlift hold both to 0.2 mm and 0.0°.

@@ -242,7 +242,8 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
   // A single-column cable station, authored facing −Z: whoever uses it stands
   // on its −Z side. The high pulley hangs off an arm reaching 36 cm out over
   // them, so a cable from it drops in front of the body rather than down the
-  // column; the weight stack sits between the uprights, out of reach.
+  // column; the weight stack sits between the uprights, out of reach. A mid
+  // pulley at chest height faces the user straight on.
   cable_tower: [
     box([0.7, 0.04, 0.6], [0, 0.02, 0.1]),
     box([0.06, 2.2, 0.06], [-0.28, 1.12, 0.2]),
@@ -255,6 +256,18 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
       radius: 0.045,
       tube: 0.012,
       position: [0, 2.12, -0.14],
+      rotation: [0, HALF_TURN, 0],
+      material: 'metal',
+    },
+    // A second pulley at chest height on a crossbar between the uprights, for
+    // cables that pull sideways or straight out rather than down.
+    box([0.56, 0.06, 0.06], [0, 1.25, 0.2]),
+    box([0.06, 0.06, 0.16], [0, 1.25, 0.11], 'dark'),
+    {
+      shape: 'torus',
+      radius: 0.035,
+      tube: 0.01,
+      position: [0, 1.25, 0.02],
       rotation: [0, HALF_TURN, 0],
       material: 'metal',
     },

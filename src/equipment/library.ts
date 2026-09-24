@@ -122,7 +122,13 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
     defaultMass: 1,
     paired: true,
     size: vec3(0.06, 0.16, 0.14),
-    sockets: [socket('grip', 'Handle', [0, 0, 0]), socket('clip', 'Cable clip', [0, 0.11, 0], 'mount')],
+    sockets: [
+      socket('grip', 'Handle', [0, 0, 0]),
+      socket('clip', 'Cable clip', [0, 0.11, 0], 'mount'),
+      // Both hands on the one handle, fists interlocked one above the other.
+      socket('grip_l', 'Upper hand', [0, 0, 0.0316]),
+      socket('grip_r', 'Lower hand', [0, 0, -0.0316], 'grip', [0, 180, 0]),
+    ],
   },
   cable_rope: {
     kind: 'cable_rope',
@@ -175,7 +181,11 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
     paired: false,
     size: vec3(0.7, 2.3, 0.6),
     // The bottom of the high pulley's wheel, where the cable leaves it.
-    sockets: [socket('pulley', 'High pulley', [0, 2.075, -0.14], 'mount')],
+    sockets: [
+      socket('pulley', 'High pulley', [0, 2.075, -0.14], 'mount'),
+      // The front of the mid pulley's wheel, where a horizontal cable leaves it.
+      socket('pulley_mid', 'Mid pulley', [0, 1.25, -0.015], 'mount'),
+    ],
   },
   cable_bar: {
     kind: 'cable_bar',

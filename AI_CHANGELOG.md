@@ -6,6 +6,57 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Anti-rotation becomes the tenth family, with a cable Pallof press
+
+Suite **658 passed / 1 skipped** (61 files; was 639), typecheck and build clean. The eighteen existing exercises are **byte-identical**.
+
+**Added.**
+
+- `families/antiRotation.ts` and `definitions/pallofPress.ts`: side-on to a chest-height cable, the handle clasped at the sternum, pressed straight out, held for 2 s and brought back.
+- The trunk holds square against the pull: the pelvis and all three spine joints stay within 0.5° of zero twist.
+- It is the first exercise whose hands are driven by **pose-level IK targets** (`PoseSpec.ik`). The data path existed but nothing used it. The clip blends each wrist in a straight line from chest to reach, and the handle is held in both hands (`hands`), so it follows exactly.
+- Listed as deliberately asymmetric in `mirror.test.ts`: the cable comes from one side, and one hand sits above the other.
+
+**Equipment.**
+
+- The cable tower gains a chest-height pulley on a crossbar (`pulley_mid`, 1.25 m).
+- The cable handle gains two grips (`grip_l`/`grip_r`, fists interlocked 6.3 cm apart along its bar).
+- The pushdown's tower now shows the extra pulley. Its motion and clearance are unchanged.
+
+**Solved, not chosen.**
+
+- **Wrist targets.** Each hand's grip centre sits 9 cm along the hand from the wrist, in a direction that depends on how the hand turns. The targets were found by moving each wrist by its grip's error until it closed to 0.01 mm.
+- **Reach and elbows.** With both grips at one depth, the upper hand's elbow stayed bent 34° at full reach while the lower locked. Tipping the handle forward 2 cm (upper grip ahead) finishes the elbows at 21° and 10°. At 52 cm the lower hand runs out of reach, so full reach is 51 cm.
+- **Handle orientation.** Held exactly upright, the handle's grip axis is vertical, the degenerate case for a two-hand item's roll, so it spun a quarter turn over the press. The 2 cm tip keeps it turned the same way throughout, and a 270° roll points its clip at the pulley.
+
+**Measured.**
+
+| | Result |
+|---|---|
+| Violations / IK reach / loop | zero / every frame / closed |
+| Grip fit | exact at the ends, 1.09 mm at most mid-press |
+| Grips off the midline | 9.7 mm at most mid-press, on a 34 cm press. The wrists are blended in straight lines while the hands turn slightly. |
+
+On the production character:
+
+| | Result |
+|---|---|
+| Tower to body | 261 mm clear |
+| Handle to chest | 40 mm clear |
+| Cable to body | 109 mm clear |
+| Upper arm to chest (new baseline) | 1.85 mm |
+
+**Tests.** New `antiRotation.test.ts`:
+
+- trunk square;
+- hands on the midline line;
+- handle rigid in both hands;
+- arms long at the hold;
+- cable from the mid pulley to a clip facing it;
+- one core variant.
+
+Also: the mirror honesty test accepts differing hands as well as differing legs; the press-family count excludes the core exercise that is called a press; feet and self-collision lists extended.
+
 ### Claude — 2026-09-24 — Calf raise becomes the ninth family; a ball-of-foot contact can hold the knee
 
 Suite **639 passed / 1 skipped** (60 files; was 607), typecheck and build clean. The sixteen existing exercises are **byte-identical**, including the split squat, whose ball-of-foot solve shares the changed code.

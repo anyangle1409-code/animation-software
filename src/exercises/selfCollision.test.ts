@@ -84,6 +84,8 @@ const BASELINE: Record<string, number> = {
   // Arms hanging at the sides while the body rises onto the toes.
   standing_calf_raise: 0.0051,
   dumbbell_calf_raise: 0.00559,
+  // The upper (left) arm crossing the chest to the clasped handle.
+  cable_pallof_press: 0.00185,
 };
 
 /**

@@ -60,6 +60,7 @@ describe('standing feet', () => {
   it('cover every exercise that stands', () => {
     expect(standing.map((exercise) => exercise.id).sort()).toEqual([
       'air_squat',
+      'cable_pallof_press',
       'cable_triceps_pushdown',
       'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',

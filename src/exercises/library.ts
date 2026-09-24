@@ -17,6 +17,7 @@ import { lateralRaise } from './definitions/lateralRaise';
 import { frontRaise } from './definitions/frontRaise';
 import { calfRaise } from './definitions/calfRaise';
 import { dumbbellCalfRaise } from './definitions/dumbbellCalfRaise';
+import { pallofPress } from './definitions/pallofPress';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
@@ -47,6 +48,7 @@ export const EXERCISES: ExerciseDefinition[] = [
   frontRaise,
   calfRaise,
   dumbbellCalfRaise,
+  pallofPress,
 ];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));

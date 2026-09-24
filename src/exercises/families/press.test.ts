@@ -83,7 +83,8 @@ describe('the press family', () => {
     // Asserted so that adding another is a deliberate act that updates this
     // test and the header with it, rather than quietly changing what the
     // family's coverage means.
-    const presses = EXERCISES.filter((exercise) => exercise.clipName.includes('press'));
+    // The Pallof press is a core exercise that happens to be called a press.
+    const presses = EXERCISES.filter((exercise) => exercise.clipName.includes('press') && exercise.category !== 'core');
     expect(presses.map((exercise) => exercise.id)).toEqual([
       'dumbbell_shoulder_press',
       'seated_dumbbell_shoulder_press',

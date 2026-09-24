@@ -6,6 +6,37 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The cable woodchop completes the rotation family
+
+Suite **745 passed / 1 skipped** (66 files; was 727), typecheck and build clean. **The twenty-two existing exercises are byte-identical.** No engine, rig or equipment change.
+
+**Added.**
+
+- `rotationFamily({ setup: 'cable' })` and `definitions/cableWoodchop.ts`: high to low, side-on to a cable tower on the right, one handle in both hands, chopped down across the body to beside the left hip and returned.
+- **The turn.** The hips pivot 15° each way over planted feet and the spine turns 35° more, the head 10°. The knees sink 6 cm and the trunk bends 12° into the finish.
+- **Arms blended as joint angles, not hand IK.**
+  - Driven by pose IK, the hands blended in a straight line from pulley to hip and cut inside the arc. Mid-chop the elbows bent and the handle passed in front of the face.
+  - Instead, the IK solves the grips onto the handle at each end, and those arm angles are blended. The grips stay about 60 cm from the shoulders the whole way (elbows 17–31°), and the handle swings out 57 cm in front of the chest half way down.
+  - The price: between the ends the hands are not held exactly on the handle. The finish was chosen with both elbows nearly as bent (31° and 29°), so each hand stays within 5.07 mm of its grip (sampled 2,000 times). A finish with the right elbow at 53° drifted three times as far.
+  - A first fit spaced the hands 95 mm apart, the fit harness's default, against the handle's 63.2 mm. The grip-fit test caught it (16 mm at the ends), and the ends were refitted at 63.2 mm.
+- **Feet pinned flat and square** (position, flat aim, knee pole along the foot) rather than held from the opening frame. Held from the opening frame, the hips' opening 15° turn left each foot turned with its toe off the floor, and it later dipped 5 cm through it. The start also stands 2.5 cm soft-kneed; standing tall, the legs could not reach feet this wide (ankles 1.6 cm up).
+- Rules: feet planted, arms long (elbow ≤ 40°), a full turn towards the pulley and away, the hips pivoting at the finish, the handle finishing low beside the far hip, chest up. Three common errors.
+- Built after, and depending on, the equipment reflection just before it. Rendered in Character view, the woodchop now reaches up to its own pulley.
+
+**Measured.**
+
+- Clearance: tower 233 mm, handle 112 mm (thigh), cable 158 mm (chest).
+- Self-collision 0.98 mm: the right forearm passing the trunk as the arms swing across. This is **the tightest in the library** (the previous minimum is 1.12 mm). It grazes but does not enter, since the arms genuinely cross the body in a woodchop; recorded as the baseline.
+
+**Tests.** `rotation.test.ts` gains four woodchop tests:
+
+- from above the head, towards the pulley, to beside the far hip;
+- long arms, handle out in front mid-chop;
+- each hand within 5.5 mm of its grip, exact at the ends;
+- feet flat and square while the hips turn 30° in all.
+
+The woodchop is also listed as asymmetric in `mirror.test.ts` and added to the standing-feet list.
+
 ### Claude — 2026-09-24 — Equipment placed on the production character's side, not the rig's
 
 Suite **727 passed / 1 skipped** (66 files; was 722), typecheck and build clean. **All twenty-two exercises' clip data is byte-identical.** Found while building the cable woodchop.

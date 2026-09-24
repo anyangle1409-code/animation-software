@@ -12,6 +12,9 @@ import { retargetedCharacterSource } from '../../character/retargetSource';
 import { dominantBone, posedVertex } from '../../character/posedMesh';
 import { EXERCISES } from '../library';
 import { russianTwist } from '../definitions/russianTwist';
+import { cableWoodchop } from '../definitions/cableWoodchop';
+import { anatomicalGripOffset } from '../../equipment/attach';
+import { measureTwoHandFit } from '../../equipment/gripDiagnostics';
 
 /**
  * The rotation family: the trunk turning over hips that stay put.
@@ -45,11 +48,11 @@ function frames(steps = 40) {
 }
 
 describe('the rotation family', () => {
-  it('has one registered variant', () => {
+  it('has two registered variants', () => {
     const turning = EXERCISES.filter(
       (exercise) => exercise.category === 'core' && exercise.technique.some((rule) => rule.id.startsWith('full_turn_')),
     );
-    expect(turning.map((exercise) => exercise.id)).toEqual(['russian_twist']);
+    expect(turning.map((exercise) => exercise.id)).toEqual(['russian_twist', 'cable_woodchop']);
   });
 });
 
@@ -112,4 +115,74 @@ describe.skipIf(!existsSync(ASSET))('Russian twist on the production character',
     expect(lowest).toBeLessThanOrEqual(0.003);
     expect(lowest).toBeGreaterThanOrEqual(-0.015);
   }, 60_000);
+});
+
+describe('cable woodchop', () => {
+  const evaluation = new PoseEvaluation(rig);
+  const clip = generateClip(rig, cableWoodchop);
+  const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+  const handle = cableWoodchop.equipment.instances.find((instance) => instance.id === 'handle')!;
+  const chop = clip.keyframes[1].time;
+  const all = Array.from({ length: 41 }, (_, step) => {
+    const frame = resolveFrame(rig, evaluation, clip, (step / 40) * clip.duration, { anchors });
+    evaluation.apply(frame.pose);
+    const grip = evaluation
+      .localToWorld('hand_l', anatomicalGripOffset('l'), new Vector3())
+      .add(evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new Vector3()))
+      .multiplyScalar(0.5);
+    const shoulders = evaluation.head('upperarm_l', new Vector3()).add(evaluation.head('upperarm_r', new Vector3())).multiplyScalar(0.5);
+    return {
+      frame,
+      grip,
+      reach: grip.distanceTo(shoulders),
+      head: evaluation.head('head', new Vector3()),
+      fit: measureTwoHandFit(evaluation, handle, frame.equipment.get('handle')!)!,
+      elbows: [frame.pose.rotations.forearm_l!.x, frame.pose.rotations.forearm_r!.x].map((x) => x / R),
+      feet: (['l', 'r'] as const).map((side) => ({
+        ankle: evaluation.head(`foot_${side}`, new Vector3()),
+        toe: evaluation.tail(`toe_${side}`, new Vector3()),
+      })),
+    };
+  });
+
+  it('chops from above the head, towards the pulley, to beside the far hip', () => {
+    const top = all[0];
+    const finish = all.find((entry) => entry.frame.phaseId === 'finish')!;
+    expect(top.grip.y).toBeGreaterThan(top.head.y + 0.1);
+    expect(top.grip.x).toBeGreaterThan(0.3);
+    expect(finish.grip.y).toBeLessThan(0.9);
+    expect(finish.grip.x).toBeLessThan(-0.25);
+  });
+
+  it('swings the handle on long arms, out in front, not past the face', () => {
+    for (const entry of all) {
+      expect(Math.max(...entry.elbows)).toBeLessThan(35);
+      expect(entry.reach).toBeGreaterThan(0.57);
+    }
+    // Half way down the chop the handle is well out in front of the body.
+    const middle = resolveFrame(rig, evaluation, clip, chop * 0.5, { anchors });
+    evaluation.apply(middle.pose);
+    const handle = middle.equipment.get('handle')!.position;
+    expect(handle.z).toBeGreaterThan(0.5);
+  });
+
+  it('keeps each hand within 5.5 mm of its grip on the handle', () => {
+    // Exact at both ends. Blended as joint angles in between, the grips open to
+    // 73 mm and close to 62 mm against the handle's 63.2 mm: 5.07 mm at most,
+    // sampled 2000 times over the clip.
+    for (const { fit } of all) expect(Math.max(fit.leftError, fit.rightError)).toBeLessThan(0.0055);
+    expect(Math.max(all[0].fit.leftError, all[0].fit.rightError)).toBeLessThan(0.0001);
+  });
+
+  it('turns the hips over feet that stay flat and square', () => {
+    for (const { feet } of all) {
+      for (const { ankle, toe } of feet) {
+        expect(ankle.y).toBeCloseTo(0.08, 6);
+        expect(toe.y).toBeLessThan(0.021);
+        expect(toe.y).toBeGreaterThan(0.019);
+      }
+    }
+    const pelvis = all.map(({ frame }) => (frame.pose.rotations.pelvis?.y ?? 0) / R);
+    expect(Math.max(...pelvis) - Math.min(...pelvis)).toBeCloseTo(30, 6);
+  });
 });

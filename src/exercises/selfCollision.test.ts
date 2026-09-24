@@ -93,6 +93,9 @@ const BASELINE: Record<string, number> = {
   // Upper arms drawn in to clasp the hands, passing the side of the trunk as
   // it turns.
   russian_twist: 0.00184,
+  // The tightest in the library: the right forearm passing the trunk as the
+  // long arms swing the handle down across the body. Grazing, not inside.
+  cable_woodchop: 0.00098,
 };
 
 /**

@@ -6,9 +6,12 @@ import type {
   Tempo,
 } from '../types';
 import type { TechniqueRule } from '../../constraints/types';
+import type { EquipmentInstance } from '../../equipment/types';
 import { vec3 } from '../../rig/types';
-import { bilateralJoints } from '../mirror';
-import { seatedStance } from '../stance';
+import { withTwoHandGripWidth } from '../../equipment/library';
+import { bilateralJoints, bilateralLock } from '../mirror';
+import { plantedContact } from '../presets';
+import { ANKLE_HEIGHT, flatFootAim, seatedStance } from '../stance';
 import { hingeRoot } from './hinge';
 
 /**
@@ -41,6 +44,20 @@ import { hingeRoot } from './hinge';
  *   into the floor; at 13 cm they sank 23 mm.
  * * The rig's twist is positive to the body's right (the hands go to +x). Its
  *   joint-limit labels read the other way round; the angles here are measured.
+ *
+ * ## The cable woodchop (`setup: 'cable'`)
+ *
+ * Standing side-on to a cable tower on the right, the handle in both hands at
+ * the high pulley, pulled down across the body to beside the left hip. The
+ * hips pivot 15° over planted feet and the spine turns 35° more, from turned
+ * towards the pulley to turned away; the knees sink 6 cm and the trunk bends
+ * 12° into the finish. The arms are blended as joint angles rather than driven
+ * by hand IK, so the handle sweeps an arc on long arms (see `CHOP_ARMS`).
+ *
+ * Its tower stands beside the lifter, which is where the rig's mirror-image
+ * body showed: the production character performs the rig's mirror image, and
+ * until world-placed equipment was reflected with it (`equipment/mirror.ts`)
+ * this exercise reached away from its own pulley in the character view.
  */
 
 export interface RotationVariant {
@@ -48,6 +65,8 @@ export interface RotationVariant {
   name: string;
   clipName: string;
   description: string;
+  /** Seated on the floor (the Russian twist), or standing at a cable. */
+  setup?: 'seated' | 'cable';
   tempo?: Tempo;
   muscles?: Partial<MuscleInvolvement>;
   commonErrors?: CommonError[];
@@ -94,6 +113,7 @@ const ARMS = bilateralJoints({
 });
 
 export function rotationFamily(variant: RotationVariant): ExerciseDefinition {
+  if (variant.setup === 'cable') return cableChop(variant);
   const stance = seatedStance(FEET);
   const root = hingeRoot(SEAT.pitch, SEAT.pelvis);
   const seat = { position: { y: root.y, z: root.z }, rotation: { x: SEAT.pitch } };
@@ -232,6 +252,282 @@ export function rotationFamily(variant: RotationVariant): ExerciseDefinition {
       target: vec3(0, 0.4, 0),
       fov: 42,
       note: 'Front view shows the shoulders turning from side to side over hips that stay square.',
+      ...variant.camera,
+    },
+  };
+}
+
+// ------------------------------------------------------------ The woodchop
+
+/**
+ * The cable woodchop's arms, degrees: the angles the arm IK solves for the two
+ * grips on the handle at each end (63.2 mm apart, the handle's own spacing),
+ * then blended as joint angles.
+ *
+ * Driven by the IK instead, the hands blended in a straight line from the
+ * pulley to the far hip, which cuts inside the arc long arms sweep: mid-chop
+ * the elbows bent and the handle passed in front of the face. Blended as
+ * angles, the arms stay long (the grips about 60 cm from the shoulders the
+ * whole way, elbows 17–31°) and the handle swings out 57 cm in front of the
+ * chest half way down.
+ *
+ * The price is that the two hands are no longer held exactly on the handle
+ * between the ends. The finish was chosen to keep that small: with both elbows
+ * ending nearly as bent (31° and 29°) the grips open to 73 mm and close to
+ * 62 mm, so each hand stays within 5.1 mm of its grip. Finishing with the
+ * right elbow at 53° instead, the drift was three times as large.
+ *
+ * Top: the handle up towards the pulley, 1.78 m high and 33 cm to the right.
+ * Finish: beside the left hip, 88 cm high.
+ */
+const CHOP_ARMS = {
+  top: {
+    upperarm_l: { x: 116.13, y: 7.49, z: 16.16 },
+    upperarm_r: { x: 115.81, y: 6.7, z: -15.34 },
+    forearm_l: { x: 24.71, y: 0 },
+    forearm_r: { x: 16.56, y: 0 },
+    hand_l: { x: 0, z: 0 },
+    hand_r: { x: 0, z: 0 },
+  },
+  finish: {
+    upperarm_l: { x: 41.97, y: -71.09, z: 0 },
+    upperarm_r: { x: 26.8, y: -40.89, z: -26.62 },
+    forearm_l: { x: 31.38, y: 0 },
+    forearm_r: { x: 28.51, y: 0 },
+    hand_l: { x: 0, z: 0 },
+    hand_r: { x: 0, z: 0 },
+  },
+};
+
+/**
+ * Hips and trunk turned to one side: +1 towards the pulley (right), -1 away.
+ * The hips turn 15° over planted feet, the spine 35° more, the head 10°. The
+ * finish also bends forward 12° through the spine as the handle comes low.
+ */
+function chopTrunk(side: 1 | -1, bend: number) {
+  return {
+    pelvis: { x: 0, y: side * 15 },
+    spine_01: { x: bend / 3, y: side * 8 },
+    spine_02: { x: bend / 3, y: side * 12 },
+    spine_03: { x: bend / 3, y: side * 15 },
+    neck: { x: 0, y: side * 10 },
+  };
+}
+
+/** Where the tower stands: to the right and a little ahead, turned to face across. */
+const TOWER = vec3(0.95, 0, 0.35);
+
+function chopStation(): EquipmentInstance[] {
+  const still = { position: vec3(0, 0, 0), rotation: vec3(0, 0, 0), visible: true };
+  const handle: EquipmentInstance = {
+    id: 'handle',
+    kind: 'cable_handle',
+    label: 'Cable handle',
+    mass: 1,
+    ...still,
+    attachment: { mode: 'hands', leftSocket: 'grip_l', rightSocket: 'grip_r', gripRoll: 90 },
+  };
+  return [
+    {
+      id: 'tower',
+      kind: 'cable_tower',
+      label: 'Cable tower',
+      mass: 0,
+      ...still,
+      position: TOWER,
+      rotation: vec3(0, -90, 0),
+      attachment: { mode: 'static' },
+    },
+    withTwoHandGripWidth(handle, null),
+    {
+      id: 'cable',
+      kind: 'cable',
+      label: 'Cable',
+      mass: 0,
+      ...still,
+      attachment: { mode: 'cable', from: { equipment: 'tower', socket: 'pulley' }, to: { equipment: 'handle', socket: 'clip' } },
+    },
+  ];
+}
+
+/**
+ * Feet planted 50 cm apart and turned out 8°, pinned flat where they stand
+ * rather than held from the opening frame. The chop opens with the hips
+ * already turned 15°, and a foot held from there stood turned with them, its
+ * toe off the floor, then dipped 5 cm through it as the hips came round. Pinned,
+ * the hips turn over still feet, the thighs taking the turn, and each knee
+ * points out along its foot (a pole 2 m ahead and 1.5 m up), since a leg this
+ * straight has no bend of its own to follow.
+ */
+function chopStance() {
+  const width = 0.5;
+  const toeOut = 8;
+  const turn = (toeOut * Math.PI) / 180;
+  return {
+    feet: { width, toeOut, planted: true },
+    locks: bilateralLock({
+      id: 'foot_l',
+      chain: 'leg_l',
+      mode: 'floor',
+      position: vec3(-width / 2, ANKLE_HEIGHT, 0),
+      aim: flatFootAim(toeOut),
+      pole: vec3(-width / 2 - 2 * Math.sin(turn), 1.5, 2 * Math.cos(turn)),
+      enabled: true,
+    }),
+    technique: plantedContact({ point: { bone: 'foot_l' }, tolerance: 0.012, label: 'Left foot stays planted' }),
+  };
+}
+
+function cableChop(variant: RotationVariant): ExerciseDefinition {
+  const stance = chopStance();
+  const bend = 12;
+  // Sinking 6 cm and sitting back 3 cm into the finish.
+  const finishRoot = { position: { y: -0.06, z: -0.03 } };
+
+  return {
+    id: variant.id,
+    name: variant.name,
+    clipName: variant.clipName,
+    category: 'core',
+    description: variant.description,
+
+    equipment: { required: ['cable_tower', 'cable_handle', 'cable'], instances: chopStation() },
+
+    // Knees soft from the start: standing tall, the legs could not reach feet
+    // pinned this wide, and the ankles hung 1.6 cm above the floor.
+    startPose: {
+      label: 'Reaching up to the pulley',
+      joints: { ...CHOP_ARMS.top, ...chopTrunk(1, 0) },
+      root: { position: { y: -0.025 } },
+    },
+    peakPose: {
+      label: 'Chopped down across the body',
+      joints: { ...CHOP_ARMS.finish, ...chopTrunk(-1, bend) },
+      root: finishRoot,
+    },
+
+    jointTargets: [],
+
+    phases: [
+      { id: 'chop', label: 'Chop', to: 'peak', easing: 'lift', contraction: 'concentric' },
+      { id: 'finish', label: 'Finish', to: 'peak', easing: 'hold', contraction: 'isometric' },
+      { id: 'return', label: 'Return', to: 'start', easing: 'lift', contraction: 'eccentric' },
+      { id: 'reach', label: 'Reach', to: 'start', easing: 'hold', contraction: 'isometric' },
+    ],
+
+    tempo: variant.tempo ?? { concentric: 1, pauseContracted: 0.3, eccentric: 1.6, pauseStretched: 0.4 },
+
+    hands: { grip: 'handle', orientation: 'neutral', closure: 0.85 },
+    feet: stance.feet,
+    locks: stance.locks,
+
+    muscles: {
+      primary: ['obliques'],
+      secondary: ['rectus_abdominis', 'latissimus', 'deltoid_anterior'],
+      stabilisers: ['gluteus', 'erector_lower', 'quadriceps', 'hip_abductors'],
+      ...variant.muscles,
+    },
+
+    technique: [
+      ...stance.technique,
+      ...(['l', 'r'] as const).map((side): TechniqueRule => ({
+        kind: 'jointAngle',
+        id: `arms_long_${side}`,
+        label: `${side === 'l' ? 'Left' : 'Right'} arm stays long — the trunk moves the handle, not the arms`,
+        bone: `forearm_${side}`,
+        axis: 'x',
+        max: 40,
+        severity: 'error',
+      })),
+      {
+        kind: 'jointAngle',
+        id: 'full_turn_start',
+        label: 'Turns fully towards the pulley to reach for the handle',
+        bone: 'spine_03',
+        axis: 'y',
+        min: 12,
+        phases: ['reach'],
+        severity: 'error',
+      },
+      {
+        kind: 'jointAngle',
+        id: 'full_turn_finish',
+        label: 'Turns fully through to the far side at the finish',
+        bone: 'spine_03',
+        axis: 'y',
+        max: -12,
+        phases: ['finish'],
+        severity: 'error',
+      },
+      {
+        kind: 'jointAngle',
+        id: 'hips_pivot',
+        label: 'Hips turn with the trunk at the finish rather than the spine wringing alone',
+        bone: 'pelvis',
+        axis: 'y',
+        max: -10,
+        phases: ['finish'],
+        severity: 'error',
+      },
+      {
+        kind: 'relativePosition',
+        id: 'chops_low',
+        label: 'The handle finishes low, beside the far hip',
+        point: { bone: 'hand_l', along: 1 },
+        relativeTo: { bone: 'pelvis' },
+        axis: 'y',
+        max: 0.1,
+        phases: ['finish'],
+        severity: 'error',
+      },
+      {
+        kind: 'segmentAngle',
+        id: 'chest_up',
+        label: 'Chest stays up — bending at the hips, not folding over',
+        bone: 'spine_02',
+        reference: 'vertical',
+        max: 25,
+        severity: 'error',
+      },
+    ] satisfies TechniqueRule[],
+
+    commonErrors: [
+      {
+        id: 'arm_pull',
+        label: 'Pulling with the arms',
+        description: 'The elbows bend and the arms drag the handle down while the trunk barely turns.',
+        ruleId: 'arms_long_r',
+        correction: 'Keep the arms long and let the hips and trunk turn the handle down.',
+      },
+      {
+        id: 'short_turn',
+        label: 'Stopping short',
+        description: 'The handle stops in front of the body instead of finishing beside the far hip.',
+        ruleId: 'full_turn_finish',
+        correction: 'Turn all the way through, chest to the far side.',
+      },
+      {
+        id: 'locked_hips',
+        label: 'Locked hips',
+        description: 'The hips stay square and the lower back twists alone.',
+        ruleId: 'hips_pivot',
+        correction: 'Let the hips turn with the chop, knees soft.',
+      },
+      ...(variant.commonErrors ?? []),
+    ],
+
+    breathing: {
+      inhale: 'eccentric',
+      exhale: 'concentric',
+      cue: 'Breathe out as you chop down, in as the handle returns.',
+    },
+
+    camera: {
+      preset: 'front',
+      position: vec3(0.4, 1.4, 3.2),
+      target: vec3(0.1, 1.1, 0.2),
+      fov: 46,
+      note: 'Front view shows the handle travelling from the pulley down across the body as the hips and trunk turn.',
       ...variant.camera,
     },
   };

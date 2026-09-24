@@ -62,6 +62,7 @@ describe('standing feet', () => {
       'air_squat',
       'cable_pallof_press',
       'cable_triceps_pushdown',
+      'cable_woodchop',
       'dumbbell_bench_press',
       'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',

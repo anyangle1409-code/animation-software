@@ -140,6 +140,30 @@
     "grip_refit_started": false,
     "production_asset_promoted": false
   },
+  "hand_finger_body_experiment": {
+    "version": "v14e_finger_body_trial",
+    "branch": "codex-high-detail-candidate-v14-finger-body-review-20260924",
+    "source_geometry_version": "v13e_fingertip_retopology",
+    "status": "experimental_visual_improvement_insufficient_not_accepted_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v14e_finger_body_trial.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v14e_finger_body_trial_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v14e_finger_body_trial.blend",
+    "sha256": {
+      "dressed_glb": "4512dd57f6697b7251ea3e066291e741ca9ee7b25a29add68c5b6e54d509af64",
+      "bare_glb": "a98c7108f4d92836e7ae4135b0581164febb8250a7b71fce970bc49931783aa2",
+      "blend": "243085929a96cee7614cce15c4b45840183e2b49e2d3eeaff91e1eab395bc238"
+    },
+    "body_vertices": 51058,
+    "body_triangles": 98627,
+    "new_blender_vertices_from_v13e": 2737,
+    "protected_floor_vertices_unchanged": 682,
+    "changed_non_hand_vertices": 0,
+    "bind_seams_closed_under_0_05mm": 549,
+    "folded_edges_over_100deg": 4,
+    "validation": "quick check, strict floor guard, five focused guards and seven exercises over 26 frames pass against 614033b; matched V13e/V14e renders in renders_v14e_finger_body_trial; visual improvement insufficient",
+    "grip_refit_started": false,
+    "production_asset_promoted": false
+  },
   "rig_baseline": {
     "branches": [
       "chatgpt/absolute-retarget-imports",
@@ -180,7 +204,7 @@
     {
       "priority": 2,
       "id": "hand_anatomy_geometry",
-      "status": "review_pending_v13e",
+      "status": "review_pending_v13e_v14e_experimental",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
       "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },

@@ -1,8 +1,8 @@
-# Next action: visual review of V13e
+# Next action: rebuild finger shaft and joint surface locally
 
-V8 remains the accepted body/knee geometry baseline. V11 and V12c are preserved, unaccepted hand candidates. **V13e fingertip retopology is the current unaccepted hand review candidate.** It adds 1,646 distal-finger vertices to V12c and modestly rounds the four fingertips on each side. The protected floor contacts, seam boundaries, rig, weights, UV behavior and exercises are unchanged. See `REVIEW_V13E_FINGERTIP_RETOPOLOGY.md` and the three matched V12c/V13e boards in `renders_v13e_fingertip_retopology/`.
+V8 remains the accepted body/knee geometry baseline. V13e is the last hand review candidate. **V14e is an unaccepted experimental checkpoint**: adding 2,737 finger-body vertices and up to 1.086 mm of constrained smoothing passes all guards but does not sufficiently change the broad, segmented silhouette. See `REVIEW_V14E_FINGER_BODY_TRIAL.md` and its three V13e/V14e comparison boards.
 
-Visual improvement is small. The broad inherited finger sections and facets near protected floor-contact vertices remain. Do not call Phase B finished or start grip refit without visual acceptance. If more hand improvement is required, plan a local finger-body topology replacement with an explicit proof that the push-up contact solution remains identical; repeated small displacement fields have not removed the inherited silhouette. Keep the V12c and V13e assets intact and run `scripts/audit_hand_seams.py` on every new candidate.
+Work from V13e in a separate candidate. Replace or redirect actual finger shaft, knuckle and joint surface topology on both hands, including the unwelded patches that create the angular silhouette. Keep all 682 protected original push-up contacts and their skin rows exact; keep non-hand body, frozen rig, runtime `614033b`, exercise/equipment behavior and production references unchanged. Audit bind and posed seams after the rebuild. Validate the five focused guards, seven exercises, bare/dressed equivalence, and matched open/fist/curl/push-up/pull-up renders. Only a visibly improved, technically passing hand candidate may become the geometry source for grip fitting.
 
 ## Validation pin
 

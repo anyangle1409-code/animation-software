@@ -1,0 +1,25 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v14e_finger_body_trial.blend",
+  "edges_subdivided": 2737,
+  "per_digit": {
+    "L_index": 340,
+    "L_middle": 436,
+    "L_ring": 408,
+    "L_pinky": 187,
+    "R_index": 337,
+    "R_middle": 435,
+    "R_ring": 408,
+    "R_pinky": 186
+  },
+  "new_vertices": 2737,
+  "faces_before": 93153,
+  "faces_after": 98627,
+  "active_vertices": 13007,
+  "max_original_move_mm": 1.0860031967299406,
+  "protected_max_move_mm": 0.0,
+  "boundary_max_move_mm": 0.0,
+  "outside_digit_max_move_mm": 0.0,
+  "body_vertices": 51028,
+  "body_faces": 98627
+}

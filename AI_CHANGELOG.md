@@ -6,6 +6,19 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Standing feet are checked as a whole foot; the squat's are a recorded defect
+
+New `src/exercises/feet.test.ts`. Every planted-foot rule measures a *point* (the ankle, or just behind it), and a foot can rotate about that point without moving it. So this measures the whole foot, as the studio shows it, through every standing exercise: the toe tip's height and the foot's direction. The curls, the press and the Romanian deadlift hold both to 0.2 mm and 0.0°.
+
+**The squat does not.** As played, its toes dip **41 mm below the floor** mid-descent (66.6 mm of travel), the heel rises 16 mm, and the feet swivel from 10° out to 22° in. Every technique rule passes throughout. It is recorded as a known defect at its measured values (66.6 mm, 29.3° of foot-bone turn) so it cannot get worse, and it leaves the list when fixed.
+
+**Why it was not fixed here.** Holding the squat's feet flat with the lock the hinge uses removes the toe dip and the swivel. But it leaves the knees 74–128 mm inside the line of the foot at the bottom, against 46 mm now, across 60 knee poles and with toe-out taken from the hip as well. That is knee cave, the fault a squat must not show, so the change was backed out. Two causes were found and need a deliberate stance pass:
+
+- **The ankle's "toe-out" turns the feet in.** `applyStance` writes toe-out onto the foot's z axis with the wrong sign: 10° asked is 10.7° inward on the bare skeleton.
+- **The leg solver twists near-straight legs outward** by 18–31°, which is what actually produces the toe-out every standing exercise shows. The curls ask 6° and show 12.5°, the press 6° → 12.8°.
+
+The proposed fix: turn the legs out from the hip, and set the thigh's twist from the foot rather than from a pole a straight leg cannot resolve. It changes how the squat moves, so it is left for review.
+
 ### Claude — 2026-09-24 — The hinge becomes the fourth family, with a dumbbell Romanian deadlift
 
 Suite **450 passed / 1 skipped** (53 files; was 426 / 52), typecheck and build clean. The seven existing exercises are **byte-identical** afterwards: definitions, 61 resolved frames each, contacts and rule results, compared against a dump taken before any change. The frozen 63-bone skeleton is untouched.

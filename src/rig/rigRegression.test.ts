@@ -137,7 +137,8 @@ describe('shared-rig regression', () => {
         for (const lock of clip.locks) {
           const side = lock.chain.endsWith('_l') ? 'l' : 'r';
           const bone = (lock.chain.startsWith('arm') ? `hand_${side}` : `foot_${side}`) as BoneName;
-          const position = evaluation.head(bone, new Vector3());
+          // A foot standing on its ball is held at the ball; its ankle rises.
+          const position = lock.onBall ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
           const first = start.get(lock.id);
           if (!first) start.set(lock.id, position.clone());
           else if (position.distanceTo(first) > drift) {

@@ -93,7 +93,12 @@ export function sampleClip(clip: StudioClip, time: number): ClipSample {
   const from = keyframes[index];
   const to = keyframes[index + 1];
   if (!to) {
-    return { pose: clonePose(from.pose), ik: cloneIK(from.ik), phaseId: from.phaseId, index };
+    // A looping clip's last keyframe is its first again, so it is in the phase
+    // the loop continues into. Without that it has no phase at all, and a sample
+    // landing on it — a validation step that falls a rounding error short of the
+    // clip's end — would be checked against rules scoped to phases it is not in.
+    const phaseId = from.phaseId ?? (clip.loop ? keyframes[0].phaseId : undefined);
+    return { pose: clonePose(from.pose), ik: cloneIK(from.ik), phaseId, index };
   }
 
   const span = to.time - from.time;

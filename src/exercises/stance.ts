@@ -122,19 +122,33 @@ export function plantedStance({
 }
 
 /**
- * Which way a flat left foot points, turned out by `toeOut` degrees: the
+ * Which way a flat left foot points, turned out by `toeOut` degrees — or up on
+ * the ball of the foot, heel raised by `heelRaise` degrees: the
  * canonical foot bone at rest runs from the ankle (8 cm up) down to the ball of
  * the foot (2.5 cm up, 14 cm ahead), and its +Z faces up and forward. This is a
  * foot flat on the floor as the rig stands, which is what a lock's `aim` needs
  * when the opening frame cannot supply it — a movement that starts seated or
  * bent over. `stance.test.ts` holds it to the rig.
  */
-export function flatFootAim(toeOut: number): { direction: Vec3; forward: Vec3 } {
+export function flatFootAim(toeOut: number, heelRaise = 0): { direction: Vec3; forward: Vec3 } {
   const length = Math.hypot(0.055, 0.14);
   const turn = (-toeOut * Math.PI) / 180;
-  const along = (y: number, z: number) => vec3(z * Math.sin(turn), y, z * Math.cos(turn));
-  return { direction: along(-0.055 / length, 0.14 / length), forward: along(0.14 / length, 0.055 / length) };
+  const raise = (heelRaise * Math.PI) / 180;
+  // Heel raised: the foot pitches down about its own cross axis before it turns out.
+  const pitch = (y: number, z: number) => [y * Math.cos(raise) - z * Math.sin(raise), y * Math.sin(raise) + z * Math.cos(raise)];
+  // `+ 0` keeps a straight foot's x at 0 rather than -0, so it mirrors to itself.
+  const along = ([y, z]: number[]) => vec3(z * Math.sin(turn) + 0, y, z * Math.cos(turn));
+  return {
+    direction: along(pitch(-0.055 / length, 0.14 / length)),
+    forward: along(pitch(0.14 / length, 0.055 / length)),
+  };
 }
+
+/** Length of the foot bone, ankle to the ball of the foot, metres. */
+export const FOOT_LENGTH = Math.hypot(0.055, 0.14);
+
+/** Height of the ball of the foot above the floor, metres: the canonical `foot_l` tail. */
+export const BALL_HEIGHT = 0.025;
 
 /** Ankle height, metres, of a foot flat on the floor: the canonical `foot_l` head. */
 export const ANKLE_HEIGHT = 0.08;

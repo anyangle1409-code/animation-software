@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The lunge becomes the seventh family, with a split squat; a foot can stand on its ball
+
+Suite **551 passed / 1 skipped** (58 files; was 533 / 57), typecheck and build clean. The twelve existing exercises are **byte-identical**.
+
+**Added.** `families/lunge.ts` and `definitions/splitSquat.ts`. The left foot is forward and flat, 80 cm ahead of the back foot's ball, hip width apart. The right foot stands on its ball behind. The body sinks straight down from a split stance (front knee 43°) until the front thigh is parallel and the back knee is 9 cm off the floor, then drives back up. It is the first family whose legs differ, so the legs, their locks and their rules are written out per side; only the arms are mirrored. Rules: front foot planted, back ball planted, front heel down, torso upright, front knee over the front foot and not far past the toes, depth, hips square, neutral spine. Zero violations; every IK target reached; loop closed. The front knee finishes over the front foot (5 mm lateral, 2 cm past the ankle).
+
+**A foot can stand on its ball** (`EffectorLock.onBall`). A lunge's back shin swings from upright to nearly flat, so a back foot held at one angle needs more ankle than there is. The first draft slid 6 cm and put its toes 28 mm through the floor. With `onBall`, the ball of the foot is the contact. The toes lie flat, and the heel rises and falls about the ball so the ankle holds a set angle (25°), solved by bisection in `ik/solve.ts`. The heel rises no further than the toes can bend back under it. The ball and toe tip hold to 0.00 mm through the rep while the heel's pitch changes by more than 15°.
+
+**Shared-rig change: the toe joint now bends back to 80°, from 60°.** Real toes reach 65–90°, and at the bottom of the split squat the back foot needs more than 60 (with 60 the ball slid 1.9 cm). Joint limits are not part of the frozen skeleton, and no other exercise was at the old limit: all twelve are byte-identical.
+
+**A latent phase bug, found by the new clip length.** A validation sample that falls a rounding error short of the clip's end (3.8999999999999995 of 3.9 s) landed on the last keyframe, which had no phase. Rules scoped to a phase were then checked there: the split squat's depth rule fired at the standing frame. A looping clip's last keyframe now carries the phase the loop continues into (`animation/clip.ts`). The other clips' durations happened to divide exactly.
+
+**Tests.** New `lunge.test.ts`: the back ball and toes still (1 mm, 0.25°) while the heel moves; the ankle held at 25°; depth and front-knee tracking; leg angles agree with the solve; one variant. `feet.test.ts`, `exercises.test.ts` and `rigRegression.test.ts` hold a foot standing on its ball at the ball. `mirror.test.ts` lists the split squat as deliberately asymmetric, and checks that it really is. `flatFootAim` avoids −0 so a straight foot mirrors to itself, and takes an optional heel raise. Upper arm to chest: 4.22 mm (baseline). Hand roll matches the rig.
+
+**Considered, not taken.** Tucking the pelvis (the cue to stretch the back hip flexor) left the back hip 2.6° from its extension limit at the top; tilting it the other way arched the lower back past the neutral-spine rule. A neutral pelvis with the top set lower (pelvis 0.78 m) leaves 11°.
+
 ### Claude — 2026-09-24 — The squat's feet stay flat, and its knees track out over them (approved change to an accepted exercise)
 
 Suite **533 passed / 1 skipped** (57 files), typecheck and build clean. Approved by the user as "option A, squat only". **The squat is the only exercise whose motion changed**; the other eleven are byte-identical. Revert point: `70b5174`, recorded in `docs/CHANGE_LOG_REVERT_POINTS.md`.

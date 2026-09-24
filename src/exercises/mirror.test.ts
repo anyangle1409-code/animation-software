@@ -70,9 +70,26 @@ const pairsOf = <T extends { id: string }>(items: T[]): [T, T][] => {
   return pairs;
 };
 
+/**
+ * Exercises whose two sides are meant to differ — a split stance puts one foot
+ * forward and the other back — and so are not their own mirror. Listed rather
+ * than detected, so an exercise cannot drop out of the symmetry check by
+ * accident; the test below holds each to actually being asymmetric.
+ */
+const ASYMMETRIC = new Set(['split_squat']);
+
 describe('mirroring', () => {
+  it('lists as asymmetric only exercises whose legs really differ', () => {
+    for (const id of ASYMMETRIC) {
+      const exercise = EXERCISES.find((entry) => entry.id === id)!;
+      const left = exercise.locks.find((lock) => lock.id === 'foot_l')!;
+      const right = exercise.locks.find((lock) => lock.id === 'foot_r')!;
+      expect(mirrorLock(left), id).not.toEqual(right);
+    }
+  });
+
   describe('the derived half agrees with the body it drives', () => {
-    for (const exercise of EXERCISES) {
+    for (const exercise of EXERCISES.filter((entry) => !ASYMMETRIC.has(entry.id))) {
       it(`${exercise.name} resolves to its own mirror`, () => {
         const evaluation = new PoseEvaluation(skeleton);
         const clip = generateClip(skeleton, exercise);

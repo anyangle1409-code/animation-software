@@ -73,6 +73,8 @@ const BASELINE: Record<string, number> = {
   incline_dumbbell_curl: 0.00179,
   // Arms overhead, the upper arm beside the top of the chest at lockout.
   dumbbell_overhead_triceps_extension: 0.0029,
+  // Arms hanging at the sides through the split squat.
+  split_squat: 0.00422,
 };
 
 /**

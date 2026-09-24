@@ -30,6 +30,12 @@ export interface IKGoal {
    * keep a hand aligned to a bar, or a foot flat on the floor.
    */
   endAim?: { direction: Vec3; forward?: Vec3 };
+  /**
+   * Stand the end bone on its tail instead of its head: `anchor` is where the
+   * ball of the foot must be, and the heel's height is solved so the ankle
+   * holds `ankle` degrees. See `EffectorLock.onBall`.
+   */
+  ball?: { anchor: Vec3; ankle: number; toeOut: number };
 }
 
 export interface IKResult {

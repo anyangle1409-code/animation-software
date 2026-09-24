@@ -147,6 +147,16 @@ export interface EffectorLock {
    * keeps the foot flat, and makes the ankle an output of the solve.
    */
   holdOrientation?: boolean;
+  /**
+   * `floor` locks only: the contact is the ball of the foot, not the ankle. The
+   * ball stays where it is, the toes lie flat on the floor, and the heel rises
+   * or falls about the ball so the ankle holds `ankle` degrees (positive is
+   * dorsiflexion) whatever the shin does. That is a lunge's back foot: as the
+   * back knee drops towards the floor the shin swings from upright to nearly
+   * flat, and a foot held at one angle would need more ankle than there is.
+   * `position`, when given, is where the ball is.
+   */
+  onBall?: { ankle: number; toeOut?: number };
   enabled: boolean;
 }
 

@@ -57,7 +57,8 @@ describe.each(EXERCISES.map((exercise) => [exercise.name, exercise.id] as const)
             : side === 'l'
               ? 'foot_l'
               : 'foot_r';
-          const position = evaluation.head(bone, new Vector3());
+          // A foot standing on its ball is held at the ball; its ankle rises.
+          const position = lock.onBall ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
           const first = start.get(lock.id);
           if (!first) start.set(lock.id, position.clone());
           else expect(position.distanceTo(first), `${lock.id} at ${time.toFixed(2)}s`).toBeLessThan(0.005);

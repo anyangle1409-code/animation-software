@@ -291,7 +291,10 @@ const LEFT_BONES: BoneDefinition[] = [
     parent: 'foot_l',
     head: vec3(-0.082, 0.025, 0.14),
     tail: vec3(-0.082, 0.02, 0.21),
-    limits: joint(limit(-35, 60, 'Extension', 'Flexion'), null, null),
+    // The toes bend back up to 80°: the back foot of a lunge stands on its ball
+    // with the heel high, and the toes lie flat under it. 60° left the back foot
+    // unable to reach the floor at the bottom of a split squat.
+    limits: joint(limit(-35, 80, 'Extension', 'Flexion'), null, null),
     radius: 0.028,
   },
 ];

@@ -69,6 +69,7 @@ describe('standing feet', () => {
       'dumbbell_shoulder_press',
       'incline_dumbbell_curl',
       'seated_dumbbell_shoulder_press',
+      'split_squat',
     ]);
   });
 
@@ -89,7 +90,10 @@ describe('standing feet', () => {
         evaluation.apply(resolveFrame(rig, evaluation, clip, time, { anchors }).pose);
         for (const side of ['l', 'r'] as const) {
           const toe = evaluation.tail(`toe_${side}`, new Vector3()).y;
-          const direction = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(`foot_${side}`));
+          // A foot standing on its ball pivots on it, heel rising and falling;
+          // its toes are what lie flat and still.
+          const onBall = exercise.locks.some((lock) => lock.chain === `leg_${side}` && lock.onBall);
+          const direction = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(onBall ? `toe_${side}` : `foot_${side}`));
           const start = first.get(side);
           if (!start) {
             first.set(side, { toe, direction });

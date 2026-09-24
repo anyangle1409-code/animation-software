@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { Quaternion, Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
@@ -26,6 +26,10 @@ export function solveGoals(
   for (const goal of goals) {
     if (!goal.enabled) continue;
     const chain = IK_CHAINS[goal.chain];
+    if (goal.ball) {
+      results.push(standOnBall(skeleton, evaluation, pose, chain, goal));
+      continue;
+    }
     scratchTarget.set(goal.target.x, goal.target.y, goal.target.z);
     scratchPole.set(goal.pole.x, goal.pole.y, goal.pole.z);
     results.push(solveTwoBone(skeleton, evaluation, pose, chain, scratchTarget, scratchPole));
@@ -158,3 +162,80 @@ export function effectorPosition(
 }
 
 export const goalTargetVector = (goal: IKGoal): Vec3 => goal.target;
+
+/**
+ * A foot standing on its ball: the ball stays put, the toes lie flat, and the
+ * heel rises about the ball until the ankle is at the angle asked.
+ *
+ * The heel's height is the one unknown. Raising it pitches the foot further
+ * down, which plantarflexes the ankle for a given shin, so the ankle angle falls
+ * steadily as the heel rises and a bisection finds it. The heel rises no higher
+ * than the toes can bend back to stay flat; past that the ankle bends further
+ * instead, which is what a real back foot does at the bottom of a lunge. Each trial places the
+ * ankle where that heel height puts it, solves the leg to it, and holds the foot
+ * at that pitch, with the shin taking any twist the ankle cannot, as it does
+ * for a flat foot.
+ */
+function standOnBall(
+  skeleton: Skeleton,
+  evaluation: PoseEvaluation,
+  pose: Pose,
+  chain: (typeof IK_CHAINS)[IKChainId],
+  goal: IKGoal,
+): IKResult {
+  const ball = goal.ball!;
+  const foot = skeleton.bone(chain.end);
+  const toe = skeleton.bones.find((bone) => bone.parent === chain.end);
+  const side = chain.end.endsWith('_r') ? -1 : 1;
+  const yaw = new Quaternion().setFromAxisAngle(Y_AXIS, (-side * ball.toeOut * Math.PI) / 180);
+  const anchor = new Vector3(ball.anchor.x, ball.anchor.y, ball.anchor.z);
+  const pole = new Vector3(goal.pole.x, goal.pole.y, goal.pole.z);
+  const direction = new Vector3();
+  const forward = new Vector3();
+  const ankle = new Vector3();
+  let result: IKResult = { chain: chain.id, error: Infinity, reached: false, overExtended: false };
+
+  const place = (raise: number) => {
+    const turn = new Quaternion()
+      .copy(yaw)
+      .multiply(new Quaternion().setFromAxisAngle(X_AXIS, (raise * Math.PI) / 180))
+      .multiply(foot.restWorldQuaternion);
+    direction.copy(Y_AXIS).applyQuaternion(turn);
+    forward.copy(Z_AXIS).applyQuaternion(turn);
+    ankle.copy(anchor).addScaledVector(direction, -foot.length);
+    result = solveTwoBone(skeleton, evaluation, pose, chain, ankle, pole);
+    aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
+    settleTibialRotation(skeleton, evaluation, pose, chain, direction, forward);
+    return ((pose.rotations[chain.end]?.x ?? 0) * 180) / Math.PI;
+  };
+
+  // The heel rises no further than the toes can bend back to stay flat under
+  // it; past that the ankle bends instead.
+  const toeReach = toe?.definition.limits.x?.max ?? 85;
+  let low = 0;
+  let high = Math.min(85, toeReach - 1);
+  for (let step = 0; step < 24; step += 1) {
+    const middle = (low + high) / 2;
+    if (place(middle) > ball.ankle) low = middle;
+    else high = middle;
+  }
+  place((low + high) / 2);
+
+  if (toe) {
+    // The toes lie flat on the floor, turned out with the foot.
+    const flat = new Quaternion().copy(yaw).multiply(toe.restWorldQuaternion);
+    aimBone(
+      skeleton,
+      evaluation,
+      pose,
+      toe.name,
+      new Vector3(0, 1, 0).applyQuaternion(flat),
+      new Vector3(0, 0, 1).applyQuaternion(flat),
+    );
+  }
+  evaluation.apply(pose);
+  const reachedBall = evaluation.tail(chain.end, new Vector3()).distanceTo(anchor);
+  return { ...result, error: Math.max(result.error, reachedBall), reached: result.reached && reachedBall < 2e-3 };
+}
+
+const X_AXIS = new Vector3(1, 0, 0);

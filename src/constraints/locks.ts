@@ -55,6 +55,13 @@ export function resolveLocks(
         // height from the mesh instead would ask the leg to reach somewhere it
         // cannot, and the foot would visibly sink and slide.
         const anchor = lock.position ?? anchors?.get(lock.id);
+        if (lock.onBall) {
+          const ball = evaluation.tail(IK_CHAINS[lock.chain].end, new Vector3());
+          const at = anchor ?? vec3(ball.x, ball.y, ball.z);
+          goal.target = { ...at };
+          goal.ball = { anchor: { ...at }, ankle: lock.onBall.ankle, toeOut: lock.onBall.toeOut ?? 0 };
+          break;
+        }
         const current = evaluation.head(IK_CHAINS[lock.chain].end, new Vector3());
         goal.target = vec3(
           anchor?.x ?? current.x,
@@ -102,7 +109,9 @@ export function lockAnchors(
   const position = new Vector3();
   for (const lock of locks) {
     if (lock.mode !== 'floor') continue;
-    evaluation.head(IK_CHAINS[lock.chain].end, position);
+    // A foot standing on its ball is anchored at the ball, not the ankle.
+    if (lock.onBall) evaluation.tail(IK_CHAINS[lock.chain].end, position);
+    else evaluation.head(IK_CHAINS[lock.chain].end, position);
     anchors.set(lock.id, vec3(position.x, position.y, position.z));
   }
 

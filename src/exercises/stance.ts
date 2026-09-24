@@ -69,6 +69,19 @@ export interface StanceOptions {
    * picked.
    */
   kneePole?: Vec3;
+  /**
+   * Hold the feet flat at exactly the stance's toe-out, and aim each knee out
+   * along its foot. For a movement whose knees bend deeply over planted feet —
+   * the squat.
+   *
+   * The foot is pinned outright (`flatFootAim`) rather than held from the
+   * opening frame, and the pole lies straight out along the foot, 2 m ahead and
+   * 1.5 m up, so the knee bends in the plane the foot points along. What twist
+   * the ankle's ±10° cannot take as the knee bends, the shin does, as a real
+   * tibia rotates on a bent knee (`solveGoals`). Takes precedence over `flat`
+   * and `kneePole`.
+   */
+  kneesOverToes?: boolean;
 }
 
 /** A stance with both feet locked to the floor. */
@@ -78,7 +91,10 @@ export function plantedStance({
   tolerance = 0.012,
   flat = false,
   kneePole,
+  kneesOverToes = false,
 }: StanceOptions = {}): PlantedStance {
+  const turn = (toeOut * Math.PI) / 180;
+  const alongFoot = vec3(-width / 2 - 2 * Math.sin(turn), 1.5, 2 * Math.cos(turn));
   return {
     feet: { width, toeOut, planted: true },
     locks: [
@@ -86,8 +102,12 @@ export function plantedStance({
         id: 'foot_l',
         chain: 'leg_l',
         mode: 'floor',
-        ...(kneePole ? { pole: kneePole } : {}),
-        ...(flat ? { holdOrientation: true } : {}),
+        ...(kneesOverToes
+          ? { pole: alongFoot, aim: flatFootAim(toeOut) }
+          : {
+              ...(kneePole ? { pole: kneePole } : {}),
+              ...(flat ? { holdOrientation: true } : {}),
+            }),
         enabled: true,
       }),
     ],

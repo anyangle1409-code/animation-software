@@ -32,12 +32,21 @@ import { heelDown, plantedStance } from '../stance';
  * Moving the root alone, from −44 cm to −34 cm, moves the pelvis from 510 mm to
  * 610 mm and takes the hip and knee with it, to 88.5° and −97.8°.
  *
- * The ankle is the exception and does drive: 26° resolves to 26.0°, 16° to
- * 16.0°. A `floor` lock constrains where the foot is, not which way it points,
- * so the ankle angle is left free for the pose to set.
+ * The ankle used to be the exception and drive: a `floor` lock constrains
+ * where the foot is, not which way it points, so the authored ankle set the
+ * foot's pitch. That was a flaw. The shin's lean and twist through the descent
+ * are solved, and an ankle interpolated from 0° to 26° could not follow them:
+ * as played, the toes dipped 41 mm below the floor mid-descent and the feet
+ * swivelled from 10° out to 22° in, while every rule passed. The feet are now
+ * pinned flat at the stance's 12° (`plantedStance({ kneesOverToes })`) and each
+ * knee is aimed out along its foot, with the shin rotating on the bent knee to
+ * take the twist the ankle's ±10° cannot. The toe holds its height to 0.3 mm,
+ * the foot its direction to 0.2°, and the knees finish 28 mm inside the line of
+ * the foot at the bottom, where they finished 46 mm inside it before. The ankle
+ * is now an output like the hip and knee: 26° asked, 26.7° solved.
  *
  * The shipped bundle is consistent — it asks 100/−114/26 and resolves to
- * 101.5/−112.8/26.0 — because those angles were derived to match the root
+ * 102.3/−112.8/26.7 — because those angles were derived to match the root
  * placement rather than chosen independently. That consistency is load-bearing
  * and invisible: the hip and knee numbers are what the definition *documents*,
  * what the technique rules read, and what a coach would recognise, so a variant
@@ -117,6 +126,8 @@ export function squatFamily(variant: SquatVariant): ExerciseDefinition {
     // A foot carrying the whole body through half a metre of travel deforms
     // more than one standing still under a curl.
     tolerance: 0.015,
+    // Feet flat at their 12°, knees bending out along them; see the header.
+    kneesOverToes: true,
   });
 
   return {

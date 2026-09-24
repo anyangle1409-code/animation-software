@@ -5,6 +5,7 @@ import { vec3 } from '../rig/types';
 import { IK_CHAINS } from './chains';
 import { aimBone, solveTwoBone } from './twoBone';
 import type { IKChainId, IKGoal, IKResult } from './types';
+import type { BoneName } from '../rig/boneNames';
 
 const scratchTarget = new Vector3();
 const scratchPole = new Vector3();
@@ -44,10 +45,73 @@ export function solveGoals(
         scratchDirection,
         forward ? scratchForward.set(forward.x, forward.y, forward.z) : undefined,
       );
+      if (forward && chain.mid.startsWith('shin_')) {
+        settleTibialRotation(skeleton, evaluation, pose, chain, scratchDirection, scratchForward);
+      }
     }
   }
   return results;
 }
+
+/** How far the end bone is from the orientation it was aimed at, radians. */
+function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vector3, forward: Vector3): number {
+  const turn = evaluation.quaternion(name);
+  return Math.max(
+    missScratch.copy(Y_AXIS).applyQuaternion(turn).angleTo(direction),
+    missScratch.copy(Z_AXIS).applyQuaternion(turn).angleTo(forward),
+  );
+}
+
+/**
+ * A foot held flat that its own joint cannot keep flat: turn the shin about
+ * its own axis to make up the difference.
+ *
+ * The two-bone solve leaves the knee a pure hinge, so any change in the leg's
+ * twist lands on the ankle, whose side-to-side range is ±10°. A squatting leg
+ * twists by more than that as the knee bends, and the foot swivels on the
+ * floor. A real knee takes that twist itself — the tibia rotates on a bent knee
+ * — and the rig has the axis for it (`shin` y, ±15°). Turning the shin about its
+ * own axis does not move the ankle, so the contact is untouched.
+ *
+ * Only runs when the ankle alone has fallen short, so a foot already reached
+ * is solved exactly as before.
+ */
+function settleTibialRotation(
+  skeleton: Skeleton,
+  evaluation: PoseEvaluation,
+  pose: Pose,
+  chain: (typeof IK_CHAINS)[IKChainId],
+  direction: Vector3,
+  forward: Vector3,
+): void {
+  if (aimMiss(evaluation, chain.end, direction, forward) < TIBIAL_TOLERANCE) return;
+  const limit = skeleton.bone(chain.mid).definition.limits.y;
+  if (!limit) return;
+  const hinge = { ...(pose.rotations[chain.mid] ?? { x: 0, y: 0, z: 0 }) };
+  const tryTwist = (degrees: number) => {
+    pose.rotations[chain.mid] = { ...hinge, y: (degrees * Math.PI) / 180 };
+    evaluation.apply(pose);
+    aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
+    return aimMiss(evaluation, chain.end, direction, forward);
+  };
+  let best = { degrees: 0, miss: Number.POSITIVE_INFINITY };
+  for (let degrees = limit.min; degrees <= limit.max + 1e-9; degrees += 1) {
+    const miss = tryTwist(degrees);
+    if (miss < best.miss) best = { degrees, miss };
+  }
+  for (let degrees = best.degrees - 1; degrees <= best.degrees + 1 + 1e-9; degrees += 0.05) {
+    if (degrees < limit.min || degrees > limit.max) continue;
+    const miss = tryTwist(degrees);
+    if (miss < best.miss) best = { degrees, miss };
+  }
+  tryTwist(best.degrees);
+}
+
+/** A foot within this of its aim is left as the ankle placed it (0.05°). */
+const TIBIAL_TOLERANCE = (0.05 * Math.PI) / 180;
+const Y_AXIS = new Vector3(0, 1, 0);
+const Z_AXIS = new Vector3(0, 0, 1);
+const missScratch = new Vector3();
 
 /**
  * A goal that holds a limb exactly where it is now, with a pole placed along

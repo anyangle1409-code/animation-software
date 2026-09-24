@@ -6,6 +6,34 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The squat's feet stay flat, and its knees track out over them (approved change to an accepted exercise)
+
+Suite **533 passed / 1 skipped** (57 files), typecheck and build clean. Approved by the user as "option A, squat only". **The squat is the only exercise whose motion changed**; the other eleven are byte-identical. Revert point: `70b5174`, recorded in `docs/CHANGE_LOG_REVERT_POINTS.md`.
+
+**The defect.** As played, the squat's feet rode with its shins. The toes dipped 41 mm below the floor mid-descent (66.6 mm of travel), the heel rose 16 mm, and the feet swivelled from 10° out to 22° in, while every technique rule passed. It had been recorded as a known defect in `feet.test.ts`.
+
+**The fix, in three parts.**
+
+- `plantedStance({ kneesOverToes })` pins each foot flat at exactly the stance's toe-out (`flatFootAim`, 12° as the squat always asked), instead of taking the orientation from the opening frame. It also places the knee pole straight out along the foot, 2 m ahead and 1.5 m up.
+- **Tibial rotation in the leg solver** (`ik/solve.ts`). When an aimed foot is more than 0.05° from its aim, the shin turns about its own axis (the rig's `shin` y, ±15°) to take the twist the ankle's ±10° cannot. A real tibia does this on a bent knee. It does not move the ankle, and it never runs when the ankle alone reaches the aim, which is why every other exercise is unchanged.
+- Earlier attempts, recorded so they are not repeated. Holding the orientation from the opening frame made the pole twist the standing leg and drag the foot with it. Poles alone could not stop the foot swivelling, because the ankle ran out of range.
+
+**Measured, squat only.**
+
+| | before | after |
+|---|---|---|
+| toe tip height travel | 66.6 mm (41 mm below floor) | 0.3 mm |
+| foot direction | 10° out → 22° in | 12.0–12.2° |
+| knee at the bottom, inside the line of the foot | 46 mm | 28 mm |
+| knee at the bottom, relative to the ankle | 28 mm inside | 10 mm outside |
+| hip / knee / ankle at the bottom | 101.5 / −112.8 / 26.0 | 102.3 / −112.8 / 26.7 |
+
+The pelvis, trunk, arms and ankle positions are unchanged. Only the knee (up to 64 mm, outward) and the toes moved. All rules pass; arm-to-chest is 1.36 mm, as before; hand roll matches.
+
+**Tests.** `feet.test.ts` holds the squat to the strict standard and the known-defect list is empty. `squat.test.ts` treats the ankle as an output (within 1.5°), and compares the squat's locks with the curl's minus the new aim and pole.
+
+**Not changed (option B, not approved).** The ankle toe-out sign bug in `applyStance` and the leg solver's twist of near-straight legs still govern the curls, presses and hinge. Their feet are flat and still, so nothing is visibly wrong, but asking 6° shows 12.5°.
+
 ### Claude — 2026-09-24 — Elbow extension becomes the sixth family, with an overhead dumbbell triceps extension
 
 Suite **533 passed / 1 skipped** (57 files; was 515 / 56), typecheck and build clean. The eleven existing exercises are **byte-identical**.

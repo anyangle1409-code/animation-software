@@ -23,31 +23,22 @@ import { EXERCISES } from './library';
  * out the push-up, which is up on its toes and pivots on them. The pull-up
  * hangs.
  *
- * ## The squat is a known defect, held to what it does now
+ * ## Known defects
  *
- * The squat's feet ride with its shins: the toes dip 41 mm below the floor and
- * the feet swivel 32°. Holding them flat (`plantedStance({ flat })`) is not a
- * fix on its own. The stance turns the feet out at the ankle, and the ankle's
- * "toe-out" actually turns them *in* (10° asked, 10.7° in); the leg solver
- * twists near-straight legs outward by far more, which is what the studio shows.
- * With the feet held, every knee pole tried — 60 of them, and toe-out from the
- * hip as well — left the knees 74-128 mm inside the line of the foot at the
- * bottom, against 46 mm now. That is knee cave, the fault a squat must not
- * show, so the fix waits for a stance model that turns the leg out from the hip
- * and sets the thigh's twist from the foot. Until then the squat is held to its
- * current numbers so it cannot get worse, and it leaves this list when fixed.
+ * An exercise that cannot yet pass is listed in `KNOWN_DEFECTS` at its measured
+ * values, so it cannot get worse, and leaves the list when fixed. The squat was
+ * the first: its feet rode with its shins, the toes dipping 41 mm below the
+ * floor and the feet swivelling 32°. It now pins its feet flat at their 12°
+ * and aims the knees along them (`plantedStance({ kneesOverToes })`), with the
+ * shin taking the twist the ankle cannot. The list is empty.
  */
 const rig = canonicalSkeleton;
 
 /**
- * Measured now: toe-tip height travel (metres), and the largest angle the foot
- * bone turns through from where it started (degrees). The 32° swivel above is
- * the same motion read off the footprint on the floor; the bone points 23°
- * downward, so its turn in 3D reads smaller.
+ * Exercises that cannot yet pass, at their measured toe-tip height travel
+ * (metres) and largest foot turn from the start (degrees).
  */
-const KNOWN_DEFECTS: Record<string, { toe: number; direction: number }> = {
-  air_squat: { toe: 0.0666, direction: 29.3 },
-};
+const KNOWN_DEFECTS: Record<string, { toe: number; direction: number }> = {};
 
 /** Flat on the floor at the first frame: ankle at standing height, toe tip down. */
 function startsFlat(exercise: (typeof EXERCISES)[number]): boolean {

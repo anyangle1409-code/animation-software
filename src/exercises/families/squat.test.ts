@@ -60,9 +60,10 @@ describe('the squat family', () => {
       .toBeLessThan(3);
     expect(Math.abs(solved.knee - asked.knee), `knee: asked ${asked.knee}, solved ${solved.knee.toFixed(1)}`)
       .toBeLessThan(3);
-    // The ankle is an input rather than an output — a floor lock fixes where the
-    // foot is, not which way it points — so it lands exactly.
-    expect(Math.abs(solved.ankle - asked.ankle)).toBeLessThan(0.5);
+    // The ankle used to be an input and land exactly. With the feet pinned flat
+    // it is solved like the hip and knee (26.7° at the bottom against 26 asked).
+    expect(Math.abs(solved.ankle - asked.ankle), `ankle: asked ${asked.ankle}, solved ${solved.ankle.toFixed(1)}`)
+      .toBeLessThan(1.5);
   });
 
   it('is driven by the root placement, not by the leg angles', () => {
@@ -91,8 +92,10 @@ describe('the squat family', () => {
     };
     expect(tolerance(airSquat)).toBe(0.015);
     expect(tolerance(bicepCurl)).toBe(0.012);
-    // The shape is still shared: same rule, same locks, same shape of foot spec.
-    expect(airSquat.locks).toEqual(bicepCurl.locks);
+    // The shape is still shared: same rule, same locks, same shape of foot spec —
+    // the squat's locks also pin the feet flat and aim the knees along them.
+    expect(airSquat.locks.map(({ aim: _aim, pole: _pole, ...lock }) => lock)).toEqual(bicepCurl.locks);
+    expect(airSquat.locks[0].aim).toBeDefined();
   });
 
   it('has exactly one registered variant, which the header explains', () => {

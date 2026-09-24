@@ -1,18 +1,15 @@
-# Next action: V10 hand anatomy visual review
+# Next action: V11 hand cleanup
 
-V8 is the accepted body/knee geometry baseline. V9 is rejected/experimental.
-V10 is a separate, mechanically validated hand-retopology review candidate
-derived from V8. None is promoted to production.
+V8 remains the accepted body/knee geometry baseline. V9 remains rejected/experimental. V10 is the current mechanically validated hand-topology checkpoint and is not yet accepted visually.
 
-Show the matched V8/V10 open-hand, equipment-free closed-fist, and exercise
-comparison boards in `renders_v10_hand_retopology/`. The full-size PNGs are
-there too. Ask for visual acceptance of V10 anatomy before any curl-grip refit.
-The remaining visible issues are faceted fingertips/joint bands, a thumb-web
-seam in some views, and a segmented wrist transition.
+Read `V11_HAND_CLEANUP_PLAN.md` and use it as the exact next-work checklist.
 
-If V10 is rejected, keep all candidates and make V11 candidate-side anatomy
-changes only. Preserve the 682 protected floor-contact original vertices,
-V8's non-hand geometry, frozen `hgpt_canonical_v3` hierarchy, runtime
-`614033b`, UV/weight compatibility, equipment and exercises. Re-run the
-same guard suite and matched pose reviews. Do not touch production files,
-`bundled.ts`, references or grip mechanics.
+Create a new V11 candidate from V10 and perform only the focused visual/anatomical cleanup described there:
+- smoother fingertip caps
+- softer finger-joint transitions
+- remove the thumb-index web seam
+- blend the wrist transition
+
+Do not refit the grip yet. Do not change the frozen 63-bone `hgpt_canonical_v3` hierarchy, runtime source `614033b`, exercises, equipment, production references, palm motion or scapular rhythm.
+
+Run the same V10 mechanical guards and generate the matched V10/V11 open-hand, closed-fist and exercise hand review boards. Stop for visual review before Phase C grip refit.

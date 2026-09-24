@@ -6,6 +6,7 @@ import { useCharacter } from '../editor/characterStore';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
 import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
+import { reflectPlacement } from '../equipment/mirror';
 import { EquipmentMesh } from './equipmentMeshes';
 import { useSceneState } from './sceneState';
 
@@ -19,6 +20,9 @@ import { useSceneState } from './sceneState';
  * canonical hand is. For those, a hand-held item follows the character's hand
  * instead — through the same grip offsets, restated in the canonical hand's
  * frame by the character itself.
+ *
+ * And a character that is the rig's mirror image (`CharacterBuild.mirrored`)
+ * has everything else the rig placed reflected into its world with it.
  */
 export function EquipmentView() {
   const scene = useSceneState();
@@ -82,7 +86,11 @@ export function EquipmentView() {
         continue;
       }
       group.visible = true;
-      group.matrix.copy(transform.matrix);
+      // Placed by the rig in its own world. A mirrored character performs the
+      // rig's mirror image, so the item is reflected to stay on the same side
+      // of the body as the character's hands.
+      if (character?.mirrored) reflectPlacement(transform.matrix, group.matrix);
+      else group.matrix.copy(transform.matrix);
       group.matrixWorldNeedsUpdate = true;
     }
 

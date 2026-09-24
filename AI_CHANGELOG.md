@@ -6,6 +6,39 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Equipment placed on the production character's side, not the rig's
+
+Suite **727 passed / 1 skipped** (66 files; was 722), typecheck and build clean. **All twenty-two exercises' clip data is byte-identical.** Found while building the cable woodchop.
+
+**The defect.**
+
+- The canonical rig faces +Z with its left on world −X. That is the mirror image of a real body, and `humanoid.ts` says so.
+- The production character is a real body, so the retarget reflects every canonical frame into it (`RetargetBinding.mirrorSides`). It performs each exercise as the rig's mirror image, with its named sides right: the rig's left arm drives its left arm. Contacts and IK targets were already reflected with it (`retargetContact.ts`), and held items follow its own hands.
+- Everything else the rig placed in world space was not reflected: benches, racks, a cable tower, and the baked two-hand handle and cable.
+  - For anything on the midline this is invisible.
+  - Beside the body it is not. In Character view and in the exported GLB, the Pallof press's tower stood on the side opposite its cable and hands, and in the export its handle crossed the character's hands.
+  - The woodchop prototype reached away from its own pulley.
+- Confirmed by rendering Skeleton and Character views side by side: the split squat's forward leg and the woodchop's reach are mirrored between them.
+
+**The fix** (`equipment/mirror.ts`).
+
+- `CharacterBuild.mirrored`, set from the binding.
+- The viewport, the exporter (static items and baked two-hand and cable tracks) and the production clearance gate reflect rig-placed items by `S·M·S` (S = x → −x) for a mirrored character.
+- Static items already their own mirror image (on the midline, turned by 0° or 180°) are skipped in the export, so symmetric set-ups write the same bytes. Zeros are kept from becoming −0.
+- `S·M·S` draws the same item only if the item is its own mirror image. Every library kind is, measured, except the EZ curl bar and the lat pulldown bar, which no exercise uses. The test holds both facts.
+
+**Measured.**
+
+- Clip data: all twenty-two exercises byte-identical.
+- GLB exports with the production character, fingerprinted before and after (export verified deterministic): twenty byte-identical, including the approved push-up and pull-up.
+  - The Pallof press changed as intended: tower and cable to the character's side, handle shifted 2.8 mm.
+  - The pushdown's bar is written as its mirror image: moved 0 mm, its rotation written as −90° for +90°, the same bar.
+- Rendered: the Pallof press's two views are now consistent mirror images, the cable running from the character's hands to its own tower.
+
+**Tests.** `equipment/mirror.test.ts` (5): each kind's symmetry (sampled over its measured surface), no exercise using the two that are not, `S·M·S` as a proper rotation that lands points on their mirror images (and works in place), the static and baked-track forms agreeing with the matrix form, and invariant placements left untouched without −0.
+
+**Not changed.** The Skeleton view, which draws the rig in its own world and was already consistent. The editor's IK target and pole markers are also still drawn at rig positions in Character view; they are editing aids, left as a follow-up.
+
 ### Claude — 2026-09-24 — The rotation family, with a Russian twist
 
 Suite **722 passed / 1 skipped** (65 files; was 704), typecheck and build clean. **The twenty-one existing exercises are byte-identical.** No engine, rig or equipment change.

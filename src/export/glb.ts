@@ -16,6 +16,7 @@ import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { equipmentSocket } from '../equipment/library';
 import { anatomicalGripOffset } from '../equipment/attach';
+import { mirrorInvariant, reflectBakedTrack, reflectedStaticPlacement } from '../equipment/mirror';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject } from './rigBuilder';
 import { characterSource } from '../character';
@@ -123,22 +124,28 @@ export async function exportGlb(
           hand.add(object);
         }
       } else if (instance.attachment.mode === 'static') {
-        object.position.set(instance.position.x, instance.position.y, instance.position.z);
+        // A mirrored character performs the rig's mirror image, so what the rig
+        // placed is reflected with it; an item already its own mirror image is
+        // left exactly as it was.
+        const placed =
+          character.mirrored && !mirrorInvariant(instance) ? reflectedStaticPlacement(instance) : instance;
+        object.position.set(placed.position.x, placed.position.y, placed.position.z);
         // Turned as it is in the studio. Without this the incline curl's bench,
         // placed turned round to face the lifter, exported facing away.
         object.quaternion.setFromEuler(
           new Euler(
-            toRad(instance.rotation.x),
-            toRad(instance.rotation.y),
-            toRad(instance.rotation.z),
+            toRad(placed.rotation.x),
+            toRad(placed.rotation.y),
+            toRad(placed.rotation.z),
             EULER_ORDER,
           ),
         );
         scene.add(object);
       } else {
         // Driven by both hands, or a cable between two items, so its motion is
-        // baked as its own track.
-        applyBakedEquipmentTrack(object, baked, instance.id);
+        // baked as its own track — from the rig, and so reflected for a
+        // mirrored character like a static item.
+        applyBakedEquipmentTrack(object, baked, instance.id, Boolean(character.mirrored));
         scene.add(object);
       }
     }
@@ -163,9 +170,11 @@ function applyBakedEquipmentTrack(
   object: Object3D,
   baked: ReturnType<typeof bakeClip>,
   id: string,
+  mirrored: boolean,
 ): void {
   const track = baked.equipmentTracks.get(id);
   if (!track || track.position.length < 3) return;
+  if (mirrored) reflectBakedTrack(track);
   object.name = `equipment_${id}`;
   object.position.copy(new Vector3(track.position[0], track.position[1], track.position[2]));
   if (track.scale) object.scale.set(track.scale[0], track.scale[1], track.scale[2]);

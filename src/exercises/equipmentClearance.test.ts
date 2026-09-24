@@ -14,6 +14,7 @@ import { applyCharacterPose } from '../character/pose';
 import { retargetedCharacterSource } from '../character/retargetSource';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
+import { reflectPlacement } from '../equipment/mirror';
 import { handAttachmentMatrix } from '../export/clipBuilder';
 import { dominantBone, posedVertex } from '../character/posedMesh';
 import { EXERCISES } from './library';
@@ -138,15 +139,17 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
           } else {
             const transform = frame.equipment.get(instance.id);
             if (!transform) continue;
-            placement
-              .compose(
-                new Vector3(transform.position.x, transform.position.y, transform.position.z),
-                transform.quaternion,
-                // A cable is stretched along its length. Its surface is then
-                // measured exactly beside it, where a body would meet it.
-                transform.scale ?? new Vector3(1, 1, 1),
-              )
-              .invert();
+            placement.compose(
+              new Vector3(transform.position.x, transform.position.y, transform.position.z),
+              transform.quaternion,
+              // A cable is stretched along its length. Its surface is then
+              // measured exactly beside it, where a body would meet it.
+              transform.scale ?? new Vector3(1, 1, 1),
+            );
+            // Placed by the rig; the character is its mirror image, so the item
+            // is reflected into the character's world, as it is drawn.
+            if (character.mirrored) reflectPlacement(placement, placement);
+            placement.invert();
           }
 
           if (instance.supportsBody) {

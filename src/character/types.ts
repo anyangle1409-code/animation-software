@@ -138,6 +138,14 @@ export interface CharacterBuild {
    * what keeps a dumbbell in the hand of a character the rig only drives.
    */
   handMatrix?: (side: Side, target: Matrix4) => Matrix4 | null;
+
+  /**
+   * True when this character's left lies on the rig's right, so every canonical
+   * frame is reflected into it (x → −x) and it performs each exercise as the
+   * rig's mirror image. Anything placed in canonical world space rather than by
+   * its hands has to be reflected with it (`equipment/mirror.ts`).
+   */
+  mirrored?: boolean;
   
   /**
    * Centre of a held cylindrical handle inside this character's closed fist,

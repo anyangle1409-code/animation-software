@@ -294,6 +294,7 @@ export function retargetedCharacterSource(
         driver: drive,
 
         handMatrix,
+        ...(binding.mirrorSides ? { mirrored: true } : {}),
         ...(gripOffset ? { gripOffset } : {}),
         // Which solved grip this character may use. A solved grip is measured
         // on one body's fingers, so it is only offered to a character that

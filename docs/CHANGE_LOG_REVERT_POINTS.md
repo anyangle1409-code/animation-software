@@ -12,7 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
-| After reflecting equipment for mirrored characters | `PENDING` | 22 exercises, suite 727 / 1. Character view and GLB export place world equipment on the character's side. |
+| After reflecting equipment for mirrored characters | `92194bc` | 22 exercises, suite 727 / 1. Character view and GLB export place world equipment on the character's side. |
 | After the Russian twist | `9539e25` | 22 exercises, suite 722 / 1. |
 | After the bench work | `c5aaedf` | 21 exercises, suite 704 / 1. |
 | After the push-up/pull-up templates | `7525ff6` | 19 exercises, suite 664 / 1. Approved push-up and pull-up byte-identical. |
@@ -30,7 +30,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
-| `PENDING` | **Engine (display/export):** equipment the rig places in world space is reflected into a mirrored character's world — Character view, GLB export and the production clearance gate | Clip data: no, all twenty-two byte-identical. Exported GLBs: twenty byte-identical, including the approved push-up and pull-up; the Pallof press's tower, handle and cable move to the character's side; the pushdown's bar is written as its (identical) mirror image. Skeleton view unchanged. | new `equipment/mirror*`; `character/types.ts`, `character/retargetSource.ts`, `viewer/EquipmentView.tsx`, `export/glb.ts`, `exercises/equipmentClearance.test.ts` |
+| `92194bc` | **Engine (display/export):** equipment the rig places in world space is reflected into a mirrored character's world — Character view, GLB export and the production clearance gate | Clip data: no, all twenty-two byte-identical. Exported GLBs: twenty byte-identical, including the approved push-up and pull-up; the Pallof press's tower, handle and cable move to the character's side; the pushdown's bar is written as its (identical) mirror image. Skeleton view unchanged. | new `equipment/mirror*`; `character/types.ts`, `character/retargetSource.ts`, `viewer/EquipmentView.tsx`, `export/glb.ts`, `exercises/equipmentClearance.test.ts` |
 | `9539e25` | Rotation family: Russian twist, seated on the floor. Longer timeouts on three whole-library tests. | No — all twenty-one byte-identical. No engine, rig or equipment change; the timeout change alters no assertion. | new `families/rotation*`, `definitions/russianTwist.ts`; library; mirror (asymmetric list and its honesty check), anti-rotation, feet and self-collision tests; `rig/palm.test.ts`, `rig/scapula.test.ts`, `muscles/muscles.test.ts` (timeouts) |
 | `c5aaedf` | Supine family: dumbbell bench press and dumbbell fly, lying on the flat bench | No — all nineteen byte-identical. No engine or equipment change. | new `families/supine*`, `definitions/dumbbellBenchPress.ts`, `definitions/dumbbellFly.ts`; library; press, feet and self-collision tests |
 | `7525ff6` | Push-up and pull-up re-expressed as the horizontal-press and vertical-pull family templates | No — all nineteen byte-identical, including both approved exercises | new `families/horizontalPress*`, `families/verticalPull*`; `definitions/pushUp.ts`, `definitions/pullUp.ts` |

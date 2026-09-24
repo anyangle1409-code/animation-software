@@ -77,6 +77,10 @@ const BASELINE: Record<string, number> = {
   split_squat: 0.00422,
   // Elbows tucked at the ribs, nearest the chest at lockout.
   cable_triceps_pushdown: 0.00464,
+  // Arms hanging beside the chest at the bottom of the lateral raise.
+  dumbbell_lateral_raise: 0.00414,
+  // Arms passing the chest on the way down in the front raise.
+  dumbbell_front_raise: 0.00112,
 };
 
 /**

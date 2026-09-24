@@ -62,6 +62,7 @@ export type ExerciseCategory =
   | 'upper_push'
   | 'upper_pull'
   | 'arms'
+  | 'shoulders'
   | 'legs'
   | 'core'
   | 'full_body';

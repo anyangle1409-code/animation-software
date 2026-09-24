@@ -6,6 +6,53 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Shoulder raise becomes the eighth family: lateral and front raise
+
+Suite **607 passed / 1 skipped** (59 files; was 572), typecheck and build clean. The fourteen existing exercises are **byte-identical**.
+
+**Added.**
+
+- `families/raise.ts`, with `definitions/lateralRaise.ts` and `definitions/frontRaise.ts`.
+- A new `'shoulders'` exercise category.
+
+A raise is a soft-elbowed arm (14°, held fixed) swung up to shoulder height and no higher.
+
+- **Lateral raise.** The arm goes out to the side, 20° forward of the body's plane, in line with the shoulder blade. The forearm stays at its neutral twist: an arm hanging palm-in and swung out sideways finishes palm-down without any forearm rotation.
+- **Front raise.** The arm goes straight ahead, palms down.
+
+**Rules.**
+
+- torso upright, no lean-back swing;
+- arm at shoulder height at the top, and the hand no higher than the shoulder;
+- soft fixed elbow;
+- raise plane;
+- no shrug;
+- neutral wrist;
+- dumbbells level.
+
+Both variants: zero violations, every IK target reached, loop closed.
+
+**Measured on the production character.**
+
+| | Lateral raise | Front raise |
+|---|---|---|
+| Arm from hanging at the top | 84° | 84° |
+| Dumbbells to thighs at the start | 48 mm clear | 24 mm clear |
+| Upper arm to chest (new self-collision baseline) | 4.14 mm | 1.12 mm |
+
+The lateral raise first started 87 mm out from the thighs, wider than a real start. It now starts at 8° out rather than 12°.
+
+**Tests.** New `raise.test.ts`:
+
+- shoulder height reached and not exceeded;
+- elbow fixed through the repetition;
+- dumbbells level;
+- lateral raise out to the side and 5–20 cm forward;
+- front raise straight ahead (hand within 1 cm of its line);
+- two registered variants.
+
+Feet and self-collision lists extended.
+
 ### Claude — 2026-09-24 — The first cable exercise: a triceps pushdown, with a cable that stretches between tower and bar
 
 Suite **572 passed / 1 skipped** (58 files; was 551), typecheck and build clean. The thirteen existing exercises are **byte-identical** (definitions, 61 solved frames each, contacts and validation compared file by file).

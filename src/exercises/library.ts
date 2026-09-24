@@ -13,6 +13,8 @@ import { inclineCurl } from './definitions/inclineCurl';
 import { overheadExtension } from './definitions/overheadExtension';
 import { splitSquat } from './definitions/splitSquat';
 import { cablePushdown } from './definitions/cablePushdown';
+import { lateralRaise } from './definitions/lateralRaise';
+import { frontRaise } from './definitions/frontRaise';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
@@ -39,6 +41,8 @@ export const EXERCISES: ExerciseDefinition[] = [
   overheadExtension,
   splitSquat,
   cablePushdown,
+  lateralRaise,
+  frontRaise,
 ];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));

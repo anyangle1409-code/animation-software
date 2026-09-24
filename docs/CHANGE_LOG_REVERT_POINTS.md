@@ -12,7 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
-| After the cable pushdown | `PENDING` | 14 exercises, suite 572 / 1. Cable equipment in. |
+| After the cable pushdown | `a6b9154` | 14 exercises, suite 572 / 1. Cable equipment in. |
 | After the split squat | `4f6b0a5` | 13 exercises, suite 551 / 1. |
 | After the squat stance rework | `0349b4f` | 12 exercises, suite 533 / 1. Squat feet flat, knees tracking. |
 | Before the squat stance rework | `70b5174` | 12 exercises, suite 533 passed / 1 skipped. Squat feet recorded as a known defect. |
@@ -23,7 +23,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
-| `PENDING` | Cable triceps pushdown (extension family, `pushdown` position); cable tower, straight cable bar, stretching `cable` item (`attachment.mode: 'cable'`, `EquipmentTransform.scale`); **GLB export now keeps static equipment's rotation** | No — all thirteen byte-identical. Export only: the incline curl's bench now exports turned to face the lifter, as the studio shows it. | `equipment/types.ts`, `geometry.ts`, `library.ts`, `attach.ts`; `viewer/EquipmentView.tsx`; `export/clipBuilder.ts`, `export/glb.ts`; `editor/panels/EquipmentPanel.tsx`; `families/extension.ts`, new `definitions/cablePushdown.ts`; tests |
+| `a6b9154` | Cable triceps pushdown (extension family, `pushdown` position); cable tower, straight cable bar, stretching `cable` item (`attachment.mode: 'cable'`, `EquipmentTransform.scale`); **GLB export now keeps static equipment's rotation** | No — all thirteen byte-identical. Export only: the incline curl's bench now exports turned to face the lifter, as the studio shows it. | `equipment/types.ts`, `geometry.ts`, `library.ts`, `attach.ts`; `viewer/EquipmentView.tsx`; `export/clipBuilder.ts`, `export/glb.ts`; `editor/panels/EquipmentPanel.tsx`; `families/extension.ts`, new `definitions/cablePushdown.ts`; tests |
 | `4f6b0a5` | Bodyweight split squat (lunge family); foot-on-its-ball contact; **toe joint limit 60° → 80°**; last-keyframe phase fix | No — all twelve byte-identical | new `families/lunge*`, `definitions/splitSquat.ts`; `ik/solve.ts`, `ik/types.ts`, `constraints/locks.ts`, `constraints/types.ts` (`onBall`); `rig/humanoid.ts` (toe limit); `animation/clip.ts`; `stance.ts`; tests |
 | `0349b4f` | **Squat stance rework (approved, option A).** Feet pinned flat at 12°, knees aimed along the feet, shin rotation in the leg solver | **Yes — the squat only**: knees up to 64 mm further out, toes no longer through the floor. The other eleven are byte-identical. To undo just this: `git revert 0349b4f`. | `ik/solve.ts` (tibial rotation), `exercises/stance.ts` (`kneesOverToes`), `families/squat.ts`, `squat.test.ts`, `feet.test.ts` |
 | `70b5174` | Overhead dumbbell triceps extension (elbow-extension family) | No — all byte-identical | new `families/extension*`, `definitions/overheadExtension.ts`; library, feet test, self-collision baseline |

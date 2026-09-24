@@ -18,6 +18,8 @@ import { frontRaise } from './definitions/frontRaise';
 import { calfRaise } from './definitions/calfRaise';
 import { dumbbellCalfRaise } from './definitions/dumbbellCalfRaise';
 import { pallofPress } from './definitions/pallofPress';
+import { dumbbellBenchPress } from './definitions/dumbbellBenchPress';
+import { dumbbellFly } from './definitions/dumbbellFly';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
@@ -49,6 +51,8 @@ export const EXERCISES: ExerciseDefinition[] = [
   calfRaise,
   dumbbellCalfRaise,
   pallofPress,
+  dumbbellBenchPress,
+  dumbbellFly,
 ];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));

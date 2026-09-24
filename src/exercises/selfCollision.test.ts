@@ -86,6 +86,10 @@ const BASELINE: Record<string, number> = {
   dumbbell_calf_raise: 0.00559,
   // The upper (left) arm crossing the chest to the clasped handle.
   cable_pallof_press: 0.00185,
+  // Lying on the bench: the upper arm passing the side of the chest as the
+  // press begins to lower, and beside the armpit with the fly's arms open.
+  dumbbell_bench_press: 0.00863,
+  dumbbell_fly: 0.01028,
 };
 
 /**

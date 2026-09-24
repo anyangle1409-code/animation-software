@@ -6,6 +6,41 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Lying down: the supine family, with a dumbbell bench press and a dumbbell fly
+
+Suite **704 passed / 1 skipped** (64 files; was 664), typecheck and build clean. **The nineteen existing exercises are byte-identical.** No engine, rig or equipment change.
+
+**Added.**
+
+- `families/supine.ts` (`supineFamily({ motion: 'press' | 'fly' })`), `definitions/dumbbellBenchPress.ts` and `definitions/dumbbellFly.ts`. Both lie face up on the flat bench, feet planted flat 42 cm apart and 50 cm past the hips.
+- **Lying on the bench.** The body is pitched back 84.3°, head end up, with the pelvis joint 59.8 cm off the floor. Both values were tuned pad by pad against the production character, as the seated press's seat was.
+  - Dead flat, the upper back sank 45 mm while the hips sank 22 mm.
+  - Tilted, the upper back, hips and back of the head all rest on the pad. The deepest point is 13.69 mm, under the hamstrings' origin, against the 15 mm limit. The lower back keeps a small arch clear of the pad.
+  - The neck extends 16° to lay the head back down (the head nods 2°, so the face stays up).
+  - The bench is turned head end to head, its foot end 17.5 cm past the hips, under the glutes. The frame is at least 50 mm clear.
+- **Press.** Pose-level IK wrist targets, as the Pallof press uses.
+  - Top: 55.6 cm above the shoulders, an 11.5° soft lockout.
+  - Bottom: forearms 6° from vertical, elbows 6 cm below the shoulders and 14.4 cm towards the hips (about 60° out, not flared), handles 29 cm above the shoulders.
+  - Handles run 31° from straight across at either end and 42° mid-press. That is the elbow's hinge plane; the arm IK does not turn the forearm.
+- **Fly.** Authored in joint angles, because the palms-in grip needs a forearm turn that the arm IK zeroes.
+  - The upper arm swings about one axis, from 10° off vertical to 2° below level, on a fixed 20° elbow.
+  - It sweeps across the chest's own plane. Split between flexion and abduction instead, the dumbbells drifted 22 cm towards the hips half way out.
+  - The forearm is turned 80°: palms in at the top, palms up at the bottom, handles within 11° of the body's axis throughout.
+- Technique rules:
+  - Both motions: feet planted, hips on bench, dumbbells level.
+  - Press: depth, vertical forearms, elbow tuck, near-straight top, soft lockout, over the shoulders.
+  - Fly: fixed elbow, depth, not below the shoulder, sweeps across the chest.
+  - Three common errors each.
+
+**Tests.**
+
+- `supine.test.ts` (10): the family's two members; body still on the bench; press lockout, bottom position and handle orientation; fly fixed elbow, depth, sweep line, handle orientation and palm facing.
+- Self-collision baselines: press 8.63 mm, fly 10.28 mm.
+- Both added to the standing-feet list (feet flat and locked).
+- The press-family membership test now excludes the bench press, which belongs to the supine family.
+
+**Not yet checked.** Approval waits on the finished mesh. The fly's far-shoulder shading at full stretch should be looked at on the high-detail mesh.
+
 ### Claude — 2026-09-24 — The push-up and pull-up become family templates, unchanged
 
 Suite **664 passed / 1 skipped** (63 files; was 658), typecheck and build clean. **All nineteen exercises are byte-identical, including the approved push-up and pull-up.** Definitions, 61 solved frames each, contacts and validation were compared file by file.

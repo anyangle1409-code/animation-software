@@ -23,7 +23,7 @@ Read this file first, then run `RESUME_WORK.bat`.
 ### Mesh / Blender workspace
 - Work branch: `codex-high-detail-candidate-v10-hand-anatomy-review-20260923`
 - Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
-- Phase B review candidate: V10 hand retopology from V8. V9 is preserved as rejected/experimental. V10 passes structural, floor-contact and exercise guards, but visible finger facets, thumb-web seam and wrist segmentation remain. Stop for V10 visual review before any grip refit. See `REVIEW_V10_HAND_ANATOMY.md` and the three matched V8/V10 review boards in `renders_v10_hand_retopology/`.
+- Phase B review candidate: **V11 hand cleanup** from V10. V9 was rejected and V10 superseded; both are preserved. V11 closes the hand's unwelded seams (V10 had opened them, which caused the thumb-web seam and the wrist slits), caps the open fingertips and smooths the hand. It passes the structural, strict floor-contact, five focused and seven-exercise guards. Stop for V11 visual review before any grip refit. See `REVIEW_V11_HAND_CLEANUP.md` and the matched V10/V11 boards in `renders_v11_hand_cleanup/`.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`

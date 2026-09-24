@@ -6,7 +6,7 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 The accepted knee **geometry baseline** is V8, built on the accepted V7 connected topology. V6 and V7 remain preserved historical candidates.
 
-The user accepted V8 after reviewing the matched V7/V8 deepest-squat knee comparison. It is the geometry source for Phase B hand anatomy, not a production asset. V9 is preserved as a rejected experimental hand candidate. V10 is a separate Blender hand-retopology candidate derived from V8; all mechanical guards pass, but visual acceptance is pending because faceted finger ends, thumb-web seam and wrist segmentation remain visible. Stop for V10 visual review; grip refit has not started. See `REVIEW_V10_HAND_ANATOMY.md`.
+The user accepted V8 after reviewing the matched V7/V8 deepest-squat knee comparison. It is the geometry source for Phase B hand anatomy, not a production asset. V9 is preserved as a rejected experimental hand candidate. V10 is a Blender hand-retopology candidate derived from V8, now superseded. **V11 hand cleanup** is built from V10: its seams are closed, its fingertips capped and its hand smoothed, and it passes every mechanical guard. Visual acceptance is pending. Stop for V11 visual review; grip refit has not started. See `REVIEW_V11_HAND_CLEANUP.md`.
 
 The canonical hierarchy is frozen at **63 bones** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). The current validated runtime/retarget source is `614033b256d869230ea273522620467401b0bc71`, which fixes mirrored-character hand roll without changing the frozen hierarchy. Read `RIG_63_FREEZE.md`.
 
@@ -25,6 +25,11 @@ V10 hand anatomy review assets (not accepted):
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology_BARE.glb`
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v10_hand_retopology.blend`
 
+V11 hand cleanup review assets (current hand candidate, not accepted):
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup_BARE.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup.blend`
+
 Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable state.
 
 ## Instruction precedence
@@ -34,7 +39,7 @@ Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable sta
 3. `WORK_START_HERE.md`
 4. `LAPTOP_CONTINUATION_HANDOFF.md`
 5. `FINAL_RIG_INTAKE.md`
-6. latest accepted geometry review, currently `REVIEW_V8_KNEE_ANATOMY.md`, followed by V9 rejection and unaccepted `REVIEW_V10_HAND_ANATOMY.md`
+6. latest accepted geometry review, currently `REVIEW_V8_KNEE_ANATOMY.md`, followed by V9 rejection, superseded `REVIEW_V10_HAND_ANATOMY.md` and unaccepted `REVIEW_V11_HAND_CLEANUP.md`
 7. `PROGRESS.md`
 8. older review/reproduction notes as historical evidence only
 

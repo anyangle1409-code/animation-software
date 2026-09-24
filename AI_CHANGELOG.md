@@ -6,6 +6,23 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — V11 hand cleanup candidate (mesh workspace only)
+
+Picked up from ChatGPT's V10 handoff on `codex-high-detail-candidate-v11-hand-cleanup-20260924`. The work is in `HIGH_DETAIL_MESH_WORK/` only; no runtime source changed.
+
+- **V10 audit.** V10's thumb-web seam and wrist slits are unwelded skin seams that V10 opened into 0.5–4 mm cracks. The fingertips are open holes. The finger ring banding and the web wedge come from V10's own sculpt fields.
+- **V11**, built with Blender 5.2.1 (headless `bpy`):
+  - V8's hand shape on V10's topology;
+  - fingertips capped;
+  - the hand smoothed, with the 682 protected contact vertices fixed;
+  - every seam closed, with matching weights and shared normals.
+- **Results.** V11 passes the quick check, the strict floor guard, the five focused guards and seven exercises over 26 frames against `614033b`.
+- **New files.**
+  - Scripts: `build_v11_hand_cleanup_blender.py`, `pack_v11_hand_glb.py`, `audit_hand_seams.py`, `make_v11_hand_review_sheets.py`, `run_v11_pipeline.sh`.
+  - Harnesses: `review_hand_geometry_v11.test.mts`, `v11_hand_studies.test.mts`.
+  - Review: `REVIEW_V11_HAND_CLEANUP.md`, with matched V10/V11 boards.
+- **Awaiting.** Visual review; not accepted, not promoted, and no grip refit.
+
 ### Claude — 2026-09-22 — Shoulder-to-upper-arm junction: diagnosed as mesh-side, candidate rejected
 
 Record: `SHOULDER_JUNCTION_DIAGNOSIS.md`. One candidate tested and rejected on its own measurements. Nothing retained, working tree clean, suite unchanged at 290/8.

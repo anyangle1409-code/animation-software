@@ -1,5 +1,7 @@
 # Phone / Cloud Work → Laptop Blender Handoff
 
+> **Status, 2026-09-24:** the V11 cleanup has been built and validated in a cloud session, with the same Blender 5.2.1 LTS running headless. The laptop's job is now **visual review**, not modelling. Read `NEXT_ACTION.md` and `REVIEW_V11_HAND_CLEANUP.md`. To reproduce or change V11 on the laptop, run `scripts/run_v11_pipeline.sh` (or its steps from a Blender 5.2.1 Python) from this folder. The steps below are the original plan, kept for the record.
+
 Use this file when starting Work from a phone or cloud environment before the laptop is available.
 
 ## Shared branch

@@ -97,3 +97,34 @@ match exactly. The matched hand closeups show a modest shape change, while
 inherited polygonal finger tips, thumb/web and wrist bands remain. The user
 must visually review it before any grip refit; hand anatomy is not yet
 accepted. No production, rig, UV, weight, exercise or grip files changed.\n
+
+## 2026-09-24 — V11 hand cleanup built (Claude, cloud, Blender 5.2.1)
+
+Built from V10 in a cloud session with Blender 5.2.1 LTS running headless (`bpy`), the laptop's version. `scripts/run_v11_pipeline.sh` rebuilds and re-validates it end to end.
+
+**Before building, the V10 defects were measured** (`scripts/audit_hand_seams.py`):
+
+- V8's hand is unwelded skin patches, and V10 opened those seams into 0.5–4 mm cracks. They are the thumb-web seam and the wrist slits, and also V9's rejected smoothing seams.
+- The four finger tips are open holes.
+- V10's finger sculpt made the ring banding.
+- V10's thenar and web fields, pushed along normals that differ across a seam, made the web wedge.
+
+**V11**:
+
+- returns the hand to V8's shape on V10's topology;
+- caps the fingertips;
+- smooths the hand without shrinking it, keeping the 682 protected vertices fixed;
+- relaxes folds;
+- closes every seam onto its partner edge or face;
+- gives each closed seam vertex matching weights;
+- has the packer share normals across closed seams.
+
+**Left-hand results:**
+
+- Seam cracks of 0.05–1.5 mm: 94 in V8, 331 in V10, 0 in V11.
+- Fingertip hole edges: 32 in V8, 41 in V10, 0 in V11.
+- Folds over 100°: 10 in V8, 104 in V10, 4 in V11.
+
+**Validation.** Quick check, strict floor guard, five focused guards and seven exercises over 26 frames all pass against `614033b`. Bone and equipment matrices match exactly. The largest original-hand difference from V8 is 3.638 mm (V10: 5.674 mm), inside the default 4 mm envelope.
+
+Visual review is pending (`REVIEW_V11_HAND_CLEANUP.md`). There was no grip refit and no rig, exercise, equipment or production change.

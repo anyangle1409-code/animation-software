@@ -12,7 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
-| After the bench work | `PENDING` | 21 exercises, suite 704 / 1. |
+| After the bench work | `c5aaedf` | 21 exercises, suite 704 / 1. |
 | After the push-up/pull-up templates | `7525ff6` | 19 exercises, suite 664 / 1. Approved push-up and pull-up byte-identical. |
 | After the Pallof press | `0c212be` | 19 exercises, suite 658 / 1. |
 | After the calf raises | `e456c64` | 18 exercises, suite 639 / 1. |
@@ -28,7 +28,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
-| `PENDING` | Supine family: dumbbell bench press and dumbbell fly, lying on the flat bench | No — all nineteen byte-identical. No engine or equipment change. | new `families/supine*`, `definitions/dumbbellBenchPress.ts`, `definitions/dumbbellFly.ts`; library; press, feet and self-collision tests |
+| `c5aaedf` | Supine family: dumbbell bench press and dumbbell fly, lying on the flat bench | No — all nineteen byte-identical. No engine or equipment change. | new `families/supine*`, `definitions/dumbbellBenchPress.ts`, `definitions/dumbbellFly.ts`; library; press, feet and self-collision tests |
 | `7525ff6` | Push-up and pull-up re-expressed as the horizontal-press and vertical-pull family templates | No — all nineteen byte-identical, including both approved exercises | new `families/horizontalPress*`, `families/verticalPull*`; `definitions/pushUp.ts`, `definitions/pullUp.ts` |
 | `0c212be` | Anti-rotation family: cable Pallof press (first use of pose-level hand IK); cable tower mid pulley; two-hand grips on the cable handle | No — all eighteen byte-identical. The cable tower's drawn shape gained a mid pulley (the pushdown's tower shows it). | new `families/antiRotation*`, `definitions/pallofPress.ts`; `equipment/geometry.ts`, `equipment/library.ts`; library; mirror, press, feet and self-collision tests |
 | `e456c64` | Calf family: standing and dumbbell calf raise; **`onBall` without an ankle now holds the knee** (engine) | No — all sixteen byte-identical, including the split squat | new `families/calf*`, `definitions/calfRaise.ts`, `definitions/dumbbellCalfRaise.ts`; `ik/solve.ts`, `ik/types.ts`, `constraints/locks.ts`, `constraints/types.ts`; library; squat/lunge/raise membership tests; feet and self-collision tests |

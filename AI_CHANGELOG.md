@@ -6,6 +6,51 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Crunch and sit-up: the trunk-flexion family
+
+Suite **806 passed / 1 skipped** (68 files; was 771), typecheck and build clean. **The twenty-four existing exercises are byte-identical.** No engine, rig or equipment change.
+
+**Added.** `families/trunkFlexion.ts` (`trunkFlexionFamily({ motion: 'crunch' | 'situp' })`), `definitions/crunch.ts` and `definitions/sitUp.ts`. Both lie on the floor, knees bent about 100°, feet pinned flat, arms reaching towards the knees.
+
+**Lying**, tuned against the production character with the floor as the pad, as the bench was:
+
+- Pitched back 84°, pelvis joint at 13.3 cm.
+- The upper back rests 6.5 mm into the floor, the sides of the chest 8.6 mm, and the buttocks sit 1.3 mm up. The lower back keeps a 1 cm arch.
+- The neck extends 15° to lay the head down.
+
+**Crunch.**
+
+- A 30° curl, mostly high in the back (lumbar 4°, mid thoracic 9.5°, upper thoracic 17°), with the neck nodding 15°.
+- The shoulders rise 12.5 cm while the hips don't move and the lower back stays within 10° of lying.
+- Split evenly between the two thoracic joints, the muscle overlay's mid-back erector stood 8.2 mm out of the skin, past its 7 mm check. Curled higher and a little less, it passes; the check was not loosened.
+
+**Sit-up.**
+
+- Up to 25° short of upright about the hip joint (`rootPivot`, as the hinge does), with a lighter curl, arms reaching past the knees.
+- Turning about a hip joint held still pushed the back of the pelvis 20 mm into the floor. A body sitting up rolls onto its sitting bones, so the top raises the hip joint 1.4 cm. The seat then presses at most 11.4 mm into the floor mid-rise and rests on it at the top.
+- The arms are held 12° out from the sides. At 8°, the upper arm passed 0.88 mm from the chest.
+
+**Rules.**
+
+- Crunch: feet planted, hips down, lower back down, shoulders lift at least 12 cm.
+- Sit-up: feet planted, seated (the pelvis moves under 2 cm), sits up (mid back within 30° of upright), lowers fully.
+- Both: chin off the chest.
+- Three common errors each.
+
+**Tests.** `trunkFlexion.test.ts` (7):
+
+- membership;
+- feet reached on every frame;
+- the crunch's lift with the hips and lower back down;
+- the sit-up reaching sitting and its hip joint's roll;
+- on the production character, back and head resting on the floor at the start and nothing sinking past 15 mm, for both.
+
+Also:
+
+- The hinge test now allows the sit-up to use a root pivot.
+- Both are added to the standing-feet list.
+- Self-collision baselines: crunch 1.94 mm, sit-up 1.59 mm.
+
 ### Claude — 2026-09-24 — The forward lunge: the first foot that leaves the floor
 
 Suite **771 passed / 1 skipped** (67 files; was 746), typecheck and build clean. **The twenty-three existing exercises are byte-identical, clips and exports.**

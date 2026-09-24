@@ -134,17 +134,22 @@ describe('the hinge family', () => {
     expect(rule(romanianDeadlift, 'knee_tracking_l')).toBeUndefined();
   });
 
-  it('opts into the new engine behaviour; nothing else in the library does', () => {
+  it('opts into the new engine behaviour; of the rest, only the sit-up turns about a pivot', () => {
+    // The sit-up pitches 59° between lying and sitting, and turns about its hip
+    // joint for the same reason the hinge does (`families/trunkFlexion.ts`).
     for (const exercise of EXERCISES) {
       const hinge = exercise.id === romanianDeadlift.id;
-      expect(!!exercise.rootPivot, exercise.id).toBe(hinge);
+      expect(!!exercise.rootPivot, exercise.id).toBe(hinge || exercise.id === 'sit_up');
       expect(exercise.locks.some((lock) => lock.holdOrientation), exercise.id).toBe(hinge);
     }
   });
 
   it('has exactly one registered variant, the reference Romanian deadlift', () => {
-    expect(EXERCISES.filter((exercise) => exercise.rootPivot).map((exercise) => exercise.id))
-      .toEqual(['dumbbell_romanian_deadlift']);
+    expect(
+      EXERCISES.filter((exercise) => exercise.rootPivot && exercise.locks.some((lock) => lock.holdOrientation)).map(
+        (exercise) => exercise.id,
+      ),
+    ).toEqual(['dumbbell_romanian_deadlift']);
   });
 });
 

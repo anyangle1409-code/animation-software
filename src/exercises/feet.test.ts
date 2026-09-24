@@ -63,6 +63,7 @@ describe('standing feet', () => {
       'cable_pallof_press',
       'cable_triceps_pushdown',
       'cable_woodchop',
+      'crunch',
       'dumbbell_bench_press',
       'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',
@@ -79,6 +80,7 @@ describe('standing feet', () => {
       'incline_dumbbell_curl',
       'russian_twist',
       'seated_dumbbell_shoulder_press',
+      'sit_up',
       'split_squat',
       'standing_calf_raise',
     ]);

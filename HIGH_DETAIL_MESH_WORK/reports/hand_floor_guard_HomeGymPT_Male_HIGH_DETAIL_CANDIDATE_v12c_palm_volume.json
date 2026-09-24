@@ -1,0 +1,11 @@
+{
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.glb",
+  "guard_vertices": 682,
+  "max_position_shift_mm": 0.0,
+  "moved_over_tolerance": 0,
+  "joint_rows_changed": 0,
+  "max_weight_delta": 0.0,
+  "weight_rows_changed": 0,
+  "tolerance_mm": 0.001,
+  "protected_floor_guard_unchanged": true
+}

@@ -93,6 +93,29 @@
     "production_asset_promoted": false,
     "original_hand_max_difference_from_v8_mm": 3.638
   },
+  "hand_palm_review_candidate": {
+    "version": "v12c_palm_volume",
+    "branch": "codex-high-detail-candidate-v12-hand-anatomy-review-20260924",
+    "source_geometry_version": "v11_hand_cleanup",
+    "status": "visual_review_pending_not_accepted_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.blend",
+    "sha256": {
+      "dressed_glb": "1c259ba7284c61bac2ead64052208df7d3ace83c7fbb45417d2ac47d7a8f1cc8",
+      "bare_glb": "e0649bd4801f3579cb92d322b491d9431de114d6d4a93a6d68db2561d5dcc0fd",
+      "blend": "a1b95bcfe3e1cbf731ad3773aa7227541c0b65228f6ae7925bcbd5cd6412616f"
+    },
+    "body_vertices": 46675,
+    "body_triangles": 89861,
+    "protected_floor_vertices_unchanged": 682,
+    "changed_non_hand_vertices": 0,
+    "bind_seams_closed_under_0_05mm": 549,
+    "folded_edges_over_100deg": 4,
+    "validation": "quick check, strict floor guard, five focused guards and seven exercises over 26 frames pass against 614033b; matched V11/V12c renders in renders_v12c_palm_volume; visual review pending",
+    "grip_refit_started": false,
+    "production_asset_promoted": false
+  },
   "rig_baseline": {
     "branches": [
       "chatgpt/absolute-retarget-imports",
@@ -133,7 +156,7 @@
     {
       "priority": 2,
       "id": "hand_anatomy_geometry",
-      "status": "review_pending_v11",
+      "status": "review_pending_v12c",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
       "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },

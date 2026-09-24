@@ -1,38 +1,17 @@
 {
-  "v8_knee_anatomy": {
+  "v11_hand_cleanup": {
     "bind_seams": {
-      "closed <0.05 mm": 319,
-      "0.05-0.5 mm": 94,
+      "closed <0.05 mm": 549,
+      "0.05-0.5 mm": 0,
       "0.5-1.5 mm": 0,
-      "1.5-4 mm": 8,
-      "4-12 mm": 5,
+      "1.5-4 mm": 1,
+      "4-12 mm": 4,
       "open >12 mm": 5
     },
-    "fingertip_hole_edges": 32,
-    "folds_over_100deg": 10
+    "fingertip_hole_edges": 0,
+    "folds_over_100deg": 4
   },
-  "v10_hand_retopology": {
-    "bind_seams": {
-      "closed <0.05 mm": 227,
-      "0.05-0.5 mm": 204,
-      "0.5-1.5 mm": 127,
-      "1.5-4 mm": 32,
-      "4-12 mm": 6,
-      "open >12 mm": 4
-    },
-    "fingertip_hole_edges": 41,
-    "folds_over_100deg": 104,
-    "posed_open_hand_seams": {
-      "closed <0.05 mm": 229,
-      "0.05-0.5 mm": 243,
-      "0.5-1.5 mm": 122,
-      "1.5-4 mm": 17,
-      "4-12 mm": 8,
-      "open >12 mm": 2
-    },
-    "posed_source": "reports/poses_v11_hand_cleanup/open_hand_review_baseline.json"
-  },
-  "v11_hand_cleanup": {
+  "v12c_palm_volume": {
     "bind_seams": {
       "closed <0.05 mm": 549,
       "0.05-0.5 mm": 0,
@@ -51,6 +30,6 @@
       "4-12 mm": 7,
       "open >12 mm": 2
     },
-    "posed_source": "reports/poses_v11_hand_cleanup/open_hand_review_candidate.json"
+    "posed_source": "reports\\poses_v12c_palm_volume\\open_hand_review_candidate.json"
   }
 }

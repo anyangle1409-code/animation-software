@@ -1,0 +1,13 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup.blend",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.blend",
+  "vertices": 46645,
+  "faces": 89861,
+  "moved_vertices": 5104,
+  "symmetric_pairs": 8140,
+  "protected_max_move_mm": 0.0,
+  "boundary_max_move_mm": 0.0,
+  "outside_hand_max_move_mm": 0.0,
+  "max_move_v11_mm": 1.7668038363310063,
+  "max_original_hand_move_v8_mm": 4.194155762743107
+}

@@ -1,0 +1,16 @@
+{
+  "source_v8_sha256": "a7655f689e141686bbbbb146826bc78121edbe8edbb57f3152b5d5978bc756cb",
+  "candidate_sha256": "1c259ba7284c61bac2ead64052208df7d3ace83c7fbb45417d2ac47d7a8f1cc8",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.glb",
+  "bytes": 13826748,
+  "body_vertices": 46675,
+  "body_triangles": 89861,
+  "original_vertices_preserved_as_prefix": 33089,
+  "new_blender_vertices": 13586,
+  "new_gltf_vertices": 13586,
+  "new_vertex_max_lost_weight": 0.0,
+  "original_uv_mapping_max_error": 2.9802322387695312e-08,
+  "nodes_skins_animations_materials_equal_v8": true,
+  "seam_vertices_sharing_normals": 675,
+  "original_seam_vertices_reweighted": 17
+}

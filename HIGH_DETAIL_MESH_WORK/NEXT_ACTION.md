@@ -1,4 +1,6 @@
-# Next action: visual review of V11
+# Next action: visual review of V12c
+
+V12c is the current unaccepted hand candidate. It builds from V11 and restores a small amount of interior palm/thenar/hypothenar volume while pinning seam boundaries and all 682 protected push-up contact vertices. Review `REVIEW_V12C_HAND_PALM.md` and the three matched V11/V12c boards in `renders_v12c_palm_volume/`. The visible difference is modest. Do not start grip refit until hand anatomy is visually accepted. V11 remains intact.
 
 V8 remains the accepted body and knee geometry baseline. V9 was rejected and V10 was superseded; both are preserved. **V11 hand cleanup is built and passes every mechanical guard. It is not yet accepted visually.**
 

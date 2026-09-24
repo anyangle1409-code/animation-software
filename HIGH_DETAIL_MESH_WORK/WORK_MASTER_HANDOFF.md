@@ -21,9 +21,9 @@ Read this file first, then run `RESUME_WORK.bat`.
 - Build: clean
 
 ### Mesh / Blender workspace
-- Work branch: `codex-high-detail-candidate-v10-hand-anatomy-review-20260923`
+- Work branch: `codex-high-detail-candidate-v12-hand-anatomy-review-20260924`
 - Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
-- Phase B review candidate: **V11 hand cleanup** from V10. V9 was rejected and V10 superseded; both are preserved. V11 closes the hand's unwelded seams (V10 had opened them, which caused the thumb-web seam and the wrist slits), caps the open fingertips and smooths the hand. It passes the structural, strict floor-contact, five focused and seven-exercise guards. Stop for V11 visual review before any grip refit. See `REVIEW_V11_HAND_CLEANUP.md` and the matched V10/V11 boards in `renders_v11_hand_cleanup/`.
+- Phase B review candidate: **V12c palm volume** from V11. V9 was rejected, V10 superseded, and V11 preserved. V12c adds local palm volume while leaving V11's fingertip caps and closed hand seams intact. It passes structural, strict floor-contact, five focused and seven-exercise guards; bind and posed seam counts and folded-edge count match V11. Stop for V12c visual review before any grip refit. See `REVIEW_V12C_HAND_PALM.md` and the matched V11/V12c boards in `renders_v12c_palm_volume/`.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`

@@ -1,5 +1,11 @@
 # Candidate progress
 
+## 2026-09-24 — V12c palm-volume hand review checkpoint
+
+Built a new candidate from the current V11 Blender mesh, preserving V11 seams, caps, topology, UVs, weights, frozen rig and all production files. V12c adds symmetric interior palm/thenar/hypothenar volume with all open-boundary and 682 floor-contact vertices pinned. Two wider local trials produced 26 and 6 folded edges against V11's 4; V12c restores the count to 4. The trials remain local experiments, not review candidates.
+
+V12c GLB and bare variant pass quick integrity, strict floor contact, five focused guards and seven exercises over 26 frames against pinned runtime `614033b`. Bind and posed seam bands match V11. Matched V11/V12c open-hand, fist and exercise boards are in `renders_v12c_palm_volume/`. The improvement is modest; inherited finger-pad facets and broad hand silhouette remain. Visual acceptance is pending; no grip refit or production promotion. See `REVIEW_V12C_HAND_PALM.md`.
+
 ## 2026-09-23 — V10 Blender hand-retopology review checkpoint
 
 V8 remains the accepted body/knee geometry baseline. The user rejected V9 as a hand anatomy solution while preserving it as experimental. V10 was built from V8 in an isolated candidate branch; it adds 13,586 local Blender hand/wrist vertices through edge subdivision and anatomical sculpt fields. The editable Blend, dressed GLB, bare GLB and matched open/fist/exercise images are separate assets.

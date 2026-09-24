@@ -6,6 +6,34 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The rotation family, with a Russian twist
+
+Suite **722 passed / 1 skipped** (65 files; was 704), typecheck and build clean. **The twenty-one existing exercises are byte-identical.** No engine, rig or equipment change.
+
+**Added.**
+
+- `families/rotation.ts` (`rotationFamily`) and `definitions/russianTwist.ts`. Seated on the floor, leaning back 40°, heels down, palms pressed together in front of the chest, the shoulders turned from one side to the other.
+- **The twist.** 50° each way, spread up the spine by what each joint allows (lumbar 10°, lower thoracic 18°, upper thoracic 22°). The neck adds 12° so the eyes follow the hands, and the pelvis does not turn. The hands reach 28–34 cm to each side, past the thighs.
+- **One side to the other is the repetition.** The start is turned left, the peak turned right, and the blend passes through square. Both turns are concentric.
+- **Arms in joint angles, not hand IK**, so they turn with the chest. World-fixed hand targets would blend in a straight line and cut 10 cm inside the arc at the middle.
+  - Solved numerically for wrists 5.2 cm apart and fingertips 3.5 cm apart, 35 cm in front of the chest, wrists straight, palms facing.
+  - A first solve flexed the wrists 6°. The production character's hands then rolled 1.11° away from the rig's through its embedded palm-roll correction, failing the 1° hand-roll gate; every other exercise is within 0.72°.
+  - A second solve had straight wrists but turned the palms up.
+- **Sitting on the floor**, tuned against the production character. With the pelvis joint at 14.6 cm, the buttocks rest 8 mm into the floor; at 13 cm they sank 23 mm.
+- The rig's spine twist is positive to the body's **right** (measured from the hands); its joint-limit labels read the other way.
+- Rules: feet planted, hips still (pelvis twist ±3°), seated without rocking, lean 30–55°, a full turn each way (upper thoracic ≥18°), hands clasped (≤6 cm). Three common errors.
+
+**Tests.**
+
+- `rotation.test.ts` (5): membership; 50° each way with the hips still; left and right mirror images and past the thighs; hands together throughout; and, on the production character, the seat resting on the floor within the bench-pad bounds (+3 / −15 mm; measured 8.0 mm in).
+- Listed as asymmetric in `mirror.test.ts`. Its honesty check now also accepts a keyframe whose trunk turns.
+- The anti-rotation membership test now picks its family out by its no-twist rules, not by category alone.
+- Self-collision baseline 1.84 mm: the upper arm drawn in to the clasp, passing the side of the chest. Added to the standing-feet list (heels down and locked).
+
+**Timeouts.** This session's container is slower. The palm and scapula regression checks for the two calf raises, and the whole-library muscle-overlay check, ran 5.1–5.9 s against vitest's 5 s default and timed out. They time out identically on the committed tree without this change. They now carry 30 s and 60 s timeouts, as the other whole-library tests already do. No assertion changed.
+
+**To look at on the finished mesh.** From the side, the far shoulder at full turn shows the same dark patch as the fly's at full stretch.
+
 ### Claude — 2026-09-24 — Lying down: the supine family, with a dumbbell bench press and a dumbbell fly
 
 Suite **704 passed / 1 skipped** (64 files; was 664), typecheck and build clean. **The nineteen existing exercises are byte-identical.** No engine, rig or equipment change.

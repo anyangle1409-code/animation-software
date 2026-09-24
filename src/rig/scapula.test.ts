@@ -154,6 +154,9 @@ describe('every exercise, with the scapulae at rest', () => {
         );
       expect(rules(rig, now.clip)).toEqual(rules(legacy, then.clip));
     },
+    // Two rigs, every frame: the calf raises' ball-of-foot solve runs past the
+    // 5 s default on a slower machine.
+    30_000,
   );
 });
 

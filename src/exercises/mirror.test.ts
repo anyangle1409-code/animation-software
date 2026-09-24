@@ -73,11 +73,12 @@ const pairsOf = <T extends { id: string }>(items: T[]): [T, T][] => {
 /**
  * Exercises whose two sides are meant to differ — a split stance puts one foot
  * forward and the other back; a Pallof press stacks one hand above the other on
- * a cable from one side — and so are not their own mirror. Listed rather than
+ * a cable from one side; a Russian twist turns the trunk to one side and then
+ * the other — and so are not their own mirror. Listed rather than
  * detected, so an exercise cannot drop out of the symmetry check by accident;
  * the test below holds each to actually being asymmetric.
  */
-const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press']);
+const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist']);
 
 describe('mirroring', () => {
   it('lists as asymmetric only exercises whose sides really differ', () => {
@@ -92,7 +93,11 @@ describe('mirroring', () => {
         const lower = pose.ik?.arm_r?.target;
         return Boolean(upper && lower) && (Math.abs(upper!.x + lower!.x) > 1e-6 || upper!.y !== lower!.y || upper!.z !== lower!.z);
       });
-      expect(legsDiffer || handsDiffer, id).toBe(true);
+      // Or the trunk: a keyframe turned to one side.
+      const trunkTurns = [exercise.startPose, exercise.peakPose].some((pose) =>
+        (['pelvis', 'spine_01', 'spine_02', 'spine_03'] as const).some((bone) => (pose.joints[bone]?.y ?? 0) !== 0),
+      );
+      expect(legsDiffer || handsDiffer || trunkTurns, id).toBe(true);
     }
   });
 

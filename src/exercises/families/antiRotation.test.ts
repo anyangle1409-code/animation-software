@@ -79,7 +79,11 @@ describe('the anti-rotation family', () => {
   });
 
   it('has one registered variant', () => {
-    expect(EXERCISES.filter((exercise) => exercise.category === 'core').map((exercise) => exercise.id))
-      .toEqual(['cable_pallof_press']);
+    // Anti-rotation is the core exercise that forbids the trunk to twist; the
+    // rotation family's are core exercises built on twisting it.
+    const holding = EXERCISES.filter(
+      (exercise) => exercise.category === 'core' && exercise.technique.some((rule) => rule.id.startsWith('no_twist_')),
+    );
+    expect(holding.map((exercise) => exercise.id)).toEqual(['cable_pallof_press']);
   });
 });

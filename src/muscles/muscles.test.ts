@@ -75,7 +75,8 @@ describe('muscle overlay', () => {
         }
       }
     }
-  });
+    // Every exercise in the library, so it grows with it.
+  }, 60_000);
 
   it('keeps every belly against the body rather than floating inside it', () => {
     for (const time of CURL_TIMES) {

@@ -12,6 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
+| After the Russian twist | `PENDING` | 22 exercises, suite 722 / 1. |
 | After the bench work | `c5aaedf` | 21 exercises, suite 704 / 1. |
 | After the push-up/pull-up templates | `7525ff6` | 19 exercises, suite 664 / 1. Approved push-up and pull-up byte-identical. |
 | After the Pallof press | `0c212be` | 19 exercises, suite 658 / 1. |
@@ -28,6 +29,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
+| `PENDING` | Rotation family: Russian twist, seated on the floor. Longer timeouts on three whole-library tests. | No — all twenty-one byte-identical. No engine, rig or equipment change; the timeout change alters no assertion. | new `families/rotation*`, `definitions/russianTwist.ts`; library; mirror (asymmetric list and its honesty check), anti-rotation, feet and self-collision tests; `rig/palm.test.ts`, `rig/scapula.test.ts`, `muscles/muscles.test.ts` (timeouts) |
 | `c5aaedf` | Supine family: dumbbell bench press and dumbbell fly, lying on the flat bench | No — all nineteen byte-identical. No engine or equipment change. | new `families/supine*`, `definitions/dumbbellBenchPress.ts`, `definitions/dumbbellFly.ts`; library; press, feet and self-collision tests |
 | `7525ff6` | Push-up and pull-up re-expressed as the horizontal-press and vertical-pull family templates | No — all nineteen byte-identical, including both approved exercises | new `families/horizontalPress*`, `families/verticalPull*`; `definitions/pushUp.ts`, `definitions/pullUp.ts` |
 | `0c212be` | Anti-rotation family: cable Pallof press (first use of pose-level hand IK); cable tower mid pulley; two-hand grips on the cable handle | No — all eighteen byte-identical. The cable tower's drawn shape gained a mid pulley (the pushdown's tower shows it). | new `families/antiRotation*`, `definitions/pallofPress.ts`; `equipment/geometry.ts`, `equipment/library.ts`; library; mirror, press, feet and self-collision tests |

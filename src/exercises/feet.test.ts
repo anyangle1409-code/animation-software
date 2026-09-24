@@ -75,6 +75,7 @@ describe('standing feet', () => {
       'dumbbell_romanian_deadlift',
       'dumbbell_shoulder_press',
       'incline_dumbbell_curl',
+      'russian_twist',
       'seated_dumbbell_shoulder_press',
       'split_squat',
       'standing_calf_raise',

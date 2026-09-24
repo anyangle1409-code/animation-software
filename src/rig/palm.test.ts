@@ -234,6 +234,9 @@ describe('every exercise, with the palm at rest', () => {
         validateClip(skeleton, new PoseEvaluation(skeleton), exercise, clip, 20).violations.map((violation) => violation.ruleId);
       expect(rules(rig, now.clip)).toEqual(rules(earlier, then.clip));
     },
+    // Two rigs, every frame: the calf raises' ball-of-foot solve runs past the
+    // 5 s default on a slower machine.
+    30_000,
   );
 });
 

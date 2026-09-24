@@ -90,6 +90,9 @@ const BASELINE: Record<string, number> = {
   // press begins to lower, and beside the armpit with the fly's arms open.
   dumbbell_bench_press: 0.00863,
   dumbbell_fly: 0.01028,
+  // Upper arms drawn in to clasp the hands, passing the side of the trunk as
+  // it turns.
+  russian_twist: 0.00184,
 };
 
 /**

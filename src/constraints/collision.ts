@@ -115,6 +115,15 @@ export function equipmentDistance(kind: EquipmentKind, point: Vector3): number {
 }
 
 /**
+ * Signed distance from `point`, in the item's frame, to each of its parts in
+ * `EQUIPMENT_PARTS` order: which part of a bench a seat meets, and which a back
+ * rests on. `equipmentDistance` is the smallest of these.
+ */
+export function equipmentPartDistances(kind: EquipmentKind, point: Vector3): number[] {
+  return EQUIPMENT_PARTS[kind].map((part) => distanceToPart(part, local.copy(point).applyMatrix4(inverseOf(part))));
+}
+
+/**
  * A uniform grid over a set of points, for closest-approach queries.
  *
  * Body against body is a different problem from body against equipment: there

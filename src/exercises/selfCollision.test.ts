@@ -69,6 +69,8 @@ const BASELINE: Record<string, number> = {
   dumbbell_bent_over_row: 0.00152,
   // The standing press's arms, sat down: the same 1.95 mm.
   seated_dumbbell_shoulder_press: 0.00195,
+  // Arms hanging behind the body, near the chest at the top of the curl.
+  incline_dumbbell_curl: 0.00179,
 };
 
 /**

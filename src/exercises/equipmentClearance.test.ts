@@ -6,7 +6,8 @@ import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
-import { measureClearance } from '../constraints/collision';
+import { equipmentPartDistances, measureClearance } from '../constraints/collision';
+import { EQUIPMENT_PARTS } from '../equipment/geometry';
 import type { ClearanceSample } from '../constraints/collision';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { applyCharacterPose } from '../character/pose';
@@ -68,15 +69,16 @@ const mm = (metres: number) => `${(metres * 1000).toFixed(2)} mm`;
 const MARGIN = 0.002;
 
 /**
- * Equipment the body rests on — a bench it sits on — is asked the opposite
- * question. It must be *reached*: a seat the body hovers above is not being sat
- * on, so the deepest point may be no more than 3 mm clear. And it may be pressed
- * into, because the flesh of a seated thigh and buttock flattens under the whole
- * upper body, but only by as much as that flesh would: a skinned mesh does not
- * flatten, so its surface passes into the pad where the real one would spread,
- * and 15 mm is held as the most that can pass for compression rather than
- * sinking. Every vertex is still measured; the count inside is reported, not
- * failed on.
+ * Equipment the body rests on — a bench it sits or lies on — is asked the
+ * opposite question, pad by pad. Each padded part must be *reached*: a seat the
+ * body hovers above is not being sat on, and a backrest the back hangs off is
+ * not being leant on, so each pad's deepest point may be no more than 3 mm
+ * clear. And each may be pressed into, because the flesh of a seated thigh and
+ * buttock flattens under the whole upper body, but only by as much as that
+ * flesh would: a skinned mesh does not flatten, so its surface passes into the
+ * pad where the real one would spread, and 15 mm is held as the most that can
+ * pass for compression rather than sinking. The frame is not padding, and keeps
+ * the same 2 mm margin as any other equipment.
  */
 const SUPPORT = { resting: 0.003, compression: 0.015 };
 
@@ -107,6 +109,9 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
 
       const worst = new Map<string, ClearanceSample>();
       const placement = new Matrix4();
+      /** Per support, per part: deepest point, and where. */
+      const parts = new Map<string, { deepest: number; where: string }[]>();
+      const local = new Vector3();
 
       for (let step = 0; step <= 40; step += 1) {
         const time = (step / 40) * clip.duration;
@@ -142,6 +147,22 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
               .invert();
           }
 
+          if (instance.supportsBody) {
+            const record =
+              parts.get(instance.id) ??
+              EQUIPMENT_PARTS[instance.kind].map(() => ({ deepest: Number.POSITIVE_INFINITY, where: '' }));
+            for (let index = 0; index < count; index += 1) {
+              if (!measured[index]) continue;
+              posedVertex(body!, index, local).applyMatrix4(placement);
+              equipmentPartDistances(instance.kind, local).forEach((distance, part) => {
+                if (distance < record[part].deepest) {
+                  record[part] = { deepest: distance, where: `${time.toFixed(2)}s, ${dominantBone(body!, index)}` };
+                }
+              });
+            }
+            parts.set(instance.id, record);
+          }
+
           const sample =
             worst.get(instance.id) ?? { closest: Number.POSITIVE_INFINITY, inside: 0, where: '' };
           measureClearance(
@@ -174,8 +195,17 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
       for (const [id, sample] of worst) {
         const report = `${exercise.id} / ${id}: closest ${mm(sample.closest)} at ${sample.where}`;
         if (supports.has(id)) {
-          expect(sample.closest, `${report} — the body does not reach what it rests on`).toBeLessThanOrEqual(SUPPORT.resting);
-          expect(sample.closest, `${report} — the body sinks into what it rests on`).toBeGreaterThanOrEqual(-SUPPORT.compression);
+          const kind = clip.equipment.find((instance) => instance.id === id)!.kind;
+          parts.get(id)!.forEach((part, index) => {
+            const at = `${exercise.id} / ${id} part ${index}: ${mm(part.deepest)} at ${part.where}`;
+            console.log(`        ${EQUIPMENT_PARTS[kind][index].material.padEnd(6)} ${at}`);
+            if (EQUIPMENT_PARTS[kind][index].material === 'pad') {
+              expect(part.deepest, `${at} — the body does not reach this pad`).toBeLessThanOrEqual(SUPPORT.resting);
+              expect(part.deepest, `${at} — the body sinks into this pad`).toBeGreaterThanOrEqual(-SUPPORT.compression);
+            } else {
+              expect(part.deepest, `${at} — the body touches the frame`).toBeGreaterThan(MARGIN);
+            }
+          });
           continue;
         }
         expect(sample.inside, `${report} — ${sample.inside} body vertices inside`).toBe(0);

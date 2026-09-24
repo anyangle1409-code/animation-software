@@ -1,5 +1,5 @@
 import type { Tempo } from '../types';
-import type { ExerciseDefinition, HandSpec, MuscleInvolvement } from '../types';
+import type { ExerciseDefinition, HandSpec, MuscleInvolvement, PoseSpec } from '../types';
 import type { CameraRecommendation } from '../types';
 import type { CommonError } from '../types';
 import { vec3 } from '../../rig/types';
@@ -11,6 +11,8 @@ import {
   bilateralTiming,
 } from '../mirror';
 import { evenSides, plantedContact } from '../presets';
+import { seatedStance } from '../stance';
+import { hingeRoot } from './hinge';
 
 /**
  * The curl family.
@@ -96,6 +98,9 @@ const GRIPS: Record<CurlGrip, GripSpec> = {
   },
 };
 
+/** What holds the body while the arms curl. */
+export type CurlSupport = 'standing' | 'incline';
+
 export interface CurlVariant {
   id: string;
   name: string;
@@ -104,6 +109,11 @@ export interface CurlVariant {
   description: string;
   /** What makes a hammer curl a hammer curl. */
   grip: CurlGrip;
+  /**
+   * Standing, or lying back on an incline bench so the arms hang behind the
+   * body and the biceps starts from a full stretch. Standing by default.
+   */
+  support?: CurlSupport;
   /** Load per hand, kilograms. */
   mass?: number;
   /** Elbow flexion at the bottom and the peak, degrees. */
@@ -144,11 +154,54 @@ const ELBOW = { start: 16, peak: 126 };
  */
 const ABDUCTION = { start: 3, peak: 4 };
 
+/**
+ * Lying back on an incline bench set to 45°.
+ *
+ * The body pitches back 45° from its hips, which sit on the seat; the back lies
+ * on the pad and the feet are flat on the floor in front. The arms hang
+ * straight down from the shoulders — behind the body, 45° of shoulder
+ * extension against the trunk — and stay there while the elbows curl: that
+ * hang is the whole point of the variant, since it puts the biceps' long head
+ * on stretch at the bottom. The bench is the library's `incline_bench`, turned
+ * to face the way the body does.
+ *
+ * Placed against the production character: the back rests on the pad (2 mm
+ * in), the seat on the seat (0.1 mm), and the thighs press 10 mm into its front
+ * edge. The arms hang 20° out from the body, which is what a lifter does on a
+ * narrow backrest: at 3° they passed into the pad, and short of 20° the
+ * dumbbells clipped the hips on the way down (17 mm in at 14°; 3.4 mm clear at
+ * 20°).
+ */
+const INCLINE = {
+  pitch: -45,
+  pelvis: { y: 0.615, z: 0 },
+  bench: { position: vec3(0, 0, -0.27), rotation: vec3(0, 180, 0) },
+  feet: { width: 0.4, toeOut: 8, forward: 0.45 },
+  /** Shoulder extension that hangs the arm straight down, degrees. */
+  hang: -45,
+  abduction: { start: 20, peak: 18 },
+};
+
 export function curlFamily(variant: CurlVariant): ExerciseDefinition {
   const grip = GRIPS[variant.grip];
   const elbow = variant.elbow ?? ELBOW;
-  const abduction = variant.abduction ?? ABDUCTION;
+  const incline = variant.support === 'incline';
+  const abduction = variant.abduction ?? (incline ? INCLINE.abduction : ABDUCTION);
   const mass = variant.mass ?? 10;
+  const root = incline ? hingeRoot(INCLINE.pitch, INCLINE.pelvis) : undefined;
+  const placement = root
+    ? { root: { position: { y: root.y, z: root.z }, rotation: { x: INCLINE.pitch } } }
+    : {};
+  // Upper-arm flexion is measured from the trunk, so on the incline the whole
+  // curve shifts by the hang.
+  const shoulder = incline ? INCLINE.hang : 0;
+  // Sat on the bench, and the chin tucked so the eyes are on the arms rather
+  // than the ceiling a reclined trunk would otherwise point them at.
+  const reclined = incline
+    ? { thigh_l: { x: 45 }, thigh_r: { x: 45 }, shin_l: { x: -90 }, shin_r: { x: -90 }, neck: { x: 16 }, head: { x: 6 } }
+    : {};
+  const seated = incline ? seatedStance(INCLINE.feet) : undefined;
+  const withLegs = (joints: PoseSpec['joints']) => ({ ...bilateralJoints(joints), ...reclined });
 
   return {
     id: variant.id,
@@ -158,8 +211,8 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
     description: variant.description,
 
     equipment: {
-      required: ['dumbbell'],
-      instances: (['l', 'r'] as const).map((side) => ({
+      required: incline ? ['dumbbell', 'incline_bench'] : ['dumbbell'],
+      instances: [...(['l', 'r'] as const).map((side) => ({
         id: `dumbbell_${side}`,
         kind: 'dumbbell' as const,
         label: `${side === 'l' ? 'Left' : 'Right'} dumbbell`,
@@ -172,11 +225,26 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         // orientation calibration is needed.
         attachment: { mode: 'hand' as const, side, socket: 'grip' },
       })),
+      ...(incline
+        ? [
+            {
+              id: 'bench',
+              kind: 'incline_bench' as const,
+              label: 'Incline bench',
+              mass: 0,
+              position: INCLINE.bench.position,
+              rotation: INCLINE.bench.rotation,
+              visible: true,
+              attachment: { mode: 'static' as const },
+              supportsBody: true,
+            },
+          ]
+        : [])],
     },
 
     startPose: {
       label: 'Arms extended',
-      joints: bilateralJoints({
+      joints: withLegs({
         spine_01: { x: 2 },
         spine_02: { x: -1 },
         neck: { x: -2 },
@@ -194,23 +262,25 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         // So the clearance comes from the elbow instead, and the upper arm is
         // free to hang closer to vertical: 3° rather than 4.55°, which measures
         // 3.22° of true sagittal tilt against 3.87° before.
-        upperarm_l: { x: 3, z: -abduction.start },
+        upperarm_l: { x: 3 + shoulder, z: -abduction.start },
         hand_l: { z: 4 },
       }),
+      ...placement,
     },
 
     peakPose: {
       label: 'Contracted',
-      joints: bilateralJoints({
+      joints: withLegs({
         spine_01: { x: 2 },
         spine_02: { x: -1 },
         neck: { x: -2 },
         clavicle_l: { z: 5 },
         // A small forward drift keeps the elbows natural without letting the
         // dumbbells crowd the chest at the top of the curl.
-        upperarm_l: { x: 7, z: -abduction.peak },
+        upperarm_l: { x: 7 + shoulder, z: -abduction.peak },
         hand_l: { z: 2 },
       }),
+      ...placement,
     },
 
     jointTargets: [
@@ -267,9 +337,9 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
       closure: variant.closure ?? 0.85,
       width: variant.handWidth ?? 0.42,
     },
-    feet: { width: 0.32, toeOut: 6, planted: true },
+    feet: seated ? seated.feet : { width: 0.32, toeOut: 6, planted: true },
 
-    locks: [...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true })],
+    locks: seated ? seated.locks : [...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true })],
 
     muscles: {
       primary: ['biceps'],
@@ -284,15 +354,26 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         tolerance: 0.012,
         label: 'Left foot stays planted',
       }),
-      {
-        kind: 'segmentAngle',
-        id: 'torso_upright',
-        label: 'Torso stays upright',
-        bone: 'spine_02',
-        reference: 'vertical',
-        max: 10,
-        severity: 'error',
-      },
+      incline
+        ? {
+            kind: 'segmentAngle' as const,
+            id: 'back_on_bench',
+            label: 'Back stays on the bench',
+            bone: 'spine_02',
+            reference: 'vertical' as const,
+            min: 40,
+            max: 50,
+            severity: 'error' as const,
+          }
+        : {
+            kind: 'segmentAngle' as const,
+            id: 'torso_upright',
+            label: 'Torso stays upright',
+            bone: 'spine_02',
+            reference: 'vertical' as const,
+            max: 10,
+            severity: 'error' as const,
+          },
       {
         kind: 'stationary',
         id: 'no_swing',
@@ -317,7 +398,8 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         label: 'Left upper arm stays slightly clear of the torso',
         bone: 'upperarm_l',
         axis: 'z',
-        min: -20,
+        // Hanging beside a backrest, the arms sit wider; see `INCLINE`.
+        min: incline ? -25 : -20,
         max: -3,
       }),
       ...bilateralRule({
@@ -342,11 +424,11 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
       ...bilateralRule({
         kind: 'jointAngle',
         id: 'shoulder_quiet_l',
-        label: 'Left shoulder does not take over the lift',
+        label: incline ? 'Left upper arm stays hanging behind the body' : 'Left shoulder does not take over the lift',
         bone: 'upperarm_l',
         axis: 'x',
-        min: -5,
-        max: 10,
+        min: -5 + shoulder,
+        max: 10 + shoulder,
       }),
       // The grip rule and the grip motion come from the same row of GRIPS, so a
       // variant cannot be checked against a grip it does not hold.
@@ -380,12 +462,12 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
       {
         kind: 'distance',
         id: 'hands_shoulder_width',
-        label: 'Hands stay about shoulder-width apart',
+        label: incline ? 'Hands hang just outside the bench and the hips' : 'Hands stay about shoulder-width apart',
         from: { bone: 'hand_l' },
         to: { bone: 'hand_r' },
         axis: 'x',
         min: 0.26,
-        max: 0.56,
+        max: incline ? 0.75 : 0.56,
       },
       evenSides({
         id: 'dumbbells_aligned',

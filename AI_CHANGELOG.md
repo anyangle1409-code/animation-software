@@ -6,6 +6,27 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — An incline dumbbell curl, and an incline bench shaped like a real one
+
+Suite **515 passed / 1 skipped** (56 files; was 497 / 56), typecheck and build clean. The ten existing exercises are **byte-identical**, the three standing curls included, although their family changed.
+
+**Added.** `definitions/inclineCurl.ts`, the curl family's fourth variant and the last curl in the roadmap's proving set. The curl family gains `support: 'standing' | 'incline'`. The body lies back 45° on an incline bench, sat on its seat with its back on the backrest and its feet flat in front. The arms hang straight down behind the body (45° of shoulder extension against the trunk) and stay there while the elbows curl. The elbow motion and grip are the standing curl's exactly (asserted), and the upper-arm curve is the same curve shifted by the hang. Zero violations; every IK target reached; loop closed.
+
+**The incline bench was the wrong shape, and lying on it is what showed it.** No exercise had used it before. Its backrest's lower end sat 15 cm below the seat, where no seated back could reach it: with the back 48 mm off the pad, the thighs were 45 mm into the seat. It was also 48.5 cm high and 42 cm deep, so the seated thigh, sloping down to the knee, sank into the seat's front edge. It is now shaped like a real adjustable bench:
+
+- the backrest's face meets the seat top at the seat's back edge;
+- the seat is 44 cm high and 28 cm deep;
+- a rear post holds the backrest up;
+- the sockets are updated to match.
+
+Nothing else used the bench.
+
+**Contact is now checked pad by pad.** For equipment that supports the body, each padded part must be rested on (no more than 3 mm clear, no more than 15 mm in), and the frame keeps the ordinary 2 mm margin. Before this, the seat alone could satisfy "the body reaches the bench" while the back hung off the backrest. `equipmentPartDistances()` in `constraints/collision.ts` gives the distance to each part.
+
+**Production character.** On the incline: back on the backrest (2.1 mm in), seat on the seat (0.1 mm), thighs 10 mm into the seat's front edge, frame at least 50 mm clear. The arms hang 20° out from the body, as a lifter's do on a narrow backrest. At 3° they passed into the pad, and the dumbbells went 17 mm into the hips at 14° and cleared by 3.4 mm at 20°. Upper arm to chest measures 1.79 mm (baseline); hand roll matches the rig; feet flat. The chin is tucked so the eyes are on the arms rather than the ceiling. The seated press still passes the per-pad check (9 mm into its pad, frame clear).
+
+**Rules.** On the incline, `torso_upright` becomes `back_on_bench` (40–50°). The shoulder-quiet band shifts by the hang. Hands may be up to 0.75 m apart and the upper arm up to 25° clear, for arms that hang beside a backrest and outside the hips.
+
 ### Claude — 2026-09-24 — A seated press: the first exercise that rests the body on equipment
 
 Suite **497 passed / 1 skipped** (56 files; was 478 / 55), typecheck and build clean. The nine existing exercises are **byte-identical**, the standing press included, although its family changed.

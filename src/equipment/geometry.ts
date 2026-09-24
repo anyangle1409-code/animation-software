@@ -149,12 +149,20 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
     box([0.5, 0.05, 0.06], [0, 0.03, -0.52]),
   ],
 
+  // Shaped the way a real adjustable bench is, which the first exercise to lie
+  // on it (the incline curl) found it was not. The backrest hinges where its
+  // face meets the seat's top at the seat's back edge; it used to sit 15 cm
+  // lower, its lower end under the seat, where no seated back could reach it.
+  // The seat is 44 cm high and 28 cm deep rather than 48.5 and 42: a seated
+  // thigh slopes down from the hip to the knee, and the higher, longer seat's
+  // front edge sank 40 mm into it. The rear post now reaches up to hold the
+  // backrest.
   incline_bench: [
-    box([0.32, 0.09, 0.8], [0, 0.62, 0.22], 'pad', [-Math.PI / 4, 0, 0]),
-    box([0.32, 0.09, 0.42], [0, 0.44, -0.42], 'pad'),
-    box([0.08, 0.42, 0.08], [0, 0.21, -0.58]),
-    box([0.08, 0.44, 0.08], [0, 0.22, 0.4]),
-    box([0.5, 0.05, 0.06], [0, 0.03, -0.58]),
+    box([0.32, 0.09, 0.8], [0, 0.691, 0.105], 'pad', [-Math.PI / 4, 0, 0]),
+    box([0.32, 0.09, 0.28], [0, 0.395, -0.35], 'pad'),
+    box([0.08, 0.36, 0.08], [0, 0.18, -0.45]),
+    box([0.08, 0.96, 0.08], [0, 0.48, 0.4]),
+    box([0.5, 0.05, 0.06], [0, 0.03, -0.45]),
     box([0.5, 0.05, 0.06], [0, 0.03, 0.4]),
   ],
 

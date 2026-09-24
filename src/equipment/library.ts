@@ -91,8 +91,8 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
     paired: false,
     size: vec3(0.32, 0.95, 1.25),
     sockets: [
-      socket('back', 'Back support', [0, 0.6, 0.16], 'support', [-45, 0, 0]),
-      socket('seat', 'Seat', [0, 0.44, -0.42], 'support'),
+      socket('back', 'Back support', [0, 0.691, 0.105], 'support', [-45, 0, 0]),
+      socket('seat', 'Seat', [0, 0.395, -0.35], 'support'),
     ],
   },
   squat_rack: {

@@ -3,6 +3,13 @@ import { EXERCISES } from '../library';
 import { bicepCurl } from '../definitions/bicepCurl';
 import { hammerCurl } from '../definitions/hammerCurl';
 import { curlFamily } from './curl';
+import { inclineCurl } from '../definitions/inclineCurl';
+import { Vector3 } from 'three';
+import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
+import { generateClip } from '../../animation/generate';
+import { resolveFrame } from '../../animation/pipeline';
+import { lockAnchors } from '../../constraints/locks';
+import { sampleClip } from '../../animation/clip';
 import type { ExerciseDefinition } from '../types';
 
 /**
@@ -88,6 +95,60 @@ describe('a declared grip and the motion it names', () => {
       } else if (declared === 'neutral') {
         expect(Math.abs(rotation), `${exercise.id} claims a neutral grip`).toBeLessThan(30);
       }
+    }
+  });
+});
+
+describe('the incline curl', () => {
+  const evaluation = new PoseEvaluation(canonicalSkeleton);
+  const clip = generateClip(canonicalSkeleton, inclineCurl);
+  const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+  const at = (time: number) => {
+    evaluation.apply(resolveFrame(canonicalSkeleton, evaluation, clip, time, { anchors }).pose);
+    const shoulder = evaluation.head('upperarm_l', new Vector3());
+    const elbow = evaluation.head('forearm_l', new Vector3());
+    const upperArm = elbow.clone().sub(shoulder);
+    return {
+      shoulder,
+      elbow,
+      /** Angle of the upper arm in the sagittal plane, from straight down; + is forward. */
+      hang: (Math.atan2(upperArm.z, -upperArm.y) * 180) / Math.PI,
+      pelvis: evaluation.head('pelvis', new Vector3()),
+      back: evaluation.tail('spine_02', new Vector3()).sub(evaluation.head('spine_02', new Vector3())),
+    };
+  };
+
+  it('curls exactly as the standing curl does, from a different shoulder', () => {
+    const target = (exercise: ExerciseDefinition, bone: string, axis: 'x' | 'y' | 'z') =>
+      exercise.jointTargets.find((entry) => entry.bone === bone && entry.axis === axis);
+    expect(target(inclineCurl, 'forearm_l', 'x')).toEqual(target(bicepCurl, 'forearm_l', 'x'));
+    expect(target(inclineCurl, 'forearm_l', 'y')).toEqual(target(bicepCurl, 'forearm_l', 'y'));
+    expect(inclineCurl.hands.orientation).toBe('supinated');
+    // The same upper-arm curve, shifted by the 45° hang.
+    expect(inclineCurl.startPose.joints.upperarm_l!.x! - bicepCurl.startPose.joints.upperarm_l!.x!).toBe(-45);
+    expect(inclineCurl.peakPose.joints.upperarm_l!.x! - bicepCurl.peakPose.joints.upperarm_l!.x!).toBe(-45);
+  });
+
+  it('lies back at 45° and stays there, sat on the bench', () => {
+    for (let step = 0; step <= 20; step += 1) {
+      const frame = at((step / 20) * clip.duration);
+      const fromVertical = (Math.acos(frame.back.clone().normalize().y) * 180) / Math.PI;
+      expect(fromVertical).toBeGreaterThan(40);
+      expect(fromVertical).toBeLessThan(50);
+      expect(frame.pelvis.y).toBeCloseTo(0.615, 9);
+    }
+    expect(inclineCurl.equipment.instances.find((instance) => instance.kind === 'incline_bench')?.supportsBody).toBe(true);
+  });
+
+  it('hangs the arms straight down behind the body, and keeps them there while it curls', () => {
+    // The point of the variant: the elbow under the shoulder, not in front of
+    // the body as a standing curl's is, for the whole repetition. The family's
+    // own small forward drift near the top of the curl carries over: 7° at the
+    // squeeze, measured.
+    for (let step = 0; step <= 20; step += 1) {
+      const frame = at((step / 20) * clip.duration);
+      expect(Math.abs(frame.hang), `upper arm at step ${step}`).toBeLessThan(10);
+      expect(frame.elbow.z, `elbow behind the hips at step ${step}`).toBeLessThan(frame.pelvis.z - 0.25);
     }
   });
 });

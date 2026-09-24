@@ -75,6 +75,7 @@ describe('standing feet', () => {
       'dumbbell_reverse_curl',
       'dumbbell_romanian_deadlift',
       'dumbbell_shoulder_press',
+      'incline_dumbbell_curl',
       'seated_dumbbell_shoulder_press',
     ]);
   });

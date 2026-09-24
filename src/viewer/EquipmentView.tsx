@@ -5,7 +5,7 @@ import { useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
-import { twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
+import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
 import { EquipmentMesh } from './equipmentMeshes';
 import { useSceneState } from './sceneState';
 
@@ -34,6 +34,8 @@ export function EquipmentView() {
     for (const [id, group] of groups.current) {
       const instance = instances.find((entry) => entry.id === id);
       const transform = transforms.get(id);
+      // Placed below, once the items at both its ends are.
+      if (instance?.attachment.mode === 'cable') continue;
 
       // The character's own hand, when it has one of its own.
       const held =
@@ -81,6 +83,25 @@ export function EquipmentView() {
       }
       group.visible = true;
       group.matrix.copy(transform.matrix);
+      group.matrixWorldNeedsUpdate = true;
+    }
+
+    // A cable runs between the two items as drawn, not as the canonical rig
+    // placed them: on a character with its own hands the handle it clips to is
+    // drawn at that character's grip, and the cable has to meet it there.
+    for (const [id, group] of groups.current) {
+      const instance = instances.find((entry) => entry.id === id);
+      if (instance?.attachment.mode !== 'cable') continue;
+      const end = (link: { equipment: string; socket: string }) => {
+        const item = instances.find((entry) => entry.id === link.equipment);
+        const drawn = groups.current.get(link.equipment);
+        return item && drawn?.visible ? socketWorldPoint(item, link.socket, drawn.matrix) : null;
+      };
+      const from = end(instance.attachment.from);
+      const to = end(instance.attachment.to);
+      group.visible = Boolean(from && to);
+      if (!from || !to) continue;
+      group.matrix.copy(cableMatrix(from, to).matrix);
       group.matrixWorldNeedsUpdate = true;
     }
   });

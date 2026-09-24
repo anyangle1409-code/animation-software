@@ -1,4 +1,5 @@
 import {
+  Euler,
   Group,
   Matrix4,
   Object3D,
@@ -9,6 +10,8 @@ import {
 } from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { canonicalSkeleton } from '../rig/skeleton';
+import { EULER_ORDER } from '../rig/types';
+import { toRad } from '../core/math';
 import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { equipmentSocket } from '../equipment/library';
@@ -121,9 +124,20 @@ export async function exportGlb(
         }
       } else if (instance.attachment.mode === 'static') {
         object.position.set(instance.position.x, instance.position.y, instance.position.z);
+        // Turned as it is in the studio. Without this the incline curl's bench,
+        // placed turned round to face the lifter, exported facing away.
+        object.quaternion.setFromEuler(
+          new Euler(
+            toRad(instance.rotation.x),
+            toRad(instance.rotation.y),
+            toRad(instance.rotation.z),
+            EULER_ORDER,
+          ),
+        );
         scene.add(object);
       } else {
-        // Driven by both hands, so its motion is baked as its own track.
+        // Driven by both hands, or a cable between two items, so its motion is
+        // baked as its own track.
         applyBakedEquipmentTrack(object, baked, instance.id);
         scene.add(object);
       }
@@ -154,11 +168,13 @@ function applyBakedEquipmentTrack(
   if (!track || track.position.length < 3) return;
   object.name = `equipment_${id}`;
   object.position.copy(new Vector3(track.position[0], track.position[1], track.position[2]));
+  if (track.scale) object.scale.set(track.scale[0], track.scale[1], track.scale[2]);
 
   // three.js binds tracks by object name, which the exporter preserves.
   baked.clip.tracks.push(
     new VectorKeyframeTrack(`${object.name}.position`, baked.times, track.position),
     new QuaternionKeyframeTrack(`${object.name}.quaternion`, baked.times, track.quaternion),
+    ...(track.scale ? [new VectorKeyframeTrack(`${object.name}.scale`, baked.times, track.scale)] : []),
   );
 }
 

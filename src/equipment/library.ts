@@ -168,6 +168,35 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
     size: vec3(0.22, 0.3, 0.22),
     sockets: [socket('grip', 'Handle', [0, 0, 0]), socket('base', 'Base', [0, -0.26, 0], 'mount')],
   },
+  cable_tower: {
+    kind: 'cable_tower',
+    label: 'Cable tower',
+    defaultMass: 0,
+    paired: false,
+    size: vec3(0.7, 2.3, 0.6),
+    // The bottom of the high pulley's wheel, where the cable leaves it.
+    sockets: [socket('pulley', 'High pulley', [0, 2.075, -0.14], 'mount')],
+  },
+  cable_bar: {
+    kind: 'cable_bar',
+    label: 'Straight cable bar',
+    defaultMass: 2,
+    paired: false,
+    size: vec3(0.05, 0.1, 0.5),
+    sockets: [
+      socket('grip_l', 'Left hand', [0, 0, -0.2]),
+      socket('grip_r', 'Right hand', [0, 0, 0.2], 'grip', [0, 180, 0]),
+      socket('clip', 'Cable clip', [0, 0.079, 0], 'mount'),
+    ],
+  },
+  cable: {
+    kind: 'cable',
+    label: 'Cable',
+    defaultMass: 0,
+    paired: false,
+    size: vec3(0.01, 1, 0.01),
+    sockets: [],
+  },
 };
 
 export const EQUIPMENT_LIST = Object.values(EQUIPMENT_LIBRARY);

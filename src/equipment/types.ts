@@ -13,6 +13,9 @@ export const EQUIPMENT_KINDS = [
   'lat_pulldown_bar',
   'resistance_band',
   'kettlebell',
+  'cable_tower',
+  'cable_bar',
+  'cable',
 ] as const;
 
 export type EquipmentKind = (typeof EQUIPMENT_KINDS)[number];
@@ -69,7 +72,8 @@ export interface EquipmentInstance {
   /**
    * How the item is bound into the scene. `hand` makes the item rigidly follow
    * a hand; `hands` keeps a single bar between two hands, moving symmetrically;
-   * `static` leaves it where it is placed.
+   * `static` leaves it where it is placed; `cable` stretches between two other
+   * items' sockets.
    */
   attachment: EquipmentAttachment;
   visible: boolean;
@@ -105,4 +109,15 @@ export type EquipmentAttachment =
       rightGripOffset?: Vec3;
       /** Roll of the rigid two-hand item around the line joining both grips, degrees. */
       gripRoll?: number;
+    }
+  | {
+      /**
+       * A line running from one item's socket to another's — the cable from a
+       * machine's pulley to the handle clipped to it. It has no pose of its own:
+       * it starts at `from`, points at `to` and is exactly as long as the gap,
+       * so it follows whatever the two ends do.
+       */
+      mode: 'cable';
+      from: { equipment: string; socket: string };
+      to: { equipment: string; socket: string };
     };

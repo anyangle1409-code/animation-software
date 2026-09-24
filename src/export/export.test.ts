@@ -7,6 +7,8 @@ import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
+import { cablePushdown } from '../exercises/definitions/cablePushdown';
+import { inclineCurl } from '../exercises/definitions/inclineCurl';
 import { bakeClip } from './clipBuilder';
 import { buildSkinnedRig } from './rigBuilder';
 import { exportAnimationJson, exportMetadataJson, SKELETON_ID } from './json';
@@ -269,5 +271,37 @@ describe('glb export', () => {
     // Much smaller than the full export — that is the point of the option.
     const full = await exportGlb(studioClip, bicepCurl, { fps: 20 });
     expect(buffer.byteLength).toBeLessThan((await full.arrayBuffer()).byteLength);
+  });
+
+  /** The JSON chunk of an exported file. */
+  async function gltfJson(exercise: typeof bicepCurl) {
+    const buffer = await (await exportGlb(generateClip(skeleton, exercise), exercise, { fps: 20 })).arrayBuffer();
+    const view = new DataView(buffer);
+    return JSON.parse(new TextDecoder().decode(new Uint8Array(buffer, 20, view.getUint32(12, true)))) as {
+      animations: { channels: { target: { node: number; path: string } }[] }[];
+      nodes: { name?: string; rotation?: number[]; scale?: number[] }[];
+    };
+  }
+
+  it('stretches a cable as it plays', async () => {
+    const json = await gltfJson(cablePushdown);
+    const cable = json.nodes.findIndex((node) => node.name === 'equipment_cable');
+    const bar = json.nodes.findIndex((node) => node.name === 'equipment_bar');
+    expect(cable).toBeGreaterThanOrEqual(0);
+    expect(bar).toBeGreaterThanOrEqual(0);
+    const paths = (node: number) =>
+      json.animations[0].channels.filter((channel) => channel.target.node === node).map((channel) => channel.target.path);
+    // The cable alone changes size; the bar only moves.
+    expect(paths(cable).sort()).toEqual(['rotation', 'scale', 'translation']);
+    expect(paths(bar).sort()).toEqual(['rotation', 'translation']);
+    expect(json.nodes[cable].scale?.[1]).toBeGreaterThan(1);
+  });
+
+  it('turns static equipment as the studio does', async () => {
+    // The incline curl's bench is turned round to face the lifter: 180° about Y.
+    const json = await gltfJson(inclineCurl);
+    const bench = json.nodes.find((node) => node.name === 'Incline bench');
+    expect(bench?.rotation).toBeDefined();
+    expect(Math.abs(bench!.rotation![1])).toBeCloseTo(1, 6);
   });
 });

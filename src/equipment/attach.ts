@@ -11,6 +11,12 @@ export interface EquipmentTransform {
   position: Vector3;
   quaternion: Quaternion;
   matrix: Matrix4;
+  /**
+   * Set only on a cable, which is the one item that changes size: it is
+   * stretched along its own Y to the length between its two ends. `matrix`
+   * includes it; everything else is rigid and leaves it out.
+   */
+  scale?: Vector3;
 }
 
 const UNIT = new Vector3(1, 1, 1);
@@ -30,10 +36,53 @@ export function resolveEquipment(
 ): Map<string, EquipmentTransform> {
   const out = new Map<string, EquipmentTransform>();
   for (const instance of instances) {
+    if (instance.attachment.mode === 'cable') continue;
     const transform = resolveInstance(evaluation, instance);
     if (transform) out.set(instance.id, transform);
   }
+  // Cables last: each hangs between two items placed above.
+  const byId = new Map(instances.map((instance) => [instance.id, instance]));
+  for (const instance of instances) {
+    if (instance.attachment.mode !== 'cable') continue;
+    const end = (link: { equipment: string; socket: string }) => {
+      const item = byId.get(link.equipment);
+      const placed = out.get(link.equipment);
+      return item && placed ? socketWorldPoint(item, link.socket, placed.matrix) : null;
+    };
+    const from = end(instance.attachment.from);
+    const to = end(instance.attachment.to);
+    if (!from || !to) continue;
+    out.set(instance.id, { id: instance.id, ...cableMatrix(from, to) });
+  }
   return out;
+}
+
+/** Where one item's socket is, given the matrix that places the item. */
+export function socketWorldPoint(
+  instance: EquipmentInstance,
+  socketId: string,
+  placement: Matrix4,
+): Vector3 | null {
+  const socket = equipmentSocketForInstance(instance, socketId);
+  if (!socket) return null;
+  return new Vector3(socket.position.x, socket.position.y, socket.position.z).applyMatrix4(placement);
+}
+
+/**
+ * Place a cable from `from` to `to`: at `from`, its +Y turned onto the line
+ * between them, and stretched along Y to their distance.
+ */
+export function cableMatrix(
+  from: Vector3,
+  to: Vector3,
+): { position: Vector3; quaternion: Quaternion; scale: Vector3; matrix: Matrix4 } {
+  const along = new Vector3().subVectors(to, from);
+  const length = along.length();
+  const quaternion =
+    length > 1e-9 ? new Quaternion().setFromUnitVectors(Y_AXIS, along.divideScalar(length)) : new Quaternion();
+  const position = from.clone();
+  const scale = new Vector3(1, Math.max(length, 1e-6), 1);
+  return { position, quaternion, scale, matrix: new Matrix4().compose(position, quaternion, scale) };
 }
 
 function resolveInstance(

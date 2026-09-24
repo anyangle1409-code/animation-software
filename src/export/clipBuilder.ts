@@ -25,7 +25,7 @@ import { compressTrack } from './tracks';
 export interface BakedClip {
   clip: AnimationClip;
   /** Per-equipment baked transforms, for items no bone can carry. */
-  equipmentTracks: Map<string, { position: number[]; quaternion: number[] }>;
+  equipmentTracks: Map<string, { position: number[]; quaternion: number[]; scale?: number[] }>;
   times: number[];
   fps: number;
 }
@@ -62,11 +62,15 @@ export function bakeClip(
   const times: number[] = [];
   const quaternions = new Map<BoneName, number[]>();
   const rootPositions: number[] = [];
-  const equipmentTracks = new Map<string, { position: number[]; quaternion: number[] }>();
+  const equipmentTracks = new Map<string, { position: number[]; quaternion: number[]; scale?: number[] }>();
 
   for (const bone of rig.bones) quaternions.set(bone.name, []);
   for (const instance of studioClip.equipment) {
-    equipmentTracks.set(instance.id, { position: [], quaternion: [] });
+    // A cable changes length as it plays, so it alone carries a scale track.
+    equipmentTracks.set(
+      instance.id,
+      instance.attachment.mode === 'cable' ? { position: [], quaternion: [], scale: [] } : { position: [], quaternion: [] },
+    );
   }
 
   const localQuaternion = new Quaternion();
@@ -123,6 +127,10 @@ export function bakeClip(
         transform.quaternion.z,
         transform.quaternion.w,
       );
+      if (track.scale) {
+        const scale = transform.scale ?? { x: 1, y: 1, z: 1 };
+        track.scale.push(scale.x, scale.y, scale.z);
+      }
     }
   }
 

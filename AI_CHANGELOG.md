@@ -6,6 +6,46 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The first cable exercise: a triceps pushdown, with a cable that stretches between tower and bar
+
+Suite **572 passed / 1 skipped** (58 files; was 551), typecheck and build clean. The thirteen existing exercises are **byte-identical** (definitions, 61 solved frames each, contacts and validation compared file by file).
+
+**Added.** `definitions/cablePushdown.ts`, a `pushdown` position in the elbow-extension family (`families/extension.ts`). The lifter stands at a high pulley with an overhand grip on a straight bar. The whole body leans 12° from the ankles, the upper arms hang 7° forward of vertical, and the forearms push the bar from just above parallel (elbow 100°, bar 1.20 m up) to lockout (6°, bar 0.78 m, in front of the thighs). Zero violations, every IK target reached, loop closed, contact drift 0.00 mm.
+
+**New equipment.** `cable_tower`: a single column authored facing −Z, with its high pulley on an arm 36 cm out over the lifter. `cable_bar`: a 50 cm straight bar with a clip at its middle. `cable`: one metre of line along +Y.
+
+**A cable is an item that stretches** (`attachment.mode: 'cable'`, `from`/`to` sockets). `resolveEquipment` places cables after everything else. Each one starts at its `from` socket, turns its +Y onto the `to` socket and is scaled along Y alone to the gap (`EquipmentTransform.scale`, set only on cables), so its thickness never changes. The viewport draws each cable between its two ends as drawn, so on a character with its own hands it still meets the bar at that character's grip. The GLB export bakes a cable like a two-hand item, adding a scale track. Over one rep the cable runs 0.80 m to 1.27 m.
+
+**First exercise to hold a bar in both hands** (`hands` mode). A rigid bar needs hands that stay the same distance apart through the rep. They do when the upper arms have no abduction: the elbow then bends in a plane parallel to the midline. Hands are 39.87 cm apart against 40 cm grips, giving 0.67 mm error at each hand (the envelope is 5 mm).
+
+**The feet** are pinned to the hinge stance (`FOOT_L`), as the row's are, because an opening frame that is not upright cannot supply them.
+
+**Bug fixed, export only.** Static equipment was exported at its position but without its rotation. The incline curl's bench, turned 180° to face the lifter in the studio, exported facing away. `glb.ts` now applies the rotation. No motion changes. The earlier static items (rack, seated-press bench) have zero rotation and export as before.
+
+**Measured on the production character.**
+
+| Check | Result |
+|---|---|
+| Bar to thighs at lockout | 24.78 mm clear |
+| Cable to body | 32.07 mm clear |
+| Tower to body | 418 mm clear |
+| Upper arm to chest | 4.64 mm (new self-collision baseline) |
+
+A first draft had the upper-arm sign backwards (elbows 17° behind the body): the bar went 13 mm into the belly and the cable into the hip. At 3° forward, the bar was still 9 mm into the thighs at lockout. At 7° it clears.
+
+**Tests.**
+
+- `extension.test.ts`:
+  - The cable meets the pulley and the bar clip to 1e-9 m on every frame.
+  - It stretches along its length only.
+  - The bar stays within 1 mm of both hands.
+  - The elbows hold still, 7° forward.
+  - The bar travels from the thighs to the chest.
+- `export.test.ts`:
+  - The exported cable has translation, rotation and scale channels, and the bar only the first two.
+  - The incline bench exports turned. This test fails on the old exporter.
+- Feet and self-collision lists include the pushdown.
+
 ### Claude — 2026-09-24 — The lunge becomes the seventh family, with a split squat; a foot can stand on its ball
 
 Suite **551 passed / 1 skipped** (58 files; was 533 / 57), typecheck and build clean. The twelve existing exercises are **byte-identical**.

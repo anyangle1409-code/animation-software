@@ -104,6 +104,11 @@ export function EquipmentPanel() {
                 ))}
               </div>
             </>
+          ) : selected.attachment.mode === 'cable' ? (
+            <p className="panel__note">
+              This cable runs from {selected.attachment.from.equipment} to {selected.attachment.to.equipment} and
+              follows them; it has no position of its own.
+            </p>
           ) : (
             <p className="panel__note">
               This object is driven by {selected.attachment.mode === 'hand' ? 'one hand' : 'both hands'}.

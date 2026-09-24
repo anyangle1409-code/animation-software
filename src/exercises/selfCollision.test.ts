@@ -75,6 +75,8 @@ const BASELINE: Record<string, number> = {
   dumbbell_overhead_triceps_extension: 0.0029,
   // Arms hanging at the sides through the split squat.
   split_squat: 0.00422,
+  // Elbows tucked at the ribs, nearest the chest at lockout.
+  cable_triceps_pushdown: 0.00464,
 };
 
 /**

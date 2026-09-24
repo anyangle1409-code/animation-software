@@ -142,7 +142,9 @@ describe.skipIf(!existsSync(ASSET))('equipment clears the body', () => {
               .compose(
                 new Vector3(transform.position.x, transform.position.y, transform.position.z),
                 transform.quaternion,
-                new Vector3(1, 1, 1),
+                // A cable is stretched along its length. Its surface is then
+                // measured exactly beside it, where a body would meet it.
+                transform.scale ?? new Vector3(1, 1, 1),
               )
               .invert();
           }

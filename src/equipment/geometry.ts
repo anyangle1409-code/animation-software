@@ -238,4 +238,42 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
       material: 'dark',
     },
   ],
+
+  // A single-column cable station, authored facing −Z: whoever uses it stands
+  // on its −Z side. The high pulley hangs off an arm reaching 36 cm out over
+  // them, so a cable from it drops in front of the body rather than down the
+  // column; the weight stack sits between the uprights, out of reach.
+  cable_tower: [
+    box([0.7, 0.04, 0.6], [0, 0.02, 0.1]),
+    box([0.06, 2.2, 0.06], [-0.28, 1.12, 0.2]),
+    box([0.06, 2.2, 0.06], [0.28, 1.12, 0.2]),
+    box([0.62, 0.08, 0.08], [0, 2.22, 0.2]),
+    box([0.3, 0.8, 0.12], [0, 0.46, 0.2], 'dark'),
+    box([0.06, 0.06, 0.36], [0, 2.18, 0.02]),
+    {
+      shape: 'torus',
+      radius: 0.045,
+      tube: 0.012,
+      position: [0, 2.12, -0.14],
+      rotation: [0, HALF_TURN, 0],
+      material: 'metal',
+    },
+  ],
+
+  // A 50 cm straight bar with sleeves where the hands go, clipped to the cable
+  // at its middle.
+  cable_bar: [
+    bar(0.014, 0.5),
+    bar(0.017, 0.12, [0, 0, -0.2], 'rubber'),
+    bar(0.017, 0.12, [0, 0, 0.2], 'rubber'),
+    box([0.03, 0.05, 0.03], [0, 0.035, 0], 'dark'),
+    { shape: 'sphere', radius: 0.014, position: [0, 0.065, 0], material: 'metal' },
+  ],
+
+  // One metre of cable along local +Y from the origin. It is stretched to
+  // length along Y alone, so its thickness never changes; see
+  // `EquipmentTransform.scale`.
+  cable: [
+    { shape: 'cylinder', radius: 0.0035, length: 1, position: [0, 0.5, 0], segments: 8, material: 'dark' },
+  ],
 };

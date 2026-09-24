@@ -116,6 +116,30 @@
     "grip_refit_started": false,
     "production_asset_promoted": false
   },
+  "hand_fingertip_review_candidate": {
+    "version": "v13e_fingertip_retopology",
+    "branch": "codex-high-detail-candidate-v13-finger-review-20260924",
+    "source_geometry_version": "v12c_palm_volume",
+    "status": "visual_review_pending_not_accepted_not_production",
+    "dressed_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.glb",
+    "bare_glb": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology_BARE.glb",
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+    "sha256": {
+      "dressed_glb": "08c56beca39294b34e6bef02c9797a22f5c9dbbfc9303ae63b3ab4508e440593",
+      "bare_glb": "b4e54848f4843d1a0721174adc9f6f4f853b5553926b9ca33ae187fec3ced78c",
+      "blend": "628ff63d8eaea662967187627ed41caa9847fcd145392ebca704281656fea12e"
+    },
+    "body_vertices": 48321,
+    "body_triangles": 93153,
+    "new_distal_blender_vertices_from_v12c": 1646,
+    "protected_floor_vertices_unchanged": 682,
+    "changed_non_hand_vertices": 0,
+    "bind_seams_closed_under_0_05mm": 549,
+    "folded_edges_over_100deg": 4,
+    "validation": "quick check, strict floor guard, five focused guards and seven exercises over 26 frames pass against 614033b; matched V12c/V13e renders in renders_v13e_fingertip_retopology; visual review pending",
+    "grip_refit_started": false,
+    "production_asset_promoted": false
+  },
   "rig_baseline": {
     "branches": [
       "chatgpt/absolute-retarget-imports",
@@ -156,7 +180,7 @@
     {
       "priority": 2,
       "id": "hand_anatomy_geometry",
-      "status": "review_pending_v12c",
+      "status": "review_pending_v13e",
       "task": "Model realistic finger, thumb web/base, palm and wrist geometry while preserving the push-up floor-contact guard.",
       "note": "Canonical palm/thumb structure is frozen; final hand weighting may proceed only on a correctly bound candidate asset."
     },

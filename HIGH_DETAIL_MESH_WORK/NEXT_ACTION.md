@@ -1,39 +1,8 @@
-# Next action: visual review of V12c
+# Next action: visual review of V13e
 
-V12c is the current unaccepted hand candidate. It builds from V11 and restores a small amount of interior palm/thenar/hypothenar volume while pinning seam boundaries and all 682 protected push-up contact vertices. Review `REVIEW_V12C_HAND_PALM.md` and the three matched V11/V12c boards in `renders_v12c_palm_volume/`. The visible difference is modest. Do not start grip refit until hand anatomy is visually accepted. V11 remains intact.
+V8 remains the accepted body/knee geometry baseline. V11 and V12c are preserved, unaccepted hand candidates. **V13e fingertip retopology is the current unaccepted hand review candidate.** It adds 1,646 distal-finger vertices to V12c and modestly rounds the four fingertips on each side. The protected floor contacts, seam boundaries, rig, weights, UV behavior and exercises are unchanged. See `REVIEW_V13E_FINGERTIP_RETOPOLOGY.md` and the three matched V12c/V13e boards in `renders_v13e_fingertip_retopology/`.
 
-V8 remains the accepted body and knee geometry baseline. V9 was rejected and V10 was superseded; both are preserved. **V11 hand cleanup is built and passes every mechanical guard. It is not yet accepted visually.**
-
-Read `REVIEW_V11_HAND_CLEANUP.md`, then look at the four boards in `renders_v11_hand_cleanup/`:
-
-- `V11_V10_OPEN_HAND_COMPARISON.jpg`
-- `V11_V10_CLOSED_FIST_COMPARISON.jpg`
-- `V11_V10_EXERCISE_HAND_COMPARISON.jpg`
-- `V11_V10_GLB_NORMALS_BIND_COMPARISON.jpg`, the same hands shaded as the app shades them
-
-The questions from `V11_HAND_CLEANUP_PLAN.md`:
-
-- Are the fingertip silhouettes smoother?
-- Are the joint rings less artificial?
-- Is the thumb web seam gone?
-- Is the wrist transition continuous?
-- Did any contact or grip silhouette get worse?
-
-Two decisions go with it:
-
-1. **Palm volume.** V11's palm is V8's, smoothed. V10's thenar and web volume caused the web wedge and was left out (`PALM_FIELDS=1` restores both).
-2. **The finger-pad faceting left around the protected push-up contact vertices.** Changing it needs a replacement floor-contact proof.
-
-## If V11 is accepted
-
-Record it as the hand geometry baseline, then start Phase C: refit the curl grip first, then hammer, reverse and press, then pull-up.
-
-## If it is not
-
-Build V12 from V11, or change the V11 build and re-run `scripts/run_v11_pipeline.sh`. The build is deterministic.
-
-- Do not go back to sculpt fields that push along vertex normals across unwelded seams: that is what opened V10's seams.
-- Run `scripts/audit_hand_seams.py` on every candidate. The existing guards cannot see an open seam.
+Visual improvement is small. The broad inherited finger sections and facets near protected floor-contact vertices remain. Do not call Phase B finished or start grip refit without visual acceptance. If more hand improvement is required, plan a local finger-body topology replacement with an explicit proof that the push-up contact solution remains identical; repeated small displacement fields have not removed the inherited silhouette. Keep the V12c and V13e assets intact and run `scripts/audit_hand_seams.py` on every new candidate.
 
 ## Validation pin
 

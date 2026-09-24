@@ -1,0 +1,29 @@
+{
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.blend",
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+  "subdivided_edges": 1646,
+  "new_vertices": 1646,
+  "new_distal_folds_before_repair": 4,
+  "new_distal_folds_after_repair": 0,
+  "fold_repair_rounds": 5,
+  "faces_before": 89861,
+  "faces_after": 93153,
+  "moved_vertices": 2860,
+  "per_digit": {
+    "L_index": 279,
+    "L_middle": 649,
+    "L_ring": 211,
+    "L_pinky": 290,
+    "R_index": 280,
+    "R_middle": 649,
+    "R_ring": 212,
+    "R_pinky": 290
+  },
+  "mirrored_pairs": 1429,
+  "max_move_mm": 1.3792925265884324,
+  "protected_max_move_mm": 0.0,
+  "boundary_max_move_mm": 0.0,
+  "outside_hand_max_move_mm": 0.0,
+  "body_vertices": 48291,
+  "body_faces": 93153
+}

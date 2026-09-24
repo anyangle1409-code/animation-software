@@ -6,7 +6,7 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 The accepted knee **geometry baseline** is V8, built on the accepted V7 connected topology. V6 and V7 remain preserved historical candidates.
 
-The user accepted V8 after reviewing the matched V7/V8 deepest-squat knee comparison. It is the geometry source for Phase B hand anatomy, not a production asset. V9 is preserved as a rejected experimental hand candidate. V10 is superseded. V11 closes the hand seams and caps the fingertips. **V12c palm volume** is the current hand review candidate built directly from V11. It adds a restrained, seam-aware palm interior sculpt and passes the same guards; visual acceptance is pending. Grip refit has not started. See `REVIEW_V12C_HAND_PALM.md`.
+The user accepted V8 after reviewing the matched V7/V8 deepest-squat knee comparison. It is the geometry source for Phase B hand anatomy, not a production asset. V9 is preserved as a rejected experimental hand candidate. V10 is superseded. V11 closes the hand seams and caps the fingertips. V12c adds restrained palm volume. **V13e fingertip retopology** is the current hand review candidate from V12c: it adds distal-finger loops while retaining the protected push-up contacts and the V12c seam/fold counts. Visual improvement is modest and acceptance is pending. Grip refit has not started. See `REVIEW_V13E_FINGERTIP_RETOPOLOGY.md`.
 
 The canonical hierarchy is frozen at **63 bones** at `19ca602ca2f2a821237dcf5b1b50c7906d86b0fe` (`hgpt_canonical_v3`). The current validated runtime/retarget source is `614033b256d869230ea273522620467401b0bc71`, which fixes mirrored-character hand roll without changing the frozen hierarchy. Read `RIG_63_FREEZE.md`.
 
@@ -30,10 +30,15 @@ V11 hand cleanup review assets (preserved, not accepted):
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup_BARE.glb`
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v11_hand_cleanup.blend`
 
-V12c hand palm review assets (current hand candidate, not accepted):
+V12c hand palm review assets (preserved, not accepted):
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.glb`
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume_BARE.glb`
 - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v12c_palm_volume.blend`
+
+V13e fingertip review assets (current hand candidate, not accepted):
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology_BARE.glb`
+- `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend`
 
 Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable state.
 
@@ -44,7 +49,7 @@ Use `CANDIDATE_BASELINE_MANIFEST.json` for exact hashes and machine-readable sta
 3. `WORK_START_HERE.md`
 4. `LAPTOP_CONTINUATION_HANDOFF.md`
 5. `FINAL_RIG_INTAKE.md`
-6. latest accepted geometry review, currently `REVIEW_V8_KNEE_ANATOMY.md`, followed by V9 rejection, superseded V10, and unaccepted V11/V12c hand reviews
+6. latest accepted geometry review, currently `REVIEW_V8_KNEE_ANATOMY.md`, followed by V9 rejection, superseded V10, and unaccepted V11/V12c/V13e hand reviews
 7. `PROGRESS.md`
 8. older review/reproduction notes as historical evidence only
 

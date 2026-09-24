@@ -21,9 +21,9 @@ Read this file first, then run `RESUME_WORK.bat`.
 - Build: clean
 
 ### Mesh / Blender workspace
-- Work branch: `codex-high-detail-candidate-v12-hand-anatomy-review-20260924`
+- Work branch: `codex-high-detail-candidate-v13-finger-review-20260924`
 - Accepted knee geometry checkpoint: **V8 knee anatomy**, retaining V7's connected topology. V6 and V7 remain preserved.
-- Phase B review candidate: **V12c palm volume** from V11. V9 was rejected, V10 superseded, and V11 preserved. V12c adds local palm volume while leaving V11's fingertip caps and closed hand seams intact. It passes structural, strict floor-contact, five focused and seven-exercise guards; bind and posed seam counts and folded-edge count match V11. Stop for V12c visual review before any grip refit. See `REVIEW_V12C_HAND_PALM.md` and the matched V11/V12c boards in `renders_v12c_palm_volume/`.
+- Phase B review candidate: **V13e fingertip retopology** from V12c. V9 was rejected; V10, V11 and V12c remain preserved. V13e adds 1,646 local distal-finger vertices and a small rounded cap/taper while leaving the protected push-up contacts and hand seams intact. It passes structural, strict floor-contact, five focused and seven-exercise guards; bind and posed seam counts and folded-edge count match V12c. Visual change is modest. Stop for V13e visual review before any grip refit. See `REVIEW_V13E_FINGERTIP_RETOPOLOGY.md` and the matched V12c/V13e boards in `renders_v13e_fingertip_retopology/`.
 - V6 asset creation commit: `b2203cfccd30d6835473ef2e1dee37965da22d02`
 - Baseline files:
   - `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v6_knee_seam.glb`

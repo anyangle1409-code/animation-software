@@ -1,5 +1,11 @@
 # Candidate progress
 
+## 2026-09-24 — V13e distal-finger topology review checkpoint
+
+Continued from the public V12c branch in an isolated V13 worktree. Measured the actual fingertip surface relative to the frozen finger bones; the source skin ends 9–20 mm before the bone tails, which made the first small sculpt ineffective. Built V13e with 1,646 local distal-finger vertices, preserved contact/seam anchors, and repaired two new local folds. V12c's four folded edges, bind/posed seam bands and zero fingertip holes remain unchanged.
+
+The editable Blend, dressed GLB and bare GLB are separate. Quick integrity, strict 682-vertex floor contact, five focused frozen-runtime guards and seven exercises over 26 frames pass. Matched open-hand, fist and exercise boards are in `renders_v13e_fingertip_retopology/`. Visible improvement is small and broader finger faceting remains. V13e is unaccepted; no grip refit or production promotion. See `REVIEW_V13E_FINGERTIP_RETOPOLOGY.md`.
+
 ## 2026-09-24 — V12c palm-volume hand review checkpoint
 
 Built a new candidate from the current V11 Blender mesh, preserving V11 seams, caps, topology, UVs, weights, frozen rig and all production files. V12c adds symmetric interior palm/thenar/hypothenar volume with all open-boundary and 682 floor-contact vertices pinned. Two wider local trials produced 26 and 6 folded edges against V11's 4; V12c restores the count to 4. The trials remain local experiments, not review candidates.

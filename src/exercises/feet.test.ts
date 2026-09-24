@@ -72,6 +72,7 @@ describe('standing feet', () => {
       'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',
       'dumbbell_hammer_curl',
+      'dumbbell_overhead_triceps_extension',
       'dumbbell_reverse_curl',
       'dumbbell_romanian_deadlift',
       'dumbbell_shoulder_press',

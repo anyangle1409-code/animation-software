@@ -6,6 +6,18 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Elbow extension becomes the sixth family, with an overhead dumbbell triceps extension
+
+Suite **533 passed / 1 skipped** (57 files; was 515 / 56), typecheck and build clean. The eleven existing exercises are **byte-identical**.
+
+**Added.** `families/extension.ts` and `definitions/overheadExtension.ts`, the roadmap's triceps extension. Standing, with a dumbbell in each hand and palms facing. The upper arms point at the ceiling (172° of flexion, 11° off vertical, elbows up and a little forward) and hold still. The forearms fold from 8° to 120° of elbow flexion behind the head and straighten again. Rules: torso upright, no lower-back arch, upper arm within 20° of vertical, elbows in, full lockout at the top, past 100° at the stretch, neutral grip and wrist, dumbbells level, feet planted. Zero violations; every IK target reached; loop closed.
+
+**What it asks that nothing did before: the load passes behind the head.** On the production character the dumbbells keep 143 mm from the body at their closest (upper back); the head (`spine006`, measured by both clearance gates) is further. The two dumbbells stay at least 380 mm apart centre to centre. Upper arm to chest measures 2.9 mm at lockout (baseline). Hand roll matches the rig; feet flat.
+
+**Seen, not fixed: the overhead shoulder.** At the stretch the production mesh's upper arm pinches and folds near the armpit. That is 172° of shoulder flexion with the scapular rhythm off, so the shoulder blade does not rotate up to make room; the standing press's lockout faces the same limit. It is a weights and rhythm question, held for the final binding pass, and nothing in the motion was bent to hide it.
+
+**Tests.** New `extension.test.ts`: the upper arm and elbow hold still to 1° and 1e-6 m through the rep; the hands pass behind the head at the stretch; the dumbbells stay more than 250 mm apart; one registered variant.
+
 ### Claude — 2026-09-24 — An incline dumbbell curl, and an incline bench shaped like a real one
 
 Suite **515 passed / 1 skipped** (56 files; was 497 / 56), typecheck and build clean. The ten existing exercises are **byte-identical**, the three standing curls included, although their family changed.

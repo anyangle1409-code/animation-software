@@ -71,6 +71,8 @@ const BASELINE: Record<string, number> = {
   seated_dumbbell_shoulder_press: 0.00195,
   // Arms hanging behind the body, near the chest at the top of the curl.
   incline_dumbbell_curl: 0.00179,
+  // Arms overhead, the upper arm beside the top of the chest at lockout.
+  dumbbell_overhead_triceps_extension: 0.0029,
 };
 
 /**

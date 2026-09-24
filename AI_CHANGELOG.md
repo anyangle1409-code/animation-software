@@ -6,6 +6,29 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Feet on their balls drawn where the rig puts them
+
+Suite **746 passed / 1 skipped** (66 files; was 745), typecheck and build clean. Found while building the forward lunge.
+
+**The defect.**
+
+- A frame's contacts tell a character with its own leg lengths where each foot goes, and its contact solve moves the character's ankle there.
+- For a foot standing on its ball (`onBall`), the contact passed on the lock's target, which is the ball, 14 cm ahead of the ankle.
+- So in Character view, and in the exported character animation:
+  - both calf raises stood with both feet 14 cm forward of the rig's, legs leaning;
+  - the split squat's back foot was 7.5 cm off.
+
+**The fix.** A ball contact reports the ankle where the solve put it (`animation/pipeline.ts`).
+
+**Measured.**
+
+- Every pose and solved frame is byte-identical, for all twenty-three exercises.
+- Only the contact records of the three on-the-ball exercises change.
+- GLB exports: nineteen byte-identical, including the approved push-up and pull-up; the three on-the-ball exercises changed.
+- Rendered: the calf raise's feet are back under the body.
+
+**Test.** `calf.test.ts`: each contact is the solved ankle, at the bottom, mid-rise and top.
+
 ### Claude — 2026-09-24 — The cable woodchop completes the rotation family
 
 Suite **745 passed / 1 skipped** (66 files; was 727), typecheck and build clean. **The twenty-two existing exercises are byte-identical.** No engine, rig or equipment change.

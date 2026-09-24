@@ -1,4 +1,6 @@
+import { Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
+import { IK_CHAINS } from '../ik/chains';
 import type { Pose } from '../rig/types';
 import type { IKGoal, IKResult } from '../ik/types';
 import { solveGoals } from '../ik/solve';
@@ -83,10 +85,20 @@ export function resolveFrame(
   const contacts = finalLockGoals.map((goal) => ({
     chain: goal.chain,
     mode: activeLocks.find((lock) => lock.chain === goal.chain)?.mode ?? 'world',
-    target: { ...goal.target },
+    // A contact names where the limb's end joint goes. A foot on its ball is
+    // anchored at the ball, which is where its lock's target points; its ankle
+    // is wherever the heel's rise put it. Reporting the ball instead put a
+    // character's ankle 14 cm forward, on the ball, in every exercise that
+    // stands on one — the calf raises both feet, the split squat its back foot.
+    target: goal.ball ? ankleOf(evaluation, goal.chain) : { ...goal.target },
     ...(goal.endAim ? { aim: goal.endAim } : {}),
   }));
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
+}
+
+function ankleOf(evaluation: PoseEvaluation, chain: IKChainId): Vec3 {
+  const ankle = evaluation.head(IK_CHAINS[chain].end, new Vector3());
+  return { x: ankle.x, y: ankle.y, z: ankle.z };
 }
 
 function goalsFromKeyframe(ik: Partial<Record<IKChainId, KeyframeIK>>): IKGoal[] {

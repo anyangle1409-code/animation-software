@@ -54,3 +54,19 @@ describe('the calf family', () => {
       .toEqual(['standing_calf_raise', 'dumbbell_calf_raise']);
   });
 });
+
+describe('calf raise contacts', () => {
+  it('report each ankle, not the ball it pivots on, so a character stands where the rig does', () => {
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const clip = generateClip(canonicalSkeleton, calfRaise);
+    const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+    for (const fraction of [0, 0.25, 0.5]) {
+      const frame = resolveFrame(canonicalSkeleton, evaluation, clip, fraction * clip.duration, { anchors });
+      evaluation.apply(frame.pose);
+      for (const contact of frame.contacts) {
+        const ankle = evaluation.head(contact.chain === 'leg_l' ? 'foot_l' : 'foot_r', new Vector3());
+        expect(new Vector3(contact.target.x, contact.target.y, contact.target.z).distanceTo(ankle)).toBeLessThan(1e-12);
+      }
+    }
+  });
+});

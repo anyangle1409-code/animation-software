@@ -59,7 +59,15 @@ export function resolveLocks(
           const ball = evaluation.tail(IK_CHAINS[lock.chain].end, new Vector3());
           const at = anchor ?? vec3(ball.x, ball.y, ball.z);
           goal.target = { ...at };
-          goal.ball = { anchor: { ...at }, ankle: lock.onBall.ankle, toeOut: lock.onBall.toeOut ?? 0 };
+          // Unset, the heel lifts only as far as holds the knee this frame's pose
+          // authors: the body rises and the heel follows.
+          const knee = ((pose.rotations[IK_CHAINS[lock.chain].mid]?.x ?? 0) * 180) / Math.PI;
+          goal.ball = {
+            anchor: { ...at },
+            ankle: lock.onBall.ankle ?? 0,
+            toeOut: lock.onBall.toeOut ?? 0,
+            ...(lock.onBall.ankle === undefined ? { knee } : {}),
+          };
           break;
         }
         const current = evaluation.head(IK_CHAINS[lock.chain].end, new Vector3());

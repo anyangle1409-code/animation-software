@@ -73,7 +73,9 @@ describe('the lunge family', () => {
   });
 
   it('has exactly one registered variant', () => {
-    expect(EXERCISES.filter((exercise) => exercise.locks.some((lock) => lock.onBall)).map((exercise) => exercise.id))
+    // A foot held on its ball at a fixed ankle is a lunge's back foot; the calf
+    // raise's feet are on their balls too, but hold the knee instead.
+    expect(EXERCISES.filter((exercise) => exercise.locks.some((lock) => lock.onBall?.ankle !== undefined)).map((exercise) => exercise.id))
       .toEqual(['split_squat']);
   });
 });

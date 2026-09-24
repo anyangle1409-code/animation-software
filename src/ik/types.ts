@@ -35,7 +35,17 @@ export interface IKGoal {
    * ball of the foot must be, and the heel's height is solved so the ankle
    * holds `ankle` degrees. See `EffectorLock.onBall`.
    */
-  ball?: { anchor: Vec3; ankle: number; toeOut: number };
+  ball?: {
+    anchor: Vec3;
+    ankle: number;
+    toeOut: number;
+    /**
+     * Search for the heel height that gives the knee this bend (the shin's x,
+     * degrees) instead of `ankle`: a calf raise, where the body rises and the
+     * heel lifts only as far as a straight leg needs.
+     */
+    knee?: number;
+  };
 }
 
 export interface IKResult {

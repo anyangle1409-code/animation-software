@@ -155,8 +155,12 @@ export interface EffectorLock {
    * back knee drops towards the floor the shin swings from upright to nearly
    * flat, and a foot held at one angle would need more ankle than there is.
    * `position`, when given, is where the ball is.
+   *
+   * Without `ankle`, the heel instead lifts about the ball only as far as keeps
+   * the knee at the bend the pose authors: a calf raise, where the body rises
+   * on straight legs and the heel follows it.
    */
-  onBall?: { ankle: number; toeOut?: number };
+  onBall?: { ankle?: number; toeOut?: number };
   enabled: boolean;
 }
 

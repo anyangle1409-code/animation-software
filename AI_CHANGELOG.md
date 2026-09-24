@@ -6,6 +6,48 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — Calf raise becomes the ninth family; a ball-of-foot contact can hold the knee
+
+Suite **639 passed / 1 skipped** (60 files; was 607), typecheck and build clean. The sixteen existing exercises are **byte-identical**, including the split squat, whose ball-of-foot solve shares the changed code.
+
+**Added.**
+
+- `families/calf.ts`, with `definitions/calfRaise.ts` (bodyweight) and `definitions/dumbbellCalfRaise.ts` (14 kg per hand).
+- The body rises 7 cm and 5.7 cm forward over the balls of the feet, which is where a foot turning 35° about its ball puts the ankle (`calfRoot`), then lowers back to the heels.
+
+**Engine: `onBall` without an `ankle` holds the knee instead.**
+
+- The heel lifts about the ball only as far as keeps the knee at the bend the pose authors (6° here), so the body's rise drives the heel.
+- The solve is the same bisection over heel height; only the quantity it matches changes (`IKGoal.ball.knee`).
+- With a fixed ankle, as the split squat's back foot has, nothing changes.
+
+**Two earlier drafts, rejected on measurement.**
+
+- **Heel driven from an authored ankle angle.** With the knee free, it found the heel-up, bent-knee solution: a 31° knee bend at the bottom.
+- **Heel driven from an authored heel lift.** It moved the ankle on an arc while the body moved on a straight line, so the knee bent 12° mid-rise to absorb the 7 mm between them.
+- **Also found:** a foot authored at anything but its rest direction puts the ball anchor 5 mm off where the contact rebuilds it, so the family authors a straight-through leg line (thigh 3°, shin −6°, foot 3°).
+
+**Measured.**
+
+| | Result |
+|---|---|
+| Ball of the foot and toe tip | still to 0.1 mm |
+| Knee | 6.0° throughout |
+| Heel | lifts to 32° of plantarflexion |
+| Violations / IK reach / loop | zero / every frame / closed |
+| Dumbbells to thighs | 8.4 mm clear |
+| Upper arm to chest (new baselines) | 5.10 mm (bodyweight), 5.59 mm (dumbbell) |
+
+**Tests.**
+
+- New `calf.test.ts`:
+  - the pivot and toes stay still;
+  - the knee stays still;
+  - the heel lift matches `calfRoot`;
+  - two variants.
+- Membership tests (legs list, lunge back-foot, shoulders) now say what they mean rather than matching names.
+- Feet and self-collision lists extended.
+
 ### Claude — 2026-09-24 — Shoulder raise becomes the eighth family: lateral and front raise
 
 Suite **607 passed / 1 skipped** (59 files; was 572), typecheck and build clean. The fourteen existing exercises are **byte-identical**.

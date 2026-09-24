@@ -63,6 +63,7 @@ describe('standing feet', () => {
       'cable_triceps_pushdown',
       'dumbbell_bent_over_row',
       'dumbbell_bicep_curl',
+      'dumbbell_calf_raise',
       'dumbbell_front_raise',
       'dumbbell_hammer_curl',
       'dumbbell_lateral_raise',
@@ -73,6 +74,7 @@ describe('standing feet', () => {
       'incline_dumbbell_curl',
       'seated_dumbbell_shoulder_press',
       'split_squat',
+      'standing_calf_raise',
     ]);
   });
 

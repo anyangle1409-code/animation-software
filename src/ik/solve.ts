@@ -214,9 +214,13 @@ function standOnBall(
   const toeReach = toe?.definition.limits.x?.max ?? 85;
   let low = 0;
   let high = Math.min(85, toeReach - 1);
+  // Raising the heel lowers the foot's angle to the shin and, lifting the
+  // ankle towards the hip, bends the knee; either can be held.
+  const knee = () => ((pose.rotations[chain.mid]?.x ?? 0) * 180) / Math.PI;
   for (let step = 0; step < 24; step += 1) {
     const middle = (low + high) / 2;
-    if (place(middle) > ball.ankle) low = middle;
+    const ankleAngle = place(middle);
+    if (ball.knee !== undefined ? knee() > ball.knee : ankleAngle > ball.ankle) low = middle;
     else high = middle;
   }
   place((low + high) / 2);

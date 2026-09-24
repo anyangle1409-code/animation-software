@@ -70,7 +70,7 @@ describe('the shoulder-raise family', () => {
   });
 
   it('has its two registered variants', () => {
-    expect(EXERCISES.filter((exercise) => exercise.clipName.endsWith('_raise')).map((exercise) => exercise.id))
+    expect(EXERCISES.filter((exercise) => exercise.category === 'shoulders').map((exercise) => exercise.id))
       .toEqual(['dumbbell_lateral_raise', 'dumbbell_front_raise']);
   });
 });

@@ -81,6 +81,9 @@ const BASELINE: Record<string, number> = {
   dumbbell_lateral_raise: 0.00414,
   // Arms passing the chest on the way down in the front raise.
   dumbbell_front_raise: 0.00112,
+  // Arms hanging at the sides while the body rises onto the toes.
+  standing_calf_raise: 0.0051,
+  dumbbell_calf_raise: 0.00559,
 };
 
 /**

@@ -75,6 +75,7 @@ describe('standing feet', () => {
       'dumbbell_reverse_curl',
       'dumbbell_romanian_deadlift',
       'dumbbell_shoulder_press',
+      'forward_lunge',
       'incline_dumbbell_curl',
       'russian_twist',
       'seated_dumbbell_shoulder_press',
@@ -99,6 +100,10 @@ describe('standing feet', () => {
         const time = (step / 80) * clip.duration;
         evaluation.apply(resolveFrame(rig, evaluation, clip, time, { anchors }).pose);
         for (const side of ['l', 'r'] as const) {
+          // Only a foot a lock holds. A foot its keyframe drives is stepping —
+          // the forward lunge's front foot lifts by design — and is held flat
+          // where it lands by its own family's test.
+          if (!exercise.locks.some((lock) => lock.chain === `leg_${side}`)) continue;
           const toe = evaluation.tail(`toe_${side}`, new Vector3()).y;
           // A foot standing on its ball pivots on it, heel rising and falling;
           // its toes are what lie flat and still.

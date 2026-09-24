@@ -155,7 +155,7 @@ export class RetargetContactResolver {
     const delta = target.sub(currentPoint);
     if (floor) {
       const minimum = this.minimumY(contact.chain);
-      delta.y = Number.isFinite(minimum) ? -minimum : delta.y;
+      delta.y = Number.isFinite(minimum) ? (contact.lift ?? 0) - minimum : delta.y;
     }
     return delta;
   }

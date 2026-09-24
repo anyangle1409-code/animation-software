@@ -50,6 +50,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     ik: cloneIK(ik.start),
     easing: phases[0].easing,
     jointTiming: cloneJointTiming(phases[0].jointTiming),
+    ...ikTimingOf(phases[0]),
     phaseId: phases[0].id,
     marker: 'start',
     label: exercise.startPose.label,
@@ -72,6 +73,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
       ik: cloneIK(ik[phase.to]),
       easing: next?.easing ?? 'lift',
       jointTiming: cloneJointTiming(next?.jointTiming),
+      ...ikTimingOf(next),
       phaseId: next?.id,
       marker,
       label: phase.to === 'peak' ? exercise.peakPose.label : exercise.startPose.label,
@@ -94,6 +96,16 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
 }
 
 const round = (value: number): number => Math.round(value * 1e6) / 1e6;
+
+/** A phase's IK timing for its keyframe, absent when it sets none. */
+const ikTimingOf = (phase: MovementPhase | undefined) =>
+  phase?.ikTiming
+    ? {
+        ikTiming: Object.fromEntries(
+          Object.entries(phase.ikTiming).map(([chain, timing]) => [chain, { ...timing }]),
+        ) as NonNullable<MovementPhase['ikTiming']>,
+      }
+    : {};
 
 export const phaseDuration = (exercise: ExerciseDefinition, phase: MovementPhase): number =>
   phase.duration ?? tempoDuration(exercise.tempo, phase);

@@ -6,6 +6,43 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The forward lunge: the first foot that leaves the floor
+
+Suite **771 passed / 1 skipped** (67 files; was 746), typecheck and build clean. **The twenty-three existing exercises are byte-identical, clips and exports.**
+
+**Added.** `lungeFamily({ step: true })` and `definitions/forwardLunge.ts`: from standing, a long step forward with the left foot into the split squat's bottom position, then a push back to standing.
+
+**How the step works.**
+
+- **The stepping foot is a keyframe target, not a lock.** A pose-level IK target (`PoseSpec.ik.leg_l`), aimed flat, goes from the standing foot to the split squat's front foot, carried 94 cm forward.
+- **Engine: `MovementPhase.ikTiming`,** the IK counterpart of `jointTiming`, gives a target its own `delay` and `finish` inside a phase, plus a `lift`: a half-sine rise off the straight line, zero at both ends.
+  - Down: the foot travels in the first 65% of the phase, 7 cm up at the top of its arc, then stays planted.
+  - Back: it waits through the first 35% while the front leg pushes the body back, then steps home.
+  - Landing at 45% instead, the hips were still too far back for the leg to reach.
+- **Engine:** blending two pose-IK aims now carries `forward` as well as direction. A foot aimed by direction alone can roll in the air. No exercise aimed a pose target before this.
+- **The back foot is the split squat's**, on its ball at a fixed 25° ankle, placed where the standing right foot's ball already is.
+  - The heel bracket starts flat, so the foot is flat at standing, stays flat while the shin tips over it, and rises once the ankle reaches 25°.
+  - Holding the knee instead, as the calf raise does, asked the back thigh for more than its 25° of extension mid-step, and the ball slid 8 cm.
+- **Engine, for characters:** a leg driven by pose IK with no lock reports a floor contact carrying `lift` (a new optional contact field): the ankle's height above flat. So the production character plants and lifts that foot with the rig rather than floating 1.5 cm on its own leg lengths. It is exact for a foot held flat through the step, as this one is.
+
+**Measured.**
+
+- Both legs reach on every frame.
+- The front ankle never dips below standing height, peaks at 15 cm, and stays flat throughout.
+- The front foot is planted within 0.5 mm over its planted spans.
+- The back ball never moves more than 0.5 mm.
+- The back knee finishes 9.6 cm off the floor.
+- Self-collision 4.22 mm.
+- On the production character, every planted sole rests on the floor within 1.62 mm (split squat 0.24 mm), and each ankle is within 5 mm of the rig's in x and z.
+
+**Tests.**
+
+- `animation/ikTiming.test.ts` (5): carried onto keyframes only where a phase sets it; arrives by `finish`; lifts exactly `lift` at mid-travel; waits until `delay`; aims keep `forward`.
+- `lunge.test.ts` (+7): solves every frame; steps 94 cm through the air and lands flat; planted spans; the back foot's behaviour; the contacts a character is given; and the production character's soles and ankles for the split squat and the lunge.
+- `feet.test.ts` checks flatness only for feet a lock holds; every existing standing exercise locks both.
+- The mirror test's honesty check accepts one foot locked and the other not.
+- The membership lists gain the lunge.
+
 ### Claude — 2026-09-24 — Feet on their balls drawn where the rig puts them
 
 Suite **746 passed / 1 skipped** (66 files; was 745), typecheck and build clean. Found while building the forward lunge.

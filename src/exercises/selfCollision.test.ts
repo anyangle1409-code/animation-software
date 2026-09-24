@@ -96,6 +96,8 @@ const BASELINE: Record<string, number> = {
   // The tightest in the library: the right forearm passing the trunk as the
   // long arms swing the handle down across the body. Grazing, not inside.
   cable_woodchop: 0.00098,
+  // The split squat's arms, hanging, through a step.
+  forward_lunge: 0.00422,
 };
 
 /**

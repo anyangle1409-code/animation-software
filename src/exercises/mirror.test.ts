@@ -74,20 +74,23 @@ const pairsOf = <T extends { id: string }>(items: T[]): [T, T][] => {
  * Exercises whose two sides are meant to differ — a split stance puts one foot
  * forward and the other back; a Pallof press stacks one hand above the other on
  * a cable from one side; a Russian twist turns the trunk to one side and then
- * the other; a woodchop pulls from a pulley on one side down to the other — and
- * so are not their own mirror. Listed rather than
+ * the other; a woodchop pulls from a pulley on one side down to the other; a
+ * forward lunge steps with one foot — and so are not their own mirror. Listed rather than
  * detected, so an exercise cannot drop out of the symmetry check by accident;
  * the test below holds each to actually being asymmetric.
  */
-const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop']);
+const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop', 'forward_lunge']);
 
 describe('mirroring', () => {
   it('lists as asymmetric only exercises whose sides really differ', () => {
     for (const id of ASYMMETRIC) {
       const exercise = EXERCISES.find((entry) => entry.id === id)!;
-      const left = exercise.locks.find((lock) => lock.id === 'foot_l')!;
-      const right = exercise.locks.find((lock) => lock.id === 'foot_r')!;
-      const legsDiffer = JSON.stringify(mirrorLock(left)) !== JSON.stringify(right);
+      const left = exercise.locks.find((lock) => lock.id === 'foot_l');
+      const right = exercise.locks.find((lock) => lock.id === 'foot_r');
+      // One foot locked and the other not — a foot that steps — differs too.
+      const legsDiffer =
+        (left === undefined) !== (right === undefined) ||
+        (left !== undefined && JSON.stringify(mirrorLock(left)) !== JSON.stringify(right));
       // Or the hands: an arm target that is not the other's mirror image.
       const handsDiffer = [exercise.startPose, exercise.peakPose].some((pose) => {
         const upper = pose.ik?.arm_l?.target;

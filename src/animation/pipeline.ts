@@ -82,7 +82,7 @@ export function resolveFrame(
     }
   }
 
-  const contacts = finalLockGoals.map((goal) => ({
+  const contacts: ResolvedContact[] = finalLockGoals.map((goal) => ({
     chain: goal.chain,
     mode: activeLocks.find((lock) => lock.chain === goal.chain)?.mode ?? 'world',
     // A contact names where the limb's end joint goes. A foot on its ball is
@@ -93,8 +93,26 @@ export function resolveFrame(
     target: goal.ball ? ankleOf(evaluation, goal.chain) : { ...goal.target },
     ...(goal.endAim ? { aim: goal.endAim } : {}),
   }));
+  // A leg driven by the keyframe instead of a lock — a foot stepping — is a
+  // floor contact too, lifted as far as its ankle is above standing height, so
+  // a character with its own leg lengths plants that foot, and lifts it, where
+  // the rig does. Exact for a foot held flat through the step, as a stepping
+  // foot's pose target aims it.
+  for (const goal of keyframeGoals) {
+    if (!goal.chain.startsWith('leg') || activeLocks.some((lock) => lock.chain === goal.chain)) continue;
+    contacts.push({
+      chain: goal.chain,
+      mode: 'floor',
+      target: { ...goal.target },
+      ...(goal.endAim ? { aim: goal.endAim } : {}),
+      lift: Math.max(0, goal.target.y - FLAT_ANKLE_HEIGHT),
+    });
+  }
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
 }
+
+/** The rig's ankle height with the foot flat on the floor, metres. */
+const FLAT_ANKLE_HEIGHT = 0.08;
 
 function ankleOf(evaluation: PoseEvaluation, chain: IKChainId): Vec3 {
   const ankle = evaluation.head(IK_CHAINS[chain].end, new Vector3());

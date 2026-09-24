@@ -103,6 +103,7 @@ describe('the squat family', () => {
     const legs = EXERCISES.filter((exercise) => exercise.category === 'legs');
     expect(legs.map((exercise) => exercise.id)).toEqual([
       'air_squat', 'dumbbell_romanian_deadlift', 'split_squat', 'standing_calf_raise', 'dumbbell_calf_raise',
+      'forward_lunge',
     ]);
     expect(legs.filter((exercise) => exercise.id.includes('squat') && !exercise.id.includes('split')).map((exercise) => exercise.id))
       .toEqual(['air_squat']);

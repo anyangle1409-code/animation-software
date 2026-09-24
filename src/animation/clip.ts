@@ -1,6 +1,6 @@
 import type { BoneName } from '../rig/boneNames';
 import type { Pose, Vec3 } from '../rig/types';
-import type { EasingKind, PhaseJointTiming } from '../exercises/types';
+import type { EasingKind, PhaseIKTiming, PhaseJointTiming } from '../exercises/types';
 import type { HandSpec } from '../exercises/types';
 import type { EffectorLock } from '../constraints/types';
 import type { EquipmentInstance } from '../equipment/types';
@@ -29,6 +29,8 @@ export interface Keyframe {
   easing: EasingKind;
   /** Optional per-bone timing used from this keyframe to the next. */
   jointTiming?: Partial<Record<BoneName, PhaseJointTiming>>;
+  /** Optional per-chain timing for the IK targets from this keyframe to the next. */
+  ikTiming?: Partial<Record<IKChainId, PhaseIKTiming>>;
   /** Semantic landmark used by the Studio timeline; it does not alter motion. */
   marker?: PoseMarkerKind;
   label?: string;
@@ -107,9 +109,12 @@ export function sampleClip(clip: StudioClip, time: number): ClipSample {
   const pose = blendPoses(from.pose, to.pose, blend, clip.rootPivot);
   applyJointTiming(pose, from, to, raw);
 
+  const ik = blendIK(from.ik, to.ik, blend);
+  applyIKTiming(ik, from, to, raw);
+
   return {
     pose,
-    ik: blendIK(from.ik, to.ik, blend),
+    ik,
     phaseId: from.phaseId,
     index,
   };
@@ -148,6 +153,41 @@ function applyJointTiming(pose: Pose, from: Keyframe, to: Keyframe, raw: number)
   }
 }
 
+/** Where a timed segment of a phase is, 0 to 1, given the phase's own progress. */
+function localProgress(timing: { delay?: number; finish?: number }, raw: number): number {
+  const delay = clamp(timing.delay ?? 0, 0, 1);
+  const finish = Math.max(delay, clamp(timing.finish ?? 1, 0, 1));
+  const span = finish - delay;
+  return span <= 1e-9 ? (raw >= finish ? 1 : 0) : clamp((raw - delay) / span, 0, 1);
+}
+
+/**
+ * Override the ordinary blend for explicitly timed IK targets, and lift them
+ * off the straight line on the way (`PhaseIKTiming`).
+ */
+function applyIKTiming(
+  ik: Partial<Record<IKChainId, KeyframeIK>>,
+  from: Keyframe,
+  to: Keyframe,
+  raw: number,
+): void {
+  for (const [name, timing] of Object.entries(from.ikTiming ?? {})) {
+    if (!timing) continue;
+    const chain = name as IKChainId;
+    const a = from.ik[chain];
+    const b = to.ik[chain];
+    const target = ik[chain];
+    if (!a || !b || !target) continue;
+    const local = localProgress(timing, raw);
+    const blend = ease(timing.easing ?? from.easing, local);
+    target.target = mix(a.target, b.target, blend);
+    target.pole = mix(a.pole, b.pole, blend);
+    if (a.aim && b.aim) target.aim = mixAim(a.aim, b.aim, blend);
+    // The arc follows the travel's own progress, so it is zero at both ends.
+    if (timing.lift) target.target.y += timing.lift * Math.sin(Math.PI * blend);
+  }
+}
+
 function cloneIK(
   ik: Partial<Record<IKChainId, KeyframeIK>>,
 ): Partial<Record<IKChainId, KeyframeIK>> {
@@ -180,10 +220,27 @@ function blendIK(
       enabled: a.enabled || b.enabled,
       target: mix(a.target, b.target, t),
       pole: mix(a.pole, b.pole, t),
-      aim: a.aim && b.aim ? { direction: mix(a.aim.direction, b.aim.direction, t) } : a.aim ?? b.aim,
+      aim: a.aim && b.aim ? mixAim(a.aim, b.aim, t) : a.aim ?? b.aim,
     };
   }
   return out;
+}
+
+/**
+ * Blend two aims. Both ends' `forward` is carried when both have one: a foot
+ * aimed by direction alone is free to roll about it, and one stepping between
+ * two flat placements twisted in the air. (Only direction was blended before,
+ * which no exercise then aimed a pose-level target with.)
+ */
+function mixAim(
+  a: NonNullable<KeyframeIK['aim']>,
+  b: NonNullable<KeyframeIK['aim']>,
+  t: number,
+): NonNullable<KeyframeIK['aim']> {
+  return {
+    direction: mix(a.direction, b.direction, t),
+    ...(a.forward && b.forward ? { forward: mix(a.forward, b.forward, t) } : {}),
+  };
 }
 
 const mix = (a: Vec3, b: Vec3, t: number): Vec3 => ({

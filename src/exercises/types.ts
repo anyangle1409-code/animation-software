@@ -113,6 +113,20 @@ export interface PhaseJointTiming {
 }
 
 /**
+ * Timing for one pose-level IK target inside a phase: the IK counterpart of
+ * `PhaseJointTiming`. The target stays where the phase found it until `delay`,
+ * travels to the destination by `finish`, and holds there.
+ *
+ * With `lift`, it also rises off the line between the two on the way, by a
+ * half sine that peaks at `lift` metres half way through its travel and is zero
+ * at both ends: a foot stepping, rather than sliding across the floor.
+ */
+export interface PhaseIKTiming extends PhaseJointTiming {
+  /** Height of the arc above the straight line, metres. */
+  lift?: number;
+}
+
+/**
  * One segment of a repetition. Phases carry the tempo, so a 2-1-2 cadence is
  * data rather than a hard-coded curve.
  */
@@ -131,6 +145,8 @@ export interface MovementPhase {
    * this and use the phase curve unchanged.
    */
   jointTiming?: Partial<Record<BoneName, PhaseJointTiming>>;
+  /** Per-chain timing for the pose-level IK targets (`PoseSpec.ik`). */
+  ikTiming?: Partial<Record<IKChainId, PhaseIKTiming>>;
 }
 
 export type EasingKind =

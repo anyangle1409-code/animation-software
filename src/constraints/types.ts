@@ -179,4 +179,9 @@ export interface ResolvedContact {
   target: Vec3;
   /** Final end-effector orientation resolved from the lock or equipment socket. */
   aim?: { direction: Vec3; forward?: Vec3 };
+  /**
+   * `floor` contacts only: how far the sole is off the floor, metres. Absent is
+   * on it. A stepping foot carries its height here while it is in the air.
+   */
+  lift?: number;
 }

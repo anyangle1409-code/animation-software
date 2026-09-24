@@ -6,6 +6,22 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The push-up and pull-up become family templates, unchanged
+
+Suite **664 passed / 1 skipped** (63 files; was 658), typecheck and build clean. **All nineteen exercises are byte-identical, including the approved push-up and pull-up.** Definitions, 61 solved frames each, contacts and validation were compared file by file.
+
+**Added.**
+
+- `families/horizontalPress.ts` (`horizontalPressFamily`) and `families/verticalPull.ts` (`verticalPullFamily`), so a bench press, incline push-up, chin-up or lat pulldown can be written as a variant.
+- Each family is the accepted definition moved verbatim into a function, generated mechanically rather than retyped. The values, comments and key order are kept; only the identity fields and the usual optional overrides come from the variant.
+- `pushUp.ts` and `pullUp.ts` are now calls to their family.
+- The push-up family also takes an optional hand placement. Its root placement and elbow poles are measured for the standard hands, so a new hand position has to be measured on its own before it becomes an exercise.
+
+**Tests.**
+
+- The push-up family carries the accepted values (hand locks, both root pitches). It rebuilds the push-up from its name alone, and a hand-placement variant differs only in the hand locks.
+- The pull-up family carries the rack grips and rebuilds the pull-up from its name alone. A tempo variant differs only in tempo.
+
 ### Claude — 2026-09-24 — Anti-rotation becomes the tenth family, with a cable Pallof press
 
 Suite **658 passed / 1 skipped** (61 files; was 639), typecheck and build clean. The eighteen existing exercises are **byte-identical**.

@@ -12,7 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
-| After the split squat | *(the commit that adds this row)* | 13 exercises, suite 551 / 1. |
+| After the split squat | `4f6b0a5` | 13 exercises, suite 551 / 1. |
 | After the squat stance rework | `0349b4f` | 12 exercises, suite 533 / 1. Squat feet flat, knees tracking. |
 | Before the squat stance rework | `70b5174` | 12 exercises, suite 533 passed / 1 skipped. Squat feet recorded as a known defect. |
 | Before any new exercise families | `614033b` | 7 exercises, suite 426 / 1. Mirrored hand-roll fix in; skeleton frozen at `19ca602`. |
@@ -22,7 +22,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
-| *(this commit)* | Bodyweight split squat (lunge family); foot-on-its-ball contact; **toe joint limit 60° → 80°**; last-keyframe phase fix | No — all twelve byte-identical | new `families/lunge*`, `definitions/splitSquat.ts`; `ik/solve.ts`, `ik/types.ts`, `constraints/locks.ts`, `constraints/types.ts` (`onBall`); `rig/humanoid.ts` (toe limit); `animation/clip.ts`; `stance.ts`; tests |
+| `4f6b0a5` | Bodyweight split squat (lunge family); foot-on-its-ball contact; **toe joint limit 60° → 80°**; last-keyframe phase fix | No — all twelve byte-identical | new `families/lunge*`, `definitions/splitSquat.ts`; `ik/solve.ts`, `ik/types.ts`, `constraints/locks.ts`, `constraints/types.ts` (`onBall`); `rig/humanoid.ts` (toe limit); `animation/clip.ts`; `stance.ts`; tests |
 | `0349b4f` | **Squat stance rework (approved, option A).** Feet pinned flat at 12°, knees aimed along the feet, shin rotation in the leg solver | **Yes — the squat only**: knees up to 64 mm further out, toes no longer through the floor. The other eleven are byte-identical. To undo just this: `git revert 0349b4f`. | `ik/solve.ts` (tibial rotation), `exercises/stance.ts` (`kneesOverToes`), `families/squat.ts`, `squat.test.ts`, `feet.test.ts` |
 | `70b5174` | Overhead dumbbell triceps extension (elbow-extension family) | No — all byte-identical | new `families/extension*`, `definitions/overheadExtension.ts`; library, feet test, self-collision baseline |
 | `1f9f09f` | Incline dumbbell curl; **incline bench geometry reshaped** (backrest hinge, 44 cm × 28 cm seat); per-pad support contact check | No — all byte-identical. The incline bench's drawn shape changed (no earlier exercise used it). | `families/curl.ts`, `equipment/geometry.ts`, `equipment/library.ts`, `constraints/collision.ts` (`equipmentPartDistances`), clearance test |

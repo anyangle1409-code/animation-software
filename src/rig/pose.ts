@@ -1,7 +1,8 @@
 import type { BoneName } from './boneNames';
 import { mirrorBoneName } from './boneNames';
+import { Euler, Quaternion, Vector3 } from 'three';
 import type { Axis, Pose, Vec3 } from './types';
-import { AXES, vec3 } from './types';
+import { AXES, EULER_ORDER, vec3 } from './types';
 import type { RigBone, Skeleton } from './skeleton';
 import { clamp, lerpAngle, toRad, round } from '../core/math';
 
@@ -126,8 +127,18 @@ export function mirrorSideInPlace(skeleton: Skeleton, pose: Pose, from: 'l' | 'r
   return next;
 }
 
-/** Interpolate two poses. Used by the animation sampler and by pose blending. */
-export function blendPoses(a: Pose, b: Pose, t: number): Pose {
+/**
+ * Interpolate two poses. Used by the animation sampler and by pose blending.
+ *
+ * The root's rotation is interpolated by angle and its position in a straight
+ * line — of the root's own origin, unless a `pivot` is given. A pivot is a
+ * point in the root's frame that should travel in the straight line instead,
+ * with the root turning about it: a body tipping forward from the hips keeps
+ * its hips on a line, where tipping about the floor under it would swing them
+ * up and out. The two agree at `t = 0` and `t = 1`; only the path between
+ * differs, and without a pivot nothing changes at all.
+ */
+export function blendPoses(a: Pose, b: Pose, t: number, pivot?: Vec3): Pose {
   const out = restPose();
   const names = new Set<BoneName>([
     ...(Object.keys(a.rotations) as BoneName[]),
@@ -152,6 +163,18 @@ export function blendPoses(a: Pose, b: Pose, t: number): Pose {
     lerpAngle(a.rootRotation.y, b.rootRotation.y, t),
     lerpAngle(a.rootRotation.z, b.rootRotation.z, t),
   );
+  if (pivot) {
+    // Where the pivot is in the world at each end, on a straight line between,
+    // and the root placed so the blended rotation puts the pivot there.
+    const turned = (rotation: Vec3) =>
+      new Vector3(pivot.x, pivot.y, pivot.z).applyQuaternion(
+        new Quaternion().setFromEuler(new Euler(rotation.x, rotation.y, rotation.z, EULER_ORDER)),
+      );
+    const from = turned(a.rootRotation).add(new Vector3(a.rootPosition.x, a.rootPosition.y, a.rootPosition.z));
+    const to = turned(b.rootRotation).add(new Vector3(b.rootPosition.x, b.rootPosition.y, b.rootPosition.z));
+    const position = from.lerp(to, t).sub(turned(out.rootRotation));
+    out.rootPosition = vec3(position.x, position.y, position.z);
+  }
   return out;
 }
 

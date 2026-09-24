@@ -63,6 +63,8 @@ const BASELINE: Record<string, number> = {
   air_squat: 0.00136,
   dumbbell_shoulder_press: 0.00195,
   pull_up: 0.00202,
+  // Hanging arms resting on the sides of the chest mid-descent, like the squat.
+  dumbbell_romanian_deadlift: 0.00117,
 };
 
 /**

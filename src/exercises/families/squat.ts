@@ -8,7 +8,7 @@ import type {
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralRule } from '../mirror';
 import { evenSides } from '../presets';
-import { plantedStance } from '../stance';
+import { heelDown, plantedStance } from '../stance';
 
 /**
  * The squat family.
@@ -65,11 +65,13 @@ import { plantedStance } from '../stance';
  * upper body's 32 cm, 6° and 12 mm, and correcting that assumption is what
  * building this family turned up.
  *
- * Nothing else is extracted yet, deliberately. Heel contact, knee tracking,
- * depth and shin angle all look like lower-body primitives rather than squat
- * rules, and they probably are — but this is the only lower-body exercise in
- * the library, and one instance cannot tell a shared rule from a local one. The
- * same discipline that produced `presets.ts` says to wait for the hinge.
+ * Nothing else was extracted at first, deliberately: heel contact, knee
+ * tracking, depth and shin angle all looked like lower-body primitives, but one
+ * lower-body exercise cannot tell a shared rule from a local one. The hinge
+ * settled it. The heel rule is identical in both and now comes from
+ * `stance.ts`; depth, shin angle and the torso rule share only their shape —
+ * the hinge holds the hips *above* the line this family pushes them below — and
+ * knee tracking is the squat's alone. See `families/hinge.ts`.
  */
 
 export interface SquatVariant {
@@ -199,16 +201,7 @@ export function squatFamily(variant: SquatVariant): ExerciseDefinition {
 
     technique: [
       ...stance.technique,
-      // Checked separately from the foot, because a heel lifts while the foot as
-      // a whole stays exactly where it was — the foot lock cannot see it.
-      ...bilateralRule({
-        kind: 'stationary',
-        id: 'heel_down_l',
-        label: 'Left heel stays on the floor',
-        point: { bone: 'foot_l', offset: { x: 0, y: -0.04, z: 0 } },
-        tolerance: 0.025,
-        severity: 'error',
-      }),
+      ...heelDown(),
       {
         kind: 'segmentAngle',
         id: 'torso_angle',

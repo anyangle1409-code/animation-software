@@ -96,7 +96,9 @@ describe('the squat family', () => {
   });
 
   it('has exactly one registered variant, which the header explains', () => {
-    const squats = EXERCISES.filter((exercise) => exercise.category === 'legs');
-    expect(squats.map((exercise) => exercise.id)).toEqual(['air_squat']);
+    // The hinge is the other lower-body family; `hinge.test.ts` holds its own.
+    const legs = EXERCISES.filter((exercise) => exercise.category === 'legs');
+    expect(legs.map((exercise) => exercise.id)).toEqual(['air_squat', 'dumbbell_romanian_deadlift']);
+    expect(legs.filter((exercise) => !exercise.rootPivot).map((exercise) => exercise.id)).toEqual(['air_squat']);
   });
 });

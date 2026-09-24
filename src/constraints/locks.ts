@@ -2,6 +2,7 @@ import { Quaternion, Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
+import { clonePose } from '../rig/pose';
 import { IK_CHAINS } from '../ik/chains';
 import { goalFromPose } from '../ik/solve';
 import type { IKGoal, IKResult } from '../ik/types';
@@ -60,6 +61,9 @@ export function resolveLocks(
           anchor?.y ?? current.y,
           anchor?.z ?? current.z,
         );
+        const direction = lock.holdOrientation ? anchors?.get(orientationKey(lock.id, 'direction')) : undefined;
+        const forward = lock.holdOrientation ? anchors?.get(orientationKey(lock.id, 'forward')) : undefined;
+        if (direction && forward) goal.endAim = { direction: { ...direction }, forward: { ...forward } };
         break;
       }
       case 'equipment': {
@@ -101,8 +105,38 @@ export function lockAnchors(
     evaluation.head(IK_CHAINS[lock.chain].end, position);
     anchors.set(lock.id, vec3(position.x, position.y, position.z));
   }
+
+  // The orientation to hold is the one the opening frame is *shown* with, which
+  // is the pose after its locks are solved, not the pose as authored: the solve
+  // turns the shin about the leg to meet its pole, and the foot turns with it —
+  // measured, by 15° on a hinge's standing leg. Holding the authored orientation
+  // instead would twist the foot against the shin at the very first frame.
+  const held = locks.filter((lock) => lock.mode === 'floor' && lock.enabled && lock.holdOrientation);
+  if (held.length > 0) {
+    const solved = clonePose(pose);
+    const floorLocks = locks
+      .filter((lock) => lock.mode === 'floor')
+      .map((lock) => ({ ...lock, holdOrientation: false }));
+    solveGoals(evaluation.skeleton, evaluation, solved, resolveLocks(evaluation, solved, floorLocks, undefined, anchors));
+    evaluation.apply(solved);
+    for (const lock of held) {
+      const turn = evaluation.quaternion(IK_CHAINS[lock.chain].end);
+      const direction = scratchDirection.copy(Y_AXIS).applyQuaternion(turn);
+      const forward = scratchForward.copy(Z_AXIS).applyQuaternion(turn);
+      anchors.set(orientationKey(lock.id, 'direction'), vec3(direction.x, direction.y, direction.z));
+      anchors.set(orientationKey(lock.id, 'forward'), vec3(forward.x, forward.y, forward.z));
+    }
+    evaluation.apply(pose);
+  }
   return anchors;
 }
+
+/**
+ * Where a lock that holds its orientation keeps it among the anchors: the end
+ * bone's +Y and +Z in the opening pose, beside its position. Keyed apart from
+ * the position so every existing reader of the map is unchanged.
+ */
+const orientationKey = (id: string, axis: 'direction' | 'forward') => `${id}#${axis}`;
 
 /** Resolve locks and solve them in one step. `pose` is mutated. */
 export function applyLocks(

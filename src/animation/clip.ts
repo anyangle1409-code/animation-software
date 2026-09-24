@@ -53,6 +53,12 @@ export interface StudioClip {
    * authored ones.
    */
   hands?: HandSpec;
+  /**
+   * The point, in the root's frame, that travels in a straight line while the
+   * root turns between keyframes. Unset, the root's own origin does. See
+   * `ExerciseDefinition.rootPivot`.
+   */
+  rootPivot?: Vec3;
 }
 
 export interface ClipSample {
@@ -93,7 +99,7 @@ export function sampleClip(clip: StudioClip, time: number): ClipSample {
   const span = to.time - from.time;
   const raw = span <= 1e-9 ? 0 : (t - from.time) / span;
   const blend = ease(from.easing, raw);
-  const pose = blendPoses(from.pose, to.pose, blend);
+  const pose = blendPoses(from.pose, to.pose, blend, clip.rootPivot);
   applyJointTiming(pose, from, to, raw);
 
   return {

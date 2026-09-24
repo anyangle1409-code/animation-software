@@ -1,8 +1,9 @@
 import { vec3 } from '../rig/types';
+import type { Vec3 } from '../rig/types';
 import type { EffectorLock, TechniqueRule } from '../constraints/types';
 import type { EquipmentInstance } from '../equipment/types';
 import type { FootSpec } from './types';
-import { bilateralLock } from './mirror';
+import { bilateralLock, bilateralRule } from './mirror';
 import { plantedContact } from './presets';
 
 /**
@@ -53,6 +54,21 @@ export interface StanceOptions {
    * the foot carries the whole body through its descent.
    */
   tolerance?: number;
+  /**
+   * Hold each foot flat — its opening orientation — as well as in place. For a
+   * movement whose shin angle is solved rather than authored; see
+   * `EffectorLock.holdOrientation`.
+   */
+  flat?: boolean;
+  /**
+   * Where the left knee points, as a world-space pole; the right is mirrored.
+   * Unset, the solver follows the pose's own bend plane, which is right for a
+   * knee that bends well (the squat) and undefined for one that barely bends: a
+   * leg a few degrees from straight has no bend plane to follow, and the solver
+   * picks one, twisting the shin — and a flat foot with it — by whatever it
+   * picked.
+   */
+  kneePole?: Vec3;
 }
 
 /** A stance with both feet locked to the floor. */
@@ -60,10 +76,21 @@ export function plantedStance({
   width = 0.32,
   toeOut = 6,
   tolerance = 0.012,
+  flat = false,
+  kneePole,
 }: StanceOptions = {}): PlantedStance {
   return {
     feet: { width, toeOut, planted: true },
-    locks: [...bilateralLock({ id: 'foot_l', chain: 'leg_l', mode: 'floor', enabled: true })],
+    locks: [
+      ...bilateralLock({
+        id: 'foot_l',
+        chain: 'leg_l',
+        mode: 'floor',
+        ...(kneePole ? { pole: kneePole } : {}),
+        ...(flat ? { holdOrientation: true } : {}),
+        enabled: true,
+      }),
+    ],
     technique: [
       ...plantedContact({
         point: { bone: 'foot_l' },
@@ -72,6 +99,28 @@ export function plantedStance({
       }),
     ],
   };
+}
+
+/**
+ * The heels stay on the floor.
+ *
+ * Checked apart from the foot it belongs to, because a heel lifts while the foot
+ * as a whole stays exactly where it was — the floor lock holds the foot's
+ * position and cannot see it tip. The squat wrote this first; the hinge needed
+ * the identical rule, for the opposite reason — a squat lifts the heels by
+ * running out of ankle, a hinge by rocking onto the toes as the hips travel back
+ * too far — and two lower-body families saying the same thing is the evidence
+ * this file extracts on.
+ */
+export function heelDown(tolerance = 0.025): [TechniqueRule, TechniqueRule] {
+  return bilateralRule({
+    kind: 'stationary',
+    id: 'heel_down_l',
+    label: 'Left heel stays on the floor',
+    point: { bone: 'foot_l', offset: { x: 0, y: -0.04, z: 0 } },
+    tolerance,
+    severity: 'error',
+  });
 }
 
 /**

@@ -6,6 +6,26 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-24 — The hinge becomes the fourth family, with a dumbbell Romanian deadlift
+
+Suite **450 passed / 1 skipped** (53 files; was 426 / 52), typecheck and build clean. The seven existing exercises are **byte-identical** afterwards: definitions, 61 resolved frames each, contacts and rule results, compared against a dump taken before any change. The frozen 63-bone skeleton is untouched.
+
+**Added.** `families/hinge.ts` and `definitions/romanianDeadlift.ts`. The whole body pitches 70° forward over planted feet, the hips travel 17 cm back and 5 cm down, the spine keeps its standing shape, the knees unlock (22° mid-descent, 17.6° at the bottom), and the dumbbells hang from straight arms from mid-thigh to just below the knee (81 → 48 cm), staying within 5 cm of a vertical path. Rules: neutral lower and upper back, hinge depth (torso 55–85° at the bottom), **hips stay high** (pelvis ≥ 30 cm above the knee — the rule that keeps a hinge from turning into a squat), hips back, soft knees, near-vertical shins, dumbbells close to the legs, straight arms, heels down, dumbbells level. Zero violations; every IK target reached; loop closed.
+
+**Production character.** Dumbbells clear the thighs by 25 mm at their closest (nothing inside). The upper arms rest on the sides of the chest mid-descent at 1.17 mm, like hanging arms in the squat (1.36) and the press (1.95); that is its recorded arm-vs-trunk baseline. Hand roll matches the rig within 1°. Opening the arms 4° wider bought 0.3 mm of chest clearance and cost 16 mm of dumbbell-to-leg distance, so it was not taken; the hands sit 0.49 m apart and the dumbbells ride the front-outside of the thighs.
+
+**Three engine additions, all opt-in**, each found by the first draft failing:
+
+- **Root pivot** (`ExerciseDefinition.rootPivot`, `blendPoses(…, pivot)`). Root rotation used to be blended about the root's origin on the floor. For a 70° pitch that swung the hips 12 cm *up* mid-descent, straightened the legs out of reach and lifted the feet 12.4 cm. With a pivot the named point (here the pelvis) travels in a straight line and the root turns about it; both ends are unchanged.
+- **Feet that stay flat** (`EffectorLock.holdOrientation`, `plantedStance({ flat })`). A floor lock fixes where a foot is, not which way it points. The hinge's shins lean 7° forward mid-descent and 4° back at the bottom as a by-product of the solve, and a foot riding along drove its toes into the floor. The held orientation is taken from the *solved* opening frame; taking it from the authored pose twisted the foot 15° at frame 0. The toe now holds its height to 0.2 mm, and the ankle becomes an output.
+- **Knee pole on the stance** (`plantedStance({ kneePole })`). A standing leg bent 3° has no bend plane, and the solver picked one.
+
+**Shared, on evidence.** The heel rule is identical in the squat and the hinge, so it moved to `stance.ts` as `heelDown()`. Depth, shin angle and torso angle share only their shape (the hinge holds the hips *above* the line the squat pushes them below). Knee tracking stays the squat's alone.
+
+**Found, not fixed (pre-existing).** The toe-out an exercise asks for is not the toe-out it shows: the curls ask 6° and show 12.5°, the press 6° → 12.8°. The squat asks 12° and its feet **swivel from 9.7° to 1.4° during the descent**, because its foot lock holds position only. The new flat-foot lock would fix the swivel, but it changes the squat's motion, so it is left for a deliberate pass.
+
+**Tests.** New `hinge.test.ts`: solved-vs-authored leg angles (< 1.5°); the pelvis lands where asked and moves in a straight line (1e-6 m; without the pivot it rises > 10 cm mid-descent); feet flat through the rep (fails with the lock off); hips high against the squat's low; the heel rule shared and knee tracking not; only the hinge opts into the new behaviour. The pivot blend agrees with the plain blend at both ends and is linear between. `squat.test.ts` now expects the two lower-body families; `selfCollision.test.ts` gains the Romanian deadlift's baseline.
+
 ### Claude — 2026-09-23 — Mirrored characters' hands no longer roll 5.5° off
 
 Suite **426 passed / 1 skipped** (52 files; was 418 / 51), typecheck and build clean. No change to the frozen 63-bone skeleton, rest transforms, exercises, weights, palm motion or scapular rhythm; canonical frames, export tracks and the mannequin are bit-identical.

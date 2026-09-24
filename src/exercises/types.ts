@@ -40,6 +40,17 @@ export interface ExerciseDefinition {
   /** Effectors held in place for the whole repetition. */
   locks: EffectorLock[];
 
+  /**
+   * The point, in the root's own frame, about which the body turns on its way
+   * between the start and peak poses. Unset, it turns about the root's origin
+   * on the floor, which is right for a body that barely tips (the push-up's 10°)
+   * and wrong for one that tips a long way: a hinge pitching 70° about the floor
+   * would swing its hips up and forward mid-repetition and pull the feet off the
+   * ground. Only the path between the two poses changes; the poses themselves
+   * do not.
+   */
+  rootPivot?: Vec3;
+
   muscles: MuscleInvolvement;
   technique: TechniqueRule[];
   commonErrors: CommonError[];

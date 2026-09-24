@@ -6,6 +6,7 @@ import { pushUp } from './definitions/pushUp';
 import { airSquat } from './definitions/airSquat';
 import { shoulderPress } from './definitions/shoulderPress';
 import { pullUp } from './definitions/pullUp';
+import { romanianDeadlift } from './definitions/romanianDeadlift';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
@@ -25,6 +26,7 @@ export const EXERCISES: ExerciseDefinition[] = [
   airSquat,
   shoulderPress,
   pullUp,
+  romanianDeadlift,
 ];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));

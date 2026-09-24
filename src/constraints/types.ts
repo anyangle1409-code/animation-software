@@ -133,6 +133,20 @@ export interface EffectorLock {
   pole?: Vec3;
   /** Orientation for the hand or foot while locked. */
   aim?: { direction: Vec3; forward?: Vec3 };
+  /**
+   * `floor` locks only: hold the effector's orientation from the clip's
+   * opening pose as well as its position.
+   *
+   * A floor lock on its own fixes where a foot is, not which way it points, so
+   * the foot turns with whatever the shin does above it. That is harmless while
+   * the ankle angle is authored to follow the shin, and it is how the squat
+   * works. It stops being harmless when the shin's lean is a by-product of the
+   * solve rather than something authored: a hinge's shins tip forward 7° mid-
+   * descent and back to vertical at the bottom, and a foot riding along with
+   * them drives its toes 14 mm into the floor. Holding the opening orientation
+   * keeps the foot flat, and makes the ankle an output of the solve.
+   */
+  holdOrientation?: boolean;
   enabled: boolean;
 }
 

@@ -10,6 +10,8 @@ import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { pullUp } from '../exercises/definitions/pullUp';
 import { pushUp } from '../exercises/definitions/pushUp';
+import { lateralRaise } from '../exercises/definitions/lateralRaise';
+import { frontRaise } from '../exercises/definitions/frontRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -20,6 +22,7 @@ import { hingeReferenceFor } from './specs/hinge';
 import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
 import { horizontalPressReferenceFor } from './specs/horizontalPress';
+import { raiseReferenceFor } from './specs/raise';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -47,6 +50,8 @@ describe('draft family reference packs', () => {
     ['bent-over row', bentOverRow, rowReferenceFor],
     ['strict pull-up', pullUp, verticalPullReferenceFor],
     ['standard push-up', pushUp, horizontalPressReferenceFor],
+    ['lateral raise', lateralRaise, raiseReferenceFor],
+    ['front raise', frontRaise, raiseReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -132,6 +137,40 @@ describe('draft family reference packs', () => {
     );
     const report = review(exercise, horizontalPressReferenceFor(exercise));
     expect(report.failed).toContain('pushup_bottom_elbow');
+  });
+
+
+  it('rejects a lateral raise that stops far below shoulder height', () => {
+    const exercise = clone(lateralRaise);
+    exercise.jointTargets = exercise.jointTargets.map((target) =>
+      target.bone.startsWith('upperarm_') && target.axis === 'z'
+        ? { ...target, peak: -40 }
+        : target,
+    );
+    const report = review(exercise, raiseReferenceFor(exercise));
+    expect(report.failed).toContain('raise_lateral_height');
+  });
+
+  it('rejects a front raise sent out into the lateral plane', () => {
+    const exercise = clone(frontRaise);
+    exercise.startPose.joints.upperarm_l = {
+      ...(exercise.startPose.joints.upperarm_l ?? {}),
+      z: -40,
+    };
+    exercise.peakPose.joints.upperarm_l = {
+      ...(exercise.peakPose.joints.upperarm_l ?? {}),
+      z: -40,
+    };
+    exercise.startPose.joints.upperarm_r = {
+      ...(exercise.startPose.joints.upperarm_r ?? {}),
+      z: 40,
+    };
+    exercise.peakPose.joints.upperarm_r = {
+      ...(exercise.peakPose.joints.upperarm_r ?? {}),
+      z: 40,
+    };
+    const report = review(exercise, raiseReferenceFor(exercise));
+    expect(report.failed).toContain('raise_front_plane');
   });
 
 });

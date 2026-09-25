@@ -101,6 +101,14 @@ def main():
     lines.append(
         f"- Stage A: {state(ROOT / 'reports' / 'v15f_stage_a_gate.json')}"
     )
+    stage_visual = read_json(ROOT / "reports" / "v15f_stage_a_visual_decision.json")
+    if stage_visual:
+        lines.append(
+            f"- Stage A visual: {stage_visual.get('decision', 'UNKNOWN')} "
+            f"— {stage_visual.get('notes', '')}"
+        )
+    else:
+        lines.append("- Stage A visual: missing")
 
     if audit:
         lines += [

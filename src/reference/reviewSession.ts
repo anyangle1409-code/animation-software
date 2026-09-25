@@ -1,6 +1,6 @@
 import type { ExerciseDefinition } from '../exercises/types';
 import type { StudioClip } from '../animation/clip';
-import { buildCaptureRequests } from './capturePlan';
+import { buildEvidenceCaptureRequests } from './capturePlan';
 import { captureReviewRequests } from './browserCapture';
 import type { ReviewEvidenceBatch } from './evidence';
 import { buildReviewManifest } from './reviewManifest';
@@ -26,7 +26,7 @@ export async function captureReferenceEvidence(
   }
 
   const manifest = buildReviewManifest(reference, clip);
-  const requests = buildCaptureRequests(manifest);
+  const requests = buildEvidenceCaptureRequests(manifest);
   const captures = await captureReviewRequests(requests);
   return {
     referenceId: reference.id,

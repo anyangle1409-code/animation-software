@@ -1502,6 +1502,88 @@ const supine: GeneratorFamily<SupineVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Carry / farmer's walk
+// ---------------------------------------------------------------------------
+
+const carry: GeneratorFamily<CarryVariant> = {
+  id: 'carry',
+  label: "Farmer's walk",
+  builder: 'carryFamily',
+  detect: /\bfarmers?'?s?\s+(?:walk|carry)\b|\bfarmers?\s+carry\b/,
+
+  library: ['farmers_walk'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bsuitcase\b/, 'a suitcase carry loads one side and deliberately challenges lateral flexion; the current carry is even-sided.'],
+        [/\boverhead\b|\bwaiter'?s?\b/, 'an overhead carry holds the load above the head and needs a different shoulder/support model.'],
+        [/\bfront[-\s]?rack\b|\brack\s+carry\b/, 'a front-rack carry changes the arm position and equipment contact.'],
+        [/\btrap[-\s]?bar\b|\bbarbell\b/, 'the accepted carry uses one dumbbell in each hand, not a rigid bar.'],
+        [/\bkettle-?bells?\b|\bkbs?\b/, 'the accepted carry uses paired dumbbells; kettlebells are not certified here.'],
+        [/\b(?:one|single)[-\s]?arm\b|\bunilateral\b/, 'a unilateral carry is asymmetric; the current family is even-sided.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(blocking('grip', "The certified farmer's walk uses neutral hanging dumbbells; the requested grip is not certified."));
+    }
+
+    const support = interpretSupport(slots, ['walking'], "farmer's walk", assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ": a farmer's walk has no adjustable angle input."));
+    }
+
+    const common = interpretCommon(slots, "farmer's walk", 'dumbbell', 24, assumptions, issues);
+    if (slots.tempo.length > 0) {
+      issues.push(
+        blocking(
+          'tempo',
+          'The carry family owns a fixed two-step cadence and travel speed. A requested tempo is not certified until cadence is an explicit carry parameter.',
+        ),
+      );
+    }
+
+    return {
+      intent: {
+        prompt,
+        family: 'carry',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        load: common.load,
+        tempo: { profile: 'family' },
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    return {
+      ...identity("Farmer's Walk", intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". Walking tall with ' + formatLoad(intent.load) +
+        ' in each hand, shoulders down, arms long and short even steps at the family cadence.',
+      mass: intent.load,
+    };
+  },
+
+  build: carryFamily,
+
+  reference: () => 'farmers_walk',
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1517,6 +1599,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   calf as unknown as GeneratorFamily,
   trunkFlexion as unknown as GeneratorFamily,
   supine as unknown as GeneratorFamily,
+  carry as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

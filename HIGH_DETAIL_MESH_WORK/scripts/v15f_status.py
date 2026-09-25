@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "v15f_deep_hand_rebuild"
 BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 DIGITS = ("ring_L", "ring_R", "pinky_L", "pinky_R")
+STAGE_B_ORDER = ("index_L", "index_R", "middle_L", "middle_R")
 RING_VISUAL = ROOT / "reports" / "v15f_ring_visual_decision.json"
 RING_BOARD = ROOT / "renders_v15f_ring_proof" / "V15F_V13E_RING_L_PROOF.jpg"
 AUDIT = ROOT / "reports" / f"audit_{VERSION}_blender.json"
@@ -106,6 +107,34 @@ def stage_a_visual_state():
         "notes": data.get("notes"),
         "board_exists": STAGE_A_BOARD.is_file(),
         "path": str(STAGE_A_VISUAL),
+    }
+
+def stage_b_visual_state(key):
+    path = ROOT / "reports" / f"v15f_stage_b_{key}_visual_decision.json"
+    board = ROOT / "renders_v15f_stage_b" / key / f"V15F_V13E_{key.upper()}_PROOF.jpg"
+    data = read_json(path)
+    if data is None:
+        return {
+            "exists": False,
+            "current": False,
+            "pass": None,
+            "board_exists": board.is_file(),
+            "path": str(path),
+        }
+    fingerprints = current_surface_fingerprints()
+    current = bool(
+        board.is_file()
+        and data.get("surface_fingerprint_sha256")
+        and data.get("surface_fingerprint_sha256") == fingerprints.get(key)
+    )
+    return {
+        "exists": True,
+        "current": current,
+        "pass": data.get("pass") if current else None,
+        "decision": data.get("decision"),
+        "notes": data.get("notes"),
+        "board_exists": board.is_file(),
+        "path": str(path),
     }
 
 def main():
@@ -237,6 +266,53 @@ def main():
             print(json.dumps(result, indent=2))
             return
 
+    # Stage B — index/middle, one digit at a time. Each numeric pass must
+    # receive an explicit current visual verdict before the next digit unlocks.
+    for key in STAGE_B_ORDER:
+        numeric = gate_state(ROOT / "reports" / f"v15f_stage_b_{key}_gate.json")
+        visual = stage_b_visual_state(key)
+        result["gates"][f"stage_B_{key}"] = numeric
+        result["gates"][f"stage_B_{key}_visual"] = visual
+
+        if not numeric["exists"]:
+            result["next_action"] = (
+                f"Inspect/edit {key} only, save/checkpoint, then run: "
+                f"AUDIT_V15F_STAGE_B_DIGIT.bat {key}"
+            )
+            result["reason"] = f"Stage-B {key} numeric gate is missing."
+            print(json.dumps(result, indent=2))
+            return
+        if numeric["pass"] is not True:
+            result["next_action"] = (
+                f"Repair {key} only and rerun: AUDIT_V15F_STAGE_B_DIGIT.bat {key}"
+            )
+            result["reason"] = f"Stage-B {key} numeric gate is failing."
+            print(json.dumps(result, indent=2))
+            return
+        if not visual["board_exists"]:
+            result["next_action"] = f"GENERATE_V15F_STAGE_B_VISUAL.bat {key}"
+            result["reason"] = f"Stage-B {key} numeric gate passes; visual board is missing."
+            print(json.dumps(result, indent=2))
+            return
+        if not visual["exists"] or not visual["current"]:
+            result["next_action"] = (
+                f"OPEN_V15F_STAGE_B_VISUAL.bat {key}, inspect V13e vs V15f, then run: "
+                f"MARK_V15F_STAGE_B_VISUAL.bat {key} pass|fail"
+            )
+            result["reason"] = (
+                f"Stage-B {key} numeric gate passes; a current visual verdict is required."
+            )
+            print(json.dumps(result, indent=2))
+            return
+        if visual["pass"] is not True:
+            result["next_action"] = (
+                f"Repair {key} only, save/checkpoint, then rerun "
+                f"AUDIT_V15F_STAGE_B_DIGIT.bat {key}"
+            )
+            result["reason"] = f"Stage-B {key} visual proof is explicitly marked FAIL."
+            print(json.dumps(result, indent=2))
+            return
+
     full_audit = gate_state(
         ROOT / "reports" / f"audit_{VERSION}_blender.json",
         timestamp_sensitive=True,
@@ -248,10 +324,10 @@ def main():
 
     if not full_audit["current"]:
         result["next_action"] = (
-            "Stage A numeric+visual gates pass. Checkpoint, inspect/rebuild "
-            "index/middle only where visibly needed, save, then run the full Blender audit."
+            "All Stage-A and Stage-B numeric+visual gates pass. Rerun the full "
+            "V15 Blender audit before export."
         )
-        result["reason"] = "Ring/pinky Stage A is fully cleared; whole-hand audit is stale."
+        result["reason"] = "All per-digit V15f gates are cleared; whole-hand audit is stale."
     elif full_audit["pass"] is not True:
         result["next_action"] = "Repair the whole-hand Blender audit failure before export."
         result["reason"] = "Current full Blender audit is failing."

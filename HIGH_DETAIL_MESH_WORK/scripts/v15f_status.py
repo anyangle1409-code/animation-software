@@ -15,6 +15,8 @@ BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 DIGITS = ("ring_L", "ring_R", "pinky_L", "pinky_R")
 RING_VISUAL = ROOT / "reports" / "v15f_ring_visual_decision.json"
 RING_BOARD = ROOT / "renders_v15f_ring_proof" / "V15F_V13E_RING_L_PROOF.jpg"
+STAGE_A_VISUAL = ROOT / "reports" / "v15f_stage_a_visual_decision.json"
+STAGE_A_BOARD = ROOT / "renders_v15f_stage_a" / "V15F_V13E_STAGE_A_RING_PINKY_PROOF.jpg"
 
 def read_json(path):
     if not path.is_file():
@@ -66,6 +68,33 @@ def visual_decision_state():
         "path": str(RING_VISUAL),
     }
 
+def stage_a_visual_state():
+    data = read_json(STAGE_A_VISUAL)
+    if data is None:
+        return {
+            "exists": False,
+            "current": False,
+            "pass": None,
+            "board_exists": STAGE_A_BOARD.is_file(),
+            "path": str(STAGE_A_VISUAL),
+        }
+    stat = BLEND.stat() if BLEND.is_file() else None
+    current = bool(
+        stat
+        and data.get("blend_mtime_ns") == stat.st_mtime_ns
+        and data.get("blend_size") == stat.st_size
+        and STAGE_A_BOARD.is_file()
+    )
+    return {
+        "exists": True,
+        "current": current,
+        "pass": data.get("pass") if current else None,
+        "decision": data.get("decision"),
+        "notes": data.get("notes"),
+        "board_exists": STAGE_A_BOARD.is_file(),
+        "path": str(STAGE_A_VISUAL),
+    }
+
 def main():
     result = {
         "version": VERSION,
@@ -95,6 +124,8 @@ def main():
 
     stage_a = gate_state(ROOT / "reports" / "v15f_stage_a_gate.json")
     result["gates"]["stage_A"] = stage_a
+    stage_a_visual = stage_a_visual_state()
+    result["gates"]["stage_A_visual"] = stage_a_visual
 
     if proof["exists"] and proof["pass"] is True:
         if not ring_visual["board_exists"]:
@@ -165,6 +196,34 @@ def main():
         print(json.dumps(result, indent=2))
         return
 
+    if stage_a["pass"] is True:
+        if not stage_a_visual["board_exists"]:
+            result["next_action"] = "GENERATE_V15F_STAGE_A_VISUAL_PROOF.bat"
+            result["reason"] = (
+                "Stage A numeric gate passes, but the matched ring/pinky visual board is missing."
+            )
+            print(json.dumps(result, indent=2))
+            return
+        if not stage_a_visual["exists"] or not stage_a_visual["current"]:
+            result["next_action"] = (
+                "OPEN_V15F_STAGE_A_VISUAL_PROOF.bat, inspect V13e vs V15f "
+                "ring/pinky, then run: MARK_V15F_STAGE_A_VISUAL.bat pass|fail"
+            )
+            result["reason"] = (
+                "Stage A numeric gate passes; a current explicit visual verdict "
+                "is required before index/middle."
+            )
+            print(json.dumps(result, indent=2))
+            return
+        if stage_a_visual["pass"] is not True:
+            result["next_action"] = (
+                "Repair only the visually failing ring/pinky digit(s), rerun their "
+                "incremental gates, then rerun AUDIT_V15F_STAGE_A.bat"
+            )
+            result["reason"] = "The current Stage-A visual proof is explicitly marked FAIL."
+            print(json.dumps(result, indent=2))
+            return
+
     full_audit = gate_state(
         ROOT / "reports" / f"audit_{VERSION}_blender.json",
         timestamp_sensitive=True,
@@ -176,10 +235,10 @@ def main():
 
     if not full_audit["current"]:
         result["next_action"] = (
-            "Stage A passes. Checkpoint, inspect/rebuild index/middle only where "
-            "visibly needed, save, then run the full Blender audit."
+            "Stage A numeric+visual gates pass. Checkpoint, inspect/rebuild "
+            "index/middle only where visibly needed, save, then run the full Blender audit."
         )
-        result["reason"] = "Ring/pinky Stage A cleared; whole-hand audit is stale."
+        result["reason"] = "Ring/pinky Stage A is fully cleared; whole-hand audit is stale."
     elif full_audit["pass"] is not True:
         result["next_action"] = "Repair the whole-hand Blender audit failure before export."
         result["reason"] = "Current full Blender audit is failing."

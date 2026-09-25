@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend"
 SOURCE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend"
 OUT = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild_EXPORT.blend"
-REPORT = ROOT / "reports" / "prepare_v15a_export_blender.json"
+# REPORT is derived from the actual candidate version after args are parsed.
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 if args:
@@ -36,6 +36,10 @@ if len(args) > 1:
     out = Path(args[1]).resolve()
 else:
     out = OUT
+
+prefix = "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_"
+version = source.stem[len(prefix):] if source.stem.startswith(prefix) else source.stem
+REPORT = ROOT / "reports" / f"prepare_{version}_export_blender.json"
 
 for p in (BASE, source):
     if not p.is_file():
@@ -254,6 +258,7 @@ out.parent.mkdir(parents=True, exist_ok=True)
 bpy.ops.wm.save_as_mainfile(filepath=str(out))
 
 report = {
+    "version": version,
     "source": source.name,
     "output": out.name,
     "baseline": BASE.name,

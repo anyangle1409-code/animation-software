@@ -23,8 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
 SOURCE_BRANCH = "chatgpt/absolute-retarget-imports"
 WORKTREE = REPO.parent / f"{REPO.name}-v15-current-source-validation"
-OUT = ROOT / "reports" / "current_source_v15"
-VERSION = "v15a_deep_hand_rebuild"
+DEFAULT_VERSION = "v15a_deep_hand_rebuild"
 
 FILES = [
     "src/exercises/equipmentClearance.test.ts",
@@ -162,20 +161,23 @@ def compare_measurements(a_text, b_text):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--version", default=DEFAULT_VERSION)
     ap.add_argument("--keep-worktree", action="store_true")
     ap.add_argument("--skip-full-suite", action="store_true")
     args = ap.parse_args()
+    version = args.version
+    out = ROOT / "reports" / f"current_source_{version}"
 
     assets = {
         "v8": ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb",
         "v13e": ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.glb",
-        "v15": ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.glb",
+        "v15": ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}.glb",
     }
     missing = [str(p) for p in assets.values() if not p.is_file()]
     if missing:
         raise SystemExit("Missing comparison asset(s):\n- " + "\n- ".join(missing))
 
-    OUT.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
     ref, sha, fetch_code = resolve_source()
     remove_worktree()
     git("worktree", "add", "--detach", str(WORKTREE), sha)
@@ -189,7 +191,7 @@ def main():
             suite_proc = run(
                 ["npm", "test"],
                 WORKTREE, check=False,
-                log=OUT / "full_source_suite.log",
+                log=out / "full_source_suite.log",
             )
             suite = {"returncode": suite_proc.returncode}
             if suite_proc.returncode != 0:
@@ -205,7 +207,7 @@ def main():
             proc = run(
                 runner + FILES,
                 WORKTREE, env=env, check=False,
-                log=OUT / f"{name}.log",
+                log=out / f"{name}.log",
             )
             codes[name] = proc.returncode
             texts[name] = proc.stdout
@@ -215,7 +217,7 @@ def main():
             [sys.executable, WORKTREE / "scripts" / "mesh-coordination-report.py",
              str(OUT), "production", "v8", "v13e", "v15"],
             WORKTREE, check=True,
-            log=OUT / "coordination_tables.md",
+            log=out / "coordination_tables.md",
         )
 
         delta = compare_measurements(texts["v13e"], texts["v15"])
@@ -231,7 +233,7 @@ def main():
                 proc = run(
                     runner + [path],
                     WORKTREE, env=env, check=False,
-                    log=OUT / f"{name}__{Path(path).stem}.log",
+                    log=out / f"{name}__{Path(path).stem}.log",
                 )
                 results[name] = {
                     "returncode": proc.returncode,
@@ -269,6 +271,7 @@ def main():
         )
 
         report = {
+            "candidate_version": version,
             "source_branch": SOURCE_BRANCH,
             "resolved_ref": ref,
             "source_head": sha,
@@ -289,7 +292,7 @@ def main():
                 "Inspect coordination_tables.md and v15.log before acceptance even when integration_no_regression is true.",
             ],
         }
-        (OUT / "integration_report.json").write_text(json.dumps(report, indent=2))
+        (out / "integration_report.json").write_text(json.dumps(report, indent=2))
         print(json.dumps(report, indent=2))
         if not passed:
             raise SystemExit(1)

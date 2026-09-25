@@ -12,6 +12,8 @@ import { pullUp } from '../exercises/definitions/pullUp';
 import { pushUp } from '../exercises/definitions/pushUp';
 import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
+import { calfRaise } from '../exercises/definitions/calfRaise';
+import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -23,6 +25,7 @@ import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
 import { horizontalPressReferenceFor } from './specs/horizontalPress';
 import { raiseReferenceFor } from './specs/raise';
+import { calfReferenceFor } from './specs/calf';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -52,6 +55,8 @@ describe('draft family reference packs', () => {
     ['standard push-up', pushUp, horizontalPressReferenceFor],
     ['lateral raise', lateralRaise, raiseReferenceFor],
     ['front raise', frontRaise, raiseReferenceFor],
+    ['bodyweight calf raise', calfRaise, calfReferenceFor],
+    ['dumbbell calf raise', dumbbellCalfRaise, calfReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -171,6 +176,21 @@ describe('draft family reference packs', () => {
     };
     const report = review(exercise, raiseReferenceFor(exercise));
     expect(report.failed).toContain('raise_front_plane');
+  });
+
+
+  it('rejects a calf raise whose body barely rises', () => {
+    const exercise = clone(calfRaise);
+    exercise.peakPose.root = {
+      ...(exercise.peakPose.root ?? {}),
+      position: {
+        x: exercise.peakPose.root?.position?.x ?? 0,
+        y: 0.01,
+        z: exercise.peakPose.root?.position?.z ?? 0,
+      },
+    };
+    const report = review(exercise, calfReferenceFor(exercise));
+    expect(report.failed).toContain('calf_root_rise');
   });
 
 });

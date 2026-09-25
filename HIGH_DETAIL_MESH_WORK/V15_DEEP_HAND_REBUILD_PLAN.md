@@ -202,3 +202,21 @@ It performs, in order:
 7. Cleanup of the detached validation worktree.
 
 The export step refuses to overwrite an existing V15 GLB. Preserve failed/rejected attempts rather than replacing them.
+
+
+## What Work no longer needs to do manually
+
+During the V15 Blender edit, Work may keep useful quads/ngons while shaping. It does not need to manually prepare the final export topology.
+
+The post-edit pipeline creates a temporary export copy and:
+- identifies genuinely new V15 vertices using `v15_baseline_vertex_id`;
+- resolves duplicated tracking IDs created by topology tools;
+- preserves all V13e starting vertices;
+- interpolates missing/non-normalized `DEF-*` weights for new vertices from the nearest V13e triangle;
+- fills missing/zero UV0/UV1 on new vertices from the nearest V13e triangle;
+- triangulates the export-only copy;
+- verifies that this preparation moved no vertex positions;
+- feeds that temporary copy into the established stable-ID GLB packer;
+- deletes the temporary export Blend afterwards.
+
+Therefore Work should prioritise **surface shape and edge flow**. Do not spend usage manually rebuilding export metadata unless the automated export-prep stage reports a specific failure.

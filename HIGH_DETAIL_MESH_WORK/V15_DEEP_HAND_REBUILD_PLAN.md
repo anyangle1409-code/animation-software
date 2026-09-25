@@ -41,6 +41,7 @@ Work only on index, middle, ring and little fingers on both hands.
 
 ### Preserve exactly
 
+- **all original V8-source vertex records and their `v8_source_id` values**; rebuild by rewiring/retriangulating and adding vertices, not deleting original source vertices
 - all 682 protected original push-up contact vertices and their skin rows
 - non-hand body geometry
 - thumb, palm and wrist for this candidate unless a tiny bridge is unavoidable at the digit root
@@ -63,13 +64,14 @@ For each digit:
    - patch/seam boundaries that must remain fixed;
    - a transition ring around protected/boundary anchors.
 3. Find the broad faceted shaft/joint region.
-4. Remove/replace the interior problem patch while leaving anchor rings in place.
-5. Reconstruct longitudinal loops so cross-sections are rounded and joint transitions are gradual.
-6. Bridge back to the fixed anchors without moving protected vertices.
-7. Transfer/interpolate skin weights to new vertices from local neighbours; normalise.
-8. Preserve left/right symmetry.
-9. Check open hand before any posed review.
-10. Only then check fist/curl/push-up/pull-up.
+4. Remove/rebuild **faces and edge flow**, but retain every original source vertex. Do not delete a vertex carrying a positive `v8_source_id`.
+5. Reconnect/retriangulate the retained vertices and add new vertices only where the shaft/joint surface needs more control.
+6. Reconstruct longitudinal loops so cross-sections are rounded and joint transitions are gradual.
+7. Bridge back to the fixed anchors without moving protected vertices.
+8. Interpolate UVs and bone weights onto every new vertex; normalise bone weights.
+9. Preserve left/right symmetry.
+10. Check open hand before any posed review.
+11. Only then check fist/curl/push-up/pull-up.
 
 Do not force the topology to follow bone tails; V13e proved the visible finger surface ends 9–20 mm before some frozen bone tails. Use the actual mesh surface as the geometric reference.
 
@@ -179,3 +181,24 @@ For the candidate report, record:
 - current-source full-library results
 - matched V13e/V15 review boards
 - explicit visual verdict: improved enough to proceed, or reject
+
+
+## Post-edit automation
+
+After the V15 Blend is edited and saved, do **not** manually rediscover export/test commands.
+
+Run:
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+It performs, in order:
+
+1. Blender invariant audit against V13e.
+2. Dressed V15 GLB export using the established stable-ID hand packer.
+3. Bare variant creation.
+4. Frozen `614033b` structural/hand/exercise validation.
+5. True matched V13e-vs-V15 open/fist/curl/push-up/pull-up renders and boards.
+6. Disposable latest-source integration validation against the newest fetched `chatgpt/absolute-retarget-imports`.
+7. Cleanup of the detached validation worktree.
+
+The export step refuses to overwrite an existing V15 GLB. Preserve failed/rejected attempts rather than replacing them.

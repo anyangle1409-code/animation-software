@@ -17,6 +17,9 @@ import { calfRaise } from '../exercises/definitions/calfRaise';
 import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import { crunch } from '../exercises/definitions/crunch';
 import { sitUp } from '../exercises/definitions/sitUp';
+import { dumbbellBenchPress } from '../exercises/definitions/dumbbellBenchPress';
+import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
+import { farmersWalk } from '../exercises/definitions/farmersWalk';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -31,6 +34,8 @@ import { extensionReferenceFor } from './specs/extension';
 import { horizontalPressReferenceFor } from './specs/horizontalPress';
 import { calfReferenceFor } from './specs/calf';
 import { trunkFlexionReferenceFor } from './specs/trunkFlexion';
+import { supineReferenceFor } from './specs/supine';
+import { carryReferenceFor } from './specs/carry';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -65,6 +70,9 @@ describe('draft family reference packs', () => {
     ['dumbbell calf raise', dumbbellCalfRaise, calfReferenceFor],
     ['crunch', crunch, trunkFlexionReferenceFor],
     ['sit-up', sitUp, trunkFlexionReferenceFor],
+    ['dumbbell bench press', dumbbellBenchPress, supineReferenceFor],
+    ['dumbbell fly', dumbbellFly, supineReferenceFor],
+    ["farmer's walk", farmersWalk, carryReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -189,6 +197,27 @@ describe('draft family reference packs', () => {
     };
     const report = review(exercise, trunkFlexionReferenceFor(exercise));
     expect(report.failed).toContain('situp_top_angle');
+  });
+
+
+  it('rejects a fly whose elbow is no longer softly fixed', () => {
+    const exercise = clone(dumbbellFly);
+    exercise.startPose.joints.forearm_l = { ...(exercise.startPose.joints.forearm_l ?? {}), x: 55 };
+    exercise.startPose.joints.forearm_r = { ...(exercise.startPose.joints.forearm_r ?? {}), x: 55 };
+    exercise.peakPose.joints.forearm_l = { ...(exercise.peakPose.joints.forearm_l ?? {}), x: 55 };
+    exercise.peakPose.joints.forearm_r = { ...(exercise.peakPose.joints.forearm_r ?? {}), x: 55 };
+    const report = review(exercise, supineReferenceFor(exercise));
+    expect(report.failed).toContain('fly_soft_elbow');
+  });
+
+  it("rejects a farmer's walk with bent carried arms", () => {
+    const exercise = clone(farmersWalk);
+    exercise.startPose.joints.forearm_l = { ...(exercise.startPose.joints.forearm_l ?? {}), x: 45 };
+    exercise.startPose.joints.forearm_r = { ...(exercise.startPose.joints.forearm_r ?? {}), x: 45 };
+    exercise.peakPose.joints.forearm_l = { ...(exercise.peakPose.joints.forearm_l ?? {}), x: 45 };
+    exercise.peakPose.joints.forearm_r = { ...(exercise.peakPose.joints.forearm_r ?? {}), x: 45 };
+    const report = review(exercise, carryReferenceFor(exercise));
+    expect(report.failed).toContain('carry_arm_long');
   });
 
 });

@@ -43,15 +43,18 @@ Keep frozen comparison and latest-source integration testing separate. Do not me
 
 ## First Blender action
 
-Run:
+From `HIGH_DETAIL_MESH_WORK`, run:
 
-`HIGH_DETAIL_MESH_WORK/scripts/prepare_v15_deep_hand_blender.py`
+`START_V15_HAND.bat`
 
-It creates:
+This is the authoritative launcher. It runs preflight first, creates
+`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend` from V13e
+if needed, then opens Blender with diagnostic selection groups and the V15 Hand
+sidebar. The preparation has no intended geometry displacement.
 
-`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend`
+Optional static tooling check first:
 
-with diagnostic selection groups and no intended geometry displacement.
+`CHECK_PREPARED_TOOLING.bat`
 
 ## Hard rules
 

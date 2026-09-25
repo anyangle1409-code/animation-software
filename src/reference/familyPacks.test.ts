@@ -8,6 +8,7 @@ import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import { bentOverRow } from '../exercises/definitions/bentOverRow';
+import { pullUp } from '../exercises/definitions/pullUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -16,6 +17,7 @@ import { squatReferenceFor } from './specs/squat';
 import { lungeReferenceFor } from './specs/lunge';
 import { hingeReferenceFor } from './specs/hinge';
 import { rowReferenceFor } from './specs/row';
+import { verticalPullReferenceFor } from './specs/verticalPull';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -41,6 +43,7 @@ describe('draft family reference packs', () => {
     ['reverse lunge', reverseLunge, lungeReferenceFor],
     ['Romanian deadlift', romanianDeadlift, hingeReferenceFor],
     ['bent-over row', bentOverRow, rowReferenceFor],
+    ['strict pull-up', pullUp, verticalPullReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -104,4 +107,17 @@ describe('draft family reference packs', () => {
     const report = review(exercise, rowReferenceFor(exercise));
     expect(report.failed).toContain('row_elbow_back');
   });
+
+  it('rejects a pull-up that never reaches strong elbow flexion', () => {
+    const exercise = clone(pullUp);
+    exercise.jointTargets = exercise.jointTargets.map((target) =>
+      target.bone.startsWith('forearm_') && target.axis === 'x'
+        ? { ...target, peak: 60 }
+        : target,
+    );
+    const report = review(exercise, verticalPullReferenceFor(exercise));
+    expect(report.failed).toContain('pullup_top_flexion');
+    expect(report.failed).toContain('pullup_elbow_rom');
+  });
+
 });

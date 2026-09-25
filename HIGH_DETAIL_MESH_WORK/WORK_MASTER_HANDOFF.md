@@ -70,3 +70,24 @@ Do not manually reproduce the export/validation steps. The command is intentiona
 ### Export housekeeping is automated
 
 Work does not need to manually triangulate the editable V15 Blend or hand-author missing new-vertex UV/weight data before export. `RUN_V15_POST_EDIT_ALL.bat` creates a temporary export copy, repairs only genuinely new V15 vertices from V13e, triangulates that temporary copy, packs the GLB, and deletes the temporary copy.
+
+
+## Two-command Work flow
+
+From `HIGH_DETAIL_MESH_WORK`:
+
+**Start / open the prepared Blender candidate**
+
+`START_V15_HAND.bat`
+
+This creates the V15a diagnostic Blend from V13e if it does not exist, then opens it in Blender with the body selected and the V15 guide groups/markers ready.
+
+After the actual finger geometry edit is saved:
+
+**Run everything after the edit**
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+That handles export preparation, GLB packing, bare variant, frozen validation, V13e/V15 matched renders, seam/fold checks, visual-change metrics, latest-source integration and the consolidated report.
+
+Those are the only two workflow commands Work should need around the actual Blender modelling.

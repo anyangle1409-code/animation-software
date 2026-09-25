@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "curl.general.v1",
+  "family": "curl",
+  "status": "draft_example_only",
+  "purpose": "Illustrative shape only. Numeric values must be reviewed before implementation.",
+  "normalization": {
+    "distance": ["standing_height", "shoulder_width", "relevant_limb_length"],
+    "time": "normalized_cycle_0_to_1"
+  },
+  "variants": {
+    "grip": ["supinated", "neutral", "pronated"],
+    "support": ["standing", "incline"]
+  },
+  "phases": [
+    { "id": "bottom", "cycle": 0.0 },
+    { "id": "mid_up", "cycle": 0.25 },
+    { "id": "peak", "cycle": 0.5 },
+    { "id": "mid_down", "cycle": 0.75 },
+    { "id": "return", "cycle": 1.0 }
+  ],
+  "checks": [
+    {
+      "id": "elbow_rom",
+      "kind": "jointEnvelope",
+      "bone": "forearm_l",
+      "axis": "x",
+      "units": "degrees",
+      "note": "Populate from independently approved curl reference values."
+    },
+    {
+      "id": "upper_arm_corridor",
+      "kind": "landmarkTrajectory",
+      "landmark": "elbow_l",
+      "relativeTo": "shoulder_l",
+      "units": "shoulder_width",
+      "note": "Independent of curlFamily implementation."
+    },
+    {
+      "id": "dumbbell_path",
+      "kind": "equipmentTrajectory",
+      "equipment": "dumbbell_l",
+      "relativeTo": "torso",
+      "units": "standing_height"
+    },
+    {
+      "id": "torso_quiet",
+      "kind": "segmentEnvelope",
+      "segment": "spine_02",
+      "units": "degrees"
+    }
+  ],
+  "reviewCameras": [
+    { "id": "front", "preset": "front" },
+    { "id": "side", "preset": "right" },
+    { "id": "three_quarter", "preset": "three-quarter" },
+    { "id": "grip_closeup", "target": "hands" }
+  ],
+  "correctionPolicy": {
+    "referenceEngineMayEdit": false,
+    "allowedPath": "report failure -> generator family adapter -> declared bounded lever -> full revalidation"
+  }
+}

@@ -1,0 +1,52 @@
+name: Internal Reference Integrated Review Check
+
+on:
+  push:
+    branches:
+      - work/internal-reference-integrated-review-20260925
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Reference focused tests
+        run: >
+          npm test --
+          src/reference/evaluate.test.ts
+          src/reference/generation.test.ts
+          src/reference/reviewManifest.test.ts
+          src/reference/measure.test.ts
+          src/reference/capturePlan.test.ts
+          src/reference/captureController.test.ts
+          src/reference/reviewCamera.test.ts
+          src/reference/landmarks.test.ts
+          src/reference/normalize.test.ts
+          src/reference/trajectory.test.ts
+          src/reference/projection.test.ts
+          src/reference/browserCapture.test.ts
+          src/reference/reviewSession.test.ts
+          src/reference/worldChecks.test.ts
+          src/reference/familyPacks.test.ts
+
+      - name: Build
+        run: npm run build
+
+      - name: Full test suite
+        run: npm test

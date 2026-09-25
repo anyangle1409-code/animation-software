@@ -1182,3 +1182,40 @@ code {
   text-align: left;
   font-size: 11px;
 }
+
+
+.generate-review-evidence {
+  margin: 6px 0;
+  font-size: 11px;
+}
+
+.generate-review-evidence__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.generate-review-evidence__grid figure {
+  margin: 0;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--panel-2);
+}
+
+.generate-review-evidence__grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: #eef1f5;
+}
+
+.generate-review-evidence__grid figcaption {
+  padding: 5px 6px;
+  color: var(--muted);
+  font-size: 9px;
+  text-transform: capitalize;
+}

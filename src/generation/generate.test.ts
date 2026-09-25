@@ -17,6 +17,8 @@ import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
 import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
+import { extensionFamily } from '../exercises/families/extension';
+import type { ExtensionVariant } from '../exercises/families/extension';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -25,6 +27,8 @@ import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { pullUp } from '../exercises/definitions/pullUp';
+import { overheadExtension } from '../exercises/definitions/overheadExtension';
+import { cablePushdown } from '../exercises/definitions/cablePushdown';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -45,6 +49,8 @@ const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const RDL = 'Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.';
 const ROW = 'Create a dumbbell bent-over row with 16 kg dumbbells and controlled tempo.';
 const PULL_UP = 'Create a strict pull-up with controlled tempo.';
+const OVERHEAD_EXTENSION = 'Create an overhead dumbbell triceps extension with 8 kg dumbbells and slow tempo.';
+const PUSHDOWN = 'Create a cable triceps pushdown with controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -140,6 +146,31 @@ describe('generating without a character', () => {
   it('reproduces the library pull-up motion from the plain certified intent', () => {
     const result = generateExercise('a pull-up', options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(pullUp));
+  });
+
+  it('builds both triceps variants from extensionFamily rather than standalone definitions', () => {
+    const overhead = generateExercise(OVERHEAD_EXTENSION, options);
+    expect(overhead.family?.id).toBe('extension');
+    expect(overhead.exercise).toEqual(extensionFamily(overhead.variant as ExtensionVariant));
+    expect(overhead.reference).toBe('dumbbell_overhead_triceps_extension');
+    expect(overhead.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([8, 8]);
+    expect(overhead.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+
+    const pushdown = generateExercise(PUSHDOWN, options);
+    expect(pushdown.family?.id).toBe('extension');
+    expect(pushdown.exercise).toEqual(extensionFamily(pushdown.variant as ExtensionVariant));
+    expect(pushdown.reference).toBe('cable_triceps_pushdown');
+    expect(pushdown.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual(['cable', 'cable_bar', 'cable_tower']);
+    expect(pushdown.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces both library extension motions from plain certified intents', () => {
+    expect(motionOf(generateExercise('an overhead triceps extension with dumbbells', options).exercise!)).toEqual(
+      motionOf(overheadExtension),
+    );
+    expect(motionOf(generateExercise('a cable triceps pushdown', options).exercise!)).toEqual(
+      motionOf(cablePushdown),
+    );
   });
 
   it('will not certify what it could not measure', () => {
@@ -315,6 +346,26 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.reference).toBe('pull_up');
       expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
       expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds both certified triceps extensions through the same production-character pipeline',
+    async () => {
+      for (const [prompt, family, reference] of [
+        [OVERHEAD_EXTENSION, 'extension', 'dumbbell_overhead_triceps_extension'],
+        [PUSHDOWN, 'extension', 'cable_triceps_pushdown'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe(family);
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.reference, prompt).toBe(reference);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
     },
     900_000,
   );

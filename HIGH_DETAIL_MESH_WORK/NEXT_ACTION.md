@@ -10,15 +10,26 @@ Read:
 
 ## First action
 
-Run:
+From `HIGH_DETAIL_MESH_WORK`, run:
 
-`HIGH_DETAIL_MESH_WORK/scripts/prepare_v15_deep_hand_blender.py`
+`START_V15_HAND.bat`
 
-Expected output:
+That is the authoritative start path. It first runs the fail-fast V15 preflight
+(branch/baseline hashes, protected contacts, Python helper syntax, required
+tools), creates the V15a diagnostic Blend from V13e if needed, and opens it in
+Blender with the **V15 Hand** helper sidebar loaded.
+
+Optional static check before opening Blender:
+
+`CHECK_PREPARED_TOOLING.bat`
+
+Expected first-attempt Blend:
 
 `HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend`
 
-The prep script changes no vertex positions. It creates diagnostic groups for protected push-up contacts, patch boundaries, sharp folds, safe rebuild core and per-digit ownership.
+The preparation step changes no vertex positions. It creates diagnostic groups
+for protected push-up contacts, patch boundaries, sharp folds, safe rebuild
+core and per-digit ownership.
 
 ## Geometry task
 

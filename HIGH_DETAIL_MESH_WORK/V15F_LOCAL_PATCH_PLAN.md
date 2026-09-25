@@ -224,3 +224,34 @@ For ring/pinky proof, scope, sharpness or severe-fold failures, read:
 `V15F_FAILURE_RECOVERY.md`
 
 Use the older `V15_FAILURE_RECOVERY.md` for export/frozen/current-source pipeline failures.
+
+
+## Prepared Stage B — index/middle
+
+After Stage-A numeric **and visual** PASS, read:
+
+`V15F_STAGE_B_PLAN.md`
+
+Stage B is also incremental:
+
+1. index_L
+2. index_R
+3. middle_L
+4. middle_R
+
+For each digit:
+1. edit only that digit;
+2. save/checkpoint;
+3. run:
+   `AUDIT_V15F_STAGE_B_DIGIT.bat <digit>`
+4. the numeric PASS automatically generates a matched V13e/V15f visual board;
+5. open it with:
+   `OPEN_V15F_STAGE_B_VISUAL.bat <digit>`
+6. record:
+   `MARK_V15F_STAGE_B_VISUAL.bat <digit> pass|fail`
+
+The Stage-B gate freezes the approved Stage-A ring/pinky surfaces by
+per-digit SHA-256 surface fingerprint and prevents later Stage-B digits from
+being touched early.
+
+`V15F_STATUS.bat` drives this sequence automatically.

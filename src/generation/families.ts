@@ -701,7 +701,8 @@ const hinge: GeneratorFamily<HingeVariant> = {
     );
 
     const romanian = /\bromanian\b|\brdls?\b|\bhip\s+hinges?\b/.test(slots.text);
-    if (/\bdeadlifts?\b/.test(slots.text) && !romanian) {
+    const namedNonRomanian = /\b(?:conventional|sumo|stiff[-\s]?leg(?:ged)?|single[-\s]?leg|one[-\s]?leg)\b/.test(slots.text);
+    if (/\bdeadlifts?\b/.test(slots.text) && !romanian && !namedNonRomanian) {
       issues.push(
         blocking(
           'variant',

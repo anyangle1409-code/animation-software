@@ -370,3 +370,12 @@ posed skinned vertices and handle transform as the grip metric.
 
 The dashboard still requires an explicit visual anatomy verdict. It does not
 auto-promote the candidate.
+
+
+## Resume after Work usage limit
+
+When a GPT Work session resumes after the 5-hour limit, read:
+
+`WORK_RESUME_AFTER_LIMIT.md`
+
+It is the authoritative unattended V15f resume sequence and supersedes any older generic V15 "start all eight digits" instruction.

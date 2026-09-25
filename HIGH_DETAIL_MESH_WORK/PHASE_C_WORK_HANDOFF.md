@@ -95,3 +95,23 @@ Then run the stronger certification on shortlisted JSON files:
 `EVALUATE_PHASE_C_GRIP.bat accepted_hand.glb candidate.json <label>`
 
 Seed generation never promotes a row and does not replace visual review.
+
+
+## Phase C visual review is also automated
+
+A successful/complete candidate evaluation generates:
+- baseline solid/contact overlay;
+- candidate solid/contact overlay;
+- baseline/candidate handle cross-sections;
+- baseline/candidate three-quarter grip views;
+- `phase_c_grip_review.html` with the numeric summary and matched images.
+
+Open it with:
+
+`OPEN_PHASE_C_GRIP_REVIEW.bat <label>`
+
+The images come from `review-assets/harnesses/gripview.test.mts`, using the same
+posed skinned vertices and handle transform as the grip metric.
+
+The dashboard still requires an explicit visual anatomy verdict. It does not
+auto-promote the candidate.

@@ -7,7 +7,8 @@ Run after the V15 Blender edit, before/after GLB export:
 
 This does not edit or save the candidate. It verifies that a deep digit rebuild
 did not leak into protected push-up contact, non-digit body/palm/thumb/wrist
-geometry, or skin data. Digit-interior source vertices may be removed/replaced.
+geometry, or skin data. All original V8-source vertex records must survive so
+the stable-ID GLB packer and downstream guards remain valid.
 """
 from __future__ import annotations
 
@@ -217,6 +218,7 @@ for sid in sorted(set(bmap) & set(cmap)):
 # V13e itself may contain inherited hand boundaries/folds; V15 must not make
 # topology health worse while rebuilding the digit surface.
 checks = {
+    "all_original_source_ids_present": not missing,
     "protected_source_ids_present": not missing_protected,
     "protected_positions_exact": protected_move < 1e-6,
     "protected_bone_weights_exact": protected_weight_changed == 0,
@@ -248,8 +250,8 @@ report = {
     "checks": checks,
     "pass": all(checks.values()),
     "note": (
-        "Digit-interior source IDs may be intentionally removed/replaced. "
-        "Protected and non-digit source IDs may not."
+        "All original V8-source IDs must survive. Rebuild topology by "
+        "rewiring/retriangulating and adding vertices, not by deleting source vertices."
     ),
 }
 REPORT.parent.mkdir(parents=True, exist_ok=True)

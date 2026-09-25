@@ -2,9 +2,12 @@ import type { BoneName } from '../rig/boneNames';
 import type { Axis } from '../rig/types';
 import type { HandSpec } from '../exercises/types';
 import type { CameraPresetId } from '../viewer/cameraTypes';
+import type { PointRef } from '../constraints/types';
 
 export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press';
 export type ReferenceScale = 'standingHeight' | 'shoulderWidth' | 'armLength' | 'torsoLength';
+/** A reference landmark: shorthand bone name or the technique engine's full PointRef. */
+export type ReferencePoint = BoneName | PointRef;
 export type ReferenceStatus = 'draft' | 'certified';
 export type ReferenceCheckStatus = 'pass' | 'fail' | 'skip';
 export type ReferenceSeverity = 'error' | 'warning';
@@ -56,8 +59,8 @@ export interface RootPositionEnvelopeCheck extends ReferenceCheckBase {
 /** World landmark position relative to another joint. */
 export interface RelativeLandmarkEnvelopeCheck extends ReferenceCheckBase {
   kind: 'relativeLandmarkEnvelope';
-  point: BoneName;
-  relativeTo: BoneName;
+  point: ReferencePoint;
+  relativeTo: ReferencePoint;
   axis: Axis;
   envelope: NumericEnvelope;
   normalizeBy?: ReferenceScale;
@@ -74,7 +77,7 @@ export interface SegmentAngleEnvelopeCheck extends ReferenceCheckBase {
 /** Maximum world-space drift from the first selected sample. */
 export interface LandmarkStationaryCheck extends ReferenceCheckBase {
   kind: 'landmarkStationary';
-  bone: BoneName;
+  bone: ReferencePoint;
   tolerance: number;
   normalizeBy?: ReferenceScale;
 }
@@ -82,8 +85,8 @@ export interface LandmarkStationaryCheck extends ReferenceCheckBase {
 /** Distance between two landmarks, optionally on one world axis. */
 export interface LandmarkDistanceEnvelopeCheck extends ReferenceCheckBase {
   kind: 'landmarkDistanceEnvelope';
-  from: BoneName;
-  to: BoneName;
+  from: ReferencePoint;
+  to: ReferencePoint;
   axis?: Axis;
   envelope: NumericEnvelope;
   normalizeBy?: ReferenceScale;
@@ -114,7 +117,7 @@ export interface PhaseOrderCheck extends ReferenceCheckBase {
  */
 export interface LandmarkMonotonicCheck extends ReferenceCheckBase {
   kind: 'landmarkMonotonic';
-  bone: BoneName;
+  bone: ReferencePoint;
   axis: Axis;
   phase: string;
   direction: 'increasing' | 'decreasing';

@@ -4,7 +4,7 @@ This never merges the source branch into the mesh branch. It resolves/fetches
 chatgpt/absolute-retarget-imports, creates a detached git worktree, runs the
 source suite once, then runs every current REAL_CHARACTER_GLB-dependent gate
 against production, V8, V13e and V15. Logs/reports are kept in
-HIGH_DETAIL_MESH_WORK/reports/current_source_v15/.
+HIGH_DETAIL_MESH_WORK/reports/current_source_<version>/.
 
 The detached worktree is removed at the end unless --keep-worktree is passed.
 """
@@ -215,7 +215,7 @@ def main():
         # Reuse the current source's own table generator.
         table = run(
             [sys.executable, WORKTREE / "scripts" / "mesh-coordination-report.py",
-             str(OUT), "production", "v8", "v13e", "v15"],
+             str(out), "production", "v8", "v13e", "v15"],
             WORKTREE, check=True,
             log=out / "coordination_tables.md",
         )

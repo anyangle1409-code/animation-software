@@ -70,6 +70,7 @@ def main():
         rows.append((key, title, base, cand, diff))
 
     audit = read_json(ROOT / "reports" / f"audit_{version}_blender.json")
+    v14_audit = read_json(ROOT / "reports" / "audit_v14e_finger_body_trial_blender.json")
     visual = read_json(ROOT / "reports" / f"{version}_visual_change_metrics.json")
     integration = read_json(ROOT / "reports" / f"current_source_{version}" / "integration_report.json")
     frozen = read_json(ROOT / "reports" / f"{version}_frozen_pipeline_status.json")
@@ -95,13 +96,25 @@ def main():
 
     facet_rows = ""
     if audit:
+        v14_surface = (
+            v14_audit.get("candidate_topology", {}).get("per_digit_surface", {})
+            if v14_audit else {}
+        )
         for item in audit.get("remaining_faceting_priority", []):
+            v14_item = v14_surface.get(item["digit"])
+            delta_v14 = (
+                item["candidate_sharp_ratio_gt_35"]
+                - v14_item.get("sharp_length_ratio_gt_35", 0.0)
+                if v14_item else None
+            )
+            delta_v14_text = f"{delta_v14:+.4f}" if delta_v14 is not None else "—"
             facet_rows += (
                 "<tr>"
                 f"<td>{html.escape(str(item['digit']))}</td>"
                 f"<td>{item['candidate_sharp_ratio_gt_35']:.4f}</td>"
                 f"<td>{item['candidate_sharp_ratio_gt_50']:.4f}</td>"
                 f"<td>{item['delta_gt_35_vs_v13e']:+.4f}</td>"
+                f"<td>{delta_v14_text}</td>"
                 "</tr>"
             )
 
@@ -147,8 +160,8 @@ th,td{{border:1px solid #555;padding:7px;text-align:left}} pre{{white-space:pre-
 
 <h2>Remaining faceting priority</h2>
 <table>
-<tr><th>Digit</th><th>&gt;35° sharp-length ratio</th><th>&gt;50° ratio</th><th>Δ &gt;35° vs V13e</th></tr>
-{facet_rows or '<tr><td colspan="4">Audit not available</td></tr>'}
+<tr><th>Digit</th><th>&gt;35° sharp-length ratio</th><th>&gt;50° ratio</th><th>Δ &gt;35° vs V13e</th><th>Δ &gt;35° vs rejected V14e</th></tr>
+{facet_rows or '<tr><td colspan="5">Audit not available</td></tr>'}
 </table>
 
 <h2>Matched views and difference maps</h2>

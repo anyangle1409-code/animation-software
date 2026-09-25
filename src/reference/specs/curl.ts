@@ -189,6 +189,12 @@ export function curlReferenceFor(exercise: ExerciseDefinition): ReferenceSpec {
     applicability: { handOrientation: orientation, support: incline ? 'incline' : 'standing' },
     provenance:
       'HOME GYM PT internal reference draft. Values are stored independently of curlFamily and require explicit reference review before certification.',
+    reviewViews: [
+      { id: 'front', label: 'Front', preset: 'front', target: 'full_body' },
+      { id: 'side', label: 'Side', preset: 'right', target: 'full_body' },
+      { id: 'three_quarter', label: 'Three-quarter', preset: 'three_quarter', target: 'upper_body' },
+      { id: 'grip_closeup', label: 'Grip close-up', preset: 'focus', target: 'hands' },
+    ],
     checks,
   };
 }

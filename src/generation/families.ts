@@ -1226,6 +1226,90 @@ const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Calf raise
+// ---------------------------------------------------------------------------
+
+const calf: GeneratorFamily<CalfVariant> = {
+  id: 'calf',
+  label: 'Calf raise',
+  builder: 'calfFamily',
+  detect: /\bcalf\s+raises?\b/,
+
+  library: ['standing_calf_raise', 'dumbbell_calf_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bseated\b/, 'a seated calf raise changes the knee angle and soleus emphasis; the family is standing only.'],
+        [/\bsingle[-\s]?leg\b|\bone[-\s]?leg\b/, 'a single-leg calf raise is unilateral and needs a different balance/contact solve.'],
+        [/\bdonkey\b/, 'a donkey calf raise uses a bent-over hip position; not built by this family.'],
+        [/\bbarbell\b|\bmachine\b|\bleg\s+press\b/, 'the certified loaded calf raise uses paired dumbbells at the sides.'],
+        [/\bstep\b|\bblock\b/, 'raising from a step adds a below-floor heel stretch the current floor contact does not model.'],
+      ],
+      issues,
+    );
+
+    const wantsDumbbells =
+      slots.loads.length > 0 || slots.equipment.some((slot) => slot.value === 'dumbbell');
+
+    let load = 0;
+    let tempo: ExerciseIntent['tempo'];
+    if (wantsDumbbells) {
+      const common = interpretCommon(slots, 'calf raise', 'dumbbell', 14, assumptions, issues);
+      load = common.load;
+      tempo = common.tempo;
+    } else {
+      const common = interpretCommon(slots, 'calf raise', 'bodyweight', 0, assumptions, issues);
+      tempo = common.tempo;
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'calf raise', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the calf raise has no adjustable body angle input.'));
+    }
+
+    return {
+      intent: {
+        prompt,
+        family: 'calf',
+        equipment: wantsDumbbells ? 'dumbbell' : 'bodyweight',
+        execution: 'bilateral',
+        ...(wantsDumbbells ? { grip: 'neutral' as const } : {}),
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const loaded = intent.equipment === 'dumbbell';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(loaded ? 'Dumbbell Calf Raise' : 'Standing Calf Raise', intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". A standing calf raise over the balls of both feet, knees held soft and still' +
+        (loaded ? ', with ' + formatLoad(intent.load) + ' in each hand' : ', using bodyweight') +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      ...(loaded ? { mass: intent.load } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: calfFamily,
+
+  reference: (intent) => (intent.equipment === 'dumbbell' ? 'dumbbell_calf_raise' : 'standing_calf_raise'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1238,6 +1322,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   raise as unknown as GeneratorFamily,
   extension as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
+  calf as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

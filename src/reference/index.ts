@@ -1,3 +1,5 @@
+export { analyseSilhouetteRgba, compareSilhouetteMetrics, silhouetteSanity } from './silhouette';
+export type { SilhouetteBounds, SilhouetteComparison, SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 export { captureReferenceEvidence } from './reviewSession';
 export { browserReviewCaptureAvailable, captureReviewRequests, installBrowserReviewCaptureAdapter } from './browserCapture';
 export { captureReviewBatch } from './captureController';
@@ -6,7 +8,7 @@ export { bodyNormalization, normalizeDelta, normalizePoint } from './normalize';
 export type { BodyNormalization } from './normalize';
 export { compareNormalizedTrajectories, sampleNormalizedRelativeTrajectory } from './trajectory';
 export type { NormalizationScale, NormalizedTrajectoryPoint, TrajectoryComparison } from './trajectory';
-export { buildCaptureRequests, DEFAULT_REVIEW_VIEWPORT } from './capturePlan';
+export { buildCaptureRequests, buildEvidenceCaptureRequests, DEFAULT_REVIEW_VIEWPORT } from './capturePlan';
 export type {
   CaptureCameraRequest,
   CaptureViewportProfile,
@@ -14,6 +16,7 @@ export type {
   ReviewEvidenceBatch,
   ReviewImageEvidence,
   ReviewImageEvidenceMeta,
+  ReviewRenderMode,
 } from './evidence';
 export { sampleLandmarks, sampleLandmarkTrajectory } from './landmarks';
 export type { LandmarkFrame } from './landmarks';

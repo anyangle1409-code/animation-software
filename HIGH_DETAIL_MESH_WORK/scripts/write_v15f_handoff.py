@@ -110,6 +110,16 @@ def main():
     else:
         lines.append("- Stage A visual: missing")
 
+    lines += ["", "## Stage B"]
+    for key in ("index_L", "index_R", "middle_L", "middle_R"):
+        gate = state(ROOT / "reports" / f"v15f_stage_b_{key}_gate.json")
+        visual = read_json(ROOT / "reports" / f"v15f_stage_b_{key}_visual_decision.json")
+        visual_text = (
+            f"{visual.get('decision', 'UNKNOWN')} — {visual.get('notes', '')}"
+            if visual else "missing"
+        )
+        lines.append(f"- {key}: numeric {gate}; visual {visual_text}")
+
     if audit:
         lines += [
             "",

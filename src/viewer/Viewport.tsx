@@ -19,6 +19,7 @@ import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
 import { advancePlaybackTime } from '../editor/playback';
 import { equipmentSocketForInstance } from '../equipment/library';
+import { ReviewCaptureBridge } from './ReviewCaptureBridge';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -377,6 +378,7 @@ export function Viewport() {
         />
 
         <FrameDriver />
+        <ReviewCaptureBridge />
         <Figure />
         <Gizmo />
         <HandleGizmo />

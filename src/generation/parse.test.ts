@@ -100,6 +100,53 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
   });
 
+  it('reads both certified triceps-extension variants', () => {
+    const overhead = parsePrompt('Create a standing overhead triceps extension with 10 kg dumbbells and slow tempo.');
+    expect(overhead.issues).toEqual([]);
+    expect(overhead.intent).toMatchObject({
+      family: 'extension',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 10,
+      tempo: { profile: 'slow' },
+    });
+
+    const pushdown = parsePrompt('Create a cable triceps pushdown with a straight bar and controlled tempo.');
+    expect(pushdown.issues).toEqual([]);
+    expect(pushdown.intent).toMatchObject({
+      family: 'extension',
+      equipment: 'cable',
+      grip: 'pronated',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('reads lateral and front dumbbell raises', () => {
+    const lateral = parsePrompt('Create a standing dumbbell lateral raise with 6 kg dumbbells.');
+    expect(lateral.issues).toEqual([]);
+    expect(lateral.intent).toMatchObject({
+      family: 'raise',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 6,
+    });
+
+    const front = parsePrompt('Create a dumbbell front raise with 7 kg dumbbells and slow tempo.');
+    expect(front.issues).toEqual([]);
+    expect(front.intent).toMatchObject({
+      family: 'raise',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      load: 7,
+      tempo: { profile: 'slow' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -145,10 +192,16 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('one-arm bent-over row')).toContain('variant');
     expect(blocking('barbell bent-over row')).toContain('variant');
     expect(blocking('seated cable row')).toContain('variant');
+    expect(blocking('triceps extension')).toContain('variant');
+    expect(blocking('rope triceps pushdown')).toContain('variant');
+    expect(blocking('cable triceps pushdown with 30 kg')).toContain('load');
+    expect(blocking('seated overhead triceps extension')).toContain('support');
+    expect(blocking('bent-over lateral raise')).toContain('variant');
+    expect(blocking('cable lateral raise')).toContain('equipment');
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

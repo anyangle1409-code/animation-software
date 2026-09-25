@@ -3,7 +3,11 @@ import { curlFamily } from '../exercises/families/curl';
 import type { CurlVariant } from '../exercises/families/curl';
 import { pressFamily } from '../exercises/families/press';
 import type { PressVariant } from '../exercises/families/press';
-import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentIssue, IntentSupport } from './intent';
+import { squatFamily } from '../exercises/families/squat';
+import type { SquatVariant } from '../exercises/families/squat';
+import { lungeFamily } from '../exercises/families/lunge';
+import type { LungeVariant } from '../exercises/families/lunge';
+import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
 import { distinct } from './slots';
@@ -76,52 +80,81 @@ const blocking = (code: string, message: string): IntentIssue => ({ code, messag
 const quote = (words: string[]) => words.map((word) => `"${word}"`).join(' and ');
 
 /**
- * The slots every dumbbell family reads the same way: implement, execution,
- * load and tempo. Grip and support differ by family and are left to it.
+ * The slots every family reads the same way: implement, execution, load and
+ * tempo. Grip and support differ by family and are left to it.
+ *
+ * `implement` says what the family holds. A dumbbell family reads a load and
+ * refuses any other equipment; a bodyweight family holds nothing yet, so any
+ * load or equipment named is refused instead of silently dropped — the family
+ * cannot really carry it.
  */
 function interpretCommon(
   slots: PromptSlots,
   family: string,
+  implement: IntentImplement,
   defaultLoad: number,
   assumptions: string[],
   issues: IntentIssue[],
 ): { load: number; tempo: ExerciseIntent['tempo'] } {
-  const others = slots.equipment.filter((slot) => slot.value !== 'dumbbell');
-  if (others.length > 0) {
-    issues.push(
-      blocking(
-        'equipment',
-        `${quote(others.map((slot) => slot.words))}: the ${family} family is certified with dumbbells only.`,
-      ),
-    );
-  } else if (slots.equipment.length === 0) {
-    assumptions.push('Dumbbells, one in each hand — the implement this family is certified with.');
+  let load = defaultLoad;
+  if (implement === 'dumbbell') {
+    const others = slots.equipment.filter((slot) => slot.value !== 'dumbbell');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} family is certified with dumbbells only.`,
+        ),
+      );
+    } else if (slots.equipment.length === 0) {
+      assumptions.push('Dumbbells, one in each hand — the implement this family is certified with.');
+    }
+
+    const loads = distinct(slots.loads);
+    if (loads.length > 1) {
+      issues.push(blocking('load', `Several loads were given (${quote(slots.loads.map((slot) => slot.words))}); say which one per hand.`));
+    } else if (loads.length === 1) {
+      load = loads[0];
+      if (!(load >= 1 && load <= 60)) {
+        issues.push(blocking('load', `${slots.loads[0].words} per hand is outside the 1–60 kg a dumbbell rack holds; check the number.`));
+      }
+      if (/lb|pound/.test(slots.loads[0].words)) assumptions.push(`${slots.loads[0].words} read as ${load} kg per hand.`);
+      else assumptions.push(`${load} kg read as the load in each hand.`);
+    } else {
+      assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
+    }
+  } else {
+    const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} family is bodyweight only; it does not hold any load yet.`,
+        ),
+      );
+    } else {
+      assumptions.push('Bodyweight — no equipment, which is all this family is certified with.');
+    }
+    if (slots.loads.length > 0) {
+      issues.push(
+        blocking(
+          'load',
+          `${quote(slots.loads.map((slot) => slot.words))}: the ${family} family is bodyweight only; it does not hold any load yet.`,
+        ),
+      );
+    }
+    load = 0;
   }
 
   if (slots.execution.length > 0) {
     issues.push(
       blocking(
         'execution',
-        `${quote(slots.execution.map((slot) => slot.words))}: only both arms together is certified. ` +
-          'Alternating and single-arm work change the whole repetition, so it is not substituted silently — ' +
-          'ask for the two-arm version to proceed.',
+        `${quote(slots.execution.map((slot) => slot.words))}: only the plain, even-sided movement is certified. ` +
+          'Alternating and single-side work change the whole repetition, so it is not substituted silently — ' +
+          'ask for the plain version to proceed.',
       ),
     );
-  }
-
-  const loads = distinct(slots.loads);
-  let load = defaultLoad;
-  if (loads.length > 1) {
-    issues.push(blocking('load', `Several loads were given (${quote(slots.loads.map((slot) => slot.words))}); say which one per hand.`));
-  } else if (loads.length === 1) {
-    load = loads[0];
-    if (!(load >= 1 && load <= 60)) {
-      issues.push(blocking('load', `${slots.loads[0].words} per hand is outside the 1–60 kg a dumbbell rack holds; check the number.`));
-    }
-    if (/lb|pound/.test(slots.loads[0].words)) assumptions.push(`${slots.loads[0].words} read as ${load} kg per hand.`);
-    else assumptions.push(`${load} kg read as the load in each hand.`);
-  } else {
-    assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
   }
 
   const tempos = slots.tempo;
@@ -226,7 +259,8 @@ const tempoWords = (intent: ExerciseIntent) =>
 
 /** Identity for a generated candidate: prefixed so it can never collide with the library. */
 function identity(title: string, intent: ExerciseIntent) {
-  const name = `${title} (${formatLoad(intent.load)})`;
+  const loadWords = intent.equipment === 'dumbbell' ? formatLoad(intent.load) : '';
+  const name = loadWords ? `${title} (${loadWords})` : title;
   const tempo =
     'explicit' in intent.tempo
       ? `tempo_${[intent.tempo.explicit.eccentric, intent.tempo.explicit.pauseStretched, intent.tempo.explicit.concentric, intent.tempo.explicit.pauseContracted].join('_')}`
@@ -234,7 +268,7 @@ function identity(title: string, intent: ExerciseIntent) {
         ? ''
         : intent.tempo.profile;
   return {
-    id: slug(['generated', title, formatLoad(intent.load), tempo].join(' ')),
+    id: slug(['generated', title, loadWords, tempo].join(' ')),
     name,
     clipName: `generated_${slug(title)}`,
   };
@@ -338,7 +372,7 @@ const curl: GeneratorFamily<CurlVariant> = {
       issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))} has nothing to apply to in a standing curl.`));
     }
 
-    const { load, tempo } = interpretCommon(slots, 'curl', 10, assumptions, issues);
+    const { load, tempo } = interpretCommon(slots, 'curl', 'dumbbell', 10, assumptions, issues);
     return {
       intent: { prompt, family: 'curl', equipment: 'dumbbell', execution: 'bilateral', grip, support, benchAngle, load, tempo },
       assumptions,
@@ -347,7 +381,7 @@ const curl: GeneratorFamily<CurlVariant> = {
   },
 
   variant(intent) {
-    const grip = intent.grip;
+    const grip = intent.grip!;
     const known = CURL_GRIP[grip];
     const incline = intent.support === 'incline';
     const title = `${incline ? 'Incline' : 'Standing'} ${known.title}`;
@@ -370,7 +404,7 @@ const curl: GeneratorFamily<CurlVariant> = {
 
   reference(intent) {
     if (intent.support === 'incline') return 'incline_dumbbell_curl';
-    return { supinated: 'dumbbell_bicep_curl', neutral: 'dumbbell_hammer_curl', pronated: 'dumbbell_reverse_curl' }[intent.grip];
+    return { supinated: 'dumbbell_bicep_curl', neutral: 'dumbbell_hammer_curl', pronated: 'dumbbell_reverse_curl' }[intent.grip!];
   },
 
   levers: [
@@ -444,7 +478,7 @@ const overheadPress: GeneratorFamily<PressVariant> = {
     if (slots.angles.length > 0) {
       issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the press family has no adjustable angle.`));
     }
-    const { load, tempo } = interpretCommon(slots, 'overhead press', 12, assumptions, issues);
+    const { load, tempo } = interpretCommon(slots, 'overhead press', 'dumbbell', 12, assumptions, issues);
     return {
       intent: { prompt, family: 'overhead_press', equipment: 'dumbbell', execution: 'bilateral', grip, support, load, tempo },
       assumptions,
@@ -477,10 +511,168 @@ const overheadPress: GeneratorFamily<PressVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Squat
+// ---------------------------------------------------------------------------
+
+/**
+ * The squat family builds one certified variant: the bodyweight air squat. A
+ * squat's detect excludes "split squat", which is the lunge family's
+ * reference variant — without the exclusion both families would match the
+ * same words and the request would be refused as ambiguous.
+ */
+const squat: GeneratorFamily<SquatVariant> = {
+  id: 'squat',
+  label: 'Squat',
+  builder: 'squatFamily',
+  detect: /(?<!split\s)squats?\b/,
+  library: ['air_squat'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    unsupportedNames(
+      slots,
+      [
+        [/\bgoblet\b/, 'a goblet squat holds a dumbbell or kettlebell at the chest; the squat family is bodyweight only, not certified for generation yet.'],
+        [/\bfront\b/, 'a front squat racks a barbell across the shoulders; not certified.'],
+        [/\bback\b/, 'a back squat racks a barbell across the shoulders; not certified.'],
+        [/\boverhead\b/, 'an overhead squat holds a barbell locked out overhead; not certified.'],
+        [/\bzercher\b/, 'a Zercher squat carries the bar in the crooks of the elbows; not certified.'],
+        [/\bbox\b/, 'a box squat sits onto a box at the bottom; the family squats to depth without one, not certified.'],
+        [/\bpistol\b/, 'a pistol squat is single-leg; the family is certified two-legged only.'],
+        [/\bjump(?:ing)?\b/, 'a jump squat is plyometric; the family holds a controlled tempo throughout.'],
+        [/\bsumo\b/, 'a sumo squat widens the stance beyond what the family is certified at.'],
+        [/\bhack\b/, 'a hack squat needs a machine the equipment library does not have.'],
+        [/\bbulgarian\b/, 'a Bulgarian split squat rests the back foot on a bench; that is not certified either.'],
+      ],
+      issues,
+    );
+
+    const { tempo } = interpretCommon(slots, 'squat', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: { prompt, family: 'squat', equipment: 'bodyweight', execution: 'bilateral', support: 'standing', load: 0, tempo },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Bodyweight Squat', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A bodyweight squat to depth with a shoulder-width stance, ` +
+        `the feet planted and the hips and knees bending together${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: squatFamily,
+
+  reference: () => 'air_squat',
+
+  // No lever yet: the family's one certified variant passes without one.
+  // One is added when a measured failure shows which parameter resolves it.
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
+// Lunge
+// ---------------------------------------------------------------------------
+
+/**
+ * The lunge family builds three certified variants: the static split squat
+ * (no step), the forward lunge (front foot steps) and the reverse lunge
+ * (back foot steps). `detect` also matches "split squat" — the family's own
+ * static reference variant — alongside "lunge".
+ */
+const lunge: GeneratorFamily<LungeVariant> = {
+  id: 'lunge',
+  label: 'Lunge',
+  builder: 'lungeFamily',
+  detect: /\blunges?\b|\bsplit\s+squats?\b/,
+  library: ['split_squat', 'forward_lunge', 'reverse_lunge'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    unsupportedNames(
+      slots,
+      [
+        [/\bwalking\b/, 'a walking lunge steps continuously without returning to standing; not certified.'],
+        [/\blateral\b|\bside\b/, 'a lateral lunge steps sideways, a different plane the family does not build.'],
+        [/\bcurtsy\b/, 'a curtsy lunge steps behind and across the body; not certified.'],
+        [/\bjump(?:ing)?\b/, 'a jumping lunge is plyometric; the family holds a controlled tempo throughout.'],
+        [/\bbulgarian\b/, 'a Bulgarian split squat rests the back foot on a bench; not certified.'],
+        [/\bdiagonal\b/, 'a diagonal lunge steps off the straight line forward and back; not certified.'],
+        [/\btwist(?:ing)?\b|\brotat/, 'a lunge with a twist adds trunk rotation the family does not build.'],
+      ],
+      issues,
+    );
+
+    const forward = /\bforward\b/.test(slots.text);
+    const back = /\b(?:reverse|back(?:ward)?)\b/.test(slots.text);
+    const split = /\bsplit\s+squats?\b/.test(slots.text) || /\bstatic\b|\bstationary\b/.test(slots.text);
+
+    let step: 'forward' | 'back' | undefined;
+    if (forward && back) {
+      issues.push(blocking('variant', 'The lunge is asked to step both forward and back; say which.'));
+    } else if (split && (forward || back)) {
+      issues.push(
+        blocking('variant', 'A split squat does not step; ask for the split squat, the forward lunge or the reverse lunge, not more than one.'),
+      );
+    } else if (split) {
+      assumptions.push('The split squat: both feet stay put and the body sinks straight down between them.');
+    } else if (forward) {
+      step = 'forward';
+    } else if (back) {
+      step = 'back';
+    } else {
+      step = 'forward';
+      assumptions.push('No step direction was named; read as the forward lunge, stepping in from standing.');
+    }
+
+    const { tempo } = interpretCommon(slots, 'lunge', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: { prompt, family: 'lunge', equipment: 'bodyweight', execution: 'bilateral', support: 'standing', step, load: 0, tempo },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const title = intent.step === 'forward' ? 'Forward Lunge' : intent.step === 'back' ? 'Reverse Lunge' : 'Bodyweight Split Squat';
+    const shape =
+      intent.step === 'forward'
+        ? 'from standing, one long step forward, lowering until the back knee is just above the floor, then a push back to standing'
+        : intent.step === 'back'
+          ? 'from standing, one long step back, lowering until the back knee is just above the floor, then a drive back to standing'
+          : 'a static split stance, sinking straight down until the back knee is just above the floor, then driving back up';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(title, intent),
+      description: `Generated from "${intent.prompt.trim()}". A lunge: ${shape}${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(intent.step ? { step: intent.step } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: lungeFamily,
+
+  reference: (intent) => (intent.step === 'forward' ? 'forward_lunge' : intent.step === 'back' ? 'reverse_lunge' : 'split_squat'),
+
+  // No lever yet: every certified variant passes without one.
+  // One is added when a measured failure shows which parameter resolves it.
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
   overheadPress as unknown as GeneratorFamily,
+  squat as unknown as GeneratorFamily,
+  lunge as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

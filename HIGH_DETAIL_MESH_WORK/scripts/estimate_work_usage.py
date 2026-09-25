@@ -123,7 +123,9 @@ def main():
     high=max(low,min(100.0,estimate[1]*factor))
 
     budget=load(BUDGET,{})
-    remaining=budget.get("work_percent")
+    remaining=budget.get("work_window_percent")
+    if remaining is None:
+        remaining=budget.get("work_percent")
     recommendation="UNKNOWN_BUDGET"
     if isinstance(remaining,(int,float)):
         if task=="local_script":

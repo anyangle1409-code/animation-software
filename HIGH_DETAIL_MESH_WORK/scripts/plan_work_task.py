@@ -146,7 +146,7 @@ def main():
     # Escalate one profile only after a failed genuine attempt. Do not jump to
     # high reasoning by default; OpenAI notes higher effort is not always better.
     index=min(max(args.failed_attempts,0),len(profiles)-1)
-    ordered=profiles[index:]+profiles[:index]
+    ordered=profiles[index:]
 
     considered=[]
     selected=None

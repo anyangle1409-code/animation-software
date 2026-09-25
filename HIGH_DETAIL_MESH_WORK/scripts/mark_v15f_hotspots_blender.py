@@ -1,11 +1,12 @@
-"""Add non-destructive V15f ring/pinky fold hotspot selections/guides.
+"""Add non-destructive V15f digit fold hotspot selections/guides.
 
 Run inside:
   HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend
 
-This script must not move geometry. It creates diagnostic vertex groups from
-current V13e-derived surface dihedral angles and PIP/DIP proximity, then saves
-the same Blend.
+This script must not move geometry. It creates diagnostic vertex groups for
+index/middle/ring/pinky from current V13e-derived surface dihedral angles and
+PIP/DIP proximity, then saves the same Blend. Stage A still edits ring/pinky
+only; index/middle groups are prepared in advance for Stage B.
 
 Groups:
   V15F_<DIGIT>_<SIDE>_GT35/GT50/GT75/GT100
@@ -29,7 +30,7 @@ DEFAULT_BLEND = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebu
 REPORT = ROOT / "reports" / "prepare_v15f_hotspots.json"
 BODY = "Mike_Freeman"
 RIG = "HomeGymPT_Male_Rig"
-DIGITS = ("ring", "pinky")
+DIGITS = ("index", "middle", "ring", "pinky")
 SIDES = ("L", "R")
 THRESHOLDS = (35, 50, 75, 100)
 

@@ -12,5 +12,15 @@
     "The controller never invokes GPT Work or Claude automatically.",
     "It routes tasks and runs only whitelisted local deterministic commands.",
     "Set auto_fetch_source=true only if periodic git fetch is wanted."
+  ],
+  "work_window_reserve_percent": 8,
+  "work_week_reserve_percent": 20,
+  "max_single_task_window_percent": 30,
+  "default_fast_mode": false,
+  "available_work_models": [
+    "Luna",
+    "Terra",
+    "Sol",
+    "Astra"
   ]
 }

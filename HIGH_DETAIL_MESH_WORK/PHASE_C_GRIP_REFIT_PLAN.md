@@ -262,3 +262,36 @@ The runner:
 
 A numeric PASS still requires the matched high-zoom visual grip boards described
 above before acceptance.
+
+
+## Prepared Phase C seed generation
+
+Before hand-editing a candidate row, generate coarse solver-derived seeds from
+the accepted hand:
+
+`GENERATE_PHASE_C_GRIP_SEEDS.bat accepted_hand.glb <label>`
+
+Default absolute handle-centre Y sweep (relative to the embedded centre):
+- 0 mm
+- -3 mm
+- -6 mm
+- -9 mm
+- -12 mm
+
+This range is grounded in the project's existing 0/-6/-9/-12 mm evidence. It is
+a coarse search, not an acceptance preference.
+
+For each centre the runner:
+- fetches the latest source in a disposable worktree;
+- reads the **current** shipped `homeGymPTMale` centre rather than assuming -9 mm;
+- runs the existing close-until-contact skinned solver on the accepted hand;
+- converts the solved curl-closure angles back to closure=1 `SolvedGrip` maxima;
+- verifies the same row on the mirrored right hand;
+- records per-digit/thumb/palm contact and wrap;
+- writes a standalone candidate JSON.
+
+Then run the stronger certification on shortlisted JSON files:
+
+`EVALUATE_PHASE_C_GRIP.bat accepted_hand.glb candidate.json <label>`
+
+Seed generation never promotes a row and does not replace visual review.

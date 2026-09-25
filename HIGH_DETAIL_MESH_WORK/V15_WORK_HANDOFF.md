@@ -161,3 +161,24 @@ When `RUN_V15_POST_EDIT_ALL.bat` runs, it creates a temporary export Blend and a
 - packs the GLB using the proven stable-ID hand packer.
 
 If that automation fails, report the exact failing vertex/UV/weight condition instead of manually changing unrelated geometry.
+
+
+## Two-command Work flow
+
+From `HIGH_DETAIL_MESH_WORK`:
+
+**Start / open the prepared Blender candidate**
+
+`START_V15_HAND.bat`
+
+This creates the V15a diagnostic Blend from V13e if it does not exist, then opens it in Blender with the body selected and the V15 guide groups/markers ready.
+
+After the actual finger geometry edit is saved:
+
+**Run everything after the edit**
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+That handles export preparation, GLB packing, bare variant, frozen validation, V13e/V15 matched renders, seam/fold checks, visual-change metrics, latest-source integration and the consolidated report.
+
+Those are the only two workflow commands Work should need around the actual Blender modelling.

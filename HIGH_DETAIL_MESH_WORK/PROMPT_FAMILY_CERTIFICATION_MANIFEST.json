@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "prepared_from_source_head": "47187360b5d631d438a6b33b284ad06732e244cb",
+  "total_family_builders": 16,
+  "total_library_exercises": 28,
+  "statuses": [
+    "CERTIFIED",
+    "NOT_CERTIFIED",
+    "IN_REVIEW",
+    "BLOCKED"
+  ],
+  "families": [
+    {
+      "id": "curl",
+      "builder": "curlFamily",
+      "file": "src/exercises/families/curl.ts",
+      "status": "CERTIFIED",
+      "order": null,
+      "library": [
+        "dumbbell_bicep_curl",
+        "dumbbell_hammer_curl",
+        "dumbbell_reverse_curl",
+        "incline_dumbbell_curl"
+      ]
+    },
+    {
+      "id": "overhead_press",
+      "builder": "pressFamily",
+      "file": "src/exercises/families/press.ts",
+      "status": "CERTIFIED",
+      "order": null,
+      "library": [
+        "dumbbell_shoulder_press",
+        "seated_dumbbell_shoulder_press"
+      ]
+    },
+    {
+      "id": "squat",
+      "builder": "squatFamily",
+      "file": "src/exercises/families/squat.ts",
+      "status": "CERTIFIED",
+      "order": null,
+      "library": [
+        "air_squat"
+      ]
+    },
+    {
+      "id": "lunge",
+      "builder": "lungeFamily",
+      "file": "src/exercises/families/lunge.ts",
+      "status": "CERTIFIED",
+      "order": null,
+      "library": [
+        "split_squat",
+        "forward_lunge",
+        "reverse_lunge"
+      ]
+    },
+    {
+      "id": "hinge",
+      "builder": "hingeFamily",
+      "file": "src/exercises/families/hinge.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 1,
+      "library": [
+        "dumbbell_romanian_deadlift"
+      ]
+    },
+    {
+      "id": "row",
+      "builder": "rowFamily",
+      "file": "src/exercises/families/row.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 2,
+      "library": [
+        "dumbbell_bent_over_row"
+      ]
+    },
+    {
+      "id": "raise",
+      "builder": "raiseFamily",
+      "file": "src/exercises/families/raise.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 3,
+      "library": [
+        "dumbbell_lateral_raise",
+        "dumbbell_front_raise"
+      ]
+    },
+    {
+      "id": "calf",
+      "builder": "calfFamily",
+      "file": "src/exercises/families/calf.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 4,
+      "library": [
+        "standing_calf_raise",
+        "dumbbell_calf_raise"
+      ]
+    },
+    {
+      "id": "horizontal_press",
+      "builder": "horizontalPressFamily",
+      "file": "src/exercises/families/horizontalPress.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 5,
+      "library": [
+        "push_up"
+      ]
+    },
+    {
+      "id": "supine",
+      "builder": "supineFamily",
+      "file": "src/exercises/families/supine.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 6,
+      "library": [
+        "dumbbell_bench_press",
+        "dumbbell_fly"
+      ]
+    },
+    {
+      "id": "trunk_flexion",
+      "builder": "trunkFlexionFamily",
+      "file": "src/exercises/families/trunkFlexion.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 7,
+      "library": [
+        "crunch",
+        "sit_up"
+      ]
+    },
+    {
+      "id": "extension",
+      "builder": "extensionFamily",
+      "file": "src/exercises/families/extension.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 8,
+      "library": [
+        "dumbbell_overhead_triceps_extension",
+        "cable_triceps_pushdown"
+      ]
+    },
+    {
+      "id": "vertical_pull",
+      "builder": "verticalPullFamily",
+      "file": "src/exercises/families/verticalPull.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 9,
+      "library": [
+        "pull_up"
+      ]
+    },
+    {
+      "id": "carry",
+      "builder": "carryFamily",
+      "file": "src/exercises/families/carry.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 10,
+      "library": [
+        "farmers_walk"
+      ]
+    },
+    {
+      "id": "anti_rotation",
+      "builder": "antiRotationFamily",
+      "file": "src/exercises/families/antiRotation.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 11,
+      "library": [
+        "cable_pallof_press"
+      ]
+    },
+    {
+      "id": "rotation",
+      "builder": "rotationFamily",
+      "file": "src/exercises/families/rotation.ts",
+      "status": "NOT_CERTIFIED",
+      "order": 12,
+      "library": [
+        "russian_twist",
+        "cable_woodchop"
+      ]
+    }
+  ]
+}

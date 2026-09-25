@@ -96,6 +96,7 @@ def main():
             "ring_L_gt35": float(cd["sharp_length_ratio_gt_35"]),
             "ring_L_gt50": float(cd["sharp_length_ratio_gt_50"]),
             "ring_L_gt100_folds": int(cd["dihedral_edge_count_gt_deg"]["100"]),
+            "surface_fingerprint_sha256": cd.get("surface_fingerprint_sha256"),
         },
         "scope_movement": movement,
         "checks": checks,

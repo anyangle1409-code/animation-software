@@ -1402,6 +1402,106 @@ const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Supine dumbbell press / fly
+// ---------------------------------------------------------------------------
+
+const supine: GeneratorFamily<SupineVariant> = {
+  id: 'supine',
+  label: 'Bench press / fly',
+  builder: 'supineFamily',
+  detect: /\b(?:dumbbell\s+)?bench\s+press(?:es)?\b|\b(?:dumbbell|chest)\s+fl(?:y|ies|yes)\b/,
+
+  library: ['dumbbell_bench_press', 'dumbbell_fly'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bincline\b|\bdecline\b/, 'the current supine family is calibrated on a flat bench only.'],
+        [/\bbarbell\b|\bez[-\s]?(?:curl[-\s]?)?bar\b/, 'the certified supine variants use paired dumbbells, not one rigid bar.'],
+        [/\bfloor\s+press\b/, 'a floor press has a different bottom range and no bench support; not certified.'],
+        [/\bclose[-\s]?grip\b|\bwide[-\s]?grip\b/, 'the current bench press uses its accepted dumbbell path and elbow angle; alternate widths are not certified.'],
+        [/\bsingle[-\s]?arm\b|\bone[-\s]?arm\b|\bunilateral\b/, 'the accepted supine variants are even two-arm movements.'],
+        [/\bmachine\b|\bcable\b/, 'machine/cable chest work uses a different equipment path from the dumbbell family.'],
+      ],
+      issues,
+    );
+
+    const fly = /\bfl(?:y|ies|yes)\b/.test(slots.text);
+    const supineMotion: SupineVariant['motion'] = fly ? 'fly' : 'press';
+    const expectedGrip: IntentGrip = fly ? 'neutral' : 'pronated';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified ' + (fly ? 'dumbbell fly' : 'dumbbell bench press') +
+            ' uses a ' + expectedGrip + ' grip; the requested grip is not certified.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['bench'], fly ? 'dumbbell fly' : 'dumbbell bench press', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': only the calibrated flat bench is certified.'));
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      fly ? 'dumbbell fly' : 'dumbbell bench press',
+      'dumbbell',
+      fly ? 10 : 16,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'supine',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        supineMotion,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const motion = intent.supineMotion ?? 'press';
+    const tempo = tempoOf(intent);
+    const title = motion === 'fly' ? 'Dumbbell Fly' : 'Dumbbell Bench Press';
+    return {
+      ...identity(title, intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". ' +
+        (motion === 'fly'
+          ? 'Lying on the calibrated flat bench, opening paired dumbbells wide on soft fixed elbows and sweeping them back over the chest'
+          : 'Lying on the calibrated flat bench, lowering paired dumbbells beside the chest and pressing them over the shoulders') +
+        ', ' + formatLoad(intent.load) + ' in each hand' +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      motion,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: supineFamily,
+
+  reference: (intent) => (intent.supineMotion === 'fly' ? 'dumbbell_fly' : 'dumbbell_bench_press'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1416,6 +1516,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   horizontalPress as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
   trunkFlexion as unknown as GeneratorFamily,
+  supine as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

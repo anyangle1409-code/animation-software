@@ -73,6 +73,14 @@ V15f Stage A is deliberately incremental:
 The purpose is to prove the topology strategy on the smallest possible surface
 before spending usage propagating it.
 
+## Resume/status command
+
+At any interruption or uncertain resume point, run:
+
+`V15F_STATUS.bat`
+
+It reports the current V15f artifacts/gates and the next documented action.
+
 ## First commands
 
 From `HIGH_DETAIL_MESH_WORK` run:

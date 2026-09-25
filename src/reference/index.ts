@@ -1,3 +1,7 @@
+export { bodyNormalization, normalizeDelta, normalizePoint } from './normalize';
+export type { BodyNormalization } from './normalize';
+export { compareNormalizedTrajectories, sampleNormalizedRelativeTrajectory } from './trajectory';
+export type { NormalizationScale, NormalizedTrajectoryPoint, TrajectoryComparison } from './trajectory';
 export { buildCaptureRequests, DEFAULT_REVIEW_VIEWPORT } from './capturePlan';
 export type { CaptureCameraRequest, CaptureViewportProfile, ReviewCaptureRequest, ReviewEvidenceBatch, ReviewImageEvidence, ReviewImageEvidenceMeta } from './evidence';
 export { sampleLandmarks, sampleLandmarkTrajectory } from './landmarks';

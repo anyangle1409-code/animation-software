@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
-import { Matrix4, PerspectiveCamera, Quaternion, Vector3, WebGLRenderTarget } from 'three';
+import { Color, Matrix4, MeshBasicMaterial, PerspectiveCamera, Quaternion, Vector3, WebGLRenderTarget } from 'three';
 import { useCharacter } from '../editor/characterStore';
 import { skeleton, useStudio } from '../editor/store';
 import type { Backdrop, Selection, ViewMode } from '../editor/store';
@@ -11,6 +11,7 @@ import type { ReviewCaptureRequest } from '../reference/evidence';
 import { sampleLandmarks } from '../reference/landmarks';
 import { resolveReviewCamera } from '../reference/reviewCamera';
 import type { ReferenceReviewView } from '../reference/types';
+import { analyseSilhouetteRgba, silhouetteSanity } from '../reference/silhouette';
 
 interface ViewportSnapshot {
   studio: {
@@ -236,6 +237,11 @@ export function ReviewCaptureBridge() {
         const previousAspect = camera.aspect;
         const previousNear = camera.near;
         const previousFar = camera.far;
+        const previousOverrideMaterial = scene.overrideMaterial;
+        const previousBackground = scene.background;
+        const previousClearColor = gl.getClearColor(new Color()).clone();
+        const previousClearAlpha = gl.getClearAlpha();
+        let silhouetteMaterial: MeshBasicMaterial | null = null;
 
         const target = new WebGLRenderTarget(width, height, {
           depthBuffer: true,
@@ -253,6 +259,13 @@ export function ReviewCaptureBridge() {
           camera.updateProjectionMatrix();
           camera.updateMatrixWorld(true);
 
+          if (request.renderMode === 'silhouette') {
+            silhouetteMaterial = new MeshBasicMaterial({ color: 0xffffff });
+            scene.overrideMaterial = silhouetteMaterial;
+            scene.background = new Color(0x000000);
+            gl.setClearColor(0x000000, 1);
+          }
+
           gl.setRenderTarget(target);
           gl.clear(true, true, true);
           gl.render(scene, camera);
@@ -260,9 +273,24 @@ export function ReviewCaptureBridge() {
           const pixels = new Uint8Array(width * height * 4);
           gl.readRenderTargetPixels(target, 0, 0, width, height, pixels);
           const blob = await canvasPng(pixels, width, height);
+
+          if (request.renderMode === 'silhouette') {
+            const metrics = analyseSilhouetteRgba(pixels, width, height);
+            return {
+              bytes: blob,
+              width,
+              height,
+              silhouette: { metrics, sanity: silhouetteSanity(metrics) },
+            };
+          }
+
           return { bytes: blob, width, height };
         } finally {
           gl.setRenderTarget(previousTarget);
+          scene.overrideMaterial = previousOverrideMaterial;
+          scene.background = previousBackground;
+          gl.setClearColor(previousClearColor, previousClearAlpha);
+          silhouetteMaterial?.dispose();
           target.dispose();
           camera.position.copy(previousPosition);
           camera.quaternion.copy(previousQuaternion);

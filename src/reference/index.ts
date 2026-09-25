@@ -1,3 +1,6 @@
+export { horizontalPressReferenceFor } from './specs/horizontalPress';
+export { calfReferenceFor } from './specs/calf';
+export { trunkFlexionReferenceFor } from './specs/trunkFlexion';
 export { verticalPullReferenceFor } from './specs/verticalPull';
 export { raiseReferenceFor } from './specs/raise';
 export { extensionReferenceFor } from './specs/extension';

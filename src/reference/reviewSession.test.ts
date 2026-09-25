@@ -13,7 +13,26 @@ describe('high-level local reference evidence capture', () => {
       snapshot: () => null,
       apply: () => undefined,
       settle: () => undefined,
-      capturePng: () => ({ bytes: new Uint8Array([1]), width: 960, height: 960 }),
+      capturePng: (request) =>
+        request.renderMode === 'silhouette'
+          ? {
+              bytes: new Uint8Array([1]),
+              width: 480,
+              height: 480,
+              silhouette: {
+                metrics: {
+                  width: 480,
+                  height: 480,
+                  foregroundPixels: 10,
+                  areaRatio: 10 / (480 * 480),
+                  bounds: { minX: 0.2, minY: 0.1, maxX: 0.8, maxY: 0.9, width: 0.6, height: 0.8 },
+                  centroid: { x: 0.5, y: 0.5 },
+                  touches: { left: false, right: false, top: false, bottom: false },
+                },
+                sanity: { passed: true, issues: [] },
+              },
+            }
+          : { bytes: new Uint8Array([1]), width: 960, height: 960 },
       restore: () => undefined,
     });
 
@@ -21,7 +40,10 @@ describe('high-level local reference evidence capture', () => {
       const batch = await captureReferenceEvidence(curlReferenceFor(bicepCurl), bicepCurl, clip);
       expect(batch.referenceId).toBe('curl.standing.supinated.v1');
       expect(batch.exerciseId).toBe(bicepCurl.id);
-      expect(batch.captures).toHaveLength(20);
+      expect(batch.captures).toHaveLength(40);
+      expect(batch.captures.filter((capture) => capture.renderMode === 'beauty')).toHaveLength(20);
+      expect(batch.captures.filter((capture) => capture.renderMode === 'silhouette')).toHaveLength(20);
+      expect(batch.captures.filter((capture) => capture.renderMode === 'silhouette').every((capture) => capture.silhouette?.sanity.passed)).toBe(true);
       expect(batch.captures.some((capture) => capture.captureId === 'peak__grip_closeup')).toBe(true);
     } finally {
       uninstall();

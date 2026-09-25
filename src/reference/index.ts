@@ -38,6 +38,7 @@ export { rowReferenceFor } from './specs/row';
 export { verticalPullReferenceFor } from './specs/verticalPull';
 export { horizontalPressReferenceFor } from './specs/horizontalPress';
 export { raiseReferenceFor } from './specs/raise';
+export { calfReferenceFor } from './specs/calf';
 export type {
   ReferenceApplicability,
   ReferenceCheckResult,

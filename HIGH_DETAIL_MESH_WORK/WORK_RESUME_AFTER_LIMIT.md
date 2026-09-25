@@ -346,3 +346,12 @@ relative to the finger axis:
 Both selections are available in the V15 Hand sidebar for V15f. The generated
 `reports/prepare_v15f_hotspots.json` records directional counts and the
 strongest edge locations.
+
+
+## V15f-specific recovery
+
+For ring/pinky proof, scope, sharpness or severe-fold failures, read:
+
+`V15F_FAILURE_RECOVERY.md`
+
+Use the older `V15_FAILURE_RECOVERY.md` for export/frozen/current-source pipeline failures.

@@ -12,6 +12,8 @@ import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import { horizontalPressFamily } from '../exercises/families/horizontalPress';
 import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
+import { raiseFamily } from '../exercises/families/raise';
+import type { RaiseVariant } from '../exercises/families/raise';
 import { rowFamily } from '../exercises/families/row';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { hingeFamily } from '../exercises/families/hinge';
@@ -1071,6 +1073,109 @@ const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Shoulder raise
+// ---------------------------------------------------------------------------
+
+const raise: GeneratorFamily<RaiseVariant> = {
+  id: 'raise',
+  label: 'Shoulder raise',
+  builder: 'raiseFamily',
+  detect: /\b(?:lateral|side|front|shoulder)\s+raises?\b/,
+
+  library: ['dumbbell_lateral_raise', 'dumbbell_front_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bbent[-\s]?over\b|\brear[-\s]?delt\b/, 'a bent-over/rear-delt raise uses a different torso position and shoulder path; not certified.'],
+        [/\bscaption\b/, 'a scaption raise uses its own plane between front and lateral; only front and lateral are certified.'],
+        [/\bone[-\s]arm\b|\bsingle[-\s]arm\b|\bunilateral\b/, 'a one-arm raise is unilateral; the current family is certified even-sided only.'],
+        [/\bcable\b/, 'a cable raise changes the equipment and line of resistance; the certified family uses paired dumbbells.'],
+        [/\bplate\b/, 'a plate raise uses one shared implement; the certified front raise uses paired dumbbells.'],
+      ],
+      issues,
+    );
+
+    const lateral = /\b(?:lateral|side)\b/.test(slots.text);
+    const front = /\bfront\b/.test(slots.text);
+    let direction: 'lateral' | 'front' = 'lateral';
+    if (lateral && front) {
+      issues.push(blocking('direction', 'The raise is asked to go both laterally and to the front; say which direction.'));
+    } else if (front) {
+      direction = 'front';
+    } else if (lateral) {
+      direction = 'lateral';
+    } else {
+      issues.push(
+        blocking(
+          'direction',
+          'A shoulder raise needs a direction. Ask for a lateral raise or a front raise so the movement plane is not guessed.',
+        ),
+      );
+    }
+
+    const expectedGrip = direction === 'lateral' ? 'neutral' : 'pronated';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified ${direction} raise uses a ${expectedGrip} grip; a ${grip} grip is not certified for that raise direction.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'shoulder raise', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the raise family has no adjustable bench/body angle input.`));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'shoulder raise', 'dumbbell', 6, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'raise',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        direction,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const direction = intent.direction ?? 'lateral';
+    const title = direction === 'lateral' ? 'Dumbbell Lateral Raise' : 'Dumbbell Front Raise';
+    const path = direction === 'lateral' ? 'out to the sides' : 'straight ahead';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(title, intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standing two-arm dumbbell ${direction} raise, lifting ${path} to shoulder height on a soft fixed elbow, ${formatLoad(intent.load)} in each hand` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      direction,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: raiseFamily,
+
+  reference: (intent) => (intent.direction === 'front' ? 'dumbbell_front_raise' : 'dumbbell_lateral_raise'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1081,6 +1186,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   row as unknown as GeneratorFamily,
   verticalPull as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
+  raise as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

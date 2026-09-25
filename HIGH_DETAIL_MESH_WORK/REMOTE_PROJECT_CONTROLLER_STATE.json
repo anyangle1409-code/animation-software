@@ -1,0 +1,24 @@
+{
+  "controller_state": "running",
+  "safe_runner_state": "waiting",
+  "branch": "work/v15-deep-hand-rebuild-prep-20260925",
+  "head": "3bade55a99fca51549a8b9ecc2a9d4c575e19149",
+  "working_tree": "dirty (5 modified, 26 untracked)",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "checkpoint": "checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_003.blend",
+  "current_stage": "ring_L",
+  "latest_numeric_gate": "ring_L proof: PASS",
+  "latest_visual_gate": "ring_L visual: FAIL \u2014 No meaningful visible improvement versus V13e; segmented/faceted ring-left shaft and joint flow remains essentially unchanged.",
+  "reports": [
+    "reports/v15f_ring_visual_decision.json",
+    "reports/v15f_ring_l_proof_gate.json",
+    "reports/audit_v15f_deep_hand_rebuild_blender.json"
+  ],
+  "last_action": "Repair ring_L only, save/checkpoint, then rerun AUDIT_V15F_RING_PROOF.bat",
+  "last_error": "ring_L visual: FAIL \u2014 No meaningful visible improvement versus V13e; segmented/faceted ring-left shaft and joint flow remains essentially unchanged.",
+  "next_action": "Repair ring_L only, save/checkpoint, then rerun AUDIT_V15F_RING_PROOF.bat",
+  "reason": "The current ring_L visual proof is explicitly marked FAIL.",
+  "route": "GPT_WORK",
+  "snapshot_generated_utc": "2026-09-25T21:52:03Z",
+  "schema": 1
+}

@@ -132,6 +132,21 @@ Failures are logged and are not spin-retried indefinitely.
 The controller can be stopped by creating
 `reports/project_controller.stop` or running the stop BAT.
 
+### Remote status sync
+
+`SYNC_PROJECT_STATE.bat` is the authoritative safe path for publishing the
+current controller/V15f status to the prep branch. It regenerates only the
+sanitised `REMOTE_*` files, stages those files by exact name, skips empty
+commits, and leaves unrelated edits untouched. It also refuses to push if the
+remote branch is behind local commits that contain non-status files; push those
+project commits separately, then retry the status sync.
+
+On its next start, the controller also requests the same sync after meaningful
+route, candidate, checkpoint, or gate changes. Requests are debounced for five
+minutes and run in a detached process. A network or GitHub failure is logged to
+`reports/project_state_sync.log`; it never stops the controller, Blender, or the
+V15f safe runner. Run `SYNC_PROJECT_STATE.bat` later to retry manually.
+
 
 ## AI task preflight
 

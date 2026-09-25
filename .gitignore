@@ -6,3 +6,8 @@ coverage/
 .vite/
 scratchpad
 HOME_GYM_PT_GPT_MESH_HANDOFF.zip
+**/__pycache__/
+*.blend1
+HIGH_DETAIL_MESH_WORK/reports/*.lock
+HIGH_DETAIL_MESH_WORK/reports/*.stop
+HIGH_DETAIL_MESH_WORK/reports/*.log

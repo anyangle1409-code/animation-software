@@ -31,6 +31,8 @@ V15_HANDOFF = ROOT / "scripts" / "write_v15f_handoff.py"
 SAFE_RUNNER_START = ROOT / "scripts" / "start_v15f_safe_runner.py"
 COMPARE_USAGE = ROOT / "scripts" / "compare_work_models.py"
 PLAN_WORK_TASK = ROOT / "scripts" / "plan_work_task.py"
+REMOTE_SYNC = ROOT / "scripts" / "remote_state_sync.py"
+REMOTE_SYNC_DEBOUNCE_SECONDS = 300
 
 DEFAULT_CONFIG = {
     "poll_seconds": 15,
@@ -289,6 +291,45 @@ def maybe_start_safe_runner(cfg):
             stderr=subprocess.DEVNULL,
         )
 
+def file_signature(path):
+    try:
+        path = Path(path)
+        return [path.name, path.stat().st_mtime_ns] if path.is_file() else None
+    except (OSError, TypeError, ValueError):
+        return None
+
+def latest_checkpoint_signature():
+    try:
+        files = list((ROOT / "checkpoints" / "v15_manual").glob("*v15f*.blend"))
+        latest = max(files, key=lambda p: p.stat().st_mtime_ns) if files else None
+        return file_signature(latest) if latest else None
+    except OSError:
+        return None
+
+def request_remote_sync(event):
+    """Launch an isolated best-effort sync; it must never block the controller."""
+    kwargs = {
+        "cwd": str(ROOT),
+        "stdin": subprocess.DEVNULL,
+        "stdout": subprocess.DEVNULL,
+        "stderr": subprocess.DEVNULL,
+    }
+    if os.name == "nt":
+        kwargs["creationflags"] = (
+            getattr(subprocess, "DETACHED_PROCESS", 0)
+            | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+        )
+    else:
+        kwargs["start_new_session"] = True
+    try:
+        subprocess.Popen(
+            [sys.executable, str(REMOTE_SYNC), "--sync", "--automatic"],
+            **kwargs,
+        )
+        log(f"remote snapshot requested: {event}")
+    except Exception as exc:
+        log(f"remote snapshot request failed but controller continues: {type(exc).__name__}")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
@@ -299,11 +340,16 @@ def main():
     maybe_start_safe_runner(cfg)
     log(f"START pid={os.getpid()} once={args.once}")
     last_signature = None
+    last_remote_signature = None
+    last_remote_sync = 0.0
+    pending_remote_event = "controller_started"
     last_fetch = 0.0
+    stopped_normally = False
     try:
         while True:
             if STOP_PATH.exists():
                 log("Stop requested.")
+                stopped_normally = True
                 break
             if cfg.get("auto_fetch_source") and time.time() - last_fetch >= cfg["source_check_minutes"] * 60:
                 rc, out = run_capture(["git", "fetch", "origin", "chatgpt/absolute-retarget-imports"], cwd=REPO)
@@ -352,6 +398,29 @@ def main():
             }
             STATE_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
+            safe_runner_state = read_json(REPORTS / "v15f_safe_runner_state.json", {})
+            remote_signature = json.dumps(
+                {
+                    "route": route,
+                    "action": status.get("next_action"),
+                    "reason": status.get("reason"),
+                    "version": status.get("version"),
+                    "blend_exists": status.get("blend_exists"),
+                    "candidate": file_signature(status.get("blend")),
+                    "gates": status.get("gates"),
+                    "latest_checkpoint": latest_checkpoint_signature(),
+                    "safe_runner": {
+                        "state": safe_runner_state.get("state"),
+                        "last_action": safe_runner_state.get("last_action"),
+                        "reason": safe_runner_state.get("reason"),
+                    },
+                },
+                sort_keys=True,
+            )
+            if last_remote_signature is not None and remote_signature != last_remote_signature:
+                pending_remote_event = "route, candidate, or gate changed"
+            last_remote_signature = remote_signature
+
             signature = json.dumps(
                 {"route": route, "action": status.get("next_action"), "reason": status.get("reason"),
                  "work_window": budget.get("work_window_percent"),
@@ -371,17 +440,24 @@ def main():
                 last_signature = signature
 
             subprocess.run([sys.executable, str(V15_HANDOFF)], cwd=ROOT, check=False)
+            if pending_remote_event and time.time() - last_remote_sync >= REMOTE_SYNC_DEBOUNCE_SECONDS:
+                request_remote_sync(pending_remote_event)
+                pending_remote_event = None
+                last_remote_sync = time.time()
             try:
                 LOCK_PATH.touch()
             except Exception:
                 pass
             if args.once:
+                stopped_normally = True
                 break
             time.sleep(float(cfg.get("poll_seconds", 15)))
     finally:
         LOCK_PATH.unlink(missing_ok=True)
         STOP_PATH.unlink(missing_ok=True)
         log("EXIT")
+        if stopped_normally:
+            request_remote_sync("controller_stopped_normally")
 
 if __name__ == "__main__":
     main()

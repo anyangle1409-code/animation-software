@@ -68,7 +68,7 @@ def chain_for(digit, side):
         bones[prefix + f"{i:02d}." + side].tail_local.copy() for i in (1, 2, 3)
     ]
 
-def project_arc(point, chain):
+def project_info(point, chain):
     best = None
     travelled = 0.0
     for a, b in zip(chain[:-1], chain[1:]):
@@ -79,11 +79,14 @@ def project_arc(point, chain):
         t = max(0.0, min(1.0, (point - a).dot(ab) / (length * length)))
         q = a + t * ab
         d = (point - q).length_squared
-        item = (d, travelled + t * length)
+        item = (d, travelled + t * length, ab.normalized())
         if best is None or d < best[0]:
             best = item
         travelled += length
-    return best[1] if best else 0.0
+    return (best[1], best[2]) if best else (0.0, Vector((1, 0, 0)))
+
+def project_arc(point, chain):
+    return project_info(point, chain)[0]
 
 def replace_group(name, indices):
     old = body.vertex_groups.get(name)
@@ -126,6 +129,8 @@ for digit in DIGITS:
         ranked = []
         pip_hot = set()
         dip_hot = set()
+        band_gt35 = set()
+        long_gt35 = set()
 
         for edge in bm.edges:
             if len(edge.link_faces) != 2:
@@ -138,12 +143,23 @@ for digit in DIGITS:
                 continue
 
             midpoint = (edge.verts[0].co + edge.verts[1].co) * 0.5
-            arc = project_arc(midpoint, chain)
+            arc, tangent = project_info(midpoint, chain)
             endpoint_indices = {v.index for v in edge.verts}
+            edge_vec = edge.verts[1].co - edge.verts[0].co
+            axial_alignment = (
+                abs(edge_vec.normalized().dot(tangent))
+                if edge_vec.length > 1e-12 else 0.0
+            )
 
             for threshold in THRESHOLDS:
                 if angle > threshold:
                     threshold_vertices[threshold].update(endpoint_indices)
+
+            if angle > 35:
+                if axial_alignment < 0.45:
+                    band_gt35.update(endpoint_indices)
+                elif axial_alignment > 0.70:
+                    long_gt35.update(endpoint_indices)
 
             if edge.verts[0] in core and edge.verts[1] in core:
                 if abs(arc - pip_arc) <= 0.008:
@@ -156,6 +172,12 @@ for digit in DIGITS:
                 "edge_length_mm": edge.calc_length() * 1000.0,
                 "midpoint": [float(x) for x in midpoint],
                 "arc_mm": arc * 1000.0,
+                "axial_alignment": axial_alignment,
+                "orientation": (
+                    "cross_band" if axial_alignment < 0.45 else
+                    "longitudinal" if axial_alignment > 0.70 else
+                    "diagonal"
+                ),
                 "near_joint": (
                     "PIP" if abs(arc - pip_arc) <= 0.008 else
                     "DIP" if abs(arc - dip_arc) <= 0.008 else
@@ -170,6 +192,12 @@ for digit in DIGITS:
             counts[name] = replace_group(name, threshold_vertices[threshold])
         counts[f"V15F_{key}_PIP_HOT"] = replace_group(f"V15F_{key}_PIP_HOT", pip_hot)
         counts[f"V15F_{key}_DIP_HOT"] = replace_group(f"V15F_{key}_DIP_HOT", dip_hot)
+        counts[f"V15F_{key}_BAND_GT35"] = replace_group(
+            f"V15F_{key}_BAND_GT35", band_gt35
+        )
+        counts[f"V15F_{key}_LONG_GT35"] = replace_group(
+            f"V15F_{key}_LONG_GT35", long_gt35
+        )
 
         ranked.sort(key=lambda x: (x["angle_deg"], x["edge_length_mm"]), reverse=True)
         for i, item in enumerate(ranked[:12], 1):
@@ -186,8 +214,22 @@ for digit in DIGITS:
             "dip_arc_mm": dip_arc * 1000.0,
             "group_counts": counts,
             "edge_counts": {
-                f"gt_{threshold}": sum(item["angle_deg"] > threshold for item in ranked)
-                for threshold in THRESHOLDS
+                **{
+                    f"gt_{threshold}": sum(item["angle_deg"] > threshold for item in ranked)
+                    for threshold in THRESHOLDS
+                },
+                "gt35_cross_band": sum(
+                    item["angle_deg"] > 35 and item["orientation"] == "cross_band"
+                    for item in ranked
+                ),
+                "gt35_longitudinal": sum(
+                    item["angle_deg"] > 35 and item["orientation"] == "longitudinal"
+                    for item in ranked
+                ),
+                "gt35_diagonal": sum(
+                    item["angle_deg"] > 35 and item["orientation"] == "diagonal"
+                    for item in ranked
+                ),
             },
             "top_edges": ranked[:20],
         }

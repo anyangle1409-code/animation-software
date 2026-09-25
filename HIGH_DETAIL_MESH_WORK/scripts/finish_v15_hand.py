@@ -65,6 +65,19 @@ def main():
         raise SystemExit("Candidate Blend and dressed GLB must exist before finishing.")
 
     exe = blender()
+
+    # Calibrate the same per-digit surface metrics against the known rejected
+    # V14e attempt once. This gives V15 a geometry-side "not enough" reference
+    # in addition to the saved V14e image boards.
+    v14_blend = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v14e_finger_body_trial.blend"
+    v14_audit = ROOT / "reports" / "audit_v14e_finger_body_trial_blender.json"
+    if v14_blend.is_file() and not v14_audit.is_file():
+        run([
+            exe, "--background", "--factory-startup",
+            "--python", ROOT / "scripts" / "audit_v15_hand_blender.py",
+            "--", str(v14_blend),
+        ])
+
     run([
         exe, "--background", "--factory-startup",
         "--python", ROOT / "scripts" / "audit_v15_hand_blender.py",

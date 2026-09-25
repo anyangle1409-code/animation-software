@@ -7,6 +7,7 @@ import { hingeReferenceFor } from './specs/hinge';
 import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
 import { horizontalPressReferenceFor } from './specs/horizontalPress';
+import { raiseReferenceFor } from './specs/raise';
 import type { ReferenceFamilyId, ReferenceSpec } from './types';
 
 export function referenceForFamily(
@@ -30,5 +31,7 @@ export function referenceForFamily(
       return verticalPullReferenceFor(exercise);
     case 'horizontal_press':
       return horizontalPressReferenceFor(exercise);
+    case 'raise':
+      return raiseReferenceFor(exercise);
   }
 }

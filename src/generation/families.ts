@@ -7,6 +7,10 @@ import { squatFamily } from '../exercises/families/squat';
 import type { SquatVariant } from '../exercises/families/squat';
 import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
+import { hingeFamily } from '../exercises/families/hinge';
+import type { HingeVariant } from '../exercises/families/hinge';
+import { rowFamily } from '../exercises/families/row';
+import type { RowVariant } from '../exercises/families/row';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -706,12 +710,205 @@ const lunge: GeneratorFamily<LungeVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Hinge
+// ---------------------------------------------------------------------------
+
+const hinge: GeneratorFamily<HingeVariant> = {
+  id: 'hinge',
+  label: 'Hinge',
+  builder: 'hingeFamily',
+  detect: /\b(?:romanian\s+)?deadlifts?\b|\brdls?\b|\bhip\s+hinges?\b|\bgood\s?mornings?\b/,
+
+  library: ['dumbbell_romanian_deadlift'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bsumo\b/, 'a sumo deadlift uses a much wider stance and different hip/knee balance; the hinge family is not certified for it.'],
+        [/\bconventional\b/, 'a conventional deadlift starts from the floor with substantially more knee flexion; the current hinge family certifies the Romanian deadlift only.'],
+        [/\bstiff[-\s]?leg(?:ged)?\b/, 'a stiff-leg deadlift deliberately changes the knee angle from the certified Romanian deadlift.'],
+        [/\bsingle[-\s]?leg\b|\bone[-\s]?leg\b/, 'a single-leg RDL is unilateral and requires balance/contact behaviour the family does not build yet.'],
+        [/\bgood\s?mornings?\b/, 'a good morning carries load across the shoulders rather than in the hands; that equipment/support pattern is not certified.'],
+        [/\bbarbell\b/, 'a barbell RDL uses two hands on one rigid bar; the certified hinge family currently uses paired dumbbells.'],
+        [/\bkettle-?bells?\b|\bkbs?\b/, 'a kettlebell hinge is not certified; the current family uses paired dumbbells.'],
+        [/\bmixed\s+grip\b/, 'a mixed grip is asymmetric; only the even two-hand dumbbell hinge is certified.'],
+      ],
+      issues,
+    );
+
+    const romanian = /\bromanian\b|\brdls?\b|\bhip\s+hinges?\b/.test(slots.text);
+    const namedNonRomanian = /\b(?:conventional|sumo|stiff[-\s]?leg(?:ged)?|single[-\s]?leg|one[-\s]?leg)\b/.test(slots.text);
+    if (/\bdeadlifts?\b/.test(slots.text) && !romanian && !namedNonRomanian) {
+      issues.push(
+        blocking(
+          'variant',
+          'A plain "deadlift" normally means the conventional floor deadlift. The certified hinge family currently builds only the dumbbell Romanian deadlift; ask for an RDL or Romanian deadlift explicitly.',
+        ),
+      );
+    }
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified dumbbell Romanian deadlift uses the hinge family\'s pronated hand orientation; a ' + grip + ' grip is not certified.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'hinge', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the hinge family has no adjustable bench/body angle input.'));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'hinge', 'dumbbell', 16, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'hinge',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Dumbbell Romanian Deadlift', intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". A standing dumbbell Romanian deadlift: hips travel back, knees stay soft, ' +
+        'the spine stays neutral and the dumbbells remain close to the legs, ' + formatLoad(intent.load) + ' in each hand' +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: hingeFamily,
+
+  reference: () => 'dumbbell_romanian_deadlift',
+
+  // The accepted reference variant already passes the current mechanical/body
+  // checks. Add a correction lever only after a generated hinge produces a
+  // measured failure and the family exposes a safe parameter that resolves it.
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
+// Horizontal pull / bent-over row
+// ---------------------------------------------------------------------------
+
+const row: GeneratorFamily<RowVariant> = {
+  id: 'row',
+  label: 'Bent-over row',
+  builder: 'rowFamily',
+  detect: /\brows?\b/,
+
+  library: ['dumbbell_bent_over_row'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bupright\b/, 'an upright row is a shoulder-dominant vertical pull; the bent-over row family does not build it.'],
+        [/\bchest[-\s]?supported\b|\bsupported\s+row\b/, 'a chest-supported row needs a bench/support relationship the current row family does not build.'],
+        [/\b(?:one|single)[-\s]arm\b|\bunilateral\b/, 'a one-arm row is unilateral and usually braced; the certified row is an even two-arm movement.'],
+        [/\brenegade\b/, 'a renegade row is a plank/floor-support movement; not certified by the bent-over row family.'],
+        [/\bseated\b|\bcable\b/, 'a seated cable row uses a cable and seated support; the current row family uses paired dumbbells from a standing hinge.'],
+        [/\bbarbell\b|\bt[-\s]?bar\b/, 'a rigid bar row uses different two-hand equipment; the certified row uses paired dumbbells.'],
+      ],
+      issues,
+    );
+
+    const bentOver = /\bbent[-\s]?over\b/.test(slots.text);
+    if (!bentOver) {
+      issues.push(
+        blocking(
+          'variant',
+          'The current certified row is specifically the two-arm dumbbell bent-over row. Ask for a bent-over row explicitly so another row style is not guessed.',
+        ),
+      );
+    }
+
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified bent-over row uses the row family\'s neutral palms-facing grip; a ' + grip + ' grip is not certified.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'bent-over row', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the row family uses its certified hinge posture and does not expose an arbitrary torso angle.'));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'bent-over row', 'dumbbell', 14, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'row',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Dumbbell Bent-Over Row', intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". A two-arm dumbbell bent-over row from the family\'s fixed hinge posture, ' +
+        'palms facing in, elbows driving back past the ribs, ' + formatLoad(intent.load) + ' in each hand' +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: rowFamily,
+
+  reference: () => 'dumbbell_bent_over_row',
+
+  // The reference row currently passes the shared validation gates. Add a lever
+  // only after a measured generated-row failure proves which row-family
+  // parameter should safely move.
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
   overheadPress as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
+  hinge as unknown as GeneratorFamily,
+  row as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

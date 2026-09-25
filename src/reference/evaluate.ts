@@ -68,13 +68,14 @@ function envelopeResult(
     };
   }
 
-  const worst = values.reduce(
-    (best, entry) => {
-      const violation = outside(entry.value, check.envelope);
-      return violation > best.violation ? { ...entry, violation } : best;
-    },
-    { ...values[0], violation: outside(values[0].value, check.envelope) },
-  );
+  let worst = {
+    ...values[0],
+    violation: outside(values[0].value, check.envelope),
+  };
+  for (const entry of values.slice(1)) {
+    const violation = outside(entry.value, check.envelope);
+    if (violation > worst.violation) worst = { ...entry, violation };
+  }
   const min = Math.min(...values.map((entry) => entry.value));
   const max = Math.max(...values.map((entry) => entry.value));
   const expected = rangeText(check.envelope, unit);

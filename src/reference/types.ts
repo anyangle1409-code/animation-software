@@ -137,7 +137,7 @@ export type ReferenceCheckSpec =
 
 export interface ReferenceApplicability {
   handOrientation?: HandSpec['orientation'];
-  support?: 'standing' | 'seated' | 'incline';
+  support?: 'standing' | 'seated' | 'incline' | 'hanging';
 }
 
 export interface ReferenceReviewView {

@@ -124,3 +124,30 @@ Do not:
 - promote automatically.
 
 A candidate passes only if it is **both technically clean and visibly better than V13e**.
+
+
+## V15 prepared execution environment
+
+Preparation branch:
+
+`work/v15-deep-hand-rebuild-prep-20260925`
+
+The branch now contains a fail-fast, versioned V15 execution environment:
+- exact baseline/hash preflight;
+- V13e diagnostic candidate creation;
+- per-digit Blender guide/selection groups and helper sidebar;
+- stable-ID invariant checking;
+- export-only UV/weight repair and triangulation;
+- stable-ID GLB packing;
+- frozen comparison validation;
+- direct V13e matched visual review;
+- rejected-V14e image and geometry calibration;
+- latest-source disposable integration validation;
+- candidate iteration/preservation manager;
+- failure recovery guide;
+- review dashboard/difference maps;
+- dormant Phase C grip-refit plan.
+
+No V15 geometry has been created or accepted by these preparation commits. The
+remaining irreducible current-phase work is the actual Blender shaft/joint
+surface rebuild plus the visual anatomy decision.

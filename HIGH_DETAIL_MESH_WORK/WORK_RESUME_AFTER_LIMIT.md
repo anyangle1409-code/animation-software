@@ -481,3 +481,14 @@ segmented/lumpy diameter profile. They are reported in
 
 They are **diagnostic only** until calibrated; do not turn them into hard
 acceptance thresholds or override visual anatomy review solely from these values.
+
+
+## Minimal prompt printer
+
+If you want a fresh short GPT Work prompt for the exact current V15f state, run:
+
+`PRINT_V15F_WORK_PROMPT.bat`
+
+It reads `V15F_STATUS` and prints only the current branch, required compact
+handoffs and exact next action. Prefer this over rebuilding or pasting a large
+historical prompt.

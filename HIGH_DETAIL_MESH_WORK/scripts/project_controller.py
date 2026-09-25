@@ -29,6 +29,7 @@ CLAUDE_PROMPT = ROOT / "PROJECT_CONTROLLER_CLAUDE_PROMPT.txt"
 V15_STATUS = ROOT / "scripts" / "v15f_status.py"
 V15_HANDOFF = ROOT / "scripts" / "write_v15f_handoff.py"
 SAFE_RUNNER_START = ROOT / "scripts" / "start_v15f_safe_runner.py"
+COMPARE_USAGE = ROOT / "scripts" / "compare_work_models.py"
 
 DEFAULT_CONFIG = {
     "poll_seconds": 15,
@@ -97,6 +98,31 @@ def v15_status():
     except Exception:
         return {"next_action": "Inspect V15F_STATUS output", "reason": out}
 
+def infer_task_class(next_action):
+    action=(next_action or "").lower()
+    if action.startswith(("audit_v15f_","generate_v15f_","run_v15_post_edit_all.bat")):
+        return "local_script"
+    if "open_v15" in action or "mark_v15f_" in action:
+        return "visual_review"
+    if any(x in action for x in ("ring_l","ring_r","pinky_l","pinky_r","index_l","index_r","middle_l","middle_r")):
+        if any(x in action for x in ("inspect/edit","repair","topology")):
+            return "one_digit_topology"
+    if "blender" in action and ("repair" in action or "failure" in action):
+        return "blender_debug"
+    if "inspect" in action or "status" in action or "file" in action:
+        return "status_or_file_check"
+    return "open_ended"
+
+def estimate_models(task_class):
+    rc,out=run_capture([
+        sys.executable,COMPARE_USAGE,task_class,
+        "--context","small","--reasoning","medium"
+    ])
+    if rc!=0:
+        return {"error":out}
+    try:return json.loads(out)
+    except Exception:return {"error":out}
+
 def classify(next_action, budget, cfg):
     action = (next_action or "").strip()
     if action.startswith(("AUDIT_V15F_", "GENERATE_V15F_", "RUN_V15_POST_EDIT_ALL.bat")):
@@ -156,7 +182,7 @@ report-analysis, or mathematical task. Read only files directly needed for that
 task, use focused tests first, write durable state to the repo, then stop.
 """
 
-def write_outputs(status, route, budget, repo_state):
+def write_outputs(status, route, budget, repo_state, usage_estimate):
     WORK_PROMPT.write_text(make_work_prompt(status, route), encoding="utf-8")
     CLAUDE_PROMPT.write_text(make_claude_prompt(), encoding="utf-8")
     action = status.get("next_action") or "(none)"
@@ -174,7 +200,21 @@ def write_outputs(status, route, budget, repo_state):
         f"- HEAD: {repo_state.get('head')}",
         f"- working tree dirty: **{repo_state.get('dirty')}**",
         "",
+        "## Estimated Work usage if AI is needed",
     ]
+    if isinstance(usage_estimate, dict) and usage_estimate.get("models"):
+        for item in usage_estimate["models"]:
+            rng=item.get("estimated_five_hour_drop_percent",{})
+            lines.append(
+                f"- {item.get('model')}: ~{rng.get('low')}%-{rng.get('high')}% "
+                f"({item.get('risk_band')}; {item.get('estimate_source')})"
+            )
+        lines.append(
+            "- ranges are estimates, not guaranteed costs; they improve as real project samples are logged."
+        )
+    else:
+        lines.append(f"- unavailable: {usage_estimate.get('error') if isinstance(usage_estimate,dict) else usage_estimate}")
+    lines.append("")
     if route == "LOCAL_SCRIPT":
         lines.append("The local deterministic runner should handle this without spending GPT Work or Claude allowance.")
     elif route == "WAIT_FOR_WORK_RESET":
@@ -238,13 +278,17 @@ def main():
                 "source_local": git_value("rev-parse", "chatgpt/absolute-retarget-imports"),
                 "source_remote": git_value("rev-parse", "origin/chatgpt/absolute-retarget-imports"),
             }
-            write_outputs(status, route, budget, repo_state)
+            task_class=infer_task_class(status.get("next_action"))
+            usage_estimate=estimate_models(task_class)
+            write_outputs(status, route, budget, repo_state, usage_estimate)
             payload = {
                 "updated_utc": utcnow(),
                 "route": route,
                 "v15f": status,
                 "budget": budget,
                 "repository": repo_state,
+                "task_class": task_class,
+                "usage_estimate": usage_estimate,
                 "next_file": str(NEXT_MD),
                 "work_prompt": str(WORK_PROMPT),
                 "claude_prompt": str(CLAUDE_PROMPT),

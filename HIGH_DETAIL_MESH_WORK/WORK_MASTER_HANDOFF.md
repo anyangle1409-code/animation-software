@@ -97,3 +97,36 @@ Those are the only two workflow commands Work should need around the actual Blen
 
 Read `V15_FAILURE_RECOVERY.md` and repair the **first failing stage**. Do not
 loosen a guard or change exercise/grip/runtime behaviour to make a hand mesh pass.
+
+
+## Candidate iteration / preservation
+
+Use `LIST_V15_ATTEMPTS.bat` to see every preserved V15 attempt and its available
+validation state.
+
+Repair the **current** candidate when the failure is local and objective:
+- a stray vertex;
+- missing UV/weight on new geometry;
+- a seam/topology defect;
+- a protected/contact leak that can be restored without changing the intended
+  shaft/joint design.
+
+Preserve the current candidate and start a **new** attempt when:
+- the visual-change gate does not materially exceed rejected V14e;
+- the basic shaft/joint strategy is visibly wrong;
+- fixing it would require undoing most of the rebuild;
+- the candidate is technically clean but visually rejected.
+
+Start the next unused version with:
+
+`START_NEXT_V15.bat`
+
+For an explicit version:
+
+`START_V15_HAND.bat v15b_deep_hand_rebuild`
+
+After saving that candidate:
+
+`RUN_V15_POST_EDIT_ALL.bat v15b_deep_hand_rebuild`
+
+Never rename or overwrite an earlier attempt to reuse its letter.

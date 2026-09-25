@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import bpy
 import bmesh
+import hashlib
 import json
 import math
 import struct
@@ -200,6 +201,30 @@ def snapshot(path: Path):
         item["sharp_length_ratio_gt_50"] = (
             item["dihedral_edge_length_mm_gt_deg"]["50"] / total if total else 0.0
         )
+
+    # Deterministic per-digit bind-surface fingerprint. This is used by V15f
+    # visual decision markers so a reviewed ring_L surface remains approved
+    # while ring_R/pinky/index/middle are edited, but becomes stale if ring_L
+    # itself changes. Hash local coordinates plus same-owner edge connectivity;
+    # avoid global vertex indices so unrelated appended vertices do not invalidate it.
+    def qco(v):
+        return tuple(round(float(x), 9) for x in v.co)
+
+    for key, item in per_digit.items():
+        verts = [v for v, owner_key in owned.items() if owner_key == key]
+        coords = sorted(qco(v) for v in verts)
+        edges = []
+        for e in bm.edges:
+            a, b = e.verts
+            if owned.get(a) != key or owned.get(b) != key:
+                continue
+            qa, qb = qco(a), qco(b)
+            edges.append((qa, qb) if qa <= qb else (qb, qa))
+        payload = json.dumps(
+            {"vertices": coords, "edges": sorted(edges)},
+            separators=(",", ":"),
+        ).encode("utf-8")
+        item["surface_fingerprint_sha256"] = hashlib.sha256(payload).hexdigest()
 
     # Bone-weight normalization only; diagnostic selection groups are ignored.
     new_weight_errors = []

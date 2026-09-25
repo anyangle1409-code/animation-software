@@ -108,6 +108,20 @@ def vitest_cmd():
         return [str(local), "run"]
     return ["npx", "--no-install", "vitest", "run"]
 
+def test_counts(text):
+    clean = re.sub(r"\x1b\[[0-9;]*m", "", text)
+    lines = [line for line in clean.splitlines() if "Tests" in line]
+    line = lines[-1] if lines else ""
+    def value(label):
+        m = re.search(r"(\d+)\s+" + label, line)
+        return int(m.group(1)) if m else 0
+    return {
+        "failed": value("failed"),
+        "passed": value("passed"),
+        "skipped": value("skipped"),
+        "line": line.strip(),
+    }
+
 def parse_measurements(text):
     arm = {}
     for m in re.finditer(r"^\s+([a-z_]+)\s+[LR]\s+closest\s+([-0-9.]+) mm", text, re.M):
@@ -135,9 +149,13 @@ def compare_measurements(a_text, b_text):
     }
     return {
         "arm_common": len(arm_delta),
+        "arm_missing_from_v15": sorted(set(a_arm) - set(b_arm)),
+        "arm_new_in_v15": sorted(set(b_arm) - set(a_arm)),
         "arm_max_abs_delta_mm": max(arm_delta.values(), default=0.0),
         "arm_changed_over_0_05mm": {k:v for k,v in arm_delta.items() if v > 0.05},
         "equipment_common": len(eq_delta),
+        "equipment_missing_from_v15": ["|".join(k) for k in sorted(set(a_eq) - set(b_eq))],
+        "equipment_new_in_v15": ["|".join(k) for k in sorted(set(b_eq) - set(a_eq))],
         "equipment_max_abs_delta_mm": max(eq_delta.values(), default=0.0),
         "equipment_changed_over_0_05mm": {k:v for k,v in eq_delta.items() if v > 0.05},
     }
@@ -215,22 +233,40 @@ def main():
                     WORKTREE, env=env, check=False,
                     log=OUT / f"{name}__{Path(path).stem}.log",
                 )
-                results[name] = proc.returncode
+                results[name] = {
+                    "returncode": proc.returncode,
+                    "tests": test_counts(proc.stdout),
+                }
             per_file[path] = results
 
         new_failing_files = [
             path for path, result in per_file.items()
-            if result["v13e"] == 0 and result["v15"] != 0
+            if result["v13e"]["returncode"] == 0 and result["v15"]["returncode"] != 0
+        ]
+        increased_failure_files = [
+            path for path, result in per_file.items()
+            if result["v15"]["tests"]["failed"] > result["v13e"]["tests"]["failed"]
         ]
 
         # A hand-only candidate should leave trunk/equipment measurements
         # effectively the same as V13e. 0.05 mm is report noise tolerance, not
         # a relaxation of any source test threshold.
+        measurement_coverage_unchanged = (
+            not delta["arm_missing_from_v15"]
+            and not delta["arm_new_in_v15"]
+            and not delta["equipment_missing_from_v15"]
+            and not delta["equipment_new_in_v15"]
+        )
         body_measurements_unchanged = (
-            not delta["arm_changed_over_0_05mm"]
+            measurement_coverage_unchanged
+            and not delta["arm_changed_over_0_05mm"]
             and not delta["equipment_changed_over_0_05mm"]
         )
-        passed = not new_failing_files and body_measurements_unchanged
+        passed = (
+            not new_failing_files
+            and not increased_failure_files
+            and body_measurements_unchanged
+        )
 
         report = {
             "source_branch": SOURCE_BRANCH,
@@ -242,7 +278,9 @@ def main():
             "combined_gate_returncodes": codes,
             "per_file_returncodes": per_file,
             "new_failing_gate_files_vs_v13e": new_failing_files,
+            "gate_files_with_increased_failed_test_count": increased_failure_files,
             "v13e_vs_v15_measurement_delta": delta,
+            "measurement_coverage_unchanged": measurement_coverage_unchanged,
             "body_measurements_unchanged_within_0_05mm": body_measurements_unchanged,
             "integration_no_regression": passed,
             "notes": [

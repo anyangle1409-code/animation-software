@@ -169,6 +169,23 @@ def main():
     stage_a_visual = stage_a_visual_state()
     result["gates"]["stage_A_visual"] = stage_a_visual
 
+    if not proof["exists"]:
+        result["next_action"] = (
+            "Inspect/edit ring_L only, save/checkpoint, then run: "
+            "AUDIT_V15F_RING_PROOF.bat"
+        )
+        result["reason"] = "ring_L proof is missing."
+        print(json.dumps(result, indent=2))
+        return
+    if proof["pass"] is not True:
+        result["next_action"] = (
+            "Repair ring_L only, save/checkpoint, then rerun: "
+            "AUDIT_V15F_RING_PROOF.bat"
+        )
+        result["reason"] = "ring_L numeric proof is failing."
+        print(json.dumps(result, indent=2))
+        return
+
     if proof["exists"] and proof["pass"] is True:
         if not ring_visual["board_exists"]:
             result["next_action"] = "GENERATE_V15F_RING_VISUAL_PROOF.bat"

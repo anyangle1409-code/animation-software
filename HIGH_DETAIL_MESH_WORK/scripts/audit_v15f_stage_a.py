@@ -51,6 +51,7 @@ def main():
 
     failures = []
     per_digit = {}
+    movement = report.get("per_digit_original_movement_vs_v13e", {})
 
     if not report.get("pass"):
         failures.append("General V15 invariant audit failed.")
@@ -61,6 +62,14 @@ def main():
         failures.append(
             f"Total >100deg digit folds worsened: {baseline_total} -> {candidate_total}."
         )
+
+    for untouched in ("index_L", "index_R", "middle_L", "middle_R"):
+        item = movement.get(untouched, {})
+        if float(item.get("max_move_mm", 0.0)) > 1e-6:
+            failures.append(
+                f"{untouched}: moved during ring/pinky Stage A "
+                f"({item.get('max_move_mm')} mm)."
+            )
 
     for digit in DIGITS:
         b = baseline["per_digit_surface"][digit]
@@ -98,6 +107,7 @@ def main():
         "baseline_total_folds_gt100": baseline_total,
         "candidate_total_folds_gt100": candidate_total,
         "per_digit": per_digit,
+        "scope_movement": movement,
         "pass": not failures,
         "failures": failures,
         "next_if_pass": (

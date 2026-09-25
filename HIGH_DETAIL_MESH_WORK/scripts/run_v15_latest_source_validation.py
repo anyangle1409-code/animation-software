@@ -45,10 +45,13 @@ def run(cmd, cwd, env=None, check=True, log=None):
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
         text=True, encoding="utf-8", errors="replace",
     )
-    sys.stdout.write(p.stdout)
+    # Windows PowerShell may expose a cp1252 stdout stream while Vitest emits
+    # Unicode check marks. Keep the full UTF-8 log, and replace only console
+    # characters that cannot be represented by that stream.
     if log:
         Path(log).parent.mkdir(parents=True, exist_ok=True)
         Path(log).write_text(p.stdout, encoding="utf-8")
+    sys.stdout.write(p.stdout.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8"))
     if check and p.returncode:
         raise subprocess.CalledProcessError(p.returncode, cmd)
     return p

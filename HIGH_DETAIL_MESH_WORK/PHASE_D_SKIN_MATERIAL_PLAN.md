@@ -116,3 +116,21 @@ Record:
 - chosen variant or explicit rejection.
 
 No production promotion in this phase.
+
+
+## Prepared Phase D tool
+
+Generate the bounded verified roughness sweep from any accepted candidate pair:
+
+`MAKE_PHASE_D_SKIN_SWEEP.bat <candidate_version>`
+
+Example:
+
+`MAKE_PHASE_D_SKIN_SWEEP.bat v15a_deep_hand_rebuild`
+
+The tool creates paired dressed/bare variants at roughness 0.50, 0.58 and 0.64,
+recomputes the proven curvature-based `COLOR_0` tone, and fails if any binary
+data outside body `COLOR_0` changes or protected rig/geometry JSON changes.
+
+Outputs are kept under `skin_material_trials/<candidate_version>/` and are
+never promoted automatically.

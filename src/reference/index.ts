@@ -1,3 +1,4 @@
+export { browserReviewCaptureAvailable, captureReviewRequests, installBrowserReviewCaptureAdapter } from './browserCapture';
 export { captureReviewBatch } from './captureController';
 export type { CapturedPng, CaptureBatchProgress, ReviewCaptureAdapter } from './captureController';
 export { bodyNormalization, normalizeDelta, normalizePoint } from './normalize';

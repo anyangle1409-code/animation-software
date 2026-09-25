@@ -1,3 +1,5 @@
+export { decideAutomaticCertification } from './certification';
+export type { AutomaticCertificationDecision, AutomaticCertificationInput, AutomaticCertificationStatus, VisualReviewStatus } from './certification';
 export { captureReferenceEvidence } from './reviewSession';
 export { browserReviewCaptureAvailable, captureReviewRequests, installBrowserReviewCaptureAdapter } from './browserCapture';
 export { captureReviewBatch } from './captureController';

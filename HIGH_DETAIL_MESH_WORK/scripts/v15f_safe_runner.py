@@ -75,6 +75,8 @@ def run_bat(name,*args):
     return p.returncode
 
 def pure_command(action):
+    if action=="AUDIT_V15F_FULL.bat":
+        return ("AUDIT_V15F_FULL.bat",)
     if action=="AUDIT_V15F_STAGE_A.bat":
         return ("AUDIT_V15F_STAGE_A.bat",)
     if action=="GENERATE_V15F_RING_VISUAL_PROOF.bat":

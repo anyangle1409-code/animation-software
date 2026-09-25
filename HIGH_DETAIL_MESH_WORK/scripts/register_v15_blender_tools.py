@@ -49,6 +49,8 @@ V15F_HOTSPOTS = [
     ("GT100", ">100°", "Severe fold edges"),
     ("PIP_HOT", "PIP hot", "PIP-local sharp region"),
     ("DIP_HOT", "DIP hot", "DIP-local sharp region"),
+    ("BAND_GT35", "Cross-band >35°", "Sharp edges running across the finger shaft"),
+    ("LONG_GT35", "Longitudinal >35°", "Sharp edges running along the finger shaft"),
 ]
 
 def body_object():

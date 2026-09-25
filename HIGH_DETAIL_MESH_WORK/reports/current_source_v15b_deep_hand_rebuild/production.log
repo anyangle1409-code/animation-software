@@ -1,0 +1,1491 @@
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/animation-software/HIGH_DETAIL_MESH_WORK/_v15_deep_checkout-v15-current-source-validation
+
+ ✓ src/retargeting/palmMapping.test.ts (7 tests) 670ms
+   ✓ a character with palm bones > same-side: maps them, and at rest moves exactly as with no palm mapping at all  364ms
+ ✓ src/exercises/families/rotation.test.ts (9 tests) 877ms
+   ✓ Russian twist on the production character > sits on the floor: resting on it, not hovering or sinking  718ms
+stdout | src/retargeting/realCharacterDiagnostic.test.ts > real imported-character production diagnostic > measures representative whole-body exercises through the production importer
+
+REAL_CHARACTER_DIAGNOSTIC
+{
+  "import": {
+    "mapping": {
+      "mapped": [
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck",
+        "head",
+        "clavicle_l",
+        "upperarm_l",
+        "forearm_l",
+        "hand_l",
+        "clavicle_r",
+        "upperarm_r",
+        "forearm_r",
+        "hand_r",
+        "thigh_l",
+        "shin_l",
+        "foot_l",
+        "toe_l",
+        "thigh_r",
+        "shin_r",
+        "foot_r",
+        "toe_r",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r"
+      ],
+      "missing": [
+        "root",
+        "scapula_l",
+        "scapula_r",
+        "metacarpal_index_l",
+        "metacarpal_middle_l",
+        "metacarpal_ring_l",
+        "metacarpal_pinky_l",
+        "metacarpal_index_r",
+        "metacarpal_middle_r",
+        "metacarpal_ring_r",
+        "metacarpal_pinky_r"
+      ],
+      "missingRequired": []
+    },
+    "height": 2.0175788345244436,
+    "scale": 0.8673762680567009,
+    "bones": 160,
+    "vertices": 12249,
+    "driven": 52,
+    "passive": 108
+  },
+  "exercises": {
+    "air_squat": [
+      {
+        "fraction": 0,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.329848250216767,
+            "p99": 1.3198337010486985,
+            "p95": 1.1359335156144728,
+            "min": 0.27595269959331126,
+            "over2x": 9,
+            "over3x": 0,
+            "underHalf": 11
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 5.266778886538055,
+            "p99": 2.297629742044623,
+            "p95": 1.4893892133015956,
+            "min": 0.5372307490516797,
+            "over2x": 66,
+            "over3x": 16,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.2213,
+            0.81558,
+            0.06666
+          ],
+          "r": [
+            -0.2213,
+            0.81558,
+            0.06666
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.2,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.3697735218669647,
+            "p99": 1.3264998600930162,
+            "p95": 1.14797013677416,
+            "min": 0.0960172564423945,
+            "over2x": 13,
+            "over3x": 0,
+            "underHalf": 52
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 4.085662202050522,
+            "p99": 1.931855756504693,
+            "p95": 1.4041629300909921,
+            "min": 0.19813831496411122,
+            "over2x": 36,
+            "over3x": 4,
+            "underHalf": 22
+          }
+        ],
+        "hands": {
+          "l": [
+            0.23848,
+            0.66195,
+            0.24582
+          ],
+          "r": [
+            -0.23848,
+            0.66195,
+            0.24582
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.45,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.9865929434396343,
+            "p99": 1.4946939452637908,
+            "p95": 1.1871309535892132,
+            "min": 0.15079188086555606,
+            "over2x": 65,
+            "over3x": 0,
+            "underHalf": 142
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 5.324591708131428,
+            "p99": 2.362328024550506,
+            "p95": 1.6267774135403972,
+            "min": 0.006802831857148558,
+            "over2x": 89,
+            "over3x": 10,
+            "underHalf": 135
+          }
+        ],
+        "hands": {
+          "l": [
+            0.26266,
+            0.5187,
+            0.44443
+          ],
+          "r": [
+            -0.26266,
+            0.5187,
+            0.44443
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.7,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.4926067098259233,
+            "p99": 1.356861674171701,
+            "p95": 1.1591298178413418,
+            "min": 0.06858721815968906,
+            "over2x": 18,
+            "over3x": 0,
+            "underHalf": 103
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 4.365236446177969,
+            "p99": 2.0165423539747445,
+            "p95": 1.4823953369604475,
+            "min": 0.13151075925577976,
+            "over2x": 45,
+            "over3x": 4,
+            "underHalf": 98
+          }
+        ],
+        "hands": {
+          "l": [
+            0.24491,
+            0.61772,
+            0.30672
+          ],
+          "r": [
+            -0.24491,
+            0.61772,
+            0.30672
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.95,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.329848250216767,
+            "p99": 1.3198337010486985,
+            "p95": 1.1359335156144728,
+            "min": 0.27595269959331126,
+            "over2x": 9,
+            "over3x": 0,
+            "underHalf": 11
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 5.266778886538055,
+            "p99": 2.297629742044623,
+            "p95": 1.4893892133015956,
+            "min": 0.5372307490516797,
+            "over2x": 66,
+            "over3x": 16,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.2213,
+            0.81558,
+            0.06666
+          ],
+          "r": [
+            -0.2213,
+            0.81558,
+            0.06666
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      }
+    ],
+    "dumbbell_bicep_curl": [
+      {
+        "fraction": 0,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 1.9612596038468397,
+            "p99": 1.3397509826715428,
+            "p95": 1.152318994735249,
+            "min": 0.19845840654704178,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 101
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.640678056764073,
+            "p99": 1.7164890115133973,
+            "p95": 1.2926604313613892,
+            "min": 0.5457704395899424,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.20342,
+            0.82602,
+            0.11779
+          ],
+          "r": [
+            -0.20342,
+            0.82602,
+            0.11779
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 2173
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 2189
+          }
+        }
+      },
+      {
+        "fraction": 0.2,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.0090305876239793,
+            "p99": 1.3626723976559847,
+            "p95": 1.1634055121230855,
+            "min": 0.1162385873056048,
+            "over2x": 2,
+            "over3x": 0,
+            "underHalf": 107
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.640678056764073,
+            "p99": 1.7164890115133973,
+            "p95": 1.2926604313613892,
+            "min": 0.5457704395899424,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.21425,
+            1.09509,
+            0.30892
+          ],
+          "r": [
+            -0.21425,
+            1.09509,
+            0.30892
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1834
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1834
+          }
+        }
+      },
+      {
+        "fraction": 0.45,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.2478268828452386,
+            "p99": 1.3921453446759768,
+            "p95": 1.169195522681322,
+            "min": 0.049726036208034646,
+            "over2x": 8,
+            "over3x": 0,
+            "underHalf": 121
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.640678056764073,
+            "p99": 1.7164890115133973,
+            "p95": 1.2926604313613892,
+            "min": 0.5457704395899424,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.22612,
+            1.34547,
+            0.23231
+          ],
+          "r": [
+            -0.22612,
+            1.34547,
+            0.23231
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1560
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1562
+          }
+        }
+      },
+      {
+        "fraction": 0.7,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.044146078399845,
+            "p99": 1.3666446000692658,
+            "p95": 1.1643211923329102,
+            "min": 0.1309968188145547,
+            "over2x": 4,
+            "over3x": 0,
+            "underHalf": 107
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.640678056764073,
+            "p99": 1.7164890115133973,
+            "p95": 1.2926604313613892,
+            "min": 0.5457704395899424,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.22151,
+            1.1386,
+            0.32652
+          ],
+          "r": [
+            -0.22151,
+            1.1386,
+            0.32652
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1847
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1847
+          }
+        }
+      },
+      {
+        "fraction": 0.95,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 1.9612596038468397,
+            "p99": 1.3397509826715428,
+            "p95": 1.152318994735249,
+            "min": 0.19845840654704178,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 101
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.640678056764073,
+            "p99": 1.7164890115133973,
+            "p95": 1.2926604313613892,
+            "min": 0.5457704395899424,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.20342,
+            0.82602,
+            0.11779
+          ],
+          "r": [
+            -0.20342,
+            0.82602,
+            0.11779
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 2173
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 2189
+          }
+        }
+      }
+    ],
+    "dumbbell_shoulder_press": [
+      {
+        "fraction": 0,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.234877536779297,
+            "p99": 1.47437693801169,
+            "p95": 1.1977765323562881,
+            "min": 0.17569313988129406,
+            "over2x": 34,
+            "over3x": 6,
+            "underHalf": 97
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.654940641503042,
+            "p99": 1.7200093716897844,
+            "p95": 1.294464876019282,
+            "min": 0.546403829808179,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.51962,
+            1.65317,
+            0.05398
+          ],
+          "r": [
+            -0.51962,
+            1.65317,
+            0.05398
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1612
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1628
+          }
+        }
+      },
+      {
+        "fraction": 0.2,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.3421460626559325,
+            "p99": 1.5370461424587645,
+            "p95": 1.1963690456275815,
+            "min": 0.2837919829009963,
+            "over2x": 54,
+            "over3x": 6,
+            "underHalf": 67
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.654940641503042,
+            "p99": 1.7200093716897844,
+            "p95": 1.294464876019282,
+            "min": 0.546403829808179,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.52815,
+            1.866,
+            0.13006
+          ],
+          "r": [
+            -0.52815,
+            1.866,
+            0.13006
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1014
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1014
+          }
+        }
+      },
+      {
+        "fraction": 0.45,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.7952759772643323,
+            "p99": 1.6035686058869314,
+            "p95": 1.20955248507125,
+            "min": 0.2837917854928887,
+            "over2x": 82,
+            "over3x": 12,
+            "underHalf": 79
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.654940641503042,
+            "p99": 1.7200093716897844,
+            "p95": 1.294464876019282,
+            "min": 0.546403829808179,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.32272,
+            2.03056,
+            0.00441
+          ],
+          "r": [
+            -0.32272,
+            2.03056,
+            0.00441
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 4513
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 4514
+          }
+        }
+      },
+      {
+        "fraction": 0.7,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.2477311102220097,
+            "p99": 1.4975161423491372,
+            "p95": 1.193372474719262,
+            "min": 0.2837919786246844,
+            "over2x": 48,
+            "over3x": 6,
+            "underHalf": 69
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.654940641503042,
+            "p99": 1.7200093716897844,
+            "p95": 1.294464876019282,
+            "min": 0.546403829808179,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.54002,
+            1.81078,
+            0.1364
+          ],
+          "r": [
+            -0.54002,
+            1.81078,
+            0.1364
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 997
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 997
+          }
+        }
+      },
+      {
+        "fraction": 0.95,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.234877536779297,
+            "p99": 1.47437693801169,
+            "p95": 1.1977765323562881,
+            "min": 0.17569313988129406,
+            "over2x": 34,
+            "over3x": 6,
+            "underHalf": 97
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.654940641503042,
+            "p99": 1.7200093716897844,
+            "p95": 1.294464876019282,
+            "min": 0.546403829808179,
+            "over2x": 16,
+            "over3x": 0,
+            "underHalf": 0
+          }
+        ],
+        "hands": {
+          "l": [
+            0.51962,
+            1.65317,
+            0.05398
+          ],
+          "r": [
+            -0.51962,
+            1.65317,
+            0.05398
+          ]
+        },
+        "handleSkin": {
+          "l": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.078,
+            "sampledVertices": 1612
+          },
+          "r": {
+            "penetratingVertices": 94,
+            "minClearanceMm": -14.079,
+            "sampledVertices": 1628
+          }
+        }
+      }
+    ],
+    "push_up": [
+      {
+        "fraction": 0,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.3333724453055944,
+            "p99": 1.476849281952628,
+            "p95": 1.1767163047844176,
+            "min": 0.23006050118505092,
+            "over2x": 12,
+            "over3x": 0,
+            "underHalf": 61
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 1.8263082409191325,
+            "p99": 1.3720363713982933,
+            "p95": 1.1703168172780383,
+            "min": 0.3901060094276597,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 5
+          }
+        ],
+        "hands": {
+          "l": [
+            0.29994,
+            0.02872,
+            1.29508
+          ],
+          "r": [
+            -0.29994,
+            0.02872,
+            1.29508
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.2,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.3851832677254294,
+            "p99": 1.4120586261540056,
+            "p95": 1.1688027100804448,
+            "min": 0.07100038718794015,
+            "over2x": 12,
+            "over3x": 0,
+            "underHalf": 63
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 1.824472676300074,
+            "p99": 1.3714394296120989,
+            "p95": 1.1700763124910831,
+            "min": 0.3910138647247784,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 5
+          }
+        ],
+        "hands": {
+          "l": [
+            0.3,
+            0.02618,
+            1.295
+          ],
+          "r": [
+            -0.3,
+            0.02618,
+            1.295
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.45,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.418368061191515,
+            "p99": 1.4055486115239035,
+            "p95": 1.1686575045156549,
+            "min": 0.1584220673782985,
+            "over2x": 18,
+            "over3x": 0,
+            "underHalf": 74
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 1.8242348089468627,
+            "p99": 1.3713257757683772,
+            "p95": 1.1700397299025953,
+            "min": 0.3911553425524716,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 5
+          }
+        ],
+        "hands": {
+          "l": [
+            0.3,
+            0.02607,
+            1.295
+          ],
+          "r": [
+            -0.3,
+            0.02607,
+            1.295
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.7,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.407908097612682,
+            "p99": 1.4066674258710512,
+            "p95": 1.1693556406384686,
+            "min": 0.10751829901063624,
+            "over2x": 14,
+            "over3x": 0,
+            "underHalf": 65
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 1.8235158939843519,
+            "p99": 1.3711247466763297,
+            "p95": 1.169950342200064,
+            "min": 0.39148959981227915,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 5
+          }
+        ],
+        "hands": {
+          "l": [
+            0.3,
+            0.02614,
+            1.295
+          ],
+          "r": [
+            -0.3,
+            0.02614,
+            1.295
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.95,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.3333724453055944,
+            "p99": 1.476849281952628,
+            "p95": 1.1767163047844176,
+            "min": 0.23006050118505092,
+            "over2x": 12,
+            "over3x": 0,
+            "underHalf": 61
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 1.8263082409191325,
+            "p99": 1.3720363713982933,
+            "p95": 1.1703168172780383,
+            "min": 0.3901060094276597,
+            "over2x": 0,
+            "over3x": 0,
+            "underHalf": 5
+          }
+        ],
+        "hands": {
+          "l": [
+            0.29994,
+            0.02872,
+            1.29508
+          ],
+          "r": [
+            -0.29994,
+            0.02872,
+            1.29508
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      }
+    ],
+    "pull_up": [
+      {
+        "fraction": 0,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 4.255929957340554,
+            "p99": 1.8083048453963906,
+            "p95": 1.2490370891140408,
+            "min": 0.10837387296538359,
+            "over2x": 170,
+            "over3x": 26,
+            "underHalf": 170
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.375732867027087,
+            "p99": 1.581232282816447,
+            "p95": 1.270446932941582,
+            "min": 0.1394105918471688,
+            "over2x": 6,
+            "over3x": 0,
+            "underHalf": 14
+          }
+        ],
+        "hands": {
+          "l": [
+            0.2737,
+            1.97022,
+            0.00002
+          ],
+          "r": [
+            -0.2737,
+            1.97022,
+            0.00002
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.2,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.6018870950921458,
+            "p99": 1.5554293046026126,
+            "p95": 1.2429449226457792,
+            "min": 0.14518126348606306,
+            "over2x": 72,
+            "over3x": 8,
+            "underHalf": 173
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.375730391161442,
+            "p99": 1.581232282816451,
+            "p95": 1.2820672626721379,
+            "min": 0.13941086989627496,
+            "over2x": 6,
+            "over3x": 0,
+            "underHalf": 14
+          }
+        ],
+        "hands": {
+          "l": [
+            0.27367,
+            1.97,
+            0
+          ],
+          "r": [
+            -0.27367,
+            1.97,
+            0
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.45,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 2.9412695124190145,
+            "p99": 1.4701460180331083,
+            "p95": 1.1890352813710758,
+            "min": 0.13693706419431426,
+            "over2x": 34,
+            "over3x": 0,
+            "underHalf": 213
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.3757290000377993,
+            "p99": 1.5812322828164342,
+            "p95": 1.2906358648110545,
+            "min": 0.1394110328276285,
+            "over2x": 6,
+            "over3x": 0,
+            "underHalf": 14
+          }
+        ],
+        "hands": {
+          "l": [
+            0.27367,
+            1.97,
+            0
+          ],
+          "r": [
+            -0.27367,
+            1.97,
+            0
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.7,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 3.5824113328472866,
+            "p99": 1.6669690804526716,
+            "p95": 1.2621269409387719,
+            "min": 0.14518124955824394,
+            "over2x": 110,
+            "over3x": 14,
+            "underHalf": 161
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.375731294271773,
+            "p99": 1.5812322828164427,
+            "p95": 1.2761678195098154,
+            "min": 0.1394107641227467,
+            "over2x": 6,
+            "over3x": 0,
+            "underHalf": 14
+          }
+        ],
+        "hands": {
+          "l": [
+            0.27367,
+            1.97,
+            0
+          ],
+          "r": [
+            -0.27367,
+            1.97,
+            0
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      },
+      {
+        "fraction": 0.95,
+        "meshStats": [
+          {
+            "mesh": "Mike_Freeman",
+            "max": 4.255929957340554,
+            "p99": 1.8083048453963906,
+            "p95": 1.2490370891140408,
+            "min": 0.10837387296538359,
+            "over2x": 170,
+            "over3x": 26,
+            "underHalf": 170
+          },
+          {
+            "mesh": "HomeGymPT_Shorts",
+            "max": 2.375732867027087,
+            "p99": 1.581232282816447,
+            "p95": 1.270446932941582,
+            "min": 0.1394105918471688,
+            "over2x": 6,
+            "over3x": 0,
+            "underHalf": 14
+          }
+        ],
+        "hands": {
+          "l": [
+            0.2737,
+            1.97022,
+            0.00002
+          ],
+          "r": [
+            -0.2737,
+            1.97022,
+            0.00002
+          ]
+        },
+        "handleSkin": {
+          "l": null,
+          "r": null
+        }
+      }
+    ]
+  }
+}
+
+ ✓ src/retargeting/realCharacterDiagnostic.test.ts (3 tests) 4339ms
+   ✓ real imported-character production diagnostic > measures representative whole-body exercises through the production importer  4307ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bicep Curl
+  dumbbell_bicep_curl      L  closest    4.74 mm  (upper_armL to breastL at 1.79s)
+  dumbbell_bicep_curl      R  closest    4.73 mm  (upper_armR to breastR at 1.79s)
+
+ ✓ src/exercises/families/lunge.test.ts (17 tests) 4277ms
+   ✓ the lunge family > pivots the back foot on its ball: the ball and toes stay put while the heel rises  440ms
+   ✓ feet on the production character > split_squat: each planted sole rests on the floor, and each ankle is where the rig puts it  1252ms
+   ✓ feet on the production character > forward_lunge: each planted sole rests on the floor, and each ankle is where the rig puts it  1174ms
+   ✓ feet on the production character > reverse_lunge: each planted sole rests on the floor, and each ankle is where the rig puts it  1193ms
+ ✓ src/exercises/families/trunkFlexion.test.ts (7 tests) 1799ms
+   ✓ lying and sitting on the production character > crunch: back, seat and head rest on the floor at the start; nothing sinks through it  964ms
+   ✓ lying and sitting on the production character > sit_up: back, seat and head rest on the floor at the start; nothing sinks through it  706ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Hammer Curl
+  dumbbell_hammer_curl     L  closest    5.03 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_hammer_curl     R  closest    5.02 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Reverse Curl
+  dumbbell_reverse_curl    L  closest    2.59 mm  (upper_armL001 to breastL at 1.24s)
+  dumbbell_reverse_curl    R  closest    2.66 mm  (upper_armR001 to breastR at 1.24s)
+
+ ✓ src/retargeting/mirroredHands.test.ts (3 tests) 12958ms
+   ✓ the production character's hands > roll with the rig's, about the forearm, in every exercise it does not re-solve  12819ms
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bicep Curl
+  PASS  dumbbell_bicep_curl      dumbbell_l   closest   11.86 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_bicep_curl      dumbbell_r   closest   12.01 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Hammer Curl
+  PASS  dumbbell_hammer_curl     dumbbell_l   closest   14.69 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_hammer_curl     dumbbell_r   closest   14.47 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+ ✓ src/retargeting/unmappedBones.test.ts (2 tests) 31988ms
+   ✓ retargeting through bones the character does not have > drives every bone, grip and vertex as before through all seven exercises  31875ms
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Reverse Curl
+  PASS  dumbbell_reverse_curl    dumbbell_l   closest   13.80 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_reverse_curl    dumbbell_r   closest   13.30 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Shoulder Press
+  PASS  dumbbell_shoulder_press  dumbbell_l   closest  347.82 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  dumbbell_shoulder_press  dumbbell_r   closest  347.31 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Pull-Up
+  PASS  pull_up                  rack         closest  240.52 mm  inside 0  (rack at 1.43s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Romanian Deadlift
+  PASS  dumbbell_romanian_deadlift dumbbell_l   closest   25.39 mm  inside 0  (dumbbell_l at 4.38s, against thighL)
+  PASS  dumbbell_romanian_deadlift dumbbell_r   closest   24.88 mm  inside 0  (dumbbell_r at 4.38s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bent-Over Row
+  PASS  dumbbell_bent_over_row   dumbbell_l   closest   10.93 mm  inside 0  (dumbbell_l at 1.26s, against thighL)
+  PASS  dumbbell_bent_over_row   dumbbell_r   closest   10.93 mm  inside 0  (dumbbell_r at 1.26s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Seated Dumbbell Shoulder Press
+  PASS  seated_dumbbell_shoulder_press dumbbell_l   closest  347.82 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  seated_dumbbell_shoulder_press dumbbell_r   closest  347.31 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+  PASS  seated_dumbbell_shoulder_press bench        deepest   -8.95 mm  inside 492  (bench at 0.00s, against thighR)
+        pad    seated_dumbbell_shoulder_press / bench part 0: -8.95 mm at 0.00s, thighR
+        frame  seated_dumbbell_shoulder_press / bench part 1: 62.12 mm at 0.00s, thighL
+        frame  seated_dumbbell_shoulder_press / bench part 2: 826.52 mm at 0.00s, spine
+        frame  seated_dumbbell_shoulder_press / bench part 3: 212.01 mm at 0.00s, shinR001
+        frame  seated_dumbbell_shoulder_press / bench part 4: 949.12 mm at 0.00s, spine
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Push-Up
+  push_up                  L  closest    7.90 mm  (upper_armL to breastL at 0.96s)
+  push_up                  R  closest    7.89 mm  (upper_armR to breastR at 0.96s)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Incline Dumbbell Curl
+  PASS  incline_dumbbell_curl    dumbbell_l   closest    3.39 mm  inside 0  (dumbbell_l at 3.99s, against thighL)
+  PASS  incline_dumbbell_curl    dumbbell_r   closest    3.38 mm  inside 0  (dumbbell_r at 3.99s, against thighR)
+  PASS  incline_dumbbell_curl    bench        deepest  -10.34 mm  inside 1265  (bench at 0.00s, against thighR)
+        pad    incline_dumbbell_curl / bench part 0: -2.05 mm at 2.06s, breastR
+        pad    incline_dumbbell_curl / bench part 1: -10.34 mm at 0.00s, thighR
+        frame  incline_dumbbell_curl / bench part 2: 90.39 mm at 0.00s, thighR001
+        frame  incline_dumbbell_curl / bench part 3: 115.19 mm at 0.00s, spine006
+        frame  incline_dumbbell_curl / bench part 4: 154.73 mm at 0.00s, shinR001
+        frame  incline_dumbbell_curl / bench part 5: 709.91 mm at 0.00s, spine002
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Overhead Triceps Extension
+  PASS  dumbbell_overhead_triceps_extension dumbbell_l   closest  142.69 mm  inside 0  (dumbbell_l at 2.25s, against spine003)
+  PASS  dumbbell_overhead_triceps_extension dumbbell_r   closest  142.69 mm  inside 0  (dumbbell_r at 2.25s, against spine003)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Triceps Pushdown
+  PASS  cable_triceps_pushdown   tower        closest  417.62 mm  inside 0  (tower at 0.00s, against shinR001)
+  PASS  cable_triceps_pushdown   bar          closest   24.78 mm  inside 0  (bar at 0.00s, against thighR)
+  PASS  cable_triceps_pushdown   cable        closest   32.07 mm  inside 0  (cable at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Lateral Raise
+  PASS  dumbbell_lateral_raise   dumbbell_l   closest   47.79 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_lateral_raise   dumbbell_r   closest   47.26 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Front Raise
+  PASS  dumbbell_front_raise     dumbbell_l   closest   24.17 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_front_raise     dumbbell_r   closest   23.88 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Bodyweight Squat
+  air_squat                L  closest    1.36 mm  (upper_armL to breastL at 3.41s)
+  air_squat                R  closest    1.38 mm  (upper_armR to breastR at 3.41s)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Calf Raise
+  PASS  dumbbell_calf_raise      dumbbell_l   closest    8.40 mm  inside 0  (dumbbell_l at 2.56s, against thighL)
+  PASS  dumbbell_calf_raise      dumbbell_r   closest    8.43 mm  inside 0  (dumbbell_r at 2.56s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Pallof Press
+  PASS  cable_pallof_press       tower        closest  260.73 mm  inside 0  (tower at 0.00s, against shinL001)
+  PASS  cable_pallof_press       handle       closest   39.57 mm  inside 0  (handle at 0.00s, against spine002)
+  PASS  cable_pallof_press       cable        closest  109.45 mm  inside 0  (cable at 0.00s, against spine002)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bench Press
+  PASS  dumbbell_bench_press     dumbbell_l   closest  235.59 mm  inside 0  (dumbbell_l at 1.74s, against breastL)
+  PASS  dumbbell_bench_press     dumbbell_r   closest  235.42 mm  inside 0  (dumbbell_r at 1.74s, against breastR)
+  PASS  dumbbell_bench_press     bench        deepest  -13.69 mm  inside 2694  (bench at 0.00s, against thighL)
+        pad    dumbbell_bench_press / bench part 0: -13.69 mm at 0.00s, thighL
+        frame  dumbbell_bench_press / bench part 1: 199.99 mm at 0.00s, spine006
+        frame  dumbbell_bench_press / bench part 2: 50.61 mm at 0.00s, thighL
+        frame  dumbbell_bench_press / bench part 3: 465.84 mm at 0.00s, spine006
+        frame  dumbbell_bench_press / bench part 4: 316.34 mm at 0.00s, shinL001
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Fly
+  PASS  dumbbell_fly             dumbbell_l   closest  489.78 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  dumbbell_fly             dumbbell_r   closest  489.77 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+  PASS  dumbbell_fly             bench        deepest  -13.69 mm  inside 2568  (bench at 0.00s, against thighL)
+        pad    dumbbell_fly / bench part 0: -13.69 mm at 0.00s, thighL
+        frame  dumbbell_fly / bench part 1: 199.99 mm at 0.00s, spine006
+        frame  dumbbell_fly / bench part 2: 50.61 mm at 0.00s, thighL
+        frame  dumbbell_fly / bench part 3: 465.84 mm at 0.00s, spine006
+        frame  dumbbell_fly / bench part 4: 316.34 mm at 0.00s, shinL001
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Woodchop
+  PASS  cable_woodchop           tower        closest  233.37 mm  inside 0  (tower at 0.17s, against shinR001)
+  PASS  cable_woodchop           handle       closest  111.99 mm  inside 0  (handle at 1.07s, against thighL)
+  PASS  cable_woodchop           cable        closest  157.98 mm  inside 0  (cable at 1.07s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Farmer's Walk
+  PASS  farmers_walk             dumbbell_l   closest   71.48 mm  inside 0  (dumbbell_l at 0.63s, against thighL)
+  PASS  farmers_walk             dumbbell_r   closest   71.39 mm  inside 0  (dumbbell_r at 0.03s, against thighR)
+
+ ✓ src/exercises/equipmentClearance.test.ts (19 tests) 48282ms
+   ✓ equipment clears the body > Dumbbell Bicep Curl  1837ms
+   ✓ equipment clears the body > Dumbbell Hammer Curl  2147ms
+   ✓ equipment clears the body > Dumbbell Reverse Curl  1594ms
+   ✓ equipment clears the body > Dumbbell Shoulder Press  1322ms
+   ✓ equipment clears the body > Pull-Up  1132ms
+   ✓ equipment clears the body > Dumbbell Romanian Deadlift  1238ms
+   ✓ equipment clears the body > Dumbbell Bent-Over Row  1874ms
+   ✓ equipment clears the body > Seated Dumbbell Shoulder Press  2632ms
+   ✓ equipment clears the body > Incline Dumbbell Curl  9387ms
+   ✓ equipment clears the body > Dumbbell Overhead Triceps Extension  1872ms
+   ✓ equipment clears the body > Cable Triceps Pushdown  3450ms
+   ✓ equipment clears the body > Dumbbell Lateral Raise  1719ms
+   ✓ equipment clears the body > Dumbbell Front Raise  1453ms
+   ✓ equipment clears the body > Dumbbell Calf Raise  3459ms
+   ✓ equipment clears the body > Cable Pallof Press  1701ms
+   ✓ equipment clears the body > Dumbbell Bench Press  2373ms
+   ✓ equipment clears the body > Dumbbell Fly  2474ms
+   ✓ equipment clears the body > Cable Woodchop  4506ms
+   ✓ equipment clears the body > Farmer's Walk  2103ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Shoulder Press
+  dumbbell_shoulder_press  L  closest    1.95 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_shoulder_press  R  closest    1.98 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Pull-Up
+  pull_up                  L  closest    2.02 mm  (upper_armL to breastL at 2.97s)
+  pull_up                  R  closest    2.02 mm  (upper_armR to breastR at 2.97s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Romanian Deadlift
+  dumbbell_romanian_deadlift L  closest    1.17 mm  (upper_armL to breastL at 1.25s)
+  dumbbell_romanian_deadlift R  closest    1.18 mm  (upper_armR to breastR at 1.25s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bent-Over Row
+  dumbbell_bent_over_row   L  closest    1.52 mm  (upper_armL to breastL at 3.26s)
+  dumbbell_bent_over_row   R  closest    1.53 mm  (upper_armR to breastR at 3.26s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Seated Dumbbell Shoulder Press
+  seated_dumbbell_shoulder_press L  closest    1.95 mm  (upper_armL to breastL at 0.00s)
+  seated_dumbbell_shoulder_press R  closest    1.98 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Incline Dumbbell Curl
+  incline_dumbbell_curl    L  closest    1.79 mm  (upper_armL to breastL at 3.85s)
+  incline_dumbbell_curl    R  closest    1.82 mm  (upper_armR to breastR at 3.85s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Overhead Triceps Extension
+  dumbbell_overhead_triceps_extension L  closest    2.90 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_overhead_triceps_extension R  closest    2.89 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Bodyweight Split Squat
+  split_squat              L  closest    4.22 mm  (upper_armL001 to breastL at 1.85s)
+  split_squat              R  closest    4.22 mm  (upper_armR001 to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Triceps Pushdown
+  cable_triceps_pushdown   L  closest    4.65 mm  (upper_armL to breastL at 0.00s)
+  cable_triceps_pushdown   R  closest    4.64 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Lateral Raise
+  dumbbell_lateral_raise   L  closest    4.14 mm  (upper_armL001 to breastL at 0.00s)
+  dumbbell_lateral_raise   R  closest    4.15 mm  (upper_armR001 to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Front Raise
+  dumbbell_front_raise     L  closest    1.12 mm  (upper_armL to breastL at 2.80s)
+  dumbbell_front_raise     R  closest    1.13 mm  (upper_armR to breastR at 2.80s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Standing Calf Raise
+  standing_calf_raise      L  closest    5.10 mm  (upper_armL to breastL at 1.04s)
+  standing_calf_raise      R  closest    5.12 mm  (upper_armR to breastR at 1.04s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Calf Raise
+  dumbbell_calf_raise      L  closest    5.60 mm  (upper_armL to breastL at 1.04s)
+  dumbbell_calf_raise      R  closest    5.59 mm  (upper_armR to breastR at 0.28s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Pallof Press
+  cable_pallof_press       L  closest    1.85 mm  (upper_armL to breastL at 1.04s)
+  cable_pallof_press       R  closest    4.09 mm  (upper_armR to breastR at 3.38s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bench Press
+  dumbbell_bench_press     L  closest    8.63 mm  (upper_armL to breastL at 0.10s)
+  dumbbell_bench_press     R  closest    8.63 mm  (upper_armR to breastR at 0.10s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Fly
+  dumbbell_fly             L  closest   10.28 mm  (upper_armL to breastL at 2.23s)
+  dumbbell_fly             R  closest   10.28 mm  (upper_armR to breastR at 2.23s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Russian Twist
+  russian_twist            L  closest    1.84 mm  (upper_armL001 to breastL at 0.00s)
+  russian_twist            R  closest    1.90 mm  (upper_armR001 to spine002 at 0.13s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Woodchop
+  cable_woodchop           L  closest    1.49 mm  (upper_armL to breastL at 2.23s)
+  cable_woodchop           R  closest    0.98 mm  (forearmR to spine002 at 0.91s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Forward Lunge
+  forward_lunge            L  closest    4.22 mm  (upper_armL001 to breastL at 1.89s)
+  forward_lunge            R  closest    4.22 mm  (upper_armR001 to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Reverse Lunge
+  reverse_lunge            L  closest    4.22 mm  (upper_armL001 to breastL at 1.89s)
+  reverse_lunge            R  closest    4.22 mm  (upper_armR001 to breastR at 3.78s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Crunch
+  crunch                   L  closest    1.94 mm  (upper_armL to breastL at 1.02s)
+  crunch                   R  closest    1.94 mm  (upper_armR to breastR at 1.02s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Sit-Up
+  sit_up                   L  closest    1.59 mm  (upper_armL to breastL at 0.53s)
+  sit_up                   R  closest    1.59 mm  (upper_armR to breastR at 0.53s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Farmer's Walk
+  farmers_walk             L  closest    5.70 mm  (upper_armL to breastL at 0.00s)
+  farmers_walk             R  closest    5.71 mm  (upper_armR to breastR at 0.60s)
+
+ ✓ src/exercises/selfCollision.test.ts (28 tests) 397000ms
+   ✓ the arm clears the trunk > Dumbbell Bicep Curl  6060ms
+   ✓ the arm clears the trunk > Dumbbell Hammer Curl  9354ms
+   ✓ the arm clears the trunk > Dumbbell Reverse Curl  5422ms
+   ✓ the arm clears the trunk > Push-Up  23649ms
+   ✓ the arm clears the trunk > Bodyweight Squat  15245ms
+   ✓ the arm clears the trunk > Dumbbell Shoulder Press  28576ms
+   ✓ the arm clears the trunk > Pull-Up  18812ms
+   ✓ the arm clears the trunk > Dumbbell Romanian Deadlift  10799ms
+   ✓ the arm clears the trunk > Dumbbell Bent-Over Row  11031ms
+   ✓ the arm clears the trunk > Seated Dumbbell Shoulder Press  27726ms
+   ✓ the arm clears the trunk > Incline Dumbbell Curl  9319ms
+   ✓ the arm clears the trunk > Dumbbell Overhead Triceps Extension  21874ms
+   ✓ the arm clears the trunk > Bodyweight Split Squat  8218ms
+   ✓ the arm clears the trunk > Cable Triceps Pushdown  6914ms
+   ✓ the arm clears the trunk > Dumbbell Lateral Raise  19596ms
+   ✓ the arm clears the trunk > Dumbbell Front Raise  16701ms
+   ✓ the arm clears the trunk > Standing Calf Raise  11285ms
+   ✓ the arm clears the trunk > Dumbbell Calf Raise  12101ms
+   ✓ the arm clears the trunk > Cable Pallof Press  13974ms
+   ✓ the arm clears the trunk > Dumbbell Bench Press  25278ms
+   ✓ the arm clears the trunk > Dumbbell Fly  25478ms
+   ✓ the arm clears the trunk > Russian Twist  4082ms
+   ✓ the arm clears the trunk > Cable Woodchop  19679ms
+   ✓ the arm clears the trunk > Forward Lunge  8997ms
+   ✓ the arm clears the trunk > Reverse Lunge  6719ms
+   ✓ the arm clears the trunk > Crunch  11093ms
+   ✓ the arm clears the trunk > Sit-Up  10655ms
+   ✓ the arm clears the trunk > Farmer's Walk  8354ms
+
+ Test Files  9 passed (9)
+      Tests  95 passed (95)
+   Start at  17:36:42
+   Duration  407.46s (transform 2.41s, setup 902ms, collect 22.78s, tests 502.19s, environment 3ms, prepare 5.61s)

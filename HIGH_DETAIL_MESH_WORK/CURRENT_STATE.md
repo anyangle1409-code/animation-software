@@ -20,6 +20,7 @@ This file is the authoritative entry point for the high-detail mesh review works
 - V15a (radial shaft reconstruction plus 560 internal diagonal redirects) preserved as a rejected trial: the curl close-up pinches and the finger fold metric worsens.
 - V15b (conservative shaft reconstruction) is the most complete review trial. Its 63-bone/frozen exercise suite, bare/dressed comparison and exact 682 push-up contacts pass. Its V13e-matched open/fist/curl/push-up/pull-up boards are in `renders_v15b_deep_hand_rebuild/`. It is **not accepted**: the segmented shaft appearance persists and bind folds over 100 degrees rise from 4 to 8 in `reports/hand_seam_audit.json`.
 - V15c was stopped before export because a topology-tracking script reset existing stable IDs. V15d and V15e are preserved as further experimental Blend-only attempts; V15e adds 1,165 local PIP/DIP control vertices, but its sharp/fold audit worsens, so neither is approved for export or promotion.
+- Current-source integration for V15b remains incomplete. Its production-reference focused run passed 95/95 tests; the candidate comparison was stopped after the anatomy gate had already failed. Do not infer a current-source pass from the frozen-runtime pass.
 - The prepared workflow and all production references remain untouched. Grip Phase C is still on hold. See `V15_SESSION_2026-09-25.md` for exact artifacts, validation and the next safe action.
 
 - Accepted body/knee geometry baseline: **V8**

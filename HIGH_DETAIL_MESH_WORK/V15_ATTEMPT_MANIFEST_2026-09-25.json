@@ -1,6 +1,11 @@
 {
   "baseline": "V13e",
   "accepted_hand_candidate": null,
+  "prepared_checkpoint": {
+    "file": "checkpoints/v15_manual/v15a_deep_hand_rebuild_checkpoint_001.blend",
+    "bytes": 6269827,
+    "sha256": "a2c8afc2505fb92731e8c890f28830257f1a8b5d6891046799579df62b584513"
+  },
   "attempt_status": {
     "v15a": "rejected_visual_and_fold_regression",
     "v15b": "technical_review_trial_not_accepted_fold_regression",

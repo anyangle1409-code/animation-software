@@ -200,6 +200,43 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it('reads flat dumbbell bench press and fly through the supine family', () => {
+    const press = parsePrompt('Create a dumbbell bench press with 20 kg dumbbells and controlled tempo.');
+    expect(press.issues).toEqual([]);
+    expect(press.intent).toMatchObject({
+      family: 'supine',
+      supineMotion: 'press',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'bench',
+      load: 20,
+      tempo: { profile: 'controlled' },
+    });
+
+    const fly = parsePrompt('Create a dumbbell fly with 10 kg dumbbells.');
+    expect(fly.issues).toEqual([]);
+    expect(fly.intent).toMatchObject({
+      family: 'supine',
+      supineMotion: 'fly',
+      grip: 'neutral',
+      support: 'bench',
+      load: 10,
+    });
+  });
+
+  it("reads a farmer's walk with paired dumbbells", () => {
+    const parsed = parsePrompt("Create a farmer's walk with 26 kg dumbbells.");
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'carry',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'walking',
+      load: 26,
+      tempo: { profile: 'family' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -263,6 +300,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('single-leg calf raise')).toContain('variant');
     expect(blocking('weighted crunch with 10 kg dumbbell')).toContain('variant');
     expect(blocking('bicycle crunch')).toContain('variant');
+    expect(blocking('incline dumbbell bench press')).toEqual(['family']);
+    expect(blocking('barbell bench press')).toContain('variant');
+    expect(blocking('floor press')).toEqual(['family']);
+    expect(blocking('suitcase carry')).toEqual(['family']);
+    expect(blocking("farmer's walk with slow tempo")).toContain('tempo');
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

@@ -1,3 +1,11 @@
+export { buildCaptureRequests, DEFAULT_REVIEW_VIEWPORT } from './capturePlan';
+export type { CaptureCameraRequest, CaptureViewportProfile, ReviewCaptureRequest, ReviewEvidenceBatch, ReviewImageEvidence, ReviewImageEvidenceMeta } from './evidence';
+export { sampleLandmarks, sampleLandmarkTrajectory } from './landmarks';
+export type { LandmarkFrame } from './landmarks';
+export { evaluateProjectedEnvelope, projectWorldPoint, projectedDistance } from './projection';
+export type { ProjectedEnvelope, ProjectedEnvelopeResult, ProjectedPoint, ProjectionCamera } from './projection';
+export { resolveReviewCamera } from './reviewCamera';
+export type { DeterministicCameraSetup, ReviewLandmarks } from './reviewCamera';
 export { evaluateReference } from './evaluate';
 export type { ReferenceEvaluationOptions } from './evaluate';
 export { referenceForFamily } from './library';

@@ -10,6 +10,7 @@ It never promotes or merges a candidate.
 """
 from __future__ import annotations
 import glob
+import json
 import os
 import shutil
 import subprocess
@@ -95,6 +96,36 @@ def main():
         sys.executable, ROOT / "scripts" / "make_v15_hand_review_sheets.py",
         "--version", VERSION,
     ])
+
+    # Direct topology/seam comparison against V13e using the matched open pose.
+    run([
+        exe, "--background", "--factory-startup",
+        "--python", ROOT / "scripts" / "audit_hand_seams.py",
+        "--", BASE_VERSION, VERSION,
+    ])
+
+    # Quantify whether the candidate visibly moved enough to avoid another
+    # V14e-style "technically large, visually marginal" checkpoint.
+    run([
+        sys.executable, ROOT / "scripts" / "analyze_v15_visual_change.py",
+        "--version", VERSION,
+    ])
+
+    status = {
+        "version": VERSION,
+        "frozen_runtime": "614033b256d869230ea273522620467401b0bc71",
+        "visual_baseline": "V13e",
+        "blender_invariant_audit": "PASS",
+        "frozen_candidate_gates": "PASS",
+        "protected_floor_guard": "PASS",
+        "matched_review_rendering": "PASS",
+        "hand_seam_audit": "COMPLETE",
+        "visual_change_metrics": "COMPLETE",
+        "pass": True,
+        "remaining": "latest-source integration and human/AI visual anatomy verdict",
+    }
+    status_path = ROOT / "reports" / f"{VERSION}_frozen_pipeline_status.json"
+    status_path.write_text(json.dumps(status, indent=2))
 
     print("\nV15 FROZEN + MATCHED VISUAL WORKFLOW PASS")
     print("Still required before acceptance: latest-source integration validation.")

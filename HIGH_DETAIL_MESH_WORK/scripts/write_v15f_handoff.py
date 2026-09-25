@@ -87,6 +87,14 @@ def main():
     lines += ["", "## Incremental gates"]
     proof = ROOT / "reports" / "v15f_ring_l_proof_gate.json"
     lines.append(f"- ring_L proof: {state(proof)}")
+    visual = read_json(ROOT / "reports" / "v15f_ring_visual_decision.json")
+    if visual:
+        lines.append(
+            f"- ring_L visual: {visual.get('decision', 'UNKNOWN')} "
+            f"— {visual.get('notes', '')}"
+        )
+    else:
+        lines.append("- ring_L visual: missing")
     for digit in DIGITS:
         path = ROOT / "reports" / f"v15f_{digit}_incremental_gate.json"
         lines.append(f"- {digit}: {state(path)}")

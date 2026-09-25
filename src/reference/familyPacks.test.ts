@@ -9,6 +9,7 @@ import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { pullUp } from '../exercises/definitions/pullUp';
+import { pushUp } from '../exercises/definitions/pushUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -18,6 +19,7 @@ import { lungeReferenceFor } from './specs/lunge';
 import { hingeReferenceFor } from './specs/hinge';
 import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
+import { horizontalPressReferenceFor } from './specs/horizontalPress';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -44,6 +46,7 @@ describe('draft family reference packs', () => {
     ['Romanian deadlift', romanianDeadlift, hingeReferenceFor],
     ['bent-over row', bentOverRow, rowReferenceFor],
     ['strict pull-up', pullUp, verticalPullReferenceFor],
+    ['standard push-up', pushUp, horizontalPressReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -117,6 +120,18 @@ describe('draft family reference packs', () => {
     );
     const report = review(exercise, verticalPullReferenceFor(exercise));
     expect(report.failed).toContain('pullup_top_elbow');
+  });
+
+
+  it('rejects a push-up that stops well short of depth', () => {
+    const exercise = clone(pushUp);
+    exercise.jointTargets = exercise.jointTargets.map((target) =>
+      target.bone.startsWith('forearm_') && target.axis === 'x'
+        ? { ...target, peak: 45 }
+        : target,
+    );
+    const report = review(exercise, horizontalPressReferenceFor(exercise));
+    expect(report.failed).toContain('pushup_bottom_elbow');
   });
 
 });

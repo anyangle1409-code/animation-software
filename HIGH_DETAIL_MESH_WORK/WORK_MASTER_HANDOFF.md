@@ -65,3 +65,8 @@ After the V15a Blender mesh edit is saved, run:
 `RUN_V15_POST_EDIT_ALL.bat`
 
 Do not manually reproduce the export/validation steps. The command is intentionally fail-fast and does not promote or merge anything.
+
+
+### Export housekeeping is automated
+
+Work does not need to manually triangulate the editable V15 Blend or hand-author missing new-vertex UV/weight data before export. `RUN_V15_POST_EDIT_ALL.bat` creates a temporary export copy, repairs only genuinely new V15 vertices from V13e, triangulates that temporary copy, packs the GLB, and deletes the temporary copy.

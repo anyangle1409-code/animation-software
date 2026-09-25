@@ -80,7 +80,7 @@ const pairsOf = <T extends { id: string }>(items: T[]): [T, T][] => {
  * detected, so an exercise cannot drop out of the symmetry check by accident;
  * the test below holds each to actually being asymmetric.
  */
-const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop', 'forward_lunge', 'farmers_walk']);
+const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop', 'forward_lunge', 'reverse_lunge', 'farmers_walk']);
 
 describe('mirroring', () => {
   it('lists as asymmetric only exercises whose sides really differ', () => {

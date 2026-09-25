@@ -102,9 +102,11 @@ export function resolveFrame(
     contacts.push({
       chain: goal.chain,
       mode: 'floor',
-      target: { ...goal.target },
+      // On its ball, the contact names the ankle where the solve put it, as a
+      // ball lock's does, and the sole's lowest point is the ball.
+      target: goal.ball ? ankleOf(evaluation, goal.chain) : { ...goal.target },
       ...(goal.endAim ? { aim: goal.endAim } : {}),
-      lift: soleHeight(goal),
+      lift: goal.ball ? Math.max(0, goal.ball.anchor.y - FLAT_FOOT.ball) : soleHeight(goal),
     });
   }
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
@@ -144,6 +146,8 @@ function goalsFromKeyframe(ik: Partial<Record<IKChainId, KeyframeIK>>): IKGoal[]
       target: value.target,
       pole: value.pole,
       ...(value.aim ? { endAim: value.aim } : {}),
+      // A foot on its ball, solved as a lock's is (`standOnBall`).
+      ...(value.onBall ? { ball: { anchor: { ...value.target }, ankle: value.onBall.ankle, toeOut: 0 } } : {}),
     });
   }
   return goals;

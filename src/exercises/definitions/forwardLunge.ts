@@ -11,7 +11,7 @@ export const forwardLunge = lungeFamily({
   id: 'forward_lunge',
   name: 'Forward Lunge',
   clipName: 'forward_lunge',
-  step: true,
+  step: 'forward',
   description:
     'From standing, one long step forward, lowering until the back knee is just ' +
     'above the floor, then a push off the front foot back to standing.',

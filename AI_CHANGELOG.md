@@ -6,6 +6,59 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-25 — Reverse lunge, and mesh-side sync recorded
+
+**Mesh-side sync, from the user.**
+
+- V8 remains the accepted body and knee baseline.
+- V13e remains the last hand review candidate.
+- V14e passed its technical guards but was visually insufficient; it is experimental only.
+- GPT Work is doing a deeper finger shaft, knuckle and joint surface rebuild from V13e.
+- No grip refit or production hand promotion is authorised.
+- Exercise and runtime work continues on `chatgpt/absolute-retarget-imports`, preserving the frozen 63-bone rest hierarchy, the existing retargeting and grip behaviour, and the production assets.
+- Before any future grip or production-character change, coordinate against the latest accepted mesh candidate and the full current exercise library.
+
+Suite **844 passed / 1 skipped** (69 files; was 825), typecheck and build clean. **The twenty-seven existing exercises are byte-identical.**
+
+**Added.** `lungeFamily({ step: 'back' })` and `definitions/reverseLunge.ts`: from standing, a long step back with the right foot onto its ball into the split squat's bottom position, then a drive through the front heel to standing. The front foot is locked where it stands. (`step: true` became `step: 'forward'`; the forward lunge is unchanged.)
+
+**Engine: `PoseIKTarget.onBall`.**
+
+- A leg's keyframe target may name the ball of the foot rather than the ankle.
+- The foot then stands on it exactly as an `onBall` lock's does (`standOnBall`): the heel rises only as far as holds the ankle angle, the foot is flat at standing, and the toes lie flat.
+- A character is given the solved ankle as the contact, lifted by the ball's height.
+- Aimed at a fixed heel-up angle instead, the landed ball slid about 1 cm as the body lowered, because the aim needed more ankle than the joint allows while the shin was upright. The toes also dipped towards the floor at landing.
+
+**The step.**
+
+- The foot travels in the first 75% of the lowering phase, 5 cm up, and waits through the first 25% of the drive.
+- Landing at 60%, the foot reached 80 cm back while the hips were high, and the back thigh ran out of extension (38 mm short).
+
+**Measured.**
+
+- Every frame reached.
+- The front foot fixed within 0.5 mm.
+- The back ball 94 cm behind its standing spot, held within 0.5 mm, with toes flat at 2.0 cm, from landing to lift-off.
+- The back knee under 10 cm off the floor.
+- Self-collision 4.22 mm.
+- On the production character, soles within 2 mm of the floor and ankles within 5 mm of the rig's.
+
+**Rules.**
+
+- As the split squat's, with a long step back (the back toes at least 70 cm behind the front ankle).
+- The front knee's not-past-the-toes rule applies at the bottom, as the forward lunge's does. Mid-descent, while the back foot is still stepping, the knee runs up to 15 cm ahead of the ankle, still 6 cm behind the toes.
+
+**Tests.** `lunge.test.ts` (+6):
+
+- every frame reached;
+- the front foot fixed;
+- the back foot's landing, hold, heel and toes;
+- the stepping foot never through the floor;
+- its contact;
+- the production-character soles and ankles now also run for the reverse lunge.
+
+The lunge membership test now counts a keyframe `onBall` back foot, and the mirror, feet, squat and self-collision lists gain it.
+
 ### Claude — 2026-09-25 — Farmer's walk: the first exercise that walks
 
 Suite **825 passed / 1 skipped** (69 files; was 806), typecheck and build clean. **Plan steps 1–7 are complete: 27 exercises.**

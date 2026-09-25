@@ -84,5 +84,6 @@ describe('the carry family', () => {
   it('writes its travel speed onto the exported root node, and no other exercise writes one', async () => {
     expect(await sceneExtras(farmersWalk)).toEqual({ homeGymPT: { travelSpeed: speed } });
     expect(await sceneExtras(bicepCurl)).toBeUndefined();
-  });
+    // Two whole exports.
+  }, 60_000);
 });

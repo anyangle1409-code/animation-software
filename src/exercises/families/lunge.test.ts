@@ -8,6 +8,7 @@ import { sampleClip } from '../../animation/clip';
 import { EXERCISES } from '../library';
 import { splitSquat } from '../definitions/splitSquat';
 import { forwardLunge } from '../definitions/forwardLunge';
+import { reverseLunge } from '../definitions/reverseLunge';
 import { existsSync, readFileSync } from 'node:fs';
 import type { SkinnedMesh } from 'three';
 import { applyCharacterPose } from '../../character/pose';
@@ -78,11 +79,14 @@ describe('the lunge family', () => {
     }
   });
 
-  it('has two registered variants', () => {
-    // A foot held on its ball at a fixed ankle is a lunge's back foot; the calf
-    // raise's feet are on their balls too, but hold the knee instead.
-    expect(EXERCISES.filter((exercise) => exercise.locks.some((lock) => lock.onBall?.ankle !== undefined)).map((exercise) => exercise.id))
-      .toEqual(['split_squat', 'forward_lunge']);
+  it('has three registered variants', () => {
+    // A foot held on its ball at a fixed ankle is a lunge's back foot, by a lock
+    // or, where it steps, by its keyframe; the calf raise's feet are on their
+    // balls too, but hold the knee instead.
+    const backFoot = (exercise: (typeof EXERCISES)[number]) =>
+      exercise.locks.some((lock) => lock.onBall?.ankle !== undefined) ||
+      [exercise.startPose, exercise.peakPose].some((pose) => pose.ik?.leg_r?.onBall);
+    expect(EXERCISES.filter(backFoot).map((exercise) => exercise.id)).toEqual(['split_squat', 'forward_lunge', 'reverse_lunge']);
   });
 });
 
@@ -162,6 +166,75 @@ describe('forward lunge', () => {
   });
 });
 
+describe('reverse lunge', () => {
+  const evaluation = new PoseEvaluation(rig);
+  const clip = generateClip(rig, reverseLunge);
+  const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+  const step = clip.keyframes[1].time;
+  const drive = { start: clip.keyframes[2].time, end: clip.keyframes[3].time };
+  const all = Array.from({ length: 201 }, (_, index) => {
+    const time = (index / 200) * clip.duration;
+    const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
+    evaluation.apply(frame.pose);
+    return {
+      time,
+      frame,
+      front: evaluation.head('foot_l', new Vector3()),
+      backAnkle: evaluation.head('foot_r', new Vector3()),
+      backBall: evaluation.tail('foot_r', new Vector3()),
+      backToe: evaluation.tail('toe_r', new Vector3()),
+      backKnee: evaluation.head('shin_r', new Vector3()),
+    };
+  });
+  const bottom = all.find((entry) => entry.frame.phaseId === 'bottom')!;
+
+  it('solves every frame: both legs reach', () => {
+    for (const { frame, time } of all) {
+      for (const result of frame.ikResults) expect(result.error, `${result.chain} at ${time.toFixed(2)}s`).toBeLessThan(0.002);
+    }
+  });
+
+  it('keeps the front foot where it stands', () => {
+    for (const { front } of all) expect(front.distanceTo(all[0].front)).toBeLessThan(0.0005);
+  });
+
+  it('steps the back foot 94 cm back onto its ball and holds it there, toes flat', () => {
+    expect(all[0].backBall.z - bottom.backBall.z).toBeCloseTo(0.94, 4);
+    const planted = all.filter(
+      ({ time }) =>
+        (time >= step * 0.76 && time <= step) ||
+        (time >= drive.start && time <= drive.start + (drive.end - drive.start) * 0.24),
+    );
+    expect(planted.length).toBeGreaterThan(20);
+    for (const { backBall, backToe } of planted) {
+      expect(backBall.distanceTo(bottom.backBall)).toBeLessThan(0.0005);
+      expect(backBall.y).toBeCloseTo(0.025, 4);
+      expect(backToe.y).toBeCloseTo(0.02, 4);
+    }
+    // Heel up at the bottom, flat at standing; the back knee 9 cm off the floor.
+    expect(bottom.backAnkle.y).toBeGreaterThan(0.16);
+    expect(all[0].backAnkle.y).toBeCloseTo(0.08, 3);
+    expect(bottom.backKnee.y).toBeLessThan(0.1);
+  });
+
+  it('lifts the stepping foot clear on the way and never through the floor', () => {
+    for (const { backBall, backToe } of all) {
+      expect(backBall.y).toBeGreaterThan(0.025 - 0.0005);
+      expect(backToe.y).toBeGreaterThan(0.02 - 0.0005);
+    }
+    expect(Math.max(...all.map(({ backBall }) => backBall.y))).toBeGreaterThan(0.025 + 0.04);
+  });
+
+  it('reports the stepping foot to a character by its ankle, lifted by its ball', () => {
+    const landed = bottom.frame.contacts.find((entry) => entry.chain === 'leg_r')!;
+    expect(new Vector3(landed.target.x, landed.target.y, landed.target.z).distanceTo(bottom.backAnkle)).toBeLessThan(1e-9);
+    expect(landed.lift).toBe(0);
+    const swinging = all.find(({ backBall }) => backBall.y > 0.06)!;
+    const contact = swinging.frame.contacts.find((entry) => entry.chain === 'leg_r')!;
+    expect(contact.lift).toBeCloseTo(swinging.backBall.y - 0.025, 3);
+  });
+});
+
 const ASSET =
   process.env.REAL_CHARACTER_GLB ?? 'review-assets/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb';
 
@@ -172,7 +245,7 @@ const ASSET =
 const SOLE = 0.002;
 
 describe.skipIf(!existsSync(ASSET))('feet on the production character', () => {
-  it.each([splitSquat, forwardLunge].map((exercise) => [exercise.id, exercise] as const))(
+  it.each([splitSquat, forwardLunge, reverseLunge].map((exercise) => [exercise.id, exercise] as const))(
     '%s: each planted sole rests on the floor, and each ankle is where the rig puts it',
     async (_id, exercise) => {
       const bytes = readFileSync(ASSET);

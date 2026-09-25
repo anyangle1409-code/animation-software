@@ -78,6 +78,7 @@ describe('standing feet', () => {
       'dumbbell_shoulder_press',
       'forward_lunge',
       'incline_dumbbell_curl',
+      'reverse_lunge',
       'russian_twist',
       'seated_dumbbell_shoulder_press',
       'sit_up',

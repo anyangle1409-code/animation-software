@@ -228,6 +228,7 @@ function ikFromSpec(spec: PoseSpec): Partial<Record<IKChainId, KeyframeIK>> {
       target: { ...value.target },
       pole: { ...value.pole },
       ...(value.aim ? { aim: value.aim } : {}),
+      ...(value.onBall ? { onBall: { ...value.onBall } } : {}),
     };
   }
   return out;

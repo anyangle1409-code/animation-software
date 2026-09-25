@@ -16,6 +16,8 @@ export interface KeyframeIK {
   target: Vec3;
   pole: Vec3;
   aim?: { direction: Vec3; forward?: Vec3 };
+  /** The target is the ball of the foot; see `PoseIKTarget.onBall`. */
+  onBall?: { ankle: number };
 }
 
 export interface Keyframe {
@@ -221,6 +223,7 @@ function blendIK(
       target: mix(a.target, b.target, t),
       pole: mix(a.pole, b.pole, t),
       aim: a.aim && b.aim ? mixAim(a.aim, b.aim, t) : a.aim ?? b.aim,
+      ...(a.onBall ?? b.onBall ? { onBall: a.onBall ?? b.onBall } : {}),
     };
   }
   return out;

@@ -23,6 +23,7 @@ import { dumbbellFly } from './definitions/dumbbellFly';
 import { russianTwist } from './definitions/russianTwist';
 import { cableWoodchop } from './definitions/cableWoodchop';
 import { forwardLunge } from './definitions/forwardLunge';
+import { reverseLunge } from './definitions/reverseLunge';
 import { crunch } from './definitions/crunch';
 import { sitUp } from './definitions/sitUp';
 import { farmersWalk } from './definitions/farmersWalk';
@@ -62,6 +63,7 @@ export const EXERCISES: ExerciseDefinition[] = [
   russianTwist,
   cableWoodchop,
   forwardLunge,
+  reverseLunge,
   crunch,
   sitUp,
   farmersWalk,

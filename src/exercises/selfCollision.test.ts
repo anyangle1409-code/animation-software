@@ -98,6 +98,7 @@ const BASELINE: Record<string, number> = {
   cable_woodchop: 0.00098,
   // The split squat's arms, hanging, through a step.
   forward_lunge: 0.00422,
+  reverse_lunge: 0.00422,
   // Arms reaching towards the knees past the sides of the chest as the trunk
   // curls up.
   crunch: 0.00194,

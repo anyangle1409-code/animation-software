@@ -101,6 +101,13 @@ export interface PoseIKTarget {
   target: Vec3;
   pole: Vec3;
   aim?: { direction: Vec3; forward?: Vec3 };
+  /**
+   * Legs only: `target` is the ball of the foot, not the ankle, and the foot
+   * stands on it as a lock's `onBall` foot does — heel rising only as far as
+   * holds `ankle` degrees of dorsiflexion, flat at standing, toes flat on the
+   * floor. A foot that steps back onto its ball.
+   */
+  onBall?: { ankle: number };
 }
 
 /**

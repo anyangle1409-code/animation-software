@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useGeneration } from '../generationStore';
 import type { Candidate } from '../generationStore';
 import type { GenerationStatus } from '../../generation/generate';
@@ -38,6 +39,112 @@ function variantSource(candidate: Candidate): string {
   const { result } = candidate;
   if (!result.variant || !result.family) return '';
   return `${result.family.builder}(${JSON.stringify(result.variant, null, 2)})`;
+}
+
+function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
+  const review = candidate.review;
+  const [urls, setUrls] = useState<{ id: string; url: string; label: string }[]>([]);
+
+  useEffect(() => {
+    if (review?.status !== 'ready' || !review.batch) {
+      setUrls([]);
+      return;
+    }
+    const next = review.batch.captures.map((capture) => {
+      let blob: Blob;
+      if (capture.image instanceof Blob) {
+        blob = capture.image;
+      } else if (capture.image instanceof ArrayBuffer) {
+        blob = new Blob([capture.image], { type: capture.mimeType });
+      } else {
+        // Copy into an ArrayBuffer-backed view. A Uint8Array may legally be
+        // backed by SharedArrayBuffer, which BlobPart does not accept.
+        const bytes = new Uint8Array(capture.image.byteLength);
+        bytes.set(capture.image);
+        blob = new Blob([bytes.buffer], { type: capture.mimeType });
+      }
+      return {
+        id: capture.captureId,
+        url: URL.createObjectURL(blob),
+        label: `${capture.momentId.replace(/_/g, ' ')} · ${capture.viewId.replace(/_/g, ' ')}`,
+      };
+    });
+    setUrls(next);
+    return () => {
+      next.forEach((entry) => URL.revokeObjectURL(entry.url));
+    };
+  }, [review]);
+
+  if (!review) return null;
+
+  const failed = review.reference.checks.filter((check) => check.status === 'fail');
+  const skipped = review.reference.checks.filter((check) => check.status === 'skip');
+
+  return (
+    <>
+      <h3>Independent self-review</h3>
+      <div className={`review-status ${review.reference.passed ? 'is-ready' : 'is-blocked'}`}>
+        <strong>{review.reference.passed ? 'DRAFT REFERENCE: CLEAR' : 'DRAFT REFERENCE: REVIEW'}</strong>
+        <span>
+          {review.reference.checks.length} independent checks against <code>{review.reference.referenceId}</code>
+          {failed.length ? ` · ${failed.length} outside the draft envelope` : ''}
+          {skipped.length ? ` · ${skipped.length} not measured` : ''}. This is evidence only and does not change
+          generator approval while the reference pack is draft.
+        </span>
+      </div>
+
+      <details className="generate-reference-evidence">
+        <summary>Independent reference measurements</summary>
+        <div className="review-gates">
+          {review.reference.checks.map((check) => (
+            <article key={check.id} className={check.status === 'pass' ? 'is-pass' : 'is-fail'}>
+              <div>
+                <strong>{check.label}</strong>
+              </div>
+              <span>{check.status === 'pass' ? 'Pass' : check.status === 'skip' ? 'Not run' : 'Review'}</span>
+              <p>{check.detail}</p>
+            </article>
+          ))}
+        </div>
+      </details>
+
+      {review.status === 'reference_only' && (
+        <p className="panel__note">
+          Numeric self-review completed. Local review-image capture is not available in this viewport environment.
+        </p>
+      )}
+
+      {review.status === 'capturing' && (
+        <p className="panel__note">
+          Capturing the local review-image pack at start, outbound, end range, return and finish…
+        </p>
+      )}
+
+      {review.status === 'error' && (
+        <p className="panel__note">
+          Numeric self-review completed, but review images could not be captured: {review.error}
+        </p>
+      )}
+
+      {review.status === 'ready' && (
+        <details className="generate-review-evidence">
+          <summary>Automatic review images · {urls.length} local captures</summary>
+          <p className="panel__note">
+            Generated locally from the candidate with deterministic times and cameras. No external image or video
+            service is used.
+          </p>
+          <div className="generate-review-evidence__grid">
+            {urls.map((entry) => (
+              <figure key={entry.id}>
+                <img src={entry.url} alt={entry.label} loading="lazy" />
+                <figcaption>{entry.label}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </details>
+      )}
+    </>
+  );
 }
 
 function CandidateDetail({ candidate }: { candidate: Candidate }) {
@@ -184,6 +291,8 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
           </div>
         </>
       )}
+
+      <ReviewEvidenceGallery candidate={candidate} />
 
       {result.variant && (
         <details className="generate-source">

@@ -3,7 +3,7 @@ name: Internal Reference Integrated Review Check
 on:
   push:
     branches:
-      - work/current-source-self-review-20260925
+      - work/current-source-self-review-hinge-row-20260925
   workflow_dispatch:
 
 jobs:
@@ -44,6 +44,8 @@ jobs:
           src/reference/reviewSession.test.ts
           src/reference/worldChecks.test.ts
           src/reference/familyPacks.test.ts
+          src/generation/parse.test.ts
+          src/generation/generate.test.ts
 
       - name: Build
         run: npm run build

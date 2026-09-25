@@ -93,6 +93,15 @@ def safe_for_budget(high,weekly_high,window,week,cfg):
                 return False,"task is too large for remaining weekly allowance"
     return True,"within configured budget headroom"
 
+def execution_mode(task):
+    if task in ("one_digit_topology","blender_debug","visual_review"):
+        return "Work local desktop"
+    if task in ("one_file_code","multi_file_code","status_or_file_check"):
+        return "Work only if normal Chat/Claude/local tooling cannot do it cheaper"
+    if task in ("local_script","full_validation"):
+        return "local deterministic"
+    return "do not start open-ended"
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("task_class",choices=TASKS)
@@ -110,6 +119,7 @@ def main():
         result={
             "decision":"LOCAL",
             "task_class":task,
+            "execution_mode":execution_mode(task),
             "reason":"This task should be run by local deterministic tooling, not GPT Work.",
             "recommended_model":None,
             "reasoning":None,
@@ -124,6 +134,7 @@ def main():
         result={
             "decision":"SPLIT",
             "task_class":task,
+            "execution_mode":execution_mode(task),
             "reason":"Open-ended tasks are deliberately blocked because they are hard to cost and frequently waste allowance.",
             "scope":SCOPE_RULES[task],
             "recommended_model":None,
@@ -179,6 +190,7 @@ def main():
         result={
             "decision":"START",
             "task_class":task,
+            "execution_mode":execution_mode(task),
             "recommended_model":model,
             "reasoning":reasoning,
             "fast_mode":False,
@@ -222,6 +234,7 @@ def main():
     print(json.dumps({
         "decision":decision,
         "task_class":task,
+        "execution_mode":execution_mode(task),
         "reason":reason,
         "scope":SCOPE_RULES.get(task),
         "recommended_model":None,

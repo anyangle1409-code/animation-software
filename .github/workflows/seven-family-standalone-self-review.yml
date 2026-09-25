@@ -1,0 +1,41 @@
+name: Seven-Family Standalone Self-Review Check
+
+on:
+  push:
+    branches:
+      - work/standalone-self-review-seven-families-20260925
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Focused generator + self-review tests
+        run: >
+          npm test --
+          src/generation/parse.test.ts
+          src/generation/generate.test.ts
+          src/reference/evaluate.test.ts
+          src/reference/generation.test.ts
+          src/reference/reviewManifest.test.ts
+          src/reference/reviewCamera.test.ts
+          src/reference/capturePlan.test.ts
+          src/reference/captureController.test.ts
+          src/reference/reviewSession.test.ts
+          src/reference/worldChecks.test.ts
+          src/reference/familyPacks.test.ts
+          src/reference/silhouette.test.ts
+          src/reference/certification.test.ts
+      - name: Build
+        run: npm run build
+      - name: Full test suite
+        run: npm test

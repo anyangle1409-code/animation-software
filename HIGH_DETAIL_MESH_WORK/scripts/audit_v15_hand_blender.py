@@ -143,6 +143,55 @@ def snapshot(path: Path):
         and e.link_faces[0].normal.dot(e.link_faces[1].normal) < fold_cos
     )
 
+    # Per-digit surface faceting diagnostics. These are not acceptance scores:
+    # a real knuckle can have a deliberate crease. They locate where broad
+    # planar segmentation remains and let V13e/V15 be compared consistently.
+    thresholds = (20, 35, 50, 75, 100)
+    per_digit = {
+        key: {
+            "owned_vertices": sum(owner_key == key for owner_key in owned.values()),
+            "edges_total": 0,
+            "boundary_edges": 0,
+            "total_edge_length_mm": 0.0,
+            "edge_lengths_mm": [],
+            "dihedral_edge_count_gt_deg": {str(t): 0 for t in thresholds},
+            "dihedral_edge_length_mm_gt_deg": {str(t): 0.0 for t in thresholds},
+        }
+        for key in digit_group_ids
+    }
+    for e in bm.edges:
+        a, b = e.verts
+        if a not in owned or b not in owned or owned[a] != owned[b]:
+            continue
+        key = owned[a]
+        item = per_digit[key]
+        length_mm = e.calc_length() * 1000.0
+        item["edges_total"] += 1
+        item["total_edge_length_mm"] += length_mm
+        item["edge_lengths_mm"].append(length_mm)
+        if e.is_boundary:
+            item["boundary_edges"] += 1
+        if len(e.link_faces) != 2:
+            continue
+        dot = max(-1.0, min(1.0, e.link_faces[0].normal.dot(e.link_faces[1].normal)))
+        angle = math.degrees(math.acos(dot))
+        for threshold in thresholds:
+            if angle > threshold:
+                item["dihedral_edge_count_gt_deg"][str(threshold)] += 1
+                item["dihedral_edge_length_mm_gt_deg"][str(threshold)] += length_mm
+
+    for item in per_digit.values():
+        lengths = item.pop("edge_lengths_mm")
+        total = item["total_edge_length_mm"]
+        item["edge_p50_mm"] = float(np.percentile(lengths, 50)) if lengths else 0.0
+        item["edge_p90_mm"] = float(np.percentile(lengths, 90)) if lengths else 0.0
+        item["sharp_length_ratio_gt_35"] = (
+            item["dihedral_edge_length_mm_gt_deg"]["35"] / total if total else 0.0
+        )
+        item["sharp_length_ratio_gt_50"] = (
+            item["dihedral_edge_length_mm_gt_deg"]["50"] / total if total else 0.0
+        )
+
     # Bone-weight normalization only; diagnostic selection groups are ignored.
     new_weight_errors = []
     for v in bm.verts:
@@ -175,6 +224,7 @@ def snapshot(path: Path):
         "nonmanifold_edges_gt2": nonmanifold_gt2,
         "digit_boundary_edges": digit_boundary_edges,
         "digit_folds_over_100deg": digit_folds_100,
+        "per_digit_surface": per_digit,
         "new_digit_weight_max_error": max(new_weight_errors, default=0.0),
         "symmetry_max_mm": max(symmetry, default=0.0),
         "symmetry_p95_mm": float(np.percentile(symmetry, 95)) if symmetry else 0.0,
@@ -235,6 +285,36 @@ checks = {
     "new_digit_bone_weights_normalized": cand["new_digit_weight_max_error"] <= 1e-4,
 }
 
+surface_deltas = {}
+for key in sorted(set(baseline["per_digit_surface"]) & set(cand["per_digit_surface"])):
+    b = baseline["per_digit_surface"][key]
+    d = cand["per_digit_surface"][key]
+    surface_deltas[key] = {
+        "sharp_length_ratio_gt_35_delta": d["sharp_length_ratio_gt_35"] - b["sharp_length_ratio_gt_35"],
+        "sharp_length_ratio_gt_50_delta": d["sharp_length_ratio_gt_50"] - b["sharp_length_ratio_gt_50"],
+        "fold_edges_gt_100_delta": (
+            d["dihedral_edge_count_gt_deg"]["100"] - b["dihedral_edge_count_gt_deg"]["100"]
+        ),
+        "boundary_edge_delta": d["boundary_edges"] - b["boundary_edges"],
+    }
+
+faceting_priority = sorted(
+    (
+        {
+            "digit": key,
+            "candidate_sharp_ratio_gt_35": cand["per_digit_surface"][key]["sharp_length_ratio_gt_35"],
+            "candidate_sharp_ratio_gt_50": cand["per_digit_surface"][key]["sharp_length_ratio_gt_50"],
+            "delta_gt_35_vs_v13e": surface_deltas[key]["sharp_length_ratio_gt_35_delta"],
+        }
+        for key in cand["per_digit_surface"]
+    ),
+    key=lambda item: (
+        item["candidate_sharp_ratio_gt_50"],
+        item["candidate_sharp_ratio_gt_35"],
+    ),
+    reverse=True,
+)
+
 report = {
     "version": version,
     "baseline": BASE.name,
@@ -250,6 +330,8 @@ report = {
     "digit_original_max_move_mm": digit_move,
     "baseline_topology": baseline,
     "candidate_topology": cand,
+    "per_digit_surface_delta_vs_v13e": surface_deltas,
+    "remaining_faceting_priority": faceting_priority,
     "checks": checks,
     "pass": all(checks.values()),
     "note": (

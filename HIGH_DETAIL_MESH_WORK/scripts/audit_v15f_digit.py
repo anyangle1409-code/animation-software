@@ -27,6 +27,7 @@ BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 AUDIT = ROOT / "reports" / f"audit_{VERSION}_blender.json"
 ORDER = ("ring_L", "ring_R", "pinky_L", "pinky_R")
 ALLOWED = set(ORDER)
+RING_VISUAL = ROOT / "reports" / "v15f_ring_visual_decision.json"
 
 def find_blender():
     explicit = os.environ.get("BLENDER_EXE")
@@ -67,13 +68,41 @@ def main():
     c = candidate["per_digit_surface"][digit]
 
     movement = report.get("per_digit_original_movement_vs_v13e", {})
+    current_surface = candidate["per_digit_surface"]
     allowed_now = set(ORDER[: ORDER.index(digit) + 1])
+    frozen_failures = []
+
+    # ring_L has an explicit visual proof and must stay exact while later
+    # Stage-A digits are edited.
+    if digit != "ring_L":
+        if not RING_VISUAL.is_file():
+            frozen_failures.append("ring_L visual PASS marker is missing.")
+        else:
+            visual = json.loads(RING_VISUAL.read_text(encoding="utf-8"))
+            expected = visual.get("surface_fingerprint_sha256")
+            actual = current_surface.get("ring_L", {}).get("surface_fingerprint_sha256")
+            if visual.get("pass") is not True or not expected or expected != actual:
+                frozen_failures.append("ring_L approved visual surface changed or is not PASS.")
+
+    # Every previously completed Stage-A digit is frozen by its own numeric gate
+    # fingerprint before work may advance to the next digit.
+    for previous in ORDER[1:ORDER.index(digit)]:
+        gate_path = ROOT / "reports" / f"v15f_{previous}_incremental_gate.json"
+        if not gate_path.is_file():
+            frozen_failures.append(f"{previous} prior gate is missing.")
+            continue
+        prior = json.loads(gate_path.read_text(encoding="utf-8"))
+        expected = prior.get("candidate", {}).get("surface_fingerprint_sha256")
+        actual = current_surface.get(previous, {}).get("surface_fingerprint_sha256")
+        if prior.get("pass") is not True or not expected or expected != actual:
+            frozen_failures.append(f"{previous} previously passed surface changed.")
     outside_allowed = {
         key: item for key, item in movement.items() if key not in allowed_now
     }
 
     checks = {
         "general_invariants_pass": bool(report.get("pass")),
+        "previous_stage_a_surfaces_frozen": not frozen_failures,
         "only_approved_sequence_digits_changed": all(
             float(item.get("max_move_mm", 0.0)) <= 1e-6
             for item in outside_allowed.values()
@@ -110,8 +139,10 @@ def main():
             "gt35": float(c["sharp_length_ratio_gt_35"]),
             "gt50": float(c["sharp_length_ratio_gt_50"]),
             "gt100_folds": int(c["dihedral_edge_count_gt_deg"]["100"]),
+            "surface_fingerprint_sha256": c.get("surface_fingerprint_sha256"),
         },
         "approved_changed_digits": sorted(allowed_now),
+        "frozen_surface_failures": frozen_failures,
         "scope_movement": movement,
         "checks": checks,
         "pass": all(checks.values()),

@@ -119,3 +119,29 @@ Stop and report rather than compensating if:
 - visual improvement is marginal
 
 No grip refit until this visual gate is passed.
+
+
+## Stable-ID requirement
+
+Do not delete any original vertex carrying a positive `v8_source_id`. The deep rebuild may remove/replace faces and edge flow and may add new vertices, but all original V8-source vertex records must survive.
+
+This is required so the established GLB packer can retain the stable V8 vertex prefix, the 682-contact guard remains authoritative, and downstream runtime diagnostics continue to compare the same IDs.
+
+For every new vertex:
+- interpolate/assign UV0 and UV1;
+- assign normalised deform weights;
+- do not use diagnostic `V15_*` selection groups as deform intent.
+
+## After Blender editing
+
+Save:
+
+`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend`
+
+Then run only:
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+Do not manually export the dressed GLB first. The pipeline audits the Blend, exports through the established hand packer, creates the bare variant, runs frozen validation, builds the direct V13e/V15 review boards, then runs the latest-source integration check in a disposable worktree.
+
+If the command stops, fix/report the first failing stage rather than bypassing it.

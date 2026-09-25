@@ -60,12 +60,15 @@ def git(*args, check=True):
 def resolve_source():
     # Fetch updates the remote ref only; no checkout/merge occurs in REPO.
     fetch = git("fetch", "origin", SOURCE_BRANCH, check=False)
-    remote = f"origin/{SOURCE_BRANCH}"
-    probe = subprocess.run(
-        ["git", "rev-parse", "--verify", remote],
-        cwd=REPO, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
-    )
-    ref = remote if probe.returncode == 0 else SOURCE_BRANCH
+    if fetch.returncode == 0:
+        ref = "FETCH_HEAD"
+    else:
+        remote = f"origin/{SOURCE_BRANCH}"
+        probe = subprocess.run(
+            ["git", "rev-parse", "--verify", remote],
+            cwd=REPO, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
+        )
+        ref = remote if probe.returncode == 0 else SOURCE_BRANCH
     sha = subprocess.check_output(["git", "rev-parse", ref], cwd=REPO, text=True).strip()
     return ref, sha, fetch.returncode
 
@@ -166,7 +169,7 @@ def main():
         suite = None
         if not args.skip_full_suite:
             suite_proc = run(
-                ["npm", "test", "--", "--run"],
+                ["npm", "test"],
                 WORKTREE, check=False,
                 log=OUT / "full_source_suite.log",
             )

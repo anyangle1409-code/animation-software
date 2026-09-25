@@ -13,6 +13,8 @@ import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
 import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
+import { extensionFamily } from '../exercises/families/extension';
+import type { ExtensionVariant } from '../exercises/families/extension';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -129,6 +131,27 @@ function interpretCommon(
     } else {
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
+  } else if (implement === 'cable') {
+    const others = slots.equipment.filter((slot) => slot.value !== 'cable');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} family is certified on the cable station only.`,
+        ),
+      );
+    } else if (slots.equipment.length === 0) {
+      assumptions.push('Cable station with the family\'s straight bar attachment.');
+    }
+    if (slots.loads.length > 0) {
+      issues.push(
+        blocking(
+          'load',
+          `${quote(slots.loads.map((slot) => slot.words))}: cable-stack resistance is not a family parameter yet, so a requested stack load cannot be represented.`,
+        ),
+      );
+    }
+    load = 0;
   } else {
     const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
     if (others.length > 0) {
@@ -139,7 +162,7 @@ function interpretCommon(
         ),
       );
     } else {
-      assumptions.push('Bodyweight — no equipment, which is all this family is certified with.');
+      assumptions.push('Bodyweight — no hand-held load, which is all this family is certified with.');
     }
     if (slots.loads.length > 0) {
       issues.push(
@@ -998,6 +1021,123 @@ const verticalPull: GeneratorFamily<VerticalPullVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Elbow extension / triceps
+// ---------------------------------------------------------------------------
+
+const extension: GeneratorFamily<ExtensionVariant> = {
+  id: 'extension',
+  label: 'Triceps extension',
+  builder: 'extensionFamily',
+  detect: /\btriceps?\b|\bpush[-\s]?downs?\b|\boverhead\s+extensions?\b/,
+
+  library: ['dumbbell_overhead_triceps_extension', 'cable_triceps_pushdown'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bskull\s?crushers?\b/, 'a skull crusher is a lying elbow extension with a different shoulder/support position.'],
+        [/\bkickbacks?\b/, 'a triceps kickback uses a hinged torso and the upper arm held behind the body; not certified by this family adapter.'],
+        [/\brope\b/, 'the cable pushdown family currently uses its straight bar attachment, not a rope.'],
+        [/\breverse[-\s]?grip\b|\bunderhand\b/, 'the current cable pushdown is certified only with its pronated straight-bar grip.'],
+        [/\b(?:single|one)[-\s]arm\b|\bunilateral\b/, 'single-arm triceps work is not certified; the family currently moves both arms together.'],
+        [/\blying\b|\bsupine\b/, 'lying triceps extensions need a bench/support variant the current adapter does not expose.'],
+      ],
+      issues,
+    );
+
+    const asksPushdown = /\bpush[-\s]?downs?\b/.test(slots.text) || /\bcable\s+triceps?\b/.test(slots.text);
+    const asksOverhead = /\boverhead\b/.test(slots.text);
+    if (asksPushdown && asksOverhead) {
+      issues.push(blocking('variant', 'The request asks for both an overhead extension and a cable pushdown; choose one.'));
+    }
+    if (!asksPushdown && !asksOverhead) {
+      issues.push(
+        blocking(
+          'variant',
+          'The extension family has two certified setups: an overhead dumbbell triceps extension or a cable triceps pushdown. Say which one.',
+        ),
+      );
+    }
+
+    const position = asksPushdown ? 'pushdown' : 'overhead';
+    const expectedGrip: IntentGrip = position === 'pushdown' ? 'pronated' : 'neutral';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          position === 'pushdown'
+            ? 'The certified cable pushdown uses a pronated palms-down straight-bar grip.'
+            : 'The certified overhead dumbbell extension uses a neutral palms-facing grip.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], position === 'pushdown' ? 'cable pushdown' : 'overhead triceps extension', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the extension family has no adjustable angle input.'));
+    }
+
+    const implement: IntentImplement = position === 'pushdown' ? 'cable' : 'dumbbell';
+    const { load, tempo } = interpretCommon(
+      slots,
+      position === 'pushdown' ? 'cable pushdown' : 'overhead triceps extension',
+      implement,
+      position === 'pushdown' ? 0 : 8,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'extension',
+        equipment: implement,
+        execution: 'bilateral',
+        grip,
+        support,
+        extensionPosition: position,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const position = intent.extensionPosition ?? 'overhead';
+    const pushdown = position === 'pushdown';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(pushdown ? 'Cable Triceps Pushdown' : 'Dumbbell Overhead Triceps Extension', intent),
+      description: pushdown
+        ? 'Generated from "' + intent.prompt.trim() + '". A standing two-arm cable triceps pushdown using the family\'s straight bar, elbows pinned at the sides' +
+          (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.'
+        : 'Generated from "' + intent.prompt.trim() + '". A standing two-arm overhead triceps extension with neutral-grip dumbbells, ' +
+          formatLoad(intent.load) + ' in each hand' + (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      position,
+      ...(pushdown ? {} : { mass: intent.load }),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: extensionFamily,
+
+  reference(intent) {
+    return intent.extensionPosition === 'pushdown'
+      ? 'cable_triceps_pushdown'
+      : 'dumbbell_overhead_triceps_extension';
+  },
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1007,6 +1147,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
   verticalPull as unknown as GeneratorFamily,
+  extension as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

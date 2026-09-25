@@ -66,7 +66,7 @@ Do not reduce upper-arm range merely to make bad weighting look acceptable.
 ## Baseline guarantees
 
 At zero/new-feature-off state, every exercise must remain equivalent to the
-pre-activation final-bound baseline.
+pre-activation final retargeted-character baseline.
 
 Each activation slice must have an explicit feature switch or revert commit
 until accepted.

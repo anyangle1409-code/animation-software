@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useGeneration } from '../generationStore';
 import type { Candidate } from '../generationStore';
 import type { GenerationStatus } from '../../generation/generate';
@@ -38,6 +39,68 @@ function variantSource(candidate: Candidate): string {
   const { result } = candidate;
   if (!result.variant || !result.family) return '';
   return `${result.family.builder}(${JSON.stringify(result.variant, null, 2)})`;
+}
+
+function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
+  const review = candidate.review;
+  const [urls, setUrls] = useState<{ id: string; url: string; label: string }[]>([]);
+
+  useEffect(() => {
+    if (review?.status !== 'ready' || !review.batch) {
+      setUrls([]);
+      return;
+    }
+    const next = review.batch.captures.map((capture) => {
+      const blob =
+        capture.image instanceof Blob
+          ? capture.image
+          : new Blob([capture.image], { type: capture.mimeType });
+      return {
+        id: capture.captureId,
+        url: URL.createObjectURL(blob),
+        label: `${capture.momentId.replace(/_/g, ' ')} · ${capture.viewId.replace(/_/g, ' ')}`,
+      };
+    });
+    setUrls(next);
+    return () => {
+      next.forEach((entry) => URL.revokeObjectURL(entry.url));
+    };
+  }, [review]);
+
+  if (!review) return null;
+  if (review.status === 'capturing') {
+    return (
+      <>
+        <h3>Automatic review images</h3>
+        <p className="panel__note">Capturing the local front, side, three-quarter and grip review pack…</p>
+      </>
+    );
+  }
+  if (review.status === 'error') {
+    return (
+      <>
+        <h3>Automatic review images</h3>
+        <p className="panel__note">Review capture could not complete: {review.error}</p>
+      </>
+    );
+  }
+
+  return (
+    <details className="generate-review-evidence">
+      <summary>Automatic review images · {urls.length} local captures</summary>
+      <p className="panel__note">
+        Generated locally from the candidate. These images are evidence only and do not change approval status.
+      </p>
+      <div className="generate-review-evidence__grid">
+        {urls.map((entry) => (
+          <figure key={entry.id}>
+            <img src={entry.url} alt={entry.label} loading="lazy" />
+            <figcaption>{entry.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </details>
+  );
 }
 
 function CandidateDetail({ candidate }: { candidate: Candidate }) {
@@ -184,6 +247,8 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
           </div>
         </>
       )}
+
+      <ReviewEvidenceGallery candidate={candidate} />
 
       {result.variant && (
         <details className="generate-source">

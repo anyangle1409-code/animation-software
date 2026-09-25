@@ -111,9 +111,15 @@ def main():
         for item in digit_failures:
             failures.append(f"{digit}: {item}")
 
+    surface_fingerprints = {
+        digit: candidate["per_digit_surface"][digit].get("surface_fingerprint_sha256")
+        for digit in DIGITS
+    }
+
     result = {
         "version": VERSION,
         "general_invariant_pass": bool(report.get("pass")),
+        "surface_fingerprints_sha256": surface_fingerprints,
         "baseline_total_folds_gt100": baseline_total,
         "candidate_total_folds_gt100": candidate_total,
         "per_digit": per_digit,

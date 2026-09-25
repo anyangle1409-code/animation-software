@@ -16,6 +16,38 @@ This file is the authoritative entry point for the high-detail mesh review works
 
 ### 2026-09-25 V15 execution checkpoint
 
+## Prepared next attempt: V15f local ring/pinky reconstruction
+
+After the 2026-09-25 V15a–e session, the next attempt is deliberately narrower.
+
+Read:
+
+- `V15_SESSION_2026-09-25.md`
+- `V15F_LOCAL_PATCH_PLAN.md`
+
+Start with:
+
+`PREPARE_V15F_LOCAL_PATCH.bat`
+
+This creates/opens a fresh V13e-derived `v15f_deep_hand_rebuild` candidate and
+adds non-destructive ring/pinky high-dihedral hotspot groups/guides.
+
+**Stage A is ring/pinky only.** Do not touch index/middle yet.
+
+After the local ring/pinky reconstruction, run:
+
+`AUDIT_V15F_STAGE_A.bat`
+
+Proceed to index/middle only if Stage A passes the V13e no-regression gate for:
+- general stable-ID/contact/topology invariants;
+- total >100° folds;
+- per-digit ring/pinky >100° folds;
+- per-digit ring/pinky >35° sharp-length ratio.
+
+Only after the complete hand passes the Blender audit should V15f enter the
+normal export/frozen/current-source review pipeline.
+
+
 - V8 remains the accepted body/knee baseline; V13e remains the last valid hand geometry source. No V15 hand candidate has been accepted or promoted.
 - V15a (radial shaft reconstruction plus 560 internal diagonal redirects) preserved as a rejected trial: the curl close-up pinches and the finger fold metric worsens.
 - V15b (conservative shaft reconstruction) is the most complete review trial. Its 63-bone/frozen exercise suite, bare/dressed comparison and exact 682 push-up contacts pass. Its V13e-matched open/fist/curl/push-up/pull-up boards are in `renders_v15b_deep_hand_rebuild/`. It is **not accepted**: the segmented shaft appearance persists and bind folds over 100 degrees rise from 4 to 8 in `reports/hand_seam_audit.json`.

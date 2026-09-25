@@ -87,3 +87,67 @@ close to the remaining allowance.
 This is a scheduling tool, not an OpenAI billing meter.
 
 It should become materially better after 5-10 real samples from this project.
+
+
+## Recommended guarded workflow
+
+Before a Work task, enter both meters shown in Settings -> Usage:
+
+`SET_AI_BUDGET.bat work_window <percent>`
+
+`SET_AI_BUDGET.bat work_week <percent>`
+
+Then run:
+
+`PREPARE_NEXT_WORK_TASK.bat`
+
+This writes `NEXT_WORK_TASK_CARD.md` and returns non-ready unless the controller
+has a safe Work configuration.
+
+When the card says READY TO START = YES, use:
+
+`BEGIN_NEXT_WORK_TASK.bat`
+
+That:
+- reruns the preflight;
+- records the chosen task class/model/reasoning;
+- starts timing the task;
+- records the current 5-hour and weekly percentages;
+- leaves the exact Work prompt/settings ready.
+
+After the task, look at Settings -> Usage again and run:
+
+`FINISH_WORK_TASK.bat <new_5h_percent> <new_week_percent> "<notes>"`
+
+Example:
+
+`FINISH_WORK_TASK.bat 72 84 "ring L topology proof"`
+
+This updates the controller's budget state and teaches the estimator the actual
+cost of that task.
+
+If Work's chat usage indicator shows credits used, the Python finish helper also
+supports `--credits-used` for richer calibration.
+
+## Preflight settings policy
+
+The planner selects:
+- model;
+- reasoning level;
+- Fast mode;
+- amended scope;
+- whether to START, SPLIT, WAIT or use LOCAL tooling.
+
+Default efficiency rules:
+- Fast mode OFF;
+- small context;
+- lowest sensible reasoning;
+- cheapest capable model;
+- one concrete deliverable per Work task;
+- explicit reserve in both the five-hour and weekly allowance;
+- no open-ended Work tasks;
+- escalation only after a genuine capability failure with the necessary
+  files/access already present.
+
+Model availability still comes from the actual Work picker. Edit
+`PROJECT_CONTROLLER_CONFIG.json -> available_work_models` if the picker differs.

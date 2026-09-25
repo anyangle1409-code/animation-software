@@ -1,3 +1,5 @@
+export { decideAutomaticCertification } from './certification';
+export type { AutomaticCertificationDecision, AutomaticCertificationInput, AutomaticCertificationStatus, VisualReviewStatus } from './certification';
 export { analyseSilhouetteRgba, compareSilhouetteMetrics, silhouetteSanity } from './silhouette';
 export type { SilhouetteBounds, SilhouetteComparison, SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 export { captureReferenceEvidence } from './reviewSession';

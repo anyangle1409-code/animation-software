@@ -127,6 +127,28 @@ function interpretCommon(
     } else {
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
+  } else if (implement === 'cable') {
+    const others = slots.equipment.filter((slot) => slot.value !== 'cable');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} family is certified on the cable station only.`,
+        ),
+      );
+    } else if (slots.equipment.length === 0) {
+      assumptions.push('Cable station with its certified straight-bar attachment.');
+    }
+
+    if (slots.loads.length > 0) {
+      issues.push(
+        blocking(
+          'load',
+          `${quote(slots.loads.map((slot) => slot.words))}: cable-stack resistance is not parameterised by the current family yet, so a requested load cannot be represented faithfully.`,
+        ),
+      );
+    }
+    load = 0;
   } else {
     const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
     if (others.length > 0) {

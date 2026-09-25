@@ -145,3 +145,19 @@ Then run only:
 Do not manually export the dressed GLB first. The pipeline audits the Blend, exports through the established hand packer, creates the bare variant, runs frozen validation, builds the direct V13e/V15 review boards, then runs the latest-source integration check in a disposable worktree.
 
 If the command stops, fix/report the first failing stage rather than bypassing it.
+
+
+## Blender-effort rule
+
+Spend Blender time on geometry, not export housekeeping.
+
+You may use quads/ngons while rebuilding the local finger surface. Preserve the original V13e vertices and tracking/source IDs, and keep the 682 protected contacts fixed.
+
+When `RUN_V15_POST_EDIT_ALL.bat` runs, it creates a temporary export Blend and automatically:
+- repairs only genuinely new V15 vertex deform rows when missing/non-normalized;
+- repairs missing/zero UV0/UV1 on new vertices from V13e;
+- triangulates the temporary copy;
+- verifies zero geometry movement from export preparation;
+- packs the GLB using the proven stable-ID hand packer.
+
+If that automation fails, report the exact failing vertex/UV/weight condition instead of manually changing unrelated geometry.

@@ -72,6 +72,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('reads a dumbbell Romanian deadlift through the hinge family', () => {
+    const parsed = parsePrompt('Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'hinge',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      load: 18,
+      tempo: { profile: 'slow' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/pronated grip/);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -115,6 +129,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('walking lunge')).toEqual(['variant']);
     expect(blocking('a squat with 20 kg dumbbells')).toEqual(['equipment', 'load']);
     expect(blocking('a split squat and a forward lunge')).toEqual(['variant']);
+    expect(blocking('conventional deadlift')).toEqual(['variant']);
+    expect(blocking('sumo deadlift')).toContain('variant');
+    expect(blocking('good morning')).toEqual(['variant']);
+    expect(blocking('single-leg RDL')).toEqual(['variant']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -126,7 +144,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

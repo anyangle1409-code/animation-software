@@ -35,6 +35,7 @@ export { squatReferenceFor } from './specs/squat';
 export { lungeReferenceFor } from './specs/lunge';
 export { hingeReferenceFor } from './specs/hinge';
 export { rowReferenceFor } from './specs/row';
+export { verticalPullReferenceFor } from './specs/verticalPull';
 export type {
   ReferenceApplicability,
   ReferenceCheckResult,

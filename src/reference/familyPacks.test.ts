@@ -43,8 +43,8 @@ describe('draft family reference packs', () => {
     ['bent-over row', bentOverRow, rowReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
-    expect(report.skipped, report.checks.filter((check) => check.status === 'skip')).toEqual([]);
-    expect(report.failed, report.checks.filter((check) => check.status === 'fail')).toEqual([]);
+    expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
+    expect(report.failed, JSON.stringify(report.checks.filter((check) => check.status === 'fail'))).toEqual([]);
   });
 
   it('rejects an overhead press that stops well short of lockout', () => {

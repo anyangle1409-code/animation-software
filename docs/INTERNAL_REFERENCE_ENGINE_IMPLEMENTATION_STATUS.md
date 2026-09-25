@@ -67,6 +67,32 @@ The reference is intentionally marked `draft`, not `certified`.
 Its numeric envelopes are stored in the reference spec and are not read from
 `curlFamily()` at runtime.
 
+### R2a — deterministic review manifest
+
+Added:
+
+- `src/reference/reviewManifest.ts`
+- `src/reference/reviewManifest.test.ts`
+
+The curl reference now owns four local review views:
+
+- front;
+- side;
+- three-quarter;
+- grip close-up.
+
+`buildReviewManifest()` converts a clip into five semantic review moments:
+
+- start/stretch;
+- mid concentric;
+- peak/contraction;
+- mid eccentric;
+- return.
+
+It crosses those moments with the family camera set, producing a deterministic
+20-capture manifest for a curl. This is capture **planning only**; no renderer,
+image model or network dependency has been added.
+
 ### Tests prepared
 
 Added:
@@ -108,7 +134,7 @@ repository's npm toolchain. The next laptop/Claude/Work session should run:
 
 ```
 npm run typecheck
-npm test -- src/reference/evaluate.test.ts src/reference/generation.test.ts
+npm test -- src/reference/evaluate.test.ts src/reference/generation.test.ts src/reference/reviewManifest.test.ts
 npm run build
 ```
 
@@ -141,7 +167,7 @@ Do not jump immediately to all families.
 
 Proceed in this order:
 
-1. add automatic review-view manifest/capture plumbing (R2);
+1. connect the existing review manifest to local image capture/rendering (finish R2);
 2. expose the reference report beside generator mechanical QA, initially read-only;
 3. only then connect reference failures to existing bounded family levers (R4);
 4. certify additional reference families in the same order as prompt generation.

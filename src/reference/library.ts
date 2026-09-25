@@ -11,6 +11,8 @@ import { extensionReferenceFor } from './specs/extension';
 import { horizontalPressReferenceFor } from './specs/horizontalPress';
 import { calfReferenceFor } from './specs/calf';
 import { trunkFlexionReferenceFor } from './specs/trunkFlexion';
+import { supineReferenceFor } from './specs/supine';
+import { carryReferenceFor } from './specs/carry';
 import type { ReferenceFamilyId, ReferenceSpec } from './types';
 
 export function referenceForFamily(
@@ -42,5 +44,9 @@ export function referenceForFamily(
       return calfReferenceFor(exercise);
     case 'trunk_flexion':
       return trunkFlexionReferenceFor(exercise);
+    case 'supine':
+      return supineReferenceFor(exercise);
+    case 'carry':
+      return carryReferenceFor(exercise);
   }
 }

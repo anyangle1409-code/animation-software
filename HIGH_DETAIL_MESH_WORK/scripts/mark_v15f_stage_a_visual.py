@@ -11,6 +11,7 @@ BLEND = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blen
 BOARD = ROOT / "renders_v15f_stage_a" / "V15F_V13E_STAGE_A_RING_PINKY_PROOF.jpg"
 OUT = ROOT / "reports" / "v15f_stage_a_visual_decision.json"
 AUDIT = ROOT / "reports" / "audit_v15f_deep_hand_rebuild_blender.json"
+STAGE_A_GATE = ROOT / "reports" / "v15f_stage_a_gate.json"
 DIGITS = ("ring_L", "ring_R", "pinky_L", "pinky_R")
 
 def main():
@@ -22,6 +23,11 @@ def main():
         raise SystemExit(f"Missing V15f Blend: {BLEND}")
     if not BOARD.is_file():
         raise SystemExit("Missing Stage-A visual board. Run GENERATE_V15F_STAGE_A_VISUAL_PROOF.bat first.")
+    if not STAGE_A_GATE.is_file():
+        raise SystemExit("Missing Stage-A numeric gate. Run AUDIT_V15F_STAGE_A.bat.")
+    gate=json.loads(STAGE_A_GATE.read_text(encoding="utf-8"))
+    if gate.get("pass") is not True:
+        raise SystemExit("Stage-A numeric gate is not PASS; visual verdict cannot be recorded.")
     if not AUDIT.is_file():
         raise SystemExit("Missing current V15f Blender audit. Rerun AUDIT_V15F_STAGE_A.bat.")
     audit=json.loads(AUDIT.read_text(encoding="utf-8"))

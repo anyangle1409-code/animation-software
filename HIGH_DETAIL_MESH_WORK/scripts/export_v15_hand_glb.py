@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "v15a_deep_hand_rebuild"
 BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
+EXPORT_BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}_EXPORT.blend"
 TARGET = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.glb"
 REPORT = ROOT / "reports" / f"build_{VERSION}_glb.json"
 
@@ -55,16 +56,31 @@ def main():
         "--", str(BLEND),
     ])
 
-    env = os.environ.copy()
-    env["BLEND"] = str(BLEND)
-    env["TARGET"] = str(TARGET)
-    env["REPORT"] = str(REPORT)
+    # Build a temporary export-ready copy. It may repair only genuinely new
+    # V15 vertex weights/UVs and triangulates without moving geometry.
+    if EXPORT_BLEND.exists():
+        EXPORT_BLEND.unlink()
     run([
         exe, "--background", "--factory-startup",
-        "--python", ROOT / "scripts" / "pack_v11_hand_glb.py",
-    ], env=env)
+        "--python", ROOT / "scripts" / "prepare_v15_export_blender.py",
+        "--", str(BLEND), str(EXPORT_BLEND),
+    ])
+
+    env = os.environ.copy()
+    env["BLEND"] = str(EXPORT_BLEND)
+    env["TARGET"] = str(TARGET)
+    env["REPORT"] = str(REPORT)
+    try:
+        run([
+            exe, "--background", "--factory-startup",
+            "--python", ROOT / "scripts" / "pack_v11_hand_glb.py",
+        ], env=env)
+    finally:
+        if EXPORT_BLEND.exists():
+            EXPORT_BLEND.unlink()
 
     print("\nV15 DRESSED GLB EXPORTED:", TARGET)
+    print("Editable V15 Blend was not triangulated or otherwise altered by export prep.")
     print("Bare variant will be created by the finish workflow.")
 
 if __name__ == "__main__":

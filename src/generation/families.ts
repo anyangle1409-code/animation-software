@@ -11,6 +11,8 @@ import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
+import { verticalPullFamily } from '../exercises/families/verticalPull';
+import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -862,6 +864,85 @@ const row: GeneratorFamily<RowVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Vertical pull / pull-up
+// ---------------------------------------------------------------------------
+
+const verticalPull: GeneratorFamily<VerticalPullVariant> = {
+  id: 'vertical_pull',
+  label: 'Pull-up',
+  builder: 'verticalPullFamily',
+  detect: /\b(?:pull|chin)[-\s]?ups?\b|\blat\s+pull(?:downs?)?\b/,
+
+  library: ['pull_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bchin[-\s]?ups?\b/, 'a chin-up uses a supinated grip; the current vertical-pull family certifies the pronated pull-up only.'],
+        [/\blat\s+pull(?:downs?)?\b/, 'a lat pulldown moves a bar/cable while the body stays seated; the current family models a bodyweight pull-up from a fixed rack.'],
+        [/\bassist(?:ed|ance)?\b/, 'assisted pull-ups need band or machine support that the current family does not model.'],
+        [/\bweighted\b|\bweight(?:ed)?\s+belt\b/, 'weighted pull-ups need an attached external load; the current family is bodyweight only.'],
+        [/\bkipp(?:ing|ed)?\b|\bbutterfly\b/, 'a kipping/butterfly pull-up deliberately uses body swing; the certified family is strict.'],
+        [/\bmuscle[-\s]?ups?\b/, 'a muscle-up transitions above the bar and is not the pull-up family.'],
+        [/\bwide[-\s]?grip\b|\bnarrow[-\s]?grip\b|\bclose[-\s]?grip\b/, 'the current pull-up family has one certified grip width just wider than the shoulders.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified pull-up uses a pronated overhand grip; a ${grip} grip is not certified.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['hanging'], 'pull-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: a pull-up has no adjustable bench/body angle input.`));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'pull-up', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'vertical_pull',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Pull-Up', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A strict bodyweight pull-up from a dead hang, using a pronated grip just wider than the shoulders` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: verticalPullFamily,
+
+  reference: () => 'pull_up',
+
+  levers: [],
+};
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -870,6 +951,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   lunge as unknown as GeneratorFamily,
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
+  verticalPull as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

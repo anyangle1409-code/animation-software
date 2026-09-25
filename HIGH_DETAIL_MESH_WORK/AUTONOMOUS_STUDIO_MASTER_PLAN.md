@@ -247,3 +247,41 @@ At any phase, before spending substantial Work/Blender usage, run:
 `CHECK_PREPARED_TOOLING.bat`
 
 It statically compiles every Python helper and verifies the authoritative roadmap/phase/launcher files plus the 16-family / 28-exercise certification manifest. It does not require Blender, Node modules or network access and does not modify candidates.
+
+
+## Prepared Phase C candidate evaluator
+
+The numeric/regression evaluation path is already prepared.
+
+Start from:
+
+`PHASE_C_GRIP_CANDIDATE_TEMPLATE.json`
+
+Copy it to a new candidate JSON and edit only:
+- `thumbOppositionX`;
+- `handleCentre`;
+- per-digit MCP/PIP/DIP rows.
+
+Then run:
+
+`EVALUATE_PHASE_C_GRIP.bat accepted_hand.glb candidate.json <label>`
+
+The runner:
+- fetches the newest source branch into a disposable worktree;
+- preserves the shipped `homeGymPTMale` row;
+- injects the candidate under its own temporary solution ID;
+- tags a **copy** of the accepted hand GLB to select that ID;
+- proves the metadata selected the candidate row;
+- checks the row against joint limits across every current dumbbell exercise closure;
+- runs the existing shipped-path skinned-cylinder grip harness on both hands in curl/press;
+- requires no digit/thumb penetration beyond the existing 0.5 mm contact tolerance;
+- reports palm loading separately rather than treating intended palm contact as a failure;
+- requires at least the existing 190° wrap diagnostic floor;
+- compares mirrored-hand, equipment-clearance and self-collision tests baseline vs candidate;
+- optionally requires the full normal source suite;
+- writes `reports/phase_c_grip_<label>/phase_c_grip_evaluation.json`;
+- removes the disposable worktree;
+- never promotes or overwrites the production grip row.
+
+A numeric PASS still requires the matched high-zoom visual grip boards described
+above before acceptance.

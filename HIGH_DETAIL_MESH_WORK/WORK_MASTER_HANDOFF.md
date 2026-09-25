@@ -1,3 +1,14 @@
+# Authoritative entry point
+
+Before doing substantial work, read:
+
+- `AUTONOMOUS_STUDIO_MASTER_PLAN.md` — full execution order from current V15 hand work through the self-sufficient prompt generator.
+- `BLENDER_ONLY_REMAINING.md` — tasks that genuinely require direct Blender/Work control; keep deterministic/source work outside Blender where possible.
+- `CURRENT_STATE.md` — current frozen baselines and immediate status.
+- `NEXT_ACTION.md` — current phase action.
+
+The master roadmap does not override phase gates; it tells you when each prepared tool becomes active.
+
 # HOME GYM PT — Work Master Handoff
 
 This file is intentionally short. The previous V10/V11 instructions are superseded.
@@ -208,3 +219,16 @@ These are dormant until their phase gates are met:
 - `PHASE_G_MOVEMENT_ACTIVATION_PLAN.md`
 
 Do not jump ahead simply because these tools exist. Each plan states its entry gate.
+
+
+## End-goal continuation
+
+After character/rig/motion phases are accepted, continue with:
+- `PHASE_H_SELF_SUFFICIENT_GENERATION_PLAN.md`
+- `PROMPT_FAMILY_CERTIFICATION_MANIFEST.json`
+- `START_PROMPT_FAMILY_CERTIFICATION.bat <family>`
+- `AUDIT_PROMPT_GENERATION_COVERAGE.bat`
+
+Final integrated release proof:
+- `FINAL_SYSTEM_ACCEPTANCE_PLAN.md`
+- `RUN_FINAL_SYSTEM_ACCEPTANCE.bat final_character.glb`

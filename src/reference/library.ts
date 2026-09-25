@@ -8,6 +8,9 @@ import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
 import { raiseReferenceFor } from './specs/raise';
 import { extensionReferenceFor } from './specs/extension';
+import { horizontalPressReferenceFor } from './specs/horizontalPress';
+import { calfReferenceFor } from './specs/calf';
+import { trunkFlexionReferenceFor } from './specs/trunkFlexion';
 import type { ReferenceFamilyId, ReferenceSpec } from './types';
 
 export function referenceForFamily(
@@ -33,5 +36,11 @@ export function referenceForFamily(
       return raiseReferenceFor(exercise);
     case 'extension':
       return extensionReferenceFor(exercise);
+    case 'horizontal_press':
+      return horizontalPressReferenceFor(exercise);
+    case 'calf':
+      return calfReferenceFor(exercise);
+    case 'trunk_flexion':
+      return trunkFlexionReferenceFor(exercise);
   }
 }

@@ -1,3 +1,13 @@
+## Master roadmap / Work usage
+
+Authoritative high-level roadmap:
+- `AUTONOMOUS_STUDIO_MASTER_PLAN.md`
+
+Blender/Work-only task map:
+- `BLENDER_ONLY_REMAINING.md`
+
+Use direct Blender Work only for interactive topology, source-rig/bone placement that needs 3D judgement, weight painting/deformation tuning, and final visual inspection that cannot be resolved from generated boards. Deterministic code, GLB transforms, validation, reports, prompt certification and source work should stay outside Blender where possible.
+
 # Current source of truth
 
 This file is the authoritative entry point for the high-detail mesh review workspace.
@@ -151,3 +161,16 @@ The branch now contains a fail-fast, versioned V15 execution environment:
 No V15 geometry has been created or accepted by these preparation commits. The
 remaining irreducible current-phase work is the actual Blender shaft/joint
 surface rebuild plus the visual anatomy decision.
+
+
+## End-goal continuation
+
+After character/rig/motion phases are accepted, continue with:
+- `PHASE_H_SELF_SUFFICIENT_GENERATION_PLAN.md`
+- `PROMPT_FAMILY_CERTIFICATION_MANIFEST.json`
+- `START_PROMPT_FAMILY_CERTIFICATION.bat <family>`
+- `AUDIT_PROMPT_GENERATION_COVERAGE.bat`
+
+Final integrated release proof:
+- `FINAL_SYSTEM_ACCEPTANCE_PLAN.md`
+- `RUN_FINAL_SYSTEM_ACCEPTANCE.bat final_character.glb`

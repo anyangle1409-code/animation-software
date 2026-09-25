@@ -74,6 +74,9 @@ export async function exportGlb(
 
   const scene = new Group();
   scene.name = exercise.clipName;
+  // A clip that walks in place says how fast to move it: extras on the file's
+  // root node, the group named after the clip.
+  if (exercise.travel) scene.userData.homeGymPT = { travelSpeed: exercise.travel.speed };
 
   if (clipOnly) {
     scene.add(character.root);

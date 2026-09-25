@@ -20,7 +20,7 @@ describe('IK target timing', () => {
     expect(start.ikTiming?.leg_l).toEqual({ finish: 0.65, lift: 0.07, easing: 'easeInOut' });
     expect(drive.ikTiming?.leg_l).toEqual({ delay: 0.35, lift: 0.07, easing: 'easeInOut' });
     expect(bottom.ikTiming).toBeUndefined();
-    for (const exercise of EXERCISES.filter((entry) => entry.id !== forwardLunge.id)) {
+    for (const exercise of EXERCISES.filter((entry) => !entry.phases.some((phase) => phase.ikTiming))) {
       for (const keyframe of generateClip(canonicalSkeleton, exercise).keyframes) {
         expect('ikTiming' in keyframe, exercise.id).toBe(false);
       }

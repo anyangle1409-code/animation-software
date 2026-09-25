@@ -6,6 +6,56 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-25 — Farmer's walk: the first exercise that walks
+
+Suite **825 passed / 1 skipped** (69 files; was 806), typecheck and build clean. **Plan steps 1–7 are complete: 27 exercises.**
+
+**Added.** `families/carry.ts` (`carryFamily`) and `definitions/farmersWalk.ts`: a 24 kg dumbbell in each hand, walking tall in short, even steps.
+
+**Walking in place.**
+
+- A looping clip cannot travel, since its last frame is its first. So the walk is in place, as a game's locomotion clip is.
+- Two steps per repetition, 0.6 s each. The foot that is down slides back 44 cm at constant speed (a linear `ikTiming` blend). The other swings forward, lifting 6 cm.
+- **Engine: `ExerciseDefinition.travel`.** It gives the speed (0.733 m/s) at which to move the character so each planted foot holds still. It is exported as `homeGymPT.travelSpeed` in the extras of the file's root node, only for an exercise that sets it.
+- Moved at that speed, each planted foot's ball stays within 1.13 mm of where it landed and within 0.63 mm of the floor. The swinging foot never dips below the floor.
+
+**The step.**
+
+- Each foot lands flat 22 cm ahead of the hips and leaves with its heel 15° up, pivoting on its ball.
+- Because the slide must be linear, the heel's rise is spread across the whole stance rather than left to push-off. It is a few degrees up by mid-stance, not noticeable at walking speed.
+- The hips sit 4 cm lower than standing, so one leg can reach 22 cm ahead while the other reaches 20 cm behind. They turn 4° each stride, with the chest 4° against them.
+- Arms hang long, held out 12° to clear the thighs: 71 mm of clearance.
+
+**Engine: stepping-foot contact lift.** A stepping foot's contact lift is now its goal's lowest point: the heel under the ankle, or the ball the aim points at. Previously it was the ankle's height over flat. A foot pushing off heel-up therefore keeps its ball down on a character. It is read from the goal rather than the solved bones, so a planted foot reads exactly zero rather than the solve's 0.4 mm residual. For a flat foot it is the same height as before.
+
+**Rules.**
+
+- Walks tall (mid spine within 6° of vertical).
+- Hips level (±4°).
+- Shoulders down (clavicle ±6°).
+- Arms long (elbow ≤ 15°).
+- Dumbbells level.
+- Three common errors.
+
+**Tests.** `carry.test.ts` (6):
+
+- the only exercise with a travel speed, and its value;
+- both legs reach on every frame;
+- each planted foot held still once travelling;
+- the swinging foot clear of the floor and never through it;
+- the speed written to the exported root node, and absent for another exercise.
+
+Also:
+
+- Listed as asymmetric in `mirror.test.ts`.
+- `ikTiming.test.ts` now excludes any exercise that sets timing, rather than naming the lunge.
+- Self-collision baseline 5.70 mm.
+
+**Measured against the previous state.**
+
+- Twenty-five clips byte-identical. The forward lunge's contact records differ in one lift value, by 7×10⁻¹⁸ m.
+- All twenty-six GLB exports byte-identical.
+
 ### Claude — 2026-09-24 — Crunch and sit-up: the trunk-flexion family
 
 Suite **806 passed / 1 skipped** (68 files; was 771), typecheck and build clean. **The twenty-four existing exercises are byte-identical.** No engine, rig or equipment change.

@@ -102,6 +102,8 @@ const BASELINE: Record<string, number> = {
   // curls up.
   crunch: 0.00194,
   sit_up: 0.00159,
+  // Arms hanging long at the sides, a dumbbell in each hand, through the walk.
+  farmers_walk: 0.0057,
 };
 
 /**

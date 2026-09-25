@@ -12,6 +12,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Point | Commit | State |
 |---|---|---|
+| After the farmer's walk | `PENDING` | 27 exercises, suite 825 / 1. **Plan steps 1–7 complete.** |
 | After the crunch and sit-up | `99d1796` | 26 exercises, suite 806 / 1. Plan step 6 (core flexion) complete. |
 | After the forward lunge | `38ae9d0` | 24 exercises, suite 771 / 1. Plan step 5 (stepping lunge) complete. |
 | After the cable woodchop | `8d52bbf` | 23 exercises, suite 745 / 1. Plan step 4 (rotation) complete. |
@@ -33,6 +34,7 @@ A plain list of every change made on `chatgpt/absolute-retarget-imports` since t
 
 | Commit | What | Changed behaviour of existing exercises? | Files |
 |---|---|---|---|
+| `PENDING` | Carry family: farmer's walk, walking in place. **Engine:** `ExerciseDefinition.travel` (in-place walking speed, exported as root-node extras); a stepping foot's contact lift measured from its goal's lowest point (heel or ball) | No. Twenty-five clips byte-identical; the forward lunge's contact records differ by one lift value, 7×10⁻¹⁸ m (the same height computed another way). All twenty-six exports byte-identical. | new `families/carry*`, `definitions/farmersWalk.ts`; `exercises/types.ts`, `animation/pipeline.ts`, `export/glb.ts`; library; mirror, ikTiming and self-collision tests |
 | `99d1796` | Trunk-flexion family: crunch and sit-up, lying on the floor | No — all twenty-four byte-identical. No engine, rig or equipment change. | new `families/trunkFlexion*`, `definitions/crunch.ts`, `definitions/sitUp.ts`; library; hinge (pivot membership), feet and self-collision tests |
 | `38ae9d0` | Forward lunge (the first stepping foot). **Engine:** per-phase timing and lift for pose-IK targets (`MovementPhase.ikTiming`); a pose-IK aim's `forward` survives blending; a leg driven by pose IK reports a lifted floor contact to characters. | No — all twenty-three byte-identical, clips and exports (no existing exercise sets `ikTiming`, aims a pose target, or drives a leg by pose IK). The standing-feet flatness check now skips a foot no lock holds (every existing standing exercise locks both). | `exercises/types.ts`, `animation/clip.ts`, `animation/generate.ts`, `animation/pipeline.ts`, `constraints/types.ts`, `character/retargetContact.ts`; `families/lunge*`, new `definitions/forwardLunge.ts`, new `animation/ikTiming.test.ts`; library; feet, squat, mirror and self-collision tests |
 | `4ff2eec` | **Engine (display/export):** a foot standing on its ball reports its ankle, not its ball, as its contact, so a character stands where the rig does | Poses: no, all twenty-three byte-identical. Contact records and the character's feet: yes, for the standing and dumbbell calf raises (both feet were drawn 14 cm forward) and the split squat (back foot 7.5 cm); their GLB exports change with them. The other nineteen exports byte-identical. | `animation/pipeline.ts`; `families/calf.test.ts` |

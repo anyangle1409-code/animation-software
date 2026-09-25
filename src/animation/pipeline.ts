@@ -94,10 +94,9 @@ export function resolveFrame(
     ...(goal.endAim ? { aim: goal.endAim } : {}),
   }));
   // A leg driven by the keyframe instead of a lock — a foot stepping — is a
-  // floor contact too, lifted as far as its ankle is above standing height, so
+  // floor contact too, lifted as far as the rig's own sole is off the floor, so
   // a character with its own leg lengths plants that foot, and lifts it, where
-  // the rig does. Exact for a foot held flat through the step, as a stepping
-  // foot's pose target aims it.
+  // the rig does — a foot pushing off with its heel up still has its ball down.
   for (const goal of keyframeGoals) {
     if (!goal.chain.startsWith('leg') || activeLocks.some((lock) => lock.chain === goal.chain)) continue;
     contacts.push({
@@ -105,14 +104,30 @@ export function resolveFrame(
       mode: 'floor',
       target: { ...goal.target },
       ...(goal.endAim ? { aim: goal.endAim } : {}),
-      lift: Math.max(0, goal.target.y - FLAT_ANKLE_HEIGHT),
+      lift: soleHeight(goal),
     });
   }
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
 }
 
-/** The rig's ankle height with the foot flat on the floor, metres. */
-const FLAT_ANKLE_HEIGHT = 0.08;
+/** The rig's ankle and ball heights above the floor with the foot flat, and the foot's length, metres. */
+const FLAT_FOOT = { ankle: 0.08, ball: 0.025, length: Math.hypot(0.055, 0.14) };
+
+/**
+ * How far a stepping foot's goal holds it off the floor: its lower point, the
+ * heel under the ankle or the ball the aim points the foot at, each measured
+ * from where it sits with the foot flat. Read from the goal rather than the
+ * solved bones, so a planted foot reads exactly zero rather than the solve's
+ * residual.
+ */
+function soleHeight(goal: IKGoal): number {
+  const heel = goal.target.y - FLAT_FOOT.ankle;
+  const direction = goal.endAim?.direction;
+  if (!direction) return Math.max(0, heel);
+  const length = Math.hypot(direction.x, direction.y, direction.z);
+  const ball = goal.target.y + (direction.y / length) * FLAT_FOOT.length - FLAT_FOOT.ball;
+  return Math.max(0, Math.min(heel, ball));
+}
 
 function ankleOf(evaluation: PoseEvaluation, chain: IKChainId): Vec3 {
   const ankle = evaluation.head(IK_CHAINS[chain].end, new Vector3());

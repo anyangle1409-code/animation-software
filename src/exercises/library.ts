@@ -25,6 +25,7 @@ import { cableWoodchop } from './definitions/cableWoodchop';
 import { forwardLunge } from './definitions/forwardLunge';
 import { crunch } from './definitions/crunch';
 import { sitUp } from './definitions/sitUp';
+import { farmersWalk } from './definitions/farmersWalk';
 
 /**
  * Every exercise the studio knows about. The engine is deliberately proven on a
@@ -63,6 +64,7 @@ export const EXERCISES: ExerciseDefinition[] = [
   forwardLunge,
   crunch,
   sitUp,
+  farmersWalk,
 ];
 
 export const EXERCISE_BY_ID = new Map(EXERCISES.map((exercise) => [exercise.id, exercise]));

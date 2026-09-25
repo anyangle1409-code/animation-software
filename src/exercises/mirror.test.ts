@@ -75,11 +75,12 @@ const pairsOf = <T extends { id: string }>(items: T[]): [T, T][] => {
  * forward and the other back; a Pallof press stacks one hand above the other on
  * a cable from one side; a Russian twist turns the trunk to one side and then
  * the other; a woodchop pulls from a pulley on one side down to the other; a
- * forward lunge steps with one foot — and so are not their own mirror. Listed rather than
+ * forward lunge steps with one foot; a walk has one foot ahead at every moment
+ * — and so are not their own mirror. Listed rather than
  * detected, so an exercise cannot drop out of the symmetry check by accident;
  * the test below holds each to actually being asymmetric.
  */
-const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop', 'forward_lunge']);
+const ASYMMETRIC = new Set(['split_squat', 'cable_pallof_press', 'russian_twist', 'cable_woodchop', 'forward_lunge', 'farmers_walk']);
 
 describe('mirroring', () => {
   it('lists as asymmetric only exercises whose sides really differ', () => {

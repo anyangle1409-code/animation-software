@@ -51,6 +51,15 @@ export interface ExerciseDefinition {
    */
   rootPivot?: Vec3;
 
+  /**
+   * For a clip that walks in place: the speed, metres per second along +Z, at
+   * which to move the character so each planted foot stays still on the floor.
+   * The clip itself stays in place and loops; its planted foot slides back at
+   * exactly this speed, as on a treadmill. Exported as `homeGymPT.travelSpeed`
+   * in the extras of the file's root node.
+   */
+  travel?: { speed: number };
+
   muscles: MuscleInvolvement;
   technique: TechniqueRule[];
   commonErrors: CommonError[];

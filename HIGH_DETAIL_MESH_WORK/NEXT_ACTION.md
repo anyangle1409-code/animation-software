@@ -1,16 +1,86 @@
-# Next action: rebuild finger shaft and joint surface locally
+# Next action: V15 deep finger shaft/joint rebuild from V13e
 
-V8 remains the accepted body/knee geometry baseline. V13e is the last hand review candidate. **V14e is an unaccepted experimental checkpoint**: adding 2,737 finger-body vertices and up to 1.086 mm of constrained smoothing passes all guards but does not sufficiently change the broad, segmented silhouette. See `REVIEW_V14E_FINGER_BODY_TRIAL.md` and its three V13e/V14e comparison boards.
+V8 remains the accepted body/knee baseline. **V13e is the hand geometry starting point. V14e is experimental/rejected and must not become the geometry baseline.**
 
-Work from V13e in a separate candidate. Replace or redirect actual finger shaft, knuckle and joint surface topology on both hands, including the unwelded patches that create the angular silhouette. Keep all 682 protected original push-up contacts and their skin rows exact; keep non-hand body, frozen rig, runtime `614033b`, exercise/equipment behavior and production references unchanged. Audit bind and posed seams after the rebuild. Validate the five focused guards, seven exercises, bare/dressed equivalence, and matched open/fist/curl/push-up/pull-up renders. Only a visibly improved, technically passing hand candidate may become the geometry source for grip fitting.
+The V14e result proves that adding thousands of local vertices plus constrained smoothing is not enough. The next pass must rebuild the **actual finger shaft, knuckle/joint and problematic unwelded/local patch surface topology** on index, middle, ring and little fingers on both hands.
 
-## Validation pin
+Read:
+- `V15_DEEP_HAND_REBUILD_PLAN.md`
+- `V15_WORK_HANDOFF.md`
 
-Runtime `614033b` is the pinned validation source. The source branches have since moved to `87b881d`, which has 14 exercises and adds self-collision, feet and equipment-clearance gates. Measured on the current runtime (`REAL_CHARACTER_GLB` pointed at each candidate):
+## First action
 
-- **Upper arm against chest.** V10 and V11 fall below the production character's recorded baselines on 10 exercises. The closest distances are 0.5 to 4 mm, so they are not penetrations. This comes from the high-detail body's arm and chest shape, not from the hands, and V11 gives the same figures as V10.
-- **Incline curl.** The dumbbell grazes the high-detail body's thigh by 0.76 mm (one vertex) at the end of the repetition. On the production character it clears.
+Run:
 
-Bring the pin forward to the current source before the body is bound for production. These are body-shape and exercise items to settle then; they do not block the hand review.
+`HIGH_DETAIL_MESH_WORK/scripts/prepare_v15_deep_hand_blender.py`
 
-Do not change the frozen 63-bone `hgpt_canonical_v3` hierarchy, exercise mechanics, equipment, production references, palm motion or scapular rhythm.
+Expected output:
+
+`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend`
+
+The prep script changes no vertex positions. It creates diagnostic groups for protected push-up contacts, patch boundaries, sharp folds, safe rebuild core and per-digit ownership.
+
+## Geometry task
+
+Work from V13e only.
+
+Replace or redirect the interior shaft/joint surface topology that causes the broad segmented silhouette. Preserve exact anchor/contact positions and skin rows. Use rounded longitudinal flow and gradual joint transitions rather than another subdivision/smoothing-only pass.
+
+Keep:
+- all **682 protected original push-up contacts** exact;
+- non-hand body unchanged;
+- frozen 63-bone `hgpt_canonical_v3`;
+- exercise/equipment/grip/retarget behaviour unchanged;
+- production references unchanged;
+- palm/thumb exercise motion and scapular rhythm off.
+
+## Visual gate
+
+Generate matched V13e/V15:
+- open palm/back/web;
+- closed fist palm/back/side;
+- curl;
+- push-up;
+- pull-up.
+
+Do not accept V15 because it passes guards or contains more topology. It must visibly reduce the inherited broad faceting/segmentation while preserving push-up contact.
+
+No grip refit until this gate is passed.
+
+## Validation lane A — frozen comparison
+
+Pinned runtime:
+
+`614033b256d869230ea273522620467401b0bc71`
+
+Keep this pin unchanged for reproducibility.
+
+Require the established protected-contact, retarget, seam, bare/dressed and exercise comparison gates.
+
+## Validation lane B — latest source integration
+
+Current integration target at handoff creation:
+
+`chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb`
+
+State at that HEAD:
+- 28 exercises
+- recorded suite 868 passed / 1 skipped
+
+Use a disposable source checkout. **Do not merge the source branch into the mesh branch.**
+
+Run every current gate that swaps `REAL_CHARACTER_GLB`, plus the mesh coordination report, against V15.
+
+Known V8/V13e body-shape measurements — arm/chest baselines, incline-curl thigh graze, near-limit bench compression — are not hand blockers and must not be “fixed” inside V15.
+
+## Stop conditions
+
+Stop and report rather than compensate if:
+- any protected push-up contact or skin row changes;
+- a fix requires changing a grip, exercise, equipment transform, retargeting or guard;
+- non-hand geometry changes;
+- new nonmanifold/open-edge defects appear;
+- bare/dressed posed equivalence breaks;
+- visual improvement is again marginal.
+
+Only a visibly improved and technically passing candidate may become the geometry source for Phase C grip fitting.

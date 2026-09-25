@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +32,7 @@ def read_json(path):
 def status_text():
     try:
         p = subprocess.run(
-            ["python", str(ROOT / "scripts" / "v15f_status.py")],
+            [sys.executable, str(ROOT / "scripts" / "v15f_status.py")],
             cwd=ROOT,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,

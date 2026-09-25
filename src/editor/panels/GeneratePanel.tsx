@@ -185,6 +185,27 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
         </>
       )}
 
+      {result.referenceQA && (
+        <>
+          <h3>Independent reference QA</h3>
+          <p className="panel__note">
+            Draft offline reference <code>{result.referenceQA.referenceId}</code>. This evidence does not change the
+            generator's PASS/FAIL or approval state yet.
+          </p>
+          <div className="review-gates">
+            {result.referenceQA.checks.map((check) => (
+              <article key={check.id} className={check.status === 'pass' ? 'is-pass' : 'is-fail'}>
+                <div>
+                  <strong>{check.label}</strong>
+                </div>
+                <span>{check.status === 'pass' ? 'Pass' : check.status === 'skip' ? 'Not run' : 'Review'}</span>
+                <p>{check.detail}</p>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
+
       {result.variant && (
         <details className="generate-source">
           <summary>Generated source</summary>

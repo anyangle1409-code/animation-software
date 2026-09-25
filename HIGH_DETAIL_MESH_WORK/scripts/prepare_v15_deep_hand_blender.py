@@ -293,6 +293,12 @@ body["v15_prep_note"] = (
     "Start deep finger shaft/joint rebuild from V13e; V14e is not the baseline."
 )
 
+# Save the file ready to work: body active and selected, guides visible.
+for ob in bpy.context.selected_objects:
+    ob.select_set(False)
+body.select_set(True)
+bpy.context.view_layer.objects.active = body
+
 bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT))
 

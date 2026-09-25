@@ -219,3 +219,12 @@ After character/rig/motion phases are accepted, continue with:
 Final integrated release proof:
 - `FINAL_SYSTEM_ACCEPTANCE_PLAN.md`
 - `RUN_FINAL_SYSTEM_ACCEPTANCE.bat final_character.glb`
+
+
+## Resume after Work usage limit
+
+When a GPT Work session resumes after the 5-hour limit, read:
+
+`WORK_RESUME_AFTER_LIMIT.md`
+
+It is the authoritative unattended V15f resume sequence and supersedes any older generic V15 "start all eight digits" instruction.

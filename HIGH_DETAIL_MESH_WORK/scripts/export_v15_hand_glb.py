@@ -1,23 +1,15 @@
-"""Export V15 dressed GLB from the saved Blender candidate using the proven V11+ packer.
-
-The packer retains V8's stable original GLB vertex prefix, rig, nodes, skins,
-materials, shorts and metadata; it adds/rebuilds only the body primitive arrays
-from the V15 Blender topology. All original v8_source_id vertices must survive.
-"""
+"""Export a versioned V15 dressed GLB using the proven stable-ID hand packer."""
 from __future__ import annotations
+
+import argparse
 import glob
 import os
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "v15a_deep_hand_rebuild"
-BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
-EXPORT_BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}_EXPORT.blend"
-TARGET = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.glb"
-REPORT = ROOT / "reports" / f"build_{VERSION}_glb.json"
+DEFAULT_VERSION = "v15a_deep_hand_rebuild"
 
 def find_blender():
     explicit = os.environ.get("BLENDER_EXE")
@@ -40,46 +32,54 @@ def run(cmd, env=None):
     subprocess.run([str(x) for x in cmd], cwd=ROOT, env=env, check=True)
 
 def main():
-    if not BLEND.is_file():
-        raise SystemExit(f"Missing saved V15 Blend: {BLEND}")
-    if TARGET.exists():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--version", default=DEFAULT_VERSION)
+    args = ap.parse_args()
+    version = args.version
+
+    blend = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}.blend"
+    export_blend = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}_EXPORT.blend"
+    target = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}.glb"
+    report = ROOT / "reports" / f"build_{version}_glb.json"
+
+    if not blend.is_file():
+        raise SystemExit(f"Missing saved V15 Blend: {blend}")
+    if target.exists():
         raise SystemExit(
-            f"Refusing to overwrite existing {TARGET.name}. "
+            f"Refusing to overwrite existing {target.name}. "
             "Preserve the attempt and use a new candidate version if rebuilding."
         )
+
     exe = find_blender()
 
-    # Fail before packing if protected/non-digit/stable-ID invariants were broken.
     run([
         exe, "--background", "--factory-startup",
         "--python", ROOT / "scripts" / "audit_v15_hand_blender.py",
-        "--", str(BLEND),
+        "--", str(blend),
     ])
 
-    # Build a temporary export-ready copy. It may repair only genuinely new
-    # V15 vertex weights/UVs and triangulates without moving geometry.
-    if EXPORT_BLEND.exists():
-        EXPORT_BLEND.unlink()
+    if export_blend.exists():
+        export_blend.unlink()
     run([
         exe, "--background", "--factory-startup",
         "--python", ROOT / "scripts" / "prepare_v15_export_blender.py",
-        "--", str(BLEND), str(EXPORT_BLEND),
+        "--", str(blend), str(export_blend),
     ])
 
     env = os.environ.copy()
-    env["BLEND"] = str(EXPORT_BLEND)
-    env["TARGET"] = str(TARGET)
-    env["REPORT"] = str(REPORT)
+    env["BLEND"] = str(export_blend)
+    env["TARGET"] = str(target)
+    env["REPORT"] = str(report)
     try:
         run([
             exe, "--background", "--factory-startup",
             "--python", ROOT / "scripts" / "pack_v11_hand_glb.py",
         ], env=env)
     finally:
-        if EXPORT_BLEND.exists():
-            EXPORT_BLEND.unlink()
+        if export_blend.exists():
+            export_blend.unlink()
 
-    print("\nV15 DRESSED GLB EXPORTED:", TARGET)
+    print("\nV15 DRESSED GLB EXPORTED:", target)
     print("Editable V15 Blend was not triangulated or otherwise altered by export prep.")
     print("Bare variant will be created by the finish workflow.")
 

@@ -1,6 +1,7 @@
 import type { BoneName } from '../rig/boneNames';
 import type { Axis } from '../rig/types';
 import type { HandSpec } from '../exercises/types';
+import type { CameraPresetId } from '../viewer/cameraTypes';
 
 export type ReferenceFamilyId = 'curl';
 export type ReferenceStatus = 'draft' | 'certified';
@@ -89,6 +90,14 @@ export interface ReferenceApplicability {
   support?: 'standing' | 'incline';
 }
 
+export interface ReferenceReviewView {
+  id: string;
+  label: string;
+  preset: CameraPresetId;
+  /** Optional semantic crop target for a future local capture renderer. */
+  target?: 'full_body' | 'upper_body' | 'hands' | 'shoulders' | 'feet';
+}
+
 export interface ReferenceSpec {
   schemaVersion: 1;
   id: string;
@@ -102,6 +111,8 @@ export interface ReferenceSpec {
    * runtime.
    */
   provenance: string;
+  /** Family-owned review evidence to capture locally. */
+  reviewViews?: ReferenceReviewView[];
   checks: ReferenceCheckSpec[];
 }
 

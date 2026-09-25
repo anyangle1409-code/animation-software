@@ -142,6 +142,35 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent).toMatchObject({ family: 'horizontal_press', support: 'floor' });
   });
 
+  it('reads lateral and front raises through one direction-aware family', () => {
+    const lateral = parsePrompt('Create a lateral raise with 7 kg dumbbells and controlled tempo.');
+    expect(lateral.issues).toEqual([]);
+    expect(lateral.intent).toMatchObject({
+      family: 'raise',
+      direction: 'lateral',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 7,
+      tempo: { profile: 'controlled' },
+    });
+
+    const front = parsePrompt('Create a front raise with 5 kg dumbbells.');
+    expect(front.issues).toEqual([]);
+    expect(front.intent).toMatchObject({
+      family: 'raise',
+      direction: 'front',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      load: 5,
+    });
+  });
+
+  it('does not guess the plane for an ambiguous shoulder raise', () => {
+    expect(blocking('Create a shoulder raise.')).toEqual(['direction']);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -201,6 +230,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('knee push-up')).toContain('variant');
     expect(blocking('incline push-up')).toContain('variant');
     expect(blocking('neutral grip push-up')).toEqual(['grip']);
+    expect(blocking('front and lateral shoulder raise')).toContain('direction');
+    expect(blocking('cable lateral raise')).toContain('variant');
+    expect(blocking('one-arm lateral raise')).toContain('variant');
+    expect(blocking('pronated lateral raise')).toEqual(['grip']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -212,7 +245,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

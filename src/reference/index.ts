@@ -1,3 +1,6 @@
+export { verticalPullReferenceFor } from './specs/verticalPull';
+export { raiseReferenceFor } from './specs/raise';
+export { extensionReferenceFor } from './specs/extension';
 export { captureReferenceEvidence } from './reviewSession';
 export { browserReviewCaptureAvailable, captureReviewRequests, installBrowserReviewCaptureAdapter } from './browserCapture';
 export { captureReviewBatch } from './captureController';

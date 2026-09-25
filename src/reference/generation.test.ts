@@ -20,6 +20,7 @@ describe('reference QA beside prompt generation', () => {
     // No production character was supplied, so the generator correctly refuses
     // to call its body-dependent QA certified.
     expect(generated.status).toBe('unverified');
+    expect(generated.referenceQA?.passed).toBe(true);
 
     const reference = curlReferenceFor(generated.exercise!);
     const report = evaluateReference(reference, generated.exercise!, generated.clip!, {
@@ -42,6 +43,7 @@ describe('reference QA beside prompt generation', () => {
     expect(generated.status).toBe('unverified');
     expect(generated.report?.skipped).toContain('equipmentClearance');
     expect(generated.report?.skipped).toContain('armTrunk');
+    expect(generated.referenceQA?.passed).toBe(true);
 
     const report = evaluateReference(
       curlReferenceFor(generated.exercise!),
@@ -55,5 +57,7 @@ describe('reference QA beside prompt generation', () => {
     // collision checks into a certified generator result.
     expect(report.failed).toEqual([]);
     expect(generated.status).not.toBe('passed');
+    // Read-only integration: reference evidence cannot promote an unverified mechanical result.
+    expect(generated.referenceQA?.passed).toBe(true);
   });
 });

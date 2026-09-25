@@ -171,3 +171,52 @@ When a GPT Work session resumes after the 5-hour limit, read:
 `WORK_RESUME_AFTER_LIMIT.md`
 
 It is the authoritative unattended V15f resume sequence and supersedes any older generic V15 "start all eight digits" instruction.
+
+
+## V15f directional hotspot aid
+
+The V15f hotspot preparation also classifies >35° sharp edges by direction
+relative to the finger axis:
+
+- **Cross-band >35°** — sharp edges running around/across the shaft. These are
+  high-priority when they create the segmented "sausage-link" appearance.
+- **Longitudinal >35°** — sharp edges running along the finger. These can indicate
+  a side ridge/facet and should be inspected separately.
+
+Both selections are available in the V15 Hand sidebar for V15f. The generated
+`reports/prepare_v15f_hotspots.json` records directional counts and the
+strongest edge locations.
+
+
+## First topology proof
+
+Before propagating a new topology strategy across ring/pinky, edit **ring_L only**
+and run:
+
+`AUDIT_V15F_RING_PROOF.bat`
+
+This requires:
+- general V15 invariants;
+- no other finger's original positions changed;
+- total >100° folds no worse than V13e;
+- ring_L >35° and >50° sharp-length ratios no worse than V13e;
+- ring_L >100° fold count no worse than V13e.
+
+Only after this passes should the approach be tried on ring_R.
+
+After each later digit use:
+
+`AUDIT_V15F_DIGIT.bat ring_R`
+
+`AUDIT_V15F_DIGIT.bat pinky_L`
+
+`AUDIT_V15F_DIGIT.bat pinky_R`
+
+The incremental gate also ensures fingers outside the approved sequence have not
+moved.
+
+At any interruption run:
+
+`V15F_STATUS.bat`
+
+to get the current artifact/gate state and next documented action.

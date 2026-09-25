@@ -79,10 +79,15 @@ def snapshot(path: Path):
 
     names = {g.index: g.name for g in body.vertex_groups}
     bone_names = {g.index: g.name for g in body.vertex_groups if g.name.startswith("DEF-")}
-    digit_ids = {
-        gid for gid, name in names.items()
-        if any(f"DEF-f_{d}." in name for d in ("index", "middle", "ring", "pinky"))
+    digit_group_ids = {
+        f"{digit}_{side}": {
+            gid for gid, name in names.items()
+            if f"DEF-f_{digit}." in name and name.endswith("." + side)
+        }
+        for side in ("L", "R")
+        for digit in ("index", "middle", "ring", "pinky")
     }
+    digit_ids = set().union(*digit_group_ids.values())
 
     def bone_row(v):
         row = {}
@@ -115,14 +120,10 @@ def snapshot(path: Path):
     # Finger-owned boundary/fold counts.
     owned = {}
     for v in bm.verts:
-        values = {}
-        for side in ("L", "R"):
-            for digit in ("index", "middle", "ring", "pinky"):
-                ids = {
-                    gid for gid, name in names.items()
-                    if f"DEF-f_{digit}." in name and name.endswith("." + side)
-                }
-                values[f"{digit}_{side}"] = sum(w for gid, w in v[dlay].items() if gid in ids)
+        values = {
+            key: sum(w for gid, w in v[dlay].items() if gid in ids)
+            for key, ids in digit_group_ids.items()
+        }
         key = max(values, key=values.get)
         if values[key] > 0.65:
             owned[v] = key

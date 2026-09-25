@@ -19,6 +19,7 @@ BLEND = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blen
 BOARD = ROOT / "renders_v15f_ring_proof" / "V15F_V13E_RING_L_PROOF.jpg"
 OUT = ROOT / "reports" / "v15f_ring_visual_decision.json"
 AUDIT = ROOT / "reports" / "audit_v15f_deep_hand_rebuild_blender.json"
+RING_GATE = ROOT / "reports" / "v15f_ring_l_proof_gate.json"
 
 def main():
     ap = argparse.ArgumentParser()
@@ -33,6 +34,11 @@ def main():
             "Missing visual board. Run GENERATE_V15F_RING_VISUAL_PROOF.bat first."
         )
 
+    if not RING_GATE.is_file():
+        raise SystemExit("Missing ring_L numeric proof. Run AUDIT_V15F_RING_PROOF.bat.")
+    gate = json.loads(RING_GATE.read_text(encoding="utf-8"))
+    if gate.get("pass") is not True:
+        raise SystemExit("ring_L numeric proof is not PASS; visual verdict cannot be recorded.")
     if not AUDIT.is_file():
         raise SystemExit("Missing current V15f Blender audit. Rerun AUDIT_V15F_RING_PROOF.bat.")
     audit = json.loads(AUDIT.read_text(encoding="utf-8"))
@@ -44,6 +50,9 @@ def main():
     fingerprint = ring.get("surface_fingerprint_sha256")
     if not fingerprint:
         raise SystemExit("Current audit has no ring_L surface fingerprint. Rerun the ring proof.")
+    expected = gate.get("candidate", {}).get("surface_fingerprint_sha256")
+    if expected and expected != fingerprint:
+        raise SystemExit("ring_L numeric proof is stale relative to the current audited surface.")
 
     stat = BLEND.stat()
     payload = {

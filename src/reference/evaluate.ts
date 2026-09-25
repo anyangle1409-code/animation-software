@@ -7,6 +7,8 @@ import { toDeg } from '../core/math';
 import type { ExerciseDefinition } from '../exercises/types';
 import { PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
+import { bodyNormalization } from './normalize';
+import type { ReferenceScale } from './types';
 import type {
   NumericEnvelope,
   ReferenceCheckResult,
@@ -49,8 +51,9 @@ const outside = (value: number, envelope: NumericEnvelope): number => {
 };
 
 function envelopeResult(
-  check: Extract<ReferenceCheckSpec, { kind: 'jointEnvelope' | 'rootEnvelope' }>,
+  check: ReferenceCheckSpec & { envelope: NumericEnvelope },
   values: { value: number; time: number }[],
+  unit = 'deg',
 ): ReferenceCheckResult {
   const severity = check.severity ?? 'error';
   if (values.length === 0) {
@@ -61,7 +64,7 @@ function envelopeResult(
       severity,
       status: 'skip',
       detail: 'No samples matched the requested phases.',
-      expected: rangeText(check.envelope, 'deg'),
+      expected: rangeText(check.envelope, unit),
     };
   }
 
@@ -74,7 +77,7 @@ function envelopeResult(
   );
   const min = Math.min(...values.map((entry) => entry.value));
   const max = Math.max(...values.map((entry) => entry.value));
-  const expected = rangeText(check.envelope, 'deg');
+  const expected = rangeText(check.envelope, unit);
 
   return {
     id: check.id,
@@ -90,6 +93,25 @@ function envelopeResult(
     expected,
     worstTime: worst.time,
   };
+}
+
+const worldAxis = (axis: 'x' | 'y' | 'z') =>
+  axis === 'x' ? new Vector3(1, 0, 0) : axis === 'y' ? new Vector3(0, 1, 0) : new Vector3(0, 0, 1);
+
+function scaleValue(rig: Skeleton, scale?: ReferenceScale): number {
+  return scale ? bodyNormalization(rig)[scale] : 1;
+}
+
+function resolvedEvaluation(
+  rig: Skeleton,
+  clip: StudioClip,
+  time: number,
+  anchors: ReturnType<typeof lockAnchors>,
+): PoseEvaluation {
+  const evaluation = new PoseEvaluation(rig);
+  const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
+  evaluation.apply(frame.pose);
+  return evaluation;
 }
 
 function phaseOrder(clip: StudioClip): string[] {
@@ -141,13 +163,13 @@ export function evaluateReference(
             severity,
             status: 'skip',
             detail: 'No samples matched the requested phases.',
-            expected: rangeText(check.envelope, 'deg'),
+            expected: rangeText(check.envelope, unit),
           };
         }
         const values = selected.map((sample) => toDeg(sample.pose.rotations[check.bone]?.[check.axis] ?? 0));
         const excursion = Math.max(...values) - Math.min(...values);
         const violation = outside(excursion, check.envelope);
-        const expected = rangeText(check.envelope, 'deg');
+        const expected = rangeText(check.envelope, unit);
         return {
           id: check.id,
           label: check.label,
@@ -169,6 +191,129 @@ export function evaluateReference(
           time: sample.time,
         }));
         return envelopeResult(check, values);
+      }
+
+      case 'rootPositionEnvelope': {
+        const scale = options.rig ? scaleValue(options.rig, check.normalizeBy) : 1;
+        const unit = check.normalizeBy ? check.normalizeBy : 'm';
+        const values = selected.map((sample) => ({
+          value: sample.pose.rootPosition[check.axis] / scale,
+          time: sample.time,
+        }));
+        return envelopeResult(check, values, unit);
+      }
+
+      case 'relativeLandmarkEnvelope': {
+        if (!options.rig || !anchors) {
+          return {
+            id: check.id,
+            label: check.label,
+            kind: check.kind,
+            severity,
+            status: 'skip',
+            detail: 'A canonical rig is required for relative landmark evaluation.',
+            expected: rangeText(check.envelope, check.normalizeBy ?? 'm'),
+          };
+        }
+        const scale = scaleValue(options.rig, check.normalizeBy);
+        const values = selected.map((sample) => {
+          const evaluation = resolvedEvaluation(options.rig!, clip, sample.time, anchors!);
+          const point = evaluation.head(check.point, new Vector3());
+          const relative = evaluation.head(check.relativeTo, new Vector3());
+          return { value: (point[check.axis] - relative[check.axis]) / scale, time: sample.time };
+        });
+        return envelopeResult(check, values, check.normalizeBy ?? 'm');
+      }
+
+      case 'segmentAngleEnvelope': {
+        if (!options.rig || !anchors) {
+          return {
+            id: check.id,
+            label: check.label,
+            kind: check.kind,
+            severity,
+            status: 'skip',
+            detail: 'A canonical rig is required for segment-angle evaluation.',
+            expected: rangeText(check.envelope, 'deg'),
+          };
+        }
+        const axis = worldAxis(check.worldAxis);
+        const values = selected.map((sample) => {
+          const evaluation = resolvedEvaluation(options.rig!, clip, sample.time, anchors!);
+          const head = evaluation.head(check.bone, new Vector3());
+          const tail = evaluation.tail(check.bone, new Vector3());
+          const segment = tail.sub(head).normalize();
+          const dot = Math.min(1, Math.max(-1, Math.abs(segment.dot(axis))));
+          return { value: Math.acos(dot) * 180 / Math.PI, time: sample.time };
+        });
+        return envelopeResult(check, values, 'deg');
+      }
+
+      case 'landmarkStationary': {
+        if (!options.rig || !anchors || selected.length === 0) {
+          return {
+            id: check.id,
+            label: check.label,
+            kind: check.kind,
+            severity,
+            status: 'skip',
+            detail: 'A canonical rig and matching samples are required for stationary-landmark evaluation.',
+          };
+        }
+        const scale = scaleValue(options.rig, check.normalizeBy);
+        const firstEval = resolvedEvaluation(options.rig, clip, selected[0].time, anchors);
+        const origin = firstEval.head(check.bone, new Vector3()).clone();
+        let worst = 0;
+        let worstTime = selected[0].time;
+        for (const sample of selected) {
+          const evaluation = resolvedEvaluation(options.rig, clip, sample.time, anchors);
+          const point = evaluation.head(check.bone, new Vector3());
+          const drift = point.distanceTo(origin) / scale;
+          if (drift > worst) {
+            worst = drift;
+            worstTime = sample.time;
+          }
+        }
+        const pass = worst <= check.tolerance + 1e-9;
+        const unit = check.normalizeBy ?? 'm';
+        return {
+          id: check.id,
+          label: check.label,
+          kind: check.kind,
+          severity,
+          status: pass ? 'pass' : 'fail',
+          detail: pass
+            ? `Maximum drift ${worst.toFixed(4)} ${unit}, within ${check.tolerance.toFixed(4)}.`
+            : `Maximum drift ${worst.toFixed(4)} ${unit}, exceeds ${check.tolerance.toFixed(4)}.`,
+          measured: worst,
+          expected: `≤ ${check.tolerance.toFixed(4)} ${unit}`,
+          worstTime,
+        };
+      }
+
+      case 'landmarkDistanceEnvelope': {
+        if (!options.rig || !anchors) {
+          return {
+            id: check.id,
+            label: check.label,
+            kind: check.kind,
+            severity,
+            status: 'skip',
+            detail: 'A canonical rig is required for landmark-distance evaluation.',
+            expected: rangeText(check.envelope, check.normalizeBy ?? 'm'),
+          };
+        }
+        const scale = scaleValue(options.rig, check.normalizeBy);
+        const values = selected.map((sample) => {
+          const evaluation = resolvedEvaluation(options.rig!, clip, sample.time, anchors!);
+          const from = evaluation.head(check.from, new Vector3());
+          const to = evaluation.head(check.to, new Vector3());
+          const value = check.axis
+            ? Math.abs(from[check.axis] - to[check.axis])
+            : from.distanceTo(to);
+          return { value: value / scale, time: sample.time };
+        });
+        return envelopeResult(check, values, check.normalizeBy ?? 'm');
       }
 
       case 'bilateralSymmetry': {

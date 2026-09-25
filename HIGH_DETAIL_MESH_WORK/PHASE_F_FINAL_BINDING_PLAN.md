@@ -194,3 +194,22 @@ Produce:
 - hashes and rollback point.
 
 No scapular rhythm, palm cupping or new thumb exercise motion yet.
+
+
+## Prepared asset audit
+
+A generic source-rig audit is already available:
+
+`AUDIT_PHASE_F_SOURCE_RIG.bat accepted_geometry.glb final_character_candidate.glb`
+
+It verifies the Phase F scope before runtime testing:
+- accepted POSITION/NORMAL/UV/COLOR/topology data remain exact;
+- non-body/garment mesh data remain unchanged;
+- source skin-joint additions/removals are reported;
+- no previously weighted source/helper bone silently loses all influence;
+- candidate weight sums remain normalized;
+- no new unweighted body vertices appear;
+- source-joint parent changes are listed explicitly.
+
+It intentionally does **not** require the source character to have exactly 63
+skin joints. Canonical mapping/plausibility remains a runtime retarget check.

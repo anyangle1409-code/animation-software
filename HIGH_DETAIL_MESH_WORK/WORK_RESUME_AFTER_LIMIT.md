@@ -331,3 +331,18 @@ Use the prepared scripts for:
 - review boards/reports.
 
 Do not spend a new Work session recreating tooling that already exists.
+
+
+## V15f directional hotspot aid
+
+The V15f hotspot preparation also classifies >35° sharp edges by direction
+relative to the finger axis:
+
+- **Cross-band >35°** — sharp edges running around/across the shaft. These are
+  high-priority when they create the segmented "sausage-link" appearance.
+- **Longitudinal >35°** — sharp edges running along the finger. These can indicate
+  a side ridge/facet and should be inspected separately.
+
+Both selections are available in the V15 Hand sidebar for V15f. The generated
+`reports/prepare_v15f_hotspots.json` records directional counts and the
+strongest edge locations.

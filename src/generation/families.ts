@@ -21,6 +21,8 @@ import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
 import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
+import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
+import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1445,6 +1447,104 @@ const carry: GeneratorFamily<CarryVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Trunk flexion / crunch and sit-up
+// ---------------------------------------------------------------------------
+
+const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
+  id: 'trunk_flexion',
+  label: 'Trunk flexion',
+  builder: 'trunkFlexionFamily',
+  detect: /\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/,
+
+  library: ['crunch', 'sit_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\breverse\s+crunch(?:es)?\b/, 'a reverse crunch moves the pelvis/legs rather than using this upper-trunk curl.'],
+        [/\bbicycle\s+crunch(?:es)?\b/, 'a bicycle crunch adds alternating rotation and leg cycling; not built by this family.'],
+        [/\boblique\s+crunch(?:es)?\b|\bside\s+crunch(?:es)?\b/, 'an oblique/side crunch adds trunk rotation or lateral flexion.'],
+        [/\bv[-\s]?ups?\b|\bjackknives?\b/, 'a V-up/jackknife raises the legs and trunk together; not certified by this family.'],
+        [/\bdecline\b|\bincline\b/, 'the certified crunch and sit-up use the floor, not an angled bench.'],
+        [/\bweighted\b|\bdumb-?bells?\b|\bplate\b|\bcable\b/, 'the certified trunk-flexion family is bodyweight only.'],
+      ],
+      issues,
+    );
+
+    const crunch = /\bcrunch(?:es)?\b/.test(slots.text);
+    const situp = /\bsit[-\s]?ups?\b/.test(slots.text);
+    if (crunch && situp) {
+      issues.push(blocking('variant', 'The request names both a crunch and a sit-up; choose one.'));
+    }
+    const motion: 'crunch' | 'situp' = situp ? 'situp' : 'crunch';
+
+    if (slots.grips.length > 0) {
+      issues.push(blocking('grip', 'Crunches and sit-ups hold no implement, so a requested hand grip has nothing to apply to.'));
+    }
+
+    const support = interpretSupport(slots, ['lying'], motion === 'situp' ? 'sit-up' : 'crunch', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': floor trunk flexion has no adjustable angle input.'));
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      motion === 'situp' ? 'sit-up' : 'crunch',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'trunk_flexion',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support,
+        trunkMotion: motion,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const motion = intent.trunkMotion ?? 'crunch';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(motion === 'situp' ? 'Sit-Up' : 'Crunch', intent),
+      description:
+        'Generated from "' +
+        intent.prompt.trim() +
+        '". A bodyweight ' +
+        (motion === 'situp'
+          ? 'sit-up from the floor to sitting, with bent knees and planted feet'
+          : 'crunch that curls the shoulder blades off the floor while the lower back and hips stay down') +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') +
+        '.',
+      motion,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: trunkFlexionFamily,
+
+  reference(intent) {
+    return intent.trunkMotion === 'situp' ? 'sit_up' : 'crunch';
+  },
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1458,6 +1558,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   raise as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
   carry as unknown as GeneratorFamily,
+  trunkFlexion as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

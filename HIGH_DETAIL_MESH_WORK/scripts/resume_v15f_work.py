@@ -67,7 +67,7 @@ def main():
         return
 
     run([sys.executable,ROOT/"scripts"/"write_v15f_handoff.py"],check=False)
-    run([sys.executable,ROOT/"scripts"/"start_v15f_safe_runner.py"],check=False)
+    run([sys.executable,ROOT/"scripts"/"start_project_controller.py"],check=False)
 
     next_action=status.get("next_action")
     if next_action:

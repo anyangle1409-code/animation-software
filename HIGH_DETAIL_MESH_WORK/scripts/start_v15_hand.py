@@ -33,6 +33,13 @@ def main():
     args = ap.parse_args()
     version = args.version
     out = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}.blend"
+
+    # Fail before launching Blender if the branch, baselines, helper syntax or
+    # local toolchain are not the expected V15 workspace.
+    subprocess.run([
+        sys.executable, ROOT / "scripts" / "preflight_v15.py",
+    ], cwd=ROOT, check=True)
+
     exe = find_blender()
 
     if not out.is_file():

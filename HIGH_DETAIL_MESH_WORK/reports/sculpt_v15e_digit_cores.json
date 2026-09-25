@@ -1,0 +1,70 @@
+{
+  "digits": {
+    "INDEX_L": {
+      "owned": 1195,
+      "core": 784,
+      "moved": 784,
+      "max_move_mm": 1.800057682768115,
+      "joint_control_edges_split": 153,
+      "longitudinal_edge_flips": 0
+    },
+    "INDEX_R": {
+      "owned": 1195,
+      "core": 784,
+      "moved": 784,
+      "max_move_mm": 1.8000557643631834,
+      "joint_control_edges_split": 153,
+      "longitudinal_edge_flips": 0
+    },
+    "MIDDLE_L": {
+      "owned": 2023,
+      "core": 1764,
+      "moved": 1764,
+      "max_move_mm": 1.8000597158902458,
+      "joint_control_edges_split": 160,
+      "longitudinal_edge_flips": 0
+    },
+    "MIDDLE_R": {
+      "owned": 2023,
+      "core": 1764,
+      "moved": 1764,
+      "max_move_mm": 1.8000563406743446,
+      "joint_control_edges_split": 160,
+      "longitudinal_edge_flips": 0
+    },
+    "RING_L": {
+      "owned": 1301,
+      "core": 904,
+      "moved": 904,
+      "max_move_mm": 1.8000466854643742,
+      "joint_control_edges_split": 160,
+      "longitudinal_edge_flips": 0
+    },
+    "RING_R": {
+      "owned": 1301,
+      "core": 901,
+      "moved": 901,
+      "max_move_mm": 1.8000477811023907,
+      "joint_control_edges_split": 160,
+      "longitudinal_edge_flips": 0
+    },
+    "PINKY_L": {
+      "owned": 904,
+      "core": 593,
+      "moved": 593,
+      "max_move_mm": 1.8000508617635136,
+      "joint_control_edges_split": 109,
+      "longitudinal_edge_flips": 0
+    },
+    "PINKY_R": {
+      "owned": 904,
+      "core": 593,
+      "moved": 593,
+      "max_move_mm": 1.800053032803662,
+      "joint_control_edges_split": 110,
+      "longitudinal_edge_flips": 0
+    }
+  },
+  "total_edge_flips": 0,
+  "new_joint_control_vertices": 1165
+}

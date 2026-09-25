@@ -101,14 +101,14 @@ def link_dependencies():
         except OSError:
             pass
     # Fallback: install only inside disposable worktree.
-    run(["npm", "ci"], WORKTREE)
+    run(["npm.cmd" if os.name == "nt" else "npm", "ci"], WORKTREE)
     return "npm-ci"
 
 def vitest_cmd():
     local = WORKTREE / "node_modules" / ".bin" / ("vitest.cmd" if os.name == "nt" else "vitest")
     if local.is_file():
         return [str(local), "run"]
-    return ["npx", "--no-install", "vitest", "run"]
+    return ["npx.cmd" if os.name == "nt" else "npx", "--no-install", "vitest", "run"]
 
 def test_counts(text):
     clean = re.sub(r"\x1b\[[0-9;]*m", "", text)
@@ -184,6 +184,9 @@ def main():
     ref, sha, source_message, fetch_code = resolve_source()
     remove_worktree()
     git("worktree", "add", "--detach", str(WORKTREE), sha)
+    # Git inherits this mesh worktree's sparse-checkout settings. Current
+    # source tests live under src/, so expand only the disposable checkout.
+    run(["git", "sparse-checkout", "disable"], WORKTREE)
     dependency_mode = None
     try:
         dependency_mode = link_dependencies()
@@ -192,7 +195,7 @@ def main():
         suite = None
         if not args.skip_full_suite:
             suite_proc = run(
-                ["npm", "test"],
+                ["npm.cmd" if os.name == "nt" else "npm", "test"],
                 WORKTREE, check=False,
                 log=out / "full_source_suite.log",
             )

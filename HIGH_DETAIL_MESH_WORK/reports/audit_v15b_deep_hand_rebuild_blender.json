@@ -1,0 +1,543 @@
+{
+  "version": "v15b_deep_hand_rebuild",
+  "baseline": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15b_deep_hand_rebuild.blend",
+  "protected_source_id_count": 682,
+  "missing_source_ids_total": 0,
+  "missing_protected_source_ids": [],
+  "missing_non_digit_source_ids": [],
+  "protected_max_move_mm": 0.0,
+  "protected_weight_rows_changed": 0,
+  "non_digit_max_move_mm": 0.0,
+  "non_digit_weight_rows_changed": 0,
+  "digit_original_max_move_mm": 1.2000538995239936,
+  "baseline_topology": {
+    "vertices": 48291,
+    "faces": 93153,
+    "duplicate_source_ids": [],
+    "degenerate_faces": 0,
+    "nonmanifold_edges_gt2": 0,
+    "digit_boundary_edges": 0,
+    "digit_folds_over_100deg": 3,
+    "per_digit_surface": {
+      "index_L": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.883803798351,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0056129456498,
+          "35": 318.0924457847141,
+          "50": 129.79396502487361,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.2241759579628706,
+        "edge_p90_mm": 3.2927999505773187,
+        "sharp_length_ratio_gt_35": 0.035677051516665136,
+        "sharp_length_ratio_gt_50": 0.014557610650957417
+      },
+      "middle_L": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12938.8598294463,
+        "dihedral_edge_count_gt_deg": {
+          "20": 279,
+          "35": 72,
+          "50": 26,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 646.155153925065,
+          "35": 168.88561722589657,
+          "50": 65.81356661627069,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1013393998146057,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.013052588825604719,
+        "sharp_length_ratio_gt_50": 0.005086504335296373
+      },
+      "ring_L": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9709.741226935876,
+        "dihedral_edge_count_gt_deg": {
+          "20": 383,
+          "35": 132,
+          "50": 56,
+          "75": 11,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1109.1558002663078,
+          "35": 426.34032206842676,
+          "50": 160.7717564329505,
+          "75": 57.26613971637562,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.228982513770461,
+        "edge_p90_mm": 3.2578109530732036,
+        "sharp_length_ratio_gt_35": 0.04390851538717762,
+        "sharp_length_ratio_gt_50": 0.016557779726091175
+      },
+      "pinky_L": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6602.029808040243,
+        "dihedral_edge_count_gt_deg": {
+          "20": 179,
+          "35": 65,
+          "50": 29,
+          "75": 8,
+          "100": 2
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 663.0164681992028,
+          "35": 342.97230807715096,
+          "50": 152.05661035724916,
+          "75": 32.934340299107134,
+          "100": 7.52214202657342
+        },
+        "edge_p50_mm": 2.144188270904124,
+        "edge_p90_mm": 3.2343895407393575,
+        "sharp_length_ratio_gt_35": 0.05194952432045432,
+        "sharp_length_ratio_gt_50": 0.023031797004622413
+      },
+      "index_R": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.350344672333,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0072014327161,
+          "35": 318.0938828154467,
+          "50": 129.7943394165486,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.224233467131853,
+        "edge_p90_mm": 3.292358433827758,
+        "sharp_length_ratio_gt_35": 0.03567934747573149,
+        "sharp_length_ratio_gt_50": 0.01455852371456289
+      },
+      "middle_R": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12934.409921988845,
+        "dihedral_edge_count_gt_deg": {
+          "20": 275,
+          "35": 70,
+          "50": 25,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 634.2698874068446,
+          "35": 162.07059303997084,
+          "50": 61.11375481123105,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1007871255278587,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.012530188390306578,
+        "sharp_length_ratio_gt_50": 0.004724897013456796
+      },
+      "ring_R": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9713.138390579843,
+        "dihedral_edge_count_gt_deg": {
+          "20": 380,
+          "35": 135,
+          "50": 57,
+          "75": 12,
+          "100": 1
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1103.0153320898535,
+          "35": 437.29400617303327,
+          "50": 166.07282287441194,
+          "75": 59.282511298079044,
+          "100": 3.227011999115348
+        },
+        "edge_p50_mm": 2.228982513770461,
+        "edge_p90_mm": 3.2557829981669784,
+        "sharp_length_ratio_gt_35": 0.045020876733017315,
+        "sharp_length_ratio_gt_50": 0.017097751128046876
+      },
+      "pinky_R": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6594.051639462123,
+        "dihedral_edge_count_gt_deg": {
+          "20": 174,
+          "35": 60,
+          "50": 23,
+          "75": 4,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 644.8152745142579,
+          "35": 328.74180283397436,
+          "50": 136.33293192833662,
+          "75": 17.36083597643301,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.14330421295017,
+        "edge_p90_mm": 3.232096391730011,
+        "sharp_length_ratio_gt_35": 0.04985429608506825,
+        "sharp_length_ratio_gt_50": 0.02067513865260802
+      }
+    },
+    "new_digit_weight_max_error": 7.450580596923828e-08,
+    "symmetry_max_mm": 1.610170933417976,
+    "symmetry_p95_mm": 0.0
+  },
+  "candidate_topology": {
+    "vertices": 48291,
+    "faces": 93153,
+    "duplicate_source_ids": [],
+    "degenerate_faces": 0,
+    "nonmanifold_edges_gt2": 0,
+    "digit_boundary_edges": 0,
+    "digit_folds_over_100deg": 6,
+    "per_digit_surface": {
+      "index_L": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9059.937248501228,
+        "dihedral_edge_count_gt_deg": {
+          "20": 226,
+          "35": 68,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 945.0983718270436,
+          "35": 319.82698425417766,
+          "50": 129.79396502487361,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.259372267872095,
+        "edge_p90_mm": 3.408710821531713,
+        "sharp_length_ratio_gt_35": 0.03530123614344969,
+        "sharp_length_ratio_gt_50": 0.014326143930670738
+      },
+      "middle_L": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12899.153777223546,
+        "dihedral_edge_count_gt_deg": {
+          "20": 237,
+          "35": 62,
+          "50": 28,
+          "75": 12,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 543.8714848714881,
+          "35": 150.3395159379579,
+          "50": 72.00416206615046,
+          "75": 30.978652008343488,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1088740322738886,
+        "edge_p90_mm": 3.0365926679223785,
+        "sharp_length_ratio_gt_35": 0.011654990593523838,
+        "sharp_length_ratio_gt_50": 0.005582084166892447
+      },
+      "ring_L": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9786.647739478212,
+        "dihedral_edge_count_gt_deg": {
+          "20": 379,
+          "35": 141,
+          "50": 61,
+          "75": 13,
+          "100": 3
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1103.676762781106,
+          "35": 436.4742147154175,
+          "50": 166.75308387493715,
+          "75": 60.52803073544055,
+          "100": 4.476727219298482
+        },
+        "edge_p50_mm": 2.2463264176622033,
+        "edge_p90_mm": 3.329551429487765,
+        "sharp_length_ratio_gt_35": 0.04459895015478391,
+        "sharp_length_ratio_gt_50": 0.01703883580097344
+      },
+      "pinky_L": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6726.69428557856,
+        "dihedral_edge_count_gt_deg": {
+          "20": 208,
+          "35": 69,
+          "50": 29,
+          "75": 8,
+          "100": 1
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 738.944729528157,
+          "35": 353.05814575986005,
+          "50": 154.76799118914641,
+          "75": 35.64572113100439,
+          "100": 6.424314342439175
+        },
+        "edge_p50_mm": 2.193116000853479,
+        "edge_p90_mm": 3.385385102592409,
+        "sharp_length_ratio_gt_35": 0.05248612925917945,
+        "sharp_length_ratio_gt_50": 0.023008031080133277
+      },
+      "index_R": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9059.500190749532,
+        "dihedral_edge_count_gt_deg": {
+          "20": 226,
+          "35": 68,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 945.1010141056031,
+          "35": 319.82845248421654,
+          "50": 129.7943394165486,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.2597606293857098,
+        "edge_p90_mm": 3.4064556239172816,
+        "sharp_length_ratio_gt_35": 0.035303101247327835,
+        "sharp_length_ratio_gt_50": 0.01432687639314572
+      },
+      "middle_R": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12894.042809901293,
+        "dihedral_edge_count_gt_deg": {
+          "20": 233,
+          "35": 59,
+          "50": 25,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 530.0580268376507,
+          "35": 139.44907410768792,
+          "50": 61.11375481123105,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1080272272229195,
+        "edge_p90_mm": 3.0379459261894226,
+        "sharp_length_ratio_gt_35": 0.010815000086753662,
+        "sharp_length_ratio_gt_50": 0.004739689150427048
+      },
+      "ring_R": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9791.67627012066,
+        "dihedral_edge_count_gt_deg": {
+          "20": 376,
+          "35": 141,
+          "50": 61,
+          "75": 14,
+          "100": 2
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1100.133215149981,
+          "35": 446.63526955991983,
+          "50": 174.43995241774246,
+          "75": 66.55097857583314,
+          "100": 4.234029911458492
+        },
+        "edge_p50_mm": 2.245805226266384,
+        "edge_p90_mm": 3.329550614580512,
+        "sharp_length_ratio_gt_35": 0.04561377002657136,
+        "sharp_length_ratio_gt_50": 0.01781512660401638
+      },
+      "pinky_R": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6714.837858773535,
+        "dihedral_edge_count_gt_deg": {
+          "20": 203,
+          "35": 65,
+          "50": 23,
+          "75": 4,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 714.8027636576444,
+          "35": 339.3789450637996,
+          "50": 136.33293192833662,
+          "75": 17.36083597643301,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.190475817769766,
+        "edge_p90_mm": 3.380260337144137,
+        "sharp_length_ratio_gt_35": 0.05054164407266673,
+        "sharp_length_ratio_gt_50": 0.020303235133251277
+      }
+    },
+    "new_digit_weight_max_error": 7.450580596923828e-08,
+    "symmetry_max_mm": 1.8414182122796774,
+    "symmetry_p95_mm": 0.000808640294280849
+  },
+  "per_digit_surface_delta_vs_v13e": {
+    "index_L": {
+      "sharp_length_ratio_gt_35_delta": -0.0003758153732154462,
+      "sharp_length_ratio_gt_50_delta": -0.00023146672028667888,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0
+    },
+    "index_R": {
+      "sharp_length_ratio_gt_35_delta": -0.00037624622840365385,
+      "sharp_length_ratio_gt_50_delta": -0.0002316473214171704,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0
+    },
+    "middle_L": {
+      "sharp_length_ratio_gt_35_delta": -0.0013975982320808805,
+      "sharp_length_ratio_gt_50_delta": 0.0004955798315960745,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0
+    },
+    "middle_R": {
+      "sharp_length_ratio_gt_35_delta": -0.0017151883035529166,
+      "sharp_length_ratio_gt_50_delta": 1.4792136970251564e-05,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0
+    },
+    "pinky_L": {
+      "sharp_length_ratio_gt_35_delta": 0.0005366049387251284,
+      "sharp_length_ratio_gt_50_delta": -2.376592448913653e-05,
+      "fold_edges_gt_100_delta": -1,
+      "boundary_edge_delta": 0
+    },
+    "pinky_R": {
+      "sharp_length_ratio_gt_35_delta": 0.00068734798759848,
+      "sharp_length_ratio_gt_50_delta": -0.00037190351935674146,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0
+    },
+    "ring_L": {
+      "sharp_length_ratio_gt_35_delta": 0.0006904347676062947,
+      "sharp_length_ratio_gt_50_delta": 0.0004810560748822641,
+      "fold_edges_gt_100_delta": 3,
+      "boundary_edge_delta": 0
+    },
+    "ring_R": {
+      "sharp_length_ratio_gt_35_delta": 0.0005928932935540462,
+      "sharp_length_ratio_gt_50_delta": 0.0007173754759695027,
+      "fold_edges_gt_100_delta": 1,
+      "boundary_edge_delta": 0
+    }
+  },
+  "remaining_faceting_priority": [
+    {
+      "digit": "pinky_L",
+      "candidate_sharp_ratio_gt_35": 0.05248612925917945,
+      "candidate_sharp_ratio_gt_50": 0.023008031080133277,
+      "delta_gt_35_vs_v13e": 0.0005366049387251284
+    },
+    {
+      "digit": "pinky_R",
+      "candidate_sharp_ratio_gt_35": 0.05054164407266673,
+      "candidate_sharp_ratio_gt_50": 0.020303235133251277,
+      "delta_gt_35_vs_v13e": 0.00068734798759848
+    },
+    {
+      "digit": "ring_R",
+      "candidate_sharp_ratio_gt_35": 0.04561377002657136,
+      "candidate_sharp_ratio_gt_50": 0.01781512660401638,
+      "delta_gt_35_vs_v13e": 0.0005928932935540462
+    },
+    {
+      "digit": "ring_L",
+      "candidate_sharp_ratio_gt_35": 0.04459895015478391,
+      "candidate_sharp_ratio_gt_50": 0.01703883580097344,
+      "delta_gt_35_vs_v13e": 0.0006904347676062947
+    },
+    {
+      "digit": "index_R",
+      "candidate_sharp_ratio_gt_35": 0.035303101247327835,
+      "candidate_sharp_ratio_gt_50": 0.01432687639314572,
+      "delta_gt_35_vs_v13e": -0.00037624622840365385
+    },
+    {
+      "digit": "index_L",
+      "candidate_sharp_ratio_gt_35": 0.03530123614344969,
+      "candidate_sharp_ratio_gt_50": 0.014326143930670738,
+      "delta_gt_35_vs_v13e": -0.0003758153732154462
+    },
+    {
+      "digit": "middle_L",
+      "candidate_sharp_ratio_gt_35": 0.011654990593523838,
+      "candidate_sharp_ratio_gt_50": 0.005582084166892447,
+      "delta_gt_35_vs_v13e": -0.0013975982320808805
+    },
+    {
+      "digit": "middle_R",
+      "candidate_sharp_ratio_gt_35": 0.010815000086753662,
+      "candidate_sharp_ratio_gt_50": 0.004739689150427048,
+      "delta_gt_35_vs_v13e": -0.0017151883035529166
+    }
+  ],
+  "checks": {
+    "all_original_source_ids_present": true,
+    "protected_source_ids_present": true,
+    "protected_positions_exact": true,
+    "protected_bone_weights_exact": true,
+    "non_digit_source_ids_present": true,
+    "non_digit_positions_exact": true,
+    "non_digit_bone_weights_exact": true,
+    "digit_original_move_within_10mm": true,
+    "no_duplicate_source_ids": true,
+    "degenerates_not_increased": true,
+    "nonmanifold_gt2_not_increased": true,
+    "digit_boundaries_not_increased": true,
+    "new_digit_bone_weights_normalized": true
+  },
+  "pass": true,
+  "note": "All original V8-source IDs must survive. Rebuild topology by rewiring/retriangulating and adding vertices, not by deleting source vertices."
+}

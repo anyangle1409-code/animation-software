@@ -11,6 +11,10 @@ The master roadmap does not override phase gates; it tells you when each prepare
 
 # HOME GYM PT — Work Master Handoff
 
+## Latest checkpoint — 2026-09-25
+
+Read `V15_SESSION_2026-09-25.md` before executing the V15 plan below. The prepared V15a and later trial attempts have been run. V15b is a preserved, technically validated comparison trial, but **no V15 geometry is accepted**: the matched visuals still show segmentation and the severe-fold seam metric worsens. V13e remains the hand source and V8 the body/knee baseline. Grip refitting and production promotion remain blocked by the hand-anatomy visual gate. Continue with a new V13e-derived candidate only after addressing the fold/shaft topology locally; do not overwrite V15a–V15e.
+
 This file is intentionally short. The previous V10/V11 instructions are superseded.
 
 Read in this order:

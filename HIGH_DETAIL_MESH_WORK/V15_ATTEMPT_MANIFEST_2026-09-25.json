@@ -1,0 +1,58 @@
+{
+  "baseline": "V13e",
+  "accepted_hand_candidate": null,
+  "attempt_status": {
+    "v15a": "rejected_visual_and_fold_regression",
+    "v15b": "technical_review_trial_not_accepted_fold_regression",
+    "v15c": "invalid_stable_ids_do_not_export",
+    "v15d": "incomplete_one_digit_topology_trial_do_not_export",
+    "v15e": "rejected_sharp_fold_regression_do_not_export"
+  },
+  "attempts": [
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend",
+      "bytes": 6220156,
+      "sha256": "842041cdb5441a31dfc1ef48bbcdc4b392c276775927fcab72966f6b4eb7e2a3"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.glb",
+      "bytes": 14063772,
+      "sha256": "46ba0b4a100d792c68ce0d5c4c8f6010aa9b2a963d083e49e38d3b2f734d84bb"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild_BARE.glb",
+      "bytes": 14063760,
+      "sha256": "8ddad1bde69a43306d45d3e3d0c7a7bf2ab792b9d4bc3ffa3d85658ec0b55b73"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15b_deep_hand_rebuild.blend",
+      "bytes": 6215236,
+      "sha256": "55b227982f8fceca871520ce1848b89b292f576253344d787e8240fb83a88954"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15b_deep_hand_rebuild.glb",
+      "bytes": 14063768,
+      "sha256": "e2c6cec5bd03bd459ee272c60c7dc320020ed43057a0dfac90a143d63eacea9c"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15b_deep_hand_rebuild_BARE.glb",
+      "bytes": 14063760,
+      "sha256": "8d6178503b5320e733e32e297c2fcd8808296e467ae9a8994c44f92e024c851a"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15c_deep_hand_rebuild.blend",
+      "bytes": 6114908,
+      "sha256": "644b3c1c2194bf913c281d4387c406121f71f9b22978a3ef25b1a016d1df855a"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15d_deep_hand_rebuild.blend",
+      "bytes": 6234313,
+      "sha256": "5cac657e406f1edbe284ef612c1dc54f7e9e95d20c69abdf9e2b0f86586fc6bf"
+    },
+    {
+      "file": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15e_deep_hand_rebuild.blend",
+      "bytes": 6337183,
+      "sha256": "33407ca3d09f6eeacaed5b556415e666be699135f77ed13808bd61f910a92fd7"
+    }
+  ]
+}

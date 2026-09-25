@@ -1,5 +1,11 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
+## 2026-09-25 checkpoint: anatomical gate not cleared
+
+V15a and V15b are preserved experimental candidates. V15b passed frozen motion/contact checks and the automated visual-change magnitude calibration, but its matched boards still show segmented finger shafts and its bind seam audit has 8 severe folds versus V13e's 4. V15e's added joint control geometry also increased sharpness. Do **not** accept/promote any V15 attempt or start grip refitting.
+
+The next safe modelling action is a manually supervised local Blender patch reconstruction from the V13e source, using the prepared CORE/ANCHOR groups and the actual mesh surface. Rebuild the ring and pinky shaft/joint surfaces first, then index/middle; preserve all stable IDs and protected contacts. Recheck severe-fold counts before exporting. `V15_SESSION_2026-09-25.md` records the failed approaches and review paths. This is the handoff's genuine stop condition after multiple candidate-side approaches, so no validation threshold or frozen mechanics should be altered to make a trial pass.
+
 V8 remains the accepted body/knee baseline. **V13e is the hand geometry starting point. V14e is experimental/rejected and must not become the geometry baseline.**
 
 The V14e result proves that adding thousands of local vertices plus constrained smoothing is not enough. The next pass must rebuild the **actual finger shaft, knuckle/joint and problematic unwelded/local patch surface topology** on index, middle, ring and little fingers on both hands.

@@ -1,0 +1,181 @@
+{
+  "baseline": "V13e",
+  "candidate": "v15b_deep_hand_rebuild",
+  "rejected_calibration_candidate": "V14e",
+  "v15_views": {
+    "open_palm": {
+      "subject_pixels": 238883,
+      "changed_subject_pct": 0.4696859969106215,
+      "silhouette_xor_pct": 0.0016744598820343014,
+      "mean_abs_rgb_delta_subject": 0.1354972869157791,
+      "baseline_interior_gradient": 2.3027515411376953,
+      "candidate_interior_gradient": 2.3046209812164307
+    },
+    "open_back": {
+      "subject_pixels": 158679,
+      "changed_subject_pct": 1.6360072851480032,
+      "silhouette_xor_pct": 0.08066599865136534,
+      "mean_abs_rgb_delta_subject": 0.4616909921169281,
+      "baseline_interior_gradient": 2.1881563663482666,
+      "candidate_interior_gradient": 2.1633694171905518
+    },
+    "open_web": {
+      "subject_pixels": 266886,
+      "changed_subject_pct": 0.3087460563686368,
+      "silhouette_xor_pct": 0.21619717782124204,
+      "mean_abs_rgb_delta_subject": 0.1317116618156433,
+      "baseline_interior_gradient": 1.8033698797225952,
+      "candidate_interior_gradient": 1.8051599264144897
+    },
+    "fist_palm": {
+      "subject_pixels": 240711,
+      "changed_subject_pct": 1.3788318772303716,
+      "silhouette_xor_pct": 0.004569795314713495,
+      "mean_abs_rgb_delta_subject": 0.3070279359817505,
+      "baseline_interior_gradient": 2.153491497039795,
+      "candidate_interior_gradient": 2.1519670486450195
+    },
+    "fist_back": {
+      "subject_pixels": 148195,
+      "changed_subject_pct": 0.6795101049293161,
+      "silhouette_xor_pct": 0.17139579607948985,
+      "mean_abs_rgb_delta_subject": 0.2057041972875595,
+      "baseline_interior_gradient": 1.960181713104248,
+      "candidate_interior_gradient": 1.9699383974075317
+    },
+    "fist_side": {
+      "subject_pixels": 286363,
+      "changed_subject_pct": 1.2030185463904206,
+      "silhouette_xor_pct": 0.3502547465978496,
+      "mean_abs_rgb_delta_subject": 0.2767582833766937,
+      "baseline_interior_gradient": 1.8380037546157837,
+      "candidate_interior_gradient": 1.844079613685608
+    },
+    "curl": {
+      "subject_pixels": 240709,
+      "changed_subject_pct": 0.9384775808133472,
+      "silhouette_xor_pct": 0.01786389374722175,
+      "mean_abs_rgb_delta_subject": 0.22975043952465057,
+      "baseline_interior_gradient": 2.02101469039917,
+      "candidate_interior_gradient": 2.025498151779175
+    },
+    "pushup": {
+      "subject_pixels": 54886,
+      "changed_subject_pct": 5.5697263418722445,
+      "silhouette_xor_pct": 0.25689611194111434,
+      "mean_abs_rgb_delta_subject": 1.2131630182266235,
+      "baseline_interior_gradient": 5.014885425567627,
+      "candidate_interior_gradient": 5.0158491134643555
+    },
+    "pullup": {
+      "subject_pixels": 247171,
+      "changed_subject_pct": 1.0154912995456586,
+      "silhouette_xor_pct": 0.0,
+      "mean_abs_rgb_delta_subject": 0.3067282736301422,
+      "baseline_interior_gradient": 3.0258407592773438,
+      "candidate_interior_gradient": 3.036325693130493
+    }
+  },
+  "v14e_rejected_views": {
+    "open_palm": {
+      "subject_pixels": 238612,
+      "changed_subject_pct": 0.19110522521918427,
+      "silhouette_xor_pct": 0.00251454243709453,
+      "mean_abs_rgb_delta_subject": 0.15431468188762665,
+      "baseline_interior_gradient": 2.1949028968811035,
+      "candidate_interior_gradient": 2.173070192337036
+    },
+    "open_back": {
+      "subject_pixels": 157509,
+      "changed_subject_pct": 0.18919553803274733,
+      "silhouette_xor_pct": 0.027934911655841888,
+      "mean_abs_rgb_delta_subject": 0.21855682134628296,
+      "baseline_interior_gradient": 2.1050522327423096,
+      "candidate_interior_gradient": 2.0584630966186523
+    },
+    "open_web": {
+      "subject_pixels": 267061,
+      "changed_subject_pct": 0.23290559085751944,
+      "silhouette_xor_pct": 0.10147494392666843,
+      "mean_abs_rgb_delta_subject": 0.20021642744541168,
+      "baseline_interior_gradient": 1.6103495359420776,
+      "candidate_interior_gradient": 1.5850661993026733
+    },
+    "fist_palm": {
+      "subject_pixels": 240236,
+      "changed_subject_pct": 0.1431925273481077,
+      "silhouette_xor_pct": 0.003330058775537388,
+      "mean_abs_rgb_delta_subject": 0.1451350599527359,
+      "baseline_interior_gradient": 2.060818910598755,
+      "candidate_interior_gradient": 2.044499635696411
+    },
+    "fist_back": {
+      "subject_pixels": 147650,
+      "changed_subject_pct": 0.03860480866915002,
+      "silhouette_xor_pct": 0.013545546901456146,
+      "mean_abs_rgb_delta_subject": 0.05164691433310509,
+      "baseline_interior_gradient": 1.85427725315094,
+      "candidate_interior_gradient": 1.8502146005630493
+    },
+    "fist_side": {
+      "subject_pixels": 278887,
+      "changed_subject_pct": 0.12227174446998247,
+      "silhouette_xor_pct": 0.30370723626414997,
+      "mean_abs_rgb_delta_subject": 0.10196603089570999,
+      "baseline_interior_gradient": 1.454937219619751,
+      "candidate_interior_gradient": 1.4433281421661377
+    },
+    "curl": {
+      "subject_pixels": 240449,
+      "changed_subject_pct": 0.10189270905680622,
+      "silhouette_xor_pct": 0.02328976207012714,
+      "mean_abs_rgb_delta_subject": 0.09825783967971802,
+      "baseline_interior_gradient": 1.9027734994888306,
+      "candidate_interior_gradient": 1.8838069438934326
+    },
+    "pushup": {
+      "subject_pixels": 54779,
+      "changed_subject_pct": 0.648058562587853,
+      "silhouette_xor_pct": 0.01642965369941036,
+      "mean_abs_rgb_delta_subject": 0.4809994101524353,
+      "baseline_interior_gradient": 5.124187469482422,
+      "candidate_interior_gradient": 5.001692295074463
+    },
+    "pullup": {
+      "subject_pixels": 247183,
+      "changed_subject_pct": 0.17315106621410048,
+      "silhouette_xor_pct": 0.002427351395524773,
+      "mean_abs_rgb_delta_subject": 0.12081197649240494,
+      "baseline_interior_gradient": 2.869776964187622,
+      "candidate_interior_gradient": 2.8617475032806396
+    }
+  },
+  "v15_summary": {
+    "primary_changed_subject_median_pct": 0.9412643256598683,
+    "primary_changed_subject_max_pct": 1.6360072851480032,
+    "primary_silhouette_xor_max_pct": 0.3502547465978496
+  },
+  "v14e_rejected_summary": {
+    "primary_changed_subject_median_pct": 0.1661940326904275,
+    "primary_changed_subject_max_pct": 0.23290559085751944,
+    "primary_silhouette_xor_max_pct": 0.30370723626414997
+  },
+  "required_to_clearly_exceed_v14e": {
+    "median_changed_subject_pct": 0.3661940326904275,
+    "or_max_silhouette_xor_pct": 0.45370723626415
+  },
+  "interior_gradient_delta_candidate_minus_baseline": {
+    "open_palm": 0.0018694400787353516,
+    "open_back": -0.024786949157714844,
+    "open_web": 0.0017900466918945312,
+    "fist_palm": -0.0015244483947753906,
+    "fist_back": 0.009756684303283691,
+    "fist_side": 0.006075859069824219,
+    "curl": 0.004483461380004883,
+    "pushup": 0.0009636878967285156,
+    "pullup": 0.010484933853149414
+  },
+  "change_signal_present": true,
+  "clearly_exceeds_rejected_v14e_change": true,
+  "interpretation": "Heuristic only. false means V15 is not visibly changing the hand enough beyond the already-rejected V14e pass. true means the change is materially stronger than V14e, but does not mean the anatomy is correct or accepted."
+}

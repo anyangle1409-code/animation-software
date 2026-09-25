@@ -1,0 +1,14 @@
+{
+  "version": "v15b_deep_hand_rebuild",
+  "candidate_label": "V15b",
+  "frozen_runtime": "614033b256d869230ea273522620467401b0bc71",
+  "visual_baseline": "V13e",
+  "blender_invariant_audit": "PASS",
+  "frozen_candidate_gates": "PASS",
+  "protected_floor_guard": "PASS",
+  "matched_review_rendering": "PASS",
+  "hand_seam_audit": "COMPLETE",
+  "visual_change_metrics": "COMPLETE",
+  "pass": true,
+  "remaining": "latest-source integration and human/AI visual anatomy verdict"
+}

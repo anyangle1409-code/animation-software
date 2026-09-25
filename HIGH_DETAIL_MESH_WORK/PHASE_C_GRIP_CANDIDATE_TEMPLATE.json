@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "solution_id": "homeGymPTMaleV15Candidate",
+  "grip": "dumbbell",
+  "radius": 0.015,
+  "thumbOppositionX": 16.47,
+  "handleCentre": {
+    "x": 0,
+    "y": -0.009,
+    "z": 0
+  },
+  "digits": {
+    "index": [
+      61.75,
+      95,
+      57.5
+    ],
+    "middle": [
+      71.5,
+      83.12,
+      52.5
+    ],
+    "ring": [
+      65,
+      71.25,
+      47.5
+    ],
+    "pinky": [
+      35.75,
+      51.46,
+      60
+    ],
+    "thumb": [
+      -22,
+      60,
+      60
+    ]
+  },
+  "notes": [
+    "This starts as an exact copy of the current homeGymPTMale dumbbell solution.",
+    "Do not treat -9 mm as the target for an accepted V15 hand; edit this candidate only after re-solving/measuring.",
+    "handleCentre is the absolute character-scoped correction in metres, in the solvedGrip handle frame.",
+    "Angles are closure=1 maxima; the runtime multiplies them by each exercise hands.closure."
+  ]
+}

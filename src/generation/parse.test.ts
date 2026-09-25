@@ -148,6 +148,58 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it('reads the standard push-up', () => {
+    const parsed = parsePrompt('Create a standard push-up with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'horizontal_press',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'floor',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('reads bodyweight and dumbbell calf raises', () => {
+    const bodyweight = parsePrompt('Create a standing calf raise.');
+    expect(bodyweight.issues).toEqual([]);
+    expect(bodyweight.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'bodyweight',
+      support: 'standing',
+      load: 0,
+    });
+
+    const loaded = parsePrompt('Create a calf raise with 18 kg dumbbells and slow tempo.');
+    expect(loaded.issues).toEqual([]);
+    expect(loaded.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 18,
+      tempo: { profile: 'slow' },
+    });
+  });
+
+  it('reads crunch and sit-up as one trunk-flexion family', () => {
+    expect(parsePrompt('Create a crunch.').intent).toMatchObject({
+      family: 'trunk_flexion',
+      trunkMotion: 'crunch',
+      support: 'floor',
+      equipment: 'bodyweight',
+    });
+    const situp = parsePrompt('Create a sit-up with controlled tempo.');
+    expect(situp.issues).toEqual([]);
+    expect(situp.intent).toMatchObject({
+      family: 'trunk_flexion',
+      trunkMotion: 'situp',
+      support: 'floor',
+      tempo: { profile: 'controlled' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -205,6 +257,12 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('seated front raise')).toContain('variant');
     expect(blocking('cable triceps pushdown')).toEqual(['family']);
     expect(blocking('skull crusher')).toEqual(['family']);
+    expect(blocking('incline push-up')).toContain('variant');
+    expect(blocking('one-arm push-up')).toContain('variant');
+    expect(blocking('seated calf raise')).toContain('variant');
+    expect(blocking('single-leg calf raise')).toContain('variant');
+    expect(blocking('weighted crunch with 10 kg dumbbell')).toContain('variant');
+    expect(blocking('bicycle crunch')).toContain('variant');
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

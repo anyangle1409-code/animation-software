@@ -1,0 +1,60 @@
+{
+  "task_value": {
+    "local_script": 100,
+    "status_or_file_check": 15,
+    "visual_review": 85,
+    "one_digit_topology": 100,
+    "one_file_code": 45,
+    "multi_file_code": 60,
+    "blender_debug": 90,
+    "full_validation": 95,
+    "open_ended": 5
+  },
+  "blocker_importance": {
+    "local_script": 5,
+    "status_or_file_check": 1,
+    "visual_review": 5,
+    "one_digit_topology": 5,
+    "one_file_code": 2,
+    "multi_file_code": 3,
+    "blender_debug": 5,
+    "full_validation": 5,
+    "open_ended": 1
+  },
+  "base_success_probability": {
+    "status_or_file_check": {
+      "Luna": 0.95,
+      "Terra": 0.99
+    },
+    "visual_review": {
+      "Terra": 0.72,
+      "Sol": 0.9
+    },
+    "one_file_code": {
+      "Terra": 0.8,
+      "Sol": 0.92
+    },
+    "multi_file_code": {
+      "Sol": 0.8,
+      "Astra": 0.91
+    },
+    "one_digit_topology": {
+      "Sol": 0.72,
+      "Astra": 0.88
+    },
+    "blender_debug": {
+      "Sol": 0.65,
+      "Astra": 0.86
+    }
+  },
+  "failure_probability_multiplier": 0.55,
+  "cost_weight": "planning_midpoint",
+  "upper_cost_safety_gate": true,
+  "minimum_efficiency_gain_for_escalation_percent": 12,
+  "notes": [
+    "Task value and blocker importance affect whether a task is worth spending allowance on now.",
+    "Model selection uses expected progress per estimated five-hour percentage point after safety gates.",
+    "Success probabilities are starting priors and should be recalibrated from real outcomes.",
+    "Local deterministic tasks have effectively zero Work cost and should run whenever useful."
+  ]
+}

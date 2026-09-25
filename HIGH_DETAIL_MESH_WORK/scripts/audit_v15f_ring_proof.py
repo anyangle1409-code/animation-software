@@ -54,8 +54,16 @@ def main():
     bd = b["per_digit_surface"]["ring_L"]
     cd = c["per_digit_surface"]["ring_L"]
 
+    movement = report.get("per_digit_original_movement_vs_v13e", {})
+    outside_ring_l = {
+        key: item for key, item in movement.items() if key != "ring_L"
+    }
     checks = {
         "general_invariants_pass": bool(report.get("pass")),
+        "only_ring_L_original_positions_changed": all(
+            float(item.get("max_move_mm", 0.0)) <= 1e-6
+            for item in outside_ring_l.values()
+        ),
         "total_gt100_folds_not_worse": (
             int(c["digit_folds_over_100deg"]) <= int(b["digit_folds_over_100deg"])
         ),
@@ -88,6 +96,7 @@ def main():
             "ring_L_gt50": float(cd["sharp_length_ratio_gt_50"]),
             "ring_L_gt100_folds": int(cd["dihedral_edge_count_gt_deg"]["100"]),
         },
+        "scope_movement": movement,
         "checks": checks,
         "pass": all(checks.values()),
         "next_if_pass": (

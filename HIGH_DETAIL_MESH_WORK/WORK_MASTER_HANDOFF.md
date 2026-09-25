@@ -130,3 +130,59 @@ After saving that candidate:
 `RUN_V15_POST_EDIT_ALL.bat v15b_deep_hand_rebuild`
 
 Never rename or overwrite an earlier attempt to reuse its letter.
+
+
+## V15 automation index
+
+The surrounding V15 workflow is now prepared. Work should spend its usage on
+the actual finger-surface modelling and visual judgement, not setup.
+
+### Before Blender
+- `V15_PREFLIGHT.bat` — verifies branch safety, exact V8/V13e hashes, 682
+  protected contacts, helper-script syntax, Python/Node/Git and Blender.
+- Preflight is also run automatically by every `START_V15_HAND.bat`.
+
+### Start / continue modelling
+- `START_V15_HAND.bat` — first/default attempt (`v15a_deep_hand_rebuild`).
+- `START_V15_HAND.bat v15b_deep_hand_rebuild` — explicit preserved version.
+- `START_NEXT_V15.bat` — automatically chooses the next unused V15 letter.
+- `LIST_V15_ATTEMPTS.bat` — lists preserved attempts and available validation state.
+
+Blender opens with a **V15 Hand** sidebar containing:
+- protected-contact selection;
+- per-digit CORE / ANCHOR / SHARP / PIP / DIP / DISTAL selection;
+- isolate/reveal;
+- guide visibility toggle;
+- numbered non-destructive checkpoint-copy button.
+
+### After saving the edited Blend
+Run only:
+
+`RUN_V15_POST_EDIT_ALL.bat <version>`
+
+It performs:
+1. invariant/stable-ID Blender audit;
+2. export-only repair of genuinely new vertex UV/weights;
+3. export-only triangulation;
+4. stable-ID dressed GLB packing;
+5. bare variant;
+6. frozen `614033b` validation;
+7. V13e/V15 matched hand renders;
+8. V14e-calibrated visual-change analysis;
+9. V13e/V14e/V15 per-digit faceting diagnostics;
+10. seam/fold audit;
+11. disposable latest-source full-suite/integration validation;
+12. consolidated Markdown report;
+13. local HTML dashboard with difference maps.
+
+### Review
+- `OPEN_V15_REVIEW.bat <version>` — opens the dashboard.
+- `V15_POST_EDIT_REPORT_<version>.md` — concise machine-generated result.
+- `V15_FAILURE_RECOVERY.md` — exact recovery action for each failing stage.
+
+### After visual acceptance only
+Read:
+- `PHASE_C_GRIP_REFIT_PLAN.md`
+- `PHASE_C_WORK_HANDOFF.md`
+
+Do not activate Phase C before the hand anatomy is visually accepted.

@@ -186,3 +186,25 @@ Read:
 - `PHASE_C_WORK_HANDOFF.md`
 
 Do not activate Phase C before the hand anatomy is visually accepted.
+
+
+## Prepared later-phase tools
+
+These are dormant until their phase gates are met:
+
+### Phase D — appearance
+- `PHASE_D_SKIN_MATERIAL_PLAN.md`
+- `MAKE_PHASE_D_SKIN_SWEEP.bat <candidate_version>`
+
+### Phase E — shoulder topology
+- `PHASE_E_SHOULDER_TOPOLOGY_PLAN.md`
+
+### Phase F — final source-rig weights / retarget intake
+- `PHASE_F_FINAL_BINDING_PLAN.md`
+- `AUDIT_PHASE_F_SOURCE_RIG.bat reference.glb candidate.glb`
+- `VALIDATE_PHASE_F_RUNTIME.bat reference.glb candidate.glb label`
+
+### Phase G — motion activation
+- `PHASE_G_MOVEMENT_ACTIVATION_PLAN.md`
+
+Do not jump ahead simply because these tools exist. Each plan states its entry gate.

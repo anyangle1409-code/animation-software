@@ -19,6 +19,8 @@ import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
 import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
+import { carryFamily } from '../exercises/families/carry';
+import type { CarryVariant } from '../exercises/families/carry';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1354,6 +1356,95 @@ const calf: GeneratorFamily<CalfVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Loaded carry / farmer's walk
+// ---------------------------------------------------------------------------
+
+const carry: GeneratorFamily<CarryVariant> = {
+  id: 'carry',
+  label: "Farmer's walk",
+  builder: 'carryFamily',
+  detect: /\bfarmer(?:'s|s)?\s+(?:walk|carry)\b/,
+
+  library: ['farmers_walk'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bsuitcase\b/, 'a suitcase carry is unilateral and needs asymmetric trunk/balance behaviour.'],
+        [/\boverhead\b/, 'an overhead carry uses a different shoulder/support position.'],
+        [/\bfront[-\s]?rack\b|\brack\s+carry\b/, 'a rack carry holds the load at the shoulders rather than at the sides.'],
+        [/\bbear[-\s]?hug\b/, 'a bear-hug carry uses one large implement against the torso.'],
+        [/\btrap[-\s]?bar\b|\bbarbell\b|\bkettle-?bells?\b|\bkbs?\b/, 'the certified carry family currently uses paired dumbbells only.'],
+        [/\b(?:single|one)[-\s]arm\b|\bunilateral\b/, 'the certified farmer\'s walk is an even two-hand carry.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(blocking('grip', "The certified farmer's walk carries dumbbells at the sides with a neutral grip."));
+    }
+
+    const support = interpretSupport(slots, ['walking'], "farmer's walk", assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the carry family has no angle input.'));
+    }
+
+    const { load } = interpretCommon(slots, "farmer's walk", 'dumbbell', 24, assumptions, issues);
+
+    // Carry phases own an explicit 0.6 s step duration. Changing ExerciseDefinition.tempo
+    // does not currently change cadence, so do not pretend a requested tempo is
+    // represented. Expose cadence only after it becomes a real family parameter.
+    if (slots.tempo.length > 0) {
+      issues.push(
+        blocking(
+          'tempo',
+          'The farmer\'s-walk family currently owns a fixed 0.6 s step cadence. Requested tempo cannot be represented yet without changing the family.',
+        ),
+      );
+    }
+
+    return {
+      intent: {
+        prompt,
+        family: 'carry',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo: { profile: 'family' },
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    return {
+      ...identity("Farmer's Walk", intent),
+      description:
+        'Generated from "' +
+        intent.prompt.trim() +
+        '". A bilateral farmer\'s walk carrying ' +
+        formatLoad(intent.load) +
+        ' in each hand, walking tall in the family\'s fixed two-step cadence.',
+      mass: intent.load,
+    };
+  },
+
+  build: carryFamily,
+
+  reference: () => 'farmers_walk',
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1366,6 +1457,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   extension as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
+  carry as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

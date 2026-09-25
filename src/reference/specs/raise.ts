@@ -1,0 +1,176 @@
+import type { ExerciseDefinition } from '../../exercises/types';
+import type { ReferenceCheckSpec, ReferenceSpec } from '../types';
+
+export function raiseReferenceFor(exercise: ExerciseDefinition): ReferenceSpec {
+  const front = /front_raise/.test(exercise.id) || /front_raise/.test(exercise.clipName);
+  const checks: ReferenceCheckSpec[] = [
+    {
+      kind: 'phaseOrder',
+      id: 'raise_phase_order',
+      label: 'Raise follows lift, top, lower, reset',
+      order: ['concentric', 'top', 'eccentric', 'bottom'],
+    },
+    {
+      kind: 'segmentAngleEnvelope',
+      id: 'raise_shoulder_height',
+      label: 'Arm reaches shoulder height at the top',
+      bone: 'upperarm_l',
+      worldAxis: 'y',
+      phases: ['top'],
+      envelope: { min: 72, max: 95 },
+    },
+    {
+      kind: 'relativeLandmarkEnvelope',
+      id: 'raise_not_above_shoulder',
+      label: 'Hand stops at shoulder height rather than travelling high above it',
+      point: 'hand_l',
+      relativeTo: 'upperarm_l',
+      axis: 'y',
+      phases: ['top'],
+      normalizeBy: 'armLength',
+      envelope: { min: -0.2, max: 0.08 },
+    },
+    {
+      kind: 'jointEnvelope',
+      id: 'raise_soft_elbow',
+      label: 'Elbow remains soft and fixed',
+      bone: 'forearm_l',
+      axis: 'x',
+      envelope: { min: 5, max: 30 },
+    },
+    {
+      kind: 'jointExcursion',
+      id: 'raise_elbow_quiet',
+      label: 'Elbow bend stays nearly constant',
+      bone: 'forearm_l',
+      axis: 'x',
+      envelope: { min: 0, max: 4 },
+    },
+    {
+      kind: 'segmentAngleEnvelope',
+      id: 'raise_torso_upright',
+      label: 'Torso remains upright',
+      bone: 'spine_02',
+      worldAxis: 'y',
+      envelope: { min: 0, max: 10 },
+    },
+    {
+      kind: 'jointEnvelope',
+      id: 'raise_no_lean_back',
+      label: 'Lower back stays braced',
+      bone: 'spine_01',
+      axis: 'x',
+      envelope: { min: -5, max: 10 },
+    },
+    {
+      kind: 'jointEnvelope',
+      id: 'raise_no_shrug',
+      label: 'Shoulder stays down',
+      bone: 'clavicle_l',
+      axis: 'z',
+      envelope: { min: -8, max: 8 },
+    },
+    ...(front
+      ? [
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_front_plane',
+            label: 'Front raise travels forward rather than out to the side',
+            bone: 'upperarm_l' as const,
+            axis: 'z' as const,
+            envelope: { min: -20, max: 5 },
+          },
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_front_height',
+            label: 'Front raise reaches its shoulder-flexion range',
+            bone: 'upperarm_l' as const,
+            axis: 'x' as const,
+            phases: ['top'],
+            envelope: { min: 75, max: 95 },
+          },
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_front_grip',
+            label: 'Front raise holds the pronated grip',
+            bone: 'forearm_l' as const,
+            axis: 'y' as const,
+            envelope: { min: -85, max: -55 },
+          },
+        ]
+      : [
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_lateral_plane',
+            label: 'Lateral raise stays slightly forward of the body',
+            bone: 'upperarm_l' as const,
+            axis: 'x' as const,
+            envelope: { min: 0, max: 35 },
+          },
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_lateral_height',
+            label: 'Lateral raise reaches its shoulder-abduction range',
+            bone: 'upperarm_l' as const,
+            axis: 'z' as const,
+            phases: ['top'],
+            envelope: { min: -95, max: -70 },
+          },
+          {
+            kind: 'jointEnvelope' as const,
+            id: 'raise_lateral_grip',
+            label: 'Lateral raise holds the neutral grip',
+            bone: 'forearm_l' as const,
+            axis: 'y' as const,
+            envelope: { min: -15, max: 15 },
+          },
+        ]),
+    {
+      kind: 'bilateralSymmetry',
+      id: 'raise_arm_symmetry',
+      label: 'Both upper arms rise together',
+      left: 'upperarm_l',
+      right: 'upperarm_r',
+      axis: front ? 'x' : 'z',
+      toleranceDeg: 0.75,
+    },
+    {
+      kind: 'landmarkMonotonic',
+      id: 'raise_hand_rises',
+      label: 'Dumbbell rises without a mid-lift reversal',
+      bone: 'hand_l',
+      axis: 'y',
+      phase: 'concentric',
+      direction: 'increasing',
+      tolerance: 0.015,
+    },
+    {
+      kind: 'landmarkMonotonic',
+      id: 'raise_hand_lowers',
+      label: 'Dumbbell lowers without a mid-lowering reversal',
+      bone: 'hand_l',
+      axis: 'y',
+      phase: 'eccentric',
+      direction: 'decreasing',
+      tolerance: 0.015,
+    },
+  ];
+
+  return {
+    schemaVersion: 1,
+    id: `raise.${front ? 'front' : 'lateral'}.v1`,
+    referenceVersion: 1,
+    family: 'raise',
+    status: 'draft',
+    applicability: { handOrientation: exercise.hands.orientation, support: 'standing' },
+    provenance:
+      'HOME GYM PT internal shoulder-raise reference draft. Independent review required before it may gate approval or drive correction.',
+    reviewViews: [
+      { id: 'front', label: 'Front', preset: 'front', target: 'full_body' },
+      { id: 'side', label: 'Side', preset: 'right', target: 'full_body' },
+      { id: 'three_quarter', label: 'Three-quarter', preset: 'three_quarter', target: 'upper_body' },
+      { id: 'shoulders', label: 'Shoulder close-up', preset: 'focus', target: 'shoulders' },
+    ],
+    checks,
+  };
+}

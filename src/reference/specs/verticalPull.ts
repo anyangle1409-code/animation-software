@@ -80,13 +80,13 @@ export function verticalPullReferenceFor(exercise: ExerciseDefinition): Referenc
     {
       kind: 'relativeLandmarkEnvelope',
       id: 'pullup_chin_height',
-      label: 'Head/chin reaches bar height at the top',
-      point: 'head',
+      label: 'Chin reaches bar height at the top',
+      point: { bone: 'head', offset: { x: 0, y: 0.03, z: 0.085 } },
       relativeTo: 'hand_l',
       axis: 'y',
       phases: ['top'],
       normalizeBy: 'standingHeight',
-      envelope: { min: 0.02, max: 0.18 },
+      envelope: { min: 0.04, max: 0.18 },
     },
     {
       kind: 'relativeLandmarkEnvelope',

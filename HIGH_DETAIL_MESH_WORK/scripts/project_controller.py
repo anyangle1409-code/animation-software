@@ -262,6 +262,10 @@ def main():
                 last_signature = signature
 
             subprocess.run([sys.executable, str(V15_HANDOFF)], cwd=ROOT, check=False)
+            try:
+                LOCK_PATH.touch()
+            except Exception:
+                pass
             if args.once:
                 break
             time.sleep(float(cfg.get("poll_seconds", 15)))

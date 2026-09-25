@@ -57,5 +57,15 @@ def main():
         "--python", str(ROOT / "scripts" / "register_v15_blender_tools.py"),
     ], cwd=ROOT)
 
+    if os.environ.get("V15F_NO_SAFE_RUNNER") != "1":
+        subprocess.run([
+            sys.executable, ROOT / "scripts" / "start_v15f_safe_runner.py",
+        ], cwd=ROOT, check=False)
+        print(
+            "V15f safe deterministic runner requested. "
+            "Use STOP_V15F_SAFE_RUNNER.bat to stop it.",
+            flush=True,
+        )
+
 if __name__ == "__main__":
     main()

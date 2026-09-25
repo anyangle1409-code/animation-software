@@ -29,7 +29,6 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
   [/\bchin[-\s]?ups?\b|\blat\s+pull/, 'chin-ups and lat-pulldown variants are not certified for generation yet; the strict pronated pull-up is certified.'],
   [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],
-  [/\bcalf\s+raises?\b|\bcalves\b/, 'the calf family (calf raises) is not certified for generation yet.'],
   [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
   [/\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/, 'the trunk-flexion family (crunch, sit-up) is not certified for generation yet.'],
   [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],

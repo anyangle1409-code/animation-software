@@ -9,6 +9,7 @@ import bpy
 import bmesh
 import json
 import math
+import os
 import struct
 from pathlib import Path
 
@@ -16,9 +17,10 @@ import numpy as np
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = os.environ.get("V15_VERSION", "v15a_deep_hand_rebuild")
 SRC = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend"
-OUT = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend"
-REPORT = ROOT / "reports" / "prepare_v15a_deep_hand_rebuild.json"
+OUT = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
+REPORT = ROOT / "reports" / f"prepare_{VERSION}.json"
 V8_GLB = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb"
 CONTACT_REPORT = ROOT / "reports" / "hand_contact_guard_v5.json"
 
@@ -67,6 +69,7 @@ tracking = mesh.attributes.new(name="v15_baseline_vertex_id", type="INT", domain
 for i, item in enumerate(tracking.data):
     item.value = i + 1
 body["v15_baseline_vertex_count"] = len(mesh.vertices)
+body["v15_candidate_version"] = VERSION
 
 # This script must never alter geometry.
 original = np.array([tuple(v.co) for v in mesh.vertices], dtype=np.float64)
@@ -304,6 +307,7 @@ bpy.ops.wm.save_as_mainfile(filepath=str(OUT))
 
 REPORT.parent.mkdir(parents=True, exist_ok=True)
 REPORT.write_text(json.dumps({
+    "version": VERSION,
     "source": SRC.name,
     "output": OUT.name,
     "geometry_max_move_mm": max_move * 1000.0,

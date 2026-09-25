@@ -142,20 +142,14 @@ def main():
         except Exception as exc:
             failures.append(f"Could not read hand_contact_guard_v5.json: {exc}")
 
-    scripts = sorted((ROOT / "scripts").glob("*v15*.py"))
-    scripts += [
-        ROOT / "scripts" / "pack_v11_hand_glb.py",
-        ROOT / "scripts" / "finish_candidate.py",
-        ROOT / "scripts" / "run_candidate_gates.py",
-        ROOT / "scripts" / "render_candidate_review.py",
-        ROOT / "scripts" / "audit_hand_seams.py",
-    ]
+    # Compile every Python helper in the mesh workspace, not only the V15
+    # scripts. Later-phase tools are already prepared on this branch and a
+    # syntax error there should be caught before precious Work/Blender usage.
+    scripts = sorted((ROOT / "scripts").glob("*.py"))
     syntax = {}
-    seen = set()
     for path in scripts:
-        if path in seen or not path.is_file():
+        if not path.is_file():
             continue
-        seen.add(path)
         error = syntax_check(path)
         syntax[path.name] = "PASS" if error is None else error
         if error:

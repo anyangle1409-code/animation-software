@@ -51,10 +51,18 @@ function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
       return;
     }
     const next = review.batch.captures.map((capture) => {
-      const blob =
-        capture.image instanceof Blob
-          ? capture.image
-          : new Blob([capture.image], { type: capture.mimeType });
+      let blob: Blob;
+      if (capture.image instanceof Blob) {
+        blob = capture.image;
+      } else if (capture.image instanceof ArrayBuffer) {
+        blob = new Blob([capture.image], { type: capture.mimeType });
+      } else {
+        // Copy into an ArrayBuffer-backed view. A Uint8Array may legally be
+        // backed by SharedArrayBuffer, which BlobPart does not accept.
+        const bytes = new Uint8Array(capture.image.byteLength);
+        bytes.set(capture.image);
+        blob = new Blob([bytes.buffer], { type: capture.mimeType });
+      }
       return {
         id: capture.captureId,
         url: URL.createObjectURL(blob),

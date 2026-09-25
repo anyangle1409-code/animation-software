@@ -12,7 +12,7 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row';
 
 /** What the body moves against. Bodyweight families hold no equipment yet. */
 export type IntentImplement = 'dumbbell' | 'bodyweight';

@@ -27,6 +27,7 @@ def main():
     label = label_for(version)
 
     audit = read(REPORTS / f"audit_{version}_blender.json")
+    v14_audit = read(REPORTS / "audit_v14e_finger_body_trial_blender.json")
     pack = read(REPORTS / f"build_{version}_glb.json")
     floor = read(REPORTS / f"hand_floor_guard_HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{version}.json")
     integration = read(REPORTS / f"current_source_{version}" / "integration_report.json")

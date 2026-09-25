@@ -3,12 +3,14 @@ import { sampleClip, sortedKeyframes } from '../animation/clip';
 import type { StudioClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
+import { resolvePoint } from '../constraints/points';
+import type { PointRef } from '../constraints/types';
 import { toDeg } from '../core/math';
 import type { ExerciseDefinition } from '../exercises/types';
 import { PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { bodyNormalization } from './normalize';
-import type { ReferenceScale } from './types';
+import type { ReferencePoint, ReferenceScale } from './types';
 import type {
   NumericEnvelope,
   ReferenceCheckResult,
@@ -98,6 +100,13 @@ function envelopeResult(
 
 const worldAxis = (axis: 'x' | 'y' | 'z') =>
   axis === 'x' ? new Vector3(1, 0, 0) : axis === 'y' ? new Vector3(0, 1, 0) : new Vector3(0, 0, 1);
+
+const pointRef = (point: ReferencePoint): PointRef =>
+  typeof point === 'string' ? { bone: point } : point;
+
+function resolvedPoint(evaluation: PoseEvaluation, point: ReferencePoint, target = new Vector3()): Vector3 {
+  return resolvePoint(evaluation, pointRef(point), target);
+}
 
 function scaleValue(rig: Skeleton, scale?: ReferenceScale): number {
   return scale ? bodyNormalization(rig)[scale] : 1;
@@ -230,8 +239,8 @@ export function evaluateReference(
         const scale = scaleValue(options.rig, check.normalizeBy);
         const values = selected.map((sample) => {
           const evaluation = resolvedEvaluation(options.rig!, clip, sample.time, anchors!);
-          const point = evaluation.head(check.point, new Vector3());
-          const relative = evaluation.head(check.relativeTo, new Vector3());
+          const point = resolvedPoint(evaluation, check.point, new Vector3());
+          const relative = resolvedPoint(evaluation, check.relativeTo, new Vector3());
           return { value: (point[check.axis] - relative[check.axis]) / scale, time: sample.time };
         });
         return envelopeResult(check, values, check.normalizeBy ?? 'm');
@@ -274,12 +283,12 @@ export function evaluateReference(
         }
         const scale = scaleValue(options.rig, check.normalizeBy);
         const firstEval = resolvedEvaluation(options.rig, clip, selected[0].time, anchors);
-        const origin = firstEval.head(check.bone, new Vector3()).clone();
+        const origin = resolvedPoint(firstEval, check.bone, new Vector3()).clone();
         let worst = 0;
         let worstTime = selected[0].time;
         for (const sample of selected) {
           const evaluation = resolvedEvaluation(options.rig, clip, sample.time, anchors);
-          const point = evaluation.head(check.bone, new Vector3());
+          const point = resolvedPoint(evaluation, check.bone, new Vector3());
           const drift = point.distanceTo(origin) / scale;
           if (drift > worst) {
             worst = drift;
@@ -318,8 +327,8 @@ export function evaluateReference(
         const scale = scaleValue(options.rig, check.normalizeBy);
         const values = selected.map((sample) => {
           const evaluation = resolvedEvaluation(options.rig!, clip, sample.time, anchors!);
-          const from = evaluation.head(check.from, new Vector3());
-          const to = evaluation.head(check.to, new Vector3());
+          const from = resolvedPoint(evaluation, check.from, new Vector3());
+          const to = resolvedPoint(evaluation, check.to, new Vector3());
           const value = check.axis
             ? Math.abs(from[check.axis] - to[check.axis])
             : from.distanceTo(to);
@@ -411,7 +420,7 @@ export function evaluateReference(
         const positions = phaseSamples.map((sample) => {
           const evaluation = new PoseEvaluation(options.rig!);
           resolveFrame(options.rig!, evaluation, clip, sample.time, { anchors });
-          const point = evaluation.head(check.bone, new Vector3());
+          const point = resolvedPoint(evaluation, check.bone, new Vector3());
           return { time: sample.time, value: point[check.axis] };
         });
 

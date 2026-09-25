@@ -39,6 +39,9 @@ def main():
     missing=[digit for digit,value in fingerprints.items() if not value]
     if missing:
         raise SystemExit("Current audit lacks Stage-A surface fingerprints: "+", ".join(missing))
+    gate_fingerprints=gate.get("surface_fingerprints_sha256") or {}
+    if any(gate_fingerprints.get(digit)!=fingerprints.get(digit) for digit in DIGITS):
+        raise SystemExit("Stage-A numeric gate is stale relative to the current audited surfaces.")
 
     stat=BLEND.stat()
     payload={

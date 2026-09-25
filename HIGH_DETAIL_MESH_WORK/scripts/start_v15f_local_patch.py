@@ -59,11 +59,11 @@ def main():
 
     if os.environ.get("V15F_NO_SAFE_RUNNER") != "1":
         subprocess.run([
-            sys.executable, ROOT / "scripts" / "start_v15f_safe_runner.py",
+            sys.executable, ROOT / "scripts" / "start_project_controller.py",
         ], cwd=ROOT, check=False)
         print(
-            "V15f safe deterministic runner requested. "
-            "Use STOP_V15F_SAFE_RUNNER.bat to stop it.",
+            "Home Gym PT project controller requested. "
+            "Use STOP_PROJECT_CONTROLLER.bat to stop it.",
             flush=True,
         )
 

@@ -30,10 +30,12 @@ BASE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.bl
 V8_GLB = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v8_knee_anatomy.glb"
 CONTACT = ROOT / "reports" / "hand_contact_guard_v5.json"
 DEFAULT = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend"
-REPORT = ROOT / "reports" / "audit_v15a_deep_hand_rebuild_blender.json"
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 candidate = Path(args[0]).resolve() if args else DEFAULT
+prefix = "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_"
+version = candidate.stem[len(prefix):] if candidate.stem.startswith(prefix) else candidate.stem
+REPORT = ROOT / "reports" / f"audit_{version}_blender.json"
 if not candidate.is_file():
     raise SystemExit(f"Missing V15 Blend: {candidate}")
 for p in (BASE, V8_GLB, CONTACT):
@@ -234,6 +236,7 @@ checks = {
 }
 
 report = {
+    "version": version,
     "baseline": BASE.name,
     "candidate": candidate.name,
     "protected_source_id_count": len(protected_source_ids),

@@ -5,6 +5,9 @@ import { squatReferenceFor } from './specs/squat';
 import { lungeReferenceFor } from './specs/lunge';
 import { hingeReferenceFor } from './specs/hinge';
 import { rowReferenceFor } from './specs/row';
+import { verticalPullReferenceFor } from './specs/verticalPull';
+import { raiseReferenceFor } from './specs/raise';
+import { extensionReferenceFor } from './specs/extension';
 import type { ReferenceFamilyId, ReferenceSpec } from './types';
 
 export function referenceForFamily(
@@ -24,5 +27,11 @@ export function referenceForFamily(
       return hingeReferenceFor(exercise);
     case 'row':
       return rowReferenceFor(exercise);
+    case 'vertical_pull':
+      return verticalPullReferenceFor(exercise);
+    case 'raise':
+      return raiseReferenceFor(exercise);
+    case 'extension':
+      return extensionReferenceFor(exercise);
   }
 }

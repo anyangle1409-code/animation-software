@@ -82,6 +82,35 @@ def historical(task,model):
     pad=max(1.5,med*0.25) if len(chosen)<6 else max(1.0,med*0.15)
     return max(0.0,lo-pad),min(100.0,hi+pad),len(chosen),med,bool(exact)
 
+def historical_week(task,model):
+    data=load(SAMPLES,{"samples":[]}).get("samples",[])
+    exact=[
+        float(x["week_drop_percent"])
+        for x in data
+        if x.get("task_class")==task and x.get("model")==model
+        and x.get("valid",True) and x.get("week_drop_percent") is not None
+        and float(x.get("week_drop_percent",0))>=0
+    ]
+    same_task=[
+        float(x["week_drop_percent"])
+        for x in data
+        if x.get("task_class")==task
+        and x.get("valid",True) and x.get("week_drop_percent") is not None
+        and float(x.get("week_drop_percent",0))>=0
+    ]
+    chosen=exact if exact else same_task
+    if not chosen:return None
+    med=statistics.median(chosen)
+    lo=min(chosen);hi=max(chosen)
+    pad=max(0.5,med*0.25) if len(chosen)<6 else max(0.25,med*0.15)
+    return {
+        "low":round(max(0.0,lo-pad),2),
+        "high":round(min(100.0,hi+pad),2),
+        "median":round(med,2),
+        "samples":len(chosen),
+        "exact_model":bool(exact),
+    }
+
 def blend_prior(generic,hist):
     if hist is None:return generic,"generic prior"
     hlo,hhi,n,med,exact=hist
@@ -111,6 +140,7 @@ def main():
     model=args.model.lower()
     generic=generic_range(task,model)
     hist=historical(task,model)
+    week_hist=historical_week(task,model)
     estimate,source=blend_prior(generic,hist)
 
     factor=1.0
@@ -153,6 +183,14 @@ def main():
             "high":round(generic[1],1),
         },
         "manual_work_remaining_percent":remaining,
+        "estimated_weekly_drop_percent": (
+            {"low":week_hist["low"],"high":week_hist["high"]}
+            if week_hist else None
+        ),
+        "weekly_estimate_source": (
+            f"calibrated from {week_hist['samples']} sample(s)"
+            if week_hist else "unknown until weekly before/after samples are logged"
+        ),
         "recommendation":recommendation,
         "caveat":"Approximation only. OpenAI does not expose exact future task cost; actual usage varies by task/model/context/reasoning/tools.",
     }

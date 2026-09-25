@@ -77,6 +77,8 @@ def main():
         c = candidate["per_digit_surface"][digit]
         b35 = float(b["sharp_length_ratio_gt_35"])
         c35 = float(c["sharp_length_ratio_gt_35"])
+        b50 = float(b["sharp_length_ratio_gt_50"])
+        c50 = float(c["sharp_length_ratio_gt_50"])
         b100 = int(b["dihedral_edge_count_gt_deg"]["100"])
         c100 = int(c["dihedral_edge_count_gt_deg"]["100"])
 
@@ -84,6 +86,10 @@ def main():
         if c35 > b35 + 1e-12:
             digit_failures.append(
                 f">35deg sharp-length ratio worsened {b35:.10f} -> {c35:.10f}"
+            )
+        if c50 > b50 + 1e-12:
+            digit_failures.append(
+                f">50deg sharp-length ratio worsened {b50:.10f} -> {c50:.10f}"
             )
         if c100 > b100:
             digit_failures.append(
@@ -94,6 +100,9 @@ def main():
             "baseline_sharp_ratio_gt35": b35,
             "candidate_sharp_ratio_gt35": c35,
             "delta_sharp_ratio_gt35": c35 - b35,
+            "baseline_sharp_ratio_gt50": b50,
+            "candidate_sharp_ratio_gt50": c50,
+            "delta_sharp_ratio_gt50": c50 - b50,
             "baseline_folds_gt100": b100,
             "candidate_folds_gt100": c100,
             "pass": not digit_failures,
@@ -120,6 +129,9 @@ def main():
     }
     OUT.write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps(result, indent=2))
+    subprocess.run([
+        sys.executable, ROOT / "scripts" / "write_v15f_handoff.py",
+    ], cwd=ROOT, check=False)
 
     if failures:
         raise SystemExit(1)

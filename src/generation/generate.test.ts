@@ -21,6 +21,12 @@ import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
 import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
+import { horizontalPressFamily } from '../exercises/families/horizontalPress';
+import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
+import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
+import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -32,6 +38,11 @@ import { pullUp } from '../exercises/definitions/pullUp';
 import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
 import { overheadExtension } from '../exercises/definitions/overheadExtension';
+import { pushUp } from '../exercises/definitions/pushUp';
+import { calfRaise } from '../exercises/definitions/calfRaise';
+import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
+import { crunch } from '../exercises/definitions/crunch';
+import { sitUp } from '../exercises/definitions/sitUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -55,6 +66,10 @@ const PULL_UP = 'Create a strict pull-up with controlled tempo.';
 const LATERAL_RAISE = 'Create a lateral raise with 6 kg dumbbells.';
 const FRONT_RAISE = 'Create a front raise with 7 kg dumbbells and slow tempo.';
 const OVERHEAD_EXTENSION = 'Create a standing dumbbell triceps extension with 8 kg dumbbells.';
+const PUSH_UP = 'Create a standard push-up with controlled tempo.';
+const CALF = 'Create a calf raise with 18 kg dumbbells and slow tempo.';
+const CRUNCH = 'Create a crunch.';
+const SIT_UP = 'Create a sit-up with controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -169,6 +184,46 @@ describe('generating without a character', () => {
     expect(result.reference).toBe('dumbbell_overhead_triceps_extension');
     expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([8, 8]);
     expect(motionOf(generateExercise('a dumbbell triceps extension', options).exercise!)).toEqual(motionOf(overheadExtension));
+  });
+
+  it('builds the standard push-up from horizontalPressFamily', () => {
+    const result = generateExercise(PUSH_UP, options);
+    expect(result.family?.id).toBe('horizontal_press');
+    expect(result.exercise).toEqual(horizontalPressFamily(result.variant as HorizontalPressVariant));
+    expect(result.reference).toBe('push_up');
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(motionOf(generateExercise('a push-up', options).exercise!)).toEqual(motionOf(pushUp));
+  });
+
+  it('builds bodyweight and loaded calf raises from calfFamily', () => {
+    const bodyweight = generateExercise('a standing calf raise', options);
+    expect(bodyweight.family?.id).toBe('calf');
+    expect(bodyweight.exercise).toEqual(calfFamily(bodyweight.variant as CalfVariant));
+    expect(bodyweight.reference).toBe('standing_calf_raise');
+    expect(motionOf(bodyweight.exercise!)).toEqual(motionOf(calfRaise));
+
+    const loaded = generateExercise(CALF, options);
+    expect(loaded.family?.id).toBe('calf');
+    expect(loaded.exercise).toEqual(calfFamily(loaded.variant as CalfVariant));
+    expect(loaded.reference).toBe('dumbbell_calf_raise');
+    expect(loaded.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([18, 18]);
+    expect(loaded.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+    expect(motionOf(generateExercise('a calf raise with 14 kg dumbbells', options).exercise!)).toEqual(motionOf(dumbbellCalfRaise));
+  });
+
+  it('builds crunch and sit-up from trunkFlexionFamily', () => {
+    const crunchResult = generateExercise(CRUNCH, options);
+    expect(crunchResult.family?.id).toBe('trunk_flexion');
+    expect(crunchResult.exercise).toEqual(trunkFlexionFamily(crunchResult.variant as TrunkFlexionVariant));
+    expect(crunchResult.reference).toBe('crunch');
+    expect(motionOf(crunchResult.exercise!)).toEqual(motionOf(crunch));
+
+    const situpResult = generateExercise(SIT_UP, options);
+    expect(situpResult.family?.id).toBe('trunk_flexion');
+    expect(situpResult.exercise).toEqual(trunkFlexionFamily(situpResult.variant as TrunkFlexionVariant));
+    expect(situpResult.reference).toBe('sit_up');
+    expect(situpResult.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
   });
 
   it('will not certify what it could not measure', () => {
@@ -374,6 +429,53 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.validations).toBe(1);
       expect(result.reference).toBe('dumbbell_overhead_triceps_extension');
       expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds the standard push-up through the same production-character pipeline',
+    async () => {
+      const result = await generateExerciseAsync(PUSH_UP, { rig, library, character });
+      expect(result.family?.id).toBe('horizontal_press');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('push_up');
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds bodyweight and loaded calf raises through the same production-character pipeline',
+    async () => {
+      for (const prompt of ['Create a standing calf raise.', CALF]) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('calf');
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
+    },
+    900_000,
+  );
+
+  it(
+    'builds crunch and sit-up through the same production-character pipeline',
+    async () => {
+      for (const prompt of [CRUNCH, SIT_UP]) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('trunk_flexion');
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
     },
     900_000,
   );

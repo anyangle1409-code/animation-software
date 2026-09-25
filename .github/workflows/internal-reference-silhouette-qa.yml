@@ -1,0 +1,36 @@
+name: Internal Reference Silhouette QA Check
+
+on:
+  push:
+    branches:
+      - work/internal-reference-silhouette-qa-20260925
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Focused reference tests
+        run: >
+          npm test --
+          src/reference/silhouette.test.ts
+          src/reference/capturePlan.test.ts
+          src/reference/captureController.test.ts
+          src/reference/browserCapture.test.ts
+          src/reference/reviewSession.test.ts
+          src/reference/evaluate.test.ts
+          src/reference/worldChecks.test.ts
+          src/reference/familyPacks.test.ts
+      - name: Build
+        run: npm run build
+      - name: Full test suite
+        run: npm test

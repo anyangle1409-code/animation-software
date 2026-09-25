@@ -86,6 +86,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/pronated grip/);
   });
 
+  it('reads a two-arm dumbbell bent-over row', () => {
+    const parsed = parsePrompt('Create a dumbbell bent-over row with 16 kg dumbbells and controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'row',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 16,
+      tempo: { profile: 'controlled' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -127,10 +141,14 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('sumo deadlift')).toContain('variant');
     expect(blocking('good morning')).toEqual(['variant']);
     expect(blocking('single-leg RDL')).toEqual(['variant']);
+    expect(blocking('dumbbell row')).toEqual(['variant']);
+    expect(blocking('one-arm bent-over row')).toContain('variant');
+    expect(blocking('barbell bent-over row')).toContain('variant');
+    expect(blocking('seated cable row')).toContain('variant');
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

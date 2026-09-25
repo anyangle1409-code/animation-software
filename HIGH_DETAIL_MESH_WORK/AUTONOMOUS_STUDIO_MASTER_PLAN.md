@@ -238,3 +238,12 @@ Even with all prepared automation, these should not be silently guessed:
 
 The software can narrow these decisions with metrics, comparisons and automatic
 review packs, but green tests alone should not promote visual anatomy.
+
+
+## Prepared-tooling self-check
+
+At any phase, before spending substantial Work/Blender usage, run:
+
+`CHECK_PREPARED_TOOLING.bat`
+
+It statically compiles every Python helper and verifies the authoritative roadmap/phase/launcher files plus the 16-family / 28-exercise certification manifest. It does not require Blender, Node modules or network access and does not modify candidates.

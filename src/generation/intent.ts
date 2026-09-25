@@ -12,10 +12,10 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'extension';
 
 /** What the body moves against. Bodyweight families hold no equipment yet. */
-export type IntentImplement = 'dumbbell' | 'bodyweight';
+export type IntentImplement = 'dumbbell' | 'cable' | 'bodyweight';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
 export type IntentSupport = 'standing' | 'seated' | 'incline' | 'hanging';
@@ -54,6 +54,8 @@ export interface ExerciseIntent {
   benchAngle?: number;
   /** Only the lunge family reads this. */
   step?: IntentStep;
+  /** Which certified elbow-extension setup to use. */
+  extensionPosition?: 'overhead' | 'pushdown';
   /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };

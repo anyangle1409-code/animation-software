@@ -1,0 +1,16 @@
+{
+  "poll_seconds": 15,
+  "source_check_minutes": 30,
+  "work_low_budget_percent": 20,
+  "work_critical_budget_percent": 8,
+  "claude_low_budget_percent": 20,
+  "auto_run_deterministic": true,
+  "auto_fetch_source": false,
+  "allow_ai_api_calls": false,
+  "notes": [
+    "No AI API keys are required.",
+    "The controller never invokes GPT Work or Claude automatically.",
+    "It routes tasks and runs only whitelisted local deterministic commands.",
+    "Set auto_fetch_source=true only if periodic git fetch is wanted."
+  ]
+}

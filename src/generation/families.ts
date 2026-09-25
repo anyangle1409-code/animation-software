@@ -1152,6 +1152,80 @@ const extension: GeneratorFamily<ExtensionVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Horizontal press / push-up
+// ---------------------------------------------------------------------------
+
+const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
+  id: 'horizontal_press',
+  label: 'Push-up',
+  builder: 'horizontalPressFamily',
+  detect: /\b(?:push|press)[-\s]?ups?\b/,
+
+  library: ['push_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:incline|decline)\b/, 'incline/decline push-ups change the hand or foot height; the current family has only the standard floor position.'],
+        [/\bknee(?:ling)?\b/, 'a knee push-up changes the lower-body contact and body line; not certified.'],
+        [/\bdiamond\b|\bclose[-\s]?grip\b/, 'a narrow-hand push-up changes the hand placement and elbow path; not certified.'],
+        [/\bwide[-\s]?grip\b|\bwide\s+hands?\b/, 'a wide push-up changes the hand placement and shoulder loading; not certified.'],
+        [/\b(?:one|single)[-\s]?arm\b|\bunilateral\b/, 'a one-arm push-up is asymmetric; the current family is even-sided only.'],
+        [/\bclap(?:ping)?\b|\bplyo(?:metric)?\b|\bexplosive\b/, 'a plyometric push-up leaves the floor and is not a controlled contact movement.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(blocking('grip', 'The certified push-up uses palms flat on the floor; another hand orientation is not certified.'));
+    }
+
+    const support = interpretSupport(slots, ['floor'], 'push-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the standard push-up has no adjustable angle input.'));
+    }
+
+    const { tempo } = interpretCommon(slots, 'push-up', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'horizontal_press',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        grip,
+        support,
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Standard Push-Up', intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". A standard bodyweight push-up with palms planted slightly wider than the shoulders, ' +
+        'body moving as one rigid line' + (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: horizontalPressFamily,
+
+  reference: () => 'push_up',
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1163,6 +1237,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   verticalPull as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
   extension as unknown as GeneratorFamily,
+  horizontalPress as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

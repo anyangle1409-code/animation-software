@@ -28,6 +28,7 @@ def main():
     estimate=plan.get("estimated_five_hour_drop_percent") or {}
     week_estimate=plan.get("estimated_weekly_drop_percent") or {}
     budget=data.get("budget") or {}
+    value=plan.get("value_score") or {}
 
     ready=route=="GPT_WORK" and plan.get("decision")=="START"
     lines=[
@@ -46,6 +47,11 @@ def main():
         f"({plan.get('weekly_estimate_source','not calibrated')})",
         f"- current 5-hour remaining: {budget.get('work_window_percent')}",
         f"- current weekly remaining: {budget.get('work_week_percent')}",
+        f"- task value: {value.get('task_value','?')}",
+        f"- blocker importance: {value.get('blocker_importance','?')}",
+        f"- estimated success probability: {value.get('success_probability','?')}",
+        f"- expected progress score: {value.get('expected_progress','?')}",
+        f"- progress per estimated 5-hour %: **{value.get('efficiency','?')}**",
         "",
         "## Amended scope",
         str(plan.get("scope") or v15.get("next_action") or ""),

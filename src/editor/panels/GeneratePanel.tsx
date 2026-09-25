@@ -50,7 +50,7 @@ function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
       setUrls([]);
       return;
     }
-    const next = review.batch.captures.map((capture) => {
+    const next = review.batch.captures.filter((capture) => capture.renderMode === 'beauty').map((capture) => {
       let blob: Blob;
       if (capture.image instanceof Blob) {
         blob = capture.image;
@@ -79,6 +79,11 @@ function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
 
   const failed = review.reference.checks.filter((check) => check.status === 'fail');
   const skipped = review.reference.checks.filter((check) => check.status === 'skip');
+  const silhouettes = review.batch?.captures.filter((capture) => capture.renderMode === 'silhouette') ?? [];
+  const silhouetteIssues = silhouettes.flatMap((capture) =>
+    capture.silhouette?.sanity.issues.map((issue) => `${capture.momentId} · ${capture.viewId}: ${issue}`) ??
+    [`${capture.momentId} · ${capture.viewId}: silhouette metrics missing`],
+  );
 
   return (
     <>
@@ -124,6 +129,25 @@ function ReviewEvidenceGallery({ candidate }: { candidate: Candidate }) {
         <p className="panel__note">
           Numeric self-review completed, but review images could not be captured: {review.error}
         </p>
+      )}
+
+      {review.status === 'ready' && silhouettes.length > 0 && (
+        <details className="generate-reference-evidence">
+          <summary>
+            Local silhouette QA · {silhouetteIssues.length === 0 ? `${silhouettes.length} captures clear` : `${silhouetteIssues.length} issue${silhouetteIssues.length === 1 ? '' : 's'}`}
+          </summary>
+          {silhouetteIssues.length === 0 ? (
+            <p className="panel__note">
+              Every local mask contains a visible body/equipment silhouette and stays inside its deterministic review frame.
+            </p>
+          ) : (
+            <ul className="plain-list">
+              {silhouetteIssues.map((issue) => (
+                <li key={issue}>{issue}</li>
+              ))}
+            </ul>
+          )}
+        </details>
       )}
 
       {review.status === 'ready' && (

@@ -9,6 +9,9 @@ const EXAMPLES = [
   'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.',
   'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.',
   'Create a seated dumbbell shoulder press with 10 kg dumbbells.',
+  'Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.',
+  'Create a dumbbell bent-over row with 16 kg dumbbells and controlled tempo.',
+  'Create a strict pull-up from a dead hang with controlled tempo.',
 ];
 
 const STATUS: Record<GenerationStatus, { label: string; tone: string; note: string }> = {

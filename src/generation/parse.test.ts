@@ -100,6 +100,54 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
   });
 
+  it('reads a strict pronated pull-up', () => {
+    const parsed = parsePrompt('Create a strict pull-up with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'vertical_pull',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'hanging',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('reads lateral and front dumbbell raises', () => {
+    const lateral = parsePrompt('Create a lateral raise with 6 kg dumbbells.');
+    expect(lateral.issues).toEqual([]);
+    expect(lateral.intent).toMatchObject({
+      family: 'raise',
+      raiseDirection: 'lateral',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 6,
+    });
+
+    const front = parsePrompt('Create a front raise with 7 kg dumbbells and slow tempo.');
+    expect(front.issues).toEqual([]);
+    expect(front.intent).toMatchObject({
+      family: 'raise',
+      raiseDirection: 'front',
+      grip: 'pronated',
+      load: 7,
+      tempo: { profile: 'slow' },
+    });
+  });
+
+  it('reads a standing dumbbell overhead triceps extension', () => {
+    const parsed = parsePrompt('Create a standing dumbbell triceps extension with 8 kg dumbbells.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'extension',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 8,
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -151,6 +199,12 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('one-arm bent-over row')).toContain('variant');
     expect(blocking('barbell bent-over row')).toContain('variant');
     expect(blocking('seated cable row')).toContain('variant');
+    expect(blocking('chin-up')).toEqual(['family']);
+    expect(blocking('weighted pull-up')).toContain('variant');
+    expect(blocking('cable lateral raise')).toContain('variant');
+    expect(blocking('seated front raise')).toContain('variant');
+    expect(blocking('cable triceps pushdown')).toEqual(['family']);
+    expect(blocking('skull crusher')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -162,7 +216,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

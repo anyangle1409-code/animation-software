@@ -232,3 +232,12 @@ After character/rig/motion phases are accepted, continue with:
 Final integrated release proof:
 - `FINAL_SYSTEM_ACCEPTANCE_PLAN.md`
 - `RUN_FINAL_SYSTEM_ACCEPTANCE.bat final_character.glb`
+
+
+## Prepared-tooling self-check
+
+At any phase, before spending substantial Work/Blender usage, run:
+
+`CHECK_PREPARED_TOOLING.bat`
+
+It statically compiles every Python helper and verifies the authoritative roadmap/phase/launcher files plus the 16-family / 28-exercise certification manifest. It does not require Blender, Node modules or network access and does not modify candidates.

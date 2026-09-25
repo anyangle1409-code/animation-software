@@ -14,6 +14,8 @@ import { horizontalPressFamily } from '../exercises/families/horizontalPress';
 import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
 import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
 import { rowFamily } from '../exercises/families/row';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { hingeFamily } from '../exercises/families/hinge';
@@ -1176,6 +1178,89 @@ const raise: GeneratorFamily<RaiseVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Calf raise
+// ---------------------------------------------------------------------------
+
+const calf: GeneratorFamily<CalfVariant> = {
+  id: 'calf',
+  label: 'Calf raise',
+  builder: 'calfFamily',
+  detect: /\bcalf\s+raises?\b/,
+
+  library: ['standing_calf_raise', 'dumbbell_calf_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bseated\b/, 'a seated calf raise changes knee position and calf emphasis; the current family is standing only.'],
+        [/\bdonkey\b/, 'a donkey calf raise uses a hinged torso/support position the current family does not build.'],
+        [/\bsingle[-\s]leg\b|\bone[-\s]leg\b|\bunilateral\b/, 'a single-leg calf raise changes balance and contact; the current family is bilateral.'],
+        [/\bmachine\b/, 'a machine calf raise uses external support/load geometry the current family does not model.'],
+        [/\bsmith\b/, 'a Smith-machine calf raise uses a guided bar and different support; not certified.'],
+      ],
+      issues,
+    );
+
+    const equipmentKinds = distinct(slots.equipment);
+    const implement: IntentImplement = equipmentKinds.includes('dumbbell') ? 'dumbbell' : 'bodyweight';
+
+    if (implement === 'dumbbell') {
+      const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+      if (grip !== 'neutral') {
+        issues.push(blocking('grip', `The certified dumbbell calf raise holds the dumbbells neutral at the sides; a ${grip} grip is not certified.`));
+      }
+    } else if (slots.grips.length > 0) {
+      issues.push(blocking('grip', 'A bodyweight calf raise holds no implement, so a hand grip does not apply.'));
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'calf raise', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the standing calf raise has no adjustable angle input.`));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'calf raise', implement, 14, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'calf',
+        equipment: implement,
+        execution: 'bilateral',
+        ...(implement === 'dumbbell' ? { grip: 'neutral' as const } : {}),
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const loaded = intent.equipment === 'dumbbell';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(loaded ? 'Dumbbell Calf Raise' : 'Standing Calf Raise', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standing bilateral calf raise, rising onto the balls of the feet with the knees quiet` +
+        `${loaded ? `, holding ${formatLoad(intent.load)} in each hand` : ', using bodyweight'}` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(loaded ? { mass: intent.load } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: calfFamily,
+
+  reference: (intent) => (intent.equipment === 'dumbbell' ? 'dumbbell_calf_raise' : 'standing_calf_raise'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1187,6 +1272,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   verticalPull as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
+  calf as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

@@ -91,3 +91,9 @@ After the actual finger geometry edit is saved:
 That handles export preparation, GLB packing, bare variant, frozen validation, V13e/V15 matched renders, seam/fold checks, visual-change metrics, latest-source integration and the consolidated report.
 
 Those are the only two workflow commands Work should need around the actual Blender modelling.
+
+
+## If anything fails
+
+Read `V15_FAILURE_RECOVERY.md` and repair the **first failing stage**. Do not
+loosen a guard or change exercise/grip/runtime behaviour to make a hand mesh pass.

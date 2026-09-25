@@ -1,3 +1,4 @@
+export { verticalPullReferenceFor } from './specs/verticalPull';
 export { analyseSilhouetteRgba, compareSilhouetteMetrics, silhouetteSanity } from './silhouette';
 export type { SilhouetteBounds, SilhouetteComparison, SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 export { captureReferenceEvidence } from './reviewSession';

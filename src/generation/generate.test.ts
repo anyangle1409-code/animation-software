@@ -27,6 +27,10 @@ import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
 import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
 import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
+import { supineFamily } from '../exercises/families/supine';
+import type { SupineVariant } from '../exercises/families/supine';
+import { carryFamily } from '../exercises/families/carry';
+import type { CarryVariant } from '../exercises/families/carry';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -43,6 +47,9 @@ import { calfRaise } from '../exercises/definitions/calfRaise';
 import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import { crunch } from '../exercises/definitions/crunch';
 import { sitUp } from '../exercises/definitions/sitUp';
+import { dumbbellBenchPress } from '../exercises/definitions/dumbbellBenchPress';
+import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
+import { farmersWalk } from '../exercises/definitions/farmersWalk';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -70,6 +77,9 @@ const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 const CALF = 'Create a calf raise with 18 kg dumbbells and slow tempo.';
 const CRUNCH = 'Create a crunch.';
 const SIT_UP = 'Create a sit-up with controlled tempo.';
+const BENCH_PRESS = 'Create a dumbbell bench press with 20 kg dumbbells and controlled tempo.';
+const FLY = 'Create a dumbbell fly with 10 kg dumbbells.';
+const FARMERS_WALK = "Create a farmer's walk with 26 kg dumbbells.";
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -224,6 +234,31 @@ describe('generating without a character', () => {
     expect(situpResult.reference).toBe('sit_up');
     expect(situpResult.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
     expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
+  });
+
+  it('builds dumbbell bench press and fly from supineFamily', () => {
+    const press = generateExercise(BENCH_PRESS, options);
+    expect(press.family?.id).toBe('supine');
+    expect(press.exercise).toEqual(supineFamily(press.variant as SupineVariant));
+    expect(press.reference).toBe('dumbbell_bench_press');
+    expect(press.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([20, 20]);
+    expect(press.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(motionOf(generateExercise('a dumbbell bench press', options).exercise!)).toEqual(motionOf(dumbbellBenchPress));
+
+    const fly = generateExercise(FLY, options);
+    expect(fly.family?.id).toBe('supine');
+    expect(fly.exercise).toEqual(supineFamily(fly.variant as SupineVariant));
+    expect(fly.reference).toBe('dumbbell_fly');
+    expect(motionOf(fly.exercise!)).toEqual(motionOf(dumbbellFly));
+  });
+
+  it("builds the farmer's walk from carryFamily", () => {
+    const result = generateExercise(FARMERS_WALK, options);
+    expect(result.family?.id).toBe('carry');
+    expect(result.exercise).toEqual(carryFamily(result.variant as CarryVariant));
+    expect(result.reference).toBe('farmers_walk');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([26, 26]);
+    expect(motionOf(generateExercise("a farmer's walk", options).exercise!)).toEqual(motionOf(farmersWalk));
   });
 
   it('will not certify what it could not measure', () => {
@@ -476,6 +511,37 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
         expect(result.validations, prompt).toBe(1);
         expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
       }
+    },
+    900_000,
+  );
+
+  it(
+    'builds flat dumbbell bench press and fly through the same production-character pipeline',
+    async () => {
+      for (const prompt of [BENCH_PRESS, FLY]) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('supine');
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
+    },
+    900_000,
+  );
+
+  it(
+    "builds the farmer's walk through the same production-character pipeline",
+    async () => {
+      const result = await generateExerciseAsync(FARMERS_WALK, { rig, library, character });
+      expect(result.family?.id).toBe('carry');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('farmers_walk');
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
     },
     900_000,
   );

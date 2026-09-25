@@ -104,7 +104,7 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
             ) : (
               <>
                 <dt>Equipment</dt>
-                <dd>Bodyweight</dd>
+                <dd>{result.intent.equipment === 'cable' ? 'Cable station · straight bar' : 'Bodyweight'}</dd>
               </>
             )}
             <dt>Tempo</dt>

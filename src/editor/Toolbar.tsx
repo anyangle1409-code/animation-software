@@ -1,4 +1,4 @@
-import { EXERCISES } from '../exercises/library';
+import { EXERCISES, EXERCISE_BY_ID } from '../exercises/library';
 import { CAMERA_LABELS } from '../viewer/cameras';
 import { CAMERA_PRESET_IDS } from '../viewer/cameraTypes';
 import type { ViewMode } from './store';
@@ -14,6 +14,10 @@ const VIEW_MODES: { id: ViewMode; label: string }[] = [
 
 export function Toolbar() {
   const exerciseId = useStudio((state) => state.document.exercise.id);
+  const exerciseName = useStudio((state) => state.document.exercise.name);
+  // A generated candidate under review is not in the library; it is listed on
+  // its own so the selector does not claim a library exercise is showing.
+  const candidate = !EXERCISE_BY_ID.has(exerciseId);
   const loadExercise = useStudio((state) => state.loadExercise);
   const viewMode = useStudio((state) => state.viewMode);
   const setViewMode = useStudio((state) => state.setViewMode);
@@ -37,6 +41,7 @@ export function Toolbar() {
       <label className="field">
         <span className="field__label">Exercise</span>
         <select value={exerciseId} onChange={(event) => loadExercise(event.target.value)}>
+          {candidate && <option value={exerciseId}>Candidate: {exerciseName}</option>}
           {EXERCISES.map((exercise) => (
             <option key={exercise.id} value={exercise.id}>
               {exercise.name}

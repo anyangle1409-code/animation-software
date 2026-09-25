@@ -1110,3 +1110,75 @@ code {
   margin-left: 6px;
   color: var(--muted);
 }
+
+/* Generate panel */
+
+.generate-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  font: inherit;
+  color: inherit;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.generate-form .button-row {
+  margin-top: 6px;
+}
+
+.generate-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0 10px;
+}
+
+.generate-examples button {
+  font-size: 10px;
+}
+
+.generate-progress {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.generate-candidate {
+  display: grid;
+  gap: 4px;
+}
+
+.generate-issues li {
+  color: var(--danger, #b85c5c);
+}
+
+.generate-attempts,
+.generate-source {
+  margin: 6px 0;
+  font-size: 11px;
+}
+
+.generate-attempts ol {
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.generate-source pre {
+  overflow-x: auto;
+  max-height: 260px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+  font-size: 10px;
+}
+
+.generate-list button {
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+}

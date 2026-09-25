@@ -1,0 +1,149 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { canonicalSkeleton } from '../rig/skeleton';
+import { generateClip } from '../animation/generate';
+import { retargetedCharacterSource } from '../character/retargetSource';
+import type { CharacterBuild } from '../character';
+import { EXERCISES, EXERCISE_BY_ID } from '../exercises/library';
+import { curlFamily } from '../exercises/families/curl';
+import type { CurlVariant } from '../exercises/families/curl';
+import { bicepCurl } from '../exercises/definitions/bicepCurl';
+import type { ExerciseDefinition } from '../exercises/types';
+import { generateExercise, generateExerciseAsync } from './generate';
+import type { GenerationOptions } from './generate';
+import { TEMPO_PROFILES } from './intent';
+import { validateCandidate } from './validate';
+
+/**
+ * Prompt → intent → family → definition → clip → validation → bounded
+ * correction → candidate, end to end.
+ */
+const rig = canonicalSkeleton;
+const library = (id: string) => EXERCISE_BY_ID.get(id);
+const HAMMER = 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.';
+const INCLINE = 'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.';
+const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
+
+/** Everything but what names and describes an exercise. */
+const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
+
+describe('generating without a character', () => {
+  const options: GenerationOptions = { rig, library };
+
+  it('builds the exercise from the family, not from a library file', () => {
+    const result = generateExercise(HAMMER, options);
+    expect(result.family?.id).toBe('curl');
+    // The definition is exactly what the family builder makes of the variant.
+    expect(result.exercise).toEqual(curlFamily(result.variant as CurlVariant));
+    expect(result.exercise?.hands.orientation).toBe('neutral');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([12, 12]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    // A candidate, never a library exercise.
+    expect(result.exercise?.id).toMatch(/^generated_/);
+    expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
+  });
+
+  it('reproduces a library exercise from the same intent, which is what makes the family the source', () => {
+    const result = generateExercise('a standing dumbbell curl with 10 kg dumbbells', options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(bicepCurl));
+  });
+
+  it('will not certify what it could not measure', () => {
+    const result = generateExercise(HAMMER, options);
+    // Every character-free check passes — and the hammer curl's dumbbells are
+    // 17 mm inside the thighs, which only the body checks can see.
+    expect(result.report?.failed).toEqual([]);
+    expect(result.report?.skipped).toEqual(['equipmentClearance', 'armTrunk']);
+    expect(result.status).toBe('unverified');
+  });
+
+  it('builds nothing from a request it has to ask about', () => {
+    for (const prompt of ['alternating hammer curl', 'incline curl at 30 degrees', 'neutral grip shoulder press', 'goblet squat']) {
+      const result = generateExercise(prompt, options);
+      expect(result.status, prompt).toBe('blocked');
+      expect(result.exercise, prompt).toBeUndefined();
+      expect(result.validations, prompt).toBe(0);
+    }
+  });
+});
+
+const ASSET =
+  process.env.REAL_CHARACTER_GLB ?? 'review-assets/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb';
+
+describe.skipIf(!existsSync(ASSET))('generating on the production character', () => {
+  let character: { build: CharacterBuild; label: string };
+  // The async pipeline yields between steps, so a long generation does not
+  // starve the test worker's reporting.
+  beforeAll(async () => {
+    const bytes = readFileSync(ASSET);
+    const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+    character = { build: await retargetedCharacterSource({ id: ASSET, label: ASSET, data }).build(rig), label: ASSET };
+  }, 120_000);
+
+  it(
+    'corrects the standing hammer curl out of the thighs, within the family, and certifies it',
+    async () => {
+      const result = await generateExerciseAsync(HAMMER, { rig, library, character });
+      // From the family's defaults the neutral-grip dumbbells hang in the
+      // thighs, and the arms sit closer to the chest than the library's hammer
+      // curl does.
+      expect(result.initial?.failed).toEqual(['equipmentClearance', 'armTrunk']);
+      // One lever answers both, so it is the only change made: the arms held
+      // 12° out, which is what the library's hand-tuned hammer curl arrived at.
+      expect(result.corrections).toHaveLength(1);
+      expect((result.variant as CurlVariant).abduction).toEqual({ start: 12, peak: 13 });
+      expect((result.variant as CurlVariant).elbow).toBeUndefined();
+      expect(result.attempts.at(-1)?.outcome).toBe('accepted');
+      expect(result.status).toBe('passed');
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+
+      // The loop's verdict stands on its own: validated afresh, outside the loop.
+      const again = validateCandidate(
+        { rig, character, reference: library(result.reference!) },
+        result.exercise!,
+        generateClip(rig, result.exercise!),
+        (exercise) => generateClip(rig, exercise),
+      );
+      expect(again.passed).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds the incline curl on the 45° bench, passing first time',
+    async () => {
+      const result = await generateExerciseAsync(INCLINE, { rig, library, character });
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual(['dumbbell', 'dumbbell', 'incline_bench']);
+      expect(result.exercise?.equipment.instances.find((item) => item.kind === 'dumbbell')?.mass).toBe(8);
+      expect(result.reference).toBe('incline_dumbbell_curl');
+    },
+    900_000,
+  );
+
+  it(
+    'builds a seated shoulder press through the same pipeline, with no press-specific generator code',
+    async () => {
+      const result = await generateExerciseAsync(PRESS, { rig, library, character });
+      expect(result.family?.id).toBe('overhead_press');
+      expect(result.status).toBe('passed');
+      expect(result.exercise?.equipment.instances.some((item) => item.kind === 'flat_bench' && item.supportsBody)).toBe(true);
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    },
+    900_000,
+  );
+
+  it(
+    'stops at its budget and reports the failure rather than passing it',
+    async () => {
+      const result = await generateExerciseAsync(HAMMER, { rig, library, character, budget: 3 });
+      expect(result.validations).toBeLessThanOrEqual(3);
+      expect(result.status).toBe('failed');
+      expect(result.report?.failed).toContain('equipmentClearance');
+    },
+    900_000,
+  );
+});

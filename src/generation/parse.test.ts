@@ -1,0 +1,85 @@
+import { describe, expect, it } from 'vitest';
+import { parsePrompt } from './parse';
+import { TEMPO_PROFILES } from './intent';
+
+const blocking = (prompt: string) =>
+  parsePrompt(prompt)
+    .issues.filter((issue) => issue.blocking)
+    .map((issue) => issue.code);
+
+describe('parsing a request into an ExerciseIntent', () => {
+  it('reads the standing hammer curl', () => {
+    const parsed = parsePrompt('Create a standing hammer curl with 12 kg dumbbells and controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'curl',
+      grip: 'neutral',
+      support: 'standing',
+      load: 12,
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('reads the incline curl at 45 degrees', () => {
+    const parsed = parsePrompt('Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({ family: 'curl', grip: 'supinated', support: 'incline', benchAngle: 45, load: 8 });
+    // The defaults it chose are written down, not silent.
+    expect(parsed.assumptions.join(' ')).toMatch(/supinated grip/);
+    expect(parsed.assumptions.join(' ')).toMatch(/family's own tempo/);
+  });
+
+  it('reads the seated shoulder press', () => {
+    const parsed = parsePrompt('Create a seated dumbbell shoulder press with 10 kg dumbbells.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({ family: 'overhead_press', grip: 'pronated', support: 'seated', load: 10 });
+  });
+
+  it('fills sensible defaults and says so', () => {
+    const parsed = parsePrompt('a dumbbell curl');
+    expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
+    expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('reads grips, loads and tempo in several phrasings', () => {
+    expect(parsePrompt('curl, palms facing each other').intent?.grip).toBe('neutral');
+    expect(parsePrompt('overhand curl').intent?.grip).toBe('pronated');
+    expect(parsePrompt('reverse curl').intent?.grip).toBe('pronated');
+    expect(parsePrompt('curl with 25 lb dumbbells').intent?.load).toBe(11.5);
+    expect(parsePrompt('slow curl').intent?.tempo).toEqual({ profile: 'slow' });
+    expect(parsePrompt('curl, tempo 3-1-2-0').intent?.tempo).toEqual({
+      explicit: { eccentric: 3, pauseStretched: 1, concentric: 2, pauseContracted: 0 },
+    });
+    expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
+  });
+
+  it('asks only when the answer changes the exercise', () => {
+    // Contradictions.
+    expect(blocking('hammer curl with palms up')).toEqual(['grip']);
+    expect(blocking('curl with 10 kg and 12 kg')).toEqual(['load']);
+    // Things no certified family does, declined rather than approximated.
+    expect(blocking('alternating hammer curl')).toEqual(['execution']);
+    expect(blocking('incline curl at 30 degrees')).toEqual(['angle']);
+    expect(blocking('seated curl')).toEqual(['support']);
+    expect(blocking('barbell curl')).toEqual(['equipment']);
+    expect(blocking('preacher curl')).toEqual(['variant']);
+    expect(blocking('neutral grip shoulder press')).toEqual(['grip']);
+    expect(blocking('arnold press')).toEqual(['family']);
+  });
+
+  it('recognises the rest of the library and declines it with the reason', () => {
+    for (const prompt of ['goblet squat', 'reverse lunge', 'Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+      const parsed = parsePrompt(prompt);
+      expect(parsed.intent, prompt).toBeNull();
+      expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
+    }
+    expect(parsePrompt('make me something nice').issues[0].message).toMatch(/No certified movement/);
+  });
+
+  it('is deterministic', () => {
+    const prompt = 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.';
+    expect(parsePrompt(prompt)).toEqual(parsePrompt(prompt));
+  });
+});

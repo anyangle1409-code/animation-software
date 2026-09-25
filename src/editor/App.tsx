@@ -15,10 +15,11 @@ import { ContactPanel } from './panels/ContactPanel';
 import { EquipmentPanel } from './panels/EquipmentPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
+import { GeneratePanel } from './panels/GeneratePanel';
 import { useStudio } from './store';
 
 type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
-type RightTab = 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
+type RightTab = 'generate' | 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
 
 export function App() {
   const [leftTab, setLeftTab] = useState<LeftTab>('joint');
@@ -135,6 +136,13 @@ export function App() {
           <nav className="tabs">
             <button
               type="button"
+              className={rightTab === 'generate' ? 'is-active' : ''}
+              onClick={() => setRightTab('generate')}
+            >
+              Generate
+            </button>
+            <button
+              type="button"
               className={rightTab === 'exercise' ? 'is-active' : ''}
               onClick={() => setRightTab('exercise')}
             >
@@ -184,6 +192,7 @@ export function App() {
             </button>
           </nav>
           <div className="studio__side-body">
+            {rightTab === 'generate' && <GeneratePanel />}
             {rightTab === 'exercise' && <ExercisePanel />}
             {rightTab === 'muscles' && <MusclePanel />}
             {rightTab === 'technique' && <TechniquePanel />}

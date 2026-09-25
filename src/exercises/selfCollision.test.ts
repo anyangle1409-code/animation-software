@@ -1,16 +1,14 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
-import type { SkinnedMesh } from 'three';
 import { generateClip } from '../animation/generate';
-import { sampleClip } from '../animation/clip';
-import { resolveFrame } from '../animation/pipeline';
-import { lockAnchors } from '../constraints/locks';
-import { PointGrid } from '../constraints/collision';
-import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import { applyCharacterPose } from '../character/pose';
-import { dominantBone, posedVertex } from '../character/posedMesh';
+import { canonicalSkeleton } from '../rig/skeleton';
 import { retargetedCharacterSource } from '../character/retargetSource';
+import {
+  ARM_TRUNK_SEARCH,
+  ARM_TRUNK_SLACK as SLACK,
+  bodyMeshOf,
+  measureArmTrunkSeparation,
+} from '../constraints/bodyClearance';
 import { EXERCISES } from './library';
 
 /**
@@ -106,34 +104,15 @@ const BASELINE: Record<string, number> = {
   // Arms hanging long at the sides, a dumbbell in each hand, through the walk.
   farmers_walk: 0.0057,
 };
-
 /**
- * How much closer an exercise may come than its baseline before this fails.
- * Wide enough to absorb a re-measure or a small deliberate change, narrow
- * enough that halving any of these separations trips it.
+ * The measurement and the 1 mm slack live in `constraints/bodyClearance.ts`,
+ * so the generator's validation holds a candidate to exactly what this test
+ * holds the library to.
+ * The imported deform bones' side is captured explicitly there: the first
+ * version of this check matched it with `endsWith('L')`, silently dropped every
+ * numbered arm segment and measured 74 vertices of proximal forearm as "the
+ * arm". The vertex-count assertions below are what made that visible.
  */
-const SLACK = 0.001;
-
-/** 30 mm cells, and eight shells of them, so the search reaches 240 mm. */
-const CELL = 0.03;
-const RINGS = 8;
-
-/**
- * Imported deform bones are named `<part><side>` with an optional numeric
- * suffix for a segment: `upper_armL`, `upper_armL001`, `forearmL001`. Matching
- * the side with a plain `endsWith('L')` therefore drops every segment — the
- * first version of this check did exactly that and silently measured 74
- * vertices of proximal forearm while reporting it as "the arm". The side is
- * captured explicitly so a segment cannot fall out of the set unnoticed, and the
- * vertex-count assertions below are what made the mistake visible.
- */
-const ARM = /^(upper_?arm|forearm)([LR])\d*$/i;
-const TRUNK = /^(spine|breast|pelvis)/i;
-const armSide = (bone: string): string | null => {
-  const match = ARM.exec(bone);
-  return match ? match[2].toUpperCase() : null;
-};
-
 describe.skipIf(!existsSync(ASSET))('the arm clears the trunk', () => {
   it.each(EXERCISES.map((exercise) => [exercise.name, exercise] as const))(
     '%s',
@@ -141,63 +120,22 @@ describe.skipIf(!existsSync(ASSET))('the arm clears the trunk', () => {
       const bytes = readFileSync(ASSET);
       const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
       const character = await retargetedCharacterSource({ id: ASSET, label: ASSET, data }).build(rig);
-      const body = (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name));
-      expect(body, 'the imported body mesh').toBeDefined();
+      expect(bodyMeshOf(character), 'the imported body mesh').toBeDefined();
 
-      const count = body!.geometry.getAttribute('position').count;
-      const bone = Array.from({ length: count }, (_, index) => dominantBone(body!, index));
-      const trunk = [...Array(count).keys()].filter((index) => TRUNK.test(bone[index]));
-      expect(trunk.length, 'trunk vertices').toBeGreaterThan(100);
-
-      const evaluation = new PoseEvaluation(rig);
-      const clip = generateClip(rig, exercise);
-      const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-      const here = new Vector3();
-      const there = new Vector3();
-
-      let overall = Number.POSITIVE_INFINITY;
-      let overallWhere = '';
-
-      for (const side of ['L', 'R'] as const) {
-        const arm = [...Array(count).keys()].filter((index) => armSide(bone[index]) === side);
-        expect(arm.length, `${side} arm vertices`).toBeGreaterThan(100);
-
-        let closest = Number.POSITIVE_INFINITY;
-        let where = '';
-
-        for (let step = 0; step <= 40; step += 1) {
-          const time = (step / 40) * clip.duration;
-          const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
-          applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
-          body!.skeleton.update();
-          body!.updateWorldMatrix(true, false);
-
-          const grid = new PointGrid(CELL);
-          for (const index of trunk) grid.add(index, posedVertex(body!, index, there));
-
-          for (const index of arm) {
-            posedVertex(body!, index, here);
-            const hit = grid.nearest(here, RINGS, (i, out) => posedVertex(body!, i, out), there);
-            if (hit && hit.distance < closest) {
-              closest = hit.distance;
-              where = `${bone[index]} to ${bone[hit.index]} at ${time.toFixed(2)}s`;
-            }
-          }
-        }
-
-        const reach = `beyond the ${mm(CELL * RINGS)} search`;
-        console.log(
-          `  ${exercise.id.padEnd(24)} ${side}  closest ` +
-            `${(Number.isFinite(closest) ? mm(closest) : reach).padStart(10)}  (${where || reach})`,
-        );
-        // Nothing found within the search means the arm stayed further away than
-        // the grid looks, not that it went unmeasured.
-        if (Number.isFinite(closest) && closest < overall) {
-          overall = closest;
-          overallWhere = `${side}: ${where}`;
-        }
-      }
+      const measured = measureArmTrunkSeparation(character, rig, generateClip(rig, exercise));
       character.dispose?.();
+      expect(measured.trunkVertices, 'trunk vertices').toBeGreaterThan(100);
+
+      const reach = `beyond the ${mm(ARM_TRUNK_SEARCH)} search`;
+      for (const side of measured.sides) {
+        expect(side.armVertices, `${side.side} arm vertices`).toBeGreaterThan(100);
+        console.log(
+          `  ${exercise.id.padEnd(24)} ${side.side}  closest ` +
+            `${(Number.isFinite(side.closest) ? mm(side.closest) : reach).padStart(10)}  (${side.where || reach})`,
+        );
+      }
+      const overall = measured.closest;
+      const overallWhere = measured.where;
 
       // Never coincident, whatever the baseline says. Two surfaces at exactly
       // zero are not touching, they are the same point.

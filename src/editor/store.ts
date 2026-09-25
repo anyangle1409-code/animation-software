@@ -185,6 +185,12 @@ interface StudioState {
 
   // --- editing ------------------------------------------------------------
   loadExercise: (id: string) => void;
+  /**
+   * Open an exercise that is not in the library — a generated candidate under
+   * review. It is shown and edited like any other, and is never added to
+   * `EXERCISES` by being opened.
+   */
+  loadDefinition: (exercise: ExerciseDefinition) => void;
   regenerate: () => void;
   setBoneAxis: (bone: BoneName, axis: Axis, radians: number) => void;
   setBoneRotation: (bone: BoneName, rotation: Vec3) => void;
@@ -358,8 +364,9 @@ export const useStudio = create<StudioState>((set, get) => {
     toggle: (key) => set({ [key]: !get()[key] } as Partial<StudioState>),
     setGizmoMode: (gizmoMode) => set({ gizmoMode }),
 
-    loadExercise: (id) => {
-      const exercise = getExercise(id);
+    loadExercise: (id) => get().loadDefinition(getExercise(id)),
+
+    loadDefinition: (exercise) => {
       set({
         document: buildDocument(exercise),
         history: emptyHistory<StudioDocument>(),

@@ -6,6 +6,73 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-25 — Prompt-to-exercise generation: first vertical slice
+
+A typed request now becomes a validated candidate in the studio, following phases 8–10 of the self-sufficient plan:
+
+- the request is parsed into an `ExerciseIntent`;
+- a certified family adapter turns the intent into that family's variant;
+- the existing family builder turns the variant into an `ExerciseDefinition`, and then a clip;
+- one report runs the library's own checks;
+- a bounded correction loop fixes what it safely can;
+- the result is previewed and reviewed in the studio.
+
+Certified families: **curl** and **overhead press**. No new standalone exercise was added, and candidates are never added to `EXERCISES`. Full write-up: `docs/PROMPT_TO_EXERCISE_GENERATION.md`.
+
+Suite **860 passed / 1 skipped** (71 files; was 844), typecheck and build clean. **All 28 library clips are byte-identical.**
+
+**Added in `src/generation/`.**
+
+- `slots.ts` and `parse.ts`: a deterministic parser.
+  - It writes down the defaults it assumes.
+  - It blocks only when the answer would change the exercise:
+    - contradictions;
+    - alternating or single-arm work;
+    - a non-45° incline;
+    - a seated curl, a barbell, or preacher, Zottman and similar curls;
+    - a neutral-grip overhead press (the modelling gap recorded in `press.test.ts`).
+  - It recognises every other library family and declines it by name.
+- `families.ts`: one adapter per family, holding the intent-to-variant translation, the reference library exercise, and the correction levers.
+  - Curl levers: elbow bend at the bottom (16° → at most 30°) and upper-arm abduction (at most 15°).
+  - Overhead press: no lever yet.
+- `validate.ts`: 13 checks, at the library's own limits.
+  - The `reviewExercise` gates: technique, loop, IK, contacts, grip, two-hand fit.
+  - Joint limits, lock stillness, duration and references, as in `exercises.test.ts`.
+  - Flat feet, as in `feet.test.ts`.
+  - Equipment clearance and arm–trunk separation on the character. Arm–trunk is held to the reference library exercise, measured live on the same character, with the same 1 mm slack.
+  - Without a character the body checks do not run and the candidate is "unverified", never passed.
+- `generate.ts`: the pipeline, as a generator so the UI can yield between steps.
+  - The lever covering the most failures goes first.
+  - A lever stops if a step breaks another check.
+  - A value is accepted only if the fixed checks still pass one step further on.
+  - At most 3 rounds and 40 validations; every attempt is logged.
+  - The loop writes only variant fields and never sees a limit.
+
+**Moved.** The measuring code of `equipmentClearance.test.ts` and `selfCollision.test.ts` is now `constraints/bodyClearance.ts`, with the margin, pad and slack limits. Both tests call it. Their output is identical before and after (121 lines), and their baselines and assertions are unchanged.
+
+**UI.**
+
+- A **Generate** tab with the prompt, examples, progress, understood-as, assumptions, corrections and attempts, checks, and the generated source.
+- Preview, Approve and Discard buttons. Approve is available only when every check passed, and records a session-only approval.
+- `store.loadDefinition` opens a non-library exercise. `loadExercise` calls it and behaves as before.
+- The toolbar shows "Candidate: …".
+- Body checks in the app measure the bundled V8 dressed body, built separately from the viewport's.
+
+**Measured on the production character.**
+
+- **Standing hammer curl, 12 kg, controlled tempo.**
+  - The family defaults put the dumbbells 17.07 mm inside the thighs, and the arms 3.88 mm from the chest (reference 5.02 mm).
+  - The loop moved the upper arms from 3° to 12° out, which is the value the library's hammer curl was hand-tuned to.
+  - Result: 14.47 mm clear, arms 5.02 mm from the chest, confirmed at 13°. 12 validations, 46 s. Passed.
+- **Incline curl at 45°, 8 kg:** passed first time (10 s).
+- **Seated shoulder press, 10 kg, controlled tempo:** passed first time (30 s), with no press-specific generator code.
+- On the app's V8 body the hammer curl's arms already clear the chest, so the loop used the elbow lever instead (16° → 25°). 20 s in the browser.
+- `a standing dumbbell curl with 10 kg dumbbells` reproduces the library's `bicepCurl` exactly, in every motion field (tested).
+
+**Tests.** `generation/parse.test.ts` (8) and `generation/generate.test.ts` (8), four of them on the production character.
+
+**Test harness fix.** `npm test` exited 1 with every test passing. The error was vitest's "Timeout calling onTaskUpdate": `selfCollision.test.ts` ran for 190 s without once returning to the event loop, because each character build and measurement awaits only promises that are already settled. The worker never read the runner's replies, so its 60 s timer fired. This reproduced on the unchanged test at `9749e78`. `src/test/setup.ts` now yields one macrotask before every test. No test's result changes.
+
 ### Claude — 2026-09-25 — Mesh coordination report: the library against V8 and V13e
 
 Read-only measurement, recorded in `docs/MESH_COORDINATION_REPORT.md`. No runtime, grip, retargeting or asset change.

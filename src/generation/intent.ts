@@ -12,10 +12,10 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press' | 'raise' | 'calf';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press' | 'raise' | 'calf' | 'extension';
 
 /** What the body moves against. Bodyweight families hold no equipment yet. */
-export type IntentImplement = 'dumbbell' | 'bodyweight';
+export type IntentImplement = 'dumbbell' | 'bodyweight' | 'cable';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
 export type IntentSupport = 'standing' | 'seated' | 'incline' | 'hanging' | 'floor';
@@ -27,6 +27,8 @@ export type IntentSupport = 'standing' | 'seated' | 'incline' | 'hanging' | 'flo
 export type IntentStep = 'forward' | 'back';
 /** Direction of a movement family where the same lever moves in different planes. */
 export type IntentDirection = 'lateral' | 'front';
+/** Position/sub-mode of a family where equipment and body orientation change together. */
+export type IntentPosition = 'overhead' | 'pushdown';
 
 /**
  * Named tempo prescriptions. `controlled` is the common coaching meaning — a
@@ -58,6 +60,8 @@ export interface ExerciseIntent {
   step?: IntentStep;
   /** Used by direction-aware families such as shoulder raises. */
   direction?: IntentDirection;
+  /** Used by families with distinct positions such as overhead extension vs pushdown. */
+  position?: IntentPosition;
   /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };

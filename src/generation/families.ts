@@ -10,6 +10,8 @@ import type { LungeVariant } from '../exercises/families/lunge';
 import type { RowVariant } from '../exercises/families/row';
 import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
+import { horizontalPressFamily } from '../exercises/families/horizontalPress';
+import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
 import { rowFamily } from '../exercises/families/row';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { hingeFamily } from '../exercises/families/hinge';
@@ -984,6 +986,91 @@ const verticalPull: GeneratorFamily<VerticalPullVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Horizontal press / push-up
+// ---------------------------------------------------------------------------
+
+const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
+  id: 'horizontal_press',
+  label: 'Push-up',
+  builder: 'horizontalPressFamily',
+  detect: /\b(?:push|press)[-\s]?ups?\b/,
+
+  library: ['push_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bdiamond\b/, 'a diamond push-up changes hand width and elbow path; only the standard push-up is certified.'],
+        [/\bwide[-\s]?(?:grip|hand|stance)?\b/, 'a wide push-up changes hand width and shoulder loading; only the standard hand position is certified.'],
+        [/\bclose[-\s]?(?:grip|hand)?\b/, 'a close-grip push-up changes hand width and elbow path; only the standard hand position is certified.'],
+        [/\b(?:knee|kneeling)\b/, 'a knee push-up changes the lower-body contact and body line; not certified.'],
+        [/\bwall\b/, 'a wall push-up changes support geometry; not certified.'],
+        [/\bdecline\b/, 'a decline push-up needs the feet raised on equipment; not certified.'],
+        [/\bincline\b/, 'an incline push-up needs the hands raised on equipment; not certified.'],
+        [/\bclap(?:ping)?\b|\bplyometric\b|\bexplosive\s+push[-\s]?up\b/, 'a plyometric push-up leaves the floor; the certified family keeps all four contacts planted.'],
+        [/\bone[-\s]arm\b|\bsingle[-\s]arm\b/, 'a one-arm push-up is unilateral and changes balance/contact; not certified.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified push-up uses palms flat on the floor; a ${grip} hand orientation implies handles or a different support and is not certified.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['floor'], 'push-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the standard floor push-up has no angle input.`));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'push-up', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'horizontal_press',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Push-Up', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standard bodyweight push-up on the floor with the hands slightly wider than the shoulders and the body moving as one rigid unit` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: horizontalPressFamily,
+
+  reference: () => 'push_up',
+
+  // The accepted standard push-up passes with its fixed hand and toe contacts.
+  // Hand-position variants need their own measured family values before they
+  // can become correction levers or generated variants.
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -993,6 +1080,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
   verticalPull as unknown as GeneratorFamily,
+  horizontalPress as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

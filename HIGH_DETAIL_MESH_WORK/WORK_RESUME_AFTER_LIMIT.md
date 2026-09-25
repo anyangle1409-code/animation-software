@@ -355,3 +355,26 @@ For ring/pinky proof, scope, sharpness or severe-fold failures, read:
 `V15F_FAILURE_RECOVERY.md`
 
 Use the older `V15_FAILURE_RECOVERY.md` for export/frozen/current-source pipeline failures.
+
+
+## Automatic interruption handoff
+
+The ring-left proof, per-digit gates and Stage-A gate automatically refresh:
+
+`V15F_LATEST_HANDOFF.md`
+
+It records:
+- branch/HEAD;
+- candidate/checkpoint state;
+- which incremental gates pass/fail;
+- latest Blender invariant/fold state;
+- per-digit original movement;
+- Stage-A failures;
+- next action from `V15F_STATUS.bat`.
+
+If a later Work session is interrupted, read this file before reconstructing
+state manually.
+
+You can refresh it at any time with:
+
+`WRITE_V15F_HANDOFF.bat`

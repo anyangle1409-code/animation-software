@@ -108,17 +108,21 @@ Work may continue autonomously on:
 
 ## V15 fast path
 
-Run:
+From `HIGH_DETAIL_MESH_WORK`, run:
 
-`scripts/prepare_v15_deep_hand_blender.py`
+`START_V15_HAND.bat`
 
-It creates:
+This is the authoritative start path. It runs V15 preflight, creates
+`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend` from V13e
+if needed, and opens Blender with diagnostic groups plus the V15 Hand sidebar.
+The preparation has **zero intended geometry displacement**.
 
-`HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15a_deep_hand_rebuild.blend`
+Optional static tooling check first:
 
-with diagnostic vertex groups and **zero intended geometry displacement**.
+`CHECK_PREPARED_TOOLING.bat`
 
-Then perform only the local finger shaft/joint rebuild described in `V15_DEEP_HAND_REBUILD_PLAN.md`.
+Then perform only the local finger shaft/joint rebuild described in
+`V15_DEEP_HAND_REBUILD_PLAN.md`.
 
 ## Hard rules
 

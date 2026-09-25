@@ -135,6 +135,27 @@ function interpretCommon(
     } else {
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
+  } else if (implement === 'cable') {
+    const others = slots.equipment.filter((slot) => slot.value !== 'cable');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} variant is certified on the cable station only.`,
+        ),
+      );
+    } else if (slots.equipment.length === 0) {
+      assumptions.push('Cable tower with the family\'s certified attachment, the equipment this variant uses.');
+    }
+    if (slots.loads.length > 0) {
+      issues.push(
+        blocking(
+          'load',
+          `${quote(slots.loads.map((slot) => slot.words))}: cable resistance is not parameterised in the current equipment model, so the number would be ignored. Omit the stack weight for now.`,
+        ),
+      );
+    }
+    load = 0;
   } else {
     const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
     if (others.length > 0) {

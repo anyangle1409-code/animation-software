@@ -1,5 +1,36 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
+## Prepared next attempt: V15f local ring/pinky reconstruction
+
+After the 2026-09-25 V15a–e session, the next attempt is deliberately narrower.
+
+Read:
+
+- `V15_SESSION_2026-09-25.md`
+- `V15F_LOCAL_PATCH_PLAN.md`
+
+Start with:
+
+`PREPARE_V15F_LOCAL_PATCH.bat`
+
+This creates/opens a fresh V13e-derived `v15f_deep_hand_rebuild` candidate and
+adds non-destructive ring/pinky high-dihedral hotspot groups/guides.
+
+**Stage A is ring/pinky only.** Do not touch index/middle yet.
+
+After the local ring/pinky reconstruction, run:
+
+`AUDIT_V15F_STAGE_A.bat`
+
+Proceed to index/middle only if Stage A passes the V13e no-regression gate for:
+- general stable-ID/contact/topology invariants;
+- total >100° folds;
+- per-digit ring/pinky >100° folds;
+- per-digit ring/pinky >35° sharp-length ratio.
+
+Only after the complete hand passes the Blender audit should V15f enter the
+normal export/frozen/current-source review pipeline.
+
 ## 2026-09-25 checkpoint: anatomical gate not cleared
 
 V15a and V15b are preserved experimental candidates. V15b passed frozen motion/contact checks and the automated visual-change magnitude calibration, but its matched boards still show segmented finger shafts and its bind seam audit has 8 severe folds versus V13e's 4. V15e's added joint control geometry also increased sharpness. Do **not** accept/promote any V15 attempt or start grip refitting.

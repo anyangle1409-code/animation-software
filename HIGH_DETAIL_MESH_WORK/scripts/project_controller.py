@@ -354,7 +354,9 @@ def main():
 
             signature = json.dumps(
                 {"route": route, "action": status.get("next_action"), "reason": status.get("reason"),
-                 "work": budget.get("work_percent"), "claude": budget.get("claude_percent"),
+                 "work_window": budget.get("work_window_percent"),
+                 "work_week": budget.get("work_week_percent"),
+                 "claude": budget.get("claude_percent"),
                  "head": repo_state.get("head")},
                 sort_keys=True,
             )

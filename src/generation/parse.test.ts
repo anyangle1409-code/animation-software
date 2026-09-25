@@ -115,6 +115,32 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/Hanging/);
   });
 
+  it('reads both certified triceps-extension setups', () => {
+    const overhead = parsePrompt('Create an overhead dumbbell triceps extension with 8 kg dumbbells and slow tempo.');
+    expect(overhead.issues).toEqual([]);
+    expect(overhead.intent).toMatchObject({
+      family: 'extension',
+      extensionPosition: 'overhead',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 8,
+      tempo: { profile: 'slow' },
+    });
+
+    const pushdown = parsePrompt('Create a cable triceps pushdown with controlled tempo.');
+    expect(pushdown.issues).toEqual([]);
+    expect(pushdown.intent).toMatchObject({
+      family: 'extension',
+      extensionPosition: 'pushdown',
+      equipment: 'cable',
+      grip: 'pronated',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -171,6 +197,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('kipping pull-up')).toEqual(['variant']);
     expect(blocking('chin-up')).toEqual(['family']);
     expect(blocking('lat pulldown')).toEqual(['family']);
+    expect(blocking('triceps extension')).toEqual(['variant']);
+    expect(blocking('rope triceps pushdown')).toEqual(['variant']);
+    expect(blocking('single-arm cable pushdown')).toContain('variant');
+    expect(blocking('cable pushdown with 25 kg')).toEqual(['load']);
+    expect(blocking('skull crusher')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

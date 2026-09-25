@@ -96,14 +96,11 @@ describe('draft family reference packs', () => {
 
   it('rejects a row whose elbow never drives behind the torso', () => {
     const exercise = clone(bentOverRow);
-    exercise.peakPose.joints.upperarm_l = {
-      ...(exercise.peakPose.joints.upperarm_l ?? {}),
-      x: 20,
-    };
-    exercise.peakPose.joints.upperarm_r = {
-      ...(exercise.peakPose.joints.upperarm_r ?? {}),
-      x: 20,
-    };
+    exercise.jointTargets = exercise.jointTargets.map((target) =>
+      target.bone.startsWith('upperarm_') && target.axis === 'x'
+        ? { ...target, peak: 20 }
+        : target,
+    );
     const report = review(exercise, rowReferenceFor(exercise));
     expect(report.failed).toContain('row_elbow_back');
   });

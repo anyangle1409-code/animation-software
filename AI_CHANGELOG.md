@@ -6,6 +6,43 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-25 — Adjustable incline bench, and the curl at other angles
+
+Plan item 2 from `PROMPT_TO_EXERCISE_GENERATION.md`'s "Next" list: the incline bench's back angle is now a per-instance parameter, and the curl family's incline support derives its whole reclined posture from it, geometrically.
+
+Suite **871 passed / 1 skipped** (72 files; was 860), typecheck and build clean. **All 28 library clips and their exported GLBs are byte-identical** (checked before and after, `JSON.stringify(generateClip(...))` per exercise and every export).
+
+**Bench (`equipment/geometry.ts`, `equipment/types.ts`).**
+
+- `EquipmentInstance.backAngle?: number` — the incline bench's back-pad angle from horizontal, default 45°, meaningful only for `incline_bench`.
+- `equipmentParts(kind, backAngle?)` is the one function that derives a kind's geometry; `inclineBenchParts`/`inclineBackPad` derive the pad's box from a fixed hinge (the seat's top, at its back edge) for any angle. At 45° it returns exactly today's hand-placed box — kept as a literal, because floating-point trig does not reliably round-trip to those exact numbers — and every other angle solves the same hinge generically.
+- The viewport (`viewer/equipmentMeshes.tsx`), the GLB export (`export/rigBuilder.ts`, `export/glb.ts`), the collision envelope (`constraints/collision.ts`) and the body-clearance measurement (`constraints/bodyClearance.ts`) all call `equipmentParts` with the instance's own `backAngle`; none keeps a second copy.
+
+**Curl (`exercises/families/curl.ts`).**
+
+- `CurlVariant.benchAngle?: number`, default 45. `inclineGeometry(backAngle)` derives the whole reclined posture:
+  - `pitch = backAngle - 90` — a spine flush against a pad `backAngle`° up from horizontal is itself `90 - backAngle`° from vertical, so a shallower bench reclines the body *further*, not less. (`-backAngle` gives the same number only at the coincidental 45° case, which is all the code checked before.)
+  - `hang = pitch` — the shoulder undoes the trunk's own pitch so the arms hang straight down.
+  - `thigh = -pitch` — the thigh counter-rotates by the same angle the pelvis pitched back, so it stays flat on the seat; the knee and ankle are untouched, because the hip and the thigh's world orientation do not move either.
+  - `back_on_bench` band: `|pitch| ± 5°`, not `backAngle ± 5°` — the spine's own resulting deviation from vertical, which only equals `backAngle` at 45°.
+- At 45° every field curl `curlFamily` produces is exactly what it always was (`curl.test.ts`); the bench instance carries no `backAngle` at all there, matching the library's `inclineCurl` byte-for-byte.
+
+**Generator (`generation/families.ts`).**
+
+- The curl adapter's single allowed angle (45°, refused otherwise) is replaced by `CERTIFIED_INCLINE_ANGLES`, the set of angles a generated candidate has actually passed all 13 checks at, pad contact included (reached within 3 mm, pressed ≤ 15 mm), on the production character. An uncertified angle is refused with the reason, naming the angles that are certified.
+- **Certified: 45°** (already certified; unaffected).
+- **Tried and refused: 30° and 60°.** Neither has a lever — both of the curl's levers (elbow bend, upper-arm abduction) address the dumbbell's clearance from the thighs, not the trunk's from the bench frame or the pad's own compression — and no limit was loosened to try anyway:
+  - **30°** (pitch −60°, a more reclined body): the back sits **13.17 mm short of the pad**, and the trunk passes **36.31 mm through the bench's rear support post**. 1 validation, 80 s.
+  - **60°** (pitch −30°, a more upright body): the back presses **29.64 mm into the pad**, roughly twice the 15 mm compression limit. 1 validation, 72 s.
+  - Both failures are the bench's fixed frame, not the curl: the posts that hold the pad up do not move with `backAngle` and were only ever built to clear a 45° recline. Widening `CERTIFIED_INCLINE_ANGLES` needs the frame moved, which is a bench-geometry change, not this one.
+
+**Tests.**
+
+- `equipment/geometry.test.ts` (new): the bench's angle is byte-identical to today at 45° (explicit and default), ignored by every other kind, rotates only the pad, hinges at the same seat point at every angle, and the collision envelope (`equipmentDistance`/`equipmentPartDistances`) reads the same angle the viewport and export draw.
+- `exercises/families/curl.test.ts`: an explicit 45° `benchAngle` gives exactly the default's output; 30° and 60° derive the expected bench angle, back-on-bench band, thigh angle, and an unchanged knee/ankle, geometrically.
+- `generation/parse.test.ts`: a 30° and a 60° incline curl are still refused (`angle`), now because neither is certified rather than because the bench does not adjust, and the refusal message says why and names the certified angle.
+- `generation/generate.test.ts`: the 45° incline curl's bench instance carries no `backAngle`; a new test confirms 30° and 60° are refused before any validation runs, character or not.
+
 ### Claude — 2026-09-25 — Prompt-to-exercise generation: squat and lunge certified
 
 Certified the **squat** and **lunge** families for prompt generation, following the same adapter pattern as curl and overhead press. No generator code per named exercise, and no new exercise definitions: both adapters build entirely through `squatFamily` and `lungeFamily`.

@@ -6,7 +6,7 @@ import { resolveFrame } from '../animation/pipeline';
 import { applyCharacterPose } from '../character/pose';
 import { dominantBone, posedVertex } from '../character/posedMesh';
 import type { CharacterBuild } from '../character';
-import { EQUIPMENT_PARTS } from '../equipment/geometry';
+import { equipmentParts } from '../equipment/geometry';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
@@ -149,11 +149,11 @@ export function measureEquipmentClearance(
       if (instance.supportsBody) {
         const record =
           parts.get(instance.id) ??
-          EQUIPMENT_PARTS[instance.kind].map(() => ({ deepest: Number.POSITIVE_INFINITY, where: '' }));
+          equipmentParts(instance.kind, instance.backAngle).map(() => ({ deepest: Number.POSITIVE_INFINITY, where: '' }));
         for (let index = 0; index < count; index += 1) {
           if (!measured[index]) continue;
           posedVertex(body, index, local).applyMatrix4(placement);
-          equipmentPartDistances(instance.kind, local).forEach((distance, part) => {
+          equipmentPartDistances(instance.kind, local, instance.backAngle).forEach((distance, part) => {
             if (distance < record[part].deepest) {
               record[part] = { deepest: distance, where: `${time.toFixed(2)}s, ${dominantBone(body, index)}` };
             }
@@ -170,6 +170,7 @@ export function measureEquipmentClearance(
         (index, out) => (measured[index] ? posedVertex(body, index, out) : null),
         (index) => `${instance.id} at ${time.toFixed(2)}s, against ${dominantBone(body, index)}`,
         sample,
+        instance.backAngle,
       );
       worst.set(instance.id, sample);
     }
@@ -180,7 +181,7 @@ export function measureEquipmentClearance(
     const support = instance.supportsBody === true;
     const partResults: SupportPartClearance[] = support
       ? parts.get(id)!.map((part, index) => {
-          const material = EQUIPMENT_PARTS[instance.kind][index].material;
+          const material = equipmentParts(instance.kind, instance.backAngle)[index].material;
           return {
             material,
             deepest: part.deepest,

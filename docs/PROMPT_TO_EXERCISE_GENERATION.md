@@ -36,7 +36,7 @@ Nothing generated is added to the library. A candidate lives in the session's **
 - Defaults are chosen and **written down as assumptions**.
 - Generation stops with a question only when the answer would change the exercise:
   - a contradiction, such as "hammer … palms up" or two loads;
-  - something no certified family does, such as alternating or single-arm work, a 30° incline, a seated curl, a barbell, preacher or Zottman curls, a neutral-grip overhead press, or a goblet, front, pistol, jump or Bulgarian squat/lunge variant the family does not build.
+  - something no certified family does, such as alternating or single-arm work, an incline angle no candidate has passed every check at (the bench adjusts to any angle, but only 45° is certified — see "Adjustable incline bench" below), a seated curl, a barbell, preacher or Zottman curls, a neutral-grip overhead press, or a goblet, front, pistol, jump or Bulgarian squat/lunge variant the family does not build.
 - Every other movement in the library is recognised and declined with its family named ("the hinge family … is not certified for generation yet"). It is never approximated.
 
 **`families.ts`: one adapter per certified family, not per exercise.**
@@ -46,7 +46,7 @@ Nothing generated is added to the library. A candidate lives in the session's **
   - the family's **levers**: parameters the correction loop may move, each bounded by what the family already documents, with the reason it is the right lever.
 - Grip knowledge the library's hammer and reverse curls wrote per exercise (muscle emphasis, the "rolling to supination" error) is keyed by grip here, so any curl with that grip gets it.
 - **Curl:**
-  - supinated, neutral or pronated grip; standing or the 45° incline;
+  - supinated, neutral or pronated grip; standing or the incline, at any angle the bench adjusts to (`CERTIFIED_INCLINE_ANGLES` — today, only 45°);
   - levers: elbow bend at the bottom, from 16° up to 30° (the family's own clearance lever), and upper-arm abduction, up to 15°.
 - **Overhead press:**
   - pronated grip, standing or seated;
@@ -55,6 +55,10 @@ Nothing generated is added to the library. A candidate lives in the session's **
 - **Squat:** bodyweight only; the one certified variant, `squatFamily`'s bare call; no lever yet, since the reference variant passes first time on the production character.
 - **Lunge:** bodyweight only; the three certified variants — the static split squat (no step), the forward lunge and the reverse lunge — chosen by an intent field (`step`) that maps directly onto `LungeVariant.step`; no lever yet, all three pass first time.
 - Squat and lunge share `interpretCommon`'s bodyweight branch: any equipment or load named against them is refused rather than approximated, since neither family holds a load yet.
+
+**Adjustable incline bench.** The bench's back pad was a fixed 45° shape; it is now a per-instance parameter (`EquipmentInstance.backAngle`, default 45°), with one geometry function deriving every angle's pad from the same hinge — the seat's top, at its back edge — so the viewport, the GLB export, the collision envelope and the body-clearance measurement all draw and measure the same shape (`equipment/geometry.ts`'s `equipmentParts`). The curl family's incline support derives its whole reclined posture from the same angle (`inclineGeometry`): body pitch, the arm hang, the thigh angle that keeps the leg flat on the seat, and the `back_on_bench` band. At 45° every one of these is exactly what it always was — checked against the 28 library clips and their exported GLBs, byte-identical.
+
+Certifying an angle beyond 45° needs more than the geometry: the bench's frame (the posts holding the pad up) is fixed and was only ever built to clear a 45° recline. 30° and 60° were both tried on the production character and refused — see "Adjustable incline bench" in `AI_CHANGELOG.md` for the measurements. `families.ts`'s `CERTIFIED_INCLINE_ANGLES` names the angles a candidate has actually passed all 13 checks at; the parser refuses anything else, with the reason.
 
 **`validate.ts`: one report, the library's own checks at the library's own limits.**
 
@@ -105,6 +109,10 @@ On the production character (`HomeGymPT_Male_CORNER_FINAL_SHORTS.glb`):
 | Create a forward lunge. | Passed first time. | 1 | 11 s |
 | Create a reverse lunge with controlled tempo. | Passed first time. | 1 | 12 s |
 | Create a goblet squat. | **Needs a decision:** a goblet squat holds a dumbbell at the chest; the squat family is bodyweight only. Nothing built. | 0 | — |
+| Create an incline dumbbell curl at 30 degrees with 8 kg dumbbells. | **Tried while certifying, then refused.** The bench adjusts to 30°, but no lever fixes what fails there: the back sits **13.17 mm short of the pad**, and the trunk passes **36.31 mm through the bench's rear support post**. The frame was only ever built to clear a 45° recline. | 1 | 80 s |
+| Create an incline dumbbell curl at 60 degrees with 8 kg dumbbells. | **Tried while certifying, then refused.** The back presses **29.64 mm into the pad**, twice the 15 mm limit; again, no lever addresses it. | 1 | 72 s |
+
+The two rows above record what certifying 30° and 60° actually measured — each one candidate, built and validated once, to see whether it could pass. Neither did, so neither joined `CERTIFIED_INCLINE_ANGLES`, and asking for either today is refused by the parser before any validation runs (0 validations, instant), the same as the alternating hammer curl above.
 
 - In the app, on the bundled V8 body, the hammer curl's arms already clear the chest. Only the dumbbell clearance fails, so the loop resolves it with the elbow lever: 16° → 25° at the bottom, 5.27 mm clear, confirmed at 26°. Both corrections pass every check; which lever is used follows from what fails on the body measured.
 - `a standing dumbbell curl with 10 kg dumbbells` generates a definition identical in every motion field to the library's `bicepCurl` (tested). The family is the source, and the library exercise is one of its outputs. The same holds for `a bodyweight squat`, `a split squat`, `a forward lunge` and `a reverse lunge` against `airSquat`, `splitSquat`, `forwardLunge` and `reverseLunge`.
@@ -121,7 +129,8 @@ On the production character (`HomeGymPT_Male_CORNER_FINAL_SHORTS.glb`):
 ## Next
 
 1. **Certify another family** by writing its adapter: the hinge, or another bodyweight or dumbbell movement. The pipeline, checks, loop and UI are shared.
-2. **Adjustable incline bench.** A 30° or 60° incline is refused today because the bench is built at 45°. Make its back angle a parameter of the equipment and of the curl's `INCLINE`, then certify the angles that pass.
+2. ~~**Adjustable incline bench.**~~ Done (2026-09-25): the bench's back angle is a per-instance parameter (`EquipmentInstance.backAngle`), and the curl's incline support derives its whole posture from it (`inclineGeometry`). 30° and 60° were both tried on the production character and refused — the back does not reach the pad at 30°, and presses too far into it at 60°, because the bench's fixed frame was only ever built to clear a 45° recline. Widening the certified set means moving the frame, not the curl.
 3. **Levers for the press.** Add one when a certified press intent first fails a check.
 4. **Move grip knowledge into the curl family.** Muscle emphasis and the grip error would then live in one place with the forearm rotation; the library's hammer and reverse curls would stop repeating it.
 5. **Review views.** Capture the family's camera views automatically with each candidate (plan phase 10, step 8).
+6. **Move the bench's frame with the angle**, if a wider certified range is wanted: the posts that hold the pad up are fixed today, so a body reclined much past or short of 45° meets them before the pad's own geometry.

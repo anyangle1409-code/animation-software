@@ -1,5 +1,5 @@
 import { Euler, Matrix4, Vector3 } from 'three';
-import { EQUIPMENT_PARTS } from '../equipment/geometry';
+import { equipmentParts } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 import type { EquipmentKind } from '../equipment/types';
 
@@ -19,7 +19,7 @@ import type { EquipmentKind } from '../equipment/types';
  *
  * ## The envelope comes from the equipment's own geometry
  *
- * `EQUIPMENT_PARTS` is the single description the viewport and the GLB exporter
+ * `equipmentParts` is the single description the viewport and the GLB exporter
  * both build from, so deriving the collision envelope from it too means the
  * thing being measured is the thing being drawn and exported. A hand-written
  * envelope would be a third copy, free to drift from both.
@@ -102,9 +102,12 @@ function distanceToPart(part: Part, point: Vector3): number {
 /**
  * Signed distance from a point in an item's own frame to its surface: negative
  * inside, positive outside, in metres.
+ *
+ * `backAngle` reaches the incline bench's own back-pad angle through to its
+ * geometry; every other kind ignores it.
  */
-export function equipmentDistance(kind: EquipmentKind, point: Vector3): number {
-  const parts = EQUIPMENT_PARTS[kind];
+export function equipmentDistance(kind: EquipmentKind, point: Vector3, backAngle?: number): number {
+  const parts = equipmentParts(kind, backAngle);
   let closest = Number.POSITIVE_INFINITY;
   for (const part of parts) {
     local.copy(point).applyMatrix4(inverseOf(part));
@@ -116,11 +119,11 @@ export function equipmentDistance(kind: EquipmentKind, point: Vector3): number {
 
 /**
  * Signed distance from `point`, in the item's frame, to each of its parts in
- * `EQUIPMENT_PARTS` order: which part of a bench a seat meets, and which a back
+ * `equipmentParts` order: which part of a bench a seat meets, and which a back
  * rests on. `equipmentDistance` is the smallest of these.
  */
-export function equipmentPartDistances(kind: EquipmentKind, point: Vector3): number[] {
-  return EQUIPMENT_PARTS[kind].map((part) => distanceToPart(part, local.copy(point).applyMatrix4(inverseOf(part))));
+export function equipmentPartDistances(kind: EquipmentKind, point: Vector3, backAngle?: number): number[] {
+  return equipmentParts(kind, backAngle).map((part) => distanceToPart(part, local.copy(point).applyMatrix4(inverseOf(part))));
 }
 
 /**
@@ -223,11 +226,12 @@ export function measureClearance(
   points: (index: number, out: Vector3) => Vector3 | null,
   label: (index: number) => string,
   into: ClearanceSample = { closest: Number.POSITIVE_INFINITY, inside: 0, where: '' },
+  backAngle?: number,
 ): ClearanceSample {
   for (let index = 0; index < count; index += 1) {
     const world = points(index, scratch);
     if (!world) continue;
-    const distance = equipmentDistance(kind, world.applyMatrix4(toItem));
+    const distance = equipmentDistance(kind, world.applyMatrix4(toItem), backAngle);
     if (distance < 0) into.inside += 1;
     if (distance < into.closest) {
       into.closest = distance;

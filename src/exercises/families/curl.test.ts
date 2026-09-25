@@ -151,4 +151,58 @@ describe('the incline curl', () => {
       expect(frame.elbow.z, `elbow behind the hips at step ${step}`).toBeLessThan(frame.pelvis.z - 0.25);
     }
   });
+
+  it('gives an explicit 45° bench angle exactly what the default gives', () => {
+    // `benchAngle` defaults to 45, so asking for it explicitly must not be a
+    // different code path with a different answer.
+    const explicit = curlFamily({ ...variantOf(inclineCurl), benchAngle: 45 });
+    expect(explicit).toEqual(inclineCurl);
+  });
+
+  it('derives the reclined posture from the bench angle, geometrically, at other angles', () => {
+    // A shallower bench (30°) reclines the body further from vertical than a
+    // steeper one (60°) does: pitch is `backAngle - 90`, not `-backAngle`.
+    const thirty = curlFamily({ ...variantOf(inclineCurl), benchAngle: 30 });
+    const sixty = curlFamily({ ...variantOf(inclineCurl), benchAngle: 60 });
+
+    const bench = (exercise: ExerciseDefinition) =>
+      exercise.equipment.instances.find((instance) => instance.kind === 'incline_bench');
+    expect(bench(thirty)?.backAngle).toBe(30);
+    expect(bench(sixty)?.backAngle).toBe(60);
+
+    const backOnBench = (exercise: ExerciseDefinition) =>
+      exercise.technique.find((rule) => rule.id === 'back_on_bench');
+    const band = (exercise: ExerciseDefinition) => {
+      const rule = backOnBench(exercise);
+      return rule && rule.kind === 'segmentAngle' ? [rule.min, rule.max] : null;
+    };
+    // |pitch| = 90 - backAngle, ± the library's 5°.
+    expect(band(thirty)).toEqual([55, 65]);
+    expect(band(sixty)).toEqual([25, 35]);
+    expect(band(inclineCurl)).toEqual([40, 50]);
+
+    // The thigh stays flat on the seat: its flexion is `90 - backAngle`, the
+    // exact amount that cancels the trunk's own pitch.
+    expect(thirty.startPose.joints.thigh_l?.x).toBe(60);
+    expect(sixty.startPose.joints.thigh_l?.x).toBe(30);
+
+    // The knee and ankle are untouched by the angle: the hip and the thigh's
+    // world orientation do not move, so nothing downstream of the knee does
+    // either.
+    expect(thirty.startPose.joints.shin_l).toEqual(sixty.startPose.joints.shin_l);
+    expect(thirty.startPose.joints.shin_l).toEqual(inclineCurl.startPose.joints.shin_l);
+  });
 });
+
+/** The parts of `inclineCurl` that make it an incline curl, as a `CurlVariant`. */
+function variantOf(exercise: ExerciseDefinition) {
+  return {
+    id: exercise.id,
+    name: exercise.name,
+    clipName: exercise.clipName,
+    description: exercise.description ?? '',
+    grip: 'supinated' as const,
+    support: 'incline' as const,
+    mass: exercise.equipment.instances.find((instance) => instance.kind === 'dumbbell')?.mass,
+  };
+}

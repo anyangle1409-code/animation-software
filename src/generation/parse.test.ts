@@ -96,7 +96,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('curl with 10 kg and 12 kg')).toEqual(['load']);
     // Things no certified family does, declined rather than approximated.
     expect(blocking('alternating hammer curl')).toEqual(['execution']);
+    // The bench adjusts (`EquipmentInstance.backAngle`), but only 45° has
+    // actually passed every check on the production character — 30° and 60°
+    // were both tried and refused (`families.ts`'s `CERTIFIED_INCLINE_ANGLES`,
+    // `generate.test.ts`'s production-character tests). An angle the bench
+    // can be built at is still refused if no candidate there is certified.
     expect(blocking('incline curl at 30 degrees')).toEqual(['angle']);
+    expect(blocking('incline curl at 60 degrees')).toEqual(['angle']);
     expect(blocking('seated curl')).toEqual(['support']);
     expect(blocking('barbell curl')).toEqual(['equipment']);
     expect(blocking('preacher curl')).toEqual(['variant']);
@@ -109,6 +115,14 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('walking lunge')).toEqual(['variant']);
     expect(blocking('a squat with 20 kg dumbbells')).toEqual(['equipment', 'load']);
     expect(blocking('a split squat and a forward lunge')).toEqual(['variant']);
+  });
+
+  it('says why an uncertified incline angle is refused, not just that it is', () => {
+    const parsed = parsePrompt('Create an incline dumbbell curl at 30 degrees with 8 kg dumbbells.');
+    const issue = parsed.issues.find((issue) => issue.code === 'angle');
+    expect(issue?.blocking).toBe(true);
+    expect(issue?.message).toMatch(/not certified/);
+    expect(issue?.message).toMatch(/45°/);
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {

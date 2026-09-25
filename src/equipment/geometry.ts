@@ -97,6 +97,54 @@ const box = (
   rotation?: [number, number, number],
 ): Part => ({ shape: 'box', size, position, material, ...(rotation ? { rotation } : {}) });
 
+/**
+ * Where the incline bench's backrest hinges: the seat's top (0.395 + half its
+ * 0.09 thickness) at its back edge (-0.35 + half its 0.28 depth) — the point
+ * the backrest's face meets the seat, whatever angle it is set to.
+ */
+const INCLINE_HINGE = { y: 0.44, z: -0.21 };
+
+/** Half the back pad's thickness and length, metres — its own local frame. */
+const INCLINE_PAD = { halfThickness: 0.045, halfLength: 0.4 };
+
+/**
+ * The back pad, rotated about the hinge above so its face stays flush with a
+ * body reclined at the same `backAngle` (see `curl.ts`'s `inclineGeometry`,
+ * which pitches the body by the same amount). At 45° this is exactly today's
+ * hand-placed box — `[0, 0.691, 0.105]` rotated `-Math.PI / 4` — kept as a
+ * literal because floating-point trig does not reliably round-trip to those
+ * exact numbers; every other angle is this one hinge, solved generically.
+ */
+function inclineBackPad(backAngle: number): Part {
+  if (backAngle === 45) return box([0.32, 0.09, 0.8], [0, 0.691, 0.105], 'pad', [-Math.PI / 4, 0, 0]);
+  const phi = (-backAngle * Math.PI) / 180;
+  const cos = Math.cos(phi);
+  const sin = Math.sin(phi);
+  const { halfThickness: t, halfLength: L } = INCLINE_PAD;
+  // The pad's top-near corner, (y = t, z = -L) before rotation, is the point
+  // that sits at the hinge for any angle; solving that fixes the box's centre.
+  const yLocal = t * cos + L * sin;
+  const zLocal = t * sin - L * cos;
+  return box(
+    [0.32, 0.09, 0.8],
+    [0, INCLINE_HINGE.y - yLocal, INCLINE_HINGE.z - zLocal],
+    'pad',
+    [phi, 0, 0],
+  );
+}
+
+/** The incline bench's parts at a given back angle; every other part is fixed. */
+function inclineBenchParts(backAngle: number): Part[] {
+  return [
+    inclineBackPad(backAngle),
+    box([0.32, 0.09, 0.28], [0, 0.395, -0.35], 'pad'),
+    box([0.08, 0.36, 0.08], [0, 0.18, -0.45]),
+    box([0.08, 0.96, 0.08], [0, 0.48, 0.4]),
+    box([0.5, 0.05, 0.06], [0, 0.03, -0.45]),
+    box([0.5, 0.05, 0.06], [0, 0.03, 0.4]),
+  ];
+}
+
 export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
   dumbbell: [
     bar(0.015, 0.12),
@@ -157,14 +205,11 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
   // thigh slopes down from the hip to the knee, and the higher, longer seat's
   // front edge sank 40 mm into it. The rear post now reaches up to hold the
   // backrest.
-  incline_bench: [
-    box([0.32, 0.09, 0.8], [0, 0.691, 0.105], 'pad', [-Math.PI / 4, 0, 0]),
-    box([0.32, 0.09, 0.28], [0, 0.395, -0.35], 'pad'),
-    box([0.08, 0.36, 0.08], [0, 0.18, -0.45]),
-    box([0.08, 0.96, 0.08], [0, 0.48, 0.4]),
-    box([0.5, 0.05, 0.06], [0, 0.03, -0.45]),
-    box([0.5, 0.05, 0.06], [0, 0.03, 0.4]),
-  ],
+  //
+  // The back angle is a per-instance parameter (`EquipmentInstance.backAngle`,
+  // default 45°); `inclineBenchParts` below derives every angle's pad from the
+  // same hinge, and this entry is exactly its 45° output — see `equipmentParts`.
+  incline_bench: inclineBenchParts(45),
 
   squat_rack: [
     ...[-0.62, 0.62].flatMap((x) =>
@@ -290,3 +335,17 @@ export const EQUIPMENT_PARTS: Record<EquipmentKind, Part[]> = {
     { shape: 'cylinder', radius: 0.0035, length: 1, position: [0, 0.5, 0], segments: 8, material: 'dark' },
   ],
 };
+
+/**
+ * A kind's parts, at an instance's own back angle where one applies.
+ *
+ * This is the one place any consumer — the viewport, the GLB export, the
+ * collision envelope, the body-clearance measurement — asks for equipment
+ * geometry when a `backAngle` might be in play, so none of them can hold a
+ * copy that drifts from what the others draw or measure. Every kind but the
+ * incline bench ignores the angle and returns its fixed `EQUIPMENT_PARTS`.
+ */
+export function equipmentParts(kind: EquipmentKind, backAngle?: number): Part[] {
+  if (kind === 'incline_bench') return inclineBenchParts(backAngle ?? 45);
+  return EQUIPMENT_PARTS[kind];
+}

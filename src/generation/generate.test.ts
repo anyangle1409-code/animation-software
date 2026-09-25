@@ -166,8 +166,31 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual(['dumbbell', 'dumbbell', 'incline_bench']);
       expect(result.exercise?.equipment.instances.find((item) => item.kind === 'dumbbell')?.mass).toBe(8);
       expect(result.reference).toBe('incline_dumbbell_curl');
+      // 45° is the bench's implicit default, so the bench instance carries no
+      // `backAngle` at all — the same shape the library's own incline curl has.
+      expect(result.exercise?.equipment.instances.find((item) => item.kind === 'incline_bench')?.backAngle).toBeUndefined();
     },
     900_000,
+  );
+
+  it(
+    'refuses an incline angle the bench adjusts to but no candidate there is certified, without spending the character',
+    async () => {
+      // 30° and 60° were both tried against this same character and refused
+      // (see `families.ts`'s `CERTIFIED_INCLINE_ANGLES`): the back does not
+      // reach the pad at 30°, and presses too far into it at 60°. The request
+      // is blocked before any validation runs, character or not.
+      for (const angle of [30, 60]) {
+        const result = await generateExerciseAsync(
+          `Create an incline dumbbell curl at ${angle} degrees with 8 kg dumbbells.`,
+          { rig, library, character },
+        );
+        expect(result.status, `${angle}°`).toBe('blocked');
+        expect(result.validations, `${angle}°`).toBe(0);
+        expect(result.parsed.issues.find((issue) => issue.code === 'angle')?.message, `${angle}°`).toMatch(/45°/);
+      }
+    },
+    30_000,
   );
 
   it(

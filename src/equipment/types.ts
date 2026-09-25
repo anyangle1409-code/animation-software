@@ -83,6 +83,15 @@ export interface EquipmentInstance {
    * may press a little way in as soft tissue does, but must not sink through.
    */
   supportsBody?: boolean;
+  /**
+   * The incline bench's back-pad angle from horizontal, degrees. Meaningful
+   * only for `incline_bench`; every other kind ignores it. Defaults to 45°,
+   * the angle the bench was originally built at, and drives the one geometry
+   * `equipment/geometry.ts` derives it from — the viewport, the GLB export,
+   * the collision envelope and the body-clearance measurement all read the
+   * same parameterised shape, so none can draw or measure a different bench.
+   */
+  backAngle?: number;
 }
 
 export type EquipmentAttachment =

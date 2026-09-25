@@ -89,7 +89,7 @@ export async function exportGlb(
   if (includeEquipment && !clipOnly) {
     for (const instance of studioClip.equipment) {
       if (!instance.visible) continue;
-      const object = buildEquipmentObject(instance.kind);
+      const object = buildEquipmentObject(instance.kind, instance.backAngle);
       object.name = instance.label ?? instance.id;
 
       if (instance.attachment.mode === 'hand') {

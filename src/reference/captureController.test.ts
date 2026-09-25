@@ -10,6 +10,7 @@ const request = (captureId: string, time: number): ReviewCaptureRequest => ({
   time,
   normalizedTime: time / 5.5,
   viewId: captureId.split('__')[1] ?? 'front',
+  renderMode: 'beauty',
   camera: { preset: 'front', target: 'full_body' },
   viewport: {
     width: 960,
@@ -50,6 +51,7 @@ describe('local review capture controller', () => {
 
     expect(evidence.map((item) => item.captureId)).toEqual(['start__front', 'peak__front']);
     expect(evidence.every((item) => item.mimeType === 'image/png')).toBe(true);
+    expect(evidence.every((item) => item.renderMode === 'beauty')).toBe(true);
     expect(log).toEqual([
       'snapshot',
       'apply:start__front',

@@ -163,10 +163,7 @@ def main():
 
     manifest=json.loads(MANIFEST.read_text())
     certified=sorted(f["id"] for f in manifest["families"] if f["status"]=="CERTIFIED")
-    unresolved=sorted(
-        {"id":f["id"],"status":f["status"]} for f in manifest["families"]
-        if f["status"]!="CERTIFIED"
-    ) if False else [
+    unresolved=[
         {"id":f["id"],"status":f["status"]}
         for f in manifest["families"] if f["status"]!="CERTIFIED"
     ]
@@ -198,6 +195,17 @@ def main():
             "--allow-blocked permits only explicit BLOCKED families, not: "
             +", ".join(f"{x['id']}={x['status']}" for x in invalid_status)
         )
+
+    # Certification is a cheap prerequisite. Do not spend a fresh source
+    # checkout/full-suite run when the declared release scope is already known
+    # to be incomplete.
+    if report["failures"]:
+        json_path=out/"FINAL_SYSTEM_ACCEPTANCE.json"
+        md_path=ROOT/"FINAL_SYSTEM_ACCEPTANCE.md"
+        json_path.write_text(json.dumps(report,indent=2),encoding="utf-8")
+        write_markdown(report,md_path)
+        print(md_path.read_text())
+        raise SystemExit(1)
 
     ref,sha,message,fetch_code=resolve_source()
     report["source"].update({"resolved_ref":ref,"head":sha,"message":message,"fetch_returncode":fetch_code})

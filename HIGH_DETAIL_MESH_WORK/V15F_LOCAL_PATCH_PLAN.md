@@ -215,3 +215,12 @@ At any interruption run:
 `V15F_STATUS.bat`
 
 to get the current artifact/gate state and next documented action.
+
+
+## V15f-specific recovery
+
+For ring/pinky proof, scope, sharpness or severe-fold failures, read:
+
+`V15F_FAILURE_RECOVERY.md`
+
+Use the older `V15_FAILURE_RECOVERY.md` for export/frozen/current-source pipeline failures.

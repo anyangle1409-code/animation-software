@@ -11,6 +11,10 @@ import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
+import { extensionFamily } from '../exercises/families/extension';
+import type { ExtensionVariant } from '../exercises/families/extension';
+import { raiseFamily } from '../exercises/families/raise';
+import type { RaiseVariant } from '../exercises/families/raise';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -884,6 +888,195 @@ const row: GeneratorFamily<RowVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Elbow extension / triceps
+// ---------------------------------------------------------------------------
+
+const extension: GeneratorFamily<ExtensionVariant> = {
+  id: 'extension',
+  label: 'Triceps extension',
+  builder: 'extensionFamily',
+  detect:
+    /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b|\b(?:cable\s+)?(?:triceps?\s+)?push[-\s]?downs?\b|\btriceps?\s+extensions?\b/,
+
+  library: ['dumbbell_overhead_triceps_extension', 'cable_triceps_pushdown'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    const pushdown = /\bpush[-\s]?downs?\b/.test(slots.text);
+    const overhead = /\boverhead\b/.test(slots.text);
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bskull\s?crushers?\b/, 'a skull crusher is a lying extension and is not built by the standing extension variants.'],
+        [/\b(?:triceps?\s+)?kickbacks?\b/, 'a triceps kickback uses a hinged shoulder position the current extension family does not build.'],
+        [/\brope\b/, 'the current cable pushdown is certified with the straight bar, not a rope attachment.'],
+        [/\bv[-\s]?bar\b|\bangled\s+bar\b/, 'the current cable pushdown is certified with its straight bar only.'],
+        [/\breverse[-\s]?grip\b|\bunderhand\s+push[-\s]?downs?\b/, 'the current pushdown is certified with a pronated overhand grip only.'],
+        [/\b(?:one|single)\s+dumbbell\b|\btwo[-\s]?hand(?:ed)?\s+dumbbell\b/, 'the overhead family variant holds one dumbbell in each hand; a shared single dumbbell is a different equipment/contact setup.'],
+      ],
+      issues,
+    );
+
+    if (!pushdown && !overhead) {
+      issues.push(
+        blocking(
+          'variant',
+          'The extension family has two certified shapes: a standing overhead dumbbell triceps extension or a cable triceps pushdown. Name which one you want.',
+        ),
+      );
+    }
+
+    const expectedGrip: IntentGrip = pushdown ? 'pronated' : 'neutral';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified ${pushdown ? 'cable pushdown' : 'overhead extension'} uses a ${expectedGrip} grip; a ${grip} grip is not certified.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], pushdown ? 'cable pushdown' : 'overhead extension', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the extension family has no adjustable angle input.`));
+    }
+
+    const implement: IntentImplement = pushdown ? 'cable' : 'dumbbell';
+    const { load, tempo } = interpretCommon(
+      slots,
+      pushdown ? 'cable pushdown' : 'overhead triceps extension',
+      implement,
+      pushdown ? 0 : 8,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'extension',
+        equipment: implement,
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const pushdown = intent.equipment === 'cable';
+    const tempo = tempoOf(intent);
+    const title = pushdown ? 'Cable Triceps Pushdown' : 'Dumbbell Overhead Triceps Extension';
+    return {
+      ...identity(title, intent),
+      description: pushdown
+        ? `Generated from "${intent.prompt.trim()}". A standing cable triceps pushdown with a straight bar and pronated grip, elbows held at the sides${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`
+        : `Generated from "${intent.prompt.trim()}". A standing overhead triceps extension with ${formatLoad(intent.load)} in each hand, neutral grip and upper arms held overhead${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      position: pushdown ? 'pushdown' : 'overhead',
+      ...(!pushdown ? { mass: intent.load } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: extensionFamily,
+
+  reference: (intent) => (intent.equipment === 'cable' ? 'cable_triceps_pushdown' : 'dumbbell_overhead_triceps_extension'),
+
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
+// Shoulder raise
+// ---------------------------------------------------------------------------
+
+const raise: GeneratorFamily<RaiseVariant> = {
+  id: 'raise',
+  label: 'Shoulder raise',
+  builder: 'raiseFamily',
+  detect:
+    /\b(?:lateral|side|front)\s+(?:dumbbell\s+)?raises?\b|\bdumbbell\s+(?:lateral|side|front)\s+raises?\b/,
+
+  library: ['dumbbell_lateral_raise', 'dumbbell_front_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    const direction = /\bfront\b/.test(slots.text) ? 'front' as const : 'lateral' as const;
+
+    unsupportedNames(
+      slots,
+      [
+        [/\brear(?:[-\s]delt)?\b|\breverse\s+fly\b/, 'a rear-delt raise/fly uses a different shoulder path and is not in the current raise family.'],
+        [/\bbent[-\s]?over\b/, 'a bent-over raise changes torso support and shoulder direction; not certified.'],
+        [/\blean[-\s]?away\b/, 'a lean-away raise changes the body/equipment relationship and is not certified.'],
+        [/\bplate\b/, 'the current raise family uses paired dumbbells, not a shared weight plate.'],
+        [/\by[-\s]?raise\b/, 'a Y-raise continues into a different overhead/scapular range; not certified.'],
+      ],
+      issues,
+    );
+
+    const expectedGrip: IntentGrip = direction === 'front' ? 'pronated' : 'neutral';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified ${direction} raise uses a ${expectedGrip} forearm/grip orientation; a ${grip} grip is not certified.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], `${direction} raise`, assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the raise family stops at its certified shoulder-height range rather than taking a requested angle.`));
+    }
+
+    const { load, tempo } = interpretCommon(slots, `${direction} raise`, 'dumbbell', 6, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'raise',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const direction = /\bfront\b/.test(intent.prompt.toLowerCase()) ? 'front' as const : 'lateral' as const;
+    const tempo = tempoOf(intent);
+    const title = direction === 'front' ? 'Dumbbell Front Raise' : 'Dumbbell Lateral Raise';
+    return {
+      ...identity(title, intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standing ${direction} raise with ${formatLoad(intent.load)} in each hand, a soft fixed elbow and the arms stopping at shoulder height${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      direction,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: raiseFamily,
+
+  reference: (intent) => (/\bfront\b/.test(intent.prompt.toLowerCase()) ? 'dumbbell_front_raise' : 'dumbbell_lateral_raise'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -892,6 +1085,8 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   lunge as unknown as GeneratorFamily,
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
+  extension as unknown as GeneratorFamily,
+  raise as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

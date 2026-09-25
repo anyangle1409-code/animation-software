@@ -101,6 +101,11 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
                 <dt>Load</dt>
                 <dd>{result.intent.load} kg per hand</dd>
               </>
+            ) : result.intent.equipment === 'cable' ? (
+              <>
+                <dt>Equipment</dt>
+                <dd>Cable station · straight bar</dd>
+              </>
             ) : (
               <>
                 <dt>Equipment</dt>

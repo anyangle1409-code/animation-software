@@ -1,3 +1,5 @@
+export { extensionReferenceFor } from './specs/extension';
+export { raiseReferenceFor } from './specs/raise';
 export { analyseSilhouetteRgba, compareSilhouetteMetrics, silhouetteSanity } from './silhouette';
 export type { SilhouetteBounds, SilhouetteComparison, SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 export { captureReferenceEvidence } from './reviewSession';

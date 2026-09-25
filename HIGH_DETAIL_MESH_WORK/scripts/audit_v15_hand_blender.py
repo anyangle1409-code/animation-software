@@ -226,6 +226,169 @@ def snapshot(path: Path):
         ).encode("utf-8")
         item["surface_fingerprint_sha256"] = hashlib.sha256(payload).hexdigest()
 
+    # Finger shape-profile diagnostics. These are deliberately advisory, not
+    # acceptance gates yet. They measure whether a finger still has abrupt
+    # cross-section/diameter changes even when dihedral counts improve.
+    #
+    # Each digit is projected along its three-bone centerline. In longitudinal
+    # bins we report radial spread, transverse axis ratio and adjacent radius
+    # jumps. This helps distinguish a genuinely smoother shaft from a lower
+    # fold count that still looks segmented/"sausage-link".
+    arm = bpy.data.objects.get("HomeGymPT_Male_Rig")
+    if arm is not None:
+        to_body = body.matrix_world.inverted() @ arm.matrix_world
+
+        def chain_points(digit, side):
+            bones = arm.data.bones
+            names = [f"DEF-f_{digit}.{i:02d}.{side}" for i in (1, 2, 3)]
+            if any(name not in bones for name in names):
+                return None
+            b1, b2, b3 = [bones[name] for name in names]
+            return [
+                to_body @ b1.head_local,
+                to_body @ b1.tail_local,
+                to_body @ b2.tail_local,
+                to_body @ b3.tail_local,
+            ]
+
+        def chain_lengths(chain):
+            lengths = [(b - a).length for a, b in zip(chain[:-1], chain[1:])]
+            total = sum(lengths)
+            cumulative = [0.0]
+            for length in lengths:
+                cumulative.append(cumulative[-1] + length)
+            return lengths, cumulative, total
+
+        def closest_arc(point, chain, lengths, cumulative):
+            best = None
+            for i, (a, b) in enumerate(zip(chain[:-1], chain[1:])):
+                ab = b - a
+                length = lengths[i]
+                if length <= 1e-12:
+                    continue
+                t = max(0.0, min(1.0, (point - a).dot(ab) / (length * length)))
+                q = a + t * ab
+                d2 = (point - q).length_squared
+                item = (d2, cumulative[i] + t * length)
+                if best is None or item[0] < best[0]:
+                    best = item
+            return best[1] if best is not None else 0.0
+
+        def chain_point_tangent(chain, lengths, cumulative, arc):
+            arc = max(0.0, min(float(arc), cumulative[-1]))
+            for i, (a, b) in enumerate(zip(chain[:-1], chain[1:])):
+                if arc <= cumulative[i + 1] + 1e-12:
+                    length = lengths[i]
+                    if length <= 1e-12:
+                        return a.copy(), Vector((1.0, 0.0, 0.0))
+                    t = (arc - cumulative[i]) / length
+                    return a.lerp(b, max(0.0, min(1.0, t))), (b - a).normalized()
+            return chain[-1].copy(), (chain[-1] - chain[-2]).normalized()
+
+        def percentile(values, q):
+            return float(np.percentile(values, q)) if values else 0.0
+
+        for key, item in per_digit.items():
+            digit, side = key.rsplit("_", 1)
+            chain = chain_points(digit, side)
+            if chain is None:
+                item["shape_profile"] = {"available": False}
+                continue
+
+            lengths, cumulative, total_length = chain_lengths(chain)
+            verts = [v for v, owner_key in owned.items() if owner_key == key]
+            bin_count = 14
+            bins = [[] for _ in range(bin_count)]
+            if total_length > 1e-12:
+                for v in verts:
+                    arc = closest_arc(v.co, chain, lengths, cumulative)
+                    u = max(0.0, min(0.999999, arc / total_length))
+                    bins[int(u * bin_count)].append(v.co.copy())
+
+            sections = []
+            for i, points in enumerate(bins):
+                if len(points) < 4:
+                    continue
+                arc = ((i + 0.5) / bin_count) * total_length
+                center, tangent = chain_point_tangent(chain, lengths, cumulative, arc)
+
+                ref = Vector((0.0, 0.0, 1.0))
+                if abs(tangent.dot(ref)) > 0.9:
+                    ref = Vector((0.0, 1.0, 0.0))
+                axis_u = tangent.cross(ref)
+                if axis_u.length <= 1e-12:
+                    axis_u = Vector((1.0, 0.0, 0.0))
+                else:
+                    axis_u.normalize()
+                axis_v = tangent.cross(axis_u).normalized()
+
+                transverse = []
+                radii = []
+                for p in points:
+                    delta = p - center
+                    x = float(delta.dot(axis_u))
+                    y = float(delta.dot(axis_v))
+                    transverse.append((x, y))
+                    radii.append(math.sqrt(x * x + y * y))
+
+                mean_radius = float(np.mean(radii)) if radii else 0.0
+                std_radius = float(np.std(radii)) if radii else 0.0
+                radius_cv = std_radius / mean_radius if mean_radius > 1e-12 else 0.0
+
+                axis_ratio = 0.0
+                if len(transverse) >= 4:
+                    arr = np.asarray(transverse, dtype=float)
+                    cov = np.cov(arr, rowvar=False)
+                    eig = np.linalg.eigvalsh(cov)
+                    high = max(float(eig[-1]), 0.0)
+                    low = max(float(eig[0]), 0.0)
+                    if high > 1e-18:
+                        axis_ratio = math.sqrt(low / high)
+
+                sections.append({
+                    "bin": i,
+                    "point_count": len(points),
+                    "arc_fraction": (i + 0.5) / bin_count,
+                    "mean_radius_mm": mean_radius * 1000.0,
+                    "radius_cv": radius_cv,
+                    "transverse_axis_ratio": axis_ratio,
+                })
+
+            means = [s["mean_radius_mm"] for s in sections]
+            median_radius = float(np.median(means)) if means else 0.0
+            jumps = [
+                abs(b - a) / median_radius
+                for a, b in zip(means[:-1], means[1:])
+                if median_radius > 1e-12
+            ]
+            second = [
+                abs(means[i + 1] - 2.0 * means[i] + means[i - 1]) / median_radius
+                for i in range(1, len(means) - 1)
+                if median_radius > 1e-12
+            ]
+            cvs = [s["radius_cv"] for s in sections]
+            axis_ratios = [s["transverse_axis_ratio"] for s in sections]
+
+            item["shape_profile"] = {
+                "available": bool(sections),
+                "section_bins_requested": bin_count,
+                "section_bins_used": len(sections),
+                "median_radius_mm": median_radius,
+                "radius_cv_median": percentile(cvs, 50),
+                "radius_cv_p90": percentile(cvs, 90),
+                "transverse_axis_ratio_median": percentile(axis_ratios, 50),
+                "transverse_axis_ratio_p10": percentile(axis_ratios, 10),
+                "radius_profile_jump_p90_norm": percentile(jumps, 90),
+                "radius_profile_jump_max_norm": max(jumps) if jumps else 0.0,
+                "radius_profile_second_diff_p90_norm": percentile(second, 90),
+                "sections": sections,
+                "note": (
+                    "Advisory bind-pose shape metric. Lower radius-profile jump/"
+                    "second-difference suggests smoother diameter continuity; "
+                    "axis ratio closer to 1 suggests a rounder sampled cross-section."
+                ),
+            }
+
     # Bone-weight normalization only; diagnostic selection groups are ignored.
     new_weight_errors = []
     for v in bm.verts:
@@ -353,7 +516,49 @@ for key in sorted(set(baseline["per_digit_surface"]) & set(cand["per_digit_surfa
             d["dihedral_edge_count_gt_deg"]["100"] - b["dihedral_edge_count_gt_deg"]["100"]
         ),
         "boundary_edge_delta": d["boundary_edges"] - b["boundary_edges"],
+        "shape_profile_jump_p90_delta": (
+            d.get("shape_profile", {}).get("radius_profile_jump_p90_norm", 0.0)
+            - b.get("shape_profile", {}).get("radius_profile_jump_p90_norm", 0.0)
+        ),
+        "shape_profile_second_diff_p90_delta": (
+            d.get("shape_profile", {}).get("radius_profile_second_diff_p90_norm", 0.0)
+            - b.get("shape_profile", {}).get("radius_profile_second_diff_p90_norm", 0.0)
+        ),
+        "shape_radius_cv_p90_delta": (
+            d.get("shape_profile", {}).get("radius_cv_p90", 0.0)
+            - b.get("shape_profile", {}).get("radius_cv_p90", 0.0)
+        ),
+        "shape_axis_ratio_median_delta": (
+            d.get("shape_profile", {}).get("transverse_axis_ratio_median", 0.0)
+            - b.get("shape_profile", {}).get("transverse_axis_ratio_median", 0.0)
+        ),
     }
+
+shape_quality_priority = sorted(
+    (
+        {
+            "digit": key,
+            "candidate_radius_profile_jump_p90_norm": (
+                cand["per_digit_surface"][key]
+                .get("shape_profile", {})
+                .get("radius_profile_jump_p90_norm", 0.0)
+            ),
+            "candidate_second_diff_p90_norm": (
+                cand["per_digit_surface"][key]
+                .get("shape_profile", {})
+                .get("radius_profile_second_diff_p90_norm", 0.0)
+            ),
+            "jump_delta_vs_v13e": surface_deltas[key]["shape_profile_jump_p90_delta"],
+            "second_diff_delta_vs_v13e": surface_deltas[key]["shape_profile_second_diff_p90_delta"],
+        }
+        for key in cand["per_digit_surface"]
+    ),
+    key=lambda item: (
+        item["candidate_radius_profile_jump_p90_norm"],
+        item["candidate_second_diff_p90_norm"],
+    ),
+    reverse=True,
+)
 
 faceting_priority = sorted(
     (
@@ -391,6 +596,7 @@ report = {
     "candidate_topology": cand,
     "per_digit_surface_delta_vs_v13e": surface_deltas,
     "remaining_faceting_priority": faceting_priority,
+    "shape_quality_priority": shape_quality_priority,
     "checks": checks,
     "pass": all(checks.values()),
     "note": (

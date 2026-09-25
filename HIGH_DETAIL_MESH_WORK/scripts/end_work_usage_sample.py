@@ -48,6 +48,8 @@ if week_before is not None and week_after is not None:
     cmd += ["--before-week",str(week_before),"--after-week",str(float(week_after))]
 if args.credits_used is not None:
     cmd += ["--credits-used",str(args.credits_used)]
+if data.get("fast_mode"):
+    cmd += ["--fast"]
 if notes:
     cmd += ["--notes",notes]
 

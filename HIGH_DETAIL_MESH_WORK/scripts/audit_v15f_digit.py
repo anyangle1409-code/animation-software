@@ -24,7 +24,8 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "v15f_deep_hand_rebuild"
 BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 AUDIT = ROOT / "reports" / f"audit_{VERSION}_blender.json"
-ALLOWED = {"ring_L", "ring_R", "pinky_L", "pinky_R"}
+ORDER = ("ring_L", "ring_R", "pinky_L", "pinky_R")
+ALLOWED = set(ORDER)
 
 def find_blender():
     explicit = os.environ.get("BLENDER_EXE")
@@ -64,8 +65,18 @@ def main():
     b = baseline["per_digit_surface"][digit]
     c = candidate["per_digit_surface"][digit]
 
+    movement = report.get("per_digit_original_movement_vs_v13e", {})
+    allowed_now = set(ORDER[: ORDER.index(digit) + 1])
+    outside_allowed = {
+        key: item for key, item in movement.items() if key not in allowed_now
+    }
+
     checks = {
         "general_invariants_pass": bool(report.get("pass")),
+        "only_approved_sequence_digits_changed": all(
+            float(item.get("max_move_mm", 0.0)) <= 1e-6
+            for item in outside_allowed.values()
+        ),
         "total_gt100_folds_not_worse": (
             int(candidate["digit_folds_over_100deg"])
             <= int(baseline["digit_folds_over_100deg"])
@@ -99,6 +110,8 @@ def main():
             "gt50": float(c["sharp_length_ratio_gt_50"]),
             "gt100_folds": int(c["dihedral_edge_count_gt_deg"]["100"]),
         },
+        "approved_changed_digits": sorted(allowed_now),
+        "scope_movement": movement,
         "checks": checks,
         "pass": all(checks.values()),
         "next_if_pass": (

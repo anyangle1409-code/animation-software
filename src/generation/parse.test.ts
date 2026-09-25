@@ -166,6 +166,29 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it('reads bodyweight and dumbbell calf raises', () => {
+    const bodyweight = parsePrompt('Create a bodyweight calf raise with slow tempo.');
+    expect(bodyweight.issues).toEqual([]);
+    expect(bodyweight.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'bodyweight',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'slow' },
+    });
+    expect(bodyweight.intent?.grip).toBeUndefined();
+
+    const loaded = parsePrompt('Create a calf raise with 18 kg dumbbells.');
+    expect(loaded.issues).toEqual([]);
+    expect(loaded.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 18,
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -232,6 +255,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('plate front raise')).toEqual(['variant']);
     expect(blocking('lateral raise with palms down')).toEqual(['grip']);
     expect(blocking('lateral raise and front raise')).toEqual(['variant']);
+    expect(blocking('seated calf raise')).toContain('variant');
+    expect(blocking('single-leg calf raise')).toContain('variant');
+    expect(blocking('barbell calf raise')).toContain('variant');
+    expect(blocking('bodyweight calf raise with 20 kg')).toEqual(['load']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

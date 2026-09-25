@@ -1,3 +1,5 @@
+export { supineReferenceFor } from './specs/supine';
+export { carryReferenceFor } from './specs/carry';
 export { horizontalPressReferenceFor } from './specs/horizontalPress';
 export { calfReferenceFor } from './specs/calf';
 export { trunkFlexionReferenceFor } from './specs/trunkFlexion';

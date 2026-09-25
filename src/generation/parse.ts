@@ -25,12 +25,11 @@ import { readSlots } from './slots';
 const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:leg|hamstring|nordic|lying leg)\s+curls?\b/, 'a leg curl works the hamstrings on a machine; the curl family is the elbow-flexion curl.'],
   [/\bwrist\s+curls?\b/, 'a wrist curl moves only the wrist; not certified.'],
-  [/\b(?:bench|chest|floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b|\bfl(?:y|ies|yes)\b/, 'lying presses and flyes belong to the supine family (dumbbell bench press, dumbbell fly), which is not certified for generation yet.'],
+  [/\b(?:floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b/, 'the supine family is certified for flat dumbbell bench press only; floor and incline presses are not certified yet.'],
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
   [/\bchin[-\s]?ups?\b|\blat\s+pull(?:down)?s?\b/, 'the vertical-pull family is certified for strict pronated pull-ups only; chin-ups and pulldowns are not certified yet.'],
   [/\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bcable\s+triceps?\b/, 'the extension family is certified for the standing dumbbell overhead extension only; cable pushdowns and skull crushers are not certified yet.'],
   [/\bcalves\b/, 'name the movement as a calf raise so the generator can choose the certified calf family explicitly.'],
-  [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
   [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],
 ];
 

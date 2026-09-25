@@ -82,6 +82,25 @@ def visual_decision_state():
         "path": str(RING_VISUAL),
     }
 
+def stage_a_gate_state():
+    path = ROOT / "reports" / "v15f_stage_a_gate.json"
+    data = read_json(path)
+    if data is None:
+        return {"exists": False, "current": False, "pass": None, "path": str(path)}
+    expected = data.get("surface_fingerprints_sha256") or {}
+    current_fp = current_surface_fingerprints()
+    current = bool(
+        expected
+        and all(expected.get(key) == current_fp.get(key) for key in DIGITS)
+    )
+    return {
+        "exists": True,
+        "current": current,
+        "pass": data.get("pass") if current else None,
+        "path": str(path),
+        "read_error": data.get("_read_error"),
+    }
+
 def stage_a_visual_state():
     data = read_json(STAGE_A_VISUAL)
     if data is None:
@@ -164,7 +183,7 @@ def main():
         digit_states[digit] = state
         result["gates"][digit] = state
 
-    stage_a = gate_state(ROOT / "reports" / "v15f_stage_a_gate.json")
+    stage_a = stage_a_gate_state()
     result["gates"]["stage_A"] = stage_a
     stage_a_visual = stage_a_visual_state()
     result["gates"]["stage_A_visual"] = stage_a_visual
@@ -241,9 +260,12 @@ def main():
             print(json.dumps(result, indent=2))
             return
 
-    if not stage_a["exists"]:
+    if not stage_a["exists"] or not stage_a["current"]:
         result["next_action"] = "AUDIT_V15F_STAGE_A.bat"
-        result["reason"] = "All four incremental ring/pinky gates pass; Stage A is missing."
+        result["reason"] = (
+            "All four incremental ring/pinky gates pass; Stage A is missing or stale "
+            "for the current ring/pinky surfaces."
+        )
         print(json.dumps(result, indent=2))
         return
     if stage_a["pass"] is not True:

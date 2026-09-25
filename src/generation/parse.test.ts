@@ -203,6 +203,30 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/Walking/);
   });
 
+  it('reads crunch and sit-up through the trunk-flexion family', () => {
+    const crunch = parsePrompt('Create a crunch with controlled tempo.');
+    expect(crunch.issues).toEqual([]);
+    expect(crunch.intent).toMatchObject({
+      family: 'trunk_flexion',
+      trunkMotion: 'crunch',
+      equipment: 'bodyweight',
+      support: 'lying',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+
+    const situp = parsePrompt('Create a sit-up with slow tempo.');
+    expect(situp.issues).toEqual([]);
+    expect(situp.intent).toMatchObject({
+      family: 'trunk_flexion',
+      trunkMotion: 'situp',
+      equipment: 'bodyweight',
+      support: 'lying',
+      load: 0,
+      tempo: { profile: 'slow' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -277,6 +301,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking("single-arm farmer's carry")).toContain('variant');
     expect(blocking("kettlebell farmer's walk")).toContain('variant');
     expect(blocking("standing farmer's walk")).toContain('support');
+    expect(blocking('reverse crunch')).toContain('variant');
+    expect(blocking('bicycle crunch')).toContain('variant');
+    expect(blocking('weighted sit-up with 10 kg dumbbell')).toContain('variant');
+    expect(blocking('crunch and sit-up')).toEqual(['variant']);
+    expect(blocking('standing crunch')).toContain('support');
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

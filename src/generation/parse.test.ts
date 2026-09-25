@@ -141,6 +141,31 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it('reads both certified shoulder-raise directions', () => {
+    const lateral = parsePrompt('Create a lateral raise with 7 kg dumbbells and controlled tempo.');
+    expect(lateral.issues).toEqual([]);
+    expect(lateral.intent).toMatchObject({
+      family: 'raise',
+      raiseDirection: 'lateral',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 7,
+      tempo: { profile: 'controlled' },
+    });
+
+    const front = parsePrompt('Create a front raise with 5 kg dumbbells.');
+    expect(front.issues).toEqual([]);
+    expect(front.intent).toMatchObject({
+      family: 'raise',
+      raiseDirection: 'front',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      load: 5,
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -202,6 +227,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('single-arm cable pushdown')).toContain('variant');
     expect(blocking('cable pushdown with 25 kg')).toEqual(['load']);
     expect(blocking('skull crusher')).toEqual(['family']);
+    expect(blocking('single-arm lateral raise')).toContain('variant');
+    expect(blocking('cable lateral raise')).toContain('variant');
+    expect(blocking('plate front raise')).toEqual(['variant']);
+    expect(blocking('lateral raise with palms down')).toEqual(['grip']);
+    expect(blocking('lateral raise and front raise')).toEqual(['variant']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

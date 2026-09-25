@@ -189,6 +189,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it("reads the certified farmer's walk", () => {
+    const parsed = parsePrompt("Create a farmer's walk with 28 kg dumbbells.");
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'carry',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'walking',
+      load: 28,
+      tempo: { profile: 'family' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/Walking/);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -259,6 +273,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('single-leg calf raise')).toContain('variant');
     expect(blocking('barbell calf raise')).toContain('variant');
     expect(blocking('bodyweight calf raise with 20 kg')).toEqual(['load']);
+    expect(blocking("farmer's walk with controlled tempo")).toContain('tempo');
+    expect(blocking("single-arm farmer's carry")).toContain('variant');
+    expect(blocking("kettlebell farmer's walk")).toContain('variant');
+    expect(blocking("standing farmer's walk")).toContain('support');
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

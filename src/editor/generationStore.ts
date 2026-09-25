@@ -8,6 +8,10 @@ import { generateExerciseAsync } from '../generation/generate';
 import type { GenerationResult } from '../generation/generate';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { useStudio } from './store';
+import { browserReviewCaptureAvailable } from '../reference/browserCapture';
+import { captureReferenceEvidence } from '../reference/reviewSession';
+import { curlReferenceFor } from '../reference/specs/curl';
+import type { ReviewEvidenceBatch } from '../reference/evidence';
 
 /**
  * Generated candidates for this session.
@@ -24,6 +28,11 @@ export interface Candidate {
   prompt: string;
   result: GenerationResult;
   approved: boolean;
+  review?: {
+    status: 'capturing' | 'ready' | 'error';
+    batch?: ReviewEvidenceBatch;
+    error?: string;
+  };
 }
 
 interface GenerationState {
@@ -93,6 +102,51 @@ export const useGeneration = create<GenerationState>((set, get) => ({
     set({ running: false, candidates: [candidate, ...get().candidates], selected: candidate.key });
     // A blocked request has nothing to show; anything built is previewed at once.
     if (result.exercise) get().preview(candidate.key);
+
+    // Curl is the first family with an independent local reference pack. If the
+    // browser capture bridge is present, collect its deterministic review pack
+    // automatically. This evidence never changes GenerationStatus or approval.
+    if (
+      result.exercise &&
+      result.family?.id === 'curl' &&
+      browserReviewCaptureAvailable()
+    ) {
+      const key = candidate.key;
+      set({
+        candidates: get().candidates.map((entry) =>
+          entry.key === key ? { ...entry, review: { status: 'capturing' } } : entry,
+        ),
+      });
+      try {
+        // Preview loaded a fresh deterministic clip into the Studio. Capture the
+        // exact clip the viewport is actually showing rather than a stale copy.
+        const document = useStudio.getState().document;
+        const batch = await captureReferenceEvidence(
+          curlReferenceFor(document.exercise),
+          document.exercise,
+          document.clip,
+        );
+        set({
+          candidates: get().candidates.map((entry) =>
+            entry.key === key ? { ...entry, review: { status: 'ready', batch } } : entry,
+          ),
+        });
+      } catch (error) {
+        set({
+          candidates: get().candidates.map((entry) =>
+            entry.key === key
+              ? {
+                  ...entry,
+                  review: {
+                    status: 'error',
+                    error: error instanceof Error ? error.message : String(error),
+                  },
+                }
+              : entry,
+          ),
+        });
+      }
+    }
   },
 
   preview: (key) => {

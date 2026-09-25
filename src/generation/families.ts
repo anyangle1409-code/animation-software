@@ -16,6 +16,8 @@ import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
 import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
+import { extensionFamily } from '../exercises/families/extension';
+import type { ExtensionVariant } from '../exercises/families/extension';
 import { rowFamily } from '../exercises/families/row';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { hingeFamily } from '../exercises/families/hinge';
@@ -1282,6 +1284,116 @@ const calf: GeneratorFamily<CalfVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Elbow extension / triceps
+// ---------------------------------------------------------------------------
+
+const extension: GeneratorFamily<ExtensionVariant> = {
+  id: 'extension',
+  label: 'Triceps extension',
+  builder: 'extensionFamily',
+  detect: /\btriceps?\s+(?:extensions?|push[-\s]?downs?)\b|\boverhead\s+(?:triceps?\s+)?extensions?\b|\bcable\s+(?:triceps?\s+)?push[-\s]?downs?\b/,
+
+  library: ['dumbbell_overhead_triceps_extension', 'cable_triceps_pushdown'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bskull\s?crushers?\b|\blying\s+triceps?\s+extensions?\b/, 'a skull crusher is a lying/supine extension with different support and arm position; not certified.'],
+        [/\bkickbacks?\b/, 'a triceps kickback uses a hinged torso and the arm behind the body; not certified by this family.'],
+        [/\brope\b/, 'the current cable pushdown is certified with the straight bar, not a rope attachment.'],
+        [/\breverse[-\s]?grip\b|\bunderhand\b/, 'the current pushdown is certified with an overhand straight-bar grip only.'],
+        [/\bsingle[-\s]arm\b|\bone[-\s]arm\b|\bunilateral\b/, 'the current extension variants are even-sided bilateral movements.'],
+      ],
+      issues,
+    );
+
+    const pushdown = /\bpush[-\s]?downs?\b/.test(slots.text);
+    const overhead = /\boverhead\b/.test(slots.text);
+    let position: 'overhead' | 'pushdown' = 'overhead';
+    if (pushdown && overhead) {
+      issues.push(blocking('position', 'The request asks for both an overhead extension and a pushdown; choose one.'));
+    } else if (pushdown) {
+      position = 'pushdown';
+    } else if (overhead) {
+      position = 'overhead';
+    } else {
+      issues.push(
+        blocking(
+          'position',
+          'A triceps extension needs its position. Ask for an overhead dumbbell triceps extension or a cable triceps pushdown so the equipment and arm position are not guessed.',
+        ),
+      );
+    }
+
+    const implement: IntentImplement = position === 'pushdown' ? 'cable' : 'dumbbell';
+    const expectedGrip = position === 'pushdown' ? 'pronated' : 'neutral';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          `The certified ${position === 'pushdown' ? 'cable pushdown' : 'overhead extension'} uses a ${expectedGrip} grip; a ${grip} grip is not certified.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'triceps extension', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the extension family has no adjustable body/bench angle input.`));
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      position === 'pushdown' ? 'cable triceps pushdown' : 'overhead triceps extension',
+      implement,
+      8,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'extension',
+        equipment: implement,
+        execution: 'bilateral',
+        grip,
+        support,
+        position,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const pushdown = intent.position === 'pushdown';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(pushdown ? 'Cable Triceps Pushdown' : 'Dumbbell Overhead Triceps Extension', intent),
+      description: pushdown
+        ? `Generated from "${intent.prompt.trim()}". A standing cable triceps pushdown on the straight bar, elbows pinned at the sides and palms down${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`
+        : `Generated from "${intent.prompt.trim()}". A standing overhead triceps extension with ${formatLoad(intent.load)} in each hand, upper arms fixed overhead and palms facing in${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      position: pushdown ? 'pushdown' : 'overhead',
+      ...(!pushdown ? { mass: intent.load } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: extensionFamily,
+
+  reference: (intent) => (intent.position === 'pushdown' ? 'cable_triceps_pushdown' : 'dumbbell_overhead_triceps_extension'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1294,6 +1406,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   horizontalPress as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
+  extension as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

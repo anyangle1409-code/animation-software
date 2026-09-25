@@ -1,7 +1,9 @@
 import type { CameraPresetId } from '../viewer/cameraTypes';
 import type { ReviewMomentId } from './reviewManifest';
+import type { SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 
 export type ReviewCropTarget = 'full_body' | 'upper_body' | 'hands' | 'shoulders' | 'feet';
+export type ReviewRenderMode = 'beauty' | 'silhouette';
 
 export interface CaptureViewportProfile {
   width: number;
@@ -27,6 +29,7 @@ export interface ReviewCaptureRequest {
   time: number;
   normalizedTime: number;
   viewId: string;
+  renderMode: ReviewRenderMode;
   camera: CaptureCameraRequest;
   viewport: CaptureViewportProfile;
 }
@@ -39,6 +42,7 @@ export interface ReviewImageEvidenceMeta {
   time: number;
   normalizedTime: number;
   viewId: string;
+  renderMode: ReviewRenderMode;
   width: number;
   height: number;
   mimeType: 'image/png';
@@ -50,6 +54,10 @@ export interface ReviewImageEvidenceMeta {
  */
 export interface ReviewImageEvidence extends ReviewImageEvidenceMeta {
   image: Uint8Array | ArrayBuffer | Blob;
+  silhouette?: {
+    metrics: SilhouetteMetrics;
+    sanity: SilhouetteSanity;
+  };
 }
 
 export interface ReviewEvidenceBatch {

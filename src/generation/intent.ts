@@ -54,6 +54,8 @@ export interface ExerciseIntent {
   benchAngle?: number;
   /** Only the lunge family reads this. */
   step?: IntentStep;
+  /** Only the raise family reads this. */
+  raiseDirection?: 'lateral' | 'front';
   /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };

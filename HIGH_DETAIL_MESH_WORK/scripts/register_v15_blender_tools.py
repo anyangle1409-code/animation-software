@@ -34,6 +34,23 @@ ZONES = [
     ("DISTAL_ZONE", "Distal", "Distal shaft/tip transition"),
 ]
 
+V15F_DIGITS = [
+    ("RING", "Ring", ""),
+    ("PINKY", "Pinky", ""),
+]
+V15F_SIDES = [
+    ("L", "Left", ""),
+    ("R", "Right", ""),
+]
+V15F_HOTSPOTS = [
+    ("GT35", ">35°", "Edges above 35 degrees"),
+    ("GT50", ">50°", "Edges above 50 degrees"),
+    ("GT75", ">75°", "Edges above 75 degrees"),
+    ("GT100", ">100°", "Severe fold edges"),
+    ("PIP_HOT", "PIP hot", "PIP-local sharp region"),
+    ("DIP_HOT", "DIP hot", "DIP-local sharp region"),
+]
+
 def body_object():
     return bpy.data.objects.get(BODY_NAME)
 
@@ -174,6 +191,39 @@ class V15_OT_toggle_guides(Operator):
         self.report({"INFO"}, f"V15 guides {state}")
         return {"FINISHED"}
 
+class V15_OT_select_v15f_hotspot(Operator):
+    bl_idname = "v15.select_v15f_hotspot"
+    bl_label = "Select V15f Hotspot"
+    bl_options = {"REGISTER"}
+
+    def execute(self, context):
+        digit = context.scene.v15f_digit
+        side = context.scene.v15f_side
+        hotspot = context.scene.v15f_hotspot
+        name = f"V15F_{digit}_{side}_{hotspot}"
+        try:
+            count = select_group(name)
+            self.report({"INFO"}, f"{name}: {count} vertices")
+            return {"FINISHED"}
+        except Exception as exc:
+            self.report({"ERROR"}, str(exc))
+            return {"CANCELLED"}
+
+class V15_OT_toggle_v15f_guides(Operator):
+    bl_idname = "v15.toggle_v15f_guides"
+    bl_label = "Toggle V15f Hotspot Guides"
+    bl_options = {"REGISTER"}
+
+    def execute(self, context):
+        collection = bpy.data.collections.get("V15F_HOTSPOT_GUIDES")
+        if collection is None:
+            self.report({"ERROR"}, "V15F_HOTSPOT_GUIDES collection missing")
+            return {"CANCELLED"}
+        collection.hide_viewport = not collection.hide_viewport
+        state = "hidden" if collection.hide_viewport else "visible"
+        self.report({"INFO"}, f"V15f hotspot guides {state}")
+        return {"FINISHED"}
+
 class V15_OT_checkpoint(Operator):
     bl_idname = "v15.save_checkpoint"
     bl_label = "Save Checkpoint Copy"
@@ -226,6 +276,18 @@ class V15_PT_hand_tools(Panel):
         row.operator("v15.reveal_all", icon="HIDE_ON")
 
         layout.operator("v15.toggle_guides", icon="EMPTY_AXIS")
+
+        if candidate_version().startswith("v15f"):
+            layout.separator()
+            box = layout.box()
+            box.label(text="V15f ring/pinky proof")
+            box.label(text="Start with Ring Left only")
+            box.prop(context.scene, "v15f_digit", text="Digit")
+            box.prop(context.scene, "v15f_side", text="Side")
+            box.prop(context.scene, "v15f_hotspot", text="Hotspot")
+            box.operator("v15.select_v15f_hotspot", icon="RESTRICT_SELECT_OFF")
+            box.operator("v15.toggle_v15f_guides", icon="EMPTY_AXIS")
+
         layout.separator()
         layout.operator("v15.save_checkpoint", icon="FILE_TICK")
 
@@ -236,6 +298,8 @@ CLASSES = (
     V15_OT_isolate_selected,
     V15_OT_reveal_all,
     V15_OT_toggle_guides,
+    V15_OT_select_v15f_hotspot,
+    V15_OT_toggle_v15f_guides,
     V15_OT_checkpoint,
     V15_PT_hand_tools,
 )
@@ -254,12 +318,30 @@ def register():
         bpy.types.Scene.v15_zone = EnumProperty(
             name="V15 Zone", items=ZONES, default="CORE"
         )
+    if not hasattr(bpy.types.Scene, "v15f_digit"):
+        bpy.types.Scene.v15f_digit = EnumProperty(
+            name="V15f Digit", items=V15F_DIGITS, default="RING"
+        )
+    if not hasattr(bpy.types.Scene, "v15f_side"):
+        bpy.types.Scene.v15f_side = EnumProperty(
+            name="V15f Side", items=V15F_SIDES, default="L"
+        )
+    if not hasattr(bpy.types.Scene, "v15f_hotspot"):
+        bpy.types.Scene.v15f_hotspot = EnumProperty(
+            name="V15f Hotspot", items=V15F_HOTSPOTS, default="GT50"
+        )
 
 def unregister():
     if hasattr(bpy.types.Scene, "v15_digit"):
         del bpy.types.Scene.v15_digit
     if hasattr(bpy.types.Scene, "v15_zone"):
         del bpy.types.Scene.v15_zone
+    if hasattr(bpy.types.Scene, "v15f_digit"):
+        del bpy.types.Scene.v15f_digit
+    if hasattr(bpy.types.Scene, "v15f_side"):
+        del bpy.types.Scene.v15f_side
+    if hasattr(bpy.types.Scene, "v15f_hotspot"):
+        del bpy.types.Scene.v15f_hotspot
     for cls in reversed(CLASSES):
         try:
             bpy.utils.unregister_class(cls)

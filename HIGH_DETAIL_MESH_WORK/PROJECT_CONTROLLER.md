@@ -131,3 +131,33 @@ Failures are logged and are not spin-retried indefinitely.
 
 The controller can be stopped by creating
 `reports/project_controller.stop` or running the stop BAT.
+
+
+## AI task preflight
+
+The controller now preflights every Work-class task before recommending it.
+
+Use:
+
+`PREPARE_NEXT_WORK_TASK.bat`
+
+It creates:
+
+`NEXT_WORK_TASK_CARD.md`
+
+The card contains:
+- whether the task is ready;
+- selected model;
+- selected reasoning level;
+- Fast mode setting;
+- estimated five-hour usage range;
+- learned weekly usage range when enough samples exist;
+- current five-hour and weekly remaining;
+- amended task scope;
+- exact next project action.
+
+A non-ready card deliberately exits with a non-zero status so it is difficult to
+mistake a SPLIT/WAIT/LOCAL decision for permission to start Work.
+
+Use `BEGIN_NEXT_WORK_TASK.bat` only after the card is ready, and
+`FINISH_WORK_TASK.bat` after checking the updated Usage meters.

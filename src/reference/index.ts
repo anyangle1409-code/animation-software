@@ -1,3 +1,8 @@
+export { overheadPressReferenceFor } from './specs/overheadPress';
+export { squatReferenceFor } from './specs/squat';
+export { lungeReferenceFor } from './specs/lunge';
+export { hingeReferenceFor } from './specs/hinge';
+export { rowReferenceFor } from './specs/row';
 export { captureReviewBatch } from './captureController';
 export type { CapturedPng, CaptureBatchProgress, ReviewCaptureAdapter } from './captureController';
 export { bodyNormalization, normalizeDelta, normalizePoint } from './normalize';

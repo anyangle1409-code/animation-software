@@ -1,9 +1,14 @@
 import type { ReviewCaptureRequest, ReviewImageEvidence, ReviewImageEvidenceMeta } from './evidence';
+import type { SilhouetteMetrics, SilhouetteSanity } from './silhouette';
 
 export interface CapturedPng {
   bytes: Uint8Array | ArrayBuffer | Blob;
   width: number;
   height: number;
+  silhouette?: {
+    metrics: SilhouetteMetrics;
+    sanity: SilhouetteSanity;
+  };
 }
 
 export interface ReviewCaptureAdapter<StateSnapshot = unknown> {
@@ -58,11 +63,12 @@ export async function captureReviewBatch<StateSnapshot>(
         time: request.time,
         normalizedTime: request.normalizedTime,
         viewId: request.viewId,
+        renderMode: request.renderMode,
         width: captured.width,
         height: captured.height,
         mimeType: 'image/png',
       };
-      evidence.push({ ...meta, image: captured.bytes });
+      evidence.push({ ...meta, image: captured.bytes, ...(captured.silhouette ? { silhouette: captured.silhouette } : {}) });
     }
     return evidence;
   } finally {

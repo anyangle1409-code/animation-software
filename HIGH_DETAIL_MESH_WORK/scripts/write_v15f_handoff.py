@@ -142,6 +142,22 @@ def main():
                     f"moved {item.get('moved_source_vertices', 0)}"
                 )
 
+    if audit:
+        shape_priority = audit.get("shape_quality_priority") or []
+        if shape_priority:
+            lines += ["", "## Shape-profile diagnostics"]
+            for item in shape_priority[:8]:
+                lines.append(
+                    f"- {item.get('digit')}: jump_p90="
+                    f"{item.get('candidate_radius_profile_jump_p90_norm', 0):.4f}; "
+                    f"second_diff_p90={item.get('candidate_second_diff_p90_norm', 0):.4f}; "
+                    f"Δjump vs V13e={item.get('jump_delta_vs_v13e', 0):+.4f}"
+                )
+            lines.append(
+                "- advisory only: lower radius-profile jump/second-difference usually "
+                "indicates smoother diameter continuity; final anatomy still needs visual review."
+            )
+
     if stage_a and stage_a.get("failures"):
         lines += ["", "## Stage-A failures"]
         lines += [f"- {item}" for item in stage_a["failures"]]

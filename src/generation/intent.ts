@@ -12,7 +12,7 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press' | 'raise';
 
 /** What the body moves against. Bodyweight families hold no equipment yet. */
 export type IntentImplement = 'dumbbell' | 'bodyweight';
@@ -25,6 +25,8 @@ export type IntentSupport = 'standing' | 'seated' | 'incline' | 'hanging' | 'flo
  * split squat: both feet stay put and the body sinks between them.
  */
 export type IntentStep = 'forward' | 'back';
+/** Direction of a movement family where the same lever moves in different planes. */
+export type IntentDirection = 'lateral' | 'front';
 
 /**
  * Named tempo prescriptions. `controlled` is the common coaching meaning — a
@@ -54,6 +56,8 @@ export interface ExerciseIntent {
   benchAngle?: number;
   /** Only the lunge family reads this. */
   step?: IntentStep;
+  /** Used by direction-aware families such as shoulder raises. */
+  direction?: IntentDirection;
   /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };

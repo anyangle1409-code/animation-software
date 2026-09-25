@@ -68,7 +68,7 @@ def effective_budget():
     week=data.get("work_week_percent")
     return window,week,data
 
-def safe_for_budget(high,window,week,cfg):
+def safe_for_budget(high,weekly_high,window,week,cfg):
     # Keep explicit headroom in the five-hour window so a task can finish,
     # checkpoint and hand off. Weekly protection is policy-based until enough
     # weekly calibration samples exist.
@@ -81,11 +81,16 @@ def safe_for_budget(high,window,week,cfg):
     if isinstance(window,(int,float)) and high+window_reserve > window:
         return False,"insufficient five-hour headroom"
     if isinstance(week,(int,float)):
-        if week <= week_reserve and high > 5:
-            return False,"weekly allowance is in reserve territory"
-        # Avoid a single medium/high task when only a modest weekly amount remains.
-        if week <= 35 and high > 12:
-            return False,"task is too large for remaining weekly allowance"
+        if isinstance(weekly_high,(int,float)):
+            if weekly_high + week_reserve > week:
+                return False,"learned weekly task estimate would consume protected weekly reserve"
+        else:
+            if week <= week_reserve and high > 5:
+                return False,"weekly allowance is in reserve territory"
+            # Until weekly calibration exists, avoid a large five-hour task when
+            # the weekly meter is already modest.
+            if week <= 35 and high > 12:
+                return False,"task is too large for remaining weekly allowance"
     return True,"within configured budget headroom"
 
 def main():
@@ -150,6 +155,8 @@ def main():
         est=estimate(task,model,reasoning,args.context)
         rng=est.get("estimated_five_hour_drop_percent") or {}
         high=rng.get("high")
+        weekly_rng=est.get("estimated_weekly_drop_percent") or {}
+        weekly_high=weekly_rng.get("high")
         considered.append({
             "model":model,
             "reasoning":reasoning,
@@ -157,7 +164,11 @@ def main():
             "estimate":est,
         })
         if isinstance(high,(int,float)):
-            ok,why=safe_for_budget(float(high),window,week,cfg)
+            ok,why=safe_for_budget(
+                float(high),
+                float(weekly_high) if isinstance(weekly_high,(int,float)) else None,
+                window,week,cfg
+            )
             if ok:
                 selected=(model,reasoning,est)
                 selected_reason=why
@@ -173,7 +184,9 @@ def main():
             "fast_mode":False,
             "scope":SCOPE_RULES.get(task),
             "estimated_five_hour_drop_percent":est.get("estimated_five_hour_drop_percent"),
+            "estimated_weekly_drop_percent":est.get("estimated_weekly_drop_percent"),
             "estimate_source":est.get("estimate_source"),
+            "weekly_estimate_source":est.get("weekly_estimate_source"),
             "work_window_remaining_percent":window,
             "work_week_remaining_percent":week,
             "reason":selected_reason,

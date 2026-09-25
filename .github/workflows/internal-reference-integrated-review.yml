@@ -3,7 +3,7 @@ name: Internal Reference Integrated Review Check
 on:
   push:
     branches:
-      - work/internal-reference-integrated-review-20260925
+      - work/current-source-self-review-20260925
   workflow_dispatch:
 
 jobs:

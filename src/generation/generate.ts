@@ -3,6 +3,9 @@ import type { StudioClip } from '../animation/clip';
 import type { CharacterBuild } from '../character';
 import type { ExerciseDefinition } from '../exercises/types';
 import type { Skeleton } from '../rig/skeleton';
+import { evaluateReference } from '../reference/evaluate';
+import { referenceForFamily } from '../reference/library';
+import type { ReferenceReport } from '../reference/types';
 import type { ExerciseIntent, ParsedPrompt } from './intent';
 import { generatorFamily } from './families';
 import type { GeneratorFamily, Lever } from './families';
@@ -81,6 +84,8 @@ export interface GenerationResult {
   /** Before any correction. */
   initial?: CandidateReport;
   report?: CandidateReport;
+  /** Independent offline reference evidence. Draft and read-only: it does not alter GenerationStatus. */
+  referenceQA?: ReferenceReport;
   attempts: CorrectionAttempt[];
   /** Accepted corrections, in words. */
   corrections: string[];
@@ -256,6 +261,18 @@ export function* generationSteps(prompt: string, options: GenerationOptions): Ge
     report: current.report,
     status: current.report.failed.length > 0 ? 'failed' : current.report.skipped.length > 0 ? 'unverified' : 'passed',
   });
+
+  // Reference QA is deliberately advisory while the first envelopes are draft.
+  // It cannot promote, block or correct a candidate. It is evidence beside the
+  // existing generator report, and only runs for families with a local reference.
+  if (family.id === 'curl') {
+    result.referenceQA = evaluateReference(
+      referenceForFamily('curl', current.exercise),
+      current.exercise,
+      current.clip,
+      { rig: options.rig, samples: 81 },
+    );
+  }
   yield { stage: 'done', message: 'Done' };
   return result;
 }

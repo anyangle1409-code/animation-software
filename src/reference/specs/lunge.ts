@@ -2,9 +2,9 @@ import type { ExerciseDefinition } from '../../exercises/types';
 import type { ReferenceCheckSpec, ReferenceSpec } from '../types';
 
 export function lungeReferenceFor(exercise: ExerciseDefinition): ReferenceSpec {
-  const stepping = exercise.id === 'forward_lunge' || exercise.id === 'reverse_lunge' || exercise.clipName.includes('lunge');
-  const forward = exercise.id === 'forward_lunge';
-  const reverse = exercise.id === 'reverse_lunge';
+  const forward = /forward_lunge/.test(exercise.id) || /forward_lunge/.test(exercise.clipName);
+  const reverse = /reverse_lunge/.test(exercise.id) || /reverse_lunge/.test(exercise.clipName);
+  const stepping = forward || reverse;
   const order = stepping ? ['step', 'bottom', 'drive', 'stand'] : ['eccentric', 'bottom', 'concentric', 'top'];
 
   const checks: ReferenceCheckSpec[] = [

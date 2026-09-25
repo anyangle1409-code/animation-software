@@ -174,4 +174,61 @@ describe('body-relative reference checks', () => {
     ]);
     expect(report.failed).toEqual(['impossible']);
   });
+
+  it('uses local PointRef offsets for anatomical landmarks', () => {
+    const bare = evaluateReference(
+      {
+        schemaVersion: 1,
+        id: 'test.pointref.bare.v1',
+        referenceVersion: 1,
+        family: 'curl',
+        status: 'draft',
+        applicability: {},
+        provenance: 'unit-test-only',
+        checks: [
+          {
+            kind: 'relativeLandmarkEnvelope',
+            id: 'head_origin',
+            label: 'Head origin',
+            point: 'head',
+            relativeTo: 'hand_l',
+            axis: 'y',
+            phases: ['squeeze'],
+            envelope: {},
+          },
+        ],
+      },
+      bicepCurl,
+      generateClip(canonicalSkeleton, bicepCurl),
+      { rig: canonicalSkeleton, samples: 101 },
+    );
+    const offset = evaluateReference(
+      {
+        schemaVersion: 1,
+        id: 'test.pointref.offset.v1',
+        referenceVersion: 1,
+        family: 'curl',
+        status: 'draft',
+        applicability: {},
+        provenance: 'unit-test-only',
+        checks: [
+          {
+            kind: 'relativeLandmarkEnvelope',
+            id: 'chin_point',
+            label: 'Chin point',
+            point: { bone: 'head', offset: { x: 0, y: 0.03, z: 0.085 } },
+            relativeTo: 'hand_l',
+            axis: 'y',
+            phases: ['squeeze'],
+            envelope: {},
+          },
+        ],
+      },
+      bicepCurl,
+      generateClip(canonicalSkeleton, bicepCurl),
+      { rig: canonicalSkeleton, samples: 101 },
+    );
+    expect(offset.checks[0].measured).not.toBeCloseTo(bare.checks[0].measured!, 6);
+  });
+
 });

@@ -18,6 +18,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -125,6 +126,9 @@ def main():
     out = ROOT / "reports" / f"v15f_{digit}_incremental_gate.json"
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps(result, indent=2))
+    subprocess.run([
+        sys.executable, ROOT / "scripts" / "write_v15f_handoff.py",
+    ], cwd=ROOT, check=False)
     if not result["pass"]:
         raise SystemExit(1)
 

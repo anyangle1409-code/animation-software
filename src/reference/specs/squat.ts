@@ -1,7 +1,7 @@
 import type { ExerciseDefinition } from '../../exercises/types';
 import type { ReferenceCheckSpec, ReferenceSpec } from '../types';
 
-export function squatReferenceFor(exercise: ExerciseDefinition): ReferenceSpec {
+export function squatReferenceFor(_exercise: ExerciseDefinition): ReferenceSpec {
   const checks: ReferenceCheckSpec[] = [
     {
       kind: 'phaseOrder',

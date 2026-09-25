@@ -1,3 +1,5 @@
+export { captureReviewBatch } from './captureController';
+export type { CapturedPng, CaptureBatchProgress, ReviewCaptureAdapter } from './captureController';
 export { bodyNormalization, normalizeDelta, normalizePoint } from './normalize';
 export type { BodyNormalization } from './normalize';
 export { compareNormalizedTrajectories, sampleNormalizedRelativeTrajectory } from './trajectory';

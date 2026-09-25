@@ -79,6 +79,21 @@ def main():
         if actual != approved.get(key):
             failures.append(f"{key}: approved Stage-A surface fingerprint changed.")
 
+    # Freeze every previously approved Stage-B digit by its visual-decision
+    # fingerprint before advancing to the next finger.
+    previous_visual_fingerprints={}
+    for previous in ORDER[:ORDER.index(digit)]:
+        marker=ROOT/"reports"/f"v15f_stage_b_{previous}_visual_decision.json"
+        if not marker.is_file():
+            failures.append(f"{previous}: prior Stage-B visual PASS marker is missing.")
+            continue
+        visual=json.loads(marker.read_text(encoding="utf-8"))
+        expected=visual.get("surface_fingerprint_sha256")
+        actual=current.get(previous,{}).get("surface_fingerprint_sha256")
+        previous_visual_fingerprints[previous]=expected
+        if visual.get("pass") is not True or not expected or expected!=actual:
+            failures.append(f"{previous}: previously approved Stage-B surface changed.")
+
     allowed=set(STAGE_A_DIGITS)|set(ORDER[:ORDER.index(digit)+1])
     for key,item in movement.items():
         if key not in allowed and float(item.get("max_move_mm",0.0))>1e-6:
@@ -112,6 +127,7 @@ def main():
         "stage":"B",
         "digit":digit,
         "approved_stage_a_fingerprints":approved,
+        "previous_stage_b_visual_fingerprints":previous_visual_fingerprints,
         "approved_changed_digits":sorted(allowed),
         "baseline":{
             "gt35":b35,"gt50":b50,"gt100_folds":b100,

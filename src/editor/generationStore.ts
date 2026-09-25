@@ -10,8 +10,10 @@ import { canonicalSkeleton } from '../rig/skeleton';
 import { useStudio } from './store';
 import { browserReviewCaptureAvailable } from '../reference/browserCapture';
 import { captureReferenceEvidence } from '../reference/reviewSession';
-import { curlReferenceFor } from '../reference/specs/curl';
+import { evaluateReference } from '../reference/evaluate';
+import { referenceForFamily } from '../reference/library';
 import type { ReviewEvidenceBatch } from '../reference/evidence';
+import type { ReferenceReport } from '../reference/types';
 
 /**
  * Generated candidates for this session.
@@ -29,7 +31,9 @@ export interface Candidate {
   result: GenerationResult;
   approved: boolean;
   review?: {
-    status: 'capturing' | 'ready' | 'error';
+    /** Draft independent numeric reference QA. Evidence only until certified. */
+    reference: ReferenceReport;
+    status: 'reference_only' | 'capturing' | 'ready' | 'error';
     batch?: ReviewEvidenceBatch;
     error?: string;
   };
@@ -103,48 +107,68 @@ export const useGeneration = create<GenerationState>((set, get) => ({
     // A blocked request has nothing to show; anything built is previewed at once.
     if (result.exercise) get().preview(candidate.key);
 
-    // Curl is the first family with an independent local reference pack. If the
-    // browser capture bridge is present, collect its deterministic review pack
-    // automatically. This evidence never changes GenerationStatus or approval.
-    if (
-      result.exercise &&
-      result.family?.id === 'curl' &&
-      browserReviewCaptureAvailable()
-    ) {
+    // Every currently prompt-certified family has a separate draft reference
+    // pack on this branch. Run that independent numeric QA after the normal
+    // generator has finished. It is evidence only: it cannot promote, block or
+    // correct a candidate while the reference packs remain draft.
+    if (result.exercise && result.family) {
       const key = candidate.key;
+      const document = useStudio.getState().document;
+      const reference = referenceForFamily(result.family.id, document.exercise);
+      const referenceReport = evaluateReference(
+        reference,
+        document.exercise,
+        document.clip,
+        { rig: canonicalSkeleton, samples: 101 },
+      );
+      const canCapture = browserReviewCaptureAvailable();
+
       set({
         candidates: get().candidates.map((entry) =>
-          entry.key === key ? { ...entry, review: { status: 'capturing' } } : entry,
+          entry.key === key
+            ? {
+                ...entry,
+                review: {
+                  reference: referenceReport,
+                  status: canCapture ? 'capturing' : 'reference_only',
+                },
+              }
+            : entry,
         ),
       });
-      try {
-        // Preview loaded a fresh deterministic clip into the Studio. Capture the
-        // exact clip the viewport is actually showing rather than a stale copy.
-        const document = useStudio.getState().document;
-        const batch = await captureReferenceEvidence(
-          curlReferenceFor(document.exercise),
-          document.exercise,
-          document.clip,
-        );
-        set({
-          candidates: get().candidates.map((entry) =>
-            entry.key === key ? { ...entry, review: { status: 'ready', batch } } : entry,
-          ),
-        });
-      } catch (error) {
-        set({
-          candidates: get().candidates.map((entry) =>
-            entry.key === key
-              ? {
-                  ...entry,
-                  review: {
-                    status: 'error',
-                    error: error instanceof Error ? error.message : String(error),
-                  },
-                }
-              : entry,
-          ),
-        });
+
+      if (canCapture) {
+        try {
+          // Preview loaded a fresh deterministic clip into the Studio. Capture
+          // that exact clip rather than a stale copy held by the generator.
+          const batch = await captureReferenceEvidence(
+            reference,
+            document.exercise,
+            document.clip,
+          );
+          set({
+            candidates: get().candidates.map((entry) =>
+              entry.key === key
+                ? { ...entry, review: { reference: referenceReport, status: 'ready', batch } }
+                : entry,
+            ),
+          });
+        } catch (error) {
+          set({
+            candidates: get().candidates.map((entry) =>
+              entry.key === key
+                ? {
+                    ...entry,
+                    review: {
+                      reference: referenceReport,
+                      status: 'error',
+                      error: error instanceof Error ? error.message : String(error),
+                    },
+                  }
+                : entry,
+            ),
+          });
+        }
       }
     }
   },

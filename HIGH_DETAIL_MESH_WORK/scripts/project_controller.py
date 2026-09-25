@@ -30,6 +30,7 @@ V15_STATUS = ROOT / "scripts" / "v15f_status.py"
 V15_HANDOFF = ROOT / "scripts" / "write_v15f_handoff.py"
 SAFE_RUNNER_START = ROOT / "scripts" / "start_v15f_safe_runner.py"
 COMPARE_USAGE = ROOT / "scripts" / "compare_work_models.py"
+PLAN_WORK_TASK = ROOT / "scripts" / "plan_work_task.py"
 
 DEFAULT_CONFIG = {
     "poll_seconds": 15,
@@ -66,9 +67,11 @@ def load_config():
 def load_budget():
     data = read_json(BUDGET_PATH, {})
     return {
-        "work_percent": data.get("work_percent"),
+        "work_window_percent": data.get("work_window_percent", data.get("work_percent")),
+        "work_week_percent": data.get("work_week_percent"),
         "claude_percent": data.get("claude_percent"),
-        "work_reset_note": data.get("work_reset_note"),
+        "work_window_reset_note": data.get("work_window_reset_note", data.get("work_reset_note")),
+        "work_week_reset_note": data.get("work_week_reset_note"),
         "claude_reset_note": data.get("claude_reset_note"),
         "updated_utc": data.get("updated_utc"),
     }
@@ -123,6 +126,19 @@ def estimate_models(task_class):
     try:return json.loads(out)
     except Exception:return {"error":out}
 
+def plan_work(task_class, cfg):
+    models=cfg.get("available_work_models") or ["Luna","Terra","Sol","Astra"]
+    rc,out=run_capture([
+        sys.executable,PLAN_WORK_TASK,task_class,
+        "--context","small",
+        "--failed-attempts","0",
+        "--available-models",",".join(models),
+    ])
+    if rc!=0:
+        return {"decision":"ERROR","reason":out}
+    try:return json.loads(out)
+    except Exception:return {"decision":"ERROR","reason":out}
+
 def classify(next_action, budget, cfg):
     action = (next_action or "").strip()
     if action.startswith(("AUDIT_V15F_", "GENERATE_V15F_", "RUN_V15_POST_EDIT_ALL.bat")):
@@ -134,18 +150,28 @@ def classify(next_action, budget, cfg):
         "Repair middle", "Repair only", "Blender", "topology",
     )
     if any(x.lower() in action.lower() for x in blender_words):
-        work = budget.get("work_percent")
-        if isinstance(work, (int, float)) and work <= cfg["work_low_budget_percent"]:
-            return "WAIT_FOR_WORK_RESET"
         return "GPT_WORK"
     if not action:
         return "NORMAL_CHAT"
     return "NORMAL_CHAT"
 
-def make_work_prompt(status, route):
+def make_work_prompt(status, route, work_plan):
     action = status.get("next_action") or "Run V15F_STATUS.bat"
     reason = status.get("reason") or ""
-    return f"""Open anyangle1409-code/animation-software on branch:
+    model = work_plan.get("recommended_model") or "Use controller recommendation"
+    reasoning = work_plan.get("reasoning") or "lowest sensible"
+    fast = work_plan.get("fast_mode", False)
+    scope = work_plan.get("scope") or action
+    estimate = work_plan.get("estimated_five_hour_drop_percent") or {}
+    return f"""Before sending this task, set Work to:
+Model: {model}
+Reasoning: {reasoning}
+Fast mode: {"ON" if fast else "OFF"}
+
+Estimated 5-hour allowance use:
+{estimate.get("low", "?")}% to {estimate.get("high", "?")}% (approximate)
+
+Open anyangle1409-code/animation-software on branch:
 work/v15-deep-hand-rebuild-prep-20260925
 
 Do not modify or merge chatgpt/absolute-retarget-imports.
@@ -161,10 +187,14 @@ Controller route: {route}
 Exact current next action:
 {action}
 
+Amended task scope:
+{scope}
+
 Reason:
 {reason}
 
-Continue unattended through documented recoverable steps.
+Do only this scoped task first. Do not broaden it during the same Work task.
+Continue unattended through documented recoverable steps inside this scope.
 Use Work time only for Blender/local-GUI work and required visual reasoning.
 Let local scripts handle deterministic audits/renders/reports.
 Do not promote geometry, start Phase C, merge source, alter production
@@ -182,8 +212,8 @@ report-analysis, or mathematical task. Read only files directly needed for that
 task, use focused tests first, write durable state to the repo, then stop.
 """
 
-def write_outputs(status, route, budget, repo_state, usage_estimate):
-    WORK_PROMPT.write_text(make_work_prompt(status, route), encoding="utf-8")
+def write_outputs(status, route, budget, repo_state, usage_estimate, work_plan):
+    WORK_PROMPT.write_text(make_work_prompt(status, route, work_plan), encoding="utf-8")
     CLAUDE_PROMPT.write_text(make_claude_prompt(), encoding="utf-8")
     action = status.get("next_action") or "(none)"
     reason = status.get("reason") or ""
@@ -194,7 +224,8 @@ def write_outputs(status, route, budget, repo_state, usage_estimate):
         f"- route: **{route}**",
         f"- next action: {action}",
         f"- reason: {reason}",
-        f"- Work remaining (manual): {budget.get('work_percent')}",
+        f"- Work 5-hour remaining (manual): {budget.get('work_window_percent')}",
+        f"- Work weekly remaining (manual): {budget.get('work_week_percent')}",
         f"- Claude remaining (manual): {budget.get('claude_percent')}",
         f"- branch: {repo_state.get('branch')}",
         f"- HEAD: {repo_state.get('head')}",
@@ -215,10 +246,22 @@ def write_outputs(status, route, budget, repo_state, usage_estimate):
     else:
         lines.append(f"- unavailable: {usage_estimate.get('error') if isinstance(usage_estimate,dict) else usage_estimate}")
     lines.append("")
+    lines += [
+        "## Pre-flight Work plan",
+        f"- decision: **{work_plan.get('decision')}**",
+        f"- model: {work_plan.get('recommended_model')}",
+        f"- reasoning: {work_plan.get('reasoning')}",
+        f"- Fast mode: {'ON' if work_plan.get('fast_mode') else 'OFF'}",
+        f"- amended scope: {work_plan.get('scope')}",
+        f"- planner reason: {work_plan.get('reason')}",
+        "",
+    ]
     if route == "LOCAL_SCRIPT":
         lines.append("The local deterministic runner should handle this without spending GPT Work or Claude allowance.")
     elif route == "WAIT_FOR_WORK_RESET":
-        lines.append("Do not start another substantial Work topology task. Keep deterministic work running and resume Blender work after reset.")
+        lines.append("Do not start this Work task yet. Preserve the current allowance and wait for the tighter reset while local/normal-Chat work continues.")
+    elif route == "SPLIT_BEFORE_WORK":
+        lines.append("Do not launch the task as currently scoped. Use the amended scope above as the next smaller proof, then re-run preflight.")
     elif route == "GPT_WORK":
         lines += ["Use GPT Work for the current Blender/local-GUI step.", "Prompt file: PROJECT_CONTROLLER_WORK_PROMPT.txt"]
     elif route == "HUMAN_VISUAL":
@@ -280,7 +323,20 @@ def main():
             }
             task_class=infer_task_class(status.get("next_action"))
             usage_estimate=estimate_models(task_class)
-            write_outputs(status, route, budget, repo_state, usage_estimate)
+            work_plan=plan_work(task_class,cfg)
+
+            if route=="GPT_WORK":
+                decision=work_plan.get("decision")
+                if decision=="WAIT":
+                    route="WAIT_FOR_WORK_RESET"
+                elif decision=="SPLIT":
+                    route="SPLIT_BEFORE_WORK"
+                elif decision=="LOCAL":
+                    route="LOCAL_SCRIPT"
+                elif decision not in ("START",):
+                    route="NORMAL_CHAT"
+
+            write_outputs(status, route, budget, repo_state, usage_estimate, work_plan)
             payload = {
                 "updated_utc": utcnow(),
                 "route": route,
@@ -289,6 +345,7 @@ def main():
                 "repository": repo_state,
                 "task_class": task_class,
                 "usage_estimate": usage_estimate,
+                "work_plan": work_plan,
                 "next_file": str(NEXT_MD),
                 "work_prompt": str(WORK_PROMPT),
                 "claude_prompt": str(CLAUDE_PROMPT),
@@ -302,7 +359,13 @@ def main():
                 sort_keys=True,
             )
             if signature != last_signature:
-                log(f"route={route} next={status.get('next_action')!r} work={budget.get('work_percent')} claude={budget.get('claude_percent')}")
+                log(
+                    f"route={route} next={status.get('next_action')!r} "
+                    f"work5h={budget.get('work_window_percent')} "
+                    f"workweek={budget.get('work_week_percent')} "
+                    f"claude={budget.get('claude_percent')} "
+                    f"plan={work_plan.get('decision')}/{work_plan.get('recommended_model')}/{work_plan.get('reasoning')}"
+                )
                 last_signature = signature
 
             subprocess.run([sys.executable, str(V15_HANDOFF)], cwd=ROOT, check=False)

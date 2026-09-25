@@ -3,7 +3,7 @@ import type { Axis } from '../rig/types';
 import type { HandSpec } from '../exercises/types';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 
-export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row';
+export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull';
 export type ReferenceScale = 'standingHeight' | 'shoulderWidth' | 'armLength' | 'torsoLength';
 export type ReferenceStatus = 'draft' | 'certified';
 export type ReferenceCheckStatus = 'pass' | 'fail' | 'skip';
@@ -137,7 +137,7 @@ export type ReferenceCheckSpec =
 
 export interface ReferenceApplicability {
   handOrientation?: HandSpec['orientation'];
-  support?: 'standing' | 'seated' | 'incline';
+  support?: 'standing' | 'seated' | 'incline' | 'hanging';
 }
 
 export interface ReferenceReviewView {

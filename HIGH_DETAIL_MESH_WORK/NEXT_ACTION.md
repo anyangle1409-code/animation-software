@@ -24,7 +24,7 @@ The prep script changes no vertex positions. It creates diagnostic groups for pr
 
 Work from V13e only.
 
-Replace or redirect the interior shaft/joint surface topology that causes the broad segmented silhouette. Preserve exact anchor/contact positions and skin rows. Use rounded longitudinal flow and gradual joint transitions rather than another subdivision/smoothing-only pass.
+Replace or redirect the interior shaft/joint surface topology that causes the broad segmented silhouette. Preserve every original V8-source vertex record and its `v8_source_id`; rebuild faces/edge flow and add vertices rather than deleting original source vertices. Preserve exact anchor/contact positions and skin rows. Interpolate UVs and normalised deform weights onto new vertices. Use rounded longitudinal flow and gradual joint transitions rather than another subdivision/smoothing-only pass.
 
 Keep:
 - all **682 protected original push-up contacts** exact;
@@ -84,3 +84,12 @@ Stop and report rather than compensate if:
 - visual improvement is again marginal.
 
 Only a visibly improved and technically passing candidate may become the geometry source for Phase C grip fitting.
+
+
+## After the Blender edit
+
+Save the V15a Blend and run:
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+That single command handles invariant audit, GLB packing, bare variant, frozen validation, direct V13e/V15 visual boards and disposable latest-source integration validation.

@@ -27,7 +27,6 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\bwrist\s+curls?\b/, 'a wrist curl moves only the wrist; not certified.'],
   [/\b(?:bench|chest|floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b|\bfl(?:y|ies|yes)\b/, 'lying presses and flyes belong to the supine family (dumbbell bench press, dumbbell fly), which is not certified for generation yet.'],
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
-  [/\bpush[-\s]?ups?\b|\bpress[-\s]?ups?\b/, 'the push-up family (push-up) is not certified for generation yet.'],
   [/\bchin[-\s]?ups?\b|\blat\s+pull/, 'chin-ups and lat-pulldown variants are not certified for generation yet; the strict pronated pull-up is certified.'],
   [/\b(?:lateral|side|front)\s+raises?\b/, 'the raise family (lateral and front raise) is not certified for generation yet.'],
   [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],

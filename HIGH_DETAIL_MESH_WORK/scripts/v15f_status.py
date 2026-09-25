@@ -15,6 +15,7 @@ BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 DIGITS = ("ring_L", "ring_R", "pinky_L", "pinky_R")
 RING_VISUAL = ROOT / "reports" / "v15f_ring_visual_decision.json"
 RING_BOARD = ROOT / "renders_v15f_ring_proof" / "V15F_V13E_RING_L_PROOF.jpg"
+AUDIT = ROOT / "reports" / f"audit_{VERSION}_blender.json"
 STAGE_A_VISUAL = ROOT / "reports" / "v15f_stage_a_visual_decision.json"
 STAGE_A_BOARD = ROOT / "renders_v15f_stage_a" / "V15F_V13E_STAGE_A_RING_PINKY_PROOF.jpg"
 
@@ -41,6 +42,19 @@ def gate_state(path, timestamp_sensitive=False):
         "read_error": data.get("_read_error"),
     }
 
+def current_surface_fingerprints():
+    audit = read_json(AUDIT)
+    if not audit:
+        return {}
+    return {
+        key: item.get("surface_fingerprint_sha256")
+        for key, item in (
+            audit.get("candidate_topology", {})
+            .get("per_digit_surface", {})
+            .items()
+        )
+    }
+
 def visual_decision_state():
     data = read_json(RING_VISUAL)
     if data is None:
@@ -51,12 +65,11 @@ def visual_decision_state():
             "board_exists": RING_BOARD.is_file(),
             "path": str(RING_VISUAL),
         }
-    stat = BLEND.stat() if BLEND.is_file() else None
+    fingerprints = current_surface_fingerprints()
     current = bool(
-        stat
-        and data.get("blend_mtime_ns") == stat.st_mtime_ns
-        and data.get("blend_size") == stat.st_size
-        and RING_BOARD.is_file()
+        RING_BOARD.is_file()
+        and data.get("surface_fingerprint_sha256")
+        and data.get("surface_fingerprint_sha256") == fingerprints.get("ring_L")
     )
     return {
         "exists": True,
@@ -78,12 +91,12 @@ def stage_a_visual_state():
             "board_exists": STAGE_A_BOARD.is_file(),
             "path": str(STAGE_A_VISUAL),
         }
-    stat = BLEND.stat() if BLEND.is_file() else None
+    fingerprints = current_surface_fingerprints()
+    expected = data.get("surface_fingerprints_sha256") or {}
     current = bool(
-        stat
-        and data.get("blend_mtime_ns") == stat.st_mtime_ns
-        and data.get("blend_size") == stat.st_size
-        and STAGE_A_BOARD.is_file()
+        STAGE_A_BOARD.is_file()
+        and expected
+        and all(expected.get(key) == fingerprints.get(key) for key in expected)
     )
     return {
         "exists": True,

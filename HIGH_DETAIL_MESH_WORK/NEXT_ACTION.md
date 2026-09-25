@@ -162,3 +162,12 @@ After the actual finger geometry edit is saved:
 That handles export preparation, GLB packing, bare variant, frozen validation, V13e/V15 matched renders, seam/fold checks, visual-change metrics, latest-source integration and the consolidated report.
 
 Those are the only two workflow commands Work should need around the actual Blender modelling.
+
+
+## Resume after Work usage limit
+
+When a GPT Work session resumes after the 5-hour limit, read:
+
+`WORK_RESUME_AFTER_LIMIT.md`
+
+It is the authoritative unattended V15f resume sequence and supersedes any older generic V15 "start all eight digits" instruction.

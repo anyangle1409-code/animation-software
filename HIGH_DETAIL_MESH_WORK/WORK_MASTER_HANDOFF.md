@@ -379,3 +379,12 @@ When a GPT Work session resumes after the 5-hour limit, read:
 `WORK_RESUME_AFTER_LIMIT.md`
 
 It is the authoritative unattended V15f resume sequence and supersedes any older generic V15 "start all eight digits" instruction.
+
+
+## V15f-specific recovery
+
+For ring/pinky proof, scope, sharpness or severe-fold failures, read:
+
+`V15F_FAILURE_RECOVERY.md`
+
+Use the older `V15_FAILURE_RECOVERY.md` for export/frozen/current-source pipeline failures.

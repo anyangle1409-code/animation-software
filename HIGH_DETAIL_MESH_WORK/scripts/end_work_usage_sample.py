@@ -28,8 +28,6 @@ after=args.after
 if after is None:
     after=budget.get("work_window_percent",budget.get("work_percent"))
 week_after=args.week_after
-if week_after is None:
-    week_after=budget.get("work_week_percent")
 
 if after is None:
     raise SystemExit("No ending five-hour percentage supplied or stored.")

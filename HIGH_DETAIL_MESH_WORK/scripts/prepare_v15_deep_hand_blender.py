@@ -56,6 +56,18 @@ bpy.ops.wm.open_mainfile(filepath=str(SRC))
 body = bpy.data.objects["Mike_Freeman"]
 mesh = body.data
 
+# Track every V13e starting vertex, including the hand vertices added after V8.
+# New geometry created during V15 should carry 0/default or a duplicate that
+# the export-prep script can resolve back to 0. This lets export repair only
+# genuinely new V15 vertices without touching established V13e UV/weights.
+old_tracking = mesh.attributes.get("v15_baseline_vertex_id")
+if old_tracking is not None:
+    mesh.attributes.remove(old_tracking)
+tracking = mesh.attributes.new(name="v15_baseline_vertex_id", type="INT", domain="POINT")
+for i, item in enumerate(tracking.data):
+    item.value = i + 1
+body["v15_baseline_vertex_count"] = len(mesh.vertices)
+
 # This script must never alter geometry.
 original = np.array([tuple(v.co) for v in mesh.vertices], dtype=np.float64)
 

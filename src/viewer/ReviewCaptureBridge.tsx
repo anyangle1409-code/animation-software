@@ -50,23 +50,50 @@ async function waitForVisibleCharacter(maxFrames = 180): Promise<void> {
   throw new Error('The active character did not become ready for review capture.');
 }
 
-function handLandmarks(request: ReviewCaptureRequest): { hand_l?: { x: number; y: number; z: number }; hand_r?: { x: number; y: number; z: number } } {
+function reviewLandmarks(request: ReviewCaptureRequest) {
+  const bones =
+    request.camera.target === 'hands'
+      ? (['hand_l', 'hand_r'] as const)
+      : request.camera.target === 'shoulders'
+        ? (['upperarm_l', 'upperarm_r'] as const)
+        : request.camera.target === 'feet'
+          ? (['foot_l', 'foot_r', 'shin_l', 'shin_r'] as const)
+          : ([] as const);
+
+  if (bones.length === 0) return {};
+
   const state = useStudio.getState();
-  const canonical = sampleLandmarks(skeleton, state.document.clip, request.time, ['hand_l', 'hand_r']);
+  const canonical = sampleLandmarks(skeleton, state.document.clip, request.time, [...bones]);
   const character = useCharacter.getState().active;
-  if (!character?.handMatrix) return canonical;
+  if (!character) return canonical;
 
+  // The capture is taken after CharacterFigure has applied the requested pose.
+  // Prefer the visible character's own bones so close-up framing follows its
+  // proportions rather than the canonical mannequin.
+  character.object.updateMatrixWorld(true);
+  const result = { ...canonical };
   const point = new Vector3();
-  const matrix = new Matrix4();
-  const left = character.handMatrix('l', matrix);
-  const hand_l = left ? point.setFromMatrixPosition(left).clone() : null;
-  const right = character.handMatrix('r', matrix);
-  const hand_r = right ? point.setFromMatrixPosition(right).clone() : null;
 
-  return {
-    hand_l: hand_l ? { x: hand_l.x, y: hand_l.y, z: hand_l.z } : canonical.hand_l,
-    hand_r: hand_r ? { x: hand_r.x, y: hand_r.y, z: hand_r.z } : canonical.hand_r,
-  };
+  for (const bone of bones) {
+    const visible = character.boneByName.get(bone);
+    if (!visible) continue;
+    visible.getWorldPosition(point);
+    result[bone] = { x: point.x, y: point.y, z: point.z };
+  }
+
+  // Preserved imports may expose a calibrated hand frame that is more accurate
+  // for held equipment than the imported wrist bone itself.
+  if (request.camera.target === 'hands' && character.handMatrix) {
+    const matrix = new Matrix4();
+    for (const side of ['l', 'r'] as const) {
+      const hand = character.handMatrix(side, matrix);
+      if (!hand) continue;
+      point.setFromMatrixPosition(hand);
+      result[`hand_${side}`] = { x: point.x, y: point.y, z: point.z };
+    }
+  }
+
+  return result;
 }
 
 function reviewView(request: ReviewCaptureRequest): ReferenceReviewView {
@@ -197,7 +224,7 @@ export function ReviewCaptureBridge() {
       async capturePng(request) {
         const studio = useStudio.getState();
         const view = reviewView(request);
-        const landmarks = request.camera.target === 'hands' ? handLandmarks(request) : {};
+        const landmarks = reviewLandmarks(request);
         const setup = resolveReviewCamera(view, studio.document.exercise.camera, landmarks);
 
         const width = Math.max(1, Math.round(request.viewport.width * request.viewport.dpr));

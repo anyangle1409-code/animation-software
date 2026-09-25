@@ -13,12 +13,15 @@ import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
 import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
+import { rowFamily } from '../exercises/families/row';
+import type { RowVariant } from '../exercises/families/row';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
 import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
+import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -37,6 +40,7 @@ const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and 
 const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const RDL = 'Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.';
+const ROW = 'Create a dumbbell bent-over row with 16 kg dumbbells and controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -103,6 +107,20 @@ describe('generating without a character', () => {
   it('reproduces the library Romanian deadlift motion from a plain certified intent', () => {
     const result = generateExercise('a dumbbell Romanian deadlift', options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(romanianDeadlift));
+  });
+
+  it('builds the bent-over row from rowFamily rather than a standalone definition', () => {
+    const result = generateExercise(ROW, options);
+    expect(result.family?.id).toBe('row');
+    expect(result.exercise).toEqual(rowFamily(result.variant as RowVariant));
+    expect(result.reference).toBe('dumbbell_bent_over_row');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([16, 16]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces the library bent-over row motion from the plain certified intent', () => {
+    const result = generateExercise('a dumbbell bent-over row', options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(bentOverRow));
   });
 
   it('will not certify what it could not measure', () => {
@@ -245,6 +263,22 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.validations).toBe(1);
       expect(result.reference).toBe('dumbbell_romanian_deadlift');
       expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds a dumbbell bent-over row through the same pipeline',
+    async () => {
+      const result = await generateExerciseAsync(ROW, { rig, library, character });
+      expect(result.family?.id).toBe('row');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('dumbbell_bent_over_row');
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
       expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
     },
     900_000,

@@ -64,7 +64,8 @@
       "order": 1,
       "library": [
         "dumbbell_romanian_deadlift"
-      ]
+      ],
+      "refusal_marker": "hinge family"
     },
     {
       "id": "row",
@@ -74,7 +75,8 @@
       "order": 2,
       "library": [
         "dumbbell_bent_over_row"
-      ]
+      ],
+      "refusal_marker": "row family"
     },
     {
       "id": "raise",
@@ -85,7 +87,8 @@
       "library": [
         "dumbbell_lateral_raise",
         "dumbbell_front_raise"
-      ]
+      ],
+      "refusal_marker": "raise family"
     },
     {
       "id": "calf",
@@ -96,7 +99,8 @@
       "library": [
         "standing_calf_raise",
         "dumbbell_calf_raise"
-      ]
+      ],
+      "refusal_marker": "calf family"
     },
     {
       "id": "horizontal_press",
@@ -106,7 +110,8 @@
       "order": 5,
       "library": [
         "push_up"
-      ]
+      ],
+      "refusal_marker": "push-up family"
     },
     {
       "id": "supine",
@@ -117,7 +122,8 @@
       "library": [
         "dumbbell_bench_press",
         "dumbbell_fly"
-      ]
+      ],
+      "refusal_marker": "supine family"
     },
     {
       "id": "trunk_flexion",
@@ -128,7 +134,8 @@
       "library": [
         "crunch",
         "sit_up"
-      ]
+      ],
+      "refusal_marker": "trunk-flexion family"
     },
     {
       "id": "extension",
@@ -139,7 +146,8 @@
       "library": [
         "dumbbell_overhead_triceps_extension",
         "cable_triceps_pushdown"
-      ]
+      ],
+      "refusal_marker": "extension family"
     },
     {
       "id": "vertical_pull",
@@ -149,7 +157,8 @@
       "order": 9,
       "library": [
         "pull_up"
-      ]
+      ],
+      "refusal_marker": "vertical-pull family"
     },
     {
       "id": "carry",
@@ -159,7 +168,8 @@
       "order": 10,
       "library": [
         "farmers_walk"
-      ]
+      ],
+      "refusal_marker": "carry family"
     },
     {
       "id": "anti_rotation",
@@ -169,7 +179,8 @@
       "order": 11,
       "library": [
         "cable_pallof_press"
-      ]
+      ],
+      "refusal_marker": "anti-rotation families"
     },
     {
       "id": "rotation",
@@ -180,7 +191,8 @@
       "library": [
         "russian_twist",
         "cable_woodchop"
-      ]
+      ],
+      "refusal_marker": "rotation and anti-rotation families"
     }
   ]
 }

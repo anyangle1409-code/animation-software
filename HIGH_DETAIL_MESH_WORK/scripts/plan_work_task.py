@@ -17,6 +17,7 @@ ROOT=Path(__file__).resolve().parents[1]
 ESTIMATOR=ROOT/"scripts"/"estimate_work_usage.py"
 BUDGET=ROOT/"reports"/"ai_budget_state.json"
 CONFIG=ROOT/"PROJECT_CONTROLLER_CONFIG.json"
+VALUE_POLICY=ROOT/"USAGE_VALUE_POLICY.json"
 
 TASKS=(
     "local_script","status_or_file_check","visual_review","one_digit_topology",
@@ -59,6 +60,53 @@ def estimate(task,model,reasoning,context):
     )
     try:return json.loads(p.stdout)
     except Exception:return {"error":p.stdout,"model":model,"reasoning":reasoning}
+
+def value_policy():
+    return load(VALUE_POLICY,{})
+
+def success_probability(task,model,failed_attempts,policy):
+    base=(
+        policy.get("base_success_probability",{})
+        .get(task,{})
+        .get(model)
+    )
+    if base is None:
+        base=0.75
+    # A repeated attempt at the same capability level is less attractive after
+    # a genuine failure. Escalated profiles do not inherit that penalty.
+    if failed_attempts>0:
+        profiles=PROFILES.get(task,[])
+        original_model=profiles[0][0] if profiles else None
+        if model==original_model:
+            base*=float(policy.get("failure_probability_multiplier",0.55))
+    return max(0.05,min(0.99,float(base)))
+
+def progress_efficiency(task,model,est,failed_attempts,policy):
+    task_value=float(policy.get("task_value",{}).get(task,50))
+    blocker=float(policy.get("blocker_importance",{}).get(task,1))
+    success=success_probability(task,model,failed_attempts,policy)
+    rng=est.get("estimated_five_hour_drop_percent") or {}
+    low=rng.get("low")
+    high=rng.get("high")
+    if not isinstance(low,(int,float)) or not isinstance(high,(int,float)):
+        return {
+            "task_value":task_value,
+            "blocker_importance":blocker,
+            "success_probability":success,
+            "expected_progress":task_value*blocker*success,
+            "cost_midpoint":None,
+            "efficiency":None,
+        }
+    midpoint=max(0.25,(float(low)+float(high))/2.0)
+    expected=task_value*blocker*success
+    return {
+        "task_value":task_value,
+        "blocker_importance":blocker,
+        "success_probability":round(success,4),
+        "expected_progress":round(expected,4),
+        "cost_midpoint":round(midpoint,4),
+        "efficiency":round(expected/midpoint,4),
+    }
 
 def effective_budget():
     data=load(BUDGET,{})
@@ -113,6 +161,7 @@ def main():
     task=args.task_class
     available={x.strip() for x in args.available_models.split(",") if x.strip()}
     cfg=load(CONFIG,{})
+    policy=value_policy()
     window,week,budget=effective_budget()
 
     if task in ("local_script","full_validation"):
@@ -160,33 +209,47 @@ def main():
     ordered=profiles[index:]
 
     considered=[]
-    selected=None
-    selected_reason=None
+    safe_candidates=[]
     for model,reasoning in ordered:
         est=estimate(task,model,reasoning,args.context)
         rng=est.get("estimated_five_hour_drop_percent") or {}
         high=rng.get("high")
         weekly_rng=est.get("estimated_weekly_drop_percent") or {}
         weekly_high=weekly_rng.get("high")
-        considered.append({
-            "model":model,
-            "reasoning":reasoning,
-            "fast_mode":False,
-            "estimate":est,
-        })
+        value=progress_efficiency(task,model,est,args.failed_attempts,policy)
+        ok=False
+        why="usage estimate unavailable"
         if isinstance(high,(int,float)):
             ok,why=safe_for_budget(
                 float(high),
                 float(weekly_high) if isinstance(weekly_high,(int,float)) else None,
                 window,week,cfg
             )
-            if ok:
-                selected=(model,reasoning,est)
-                selected_reason=why
-                break
+        item={
+            "model":model,
+            "reasoning":reasoning,
+            "fast_mode":False,
+            "estimate":est,
+            "value":value,
+            "safe":ok,
+            "safety_reason":why,
+        }
+        considered.append(item)
+        if ok and isinstance(value.get("efficiency"),(int,float)):
+            safe_candidates.append(item)
+
+    selected=None
+    selected_reason=None
+    if safe_candidates:
+        best=max(safe_candidates,key=lambda item:item["value"]["efficiency"])
+        selected=(best["model"],best["reasoning"],best["estimate"],best["value"])
+        selected_reason=(
+            f"{best['safety_reason']}; highest expected project progress per "
+            f"estimated five-hour percentage point among safe capable profiles"
+        )
 
     if selected:
-        model,reasoning,est=selected
+        model,reasoning,est,value=selected
         result={
             "decision":"START",
             "task_class":task,
@@ -199,6 +262,7 @@ def main():
             "estimated_weekly_drop_percent":est.get("estimated_weekly_drop_percent"),
             "estimate_source":est.get("estimate_source"),
             "weekly_estimate_source":est.get("weekly_estimate_source"),
+            "value_score":value,
             "work_window_remaining_percent":window,
             "work_week_remaining_percent":week,
             "reason":selected_reason,

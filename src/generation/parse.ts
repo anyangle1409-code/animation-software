@@ -23,12 +23,12 @@ import { readSlots } from './slots';
  * press"). Checked first, so neither is mistaken for a certified family.
  */
 const NOT_CERTIFIED: [RegExp, string][] = [
+  [/\bleg\s+extensions?\b/, 'a leg extension needs a knee-extension machine the equipment library does not have.'],
   [/\b(?:leg|hamstring|nordic|lying leg)\s+curls?\b/, 'a leg curl works the hamstrings on a machine; the curl family is the elbow-flexion curl.'],
   [/\bwrist\s+curls?\b/, 'a wrist curl moves only the wrist; not certified.'],
   [/\b(?:bench|chest|floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b|\bfl(?:y|ies|yes)\b/, 'lying presses and flyes belong to the supine family (dumbbell bench press, dumbbell fly), which is not certified for generation yet.'],
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
   [/\bchin[-\s]?ups?\b|\blat\s+pull/, 'chin-ups and lat-pulldown variants are not certified for generation yet; the strict pronated pull-up is certified.'],
-  [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],
   [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
   [/\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/, 'the trunk-flexion family (crunch, sit-up) is not certified for generation yet.'],
   [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],

@@ -103,6 +103,8 @@ def main():
         "",
         "## Current-source integration",
         f"- Source HEAD tested: {integration.get('source_head') if integration else 'missing'}",
+        f"- Source commit: {integration.get('source_commit_message') if integration else 'missing'}",
+        f"- Full source suite: {integration.get('full_suite', {}).get('tests') if integration else 'missing'}",
         f"- New failing gate files vs V13e: {integration.get('new_failing_gate_files_vs_v13e') if integration else '—'}",
         f"- Gate files with increased failures: {integration.get('gate_files_with_increased_failed_test_count') if integration else '—'}",
         f"- Body/equipment measurement coverage unchanged: {integration.get('measurement_coverage_unchanged') if integration else '—'}",

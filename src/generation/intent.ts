@@ -12,10 +12,19 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge';
+
+/** What the body moves against. Bodyweight families hold no equipment yet. */
+export type IntentImplement = 'dumbbell' | 'bodyweight';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
 export type IntentSupport = 'standing' | 'seated' | 'incline';
+
+/**
+ * Which foot steps, for the lunge family's three variants. Undefined is the
+ * split squat: both feet stay put and the body sinks between them.
+ */
+export type IntentStep = 'forward' | 'back';
 
 /**
  * Named tempo prescriptions. `controlled` is the common coaching meaning — a
@@ -34,15 +43,18 @@ export interface ExerciseIntent {
   /** The sentence it came from. */
   prompt: string;
   family: GeneratorFamilyId;
-  /** Hand-held dumbbells, one in each hand — the only implement certified so far. */
-  equipment: 'dumbbell';
-  /** Both arms together. Alternating and single-arm work are not certified yet. */
+  /** Hand-held dumbbells, or a bodyweight lower-body family that holds no equipment yet. */
+  equipment: IntentImplement;
+  /** Both sides together. Alternating and single-limb work are not certified yet. */
   execution: 'bilateral';
-  grip: IntentGrip;
+  /** Only the dumbbell families read this. */
+  grip?: IntentGrip;
   support: IntentSupport;
   /** Bench back angle from the floor, degrees, when the support is an incline. */
   benchAngle?: number;
-  /** Load per hand, kilograms. */
+  /** Only the lunge family reads this. */
+  step?: IntentStep;
+  /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };
 }

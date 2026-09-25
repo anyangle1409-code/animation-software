@@ -43,6 +43,37 @@ Suite **871 passed / 1 skipped** (72 files; was 860), typecheck and build clean.
 - `generation/parse.test.ts`: a 30° and a 60° incline curl are still refused (`angle`), now because neither is certified rather than because the bench does not adjust, and the refusal message says why and names the certified angle.
 - `generation/generate.test.ts`: the 45° incline curl's bench instance carries no `backAngle`; a new test confirms 30° and 60° are refused before any validation runs, character or not.
 
+### Claude — 2026-09-25 — Prompt-to-exercise generation: squat and lunge certified
+
+Certified the **squat** and **lunge** families for prompt generation, following the same adapter pattern as curl and overhead press. No generator code per named exercise, and no new exercise definitions: both adapters build entirely through `squatFamily` and `lungeFamily`.
+
+- `src/generation/families.ts`:
+  - `squat` adapter — one certified variant, the bodyweight air squat. Declines goblet, front, back, overhead, Zercher, box, pistol, jump, sumo, hack and Bulgarian variants with the reason.
+  - `lunge` adapter — three certified variants chosen by a new `step` intent field mapped directly onto `LungeVariant.step`: the static split squat (no step), the forward lunge and the reverse lunge. Declines walking, lateral, curtsy, jump, Bulgarian, diagonal and twisting variants. A bare "lunge" with no direction defaults to the forward lunge, written down as an assumption.
+  - `interpretCommon` now takes an `implement` parameter (`'dumbbell' | 'bodyweight'`) instead of assuming dumbbells. A bodyweight family refuses any load or non-bodyweight equipment named against it, rather than dropping it silently — squat and lunge do not hold a load yet.
+  - `identity()` no longer appends a load to a bodyweight candidate's name and id.
+- `src/generation/intent.ts`: `GeneratorFamilyId` gains `'squat' | 'lunge'`; `ExerciseIntent.equipment` is now `IntentImplement` (`'dumbbell' | 'bodyweight'`); `grip` is optional (squat and lunge don't set it); new optional `step` field (`'forward' | 'back'`) for the lunge family.
+- `src/generation/parse.ts`: removed the squat and lunge rows from `NOT_CERTIFIED` — everything else there is still declined with its family named.
+- `src/editor/panels/GeneratePanel.tsx`: the "Understood as" panel hides Grip when the intent has none, shows the step direction under Support, and shows "Bodyweight" instead of a load for a bodyweight family. No behaviour change for curl or overhead press.
+- No new correction lever: all four certified squat/lunge requests below passed the full 13-check report on the first validation, so none was needed. Never added a lever that isn't backed by a measured failure, and never loosened a validation limit.
+
+**Measured on the production character** (`HomeGymPT_Male_CORNER_FINAL_SHORTS.glb`):
+
+- **Create a bodyweight squat with a slow tempo.** Passed first time, 1 validation, 12 s. No equipment to measure; arms 4.22 mm from the chest against the reference split squat's own 4.22 mm.
+- **Create a split squat.** Passed first time, 1 validation, 8 s.
+- **Create a forward lunge.** Passed first time, 1 validation, 11 s.
+- **Create a reverse lunge with controlled tempo.** Passed first time, 1 validation, 12 s.
+- **Create a goblet squat.** Refused: "a goblet squat holds a dumbbell or kettlebell at the chest; the squat family is bodyweight only, not certified for generation yet." Nothing built.
+- **Create a walking lunge.** Refused: "a walking lunge steps continuously without returning to standing; not certified." Nothing built.
+- **Create a squat with 20 kg dumbbells.** Refused on two counts: the dumbbells (equipment) and the load — the squat family is bodyweight only. Nothing built.
+- `a bodyweight squat`, `a split squat`, `a forward lunge` and `a reverse lunge` each generate a definition identical in every motion field to the library's `airSquat`, `splitSquat`, `forwardLunge` and `reverseLunge` (tested).
+
+Suite **868 passed / 1 skipped** (71 files; was 860/1), typecheck and build clean. **All 28 library clips are byte-identical** (compared as `JSON.stringify(generateClip(canonicalSkeleton, exercise))` for every entry of `EXERCISES`, before and after, ignoring only the clip/keyframe ids' non-deterministic per-call suffix).
+
+**Tests.** `generation/parse.test.ts` grew from 8 to 11 (new squat, lunge and refusal cases). `generation/generate.test.ts` grew from 8 to 13: two character-free tests proving the squat and lunge families are the source, and three production-character tests for the bodyweight squat, reverse lunge, split squat and forward lunge.
+
+Full write-up: `docs/PROMPT_TO_EXERCISE_GENERATION.md`.
+
 ### Claude — 2026-09-25 — Prompt-to-exercise generation: first vertical slice
 
 A typed request now becomes a validated candidate in the studio, following phases 8–10 of the self-sufficient plan:

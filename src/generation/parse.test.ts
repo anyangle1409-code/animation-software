@@ -37,6 +37,41 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent).toMatchObject({ family: 'overhead_press', grip: 'pronated', support: 'seated', load: 10 });
   });
 
+  it('reads the bodyweight squat', () => {
+    const parsed = parsePrompt('Create a bodyweight squat with a slow tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'squat',
+      equipment: 'bodyweight',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'slow' },
+    });
+    expect(parsed.intent?.grip).toBeUndefined();
+  });
+
+  it('reads the three lunge variants', () => {
+    expect(parsePrompt('Create a split squat.').intent).toMatchObject({ family: 'lunge', step: undefined });
+    expect(parsePrompt('Create a forward lunge.').intent).toMatchObject({ family: 'lunge', step: 'forward' });
+    const parsed = parsePrompt('Create a reverse lunge with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'lunge',
+      equipment: 'bodyweight',
+      step: 'back',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('defaults a bare lunge to stepping forward, and says so', () => {
+    const parsed = parsePrompt('Create a lunge.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({ family: 'lunge', step: 'forward' });
+    expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -73,6 +108,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('preacher curl')).toEqual(['variant']);
     expect(blocking('neutral grip shoulder press')).toEqual(['grip']);
     expect(blocking('arnold press')).toEqual(['family']);
+    // Squat and lunge names that share a word with a certified family but are
+    // not built by it, declined with the reason rather than approximated.
+    expect(blocking('goblet squat')).toEqual(['variant']);
+    expect(blocking('pistol squat')).toEqual(['variant']);
+    expect(blocking('walking lunge')).toEqual(['variant']);
+    expect(blocking('a squat with 20 kg dumbbells')).toEqual(['equipment', 'load']);
+    expect(blocking('a split squat and a forward lunge')).toEqual(['variant']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -84,7 +126,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['goblet squat', 'reverse lunge', 'Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

@@ -84,15 +84,29 @@ function CandidateDetail({ candidate }: { candidate: Candidate }) {
           <dl className="spec-list">
             <dt>Family</dt>
             <dd>{result.family?.label}</dd>
-            <dt>Grip</dt>
-            <dd>{result.intent.grip}</dd>
+            {result.intent.grip && (
+              <>
+                <dt>Grip</dt>
+                <dd>{result.intent.grip}</dd>
+              </>
+            )}
             <dt>Support</dt>
             <dd>
               {result.intent.support}
               {result.intent.benchAngle ? `, ${result.intent.benchAngle}°` : ''}
+              {result.intent.step ? `, stepping ${result.intent.step}` : ''}
             </dd>
-            <dt>Load</dt>
-            <dd>{result.intent.load} kg per hand</dd>
+            {result.intent.equipment === 'dumbbell' ? (
+              <>
+                <dt>Load</dt>
+                <dd>{result.intent.load} kg per hand</dd>
+              </>
+            ) : (
+              <>
+                <dt>Equipment</dt>
+                <dd>Bodyweight</dd>
+              </>
+            )}
             <dt>Tempo</dt>
             <dd>
               {'explicit' in result.intent.tempo

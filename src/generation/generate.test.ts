@@ -7,7 +7,15 @@ import type { CharacterBuild } from '../character';
 import { EXERCISES, EXERCISE_BY_ID } from '../exercises/library';
 import { curlFamily } from '../exercises/families/curl';
 import type { CurlVariant } from '../exercises/families/curl';
+import { squatFamily } from '../exercises/families/squat';
+import type { SquatVariant } from '../exercises/families/squat';
+import { lungeFamily } from '../exercises/families/lunge';
+import type { LungeVariant } from '../exercises/families/lunge';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
+import { airSquat } from '../exercises/definitions/airSquat';
+import { splitSquat } from '../exercises/definitions/splitSquat';
+import { forwardLunge } from '../exercises/definitions/forwardLunge';
+import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -23,6 +31,8 @@ const library = (id: string) => EXERCISE_BY_ID.get(id);
 const HAMMER = 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.';
 const INCLINE = 'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.';
 const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
+const SQUAT = 'Create a bodyweight squat with a slow tempo.';
+const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -48,6 +58,35 @@ describe('generating without a character', () => {
     expect(motionOf(result.exercise!)).toEqual(motionOf(bicepCurl));
   });
 
+  it(
+    'builds the squat and lunge variants from their families, not from per-exercise code',
+    () => {
+      const squat = generateExercise(SQUAT, options);
+      expect(squat.family?.id).toBe('squat');
+      expect(squat.exercise).toEqual(squatFamily(squat.variant as SquatVariant));
+      expect(squat.exercise?.equipment.instances).toEqual([]);
+      expect(squat.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+
+      const lunge = generateExercise(REVERSE_LUNGE, options);
+      expect(lunge.family?.id).toBe('lunge');
+      expect(lunge.exercise).toEqual(lungeFamily(lunge.variant as LungeVariant));
+      expect(lunge.reference).toBe('reverse_lunge');
+      expect(lunge.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    },
+    20_000,
+  );
+
+  it(
+    'reproduces the library air squat, split squat and lunge variants from the same intent',
+    () => {
+      expect(motionOf(generateExercise('a bodyweight squat', options).exercise!)).toEqual(motionOf(airSquat));
+      expect(motionOf(generateExercise('a split squat', options).exercise!)).toEqual(motionOf(splitSquat));
+      expect(motionOf(generateExercise('a forward lunge', options).exercise!)).toEqual(motionOf(forwardLunge));
+      expect(motionOf(generateExercise('a reverse lunge', options).exercise!)).toEqual(motionOf(reverseLunge));
+    },
+    20_000,
+  );
+
   it('will not certify what it could not measure', () => {
     const result = generateExercise(HAMMER, options);
     // Every character-free check passes — and the hammer curl's dumbbells are
@@ -58,7 +97,14 @@ describe('generating without a character', () => {
   });
 
   it('builds nothing from a request it has to ask about', () => {
-    for (const prompt of ['alternating hammer curl', 'incline curl at 30 degrees', 'neutral grip shoulder press', 'goblet squat']) {
+    for (const prompt of [
+      'alternating hammer curl',
+      'incline curl at 30 degrees',
+      'neutral grip shoulder press',
+      'goblet squat',
+      'walking lunge',
+      'a squat with 20 kg dumbbells',
+    ]) {
       const result = generateExercise(prompt, options);
       expect(result.status, prompt).toBe('blocked');
       expect(result.exercise, prompt).toBeUndefined();
@@ -166,6 +212,55 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.validations).toBeLessThanOrEqual(3);
       expect(result.status).toBe('failed');
       expect(result.report?.failed).toContain('equipmentClearance');
+    },
+    900_000,
+  );
+
+  it(
+    'builds a bodyweight squat through the same pipeline, with no squat-specific generator code',
+    async () => {
+      const result = await generateExerciseAsync(SQUAT, { rig, library, character });
+      expect(result.family?.id).toBe('squat');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.exercise?.equipment.instances).toEqual([]);
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds a reverse lunge through the same pipeline, with no lunge-specific generator code',
+    async () => {
+      const result = await generateExerciseAsync(REVERSE_LUNGE, { rig, library, character });
+      expect(result.family?.id).toBe('lunge');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('reverse_lunge');
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds the split squat and forward lunge too, passing first time',
+    async () => {
+      for (const [prompt, family, reference] of [
+        ['Create a split squat.', 'lunge', 'split_squat'],
+        ['Create a forward lunge.', 'lunge', 'forward_lunge'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe(family);
+        expect(result.status, prompt).toBe('passed');
+        expect(result.validations, prompt).toBe(1);
+        expect(result.reference, prompt).toBe(reference);
+      }
     },
     900_000,
   );

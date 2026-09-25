@@ -54,7 +54,10 @@ def main():
         raise SystemExit(f"V15 preparation did not create {out}")
 
     print("Opening prepared V15 candidate:", out, flush=True)
-    subprocess.Popen([exe, str(out)], cwd=ROOT)
+    subprocess.Popen([
+        exe, str(out),
+        "--python", str(ROOT / "scripts" / "register_v15_blender_tools.py"),
+    ], cwd=ROOT)
 
 if __name__ == "__main__":
     main()

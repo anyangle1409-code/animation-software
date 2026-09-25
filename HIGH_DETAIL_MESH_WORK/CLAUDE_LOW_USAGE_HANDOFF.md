@@ -65,3 +65,13 @@ Once the one requested task is complete:
 - stop.
 
 Do not consume the remainder of a Claude window inventing additional work.
+
+
+## Minimal prompt printer
+
+For one discrete Claude task, run:
+
+`PRINT_CLAUDE_TASK_PROMPT.bat <task description>`
+
+It prints a compact Claude Code prompt that points to the persistent repo memory
+instead of repeating project history.

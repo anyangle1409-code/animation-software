@@ -1,6 +1,6 @@
 # Project Controller — remote next action
 
-- generated: 2026-09-25T21:52:03Z
+- generated: 2026-09-25T22:04:55Z
 - route: GPT_WORK
 - controller: running
 - safe runner: waiting

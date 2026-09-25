@@ -103,6 +103,14 @@ def snapshot(path: Path):
     def digit_influence(v):
         return float(sum(w for gid, w in v[dlay].items() if gid in digit_ids))
 
+    def digit_owner(v):
+        values = {
+            key: sum(w for gid, w in v[dlay].items() if gid in ids)
+            for key, ids in digit_group_ids.items()
+        }
+        key = max(values, key=values.get)
+        return key if values[key] > 0.65 else None
+
     by_source = {}
     duplicates = []
     for v in bm.verts:
@@ -114,6 +122,7 @@ def snapshot(path: Path):
                 "co": tuple(float(x) for x in v.co),
                 "weights": bone_row(v),
                 "digit": digit_influence(v),
+                "digit_key": digit_owner(v),
             }
 
     # Topology checks.
@@ -247,6 +256,15 @@ protected_weight_changed = 0
 non_digit_move = 0.0
 non_digit_weight_changed = 0
 digit_move = 0.0
+per_digit_original_movement = {
+    key: {
+        "max_move_mm": 0.0,
+        "moved_source_vertices": 0,
+        "max_weight_delta": 0.0,
+        "weight_rows_changed": 0,
+    }
+    for key in baseline["per_digit_surface"]
+}
 
 def row_delta(a, b):
     keys = set(a) | set(b)
@@ -266,6 +284,19 @@ for sid in sorted(set(bmap) & set(cmap)):
             non_digit_weight_changed += 1
     else:
         digit_move = max(digit_move, move)
+        key = a.get("digit_key")
+        if key in per_digit_original_movement:
+            item = per_digit_original_movement[key]
+            item["max_move_mm"] = max(item["max_move_mm"], move)
+            item["max_weight_delta"] = max(item["max_weight_delta"], wdelta)
+            if move > 1e-6:
+                item["moved_source_vertices"] += 1
+            if wdelta > 1e-7:
+                item["weight_rows_changed"] += 1
+
+original_digit_weight_rows_changed = sum(
+    item["weight_rows_changed"] for item in per_digit_original_movement.values()
+)
 
 # V13e itself may contain inherited hand boundaries/folds; V15 must not make
 # topology health worse while rebuilding the digit surface.
@@ -278,6 +309,7 @@ checks = {
     "non_digit_positions_exact": non_digit_move < 1e-6,
     "non_digit_bone_weights_exact": non_digit_weight_changed == 0,
     "digit_original_move_within_10mm": digit_move <= 10.0 + 1e-6,
+    "original_digit_bone_weights_exact": original_digit_weight_rows_changed == 0,
     "no_duplicate_source_ids": not cand["duplicate_source_ids"],
     "degenerates_not_increased": cand["degenerate_faces"] <= baseline["degenerate_faces"],
     "nonmanifold_gt2_not_increased": cand["nonmanifold_edges_gt2"] <= baseline["nonmanifold_edges_gt2"],
@@ -328,6 +360,8 @@ report = {
     "non_digit_max_move_mm": non_digit_move,
     "non_digit_weight_rows_changed": non_digit_weight_changed,
     "digit_original_max_move_mm": digit_move,
+    "original_digit_weight_rows_changed": original_digit_weight_rows_changed,
+    "per_digit_original_movement_vs_v13e": per_digit_original_movement,
     "baseline_topology": baseline,
     "candidate_topology": cand,
     "per_digit_surface_delta_vs_v13e": surface_deltas,

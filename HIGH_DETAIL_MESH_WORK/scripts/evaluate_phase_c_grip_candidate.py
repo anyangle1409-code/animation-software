@@ -290,6 +290,32 @@ describe('Phase C temporary grip candidate limits', () => {{
     path.write_text(content, encoding="utf-8")
     return path
 
+def write_solution_selection_test(candidate):
+    sid = json.dumps(candidate["solution_id"])
+    path = WORKTREE / "src" / "character" / "__phase_c_solution_selection.test.ts"
+    content = f"""import {{ readFileSync }} from 'node:fs';
+import {{ describe, expect, it }} from 'vitest';
+import {{ canonicalSkeleton }} from '../rig/skeleton';
+import {{ retargetedCharacterSource }} from './retargetSource';
+
+describe('Phase C temporary solution selection', () => {{
+  it('loads the candidate grip solution id from tagged GLB scene metadata', async () => {{
+    const asset = process.env.PHASE_C_TAGGED_GLB!;
+    const bytes = readFileSync(asset);
+    const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+    const character = await retargetedCharacterSource({{
+      id: 'phase-c-selection',
+      label: 'Phase C selection',
+      data,
+    }}).build(canonicalSkeleton);
+    expect(character.gripSolutionId).toBe({sid});
+    character.dispose?.();
+  }});
+}});
+"""
+    path.write_text(content, encoding="utf-8")
+    return path
+
 def parse_grip_harness(text):
     owners = {}
     for line in text.splitlines():
@@ -422,6 +448,7 @@ def main():
         "source_suite": None,
         "typecheck": None,
         "joint_limits": None,
+        "solution_selection": None,
         "baseline_grip_cases": [],
         "candidate_grip_cases": [],
         "baseline_grip_summary": None,
@@ -440,6 +467,7 @@ def main():
         runner = vitest_cmd()
         inject_candidate(candidate)
         limit_test = write_joint_limit_test(candidate)
+        selection_test = write_solution_selection_test(candidate)
 
         if not args.skip_full_suite:
             suite = run(["npm", "test"], WORKTREE, log=out / "full_source_suite.log")
@@ -450,6 +478,19 @@ def main():
 
         typecheck = run(["npm", "run", "typecheck"], WORKTREE, log=out / "typecheck.log")
         report["typecheck"] = {"returncode": typecheck.returncode}
+
+        selection_env = os.environ.copy()
+        selection_env["PHASE_C_TAGGED_GLB"] = str(tagged)
+        selection = run(
+            runner + [str(selection_test.relative_to(WORKTREE))],
+            WORKTREE,
+            env=selection_env,
+            log=out / "candidate_solution_selection.log",
+        )
+        report["solution_selection"] = {
+            "returncode": selection.returncode,
+            "tests": test_counts(selection.stdout),
+        }
 
         limits = run(
             runner + [str(limit_test.relative_to(WORKTREE))],
@@ -508,6 +549,7 @@ def main():
         checks = {
             "normal_source_suite_clean": source_suite_clean,
             "candidate_typecheck_clean": typecheck.returncode == 0,
+            "candidate_solution_id_selected": selection.returncode == 0,
             "candidate_joint_limits_clean": limits.returncode == 0,
             "candidate_grip_harness_runs_clean": harness_clean,
             "no_digit_or_thumb_penetration_over_0_5mm": finger_clean,

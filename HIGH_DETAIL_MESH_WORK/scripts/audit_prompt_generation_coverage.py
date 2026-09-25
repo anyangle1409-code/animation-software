@@ -55,6 +55,7 @@ def find_library_ids(source_root):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--source-root",type=Path,default=REPO)
+    ap.add_argument("--report",type=Path)
     args=ap.parse_args()
     source=args.source_root.resolve()
 
@@ -209,7 +210,7 @@ def main():
         "failures":failures,
         "pass":not failures,
     }
-    out=ROOT/"reports"/"prompt_generation_coverage.json"
+    out=args.report.resolve() if args.report else ROOT/"reports"/"prompt_generation_coverage.json"
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(report,indent=2))
     print(json.dumps(report,indent=2))

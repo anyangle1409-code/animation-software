@@ -21,6 +21,8 @@ import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
 import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -33,6 +35,8 @@ import { overheadExtension } from '../exercises/definitions/overheadExtension';
 import { cablePushdown } from '../exercises/definitions/cablePushdown';
 import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
+import { calfRaise } from '../exercises/definitions/calfRaise';
+import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -57,6 +61,8 @@ const OVERHEAD_EXTENSION = 'Create an overhead dumbbell triceps extension with 8
 const PUSHDOWN = 'Create a cable triceps pushdown with controlled tempo.';
 const LATERAL_RAISE = 'Create a lateral raise with 7 kg dumbbells and controlled tempo.';
 const FRONT_RAISE = 'Create a front raise with 5 kg dumbbells.';
+const CALF_RAISE = 'Create a bodyweight calf raise with slow tempo.';
+const DB_CALF_RAISE = 'Create a calf raise with 18 kg dumbbells.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -197,6 +203,26 @@ describe('generating without a character', () => {
   it('reproduces both library raise motions from plain certified intents', () => {
     expect(motionOf(generateExercise('a lateral raise with dumbbells', options).exercise!)).toEqual(motionOf(lateralRaise));
     expect(motionOf(generateExercise('a front raise with dumbbells', options).exercise!)).toEqual(motionOf(frontRaise));
+  });
+
+  it('builds bodyweight and dumbbell calf raises from calfFamily', () => {
+    const bodyweight = generateExercise(CALF_RAISE, options);
+    expect(bodyweight.family?.id).toBe('calf');
+    expect(bodyweight.exercise).toEqual(calfFamily(bodyweight.variant as CalfVariant));
+    expect(bodyweight.reference).toBe('standing_calf_raise');
+    expect(bodyweight.exercise?.equipment.instances).toEqual([]);
+    expect(bodyweight.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+
+    const loaded = generateExercise(DB_CALF_RAISE, options);
+    expect(loaded.family?.id).toBe('calf');
+    expect(loaded.exercise).toEqual(calfFamily(loaded.variant as CalfVariant));
+    expect(loaded.reference).toBe('dumbbell_calf_raise');
+    expect(loaded.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([18, 18]);
+  });
+
+  it('reproduces both library calf-raise motions from plain certified intents', () => {
+    expect(motionOf(generateExercise('a bodyweight calf raise', options).exercise!)).toEqual(motionOf(calfRaise));
+    expect(motionOf(generateExercise('a dumbbell calf raise', options).exercise!)).toEqual(motionOf(dumbbellCalfRaise));
   });
 
   it('will not certify what it could not measure', () => {
@@ -405,6 +431,26 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         expect(result.family?.id, prompt).toBe('raise');
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.reference, prompt).toBe(reference);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
+    },
+    900_000,
+  );
+
+  it(
+    'builds both certified calf raises through the same production-character pipeline',
+    async () => {
+      for (const [prompt, reference] of [
+        [CALF_RAISE, 'standing_calf_raise'],
+        [DB_CALF_RAISE, 'dumbbell_calf_raise'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('calf');
         expect(result.status, prompt).toBe('passed');
         expect(result.initial?.failed, prompt).toEqual([]);
         expect(result.corrections, prompt).toEqual([]);

@@ -4,7 +4,7 @@ import type { HandSpec } from '../exercises/types';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 import type { PointRef } from '../constraints/types';
 
-export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press';
+export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'vertical_pull' | 'horizontal_press' | 'raise';
 export type ReferenceScale = 'standingHeight' | 'shoulderWidth' | 'armLength' | 'torsoLength';
 /** A reference landmark: shorthand bone name or the technique engine's full PointRef. */
 export type ReferencePoint = BoneName | PointRef;

@@ -32,3 +32,13 @@ mesh-prep branch unless the user explicitly changes that rule.
 
 At task completion, verify with the smallest relevant test, write durable state
 to the repo, and stop. Do not invent extra work just to consume the session.
+
+
+Before starting a non-trivial Claude task, read/run the low-usage preflight:
+
+- `HIGH_DETAIL_MESH_WORK/CLAUDE_USAGE_PREFLIGHT.md`
+- `HIGH_DETAIL_MESH_WORK/PLAN_CLAUDE_TASK.bat <task_class>`
+
+Start a tracked task with `BEGIN_CLAUDE_TASK.bat <task_class>` and finish it
+with `FINISH_CLAUDE_TASK.bat <remaining_percent>` so future estimates learn
+from real project usage.

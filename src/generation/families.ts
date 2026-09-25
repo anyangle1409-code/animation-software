@@ -17,6 +17,8 @@ import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
 import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1250,6 +1252,108 @@ const raise: GeneratorFamily<RaiseVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Calf raise
+// ---------------------------------------------------------------------------
+
+const calf: GeneratorFamily<CalfVariant> = {
+  id: 'calf',
+  label: 'Calf raise',
+  builder: 'calfFamily',
+  detect: /\bcalf\s+raises?\b/,
+
+  library: ['standing_calf_raise', 'dumbbell_calf_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bseated\b/, 'a seated calf raise changes the knee angle and muscle emphasis; the current family is standing only.'],
+        [/\b(?:single|one)[-\s]leg\b|\bunilateral\b/, 'single-leg calf raises require unilateral balance/contact behaviour the family does not build yet.'],
+        [/\bdonkey\b/, 'a donkey calf raise uses a hinged torso/support position the family does not build.'],
+        [/\bsmith\b|\bmachine\b|\bbarbell\b/, 'the certified loaded calf raise uses paired dumbbells only.'],
+        [/\bdeficit\b|\b(?:on|off)\s+(?:a\s+)?step\b/, 'a deficit calf raise needs an elevated step/contact surface the equipment model does not provide yet.'],
+      ],
+      issues,
+    );
+
+    const asksDumbbell = slots.equipment.some((slot) => slot.value === 'dumbbell');
+    const asksBodyweight = slots.equipment.some((slot) => slot.value === 'bodyweight');
+    if (asksDumbbell && asksBodyweight) {
+      issues.push(blocking('equipment', 'The request asks for both bodyweight and dumbbells; choose one calf-raise variant.'));
+    }
+    const loaded = asksDumbbell;
+    const implement: IntentImplement = loaded ? 'dumbbell' : 'bodyweight';
+
+    let grip: IntentGrip | undefined;
+    if (loaded) {
+      grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+      if (grip !== 'neutral') {
+        issues.push(blocking('grip', 'The dumbbell calf raise carries the weights at the sides with the family\'s neutral grip.'));
+      }
+    } else if (slots.grips.length > 0) {
+      issues.push(blocking('grip', 'A bodyweight calf raise holds no implement, so a requested hand grip has nothing to apply to.'));
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'calf raise', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the calf family has no angle input.'));
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      loaded ? 'dumbbell calf raise' : 'bodyweight calf raise',
+      implement,
+      loaded ? 14 : 0,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'calf',
+        equipment: implement,
+        execution: 'bilateral',
+        ...(grip ? { grip } : {}),
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const loaded = intent.equipment === 'dumbbell';
+    const tempo = tempoOf(intent);
+    return {
+      ...identity(loaded ? 'Dumbbell Calf Raise' : 'Standing Calf Raise', intent),
+      description:
+        'Generated from "' +
+        intent.prompt.trim() +
+        '". A standing bilateral calf raise from heels-down to a full rise on the balls of the feet, knees staying soft and still' +
+        (loaded ? ', carrying ' + formatLoad(intent.load) + ' in each hand' : ', using bodyweight') +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') +
+        '.',
+      ...(loaded ? { mass: intent.load } : {}),
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: calfFamily,
+
+  reference(intent) {
+    return intent.equipment === 'dumbbell' ? 'dumbbell_calf_raise' : 'standing_calf_raise';
+  },
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1261,6 +1365,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   verticalPull as unknown as GeneratorFamily,
   extension as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
+  calf as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

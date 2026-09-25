@@ -281,8 +281,36 @@ const CURL_GRIP: Record<IntentGrip, { title: string; muscles?: Partial<MuscleInv
   },
 };
 
-/** The incline bench's back is built at 45° (`EQUIPMENT_PARTS.incline_bench`) and does not adjust. */
+/** The incline bench's default back angle, degrees from horizontal. */
 const INCLINE_BENCH_ANGLE = 45;
+
+/**
+ * Angles certified for the incline curl: each has generated a candidate that
+ * passed all 13 checks on the production character
+ * (`HomeGymPT_Male_CORNER_FINAL_SHORTS.glb`), pad contact included — reached
+ * within 3 mm, pressed no more than 15 mm. See `generate.test.ts` for the
+ * measurements behind each. The bench and the curl family derive any angle
+ * geometrically (`equipment/geometry.ts`'s `inclineBackPad`,
+ * `exercises/families/curl.ts`'s `inclineGeometry`), so nothing here is
+ * hand-tuned per angle — but the bench's fixed frame (the posts that hold the
+ * pad up, which do not move with the angle) was only ever built to clear a
+ * body reclined to 45°, so not every angle the geometry can describe is one
+ * the physical bench can actually hold:
+ *
+ * - **30°** (a shallower pad, so a more reclined body, pitch -60°): the back
+ *   sits 13.17 mm short of the pad and the trunk passes 36.31 mm through the
+ *   bench's rear support post. Refused.
+ * - **60°** (a steeper pad, so a more upright body, pitch -30°): the back
+ *   presses 29.64 mm into the pad, twice the 15 mm a pad may compress.
+ *   Refused.
+ *
+ * Neither failure has a lever: both levers this family has are for the
+ * dumbbell's clearance from the thighs, not the trunk's from the bench frame
+ * or the pad's own compression, and no limit was loosened to try to pass them
+ * anyway. Widening this set means moving the frame posts so they clear a
+ * wider range of recline, which is a bench-geometry change, not a curl one.
+ */
+const CERTIFIED_INCLINE_ANGLES: readonly number[] = [45];
 
 /** The curl family's own defaults, for the levers' starting points. */
 const CURL_DEFAULTS = { elbow: { start: 16, peak: 126 }, abduction: { standing: { start: 3, peak: 4 }, incline: { start: 20, peak: 18 } } };
@@ -324,13 +352,19 @@ const curl: GeneratorFamily<CurlVariant> = {
       if (angles.length > 1) {
         issues.push(blocking('angle', `Several bench angles were given (${quote(slots.angles.map((slot) => slot.words))}).`));
       } else if (angles.length === 0) {
-        assumptions.push(`The incline bench at ${INCLINE_BENCH_ANGLE}°, the only angle it is built at.`);
-      } else if (benchAngle !== INCLINE_BENCH_ANGLE) {
+        assumptions.push(`The incline bench at ${INCLINE_BENCH_ANGLE}°, the family's default angle.`);
+      } else if (!CERTIFIED_INCLINE_ANGLES.includes(benchAngle)) {
+        const certified = CERTIFIED_INCLINE_ANGLES.map((value) => `${value}°`);
+        const list = `${certified.slice(0, -1).join(', ')}${certified.length > 1 ? ' and ' : ''}${certified.at(-1)}`;
+        const has = certified.length > 1 ? 'have' : 'has';
         issues.push(
           blocking(
             'angle',
-            `A ${benchAngle}° incline is not available: the incline bench is built at ${INCLINE_BENCH_ANGLE}° and does not adjust yet, ` +
-              `and the incline curl is certified only there. Use ${INCLINE_BENCH_ANGLE}°, or make the bench adjustable first.`,
+            `A ${benchAngle}° incline is not certified: the bench adjusts, but only ${list} ${has} passed every check ` +
+              'on the production character (30° and 60° were tried and refused: the back does not reach the pad at ' +
+              "30°, and presses too far into it at 60° — the bench's fixed frame was only ever built to clear a body " +
+              'reclined to 45°). An angle is certified only once a generated candidate there passes all 13 checks, ' +
+              'pad contact included, without loosening any limit.',
           ),
         );
       }
@@ -350,16 +384,21 @@ const curl: GeneratorFamily<CurlVariant> = {
     const grip = intent.grip;
     const known = CURL_GRIP[grip];
     const incline = intent.support === 'incline';
-    const title = `${incline ? 'Incline' : 'Standing'} ${known.title}`;
+    const benchAngle = intent.benchAngle ?? INCLINE_BENCH_ANGLE;
+    // The angle is part of the title, not just the description: two incline
+    // curls at different angles are different candidates and must not share
+    // an id, a name or a clip name.
+    const title = `${incline ? `Incline (${benchAngle}°)` : 'Standing'} ${known.title}`;
     const tempo = tempoOf(intent);
     return {
       ...identity(title, intent),
       description:
-        `Generated from "${intent.prompt.trim()}". ${incline ? `A curl lying back on a ${intent.benchAngle ?? INCLINE_BENCH_ANGLE}° incline bench, the arms hanging behind the body` : 'A standing two-arm curl'} ` +
+        `Generated from "${intent.prompt.trim()}". ${incline ? `A curl lying back on a ${benchAngle}° incline bench, the arms hanging behind the body` : 'A standing two-arm curl'} ` +
         `with a ${grip} grip (${known.palms}), ${formatLoad(intent.load)} in each hand${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
       grip,
       support: incline ? 'incline' : 'standing',
       mass: intent.load,
+      ...(incline ? { benchAngle } : {}),
       ...(tempo ? { tempo } : {}),
       ...(known.muscles ? { muscles: known.muscles } : {}),
       ...(known.errors.length ? { commonErrors: known.errors } : {}),

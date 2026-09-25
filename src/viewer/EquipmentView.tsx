@@ -131,7 +131,7 @@ export function EquipmentView() {
               else groups.current.delete(instance.id);
             }}
           >
-            <EquipmentMesh kind={instance.kind} />
+            <EquipmentMesh kind={instance.kind} backAngle={instance.backAngle} />
           </group>
         ))}
     </>

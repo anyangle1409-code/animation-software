@@ -12,7 +12,7 @@ import {
   TorusGeometry,
   Vector3,
 } from 'three';
-import { EQUIPMENT_PARTS, MATERIALS } from '../equipment/geometry';
+import { equipmentParts, MATERIALS } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 import type { EquipmentKind } from '../equipment/types';
 
@@ -24,10 +24,10 @@ export { buildSkinnedRig, MANNEQUIN_NAME } from '../body/skin';
 export type { BuiltRig } from '../body/skin';
 
 /** Build a plain three.js object for a piece of equipment, from the shared data. */
-export function buildEquipmentObject(kind: EquipmentKind): Object3D {
+export function buildEquipmentObject(kind: EquipmentKind, backAngle?: number): Object3D {
   const group = new Object3D();
   group.name = kind;
-  for (const part of EQUIPMENT_PARTS[kind]) {
+  for (const part of equipmentParts(kind, backAngle)) {
     const material = new MeshStandardMaterial(MATERIALS[part.material]);
     const mesh = new Mesh(geometryForPart(part), material);
     const position = part.position ?? [0, 0, 0];

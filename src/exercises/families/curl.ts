@@ -114,6 +114,14 @@ export interface CurlVariant {
    * body and the biceps starts from a full stretch. Standing by default.
    */
   support?: CurlSupport;
+  /**
+   * The incline bench's back angle, degrees from horizontal. Only meaningful
+   * with `support: 'incline'`; defaults to 45°, the bench's own default. The
+   * whole reclined posture — body pitch, arm hang, seat and back placement,
+   * and the `back_on_bench` band — is derived from this one number; see
+   * `inclineGeometry`.
+   */
+  benchAngle?: number;
   /** Load per hand, kilograms. */
   mass?: number;
   /** Elbow flexion at the bottom and the peak, degrees. */
@@ -155,52 +163,84 @@ const ELBOW = { start: 16, peak: 126 };
 const ABDUCTION = { start: 3, peak: 4 };
 
 /**
- * Lying back on an incline bench set to 45°.
+ * Lying back on an incline bench set to `backAngle`° from horizontal — the
+ * same convention as the pad's own rotation in `equipment/geometry.ts`'s
+ * `inclineBackPad`, where 0° is a pad lying flat and 90° is a pad standing
+ * upright.
  *
- * The body pitches back 45° from its hips, which sit on the seat; the back lies
- * on the pad and the feet are flat on the floor in front. The arms hang
- * straight down from the shoulders — behind the body, 45° of shoulder
- * extension against the trunk — and stay there while the elbows curl: that
- * hang is the whole point of the variant, since it puts the biceps' long head
- * on stretch at the bottom. The bench is the library's `incline_bench`, turned
- * to face the way the body does.
+ * The seat itself does not move as the backrest reclines — only the pad
+ * behind it does — so the hips stay anchored at the same point on the seat
+ * for any angle, and only the trunk's pitch changes. A spine lying flush
+ * against a pad that is `backAngle`° up from horizontal is itself
+ * `backAngle`° from horizontal, which is `90 - backAngle` from vertical —
+ * the body is *more* reclined the *shallower* the pad, not the steeper one.
+ * So `pitch`, measured from standing (spine vertical, pitch 0), is
+ * `backAngle - 90`: at the bench's default 45° that is -45°, and it was only
+ * ever a hand-tuned-looking coincidence that `-backAngle` gave the same
+ * number there.
  *
- * Placed against the production character: the back rests on the pad (2 mm
- * in), the seat on the seat (0.1 mm), and the thighs press 10 mm into its front
- * edge. The arms hang 20° out from the body, which is what a lifter does on a
- * narrow backrest: at 3° they passed into the pad, and short of 20° the
- * dumbbells clipped the hips on the way down (17 mm in at 14°; 3.4 mm clear at
- * 20°).
+ * Two things follow from pitching the trunk alone, geometrically rather than
+ * by separate tuning:
+ *
+ * - The arms hang straight down from the shoulders only if the shoulder
+ *   undoes the trunk's own pitch, so `hang` is `pitch` itself.
+ * - The thighs stay flat on the seat only if they counter-rotate by the same
+ *   angle the pelvis pitched back, so `thigh` is `-pitch` (`90 - backAngle`)
+ *   — which is why the knee and ankle stay exactly where they were: the hip
+ *   and the thigh's world orientation are both unchanged, so nothing
+ *   downstream of the knee needs to move either.
+ *
+ * The back-on-bench band is the spine's own resulting deviation from
+ * vertical, `|pitch|`, ± the 5° the library always allowed — not `backAngle`
+ * itself, which is what the pad leans from the *other* reference, horizontal.
+ *
+ * Placed against the production character at 45°: the back rests on the pad
+ * (2 mm in), the seat on the seat (0.1 mm), and the thighs press 10 mm into
+ * its front edge. The arms hang 20° out from the body, which is what a lifter
+ * does on a narrow backrest: at 3° they passed into the pad, and short of 20°
+ * the dumbbells clipped the hips on the way down (17 mm in at 14°; 3.4 mm
+ * clear at 20°). That clearance is about the dumbbell and the hip, not the
+ * backrest's angle, so it is left as the family's own default at every angle;
+ * the correction loop's abduction lever is there if a given angle needs more.
  */
-const INCLINE = {
-  pitch: -45,
-  pelvis: { y: 0.615, z: 0 },
-  bench: { position: vec3(0, 0, -0.27), rotation: vec3(0, 180, 0) },
-  feet: { width: 0.4, toeOut: 8, forward: 0.45 },
-  /** Shoulder extension that hangs the arm straight down, degrees. */
-  hang: -45,
-  abduction: { start: 20, peak: 18 },
-};
+function inclineGeometry(backAngle: number) {
+  const pitch = backAngle - 90;
+  return {
+    pitch,
+    pelvis: { y: 0.615, z: 0 },
+    bench: { position: vec3(0, 0, -0.27), rotation: vec3(0, 180, 0) },
+    feet: { width: 0.4, toeOut: 8, forward: 0.45 },
+    /** Shoulder extension that hangs the arm straight down, degrees. */
+    hang: pitch,
+    /** Thigh flexion that keeps the leg flat on the seat, degrees. */
+    thigh: -pitch,
+    abduction: { start: 20, peak: 18 },
+    /** The `back_on_bench` band: the spine's own deviation from vertical, ± the library's 5°. */
+    backBand: { min: Math.abs(pitch) - 5, max: Math.abs(pitch) + 5 },
+  };
+}
 
 export function curlFamily(variant: CurlVariant): ExerciseDefinition {
   const grip = GRIPS[variant.grip];
   const elbow = variant.elbow ?? ELBOW;
   const incline = variant.support === 'incline';
-  const abduction = variant.abduction ?? (incline ? INCLINE.abduction : ABDUCTION);
+  const benchAngle = variant.benchAngle ?? 45;
+  const geometry = incline ? inclineGeometry(benchAngle) : undefined;
+  const abduction = variant.abduction ?? (geometry ? geometry.abduction : ABDUCTION);
   const mass = variant.mass ?? 10;
-  const root = incline ? hingeRoot(INCLINE.pitch, INCLINE.pelvis) : undefined;
+  const root = geometry ? hingeRoot(geometry.pitch, geometry.pelvis) : undefined;
   const placement = root
-    ? { root: { position: { y: root.y, z: root.z }, rotation: { x: INCLINE.pitch } } }
+    ? { root: { position: { y: root.y, z: root.z }, rotation: { x: geometry!.pitch } } }
     : {};
   // Upper-arm flexion is measured from the trunk, so on the incline the whole
   // curve shifts by the hang.
-  const shoulder = incline ? INCLINE.hang : 0;
+  const shoulder = geometry ? geometry.hang : 0;
   // Sat on the bench, and the chin tucked so the eyes are on the arms rather
   // than the ceiling a reclined trunk would otherwise point them at.
-  const reclined = incline
-    ? { thigh_l: { x: 45 }, thigh_r: { x: 45 }, shin_l: { x: -90 }, shin_r: { x: -90 }, neck: { x: 16 }, head: { x: 6 } }
+  const reclined = geometry
+    ? { thigh_l: { x: geometry.thigh }, thigh_r: { x: geometry.thigh }, shin_l: { x: -90 }, shin_r: { x: -90 }, neck: { x: 16 }, head: { x: 6 } }
     : {};
-  const seated = incline ? seatedStance(INCLINE.feet) : undefined;
+  const seated = geometry ? seatedStance(geometry.feet) : undefined;
   const withLegs = (joints: PoseSpec['joints']) => ({ ...bilateralJoints(joints), ...reclined });
 
   return {
@@ -225,18 +265,24 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         // orientation calibration is needed.
         attachment: { mode: 'hand' as const, side, socket: 'grip' },
       })),
-      ...(incline
+      ...(geometry
         ? [
             {
               id: 'bench',
               kind: 'incline_bench' as const,
               label: 'Incline bench',
               mass: 0,
-              position: INCLINE.bench.position,
-              rotation: INCLINE.bench.rotation,
+              position: geometry.bench.position,
+              rotation: geometry.bench.rotation,
               visible: true,
               attachment: { mode: 'static' as const },
               supportsBody: true,
+              // Only carried when it differs from the bench's own implicit
+              // default: every consumer of `backAngle` already treats
+              // `undefined` as 45°, and this keeps the default incline curl's
+              // definition — and clip — exactly what it was before the bench
+              // had an angle to set.
+              ...(benchAngle !== 45 ? { backAngle: benchAngle } : {}),
             },
           ]
         : [])],
@@ -354,15 +400,15 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         tolerance: 0.012,
         label: 'Left foot stays planted',
       }),
-      incline
+      geometry
         ? {
             kind: 'segmentAngle' as const,
             id: 'back_on_bench',
             label: 'Back stays on the bench',
             bone: 'spine_02',
             reference: 'vertical' as const,
-            min: 40,
-            max: 50,
+            min: geometry.backBand.min,
+            max: geometry.backBand.max,
             severity: 'error' as const,
           }
         : {
@@ -398,7 +444,7 @@ export function curlFamily(variant: CurlVariant): ExerciseDefinition {
         label: 'Left upper arm stays slightly clear of the torso',
         bone: 'upperarm_l',
         axis: 'z',
-        // Hanging beside a backrest, the arms sit wider; see `INCLINE`.
+        // Hanging beside a backrest, the arms sit wider; see `inclineGeometry`.
         min: incline ? -25 : -20,
         max: -3,
       }),

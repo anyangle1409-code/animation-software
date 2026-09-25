@@ -1,5 +1,5 @@
 import type { EquipmentKind } from '../equipment/types';
-import { EQUIPMENT_PARTS, MATERIALS } from '../equipment/geometry';
+import { equipmentParts, MATERIALS } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 
 function PartMesh({ part }: { part: Part }) {
@@ -25,10 +25,10 @@ function PartMesh({ part }: { part: Part }) {
 }
 
 /** Renders a piece of equipment from the shared geometry data. */
-export function EquipmentMesh({ kind }: { kind: EquipmentKind }) {
+export function EquipmentMesh({ kind, backAngle }: { kind: EquipmentKind; backAngle?: number }) {
   return (
     <>
-      {EQUIPMENT_PARTS[kind].map((part, index) => (
+      {equipmentParts(kind, backAngle).map((part, index) => (
         <PartMesh key={index} part={part} />
       ))}
     </>

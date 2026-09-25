@@ -12,6 +12,11 @@ import { pullUp } from '../exercises/definitions/pullUp';
 import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
 import { overheadExtension } from '../exercises/definitions/overheadExtension';
+import { pushUp } from '../exercises/definitions/pushUp';
+import { calfRaise } from '../exercises/definitions/calfRaise';
+import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
+import { crunch } from '../exercises/definitions/crunch';
+import { sitUp } from '../exercises/definitions/sitUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { evaluateReference } from './evaluate';
@@ -23,6 +28,9 @@ import { rowReferenceFor } from './specs/row';
 import { verticalPullReferenceFor } from './specs/verticalPull';
 import { raiseReferenceFor } from './specs/raise';
 import { extensionReferenceFor } from './specs/extension';
+import { horizontalPressReferenceFor } from './specs/horizontalPress';
+import { calfReferenceFor } from './specs/calf';
+import { trunkFlexionReferenceFor } from './specs/trunkFlexion';
 
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
@@ -52,6 +60,11 @@ describe('draft family reference packs', () => {
     ['lateral raise', lateralRaise, raiseReferenceFor],
     ['front raise', frontRaise, raiseReferenceFor],
     ['overhead triceps extension', overheadExtension, extensionReferenceFor],
+    ['standard push-up', pushUp, horizontalPressReferenceFor],
+    ['bodyweight calf raise', calfRaise, calfReferenceFor],
+    ['dumbbell calf raise', dumbbellCalfRaise, calfReferenceFor],
+    ['crunch', crunch, trunkFlexionReferenceFor],
+    ['sit-up', sitUp, trunkFlexionReferenceFor],
   ] as const)('%s clears its draft reference pack', (_name, exercise, spec) => {
     const report = review(exercise, spec(exercise));
     expect(report.skipped, JSON.stringify(report.checks.filter((check) => check.status === 'skip'))).toEqual([]);
@@ -147,6 +160,35 @@ describe('draft family reference packs', () => {
     );
     const report = review(exercise, extensionReferenceFor(exercise));
     expect(report.failed).toContain('extension_stretch');
+  });
+
+
+  it('rejects a push-up that never reaches bottom elbow flexion', () => {
+    const exercise = clone(pushUp);
+    exercise.jointTargets = exercise.jointTargets.map((target) =>
+      target.bone.startsWith('forearm_') && target.axis === 'x'
+        ? { ...target, peak: 45 }
+        : target,
+    );
+    const report = review(exercise, horizontalPressReferenceFor(exercise));
+    expect(report.failed).toContain('pushup_bottom_elbow');
+  });
+
+  it('rejects a calf raise whose root no longer rises', () => {
+    const exercise = clone(calfRaise);
+    exercise.peakPose.root = { position: { y: 0, z: 0 } };
+    const report = review(exercise, calfReferenceFor(exercise));
+    expect(report.failed).toContain('calf_top_plantarflexion');
+  });
+
+  it('rejects a sit-up that stops far from upright', () => {
+    const exercise = clone(sitUp);
+    exercise.peakPose.root = {
+      ...(exercise.peakPose.root ?? {}),
+      rotation: { x: -65, y: 0, z: 0 },
+    };
+    const report = review(exercise, trunkFlexionReferenceFor(exercise));
+    expect(report.failed).toContain('situp_top_angle');
   });
 
 });

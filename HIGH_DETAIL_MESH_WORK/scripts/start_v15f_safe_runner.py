@@ -1,6 +1,6 @@
 """Start the V15f safe runner detached on the local machine."""
 from __future__ import annotations
-import os,subprocess,sys
+import os,subprocess,sys,time
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -9,8 +9,12 @@ REPORTS=ROOT/"reports"
 LOCK=REPORTS/"v15f_safe_runner.lock"
 
 if LOCK.exists():
-    print("V15F_SAFE_RUNNER_ALREADY_LOCKED",LOCK)
-    raise SystemExit(0)
+    age=time.time()-LOCK.stat().st_mtime
+    if age < 10*3600:
+        print("V15F_SAFE_RUNNER_ALREADY_LOCKED",LOCK)
+        raise SystemExit(0)
+    print("V15F_SAFE_RUNNER_REMOVING_STALE_LOCK",LOCK)
+    LOCK.unlink(missing_ok=True)
 
 kwargs={"cwd":str(ROOT)}
 if os.name=="nt":

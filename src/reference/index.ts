@@ -1,3 +1,4 @@
+export { captureReferenceEvidence } from './reviewSession';
 export { browserReviewCaptureAvailable, captureReviewRequests, installBrowserReviewCaptureAdapter } from './browserCapture';
 export { captureReviewBatch } from './captureController';
 export type { CapturedPng, CaptureBatchProgress, ReviewCaptureAdapter } from './captureController';

@@ -14,6 +14,7 @@ const request: ReviewCaptureRequest = {
   time: 0,
   normalizedTime: 0,
   viewId: 'front',
+  renderMode: 'beauty',
   camera: { preset: 'front', target: 'full_body' },
   viewport: {
     width: 64,

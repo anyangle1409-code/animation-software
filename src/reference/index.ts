@@ -34,5 +34,6 @@ export type {
   ReferenceFamilyId,
   ReferenceReport,
   ReferenceReviewView,
+  ReferenceScale,
   ReferenceSpec,
 } from './types';

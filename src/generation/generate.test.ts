@@ -25,6 +25,8 @@ import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
 import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
+import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
+import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -40,6 +42,8 @@ import { frontRaise } from '../exercises/definitions/frontRaise';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import { farmersWalk } from '../exercises/definitions/farmersWalk';
+import { crunch } from '../exercises/definitions/crunch';
+import { sitUp } from '../exercises/definitions/sitUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -67,6 +71,8 @@ const FRONT_RAISE = 'Create a front raise with 5 kg dumbbells.';
 const CALF_RAISE = 'Create a bodyweight calf raise with slow tempo.';
 const DB_CALF_RAISE = 'Create a calf raise with 18 kg dumbbells.';
 const FARMERS_WALK = "Create a farmer's walk with 28 kg dumbbells.";
+const CRUNCH = 'Create a crunch with controlled tempo.';
+const SIT_UP = 'Create a sit-up with slow tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -241,6 +247,27 @@ describe('generating without a character', () => {
   it("reproduces the library farmer's-walk motion from the plain certified intent", () => {
     const result = generateExercise("a farmer's walk with dumbbells", options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(farmersWalk));
+  });
+
+  it('builds crunch and sit-up from trunkFlexionFamily rather than standalone definitions', () => {
+    const crunchResult = generateExercise(CRUNCH, options);
+    expect(crunchResult.family?.id).toBe('trunk_flexion');
+    expect(crunchResult.exercise).toEqual(trunkFlexionFamily(crunchResult.variant as TrunkFlexionVariant));
+    expect(crunchResult.reference).toBe('crunch');
+    expect(crunchResult.exercise?.equipment.instances).toEqual([]);
+    expect(crunchResult.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+
+    const situpResult = generateExercise(SIT_UP, options);
+    expect(situpResult.family?.id).toBe('trunk_flexion');
+    expect(situpResult.exercise).toEqual(trunkFlexionFamily(situpResult.variant as TrunkFlexionVariant));
+    expect(situpResult.reference).toBe('sit_up');
+    expect(situpResult.exercise?.equipment.instances).toEqual([]);
+    expect(situpResult.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+  });
+
+  it('reproduces both library trunk-flexion motions from plain certified intents', () => {
+    expect(motionOf(generateExercise('a crunch', options).exercise!)).toEqual(motionOf(crunch));
+    expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
   });
 
   it('will not certify what it could not measure', () => {
@@ -491,6 +518,26 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.validations).toBe(1);
       expect(result.reference).toBe('farmers_walk');
       expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+    },
+    900_000,
+  );
+
+  it(
+    'builds crunch and sit-up through the same production-character pipeline',
+    async () => {
+      for (const [prompt, reference] of [
+        [CRUNCH, 'crunch'],
+        [SIT_UP, 'sit_up'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('trunk_flexion');
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.reference, prompt).toBe(reference);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
     },
     900_000,
   );

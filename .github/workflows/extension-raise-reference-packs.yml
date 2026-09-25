@@ -1,0 +1,23 @@
+name: Extension + Raise Reference Packs Check
+
+on:
+  push:
+    branches:
+      - work/internal-reference-extension-raise-packs-20260925
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- src/reference/familyPacks.test.ts src/reference/evaluate.test.ts src/reference/reviewCamera.test.ts src/reference/silhouette.test.ts
+      - run: npm run build
+      - run: npm test

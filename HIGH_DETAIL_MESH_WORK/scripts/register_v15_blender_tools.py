@@ -35,6 +35,8 @@ ZONES = [
 ]
 
 V15F_DIGITS = [
+    ("INDEX", "Index", ""),
+    ("MIDDLE", "Middle", ""),
     ("RING", "Ring", ""),
     ("PINKY", "Pinky", ""),
 ]

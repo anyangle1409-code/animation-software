@@ -408,6 +408,96 @@ def run_focused(runner, glb, out, label):
         results[test] = {"returncode": p.returncode, "tests": test_counts(p.stdout)}
     return results
 
+def run_grip_visuals(runner, glb, out, label):
+    visual_dir = out / f"{label}_visuals"
+    visual_dir.mkdir(parents=True, exist_ok=True)
+    env = os.environ.copy()
+    env["GLB"] = str(glb)
+    env["SHIPPED"] = "1"
+    env["OUT"] = str(visual_dir)
+    env["PROFILES"] = json.dumps([[label, [78, 95, 60], [-22, 60, 60]]])
+    p = run(
+        runner + ["review-assets/harnesses/gripview.test.mts"],
+        WORKTREE,
+        env=env,
+        log=out / f"{label}_gripview.log",
+    )
+    images = {
+        view: visual_dir / f"GRIP_{label}_{view}.png"
+        for view in ("solid", "slice", "3q")
+    }
+    return {
+        "returncode": p.returncode,
+        "tests": test_counts(p.stdout),
+        "images": {key: str(value) for key, value in images.items()},
+        "all_images_present": all(value.is_file() for value in images.values()),
+    }
+
+def write_review_html(report, out):
+    baseline = report.get("baseline_visuals") or {}
+    candidate = report.get("candidate_visuals") or {}
+    def image_cell(block, view, caption):
+        path = (block.get("images") or {}).get(view)
+        if not path:
+            return f"<td><p>{caption}: missing</p></td>"
+        try:
+            rel = Path(path).relative_to(out)
+        except ValueError:
+            rel = Path(path)
+        return (
+            "<td>"
+            f"<img src='{rel.as_posix()}' style='max-width:100%;height:auto'>"
+            f"<p>{caption}</p>"
+            "</td>"
+        )
+
+    rows = []
+    for view, title in (("solid", "Solid / contact overlay"), ("slice", "Handle cross-section"), ("3q", "Three-quarter")):
+        rows.append(
+            "<tr>"
+            + image_cell(baseline, view, f"Baseline — {title}")
+            + image_cell(candidate, view, f"Candidate — {title}")
+            + "</tr>"
+        )
+
+    b = report.get("baseline_grip_summary") or {}
+    q = report.get("candidate_grip_summary") or {}
+    html = f"""<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Phase C grip review — {report.get('label')}</title>
+<style>
+body{{font-family:Arial,sans-serif;margin:24px;background:#181b20;color:#eee}}
+table{{border-collapse:collapse;width:100%}}td,th{{border:1px solid #555;padding:8px;vertical-align:top}}
+img{{background:#111}}code{{background:#111;padding:2px 4px}}
+</style>
+</head>
+<body>
+<h1>Phase C grip review — {report.get('label')}</h1>
+<p><strong>Accepted hand:</strong> <code>{report.get('accepted_hand_glb')}</code></p>
+<p><strong>Candidate solution:</strong> <code>{report.get('candidate_solution_id')}</code></p>
+<p><strong>Source HEAD:</strong> <code>{report.get('source_head')}</code></p>
+<h2>Numeric summary</h2>
+<table>
+<tr><th></th><th>Baseline</th><th>Candidate</th></tr>
+<tr><td>Minimum wrap</td><td>{b.get('wrap_min_deg')}</td><td>{q.get('wrap_min_deg')}</td></tr>
+<tr><td>Finger/thumb max inside counts</td><td><pre>{json.dumps(b.get('finger_inside_max'), indent=2)}</pre></td><td><pre>{json.dumps(q.get('finger_inside_max'), indent=2)}</pre></td></tr>
+<tr><td>Palm nearest (mm)</td><td>{b.get('palm_near_min_mm')}</td><td>{q.get('palm_near_min_mm')}</td></tr>
+<tr><td>Palm max inside count</td><td>{b.get('palm_inside_max')}</td><td>{q.get('palm_inside_max')}</td></tr>
+</table>
+<h2>Matched visual evidence</h2>
+<table>
+{''.join(rows)}
+</table>
+<p><strong>Decision:</strong> the automated checks do not approve visual fist quality. Inspect the matched views before promoting any grip row.</p>
+</body>
+</html>
+"""
+    target = out / "phase_c_grip_review.html"
+    target.write_text(html, encoding="utf-8")
+    return target
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--character", type=Path, required=True)
@@ -455,6 +545,9 @@ def main():
         "candidate_grip_summary": None,
         "focused_baseline": {},
         "focused_candidate": {},
+        "baseline_visuals": None,
+        "candidate_visuals": None,
+        "review_html": None,
         "new_failing_focused_tests": [],
         "focused_tests_with_increased_failures": [],
         "checks": {},
@@ -520,6 +613,11 @@ def main():
         report["focused_baseline"] = baseline_focused
         report["focused_candidate"] = candidate_focused
 
+        baseline_visuals = run_grip_visuals(runner, character, out, "baseline")
+        candidate_visuals = run_grip_visuals(runner, tagged, out, "candidate")
+        report["baseline_visuals"] = baseline_visuals
+        report["candidate_visuals"] = candidate_visuals
+
         new_failing = [
             test for test in FOCUSED_TESTS
             if baseline_focused[test]["returncode"] == 0
@@ -546,6 +644,12 @@ def main():
             True if args.skip_full_suite
             else bool(report["source_suite"] and report["source_suite"]["returncode"] == 0)
         )
+        visual_artifacts_clean = (
+            baseline_visuals["returncode"] == 0
+            and candidate_visuals["returncode"] == 0
+            and baseline_visuals["all_images_present"]
+            and candidate_visuals["all_images_present"]
+        )
         checks = {
             "normal_source_suite_clean": source_suite_clean,
             "candidate_typecheck_clean": typecheck.returncode == 0,
@@ -555,14 +659,16 @@ def main():
             "no_digit_or_thumb_penetration_over_0_5mm": finger_clean,
             "skinned_wrap_at_least_190deg": wrap_ok,
             "no_new_focused_regression": not new_failing and not increased,
+            "matched_visual_artifacts_generated": visual_artifacts_clean,
         }
         report["checks"] = checks
         report["pass"] = all(checks.values())
+        report["review_html"] = str(write_review_html(report, out))
         report["notes"] = [
             "Palm penetration/contact is reported but is not treated as a failure because a loaded palm is intentional.",
             "The 190-degree wrap floor reuses the established grip diagnostic threshold; visual fist review remains required.",
             "The runner never replaces homeGymPTMale and never promotes the candidate solution.",
-            "After a numeric pass, generate matched high-zoom grip boards before acceptance.",
+            "Matched grip visuals are generated automatically, but their anatomy still requires an explicit visual verdict before acceptance.",
         ]
     finally:
         (out / "phase_c_grip_evaluation.json").write_text(

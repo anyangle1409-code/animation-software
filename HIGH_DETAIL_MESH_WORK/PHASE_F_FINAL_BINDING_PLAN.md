@@ -213,3 +213,17 @@ It verifies the Phase F scope before runtime testing:
 
 It intentionally does **not** require the source character to have exactly 63
 skin joints. Canonical mapping/plausibility remains a runtime retarget check.
+
+
+## Prepared runtime retarget validation
+
+After the raw asset audit passes, validate the accepted reference character and
+Phase F candidate through the newest source runtime:
+
+`VALIDATE_PHASE_F_RUNTIME.bat accepted_reference.glb final_candidate.glb phase_f_candidate`
+
+This creates a detached latest-source worktree, requires the source suite to be
+clean, then compares reference/candidate on palm mapping, unmapped bones,
+mirrored hands, real-character diagnostics, self-collision, equipment clearance
+and contact-related family tests. It reports any new failing gate or increased
+failed-test count and removes the worktree afterward.

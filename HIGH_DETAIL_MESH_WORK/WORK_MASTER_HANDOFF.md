@@ -56,3 +56,12 @@ Do not:
 The candidate advances only if it is **visibly better than V13e** and passes both frozen and current-source validation.
 
 See `V15_WORK_HANDOFF.md` for the exact Blender execution order, candidate naming, review views and stop conditions.
+
+
+## Execution shortcut
+
+After the V15a Blender mesh edit is saved, run:
+
+`RUN_V15_POST_EDIT_ALL.bat`
+
+Do not manually reproduce the export/validation steps. The command is intentionally fail-fast and does not promote or merge anything.

@@ -100,6 +100,19 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
   });
 
+  it('reads a strict bodyweight pull-up through the vertical-pull family', () => {
+    const parsed = parsePrompt('Create a strict pull-up from a dead hang with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'vertical_pull',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'hanging',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -145,6 +158,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('one-arm bent-over row')).toContain('variant');
     expect(blocking('barbell bent-over row')).toContain('variant');
     expect(blocking('seated cable row')).toContain('variant');
+    expect(blocking('chin-up')).toContain('variant');
+    expect(blocking('lat pulldown')).toContain('variant');
+    expect(blocking('neutral grip pull-up')).toContain('grip');
+    expect(blocking('assisted pull-up')).toContain('variant');
+    expect(blocking('wide-grip pull-up')).toContain('variant');
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {

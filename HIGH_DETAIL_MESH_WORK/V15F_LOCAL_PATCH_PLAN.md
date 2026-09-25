@@ -255,3 +255,41 @@ per-digit SHA-256 surface fingerprint and prevents later Stage-B digits from
 being touched early.
 
 `V15F_STATUS.bat` drives this sequence automatically.
+
+
+## Local safe deterministic runner
+
+`PREPARE_V15F_LOCAL_PATCH.bat` now requests a detached local safe runner as
+well as opening Blender.
+
+Manual controls:
+
+`START_V15F_SAFE_RUNNER.bat`
+
+`STOP_V15F_SAFE_RUNNER.bat`
+
+The runner has a strict whitelist. It may automatically:
+- run the correct saved-digit audit after a new V15f Blend save;
+- run Stage-A numeric validation when all four Stage-A digit proofs are complete;
+- generate missing matched visual boards;
+- run Stage-B per-digit deterministic validation/render steps;
+- run the final `RUN_V15_POST_EDIT_ALL.bat v15f_deep_hand_rebuild` once every
+  required numeric + explicit visual gate has passed;
+- refresh `V15F_LATEST_HANDOFF.md`.
+
+It may **not**:
+- edit Blender geometry;
+- mark a visual PASS/FAIL;
+- promote a mesh/grip;
+- merge source;
+- alter production references;
+- loosen a threshold;
+- cross an unresolved visual gate.
+
+This means deterministic laptop work can continue after a save even if GPT Work
+usage is exhausted immediately afterward. Whether the detached local process
+survives the host Work session ending depends on the local environment, so do
+not treat it as a guaranteed replacement for GPT Work itself.
+
+The runner exits when only the final V15 review remains, when its 8-hour local
+lifetime expires, or when the stop flag is requested.

@@ -1042,15 +1042,15 @@ const raise: GeneratorFamily<RaiseVariant> = {
         support,
         load,
         tempo,
-        variant: direction,
-      } as ExerciseIntent & { variant: RaiseVariant['direction'] },
+        raiseDirection: direction,
+      },
       assumptions,
       issues,
     };
   },
 
   variant(intent) {
-    const direction = (intent as ExerciseIntent & { variant?: RaiseVariant['direction'] }).variant ?? 'lateral';
+    const direction = intent.raiseDirection ?? 'lateral';
     const title = direction === 'front' ? 'Dumbbell Front Raise' : 'Dumbbell Lateral Raise';
     const tempo = tempoOf(intent);
     return {
@@ -1067,9 +1067,7 @@ const raise: GeneratorFamily<RaiseVariant> = {
   build: raiseFamily,
 
   reference: (intent) =>
-    (intent as ExerciseIntent & { variant?: RaiseVariant['direction'] }).variant === 'front'
-      ? 'dumbbell_front_raise'
-      : 'dumbbell_lateral_raise',
+    intent.raiseDirection === 'front' ? 'dumbbell_front_raise' : 'dumbbell_lateral_raise',
 
   levers: [],
 };

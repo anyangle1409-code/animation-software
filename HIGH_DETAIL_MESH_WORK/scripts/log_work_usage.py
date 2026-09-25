@@ -21,6 +21,7 @@ ap.add_argument("--reasoning",choices=("low","medium","high"),default="medium")
 ap.add_argument("--before-week",type=float,default=None)
 ap.add_argument("--after-week",type=float,default=None)
 ap.add_argument("--credits-used",type=float,default=None)
+ap.add_argument("--fast",action="store_true")
 ap.add_argument("--notes",default="")
 args=ap.parse_args()
 
@@ -58,6 +59,7 @@ sample={
     "minutes":args.minutes,
     "context":args.context,
     "reasoning":args.reasoning,
+    "fast_mode":bool(args.fast),
     "notes":args.notes,
     "valid":True,
 }

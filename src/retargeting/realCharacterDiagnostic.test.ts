@@ -97,8 +97,14 @@ function strain(mesh: SkinnedMesh, set: EdgeSet) {
     ratios.push(one.distanceTo(two) / set.rest[slot]);
   });
 
-  const maximum = Math.max(...ratios);
-  const minimum = Math.min(...ratios);
+  // A loop, not Math.max(...ratios): one ratio per edge, and a denser mesh
+  // (the V13e hand candidate) has more edges than a call can take arguments.
+  let maximum = -Infinity;
+  let minimum = Infinity;
+  for (const ratio of ratios) {
+    if (ratio > maximum) maximum = ratio;
+    if (ratio < minimum) minimum = ratio;
+  }
   return {
     max: maximum,
     p99: percentile(ratios, 0.99),

@@ -6,6 +6,32 @@ definitions, or repository configuration.
 
 ## Unreleased
 
+### Claude — 2026-09-25 — Mesh coordination report: the library against V8 and V13e
+
+Read-only measurement, recorded in `docs/MESH_COORDINATION_REPORT.md`. No runtime, grip, retargeting or asset change.
+
+**Measured.** Every character-dependent gate (self-collision, equipment clearance and pads, floor, lunge feet, hand roll, palm mapping, unmapped bones, importer diagnostic) was run for all 28 exercises against three characters:
+
+- the production character;
+- accepted **V8**, `a7655f68…`;
+- hand candidate **V13e**, `08c56bec…`.
+
+Both candidates' hashes match GPT's manifest.
+
+**Results.**
+
+- **Production:** everything passes.
+- **V8 and V13e are identical on every body measurement.** Floor and pad contact, lunge feet, hand roll and palm mapping all pass.
+- **Arm against chest:** 19 of 28 exercises come nearer than the production baselines allow. There are no penetrations. The tightest are the front raise (0.14 mm), Pallof press (0.42), Russian twist (0.47) and woodchop (0.49). This is the high-detail body's arm and chest volume.
+- **The incline curl** grazes the thigh with one vertex per side (0.76 and 0.79 mm).
+- **The flat-bench pad** takes 14.3 mm against a 15 mm limit.
+
+The report lists these as items to settle before the high-detail body is bound for production. None blocks the hand work.
+
+**Fixed.** The importer diagnostic crashed on V13e: `Math.max(...ratios)` spreads one argument per mesh edge, and the denser hand exceeds the engine's argument limit. It is now a loop. It passes on production and V13e and measures the same thing.
+
+**Added.** `scripts/mesh-coordination-report.sh` and `.py` regenerate the tables for any candidates. Re-run them against each newly accepted candidate before a grip or production-character change.
+
 ### Claude — 2026-09-25 — Reverse lunge, and mesh-side sync recorded
 
 **Mesh-side sync, from the user.**

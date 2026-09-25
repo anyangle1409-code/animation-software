@@ -340,10 +340,7 @@ def main():
     review = ROOT / f"V15_POST_EDIT_REPORT_{VERSION}.md"
 
     if not full_audit["current"]:
-        result["next_action"] = (
-            "All Stage-A and Stage-B numeric+visual gates pass. Rerun the full "
-            "V15 Blender audit before export."
-        )
+        result["next_action"] = "AUDIT_V15F_FULL.bat"
         result["reason"] = "All per-digit V15f gates are cleared; whole-hand audit is stale."
     elif full_audit["pass"] is not True:
         result["next_action"] = "Repair the whole-hand Blender audit failure before export."

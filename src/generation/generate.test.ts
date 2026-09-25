@@ -11,11 +11,14 @@ import { squatFamily } from '../exercises/families/squat';
 import type { SquatVariant } from '../exercises/families/squat';
 import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
+import { hingeFamily } from '../exercises/families/hinge';
+import type { HingeVariant } from '../exercises/families/hinge';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
 import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
+import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -33,6 +36,7 @@ const INCLINE = 'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbel
 const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
 const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
+const RDL = 'Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -86,6 +90,20 @@ describe('generating without a character', () => {
     },
     20_000,
   );
+
+  it('builds the Romanian deadlift from hingeFamily rather than a standalone definition', () => {
+    const result = generateExercise(RDL, options);
+    expect(result.family?.id).toBe('hinge');
+    expect(result.exercise).toEqual(hingeFamily(result.variant as HingeVariant));
+    expect(result.reference).toBe('dumbbell_romanian_deadlift');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([18, 18]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+  });
+
+  it('reproduces the library Romanian deadlift motion from a plain certified intent', () => {
+    const result = generateExercise('a dumbbell Romanian deadlift', options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(romanianDeadlift));
+  });
 
   it('will not certify what it could not measure', () => {
     const result = generateExercise(HAMMER, options);
@@ -189,6 +207,22 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       expect(result.validations).toBeLessThanOrEqual(3);
       expect(result.status).toBe('failed');
       expect(result.report?.failed).toContain('equipmentClearance');
+    },
+    900_000,
+  );
+
+  it(
+    'builds a dumbbell Romanian deadlift through the same pipeline',
+    async () => {
+      const result = await generateExerciseAsync(RDL, { rig, library, character });
+      expect(result.family?.id).toBe('hinge');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('dumbbell_romanian_deadlift');
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
     },
     900_000,
   );

@@ -31,7 +31,7 @@ describe('the offline curl reference', () => {
   ] as const)('%s clears the draft independent envelope', (_name, exercise) => {
     const report = review(exercise);
     expect(report.skipped).toEqual([]);
-    expect(report.failed, report.checks.filter((check) => check.status === 'fail')).toEqual([]);
+    expect(report.failed, JSON.stringify(report.checks.filter((check) => check.status === 'fail'))).toEqual([]);
     expect(report.passed).toBe(true);
   });
 

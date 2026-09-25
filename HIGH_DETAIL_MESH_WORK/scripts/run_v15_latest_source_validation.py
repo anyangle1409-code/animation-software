@@ -69,7 +69,10 @@ def resolve_source():
         )
         ref = remote if probe.returncode == 0 else SOURCE_BRANCH
     sha = subprocess.check_output(["git", "rev-parse", ref], cwd=REPO, text=True).strip()
-    return ref, sha, fetch.returncode
+    message = subprocess.check_output(
+        ["git", "show", "-s", "--format=%s", sha], cwd=REPO, text=True
+    ).strip()
+    return ref, sha, message, fetch.returncode
 
 def remove_worktree():
     if WORKTREE.exists():
@@ -178,7 +181,7 @@ def main():
         raise SystemExit("Missing comparison asset(s):\n- " + "\n- ".join(missing))
 
     out.mkdir(parents=True, exist_ok=True)
-    ref, sha, fetch_code = resolve_source()
+    ref, sha, source_message, fetch_code = resolve_source()
     remove_worktree()
     git("worktree", "add", "--detach", str(WORKTREE), sha)
     dependency_mode = None
@@ -193,7 +196,10 @@ def main():
                 WORKTREE, check=False,
                 log=out / "full_source_suite.log",
             )
-            suite = {"returncode": suite_proc.returncode}
+            suite = {
+                "returncode": suite_proc.returncode,
+                "tests": test_counts(suite_proc.stdout),
+            }
             if suite_proc.returncode != 0:
                 raise SystemExit("Latest source full suite is not clean; see full_source_suite.log")
 
@@ -275,6 +281,7 @@ def main():
             "source_branch": SOURCE_BRANCH,
             "resolved_ref": ref,
             "source_head": sha,
+            "source_commit_message": source_message,
             "fetch_returncode": fetch_code,
             "dependency_mode": dependency_mode,
             "full_suite": suite,

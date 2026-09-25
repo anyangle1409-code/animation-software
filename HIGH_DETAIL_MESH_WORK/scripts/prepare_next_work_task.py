@@ -26,6 +26,7 @@ def main():
     route=data.get("route")
     v15=data.get("v15f") or {}
     estimate=plan.get("estimated_five_hour_drop_percent") or {}
+    week_estimate=plan.get("estimated_weekly_drop_percent") or {}
     budget=data.get("budget") or {}
 
     ready=route=="GPT_WORK" and plan.get("decision")=="START"
@@ -36,10 +37,13 @@ def main():
         f"- route: **{route}**",
         f"- planner decision: **{plan.get('decision')}**",
         f"- task class: {data.get('task_class')}",
+        f"- execution mode: **{plan.get('execution_mode')}**",
         f"- model: **{plan.get('recommended_model')}**",
         f"- reasoning: **{plan.get('reasoning')}**",
         f"- Fast mode: **{'ON' if plan.get('fast_mode') else 'OFF'}**",
         f"- estimated 5-hour use: **{estimate.get('low','?')}%-{estimate.get('high','?')}%**",
+        f"- estimated weekly use: **{week_estimate.get('low','?')}%-{week_estimate.get('high','?')}%** "
+        f"({plan.get('weekly_estimate_source','not calibrated')})",
         f"- current 5-hour remaining: {budget.get('work_window_percent')}",
         f"- current weekly remaining: {budget.get('work_week_percent')}",
         "",

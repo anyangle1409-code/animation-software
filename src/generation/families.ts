@@ -1310,6 +1310,94 @@ const calf: GeneratorFamily<CalfVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Trunk flexion / crunch and sit-up
+// ---------------------------------------------------------------------------
+
+const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
+  id: 'trunk_flexion',
+  label: 'Crunch / sit-up',
+  builder: 'trunkFlexionFamily',
+  detect: /\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/,
+
+  library: ['crunch', 'sit_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bbicycle\b/, 'a bicycle crunch adds alternating trunk rotation and hip motion; not built by this family.'],
+        [/\breverse\s+crunch\b/, 'a reverse crunch moves the pelvis and legs rather than curling the upper trunk; not built here.'],
+        [/\bdecline\b|\bincline\b/, 'an angled crunch or sit-up needs an angled bench/support rather than the floor.'],
+        [/\bweighted\b|\bplate\b|\bdumb-?bells?\b|\bbarbell\b/, 'the current trunk-flexion family is bodyweight only.'],
+        [/\bmachine\b|\bcable\b/, 'machine/cable crunches use external equipment and a different load path.'],
+      ],
+      issues,
+    );
+
+    const crunch = /\bcrunch(?:es)?\b/.test(slots.text);
+    const situp = /\bsit[-\s]?ups?\b/.test(slots.text);
+    if (crunch && situp) {
+      issues.push(blocking('variant', 'The request names both a crunch and a sit-up; ask for one movement.'));
+    }
+    const trunkMotion: 'crunch' | 'situp' = situp ? 'situp' : 'crunch';
+
+    const support = interpretSupport(slots, ['floor'], trunkMotion === 'situp' ? 'sit-up' : 'crunch', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the floor-based trunk-flexion family has no angle input.'));
+    }
+    const { tempo } = interpretCommon(
+      slots,
+      trunkMotion === 'situp' ? 'sit-up' : 'crunch',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'trunk_flexion',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support,
+        trunkMotion,
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const motion = intent.trunkMotion ?? 'crunch';
+    const tempo = tempoOf(intent);
+    const description =
+      motion === 'situp'
+        ? 'A floor sit-up from lying to sitting with the feet planted'
+        : 'A floor crunch that curls the shoulder blades clear while the lower back stays down';
+    return {
+      ...identity(motion === 'situp' ? 'Sit-Up' : 'Crunch', intent),
+      description:
+        'Generated from "' + intent.prompt.trim() + '". ' + description +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') + '.',
+      motion,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: trunkFlexionFamily,
+
+  reference: (intent) => (intent.trunkMotion === 'situp' ? 'sit_up' : 'crunch'),
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -1323,6 +1411,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   extension as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
+  trunkFlexion as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

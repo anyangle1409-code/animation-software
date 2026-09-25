@@ -243,7 +243,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

@@ -447,3 +447,37 @@ not treat it as a guaranteed replacement for GPT Work itself.
 
 The runner exits when only the final V15 review remains, when its 8-hour local
 lifetime expires, or when the stop flag is requested.
+
+
+## One-command resume
+
+For the next GPT Work session, the safest single entry point is:
+
+`RESUME_V15F_WORK.bat`
+
+It does **not** reset, clean or pull over local files. It:
+- runs `CHECK_PREPARED_TOOLING.bat` logic;
+- prints `V15F_STATUS`;
+- creates V15f from V13e if it does not yet exist;
+- otherwise refreshes the handoff, starts the local safe deterministic runner,
+  and opens the existing V15f Blend with the V15 Hand sidebar.
+
+The detailed documents remain authoritative if the status reports a blocked or
+visual-decision state.
+
+
+## Additional V15f shape-quality diagnostics
+
+The shared Blender audit now also reports advisory per-digit bind-pose shape
+signals:
+- cross-section radius spread;
+- transverse section axis ratio;
+- longitudinal radius-profile jump;
+- radius-profile second-difference.
+
+These are intended to catch a finger that has fewer sharp edges but still has a
+segmented/lumpy diameter profile. They are reported in
+`shape_quality_priority` and surfaced in `V15F_LATEST_HANDOFF.md`.
+
+They are **diagnostic only** until calibrated; do not turn them into hard
+acceptance thresholds or override visual anatomy review solely from these values.

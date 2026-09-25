@@ -72,6 +72,47 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('reads a dumbbell Romanian deadlift through the hinge family', () => {
+    const parsed = parsePrompt('Create a dumbbell Romanian deadlift with 18 kg dumbbells and slow tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'hinge',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      load: 18,
+      tempo: { profile: 'slow' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/pronated grip/);
+  });
+
+  it('reads a two-arm dumbbell bent-over row', () => {
+    const parsed = parsePrompt('Create a dumbbell bent-over row with 16 kg dumbbells and controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'row',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 16,
+      tempo: { profile: 'controlled' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
+  });
+
+  it('reads a strict bodyweight pull-up through the vertical-pull family', () => {
+    const parsed = parsePrompt('Create a strict pull-up from a dead hang with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'vertical_pull',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'hanging',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -109,10 +150,23 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('walking lunge')).toEqual(['variant']);
     expect(blocking('a squat with 20 kg dumbbells')).toEqual(['equipment', 'load']);
     expect(blocking('a split squat and a forward lunge')).toEqual(['variant']);
+    expect(blocking('conventional deadlift')).toEqual(['variant']);
+    expect(blocking('sumo deadlift')).toContain('variant');
+    expect(blocking('good morning')).toEqual(['variant']);
+    expect(blocking('single-leg RDL')).toEqual(['variant']);
+    expect(blocking('dumbbell row')).toEqual(['variant']);
+    expect(blocking('one-arm bent-over row')).toContain('variant');
+    expect(blocking('barbell bent-over row')).toContain('variant');
+    expect(blocking('seated cable row')).toContain('variant');
+    expect(blocking('chin-up')).toContain('variant');
+    expect(blocking('lat pulldown')).toContain('variant');
+    expect(blocking('neutral grip pull-up')).toContain('grip');
+    expect(blocking('assisted pull-up')).toContain('variant');
+    expect(blocking('wide-grip pull-up')).toContain('variant');
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

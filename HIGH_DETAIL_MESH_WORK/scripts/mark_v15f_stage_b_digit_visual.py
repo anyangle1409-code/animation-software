@@ -16,8 +16,14 @@ def main():
     args=ap.parse_args()
     key=args.digit
     board=ROOT/"renders_v15f_stage_b"/key/f"V15F_V13E_{key.upper()}_PROOF.jpg"
+    gate_path=ROOT/"reports"/f"v15f_stage_b_{key}_gate.json"
     if not board.is_file():
         raise SystemExit(f"Missing visual board: {board}")
+    if not gate_path.is_file():
+        raise SystemExit(f"Missing Stage-B numeric gate: {gate_path}")
+    gate=json.loads(gate_path.read_text(encoding="utf-8"))
+    if gate.get("pass") is not True:
+        raise SystemExit(f"Stage-B {key} numeric gate is not PASS.")
     if not AUDIT.is_file():
         raise SystemExit("Missing current V15f audit. Rerun the Stage-B numeric gate.")
     audit=json.loads(AUDIT.read_text(encoding="utf-8"))
@@ -25,6 +31,9 @@ def main():
     fingerprint=item.get("surface_fingerprint_sha256")
     if not fingerprint:
         raise SystemExit(f"Current audit has no {key} surface fingerprint.")
+    expected=gate.get("candidate",{}).get("surface_fingerprint_sha256")
+    if expected and expected!=fingerprint:
+        raise SystemExit(f"Stage-B {key} numeric gate is stale relative to current audited surface.")
     payload={
         "digit":key,
         "decision":args.decision.upper(),

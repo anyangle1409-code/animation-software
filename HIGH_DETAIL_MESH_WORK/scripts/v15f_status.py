@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "v15f_deep_hand_rebuild"
 BLEND = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.blend"
 DIGITS = ("ring_L", "ring_R", "pinky_L", "pinky_R")
+RING_VISUAL = ROOT / "reports" / "v15f_ring_visual_decision.json"
+RING_BOARD = ROOT / "renders_v15f_ring_proof" / "V15F_V13E_RING_L_PROOF.jpg"
 
 def read_json(path):
     if not path.is_file():
@@ -37,6 +39,33 @@ def gate_state(path, timestamp_sensitive=False):
         "read_error": data.get("_read_error"),
     }
 
+def visual_decision_state():
+    data = read_json(RING_VISUAL)
+    if data is None:
+        return {
+            "exists": False,
+            "current": False,
+            "pass": None,
+            "board_exists": RING_BOARD.is_file(),
+            "path": str(RING_VISUAL),
+        }
+    stat = BLEND.stat() if BLEND.is_file() else None
+    current = bool(
+        stat
+        and data.get("blend_mtime_ns") == stat.st_mtime_ns
+        and data.get("blend_size") == stat.st_size
+        and RING_BOARD.is_file()
+    )
+    return {
+        "exists": True,
+        "current": current,
+        "pass": data.get("pass") if current else None,
+        "decision": data.get("decision"),
+        "notes": data.get("notes"),
+        "board_exists": RING_BOARD.is_file(),
+        "path": str(RING_VISUAL),
+    }
+
 def main():
     result = {
         "version": VERSION,
@@ -55,6 +84,8 @@ def main():
 
     proof = gate_state(ROOT / "reports" / "v15f_ring_l_proof_gate.json")
     result["gates"]["ring_L_proof"] = proof
+    ring_visual = visual_decision_state()
+    result["gates"]["ring_L_visual"] = ring_visual
 
     digit_states = {}
     for digit in DIGITS:
@@ -65,11 +96,40 @@ def main():
     stage_a = gate_state(ROOT / "reports" / "v15f_stage_a_gate.json")
     result["gates"]["stage_A"] = stage_a
 
+    if proof["exists"] and proof["pass"] is True:
+        if not ring_visual["board_exists"]:
+            result["next_action"] = "GENERATE_V15F_RING_VISUAL_PROOF.bat"
+            result["reason"] = (
+                "ring_L numeric proof passes, but matched visual proof images are missing."
+            )
+            print(json.dumps(result, indent=2))
+            return
+        if not ring_visual["exists"] or not ring_visual["current"]:
+            result["next_action"] = (
+                "OPEN_V15F_RING_VISUAL_PROOF.bat, inspect V13e vs V15f ring_L, "
+                "then run: MARK_V15F_RING_VISUAL.bat pass|fail"
+            )
+            result["reason"] = (
+                "ring_L numeric proof passes; an explicit visual verdict for the "
+                "current Blend is still required before ring_R."
+            )
+            print(json.dumps(result, indent=2))
+            return
+        if ring_visual["pass"] is not True:
+            result["next_action"] = (
+                "Repair ring_L only, save/checkpoint, then rerun "
+                "AUDIT_V15F_RING_PROOF.bat"
+            )
+            result["reason"] = (
+                "The current ring_L visual proof is explicitly marked FAIL."
+            )
+            print(json.dumps(result, indent=2))
+            return
+
     # Passed per-digit gates deliberately remain valid while later digits are
     # edited. The final Stage-A/full audit catches cross-digit/global regressions.
     # This avoids sending Work back to ring_L every time ring_R/pinky is saved.
     sequence = [
-        ("ring_L", "AUDIT_V15F_RING_PROOF.bat", proof),
         ("ring_R", "AUDIT_V15F_DIGIT.bat ring_R", digit_states["ring_R"]),
         ("pinky_L", "AUDIT_V15F_DIGIT.bat pinky_L", digit_states["pinky_L"]),
         ("pinky_R", "AUDIT_V15F_DIGIT.bat pinky_R", digit_states["pinky_R"]),

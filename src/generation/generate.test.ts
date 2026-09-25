@@ -23,6 +23,8 @@ import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseVariant } from '../exercises/families/raise';
 import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
+import { carryFamily } from '../exercises/families/carry';
+import type { CarryVariant } from '../exercises/families/carry';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -37,6 +39,7 @@ import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
+import { farmersWalk } from '../exercises/definitions/farmersWalk';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -63,6 +66,7 @@ const LATERAL_RAISE = 'Create a lateral raise with 7 kg dumbbells and controlled
 const FRONT_RAISE = 'Create a front raise with 5 kg dumbbells.';
 const CALF_RAISE = 'Create a bodyweight calf raise with slow tempo.';
 const DB_CALF_RAISE = 'Create a calf raise with 18 kg dumbbells.';
+const FARMERS_WALK = "Create a farmer's walk with 28 kg dumbbells.";
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -223,6 +227,20 @@ describe('generating without a character', () => {
   it('reproduces both library calf-raise motions from plain certified intents', () => {
     expect(motionOf(generateExercise('a bodyweight calf raise', options).exercise!)).toEqual(motionOf(calfRaise));
     expect(motionOf(generateExercise('a dumbbell calf raise', options).exercise!)).toEqual(motionOf(dumbbellCalfRaise));
+  });
+
+  it("builds the farmer's walk from carryFamily rather than a standalone definition", () => {
+    const result = generateExercise(FARMERS_WALK, options);
+    expect(result.family?.id).toBe('carry');
+    expect(result.exercise).toEqual(carryFamily(result.variant as CarryVariant));
+    expect(result.reference).toBe('farmers_walk');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([28, 28]);
+    expect(result.exercise?.travel?.speed).toBeGreaterThan(0);
+  });
+
+  it("reproduces the library farmer's-walk motion from the plain certified intent", () => {
+    const result = generateExercise("a farmer's walk with dumbbells", options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(farmersWalk));
   });
 
   it('will not certify what it could not measure', () => {
@@ -458,6 +476,21 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
         expect(result.reference, prompt).toBe(reference);
         expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
       }
+    },
+    900_000,
+  );
+
+  it(
+    "builds the farmer's walk through the same production-character pipeline",
+    async () => {
+      const result = await generateExerciseAsync(FARMERS_WALK, { rig, library, character });
+      expect(result.family?.id).toBe('carry');
+      expect(result.status).toBe('passed');
+      expect(result.initial?.failed).toEqual([]);
+      expect(result.corrections).toEqual([]);
+      expect(result.validations).toBe(1);
+      expect(result.reference).toBe('farmers_walk');
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
     },
     900_000,
   );

@@ -12,10 +12,10 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row' | 'extension' | 'raise';
 
 /** What the body moves against. Bodyweight families hold no equipment yet. */
-export type IntentImplement = 'dumbbell' | 'bodyweight';
+export type IntentImplement = 'dumbbell' | 'bodyweight' | 'cable';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
 export type IntentSupport = 'standing' | 'seated' | 'incline';

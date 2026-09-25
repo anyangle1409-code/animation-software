@@ -22,11 +22,13 @@ def read_json(path):
     except Exception as exc:
         return {"_read_error": str(exc)}
 
-def gate_state(path):
+def gate_state(path, timestamp_sensitive=False):
     data = read_json(path)
     if data is None:
         return {"exists": False, "current": False, "pass": None, "path": str(path)}
-    current = BLEND.is_file() and path.stat().st_mtime >= BLEND.stat().st_mtime
+    current = True
+    if timestamp_sensitive:
+        current = BLEND.is_file() and path.stat().st_mtime >= BLEND.stat().st_mtime
     return {
         "exists": True,
         "current": current,
@@ -63,9 +65,9 @@ def main():
     stage_a = gate_state(ROOT / "reports" / "v15f_stage_a_gate.json")
     result["gates"]["stage_A"] = stage_a
 
-    # Reports become stale whenever the Blend is saved after them. The user may
-    # intentionally have edited the next digit, so the next action is the first
-    # gate in sequence that is absent/stale/failing.
+    # Passed per-digit gates deliberately remain valid while later digits are
+    # edited. The final Stage-A/full audit catches cross-digit/global regressions.
+    # This avoids sending Work back to ring_L every time ring_R/pinky is saved.
     sequence = [
         ("ring_L", "AUDIT_V15F_RING_PROOF.bat", proof),
         ("ring_R", "AUDIT_V15F_DIGIT.bat ring_R", digit_states["ring_R"]),
@@ -74,13 +76,11 @@ def main():
     ]
 
     for digit, command, state in sequence:
-        if not state["exists"] or not state["current"]:
+        if not state["exists"]:
             result["next_action"] = (
                 f"Inspect/edit {digit} only, save/checkpoint, then run: {command}"
             )
-            result["reason"] = (
-                f"{digit} gate is missing or stale relative to the current Blend."
-            )
+            result["reason"] = f"{digit} gate is missing."
             print(json.dumps(result, indent=2))
             return
         if state["pass"] is not True:
@@ -91,9 +91,9 @@ def main():
             print(json.dumps(result, indent=2))
             return
 
-    if not stage_a["exists"] or not stage_a["current"]:
+    if not stage_a["exists"]:
         result["next_action"] = "AUDIT_V15F_STAGE_A.bat"
-        result["reason"] = "All four incremental ring/pinky gates pass; Stage A is missing/stale."
+        result["reason"] = "All four incremental ring/pinky gates pass; Stage A is missing."
         print(json.dumps(result, indent=2))
         return
     if stage_a["pass"] is not True:
@@ -105,7 +105,10 @@ def main():
         print(json.dumps(result, indent=2))
         return
 
-    full_audit = gate_state(ROOT / "reports" / f"audit_{VERSION}_blender.json")
+    full_audit = gate_state(
+        ROOT / "reports" / f"audit_{VERSION}_blender.json",
+        timestamp_sensitive=True,
+    )
     result["gates"]["full_blender_audit"] = full_audit
 
     dressed = ROOT / f"HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_{VERSION}.glb"

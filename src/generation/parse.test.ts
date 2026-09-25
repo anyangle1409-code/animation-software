@@ -100,6 +100,21 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/neutral grip/);
   });
 
+  it('reads a strict bodyweight pull-up through the vertical-pull family', () => {
+    const parsed = parsePrompt('Create a strict pull-up with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'vertical_pull',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'hanging',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+    expect(parsed.assumptions.join(' ')).toMatch(/pronated grip/);
+    expect(parsed.assumptions.join(' ')).toMatch(/Hanging/);
+  });
+
   it('fills sensible defaults and says so', () => {
     const parsed = parsePrompt('a dumbbell curl');
     expect(parsed.intent).toMatchObject({ grip: 'supinated', support: 'standing', load: 10, tempo: { profile: 'family' } });
@@ -151,6 +166,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('one-arm bent-over row')).toContain('variant');
     expect(blocking('barbell bent-over row')).toContain('variant');
     expect(blocking('seated cable row')).toContain('variant');
+    expect(blocking('neutral grip pull-up')).toEqual(['grip']);
+    expect(blocking('weighted pull-up with 10 kg')).toContain('variant');
+    expect(blocking('kipping pull-up')).toEqual(['variant']);
+    expect(blocking('chin-up')).toEqual(['family']);
+    expect(blocking('lat pulldown')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

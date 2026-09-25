@@ -104,7 +104,9 @@ for v in bm.verts:
         owners[v] = key
 
 protected = {v for v in bm.verts if is_protected(v)}
-boundaries = {v for v in bm.verts if v.is_boundary}
+# Only digit-owned patch boundaries matter to this hand rebuild. Whole-body
+# mesh boundaries would make the diagnostic group noisy and waste Work time.
+boundaries = {v for v in owners if v.is_boundary}
 
 # Keep a four-edge transition region around exact contact and existing patch
 # boundaries. V15_REBUILD_CORE deliberately excludes that transition.
@@ -126,6 +128,9 @@ sharp = set()
 threshold_cos = math.cos(math.radians(35.0))
 for e in bm.edges:
     if len(e.link_faces) != 2:
+        continue
+    a, b = e.verts
+    if a not in owners or b not in owners or owners[a] != owners[b]:
         continue
     if e.link_faces[0].normal.dot(e.link_faces[1].normal) < threshold_cos:
         sharp.update(e.verts)

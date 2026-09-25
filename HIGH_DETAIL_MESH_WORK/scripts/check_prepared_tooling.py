@@ -34,6 +34,8 @@ REQUIRED = [
     "AUDIT_V15F_STAGE_A.bat",
     "AUDIT_V15F_DIGIT.bat",
     "V15F_STATUS.bat",
+    "AUDIT_V15F_FULL.bat",
+    "RESUME_V15F_WORK.bat",
     "STOP_V15F_SAFE_RUNNER.bat",
     "START_V15F_SAFE_RUNNER.bat",
     "WRITE_V15F_HANDOFF.bat",

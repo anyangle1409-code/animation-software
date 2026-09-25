@@ -3,7 +3,8 @@ import type { Axis } from '../rig/types';
 import type { HandSpec } from '../exercises/types';
 import type { CameraPresetId } from '../viewer/cameraTypes';
 
-export type ReferenceFamilyId = 'curl';
+export type ReferenceFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge' | 'hinge' | 'row';
+export type ReferenceScale = 'standingHeight' | 'shoulderWidth' | 'armLength' | 'torsoLength';
 export type ReferenceStatus = 'draft' | 'certified';
 export type ReferenceCheckStatus = 'pass' | 'fail' | 'skip';
 export type ReferenceSeverity = 'error' | 'warning';
@@ -44,6 +45,50 @@ export interface RootEnvelopeCheck extends ReferenceCheckBase {
   envelope: NumericEnvelope;
 }
 
+/** Root world position on one axis, optionally normalized by body size. */
+export interface RootPositionEnvelopeCheck extends ReferenceCheckBase {
+  kind: 'rootPositionEnvelope';
+  axis: Axis;
+  envelope: NumericEnvelope;
+  normalizeBy?: ReferenceScale;
+}
+
+/** World landmark position relative to another joint. */
+export interface RelativeLandmarkEnvelopeCheck extends ReferenceCheckBase {
+  kind: 'relativeLandmarkEnvelope';
+  point: BoneName;
+  relativeTo: BoneName;
+  axis: Axis;
+  envelope: NumericEnvelope;
+  normalizeBy?: ReferenceScale;
+}
+
+/** Angle of a bone segment to a world axis. Zero means aligned. */
+export interface SegmentAngleEnvelopeCheck extends ReferenceCheckBase {
+  kind: 'segmentAngleEnvelope';
+  bone: BoneName;
+  worldAxis: Axis;
+  envelope: NumericEnvelope;
+}
+
+/** Maximum world-space drift from the first selected sample. */
+export interface LandmarkStationaryCheck extends ReferenceCheckBase {
+  kind: 'landmarkStationary';
+  bone: BoneName;
+  tolerance: number;
+  normalizeBy?: ReferenceScale;
+}
+
+/** Distance between two landmarks, optionally on one world axis. */
+export interface LandmarkDistanceEnvelopeCheck extends ReferenceCheckBase {
+  kind: 'landmarkDistanceEnvelope';
+  from: BoneName;
+  to: BoneName;
+  axis?: Axis;
+  envelope: NumericEnvelope;
+  normalizeBy?: ReferenceScale;
+}
+
 /**
  * Left/right rotational agreement. Flexion (x) keeps its sign under mirroring;
  * axial rotation (y) and ab/adduction (z) reverse their sign.
@@ -81,13 +126,18 @@ export type ReferenceCheckSpec =
   | JointEnvelopeCheck
   | JointExcursionCheck
   | RootEnvelopeCheck
+  | RootPositionEnvelopeCheck
+  | RelativeLandmarkEnvelopeCheck
+  | SegmentAngleEnvelopeCheck
+  | LandmarkStationaryCheck
+  | LandmarkDistanceEnvelopeCheck
   | BilateralSymmetryCheck
   | PhaseOrderCheck
   | LandmarkMonotonicCheck;
 
 export interface ReferenceApplicability {
   handOrientation?: HandSpec['orientation'];
-  support?: 'standing' | 'incline';
+  support?: 'standing' | 'seated' | 'incline';
 }
 
 export interface ReferenceReviewView {

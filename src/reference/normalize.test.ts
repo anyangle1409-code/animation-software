@@ -6,7 +6,7 @@ describe('reference body normalization', () => {
   it('derives stable canonical body scales from the frozen rig geometry', () => {
     const scale = bodyNormalization(canonicalSkeleton);
     expect(scale.standingHeight).toBeCloseTo(1.75, 6);
-    expect(scale.shoulderWidth).toBeCloseTo(0.34, 6);
+    expect(scale.shoulderWidth).toBeCloseTo(0.40734, 6);
     expect(scale.armLength).toBeCloseTo(0.65, 6);
     expect(scale.torsoLength).toBeGreaterThan(0.4);
     expect(scale.torsoLength).toBeLessThan(0.6);

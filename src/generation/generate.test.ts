@@ -19,6 +19,8 @@ import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
+import { raiseFamily } from '../exercises/families/raise';
+import type { RaiseVariant } from '../exercises/families/raise';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -29,6 +31,8 @@ import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { pullUp } from '../exercises/definitions/pullUp';
 import { overheadExtension } from '../exercises/definitions/overheadExtension';
 import { cablePushdown } from '../exercises/definitions/cablePushdown';
+import { lateralRaise } from '../exercises/definitions/lateralRaise';
+import { frontRaise } from '../exercises/definitions/frontRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -51,6 +55,8 @@ const ROW = 'Create a dumbbell bent-over row with 16 kg dumbbells and controlled
 const PULL_UP = 'Create a strict pull-up with controlled tempo.';
 const OVERHEAD_EXTENSION = 'Create an overhead dumbbell triceps extension with 8 kg dumbbells and slow tempo.';
 const PUSHDOWN = 'Create a cable triceps pushdown with controlled tempo.';
+const LATERAL_RAISE = 'Create a lateral raise with 7 kg dumbbells and controlled tempo.';
+const FRONT_RAISE = 'Create a front raise with 5 kg dumbbells.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -171,6 +177,26 @@ describe('generating without a character', () => {
     expect(motionOf(generateExercise('a cable triceps pushdown', options).exercise!)).toEqual(
       motionOf(cablePushdown),
     );
+  });
+
+  it('builds both shoulder raises from raiseFamily rather than standalone definitions', () => {
+    const lateral = generateExercise(LATERAL_RAISE, options);
+    expect(lateral.family?.id).toBe('raise');
+    expect(lateral.exercise).toEqual(raiseFamily(lateral.variant as RaiseVariant));
+    expect(lateral.reference).toBe('dumbbell_lateral_raise');
+    expect(lateral.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([7, 7]);
+    expect(lateral.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+
+    const front = generateExercise(FRONT_RAISE, options);
+    expect(front.family?.id).toBe('raise');
+    expect(front.exercise).toEqual(raiseFamily(front.variant as RaiseVariant));
+    expect(front.reference).toBe('dumbbell_front_raise');
+    expect(front.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([5, 5]);
+  });
+
+  it('reproduces both library raise motions from plain certified intents', () => {
+    expect(motionOf(generateExercise('a lateral raise with dumbbells', options).exercise!)).toEqual(motionOf(lateralRaise));
+    expect(motionOf(generateExercise('a front raise with dumbbells', options).exercise!)).toEqual(motionOf(frontRaise));
   });
 
   it('will not certify what it could not measure', () => {
@@ -359,6 +385,26 @@ describe.skipIf(!existsSync(ASSET))('generating on the production character', ()
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         expect(result.family?.id, prompt).toBe(family);
+        expect(result.status, prompt).toBe('passed');
+        expect(result.initial?.failed, prompt).toEqual([]);
+        expect(result.corrections, prompt).toEqual([]);
+        expect(result.validations, prompt).toBe(1);
+        expect(result.reference, prompt).toBe(reference);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), prompt).toBe(true);
+      }
+    },
+    900_000,
+  );
+
+  it(
+    'builds both certified shoulder raises through the same production-character pipeline',
+    async () => {
+      for (const [prompt, reference] of [
+        [LATERAL_RAISE, 'dumbbell_lateral_raise'],
+        [FRONT_RAISE, 'dumbbell_front_raise'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        expect(result.family?.id, prompt).toBe('raise');
         expect(result.status, prompt).toBe('passed');
         expect(result.initial?.failed, prompt).toEqual([]);
         expect(result.corrections, prompt).toEqual([]);

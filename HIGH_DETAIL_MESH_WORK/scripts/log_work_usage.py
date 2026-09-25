@@ -18,6 +18,9 @@ ap.add_argument("after",type=float)
 ap.add_argument("minutes",type=float)
 ap.add_argument("--context",choices=("small","medium","large"),default="small")
 ap.add_argument("--reasoning",choices=("low","medium","high"),default="medium")
+ap.add_argument("--before-week",type=float,default=None)
+ap.add_argument("--after-week",type=float,default=None)
+ap.add_argument("--credits-used",type=float,default=None)
 ap.add_argument("--notes",default="")
 args=ap.parse_args()
 
@@ -26,6 +29,15 @@ if not (0<=args.before<=100 and 0<=args.after<=100):
 if args.after>args.before:
     raise SystemExit("After is greater than before. Do not log across a reset.")
 drop=args.before-args.after
+week_drop=None
+if args.before_week is not None or args.after_week is not None:
+    if args.before_week is None or args.after_week is None:
+        raise SystemExit("Provide both --before-week and --after-week or neither.")
+    if not (0<=args.before_week<=100 and 0<=args.after_week<=100):
+        raise SystemExit("Weekly before/after must be 0-100.")
+    if args.after_week>args.before_week:
+        raise SystemExit("Weekly after is greater than before. Do not log across a weekly reset.")
+    week_drop=args.before_week-args.after_week
 
 data={"samples":[]}
 if OUT.is_file():
@@ -39,6 +51,10 @@ sample={
     "before_percent":args.before,
     "after_percent":args.after,
     "drop_percent":round(drop,3),
+    "week_before_percent":args.before_week,
+    "week_after_percent":args.after_week,
+    "week_drop_percent":round(week_drop,3) if week_drop is not None else None,
+    "credits_used":args.credits_used,
     "minutes":args.minutes,
     "context":args.context,
     "reasoning":args.reasoning,

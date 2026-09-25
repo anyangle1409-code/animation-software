@@ -11,6 +11,8 @@ import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
+import { verticalPullFamily } from '../exercises/families/verticalPull';
+import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -912,6 +914,90 @@ const row: GeneratorFamily<RowVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Vertical pull / pull-up
+// ---------------------------------------------------------------------------
+
+const verticalPull: GeneratorFamily<VerticalPullVariant> = {
+  id: 'vertical_pull',
+  label: 'Pull-up',
+  builder: 'verticalPullFamily',
+  detect: /\bpull[-\s]?ups?\b/,
+
+  library: ['pull_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bkipping\b|\bkip\b/, 'the certified pull-up is strict; kipping changes the whole-body movement.'],
+        [/\bassisted\b/, 'an assisted pull-up needs a band, machine or counterweight relationship that is not certified.'],
+        [/\bweighted\b/, 'a weighted pull-up needs an added-load attachment model; the certified family is bodyweight only.'],
+        [/\bwide[-\s]?grip\b|\bclose[-\s]?grip\b|\bnarrow[-\s]?grip\b/, 'the current family owns one fixed grip width, just wider than the shoulders.'],
+        [/\bbehind[-\s](?:the[-\s])?neck\b/, 'a behind-the-neck pull-up is a different shoulder path and is not certified.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified pull-up uses a pronated overhand grip. Chin-up/underhand and neutral-grip variants are not certified yet.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['hanging'], 'pull-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', quote(slots.angles.map((slot) => slot.words)) + ': the pull-up family has no angle input.'));
+    }
+
+    const { load, tempo } = interpretCommon(slots, 'pull-up', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'vertical_pull',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        grip,
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Pull-Up', intent),
+      description:
+        'Generated from "' +
+        intent.prompt.trim() +
+        '". A strict bodyweight pull-up from a dead hang on the fixed rack bar, using the certified pronated grip just wider than shoulder width' +
+        (tempoWords(intent) ? ', ' + tempoWords(intent) : '') +
+        '.',
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: verticalPullFamily,
+
+  reference: () => 'pull_up',
+
+  // The fixed grip/support geometry is already solved by the family and the
+  // accepted library pull-up passes the shared gates. Add a lever only after a
+  // measured generated failure identifies a safe family parameter.
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -920,6 +1006,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   lunge as unknown as GeneratorFamily,
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
+  verticalPull as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

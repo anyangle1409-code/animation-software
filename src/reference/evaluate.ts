@@ -87,8 +87,8 @@ function envelopeResult(
     status: worst.violation > 1e-9 ? 'fail' : 'pass',
     detail:
       worst.violation > 1e-9
-        ? `Observed ${min.toFixed(2)}–${max.toFixed(2)}°, outside ${expected}; worst excess ${worst.violation.toFixed(2)}°.`
-        : `Observed ${min.toFixed(2)}–${max.toFixed(2)}°, inside ${expected}.`,
+        ? `Observed ${min.toFixed(4)}–${max.toFixed(4)} ${unit}, outside ${expected}; worst excess ${worst.violation.toFixed(4)} ${unit}.`
+        : `Observed ${min.toFixed(4)}–${max.toFixed(4)} ${unit}, inside ${expected}.`,
     measured: worst.violation > 1e-9 ? worst.value : Math.max(Math.abs(min), Math.abs(max)),
     expected,
     worstTime: worst.time,
@@ -163,13 +163,13 @@ export function evaluateReference(
             severity,
             status: 'skip',
             detail: 'No samples matched the requested phases.',
-            expected: rangeText(check.envelope, unit),
+            expected: rangeText(check.envelope, 'deg'),
           };
         }
         const values = selected.map((sample) => toDeg(sample.pose.rotations[check.bone]?.[check.axis] ?? 0));
         const excursion = Math.max(...values) - Math.min(...values);
         const violation = outside(excursion, check.envelope);
-        const expected = rangeText(check.envelope, unit);
+        const expected = rangeText(check.envelope, 'deg');
         return {
           id: check.id,
           label: check.label,
@@ -194,6 +194,17 @@ export function evaluateReference(
       }
 
       case 'rootPositionEnvelope': {
+        if (check.normalizeBy && !options.rig) {
+          return {
+            id: check.id,
+            label: check.label,
+            kind: check.kind,
+            severity,
+            status: 'skip',
+            detail: 'A canonical rig is required for normalized root-position evaluation.',
+            expected: rangeText(check.envelope, check.normalizeBy),
+          };
+        }
         const scale = options.rig ? scaleValue(options.rig, check.normalizeBy) : 1;
         const unit = check.normalizeBy ? check.normalizeBy : 'm';
         const values = selected.map((sample) => ({

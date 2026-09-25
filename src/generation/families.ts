@@ -143,7 +143,7 @@ function interpretCommon(
         ),
       );
     } else {
-      assumptions.push('Bodyweight — no equipment, which is all this family is certified with.');
+      assumptions.push('Bodyweight — no external load is held; this family is certified without added load.');
     }
     if (slots.loads.length > 0) {
       issues.push(

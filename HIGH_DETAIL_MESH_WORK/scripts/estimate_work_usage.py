@@ -49,11 +49,20 @@ def load(path,default):
 def generic_range(task,model):
     lo_msgs,hi_msgs=MODEL_MESSAGE_RANGES[model]
     lo_units,hi_units=TASK_UNITS[task]
-    # Least consumption: low task units spread across generous message count.
+    # Planning range: low end assumes generous throughput; upper planning end
+    # uses the geometric midpoint of OpenAI's deliberately broad message range.
+    # The absolute low-message extreme is reported separately rather than used
+    # as the normal scheduler estimate, otherwise useful tasks are permanently
+    # blocked before personal calibration exists.
     low=100.0*lo_units/hi_msgs if hi_msgs else 0.0
-    # Conservative upper prior: high units against low end of message count.
-    high=100.0*hi_units/lo_msgs if lo_msgs else 100.0
-    return max(0.0,low),min(100.0,high)
+    midpoint=math.sqrt(lo_msgs*hi_msgs) if lo_msgs and hi_msgs else max(lo_msgs,1)
+    high=100.0*hi_units/midpoint if midpoint else 100.0
+    extreme=100.0*hi_units/lo_msgs if lo_msgs else 100.0
+    return (
+        max(0.0,low),
+        min(100.0,high),
+        min(100.0,extreme),
+    )
 
 def historical(task,model):
     data=load(SAMPLES,{"samples":[]}).get("samples",[])
@@ -138,7 +147,8 @@ def main():
 
     task=args.task_class
     model=args.model.lower()
-    generic=generic_range(task,model)
+    generic_low,generic_high,generic_extreme=generic_range(task,model)
+    generic=(generic_low,generic_high)
     hist=historical(task,model)
     week_hist=historical_week(task,model)
     estimate,source=blend_prior(generic,hist)
@@ -180,7 +190,8 @@ def main():
         "estimate_source":source,
         "generic_plus_prior_percent":{
             "low":round(generic[0],1),
-            "high":round(generic[1],1),
+            "planning_high":round(generic[1],1),
+            "published_low-end_extreme_high":round(generic_extreme,1),
         },
         "manual_work_remaining_percent":remaining,
         "estimated_weekly_drop_percent": (

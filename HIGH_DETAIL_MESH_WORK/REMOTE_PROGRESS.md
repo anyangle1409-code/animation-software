@@ -1,30 +1,30 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-26T21:39:18Z
+- UTC timestamp: 2026-09-26T21:44:25Z
 - local task start time if known: 2026-09-26T21:32:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 75828013b2969e8ad01f4395cb0585c54535cdf6
+- current HEAD: b11daf9ddda3d0c368cbc757848f60fe0c0fb03a
 - controller state: running
 - safe-runner state: stopped
 - Blender state: running
-- current phase: Phase 1 protected-anchor diagnosis
+- current phase: Phase 3 ring_L repair trials
 - current digit: ring_L
-- current repair strategy/attempt number: diagnosis before strategy 1
-- exact operation currently being performed: Run read-only checkpoint 004 blocker mapping and classify protected versus anchor-only topology
-- most recent operation completed: Phase 0 recovered branch, processes, battery and budgets; remote state reconciled
+- current repair strategy/attempt number: strategy 1 narrow orientation correction
+- exact operation currently being performed: Test opposite edge-rotation orientation after the preserved strategy-1 trial created one severe fold per rotation
+- most recent operation completed: Protected-anchor diagnosis complete; strategy-1 first trial rejected with 24 new >100-degree folds and no candidate overwrite
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
-- latest numeric gate: ring_L proof PASS
-- latest visual gate: ring_L visual FAIL
-- latest relevant report: scripts/diagnose_v15f_ring_l_protected_blocker.py prepared; report run next
+- latest numeric gate: active candidate PASS; rejected trial FAIL with ring_L +24 severe folds
+- latest visual gate: active candidate FAIL; rejected trial not rendered because numeric gate failed
+- latest relevant report: reports/audit_v15f_fixed_anchor_reroute_trial_blender.json
 - geometry changed since previous heartbeat: false
-- audit/render currently running: true
+- audit/render currently running: false
 - Work appears blocked/waiting: false
-- last error: none
-- next expected operation: Run diagnosis, validate report schema, then select strongest legal strategy
+- last error: BMesh rotation orientation created 24 inverted/severe folds in rejected trial
+- next expected operation: Run narrow opposite-orientation proof; keep only if focused audit passes
 - approximate battery percentage: 98
 - approximate Work usage remaining: 58% five-hour; 93% weekly
 - progress_status: ACTIVE
-- progress_counter: 1
+- progress_counter: 2
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

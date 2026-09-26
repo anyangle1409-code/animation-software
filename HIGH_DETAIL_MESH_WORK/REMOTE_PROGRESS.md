@@ -1,0 +1,30 @@
+# Remote progress heartbeat
+
+- UTC timestamp: 2026-09-26T21:39:18Z
+- local task start time if known: 2026-09-26T21:32:00Z
+- current branch: work/v15-deep-hand-rebuild-prep-20260925
+- current HEAD: 75828013b2969e8ad01f4395cb0585c54535cdf6
+- controller state: running
+- safe-runner state: stopped
+- Blender state: running
+- current phase: Phase 1 protected-anchor diagnosis
+- current digit: ring_L
+- current repair strategy/attempt number: diagnosis before strategy 1
+- exact operation currently being performed: Run read-only checkpoint 004 blocker mapping and classify protected versus anchor-only topology
+- most recent operation completed: Phase 0 recovered branch, processes, battery and budgets; remote state reconciled
+- latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
+- latest numeric gate: ring_L proof PASS
+- latest visual gate: ring_L visual FAIL
+- latest relevant report: scripts/diagnose_v15f_ring_l_protected_blocker.py prepared; report run next
+- geometry changed since previous heartbeat: false
+- audit/render currently running: true
+- Work appears blocked/waiting: false
+- last error: none
+- next expected operation: Run diagnosis, validate report schema, then select strongest legal strategy
+- approximate battery percentage: 98
+- approximate Work usage remaining: 58% five-hour; 93% weekly
+- progress_status: ACTIVE
+- progress_counter: 1
+- possible_stall: false
+- same-operation heartbeat streak: 1
+- exact stop reason: none

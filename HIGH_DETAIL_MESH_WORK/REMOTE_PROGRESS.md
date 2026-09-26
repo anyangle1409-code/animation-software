@@ -1,30 +1,30 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-26T21:44:25Z
+- UTC timestamp: 2026-09-26T21:54:08Z
 - local task start time if known: 2026-09-26T21:32:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: b11daf9ddda3d0c368cbc757848f60fe0c0fb03a
+- current HEAD: 43ed60a0797c567d3fd2bd948de6d117dffd73bf
 - controller state: running
 - safe-runner state: stopped
 - Blender state: running
-- current phase: Phase 3 ring_L repair trials
+- current phase: V15f unattended stop after Phase 3
 - current digit: ring_L
-- current repair strategy/attempt number: strategy 1 narrow orientation correction
-- exact operation currently being performed: Test opposite edge-rotation orientation after the preserved strategy-1 trial created one severe fold per rotation
-- most recent operation completed: Protected-anchor diagnosis complete; strategy-1 first trial rejected with 24 new >100-degree folds and no candidate overwrite
+- current repair strategy/attempt number: three materially distinct strategies exhausted
+- exact operation currently being performed: Preserve trials, record exact blocker, verify checkpoint 004 integrity, and publish final heartbeat
+- most recent operation completed: Strategy 3 numeric PASS and visual FAIL; all three trials preserved; active candidate verified byte-identical to checkpoint 004
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
-- latest numeric gate: active candidate PASS; rejected trial FAIL with ring_L +24 severe folds
-- latest visual gate: active candidate FAIL; rejected trial not rendered because numeric gate failed
-- latest relevant report: reports/audit_v15f_fixed_anchor_reroute_trial_blender.json
+- latest numeric gate: active checkpoint 004 PASS; strategy 3 PASS
+- latest visual gate: active checkpoint 004 FAIL; strategy 3 FAIL
+- latest relevant report: reports/v15f_ring_l_unattended_stop.json; V15F_RING_L_PROTECTED_BLOCKER.md
 - geometry changed since previous heartbeat: false
 - audit/render currently running: false
-- Work appears blocked/waiting: false
-- last error: BMesh rotation orientation created 24 inverted/severe folds in rejected trial
-- next expected operation: Run narrow opposite-orientation proof; keep only if focused audit passes
-- approximate battery percentage: 98
-- approximate Work usage remaining: 58% five-hour; 93% weekly
-- progress_status: ACTIVE
-- progress_counter: 2
+- Work appears blocked/waiting: true
+- last error: No safe visually effective repair remains under full four-edge anchor-buffer position freeze
+- next expected operation: Project-level decision on candidate-only anchor-buffer-only movement with direct contacts exact, or upstream topology rebuild before contact freezing
+- approximate battery percentage: 73
+- approximate Work usage remaining: 58% five-hour; 93% weekly reported at start
+- progress_status: BLOCKED
+- progress_counter: 3
 - possible_stall: false
 - same-operation heartbeat streak: 1
-- exact stop reason: none
+- exact stop reason: Genuine frozen-rule blocker after three distinct legal strategies; Stage A propagation and Phase C remain held

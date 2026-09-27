@@ -219,3 +219,70 @@ implementation are in place.
 
 The prompt generator must remain operationally local: do not add a hosted AI/API
 runtime dependency.
+
+
+## Consolidated prepared commands — latest
+
+### Finish legacy benchmark first
+From the V15f branch/workspace:
+`V15F_STATUS.bat`
+then follow the genuine local state through the final V15f audit/review.
+
+### Verify standalone preparation
+On `work/standalone-first-party-audit-20260927`:
+
+```
+VERIFY_STANDALONE_PREP.bat
+```
+
+This now verifies:
+- first-party store;
+- first-party linear algebra;
+- temporary Three math parity;
+- first-party GLB container/accessors;
+- first-party frame loop;
+- first-party skeleton parity across the exercise library;
+- first-party IK orientation parity;
+- first-party pose blending parity;
+- existing store tests;
+- full suite/build;
+- runtime dependency anti-creep;
+- external resource/network gates.
+
+Do not integrate an isolated replacement module if this verification fails.
+
+### Record current standalone blockers
+```
+npm run audit:standalone
+```
+
+This is expected to fail on remaining migration blockers. Preserve the reports.
+
+### Start ORIGINAL v1
+After V15f is preserved as reference:
+
+```
+PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat
+```
+
+This is now preferred over manually running the initializer/generator/audit. It
+branch-checks, generates the pinned first-party scaffold, audits it and opens the
+Blend only after the clean-room gate passes.
+
+### Final release gate (much later)
+```
+npm run audit:release
+```
+
+Do not attempt to make this pass by weakening scanners/allowlists. It passes only
+when the operational product is genuinely first-party and the release allowlist
+is explicitly populated with approved production output.
+
+## Runtime AI/network rule
+
+The existing prompt generator is local/deterministic and should remain so.
+Do not add a hosted AI/API runtime dependency.
+
+The one reviewed dynamic fetch in `src/character/bundled.ts` is permitted only
+as a local packaged-character probe. Its final target must be ORIGINAL v1, not
+the V8 legacy asset.

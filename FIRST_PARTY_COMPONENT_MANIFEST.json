@@ -41,11 +41,11 @@
     {
       "id": "runtime_state",
       "category": "code",
-      "status": "third_party_dependent",
+      "status": "first_party_replacement_implemented_verification_pending",
       "third_party": [
         "zustand"
       ],
-      "required_action": "replace_first"
+      "required_action": "verify first-party store with typecheck/full tests, confirm zero imports, then remove zustand package and lock entry"
     },
     {
       "id": "male_character",
@@ -101,8 +101,26 @@
     {
       "id": "procedural_debug_mannequin",
       "category": "asset_generated_by_code",
-      "status": "project_authored_candidate",
-      "required_action": "retain only if source audit confirms profile data is project-authored; diagnostic only"
+      "status": "project_authored_clean_scaffold_confirmed",
+      "required_action": "use only the pinned e6ef05b profile specification as an ORIGINAL v1 starting scaffold; do not treat it as finished production geometry",
+      "provenance": {
+        "profile_commit": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
+        "profile_blob_sha": "ee56a49bfb2e32530520fd1811ed9427460256bd",
+        "predates_makehuman_commit": "fe1700bde766454a841e5726158d97bb75186271"
+      }
+    },
+    {
+      "id": "original_v1_clean_scaffold_generator",
+      "category": "authoring_tool",
+      "status": "project_authored_verification_pending",
+      "required_action": "run in Blender and verify deterministic 3890-vertex / 7280-triangle / 53-reference-bone output",
+      "notes": "Recreates pinned project-authored numeric profiles; imports no legacy/MakeHuman geometry."
+    },
+    {
+      "id": "external_runtime_resources",
+      "category": "runtime_resource_policy",
+      "status": "no_known_external_resources_scan_prepared",
+      "required_action": "run scripts/audit-external-runtime-resources.mjs at release gate"
     }
   ]
 }

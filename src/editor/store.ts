@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { createStoreHook as create } from '../core/store';
 import { Vector3 } from 'three';
 import type { BoneName, Finger } from '../rig/boneNames';
 import { mirrorBoneName } from '../rig/boneNames';

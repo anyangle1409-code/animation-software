@@ -1,5 +1,4 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
@@ -23,6 +22,7 @@ import {
   FirstPartyOrbitControls,
   type HgOrbitControlsHandle,
 } from './FirstPartyOrbitControls';
+import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -184,15 +184,15 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
   if (!target) return null;
 
   return (
-    <TransformControls
+    <FirstPartyTransformGizmo
       object={target}
       mode={gizmoMode === 'translate' ? 'translate' : 'rotate'}
       size={0.8}
-      onMouseDown={() => {
+      onDragStart={() => {
         dragging.current = true;
         if (controls.current) controls.current.enabled = false;
       }}
-      onMouseUp={() => {
+      onDragEnd={() => {
         dragging.current = false;
         if (controls.current) controls.current.enabled = true;
       }}
@@ -286,15 +286,15 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
   if (!selection) return null;
 
   return (
-    <TransformControls
+    <FirstPartyTransformGizmo
       object={proxy}
       mode="translate"
       size={0.6}
-      onMouseDown={() => {
+      onDragStart={() => {
         dragging.current = true;
         if (controls.current) controls.current.enabled = false;
       }}
-      onMouseUp={() => {
+      onDragEnd={() => {
         dragging.current = false;
         if (controls.current) controls.current.enabled = true;
       }}

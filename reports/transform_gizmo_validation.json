@@ -1,0 +1,32 @@
+{
+  "checkpoint": "first-party-transform-gizmo",
+  "date": "2026-09-27",
+  "focused_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "production_build": "PASS",
+  "build_modules_transformed": 233,
+  "full_regression_before_nested_parent_robustness": {
+    "passed": 942,
+    "failed": 0,
+    "intentional_skips": 1
+  },
+  "final_full_regression": {
+    "passed": 941,
+    "failed": 1,
+    "intentional_skips": 1,
+    "failure": "Unrelated src/body/neck.test.ts 5-second timeout"
+  },
+  "isolated_timeout_rerun": {
+    "passed": 1,
+    "failed": 0,
+    "duration_ms": 4592,
+    "threshold_changed": false
+  },
+  "drei_source_imports": 0,
+  "visual_input_gate": "OPEN",
+  "visual_input_gate_reason": "The available localhost in-app browser loads HTML but does not execute the Vite module application.",
+  "drei_package_removal": "HELD_PENDING_PHYSICAL_VISUAL_AND_TOUCH_PARITY"
+}

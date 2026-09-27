@@ -20,11 +20,22 @@ one-finger rotate/two-finger pinch input share the tested Pointer Event adapter.
 The physical visual/device gate remains open because the available localhost
 browser surface does not execute the module application.
 
-Continue with Transform gizmo. Preserve bone rotation with anatomical clamping,
-static equipment translation/rotation, socket transforms, IK target/pole
-translation, selection behavior, and orbit suspension while dragging. Do not
-remove Drei until the TransformControls import is zero and its focused,
-typecheck, build, full regression and interaction gates pass.
+The first-party Transform gizmo increment is now implemented. It preserves bone
+rotation through the existing anatomical clamp callback, static equipment
+translation/rotation, socket transforms, IK target/pole translation, selection
+behavior, and Orbit suspension while dragging. Focused transform tests are 8/8,
+typecheck and build pass. A complete regression passed 942/942 with one
+intentional skip before the final nested-parent robustness adjustment. The
+final complete rerun passed 941 tests and hit one unrelated 5-second
+neck-weight timeout; that exact test passed unchanged in an isolated rerun in
+4.592 seconds. No threshold was changed. Exact source imports from
+`@react-three/drei` are now zero.
+
+Do not remove Drei yet. The only available localhost browser surface still does
+not execute the Vite module application, so physical Grid, Orbit/touch, and
+Transform visual/input parity remains an explicit open gate. Run and preserve
+the standalone audit blocker counts, then continue ORIGINAL v1 clean-room work
+independently of that browser limitation.
 
 ## Objective
 

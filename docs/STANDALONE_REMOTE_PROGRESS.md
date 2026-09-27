@@ -1,20 +1,28 @@
 # Standalone remote progress
 
-- UTC timestamp: 2026-09-27T21:09:15Z
+- UTC timestamp: 2026-09-27T21:23:42Z
+- local task start time: continued from the earlier 2026-09-27 standalone run
 - branch: `work/standalone-first-party-audit-20260927`
-- current HEAD before checkpoint: `63be37ec4d2347794b98ca4ad2634212b292895b`
+- current HEAD before checkpoint: `82712158d0e426e28baff364bed6db7901eaf9a9`
 - progress_status: ACTIVE
-- progress_counter: 2
-- current phase: Drei replacement — Orbit controls checkpoint
-- exact operation: publishing the validated first-party Orbit increment
-- most recent operation completed: complete Orbit regression
-- latest numeric gate: focused orbit/camera/input 15/15; full regression 939/939 with 1 intentional skip; typecheck/build PASS
-- latest visual gate: OPEN — localhost in-app browser still does not execute the module app; physical iPhone review pending
-- geometry changed: false
-- audit/render running: false
-- blocked/waiting: false
-- last error: none in Orbit validation
-- next operation: implement and validate the first-party Transform gizmo adapter
-- approximate battery: unavailable
-- Work usage remaining: unavailable
+- progress_counter: 3
+- controller state: standalone migration running directly; no external controller
+- safe-runner state: active locked npm environment; no reinstall/reset/clean performed
+- Blender state: running, not used by the software migration increment
+- current phase: Drei replacement — Transform gizmo checkpoint
+- current digit: not applicable
+- current repair strategy/attempt number: first-party Transform adapter, attempt 1
+- exact operation: publishing the validated Transform gizmo increment
+- most recent operation completed: post-cleanup focused tests, typecheck, and production build
+- latest checkpoint: Transform full regression complete
+- latest numeric gate: focused Transform 8/8; typecheck/build PASS; full regression 941 passed plus 1 unrelated timeout, whose exact isolated rerun passed unchanged in 4.592 seconds; an earlier full run passed 942/942 with 1 intentional skip
+- latest visual gate: OPEN — localhost in-app browser does not execute the Vite module app; physical Grid/Orbit/touch/Transform review pending
+- latest relevant report: `reports/transform_gizmo_validation.json`
+- geometry changed since previous heartbeat: false
+- audit/render currently running: false
+- Work appears blocked/waiting: false; only the physical visual gate is unavailable in this environment
+- last error: one unrelated neck-weight test exceeded its 5-second limit in the final full run and full-file rerun; the exact test then passed unchanged in isolation
+- next expected operation: commit/push Transform checkpoint, run standalone audit, preserve blocker counts, then prepare ORIGINAL v1 clean room
+- approximate battery: 100%
+- approximate Work usage remaining: unavailable
 - possible_stall: false

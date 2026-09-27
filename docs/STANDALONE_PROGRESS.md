@@ -17,7 +17,7 @@ A distributable Home Gym PT product with no third-party runtime implementation a
 | Fonts | no bundled font assets found | keep system fonts or author owned fonts |
 | Runtime images/icons/audio | no production bundle found in repo scan | keep deny-by-default |
 | React / ReactDOM | present | replace |
-| React Three Fiber / Drei | present; first-party Drei camera/orbit/grid/gizmo foundations prepared | integrate Grid → Orbit → TransformControls replacement, then remove Drei |
+| React Three Fiber / Drei | present; live Grid, Orbit, and Transform gizmo now use project-owned implementations | physically verify visual/input parity, then remove Drei |
 | Zustand | direct dependency removed; first-party store active; full CI PASS | remaining transitive copies disappear with Drei/R3F removal |
 | Three.js | present | replace last |
 | Dependency audit tooling | prepared | run locally |
@@ -79,6 +79,35 @@ in-app localhost browser still does not execute the module application. Do not
 report that visual gate as passed. The next isolated increment is the first-party
 Transform gizmo for bone rotation, equipment translation/rotation, and IK target
 or pole translation.
+
+## 2026-09-27 live Transform gizmo checkpoint
+
+The live viewport now uses `FirstPartyTransformGizmo` for bone rotation,
+equipment translation/rotation, socket transforms, and IK target/pole
+translation. Dragging continues to suspend Orbit input and all existing
+selection/update callbacks remain connected.
+
+Validation:
+
+- focused transform maths and interaction tests: 8 passed;
+- typecheck: passed;
+- production build: passed (233 modules transformed);
+- complete regression before the final nested-parent robustness adjustment: 942
+  passed, 1 intentional skip, 0 failures;
+- final complete rerun: 941 passed, 1 intentional skip, with one unrelated
+  5-second neck-weight timeout; that exact test passed unchanged in an isolated
+  rerun (4.592 seconds);
+- exact source imports from `@react-three/drei`: zero.
+
+No test timeout or threshold was changed. The physical browser/device visual
+gate remains **OPEN**. The available in-app
+localhost browser still does not execute the Vite module application, so the
+Grid, Orbit, touch, and Transform visual/input review cannot be claimed as
+passing. `@react-three/drei` remains in the locked dependency set until that
+gate can be completed; removing it now would violate the required parity rule.
+
+Next: publish this checkpoint, run the standalone audit and preserve its blocker
+counts, then continue the independent ORIGINAL v1 clean-room preparation.
 
 ## Prepared commands
 

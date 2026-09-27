@@ -149,6 +149,29 @@ Next gate: define independent project-authored target dimensions for
 `hgpt_canonical_v4_original`, then begin O2 neutral anatomy without fitting to a
 legacy mesh or copying v3 numerical rest coordinates.
 
+## 2026-09-27 canonical v4 ORIGINAL definition checkpoint
+
+The first independent `hgpt_canonical_v4_original` numerical rest definition is
+implemented as a non-runtime candidate. It preserves the project-owned 63-bone
+architecture while deriving every rest point from newly declared ORIGINAL
+design dimensions. It does not import the v3 humanoid definition or its
+legacy-fit shoulder constants.
+
+Focused gates pass 6/6: identity, hierarchy, finite bone lengths, exact designed
+symmetry, target dimensions, complete hand/IK chains, all 28 exercise generators
+resolving structurally, and source independence. Typecheck passes. The active v3
+runtime rig and every existing exercise remain unchanged.
+
+Production build passes. The complete shared regression passed 944 tests with
+one intentional skip and four time-limit failures in pre-existing long-running
+tests. The two calf cases and the generator case passed unchanged immediately
+in isolation. The neck-weight case remains above its 5-second limit under the
+current laptop load; that same unchanged case passed in 4.592 seconds at the
+preceding Transform checkpoint. No timeout or threshold was changed.
+
+Next: materialize this armature in the clean-room Blend, preserve the historical
+53-bone armature as reference-only, and begin O2 neutral anatomy against v4.
+
 ## Prepared commands
 
 ```bat

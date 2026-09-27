@@ -53,6 +53,19 @@ ignored by the repository as intended; its provenance JSON and audit evidence
 are checkpointed. Continue with independent canonical-v4 target dimensions and
 O2 neutral anatomy. Do not treat the 53-bone reference armature as canonical v4.
 
+The first independent `hgpt_canonical_v4_original` rest definition is now a
+non-runtime code candidate. It contains all 63 project-owned architecture bones,
+uses newly declared ORIGINAL dimensions, mirrors the right side algorithmically,
+and has no import from the v3 numerical rig. Its six focused structural and
+independence tests pass, including all 28 exercise generators. Materialize this
+armature in the clean-room Blend next; do not switch the runtime skeleton yet.
+
+Typecheck and production build pass. The full shared suite passed 944 tests and
+hit four pre-existing performance timeouts under current laptop load. Three
+passed unchanged in immediate isolated reruns; the neck-weight case is still
+over 5 seconds now but passed unchanged at the prior checkpoint. No guard,
+timeout, or threshold was changed.
+
 ## Objective
 
 Prepare Home Gym PT so the distributable product contains no third-party runtime code or third-party creative assets.

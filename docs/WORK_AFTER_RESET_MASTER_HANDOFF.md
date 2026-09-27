@@ -153,8 +153,9 @@ Do **not** reimplement this from scratch first.
 First verify it locally:
 ```
 npm run typecheck
-npm test -- --run src/core/store.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
-npm test -- --run
+npm test -- src/core/store.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
+npm test
+npm run build
 ```
 
 Use the repository's actual test command syntax if the package scripts differ.

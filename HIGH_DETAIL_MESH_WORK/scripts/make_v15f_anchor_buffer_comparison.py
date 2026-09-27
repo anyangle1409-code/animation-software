@@ -1,11 +1,14 @@
-"""Build a matched checkpoint-004 versus Route A ring_L proof board."""
+"""Build a matched checkpoint-004 versus experimental ring_L proof board."""
+import os
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 OLD = ROOT / "renders_v15f_ring_proof"
-NEW = ROOT / "renders_v15f_anchor_buffer_route_a"
-OUT = NEW / "V15F_CHECKPOINT004_VS_ROUTE_A_RING_L.jpg"
+NEW = Path(os.environ.get("V15F_RING_NEW_DIR", ROOT / "renders_v15f_anchor_buffer_route_a")).resolve()
+OUT = Path(os.environ.get("V15F_RING_COMPARE_BOARD", NEW / "V15F_CHECKPOINT004_VS_ROUTE_A_RING_L.jpg")).resolve()
+TITLE = os.environ.get("V15F_RING_COMPARE_TITLE", "V15f ring_L — checkpoint 004 vs bounded Route A")
+NEW_LABEL = os.environ.get("V15F_RING_NEW_LABEL", "Route A trial")
 VIEWS = (("yneg", "Y-"), ("ypos", "Y+"), ("xpos", "Side"), ("oblique", "Oblique"))
 
 
@@ -19,8 +22,8 @@ def font(size):
 cell_w, cell_h, label_h, title_h = 720, 720, 54, 82
 canvas = Image.new("RGB", (cell_w * 4, title_h + (cell_h + label_h) * 2), (25, 25, 25))
 draw = ImageDraw.Draw(canvas)
-draw.text((24, 20), "V15f ring_L — checkpoint 004 vs bounded Route A", font=font(32), fill=(240, 240, 240))
-for row, (folder, label) in enumerate(((OLD, "Checkpoint 004"), (NEW, "Route A trial"))):
+draw.text((24, 20), TITLE, font=font(32), fill=(240, 240, 240))
+for row, (folder, label) in enumerate(((OLD, "Checkpoint 004"), (NEW, NEW_LABEL))):
     for col, (key, view_label) in enumerate(VIEWS):
         image = Image.open(folder / f"V15f_ring_L_{key}.png").convert("RGB")
         image.thumbnail((cell_w, cell_h), Image.Resampling.LANCZOS)

@@ -1,0 +1,18 @@
+{
+  "decision": "PASS",
+  "pass": true,
+  "notes": "Route B upstream topology rebuild visibly cleans the middle/proximal ring_L shaft and reduces triangular banding in side and oblique views while retaining joint volume; no new pinch or razor crease.",
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "blend_size": 6295875,
+  "blend_mtime_ns": 1790509024029232300,
+  "surface_fingerprint_sha256": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+  "board": "renders_v15f_ring_proof\\V15F_V13E_RING_L_PROOF.jpg",
+  "recorded_utc": "2026-09-27T11:40:51.235374+00:00",
+  "criteria": [
+    "ring_L visibly less segmented/faceted than V13e",
+    "no new pinching or razor crease",
+    "shaft/joint volume remains anatomical",
+    "improvement is topology/silhouette, not only smoothing/shading"
+  ],
+  "promotion": "none"
+}

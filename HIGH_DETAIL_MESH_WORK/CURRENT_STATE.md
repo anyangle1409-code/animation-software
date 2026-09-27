@@ -10,6 +10,20 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f ring-left accepted proof checkpoint
+
+Route A proved that limited anchor-buffer movement was safe but failed the visual
+gate, so it remains preserved and rejected. Route B then rebuilt the ring-left
+surface flow before reapplying the contact freeze. Checkpoint 005 and the active
+V15f candidate are byte-identical to the accepted Route B proof.
+
+The official ring-left numeric and visual gates now pass. The >35-degree
+sharp-length ratio improved from 0.04391 to 0.02761 and the >50-degree ratio
+from 0.01656 to 0.00689, with no severe-fold regression. All 682 protected
+push-up contacts, original skin rows, non-ring geometry, UV layers, rig and
+runtime mechanics remain unchanged. Continue with ring-right only; Stage B and
+Phase C remain held.
+
 This file is the authoritative entry point for the high-detail mesh review workspace.
 
 ## Current status

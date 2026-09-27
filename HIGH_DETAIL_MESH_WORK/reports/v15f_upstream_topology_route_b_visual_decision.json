@@ -1,0 +1,13 @@
+{
+  "decision": "PASS",
+  "pass": true,
+  "reason": "Matched checkpoint-004 and V13e views show a cleaner continuous middle/proximal shaft and reduced triangular banding, especially in side and oblique views. Joint volume and silhouette remain intact, with no new pinch or razor crease.",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_upstream_topology_route_b_trial.blend",
+  "candidate_sha256": "66537ee8312ae80ae7f711bee8f8812baf70f15342b86d0ee3a2601b23d5033a",
+  "surface_fingerprint_sha256": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+  "numeric_gate": "PASS",
+  "board": "renders_v15f_upstream_topology_route_b\\V15F_CHECKPOINT004_VS_ROUTE_B_RING_L.jpg",
+  "recorded_utc": "2026-09-27T11:39:59.780298+00:00",
+  "promotion": "ring_L proof only; propagation still requires official focused validation",
+  "next": "Checkpoint as 005, make it the active V15f ring_L source, then run official focused and deformation/contact validation before propagation."
+}

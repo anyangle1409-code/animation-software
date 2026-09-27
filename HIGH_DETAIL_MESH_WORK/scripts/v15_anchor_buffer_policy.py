@@ -15,6 +15,20 @@ def movement_cap_mm(graph_distance: int) -> float:
     return _CAPS_MM.get(int(graph_distance), 0.0)
 
 
+def route_b_movement_cap_mm(graph_distance: int) -> float:
+    """Movement taper for the upstream topology rebuild proof."""
+    distance = int(graph_distance)
+    if distance <= 0:
+        return 0.0
+    if distance == 1:
+        return 0.12
+    if distance == 2:
+        return 0.35
+    if distance == 3:
+        return 0.65
+    return 0.90
+
+
 def report_is_safe(report: dict) -> bool:
     """Confirm that a Route A report preserves every hard invariant."""
     return (

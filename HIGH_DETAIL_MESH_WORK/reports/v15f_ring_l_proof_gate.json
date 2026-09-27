@@ -1,0 +1,78 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "scope": "ring_L proof only",
+  "baseline": {
+    "total_gt100_folds": 3,
+    "ring_L_gt35": 0.04390851538717762,
+    "ring_L_gt50": 0.016557779726091175,
+    "ring_L_gt100_folds": 0
+  },
+  "candidate": {
+    "total_gt100_folds": 3,
+    "ring_L_gt35": 0.027608599911826695,
+    "ring_L_gt50": 0.0068878230370699655,
+    "ring_L_gt100_folds": 0,
+    "surface_fingerprint_sha256": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37"
+  },
+  "scope_movement": {
+    "index_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_L": {
+      "max_move_mm": 0.748885088059571,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "index_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    }
+  },
+  "checks": {
+    "general_invariants_pass": true,
+    "only_ring_L_original_positions_changed": true,
+    "total_gt100_folds_not_worse": true,
+    "ring_L_gt35_not_worse": true,
+    "ring_L_gt50_not_worse": true,
+    "ring_L_gt100_folds_not_worse": true
+  },
+  "pass": true,
+  "next_if_pass": "Checkpoint. Reproduce the same local topology strategy on ring_R, then pinky_L/pinky_R, auditing incrementally.",
+  "next_if_fail": "Do not mirror this approach. Restore/checkpoint and revise only ring_L local edge flow/volume."
+}

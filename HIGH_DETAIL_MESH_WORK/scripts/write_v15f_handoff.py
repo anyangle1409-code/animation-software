@@ -179,7 +179,9 @@ def main():
 
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(OUT)
-    print("\n".join(lines))
+    output = "\n".join(lines)
+    encoding = sys.stdout.encoding or "utf-8"
+    print(output.encode(encoding, errors="backslashreplace").decode(encoding))
 
 if __name__ == "__main__":
     main()

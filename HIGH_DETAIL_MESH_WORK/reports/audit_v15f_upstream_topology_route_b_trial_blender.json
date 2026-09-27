@@ -1,0 +1,2589 @@
+{
+  "version": "v15f_upstream_topology_route_b_trial",
+  "baseline": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_upstream_topology_route_b_trial.blend",
+  "protected_source_id_count": 682,
+  "missing_source_ids_total": 0,
+  "missing_protected_source_ids": [],
+  "missing_non_digit_source_ids": [],
+  "protected_max_move_mm": 0.0,
+  "protected_weight_rows_changed": 0,
+  "non_digit_max_move_mm": 0.0,
+  "non_digit_weight_rows_changed": 0,
+  "digit_original_max_move_mm": 0.748885088059571,
+  "original_digit_weight_rows_changed": 0,
+  "per_digit_original_movement_vs_v13e": {
+    "index_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_L": {
+      "max_move_mm": 0.748885088059571,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "index_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    }
+  },
+  "baseline_topology": {
+    "vertices": 48291,
+    "faces": 93153,
+    "duplicate_source_ids": [],
+    "degenerate_faces": 0,
+    "nonmanifold_edges_gt2": 0,
+    "digit_boundary_edges": 0,
+    "digit_folds_over_100deg": 3,
+    "per_digit_surface": {
+      "index_L": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.883803798351,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0056129456498,
+          "35": 318.0924457847141,
+          "50": 129.79396502487361,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.2241759579628706,
+        "edge_p90_mm": 3.2927999505773187,
+        "sharp_length_ratio_gt_35": 0.035677051516665136,
+        "sharp_length_ratio_gt_50": 0.014557610650957417,
+        "surface_fingerprint_sha256": "09f4b8dc9cb0d2384a3a52e5ad864e335eae554e2a2b999c0a8be0fb8061eb1e",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 12,
+          "median_radius_mm": 13.054852310155116,
+          "radius_cv_median": 0.09464485833385541,
+          "radius_cv_p90": 0.3715288865502181,
+          "transverse_axis_ratio_median": 0.5226733457378783,
+          "transverse_axis_ratio_p10": 0.42558914870016856,
+          "radius_profile_jump_p90_norm": 0.12168195314034423,
+          "radius_profile_jump_max_norm": 0.16162678044611595,
+          "radius_profile_second_diff_p90_norm": 0.06312943241402857,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 119,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 15.235049119522971,
+              "radius_cv": 0.07275611100704608,
+              "transverse_axis_ratio": 0.7286162960721259
+            },
+            {
+              "bin": 1,
+              "point_count": 102,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 15.011463357396634,
+              "radius_cv": 0.09093639440995757,
+              "transverse_axis_ratio": 0.5913256062776321
+            },
+            {
+              "bin": 2,
+              "point_count": 88,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.938912184236349,
+              "radius_cv": 0.0760536375877924,
+              "transverse_axis_ratio": 0.565813040867724
+            },
+            {
+              "bin": 3,
+              "point_count": 90,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.068446589705088,
+              "radius_cv": 0.06095030178851579,
+              "transverse_axis_ratio": 0.4525213453911791
+            },
+            {
+              "bin": 4,
+              "point_count": 112,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.456106108452634,
+              "radius_cv": 0.0745400505326869,
+              "transverse_axis_ratio": 0.6085841344119345
+            },
+            {
+              "bin": 5,
+              "point_count": 103,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.553662601241443,
+              "radius_cv": 0.09835332225775327,
+              "transverse_axis_ratio": 0.5350631863071703
+            },
+            {
+              "bin": 6,
+              "point_count": 83,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.55604201906879,
+              "radius_cv": 0.10139873177566913,
+              "transverse_axis_ratio": 0.5328221816212082
+            },
+            {
+              "bin": 7,
+              "point_count": 81,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.465955009060968,
+              "radius_cv": 0.08375240000080253,
+              "transverse_axis_ratio": 0.5125245098545482
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.560987933083613,
+              "radius_cv": 0.14547173842364397,
+              "transverse_axis_ratio": 0.41299097358163195
+            },
+            {
+              "bin": 9,
+              "point_count": 87,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.972448006025203,
+              "radius_cv": 0.24594716582883205,
+              "transverse_axis_ratio": 0.439966250879583
+            },
+            {
+              "bin": 10,
+              "point_count": 137,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 8.506167951980224,
+              "radius_cv": 0.3854824110748165,
+              "transverse_axis_ratio": 0.46107513820195833
+            },
+            {
+              "bin": 11,
+              "point_count": 114,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 6.396154203890314,
+              "radius_cv": 0.5617769348641696,
+              "transverse_axis_ratio": 0.42399169290245586
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "middle_L": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12938.8598294463,
+        "dihedral_edge_count_gt_deg": {
+          "20": 279,
+          "35": 72,
+          "50": 26,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 646.155153925065,
+          "35": 168.88561722589657,
+          "50": 65.81356661627069,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1013393998146057,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.013052588825604719,
+        "sharp_length_ratio_gt_50": 0.005086504335296373,
+        "surface_fingerprint_sha256": "32f86f871999070f11ba9ad75fe96178379f3732d4b9a7e6e7866b712a469295",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 13.46269976727526,
+          "radius_cv_median": 0.16121308405491716,
+          "radius_cv_p90": 0.3281601856289039,
+          "transverse_axis_ratio_median": 0.8180347916564747,
+          "transverse_axis_ratio_p10": 0.6901071784349697,
+          "radius_profile_jump_p90_norm": 0.12540603814181384,
+          "radius_profile_jump_max_norm": 0.3595989561296094,
+          "radius_profile_second_diff_p90_norm": 0.17706519815691454,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 33,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.591500487487842,
+              "radius_cv": 0.06934484424330423,
+              "transverse_axis_ratio": 0.35022361907749777
+            },
+            {
+              "bin": 1,
+              "point_count": 112,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.180196617306061,
+              "radius_cv": 0.1106938556853534,
+              "transverse_axis_ratio": 0.7341762413380167
+            },
+            {
+              "bin": 2,
+              "point_count": 155,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.92429330192909,
+              "radius_cv": 0.10818063690782688,
+              "transverse_axis_ratio": 0.8228391672740074
+            },
+            {
+              "bin": 3,
+              "point_count": 152,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 14.951134447773125,
+              "radius_cv": 0.1395024100526844,
+              "transverse_axis_ratio": 0.8105384473009184
+            },
+            {
+              "bin": 4,
+              "point_count": 148,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.64932970479539,
+              "radius_cv": 0.0934914966581156,
+              "transverse_axis_ratio": 0.8428554229621732
+            },
+            {
+              "bin": 5,
+              "point_count": 179,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 14.188446657832815,
+              "radius_cv": 0.11332552240355441,
+              "transverse_axis_ratio": 0.8180347916564747
+            },
+            {
+              "bin": 6,
+              "point_count": 152,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 13.46269976727526,
+              "radius_cv": 0.16121308405491716,
+              "transverse_axis_ratio": 0.7098981849941761
+            },
+            {
+              "bin": 7,
+              "point_count": 111,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.79140750787458,
+              "radius_cv": 0.18582988222405136,
+              "transverse_axis_ratio": 0.6851594267951681
+            },
+            {
+              "bin": 8,
+              "point_count": 152,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.97546446072795,
+              "radius_cv": 0.1748707048578573,
+              "transverse_axis_ratio": 0.8001068063778751
+            },
+            {
+              "bin": 9,
+              "point_count": 148,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 10.705947260396881,
+              "radius_cv": 0.33119327502735846,
+              "transverse_axis_ratio": 0.870983737457129
+            },
+            {
+              "bin": 10,
+              "point_count": 130,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 11.354887173001408,
+              "radius_cv": 0.3160278280350857,
+              "transverse_axis_ratio": 0.8223529516689433
+            },
+            {
+              "bin": 11,
+              "point_count": 410,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 9.620051483586295,
+              "radius_cv": 0.28693957208125703,
+              "transverse_axis_ratio": 0.8962502815255314
+            },
+            {
+              "bin": 12,
+              "point_count": 141,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 4.778878700587775,
+              "radius_cv": 0.44702757194871995,
+              "transverse_axis_ratio": 0.8799424751529503
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "ring_L": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9709.741226935876,
+        "dihedral_edge_count_gt_deg": {
+          "20": 383,
+          "35": 132,
+          "50": 56,
+          "75": 11,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1109.1558002663078,
+          "35": 426.34032206842676,
+          "50": 160.7717564329505,
+          "75": 57.26613971637562,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.228982513770461,
+        "edge_p90_mm": 3.2578109530732036,
+        "sharp_length_ratio_gt_35": 0.04390851538717762,
+        "sharp_length_ratio_gt_50": 0.016557779726091175,
+        "surface_fingerprint_sha256": "2edfbf63277a8cfa047775f2db1962186c78cb3ccb741f6a3bcd6df510d5d6fa",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 12.882553812075116,
+          "radius_cv_median": 0.18313372199200853,
+          "radius_cv_p90": 0.49893315183168674,
+          "transverse_axis_ratio_median": 0.5635060937841537,
+          "transverse_axis_ratio_p10": 0.2958931406021983,
+          "radius_profile_jump_p90_norm": 0.14840064860171207,
+          "radius_profile_jump_max_norm": 0.20290566163754672,
+          "radius_profile_second_diff_p90_norm": 0.09937228915031024,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 99,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.524001062150774,
+              "radius_cv": 0.25160985355160953,
+              "transverse_axis_ratio": 0.43043251068173627
+            },
+            {
+              "bin": 1,
+              "point_count": 106,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.180322791475502,
+              "radius_cv": 0.21951995810388136,
+              "transverse_axis_ratio": 0.4426591943623532
+            },
+            {
+              "bin": 2,
+              "point_count": 124,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 16.038852645475284,
+              "radius_cv": 0.16183976806782768,
+              "transverse_axis_ratio": 0.6997222918133168
+            },
+            {
+              "bin": 3,
+              "point_count": 131,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.406346929653665,
+              "radius_cv": 0.1346686620241334,
+              "transverse_axis_ratio": 0.695732060489116
+            },
+            {
+              "bin": 4,
+              "point_count": 158,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.5714907755556,
+              "radius_cv": 0.17659217962554108,
+              "transverse_axis_ratio": 0.8937174166432447
+            },
+            {
+              "bin": 5,
+              "point_count": 127,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.477075274205173,
+              "radius_cv": 0.07384474097594931,
+              "transverse_axis_ratio": 0.79464516341991
+            },
+            {
+              "bin": 6,
+              "point_count": 102,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.882553812075116,
+              "radius_cv": 0.11922323428923082,
+              "transverse_axis_ratio": 0.7994686513988168
+            },
+            {
+              "bin": 7,
+              "point_count": 101,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.374793434736118,
+              "radius_cv": 0.15844214551844274,
+              "transverse_axis_ratio": 0.7080468842903487
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.197504386847216,
+              "radius_cv": 0.18313372199200853,
+              "transverse_axis_ratio": 0.5240736341433224
+            },
+            {
+              "bin": 9,
+              "point_count": 73,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.863730144434776,
+              "radius_cv": 0.29298705073336223,
+              "transverse_axis_ratio": 0.3136020857466405
+            },
+            {
+              "bin": 10,
+              "point_count": 85,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 7.249787039614374,
+              "radius_cv": 0.5029306587681389,
+              "transverse_axis_ratio": 0.29146590431608776
+            },
+            {
+              "bin": 11,
+              "point_count": 105,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 5.332091088549455,
+              "radius_cv": 0.7435444257359687,
+              "transverse_axis_ratio": 0.5635060937841537
+            },
+            {
+              "bin": 12,
+              "point_count": 11,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 3.9258890958201618,
+              "radius_cv": 0.4829431240858779,
+              "transverse_axis_ratio": 0.2186380692173174
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "pinky_L": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6602.029808040243,
+        "dihedral_edge_count_gt_deg": {
+          "20": 179,
+          "35": 65,
+          "50": 29,
+          "75": 8,
+          "100": 2
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 663.0164681992028,
+          "35": 342.97230807715096,
+          "50": 152.05661035724916,
+          "75": 32.934340299107134,
+          "100": 7.52214202657342
+        },
+        "edge_p50_mm": 2.144188270904124,
+        "edge_p90_mm": 3.2343895407393575,
+        "sharp_length_ratio_gt_35": 0.05194952432045432,
+        "sharp_length_ratio_gt_50": 0.023031797004622413,
+        "surface_fingerprint_sha256": "1f32e39f4caa388b3843be63caee04674047e167b81dc43c7b447e1953ccfb58",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 10.476750654261817,
+          "radius_cv_median": 0.15957792644808372,
+          "radius_cv_p90": 0.26779488106443916,
+          "transverse_axis_ratio_median": 0.578119276735475,
+          "transverse_axis_ratio_p10": 0.3914949037691438,
+          "radius_profile_jump_p90_norm": 0.20535961674255357,
+          "radius_profile_jump_max_norm": 0.43596655465284934,
+          "radius_profile_second_diff_p90_norm": 0.22465661174593124,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 28,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.145398250542383,
+              "radius_cv": 0.08250387532557926,
+              "transverse_axis_ratio": 0.6737882205031634
+            },
+            {
+              "bin": 1,
+              "point_count": 70,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 12.09515902458565,
+              "radius_cv": 0.11925478462304899,
+              "transverse_axis_ratio": 0.5830555789668903
+            },
+            {
+              "bin": 2,
+              "point_count": 63,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 12.860643086934711,
+              "radius_cv": 0.14244748625089892,
+              "transverse_axis_ratio": 0.6671071875621082
+            },
+            {
+              "bin": 3,
+              "point_count": 70,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 13.283680812449072,
+              "radius_cv": 0.1604463900896821,
+              "transverse_axis_ratio": 0.6280708292978445
+            },
+            {
+              "bin": 4,
+              "point_count": 72,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 13.330112350086056,
+              "radius_cv": 0.1418820149506804,
+              "transverse_axis_ratio": 0.578119276735475
+            },
+            {
+              "bin": 5,
+              "point_count": 79,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 11.73967160283976,
+              "radius_cv": 0.14654052596067993,
+              "transverse_axis_ratio": 0.6535058519059567
+            },
+            {
+              "bin": 6,
+              "point_count": 54,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 10.476750654261817,
+              "radius_cv": 0.15793895631681382,
+              "transverse_axis_ratio": 0.43903959571104073
+            },
+            {
+              "bin": 7,
+              "point_count": 69,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 9.946346107432957,
+              "radius_cv": 0.15957792644808372,
+              "transverse_axis_ratio": 0.5828162854129079
+            },
+            {
+              "bin": 8,
+              "point_count": 71,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 9.159278195147326,
+              "radius_cv": 0.183536658134312,
+              "transverse_axis_ratio": 0.3778377619834004
+            },
+            {
+              "bin": 9,
+              "point_count": 64,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 8.600885023618787,
+              "radius_cv": 0.25963522308389936,
+              "transverse_axis_ratio": 0.3816950404756132
+            },
+            {
+              "bin": 10,
+              "point_count": 89,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 9.547147906826492,
+              "radius_cv": 0.2055167058283697,
+              "transverse_axis_ratio": 0.4629465462948434
+            },
+            {
+              "bin": 11,
+              "point_count": 147,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 7.333306324224409,
+              "radius_cv": 0.2698347955595741,
+              "transverse_axis_ratio": 0.442818445021671
+            },
+            {
+              "bin": 12,
+              "point_count": 28,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 2.7657934375288997,
+              "radius_cv": 0.35486029266419933,
+              "transverse_axis_ratio": 0.43069435694326624
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "index_R": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.350344672333,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0072014327161,
+          "35": 318.0938828154467,
+          "50": 129.7943394165486,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.224233467131853,
+        "edge_p90_mm": 3.292358433827758,
+        "sharp_length_ratio_gt_35": 0.03567934747573149,
+        "sharp_length_ratio_gt_50": 0.01455852371456289,
+        "surface_fingerprint_sha256": "327868fca15bf82951648d7fea34b0bf25b99ce21dcac198fa7e5f705e71bfaf",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 12,
+          "median_radius_mm": 13.054867722863454,
+          "radius_cv_median": 0.09464485833385541,
+          "radius_cv_p90": 0.37161754631591287,
+          "transverse_axis_ratio_median": 0.5226765284969849,
+          "transverse_axis_ratio_p10": 0.4255395446999897,
+          "radius_profile_jump_p90_norm": 0.12207029060351299,
+          "radius_profile_jump_max_norm": 0.1616269074269139,
+          "radius_profile_second_diff_p90_norm": 0.06312519132465873,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 119,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 15.235049119522973,
+              "radius_cv": 0.07275611100704606,
+              "transverse_axis_ratio": 0.7286162960721259
+            },
+            {
+              "bin": 1,
+              "point_count": 102,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 15.011463357396638,
+              "radius_cv": 0.09093639440995753,
+              "transverse_axis_ratio": 0.591325606277632
+            },
+            {
+              "bin": 2,
+              "point_count": 88,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.93890887569238,
+              "radius_cv": 0.07605525854563223,
+              "transverse_axis_ratio": 0.5658109682766171
+            },
+            {
+              "bin": 3,
+              "point_count": 90,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.068446589705088,
+              "radius_cv": 0.06095030178851579,
+              "transverse_axis_ratio": 0.45252134539117916
+            },
+            {
+              "bin": 4,
+              "point_count": 112,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.456104201291343,
+              "radius_cv": 0.07454043615180951,
+              "transverse_axis_ratio": 0.6085833777406867
+            },
+            {
+              "bin": 5,
+              "point_count": 103,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.55366260124144,
+              "radius_cv": 0.0983533222577533,
+              "transverse_axis_ratio": 0.5350631863071702
+            },
+            {
+              "bin": 6,
+              "point_count": 83,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.556072844485469,
+              "radius_cv": 0.10140103608801049,
+              "transverse_axis_ratio": 0.5328315516803035
+            },
+            {
+              "bin": 7,
+              "point_count": 81,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.465944227004732,
+              "radius_cv": 0.08375117459651321,
+              "transverse_axis_ratio": 0.5125215053136662
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.560987933083613,
+              "radius_cv": 0.14547173842364397,
+              "transverse_axis_ratio": 0.4129909735816319
+            },
+            {
+              "bin": 9,
+              "point_count": 87,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.96737643636325,
+              "radius_cv": 0.2468326551092578,
+              "transverse_axis_ratio": 0.4394899735609016
+            },
+            {
+              "bin": 10,
+              "point_count": 137,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 8.506168655854056,
+              "radius_cv": 0.38548253422776335,
+              "transverse_axis_ratio": 0.46107533909847964
+            },
+            {
+              "bin": 11,
+              "point_count": 114,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 6.396150758940198,
+              "radius_cv": 0.5617765509805628,
+              "transverse_axis_ratio": 0.4239894970487773
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "middle_R": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12934.409921988845,
+        "dihedral_edge_count_gt_deg": {
+          "20": 275,
+          "35": 70,
+          "50": 25,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 634.2698874068446,
+          "35": 162.07059303997084,
+          "50": 61.11375481123105,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1007871255278587,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.012530188390306578,
+        "sharp_length_ratio_gt_50": 0.004724897013456796,
+        "surface_fingerprint_sha256": "32826cd7db95a705f4e4b28bd559a3c2e4e6fe872432d82a0d8ef204fce4e2cb",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 13.462700736057846,
+          "radius_cv_median": 0.1612131816995469,
+          "radius_cv_p90": 0.327777292005191,
+          "transverse_axis_ratio_median": 0.8180347916564747,
+          "transverse_axis_ratio_p10": 0.6901072095062264,
+          "radius_profile_jump_p90_norm": 0.1253869399540714,
+          "radius_profile_jump_max_norm": 0.35959893025269113,
+          "radius_profile_second_diff_p90_norm": 0.17687429378059505,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 33,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.591500487487842,
+              "radius_cv": 0.06934484424330423,
+              "transverse_axis_ratio": 0.3502236190774979
+            },
+            {
+              "bin": 1,
+              "point_count": 112,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.18019661730606,
+              "radius_cv": 0.11069385568535342,
+              "transverse_axis_ratio": 0.7341762413380167
+            },
+            {
+              "bin": 2,
+              "point_count": 155,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.924295017766216,
+              "radius_cv": 0.1081809326928837,
+              "transverse_axis_ratio": 0.8228394961702598
+            },
+            {
+              "bin": 3,
+              "point_count": 152,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 14.951134447773125,
+              "radius_cv": 0.1395024100526844,
+              "transverse_axis_ratio": 0.8105384473009186
+            },
+            {
+              "bin": 4,
+              "point_count": 148,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.64932970479539,
+              "radius_cv": 0.0934914966581156,
+              "transverse_axis_ratio": 0.8428554229621733
+            },
+            {
+              "bin": 5,
+              "point_count": 179,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 14.188446657832815,
+              "radius_cv": 0.11332552240355441,
+              "transverse_axis_ratio": 0.8180347916564747
+            },
+            {
+              "bin": 6,
+              "point_count": 152,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 13.462700736057846,
+              "radius_cv": 0.1612131816995469,
+              "transverse_axis_ratio": 0.70989834035046
+            },
+            {
+              "bin": 7,
+              "point_count": 111,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.79140750787458,
+              "radius_cv": 0.18582988222405136,
+              "transverse_axis_ratio": 0.6851594267951681
+            },
+            {
+              "bin": 8,
+              "point_count": 152,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.97546446072795,
+              "radius_cv": 0.1748707048578573,
+              "transverse_axis_ratio": 0.800106806377875
+            },
+            {
+              "bin": 9,
+              "point_count": 148,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 10.708517177346794,
+              "radius_cv": 0.3307146579977173,
+              "transverse_axis_ratio": 0.8712066859081039
+            },
+            {
+              "bin": 10,
+              "point_count": 130,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 11.354887173001408,
+              "radius_cv": 0.3160278280350857,
+              "transverse_axis_ratio": 0.8223529516689434
+            },
+            {
+              "bin": 11,
+              "point_count": 410,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 9.620051483586295,
+              "radius_cv": 0.28693957208125703,
+              "transverse_axis_ratio": 0.8962502815255314
+            },
+            {
+              "bin": 12,
+              "point_count": 141,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 4.778878700587776,
+              "radius_cv": 0.4470275719487199,
+              "transverse_axis_ratio": 0.8799424751529503
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "ring_R": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9713.138390579843,
+        "dihedral_edge_count_gt_deg": {
+          "20": 380,
+          "35": 135,
+          "50": 57,
+          "75": 12,
+          "100": 1
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1103.0153320898535,
+          "35": 437.29400617303327,
+          "50": 166.07282287441194,
+          "75": 59.282511298079044,
+          "100": 3.227011999115348
+        },
+        "edge_p50_mm": 2.228982513770461,
+        "edge_p90_mm": 3.2557829981669784,
+        "sharp_length_ratio_gt_35": 0.045020876733017315,
+        "sharp_length_ratio_gt_50": 0.017097751128046876,
+        "surface_fingerprint_sha256": "7b4235f84316988d634c840f7cc1b47e3bf44273ff020b1b6b10e069a4856391",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 12.882555315943664,
+          "radius_cv_median": 0.18313363239228095,
+          "radius_cv_p90": 0.4989323926177106,
+          "transverse_axis_ratio_median": 0.5635057782936354,
+          "transverse_axis_ratio_p10": 0.2957328817914756,
+          "radius_profile_jump_p90_norm": 0.14840065364247412,
+          "radius_profile_jump_max_norm": 0.2024922023785886,
+          "radius_profile_second_diff_p90_norm": 0.09854535749012767,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 99,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.524001062150772,
+              "radius_cv": 0.2516098535516096,
+              "transverse_axis_ratio": 0.4304325106817365
+            },
+            {
+              "bin": 1,
+              "point_count": 106,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.180322791475502,
+              "radius_cv": 0.2195199581038814,
+              "transverse_axis_ratio": 0.44265919436235307
+            },
+            {
+              "bin": 2,
+              "point_count": 124,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 16.038856083617205,
+              "radius_cv": 0.16183981572956638,
+              "transverse_axis_ratio": 0.6997227053055429
+            },
+            {
+              "bin": 3,
+              "point_count": 131,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.406346929653665,
+              "radius_cv": 0.1346686620241334,
+              "transverse_axis_ratio": 0.6957320604891156
+            },
+            {
+              "bin": 4,
+              "point_count": 158,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.5714907755556,
+              "radius_cv": 0.17659217962554108,
+              "transverse_axis_ratio": 0.8937174166432448
+            },
+            {
+              "bin": 5,
+              "point_count": 127,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.477075274205173,
+              "radius_cv": 0.07384474097594931,
+              "transverse_axis_ratio": 0.79464516341991
+            },
+            {
+              "bin": 6,
+              "point_count": 102,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.882555315943664,
+              "radius_cv": 0.11922338005094438,
+              "transverse_axis_ratio": 0.7994689673643186
+            },
+            {
+              "bin": 7,
+              "point_count": 101,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.374793434736121,
+              "radius_cv": 0.1584421455184427,
+              "transverse_axis_ratio": 0.7080468842903486
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.197503084990617,
+              "radius_cv": 0.18313363239228095,
+              "transverse_axis_ratio": 0.5240732663605449
+            },
+            {
+              "bin": 9,
+              "point_count": 73,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.858402105797204,
+              "radius_cv": 0.2940395111995599,
+              "transverse_axis_ratio": 0.31280444167074806
+            },
+            {
+              "bin": 10,
+              "point_count": 85,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 7.249785107607777,
+              "radius_cv": 0.5029297097506688,
+              "transverse_axis_ratio": 0.29146499182165747
+            },
+            {
+              "bin": 11,
+              "point_count": 105,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 5.3320892184331115,
+              "radius_cv": 0.7435432576619821,
+              "transverse_axis_ratio": 0.5635057782936354
+            },
+            {
+              "bin": 12,
+              "point_count": 11,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 3.9258890958201618,
+              "radius_cv": 0.4829431240858779,
+              "transverse_axis_ratio": 0.2186380692173174
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "pinky_R": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6594.051639462123,
+        "dihedral_edge_count_gt_deg": {
+          "20": 174,
+          "35": 60,
+          "50": 23,
+          "75": 4,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 644.8152745142579,
+          "35": 328.74180283397436,
+          "50": 136.33293192833662,
+          "75": 17.36083597643301,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.14330421295017,
+        "edge_p90_mm": 3.232096391730011,
+        "sharp_length_ratio_gt_35": 0.04985429608506825,
+        "sharp_length_ratio_gt_50": 0.02067513865260802,
+        "surface_fingerprint_sha256": "d53f50df665afab58aca79dc334c0b0c73fc38a79fe28a7f5500b38bbb0557d1",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 10.47675065426182,
+          "radius_cv_median": 0.15957897528798842,
+          "radius_cv_p90": 0.2679975139681407,
+          "transverse_axis_ratio_median": 0.5781188191594663,
+          "transverse_axis_ratio_p10": 0.3936618267151906,
+          "radius_profile_jump_p90_norm": 0.20535956902844674,
+          "radius_profile_jump_max_norm": 0.43596692870994685,
+          "radius_profile_second_diff_p90_norm": 0.2246570487477569,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 28,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.14541056694968,
+              "radius_cv": 0.0825051805641064,
+              "transverse_axis_ratio": 0.6737883810551056
+            },
+            {
+              "bin": 1,
+              "point_count": 70,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 12.095149456620884,
+              "radius_cv": 0.11925521532455483,
+              "transverse_axis_ratio": 0.5830529740070058
+            },
+            {
+              "bin": 2,
+              "point_count": 63,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 12.86064528745193,
+              "radius_cv": 0.14244778662339314,
+              "transverse_axis_ratio": 0.6671078285843796
+            },
+            {
+              "bin": 3,
+              "point_count": 70,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 13.2836818945416,
+              "radius_cv": 0.16044628327346522,
+              "transverse_axis_ratio": 0.6280711194279913
+            },
+            {
+              "bin": 4,
+              "point_count": 72,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 13.330112104610622,
+              "radius_cv": 0.14188204197788487,
+              "transverse_axis_ratio": 0.5781188191594663
+            },
+            {
+              "bin": 5,
+              "point_count": 79,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 11.739670421146311,
+              "radius_cv": 0.14654023828108553,
+              "transverse_axis_ratio": 0.6535060193529759
+            },
+            {
+              "bin": 6,
+              "point_count": 54,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 10.47675065426182,
+              "radius_cv": 0.15793895631681376,
+              "transverse_axis_ratio": 0.43903959571104073
+            },
+            {
+              "bin": 7,
+              "point_count": 69,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 9.946349043668022,
+              "radius_cv": 0.15957897528798842,
+              "transverse_axis_ratio": 0.5828182819186629
+            },
+            {
+              "bin": 8,
+              "point_count": 70,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 9.19502697728199,
+              "radius_cv": 0.18118661390406296,
+              "transverse_axis_ratio": 0.3754765906761853
+            },
+            {
+              "bin": 9,
+              "point_count": 65,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 8.566510683190753,
+              "radius_cv": 0.26064838760240683,
+              "transverse_axis_ratio": 0.3844042571265554
+            },
+            {
+              "bin": 10,
+              "point_count": 89,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 9.547147247370269,
+              "radius_cv": 0.20551655631988267,
+              "transverse_axis_ratio": 0.46294670971662366
+            },
+            {
+              "bin": 11,
+              "point_count": 147,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 7.333306324224409,
+              "radius_cv": 0.2698347955595741,
+              "transverse_axis_ratio": 0.44281844502167106
+            },
+            {
+              "bin": 12,
+              "point_count": 28,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 2.765789518625957,
+              "radius_cv": 0.3548592019403466,
+              "transverse_axis_ratio": 0.43069210506973143
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      }
+    },
+    "new_digit_weight_max_error": 7.450580596923828e-08,
+    "symmetry_max_mm": 1.610170933417976,
+    "symmetry_p95_mm": 0.0
+  },
+  "candidate_topology": {
+    "vertices": 48291,
+    "faces": 93153,
+    "duplicate_source_ids": [],
+    "degenerate_faces": 0,
+    "nonmanifold_edges_gt2": 0,
+    "digit_boundary_edges": 0,
+    "digit_folds_over_100deg": 3,
+    "per_digit_surface": {
+      "index_L": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.883803798351,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0056129456498,
+          "35": 318.0924457847141,
+          "50": 129.79396502487361,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.2241759579628706,
+        "edge_p90_mm": 3.2927999505773187,
+        "sharp_length_ratio_gt_35": 0.035677051516665136,
+        "sharp_length_ratio_gt_50": 0.014557610650957417,
+        "surface_fingerprint_sha256": "09f4b8dc9cb0d2384a3a52e5ad864e335eae554e2a2b999c0a8be0fb8061eb1e",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 12,
+          "median_radius_mm": 13.054852310155116,
+          "radius_cv_median": 0.09464485833385541,
+          "radius_cv_p90": 0.3715288865502181,
+          "transverse_axis_ratio_median": 0.5226733457378783,
+          "transverse_axis_ratio_p10": 0.42558914870016856,
+          "radius_profile_jump_p90_norm": 0.12168195314034423,
+          "radius_profile_jump_max_norm": 0.16162678044611595,
+          "radius_profile_second_diff_p90_norm": 0.06312943241402857,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 119,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 15.235049119522971,
+              "radius_cv": 0.07275611100704608,
+              "transverse_axis_ratio": 0.7286162960721259
+            },
+            {
+              "bin": 1,
+              "point_count": 102,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 15.011463357396634,
+              "radius_cv": 0.09093639440995757,
+              "transverse_axis_ratio": 0.5913256062776321
+            },
+            {
+              "bin": 2,
+              "point_count": 88,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.938912184236349,
+              "radius_cv": 0.0760536375877924,
+              "transverse_axis_ratio": 0.565813040867724
+            },
+            {
+              "bin": 3,
+              "point_count": 90,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.068446589705088,
+              "radius_cv": 0.06095030178851579,
+              "transverse_axis_ratio": 0.4525213453911791
+            },
+            {
+              "bin": 4,
+              "point_count": 112,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.456106108452634,
+              "radius_cv": 0.0745400505326869,
+              "transverse_axis_ratio": 0.6085841344119345
+            },
+            {
+              "bin": 5,
+              "point_count": 103,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.553662601241443,
+              "radius_cv": 0.09835332225775327,
+              "transverse_axis_ratio": 0.5350631863071703
+            },
+            {
+              "bin": 6,
+              "point_count": 83,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.55604201906879,
+              "radius_cv": 0.10139873177566913,
+              "transverse_axis_ratio": 0.5328221816212082
+            },
+            {
+              "bin": 7,
+              "point_count": 81,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.465955009060968,
+              "radius_cv": 0.08375240000080253,
+              "transverse_axis_ratio": 0.5125245098545482
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.560987933083613,
+              "radius_cv": 0.14547173842364397,
+              "transverse_axis_ratio": 0.41299097358163195
+            },
+            {
+              "bin": 9,
+              "point_count": 87,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.972448006025203,
+              "radius_cv": 0.24594716582883205,
+              "transverse_axis_ratio": 0.439966250879583
+            },
+            {
+              "bin": 10,
+              "point_count": 137,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 8.506167951980224,
+              "radius_cv": 0.3854824110748165,
+              "transverse_axis_ratio": 0.46107513820195833
+            },
+            {
+              "bin": 11,
+              "point_count": 114,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 6.396154203890314,
+              "radius_cv": 0.5617769348641696,
+              "transverse_axis_ratio": 0.42399169290245586
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "middle_L": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12938.8598294463,
+        "dihedral_edge_count_gt_deg": {
+          "20": 279,
+          "35": 72,
+          "50": 26,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 646.155153925065,
+          "35": 168.88561722589657,
+          "50": 65.81356661627069,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1013393998146057,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.013052588825604719,
+        "sharp_length_ratio_gt_50": 0.005086504335296373,
+        "surface_fingerprint_sha256": "32f86f871999070f11ba9ad75fe96178379f3732d4b9a7e6e7866b712a469295",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 13.46269976727526,
+          "radius_cv_median": 0.16121308405491716,
+          "radius_cv_p90": 0.3281601856289039,
+          "transverse_axis_ratio_median": 0.8180347916564747,
+          "transverse_axis_ratio_p10": 0.6901071784349697,
+          "radius_profile_jump_p90_norm": 0.12540603814181384,
+          "radius_profile_jump_max_norm": 0.3595989561296094,
+          "radius_profile_second_diff_p90_norm": 0.17706519815691454,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 33,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.591500487487842,
+              "radius_cv": 0.06934484424330423,
+              "transverse_axis_ratio": 0.35022361907749777
+            },
+            {
+              "bin": 1,
+              "point_count": 112,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.180196617306061,
+              "radius_cv": 0.1106938556853534,
+              "transverse_axis_ratio": 0.7341762413380167
+            },
+            {
+              "bin": 2,
+              "point_count": 155,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.92429330192909,
+              "radius_cv": 0.10818063690782688,
+              "transverse_axis_ratio": 0.8228391672740074
+            },
+            {
+              "bin": 3,
+              "point_count": 152,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 14.951134447773125,
+              "radius_cv": 0.1395024100526844,
+              "transverse_axis_ratio": 0.8105384473009184
+            },
+            {
+              "bin": 4,
+              "point_count": 148,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.64932970479539,
+              "radius_cv": 0.0934914966581156,
+              "transverse_axis_ratio": 0.8428554229621732
+            },
+            {
+              "bin": 5,
+              "point_count": 179,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 14.188446657832815,
+              "radius_cv": 0.11332552240355441,
+              "transverse_axis_ratio": 0.8180347916564747
+            },
+            {
+              "bin": 6,
+              "point_count": 152,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 13.46269976727526,
+              "radius_cv": 0.16121308405491716,
+              "transverse_axis_ratio": 0.7098981849941761
+            },
+            {
+              "bin": 7,
+              "point_count": 111,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.79140750787458,
+              "radius_cv": 0.18582988222405136,
+              "transverse_axis_ratio": 0.6851594267951681
+            },
+            {
+              "bin": 8,
+              "point_count": 152,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.97546446072795,
+              "radius_cv": 0.1748707048578573,
+              "transverse_axis_ratio": 0.8001068063778751
+            },
+            {
+              "bin": 9,
+              "point_count": 148,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 10.705947260396881,
+              "radius_cv": 0.33119327502735846,
+              "transverse_axis_ratio": 0.870983737457129
+            },
+            {
+              "bin": 10,
+              "point_count": 130,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 11.354887173001408,
+              "radius_cv": 0.3160278280350857,
+              "transverse_axis_ratio": 0.8223529516689433
+            },
+            {
+              "bin": 11,
+              "point_count": 410,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 9.620051483586295,
+              "radius_cv": 0.28693957208125703,
+              "transverse_axis_ratio": 0.8962502815255314
+            },
+            {
+              "bin": 12,
+              "point_count": 141,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 4.778878700587775,
+              "radius_cv": 0.44702757194871995,
+              "transverse_axis_ratio": 0.8799424751529503
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "ring_L": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9373.014037766552,
+        "dihedral_edge_count_gt_deg": {
+          "20": 171,
+          "35": 53,
+          "50": 11,
+          "75": 3,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 652.5816974826739,
+          "35": 258.775794536632,
+          "50": 64.55966201610863,
+          "75": 37.10476669948548,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.175707253627479,
+        "edge_p90_mm": 3.0884449370205402,
+        "sharp_length_ratio_gt_35": 0.027608599911826695,
+        "sharp_length_ratio_gt_50": 0.0068878230370699655,
+        "surface_fingerprint_sha256": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 12.758097919746906,
+          "radius_cv_median": 0.18755064020494244,
+          "radius_cv_p90": 0.4787450325004955,
+          "transverse_axis_ratio_median": 0.5658647998339785,
+          "transverse_axis_ratio_p10": 0.2958594581096211,
+          "radius_profile_jump_p90_norm": 0.15930643898791175,
+          "radius_profile_jump_max_norm": 0.19514336021008988,
+          "radius_profile_second_diff_p90_norm": 0.09671262319186134,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 99,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.462116194538721,
+              "radius_cv": 0.25042543120353533,
+              "transverse_axis_ratio": 0.42425521825244883
+            },
+            {
+              "bin": 1,
+              "point_count": 106,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.084297038892803,
+              "radius_cv": 0.21884845157990873,
+              "transverse_axis_ratio": 0.43888435968902645
+            },
+            {
+              "bin": 2,
+              "point_count": 124,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 15.940347000004238,
+              "radius_cv": 0.16139174924756136,
+              "transverse_axis_ratio": 0.6998474486598935
+            },
+            {
+              "bin": 3,
+              "point_count": 130,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.310228635207299,
+              "radius_cv": 0.1346092696949288,
+              "transverse_axis_ratio": 0.6920587335406947
+            },
+            {
+              "bin": 4,
+              "point_count": 160,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.45950276856033,
+              "radius_cv": 0.16973065126680917,
+              "transverse_axis_ratio": 0.9010629881930516
+            },
+            {
+              "bin": 5,
+              "point_count": 128,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.38473829730119,
+              "radius_cv": 0.06983396305325629,
+              "transverse_axis_ratio": 0.7829419883919383
+            },
+            {
+              "bin": 6,
+              "point_count": 100,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.758097919746906,
+              "radius_cv": 0.11935283418189702,
+              "transverse_axis_ratio": 0.8083857429417226
+            },
+            {
+              "bin": 7,
+              "point_count": 101,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.259724827703252,
+              "radius_cv": 0.16055046853884436,
+              "transverse_axis_ratio": 0.707598936007605
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.114657992077431,
+              "radius_cv": 0.18755064020494244,
+              "transverse_axis_ratio": 0.5210579064182366
+            },
+            {
+              "bin": 9,
+              "point_count": 73,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.755142341611231,
+              "radius_cv": 0.2953138298098762,
+              "transverse_axis_ratio": 0.307323104035768
+            },
+            {
+              "bin": 10,
+              "point_count": 84,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 7.2654842436624625,
+              "radius_cv": 0.4947937166039062,
+              "transverse_axis_ratio": 0.2929935466280844
+            },
+            {
+              "bin": 11,
+              "point_count": 108,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 5.213437408392662,
+              "radius_cv": 0.7517965508338971,
+              "transverse_axis_ratio": 0.5658647998339785
+            },
+            {
+              "bin": 12,
+              "point_count": 9,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 4.2093649769690025,
+              "radius_cv": 0.41455029608685234,
+              "transverse_axis_ratio": 0.18284596149502044
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "pinky_L": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6602.029808040243,
+        "dihedral_edge_count_gt_deg": {
+          "20": 179,
+          "35": 65,
+          "50": 29,
+          "75": 8,
+          "100": 2
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 663.0164681992028,
+          "35": 342.97230807715096,
+          "50": 152.05661035724916,
+          "75": 32.934340299107134,
+          "100": 7.52214202657342
+        },
+        "edge_p50_mm": 2.144188270904124,
+        "edge_p90_mm": 3.2343895407393575,
+        "sharp_length_ratio_gt_35": 0.05194952432045432,
+        "sharp_length_ratio_gt_50": 0.023031797004622413,
+        "surface_fingerprint_sha256": "1f32e39f4caa388b3843be63caee04674047e167b81dc43c7b447e1953ccfb58",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 10.476750654261817,
+          "radius_cv_median": 0.15957792644808372,
+          "radius_cv_p90": 0.26779488106443916,
+          "transverse_axis_ratio_median": 0.578119276735475,
+          "transverse_axis_ratio_p10": 0.3914949037691438,
+          "radius_profile_jump_p90_norm": 0.20535961674255357,
+          "radius_profile_jump_max_norm": 0.43596655465284934,
+          "radius_profile_second_diff_p90_norm": 0.22465661174593124,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 28,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.145398250542383,
+              "radius_cv": 0.08250387532557926,
+              "transverse_axis_ratio": 0.6737882205031634
+            },
+            {
+              "bin": 1,
+              "point_count": 70,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 12.09515902458565,
+              "radius_cv": 0.11925478462304899,
+              "transverse_axis_ratio": 0.5830555789668903
+            },
+            {
+              "bin": 2,
+              "point_count": 63,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 12.860643086934711,
+              "radius_cv": 0.14244748625089892,
+              "transverse_axis_ratio": 0.6671071875621082
+            },
+            {
+              "bin": 3,
+              "point_count": 70,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 13.283680812449072,
+              "radius_cv": 0.1604463900896821,
+              "transverse_axis_ratio": 0.6280708292978445
+            },
+            {
+              "bin": 4,
+              "point_count": 72,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 13.330112350086056,
+              "radius_cv": 0.1418820149506804,
+              "transverse_axis_ratio": 0.578119276735475
+            },
+            {
+              "bin": 5,
+              "point_count": 79,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 11.73967160283976,
+              "radius_cv": 0.14654052596067993,
+              "transverse_axis_ratio": 0.6535058519059567
+            },
+            {
+              "bin": 6,
+              "point_count": 54,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 10.476750654261817,
+              "radius_cv": 0.15793895631681382,
+              "transverse_axis_ratio": 0.43903959571104073
+            },
+            {
+              "bin": 7,
+              "point_count": 69,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 9.946346107432957,
+              "radius_cv": 0.15957792644808372,
+              "transverse_axis_ratio": 0.5828162854129079
+            },
+            {
+              "bin": 8,
+              "point_count": 71,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 9.159278195147326,
+              "radius_cv": 0.183536658134312,
+              "transverse_axis_ratio": 0.3778377619834004
+            },
+            {
+              "bin": 9,
+              "point_count": 64,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 8.600885023618787,
+              "radius_cv": 0.25963522308389936,
+              "transverse_axis_ratio": 0.3816950404756132
+            },
+            {
+              "bin": 10,
+              "point_count": 89,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 9.547147906826492,
+              "radius_cv": 0.2055167058283697,
+              "transverse_axis_ratio": 0.4629465462948434
+            },
+            {
+              "bin": 11,
+              "point_count": 147,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 7.333306324224409,
+              "radius_cv": 0.2698347955595741,
+              "transverse_axis_ratio": 0.442818445021671
+            },
+            {
+              "bin": 12,
+              "point_count": 28,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 2.7657934375288997,
+              "radius_cv": 0.35486029266419933,
+              "transverse_axis_ratio": 0.43069435694326624
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "index_R": {
+        "owned_vertices": 1195,
+        "edges_total": 3548,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 8915.350344672333,
+        "dihedral_edge_count_gt_deg": {
+          "20": 218,
+          "35": 67,
+          "50": 29,
+          "75": 9,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 942.0072014327161,
+          "35": 318.0938828154467,
+          "50": 129.7943394165486,
+          "75": 15.672364388592541,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.224233467131853,
+        "edge_p90_mm": 3.292358433827758,
+        "sharp_length_ratio_gt_35": 0.03567934747573149,
+        "sharp_length_ratio_gt_50": 0.01455852371456289,
+        "surface_fingerprint_sha256": "327868fca15bf82951648d7fea34b0bf25b99ce21dcac198fa7e5f705e71bfaf",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 12,
+          "median_radius_mm": 13.054867722863454,
+          "radius_cv_median": 0.09464485833385541,
+          "radius_cv_p90": 0.37161754631591287,
+          "transverse_axis_ratio_median": 0.5226765284969849,
+          "transverse_axis_ratio_p10": 0.4255395446999897,
+          "radius_profile_jump_p90_norm": 0.12207029060351299,
+          "radius_profile_jump_max_norm": 0.1616269074269139,
+          "radius_profile_second_diff_p90_norm": 0.06312519132465873,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 119,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 15.235049119522973,
+              "radius_cv": 0.07275611100704606,
+              "transverse_axis_ratio": 0.7286162960721259
+            },
+            {
+              "bin": 1,
+              "point_count": 102,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 15.011463357396638,
+              "radius_cv": 0.09093639440995753,
+              "transverse_axis_ratio": 0.591325606277632
+            },
+            {
+              "bin": 2,
+              "point_count": 88,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.93890887569238,
+              "radius_cv": 0.07605525854563223,
+              "transverse_axis_ratio": 0.5658109682766171
+            },
+            {
+              "bin": 3,
+              "point_count": 90,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.068446589705088,
+              "radius_cv": 0.06095030178851579,
+              "transverse_axis_ratio": 0.45252134539117916
+            },
+            {
+              "bin": 4,
+              "point_count": 112,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.456104201291343,
+              "radius_cv": 0.07454043615180951,
+              "transverse_axis_ratio": 0.6085833777406867
+            },
+            {
+              "bin": 5,
+              "point_count": 103,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.55366260124144,
+              "radius_cv": 0.0983533222577533,
+              "transverse_axis_ratio": 0.5350631863071702
+            },
+            {
+              "bin": 6,
+              "point_count": 83,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.556072844485469,
+              "radius_cv": 0.10140103608801049,
+              "transverse_axis_ratio": 0.5328315516803035
+            },
+            {
+              "bin": 7,
+              "point_count": 81,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.465944227004732,
+              "radius_cv": 0.08375117459651321,
+              "transverse_axis_ratio": 0.5125215053136662
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.560987933083613,
+              "radius_cv": 0.14547173842364397,
+              "transverse_axis_ratio": 0.4129909735816319
+            },
+            {
+              "bin": 9,
+              "point_count": 87,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.96737643636325,
+              "radius_cv": 0.2468326551092578,
+              "transverse_axis_ratio": 0.4394899735609016
+            },
+            {
+              "bin": 10,
+              "point_count": 137,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 8.506168655854056,
+              "radius_cv": 0.38548253422776335,
+              "transverse_axis_ratio": 0.46107533909847964
+            },
+            {
+              "bin": 11,
+              "point_count": 114,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 6.396150758940198,
+              "radius_cv": 0.5617765509805628,
+              "transverse_axis_ratio": 0.4239894970487773
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "middle_R": {
+        "owned_vertices": 2023,
+        "edges_total": 6007,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 12934.409921988845,
+        "dihedral_edge_count_gt_deg": {
+          "20": 275,
+          "35": 70,
+          "50": 25,
+          "75": 10,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 634.2698874068446,
+          "35": 162.07059303997084,
+          "50": 61.11375481123105,
+          "75": 23.190562205854803,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.1007871255278587,
+        "edge_p90_mm": 2.9998918063938618,
+        "sharp_length_ratio_gt_35": 0.012530188390306578,
+        "sharp_length_ratio_gt_50": 0.004724897013456796,
+        "surface_fingerprint_sha256": "32826cd7db95a705f4e4b28bd559a3c2e4e6fe872432d82a0d8ef204fce4e2cb",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 13.462700736057846,
+          "radius_cv_median": 0.1612131816995469,
+          "radius_cv_p90": 0.327777292005191,
+          "transverse_axis_ratio_median": 0.8180347916564747,
+          "transverse_axis_ratio_p10": 0.6901072095062264,
+          "radius_profile_jump_p90_norm": 0.1253869399540714,
+          "radius_profile_jump_max_norm": 0.35959893025269113,
+          "radius_profile_second_diff_p90_norm": 0.17687429378059505,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 33,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.591500487487842,
+              "radius_cv": 0.06934484424330423,
+              "transverse_axis_ratio": 0.3502236190774979
+            },
+            {
+              "bin": 1,
+              "point_count": 112,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.18019661730606,
+              "radius_cv": 0.11069385568535342,
+              "transverse_axis_ratio": 0.7341762413380167
+            },
+            {
+              "bin": 2,
+              "point_count": 155,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 14.924295017766216,
+              "radius_cv": 0.1081809326928837,
+              "transverse_axis_ratio": 0.8228394961702598
+            },
+            {
+              "bin": 3,
+              "point_count": 152,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 14.951134447773125,
+              "radius_cv": 0.1395024100526844,
+              "transverse_axis_ratio": 0.8105384473009186
+            },
+            {
+              "bin": 4,
+              "point_count": 148,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.64932970479539,
+              "radius_cv": 0.0934914966581156,
+              "transverse_axis_ratio": 0.8428554229621733
+            },
+            {
+              "bin": 5,
+              "point_count": 179,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 14.188446657832815,
+              "radius_cv": 0.11332552240355441,
+              "transverse_axis_ratio": 0.8180347916564747
+            },
+            {
+              "bin": 6,
+              "point_count": 152,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 13.462700736057846,
+              "radius_cv": 0.1612131816995469,
+              "transverse_axis_ratio": 0.70989834035046
+            },
+            {
+              "bin": 7,
+              "point_count": 111,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.79140750787458,
+              "radius_cv": 0.18582988222405136,
+              "transverse_axis_ratio": 0.6851594267951681
+            },
+            {
+              "bin": 8,
+              "point_count": 152,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.97546446072795,
+              "radius_cv": 0.1748707048578573,
+              "transverse_axis_ratio": 0.800106806377875
+            },
+            {
+              "bin": 9,
+              "point_count": 148,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 10.708517177346794,
+              "radius_cv": 0.3307146579977173,
+              "transverse_axis_ratio": 0.8712066859081039
+            },
+            {
+              "bin": 10,
+              "point_count": 130,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 11.354887173001408,
+              "radius_cv": 0.3160278280350857,
+              "transverse_axis_ratio": 0.8223529516689434
+            },
+            {
+              "bin": 11,
+              "point_count": 410,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 9.620051483586295,
+              "radius_cv": 0.28693957208125703,
+              "transverse_axis_ratio": 0.8962502815255314
+            },
+            {
+              "bin": 12,
+              "point_count": 141,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 4.778878700587776,
+              "radius_cv": 0.4470275719487199,
+              "transverse_axis_ratio": 0.8799424751529503
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "ring_R": {
+        "owned_vertices": 1301,
+        "edges_total": 3846,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 9713.138390579843,
+        "dihedral_edge_count_gt_deg": {
+          "20": 380,
+          "35": 135,
+          "50": 57,
+          "75": 12,
+          "100": 1
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 1103.0153320898535,
+          "35": 437.29400617303327,
+          "50": 166.07282287441194,
+          "75": 59.282511298079044,
+          "100": 3.227011999115348
+        },
+        "edge_p50_mm": 2.228982513770461,
+        "edge_p90_mm": 3.2557829981669784,
+        "sharp_length_ratio_gt_35": 0.045020876733017315,
+        "sharp_length_ratio_gt_50": 0.017097751128046876,
+        "surface_fingerprint_sha256": "7b4235f84316988d634c840f7cc1b47e3bf44273ff020b1b6b10e069a4856391",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 12.882555315943664,
+          "radius_cv_median": 0.18313363239228095,
+          "radius_cv_p90": 0.4989323926177106,
+          "transverse_axis_ratio_median": 0.5635057782936354,
+          "transverse_axis_ratio_p10": 0.2957328817914756,
+          "radius_profile_jump_p90_norm": 0.14840065364247412,
+          "radius_profile_jump_max_norm": 0.2024922023785886,
+          "radius_profile_second_diff_p90_norm": 0.09854535749012767,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 99,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.524001062150772,
+              "radius_cv": 0.2516098535516096,
+              "transverse_axis_ratio": 0.4304325106817365
+            },
+            {
+              "bin": 1,
+              "point_count": 106,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 14.180322791475502,
+              "radius_cv": 0.2195199581038814,
+              "transverse_axis_ratio": 0.44265919436235307
+            },
+            {
+              "bin": 2,
+              "point_count": 124,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 16.038856083617205,
+              "radius_cv": 0.16183981572956638,
+              "transverse_axis_ratio": 0.6997227053055429
+            },
+            {
+              "bin": 3,
+              "point_count": 131,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 15.406346929653665,
+              "radius_cv": 0.1346686620241334,
+              "transverse_axis_ratio": 0.6957320604891156
+            },
+            {
+              "bin": 4,
+              "point_count": 158,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 14.5714907755556,
+              "radius_cv": 0.17659217962554108,
+              "transverse_axis_ratio": 0.8937174166432448
+            },
+            {
+              "bin": 5,
+              "point_count": 127,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 13.477075274205173,
+              "radius_cv": 0.07384474097594931,
+              "transverse_axis_ratio": 0.79464516341991
+            },
+            {
+              "bin": 6,
+              "point_count": 102,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 12.882555315943664,
+              "radius_cv": 0.11922338005094438,
+              "transverse_axis_ratio": 0.7994689673643186
+            },
+            {
+              "bin": 7,
+              "point_count": 101,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 12.374793434736121,
+              "radius_cv": 0.1584421455184427,
+              "transverse_axis_ratio": 0.7080468842903486
+            },
+            {
+              "bin": 8,
+              "point_count": 79,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 11.197503084990617,
+              "radius_cv": 0.18313363239228095,
+              "transverse_axis_ratio": 0.5240732663605449
+            },
+            {
+              "bin": 9,
+              "point_count": 73,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 9.858402105797204,
+              "radius_cv": 0.2940395111995599,
+              "transverse_axis_ratio": 0.31280444167074806
+            },
+            {
+              "bin": 10,
+              "point_count": 85,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 7.249785107607777,
+              "radius_cv": 0.5029297097506688,
+              "transverse_axis_ratio": 0.29146499182165747
+            },
+            {
+              "bin": 11,
+              "point_count": 105,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 5.3320892184331115,
+              "radius_cv": 0.7435432576619821,
+              "transverse_axis_ratio": 0.5635057782936354
+            },
+            {
+              "bin": 12,
+              "point_count": 11,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 3.9258890958201618,
+              "radius_cv": 0.4829431240858779,
+              "transverse_axis_ratio": 0.2186380692173174
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      },
+      "pinky_R": {
+        "owned_vertices": 904,
+        "edges_total": 2678,
+        "boundary_edges": 0,
+        "total_edge_length_mm": 6594.051639462123,
+        "dihedral_edge_count_gt_deg": {
+          "20": 174,
+          "35": 60,
+          "50": 23,
+          "75": 4,
+          "100": 0
+        },
+        "dihedral_edge_length_mm_gt_deg": {
+          "20": 644.8152745142579,
+          "35": 328.74180283397436,
+          "50": 136.33293192833662,
+          "75": 17.36083597643301,
+          "100": 0.0
+        },
+        "edge_p50_mm": 2.14330421295017,
+        "edge_p90_mm": 3.232096391730011,
+        "sharp_length_ratio_gt_35": 0.04985429608506825,
+        "sharp_length_ratio_gt_50": 0.02067513865260802,
+        "surface_fingerprint_sha256": "d53f50df665afab58aca79dc334c0b0c73fc38a79fe28a7f5500b38bbb0557d1",
+        "shape_profile": {
+          "available": true,
+          "section_bins_requested": 14,
+          "section_bins_used": 13,
+          "median_radius_mm": 10.47675065426182,
+          "radius_cv_median": 0.15957897528798842,
+          "radius_cv_p90": 0.2679975139681407,
+          "transverse_axis_ratio_median": 0.5781188191594663,
+          "transverse_axis_ratio_p10": 0.3936618267151906,
+          "radius_profile_jump_p90_norm": 0.20535956902844674,
+          "radius_profile_jump_max_norm": 0.43596692870994685,
+          "radius_profile_second_diff_p90_norm": 0.2246570487477569,
+          "sections": [
+            {
+              "bin": 0,
+              "point_count": 28,
+              "arc_fraction": 0.03571428571428571,
+              "mean_radius_mm": 13.14541056694968,
+              "radius_cv": 0.0825051805641064,
+              "transverse_axis_ratio": 0.6737883810551056
+            },
+            {
+              "bin": 1,
+              "point_count": 70,
+              "arc_fraction": 0.10714285714285714,
+              "mean_radius_mm": 12.095149456620884,
+              "radius_cv": 0.11925521532455483,
+              "transverse_axis_ratio": 0.5830529740070058
+            },
+            {
+              "bin": 2,
+              "point_count": 63,
+              "arc_fraction": 0.17857142857142858,
+              "mean_radius_mm": 12.86064528745193,
+              "radius_cv": 0.14244778662339314,
+              "transverse_axis_ratio": 0.6671078285843796
+            },
+            {
+              "bin": 3,
+              "point_count": 70,
+              "arc_fraction": 0.25,
+              "mean_radius_mm": 13.2836818945416,
+              "radius_cv": 0.16044628327346522,
+              "transverse_axis_ratio": 0.6280711194279913
+            },
+            {
+              "bin": 4,
+              "point_count": 72,
+              "arc_fraction": 0.32142857142857145,
+              "mean_radius_mm": 13.330112104610622,
+              "radius_cv": 0.14188204197788487,
+              "transverse_axis_ratio": 0.5781188191594663
+            },
+            {
+              "bin": 5,
+              "point_count": 79,
+              "arc_fraction": 0.39285714285714285,
+              "mean_radius_mm": 11.739670421146311,
+              "radius_cv": 0.14654023828108553,
+              "transverse_axis_ratio": 0.6535060193529759
+            },
+            {
+              "bin": 6,
+              "point_count": 54,
+              "arc_fraction": 0.4642857142857143,
+              "mean_radius_mm": 10.47675065426182,
+              "radius_cv": 0.15793895631681376,
+              "transverse_axis_ratio": 0.43903959571104073
+            },
+            {
+              "bin": 7,
+              "point_count": 69,
+              "arc_fraction": 0.5357142857142857,
+              "mean_radius_mm": 9.946349043668022,
+              "radius_cv": 0.15957897528798842,
+              "transverse_axis_ratio": 0.5828182819186629
+            },
+            {
+              "bin": 8,
+              "point_count": 70,
+              "arc_fraction": 0.6071428571428571,
+              "mean_radius_mm": 9.19502697728199,
+              "radius_cv": 0.18118661390406296,
+              "transverse_axis_ratio": 0.3754765906761853
+            },
+            {
+              "bin": 9,
+              "point_count": 65,
+              "arc_fraction": 0.6785714285714286,
+              "mean_radius_mm": 8.566510683190753,
+              "radius_cv": 0.26064838760240683,
+              "transverse_axis_ratio": 0.3844042571265554
+            },
+            {
+              "bin": 10,
+              "point_count": 89,
+              "arc_fraction": 0.75,
+              "mean_radius_mm": 9.547147247370269,
+              "radius_cv": 0.20551655631988267,
+              "transverse_axis_ratio": 0.46294670971662366
+            },
+            {
+              "bin": 11,
+              "point_count": 147,
+              "arc_fraction": 0.8214285714285714,
+              "mean_radius_mm": 7.333306324224409,
+              "radius_cv": 0.2698347955595741,
+              "transverse_axis_ratio": 0.44281844502167106
+            },
+            {
+              "bin": 12,
+              "point_count": 28,
+              "arc_fraction": 0.8928571428571429,
+              "mean_radius_mm": 2.765789518625957,
+              "radius_cv": 0.3548592019403466,
+              "transverse_axis_ratio": 0.43069210506973143
+            }
+          ],
+          "note": "Advisory bind-pose shape metric. Lower radius-profile jump/second-difference suggests smoother diameter continuity; axis ratio closer to 1 suggests a rounder sampled cross-section."
+        }
+      }
+    },
+    "new_digit_weight_max_error": 7.450580596923828e-08,
+    "symmetry_max_mm": 1.610170933417976,
+    "symmetry_p95_mm": 0.24615469446871427
+  },
+  "per_digit_surface_delta_vs_v13e": {
+    "index_L": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "index_R": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "middle_L": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "middle_R": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "pinky_L": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "pinky_R": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    },
+    "ring_L": {
+      "sharp_length_ratio_gt_35_delta": -0.016299915475350923,
+      "sharp_length_ratio_gt_50_delta": -0.009669956689021209,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.010905790386199682,
+      "shape_profile_second_diff_p90_delta": -0.002659665958448895,
+      "shape_radius_cv_p90_delta": -0.020188119331191245,
+      "shape_axis_ratio_median_delta": 0.002358706049824799
+    },
+    "ring_R": {
+      "sharp_length_ratio_gt_35_delta": 0.0,
+      "sharp_length_ratio_gt_50_delta": 0.0,
+      "fold_edges_gt_100_delta": 0,
+      "boundary_edge_delta": 0,
+      "shape_profile_jump_p90_delta": 0.0,
+      "shape_profile_second_diff_p90_delta": 0.0,
+      "shape_radius_cv_p90_delta": 0.0,
+      "shape_axis_ratio_median_delta": 0.0
+    }
+  },
+  "remaining_faceting_priority": [
+    {
+      "digit": "pinky_L",
+      "candidate_sharp_ratio_gt_35": 0.05194952432045432,
+      "candidate_sharp_ratio_gt_50": 0.023031797004622413,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "pinky_R",
+      "candidate_sharp_ratio_gt_35": 0.04985429608506825,
+      "candidate_sharp_ratio_gt_50": 0.02067513865260802,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "ring_R",
+      "candidate_sharp_ratio_gt_35": 0.045020876733017315,
+      "candidate_sharp_ratio_gt_50": 0.017097751128046876,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "index_R",
+      "candidate_sharp_ratio_gt_35": 0.03567934747573149,
+      "candidate_sharp_ratio_gt_50": 0.01455852371456289,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "index_L",
+      "candidate_sharp_ratio_gt_35": 0.035677051516665136,
+      "candidate_sharp_ratio_gt_50": 0.014557610650957417,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "ring_L",
+      "candidate_sharp_ratio_gt_35": 0.027608599911826695,
+      "candidate_sharp_ratio_gt_50": 0.0068878230370699655,
+      "delta_gt_35_vs_v13e": -0.016299915475350923
+    },
+    {
+      "digit": "middle_L",
+      "candidate_sharp_ratio_gt_35": 0.013052588825604719,
+      "candidate_sharp_ratio_gt_50": 0.005086504335296373,
+      "delta_gt_35_vs_v13e": 0.0
+    },
+    {
+      "digit": "middle_R",
+      "candidate_sharp_ratio_gt_35": 0.012530188390306578,
+      "candidate_sharp_ratio_gt_50": 0.004724897013456796,
+      "delta_gt_35_vs_v13e": 0.0
+    }
+  ],
+  "shape_quality_priority": [
+    {
+      "digit": "pinky_L",
+      "candidate_radius_profile_jump_p90_norm": 0.20535961674255357,
+      "candidate_second_diff_p90_norm": 0.22465661174593124,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "pinky_R",
+      "candidate_radius_profile_jump_p90_norm": 0.20535956902844674,
+      "candidate_second_diff_p90_norm": 0.2246570487477569,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "ring_L",
+      "candidate_radius_profile_jump_p90_norm": 0.15930643898791175,
+      "candidate_second_diff_p90_norm": 0.09671262319186134,
+      "jump_delta_vs_v13e": 0.010905790386199682,
+      "second_diff_delta_vs_v13e": -0.002659665958448895
+    },
+    {
+      "digit": "ring_R",
+      "candidate_radius_profile_jump_p90_norm": 0.14840065364247412,
+      "candidate_second_diff_p90_norm": 0.09854535749012767,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "middle_L",
+      "candidate_radius_profile_jump_p90_norm": 0.12540603814181384,
+      "candidate_second_diff_p90_norm": 0.17706519815691454,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "middle_R",
+      "candidate_radius_profile_jump_p90_norm": 0.1253869399540714,
+      "candidate_second_diff_p90_norm": 0.17687429378059505,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "index_R",
+      "candidate_radius_profile_jump_p90_norm": 0.12207029060351299,
+      "candidate_second_diff_p90_norm": 0.06312519132465873,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    },
+    {
+      "digit": "index_L",
+      "candidate_radius_profile_jump_p90_norm": 0.12168195314034423,
+      "candidate_second_diff_p90_norm": 0.06312943241402857,
+      "jump_delta_vs_v13e": 0.0,
+      "second_diff_delta_vs_v13e": 0.0
+    }
+  ],
+  "checks": {
+    "all_original_source_ids_present": true,
+    "protected_source_ids_present": true,
+    "protected_positions_exact": true,
+    "protected_bone_weights_exact": true,
+    "non_digit_source_ids_present": true,
+    "non_digit_positions_exact": true,
+    "non_digit_bone_weights_exact": true,
+    "digit_original_move_within_10mm": true,
+    "original_digit_bone_weights_exact": true,
+    "no_duplicate_source_ids": true,
+    "degenerates_not_increased": true,
+    "nonmanifold_gt2_not_increased": true,
+    "digit_boundaries_not_increased": true,
+    "new_digit_bone_weights_normalized": true
+  },
+  "pass": true,
+  "note": "All original V8-source IDs must survive. Rebuild topology by rewiring/retriangulating and adding vertices, not by deleting source vertices."
+}

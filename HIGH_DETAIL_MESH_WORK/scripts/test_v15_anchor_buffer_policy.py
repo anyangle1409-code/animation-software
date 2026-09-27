@@ -1,7 +1,7 @@
 """Focused contract test for the V15f Route A movement policy."""
 from __future__ import annotations
 
-from v15_anchor_buffer_policy import movement_cap_mm, report_is_safe
+from v15_anchor_buffer_policy import movement_cap_mm, report_is_safe, route_b_movement_cap_mm
 
 
 assert movement_cap_mm(0) == 0.0
@@ -9,6 +9,12 @@ assert movement_cap_mm(1) == 0.0
 assert movement_cap_mm(2) == 0.25
 assert movement_cap_mm(3) == 0.55
 assert movement_cap_mm(4) == 0.0
+
+assert route_b_movement_cap_mm(0) == 0.0
+assert route_b_movement_cap_mm(1) == 0.12
+assert route_b_movement_cap_mm(2) == 0.35
+assert route_b_movement_cap_mm(3) == 0.65
+assert route_b_movement_cap_mm(4) == 0.90
 
 safe = {
     "direct_contact_max_move_mm": 0.0,

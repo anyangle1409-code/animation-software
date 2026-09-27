@@ -1,12 +1,13 @@
 """Build one matched V13e/V15f left-ring proof board."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "renders_v15f_ring_proof"
-OUT = SRC / "V15F_V13E_RING_L_PROOF.jpg"
+SRC = Path(os.environ.get("V15F_RING_RENDER_DIR", ROOT / "renders_v15f_ring_proof")).resolve()
+OUT = Path(os.environ.get("V15F_RING_BOARD", SRC / "V15F_V13E_RING_L_PROOF.jpg")).resolve()
 VIEWS = [
     ("yneg", "Y- close-up"),
     ("ypos", "Y+ close-up"),

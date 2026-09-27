@@ -1,0 +1,33 @@
+{
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_upstream_topology_route_b_trial.blend",
+  "comparison": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "numeric_gate": "PASS",
+  "checkpoint_004": {
+    "ring_L_gt35": 0.04266704110971034,
+    "ring_L_gt50": 0.016184951644086138,
+    "ring_L_gt100": 0
+  },
+  "route_b_trial": {
+    "ring_L_gt35": 0.027608599911826695,
+    "ring_L_gt50": 0.0068878230370699655,
+    "ring_L_gt100": 0,
+    "maximum_move_mm": 0.6854389880115961,
+    "removed_ring_edges": 312,
+    "added_ring_edges": 312
+  },
+  "checks": {
+    "general_invariants_pass": true,
+    "direct_contacts_exact": true,
+    "weights_exact": true,
+    "outside_ring_L_exact": true,
+    "topology_rebuilt": true,
+    "vertex_and_face_counts_preserved": true,
+    "ring_L_gt35_improved": true,
+    "ring_L_gt50_improved": true,
+    "ring_L_gt100_not_worse": true,
+    "no_new_boundaries": true
+  },
+  "visual_gate": "PASS",
+  "next": "Checkpoint as 005, make it the active V15f ring_L source, then run official focused and deformation/contact validation before propagation.",
+  "visual_decision_report": "reports\\v15f_upstream_topology_route_b_visual_decision.json"
+}

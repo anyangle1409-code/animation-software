@@ -11,14 +11,21 @@ from __future__ import annotations
 import bpy
 import json
 import math
+import os
 from pathlib import Path
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend"
-CAND = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend"
-OUT = ROOT / "renders_v15f_ring_proof"
-META = ROOT / "reports" / "v15f_ring_visual_proof.json"
+CAND = Path(os.environ.get(
+    "V15F_RING_CANDIDATE_BLEND",
+    ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+)).resolve()
+OUT = Path(os.environ.get("V15F_RING_RENDER_DIR", ROOT / "renders_v15f_ring_proof")).resolve()
+META = Path(os.environ.get(
+    "V15F_RING_RENDER_META",
+    ROOT / "reports" / "v15f_ring_visual_proof.json",
+)).resolve()
 BODY = "Mike_Freeman"
 
 VIEWS = {
@@ -70,6 +77,8 @@ def setup_scene(body):
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"
     scene.render.film_transparent = False
+    if scene.world is None:
+        scene.world = bpy.data.worlds.new("V15F_Ring_Proof_World")
     scene.world.color = (0.12, 0.12, 0.12)
     scene.view_settings.view_transform = "Standard"
 

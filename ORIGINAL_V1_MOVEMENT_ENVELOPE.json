@@ -4,149 +4,150 @@
   "required_categories": [
     {
       "id": "trunk_flexion",
-      "exercise_examples": [
-        "sit_up",
+      "synthetic": true,
+      "definition_symbols": [
+        "sitUp",
         "crunch"
-      ],
-      "synthetic": true
+      ]
     },
     {
       "id": "trunk_extension",
-      "exercise_examples": [],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": []
     },
     {
       "id": "trunk_rotation",
-      "exercise_examples": [
-        "russian_twist",
-        "cable_woodchop"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "russianTwist",
+        "cableWoodchop"
+      ]
     },
     {
       "id": "lateral_flexion",
-      "exercise_examples": [],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": []
     },
     {
       "id": "anti_rotation",
-      "exercise_examples": [
-        "pallof_press"
-      ],
-      "synthetic": false
+      "synthetic": false,
+      "definition_symbols": [
+        "pallofPress"
+      ]
     },
     {
       "id": "hip_hinge",
-      "exercise_examples": [
-        "romanian_deadlift",
-        "bent_over_row"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "romanianDeadlift",
+        "bentOverRow"
+      ]
     },
     {
       "id": "deep_squat",
-      "exercise_examples": [
-        "air_squat"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "airSquat"
+      ]
     },
     {
       "id": "unilateral_lunge",
-      "exercise_examples": [
-        "forward_lunge",
-        "reverse_lunge",
-        "split_squat"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "forwardLunge",
+        "reverseLunge",
+        "splitSquat"
+      ]
     },
     {
       "id": "ankle_calf",
-      "exercise_examples": [
-        "calf_raise",
-        "dumbbell_calf_raise"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "calfRaise",
+        "dumbbellCalfRaise"
+      ]
     },
     {
       "id": "horizontal_push",
-      "exercise_examples": [
-        "push_up",
-        "dumbbell_bench_press",
-        "dumbbell_fly"
-      ],
-      "synthetic": false
+      "synthetic": false,
+      "definition_symbols": [
+        "pushUp",
+        "dumbbellBenchPress",
+        "dumbbellFly"
+      ]
     },
     {
       "id": "vertical_push",
-      "exercise_examples": [
-        "shoulder_press",
-        "seated_shoulder_press"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "shoulderPress",
+        "seatedShoulderPress"
+      ]
     },
     {
       "id": "vertical_pull",
-      "exercise_examples": [
-        "pull_up"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "pullUp"
+      ]
     },
     {
       "id": "shoulder_raise",
-      "exercise_examples": [
-        "front_raise",
-        "lateral_raise"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "frontRaise",
+        "lateralRaise"
+      ]
     },
     {
       "id": "elbow_flexion",
-      "exercise_examples": [
-        "bicep_curl",
-        "hammer_curl",
-        "reverse_curl",
-        "incline_curl"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "bicepCurl",
+        "hammerCurl",
+        "reverseCurl",
+        "inclineCurl"
+      ]
     },
     {
       "id": "elbow_extension",
-      "exercise_examples": [
-        "cable_pushdown",
-        "overhead_extension"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "cablePushdown",
+        "overheadExtension"
+      ]
     },
     {
       "id": "forearm_rotation",
-      "exercise_examples": [
-        "hammer_curl",
-        "reverse_curl",
-        "bicep_curl"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "hammerCurl",
+        "reverseCurl",
+        "bicepCurl"
+      ]
     },
     {
       "id": "wrist_floor_load",
-      "exercise_examples": [
-        "push_up"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "pushUp"
+      ]
     },
     {
       "id": "hand_grip",
-      "exercise_examples": [
-        "bicep_curl",
-        "pull_up",
-        "farmers_walk"
-      ],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": [
+        "bicepCurl",
+        "pullUp",
+        "farmersWalk"
+      ]
     },
     {
       "id": "thumb_opposition",
-      "exercise_examples": [],
-      "synthetic": true
+      "synthetic": true,
+      "definition_symbols": []
     }
   ],
-  "acceptance": "All required categories must have numeric and visual evidence before production acceptance."
+  "acceptance": "All required categories must have numeric and visual evidence before production acceptance.",
+  "definition_symbol_source": "src/exercises/library.ts @ chatgpt/absolute-retarget-imports"
 }

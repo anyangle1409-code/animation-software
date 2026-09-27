@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "mode": "deny_by_default",
+  "description": "Release packaging must include only explicitly approved first-party paths/components.",
+  "approved_paths": [],
+  "explicitly_denied_patterns": [
+    "HOME_GYM_PT_GPT_MESH_HANDOFF/**",
+    "review-assets/characters/**",
+    "**/*BASELINE_v5*",
+    "**/*BASELINE_v6*",
+    "**/*BASELINE_v7*",
+    "**/*BASELINE_v8*",
+    "**/*CORNER_FINAL*",
+    "**/*v9*",
+    "**/*v10*",
+    "**/*v11*",
+    "**/*v12*",
+    "**/*v13*",
+    "**/*v14*",
+    "**/*v15*",
+    "**/*.blend"
+  ],
+  "gates": [
+    "Every shipped path must be explicitly approved.",
+    "Final ORIGINAL character assets must have clean-room provenance evidence.",
+    "Production runtime must have zero unresolved third-party runtime dependencies.",
+    "Reference renders, legacy characters and Blender working files are excluded."
+  ]
+}

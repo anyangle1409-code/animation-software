@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "audit:standalone": "node scripts/run-standalone-audit.mjs",
+    "audit:production": "node scripts/audit-production-output.mjs dist"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.6",

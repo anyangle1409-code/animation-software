@@ -1,5 +1,9 @@
 name: Standalone prep verification
 
+concurrency:
+  group: standalone-verify-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -43,6 +47,10 @@ jobs:
           src/rig/firstPartySkeleton.parity.test.ts
           src/ik/firstPartyOrient.parity.test.ts
           src/rig/firstPartyPose.parity.test.ts
+          src/viewer/firstPartyCameras.parity.test.ts
+          src/viewer/orbitModel.test.ts
+          src/viewer/referenceGrid.test.ts
+          src/viewer/transformGizmoMath.test.ts
           src/editor/store.test.ts
           src/editor/characterStore.test.ts
 

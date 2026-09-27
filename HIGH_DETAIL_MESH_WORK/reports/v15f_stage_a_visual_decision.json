@@ -1,0 +1,23 @@
+{
+  "decision": "PASS",
+  "pass": true,
+  "notes": "Matched ring and pinky views show cleaner continuous shafts, reduced triangular banding and removal of severe pinky folds. Bilateral volume and silhouettes remain consistent with no new pinching or razor creases.",
+  "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "blend_size": 6332602,
+  "blend_mtime_ns": 1790509608412722000,
+  "surface_fingerprints_sha256": {
+    "ring_L": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+    "ring_R": "c3dffd2d32986ba60efbc2d8597ef3fab8c37138851bc6a5638a5aa26cbce3e7",
+    "pinky_L": "58f6c9a1c65804448a0cbbcbe26c49c535fcb285fdd787f79a91f206759c1ae3",
+    "pinky_R": "9c352eb7aa3ba81063888c8fcebad21d736df32d849c3b269693909b596eef7d"
+  },
+  "board": "renders_v15f_stage_a\\V15F_V13E_STAGE_A_RING_PINKY_PROOF.jpg",
+  "recorded_utc": "2026-09-27T11:49:51.393992+00:00",
+  "criteria": [
+    "ring/pinky visibly improved or at minimum not more segmented than V13e",
+    "no new pinching or razor creases",
+    "joint/shaft volume remains anatomical on both sides",
+    "no digit is being accepted on metrics alone"
+  ],
+  "promotion": "none"
+}

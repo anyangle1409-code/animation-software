@@ -4,7 +4,7 @@ Generated automatically from local artifacts.
 
 ## Repository
 - branch: work/v15-deep-hand-rebuild-prep-20260925
-- HEAD: 5023212d7628a80a33b4c5014f44d46ee0b46e2f
+- HEAD: 6eaade09b2bcf93bf9b8216df36890f18a294392
 - working tree dirty: yes
 
 ## Candidate
@@ -19,8 +19,8 @@ Generated automatically from local artifacts.
 - ring_R: PASS
 - pinky_L: PASS
 - pinky_R: PASS
-- Stage A: missing
-- Stage A visual: missing
+- Stage A: PASS
+- Stage A visual: PASS — Matched ring and pinky views show cleaner continuous shafts, reduced triangular banding and removal of severe pinky folds. Bilateral volume and silhouettes remain consistent with no new pinching or razor creases.
 
 ## Stage B
 - index_L: numeric missing; visual missing
@@ -56,9 +56,9 @@ Generated automatically from local artifacts.
 - advisory only: lower radius-profile jump/second-difference usually indicates smoother diameter continuity; final anatomy still needs visual review.
 
 ## Next action
-AUDIT_V15F_STAGE_A.bat
+Inspect/edit index_L only, save/checkpoint, then run: AUDIT_V15F_STAGE_B_DIGIT.bat index_L
 
-All four incremental ring/pinky gates pass; Stage A is missing or stale for the current ring/pinky surfaces.
+Stage-B index_L numeric gate is missing.
 
 ## Resume references
 - WORK_RESUME_AFTER_LIMIT.md

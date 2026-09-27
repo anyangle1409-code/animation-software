@@ -1,0 +1,114 @@
+{
+  "baseline": {
+    "ring_L": {
+      "owned_vertices": 1301,
+      "images": {
+        "yneg": "V13e_ring_L_yneg.png",
+        "oblique": "V13e_ring_L_oblique.png"
+      }
+    },
+    "ring_R": {
+      "owned_vertices": 1301,
+      "images": {
+        "yneg": "V13e_ring_R_yneg.png",
+        "oblique": "V13e_ring_R_oblique.png"
+      }
+    },
+    "pinky_L": {
+      "owned_vertices": 904,
+      "images": {
+        "yneg": "V13e_pinky_L_yneg.png",
+        "oblique": "V13e_pinky_L_oblique.png"
+      }
+    },
+    "pinky_R": {
+      "owned_vertices": 904,
+      "images": {
+        "yneg": "V13e_pinky_R_yneg.png",
+        "oblique": "V13e_pinky_R_oblique.png"
+      }
+    }
+  },
+  "candidate": {
+    "ring_L": {
+      "owned_vertices": 1301,
+      "images": {
+        "yneg": "V15f_ring_L_yneg.png",
+        "oblique": "V15f_ring_L_oblique.png"
+      }
+    },
+    "ring_R": {
+      "owned_vertices": 1301,
+      "images": {
+        "yneg": "V15f_ring_R_yneg.png",
+        "oblique": "V15f_ring_R_oblique.png"
+      }
+    },
+    "pinky_L": {
+      "owned_vertices": 904,
+      "images": {
+        "yneg": "V15f_pinky_L_yneg.png",
+        "oblique": "V15f_pinky_L_oblique.png"
+      }
+    },
+    "pinky_R": {
+      "owned_vertices": 904,
+      "images": {
+        "yneg": "V15f_pinky_R_yneg.png",
+        "oblique": "V15f_pinky_R_oblique.png"
+      }
+    }
+  },
+  "cameras": {
+    "ring_L": {
+      "focus": [
+        0.8419065475463867,
+        -0.1801389753818512,
+        1.118535041809082
+      ],
+      "ortho_scale": 0.1285277098417282,
+      "baseline_owned_vertices": 1301
+    },
+    "ring_R": {
+      "focus": [
+        -0.8419065475463867,
+        -0.18013890087604523,
+        1.1185351610183716
+      ],
+      "ortho_scale": 0.1285277098417282,
+      "baseline_owned_vertices": 1301
+    },
+    "pinky_L": {
+      "focus": [
+        0.8205875158309937,
+        -0.14412245154380798,
+        1.109666347503662
+      ],
+      "ortho_scale": 0.10861830711364745,
+      "baseline_owned_vertices": 904
+    },
+    "pinky_R": {
+      "focus": [
+        -0.8205874562263489,
+        -0.14412245154380798,
+        1.109666347503662
+      ],
+      "ortho_scale": 0.10861850380897521,
+      "baseline_owned_vertices": 904
+    }
+  },
+  "views": {
+    "yneg": [
+      0.0,
+      -1.0,
+      0.18000000715255737
+    ],
+    "oblique": [
+      0.7200000286102295,
+      -0.7200000286102295,
+      0.3199999928474426
+    ]
+  },
+  "purpose": "Stage-A ring/pinky visual proof before index/middle",
+  "promotion": "none"
+}

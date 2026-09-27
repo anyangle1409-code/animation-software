@@ -66,6 +66,8 @@ def setup_scene(body):
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"
     scene.render.film_transparent = False
+    if scene.world is None:
+        scene.world = bpy.data.worlds.new("V15F_Stage_A_World")
     scene.world.color = (0.12, 0.12, 0.12)
     scene.view_settings.view_transform = "Standard"
     shading = scene.display.shading

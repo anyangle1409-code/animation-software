@@ -1,0 +1,116 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "general_invariant_pass": true,
+  "surface_fingerprints_sha256": {
+    "ring_L": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+    "ring_R": "c3dffd2d32986ba60efbc2d8597ef3fab8c37138851bc6a5638a5aa26cbce3e7",
+    "pinky_L": "58f6c9a1c65804448a0cbbcbe26c49c535fcb285fdd787f79a91f206759c1ae3",
+    "pinky_R": "9c352eb7aa3ba81063888c8fcebad21d736df32d849c3b269693909b596eef7d"
+  },
+  "baseline_total_folds_gt100": 3,
+  "candidate_total_folds_gt100": 0,
+  "per_digit": {
+    "ring_L": {
+      "baseline_sharp_ratio_gt35": 0.04390851538717762,
+      "candidate_sharp_ratio_gt35": 0.027608599911826695,
+      "delta_sharp_ratio_gt35": -0.016299915475350923,
+      "baseline_sharp_ratio_gt50": 0.016557779726091175,
+      "candidate_sharp_ratio_gt50": 0.0068878230370699655,
+      "delta_sharp_ratio_gt50": -0.009669956689021209,
+      "baseline_folds_gt100": 0,
+      "candidate_folds_gt100": 0,
+      "pass": true,
+      "failures": []
+    },
+    "ring_R": {
+      "baseline_sharp_ratio_gt35": 0.045020876733017315,
+      "candidate_sharp_ratio_gt35": 0.026590481218548727,
+      "delta_sharp_ratio_gt35": -0.018430395514468588,
+      "baseline_sharp_ratio_gt50": 0.017097751128046876,
+      "candidate_sharp_ratio_gt50": 0.0065445392246635,
+      "delta_sharp_ratio_gt50": -0.010553211903383377,
+      "baseline_folds_gt100": 1,
+      "candidate_folds_gt100": 0,
+      "pass": true,
+      "failures": []
+    },
+    "pinky_L": {
+      "baseline_sharp_ratio_gt35": 0.05194952432045432,
+      "candidate_sharp_ratio_gt35": 0.046759229892524935,
+      "delta_sharp_ratio_gt35": -0.0051902944279293844,
+      "baseline_sharp_ratio_gt50": 0.023031797004622413,
+      "candidate_sharp_ratio_gt50": 0.01653824127480863,
+      "delta_sharp_ratio_gt50": -0.006493555729813784,
+      "baseline_folds_gt100": 2,
+      "candidate_folds_gt100": 0,
+      "pass": true,
+      "failures": []
+    },
+    "pinky_R": {
+      "baseline_sharp_ratio_gt35": 0.04985429608506825,
+      "candidate_sharp_ratio_gt35": 0.04706149529459649,
+      "delta_sharp_ratio_gt35": -0.0027928007904717625,
+      "baseline_sharp_ratio_gt50": 0.02067513865260802,
+      "candidate_sharp_ratio_gt50": 0.01694964068592893,
+      "delta_sharp_ratio_gt50": -0.0037254979666790887,
+      "baseline_folds_gt100": 0,
+      "candidate_folds_gt100": 0,
+      "pass": true,
+      "failures": []
+    }
+  },
+  "scope_movement": {
+    "index_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_L": {
+      "max_move_mm": 0.748885088059571,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_L": {
+      "max_move_mm": 0.7635732739834876,
+      "moved_source_vertices": 188,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "index_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_R": {
+      "max_move_mm": 0.6532667818254787,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_R": {
+      "max_move_mm": 0.763574161385518,
+      "moved_source_vertices": 188,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    }
+  },
+  "pass": true,
+  "failures": [],
+  "next_if_pass": "Checkpoint ring/pinky and proceed to Stage B index/middle inspection.",
+  "next_if_fail": "Keep work local to ring/pinky. Repair hotspot topology before touching index/middle."
+}

@@ -1,15 +1,15 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
-## 2026-09-27 V15f Stage A digits passed; run combined gates
+## 2026-09-27 V15f Stage A accepted; continue index_L
 
 Checkpoint 005 is the accepted ring-left proof. Route B passed the official
 numeric and visual gates with direct push-up contacts, skin rows, non-ring
 geometry, UV layers and topology health preserved.
 
-Checkpoint 008 contains the accepted ring and pinky work. Run
-`AUDIT_V15F_STAGE_A.bat`, generate the Stage A matched visual proof, and record
-the explicit visual decision. Continue to index/middle only if both combined
-gates pass. Do not start grip refitting or Phase C.
+Checkpoint 008 contains the accepted ring and pinky work, and the combined
+Stage A numeric and visual gates pass. Apply the accepted topology strategy to
+index-left only in a separate trial, then run its Stage B numeric and visual
+gates before touching index-right. Do not start grip refitting or Phase C.
 
 ## Prepared next attempt: V15f local ring/pinky reconstruction
 

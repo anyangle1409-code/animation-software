@@ -1,0 +1,13 @@
+{
+  "decision": "FAIL",
+  "pass": false,
+  "reason": "Numeric fold ratios improved materially, but the matched checkpoint-004 comparison remains visually near-identical at review scale. The inherited faceted shaft/joint character is still present, so Route A does not satisfy the required visible-anatomy gate.",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_anchor_buffer_route_a_trial.blend",
+  "candidate_sha256": "120b366d32a9ebc0ebe74e00e8434f71e64b5c0b9fcb1d492457d599deefff21",
+  "surface_fingerprint_sha256": "1995255ab7dbf273cdbf4e24158123d610bb7ef63c8d3613fc2629a6a474a583",
+  "numeric_gate": "PASS",
+  "board": "renders_v15f_anchor_buffer_route_a\\V15F_CHECKPOINT004_VS_ROUTE_A_RING_L.jpg",
+  "recorded_utc": "2026-09-27T11:34:01.361245+00:00",
+  "promotion": "none",
+  "next": "Proceed to Route B upstream ring_L topology rebuild from preserved checkpoint 004; do not mirror to ring_R."
+}

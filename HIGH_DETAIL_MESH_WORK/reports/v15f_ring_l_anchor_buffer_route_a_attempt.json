@@ -1,0 +1,1241 @@
+{
+  "strategy": "Route A constrained anchor-buffer surface regularisation",
+  "source": "checkpoints\\v15_manual\\v15f_deep_hand_rebuild_checkpoint_004.blend",
+  "output": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_anchor_buffer_route_a_trial.blend",
+  "scope": "ring_L anchor-buffer-only graph distances 2 and 3 adjacent to measured >35-degree folds",
+  "moved_vertices": 136,
+  "maximum_move_mm": 0.5499999785023828,
+  "distance_two_moved": 94,
+  "distance_three_moved": 42,
+  "direct_contact_max_move_mm": 0.0,
+  "distance_one_collar_max_move_mm": 0.0,
+  "outside_ring_L_max_move_mm": 0.0,
+  "weight_rows_changed": 0,
+  "topology_changed": false,
+  "details": [
+    {
+      "vertex": 44120,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 39.11741203710639,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06416007512303681,
+      "normal_component_mm": 0.1827428688998497,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 34364,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 55.18117685170847,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2500000067898326,
+      "normal_component_mm": 0.395399996091849,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 45001,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 61.92179833604026,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.21530727328850002,
+      "normal_component_mm": 0.24438983396224281,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44131,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.35688804939403,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.17377641546890235,
+      "normal_component_mm": 0.2666831248673845,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44132,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 51.600815594449884,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1935846865231623,
+      "normal_component_mm": 0.34133432635736966,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 47338,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 63.075799777448935,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09240728494514991,
+      "normal_component_mm": 0.11156795982071126,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47339,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 46.49114424617417,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09074400312189437,
+      "normal_component_mm": 0.1900665178585799,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46906,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 46.49114424617417,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1360795865752809,
+      "normal_component_mm": 0.2762126807480733,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 46911,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 51.66152231579296,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.08338061354011958,
+      "normal_component_mm": 0.14620064470307423,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46912,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 39.1232859997926,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.046999913894185286,
+      "normal_component_mm": 0.11379066723136909,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46913,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 49.3614014712778,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06346904088193771,
+      "normal_component_mm": 0.11619422880839325,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 44155,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 87.61220935177673,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2387555733009596,
+      "normal_component_mm": 0.30289247957041626,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 44156,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 87.61220935177673,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.24999998680581792,
+      "normal_component_mm": 0.5868485967414915,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43437,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 72.20369190501066,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2248699957203245,
+      "normal_component_mm": 0.2790396116191793,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 43443,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.073281018686544,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.034227470783050176,
+      "normal_component_mm": 0.07131706046207847,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 45046,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.10142831173877,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.045464378694144596,
+      "normal_component_mm": 0.09187878999861741,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 45047,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 37.45890208774931,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09858847914915729,
+      "normal_component_mm": 0.3078362588481842,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 45342,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 61.904757014061076,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1571905550231139,
+      "normal_component_mm": 0.21217191345151393,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 45052,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 35.861518916369256,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.02817351864098035,
+      "normal_component_mm": 0.09515387338324159,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43743,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 71.56711144417629,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2040162235268734,
+      "normal_component_mm": 0.2550038743137818,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43744,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 71.56711144417629,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.25000000057258376,
+      "normal_component_mm": 0.36849163338789187,
+      "neighbor_count": 3
+    },
+    {
+      "vertex": 45055,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 40.31783827430364,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.0072946221002792334,
+      "normal_component_mm": 0.01013008893004209,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 45056,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 53.864101228771155,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.24999999257897787,
+      "normal_component_mm": 0.4410923369395988,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 45058,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 72.20369190501066,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.038605631991280684,
+      "normal_component_mm": 0.030625890791883128,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 42729,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.05686199526528,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1568256793790791,
+      "normal_component_mm": 0.18584494796537782,
+      "neighbor_count": 3
+    },
+    {
+      "vertex": 12276,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 39.1232859997926,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06839925645775899,
+      "normal_component_mm": 0.1573111458603855,
+      "neighbor_count": 13
+    },
+    {
+      "vertex": 12278,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.32754513930663,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.030813192082392693,
+      "normal_component_mm": 0.03850786010604941,
+      "neighbor_count": 9
+    },
+    {
+      "vertex": 47254,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 46.49114424617417,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09436954060358867,
+      "normal_component_mm": 0.18477916711376718,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47255,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.902906531127556,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06025214969924079,
+      "normal_component_mm": 0.16240843774352867,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43471,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 71.77143655319723,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.12709943562251505,
+      "normal_component_mm": 0.15884215918691502,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 47262,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 39.1232859997926,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.13804668257071637,
+      "normal_component_mm": 0.37968226092891116,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 42752,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 53.864101228771155,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.2786276391442005,
+      "normal_component_mm": 0.46366011868518475,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 42753,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 52.43414989961021,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.21839904333289614,
+      "normal_component_mm": 0.37933263691691954,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43775,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 79.28280731932452,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.18067414734373388,
+      "normal_component_mm": 0.23111846665549676,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43776,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 79.28280731932452,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.25000001034254615,
+      "normal_component_mm": 0.5249959381976147,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43777,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 58.42575917918006,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.04168592694157743,
+      "normal_component_mm": 0.053241805611601155,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 45087,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 44.10472396149591,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.11946082533674164,
+      "normal_component_mm": 0.2399948686161982,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 45089,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.05686199526528,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.04625402157104238,
+      "normal_component_mm": 0.036851890596024846,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43780,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 78.5038379048629,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.13552177642007493,
+      "normal_component_mm": 0.15624222946944677,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 38393,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 46.49114424617417,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.22444322104909195,
+      "normal_component_mm": 0.4747393813810914,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 38394,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 38.902906531127556,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.05694997722931186,
+      "normal_component_mm": 0.15490916498538163,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 45096,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 58.27414947017329,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.250000003237119,
+      "normal_component_mm": 0.41532906114801355,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 12312,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 53.864101228771155,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.01671909782079839,
+      "normal_component_mm": 0.005425395954679661,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 44230,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 37.0756601734199,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.0942640060690663,
+      "normal_component_mm": 0.29746161682662114,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 47436,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 55.18117685170847,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.07790449995332341,
+      "normal_component_mm": 0.030495033343069963,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 38409,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 58.27414947017329,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.12039396852149183,
+      "normal_component_mm": 0.17298832028568586,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 38410,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 58.42575917918006,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06977854240169454,
+      "normal_component_mm": 0.041333134672819065,
+      "neighbor_count": 7
+    },
+    {
+      "vertex": 43073,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 83.26124907688438,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2500000009611618,
+      "normal_component_mm": 0.3580814480622976,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 38412,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 79.28280731932452,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.127082032074587,
+      "normal_component_mm": 0.16278240476905867,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 38413,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 58.42575917918006,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.12748706564956203,
+      "normal_component_mm": 0.13998561021777442,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 38414,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.3871351247204,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.10136216080414966,
+      "normal_component_mm": 0.26115959480435924,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43078,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 55.42760666186795,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.22191485055076896,
+      "normal_component_mm": 0.3390205844239382,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 43079,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 44.55997656024477,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.13587589823445267,
+      "normal_component_mm": 0.30963899159717445,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43081,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 35.32248380216644,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.012077830843547835,
+      "normal_component_mm": 0.022075528418768055,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 38423,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 58.27414947017329,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.08054476128431834,
+      "normal_component_mm": 0.09630298022161803,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 42067,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 78.5038379048629,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.17598259004867953,
+      "normal_component_mm": 0.17203923069670646,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 38427,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 39.1232859997926,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.150545024825726,
+      "normal_component_mm": 0.43189519023552564,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 34207,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 56.23878724845534,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.25749138935759763,
+      "normal_component_mm": 0.400910380955813,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 42075,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 51.568710290256234,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.0682395658888288,
+      "normal_component_mm": 0.10054925999956472,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 42369,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 61.904757014061076,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.18055606078014838,
+      "normal_component_mm": 0.24325505696422378,
+      "neighbor_count": 3
+    },
+    {
+      "vertex": 44412,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.35688804939403,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.12720808953739723,
+      "normal_component_mm": 0.197764381621454,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43544,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 44.67159551166112,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.05822984762284387,
+      "normal_component_mm": 0.08974292453234353,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 44280,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.03217011007224,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.012584124310656246,
+      "normal_component_mm": 0.030460173217516966,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44290,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 41.223036414816264,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.04752725927608247,
+      "normal_component_mm": 0.11373698619995153,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44291,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 47.1395306889889,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1079577903717177,
+      "normal_component_mm": 0.017538985063187917,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44292,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 44.67159551166112,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.10335900662526853,
+      "normal_component_mm": 0.22333283352657346,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 34239,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 83.26124907688438,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06468173377806763,
+      "normal_component_mm": 0.061467102559167146,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34970,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 52.43414989961021,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.02693052873945328,
+      "normal_component_mm": 0.03738418657981127,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 47501,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 54.01782829642063,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.11848844293529956,
+      "normal_component_mm": 0.19324081840468404,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34971,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.03217011007224,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.04928219648178677,
+      "normal_component_mm": 0.15057816299333046,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 47502,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 49.603227733936684,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.09964517685749101,
+      "normal_component_mm": 0.18889902480003914,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47504,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 40.58968663345932,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.08630536066853343,
+      "normal_component_mm": 0.23102438417463522,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47505,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 56.23878724845534,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.09653018571741476,
+      "normal_component_mm": 0.1453982924316999,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34245,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.32754513930663,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2153349156870211,
+      "normal_component_mm": 0.5623785523532602,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 34248,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 44.10472396149591,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.016945457730266397,
+      "normal_component_mm": 0.007026441020214567,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 34249,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 44.10472396149591,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06419539704720453,
+      "normal_component_mm": 0.07514369927328858,
+      "neighbor_count": 7
+    },
+    {
+      "vertex": 47511,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 53.81868730097974,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.13312848147635073,
+      "normal_component_mm": 0.22187145244954956,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47512,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 61.98236162341076,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.1393199348210971,
+      "normal_component_mm": 0.18527940842517687,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36292,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 68.4228611805176,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.2416806127002749,
+      "normal_component_mm": 0.30958709013975083,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47076,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.23878724845534,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.16846104741104442,
+      "normal_component_mm": 0.23966814207157228,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36293,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 68.4228611805176,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.5499999785023828,
+      "normal_component_mm": 0.8505398394484317,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47077,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 39.55063727578196,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.028934490274050192,
+      "normal_component_mm": 0.07587464710772561,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36294,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 77.20528917004926,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.5449878088112545,
+      "normal_component_mm": 0.6976914726921898,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 47078,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.06735291538261,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09031304456495935,
+      "normal_component_mm": 0.13700803254729782,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47079,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.338832026910076,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.022889234017078836,
+      "normal_component_mm": 0.012542431030706493,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 47517,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 77.20528917004926,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.175271695658144,
+      "normal_component_mm": 0.22203343718167456,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36297,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 61.98236162341076,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.34269224322707104,
+      "normal_component_mm": 0.4625213292828252,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 47518,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 63.782492130113475,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.4080024064637312,
+      "normal_component_mm": 0.5253790393755539,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36298,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 35.27805000652092,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.04256636731729782,
+      "normal_component_mm": 0.15245301552473473,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36299,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 54.01782829642063,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.25085770963444737,
+      "normal_component_mm": 0.4157270899555853,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 47521,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 37.90969457297015,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.0662959268031253,
+      "normal_component_mm": 0.20413375647777288,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47085,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 55.18117685170847,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.21775862219261097,
+      "normal_component_mm": 0.2935366940758485,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 12261,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 70.46249227046681,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.06626430882819467,
+      "normal_component_mm": 0.04877918019293049,
+      "neighbor_count": 9
+    },
+    {
+      "vertex": 36160,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.18779988630119,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.05115733342699955,
+      "normal_component_mm": 0.07145186192356753,
+      "neighbor_count": 7
+    },
+    {
+      "vertex": 47527,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 38.902906531127556,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.08580558630922032,
+      "normal_component_mm": 0.24034915793586734,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 47529,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 64.96610244157415,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.13041181547321198,
+      "normal_component_mm": 0.15568280526078088,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 36603,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 42.51706014930478,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.07309628991592229,
+      "normal_component_mm": 0.17279830491156123,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 34272,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 44.55997656024477,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.17944627315730616,
+      "normal_component_mm": 0.4073389581531918,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 11978,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 52.21632150660017,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.06331516662982223,
+      "normal_component_mm": 0.0764699985840868,
+      "neighbor_count": 9
+    },
+    {
+      "vertex": 40538,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.05686199526528,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.053519141403045326,
+      "normal_component_mm": 0.03848558083585928,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46805,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 64.96610244157415,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.24999999627046948,
+      "normal_component_mm": 0.5336575083351062,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46806,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 77.28202634537435,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2499999896923979,
+      "normal_component_mm": 0.6650559582587219,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34276,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 41.10142831173877,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1379189111472806,
+      "normal_component_mm": 0.35301084480422446,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 46807,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 77.28202634537435,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.10940917606896405,
+      "normal_component_mm": 0.13795494107776154,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34277,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 35.32248380216644,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.11899215370826553,
+      "normal_component_mm": 0.4221573092662851,
+      "neighbor_count": 10
+    },
+    {
+      "vertex": 36317,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 44.67159551166112,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.13723563476266076,
+      "normal_component_mm": 0.2791490166111348,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46809,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 61.98236162341076,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2500000023489406,
+      "normal_component_mm": 0.32875938348502404,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36318,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.012434779361115,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.042628980489891874,
+      "normal_component_mm": 0.01918893814419788,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46811,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 54.01782829642063,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.188300195399318,
+      "normal_component_mm": 0.29779202314674363,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34283,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 46.05968119630447,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.10545435068111686,
+      "normal_component_mm": 0.22010291847282779,
+      "neighbor_count": 7
+    },
+    {
+      "vertex": 38222,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 85.73153725438122,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.24999998724990713,
+      "normal_component_mm": 0.3535656919213852,
+      "neighbor_count": 3
+    },
+    {
+      "vertex": 38223,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 85.73153725438122,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.13119142259537447,
+      "normal_component_mm": 0.09964306086066108,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 40559,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 37.90969457297015,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.030125731773352673,
+      "normal_component_mm": 0.09105730482831753,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43188,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 35.32248380216644,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.03820260380859482,
+      "normal_component_mm": 0.1343405331031156,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43189,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 53.864101228771155,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.15392069829426522,
+      "normal_component_mm": 0.2457330136689463,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 36343,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 72.20369190501066,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.09845244261913322,
+      "normal_component_mm": 0.1051744372594527,
+      "neighbor_count": 9
+    },
+    {
+      "vertex": 36346,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.073281018686544,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1379591189894134,
+      "normal_component_mm": 0.4181615074986025,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 36347,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 35.24146068313716,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1192456847377946,
+      "normal_component_mm": 0.424334682211666,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 40871,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 42.51706014930478,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.018848001066464094,
+      "normal_component_mm": 0.037682793859842335,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 43203,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 38.03217011007224,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.02672985128224266,
+      "normal_component_mm": 0.04514406574271245,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 40872,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 61.41719079034889,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.04407047164679913,
+      "normal_component_mm": 0.05805466237497409,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 46709,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.23878724845534,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.248083190555826,
+      "normal_component_mm": 0.3718795592568591,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47161,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 68.4228611805176,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.22889191728234842,
+      "normal_component_mm": 0.27509425437022356,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47162,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 64.96610244157415,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.20025921870970725,
+      "normal_component_mm": 0.24315605255082948,
+      "neighbor_count": 5
+    },
+    {
+      "vertex": 47163,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 77.20528917004926,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.22868337333537056,
+      "normal_component_mm": 0.26371661671023394,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 41335,
+      "graph_distance_from_direct": 3,
+      "incident_or_adjacent_max_angle_deg": 51.600815594449884,
+      "movement_cap_mm": 0.55,
+      "move_mm": 0.04350120585445413,
+      "normal_component_mm": 0.05346334288912809,
+      "neighbor_count": 9
+    },
+    {
+      "vertex": 47166,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 61.98236162341076,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.21579446406746075,
+      "normal_component_mm": 0.27659951290979207,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47167,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 46.41978925991505,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.0626219045377842,
+      "normal_component_mm": 0.13124011561388096,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34052,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.03037452166397,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.04790776710269483,
+      "normal_component_mm": 0.007922307134122817,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 47168,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 54.01782829642063,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1785785324948718,
+      "normal_component_mm": 0.28719066284626243,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 34053,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.03037452166397,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.24999999968440534,
+      "normal_component_mm": 0.7720957940338962,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 44107,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.65032322142153,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.13865802698628424,
+      "normal_component_mm": 0.2122499025119254,
+      "neighbor_count": 4
+    },
+    {
+      "vertex": 34054,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 65.03037452166397,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1319006289384659,
+      "normal_component_mm": 0.12090380088671898,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 40614,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 56.35688804939403,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.25000000137749545,
+      "normal_component_mm": 0.4597253167160866,
+      "neighbor_count": 8
+    },
+    {
+      "vertex": 40615,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 51.600815594449884,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.1657112886503526,
+      "normal_component_mm": 0.28938415441738896,
+      "neighbor_count": 6
+    },
+    {
+      "vertex": 40617,
+      "graph_distance_from_direct": 2,
+      "incident_or_adjacent_max_angle_deg": 51.568710290256234,
+      "movement_cap_mm": 0.25,
+      "move_mm": 0.2499999961316916,
+      "normal_component_mm": 0.5299823535851099,
+      "neighbor_count": 5
+    }
+  ]
+}

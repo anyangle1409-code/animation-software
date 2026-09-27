@@ -1,0 +1,72 @@
+{
+  "baseline": {
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+    "owned_vertices": 1301,
+    "ring_center": [
+      0.8419065475463867,
+      -0.1801389753818512,
+      1.118535041809082
+    ],
+    "ring_extent": [
+      0.07789558172225952,
+      0.06726813316345215,
+      0.06553876399993896
+    ],
+    "images": {
+      "yneg": "V13e_ring_L_yneg.png",
+      "ypos": "V13e_ring_L_ypos.png",
+      "xpos": "V13e_ring_L_xpos.png",
+      "oblique": "V13e_ring_L_oblique.png"
+    }
+  },
+  "candidate": {
+    "blend": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_anchor_buffer_route_a_trial.blend",
+    "owned_vertices": 1301,
+    "ring_center": [
+      0.8418765068054199,
+      -0.1801389753818512,
+      1.118535041809082
+    ],
+    "ring_extent": [
+      0.07783561944961548,
+      0.06726813316345215,
+      0.06553876399993896
+    ],
+    "images": {
+      "yneg": "V15f_ring_L_yneg.png",
+      "ypos": "V15f_ring_L_ypos.png",
+      "xpos": "V15f_ring_L_xpos.png",
+      "oblique": "V15f_ring_L_oblique.png"
+    }
+  },
+  "camera_focus_from_v13e": [
+    0.8419065475463867,
+    -0.1801389753818512,
+    1.118535041809082
+  ],
+  "ortho_scale": 0.1285277098417282,
+  "views": {
+    "yneg": [
+      0.0,
+      -1.0,
+      0.18000000715255737
+    ],
+    "ypos": [
+      0.0,
+      1.0,
+      0.18000000715255737
+    ],
+    "xpos": [
+      1.0,
+      0.0,
+      0.11999999731779099
+    ],
+    "oblique": [
+      0.7200000286102295,
+      -0.7200000286102295,
+      0.3199999928474426
+    ]
+  },
+  "purpose": "fast bind-pose ring_L topology proof before propagation",
+  "promotion": "none"
+}

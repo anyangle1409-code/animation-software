@@ -1,0 +1,31 @@
+{
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_anchor_buffer_route_a_trial.blend",
+  "comparison": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "numeric_gate": "PASS",
+  "checkpoint_004": {
+    "ring_L_gt35": 0.04266704110971034,
+    "ring_L_gt50": 0.016184951644086138,
+    "ring_L_gt100": 0
+  },
+  "route_a_trial": {
+    "ring_L_gt35": 0.029699136266279822,
+    "ring_L_gt50": 0.00848206335561106,
+    "ring_L_gt100": 0,
+    "moved_vertices": 136,
+    "maximum_move_mm": 0.5499999785023828
+  },
+  "checks": {
+    "general_invariants_pass": true,
+    "direct_contacts_exact": true,
+    "weights_exact": true,
+    "outside_ring_L_exact": true,
+    "distance_one_collar_exact": true,
+    "ring_L_gt35_improved": true,
+    "ring_L_gt50_improved": true,
+    "ring_L_gt100_not_worse": true,
+    "topology_unchanged": true
+  },
+  "visual_gate": "FAIL",
+  "next": "Proceed to Route B upstream ring_L topology rebuild from preserved checkpoint 004; do not mirror to ring_R.",
+  "visual_decision_report": "reports\\v15f_anchor_buffer_route_a_visual_decision.json"
+}

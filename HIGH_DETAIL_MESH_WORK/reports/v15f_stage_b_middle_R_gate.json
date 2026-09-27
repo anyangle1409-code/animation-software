@@ -1,0 +1,93 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "stage": "B",
+  "digit": "middle_R",
+  "approved_stage_a_fingerprints": {
+    "ring_L": "bdfd2b6484f463951ce0007f2ac8e1167043fbc8b2a579cb223b4b404f206f37",
+    "ring_R": "c3dffd2d32986ba60efbc2d8597ef3fab8c37138851bc6a5638a5aa26cbce3e7",
+    "pinky_L": "58f6c9a1c65804448a0cbbcbe26c49c535fcb285fdd787f79a91f206759c1ae3",
+    "pinky_R": "9c352eb7aa3ba81063888c8fcebad21d736df32d849c3b269693909b596eef7d"
+  },
+  "previous_stage_b_visual_fingerprints": {
+    "index_L": "bbaca16794953a236509204d998d761fac6cb020a2addb7727827cb62d45ce6e",
+    "index_R": "421f77dc265d8c37f81442f75ebe91ce9b6e60ec1a574416974d84f68d541692",
+    "middle_L": "754f0324801f5c5f18eefcdeae39655d4d522496f6e46f3ab6d7304aae16c3e5"
+  },
+  "approved_changed_digits": [
+    "index_L",
+    "index_R",
+    "middle_L",
+    "middle_R",
+    "pinky_L",
+    "pinky_R",
+    "ring_L",
+    "ring_R"
+  ],
+  "baseline": {
+    "gt35": 0.012530188390306578,
+    "gt50": 0.004724897013456796,
+    "gt100_folds": 0,
+    "total_gt100_folds": 3
+  },
+  "candidate": {
+    "gt35": 0.006408758409493262,
+    "gt50": 0.0029952198483890417,
+    "gt100_folds": 0,
+    "total_gt100_folds": 0,
+    "surface_fingerprint_sha256": "0a88e5ba797e896fe51ebfdf284e8017dd7d989ba47410b7330672fb429e1761"
+  },
+  "scope_movement": {
+    "index_L": {
+      "max_move_mm": 0.6974193007864609,
+      "moved_source_vertices": 184,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_L": {
+      "max_move_mm": 0.6787867103485683,
+      "moved_source_vertices": 216,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_L": {
+      "max_move_mm": 0.748885088059571,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_L": {
+      "max_move_mm": 0.7635732739834876,
+      "moved_source_vertices": 188,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "index_R": {
+      "max_move_mm": 0.6974193007864609,
+      "moved_source_vertices": 184,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_R": {
+      "max_move_mm": 0.678738514561151,
+      "moved_source_vertices": 216,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_R": {
+      "max_move_mm": 0.6532667818254787,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_R": {
+      "max_move_mm": 0.763574161385518,
+      "moved_source_vertices": 188,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    }
+  },
+  "pass": true,
+  "failures": [],
+  "next_if_pass": "Generate and inspect the matched per-digit visual proof before continuing.",
+  "next_if_fail": "Keep edits local to the current digit and do not propagate the strategy."
+}

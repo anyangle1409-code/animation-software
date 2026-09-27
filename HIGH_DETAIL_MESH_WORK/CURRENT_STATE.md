@@ -10,6 +10,15 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f Stage B complete
+
+Checkpoint 012 contains all accepted Stage A and Stage B digit work. The final
+middle-right gate passes (>35: 0.01253 to 0.00641; >50: 0.00472 to 0.00300;
+no >100-degree fold), and its matched review confirms bilateral middle-finger
+cleanup without new pinching, creasing or volume loss. Every per-digit gate and
+visual marker now passes. Run the complete V15f audit and combined hand review
+before any export, grip refit or Phase C work.
+
 ## 2026-09-27 V15f Stage B middle-left accepted
 
 Checkpoint 011 adds the accepted middle-left increment. Its >35-degree ratio

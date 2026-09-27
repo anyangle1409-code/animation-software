@@ -1,6 +1,13 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
-## 2026-09-27 V15f middle-left accepted; continue middle_R
+## 2026-09-27 V15f Stage B complete; run full audit
+
+Checkpoint 012 contains the accepted ring, pinky, index and middle topology
+work on both hands. All incremental numeric and visual gates pass. Run
+`AUDIT_V15F_FULL.bat`, then produce and inspect the complete matched hand review.
+Do not export or begin Phase C unless those full gates pass.
+
+## 2026-09-27 V15f middle-left accepted
 
 Checkpoint 011 contains accepted Stage A, both index fingers and middle-left.
 The middle-left numeric and visual gates pass. Apply the accepted topology

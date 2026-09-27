@@ -1,0 +1,16 @@
+{
+  "digit": "middle_R",
+  "decision": "PASS",
+  "pass": true,
+  "notes": "Matched views confirm bilateral middle-finger cleanup: reduced shaft banding and smoother longitudinal flow, with joint volume retained and no new pinch, crease, or accepted-finger regression.",
+  "surface_fingerprint_sha256": "0a88e5ba797e896fe51ebfdf284e8017dd7d989ba47410b7330672fb429e1761",
+  "board": "renders_v15f_stage_b\\middle_R\\V15F_V13E_MIDDLE_R_PROOF.jpg",
+  "recorded_utc": "2026-09-27T12:02:00.025721+00:00",
+  "criteria": [
+    "middle_R visibly improved or at minimum not more segmented than V13e",
+    "no new pinching or razor crease",
+    "joint/shaft volume remains anatomical",
+    "approved ring/pinky appearance remains untouched"
+  ],
+  "promotion": "none"
+}

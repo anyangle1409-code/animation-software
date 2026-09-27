@@ -1,7 +1,7 @@
 {
-  "version": "v15f_deep_hand_rebuild",
+  "version": "v15f_middle_R_route_b_trial",
   "baseline": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
-  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_middle_R_route_b_trial.blend",
   "protected_source_id_count": 682,
   "missing_source_ids_total": 0,
   "missing_protected_source_ids": [],

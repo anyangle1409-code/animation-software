@@ -6,6 +6,10 @@ const ROOT=process.cwd();
 const SRC=path.join(ROOT,"src");
 const EXT=/\.(?:ts|tsx|js|jsx|mts|mjs)$/i;
 const IGNORE=new Set([".git","node_modules","dist","coverage"]);
+const ALLOWLIST=JSON.parse(
+  fs.readFileSync(path.join(ROOT,"RUNTIME_NETWORK_ALLOWLIST.json"),"utf8")
+);
+const ALLOWED=ALLOWLIST.entries||[];
 
 function walk(dir,out=[]){
   if(!fs.existsSync(dir)) return out;
@@ -20,6 +24,15 @@ function walk(dir,out=[]){
 
 const blockers=[];
 const localResources=[];
+const reviewedDynamic=[];
+
+function reviewed(file,line){
+  return ALLOWED.find(entry =>
+    entry.file===file &&
+    typeof entry.contains==="string" &&
+    line.includes(entry.contains)
+  );
+}
 const primitives=[
   ["websocket", /\bnew\s+WebSocket\s*\(/],
   ["event_source", /\bnew\s+EventSource\s*\(/],
@@ -44,9 +57,20 @@ for(const file of walk(SRC)){
     if(/\bfetch\s*\(/.test(line)){
       const literal=line.match(/\bfetch\s*\(\s*["']([^"']+)["']/);
       if(!literal){
-        blockers.push({
-          file:rel,line:lineNo,rule:"dynamic_fetch_requires_review",text:line.trim()
-        });
+        const approval=reviewed(rel,line);
+        if(approval){
+          reviewedDynamic.push({
+            file:rel,
+            line:lineNo,
+            classification:approval.classification,
+            constraint:approval.constraint,
+            text:line.trim()
+          });
+        }else{
+          blockers.push({
+            file:rel,line:lineNo,rule:"dynamic_fetch_requires_review",text:line.trim()
+          });
+        }
       }else{
         const target=literal[1];
         if(/^(?:https?:)?\/\//i.test(target)){
@@ -66,7 +90,8 @@ const result={
   pass:blockers.length===0,
   blockers,
   localResourceFetches:localResources,
-  note:"Relative/local packaged resource fetches are recorded but are not third-party dependencies. Dynamic or remote network access blocks standalone readiness until explicitly redesigned."
+  reviewedDynamicLocalFetches:reviewedDynamic,
+  note:"Relative/local packaged resource fetches are not third-party dependencies. Dynamic fetches require a narrow source allowlist; remote network access is never allowlisted here."
 };
 
 fs.mkdirSync(path.join(ROOT,"reports"),{recursive:true});

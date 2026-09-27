@@ -1,0 +1,16 @@
+{
+  "progress_status": "BLOCKED",
+  "stop_reason": "Three materially distinct legal ring_L strategies exhausted; no visually successful repair remains while the full four-edge anchor-buffer position envelope is frozen.",
+  "active_candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "latest_checkpoint": "checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend",
+  "active_numeric_gate": "PASS",
+  "active_visual_gate": "FAIL",
+  "strategies": [
+    {"name": "fixed-anchor face-flow reroute", "numeric": "FAIL", "visual": "NOT_RUN", "reason": "24 new >100-degree folds"},
+    {"name": "fixed-boundary support bridge", "numeric": "FAIL", "visual": "NOT_RUN", "reason": "5 new >100-degree folds and worse >35/>50 ratios"},
+    {"name": "profile-driven core redistribution", "numeric": "PASS", "visual": "FAIL", "reason": "no clear anatomical improvement in matched views"}
+  ],
+  "smallest_interface_requiring_reconsideration": "candidate-only movement of anchor-buffer-only vertices while all direct protected contact positions and skin rows remain exact",
+  "direct_contact_rule_status": "still required; do not weaken",
+  "next_action": "Project-level decision on a candidate-only anchor-buffer experiment or upstream topology rebuild; do not propagate Stage A or begin Phase C."
+}

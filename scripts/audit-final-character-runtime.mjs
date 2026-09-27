@@ -21,7 +21,11 @@ function walk(dir,out=[]){
   for(const ent of fs.readdirSync(dir,{withFileTypes:true})){
     const p=path.join(dir,ent.name);
     if(ent.isDirectory()) walk(p,out);
-    else if(EXT.test(ent.name)) out.push(p);
+    else if(
+      EXT.test(ent.name) &&
+      !/\.(?:test|spec)\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(ent.name) &&
+      !/(?:^|[\\/])test(?:s)?[\\/]/i.test(p)
+    ) out.push(p);
   }
   return out;
 }

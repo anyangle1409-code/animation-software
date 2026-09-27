@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T11:41:45Z
+- UTC timestamp: 2026-09-27T11:50:10Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 8b8b12843116aa78c8982fd25941e8e6f6fd5f9a
+- current HEAD: 6eaade09b2bcf93bf9b8216df36890f18a294392
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
-- current phase: V15f Stage A propagation
-- current digit: ring_R
+- current phase: V15f Stage B index/middle topology
+- current digit: index_L
 - current repair strategy/attempt number: Route B propagation 1
-- exact operation currently being performed: Checkpointing accepted ring_L Route B result and preparing the matching ring_R rebuild
-- current operation start time: 2026-09-27T11:41:45Z
+- exact operation currently being performed: Publishing accepted Stage A checkpoint and preparing left-index topology trial
+- current operation start time: 2026-09-27T11:50:10Z
 - current operation elapsed time: 00:00:00
-- most recent operation completed: Route B ring_L topology proof accepted; checkpoint 005 created; official numeric and visual gates PASS
-- latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_005.blend
-- latest numeric gate: PASS: ring_L gt35 0.04391 to 0.02761; gt50 0.01656 to 0.00689; 312 edges rebuilt; all invariants pass
-- latest visual gate: PASS: cleaner continuous shaft and reduced banding in side/oblique views; volume preserved
-- last successful gate: official V15f ring_L numeric proof PASS and explicit visual PASS
-- current unresolved blocker: none for ring_R propagation; Stage B and Phase C remain gated
-- latest relevant report: reports/v15f_upstream_topology_route_b_gate.json and reports/v15f_ring_visual_decision.json
+- most recent operation completed: Ring_L, ring_R, pinky_L and pinky_R numeric gates PASS; combined Stage A numeric and visual gates PASS
+- latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_008.blend
+- latest numeric gate: Stage A PASS: total >100 folds 3 to 0; all four digits improve or hold >35/>50; contacts and weights exact
+- latest visual gate: Stage A PASS: cleaner shafts and reduced banding bilaterally with no new pinching
+- last successful gate: combined V15f Stage A numeric and visual PASS
+- current unresolved blocker: none; Stage B ordered digit gates active; Phase C still held
+- latest relevant report: reports/v15f_stage_a_gate.json and reports/v15f_stage_a_visual_decision.json
 - geometry changed since previous heartbeat: true
 - audit/render currently running: false
 - Work appears blocked/waiting: false
 - last error: none
-- next expected operation: Apply the accepted Route B method to ring_R in a separate trial, audit, checkpoint, then continue ordered Stage A gates
-- approximate battery percentage: 91
+- next expected operation: Apply accepted topology method to index_L in a separate trial; audit and visual-review before index_R
+- approximate battery percentage: 92
 - approximate Work usage remaining: five-hour 90%; weekly 87%
 - progress_status: ACTIVE
-- progress_counter: 8
+- progress_counter: 9
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

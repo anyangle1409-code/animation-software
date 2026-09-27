@@ -1,8 +1,8 @@
 # V15f remote handoff
 
-- generated: 2026-09-27T11:41:47Z
+- generated: 2026-09-27T11:50:12Z
 - candidate: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend
-- checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_005.blend
+- checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_008.blend
 - digit/stage: ring_L
 - numeric gate: ring_L proof: PASS
 - visual gate: ring_L visual: FAIL — Checkpoint 004 improves numeric sharpness and lightly smooths adjacent PIP/DIP support, but matched views still show no clear anatomical improvement over V13e; segmented/faceted shaft and joint flow remains. Protected/anchor-owned hotspot bands cannot be directly changed under the frozen contact rules.

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "target": "hgpt_canonical_v4_original",
+  "status": "architecture_retained_numerical_rest_geometry_reauthored",
+  "clean_base": {
+    "commit": "287f72c6a6ac9b1dcd771946ef548d77a40b8ea1",
+    "file": "src/rig/humanoid.ts",
+    "blob_sha": "5c0182ae6db57e8de99547aa96d80216105a36ba",
+    "bone_count": 53,
+    "created_at": "2026-09-08T12:28:46Z",
+    "classification": "project-authored rig before MakeHuman/imported character work"
+  },
+  "later_project_features": [
+    {
+      "feature": "neutral scapula bones",
+      "commit": "c2372c16ad4b7a0763a4cfdf9a0da6a23c3524f2",
+      "retain": "hierarchy concept, axes/DOF concept, structural role, tests",
+      "reauthor": "scapula rest head/tail and dimensions",
+      "reason": "commit explicitly fitted inferior-angle placement relative to production character back skin"
+    },
+    {
+      "feature": "metacarpals and 3-DOF thumb base",
+      "commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+      "retain": "four finger metacarpals per hand, thumb-base DOF concept, opposition/cupping capability, hierarchy semantics",
+      "reauthor": "metacarpal rest positions/length calibration and thumb-base numerical rest geometry",
+      "reason": "strict clean-room target re-authors later hand dimensions rather than inheriting any production-character calibration"
+    }
+  ],
+  "v4_rules": [
+    "Preserve 63-bone capability structure unless a clean anatomy review justifies a project-authored change.",
+    "Use the clean 53-bone initial rig as historical baseline evidence, not legacy imported rig transforms.",
+    "Re-author all v4 world-space rest coordinates from ORIGINAL_V1_DIMENSION_SPEC and clean anatomical design.",
+    "Mirror right side algorithmically.",
+    "Do not load V8/V13e/V15f or MakeHuman geometry to solve v4 rest positions.",
+    "Revalidate every joint limit and movement-envelope category against v4."
+  ],
+  "note": "Engineering provenance record, not a legal opinion."
+}

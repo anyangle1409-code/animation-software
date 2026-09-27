@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "character_target": "HomeGymPT_Male_ORIGINAL_v1",
+  "required_categories": [
+    {
+      "id": "trunk_flexion",
+      "exercise_examples": [
+        "sit_up",
+        "crunch"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "trunk_extension",
+      "exercise_examples": [],
+      "synthetic": true
+    },
+    {
+      "id": "trunk_rotation",
+      "exercise_examples": [
+        "russian_twist",
+        "cable_woodchop"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "lateral_flexion",
+      "exercise_examples": [],
+      "synthetic": true
+    },
+    {
+      "id": "anti_rotation",
+      "exercise_examples": [
+        "pallof_press"
+      ],
+      "synthetic": false
+    },
+    {
+      "id": "hip_hinge",
+      "exercise_examples": [
+        "romanian_deadlift",
+        "bent_over_row"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "deep_squat",
+      "exercise_examples": [
+        "air_squat"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "unilateral_lunge",
+      "exercise_examples": [
+        "forward_lunge",
+        "reverse_lunge",
+        "split_squat"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "ankle_calf",
+      "exercise_examples": [
+        "calf_raise",
+        "dumbbell_calf_raise"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "horizontal_push",
+      "exercise_examples": [
+        "push_up",
+        "dumbbell_bench_press",
+        "dumbbell_fly"
+      ],
+      "synthetic": false
+    },
+    {
+      "id": "vertical_push",
+      "exercise_examples": [
+        "shoulder_press",
+        "seated_shoulder_press"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "vertical_pull",
+      "exercise_examples": [
+        "pull_up"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "shoulder_raise",
+      "exercise_examples": [
+        "front_raise",
+        "lateral_raise"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "elbow_flexion",
+      "exercise_examples": [
+        "bicep_curl",
+        "hammer_curl",
+        "reverse_curl",
+        "incline_curl"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "elbow_extension",
+      "exercise_examples": [
+        "cable_pushdown",
+        "overhead_extension"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "forearm_rotation",
+      "exercise_examples": [
+        "hammer_curl",
+        "reverse_curl",
+        "bicep_curl"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "wrist_floor_load",
+      "exercise_examples": [
+        "push_up"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "hand_grip",
+      "exercise_examples": [
+        "bicep_curl",
+        "pull_up",
+        "farmers_walk"
+      ],
+      "synthetic": true
+    },
+    {
+      "id": "thumb_opposition",
+      "exercise_examples": [],
+      "synthetic": true
+    }
+  ],
+  "acceptance": "All required categories must have numeric and visual evidence before production acceptance."
+}

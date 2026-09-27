@@ -34,6 +34,16 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Blender helper Python syntax
+        run: >
+          python -m py_compile
+          scripts/init_original_v1_blender.py
+          scripts/generate_original_v1_clean_scaffold.py
+          scripts/audit_original_v1_blender.py
+
+      - name: Standalone status script
+        run: node scripts/standalone-status.mjs
+
       - name: Verify prepared first-party foundations
         run: >
           npm test --

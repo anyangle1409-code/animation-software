@@ -18,7 +18,7 @@ A distributable Home Gym PT product with no third-party runtime implementation a
 | Runtime images/icons/audio | no production bundle found in repo scan | keep deny-by-default |
 | React / ReactDOM | present | replace |
 | React Three Fiber / Drei | present | replace |
-| Zustand | present | replace first |
+| Zustand | first-party store implementation patched; package removal pending verification | run typecheck/tests, confirm zero imports, then remove dependency/lock entry |
 | Three.js | present | replace last |
 | Dependency audit tooling | prepared | run locally |
 | Runtime usage scanner | prepared | run locally |
@@ -48,3 +48,23 @@ The final command is expected to FAIL today. Its purpose is to become the object
 7. Begin original neutral anatomy / canonical v4 work without importing legacy geometry.
 
 Do not spend final grip/shoulder/material effort on the legacy character line.
+
+
+## 2026-09-27 first implementation milestone
+
+A project-owned observable store now exists at `src/core/store.ts`.
+
+Migrated on the standalone audit branch:
+- `src/editor/store.ts`
+- `src/editor/characterStore.ts`
+- `src/editor/generationStore.ts`
+
+A focused store-core test was added at `src/core/store.test.ts`.
+
+**Verification is still required on the laptop/Work environment.** This environment cannot clone/run the repo, so do not remove `zustand` from `package.json` / lockfiles until:
+1. typecheck passes;
+2. store tests pass;
+3. full current suite passes;
+4. an exact runtime scan confirms zero Zustand imports.
+
+If those pass, remove the package and regenerate the lockfile. If not, fix the first-party store implementation rather than reverting the standalone plan.

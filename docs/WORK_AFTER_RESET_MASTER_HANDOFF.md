@@ -311,3 +311,70 @@ Milestones:
 
 The final product gate remains zero third-party runtime code. Temporary
 development/migration lockfile presence is not acceptance.
+
+
+## 2026-09-27 verified first-party checkpoint — do not redo Zustand
+
+Direct Zustand removal is complete on the standalone branch.
+
+Evidence:
+- the three editor stores use `src/core/store.ts`;
+- direct `zustand` is absent from `package.json`;
+- root lockfile declaration removed;
+- full typecheck / focused parity suite / full regression / build / guards passed
+  on the direct-Zustand-removal checkpoint;
+- the anti-creep policy no longer permits Zustand as a direct dependency.
+
+Transitive Zustand packages remain only because Drei/R3F currently depend on
+them. Do not spend Work time trying to hand-edit those transitive lock entries.
+Remove them naturally when their parent packages are removed.
+
+### New first command on the standalone branch
+
+```
+STANDALONE_STATUS.bat
+```
+
+Then:
+
+```
+VERIFY_STANDALONE_PREP.bat
+```
+
+### Next software task: Drei
+
+Do not rediscover or rewrite the interaction maths. Prepared files:
+- `src/viewer/firstPartyCameras.ts`
+- `src/viewer/orbitModel.ts`
+- `src/viewer/referenceGrid.ts`
+- `src/viewer/transformGizmoMath.ts`
+
+Integrate in this order:
+1. Grid;
+2. Orbit, with desktop and iPhone touch rotate/zoom review;
+3. Transform gizmo for bone rotation, equipment translation/rotation and IK handle translation.
+
+Only after all three live adapters pass should `@react-three/drei` be removed.
+
+Do not substitute another controls/gizmo package.
+
+### ORIGINAL v1
+
+The Blender helper Python files are now syntax-checked in CI. The scaffold hard
+counts have also been independently reconciled from the generator construction:
+- 3,890 vertices;
+- 7,280 triangles;
+- 53 historical clean reference bones.
+
+After the V15f legacy benchmark is preserved, the preferred clean start remains:
+
+```
+PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat
+```
+
+### Final-build warning
+
+Vite/TypeScript/Vitest/Playwright may remain development tools, but no runtime
+helper/vendor code they generate may survive inside the final operational
+package. The final production output itself is what must pass the first-party
+release audit and offline test.

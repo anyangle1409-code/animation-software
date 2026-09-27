@@ -17,8 +17,8 @@ A distributable Home Gym PT product with no third-party runtime implementation a
 | Fonts | no bundled font assets found | keep system fonts or author owned fonts |
 | Runtime images/icons/audio | no production bundle found in repo scan | keep deny-by-default |
 | React / ReactDOM | present | replace |
-| React Three Fiber / Drei | present | replace |
-| Zustand | first-party store implementation patched; package removal pending verification | run typecheck/tests, confirm zero imports, then remove dependency/lock entry |
+| React Three Fiber / Drei | present; first-party Drei camera/orbit/grid/gizmo foundations prepared | integrate Grid → Orbit → TransformControls replacement, then remove Drei |
+| Zustand | direct dependency removed; first-party store active; full CI PASS | remaining transitive copies disappear with Drei/R3F removal |
 | Three.js | present | replace last |
 | Dependency audit tooling | prepared | run locally |
 | Runtime usage scanner | prepared | run locally |
@@ -40,12 +40,18 @@ The final command is expected to FAIL today. Its purpose is to become the object
 ## Immediate Work sequence after usage reset
 
 1. Finish V15f final reference audit/review.
-2. Record V15f reference benchmark; do not promote it as the standalone model.
-3. Run the four standalone audit commands above.
-4. Generate the exact runtime dependency usage map.
-5. Start the smallest safe software replacement (Zustand) only after parity tests are identified.
-6. Initialize ORIGINAL v1 from the clean-room launcher.
-7. Begin original neutral anatomy / canonical v4 work without importing legacy geometry.
+2. Record V15f as a legacy benchmark only; do not continue grip/shoulder/material production polish on that lineage.
+3. Switch to `work/standalone-first-party-audit-20260927`.
+4. Run `STANDALONE_STATUS.bat`.
+5. Run `VERIFY_STANDALONE_PREP.bat`.
+6. Integrate the prepared Drei replacements incrementally:
+   - Reference Grid first;
+   - Orbit controls second, including iPhone rotate/zoom;
+   - Transform gizmo last.
+7. Remove `@react-three/drei` only after zero imports plus visual/touch parity.
+8. Run `npm run audit:standalone` and preserve blocker counts.
+9. Start ORIGINAL v1 with `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat`.
+10. Begin clean neutral anatomy / canonical v4 work without importing legacy geometry.
 
 Do not spend final grip/shoulder/material effort on the legacy character line.
 
@@ -88,3 +94,49 @@ Hard deterministic guards:
 It refuses to run unless the Blender scene is marked as a clean-room scene and refuses a scene marked as having imported legacy geometry.
 
 **Laptop verification remains pending** because this environment cannot execute Blender.
+
+
+## 2026-09-27 verified software checkpoint
+
+Completed:
+- project-owned observable store is in use by all three editor stores;
+- direct `zustand` was removed from `package.json` and the root lock declaration;
+- full CI passed after direct Zustand removal;
+- the anti-creep allowlist now prevents re-adding Zustand directly.
+
+Five direct runtime dependencies remain:
+- `@react-three/drei`
+- `@react-three/fiber`
+- `react`
+- `react-dom`
+- `three`
+
+Zustand still appears transitively while Drei/R3F remain; this is expected and
+is not being hidden. It disappears from the operational dependency tree when
+those parents are removed.
+
+Prepared and focused-test verified:
+- first-party camera preset data/parity;
+- renderer-independent orbit state;
+- first-party reference-grid geometry;
+- transform-gizmo axis/rotation drag maths.
+
+The current lock graph indicates Drei accounts for roughly 46 runtime package
+names that are otherwise unnecessary for the current direct dependency set.
+That makes Drei the next high-value removal.
+
+Also prepared/verified:
+- first-party math;
+- frame scheduler;
+- skeleton parity across the exercise library;
+- IK orientation parity;
+- pose blending parity;
+- GLB container/accessor/writer foundations;
+- runtime network/API guard;
+- production-output scan;
+- release allowlist gate;
+- offline standalone acceptance;
+- Blender clean-room generator/audit helpers.
+
+Use `STANDALONE_STATUS.bat` at the start of future sessions instead of
+reconstructing this state manually.

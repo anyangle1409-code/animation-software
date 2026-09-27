@@ -62,14 +62,14 @@
     {
       "id": "canonical_rig",
       "category": "asset_and_code",
-      "status": "provenance_review_required",
-      "required_action": "verify_project_authorship_before_clean_release"
+      "status": "project_authored_architecture_rebaseline_required",
+      "required_action": "retain hierarchy/names/semantics; create hgpt_canonical_v4_original numerical rest pose independent of legacy mesh measurements"
     },
     {
       "id": "equipment_geometry",
       "category": "asset_and_code",
-      "status": "provenance_audit_required",
-      "required_action": "verify_file_by_file"
+      "status": "project_authored_procedural_candidate",
+      "required_action": "retain generic procedural geometry; remove any coupling to legacy body constants and revalidate against canonical v4"
     },
     {
       "id": "exercise_animation_data",
@@ -88,6 +88,21 @@
       "category": "asset",
       "status": "reference_only",
       "required_action": "exclude_from_release"
+    },
+    {
+      "id": "builtin_anatomical_body",
+      "category": "asset_embedded_in_source",
+      "status": "third_party_derived_makehuman_cc0_reference_only",
+      "third_party": [
+        "MakeHuman CC0 data"
+      ],
+      "required_action": "replace/remove from standalone production path"
+    },
+    {
+      "id": "procedural_debug_mannequin",
+      "category": "asset_generated_by_code",
+      "status": "project_authored_candidate",
+      "required_action": "retain only if source audit confirms profile data is project-authored; diagnostic only"
     }
   ]
 }

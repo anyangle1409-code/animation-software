@@ -1,0 +1,545 @@
+✓ Lockfile passes supply-chain policies (verified 14s ago)
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 1.4s using pnpm v11.19.0
+$ vitest run
+
+ RUN  v3.2.7 C:/Users/Mark/Documents/Codex/2026-09-25/files-pasted-by-the-user-open/work/animation-software-v15-current-source-validation
+
+stdout | src/retargeting/movementCertification.test.ts > flattened-hierarchy movement certification, collarbone included > shoulder press
+flattened dumbbell_shoulder_press: worst direction 0.0000°, worst joint 0.0000 mm
+
+stdout | src/retargeting/movementCertification.test.ts > flattened-hierarchy movement certification, collarbone included > push-up
+flattened push_up: worst direction 0.0000°, worst joint 0.0000 mm
+
+stdout | src/retargeting/movementCertification.test.ts > flattened-hierarchy movement certification, collarbone included > pull-up
+flattened pull_up: worst direction 0.0000°, worst joint 0.0000 mm
+
+stdout | src/retargeting/movementCertification.test.ts > flattened-hierarchy movement certification, collarbone included > bicep curl
+flattened dumbbell_bicep_curl: worst direction 0.0000°, worst joint 0.0000 mm
+
+stdout | src/retargeting/movementCertification.test.ts > flattened-hierarchy movement certification, collarbone included > air squat
+flattened air_squat: worst direction 0.0000°, worst joint 0.0000 mm
+
+ ✓ src/retargeting/movementCertification.test.ts (15 tests) 321ms
+ ✓ src/body/ecorche.test.ts (15 tests) 4454ms
+   ✓ the muscle map > classifies every vertex as a real group or as nothing at all  525ms
+   ✓ the sculpted arm > leaves the character surface exactly as it was  1819ms
+   ✓ the arm through the curl > deforms without the sculpt tearing loose or folding where it should not  308ms
+   ✓ the anatomy view > renders in grey, with the muscle field still built underneath  850ms
+   ✓ the anatomy view > restates the character in the écorché palette  463ms
+ ✓ src/editor/store.test.ts (26 tests) 391ms
+ ✓ src/character/imported.test.ts (8 tests) 700ms
+   ✓ an imported character > exports its own mesh and skeleton, posed as the viewport poses it  454ms
+ ✓ src/retargeting/retarget.test.ts (12 tests) 267ms
+ ✓ src/body/shoulder.test.ts (9 tests) 8049ms
+   ✓ the shoulder > keeps every vertex on two bones that still sum to one  2301ms
+   ✓ the shoulder > holds one arm inside the declared limits, all the way up  1108ms
+   ✓ the shoulder > is a large improvement on the source everywhere else  770ms
+   ✓ the shoulder > improves every exercise and makes none of them worse  2695ms
+   ✓ the shoulder > exports the correctives with the animation  933ms
+ ❯ src/body/neck.test.ts (12 tests | 1 failed) 12480ms
+   ✓ the head-to-neck junction > rewrites the binding the source left rigid 6ms
+   × the head-to-neck junction > leaves every vertex on two bones that still sum to one 7300ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ the head-to-neck junction > hands the surface over by position rather than in a step 11ms
+   ✓ the head-to-neck junction > treats both sides of the neck the same 95ms
+   ✓ the head-to-neck junction > holds together through the head movement it has to survive 95ms
+   ✓ the head-to-neck junction > repaints nothing, and moves only the back of the neck  791ms
+   ✓ the head-to-neck junction > closes the ledge into a slope, symmetrically 34ms
+   ✓ the head-to-neck junction > turns no triangle over and pinches none into a sliver  1637ms
+   ✓ the head-to-neck junction > gives the anatomy view the same corrected base as the character 201ms
+   ✓ the head-to-neck junction > writes the corrected weights into the exported glb  2058ms
+   ✓ the head-to-neck junction > keeps every triangle in the junction facing the way it did 27ms
+   ✓ the head-to-neck junction > changes nothing above the jaw 218ms
+ ✓ src/character/character.test.ts (13 tests) 14938ms
+   ✓ the built-in character > still builds, binds to the canonical rig and animates  9834ms
+   ✓ the built-in character > keeps its mesh-specific correctives, and hands them to the exporter  754ms
+   ✓ a GLB character through the source architecture > loads, rebinds and is driven by the canonical curl  1099ms
+   ✓ a GLB character through the source architecture > exports with the equipment still in its hands  1455ms
+   ✓ a GLB character through the source architecture > carries no built-in correctives it was not authored for  1137ms
+   ✓ the viewport and the exported file > pose the same character the same way  494ms
+ ✓ src/exercises/families/lunge.test.ts (17 tests) 4321ms
+   ✓ the lunge family > pivots the back foot on its ball: the ball and toes stay put while the heel rises  481ms
+   ✓ feet on the production character > split_squat: each planted sole rests on the floor, and each ankle is where the rig puts it  1234ms
+   ✓ feet on the production character > forward_lunge: each planted sole rests on the floor, and each ankle is where the rig puts it  1316ms
+   ✓ feet on the production character > reverse_lunge: each planted sole rests on the floor, and each ankle is where the rig puts it  1073ms
+ ✓ src/export/export.test.ts (15 tests) 8644ms
+   ✓ skinned rig > weights every vertex to its own bone, sharing only across a real joint  1367ms
+   ✓ skinned rig > keeps the complete skin together in the contracted curl pose  2617ms
+   ✓ baked animation > reproduces the studio pose when played back through three.js  420ms
+   ✓ glb export > writes a valid binary glTF containing the rig and the clip  797ms
+   ✓ glb export > can export the animation without the character mesh  1413ms
+   ✓ glb export > stretches a cable as it plays  773ms
+   ✓ glb export > turns static equipment as the studio does  828ms
+ ✓ src/retargeting/palmMapping.test.ts (7 tests) 482ms
+ ✓ src/exercises/mirror.test.ts (30 tests) 6468ms
+   ✓ mirroring > the derived half agrees with the body it drives > Standing Calf Raise resolves to its own mirror  2530ms
+   ✓ mirroring > the derived half agrees with the body it drives > Dumbbell Calf Raise resolves to its own mirror  2930ms
+ ✓ src/retargeting/realCharacterDiagnostic.test.ts (3 tests | 1 skipped) 23ms
+ ✓ src/animation/animation.test.ts (21 tests) 400ms
+ ✓ src/muscles/muscles.test.ts (10 tests) 13661ms
+   ✓ muscle overlay > keeps every belly inside the skin through the curl  524ms
+   ✓ muscle overlay > keeps every belly inside the skin in every other exercise too  12603ms
+   ✓ muscle overlay > keeps every belly against the body rather than floating inside it  374ms
+ ✓ src/body/body.test.ts (11 tests) 1467ms
+   ✓ body mesh > weights every vertex to two bones at most, summing to one  978ms
+   ✓ body mesh > keeps every vertex within reach of the bone that carries it  341ms
+ ✓ src/exercises/families/curl.test.ts (10 tests) 173ms
+ ✓ src/rig/palm.test.ts (62 tests) 99526ms
+   ✓ every exercise, with the palm at rest > dumbbell_bicep_curl moves, holds and contacts exactly as it did on the 55-bone rig  319ms
+   ✓ every exercise, with the palm at rest > air_squat moves, holds and contacts exactly as it did on the 55-bone rig  888ms
+   ✓ every exercise, with the palm at rest > pull_up moves, holds and contacts exactly as it did on the 55-bone rig  319ms
+   ✓ every exercise, with the palm at rest > split_squat moves, holds and contacts exactly as it did on the 55-bone rig  2922ms
+   ✓ every exercise, with the palm at rest > standing_calf_raise moves, holds and contacts exactly as it did on the 55-bone rig  16858ms
+   ✓ every exercise, with the palm at rest > dumbbell_calf_raise moves, holds and contacts exactly as it did on the 55-bone rig  16510ms
+   ✓ every exercise, with the palm at rest > cable_woodchop moves, holds and contacts exactly as it did on the 55-bone rig  2984ms
+   ✓ every exercise, with the palm at rest > forward_lunge moves, holds and contacts exactly as it did on the 55-bone rig  6816ms
+   ✓ every exercise, with the palm at rest > reverse_lunge moves, holds and contacts exactly as it did on the 55-bone rig  5667ms
+   ✓ export and runtime agree > dumbbell_bicep_curl: every one of the 63 bones, played back through three.js, lands where the studio put it  10063ms
+   ✓ export and runtime agree > dumbbell_hammer_curl: every one of the 63 bones, played back through three.js, lands where the studio put it  756ms
+   ✓ export and runtime agree > dumbbell_reverse_curl: every one of the 63 bones, played back through three.js, lands where the studio put it  681ms
+   ✓ export and runtime agree > push_up: every one of the 63 bones, played back through three.js, lands where the studio put it  484ms
+   ✓ export and runtime agree > air_squat: every one of the 63 bones, played back through three.js, lands where the studio put it  899ms
+   ✓ export and runtime agree > dumbbell_shoulder_press: every one of the 63 bones, played back through three.js, lands where the studio put it  480ms
+   ✓ export and runtime agree > pull_up: every one of the 63 bones, played back through three.js, lands where the studio put it  580ms
+   ✓ export and runtime agree > dumbbell_romanian_deadlift: every one of the 63 bones, played back through three.js, lands where the studio put it  423ms
+   ✓ export and runtime agree > dumbbell_bent_over_row: every one of the 63 bones, played back through three.js, lands where the studio put it  365ms
+   ✓ export and runtime agree > seated_dumbbell_shoulder_press: every one of the 63 bones, played back through three.js, lands where the studio put it  422ms
+   ✓ export and runtime agree > incline_dumbbell_curl: every one of the 63 bones, played back through three.js, lands where the studio put it  423ms
+   ✓ export and runtime agree > dumbbell_overhead_triceps_extension: every one of the 63 bones, played back through three.js, lands where the studio put it  456ms
+   ✓ export and runtime agree > split_squat: every one of the 63 bones, played back through three.js, lands where the studio put it  1639ms
+   ✓ export and runtime agree > cable_triceps_pushdown: every one of the 63 bones, played back through three.js, lands where the studio put it  367ms
+   ✓ export and runtime agree > dumbbell_lateral_raise: every one of the 63 bones, played back through three.js, lands where the studio put it  351ms
+   ✓ export and runtime agree > dumbbell_front_raise: every one of the 63 bones, played back through three.js, lands where the studio put it  385ms
+   ✓ export and runtime agree > standing_calf_raise: every one of the 63 bones, played back through three.js, lands where the studio put it  7224ms
+   ✓ export and runtime agree > dumbbell_calf_raise: every one of the 63 bones, played back through three.js, lands where the studio put it  6999ms
+   ✓ export and runtime agree > cable_pallof_press: every one of the 63 bones, played back through three.js, lands where the studio put it  361ms
+   ✓ export and runtime agree > dumbbell_bench_press: every one of the 63 bones, played back through three.js, lands where the studio put it  331ms
+   ✓ export and runtime agree > dumbbell_fly: every one of the 63 bones, played back through three.js, lands where the studio put it  310ms
+   ✓ export and runtime agree > cable_woodchop: every one of the 63 bones, played back through three.js, lands where the studio put it  1341ms
+   ✓ export and runtime agree > forward_lunge: every one of the 63 bones, played back through three.js, lands where the studio put it  2932ms
+   ✓ export and runtime agree > reverse_lunge: every one of the 63 bones, played back through three.js, lands where the studio put it  2678ms
+   ✓ export and runtime agree > crunch: every one of the 63 bones, played back through three.js, lands where the studio put it  341ms
+   ✓ export and runtime agree > sit_up: every one of the 63 bones, played back through three.js, lands where the studio put it  346ms
+   ✓ export and runtime agree > farmers_walk: every one of the 63 bones, played back through three.js, lands where the studio put it  400ms
+stdout | src/rig/rigRegression.test.ts > shared-rig regression > every exercise still meets its own contract > reports the whole library, exercise by exercise
+
+SHARED-RIG REGRESSION — 28 exercises
+  PASS  Dumbbell Bicep Curl      contact drift 0.00 mm
+  PASS  Dumbbell Hammer Curl     contact drift 0.00 mm
+  PASS  Dumbbell Reverse Curl    contact drift 0.00 mm
+  PASS  Push-Up                  contact drift 0.00 mm
+  PASS  Bodyweight Squat         contact drift 0.25 mm
+  PASS  Dumbbell Shoulder Press  contact drift 0.00 mm
+  PASS  Pull-Up                  contact drift 0.00 mm
+  PASS  Dumbbell Romanian Deadlift contact drift 0.25 mm
+  PASS  Dumbbell Bent-Over Row   contact drift 0.00 mm
+  PASS  Seated Dumbbell Shoulder Press contact drift 0.00 mm
+  PASS  Incline Dumbbell Curl    contact drift 0.00 mm
+  PASS  Dumbbell Overhead Triceps Extension contact drift 0.00 mm
+  PASS  Bodyweight Split Squat   contact drift 0.00 mm
+  PASS  Cable Triceps Pushdown   contact drift 0.00 mm
+  PASS  Dumbbell Lateral Raise   contact drift 0.00 mm
+  PASS  Dumbbell Front Raise     contact drift 0.00 mm
+  PASS  Standing Calf Raise      contact drift 0.00 mm
+  PASS  Dumbbell Calf Raise      contact drift 0.00 mm
+  PASS  Cable Pallof Press       contact drift 0.00 mm
+  PASS  Dumbbell Bench Press     contact drift 0.00 mm
+  PASS  Dumbbell Fly             contact drift 0.00 mm
+  PASS  Russian Twist            contact drift 0.00 mm
+  PASS  Cable Woodchop           contact drift 0.00 mm
+  PASS  Forward Lunge            contact drift 0.40 mm
+  PASS  Reverse Lunge            contact drift 0.40 mm
+  PASS  Crunch                   contact drift 0.00 mm
+  PASS  Sit-Up                   contact drift 0.00 mm
+  PASS  Farmer's Walk            contact drift 0.00 mm
+
+ ✓ src/rig/rigRegression.test.ts (32 tests) 9850ms
+   ✓ shared-rig regression > the arm chain and the surfaces built against it > keeps the baked surface registered with the bone inside it  9404ms
+ ✓ src/exercises/families/hinge.test.ts (10 tests) 943ms
+   ✓ the hinge family > stays a hinge: the hips stay high where a squat takes them low  489ms
+ ✓ src/exercises/families/rotation.test.ts (9 tests) 678ms
+   ✓ Russian twist on the production character > sits on the floor: resting on it, not hovering or sinking  557ms
+ ✓ src/rig/frozen.test.ts (3 tests) 48ms
+ ✓ src/character/importedDeformation.test.ts (5 tests) 78ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bicep Curl
+  dumbbell_bicep_curl      L  closest    4.74 mm  (upper_armL to breastL at 1.79s)
+  dumbbell_bicep_curl      R  closest    4.73 mm  (upper_armR to breastR at 1.79s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Hammer Curl
+  dumbbell_hammer_curl     L  closest    5.03 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_hammer_curl     R  closest    5.02 mm  (upper_armR to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Reverse Curl
+  dumbbell_reverse_curl    L  closest    2.59 mm  (upper_armL001 to breastL at 1.24s)
+  dumbbell_reverse_curl    R  closest    2.66 mm  (upper_armR001 to breastR at 1.24s)
+
+ ✓ src/rig/scapula.test.ts (33 tests) 49732ms
+   ✓ every exercise, with the scapulae at rest > air_squat moves exactly as it did on the 53-bone rig  760ms
+   ✓ every exercise, with the scapulae at rest > split_squat moves exactly as it did on the 53-bone rig  2931ms
+   ✓ every exercise, with the scapulae at rest > standing_calf_raise moves exactly as it did on the 53-bone rig  14696ms
+   ✓ every exercise, with the scapulae at rest > dumbbell_calf_raise moves exactly as it did on the 53-bone rig  13025ms
+   ✓ every exercise, with the scapulae at rest > cable_woodchop moves exactly as it did on the 53-bone rig  2485ms
+   ✓ every exercise, with the scapulae at rest > forward_lunge moves exactly as it did on the 53-bone rig  6224ms
+   ✓ every exercise, with the scapulae at rest > reverse_lunge moves exactly as it did on the 53-bone rig  5978ms
+ ✓ src/exercises/families/press.test.ts (7 tests) 166ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Push-Up
+  push_up                  L  closest    7.90 mm  (upper_armL to breastL at 0.96s)
+  push_up                  R  closest    7.89 mm  (upper_armR to breastR at 0.96s)
+
+ ✓ src/generation/parse.test.ts (12 tests) 189ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Bodyweight Squat
+  air_squat                L  closest    1.36 mm  (upper_armL to breastL at 3.41s)
+  air_squat                R  closest    1.38 mm  (upper_armR to breastR at 3.41s)
+
+ ✓ src/retargeting/unmappedBones.test.ts (2 tests) 26477ms
+   ✓ retargeting through bones the character does not have > drives every bone, grip and vertex as before through all seven exercises  26380ms
+ ✓ src/exercises/families/extension.test.ts (7 tests) 153ms
+ ✓ src/exercises/families/trunkFlexion.test.ts (7 tests) 1364ms
+   ✓ lying and sitting on the production character > crunch: back, seat and head rest on the floor at the start; nothing sinks through it  679ms
+   ✓ lying and sitting on the production character > sit_up: back, seat and head rest on the floor at the start; nothing sinks through it  565ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Shoulder Press
+  dumbbell_shoulder_press  L  closest    1.95 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_shoulder_press  R  closest    1.98 mm  (upper_armR to breastR at 0.00s)
+
+ ✓ src/exercises/feet.test.ts (27 tests) 14231ms
+   ✓ standing feet > split_squat keeps both feet flat and pointing where they started  782ms
+   ✓ standing feet > standing_calf_raise keeps both feet flat and pointing where they started  4468ms
+   ✓ standing feet > dumbbell_calf_raise keeps both feet flat and pointing where they started  4028ms
+   ✓ standing feet > cable_woodchop keeps both feet flat and pointing where they started  856ms
+   ✓ standing feet > forward_lunge keeps both feet flat and pointing where they started  1466ms
+   ✓ standing feet > reverse_lunge keeps both feet flat and pointing where they started  1441ms
+ ✓ src/retargeting/mirroredHands.test.ts (3 tests) 10358ms
+   ✓ the production character's hands > roll with the rig's, about the forearm, in every exercise it does not re-solve  10257ms
+ ✓ src/equipment/grip.test.ts (6 tests) 137ms
+ ✓ src/editor/motionDiagnostics.test.ts (6 tests) 91ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Pull-Up
+  pull_up                  L  closest    2.02 mm  (upper_armL to breastL at 2.97s)
+  pull_up                  R  closest    2.02 mm  (upper_armR to breastR at 2.97s)
+
+ ✓ src/rig/rig.test.ts (14 tests) 209ms
+ ✓ src/exercises/families/squat.test.ts (4 tests) 81ms
+ ✓ src/exercises/families/supine.test.ts (10 tests) 189ms
+ ✓ src/exercises/families/row.test.ts (5 tests) 240ms
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bicep Curl
+  PASS  dumbbell_bicep_curl      dumbbell_l   closest   11.86 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_bicep_curl      dumbbell_r   closest   12.01 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Hammer Curl
+  PASS  dumbbell_hammer_curl     dumbbell_l   closest   14.69 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_hammer_curl     dumbbell_r   closest   14.47 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Reverse Curl
+  PASS  dumbbell_reverse_curl    dumbbell_l   closest   13.80 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_reverse_curl    dumbbell_r   closest   13.30 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Romanian Deadlift
+  dumbbell_romanian_deadlift L  closest    1.17 mm  (upper_armL to breastL at 1.25s)
+  dumbbell_romanian_deadlift R  closest    1.18 mm  (upper_armR to breastR at 1.25s)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Shoulder Press
+  PASS  dumbbell_shoulder_press  dumbbell_l   closest  347.82 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  dumbbell_shoulder_press  dumbbell_r   closest  347.31 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Pull-Up
+  PASS  pull_up                  rack         closest  240.52 mm  inside 0  (rack at 1.43s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Romanian Deadlift
+  PASS  dumbbell_romanian_deadlift dumbbell_l   closest   25.39 mm  inside 0  (dumbbell_l at 4.38s, against thighL)
+  PASS  dumbbell_romanian_deadlift dumbbell_r   closest   24.88 mm  inside 0  (dumbbell_r at 4.38s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bent-Over Row
+  PASS  dumbbell_bent_over_row   dumbbell_l   closest   10.93 mm  inside 0  (dumbbell_l at 1.26s, against thighL)
+  PASS  dumbbell_bent_over_row   dumbbell_r   closest   10.93 mm  inside 0  (dumbbell_r at 1.26s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Seated Dumbbell Shoulder Press
+  PASS  seated_dumbbell_shoulder_press dumbbell_l   closest  347.82 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  seated_dumbbell_shoulder_press dumbbell_r   closest  347.31 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+  PASS  seated_dumbbell_shoulder_press bench        deepest   -8.95 mm  inside 492  (bench at 0.00s, against thighR)
+        pad    seated_dumbbell_shoulder_press / bench part 0: -8.95 mm at 0.00s, thighR
+        frame  seated_dumbbell_shoulder_press / bench part 1: 62.12 mm at 0.00s, thighL
+        frame  seated_dumbbell_shoulder_press / bench part 2: 826.52 mm at 0.00s, spine
+        frame  seated_dumbbell_shoulder_press / bench part 3: 212.01 mm at 0.00s, shinR001
+        frame  seated_dumbbell_shoulder_press / bench part 4: 949.12 mm at 0.00s, spine
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bent-Over Row
+  dumbbell_bent_over_row   L  closest    1.52 mm  (upper_armL to breastL at 3.26s)
+  dumbbell_bent_over_row   R  closest    1.53 mm  (upper_armR to breastR at 3.26s)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Incline Dumbbell Curl
+  PASS  incline_dumbbell_curl    dumbbell_l   closest    3.39 mm  inside 0  (dumbbell_l at 3.99s, against thighL)
+  PASS  incline_dumbbell_curl    dumbbell_r   closest    3.38 mm  inside 0  (dumbbell_r at 3.99s, against thighR)
+  PASS  incline_dumbbell_curl    bench        deepest  -10.34 mm  inside 1265  (bench at 0.00s, against thighR)
+        pad    incline_dumbbell_curl / bench part 0: -2.05 mm at 2.06s, breastR
+        pad    incline_dumbbell_curl / bench part 1: -10.34 mm at 0.00s, thighR
+        frame  incline_dumbbell_curl / bench part 2: 90.39 mm at 0.00s, thighR001
+        frame  incline_dumbbell_curl / bench part 3: 115.19 mm at 0.00s, spine006
+        frame  incline_dumbbell_curl / bench part 4: 154.73 mm at 0.00s, shinR001
+        frame  incline_dumbbell_curl / bench part 5: 709.91 mm at 0.00s, spine002
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Overhead Triceps Extension
+  PASS  dumbbell_overhead_triceps_extension dumbbell_l   closest  142.69 mm  inside 0  (dumbbell_l at 2.25s, against spine003)
+  PASS  dumbbell_overhead_triceps_extension dumbbell_r   closest  142.69 mm  inside 0  (dumbbell_r at 2.25s, against spine003)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Triceps Pushdown
+  PASS  cable_triceps_pushdown   tower        closest  417.62 mm  inside 0  (tower at 0.00s, against shinR001)
+  PASS  cable_triceps_pushdown   bar          closest   24.78 mm  inside 0  (bar at 0.00s, against thighR)
+  PASS  cable_triceps_pushdown   cable        closest   32.07 mm  inside 0  (cable at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Lateral Raise
+  PASS  dumbbell_lateral_raise   dumbbell_l   closest   47.79 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_lateral_raise   dumbbell_r   closest   47.26 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Front Raise
+  PASS  dumbbell_front_raise     dumbbell_l   closest   24.17 mm  inside 0  (dumbbell_l at 0.00s, against thighL)
+  PASS  dumbbell_front_raise     dumbbell_r   closest   23.88 mm  inside 0  (dumbbell_r at 0.00s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Calf Raise
+  PASS  dumbbell_calf_raise      dumbbell_l   closest    8.40 mm  inside 0  (dumbbell_l at 2.56s, against thighL)
+  PASS  dumbbell_calf_raise      dumbbell_r   closest    8.43 mm  inside 0  (dumbbell_r at 2.56s, against thighR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Pallof Press
+  PASS  cable_pallof_press       tower        closest  260.73 mm  inside 0  (tower at 0.00s, against shinL001)
+  PASS  cable_pallof_press       handle       closest   39.57 mm  inside 0  (handle at 0.00s, against spine002)
+  PASS  cable_pallof_press       cable        closest  109.45 mm  inside 0  (cable at 0.00s, against spine002)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Bench Press
+  PASS  dumbbell_bench_press     dumbbell_l   closest  235.59 mm  inside 0  (dumbbell_l at 1.74s, against breastL)
+  PASS  dumbbell_bench_press     dumbbell_r   closest  235.42 mm  inside 0  (dumbbell_r at 1.74s, against breastR)
+  PASS  dumbbell_bench_press     bench        deepest  -13.69 mm  inside 2694  (bench at 0.00s, against thighL)
+        pad    dumbbell_bench_press / bench part 0: -13.69 mm at 0.00s, thighL
+        frame  dumbbell_bench_press / bench part 1: 199.99 mm at 0.00s, spine006
+        frame  dumbbell_bench_press / bench part 2: 50.61 mm at 0.00s, thighL
+        frame  dumbbell_bench_press / bench part 3: 465.84 mm at 0.00s, spine006
+        frame  dumbbell_bench_press / bench part 4: 316.34 mm at 0.00s, shinL001
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Dumbbell Fly
+  PASS  dumbbell_fly             dumbbell_l   closest  489.78 mm  inside 0  (dumbbell_l at 0.00s, against breastL)
+  PASS  dumbbell_fly             dumbbell_r   closest  489.77 mm  inside 0  (dumbbell_r at 0.00s, against breastR)
+  PASS  dumbbell_fly             bench        deepest  -13.69 mm  inside 2568  (bench at 0.00s, against thighL)
+        pad    dumbbell_fly / bench part 0: -13.69 mm at 0.00s, thighL
+        frame  dumbbell_fly / bench part 1: 199.99 mm at 0.00s, spine006
+        frame  dumbbell_fly / bench part 2: 50.61 mm at 0.00s, thighL
+        frame  dumbbell_fly / bench part 3: 465.84 mm at 0.00s, spine006
+        frame  dumbbell_fly / bench part 4: 316.34 mm at 0.00s, shinL001
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Cable Woodchop
+  PASS  cable_woodchop           tower        closest  233.37 mm  inside 0  (tower at 0.17s, against shinR001)
+  PASS  cable_woodchop           handle       closest  111.99 mm  inside 0  (handle at 1.07s, against thighL)
+  PASS  cable_woodchop           cable        closest  157.98 mm  inside 0  (cable at 1.07s, against breastR)
+
+stdout | src/exercises/equipmentClearance.test.ts > equipment clears the body > Farmer's Walk
+  PASS  farmers_walk             dumbbell_l   closest   71.48 mm  inside 0  (dumbbell_l at 0.63s, against thighL)
+  PASS  farmers_walk             dumbbell_r   closest   71.39 mm  inside 0  (dumbbell_r at 0.03s, against thighR)
+
+ ✓ src/exercises/equipmentClearance.test.ts (19 tests) 44574ms
+   ✓ equipment clears the body > Dumbbell Bicep Curl  1798ms
+   ✓ equipment clears the body > Dumbbell Hammer Curl  1685ms
+   ✓ equipment clears the body > Dumbbell Reverse Curl  1808ms
+   ✓ equipment clears the body > Dumbbell Shoulder Press  1815ms
+   ✓ equipment clears the body > Pull-Up  1389ms
+   ✓ equipment clears the body > Dumbbell Romanian Deadlift  1675ms
+   ✓ equipment clears the body > Dumbbell Bent-Over Row  1887ms
+   ✓ equipment clears the body > Seated Dumbbell Shoulder Press  2569ms
+   ✓ equipment clears the body > Incline Dumbbell Curl  7150ms
+   ✓ equipment clears the body > Dumbbell Overhead Triceps Extension  1802ms
+   ✓ equipment clears the body > Cable Triceps Pushdown  3225ms
+   ✓ equipment clears the body > Dumbbell Lateral Raise  1524ms
+   ✓ equipment clears the body > Dumbbell Front Raise  1356ms
+   ✓ equipment clears the body > Dumbbell Calf Raise  3611ms
+   ✓ equipment clears the body > Cable Pallof Press  1918ms
+   ✓ equipment clears the body > Dumbbell Bench Press  2037ms
+   ✓ equipment clears the body > Dumbbell Fly  2139ms
+   ✓ equipment clears the body > Cable Woodchop  3291ms
+   ✓ equipment clears the body > Farmer's Walk  1889ms
+ ✓ src/muscles/functions.test.ts (7 tests) 120ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Seated Dumbbell Shoulder Press
+  seated_dumbbell_shoulder_press L  closest    1.95 mm  (upper_armL to breastL at 0.00s)
+  seated_dumbbell_shoulder_press R  closest    1.98 mm  (upper_armR to breastR at 0.00s)
+
+ ✓ src/equipment/mirror.test.ts (5 tests) 241ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Incline Dumbbell Curl
+  incline_dumbbell_curl    L  closest    1.79 mm  (upper_armL to breastL at 3.85s)
+  incline_dumbbell_curl    R  closest    1.82 mm  (upper_armR to breastR at 3.85s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Overhead Triceps Extension
+  dumbbell_overhead_triceps_extension L  closest    2.90 mm  (upper_armL to breastL at 0.00s)
+  dumbbell_overhead_triceps_extension R  closest    2.89 mm  (upper_armR to breastR at 0.00s)
+
+ ✓ src/exercises/exercises.test.ts (198 tests) 20570ms
+   ✓ Bodyweight Split Squat > keeps every locked contact still for the whole repetition  483ms
+   ✓ Bodyweight Split Squat > stays inside every joint limit  349ms
+   ✓ Standing Calf Raise > keeps every locked contact still for the whole repetition  2693ms
+   ✓ Standing Calf Raise > stays inside every joint limit  2998ms
+   ✓ Dumbbell Calf Raise > keeps every locked contact still for the whole repetition  2108ms
+   ✓ Dumbbell Calf Raise > stays inside every joint limit  2392ms
+   ✓ Cable Woodchop > keeps every locked contact still for the whole repetition  449ms
+   ✓ Forward Lunge > keeps every locked contact still for the whole repetition  779ms
+   ✓ Forward Lunge > stays inside every joint limit  557ms
+   ✓ Reverse Lunge > keeps every locked contact still for the whole repetition  859ms
+   ✓ Reverse Lunge > stays inside every joint limit  672ms
+ ✓ src/ik/ik.test.ts (7 tests) 115ms
+ ✓ src/editor/review.test.ts (4 tests) 270ms
+ ✓ src/exercises/families/antiRotation.test.ts (5 tests) 28ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Bodyweight Split Squat
+  split_squat              L  closest    4.22 mm  (upper_armL001 to breastL at 1.85s)
+  split_squat              R  closest    4.22 mm  (upper_armR001 to breastR at 0.00s)
+
+ ✓ src/equipment/geometry.test.ts (7 tests) 106ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Triceps Pushdown
+  cable_triceps_pushdown   L  closest    4.65 mm  (upper_armL to breastL at 0.00s)
+  cable_triceps_pushdown   R  closest    4.64 mm  (upper_armR to breastR at 0.00s)
+
+ ✓ src/body/skinRemap.test.ts (4 tests) 13284ms
+   ✓ the mannequin skin, resolved by bone name > binds every influence to its baked bone on the 55-bone rig  1435ms
+   ✓ the mannequin skin, resolved by bone name > binds every influence to its baked bone on the 53-bone rig  1311ms
+   ✓ the mannequin skin, resolved by bone name > deforms exactly as it did on the 53-bone rig through every exercise  10516ms
+ ✓ src/exercises/families/carry.test.ts (6 tests) 9644ms
+   ✓ the carry family > writes its travel speed onto the exported root node, and no other exercise writes one  9519ms
+ ✓ src/equipment/twoHandAttachment.test.ts (4 tests) 46ms
+ ✓ src/exercises/families/raise.test.ts (5 tests) 174ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Lateral Raise
+  dumbbell_lateral_raise   L  closest    4.14 mm  (upper_armL001 to breastL at 0.00s)
+  dumbbell_lateral_raise   R  closest    4.15 mm  (upper_armR001 to breastR at 0.00s)
+
+ ✓ src/exercises/families/calf.test.ts (4 tests) 250ms
+ ✓ src/character/solvedGrip.test.ts (5 tests) 64ms
+ ✓ src/character/bundled.test.ts (6 tests) 84ms
+ ✓ src/exercises/gripProfiles.test.ts (5 tests) 69ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Front Raise
+  dumbbell_front_raise     L  closest    1.12 mm  (upper_armL to breastL at 2.80s)
+  dumbbell_front_raise     R  closest    1.13 mm  (upper_armR to breastR at 2.80s)
+
+ ✓ src/editor/strainReview.test.ts (2 tests) 10160ms
+   ✓ whole-rep deformation review > finds finite worst strain frames and restores a bounded diagnostic scan  9587ms
+   ✓ whole-rep deformation review > sweeps explicit corrective values and restores the original source value  570ms
+ ✓ src/equipment/gripDiagnostics.test.ts (4 tests) 130ms
+ ✓ src/constraints/contactDiagnostics.test.ts (3 tests) 45ms
+ ✓ src/generation/generate.test.ts (14 tests) 332396ms
+   ✓ generating without a character > builds the exercise from the family, not from a library file  356ms
+   ✓ generating without a character > builds the squat and lunge variants from their families, not from per-exercise code  10618ms
+   ✓ generating without a character > reproduces the library air squat, split squat and lunge variants from the same intent  18991ms
+   ✓ generating on the production character > corrects the standing hammer curl out of the thighs, within the family, and certifies it  102108ms
+   ✓ generating on the production character > builds the incline curl on the 45° bench, passing first time  24237ms
+   ✓ generating on the production character > builds a seated shoulder press through the same pipeline, with no press-specific generator code  60464ms
+   ✓ generating on the production character > stops at its budget and reports the failure rather than passing it  17831ms
+   ✓ generating on the production character > builds a bodyweight squat through the same pipeline, with no squat-specific generator code  25756ms
+   ✓ generating on the production character > builds a reverse lunge through the same pipeline, with no lunge-specific generator code  27589ms
+   ✓ generating on the production character > builds the split squat and forward lunge too, passing first time  43405ms
+ ✓ src/animation/ikTiming.test.ts (5 tests) 96ms
+ ✓ src/exercises/bicepCurlTechnique.test.ts (4 tests) 271ms
+ ✓ src/muscles/diagnostics.test.ts (4 tests) 159ms
+ ✓ src/character/meshStrain.test.ts (2 tests) 24ms
+ ✓ src/editor/coordinationDiagnostics.test.ts (2 tests) 37ms
+ ✓ src/character/correctiveDiagnostics.test.ts (3 tests) 51ms
+ ✓ src/editor/gripReview.test.ts (1 test) 157ms
+ ✓ src/exercises/families/horizontalPress.test.ts (3 tests) 22ms
+ ✓ src/editor/comparison.test.ts (3 tests) 41ms
+ ✓ src/exercises/stance.test.ts (2 tests) 30ms
+ ✓ src/editor/characterStore.test.ts (1 test) 18ms
+ ✓ src/exercises/families/verticalPull.test.ts (3 tests) 49ms
+ ✓ src/editor/playback.test.ts (4 tests) 55ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Standing Calf Raise
+  standing_calf_raise      L  closest    5.10 mm  (upper_armL to breastL at 1.04s)
+  standing_calf_raise      R  closest    5.12 mm  (upper_armR to breastR at 1.04s)
+
+ ✓ src/viewer/cameras.test.ts (3 tests) 41ms
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Calf Raise
+  dumbbell_calf_raise      L  closest    5.60 mm  (upper_armL to breastL at 1.04s)
+  dumbbell_calf_raise      R  closest    5.59 mm  (upper_armR to breastR at 0.28s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Pallof Press
+  cable_pallof_press       L  closest    1.85 mm  (upper_armL to breastL at 1.04s)
+  cable_pallof_press       R  closest    4.09 mm  (upper_armR to breastR at 3.38s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Bench Press
+  dumbbell_bench_press     L  closest    8.63 mm  (upper_armL to breastL at 0.10s)
+  dumbbell_bench_press     R  closest    8.63 mm  (upper_armR to breastR at 0.10s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Dumbbell Fly
+  dumbbell_fly             L  closest   10.28 mm  (upper_armL to breastL at 2.23s)
+  dumbbell_fly             R  closest   10.28 mm  (upper_armR to breastR at 2.23s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Russian Twist
+  russian_twist            L  closest    1.84 mm  (upper_armL001 to breastL at 0.00s)
+  russian_twist            R  closest    1.90 mm  (upper_armR001 to spine002 at 0.13s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Cable Woodchop
+  cable_woodchop           L  closest    1.49 mm  (upper_armL to breastL at 2.23s)
+  cable_woodchop           R  closest    0.98 mm  (forearmR to spine002 at 0.91s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Forward Lunge
+  forward_lunge            L  closest    4.22 mm  (upper_armL001 to breastL at 1.89s)
+  forward_lunge            R  closest    4.22 mm  (upper_armR001 to breastR at 0.00s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Reverse Lunge
+  reverse_lunge            L  closest    4.22 mm  (upper_armL001 to breastL at 1.89s)
+  reverse_lunge            R  closest    4.22 mm  (upper_armR001 to breastR at 3.78s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Crunch
+  crunch                   L  closest    1.94 mm  (upper_armL to breastL at 1.02s)
+  crunch                   R  closest    1.94 mm  (upper_armR to breastR at 1.02s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Sit-Up
+  sit_up                   L  closest    1.59 mm  (upper_armL to breastL at 0.53s)
+  sit_up                   R  closest    1.59 mm  (upper_armR to breastR at 0.53s)
+
+stdout | src/exercises/selfCollision.test.ts > the arm clears the trunk > Farmer's Walk
+  farmers_walk             L  closest    5.70 mm  (upper_armL to breastL at 0.00s)
+  farmers_walk             R  closest    5.71 mm  (upper_armR to breastR at 0.60s)
+
+ ✓ src/exercises/selfCollision.test.ts (28 tests) 353823ms
+   ✓ the arm clears the trunk > Dumbbell Bicep Curl  5609ms
+   ✓ the arm clears the trunk > Dumbbell Hammer Curl  6231ms
+   ✓ the arm clears the trunk > Dumbbell Reverse Curl  4316ms
+   ✓ the arm clears the trunk > Push-Up  20384ms
+   ✓ the arm clears the trunk > Bodyweight Squat  11131ms
+   ✓ the arm clears the trunk > Dumbbell Shoulder Press  30334ms
+   ✓ the arm clears the trunk > Pull-Up  19265ms
+   ✓ the arm clears the trunk > Dumbbell Romanian Deadlift  11067ms
+   ✓ the arm clears the trunk > Dumbbell Bent-Over Row  11020ms
+   ✓ the arm clears the trunk > Seated Dumbbell Shoulder Press  29023ms
+   ✓ the arm clears the trunk > Incline Dumbbell Curl  9013ms
+   ✓ the arm clears the trunk > Dumbbell Overhead Triceps Extension  23981ms
+   ✓ the arm clears the trunk > Bodyweight Split Squat  7320ms
+   ✓ the arm clears the trunk > Cable Triceps Pushdown  7871ms
+   ✓ the arm clears the trunk > Dumbbell Lateral Raise  20563ms
+   ✓ the arm clears the trunk > Dumbbell Front Raise  16504ms
+   ✓ the arm clears the trunk > Standing Calf Raise  10798ms
+   ✓ the arm clears the trunk > Dumbbell Calf Raise  6494ms
+   ✓ the arm clears the trunk > Cable Pallof Press  11336ms
+   ✓ the arm clears the trunk > Dumbbell Bench Press  17162ms
+   ✓ the arm clears the trunk > Dumbbell Fly  20993ms
+   ✓ the arm clears the trunk > Russian Twist  3222ms
+   ✓ the arm clears the trunk > Cable Woodchop  16522ms
+   ✓ the arm clears the trunk > Forward Lunge  5963ms
+   ✓ the arm clears the trunk > Reverse Lunge  6049ms
+   ✓ the arm clears the trunk > Crunch  6146ms
+   ✓ the arm clears the trunk > Sit-Up  8872ms
+   ✓ the arm clears the trunk > Farmer's Walk  6625ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/body/neck.test.ts > the head-to-neck junction > leaves every vertex on two bones that still sum to one
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/body/neck.test.ts:198:3
+    196|   });
+    197| 
+    198|   it('leaves every vertex on two bones that still sum to one', () => {
+       |   ^
+    199|     for (const geometry of [character, anatomy]) {
+    200|       const shares = geometry.getAttribute('skinWeight');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 71 passed (72)
+      Tests  1 failed | 878 passed | 1 skipped (880)
+   Start at  16:43:41
+   Duration  504.89s (transform 4.89s, setup 2.15s, collect 166.02s, tests 1079.22s, environment 24ms, prepare 21.75s)
+
+[ELIFECYCLE] Test failed. See above for more details.

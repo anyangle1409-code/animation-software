@@ -13,6 +13,8 @@ import json
 import shutil
 from pathlib import Path
 
+from v15_hand_study_poses import ensure_study_poses
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE_VERSION = "v13e_fingertip_retopology"
 DEFAULT_VERSION = "v15a_deep_hand_rebuild"
@@ -40,6 +42,12 @@ def main():
         raise SystemExit(
             f"Missing {dst}. Run frozen V15 gates first."
         )
+
+    # The exercise harness supplies the exact validated push-up and curl poses.
+    # Derive the two no-equipment anatomy-study views from those outputs; older
+    # versions of this workflow expected these files but never generated them.
+    ensure_study_poses(src)
+    ensure_study_poses(dst)
 
     copied = []
     for name in NEEDED:

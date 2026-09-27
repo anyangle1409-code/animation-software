@@ -1,4 +1,17 @@
-# Next action: V15 deep finger shaft/joint rebuild from V13e
+# Next action: switch to the standalone first-party lane
+
+V15f checkpoint 012 is preserved as the final imported-lineage legacy
+benchmark. Do not perform Phase C grip fitting, promotion or further geometry
+polishing on this branch.
+
+Create or open a separate worktree for
+`work/standalone-first-party-audit-20260927`, confirm it contains
+`0eaa5b57f092adbb7162cf4feb909502c9c83cf0`, read the standalone handoff set,
+and run `STANDALONE_STATUS.bat` plus `VERIFY_STANDALONE_PREP.bat`. Continue with
+the prepared first-party dependency replacement and ORIGINAL v1 clean-room path
+from that branch. Do not merge the two lanes.
+
+Historical V15 instructions follow below for recovery/reference only.
 
 ## 2026-09-27 V15f Stage B complete; run full audit
 

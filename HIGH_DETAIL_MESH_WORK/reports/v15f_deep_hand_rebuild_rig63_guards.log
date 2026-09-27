@@ -8,11 +8,11 @@ DUMBBELL_CLEARANCE Peak  l: 161.00 mm (0 in, worst at plate x70 y-197 z-169, rad
 DUMBBELL_CLEARANCE Mid lower  l: 190.96 mm (0 in, worst at plate x-84 y-224 z-268, radial 239)   r: 190.96 mm (0 in, worst at plate x84 y-224 z-269, radial 239)
 DUMBBELL_CLEARANCE Return  l: 5.03 mm (0 in, worst at plate x-44 y-3 z-98, radial 44)   r: 5.19 mm (0 in, worst at plate x44 y-3 z-98, radial 44)
 
- ✓ scratchpad/repair/overlap.test.mts (1 test) 3020ms
-   ✓ dumbbell clearance > measures closest approach to the leg at the curl bottom  3017ms
+ ✓ scratchpad/repair/overlap.test.mts (1 test) 3031ms
+   ✓ dumbbell clearance > measures closest approach to the leg at the curl bottom  3029ms
 stdout | scratchpad/repair/sagittal.test.mts > sagittal shoulder-to-upper-arm profile > compares the humerus axis with the arm mass midline, height by height
 
-================ C:\Users\Mark\Documents\Codex\2026-09-25\files-pasted-by-the-user-open\work\animation-software\HIGH_DETAIL_MESH_WORK\HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.glb — side Bottom ================
+================ C:\Users\Mark\Documents\Codex\2026-09-25\files-pasted-by-the-user-open\work\animation-software\HIGH_DETAIL_MESH_WORK\HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.glb — side Bottom ================
   clavicle tail / AC point  x 15.9  y 1407.6  z 28.4
   upper-arm joint centre    x 214.9  y 1412.1  z -21.9
   elbow                     x 205.3  y 1115.6  z -5.2
@@ -43,33 +43,33 @@ stdout | scratchpad/repair/sagittal.test.mts > sagittal shoulder-to-upper-arm pr
   >> mean axis-minus-midline over the SHAFT (below the joint): 22.8 mm
      (+ = the bone runs ahead of the mass it sits in)
 
- ✓ scratchpad/repair/sagittal.test.mts (1 test) 3476ms
-   ✓ sagittal shoulder-to-upper-arm profile > compares the humerus axis with the arm mass midline, height by height  3472ms
+ ✓ scratchpad/repair/sagittal.test.mts (1 test) 3445ms
+   ✓ sagittal shoulder-to-upper-arm profile > compares the humerus axis with the arm mass midline, height by height  3442ms
 stdout | scratchpad/repair/gripmetric.test.mts > corrected grip metric > measures the fist against the real capped bar, and proves the sweep moves the mesh
 
 CORRECTED GRIP METRIC — capped bar r=15.0mm half=60.0mm, summed-weight classification
 profile | frame | PIP° | checksum | fingers near/in | palm near/in | thumb near/in | wrap°
-shipped    | Bottom |  80.8 | 1453387235 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
-shipped    | Mid    |  80.8 |  615996231 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
-shipped    | Peak   |  80.8 |  583280915 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
-deeper PIP | Bottom |  91.8 | 1370199773 |  -14.94/1210 |      -1.08/1 |     -8.45/16 | 342
-deeper PIP | Mid    |  91.8 |  536810906 |  -14.94/1210 |      -1.08/1 |     -8.45/16 | 342
-deeper PIP | Peak   |  91.8 |  584693186 |  -14.94/1210 |      -1.08/1 |     -8.45/16 | 342
-deeper MCP | Bottom |  80.8 | 1453566206 |   -10.86/799 |      -1.08/1 |     -8.45/16 | 350
-deeper MCP | Mid    |  80.8 |  378965096 |   -10.86/799 |      -1.08/1 |     -8.45/16 | 350
-deeper MCP | Peak   |  80.8 |  313214532 |   -10.86/799 |      -1.08/1 |     -8.45/16 | 350
-deeper DIP | Bottom |  80.8 | 1435263697 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
-deeper DIP | Mid    |  80.8 |  613671993 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
-deeper DIP | Peak   |  80.8 |  600587093 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
-full fist  | Bottom |  91.8 | 1349828505 |  -14.87/1412 |      -1.08/1 |      -6.56/9 | 356
-full fist  | Mid    |  91.8 |  316625000 |  -14.87/1412 |      -1.08/1 |      -6.56/9 | 356
-full fist  | Peak   |  91.8 |  356272780 |  -14.87/1412 |      -1.08/1 |      -6.56/9 | 356
-open       | Bottom |  46.8 | 1340946017 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
-open       | Mid    |  46.8 | 1324826810 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
-open       | Peak   |  46.8 | 1514473781 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
+shipped    | Bottom |  80.8 | 1452988105 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
+shipped    | Mid    |  80.8 |  615709488 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
+shipped    | Peak   |  80.8 |  583385137 |    -8.79/562 |      -1.08/1 |     -8.45/16 | 337
+deeper PIP | Bottom |  91.8 | 1369866627 |  -14.70/1214 |      -1.08/1 |     -8.45/16 | 342
+deeper PIP | Mid    |  91.8 |  536672948 |  -14.70/1214 |      -1.08/1 |     -8.45/16 | 342
+deeper PIP | Peak   |  91.8 |  584894435 |  -14.70/1214 |      -1.08/1 |     -8.45/16 | 342
+deeper MCP | Bottom |  80.8 | 1453153131 |   -10.77/800 |      -1.08/1 |     -8.45/16 | 350
+deeper MCP | Mid    |  80.8 |  378746285 |   -10.77/800 |      -1.08/1 |     -8.45/16 | 350
+deeper MCP | Peak   |  80.8 |  313411598 |   -10.77/800 |      -1.08/1 |     -8.45/16 | 350
+deeper DIP | Bottom |  80.8 | 1434979866 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
+deeper DIP | Mid    |  80.8 |  613490187 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
+deeper DIP | Peak   |  80.8 |  600683937 |   -11.04/765 |      -1.08/1 |     -8.45/16 | 337
+full fist  | Bottom |  91.8 | 1349628375 |  -14.81/1427 |      -1.08/1 |      -6.56/9 | 356
+full fist  | Mid    |  91.8 |  316621730 |  -14.81/1427 |      -1.08/1 |      -6.56/9 | 356
+full fist  | Peak   |  91.8 |  356480529 |  -14.81/1427 |      -1.08/1 |      -6.56/9 | 356
+open       | Bottom |  46.8 | 1340845528 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
+open       | Mid    |  46.8 | 1324056599 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
+open       | Peak   |  46.8 | 1513700823 |      -4.11/4 |      -1.08/2 |     -7.19/24 | 224
 
- ✓ scratchpad/repair/gripmetric.test.mts (1 test) 3745ms
-   ✓ corrected grip metric > measures the fist against the real capped bar, and proves the sweep moves the mesh  3742ms
+ ✓ scratchpad/repair/gripmetric.test.mts (1 test) 3644ms
+   ✓ corrected grip metric > measures the fist against the real capped bar, and proves the sweep moves the mesh  3641ms
 stdout | scratchpad/repair/gripagree.test.mts > grip frame agreement > renderer, solver and exporter resolve the same handle transform
 GRIP_AGREE t=0 l: rendered vs exported 0.0000 mm
 GRIP_AGREE t=0 r: rendered vs exported 0.0000 mm
@@ -78,19 +78,19 @@ GRIP_AGREE t=2 r: rendered vs exported 0.0000 mm
 GRIP_AGREE t=4 l: rendered vs exported 0.0000 mm
 GRIP_AGREE t=4 r: rendered vs exported 0.0000 mm
 
- ✓ scratchpad/repair/gripagree.test.mts (1 test) 1482ms
-   ✓ grip frame agreement > renderer, solver and exporter resolve the same handle transform  1480ms
+ ✓ scratchpad/repair/gripagree.test.mts (1 test) 1473ms
+   ✓ grip frame agreement > renderer, solver and exporter resolve the same handle transform  1471ms
 stdout | scratchpad/repair/dressed_equivalence.test.mts > the dressed default matches the bare body it was built from > carries the same solved grip and poses identically
 EQUIV solution: bare=homeGymPTMale dressed=homeGymPTMale
 EQUIV grip offset: bare={"x":0.016517363093693224,"y":0.0452,"z":0.009941162730339997} dressed={"x":0.016517363093693224,"y":0.0452,"z":0.009941162730339997}
 EQUIV posed hand difference: 0.0000 mm
 EQUIV worst posed body vertex difference: 0.0000 mm over 48321 vertices
 
- ✓ scratchpad/repair/dressed_equivalence.test.mts (1 test) 3017ms
-   ✓ the dressed default matches the bare body it was built from > carries the same solved grip and poses identically  3014ms
+ ✓ scratchpad/repair/dressed_equivalence.test.mts (1 test) 2849ms
+   ✓ the dressed default matches the bare body it was built from > carries the same solved grip and poses identically  2846ms
 
  Test Files  5 passed (5)
       Tests  5 passed (5)
-   Start at  13:14:32
-   Duration  13.73s (transform 846ms, setup 571ms, collect 16.11s, tests 14.74s, environment 1ms, prepare 2.68s)
+   Start at  13:18:39
+   Duration  10.76s (transform 752ms, setup 117ms, collect 9.44s, tests 14.44s, environment 2ms, prepare 1.51s)
 

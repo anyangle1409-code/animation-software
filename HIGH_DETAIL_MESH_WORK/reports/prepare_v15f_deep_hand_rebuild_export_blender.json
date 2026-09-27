@@ -1,0 +1,15 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "output": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild_EXPORT.blend",
+  "baseline": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v13e_fingertip_retopology.blend",
+  "baseline_vertices_tracked": 48291,
+  "new_v15_vertices": 0,
+  "duplicate_tracking_ids_reset_to_new": 0,
+  "repaired_weight_vertices": 0,
+  "repaired_uv_loops": 0,
+  "new_vertex_max_nearest_v13e_mm": 0.0,
+  "nontri_faces_before": 0,
+  "nontri_faces_after": 0,
+  "geometry_max_move_mm": 0.0
+}

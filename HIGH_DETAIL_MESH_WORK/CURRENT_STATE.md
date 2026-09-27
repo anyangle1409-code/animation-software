@@ -10,6 +10,18 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f preserved as legacy benchmark
+
+V15f checkpoint 012 has completed the full Blender invariant audit, frozen
+`614033b` validation and matched hand-review workflow. It is now frozen as the
+final imported-lineage comparison benchmark. It is not a production candidate,
+must not enter Phase C grip fitting, and must not receive further geometry work.
+See `V15F_LEGACY_BENCHMARK_FINAL.md` for hashes, gates, review boards and the
+explicit limit of the incomplete optional current-source scan.
+
+All future implementation work moves to the separate
+`work/standalone-first-party-audit-20260927` lane without merging V15f.
+
 ## 2026-09-27 V15f Stage B complete
 
 Checkpoint 012 contains all accepted Stage A and Stage B digit work. The final

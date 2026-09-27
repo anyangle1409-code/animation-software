@@ -1,0 +1,41 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "branch": "work/v15-deep-hand-rebuild-prep-20260925",
+  "head": "0d5b1d88b3f4148940fc120e1dec34a0067626c0",
+  "artifacts": {
+    "dressed_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.glb",
+      "bytes": 14063772,
+      "sha256": "d9ba799b085d127efd9d787a37b97994fc09a3faa7d00da485c02ce16e6f6b29"
+    },
+    "bare_glb": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild_BARE.glb",
+      "bytes": 14063760,
+      "sha256": "287d408b9dff7a3a4913bd00e9c0f770fbba598ad345190e90da438a589aa2a3"
+    },
+    "blend": {
+      "path": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+      "bytes": 6414988,
+      "sha256": "7521a4b2b50e2392db86f30edc5e9c0a5f310079a3744c501527daed9737cb26"
+    }
+  },
+  "glb": {
+    "body_vertices": 48321,
+    "body_triangles": 93153,
+    "nodes": 163,
+    "skins": 1,
+    "animations": 0,
+    "materials": 2
+  },
+  "rig_baseline": {
+    "freeze_commit": "19ca602ca2f2a821237dcf5b1b50c7906d86b0fe",
+    "runtime_validation_commit": "614033b256d869230ea273522620467401b0bc71",
+    "skeleton_id": "hgpt_canonical_v3",
+    "canonical_bones": 63
+  },
+  "expected_followup_logs": [
+    "reports/v15f_deep_hand_rebuild_rig63_guards.log",
+    "reports/v15f_deep_hand_rebuild_rig63_exercises.log",
+    "reports/exercise_validation_v15f_deep_hand_rebuild.json"
+  ]
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>V15f hand review</title>
+<style>
+body{font-family:Arial,sans-serif;margin:24px;background:#181b20;color:#eee}
+h1,h2,h3{margin-top:1.2em} .status{padding:12px;border:1px solid #555}
+.triple{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+figure{margin:0;background:#222;padding:8px} img{width:100%;height:auto;display:block}
+figcaption{padding-top:6px} table{border-collapse:collapse;width:100%;max-width:900px}
+th,td{border:1px solid #555;padding:7px;text-align:left} pre{white-space:pre-wrap;background:#111;padding:12px}
+.pass{font-weight:bold} @media(max-width:900px){.triple{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>V15f vs V13e — hand review</h1>
+<div class="status">
+<p><strong>Frozen pipeline:</strong> True</p>
+<p><strong>Clears rejected V14e visual-change magnitude:</strong>
+True</p>
+<p><strong>Latest-source no regression:</strong>
+missing</p>
+<p><strong>Latest source HEAD:</strong> missing</p>
+</div>
+
+<h2>Rejected-V14e calibration</h2>
+<table>
+<tr><th>Metric</th><th>Rejected V14e</th><th>V15f</th></tr>
+<tr><td>Median changed subject %</td>
+<td>0.1661940326904275</td>
+<td>0.7012425596640399</td></tr>
+<tr><td>Max silhouette XOR %</td>
+<td>0.30370723626414997</td>
+<td>0.25991311775217074</td></tr>
+</table>
+
+<h2>Remaining faceting priority</h2>
+<table>
+<tr><th>Digit</th><th>&gt;35° sharp-length ratio</th><th>&gt;50° ratio</th><th>Δ &gt;35° vs V13e</th><th>Δ &gt;35° vs rejected V14e</th></tr>
+<tr><td>pinky_R</td><td>0.0471</td><td>0.0169</td><td>-0.0028</td><td>+0.0040</td></tr><tr><td>pinky_L</td><td>0.0468</td><td>0.0165</td><td>-0.0052</td><td>+0.0039</td></tr><tr><td>index_R</td><td>0.0341</td><td>0.0132</td><td>-0.0016</td><td>+0.0046</td></tr><tr><td>index_L</td><td>0.0341</td><td>0.0132</td><td>-0.0016</td><td>+0.0046</td></tr><tr><td>ring_L</td><td>0.0276</td><td>0.0069</td><td>-0.0163</td><td>-0.0003</td></tr><tr><td>ring_R</td><td>0.0266</td><td>0.0065</td><td>-0.0184</td><td>-0.0006</td></tr><tr><td>middle_R</td><td>0.0064</td><td>0.0030</td><td>-0.0061</td><td>-0.0000</td></tr><tr><td>middle_L</td><td>0.0064</td><td>0.0030</td><td>-0.0066</td><td>-0.0000</td></tr>
+</table>
+
+<h2>Matched views and difference maps</h2>
+
+        <section class="view">
+          <h3>Open palm</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_baseline_hand.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_candidate_hand.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/open_palm_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Open back</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_baseline_hand_back.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_candidate_hand_back.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/open_back_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Thumb-index web</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_baseline_hand_web.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/open_hand_review_candidate_hand_web.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/open_web_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Fist palm</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_baseline_hand.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_candidate_hand.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/fist_palm_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Fist back</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_baseline_hand_back.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_candidate_hand_back.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/fist_back_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Fist side</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_baseline_hand_side.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/closed_fist_review_candidate_hand_side.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/fist_side_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Curl grip</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/dumbbell_bicep_curl_bottom_baseline_hand.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/dumbbell_bicep_curl_bottom_candidate_hand.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/curl_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Push-up contact</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/push_up_bottom_baseline_hand.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/push_up_bottom_candidate_hand.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/pushup_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+        <section class="view">
+          <h3>Pull-up grip</h3>
+          <div class="triple">
+            <figure><img src="renders_v15f_deep_hand_rebuild/pull_up_peak_baseline_hand.png"><figcaption>V13e baseline</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/pull_up_peak_candidate_hand.png"><figcaption>V15f</figcaption></figure>
+            <figure><img src="renders_v15f_deep_hand_rebuild/diffs_vs_v13e/pullup_difference.png"><figcaption>Difference ×5</figcaption></figure>
+          </div>
+        </section>
+        
+
+<h2>Consolidated report</h2>
+<pre># V15f post-edit summary
+
+**Candidate:** v15f_deep_hand_rebuild
+**State:** BLOCKED
+
+## Automated gates
+- PASS — blender invariants
+- PASS — protected floor guard
+- PASS — frozen 614033b pipeline
+- FAIL/MISSING — latest source no regression
+- PASS — matched boards present
+
+## Geometry/export
+- Blender invariant audit: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend
+- Dressed GLB: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.glb
+- Body vertices: 48321
+- Body triangles: 93153
+- New GLTF vertices: 15232
+- New-vertex max lost weight: 0.0
+
+## Hand topology
+- V13e -&gt; V15f: fingertip hole edges 0 -&gt; 0; folds &gt;100deg 4 -&gt; 2.
+
+## Visual-change calibration
+- Clears rejected V14e change magnitude: True
+- V15f median changed subject: 0.7012425596640399%
+- Rejected V14e median changed subject: 0.1661940326904275%
+- V15f max silhouette XOR: 0.25991311775217074%
+- Rejected V14e max silhouette XOR: 0.30370723626414997%
+- This calibration does not approve anatomy. Inspect the three matched V13e/candidate boards.
+
+## Current-source integration
+- Source HEAD tested: missing
+- Source commit: missing
+- Full source suite: missing
+- New failing gate files vs V13e: —
+- Gate files with increased failures: —
+- Body/equipment measurement coverage unchanged: —
+- V13e/candidate body measurements unchanged within 0.05 mm: —
+
+## Decision rule
+- Do not refit grips unless the matched boards show a clear anatomical improvement over V13e.
+- Do not promote automatically.
+- If blocked, follow V15_FAILURE_RECOVERY.md from the first failed stage.
+
+## Artifact hashes
+- Dressed: d9ba799b085d127efd9d787a37b97994fc09a3faa7d00da485c02ce16e6f6b29
+- Bare: 287d408b9dff7a3a4913bd00e9c0f770fbba598ad345190e90da438a589aa2a3
+- Blend: 7521a4b2b50e2392db86f30edc5e9c0a5f310079a3744c501527daed9737cb26
+</pre>
+
+<p><strong>Important:</strong> numerical and image-change checks do not approve anatomy.
+The matched views still require a visual call before grip refitting.</p>
+</body>
+</html>

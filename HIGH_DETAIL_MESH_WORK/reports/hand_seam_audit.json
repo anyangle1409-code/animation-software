@@ -11,16 +11,16 @@
     "fingertip_hole_edges": 0,
     "folds_over_100deg": 4,
     "posed_open_hand_seams": {
-      "closed <0.05 mm": 543,
-      "0.05-0.5 mm": 23,
-      "0.5-1.5 mm": 0,
-      "1.5-4 mm": 5,
-      "4-12 mm": 7,
-      "open >12 mm": 2
+      "closed <0.05 mm": 525,
+      "0.05-0.5 mm": 42,
+      "0.5-1.5 mm": 3,
+      "1.5-4 mm": 3,
+      "4-12 mm": 8,
+      "open >12 mm": 1
     },
     "posed_source": "reports\\poses_v13e_fingertip_retopology\\open_hand_review_candidate.json"
   },
-  "v15b_deep_hand_rebuild": {
+  "v15f_deep_hand_rebuild": {
     "bind_seams": {
       "closed <0.05 mm": 549,
       "0.05-0.5 mm": 0,
@@ -30,15 +30,15 @@
       "open >12 mm": 5
     },
     "fingertip_hole_edges": 0,
-    "folds_over_100deg": 8,
+    "folds_over_100deg": 2,
     "posed_open_hand_seams": {
-      "closed <0.05 mm": 543,
-      "0.05-0.5 mm": 23,
-      "0.5-1.5 mm": 0,
-      "1.5-4 mm": 5,
-      "4-12 mm": 7,
-      "open >12 mm": 2
+      "closed <0.05 mm": 525,
+      "0.05-0.5 mm": 42,
+      "0.5-1.5 mm": 3,
+      "1.5-4 mm": 3,
+      "4-12 mm": 8,
+      "open >12 mm": 1
     },
-    "posed_source": "reports\\poses_v15b_deep_hand_rebuild\\open_hand_review_candidate.json"
+    "posed_source": "reports\\poses_v15f_deep_hand_rebuild\\open_hand_review_candidate.json"
   }
 }

@@ -54,7 +54,9 @@ it('compares all five exercises with frozen rig, correctives and actual equipmen
  }
  expect(b.hands.length).toBe(a.hands.length);a.hands.forEach((p:any,i:number)=>maxHand=Math.max(maxHand,new Vector3(...p).distanceTo(new Vector3(...b.hands[i]))));a.bones.forEach((m:any,i:number)=>m.forEach((v:number,k:number)=>maxBones=Math.max(maxBones,Math.abs(v-b.bones[i][k]))));a.equipment.forEach((m:any,i:number)=>m.matrix.forEach((v:number,k:number)=>maxEquipment=Math.max(maxEquipment,Math.abs(v-b.equipment[i].matrix[k]))));
  }
- report.exercises.push({name:ex.name,frames:frames.length,handMaxDifferenceMm:maxHand*1000,boneMatrixMaxDifference:maxBones,equipmentMatrixMaxDifference:maxEquipment,pushupFloorMaxDifferenceMm:maxFloor*1000,techniqueViolations:validation.violations.map(v=>v.ruleId),unreachable:validation.unreachable,loopClosed:validation.loopClosed});console.log('EXERCISE_DIFFERENCE',ex.name,{maxBones,maxHand,maxEquipment});expect(maxBones).toBeLessThan(1e-6);expect(maxHand).toBeLessThan(0.01);expect(maxEquipment).toBeLessThan(1e-6);
+ report.exercises.push({name:ex.name,frames:frames.length,handMaxDifferenceMm:maxHand*1000,boneMatrixMaxDifference:maxBones,equipmentMatrixMaxDifference:maxEquipment,pushupFloorMaxDifferenceMm:maxFloor*1000,techniqueViolations:validation.violations.map(v=>v.ruleId),unreachable:validation.unreachable,loopClosed:validation.loopClosed});expect(maxBones).toBeLessThan(1e-6);expect(maxHand).toBeLessThan(0.004);expect(maxEquipment).toBeLessThan(1e-6);
  }
  writeFileSync(`../reports/exercise_validation_${version}.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report.exercises));Object.values(builds).forEach((c:any)=>c.dispose());
 },900000);
+
+

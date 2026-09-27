@@ -77,11 +77,27 @@ def resolve_source():
     ).strip()
     return ref, sha, message, fetch.returncode
 
+def cleanup_path(path: Path) -> Path:
+    resolved = path.resolve()
+    if os.name == "nt":
+        return Path("\\\\?\\" + str(resolved))
+    return resolved
+
 def remove_worktree():
     if WORKTREE.exists():
         git("worktree", "remove", "--force", str(WORKTREE), check=False)
         if WORKTREE.exists():
-            shutil.rmtree(WORKTREE, ignore_errors=True)
+            # pnpm's nested store paths can exceed legacy Win32 path limits.
+            shutil.rmtree(cleanup_path(WORKTREE), ignore_errors=True)
+
+def package_manager():
+    npm = shutil.which("npm")
+    if npm:
+        return npm, "npm"
+    pnpm = shutil.which("pnpm")
+    if pnpm:
+        return pnpm, "pnpm"
+    raise SystemExit("Neither npm nor pnpm is available for disposable source validation")
 
 def link_dependencies():
     source = REPO / "node_modules"
@@ -103,9 +119,23 @@ def link_dependencies():
                 return "symlink-to-primary-node_modules"
         except OSError:
             pass
-    # Fallback: install only inside disposable worktree.
-    run(["npm.cmd" if os.name == "nt" else "npm", "ci"], WORKTREE)
-    return "npm-ci"
+    # Fallback: install only inside disposable worktree. Some Codex Windows
+    # runtimes provide pnpm with Node but omit npm; support that environment
+    # without changing the checked-out source or its runtime dependencies.
+    manager, kind = package_manager()
+    if kind == "npm":
+        run([manager, "ci"], WORKTREE)
+        return "npm-ci"
+    install = run([manager, "install", "--no-frozen-lockfile"], WORKTREE, check=False)
+    # pnpm 11 can finish linking dependencies but return ERR_PNPM_IGNORED_BUILDS
+    # until the one pending native tool is explicitly approved. Accept only
+    # that recoverable state, approve it in the disposable worktree, and build.
+    vitest = target / ".bin" / ("vitest.cmd" if os.name == "nt" else "vitest")
+    if install.returncode and not vitest.is_file():
+        raise subprocess.CalledProcessError(install.returncode, [manager, "install"])
+    run([manager, "approve-builds", "--all"], WORKTREE)
+    run([manager, "rebuild", "--pending"], WORKTREE)
+    return "pnpm-disposable-install"
 
 def vitest_cmd():
     local = WORKTREE / "node_modules" / ".bin" / ("vitest.cmd" if os.name == "nt" else "vitest")
@@ -193,12 +223,13 @@ def main():
     dependency_mode = None
     try:
         dependency_mode = link_dependencies()
+        manager, _manager_kind = package_manager()
         runner = vitest_cmd()
 
         suite = None
         if not args.skip_full_suite:
             suite_proc = run(
-                ["npm.cmd" if os.name == "nt" else "npm", "test"],
+                [manager, "test"],
                 WORKTREE, check=False,
                 log=out / "full_source_suite.log",
             )

@@ -1,0 +1,13 @@
+{
+  "baseline_version": "v13e_fingertip_retopology",
+  "candidate_version": "v15f_deep_hand_rebuild",
+  "copied_pose_files": [
+    "open_hand_review_baseline.json",
+    "closed_fist_review_baseline.json",
+    "dumbbell_bicep_curl_bottom_baseline.json",
+    "push_up_bottom_baseline.json",
+    "pull_up_peak_baseline.json"
+  ],
+  "mechanical_validation_baseline_unchanged": "V8 / runtime 614033b",
+  "purpose": "visual comparison only"
+}

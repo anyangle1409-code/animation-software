@@ -168,3 +168,22 @@ Only if all checks pass:
 - update `docs/STANDALONE_PROGRESS.md`.
 
 If compilation exposes a selector/subscription parity issue, repair `src/core/store.ts`; do not restore Zustand as the final solution.
+
+
+## Prepared ORIGINAL v1 clean scaffold generator
+
+After V15f benchmark preservation, use:
+```
+START_ORIGINAL_V1_CLEAN_ROOM.bat
+GENERATE_ORIGINAL_V1_CLEAN_SCAFFOLD.bat
+```
+
+Then verify in Blender:
+- object `HGPT_ORIGINAL_V1_CLEAN_SCAFFOLD` exists;
+- reference rig `HGPT_CLEAN_HISTORICAL_REFERENCE_RIG` exists;
+- 3,890 vertices;
+- 7,280 triangles;
+- 53 reference bones;
+- provenance JSON says `third_party_geometry_imported: false`.
+
+Do not treat the 53-bone reference rig as canonical v4. Its purpose is to reconstruct the clean historical procedural surface. Build/rebind to `hgpt_canonical_v4_original` as the next rig phase.

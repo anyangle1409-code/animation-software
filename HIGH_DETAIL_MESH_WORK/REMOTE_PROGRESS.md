@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T11:50:10Z
+- UTC timestamp: 2026-09-27T11:54:54Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 6eaade09b2bcf93bf9b8216df36890f18a294392
+- current HEAD: a17a2dbaba0885215e1ca8210e6e14a54d5fad8e
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
-- current phase: V15f Stage B index/middle topology
-- current digit: index_L
-- current repair strategy/attempt number: Route B propagation 1
-- exact operation currently being performed: Publishing accepted Stage A checkpoint and preparing left-index topology trial
-- current operation start time: 2026-09-27T11:50:10Z
+- current phase: V15f Stage B hand topology
+- current digit: index_R
+- current repair strategy/attempt number: Route B propagation, attempt 1
+- exact operation currently being performed: Preparing isolated index-right topology trial from accepted checkpoint 009
+- current operation start time: 2026-09-27T11:54:54Z
 - current operation elapsed time: 00:00:00
-- most recent operation completed: Ring_L, ring_R, pinky_L and pinky_R numeric gates PASS; combined Stage A numeric and visual gates PASS
-- latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_008.blend
-- latest numeric gate: Stage A PASS: total >100 folds 3 to 0; all four digits improve or hold >35/>50; contacts and weights exact
-- latest visual gate: Stage A PASS: cleaner shafts and reduced banding bilaterally with no new pinching
-- last successful gate: combined V15f Stage A numeric and visual PASS
-- current unresolved blocker: none; Stage B ordered digit gates active; Phase C still held
-- latest relevant report: reports/v15f_stage_a_gate.json and reports/v15f_stage_a_visual_decision.json
+- most recent operation completed: Index-left checkpoint 009 passed numeric and four-view visual gates
+- latest checkpoint: v15f_deep_hand_rebuild_checkpoint_009.blend
+- latest numeric gate: index_L PASS: >35 0.03568 to 0.03411; >50 0.01456 to 0.01317; >100 remains 0
+- latest visual gate: index_L PASS: modest reduction in shaft segmentation; no new pinch, crease, or volume loss
+- last successful gate: V15f Stage B index_L numeric and visual PASS
+- current unresolved blocker: none
+- latest relevant report: reports/v15f_stage_b_index_L_gate.json; reports/v15f_stage_b_index_L_visual_decision.json
 - geometry changed since previous heartbeat: true
 - audit/render currently running: false
 - Work appears blocked/waiting: false
-- last error: none
-- next expected operation: Apply accepted topology method to index_L in a separate trial; audit and visual-review before index_R
-- approximate battery percentage: 92
+- last error: Stage-B launcher Python alias missing; bypassed with Blender bundled Python; Blender 5.2 world compatibility fixed
+- next expected operation: Build index_R trial, audit it, then render matched review board
+- approximate battery percentage: 93%, charging
 - approximate Work usage remaining: five-hour 90%; weekly 87%
 - progress_status: ACTIVE
-- progress_counter: 9
+- progress_counter: 10
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

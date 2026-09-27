@@ -10,9 +10,9 @@ A distributable Home Gym PT product with no third-party runtime implementation a
 | V15f legacy hand benchmark | near complete | final whole-hand audit/review |
 | Imported/high-detail character lineage | reference-only identified | replace with ORIGINAL v1 |
 | MakeHuman built-in anatomical body | third-party-derived identified | replace/remove from production path |
-| ORIGINAL v1 clean-room brief | prepared | initialize blank Blender workspace after V15f benchmark |
-| Clean-room Blender launcher | prepared | run `START_ORIGINAL_V1_CLEAN_ROOM.bat` at correct phase |
-| Canonical rig architecture | project-authored candidate | create independent `hgpt_canonical_v4_original` rest dimensions |
+| ORIGINAL v1 clean-room scaffold | O1 blank-source proof PASS | O2 neutral anatomy |
+| Clean-room Blender launcher | verified with Blender 5.2.1 LTS | keep generation/audit provenance current |
+| Canonical rig architecture | project-authored candidate; 53-bone historical reference only in scaffold | create independent `hgpt_canonical_v4_original` rest dimensions |
 | Equipment models | procedural/project-code candidate | remove legacy body-dimension coupling; validate provenance |
 | Fonts | no bundled font assets found | keep system fonts or author owned fonts |
 | Runtime images/icons/audio | no production bundle found in repo scan | keep deny-by-default |
@@ -129,6 +129,25 @@ The five direct runtime dependencies remain `@react-three/drei`,
 imports, but its package removal remains held until the open physical visual and
 touch parity gate can be completed. No guard was weakened and no legacy asset
 was added to an operational asset root.
+
+## 2026-09-27 ORIGINAL v1 O1 checkpoint
+
+`PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` completed with Blender 5.2.1 LTS and
+opened the verified clean-room Blend. The deterministic scaffold contains 3,890
+vertices, 7,280 triangles, and the 53-bone clean historical reference armature.
+The Blender audit passed with zero blockers and zero warnings.
+
+The provenance record states that no third-party or legacy geometry was
+imported and no legacy projection was used. The current Blend SHA-256 is
+`33f67e42fb8f5bb524b72bfb7b0aee6e3656f853e1c54e6a53034881161f21bf`.
+The Blend remains local under the existing ignore rule; its provenance JSON,
+audit report, and O1 evidence are versioned. This is a scaffold, not a production
+character, and its 53-bone reference armature must not be renamed or promoted as
+canonical v4.
+
+Next gate: define independent project-authored target dimensions for
+`hgpt_canonical_v4_original`, then begin O2 neutral anatomy without fitting to a
+legacy mesh or copying v3 numerical rest coordinates.
 
 ## Prepared commands
 

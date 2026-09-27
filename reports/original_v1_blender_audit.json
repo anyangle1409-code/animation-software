@@ -1,0 +1,17 @@
+{
+  "generated_utc": "2026-09-27T21:40:26.342949+00:00",
+  "blend": "C:\\Users\\Mark\\Documents\\Codex\\2026-09-25\\files-pasted-by-the-user-open\\work\\animation-software-standalone\\ORIGINAL_V1_WORK\\HomeGymPT_Male_ORIGINAL_v1.blend",
+  "pass": true,
+  "blocker_count": 0,
+  "warning_count": 0,
+  "blockers": [],
+  "warnings": [],
+  "counts": {
+    "objects": 2,
+    "meshes": 1,
+    "armatures": 1,
+    "materials": 1,
+    "images": 2,
+    "actions": 0
+  }
+}

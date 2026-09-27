@@ -45,6 +45,14 @@ audit stages pass. Continue with `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` while the
 physical browser gate remains open. Do not remove Drei or weaken the gate merely
 to reduce the dependency count.
 
+`PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` has now completed successfully with
+Blender 5.2.1 LTS. O1 blank-source proof passes: 3,890 vertices, 7,280 triangles,
+53 clean historical reference bones, zero clean-room audit blockers/warnings,
+and no legacy import or projection. The Blend is open locally and remains
+ignored by the repository as intended; its provenance JSON and audit evidence
+are checkpointed. Continue with independent canonical-v4 target dimensions and
+O2 neutral anatomy. Do not treat the 53-bone reference armature as canonical v4.
+
 ## Objective
 
 Prepare Home Gym PT so the distributable product contains no third-party runtime code or third-party creative assets.

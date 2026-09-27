@@ -1,28 +1,28 @@
 # Standalone remote progress
 
-- UTC timestamp: 2026-09-27T21:37:11Z
+- UTC timestamp: 2026-09-27T21:41:51Z
 - local task start time: continued from the earlier 2026-09-27 standalone run
 - branch: `work/standalone-first-party-audit-20260927`
-- current HEAD before checkpoint: `4f178400c0a2646f1d4ca68c80ff61a1d254ce63`
+- current HEAD before checkpoint: `5acab2f65fb7ac78b41fc7a9f843f75ccc9815c0`
 - progress_status: ACTIVE
-- progress_counter: 4
+- progress_counter: 5
 - controller state: standalone migration running directly; no external controller
 - safe-runner state: active locked npm environment; no reinstall/reset/clean performed
-- Blender state: running, clean-room preparation not yet invoked
-- current phase: post-Transform standalone audit checkpoint
+- Blender state: running with verified `HomeGymPT_Male_ORIGINAL_v1.blend` open
+- current phase: ORIGINAL v1 — O1 blank-source proof checkpoint
 - current digit: not applicable
-- current repair strategy/attempt number: first-party Transform adapter, attempt 1
-- exact operation: publishing the standalone audit reports and blocker counts
-- most recent operation completed: complete post-Transform standalone audit
-- latest checkpoint: Transform checkpoint pushed at `4f17840`
-- latest numeric gate: audit blockers — 5 direct runtime dependencies, 126 bare imports, 0 operational legacy assets, 9 MakeHuman-derived runtime source files
+- current repair strategy/attempt number: deterministic clean-room scaffold, attempt 1
+- exact operation: publishing ORIGINAL v1 provenance and Blender audit evidence
+- most recent operation completed: `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat`
+- latest checkpoint: standalone audit pushed at `5acab2f`
+- latest numeric gate: 3,890 vertices; 7,280 triangles; 53 reference bones; 0 clean-room blockers; 0 warnings
 - latest visual gate: OPEN — localhost in-app browser does not execute the Vite module app; physical Grid/Orbit/touch/Transform review pending
-- latest relevant report: `reports/standalone_audit_summary.json`
-- geometry changed since previous heartbeat: false
-- audit/render currently running: false; audit completed with the two expected final gates failing
+- latest relevant report: `reports/original_v1_blender_audit.json`
+- geometry changed since previous heartbeat: true — clean project-authored scaffold generated; no legacy import/projection
+- audit/render currently running: false; clean-room audit PASS
 - Work appears blocked/waiting: false; only the physical visual gate is unavailable in this environment
-- last error: expected final-character-runtime and release-readiness failures; no unexpected audit-stage failure
-- next expected operation: commit/push audit checkpoint, then run `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat`
-- approximate battery: 99%
+- last error: first launcher attempt could not auto-discover Blender; rerun with installed Blender 5.2.1 path completed successfully
+- next expected operation: commit/push O1 checkpoint, then define independent canonical-v4 target dimensions before O2 modelling
+- approximate battery: 97%
 - approximate Work usage remaining: unavailable
 - possible_stall: false

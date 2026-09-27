@@ -1,0 +1,41 @@
+{
+  "asset_id": "HomeGymPT_Male_ORIGINAL_v1",
+  "created_utc": "2026-09-27T21:39:23.143067+00:00",
+  "clean_room": true,
+  "starting_geometry": "blank",
+  "legacy_geometry_imported": false,
+  "source_branch": "work/standalone-first-party-audit-20260927",
+  "source_head": "5acab2f65fb7ac78b41fc7a9f843f75ccc9815c0",
+  "blend_path": "ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend",
+  "blend_sha256": "33f67e42fb8f5bb524b72bfb7b0aee6e3656f853e1c54e6a53034881161f21bf",
+  "blender_version": "5.2.1 LTS",
+  "collections": [
+    "ORIGINAL_BODY",
+    "ORIGINAL_CLOTHING",
+    "ORIGINAL_RIG",
+    "ANATOMY_GUIDES",
+    "VALIDATION_HELPERS"
+  ],
+  "prohibited_sources": [
+    "V5/V6/V7/V8 imported character lineage",
+    "CORNER_FINAL",
+    "V9-V15 character candidates",
+    "MakeHuman anatomical body arrays",
+    "legacy skin weights/UVs/materials/source rig transforms"
+  ],
+  "scaffold": {
+    "status": "clean_project_authored_scaffold_not_production",
+    "generated_utc": "2026-09-27T21:40:18.658650+00:00",
+    "profile_commit": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
+    "profile_blob_sha": "ee56a49bfb2e32530520fd1811ed9427460256bd",
+    "historical_mesh_algorithm_blob_sha": "0216035a6574a0b753f8716f49e603967923f68f",
+    "historical_clean_rig_commit": "287f72c6a6ac9b1dcd771946ef548d77a40b8ea1",
+    "historical_clean_rig_blob_sha": "5c0182ae6db57e8de99547aa96d80216105a36ba",
+    "vertex_count": 3890,
+    "triangle_count": 7280,
+    "bone_count": 53,
+    "third_party_geometry_imported": false,
+    "legacy_projection_used": false,
+    "next_required_rig": "hgpt_canonical_v4_original"
+  }
+}

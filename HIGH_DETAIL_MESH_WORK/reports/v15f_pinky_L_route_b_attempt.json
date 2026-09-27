@@ -1,0 +1,39 @@
+{
+  "strategy": "Route B upstream pinky_L surface and topology rebuild",
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "output": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_pinky_L_route_b_trial.blend",
+  "scope": "pinky_L only; direct push-up contacts exact",
+  "fairing_iterations": [
+    {
+      "iteration": 1,
+      "updated_vertices": 883
+    },
+    {
+      "iteration": 2,
+      "updated_vertices": 883
+    },
+    {
+      "iteration": 3,
+      "updated_vertices": 883
+    }
+  ],
+  "moved_vertices_by_contact_distance": {
+    "1": 58,
+    "2": 124,
+    "3": 109,
+    "4": 592
+  },
+  "maximum_ring_L_move_mm": 0.7635732739834876,
+  "joined_quads": 727,
+  "removed_ring_edges": 246,
+  "added_ring_edges": 246,
+  "direct_contact_max_move_mm": 0.0,
+  "outside_ring_L_max_move_mm": 0.0,
+  "weight_rows_changed": 0,
+  "vertices_added_or_removed": 0,
+  "faces_added_or_removed": 0,
+  "uv_layers_preserved": [
+    "UVMap",
+    "UVMap.001"
+  ]
+}

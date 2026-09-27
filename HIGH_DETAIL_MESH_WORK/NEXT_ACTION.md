@@ -1,16 +1,16 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
-## 2026-09-27 V15f rings passed; continue pinky_L
+## 2026-09-27 V15f rings and pinky_L passed; continue pinky_R
 
 Checkpoint 005 is the accepted ring-left proof. Route B passed the official
 numeric and visual gates with direct push-up contacts, skin rows, non-ring
 geometry, UV layers and topology health preserved.
 
-Checkpoint 006 contains the accepted ring-left and ring-right work. Apply the
-same upstream surface/topology strategy to pinky-left only in a new trial.
-Audit it before copying it into the active candidate, checkpoint the accepted
-result, then run `AUDIT_V15F_DIGIT.bat pinky_L`. Do not touch pinky-right,
-index/middle, grip refitting or Phase C until the ordered gates allow it.
+Checkpoint 007 contains the accepted rings and pinky-left work. Apply the same
+upstream surface/topology strategy to pinky-right only in a new trial. Audit it
+before copying it into the active candidate, checkpoint the accepted result,
+then run `AUDIT_V15F_DIGIT.bat pinky_R`. Do not touch index/middle, grip
+refitting or Phase C until the ordered gates allow it.
 
 ## Prepared next attempt: V15f local ring/pinky reconstruction
 

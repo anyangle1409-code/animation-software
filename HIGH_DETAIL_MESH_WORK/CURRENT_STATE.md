@@ -23,8 +23,10 @@ from 0.01656 to 0.00689, with no severe-fold regression. All 682 protected
 push-up contacts, original skin rows, non-ring geometry, UV layers, rig and
 runtime mechanics remain unchanged. The matching ring-right propagation also
 passes: >35 improved from 0.04502 to 0.02659, >50 from 0.01710 to 0.00654,
-and its single >100-degree fold was removed. Continue with pinky-left only;
-Stage B and Phase C remain held.
+and its single >100-degree fold was removed. Pinky-left also passes, reducing
+>35 from 0.05195 to 0.04676, >50 from 0.02303 to 0.01654 and removing both
+>100-degree folds. Continue with pinky-right only; Stage B and Phase C remain
+held.
 
 This file is the authoritative entry point for the high-detail mesh review workspace.
 

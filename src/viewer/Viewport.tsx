@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Grid, OrbitControls, TransformControls } from '@react-three/drei';
+import { OrbitControls, TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -19,6 +19,7 @@ import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
 import { advancePlaybackTime } from '../editor/playback';
 import { equipmentSocketForInstance } from '../equipment/library';
+import { ReferenceGridView } from './ReferenceGridView';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -382,16 +383,7 @@ export function Viewport() {
         <HandleGizmo />
 
         {showGrid && !backdrop.floorless && (
-          <Grid
-            args={[12, 12]}
-            cellSize={0.25}
-            cellColor={backdrop.cell}
-            sectionSize={1}
-            sectionColor={backdrop.section}
-            fadeDistance={14}
-            infiniteGrid
-            position={[0, 0.001, 0]}
-          />
+          <ReferenceGridView cellColor={backdrop.cell} sectionColor={backdrop.section} />
         )}
         {!backdrop.floorless && (
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>

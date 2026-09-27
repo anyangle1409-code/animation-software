@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildHgReferenceGrid } from './referenceGrid';
+import { buildHgReferenceGrid, buildHgReferenceGridBuffers } from './referenceGrid';
 
 describe('first-party reference grid geometry', () => {
   it('recreates the current 12 m / 0.25 m / 1 m studio grid', () => {
@@ -19,5 +19,13 @@ describe('first-party reference grid geometry', () => {
   it('rejects invalid spacing rather than producing corrupt geometry', () => {
     expect(() => buildHgReferenceGrid({ cellSize: 0 })).toThrow(/positive/);
     expect(() => buildHgReferenceGrid({ sectionSize: -1 })).toThrow(/positive/);
+  });
+
+  it('packs major and minor segments into separate renderer-neutral buffers', () => {
+    const buffers = buildHgReferenceGridBuffers();
+    expect(buffers.major).toBeInstanceOf(Float32Array);
+    expect(buffers.minor).toBeInstanceOf(Float32Array);
+    expect(buffers.major).toHaveLength(26 * 2 * 3);
+    expect(buffers.minor).toHaveLength(72 * 2 * 3);
   });
 });

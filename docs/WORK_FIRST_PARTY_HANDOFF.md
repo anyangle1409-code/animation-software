@@ -1,5 +1,25 @@
 # GPT Work handoff — first-party standalone transition
 
+## Current implementation checkpoint — 2026-09-27
+
+V15f is preserved on its separate legacy branch. Standalone preparation is
+verified: 933 tests passed with one intentional skip, typecheck/build passed,
+and dependency-creep, external-resource and runtime-network guards passed.
+
+The live Reference Grid increment is complete on this branch and is ready for a
+durable checkpoint. Its focused tests, typecheck and build pass. The full
+regression had three parallel-load timeouts, and all affected tests passed in an
+isolated rerun (41/41). The in-app localhost browser could not execute the module
+application, so the Grid visual gate is explicitly open rather than falsely
+marked pass.
+
+Continue with first-party Orbit controls next. Preserve the exact camera preset
+behavior, focus-camera updates, desktop rotate/zoom, 0.6–12 m distance envelope,
+0.12 damping characteristic, and iPhone one-finger rotate/two-finger pinch zoom.
+Do not begin Transform gizmo until Orbit has its own focused/typecheck/build/full
+regression checkpoint. Do not remove Drei while either OrbitControls or
+TransformControls remains live.
+
 ## Objective
 
 Prepare Home Gym PT so the distributable product contains no third-party runtime code or third-party creative assets.

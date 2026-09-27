@@ -26,6 +26,37 @@ A distributable Home Gym PT product with no third-party runtime implementation a
 | Release readiness gate | prepared | must eventually PASS |
 | Release asset allowlist | deny-by-default prepared | populate only with approved first-party output |
 
+## 2026-09-27 live Reference Grid checkpoint
+
+The first Drei migration increment is implemented in the live viewport:
+
+- `ReferenceGridView` renders the project-owned 12 m grid through the current
+  temporary R3F/Three adapter;
+- minor 0.25 m cells and major 1 m sections are packed separately from the
+  renderer-neutral `referenceGrid` data;
+- the live viewport no longer imports or mounts Drei `Grid`;
+- Drei remains installed because OrbitControls and TransformControls have not
+  yet been replaced.
+
+Validation:
+
+- focused grid tests: 4 passed;
+- typecheck: passed;
+- production build: passed;
+- complete regression: 931 passed, 1 skipped, with three timeout-only failures
+  under parallel load;
+- isolated rerun of the two affected files: 41 passed, confirming the two calf
+  foot cases and the generator case without changing code or thresholds.
+
+The visual browser gate remains **OPEN**. The available in-app browser loaded
+the localhost HTML but did not execute the module application and returned a
+blank root without console errors. Do not report visual parity as passing from
+that surface. Continue with the prepared Orbit adapter while preserving this
+explicit review item for a compatible local browser.
+
+Next implementation increment: first-party Orbit controls, including desktop
+mouse orbit/zoom and iPhone one-finger rotate plus two-finger pinch zoom.
+
 ## Prepared commands
 
 ```bat

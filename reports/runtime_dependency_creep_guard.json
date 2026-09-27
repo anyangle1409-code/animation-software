@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-09-27T16:59:13.526Z",
+  "pass": true,
+  "currentRuntimeDependencies": [
+    "@react-three/drei",
+    "@react-three/fiber",
+    "react",
+    "react-dom",
+    "three"
+  ],
+  "currentCount": 5,
+  "allowedMigrationCeiling": [
+    "@react-three/drei",
+    "@react-three/fiber",
+    "react",
+    "react-dom",
+    "three"
+  ],
+  "newlyIntroduced": [],
+  "finalTarget": [],
+  "note": "PASS only means no new runtime dependency has crept in. Final standalone readiness still requires currentCount=0."
+}

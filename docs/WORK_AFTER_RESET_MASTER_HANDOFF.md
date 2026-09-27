@@ -188,3 +188,34 @@ Then verify in Blender:
 - provenance JSON says `third_party_geometry_imported: false`.
 
 Do not treat the 53-bone reference rig as canonical v4. Its purpose is to reconstruct the clean historical procedural surface. Build/rebind to `hgpt_canonical_v4_original` as the next rig phase.
+
+
+## Pre-reset standalone preparation checkpoint
+
+Before doing new standalone implementation, read:
+`docs/PRE_RESET_STANDALONE_CHECKPOINT.md`
+
+New prepared foundations since the earlier handoff:
+- `VERIFY_STANDALONE_PREP.bat`;
+- `npm run audit:standalone`;
+- runtime dependency anti-creep gate;
+- runtime network/API gate;
+- production-output third-party audit;
+- `src/core/linearMath.ts` + tests (isolated, not integrated);
+- `src/core/glbContainer.ts` + tests (isolated, not integrated);
+- `src/core/gltfAccessors.ts` + tests (isolated, not integrated);
+- verified runtime dependency usage map;
+- standalone prompt-generation audit.
+
+After V15f benchmark preservation, the **first standalone action** is now:
+
+```
+VERIFY_STANDALONE_PREP.bat
+```
+
+Do not connect the prepared math/GLB implementations to production until their
+isolated tests pass and temporary parity tests against the current Three-based
+implementation are in place.
+
+The prompt generator must remain operationally local: do not add a hosted AI/API
+runtime dependency.

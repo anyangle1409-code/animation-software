@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "asset": "HGPT project-authored procedural profile scaffold",
+  "status": "approved_clean_scaffold_candidate",
+  "pinned_commit": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
+  "commit_parent": "287f72c6a6ac9b1dcd771946ef548d77a40b8ea1",
+  "created_at": "2026-09-08T17:31:25Z",
+  "files": [
+    {
+      "path": "src/body/profiles.ts",
+      "blob_sha": "ee56a49bfb2e32530520fd1811ed9427460256bd",
+      "role": "project-authored body cross-section/profile specification"
+    },
+    {
+      "path": "src/body/mesh.ts",
+      "blob_sha": "0216035a6574a0b753f8716f49e603967923f68f",
+      "role": "historical profile-loft implementation; algorithm concept retained, Three.js implementation not part of final standalone runtime"
+    },
+    {
+      "path": "src/body/body.test.ts",
+      "blob_sha": "d02b6a3f9d26d56ba67c9ee725f8dd7e85566b94",
+      "role": "historical proportion/topology tests"
+    }
+  ],
+  "chronology": {
+    "procedural_profile_body_added": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
+    "makehuman_reference_added_later": "fe1700bde766454a841e5726158d97bb75186271",
+    "makehuman_invalid_remap_withdrawn": "1f84e6b58dcfccd366a4ac1a45c09decebba88bf"
+  },
+  "allowed_for_original_v1": [
+    "project-authored numerical cross-section/profile ideas from the pinned commit",
+    "profile-loft topology concept",
+    "historical proportion tests as design constraints",
+    "project-authored two-bone joint blend concept"
+  ],
+  "forbidden": [
+    "MakeHuman anatomical arrays introduced later",
+    "imported/high-detail Home Gym PT mesh lineage",
+    "legacy weights/UVs/textures/source-rig transforms",
+    "later profile values unless separately provenance-audited"
+  ],
+  "note": "Engineering provenance record; not a legal opinion."
+}

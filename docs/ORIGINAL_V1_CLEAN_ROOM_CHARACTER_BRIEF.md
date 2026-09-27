@@ -13,7 +13,7 @@ Suggested asset identity:
 
 ## Clean-room rule
 
-Begin from a blank/new Blender scene and newly created mesh.
+Begin from a blank/new Blender scene. The initial mesh may either be authored manually or generated from the **pinned project-authored procedural profile scaffold at commit `e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62`**, as defined in `ORIGINAL_V1_PROCEDURAL_SCAFFOLD_DECISION.md`. Do not use current profile values unless separately audited.
 
 Do not:
 - duplicate/import legacy body geometry into the modelling file as a mesh source;

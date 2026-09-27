@@ -4,6 +4,7 @@ import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { HgPoseEvaluation, hgCanonicalSkeleton } from './firstPartySkeleton';
+import { HgVec3 } from '../core/linearMath';
 
 const EPS = 2e-11;
 
@@ -16,16 +17,14 @@ describe('first-party skeleton parity', () => {
       const hg = hgCanonicalSkeleton.bone(current.name);
       expect(hg.parent).toBe(current.parent);
       expect(Math.abs(hg.length - current.length), current.name).toBeLessThan(EPS);
-      expect(hg.restHead.distanceTo({
-        x: current.restHead.x,
-        y: current.restHead.y,
-        z: current.restHead.z,
-      } as never), current.name).toBeLessThan(EPS);
-      expect(hg.restTail.distanceTo({
-        x: current.restTail.x,
-        y: current.restTail.y,
-        z: current.restTail.z,
-      } as never), current.name).toBeLessThan(EPS);
+      expect(
+        hg.restHead.distanceTo(new HgVec3(current.restHead.x, current.restHead.y, current.restHead.z)),
+        current.name,
+      ).toBeLessThan(EPS);
+      expect(
+        hg.restTail.distanceTo(new HgVec3(current.restTail.x, current.restTail.y, current.restTail.z)),
+        current.name,
+      ).toBeLessThan(EPS);
 
       const restDot = Math.abs(
         hg.restWorldQuaternion.x * current.restWorldQuaternion.x +

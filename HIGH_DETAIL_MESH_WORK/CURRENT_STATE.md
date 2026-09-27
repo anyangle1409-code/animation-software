@@ -10,6 +10,16 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f Stage B index-left accepted
+
+Checkpoint 009 contains the accepted index-left increment. Its official numeric
+gate passes: the >35-degree sharp-length ratio improved from 0.03568 to 0.03411
+and the >50-degree ratio from 0.01456 to 0.01317, with no >100-degree fold.
+The matched four-view visual gate also passes with a modest reduction in shaft
+segmentation and no new pinch, crease or volume loss. All 682 protected push-up
+contacts, skin rows, non-target geometry, UV layers, rig and runtime mechanics
+remain unchanged. Continue Stage B with index-right only. Phase C remains held.
+
 ## 2026-09-27 V15f ring-left accepted proof checkpoint
 
 Route A proved that limited anchor-buffer movement was safe but failed the visual
@@ -27,8 +37,8 @@ and its single >100-degree fold was removed. Pinky-left also passes, reducing
 >35 from 0.05195 to 0.04676, >50 from 0.02303 to 0.01654 and removing both
 >100-degree folds. Pinky-right passes at 0.04706 / 0.01695 with no severe
 folds. All four ordered Stage A digit gates and the combined numeric/visual
-review now pass; checkpoint 008 is the current recovery point. Continue Stage B
-with index-left only. Phase C remains held.
+review now pass; checkpoint 008 is the Stage A recovery point. Checkpoint 009
+adds the accepted index-left work described above.
 
 This file is the authoritative entry point for the high-detail mesh review workspace.
 

@@ -53,6 +53,8 @@ def setup(body):
     sc.render.engine="BLENDER_WORKBENCH"
     sc.render.resolution_x=900;sc.render.resolution_y=900;sc.render.resolution_percentage=100
     sc.render.image_settings.file_format="PNG";sc.render.film_transparent=False
+    if sc.world is None:
+        sc.world=bpy.data.worlds.new("V15f Stage B Review World")
     sc.world.color=(.12,.12,.12);sc.view_settings.view_transform="Standard"
     sh=sc.display.shading;sh.light="STUDIO";sh.studiolight_rotate_z=.4
     sh.color_type="SINGLE";sh.single_color=(.62,.62,.62)

@@ -1,0 +1,16 @@
+{
+  "digit": "index_L",
+  "decision": "PASS",
+  "pass": true,
+  "notes": "Matched four-view review shows a modest but consistent reduction in shaft segmentation without new pinching, crease, or volume loss; accepted as the left-index Stage-B increment.",
+  "surface_fingerprint_sha256": "bbaca16794953a236509204d998d761fac6cb020a2addb7727827cb62d45ce6e",
+  "board": "renders_v15f_stage_b\\index_L\\V15F_V13E_INDEX_L_PROOF.jpg",
+  "recorded_utc": "2026-09-27T11:54:12.181708+00:00",
+  "criteria": [
+    "index_L visibly improved or at minimum not more segmented than V13e",
+    "no new pinching or razor crease",
+    "joint/shaft volume remains anatomical",
+    "approved ring/pinky appearance remains untouched"
+  ],
+  "promotion": "none"
+}

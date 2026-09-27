@@ -1,0 +1,70 @@
+{
+  "digit": "index_L",
+  "baseline": {
+    "owned_vertices": 1195,
+    "center": [
+      0.8268303871154785,
+      -0.23419272899627686,
+      1.1664793491363525
+    ],
+    "extent": [
+      0.07374972105026245,
+      0.07485789060592651,
+      0.0506061315536499
+    ],
+    "images": {
+      "yneg": "V13e_index_L_yneg.png",
+      "ypos": "V13e_index_L_ypos.png",
+      "xside": "V13e_index_L_xside.png",
+      "oblique": "V13e_index_L_oblique.png"
+    }
+  },
+  "candidate": {
+    "owned_vertices": 1195,
+    "center": [
+      0.8267194032669067,
+      -0.2343115210533142,
+      1.1664097309112549
+    ],
+    "extent": [
+      0.07340306043624878,
+      0.0746203064918518,
+      0.05046689510345459
+    ],
+    "images": {
+      "yneg": "V15f_index_L_yneg.png",
+      "ypos": "V15f_index_L_ypos.png",
+      "xside": "V15f_index_L_xside.png",
+      "oblique": "V15f_index_L_oblique.png"
+    }
+  },
+  "camera_focus_from_v13e": [
+    0.8268303871154785,
+    -0.23419272899627686,
+    1.1664793491363525
+  ],
+  "ortho_scale": 0.12351551949977874,
+  "views": {
+    "yneg": [
+      0.0,
+      -1.0,
+      0.18000000715255737
+    ],
+    "ypos": [
+      0.0,
+      1.0,
+      0.18000000715255737
+    ],
+    "xside": [
+      1.0,
+      0.0,
+      0.11999999731779099
+    ],
+    "oblique": [
+      0.7200000286102295,
+      -0.7200000286102295,
+      0.3199999928474426
+    ]
+  },
+  "promotion": "none"
+}

@@ -1,0 +1,39 @@
+{
+  "strategy": "Route B upstream index_R surface and topology rebuild",
+  "source": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
+  "output": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_index_R_route_b_trial.blend",
+  "scope": "index_R only; direct push-up contacts exact",
+  "fairing_iterations": [
+    {
+      "iteration": 1,
+      "updated_vertices": 1179
+    },
+    {
+      "iteration": 2,
+      "updated_vertices": 1179
+    },
+    {
+      "iteration": 3,
+      "updated_vertices": 1179
+    }
+  ],
+  "moved_vertices_by_contact_distance": {
+    "1": 72,
+    "2": 170,
+    "3": 154,
+    "4": 783
+  },
+  "maximum_ring_L_move_mm": 0.6974193007864609,
+  "joined_quads": 925,
+  "removed_ring_edges": 281,
+  "added_ring_edges": 281,
+  "direct_contact_max_move_mm": 0.0,
+  "outside_ring_L_max_move_mm": 0.0,
+  "weight_rows_changed": 0,
+  "vertices_added_or_removed": 0,
+  "faces_added_or_removed": 0,
+  "uv_layers_preserved": [
+    "UVMap",
+    "UVMap.001"
+  ]
+}

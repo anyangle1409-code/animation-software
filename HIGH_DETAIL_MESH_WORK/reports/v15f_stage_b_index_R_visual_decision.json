@@ -1,0 +1,16 @@
+{
+  "digit": "index_R",
+  "decision": "PASS",
+  "pass": true,
+  "notes": "Matched four-view review shows the same modest bilateral shaft cleanup as index-left, with no new pinching, razor crease, asymmetrical volume change, or regression to accepted digits.",
+  "surface_fingerprint_sha256": "421f77dc265d8c37f81442f75ebe91ce9b6e60ec1a574416974d84f68d541692",
+  "board": "renders_v15f_stage_b\\index_R\\V15F_V13E_INDEX_R_PROOF.jpg",
+  "recorded_utc": "2026-09-27T11:57:50.163314+00:00",
+  "criteria": [
+    "index_R visibly improved or at minimum not more segmented than V13e",
+    "no new pinching or razor crease",
+    "joint/shaft volume remains anatomical",
+    "approved ring/pinky appearance remains untouched"
+  ],
+  "promotion": "none"
+}

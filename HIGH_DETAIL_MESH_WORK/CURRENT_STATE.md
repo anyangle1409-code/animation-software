@@ -10,6 +10,15 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f Stage B index pair accepted
+
+Checkpoint 010 contains both accepted index increments. Index-right passes the
+official numeric gate (>35: 0.03568 to 0.03411; >50: 0.01456 to 0.01318; no
+>100-degree fold) and its matched four-view review confirms the same modest
+bilateral shaft cleanup with no pinch, razor crease or asymmetric volume loss.
+All protected contacts, weights, non-target geometry and earlier approved
+finger fingerprints remain exact. Continue Stage B with middle-left only.
+
 ## 2026-09-27 V15f Stage B index-left accepted
 
 Checkpoint 009 contains the accepted index-left increment. Its official numeric

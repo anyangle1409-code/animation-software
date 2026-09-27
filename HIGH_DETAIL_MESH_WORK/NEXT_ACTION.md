@@ -1,6 +1,17 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
-## 2026-09-27 V15f index-left accepted; continue index_R
+## 2026-09-27 V15f index pair accepted; continue middle_L
+
+Checkpoint 010 contains accepted index-left and index-right Stage B work. Both
+numeric and matched visual gates pass, while Stage A, contacts, weights and
+non-target geometry remain frozen. Apply the accepted topology strategy to
+middle-left in a separate trial, then run its numeric and visual gates before
+touching middle-right. Do not start grip refitting or Phase C.
+
+## 2026-09-27 V15f index-left accepted
+
+Index-right has now also passed and checkpoint 010 supersedes checkpoint 009
+as the current recovery point.
 
 Checkpoint 009 contains the accepted index-left Stage B increment. Its numeric
 and matched visual gates pass, while all protected contacts, weights,

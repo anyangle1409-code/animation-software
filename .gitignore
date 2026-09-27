@@ -6,3 +6,8 @@ coverage/
 .vite/
 scratchpad
 HOME_GYM_PT_GPT_MESH_HANDOFF.zip
+ORIGINAL_V1_WORK/*.blend
+ORIGINAL_V1_WORK/*.blend1
+ORIGINAL_V1_WORK/*.glb
+ORIGINAL_V1_WORK/*.fbx
+ORIGINAL_V1_WORK/checkpoints/

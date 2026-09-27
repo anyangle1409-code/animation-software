@@ -1,5 +1,5 @@
 {
-  "controller_state": "running",
+  "controller_state": "stopped",
   "safe_runner_state": "stopped",
   "branch": "work/v15-deep-hand-rebuild-prep-20260925",
   "head": "b91abea24b0ff8aadf58cc7d08443985e3aa7614",
@@ -20,6 +20,6 @@
   "next_action": "Repair ring_L only, save/checkpoint, then rerun AUDIT_V15F_RING_PROOF.bat",
   "reason": "The current ring_L visual proof is explicitly marked FAIL.",
   "route": "GPT_WORK",
-  "snapshot_generated_utc": "2026-09-27T10:15:25Z",
+  "snapshot_generated_utc": "2026-09-27T10:17:09Z",
   "schema": 1
 }

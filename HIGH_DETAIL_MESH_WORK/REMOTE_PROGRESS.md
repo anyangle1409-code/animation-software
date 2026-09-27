@@ -1,19 +1,19 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T10:15:04Z
+- UTC timestamp: 2026-09-27T10:17:06Z
 - local task start time if known: 2026-09-26T21:32:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: b91abea24b0ff8aadf58cc7d08443985e3aa7614
-- controller state: running
+- current HEAD: 08c1aa6de466d4e7bed03a8ad4277c14b26aed94
+- controller state: stopped
 - safe-runner state: stopped
-- Blender state: running
-- current phase: V15f unattended stop; heartbeat tooling installed
+- Blender state: unavailable
+- current phase: Low-battery unattended stop
 - current digit: ring_L
 - current repair strategy/attempt number: three geometry strategies exhausted
-- exact operation currently being performed: Publish final heartbeat after installing persistent remote heartbeat instructions and tooling
-- current operation start time: 2026-09-27T10:15:04Z
+- exact operation currently being performed: Stop long-running Blender and controller processes after final saved-state verification
+- current operation start time: 2026-09-27T10:17:06Z
 - current operation elapsed time: 00:00:00
-- most recent operation completed: Heartbeat instructions, writer, sync allowlist and focused test committed and pushed
+- most recent operation completed: Candidate saved and hash-verified; heartbeat tooling pushed; Blender closed; controller stop requested
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
 - latest numeric gate: active checkpoint 004 PASS; strategy 3 PASS
 - latest visual gate: active checkpoint 004 FAIL; strategy 3 FAIL
@@ -23,12 +23,12 @@
 - geometry changed since previous heartbeat: false
 - audit/render currently running: false
 - Work appears blocked/waiting: true
-- last error: none in heartbeat tooling
-- next expected operation: Project-level decision on candidate-only anchor-buffer-only movement with direct contacts exact, or upstream topology rebuild before contact freezing
-- approximate battery percentage: 11
+- last error: none; battery safety stop
+- next expected operation: Reconnect power, then make project-level decision on anchor-buffer-only movement or upstream topology rebuild
+- approximate battery percentage: 14
 - approximate Work usage remaining: 58% five-hour; 93% weekly reported at unattended-run start
 - progress_status: BLOCKED
-- progress_counter: 4
+- progress_counter: 5
 - possible_stall: false
 - same-operation heartbeat streak: 1
-- exact stop reason: Genuine frozen-rule blocker; Stage A propagation and Phase C remain held
+- exact stop reason: Battery below 20% plus existing frozen-rule blocker; saved state protected and long-running task processes stopped

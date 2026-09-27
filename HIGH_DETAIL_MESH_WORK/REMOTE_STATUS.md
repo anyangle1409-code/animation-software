@@ -1,7 +1,7 @@
 # Remote project status
 
-- timestamp: 2026-09-27T10:15:25Z
-- controller state: running
+- timestamp: 2026-09-27T10:17:09Z
+- controller state: stopped
 - safe-runner state: stopped
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
 - current HEAD: b91abea24b0ff8aadf58cc7d08443985e3aa7614

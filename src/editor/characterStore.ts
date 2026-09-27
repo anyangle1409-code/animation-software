@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { createStoreHook as create } from '../core/store';
 import type { BoneName } from '../rig/boneNames';
 import type { BoneMapping, MappingReport } from '../retargeting/boneMap';
 import { reportMapping } from '../retargeting/boneMap';

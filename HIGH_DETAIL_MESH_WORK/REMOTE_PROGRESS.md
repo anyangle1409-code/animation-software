@@ -1,30 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-26T21:54:08Z
+- UTC timestamp: 2026-09-27T10:15:04Z
 - local task start time if known: 2026-09-26T21:32:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 43ed60a0797c567d3fd2bd948de6d117dffd73bf
+- current HEAD: b91abea24b0ff8aadf58cc7d08443985e3aa7614
 - controller state: running
 - safe-runner state: stopped
 - Blender state: running
-- current phase: V15f unattended stop after Phase 3
+- current phase: V15f unattended stop; heartbeat tooling installed
 - current digit: ring_L
-- current repair strategy/attempt number: three materially distinct strategies exhausted
-- exact operation currently being performed: Preserve trials, record exact blocker, verify checkpoint 004 integrity, and publish final heartbeat
-- most recent operation completed: Strategy 3 numeric PASS and visual FAIL; all three trials preserved; active candidate verified byte-identical to checkpoint 004
+- current repair strategy/attempt number: three geometry strategies exhausted
+- exact operation currently being performed: Publish final heartbeat after installing persistent remote heartbeat instructions and tooling
+- current operation start time: 2026-09-27T10:15:04Z
+- current operation elapsed time: 00:00:00
+- most recent operation completed: Heartbeat instructions, writer, sync allowlist and focused test committed and pushed
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
 - latest numeric gate: active checkpoint 004 PASS; strategy 3 PASS
 - latest visual gate: active checkpoint 004 FAIL; strategy 3 FAIL
+- last successful gate: ring_L numeric proof PASS
+- current unresolved blocker: No visually effective repair remains under the full four-edge anchor-buffer position freeze
 - latest relevant report: reports/v15f_ring_l_unattended_stop.json; V15F_RING_L_PROTECTED_BLOCKER.md
 - geometry changed since previous heartbeat: false
 - audit/render currently running: false
 - Work appears blocked/waiting: true
-- last error: No safe visually effective repair remains under full four-edge anchor-buffer position freeze
+- last error: none in heartbeat tooling
 - next expected operation: Project-level decision on candidate-only anchor-buffer-only movement with direct contacts exact, or upstream topology rebuild before contact freezing
-- approximate battery percentage: 73
-- approximate Work usage remaining: 58% five-hour; 93% weekly reported at start
+- approximate battery percentage: 11
+- approximate Work usage remaining: 58% five-hour; 93% weekly reported at unattended-run start
 - progress_status: BLOCKED
-- progress_counter: 3
+- progress_counter: 4
 - possible_stall: false
 - same-operation heartbeat streak: 1
-- exact stop reason: Genuine frozen-rule blocker after three distinct legal strategies; Stage A propagation and Phase C remain held
+- exact stop reason: Genuine frozen-rule blocker; Stage A propagation and Phase C remain held

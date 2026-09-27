@@ -1,11 +1,11 @@
 # Remote project status
 
-- timestamp: 2026-09-26T21:54:11Z
+- timestamp: 2026-09-27T10:15:25Z
 - controller state: running
 - safe-runner state: stopped
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 8a20772687a353679751164b277e9a9c062564f0
-- working-tree state: dirty (7 modified, 62 untracked)
+- current HEAD: b91abea24b0ff8aadf58cc7d08443985e3aa7614
+- working-tree state: dirty (5 modified, 61 untracked)
 - active V15 candidate: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_profile_redistribution_trial.blend
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
 - current digit/stage: ring_L

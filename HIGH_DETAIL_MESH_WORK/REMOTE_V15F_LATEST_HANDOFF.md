@@ -1,7 +1,7 @@
 # V15f remote handoff
 
-- generated: 2026-09-27T11:25:02Z
-- candidate: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_profile_redistribution_trial.blend
+- generated: 2026-09-27T11:34:25Z
+- candidate: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_anchor_buffer_route_a_trial.blend
 - checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
 - digit/stage: ring_L
 - numeric gate: ring_L proof: PASS

@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T11:25:00Z
+- UTC timestamp: 2026-09-27T11:34:22Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: eacb8f3013fdbc8ee79eb7e3dfcda5f18f13b0c9
+- current HEAD: bdcba25612a055beb8ec25bd26632a39b8b76826
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
-- current phase: Route A anchor-buffer safety analysis
+- current phase: Route B upstream ring_L topology rebuild
 - current digit: ring_L
-- current repair strategy/attempt number: anchor-buffer analysis 1
-- exact operation currently being performed: Classifying direct-contact and anchor-buffer-only vertices and defining a proven movement envelope
-- current operation start time: 2026-09-27T11:25:00Z
+- current repair strategy/attempt number: Route B attempt 1
+- exact operation currently being performed: Recording Route A rejection and preparing an upstream topology rebuild with direct contacts frozen
+- current operation start time: 2026-09-27T11:34:22Z
 - current operation elapsed time: 00:00:00
-- most recent operation completed: Prep branch fast-forwarded; blocker evidence published; Work budgets set to 90% five-hour and 87% weekly
+- most recent operation completed: Route A trial built, audited and rendered; numeric PASS, visual FAIL
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
-- latest numeric gate: checkpoint 004 PASS; Route A not yet run
-- latest visual gate: checkpoint 004 FAIL; Route A not yet run
-- last successful gate: checkpoint 004 numeric audit PASS with direct contacts and weights exact
-- current unresolved blocker: Four-edge conservative anchor buffer contains 81.25% of ring_L problem-edge influence; direct contact set remains frozen
-- latest relevant report: V15F_RING_L_PROTECTED_BLOCKER.md and reports/v15f_ring_l_unattended_stop.json
-- geometry changed since previous heartbeat: false
+- latest numeric gate: Route A PASS: gt35 0.04267 to 0.02970; gt50 0.01618 to 0.00848; all invariants pass
+- latest visual gate: Route A FAIL: matched views remain near-identical and inherited faceting remains visible
+- last successful gate: Route A numeric audit PASS with 682 direct contacts exact and zero weight changes
+- current unresolved blocker: Route A buffer movement did not produce a clear anatomical visual improvement
+- latest relevant report: reports/v15f_anchor_buffer_route_a_gate.json and reports/v15f_anchor_buffer_route_a_visual_decision.json
+- geometry changed since previous heartbeat: true
 - audit/render currently running: false
 - Work appears blocked/waiting: false
 - last error: none
-- next expected operation: Complete Route A proof report, then run one separate bounded anchor-buffer candidate only if safety invariants are proven
-- approximate battery percentage: 87
+- next expected operation: Build one separate Route B ring_L topology candidate; validate numeric and matched visual gates before any propagation
+- approximate battery percentage: 90
 - approximate Work usage remaining: five-hour 90%; weekly 87%
 - progress_status: ACTIVE
-- progress_counter: 6
+- progress_counter: 7
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

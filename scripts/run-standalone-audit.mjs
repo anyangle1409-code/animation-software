@@ -10,6 +10,7 @@ const checks=[
   ["runtime_usage","scripts/map-third-party-runtime.mjs",false],
   ["first_party_markers","scripts/audit-first-party-markers.mjs",false],
   ["legacy_coupling","scripts/audit-legacy-character-coupling.mjs",false],
+  ["final_character_runtime","scripts/audit-final-character-runtime.mjs",true],
   ["external_runtime_resources","scripts/audit-external-runtime-resources.mjs",true],
   ["runtime_network","scripts/audit-runtime-network.mjs",true],
   ["release_readiness","scripts/check-first-party-release-readiness.mjs",true],

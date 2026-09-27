@@ -25,8 +25,10 @@ runtime mechanics remain unchanged. The matching ring-right propagation also
 passes: >35 improved from 0.04502 to 0.02659, >50 from 0.01710 to 0.00654,
 and its single >100-degree fold was removed. Pinky-left also passes, reducing
 >35 from 0.05195 to 0.04676, >50 from 0.02303 to 0.01654 and removing both
->100-degree folds. Continue with pinky-right only; Stage B and Phase C remain
-held.
+>100-degree folds. Pinky-right passes at 0.04706 / 0.01695 with no severe
+folds. All four ordered Stage A digit gates now pass; checkpoint 008 is the
+current recovery point. Run the combined Stage A numeric and visual gates next.
+Stage B and Phase C remain held.
 
 This file is the authoritative entry point for the high-detail mesh review workspace.
 

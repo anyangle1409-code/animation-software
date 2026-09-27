@@ -467,6 +467,30 @@ for blob in BODY_BLOBS:
             faces.append((a, d, c))
 
 
+EXPECTED_VERTICES = 3890
+EXPECTED_TRIANGLES = 7280
+EXPECTED_BONES = 53
+
+if len(vertices) != EXPECTED_VERTICES:
+    raise RuntimeError(
+        f"Clean scaffold vertex count drifted: {len(vertices)} != {EXPECTED_VERTICES}"
+    )
+if len(faces) != EXPECTED_TRIANGLES:
+    raise RuntimeError(
+        f"Clean scaffold triangle count drifted: {len(faces)} != {EXPECTED_TRIANGLES}"
+    )
+if len(BONES) != EXPECTED_BONES:
+    raise RuntimeError(
+        f"Clean historical rig count drifted: {len(BONES)} != {EXPECTED_BONES}"
+    )
+for index, row in enumerate(weights):
+    total = sum(row.values())
+    if abs(total - 1.0) > 1e-9:
+        raise RuntimeError(f"Vertex {index} weight sum is {total}, expected 1")
+    unknown = [name for name in row if name not in BONE_BY_NAME]
+    if unknown:
+        raise RuntimeError(f"Vertex {index} references unknown bones: {unknown}")
+
 scene = bpy.context.scene
 if not scene.get("hgpt_clean_room"):
     raise RuntimeError("Refusing to generate scaffold: scene is not marked hgpt_clean_room.")

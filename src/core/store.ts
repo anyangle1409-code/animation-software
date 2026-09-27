@@ -1,4 +1,4 @@
-import { useRef, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 
 export type StoreSet<T> = (
   update: Partial<T> | ((state: T) => Partial<T>),
@@ -53,33 +53,17 @@ export function createStoreHook<T>(
   function useStore(): T;
   function useStore<U>(selector: (state: T) => U): U;
   function useStore<U>(selector?: (state: T) => U): T | U {
-    const select = selector ?? ((value: T) => value as unknown as U);
-
-    // React requires getSnapshot to return the same identity while the store
-    // state is unchanged. Cache selector output per hook instance so selectors
-    // that construct a small object/array do not create a render loop.
-    const cache = useRef<{
-      state: T | undefined;
-      selector: ((state: T) => U) | undefined;
-      value: U | undefined;
-      ready: boolean;
-    }>({ state: undefined, selector: undefined, value: undefined, ready: false });
-
-    const snapshot = (): U => {
-      const current = get();
-      if (
-        cache.current.ready &&
-        cache.current.state === current &&
-        cache.current.selector === select
-      ) {
-        return cache.current.value as U;
-      }
-      const value = select(current);
-      cache.current = { state: current, selector: select, value, ready: true };
-      return value;
-    };
-
-    return useSyncExternalStore(subscribe, snapshot, snapshot);
+    // Subscribe to the whole state object. It is replaced on every set(), so
+    // React receives a stable snapshot until the store actually changes.
+    //
+    // Applying the selector *after* useSyncExternalStore is deliberate:
+    // selectors in the editor are commonly inline functions. Caching a selected
+    // object against selector identity can make getSnapshot unstable across
+    // renders even when the store has not changed. Whole-state subscription is
+    // a little less selective, but it is deterministic and preserves semantics
+    // for selectors that close over current component values.
+    const current = useSyncExternalStore(subscribe, get, get);
+    return selector ? selector(current) : current;
   }
 
   const hook = useStore as StoreHook<T>;

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { createStoreHook as create } from '../core/store';
 import { characterSources } from '../character';
 import { retargetedCharacterSource } from '../character/retargetSource';
 import type { CharacterBuild } from '../character';

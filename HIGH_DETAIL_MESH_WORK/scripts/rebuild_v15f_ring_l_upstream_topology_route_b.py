@@ -11,6 +11,7 @@ import bpy
 import bmesh
 import json
 import math
+import os
 import sys
 from collections import Counter, deque
 from pathlib import Path
@@ -21,9 +22,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from v15_anchor_buffer_policy import route_b_movement_cap_mm
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "checkpoints" / "v15_manual" / "v15f_deep_hand_rebuild_checkpoint_004.blend"
-OUTPUT = ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_upstream_topology_route_b_trial.blend"
-REPORT = ROOT / "reports" / "v15f_ring_l_upstream_topology_route_b_attempt.json"
+DIGIT = os.environ.get("V15_ROUTE_B_DIGIT", "ring_L")
+SOURCE = Path(os.environ.get(
+    "V15_ROUTE_B_SOURCE",
+    ROOT / "checkpoints" / "v15_manual" / "v15f_deep_hand_rebuild_checkpoint_004.blend",
+)).resolve()
+OUTPUT = Path(os.environ.get(
+    "V15_ROUTE_B_OUTPUT",
+    ROOT / "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_upstream_topology_route_b_trial.blend",
+)).resolve()
+REPORT = Path(os.environ.get(
+    "V15_ROUTE_B_REPORT",
+    ROOT / "reports" / "v15f_ring_l_upstream_topology_route_b_attempt.json",
+)).resolve()
 if OUTPUT.exists():
     raise SystemExit(f"Refusing to overwrite preserved trial: {OUTPUT.name}")
 
@@ -46,7 +57,7 @@ def members(name: str):
     return {v for v in bm.verts if v[dlay].get(gid, 0.0) > 0.5}
 
 
-owned = members("V15_RING_L")
+owned = members(f"V15_{DIGIT.upper()}")
 all_direct = members("V15_PROTECTED_PUSHUP")
 direct = all_direct & owned
 original_positions = {v.index: v.co.copy() for v in bm.verts}
@@ -190,10 +201,10 @@ bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT))
 
 payload = {
-    "strategy": "Route B upstream ring_L surface and topology rebuild",
+    "strategy": f"Route B upstream {DIGIT} surface and topology rebuild",
     "source": str(SOURCE.relative_to(ROOT)),
     "output": OUTPUT.name,
-    "scope": "ring_L only; direct push-up contacts exact",
+    "scope": f"{DIGIT} only; direct push-up contacts exact",
     "fairing_iterations": movement_rows,
     "moved_vertices_by_contact_distance": dict(sorted(distance_moves.items())),
     "maximum_ring_L_move_mm": max_ring_move,

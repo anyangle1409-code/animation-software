@@ -1,0 +1,84 @@
+{
+  "version": "v15f_deep_hand_rebuild",
+  "digit": "ring_R",
+  "baseline": {
+    "total_gt100_folds": 3,
+    "gt35": 0.045020876733017315,
+    "gt50": 0.017097751128046876,
+    "gt100_folds": 1
+  },
+  "candidate": {
+    "total_gt100_folds": 2,
+    "gt35": 0.026590481218548727,
+    "gt50": 0.0065445392246635,
+    "gt100_folds": 0,
+    "surface_fingerprint_sha256": "c3dffd2d32986ba60efbc2d8597ef3fab8c37138851bc6a5638a5aa26cbce3e7"
+  },
+  "approved_changed_digits": [
+    "ring_L",
+    "ring_R"
+  ],
+  "frozen_surface_failures": [],
+  "scope_movement": {
+    "index_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_L": {
+      "max_move_mm": 0.748885088059571,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_L": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "index_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "middle_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "ring_R": {
+      "max_move_mm": 0.6532667818254787,
+      "moved_source_vertices": 173,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    },
+    "pinky_R": {
+      "max_move_mm": 0.0,
+      "moved_source_vertices": 0,
+      "max_weight_delta": 0.0,
+      "weight_rows_changed": 0
+    }
+  },
+  "checks": {
+    "general_invariants_pass": true,
+    "previous_stage_a_surfaces_frozen": true,
+    "only_approved_sequence_digits_changed": true,
+    "total_gt100_folds_not_worse": true,
+    "digit_gt35_not_worse": true,
+    "digit_gt50_not_worse": true,
+    "digit_gt100_folds_not_worse": true
+  },
+  "pass": true,
+  "next_if_pass": "Save a checkpoint and continue only to the next planned ring/pinky digit.",
+  "next_if_fail": "Do not propagate this topology strategy. Keep edits local to the current digit."
+}

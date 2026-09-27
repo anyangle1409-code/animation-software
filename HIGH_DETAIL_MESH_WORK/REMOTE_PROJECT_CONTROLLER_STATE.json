@@ -3,7 +3,7 @@
   "safe_runner_state": "stopped",
   "branch": "work/v15-deep-hand-rebuild-prep-20260925",
   "head": "0d5b1d88b3f4148940fc120e1dec34a0067626c0",
-  "working_tree": "dirty (7 modified, 163 untracked)",
+  "working_tree": "dirty (7 modified, 165 untracked)",
   "candidate": "HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend",
   "checkpoint": "checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_012.blend",
   "current_stage": "ring_L",
@@ -20,6 +20,6 @@
   "next_action": "Repair ring_L only, save/checkpoint, then rerun AUDIT_V15F_RING_PROOF.bat",
   "reason": "The current ring_L visual proof is explicitly marked FAIL.",
   "route": "GPT_WORK",
-  "snapshot_generated_utc": "2026-09-27T15:40:44Z",
+  "snapshot_generated_utc": "2026-09-27T16:07:55Z",
   "schema": 1
 }

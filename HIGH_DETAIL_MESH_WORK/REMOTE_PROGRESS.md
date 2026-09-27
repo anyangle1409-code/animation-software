@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T15:40:24Z
+- UTC timestamp: 2026-09-27T16:07:52Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 0d5b1d88b3f4148940fc120e1dec34a0067626c0
+- current HEAD: 7046e854f6eee1dca4b9e5854c0cc7f5e0e7df82
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
 - current phase: V15f legacy benchmark final validation
 - current digit: complete
-- current repair strategy/attempt number: latest-source integration attempt 2
-- exact operation currently being performed: Installing disposable current-source validation dependencies with pnpm, then running source and candidate regression suites
-- current operation start time: 2026-09-27T15:40:24Z
+- current repair strategy/attempt number: focused latest-source integration attempt 3
+- exact operation currently being performed: Running current-source self-collision, equipment, retarget, palm and unmapped-bone comparisons across production, V8, V13e and V15f
+- current operation start time: 2026-09-27T16:07:52Z
 - current operation elapsed time: 00:00:01
-- most recent operation completed: Full Blender audit and frozen-runtime matched review PASS; candidate GLB and bare variant exported
+- most recent operation completed: Full source suite: 878 passed, 1 unrelated neck-test timeout preserved in log; focused candidate comparison started
 - latest checkpoint: v15f_deep_hand_rebuild_checkpoint_012.blend
-- latest numeric gate: Full invariant PASS; 682 contacts exact; non-hand 0 mm; weight rows unchanged; severe folds 3 to 0
-- latest visual gate: Complete matched V13e/V15f hand review rendered; change signal exceeds rejected V14e benchmark
-- last successful gate: V15 frozen runtime, five exercise suite, floor contacts, matched review PASS
+- latest numeric gate: Frozen gates PASS; current-source focused scan actively progressing with high CPU use
+- latest visual gate: Complete V13e/V15f hand boards generated; full visual workflow PASS
+- last successful gate: V15f frozen runtime and matched visual workflow PASS
 - current unresolved blocker: none
-- latest relevant report: reports/v15f_deep_hand_rebuild_frozen_pipeline_status.json; reports/v15f_deep_hand_rebuild_visual_change.json
+- latest relevant report: reports/current_source_v15f_deep_hand_rebuild/full_source_suite.log; v15f_latest_source_focused_console.log
 - geometry changed since previous heartbeat: false
 - audit/render currently running: true
 - Work appears blocked/waiting: false
-- last error: npm absent; validator now uses available pnpm in disposable worktree
-- next expected operation: Complete latest-source integration, summarize benchmark, publish, then switch to standalone branch
+- last error: One unrelated source neck test timed out at 5 seconds; no candidate failure observed
+- next expected operation: Finish focused comparison, publish legacy benchmark, then switch to standalone-first-party branch
 - approximate battery percentage: 100%, charging
 - approximate Work usage remaining: not currently exposed
 - progress_status: ACTIVE
-- progress_counter: 12
+- progress_counter: 13
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

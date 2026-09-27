@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T12:02:29Z
+- UTC timestamp: 2026-09-27T15:40:24Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: aaed0df109fcf4ccbf3162f4719f5fb5465d0bf5
+- current HEAD: 0d5b1d88b3f4148940fc120e1dec34a0067626c0
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
-- current phase: V15f full hand validation
-- current digit: all completed
-- current repair strategy/attempt number: Full audit, attempt 1
-- exact operation currently being performed: Publishing checkpoint 012, then running full V15f audit and combined review
-- current operation start time: 2026-09-27T12:02:29Z
+- current phase: V15f legacy benchmark final validation
+- current digit: complete
+- current repair strategy/attempt number: latest-source integration attempt 2
+- exact operation currently being performed: Installing disposable current-source validation dependencies with pnpm, then running source and candidate regression suites
+- current operation start time: 2026-09-27T15:40:24Z
 - current operation elapsed time: 00:00:01
-- most recent operation completed: Stage B middle-right numeric and visual PASS; all eight digit increments accepted in candidate workspace
+- most recent operation completed: Full Blender audit and frozen-runtime matched review PASS; candidate GLB and bare variant exported
 - latest checkpoint: v15f_deep_hand_rebuild_checkpoint_012.blend
-- latest numeric gate: middle_R PASS: >35 0.01253 to 0.00641; >50 0.00472 to 0.00300; >100 remains 0
-- latest visual gate: middle_R PASS: bilateral smoother longitudinal flow with no new pinch, crease, or volume loss
-- last successful gate: All Stage A and Stage B per-digit numeric and visual gates PASS
+- latest numeric gate: Full invariant PASS; 682 contacts exact; non-hand 0 mm; weight rows unchanged; severe folds 3 to 0
+- latest visual gate: Complete matched V13e/V15f hand review rendered; change signal exceeds rejected V14e benchmark
+- last successful gate: V15 frozen runtime, five exercise suite, floor contacts, matched review PASS
 - current unresolved blocker: none
-- latest relevant report: reports/v15f_stage_b_middle_R_gate.json; reports/v15f_stage_b_middle_R_visual_decision.json
-- geometry changed since previous heartbeat: true
-- audit/render currently running: false
+- latest relevant report: reports/v15f_deep_hand_rebuild_frozen_pipeline_status.json; reports/v15f_deep_hand_rebuild_visual_change.json
+- geometry changed since previous heartbeat: false
+- audit/render currently running: true
 - Work appears blocked/waiting: false
-- last error: none
-- next expected operation: Run AUDIT_V15F_FULL.bat and inspect complete matched hand review
-- approximate battery percentage: 94%, charging
-- approximate Work usage remaining: five-hour 90%; weekly 87%
+- last error: npm absent; validator now uses available pnpm in disposable worktree
+- next expected operation: Complete latest-source integration, summarize benchmark, publish, then switch to standalone branch
+- approximate battery percentage: 100%, charging
+- approximate Work usage remaining: not currently exposed
 - progress_status: ACTIVE
-- progress_counter: 11
+- progress_counter: 12
 - possible_stall: false
 - same-operation heartbeat streak: 1
 - exact stop reason: none

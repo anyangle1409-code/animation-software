@@ -1,6 +1,6 @@
 # V15f remote handoff
 
-- generated: 2026-09-27T12:02:31Z
+- generated: 2026-09-27T15:40:44Z
 - candidate: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend
 - checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_012.blend
 - digit/stage: ring_L

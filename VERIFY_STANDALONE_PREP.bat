@@ -13,7 +13,7 @@ if errorlevel 1 goto :fail
 
 echo.
 echo [2/7] Focused first-party foundation tests
-call npm test -- src/core/store.test.ts src/core/linearMath.test.ts src/core/linearMath.parity.test.ts src/core/glbContainer.test.ts src/core/gltfAccessors.test.ts src/core/frameLoop.test.ts src/rig/firstPartySkeleton.parity.test.ts src/ik/firstPartyOrient.parity.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
+call npm test -- src/core/store.test.ts src/core/linearMath.test.ts src/core/linearMath.parity.test.ts src/core/glbContainer.test.ts src/core/gltfAccessors.test.ts src/core/frameLoop.test.ts src/rig/firstPartySkeleton.parity.test.ts src/ik/firstPartyOrient.parity.test.ts src/rig/firstPartyPose.parity.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
 if errorlevel 1 goto :fail
 
 echo.

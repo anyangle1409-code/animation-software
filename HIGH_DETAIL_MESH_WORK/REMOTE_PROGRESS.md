@@ -1,34 +1,34 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T10:17:06Z
-- local task start time if known: 2026-09-26T21:32:00Z
+- UTC timestamp: 2026-09-27T11:25:00Z
+- local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 08c1aa6de466d4e7bed03a8ad4277c14b26aed94
+- current HEAD: eacb8f3013fdbc8ee79eb7e3dfcda5f18f13b0c9
 - controller state: stopped
 - safe-runner state: stopped
-- Blender state: unavailable
-- current phase: Low-battery unattended stop
+- Blender state: idle
+- current phase: Route A anchor-buffer safety analysis
 - current digit: ring_L
-- current repair strategy/attempt number: three geometry strategies exhausted
-- exact operation currently being performed: Stop long-running Blender and controller processes after final saved-state verification
-- current operation start time: 2026-09-27T10:17:06Z
+- current repair strategy/attempt number: anchor-buffer analysis 1
+- exact operation currently being performed: Classifying direct-contact and anchor-buffer-only vertices and defining a proven movement envelope
+- current operation start time: 2026-09-27T11:25:00Z
 - current operation elapsed time: 00:00:00
-- most recent operation completed: Candidate saved and hash-verified; heartbeat tooling pushed; Blender closed; controller stop requested
+- most recent operation completed: Prep branch fast-forwarded; blocker evidence published; Work budgets set to 90% five-hour and 87% weekly
 - latest checkpoint: checkpoints/v15_manual/v15f_deep_hand_rebuild_checkpoint_004.blend
-- latest numeric gate: active checkpoint 004 PASS; strategy 3 PASS
-- latest visual gate: active checkpoint 004 FAIL; strategy 3 FAIL
-- last successful gate: ring_L numeric proof PASS
-- current unresolved blocker: No visually effective repair remains under the full four-edge anchor-buffer position freeze
-- latest relevant report: reports/v15f_ring_l_unattended_stop.json; V15F_RING_L_PROTECTED_BLOCKER.md
+- latest numeric gate: checkpoint 004 PASS; Route A not yet run
+- latest visual gate: checkpoint 004 FAIL; Route A not yet run
+- last successful gate: checkpoint 004 numeric audit PASS with direct contacts and weights exact
+- current unresolved blocker: Four-edge conservative anchor buffer contains 81.25% of ring_L problem-edge influence; direct contact set remains frozen
+- latest relevant report: V15F_RING_L_PROTECTED_BLOCKER.md and reports/v15f_ring_l_unattended_stop.json
 - geometry changed since previous heartbeat: false
 - audit/render currently running: false
-- Work appears blocked/waiting: true
-- last error: none; battery safety stop
-- next expected operation: Reconnect power, then make project-level decision on anchor-buffer-only movement or upstream topology rebuild
-- approximate battery percentage: 14
-- approximate Work usage remaining: 58% five-hour; 93% weekly reported at unattended-run start
-- progress_status: BLOCKED
-- progress_counter: 5
+- Work appears blocked/waiting: false
+- last error: none
+- next expected operation: Complete Route A proof report, then run one separate bounded anchor-buffer candidate only if safety invariants are proven
+- approximate battery percentage: 87
+- approximate Work usage remaining: five-hour 90%; weekly 87%
+- progress_status: ACTIVE
+- progress_counter: 6
 - possible_stall: false
 - same-operation heartbeat streak: 1
-- exact stop reason: Battery below 20% plus existing frozen-rule blocker; saved state protected and long-running task processes stopped
+- exact stop reason: none

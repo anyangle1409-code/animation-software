@@ -4,13 +4,13 @@ Generated automatically from local artifacts.
 
 ## Repository
 - branch: work/v15-deep-hand-rebuild-prep-20260925
-- HEAD: 86c247a66b83136ef7ba98d9836efb00b27ff63c
+- HEAD: 94d4d7393bd606bcaa031e8917e6e3ee93abeda6
 - working tree dirty: yes
 
 ## Candidate
 - Blend: HomeGymPT_Male_HIGH_DETAIL_CANDIDATE_v15f_deep_hand_rebuild.blend — present
-- checkpoints: 10
-- latest checkpoint: checkpoints\v15_manual\v15f_deep_hand_rebuild_checkpoint_010.blend
+- checkpoints: 11
+- latest checkpoint: checkpoints\v15_manual\v15f_deep_hand_rebuild_checkpoint_011.blend
 
 ## Incremental gates
 - ring_L proof: PASS
@@ -24,8 +24,8 @@ Generated automatically from local artifacts.
 
 ## Stage B
 - index_L: numeric PASS; visual PASS — Matched four-view review shows a modest but consistent reduction in shaft segmentation without new pinching, crease, or volume loss; accepted as the left-index Stage-B increment.
-- index_R: numeric PASS; visual missing
-- middle_L: numeric missing; visual missing
+- index_R: numeric PASS; visual PASS — Matched four-view review shows the same modest bilateral shaft cleanup as index-left, with no new pinching, razor crease, asymmetrical volume change, or regression to accepted digits.
+- middle_L: numeric PASS; visual missing
 - middle_R: numeric missing; visual missing
 
 ## Latest Blender audit
@@ -37,7 +37,7 @@ Generated automatically from local artifacts.
 - original source-vertex movement by digit:
   - index_L: max 0.697419 mm; moved 184
   - index_R: max 0.697419 mm; moved 184
-  - middle_L: max 0.000000 mm; moved 0
+  - middle_L: max 0.678787 mm; moved 216
   - middle_R: max 0.000000 mm; moved 0
   - pinky_L: max 0.763573 mm; moved 188
   - pinky_R: max 0.763574 mm; moved 188
@@ -49,16 +49,16 @@ Generated automatically from local artifacts.
 - pinky_R: jump_p90=0.2022; second_diff_p90=0.2335; Δjump vs V13e=-0.0032
 - ring_L: jump_p90=0.1593; second_diff_p90=0.0967; Δjump vs V13e=+0.0109
 - ring_R: jump_p90=0.1527; second_diff_p90=0.0971; Δjump vs V13e=+0.0043
-- middle_L: jump_p90=0.1254; second_diff_p90=0.1771; Δjump vs V13e=+0.0000
 - middle_R: jump_p90=0.1254; second_diff_p90=0.1769; Δjump vs V13e=+0.0000
+- middle_L: jump_p90=0.1224; second_diff_p90=0.1745; Δjump vs V13e=-0.0030
 - index_R: jump_p90=0.1210; second_diff_p90=0.0616; Δjump vs V13e=-0.0011
 - index_L: jump_p90=0.1206; second_diff_p90=0.0616; Δjump vs V13e=-0.0011
 - advisory only: lower radius-profile jump/second-difference usually indicates smoother diameter continuity; final anatomy still needs visual review.
 
 ## Next action
-GENERATE_V15F_STAGE_B_VISUAL.bat index_R
+GENERATE_V15F_STAGE_B_VISUAL.bat middle_L
 
-Stage-B index_R numeric gate passes; visual board is missing.
+Stage-B middle_L numeric gate passes; visual board is missing.
 
 ## Resume references
 - WORK_RESUME_AFTER_LIMIT.md

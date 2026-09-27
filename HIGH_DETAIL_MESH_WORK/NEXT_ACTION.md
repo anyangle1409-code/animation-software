@@ -1,6 +1,14 @@
 # Next action: V15 deep finger shaft/joint rebuild from V13e
 
-## 2026-09-27 V15f index pair accepted; continue middle_L
+## 2026-09-27 V15f middle-left accepted; continue middle_R
+
+Checkpoint 011 contains accepted Stage A, both index fingers and middle-left.
+The middle-left numeric and visual gates pass. Apply the accepted topology
+strategy to middle-right in a separate trial and run its numeric and visual
+gates. If it passes, run the complete V15f hand audit and combined review before
+any export or Phase C work.
+
+## 2026-09-27 V15f index pair accepted
 
 Checkpoint 010 contains accepted index-left and index-right Stage B work. Both
 numeric and matched visual gates pass, while Stage A, contacts, weights and

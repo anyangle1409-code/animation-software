@@ -10,6 +10,15 @@ Use direct Blender Work only for interactive topology, source-rig/bone placement
 
 # Current source of truth
 
+## 2026-09-27 V15f Stage B middle-left accepted
+
+Checkpoint 011 adds the accepted middle-left increment. Its >35-degree ratio
+improved from 0.01305 to 0.00641 and >50 from 0.00509 to 0.00300, with no
+>100-degree fold. The matched review shows clearly smoother longitudinal flow
+and reduced shaft banding without a new pinch, crease or volume loss. Earlier
+approved fingerprints, contacts, weights and non-target geometry remain exact.
+Continue with middle-right only.
+
 ## 2026-09-27 V15f Stage B index pair accepted
 
 Checkpoint 010 contains both accepted index increments. Index-right passes the

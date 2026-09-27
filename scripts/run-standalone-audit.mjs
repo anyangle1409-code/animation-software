@@ -5,6 +5,7 @@ import path from "node:path";
 
 const ROOT=process.cwd();
 const checks=[
+  ["runtime_dependency_creep","scripts/check-runtime-dependency-creep.mjs",true],
   ["dependency_inventory","scripts/audit-third-party-dependencies.mjs",false],
   ["runtime_usage","scripts/map-third-party-runtime.mjs",false],
   ["first_party_markers","scripts/audit-first-party-markers.mjs",false],

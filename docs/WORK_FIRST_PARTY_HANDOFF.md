@@ -116,3 +116,47 @@ Stop rather than guess if:
 ## Principle
 
 Use the current product as a behavioural specification and engineering reference, not as a source of third-party implementation or character geometry for the final standalone product.
+
+
+## New provenance findings from pre-reset audit
+
+The repo explicitly documents that the built-in anatomical body arrays in `src/body/anatomical*.ts` are generated from MakeHuman CC0 assets. CC0 is permissive, but the user's target is stricter than licence compliance: zero third-party creative content in the distributable.
+
+Therefore Work must treat both of these as reference-only:
+1. imported/high-detail Home Gym PT character lineage;
+2. MakeHuman-derived built-in anatomical character arrays.
+
+Read:
+- `docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md`
+- `docs/CANONICAL_V4_ORIGINAL_RIG_PLAN.md`
+- `docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md`
+
+The current rig architecture appears project-authored, but its v3 numerical rest coordinates include later tuning against the legacy/imported character. Keep the 63-bone hierarchy/names/semantics as a first-party design candidate, but author new clean numerical rest proportions as `hgpt_canonical_v4_original`.
+
+The equipment system is procedural/project-code geometry (generic primitives, no separate equipment model assets found). Retain it provisionally, but remove body-relative constants inherited from legacy character dimensions and recalibrate against canonical v4 / ORIGINAL v1.
+
+## Prepared local audit commands
+
+Run from repository root:
+
+`node scripts/audit-third-party-dependencies.mjs`
+
+`node scripts/map-third-party-runtime.mjs`
+
+`node scripts/audit-first-party-markers.mjs`
+
+These should be run before beginning the runtime migration so the exact dependency/marker reports are preserved.
+
+## Prepared clean-room Blender entry point
+
+When the project is ready to begin ORIGINAL v1, use:
+
+`START_ORIGINAL_V1_CLEAN_ROOM.bat`
+
+This launches Blender with factory startup and creates:
+- `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`
+- `ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json`
+
+The initializer deliberately imports no legacy geometry and creates no body geometry. It establishes blank clean-room collections and provenance metadata only.
+
+Do not run it as a substitute for finishing the V15f reference benchmark first. After V15f final review is preserved, this becomes the correct start point for the new production character line.

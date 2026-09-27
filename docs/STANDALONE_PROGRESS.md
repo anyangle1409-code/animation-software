@@ -68,3 +68,23 @@ A focused store-core test was added at `src/core/store.test.ts`.
 4. an exact runtime scan confirms zero Zustand imports.
 
 If those pass, remove the package and regenerate the lockfile. If not, fix the first-party store implementation rather than reverting the standalone plan.
+
+
+## 2026-09-27 clean scaffold implementation
+
+Prepared:
+- `scripts/generate_original_v1_clean_scaffold.py`
+- `GENERATE_ORIGINAL_V1_CLEAN_SCAFFOLD.bat`
+- `docs/ORIGINAL_V1_SCAFFOLD_USAGE.md`
+
+The generator reconstructs the pinned pre-MakeHuman project-authored procedural body from numeric profiles only.
+
+Hard deterministic guards:
+- 3,890 vertices;
+- 7,280 triangles;
+- 53 clean historical reference bones;
+- normalized weights.
+
+It refuses to run unless the Blender scene is marked as a clean-room scene and refuses a scene marked as having imported legacy geometry.
+
+**Laptop verification remains pending** because this environment cannot execute Blender.

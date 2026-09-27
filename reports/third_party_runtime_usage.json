@@ -1,0 +1,855 @@
+{
+  "generatedAt": "2026-09-27T21:34:52.371Z",
+  "scope": "Operational source only; test/spec files excluded.",
+  "targets": [
+    "react",
+    "react-dom",
+    "three",
+    "@react-three/fiber",
+    "@react-three/drei",
+    "zustand"
+  ],
+  "summary": {
+    "react": {
+      "importCount": 27,
+      "files": [
+        "src/core/store.ts",
+        "src/editor/App.tsx",
+        "src/editor/Timeline.tsx",
+        "src/editor/panels/CharacterPanel.tsx",
+        "src/editor/panels/ComparisonPanel.tsx",
+        "src/editor/panels/ContactPanel.tsx",
+        "src/editor/panels/CorrectivePanel.tsx",
+        "src/editor/panels/ExportPanel.tsx",
+        "src/editor/panels/GripPanel.tsx",
+        "src/editor/panels/IKPanel.tsx",
+        "src/editor/panels/JointPanel.tsx",
+        "src/editor/panels/MusclePanel.tsx",
+        "src/editor/panels/ReviewPanel.tsx",
+        "src/editor/panels/TechniquePanel.tsx",
+        "src/main.tsx",
+        "src/viewer/BoneGroups.tsx",
+        "src/viewer/CharacterFigure.tsx",
+        "src/viewer/EquipmentView.tsx",
+        "src/viewer/FirstPartyOrbitControls.tsx",
+        "src/viewer/FirstPartyTransformGizmo.tsx",
+        "src/viewer/IKHandles.tsx",
+        "src/viewer/MuscleView.tsx",
+        "src/viewer/ReferenceGridView.tsx",
+        "src/viewer/SkeletonView.tsx",
+        "src/viewer/Viewport.tsx",
+        "src/viewer/sceneState.ts"
+      ],
+      "specifiers": [
+        "react"
+      ]
+    },
+    "react-dom": {
+      "importCount": 1,
+      "files": [
+        "src/main.tsx"
+      ],
+      "specifiers": [
+        "react-dom/client"
+      ]
+    },
+    "three": {
+      "importCount": 78,
+      "files": [
+        "src/animation/pipeline.ts",
+        "src/body/anatomical.ts",
+        "src/body/containment.ts",
+        "src/body/ecorche.ts",
+        "src/body/elbow.ts",
+        "src/body/head.ts",
+        "src/body/mesh.ts",
+        "src/body/neck.ts",
+        "src/body/refine.ts",
+        "src/body/shoulder.ts",
+        "src/body/skin.ts",
+        "src/character/bones.ts",
+        "src/character/build.ts",
+        "src/character/builtin.ts",
+        "src/character/builtinDeformation.ts",
+        "src/character/correctiveDiagnostics.ts",
+        "src/character/glbSource.ts",
+        "src/character/importedDeformation.ts",
+        "src/character/meshStrain.ts",
+        "src/character/muscleDeformation.ts",
+        "src/character/pose.ts",
+        "src/character/posedMesh.ts",
+        "src/character/rebind.ts",
+        "src/character/retargetContact.ts",
+        "src/character/retargetSource.ts",
+        "src/character/types.ts",
+        "src/constraints/bodyClearance.ts",
+        "src/constraints/collision.ts",
+        "src/constraints/contactDiagnostics.ts",
+        "src/constraints/locks.ts",
+        "src/constraints/points.ts",
+        "src/constraints/rules.ts",
+        "src/editor/comparison.ts",
+        "src/editor/motionDiagnostics.ts",
+        "src/editor/store.ts",
+        "src/equipment/attach.ts",
+        "src/equipment/gripDiagnostics.ts",
+        "src/equipment/mirror.ts",
+        "src/export/clipBuilder.ts",
+        "src/export/glb.ts",
+        "src/export/json.ts",
+        "src/generation/validate.ts",
+        "src/ik/orient.ts",
+        "src/ik/solve.ts",
+        "src/ik/twoBone.ts",
+        "src/muscles/model.ts",
+        "src/retargeting/importGlb.ts",
+        "src/retargeting/retarget.ts",
+        "src/rig/pose.ts",
+        "src/rig/skeleton.ts",
+        "src/viewer/BoneGroups.tsx",
+        "src/viewer/CharacterFigure.tsx",
+        "src/viewer/EquipmentView.tsx",
+        "src/viewer/FirstPartyOrbitControls.tsx",
+        "src/viewer/FirstPartyTransformGizmo.tsx",
+        "src/viewer/IKHandles.tsx",
+        "src/viewer/MuscleView.tsx",
+        "src/viewer/Viewport.tsx",
+        "src/viewer/cameras.ts"
+      ],
+      "specifiers": [
+        "three",
+        "three/examples/jsm/exporters/GLTFExporter.js",
+        "three/examples/jsm/loaders/GLTFLoader.js"
+      ]
+    },
+    "@react-three/fiber": {
+      "importCount": 9,
+      "files": [
+        "src/viewer/BoneGroups.tsx",
+        "src/viewer/CharacterFigure.tsx",
+        "src/viewer/EquipmentView.tsx",
+        "src/viewer/FirstPartyOrbitControls.tsx",
+        "src/viewer/FirstPartyTransformGizmo.tsx",
+        "src/viewer/IKHandles.tsx",
+        "src/viewer/MuscleView.tsx",
+        "src/viewer/SkeletonView.tsx",
+        "src/viewer/Viewport.tsx"
+      ],
+      "specifiers": [
+        "@react-three/fiber"
+      ]
+    },
+    "@react-three/drei": {
+      "importCount": 0,
+      "files": [],
+      "specifiers": []
+    },
+    "zustand": {
+      "importCount": 0,
+      "files": [],
+      "specifiers": []
+    }
+  },
+  "usage": {
+    "react": [
+      {
+        "file": "src/core/store.ts",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useSyncExternalStore }"
+      },
+      {
+        "file": "src/editor/App.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useEffect, useState }"
+      },
+      {
+        "file": "src/editor/panels/CharacterPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useRef }"
+      },
+      {
+        "file": "src/editor/panels/ComparisonPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/editor/panels/ContactPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/editor/panels/CorrectivePanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useEffect, useState }"
+      },
+      {
+        "file": "src/editor/panels/ExportPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useState }"
+      },
+      {
+        "file": "src/editor/panels/GripPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/editor/panels/IKPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/editor/panels/JointPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo, useState }"
+      },
+      {
+        "file": "src/editor/panels/MusclePanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo, useState }"
+      },
+      {
+        "file": "src/editor/panels/ReviewPanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/editor/panels/TechniquePanel.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useEffect }"
+      },
+      {
+        "file": "src/editor/Timeline.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo, useRef }"
+      },
+      {
+        "file": "src/main.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ StrictMode }"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useMemo, useRef }"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 3,
+        "specifier": "react",
+        "imported": "type { ReactNode }"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useEffect, useState }"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useMemo, useRef }"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ forwardRef, useEffect, useImperativeHandle, useMemo, useRef }"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useRef, useState }"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useRef }"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useMemo, useRef }"
+      },
+      {
+        "file": "src/viewer/ReferenceGridView.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useEffect, useMemo }"
+      },
+      {
+        "file": "src/viewer/sceneState.ts",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ createContext, useContext }"
+      },
+      {
+        "file": "src/viewer/SkeletonView.tsx",
+        "line": 1,
+        "specifier": "react",
+        "imported": "{ useMemo }"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 2,
+        "specifier": "react",
+        "imported": "{ useEffect, useMemo, useRef, useState }"
+      }
+    ],
+    "react-dom": [
+      {
+        "file": "src/main.tsx",
+        "line": 2,
+        "specifier": "react-dom/client",
+        "imported": "{ createRoot }"
+      }
+    ],
+    "three": [
+      {
+        "file": "src/animation/pipeline.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/body/anatomical.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, BufferGeometry }"
+      },
+      {
+        "file": "src/body/containment.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Matrix4, Vector3 }"
+      },
+      {
+        "file": "src/body/ecorche.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, Color, Matrix4, MeshStandardMaterial, Vector3 }"
+      },
+      {
+        "file": "src/body/ecorche.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry, SkinnedMesh }"
+      },
+      {
+        "file": "src/body/elbow.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/body/elbow.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry }"
+      },
+      {
+        "file": "src/body/head.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/body/head.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry }"
+      },
+      {
+        "file": "src/body/mesh.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, BufferGeometry, Color, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/body/neck.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/body/neck.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry }"
+      },
+      {
+        "file": "src/body/refine.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, BufferGeometry }"
+      },
+      {
+        "file": "src/body/shoulder.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, Euler, Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/body/shoulder.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry }"
+      },
+      {
+        "file": "src/body/skin.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ MeshStandardMaterial, SkinnedMesh }"
+      },
+      {
+        "file": "src/body/skin.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { Bone, BufferGeometry, Material, Skeleton as ThreeSkeleton }"
+      },
+      {
+        "file": "src/character/bones.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Bone, Skeleton as ThreeSkeleton }"
+      },
+      {
+        "file": "src/character/build.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ SkinnedMesh }"
+      },
+      {
+        "file": "src/character/build.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry, Material }"
+      },
+      {
+        "file": "src/character/builtin.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ MeshStandardMaterial }"
+      },
+      {
+        "file": "src/character/builtinDeformation.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, InterpolateLinear, NumberKeyframeTrack, Quaternion }"
+      },
+      {
+        "file": "src/character/builtinDeformation.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { KeyframeTrack, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/correctiveDiagnostics.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/character/correctiveDiagnostics.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferAttribute, InterleavedBufferAttribute, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Box3, Object3D }"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { Material, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 3,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js",
+        "imported": "{ GLTFLoader }"
+      },
+      {
+        "file": "src/character/importedDeformation.ts",
+        "line": 7,
+        "specifier": "three",
+        "imported": "type { Bone, BufferGeometry, InterleavedBufferAttribute, KeyframeTrack, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/meshStrain.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/character/meshStrain.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferAttribute, InterleavedBufferAttribute, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/muscleDeformation.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ BufferAttribute, Bone, SkinnedMesh, Vector3 }"
+      },
+      {
+        "file": "src/character/pose.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/character/posedMesh.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/character/posedMesh.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { SkinnedMesh }"
+      },
+      {
+        "file": "src/character/rebind.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Box3, Matrix4, Vector3 }"
+      },
+      {
+        "file": "src/character/rebind.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { BufferGeometry, Object3D, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/retargetContact.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/character/retargetContact.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { Bone, Object3D, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/retargetSource.ts",
+        "line": 11,
+        "specifier": "three",
+        "imported": "type { Bone, KeyframeTrack, SkinnedMesh }"
+      },
+      {
+        "file": "src/character/retargetSource.ts",
+        "line": 12,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js",
+        "imported": "{ GLTFLoader }"
+      },
+      {
+        "file": "src/character/types.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "type { Bone, KeyframeTrack, Matrix4, Object3D, SkinnedMesh, Skeleton as ThreeSkeleton }"
+      },
+      {
+        "file": "src/constraints/bodyClearance.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Matrix4, Vector3 }"
+      },
+      {
+        "file": "src/constraints/bodyClearance.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { SkinnedMesh }"
+      },
+      {
+        "file": "src/constraints/collision.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Matrix4, Vector3 }"
+      },
+      {
+        "file": "src/constraints/contactDiagnostics.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/constraints/locks.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/constraints/points.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/constraints/rules.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/editor/comparison.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/editor/motionDiagnostics.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/editor/store.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/equipment/attach.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/equipment/gripDiagnostics.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/equipment/mirror.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Matrix4 }"
+      },
+      {
+        "file": "src/export/clipBuilder.ts",
+        "line": 11,
+        "specifier": "three",
+        "imported": "type { KeyframeTrack }"
+      },
+      {
+        "file": "src/export/glb.ts",
+        "line": 11,
+        "specifier": "three/examples/jsm/exporters/GLTFExporter.js",
+        "imported": "{ GLTFExporter }"
+      },
+      {
+        "file": "src/export/json.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ AnimationClip }"
+      },
+      {
+        "file": "src/generation/validate.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/ik/orient.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/ik/solve.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/ik/twoBone.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/muscles/model.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "{ Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/retargeting/importGlb.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Object3D }"
+      },
+      {
+        "file": "src/retargeting/importGlb.ts",
+        "line": 2,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js",
+        "imported": "{ GLTFLoader }"
+      },
+      {
+        "file": "src/retargeting/retarget.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Box3, Euler, Matrix4, Object3D, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/retargeting/retarget.ts",
+        "line": 2,
+        "specifier": "three",
+        "imported": "type { Bone, SkinnedMesh }"
+      },
+      {
+        "file": "src/rig/pose.ts",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Euler, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/rig/skeleton.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Euler, Matrix4, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 4,
+        "specifier": "three",
+        "imported": "{ Group }"
+      },
+      {
+        "file": "src/viewer/cameras.ts",
+        "line": 1,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ MeshStandardMaterial }"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Group, Matrix4 }"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Vector3 }"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Group, Object3D, Quaternion, Vector3 }"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Mesh, Vector3 }"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Mesh }"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 3,
+        "specifier": "three",
+        "imported": "{ Euler, Matrix4, Object3D, Quaternion, Vector3 }"
+      }
+    ],
+    "@react-three/fiber": [
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame }"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame }"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame }"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame, useThree }"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber",
+        "imported": "{ type ThreeEvent, useFrame }"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame }"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ useFrame }"
+      },
+      {
+        "file": "src/viewer/SkeletonView.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber",
+        "imported": "type { ThreeEvent }"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber",
+        "imported": "{ Canvas, useFrame, useThree }"
+      }
+    ],
+    "@react-three/drei": [],
+    "zustand": []
+  }
+}

@@ -109,6 +109,27 @@ gate can be completed; removing it now would violate the required parity rule.
 Next: publish this checkpoint, run the standalone audit and preserve its blocker
 counts, then continue the independent ORIGINAL v1 clean-room preparation.
 
+## 2026-09-27 post-Transform standalone audit
+
+The complete standalone audit was rerun after the live Grid, Orbit, and
+Transform replacements. The dependency-creep, inventory, usage-map,
+first-party-marker, legacy-coupling, external-resource, and runtime-network
+checks completed successfully. The final-character-runtime and release-readiness
+gates remain expected failures.
+
+Current blocker counts:
+
+- direct runtime dependencies: 5;
+- bare runtime imports: 126;
+- operational legacy assets: 0;
+- MakeHuman-derived source files in the current runtime path: 9.
+
+The five direct runtime dependencies remain `@react-three/drei`,
+`@react-three/fiber`, `react`, `react-dom`, and `three`. Drei now has zero source
+imports, but its package removal remains held until the open physical visual and
+touch parity gate can be completed. No guard was weakened and no legacy asset
+was added to an operational asset root.
+
 ## Prepared commands
 
 ```bat

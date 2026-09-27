@@ -37,6 +37,14 @@ Transform visual/input parity remains an explicit open gate. Run and preserve
 the standalone audit blocker counts, then continue ORIGINAL v1 clean-room work
 independently of that browser limitation.
 
+The post-Transform standalone audit is now preserved. It reports five direct
+runtime dependencies, 126 bare imports, zero operational legacy assets, and
+nine MakeHuman-derived source files on the current runtime path. The
+final-character-runtime and release-readiness gates fail as expected; all other
+audit stages pass. Continue with `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` while the
+physical browser gate remains open. Do not remove Drei or weaken the gate merely
+to reduce the dependency count.
+
 ## Objective
 
 Prepare Home Gym PT so the distributable product contains no third-party runtime code or third-party creative assets.

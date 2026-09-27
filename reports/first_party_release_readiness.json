@@ -1,0 +1,722 @@
+{
+  "generatedAt": "2026-09-27T21:36:32.567Z",
+  "goal": "Zero third-party runtime dependencies and zero legacy/third-party creative assets in the standalone distributable source path.",
+  "pass": false,
+  "blockerCounts": {
+    "runtimeDependencies": 5,
+    "bareImports": 126,
+    "operationalLegacyAssets": 0,
+    "makeHumanSourceFiles": 9
+  },
+  "blockers": {
+    "runtimeDependencies": [
+      {
+        "name": "@react-three/drei",
+        "version": "^10.7.6"
+      },
+      {
+        "name": "@react-three/fiber",
+        "version": "^9.3.0"
+      },
+      {
+        "name": "react",
+        "version": "^19.2.0"
+      },
+      {
+        "name": "react-dom",
+        "version": "^19.2.0"
+      },
+      {
+        "name": "three",
+        "version": "^0.180.0"
+      }
+    ],
+    "bareImports": [
+      {
+        "file": "src/animation/pipeline.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/anatomical.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/containment.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/ecorche.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/ecorche.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/elbow.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/elbow.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/head.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/head.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/mesh.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/neck.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/neck.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/refine.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/shoulder.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/shoulder.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/skin.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/body/skin.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/bones.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/build.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/build.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/builtin.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/builtinDeformation.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/builtinDeformation.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/correctiveDiagnostics.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/correctiveDiagnostics.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/glbSource.ts",
+        "line": 3,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js"
+      },
+      {
+        "file": "src/character/importedDeformation.ts",
+        "line": 6,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/importedDeformation.ts",
+        "line": 7,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/meshStrain.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/meshStrain.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/muscleDeformation.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/pose.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/posedMesh.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/posedMesh.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/rebind.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/rebind.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/retargetContact.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/retargetContact.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/retargetSource.ts",
+        "line": 10,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/retargetSource.ts",
+        "line": 11,
+        "specifier": "three"
+      },
+      {
+        "file": "src/character/retargetSource.ts",
+        "line": 12,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js"
+      },
+      {
+        "file": "src/character/types.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/bodyClearance.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/bodyClearance.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/collision.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/contactDiagnostics.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/locks.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/points.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/constraints/rules.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/core/store.ts",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/App.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/comparison.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/editor/motionDiagnostics.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/editor/panels/CharacterPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/ComparisonPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/ContactPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/CorrectivePanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/ExportPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/GripPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/IKPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/JointPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/MusclePanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/ReviewPanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/panels/TechniquePanel.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/editor/store.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/editor/Timeline.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/equipment/attach.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/equipment/gripDiagnostics.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/equipment/mirror.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/exercises/families/curl.ts",
+        "line": 36,
+        "specifier": "a standing hammer curl with 12 kg dumbbells"
+      },
+      {
+        "file": "src/export/clipBuilder.ts",
+        "line": 10,
+        "specifier": "three"
+      },
+      {
+        "file": "src/export/clipBuilder.ts",
+        "line": 11,
+        "specifier": "three"
+      },
+      {
+        "file": "src/export/glb.ts",
+        "line": 10,
+        "specifier": "three"
+      },
+      {
+        "file": "src/export/glb.ts",
+        "line": 11,
+        "specifier": "three/examples/jsm/exporters/GLTFExporter.js"
+      },
+      {
+        "file": "src/export/json.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/export/rigBuilder.ts",
+        "line": 14,
+        "specifier": "three"
+      },
+      {
+        "file": "src/generation/families.ts",
+        "line": 430,
+        "specifier": "${intent.prompt.trim()}"
+      },
+      {
+        "file": "src/generation/families.ts",
+        "line": 535,
+        "specifier": "${intent.prompt.trim()}"
+      },
+      {
+        "file": "src/generation/families.ts",
+        "line": 604,
+        "specifier": "${intent.prompt.trim()}"
+      },
+      {
+        "file": "src/generation/families.ts",
+        "line": 694,
+        "specifier": "${intent.prompt.trim()}"
+      },
+      {
+        "file": "src/generation/validate.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/ik/orient.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/ik/solve.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/ik/twoBone.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/main.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/main.tsx",
+        "line": 2,
+        "specifier": "react-dom/client"
+      },
+      {
+        "file": "src/muscles/model.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/retargeting/importGlb.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/retargeting/importGlb.ts",
+        "line": 2,
+        "specifier": "three/examples/jsm/loaders/GLTFLoader.js"
+      },
+      {
+        "file": "src/retargeting/retarget.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/retargeting/retarget.ts",
+        "line": 2,
+        "specifier": "three"
+      },
+      {
+        "file": "src/rig/pose.ts",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/rig/skeleton.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 3,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/BoneGroups.tsx",
+        "line": 4,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/cameras.ts",
+        "line": 1,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/CharacterFigure.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/EquipmentView.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/FirstPartyOrbitControls.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/FirstPartyTransformGizmo.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/IKHandles.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/MuscleView.tsx",
+        "line": 3,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/ReferenceGridView.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/ReferenceGridView.tsx",
+        "line": 7,
+        "specifier": "three"
+      },
+      {
+        "file": "src/viewer/sceneState.ts",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/SkeletonView.tsx",
+        "line": 1,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/SkeletonView.tsx",
+        "line": 2,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 1,
+        "specifier": "@react-three/fiber"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 2,
+        "specifier": "react"
+      },
+      {
+        "file": "src/viewer/Viewport.tsx",
+        "line": 3,
+        "specifier": "three"
+      }
+    ],
+    "operationalLegacyAssets": [],
+    "makeHumanSourceFiles": [
+      "src/body/anatomical.ts",
+      "src/body/anatomicalColours.ts",
+      "src/body/anatomicalIndices.ts",
+      "src/body/anatomicalMeta.ts",
+      "src/body/anatomicalPalette.ts",
+      "src/body/anatomicalPositions.ts",
+      "src/body/anatomicalSkinIndices.ts",
+      "src/body/anatomicalSkinWeights.ts",
+      "src/character/builtinDeformation.ts"
+    ]
+  },
+  "advisory": {
+    "referenceLegacyFiles": [
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/characters/HomeGymPT_Male_CORNER_FINAL.glb",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/close_clavicle_l_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/close_forearm_l_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/close_hand_l_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/close_upperarm_l_mid_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/close_upperarm_l_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/front_mid_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/front_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/left_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/loop_front.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/loop_three_quarter.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/muscle-stage1/three_quarter_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-diagnosis/01_left_bottom_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-diagnosis/02_left_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-diagnosis/03_three_quarter_bottom_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-diagnosis/04_three_quarter_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-diagnosis/05_left_bottom_hip_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-junction/junction_side_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-junction/junction_tq_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/hip_clearance_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/loop_front.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/loop_left.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/loop_three_quarter.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/shoulder_side_bottom_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/shoulder_side_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/shoulder_tq_bottom_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/shoulder_tq_peak_ab.png",
+      "HOME_GYM_PT_GPT_MESH_HANDOFF/renders/shoulder-true-fix/side_full_bottom_ab.png",
+      "review-assets/characters/HomeGymPT_Male_BASELINE_v8.glb",
+      "review-assets/characters/HomeGymPT_Male_BASELINE_v8_SHORTS.glb",
+      "review-assets/characters/HomeGymPT_Male_CORNER_FINAL.glb",
+      "review-assets/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb"
+    ],
+    "note": "Reference/dev legacy files outside operational asset roots may remain in the repository but must stay excluded by the release allowlist."
+  },
+  "notes": [
+    "Development tools outside the shipped runtime are audited separately.",
+    "A PASS here is an engineering gate, not a legal opinion.",
+    "ORIGINAL v1 provenance and release allowlist approval remain separate required gates."
+  ]
+}

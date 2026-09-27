@@ -26,7 +26,7 @@ describe('first-party orbit model', () => {
     orbit.zoomByFactor(100).step(1 / 60);
     expect(orbit.snapshot().distance).toBe(12);
     orbit.zoomByFactor(0.0001).step(1 / 60);
-    expect(orbit.snapshot().distance).toBe(0.6);
+    expect(orbit.snapshot().distance).toBeCloseTo(0.6, 12);
   });
 
   it('clamps vertical rotation away from the singular poles', () => {

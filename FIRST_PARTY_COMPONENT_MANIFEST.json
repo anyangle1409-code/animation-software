@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "purpose": "Track every component that may enter a standalone first-party release.",
+  "release_gate": "No item with status other than first_party_approved may be included in the release package.",
+  "components": [
+    {
+      "id": "runtime_exercise_engine",
+      "category": "code",
+      "status": "project_authored_pending_dependency_scan",
+      "notes": "Core biomechanics/exercise logic appears project-authored; verify no third-party runtime imports in transitive paths."
+    },
+    {
+      "id": "runtime_ui",
+      "category": "code",
+      "status": "third_party_dependent",
+      "third_party": [
+        "react",
+        "react-dom"
+      ],
+      "required_action": "replace"
+    },
+    {
+      "id": "runtime_scene_bridge",
+      "category": "code",
+      "status": "third_party_dependent",
+      "third_party": [
+        "@react-three/fiber",
+        "@react-three/drei"
+      ],
+      "required_action": "replace"
+    },
+    {
+      "id": "runtime_renderer_math_gltf",
+      "category": "code",
+      "status": "third_party_dependent",
+      "third_party": [
+        "three"
+      ],
+      "required_action": "replace_last"
+    },
+    {
+      "id": "runtime_state",
+      "category": "code",
+      "status": "third_party_dependent",
+      "third_party": [
+        "zustand"
+      ],
+      "required_action": "replace_first"
+    },
+    {
+      "id": "male_character",
+      "category": "asset",
+      "status": "legacy_import_derived_reference_only",
+      "required_action": "replace_with_original_v1"
+    },
+    {
+      "id": "male_shorts",
+      "category": "asset",
+      "status": "legacy_import_derived_reference_only",
+      "required_action": "rebuild_for_original_v1"
+    },
+    {
+      "id": "canonical_rig",
+      "category": "asset_and_code",
+      "status": "provenance_review_required",
+      "required_action": "verify_project_authorship_before_clean_release"
+    },
+    {
+      "id": "equipment_geometry",
+      "category": "asset_and_code",
+      "status": "provenance_audit_required",
+      "required_action": "verify_file_by_file"
+    },
+    {
+      "id": "exercise_animation_data",
+      "category": "data",
+      "status": "project_authored_candidate",
+      "required_action": "document_generation_provenance"
+    },
+    {
+      "id": "review_renders",
+      "category": "asset",
+      "status": "reference_only",
+      "required_action": "exclude_from_release"
+    },
+    {
+      "id": "legacy_glb_blend_assets",
+      "category": "asset",
+      "status": "reference_only",
+      "required_action": "exclude_from_release"
+    }
+  ]
+}

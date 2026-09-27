@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "purpose": "Allow only reviewed local packaged-resource network primitives. No external host/API exceptions.",
+  "entries": [
+    {
+      "file": "src/character/bundled.ts",
+      "contains": "fetch(url",
+      "classification": "local_packaged_character_probe",
+      "constraint": "The caller may pass only product-relative packaged character paths. Final paths must point to HomeGymPT_Male_ORIGINAL_v1 assets."
+    }
+  ]
+}

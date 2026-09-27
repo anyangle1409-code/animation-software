@@ -1,0 +1,62 @@
+name: Standalone prep verification
+
+on:
+  push:
+    branches:
+      - work/standalone-first-party-audit-20260927
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install development dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Verify prepared first-party foundations
+        run: >
+          npm test --
+          src/core/store.test.ts
+          src/core/linearMath.test.ts
+          src/core/linearMath.parity.test.ts
+          src/core/glbContainer.test.ts
+          src/core/gltfAccessors.test.ts
+          src/core/gltfBuilder.test.ts
+          src/core/frameLoop.test.ts
+          src/rig/firstPartySkeleton.parity.test.ts
+          src/ik/firstPartyOrient.parity.test.ts
+          src/rig/firstPartyPose.parity.test.ts
+          src/editor/store.test.ts
+          src/editor/characterStore.test.ts
+
+      - name: Full test suite
+        run: npm test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Runtime dependency anti-creep gate
+        run: node scripts/check-runtime-dependency-creep.mjs
+
+      - name: External runtime resource gate
+        run: node scripts/audit-external-runtime-resources.mjs
+
+      - name: Runtime network/API gate
+        run: node scripts/audit-runtime-network.mjs

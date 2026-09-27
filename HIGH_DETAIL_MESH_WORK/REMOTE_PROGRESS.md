@@ -1,34 +1,30 @@
 # Remote progress heartbeat
 
-- UTC timestamp: 2026-09-27T16:07:52Z
+- UTC timestamp: 2026-09-27T16:40:21Z
 - local task start time if known: 2026-09-27T11:18:00Z
 - current branch: work/v15-deep-hand-rebuild-prep-20260925
-- current HEAD: 7046e854f6eee1dca4b9e5854c0cc7f5e0e7df82
+- current HEAD: fc3334b0e3ff49e546099454ed56f4813222f4d9
 - controller state: stopped
 - safe-runner state: stopped
 - Blender state: idle
-- current phase: V15f legacy benchmark final validation
-- current digit: complete
-- current repair strategy/attempt number: focused latest-source integration attempt 3
-- exact operation currently being performed: Running current-source self-collision, equipment, retarget, palm and unmapped-bone comparisons across production, V8, V13e and V15f
-- current operation start time: 2026-09-27T16:07:52Z
-- current operation elapsed time: 00:00:01
-- most recent operation completed: Full source suite: 878 passed, 1 unrelated neck-test timeout preserved in log; focused candidate comparison started
+- current phase: standalone first-party lane transition
+- current digit: legacy V15f complete
+- current repair strategy/attempt number: standalone dependency replacement, initial branch audit
+- exact operation currently being performed: Creating a separate standalone worktree and reading its authoritative handoff
+- most recent operation completed: V15f legacy benchmark artifacts, reports and matched review boards committed and pushed
 - latest checkpoint: v15f_deep_hand_rebuild_checkpoint_012.blend
-- latest numeric gate: Frozen gates PASS; current-source focused scan actively progressing with high CPU use
-- latest visual gate: Complete V13e/V15f hand boards generated; full visual workflow PASS
-- last successful gate: V15f frozen runtime and matched visual workflow PASS
-- current unresolved blocker: none
-- latest relevant report: reports/current_source_v15f_deep_hand_rebuild/full_source_suite.log; v15f_latest_source_focused_console.log
+- latest numeric gate: Frozen V15f pipeline PASS; 682 contacts exact; non-hand movement 0 mm; original skin rows changed 0
+- latest visual gate: Matched V13e/V15f open-hand, fist and exercise boards PASS
+- latest relevant report: V15F_LEGACY_BENCHMARK_FINAL.md
 - geometry changed since previous heartbeat: false
-- audit/render currently running: true
+- audit/render currently running: false
 - Work appears blocked/waiting: false
-- last error: One unrelated source neck test timed out at 5 seconds; no candidate failure observed
-- next expected operation: Finish focused comparison, publish legacy benchmark, then switch to standalone-first-party branch
-- approximate battery percentage: 100%, charging
+- last error: none; optional current-source scan remains explicitly incomplete
+- next expected operation: Verify standalone branch commit, run its status/preparation checks, then begin the documented first-party dependency replacement
+- approximate battery percentage: 93%, charging
 - approximate Work usage remaining: not currently exposed
 - progress_status: ACTIVE
-- progress_counter: 13
+- progress_counter: 14
 - possible_stall: false
-- same-operation heartbeat streak: 1
+- same-operation heartbeat streak: 0
 - exact stop reason: none

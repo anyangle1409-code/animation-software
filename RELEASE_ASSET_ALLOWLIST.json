@@ -18,12 +18,17 @@
     "**/*v13*",
     "**/*v14*",
     "**/*v15*",
-    "**/*.blend"
+    "**/*.blend",
+    "HIGH_DETAIL_MESH_WORK/**",
+    "src/body/anatomical*.ts",
+    "scripts/generate-anatomical-body.mjs",
+    "THIRD_PARTY_ASSETS.md"
   ],
   "gates": [
     "Every shipped path must be explicitly approved.",
     "Final ORIGINAL character assets must have clean-room provenance evidence.",
     "Production runtime must have zero unresolved third-party runtime dependencies.",
-    "Reference renders, legacy characters and Blender working files are excluded."
+    "Reference renders, legacy characters and Blender working files are excluded.",
+    "MakeHuman-derived embedded anatomical arrays and their generator are excluded from the standalone release path."
   ]
 }

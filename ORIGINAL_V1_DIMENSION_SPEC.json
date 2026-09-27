@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "identity": "HGPT_ORIGINAL_V1_DIMENSION_TARGETS",
+  "provenance": "Derived only from project-authored historical profile design at e6ef05b and explicit project design choices; must be reviewed independently before canonical v4 freeze.",
+  "units": "metres unless stated",
+  "figure": {
+    "target_height": 1.75,
+    "shoulder_width_target": 0.44,
+    "hip_width_target": 0.34,
+    "chest_depth_target": 0.24,
+    "notes": "Historical clean scaffold design targets, not legacy imported/MakeHuman measurements."
+  },
+  "neutral_design_rules": [
+    "waist narrower than chest and hips",
+    "crown near target height; soles on floor",
+    "deltoid cap remains centred on shoulder joint",
+    "wrist substantially narrower than forearm",
+    "hand proportions support cylindrical power grip",
+    "pelvis/hip region supports deep flexion without surface collapse"
+  ],
+  "canonical_v4_rules": [
+    "derive segment lengths explicitly from original target dimensions",
+    "mirror left/right algorithmically",
+    "do not fit rest joints to V8/V13e/V15f surface vertices",
+    "do not import source-rig inverse bind matrices",
+    "record every final segment length and dimensionless body-height fraction"
+  ],
+  "status": "draft_clean_targets_not_frozen"
+}

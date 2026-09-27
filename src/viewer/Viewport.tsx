@@ -1,8 +1,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, TransformControls } from '@react-three/drei';
+import { TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
-import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
@@ -20,6 +19,10 @@ import { resolveCamera } from './cameras';
 import { advancePlaybackTime } from '../editor/playback';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { ReferenceGridView } from './ReferenceGridView';
+import {
+  FirstPartyOrbitControls,
+  type HgOrbitControlsHandle,
+} from './FirstPartyOrbitControls';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -53,7 +56,7 @@ function FrameDriver() {
 }
 
 /** Moves the camera to the selected preset, then hands control back to orbit. */
-function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl | null> }) {
+function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
   const scene = useSceneState();
   const preset = useStudio((state) => state.camera);
   const recommendation = useStudio((state) => state.document.exercise.camera);
@@ -109,7 +112,7 @@ function CameraRig({ controls }: { controls: React.RefObject<OrbitControlsImpl |
  * limits; on an IK handle it drags the target or pole. Both write through the
  * store, so every gizmo move is undoable like any other edit.
  */
-function Gizmo() {
+function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
   const scene = useSceneState();
   const selection = useStudio((state) => state.selection);
   const gizmoMode = useStudio((state) => state.gizmoMode);
@@ -187,9 +190,11 @@ function Gizmo() {
       size={0.8}
       onMouseDown={() => {
         dragging.current = true;
+        if (controls.current) controls.current.enabled = false;
       }}
       onMouseUp={() => {
         dragging.current = false;
+        if (controls.current) controls.current.enabled = true;
       }}
       onObjectChange={() => {
         const state = useStudio.getState();
@@ -251,7 +256,7 @@ function Gizmo() {
 }
 
 /** Gizmo for the selected IK target or pole handle. */
-function HandleGizmo() {
+function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
   const selection = useStudio((state) => state.selection.handle);
   const setIKTarget = useStudio((state) => state.setIKTarget);
   const scene = useSceneState();
@@ -287,9 +292,11 @@ function HandleGizmo() {
       size={0.6}
       onMouseDown={() => {
         dragging.current = true;
+        if (controls.current) controls.current.enabled = false;
       }}
       onMouseUp={() => {
         dragging.current = false;
+        if (controls.current) controls.current.enabled = true;
       }}
       onObjectChange={() => {
         setIKTarget(selection.chain, selection.kind, {
@@ -342,7 +349,7 @@ function Figure() {
 
 export function Viewport() {
   const scene = useMemo(createSceneState, []);
-  const controls = useRef<OrbitControlsImpl | null>(null);
+  const controls = useRef<HgOrbitControlsHandle | null>(null);
   const showGrid = useStudio((state) => state.showGrid);
   const selectBone = useStudio((state) => state.selectBone);
   const backdrop = BACKDROPS[useStudio((state) => state.backdrop)];
@@ -379,8 +386,8 @@ export function Viewport() {
 
         <FrameDriver />
         <Figure />
-        <Gizmo />
-        <HandleGizmo />
+        <Gizmo controls={controls} />
+        <HandleGizmo controls={controls} />
 
         {showGrid && !backdrop.floorless && (
           <ReferenceGridView cellColor={backdrop.cell} sectionColor={backdrop.section} />
@@ -392,15 +399,7 @@ export function Viewport() {
           </mesh>
         )}
 
-        <OrbitControls
-          ref={controls}
-          makeDefault
-          target={[0, 1.0, 0]}
-          minDistance={0.6}
-          maxDistance={12}
-          enableDamping
-          dampingFactor={0.12}
-        />
+        <FirstPartyOrbitControls ref={controls} />
         <CameraRig controls={controls} />
       </Canvas>
     </SceneStateContext.Provider>

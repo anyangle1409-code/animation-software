@@ -57,6 +57,29 @@ explicit review item for a compatible local browser.
 Next implementation increment: first-party Orbit controls, including desktop
 mouse orbit/zoom and iPhone one-finger rotate plus two-finger pinch zoom.
 
+## 2026-09-27 live Orbit controls checkpoint
+
+The live viewport now uses `FirstPartyOrbitControls`, backed by the prepared
+renderer-neutral `HgOrbitModel`. The adapter preserves:
+
+- camera preset and focus-camera synchronisation;
+- 0.6–12 m zoom limits;
+- frame-rate-independent 0.12 damping;
+- desktop primary-pointer rotation and wheel zoom;
+- iPhone-style one-finger rotation and two-finger pinch zoom;
+- suspension of orbit input while either existing transform gizmo is dragging.
+
+The viewport no longer imports Drei OrbitControls or `three-stdlib`. Focused
+camera/orbit/input parity is 15/15, typecheck and production build pass, and the
+complete regression is 939 passed / 1 intentional skip. The touch/input tests
+exercise the same Pointer Event path used by modern iPhone Safari.
+
+The physical browser/device visual gate remains **OPEN** because the available
+in-app localhost browser still does not execute the module application. Do not
+report that visual gate as passed. The next isolated increment is the first-party
+Transform gizmo for bone rotation, equipment translation/rotation, and IK target
+or pole translation.
+
 ## Prepared commands
 
 ```bat

@@ -13,12 +13,18 @@ isolated rerun (41/41). The in-app localhost browser could not execute the modul
 application, so the Grid visual gate is explicitly open rather than falsely
 marked pass.
 
-Continue with first-party Orbit controls next. Preserve the exact camera preset
-behavior, focus-camera updates, desktop rotate/zoom, 0.6–12 m distance envelope,
-0.12 damping characteristic, and iPhone one-finger rotate/two-finger pinch zoom.
-Do not begin Transform gizmo until Orbit has its own focused/typecheck/build/full
-regression checkpoint. Do not remove Drei while either OrbitControls or
-TransformControls remains live.
+The first-party Orbit controls increment is now implemented and validated:
+15/15 focused camera/orbit/input tests, typecheck, build, and 939/939 full-suite
+tests pass with one intentional skip. Desktop pointer/wheel and iPhone-style
+one-finger rotate/two-finger pinch input share the tested Pointer Event adapter.
+The physical visual/device gate remains open because the available localhost
+browser surface does not execute the module application.
+
+Continue with Transform gizmo. Preserve bone rotation with anatomical clamping,
+static equipment translation/rotation, socket transforms, IK target/pole
+translation, selection behavior, and orbit suspension while dragging. Do not
+remove Drei until the TransformControls import is zero and its focused,
+typecheck, build, full regression and interaction gates pass.
 
 ## Objective
 

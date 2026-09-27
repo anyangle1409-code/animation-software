@@ -139,3 +139,32 @@ At every unattended stop, record:
 - exact next command;
 - whether geometry/code changed;
 - standalone readiness blocker counts.
+
+
+## Prepared Zustand replacement checkpoint
+
+The standalone branch now contains:
+- `src/core/store.ts` — project-owned synchronous observable store + temporary React selector hook;
+- `src/core/store.test.ts`;
+- the three editor stores migrated away from direct `zustand` imports.
+
+Do **not** reimplement this from scratch first.
+
+First verify it locally:
+```
+npm run typecheck
+npm test -- --run src/core/store.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
+npm test -- --run
+```
+
+Use the repository's actual test command syntax if the package scripts differ.
+
+Then run the dependency/runtime scanners.
+
+Only if all checks pass:
+- remove `zustand` from `package.json`;
+- regenerate/update the lockfile through the normal package manager;
+- rerun typecheck/build/full tests;
+- update `docs/STANDALONE_PROGRESS.md`.
+
+If compilation exposes a selector/subscription parity issue, repair `src/core/store.ts`; do not restore Zustand as the final solution.

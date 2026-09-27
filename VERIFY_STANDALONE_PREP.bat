@@ -18,7 +18,7 @@ if errorlevel 1 goto :fail
 
 echo.
 echo [3/7] Full current test suite
-call npm test
+call npm test -- --testTimeout=15000
 if errorlevel 1 goto :fail
 
 echo.

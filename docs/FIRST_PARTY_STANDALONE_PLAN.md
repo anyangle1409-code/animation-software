@@ -8,6 +8,27 @@ Development tools may remain external tools (for example Blender, Git, Python, N
 
 This document is a project-engineering plan, not a legal opinion. Final commercial release should still receive an appropriate licence/provenance review.
 
+## Confirmed project boundary — 2026-09-27
+
+The required target is **operational/distributable independence**, not replacement of external development tools.
+
+Allowed during development, provided they are not shipped or required at runtime:
+- Blender;
+- Git/GitHub;
+- Python;
+- Node/npm;
+- TypeScript/Vite/Vitest/Playwright;
+- GPT/Claude;
+- operating-system and browser development tooling.
+
+The finished operational product must contain and require:
+- **zero third-party runtime implementation**;
+- **zero third-party models, textures, fonts, audio or other creative assets**;
+- **zero legacy/MakeHuman/imported character content**;
+- **zero remote CDN/script/font/runtime resource dependency**.
+
+Development-only packages do not fail this target if they are absent from the production output and not required for the finished product to operate.
+
 ## Two independence levels
 
 ### Level 1 — distributable independence (required)

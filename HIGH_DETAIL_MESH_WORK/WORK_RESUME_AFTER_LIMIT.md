@@ -332,6 +332,47 @@ Use the prepared scripts for:
 
 Do not spend a new Work session recreating tooling that already exists.
 
+## Remote progress heartbeat
+
+Maintain `REMOTE_PROGRESS.md` in addition to meaningful-event project-state
+syncs. While useful Blender, topology or diagnostic work is active, update and
+push it approximately every 20 minutes. Do not wait for a major checkpoint; if
+a checkpoint, gate, result or error occurs sooner, publish immediately.
+
+Every heartbeat records:
+
+- UTC timestamp and local task start time when known;
+- current branch and HEAD;
+- controller, safe-runner and Blender state (`running`, `idle` or `unavailable`);
+- current phase, digit, strategy and attempt number;
+- exact current operation, its start time and elapsed time;
+- most recent completed operation;
+- latest checkpoint, numeric gate, visual gate and relevant report;
+- whether geometry changed since the previous heartbeat;
+- whether an audit/render is running or Work appears blocked/waiting;
+- last error, unresolved blocker and next expected operation;
+- safely available battery and Work-usage estimates;
+- `progress_status: ACTIVE | WAITING | BLOCKED | COMPLETE | ERROR`;
+- a monotonically increasing `progress_counter`;
+- `possible_stall: true|false`.
+
+If the same operation is unchanged for two consecutive heartbeats, set
+`possible_stall: true` and record elapsed time. Clear it when progress resumes.
+
+Use `scripts/write_remote_progress.py` to write the compact heartbeat, then run
+`SYNC_PROJECT_STATE.bat`. Keep heartbeat commits tiny with the message
+`chore: remote progress heartbeat`. Stage only the approved remote status files;
+never use `git add .`. Never publish large logs, Blender files, renders, caches,
+private paths, credentials, account data or unrelated changes. A failed push
+must not interrupt geometry work; retry at the next heartbeat.
+
+Immediately before any unattended stop, publish a final heartbeat containing
+the progress status, exact stop reason, latest checkpoint, last successful gate,
+current unresolved blocker and exact next action. This applies to battery,
+allowance, Blender, frozen-rule and normal-completion stops. Heartbeats are
+observation only and must never change the geometry strategy merely to show
+activity.
+
 
 ## V15f directional hotspot aid
 

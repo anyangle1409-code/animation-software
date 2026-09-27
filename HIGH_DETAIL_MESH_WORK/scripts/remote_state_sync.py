@@ -20,6 +20,7 @@ REPORTS = ROOT / "reports"
 PREP_BRANCH = "work/v15-deep-hand-rebuild-prep-20260925"
 APPROVED_RELATIVE_PATHS = (
     "HIGH_DETAIL_MESH_WORK/REMOTE_STATUS.md",
+    "HIGH_DETAIL_MESH_WORK/REMOTE_PROGRESS.md",
     "HIGH_DETAIL_MESH_WORK/REMOTE_V15F_LATEST_HANDOFF.md",
     "HIGH_DETAIL_MESH_WORK/REMOTE_PROJECT_CONTROLLER_NEXT.md",
     "HIGH_DETAIL_MESH_WORK/REMOTE_PROJECT_CONTROLLER_STATE.json",
@@ -130,7 +131,7 @@ def project_head(repo: Path) -> str | None:
         subject = git_value(repo, "show", "-s", "--format=%s", commit)
         names = git_value(repo, "diff-tree", "--no-commit-id", "--name-only", "-r", commit)
         changed = {name for name in (names or "").splitlines() if name}
-        if subject != "chore: publish sanitized project state" or not changed or not changed <= set(APPROVED_RELATIVE_PATHS):
+        if subject not in {"chore: publish sanitized project state", "chore: remote progress heartbeat"} or not changed or not changed <= set(APPROVED_RELATIVE_PATHS):
             return commit
         commit = git_value(repo, "rev-parse", f"{commit}^")
     return None
@@ -437,7 +438,12 @@ def sync_snapshot(automatic: bool = False) -> int:
                 safe_log("sync refused: branch or HEAD changed before commit")
                 print("PROJECT_STATE_SYNC_REFUSED: branch or HEAD changed before commit", file=sys.stderr)
                 return 0 if automatic else 2
-            commit = run_git(REPO, "commit", "-m", "chore: publish sanitized project state", "--", *APPROVED_RELATIVE_PATHS)
+            message = (
+                "chore: remote progress heartbeat"
+                if "HIGH_DETAIL_MESH_WORK/REMOTE_PROGRESS.md" in staged
+                else "chore: publish sanitized project state"
+            )
+            commit = run_git(REPO, "commit", "-m", message, "--", *APPROVED_RELATIVE_PATHS)
             if commit.returncode != 0:
                 unstage_approved(REPO)
                 staged_by_sync = False

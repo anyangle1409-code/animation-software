@@ -8,7 +8,12 @@ const PKG=JSON.parse(fs.readFileSync(path.join(ROOT,"package.json"),"utf8"));
 
 const SOURCE_EXT=/\.(?:ts|tsx|js|jsx|mts|mjs)$/i;
 const ASSET_EXT=/\.(?:glb|gltf|fbx|obj|blend|png|jpg|jpeg|webp|svg|ico|woff2?|ttf|otf|mp3|wav|ogg|mp4|mov)$/i;
-const IGNORE=new Set([".git","node_modules","dist"]);
+const IGNORE=new Set([".git","node_modules","dist","coverage"]);
+const isOperationalSource=(file)=>{
+  const rel=path.relative(ROOT,file).replaceAll("\\","/");
+  return !/\.(?:test|spec)\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(rel) &&
+    !/(?:^|\/)test(?:s)?\//i.test(rel);
+};
 const LEGACY_PATTERNS=[
   /HOME_GYM_PT_GPT_MESH_HANDOFF/i,
   /review-assets[\\/]characters/i,
@@ -28,7 +33,9 @@ function walk(dir,out=[]){
   return out;
 }
 
-const sourceFiles=fs.existsSync(SRC) ? walk(SRC).filter(f=>SOURCE_EXT.test(f)) : [];
+const sourceFiles=fs.existsSync(SRC)
+  ? walk(SRC).filter(f=>SOURCE_EXT.test(f) && isOperationalSource(f))
+  : [];
 const bareImports=[];
 
 const importPatterns=[
@@ -54,12 +61,21 @@ const allFiles=walk(ROOT);
 const legacyFiles=allFiles
   .map(f=>path.relative(ROOT,f).replaceAll("\\","/"))
   .filter(rel=>ASSET_EXT.test(rel) && LEGACY_PATTERNS.some(re=>re.test(rel)));
+const operationalLegacyAssets=legacyFiles.filter(rel=>
+  /^(?:public|characters|src\/assets)\//i.test(rel)
+);
+const referenceLegacyFiles=legacyFiles.filter(rel=>!operationalLegacyAssets.includes(rel));
 
 const makeHumanSourceFiles=[];
 for(const file of sourceFiles){
   const rel=path.relative(ROOT,file).replaceAll("\\","/");
   const text=fs.readFileSync(file,"utf8");
-  if(/MakeHuman|makehuman|THIRD_PARTY_ASSETS/.test(text)) makeHumanSourceFiles.push(rel);
+  if(
+    /^src\/body\/anatomical.*\.ts$/i.test(rel) ||
+    /MakeHuman|makehuman|THIRD_PARTY_ASSETS/.test(text)
+  ) {
+    makeHumanSourceFiles.push(rel);
+  }
 }
 
 const runtimeDependencies=Object.entries(PKG.dependencies||{}).map(([name,version])=>({name,version}));
@@ -67,14 +83,14 @@ const runtimeDependencies=Object.entries(PKG.dependencies||{}).map(([name,versio
 const blockers={
   runtimeDependencies,
   bareImports,
-  legacyFiles,
+  operationalLegacyAssets,
   makeHumanSourceFiles:[...new Set(makeHumanSourceFiles)].sort(),
 };
 
 const pass=
   runtimeDependencies.length===0 &&
   bareImports.length===0 &&
-  legacyFiles.length===0 &&
+  operationalLegacyAssets.length===0 &&
   blockers.makeHumanSourceFiles.length===0;
 
 const report={
@@ -83,6 +99,10 @@ const report={
   pass,
   blockerCounts:Object.fromEntries(Object.entries(blockers).map(([k,v])=>[k,v.length])),
   blockers,
+  advisory:{
+    referenceLegacyFiles,
+    note:"Reference/dev legacy files outside operational asset roots may remain in the repository but must stay excluded by the release allowlist."
+  },
   notes:[
     "Development tools outside the shipped runtime are audited separately.",
     "A PASS here is an engineering gate, not a legal opinion.",

@@ -286,3 +286,28 @@ Do not add a hosted AI/API runtime dependency.
 The one reviewed dynamic fetch in `src/character/bundled.ts` is permitted only
 as a local packaged-character probe. Its final target must be ORIGINAL v1, not
 the V8 legacy asset.
+
+
+## Zustand lockfile nuance
+
+After the prepared first-party store passes verification and the project's
+**direct** `zustand` dependency is removed, `package-lock.json` may still
+contain Zustand entries temporarily.
+
+Current lockfile inspection shows Zustand is also required transitively by the
+existing R3F/Drei stack (including tunnel-rat).
+
+That is expected during migration.
+
+Do not manually delete transitive lock entries. Let `npm install` /
+`npm uninstall zustand` regenerate the lockfile normally.
+
+Milestones:
+1. first Zustand milestone = zero Home Gym PT runtime imports + no direct
+   `package.json` dependency;
+2. final standalone milestone = no Zustand code in the production output;
+3. lockfile/transitive Zustand disappears naturally when R3F/Drei and their
+   dependency graph are removed.
+
+The final product gate remains zero third-party runtime code. Temporary
+development/migration lockfile presence is not acceptance.

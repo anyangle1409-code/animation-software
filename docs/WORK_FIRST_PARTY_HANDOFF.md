@@ -255,3 +255,7 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - O2 materialisation rejects a local O1 Blend whose SHA-256 differs from committed O1 provenance; inspect/recover the verified source rather than rewriting the hash to bypass the guard.
 
 - When the laptop is available, use `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md` for exact desktop/iPhone Grid, Orbit and Transform checks. Record PASS/FAIL/NOT TESTED evidence; do not remove Drei from unit-test evidence alone.
+
+- The isolated `captureSceneFrame` boundary copies a resolved exercise frame into numeric matrices and contacts; focused real-clip tests pass. Next Work task: test an isolated scene-object adapter consuming the snapshot. `EquipmentView.tsx` character-specific display offsets and browser/device pixels remain separate parity gates. No production consumer moved.
+
+- The isolated flat scene-object adapter now passes real curl matrix tests and rejects incomplete or nested targets before mutation. Next Work task: establish `BoneGroups.tsx` hierarchy and transform parity, then one consumer bridge only after evidence. Live R3F `Canvas` stays intact.

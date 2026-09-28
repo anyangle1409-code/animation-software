@@ -324,3 +324,9 @@ O2 laptop preflight now checks the exact branch, Node.js and installed export to
 O2 materialisation now compares the local starting Blend against its committed O1 SHA-256 and validates clean-room origin/geometry/projection flags before modifying the scene. Eleven focused Python fixtures pass, including the committed provenance record. Cloud cannot compare the absent local Blend; a hash mismatch on the laptop is a stop-and-inspect condition.
 
 A physical browser/device handoff now lists exact desktop and iPhone checks and evidence for the still-open Grid/Orbit/Transform gate (`docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`). No visual parity claim or dependency removal was made in Cloud.
+
+## 2026-09-28 resolved-frame copy boundary
+
+An isolated `captureSceneFrame` copies solved bone and equipment world matrices plus contact targets into plain numeric data. Two focused tests use the real bicep curl at five times and verify matrix equality to the current evaluation and independence from mutable source objects. It adds no vendor runtime import, does not mount a renderer, and leaves the live viewport unchanged. Character-specific equipment display offsets still require their own parity coverage. Next Work task: apply this snapshot in an isolated scene-object adapter and test transform/disposal parity before considering any production consumer bridge.
+
+The separate flat scene-object adapter now applies those matrices to directly owned objects and preflights missing/nested/invalid targets. It remains unmounted and does not cover skinning or hierarchy. The next deterministic Work increment is to pin actual `BoneGroups.tsx` world/local transform behavior against this boundary; browser pixels and input still need laptop evidence.

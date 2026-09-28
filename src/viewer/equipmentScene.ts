@@ -45,8 +45,8 @@ function partMesh(part: Part): Mesh<BufferGeometry, MeshStandardMaterial> {
   );
   const position = part.position ?? [0, 0, 0];
   const rotation = 'rotation' in part ? part.rotation ?? [0, 0, 0] : [0, 0, 0];
-  mesh.position.set(...position);
-  mesh.rotation.set(...rotation);
+  mesh.position.set(position[0], position[1], position[2]);
+  mesh.rotation.set(rotation[0], rotation[1], rotation[2]);
   mesh.castShadow = true;
   return mesh;
 }

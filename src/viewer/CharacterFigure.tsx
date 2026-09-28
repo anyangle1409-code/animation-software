@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { MeshStandardMaterial } from 'three';
 import { skeleton, useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
-import { applyActivation } from '../body/ecorche';
 import { applyCharacterPose, characterSource } from '../character';
 import type { CharacterBuild, CharacterVariant } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
@@ -36,7 +35,6 @@ export function CharacterFigure({
   variant = 'skin',
 }: CharacterFigureProps) {
   const scene = useSceneState();
-  const involvement = useStudio((state) => state.document.exercise.muscles);
   // What the hands are holding, so a character with its own solved grip can
   // substitute it for the authored profile baked into the canonical pose.
   const hands = useStudio((state) => state.document.exercise.hands);
@@ -44,12 +42,6 @@ export function CharacterFigure({
   const build = useCharacterBuild(sourceId, variant);
   const correctivesPreview = useCharacter((state) => state.correctivesPreview);
 
-  // Which muscles the exercise works is data, and it can change under the view,
-  // so the scalar the shader reads is rebuilt rather than baked once.
-  useEffect(() => {
-    if (!build || variant !== 'ecorche' || !build.capabilities.anatomy) return;
-    for (const mesh of build.meshes) applyActivation(mesh.geometry, involvement);
-  }, [build, variant, involvement]);
 
   useEffect(() => {
     if (!build) return;

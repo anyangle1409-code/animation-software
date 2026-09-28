@@ -189,6 +189,50 @@ try {
     panelsOpen: true,
   };
 
+  const contactsTab = leftTabs.getByRole("button", { name: "Contacts", exact: true });
+  await contactsTab.click();
+  const contactPanelParity = await page.evaluate(async () => {
+    const [{ createContactPanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/contactPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      note: panel.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      empty: panel.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      cards: Array.from(panel.querySelectorAll(".contact-card")).map((card) => ({
+        className: card.getAttribute("class"),
+        head: card.querySelector(".contact-card__head")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        checked: card.querySelector('input[type="checkbox"]')?.checked ?? null,
+        status: card.querySelector(".contact-card__head strong")?.textContent ?? null,
+        metrics: Array.from(card.querySelectorAll(".contact-metrics > *")).map(
+          (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        ),
+      })),
+      hint: panel.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+    });
+
+    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] .contact-panel');
+    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Contact panel reference is unavailable");
+    const react = snapshot(reactPanel);
+
+    const firstParty = createContactPanelDom(document, studioStore);
+    firstParty.element.style.position = "fixed";
+    firstParty.element.style.left = "-10000px";
+    firstParty.element.style.top = "0";
+    document.body.append(firstParty.element);
+    const candidate = snapshot(firstParty.element);
+    firstParty.dispose();
+    firstParty.element.remove();
+    return { react, candidate };
+  });
+  assert.deepEqual(
+    contactPanelParity.candidate,
+    contactPanelParity.react,
+    "First-party Contact panel drifted from the React reference",
+  );
+  report.checks.firstPartyContactPanel = contactPanelParity.candidate;
+  await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

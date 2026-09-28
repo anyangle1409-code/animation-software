@@ -33,7 +33,7 @@ function FrameDriver() {
   const clip = useStudio((state) => state.document.clip);
   const anchors = useMemo(() => currentAnchors(clip), [clip]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const store = useStudio.getState();
     let time = store.time;
     if (store.playing) {
@@ -50,6 +50,11 @@ function FrameDriver() {
     }
     scene.frame = resolveFrame(skeleton, scene.evaluation, clip, time, { anchors });
     scene.evaluation.apply(scene.frame.pose);
+    scene.consumers.dispatch({
+      delta,
+      elapsed: state.clock.elapsedTime,
+      timestampMs: state.clock.elapsedTime * 1000,
+    });
   }, -1);
 
   return null;

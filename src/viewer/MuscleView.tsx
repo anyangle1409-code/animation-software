@@ -1,11 +1,10 @@
-import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import { Mesh } from 'three';
 import { MUSCLES, createMuscleTransform, resolveMuscle } from '../muscles/model';
 import { ACTIVATION_STYLES, activationMap, activationOf } from '../muscles/activation';
 import { MUSCLE_GROUPS } from '../muscles/groups';
 import { useStudio } from '../editor/store';
-import { useSceneState } from './sceneState';
+import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 
 /**
  * The muscle overlay. Every belly follows its own two attachment points, and is
@@ -18,7 +17,7 @@ export function MuscleView() {
   const meshes = useRef(new Map<string, Mesh>());
   const transform = useMemo(createMuscleTransform, []);
 
-  useFrame(() => {
+  useSceneFrame(() => {
     for (const muscle of MUSCLES) {
       const mesh = meshes.current.get(muscle.id);
       if (!mesh) continue;
@@ -27,7 +26,7 @@ export function MuscleView() {
       mesh.quaternion.copy(transform.quaternion);
       mesh.scale.copy(transform.scale);
     }
-  });
+  }, SCENE_FRAME_PRIORITY.muscle);
 
   return (
     <>

@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import { MeshStandardMaterial } from 'three';
 import { skeleton, useStudio } from '../editor/store';
@@ -6,7 +5,7 @@ import { useCharacter } from '../editor/characterStore';
 import { applyCharacterPose, characterSource } from '../character';
 import type { CharacterBuild, CharacterVariant } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
-import { useSceneState } from './sceneState';
+import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 
 export interface CharacterFigureProps {
   opacity?: number;
@@ -56,7 +55,7 @@ export function CharacterFigure({
     }
   }, [build, colour, opacity, depthWrite]);
 
-  useFrame(() => {
+  useSceneFrame(() => {
     const pose = scene.frame?.pose;
     if (!pose || !build) return;
     applyCharacterPose(build, skeleton, pose, scene.evaluation, {
@@ -64,7 +63,7 @@ export function CharacterFigure({
       grip: { kind: hands.grip, closure: hands.closure },
     });
     if (!correctivesPreview) suppressCorrectives(build.meshes);
-  });
+  }, SCENE_FRAME_PRIORITY.character);
 
   if (!build) return null;
   return <primitive object={build.object} />;

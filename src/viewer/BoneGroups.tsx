@@ -1,10 +1,9 @@
-import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { Group } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { skeleton } from '../editor/store';
-import { useSceneState } from './sceneState';
+import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 
 export interface BoneGroupsProps {
   /** Bones to create groups for; defaults to every bone in the rig. */
@@ -23,12 +22,12 @@ export function BoneGroups({ bones, children }: BoneGroupsProps) {
   const names = useMemo(() => bones ?? skeleton.names, [bones]);
   const groups = useRef(new Map<BoneName, Group>());
 
-  useFrame(() => {
+  useSceneFrame(() => {
     for (const [name, group] of groups.current) {
       group.matrix.copy(scene.evaluation.matrix(name));
       group.matrixWorldNeedsUpdate = true;
     }
-  });
+  }, SCENE_FRAME_PRIORITY.bone);
 
   return (
     <>

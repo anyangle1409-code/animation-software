@@ -1,8 +1,10 @@
 /**
  * Home Gym PT first-party animation-frame scheduler.
  *
- * R3F currently supplies useFrame ordering. This module reproduces only the
- * scheduling semantics Home Gym PT needs and has no rendering dependency.
+ * R3F currently supplies the outer render tick. HgFrameDispatcher owns the
+ * deterministic project-consumer ordering independently of that host, while
+ * HgFrameLoop adds an optional requestAnimationFrame-style scheduler for the
+ * future first-party host.
  */
 
 export interface HgFrame {
@@ -28,10 +30,35 @@ interface Entry {
   callback: HgFrameCallback;
 }
 
-export class HgFrameLoop {
+export class HgFrameDispatcher {
   private readonly entries = new Map<number, Entry>();
   private nextId = 1;
   private nextOrder = 1;
+
+  add(callback: HgFrameCallback, priority = 0): () => void {
+    const id = this.nextId++;
+    this.entries.set(id, { id, priority, order: this.nextOrder++, callback });
+    return () => {
+      this.entries.delete(id);
+    };
+  }
+
+  dispatch(frame: HgFrame): void {
+    const ordered = [...this.entries.values()].sort(
+      (a, b) => a.priority - b.priority || a.order - b.order,
+    );
+    for (const entry of ordered) {
+      if (this.entries.has(entry.id)) entry.callback(frame);
+    }
+  }
+
+  get subscriberCount(): number {
+    return this.entries.size;
+  }
+}
+
+export class HgFrameLoop {
+  private readonly consumers = new HgFrameDispatcher();
   private running = false;
   private handle: number | null = null;
   private startedAt: number | null = null;
@@ -40,16 +67,7 @@ export class HgFrameLoop {
   constructor(private readonly scheduler: HgFrameScheduler) {}
 
   add(callback: HgFrameCallback, priority = 0): () => void {
-    const id = this.nextId++;
-    this.entries.set(id, {
-      id,
-      priority,
-      order: this.nextOrder++,
-      callback,
-    });
-    return () => {
-      this.entries.delete(id);
-    };
+    return this.consumers.add(callback, priority);
   }
 
   /** Run one frame manually. Useful for deterministic tests and headless tools. */
@@ -60,22 +78,11 @@ export class HgFrameLoop {
     const previous = this.previousAt ?? timestampMs;
     this.previousAt = timestampMs;
 
-    const frame: HgFrame = {
+    this.consumers.dispatch({
       delta: Math.max(0, (timestampMs - previous) / 1000),
       elapsed: Math.max(0, (timestampMs - this.startedAt) / 1000),
       timestampMs,
-    };
-
-    // Snapshot before dispatch: callbacks may subscribe/unsubscribe while a
-    // frame is being processed without corrupting this frame's deterministic
-    // order.
-    const ordered = [...this.entries.values()].sort(
-      (a, b) => a.priority - b.priority || a.order - b.order,
-    );
-    for (const entry of ordered) {
-      // If it was removed by an earlier callback, do not run it later this frame.
-      if (this.entries.has(entry.id)) entry.callback(frame);
-    }
+    });
   }
 
   start(): void {
@@ -107,7 +114,7 @@ export class HgFrameLoop {
   }
 
   get subscriberCount(): number {
-    return this.entries.size;
+    return this.consumers.subscriberCount;
   }
 }
 

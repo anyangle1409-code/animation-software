@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import { Group, Matrix4 } from 'three';
 import { useStudio } from '../editor/store';
@@ -8,7 +7,7 @@ import { handAttachmentMatrix } from '../export/clipBuilder';
 import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
 import { reflectPlacement } from '../equipment/mirror';
 import { EquipmentMesh } from './equipmentMeshes';
-import { useSceneState } from './sceneState';
+import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 
 /**
  * Equipment placed by the frame pipeline. The transforms come from the
@@ -32,7 +31,7 @@ export function EquipmentView() {
   const groups = useRef(new Map<string, Group>());
   const scratch = useMemo(() => ({ hand: new Matrix4(), local: new Matrix4() }), []);
 
-  useFrame(() => {
+  useSceneFrame(() => {
     const transforms = scene.frame?.equipment;
     if (!transforms) return;
     for (const [id, group] of groups.current) {
@@ -112,7 +111,7 @@ export function EquipmentView() {
       group.matrix.copy(cableMatrix(from, to).matrix);
       group.matrixWorldNeedsUpdate = true;
     }
-  });
+  }, SCENE_FRAME_PRIORITY.equipment);
 
   return (
     <>

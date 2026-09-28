@@ -1,6 +1,15 @@
 import type { ResolvedFrame } from '../animation/pipeline';
+import { HgFrameDispatcher } from '../core/frameLoop';
 import { skeleton } from '../editor/store';
 import { PoseEvaluation } from '../rig/skeleton';
+
+export const SCENE_FRAME_PRIORITY = {
+  bone: 10,
+  character: 10,
+  muscle: 10,
+  equipment: 20,
+  ik: 20,
+} as const;
 
 /**
  * Renderer/framework-neutral mutable scene state.
@@ -13,9 +22,11 @@ import { PoseEvaluation } from '../rig/skeleton';
 export interface SceneState {
   evaluation: PoseEvaluation;
   frame: ResolvedFrame | null;
+  consumers: HgFrameDispatcher;
 }
 
 export const createSceneState = (): SceneState => ({
   evaluation: new PoseEvaluation(skeleton),
   frame: null,
+  consumers: new HgFrameDispatcher(),
 });

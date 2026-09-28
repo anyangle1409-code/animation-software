@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { HgFrameLoop } from './frameLoop';
+import { HgFrameDispatcher, HgFrameLoop } from './frameLoop';
 import type { HgFrameScheduler } from './frameLoop';
 
 function fakeScheduler() {
@@ -31,6 +31,23 @@ function fakeScheduler() {
     },
   };
 }
+
+describe('first-party frame dispatcher', () => {
+  it('runs explicit priorities and lets an earlier consumer remove a later one', () => {
+    const dispatcher = new HgFrameDispatcher();
+    const calls: string[] = [];
+    let removeLater = () => {};
+    dispatcher.add(() => {
+      calls.push('first');
+      removeLater();
+    }, 10);
+    removeLater = dispatcher.add(() => calls.push('later'), 20);
+    dispatcher.add(() => calls.push('same-priority'), 10);
+    dispatcher.dispatch({ delta: 0.016, elapsed: 1, timestampMs: 1000 });
+    expect(calls).toEqual(['first', 'same-priority']);
+    expect(dispatcher.subscriberCount).toBe(2);
+  });
+});
 
 describe('first-party frame loop', () => {
   it('runs lower priorities first and preserves insertion order within a priority', () => {

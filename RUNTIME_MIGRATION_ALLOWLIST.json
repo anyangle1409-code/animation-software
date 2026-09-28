@@ -12,18 +12,13 @@
   "final_target": [],
   "source_import_ceilings": {
     "@react-three/fiber": {
-      "max_imports": 8,
+      "max_imports": 3,
       "allowed_files": [
-        "src/viewer/BoneGroups.tsx",
-        "src/viewer/CharacterFigure.tsx",
-        "src/viewer/EquipmentView.tsx",
         "src/viewer/FirstPartyOrbitControls.tsx",
         "src/viewer/FirstPartyTransformGizmo.tsx",
-        "src/viewer/IKHandles.tsx",
-        "src/viewer/MuscleView.tsx",
         "src/viewer/Viewport.tsx"
       ],
-      "rule": "Imports may disappear from this set during migration but no new source file may import R3F."
+      "rule": "Only the temporary host/orbit/gizmo bridge may import R3F. Migrated visual consumers may not reacquire it."
     },
     "@react-three/drei": {
       "max_imports": 0,

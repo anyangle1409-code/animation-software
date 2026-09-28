@@ -1,10 +1,9 @@
-import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import { Mesh, Vector3 } from 'three';
 import { IK_CHAINS, IK_CHAIN_IDS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import { useStudio } from '../editor/store';
-import { useSceneState } from './sceneState';
+import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 import { sampleClip } from '../animation/clip';
 
 const TARGET_COLOUR = '#4fd6a0';
@@ -23,7 +22,7 @@ export function IKHandles() {
   const selectHandle = useStudio((state) => state.selectHandle);
   const handles = useRef(new Map<string, Mesh>());
 
-  useFrame(() => {
+  useSceneFrame(() => {
     const sample = sampleClip(clip, time);
     for (const chain of IK_CHAIN_IDS) {
       const goal = sample.ik[chain];
@@ -44,7 +43,7 @@ export function IKHandles() {
         target.position.copy(effector);
       }
     }
-  });
+  }, SCENE_FRAME_PRIORITY.ik);
 
   const handle = (chain: IKChainId, kind: 'target' | 'pole') => {
     const key = `${chain}:${kind}`;

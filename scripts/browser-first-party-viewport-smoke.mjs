@@ -335,7 +335,7 @@ try {
     "Detached Exercise panel remained mounted after right-tab change",
   );
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
-  const ikTab = leftTabs.getByRole("button", { name: "IK", exact: true });
+  const ikTab = leftTabs.getByRole("button", { name: "IK & locks", exact: true });
   await ikTab.click();
   const ikPanelParity = await page.evaluate(async () => {
     const [{ createIKPanelDom }, { studioStore }] = await Promise.all([

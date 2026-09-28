@@ -470,8 +470,8 @@ try {
     0,
     "Detached IK panel remained mounted after left-tab change",
   );
-  const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });
-  await equipmentTab.click();
+  const equipmentPanelTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });
+  await equipmentPanelTab.click();
   const equipmentOriginal = await page.evaluate(async () => {
     const [{ studioStore }, { EQUIPMENT_LIBRARY }] = await Promise.all([
       import("/src/editor/storeCore.ts"),

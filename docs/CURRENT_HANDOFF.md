@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`2d76489426ab1ba2149e62220ca99c81aa929760`
+`ea3b36deea51b9212276ac9ad730264fb507ade1`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 2d764894
+## Verified state at ea3b36d
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 130 test files PASS, 2 skipped
-- full tests: 935 PASS, 62 skipped
+- full suite: 132 test files PASS, 2 skipped
+- full tests: 939 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -128,6 +128,9 @@ Verified live shell state:
 - `src/editor/panels/ikPanelDom.ts` owns the live IK & locks editor only while the left IK tab is active;
 - IK preserves viewport-handle visibility, all chain enabled states, target/pole readouts and selection, lock descriptions and existing `toggleIK` / `selectHandle` / `toggle('showIkHandles')` / `setLockEnabled` behavior;
 - `src/editor/panels/IKPanel.tsx` is removed;
+- `src/editor/panels/equipmentPanelDom.ts` owns the live Equipment editor only while the left Equipment tab is active;
+- Equipment preserves selection, static object/socket transforms, reset, attachment wording, centimetre/degree formatting and existing store/history actions;
+- the redundant `src/editor/panels/EquipmentPanel.tsx` is removed after both required workflows passed at `ea3b36d`;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -135,18 +138,16 @@ Verified live shell state:
 
 Next exact increment:
 
-1. migrate `src/editor/panels/EquipmentPanel.tsx` to project-owned DOM/lifecycle code;
-2. preserve equipment selection, attachment-mode wording, object position/rotation editors, socket list/selection, socket local position/rotation editors and Reset socket behavior;
-3. preserve centimetre/degree display formatting and the distinction between static, cable, one-hand and two-hand ownership;
-4. preserve `selectEquipment`, `selectSocket`, `setEquipmentTransform` and `setEquipmentSocketTransform` through the existing store/history semantics; do not change equipment or grip mechanics;
-5. keep the React Equipment panel as the parity reference until focused tests and Chromium parity pass;
-6. mount the first-party Equipment surface only while `leftTab === 'equipment'` in the existing left-panel slot, with explicit disposal and no simultaneous React Equipment surface;
-7. only after the live Equipment switch is fully green remove `EquipmentPanel.tsx`, update these handoffs, then continue Character/Joint/Grip and remaining right-side editing panels incrementally;
-8. leave generation/review/export until lower-risk editing surfaces are complete;
-9. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
-10. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
-11. remove React/ReactDOM source imports and packages only after final browser/build gates;
-12. replace Three.js last.
+1. prepare the next first-party left-side panel after inspecting current Joint, Grip and Character dependencies; Joint is the likely next candidate;
+2. preserve all joint selection, axis limits, pose clipboard/mirroring, timing/easing, motion diagnostics and local finger visibility behavior if Joint is chosen;
+3. keep the React reference while focused tests and Chromium parity are established; switch only that tab live with explicit disposal, then remove its wrapper after both workflows pass;
+4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
+5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
+6. replace Three.js last.
+
+The Equipment reference removal in the next commit requires its own CI confirmation. Until then, the exact fully verified implementation checkpoint remains `ea3b36d`.
+
+Current direct `react`/`react-dom` source import statements: 12 before and after Equipment reference removal; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
 ## Remaining declared runtime dependencies
 

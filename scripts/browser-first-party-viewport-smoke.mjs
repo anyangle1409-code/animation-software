@@ -335,6 +335,52 @@ try {
     "Detached Exercise panel remained mounted after right-tab change",
   );
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  const ikTab = leftTabs.getByRole("button", { name: "IK", exact: true });
+  await ikTab.click();
+  const ikPanelParity = await page.evaluate(async () => {
+    const [{ createIKPanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/ikPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      checkLabels: Array.from(panel.querySelectorAll("label.field--check")).map((label) => ({
+        text: label.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        checked: label.querySelector('input[type="checkbox"]')?.checked ?? null,
+      })),
+      chains: Array.from(panel.querySelectorAll(".ik-chain")).map((chain) => ({
+        className: chain.getAttribute("class"),
+        label: chain.querySelector(".ik-chain__head span")?.textContent ?? null,
+        checked: chain.querySelector('.ik-chain__head input[type="checkbox"]')?.checked ?? null,
+        buttons: Array.from(chain.querySelectorAll(".ik-chain__body button")).map((button) => ({
+          className: button.getAttribute("class") ?? "",
+          text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        })),
+      })),
+      empty: panel.querySelector(".panel__empty")?.textContent ?? null,
+    });
+
+    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] > .panel');
+    if (!(reactPanel instanceof HTMLElement)) throw new Error("React IK panel reference is unavailable");
+    const react = snapshot(reactPanel);
+
+    const firstParty = createIKPanelDom(document, studioStore);
+    firstParty.element.style.position = "fixed";
+    firstParty.element.style.left = "-10000px";
+    firstParty.element.style.top = "0";
+    document.body.append(firstParty.element);
+    const candidate = snapshot(firstParty.element);
+    firstParty.dispose();
+    firstParty.element.remove();
+    return { react, candidate };
+  });
+  assert.deepEqual(
+    ikPanelParity.candidate,
+    ikPanelParity.react,
+    "First-party IK panel drifted from the React reference",
+  );
+  report.checks.firstPartyIkPanel = ikPanelParity.candidate;
+  await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

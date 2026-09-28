@@ -82,6 +82,7 @@ jobs:
           src/editor/panels/contactPanelMount.test.ts
           src/editor/panels/exercisePanelDom.test.ts
           src/editor/panels/exercisePanelMount.test.ts
+          src/editor/panels/ikPanelDom.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

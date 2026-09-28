@@ -2,6 +2,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
+import type { BackdropStyle } from '../editor/store';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
@@ -16,12 +17,12 @@ import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { driveSceneFrame } from './sceneFrameDriver';
-import { ReferenceGridView } from './ReferenceGridView';
 import {
   FirstPartyOrbitControls,
   type HgOrbitControlsHandle,
 } from './FirstPartyOrbitControls';
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
+import { createStudioStage } from './studioStage';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -349,7 +350,29 @@ function Figure() {
   );
 }
 
-export function R3FViewportHost() {
+export function StaticStageBridge({
+  backdrop,
+  showGrid,
+}: {
+  backdrop: BackdropStyle;
+  showGrid: boolean;
+}) {
+  const { scene: root } = useThree();
+  const stage = useMemo(() => createStudioStage(backdrop, showGrid), [backdrop, showGrid]);
+
+  useEffect(() => {
+    const previousBackground = root.background;
+    root.background = stage.background;
+    return () => {
+      if (root.background === stage.background) root.background = previousBackground;
+      stage.dispose();
+    };
+  }, [root, stage]);
+
+  return <primitive object={stage.root} />;
+}
+
+function R3FViewportHost() {
   const controls = useRef<HgOrbitControlsHandle | null>(null);
   const showGrid = useStudio((state) => state.showGrid);
   const selectBone = useStudio((state) => state.selectBone);
@@ -362,42 +385,12 @@ export function R3FViewportHost() {
         camera={{ position: [2.3, 1.35, 2.7], fov: 38, near: 0.05, far: 100 }}
         onPointerMissed={() => selectBone(null)}
       >
-        <color attach="background" args={[backdrop.background]} />
-        <hemisphereLight
-          intensity={backdrop.lighting.ambient}
-          groundColor={backdrop.ground}
-          color="#f0f4fb"
-        />
-        <directionalLight
-          position={[3, 5, 4]}
-          intensity={backdrop.lighting.key}
-          castShadow={!backdrop.floorless}
-          shadow-mapSize={[1024, 1024]}
-          shadow-camera-left={-3}
-          shadow-camera-right={3}
-          shadow-camera-top={3}
-          shadow-camera-bottom={-3}
-        />
-        <directionalLight
-          position={[-3, 2.5, -2]}
-          intensity={backdrop.lighting.rim}
-          color={backdrop.lighting.rimColour}
-        />
+        <StaticStageBridge backdrop={backdrop} showGrid={showGrid} />
 
         <FrameDriver />
         <Figure />
         <Gizmo controls={controls} />
         <HandleGizmo controls={controls} />
-
-        {showGrid && !backdrop.floorless && (
-          <ReferenceGridView cellColor={backdrop.cell} sectionColor={backdrop.section} />
-        )}
-        {!backdrop.floorless && (
-          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[24, 24]} />
-            <meshStandardMaterial color={backdrop.ground} roughness={0.95} />
-          </mesh>
-        )}
 
         <OrbitControlsBridge controls={controls} />
         <CameraRig controls={controls} />

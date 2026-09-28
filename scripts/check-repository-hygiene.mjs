@@ -25,6 +25,7 @@ const forbiddenPaths = [
   "docs/PREPARE_ORIGINAL_V1_CLEAN_ROOM.md",
   "docs/FIRST_PARTY_DREI_REPLACEMENT.md",
   "docs/FIRST_PARTY_FRAME_LOOP_PLAN.md",
+  "START_ORIGINAL_V1_CLEAN_ROOM.bat",
 ];
 
 const validDocCategories = new Set([

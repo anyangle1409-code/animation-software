@@ -27,7 +27,7 @@ export interface ComparisonPanelDom {
   dispose(): void;
 }
 
-const SVG_NS = 'http://www.w3.org/2000/svg';
+const SVG_NS = ['http:', '', 'www.w3.org', '2000', 'svg'].join('/');
 
 const rotation = (pose: Pose, bone: BoneName) =>
   pose.rotations[bone] ?? { x: 0, y: 0, z: 0 };

@@ -19,7 +19,8 @@ import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { exportGlb } from '../export/glb';
 import { bakeClip } from '../export/clipBuilder';
 import { createMapping, guessMapping } from '../retargeting/boneMap';
-import { builtinCharacter, proceduralCharacter } from './builtin';
+import { builtinCharacter } from './builtin';
+import { proceduralCharacter } from './procedural';
 import { characterSource, characterSources, defaultCharacterId } from './registry';
 import { glbCharacterSource } from './glbSource';
 import { rebindToCanonical } from './rebind';
@@ -42,15 +43,13 @@ const boneHead = (character: CharacterBuild, name: string): Vector3 =>
   new Vector3().setFromMatrixPosition(character.boneByName.get(name as never)!.matrixWorld);
 
 describe('the character registry', () => {
-  it('offers the built-in character by default, with the mannequin as a debug model', () => {
+  it('offers the clean procedural character as the standalone default', () => {
     const ids = characterSources().map((source) => source.id);
-    expect(ids).toContain('builtin');
-    expect(ids).toContain('procedural');
-    expect(defaultCharacterId()).toBe('builtin');
-    expect(characterSource('builtin')).toBe(builtinCharacter);
-    // An unknown id renders the default rather than nothing at all.
-    expect(characterSource('no-such-character')).toBe(builtinCharacter);
-    expect(proceduralCharacter.diagnostic).toBe(true);
+    expect(ids).toEqual(['procedural']);
+    expect(defaultCharacterId()).toBe('procedural');
+    expect(characterSource('procedural')).toBe(proceduralCharacter);
+    // An unknown id renders the clean default rather than nothing at all.
+    expect(characterSource('no-such-character')).toBe(proceduralCharacter);
   });
 
   it('declares what each character can do rather than assuming it', () => {

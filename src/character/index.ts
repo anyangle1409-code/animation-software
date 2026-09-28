@@ -12,7 +12,7 @@ export type {
 } from './types';
 export { assembleCharacter } from './build';
 export { buildCanonicalBones } from './bones';
-export { builtinCharacter, proceduralCharacter } from './builtin';
+export { proceduralCharacter } from './procedural';
 export { glbCharacterSource } from './glbSource';
 export type { GlbCharacterOptions, GlbCharacterSource } from './glbSource';
 export { retargetedCharacterSource, retargetSampler } from './retargetSource';

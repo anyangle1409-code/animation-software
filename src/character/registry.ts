@@ -1,17 +1,15 @@
-import { builtinCharacter, proceduralCharacter } from './builtin';
+import { proceduralCharacter } from './procedural';
 import type { CharacterSource } from './types';
 
 /**
  * The character registry.
  *
- * Sources register themselves here and the rest of the app asks for one by id.
- * Nothing outside this module imports a mesh builder, which is what makes the
- * visible character replaceable: a new source is one registration, and the
- * viewport, the exporter and the panels pick it up without changing.
+ * The active built-in fallback is the clean project-authored procedural
+ * scaffold. The legacy anatomical/MakeHuman-derived character is intentionally
+ * not registered on the standalone branch.
  */
-
 const sources = new Map<string, CharacterSource>();
-let fallback = builtinCharacter.id;
+let fallback = proceduralCharacter.id;
 
 export function registerCharacterSource<T extends CharacterSource>(source: T): T {
   sources.set(source.id, source);
@@ -20,7 +18,7 @@ export function registerCharacterSource<T extends CharacterSource>(source: T): T
 
 export function unregisterCharacterSource(id: string): void {
   sources.delete(id);
-  if (fallback === id) fallback = builtinCharacter.id;
+  if (fallback === id) fallback = proceduralCharacter.id;
 }
 
 /** Every registered source, presentation characters before diagnostic ones. */
@@ -30,9 +28,9 @@ export function characterSources(): CharacterSource[] {
   );
 }
 
-/** A source by id, falling back to the default rather than failing to render. */
+/** A source by id, falling back to the clean first-party scaffold. */
 export function characterSource(id?: string | null): CharacterSource {
-  return (id && sources.get(id)) || sources.get(fallback) || builtinCharacter;
+  return (id && sources.get(id)) || sources.get(fallback) || proceduralCharacter;
 }
 
 export function defaultCharacterId(): string {
@@ -44,5 +42,4 @@ export function setDefaultCharacter(id: string): void {
   if (sources.has(id)) fallback = id;
 }
 
-registerCharacterSource(builtinCharacter);
 registerCharacterSource(proceduralCharacter);

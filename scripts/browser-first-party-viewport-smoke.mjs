@@ -616,39 +616,42 @@ try {
   );
 
   await leftTabs.getByRole("button", { name: "Character", exact: true }).evaluate((button) => button.click());
-  const characterPreparationParity = await page.evaluate(async () => {
-    const [{ createCharacterPanelDom }, { characterStore }] = await Promise.all([
-      import("/src/editor/panels/characterPanelDom.ts"),
-      import("/src/editor/characterStoreCore.ts"),
-    ]);
+  const liveCharacterPanel = await page.evaluate(async () => {
+    const { characterStore } = await import("/src/editor/characterStoreCore.ts");
     const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
-    const react = slot?.querySelector(".panel");
-    if (!(react instanceof HTMLElement)) throw new Error("React Character parity reference unavailable");
-    const candidate = createCharacterPanelDom();
-    const snapshot = (node) => ({
-      heading: node.querySelector("h2")?.textContent,
-      note: node.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim(),
-      controls: [...node.querySelectorAll("select")].map((select) => ({
-        value: select.value,
-        options: [...select.options].map((option) => [option.value, option.textContent]),
-      })),
-      actions: [...node.querySelectorAll("button")].map((button) => button.textContent?.trim()),
-      empty: node.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim(),
-    });
-    const before = { react: snapshot(react), candidate: snapshot(candidate.element) };
-    const original = characterStore.getState().bindMode;
-    candidate.element.querySelector('[data-hgpt-character-control="bind-mode"]').value = "rebind";
-    candidate.element.querySelector('[data-hgpt-character-control="bind-mode"]').dispatchEvent(new Event("change", { bubbles: true }));
-    const bindRouted = characterStore.getState().bindMode === "rebind";
-    characterStore.getState().setBindMode(original);
-    candidate.dispose();
-    return { before, bindRouted };
+    const panel = document.querySelector('[data-hgpt-panel="character-first-party"]');
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Character panel is unavailable");
+    const bind = panel.querySelector('[data-hgpt-character-control="bind-mode"]');
+    const input = panel.querySelector('[data-hgpt-character-control="file"]');
+    if (!(bind instanceof HTMLSelectElement) || !(input instanceof HTMLInputElement)) {
+      throw new Error("Character bind/import controls are unavailable");
+    }
+    const before = characterStore.getState().bindMode;
+    bind.value = before === "preserve" ? "rebind" : "preserve";
+    bind.dispatchEvent(new Event("change", { bubbles: true }));
+    const bindRouted = characterStore.getState().bindMode === bind.value;
+    characterStore.getState().setBindMode(before);
+    return {
+      insideLeftPanel: panel.parentElement === slot,
+      panelCount: slot?.querySelectorAll(".panel").length ?? -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="character-first-party"]').length,
+      heading: panel.querySelector("h2")?.textContent,
+      sourceCount: panel.querySelector('[data-hgpt-character-control="source"]')?.querySelectorAll("option").length ?? 0,
+      importAccept: input.accept,
+      bindRouted,
+    };
   });
-  assert.deepEqual(characterPreparationParity.before.candidate, characterPreparationParity.before.react,
-    "Prepared first-party Character initial controls diverge from the React reference");
-  assert.equal(characterPreparationParity.bindRouted, true, "Prepared Character bind mode did not route to the store");
-  report.checks.characterPreparationParity = characterPreparationParity;
+  assert.equal(liveCharacterPanel.insideLeftPanel, true, "Character panel is outside the left-panel slot");
+  assert.equal(liveCharacterPanel.panelCount, 1, "Character tab has multiple live panel surfaces");
+  assert.equal(liveCharacterPanel.firstPartyCount, 1, "First-party Character ownership is ambiguous");
+  assert.equal(liveCharacterPanel.heading, "Character");
+  assert(liveCharacterPanel.sourceCount > 0, "Character source selector is empty");
+  assert.equal(liveCharacterPanel.importAccept, ".glb,.gltf,model/gltf-binary");
+  assert.equal(liveCharacterPanel.bindRouted, true, "Character bind mode did not route to its store");
+  report.checks.liveCharacterPanel = liveCharacterPanel;
   await leftTabs.getByRole("button", { name: "Joint", exact: true }).evaluate((button) => button.click());
+  assert.equal(await page.locator('[data-hgpt-panel="character-first-party"]').count(), 0,
+    "Detached Character panel remained mounted after left-tab change");
 
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");

@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
 import { JointPanel } from './panels/JointPanel';
 import { ExportPanel } from './panels/ExportPanel';
-import { CharacterPanel } from './panels/CharacterPanel';
 import { GripPanel } from './panels/GripPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
@@ -33,7 +32,6 @@ export function App({ shell }: AppProps) {
     <>
       {leftTab === 'joint' && <JointPanel />}
       {leftTab === 'grip' && <GripPanel />}
-      {leftTab === 'character' && <CharacterPanel />}
     </>
   );
 

@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`3bc0d876f1e1e5bb8d52fa54780e43215050d1f6`
+`55592fb320e3aaad17c2d431469a7241a5477769`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 3bc0d87
+## Verified state at 55592fb
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 132 test files PASS, 2 skipped
-- full tests: 939 PASS, 62 skipped
+- full suite: 133 test files PASS, 2 skipped
+- full tests: 942 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -138,9 +138,9 @@ Verified live shell state:
 
 Next exact increment:
 
-1. confirm the prepared `characterPanelDom.ts` passes both workflows with its focused tests and Chromium parity while the React Character panel remains live;
-2. mount the first-party Character panel only while `leftTab === "character"`, with explicit disposal and no simultaneous React Character panel;
-3. preserve source/bind selection, GLB import, status/report/mapping controls, viewport switch and removal; remove the React wrapper only after the live checkpoint passes both workflows;
+1. verify the live first-party Character switch in both workflows;
+2. after both are green, remove the redundant `CharacterPanel.tsx` and update these handoffs;
+3. continue the next left-side panel (Joint or Grip) in the same preparation, live switch, cleanup sequence;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
@@ -149,7 +149,7 @@ The Equipment reference removal passed both required workflows at `3bc0d87`.
 
 Current direct `react`/`react-dom` source import statements: 12; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
-The next preparation commit adds a detached first-party Character controller and Chromium comparison. It is not live until a later parity-gated switch.
+The Character preparation passed both workflows at `55592fb`. The next commit mounts the first-party Character panel live, pending its own CI verification. Its React wrapper remains in the tree only as a parity reference.
 
 ## Remaining declared runtime dependencies
 

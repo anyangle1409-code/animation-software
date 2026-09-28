@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`3bc0d876f1e1e5bb8d52fa54780e43215050d1f6`
+`55592fb320e3aaad17c2d431469a7241a5477769`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `3bc0d87`:
+At `55592fb`:
 
 - Standalone prep verification: PASS
-- full suite: 132 test files PASS, 2 skipped
-- full tests: 939 PASS, 62 skipped
+- full suite: 133 test files PASS, 2 skipped
+- full tests: 942 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -136,17 +136,13 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **Character live switch**, after preparation CI passes.
+Next exact increment: **verify Character live switch and remove reference**.
 
-The prepared `characterPanelDom.ts` reads the framework-neutral character/Studio stores. Its focused tests cover bind selection, import/view switch, mapping edit/save/removal and disposal. Chromium compares its detached initial controls with the live React Character reference. The React panel remains live at this preparation checkpoint.
+The Character preparation passed both required workflows at `55592fb`. Its first-party controller and focused tests preserve source/bind selection, import/view switch, status/report/mapping actions and removal; Chromium compared detached initial controls with the live React reference.
 
-1. confirm both workflows for the preparation commit;
-2. add a Character mount bound to `leftTab === 'character'`, remove simultaneous React rendering and cover mount/disposal;
-3. extend Chromium smoke to assert live ownership and import/bind/mapping behavior;
-4. after both live workflows pass, remove the redundant `CharacterPanel.tsx`;
-5. continue Joint/Grip and right-side panels, then viewport adapter, bridge and root.
+The next commit mounts Character only while its left tab is active, with explicit disposal and no simultaneous React copy. Focused mount tests and live Chromium ownership, bind routing and disposal checks pass locally; both required workflows must pass before removing `CharacterPanel.tsx`.
 
-Direct R3F/Drei source imports are zero, and direct React/ReactDOM source import statements total 12. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+After that, continue Joint/Grip and right-side panels, then viewport adapter, bridge and root. Direct R3F/Drei source imports remain zero, and direct React/ReactDOM source import statements total 12. The five declared runtime packages remain `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

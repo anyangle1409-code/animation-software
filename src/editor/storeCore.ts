@@ -133,7 +133,7 @@ export interface Selection {
   socketId: string | null;
 }
 
-export export interface StudioState {
+export interface StudioState {
   document: StudioDocument;
   history: History<StudioDocument>;
 

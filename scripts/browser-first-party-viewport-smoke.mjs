@@ -214,6 +214,122 @@ try {
   assert.equal(firstPartyShellDom.panelToggleText, "Show panels");
   report.checks.firstPartyEditorShellDom = firstPartyShellDom;
 
+  const firstPartyToolbarDom = await page.evaluate(async () => {
+    const [{ createStudioToolbarDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/toolbarDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+
+    const original = studioStore.getState();
+    const originalState = {
+      exerciseId: original.document.exercise.id,
+      viewMode: original.viewMode,
+      backdrop: original.backdrop,
+      camera: original.camera,
+    };
+
+    const toolbar = createStudioToolbarDom(document, studioStore);
+    toolbar.element.style.position = "fixed";
+    toolbar.element.style.left = "-10000px";
+    toolbar.element.style.top = "0";
+    document.body.append(toolbar.element);
+
+    const viewLabels = Object.values(toolbar.controls.viewModes).map(
+      (button) => button.textContent,
+    );
+    const initialExerciseOptions = Array.from(toolbar.controls.exerciseSelect.options).map(
+      (option) => option.textContent,
+    );
+    const initial = {
+      title: toolbar.element.querySelector(".toolbar__title")?.textContent ?? null,
+      subtitle: toolbar.element.querySelector(".toolbar__subtitle")?.textContent ?? null,
+      viewLabels,
+      initialExerciseOptionCount: initialExerciseOptions.length,
+      undoDisabled: toolbar.controls.undo.disabled,
+      redoDisabled: toolbar.controls.redo.disabled,
+    };
+
+    toolbar.controls.viewModes.skeleton.click();
+    toolbar.controls.backdropSelect.value = "void";
+    toolbar.controls.backdropSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    toolbar.controls.cameraSelect.value = "front";
+    toolbar.controls.cameraSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    toolbar.controls.exerciseSelect.value = "air_squat";
+    toolbar.controls.exerciseSelect.dispatchEvent(new Event("change", { bubbles: true }));
+
+    const routed = studioStore.getState();
+    const routedState = {
+      exerciseId: routed.document.exercise.id,
+      viewMode: routed.viewMode,
+      backdrop: routed.backdrop,
+      camera: routed.camera,
+    };
+
+    const candidate = {
+      ...routed.document.exercise,
+      id: "hgpt_toolbar_probe_candidate",
+      name: "Toolbar Probe Candidate",
+    };
+    studioStore.getState().loadDefinition(candidate);
+    const candidateLabel = toolbar.controls.exerciseSelect.options[0]?.textContent ?? null;
+
+    toolbar.controls.regenerate.click();
+    const undoEnabledAfterRegenerate = !toolbar.controls.undo.disabled;
+    toolbar.controls.undo.click();
+    const redoEnabledAfterUndo = !toolbar.controls.redo.disabled;
+
+    studioStore.getState().loadExercise(originalState.exerciseId);
+    studioStore.getState().setViewMode(originalState.viewMode);
+    studioStore.getState().setBackdrop(originalState.backdrop);
+    studioStore.getState().setCamera(originalState.camera);
+
+    toolbar.dispose();
+    toolbar.element.remove();
+
+    return {
+      initial,
+      routedState,
+      candidateLabel,
+      undoEnabledAfterRegenerate,
+      redoEnabledAfterUndo,
+    };
+  });
+
+  assert.equal(firstPartyToolbarDom.initial.title, "Home Gym PT");
+  assert.equal(firstPartyToolbarDom.initial.subtitle, "Animation Studio");
+  assert.deepEqual(
+    firstPartyToolbarDom.initial.viewLabels,
+    ["Skeleton", "Muscles", "Combined", "Character", "Anatomy"],
+    "First-party Toolbar view-mode labels drifted from the React reference",
+  );
+  assert.equal(
+    firstPartyToolbarDom.initial.initialExerciseOptionCount >= 1,
+    true,
+    "First-party Toolbar exercise selector is empty",
+  );
+  assert.deepEqual(firstPartyToolbarDom.routedState, {
+    exerciseId: "air_squat",
+    viewMode: "skeleton",
+    backdrop: "void",
+    camera: "front",
+  });
+  assert.equal(
+    firstPartyToolbarDom.candidateLabel,
+    "Candidate: Toolbar Probe Candidate",
+    "First-party Toolbar did not expose a generated candidate",
+  );
+  assert.equal(
+    firstPartyToolbarDom.undoEnabledAfterRegenerate,
+    true,
+    "First-party Toolbar did not enable Undo after Regenerate",
+  );
+  assert.equal(
+    firstPartyToolbarDom.redoEnabledAfterUndo,
+    true,
+    "First-party Toolbar did not enable Redo after Undo",
+  );
+  report.checks.firstPartyToolbarDom = firstPartyToolbarDom;
+
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas').first();
   await canvas.waitFor({ state: "visible", timeout: 20_000 });
   await page.waitForTimeout(900);

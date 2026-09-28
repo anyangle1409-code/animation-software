@@ -8,6 +8,32 @@
     "react-dom",
     "three"
   ],
-  "rule": "package.json dependencies must be a subset of this list until the list reaches empty. New entries are forbidden.",
-  "final_target": []
+  "rule": "package.json dependencies must be a subset of this list until the list reaches empty. New entries are forbidden. Source-import ceilings are one-way migration guards: counts/files may only decrease.",
+  "final_target": [],
+  "source_import_ceilings": {
+    "@react-three/fiber": {
+      "max_imports": 8,
+      "allowed_files": [
+        "src/viewer/BoneGroups.tsx",
+        "src/viewer/CharacterFigure.tsx",
+        "src/viewer/EquipmentView.tsx",
+        "src/viewer/FirstPartyOrbitControls.tsx",
+        "src/viewer/FirstPartyTransformGizmo.tsx",
+        "src/viewer/IKHandles.tsx",
+        "src/viewer/MuscleView.tsx",
+        "src/viewer/Viewport.tsx"
+      ],
+      "rule": "Imports may disappear from this set during migration but no new source file may import R3F."
+    },
+    "@react-three/drei": {
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "Drei source imports are already zero and may not return."
+    },
+    "zustand": {
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "Direct Zustand source imports are already zero and may not return."
+    }
+  }
 }

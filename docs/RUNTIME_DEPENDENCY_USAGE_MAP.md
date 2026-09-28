@@ -2,21 +2,19 @@
 
 ## Authority
 
-This document describes the migration surfaces and ordering. It does **not** freeze import counts.
+This document describes durable migration boundaries. It does not freeze live import counts.
 
-For exact current imports, always run:
+For the exact current task use `docs/CURRENT_HANDOFF.md`.
+
+For live source counts run:
 
 ```bash
 node scripts/map-third-party-runtime.mjs
 ```
 
-and use `reports/third_party_runtime_usage.json` from that run.
+## Declared runtime packages
 
-For the exact current task and branch, start with `docs/CURRENT_HANDOFF.md`.
-
-## Current package-level state
-
-The standalone branch still declares five direct runtime dependencies while migration is in progress:
+The branch still declares:
 
 - `@react-three/drei`
 - `@react-three/fiber`
@@ -24,85 +22,62 @@ The standalone branch still declares five direct runtime dependencies while migr
 - `react-dom`
 - `three`
 
-Direct Zustand has already been removed and the project-owned observable store is active.
+Direct Zustand is removed.
 
-Drei has zero source imports. It remains installed only because the physical Grid/Orbit/Transform desktop/iPhone parity gate has not yet been completed. Do not remove it merely to reduce the dependency count.
+A declared package is not evidence of a live source dependency; source import ceilings and production-output gates are separate.
 
-## @react-three/fiber
+## R3F / Drei
 
-R3F still owns the live scene host and/or frame/event lifecycle around several viewer consumers. The exact import list is scanner-generated and changes as the migration advances.
+Operational source imports for both are **zero**.
 
-The behaviours that must survive removal are:
+The live viewport is project-owned and the R3F rollback path is removed.
 
-- one canvas/scene/camera lifecycle;
-- DPR/resize/context-loss handling;
-- ordered frame evaluation with pose resolution before visual consumers;
-- character, bone, equipment, muscle and IK-handle updates;
-- orbit/camera progression;
-- picking, pointer capture, missed selection and gizmo interaction;
-- disposal and detach semantics.
+Both packages remain temporarily because the explicit physical desktop/iPhone Grid/Orbit/Transform gate for Drei is still open and the packages share the peer ecosystem. Source imports may not return.
 
-Prepared project-owned boundaries include:
+## React / ReactDOM — active source migration
 
-- `src/core/frameLoop.ts`
-- `src/core/sceneLifecycle.ts`
-- `src/core/browserSceneSurface.ts`
-- `src/viewer/threeSceneHost.ts`
-- `src/viewer/sceneFrameSnapshot.ts`
-- `src/viewer/sceneFrameObjects.ts`
-- renderer-neutral per-consumer snapshots/resolvers recorded in the current R3F handoff
-- framework-neutral `sceneStateCore.ts`
+React currently supplies editor/scene composition lifecycle and the ReactDOM root.
 
-The live host must move only after the required numerical and browser/device parity evidence exists.
+Already moved outside React:
 
-## React / ReactDOM
+- observable Studio store core
+- keyboard shortcut controller
+- editor layout state
+- WebGL/canvas/frame/pointer viewport runtime
+- scene-host binding types
+- substantial scene geometry/update/pointer logic
 
-React still drives the editor UI and temporary viewer wrappers.
+Current task-specific handoff:
 
-Removal comes **after R3F**, because replacing UI state/lifecycle while the scene bridge is still changing would combine unrelated risks.
+`docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md`
 
-Target behaviour:
+Target:
 
-- project-owned DOM construction/update helpers;
-- project-owned store subscriptions;
-- explicit lifecycle/disposal;
-- standard DOM pointer/keyboard events;
-- preserved accessibility, timeline/editor behaviour and mobile inspection.
-
-The core store is already framework-independent apart from its temporary React hook bridge.
+- project-owned DOM creation/update/disposal;
+- direct store subscriptions;
+- explicit browser event lifecycle;
+- project-owned scene controller;
+- preserved editor/viewport behavior.
 
 ## Three.js
 
-Three remains the largest and final runtime dependency.
+Three remains the final large migration target and stays last.
 
-Current responsibilities include combinations of:
+It still supplies significant math, rig/IK helpers, scene objects/materials, camera/raycasting, GLB integrations and final WebGL rendering.
 
-- vectors/quaternions/matrices/Eulers;
-- rig/FK/IK/contact math;
-- bones and skinning objects;
-- character/equipment scene objects;
-- materials/geometry;
-- camera and picking helpers;
-- GLTF/GLB loading/export;
-- final WebGL rendering.
-
-Prepared first-party foundations already exist for math, skeleton/pose parity, GLB container/accessor/builder work and scene lifecycle.
-
-Three removal stays last so renderer replacement is not mixed with a simultaneous biomechanics rewrite.
+Prepared first-party foundations already exist for math, skeleton/pose parity, GLB building and lifecycle.
 
 ## Required order
 
-1. Complete the R3F consumer/host migration and physical parity.
-2. Remove R3F.
-3. Remove React/ReactDOM after UI parity.
-4. Migrate remaining engine/rig/GLB/renderer responsibilities off Three.
-5. Remove Three.
-6. Remove Drei as soon as its separate physical parity gate permits; it does not need to wait for the later steps once that gate is genuinely passed.
-7. Re-run the full standalone/release audits after every dependency removal.
+1. R3F source migration — **complete**.
+2. React/ReactDOM source and UI/lifecycle migration — **current**.
+3. Complete physical gate and retire Drei/R3F packages when install/peer behavior is safe.
+4. Three.js replacement last.
+5. Run final provenance, production-output, release-allowlist and offline gates.
 
 ## Non-negotiable rules
 
-- Do not replace one third-party runtime library with another.
-- Do not change exercise mechanics, joint limits, contacts or acceptance thresholds to accommodate a replacement implementation.
-- Do not delete a dependency while production imports/behaviour still require it.
-- Do not treat a unit-test pass as a substitute for an explicitly required physical visual/input gate.
+- no replacement third-party runtime framework;
+- no exercise/biomechanics changes to make migration easier;
+- no dependency removal before behavioral/parity requirements are met;
+- no test or provenance threshold weakening.

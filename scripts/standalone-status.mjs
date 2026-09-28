@@ -8,7 +8,7 @@ const deps=Object.keys(pkg.dependencies||{}).sort();
 
 const exists=(p)=>fs.existsSync(path.join(ROOT,p));
 const prepared={
-  firstPartyStore:exists("src/core/store.ts"),
+  firstPartyStore:exists("src/core/observableStore.ts") && exists("src/core/store.ts"),
   firstPartyMath:exists("src/core/linearMath.ts"),
   firstPartyGlb:
     exists("src/core/glbContainer.ts") &&
@@ -38,13 +38,16 @@ const characterPath={
   preservedRecoverySha:"502adedc9fd5c7ddbee1b74cd0472879de6fb047",
 };
 
-const nextCloud=deps.includes("@react-three/fiber")
-  ? "Continue the staged R3F consumer/host migration from docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md. Do not remove R3F before its parity gates pass."
-  : deps.includes("react") || deps.includes("react-dom")
-    ? "Migrate the editor/viewer UI to project-owned DOM bindings and remove React/ReactDOM after parity."
-    : deps.includes("three")
-      ? "Finish first-party rig/GLB/renderer integration and remove Three.js last."
-      : "Runtime dependency count is zero. Run final provenance, production-output, allowlist and offline acceptance gates.";
+const r3fSourceRemoved=
+  !exists("src/viewer/R3FViewportHost.tsx") &&
+  exists("src/viewer/FirstPartyViewportHost.tsx") &&
+  exists("src/viewer/firstPartyViewportRuntime.ts");
+
+const nextCloud=deps.includes("react") || deps.includes("react-dom")
+  ? "Continue docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md. R3F/Drei source imports are zero; migrate React scene composition/editor chrome to project-owned lifecycle/DOM bindings."
+  : deps.includes("three")
+    ? "Finish first-party rig/GLB/renderer integration and remove Three.js last."
+    : "Runtime dependency count is zero. Run final provenance, production-output, allowlist and offline acceptance gates.";
 
 const nextLaptop=deps.includes("@react-three/drei")
   ? "Complete the physical desktop/iPhone Grid/Orbit/Transform parity gate; remove Drei only after that gate passes. Blender track: run PREPARE_ORIGINAL_V1_O2.bat and continue ORIGINAL v1 O2."
@@ -65,6 +68,7 @@ const result={
     directZustandRemoved:!deps.includes("zustand"),
     legacyV8RuntimePathRemoved:true,
     derivedAnatomicalRuntimePathRemoved:characterPath.derivedAnatomicalLineageAbsent,
+    r3fSourceRemoved,
   },
   prepared,
   characterPath,

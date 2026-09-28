@@ -1,103 +1,38 @@
-# React Three Fiber first-party migration — current handoff
+# React Three Fiber migration — completed source transition
 
-Branch: `work/standalone-first-party-audit-20260927`
+## Status
 
-Verified checkpoint:
+**Completed for operational source. Supporting historical record only.**
 
-`a78dcedbe363523805425f3d92e6d82ae133b38f`
+Verified completion checkpoint:
 
-Direct R3F source surface:
+`fba111978563a09dc991bb79b341f1bd9164ee14`
 
-- imports: **1**
-- file: `src/viewer/R3FViewportHost.tsx`
+Subsequent verified work continues on the first-party viewport.
 
-The migration allowlist forbids R3F imports anywhere else.
+## Completion state
 
-## Completed
+- live viewport: `FirstPartyViewportHost`
+- `R3FViewportHost.tsx`: removed
+- `@react-three/fiber` source imports: 0
+- `@react-three/drei` source imports: 0
+- R3F/Drei import ceilings: 0
+- first-party host is the sole live viewport path
+- rollback path removed
+- automated Chromium parity/smoke passes
+- real WebGL + real exercise-frame driving verified through project-owned host/runtime
+- scene pointer routing, orbit, camera, stage, frame scheduling and scene object ownership are project-owned
 
-Project-owned / host-neutral work now includes:
+## Package note
 
-- `sceneFrameDriver.ts`
-- `studioStage.ts`
-- `cameraRigController.ts`
-- `sceneHostBindings.tsx`
-- `SceneObjectMount.tsx`
-- `scenePointerRouter.ts`
-- `transformGizmoScene.ts`
-- first-party orbit model/input
-- CharacterFigure scene ownership
-- MuscleView scene ownership
-- SkeletonView scene ownership/picking
-- EquipmentView scene ownership/picking
-- IKHandles scene ownership/picking
-- transform gizmo geometry/pointers outside R3F reconciliation
+The R3F and Drei packages remain declared temporarily while the separate physical desktop/iPhone Grid/Orbit/Transform gate is open. This does **not** authorize source imports to return.
 
-The browser probe proves `ThreeSceneHost` can run real WebGL, the project-owned stage and real exercise-frame state.
+Package retirement must preserve install/peer consistency and follow the current handoff.
 
-## What remains in R3FViewportHost
+## Current work
 
-Only the host adapter still depends directly on R3F:
+Do not continue migration work from this document.
 
-1. `Canvas`
-2. one `useFrame` clock adapter
-3. one `useThree` adapter for camera/scene/canvas
-4. React composition inside the Canvas
-5. `onPointerMissed` fallback around the first-party router
+Current software migration is React/ReactDOM:
 
-Scene visuals and pointer targets are now mounted through project-owned objects/ports.
-
-## Next exact task — reversible first-party Studio host
-
-Create a React wrapper for the project-owned host that:
-
-- owns a normal DOM container + canvas;
-- creates a Three `WebGLRenderer`;
-- creates `ThreeSceneHost(browserFrameScheduler(), browserSceneSurface(...), renderer)`;
-- creates `HgScenePointerRouter(host.camera, host.scene, canvas, onMiss)`;
-- provides the same `SceneHostBindingsProvider`;
-- registers `host.onFrame` to call `driveSceneFrame`;
-- mounts the same scene content components used by the R3F reference path;
-- disposes router/renderer/scene resources deterministically.
-
-Refactor shared scene content out of `R3FViewportHost.tsx` rather than duplicating behavior.
-
-Add a reversible selection mechanism such as:
-
-`?sceneHost=first-party`
-
-Default remains R3F until browser parity passes.
-
-## Acceptance before R3F removal
-
-Run the same browser smoke against the first-party host and require:
-
-- stage/backdrop parity
-- skeleton playback
-- character/muscle/equipment/IK rendering
-- transform gizmo rendering/interaction
-- camera presets
-- orbit/wheel
-- pointer picking/miss/capture
-- resize/DPR
-- no critical errors
-
-Physical/iPhone touch evidence remains a separate gate.
-
-## R3F removal
-
-Only after first-party-host parity:
-
-1. make first-party host default;
-2. prove browser + full suite again;
-3. remove `@react-three/fiber`;
-4. set R3F import ceiling to zero;
-5. rerun all standalone/release gates.
-
-## Drei
-
-Drei source imports are already zero. Package removal still waits for the physical desktop/iPhone Grid/Orbit/Transform gate.
-
-## After R3F
-
-1. React/ReactDOM replacement
-2. Three.js replacement last
+`docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md`

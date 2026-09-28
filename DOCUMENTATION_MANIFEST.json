@@ -75,8 +75,8 @@
       "note": "Required physical desktop/iPhone visual/input parity gate."
     },
     "docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md": {
-      "category": "current_technical",
-      "note": "Current R3F removal handoff."
+      "category": "supporting_reference",
+      "note": "Completed R3F source-transition record; not the current migration handoff."
     },
     "docs/RUNTIME_DEPENDENCY_USAGE_MAP.md": {
       "category": "current_technical",
@@ -177,6 +177,10 @@
     "docs/ORIGINAL_V1_SCAFFOLD_USAGE.md": {
       "category": "supporting_reference",
       "note": "O1 scaffold recovery/usage reference."
+    },
+    "docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Current React/ReactDOM first-party migration handoff."
     }
   }
 }

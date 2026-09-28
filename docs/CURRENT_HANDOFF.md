@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`a78dcedbe363523805425f3d92e6d82ae133b38f`
+`6294907d3bd48a775e6250584b5420537a43a89b`
 
-Do not reconstruct state from historical branches, old chats, removed reports, or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md`, and `docs/DECISION_LOG.md`, then continue only the exact task below.
+Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at a78dcedb
+## Verified state at 6294907d
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 101 test files PASS, 2 skipped
-- full tests: 887 PASS, 62 skipped
+- full suite: 105 test files PASS, 2 skipped
+- full tests: 898 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -37,7 +37,7 @@ The separate real-browser `Browser viewport smoke` workflow also passed.
 - branch: `archive/pre-makehuman-removal-20260928`
 - commit: `502adedc9fd5c7ddbee1b74cd0472879de6fb047`
 
-Recovery/audit history only.
+Recovery/audit history only. Do not develop from it or copy legacy/derived production content back into the active branch.
 
 ## Character / provenance state
 
@@ -57,9 +57,68 @@ Active temporary fallback:
 
 Production target remains independently authored **ORIGINAL v1**.
 
-## Remaining runtime dependencies
+## R3F status — source migration complete
 
-Five direct runtime dependencies remain declared:
+The live viewport is now first-party:
+
+- `src/viewer/Viewport.tsx` mounts only `FirstPartyViewportHost`
+- `src/viewer/R3FViewportHost.tsx` is removed
+- direct `@react-three/fiber` source imports: **0**
+- direct `@react-three/drei` source imports: **0**
+- the migration allowlist pins both ceilings at zero
+- the rollback path has been removed
+- browser smoke passes on the first-party viewport
+- the project-owned WebGL host drives real exercise frames through `driveSceneFrame`
+
+The packages remain declared temporarily because Drei's separate physical desktop/iPhone gate is still open and the packages share the same peer ecosystem. Do not reintroduce source imports.
+
+## React / ReactDOM status — current software target
+
+React still renders the editor and scene-content adapters, but core state/runtime ownership is already moving out:
+
+Completed and verified:
+
+- `src/core/observableStore.ts`: framework-neutral state primitive
+- `studioStore`: framework-neutral Studio state instance
+- `useStudio`: temporary React adapter only
+- `keyboardController.ts`: framework-neutral shortcut semantics
+- `layoutState.ts`: framework-neutral editor tab/panel state
+- `firstPartyViewportRuntime.ts`: framework-neutral canvas/WebGL/frame/pointer lifecycle
+- `sceneHostTypes.ts`: host bindings type no longer owned by a React context file
+- first-party viewport lifecycle no longer depends on R3F
+
+React remains in:
+
+- `src/main.tsx` / ReactDOM root
+- `App.tsx`, Toolbar, Timeline and editor panels
+- temporary scene-state and scene-host context adapters
+- `StudioSceneContent.tsx` and thin visual lifecycle wrappers
+- asynchronous character-build/view lifecycle wrappers
+- temporary React store hooks
+
+## Cloud/software track — next exact task
+
+Continue from:
+
+`docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md`
+
+Next objective: build a **framework-neutral Studio scene controller** while preserving the current React scene as the verified reference.
+
+Use the project-owned modules already present; do not rewrite rendering logic.
+
+Priority:
+
+1. compose the existing stage, skeleton, muscle, equipment, IK-handle and transform-gizmo scene modules under one plain TypeScript controller;
+2. subscribe directly to `studioStore` / character state and the scene frame dispatcher;
+3. own create/update/pointer-registration/disposal explicitly;
+4. keep `StudioSceneContent.tsx` as the reference adapter until browser parity passes;
+5. then make the controller the live scene path and remove the redundant React scene wrappers;
+6. migrate editor chrome/panels to project-owned DOM bindings;
+7. replace `src/main.tsx` ReactDOM root only after editor + viewport parity;
+8. remove React/ReactDOM;
+9. replace Three.js last.
+
+## Remaining declared runtime dependencies
 
 - `@react-three/drei`
 - `@react-three/fiber`
@@ -69,82 +128,13 @@ Five direct runtime dependencies remain declared:
 
 Direct Zustand is removed.
 
-Drei has zero source imports but remains installed until the explicit physical desktop/iPhone Grid/Orbit/Transform gate passes.
-
-## Current R3F boundary
-
-Direct R3F imports are isolated to exactly:
-
-`src/viewer/R3FViewportHost.tsx`
-
-Already project-owned / R3F-neutral:
-
-- scene frame driver
-- static Studio stage
-- camera rig controller
-- scene host bindings
-- scene object mounting
-- scene pointer router with raycast/bubbling/capture
-- CharacterFigure scene ownership
-- MuscleView scene ownership
-- SkeletonView scene ownership/picking
-- EquipmentView scene ownership/picking
-- IKHandles scene ownership/picking
-- transform-gizmo scene geometry/pointer handling
-- orbit model/input
-- real-WebGL first-party host probe running real exercise frames
-
-R3F still owns only:
-
-- `Canvas` renderer lifecycle
-- one `useFrame` outer clock adapter
-- one `useThree` binding adapter
-- React composition around those adapters
-- `onPointerMissed` fallback around the first-party pointer router
-
-## Browser evidence
-
-Automated Chromium covers the live viewport for:
-
-- WebGL/drawing buffer
-- camera presets
-- orbit/wheel zoom
-- stage/backdrop
-- skeleton playback
-- character/muscle/equipment/IK visuals
-- transform gizmo selection/rendering
-- responsive resize
-- no critical page/console/request errors
-
-The isolated project-owned `ThreeSceneHost` also runs real WebGL, the first-party stage, and real bicep-curl exercise frames through `driveSceneFrame`.
-
-Physical/iPhone touch acceptance remains separate.
-
-## Cloud/software track — next exact task
-
-Continue from `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`.
-
-Build a **reversible first-party Studio viewport host** while keeping R3F as the default reference path.
-
-Requirements:
-
-1. reuse the same `SceneState`, scene host bindings, visual components, pointer router, orbit controls, camera rig and transform gizmo;
-2. create canvas/renderer/lifecycle through `ThreeSceneHost` + `browserSceneSurface`;
-3. drive frames through `driveSceneFrame`;
-4. expose a deliberate test/dev switch such as `?sceneHost=first-party` while R3F remains default;
-5. run the same Chromium evidence set against the first-party path;
-6. do not remove R3F until parity passes.
-
-After R3F removal:
-
-1. React/ReactDOM replacement
-2. Three.js replacement last
+Source use of R3F/Drei is already zero; React/ReactDOM is the active source migration; Three stays last.
 
 ## Physical browser/device gate
 
 Use `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`.
 
-Physical desktop/iPhone touch/Transform evidence is still required before Drei removal.
+Physical desktop/iPhone touch/Transform evidence remains required before Drei removal. Automated Chromium is supplementary evidence, not a substitute for this physical gate.
 
 ## Laptop / Blender track
 
@@ -155,13 +145,15 @@ STANDALONE_STATUS.bat
 PREPARE_ORIGINAL_V1_O2.bat
 ```
 
-Do not use legacy/reference geometry as production input.
+Continue only the independent ORIGINAL v1 / canonical-v4 path.
 
 ## Do not
 
 - reopen V15f development
 - restore removed legacy/MakeHuman/V8 paths
-- promote procedural fallback as final anatomy
-- spread R3F imports beyond `R3FViewportHost.tsx`
-- remove dependencies before their parity gates
+- promote the procedural fallback as final anatomy
+- restore R3F/Drei source imports
+- replace React with another third-party UI framework
+- alter exercise mechanics to simplify UI/runtime migration
+- remove dependencies before their stated parity gates
 - weaken tests, provenance rules, ceilings or release gates

@@ -12,22 +12,22 @@
     {
       "id": "runtime_ui",
       "category": "code",
-      "status": "third_party_dependent",
+      "status": "react_migration_in_progress",
       "third_party": [
         "react",
         "react-dom"
       ],
-      "required_action": "replace"
+      "required_action": "Continue docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md; migrate scene composition/editor DOM lifecycle, prove parity, then remove React/ReactDOM."
     },
     {
       "id": "runtime_scene_bridge",
       "category": "code",
-      "status": "third_party_dependent",
+      "status": "first_party_scene_host_verified_packages_temporarily_retained",
       "third_party": [
         "@react-three/fiber",
         "@react-three/drei"
       ],
-      "required_action": "Complete R3F staged parity migration and remove R3F; Drei has zero source imports but remains installed pending the physical Grid/Orbit/Transform gate."
+      "required_action": "Keep R3F/Drei source imports at zero. First-party viewport is sole live path. Retire packages only when the separate physical Drei gate and peer/install consistency permit."
     },
     {
       "id": "runtime_renderer_math_gltf",
@@ -43,7 +43,8 @@
       "category": "code",
       "status": "first_party_replacement_verified",
       "third_party": [],
-      "required_action": "keep first-party store regression and dependency-creep guards active"
+      "required_action": "keep first-party store regression and dependency-creep guards active",
+      "notes": "Framework-neutral observableStore/studioStore are active; React hook remains a temporary adapter during UI migration."
     },
     {
       "id": "male_character",

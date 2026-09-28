@@ -8,7 +8,7 @@ import type { BoneName } from '../rig/boneNames';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { EXERCISES } from '../exercises/library';
-import { createMapping, guessMapping, reportMapping } from './boneMap';
+import { createMapping, guessMapping } from './boneMap';
 import type { BoneMapping } from './boneMap';
 import { applyRetarget, bindRetarget, readCharacter } from './retarget';
 

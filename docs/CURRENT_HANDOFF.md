@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`db473efdf819e64c88193e7d80d99a2510c49b22`
+`2d76489426ab1ba2149e62220ca99c81aa929760`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at db473efd
+## Verified state at 2d764894
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 128 test files PASS, 2 skipped
-- full tests: 931 PASS, 62 skipped
+- full suite: 130 test files PASS, 2 skipped
+- full tests: 935 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -125,6 +125,9 @@ Verified live shell state:
 - `src/editor/panels/exercisePanelDom.ts` owns the live Exercise editor only while the right Exercise tab is active;
 - Exercise preserves metadata, tempo, muscles, breathing, grip/stance and equipment presentation plus existing `setTempo` / `setGripClosure` regeneration/history behavior;
 - `src/editor/panels/ExercisePanel.tsx` is removed;
+- `src/editor/panels/ikPanelDom.ts` owns the live IK & locks editor only while the left IK tab is active;
+- IK preserves viewport-handle visibility, all chain enabled states, target/pole readouts and selection, lock descriptions and existing `toggleIK` / `selectHandle` / `toggle('showIkHandles')` / `setLockEnabled` behavior;
+- `src/editor/panels/IKPanel.tsx` is removed;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -132,13 +135,13 @@ Verified live shell state:
 
 Next exact increment:
 
-1. migrate `src/editor/panels/IKPanel.tsx` to project-owned DOM/lifecycle code;
-2. preserve the viewport-handle visibility checkbox, all IK-chain enabled states, target/pole coordinate readouts and target/pole selection buttons;
-3. preserve `toggleIK`, `selectHandle`, `toggle('showIkHandles')` and lock-checkbox routing through the existing store actions without changing IK/contact mechanics;
-4. preserve lock descriptions and the no-locks empty state;
-5. keep the React IK panel as the parity reference until focused tests and Chromium parity pass;
-6. mount the first-party IK surface only while `leftTab === 'ik'` in the existing left-panel slot, with explicit disposal and no simultaneous React IK surface;
-7. only after the live IK switch is fully green remove `IKPanel.tsx`, update these handoffs, then continue Joint/Grip/Equipment/Character and remaining right-side editing panels incrementally;
+1. migrate `src/editor/panels/EquipmentPanel.tsx` to project-owned DOM/lifecycle code;
+2. preserve equipment selection, attachment-mode wording, object position/rotation editors, socket list/selection, socket local position/rotation editors and Reset socket behavior;
+3. preserve centimetre/degree display formatting and the distinction between static, cable, one-hand and two-hand ownership;
+4. preserve `selectEquipment`, `selectSocket`, `setEquipmentTransform` and `setEquipmentSocketTransform` through the existing store/history semantics; do not change equipment or grip mechanics;
+5. keep the React Equipment panel as the parity reference until focused tests and Chromium parity pass;
+6. mount the first-party Equipment surface only while `leftTab === 'equipment'` in the existing left-panel slot, with explicit disposal and no simultaneous React Equipment surface;
+7. only after the live Equipment switch is fully green remove `EquipmentPanel.tsx`, update these handoffs, then continue Character/Joint/Grip and remaining right-side editing panels incrementally;
 8. leave generation/review/export until lower-risk editing surfaces are complete;
 9. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
 10. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;

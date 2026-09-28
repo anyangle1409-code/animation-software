@@ -8,7 +8,9 @@ Verified completion checkpoint:
 
 `fba111978563a09dc991bb79b341f1bd9164ee14`
 
-Subsequent verified work continues on the first-party viewport.
+Latest verified post-completion checkpoint:
+
+`ffd75da172267685c06bd440125c0aa76a7e5519`
 
 ## Completion state
 
@@ -22,6 +24,8 @@ Subsequent verified work continues on the first-party viewport.
 - automated Chromium parity/smoke passes
 - real WebGL + real exercise-frame driving verified through project-owned host/runtime
 - scene pointer routing, orbit, camera, stage, frame scheduling and scene object ownership are project-owned
+- subsequent React migration moved complete Studio scene composition into the framework-neutral `studioSceneController.ts`
+- redundant React scene composition wrappers have been removed without restoring any R3F source boundary
 
 ## Package note
 

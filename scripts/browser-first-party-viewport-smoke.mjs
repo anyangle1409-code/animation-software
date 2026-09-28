@@ -365,6 +365,79 @@ try {
   );
   report.checks.firstPartyToolbarDom = firstPartyToolbarDom;
 
+  const firstPartyTimelineDom = await page.evaluate(async () => {
+    const [{ createStudioTimelineDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/timelineDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const original = studioStore.getState();
+    const originalState = {
+      time: original.time, playing: original.playing, loop: original.loop,
+      speed: original.speed, loopRange: original.loopRange,
+    };
+    studioStore.getState().pause();
+    studioStore.getState().setTime(0);
+    studioStore.getState().setLoop(true);
+    studioStore.getState().setSpeed(1);
+    studioStore.getState().setLoopRange(null);
+
+    const timeline = createStudioTimelineDom(document, studioStore);
+    timeline.element.style.position = "fixed";
+    timeline.element.style.left = "-10000px";
+    timeline.element.style.top = "0";
+    document.body.append(timeline.element);
+
+    const initial = {
+      play: timeline.controls.play.textContent,
+      phaseCount: timeline.element.querySelectorAll(".timeline__phase").length,
+      keyCount: timeline.element.querySelectorAll(".timeline__key").length,
+      hasStartMarker: Boolean(timeline.element.querySelector(".timeline__key.marker-start")),
+      speed: timeline.controls.speed.value,
+      loop: timeline.controls.loop.checked,
+    };
+    timeline.controls.play.click();
+    const playingAfterClick = studioStore.getState().playing;
+    studioStore.getState().pause();
+    timeline.controls.speed.value = "1.5";
+    timeline.controls.speed.dispatchEvent(new Event("change", { bubbles: true }));
+    timeline.controls.loop.checked = false;
+    timeline.controls.loop.dispatchEvent(new Event("change", { bubbles: true }));
+    const duration = studioStore.getState().document.clip.duration;
+    studioStore.getState().setTime(duration / 2);
+    timeline.controls.setIn.click();
+    const routed = studioStore.getState();
+    const routedState = {
+      playingAfterClick,
+      speed: routed.speed,
+      loop: routed.loop,
+      loopRangeStart: routed.loopRange?.start ?? null,
+      playhead: timeline.controls.playhead.style.left,
+    };
+
+    studioStore.getState().pause();
+    studioStore.getState().setTime(originalState.time);
+    studioStore.getState().setLoop(originalState.loop);
+    studioStore.getState().setSpeed(originalState.speed);
+    studioStore.getState().setLoopRange(originalState.loopRange);
+    if (originalState.playing) studioStore.getState().play();
+    timeline.dispose();
+    timeline.element.remove();
+    return { initial, routedState };
+  });
+
+  assert.equal(firstPartyTimelineDom.initial.play, "Play");
+  assert.equal(firstPartyTimelineDom.initial.speed, "1");
+  assert.equal(firstPartyTimelineDom.initial.loop, true);
+  assert(firstPartyTimelineDom.initial.phaseCount > 0, "First-party Timeline rendered no phases");
+  assert(firstPartyTimelineDom.initial.keyCount >= 2, "First-party Timeline rendered too few keyframes");
+  assert.equal(firstPartyTimelineDom.initial.hasStartMarker, true, "First-party Timeline lost the semantic start marker");
+  assert.equal(firstPartyTimelineDom.routedState.playingAfterClick, true);
+  assert.equal(firstPartyTimelineDom.routedState.speed, 1.5);
+  assert.equal(firstPartyTimelineDom.routedState.loop, true);
+  assert.equal(firstPartyTimelineDom.routedState.playhead, "50%");
+  assert(typeof firstPartyTimelineDom.routedState.loopRangeStart === "number", "First-party Timeline did not route Set In");
+  report.checks.firstPartyTimelineDom = firstPartyTimelineDom;
+
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas').first();
   await canvas.waitFor({ state: "visible", timeout: 20_000 });
   await page.waitForTimeout(900);

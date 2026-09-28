@@ -268,81 +268,93 @@ try {
     studioStore.getState().pause();
   });
 
-  const reactMusclePanel = await page
-    .locator('[data-hgpt-editor-slot="right-panel"] .panel')
-    .first()
-    .evaluate((panel) => ({
-      heading: panel.querySelector("h2")?.textContent ?? null,
-      hint: panel.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      summary: panel.querySelector(".muscle-diagnostics__summary")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      activeOnly: panel.querySelector('input[type="checkbox"]')?.checked ?? null,
-      region: panel.querySelector("select")?.value ?? null,
-      regionOptions: Array.from(panel.querySelectorAll("select option")).map((option) => option.textContent),
-      rows: Array.from(panel.querySelectorAll(".muscle-diagnostic")).map((row) => ({
-        name: row.querySelector(".muscle-diagnostic__name")?.textContent ?? null,
-        role: row.querySelector(".muscle-diagnostic__role")?.textContent ?? null,
-        readings: Array.from(row.querySelectorAll(".muscle-reading")).map(
-          (reading) => reading.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        ),
-      })),
-    }));
-
-  const firstPartyMusclePanel = await page.evaluate(async () => {
-    const [{ createMusclePanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/musclePanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
-    const panel = createMusclePanelDom(document, studioStore);
-    panel.element.style.position = "fixed";
-    panel.element.style.left = "-10000px";
-    panel.element.style.top = "0";
-    document.body.append(panel.element);
-
-    const snapshot = {
-      heading: panel.element.querySelector("h2")?.textContent ?? null,
-      hint: panel.element.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      summary: panel.element.querySelector(".muscle-diagnostics__summary")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      activeOnly: panel.controls.activeOnly.checked,
-      region: panel.controls.region.value,
-      regionOptions: Array.from(panel.controls.region.options).map((option) => option.textContent),
-      rows: Array.from(panel.element.querySelectorAll(".muscle-diagnostic")).map((row) => ({
-        name: row.querySelector(".muscle-diagnostic__name")?.textContent ?? null,
-        role: row.querySelector(".muscle-diagnostic__role")?.textContent ?? null,
-        readings: Array.from(row.querySelectorAll(".muscle-reading")).map(
-          (reading) => reading.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        ),
-      })),
+  const liveMusclePanel = await page.evaluate(() => {
+    const slot = document.querySelector('[data-hgpt-editor-slot="right-panel"]');
+    const panel = document.querySelector('[data-hgpt-panel="muscles-first-party"]');
+    const activeOnly = panel?.querySelector('input[type="checkbox"]');
+    const region = panel?.querySelector("select");
+    return {
+      exists: panel instanceof HTMLElement,
+      insideRightPanel:
+        panel instanceof HTMLElement &&
+        slot instanceof HTMLElement &&
+        panel.parentElement === slot,
+      panelCount:
+        slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="muscles-first-party"]').length,
+      heading: panel?.querySelector("h2")?.textContent ?? null,
+      diagnosticCount: panel?.querySelectorAll(".muscle-diagnostic").length ?? 0,
+      activeOnly: activeOnly instanceof HTMLInputElement ? activeOnly.checked : null,
+      region: region instanceof HTMLSelectElement ? region.value : null,
     };
-
-    panel.controls.activeOnly.checked = true;
-    panel.controls.activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
-    const activeOnlyCount = panel.element.querySelectorAll(".muscle-diagnostic").length;
-    panel.controls.activeOnly.checked = false;
-    panel.controls.activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
-    panel.controls.region.value = "arms";
-    panel.controls.region.dispatchEvent(new Event("change", { bubbles: true }));
-    const armsCount = panel.element.querySelectorAll(".muscle-diagnostic").length;
-
-    panel.dispose();
-    panel.element.remove();
-    return { snapshot, activeOnlyCount, armsCount };
   });
-
-  assert.deepEqual(
-    firstPartyMusclePanel.snapshot,
-    reactMusclePanel,
-    "First-party Muscle diagnostics drifted from the React reference",
+  assert.equal(liveMusclePanel.exists, true, "First-party Muscle panel is not live");
+  assert.equal(
+    liveMusclePanel.insideRightPanel,
+    true,
+    "First-party Muscle panel is not mounted in the right-panel slot",
   );
+  assert.equal(liveMusclePanel.panelCount, 1, "Muscles tab has multiple live panel surfaces");
+  assert.equal(liveMusclePanel.firstPartyCount, 1, "First-party Muscle ownership is ambiguous");
+  assert.equal(liveMusclePanel.heading, "Muscle diagnostics");
+  assert(liveMusclePanel.diagnosticCount > 0, "First-party Muscle panel rendered no diagnostics");
+  assert.equal(liveMusclePanel.activeOnly, false, "Muscle active-only filter did not start at the React default");
+  assert.equal(liveMusclePanel.region, "all", "Muscle region filter did not start at the React default");
+
+  const filteredMusclePanel = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="muscles-first-party"]');
+    const activeOnly = panel?.querySelector('input[type="checkbox"]');
+    const region = panel?.querySelector("select");
+    if (!(activeOnly instanceof HTMLInputElement) || !(region instanceof HTMLSelectElement)) {
+      throw new Error("Muscle filters are unavailable");
+    }
+    const initialCount = panel?.querySelectorAll(".muscle-diagnostic").length ?? 0;
+    activeOnly.checked = true;
+    activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
+    const activeCount = panel?.querySelectorAll(".muscle-diagnostic").length ?? 0;
+    activeOnly.checked = false;
+    activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
+    region.value = "arms";
+    region.dispatchEvent(new Event("change", { bubbles: true }));
+    const armsCount = panel?.querySelectorAll(".muscle-diagnostic").length ?? 0;
+    return { initialCount, activeCount, armsCount };
+  });
   assert(
-    firstPartyMusclePanel.activeOnlyCount < firstPartyMusclePanel.snapshot.rows.length,
+    filteredMusclePanel.activeCount < filteredMusclePanel.initialCount,
     "Active-only Muscle filter did not reduce the visible diagnostic set",
   );
   assert(
-    firstPartyMusclePanel.armsCount > 0 &&
-      firstPartyMusclePanel.armsCount < firstPartyMusclePanel.snapshot.rows.length,
+    filteredMusclePanel.armsCount > 0 &&
+      filteredMusclePanel.armsCount < filteredMusclePanel.initialCount,
     "Muscle region filter did not isolate a subset",
   );
-  report.checks.firstPartyMusclePanel = firstPartyMusclePanel;
+
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="muscles-first-party"]').count(),
+    0,
+    "Detached Muscle panel remained mounted after tab change",
+  );
+  await musclesTab.click();
+  const remountedMuscleFilters = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="muscles-first-party"]');
+    const activeOnly = panel?.querySelector('input[type="checkbox"]');
+    const region = panel?.querySelector("select");
+    return {
+      activeOnly: activeOnly instanceof HTMLInputElement ? activeOnly.checked : null,
+      region: region instanceof HTMLSelectElement ? region.value : null,
+    };
+  });
+  assert.deepEqual(
+    remountedMuscleFilters,
+    { activeOnly: false, region: "all" },
+    "Muscle panel local filters did not reset on remount",
+  );
+  report.checks.liveMusclePanel = {
+    ...liveMusclePanel,
+    ...filteredMusclePanel,
+    remountedMuscleFilters,
+  };
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
 
   const firstPartyShellDom = await page.evaluate(async () => {

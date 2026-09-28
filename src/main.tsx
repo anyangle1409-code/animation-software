@@ -6,6 +6,8 @@ import { createStudioToolbarDom } from './editor/toolbarDom';
 import { createStudioTimelineDom } from './editor/timelineDom';
 import { createTechniquePanelDom } from './editor/panels/techniquePanelDom';
 import { createTechniquePanelMount } from './editor/panels/techniquePanelMount';
+import { createMusclePanelDom } from './editor/panels/musclePanelDom';
+import { createMusclePanelMount } from './editor/panels/musclePanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -21,6 +23,11 @@ shell.slots.timeline.append(timeline.element);
 const techniquePanelMount = createTechniquePanelMount(
   shell.slots.rightPanel,
   () => createTechniquePanelDom(),
+  studioLayoutStore,
+);
+const musclePanelMount = createMusclePanelMount(
+  shell.slots.rightPanel,
+  () => createMusclePanelDom(),
   studioLayoutStore,
 );
 
@@ -40,6 +47,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    musclePanelMount.dispose();
     techniquePanelMount.dispose();
     timeline.dispose();
     toolbar.dispose();

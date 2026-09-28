@@ -29,3 +29,7 @@ The R3F replacement order is small and reversible:
 Run focused tests, typecheck, production build, usage scanner and standalone guard after each increment. The current browser failure (HTML loaded with a blank unexecuted module root) does not count as visual evidence. Avoid broad JSX replacement until the host and one consumer pass their test and review gates.
 
 `src/core/browserSceneSurface.ts` is the project-owned DOM adapter. Its tests cover CSS size/DPR, ResizeObserver and window resize, `webglcontextlost.preventDefault()` (required for restoration), and event disposal. It does not allocate a WebGL renderer or change the live canvas.
+
+## Isolated Three adapter checkpoint
+
+`src/viewer/threeSceneHost.ts` now composes the project-owned lifecycle with a temporary injected Three renderer port. Its fixture pins the current Canvas camera position `(2.3, 1.35, 2.7)`, FOV 38, near/far 0.05/100, DPR [1,2], aspect projection on resize, resolve/consumer/render ordering, context-loss pause/restore, and one disposal. Render is reserved at priority 1000; consumers must register earlier. The test uses a fake renderer and provides **no pixel, light, shadow, picking, input, or device parity evidence**. The live `Viewport.tsx` remains R3F. Next step is a compatible browser fixture to compare actual render frames and interaction before any host switch.

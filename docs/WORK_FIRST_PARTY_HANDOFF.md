@@ -239,3 +239,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - Cloud follow-up: `HgSceneLifecycle` now has tested scheduling, DPR, resize, context-loss and disposal. Add an isolated DOM/WebGL adapter and parity tests, then bridge one scene consumer. Do not switch the live viewport before parity evidence.
 
 - DOM scene surface adapter is prepared and focused-tested; next use an isolated Three renderer fixture to establish rendered/pose parity before any live R3F migration.
+
+- Isolated Three scene host is tested with a fake renderer. Next Work step needs compatible browser evidence for pixels, lights/shadows, picking and input before switching `Viewport.tsx`.

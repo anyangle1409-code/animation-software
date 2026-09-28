@@ -1,0 +1,45 @@
+import { PerspectiveCamera, Scene } from 'three';
+import { HgSceneLifecycle } from '../core/sceneLifecycle';
+import type { HgSceneSurface } from '../core/sceneLifecycle';
+import type { HgFrameCallback, HgFrameScheduler } from '../core/frameLoop';
+
+/** Temporary Three adapter; scene ownership and scheduling are project code. */
+export interface HgThreeRendererPort {
+  setPixelRatio(value: number): void;
+  setSize(width: number, height: number, updateStyle: boolean): void;
+  render(scene: Scene, camera: PerspectiveCamera): void;
+  dispose(): void;
+}
+
+export class ThreeSceneHost {
+  readonly scene = new Scene();
+  readonly camera = new PerspectiveCamera(38, 1, 0.05, 100);
+  private readonly lifecycle: HgSceneLifecycle;
+  private disposed = false;
+
+  constructor(scheduler: HgFrameScheduler, surface: HgSceneSurface, private readonly renderer: HgThreeRendererPort) {
+    this.camera.position.set(2.3, 1.35, 2.7);
+    this.camera.lookAt(0, 0, 0);
+    this.lifecycle = new HgSceneLifecycle(scheduler, surface, ({ width, height, pixelRatio }) => {
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setPixelRatio(pixelRatio);
+      this.renderer.setSize(width, height, false);
+    });
+    this.lifecycle.onFrame(() => this.renderer.render(this.scene, this.camera), 1000);
+  }
+
+  onFrame(callback: HgFrameCallback, priority = 0): () => void {
+    if (priority >= 1000) throw new Error('Scene consumer priority must precede render');
+    return this.lifecycle.onFrame(callback, priority);
+  }
+
+  mount(): void { this.lifecycle.mount(); }
+
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.lifecycle.dispose();
+    this.renderer.dispose();
+  }
+}

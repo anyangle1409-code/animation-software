@@ -1,238 +1,108 @@
-# Runtime dependency usage map — verified source surfaces
+# Runtime dependency usage map
 
-Source reference inspected:
-`chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb`
+## Authority
 
-This is a manually verified map of the main runtime surfaces. The local scanner
-`scripts/map-third-party-runtime.mjs` remains the authoritative exhaustive check
-when Work has the repository locally.
+This document describes the migration surfaces and ordering. It does **not** freeze import counts.
 
-## Zustand
+For exact current imports, always run:
 
-Direct store modules already migrated on the standalone branch:
-- `src/editor/store.ts`
-- `src/editor/characterStore.ts`
-- `src/editor/generationStore.ts`
+```bash
+node scripts/map-third-party-runtime.mjs
+```
 
-Replacement:
-- `src/core/store.ts`
+and use `reports/third_party_runtime_usage.json` from that run.
 
-Status:
-- implementation patched;
-- typecheck/build/full-test verification pending;
-- package removal pending.
+For the exact current task and branch, start with `docs/CURRENT_HANDOFF.md`.
 
-## @react-three/drei
+## Current package-level state
 
-Verified direct usage is concentrated in:
+The standalone branch still declares five direct runtime dependencies while migration is in progress:
 
-### `src/viewer/Viewport.tsx`
+- `@react-three/drei`
+- `@react-three/fiber`
+- `react`
+- `react-dom`
+- `three`
 
-Imports:
-- `Grid`
-- `OrbitControls`
-- `TransformControls`
+Direct Zustand has already been removed and the project-owned observable store is active.
 
-Roles:
-- floor/reference grid rendering;
-- mouse/touch orbit, zoom and damping;
-- camera target control;
-- rotation/translation gizmo for bones/equipment;
-- translation gizmo for IK target/pole handles.
-
-This is a favourable isolation boundary: replace these three helpers first while
-keeping R3F and Three temporarily.
-
-### First-party replacement interfaces
-
-`OrbitController`
-- canvas pointer/touch/wheel input;
-- target vector;
-- distance clamp 0.6–12 m;
-- damping equivalent to current 0.12;
-- update(dt);
-- programmatic target updates from camera presets/focus mode;
-- enable/disable while gizmo drag is active.
-
-`TransformGizmo`
-- translate and rotate modes;
-- object/proxy transform;
-- dragStart / change / dragEnd;
-- axis picking;
-- camera-aware scale;
-- emits project plain position/quaternion values.
-
-`ReferenceGrid`
-- 0.25 m cells;
-- 1 m major sections;
-- configurable cell/section/background colours;
-- fade/distance behaviour;
-- optional floorless mode.
-
-Acceptance:
-- zero `@react-three/drei` imports;
-- camera behaviour and mobile touch controls preserved;
-- all gizmo edits remain undoable through the existing store APIs.
+Drei has zero source imports. It remains installed only because the physical Grid/Orbit/Transform desktop/iPhone parity gate has not yet been completed. Do not remove it merely to reduce the dependency count.
 
 ## @react-three/fiber
 
-### `src/viewer/Viewport.tsx`
-Uses:
-- `Canvas` — WebGL scene/camera/renderer lifecycle;
-- `useFrame` — frame pipeline, camera movement and gizmo proxy sync;
-- `useThree` — current camera/scene access.
+R3F still owns the live scene host and/or frame/event lifecycle around several viewer consumers. The exact import list is scanner-generated and changes as the migration advances.
 
-Critical current ordering:
-- `FrameDriver` runs at priority -1;
-- it advances playback;
-- writes studio time;
-- resolves the frame;
-- applies pose evaluation;
-- scene consumers then read that resolved frame.
+The behaviours that must survive removal are:
 
-This ordering must be preserved exactly by the first-party render loop.
+- one canvas/scene/camera lifecycle;
+- DPR/resize/context-loss handling;
+- ordered frame evaluation with pose resolution before visual consumers;
+- character, bone, equipment, muscle and IK-handle updates;
+- orbit/camera progression;
+- picking, pointer capture, missed selection and gizmo interaction;
+- disposal and detach semantics.
 
-### `src/viewer/BoneGroups.tsx`
-Uses `useFrame` to copy evaluated bone matrices to per-bone visual groups.
+Prepared project-owned boundaries include:
 
-### `src/viewer/CharacterFigure.tsx`
-Uses `useFrame` to apply the resolved character pose/grip/correctives.
+- `src/core/frameLoop.ts`
+- `src/core/sceneLifecycle.ts`
+- `src/core/browserSceneSurface.ts`
+- `src/viewer/threeSceneHost.ts`
+- `src/viewer/sceneFrameSnapshot.ts`
+- `src/viewer/sceneFrameObjects.ts`
+- renderer-neutral per-consumer snapshots/resolvers recorded in the current R3F handoff
+- framework-neutral `sceneStateCore.ts`
 
-### `src/viewer/EquipmentView.tsx`
-Uses `useFrame` to apply resolved equipment transforms and character-specific
-hand attachment transforms.
-
-### `src/viewer/IKHandles.tsx`
-Uses `useFrame` to update target/pole handle positions.
-
-### `src/viewer/MuscleView.tsx`
-Uses `useFrame` to update resolved muscle belly transforms.
-
-### `src/viewer/SkeletonView.tsx`
-No longer imports R3F directly. Selectable joints use the project-owned minimal `HgSceneStopEvent` structural type; R3F still supplies the JSX runtime event until the input bridge moves.
-
-### R3F-independent scene host target
-
-Create a project-owned `StudioSceneHost` that owns:
-- canvas element;
-- renderer;
-- scene root;
-- camera;
-- resize/DPR;
-- requestAnimationFrame loop;
-- ordered frame callbacks;
-- pointer/touch routing;
-- object picking;
-- disposal.
-
-Proposed callback phases:
-1. `resolve` — playback + frame resolution;
-2. `pose` — character/bones/equipment/muscles/handles;
-3. `camera`;
-4. `interaction`;
-5. `render`.
-
-Do not let individual views start their own RAF loops.
-
-Acceptance:
-- zero `@react-three/fiber` imports;
-- one project-owned frame loop;
-- current FrameDriver ordering preserved;
-- exact animation/contact/equipment results unchanged.
+The live host must move only after the required numerical and browser/device parity evidence exists.
 
 ## React / ReactDOM
 
-Verified UI dependence includes:
-- `src/editor/App.tsx`
-- `src/editor/Timeline.tsx`
-- `src/editor/Toolbar.tsx`
-- all `src/editor/panels/*.tsx`
-- viewer JSX components;
-- `src/viewer/sceneState.ts` context;
-- `src/core/store.ts` temporary `useSyncExternalStore` bridge.
+React still drives the editor UI and temporary viewer wrappers.
 
-Do not remove React before R3F is gone.
+Removal comes **after R3F**, because replacing UI state/lifecycle while the scene bridge is still changing would combine unrelated risks.
 
-Target:
-- project-owned DOM rendering/update helpers;
+Target behaviour:
+
+- project-owned DOM construction/update helpers;
 - project-owned store subscriptions;
 - explicit lifecycle/disposal;
 - standard DOM pointer/keyboard events;
-- no general-purpose framework beyond the app's actual needs.
+- preserved accessibility, timeline/editor behaviour and mobile inspection.
 
-The core observable store is deliberately usable without React once the temporary
-hook wrapper is removed.
+The core store is already framework-independent apart from its temporary React hook bridge.
 
 ## Three.js
 
-Verified usage spans multiple concerns and must be replaced last.
+Three remains the largest and final runtime dependency.
 
-### Viewer
-- `Group`, `Mesh`, `Object3D`
-- `Vector3`
-- `Quaternion`
-- `Matrix4`
-- `Euler`
-- `MeshStandardMaterial`
+Current responsibilities include combinations of:
 
-### Rig/pose
-`src/rig/skeleton.ts` uses Three mathematics for rest frames, FK and pose
-evaluation.
+- vectors/quaternions/matrices/Eulers;
+- rig/FK/IK/contact math;
+- bones and skinning objects;
+- character/equipment scene objects;
+- materials/geometry;
+- camera and picking helpers;
+- GLTF/GLB loading/export;
+- final WebGL rendering.
 
-### Character
-Skinned character objects/materials/geometry are currently represented through
-Three classes.
+Prepared first-party foundations already exist for math, skeleton/pose parity, GLB container/accessor/builder work and scene lifecycle.
 
-### Equipment/attachments
-Matrices/quaternions/vector transforms are Three-based.
+Three removal stays last so renderer replacement is not mixed with a simultaneous biomechanics rewrite.
 
-### GLB
-Import/export currently relies on Three ecosystem GLTF functionality.
+## Required order
 
-Replacement order inside Three removal:
-1. first-party linear algebra;
-2. rig/FK/IK/contact math migration;
-3. first-party GLB subset;
-4. project scene/object data;
-5. project WebGL renderer;
-6. delete Three only after all parity gates pass.
+1. Complete the R3F consumer/host migration and physical parity.
+2. Remove R3F.
+3. Remove React/ReactDOM after UI parity.
+4. Migrate remaining engine/rig/GLB/renderer responsibilities off Three.
+5. Remove Three.
+6. Remove Drei as soon as its separate physical parity gate permits; it does not need to wait for the later steps once that gate is genuinely passed.
+7. Re-run the full standalone/release audits after every dependency removal.
 
-## three-stdlib
+## Non-negotiable rules
 
-Verified in `src/viewer/Viewport.tsx` as the `OrbitControls` implementation
-type. It disappears with the first-party orbit controller/Drei removal.
-
-## Equipment geometry
-
-`src/viewer/equipmentMeshes.tsx` does not import a third-party equipment model.
-It renders the project's own primitive equipment descriptions as JSX geometry.
-
-This means the equipment **design/data can remain**, while its JSX/Three rendering
-adapter is replaced.
-
-## Scene state
-
-`src/viewer/sceneState.ts` contains only:
-- `PoseEvaluation`;
-- current resolved frame;
-- React context wrapper.
-
-Preserve the plain scene-state object; replace only React context access with the
-project scene host's direct state reference.
-
-## Usage-saving implementation order
-
-1. Verify/remove Zustand.
-2. Implement first-party OrbitController + grid while Drei still exists as a comparison.
-3. Implement TransformGizmo and compare behaviour.
-4. Remove Drei.
-5. Implement StudioSceneHost while keeping Three.
-6. Convert viewer components into explicit scene-controller modules.
-7. Remove R3F.
-8. Replace React UI.
-9. Move rig/engine math from Three onto first-party math.
-10. Add first-party GLB reader/writer.
-11. Add first-party renderer.
-12. Remove Three.
-
-At every removal, run the one-command standalone audit and preserve blocker counts.
+- Do not replace one third-party runtime library with another.
+- Do not change exercise mechanics, joint limits, contacts or acceptance thresholds to accommodate a replacement implementation.
+- Do not delete a dependency while production imports/behaviour still require it.
+- Do not treat a unit-test pass as a substitute for an explicitly required physical visual/input gate.

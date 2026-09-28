@@ -29,7 +29,7 @@ export async function importCharacter(file: File): Promise<ImportedCharacter> {
   const character = readCharacter(root);
   if (character.bones.size === 0) {
     throw new Error(
-      `"${file.name}" has no skeleton. Export the character from Meshy or Blender with its rig included.`,
+      `"${file.name}" has no skeleton. Export the character with its rig/skeleton included.`,
     );
   }
 

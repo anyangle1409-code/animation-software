@@ -11,7 +11,7 @@ import { ALL_BONES, CORE_BONES, METACARPAL_BONES } from '../rig/boneNames';
 export interface BoneMapping {
   id: string;
   label: string;
-  /** Which rig this mapping was built for, e.g. "Meshy male v2". */
+  /** Which source rig this mapping was built for, e.g. "male rig v2". */
   sourceRig: string;
   /** Canonical bone name -> the character's bone name. */
   bones: Partial<Record<BoneName, string>>;
@@ -29,8 +29,8 @@ export const createMapping = (label: string, sourceRig: string): BoneMapping => 
 });
 
 /**
- * Naming conventions the studio recognises. Most rigged characters — Mixamo,
- * Meshy, Rigify, Unreal, VRM — use one of a small number of naming styles, so
+ * Naming conventions the studio recognises. Most rigged characters use one of
+ * a small number of common DCC/engine naming styles, so
  * a first-pass mapping can nearly always be guessed and then corrected by hand.
  *
  * Rigify's deform bones (`DEF-upper_arm.L`) are listed alongside the rest.

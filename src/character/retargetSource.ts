@@ -217,15 +217,13 @@ export function retargetedCharacterSource(
       // and the diagnostics all read one corrected offset and cannot diverge.
       const solutionId = scene.userData?.homeGymPT?.gripSolutionId
         ? String(scene.userData.homeGymPT.gripSolutionId)
-        : handleOffsets
-          ? 'homeGymPTMale'
-          : undefined;
+        : undefined;
       const centre = solvedGripFor(solutionId, 'dumbbell')?.handleCentre;
       const gripOffset = handleOffsets
         ? (side: Side) => {
             const embedded = handleOffsets[side] ?? anatomicalGripOffset(side);
-            // The embedded centre and the solved correction to it were both
-            // measured in the old frame; they are summed there, then turned.
+            // The embedded centre and any explicitly identified solved correction
+            // use the same character-local frame; sum them there, then turn.
             const summed = centre
               ? new Vector3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
               : new Vector3(embedded.x, embedded.y, embedded.z);

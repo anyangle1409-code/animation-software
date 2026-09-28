@@ -107,6 +107,34 @@ try {
   assert.equal(liveEditorShell.viewportSlotClass, true, "First-party viewport slot lost its layout boundary");
   report.checks.liveEditorShellOwnership = liveEditorShell;
 
+  const liveToolbarOwnership = await page.evaluate(() => {
+    const shell = document.querySelector('[data-hgpt-editor-shell="first-party"]');
+    const toolbarSlot = shell?.querySelector('[data-hgpt-editor-slot="toolbar"]');
+    const toolbar = document.querySelector('[data-hgpt-toolbar="first-party"]');
+    return {
+      exists: toolbar instanceof HTMLElement,
+      insideToolbarSlot:
+        toolbar instanceof HTMLElement &&
+        toolbarSlot instanceof HTMLElement &&
+        toolbar.parentElement === toolbarSlot,
+      toolbarCount: document.querySelectorAll(".toolbar").length,
+      firstPartyToolbarCount: document.querySelectorAll('[data-hgpt-toolbar="first-party"]').length,
+    };
+  });
+  assert.equal(liveToolbarOwnership.exists, true, "First-party Toolbar is not live");
+  assert.equal(
+    liveToolbarOwnership.insideToolbarSlot,
+    true,
+    "First-party Toolbar is not mounted in the project-owned toolbar slot",
+  );
+  assert.equal(liveToolbarOwnership.toolbarCount, 1, "Multiple live Toolbars are mounted");
+  assert.equal(
+    liveToolbarOwnership.firstPartyToolbarCount,
+    1,
+    "First-party Toolbar live ownership is ambiguous",
+  );
+  report.checks.liveToolbarOwnership = liveToolbarOwnership;
+
   const leftTabs = page.locator(".studio__side--left .tabs").first();
   const rightTabs = page.locator(".studio__side--right .tabs").first();
   const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
-import { Toolbar } from './Toolbar';
 import { Timeline } from './Timeline';
 import { JointPanel } from './panels/JointPanel';
 import { IKPanel } from './panels/IKPanel';
@@ -64,7 +63,6 @@ export function App({ shell }: AppProps) {
 
   return (
     <>
-      {createPortal(<Toolbar />, shell.slots.toolbar)}
       {createPortal(leftPanel, shell.slots.leftPanel)}
       {createPortal(<Viewport />, shell.slots.viewport)}
       {createPortal(rightPanel, shell.slots.rightPanel)}

@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { Group, Object3D, Quaternion, Vector3 } from 'three';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Object3D, Quaternion, Vector3 } from 'three';
 import type { Camera } from 'three';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import {
@@ -8,8 +8,15 @@ import {
 } from './transformGizmoInteraction';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 import { SCENE_FRAME_PRIORITY, useSceneFrame } from './sceneState';
-
-type AxisName = 'x' | 'y' | 'z';
+import {
+  createTransformGizmoScene,
+  registerTransformGizmoPointers,
+  updateTransformGizmoActiveAxis,
+  type HgGizmoAxis,
+  type TransformGizmoPointerCallbacks,
+} from './transformGizmoScene';
+import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneHostBindings } from './sceneHostBindings';
 
 interface FirstPartyTransformGizmoProps {
   object: Object3D;
@@ -21,40 +28,10 @@ interface FirstPartyTransformGizmoProps {
   onObjectChange?: () => void;
 }
 
-const AXES: Record<AxisName, HgVec3> = {
+const AXES: Record<HgGizmoAxis, HgVec3> = {
   x: new HgVec3(1, 0, 0),
   y: new HgVec3(0, 1, 0),
   z: new HgVec3(0, 0, 1),
-};
-
-const COLOURS: Record<AxisName, string> = {
-  x: '#f05a5a',
-  y: '#63d471',
-  z: '#5d86f7',
-};
-
-const SHAFT_POSITION: Record<AxisName, [number, number, number]> = {
-  x: [0.48, 0, 0],
-  y: [0, 0.48, 0],
-  z: [0, 0, 0.48],
-};
-
-const TIP_POSITION: Record<AxisName, [number, number, number]> = {
-  x: [1, 0, 0],
-  y: [0, 1, 0],
-  z: [0, 0, 1],
-};
-
-const AXIS_ROTATION: Record<AxisName, [number, number, number]> = {
-  x: [0, 0, -Math.PI / 2],
-  y: [0, 0, 0],
-  z: [Math.PI / 2, 0, 0],
-};
-
-const RING_ROTATION: Record<AxisName, [number, number, number]> = {
-  x: [0, Math.PI / 2, 0],
-  y: [Math.PI / 2, 0, 0],
-  z: [0, 0, 0],
 };
 
 const hgVector = (value: { x: number; y: number; z: number }) =>
@@ -83,24 +60,31 @@ export function FirstPartyTransformGizmo({
   onDragEnd,
   onObjectChange,
 }: FirstPartyTransformGizmoProps) {
-  const group = useRef<Group>(null);
   const drag = useRef<ActiveDrag | null>(null);
-  const [activeAxis, setActiveAxis] = useState<AxisName | null>(null);
+  const [activeAxis, setActiveAxis] = useState<HgGizmoAxis | null>(null);
   const worldPosition = useRef(new Vector3());
   const worldQuaternion = useRef(new Quaternion());
   const parentQuaternion = useRef(new Quaternion());
+  const { pointers } = useSceneHostBindings();
+  const resources = useMemo(() => createTransformGizmoScene(mode), [mode]);
+  const callbacks = useRef<TransformGizmoPointerCallbacks | null>(null);
+
+  useEffect(() => () => resources.dispose(), [resources]);
+
+  useEffect(() => {
+    updateTransformGizmoActiveAxis(resources, activeAxis);
+  }, [resources, activeAxis]);
 
   useSceneFrame(() => {
-    if (!group.current) return;
     object.updateWorldMatrix(true, false);
     object.getWorldPosition(worldPosition.current);
-    group.current.position.copy(worldPosition.current);
+    resources.group.position.copy(worldPosition.current);
     const distance = camera.position.distanceTo(worldPosition.current);
     const scale = Math.max(0.04, distance * 0.12 * size);
-    group.current.scale.setScalar(scale);
+    resources.group.scale.setScalar(scale);
   }, SCENE_FRAME_PRIORITY.gizmo);
 
-  const begin = (axis: AxisName) => (event: HgSceneRayEvent) => {
+  const begin = (axis: HgGizmoAxis, event: HgSceneRayEvent) => {
     event.stopPropagation();
     object.updateWorldMatrix(true, false);
     object.getWorldPosition(worldPosition.current);
@@ -163,39 +147,23 @@ export function FirstPartyTransformGizmo({
     onDragEnd?.();
   };
 
-  const colour = (axis: AxisName) => activeAxis === axis ? '#ffd35a' : COLOURS[axis];
+  callbacks.current = {
+    axisDown: begin,
+    move,
+    up: end,
+    cancel: end,
+  };
 
-  return (
-    <group
-      ref={group}
-      name="hgpt-transform-gizmo"
-      onPointerMove={move}
-      onPointerUp={end}
-      onPointerCancel={end}
-    >
-      {(Object.keys(AXES) as AxisName[]).map((axis) => (
-        mode === 'translate' ? (
-          <group key={axis} onPointerDown={begin(axis)}>
-            <mesh position={SHAFT_POSITION[axis]} rotation={AXIS_ROTATION[axis]}>
-              <cylinderGeometry args={[0.026, 0.026, 0.9, 10]} />
-              <meshBasicMaterial color={colour(axis)} depthTest={false} />
-            </mesh>
-            <mesh position={TIP_POSITION[axis]} rotation={AXIS_ROTATION[axis]}>
-              <coneGeometry args={[0.085, 0.22, 12]} />
-              <meshBasicMaterial color={colour(axis)} depthTest={false} />
-            </mesh>
-            <mesh position={SHAFT_POSITION[axis]} rotation={AXIS_ROTATION[axis]}>
-              <cylinderGeometry args={[0.12, 0.12, 1.12, 8]} />
-              <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-            </mesh>
-          </group>
-        ) : (
-          <mesh key={axis} rotation={RING_ROTATION[axis]} onPointerDown={begin(axis)}>
-            <torusGeometry args={[0.82, 0.055, 10, 64]} />
-            <meshBasicMaterial color={colour(axis)} depthTest={false} transparent opacity={0.9} />
-          </mesh>
-        )
-      ))}
-    </group>
+  useEffect(
+    () =>
+      registerTransformGizmoPointers(resources, pointers, {
+        axisDown: (axis, event) => callbacks.current?.axisDown(axis, event),
+        move: (event) => callbacks.current?.move(event),
+        up: (event) => callbacks.current?.up(event),
+        cancel: (event) => callbacks.current?.cancel(event),
+      }),
+    [resources, pointers],
   );
+
+  return <SceneObjectMount object={resources.group} />;
 }

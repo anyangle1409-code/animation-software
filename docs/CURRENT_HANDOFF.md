@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`ffd75da172267685c06bd440125c0aa76a7e5519`
+`1110bb611b73612293a60762fccfdf0c82bc3db4`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at ffd75da1
+## Verified state at 1110bb61
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 115 test files PASS, 2 skipped
-- full tests: 908 PASS, 62 skipped
+- full suite: 116 test files PASS, 2 skipped
+- full tests: 910 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -101,18 +101,24 @@ Continue from:
 
 R1 (framework-neutral Studio scene controller) and R2 (switch live scene composition/remove redundant React scene wrappers) are complete.
 
-Current objective: **R3 editor DOM shell**, starting with app shell/tabs/panel visibility.
+Current objective: **R3 editor DOM shell**.
 
-Use the project-owned stores and existing CSS/DOM semantics; do not create a second state model or redesign the UI.
+Verified preparation now exists:
 
-Priority:
+- `src/editor/appShellDom.ts` builds the Studio outer shell, left/right tabs, panel slots and panel visibility with project-owned DOM;
+- it binds directly to `studioLayoutStore.getState/subscribe`;
+- focused unit coverage verifies store-to-DOM sync, click routing and disposal;
+- Chromium now explicitly verifies the current live React shell's left/right tab activation and Hide/Show panels focus-mode behavior;
+- the first-party shell is **not live yet**; the React shell remains the verified reference.
 
-1. build project-owned DOM primitives for the app shell, left/right tabs and panel visibility;
-2. drive them directly from `studioLayoutStore.getState/subscribe`;
-3. preserve current classes, labels, keyboard behavior and panel-slot structure;
-4. prove focused behavior and Chromium parity before replacing the live React shell;
+Next exact increment:
+
+1. mount the project-owned shell as the live outer editor structure through a reversible temporary bridge;
+2. keep the existing Toolbar, active panel content, Viewport and Timeline as the same React child surfaces inside the first-party shell slots;
+3. keep keyboard binding exactly once and preserve all current CSS classes, labels, selectors and responsive behavior;
+4. prove the live shell through focused tests, full gates and Chromium before deleting the old React shell markup;
 5. then migrate toolbar/playback controls, timeline, simple panels, editing panels and generation/review/export workflows in small parity-gated groups;
-6. replace `src/main.tsx` ReactDOM root only after editor + viewport parity;
+6. replace the remaining ReactDOM root only after editor + viewport parity;
 7. remove React/ReactDOM source imports and packages only after the final browser/build gates;
 8. replace Three.js last.
 

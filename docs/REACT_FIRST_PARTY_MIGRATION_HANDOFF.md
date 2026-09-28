@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`ffd75da172267685c06bd440125c0aa76a7e5519`
+`1110bb611b73612293a60762fccfdf0c82bc3db4`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `ffd75da1`:
+At `1110bb61`:
 
 - Standalone prep verification: PASS
-- full suite: 115 test files PASS, 2 skipped
-- full tests: 908 PASS, 62 skipped
+- full suite: 116 test files PASS, 2 skipped
+- full tests: 910 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -102,24 +102,35 @@ The viewport adapter now owns only React DOM/effect lifetime; all renderer and s
 
 ## Current stage
 
-### R3 — editor DOM shell: IN PROGRESS / NEXT
+### R3 — editor DOM shell: IN PROGRESS
 
-Build project-owned DOM primitives and migrate in small parity-gated groups:
+First preparation increment is verified at `1110bb61`:
 
-1. **app shell/tabs/panel visibility — next exact increment**
-2. toolbar/playback controls
-3. timeline
-4. simple read-only panels
-5. editing panels/forms
-6. generation/review/export workflows
+- `src/editor/appShellDom.ts` is a React-free Studio shell DOM/controller;
+- it owns current shell classes, left/right tab buttons, panel slots and Hide/Show panels behavior;
+- it reads/subscribes directly to `studioLayoutStore`;
+- focused tests verify state sync, click routing and explicit disposal;
+- the browser smoke now baselines the current live React shell's Equipment/Review tab activation and focus-mode toggle semantics;
+- the first-party shell is not live yet.
 
-For the first increment:
+The initial preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped the checkpoint, the cast was corrected without runtime changes, and the complete standalone/browser gates then passed.
 
-- preserve the current `studio`, side-panel, viewport, tabs and panel-toggle classes;
-- preserve button labels and active-state semantics;
-- drive left tab, right tab and `panelsOpen` directly from `studioLayoutStore`;
-- preserve the existing panel-slot boundaries so later panel migration stays incremental;
-- keep the current React shell as the parity reference until the first-party shell is behaviorally/browser verified.
+Next exact increment:
+
+1. mount the project-owned shell as the live outer editor structure through a reversible temporary bridge;
+2. keep the existing Toolbar, active React panel, Viewport and Timeline surfaces intact inside the shell's slots;
+3. keep keyboard binding exactly once;
+4. preserve current classes, labels, selectors, responsive behavior and state semantics;
+5. run focused tests, typecheck, full suite/build/gates and Chromium;
+6. only after parity, remove the superseded React outer-shell markup.
+
+Then continue in parity-gated groups:
+
+1. toolbar/playback controls
+2. timeline
+3. simple read-only panels
+4. editing panels/forms
+5. generation/review/export workflows
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

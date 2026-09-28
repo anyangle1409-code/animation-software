@@ -27,7 +27,7 @@
         "@react-three/fiber",
         "@react-three/drei"
       ],
-      "required_action": "replace"
+      "required_action": "R3F staged parity migration; Drei has zero imports but remains installed pending physical Grid/Orbit/Transform gate"
     },
     {
       "id": "runtime_renderer_math_gltf",
@@ -41,11 +41,9 @@
     {
       "id": "runtime_state",
       "category": "code",
-      "status": "first_party_replacement_implemented_verification_pending",
-      "third_party": [
-        "zustand"
-      ],
-      "required_action": "verify first-party store with typecheck/full tests, confirm zero imports, then remove zustand package and lock entry"
+      "status": "first_party_replacement_verified",
+      "third_party": [],
+      "required_action": "keep first-party store regression and dependency-creep guards active"
     },
     {
       "id": "male_character",
@@ -62,8 +60,8 @@
     {
       "id": "canonical_rig",
       "category": "asset_and_code",
-      "status": "project_authored_architecture_rebaseline_required",
-      "required_action": "retain hierarchy/names/semantics; create hgpt_canonical_v4_original numerical rest pose independent of legacy mesh measurements"
+      "status": "original_v4_candidate_structurally_verified",
+      "required_action": "materialize independent 63-bone rest target in O1 Blend; O2 anatomy and later bind/movement gates remain open"
     },
     {
       "id": "equipment_geometry",
@@ -112,8 +110,8 @@
     {
       "id": "original_v1_clean_scaffold_generator",
       "category": "authoring_tool",
-      "status": "project_authored_verification_pending",
-      "required_action": "run in Blender and verify deterministic 3890-vertex / 7280-triangle / 53-reference-bone output",
+      "status": "project_authored_o1_verified",
+      "required_action": "continue O2 neutral anatomy; 3890 vertices / 7280 triangles / 53 reference bones, zero O1 blockers/warnings",
       "notes": "Recreates pinned project-authored numeric profiles; imports no legacy/MakeHuman geometry."
     },
     {
@@ -121,6 +119,12 @@
       "category": "runtime_resource_policy",
       "status": "no_known_external_resources_scan_prepared",
       "required_action": "run scripts/audit-external-runtime-resources.mjs at release gate"
+    },
+    {
+      "id": "original_v4_blender_handoff",
+      "category": "authoring_tool_and_data",
+      "status": "first_party_deterministic_prep_verified_blender_pending",
+      "required_action": "run PREPARE_ORIGINAL_V1_O2.bat on laptop, inspect the 63-bone unbound armature, then model O2 without legacy import"
     }
   ]
 }

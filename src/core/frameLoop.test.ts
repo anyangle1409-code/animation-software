@@ -47,6 +47,21 @@ describe('first-party frame loop', () => {
     expect(order).toEqual(['resolve', 'normal-a', 'normal-b', 'late']);
   });
 
+  it('resolves exactly once before all pose consumers even when subscribed later', () => {
+    const loop = new HgFrameLoop(fakeScheduler().scheduler);
+    const seen: string[] = [];
+    let resolved = 0;
+    loop.add(() => { resolved += 1; seen.push(`resolve:${resolved}`); }, -1);
+    loop.add(() => seen.push(`character:${resolved}`));
+    loop.add(() => seen.push(`equipment:${resolved}`));
+    loop.tick(1000);
+    loop.tick(1016);
+    expect(seen).toEqual([
+      'resolve:1', 'character:1', 'equipment:1',
+      'resolve:2', 'character:2', 'equipment:2',
+    ]);
+  });
+
   it('reports deterministic delta and elapsed time', () => {
     const fake = fakeScheduler();
     const loop = new HgFrameLoop(fake.scheduler);

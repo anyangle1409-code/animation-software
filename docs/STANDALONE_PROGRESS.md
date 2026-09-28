@@ -286,3 +286,11 @@ Also prepared/verified:
 
 Use `STANDALONE_STATUS.bat` at the start of future sessions instead of
 reconstructing this state manually.
+
+## 2026-09-28 Cloud O2 and R3F preparation checkpoint
+
+The O2 handoff is `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`. The clean v4 numerical rest definition now has a committed deterministic JSON export and independent Python structure/symmetry/dimension checks. `PREPARE_ORIGINAL_V1_O2.bat` checks the export, backs up the existing O1 Blend, and creates the unbound 63-bone v4 armature while preserving the 53-bone historical rig as reference-only. A separate Blender audit compares every name, parent and rest endpoint to the export. These Blender scripts have syntax and payload tests but **have not executed against the laptop's local Blend in this Cloud environment**. O1 scaffold height is 1.75 m; v4 target height is 1.82 m. O2 remains subject to genuine visual review.
+
+R3F migration map and reversible increments are in `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`: nine current R3F import sites, symbols `Canvas`, `useFrame`, `useThree`, `ThreeEvent`, plus implicit JSX/event/lifecycle behavior. Existing renderer-independent `HgFrameLoop` has an added ordered-consumer parity assertion. No production renderer path or model data changed. React/ReactDOM follow R3F; Three.js is last. Drei remains installed until physical browser/device parity.
+
+Focused verification here: v4 export/check, 3 Python payload tests, Python syntax compile, 7 v4 TypeScript tests, 5 frame-loop tests, typecheck and production build passed. Standalone audit still intentionally fails final-character-runtime and release-readiness; its other stages pass. Counts remain **5 direct runtime dependencies, 126 bare imports, 0 operational legacy assets, 9 MakeHuman-derived source files on runtime path**. No release guard was loosened.

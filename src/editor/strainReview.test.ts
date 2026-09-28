@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateClip } from '../animation/generate';
-import { builtinCharacter } from '../character/builtin';
+import { proceduralCharacter } from '../character/procedural';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { scanDeformationControlSweep, scanMeshStrainWorstCases } from './strainReview';
@@ -14,7 +14,7 @@ describe('whole-rep deformation review', () => {
   // machine load, which read as an intermittent failure; the scan itself is
   // bounded and its assertions are unchanged, so the budget is what moves.
   it('finds finite worst strain frames and restores a bounded diagnostic scan', async () => {
-    const character = await builtinCharacter.build(skeleton);
+    const character = await proceduralCharacter.build(skeleton);
     try {
       const clip = generateClip(skeleton, bicepCurl);
       clip.fps = 4; // Keep the regression cheap; production uses the authored clip FPS.
@@ -35,7 +35,7 @@ describe('whole-rep deformation review', () => {
   }, 20_000);
 
   it('sweeps explicit corrective values and restores the original source value', async () => {
-    const character = await builtinCharacter.build(skeleton);
+    const character = await proceduralCharacter.build(skeleton);
     try {
       const clip = generateClip(skeleton, bicepCurl);
       clip.fps = 2;

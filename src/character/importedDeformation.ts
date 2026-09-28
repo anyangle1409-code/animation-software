@@ -9,7 +9,7 @@ import type { Skeleton } from '../rig/skeleton';
 import { PoseEvaluation as RigPoseEvaluation } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
 import type { Pose } from '../rig/types';
-import { elbowFlexion } from '../body/elbow';
+import { elbowFlexion } from '../rig/elbowFlexion';
 import { compressTrack } from '../export/tracks';
 import type { DeformationControl, DeformationSampler, DeformationStack } from './types';
 

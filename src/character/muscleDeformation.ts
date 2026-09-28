@@ -1,7 +1,7 @@
 import { BufferAttribute, Bone, SkinnedMesh, Vector3 } from 'three';
 import type { Skeleton } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
-import { elbowFlexion } from '../body/elbow';
+import { elbowFlexion } from '../rig/elbowFlexion';
 import type {
   DeformationControl,
   DeformationSampler,

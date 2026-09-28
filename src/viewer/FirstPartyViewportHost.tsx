@@ -80,6 +80,14 @@ export function FirstPartyViewportHost() {
         .toArray()
         .map((value) => value.toFixed(6))
         .join(',');
+      canvas.dataset.hgptCameraQuaternion = host.camera.quaternion
+        .toArray()
+        .map((value) => value.toFixed(6))
+        .join(',');
+      canvas.dataset.hgptRendererFrame = String(renderer.info.render.frame);
+      canvas.dataset.hgptSceneNames = host.scene.children
+        .map((child) => child.name || child.type)
+        .join('|');
     }, -1);
 
     setBindings({

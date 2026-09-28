@@ -110,12 +110,22 @@ try {
         frameCount: Number(canvas.dataset.hgptFrameCount ?? 0),
         sceneChildren: Number(canvas.dataset.hgptSceneChildren ?? 0),
         cameraPosition: canvas.dataset.hgptCameraPosition ?? null,
+        cameraQuaternion: canvas.dataset.hgptCameraQuaternion ?? null,
+        rendererFrame: Number(canvas.dataset.hgptRendererFrame ?? 0),
+        sceneNames: canvas.dataset.hgptSceneNames ?? "",
       };
     });
 
   const initialDiagnostic = await hostDiagnostic();
   assert(initialDiagnostic && initialDiagnostic.frameCount > 3, "First-party frame loop did not advance");
+  assert(initialDiagnostic.rendererFrame > 2, "First-party renderer did not continuously draw");
   assert(initialDiagnostic.sceneChildren > 0, "First-party scene content did not mount");
+  for (const expected of ["hgpt-studio-stage", "hgpt-skeleton-view", "hgpt-muscle-view"]) {
+    assert(
+      initialDiagnostic.sceneNames.includes(expected),
+      `First-party scene is missing ${expected}: ${initialDiagnostic.sceneNames}`,
+    );
+  }
   report.checks.initialHostDiagnostic = initialDiagnostic;
 
   const cameraSelect = page.locator("label.field").filter({ hasText: "Camera" }).locator("select").first();
@@ -136,7 +146,20 @@ try {
     leftDiagnostic.cameraPosition,
     "First-party camera position did not change between presets",
   );
-  assert.notEqual(frontHash, leftHash, "First-party camera presets did not change the render");
+  assert.notEqual(
+    frontDiagnostic.cameraQuaternion,
+    leftDiagnostic.cameraQuaternion,
+    "First-party camera orientation did not change between presets",
+  );
+  assert(
+    leftDiagnostic.rendererFrame > frontDiagnostic.rendererFrame,
+    "First-party renderer frame counter did not advance between camera presets",
+  );
+  assert.notEqual(
+    frontHash,
+    leftHash,
+    `First-party camera presets did not change the render; front=${JSON.stringify(frontDiagnostic)} left=${JSON.stringify(leftDiagnostic)}`,
+  );
   report.checks.cameraPresetRenderChanged = {
     frontHash,
     leftHash,

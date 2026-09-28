@@ -1,66 +1,141 @@
 # React Three Fiber first-party migration — exact current handoff
 
-Branch: `work/standalone-first-party-audit-20260927`. Source scan: `node scripts/map-third-party-runtime.mjs`; generated exhaustive import details in `reports/third_party_runtime_usage.json`. The current direct R3F surface is **eight files / eight imports**. Imported symbols are now `Canvas`, `useFrame`, and `useThree`; the project-owned structural pointer-event contract removed the last direct `ThreeEvent` type import. R3F also supplies JSX intrinsic scene objects, reconciler lifecycle, event raycasting and canvas sizing without an explicit named import; import counts alone understate this work. `SkeletonView.tsx` now has zero direct R3F imports, but its JSX pointer handlers still depend on the live R3F event host until the input bridge is replaced.
+Branch: `work/standalone-first-party-audit-20260927`
 
-| Subsystem | Files | R3F API and behavior to preserve |
-|---|---|---|
-| Host and ordered evaluation | `src/viewer/Viewport.tsx` | `Canvas` scene/camera/WebGL lifecycle, DPR [1,2], shadows, missed pointer selection, JSX light/background/floor; `useFrame` priority -1 resolves playback and pose before other frame consumers; `useThree` camera/scene for presets and transform proxies. |
-| Character and visual pose | `BoneGroups.tsx`, `CharacterFigure.tsx`, `MuscleView.tsx` | `useFrame` applies evaluated bone, skin/grip/corrective, and muscle transforms. |
-| Equipment and IK visuals | `EquipmentView.tsx`, `IKHandles.tsx` | `useFrame` reads the same resolved frame for equipment and handle transforms. |
-| Orbit and camera input | `FirstPartyOrbitControls.tsx` | `useThree` camera and GL DOM element; `useFrame` advances project-owned orbit model. Physical mouse/iPhone parity remains open. |
-| Editing and picking | `FirstPartyTransformGizmo.tsx`, `Viewport.tsx` (direct imports); `SkeletonView.tsx` (no direct import, host-dependent JSX pointer events) | R3F still supplies runtime JSX pointer/ray events. Project code now types only the structural fields it consumes; frame-based gizmo scale, joint picking, pointer capture/propagation, transform proxy scene insertion/removal and missed-click clearing remain to migrate. |
+Verified checkpoint: `3970ae603249d225d6a513d539dc496683036fcd`
 
-Use `rg -n 'useFrame|useThree|ThreeEvent|<Canvas|onPointerMissed' src/viewer` before every increment; re-run the scanner to catch new imports. `src/viewer/sceneState.ts` currently uses React context. Its plain evaluation/frame data can become a direct host reference only after parity tests. `src/core/frameLoop.ts` provides project-owned priority and insertion-order scheduling. `src/core/sceneLifecycle.ts` now owns one frame loop, size/DPR updates (the existing 1–2 range), context-loss pause/restore and disposal through an injected surface adapter. Focused tests pin scheduling and lifecycle behavior. Neither foundation is connected to the live viewport.
+The direct R3F source surface is now **one file / one import**:
 
-## Renderer-neutral boundary
+- `src/viewer/R3FViewportHost.tsx`
 
-A future `StudioSceneHost` should own exactly one frame scheduler, canvas resize/DPR, camera, scene root, picking/DOM input, render and disposal. Consumers should receive plain resolved scene-state and ordered callbacks rather than calling R3F hooks. Keep the current Three objects behind a temporary adapter while R3F is replaced. Do not move biomechanics, exercise definitions or contact semantics into the host.
+`RUNTIME_MIGRATION_ALLOWLIST.json` enforces this as a one-way ceiling. No other source file may import `@react-three/fiber`.
 
-The R3F replacement order is small and reversible:
+## What has already moved off direct R3F APIs
 
-1. **Parity baseline:** test scheduler ordering, delta clamping, camera preset/focus, selection miss, pointer capture, and exact equipment/pose frame snapshots in the existing R3F path. Capture physical desktop/iPhone visual/input evidence when a compatible browser is available. No dependency removal.
-2. **Host lifecycle seam:** the renderer-neutral RAF/resize/DPR/context-loss owner is prepared and tested. A DOM surface adapter now measures CSS size/DPR and attaches ResizeObserver, window resize, WebGL context loss/restoration with tested cleanup. Next connect an isolated Three renderer fixture and capture rendered evidence; keep live `Canvas` intact.
-3. **Frame bridge:** route one deterministic resolution and one selected visual consumer through the project frame contract, with side-by-side frame equality at Bottom/Mid/Peak/Return and the exercise catalogue. Revertible per consumer.
-4. **Visual consumers:** migrate bone, character, muscle, equipment and IK groups one at a time. Check transform matrices, disposal and contact/equipment clearance after each.
-5. **Input bridge:** migrate orbit/gizmo/picking and `ThreeEvent` semantics, including touch and drag suspension. Physical pointer/device parity is a gate.
-6. **Host switch:** move canvas, lights, grid/floor and scene root to the first-party host. Verify rendered parity, click/miss/drag, shadows, resize/DPR and export unchanged. Only then can R3F imports and the package be removed.
-7. **Next:** React/ReactDOM UI replacement; Three.js renderer/math/GLB removal last. Drei remains installed until the separate physical Grid/Orbit/Transform gate passes even though it has zero source imports.
+The following live consumers no longer import `useFrame` or `useThree`:
 
-Run focused tests, typecheck, production build, usage scanner and standalone guard after each increment. The current browser failure (HTML loaded with a blank unexecuted module root) does not count as visual evidence. Avoid broad JSX replacement until the host and one consumer pass their test and review gates.
+- `BoneGroups.tsx`
+- `CharacterFigure.tsx`
+- `MuscleView.tsx`
+- `EquipmentView.tsx`
+- `IKHandles.tsx`
+- `FirstPartyOrbitControls.tsx`
+- `FirstPartyTransformGizmo.tsx`
+- `SkeletonView.tsx` already had no direct R3F import
 
-`src/core/browserSceneSurface.ts` is the project-owned DOM adapter. Its tests cover CSS size/DPR, ResizeObserver and window resize, `webglcontextlost.preventDefault()` (required for restoration), and event disposal. It does not allocate a WebGL renderer or change the live canvas.
+They register with the project-owned dispatcher through `useSceneFrame` and the priorities in `sceneStateCore.ts`.
 
-## Isolated Three adapter checkpoint
+`Viewport.tsx` is now host-agnostic: it creates the shared `SceneState` and mounts the temporary `R3FViewportHost`.
 
-`src/viewer/threeSceneHost.ts` now composes the project-owned lifecycle with a temporary injected Three renderer port. Its fixture pins the current Canvas camera position `(2.3, 1.35, 2.7)`, FOV 38, near/far 0.05/100, DPR [1,2], aspect projection on resize, resolve/consumer/render ordering, context-loss pause/restore, and one disposal. Render is reserved at priority 1000; consumers must register earlier. The test uses a fake renderer and provides **no pixel, light, shadow, picking, input, or device parity evidence**. The live `Viewport.tsx` remains R3F. Next step is a compatible browser fixture to compare actual render frames and interaction before any host switch.
+## Remaining R3F responsibilities
 
-`src/viewer/sceneFrameSnapshot.ts` adds an unmounted, renderer-neutral copy boundary for solved bone and equipment world matrices and contact targets. A focused real bicep-curl fixture checks Bottom/Mid/Peak/Return/loop transforms against the existing Three evaluation and verifies later source mutations cannot change a captured frame. These are numerical parity fixtures, **not** R3F render or device parity. The snapshot contains canonical equipment transforms; character-specific display offsets in `EquipmentView.tsx` are outside this boundary and still need separate visual and numerical coverage before that consumer can move. The next safe Work increment is an isolated adapter that applies a snapshot to owned scene objects, with per-consumer parity tests. Keep the live path and all five dependencies in place.
+All remaining direct R3F use is intentionally concentrated in `R3FViewportHost.tsx`:
 
-The isolated `sceneFrameObjects.ts` adapter now applies copied world matrices to direct children of a supplied scene root, without a Three runtime import. Its real curl fixture checks bone and both dumbbell world transforms across five frames. It rejects absent/nested targets and validates all matrices before changing any object. It does **not** cover the hierarchy, mesh skinning, character-specific displayed equipment offsets or rendered pixels. Next Work task: parity fixtures for one actual visual consumer, beginning with `BoneGroups.tsx` transform semantics and lifecycle, then a browser render fixture when available. Do not connect the adapter to `Viewport.tsx` without those checks.
+- `Canvas` creation and renderer/scene/camera lifecycle
+- the single `useFrame` driver that advances playback, resolves the frame, applies the pose and dispatches project-owned consumers
+- `useThree` access for camera, scene root and DOM canvas
+- JSX Three-object reconciliation for lights, floor/grid and all visual subtrees
+- R3F pointer/ray event routing, pointer-miss selection clearing and picking
+- host insertion/removal of transform proxies
 
-A further focused fixture pins the `BoneGroups.tsx` pattern: a bone's world matrix drives a bone-local child at half the authored bone length over Bottom/Peak/Return, and a detached group is rejected on the next frame. This covers transform composition and removal behavior in isolation, without mounting React or R3F. Next Work task: assess the `BoneGroups` consumer registration and skinning behavior in a compatible browser before migrating its live path.
+The direct import count therefore understates the remaining work: JSX intrinsic scene objects and event reconciliation still depend on the R3F reconciler even where child components have no R3F import.
 
+## Project-owned foundations already verified
 
-## Equipment display transform boundary
+### Frame and scene state
 
-`src/viewer/equipmentDisplayTransforms.ts` now isolates the exact matrix policy that had been embedded in `EquipmentView.tsx`: canonical fallback placement, mirrored-character reflection, character-owned single-hand grip centres, rigid two-hand placement, and second-pass cable placement from the transforms actually drawn. The boundary remains temporary-Three and **is not mounted in production**. Its focused tests deliberately prove that a cable follows a character-adjusted handle rather than the canonical frame endpoint. Next browser-backed consumer work can compare `EquipmentView` against this resolver before switching the live hook.
+- `src/core/frameLoop.ts`: project-owned priority/insertion-order scheduler and `HgFrameDispatcher`
+- `src/viewer/sceneStateCore.ts`: renderer/framework-neutral evaluation, resolved-frame state and consumer dispatcher
+- `src/viewer/sceneState.ts`: temporary React context wrapper with `useSceneFrame`
 
+All live visual frame consumers now run through this dispatcher.
 
-## IK handle state boundary
+### Scene lifecycle and browser surface
 
-`src/viewer/ikHandleSnapshot.ts` now pins the current target/pole visibility and positioning semantics without React/R3F: enabled goals use authored target/pole positions, disabled or absent targets park on the live effector, and disabled poles remain hidden while retaining their goal position. The snapshot copies all positions and covers all four chains. It remains unmounted preparation; `IKHandles.tsx` is unchanged.
+- `src/core/sceneLifecycle.ts`
+- `src/core/browserSceneSurface.ts`
+- `src/viewer/threeSceneHost.ts`
 
+These own frame scheduling, resize/DPR, context loss/restoration and disposal independently of R3F.
 
-## Muscle frame snapshot boundary
+### Real-WebGL proof
 
-`src/viewer/muscleFrameSnapshot.ts` now copies the existing muscle solver output into plain numeric position/quaternion/scale/stretch data for every overlay muscle. Focused fixtures check complete finite output, equality with the current resolver, and independence across real bicep-curl frames. It is not mounted in `MuscleView.tsx`; the production R3F path remains unchanged until visual parity is available.
+The browser smoke mounts `scripts/browser-three-host-probe.js`, which creates a real Three `WebGLRenderer` behind the project-owned `ThreeSceneHost`.
 
+Verified in Chromium:
 
-## Framework-neutral scene state
+- the first-party host renders real WebGL;
+- its frame loop visibly advances a scene;
+- its drawing buffer follows container resize;
+- disposal is explicit.
 
-The mutable `SceneState` type and `createSceneState` factory now live in `src/viewer/sceneStateCore.ts` with no React import. `sceneState.ts` remains the temporary React context wrapper and re-exports the same API, so production behaviour is unchanged. The future first-party host can own the same state object directly after parity gates pass instead of recreating scene semantics during the React/R3F cutover.
+This proves the host lifecycle can drive real WebGL. It does **not** yet prove the complete Studio scene has been migrated to that host.
 
+### Live consumer browser evidence
 
-## R3F event-type decoupling
+The same browser smoke verifies the current production/R3F reference path for:
 
-`src/viewer/scenePointerTypes.ts` now owns the minimal stop-propagation/ray/pointer-id contract used by skeleton picking and the transform gizmo. `SkeletonView.tsx` therefore has zero direct R3F imports; the transform gizmo still imports `useFrame` but no longer imports `ThreeEvent`. This is type-surface decoupling only: runtime JSX event routing remains R3F until the input bridge passes physical parity.
+- BoneGroups/SkeletonView playback
+- CharacterFigure across authored poses
+- MuscleView across authored poses
+- EquipmentView visibility/rendering
+- IKHandles visibility/rendering with temporary editor IK state
+- transform-gizmo selected/unselected rendering
+- camera presets
+- mouse orbit and wheel zoom
+- backdrop and responsive resize
+
+These checks are the parity reference for future host migration.
+
+## Remaining migration problem
+
+The remaining problem is no longer individual `useFrame` consumers. It is the **R3F host/reconciler itself**.
+
+Do not redo the consumer dispatcher work.
+
+### Next safe cloud increments
+
+1. **Static scene ownership**
+   - extract project-owned functions that create/update/dispose background, lights, floor and grid objects;
+   - test them without R3F;
+   - keep the live R3F JSX path unchanged until parity is proven.
+
+2. **Frame driver ownership**
+   - move playback advance + `resolveFrame` + pose application + consumer dispatch into a renderer-neutral driver callable by either host;
+   - make the current R3F `useFrame` wrapper only adapt its clock/delta to that driver;
+   - add Bottom/Mid/Peak/Return and playback-loop tests.
+
+3. **Camera/orbit host injection**
+   - move camera preset/focus logic to a host-neutral controller receiving camera + orbit handle ports;
+   - keep React wrappers thin.
+
+4. **Scene/pointer input bridge**
+   - replace pointer-miss selection clearing, picking/raycast and proxy insertion/removal with project-owned host APIs;
+   - preserve pointer capture/propagation and gizmo drag suspension;
+   - automated browser tests may supplement this, but physical desktop/iPhone parity remains mandatory.
+
+5. **First-party Studio host**
+   - mount a reversible project-owned Studio host beside the R3F reference path;
+   - compare the existing browser evidence set against both;
+   - do not remove R3F until render/input/lifecycle parity passes.
+
+6. **R3F removal**
+   - when direct imports are zero and the complete host/reconciler parity gate passes, remove `@react-three/fiber`;
+   - immediately rerun typecheck, full suite, production build, browser smoke, dependency anti-creep, external-resource and network gates.
+
+## Drei
+
+Drei source imports are already zero. Keep the package until the separate physical Grid/Orbit/Transform desktop/iPhone gate passes. Do not conflate Drei package removal with R3F host removal.
+
+## Physical evidence boundary
+
+Automated Chromium smoke is strong supplementary evidence but is **not** the physical/iPhone acceptance gate. Touch, real-device pointer capture and subjective visual interaction still require `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`.
+
+## After R3F
+
+Proceed in order:
+
+1. React/ReactDOM UI/lifecycle replacement;
+2. Three.js math/rig/GLB/scene/renderer replacement last.
+
+Do not replace R3F with another third-party scene/reconciler library.

@@ -64,6 +64,9 @@ jobs:
           src/viewer/orbitModel.test.ts
           src/viewer/referenceGrid.test.ts
           src/viewer/transformGizmoMath.test.ts
+          src/viewer/transformGizmoRuntime.test.ts
+          src/viewer/studioEditRuntimes.test.ts
+          src/viewer/studioSceneController.test.ts
           src/editor/store.test.ts
           src/editor/characterStore.test.ts
 

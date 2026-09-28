@@ -308,6 +308,60 @@ try {
     hiddenHash: equipmentHiddenHash,
   };
 
+  // IKHandles consumer evidence. Pull-up has authored enabled hand goals.
+  // Jump to an enabled-goal keyframe, then toggle only showIkHandles.
+  await exerciseSelect.selectOption("pull_up");
+  await page.waitForTimeout(350);
+  const ikEvidence = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    const state = useStudio.getState();
+    state.pause();
+    if (!state.showIkHandles) state.toggle("showIkHandles");
+    const frame = state.document.clip.keyframes.find((entry) =>
+      Object.values(entry.ik).some((goal) => goal?.enabled),
+    );
+    if (!frame) return null;
+    state.setTime(frame.time);
+    return {
+      time: frame.time,
+      activeGoals: Object.entries(frame.ik)
+        .filter(([, goal]) => goal?.enabled)
+        .map(([chain]) => chain),
+    };
+  });
+  assert(ikEvidence && ikEvidence.activeGoals.length > 0, "Pull-up did not expose an enabled IK goal for browser evidence");
+  await page.waitForTimeout(350);
+  const ikVisibleHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-ik-handles-visible.png") }),
+  );
+  const ikHidden = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().toggle("showIkHandles");
+    return useStudio.getState().showIkHandles;
+  });
+  assert.equal(ikHidden, false, "IK handle visibility toggle did not hide handles");
+  await page.waitForTimeout(250);
+  const ikHiddenHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-ik-handles-hidden.png") }),
+  );
+  assert.notEqual(
+    ikVisibleHash,
+    ikHiddenHash,
+    "IKHandles visibility toggle did not visibly change the rendered canvas",
+  );
+  const ikRestored = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().toggle("showIkHandles");
+    return useStudio.getState().showIkHandles;
+  });
+  assert.equal(ikRestored, true, "IK handle visibility was not restored after evidence capture");
+  report.checks.ikHandlesVisibilityRenderChanged = {
+    time: ikEvidence.time,
+    activeGoals: ikEvidence.activeGoals,
+    visibleHash: ikVisibleHash,
+    hiddenHash: ikHiddenHash,
+  };
+
   await page.setViewportSize({ width: 780, height: 900 });
   await page.waitForTimeout(450);
   const resizedBox = await canvas.boundingBox();

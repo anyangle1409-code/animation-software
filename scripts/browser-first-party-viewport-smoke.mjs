@@ -249,70 +249,92 @@ try {
     0,
     "Detached Contact panel remained mounted after left-tab change",
   );
-  const exercisePanelParity = await page.evaluate(async () => {
-    const [{ createExercisePanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/exercisePanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
-    const snapshot = (panel) => ({
+  const liveExercisePanel = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const slot = document.querySelector('[data-hgpt-editor-slot="right-panel"]');
+    const panel = document.querySelector('[data-hgpt-panel="exercise-first-party"]');
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Exercise panel is unavailable");
+
+    const before = studioStore.getState();
+    const documentBefore = before.document;
+    const historyBefore = before.history;
+    const validationBefore = before.validation;
+    const originalTempo = before.document.exercise.tempo.eccentric;
+    const originalClosure = before.document.exercise.hands.closure;
+
+    const snapshot = {
+      exists: true,
+      insideRightPanel: slot instanceof HTMLElement && panel.parentElement === slot,
+      panelCount: slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="exercise-first-party"]').length,
       heading: panel.querySelector("h2")?.textContent ?? null,
-      notes: Array.from(panel.querySelectorAll(".panel__note")).map(
-        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      ),
-      headings: Array.from(panel.querySelectorAll("h3")).map((element) => element.textContent),
-      tempo: Array.from(panel.querySelectorAll(".tempo-grid label.field")).map((label) => {
-        const input = label.querySelector('input[type="number"]');
-        return {
-          label: label.querySelector(".field__label")?.textContent ?? null,
-          value: input?.value ?? null,
-          min: input?.min ?? null,
-          max: input?.max ?? null,
-          step: input?.step ?? null,
-        };
-      }),
-      muscles: Array.from(panel.querySelectorAll(".muscle-list li")).map((item) => ({
-        name: item.querySelector(".muscle-list__name")?.textContent ?? null,
-        level: item.querySelector(".muscle-list__level")?.textContent ?? null,
-        swatch: item.querySelector(".swatch")?.style.background ?? null,
-      })),
-      specs: Array.from(panel.querySelectorAll(".spec-list > *")).map(
-        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      ),
-      closure: (() => {
-        const input = panel.querySelector('input[aria-label="Grip closure"]');
-        return {
-          value: input?.value ?? null,
-          min: input?.min ?? null,
-          max: input?.max ?? null,
-          step: input?.step ?? null,
-          label: input?.getAttribute("aria-label") ?? null,
-        };
-      })(),
-      equipment: Array.from(panel.querySelectorAll(".plain-list li")).map(
-        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      ),
+      tempoCount: panel.querySelectorAll('.tempo-grid input[type="number"]').length,
+      muscleCount: panel.querySelectorAll(".muscle-list li").length,
+      specCount: panel.querySelectorAll(".spec-list > *").length,
+      equipmentCount: panel.querySelectorAll(".plain-list li").length,
+      closureLabel: panel.querySelector('input[aria-label="Grip closure"]')?.getAttribute("aria-label") ?? null,
+    };
+
+    const tempoInput = panel.querySelector('.tempo-grid input[type="number"]');
+    if (!(tempoInput instanceof HTMLInputElement)) throw new Error("Exercise tempo input is unavailable");
+    const nextTempo = originalTempo >= 9.9 ? originalTempo - 0.1 : originalTempo + 0.1;
+    tempoInput.value = String(nextTempo);
+    tempoInput.dispatchEvent(new Event("input", { bubbles: true }));
+    const afterTempo = studioStore.getState();
+    const tempoProbe = {
+      changed: Math.abs(afterTempo.document.exercise.tempo.eccentric - nextTempo) < 1e-9,
+      historyAdvanced: afterTempo.history.past.length === historyBefore.past.length + 1,
+    };
+
+    const refreshedPanel = document.querySelector('[data-hgpt-panel="exercise-first-party"]');
+    const closureInput = refreshedPanel?.querySelector('input[aria-label="Grip closure"]');
+    if (!(closureInput instanceof HTMLInputElement)) throw new Error("Exercise grip-closure input is unavailable");
+    const nextClosure = originalClosure >= 0.95 ? originalClosure - 0.05 : originalClosure + 0.05;
+    closureInput.value = String(nextClosure);
+    closureInput.dispatchEvent(new Event("input", { bubbles: true }));
+    const afterClosure = studioStore.getState();
+    const closureProbe = {
+      changed: Math.abs(afterClosure.document.exercise.hands.closure - nextClosure) < 1e-9,
+      historyAdvanced: afterClosure.history.past.length === historyBefore.past.length + 2,
+    };
+
+    studioStore.setState({
+      document: documentBefore,
+      history: historyBefore,
+      validation: validationBefore,
     });
 
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="right-panel"] > .panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Exercise panel reference is unavailable");
-    const react = snapshot(reactPanel);
-
-    const firstParty = createExercisePanelDom(document, studioStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+    return { ...snapshot, tempoProbe, closureProbe };
   });
+  assert.equal(liveExercisePanel.exists, true, "First-party Exercise panel is not live");
+  assert.equal(liveExercisePanel.insideRightPanel, true, "Exercise panel is outside the right-panel slot");
+  assert.equal(liveExercisePanel.panelCount, 1, "Exercise tab has multiple live panel surfaces");
+  assert.equal(liveExercisePanel.firstPartyCount, 1, "First-party Exercise ownership is ambiguous");
+  assert(liveExercisePanel.heading, "Exercise heading did not render");
+  assert.equal(liveExercisePanel.tempoCount, 4, "Exercise panel lost tempo controls");
+  assert(liveExercisePanel.muscleCount > 0, "Exercise panel rendered no muscle metadata");
+  assert.equal(liveExercisePanel.specCount, 10, "Exercise grip/stance specification rows drifted");
+  assert(liveExercisePanel.equipmentCount > 0, "Exercise panel rendered no equipment/bodyweight entry");
+  assert.equal(liveExercisePanel.closureLabel, "Grip closure");
   assert.deepEqual(
-    exercisePanelParity.candidate,
-    exercisePanelParity.react,
-    "First-party Exercise panel drifted from the React reference",
+    liveExercisePanel.tempoProbe,
+    { changed: true, historyAdvanced: true },
+    "Exercise tempo input did not preserve the existing regeneration/history behavior",
   );
-  report.checks.firstPartyExercisePanel = exercisePanelParity.candidate;
+  assert.deepEqual(
+    liveExercisePanel.closureProbe,
+    { changed: true, historyAdvanced: true },
+    "Exercise grip closure did not preserve the existing regeneration/history behavior",
+  );
+  report.checks.liveExercisePanel = liveExercisePanel;
+
+  await reviewTab.click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="exercise-first-party"]').count(),
+    0,
+    "Detached Exercise panel remained mounted after right-tab change",
+  );
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

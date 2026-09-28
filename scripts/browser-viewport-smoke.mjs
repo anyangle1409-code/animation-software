@@ -194,68 +194,75 @@ try {
     characterHash: characterViewHash,
   };
 
-  // CharacterFigure consumer evidence: the clean procedural character must be
-  // visibly posed by the live per-frame path while playback advances.
-  const characterBeforeHash = characterViewHash;
-  const characterTimeBefore = await timeReadout.textContent();
-  await page.getByRole("button", { name: "Play", exact: true }).click();
-  await page.waitForTimeout(650);
-  const characterTimeAfter = await timeReadout.textContent();
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
-  const characterAfterHash = hash(
-    await canvas.screenshot({ path: path.join(OUT, "desktop-character-after-play.png") }),
-  );
-  assert.notEqual(characterTimeBefore, characterTimeAfter, "Playback time did not advance in Character view");
-  assert.notEqual(
-    characterBeforeHash,
-    characterAfterHash,
-    "CharacterFigure render did not visibly change while playback advanced",
-  );
-  report.checks.characterFigureRenderAdvanced = {
-    beforeTime: characterTimeBefore,
-    afterTime: characterTimeAfter,
-    beforeHash: characterBeforeHash,
-    afterHash: characterAfterHash,
-  };
-
-  // MuscleView consumer evidence: switch to the live muscles mode and require
-  // both a distinct rendered view and visible per-frame change.
-  await viewMode.getByRole("button", { name: "Muscles", exact: true }).click();
+  // CharacterFigure and MuscleView consumer evidence. Use a bodyweight
+  // exercise so equipment cannot account for the pixel difference, and sample
+  // authored Start/Peak keyframes rather than relying on wall-clock playback.
+  const exerciseSelect = page.locator("label.field").filter({ hasText: "Exercise" }).locator("select").first();
+  await exerciseSelect.selectOption("air_squat");
   await page.waitForTimeout(450);
+
   const startKey = page.locator(".timeline__key.marker-start").first();
   const peakKey = page.locator(".timeline__key.marker-peak").first();
-  assert((await startKey.count()) > 0, "No authored Start keyframe is available for MuscleView evidence");
-  assert((await peakKey.count()) > 0, "No authored Peak keyframe is available for MuscleView evidence");
+  assert((await startKey.count()) > 0, "No authored Start keyframe is available for consumer evidence");
+  assert((await peakKey.count()) > 0, "No authored Peak keyframe is available for consumer evidence");
 
+  await viewMode.getByRole("button", { name: "Character", exact: true }).click();
+  await startKey.click();
+  await page.waitForTimeout(350);
+  const characterStartTime = await timeReadout.textContent();
+  const characterStartHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-character-start.png") }),
+  );
+  await peakKey.click();
+  await page.waitForTimeout(350);
+  const characterPeakTime = await timeReadout.textContent();
+  const characterPeakHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-character-peak.png") }),
+  );
+  assert.notEqual(characterStartTime, characterPeakTime, "Character Start and Peak resolved to the same time");
+  assert.notEqual(
+    characterStartHash,
+    characterPeakHash,
+    "CharacterFigure render was byte-identical at authored Start and Peak poses",
+  );
+  report.checks.characterFigureRenderAcrossAuthoredPoses = {
+    exercise: "air_squat",
+    startTime: characterStartTime,
+    peakTime: characterPeakTime,
+    startHash: characterStartHash,
+    peakHash: characterPeakHash,
+  };
+
+  await viewMode.getByRole("button", { name: "Muscles", exact: true }).click();
   await startKey.click();
   await page.waitForTimeout(350);
   const musclesStartTime = await timeReadout.textContent();
-  const musclesBeforeHash = hash(
+  const musclesStartHash = hash(
     await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-start.png") }),
   );
   assert.notEqual(
-    musclesBeforeHash,
-    characterAfterHash,
-    "Muscles and Character views were byte-identical",
+    musclesStartHash,
+    characterStartHash,
+    "Muscles and Character Start views were byte-identical",
   );
-
   await peakKey.click();
   await page.waitForTimeout(350);
   const musclesPeakTime = await timeReadout.textContent();
-  const musclesAfterHash = hash(
+  const musclesPeakHash = hash(
     await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-peak.png") }),
   );
-  assert.notEqual(musclesStartTime, musclesPeakTime, "Start and Peak keyframes resolved to the same time");
+  assert.notEqual(musclesStartTime, musclesPeakTime, "Muscles Start and Peak resolved to the same time");
   assert.notEqual(
-    musclesBeforeHash,
-    musclesAfterHash,
+    musclesStartHash,
+    musclesPeakHash,
     "MuscleView render was byte-identical at authored Start and Peak poses",
   );
   report.checks.muscleViewRenderAcrossAuthoredPoses = {
+    exercise: "air_squat",
     startTime: musclesStartTime,
     peakTime: musclesPeakTime,
-    startHash: musclesBeforeHash,
-    peakHash: musclesAfterHash,
+    startHash: musclesStartHash,
+    peakHash: musclesPeakHash,
   };
 
   await viewMode.getByRole("button", { name: "Character", exact: true }).click();

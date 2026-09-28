@@ -21,7 +21,7 @@ const candidate = (
   result: {
     parsed: parsePrompt(PROMPT),
     status,
-    ...(withExercise ? { exercise: getExercise('hammer_curl') } : {}),
+    ...(withExercise ? { exercise: getExercise('dumbbell_hammer_curl') } : {}),
     attempts: [],
     corrections: [],
     validations: 1,
@@ -47,7 +47,7 @@ describe('framework-neutral generation session store', () => {
 
     generationStore.getState().preview(entry.key);
     expect(generationStore.getState().selected).toBe(entry.key);
-    expect(studioStore.getState().document.exercise.id).toBe('hammer_curl');
+    expect(studioStore.getState().document.exercise.id).toBe('dumbbell_hammer_curl');
 
     generationStore.getState().approve(entry.key);
     expect(generationStore.getState().candidates[0]?.approved).toBe(true);

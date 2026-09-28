@@ -23,6 +23,7 @@ import { createStudioStage } from './studioStage';
 import { StudioCameraRigController } from './cameraRigController';
 import { useSceneHostBindings } from './sceneHostBindings';
 import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 
 /** Moves the camera to the selected preset, then hands control back to orbit. */
 function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
@@ -320,12 +321,13 @@ function StaticStageBridge({
     [backdrop, showGrid],
   );
 
+  useSceneResourceDisposal(stage);
+
   useEffect(() => {
     const previousBackground = root.background;
     root.background = stage.background;
     return () => {
       if (root.background === stage.background) root.background = previousBackground;
-      stage.dispose();
     };
   }, [root, stage]);
 

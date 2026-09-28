@@ -9,6 +9,7 @@ import {
 } from './equipmentScene';
 import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 import { useSceneHostBindings } from './sceneHostBindings';
 
 /**
@@ -23,7 +24,7 @@ export function EquipmentView() {
   const { pointers } = useSceneHostBindings();
   const resources = useMemo(() => createEquipmentScene(instances), [instances]);
 
-  useEffect(() => () => resources.dispose(), [resources]);
+  useSceneResourceDisposal(resources);
 
   useEffect(
     () => registerEquipmentPointers(resources, pointers, selectEquipment),

@@ -10,6 +10,7 @@ import {
   updateIKHandleSelection,
 } from './ikHandleScene';
 import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 import { useSceneHostBindings } from './sceneHostBindings';
 
 /**
@@ -28,7 +29,7 @@ export function IKHandles() {
   const { pointers } = useSceneHostBindings();
   const resources = useMemo(createIKHandleScene, []);
 
-  useEffect(() => () => resources.dispose(), [resources]);
+  useSceneResourceDisposal(resources);
 
   useEffect(
     () => registerIKHandlePointers(resources, pointers, selectHandle),

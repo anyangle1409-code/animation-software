@@ -9,6 +9,7 @@ import {
   updateSkeletonAppearance,
 } from './skeletonScene';
 import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 import { useSceneHostBindings } from './sceneHostBindings';
 
 export interface SkeletonViewProps {
@@ -39,7 +40,7 @@ export function SkeletonView({ ghosted = false, includeFingers = false }: Skelet
     [bones, ghosted],
   );
 
-  useEffect(() => () => resources.dispose(), [resources]);
+  useSceneResourceDisposal(resources);
 
   useEffect(
     () => registerSkeletonPointers(resources, pointers, selectBone),

@@ -17,6 +17,7 @@ import {
 } from './transformGizmoScene';
 import { SceneObjectMount } from './SceneObjectMount';
 import { useSceneHostBindings } from './sceneHostBindings';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 
 interface FirstPartyTransformGizmoProps {
   object: Object3D;
@@ -69,7 +70,7 @@ export function FirstPartyTransformGizmo({
   const resources = useMemo(() => createTransformGizmoScene(mode), [mode]);
   const callbacks = useRef<TransformGizmoPointerCallbacks | null>(null);
 
-  useEffect(() => () => resources.dispose(), [resources]);
+  useSceneResourceDisposal(resources);
 
   useEffect(() => {
     updateTransformGizmoActiveAxis(resources, activeAxis);

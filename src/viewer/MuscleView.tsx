@@ -1,9 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { MUSCLES, createMuscleTransform, resolveMuscle } from '../muscles/model';
 import { useStudio } from '../editor/store';
 import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
 import { createMuscleScene } from './muscleScene';
 import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneResourceDisposal } from './sceneResourceLifecycle';
 
 /**
  * The muscle overlay. Scene objects are owned directly through the shared host
@@ -15,7 +16,7 @@ export function MuscleView() {
   const resources = useMemo(() => createMuscleScene(involvement), [involvement]);
   const transform = useMemo(createMuscleTransform, []);
 
-  useEffect(() => () => resources.dispose(), [resources]);
+  useSceneResourceDisposal(resources);
 
   useSceneFrame(() => {
     for (const muscle of MUSCLES) {

@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { characterStore } from '../editor/characterStoreCore';
 import { skeleton, studioStore } from '../editor/storeCore';
-import { useSceneState } from './sceneState';
+import { createSceneState } from './sceneStateCore';
 import { createFirstPartyViewportRuntime } from './firstPartyViewportRuntime';
 import { createStudioSceneController } from './studioSceneController';
 
@@ -12,7 +12,7 @@ import { createStudioSceneController } from './studioSceneController';
  * frame, pointer and complete Studio scene composition are plain TypeScript.
  */
 export function FirstPartyViewportHost() {
-  const scene = useSceneState();
+  const scene = useMemo(createSceneState, []);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

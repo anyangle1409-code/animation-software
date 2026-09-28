@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`79d37ebf1157910f7c64c1d5c5198fc51c5001a7`
+`8abf6197833ce06b89469e70c5b3d31cb3dde4c1`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `79d37eb`:
+At `8abf619`:
 
 - Standalone prep verification: PASS
-- full suite: 143 test files PASS, 2 skipped
-- full tests: 959 PASS, 62 skipped
+- full suite: 145 test files PASS, 2 skipped
+- full tests: 963 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,7 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- right-side `src/editor/panels/*.tsx` surfaces: Review and Export
+- right-side `src/editor/panels/*.tsx` surface: Export
 
 ### Thin viewport DOM adapter
 
@@ -133,24 +133,26 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 - Character, Joint and Grip left panels are also live first-party DOM with verified actions, selection, diagnostics and disposal; their React references are removed after each live checkpoint passed both workflows;
 - `src/editor/generationStoreCore.ts` now owns Generate session state independently of React;
 - `src/editor/panels/generatePanelDom.ts` is live only while Generate is active, preserving prompt/examples, progress, candidate details, Preview/Approve/Discard and session switching;
-- the live Generate switch passed both workflows at `79d37eb`; its redundant React wrapper is removed in the current cleanup checkpoint;
+- the live Generate switch passed both workflows at `79d37eb`; its redundant React wrapper cleanup passed at `deb5767`;
+- `src/editor/panels/reviewPanelDom.ts` is live only while Review is active, preserving automated gates, movement diagnostics/locators and exact visual sign-off invalidation semantics;
+- the live Review switch passed both workflows at `8abf619`; its redundant React wrapper is removed in the current cleanup checkpoint;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **verify Generate cleanup, then Review panel**.
+Next exact increment: **verify Review cleanup, then Export panel**.
 
-1. verify the current `GeneratePanel.tsx` cleanup checkpoint in both required workflows;
-2. build a React-free Review panel DOM/controller backed by `studioStore` and `characterStore`;
-3. preserve `reviewExercise(...)` automated gates, gate wording/applicability, movement diagnostics and all locator actions;
-4. preserve visual sign-off identity against the exact Studio document, character source and deformation revision, including the production-correctives requirement;
-5. prove focused unit behavior and Chromium parity while `ReviewPanel.tsx` remains the reference;
-6. switch only Review after preparation passes, mount only while `rightTab === 'review'`, then remove the redundant React wrapper after the live checkpoint passes;
-7. continue Export, then the thin viewport adapter, portal bridge and React root.
+1. verify the current `ReviewPanel.tsx` cleanup checkpoint in both required workflows;
+2. build a React-free Export panel with mount-local state for 24/30/60 fps, include-equipment and export status;
+3. preserve Animated GLB, clip GLB, clip JSON and metadata JSON actions, including exact filenames and existing `exportGlb` / JSON / download helpers;
+4. preserve busy/done/error messaging and reset local Export state on remount;
+5. prove focused DOM/action behavior and Chromium parity while `ExportPanel.tsx` remains the live reference;
+6. switch only Export after preparation passes and remove the React wrapper after the live checkpoint is green;
+7. then migrate the thin viewport adapter, portal bridge and React root before removing React/ReactDOM packages.
 
-Generate's framework-neutral session foundation passed both workflows at `7f6644e`; detached DOM/browser parity passed at `325c1ff`; the live switch passed at `79d37eb` with 143 test files / 959 tests passed and Browser smoke green. The current cleanup removes only the now-unused React reference and does not alter runtime behavior.
+Review preparation passed at `7b015b0`; the live Review switch passed at `8abf619` with 145 test files / 963 tests passed and Browser smoke green. Chromium verified visual sign-off, invalidation after document edits, production-correctives blocking, movement focus routing and disposal.
 
 Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 8. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 

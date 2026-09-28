@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`5866c572c6346b85011d7158476ed46886a9a0e6`
+`0318a5fc86319d8a60cf86ff63b6b63782af06ae`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `5866c57`:
+At `0318a5f`:
 
 - Standalone prep verification: PASS
-- full suite: 135 test files PASS, 2 skipped
-- full tests: 945 PASS, 62 skipped
+- full suite: 136 test files PASS, 2 skipped
+- full tests: 946 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -136,13 +136,13 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **Joint preparation**.
+Next exact increment: **Grip preparation**.
 
-The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99` (134 test files and 943 tests passed; 2 files and 62 tests skipped). The first-party Character panel is mounted only on its left tab, with explicit disposal; Chromium verified sole ownership and bind routing. The redundant `CharacterPanel.tsx` cleanup passed both workflows at `162b08d`.
+Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. This follow-up removes `JointPanel.tsx`, pending its own CI confirmation.
 
-Joint preparation passed both workflows at `5866c57`. The next commit mounts first-party Joint live while retaining `JointPanel.tsx` as the parity reference until the live checkpoint is green. Preserve selected bone/finger visibility, axis bounds/editing, motion and coordination diagnostics, segment timing/easing and symmetry, pose clipboard and mirroring. Compare in Chromium, then switch only Joint live and remove its React wrapper after separate green checkpoints.
+Prepare a first-party Grip controller while retaining `GripPanel.tsx` live for parity. Preserve grip profile/global/digit closure, curl review frames, one-hand offset/orientation and reset, whole-rep worst-point diagnostics, and two-hand width/roll/fit and reset. Prove focused tests and Chromium parity before switching only that tab live; remove its React wrapper after the live checkpoint passes both workflows.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 11. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 10 after Joint reference removal (11 at the verified live checkpoint). Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

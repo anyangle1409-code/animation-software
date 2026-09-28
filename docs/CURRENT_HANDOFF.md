@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`5866c572c6346b85011d7158476ed46886a9a0e6`
+`0318a5fc86319d8a60cf86ff63b6b63782af06ae`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 5866c57
+## Verified state at 0318a5f
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 135 test files PASS, 2 skipped
-- full tests: 945 PASS, 62 skipped
+- full suite: 136 test files PASS, 2 skipped
+- full tests: 946 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -134,6 +134,9 @@ Verified live shell state:
 - `src/editor/panels/characterPanelDom.ts` owns the live Character import/source/bind/mapping panel only while its left tab is active;
 - Character preserves existing characterStore actions, import/view switching, report display and mapping controls;
 - `src/editor/panels/CharacterPanel.tsx` is removed after both workflows passed at `954cc99`;
+- `src/editor/panels/jointPanelDom.ts` owns the live Joint editor only while its left tab is active, with explicit disposal;
+- Joint preserves limit-aware axis controls, selected bone/finger visibility, motion/coordination diagnostics, segment timing and pose actions;
+- `src/editor/panels/JointPanel.tsx` is removed after both workflows passed at `0318a5f`;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -141,20 +144,20 @@ Verified live shell state:
 
 Next exact increment:
 
-1. verify the live Joint switch in both workflows;
-2. after both are green, remove the redundant `JointPanel.tsx` and update handoffs;
-3. continue Grip in the same preparation, live switch, cleanup sequence;
+1. prepare a first-party Grip DOM/controller while keeping `GripPanel.tsx` live for Chromium parity;
+2. preserve global/profile/digit closure, frame review, one-hand and two-hand fit, offsets, orientation, width/roll, resets and whole-rep diagnostics;
+3. switch only Grip live after preparation passes both workflows, then remove its React wrapper after the live checkpoint passes both;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
 
 The Equipment reference removal passed both required workflows at `3bc0d87`.
 
-Current direct `react`/`react-dom` source import statements: 11; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements: 10 after Joint reference removal (11 at the verified live checkpoint); direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
 The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99`. The Character React reference cleanup passed both workflows at `162b08d`.
 
-Joint preparation passed both workflows at `5866c57`. The next commit mounts first-party Joint live and leaves its React reference in the tree until that live checkpoint passes both workflows.
+Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f`. This commit removes its redundant React reference, pending its own CI confirmation.
 
 ## Remaining declared runtime dependencies
 

@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`5be6098519be536cbd08b21d85dfec0313d83eea`
+`8ca14699575118c1967d04e00d231761a2fae1dd`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `5be60985`:
+At `8ca14699`:
 
 - Standalone prep verification: PASS
-- full suite: 118 test files PASS, 2 skipped
-- full tests: 914 PASS, 62 skipped
+- full suite: 120 test files PASS, 2 skipped
+- full tests: 918 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,7 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- `src/editor/panels/*.tsx`
+- remaining `src/editor/panels/*.tsx` surfaces other than Technique
 
 ### Thin viewport DOM adapter
 
@@ -102,7 +102,7 @@ The viewport adapter now owns only React DOM/effect lifetime; all renderer and s
 
 ### R3 — editor DOM shell: IN PROGRESS
 
-The outer editor shell, Toolbar and Timeline are now live first-party DOM at `5be60985`:
+The outer editor shell, Toolbar, Timeline and Technique panel are now live first-party DOM at `8ca14699`:
 
 - `src/editor/appShellDom.ts` owns the live Studio structure, tab buttons, panel visibility and stable child slots;
 - `src/editor/toolbarDom.ts` owns the live Toolbar and subscribes directly to `studioStore`;
@@ -110,20 +110,23 @@ The outer editor shell, Toolbar and Timeline are now live first-party DOM at `5b
 - `src/main.tsx` mounts the shell, Toolbar and Timeline directly under the first-party slot structure;
 - `src/editor/App.tsx` is only a temporary portal bridge for the remaining React child surfaces;
 - `src/editor/Toolbar.tsx` and `src/editor/Timeline.tsx` are removed after focused tests and Chromium parity passed;
+- `src/editor/panels/techniquePanelDom.ts` is live only while the Technique tab is mounted;
+- the Technique React wrapper is removed after focused/browser parity;
+- a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics.
 
-Next exact increment: **simple/read-mostly panels**, starting with Technique.
+Next exact increment: **Muscle diagnostics**.
 
-1. build a React-free Technique panel DOM/controller backed directly by `studioStore`;
-2. preserve the current automatic 120 ms validation scheduling/cancellation behavior;
-3. preserve validation status, loop/unreachable readouts, technique-rule pass/fail details and common-error guidance;
-4. preserve current CSS classes and text semantics;
-5. prove focused unit behavior and Chromium parity while `TechniquePanel.tsx` remains the reference;
-6. switch only the Technique tab after those checks pass, then remove the redundant React wrapper;
-7. continue other panels incrementally, leaving editing/generation/review/export surfaces until their lower-risk dependencies are migrated.
+1. build a React-free Muscle diagnostics DOM/controller backed directly by `studioStore`;
+2. preserve finished-frame diagnostics from `resolveFrame` + `diagnoseMuscles`;
+3. preserve local Active-only and region filters, activation ordering, labels/readings and empty-state behavior;
+4. retain the existing `MusclePanel.css` through the first-party module;
+5. prove focused unit behavior and Chromium parity while `MusclePanel.tsx` remains the reference;
+6. switch only the Muscles tab after those checks pass, then remove the redundant React wrapper;
+7. continue other panels incrementally, leaving more destructive editing/generation/review/export surfaces until the read-mostly surfaces are complete.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

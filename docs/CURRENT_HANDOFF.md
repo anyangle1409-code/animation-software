@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`5be6098519be536cbd08b21d85dfec0313d83eea`
+`8ca14699575118c1967d04e00d231761a2fae1dd`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 5be60985
+## Verified state at 8ca14699
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 118 test files PASS, 2 skipped
-- full tests: 914 PASS, 62 skipped
+- full suite: 120 test files PASS, 2 skipped
+- full tests: 918 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -110,23 +110,27 @@ Verified live shell state:
 - `src/editor/timelineDom.ts` owns the live Timeline DOM/controller directly from `studioStore`;
 - `src/main.tsx` mounts the first-party shell, Toolbar and Timeline directly;
 - `src/editor/Toolbar.tsx` and `src/editor/Timeline.tsx` are removed;
-- active panel content and Viewport still retain their existing React behavior inside first-party slots;
+- `src/editor/panels/techniquePanelDom.ts` owns the live Technique panel only while that tab is active;
+- Technique validation preserves the original 120 ms mount/clip-change debounce and does not run while the tab is inactive;
+- `src/editor/panels/TechniquePanel.tsx` is removed;
+- remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
 - Chromium verifies the live first-party shell and Toolbar, including exercise/candidate selection, view modes, camera/backdrop routing and undo/redo behavior.
 
 Next exact increment:
 
-1. migrate the simplest remaining React panel surface first, beginning with `src/editor/panels/TechniquePanel.tsx`;
-2. preserve its automatic validation scheduling, status/rule/common-error output, current CSS classes and wording;
-3. back it directly with `studioStore` and project-owned DOM/lifecycle code;
-4. keep the React Technique panel as the parity reference until focused tests and Chromium parity pass;
-5. then switch only the Technique tab to the first-party surface and remove the redundant React wrapper;
-6. continue other panels incrementally, leaving complex editing and generation/review/export surfaces until lower-risk dependencies are migrated;
-7. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
-8. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
-9. remove React/ReactDOM source imports and packages only after final browser/build gates;
-10. replace Three.js last.
+1. migrate `src/editor/panels/MusclePanel.tsx` to project-owned DOM/lifecycle code;
+2. preserve live playhead biomechanics diagnostics, activation ordering, side/length labels, wrapped-path annotation and exact filter semantics;
+3. preserve the local `Active only` and region filters, resetting them on panel remount as React does;
+4. import/retain `MusclePanel.css` from the first-party module so wrapper removal does not drop styling;
+5. keep the React Muscle panel as parity reference until focused tests and Chromium parity pass;
+6. switch only the Muscles tab after those checks pass, then remove the redundant React wrapper;
+7. continue other panels from lower-risk/read-mostly surfaces into editing and generation/review/export workflows;
+8. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
+9. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
+10. remove React/ReactDOM source imports and packages only after final browser/build gates;
+11. replace Three.js last.
 
 ## Remaining declared runtime dependencies
 

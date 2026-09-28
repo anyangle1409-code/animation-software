@@ -5,6 +5,7 @@ coverage/
 *.local
 .vite/
 scratchpad
+reports/
 HOME_GYM_PT_GPT_MESH_HANDOFF.zip
 ORIGINAL_V1_WORK/*.blend
 ORIGINAL_V1_WORK/*.blend1

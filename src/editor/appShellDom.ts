@@ -70,9 +70,9 @@ const createTabButton = (
 /**
  * Project-owned DOM structure and layout-state binding for the Studio shell.
  *
- * This is intentionally not the live shell yet. The existing React shell
- * remains the parity reference until this DOM path has focused and browser
- * coverage, after which child surfaces can be migrated into these slots.
+ * This owns the live outer editor structure. During React migration, the
+ * existing child surfaces mount into these slots without changing their
+ * behavior or state ownership.
  */
 export function createStudioAppShellDom(
   documentRef: Pick<Document, 'createElement'> = document,
@@ -82,6 +82,7 @@ export function createStudioAppShellDom(
 
   const root = documentRef.createElement('div');
   root.className = 'studio';
+  root.dataset.hgptEditorShell = 'first-party';
 
   const toolbar = documentRef.createElement('div');
   setSlot(toolbar, 'toolbar');
@@ -112,7 +113,10 @@ export function createStudioAppShellDom(
 
   const viewport = documentRef.createElement('main');
   viewport.className = 'studio__viewport';
-  setSlot(viewport, 'viewport');
+
+  const viewportSlot = documentRef.createElement('div');
+  viewportSlot.className = 'studio__viewport-slot';
+  setSlot(viewportSlot, 'viewport');
 
   const panelToggle = documentRef.createElement('button');
   panelToggle.type = 'button';
@@ -120,7 +124,7 @@ export function createStudioAppShellDom(
   const togglePanels = () => layoutStore.getState().togglePanels();
   panelToggle.addEventListener('click', togglePanels);
   cleanups.push(() => panelToggle.removeEventListener('click', togglePanels));
-  viewport.append(panelToggle);
+  viewport.append(viewportSlot, panelToggle);
 
   const rightSide = documentRef.createElement('aside');
   rightSide.className = 'studio__side studio__side--right';
@@ -168,7 +172,7 @@ export function createStudioAppShellDom(
   let disposed = false;
   return {
     element: root,
-    slots: { toolbar, leftPanel, viewport, rightPanel, timeline },
+    slots: { toolbar, leftPanel, viewport: viewportSlot, rightPanel, timeline },
     controls: { leftTabs, rightTabs, panelToggle },
     dispose() {
       if (disposed) return;

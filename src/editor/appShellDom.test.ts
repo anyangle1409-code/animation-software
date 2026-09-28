@@ -83,6 +83,7 @@ describe('first-party Studio app shell DOM', () => {
     const shell = createStudioAppShellDom(fakeDocument(), studioLayoutStore);
 
     expect(fake(shell.element).classList.contains('studio')).toBe(true);
+    expect(shell.element.dataset.hgptEditorShell).toBe('first-party');
     expect(fake(shell.element).classList.contains('studio--focus')).toBe(false);
     expect(fake(shell.controls.leftTabs.joint).classList.contains('is-active')).toBe(true);
     expect(fake(shell.controls.rightTabs.exercise).classList.contains('is-active')).toBe(true);
@@ -90,6 +91,7 @@ describe('first-party Studio app shell DOM', () => {
 
     expect(shell.slots.leftPanel.dataset.hgptEditorSlot).toBe('left-panel');
     expect(shell.slots.viewport.dataset.hgptEditorSlot).toBe('viewport');
+    expect(fake(shell.slots.viewport).classList.contains('studio__viewport-slot')).toBe(true);
     expect(shell.slots.rightPanel.dataset.hgptEditorSlot).toBe('right-panel');
 
     studioLayoutStore.getState().setLeftTab('equipment');

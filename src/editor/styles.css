@@ -138,6 +138,12 @@ code {
   background: #12151a;
 }
 
+.studio__viewport-slot {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+
 .studio__panel-toggle {
   position: absolute;
   top: 10px;

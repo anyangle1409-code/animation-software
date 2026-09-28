@@ -75,6 +75,37 @@ try {
   await page.waitForSelector(".toolbar__title", { state: "visible", timeout: 20_000 });
 
   assert.equal(await page.locator(".toolbar__title").textContent(), "Home Gym PT");
+  await page.waitForSelector('[data-hgpt-editor-shell="first-party"]', {
+    state: "visible",
+    timeout: 20_000,
+  });
+
+  const liveEditorShell = await page.evaluate(() => {
+    const root = document.getElementById("root");
+    const shell = document.querySelector('[data-hgpt-editor-shell="first-party"]');
+    const bridge = document.querySelector('[data-hgpt-react-bridge="editor-children"]');
+    if (!(root instanceof HTMLElement) || !(shell instanceof HTMLElement) || !(bridge instanceof HTMLElement)) {
+      return { exists: false };
+    }
+    return {
+      exists: true,
+      shellParentIsRoot: shell.parentElement === root,
+      bridgeParentIsRoot: bridge.parentElement === root,
+      bridgeOutsideShell: !shell.contains(bridge),
+      bridgeChildCount: bridge.childElementCount,
+      slotCount: shell.querySelectorAll("[data-hgpt-editor-slot]").length,
+      viewportSlotClass:
+        shell.querySelector('[data-hgpt-editor-slot="viewport"]')?.classList.contains("studio__viewport-slot") ?? false,
+    };
+  });
+  assert.equal(liveEditorShell.exists, true, "First-party editor shell is not live");
+  assert.equal(liveEditorShell.shellParentIsRoot, true, "First-party editor shell is not mounted directly under #root");
+  assert.equal(liveEditorShell.bridgeParentIsRoot, true, "Temporary React child bridge is not mounted under #root");
+  assert.equal(liveEditorShell.bridgeOutsideShell, true, "React bridge unexpectedly owns the first-party shell");
+  assert.equal(liveEditorShell.bridgeChildCount, 0, "React bridge should contain only portal ownership, not editor DOM");
+  assert.equal(liveEditorShell.slotCount, 5, "First-party editor shell live slot count drifted");
+  assert.equal(liveEditorShell.viewportSlotClass, true, "First-party viewport slot lost its layout boundary");
+  report.checks.liveEditorShellOwnership = liveEditorShell;
 
   const leftTabs = page.locator(".studio__side--left .tabs").first();
   const rightTabs = page.locator(".studio__side--right .tabs").first();

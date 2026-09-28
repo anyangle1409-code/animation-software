@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`5656ca6c0659e21c427e3adefb8185cc1bbc3259`
+`c5558ddf464f0b6e35ff203d4c7368209f5f3500`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `5656ca6`:
+At `c5558dd`:
 
 - Standalone prep verification: PASS
-- full suite: 147 test files PASS, 2 skipped
-- full tests: 967 PASS, 62 skipped
+- full suite: 148 test files PASS, 2 skipped
+- full tests: 968 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -85,18 +85,13 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 ## React-owned surfaces that remain
 
-### Remaining React child surfaces / bridge
+### Remaining React compatibility layer
 
-- `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
-- `src/editor/App.tsx` — temporary viewport portal / keyboard bridge only
-- no React-owned editor panel surfaces remain on the live path
+- `src/main.tsx` — temporary ReactDOM root used only to host the keyboard-lifetime bridge
+- `src/editor/App.tsx` — temporary keyboard-lifetime bridge
+- temporary React store-hook adapters
 
-### Thin viewport DOM adapter
-
-- `src/viewer/FirstPartyViewportHost.tsx`
-- `src/viewer/Viewport.tsx`
-
-The viewport adapter now owns only React DOM/effect lifetime; all renderer and scene composition work underneath it is plain TypeScript.
+No React-owned editor or viewport surface remains on the live path. `src/viewer/firstPartyViewportDom.ts` owns the live viewport DOM/lifecycle.
 
 ## Current stage
 
@@ -137,26 +132,29 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 - `src/editor/panels/reviewPanelDom.ts` is live only while Review is active, preserving automated gates, movement diagnostics/locators and exact visual sign-off invalidation semantics;
 - the live Review switch passed both workflows at `8abf619`; its redundant React wrapper cleanup passed at `aaf0163`;
 - `src/editor/panels/exportPanelDom.ts` is live only while Export is active, preserving mount-local fps/equipment options, all four export actions, exact filenames/options and status semantics;
-- the live Export switch passed both workflows at `5656ca6`; its redundant React wrapper is removed in the current cleanup checkpoint;
+- the live Export switch passed both workflows at `5656ca6`; its redundant React wrapper cleanup passed at `3f8cd80`;
+- `src/viewer/firstPartyViewportDom.ts` owns the live viewport host/canvas lifecycle and wires the existing first-party runtime/controller directly;
+- detached viewport DOM/WebGL parity passed at `67c227a`, and the live viewport switch passed both workflows at `c5558dd`;
+- the obsolete `FirstPartyViewportHost.tsx` / `Viewport.tsx` references are removed in the current cleanup checkpoint;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **thin viewport DOM adapter**.
+Next exact increment: **React root / keyboard bridge removal**.
 
-1. verify the current `ExportPanel.tsx` cleanup checkpoint in both required workflows;
-2. create a React-free viewport DOM/lifecycle wrapper around `createFirstPartyViewportRuntime` and `createStudioSceneController`;
-3. preserve the exact scene-host container/canvas DOM, sizing styles, scene state creation, runtime/controller wiring and controller-before-runtime disposal order;
-4. prove focused lifecycle behavior and real Chromium/WebGL parity while `FirstPartyViewportHost.tsx` / `Viewport.tsx` remain the reference;
-5. switch the viewport slot only after preparation passes, then remove the redundant React viewport wrappers after the live checkpoint is green;
-6. move keyboard binding to first-party startup, remove `App.tsx`, the portal bridge and React root;
-7. remove temporary React adapters only when no callers remain, set React/ReactDOM import ceilings to zero, and remove packages only after final gates.
+1. verify this viewport-reference cleanup in both required workflows;
+2. bind Studio keyboard shortcuts directly from first-party startup in `src/main.tsx` and retain the disposer;
+3. remove `createRoot`, `StrictMode`, the temporary React bridge element and `App` rendering; `#root` should own only the first-party shell;
+4. update Chromium ownership assertions to require the React bridge to be absent and preserve the five first-party shell slots plus live WebGL viewport;
+5. after the rootless checkpoint passes, delete the unused `src/editor/App.tsx` reference;
+6. inspect `src/core/store.ts`, `src/editor/store.ts`, `src/editor/characterStore.ts`, `src/editor/generationStore.ts` and the React adapter in `layoutState.ts`; remove only adapters with no remaining callers;
+7. when direct React/ReactDOM source imports genuinely reach zero, pin their source-import ceilings to zero and remove direct packages only if all install/build/browser/standalone gates remain valid.
 
-Export preparation passed at `7d4169c`; the live Export switch passed at `5656ca6` with 147 test files / 967 tests passed and Browser smoke green. Focused tests preserve exact export options, filenames and busy/done/error behavior; Chromium verifies live ownership, option editing/reset and disposal.
+Viewport DOM preparation passed at `67c227a`; the live switch passed at `c5558dd` with 148 test files / 968 tests passed and Browser smoke green. The live path now has no React-rendered visible surface.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements after the Export reference cleanup are 6. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements after this viewport reference cleanup are 4. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

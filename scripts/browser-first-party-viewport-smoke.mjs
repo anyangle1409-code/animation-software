@@ -470,6 +470,86 @@ try {
     0,
     "Detached IK panel remained mounted after left-tab change",
   );
+  const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });
+  await equipmentTab.click();
+  const equipmentOriginal = await page.evaluate(async () => {
+    const [{ studioStore }, { EQUIPMENT_LIBRARY }] = await Promise.all([
+      import("/src/editor/storeCore.ts"),
+      import("/src/equipment/library.ts"),
+    ]);
+    const original = {
+      exerciseId: studioStore.getState().document.exercise.id,
+      selection: studioStore.getState().selection,
+    };
+    studioStore.getState().loadExercise("pull_up");
+    const instance = studioStore.getState().document.exercise.equipment.instances
+      .find((item) => item.attachment.mode === "static");
+    if (!instance) throw new Error("Equipment parity requires static equipment");
+    studioStore.getState().selectEquipment(instance.id);
+    const socket = EQUIPMENT_LIBRARY[instance.kind].sockets[0];
+    if (!socket) throw new Error("Equipment parity requires a socket");
+    studioStore.getState().selectSocket(instance.id, socket.id);
+    return original;
+  });
+  await page.waitForTimeout(60);
+
+  const equipmentPanelParity = await page.evaluate(async () => {
+    const [{ createEquipmentPanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/equipmentPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      note: panel.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      empty: panel.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      equipment: Array.from(panel.querySelectorAll(".equipment-list > button")).map((button) => ({
+        className: button.getAttribute("class"),
+        text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      })),
+      headings: Array.from(panel.querySelectorAll("h3")).map((heading) => heading.textContent),
+      fields: Array.from(panel.querySelectorAll(".equipment-transform-grid label.field")).map((label) => {
+        const input = label.querySelector('input[type="number"]');
+        return {
+          label: label.querySelector(".field__label")?.textContent ?? null,
+          value: input?.value ?? null,
+          step: input?.step ?? null,
+        };
+      }),
+      sockets: Array.from(panel.querySelectorAll(".equipment-socket")).map((button) => ({
+        className: button.getAttribute("class"),
+        text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        code: button.querySelector("code")?.textContent ?? null,
+      })),
+      reset: panel.querySelector(".socket-editor__head button")?.textContent ?? null,
+    });
+
+    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] .equipment-panel');
+    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Equipment panel reference is unavailable");
+    const react = snapshot(reactPanel);
+
+    const firstParty = createEquipmentPanelDom(document, studioStore);
+    firstParty.element.style.position = "fixed";
+    firstParty.element.style.left = "-10000px";
+    firstParty.element.style.top = "0";
+    document.body.append(firstParty.element);
+    const candidate = snapshot(firstParty.element);
+    firstParty.dispose();
+    firstParty.element.remove();
+    return { react, candidate };
+  });
+  assert.deepEqual(
+    equipmentPanelParity.candidate,
+    equipmentPanelParity.react,
+    "First-party Equipment panel drifted from the React reference",
+  );
+  report.checks.firstPartyEquipmentPanel = equipmentPanelParity.candidate;
+  await page.evaluate(async (original) => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().loadExercise(original.exerciseId);
+    studioStore.setState({ selection: original.selection });
+  }, equipmentOriginal);
+  await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
+
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

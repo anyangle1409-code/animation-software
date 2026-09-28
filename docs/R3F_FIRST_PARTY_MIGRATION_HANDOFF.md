@@ -1,6 +1,6 @@
 # React Three Fiber first-party migration — exact current handoff
 
-Branch: `work/standalone-first-party-audit-20260927`. Source scan: `node scripts/map-third-party-runtime.mjs`; generated exhaustive import details in `reports/third_party_runtime_usage.json`. The current direct R3F surface is **nine files / nine imports**. Imported symbols: `Canvas`, `useFrame`, `useThree`, and type `ThreeEvent`. R3F also supplies JSX intrinsic scene objects, reconciler lifecycle, event raycasting and canvas sizing without an explicit named import; import counts alone understate this work.
+Branch: `work/standalone-first-party-audit-20260927`. Source scan: `node scripts/map-third-party-runtime.mjs`; generated exhaustive import details in `reports/third_party_runtime_usage.json`. The current direct R3F surface is **eight files / eight imports**. Imported symbols are now `Canvas`, `useFrame`, and `useThree`; the project-owned structural pointer-event contract removed the last direct `ThreeEvent` type import. R3F also supplies JSX intrinsic scene objects, reconciler lifecycle, event raycasting and canvas sizing without an explicit named import; import counts alone understate this work.
 
 | Subsystem | Files | R3F API and behavior to preserve |
 |---|---|---|
@@ -8,7 +8,7 @@ Branch: `work/standalone-first-party-audit-20260927`. Source scan: `node scripts
 | Character and visual pose | `BoneGroups.tsx`, `CharacterFigure.tsx`, `MuscleView.tsx` | `useFrame` applies evaluated bone, skin/grip/corrective, and muscle transforms. |
 | Equipment and IK visuals | `EquipmentView.tsx`, `IKHandles.tsx` | `useFrame` reads the same resolved frame for equipment and handle transforms. |
 | Orbit and camera input | `FirstPartyOrbitControls.tsx` | `useThree` camera and GL DOM element; `useFrame` advances project-owned orbit model. Physical mouse/iPhone parity remains open. |
-| Editing and picking | `FirstPartyTransformGizmo.tsx`, `SkeletonView.tsx`, `Viewport.tsx` | `ThreeEvent` ray, intersections, pointer capture and propagation; frame-based gizmo scale; joint picking; transform proxy scene insertion/removal and missed-click clearing. |
+| Editing and picking | `FirstPartyTransformGizmo.tsx`, `SkeletonView.tsx`, `Viewport.tsx` | R3F still supplies runtime JSX pointer/ray events, but project code now types only the structural fields it consumes; frame-based gizmo scale, joint picking, pointer capture/propagation, transform proxy scene insertion/removal and missed-click clearing remain to migrate. |
 
 Use `rg -n 'useFrame|useThree|ThreeEvent|<Canvas|onPointerMissed' src/viewer` before every increment; re-run the scanner to catch new imports. `src/viewer/sceneState.ts` currently uses React context. Its plain evaluation/frame data can become a direct host reference only after parity tests. `src/core/frameLoop.ts` provides project-owned priority and insertion-order scheduling. `src/core/sceneLifecycle.ts` now owns one frame loop, size/DPR updates (the existing 1–2 range), context-loss pause/restore and disposal through an injected surface adapter. Focused tests pin scheduling and lifecycle behavior. Neither foundation is connected to the live viewport.
 
@@ -59,3 +59,8 @@ A further focused fixture pins the `BoneGroups.tsx` pattern: a bone's world matr
 ## Framework-neutral scene state
 
 The mutable `SceneState` type and `createSceneState` factory now live in `src/viewer/sceneStateCore.ts` with no React import. `sceneState.ts` remains the temporary React context wrapper and re-exports the same API, so production behaviour is unchanged. The future first-party host can own the same state object directly after parity gates pass instead of recreating scene semantics during the React/R3F cutover.
+
+
+## R3F event-type decoupling
+
+`src/viewer/scenePointerTypes.ts` now owns the minimal stop-propagation/ray/pointer-id contract used by skeleton picking and the transform gizmo. `SkeletonView.tsx` therefore has zero direct R3F imports; the transform gizmo still imports `useFrame` but no longer imports `ThreeEvent`. This is type-surface decoupling only: runtime JSX event routing remains R3F until the input bridge passes physical parity.

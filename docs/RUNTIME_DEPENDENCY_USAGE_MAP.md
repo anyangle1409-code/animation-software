@@ -109,7 +109,7 @@ Uses `useFrame` to update target/pole handle positions.
 Uses `useFrame` to update resolved muscle belly transforms.
 
 ### `src/viewer/SkeletonView.tsx`
-Uses the R3F `ThreeEvent` type and JSX pointer events for selectable joints.
+No longer imports R3F directly. Selectable joints use the project-owned minimal `HgSceneStopEvent` structural type; R3F still supplies the JSX runtime event until the input bridge moves.
 
 ### R3F-independent scene host target
 

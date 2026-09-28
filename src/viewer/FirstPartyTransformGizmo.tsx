@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import { type ThreeEvent, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { Group, Object3D, Quaternion, Vector3 } from 'three';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import {
   HgTransformDrag,
   type HgTransformMode,
 } from './transformGizmoInteraction';
+import type { HgSceneRayEvent } from './scenePointerTypes';
 
 type AxisName = 'x' | 'y' | 'z';
 
@@ -60,7 +61,7 @@ const hgVector = (value: { x: number; y: number; z: number }) =>
 const hgQuaternion = (value: { x: number; y: number; z: number; w: number }) =>
   new HgQuat(value.x, value.y, value.z, value.w);
 
-const hgRay = (event: ThreeEvent<PointerEvent>) => ({
+const hgRay = (event: HgSceneRayEvent) => ({
   origin: hgVector(event.ray.origin),
   direction: hgVector(event.ray.direction),
 });
@@ -96,7 +97,7 @@ export function FirstPartyTransformGizmo({
     group.current.scale.setScalar(scale);
   });
 
-  const begin = (axis: AxisName) => (event: ThreeEvent<PointerEvent>) => {
+  const begin = (axis: AxisName) => (event: HgSceneRayEvent) => {
     event.stopPropagation();
     object.updateWorldMatrix(true, false);
     object.getWorldPosition(worldPosition.current);
@@ -118,7 +119,7 @@ export function FirstPartyTransformGizmo({
     onDragStart?.();
   };
 
-  const move = (event: ThreeEvent<PointerEvent>) => {
+  const move = (event: HgSceneRayEvent) => {
     const active = drag.current;
     if (!active || active.pointerId !== event.pointerId) return;
     event.stopPropagation();
@@ -147,7 +148,7 @@ export function FirstPartyTransformGizmo({
     onObjectChange?.();
   };
 
-  const end = (event: ThreeEvent<PointerEvent>) => {
+  const end = (event: HgSceneRayEvent) => {
     const active = drag.current;
     if (!active || active.pointerId !== event.pointerId) return;
     event.stopPropagation();

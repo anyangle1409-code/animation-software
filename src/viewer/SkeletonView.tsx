@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import type { ThreeEvent } from '@react-three/fiber';
 import type { BoneName } from '../rig/boneNames';
 import { isFingerBone } from '../rig/boneNames';
 import { skeleton, useStudio } from '../editor/store';
 import { BoneGroups } from './BoneGroups';
+import type { HgSceneStopEvent } from './scenePointerTypes';
 
 const BONE_COLOUR = '#8fa3bf';
 const SELECTED_COLOUR = '#ffb43a';
@@ -30,7 +30,7 @@ export function SkeletonView({ ghosted = false, includeFingers = false }: Skelet
     [includeFingers],
   );
 
-  const pick = (name: BoneName) => (event: ThreeEvent<MouseEvent>) => {
+  const pick = (name: BoneName) => (event: HgSceneStopEvent) => {
     event.stopPropagation();
     selectBone(name);
   };

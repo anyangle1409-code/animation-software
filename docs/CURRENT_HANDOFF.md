@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`8abf6197833ce06b89469e70c5b3d31cb3dde4c1`
+`5656ca6c0659e21c427e3adefb8185cc1bbc3259`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 8abf619
+## Verified state at 5656ca6
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 145 test files PASS, 2 skipped
-- full tests: 963 PASS, 62 skipped
+- full suite: 147 test files PASS, 2 skipped
+- full tests: 967 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -89,7 +89,7 @@ Completed and verified:
 React remains in:
 
 - `src/main.tsx` / temporary ReactDOM child-surface bridge root
-- `src/editor/App.tsx` portal bridge and editor panels
+- `src/editor/App.tsx` temporary viewport portal / keyboard bridge
 - `src/viewer/FirstPartyViewportHost.tsx` and `src/viewer/Viewport.tsx` as thin DOM/lifecycle adapters
 - temporary React store hooks/adapters
 
@@ -101,7 +101,7 @@ Continue from:
 
 R1 (framework-neutral Studio scene controller) and R2 (switch live scene composition/remove redundant React scene wrappers) are complete.
 
-Current objective: **R3 editor DOM shell**.
+Current objective: **thin viewport DOM adapter after completing the live R3 editor shell**.
 
 Verified live shell state:
 
@@ -147,28 +147,31 @@ Verified live shell state:
 - `src/editor/panels/GeneratePanel.tsx` is removed after its cleanup checkpoint passed both required workflows at `deb5767`;
 - `src/editor/panels/reviewPanelDom.ts` owns the live Review surface only while the right Review tab is active;
 - Review preserves automated gates, movement diagnostics and locator actions plus exact document/character/deformation visual sign-off identity and the production-correctives requirement;
-- `src/editor/panels/ReviewPanel.tsx` is removed in the current cleanup checkpoint after the live first-party surface passed both required workflows at `8abf619`;
-- right-side Export plus Viewport retain their existing React behavior inside first-party slots;
+- `src/editor/panels/ReviewPanel.tsx` cleanup passed both required workflows at `aaf0163`;
+- `src/editor/panels/exportPanelDom.ts` owns the live Export surface only while the right Export tab is active;
+- Export preserves mount-local 24/30/60 fps selection, include-equipment state, all four existing export actions, exact filenames/options and busy/done/error status semantics, with defaults reset on remount;
+- `src/editor/panels/ExportPanel.tsx` is removed in the current cleanup checkpoint after the live first-party surface passed both required workflows at `5656ca6`;
+- all editor child panels are now live first-party DOM; only the viewport bridge still renders through React;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
 - Chromium verifies the live first-party shell and Toolbar, including exercise/candidate selection, view modes, camera/backdrop routing and undo/redo behavior.
 
 Next exact increment:
 
-1. verify the redundant Review React reference cleanup in both required workflows;
-2. migrate `src/editor/panels/ExportPanel.tsx` to project-owned DOM/lifecycle code;
-3. preserve sample-rate and include-equipment local state, reset-on-remount behavior, all four export actions, exact file naming/options and busy/done/error status semantics;
-4. keep the React Export panel as the parity reference until focused tests and Chromium parity pass;
-5. switch Export live only after preparation is green, then remove its React reference after the live checkpoint passes;
-6. once all editor child panels are first-party, migrate the thin viewport DOM adapter, then remove the portal bridge and React root;
-7. set React/ReactDOM source ceilings to zero and remove packages only after final browser/build gates;
+1. verify the redundant Export React reference cleanup in both required workflows;
+2. migrate the thin React viewport wrapper (`FirstPartyViewportHost.tsx` / `Viewport.tsx`) to project-owned DOM/lifecycle code while preserving the exact container/canvas contract, scene-host marker, runtime/controller ownership and disposal order;
+3. keep the React viewport wrapper as the parity reference until focused lifecycle tests and Chromium/WebGL parity pass;
+4. switch only the viewport mount after preparation is green, then remove the redundant React viewport files after the live checkpoint passes;
+5. move keyboard binding out of `App.tsx`, remove the portal bridge and React root only after the viewport is first-party;
+6. remove temporary React store adapters and set React/ReactDOM source-import ceilings to zero only after source imports actually reach zero;
+7. remove React/ReactDOM packages only after install/typecheck/full-suite/build/browser/standalone gates permit it;
 8. replace Three.js last.
 
-Generate cleanup passed both workflows at `deb5767`. Review preparation passed both workflows at `7b015b0`. The live Review switch passed both at `8abf619` with 145 test files and 963 tests passed (2 files and 62 tests skipped); Chromium verified sole ownership, visual sign-off, exact-document invalidation, correctives blocking, movement focus routing and tab disposal. The redundant Review React reference is removed in the current cleanup checkpoint and must pass its own workflows before Export preparation.
+Review cleanup passed both workflows at `aaf0163`. Export preparation passed both workflows at `7d4169c`. The live Export switch passed both at `5656ca6` with 147 test files and 967 tests passed (2 files and 62 tests skipped); Chromium verified sole ownership, local option editing/reset and tab disposal while focused tests preserve all four exact export actions and status semantics. The redundant Export React reference is removed in the current cleanup checkpoint and must pass its own workflows before viewport preparation.
 
 The left-side panels are all live first-party DOM. Correctives preparation passed both workflows at `cf95586` (139 files and 952 tests passed; 2 files and 62 tests skipped). The live switch passed both workflows at `58915f8` (140 files and 953 tests passed; 2 files and 62 tests skipped). It mounts `correctivePanelDom.ts` only on its right tab, removes React portal rendering, and checks active-character strain, full-rep scan, preview routing and disposal in Chromium. The redundant reference cleanup is pending its own workflows. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
 
-Current direct `react`/`react-dom` source import statements: 8; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements after this Export reference cleanup: 6; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
 The Equipment reference removal passed both workflows at `3bc0d87`. Character preparation, live switch and cleanup passed at `55592fb`, `954cc99` and `162b08d`. Joint preparation, live switch and cleanup passed at `5866c57`, `0318a5f` and `3f2766d`. Grip reference cleanup passed both workflows at `fc7f365` (138 files and 949 tests passed; 2 files and 62 tests skipped).
 

@@ -25,6 +25,16 @@
       "max_imports": 0,
       "allowed_files": [],
       "rule": "Direct Zustand source imports are already zero and may not return."
+    },
+    "react": {
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "React source imports are zero after the first-party DOM, viewport and startup migrations and may not return."
+    },
+    "react-dom": {
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "ReactDOM source imports are zero after the project-owned root/startup switch and may not return."
     }
   }
 }

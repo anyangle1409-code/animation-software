@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createStoreHook } from './store';
+import { createStore } from './observableStore';
 
 interface CounterState {
   count: number;
@@ -7,32 +7,32 @@ interface CounterState {
   increment: () => void;
 }
 
-describe('first-party store core', () => {
+describe('first-party observable store', () => {
   it('supports synchronous get/set and functional updates', () => {
-    const useCounter = createStoreHook<CounterState>((set, get) => ({
+    const counter = createStore<CounterState>((set, get) => ({
       count: 1,
       label: 'one',
       increment: () => set({ count: get().count + 1 }),
     }));
 
-    expect(useCounter.getState().count).toBe(1);
-    useCounter.getState().increment();
-    expect(useCounter.getState().count).toBe(2);
+    expect(counter.getState().count).toBe(1);
+    counter.getState().increment();
+    expect(counter.getState().count).toBe(2);
 
-    useCounter.setState((state) => ({ label: String(state.count) }));
-    expect(useCounter.getState().label).toBe('2');
+    counter.setState((state) => ({ label: String(state.count) }));
+    expect(counter.getState().label).toBe('2');
   });
 
   it('notifies subscribers once per update and unsubscribes cleanly', () => {
-    const useCounter = createStoreHook(() => ({ count: 0 }));
+    const counter = createStore(() => ({ count: 0 }));
     const listener = vi.fn();
-    const unsubscribe = useCounter.subscribe(listener);
+    const unsubscribe = counter.subscribe(listener);
 
-    useCounter.setState({ count: 1 });
+    counter.setState({ count: 1 });
     expect(listener).toHaveBeenCalledTimes(1);
 
     unsubscribe();
-    useCounter.setState({ count: 2 });
+    counter.setState({ count: 2 });
     expect(listener).toHaveBeenCalledTimes(1);
   });
 });

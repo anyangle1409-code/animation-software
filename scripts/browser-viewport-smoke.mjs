@@ -222,33 +222,40 @@ try {
   // both a distinct rendered view and visible per-frame change.
   await viewMode.getByRole("button", { name: "Muscles", exact: true }).click();
   await page.waitForTimeout(450);
+  const startKey = page.locator(".timeline__key.marker-start").first();
+  const peakKey = page.locator(".timeline__key.marker-peak").first();
+  assert((await startKey.count()) > 0, "No authored Start keyframe is available for MuscleView evidence");
+  assert((await peakKey.count()) > 0, "No authored Peak keyframe is available for MuscleView evidence");
+
+  await startKey.click();
+  await page.waitForTimeout(350);
+  const musclesStartTime = await timeReadout.textContent();
   const musclesBeforeHash = hash(
-    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-before-play.png") }),
+    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-start.png") }),
   );
   assert.notEqual(
     musclesBeforeHash,
     characterAfterHash,
     "Muscles and Character views were byte-identical",
   );
-  const musclesTimeBefore = await timeReadout.textContent();
-  await page.getByRole("button", { name: "Play", exact: true }).click();
-  await page.waitForTimeout(650);
-  const musclesTimeAfter = await timeReadout.textContent();
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+
+  await peakKey.click();
+  await page.waitForTimeout(350);
+  const musclesPeakTime = await timeReadout.textContent();
   const musclesAfterHash = hash(
-    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-after-play.png") }),
+    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-peak.png") }),
   );
-  assert.notEqual(musclesTimeBefore, musclesTimeAfter, "Playback time did not advance in Muscles view");
+  assert.notEqual(musclesStartTime, musclesPeakTime, "Start and Peak keyframes resolved to the same time");
   assert.notEqual(
     musclesBeforeHash,
     musclesAfterHash,
-    "MuscleView render did not visibly change while playback advanced",
+    "MuscleView render was byte-identical at authored Start and Peak poses",
   );
-  report.checks.muscleViewRenderAdvanced = {
-    beforeTime: musclesTimeBefore,
-    afterTime: musclesTimeAfter,
-    beforeHash: musclesBeforeHash,
-    afterHash: musclesAfterHash,
+  report.checks.muscleViewRenderAcrossAuthoredPoses = {
+    startTime: musclesStartTime,
+    peakTime: musclesPeakTime,
+    startHash: musclesBeforeHash,
+    peakHash: musclesAfterHash,
   };
 
   await viewMode.getByRole("button", { name: "Character", exact: true }).click();

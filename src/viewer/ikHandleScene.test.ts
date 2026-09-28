@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { Object3D } from 'three';
+import { MeshStandardMaterial, type Object3D } from 'three';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 import type { HgScenePointerHandlers } from './scenePointerRouter';
 import {
@@ -17,16 +17,12 @@ describe('first-party IK handle scene', () => {
     expect(resources.handles.get('arm_l:target')?.name).toBe('hgpt-ik-arm_l-target');
     expect(resources.handles.get('leg_r:pole')?.name).toBe('hgpt-ik-leg_r-pole');
 
-    const targetMaterial = resources.handles.get('arm_l:target')!.material;
-    const poleMaterial = resources.handles.get('arm_l:pole')!.material;
-    expect(Array.isArray(targetMaterial)).toBe(false);
-    expect(Array.isArray(poleMaterial)).toBe(false);
-    if (!Array.isArray(targetMaterial) && !Array.isArray(poleMaterial)) {
-      expect(targetMaterial.color.getHexString()).toBe('4fd6a0');
-      expect(poleMaterial.color.getHexString()).toBe('6aa9ff');
-      expect(targetMaterial.opacity).toBe(0.9);
-      expect(targetMaterial.depthTest).toBe(false);
-    }
+    const targetMaterial = resources.handles.get('arm_l:target')!.material as MeshStandardMaterial;
+    const poleMaterial = resources.handles.get('arm_l:pole')!.material as MeshStandardMaterial;
+    expect(targetMaterial.color.getHexString()).toBe('4fd6a0');
+    expect(poleMaterial.color.getHexString()).toBe('6aa9ff');
+    expect(targetMaterial.opacity).toBe(0.9);
+    expect(targetMaterial.depthTest).toBe(false);
 
     resources.dispose();
   });
@@ -35,15 +31,13 @@ describe('first-party IK handle scene', () => {
     const resources = createIKHandleScene();
     updateIKHandleSelection(resources, { chain: 'arm_l', kind: 'target' });
 
-    const selected = resources.handles.get('arm_l:target')!.material;
-    const neighbour = resources.handles.get('arm_l:pole')!.material;
-    if (!Array.isArray(selected) && !Array.isArray(neighbour)) {
-      expect(selected.color.getHexString()).toBe('ffb43a');
-      expect(selected.emissive.getHexString()).toBe('ffb43a');
-      expect(selected.emissiveIntensity).toBe(0.5);
-      expect(neighbour.color.getHexString()).toBe('6aa9ff');
-      expect(neighbour.emissiveIntensity).toBe(0);
-    }
+    const selected = resources.handles.get('arm_l:target')!.material as MeshStandardMaterial;
+    const neighbour = resources.handles.get('arm_l:pole')!.material as MeshStandardMaterial;
+    expect(selected.color.getHexString()).toBe('ffb43a');
+    expect(selected.emissive.getHexString()).toBe('ffb43a');
+    expect(selected.emissiveIntensity).toBe(0.5);
+    expect(neighbour.color.getHexString()).toBe('6aa9ff');
+    expect(neighbour.emissiveIntensity).toBe(0);
 
     resources.dispose();
   });

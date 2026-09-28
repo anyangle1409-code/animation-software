@@ -73,6 +73,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Final character runtime-path gate
+        run: node scripts/audit-final-character-runtime.mjs
+
       - name: Runtime dependency anti-creep gate
         run: node scripts/check-runtime-dependency-creep.mjs
 

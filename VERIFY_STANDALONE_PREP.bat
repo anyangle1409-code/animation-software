@@ -7,42 +7,47 @@ echo Home Gym PT standalone preparation verification
 echo ============================================================
 
 echo.
-echo [1/8] Repository authority / hygiene gate
+echo [1/9] Repository authority / hygiene gate
 call npm run audit:hygiene
 if errorlevel 1 goto :fail
 
 echo.
-echo [2/8] TypeScript typecheck
+echo [2/9] TypeScript typecheck
 call npm run typecheck
 if errorlevel 1 goto :fail
 
 echo.
-echo [3/8] Focused first-party foundation tests
+echo [3/9] Focused first-party foundation tests
 call npm test -- src/core/store.test.ts src/core/linearMath.test.ts src/core/linearMath.parity.test.ts src/core/glbContainer.test.ts src/core/gltfAccessors.test.ts src/core/gltfBuilder.test.ts src/core/frameLoop.test.ts src/rig/firstPartySkeleton.parity.test.ts src/ik/firstPartyOrient.parity.test.ts src/rig/firstPartyPose.parity.test.ts src/viewer/firstPartyCameras.parity.test.ts src/viewer/orbitModel.test.ts src/viewer/referenceGrid.test.ts src/viewer/transformGizmoMath.test.ts src/editor/store.test.ts src/editor/characterStore.test.ts
 if errorlevel 1 goto :fail
 
 echo.
-echo [4/8] Full current test suite
+echo [4/9] Full current test suite
 call npm test -- --testTimeout=15000
 if errorlevel 1 goto :fail
 
 echo.
-echo [5/8] Production build
+echo [5/9] Production build
 call npm run build
 if errorlevel 1 goto :fail
 
 echo.
-echo [6/8] Runtime dependency anti-creep gate
+echo [6/9] Final character runtime-path gate
+node scripts\audit-final-character-runtime.mjs
+if errorlevel 1 goto :fail
+
+echo.
+echo [7/9] Runtime dependency anti-creep gate
 node scripts\check-runtime-dependency-creep.mjs
 if errorlevel 1 goto :fail
 
 echo.
-echo [7/8] External runtime resource gate
+echo [8/9] External runtime resource gate
 node scripts\audit-external-runtime-resources.mjs
 if errorlevel 1 goto :fail
 
 echo.
-echo [8/8] Runtime network/API gate
+echo [9/9] Runtime network/API gate
 node scripts\audit-runtime-network.mjs
 if errorlevel 1 goto :fail
 

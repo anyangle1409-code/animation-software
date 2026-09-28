@@ -653,46 +653,62 @@ try {
   assert.equal(await page.locator('[data-hgpt-panel="character-first-party"]').count(), 0,
     "Detached Character panel remained mounted after left-tab change");
 
-  const jointPreparationParity = await page.evaluate(async () => {
-    const [{ createJointPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/jointPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
+  const liveJointPanel = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
     const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
-    const react = slot?.querySelector(".panel");
-    if (!(react instanceof HTMLElement)) throw new Error("React Joint parity reference unavailable");
-    const original = studioStore.getState().selection.bone;
-    const candidate = createJointPanelDom();
-    const snapshot = (panel) => ({
-      heading: panel.querySelector("h2")?.textContent,
-      headings: [...panel.querySelectorAll("h3")].map((node) => node.textContent),
-      boneOptions: [...panel.querySelectorAll("select")][0]?.options.length,
-      axes: [...panel.querySelectorAll(".axis")].map((axis) => ({
-        className: axis.className,
-        label: axis.querySelector(".axis__name")?.textContent,
-        direction: axis.querySelector(".axis__direction")?.textContent,
-        number: axis.querySelector('input[type="number"]')?.value,
-        min: axis.querySelector('input[type="number"]')?.min,
-        max: axis.querySelector('input[type="number"]')?.max,
-      })),
-      readings: [...panel.querySelectorAll(".spec-list")].map((list) =>
-        [...list.querySelectorAll("dt,dd")].map((node) => node.textContent?.trim())),
-      timing: panel.querySelector(".joint-timing")?.querySelector('input[type="checkbox"]')?.checked ?? null,
-      buttons: [...panel.querySelectorAll("button")].map((node) => [node.textContent?.trim(), node.disabled]),
-    });
-    const empty = { react: snapshot(react), candidate: snapshot(candidate.element) };
-    studioStore.getState().selectBone("forearm_l");
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    const selected = { react: snapshot(react), candidate: snapshot(candidate.element) };
-    studioStore.getState().selectBone(original);
-    candidate.dispose();
-    return { empty, selected };
+    const panel = document.querySelector('[data-hgpt-panel="joint-first-party"]');
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Joint panel is unavailable");
+    const stateBefore = studioStore.getState();
+    const documentBefore = stateBefore.document;
+    const historyBefore = stateBefore.history;
+    const selectionBefore = stateBefore.selection;
+    const read = () => document.querySelector('[data-hgpt-panel="joint-first-party"]');
+    const bone = panel.querySelector('[data-hgpt-joint-control="bone"]');
+    if (!(bone instanceof HTMLSelectElement)) throw new Error("Joint bone selector unavailable");
+    bone.value = "forearm_l";
+    bone.dispatchEvent(new Event("change", { bubbles: true }));
+    const selected = studioStore.getState().selection.bone === "forearm_l";
+    const axis = read()?.querySelector('[data-hgpt-joint-control="axis-x-number"]');
+    if (!(axis instanceof HTMLInputElement)) throw new Error("Joint axis editor unavailable");
+    axis.value = "35";
+    axis.dispatchEvent(new Event("change", { bubbles: true }));
+    const axisProbe = {
+      value: read()?.querySelector('[data-hgpt-joint-control="axis-x-number"]')?.value,
+      historyAdvanced: studioStore.getState().history.past.length === historyBefore.past.length + 1,
+    };
+    const fingerToggle = read()?.querySelector('[data-hgpt-joint-control="fingers"]');
+    if (!(fingerToggle instanceof HTMLInputElement)) throw new Error("Joint finger toggle unavailable");
+    const optionsBefore = read()?.querySelector('[data-hgpt-joint-control="bone"]')?.options.length ?? 0;
+    fingerToggle.click();
+    const optionsAfter = read()?.querySelector('[data-hgpt-joint-control="bone"]')?.options.length ?? 0;
+    const result = {
+      insideLeftPanel: panel.parentElement === slot,
+      panelCount: slot?.querySelectorAll(".panel").length ?? -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="joint-first-party"]').length,
+      heading: read()?.querySelector("h2")?.textContent,
+      selected,
+      axisProbe,
+      fingersExpanded: optionsAfter > optionsBefore,
+      diagnosticCount: read()?.querySelectorAll(".joint-motion-diagnostic .spec-list dt").length ?? 0,
+      timingPresent: read()?.querySelector('[data-hgpt-joint-control="custom-timing"]') instanceof HTMLInputElement,
+    };
+    studioStore.setState({ document: documentBefore, history: historyBefore, selection: selectionBefore });
+    return result;
   });
-  assert.deepEqual(jointPreparationParity.empty.candidate, jointPreparationParity.empty.react,
-    "Prepared Joint empty state diverges from the React reference");
-  assert.deepEqual(jointPreparationParity.selected.candidate, jointPreparationParity.selected.react,
-    "Prepared Joint selected-bone controls or diagnostics diverge from the React reference");
-  report.checks.jointPreparationParity = jointPreparationParity;
+  assert.equal(liveJointPanel.insideLeftPanel, true, "Joint panel is outside the left-panel slot");
+  assert.equal(liveJointPanel.panelCount, 1, "Joint tab has multiple live panel surfaces");
+  assert.equal(liveJointPanel.firstPartyCount, 1, "First-party Joint ownership is ambiguous");
+  assert.equal(liveJointPanel.heading, "Joint");
+  assert.equal(liveJointPanel.selected, true, "Joint bone selection did not route to Studio state");
+  assert.deepEqual(liveJointPanel.axisProbe, { value: "35", historyAdvanced: true },
+    "Joint axis edit did not preserve value/history behavior");
+  assert.equal(liveJointPanel.fingersExpanded, true, "Joint finger visibility did not expand bone choices");
+  assert(liveJointPanel.diagnosticCount > 0, "Joint motion diagnostics are missing");
+  assert.equal(liveJointPanel.timingPresent, true, "Joint segment timing control is missing");
+  report.checks.liveJointPanel = liveJointPanel;
+  await leftTabs.getByRole("button", { name: "Character", exact: true }).evaluate((button) => button.click());
+  assert.equal(await page.locator('[data-hgpt-panel="joint-first-party"]').count(), 0,
+    "Detached Joint panel remained mounted after left-tab change");
 
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");

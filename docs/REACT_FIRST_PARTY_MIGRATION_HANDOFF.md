@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`162b08dae2bfba4e4d71c7d2688d82ee7dccf9e7`
+`5866c572c6346b85011d7158476ed46886a9a0e6`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `162b08d`:
+At `5866c57`:
 
 - Standalone prep verification: PASS
-- full suite: 134 test files PASS, 2 skipped
-- full tests: 943 PASS, 62 skipped
+- full suite: 135 test files PASS, 2 skipped
+- full tests: 945 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -140,7 +140,7 @@ Next exact increment: **Joint preparation**.
 
 The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99` (134 test files and 943 tests passed; 2 files and 62 tests skipped). The first-party Character panel is mounted only on its left tab, with explicit disposal; Chromium verified sole ownership and bind routing. The redundant `CharacterPanel.tsx` cleanup passed both workflows at `162b08d`.
 
-The next preparation commit adds a first-party Joint controller while keeping `JointPanel.tsx` live for parity. Preserve selected bone/finger visibility, axis bounds/editing, motion and coordination diagnostics, segment timing/easing and symmetry, pose clipboard and mirroring. Compare in Chromium, then switch only Joint live and remove its React wrapper after separate green checkpoints.
+Joint preparation passed both workflows at `5866c57`. The next commit mounts first-party Joint live while retaining `JointPanel.tsx` as the parity reference until the live checkpoint is green. Preserve selected bone/finger visibility, axis bounds/editing, motion and coordination diagnostics, segment timing/easing and symmetry, pose clipboard and mirroring. Compare in Chromium, then switch only Joint live and remove its React wrapper after separate green checkpoints.
 
 Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 11. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 

@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`162b08dae2bfba4e4d71c7d2688d82ee7dccf9e7`
+`5866c572c6346b85011d7158476ed46886a9a0e6`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 162b08d
+## Verified state at 5866c57
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 134 test files PASS, 2 skipped
-- full tests: 943 PASS, 62 skipped
+- full suite: 135 test files PASS, 2 skipped
+- full tests: 945 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -141,9 +141,9 @@ Verified live shell state:
 
 Next exact increment:
 
-1. verify the prepared `jointPanelDom.ts` with both workflows while the React Joint panel remains live;
-2. after preparation is green, mount Joint first-party only on its exact left tab with explicit disposal;
-3. after the live checkpoint passes both workflows, remove `JointPanel.tsx` and continue Grip;
+1. verify the live Joint switch in both workflows;
+2. after both are green, remove the redundant `JointPanel.tsx` and update handoffs;
+3. continue Grip in the same preparation, live switch, cleanup sequence;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
@@ -154,7 +154,7 @@ Current direct `react`/`react-dom` source import statements: 11; direct R3F/Drei
 
 The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99`. The Character React reference cleanup passed both workflows at `162b08d`.
 
-The next preparation commit adds a detached first-party Joint controller, focused tests and Chromium comparison. The React Joint panel stays live pending its separate switch.
+Joint preparation passed both workflows at `5866c57`. The next commit mounts first-party Joint live and leaves its React reference in the tree until that live checkpoint passes both workflows.
 
 ## Remaining declared runtime dependencies
 

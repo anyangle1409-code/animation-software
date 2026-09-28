@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`208b7bf460e703edd90176c20eb027a1557b8ef9`
+`c7bc112ba860416793d36a822f03a06728d0719e`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `208b7bf`:
+At `c7bc112`:
 
 - Standalone prep verification: PASS
-- full suite: 137 test files PASS, 2 skipped
-- full tests: 948 PASS, 62 skipped
+- full suite: 138 test files PASS, 2 skipped
+- full tests: 949 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,7 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- remaining `src/editor/panels/*.tsx` surfaces other than Technique, Muscle, Comparison, Contact, Exercise, IK and Equipment
+- right-side `src/editor/panels/*.tsx` surfaces: Correctives, Generate, Review and Export
 
 ### Thin viewport DOM adapter
 
@@ -130,19 +130,20 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 - `src/editor/panels/equipmentPanelDom.ts` is live only while Equipment is active, with explicit mount/disposal;
 - Equipment selection, attachment wording, static object/socket editors and Reset socket preserve existing store/history actions and cm/degree formatting;
 - the Equipment React reference is removed only after both required workflows passed at `ea3b36d`;
+- Character, Joint and Grip left panels are also live first-party DOM with verified actions, selection, diagnostics and disposal; their React references are removed after each live checkpoint passed both workflows;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **verify the live Grip switch**.
+Next exact increment: **prepare the first-party Correctives panel**.
 
 Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. The redundant `JointPanel.tsx` cleanup passed both workflows at `3f2766d`.
 
-Grip preparation passed both required workflows at `208b7bf` (137 test files and 948 tests passed; 2 files and 62 tests skipped). The first-party DOM controller preserves profile/global/digit closure, one-hand offset/orientation and reset, whole-rep diagnostics, and two-hand width/roll/fit and reset. Preparation Chromium parity compared curl and pull-up states; the live browser probe additionally uses cable pushdown for the actual two-hand attachment. The pending live switch mounts only on the Grip tab, removes React Grip rendering from the portal bridge, and verifies sole ownership, edits and disposal. Keep `GripPanel.tsx` until both live workflows pass; then remove the redundant reference and continue right-side panels.
+Grip preparation passed both required workflows at `208b7bf` (137 test files and 948 tests passed; 2 files and 62 tests skipped). The first-party DOM controller preserves profile/global/digit closure, one-hand offset/orientation and reset, whole-rep diagnostics, and two-hand width/roll/fit and reset. Preparation Chromium parity compared curl and pull-up states; the live browser probe additionally uses cable pushdown for the actual two-hand attachment. The live switch passed both workflows at `c7bc112` (138 files and 949 tests passed; 2 files and 62 tests skipped). It mounts only on the Grip tab, removes React Grip rendering from the portal bridge, and verifies sole ownership, edits and disposal. `GripPanel.tsx` is now removed in the pending cleanup checkpoint. Continue right-side Correctives with the same preparation/live/cleanup parity sequence.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 10. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 9. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

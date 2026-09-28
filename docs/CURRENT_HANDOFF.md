@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`e27ee9eaab84395c573b69a36d581a04c981f336`
+`5be6098519be536cbd08b21d85dfec0313d83eea`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at e27ee9ea
+## Verified state at 5be60985
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 117 test files PASS, 2 skipped
-- full tests: 912 PASS, 62 skipped
+- full suite: 118 test files PASS, 2 skipped
+- full tests: 914 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -89,7 +89,7 @@ Completed and verified:
 React remains in:
 
 - `src/main.tsx` / temporary ReactDOM child-surface bridge root
-- `src/editor/App.tsx` portal bridge, Timeline and editor panels
+- `src/editor/App.tsx` portal bridge and editor panels
 - `src/viewer/FirstPartyViewportHost.tsx` and `src/viewer/Viewport.tsx` as thin DOM/lifecycle adapters
 - temporary React store hooks/adapters
 
@@ -107,24 +107,26 @@ Verified live shell state:
 
 - `src/editor/appShellDom.ts` owns the live Studio outer structure, left/right tabs, panel slots and panel visibility;
 - `src/editor/toolbarDom.ts` owns the live Toolbar DOM/controller directly from `studioStore`;
-- `src/main.tsx` mounts both first-party surfaces directly;
-- `src/editor/Toolbar.tsx` is removed;
-- active panel content, Viewport and Timeline still retain their existing React behavior inside first-party slots;
+- `src/editor/timelineDom.ts` owns the live Timeline DOM/controller directly from `studioStore`;
+- `src/main.tsx` mounts the first-party shell, Toolbar and Timeline directly;
+- `src/editor/Toolbar.tsx` and `src/editor/Timeline.tsx` are removed;
+- active panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
 - Chromium verifies the live first-party shell and Toolbar, including exercise/candidate selection, view modes, camera/backdrop routing and undo/redo behavior.
 
 Next exact increment:
 
-1. migrate `src/editor/Timeline.tsx` to a project-owned DOM/controller backed directly by `studioStore`;
-2. preserve Play/Pause, frame stepping, time/frame readouts, speed, loop/range controls, duration, keyframe creation/deletion, marker/easing controls, phase blocks, loop overlay, keyframe buttons and scrubbing semantics;
-3. preserve all current CSS classes, labels, titles, pointer behavior and disabled states;
-4. keep the React Timeline as the parity reference until the first-party Timeline is proven;
-5. switch the live timeline slot only after focused tests and Chromium parity pass, then remove the redundant React Timeline wrapper;
-6. continue with simple panels, editing panels and generation/review/export workflows in small parity-gated groups;
-7. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
-8. remove React/ReactDOM source imports and packages only after the final browser/build gates;
-9. replace Three.js last.
+1. migrate the simplest remaining React panel surface first, beginning with `src/editor/panels/TechniquePanel.tsx`;
+2. preserve its automatic validation scheduling, status/rule/common-error output, current CSS classes and wording;
+3. back it directly with `studioStore` and project-owned DOM/lifecycle code;
+4. keep the React Technique panel as the parity reference until focused tests and Chromium parity pass;
+5. then switch only the Technique tab to the first-party surface and remove the redundant React wrapper;
+6. continue other panels incrementally, leaving complex editing and generation/review/export surfaces until lower-risk dependencies are migrated;
+7. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
+8. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
+9. remove React/ReactDOM source imports and packages only after final browser/build gates;
+10. replace Three.js last.
 
 ## Remaining declared runtime dependencies
 

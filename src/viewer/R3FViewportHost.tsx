@@ -23,6 +23,7 @@ import {
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
 import { createStudioStage } from './studioStage';
 import { StudioCameraRigController } from './cameraRigController';
+import { SceneHostBindingsProvider, useSceneHostBindings } from './sceneHostBindings';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -57,7 +58,7 @@ function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHand
   const preset = useStudio((state) => state.camera);
   const recommendation = useStudio((state) => state.document.exercise.camera);
   const selectedBone = useStudio((state) => state.selection.bone);
-  const { camera } = useThree();
+  const { camera } = useSceneHostBindings();
   const controller = useMemo(() => new StudioCameraRigController(), []);
 
   useEffect(() => {
@@ -101,7 +102,7 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
     scale: new Vector3(),
   }), []);
   const dragging = useRef(false);
-  const { scene: root, camera } = useThree();
+  const { scene: root, camera } = useSceneHostBindings();
 
   useEffect(() => {
     root.add(proxy);
@@ -234,7 +235,7 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
   const scene = useSceneState();
   const [proxy] = useState(() => new Object3D());
   const dragging = useRef(false);
-  const { scene: root, camera } = useThree();
+  const { scene: root, camera } = useSceneHostBindings();
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
 
@@ -283,8 +284,8 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
 }
 
 function OrbitControlsBridge({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
-  const { camera, gl } = useThree();
-  return <FirstPartyOrbitControls ref={controls} camera={camera} element={gl.domElement} />;
+  const { camera, element } = useSceneHostBindings();
+  return <FirstPartyOrbitControls ref={controls} camera={camera} element={element} />;
 }
 
 function sampleGoal(
@@ -325,6 +326,15 @@ function Figure() {
   );
 }
 
+function R3FHostBindings({ children }: { children: React.ReactNode }) {
+  const { camera, scene, gl } = useThree();
+  const value = useMemo(
+    () => ({ camera, scene, element: gl.domElement }),
+    [camera, scene, gl.domElement],
+  );
+  return <SceneHostBindingsProvider value={value}>{children}</SceneHostBindingsProvider>;
+}
+
 function StaticStageBridge({
   backdrop,
   showGrid,
@@ -332,7 +342,7 @@ function StaticStageBridge({
   backdrop: BackdropStyle;
   showGrid: boolean;
 }) {
-  const { scene: root } = useThree();
+  const { scene: root } = useSceneHostBindings();
   const stage = useMemo(() => createStudioStage(backdrop, showGrid), [backdrop, showGrid]);
 
   useEffect(() => {
@@ -360,15 +370,17 @@ export function R3FViewportHost() {
         camera={{ position: [2.3, 1.35, 2.7], fov: 38, near: 0.05, far: 100 }}
         onPointerMissed={() => selectBone(null)}
       >
-        <StaticStageBridge backdrop={backdrop} showGrid={showGrid} />
+        <R3FHostBindings>
+          <StaticStageBridge backdrop={backdrop} showGrid={showGrid} />
 
         <FrameDriver />
         <Figure />
         <Gizmo controls={controls} />
         <HandleGizmo controls={controls} />
 
-        <OrbitControlsBridge controls={controls} />
-        <CameraRig controls={controls} />
+          <OrbitControlsBridge controls={controls} />
+          <CameraRig controls={controls} />
+        </R3FHostBindings>
       </Canvas>
   );
 }

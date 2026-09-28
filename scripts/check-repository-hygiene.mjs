@@ -17,11 +17,13 @@ const required = [
 const forbiddenPaths = [
   "HOME_GYM_PT_GPT_MESH_HANDOFF",
   "review-assets",
-];
-
-const supportingHistory = [
+  "AI_CHANGELOG.md",
   "docs/WORK_FIRST_PARTY_HANDOFF.md",
   "docs/STANDALONE_PROGRESS.md",
+  "docs/STANDALONE_REMOTE_PROGRESS.md",
+  "docs/PREPARE_ORIGINAL_V1_CLEAN_ROOM.md",
+  "docs/FIRST_PARTY_DREI_REPLACEMENT.md",
+  "docs/FIRST_PARTY_FRAME_LOOP_PLAN.md",
 ];
 
 const exists = (p) => fs.existsSync(path.join(ROOT, p));
@@ -32,17 +34,7 @@ for (const p of required) {
 }
 
 for (const p of forbiddenPaths) {
-  if (exists(p)) failures.push(`forbidden legacy/reference bundle reintroduced: ${p}`);
-}
-
-for (const p of supportingHistory) {
-  if (!exists(p)) {
-    failures.push(`missing supporting history file: ${p}`);
-    continue;
-  }
-  if (!read(p).includes("AUTHORITY NOTICE — SUPPORTING HISTORY ONLY")) {
-    failures.push(`supporting history lacks non-authoritative banner: ${p}`);
-  }
+  if (exists(p)) failures.push(`obsolete/legacy path reintroduced: ${p}`);
 }
 
 if (exists("README.md")) {
@@ -69,10 +61,7 @@ if (exists("docs/CURRENT_HANDOFF.md")) {
 const result = {
   status: failures.length === 0 ? "PASS" : "FAIL",
   requiredAuthorityFiles: required,
-  forbiddenPathsAbsent: forbiddenPaths.filter((p) => !exists(p)),
-  supportingHistoryMarkedNonAuthoritative: supportingHistory.filter(
-    (p) => exists(p) && read(p).includes("AUTHORITY NOTICE — SUPPORTING HISTORY ONLY"),
-  ),
+  obsoleteAndLegacyPathsAbsent: forbiddenPaths.filter((p) => !exists(p)),
   failures,
 };
 

@@ -322,3 +322,5 @@ The deny-by-default release audit now rejects all symbolic links and any policy 
 O2 laptop preflight now checks the exact branch, Node.js and installed export tooling before touching the local Blend. `ORIGINAL_V1_DIMENSION_SPEC.json` is explicitly labelled historical 1.75 m O1 scaffold data; the 1.82 m v4 production target remains in `src/rig/canonicalV4Original.ts`.
 
 O2 materialisation now compares the local starting Blend against its committed O1 SHA-256 and validates clean-room origin/geometry/projection flags before modifying the scene. Eleven focused Python fixtures pass, including the committed provenance record. Cloud cannot compare the absent local Blend; a hash mismatch on the laptop is a stop-and-inspect condition.
+
+A physical browser/device handoff now lists exact desktop and iPhone checks and evidence for the still-open Grid/Orbit/Transform gate (`docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`). No visual parity claim or dependency removal was made in Cloud.

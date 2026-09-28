@@ -253,3 +253,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - O2 laptop launcher now fails early on wrong branch/missing Node development tools. If it reports missing `esbuild`, run `npm ci` in that repo, then rerun `PREPARE_ORIGINAL_V1_O2.bat`.
 
 - O2 materialisation rejects a local O1 Blend whose SHA-256 differs from committed O1 provenance; inspect/recover the verified source rather than rewriting the hash to bypass the guard.
+
+- When the laptop is available, use `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md` for exact desktop/iPhone Grid, Orbit and Transform checks. Record PASS/FAIL/NOT TESTED evidence; do not remove Drei from unit-test evidence alone.

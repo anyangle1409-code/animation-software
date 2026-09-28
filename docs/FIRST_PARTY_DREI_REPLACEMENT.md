@@ -1,3 +1,5 @@
+> Historical foundation plan. Current source has zero Drei imports: Grid, Orbit and Transform are mounted as project-owned controls. Do not repeat the integration steps below or remove Drei yet. The remaining physical desktop/iPhone gate is in [PHYSICAL_VIEWPORT_PARITY_HANDOFF.md](PHYSICAL_VIEWPORT_PARITY_HANDOFF.md).
+
 # First-party Drei replacement foundations
 
 The application currently imports only three helpers from \`@react-three/drei\`:

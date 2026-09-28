@@ -65,7 +65,8 @@ describe('framework-neutral skeleton view runtime', () => {
 
     sceneState.evaluation.apply({
       rotations: { upperarm_l: { x: 0.2, y: 0, z: 0 } },
-      translations: {},
+      rootPosition: { x: 0, y: 0, z: 0 },
+      rootRotation: { x: 0, y: 0, z: 0 },
     });
     sceneState.consumers.dispatch({ delta: 0.016, elapsed: 1, timestampMs: 1000 });
     expect(upperarm.group.matrix.equals(sceneState.evaluation.matrix('upperarm_l'))).toBe(true);

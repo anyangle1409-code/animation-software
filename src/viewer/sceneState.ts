@@ -1,5 +1,4 @@
 import { createContext, useContext } from 'react';
-import { createSceneState } from './sceneStateCore';
 import type { SceneState } from './sceneStateCore';
 
 export type { SceneState } from './sceneStateCore';

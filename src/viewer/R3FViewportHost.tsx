@@ -350,7 +350,7 @@ function Figure() {
   );
 }
 
-export function StaticStageBridge({
+function StaticStageBridge({
   backdrop,
   showGrid,
 }: {
@@ -372,7 +372,7 @@ export function StaticStageBridge({
   return <primitive object={stage.root} />;
 }
 
-function R3FViewportHost() {
+export function R3FViewportHost() {
   const controls = useRef<HgOrbitControlsHandle | null>(null);
   const showGrid = useStudio((state) => state.showGrid);
   const selectBone = useStudio((state) => state.selectBone);

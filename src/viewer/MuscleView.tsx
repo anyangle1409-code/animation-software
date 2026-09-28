@@ -1,25 +1,25 @@
-import { useMemo, useRef } from 'react';
-import { Mesh } from 'three';
+import { useEffect, useMemo } from 'react';
 import { MUSCLES, createMuscleTransform, resolveMuscle } from '../muscles/model';
-import { ACTIVATION_STYLES, activationMap, activationOf } from '../muscles/activation';
-import { MUSCLE_GROUPS } from '../muscles/groups';
 import { useStudio } from '../editor/store';
 import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
+import { createMuscleScene } from './muscleScene';
+import { SceneObjectMount } from './SceneObjectMount';
 
 /**
- * The muscle overlay. Every belly follows its own two attachment points, and is
- * coloured by how hard the selected exercise works it.
+ * The muscle overlay. Scene objects are owned directly through the shared host
+ * port; R3F is no longer responsible for reconciling this subtree.
  */
 export function MuscleView() {
   const scene = useSceneState();
   const involvement = useStudio((state) => state.document.exercise.muscles);
-  const activation = useMemo(() => activationMap(involvement), [involvement]);
-  const meshes = useRef(new Map<string, Mesh>());
+  const resources = useMemo(() => createMuscleScene(involvement), [involvement]);
   const transform = useMemo(createMuscleTransform, []);
+
+  useEffect(() => () => resources.dispose(), [resources]);
 
   useSceneFrame(() => {
     for (const muscle of MUSCLES) {
-      const mesh = meshes.current.get(muscle.id);
+      const mesh = resources.meshes.get(muscle.id);
       if (!mesh) continue;
       resolveMuscle(scene.evaluation, muscle, transform);
       mesh.position.copy(transform.position);
@@ -28,35 +28,5 @@ export function MuscleView() {
     }
   }, SCENE_FRAME_PRIORITY.muscle);
 
-  return (
-    <>
-      {MUSCLES.map((muscle) => {
-        const level = activationOf(activation, muscle.group);
-        const style = ACTIVATION_STYLES[level];
-        return (
-          <mesh
-            key={muscle.id}
-            name={MUSCLE_GROUPS[muscle.group].label}
-            castShadow
-            ref={(mesh) => {
-              if (mesh) meshes.current.set(muscle.id, mesh);
-              else meshes.current.delete(muscle.id);
-            }}
-          >
-            {/* A unit sphere, scaled per frame into the muscle's own belly. */}
-            <sphereGeometry args={[1, 14, 10]} />
-            <meshStandardMaterial
-              color={style.colour}
-              emissive={style.colour}
-              emissiveIntensity={style.emissive}
-              transparent={style.opacity < 1}
-              opacity={style.opacity}
-              roughness={0.62}
-              metalness={0.03}
-            />
-          </mesh>
-        );
-      })}
-    </>
-  );
+  return <SceneObjectMount object={resources.group} />;
 }

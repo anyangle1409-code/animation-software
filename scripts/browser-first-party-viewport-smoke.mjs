@@ -189,6 +189,64 @@ try {
     panelsOpen: true,
   };
 
+  const techniqueTab = rightTabs.getByRole("button", { name: "Technique", exact: true });
+  await techniqueTab.click();
+  await page.waitForTimeout(260);
+
+  const reactTechniquePanel = await page
+    .locator('[data-hgpt-editor-slot="right-panel"] .panel')
+    .first()
+    .evaluate((panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      status: panel.querySelector(".status")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      ruleLabels: Array.from(panel.querySelectorAll(".rule-list__label")).map(
+        (element) => element.textContent,
+      ),
+      ruleDetails: Array.from(panel.querySelectorAll(".rule-list__detail")).map(
+        (element) => element.textContent,
+      ),
+      commonErrors: Array.from(panel.querySelectorAll(".error-list > li > strong")).map(
+        (element) => element.textContent,
+      ),
+    }));
+
+  const firstPartyTechniquePanel = await page.evaluate(async () => {
+    const [{ createTechniquePanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/techniquePanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const panel = createTechniquePanelDom(document, studioStore);
+    panel.element.style.position = "fixed";
+    panel.element.style.left = "-10000px";
+    panel.element.style.top = "0";
+    document.body.append(panel.element);
+    await new Promise((resolve) => setTimeout(resolve, 260));
+    const result = {
+      heading: panel.element.querySelector("h2")?.textContent ?? null,
+      status: panel.element.querySelector(".status")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      ruleLabels: Array.from(panel.element.querySelectorAll(".rule-list__label")).map(
+        (element) => element.textContent,
+      ),
+      ruleDetails: Array.from(panel.element.querySelectorAll(".rule-list__detail")).map(
+        (element) => element.textContent,
+      ),
+      commonErrors: Array.from(panel.element.querySelectorAll(".error-list > li > strong")).map(
+        (element) => element.textContent,
+      ),
+    };
+    panel.dispose();
+    panel.element.remove();
+    return result;
+  });
+
+  assert.deepEqual(
+    firstPartyTechniquePanel,
+    reactTechniquePanel,
+    "First-party Technique panel drifted from the React reference",
+  );
+  report.checks.firstPartyTechniquePanel = firstPartyTechniquePanel;
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+
   const firstPartyShellDom = await page.evaluate(async () => {
     const [{ createStudioAppShellDom }, { studioLayoutStore }] = await Promise.all([
       import("/src/editor/appShellDom.ts"),

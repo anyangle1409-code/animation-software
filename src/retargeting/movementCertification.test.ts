@@ -210,7 +210,7 @@ describe('whole-body imported-character movement certification', () => {
 
 /**
  * The same certification against a character whose deform hierarchy is
- * flattened, the way the production export is: its clavicles, upper arms and
+ * flattened, as a deliberately flattened imported-rig fixture is: its clavicles, upper arms and
  * thighs hang from the armature root instead of from their anatomical parents,
  * and it has no scapulae at all.
  *
@@ -218,7 +218,7 @@ describe('whole-body imported-character movement certification', () => {
  * canonical topology, because every canonical parent it looks up is also the
  * character's own parent. This one can, and the scapula made the difference
  * real: with the scapula unmapped, a retargeter that only looked at a bone's
- * direct canonical parent and children turned the production character's
+ * direct canonical parent and children turned the flattened fixture's
  * clavicle 6.75° and cut both upper arms loose from their shoulders. So this
  * case certifies the clavicle's direction too — the connected case never did —
  * and adds what a direction check alone cannot see: that each shoulder and
@@ -343,7 +343,7 @@ describe('flattened-hierarchy movement certification, collarbone included', () =
 /**
  * A mirrored character must retarget exactly as well as a same-side one.
  *
- * The production character is mirrored — its left side lies where the rig's
+ * The mirrored fixture is mirrored — its left side lies where the rig's
  * right is — and every canonical frame is reflected into it at runtime. A
  * rig-space rotation baked into a binding without the same reflection shows
  * up only on mirrored characters, and did: the hand and finger roll correction

@@ -19,13 +19,13 @@ import { equipmentSocket } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/clipBuilder';
 
 /**
- * Optional production-path diagnostic for a real imported character.
+ * Optional diagnostic for a supplied imported character.
  *
  * It is intentionally skipped in ordinary CI because the real asset is not
  * committed to the repository.  To run it locally:
  *
- *   REAL_CHARACTER_GLB=/absolute/path/model.glb npx vitest run \
- *     src/retargeting/realCharacterDiagnostic.test.ts --reporter=verbose
+ *   CHARACTER_DIAGNOSTIC_GLB=/absolute/path/model.glb npx vitest run \
+ *     src/retargeting/importedCharacterDiagnostic.test.ts --reporter=verbose
  *
  * The test goes through the same preserved-import, resolveFrame and
  * applyCharacterPose path the Studio uses, samples the five representative
@@ -34,7 +34,7 @@ import { handAttachmentMatrix } from '../export/clipBuilder';
  * a measurement harness, not a substitute for visual approval.
  */
 
-const path = process.env.REAL_CHARACTER_GLB;
+const path = process.env.CHARACTER_DIAGNOSTIC_GLB;
 const rig = canonicalSkeleton;
 const definitions = [airSquat, bicepCurl, shoulderPress, pushUp, pullUp];
 const fractions = [0, 0.2, 0.45, 0.7, 0.95];
@@ -98,7 +98,7 @@ function strain(mesh: SkinnedMesh, set: EdgeSet) {
   });
 
   // A loop, not Math.max(...ratios): one ratio per edge, and a denser mesh
-  // (the V13e hand candidate) has more edges than a call can take arguments.
+  // can have more edges than a call can safely take as arguments.
   let maximum = -Infinity;
   let minimum = Infinity;
   for (const ratio of ratios) {
@@ -184,9 +184,9 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
   return result;
 }
 
-const real = path ? describe : describe.skip;
+const supplied = path ? describe : describe.skip;
 
-describe('production strain measurement includes pose shapes', () => {
+describe('strain measurement includes pose shapes', () => {
   for (const relative of [true, false]) {
     it(`measures ${relative ? 'relative' : 'absolute'} morphs before skinning`, () => {
       const geometry = new BufferGeometry();
@@ -215,13 +215,13 @@ describe('production strain measurement includes pose shapes', () => {
   }
 });
 
-real('real imported-character production diagnostic', () => {
-  it('measures representative whole-body exercises through the production importer', async () => {
+supplied('imported-character diagnostic', () => {
+  it('measures representative whole-body exercises through the current importer', async () => {
     const bytes = readFileSync(path!);
     const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
     const source = retargetedCharacterSource({
-      id: 'real-diagnostic',
-      label: 'Real diagnostic character',
+      id: 'imported-diagnostic',
+      label: 'Imported diagnostic character',
       data,
     });
     const character = await source.build(rig);
@@ -271,7 +271,7 @@ real('real imported-character production diagnostic', () => {
       results[definition.id] = samples;
     }
 
-    console.log('\nREAL_CHARACTER_DIAGNOSTIC');
+    console.log('\nIMPORTED_CHARACTER_DIAGNOSTIC');
     console.log(JSON.stringify({ import: report, exercises: results }, null, 2));
     character.dispose();
   }, 60_000);

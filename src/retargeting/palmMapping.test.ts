@@ -1,7 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { Bone, Euler, Group, Quaternion, Vector3 } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import { EULER_ORDER } from '../rig/types';
@@ -12,7 +10,7 @@ import { sampleClip } from '../animation/clip';
 import { EXERCISES } from '../exercises/library';
 import { createMapping, guessMapping, reportMapping } from './boneMap';
 import type { BoneMapping } from './boneMap';
-import { applyRetarget, bindRetarget, plausiblePalms, readCharacter } from './retarget';
+import { applyRetarget, bindRetarget, readCharacter } from './retarget';
 
 /**
  * Retargeting onto characters with and without palm bones.
@@ -25,14 +23,11 @@ import { applyRetarget, bindRetarget, plausiblePalms, readCharacter } from './re
  */
 const rig = canonicalSkeleton;
 const R = Math.PI / 180;
-const ASSET =
-  process.env.REAL_CHARACTER_GLB ?? 'review-assets/characters/HomeGymPT_Male_CORNER_FINAL_SHORTS.glb';
 
 /**
  * A character with every canonical bone, rest poses deliberately off the rig's
  * — hands, palms and fingers rolled — optionally built as its mirror image,
- * with each side's geometry on the other side of the body, as the production
- * character is.
+ * with each side's geometry on the other side of the body to exercise mirroring.
  */
 function palmCharacter(mirrored: boolean, biased = true) {
   const root = new Group();
@@ -180,31 +175,3 @@ describe('a character with palm bones', () => {
   });
 });
 
-describe.skipIf(!existsSync(ASSET))('the production character\'s palm bones', () => {
-  it('are recognised by name and refused on measurement, leaving its fingers on its hand', async () => {
-    const bytes = readFileSync(ASSET);
-    const scene = (await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')).scene;
-    scene.updateMatrixWorld(true);
-    const character = readCharacter(scene);
-    const mapping = createMapping('production', 'production');
-    mapping.bones = guessMapping(character.boneNames);
-    // Rigify's DEF-palm bones are guessed as the metacarpals...
-    expect(mapping.bones.metacarpal_index_l).toBe('DEF-palm01L');
-    expect(mapping.bones.metacarpal_pinky_r).toBe('DEF-palm04R');
-    // ...and every one of them fails: a metacarpal's base lies inside its hand.
-    const kept = plausiblePalms(character, mapping);
-    expect(METACARPAL_BONES.filter((name) => kept.bones[name])).toEqual([]);
-    for (const side of ['l', 'r'] as const) {
-      for (const finger of ['index', 'middle', 'ring', 'pinky'] as const) {
-        const base = character.restWorldPosition.get(mapping.bones[`metacarpal_${finger}_${side}`]!)!;
-        const knuckle = character.restWorldPosition.get(mapping.bones[`${finger}_01_${side}`]!)!;
-        const wrist = character.restWorldPosition.get(mapping.bones[`hand_${side}`]!)!;
-        expect(base.distanceTo(knuckle) / wrist.distanceTo(knuckle), `${finger} ${side}`).toBeGreaterThan(1.4);
-      }
-    }
-    const binding = bindRetarget(character, mapping);
-    expect(METACARPAL_BONES.some((name) => binding.mapping.bones[name])).toBe(false);
-    expect(reportMapping(binding.mapping).missing).toEqual(expect.arrayContaining(METACARPAL_BONES));
-    expect(reportMapping(binding.mapping).missingRequired).toEqual([]);
-  });
-});

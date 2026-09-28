@@ -28,6 +28,8 @@ const forbiddenPaths = [
   "START_ORIGINAL_V1_CLEAN_ROOM.bat",
   "src/character/bundled.ts",
   "src/character/bundled.test.ts",
+  "src/retargeting/realCharacterDiagnostic.test.ts",
+  "src/retargeting/unmappedBones.test.ts",
   "THIRD_PARTY_ASSETS.md",
   "scripts/generate-anatomical-body.mjs",
   "src/body/anatomical.ts",

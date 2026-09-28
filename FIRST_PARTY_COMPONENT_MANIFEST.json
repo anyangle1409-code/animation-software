@@ -48,14 +48,14 @@
     {
       "id": "male_character",
       "category": "asset",
-      "status": "legacy_import_derived_reference_only",
-      "required_action": "replace_with_original_v1"
+      "status": "original_v1_in_progress_legacy_runtime_removed",
+      "required_action": "Complete ORIGINAL v1 O2+ modelling, bind/weight/movement gates, then promote only the independently authored asset."
     },
     {
       "id": "male_shorts",
       "category": "asset",
-      "status": "legacy_import_derived_reference_only",
-      "required_action": "rebuild_for_original_v1"
+      "status": "original_v1_rebuild_pending_legacy_runtime_removed",
+      "required_action": "Author original garment for ORIGINAL v1 and approve through the first-party asset/release gates."
     },
     {
       "id": "canonical_rig",
@@ -90,17 +90,17 @@
     {
       "id": "builtin_anatomical_body",
       "category": "asset_embedded_in_source",
-      "status": "third_party_derived_makehuman_cc0_reference_only",
+      "status": "removed_from_active_branch_archive_only",
       "third_party": [
         "MakeHuman CC0 data"
       ],
-      "required_action": "replace/remove from standalone production path"
+      "required_action": "Keep absent from active source/runtime/release paths; preserved only on archive/pre-makehuman-removal-20260928."
     },
     {
-      "id": "procedural_debug_mannequin",
+      "id": "procedural_clean_fallback",
       "category": "asset_generated_by_code",
-      "status": "project_authored_clean_scaffold_confirmed",
-      "required_action": "use only the pinned e6ef05b profile specification as an ORIGINAL v1 starting scaffold; do not treat it as finished production geometry",
+      "status": "project_authored_clean_runtime_fallback",
+      "required_action": "Use as temporary first-party operational fallback only until ORIGINAL v1 is production-approved.",
       "provenance": {
         "profile_commit": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
         "profile_blob_sha": "ee56a49bfb2e32530520fd1811ed9427460256bd",

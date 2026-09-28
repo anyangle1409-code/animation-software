@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`58915f8816855f4980202da45cd34c23245227df`
+`79d37ebf1157910f7c64c1d5c5198fc51c5001a7`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `58915f8`:
+At `79d37eb`:
 
 - Standalone prep verification: PASS
-- full suite: 140 test files PASS, 2 skipped
-- full tests: 953 PASS, 62 skipped
+- full suite: 143 test files PASS, 2 skipped
+- full tests: 959 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,7 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- right-side `src/editor/panels/*.tsx` surfaces: Generate, Review and Export
+- right-side `src/editor/panels/*.tsx` surfaces: Review and Export
 
 ### Thin viewport DOM adapter
 
@@ -131,17 +131,26 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 - Equipment selection, attachment wording, static object/socket editors and Reset socket preserve existing store/history actions and cm/degree formatting;
 - the Equipment React reference is removed only after both required workflows passed at `ea3b36d`;
 - Character, Joint and Grip left panels are also live first-party DOM with verified actions, selection, diagnostics and disposal; their React references are removed after each live checkpoint passed both workflows;
+- `src/editor/generationStoreCore.ts` now owns Generate session state independently of React;
+- `src/editor/panels/generatePanelDom.ts` is live only while Generate is active, preserving prompt/examples, progress, candidate details, Preview/Approve/Discard and session switching;
+- the live Generate switch passed both workflows at `79d37eb`; its redundant React wrapper is removed in the current cleanup checkpoint;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **verify Correctives reference cleanup, then prepare Generate**.
+Next exact increment: **verify Generate cleanup, then Review panel**.
 
-Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. The redundant `JointPanel.tsx` cleanup passed both workflows at `3f2766d`.
+1. verify the current `GeneratePanel.tsx` cleanup checkpoint in both required workflows;
+2. build a React-free Review panel DOM/controller backed by `studioStore` and `characterStore`;
+3. preserve `reviewExercise(...)` automated gates, gate wording/applicability, movement diagnostics and all locator actions;
+4. preserve visual sign-off identity against the exact Studio document, character source and deformation revision, including the production-correctives requirement;
+5. prove focused unit behavior and Chromium parity while `ReviewPanel.tsx` remains the reference;
+6. switch only Review after preparation passes, mount only while `rightTab === 'review'`, then remove the redundant React wrapper after the live checkpoint passes;
+7. continue Export, then the thin viewport adapter, portal bridge and React root.
 
-Grip preparation passed both required workflows at `208b7bf` (137 test files and 948 tests passed; 2 files and 62 tests skipped). The first-party DOM controller preserves profile/global/digit closure, one-hand offset/orientation and reset, whole-rep diagnostics, and two-hand width/roll/fit and reset. Preparation Chromium parity compared curl and pull-up states; the live browser probe additionally uses cable pushdown for the actual two-hand attachment. The live switch passed both workflows at `c7bc112` (138 files and 949 tests passed; 2 files and 62 tests skipped). It mounts only on the Grip tab, removes React Grip rendering from the portal bridge, and verifies sole ownership, edits and disposal. `GripPanel.tsx` was removed after the live gate and its cleanup passed both workflows at `fc7f365` (138 files and 949 tests passed; 2 files and 62 tests skipped). Correctives preparation passed both workflows at `cf95586` (139 files and 952 tests passed; 2 files and 62 tests skipped). It retained React Correctives live while adding a first-party DOM equivalent, focused preview/tuning/disposal tests and detached Chromium parity using an active character and full-rep scan. The live switch passed both workflows at `58915f8` (140 files and 953 tests passed; 2 files and 62 tests skipped). It mounts only on the Correctives right tab and verifies active-character diagnostics, scan, preview routing and disposal. `CorrectivePanel.tsx` is removed in the pending cleanup checkpoint. Next prepare Generate with its existing session/candidate semantics.
+Generate's framework-neutral session foundation passed both workflows at `7f6644e`; detached DOM/browser parity passed at `325c1ff`; the live switch passed at `79d37eb` with 143 test files / 959 tests passed and Browser smoke green. The current cleanup removes only the now-unused React reference and does not alter runtime behavior.
 
 Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 8. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 

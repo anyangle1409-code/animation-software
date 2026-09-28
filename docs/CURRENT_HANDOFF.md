@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`58915f8816855f4980202da45cd34c23245227df`
+`79d37ebf1157910f7c64c1d5c5198fc51c5001a7`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 58915f8
+## Verified state at 79d37eb
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 140 test files PASS, 2 skipped
-- full tests: 953 PASS, 62 skipped
+- full suite: 143 test files PASS, 2 skipped
+- full tests: 959 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -141,18 +141,26 @@ Verified live shell state:
 - `src/editor/panels/GripPanel.tsx` is removed after both required workflows passed at `c7bc112`;
 - `src/editor/panels/correctivePanelDom.ts` owns Correctives only while its right tab is active, including preview tuning, live strain, whole-rep scans and morph diagnostics;
 - `src/editor/panels/CorrectivePanel.tsx` is removed after both required workflows passed at `58915f8`;
-- right-side Generate, Review and Export plus Viewport retain their existing React behavior inside first-party slots;
+- `src/editor/generationStoreCore.ts` owns the framework-neutral Generate session state, with the React hook retained only as a temporary compatibility adapter;
+- `src/editor/panels/generatePanelDom.ts` owns the live Generate surface only while the right Generate tab is active;
+- Generate preserves prompt/examples, async progress, candidate review details, Preview → Studio routing, passed-only approval, discard and session switching;
+- `src/editor/panels/GeneratePanel.tsx` is removed in the current cleanup checkpoint after the live first-party surface passed both required workflows at `79d37eb`;
+- right-side Review and Export plus Viewport retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
 - Chromium verifies the live first-party shell and Toolbar, including exercise/candidate selection, view modes, camera/backdrop routing and undo/redo behavior.
 
 Next exact increment:
 
-1. verify the redundant Correctives React reference cleanup in both workflows; then prepare Generate with focused tests and detached browser parity;
-2. switch Generate live after preparation passes both workflows, and remove its React reference after the live checkpoint passes;
-3. continue Review and Export, then the thin viewport adapter, portal bridge and root;
-4. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
-5. replace Three.js last.
+1. verify the redundant Generate React reference cleanup in both required workflows;
+2. prepare `src/editor/panels/ReviewPanel.tsx` as a project-owned DOM/controller while keeping React live as the parity reference;
+3. preserve automated review gates, movement diagnostics, focus/time locator actions, visual sign-off invalidation and production-correctives requirement;
+4. switch Review live only after focused tests and Chromium parity pass, then remove its React reference after the live checkpoint is green;
+5. continue Export, then migrate the thin viewport adapter, portal bridge and React root;
+6. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
+7. replace Three.js last.
+
+Generate foundation extraction passed both workflows at `7f6644e`. Detached Generate DOM/browser parity passed at `325c1ff`. The live Generate switch passed both workflows at `79d37eb` with 143 test files and 959 tests passed (2 files and 62 tests skipped); Chromium verified sole ownership, example prompt routing, Preview → Studio document routing, passed-only approval, discard, session state and tab disposal. The redundant React reference is removed in the current cleanup checkpoint and must pass its own workflows before Review preparation.
 
 The left-side panels are all live first-party DOM. Correctives preparation passed both workflows at `cf95586` (139 files and 952 tests passed; 2 files and 62 tests skipped). The live switch passed both workflows at `58915f8` (140 files and 953 tests passed; 2 files and 62 tests skipped). It mounts `correctivePanelDom.ts` only on its right tab, removes React portal rendering, and checks active-character strain, full-rep scan, preview routing and disposal in Chromium. The redundant reference cleanup is pending its own workflows. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
 

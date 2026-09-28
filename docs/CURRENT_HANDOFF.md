@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`ea3b36deea51b9212276ac9ad730264fb507ade1`
+`3bc0d876f1e1e5bb8d52fa54780e43215050d1f6`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at ea3b36d
+## Verified state at 3bc0d87
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -138,16 +138,18 @@ Verified live shell state:
 
 Next exact increment:
 
-1. prepare the next first-party left-side panel after inspecting current Joint, Grip and Character dependencies; Joint is the likely next candidate;
-2. preserve all joint selection, axis limits, pose clipboard/mirroring, timing/easing, motion diagnostics and local finger visibility behavior if Joint is chosen;
-3. keep the React reference while focused tests and Chromium parity are established; switch only that tab live with explicit disposal, then remove its wrapper after both workflows pass;
+1. confirm the prepared `characterPanelDom.ts` passes both workflows with its focused tests and Chromium parity while the React Character panel remains live;
+2. mount the first-party Character panel only while `leftTab === "character"`, with explicit disposal and no simultaneous React Character panel;
+3. preserve source/bind selection, GLB import, status/report/mapping controls, viewport switch and removal; remove the React wrapper only after the live checkpoint passes both workflows;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
 
-The Equipment reference removal in the next commit requires its own CI confirmation. Until then, the exact fully verified implementation checkpoint remains `ea3b36d`.
+The Equipment reference removal passed both required workflows at `3bc0d87`.
 
-Current direct `react`/`react-dom` source import statements: 12 before and after Equipment reference removal; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements: 12; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+
+The next preparation commit adds a detached first-party Character controller and Chromium comparison. It is not live until a later parity-gated switch.
 
 ## Remaining declared runtime dependencies
 

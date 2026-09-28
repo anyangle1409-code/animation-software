@@ -615,6 +615,41 @@ try {
     "Detached Equipment panel remained mounted after left-tab change",
   );
 
+  await leftTabs.getByRole("button", { name: "Character", exact: true }).evaluate((button) => button.click());
+  const characterPreparationParity = await page.evaluate(async () => {
+    const [{ createCharacterPanelDom }, { characterStore }] = await Promise.all([
+      import("/src/editor/panels/characterPanelDom.ts"),
+      import("/src/editor/characterStoreCore.ts"),
+    ]);
+    const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+    const react = slot?.querySelector(".panel");
+    if (!(react instanceof HTMLElement)) throw new Error("React Character parity reference unavailable");
+    const candidate = createCharacterPanelDom();
+    const snapshot = (node) => ({
+      heading: node.querySelector("h2")?.textContent,
+      note: node.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim(),
+      controls: [...node.querySelectorAll("select")].map((select) => ({
+        value: select.value,
+        options: [...select.options].map((option) => [option.value, option.textContent]),
+      })),
+      actions: [...node.querySelectorAll("button")].map((button) => button.textContent?.trim()),
+      empty: node.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim(),
+    });
+    const before = { react: snapshot(react), candidate: snapshot(candidate.element) };
+    const original = characterStore.getState().bindMode;
+    candidate.element.querySelector('[data-hgpt-character-control="bind-mode"]').value = "rebind";
+    candidate.element.querySelector('[data-hgpt-character-control="bind-mode"]').dispatchEvent(new Event("change", { bubbles: true }));
+    const bindRouted = characterStore.getState().bindMode === "rebind";
+    characterStore.getState().setBindMode(original);
+    candidate.dispose();
+    return { before, bindRouted };
+  });
+  assert.deepEqual(characterPreparationParity.before.candidate, characterPreparationParity.before.react,
+    "Prepared first-party Character initial controls diverge from the React reference");
+  assert.equal(characterPreparationParity.bindRouted, true, "Prepared Character bind mode did not route to the store");
+  report.checks.characterPreparationParity = characterPreparationParity;
+  await leftTabs.getByRole("button", { name: "Joint", exact: true }).evaluate((button) => button.click());
+
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

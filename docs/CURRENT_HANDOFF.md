@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`fc7f36570a8be3fd18fd2463e105c108eeb8e7ef`
+`cf95586e5bab69a3511b8cfa7a882dc7c97e64d6`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at fc7f365
+## Verified state at cf95586
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 138 test files PASS, 2 skipped
-- full tests: 949 PASS, 62 skipped
+- full suite: 139 test files PASS, 2 skipped
+- full tests: 952 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -146,13 +146,13 @@ Verified live shell state:
 
 Next exact increment:
 
-1. verify the prepared first-party right-side Correctives panel in both workflows while its React reference stays live;
+1. verify the live first-party Correctives switch in both workflows while its React reference file is retained;
 2. switch only that tab live after the preparation passes both workflows, and remove the redundant React reference after the live checkpoint passes;
 3. continue Generate, Review and Export, then the thin viewport adapter, portal bridge and root;
 4. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 5. replace Three.js last.
 
-The left-side panels are all live first-party DOM. The next checkpoint prepares `correctivePanelDom.ts` with focused preview/tuning/disposal tests and detached Chromium parity against the live React panel with an active character, strain readouts and a full-rep scan. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
+The left-side panels are all live first-party DOM. Correctives preparation passed both workflows at `cf95586` (139 files and 952 tests passed; 2 files and 62 tests skipped). The pending live switch mounts `correctivePanelDom.ts` only on its right tab, removes its React portal rendering, and checks active-character strain, full-rep scan, preview routing and disposal in Chromium. Keep `CorrectivePanel.tsx` until both live workflows pass. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
 
 Current direct `react`/`react-dom` source import statements: 9; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 

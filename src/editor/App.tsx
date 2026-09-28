@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
 import { ExportPanel } from './panels/ExportPanel';
-import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
 import { GeneratePanel } from './panels/GeneratePanel';
 import type { StudioAppShellDom } from './appShellDom';
@@ -28,7 +27,6 @@ export function App({ shell }: AppProps) {
   const rightPanel = (
     <>
       {rightTab === 'generate' && <GeneratePanel />}
-      {rightTab === 'correctives' && <CorrectivePanel />}
       {rightTab === 'review' && <ReviewPanel />}
       {rightTab === 'export' && <ExportPanel />}
     </>

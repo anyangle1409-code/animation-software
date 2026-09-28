@@ -24,6 +24,8 @@ import { createJointPanelDom } from './editor/panels/jointPanelDom';
 import { createJointPanelMount } from './editor/panels/jointPanelMount';
 import { createGripPanelDom } from './editor/panels/gripPanelDom';
 import { createGripPanelMount } from './editor/panels/gripPanelMount';
+import { createCorrectivePanelDom } from './editor/panels/correctivePanelDom';
+import { createCorrectivePanelMount } from './editor/panels/correctivePanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -90,6 +92,12 @@ const gripPanelMount = createGripPanelMount(
   studioLayoutStore,
 );
 
+const correctivePanelMount = createCorrectivePanelMount(
+  shell.slots.rightPanel,
+  () => createCorrectivePanelDom(),
+  studioLayoutStore,
+);
+
 const reactBridge = document.createElement('div');
 reactBridge.dataset.hgptReactBridge = 'editor-children';
 reactBridge.style.display = 'contents';
@@ -106,6 +114,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    correctivePanelMount.dispose();
     gripPanelMount.dispose();
     jointPanelMount.dispose();
     characterPanelMount.dispose();

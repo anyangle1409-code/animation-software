@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`c7bc112ba860416793d36a822f03a06728d0719e`
+`fc7f36570a8be3fd18fd2463e105c108eeb8e7ef`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at c7bc112
+## Verified state at fc7f365
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -146,17 +146,17 @@ Verified live shell state:
 
 Next exact increment:
 
-1. prepare a first-party right-side Correctives panel with focused tests and detached Chromium parity while its React reference stays live;
+1. verify the prepared first-party right-side Correctives panel in both workflows while its React reference stays live;
 2. switch only that tab live after the preparation passes both workflows, and remove the redundant React reference after the live checkpoint passes;
 3. continue Generate, Review and Export, then the thin viewport adapter, portal bridge and root;
 4. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 5. replace Three.js last.
 
-The left-side panels are all live first-party DOM. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
+The left-side panels are all live first-party DOM. The next checkpoint prepares `correctivePanelDom.ts` with focused preview/tuning/disposal tests and detached Chromium parity against the live React panel with an active character, strain readouts and a full-rep scan. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
 
 Current direct `react`/`react-dom` source import statements: 9; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
-The Equipment reference removal passed both workflows at `3bc0d87`. Character preparation, live switch and cleanup passed at `55592fb`, `954cc99` and `162b08d`. Joint preparation, live switch and cleanup passed at `5866c57`, `0318a5f` and `3f2766d`. Grip reference cleanup is pending its own workflows.
+The Equipment reference removal passed both workflows at `3bc0d87`. Character preparation, live switch and cleanup passed at `55592fb`, `954cc99` and `162b08d`. Joint preparation, live switch and cleanup passed at `5866c57`, `0318a5f` and `3f2766d`. Grip reference cleanup passed both workflows at `fc7f365` (138 files and 949 tests passed; 2 files and 62 tests skipped).
 
 ## Remaining declared runtime dependencies
 

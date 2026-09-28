@@ -1110,6 +1110,74 @@ try {
   assert.equal(firstPartyShellDom.panelToggleText, "Show panels");
   report.checks.firstPartyEditorShellDom = firstPartyShellDom;
 
+  const correctiveViewBefore = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const before = studioStore.getState().viewMode;
+    studioStore.getState().setViewMode("character");
+    return before;
+  });
+  await page.waitForFunction(async () => {
+    const { characterStore } = await import("/src/editor/characterStoreCore.ts");
+    return Boolean(characterStore.getState().active);
+  });
+  await rightTabs.getByRole("button", { name: "Correctives", exact: true }).evaluate((button) => button.click());
+  await page.locator('[data-hgpt-editor-slot="right-panel"] .corrective-panel').waitFor();
+  const correctiveParity = await page.evaluate(async () => {
+    const [{ createCorrectivePanelDom }, { characterStore }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/correctivePanelDom.ts"),
+      import("/src/editor/characterStoreCore.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const react = document.querySelector('[data-hgpt-editor-slot="right-panel"] .corrective-panel');
+    if (!(react instanceof HTMLElement)) throw new Error("React Correctives reference is unavailable");
+    const panel = createCorrectivePanelDom();
+    panel.element.style.position = "fixed";
+    panel.element.style.left = "-10000px";
+    document.body.append(panel.element);
+    const summary = (root) => ({
+      headings: Array.from(root.querySelectorAll("h2,h3"), (node) => node.textContent),
+      buttons: Array.from(root.querySelectorAll("button"), (node) => ({
+        label: node.textContent.trim(), disabled: node.disabled,
+      })),
+      empty: Array.from(root.querySelectorAll(".panel__empty"), (node) => node.textContent.trim()),
+      strainCards: Array.from(root.querySelectorAll(".strain-card"), (node) => node.textContent.replace(/\s+/g, " ").trim()),
+      morphCards: Array.from(root.querySelectorAll(".corrective-card"), (node) => node.textContent.replace(/\s+/g, " ").trim()),
+      activeMode: root.querySelector(".corrective-ab .is-active")?.textContent.trim(),
+    });
+    const reference = summary(react);
+    const prepared = summary(panel.element);
+    const playheadBefore = studioStore.getState().time;
+    panel.element.querySelector('[data-hgpt-corrective-control="scan"]')?.click();
+    const scanResult = {
+      cards: panel.element.querySelectorAll(".strain-list .strain-card").length,
+      timeRestored: studioStore.getState().time === playheadBefore,
+      hasWorstPoint: panel.element.textContent.includes("Worst P99"),
+    };
+    panel.element.querySelector('[data-hgpt-corrective-control="raw"]')?.click();
+    const rawRouted = characterStore.getState().correctivesPreview === false;
+    const rawSelected = panel.element.querySelector('[data-hgpt-corrective-control="raw"]')?.classList.contains("is-active");
+    panel.element.querySelector('[data-hgpt-corrective-control="on"]')?.click();
+    const restored = characterStore.getState().correctivesPreview === true;
+    panel.dispose();
+    panel.element.remove();
+    return { reference, prepared, scanResult, rawRouted, rawSelected, restored };
+  });
+  assert.deepEqual(correctiveParity.prepared, correctiveParity.reference,
+    "First-party Correctives diagnostics/controls differ from the live React reference");
+  assert(correctiveParity.scanResult.cards > correctiveParity.prepared.strainCards.length,
+    "Correctives full-rep scan did not render whole-rep strain results");
+  assert.equal(correctiveParity.scanResult.timeRestored, true, "Correctives scan changed the playhead");
+  assert.equal(correctiveParity.scanResult.hasWorstPoint, true, "Correctives scan omitted worst-point locators");
+  assert.equal(correctiveParity.rawRouted, true, "Correctives raw-skinning preview did not route to character state");
+  assert.equal(correctiveParity.rawSelected, true, "Correctives raw-skinning selection did not rerender");
+  assert.equal(correctiveParity.restored, true, "Correctives preview was not restored");
+  report.checks.correctiveParity = correctiveParity;
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).evaluate((button) => button.click());
+  await page.evaluate(async (previous) => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().setViewMode(previous);
+  }, correctiveViewBefore);
+
   const firstPartyToolbarDom = await page.evaluate(async () => {
     const [{ createStudioToolbarDom }, { studioStore }] = await Promise.all([
       import("/src/editor/toolbarDom.ts"),

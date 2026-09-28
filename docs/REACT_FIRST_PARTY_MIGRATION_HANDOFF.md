@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`c7bc112ba860416793d36a822f03a06728d0719e`
+`fc7f36570a8be3fd18fd2463e105c108eeb8e7ef`
 
 ## Boundary
 
@@ -16,7 +16,7 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `c7bc112`:
+At `fc7f365`:
 
 - Standalone prep verification: PASS
 - full suite: 138 test files PASS, 2 skipped
@@ -141,7 +141,7 @@ Next exact increment: **prepare the first-party Correctives panel**.
 
 Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. The redundant `JointPanel.tsx` cleanup passed both workflows at `3f2766d`.
 
-Grip preparation passed both required workflows at `208b7bf` (137 test files and 948 tests passed; 2 files and 62 tests skipped). The first-party DOM controller preserves profile/global/digit closure, one-hand offset/orientation and reset, whole-rep diagnostics, and two-hand width/roll/fit and reset. Preparation Chromium parity compared curl and pull-up states; the live browser probe additionally uses cable pushdown for the actual two-hand attachment. The live switch passed both workflows at `c7bc112` (138 files and 949 tests passed; 2 files and 62 tests skipped). It mounts only on the Grip tab, removes React Grip rendering from the portal bridge, and verifies sole ownership, edits and disposal. `GripPanel.tsx` is now removed in the pending cleanup checkpoint. Continue right-side Correctives with the same preparation/live/cleanup parity sequence.
+Grip preparation passed both required workflows at `208b7bf` (137 test files and 948 tests passed; 2 files and 62 tests skipped). The first-party DOM controller preserves profile/global/digit closure, one-hand offset/orientation and reset, whole-rep diagnostics, and two-hand width/roll/fit and reset. Preparation Chromium parity compared curl and pull-up states; the live browser probe additionally uses cable pushdown for the actual two-hand attachment. The live switch passed both workflows at `c7bc112` (138 files and 949 tests passed; 2 files and 62 tests skipped). It mounts only on the Grip tab, removes React Grip rendering from the portal bridge, and verifies sole ownership, edits and disposal. `GripPanel.tsx` was removed after the live gate and its cleanup passed both workflows at `fc7f365` (138 files and 949 tests passed; 2 files and 62 tests skipped). The next preparation checkpoint retains React Correctives live while adding a first-party DOM equivalent, focused preview/tuning/disposal tests and detached Chromium parity using an active character and full-rep scan. Then follow the same preparation/live/cleanup sequence.
 
 Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 9. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 

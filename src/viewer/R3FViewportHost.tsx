@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
-import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
 import { toDeg } from '../core/math';
@@ -15,8 +14,8 @@ import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
 import { resolveCamera } from './cameras';
-import { advancePlaybackTime } from '../editor/playback';
 import { equipmentSocketForInstance } from '../equipment/library';
+import { driveSceneFrame } from './sceneFrameDriver';
 import { ReferenceGridView } from './ReferenceGridView';
 import {
   FirstPartyOrbitControls,
@@ -34,26 +33,17 @@ function FrameDriver() {
   const anchors = useMemo(() => currentAnchors(clip), [clip]);
 
   useFrame((state, delta) => {
-    const store = useStudio.getState();
-    let time = store.time;
-    if (store.playing) {
-      const advanced = advancePlaybackTime(
-        time,
-        Math.min(delta, 0.1) * store.speed,
-        clip.duration,
-        store.loop,
-        store.loopRange,
-      );
-      time = advanced.time;
-      if (advanced.ended) store.pause();
-      store.setTime(time);
-    }
-    scene.frame = resolveFrame(skeleton, scene.evaluation, clip, time, { anchors });
-    scene.evaluation.apply(scene.frame.pose);
-    scene.consumers.dispatch({
-      delta,
-      elapsed: state.clock.elapsedTime,
-      timestampMs: state.clock.elapsedTime * 1000,
+    driveSceneFrame({
+      scene,
+      skeleton,
+      clip,
+      anchors,
+      playback: useStudio.getState(),
+      frame: {
+        delta,
+        elapsed: state.clock.elapsedTime,
+        timestampMs: state.clock.elapsedTime * 1000,
+      },
     });
   }, -1);
 

@@ -135,6 +135,34 @@ try {
   );
   report.checks.liveToolbarOwnership = liveToolbarOwnership;
 
+  const liveTimelineOwnership = await page.evaluate(() => {
+    const shell = document.querySelector('[data-hgpt-editor-shell="first-party"]');
+    const timelineSlot = shell?.querySelector('[data-hgpt-editor-slot="timeline"]');
+    const timeline = document.querySelector('[data-hgpt-timeline="first-party"]');
+    return {
+      exists: timeline instanceof HTMLElement,
+      insideTimelineSlot:
+        timeline instanceof HTMLElement &&
+        timelineSlot instanceof HTMLElement &&
+        timeline.parentElement === timelineSlot,
+      timelineCount: document.querySelectorAll(".timeline").length,
+      firstPartyTimelineCount: document.querySelectorAll('[data-hgpt-timeline="first-party"]').length,
+    };
+  });
+  assert.equal(liveTimelineOwnership.exists, true, "First-party Timeline is not live");
+  assert.equal(
+    liveTimelineOwnership.insideTimelineSlot,
+    true,
+    "First-party Timeline is not mounted in the project-owned timeline slot",
+  );
+  assert.equal(liveTimelineOwnership.timelineCount, 1, "Multiple live Timelines are mounted");
+  assert.equal(
+    liveTimelineOwnership.firstPartyTimelineCount,
+    1,
+    "First-party Timeline live ownership is ambiguous",
+  );
+  report.checks.liveTimelineOwnership = liveTimelineOwnership;
+
   const leftTabs = page.locator(".studio__side--left .tabs").first();
   const rightTabs = page.locator(".studio__side--right .tabs").first();
   const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });

@@ -5,7 +5,7 @@ import { pullUp } from '../definitions/pullUp';
 /**
  * The vertical-pull family holds the accepted pull-up exactly. (That the whole
  * clip is byte-identical to the accepted one is proved by the definition-and-
- * frame comparison recorded in `docs/CHANGE_LOG_REVERT_POINTS.md`.)
+ * frame comparison recorded in the current exercise-generation and frame regression suite.)
  */
 const identity = { id: 'x', name: 'X', clipName: 'x', description: 'x' };
 const strip = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: typeof pullUp) => rest;

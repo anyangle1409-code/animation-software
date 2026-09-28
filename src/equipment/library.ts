@@ -1,4 +1,4 @@
-import { SHOULDER_WIDENING } from '../rig/humanoid';
+import { HGPT_CANONICAL_V4_ORIGINAL_DIMENSIONS } from '../rig/originalDimensions';
 import type { EquipmentDefinition, EquipmentInstance, EquipmentKind, EquipmentSocket } from './types';
 import { vec3 } from '../rig/types';
 
@@ -22,6 +22,17 @@ const socket = (
   kind,
   ...(rotation ? { rotation: vec3(...rotation) } : {}),
 });
+/**
+ * Pull-up hands are 27.288372093% wider than the independent v4 shoulder-joint
+ * breadth. This preserves the accepted 547.34 mm grip separation exactly while
+ * expressing the equipment/body relationship only through first-party design
+ * dimensions.
+ */
+export const PULLUP_GRIP_TO_V4_SHOULDER_RATIO = 1.2728837209302324;
+export const PULLUP_GRIP_HALF_WIDTH =
+  (HGPT_CANONICAL_V4_ORIGINAL_DIMENSIONS.shoulderBreadth / 2) *
+  PULLUP_GRIP_TO_V4_SHOULDER_RATIO;
+
 
 export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
   dumbbell: {
@@ -108,12 +119,10 @@ export const EQUIPMENT_LIBRARY: Record<EquipmentKind, EquipmentDefinition> = {
       // quarter turn: +Z is the thumb direction, and both thumbs point inwards.
       // The grips sit 8 cm below the bar itself, because an arm chain solves for
       // the wrist and a hand wrapped over a bar carries it at the knuckles.
-      // The grip spacing is shoulder-relative, not a fixed property of the
-      // rack: the exercise asks for a grip "just wider than the shoulders", so
-      // the sockets carry the Stage 2 shoulder widening. The bar is 1.3 m wide
-      // with uprights at +/-0.62, so +/-0.274 is comfortably on it.
-      socket('pullup_l', 'Pull-up bar (L)', [-(0.24 + SHOULDER_WIDENING), 1.97, 0], 'grip', [0, 90, 0]),
-      socket('pullup_r', 'Pull-up bar (R)', [0.24 + SHOULDER_WIDENING, 1.97, 0], 'grip', [0, -90, 0]),
+      // Grip spacing is body-relative through the independent ORIGINAL-v4
+      // shoulder target. The 1.3 m bar leaves ample room outside both sockets.
+      socket('pullup_l', 'Pull-up bar (L)', [-PULLUP_GRIP_HALF_WIDTH, 1.97, 0], 'grip', [0, 90, 0]),
+      socket('pullup_r', 'Pull-up bar (R)', [PULLUP_GRIP_HALF_WIDTH, 1.97, 0], 'grip', [0, -90, 0]),
     ],
   },
   cable_handle: {

@@ -66,8 +66,8 @@
     {
       "id": "equipment_geometry",
       "category": "asset_and_code",
-      "status": "project_authored_procedural_candidate",
-      "required_action": "retain generic procedural geometry; remove any coupling to legacy body constants and revalidate against canonical v4"
+      "status": "project_authored_procedural_candidate_legacy_body_coupling_removed",
+      "required_action": "Pull-up rack body-relative spacing references independent ORIGINAL-v4 dimensions; revalidate final equipment/body fit after ORIGINAL v1 becomes active."
     },
     {
       "id": "exercise_animation_data",

@@ -54,7 +54,7 @@ Current known character blocker:
 
 - MakeHuman-derived built-in anatomical source remains on the runtime path and must be removed/replaced before release.
 
-Operational legacy asset count in the current audit is zero.
+Operational legacy asset count in the current audit is zero. The procedural equipment library no longer imports active-runtime shoulder-fit constants; pull-up rack grip spacing is parameterised from the independent ORIGINAL-v4 shoulder target.
 
 ## What is already decided
 

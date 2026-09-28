@@ -61,11 +61,12 @@ Current equipment labels are generic rather than branded, and materials are proj
 
 Provisional classification: **project-authored candidate**, subject to the normal source-history/code audit.
 
-Recommended standalone treatment:
+Current standalone treatment:
 - retain the generic equipment definitions;
-- remove the dependency on legacy shoulder dimensions (for example sockets that currently incorporate `SHOULDER_WIDENING`);
-- parameterise body-relative sockets from ORIGINAL v1 / canonical v4 dimensions instead;
-- continue generating equipment geometry from project-authored primitives.
+- the rack pull-up sockets no longer import active-runtime shoulder-fit constants;
+- body-relative pull-up grip spacing is expressed against the independent ORIGINAL-v4 shoulder breadth while preserving the accepted 547.34 mm grip separation;
+- continue generating equipment geometry from project-authored primitives;
+- revalidate final equipment/body fit when ORIGINAL v1 becomes the active character.
 
 ## Fonts / icons / audio / textures
 

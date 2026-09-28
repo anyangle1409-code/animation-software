@@ -1,6 +1,16 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import type { CharacterBuild, DeformationControl } from '../character';
-import { useCharacter } from './characterStore';
+import { characterStore, useCharacter } from './characterStore';
+
+describe('framework-neutral character store', () => {
+  it('shares one state instance with the temporary React adapter', () => {
+    const before = characterStore.getState().deformationRevision;
+    characterStore.setState({ deformationRevision: before + 1 });
+    expect(useCharacter.getState().deformationRevision).toBe(before + 1);
+    useCharacter.setState({ deformationRevision: before });
+    expect(characterStore.getState().deformationRevision).toBe(before);
+  });
+});
 
 describe('character deformation review revision', () => {
   afterEach(() => {

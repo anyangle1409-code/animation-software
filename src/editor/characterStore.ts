@@ -1,4 +1,5 @@
-import { createStoreHook as create } from '../core/store';
+import { createStore } from '../core/observableStore';
+import { bindReactStore } from '../core/store';
 import type { BoneName } from '../rig/boneNames';
 import type { BoneMapping, MappingReport } from '../retargeting/boneMap';
 import { reportMapping } from '../retargeting/boneMap';
@@ -37,7 +38,7 @@ type Status = { kind: 'idle' | 'loading' | 'error'; message?: string };
 
 const IMPORT_SOURCE_ID = 'import';
 
-interface CharacterState {
+export interface CharacterState {
   /** The active registered character source. */
   sourceId: string;
   sourceStatus: Status;
@@ -74,7 +75,7 @@ interface CharacterState {
 let importedData: ArrayBuffer | null = null;
 let importedLabel = '';
 
-export const useCharacter = create<CharacterState>((set, get) => ({
+export const characterStore = createStore<CharacterState>((set, get) => ({
   sourceId: defaultCharacterId(),
   sourceStatus: { kind: 'idle' },
   bindMode: 'preserve',
@@ -186,7 +187,7 @@ async function registerImport(
     probe.dispose();
     set({
       sourceId: source.id,
-      deformationRevision: useCharacter.getState().deformationRevision + 1,
+      deformationRevision: characterStore.getState().deformationRevision + 1,
       name: importedLabel,
       mapping: mapping ?? null,
       report: source.lastReport?.mapping ?? null,
@@ -213,3 +214,6 @@ async function registerImport(
 
 /** What the active character can do — the anatomy view asks before offering itself. */
 export const activeCapabilities = (sourceId: string) => characterSource(sourceId).capabilities;
+
+/** Temporary React hook adapter over the framework-neutral character store. */
+export const useCharacter = bindReactStore(characterStore);

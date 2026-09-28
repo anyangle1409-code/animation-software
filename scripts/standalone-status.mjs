@@ -23,26 +23,32 @@ const prepared={
     exists("src/viewer/orbitModel.ts") &&
     exists("src/viewer/referenceGrid.ts") &&
     exists("src/viewer/transformGizmoMath.ts"),
-  originalV1Scaffold:
-    exists("scripts/init_original_v1_blender.py") &&
-    exists("scripts/generate_original_v1_clean_scaffold.py") &&
-    exists("scripts/audit_original_v1_blender.py"),
+  originalV1O2:
+    exists("PREPARE_ORIGINAL_V1_O2.bat") &&
+    exists("docs/ORIGINAL_V1_O2_WORK_HANDOFF.md"),
 };
 
-let next;
-if(deps.includes("zustand")){
-  next="Verify the prepared first-party store, then remove direct Zustand.";
-}else if(deps.includes("@react-three/drei")){
-  next="Integrate the prepared Grid, Orbit and Transform gizmo adapters incrementally; remove Drei only after zero imports and visual/touch parity.";
-}else if(deps.includes("@react-three/fiber")){
-  next="Integrate StudioSceneHost/frame-loop adapters and remove React Three Fiber.";
-}else if(deps.includes("react") || deps.includes("react-dom")){
-  next="Migrate the editor/viewer UI to project-owned DOM bindings and remove React/ReactDOM.";
-}else if(deps.includes("three")){
-  next="Finish first-party rig/GLB/renderer integration and remove Three.js.";
-}else{
-  next="Runtime dependency count is zero. Run final provenance, production-output, allowlist and offline acceptance gates.";
-}
+const characterPath={
+  cleanProceduralFallback:exists("src/character/procedural.ts") && exists("src/body/profileMesh.ts"),
+  derivedAnatomicalLineageAbsent:
+    !exists("src/body/anatomical.ts") &&
+    !exists("src/character/builtin.ts") &&
+    !exists("scripts/generate-anatomical-body.mjs"),
+  preservedRecoveryBranch:"archive/pre-makehuman-removal-20260928",
+  preservedRecoverySha:"502adedc9fd5c7ddbee1b74cd0472879de6fb047",
+};
+
+const nextCloud=deps.includes("@react-three/fiber")
+  ? "Continue the staged R3F consumer/host migration from docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md. Do not remove R3F before its parity gates pass."
+  : deps.includes("react") || deps.includes("react-dom")
+    ? "Migrate the editor/viewer UI to project-owned DOM bindings and remove React/ReactDOM after parity."
+    : deps.includes("three")
+      ? "Finish first-party rig/GLB/renderer integration and remove Three.js last."
+      : "Runtime dependency count is zero. Run final provenance, production-output, allowlist and offline acceptance gates.";
+
+const nextLaptop=deps.includes("@react-three/drei")
+  ? "Complete the physical desktop/iPhone Grid/Orbit/Transform parity gate; remove Drei only after that gate passes. Blender track: run PREPARE_ORIGINAL_V1_O2.bat and continue ORIGINAL v1 O2."
+  : "Run the exact laptop/Blender task in docs/CURRENT_HANDOFF.md.";
 
 const result={
   authority:{
@@ -52,22 +58,26 @@ const result={
     decisionLog:"docs/DECISION_LOG.md",
   },
   branchTarget:"work/standalone-first-party-audit-20260927",
-  sourceIntegrationTarget:"chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb",
+  historicalIntegrationBaseline:"chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb",
   directRuntimeDependencies:deps,
   directRuntimeDependencyCount:deps.length,
   completed:{
     directZustandRemoved:!deps.includes("zustand"),
+    legacyV8RuntimePathRemoved:true,
+    derivedAnatomicalRuntimePathRemoved:characterPath.derivedAnatomicalLineageAbsent,
   },
   prepared,
-  next,
+  characterPath,
+  nextCloud,
+  nextLaptop,
   commands:{
     verify:"VERIFY_STANDALONE_PREP.bat",
     audit:"npm run audit:standalone",
-    originalV1:"PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat",
+    originalV1:"PREPARE_ORIGINAL_V1_O2.bat",
     finalRelease:"npm run audit:release",
     branchCleanup:"CLEANUP_CONTAINED_BRANCHES.bat --apply",
   },
-  reminder:"Prepared does not mean integrated. Follow docs/CURRENT_HANDOFF.md and do not remove a dependency until its live imports are zero and the full suite/build/behaviour gates pass."
+  reminder:"Follow docs/CURRENT_HANDOFF.md. Preserve behaviour and provenance; do not remove a dependency until its live imports and required parity gates are clear."
 };
 
 console.log(JSON.stringify(result,null,2));

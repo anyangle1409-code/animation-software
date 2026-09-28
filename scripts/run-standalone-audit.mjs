@@ -38,7 +38,7 @@ const summary={
   generatedAt:new Date().toISOString(),
   checks:results.map(({id,script,gate,status,pass})=>({id,script,gate,status,pass})),
   gatePass:results.filter(x=>x.gate).every(x=>x.pass),
-  expectedToday:"release_readiness is expected to fail until runtime dependencies and legacy/MakeHuman production paths are removed."
+  expectedToday:"release_readiness is expected to fail until the remaining third-party runtime dependencies are removed and ORIGINAL v1/final release-asset approvals are complete."
 };
 
 fs.mkdirSync(path.join(ROOT,"reports"),{recursive:true});

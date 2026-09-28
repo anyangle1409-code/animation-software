@@ -268,6 +268,46 @@ try {
   await viewMode.getByRole("button", { name: "Character", exact: true }).click();
   await page.waitForTimeout(250);
 
+  // EquipmentView consumer evidence. Keep the scene paused and toggle only
+  // showEquipment so the pixel difference is attributable to that subtree.
+  await exerciseSelect.selectOption("dumbbell_bicep_curl");
+  await page.waitForTimeout(350);
+  await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    const state = useStudio.getState();
+    if (!state.showEquipment) state.toggle("showEquipment");
+    state.pause();
+  });
+  await page.waitForTimeout(250);
+  const equipmentVisibleHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-equipment-visible.png") }),
+  );
+  const equipmentHidden = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().toggle("showEquipment");
+    return useStudio.getState().showEquipment;
+  });
+  assert.equal(equipmentHidden, false, "Equipment visibility toggle did not hide equipment");
+  await page.waitForTimeout(250);
+  const equipmentHiddenHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-equipment-hidden.png") }),
+  );
+  assert.notEqual(
+    equipmentVisibleHash,
+    equipmentHiddenHash,
+    "EquipmentView visibility toggle did not visibly change the rendered canvas",
+  );
+  const equipmentRestored = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().toggle("showEquipment");
+    return useStudio.getState().showEquipment;
+  });
+  assert.equal(equipmentRestored, true, "Equipment visibility was not restored after evidence capture");
+  report.checks.equipmentViewVisibilityRenderChanged = {
+    visibleHash: equipmentVisibleHash,
+    hiddenHash: equipmentHiddenHash,
+  };
+
   await page.setViewportSize({ width: 780, height: 900 });
   await page.waitForTimeout(450);
   const resizedBox = await canvas.boundingBox();

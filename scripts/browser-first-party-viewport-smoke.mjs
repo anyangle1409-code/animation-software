@@ -102,15 +102,47 @@ try {
   assert.equal(webgl.touchAction, "none", "First-party orbit input did not disable default touch action");
   report.checks.webgl = webgl;
 
+  const hostDiagnostic = async () =>
+    page.evaluate(() => {
+      const canvas = document.querySelector('[data-hgpt-scene-host="first-party"] canvas');
+      if (!(canvas instanceof HTMLCanvasElement)) return null;
+      return {
+        frameCount: Number(canvas.dataset.hgptFrameCount ?? 0),
+        sceneChildren: Number(canvas.dataset.hgptSceneChildren ?? 0),
+        cameraPosition: canvas.dataset.hgptCameraPosition ?? null,
+      };
+    });
+
+  const initialDiagnostic = await hostDiagnostic();
+  assert(initialDiagnostic && initialDiagnostic.frameCount > 3, "First-party frame loop did not advance");
+  assert(initialDiagnostic.sceneChildren > 0, "First-party scene content did not mount");
+  report.checks.initialHostDiagnostic = initialDiagnostic;
+
   const cameraSelect = page.locator("label.field").filter({ hasText: "Camera" }).locator("select").first();
   await cameraSelect.selectOption("front");
   await page.waitForTimeout(600);
+  const frontDiagnostic = await hostDiagnostic();
   const frontHash = hash(await canvas.screenshot({ path: path.join(OUT, "front.png") }));
   await cameraSelect.selectOption("left");
   await page.waitForTimeout(600);
+  const leftDiagnostic = await hostDiagnostic();
   const leftHash = hash(await canvas.screenshot({ path: path.join(OUT, "left.png") }));
+  assert(
+    frontDiagnostic && leftDiagnostic,
+    "First-party host camera diagnostics were unavailable",
+  );
+  assert.notEqual(
+    frontDiagnostic.cameraPosition,
+    leftDiagnostic.cameraPosition,
+    "First-party camera position did not change between presets",
+  );
   assert.notEqual(frontHash, leftHash, "First-party camera presets did not change the render");
-  report.checks.cameraPresetRenderChanged = { frontHash, leftHash };
+  report.checks.cameraPresetRenderChanged = {
+    frontHash,
+    leftHash,
+    frontDiagnostic,
+    leftDiagnostic,
+  };
 
   const box = await canvas.boundingBox();
   assert(box, "First-party canvas disappeared before orbit test");

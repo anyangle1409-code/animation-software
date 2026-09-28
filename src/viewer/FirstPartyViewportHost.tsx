@@ -63,6 +63,7 @@ export function FirstPartyViewportHost() {
     );
     pointers.mount();
 
+    let frameCount = 0;
     const removeFrame = host.onFrame((frame) => {
       driveSceneFrame({
         scene,
@@ -72,6 +73,13 @@ export function FirstPartyViewportHost() {
         playback: useStudio.getState(),
         frame,
       });
+      frameCount += 1;
+      canvas.dataset.hgptFrameCount = String(frameCount);
+      canvas.dataset.hgptSceneChildren = String(host.scene.children.length);
+      canvas.dataset.hgptCameraPosition = host.camera.position
+        .toArray()
+        .map((value) => value.toFixed(6))
+        .join(',');
     }, -1);
 
     setBindings({

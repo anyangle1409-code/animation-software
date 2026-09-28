@@ -21,6 +21,9 @@ These decisions remain in force until deliberately reopened with new evidence an
 ## Runtime
 
 - Direct Zustand has been replaced by the project-owned store.
+- React/ReactDOM source migration is complete: production source imports are pinned at zero and no production TSX is required.
+- React/ReactDOM packages may remain temporarily while the retained R3F/Drei peer ecosystem and physical-device package gate remain open; package retention does not authorize source use.
+- Three.js replacement may proceed through deterministic math/rig/IK/GLB layers before final renderer/package retirement, but biomechanics and acceptance thresholds remain fixed.
 - Runtime migration order remains: Drei/R3F -> React/ReactDOM -> Three.js last, unless evidence requires an explicit change.
 - Do not remove a dependency solely to lower the count. Live imports and required parity gates must pass first.
 - Exercise mechanics must not be altered to hide renderer/model migration defects.

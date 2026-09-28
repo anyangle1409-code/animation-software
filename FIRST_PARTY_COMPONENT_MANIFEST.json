@@ -12,12 +12,13 @@
     {
       "id": "runtime_ui",
       "category": "code",
-      "status": "react_migration_in_progress",
+      "status": "first_party_ui_verified_packages_temporarily_retained",
       "third_party": [
         "react",
         "react-dom"
       ],
-      "required_action": "Continue docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md; migrate scene composition/editor DOM lifecycle, prove parity, then remove React/ReactDOM."
+      "required_action": "Keep react/react-dom source imports pinned at zero. Retain packages only while the still-declared R3F/Drei peer ecosystem and physical-device package gate require them.",
+      "notes": "All live UI, viewport DOM lifecycle, startup and keyboard ownership are project-authored; no production TSX remains."
     },
     {
       "id": "runtime_scene_bridge",
@@ -32,11 +33,11 @@
     {
       "id": "runtime_renderer_math_gltf",
       "category": "code",
-      "status": "third_party_dependent",
+      "status": "third_party_dependent_migration_active",
       "third_party": [
         "three"
       ],
-      "required_action": "replace_last"
+      "required_action": "Begin parity-gated S5 math/pose integration, then skeleton/IK/GLB/rendering. Keep Three until each replacement layer is independently verified."
     },
     {
       "id": "runtime_state",
@@ -44,7 +45,7 @@
       "status": "first_party_replacement_verified",
       "third_party": [],
       "required_action": "keep first-party store regression and dependency-creep guards active",
-      "notes": "Framework-neutral observableStore/studioStore are active; React hook remains a temporary adapter during UI migration."
+      "notes": "Framework-neutral observableStore/studioStore/characterStore/generationStore are active; temporary React hook adapters are removed."
     },
     {
       "id": "male_character",

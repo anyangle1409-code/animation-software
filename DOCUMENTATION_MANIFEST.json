@@ -123,12 +123,12 @@
       "note": "Future Three-free IK orientation migration."
     },
     "docs/FIRST_PARTY_MATH_PARITY_PLAN.md": {
-      "category": "future_technical",
-      "note": "Future Three-free math migration."
+      "category": "current_technical",
+      "note": "Current Three-free math migration plan; promoted after verified React source removal."
     },
     "docs/FIRST_PARTY_POSE_MIGRATION.md": {
-      "category": "future_technical",
-      "note": "Future Three-free pose migration."
+      "category": "current_technical",
+      "note": "Current first production Three-math cutover: pivot-aware pose blending."
     },
     "docs/FIRST_PARTY_SKELETON_MIGRATION.md": {
       "category": "future_technical",
@@ -179,8 +179,8 @@
       "note": "O1 scaffold recovery/usage reference."
     },
     "docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md": {
-      "category": "current_technical",
-      "note": "Current React/ReactDOM first-party migration handoff."
+      "category": "supporting_reference",
+      "note": "Completed React/ReactDOM source-transition record; source imports are pinned at zero."
     }
   }
 }

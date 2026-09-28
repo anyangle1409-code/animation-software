@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Viewport } from '../viewer/Viewport';
 import { Toolbar } from './Toolbar';
 import { Timeline } from './Timeline';
@@ -17,14 +17,15 @@ import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
 import { GeneratePanel } from './panels/GeneratePanel';
 import { bindStudioKeyboard } from './keyboardController';
-
-type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
-type RightTab = 'generate' | 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
+import { useStudioLayout } from './layoutState';
 
 export function App() {
-  const [leftTab, setLeftTab] = useState<LeftTab>('joint');
-  const [rightTab, setRightTab] = useState<RightTab>('exercise');
-  const [panelsOpen, setPanelsOpen] = useState(true);
+  const leftTab = useStudioLayout((state) => state.leftTab);
+  const rightTab = useStudioLayout((state) => state.rightTab);
+  const panelsOpen = useStudioLayout((state) => state.panelsOpen);
+  const setLeftTab = useStudioLayout((state) => state.setLeftTab);
+  const setRightTab = useStudioLayout((state) => state.setRightTab);
+  const togglePanels = useStudioLayout((state) => state.togglePanels);
 
   useEffect(() => bindStudioKeyboard(window), []);
 
@@ -93,7 +94,7 @@ export function App() {
           <button
             type="button"
             className="studio__panel-toggle"
-            onClick={() => setPanelsOpen((open) => !open)}
+            onClick={togglePanels}
           >
             {panelsOpen ? 'Hide panels' : 'Show panels'}
           </button>

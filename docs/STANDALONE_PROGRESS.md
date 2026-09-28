@@ -300,3 +300,5 @@ A separate O2 mesh auditor now reports symmetry, 1.82 m height, manifold/winding
 ## 2026-09-28 R3F lifecycle foundation
 
 A renderer-neutral `HgSceneLifecycle` owns one ordered frame loop, surface resize, clamped DPR [1, 2], context-loss pause/restore, and idempotent disposal through injected adapters. Eight focused scene/frame tests and typecheck pass. This is isolated preparation; the live R3F `Canvas` and all production rendering remain unchanged. Next Work task: implement a DOM/WebGL surface adapter and its tests, then establish R3F frame/pose snapshot parity before switching any consumer.
+
+The following isolated increment adds `browserSceneSurface`: two DOM-adapter tests cover resize/DPR event wiring, WebGL context loss/restoration and listener cleanup. No renderer allocation or production viewport switch occurred.

@@ -237,3 +237,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - After each O2 modelling region, run the mesh audit command in `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; use its strict mode only on the completed neutral mesh.
 
 - Cloud follow-up: `HgSceneLifecycle` now has tested scheduling, DPR, resize, context-loss and disposal. Add an isolated DOM/WebGL adapter and parity tests, then bridge one scene consumer. Do not switch the live viewport before parity evidence.
+
+- DOM scene surface adapter is prepared and focused-tested; next use an isolated Three renderer fixture to establish rendered/pose parity before any live R3F migration.

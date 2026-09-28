@@ -235,3 +235,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - 2026-09-28 audit: 5 direct runtime dependencies, 126 bare runtime imports, 0 operational legacy assets, 9 MakeHuman-derived runtime-path source files. Final-character and release-readiness gates remain expected failures.
 
 - After each O2 modelling region, run the mesh audit command in `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; use its strict mode only on the completed neutral mesh.
+
+- Cloud follow-up: `HgSceneLifecycle` now has tested scheduling, DPR, resize, context-loss and disposal. Add an isolated DOM/WebGL adapter and parity tests, then bridge one scene consumer. Do not switch the live viewport before parity evidence.

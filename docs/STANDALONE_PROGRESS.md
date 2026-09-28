@@ -296,3 +296,7 @@ R3F migration map and reversible increments are in `docs/R3F_FIRST_PARTY_MIGRATI
 Focused verification here: v4 export/check, 3 Python payload tests, Python syntax compile, 7 v4 TypeScript tests, 5 frame-loop tests, typecheck and production build passed. Standalone audit still intentionally fails final-character-runtime and release-readiness; its other stages pass. Counts remain **5 direct runtime dependencies, 126 bare imports, 0 operational legacy assets, 9 MakeHuman-derived source files on runtime path**. No release guard was loosened.
 
 A separate O2 mesh auditor now reports symmetry, 1.82 m height, manifold/winding, loose and degenerate/duplicate face counts from the actual Blender mesh. Its pure geometry logic has 3 fixture tests. Draft runs report without claiming acceptance; `-- --strict` gates a completed neutral mesh. Blender execution and subjective silhouette approval remain pending.
+
+## 2026-09-28 R3F lifecycle foundation
+
+A renderer-neutral `HgSceneLifecycle` owns one ordered frame loop, surface resize, clamped DPR [1, 2], context-loss pause/restore, and idempotent disposal through injected adapters. Eight focused scene/frame tests and typecheck pass. This is isolated preparation; the live R3F `Canvas` and all production rendering remain unchanged. Next Work task: implement a DOM/WebGL surface adapter and its tests, then establish R3F frame/pose snapshot parity before switching any consumer.

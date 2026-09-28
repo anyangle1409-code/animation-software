@@ -10,7 +10,7 @@ Branch: `work/standalone-first-party-audit-20260927`. Source scan: `node scripts
 | Orbit and camera input | `FirstPartyOrbitControls.tsx` | `useThree` camera and GL DOM element; `useFrame` advances project-owned orbit model. Physical mouse/iPhone parity remains open. |
 | Editing and picking | `FirstPartyTransformGizmo.tsx`, `SkeletonView.tsx`, `Viewport.tsx` | `ThreeEvent` ray, intersections, pointer capture and propagation; frame-based gizmo scale; joint picking; transform proxy scene insertion/removal and missed-click clearing. |
 
-Use `rg -n 'useFrame|useThree|ThreeEvent|<Canvas|onPointerMissed' src/viewer` before every increment; re-run the scanner to catch new imports. `src/viewer/sceneState.ts` currently uses React context. Its plain evaluation/frame data can become a direct host reference only after parity tests. `src/core/frameLoop.ts` already provides project-owned priority and insertion-order scheduling; its focused test now pins one resolution before character and equipment consumers on consecutive frames. This is a foundation, not a switched production path.
+Use `rg -n 'useFrame|useThree|ThreeEvent|<Canvas|onPointerMissed' src/viewer` before every increment; re-run the scanner to catch new imports. `src/viewer/sceneState.ts` currently uses React context. Its plain evaluation/frame data can become a direct host reference only after parity tests. `src/core/frameLoop.ts` provides project-owned priority and insertion-order scheduling. `src/core/sceneLifecycle.ts` now owns one frame loop, size/DPR updates (the existing 1–2 range), context-loss pause/restore and disposal through an injected surface adapter. Focused tests pin scheduling and lifecycle behavior. Neither foundation is connected to the live viewport.
 
 ## Renderer-neutral boundary
 
@@ -19,7 +19,7 @@ A future `StudioSceneHost` should own exactly one frame scheduler, canvas resize
 The R3F replacement order is small and reversible:
 
 1. **Parity baseline:** test scheduler ordering, delta clamping, camera preset/focus, selection miss, pointer capture, and exact equipment/pose frame snapshots in the existing R3F path. Capture physical desktop/iPhone visual/input evidence when a compatible browser is available. No dependency removal.
-2. **Host lifecycle seam:** add a first-party canvas/resize/DPR/RAF owner behind an isolated test fixture. Test one RAF owner, teardown, resize and lost WebGL context. Keep live `Canvas` intact.
+2. **Host lifecycle seam:** the renderer-neutral RAF/resize/DPR/context-loss owner is prepared and tested. Next supply a real DOM/WebGL adapter with lifecycle tests and rendered evidence; keep live `Canvas` intact.
 3. **Frame bridge:** route one deterministic resolution and one selected visual consumer through the project frame contract, with side-by-side frame equality at Bottom/Mid/Peak/Return and the exercise catalogue. Revertible per consumer.
 4. **Visual consumers:** migrate bone, character, muscle, equipment and IK groups one at a time. Check transform matrices, disposal and contact/equipment clearance after each.
 5. **Input bridge:** migrate orbit/gizmo/picking and `ThreeEvent` semantics, including touch and drag suspension. Physical pointer/device parity is a gate.

@@ -3,8 +3,10 @@ import { studioStore } from './store';
 
 export type KeyboardStudioState = Pick<
   StudioState,
-  'undo' | 'redo' | 'togglePlay' | 'setKeyframe' | 'pause' | 'setTime' | 'time' | 'document'
->;
+  'undo' | 'redo' | 'togglePlay' | 'setKeyframe' | 'pause' | 'setTime' | 'time'
+> & {
+  document: { clip: { fps: number } };
+};
 
 export interface StudioKeyboardStore {
   getState(): KeyboardStudioState;

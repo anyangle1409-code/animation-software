@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
-import { BACKDROPS, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
-import type { BackdropStyle } from '../editor/store';
+import { showsMuscleBellies, skeleton, studioStore, useStudio } from '../editor/store';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
@@ -19,11 +18,9 @@ import {
   type HgOrbitControlsHandle,
 } from './FirstPartyOrbitControls';
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
-import { createStudioStage } from './studioStage';
 import { StudioCameraRigController } from './cameraRigController';
 import { useSceneHostBindings } from './sceneHostBindings';
-import { SceneObjectMount } from './SceneObjectMount';
-import { useSceneResourceDisposal } from './sceneResourceLifecycle';
+import { createStaticStageRuntime } from './staticStageRuntime';
 
 /** Moves the camera to the selected preset, then hands control back to orbit. */
 function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
@@ -308,30 +305,15 @@ function Figure() {
   );
 }
 
-function StaticStageBridge({
-  backdrop,
-  showGrid,
-}: {
-  backdrop: BackdropStyle;
-  showGrid: boolean;
-}) {
+function StaticStageBridge() {
   const { scene: root } = useSceneHostBindings();
-  const stage = useMemo(
-    () => createStudioStage(backdrop, showGrid),
-    [backdrop, showGrid],
-  );
-
-  useSceneResourceDisposal(stage);
 
   useEffect(() => {
-    const previousBackground = root.background;
-    root.background = stage.background;
-    return () => {
-      if (root.background === stage.background) root.background = previousBackground;
-    };
-  }, [root, stage]);
+    const runtime = createStaticStageRuntime(root, studioStore);
+    return () => runtime.dispose();
+  }, [root]);
 
-  return <SceneObjectMount object={stage.root} />;
+  return null;
 }
 
 /**
@@ -342,12 +324,9 @@ function StaticStageBridge({
  */
 export function StudioSceneContent() {
   const controls = useRef<HgOrbitControlsHandle | null>(null);
-  const showGrid = useStudio((state) => state.showGrid);
-  const backdrop = BACKDROPS[useStudio((state) => state.backdrop)];
-
   return (
     <>
-      <StaticStageBridge backdrop={backdrop} showGrid={showGrid} />
+      <StaticStageBridge />
       <Figure />
       <Gizmo controls={controls} />
       <HandleGizmo controls={controls} />

@@ -25,6 +25,7 @@ import { createStudioStage } from './studioStage';
 import { StudioCameraRigController } from './cameraRigController';
 import { SceneHostBindingsProvider, useSceneHostBindings } from './sceneHostBindings';
 import { SceneObjectMount } from './SceneObjectMount';
+import { HgScenePointerRouter } from './scenePointerRouter';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -327,11 +328,31 @@ function Figure() {
   );
 }
 
-function R3FHostBindings({ children }: { children: React.ReactNode }) {
+function R3FHostBindings({
+  children,
+  pointerRouterRef,
+}: {
+  children: React.ReactNode;
+  pointerRouterRef: { current: HgScenePointerRouter | null };
+}) {
   const { camera, scene, gl } = useThree();
-  const value = useMemo(
-    () => ({ camera, scene, element: gl.domElement }),
+  const pointers = useMemo(
+    () => new HgScenePointerRouter(camera, scene, gl.domElement),
     [camera, scene, gl.domElement],
+  );
+
+  useEffect(() => {
+    pointerRouterRef.current = pointers;
+    pointers.mount();
+    return () => {
+      if (pointerRouterRef.current === pointers) pointerRouterRef.current = null;
+      pointers.dispose();
+    };
+  }, [pointerRouterRef, pointers]);
+
+  const value = useMemo(
+    () => ({ camera, scene, element: gl.domElement, pointers }),
+    [camera, scene, gl.domElement, pointers],
   );
   return <SceneHostBindingsProvider value={value}>{children}</SceneHostBindingsProvider>;
 }
@@ -360,6 +381,7 @@ function StaticStageBridge({
 
 export function R3FViewportHost() {
   const controls = useRef<HgOrbitControlsHandle | null>(null);
+  const pointerRouter = useRef<HgScenePointerRouter | null>(null);
   const showGrid = useStudio((state) => state.showGrid);
   const selectBone = useStudio((state) => state.selectBone);
   const backdrop = BACKDROPS[useStudio((state) => state.backdrop)];
@@ -369,9 +391,12 @@ export function R3FViewportHost() {
         shadows
         dpr={[1, 2]}
         camera={{ position: [2.3, 1.35, 2.7], fov: 38, near: 0.05, far: 100 }}
-        onPointerMissed={() => selectBone(null)}
+        onPointerMissed={(event) => {
+          if (pointerRouter.current?.hitsRegisteredTarget(event.clientX, event.clientY)) return;
+          selectBone(null);
+        }}
       >
-        <R3FHostBindings>
+        <R3FHostBindings pointerRouterRef={pointerRouter}>
           <StaticStageBridge backdrop={backdrop} showGrid={showGrid} />
 
         <FrameDriver />

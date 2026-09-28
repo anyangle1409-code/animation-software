@@ -76,6 +76,16 @@ describe('first-party scene pointer router', () => {
     expect(calls).toEqual(['mesh', 'parent']);
   });
 
+  it('reports whether the current ray hits a registered visible target', () => {
+    const { mesh, router } = fixture();
+    router.register(mesh, { pointerdown: () => undefined });
+
+    expect(router.hitsRegisteredTarget(110, 70)).toBe(true);
+    expect(router.hitsRegisteredTarget(500, 500)).toBe(false);
+    mesh.visible = false;
+    expect(router.hitsRegisteredTarget(110, 70)).toBe(false);
+  });
+
   it('honours stopPropagation before registered ancestors', () => {
     const { parent, mesh, router, center } = fixture();
     const parentDown = vi.fn();

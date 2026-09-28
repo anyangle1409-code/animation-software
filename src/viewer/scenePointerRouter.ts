@@ -100,6 +100,10 @@ export class HgScenePointerRouter {
     this.captured.clear();
   }
 
+  hitsRegisteredTarget(clientX: number, clientY: number): boolean {
+    return this.updateRay(clientX, clientY) && this.pickCurrentRay() !== null;
+  }
+
   dispatch(kind: HgScenePointerKind, input: HgScenePointerInput): boolean {
     if (!this.updateRay(input.clientX, input.clientY)) return false;
     const captured = this.captured.get(input.pointerId);

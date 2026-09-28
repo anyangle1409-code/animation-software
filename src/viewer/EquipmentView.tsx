@@ -1,44 +1,25 @@
-import { useEffect, useMemo } from 'react';
-import { useStudio } from '../editor/store';
+import { useEffect } from 'react';
+import { studioStore } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
-import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
-import {
-  applyEquipmentDisplayTransforms,
-  createEquipmentScene,
-  registerEquipmentPointers,
-} from './equipmentScene';
-import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
-import { SceneObjectMount } from './SceneObjectMount';
-import { useSceneResourceDisposal } from './sceneResourceLifecycle';
+import { useSceneState } from './sceneState';
 import { useSceneHostBindings } from './sceneHostBindings';
+import { createEquipmentViewRuntime } from './equipmentViewRuntime';
 
-/**
- * Equipment placed by the frame pipeline and mounted directly through the
- * shared first-party scene/pointer ports.
- */
+/** Temporary React adapter over the framework-neutral equipment runtime. */
 export function EquipmentView() {
-  const scene = useSceneState();
-  const instances = useStudio((state) => state.document.clip.equipment);
-  const selectEquipment = useStudio((state) => state.selectEquipment);
-  const character = useCharacter((state) => state.active);
-  const { pointers } = useSceneHostBindings();
-  const resources = useMemo(() => createEquipmentScene(instances), [instances]);
+  const sceneState = useSceneState();
+  const { scene: root, pointers } = useSceneHostBindings();
 
-  useSceneResourceDisposal(resources);
+  useEffect(() => {
+    const runtime = createEquipmentViewRuntime({
+      sceneState,
+      root,
+      pointers,
+      store: studioStore,
+      characterStore: useCharacter,
+    });
+    return () => runtime.dispose();
+  }, [sceneState, root, pointers]);
 
-  useEffect(
-    () => registerEquipmentPointers(resources, pointers, selectEquipment),
-    [resources, pointers, selectEquipment],
-  );
-
-  useSceneFrame(() => {
-    const transforms = scene.frame?.equipment;
-    if (!transforms) return;
-    applyEquipmentDisplayTransforms(
-      resources,
-      resolveEquipmentDisplayTransforms(instances, transforms, character),
-    );
-  }, SCENE_FRAME_PRIORITY.equipment);
-
-  return <SceneObjectMount object={resources.group} />;
+  return null;
 }

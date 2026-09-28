@@ -259,3 +259,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - The isolated `captureSceneFrame` boundary copies a resolved exercise frame into numeric matrices and contacts; focused real-clip tests pass. Next Work task: test an isolated scene-object adapter consuming the snapshot. `EquipmentView.tsx` character-specific display offsets and browser/device pixels remain separate parity gates. No production consumer moved.
 
 - The isolated flat scene-object adapter now passes real curl matrix tests and rejects incomplete or nested targets before mutation. Next Work task: establish `BoneGroups.tsx` hierarchy and transform parity, then one consumer bridge only after evidence. Live R3F `Canvas` stays intact.
+
+- `BoneGroups` sibling world matrix, local child position and removal semantics are now covered by an isolated real-curl fixture. Next Work task is browser-backed visual/skin and lifecycle parity for that consumer; keep its production R3F hook until the gate passes.

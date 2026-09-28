@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Group } from 'three';
+import { Group, Matrix4, Vector3 } from 'three';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
@@ -72,5 +72,43 @@ describe('isolated scene frame objects', () => {
     })).toThrow(/hand_l/);
     expect([...first.matrix.elements]).toEqual(initial);
     expect(first.matrixAutoUpdate).toBe(true);
+  });
+
+  it('preserves a BoneGroups-style local child under a world-matrix bone group', () => {
+    const skeleton = canonicalSkeleton;
+    const evaluation = new PoseEvaluation(skeleton);
+    const clip = generateClip(skeleton, bicepCurl);
+    const root = new Group();
+    const bone = new Group();
+    const leftEquipment = new Group();
+    const rightEquipment = new Group();
+    const equipment = new Map([['dumbbell_l', leftEquipment], ['dumbbell_r', rightEquipment]]);
+    const localChild = new Group();
+    localChild.position.y = skeleton.bone('forearm_l').length / 2;
+    root.add(bone, leftEquipment, rightEquipment);
+    bone.add(localChild);
+
+    for (const time of [0, 2, clip.duration]) {
+      const frame = resolveFrame(skeleton, evaluation, clip, time);
+      evaluation.apply(frame.pose);
+      const snapshot = captureSceneFrame(evaluation, frame, ['forearm_l']);
+      applySceneFrameObjects(snapshot, {
+        root, bones: new Map([['forearm_l', bone]]), equipment,
+      });
+      root.updateMatrixWorld(true);
+      const expected = new Matrix4().fromArray(snapshot.bones.get('forearm_l')!)
+        .multiply(new Matrix4().makeTranslation(0, localChild.position.y, 0));
+      expect(new Vector3().setFromMatrixPosition(localChild.matrixWorld).distanceTo(
+        new Vector3().setFromMatrixPosition(expected),
+      )).toBeLessThan(1e-12);
+    }
+
+    root.remove(bone);
+    const frame = resolveFrame(skeleton, evaluation, clip, 0);
+    evaluation.apply(frame.pose);
+    const snapshot = captureSceneFrame(evaluation, frame, ['forearm_l']);
+    expect(() => applySceneFrameObjects(snapshot, {
+      root, bones: new Map([['forearm_l', bone]]), equipment,
+    })).toThrow(/flat/);
   });
 });

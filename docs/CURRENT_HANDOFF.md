@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`0318a5fc86319d8a60cf86ff63b6b63782af06ae`
+`3f2766dec673ba5d86d1df336e53c6b6104770e8`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 0318a5f
+## Verified state at 3f2766d
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -144,20 +144,22 @@ Verified live shell state:
 
 Next exact increment:
 
-1. prepare a first-party Grip DOM/controller while keeping `GripPanel.tsx` live for Chromium parity;
-2. preserve global/profile/digit closure, frame review, one-hand and two-hand fit, offsets, orientation, width/roll, resets and whole-rep diagnostics;
-3. switch only Grip live after preparation passes both workflows, then remove its React wrapper after the live checkpoint passes both;
+1. verify the prepared `gripPanelDom.ts` with focused tests and Chromium parity in both workflows while `GripPanel.tsx` remains live;
+2. after preparation is green, mount first-party Grip only on its exact left tab with explicit disposal and no simultaneous React copy;
+3. remove `GripPanel.tsx` only after the live checkpoint passes both workflows; then continue right-side panels;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
 
 The Equipment reference removal passed both required workflows at `3bc0d87`.
 
-Current direct `react`/`react-dom` source import statements: 10 after Joint reference removal (11 at the verified live checkpoint); direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements: 10; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
 The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99`. The Character React reference cleanup passed both workflows at `162b08d`.
 
-Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f`. This commit removes its redundant React reference, pending its own CI confirmation.
+Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f`. The Joint React reference cleanup passed both workflows at `3f2766d`.
+
+The next preparation commit adds detached first-party Grip DOM, focused tests and Chromium comparisons for one-hand and two-hand equipment. Grip remains React-owned live until a separate verified switch.
 
 ## Remaining declared runtime dependencies
 

@@ -90,6 +90,7 @@ jobs:
           src/editor/panels/characterPanelMount.test.ts
           src/editor/panels/jointPanelDom.test.ts
           src/editor/panels/jointPanelMount.test.ts
+          src/editor/panels/gripPanelDom.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

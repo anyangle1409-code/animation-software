@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`0318a5fc86319d8a60cf86ff63b6b63782af06ae`
+`3f2766dec673ba5d86d1df336e53c6b6104770e8`
 
 ## Boundary
 
@@ -16,7 +16,7 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `0318a5f`:
+At `3f2766d`:
 
 - Standalone prep verification: PASS
 - full suite: 136 test files PASS, 2 skipped
@@ -138,11 +138,11 @@ The initial shell preparation commit exposed a test-only strict TypeScript cast;
 
 Next exact increment: **Grip preparation**.
 
-Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. This follow-up removes `JointPanel.tsx`, pending its own CI confirmation.
+Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f` (136 test files and 946 tests passed; 2 files and 62 tests skipped). The first-party Joint panel is live only on its tab; Chromium verified sole ownership, selection, axis/history routing, finger choices, diagnostics, timing control and disposal. The redundant `JointPanel.tsx` cleanup passed both workflows at `3f2766d`.
 
-Prepare a first-party Grip controller while retaining `GripPanel.tsx` live for parity. Preserve grip profile/global/digit closure, curl review frames, one-hand offset/orientation and reset, whole-rep worst-point diagnostics, and two-hand width/roll/fit and reset. Prove focused tests and Chromium parity before switching only that tab live; remove its React wrapper after the live checkpoint passes both workflows.
+The next preparation commit adds a first-party Grip controller while retaining `GripPanel.tsx` live for parity. Preserve grip profile/global/digit closure, curl review frames, one-hand offset/orientation and reset, whole-rep worst-point diagnostics, and two-hand width/roll/fit and reset. Prove focused tests and Chromium parity before switching only that tab live; remove its React wrapper after the live checkpoint passes both workflows.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 10 after Joint reference removal (11 at the verified live checkpoint). Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 10. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

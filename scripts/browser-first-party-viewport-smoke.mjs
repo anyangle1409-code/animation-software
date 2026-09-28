@@ -710,6 +710,43 @@ try {
   assert.equal(await page.locator('[data-hgpt-panel="joint-first-party"]').count(), 0,
     "Detached Joint panel remained mounted after left-tab change");
 
+  await leftTabs.getByRole("button", { name: "Grip", exact: true }).evaluate((button) => button.click());
+  const gripPreparationParity = await page.evaluate(async () => {
+    const [{ createGripPanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/gripPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+    const react = slot?.querySelector(".panel");
+    if (!(react instanceof HTMLElement)) throw new Error("React Grip parity reference unavailable");
+    const candidate = createGripPanelDom();
+    const before = studioStore.getState();
+    const snapshot = (panel) => ({
+      headings: [...panel.querySelectorAll("h2,h3,h4")].map((node) => node.textContent?.trim()),
+      selects: [...panel.querySelectorAll("select")].map((select) => [select.value, [...select.options].map((option) => option.value)]),
+      fields: [...panel.querySelectorAll("input")].map((input) => [input.type, input.value, input.min, input.max, input.step, input.disabled]),
+      buttons: [...panel.querySelectorAll("button")].map((button) => [button.textContent?.trim(), button.disabled, button.className]),
+      fitHeadings: [...panel.querySelectorAll(".grip-fit__head")].map((node) => node.textContent?.replace(/\s+/g, " ").trim()),
+      readings: [...panel.querySelectorAll(".spec-list")].map((list) =>
+        [...list.querySelectorAll("dt,dd")].map((node) => node.textContent?.trim())),
+    });
+    const comparisons = [];
+    for (const exerciseId of ["dumbbell_bicep_curl", "pull_up"]) {
+      studioStore.getState().loadExercise(exerciseId);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      comparisons.push({ exerciseId, react: snapshot(react), candidate: snapshot(candidate.element) });
+    }
+    studioStore.setState({ document: before.document, history: before.history, time: before.time, selection: before.selection });
+    candidate.dispose();
+    return comparisons;
+  });
+  for (const comparison of gripPreparationParity) {
+    assert.deepEqual(comparison.candidate, comparison.react,
+      `Prepared Grip controls or fit diagnostics diverge for ${comparison.exerciseId}`);
+  }
+  report.checks.gripPreparationParity = gripPreparationParity;
+  await leftTabs.getByRole("button", { name: "Character", exact: true }).evaluate((button) => button.click());
+
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

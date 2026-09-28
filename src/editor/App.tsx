@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
 import { ExportPanel } from './panels/ExportPanel';
-import { ReviewPanel } from './panels/ReviewPanel';
 import type { StudioAppShellDom } from './appShellDom';
 import { bindStudioKeyboard } from './keyboardController';
 import { useStudioLayout } from './layoutState';
@@ -25,7 +24,6 @@ export function App({ shell }: AppProps) {
 
   const rightPanel = (
     <>
-      {rightTab === 'review' && <ReviewPanel />}
       {rightTab === 'export' && <ExportPanel />}
     </>
   );

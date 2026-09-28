@@ -98,6 +98,7 @@ jobs:
           src/editor/panels/generatePanelDom.test.ts
           src/editor/panels/generatePanelMount.test.ts
           src/editor/panels/reviewPanelDom.test.ts
+          src/editor/panels/reviewPanelMount.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

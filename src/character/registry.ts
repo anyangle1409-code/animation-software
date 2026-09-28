@@ -5,7 +5,7 @@ import type { CharacterSource } from './types';
  * The character registry.
  *
  * The active built-in fallback is the clean project-authored procedural
- * scaffold. The legacy anatomical/MakeHuman-derived character is intentionally
+ * scaffold. The removed derived anatomical character is intentionally
  * not registered on the standalone branch.
  */
 const sources = new Map<string, CharacterSource>();

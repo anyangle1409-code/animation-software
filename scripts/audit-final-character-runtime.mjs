@@ -47,7 +47,7 @@ const result={
   pass:hits.length===0,
   tokens:TOKENS,
   hits,
-  note:"Final production character-path gate. Expected to fail during migration; historical docs outside src are intentionally not scanned."
+  note:"Final production character-path gate. Historical docs outside src are intentionally not scanned."
 };
 
 fs.mkdirSync(path.join(ROOT,"reports"),{recursive:true});

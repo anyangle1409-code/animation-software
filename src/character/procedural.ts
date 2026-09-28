@@ -10,7 +10,7 @@ const MANNEQUIN_NAME = 'HGPT_Mannequin';
  * Clean project-authored procedural fallback.
  *
  * This source is generated only from the pinned Home Gym PT profile tables.
- * It deliberately has no import path to the derived anatomical/MakeHuman body.
+ * It deliberately has no import path to any removed derived anatomical body.
  * It is a temporary operational fallback while ORIGINAL v1 is completed, not
  * the final production character.
  */

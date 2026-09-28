@@ -1,29 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  ACESFilmicToneMapping,
-  PCFSoftShadowMap,
-  SRGBColorSpace,
-  WebGLRenderer,
-} from 'three';
-import { browserFrameScheduler } from '../core/frameLoop';
-import { browserSceneSurface } from '../core/browserSceneSurface';
-import { currentAnchors, skeleton, useStudio } from '../editor/store';
+import { useEffect, useRef, useState } from 'react';
 import { useSceneState } from './sceneState';
-import { driveSceneFrame } from './sceneFrameDriver';
-import {
-  SceneHostBindingsProvider,
-  type SceneHostBindings,
-} from './sceneHostBindings';
-import { HgScenePointerRouter } from './scenePointerRouter';
-import { ThreeSceneHost } from './threeSceneHost';
+import { SceneHostBindingsProvider } from './sceneHostBindings';
+import type { SceneHostBindings } from './sceneHostTypes';
+import { createFirstPartyViewportRuntime } from './firstPartyViewportRuntime';
 import { StudioSceneContent } from './StudioSceneContent';
 
 /**
- * Reversible project-owned Studio host.
+ * Temporary React mount wrapper around the project-owned viewport runtime.
  *
- * React is still used for editor/component lifecycle at this stage, but the
- * canvas, WebGL renderer, scene/camera lifecycle, frame clock and pointer
- * router are all outside R3F.
+ * The renderer/canvas/frame/pointer lifecycle is framework-neutral. React is
+ * still used only to own DOM refs and mount the current scene-content adapters.
  */
 export function FirstPartyViewportHost() {
   const scene = useSceneState();
@@ -31,78 +17,14 @@ export function FirstPartyViewportHost() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [bindings, setBindings] = useState<SceneHostBindings | null>(null);
 
-  const clip = useStudio((state) => state.document.clip);
-  const anchors = useMemo(() => currentAnchors(clip), [clip]);
-  const clipRef = useRef(clip);
-  const anchorsRef = useRef(anchors);
-  clipRef.current = clip;
-  anchorsRef.current = anchors;
-
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const renderer = new WebGLRenderer({ canvas, antialias: true });
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = PCFSoftShadowMap;
-    renderer.outputColorSpace = SRGBColorSpace;
-    renderer.toneMapping = ACESFilmicToneMapping;
-
-    const host = new ThreeSceneHost(
-      browserFrameScheduler(),
-      browserSceneSurface(canvas, container),
-      renderer,
-    );
-
-    const pointers = new HgScenePointerRouter(
-      host.camera,
-      host.scene,
-      canvas,
-      () => useStudio.getState().selectBone(null),
-    );
-    pointers.mount();
-
-    let frameCount = 0;
-    const removeFrame = host.onFrame((frame) => {
-      driveSceneFrame({
-        scene,
-        skeleton,
-        clip: clipRef.current,
-        anchors: anchorsRef.current,
-        playback: useStudio.getState(),
-        frame,
-      });
-      frameCount += 1;
-      canvas.dataset.hgptFrameCount = String(frameCount);
-      canvas.dataset.hgptSceneChildren = String(host.scene.children.length);
-      canvas.dataset.hgptCameraPosition = host.camera.position
-        .toArray()
-        .map((value) => value.toFixed(6))
-        .join(',');
-      canvas.dataset.hgptCameraQuaternion = host.camera.quaternion
-        .toArray()
-        .map((value) => value.toFixed(6))
-        .join(',');
-      canvas.dataset.hgptRendererFrame = String(renderer.info.render.frame);
-      canvas.dataset.hgptSceneNames = host.scene.children
-        .map((child) => child.name || child.type)
-        .join('|');
-    }, -1);
-
-    setBindings({
-      camera: host.camera,
-      scene: host.scene,
-      element: canvas,
-      pointers,
-    });
-    host.mount();
-
-    return () => {
-      removeFrame();
-      pointers.dispose();
-      host.dispose();
-    };
+    const runtime = createFirstPartyViewportRuntime(container, canvas, scene);
+    setBindings(runtime.bindings);
+    return () => runtime.dispose();
   }, [scene]);
 
   return (

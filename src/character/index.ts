@@ -27,7 +27,6 @@ export {
   characterSource,
   characterSources,
   defaultCharacterId,
-  registerBundledCharacter,
   registerCharacterSource,
   setDefaultCharacter,
   unregisterCharacterSource,

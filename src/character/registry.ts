@@ -1,6 +1,4 @@
 import { builtinCharacter, proceduralCharacter } from './builtin';
-import { retargetedCharacterSource } from './retargetSource';
-import type { RetargetedCharacterOptions } from './retargetSource';
 import type { CharacterSource } from './types';
 
 /**
@@ -48,19 +46,3 @@ export function setDefaultCharacter(id: string): void {
 
 registerCharacterSource(builtinCharacter);
 registerCharacterSource(proceduralCharacter);
-
-/**
- * Register a GLB shipped with the app and make it the default.
- *
- * This is the whole of the work needed to put a higher-quality character in
- * front of the existing animation: drop the file in `public/characters/`, call
- * this once at startup, and the studio and the exporter follow. The character
- * is preserved as authored — its own skeleton, bind pose and weights — and the
- * canonical rig drives it. Nothing is registered yet: there is no asset to
- * register.
- */
-export function registerBundledCharacter(options: RetargetedCharacterOptions): CharacterSource {
-  const source = registerCharacterSource(retargetedCharacterSource(options));
-  setDefaultCharacter(source.id);
-  return source;
-}

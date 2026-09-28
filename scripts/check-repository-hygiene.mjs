@@ -26,6 +26,15 @@ const forbiddenPaths = [
   "docs/FIRST_PARTY_DREI_REPLACEMENT.md",
   "docs/FIRST_PARTY_FRAME_LOOP_PLAN.md",
   "START_ORIGINAL_V1_CLEAN_ROOM.bat",
+  "src/character/bundled.ts",
+  "src/character/bundled.test.ts",
+];
+
+const forbiddenOperationalSourceTokens = [
+  "HomeGymPT_Male_BASELINE_v8",
+  "HomeGymPT_Male_CORNER_FINAL",
+  "BASELINE_CHARACTER_URL",
+  "DRESSED_CHARACTER_URL",
 ];
 
 const validDocCategories = new Set([
@@ -45,6 +54,27 @@ for (const p of required) {
 
 for (const p of forbiddenPaths) {
   if (exists(p)) failures.push(`obsolete/legacy path reintroduced: ${p}`);
+}
+
+const sourceRoot = path.join(ROOT, "src");
+if (fs.existsSync(sourceRoot)) {
+  const stack = [sourceRoot];
+  while (stack.length) {
+    const dir = stack.pop();
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(full);
+        continue;
+      }
+      if (!/\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(entry.name)) continue;
+      const rel = path.relative(ROOT, full).replaceAll("\\", "/");
+      const body = fs.readFileSync(full, "utf8");
+      for (const token of forbiddenOperationalSourceTokens) {
+        if (body.includes(token)) failures.push(`forbidden legacy runtime token ${token} in ${rel}`);
+      }
+    }
+  }
 }
 
 if (exists("DOCUMENTATION_MANIFEST.json")) {
@@ -116,6 +146,7 @@ const result = {
   requiredAuthorityFiles: required,
   obsoleteAndLegacyPathsAbsent: forbiddenPaths.filter((p) => !exists(p)),
   documentationManifestPresent: exists("DOCUMENTATION_MANIFEST.json"),
+  forbiddenOperationalSourceTokens,
   failures,
 };
 

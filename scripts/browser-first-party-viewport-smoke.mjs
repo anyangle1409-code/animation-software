@@ -249,6 +249,70 @@ try {
     0,
     "Detached Contact panel remained mounted after left-tab change",
   );
+  const exercisePanelParity = await page.evaluate(async () => {
+    const [{ createExercisePanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/exercisePanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      notes: Array.from(panel.querySelectorAll(".panel__note")).map(
+        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      ),
+      headings: Array.from(panel.querySelectorAll("h3")).map((element) => element.textContent),
+      tempo: Array.from(panel.querySelectorAll(".tempo-grid label.field")).map((label) => {
+        const input = label.querySelector('input[type="number"]');
+        return {
+          label: label.querySelector(".field__label")?.textContent ?? null,
+          value: input?.value ?? null,
+          min: input?.min ?? null,
+          max: input?.max ?? null,
+          step: input?.step ?? null,
+        };
+      }),
+      muscles: Array.from(panel.querySelectorAll(".muscle-list li")).map((item) => ({
+        name: item.querySelector(".muscle-list__name")?.textContent ?? null,
+        level: item.querySelector(".muscle-list__level")?.textContent ?? null,
+        swatch: item.querySelector(".swatch")?.style.background ?? null,
+      })),
+      specs: Array.from(panel.querySelectorAll(".spec-list > *")).map(
+        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      ),
+      closure: (() => {
+        const input = panel.querySelector('input[aria-label="Grip closure"]');
+        return {
+          value: input?.value ?? null,
+          min: input?.min ?? null,
+          max: input?.max ?? null,
+          step: input?.step ?? null,
+          label: input?.getAttribute("aria-label") ?? null,
+        };
+      })(),
+      equipment: Array.from(panel.querySelectorAll(".plain-list li")).map(
+        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      ),
+    });
+
+    const reactPanel = document.querySelector('[data-hgpt-editor-slot="right-panel"] > .panel');
+    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Exercise panel reference is unavailable");
+    const react = snapshot(reactPanel);
+
+    const firstParty = createExercisePanelDom(document, studioStore);
+    firstParty.element.style.position = "fixed";
+    firstParty.element.style.left = "-10000px";
+    firstParty.element.style.top = "0";
+    document.body.append(firstParty.element);
+    const candidate = snapshot(firstParty.element);
+    firstParty.dispose();
+    firstParty.element.remove();
+    return { react, candidate };
+  });
+  assert.deepEqual(
+    exercisePanelParity.candidate,
+    exercisePanelParity.react,
+    "First-party Exercise panel drifted from the React reference",
+  );
+  report.checks.firstPartyExercisePanel = exercisePanelParity.candidate;
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

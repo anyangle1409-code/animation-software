@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`55592fb320e3aaad17c2d431469a7241a5477769`
+`954cc99cfd8a1cc72730cfb130e803aa38c9764d`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 55592fb
+## Verified state at 954cc99
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 133 test files PASS, 2 skipped
-- full tests: 942 PASS, 62 skipped
+- full suite: 134 test files PASS, 2 skipped
+- full tests: 943 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -131,6 +131,9 @@ Verified live shell state:
 - `src/editor/panels/equipmentPanelDom.ts` owns the live Equipment editor only while the left Equipment tab is active;
 - Equipment preserves selection, static object/socket transforms, reset, attachment wording, centimetre/degree formatting and existing store/history actions;
 - the redundant `src/editor/panels/EquipmentPanel.tsx` is removed after both required workflows passed at `ea3b36d`;
+- `src/editor/panels/characterPanelDom.ts` owns the live Character import/source/bind/mapping panel only while its left tab is active;
+- Character preserves existing characterStore actions, import/view switching, report display and mapping controls;
+- `src/editor/panels/CharacterPanel.tsx` is removed after both workflows passed at `954cc99`;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -138,18 +141,18 @@ Verified live shell state:
 
 Next exact increment:
 
-1. verify the live first-party Character switch in both workflows;
-2. after both are green, remove the redundant `CharacterPanel.tsx` and update these handoffs;
-3. continue the next left-side panel (Joint or Grip) in the same preparation, live switch, cleanup sequence;
+1. prepare first-party Joint DOM/controller with focused tests and Chromium parity while retaining the React reference;
+2. preserve selection, per-axis limits/editing, diagnostics, segment timing, finger visibility, pose clipboard and mirroring;
+3. switch only Joint live with explicit mount/disposal after preparation is green, then remove its React wrapper after both live workflows pass;
 4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
 5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
 6. replace Three.js last.
 
 The Equipment reference removal passed both required workflows at `3bc0d87`.
 
-Current direct `react`/`react-dom` source import statements: 12; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements: 11 after Character reference removal (12 at the verified live checkpoint); direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
-The Character preparation passed both workflows at `55592fb`. The next commit mounts the first-party Character panel live, pending its own CI verification. Its React wrapper remains in the tree only as a parity reference.
+The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99`. This commit removes the redundant React reference, pending its own CI confirmation.
 
 ## Remaining declared runtime dependencies
 

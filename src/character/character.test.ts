@@ -19,7 +19,6 @@ import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { exportGlb } from '../export/glb';
 import { bakeClip } from '../export/clipBuilder';
 import { createMapping, guessMapping } from '../retargeting/boneMap';
-import { builtinCharacter } from './builtin';
 import { proceduralCharacter } from './procedural';
 import { characterSource, characterSources, defaultCharacterId } from './registry';
 import { glbCharacterSource } from './glbSource';
@@ -53,61 +52,11 @@ describe('the character registry', () => {
   });
 
   it('declares what each character can do rather than assuming it', () => {
-    expect(builtinCharacter.capabilities.anatomy).toBe(true);
-    // The procedural mannequin has no écorché mapping, and says so.
     expect(proceduralCharacter.capabilities.anatomy).toBe(false);
     expect(glbCharacterSource({ id: 'x', label: 'x', data: new ArrayBuffer(0) }).capabilities).toEqual({
       anatomy: false,
       textured: true,
     });
-  });
-});
-
-describe('the built-in character', () => {
-  // Building the built-in surface runs every repair pass over 14k vertices,
-  // which is seconds rather than milliseconds on a cold machine.
-  it('still builds, binds to the canonical rig and animates', { timeout: 30_000 }, async () => {
-    const character = await builtinCharacter.build(rig);
-
-    expect(character.bones).toHaveLength(rig.bones.length);
-    for (const bone of rig.bones) {
-      const built = character.boneByName.get(bone.name);
-      expect(built, bone.name).toBeDefined();
-      expect(built!.parent?.name ?? null, bone.name).toBe(bone.parent ?? 'HGPT_Mannequin');
-    }
-    expect(character.meshes[0].geometry.getAttribute('skinWeight')).toBeDefined();
-
-    const bottom = curlPose(0);
-    applyCharacterPose(character, rig, bottom.frame.pose, bottom.evaluation);
-    const low = boneHead(character, 'hand_r').clone();
-
-    const top = curlPose(studioClip.duration * 0.4545);
-    applyCharacterPose(character, rig, top.frame.pose, top.evaluation);
-    const high = boneHead(character, 'hand_r').clone();
-
-    // The curl lifts the hand by most of a forearm.
-    expect(high.y - low.y).toBeGreaterThan(0.25);
-    character.dispose();
-  });
-
-  it('keeps its mesh-specific correctives, and hands them to the exporter', { timeout: 30_000 }, async () => {
-    const character = await builtinCharacter.build(rig);
-    expect(character.deformation).not.toBeNull();
-
-    const sampler = character.deformation!.sampler!();
-    expect(sampler, 'the built-in shoulder correctives must bake into the clip').not.toBeNull();
-
-    const baked = bakeClip(studioClip, rig, { fps: 12, deformation: sampler });
-    const morphs = baked.clip.tracks.filter((track) => track.name.includes('morphTargetInfluences'));
-    expect(morphs.length).toBeGreaterThan(0);
-    expect(morphs.every((track) => track.name.startsWith('HGPT_Mannequin.'))).toBe(true);
-    character.dispose();
-  });
-
-  it('does not lend those correctives to another character', async () => {
-    const mannequin = await proceduralCharacter.build(rig);
-    expect(mannequin.deformation).toBeNull();
-    mannequin.dispose();
   });
 });
 
@@ -311,7 +260,7 @@ describe('a GLB character through the source architecture', () => {
 
 describe('the viewport and the exported file', () => {
   it('pose the same character the same way', { timeout: 30_000 }, async () => {
-    const character = await builtinCharacter.build(rig);
+    const character = await proceduralCharacter.build(rig);
     const baked = bakeClip(studioClip, rig, { fps: 20 });
 
     for (const fraction of [0, 0.2327, 0.4545, 0.8]) {

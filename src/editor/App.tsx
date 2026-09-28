@@ -16,7 +16,7 @@ import { EquipmentPanel } from './panels/EquipmentPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
 import { GeneratePanel } from './panels/GeneratePanel';
-import { useStudio } from './store';
+import { bindStudioKeyboard } from './keyboardController';
 
 type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
 type RightTab = 'generate' | 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
@@ -26,40 +26,7 @@ export function App() {
   const [rightTab, setRightTab] = useState<RightTab>('exercise');
   const [panelsOpen, setPanelsOpen] = useState(true);
 
-  const undo = useStudio((state) => state.undo);
-  const redo = useStudio((state) => state.redo);
-  const togglePlay = useStudio((state) => state.togglePlay);
-  const setKeyframe = useStudio((state) => state.setKeyframe);
-
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (target && /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName)) return;
-      const meta = event.ctrlKey || event.metaKey;
-      if (meta && event.key.toLowerCase() === 'z') {
-        event.preventDefault();
-        if (event.shiftKey) redo();
-        else undo();
-      } else if (meta && event.key.toLowerCase() === 'y') {
-        event.preventDefault();
-        redo();
-      } else if (event.code === 'Space') {
-        event.preventDefault();
-        togglePlay();
-      } else if (event.key.toLowerCase() === 'k') {
-        setKeyframe();
-      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-        event.preventDefault();
-        const store = useStudio.getState();
-        const direction = event.key === 'ArrowLeft' ? -1 : 1;
-        const frames = event.shiftKey ? 5 : 1;
-        store.pause();
-        store.setTime(store.time + (direction * frames) / store.document.clip.fps);
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [undo, redo, togglePlay, setKeyframe]);
+  useEffect(() => bindStudioKeyboard(window), []);
 
   return (
     <div className={`studio ${panelsOpen ? '' : 'studio--focus'}`}>

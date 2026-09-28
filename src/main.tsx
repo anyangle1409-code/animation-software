@@ -33,6 +33,7 @@ import { createReviewPanelMount } from './editor/panels/reviewPanelMount';
 import { createExportPanelDom } from './editor/panels/exportPanelDom';
 import { createExportPanelMount } from './editor/panels/exportPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
+import { createFirstPartyViewportDom } from './viewer/firstPartyViewportDom';
 import './editor/styles.css';
 
 const container = document.getElementById('root');
@@ -43,6 +44,9 @@ const toolbar = createStudioToolbarDom();
 shell.slots.toolbar.append(toolbar.element);
 const timeline = createStudioTimelineDom();
 shell.slots.timeline.append(timeline.element);
+
+const viewport = createFirstPartyViewportDom();
+shell.slots.viewport.append(viewport.element);
 
 const techniquePanelMount = createTechniquePanelMount(
   shell.slots.rightPanel,
@@ -129,13 +133,14 @@ container.replaceChildren(shell.element, reactBridge);
 const root = createRoot(reactBridge);
 root.render(
   <StrictMode>
-    <App shell={shell} />
+    <App />
   </StrictMode>,
 );
 
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    viewport.dispose();
     exportPanelMount.dispose();
     reviewPanelMount.dispose();
     generatePanelMount.dispose();

@@ -441,10 +441,12 @@ try {
   const probeCanvas = page.locator('canvas[data-hgpt-three-host-probe="true"]');
   await probeCanvas.waitFor({ state: "visible", timeout: 10_000 });
   await page.waitForTimeout(250);
+  const probeStateBefore = await page.evaluate(() => window.__hgptThreeHostProbe?.getState());
   const probeBefore = hash(
     await probeCanvas.screenshot({ path: path.join(OUT, "first-party-host-before.png") }),
   );
   await page.waitForTimeout(500);
+  const probeStateAfter = await page.evaluate(() => window.__hgptThreeHostProbe?.getState());
   const probeAfter = hash(
     await probeCanvas.screenshot({ path: path.join(OUT, "first-party-host-after.png") }),
   );
@@ -452,6 +454,20 @@ try {
     probeBefore,
     probeAfter,
     "First-party ThreeSceneHost real-WebGL frame loop did not visibly advance",
+  );
+  assert(
+    probeStateBefore && probeStateAfter,
+    "First-party ThreeSceneHost did not expose renderer-neutral frame-driver state",
+  );
+  assert.notEqual(
+    probeStateBefore.playbackTime,
+    probeStateAfter.playbackTime,
+    "Renderer-neutral playback time did not advance under the first-party host",
+  );
+  assert.notDeepEqual(
+    probeStateBefore.forearmMatrix,
+    probeStateAfter.forearmMatrix,
+    "Real bicep-curl forearm pose did not advance under the first-party host",
   );
 
   const probeResize = await page.evaluate(async () => {
@@ -479,6 +495,8 @@ try {
     initialCss: probeSetup,
     frameBeforeHash: probeBefore,
     frameAfterHash: probeAfter,
+    frameDriverBefore: probeStateBefore,
+    frameDriverAfter: probeStateAfter,
     resize: probeResize,
   };
   await page.evaluate(() => {

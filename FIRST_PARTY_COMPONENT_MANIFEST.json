@@ -1,13 +1,13 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "purpose": "Track every component that may enter a standalone first-party release.",
   "release_gate": "No item with status other than first_party_approved may be included in the release package.",
   "components": [
     {
       "id": "runtime_exercise_engine",
       "category": "code",
-      "status": "project_authored_pending_dependency_scan",
-      "notes": "Core biomechanics/exercise logic appears project-authored; verify no third-party runtime imports in transitive paths."
+      "status": "project_authored_runtime_migration_pending",
+      "notes": "Exercise/biomechanics/generation logic is project-authored; final standalone approval waits for remaining third-party runtime imports in shared engine paths to reach zero."
     },
     {
       "id": "runtime_ui",
@@ -27,7 +27,7 @@
         "@react-three/fiber",
         "@react-three/drei"
       ],
-      "required_action": "R3F staged parity migration; Drei has zero imports but remains installed pending physical Grid/Orbit/Transform gate"
+      "required_action": "Complete R3F staged parity migration and remove R3F; Drei has zero source imports but remains installed pending the physical Grid/Orbit/Transform gate."
     },
     {
       "id": "runtime_renderer_math_gltf",
@@ -78,14 +78,14 @@
     {
       "id": "review_renders",
       "category": "asset",
-      "status": "reference_only",
-      "required_action": "exclude_from_release"
+      "status": "absent_from_active_branch_reference_history_only",
+      "required_action": "Keep removed from the active standalone branch and release package."
     },
     {
       "id": "legacy_glb_blend_assets",
       "category": "asset",
-      "status": "reference_only",
-      "required_action": "exclude_from_release"
+      "status": "absent_from_active_branch_reference_history_only",
+      "required_action": "Keep removed from operational/release paths; historical branches remain non-authoritative reference only."
     },
     {
       "id": "builtin_anatomical_body",
@@ -117,14 +117,22 @@
     {
       "id": "external_runtime_resources",
       "category": "runtime_resource_policy",
-      "status": "no_known_external_resources_scan_prepared",
-      "required_action": "run scripts/audit-external-runtime-resources.mjs at release gate"
+      "status": "current_scan_verified_no_external_runtime_resources",
+      "required_action": "Keep scripts/audit-external-runtime-resources.mjs active in CI/release gates."
     },
     {
       "id": "original_v4_blender_handoff",
       "category": "authoring_tool_and_data",
       "status": "first_party_deterministic_prep_verified_blender_pending",
       "required_action": "run PREPARE_ORIGINAL_V1_O2.bat on laptop, inspect the 63-bone unbound armature, then model O2 without legacy import"
+    },
+    {
+      "id": "repository_hygiene",
+      "category": "project_policy",
+      "status": "first_party_hygiene_gate_verified",
+      "required_action": "Keep docs/CURRENT_HANDOFF.md as the single operational entry point; reject reintroduced legacy bundles, obsolete handoffs, and unclassified docs via npm run audit:hygiene."
     }
-  ]
+  ],
+  "authority": "docs/CURRENT_HANDOFF.md",
+  "documentation_manifest": "DOCUMENTATION_MANIFEST.json"
 }

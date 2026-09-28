@@ -1,16 +1,8 @@
-import { useEffect, useMemo } from 'react';
-import type { BoneName } from '../rig/boneNames';
-import { isFingerBone } from '../rig/boneNames';
-import { skeleton, useStudio } from '../editor/store';
-import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
-import {
-  createSkeletonScene,
-  registerSkeletonPointers,
-  updateSkeletonAppearance,
-} from './skeletonScene';
-import { SceneObjectMount } from './SceneObjectMount';
-import { useSceneResourceDisposal } from './sceneResourceLifecycle';
+import { useEffect } from 'react';
+import { skeleton, studioStore } from '../editor/store';
+import { useSceneState } from './sceneState';
 import { useSceneHostBindings } from './sceneHostBindings';
+import { createSkeletonViewRuntime } from './skeletonViewRuntime';
 
 export interface SkeletonViewProps {
   /** Dim the skeleton when it sits behind the muscle or character layer. */
@@ -18,45 +10,26 @@ export interface SkeletonViewProps {
   includeFingers?: boolean;
 }
 
-/**
- * Project-owned skeleton scene.
- *
- * Bone groups and visible geometry mount directly through the shared scene
- * port. Joint selection is routed by the first-party pointer router.
- */
-export function SkeletonView({ ghosted = false, includeFingers = false }: SkeletonViewProps) {
-  const scene = useSceneState();
-  const selected = useStudio((state) => state.selection.bone);
-  const selectBone = useStudio((state) => state.selectBone);
-  const showJoints = useStudio((state) => state.showJoints);
-  const { pointers } = useSceneHostBindings();
-
-  const bones = useMemo(
-    () => skeleton.names.filter((name) => includeFingers || !isFingerBone(name)),
-    [includeFingers],
-  );
-  const resources = useMemo(
-    () => createSkeletonScene(skeleton, bones as BoneName[], ghosted),
-    [bones, ghosted],
-  );
-
-  useSceneResourceDisposal(resources);
-
-  useEffect(
-    () => registerSkeletonPointers(resources, pointers, selectBone),
-    [resources, pointers, selectBone],
-  );
+/** Temporary React adapter over the framework-neutral skeleton runtime. */
+export function SkeletonView({
+  ghosted = false,
+  includeFingers = false,
+}: SkeletonViewProps) {
+  const sceneState = useSceneState();
+  const { scene: root, pointers } = useSceneHostBindings();
 
   useEffect(() => {
-    updateSkeletonAppearance(resources, selected, showJoints);
-  }, [resources, selected, showJoints]);
+    const runtime = createSkeletonViewRuntime({
+      sceneState,
+      root,
+      pointers,
+      store: studioStore,
+      skeleton,
+      ghosted,
+      includeFingers,
+    });
+    return () => runtime.dispose();
+  }, [sceneState, root, pointers, ghosted, includeFingers]);
 
-  useSceneFrame(() => {
-    for (const [name, objects] of resources.bones) {
-      objects.group.matrix.copy(scene.evaluation.matrix(name));
-      objects.group.matrixWorldNeedsUpdate = true;
-    }
-  }, SCENE_FRAME_PRIORITY.bone);
-
-  return <SceneObjectMount object={resources.group} />;
+  return null;
 }

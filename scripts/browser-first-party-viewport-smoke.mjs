@@ -189,139 +189,157 @@ try {
     panelsOpen: true,
   };
 
-  const generationStateBeforeParity = await page.evaluate(async () => {
+  const generateStudioBefore = await page.evaluate(async () => {
     const [
       { generationStore },
       { generateExercise },
       { canonicalSkeleton },
       { EXERCISE_BY_ID },
+      { studioStore },
     ] = await Promise.all([
       import("/src/editor/generationStoreCore.ts"),
       import("/src/generation/generate.ts"),
       import("/src/rig/skeleton.ts"),
       import("/src/exercises/library.ts"),
+      import("/src/editor/storeCore.ts"),
     ]);
-    const original = generationStore.getState();
+    const studio = studioStore.getState();
     const prompt = "Create a standing hammer curl with 12 kg dumbbells and controlled tempo.";
     const generated = generateExercise(prompt, {
       rig: canonicalSkeleton,
       library: (id) => EXERCISE_BY_ID.get(id),
     });
     const result = { ...generated, status: "passed" };
-    const current = {
-      key: "browser_generate_current",
-      prompt,
-      result,
-      approved: false,
-    };
-    const previous = {
-      key: "browser_generate_previous",
-      prompt,
-      result,
-      approved: true,
-    };
     generationStore.setState({
       prompt,
-      running: true,
-      progress: ["Preparing", "Building", "Validating", "Checking", "Ready"],
-      candidates: [current, previous],
-      selected: current.key,
+      running: false,
+      progress: [],
+      candidates: [
+        { key: "browser_generate_current", prompt, result, approved: false },
+        { key: "browser_generate_previous", prompt, result, approved: true },
+      ],
+      selected: "browser_generate_current",
       validationCharacter: null,
     });
-    return {
-      prompt: original.prompt,
-      running: original.running,
-      progress: original.progress,
-      candidates: original.candidates,
-      selected: original.selected,
-      validationCharacter: original.validationCharacter,
-    };
+    return { exerciseId: studio.document.exercise.id, time: studio.time };
   });
   await rightTabs.getByRole("button", { name: "Generate", exact: true }).click();
-  await page.locator('[data-hgpt-editor-slot="right-panel"] .generate-panel').waitFor();
-  const generatePanelParity = await page.evaluate(async () => {
-    const [{ createGeneratePanelDom }, { generationStore }] = await Promise.all([
-      import("/src/editor/panels/generatePanelDom.ts"),
+  await page.locator('[data-hgpt-panel="generate-first-party"]').waitFor();
+  const liveGeneratePanel = await page.evaluate(async () => {
+    const [{ generationStore }, { studioStore }] = await Promise.all([
       import("/src/editor/generationStoreCore.ts"),
+      import("/src/editor/storeCore.ts"),
     ]);
-    const clean = (value) => value?.replace(/\s+/g, " ").trim() ?? null;
-    const snapshot = (panel) => {
-      const prompt = panel.querySelector('textarea[aria-label="Exercise request"]');
-      const submit = panel.querySelector('button[type="submit"]');
-      const status = panel.querySelector(".review-status");
-      const source = panel.querySelector("details.generate-source");
-      return {
-        heading: panel.querySelector("h2")?.textContent ?? null,
-        hint: clean(panel.querySelector(".panel__hint")?.textContent),
-        prompt: {
-          value: prompt?.value ?? null,
-          disabled: prompt?.disabled ?? null,
-          rows: prompt?.rows ?? null,
-        },
-        submit: {
-          text: submit?.textContent ?? null,
-          disabled: submit?.disabled ?? null,
-          className: submit?.getAttribute("class") ?? "",
-        },
-        examples: Array.from(panel.querySelectorAll(".generate-examples button")).map((button) => ({
-          text: button.textContent,
-          disabled: button.disabled,
-        })),
-        progress: Array.from(panel.querySelectorAll(".generate-progress li")).map((item) => item.textContent),
-        status: status
-          ? { className: status.getAttribute("class"), text: clean(status.textContent) }
-          : null,
-        note: clean(panel.querySelector(".generate-candidate .panel__note")?.textContent),
-        headings: Array.from(panel.querySelectorAll(".generate-candidate h3")).map((item) => item.textContent),
-        specs: Array.from(panel.querySelectorAll(".generate-candidate .spec-list > *")).map((item) => clean(item.textContent)),
-        issues: Array.from(panel.querySelectorAll(".generate-issues li")).map((item) => clean(item.textContent)),
-        checks: Array.from(panel.querySelectorAll(".review-gates article")).map((item) => ({
-          className: item.getAttribute("class"),
-          text: clean(item.textContent),
-        })),
-        source: source
-          ? {
-              summary: source.querySelector("summary")?.textContent ?? null,
-              code: source.querySelector("pre")?.textContent ?? null,
-            }
-          : null,
-        actions: Array.from(panel.querySelectorAll(".generate-candidate > .button-row button")).map((button) => ({
-          text: button.textContent,
-          className: button.getAttribute("class") ?? "",
-          disabled: button.disabled,
-        })),
-        session: Array.from(panel.querySelectorAll(".generate-list button")).map((button) => ({
-          text: clean(button.textContent),
-          className: button.getAttribute("class") ?? "",
-        })),
-      };
+    const read = () => {
+      const slot = document.querySelector('[data-hgpt-editor-slot="right-panel"]');
+      const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+      if (!(panel instanceof HTMLElement)) throw new Error("First-party Generate panel is unavailable");
+      return { slot, panel };
+    };
+    let { slot, panel } = read();
+    const current = generationStore.getState().candidates.find(
+      (candidate) => candidate.key === "browser_generate_current",
+    );
+    const expectedExerciseId = current?.result.exercise?.id ?? null;
+    const initial = {
+      insideRightPanel: panel.parentElement === slot,
+      panelCount: slot?.querySelectorAll(".panel").length ?? -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="generate-first-party"]').length,
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      prompt: panel.querySelector('textarea[aria-label="Exercise request"]')?.value ?? null,
+      candidateCount: generationStore.getState().candidates.length,
+      sessionCount: panel.querySelectorAll(".generate-list button").length,
+      actionLabels: Array.from(panel.querySelectorAll(".generate-candidate > .button-row button"))
+        .map((button) => button.textContent),
     };
 
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="right-panel"] .generate-panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Generate panel reference is unavailable");
-    const react = snapshot(reactPanel);
+    const example = panel.querySelector('[data-hgpt-generate-control="example-1"]');
+    if (!(example instanceof HTMLButtonElement)) throw new Error("Generate example control unavailable");
+    example.click();
+    const exampleRouted = generationStore.getState().prompt.includes("incline dumbbell curl");
+    generationStore.getState().setPrompt(
+      "Create a standing hammer curl with 12 kg dumbbells and controlled tempo.",
+    );
 
-    const firstParty = createGeneratePanelDom(document, generationStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+    ({ panel } = read());
+    const preview = panel.querySelector('[data-hgpt-generate-control="preview-browser_generate_current"]');
+    if (!(preview instanceof HTMLButtonElement)) throw new Error("Generate Preview control unavailable");
+    preview.click();
+    const previewRouted =
+      expectedExerciseId !== null &&
+      studioStore.getState().document.exercise.id === expectedExerciseId;
+
+    ({ panel } = read());
+    const approve = panel.querySelector('[data-hgpt-generate-control="approve-browser_generate_current"]');
+    if (!(approve instanceof HTMLButtonElement)) throw new Error("Generate Approve control unavailable");
+    approve.click();
+    const approved =
+      generationStore.getState().candidates.find(
+        (candidate) => candidate.key === "browser_generate_current",
+      )?.approved === true;
+
+    ({ panel } = read());
+    const approvedStatus = panel.querySelector(".review-status strong")?.textContent ?? null;
+    const discard = panel.querySelector('[data-hgpt-generate-control="discard-browser_generate_current"]');
+    if (!(discard instanceof HTMLButtonElement)) throw new Error("Generate Discard control unavailable");
+    discard.click();
+    const afterDiscard = generationStore.getState();
+
+    return {
+      ...initial,
+      exampleRouted,
+      previewRouted,
+      approved,
+      approvedStatus,
+      discarded: !afterDiscard.candidates.some(
+        (candidate) => candidate.key === "browser_generate_current",
+      ),
+      selectedAfterDiscard: afterDiscard.selected,
+      remainingCandidates: afterDiscard.candidates.length,
+    };
   });
+  assert.equal(liveGeneratePanel.insideRightPanel, true, "Generate panel is outside its right slot");
+  assert.equal(liveGeneratePanel.panelCount, 1, "Generate tab has multiple live panels");
+  assert.equal(liveGeneratePanel.firstPartyCount, 1, "First-party Generate ownership is ambiguous");
+  assert.equal(liveGeneratePanel.heading, "Generate");
+  assert.equal(liveGeneratePanel.candidateCount, 2, "Generate session candidates were lost");
+  assert.equal(liveGeneratePanel.sessionCount, 2, "Generate session list did not render");
   assert.deepEqual(
-    generatePanelParity.candidate,
-    generatePanelParity.react,
-    "First-party Generate panel drifted from the React reference",
+    liveGeneratePanel.actionLabels,
+    ["Preview", "Approve", "Discard"],
+    "Generate review actions drifted",
   );
-  report.checks.firstPartyGeneratePanel = generatePanelParity.candidate;
-  await page.evaluate(async (original) => {
-    const { generationStore } = await import("/src/editor/generationStoreCore.ts");
-    generationStore.setState(original);
-  }, generationStateBeforeParity);
+  assert.equal(liveGeneratePanel.exampleRouted, true, "Generate example did not route prompt state");
+  assert.equal(liveGeneratePanel.previewRouted, true, "Generate Preview did not route into the Studio document");
+  assert.equal(liveGeneratePanel.approved, true, "Generate Approve did not mark a passing candidate");
+  assert.equal(liveGeneratePanel.approvedStatus, "APPROVED FOR PROMOTION");
+  assert.equal(liveGeneratePanel.discarded, true, "Generate Discard did not remove the candidate");
+  assert.equal(liveGeneratePanel.selectedAfterDiscard, null, "Generate Discard did not clear selected candidate");
+  assert.equal(liveGeneratePanel.remainingCandidates, 1, "Generate Discard removed the wrong session entries");
+  report.checks.liveGeneratePanel = liveGeneratePanel;
+
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="generate-first-party"]').count(),
+    0,
+    "Generate panel remained mounted after tab change",
+  );
+  await page.evaluate(async (before) => {
+    const [{ generationStore }, { studioStore }] = await Promise.all([
+      import("/src/editor/generationStoreCore.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    generationStore.setState({
+      prompt: "Create a standing hammer curl with 12 kg dumbbells and controlled tempo.",
+      running: false,
+      progress: [],
+      candidates: [],
+      selected: null,
+      validationCharacter: null,
+    });
+    studioStore.getState().loadExercise(before.exerciseId);
+    studioStore.getState().setTime(before.time);
+  }, generateStudioBefore);
 
   const contactsTab = leftTabs.getByRole("button", { name: "Contacts", exact: true });
   await contactsTab.click();

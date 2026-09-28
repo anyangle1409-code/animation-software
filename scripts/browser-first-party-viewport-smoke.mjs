@@ -191,48 +191,64 @@ try {
 
   const contactsTab = leftTabs.getByRole("button", { name: "Contacts", exact: true });
   await contactsTab.click();
-  const contactPanelParity = await page.evaluate(async () => {
-    const [{ createContactPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/contactPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
-    const snapshot = (panel) => ({
+  const liveContactPanel = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+    const panel = document.querySelector('[data-hgpt-panel="contacts-first-party"]');
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Contact panel is unavailable");
+
+    const before = studioStore.getState();
+    const documentBefore = before.document;
+    const historyBefore = before.history;
+    const firstLock = before.document.clip.locks[0];
+    const firstCheckbox = panel.querySelector('input[type="checkbox"]');
+    if (!firstLock || !(firstCheckbox instanceof HTMLInputElement)) {
+      throw new Error("Contact toggle probe requires at least one live lock");
+    }
+
+    firstCheckbox.checked = !firstLock.enabled;
+    firstCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+    const after = studioStore.getState();
+    const editedLock = after.document.clip.locks.find((lock) => lock.id === firstLock.id);
+    const toggleProbe = {
+      changed: editedLock?.enabled === !firstLock.enabled,
+      historyAdvanced: after.history.past.length === historyBefore.past.length + 1,
+    };
+
+    studioStore.setState({ document: documentBefore, history: historyBefore });
+
+    return {
+      exists: true,
+      insideLeftPanel: slot instanceof HTMLElement && panel.parentElement === slot,
+      panelCount: slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="contacts-first-party"]').length,
       heading: panel.querySelector("h2")?.textContent ?? null,
       note: panel.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      empty: panel.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      cards: Array.from(panel.querySelectorAll(".contact-card")).map((card) => ({
-        className: card.getAttribute("class"),
-        head: card.querySelector(".contact-card__head")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        checked: card.querySelector('input[type="checkbox"]')?.checked ?? null,
-        status: card.querySelector(".contact-card__head strong")?.textContent ?? null,
-        metrics: Array.from(card.querySelectorAll(".contact-metrics > *")).map(
-          (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        ),
-      })),
-      hint: panel.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-    });
-
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] .contact-panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Contact panel reference is unavailable");
-    const react = snapshot(reactPanel);
-
-    const firstParty = createContactPanelDom(document, studioStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+      cardCount: panel.querySelectorAll(".contact-card").length,
+      firstStatus: panel.querySelector(".contact-card__head strong")?.textContent ?? null,
+      toggleProbe,
+    };
   });
+  assert.equal(liveContactPanel.exists, true, "First-party Contact panel is not live");
+  assert.equal(liveContactPanel.insideLeftPanel, true, "Contact panel is outside the left-panel slot");
+  assert.equal(liveContactPanel.panelCount, 1, "Contacts tab has multiple live panel surfaces");
+  assert.equal(liveContactPanel.firstPartyCount, 1, "First-party Contact ownership is ambiguous");
+  assert.equal(liveContactPanel.heading, "Contacts");
+  assert(liveContactPanel.note?.includes("Live production-solver inspection"), "Contact live note did not render");
+  assert(liveContactPanel.cardCount > 0, "Contact panel rendered no diagnostics");
+  assert(liveContactPanel.firstStatus, "Contact panel rendered no diagnostic status");
   assert.deepEqual(
-    contactPanelParity.candidate,
-    contactPanelParity.react,
-    "First-party Contact panel drifted from the React reference",
+    liveContactPanel.toggleProbe,
+    { changed: true, historyAdvanced: true },
+    "Contact checkbox did not preserve the existing lock-edit/history behavior",
   );
-  report.checks.firstPartyContactPanel = contactPanelParity.candidate;
+  report.checks.liveContactPanel = liveContactPanel;
   await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="contacts-first-party"]').count(),
+    0,
+    "Detached Contact panel remained mounted after left-tab change",
+  );
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

@@ -7,7 +7,6 @@ import { ExercisePanel } from './panels/ExercisePanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { GripPanel } from './panels/GripPanel';
-import { ContactPanel } from './panels/ContactPanel';
 import { EquipmentPanel } from './panels/EquipmentPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
@@ -38,7 +37,6 @@ export function App({ shell }: AppProps) {
       {leftTab === 'joint' && <JointPanel />}
       {leftTab === 'grip' && <GripPanel />}
       {leftTab === 'ik' && <IKPanel />}
-      {leftTab === 'contacts' && <ContactPanel />}
       {leftTab === 'equipment' && <EquipmentPanel />}
       {leftTab === 'character' && <CharacterPanel />}
     </>

@@ -10,6 +10,8 @@ import { createMusclePanelDom } from './editor/panels/musclePanelDom';
 import { createMusclePanelMount } from './editor/panels/musclePanelMount';
 import { createComparisonPanelDom } from './editor/panels/comparisonPanelDom';
 import { createComparisonPanelMount } from './editor/panels/comparisonPanelMount';
+import { createContactPanelDom } from './editor/panels/contactPanelDom';
+import { createContactPanelMount } from './editor/panels/contactPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -37,6 +39,11 @@ const comparisonPanelMount = createComparisonPanelMount(
   () => createComparisonPanelDom(),
   studioLayoutStore,
 );
+const contactPanelMount = createContactPanelMount(
+  shell.slots.leftPanel,
+  () => createContactPanelDom(),
+  studioLayoutStore,
+);
 
 const reactBridge = document.createElement('div');
 reactBridge.dataset.hgptReactBridge = 'editor-children';
@@ -54,6 +61,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    contactPanelMount.dispose();
     comparisonPanelMount.dispose();
     musclePanelMount.dispose();
     techniquePanelMount.dispose();

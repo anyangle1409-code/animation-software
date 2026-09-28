@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { LineSegments } from 'three';
-import { BACKDROPS } from '../editor/store';
+import { BACKDROPS } from '../editor/storeCore';
 import { createStudioStage } from './studioStage';
 
 describe('project-owned Studio static stage', () => {

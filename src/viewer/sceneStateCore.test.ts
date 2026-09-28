@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createSceneState, SCENE_FRAME_PRIORITY } from './sceneStateCore';
-import { skeleton } from '../editor/store';
+import { skeleton } from '../editor/storeCore';
 
 describe('framework-neutral scene state', () => {
   it('starts with no resolved frame and an evaluation for the canonical runtime skeleton', () => {

@@ -11,7 +11,7 @@ import {
   MeshStandardMaterial,
   PlaneGeometry,
 } from 'three';
-import type { BackdropStyle } from '../editor/store';
+import type { BackdropStyle } from '../editor/storeCore';
 import { buildHgReferenceGridBuffers } from './referenceGrid';
 
 export interface StudioStageResources {

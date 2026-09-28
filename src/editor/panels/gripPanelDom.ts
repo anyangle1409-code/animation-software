@@ -6,7 +6,7 @@ import { equipmentSocketForInstance } from '../../equipment/library';
 import { GRIP_PROFILE_LIST } from '../../exercises/gripProfiles';
 import { FINGERS } from '../../rig/boneNames';
 import { PoseEvaluation } from '../../rig/skeleton';
-import { skeleton } from '../store';
+import { skeleton } from '../storeCore';
 import { scanGripWorstCases } from '../gripReview';
 import { studioStore, type StudioState } from '../storeCore';
 

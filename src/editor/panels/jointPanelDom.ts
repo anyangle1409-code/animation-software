@@ -5,7 +5,7 @@ import { toDeg, toRad } from '../../core/math';
 import { boneLabel, isFingerBone, mirrorBoneName, type BoneName } from '../../rig/boneNames';
 import { AXES, type Axis } from '../../rig/types';
 import type { EasingKind, PhaseJointTiming } from '../../exercises/types';
-import { skeleton } from '../store';
+import { skeleton } from '../storeCore';
 import { studioStore, type StudioState } from '../storeCore';
 import { measureJointMotion, measureJointTransitions, measureBilateralMotionSymmetry, measureJointPath } from '../motionDiagnostics';
 import { measureJointCoordination } from '../coordinationDiagnostics';

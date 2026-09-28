@@ -1,6 +1,6 @@
 import { Color, Scene } from 'three';
 import { describe, expect, it } from 'vitest';
-import type { Backdrop } from '../editor/store';
+import type { Backdrop } from '../editor/storeCore';
 import {
   createStaticStageRuntime,
   type StaticStageState,

@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`f15c931659eea0120858768168cd9b524526938d`
+`db473efdf819e64c88193e7d80d99a2510c49b22`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at f15c9316
+## Verified state at db473efd
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 126 test files PASS, 2 skipped
-- full tests: 927 PASS, 62 skipped
+- full suite: 128 test files PASS, 2 skipped
+- full tests: 931 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -122,6 +122,9 @@ Verified live shell state:
 - `src/editor/panels/contactPanelDom.ts` owns the live Contacts diagnostics only while the left Contacts tab is active;
 - Contact diagnostics preserve the production `contactDiagnostics(...)` pipeline, status/metric readouts and existing `setLockEnabled` edit/history behavior;
 - `src/editor/panels/ContactPanel.tsx` is removed;
+- `src/editor/panels/exercisePanelDom.ts` owns the live Exercise editor only while the right Exercise tab is active;
+- Exercise preserves metadata, tempo, muscles, breathing, grip/stance and equipment presentation plus existing `setTempo` / `setGripClosure` regeneration/history behavior;
+- `src/editor/panels/ExercisePanel.tsx` is removed;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -129,17 +132,18 @@ Verified live shell state:
 
 Next exact increment:
 
-1. migrate `src/editor/panels/ExercisePanel.tsx` to project-owned DOM/lifecycle code;
-2. preserve exercise name/description, all four tempo fields, repetition-duration readout, muscle list/styles, breathing cue, grip/stance specifications and equipment list;
-3. preserve tempo edits through the existing `setTempo` action and grip-closure edits through `setGripClosure`, including current clip regeneration and undo/redo semantics;
-4. keep the React Exercise panel as the parity reference until focused tests and Chromium parity pass;
-5. mount the first-party Exercise surface only while `rightTab === 'exercise'` in the existing right-panel slot, with explicit disposal and no simultaneous React Exercise surface;
-6. only after the live Exercise switch is fully green remove `ExercisePanel.tsx`, update these handoffs, then continue the remaining editing panels incrementally;
-7. leave generation/review/export until lower-risk editing surfaces are complete;
-8. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
-9. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
-10. remove React/ReactDOM source imports and packages only after final browser/build gates;
-11. replace Three.js last.
+1. migrate `src/editor/panels/IKPanel.tsx` to project-owned DOM/lifecycle code;
+2. preserve the viewport-handle visibility checkbox, all IK-chain enabled states, target/pole coordinate readouts and target/pole selection buttons;
+3. preserve `toggleIK`, `selectHandle`, `toggle('showIkHandles')` and lock-checkbox routing through the existing store actions without changing IK/contact mechanics;
+4. preserve lock descriptions and the no-locks empty state;
+5. keep the React IK panel as the parity reference until focused tests and Chromium parity pass;
+6. mount the first-party IK surface only while `leftTab === 'ik'` in the existing left-panel slot, with explicit disposal and no simultaneous React IK surface;
+7. only after the live IK switch is fully green remove `IKPanel.tsx`, update these handoffs, then continue Joint/Grip/Equipment/Character and remaining right-side editing panels incrementally;
+8. leave generation/review/export until lower-risk editing surfaces are complete;
+9. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
+10. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
+11. remove React/ReactDOM source imports and packages only after final browser/build gates;
+12. replace Three.js last.
 
 ## Remaining declared runtime dependencies
 

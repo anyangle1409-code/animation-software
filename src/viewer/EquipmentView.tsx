@@ -1,138 +1,43 @@
-import { useMemo, useRef } from 'react';
-import { Group, Matrix4 } from 'three';
+import { useEffect, useMemo } from 'react';
 import { useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
-import { equipmentSocketForInstance } from '../equipment/library';
-import { handAttachmentMatrix } from '../export/clipBuilder';
-import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix, anatomicalGripOffset } from '../equipment/attach';
-import { reflectPlacement } from '../equipment/mirror';
-import { EquipmentMesh } from './equipmentMeshes';
+import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
+import {
+  applyEquipmentDisplayTransforms,
+  createEquipmentScene,
+  registerEquipmentPointers,
+} from './equipmentScene';
 import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
+import { SceneObjectMount } from './SceneObjectMount';
+import { useSceneHostBindings } from './sceneHostBindings';
 
 /**
- * Equipment placed by the frame pipeline. The transforms come from the
- * attachment solver, so a dumbbell is where the hand puts it — the mesh here
- * never guesses.
- *
- * One exception, and it is the point of the character layer: a character that
- * kept its own skeleton has its own proportions, so its hand is not where the
- * canonical hand is. For those, a hand-held item follows the character's hand
- * instead — through the same grip offsets, restated in the canonical hand's
- * frame by the character itself.
- *
- * And a character that is the rig's mirror image (`CharacterBuild.mirrored`)
- * has everything else the rig placed reflected into its world with it.
+ * Equipment placed by the frame pipeline and mounted directly through the
+ * shared first-party scene/pointer ports.
  */
 export function EquipmentView() {
   const scene = useSceneState();
   const instances = useStudio((state) => state.document.clip.equipment);
   const selectEquipment = useStudio((state) => state.selectEquipment);
   const character = useCharacter((state) => state.active);
-  const groups = useRef(new Map<string, Group>());
-  const scratch = useMemo(() => ({ hand: new Matrix4(), local: new Matrix4() }), []);
+  const { pointers } = useSceneHostBindings();
+  const resources = useMemo(() => createEquipmentScene(instances), [instances]);
+
+  useEffect(() => () => resources.dispose(), [resources]);
+
+  useEffect(
+    () => registerEquipmentPointers(resources, pointers, selectEquipment),
+    [resources, pointers, selectEquipment],
+  );
 
   useSceneFrame(() => {
     const transforms = scene.frame?.equipment;
     if (!transforms) return;
-    for (const [id, group] of groups.current) {
-      const instance = instances.find((entry) => entry.id === id);
-      const transform = transforms.get(id);
-      // Placed below, once the items at both its ends are.
-      if (instance?.attachment.mode === 'cable') continue;
-
-      // The character's own hand, when it has one of its own.
-      const held =
-        instance?.attachment.mode === 'hand' && character?.handMatrix
-          ? character.handMatrix(instance.attachment.side, scratch.hand)
-          : null;
-
-      if (held && instance?.attachment.mode === 'hand') {
-        const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
-        // The character's own handle centre, not a canonical constant: this
-        // character carries its own grip frame, and stacking the canonical
-        // offset on top of it put the handle outside the fist.
-        const grip =
-          instance.attachment.gripOffset ??
-          character?.gripOffset?.(instance.attachment.side) ??
-          anatomicalGripOffset(instance.attachment.side);
-        scratch.local.copy(handAttachmentMatrix(
-          grip,
-          socket?.position ?? { x: 0, y: 0, z: 0 },
-          { gripRotation: instance.attachment.gripRotation, socketRotation: socket?.rotation },
-        ));
-        group.visible = true;
-        group.matrix.multiplyMatrices(held, scratch.local);
-        group.matrixWorldNeedsUpdate = true;
-        continue;
-      }
-
-      if (instance?.attachment.mode === 'hands' && character?.handMatrix) {
-        const leftHand = character.handMatrix('l', new Matrix4());
-        const rightHand = character.handMatrix('r', new Matrix4());
-        const local = leftHand && rightHand
-          ? twoHandAttachmentMatrix(leftHand, rightHand, instance)
-          : null;
-        if (local) {
-          group.visible = true;
-          group.matrix.copy(local);
-          group.matrixWorldNeedsUpdate = true;
-          continue;
-        }
-      }
-
-      if (!transform) {
-        group.visible = false;
-        continue;
-      }
-      group.visible = true;
-      // Placed by the rig in its own world. A mirrored character performs the
-      // rig's mirror image, so the item is reflected to stay on the same side
-      // of the body as the character's hands.
-      if (character?.mirrored) reflectPlacement(transform.matrix, group.matrix);
-      else group.matrix.copy(transform.matrix);
-      group.matrixWorldNeedsUpdate = true;
-    }
-
-    // A cable runs between the two items as drawn, not as the canonical rig
-    // placed them: on a character with its own hands the handle it clips to is
-    // drawn at that character's grip, and the cable has to meet it there.
-    for (const [id, group] of groups.current) {
-      const instance = instances.find((entry) => entry.id === id);
-      if (instance?.attachment.mode !== 'cable') continue;
-      const end = (link: { equipment: string; socket: string }) => {
-        const item = instances.find((entry) => entry.id === link.equipment);
-        const drawn = groups.current.get(link.equipment);
-        return item && drawn?.visible ? socketWorldPoint(item, link.socket, drawn.matrix) : null;
-      };
-      const from = end(instance.attachment.from);
-      const to = end(instance.attachment.to);
-      group.visible = Boolean(from && to);
-      if (!from || !to) continue;
-      group.matrix.copy(cableMatrix(from, to).matrix);
-      group.matrixWorldNeedsUpdate = true;
-    }
+    applyEquipmentDisplayTransforms(
+      resources,
+      resolveEquipmentDisplayTransforms(instances, transforms, character),
+    );
   }, SCENE_FRAME_PRIORITY.equipment);
 
-  return (
-    <>
-      {instances
-        .filter((instance) => instance.visible)
-        .map((instance) => (
-          <group
-            key={instance.id}
-            matrixAutoUpdate={false}
-            onPointerDown={(event) => {
-              event.stopPropagation();
-              selectEquipment(instance.id);
-            }}
-            ref={(group) => {
-              if (group) groups.current.set(instance.id, group);
-              else groups.current.delete(instance.id);
-            }}
-          >
-            <EquipmentMesh kind={instance.kind} backAngle={instance.backAngle} />
-          </group>
-        ))}
-    </>
-  );
+  return <SceneObjectMount object={resources.group} />;
 }

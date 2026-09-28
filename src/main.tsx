@@ -16,6 +16,8 @@ import { createExercisePanelDom } from './editor/panels/exercisePanelDom';
 import { createExercisePanelMount } from './editor/panels/exercisePanelMount';
 import { createIKPanelDom } from './editor/panels/ikPanelDom';
 import { createIKPanelMount } from './editor/panels/ikPanelMount';
+import { createEquipmentPanelDom } from './editor/panels/equipmentPanelDom';
+import { createEquipmentPanelMount } from './editor/panels/equipmentPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -58,6 +60,11 @@ const ikPanelMount = createIKPanelMount(
   () => createIKPanelDom(),
   studioLayoutStore,
 );
+const equipmentPanelMount = createEquipmentPanelMount(
+  shell.slots.leftPanel,
+  () => createEquipmentPanelDom(),
+  studioLayoutStore,
+);
 
 const reactBridge = document.createElement('div');
 reactBridge.dataset.hgptReactBridge = 'editor-children';
@@ -75,6 +82,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    equipmentPanelMount.dispose();
     ikPanelMount.dispose();
     exercisePanelMount.dispose();
     contactPanelMount.dispose();

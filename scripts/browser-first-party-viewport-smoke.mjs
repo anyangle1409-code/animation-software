@@ -472,83 +472,148 @@ try {
   );
   const equipmentPanelTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });
   await equipmentPanelTab.click();
-  const equipmentOriginal = await page.evaluate(async () => {
+
+  const liveEquipmentPanel = await page.evaluate(async () => {
     const [{ studioStore }, { EQUIPMENT_LIBRARY }] = await Promise.all([
       import("/src/editor/storeCore.ts"),
       import("/src/equipment/library.ts"),
     ]);
-    const original = {
-      exerciseId: studioStore.getState().document.exercise.id,
-      selection: studioStore.getState().selection,
-    };
+    const originalExerciseId = studioStore.getState().document.exercise.id;
+    const originalSelection = studioStore.getState().selection;
+
     studioStore.getState().loadExercise("pull_up");
-    const instance = studioStore.getState().document.exercise.equipment.instances
+    const initialState = studioStore.getState();
+    const staticInstance = initialState.document.exercise.equipment.instances
       .find((item) => item.attachment.mode === "static");
-    if (!instance) throw new Error("Equipment parity requires static equipment");
-    studioStore.getState().selectEquipment(instance.id);
-    const socket = EQUIPMENT_LIBRARY[instance.kind].sockets[0];
-    if (!socket) throw new Error("Equipment parity requires a socket");
-    studioStore.getState().selectSocket(instance.id, socket.id);
-    return original;
-  });
-  await page.waitForTimeout(60);
+    if (!staticInstance) throw new Error("Live Equipment probe requires static equipment");
+    studioStore.getState().selectEquipment(staticInstance.id);
 
-  const equipmentPanelParity = await page.evaluate(async () => {
-    const [{ createEquipmentPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/equipmentPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
-    const snapshot = (panel) => ({
+    const readPanel = () => {
+      const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+      const panel = document.querySelector('[data-hgpt-panel="equipment-first-party"]');
+      if (!(panel instanceof HTMLElement)) throw new Error("First-party Equipment panel is unavailable");
+      return { slot, panel };
+    };
+
+    let { slot, panel } = readPanel();
+    const beforeEdit = studioStore.getState();
+    const documentBefore = beforeEdit.document;
+    const historyBefore = beforeEdit.history;
+    const initial = {
+      exists: true,
+      insideLeftPanel: slot instanceof HTMLElement && panel.parentElement === slot,
+      panelCount: slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="equipment-first-party"]').length,
       heading: panel.querySelector("h2")?.textContent ?? null,
-      note: panel.querySelector(".panel__note")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      empty: panel.querySelector(".panel__empty")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      equipment: Array.from(panel.querySelectorAll(".equipment-list > button")).map((button) => ({
-        className: button.getAttribute("class"),
-        text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      })),
-      headings: Array.from(panel.querySelectorAll("h3")).map((heading) => heading.textContent),
-      fields: Array.from(panel.querySelectorAll(".equipment-transform-grid label.field")).map((label) => {
-        const input = label.querySelector('input[type="number"]');
-        return {
-          label: label.querySelector(".field__label")?.textContent ?? null,
-          value: input?.value ?? null,
-          step: input?.step ?? null,
-        };
-      }),
-      sockets: Array.from(panel.querySelectorAll(".equipment-socket")).map((button) => ({
-        className: button.getAttribute("class"),
-        text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        code: button.querySelector("code")?.textContent ?? null,
-      })),
-      reset: panel.querySelector(".socket-editor__head button")?.textContent ?? null,
-    });
+      equipmentCount: panel.querySelectorAll(".equipment-list > button").length,
+      objectFieldCount: panel.querySelectorAll('[data-hgpt-equipment-field^="position-"], [data-hgpt-equipment-field^="rotation-"]').length,
+      socketCount: panel.querySelectorAll("[data-hgpt-socket-id]").length,
+    };
 
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] .equipment-panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Equipment panel reference is unavailable");
-    const react = snapshot(reactPanel);
+    const positionX = panel.querySelector('[data-hgpt-equipment-field="position-x"]');
+    if (!(positionX instanceof HTMLInputElement)) throw new Error("Equipment object position editor unavailable");
+    const originalX = staticInstance.position.x;
+    const nextCm = originalX * 100 + 1;
+    positionX.value = String(nextCm);
+    positionX.dispatchEvent(new Event("input", { bubbles: true }));
+    const afterObject = studioStore.getState();
+    const editedObject = afterObject.document.exercise.equipment.instances.find(
+      (item) => item.id === staticInstance.id,
+    );
+    const objectProbe = {
+      changed: Math.abs((editedObject?.position.x ?? NaN) - nextCm / 100) < 1e-9,
+      historyAdvanced: afterObject.history.past.length === historyBefore.past.length + 1,
+    };
 
-    const firstParty = createEquipmentPanelDom(document, studioStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+    studioStore.setState({ document: documentBefore, history: historyBefore });
+    studioStore.getState().selectEquipment(staticInstance.id);
+
+    ({ panel } = readPanel());
+    const socketButton = panel.querySelector("[data-hgpt-socket-id]");
+    if (!(socketButton instanceof HTMLButtonElement)) throw new Error("Equipment socket selection unavailable");
+    const socketId = socketButton.dataset.hgptSocketId;
+    if (!socketId) throw new Error("Equipment socket id missing");
+    socketButton.click();
+    const socketSelected = studioStore.getState().selection.socketId === socketId;
+
+    ({ panel } = readPanel());
+    const socketPositionX = panel.querySelector('[data-hgpt-equipment-field="socket-position-x"]');
+    if (!(socketPositionX instanceof HTMLInputElement)) throw new Error("Equipment socket position editor unavailable");
+    const socketBefore = Number(socketPositionX.value);
+    socketPositionX.value = String(socketBefore + 1);
+    socketPositionX.dispatchEvent(new Event("input", { bubbles: true }));
+    const afterSocket = studioStore.getState();
+    const socketProbe = {
+      historyAdvanced: afterSocket.history.past.length === historyBefore.past.length + 1,
+      hasOverride: Boolean(
+        afterSocket.document.exercise.equipment.instances
+          .find((item) => item.id === staticInstance.id)
+          ?.socketOverrides?.[socketId],
+      ),
+    };
+
+    ({ panel } = readPanel());
+    const reset = panel.querySelector('[data-hgpt-socket-reset]');
+    if (!(reset instanceof HTMLButtonElement)) throw new Error("Equipment socket reset unavailable");
+    reset.click();
+    const afterReset = studioStore.getState();
+    const resetProbe = {
+      historyAdvanced: afterReset.history.past.length === historyBefore.past.length + 2,
+      overrideCleared:
+        afterReset.document.exercise.equipment.instances
+          .find((item) => item.id === staticInstance.id)
+          ?.socketOverrides?.[socketId] === undefined,
+    };
+
+    studioStore.getState().loadExercise(originalExerciseId);
+    studioStore.setState({ selection: originalSelection });
+
+    return {
+      ...initial,
+      objectProbe,
+      socketSelected,
+      socketProbe,
+      resetProbe,
+      definitionSocketCount: EQUIPMENT_LIBRARY[staticInstance.kind].sockets.length,
+    };
   });
-  assert.deepEqual(
-    equipmentPanelParity.candidate,
-    equipmentPanelParity.react,
-    "First-party Equipment panel drifted from the React reference",
+
+  assert.equal(liveEquipmentPanel.exists, true, "First-party Equipment panel is not live");
+  assert.equal(liveEquipmentPanel.insideLeftPanel, true, "Equipment panel is outside the left-panel slot");
+  assert.equal(liveEquipmentPanel.panelCount, 1, "Equipment tab has multiple live panel surfaces");
+  assert.equal(liveEquipmentPanel.firstPartyCount, 1, "First-party Equipment ownership is ambiguous");
+  assert.equal(liveEquipmentPanel.heading, "Equipment");
+  assert(liveEquipmentPanel.equipmentCount > 0, "Equipment panel rendered no equipment instances");
+  assert.equal(liveEquipmentPanel.objectFieldCount, 6, "Equipment static object editors drifted");
+  assert.equal(
+    liveEquipmentPanel.socketCount,
+    liveEquipmentPanel.definitionSocketCount,
+    "Equipment socket list drifted from the selected definition",
   );
-  report.checks.firstPartyEquipmentPanel = equipmentPanelParity.candidate;
-  await page.evaluate(async (original) => {
-    const { studioStore } = await import("/src/editor/storeCore.ts");
-    studioStore.getState().loadExercise(original.exerciseId);
-    studioStore.setState({ selection: original.selection });
-  }, equipmentOriginal);
+  assert.deepEqual(
+    liveEquipmentPanel.objectProbe,
+    { changed: true, historyAdvanced: true },
+    "Equipment object transform did not preserve existing edit/history behavior",
+  );
+  assert.equal(liveEquipmentPanel.socketSelected, true, "Equipment socket selection did not route to Studio state");
+  assert.deepEqual(
+    liveEquipmentPanel.socketProbe,
+    { historyAdvanced: true, hasOverride: true },
+    "Equipment socket transform did not preserve existing edit/history behavior",
+  );
+  assert.deepEqual(
+    liveEquipmentPanel.resetProbe,
+    { historyAdvanced: true, overrideCleared: true },
+    "Equipment socket reset did not preserve existing edit/history behavior",
+  );
+  report.checks.liveEquipmentPanel = liveEquipmentPanel;
+
   await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="equipment-first-party"]').count(),
+    0,
+    "Detached Equipment panel remained mounted after left-tab change",
+  );
 
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");

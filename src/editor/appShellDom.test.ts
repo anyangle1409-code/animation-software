@@ -65,7 +65,7 @@ class FakeElement {
 }
 
 const fakeDocument = (): Pick<Document, 'createElement'> => ({
-  createElement: (() => new FakeElement()) as Document['createElement'],
+  createElement: (() => new FakeElement()) as unknown as Document['createElement'],
 });
 
 const fake = (element: Element): FakeElement => element as unknown as FakeElement;

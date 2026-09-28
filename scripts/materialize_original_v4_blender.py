@@ -10,9 +10,11 @@ import bpy
 from mathutils import Vector
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from validate_original_v4_payload import validate
+from validate_original_o1_source import validate_o1_source
 
 ROOT = Path(__file__).resolve().parents[1]
 BLEND = ROOT / 'ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend'
+O1_PROVENANCE = ROOT / 'ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json'
 DATA = ROOT / 'ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json'
 RIG_NAME = 'HGPT_CANONICAL_V4_ORIGINAL'
 payload_bytes = DATA.read_bytes()
@@ -20,6 +22,10 @@ payload = json.loads(payload_bytes)
 errors = validate(payload)
 if errors:
     raise RuntimeError(f'Invalid v4 rig payload: {errors}')
+o1_record = json.loads(O1_PROVENANCE.read_text())
+o1_errors = validate_o1_source(o1_record, hashlib.sha256(BLEND.read_bytes()).hexdigest())
+if o1_errors:
+    raise RuntimeError(f'O1 source differs from clean-room provenance: {o1_errors}')
 scene = bpy.context.scene
 if not scene.get('hgpt_clean_room') or scene.get('hgpt_legacy_geometry_imported'):
     raise RuntimeError('Refusing non-clean-room or legacy-imported scene')

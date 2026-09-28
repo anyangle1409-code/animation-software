@@ -251,3 +251,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - Release allowlist now blocks symbolic links and incorrect policy mode. Four scanner regression fixtures pass. Cloud has no browser binary or Blender, so run laptop visual/Blender gates without treating Cloud fixture tests as visual approval.
 
 - O2 laptop launcher now fails early on wrong branch/missing Node development tools. If it reports missing `esbuild`, run `npm ci` in that repo, then rerun `PREPARE_ORIGINAL_V1_O2.bat`.
+
+- O2 materialisation rejects a local O1 Blend whose SHA-256 differs from committed O1 provenance; inspect/recover the verified source rather than rewriting the hash to bypass the guard.

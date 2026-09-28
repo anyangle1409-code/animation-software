@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
-import { ExportPanel } from './panels/ExportPanel';
 import type { StudioAppShellDom } from './appShellDom';
 import { bindStudioKeyboard } from './keyboardController';
-import { useStudioLayout } from './layoutState';
 
 export interface AppProps {
   shell: StudioAppShellDom;
@@ -18,20 +16,7 @@ export interface AppProps {
  * migrated independently.
  */
 export function App({ shell }: AppProps) {
-  const rightTab = useStudioLayout((state) => state.rightTab);
-
   useEffect(() => bindStudioKeyboard(window), []);
 
-  const rightPanel = (
-    <>
-      {rightTab === 'export' && <ExportPanel />}
-    </>
-  );
-
-  return (
-    <>
-      {createPortal(<Viewport />, shell.slots.viewport)}
-      {createPortal(rightPanel, shell.slots.rightPanel)}
-    </>
-  );
+  return createPortal(<Viewport />, shell.slots.viewport);
 }

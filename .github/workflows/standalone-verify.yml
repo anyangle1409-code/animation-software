@@ -100,6 +100,7 @@ jobs:
           src/editor/panels/reviewPanelDom.test.ts
           src/editor/panels/reviewPanelMount.test.ts
           src/editor/panels/exportPanelDom.test.ts
+          src/editor/panels/exportPanelMount.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

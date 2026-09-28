@@ -190,61 +190,89 @@ try {
   };
 
   await rightTabs.getByRole("button", { name: "Export", exact: true }).click();
-  await page.locator('[data-hgpt-editor-slot="right-panel"] .panel').waitFor();
-  const exportPanelParity = await page.evaluate(async () => {
-    const [
-      { createExportPanelDom },
-      { studioStore },
-      { characterStore },
-    ] = await Promise.all([
-      import("/src/editor/panels/exportPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-      import("/src/editor/characterStoreCore.ts"),
-    ]);
-    const clean = (value) => value?.replace(/\s+/g, " ").trim() ?? null;
-    const snapshot = (panel) => {
-      const sample = panel.querySelector("select");
-      const equipment = panel.querySelector('input[type="checkbox"]');
-      return {
-        heading: panel.querySelector("h2")?.textContent ?? null,
-        notes: Array.from(panel.querySelectorAll(".panel__note")).map((item) => clean(item.textContent)),
-        sample: {
-          value: sample?.value ?? null,
-          options: Array.from(sample?.options ?? []).map((option) => ({
-            value: option.value,
-            text: option.textContent,
-          })),
-        },
-        includeEquipment: equipment?.checked ?? null,
-        headings: Array.from(panel.querySelectorAll("h3")).map((item) => item.textContent),
-        buttons: Array.from(panel.querySelectorAll("button")).map((button) => ({
-          text: button.textContent,
-          className: button.getAttribute("class") ?? "",
-        })),
-        status: clean(panel.querySelector(".status")?.textContent),
-      };
+  await page.locator('[data-hgpt-panel="export-first-party"]').waitFor();
+  const liveExportPanel = await page.evaluate(() => {
+    const slot = document.querySelector('[data-hgpt-editor-slot="right-panel"]');
+    const read = () => document.querySelector('[data-hgpt-panel="export-first-party"]');
+    let panel = read();
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Export panel is unavailable");
+
+    const initial = {
+      insideRightPanel: panel.parentElement === slot,
+      panelCount: slot?.querySelectorAll(".panel").length ?? -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="export-first-party"]').length,
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      sampleRate: panel.querySelector('[data-hgpt-export-control="sample-rate"]')?.value ?? null,
+      includeEquipment:
+        panel.querySelector('[data-hgpt-export-control="include-equipment"]')?.checked ?? null,
+      actionLabels: Array.from(panel.querySelectorAll("button")).map((button) => button.textContent),
+      status: panel.querySelector(".status")?.textContent ?? null,
     };
 
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="right-panel"] > .panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Export panel reference is unavailable");
-    const react = snapshot(reactPanel);
+    const rate = panel.querySelector('[data-hgpt-export-control="sample-rate"]');
+    if (!(rate instanceof HTMLSelectElement)) throw new Error("Export sample-rate control unavailable");
+    rate.value = "60";
+    rate.dispatchEvent(new Event("change", { bubbles: true }));
 
-    const firstParty = createExportPanelDom(document, studioStore, characterStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+    panel = read();
+    const equipment = panel?.querySelector('[data-hgpt-export-control="include-equipment"]');
+    if (!(equipment instanceof HTMLInputElement)) throw new Error("Export equipment toggle unavailable");
+    equipment.checked = false;
+    equipment.dispatchEvent(new Event("change", { bubbles: true }));
+
+    panel = read();
+    return {
+      ...initial,
+      edited: {
+        sampleRate:
+          panel?.querySelector('[data-hgpt-export-control="sample-rate"]')?.value ?? null,
+        includeEquipment:
+          panel?.querySelector('[data-hgpt-export-control="include-equipment"]')?.checked ?? null,
+      },
+    };
+  });
+  assert.equal(liveExportPanel.insideRightPanel, true, "Export panel is outside its right slot");
+  assert.equal(liveExportPanel.panelCount, 1, "Export tab has multiple live panels");
+  assert.equal(liveExportPanel.firstPartyCount, 1, "First-party Export ownership is ambiguous");
+  assert.equal(liveExportPanel.heading, "Export");
+  assert.equal(liveExportPanel.sampleRate, "30");
+  assert.equal(liveExportPanel.includeEquipment, true);
+  assert.deepEqual(
+    liveExportPanel.actionLabels,
+    ["Export bicep_curl.glb", "GLB", "JSON", "Export dumbbell_bicep_curl.json"],
+    "Export action labels drifted",
+  );
+  assert.equal(liveExportPanel.status, null);
+  assert.deepEqual(
+    liveExportPanel.edited,
+    { sampleRate: "60", includeEquipment: false },
+    "Export local options did not update",
+  );
+
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="export-first-party"]').count(),
+    0,
+    "Export panel remained mounted after tab change",
+  );
+
+  await rightTabs.getByRole("button", { name: "Export", exact: true }).click();
+  const remountedExport = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="export-first-party"]');
+    return {
+      sampleRate:
+        panel?.querySelector('[data-hgpt-export-control="sample-rate"]')?.value ?? null,
+      includeEquipment:
+        panel?.querySelector('[data-hgpt-export-control="include-equipment"]')?.checked ?? null,
+      status: panel?.querySelector(".status")?.textContent ?? null,
+    };
   });
   assert.deepEqual(
-    exportPanelParity.candidate,
-    exportPanelParity.react,
-    "First-party Export panel drifted from the React reference",
+    remountedExport,
+    { sampleRate: "30", includeEquipment: true, status: null },
+    "Export mount-local defaults did not reset on remount",
   );
-  report.checks.firstPartyExportPanel = exportPanelParity.candidate;
+  report.checks.liveExportPanel = { ...liveExportPanel, remounted: remountedExport };
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
 
   const reviewStateBeforeLive = await page.evaluate(async () => {

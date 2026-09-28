@@ -30,6 +30,8 @@ import { createGeneratePanelDom } from './editor/panels/generatePanelDom';
 import { createGeneratePanelMount } from './editor/panels/generatePanelMount';
 import { createReviewPanelDom } from './editor/panels/reviewPanelDom';
 import { createReviewPanelMount } from './editor/panels/reviewPanelMount';
+import { createExportPanelDom } from './editor/panels/exportPanelDom';
+import { createExportPanelMount } from './editor/panels/exportPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -112,6 +114,12 @@ const reviewPanelMount = createReviewPanelMount(
   studioLayoutStore,
 );
 
+const exportPanelMount = createExportPanelMount(
+  shell.slots.rightPanel,
+  () => createExportPanelDom(),
+  studioLayoutStore,
+);
+
 const reactBridge = document.createElement('div');
 reactBridge.dataset.hgptReactBridge = 'editor-children';
 reactBridge.style.display = 'contents';
@@ -128,6 +136,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    exportPanelMount.dispose();
     reviewPanelMount.dispose();
     generatePanelMount.dispose();
     correctivePanelMount.dispose();

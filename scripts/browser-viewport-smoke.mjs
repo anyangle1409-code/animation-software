@@ -146,14 +146,51 @@ try {
   await backdropSelect.selectOption("studio");
   report.checks.backdropRenderChanged = { beforeBackdrop, afterBackdrop };
 
+  // BoneGroups consumer evidence: exercise the real live Skeleton view under
+  // R3F, then prove its rendered pose changes while playback advances.
+  await page.getByRole("button", { name: "Skeleton", exact: true }).click();
+  await page.waitForTimeout(450);
+  const skeletonBeforeBuffer = await canvas.screenshot({
+    path: path.join(OUT, "desktop-skeleton-before-play.png"),
+  });
+  const skeletonBeforeHash = hash(skeletonBeforeBuffer);
+
   const timeReadout = page.locator(".timeline__time").first();
   const timeBefore = await timeReadout.textContent();
   await page.getByRole("button", { name: "Play", exact: true }).click();
-  await page.waitForTimeout(450);
+  await page.waitForTimeout(650);
   const timeAfter = await timeReadout.textContent();
+  const skeletonAfterBuffer = await canvas.screenshot({
+    path: path.join(OUT, "desktop-skeleton-after-play.png"),
+  });
+  const skeletonAfterHash = hash(skeletonAfterBuffer);
   assert.notEqual(timeBefore, timeAfter, "Playback time did not advance");
+  assert.notEqual(
+    skeletonBeforeHash,
+    skeletonAfterHash,
+    "Skeleton/BoneGroups render did not visibly change while playback advanced",
+  );
   await page.getByRole("button", { name: "Pause", exact: true }).click();
   report.checks.playbackAdvanced = { before: timeBefore, after: timeAfter };
+  report.checks.skeletonBoneGroupsRenderChanged = {
+    beforeHash: skeletonBeforeHash,
+    afterHash: skeletonAfterHash,
+  };
+
+  await page.getByRole("button", { name: "Character", exact: true }).click();
+  await page.waitForTimeout(450);
+  const characterViewHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-character-after-skeleton.png") }),
+  );
+  assert.notEqual(
+    characterViewHash,
+    skeletonAfterHash,
+    "Character and Skeleton views were byte-identical",
+  );
+  report.checks.viewModeRenderChanged = {
+    skeletonHash: skeletonAfterHash,
+    characterHash: characterViewHash,
+  };
 
   await page.setViewportSize({ width: 780, height: 900 });
   await page.waitForTimeout(450);

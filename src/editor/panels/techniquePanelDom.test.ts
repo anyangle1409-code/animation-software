@@ -100,8 +100,10 @@ describe('first-party Technique panel DOM', () => {
         validation: {
           violations: [{
             ruleId: firstRule.id,
+            label: firstRule.label,
             message: 'Probe violation',
             severity: 'warning',
+            amount: 1,
             time: 0.5,
           }],
           perFrame: [],

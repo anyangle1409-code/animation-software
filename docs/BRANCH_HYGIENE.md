@@ -11,6 +11,7 @@ Branch existence does not make a branch authoritative. Follow `docs/PROJECT_AUTH
 - `main` — repository default/baseline; contained in the active branch.
 - `chatgpt/absolute-retarget-imports` — pre-standalone integration baseline; contained in the active branch and retained temporarily for comparison/integration history.
 - `work/standalone-first-party-audit-20260927` — active development branch.
+- `archive/pre-makehuman-removal-20260928` — immutable recovery checkpoint for the exact pre-removal state at `502adedc9fd5c7ddbee1b74cd0472879de6fb047`; reference/recovery only, never a development source.
 - `work/v15-deep-hand-rebuild-prep-20260925` — legacy V15f reference benchmark only; divergent and never a production source.
 
 ## Verified contained retirement set

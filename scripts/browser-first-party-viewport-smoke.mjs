@@ -254,6 +254,7 @@ try {
     toolbar.controls.backdropSelect.dispatchEvent(new Event("change", { bubbles: true }));
     toolbar.controls.cameraSelect.value = "front";
     toolbar.controls.cameraSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    const cameraAfterDirectSelect = studioStore.getState().camera;
     toolbar.controls.exerciseSelect.value = "air_squat";
     toolbar.controls.exerciseSelect.dispatchEvent(new Event("change", { bubbles: true }));
 
@@ -288,6 +289,7 @@ try {
 
     return {
       initial,
+      cameraAfterDirectSelect,
       routedState,
       candidateLabel,
       undoEnabledAfterRegenerate,
@@ -307,11 +309,16 @@ try {
     true,
     "First-party Toolbar exercise selector is empty",
   );
+  assert.equal(
+    firstPartyToolbarDom.cameraAfterDirectSelect,
+    "front",
+    "First-party Toolbar camera selector did not route to the Studio store",
+  );
   assert.deepEqual(firstPartyToolbarDom.routedState, {
     exerciseId: "air_squat",
     viewMode: "skeleton",
     backdrop: "void",
-    camera: "front",
+    camera: "recommended",
   });
   assert.equal(
     firstPartyToolbarDom.candidateLabel,

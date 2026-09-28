@@ -133,14 +133,14 @@ describe('framework-neutral Studio scene controller', () => {
     await Promise.resolve();
     await Promise.resolve();
 
-    expect(root.getObjectByName('hgpt-skeleton-view')).toBeNull();
-    expect(root.getObjectByName('hgpt-muscle-view')).toBeNull();
+    expect(root.getObjectByName('hgpt-skeleton-view')).toBeUndefined();
+    expect(root.getObjectByName('hgpt-muscle-view')).toBeUndefined();
     expect(root.getObjectByName('build-procedural')).not.toBeNull();
 
     studio.setState({ viewMode: 'skeleton' });
     await Promise.resolve();
 
-    expect(root.getObjectByName('build-procedural')).toBeNull();
+    expect(root.getObjectByName('build-procedural')).toBeUndefined();
     expect(root.getObjectByName('hgpt-skeleton-view')).not.toBeNull();
 
     controller.dispose();

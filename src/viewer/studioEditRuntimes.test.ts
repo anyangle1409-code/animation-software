@@ -5,6 +5,7 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { IK_CHAIN_IDS } from '../ik/chains';
+import type { IKChainId } from '../ik/types';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 import type { HgScenePointerHandlers } from './scenePointerRouter';
 import { createSceneState } from './sceneStateCore';
@@ -113,10 +114,16 @@ describe('framework-neutral Studio edit runtimes', () => {
 
   it('tracks the selected IK target with a translate gizmo', () => {
     const clip = generateClip(canonicalSkeleton, bicepCurl);
+    const chain = IK_CHAIN_IDS[0] as IKChainId;
+    clip.keyframes[0].ik = {
+      ...clip.keyframes[0].ik,
+      [chain]: {
+        enabled: true,
+        target: { x: 0.25, y: 1.15, z: 0.1 },
+        pole: { x: 0.4, y: 1.0, z: 0.5 },
+      },
+    };
     const sample = sampleClip(clip, 0);
-    const chain = IK_CHAIN_IDS.find((id) => sample.ik[id]?.enabled);
-    expect(chain).toBeTruthy();
-    if (!chain) throw new Error('Expected an enabled IK chain in bicep curl');
 
     const store = createStore({
       document: { clip },

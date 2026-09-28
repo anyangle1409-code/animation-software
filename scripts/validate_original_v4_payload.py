@@ -52,7 +52,22 @@ def validate(data):
                 errors.append(f'{name} mirror')
     if 'head' in by_name and abs(by_name['head']['tail'][1] - 1.82) > 1e-9:
         errors.append('target height')
-    for name, length in (('upperarm_l', .325), ('forearm_l', .270), ('thigh_l', .445), ('shin_l', .430)):
+    for name, width in (('upperarm_l', .430), ('thigh_l', .184)):
+        if name in by_name and abs(-2 * by_name[name]['head'][0] - width) > 1e-9:
+            errors.append('shoulder joint breadth' if name == 'upperarm_l' else 'hip joint breadth')
+    lengths = {
+        'upperarm_l': .325, 'forearm_l': .270, 'hand_l': .095,
+        'thigh_l': .445, 'shin_l': .430,
+        'metacarpal_index_l': .070, 'metacarpal_middle_l': .072,
+        'metacarpal_ring_l': .066, 'metacarpal_pinky_l': .058,
+    }
+    for finger, segments in {
+        'thumb': (.048, .031, .024), 'index': (.045, .027, .020),
+        'middle': (.049, .030, .022), 'ring': (.046, .028, .021),
+        'pinky': (.036, .022, .018),
+    }.items():
+        lengths.update({f'{finger}_0{i}_l': length for i, length in enumerate(segments, 1)})
+    for name, length in lengths.items():
         if name in by_name and abs(math.dist(by_name[name]['head'], by_name[name]['tail']) - length) > 1e-9:
             errors.append(f'{name} target length')
     return errors

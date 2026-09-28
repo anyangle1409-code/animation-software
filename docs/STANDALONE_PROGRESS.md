@@ -308,3 +308,5 @@ The isolated `ThreeSceneHost` fixture now composes the first-party lifecycle wit
 ## 2026-09-28 audit hardening
 
 Focused regression fixtures found and fixed two scanner defects: the legacy-coupling inventory had been including `.test.ts` files, and `**/*.blend` in the release denylist did not match a `.blend` placed at release root. The scanner now excludes test/spec paths correctly; `**/` covers zero or more directories. This removes a false positive and closes a release-denial gap; no allowlist entry, threshold or blocker gate was weakened. Current runtime blocker counts are unchanged.
+
+The independent v4 payload validator now enforces shoulder and hip joint breadth, palm axis length, all four metacarpals and every finger segment length, in addition to the original height/limb/hierarchy/symmetry checks. Its mutation fixtures prove each added class of dimension can fail.

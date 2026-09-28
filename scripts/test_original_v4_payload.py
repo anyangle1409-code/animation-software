@@ -24,6 +24,19 @@ class V4PayloadTests(unittest.TestCase):
         copy['bones'].pop()
         self.assertIn('bone count', validate(copy))
 
+    def test_rejects_breadth_palm_and_finger_dimension_drift(self):
+        mutations = (
+            ('upperarm_l', 'head', 0, 'shoulder joint breadth'),
+            ('thigh_l', 'head', 0, 'hip joint breadth'),
+            ('hand_l', 'tail', 1, 'hand_l target length'),
+            ('index_02_l', 'tail', 1, 'index_02_l target length'),
+        )
+        for name, endpoint, axis, message in mutations:
+            with self.subTest(name=name):
+                copy = json.loads(json.dumps(DATA))
+                next(b for b in copy['bones'] if b['name'] == name)[endpoint][axis] += .005
+                self.assertIn(message, validate(copy))
+
 
 if __name__ == '__main__':
     unittest.main()

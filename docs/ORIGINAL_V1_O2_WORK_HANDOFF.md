@@ -4,7 +4,7 @@
 
 Work only on `work/standalone-first-party-audit-20260927`. The asset is `HomeGymPT_Male_ORIGINAL_v1`; its unbound production rig target is `hgpt_canonical_v4_original`. The O1 profile scaffold is 1.75 m historical clean geometry, whereas the independently re-authored v4 target is **1.82 m**. The older `ORIGINAL_V1_DIMENSION_SPEC.json` records the scaffold, not a competing final v4 height. Do not scale the armature to 1.75 m or copy v3 rest coordinates. V15f is a visual benchmark only.
 
-The committed `ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json` is generated from `src/rig/canonicalV4Original.ts`, not manually edited. It defines all 63 bone names, parents and rest endpoints. The Python validator independently checks exact hierarchy, mirroring, finite lengths, and declared dimensions. Numeric passing does **not** approve anatomy.
+The committed `ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json` is generated from `src/rig/canonicalV4Original.ts`, not manually edited. It defines all 63 bone names, parents and rest endpoints. The Python validator independently checks exact hierarchy, mirroring, finite lengths, shoulder/hip breadth, limb/palm, metacarpal and every finger segment dimension. Numeric passing does **not** approve anatomy.
 
 ## Exact laptop entry
 

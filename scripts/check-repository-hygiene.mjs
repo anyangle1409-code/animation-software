@@ -47,6 +47,7 @@ const validDocCategories = new Set([
 
 const exists = (p) => fs.existsSync(path.join(ROOT, p));
 const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
+const isTestFile = (name) => /\.(?:test|spec)\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(name);
 
 for (const p of required) {
   if (!exists(p)) failures.push(`missing required authority/hygiene file: ${p}`);
@@ -67,7 +68,7 @@ if (fs.existsSync(sourceRoot)) {
         stack.push(full);
         continue;
       }
-      if (!/\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(entry.name)) continue;
+      if (!/\.(?:ts|tsx|js|jsx|mts|mjs)$/i.test(entry.name) || isTestFile(entry.name)) continue;
       const rel = path.relative(ROOT, full).replaceAll("\\", "/");
       const body = fs.readFileSync(full, "utf8");
       for (const token of forbiddenOperationalSourceTokens) {

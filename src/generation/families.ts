@@ -320,10 +320,10 @@ const INCLINE_BENCH_ANGLE = 45;
 
 /**
  * Angles certified for the incline curl: each has generated a candidate that
- * passed all 13 checks on the production character
- * (`HomeGymPT_Male_CORNER_FINAL_SHORTS.glb`), pad contact included — reached
- * within 3 mm, pressed no more than 15 mm. See `generate.test.ts` for the
- * measurements behind each. The bench and the curl family derive any angle
+ * passed all 13 checks in the retained historical reference benchmark, pad
+ * contact included — reached within 3 mm, pressed no more than 15 mm. See
+ * `generate.test.ts` for the measurements behind each. This evidence is an
+ * acceptance reference only; no legacy character is loaded by the generator. The bench and the curl family derive any angle
  * geometrically (`equipment/geometry.ts`'s `inclineBackPad`,
  * `exercises/families/curl.ts`'s `inclineGeometry`), so nothing here is
  * hand-tuned per angle — but the bench's fixed frame (the posts that hold the
@@ -395,7 +395,7 @@ const curl: GeneratorFamily<CurlVariant> = {
           blocking(
             'angle',
             `A ${benchAngle}° incline is not certified: the bench adjusts, but only ${list} ${has} passed every check ` +
-              'on the production character (30° and 60° were tried and refused: the back does not reach the pad at ' +
+              'in the retained certification evidence (30° and 60° were tried and refused: the back does not reach the pad at ' +
               "30°, and presses too far into it at 60° — the bench's fixed frame was only ever built to clear a body " +
               'reclined to 45°). An angle is certified only once a generated candidate there passes all 13 checks, ' +
               'pad contact included, without loosening any limit.',

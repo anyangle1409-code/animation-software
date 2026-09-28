@@ -69,6 +69,7 @@ jobs:
           src/viewer/studioSceneController.test.ts
           src/editor/store.test.ts
           src/editor/characterStore.test.ts
+          src/editor/appShellDom.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

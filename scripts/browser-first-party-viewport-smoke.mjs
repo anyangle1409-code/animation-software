@@ -73,7 +73,34 @@ try {
     timeout: 20_000,
   });
   await page.waitForSelector(".toolbar__title", { state: "visible", timeout: 20_000 });
+
   assert.equal(await page.locator(".toolbar__title").textContent(), "Home Gym PT");
+
+  const leftTabs = page.locator(".studio__side--left .tabs").first();
+  const rightTabs = page.locator(".studio__side--right .tabs").first();
+  const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });
+  const reviewTab = rightTabs.getByRole("button", { name: "Review", exact: true });
+  await equipmentTab.click();
+  await reviewTab.click();
+  assert((await equipmentTab.getAttribute("class"))?.includes("is-active"), "Left editor tab did not activate");
+  assert((await reviewTab.getAttribute("class"))?.includes("is-active"), "Right editor tab did not activate");
+
+  const panelToggle = page.locator(".studio__panel-toggle").first();
+  assert.equal(await panelToggle.textContent(), "Hide panels");
+  await panelToggle.click();
+  assert((await page.locator(".studio").first().getAttribute("class"))?.includes("studio--focus"), "Panel hide did not enter focus mode");
+  assert.equal(await panelToggle.textContent(), "Show panels");
+  await panelToggle.click();
+  assert(!(await page.locator(".studio").first().getAttribute("class"))?.includes("studio--focus"), "Panel show did not leave focus mode");
+  assert.equal(await panelToggle.textContent(), "Hide panels");
+
+  await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  report.checks.editorShell = {
+    leftTab: "joint",
+    rightTab: "exercise",
+    panelsOpen: true,
+  };
 
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas').first();
   await canvas.waitFor({ state: "visible", timeout: 20_000 });

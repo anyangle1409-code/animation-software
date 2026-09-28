@@ -44,3 +44,8 @@ A further focused fixture pins the `BoneGroups.tsx` pattern: a bone's world matr
 ## Equipment display transform boundary
 
 `src/viewer/equipmentDisplayTransforms.ts` now isolates the exact matrix policy that had been embedded in `EquipmentView.tsx`: canonical fallback placement, mirrored-character reflection, character-owned single-hand grip centres, rigid two-hand placement, and second-pass cable placement from the transforms actually drawn. The boundary remains temporary-Three and **is not mounted in production**. Its focused tests deliberately prove that a cable follows a character-adjusted handle rather than the canonical frame endpoint. Next browser-backed consumer work can compare `EquipmentView` against this resolver before switching the live hook.
+
+
+## IK handle state boundary
+
+`src/viewer/ikHandleSnapshot.ts` now pins the current target/pole visibility and positioning semantics without React/R3F: enabled goals use authored target/pole positions, disabled or absent targets park on the live effector, and disabled poles remain hidden while retaining their goal position. The snapshot copies all positions and covers all four chains. It remains unmounted preparation; `IKHandles.tsx` is unchanged.

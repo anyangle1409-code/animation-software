@@ -5,7 +5,6 @@ import { JointPanel } from './panels/JointPanel';
 import { IKPanel } from './panels/IKPanel';
 import { ExercisePanel } from './panels/ExercisePanel';
 import { MusclePanel } from './panels/MusclePanel';
-import { TechniquePanel } from './panels/TechniquePanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { ComparisonPanel } from './panels/ComparisonPanel';
@@ -52,7 +51,6 @@ export function App({ shell }: AppProps) {
       {rightTab === 'generate' && <GeneratePanel />}
       {rightTab === 'exercise' && <ExercisePanel />}
       {rightTab === 'muscles' && <MusclePanel />}
-      {rightTab === 'technique' && <TechniquePanel />}
       {rightTab === 'correctives' && <CorrectivePanel />}
       {rightTab === 'compare' && <ComparisonPanel />}
       {rightTab === 'review' && <ReviewPanel />}

@@ -5,7 +5,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-const URL = process.env.HGPT_BROWSER_URL || "http://127.0.0.1:5174";
+const BASE_URL = process.env.HGPT_BROWSER_URL || "http://127.0.0.1:5174";
+const URL = BASE_URL + (BASE_URL.includes("?") ? "&" : "?") + "sceneHost=r3f";
 const OUT = path.resolve("reports/browser-smoke");
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -28,7 +29,7 @@ async function waitForServer() {
   let lastError;
   for (let attempt = 0; attempt < 80; attempt += 1) {
     try {
-      const response = await fetch(URL, { redirect: "manual" });
+      const response = await fetch(BASE_URL, { redirect: "manual" });
       if (response.ok) return;
       lastError = new Error(`HTTP ${response.status}`);
     } catch (error) {
@@ -36,7 +37,7 @@ async function waitForServer() {
     }
     await delay(250);
   }
-  throw new Error(`Vite server did not become ready at ${URL}: ${lastError?.message ?? "unknown error"}`);
+  throw new Error(`Vite server did not become ready at ${BASE_URL}: ${lastError?.message ?? "unknown error"}`);
 }
 
 let browser;

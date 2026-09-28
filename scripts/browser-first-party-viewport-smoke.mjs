@@ -6,7 +6,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 
 const BASE_URL = process.env.HGPT_BROWSER_URL || "http://127.0.0.1:5174";
-const URL = BASE_URL + (BASE_URL.includes("?") ? "&" : "?") + "sceneHost=first-party";
+const URL = BASE_URL;
 const OUT = path.resolve("reports/browser-smoke/first-party-host");
 fs.mkdirSync(OUT, { recursive: true });
 

@@ -245,3 +245,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - Audit regressions added for test-file exclusion and root/nested `**/` release denies. Run `node --test scripts/audit-legacy-character-coupling.test.mjs scripts/audit-release-allowlist.test.mjs` after editing either scanner.
 
 - O2 v4 export is dimension-gated for breadth, limbs, palm, metacarpals and all finger segments; Blender materialisation still requires the local O1 Blend.
+
+- Latest Cloud audit after the isolated host: 5 direct runtime dependencies, 127 bare source imports (the additional temporary Three import is not mounted in production), 0 operational legacy assets, 9 MakeHuman-derived source files. Final-character and release-readiness gates remain open.

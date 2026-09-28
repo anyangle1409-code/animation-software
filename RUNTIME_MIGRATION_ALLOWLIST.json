@@ -14,9 +14,9 @@
     "@react-three/fiber": {
       "max_imports": 1,
       "allowed_files": [
-        "src/viewer/Viewport.tsx"
+        "src/viewer/R3FViewportHost.tsx"
       ],
-      "rule": "Only the temporary R3F Canvas/host bridge may import R3F. Project visual/input consumers may not reacquire it."
+      "rule": "All remaining R3F use is isolated behind the temporary host adapter. Host-agnostic Viewport.tsx and project consumers may not import it."
     },
     "@react-three/drei": {
       "max_imports": 0,

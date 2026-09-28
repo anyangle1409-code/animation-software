@@ -146,9 +146,11 @@ try {
   await backdropSelect.selectOption("studio");
   report.checks.backdropRenderChanged = { beforeBackdrop, afterBackdrop };
 
+  const viewMode = page.getByRole("group", { name: "View mode" });
+
   // BoneGroups consumer evidence: exercise the real live Skeleton view under
   // R3F, then prove its rendered pose changes while playback advances.
-  await page.getByRole("button", { name: "Skeleton", exact: true }).click();
+  await viewMode.getByRole("button", { name: "Skeleton", exact: true }).click();
   await page.waitForTimeout(450);
   const skeletonBeforeBuffer = await canvas.screenshot({
     path: path.join(OUT, "desktop-skeleton-before-play.png"),
@@ -177,7 +179,7 @@ try {
     afterHash: skeletonAfterHash,
   };
 
-  await page.getByRole("button", { name: "Character", exact: true }).click();
+  await viewMode.getByRole("button", { name: "Character", exact: true }).click();
   await page.waitForTimeout(450);
   const characterViewHash = hash(
     await canvas.screenshot({ path: path.join(OUT, "desktop-character-after-skeleton.png") }),
@@ -218,7 +220,7 @@ try {
 
   // MuscleView consumer evidence: switch to the live muscles mode and require
   // both a distinct rendered view and visible per-frame change.
-  await page.getByRole("button", { name: "Muscles", exact: true }).click();
+  await viewMode.getByRole("button", { name: "Muscles", exact: true }).click();
   await page.waitForTimeout(450);
   const musclesBeforeHash = hash(
     await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-before-play.png") }),
@@ -249,7 +251,7 @@ try {
     afterHash: musclesAfterHash,
   };
 
-  await page.getByRole("button", { name: "Character", exact: true }).click();
+  await viewMode.getByRole("button", { name: "Character", exact: true }).click();
   await page.waitForTimeout(250);
 
   await page.setViewportSize({ width: 780, height: 900 });

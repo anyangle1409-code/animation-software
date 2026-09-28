@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`954cc99cfd8a1cc72730cfb130e803aa38c9764d`
+`162b08dae2bfba4e4d71c7d2688d82ee7dccf9e7`
 
 ## Boundary
 
@@ -16,7 +16,7 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `954cc99`:
+At `162b08d`:
 
 - Standalone prep verification: PASS
 - full suite: 134 test files PASS, 2 skipped
@@ -138,11 +138,11 @@ The initial shell preparation commit exposed a test-only strict TypeScript cast;
 
 Next exact increment: **Joint preparation**.
 
-The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99` (134 test files and 943 tests passed; 2 files and 62 tests skipped). The first-party Character panel is mounted only on its left tab, with explicit disposal; Chromium verified sole ownership and bind routing. This follow-up removes the redundant `CharacterPanel.tsx` reference, pending its own CI confirmation.
+The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99` (134 test files and 943 tests passed; 2 files and 62 tests skipped). The first-party Character panel is mounted only on its left tab, with explicit disposal; Chromium verified sole ownership and bind routing. The redundant `CharacterPanel.tsx` cleanup passed both workflows at `162b08d`.
 
-Prepare a first-party Joint controller while keeping `JointPanel.tsx` live for parity. Preserve selected bone/finger visibility, axis bounds/editing, motion and coordination diagnostics, segment timing/easing and symmetry, pose clipboard and mirroring. Compare in Chromium, then switch only Joint live and remove its React wrapper after separate green checkpoints.
+The next preparation commit adds a first-party Joint controller while keeping `JointPanel.tsx` live for parity. Preserve selected bone/finger visibility, axis bounds/editing, motion and coordination diagnostics, segment timing/easing and symmetry, pose clipboard and mirroring. Compare in Chromium, then switch only Joint live and remove its React wrapper after separate green checkpoints.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 11 after the Character reference removal (12 at the verified live checkpoint). Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements are 11. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

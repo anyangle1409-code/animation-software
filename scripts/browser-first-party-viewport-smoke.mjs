@@ -653,6 +653,47 @@ try {
   assert.equal(await page.locator('[data-hgpt-panel="character-first-party"]').count(), 0,
     "Detached Character panel remained mounted after left-tab change");
 
+  const jointPreparationParity = await page.evaluate(async () => {
+    const [{ createJointPanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/jointPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+    const react = slot?.querySelector(".panel");
+    if (!(react instanceof HTMLElement)) throw new Error("React Joint parity reference unavailable");
+    const original = studioStore.getState().selection.bone;
+    const candidate = createJointPanelDom();
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent,
+      headings: [...panel.querySelectorAll("h3")].map((node) => node.textContent),
+      boneOptions: [...panel.querySelectorAll("select")][0]?.options.length,
+      axes: [...panel.querySelectorAll(".axis")].map((axis) => ({
+        className: axis.className,
+        label: axis.querySelector(".axis__name")?.textContent,
+        direction: axis.querySelector(".axis__direction")?.textContent,
+        number: axis.querySelector('input[type="number"]')?.value,
+        min: axis.querySelector('input[type="number"]')?.min,
+        max: axis.querySelector('input[type="number"]')?.max,
+      })),
+      readings: [...panel.querySelectorAll(".spec-list")].map((list) =>
+        [...list.querySelectorAll("dt,dd")].map((node) => node.textContent?.trim())),
+      timing: panel.querySelector(".joint-timing")?.querySelector('input[type="checkbox"]')?.checked ?? null,
+      buttons: [...panel.querySelectorAll("button")].map((node) => [node.textContent?.trim(), node.disabled]),
+    });
+    const empty = { react: snapshot(react), candidate: snapshot(candidate.element) };
+    studioStore.getState().selectBone("forearm_l");
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const selected = { react: snapshot(react), candidate: snapshot(candidate.element) };
+    studioStore.getState().selectBone(original);
+    candidate.dispose();
+    return { empty, selected };
+  });
+  assert.deepEqual(jointPreparationParity.empty.candidate, jointPreparationParity.empty.react,
+    "Prepared Joint empty state diverges from the React reference");
+  assert.deepEqual(jointPreparationParity.selected.candidate, jointPreparationParity.selected.react,
+    "Prepared Joint selected-bone controls or diagnostics diverge from the React reference");
+  report.checks.jointPreparationParity = jointPreparationParity;
+
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

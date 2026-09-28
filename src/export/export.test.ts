@@ -119,13 +119,31 @@ describe('skinned rig', () => {
     }
 
     const triangles = posed.mesh.geometry.getIndex()!;
+    const bindA = new Vector3();
+    const bindB = new Vector3();
+    const bindC = new Vector3();
     for (let index = 0; index < triangles.count; index += 3) {
-      const a = transformed[triangles.getX(index)];
-      const b = transformed[triangles.getX(index + 1)];
-      const c = transformed[triangles.getX(index + 2)];
-      // This is the direct regression for the bad preview: no triangle may
-      // become a metre-long shoulder strip or an exploded finger fan.
-      expect(Math.max(a.distanceTo(b), b.distanceTo(c), c.distanceTo(a))).toBeLessThan(0.1);
+      const ia = triangles.getX(index);
+      const ib = triangles.getX(index + 1);
+      const ic = triangles.getX(index + 2);
+      const a = transformed[ia];
+      const b = transformed[ib];
+      const c = transformed[ic];
+      bindA.fromBufferAttribute(positions, ia);
+      bindB.fromBufferAttribute(positions, ib);
+      bindC.fromBufferAttribute(positions, ic);
+      const bindMax = Math.max(
+        bindA.distanceTo(bindB),
+        bindB.distanceTo(bindC),
+        bindC.distanceTo(bindA),
+      );
+      const posedMax = Math.max(a.distanceTo(b), b.distanceTo(c), c.distanceTo(a));
+      // Topology density is allowed to change between first-party surfaces.
+      // What must not change is a triangle exploding relative to its own bind
+      // size. This catches metre-long strips/fans without encoding the removed
+      // anatomical mesh's absolute edge length.
+      expect(posedMax / Math.max(bindMax, 1e-8), `triangle ${index / 3}`).toBeLessThan(1.75);
+      expect(posedMax, `triangle ${index / 3} absolute size`).toBeLessThan(0.2);
     }
   });
 });

@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "purpose": "Classify every top-level Markdown document under docs/ so no loose or ambiguous handoff/plan file can silently become project authority.",
+  "rule": "Every docs/*.md file must appear exactly once here. Only category=authority files may define cross-project operating precedence. Current work starts at docs/CURRENT_HANDOFF.md.",
+  "categories": {
+    "authority": "Read first or use for cross-project precedence.",
+    "current_technical": "Current technical specification or task handoff.",
+    "verification": "Current audit, gate, or acceptance procedure.",
+    "future_technical": "Prepared future work; do not execute unless CURRENT_HANDOFF names it.",
+    "supporting_reference": "Supporting provenance/recovery/design record; not an operational entry point."
+  },
+  "documents": {
+    "docs/AI_OPERATING_CONTRACT.md": {
+      "category": "authority",
+      "note": "Shared GPT/Claude working method and reference rules."
+    },
+    "docs/BRANCH_HYGIENE.md": {
+      "category": "authority",
+      "note": "Branch keep/retire policy and guarded cleanup."
+    },
+    "docs/CURRENT_HANDOFF.md": {
+      "category": "authority",
+      "note": "Single operational entry point and exact next tasks."
+    },
+    "docs/DECISION_LOG.md": {
+      "category": "authority",
+      "note": "Frozen project decisions."
+    },
+    "docs/PROJECT_AUTHORITY.md": {
+      "category": "authority",
+      "note": "Authority precedence and read order."
+    },
+    "docs/ARCHITECTURE.md": {
+      "category": "current_technical",
+      "note": "Current code/module architecture."
+    },
+    "docs/ASSET_PROVENANCE_AUDIT.md": {
+      "category": "current_technical",
+      "note": "Asset provenance classification."
+    },
+    "docs/CANONICAL_V4_ORIGINAL_DIMENSIONS.md": {
+      "category": "current_technical",
+      "note": "Independent canonical-v4 dimension target."
+    },
+    "docs/CANONICAL_V4_ORIGINAL_RIG_PLAN.md": {
+      "category": "current_technical",
+      "note": "Canonical-v4 rig design and constraints."
+    },
+    "docs/CANONICAL_V4_PROVENANCE_DECISION.md": {
+      "category": "current_technical",
+      "note": "Canonical-v4 provenance decision."
+    },
+    "docs/FINAL_CHARACTER_RUNTIME_PLAN.md": {
+      "category": "current_technical",
+      "note": "Production character runtime replacement path."
+    },
+    "docs/FIRST_PARTY_FINAL_BUILD_PATH.md": {
+      "category": "current_technical",
+      "note": "Target first-party build/runtime path."
+    },
+    "docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md": {
+      "category": "current_technical",
+      "note": "Confirmed first-party/third-party provenance findings."
+    },
+    "docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md": {
+      "category": "current_technical",
+      "note": "Clean-room character requirements."
+    },
+    "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Current Blender O2 task handoff."
+    },
+    "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Required physical desktop/iPhone visual/input parity gate."
+    },
+    "docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Current R3F removal handoff."
+    },
+    "docs/RUNTIME_DEPENDENCY_USAGE_MAP.md": {
+      "category": "current_technical",
+      "note": "Runtime dependency surfaces and replacement requirements."
+    },
+    "docs/THIRD_PARTY_REFERENCE_ONLY.md": {
+      "category": "current_technical",
+      "note": "Reference-only boundary for legacy/third-party material."
+    },
+    "docs/FIRST_PARTY_RELEASE_AUDIT.md": {
+      "category": "verification",
+      "note": "First-party release audit procedure."
+    },
+    "docs/OFFLINE_STANDALONE_ACCEPTANCE.md": {
+      "category": "verification",
+      "note": "Offline standalone acceptance gate."
+    },
+    "docs/ORIGINAL_V1_CLEAN_ROOM_AUDIT.md": {
+      "category": "verification",
+      "note": "O1 clean-room audit contract."
+    },
+    "docs/ORIGINAL_V1_GEOMETRY_INDEPENDENCE_GATE.md": {
+      "category": "verification",
+      "note": "Geometry independence acceptance gate."
+    },
+    "docs/STANDALONE_AUDIT_COMMAND.md": {
+      "category": "verification",
+      "note": "Standalone audit command reference."
+    },
+    "docs/STANDALONE_GENERATION_AUDIT.md": {
+      "category": "verification",
+      "note": "Generation-system standalone audit."
+    },
+    "docs/VERIFY_STANDALONE_PREP.md": {
+      "category": "verification",
+      "note": "Prepared first-party foundation verification."
+    },
+    "docs/FIRST_PARTY_GLB_PLAN.md": {
+      "category": "future_technical",
+      "note": "Future Three/GLB replacement work."
+    },
+    "docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md": {
+      "category": "future_technical",
+      "note": "Future Three-free IK orientation migration."
+    },
+    "docs/FIRST_PARTY_MATH_PARITY_PLAN.md": {
+      "category": "future_technical",
+      "note": "Future Three-free math migration."
+    },
+    "docs/FIRST_PARTY_POSE_MIGRATION.md": {
+      "category": "future_technical",
+      "note": "Future Three-free pose migration."
+    },
+    "docs/FIRST_PARTY_SKELETON_MIGRATION.md": {
+      "category": "future_technical",
+      "note": "Future Three-free skeleton migration."
+    },
+    "docs/FIRST_PARTY_SOFTWARE_ARCHITECTURE.md": {
+      "category": "future_technical",
+      "note": "Target standalone software architecture."
+    },
+    "docs/FIRST_PARTY_STANDALONE_PLAN.md": {
+      "category": "future_technical",
+      "note": "High-level roadmap; not an operational handoff."
+    },
+    "docs/HIGH_END_EXERCISE_ENGINE_ROADMAP.md": {
+      "category": "future_technical",
+      "note": "Long-range exercise-engine roadmap."
+    },
+    "docs/ORIGINAL_V1_DATA_MIGRATION_MAP.md": {
+      "category": "future_technical",
+      "note": "Future production data migration planning."
+    },
+    "docs/ORIGINAL_V1_MOVEMENT_ENVELOPE_PLAN.md": {
+      "category": "future_technical",
+      "note": "Future movement-envelope validation plan."
+    },
+    "docs/ORIGINAL_V1_PROCEDURAL_SCAFFOLD_DECISION.md": {
+      "category": "future_technical",
+      "note": "Scaffold design record; not production acceptance."
+    },
+    "docs/PROMPT_TO_EXERCISE_GENERATION.md": {
+      "category": "future_technical",
+      "note": "Prompt-to-exercise generation roadmap."
+    },
+    "docs/SELF_SUFFICIENT_EXERCISE_GENERATION_PLAN.md": {
+      "category": "future_technical",
+      "note": "Long-range self-sufficient generation plan."
+    },
+    "docs/STUDIO_CAPABILITY_ROADMAP.md": {
+      "category": "future_technical",
+      "note": "Long-range studio capability roadmap."
+    },
+    "docs/ORIGINAL_V1_PROVENANCE.md": {
+      "category": "supporting_reference",
+      "note": "O1 provenance record."
+    },
+    "docs/ORIGINAL_V1_SCAFFOLD_USAGE.md": {
+      "category": "supporting_reference",
+      "note": "O1 scaffold recovery/usage reference."
+    }
+  }
+}

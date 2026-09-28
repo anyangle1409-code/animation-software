@@ -1839,16 +1839,16 @@ try {
   report.checks.skeletonPlayback = { timeBefore, timeAfter, skeletonBefore, skeletonAfter };
 
   const selectedBone = await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    useStudio.getState().selectBone("forearm_l");
-    return useStudio.getState().selection.bone;
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().selectBone("forearm_l");
+    return studioStore.getState().selection.bone;
   });
   assert.equal(selectedBone, "forearm_l");
   await page.waitForTimeout(250);
   const gizmoSelected = hash(await canvas.screenshot({ path: path.join(OUT, "gizmo-selected.png") }));
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    useStudio.getState().selectBone(null);
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().selectBone(null);
   });
   await page.waitForTimeout(250);
   const gizmoCleared = hash(await canvas.screenshot({ path: path.join(OUT, "gizmo-cleared.png") }));
@@ -1889,30 +1889,30 @@ try {
   await viewMode.getByRole("button", { name: "Character", exact: true }).click();
   await exerciseSelect.selectOption("dumbbell_bicep_curl");
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    const state = useStudio.getState();
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const state = studioStore.getState();
     state.pause();
     if (!state.showEquipment) state.toggle("showEquipment");
   });
   await page.waitForTimeout(300);
   const equipmentVisible = hash(await canvas.screenshot({ path: path.join(OUT, "equipment-visible.png") }));
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    useStudio.getState().toggle("showEquipment");
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().toggle("showEquipment");
   });
   await page.waitForTimeout(250);
   const equipmentHidden = hash(await canvas.screenshot({ path: path.join(OUT, "equipment-hidden.png") }));
   assert.notEqual(equipmentVisible, equipmentHidden, "First-party equipment visibility did not change the render");
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    if (!useStudio.getState().showEquipment) useStudio.getState().toggle("showEquipment");
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    if (!studioStore.getState().showEquipment) studioStore.getState().toggle("showEquipment");
   });
   report.checks.equipmentVisibility = { equipmentVisible, equipmentHidden };
 
   await exerciseSelect.selectOption("pull_up");
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    const state = useStudio.getState();
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const state = studioStore.getState();
     state.pause();
     state.setTime(0);
     if (!state.showIkHandles) state.toggle("showIkHandles");
@@ -1921,8 +1921,8 @@ try {
   await page.waitForTimeout(300);
   const ikVisible = hash(await canvas.screenshot({ path: path.join(OUT, "ik-visible.png") }));
   await page.evaluate(async () => {
-    const { useStudio } = await import("/src/editor/store.ts");
-    useStudio.getState().toggle("showIkHandles");
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().toggle("showIkHandles");
   });
   await page.waitForTimeout(250);
   const ikHidden = hash(await canvas.screenshot({ path: path.join(OUT, "ik-hidden.png") }));

@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "audit:standalone": "node scripts/run-standalone-audit.mjs",
     "audit:production": "node scripts/audit-production-output.mjs dist",
-    "audit:release": "node scripts/run-first-party-release-audit.mjs"
+    "audit:release": "node scripts/run-first-party-release-audit.mjs",
+    "audit:hygiene": "node scripts/check-repository-hygiene.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.6",

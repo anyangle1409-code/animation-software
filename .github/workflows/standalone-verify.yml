@@ -44,6 +44,9 @@ jobs:
       - name: Standalone status script
         run: node scripts/standalone-status.mjs
 
+      - name: Repository authority / hygiene gate
+        run: npm run audit:hygiene
+
       - name: Verify prepared first-party foundations
         run: >
           npm test --

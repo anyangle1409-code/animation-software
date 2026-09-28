@@ -418,6 +418,75 @@ try {
   await canvas.screenshot({ path: path.join(OUT, "responsive-780x900.png") });
   report.checks.responsiveResize = resizedBox;
 
+  // Real-WebGL evidence for the project-owned ThreeSceneHost. This is an
+  // isolated second canvas, not a production host switch.
+  const probeSetup = await page.evaluate(async () => {
+    const container = document.createElement("div");
+    container.dataset.hgptThreeHostContainer = "true";
+    container.style.position = "fixed";
+    container.style.right = "8px";
+    container.style.bottom = "8px";
+    container.style.width = "320px";
+    container.style.height = "220px";
+    container.style.zIndex = "9999";
+    document.body.appendChild(container);
+    const { mountBrowserThreeHostProbe } = await import("/scripts/browser-three-host-probe.js");
+    const probe = mountBrowserThreeHostProbe(container);
+    window.__hgptThreeHostProbe = probe;
+    return {
+      cssWidth: container.getBoundingClientRect().width,
+      cssHeight: container.getBoundingClientRect().height,
+    };
+  });
+  const probeCanvas = page.locator('canvas[data-hgpt-three-host-probe="true"]');
+  await probeCanvas.waitFor({ state: "visible", timeout: 10_000 });
+  await page.waitForTimeout(250);
+  const probeBefore = hash(
+    await probeCanvas.screenshot({ path: path.join(OUT, "first-party-host-before.png") }),
+  );
+  await page.waitForTimeout(500);
+  const probeAfter = hash(
+    await probeCanvas.screenshot({ path: path.join(OUT, "first-party-host-after.png") }),
+  );
+  assert.notEqual(
+    probeBefore,
+    probeAfter,
+    "First-party ThreeSceneHost real-WebGL frame loop did not visibly advance",
+  );
+
+  const probeResize = await page.evaluate(async () => {
+    const container = document.querySelector('[data-hgpt-three-host-container="true"]');
+    const canvas = document.querySelector('canvas[data-hgpt-three-host-probe="true"]');
+    if (!(container instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) {
+      throw new Error("ThreeSceneHost probe DOM is missing");
+    }
+    const before = { width: canvas.width, height: canvas.height };
+    container.style.width = "410px";
+    container.style.height = "260px";
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    return {
+      before,
+      after: { width: canvas.width, height: canvas.height },
+      css: container.getBoundingClientRect().toJSON(),
+    };
+  });
+  assert.notDeepEqual(
+    probeResize.before,
+    probeResize.after,
+    "First-party ThreeSceneHost drawing buffer did not resize with its container",
+  );
+  report.checks.firstPartyThreeSceneHostRealWebgl = {
+    initialCss: probeSetup,
+    frameBeforeHash: probeBefore,
+    frameAfterHash: probeAfter,
+    resize: probeResize,
+  };
+  await page.evaluate(() => {
+    window.__hgptThreeHostProbe?.dispose();
+    delete window.__hgptThreeHostProbe;
+    document.querySelector('[data-hgpt-three-host-container="true"]')?.remove();
+  });
+
   assert.equal(report.pageErrors.length, 0, `Page errors: ${report.pageErrors.join(" | ")}`);
   assert.equal(
     report.failedCriticalRequests.length,

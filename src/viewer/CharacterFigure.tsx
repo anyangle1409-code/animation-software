@@ -6,6 +6,7 @@ import { applyCharacterPose, characterSource } from '../character';
 import type { CharacterBuild, CharacterVariant } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
 import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
+import { SceneObjectMount } from './SceneObjectMount';
 
 export interface CharacterFigureProps {
   opacity?: number;
@@ -66,7 +67,7 @@ export function CharacterFigure({
   }, SCENE_FRAME_PRIORITY.character);
 
   if (!build) return null;
-  return <primitive object={build.object} />;
+  return <SceneObjectMount object={build.object} />;
 }
 
 /**

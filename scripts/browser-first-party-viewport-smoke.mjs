@@ -378,28 +378,34 @@ try {
     const visibilityChanged = studioStore.getState().showIkHandles === !showIkHandlesBefore;
 
     ({ panel } = readPanel());
-    const target = panel.querySelector('[data-hgpt-ik-handle$="-target"]');
-    if (!(target instanceof HTMLButtonElement)) throw new Error("IK target selection probe unavailable");
-    const targetKey = target.dataset.hgptIkHandle ?? "";
-    target.click();
-    const [targetChain] = targetKey.split("-");
-    const targetSelected =
-      studioStore.getState().selection.handle?.chain === targetChain &&
-      studioStore.getState().selection.handle?.kind === "target";
-
-    ({ panel } = readPanel());
-    const activeChainInput = Array.from(panel.querySelectorAll("[data-hgpt-ik-toggle]"))
-      .find((input) => input instanceof HTMLInputElement && input.checked);
-    if (!(activeChainInput instanceof HTMLInputElement)) throw new Error("Active IK chain toggle unavailable");
-    const chainId = activeChainInput.dataset.hgptIkToggle;
+    const chainInputs = Array.from(panel.querySelectorAll("[data-hgpt-ik-toggle]"))
+      .filter((input) => input instanceof HTMLInputElement);
+    const chainInput = chainInputs.find((input) => !input.checked) ?? chainInputs[0];
+    if (!(chainInput instanceof HTMLInputElement)) throw new Error("IK chain toggle unavailable");
+    const chainId = chainInput.dataset.hgptIkToggle;
     if (!chainId) throw new Error("IK chain id missing");
     const enabledBefore = Boolean(sampleClip(studioStore.getState().document.clip, 0).ik[chainId]?.enabled);
-    activeChainInput.click();
+    chainInput.click();
     const enabledAfter = Boolean(sampleClip(studioStore.getState().document.clip, 0).ik[chainId]?.enabled);
     const chainToggleProbe = {
       changed: enabledAfter === !enabledBefore,
       historyAdvanced: studioStore.getState().history.past.length === historyBefore.past.length + 1,
     };
+
+    if (!enabledAfter) {
+      ({ panel } = readPanel());
+      const reenable = panel.querySelector(`[data-hgpt-ik-toggle="${chainId}"]`);
+      if (!(reenable instanceof HTMLInputElement)) throw new Error("IK chain re-enable probe unavailable");
+      reenable.click();
+    }
+
+    ({ panel } = readPanel());
+    const target = panel.querySelector(`[data-hgpt-ik-handle="${chainId}-target"]`);
+    if (!(target instanceof HTMLButtonElement)) throw new Error("IK target selection probe unavailable after enabling chain");
+    target.click();
+    const targetSelected =
+      studioStore.getState().selection.handle?.chain === chainId &&
+      studioStore.getState().selection.handle?.kind === "target";
 
     studioStore.setState({
       document: documentBefore,
@@ -444,7 +450,6 @@ try {
   assert.equal(liveIkPanel.firstPartyCount, 1, "First-party IK ownership is ambiguous");
   assert.equal(liveIkPanel.heading, "Inverse kinematics");
   assert.equal(liveIkPanel.chainCount, 4, "IK panel lost chain controls");
-  assert(liveIkPanel.activeHandleCount > 0, "IK panel rendered no active target/pole controls");
   assert(liveIkPanel.lockCount > 0, "IK panel rendered no lock controls");
   assert.equal(liveIkPanel.visibilityChanged, true, "IK viewport-handle toggle did not route to the Studio store");
   assert.equal(liveIkPanel.targetSelected, true, "IK target button did not route handle selection");

@@ -1,4 +1,5 @@
-import { createStoreHook as create } from '../core/store';
+import { createStore } from '../core/observableStore';
+import { bindReactStore } from '../core/store';
 import { Vector3 } from 'three';
 import type { BoneName, Finger } from '../rig/boneNames';
 import { mirrorBoneName } from '../rig/boneNames';
@@ -133,7 +134,7 @@ export interface Selection {
   socketId: string | null;
 }
 
-interface StudioState {
+export interface StudioState {
   document: StudioDocument;
   history: History<StudioDocument>;
 
@@ -268,7 +269,7 @@ function keyframeForEdit(clip: StudioClip, time: number): { clip: StudioClip; ke
   return { clip: { ...clip, keyframes: [...clip.keyframes, keyframe] }, keyframe };
 }
 
-export const useStudio = create<StudioState>((set, get) => {
+export const studioStore = createStore<StudioState>((set, get) => {
   const commit = (mutate: (document: StudioDocument) => StudioDocument) => {
     const state = get();
     const next = mutate(state.document);
@@ -782,6 +783,9 @@ export const useStudio = create<StudioState>((set, get) => {
     },
   };
 });
+
+/** Temporary React hook adapter over the framework-neutral Studio store. */
+export const useStudio = bindReactStore(studioStore);
 
 /** Contact anchors for the current clip, recomputed when the clip changes. */
 export function currentAnchors(clip: StudioClip): Map<string, Vec3> {

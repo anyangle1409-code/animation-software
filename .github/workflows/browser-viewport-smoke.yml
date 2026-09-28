@@ -42,10 +42,15 @@ jobs:
           SERVER_PID=$!
           set +e
           npm run test:browser-smoke
-          STATUS=$?
+          REFERENCE_STATUS=$?
+          npm run test:browser-smoke:first-party
+          FIRST_PARTY_STATUS=$?
           kill "$SERVER_PID" 2>/dev/null || true
           wait "$SERVER_PID" 2>/dev/null || true
-          exit "$STATUS"
+          if [ "$REFERENCE_STATUS" -ne 0 ]; then
+            exit "$REFERENCE_STATUS"
+          fi
+          exit "$FIRST_PARTY_STATUS"
 
       - name: Upload browser evidence
         if: always()

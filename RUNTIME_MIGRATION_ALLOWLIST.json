@@ -12,13 +12,11 @@
   "final_target": [],
   "source_import_ceilings": {
     "@react-three/fiber": {
-      "max_imports": 3,
+      "max_imports": 1,
       "allowed_files": [
-        "src/viewer/FirstPartyOrbitControls.tsx",
-        "src/viewer/FirstPartyTransformGizmo.tsx",
         "src/viewer/Viewport.tsx"
       ],
-      "rule": "Only the temporary host/orbit/gizmo bridge may import R3F. Migrated visual consumers may not reacquire it."
+      "rule": "Only the temporary R3F Canvas/host bridge may import R3F. Project visual/input consumers may not reacquire it."
     },
     "@react-three/drei": {
       "max_imports": 0,

@@ -9,6 +9,10 @@ export const SCENE_FRAME_PRIORITY = {
   muscle: 10,
   equipment: 20,
   ik: 20,
+  proxy: 30,
+  orbit: 40,
+  camera: 50,
+  gizmo: 60,
 } as const;
 
 /**

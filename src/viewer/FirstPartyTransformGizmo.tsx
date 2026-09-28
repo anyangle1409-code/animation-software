@@ -1,17 +1,19 @@
 import { useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
 import { Group, Object3D, Quaternion, Vector3 } from 'three';
+import type { Camera } from 'three';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import {
   HgTransformDrag,
   type HgTransformMode,
 } from './transformGizmoInteraction';
 import type { HgSceneRayEvent } from './scenePointerTypes';
+import { SCENE_FRAME_PRIORITY, useSceneFrame } from './sceneState';
 
 type AxisName = 'x' | 'y' | 'z';
 
 interface FirstPartyTransformGizmoProps {
   object: Object3D;
+  camera: Camera;
   mode: HgTransformMode;
   size?: number;
   onDragStart?: () => void;
@@ -74,6 +76,7 @@ interface ActiveDrag {
 /** Project-owned world-axis translation/rotation gizmo for the current renderer. */
 export function FirstPartyTransformGizmo({
   object,
+  camera,
   mode,
   size = 0.8,
   onDragStart,
@@ -87,7 +90,7 @@ export function FirstPartyTransformGizmo({
   const worldQuaternion = useRef(new Quaternion());
   const parentQuaternion = useRef(new Quaternion());
 
-  useFrame(({ camera }) => {
+  useSceneFrame(() => {
     if (!group.current) return;
     object.updateWorldMatrix(true, false);
     object.getWorldPosition(worldPosition.current);
@@ -95,7 +98,7 @@ export function FirstPartyTransformGizmo({
     const distance = camera.position.distanceTo(worldPosition.current);
     const scale = Math.max(0.04, distance * 0.12 * size);
     group.current.scale.setScalar(scale);
-  });
+  }, SCENE_FRAME_PRIORITY.gizmo);
 
   const begin = (axis: AxisName) => (event: HgSceneRayEvent) => {
     event.stopPropagation();

@@ -8,7 +8,7 @@ import { EULER_ORDER } from '../rig/types';
 import { clampRotation } from '../rig/pose';
 import { toDeg } from '../core/math';
 import { restWorldQuaternion } from '../ik/orient';
-import { createSceneState, SceneStateContext, useSceneState } from './sceneState';
+import { createSceneState, SCENE_FRAME_PRIORITY, SceneStateContext, useSceneFrame, useSceneState } from './sceneState';
 import { SkeletonView } from './SkeletonView';
 import { CharacterFigure } from './CharacterFigure';
 import { MuscleView } from './MuscleView';
@@ -79,7 +79,7 @@ function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHand
       : null;
   }, [preset, recommendation]);
 
-  useFrame((_, delta) => {
+  useSceneFrame(({ delta }) => {
     if (preset === 'focus' && selectedBone && controls.current) {
       scene.evaluation.head(selectedBone, focusTarget.current);
       const side = selectedBone.endsWith('_l') ? -1 : selectedBone.endsWith('_r') ? 1 : 1;
@@ -107,7 +107,7 @@ function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHand
     }
     controls.current.update();
     if (camera.position.distanceTo(destination.position) < 0.01) goal.current = null;
-  });
+  }, SCENE_FRAME_PRIORITY.camera);
 
   return null;
 }
@@ -135,7 +135,7 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
     scale: new Vector3(),
   }), []);
   const dragging = useRef(false);
-  const { scene: root } = useThree();
+  const { scene: root, camera } = useThree();
 
   useEffect(() => {
     root.add(proxy);
@@ -153,7 +153,7 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
       ? equipmentSocketForInstance(editableEquipment, selection.socketId)
       : null;
 
-  useFrame(() => {
+  useSceneFrame(() => {
     if (dragging.current) return;
     if (selection.bone) {
       proxy.position.copy(scene.evaluation.head(selection.bone, new Vector3()));
@@ -183,7 +183,7 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
       proxy.position.copy(transform.position);
       proxy.quaternion.copy(transform.quaternion);
     }
-  });
+  }, SCENE_FRAME_PRIORITY.proxy);
 
   const target = selection.bone || editableEquipment ? proxy : null;
   if (!target) return null;
@@ -191,6 +191,7 @@ function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle |
   return (
     <FirstPartyTransformGizmo
       object={target}
+      camera={camera}
       mode={gizmoMode === 'translate' ? 'translate' : 'rotate'}
       size={0.8}
       onDragStart={() => {
@@ -267,7 +268,7 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
   const scene = useSceneState();
   const [proxy] = useState(() => new Object3D());
   const dragging = useRef(false);
-  const { scene: root } = useThree();
+  const { scene: root, camera } = useThree();
   const clip = useStudio((state) => state.document.clip);
   const time = useStudio((state) => state.time);
 
@@ -278,7 +279,7 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
     };
   }, [root, proxy]);
 
-  useFrame(() => {
+  useSceneFrame(() => {
     if (dragging.current || !selection) return;
     const frame = scene.frame;
     if (!frame) return;
@@ -286,13 +287,14 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
     if (!goal) return;
     const point = selection.kind === 'target' ? goal.target : goal.pole;
     proxy.position.set(point.x, point.y, point.z);
-  });
+  }, SCENE_FRAME_PRIORITY.proxy);
 
   if (!selection) return null;
 
   return (
     <FirstPartyTransformGizmo
       object={proxy}
+      camera={camera}
       mode="translate"
       size={0.6}
       onDragStart={() => {
@@ -312,6 +314,11 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
       }}
     />
   );
+}
+
+function OrbitControlsBridge({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
+  const { camera, gl } = useThree();
+  return <FirstPartyOrbitControls ref={controls} camera={camera} element={gl.domElement} />;
 }
 
 function sampleGoal(
@@ -404,7 +411,7 @@ export function Viewport() {
           </mesh>
         )}
 
-        <FirstPartyOrbitControls ref={controls} />
+        <OrbitControlsBridge controls={controls} />
         <CameraRig controls={controls} />
       </Canvas>
     </SceneStateContext.Provider>

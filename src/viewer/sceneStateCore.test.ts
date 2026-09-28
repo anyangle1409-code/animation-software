@@ -27,7 +27,11 @@ describe('framework-neutral scene state', () => {
     state.consumers.add(() => calls.push('equipment'), SCENE_FRAME_PRIORITY.equipment);
     state.consumers.add(() => calls.push('character'), SCENE_FRAME_PRIORITY.character);
     state.consumers.add(() => calls.push('bone'), SCENE_FRAME_PRIORITY.bone);
+    state.consumers.add(() => calls.push('gizmo'), SCENE_FRAME_PRIORITY.gizmo);
+    state.consumers.add(() => calls.push('camera'), SCENE_FRAME_PRIORITY.camera);
+    state.consumers.add(() => calls.push('orbit'), SCENE_FRAME_PRIORITY.orbit);
+    state.consumers.add(() => calls.push('proxy'), SCENE_FRAME_PRIORITY.proxy);
     state.consumers.dispatch({ delta: 0.016, elapsed: 1, timestampMs: 1000 });
-    expect(calls).toEqual(['character', 'bone', 'equipment']);
+    expect(calls).toEqual(['character', 'bone', 'equipment', 'proxy', 'orbit', 'camera', 'gizmo']);
   });
 });

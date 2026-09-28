@@ -1,9 +1,10 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
+import type { Camera } from 'three';
 import { HgVec3 } from '../core/linearMath';
 import { HgOrbitModel } from './orbitModel';
 import { HgOrbitPointerTracker, wheelZoomFactor } from './orbitInput';
+import { SCENE_FRAME_PRIORITY, useSceneFrame } from './sceneState';
 
 export interface HgOrbitControlsHandle {
   target: Vector3;
@@ -12,13 +13,25 @@ export interface HgOrbitControlsHandle {
   update: () => void;
 }
 
+export interface FirstPartyOrbitControlsProps {
+  camera: Camera;
+  element: HTMLCanvasElement;
+}
+
 const hgVector = (value: { x: number; y: number; z: number }) =>
   new HgVec3(value.x, value.y, value.z);
 
-/** R3F adapter around the project-owned renderer-neutral orbit model. */
-export const FirstPartyOrbitControls = forwardRef<HgOrbitControlsHandle>(
-  function FirstPartyOrbitControls(_, forwardedRef) {
-    const { camera, gl } = useThree();
+/**
+ * React adapter around the project-owned renderer-neutral orbit model.
+ *
+ * Camera and canvas are injected by the temporary host; this component no
+ * longer imports R3F and can survive the eventual Canvas replacement.
+ */
+export const FirstPartyOrbitControls = forwardRef<
+  HgOrbitControlsHandle,
+  FirstPartyOrbitControlsProps
+>(
+  function FirstPartyOrbitControls({ camera, element }, forwardedRef) {
     const target = useMemo(() => new Vector3(0, 1, 0), []);
     const model = useRef<HgOrbitModel | null>(null);
     const input = useRef(new HgOrbitPointerTracker());
@@ -44,7 +57,6 @@ export const FirstPartyOrbitControls = forwardRef<HgOrbitControlsHandle>(
     useImperativeHandle(forwardedRef, () => handle, [handle]);
 
     useEffect(() => {
-      const element = gl.domElement;
       const previousTouchAction = element.style.touchAction;
       element.style.touchAction = 'none';
 
@@ -99,16 +111,16 @@ export const FirstPartyOrbitControls = forwardRef<HgOrbitControlsHandle>(
         element.removeEventListener('pointercancel', pointerUp);
         element.removeEventListener('wheel', wheel);
       };
-    }, [gl, handle]);
+    }, [element, handle]);
 
-    useFrame((_, delta) => {
+    useSceneFrame(({ delta }) => {
       if (!handle.enabled || !model.current) return;
       const snapshot = model.current.step(delta);
       camera.position.set(snapshot.position.x, snapshot.position.y, snapshot.position.z);
       target.set(snapshot.target.x, snapshot.target.y, snapshot.target.z);
       camera.lookAt(target);
       camera.updateMatrixWorld();
-    });
+    }, SCENE_FRAME_PRIORITY.orbit);
 
     return null;
   },

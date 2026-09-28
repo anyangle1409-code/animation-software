@@ -179,6 +179,41 @@ try {
     afterHash: skeletonAfterHash,
   };
 
+  // FirstPartyTransformGizmo live render evidence. Select a real canonical bone
+  // through the editor store, then clear it. This verifies the gizmo subtree is
+  // mounted and visually active without pretending to replace the physical
+  // drag/touch acceptance gate.
+  const selectedBone = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().selectBone("forearm_l");
+    return useStudio.getState().selection.bone;
+  });
+  assert.equal(selectedBone, "forearm_l", "Could not select forearm_l for gizmo evidence");
+  await page.waitForTimeout(300);
+  const gizmoSelectedHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-gizmo-selected.png") }),
+  );
+  const clearedBone = await page.evaluate(async () => {
+    const { useStudio } = await import("/src/editor/store.ts");
+    useStudio.getState().selectBone(null);
+    return useStudio.getState().selection.bone;
+  });
+  assert.equal(clearedBone, null, "Could not clear bone selection after gizmo evidence");
+  await page.waitForTimeout(300);
+  const gizmoClearedHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-gizmo-cleared.png") }),
+  );
+  assert.notEqual(
+    gizmoSelectedHash,
+    gizmoClearedHash,
+    "Selecting a bone did not visibly change the live gizmo/skeleton render",
+  );
+  report.checks.transformGizmoSelectionRenderChanged = {
+    selectedBone,
+    selectedHash: gizmoSelectedHash,
+    clearedHash: gizmoClearedHash,
+  };
+
   await viewMode.getByRole("button", { name: "Character", exact: true }).click();
   await page.waitForTimeout(450);
   const characterViewHash = hash(

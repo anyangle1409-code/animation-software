@@ -26,7 +26,10 @@ function globRegex(pattern){
   const normalized=pattern.replaceAll("\\","/");
   let out="^";
   for(let i=0;i<normalized.length;){
-    if(normalized.startsWith("**",i)){
+    if(normalized.startsWith("**/",i)){
+      out+="(?:.*/)?";
+      i+=3;
+    }else if(normalized.startsWith("**",i)){
       out+=".*";
       i+=2;
     }else if(normalized[i]==="*"){

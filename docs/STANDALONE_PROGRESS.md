@@ -304,3 +304,7 @@ A renderer-neutral `HgSceneLifecycle` owns one ordered frame loop, surface resiz
 The following isolated increment adds `browserSceneSurface`: two DOM-adapter tests cover resize/DPR event wiring, WebGL context loss/restoration and listener cleanup. No renderer allocation or production viewport switch occurred.
 
 The isolated `ThreeSceneHost` fixture now composes the first-party lifecycle with an injected temporary Three renderer port. Two focused tests cover camera defaults, projection resize, frame order, context loss and disposal. No live viewport path changed; rendered/device parity remains open.
+
+## 2026-09-28 audit hardening
+
+Focused regression fixtures found and fixed two scanner defects: the legacy-coupling inventory had been including `.test.ts` files, and `**/*.blend` in the release denylist did not match a `.blend` placed at release root. The scanner now excludes test/spec paths correctly; `**/` covers zero or more directories. This removes a false positive and closes a release-denial gap; no allowlist entry, threshold or blocker gate was weakened. Current runtime blocker counts are unchanged.

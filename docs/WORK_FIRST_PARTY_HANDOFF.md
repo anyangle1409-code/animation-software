@@ -241,3 +241,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - DOM scene surface adapter is prepared and focused-tested; next use an isolated Three renderer fixture to establish rendered/pose parity before any live R3F migration.
 
 - Isolated Three scene host is tested with a fake renderer. Next Work step needs compatible browser evidence for pixels, lights/shadows, picking and input before switching `Viewport.tsx`.
+
+- Audit regressions added for test-file exclusion and root/nested `**/` release denies. Run `node --test scripts/audit-legacy-character-coupling.test.mjs scripts/audit-release-allowlist.test.mjs` after editing either scanner.

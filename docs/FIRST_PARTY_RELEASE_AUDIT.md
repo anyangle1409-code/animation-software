@@ -26,3 +26,5 @@ Even an allowlisted file must still pass the production-output third-party scan.
 
 The automated audit is followed by the separate offline acceptance in:
 `docs/OFFLINE_STANDALONE_ACCEPTANCE.md`.
+
+The release matcher interprets `**/` as zero or more directories, so a denial such as `**/*.blend` catches both `old.blend` at package root and `nested/old.blend`. A fixture test pins this behavior.

@@ -14,9 +14,9 @@ import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
 import { equipmentSocketForInstance } from '../equipment/library';
 import {
-  FirstPartyOrbitControls,
+  createOrbitControlsRuntime,
   type HgOrbitControlsHandle,
-} from './FirstPartyOrbitControls';
+} from './orbitControlsRuntime';
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
 import { StudioCameraRigController } from './cameraRigController';
 import { useSceneHostBindings } from './sceneHostBindings';
@@ -266,11 +266,6 @@ function HandleGizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHa
   );
 }
 
-function OrbitControlsBridge({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
-  const { camera, element } = useSceneHostBindings();
-  return <FirstPartyOrbitControls ref={controls} camera={camera} element={element} />;
-}
-
 function sampleGoal(
   clip: ReturnType<typeof useStudio.getState>['document']['clip'],
   time: number,
@@ -324,13 +319,24 @@ function StaticStageBridge() {
  */
 export function StudioSceneContent() {
   const controls = useRef<HgOrbitControlsHandle | null>(null);
+  const sceneState = useSceneState();
+  const { camera, element } = useSceneHostBindings();
+
+  useEffect(() => {
+    const runtime = createOrbitControlsRuntime(camera, element, sceneState);
+    controls.current = runtime.handle;
+    return () => {
+      controls.current = null;
+      runtime.dispose();
+    };
+  }, [camera, element, sceneState]);
+
   return (
     <>
       <StaticStageBridge />
       <Figure />
       <Gizmo controls={controls} />
       <HandleGizmo controls={controls} />
-      <OrbitControlsBridge controls={controls} />
       <CameraRig controls={controls} />
     </>
   );

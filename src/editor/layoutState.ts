@@ -1,5 +1,4 @@
 import { createStore } from '../core/observableStore';
-import { bindReactStore } from '../core/store';
 
 export type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
 export type RightTab =
@@ -32,5 +31,3 @@ export const studioLayoutStore = createStore<StudioLayoutState>((set, get) => ({
   togglePanels: () => set({ panelsOpen: !get().panelsOpen }),
 }));
 
-/** Temporary React adapter while the editor chrome still renders through React. */
-export const useStudioLayout = bindReactStore(studioLayoutStore);

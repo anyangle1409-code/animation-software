@@ -84,15 +84,14 @@ try {
     const root = document.getElementById("root");
     const shell = document.querySelector('[data-hgpt-editor-shell="first-party"]');
     const bridge = document.querySelector('[data-hgpt-react-bridge="editor-children"]');
-    if (!(root instanceof HTMLElement) || !(shell instanceof HTMLElement) || !(bridge instanceof HTMLElement)) {
+    if (!(root instanceof HTMLElement) || !(shell instanceof HTMLElement)) {
       return { exists: false };
     }
     return {
       exists: true,
       shellParentIsRoot: shell.parentElement === root,
-      bridgeParentIsRoot: bridge.parentElement === root,
-      bridgeOutsideShell: !shell.contains(bridge),
-      bridgeChildCount: bridge.childElementCount,
+      rootChildCount: root.childElementCount,
+      reactBridgeAbsent: bridge === null,
       slotCount: shell.querySelectorAll("[data-hgpt-editor-slot]").length,
       viewportSlotClass:
         shell.querySelector('[data-hgpt-editor-slot="viewport"]')?.classList.contains("studio__viewport-slot") ?? false,
@@ -100,12 +99,49 @@ try {
   });
   assert.equal(liveEditorShell.exists, true, "First-party editor shell is not live");
   assert.equal(liveEditorShell.shellParentIsRoot, true, "First-party editor shell is not mounted directly under #root");
-  assert.equal(liveEditorShell.bridgeParentIsRoot, true, "Temporary React child bridge is not mounted under #root");
-  assert.equal(liveEditorShell.bridgeOutsideShell, true, "React bridge unexpectedly owns the first-party shell");
-  assert.equal(liveEditorShell.bridgeChildCount, 0, "React bridge should contain only portal ownership, not editor DOM");
+  assert.equal(liveEditorShell.rootChildCount, 1, "#root should own only the first-party editor shell");
+  assert.equal(liveEditorShell.reactBridgeAbsent, true, "Temporary React bridge remained after root removal");
   assert.equal(liveEditorShell.slotCount, 5, "First-party editor shell live slot count drifted");
   assert.equal(liveEditorShell.viewportSlotClass, true, "First-party viewport slot lost its layout boundary");
   report.checks.liveEditorShellOwnership = liveEditorShell;
+
+  const keyboardBinding = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const original = studioStore.getState();
+    const restore = { time: original.time, playing: original.playing };
+    original.pause();
+    const duration = original.document.clip.duration;
+    const fps = original.document.clip.fps;
+    const start = Math.min(duration * 0.25, Math.max(0, duration - 2 / fps));
+    original.setTime(start);
+    const before = studioStore.getState().time;
+    const event = new KeyboardEvent("keydown", {
+      key: "ArrowRight",
+      code: "ArrowRight",
+      bubbles: true,
+      cancelable: true,
+    });
+    const dispatchResult = window.dispatchEvent(event);
+    const after = studioStore.getState();
+    const result = {
+      prevented: event.defaultPrevented || dispatchResult === false,
+      before,
+      after: after.time,
+      expected: Math.min(duration, before + 1 / fps),
+      playing: after.playing,
+    };
+    after.setTime(restore.time);
+    if (restore.playing) after.play();
+    else after.pause();
+    return result;
+  });
+  assert.equal(keyboardBinding.prevented, true, "First-party keyboard binding did not consume ArrowRight");
+  assert.equal(keyboardBinding.playing, false, "ArrowRight did not preserve pause-before-step behavior");
+  assert(
+    Math.abs(keyboardBinding.after - keyboardBinding.expected) < 1e-9,
+    "First-party keyboard binding did not advance exactly one frame",
+  );
+  report.checks.firstPartyKeyboardBinding = keyboardBinding;
 
   const liveToolbarOwnership = await page.evaluate(() => {
     const shell = document.querySelector('[data-hgpt-editor-shell="first-party"]');

@@ -1,6 +1,3 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { App } from './editor/App';
 import { createStudioAppShellDom } from './editor/appShellDom';
 import { createStudioToolbarDom } from './editor/toolbarDom';
 import { createStudioTimelineDom } from './editor/timelineDom';
@@ -33,6 +30,7 @@ import { createReviewPanelMount } from './editor/panels/reviewPanelMount';
 import { createExportPanelDom } from './editor/panels/exportPanelDom';
 import { createExportPanelMount } from './editor/panels/exportPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
+import { bindStudioKeyboard } from './editor/keyboardController';
 import { createFirstPartyViewportDom } from './viewer/firstPartyViewportDom';
 import './editor/styles.css';
 
@@ -124,22 +122,12 @@ const exportPanelMount = createExportPanelMount(
   studioLayoutStore,
 );
 
-const reactBridge = document.createElement('div');
-reactBridge.dataset.hgptReactBridge = 'editor-children';
-reactBridge.style.display = 'contents';
-
-container.replaceChildren(shell.element, reactBridge);
-
-const root = createRoot(reactBridge);
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const unbindKeyboard = bindStudioKeyboard(window);
+container.replaceChildren(shell.element);
 
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
-    root.unmount();
+    unbindKeyboard();
     viewport.dispose();
     exportPanelMount.dispose();
     reviewPanelMount.dispose();
@@ -159,6 +147,5 @@ if (import.meta.hot) {
     toolbar.dispose();
     shell.dispose();
     shell.element.remove();
-    reactBridge.remove();
   });
 }

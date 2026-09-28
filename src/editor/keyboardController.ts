@@ -1,5 +1,4 @@
-import type { StudioState } from './store';
-import { studioStore } from './store';
+import { studioStore, type StudioState } from './storeCore';
 
 export type KeyboardStudioState = Pick<
   StudioState,

@@ -87,6 +87,10 @@ Then work only on `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`.
 
 Materialise the independent 63-bone `hgpt_canonical_v4_original` armature and continue O2 neutral anatomy under the clean-room constraints. Do not import, project, shrink-wrap, transfer, or copy from a legacy character.
 
+## Automated browser evidence
+
+The separate `Browser viewport smoke` workflow is supplementary evidence for the executing Vite/WebGL app. If green, use its screenshots/JSON to catch module, WebGL, camera, desktop-orbit, playback and resize regressions. Do not use it to mark the physical/iPhone gate complete.
+
 ## Physical browser/device gate
 
 Use `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`.

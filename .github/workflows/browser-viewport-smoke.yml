@@ -1,0 +1,56 @@
+name: Browser viewport smoke
+
+concurrency:
+  group: browser-viewport-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - work/standalone-first-party-audit-20260927
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install development dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run real Vite/WebGL browser smoke
+        shell: bash
+        run: |
+          mkdir -p reports/browser-smoke
+          npm run dev -- --host 127.0.0.1 > reports/browser-smoke/vite.log 2>&1 &
+          SERVER_PID=$!
+          set +e
+          npm run test:browser-smoke
+          STATUS=$?
+          kill "$SERVER_PID" 2>/dev/null || true
+          wait "$SERVER_PID" 2>/dev/null || true
+          exit "$STATUS"
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-viewport-smoke-${{ github.sha }}
+          path: reports/browser-smoke
+          if-no-files-found: warn

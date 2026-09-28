@@ -4,6 +4,12 @@
 
 The source now has zero `@react-three/drei` imports. Project-owned Grid, Orbit and Transform controls are mounted in `Viewport.tsx`, but no compatible browser/device visual-input review has been recorded. The previous in-app localhost browser loaded HTML without executing the Vite module. Pure unit tests and the isolated fake-renderer host do not close this gate. Keep Drei installed until the actual app passes the checks below; keep R3F, React/ReactDOM and Three as separate later gates.
 
+## Automated Chromium evidence
+
+A supplementary GitHub Actions workflow now runs the real Vite app in headless Chromium with WebGL/SwiftShader and stores screenshots plus `reports/browser-smoke/browser-smoke.json`. It verifies module execution, a live WebGL2 drawing buffer, camera-preset render changes, primary-pointer Orbit, wheel zoom, backdrop changes, playback advance and responsive resize without console/page/critical module-request errors.
+
+This is useful engineering evidence, but it **does not close this physical gate**. It is not iPhone Safari and it does not certify subjective grid appearance, gizmo correctness, touch cancellation or human visual parity. Use the physical checks below for those items.
+
 ## Laptop entry and evidence
 
 On `work/standalone-first-party-audit-20260927`, from the repository root:

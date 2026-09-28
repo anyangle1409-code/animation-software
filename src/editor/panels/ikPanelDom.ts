@@ -86,11 +86,9 @@ export function createIKPanelDom(
             ? 'is-active'
             : '';
         target.dataset.hgptIkHandle = `${chainId}-target`;
-        target.append(documentRef.createTextNode?.('Target ') ?? (() => {
-          const span = documentRef.createElement('span');
-          span.textContent = 'Target ';
-          return span;
-        })());
+        const targetText = documentRef.createElement('span');
+        targetText.textContent = 'Target ';
+        target.append(targetText);
         const targetCode = documentRef.createElement('code');
         targetCode.textContent =
           `${goal.target.x.toFixed(2)}, ${goal.target.y.toFixed(2)}, ${goal.target.z.toFixed(2)}`;

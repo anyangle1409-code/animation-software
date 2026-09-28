@@ -52,6 +52,9 @@ const forbiddenPaths = [
   "src/body/skinRemap.test.ts",
   "src/character/builtin.ts",
   "src/character/builtinDeformation.ts",
+  "src/viewer/BoneGroups.tsx",
+  "src/viewer/equipmentMeshes.tsx",
+  "src/viewer/ReferenceGridView.tsx",
 ];
 
 const forbiddenOperationalSourceTokens = [

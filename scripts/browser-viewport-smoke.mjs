@@ -192,6 +192,66 @@ try {
     characterHash: characterViewHash,
   };
 
+  // CharacterFigure consumer evidence: the clean procedural character must be
+  // visibly posed by the live per-frame path while playback advances.
+  const characterBeforeHash = characterViewHash;
+  const characterTimeBefore = await timeReadout.textContent();
+  await page.getByRole("button", { name: "Play", exact: true }).click();
+  await page.waitForTimeout(650);
+  const characterTimeAfter = await timeReadout.textContent();
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  const characterAfterHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-character-after-play.png") }),
+  );
+  assert.notEqual(characterTimeBefore, characterTimeAfter, "Playback time did not advance in Character view");
+  assert.notEqual(
+    characterBeforeHash,
+    characterAfterHash,
+    "CharacterFigure render did not visibly change while playback advanced",
+  );
+  report.checks.characterFigureRenderAdvanced = {
+    beforeTime: characterTimeBefore,
+    afterTime: characterTimeAfter,
+    beforeHash: characterBeforeHash,
+    afterHash: characterAfterHash,
+  };
+
+  // MuscleView consumer evidence: switch to the live muscles mode and require
+  // both a distinct rendered view and visible per-frame change.
+  await page.getByRole("button", { name: "Muscles", exact: true }).click();
+  await page.waitForTimeout(450);
+  const musclesBeforeHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-before-play.png") }),
+  );
+  assert.notEqual(
+    musclesBeforeHash,
+    characterAfterHash,
+    "Muscles and Character views were byte-identical",
+  );
+  const musclesTimeBefore = await timeReadout.textContent();
+  await page.getByRole("button", { name: "Play", exact: true }).click();
+  await page.waitForTimeout(650);
+  const musclesTimeAfter = await timeReadout.textContent();
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  const musclesAfterHash = hash(
+    await canvas.screenshot({ path: path.join(OUT, "desktop-muscles-after-play.png") }),
+  );
+  assert.notEqual(musclesTimeBefore, musclesTimeAfter, "Playback time did not advance in Muscles view");
+  assert.notEqual(
+    musclesBeforeHash,
+    musclesAfterHash,
+    "MuscleView render did not visibly change while playback advanced",
+  );
+  report.checks.muscleViewRenderAdvanced = {
+    beforeTime: musclesTimeBefore,
+    afterTime: musclesTimeAfter,
+    beforeHash: musclesBeforeHash,
+    afterHash: musclesAfterHash,
+  };
+
+  await page.getByRole("button", { name: "Character", exact: true }).click();
+  await page.waitForTimeout(250);
+
   await page.setViewportSize({ width: 780, height: 900 });
   await page.waitForTimeout(450);
   const resizedBox = await canvas.boundingBox();

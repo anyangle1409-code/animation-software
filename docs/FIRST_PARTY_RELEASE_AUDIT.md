@@ -28,3 +28,5 @@ The automated audit is followed by the separate offline acceptance in:
 `docs/OFFLINE_STANDALONE_ACCEPTANCE.md`.
 
 The release matcher interprets `**/` as zero or more directories, so a denial such as `**/*.blend` catches both `old.blend` at package root and `nested/old.blend`. A fixture test pins this behavior.
+
+The release gate also rejects symbolic links (including links to files outside the package) and refuses a policy whose mode is not exactly `deny_by_default`, even when its approved paths otherwise match. Focused fixtures pin both cases.

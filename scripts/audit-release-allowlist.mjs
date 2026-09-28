@@ -60,8 +60,10 @@ const files=walk(DIST).map(file=>path.relative(DIST,file).replaceAll("\\","/")).
 
 const deniedHits=[];
 const unapproved=[];
+const symlinkHits=[];
 
 for(const file of files){
+  if(fs.lstatSync(path.join(DIST,file)).isSymbolicLink()) symlinkHits.push(file);
   const denial=denied.find(entry=>entry.re.test(file));
   if(denial) deniedHits.push({file,pattern:denial.pattern});
 
@@ -75,13 +77,15 @@ const result={
   mode:POLICY.mode,
   approvedPatterns:approved.map(x=>x.pattern),
   fileCount:files.length,
-  pass:approved.length>0 && deniedHits.length===0 && unapproved.length===0,
+  pass:POLICY.mode==="deny_by_default" && approved.length>0 && deniedHits.length===0 && unapproved.length===0 && symlinkHits.length===0,
   blockers:{
+    wrongMode:POLICY.mode!=="deny_by_default",
     noApprovedPatterns:approved.length===0,
     deniedHits,
     unapproved,
+    symlinkHits,
   },
-  note:"Deny-by-default production packaging gate. A file must be explicitly approved and must not match a denied pattern."
+  note:"Deny-by-default production packaging gate. A file must be explicitly approved, must not match a denied pattern, and must not be a symbolic link."
 };
 
 fs.mkdirSync(path.join(ROOT,"reports"),{recursive:true});

@@ -314,3 +314,7 @@ The independent v4 payload validator now enforces shoulder and hip joint breadth
 ## 2026-09-28 final Cloud audit after isolated host
 
 Direct runtime dependencies: **5**. Bare source imports: **127** (one added temporary `three` import in the isolated, unmounted `ThreeSceneHost`; the production bundle hash and module count remain unchanged). Operational legacy assets: **0**. MakeHuman-derived runtime-path source files: **9**. Dependency creep, inventory, usage, marker, legacy-coupling, external-resource and runtime-network checks pass. Final-character-runtime and release-readiness remain expected failures.
+
+## 2026-09-28 release package guard checkpoint
+
+The deny-by-default release audit now rejects all symbolic links and any policy mode other than `deny_by_default`. Focused tests reproduce and guard both prior false passes. The release allowlist remains empty and its final gate remains red until first-party assets and runtime code are genuinely approved. The Cloud container has neither Blender nor a browser binary; laptop Blender work and physical/device parity remain pending.

@@ -247,3 +247,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - O2 v4 export is dimension-gated for breadth, limbs, palm, metacarpals and all finger segments; Blender materialisation still requires the local O1 Blend.
 
 - Latest Cloud audit after the isolated host: 5 direct runtime dependencies, 127 bare source imports (the additional temporary Three import is not mounted in production), 0 operational legacy assets, 9 MakeHuman-derived source files. Final-character and release-readiness gates remain open.
+
+- Release allowlist now blocks symbolic links and incorrect policy mode. Four scanner regression fixtures pass. Cloud has no browser binary or Blender, so run laptop visual/Blender gates without treating Cloud fixture tests as visual approval.

@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`c5558ddf464f0b6e35ff203d4c7368209f5f3500`
+`31855e2eb349aa9bb55d43ca409528baacd07bd0`
 
 ## Boundary
 
@@ -16,7 +16,7 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `c5558dd`:
+At `31855e2`:
 
 - Standalone prep verification: PASS
 - full suite: 148 test files PASS, 2 skipped
@@ -87,11 +87,10 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 ### Remaining React compatibility layer
 
-- `src/main.tsx` — temporary ReactDOM root used only to host the keyboard-lifetime bridge
-- `src/editor/App.tsx` — temporary keyboard-lifetime bridge
-- temporary React store-hook adapters
+- temporary React store-hook adapters in `src/core/store.ts`, `src/editor/store.ts`, `src/editor/characterStore.ts` and `src/editor/generationStore.ts`
+- `src/editor/App.tsx` is an unused reference removed in the current cleanup checkpoint
 
-No React-owned editor or viewport surface remains on the live path. `src/viewer/firstPartyViewportDom.ts` owns the live viewport DOM/lifecycle.
+No React-owned root, editor, keyboard, layout or viewport surface remains on the live path.
 
 ## Current stage
 
@@ -135,38 +134,35 @@ The outer editor shell, Toolbar, Timeline, Technique, Muscle, Comparison, Contac
 - the live Export switch passed both workflows at `5656ca6`; its redundant React wrapper cleanup passed at `3f8cd80`;
 - `src/viewer/firstPartyViewportDom.ts` owns the live viewport host/canvas lifecycle and wires the existing first-party runtime/controller directly;
 - detached viewport DOM/WebGL parity passed at `67c227a`, and the live viewport switch passed both workflows at `c5558dd`;
-- the obsolete `FirstPartyViewportHost.tsx` / `Viewport.tsx` references are removed in the current cleanup checkpoint;
+- the obsolete `FirstPartyViewportHost.tsx` / `Viewport.tsx` cleanup passed both workflows at `889b0e7`;
+- `src/main.tsx` now mounts the first-party shell directly, owns keyboard binding/disposal and contains no React/ReactDOM imports;
+- Chromium verifies no React bridge remains and keyboard frame stepping still routes correctly;
+- the rootless live startup switch passed both workflows at `31855e2`;
+- `src/editor/App.tsx` is removed in the current cleanup checkpoint as the final unused React component reference;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics. The IK preparation also exposed two test-harness assumptions: the shell tab is labelled `IK & locks`, and a smoke probe cannot assume an IK chain starts enabled. Both assertions were corrected to follow established runtime state; IK mechanics were not changed.
 
-Next exact increment: **React root / keyboard bridge removal**.
+Next exact increment: **temporary React store-adapter removal**.
 
-1. verify this viewport-reference cleanup in both required workflows;
-2. bind Studio keyboard shortcuts directly from first-party startup in `src/main.tsx` and retain the disposer;
-3. remove `createRoot`, `StrictMode`, the temporary React bridge element and `App` rendering; `#root` should own only the first-party shell;
-4. update Chromium ownership assertions to require the React bridge to be absent and preserve the five first-party shell slots plus live WebGL viewport;
-5. after the rootless checkpoint passes, delete the unused `src/editor/App.tsx` reference;
-6. inspect `src/core/store.ts`, `src/editor/store.ts`, `src/editor/characterStore.ts`, `src/editor/generationStore.ts` and the React adapter in `layoutState.ts`; remove only adapters with no remaining callers;
-7. when direct React/ReactDOM source imports genuinely reach zero, pin their source-import ceilings to zero and remove direct packages only if all install/build/browser/standalone gates remain valid.
+1. verify the current `App.tsx` cleanup checkpoint in both required workflows;
+2. rewrite adapter-dependent tests to exercise `createStore` / `studioStore` / `characterStore` directly, preserving behavioral coverage;
+3. remove `src/core/store.ts`, `src/editor/store.ts`, `src/editor/characterStore.ts` and `src/editor/generationStore.ts` only after no source/test callers remain;
+4. replace any focused-workflow reference to the React adapter test with framework-neutral observable-store coverage;
+5. require full typecheck, suite, build, standalone guards and Chromium after adapter deletion;
+6. only after direct React/ReactDOM source imports reach zero, pin their migration ceilings to zero and assess package removal without disturbing the separate R3F/Drei physical-device gate.
 
-Viewport DOM preparation passed at `67c227a`; the live switch passed at `c5558dd` with 148 test files / 968 tests passed and Browser smoke green. The live path now has no React-rendered visible surface.
+The rootless live startup checkpoint `31855e2` passed both workflows with 148 test files / 968 tests passed. React no longer participates in the live application lifecycle.
 
-Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements after this viewport reference cleanup are 4. Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
+Direct R3F/Drei source imports remain zero. Direct React/ReactDOM source import statements after this `App.tsx` cleanup are 1 (`src/core/store.ts`). Five runtime packages remain declared: `@react-three/drei`, `@react-three/fiber`, `react`, `react-dom`, `three`.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 
-### R4 — React root removal
+### R4 — React root removal: COMPLETE ON THE LIVE PATH
 
-When all live editor/viewport surfaces are first-party DOM/lifecycle code:
-
-- replace `createRoot(...).render(<App />)`;
-- remove temporary React hook adapters;
-- remove React/ReactDOM source imports;
-- set one-way import ceilings to zero;
-- remove React/ReactDOM packages only after build/browser parity passes.
+`src/main.tsx` now mounts the first-party shell directly and owns keyboard binding/disposal. The temporary ReactDOM root, StrictMode wrapper and React bridge are gone. Remaining work is compatibility-adapter cleanup followed by zero-import/package gates.
 
 ## Acceptance for every increment
 

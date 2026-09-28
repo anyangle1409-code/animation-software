@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`c5558ddf464f0b6e35ff203d4c7368209f5f3500`
+`31855e2eb349aa9bb55d43ca409528baacd07bd0`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at c5558dd
+## Verified state at 31855e2
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -86,11 +86,7 @@ Completed and verified:
 - stage, skeleton, muscle, equipment, IK, character, orbit, camera and gizmo lifecycles are owned by plain TypeScript runtimes
 - redundant React scene composition/context wrappers have been removed
 
-React remains in:
-
-- `src/main.tsx` / temporary ReactDOM root used only for the keyboard bridge
-- `src/editor/App.tsx` temporary keyboard-lifetime bridge
-- temporary React store hooks/adapters
+React no longer owns startup, layout, keyboard lifetime, editor DOM or the viewport. Remaining compatibility code is limited to temporary React store-hook adapters and this now-unused `src/editor/App.tsx` reference, which is removed in the current cleanup checkpoint.
 
 ## Cloud/software track — next exact task
 
@@ -100,7 +96,7 @@ Continue from:
 
 R1 (framework-neutral Studio scene controller) and R2 (switch live scene composition/remove redundant React scene wrappers) are complete.
 
-Current objective: **remove the remaining React root / keyboard bridge after the live first-party viewport switch**.
+Current objective: **remove the remaining temporary React store-hook adapters after the verified rootless startup switch**.
 
 Verified live shell state:
 
@@ -154,26 +150,28 @@ Verified live shell state:
 - `src/viewer/firstPartyViewportDom.ts` now owns the live viewport host/canvas lifecycle in the viewport slot;
 - the live viewport switch passed both required workflows at `c5558dd`, including real Chromium/WebGL frame/render/scene assertions;
 - `src/viewer/FirstPartyViewportHost.tsx` and `src/viewer/Viewport.tsx` are removed in the current cleanup checkpoint as redundant references;
-- React renders no visible surface; it remains only as a temporary keyboard/root compatibility layer;
+- React renders no visible surface and no longer owns `#root`, keyboard binding or layout state;
+- `src/main.tsx` mounts only the first-party shell and binds keyboard shortcuts directly with an explicit disposer;
+- Chromium verifies the React bridge is absent and ArrowRight still pauses/advances exactly one frame;
+- `src/editor/App.tsx` is removed in the current cleanup checkpoint as an unused reference;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
 - Chromium verifies the live first-party shell and Toolbar, including exercise/candidate selection, view modes, camera/backdrop routing and undo/redo behavior.
 
 Next exact increment:
 
-1. verify this React viewport-reference cleanup in both required workflows;
-2. move `bindStudioKeyboard(window)` from the React `App.tsx` effect into first-party startup in `src/main.tsx` with an explicit disposer;
-3. remove the temporary `createRoot` / `StrictMode` / React bridge DOM and mount only the first-party shell under `#root`;
-4. update Chromium ownership checks to require no React bridge while preserving all keyboard/editor/viewport behaviour;
-5. keep `App.tsx` only as an unused reference until the rootless checkpoint is green, then remove it;
-6. inspect and remove the remaining temporary React store adapters only after all callers are gone;
-7. set React/ReactDOM source-import ceilings to zero only when source imports actually reach zero, then remove packages only after install/typecheck/full-suite/build/browser/standalone gates;
-8. replace Three.js last.
+1. verify this unused `App.tsx` cleanup in both required workflows;
+2. migrate adapter-dependent tests/callers from `src/core/store.ts`, `src/editor/store.ts`, `src/editor/characterStore.ts` and `src/editor/generationStore.ts` to `observableStore` / `storeCore` / `characterStoreCore` / `generationStoreCore`;
+3. preserve the existing Studio and character behavior tests rather than deleting coverage just because the React hook adapters are going away;
+4. remove the temporary adapter files only when TypeScript confirms no callers remain;
+5. update the runtime dependency source-import ceilings to zero only after direct `react` / `react-dom` source imports are actually zero;
+6. then evaluate removal of direct React/ReactDOM packages against npm install consistency and the still-open R3F/Drei physical-device package gate;
+7. keep R3F/Drei source imports at zero and replace Three.js last.
 
-Export cleanup passed both workflows at `3f8cd80`. Detached viewport DOM/WebGL parity passed at `67c227a`. The live first-party viewport switch passed at `c5558dd` with 148 test files and 968 tests passed (2 files and 62 tests skipped); Browser smoke verified one live host/canvas, real frame progression, WebGL rendering and non-empty scene composition. This checkpoint removes only the now-unused React viewport reference files.
+Viewport reference cleanup passed both workflows at `889b0e7`. The rootless live startup switch passed both at `31855e2` with 148 test files and 968 tests passed (2 files and 62 tests skipped); Browser smoke verifies `#root` owns only the first-party shell, no React bridge exists, the live WebGL viewport remains active, and direct keyboard stepping still preserves one-frame/pause semantics. This checkpoint removes only the unused `App.tsx` reference.
 
 The left-side panels are all live first-party DOM. Correctives preparation passed both workflows at `cf95586` (139 files and 952 tests passed; 2 files and 62 tests skipped). The live switch passed both workflows at `58915f8` (140 files and 953 tests passed; 2 files and 62 tests skipped). It mounts `correctivePanelDom.ts` only on its right tab, removes React portal rendering, and checks active-character strain, full-rep scan, preview routing and disposal in Chromium. The redundant reference cleanup is pending its own workflows. Grip preparation passed both workflows at `208b7bf` (137 files and 948 tests passed, 2 files and 62 tests skipped). The live Grip switch passed both at `c7bc112` (138 files and 949 tests passed, 2 files and 62 tests skipped). Chromium covered sole ownership, closure and digit edits, one-hand offset, two-hand fit/width and tab disposal. The preparation parity compared curl and pull-up states; the live two-hand probe uses cable pushdown, which has a two-hand attachment.
 
-Current direct `react`/`react-dom` source import statements after this viewport reference cleanup: 4; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
+Current direct `react`/`react-dom` source import statements after this `App.tsx` cleanup: 1 (`src/core/store.ts`); direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
 The Equipment reference removal passed both workflows at `3bc0d87`. Character preparation, live switch and cleanup passed at `55592fb`, `954cc99` and `162b08d`. Joint preparation, live switch and cleanup passed at `5866c57`, `0318a5f` and `3f2766d`. Grip reference cleanup passed both workflows at `fc7f365` (138 files and 949 tests passed; 2 files and 62 tests skipped).
 

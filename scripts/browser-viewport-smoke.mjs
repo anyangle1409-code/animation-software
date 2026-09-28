@@ -308,28 +308,31 @@ try {
     hiddenHash: equipmentHiddenHash,
   };
 
-  // IKHandles consumer evidence. Pull-up has authored enabled hand goals.
-  // Jump to an enabled-goal keyframe, then toggle only showIkHandles.
+  // IKHandles consumer evidence. Contact locks and editable IK are distinct:
+  // create one temporary IK goal through the same store API the editor uses,
+  // then toggle only showIkHandles.
   await exerciseSelect.selectOption("pull_up");
   await page.waitForTimeout(350);
   const ikEvidence = await page.evaluate(async () => {
     const { useStudio } = await import("/src/editor/store.ts");
     const state = useStudio.getState();
     state.pause();
+    state.setTime(0);
     if (!state.showIkHandles) state.toggle("showIkHandles");
-    const frame = state.document.clip.keyframes.find((entry) =>
-      Object.values(entry.ik).some((goal) => goal?.enabled),
-    );
-    if (!frame) return null;
-    state.setTime(frame.time);
+    const start = state.document.clip.keyframes[0];
+    const wasEnabled = Boolean(start?.ik.arm_l?.enabled);
+    if (!wasEnabled) state.toggleIK("arm_l");
+    const refreshed = useStudio.getState().document.clip.keyframes[0];
     return {
-      time: frame.time,
-      activeGoals: Object.entries(frame.ik)
+      time: refreshed.time,
+      wasEnabled,
+      enabled: Boolean(refreshed.ik.arm_l?.enabled),
+      activeGoals: Object.entries(refreshed.ik)
         .filter(([, goal]) => goal?.enabled)
         .map(([chain]) => chain),
     };
   });
-  assert(ikEvidence && ikEvidence.activeGoals.length > 0, "Pull-up did not expose an enabled IK goal for browser evidence");
+  assert(ikEvidence?.enabled, "Temporary arm_l IK goal was not enabled through the editor store");
   await page.waitForTimeout(350);
   const ikVisibleHash = hash(
     await canvas.screenshot({ path: path.join(OUT, "desktop-ik-handles-visible.png") }),
@@ -349,12 +352,23 @@ try {
     ikHiddenHash,
     "IKHandles visibility toggle did not visibly change the rendered canvas",
   );
-  const ikRestored = await page.evaluate(async () => {
+  const ikRestored = await page.evaluate(async (wasEnabled) => {
     const { useStudio } = await import("/src/editor/store.ts");
-    useStudio.getState().toggle("showIkHandles");
-    return useStudio.getState().showIkHandles;
-  });
-  assert.equal(ikRestored, true, "IK handle visibility was not restored after evidence capture");
+    const state = useStudio.getState();
+    state.toggle("showIkHandles");
+    if (!wasEnabled) state.toggleIK("arm_l");
+    const refreshed = useStudio.getState();
+    return {
+      showIkHandles: refreshed.showIkHandles,
+      ikEnabled: Boolean(refreshed.document.clip.keyframes[0]?.ik.arm_l?.enabled),
+    };
+  }, ikEvidence.wasEnabled);
+  assert.equal(ikRestored.showIkHandles, true, "IK handle visibility was not restored after evidence capture");
+  assert.equal(
+    ikRestored.ikEnabled,
+    ikEvidence.wasEnabled,
+    "Temporary IK goal was not restored to its original enabled state",
+  );
   report.checks.ikHandlesVisibilityRenderChanged = {
     time: ikEvidence.time,
     activeGoals: ikEvidence.activeGoals,

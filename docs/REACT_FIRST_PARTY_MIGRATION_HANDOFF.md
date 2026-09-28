@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`0b9bb62a809ee4af7f7bf35fc4f8ae5b5c936714`
+`e27ee9eaab84395c573b69a36d581a04c981f336`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `0b9bb62a`:
+At `e27ee9ea`:
 
 - Standalone prep verification: PASS
-- full suite: 116 test files PASS, 2 skipped
-- full tests: 910 PASS, 62 skipped
+- full suite: 117 test files PASS, 2 skipped
+- full tests: 912 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,6 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- `src/editor/Toolbar.tsx`
 - `src/editor/Timeline.tsx`
 - `src/editor/panels/*.tsx`
 
@@ -104,27 +103,26 @@ The viewport adapter now owns only React DOM/effect lifetime; all renderer and s
 
 ### R3 — editor DOM shell: IN PROGRESS
 
-The outer editor shell is now live first-party DOM at `0b9bb62a`:
+The outer editor shell and Toolbar are now live first-party DOM at `e27ee9ea`:
 
 - `src/editor/appShellDom.ts` owns the live Studio structure, tab buttons, panel visibility and stable child slots;
-- `src/main.tsx` mounts the shell directly under `#root`;
-- `src/editor/App.tsx` no longer renders the shell markup and is only a temporary portal bridge for React child surfaces;
-- the viewport has a dedicated first-party slot so the panel-toggle overlay and child viewport layout stay independent;
-- the temporary React bridge is a sibling of the shell, not its owner;
-- focused shell tests pass;
-- Chromium verifies live shell ownership, five-slot contract, viewport layout boundary, tab/focus behavior and the empty portal bridge container;
+- `src/editor/toolbarDom.ts` owns the live Toolbar and subscribes directly to `studioStore`;
+- `src/main.tsx` mounts the shell and Toolbar directly under the first-party slot structure;
+- `src/editor/App.tsx` is only a temporary portal bridge for the remaining React child surfaces;
+- `src/editor/Toolbar.tsx` is removed after focused tests and Chromium parity passed;
+- Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
-The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green.
+The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics.
 
-Next exact increment: **toolbar/playback controls**.
+Next exact increment: **Timeline**.
 
-1. build a React-free Toolbar DOM/controller backed directly by `studioStore`;
-2. preserve the existing brand, Exercise selector including generated-candidate behavior, view modes, Backdrop, Camera, Regenerate, Undo and Redo;
-3. preserve current CSS classes, roles, labels, disabled states and selector semantics;
-4. prove it with focused tests and browser parity while the React Toolbar remains the reference;
-5. switch the live toolbar slot only after those checks pass;
-6. then continue with timeline, simple panels, editing panels/forms and generation/review/export workflows.
+1. build a React-free Timeline DOM/controller backed directly by `studioStore`;
+2. preserve Play/Pause, frame stepping, time/frame readouts, speed, loop/range controls, duration, keyframe creation/deletion, marker/easing controls, phase blocks, loop overlay, keyframe buttons and scrubbing;
+3. preserve current CSS classes, titles, accessibility labels, disabled states and pointer semantics;
+4. prove it with focused tests and browser parity while the React Timeline remains the reference;
+5. switch the live timeline slot only after those checks pass and then remove the redundant React Timeline wrapper;
+6. then continue with simple panels, editing panels/forms and generation/review/export workflows.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

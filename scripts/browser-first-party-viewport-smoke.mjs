@@ -359,97 +359,98 @@ try {
 
   const compareTab = rightTabs.getByRole("button", { name: "Compare", exact: true });
   await compareTab.click();
-  const comparisonState = await page.evaluate(async () => {
+
+  const liveComparisonInitial = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
-    const original = {
-      time: studioStore.getState().time,
-      bone: studioStore.getState().selection.bone,
-    };
     studioStore.getState().clearComparison();
     studioStore.getState().selectBone(null);
-    studioStore.getState().setTime(0);
-    studioStore.getState().captureComparison("a");
-    const duration = studioStore.getState().document.clip.duration;
-    studioStore.getState().setTime(Math.min(duration, duration * 0.5));
-    studioStore.getState().captureComparison("b");
-    studioStore.getState().selectBone("forearm_l");
-    return original;
-  });
-
-  const snapshotComparisonPanel = (panel) => ({
-    heading: panel.querySelector("h2")?.textContent ?? null,
-    note: panel.querySelector(".muted")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-    cardHeads: Array.from(panel.querySelectorAll(".comparison-card__head")).map(
-      (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-    ),
-    svgLabels: Array.from(panel.querySelectorAll(".comparison-card__diagram")).map(
-      (element) => element.getAttribute("aria-label"),
-    ),
-    lineCounts: Array.from(panel.querySelectorAll(".comparison-card__diagram")).map(
-      (element) => element.querySelectorAll("line").length,
-    ),
-    firstLines: Array.from(panel.querySelectorAll(".comparison-card__diagram")).map((element) => {
-      const line = element.querySelector("line");
-      return line
-        ? ["x1", "y1", "x2", "y2"].map((name) => Number(line.getAttribute(name)).toFixed(6))
-        : [];
-    }),
-    delta: panel.querySelector(".comparison-delta")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-  });
-
-  const reactComparisonPanel = await page
-    .locator('[data-hgpt-editor-slot="right-panel"] .comparison-panel')
-    .first()
-    .evaluate(snapshotComparisonPanel);
-
-  const firstPartyComparisonPanel = await page.evaluate(async () => {
-    const [{ createComparisonPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/comparisonPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
-    const panel = createComparisonPanelDom(document, studioStore);
-    panel.element.style.position = "fixed";
-    panel.element.style.left = "-10000px";
-    panel.element.style.top = "0";
-    document.body.append(panel.element);
-    const result = {
-      heading: panel.element.querySelector("h2")?.textContent ?? null,
-      note: panel.element.querySelector(".muted")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      cardHeads: Array.from(panel.element.querySelectorAll(".comparison-card__head")).map(
-        (element) => element.textContent?.replace(/\s+/g, " ").trim() ?? null,
-      ),
-      svgLabels: Array.from(panel.element.querySelectorAll(".comparison-card__diagram")).map(
-        (element) => element.getAttribute("aria-label"),
-      ),
-      lineCounts: Array.from(panel.element.querySelectorAll(".comparison-card__diagram")).map(
-        (element) => element.querySelectorAll("line").length,
-      ),
-      firstLines: Array.from(panel.element.querySelectorAll(".comparison-card__diagram")).map((element) => {
-        const line = element.querySelector("line");
-        return line
-          ? ["x1", "y1", "x2", "y2"].map((name) => Number(line.getAttribute(name)).toFixed(6))
-          : [];
-      }),
-      delta: panel.element.querySelector(".comparison-delta")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+    const state = studioStore.getState();
+    const panel = document.querySelector('[data-hgpt-panel="compare-first-party"]');
+    const slot = document.querySelector('[data-hgpt-editor-slot="right-panel"]');
+    return {
+      exists: panel instanceof HTMLElement,
+      insideRightPanel:
+        panel instanceof HTMLElement &&
+        slot instanceof HTMLElement &&
+        panel.parentElement === slot,
+      panelCount: slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      historyPast: state.history.past.length,
+      historyFuture: state.history.future.length,
+      exerciseId: state.document.exercise.id,
+      keyframes: state.document.clip.keyframes.length,
     };
-    panel.dispose();
-    panel.element.remove();
-    return result;
+  });
+  assert.equal(liveComparisonInitial.exists, true, "First-party Comparison panel is not live");
+  assert.equal(liveComparisonInitial.insideRightPanel, true, "Comparison panel is outside the right slot");
+  assert.equal(liveComparisonInitial.panelCount, 1, "Compare tab has multiple live panel surfaces");
+
+  await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().setTime(0);
+  });
+  await page.getByRole("button", { name: "Capture A", exact: true }).click();
+  await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    const duration = studioStore.getState().document.clip.duration;
+    studioStore.getState().setTime(duration * 0.5);
+  });
+  await page.getByRole("button", { name: "Capture B", exact: true }).click();
+  await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().selectBone("forearm_l");
   });
 
-  assert.deepEqual(
-    firstPartyComparisonPanel,
-    reactComparisonPanel,
-    "First-party Comparison panel drifted from the React reference",
-  );
-  report.checks.firstPartyComparisonPanel = firstPartyComparisonPanel;
-  await page.evaluate(async (original) => {
+  const liveComparisonCaptured = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
-    studioStore.getState().clearComparison();
-    studioStore.getState().selectBone(original.bone);
-    studioStore.getState().setTime(original.time);
-  }, comparisonState);
+    const panel = document.querySelector('[data-hgpt-panel="compare-first-party"]');
+    const state = studioStore.getState();
+    return {
+      svgCount: panel?.querySelectorAll(".comparison-card__diagram").length ?? 0,
+      lineCounts: Array.from(panel?.querySelectorAll(".comparison-card__diagram") ?? []).map(
+        (svg) => svg.querySelectorAll("line").length,
+      ),
+      delta: panel?.querySelector(".comparison-delta")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      historyPast: state.history.past.length,
+      historyFuture: state.history.future.length,
+      exerciseId: state.document.exercise.id,
+      keyframes: state.document.clip.keyframes.length,
+    };
+  });
+  assert.equal(liveComparisonCaptured.svgCount, 2, "Comparison did not render both pose diagrams");
+  assert(liveComparisonCaptured.lineCounts.every((count) => count > 0), "Comparison pose diagram is empty");
+  assert(liveComparisonCaptured.delta?.includes("Forearm (L) angles"), "Comparison joint delta did not render");
+  assert.deepEqual(
+    {
+      historyPast: liveComparisonCaptured.historyPast,
+      historyFuture: liveComparisonCaptured.historyFuture,
+      exerciseId: liveComparisonCaptured.exerciseId,
+      keyframes: liveComparisonCaptured.keyframes,
+    },
+    {
+      historyPast: liveComparisonInitial.historyPast,
+      historyFuture: liveComparisonInitial.historyFuture,
+      exerciseId: liveComparisonInitial.exerciseId,
+      keyframes: liveComparisonInitial.keyframes,
+    },
+    "Comparison capture changed document/history state",
+  );
+
+  await page.getByRole("button", { name: "Clear both", exact: true }).click();
+  const comparisonCleared = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    return studioStore.getState().comparison;
+  });
+  assert.deepEqual(comparisonCleared, { a: null, b: null }, "Comparison clear did not clear both snapshots");
+  report.checks.liveComparisonPanel = {
+    ...liveComparisonInitial,
+    ...liveComparisonCaptured,
+  };
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="compare-first-party"]').count(),
+    0,
+    "Detached Comparison panel remained mounted after tab change",
+  );
 
   const firstPartyShellDom = await page.evaluate(async () => {
     const [{ createStudioAppShellDom }, { studioLayoutStore }] = await Promise.all([

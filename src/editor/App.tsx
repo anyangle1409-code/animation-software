@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
 import { JointPanel } from './panels/JointPanel';
-import { IKPanel } from './panels/IKPanel';
 import { ExportPanel } from './panels/ExportPanel';
 import { CharacterPanel } from './panels/CharacterPanel';
 import { GripPanel } from './panels/GripPanel';
@@ -35,7 +34,6 @@ export function App({ shell }: AppProps) {
     <>
       {leftTab === 'joint' && <JointPanel />}
       {leftTab === 'grip' && <GripPanel />}
-      {leftTab === 'ik' && <IKPanel />}
       {leftTab === 'equipment' && <EquipmentPanel />}
       {leftTab === 'character' && <CharacterPanel />}
     </>

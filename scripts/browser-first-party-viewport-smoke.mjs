@@ -337,50 +337,134 @@ try {
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
   const ikTab = leftTabs.getByRole("button", { name: "IK & locks", exact: true });
   await ikTab.click();
-  const ikPanelParity = await page.evaluate(async () => {
-    const [{ createIKPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/ikPanelDom.ts"),
+  const liveIkPanel = await page.evaluate(async () => {
+    const [{ studioStore }, { sampleClip }] = await Promise.all([
       import("/src/editor/storeCore.ts"),
+      import("/src/animation/clip.ts"),
     ]);
-    const snapshot = (panel) => ({
+
+    studioStore.getState().loadExercise("dumbbell_bicep_curl");
+    studioStore.getState().setTime(0);
+    studioStore.getState().selectHandle(null);
+
+    const before = studioStore.getState();
+    const documentBefore = before.document;
+    const historyBefore = before.history;
+    const selectionBefore = before.selection;
+    const showIkHandlesBefore = before.showIkHandles;
+
+    const readPanel = () => {
+      const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
+      const panel = document.querySelector('[data-hgpt-panel="ik-first-party"]');
+      if (!(panel instanceof HTMLElement)) throw new Error("First-party IK panel is unavailable");
+      return { slot, panel };
+    };
+
+    let { slot, panel } = readPanel();
+    const initial = {
+      exists: true,
+      insideLeftPanel: slot instanceof HTMLElement && panel.parentElement === slot,
+      panelCount: slot instanceof HTMLElement ? slot.querySelectorAll(".panel").length : -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="ik-first-party"]').length,
       heading: panel.querySelector("h2")?.textContent ?? null,
-      checkLabels: Array.from(panel.querySelectorAll("label.field--check")).map((label) => ({
-        text: label.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        checked: label.querySelector('input[type="checkbox"]')?.checked ?? null,
-      })),
-      chains: Array.from(panel.querySelectorAll(".ik-chain")).map((chain) => ({
-        className: chain.getAttribute("class"),
-        label: chain.querySelector(".ik-chain__head span")?.textContent ?? null,
-        checked: chain.querySelector('.ik-chain__head input[type="checkbox"]')?.checked ?? null,
-        buttons: Array.from(chain.querySelectorAll(".ik-chain__body button")).map((button) => ({
-          className: button.getAttribute("class") ?? "",
-          text: button.textContent?.replace(/\s+/g, " ").trim() ?? null,
-        })),
-      })),
-      empty: panel.querySelector(".panel__empty")?.textContent ?? null,
+      chainCount: panel.querySelectorAll("[data-hgpt-ik-chain]").length,
+      activeHandleCount: panel.querySelectorAll("[data-hgpt-ik-handle]").length,
+      lockCount: panel.querySelectorAll("[data-hgpt-lock-id]").length,
+    };
+
+    const showHandles = panel.querySelector('[data-hgpt-ik-control="show-handles"]');
+    if (!(showHandles instanceof HTMLInputElement)) throw new Error("IK viewport visibility checkbox unavailable");
+    showHandles.click();
+    const visibilityChanged = studioStore.getState().showIkHandles === !showIkHandlesBefore;
+
+    ({ panel } = readPanel());
+    const target = panel.querySelector('[data-hgpt-ik-handle$="-target"]');
+    if (!(target instanceof HTMLButtonElement)) throw new Error("IK target selection probe unavailable");
+    const targetKey = target.dataset.hgptIkHandle ?? "";
+    target.click();
+    const [targetChain] = targetKey.split("-");
+    const targetSelected =
+      studioStore.getState().selection.handle?.chain === targetChain &&
+      studioStore.getState().selection.handle?.kind === "target";
+
+    ({ panel } = readPanel());
+    const activeChainInput = Array.from(panel.querySelectorAll("[data-hgpt-ik-toggle]"))
+      .find((input) => input instanceof HTMLInputElement && input.checked);
+    if (!(activeChainInput instanceof HTMLInputElement)) throw new Error("Active IK chain toggle unavailable");
+    const chainId = activeChainInput.dataset.hgptIkToggle;
+    if (!chainId) throw new Error("IK chain id missing");
+    const enabledBefore = Boolean(sampleClip(studioStore.getState().document.clip, 0).ik[chainId]?.enabled);
+    activeChainInput.click();
+    const enabledAfter = Boolean(sampleClip(studioStore.getState().document.clip, 0).ik[chainId]?.enabled);
+    const chainToggleProbe = {
+      changed: enabledAfter === !enabledBefore,
+      historyAdvanced: studioStore.getState().history.past.length === historyBefore.past.length + 1,
+    };
+
+    studioStore.setState({
+      document: documentBefore,
+      history: historyBefore,
+      selection: selectionBefore,
+      showIkHandles: showIkHandlesBefore,
     });
 
-    const reactPanel = document.querySelector('[data-hgpt-editor-slot="left-panel"] > .panel');
-    if (!(reactPanel instanceof HTMLElement)) throw new Error("React IK panel reference is unavailable");
-    const react = snapshot(reactPanel);
+    ({ panel } = readPanel());
+    const lockInput = panel.querySelector("[data-hgpt-lock-id]");
+    if (!(lockInput instanceof HTMLInputElement)) throw new Error("IK lock checkbox probe unavailable");
+    const lockId = lockInput.dataset.hgptLockId;
+    if (!lockId) throw new Error("IK lock id missing");
+    const lockBefore = studioStore.getState().document.clip.locks.find((lock) => lock.id === lockId);
+    if (!lockBefore) throw new Error("IK lock state unavailable");
+    lockInput.click();
+    const afterLock = studioStore.getState();
+    const lockAfter = afterLock.document.clip.locks.find((lock) => lock.id === lockId);
+    const lockProbe = {
+      changed: lockAfter?.enabled === !lockBefore.enabled,
+      historyAdvanced: afterLock.history.past.length === historyBefore.past.length + 1,
+    };
 
-    const firstParty = createIKPanelDom(document, studioStore);
-    firstParty.element.style.position = "fixed";
-    firstParty.element.style.left = "-10000px";
-    firstParty.element.style.top = "0";
-    document.body.append(firstParty.element);
-    const candidate = snapshot(firstParty.element);
-    firstParty.dispose();
-    firstParty.element.remove();
-    return { react, candidate };
+    studioStore.setState({
+      document: documentBefore,
+      history: historyBefore,
+      selection: selectionBefore,
+      showIkHandles: showIkHandlesBefore,
+    });
+
+    return {
+      ...initial,
+      visibilityChanged,
+      targetSelected,
+      chainToggleProbe,
+      lockProbe,
+    };
   });
+  assert.equal(liveIkPanel.exists, true, "First-party IK panel is not live");
+  assert.equal(liveIkPanel.insideLeftPanel, true, "IK panel is outside the left-panel slot");
+  assert.equal(liveIkPanel.panelCount, 1, "IK tab has multiple live panel surfaces");
+  assert.equal(liveIkPanel.firstPartyCount, 1, "First-party IK ownership is ambiguous");
+  assert.equal(liveIkPanel.heading, "Inverse kinematics");
+  assert.equal(liveIkPanel.chainCount, 4, "IK panel lost chain controls");
+  assert(liveIkPanel.activeHandleCount > 0, "IK panel rendered no active target/pole controls");
+  assert(liveIkPanel.lockCount > 0, "IK panel rendered no lock controls");
+  assert.equal(liveIkPanel.visibilityChanged, true, "IK viewport-handle toggle did not route to the Studio store");
+  assert.equal(liveIkPanel.targetSelected, true, "IK target button did not route handle selection");
   assert.deepEqual(
-    ikPanelParity.candidate,
-    ikPanelParity.react,
-    "First-party IK panel drifted from the React reference",
+    liveIkPanel.chainToggleProbe,
+    { changed: true, historyAdvanced: true },
+    "IK chain toggle did not preserve the existing edit/history behavior",
   );
-  report.checks.firstPartyIkPanel = ikPanelParity.candidate;
+  assert.deepEqual(
+    liveIkPanel.lockProbe,
+    { changed: true, historyAdvanced: true },
+    "IK lock checkbox did not preserve the existing edit/history behavior",
+  );
+  report.checks.liveIkPanel = liveIkPanel;
   await leftTabs.getByRole("button", { name: "Joint", exact: true }).click();
+  assert.equal(
+    await page.locator('[data-hgpt-panel="ik-first-party"]').count(),
+    0,
+    "Detached IK panel remained mounted after left-tab change",
+  );
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");
     return studioStore.getState().validation;

@@ -1,8 +1,4 @@
 import { createStoreHook as create } from '../core/store';
-import { characterSources } from '../character';
-import { retargetedCharacterSource } from '../character/retargetSource';
-import type { CharacterBuild } from '../character';
-import { BASELINE_CHARACTER_URL, DRESSED_CHARACTER_URL } from '../character/bundled';
 import { EXERCISE_BY_ID } from '../exercises/library';
 import { generateExerciseAsync } from '../generation/generate';
 import type { GenerationResult } from '../generation/generate';
@@ -43,28 +39,14 @@ interface GenerationState {
 }
 
 /**
- * The character the body checks measure: the bundled production body with its
- * shorts, built separately from the one on screen so measuring never disturbs
- * the viewport. Built once per session.
+ * No production validation surface is mounted during the standalone migration.
+ *
+ * The old path silently loaded the legacy V8 GLBs from public/characters when
+ * somebody dropped them into the working tree. That made generated-exercise
+ * certification depend on a prohibited legacy asset. Until ORIGINAL v1 is
+ * promoted, body-dependent checks stay explicitly unavailable and candidates
+ * report unverified rather than borrowing a legacy character.
  */
-let validation: Promise<{ build: CharacterBuild; label: string } | null> | null = null;
-
-function validationCharacter(): Promise<{ build: CharacterBuild; label: string } | null> {
-  validation ??= (async () => {
-    const ids = new Set(characterSources().map((source) => source.id));
-    const url = ids.has('baseline-dressed') ? DRESSED_CHARACTER_URL : ids.has('baseline') ? BASELINE_CHARACTER_URL : null;
-    if (!url) return null;
-    const label = url.replace(/^.*\//, '');
-    try {
-      const build = await retargetedCharacterSource({ id: 'generation-validation', label, url }).build(canonicalSkeleton);
-      return { build, label };
-    } catch {
-      return null;
-    }
-  })();
-  return validation;
-}
-
 let counter = 0;
 
 export const useGeneration = create<GenerationState>((set, get) => ({
@@ -80,12 +62,14 @@ export const useGeneration = create<GenerationState>((set, get) => ({
   generate: async () => {
     const prompt = get().prompt.trim();
     if (!prompt || get().running) return;
-    set({ running: true, progress: ['Preparing the validation character'] });
-    const character = await validationCharacter();
-    set({ validationCharacter: character?.label ?? null });
+    set({
+      running: true,
+      progress: ['Preparing standalone validation'],
+      validationCharacter: null,
+    });
     const result = await generateExerciseAsync(
       prompt,
-      { rig: canonicalSkeleton, character: character ?? undefined, library: (id) => EXERCISE_BY_ID.get(id) },
+      { rig: canonicalSkeleton, library: (id) => EXERCISE_BY_ID.get(id) },
       (progress) => set({ progress: [...get().progress, progress.message] }),
     );
     counter += 1;

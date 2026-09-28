@@ -15,7 +15,6 @@
     "audit:production": "node scripts/audit-production-output.mjs dist",
     "audit:release": "node scripts/run-first-party-release-audit.mjs",
     "audit:hygiene": "node scripts/check-repository-hygiene.mjs",
-    "test:browser-smoke": "node scripts/browser-viewport-smoke.mjs",
     "test:browser-smoke:first-party": "node scripts/browser-first-party-viewport-smoke.mjs"
   },
   "dependencies": {

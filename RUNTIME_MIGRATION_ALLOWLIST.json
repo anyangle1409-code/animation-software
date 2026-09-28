@@ -12,11 +12,9 @@
   "final_target": [],
   "source_import_ceilings": {
     "@react-three/fiber": {
-      "max_imports": 1,
-      "allowed_files": [
-        "src/viewer/R3FViewportHost.tsx"
-      ],
-      "rule": "All remaining R3F use is isolated behind the temporary host adapter. Host-agnostic Viewport.tsx and project consumers may not import it."
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "R3F source imports are zero after first-party viewport-host parity and may not return. The package remains temporarily only because the still-gated Drei package depends on the R3F ecosystem."
     },
     "@react-three/drei": {
       "max_imports": 0,

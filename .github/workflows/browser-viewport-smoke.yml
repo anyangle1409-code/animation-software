@@ -41,16 +41,11 @@ jobs:
           npm run dev -- --host 127.0.0.1 > reports/browser-smoke/vite.log 2>&1 &
           SERVER_PID=$!
           set +e
-          npm run test:browser-smoke
-          REFERENCE_STATUS=$?
           npm run test:browser-smoke:first-party
-          FIRST_PARTY_STATUS=$?
+          SMOKE_STATUS=$?
           kill "$SERVER_PID" 2>/dev/null || true
           wait "$SERVER_PID" 2>/dev/null || true
-          if [ "$REFERENCE_STATUS" -ne 0 ]; then
-            exit "$REFERENCE_STATUS"
-          fi
-          exit "$FIRST_PARTY_STATUS"
+          exit "$SMOKE_STATUS"
 
       - name: Upload browser evidence
         if: always()

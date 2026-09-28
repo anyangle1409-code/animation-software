@@ -261,6 +261,90 @@ try {
     studioStore.getState().loadExercise(exerciseId);
   }, { exerciseId: inactiveTechniqueValidation.currentId });
 
+  const musclesTab = rightTabs.getByRole("button", { name: "Muscles", exact: true });
+  await musclesTab.click();
+  await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().pause();
+  });
+
+  const reactMusclePanel = await page
+    .locator('[data-hgpt-editor-slot="right-panel"] .panel')
+    .first()
+    .evaluate((panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      hint: panel.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      summary: panel.querySelector(".muscle-diagnostics__summary")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      activeOnly: panel.querySelector('input[type="checkbox"]')?.checked ?? null,
+      region: panel.querySelector("select")?.value ?? null,
+      regionOptions: Array.from(panel.querySelectorAll("select option")).map((option) => option.textContent),
+      rows: Array.from(panel.querySelectorAll(".muscle-diagnostic")).map((row) => ({
+        name: row.querySelector(".muscle-diagnostic__name")?.textContent ?? null,
+        role: row.querySelector(".muscle-diagnostic__role")?.textContent ?? null,
+        readings: Array.from(row.querySelectorAll(".muscle-reading")).map(
+          (reading) => reading.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        ),
+      })),
+    }));
+
+  const firstPartyMusclePanel = await page.evaluate(async () => {
+    const [{ createMusclePanelDom }, { studioStore }] = await Promise.all([
+      import("/src/editor/panels/musclePanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+    ]);
+    const panel = createMusclePanelDom(document, studioStore);
+    panel.element.style.position = "fixed";
+    panel.element.style.left = "-10000px";
+    panel.element.style.top = "0";
+    document.body.append(panel.element);
+
+    const snapshot = {
+      heading: panel.element.querySelector("h2")?.textContent ?? null,
+      hint: panel.element.querySelector(".panel__hint")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      summary: panel.element.querySelector(".muscle-diagnostics__summary")?.textContent?.replace(/\s+/g, " ").trim() ?? null,
+      activeOnly: panel.controls.activeOnly.checked,
+      region: panel.controls.region.value,
+      regionOptions: Array.from(panel.controls.region.options).map((option) => option.textContent),
+      rows: Array.from(panel.element.querySelectorAll(".muscle-diagnostic")).map((row) => ({
+        name: row.querySelector(".muscle-diagnostic__name")?.textContent ?? null,
+        role: row.querySelector(".muscle-diagnostic__role")?.textContent ?? null,
+        readings: Array.from(row.querySelectorAll(".muscle-reading")).map(
+          (reading) => reading.textContent?.replace(/\s+/g, " ").trim() ?? null,
+        ),
+      })),
+    };
+
+    panel.controls.activeOnly.checked = true;
+    panel.controls.activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
+    const activeOnlyCount = panel.element.querySelectorAll(".muscle-diagnostic").length;
+    panel.controls.activeOnly.checked = false;
+    panel.controls.activeOnly.dispatchEvent(new Event("change", { bubbles: true }));
+    panel.controls.region.value = "arms";
+    panel.controls.region.dispatchEvent(new Event("change", { bubbles: true }));
+    const armsCount = panel.element.querySelectorAll(".muscle-diagnostic").length;
+
+    panel.dispose();
+    panel.element.remove();
+    return { snapshot, activeOnlyCount, armsCount };
+  });
+
+  assert.deepEqual(
+    firstPartyMusclePanel.snapshot,
+    reactMusclePanel,
+    "First-party Muscle diagnostics drifted from the React reference",
+  );
+  assert(
+    firstPartyMusclePanel.activeOnlyCount < firstPartyMusclePanel.snapshot.rows.length,
+    "Active-only Muscle filter did not reduce the visible diagnostic set",
+  );
+  assert(
+    firstPartyMusclePanel.armsCount > 0 &&
+      firstPartyMusclePanel.armsCount < firstPartyMusclePanel.snapshot.rows.length,
+    "Muscle region filter did not isolate a subset",
+  );
+  report.checks.firstPartyMusclePanel = firstPartyMusclePanel;
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+
   const firstPartyShellDom = await page.evaluate(async () => {
     const [{ createStudioAppShellDom }, { studioLayoutStore }] = await Promise.all([
       import("/src/editor/appShellDom.ts"),

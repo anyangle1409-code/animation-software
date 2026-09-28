@@ -41,7 +41,7 @@ describe('framework-neutral camera rig runtime', () => {
     camera.position.set(2.3, 1.35, 2.7);
     const sceneState = createSceneState();
     const recommendation: CameraRecommendation = {
-      preset: 'threeQuarter',
+      preset: 'three_quarter',
     };
     const store = createStore({
       camera: 'front',
@@ -66,7 +66,7 @@ describe('framework-neutral camera rig runtime', () => {
     expect(camera.position.distanceTo(before)).toBeGreaterThan(0);
 
     update.mockClear();
-    store.setCamera('side');
+    store.setCamera('left');
     sceneState.consumers.dispatch({ delta: 0.2, elapsed: 2, timestampMs: 2000 });
     expect(update).toHaveBeenCalled();
 

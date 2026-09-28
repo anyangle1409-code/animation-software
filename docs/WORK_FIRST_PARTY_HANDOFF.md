@@ -233,3 +233,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - Laptop: from repository root run `PREPARE_ORIGINAL_V1_O2.bat`, then open `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`. First region: torso/chest/back against the 1.82 m v4 target. Follow `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md` for stage checks, stop conditions and checkpoints. The untracked local O1 Blend must be present; Cloud cannot execute this step.
 - Work: add R3F parity coverage and host lifecycle seam in the small increments of `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`, then migrate one visual consumer at a time. Keep R3F/React/Three and Drei installed until their gates pass.
 - 2026-09-28 audit: 5 direct runtime dependencies, 126 bare runtime imports, 0 operational legacy assets, 9 MakeHuman-derived runtime-path source files. Final-character and release-readiness gates remain expected failures.
+
+- After each O2 modelling region, run the mesh audit command in `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; use its strict mode only on the completed neutral mesh.

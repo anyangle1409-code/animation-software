@@ -46,6 +46,14 @@ Do not bind, transfer weights, UV unwrap, add texture images, or make shorts dur
 5. **Proportion:** design target 1.82 m crown-to-floor, shoulder joint breadth 430 mm, hip joint breadth 184 mm, upper arm 325 mm, forearm 270 mm, wrist-to-palm axis 95 mm; design segment tolerance ±2 mm before bind. Outer chest/hip breadth and depth are new visual design decisions, not values to transplant from the 1.75 m scaffold.
 6. **Movement envelopes:** at least the v4 rig limits recorded in `src/rig/canonicalV4Original.ts` (both minima and maxima on every defined axis), plus the category battery in `ORIGINAL_V1_MOVEMENT_ENVELOPE.json`: trunk flexion/extension/rotation/lateral flexion, hip hinge/deep squat/lunge, calf raise, push/pull/elevation, elbow and forearm, loaded wrist and thumb/finger grip. At O2 check neutral clearance and loop provision; full numerical deformation, contacts and silhouette evidence belong to O4–O6. Never claim pose acceptance from a rest-pose script.
 
+After each region, also run from repository root:
+
+```bat
+blender --background ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend --python scripts/audit_original_o2_mesh_blender.py
+```
+
+It writes `reports/original_v1_o2_mesh_audit.json` with height, mirrored vertices, boundary/nonmanifold/winding errors, loose vertices and degenerate/duplicate faces. A draft region may leave other unfinished regions red; the command reports measurements and exits successfully during work. At O2 completion run the same command with `-- --strict` to require all numeric gates. It does not assess silhouette, joint landmarks, edge-loop quality or deformation. A deliberate open seam/asymmetry requires documented design review rather than a hidden threshold change.
+
 The tolerances above are stage gates chosen for this original design, not measurements inherited from the legacy character. If a gate conflicts with sound anatomy, stop and document the proposed revision before changing the specification.
 
 ## Stop and recovery

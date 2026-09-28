@@ -163,6 +163,78 @@ try {
   );
   report.checks.liveTimelineOwnership = liveTimelineOwnership;
 
+  const detachedViewportDom = await page.evaluate(async () => {
+    const { createFirstPartyViewportDom } = await import("/src/viewer/firstPartyViewportDom.ts");
+    const liveHost = document.querySelector(
+      '[data-hgpt-editor-slot="viewport"] [data-hgpt-scene-host="first-party"]',
+    );
+    if (!(liveHost instanceof HTMLElement)) throw new Error("Live React viewport reference is unavailable");
+
+    const snapshot = (host) => {
+      const canvas = host.querySelector("canvas");
+      return {
+        hostTag: host.tagName,
+        sceneHost: host.dataset.hgptSceneHost ?? null,
+        hostStyle: {
+          width: host.style.width,
+          height: host.style.height,
+          minHeight: host.style.minHeight,
+          position: host.style.position,
+        },
+        canvasCount: host.querySelectorAll("canvas").length,
+        canvasTag: canvas?.tagName ?? null,
+        canvasStyle: canvas
+          ? {
+              display: canvas.style.display,
+              width: canvas.style.width,
+              height: canvas.style.height,
+            }
+          : null,
+      };
+    };
+
+    const live = snapshot(liveHost);
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "fixed";
+    wrapper.style.left = "-10000px";
+    wrapper.style.top = "0";
+    wrapper.style.width = "640px";
+    wrapper.style.height = "480px";
+    document.body.append(wrapper);
+
+    const candidate = createFirstPartyViewportDom(document);
+    wrapper.append(candidate.element);
+
+    const deadline = performance.now() + 5000;
+    while (Number(candidate.canvas.dataset.hgptFrameCount ?? "0") < 2) {
+      if (performance.now() > deadline) throw new Error("Detached first-party viewport did not render frames");
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    }
+
+    const candidateSnapshot = snapshot(candidate.element);
+    const runtime = {
+      frameCount: Number(candidate.canvas.dataset.hgptFrameCount ?? "0"),
+      rendererFrame: Number(candidate.canvas.dataset.hgptRendererFrame ?? "0"),
+      sceneChildren: Number(candidate.canvas.dataset.hgptSceneChildren ?? "0"),
+      sceneNames: candidate.canvas.dataset.hgptSceneNames ?? "",
+    };
+
+    candidate.dispose();
+    candidate.element.remove();
+    wrapper.remove();
+    return { live, candidate: candidateSnapshot, runtime };
+  });
+  assert.deepEqual(
+    detachedViewportDom.candidate,
+    detachedViewportDom.live,
+    "First-party viewport DOM contract drifted from the React wrapper",
+  );
+  assert(detachedViewportDom.runtime.frameCount >= 2, "Detached viewport frame loop did not advance");
+  assert(detachedViewportDom.runtime.rendererFrame > 0, "Detached viewport WebGL renderer did not render");
+  assert(detachedViewportDom.runtime.sceneChildren > 0, "Detached viewport scene is empty");
+  assert(detachedViewportDom.runtime.sceneNames.length > 0, "Detached viewport emitted no scene names");
+  report.checks.firstPartyViewportDom = detachedViewportDom;
+
   const leftTabs = page.locator(".studio__side--left .tabs").first();
   const rightTabs = page.locator(".studio__side--right .tabs").first();
   const equipmentTab = leftTabs.getByRole("button", { name: "Equipment", exact: true });

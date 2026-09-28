@@ -1,25 +1,18 @@
 import { createContext, useContext } from 'react';
-import { PoseEvaluation } from '../rig/skeleton';
-import type { ResolvedFrame } from '../animation/pipeline';
-import { skeleton } from '../editor/store';
+import { createSceneState } from './sceneStateCore';
+import type { SceneState } from './sceneStateCore';
+
+export type { SceneState } from './sceneStateCore';
+export { createSceneState } from './sceneStateCore';
 
 /**
- * Per-frame state shared by everything in the canvas.
+ * Temporary React access wrapper around the framework-neutral scene state.
  *
- * It is a mutable object rather than React state on purpose: the pose changes
- * sixty times a second during playback, and pushing that through React would
- * re-render the whole editor for every frame of animation.
+ * Per-frame data is not React state: the pose changes sixty times a second
+ * during playback and the mutable object avoids re-rendering the editor on each
+ * frame. Remove only this wrapper when the production host no longer needs
+ * React/R3F.
  */
-export interface SceneState {
-  evaluation: PoseEvaluation;
-  frame: ResolvedFrame | null;
-}
-
-export const createSceneState = (): SceneState => ({
-  evaluation: new PoseEvaluation(skeleton),
-  frame: null,
-});
-
 export const SceneStateContext = createContext<SceneState | null>(null);
 
 export function useSceneState(): SceneState {

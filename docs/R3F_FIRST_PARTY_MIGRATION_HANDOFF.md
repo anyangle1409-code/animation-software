@@ -54,3 +54,8 @@ A further focused fixture pins the `BoneGroups.tsx` pattern: a bone's world matr
 ## Muscle frame snapshot boundary
 
 `src/viewer/muscleFrameSnapshot.ts` now copies the existing muscle solver output into plain numeric position/quaternion/scale/stretch data for every overlay muscle. Focused fixtures check complete finite output, equality with the current resolver, and independence across real bicep-curl frames. It is not mounted in `MuscleView.tsx`; the production R3F path remains unchanged until visual parity is available.
+
+
+## Framework-neutral scene state
+
+The mutable `SceneState` type and `createSceneState` factory now live in `src/viewer/sceneStateCore.ts` with no React import. `sceneState.ts` remains the temporary React context wrapper and re-exports the same API, so production behaviour is unchanged. The future first-party host can own the same state object directly after parity gates pass instead of recreating scene semantics during the React/R3F cutover.

@@ -18,36 +18,9 @@ import {
   type HgOrbitControlsHandle,
 } from './orbitControlsRuntime';
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
-import { StudioCameraRigController } from './cameraRigController';
+import { createCameraRigRuntime } from './cameraRigRuntime';
 import { useSceneHostBindings } from './sceneHostBindings';
 import { createStaticStageRuntime } from './staticStageRuntime';
-
-/** Moves the camera to the selected preset, then hands control back to orbit. */
-function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
-  const scene = useSceneState();
-  const preset = useStudio((state) => state.camera);
-  const recommendation = useStudio((state) => state.document.exercise.camera);
-  const selectedBone = useStudio((state) => state.selection.bone);
-  const { camera } = useSceneHostBindings();
-  const controller = useMemo(() => new StudioCameraRigController(), []);
-
-  useEffect(() => {
-    controller.configure(preset, recommendation);
-  }, [controller, preset, recommendation]);
-
-  useSceneFrame(({ delta }) => {
-    controller.update({
-      delta,
-      preset,
-      selectedBone,
-      evaluation: scene.evaluation,
-      camera,
-      controls: controls.current,
-    });
-  }, SCENE_FRAME_PRIORITY.camera);
-
-  return null;
-}
 
 function Gizmo({ controls }: { controls: React.RefObject<HgOrbitControlsHandle | null> }) {
   const scene = useSceneState();
@@ -323,11 +296,18 @@ export function StudioSceneContent() {
   const { camera, element } = useSceneHostBindings();
 
   useEffect(() => {
-    const runtime = createOrbitControlsRuntime(camera, element, sceneState);
-    controls.current = runtime.handle;
+    const orbit = createOrbitControlsRuntime(camera, element, sceneState);
+    controls.current = orbit.handle;
+    const cameraRig = createCameraRigRuntime({
+      sceneState,
+      camera,
+      store: studioStore,
+      controls: () => controls.current,
+    });
     return () => {
+      cameraRig.dispose();
       controls.current = null;
-      runtime.dispose();
+      orbit.dispose();
     };
   }, [camera, element, sceneState]);
 
@@ -337,7 +317,6 @@ export function StudioSceneContent() {
       <Figure />
       <Gizmo controls={controls} />
       <HandleGizmo controls={controls} />
-      <CameraRig controls={controls} />
     </>
   );
 }

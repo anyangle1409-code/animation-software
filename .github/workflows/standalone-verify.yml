@@ -95,6 +95,7 @@ jobs:
           src/editor/panels/correctivePanelDom.test.ts
           src/editor/panels/correctivePanelMount.test.ts
           src/editor/generationStoreCore.test.ts
+          src/editor/panels/generatePanelDom.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

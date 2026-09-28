@@ -189,6 +189,16 @@ try {
     panelsOpen: true,
   };
 
+  const validationBeforeTechnique = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    return studioStore.getState().validation;
+  });
+  assert.equal(
+    validationBeforeTechnique,
+    null,
+    "Technique validation ran while the Technique tab was inactive",
+  );
+
   const techniqueTab = rightTabs.getByRole("button", { name: "Technique", exact: true });
   await techniqueTab.click();
   await page.waitForTimeout(260);
@@ -225,6 +235,31 @@ try {
   assert(liveTechniquePanel.ruleCount > 0, "First-party Technique rendered no rules");
   report.checks.liveTechniquePanel = liveTechniquePanel;
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  const inactiveTechniqueValidation = await page.evaluate(async () => {
+    const [{ studioStore }, { EXERCISES }] = await Promise.all([
+      import("/src/editor/storeCore.ts"),
+      import("/src/exercises/library.ts"),
+    ]);
+    const currentId = studioStore.getState().document.exercise.id;
+    const next = EXERCISES.find((exercise) => exercise.id !== currentId);
+    if (!next) throw new Error("No alternate exercise for Technique lifecycle probe");
+    studioStore.getState().loadExercise(next.id);
+    return { currentId, nextId: next.id };
+  });
+  await page.waitForTimeout(180);
+  const validationWhileInactive = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    return studioStore.getState().validation;
+  });
+  assert.equal(
+    validationWhileInactive,
+    null,
+    "Detached Technique panel continued validating after tab change",
+  );
+  await page.evaluate(async ({ exerciseId }) => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().loadExercise(exerciseId);
+  }, { exerciseId: inactiveTechniqueValidation.currentId });
 
   const firstPartyShellDom = await page.evaluate(async () => {
     const [{ createStudioAppShellDom }, { studioLayoutStore }] = await Promise.all([

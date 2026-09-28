@@ -73,6 +73,7 @@ jobs:
           src/editor/toolbarDom.test.ts
           src/editor/timelineDom.test.ts
           src/editor/panels/techniquePanelDom.test.ts
+          src/editor/panels/techniquePanelMount.test.ts
 
       - name: Full test suite
         run: timeout 360s npm test -- --testTimeout=15000

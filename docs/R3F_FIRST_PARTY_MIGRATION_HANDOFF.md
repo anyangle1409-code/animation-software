@@ -49,3 +49,8 @@ A further focused fixture pins the `BoneGroups.tsx` pattern: a bone's world matr
 ## IK handle state boundary
 
 `src/viewer/ikHandleSnapshot.ts` now pins the current target/pole visibility and positioning semantics without React/R3F: enabled goals use authored target/pole positions, disabled or absent targets park on the live effector, and disabled poles remain hidden while retaining their goal position. The snapshot copies all positions and covers all four chains. It remains unmounted preparation; `IKHandles.tsx` is unchanged.
+
+
+## Muscle frame snapshot boundary
+
+`src/viewer/muscleFrameSnapshot.ts` now copies the existing muscle solver output into plain numeric position/quaternion/scale/stretch data for every overlay muscle. Focused fixtures check complete finite output, equality with the current resolver, and independence across real bicep-curl frames. It is not mounted in `MuscleView.tsx`; the production R3F path remains unchanged until visual parity is available.

@@ -66,7 +66,7 @@ Continue from `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`.
 
 The isolated first-party lifecycle, DOM surface, temporary Three host, resolved-frame snapshot, flat scene-object adapter, and BoneGroups-style transform fixture are already prepared.
 
-Do not redo those foundations. The equipment display-transform orchestration is also isolated in `src/viewer/equipmentDisplayTransforms.ts`, and IK target/pole state semantics are isolated in `src/viewer/ikHandleSnapshot.ts`; both are test-only/unmounted preparation and must be compared against their live consumers before any switch.
+Do not redo those foundations. The equipment display-transform orchestration is also isolated in `src/viewer/equipmentDisplayTransforms.ts`, and IK target/pole state semantics are isolated in `src/viewer/ikHandleSnapshot.ts`; those are test-only/unmounted preparation; the muscle overlay is likewise copied through `src/viewer/muscleFrameSnapshot.ts`. All must be compared against their live consumers before any switch.
 
 The next safe migration work is browser-backed visual/skin/lifecycle parity for the first actual visual consumer, then a reversible consumer bridge. Keep the live R3F hook until the relevant parity gate passes.
 

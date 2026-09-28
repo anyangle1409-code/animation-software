@@ -2,11 +2,13 @@
 import hashlib
 import json
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import bpy
 from mathutils import Vector
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from validate_original_v4_payload import validate
 
 ROOT = Path(__file__).resolve().parents[1]

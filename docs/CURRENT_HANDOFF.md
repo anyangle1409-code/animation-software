@@ -26,6 +26,18 @@ After the cleanup checkpoint:
 
 Skipped tests are existing explicit skips; the cleanup did not create new failures.
 
+## Repository hygiene
+
+The active branch has already removed the duplicated legacy mesh handoff, duplicated review-assets bundle, and superseded reference-body/model-repair handoffs.
+
+Four obsolete remote branches have been verified as fully contained in the active branch and are safe to retire. The cloud GitHub connection cannot delete refs, so the guarded laptop command is:
+
+```bat
+CLEANUP_CONTAINED_BRANCHES.bat --apply
+```
+
+See `docs/BRANCH_HYGIENE.md`. Do not manually delete any divergent historical branch.
+
 ## Current standalone blockers
 
 The final standalone/release gates are intentionally not green yet.

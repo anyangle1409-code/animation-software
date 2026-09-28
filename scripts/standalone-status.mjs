@@ -65,6 +65,7 @@ const result={
     audit:"npm run audit:standalone",
     originalV1:"PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat",
     finalRelease:"npm run audit:release",
+    branchCleanup:"CLEANUP_CONTAINED_BRANCHES.bat --apply",
   },
   reminder:"Prepared does not mean integrated. Follow docs/CURRENT_HANDOFF.md and do not remove a dependency until its live imports are zero and the full suite/build/behaviour gates pass."
 };

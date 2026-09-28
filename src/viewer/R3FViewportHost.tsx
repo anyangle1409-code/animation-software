@@ -14,7 +14,6 @@ import { CharacterFigure } from './CharacterFigure';
 import { MuscleView } from './MuscleView';
 import { EquipmentView } from './EquipmentView';
 import { IKHandles } from './IKHandles';
-import { resolveCamera } from './cameras';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { driveSceneFrame } from './sceneFrameDriver';
 import {
@@ -23,6 +22,7 @@ import {
 } from './FirstPartyOrbitControls';
 import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
 import { createStudioStage } from './studioStage';
+import { StudioCameraRigController } from './cameraRigController';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -58,46 +58,21 @@ function CameraRig({ controls }: { controls: React.RefObject<HgOrbitControlsHand
   const recommendation = useStudio((state) => state.document.exercise.camera);
   const selectedBone = useStudio((state) => state.selection.bone);
   const { camera } = useThree();
-  const goal = useRef<{ position: Vector3; target: Vector3; fov: number } | null>(null);
-  const focusTarget = useRef(new Vector3());
-  const focusPosition = useRef(new Vector3());
-  const focusOffset = useRef(new Vector3());
+  const controller = useMemo(() => new StudioCameraRigController(), []);
 
   useEffect(() => {
-    const setup = resolveCamera(preset, recommendation);
-    goal.current = setup
-      ? { position: setup.position.clone(), target: setup.target.clone(), fov: setup.fov }
-      : null;
-  }, [preset, recommendation]);
+    controller.configure(preset, recommendation);
+  }, [controller, preset, recommendation]);
 
   useSceneFrame(({ delta }) => {
-    if (preset === 'focus' && selectedBone && controls.current) {
-      scene.evaluation.head(selectedBone, focusTarget.current);
-      const side = selectedBone.endsWith('_l') ? -1 : selectedBone.endsWith('_r') ? 1 : 1;
-      focusOffset.current.set(side * 0.58, 0.20, 0.78);
-      focusPosition.current.copy(focusTarget.current).add(focusOffset.current);
-      const blend = Math.min(1, delta * 7);
-      camera.position.lerp(focusPosition.current, blend);
-      controls.current.target.lerp(focusTarget.current, blend);
-      if ('fov' in camera) {
-        camera.fov += (32 - camera.fov) * blend;
-        camera.updateProjectionMatrix();
-      }
-      controls.current.update();
-      return;
-    }
-
-    const destination = goal.current;
-    if (!destination || !controls.current) return;
-    const blend = Math.min(1, delta * 6);
-    camera.position.lerp(destination.position, blend);
-    controls.current.target.lerp(destination.target, blend);
-    if ('fov' in camera) {
-      camera.fov += (destination.fov - camera.fov) * blend;
-      camera.updateProjectionMatrix();
-    }
-    controls.current.update();
-    if (camera.position.distanceTo(destination.position) < 0.01) goal.current = null;
+    controller.update({
+      delta,
+      preset,
+      selectedBone,
+      evaluation: scene.evaluation,
+      camera,
+      controls: controls.current,
+    });
   }, SCENE_FRAME_PRIORITY.camera);
 
   return null;

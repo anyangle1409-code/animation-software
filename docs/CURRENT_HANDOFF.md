@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`8ca14699575118c1967d04e00d231761a2fae1dd`
+`6b3532539c4b44137196fe595b1861e1bc149c55`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 8ca14699
+## Verified state at 6b353253
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 120 test files PASS, 2 skipped
-- full tests: 918 PASS, 62 skipped
+- full suite: 122 test files PASS, 2 skipped
+- full tests: 921 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -113,6 +113,9 @@ Verified live shell state:
 - `src/editor/panels/techniquePanelDom.ts` owns the live Technique panel only while that tab is active;
 - Technique validation preserves the original 120 ms mount/clip-change debounce and does not run while the tab is inactive;
 - `src/editor/panels/TechniquePanel.tsx` is removed;
+- `src/editor/panels/musclePanelDom.ts` owns the live Muscle diagnostics panel only while that tab is active;
+- Muscle diagnostics preserve the finished-frame biomechanics pipeline, activation ordering, labels/readings, CSS and local filter reset-on-remount behavior;
+- `src/editor/panels/MusclePanel.tsx` is removed;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -120,13 +123,13 @@ Verified live shell state:
 
 Next exact increment:
 
-1. migrate `src/editor/panels/MusclePanel.tsx` to project-owned DOM/lifecycle code;
-2. preserve live playhead biomechanics diagnostics, activation ordering, side/length labels, wrapped-path annotation and exact filter semantics;
-3. preserve the local `Active only` and region filters, resetting them on panel remount as React does;
-4. import/retain `MusclePanel.css` from the first-party module so wrapper removal does not drop styling;
-5. keep the React Muscle panel as parity reference until focused tests and Chromium parity pass;
-6. switch only the Muscles tab after those checks pass, then remove the redundant React wrapper;
-7. continue other panels from lower-risk/read-mostly surfaces into editing and generation/review/export workflows;
+1. migrate `src/editor/panels/ComparisonPanel.tsx` to project-owned DOM/lifecycle code;
+2. preserve review-only Capture A / Capture B / Clear behavior without changing clip or undo history;
+3. preserve both pose diagrams, snapshot time/marker labels, selected-joint A/B angle deltas and empty-state wording;
+4. preserve the local mount lifecycle so no hidden comparison surface remains subscribed while another tab is active;
+5. keep the React Comparison panel as the parity reference until focused tests and Chromium parity pass;
+6. switch only the Compare tab after those checks pass, then remove the redundant React wrapper;
+7. continue Contact/Exercise and other editing panels incrementally, leaving generation/review/export until lower-risk surfaces are complete;
 8. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
 9. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
 10. remove React/ReactDOM source imports and packages only after final browser/build gates;

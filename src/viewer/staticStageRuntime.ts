@@ -1,5 +1,5 @@
 import type { Scene } from 'three';
-import { BACKDROPS, type Backdrop } from '../editor/store';
+import { BACKDROPS, type Backdrop } from '../editor/storeCore';
 import { createStudioStage, type StudioStageResources } from './studioStage';
 
 export interface StaticStageState {

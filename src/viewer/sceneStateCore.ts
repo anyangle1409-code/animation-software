@@ -1,6 +1,6 @@
 import type { ResolvedFrame } from '../animation/pipeline';
 import { HgFrameDispatcher } from '../core/frameLoop';
-import { skeleton } from '../editor/store';
+import { skeleton } from '../editor/storeCore';
 import { PoseEvaluation } from '../rig/skeleton';
 
 export const SCENE_FRAME_PRIORITY = {

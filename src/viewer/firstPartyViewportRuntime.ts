@@ -6,7 +6,7 @@ import {
 } from 'three';
 import { browserFrameScheduler } from '../core/frameLoop';
 import { browserSceneSurface } from '../core/browserSceneSurface';
-import { currentAnchors, skeleton, studioStore } from '../editor/store';
+import { currentAnchors, skeleton, studioStore } from '../editor/storeCore';
 import type { SceneState } from './sceneStateCore';
 import { driveSceneFrame } from './sceneFrameDriver';
 import type { SceneHostBindings } from './sceneHostTypes';

@@ -1,66 +1,23 @@
-import { useEffect, useMemo } from 'react';
-import { Vector3 } from 'three';
-import { IK_CHAINS, IK_CHAIN_IDS } from '../ik/chains';
-import { useStudio } from '../editor/store';
-import { SCENE_FRAME_PRIORITY, useSceneFrame, useSceneState } from './sceneState';
-import { sampleClip } from '../animation/clip';
-import {
-  createIKHandleScene,
-  registerIKHandlePointers,
-  updateIKHandleSelection,
-} from './ikHandleScene';
-import { SceneObjectMount } from './SceneObjectMount';
-import { useSceneResourceDisposal } from './sceneResourceLifecycle';
+import { useEffect } from 'react';
+import { studioStore } from '../editor/store';
+import { useSceneState } from './sceneState';
 import { useSceneHostBindings } from './sceneHostBindings';
+import { createIKHandlesRuntime } from './ikHandlesRuntime';
 
-/**
- * Draggable handle visuals for each limb.
- *
- * The meshes are owned directly by the shared scene host and selection clicks
- * use the project-owned pointer router. The separate transform gizmo still
- * performs handle dragging after selection.
- */
+/** Temporary React adapter over the framework-neutral IK-handle runtime. */
 export function IKHandles() {
-  const scene = useSceneState();
-  const time = useStudio((state) => state.time);
-  const clip = useStudio((state) => state.document.clip);
-  const selection = useStudio((state) => state.selection.handle);
-  const selectHandle = useStudio((state) => state.selectHandle);
-  const { pointers } = useSceneHostBindings();
-  const resources = useMemo(createIKHandleScene, []);
-
-  useSceneResourceDisposal(resources);
-
-  useEffect(
-    () => registerIKHandlePointers(resources, pointers, selectHandle),
-    [resources, pointers, selectHandle],
-  );
+  const sceneState = useSceneState();
+  const { scene: root, pointers } = useSceneHostBindings();
 
   useEffect(() => {
-    updateIKHandleSelection(resources, selection);
-  }, [resources, selection]);
+    const runtime = createIKHandlesRuntime({
+      sceneState,
+      root,
+      pointers,
+      store: studioStore,
+    });
+    return () => runtime.dispose();
+  }, [sceneState, root, pointers]);
 
-  useSceneFrame(() => {
-    const sample = sampleClip(clip, time);
-    for (const chain of IK_CHAIN_IDS) {
-      const goal = sample.ik[chain];
-      const target = resources.handles.get(`${chain}:target`);
-      const pole = resources.handles.get(`${chain}:pole`);
-      const active = Boolean(goal?.enabled);
-      if (target) {
-        target.visible = active;
-        if (goal) target.position.set(goal.target.x, goal.target.y, goal.target.z);
-      }
-      if (pole) {
-        pole.visible = active;
-        if (goal) pole.position.set(goal.pole.x, goal.pole.y, goal.pole.z);
-      }
-      if (!active && target) {
-        const effector = scene.evaluation.head(IK_CHAINS[chain].end, new Vector3());
-        target.position.copy(effector);
-      }
-    }
-  }, SCENE_FRAME_PRIORITY.ik);
-
-  return <SceneObjectMount object={resources.group} />;
+  return null;
 }

@@ -1,5 +1,8 @@
 # Standalone first-party progress
 
+> **AUTHORITY NOTICE — SUPPORTING HISTORY ONLY.** Do not use this file as the entry point for new work. Current operational instructions are in [CURRENT_HANDOFF.md](CURRENT_HANDOFF.md), governed by [PROJECT_AUTHORITY.md](PROJECT_AUTHORITY.md) and [AI_OPERATING_CONTRACT.md](AI_OPERATING_CONTRACT.md). Where this log conflicts with those files, the current authority wins.
+
+
 ## Target
 A distributable Home Gym PT product with no third-party runtime implementation and no third-party/legacy creative assets.
 

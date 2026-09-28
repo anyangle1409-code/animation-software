@@ -45,6 +45,12 @@ if(deps.includes("zustand")){
 }
 
 const result={
+  authority:{
+    startHere:"docs/CURRENT_HANDOFF.md",
+    projectAuthority:"docs/PROJECT_AUTHORITY.md",
+    operatingContract:"docs/AI_OPERATING_CONTRACT.md",
+    decisionLog:"docs/DECISION_LOG.md",
+  },
   branchTarget:"work/standalone-first-party-audit-20260927",
   sourceIntegrationTarget:"chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb",
   directRuntimeDependencies:deps,
@@ -60,7 +66,7 @@ const result={
     originalV1:"PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat",
     finalRelease:"npm run audit:release",
   },
-  reminder:"Prepared does not mean integrated. Do not remove a dependency until its live imports are zero and the full suite/build/behaviour gates pass."
+  reminder:"Prepared does not mean integrated. Follow docs/CURRENT_HANDOFF.md and do not remove a dependency until its live imports are zero and the full suite/build/behaviour gates pass."
 };
 
 console.log(JSON.stringify(result,null,2));

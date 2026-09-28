@@ -1,5 +1,8 @@
 # GPT Work handoff — first-party standalone transition
 
+> **AUTHORITY NOTICE — SUPPORTING HISTORY ONLY.** Do not use this file as the entry point for new work. Current operational instructions are in [CURRENT_HANDOFF.md](CURRENT_HANDOFF.md), governed by [PROJECT_AUTHORITY.md](PROJECT_AUTHORITY.md) and [AI_OPERATING_CONTRACT.md](AI_OPERATING_CONTRACT.md). Where this log conflicts with those files, the current authority wins.
+
+
 ## Current implementation checkpoint — 2026-09-27
 
 V15f is preserved on its separate legacy branch. Standalone preparation is

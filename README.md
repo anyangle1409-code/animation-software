@@ -1,129 +1,112 @@
 # Home Gym PT Animation Studio
 
-An authoring tool for building accurate, reusable 3D exercise animations.
+Home Gym PT is a deterministic 3D exercise-animation authoring system built around structured exercise definitions, a canonical humanoid rig, IK/contact constraints, equipment attachments, technique validation, and reusable animation export.
 
-You pick an exercise, the studio constructs a biomechanically controlled draft
-from that exercise's definition, you inspect and adjust it, and you export an
-animation your app can play.
+## Current project authority
 
-This is not image or video generation. It is a skeletal animation system: a
-canonical humanoid rig with anatomical joint limits, analytic inverse
-kinematics, contact locks, rigid equipment attachment, and deterministic
-keyframe generation driven by structured exercise data.
+The project is in a first-party standalone transition. Do **not** infer current state from historical branches or old handoffs.
 
-## Status
+Start here:
 
-Five exercises prove the engine, chosen because they exercise different parts
-of it:
+1. [Current handoff](docs/CURRENT_HANDOFF.md)
+2. [Project authority](docs/PROJECT_AUTHORITY.md)
+3. [AI operating contract](docs/AI_OPERATING_CONTRACT.md)
+4. [Frozen decision log](docs/DECISION_LOG.md)
 
-| Exercise | What it proves |
-|---|---|
-| Dumbbell Bicep Curl | shoulder/elbow/wrist plus an implement rigidly held in each hand |
-| Push-Up | four floor contacts at once, whole-body rigid constraint, root motion |
-| Bodyweight Squat | hips, knees and ankles with the feet locked to the floor |
-| Dumbbell Shoulder Press | the shoulder through nearly its whole abduction range, loaded |
-| Pull-Up | no floor contact at all — the hands are locked to a rack's own grip sockets and the whole body is solved from them |
+On a laptop, begin every work session with:
 
-All five generate clean: every technique rule the exercise defines passes at
-every sampled frame, every IK target is reachable, and each clip returns
-exactly to its opening pose.
+```bat
+STANDALONE_STATUS.bat
+```
 
-### Working now
+## Standalone target
 
-- **Canonical rig** — 53 bones including fingers and toes, every joint with
-  anatomical rotation limits and named axes ("Flexion", "Abduction", …)
-- **Anatomical character** — an athletic adult male as one skinned mesh lofted
-  from cross-section profiles: a trunk from crotch to crown, limbs as continuous
-  tubes, joints whose vertices are shared between the two bones either side of
-  them so an elbow creases instead of scissoring, a face with eyes, nose, mouth
-  and jaw, and fitted shorts that leave every working joint bare. Skin, clothing
-  and eyes are vertex colours on that one mesh, so the whole character is a
-  single draw call. The viewport and the GLB exporter build it from the same
-  data, so what you see is what the file contains
-- **Forward kinematics** with per-joint clamping, pose mirroring and blending
-- **Inverse kinematics** — analytic two-bone solvers for both arms and both
-  legs, with pole targets for elbow and knee direction, hinge joints solved as
-  hinges, and joint limits that constrain the solve rather than being ignored
-- **Contact locks** — hands and feet held to the floor, to a fixed point, or
-  rigidly to an equipment socket; contacts do not slide
-- **Equipment** — twelve items as real 3D objects with named attachment
-  sockets; a two-handed bar is placed from both grips so it stays straight and
-  moves symmetrically
-- **Exercise definitions** — one structured schema carrying poses, phases,
-  tempo, joint targets, grip, stance, muscles, camera, technique rules and
-  common errors
-- **Procedural generation** — deterministic clips built from a definition, with
-  easing shaped for resistance training and perfect loop closure
-- **Technique checking** — the exercise's own rules evaluated across the clip,
-  reported per rule and per frame
-- **Timeline editor** — play, scrub, keyframes, easing, duration, tempo, copy,
-  paste, mirror, undo/redo
-- **Muscle overlay** — 43 muscle bellies bound between origin and insertion, so
-  they shorten and thicken with the joints. Each belly is built on an anatomical
-  frame — length along the muscle, width across the body, depth through the
-  skin — and fitted to the body it sits under, so it can never break the
-  surface. Primary muscles read bright red, secondary a softer orange and
-  stabilisers barely at all; the levels come from the exercise definition
-- **Retargeting** — import a rigged GLB, auto-guess a bone mapping, correct it
-  by hand, and drive the imported character from the same animation
-- **Export** — animated GLB (skinned rig, clip and equipment), clip-only GLB
-  and JSON so many exercises share one character, and exercise metadata JSON
+The required distributable must contain:
 
-### Not built yet
+- zero prohibited third-party runtime implementation;
+- zero legacy/third-party-derived production character content;
+- zero remote runtime resource dependency;
+- only approved first-party production assets.
 
-More exercises, cable and band force lines, physics-based weight sag, facial
-detail, and the Home Gym PT male/female characters themselves.
+External development tools such as Blender, Git, Python, Node, TypeScript tooling, GPT, and Claude may be used during development.
 
-## Getting started
+## Current transition state
+
+Direct Zustand has already been replaced by the project-owned store. Five direct runtime dependencies remain during controlled migration:
+
+- `@react-three/drei`
+- `@react-three/fiber`
+- `react`
+- `react-dom`
+- `three`
+
+Drei has zero current source imports but is intentionally retained until the physical Grid/Orbit/Transform parity gate passes. R3F, React/ReactDOM, and Three are removed only after their project-owned replacements reach the live production path with parity evidence.
+
+The legacy/imported character line and MakeHuman-derived built-in body are not eligible for the final standalone character. The clean-room production line is **ORIGINAL v1**, targeting the independent **63-bone `hgpt_canonical_v4_original`** rig.
+
+## Engine capabilities
+
+The repository currently contains 28 exercise definitions spanning curls, presses, rows, squats/lunges, calf work, hinges, carries, trunk flexion/rotation, anti-rotation, vertical pulling, and related variants.
+
+Core capabilities include:
+
+- deterministic pose/clip generation;
+- 63-bone runtime rig architecture and first-party v4 candidate;
+- forward and inverse kinematics;
+- contact locks and equipment sockets;
+- anatomical joint limits;
+- exercise-family generation;
+- technique validation;
+- timeline/editor tooling;
+- muscle diagnostics;
+- retargeting and GLB/JSON export;
+- first-party store, math, frame-loop, GLB, camera/orbit/grid/gizmo foundations;
+- clean-room Blender generation/audit tooling;
+- deny-by-default release/provenance/network guards.
+
+## Commands
 
 ```bash
 npm install
 npm run dev
+npm run typecheck
+npm test
+npm run build
+npm run audit:standalone
+npm run audit:release
 ```
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Development server on port 5174 |
-| `npm run build` | Typecheck and production build |
-| `npm test` | Unit tests |
-| `npm run typecheck` | Types only |
+Windows status/verification entry points:
 
-## How it fits together
-
-The whole system turns on one idea: **a pose is plain data**, independent of any
-visible character.
-
+```bat
+STANDALONE_STATUS.bat
+VERIFY_STANDALONE_PREP.bat
+PREPARE_ORIGINAL_V1_O2.bat
 ```
+
+## Architecture
+
+The animation core is data-driven:
+
+```text
 ExerciseDefinition
-      │  generateClip
-      ▼
-   StudioClip  (keyframes: pose + IK targets, locks, equipment)
-      │  resolveFrame(time)
-      ▼
-   blend keyframed pose
-      → solve keyframed IK targets
-      → place equipment from the hands
-      → solve locks (which may pull hands onto that equipment)
-      → place equipment again
-      ▼
-   ResolvedFrame  →  viewport · technique checker · exporters · retargeting
+      |
+      | generateClip
+      v
+StudioClip
+      |
+      | resolveFrame(time)
+      v
+ResolvedFrame
+      |
+      +--> pose / IK / contacts / equipment
+      +--> viewer
+      +--> technique checks
+      +--> exporters
 ```
 
-Everything downstream reads that one `Pose` structure, which is why the same
-animation can drive the mannequin, an imported Meshy character, the muscle
-overlay and a GLB export without being re-authored for any of them.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the module-level design.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the module layout, the bone
-frame convention, and the decisions behind them.
+## Historical/reference material
 
-## Export formats
-
-| File | Contains | Use |
-|---|---|---|
-| `<clip>.glb` | skinned rig, animation, equipment | drop straight into the app |
-| `<clip>.anim.glb` | bone hierarchy and animation, no mesh | many exercises, one character |
-| `<clip>.anim.json` | rotation tracks, plus a three.js-native clip | custom players |
-| `<exercise>.json` | the full exercise definition and derived timings | the exercise database |
-
-Clip names are app-friendly slugs: `bicep_curl`, `push_up`, `air_squat`,
-`shoulder_press`, `pull_up`.
+Historical branches and legacy character assets are engineering evidence only. They are not current implementation instructions and must not be used as production source material unless the current handoff explicitly authorises a narrow reference use.

@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`6b3532539c4b44137196fe595b1861e1bc149c55`
+`6465d9f0715cef0001e239c6fdbbb59589b9c04e`
 
 ## Boundary
 
@@ -16,11 +16,11 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `6b353253`:
+At `6465d9f0`:
 
 - Standalone prep verification: PASS
-- full suite: 122 test files PASS, 2 skipped
-- full tests: 921 PASS, 62 skipped
+- full suite: 124 test files PASS, 2 skipped
+- full tests: 924 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - dependency/resource/network gates: PASS
@@ -89,7 +89,7 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 - `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
 - `src/editor/App.tsx` — temporary portal bridge only
-- remaining `src/editor/panels/*.tsx` surfaces other than Technique and Muscle
+- remaining `src/editor/panels/*.tsx` surfaces other than Technique, Muscle and Comparison
 
 ### Thin viewport DOM adapter
 
@@ -102,7 +102,7 @@ The viewport adapter now owns only React DOM/effect lifetime; all renderer and s
 
 ### R3 — editor DOM shell: IN PROGRESS
 
-The outer editor shell, Toolbar, Timeline, Technique and Muscle panels are now live first-party DOM at `6b353253`:
+The outer editor shell, Toolbar, Timeline, Technique, Muscle and Comparison panels are now live first-party DOM at `6465d9f0`:
 
 - `src/editor/appShellDom.ts` owns the live Studio structure, tab buttons, panel visibility and stable child slots;
 - `src/editor/toolbarDom.ts` owns the live Toolbar and subscribes directly to `studioStore`;
@@ -115,21 +115,24 @@ The outer editor shell, Toolbar, Timeline, Technique and Muscle panels are now l
 - `src/editor/panels/musclePanelDom.ts` is live only while the Muscles tab is mounted;
 - the Muscle React wrapper is removed after focused/browser parity;
 - Muscle local filters reset on remount and the existing `MusclePanel.css` remains owned by the first-party module;
+- `src/editor/panels/comparisonPanelDom.ts` is live only while Compare is active, with explicit mount/disposal bound to `studioLayoutStore`;
+- the Comparison React wrapper is removed after focused/browser parity;
+- Comparison capture remains review-only and preserves both diagrams, snapshot metadata, selected-joint A/B/Δ readings and Clear behavior without changing document/history state;
 - a focused mount-lifecycle guard verifies validation stays dormant while Technique is inactive;
 - Chromium verifies live shell/Toolbar ownership and Toolbar routing for generated candidates, view modes, backdrop, camera and undo/redo;
 - full suite/build/provenance/dependency/resource/network gates pass.
 
 The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green. A Toolbar smoke assertion also initially expected a camera preset to survive `loadExercise`; the established store behavior correctly resets camera to `recommended`, so the parity assertion was corrected rather than changing runtime semantics.
 
-Next exact increment: **Pose A/B Comparison**.
+Next exact increment: **Contact diagnostics**.
 
-1. build a React-free Comparison panel DOM/controller backed directly by `studioStore`;
-2. preserve Capture A, Capture B and Clear both semantics exactly; comparison snapshots remain review-only and must not edit the clip or undo history;
-3. preserve the two front-pose diagrams, time/marker headers, empty states and SVG accessibility labels;
-4. preserve selected-joint A/B/Δ angle readouts and the “select a joint” hint;
-5. prove focused unit behavior and Chromium parity while `ComparisonPanel.tsx` remains the reference;
-6. switch only the Compare tab after those checks pass, then remove the redundant React wrapper;
-7. continue other panels incrementally, leaving generation/review/export until lower-risk surfaces are complete.
+1. build a React-free Contact panel DOM/controller backed directly by `studioStore`;
+2. preserve the existing `contactDiagnostics(...)` pipeline at the live playhead with current anchors and pose evaluation;
+3. preserve status wording, equipment socket metadata, target/effector/error/reachability readings, empty state and hint text;
+4. preserve checkbox edits through `setLockEnabled`, including existing history/undo semantics;
+5. prove focused unit behavior and Chromium parity while `ContactPanel.tsx` remains the reference;
+6. switch only the Contacts left tab after those checks pass, mount only while `leftTab === 'contacts'`, then remove the redundant React wrapper;
+7. continue with Exercise and other editing panels incrementally, leaving generation/review/export until lower-risk surfaces are complete.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

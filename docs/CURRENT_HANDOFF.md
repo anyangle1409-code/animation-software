@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`6b3532539c4b44137196fe595b1861e1bc149c55`
+`6465d9f0715cef0001e239c6fdbbb59589b9c04e`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 6b353253
+## Verified state at 6465d9f0
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 122 test files PASS, 2 skipped
-- full tests: 921 PASS, 62 skipped
+- full suite: 124 test files PASS, 2 skipped
+- full tests: 924 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -116,6 +116,9 @@ Verified live shell state:
 - `src/editor/panels/musclePanelDom.ts` owns the live Muscle diagnostics panel only while that tab is active;
 - Muscle diagnostics preserve the finished-frame biomechanics pipeline, activation ordering, labels/readings, CSS and local filter reset-on-remount behavior;
 - `src/editor/panels/MusclePanel.tsx` is removed;
+- `src/editor/panels/comparisonPanelDom.ts` owns the live Pose A/B comparison panel only while Compare is active;
+- Comparison preserves review-only Capture A / Capture B / Clear behavior, both pose diagrams, snapshot metadata and selected-joint A/B/Δ readouts without editing clip/history state;
+- `src/editor/panels/ComparisonPanel.tsx` is removed;
 - remaining panel content and Viewport still retain their existing React behavior inside first-party slots;
 - the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
 - focused unit coverage verifies shell and Toolbar state sync, routing and disposal;
@@ -123,17 +126,18 @@ Verified live shell state:
 
 Next exact increment:
 
-1. migrate `src/editor/panels/ComparisonPanel.tsx` to project-owned DOM/lifecycle code;
-2. preserve review-only Capture A / Capture B / Clear behavior without changing clip or undo history;
-3. preserve both pose diagrams, snapshot time/marker labels, selected-joint A/B angle deltas and empty-state wording;
-4. preserve the local mount lifecycle so no hidden comparison surface remains subscribed while another tab is active;
-5. keep the React Comparison panel as the parity reference until focused tests and Chromium parity pass;
-6. switch only the Compare tab after those checks pass, then remove the redundant React wrapper;
-7. continue Contact/Exercise and other editing panels incrementally, leaving generation/review/export until lower-risk surfaces are complete;
-8. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
-9. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
-10. remove React/ReactDOM source imports and packages only after final browser/build gates;
-11. replace Three.js last.
+1. migrate `src/editor/panels/ContactPanel.tsx` to project-owned DOM/lifecycle code;
+2. preserve live `contactDiagnostics(...)` inspection from the current clip/playhead using the existing skeleton, pose evaluation and contact anchors;
+3. preserve all status labels, target/effector/error/reachability readouts, equipment socket details, empty state and explanatory hint;
+4. preserve lock checkbox semantics through the existing `setLockEnabled` action, including the current undo/redo behavior; do not change contact or IK mechanics;
+5. keep the React Contact panel as the parity reference until focused tests and Chromium parity pass;
+6. mount the first-party Contact surface only while `leftTab === 'contacts'` in the existing left-panel slot, with explicit disposal and no simultaneous React Contact surface;
+7. only after the live Contact switch is fully green remove `ContactPanel.tsx`, update these handoffs, then continue to Exercise and other editing panels incrementally;
+8. leave generation/review/export until lower-risk editing surfaces are complete;
+9. migrate the thin viewport DOM adapter after editor child surfaces no longer need React;
+10. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
+11. remove React/ReactDOM source imports and packages only after final browser/build gates;
+12. replace Three.js last.
 
 ## Remaining declared runtime dependencies
 

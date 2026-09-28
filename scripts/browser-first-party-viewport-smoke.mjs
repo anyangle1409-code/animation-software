@@ -102,6 +102,87 @@ try {
     panelsOpen: true,
   };
 
+  const firstPartyShellDom = await page.evaluate(async () => {
+    const [{ createStudioAppShellDom }, { studioLayoutStore }] = await Promise.all([
+      import("/src/editor/appShellDom.ts"),
+      import("/src/editor/layoutState.ts"),
+    ]);
+
+    studioLayoutStore.setState({
+      leftTab: "joint",
+      rightTab: "exercise",
+      panelsOpen: true,
+    });
+
+    const shell = createStudioAppShellDom(document, studioLayoutStore);
+    shell.element.dataset.hgptEditorShellProbe = "first-party";
+    shell.element.style.position = "fixed";
+    shell.element.style.left = "-10000px";
+    shell.element.style.top = "0";
+    shell.element.style.width = "900px";
+    shell.element.style.height = "700px";
+    document.body.append(shell.element);
+
+    const leftLabels = Object.values(shell.controls.leftTabs).map((button) => button.textContent);
+    const rightLabels = Object.values(shell.controls.rightTabs).map((button) => button.textContent);
+    const slotNames = Object.values(shell.slots).map(
+      (slot) => slot.dataset.hgptEditorSlot ?? "",
+    );
+
+    shell.controls.leftTabs.equipment.click();
+    shell.controls.rightTabs.review.click();
+    shell.controls.panelToggle.click();
+
+    const state = studioLayoutStore.getState();
+    const result = {
+      leftLabels,
+      rightLabels,
+      slotNames,
+      leftTab: state.leftTab,
+      rightTab: state.rightTab,
+      panelsOpen: state.panelsOpen,
+      equipmentActive: shell.controls.leftTabs.equipment.classList.contains("is-active"),
+      jointInactive: !shell.controls.leftTabs.joint.classList.contains("is-active"),
+      reviewActive: shell.controls.rightTabs.review.classList.contains("is-active"),
+      focusClass: shell.element.classList.contains("studio--focus"),
+      panelToggleText: shell.controls.panelToggle.textContent,
+    };
+
+    shell.dispose();
+    shell.element.remove();
+    studioLayoutStore.setState({
+      leftTab: "joint",
+      rightTab: "exercise",
+      panelsOpen: true,
+    });
+    return result;
+  });
+
+  assert.deepEqual(
+    firstPartyShellDom.leftLabels,
+    ["Joint", "Grip", "IK & locks", "Contacts", "Equipment", "Character"],
+    "First-party editor shell left-tab labels drifted from the React reference",
+  );
+  assert.deepEqual(
+    firstPartyShellDom.rightLabels,
+    ["Generate", "Exercise", "Muscles", "Technique", "Correctives", "Compare", "Review", "Export"],
+    "First-party editor shell right-tab labels drifted from the React reference",
+  );
+  assert.deepEqual(
+    firstPartyShellDom.slotNames,
+    ["toolbar", "left-panel", "viewport", "right-panel", "timeline"],
+    "First-party editor shell slot contract is incomplete",
+  );
+  assert.equal(firstPartyShellDom.leftTab, "equipment");
+  assert.equal(firstPartyShellDom.rightTab, "review");
+  assert.equal(firstPartyShellDom.panelsOpen, false);
+  assert.equal(firstPartyShellDom.equipmentActive, true);
+  assert.equal(firstPartyShellDom.jointInactive, true);
+  assert.equal(firstPartyShellDom.reviewActive, true);
+  assert.equal(firstPartyShellDom.focusClass, true);
+  assert.equal(firstPartyShellDom.panelToggleText, "Show panels");
+  report.checks.firstPartyEditorShellDom = firstPartyShellDom;
+
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas').first();
   await canvas.waitFor({ state: "visible", timeout: 20_000 });
   await page.waitForTimeout(900);

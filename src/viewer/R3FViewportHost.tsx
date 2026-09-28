@@ -24,6 +24,7 @@ import { FirstPartyTransformGizmo } from './FirstPartyTransformGizmo';
 import { createStudioStage } from './studioStage';
 import { StudioCameraRigController } from './cameraRigController';
 import { SceneHostBindingsProvider, useSceneHostBindings } from './sceneHostBindings';
+import { SceneObjectMount } from './SceneObjectMount';
 
 /**
  * Advances playback and resolves the frame, once per rendered frame and before
@@ -354,7 +355,7 @@ function StaticStageBridge({
     };
   }, [root, stage]);
 
-  return <primitive object={stage.root} />;
+  return <SceneObjectMount object={stage.root} />;
 }
 
 export function R3FViewportHost() {

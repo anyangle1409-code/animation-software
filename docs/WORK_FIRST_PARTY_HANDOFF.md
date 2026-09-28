@@ -249,3 +249,5 @@ Do not run it as a substitute for finishing the V15f reference benchmark first. 
 - Latest Cloud audit after the isolated host: 5 direct runtime dependencies, 127 bare source imports (the additional temporary Three import is not mounted in production), 0 operational legacy assets, 9 MakeHuman-derived source files. Final-character and release-readiness gates remain open.
 
 - Release allowlist now blocks symbolic links and incorrect policy mode. Four scanner regression fixtures pass. Cloud has no browser binary or Blender, so run laptop visual/Blender gates without treating Cloud fixture tests as visual approval.
+
+- O2 laptop launcher now fails early on wrong branch/missing Node development tools. If it reports missing `esbuild`, run `npm ci` in that repo, then rerun `PREPARE_ORIGINAL_V1_O2.bat`.

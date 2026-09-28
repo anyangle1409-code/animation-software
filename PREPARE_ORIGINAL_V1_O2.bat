@@ -2,6 +2,22 @@
 setlocal
 cd /d "%~dp0"
 
+set "CURRENT_BRANCH="
+for /f "delims=" %%I in ('git branch --show-current 2^>nul') do set "CURRENT_BRANCH=%%I"
+if not "%CURRENT_BRANCH%"=="work/standalone-first-party-audit-20260927" (
+  echo Expected branch work/standalone-first-party-audit-20260927; found "%CURRENT_BRANCH%".
+  exit /b 1
+)
+node --version >nul 2>&1
+if errorlevel 1 (
+  echo Node.js is required for the committed v4 rig export check.
+  exit /b 1
+)
+if not exist "node_modules\esbuild\package.json" (
+  echo Local development tools missing. Run npm ci, then rerun this command.
+  exit /b 1
+)
+
 set "BLENDER="
 if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"
 if not defined BLENDER (

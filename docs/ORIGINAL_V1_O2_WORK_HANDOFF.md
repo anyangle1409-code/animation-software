@@ -8,13 +8,13 @@ The committed `ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json` is generated fr
 
 ## Exact laptop entry
 
-From the repository root on the requested branch, with the existing local O1 Blend present:
+From the repository root on the requested branch, with the existing local O1 Blend present and development packages installed (`npm ci` if needed):
 
 ```bat
 PREPARE_ORIGINAL_V1_O2.bat
 ```
 
-If `BLENDER_EXE` is needed, set it to Blender's full `blender.exe` path before running. The command checks the committed rig export, backs up the Blend to `ORIGINAL_V1_WORK/checkpoints/PRE_V4_<UTC>.blend`, creates the unbound v4 armature, and writes `reports/original_v4_blender_audit.json`. Open `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`. It deliberately fails on rerun or on a modified O1 baseline; never delete objects merely to make it pass. The old `HGPT_CLEAN_HISTORICAL_REFERENCE_RIG` remains hidden and reference-only: its O1 armature modifier and historical skin groups are removed from the scaffold after the backup. `ORIGINAL_V1_WORK/O2_RIG_PROVENANCE.json` records both Blend hashes and the v4 payload hash. The v4 armature must remain unbound throughout O2.
+The launcher checks the branch, Node.js and local `esbuild` installation before editing the Blend. If `BLENDER_EXE` is needed, set it to Blender's full `blender.exe` path before running. The command checks the committed rig export, backs up the Blend to `ORIGINAL_V1_WORK/checkpoints/PRE_V4_<UTC>.blend`, creates the unbound v4 armature, and writes `reports/original_v4_blender_audit.json`. Open `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`. It deliberately fails on rerun or on a modified O1 baseline; never delete objects merely to make it pass. The old `HGPT_CLEAN_HISTORICAL_REFERENCE_RIG` remains hidden and reference-only: its O1 armature modifier and historical skin groups are removed from the scaffold after the backup. `ORIGINAL_V1_WORK/O2_RIG_PROVENANCE.json` records both Blend hashes and the v4 payload hash. The v4 armature must remain unbound throughout O2.
 
 If the local O1 Blend is missing, recover the verified O1 checkpoint on the laptop or rerun `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` after checking the O1 provenance and evidence. Never manufacture a replacement from a legacy Blend.
 

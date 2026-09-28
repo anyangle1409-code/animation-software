@@ -318,3 +318,5 @@ Direct runtime dependencies: **5**. Bare source imports: **127** (one added temp
 ## 2026-09-28 release package guard checkpoint
 
 The deny-by-default release audit now rejects all symbolic links and any policy mode other than `deny_by_default`. Focused tests reproduce and guard both prior false passes. The release allowlist remains empty and its final gate remains red until first-party assets and runtime code are genuinely approved. The Cloud container has neither Blender nor a browser binary; laptop Blender work and physical/device parity remain pending.
+
+O2 laptop preflight now checks the exact branch, Node.js and installed export tooling before touching the local Blend. `ORIGINAL_V1_DIMENSION_SPEC.json` is explicitly labelled historical 1.75 m O1 scaffold data; the 1.82 m v4 production target remains in `src/rig/canonicalV4Original.ts`.

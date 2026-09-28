@@ -25,5 +25,7 @@
     "do not import source-rig inverse bind matrices",
     "record every final segment length and dimensionless body-height fraction"
   ],
-  "status": "draft_clean_targets_not_frozen"
+  "status": "historical_o1_scaffold_targets_not_production_v4",
+  "scope": "Historical 1.75 m O1 clean scaffold only; not the 1.82 m hgpt_canonical_v4_original production rig target.",
+  "production_rig_target": "src/rig/canonicalV4Original.ts"
 }

@@ -1,6 +1,5 @@
 import type { ObservableStore } from '../../core/observableStore';
 import { EQUIPMENT_LIBRARY, equipmentSocketForInstance } from '../../equipment/library';
-import type { Vec3 } from '../../rig/types';
 import { studioStore, type StudioState } from '../storeCore';
 
 type DocumentPort = Pick<Document, 'createElement'>;

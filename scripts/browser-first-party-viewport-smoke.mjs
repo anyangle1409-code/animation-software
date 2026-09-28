@@ -189,6 +189,115 @@ try {
     panelsOpen: true,
   };
 
+  const reviewStateBeforeParity = await page.evaluate(async () => {
+    const [{ studioStore }, { characterStore }] = await Promise.all([
+      import("/src/editor/storeCore.ts"),
+      import("/src/editor/characterStoreCore.ts"),
+    ]);
+    const studio = studioStore.getState();
+    const character = characterStore.getState();
+    const before = {
+      exerciseId: studio.document.exercise.id,
+      selection: studio.selection,
+      camera: studio.camera,
+      time: studio.time,
+      visualReview: studio.visualReview,
+      correctivesPreview: character.correctivesPreview,
+      sourceStatus: character.sourceStatus,
+    };
+    studioStore.getState().loadExercise("dumbbell_bicep_curl");
+    studioStore.getState().selectBone(null);
+    studioStore.getState().clearVisualReview();
+    studioStore.getState().setCamera("recommended");
+    studioStore.getState().setTime(0);
+    characterStore.setState({
+      correctivesPreview: true,
+      sourceStatus: { kind: "idle" },
+    });
+    return before;
+  });
+  await rightTabs.getByRole("button", { name: "Review", exact: true }).click();
+  await page.locator('[data-hgpt-editor-slot="right-panel"] .review-panel').waitFor();
+  const reviewPanelParity = await page.evaluate(async () => {
+    const [
+      { createReviewPanelDom },
+      { studioStore },
+      { characterStore },
+    ] = await Promise.all([
+      import("/src/editor/panels/reviewPanelDom.ts"),
+      import("/src/editor/storeCore.ts"),
+      import("/src/editor/characterStoreCore.ts"),
+    ]);
+    const clean = (value) => value?.replace(/\s+/g, " ").trim() ?? null;
+    const snapshot = (panel) => ({
+      heading: panel.querySelector("h2")?.textContent ?? null,
+      status: {
+        className: panel.querySelector(".review-status")?.getAttribute("class") ?? null,
+        text: clean(panel.querySelector(".review-status")?.textContent),
+      },
+      gates: Array.from(panel.querySelectorAll(".review-gates article")).map((gate) => ({
+        className: gate.getAttribute("class"),
+        text: clean(gate.textContent),
+      })),
+      movementHint: clean(panel.querySelector(".joint-motion-diagnostic .panel__hint")?.textContent),
+      movementSpecs: Array.from(panel.querySelectorAll(".joint-motion-diagnostic .spec-list > *"))
+        .map((item) => clean(item.textContent)),
+      movementActions: Array.from(panel.querySelectorAll(".joint-motion-diagnostic .button-row button"))
+        .map((button) => button.textContent),
+      signoff: (() => {
+        const button = Array.from(panel.querySelectorAll(".button-row button"))
+          .find((item) => item.textContent?.includes("visual review") || item.textContent?.includes("visual sign-off"));
+        return button
+          ? {
+              text: button.textContent,
+              className: button.getAttribute("class") ?? "",
+              disabled: button.disabled,
+            }
+          : null;
+      })(),
+      notes: Array.from(panel.querySelectorAll(".panel__note")).map((item) => clean(item.textContent)),
+      headings: Array.from(panel.querySelectorAll("h3")).map((item) => item.textContent),
+    });
+
+    const reactPanel = document.querySelector('[data-hgpt-editor-slot="right-panel"] .review-panel');
+    if (!(reactPanel instanceof HTMLElement)) throw new Error("React Review panel reference is unavailable");
+    const react = snapshot(reactPanel);
+
+    const firstParty = createReviewPanelDom(document, studioStore, characterStore);
+    firstParty.element.style.position = "fixed";
+    firstParty.element.style.left = "-10000px";
+    firstParty.element.style.top = "0";
+    document.body.append(firstParty.element);
+    const candidate = snapshot(firstParty.element);
+    firstParty.dispose();
+    firstParty.element.remove();
+    return { react, candidate };
+  });
+  assert.deepEqual(
+    reviewPanelParity.candidate,
+    reviewPanelParity.react,
+    "First-party Review panel drifted from the React reference",
+  );
+  report.checks.firstPartyReviewPanel = reviewPanelParity.candidate;
+  await page.evaluate(async (before) => {
+    const [{ studioStore }, { characterStore }] = await Promise.all([
+      import("/src/editor/storeCore.ts"),
+      import("/src/editor/characterStoreCore.ts"),
+    ]);
+    studioStore.getState().loadExercise(before.exerciseId);
+    studioStore.setState({
+      selection: before.selection,
+      camera: before.camera,
+      time: before.time,
+      visualReview: before.visualReview,
+    });
+    characterStore.setState({
+      correctivesPreview: before.correctivesPreview,
+      sourceStatus: before.sourceStatus,
+    });
+  }, reviewStateBeforeParity);
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+
   const generateStudioBefore = await page.evaluate(async () => {
     const [
       { generationStore },

@@ -3,7 +3,6 @@ import {
   createStore,
   type ObservableStore,
   type StoreGet,
-  type StoreListener,
   type StoreSet,
 } from './observableStore';
 

@@ -4,7 +4,7 @@ Branch: `work/standalone-first-party-audit-20260927`
 
 Latest fully verified checkpoint:
 
-`1110bb611b73612293a60762fccfdf0c82bc3db4`
+`0b9bb62a809ee4af7f7bf35fc4f8ae5b5c936714`
 
 ## Boundary
 
@@ -16,7 +16,7 @@ Do not replace React with another third-party UI framework. The target is projec
 
 ## Verified checkpoint
 
-At `1110bb61`:
+At `0b9bb62a`:
 
 - Standalone prep verification: PASS
 - full suite: 116 test files PASS, 2 skipped
@@ -85,10 +85,10 @@ The renderer, frame clock, clip tracking, pointer router, scene composition and 
 
 ## React-owned surfaces that remain
 
-### Root/editor chrome
+### Remaining React child surfaces / bridge
 
-- `src/main.tsx`
-- `src/editor/App.tsx`
+- `src/main.tsx` — temporary ReactDOM bridge root beside the first-party shell
+- `src/editor/App.tsx` — temporary portal bridge only
 - `src/editor/Toolbar.tsx`
 - `src/editor/Timeline.tsx`
 - `src/editor/panels/*.tsx`
@@ -104,33 +104,27 @@ The viewport adapter now owns only React DOM/effect lifetime; all renderer and s
 
 ### R3 — editor DOM shell: IN PROGRESS
 
-First preparation increment is verified at `1110bb61`:
+The outer editor shell is now live first-party DOM at `0b9bb62a`:
 
-- `src/editor/appShellDom.ts` is a React-free Studio shell DOM/controller;
-- it owns current shell classes, left/right tab buttons, panel slots and Hide/Show panels behavior;
-- it reads/subscribes directly to `studioLayoutStore`;
-- focused tests verify state sync, click routing and explicit disposal;
-- the browser smoke now baselines the current live React shell's Equipment/Review tab activation and focus-mode toggle semantics;
-- the first-party shell is not live yet.
+- `src/editor/appShellDom.ts` owns the live Studio structure, tab buttons, panel visibility and stable child slots;
+- `src/main.tsx` mounts the shell directly under `#root`;
+- `src/editor/App.tsx` no longer renders the shell markup and is only a temporary portal bridge for React child surfaces;
+- the viewport has a dedicated first-party slot so the panel-toggle overlay and child viewport layout stay independent;
+- the temporary React bridge is a sibling of the shell, not its owner;
+- focused shell tests pass;
+- Chromium verifies live shell ownership, five-slot contract, viewport layout boundary, tab/focus behavior and the empty portal bridge container;
+- full suite/build/provenance/dependency/resource/network gates pass.
 
-The initial preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped the checkpoint, the cast was corrected without runtime changes, and the complete standalone/browser gates then passed.
+The initial shell preparation commit exposed a test-only strict TypeScript cast; the typecheck gate stopped that checkpoint, the cast was corrected without runtime changes, and all later shell checkpoints are green.
 
-Next exact increment:
+Next exact increment: **toolbar/playback controls**.
 
-1. mount the project-owned shell as the live outer editor structure through a reversible temporary bridge;
-2. keep the existing Toolbar, active React panel, Viewport and Timeline surfaces intact inside the shell's slots;
-3. keep keyboard binding exactly once;
-4. preserve current classes, labels, selectors, responsive behavior and state semantics;
-5. run focused tests, typecheck, full suite/build/gates and Chromium;
-6. only after parity, remove the superseded React outer-shell markup.
-
-Then continue in parity-gated groups:
-
-1. toolbar/playback controls
-2. timeline
-3. simple read-only panels
-4. editing panels/forms
-5. generation/review/export workflows
+1. build a React-free Toolbar DOM/controller backed directly by `studioStore`;
+2. preserve the existing brand, Exercise selector including generated-candidate behavior, view modes, Backdrop, Camera, Regenerate, Undo and Redo;
+3. preserve current CSS classes, roles, labels, disabled states and selector semantics;
+4. prove it with focused tests and browser parity while the React Toolbar remains the reference;
+5. switch the live toolbar slot only after those checks pass;
+6. then continue with timeline, simple panels, editing panels/forms and generation/review/export workflows.
 
 Use `studioStore.subscribe/getState` and `studioLayoutStore.subscribe/getState`; do not create a second state model.
 

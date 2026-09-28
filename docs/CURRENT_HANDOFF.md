@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`1110bb611b73612293a60762fccfdf0c82bc3db4`
+`0b9bb62a809ee4af7f7bf35fc4f8ae5b5c936714`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 1110bb61
+## Verified state at 0b9bb62a
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -88,8 +88,8 @@ Completed and verified:
 
 React remains in:
 
-- `src/main.tsx` / ReactDOM root
-- `src/editor/App.tsx`, Toolbar, Timeline and editor panels
+- `src/main.tsx` / temporary ReactDOM child-surface bridge root
+- `src/editor/App.tsx` portal bridge, Toolbar, Timeline and editor panels
 - `src/viewer/FirstPartyViewportHost.tsx` and `src/viewer/Viewport.tsx` as thin DOM/lifecycle adapters
 - temporary React store hooks/adapters
 
@@ -103,22 +103,24 @@ R1 (framework-neutral Studio scene controller) and R2 (switch live scene composi
 
 Current objective: **R3 editor DOM shell**.
 
-Verified preparation now exists:
+Verified live shell state:
 
-- `src/editor/appShellDom.ts` builds the Studio outer shell, left/right tabs, panel slots and panel visibility with project-owned DOM;
-- it binds directly to `studioLayoutStore.getState/subscribe`;
-- focused unit coverage verifies store-to-DOM sync, click routing and disposal;
-- Chromium now explicitly verifies the current live React shell's left/right tab activation and Hide/Show panels focus-mode behavior;
-- the first-party shell is **not live yet**; the React shell remains the verified reference.
+- `src/editor/appShellDom.ts` owns the live Studio outer structure, left/right tabs, panel slots and panel visibility;
+- `src/main.tsx` mounts that first-party shell directly under `#root`;
+- `src/editor/App.tsx` is now a temporary React child-surface bridge using portals only;
+- Toolbar, active panel content, Viewport and Timeline retain their existing React behavior inside first-party slots;
+- the viewport child slot has an explicit `studio__viewport-slot` layout boundary;
+- focused unit coverage verifies shell state sync/click routing/disposal;
+- Chromium verifies first-party shell ownership, slot count/layout, tab activation, focus-mode behavior and the separate empty React bridge container.
 
 Next exact increment:
 
-1. mount the project-owned shell as the live outer editor structure through a reversible temporary bridge;
-2. keep the existing Toolbar, active panel content, Viewport and Timeline as the same React child surfaces inside the first-party shell slots;
-3. keep keyboard binding exactly once and preserve all current CSS classes, labels, selectors and responsive behavior;
-4. prove the live shell through focused tests, full gates and Chromium before deleting the old React shell markup;
-5. then migrate toolbar/playback controls, timeline, simple panels, editing panels and generation/review/export workflows in small parity-gated groups;
-6. replace the remaining ReactDOM root only after editor + viewport parity;
+1. migrate `src/editor/Toolbar.tsx` to a project-owned DOM/controller backed directly by `studioStore`;
+2. preserve brand text, exercise selector/candidate behavior, view-mode controls, backdrop/camera selectors, Regenerate/Undo/Redo semantics and all current classes/accessibility labels;
+3. keep the React Toolbar as the parity reference until the first-party toolbar is proven;
+4. then switch the live toolbar slot and remove the redundant React toolbar wrapper;
+5. continue with timeline, simple panels, editing panels and generation/review/export workflows in small parity-gated groups;
+6. replace the remaining ReactDOM child-surface bridge only after editor + viewport parity;
 7. remove React/ReactDOM source imports and packages only after the final browser/build gates;
 8. replace Three.js last.
 

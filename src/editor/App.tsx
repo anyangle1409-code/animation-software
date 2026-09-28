@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Viewport } from '../viewer/Viewport';
 import { ExportPanel } from './panels/ExportPanel';
-import { GripPanel } from './panels/GripPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
 import { GeneratePanel } from './panels/GeneratePanel';
@@ -22,16 +21,9 @@ export interface AppProps {
  * migrated independently.
  */
 export function App({ shell }: AppProps) {
-  const leftTab = useStudioLayout((state) => state.leftTab);
   const rightTab = useStudioLayout((state) => state.rightTab);
 
   useEffect(() => bindStudioKeyboard(window), []);
-
-  const leftPanel = (
-    <>
-      {leftTab === 'grip' && <GripPanel />}
-    </>
-  );
 
   const rightPanel = (
     <>
@@ -44,7 +36,6 @@ export function App({ shell }: AppProps) {
 
   return (
     <>
-      {createPortal(leftPanel, shell.slots.leftPanel)}
       {createPortal(<Viewport />, shell.slots.viewport)}
       {createPortal(rightPanel, shell.slots.rightPanel)}
     </>

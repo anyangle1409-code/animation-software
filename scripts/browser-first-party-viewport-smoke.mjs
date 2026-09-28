@@ -711,41 +711,60 @@ try {
     "Detached Joint panel remained mounted after left-tab change");
 
   await leftTabs.getByRole("button", { name: "Grip", exact: true }).evaluate((button) => button.click());
-  const gripPreparationParity = await page.evaluate(async () => {
-    const [{ createGripPanelDom }, { studioStore }] = await Promise.all([
-      import("/src/editor/panels/gripPanelDom.ts"),
-      import("/src/editor/storeCore.ts"),
-    ]);
+  const liveGripPanel = await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
     const slot = document.querySelector('[data-hgpt-editor-slot="left-panel"]');
-    const react = slot?.querySelector(".panel");
-    if (!(react instanceof HTMLElement)) throw new Error("React Grip parity reference unavailable");
-    const candidate = createGripPanelDom();
+    const panel = document.querySelector('[data-hgpt-panel="grip-first-party"]');
+    if (!(panel instanceof HTMLElement)) throw new Error("First-party Grip panel is unavailable");
     const before = studioStore.getState();
-    const snapshot = (panel) => ({
-      headings: [...panel.querySelectorAll("h2,h3,h4")].map((node) => node.textContent?.trim()),
-      selects: [...panel.querySelectorAll("select")].map((select) => [select.value, [...select.options].map((option) => option.value)]),
-      fields: [...panel.querySelectorAll("input")].map((input) => [input.type, input.value, input.min, input.max, input.step, input.disabled]),
-      buttons: [...panel.querySelectorAll("button")].map((button) => [button.textContent?.trim(), button.disabled, button.className]),
-      fitHeadings: [...panel.querySelectorAll(".grip-fit__head")].map((node) => node.textContent?.replace(/\s+/g, " ").trim()),
-      readings: [...panel.querySelectorAll(".spec-list")].map((list) =>
-        [...list.querySelectorAll("dt,dd")].map((node) => node.textContent?.trim())),
-    });
-    const comparisons = [];
-    for (const exerciseId of ["dumbbell_bicep_curl", "pull_up"]) {
-      studioStore.getState().loadExercise(exerciseId);
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-      comparisons.push({ exerciseId, react: snapshot(react), candidate: snapshot(candidate.element) });
-    }
-    studioStore.setState({ document: before.document, history: before.history, time: before.time, selection: before.selection });
-    candidate.dispose();
-    return comparisons;
+    const read = () => document.querySelector('[data-hgpt-panel="grip-first-party"]');
+    studioStore.getState().loadExercise("dumbbell_bicep_curl");
+    const closure = read()?.querySelector('[data-hgpt-grip-control="closure"]');
+    if (!(closure instanceof HTMLInputElement)) throw new Error("Grip closure editor unavailable");
+    closure.value = "0.7";
+    closure.dispatchEvent(new Event("change", { bubbles: true }));
+    const globalClosure = studioStore.getState().document.exercise.hands.closure;
+    const digit = read()?.querySelector('[data-hgpt-grip-control="digit-thumb"]');
+    if (!(digit instanceof HTMLInputElement)) throw new Error("Grip digit editor unavailable");
+    digit.value = "0.8";
+    digit.dispatchEvent(new Event("change", { bubbles: true }));
+    const digitClosure = studioStore.getState().document.exercise.hands.digitClosure?.thumb;
+    const offset = read()?.querySelector('[data-hgpt-grip-control$="-offset-x"]');
+    if (!(offset instanceof HTMLInputElement)) throw new Error("Grip handle offset editor unavailable");
+    const offsetId = offset.dataset.hgptGripControl.slice(0, -"-offset-x".length);
+    offset.value = "3";
+    offset.dispatchEvent(new Event("change", { bubbles: true }));
+    const oneHand = studioStore.getState().document.exercise.equipment.instances.find((item) => item.id === offsetId);
+    const offsetMetres = oneHand?.attachment.mode === "hand" ? oneHand.attachment.gripOffset?.x : null;
+    studioStore.getState().loadExercise("cable_triceps_pushdown");
+    const twoHandCount = read()?.querySelectorAll(".grip-fit").length ?? 0;
+    const result = {
+      insideLeftPanel: panel.parentElement === slot,
+      panelCount: slot?.querySelectorAll(".panel").length ?? -1,
+      firstPartyCount: document.querySelectorAll('[data-hgpt-panel="grip-first-party"]').length,
+      heading: read()?.querySelector("h2")?.textContent,
+      globalClosure,
+      digitClosure,
+      offsetMetres,
+      twoHandCount,
+      widthControl: read()?.querySelector('[data-hgpt-grip-control$="-width"]') instanceof HTMLInputElement,
+    };
+    studioStore.setState(before);
+    return result;
   });
-  for (const comparison of gripPreparationParity) {
-    assert.deepEqual(comparison.candidate, comparison.react,
-      `Prepared Grip controls or fit diagnostics diverge for ${comparison.exerciseId}`);
-  }
-  report.checks.gripPreparationParity = gripPreparationParity;
+  assert.equal(liveGripPanel.insideLeftPanel, true, "Grip panel is outside the left-panel slot");
+  assert.equal(liveGripPanel.panelCount, 1, "Grip tab has multiple live panel surfaces");
+  assert.equal(liveGripPanel.firstPartyCount, 1, "First-party Grip ownership is ambiguous");
+  assert.equal(liveGripPanel.heading, "Grip");
+  assert.equal(liveGripPanel.globalClosure, 0.7, "Grip global closure did not route to Studio state");
+  assert.equal(liveGripPanel.digitClosure, 0.8, "Grip digit closure did not route to Studio state");
+  assert(Math.abs(liveGripPanel.offsetMetres - 0.003) < 1e-9, "Grip handle offset did not route to Studio state");
+  assert(liveGripPanel.twoHandCount > 0, "Grip two-hand fit diagnostics are missing");
+  assert.equal(liveGripPanel.widthControl, true, "Grip two-hand width editor is missing");
+  report.checks.liveGripPanel = liveGripPanel;
   await leftTabs.getByRole("button", { name: "Character", exact: true }).evaluate((button) => button.click());
+  assert.equal(await page.locator('[data-hgpt-panel="grip-first-party"]').count(), 0,
+    "Detached Grip panel remained mounted after left-tab change");
 
   const validationBeforeTechnique = await page.evaluate(async () => {
     const { studioStore } = await import("/src/editor/storeCore.ts");

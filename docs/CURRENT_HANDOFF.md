@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation checkpoint:
 
-`3f2766dec673ba5d86d1df336e53c6b6104770e8`
+`208b7bf460e703edd90176c20eb027a1557b8ef9`
 
 Do not reconstruct state from historical branches, old chats, removed reports or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md` and `docs/DECISION_LOG.md`, then continue only the exact task below.
 
-## Verified state at 3f2766d
+## Verified state at 208b7bf
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: PASS
-- full suite: 136 test files PASS, 2 skipped
-- full tests: 946 PASS, 62 skipped
+- full suite: 137 test files PASS, 2 skipped
+- full tests: 948 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -144,22 +144,17 @@ Verified live shell state:
 
 Next exact increment:
 
-1. verify the prepared `gripPanelDom.ts` with focused tests and Chromium parity in both workflows while `GripPanel.tsx` remains live;
-2. after preparation is green, mount first-party Grip only on its exact left tab with explicit disposal and no simultaneous React copy;
-3. remove `GripPanel.tsx` only after the live checkpoint passes both workflows; then continue right-side panels;
-4. continue remaining editor panels, then the thin viewport adapter, portal bridge and root;
-5. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
-6. replace Three.js last.
+1. verify the live first-party Grip switch in both required workflows. The preparation at `208b7bf` passed both workflows: 137 test files and 948 tests passed, with 2 files and 62 tests skipped;
+2. only after the live checkpoint is green, remove the redundant `GripPanel.tsx` and update this handoff;
+3. continue right-side panels, then the thin viewport adapter, portal bridge and root;
+4. set React/ReactDOM import ceilings to zero and remove packages only after all source/import and browser/build parity gates;
+5. replace Three.js last.
 
-The Equipment reference removal passed both required workflows at `3bc0d87`.
+The left-side panels (including Grip in the pending live switch) now have first-party DOM ownership. The live Grip browser probe covers closure, digit closure, one-hand offset, two-hand diagnostic/width presence and tab disposal. The original preparation parity compared the curl and pull-up states; the live two-hand probe correctly uses cable pushdown with a two-hand attachment.
 
 Current direct `react`/`react-dom` source import statements: 10; direct R3F/Drei source imports: 0. The declared runtime dependencies remain the five listed below.
 
-The Character preparation passed both workflows at `55592fb`; the live switch passed both at `954cc99`. The Character React reference cleanup passed both workflows at `162b08d`.
-
-Joint preparation passed both workflows at `5866c57`; the live switch passed both at `0318a5f`. The Joint React reference cleanup passed both workflows at `3f2766d`.
-
-The next preparation commit adds detached first-party Grip DOM, focused tests and Chromium comparisons for one-hand and two-hand equipment. Grip remains React-owned live until a separate verified switch.
+The Equipment reference removal passed both workflows at `3bc0d87`. Character preparation, live switch and cleanup passed at `55592fb`, `954cc99` and `162b08d`. Joint preparation, live switch and cleanup passed at `5866c57`, `0318a5f` and `3f2766d`. Grip preparation passed both workflows at `208b7bf`.
 
 ## Remaining declared runtime dependencies
 

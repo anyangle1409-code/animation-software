@@ -22,6 +22,8 @@ import { createCharacterPanelDom } from './editor/panels/characterPanelDom';
 import { createCharacterPanelMount } from './editor/panels/characterPanelMount';
 import { createJointPanelDom } from './editor/panels/jointPanelDom';
 import { createJointPanelMount } from './editor/panels/jointPanelMount';
+import { createGripPanelDom } from './editor/panels/gripPanelDom';
+import { createGripPanelMount } from './editor/panels/gripPanelMount';
 import { studioLayoutStore } from './editor/layoutState';
 import './editor/styles.css';
 
@@ -82,6 +84,12 @@ const jointPanelMount = createJointPanelMount(
   studioLayoutStore,
 );
 
+const gripPanelMount = createGripPanelMount(
+  shell.slots.leftPanel,
+  () => createGripPanelDom(),
+  studioLayoutStore,
+);
+
 const reactBridge = document.createElement('div');
 reactBridge.dataset.hgptReactBridge = 'editor-children';
 reactBridge.style.display = 'contents';
@@ -98,6 +106,7 @@ root.render(
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     root.unmount();
+    gripPanelMount.dispose();
     jointPanelMount.dispose();
     characterPanelMount.dispose();
     equipmentPanelMount.dispose();

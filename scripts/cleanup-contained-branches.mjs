@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 
 const EXPECTED_BRANCH = "work/standalone-first-party-audit-20260927";
 const TARGETS = [
+  "chatgpt/absolute-retarget-imports",
   "claude/home-gym-pt-animation-txux66",
   "codex/anatomical-reference-character",
   "codex/fix-dumbbell-grip-position",

@@ -58,7 +58,7 @@ const result={
     decisionLog:"docs/DECISION_LOG.md",
   },
   branchTarget:"work/standalone-first-party-audit-20260927",
-  historicalIntegrationBaseline:"chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb",
+  historicalIntegrationBaselineCommit:"47187360b5d631d438a6b33b284ad06732e244cb",
   directRuntimeDependencies:deps,
   directRuntimeDependencyCount:deps.length,
   completed:{

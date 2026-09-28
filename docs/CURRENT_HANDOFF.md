@@ -10,11 +10,11 @@ Active branch:
 
 Latest fully verified implementation/cleanup checkpoint:
 
-`05d77a6904d2f0f9a7a5416e22b54b336d25c6a9`
+`0cd99e4ab9ac9d6e958fdc1c3256d4de625471f9`
 
 Do not reconstruct project state from historical branches, old chats, removed reports, or superseded handoffs. Read `docs/PROJECT_AUTHORITY.md`, `docs/AI_OPERATING_CONTRACT.md`, and `docs/DECISION_LOG.md`, then continue only the exact task named below.
 
-## Verified state at 05d77a69
+## Verified state at 0cd99e4a
 
 GitHub `Standalone prep verification` passed completely:
 
@@ -22,8 +22,8 @@ GitHub `Standalone prep verification` passed completely:
 - Blender helper Python syntax: PASS
 - repository authority / hygiene gate: PASS
 - focused first-party foundation suite: 83 / 83 PASS
-- full suite: 92 test files PASS, 3 skipped
-- full tests: 854 PASS, 67 skipped
+- full suite: 92 test files PASS, 2 skipped
+- full tests: 854 PASS, 62 skipped
 - production build: PASS
 - final-character runtime-path gate: PASS
 - runtime dependency anti-creep gate: PASS
@@ -64,14 +64,15 @@ Generic capabilities that remain intentionally supported — GLB import, bone ma
 
 ## Repository hygiene
 
-The active branch has removed duplicated/superseded mesh bundles, review assets, old progress/handoff files, obsolete migration entry docs, the redundant O1 launcher, and tracked generated audit reports.
+The active branch has removed duplicated/superseded mesh bundles, review assets, old progress/handoff files, obsolete migration entry docs, the redundant O1 launcher, tracked generated audit reports, and legacy-only retarget test fixtures/default asset paths. The optional imported-character diagnostic is now source-agnostic and accepts only an explicitly supplied `CHARACTER_DIAGNOSTIC_GLB`.
 
 `reports/` is now generated evidence and is gitignored. Run the relevant audit to create fresh reports; never treat an old committed report as current project state.
 
 Every `docs/*.md` file must be classified in `DOCUMENTATION_MANIFEST.json`. The hygiene gate fails on unclassified documentation or reintroduced forbidden legacy paths.
 
-Four historical remote branches were verified as fully contained and are safe to retire:
+Five historical remote branches were verified as fully contained and are safe to retire:
 
+- `chatgpt/absolute-retarget-imports`
 - `claude/home-gym-pt-animation-txux66`
 - `codex/anatomical-reference-character`
 - `codex/fix-dumbbell-grip-position`

@@ -36,6 +36,8 @@ export interface HgPrimitiveMaterialOptions {
   emissiveIntensity?: number;
   roughness?: number;
   metalness?: number;
+  depthTest?: boolean;
+  depthWrite?: boolean;
 }
 
 export class HgPrimitiveMaterial {
@@ -44,6 +46,8 @@ export class HgPrimitiveMaterial {
   emissiveIntensity: number;
   roughness: number;
   metalness: number;
+  depthTest: boolean;
+  depthWrite: boolean;
 
   constructor(
     colour: string | readonly [number, number, number, number],
@@ -66,6 +70,8 @@ export class HgPrimitiveMaterial {
     this.emissiveIntensity = options.emissiveIntensity ?? 0;
     this.roughness = options.roughness ?? 1;
     this.metalness = options.metalness ?? 0;
+    this.depthTest = options.depthTest ?? true;
+    this.depthWrite = options.depthWrite ?? true;
   }
 
   setColour(colour: string | readonly [number, number, number, number]): this {

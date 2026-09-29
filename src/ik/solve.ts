@@ -60,10 +60,14 @@ export function solveGoals(
 
 /** How far the end bone is from the orientation it was aimed at, radians. */
 function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vector3, forward: Vector3): number {
-  const turn = evaluation.quaternion(name);
+  const turn = evaluation.firstPartyEvaluation.quaternion(name);
   return Math.max(
-    missScratch.copy(Y_AXIS).applyQuaternion(turn).angleTo(direction),
-    missScratch.copy(Z_AXIS).applyQuaternion(turn).angleTo(forward),
+    missScratch.copy(HG_Y_AXIS).applyQuaternion(turn).angleTo(
+      aimDirection.set(direction.x, direction.y, direction.z),
+    ),
+    missScratch.copy(HG_Z_AXIS).applyQuaternion(turn).angleTo(
+      aimForward.set(forward.x, forward.y, forward.z),
+    ),
   );
 }
 
@@ -116,7 +120,11 @@ function settleTibialRotation(
 const TIBIAL_TOLERANCE = (0.05 * Math.PI) / 180;
 const Y_AXIS = new Vector3(0, 1, 0);
 const Z_AXIS = new Vector3(0, 0, 1);
-const missScratch = new Vector3();
+const HG_Y_AXIS = new HgVec3(0, 1, 0);
+const HG_Z_AXIS = new HgVec3(0, 0, 1);
+const missScratch = new HgVec3();
+const aimDirection = new HgVec3();
+const aimForward = new HgVec3();
 
 /**
  * A goal that holds a limb exactly where it is now, with a pole placed along

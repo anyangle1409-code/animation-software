@@ -50,6 +50,13 @@ export class HgVec3 {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
 
+  angleTo(v: HgVec3): number {
+    const denominator = Math.sqrt(this.lengthSq() * v.lengthSq());
+    if (denominator === 0) return Math.PI / 2;
+    const cosine = this.dot(v) / denominator;
+    return Math.acos(Math.max(-1, Math.min(1, cosine)));
+  }
+
   cross(v: HgVec3): this {
     const ax = this.x, ay = this.y, az = this.z;
     const bx = v.x, by = v.y, bz = v.z;

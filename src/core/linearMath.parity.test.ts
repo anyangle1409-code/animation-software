@@ -30,6 +30,20 @@ const ANGLES = [
 ] as const;
 
 describe('first-party math migration parity against Three.js', () => {
+  it('matches vector angles used by the foot aim residual, including zero vectors', () => {
+    const pairs = [
+      [[0, 1, 0], [0.2, 0.8, 0.4]],
+      [[0, 0, 1], [-0.4, 0.1, 0.2]],
+      [[1, 0, 0], [-1, 0, 0]],
+      [[0, 0, 0], [0, 1, 0]],
+    ] as const;
+    for (const [[ax, ay, az], [bx, by, bz]] of pairs) {
+      const actual = new HgVec3(ax, ay, az).angleTo(new HgVec3(bx, by, bz));
+      const expected = new Vector3(ax, ay, az).angleTo(new Vector3(bx, by, bz));
+      expect(Math.abs(actual - expected)).toBeLessThan(EPS);
+    }
+  });
+
   it('matches XZY Euler to quaternion conversion', () => {
     for (const [x, y, z] of ANGLES) {
       const hg = new HgQuat().setFromEulerXZY(x, y, z);

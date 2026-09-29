@@ -44,7 +44,6 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   Quaternion,
-  Raycaster,
   RepeatWrapping,
   Scene,
   Skeleton,
@@ -53,7 +52,6 @@ import {
   SRGBColorSpace,
   Texture,
   TorusGeometry,
-  Vector2,
   Vector3,
   WebGLRenderer,
 } from 'three';
@@ -97,7 +95,6 @@ export {
   PerspectiveCamera,
   PlaneGeometry,
   Quaternion,
-  Raycaster,
   RepeatWrapping,
   Scene,
   Skeleton,
@@ -106,7 +103,6 @@ export {
   SRGBColorSpace,
   Texture,
   TorusGeometry,
-  Vector2,
   Vector3,
   WebGLRenderer,
 };

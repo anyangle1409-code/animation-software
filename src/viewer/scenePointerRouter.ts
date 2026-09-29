@@ -1,10 +1,13 @@
 import {
-  Raycaster,
-  Vector2,
   type Camera,
   type Object3D,
   type Scene,
 } from './threeSceneBoundary';
+import {
+  createSceneRay,
+  intersectSceneMeshes,
+  setSceneRayFromCamera,
+} from './sceneRaycast';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 
 export type HgScenePointerKind = 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel';
@@ -50,8 +53,7 @@ function visibleThroughScene(object: Object3D, scene: Scene): boolean {
  * scene target even when the ray leaves its geometry.
  */
 export class HgScenePointerRouter {
-  private readonly raycaster = new Raycaster();
-  private readonly ndc = new Vector2();
+  private readonly ray = createSceneRay();
   private readonly targets = new Map<Object3D, HgScenePointerHandlers>();
   private readonly captured = new Map<number, Object3D>();
   private mounted = false;
@@ -120,14 +122,14 @@ export class HgScenePointerRouter {
       pointerId: input.pointerId,
       ray: {
         origin: {
-          x: this.raycaster.ray.origin.x,
-          y: this.raycaster.ray.origin.y,
-          z: this.raycaster.ray.origin.z,
+          x: this.ray.origin.x,
+          y: this.ray.origin.y,
+          z: this.ray.origin.z,
         },
         direction: {
-          x: this.raycaster.ray.direction.x,
-          y: this.raycaster.ray.direction.y,
-          z: this.raycaster.ray.direction.z,
+          x: this.ray.direction.x,
+          y: this.ray.direction.y,
+          z: this.ray.direction.z,
         },
       },
       target: input.target,
@@ -159,20 +161,19 @@ export class HgScenePointerRouter {
     const bounds = this.element.getBoundingClientRect();
     if (!(bounds.width > 0) || !(bounds.height > 0)) return false;
 
-    this.ndc.set(
-      ((clientX - bounds.left) / bounds.width) * 2 - 1,
-      -((clientY - bounds.top) / bounds.height) * 2 + 1,
-    );
+    const x = ((clientX - bounds.left) / bounds.width) * 2 - 1;
+    const y = -((clientY - bounds.top) / bounds.height) * 2 + 1;
     this.camera.updateMatrixWorld();
     this.scene.updateMatrixWorld(true);
-    this.raycaster.setFromCamera(this.ndc, this.camera);
+    setSceneRayFromCamera(this.ray, this.camera, x, y);
     return true;
   }
 
   private pickCurrentRay(): Object3D | null {
-    for (const hit of this.raycaster.intersectObjects(this.scene.children, true)) {
-      if (!visibleThroughScene(hit.object, this.scene)) continue;
-      let current: Object3D | null = hit.object;
+    for (const hit of intersectSceneMeshes(this.scene.children, this.ray)) {
+      const object = hit.object as Object3D;
+      if (!visibleThroughScene(object, this.scene)) continue;
+      let current: Object3D | null = object;
       while (current) {
         if (this.targets.has(current)) return current;
         if (current === this.scene) break;

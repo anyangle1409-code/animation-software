@@ -1,4 +1,3 @@
-import { MeshStandardMaterial, type Scene } from 'three';
 import {
   applyCharacterPose,
   characterSource,
@@ -7,6 +6,7 @@ import {
   type CharacterVariant,
 } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
+import { configureCharacterPresentation } from '../character/build';
 import type { HandSpec } from '../exercises/types';
 import type { Skeleton } from '../rig/skeleton';
 import type { SceneState } from './sceneStateCore';
@@ -35,7 +35,10 @@ export interface CharacterViewCharacterStorePort {
 
 export interface CharacterViewRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<Scene, 'add' | 'remove'>;
+  root: {
+    add(...objects: CharacterBuild['object'][]): unknown;
+    remove(...objects: CharacterBuild['object'][]): unknown;
+  };
   studioStore: CharacterViewStudioStorePort;
   characterStore: CharacterViewCharacterStorePort;
   skeleton: Skeleton;
@@ -49,23 +52,6 @@ export interface CharacterViewRuntimeOptions {
 export interface CharacterViewRuntime {
   readonly build: CharacterBuild | null;
   dispose(): void;
-}
-
-function configurePresentation(
-  build: CharacterBuild,
-  colour: string,
-  opacity: number,
-  depthWrite: boolean,
-): void {
-  for (const mesh of build.meshes) {
-    const material = mesh.material as MeshStandardMaterial;
-    if (!(material instanceof MeshStandardMaterial)) continue;
-    material.color.set(colour);
-    material.opacity = opacity;
-    material.transparent = opacity < 1;
-    material.depthWrite = depthWrite;
-    material.needsUpdate = true;
-  }
 }
 
 /**
@@ -130,7 +116,7 @@ export function createCharacterViewRuntime(
         return;
       }
 
-      configurePresentation(next, colour, opacity, depthWrite);
+      configureCharacterPresentation(next, colour, opacity, depthWrite);
       build = next;
       root.add(next.object);
       characterStore.getState().setActive(next);

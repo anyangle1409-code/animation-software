@@ -1,5 +1,4 @@
-import { SkinnedMesh } from 'three';
-import type { BufferGeometry, Material } from 'three';
+import { MeshStandardMaterial, SkinnedMesh, type BufferGeometry, type Material } from 'three';
 import type { Skeleton } from '../rig/skeleton';
 import { buildCanonicalBones } from './bones';
 import type { CharacterBuild, CharacterCapabilities, DeformationStack } from './types';
@@ -26,6 +25,23 @@ export interface AssembleOptions {
  * and the exporter cannot drift apart: both call a source's `build`, and every
  * source ends here.
  */
+export function configureCharacterPresentation(
+  build: CharacterBuild,
+  colour: string,
+  opacity: number,
+  depthWrite: boolean,
+): void {
+  for (const mesh of build.meshes) {
+    const material = mesh.material as MeshStandardMaterial;
+    if (!(material instanceof MeshStandardMaterial)) continue;
+    material.color.set(colour);
+    material.opacity = opacity;
+    material.transparent = opacity < 1;
+    material.depthWrite = depthWrite;
+    material.needsUpdate = true;
+  }
+}
+
 export function assembleCharacter(options: AssembleOptions): CharacterBuild {
   const { root, bones, boneByName, skeleton } = buildCanonicalBones(options.rig);
   // Poses are written straight into `bone.matrix` each frame, so three must not

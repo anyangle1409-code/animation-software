@@ -258,7 +258,6 @@ export function createStudioSelectionGizmoRuntime(
       proxy.position.set(head.x, head.y, head.z);
       const rotation = sceneState.evaluation.firstPartyEvaluation.quaternion(
         state.selection.bone,
-        socketScratch.quaternion,
       );
       proxy.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w);
       return;

@@ -22,7 +22,7 @@ import { HgVec3 } from '../core/linearMath';
  * The caller passes `out` and gets it back, because these run over tens of
  * thousands of vertices per frame and allocating there dominates the cost.
  */
-function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
+export function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
   const position = mesh.geometry.getAttribute('position');
   out.fromBufferAttribute(position, index);
 

@@ -193,7 +193,6 @@ export class RetargetContactResolver {
     for (const { mesh, vertices } of this.regions.get(chain) ?? []) {
       mesh.skeleton.update();
       mesh.updateWorldMatrix(true, false);
-      const position = mesh.geometry.getAttribute('position');
       for (const vertex of vertices) {
         skinnedBindVertexPoint(mesh, vertex, this.point);
         minimum = Math.min(minimum, this.point.y);

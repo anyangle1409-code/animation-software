@@ -1,0 +1,18 @@
+{
+  "generated_utc": "2026-09-29T21:46:01.005318+00:00",
+  "stage": "O4 candidate (not production)",
+  "source_o2_blend_sha256": "19b9a638283784e7ba7013f50c7f861f9bb01c3572eb30153684af1ceab1efe2",
+  "candidate": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend",
+  "candidate_sha256": "b3f4b2c668034d52157dc85c9bafb7bcc73ed15a1625cc08373b63b078e105c4",
+  "weights": "stock bone-heat on this mesh + project permission rules + smoothing; max 4 influences",
+  "deform_bones": 62,
+  "heat_solve_empty_vertices": 0,
+  "fallback_vertices": 0,
+  "max_influences": 4,
+  "weight_sum_error": 2.220446049250313e-16,
+  "not_used": [
+    "legacy/third-party weights",
+    "data transfer from other meshes",
+    "imported bind matrices"
+  ]
+}

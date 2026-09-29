@@ -106,6 +106,7 @@ export class HgPrimitiveMaterial {
 /** Project-owned non-skinned scene mesh. GPU resources belong to the renderer. */
 export class HgPrimitiveMesh extends HgObject3D {
   override readonly type = 'PrimitiveMesh';
+  readonly isMesh = true;
 
   constructor(
     public geometry: HgPrimitiveGeometryData,

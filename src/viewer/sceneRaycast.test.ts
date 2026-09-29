@@ -9,6 +9,9 @@ import {
   SphereGeometry,
   Vector2,
 } from 'three';
+import { boxPrimitiveData } from '../core/primitiveGeometry';
+import { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
+import { HgPrimitiveMaterial, HgPrimitiveMesh } from '../core/sceneMesh';
 import {
   createSceneRay,
   intersectSceneMeshes,
@@ -64,4 +67,28 @@ describe('first-party scene raycast', () => {
     setSceneRayFromCamera(ray, camera, 0.95, 0.95);
     expect(intersectSceneMeshes(root.children, ray)).toEqual([]);
   });
+  it('hits first-party primitive meshes through the same renderer-neutral raycast path', () => {
+    const camera = new HgPerspectiveCamera(50, 1, 0.1, 100);
+    camera.position.set(0, 0, 4);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld(true);
+
+    const scene = new HgScene();
+    const mesh = new HgPrimitiveMesh(
+      boxPrimitiveData([1, 1, 1]),
+      new HgPrimitiveMaterial('#ffffff'),
+    );
+    mesh.name = 'first-party-box';
+    scene.add(mesh);
+    scene.updateMatrixWorld(true);
+
+    const ray = createSceneRay();
+    setSceneRayFromCamera(ray, camera, 0, 0);
+    const hits = intersectSceneMeshes(scene.children, ray);
+    expect(hits).toHaveLength(1);
+    expect(hits[0].object).toBe(mesh);
+    expect(hits[0].distance).toBeCloseTo(3.5, 5);
+  });
+
 });

@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { sampleClip, sortedKeyframes, type StudioClip } from '../animation/clip';
 import { AXES, type Axis } from '../rig/types';
 import { mirrorBoneName, type BoneName } from '../rig/boneNames';
@@ -279,11 +279,11 @@ export function measureJointPath(
   const fps = clip.fps > 0 ? clip.fps : 30;
   const lastFrame = Math.max(1, Math.ceil(clip.duration * fps));
   const evaluation = new PoseEvaluation(skeleton);
-  const joint = new Vector3();
-  const anchor = new Vector3();
-  const relative = new Vector3();
-  const start = new Vector3();
-  const previous = new Vector3();
+  const joint = new HgVec3();
+  const anchor = new HgVec3();
+  const relative = new HgVec3();
+  const start = new HgVec3();
+  const previous = new HgVec3();
   let sampleCount = 0;
   let maxDriftMetres = 0;
   let maxDriftTime = 0;
@@ -292,8 +292,8 @@ export function measureJointPath(
   for (let frame = 0; frame <= lastFrame; frame += 1) {
     const time = Math.min(clip.duration, frame / fps);
     evaluation.apply(sampleClip(clip, time).pose);
-    evaluation.head(bone, joint);
-    evaluation.head(parent, anchor);
+    evaluation.firstPartyEvaluation.head(bone, joint);
+    evaluation.firstPartyEvaluation.head(parent, anchor);
     relative.subVectors(joint, anchor);
     if (sampleCount === 0) {
       start.copy(relative);

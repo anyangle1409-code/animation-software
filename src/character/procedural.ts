@@ -1,7 +1,6 @@
-import { MeshStandardMaterial } from 'three';
 import type { Skeleton } from '../rig/skeleton';
 import { BODY_MATERIAL, buildProfileBodyGeometry } from '../body/profileMesh';
-import { assembleCharacter } from './build';
+import { assembleCharacter, createCharacterStandardMaterial } from './build';
 import type { CharacterSource } from './types';
 
 const MANNEQUIN_NAME = 'HGPT_Mannequin';
@@ -27,7 +26,7 @@ export const proceduralCharacter: CharacterSource = {
       surfaces: [
         {
           geometry: buildProfileBodyGeometry(rig).geometry,
-          material: new MeshStandardMaterial({ ...BODY_MATERIAL }),
+          material: createCharacterStandardMaterial({ ...BODY_MATERIAL }),
           name: MANNEQUIN_NAME,
         },
       ],

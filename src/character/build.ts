@@ -25,6 +25,12 @@ export interface AssembleOptions {
  * and the exporter cannot drift apart: both call a source's `build`, and every
  * source ends here.
  */
+export function createCharacterStandardMaterial(
+  parameters?: ConstructorParameters<typeof MeshStandardMaterial>[0],
+): MeshStandardMaterial {
+  return new MeshStandardMaterial(parameters);
+}
+
 export function configureCharacterPresentation(
   build: CharacterBuild,
   colour: string,

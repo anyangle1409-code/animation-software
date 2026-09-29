@@ -1,4 +1,3 @@
-import { Matrix4 } from 'three';
 import type { Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
 import type { EquipmentInstance } from './types';
@@ -28,12 +27,32 @@ import type { EquipmentInstance } from './types';
  * holds both facts).
  */
 
-const REFLECT = new Matrix4().makeScale(-1, 1, 1);
+interface MutableMatrixElements {
+  [index: number]: number;
+  length: number;
+}
+
+interface ReflectableMatrix {
+  elements: MutableMatrixElements;
+  clone(): ReflectableMatrix;
+}
+
+const REFLECTION_SIGNS = [
+  1, -1, -1, -1,
+  -1, 1, 1, 1,
+  -1, 1, 1, 1,
+  -1, 1, 1, 1,
+] as const;
 
 /** `S·M·S`: a placement in canonical world space, reflected into a mirrored character's. */
-export function reflectPlacement(matrix: Matrix4, target = new Matrix4()): Matrix4 {
-  // multiplyMatrices reads both operands before writing, so target may be matrix.
-  return target.multiplyMatrices(REFLECT, matrix).multiply(REFLECT);
+export function reflectPlacement<T extends ReflectableMatrix>(matrix: T, target?: T): T {
+  const output = (target ?? matrix.clone()) as T;
+  // Each reflected entry depends only on the same source entry, so the
+  // operation is safe in place as well as into a separate target.
+  for (let index = 0; index < 16; index += 1) {
+    output.elements[index] = matrix.elements[index] * REFLECTION_SIGNS[index];
+  }
+  return output;
 }
 
 /**

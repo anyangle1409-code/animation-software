@@ -693,7 +693,7 @@ export function readCharacter(root: Object3D): TargetCharacter {
     restWorldPosition.set(name, createCharacterVector3().setFromMatrixPosition(bone.matrixWorld));
   }
 
-  const box = measureCharacterObjectHeight(root);
+  const height = measureCharacterObjectHeight(root);
 
   return { root, bones, boneNames, restWorld, restLocal, restPosition, restWorldPosition, height, meshes };
 }

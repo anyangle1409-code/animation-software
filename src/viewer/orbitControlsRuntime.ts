@@ -15,8 +15,15 @@ export interface HgOrbitCameraPort {
   updateMatrixWorld(force?: boolean): unknown;
 }
 
+export interface HgOrbitTargetPort {
+  x: number;
+  y: number;
+  z: number;
+  set(x: number, y: number, z: number): unknown;
+}
+
 export interface HgOrbitControlsHandle {
-  target: HgVec3;
+  target: HgOrbitTargetPort;
   enabled: boolean;
   /** Synchronise after a camera preset/focus update changed camera and target. */
   update(): void;

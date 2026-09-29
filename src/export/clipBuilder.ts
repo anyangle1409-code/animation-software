@@ -8,7 +8,7 @@ import {
   Vector3,
   VectorKeyframeTrack,
 } from 'three';
-import type { KeyframeTrack } from 'three';
+import type { CharacterKeyframeTrack as KeyframeTrack } from '../character/bones';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';

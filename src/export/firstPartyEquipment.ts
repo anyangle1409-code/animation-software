@@ -29,7 +29,7 @@ interface MaterialLike {
 
 interface EquipmentChildLike {
   readonly geometry?: GeometryLike;
-  readonly material?: MaterialLike | readonly MaterialLike[];
+  readonly material?: MaterialLike | MaterialLike[];
 }
 
 interface EquipmentObjectLike {
@@ -157,15 +157,16 @@ export function appendFirstPartyEquipment(
           builder, geometry, material, (instance.label ?? instance.id) + '_part_' + partIndex,
         );
         const part = parts[partIndex];
-        const quaternion = part.rotation
-          ? new HgQuat().setFromEulerXYZ(part.rotation[0], part.rotation[1], part.rotation[2])
+        const rotation = 'rotation' in part ? part.rotation : undefined;
+        const quaternion = rotation
+          ? new HgQuat().setFromEulerXYZ(rotation[0], rotation[1], rotation[2])
           : new HgQuat();
         const nodeIndex = nodes.length;
         nodes.push({
           name: (instance.label ?? instance.id) + '_part_' + partIndex,
           mesh: meshIndex,
           ...(part.position ? { translation: [...part.position] } : {}),
-          ...(part.rotation ? { rotation: [quaternion.x, quaternion.y, quaternion.z, quaternion.w] } : {}),
+          ...(rotation ? { rotation: [quaternion.x, quaternion.y, quaternion.z, quaternion.w] } : {}),
         });
         partNodes.push(nodeIndex);
       });

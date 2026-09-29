@@ -29,7 +29,7 @@ function at(time: number) {
   const shoulder = evaluation.head('upperarm_l', new Vector3());
   const elbow = evaluation.head('forearm_l', new Vector3());
   return {
-    upperArm: (elbow.clone().sub(shoulder).normalize().angleTo(new HgVec3(0, 1, 0)) * 180) / Math.PI,
+    upperArm: (elbow.clone().sub(shoulder).normalize().angleTo(new Vector3(0, 1, 0)) * 180) / Math.PI,
     elbow,
     hand: evaluation.head('hand_l', new Vector3()),
     head: evaluation.head('head', new Vector3()),
@@ -119,7 +119,7 @@ describe('the cable pushdown', () => {
     for (const { elbow, shoulder } of frames) {
       expect(elbow.distanceTo(first.elbow)).toBeLessThan(1e-6);
       // 7° forward of vertical, measured.
-      const upperArm = (elbow.clone().sub(shoulder).normalize().angleTo(new HgVec3(0, -1, 0)) * 180) / Math.PI;
+      const upperArm = (elbow.clone().sub(shoulder).normalize().angleTo(new Vector3(0, -1, 0)) * 180) / Math.PI;
       expect(upperArm).toBeLessThan(10);
       expect(elbow.z).toBeGreaterThan(shoulder.z);
     }

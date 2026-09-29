@@ -176,7 +176,7 @@ export function measureEquipmentClearance(
         instance.kind,
         placement,
         count,
-        (index, out) => (measured[index] ? posedVertex(body, index, out) : null),
+        (index, out) => (measured[index] ? posedVertexPoint(body, index, out) : null),
         (index) => `${instance.id} at ${time.toFixed(2)}s, against ${dominantBone(body, index)}`,
         sample,
         instance.backAngle,
@@ -267,11 +267,11 @@ export function measureArmTrunkSeparation(
       body.updateWorldMatrix(true, false);
 
       const grid = new PointGrid(CELL);
-      for (const index of trunk) grid.add(index, posedVertex(body, index, there));
+      for (const index of trunk) grid.add(index, posedVertexPoint(body, index, there));
 
       for (const index of arm) {
-        posedVertex(body, index, here);
-        const hit = grid.nearest(here, RINGS, (i, out) => posedVertex(body, i, out), there);
+        posedVertexPoint(body, index, here);
+        const hit = grid.nearest(here, RINGS, (i, out) => posedVertexPoint(body, i, out), there);
         if (hit && hit.distance < closest) {
           closest = hit.distance;
           where = `${bone[index]} to ${bone[hit.index]} at ${time.toFixed(2)}s`;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Bone, SkinnedMesh, type Object3D } from 'three';
+import { Bone, MeshStandardMaterial, SkinnedMesh, type Object3D } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { HgGltfBuilder } from '../core/gltfBuilder';
 import { loadHgThreeScene } from './gltfThreeScene';
@@ -142,8 +142,10 @@ describe('first-party GLB scene adapter parity', () => {
     if (Array.isArray(currentMaterial) || Array.isArray(expectedMaterial)) {
       throw new Error('Fixture unexpectedly produced a material array');
     }
-    expect(currentMaterial.metalness).toBeCloseTo(expectedMaterial.metalness, 7);
-    expect(currentMaterial.roughness).toBeCloseTo(expectedMaterial.roughness, 7);
-    expectArrayClose(currentMaterial.color.toArray(), expectedMaterial.color.toArray());
+    const currentStandard = currentMaterial as MeshStandardMaterial;
+    const expectedStandard = expectedMaterial as MeshStandardMaterial;
+    expect(currentStandard.metalness).toBeCloseTo(expectedStandard.metalness, 7);
+    expect(currentStandard.roughness).toBeCloseTo(expectedStandard.roughness, 7);
+    expectArrayClose(currentStandard.color.toArray(), expectedStandard.color.toArray());
   });
 });

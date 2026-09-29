@@ -285,16 +285,19 @@ def ring32_from_half(control):
     return ring
 
 
-def superellipse_half(z, W, front, back, fm=None, n=2.4, bumps=()):
-    """Torso half-profile control (lx, f, z) from front centre to back centre."""
+def superellipse_half(z, W, front, back, fm=None, n=2.4, bumps=(), n_back=None):
+    """Torso half-profile control (lx, f, z) from front centre to back centre.
+    n_back (optional) makes the back half broader/flatter than the front."""
     if fm is None:
         fm = 0.5 * (front + back)
     df, db = front - fm, fm - back
+    nb = n_back or n
     pts = []
     for t in np.linspace(0.0, math.pi, 25):
         c, s = math.cos(t), math.sin(t)
-        lx = W * abs(s) ** (2 / n)
-        f = fm + (df if c >= 0 else db) * math.copysign(abs(c) ** (2 / n), c)
+        e = n if c >= 0 else nb
+        lx = W * abs(s) ** (2 / e)
+        f = fm + (df if c >= 0 else db) * math.copysign(abs(c) ** (2 / e), c)
         off = sum(a * math.exp(-((t - tc) / w) ** 2) for tc, w, a in bumps)
         d = unit(np.array([lx, f - fm]))
         pts.append((lx + d[0] * off, f + d[1] * off, z))
@@ -322,17 +325,20 @@ def ring60(front_half, arm_path, back_half):
 # Torso rings below the axilla: z, half-breadth, front f, back f, exponent, bumps
 TORSO_LEVELS = [
     # z,     W,     front,  back,   n,   bumps (t, width, amount)
+    # Sagittal placement follows the v4 plumb line (ear/shoulder/hip joints near
+    # f=0): sternal notch just ahead of the clavicle heads, upper back just
+    # outside the scapula bone tails (f=-0.145), lumbar lordosis at the waist.
     (0.885, 0.164, 0.072, -0.130, 2.3, [(2.55, 0.35, 0.014)]),
     (0.930, 0.172, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.016)]),
-    (0.980, 0.169, 0.098, -0.132, 2.4, [(2.60, 0.40, 0.011)]),
-    (1.030, 0.161, 0.110, -0.106, 2.4, [(math.pi, 0.25, -0.006)]),
-    (1.080, 0.150, 0.117, -0.086, 2.4, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)]),
-    (1.130, 0.143, 0.118, -0.082, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.006)]),
-    (1.180, 0.145, 0.118, -0.080, 2.3, [(math.pi, 0.22, -0.007), (2.75, 0.2, 0.004)]),
-    (1.230, 0.150, 0.128, -0.087, 2.3, [(math.pi, 0.22, -0.006), (1.95, 0.35, 0.004)]),
-    (1.280, 0.154, 0.139, -0.093, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.30, 0.005), (1.95, 0.35, 0.006)]),
-    (1.330, 0.156, 0.146, -0.097, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.32, 0.007), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007)]),
-    (1.370, 0.157, 0.149, -0.099, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.32, 0.007), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007)]),
+    (0.980, 0.169, 0.096, -0.130, 2.4, [(2.60, 0.40, 0.011)]),
+    (1.030, 0.161, 0.104, -0.104, 2.4, [(math.pi, 0.25, -0.006)]),
+    (1.080, 0.150, 0.108, -0.086, 2.4, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)]),
+    (1.130, 0.143, 0.106, -0.084, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.006)]),
+    (1.180, 0.145, 0.105, -0.094, 2.3, [(math.pi, 0.22, -0.007), (2.75, 0.2, 0.004)]),
+    (1.230, 0.150, 0.108, -0.118, 2.3, [(math.pi, 0.22, -0.006), (1.95, 0.35, 0.004), (2.55, 0.30, 0.006)], 2.8),
+    (1.280, 0.154, 0.113, -0.146, 2.3, [(math.pi, 0.22, -0.008), (0.55, 0.30, 0.006), (1.95, 0.35, 0.006), (2.55, 0.30, 0.014)], 3.4),
+    (1.330, 0.156, 0.117, -0.155, 2.3, [(math.pi, 0.22, -0.009), (0.55, 0.32, 0.009), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007), (2.55, 0.30, 0.012)], 3.4),
+    (1.370, 0.157, 0.115, -0.154, 2.3, [(math.pi, 0.22, -0.009), (0.55, 0.32, 0.009), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007), (2.55, 0.30, 0.008)], 3.2),
 ]
 # How strongly each torso ring's vertex columns are steered toward the axilla
 # fold/chain columns of ring A (index-aligned with TORSO_LEVELS).
@@ -341,41 +347,41 @@ TORSO_COLUMN_STEER = [0, 0, 0, 0, 0, 0, 0, 0.12, 0.30, 0.55, 0.80]
 # Shoulder rings (60 verts): front half centre->F, arm path F->B, back half B->centre.
 SHOULDER_RINGS = [
     dict(  # A: axilla level — arm part matches the first arm ring below
-        front=[(0.0, 0.148, 1.400), (0.055, 0.154, 1.400), (0.108, 0.142, 1.402), (0.148, 0.100, 1.404), (0.163, 0.040, 1.400)],
-        arm=[(0.163, 0.040, 1.400), (0.186, 0.026, 1.400), (0.222, 0.025, 1.400), (0.258, 0.004, 1.400),
-             (0.273, -0.032, 1.400), (0.262, -0.070, 1.400), (0.226, -0.092, 1.400),
-             (0.190, -0.090, 1.400), (0.166, -0.080, 1.400)],
-        back=[(0.166, -0.080, 1.400), (0.150, -0.100, 1.402), (0.100, -0.108, 1.402), (0.045, -0.100, 1.400), (0.0, -0.094, 1.400)],
+        front=[(0.0, 0.110, 1.400), (0.055, 0.116, 1.400), (0.108, 0.106, 1.402), (0.146, 0.078, 1.404), (0.163, 0.036, 1.400)],
+        arm=[(0.163, 0.036, 1.400), (0.186, 0.024, 1.400), (0.222, 0.023, 1.400), (0.258, 0.002, 1.400),
+             (0.273, -0.032, 1.400), (0.262, -0.070, 1.400), (0.228, -0.094, 1.400),
+             (0.192, -0.098, 1.400), (0.166, -0.092, 1.400)],
+        back=[(0.166, -0.092, 1.400), (0.148, -0.126, 1.402), (0.105, -0.150, 1.402), (0.048, -0.156, 1.400), (0.0, -0.150, 1.400)],
     ),
     dict(  # S1: humeral head level, deltoid wraps the joint
-        front=[(0.0, 0.142, 1.448), (0.055, 0.149, 1.448), (0.105, 0.132, 1.452), (0.138, 0.095, 1.458), (0.150, 0.058, 1.462)],
-        arm=[(0.150, 0.058, 1.462), (0.182, 0.050, 1.458), (0.225, 0.040, 1.452), (0.264, 0.012, 1.450),
-             (0.279, -0.030, 1.450), (0.268, -0.075, 1.452), (0.232, -0.102, 1.456),
-             (0.188, -0.108, 1.460), (0.152, -0.103, 1.464)],
-        back=[(0.152, -0.103, 1.464), (0.120, -0.114, 1.460), (0.075, -0.114, 1.455), (0.035, -0.104, 1.450), (0.0, -0.098, 1.448)],
+        front=[(0.0, 0.094, 1.448), (0.055, 0.100, 1.448), (0.105, 0.090, 1.452), (0.138, 0.070, 1.458), (0.150, 0.046, 1.462)],
+        arm=[(0.150, 0.046, 1.462), (0.182, 0.040, 1.458), (0.225, 0.032, 1.452), (0.264, 0.008, 1.450),
+             (0.279, -0.032, 1.450), (0.268, -0.076, 1.452), (0.234, -0.104, 1.456),
+             (0.190, -0.114, 1.460), (0.152, -0.118, 1.464)],
+        back=[(0.152, -0.118, 1.464), (0.120, -0.140, 1.460), (0.075, -0.150, 1.455), (0.035, -0.148, 1.450), (0.0, -0.143, 1.448)],
     ),
     dict(  # S2: acromial level
-        front=[(0.0, 0.132, 1.494), (0.045, 0.136, 1.496), (0.085, 0.118, 1.500), (0.112, 0.094, 1.506), (0.125, 0.074, 1.510)],
-        arm=[(0.125, 0.074, 1.510), (0.170, 0.066, 1.504), (0.220, 0.048, 1.498), (0.258, 0.016, 1.495),
-             (0.273, -0.030, 1.495), (0.262, -0.076, 1.498), (0.226, -0.102, 1.503),
-             (0.172, -0.108, 1.509), (0.125, -0.104, 1.514)],
-        back=[(0.125, -0.104, 1.514), (0.090, -0.108, 1.510), (0.050, -0.104, 1.505), (0.020, -0.099, 1.501), (0.0, -0.097, 1.500)],
+        front=[(0.0, 0.066, 1.494), (0.045, 0.070, 1.496), (0.085, 0.068, 1.500), (0.112, 0.060, 1.506), (0.125, 0.054, 1.510)],
+        arm=[(0.125, 0.054, 1.510), (0.170, 0.050, 1.504), (0.220, 0.038, 1.498), (0.258, 0.010, 1.495),
+             (0.273, -0.032, 1.495), (0.262, -0.076, 1.498), (0.228, -0.104, 1.503),
+             (0.174, -0.116, 1.509), (0.125, -0.118, 1.514)],
+        back=[(0.125, -0.118, 1.514), (0.090, -0.130, 1.510), (0.050, -0.132, 1.505), (0.020, -0.128, 1.501), (0.0, -0.125, 1.500)],
     ),
-    dict(  # S3: top ring (clavicle / acromion / trapezius), rising toward the neck
-        front=[(0.0, 0.078, 1.520), (0.025, 0.076, 1.528), (0.045, 0.066, 1.540), (0.058, 0.052, 1.552), (0.064, 0.040, 1.560)],
-        arm=[(0.064, 0.040, 1.560), (0.110, 0.054, 1.538), (0.170, 0.050, 1.532), (0.222, 0.028, 1.530),
-             (0.252, -0.015, 1.522), (0.242, -0.066, 1.525), (0.200, -0.090, 1.537),
-             (0.135, -0.084, 1.556), (0.064, -0.054, 1.584)],
-        back=[(0.064, -0.054, 1.584), (0.048, -0.062, 1.586), (0.030, -0.067, 1.585), (0.014, -0.070, 1.583), (0.0, -0.071, 1.582)],
+    dict(  # S3: top ring (sternal notch / clavicle / acromion / trapezius), rising toward the neck
+        front=[(0.0, 0.036, 1.515), (0.025, 0.037, 1.524), (0.045, 0.035, 1.537), (0.058, 0.030, 1.549), (0.064, 0.024, 1.557)],
+        arm=[(0.064, 0.024, 1.557), (0.110, 0.034, 1.537), (0.170, 0.030, 1.532), (0.222, 0.018, 1.530),
+             (0.252, -0.020, 1.522), (0.242, -0.070, 1.525), (0.200, -0.098, 1.537),
+             (0.135, -0.102, 1.556), (0.064, -0.074, 1.584)],
+        back=[(0.064, -0.074, 1.584), (0.048, -0.082, 1.586), (0.030, -0.088, 1.585), (0.014, -0.091, 1.583), (0.0, -0.092, 1.582)],
     ),
 ]
-AXILLA_CHAIN = [(0.178, 0.006, 1.416), (0.180, -0.048, 1.416)]          # F_l -> B_l
-NECK_SIDE_CHAIN = [(0.066, 0.016, 1.577), (0.066, -0.022, 1.586)]        # F_l -> B_l (top)
+AXILLA_CHAIN = [(0.178, 0.004, 1.416), (0.180, -0.056, 1.416)]          # F_l -> B_l
+NECK_SIDE_CHAIN = [(0.066, 0.002, 1.576), (0.066, -0.038, 1.585)]        # F_l -> B_l (top)
 SHOULDER_CAP_DOME = 0.006
 
 NECK_RINGS = [
-    [(0.0, 0.060, 1.583), (0.040, 0.050, 1.590), (0.060, 0.012, 1.602), (0.058, -0.030, 1.606), (0.030, -0.058, 1.607), (0.0, -0.063, 1.607)],
-    [(0.0, 0.062, 1.602), (0.040, 0.050, 1.607), (0.058, 0.010, 1.616), (0.056, -0.030, 1.621), (0.030, -0.061, 1.623), (0.0, -0.066, 1.623)],
+    [(0.0, 0.046, 1.583), (0.040, 0.036, 1.590), (0.060, -0.002, 1.602), (0.058, -0.042, 1.606), (0.030, -0.072, 1.607), (0.0, -0.077, 1.607)],
+    [(0.0, 0.052, 1.602), (0.040, 0.042, 1.607), (0.058, 0.002, 1.616), (0.056, -0.040, 1.621), (0.030, -0.070, 1.623), (0.0, -0.075, 1.623)],
 ]
 
 HEAD_RINGS = [
@@ -536,8 +542,10 @@ def build_cage(bones):
     # ---- torso below axilla (32-rings), columns steered into the axilla folds ----
     top_pts = B.pos(torso_top)
     torso_rings = []
-    for (z, W, front, back, n, bumps), steer in zip(TORSO_LEVELS, TORSO_COLUMN_STEER):
-        ring = ring32_from_half(superellipse_half(z, W, front, back, n=n, bumps=bumps))
+    for level, steer in zip(TORSO_LEVELS, TORSO_COLUMN_STEER):
+        z, W, front, back, n, bumps = level[:6]
+        n_back = level[6] if len(level) > 6 else None
+        ring = ring32_from_half(superellipse_half(z, W, front, back, n=n, bumps=bumps, n_back=n_back))
         ring = steer_ring(ring, top_pts, steer)
         torso_rings.append(B.add_many(ring, "torso"))
     for a, b in zip(torso_rings, torso_rings[1:]):
@@ -613,7 +621,12 @@ def build_leg(B, bones, side, loop):
     lateral = np.array([float(side), 0.0, 0.0])
     rings = []
     for z, (lx, f), (rf, rl, rb, rm) in LEG_LEVELS:
-        rings.append((sidep(side, (lx, f, z)), FWD, lateral, limb_prof(rf, rl, rb, rm)))
+        extra = None
+        if z > 0.70:
+            # Flatter anterolateral upper thigh: leaves room for the v4 rest thumb.
+            k = (z - 0.70) / 0.10
+            extra = {40: 0.5 * (rf + rl) * (1.02 - 0.14 * k), 60: 0.5 * (rf + rl) * (1.02 - 0.12 * k)}
+        rings.append((sidep(side, (lx, f, z)), FWD, lateral, limb_prof(rf, rl, rb, rm, extra)))
     last = B.loft(loop, rings, region="leg")
     # foot fan about the dorsal ankle crease
     px, pf, pz = FOOT_PIVOT
@@ -753,7 +766,7 @@ def build_finger(B, bones, side, name, loop):
         (0, 0.30, 1.00, 0.0), (0, 0.62, 0.97, 0.0), (0, 0.86, 0.95, 0.0015),
         (1, 0.00, 0.95, 0.0022), (1, 0.14, 0.93, 0.0012), (1, 0.50, 0.90, 0.0),
         (1, 0.82, 0.88, 0.0008), (2, 0.00, 0.87, 0.0014), (2, 0.18, 0.85, 0.0006),
-        (2, 0.55, tip, 0.0),
+        (2, 0.55, 0.83, 0.0), (2, 0.92, tip, 0.0),
     ]
     rings = []
     for bi, t, scale, knuckle in stations:
@@ -767,7 +780,7 @@ def build_finger(B, bones, side, name, loop):
         rings.append((c, e1, e2, finger_prof(hw * scale, dors * scale, palm * scale, knuckle)))
     last = B.loft(loop, rings, blend=2, region="finger")
     tip_dir = rings[-1][0] - rings[-2][0]
-    B.cap(last, a=2, b=2, dome=0.0075, dome_dir=tip_dir, start=0, region="finger")
+    B.cap(last, a=2, b=2, dome=0.0105, dome_dir=tip_dir, start=0, region="finger")
 
 
 def build_thumb(B, bones, side, loop):
@@ -782,6 +795,7 @@ def build_thumb(B, bones, side, loop):
         (1, 0.92, (0.0100, 0.0092, 0.0100, 0.0098)),
         (2, 0.10, (0.0100, 0.0090, 0.0100, 0.0098)),
         (2, 0.50, (0.0092, 0.0080, 0.0092, 0.0090)),
+        (2, 0.90, (0.0080, 0.0068, 0.0080, 0.0078)),
     ]
     rings = []
     for bi, t, (r0, r90, r180, r270) in stations:
@@ -796,7 +810,7 @@ def build_thumb(B, bones, side, loop):
                                                      225: 0.5 * (r180 + r270) * 1.05, 315: 0.5 * (r270 + r0) * 1.03})))
     last = B.loft(loop, rings, blend=2, region="thumb")
     tip_dir = rings[-1][0] - rings[-2][0]
-    B.cap(last, a=2, b=2, dome=0.0085, dome_dir=tip_dir, start=0, region="thumb")
+    B.cap(last, a=2, b=2, dome=0.0115, dome_dir=tip_dir, start=0, region="thumb")
 
 
 # --------------------------------------------------------------------------
@@ -935,6 +949,40 @@ def orient_faces(V, F):
     if vol < 0:
         F = [list(reversed(f)) for f in F]
     return [tuple(f) for f in F]
+
+
+def min_distance(A, B, chunk=512):
+    A, B = np.asarray(A, float), np.asarray(B, float)
+    if len(A) == 0 or len(B) == 0:
+        return None
+    best = np.inf
+    for i in range(0, len(A), chunk):
+        d = np.linalg.norm(A[i:i + chunk, None, :] - B[None, :, :], axis=2)
+        best = min(best, float(d.min()))
+    return best
+
+
+def neutral_clearance(result):
+    """Vertex-sampled rest-pose gaps (metres) between parts that must not touch.
+    Left side only (the body is mirror-symmetric)."""
+    V = result["vertices"]
+    reg = result["regions"]
+    left = V[:, 0] < 0
+    def sel(names, zmax=None):
+        ids = sorted(set().union(*(set(reg.get(n, [])) for n in names)))
+        P = V[ids]
+        m = P[:, 0] < 0
+        if zmax is not None:
+            m &= P[:, 2] < zmax
+        return P[m]
+    hand = sel(["hand", "finger", "thumb"])
+    arm_low = sel(["arm"], zmax=1.28)
+    body = sel(["leg", "torso", "pelvis"])
+    del left
+    return {
+        "hand_to_body_m": round(min_distance(hand, body), 4),
+        "arm_below_axilla_to_body_m": round(min_distance(arm_low, body), 4),
+    }
 
 
 def to_blender(V):

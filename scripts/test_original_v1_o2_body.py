@@ -28,6 +28,11 @@ class OriginalV1O2BodyTest(unittest.TestCase):
         self.assertTrue(all(len(f) == 4 for f in self.result["faces"]))
         self.assertAlmostEqual(float(self.result["vertices"][:, 2].min()), 0.0, places=9)
 
+    def test_neutral_clearance(self):
+        gaps = generator.neutral_clearance(self.result)
+        self.assertGreaterEqual(gaps["hand_to_body_m"], 0.005, gaps)
+        self.assertGreaterEqual(gaps["arm_below_axilla_to_body_m"], 0.010, gaps)
+
     def test_deterministic(self):
         again = generator.build()
         digest = lambda r: hashlib.sha256(r["vertices"].round(9).tobytes()).hexdigest()

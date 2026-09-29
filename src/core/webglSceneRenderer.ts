@@ -30,7 +30,7 @@ export class HgPrimitiveSceneRenderer {
       const visible = parentVisible && object.visible;
       if (!visible) return;
 
-      if (object instanceof HgPrimitiveMesh) {
+      if (object instanceof HgPrimitiveMesh && object.material.colour[3] > 0) {
         const renderer = object.material.shading === 'lit' ? this.lit : this.flat;
         renderer.draw(
           camera,

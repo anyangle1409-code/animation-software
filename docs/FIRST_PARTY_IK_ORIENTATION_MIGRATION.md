@@ -1,38 +1,42 @@
 # First-party IK orientation migration
 
-Prepared:
+## Status
+
+This migration is complete at the production-source boundary.
+
+Prepared and retained:
 - `src/ik/firstPartyOrient.ts`
 - `src/ik/firstPartyOrient.parity.test.ts`
 
-Production `src/ik/orient.ts` now delegates orientation calculations to these project-owned functions via `Skeleton.firstParty` and `PoseEvaluation.firstPartyEvaluation`. Its Three input/output types are temporary compatibility boundaries. `twoBone.ts` and `solve.ts` retain Three-dependent calculations and caller boundaries. The hinge-twist / mid-flexion internal quaternion calculation of `twoBone.ts` is first-party at `fa06d26da9e0a99a2aa9d1b2ca9528075b4b5025`, with frozen solved rotations; its triangle and pole vector arithmetic remain Three-dependent. Both exact-SHA Actions workflows passed on `fa06d26`.
+Production `src/ik/orient.ts`, `src/ik/twoBone.ts`, and `src/ik/solve.ts` now execute the live IK orientation/solve path through project-owned `HgVec3` / `HgQuat` and `HgPoseEvaluation` math with no direct Three source import.
 
-The parallel implementation covers:
+Completed pieces include:
 - joint-limit clamping;
 - rest-world orientation;
 - analytic XZY swing;
-- one-axis elbow/knee hinge solve.
+- one-axis elbow/knee hinge solve;
+- two-bone target/pole triangle geometry;
+- hinge-twist / mid-flexion solve;
+- end-bone aim and roll;
+- goal derivation from FK;
+- aim residual measurement and tibial settling;
+- ball-foot / toe-out placement and contact residual.
 
-The parity tests compare it to the current Three-based implementation using
-representative exercise poses and arm/leg directions.
+Pinned regression fixtures cover representative arm/leg solved rotations, target residuals, end aim and ball-foot behaviour. Existing exercise/contact suites remain the authority for biomechanics.
 
-## Completed orientation integration
+## Verified checkpoint
 
-Checkpoint `dd4a7abd5129b387612265df2b609b9cb7c13899`: focused parity, full exercise/contact suite, build, software gates and local Chromium smoke pass. Both exact-SHA GitHub Actions workflows (`Standalone prep verification` and `Browser viewport smoke`) passed.
+Exact SHA `dd20158a0f557be0c66bf07ce59605f8593147ad`:
 
-## Next integration rule
+- typecheck PASS;
+- 148 test files passed, 2 skipped;
+- 976 tests passed, 62 skipped;
+- production build PASS;
+- standalone/hygiene/dependency/resource/network gates PASS;
+- automated Chromium viewport smoke PASS.
 
-Only integrate after:
-1. first-party math parity passes;
-2. first-party skeleton parity passes;
-3. this orientation parity passes;
-4. full current suite remains green.
+## Continuing rule
 
-Next migrate one IK chain at a time in `twoBone.ts` and `solve.ts`, comparing:
-- solved joint rotations;
-- target residual;
-- pole direction;
-- contact locks;
-- joint-limit status.
+IK thresholds, anatomical limits, exercise data and contact tolerances are frozen through the remaining Three migration. Do not reopen the IK implementation merely to reduce dependency counts.
 
-Do not change IK thresholds or anatomical limits to make the first-party math
-implementation pass.
+The next runtime migration boundary is the remaining constraint/equipment transform math named by `docs/CURRENT_HANDOFF.md`.

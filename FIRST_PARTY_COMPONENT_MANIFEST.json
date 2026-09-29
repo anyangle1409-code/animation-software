@@ -37,7 +37,8 @@
       "third_party": [
         "three"
       ],
-      "required_action": "S5 math, pose, skeleton FK and IK orientation are production first-party; migrate two-bone/solve and remaining S6 engine boundaries, then GLB and renderer with parity gates. Keep Three until every operational replacement layer is verified."
+      "required_action": "IK solve/orientation and lightweight constraint/contact math are production first-party. Continue collision/body-clearance and equipment attachment transforms, then character/retarget math, operational GLB, and renderer with parity gates. Keep Three until every operational replacement layer is verified.",
+      "notes": "Verified through dd20158a: orient/twoBone/solve, constraint points/locks/contact diagnostics/rules, and equipment reflection have no direct Three source import; 63 Three/Three-examples production-source imports remain from the prior 71-import baseline."
     },
     {
       "id": "runtime_state",

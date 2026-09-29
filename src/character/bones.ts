@@ -1,7 +1,21 @@
-import { Bone, Skeleton as ThreeSkeleton } from 'three';
+import {
+  Bone,
+  Skeleton as ThreeSkeleton,
+  type KeyframeTrack,
+  type Matrix4,
+  type Object3D,
+  type SkinnedMesh,
+} from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
+
+export type CharacterBone = Bone;
+export type CharacterKeyframeTrack = KeyframeTrack;
+export type CharacterMatrix4 = Matrix4;
+export type CharacterObject3D = Object3D;
+export type CharacterSkinnedMesh = SkinnedMesh;
+export type CharacterThreeSkeleton = ThreeSkeleton;
 
 export interface CanonicalBones {
   root: Bone;

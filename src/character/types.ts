@@ -1,4 +1,11 @@
-import type { Bone, KeyframeTrack, Matrix4, Object3D, SkinnedMesh, Skeleton as ThreeSkeleton } from 'three';
+import type {
+  CharacterBone,
+  CharacterKeyframeTrack,
+  CharacterMatrix4,
+  CharacterObject3D,
+  CharacterSkinnedMesh,
+  CharacterThreeSkeleton,
+} from './bones';
 import type { BoneName } from '../rig/boneNames';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { GripKind } from '../exercises/types';
@@ -97,7 +104,7 @@ export interface DeformationSampler {
   /** One resolved pose, in clip order. */
   sample(pose: Pose, context?: CharacterPoseContext): void;
   /** The tracks for everything sampled so far. */
-  tracks(times: number[]): KeyframeTrack[];
+  tracks(times: number[]): CharacterKeyframeTrack[];
 }
 
 /** Which side a hand-held item is carried on. */
@@ -107,14 +114,14 @@ export type Side = 'l' | 'r';
 export interface CharacterBuild {
   /** Id of the source that produced it. */
   source: string;
-  root: Bone;
-  bones: Bone[];
-  boneByName: Map<BoneName, Bone>;
-  skeleton: ThreeSkeleton;
+  root: CharacterBone;
+  bones: CharacterBone[];
+  boneByName: Map<BoneName, CharacterBone>;
+  skeleton: CharacterThreeSkeleton;
   /** What the viewport mounts and the exporter writes. */
-  object: Object3D;
+  object: CharacterObject3D;
   /** Every skinned surface in the character, in draw order. */
-  meshes: SkinnedMesh[];
+  meshes: CharacterSkinnedMesh[];
   deformation: DeformationStack | null;
   capabilities: CharacterCapabilities;
 
@@ -137,7 +144,7 @@ export interface CharacterBuild {
    * canonical hand is. Equipment follows this rather than the rig, which is
    * what keeps a dumbbell in the hand of a character the rig only drives.
    */
-  handMatrix?: (side: Side, target: Matrix4) => Matrix4 | null;
+  handMatrix?: (side: Side, target: CharacterMatrix4) => CharacterMatrix4 | null;
 
   /**
    * True when this character's left lies on the rig's right, so every canonical

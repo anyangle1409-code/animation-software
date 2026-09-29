@@ -1,5 +1,6 @@
 import {
   AnimationClip,
+  Box3,
   Bone,
   Euler,
   BufferAttribute,
@@ -162,6 +163,11 @@ export function createCharacterVector3(
   z = 0,
 ): CharacterVector3 {
   return new Vector3(x, y, z);
+}
+
+export function measureCharacterObjectHeight(object: CharacterObject3D): number {
+  const box = new Box3().setFromObject(object);
+  return Math.max(0.5, box.max.y - box.min.y);
 }
 export type CharacterThreeSkeleton = ThreeSkeleton;
 

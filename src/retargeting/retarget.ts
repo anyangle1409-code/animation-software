@@ -1,8 +1,15 @@
-import { Box3, Euler, Matrix4, Quaternion, Vector3 } from 'three';
-import type {
-  CharacterBone as Bone,
-  CharacterObject3D as Object3D,
-  CharacterSkinnedMesh as SkinnedMesh,
+import {
+  createCharacterEuler,
+  createCharacterMatrix,
+  createCharacterQuaternion,
+  createCharacterVector3,
+  measureCharacterObjectHeight,
+  type CharacterBone as Bone,
+  type CharacterMatrix4 as Matrix4,
+  type CharacterObject3D as Object3D,
+  type CharacterQuaternion as Quaternion,
+  type CharacterSkinnedMesh as SkinnedMesh,
+  type CharacterVector3 as Vector3,
 } from '../character/bones';
 import type { BoneName } from '../rig/boneNames';
 import { isMetacarpal } from '../rig/boneNames';
@@ -127,7 +134,7 @@ function detailParent(name: string): BoneName | null {
   return null;
 }
 
-const WORLD_FORWARD = new Vector3(0, 0, 1);
+const WORLD_FORWARD = createCharacterVector3(0, 0, 1);
 
 interface QuaternionComponents {
   x: number;
@@ -143,8 +150,8 @@ function copyQuaternionComponents(
   return target.set(source.x, source.y, source.z, source.w);
 }
 
-function threeQuaternion(source: QuaternionComponents): Quaternion {
-  return copyQuaternionComponents(new Quaternion(), source);
+function sceneQuaternion(source: QuaternionComponents): Quaternion {
+  return copyQuaternionComponents(createCharacterQuaternion(), source);
 }
 
 /**
@@ -173,9 +180,9 @@ export function bindRetarget(
   // bone is bound.
   const left = mapping.bones.thigh_l && character.restWorldPosition.get(mapping.bones.thigh_l);
   const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
-  const alignedRight = new Vector3(1, 0, 0).applyQuaternion(new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward));
+  const alignedRight = createCharacterVector3(1, 0, 0).applyQuaternion(createCharacterQuaternion().setFromUnitVectors(WORLD_FORWARD, forward));
   const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
-  const legacyHandFrame = { l: new Quaternion(), r: new Quaternion() };
+  const legacyHandFrame = { l: createCharacterQuaternion(), r: createCharacterQuaternion() };
 
   for (const rigBone of rig.bones) {
     const targetName = mapping.bones[rigBone.name];
@@ -216,14 +223,14 @@ export function bindRetarget(
           roll.z *= -1;
         }
         targetFrame = boneFrame(head, tail, width).multiply(roll);
-        if (rigBone.name === `hand_${side}`) copyQuaternionComponents(legacyHandFrame[side], roll).invert().multiply(threeQuaternion(unreflected));
+        if (rigBone.name === `hand_${side}`) copyQuaternionComponents(legacyHandFrame[side], roll).invert().multiply(sceneQuaternion(unreflected));
       }
     }
     bones.push({
       canonical: rigBone.name,
       bone,
       restLocal: bone.quaternion.clone(),
-      correction: restWorld.clone().invert().multiply(threeQuaternion(targetFrame)),
+      correction: restWorld.clone().invert().multiply(sceneQuaternion(targetFrame)),
     });
   }
 
@@ -245,7 +252,7 @@ export function bindRetarget(
     const helper = childBone.parent as Bone | null;
     if (!helper || helper === parentBone || helper.parent !== parentBone) continue;
     parentBone.updateWorldMatrix(true, true);
-    const axis = childBone.getWorldPosition(new Vector3());
+    const axis = childBone.getWorldPosition(createCharacterVector3());
     helper.worldToLocal(axis);
     if (axis.lengthSq() < 1e-12) continue;
     const proximalRest = character.restWorld.get(parentName);
@@ -265,7 +272,7 @@ export function bindRetarget(
   const hipsName = mapping.bones.pelvis;
   const hips = hipsName ? character.bones.get(hipsName) ?? null : null;
   const hipsRest =
-    (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || new Vector3();
+    (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || createCharacterVector3();
 
   // Some deform-only exports omit Rigify constraints: thighs, shoulders and
   // upper arms then become armature siblings, as do face bones. Reconstruct
@@ -327,7 +334,7 @@ export function bindRetarget(
       relative.y *= -1;
       relative.z *= -1;
     }
-    entry.correction.copy(restWorld.clone().invert().multiply(handFrame.multiply(threeQuaternion(relative))));
+    entry.correction.copy(restWorld.clone().invert().multiply(handFrame.multiply(sceneQuaternion(relative))));
   }
 
   return {
@@ -340,21 +347,21 @@ export function bindRetarget(
     attachments, followers, twistHelpers, mirrorSides, legacyHandFrame,
     scale: character.height / RIG_HEIGHT,
     evaluation: new PoseEvaluation(rig),
-    worldAlignment: new Quaternion().setFromUnitVectors(WORLD_FORWARD, forward),
+    worldAlignment: createCharacterQuaternion().setFromUnitVectors(WORLD_FORWARD, forward),
   };
 }
 
-const scratchDesiredFrame = new Quaternion();
-const scratchDesiredWorld = new Quaternion();
-const scratchParentWorld = new Quaternion();
-const scratchLocal = new Quaternion();
-const scratchInverseCorrection = new Quaternion();
-const scratchTwistFrame = new Quaternion();
-const scratchTwistCorrection = new Quaternion();
-const scratchTwistDelta = new Quaternion();
-const scratchTwistRest = new Quaternion();
-const scratchTwistShare = new Quaternion();
-const scratchTwistVector = new Vector3();
+const scratchDesiredFrame = createCharacterQuaternion();
+const scratchDesiredWorld = createCharacterQuaternion();
+const scratchParentWorld = createCharacterQuaternion();
+const scratchLocal = createCharacterQuaternion();
+const scratchInverseCorrection = createCharacterQuaternion();
+const scratchTwistFrame = createCharacterQuaternion();
+const scratchTwistCorrection = createCharacterQuaternion();
+const scratchTwistDelta = createCharacterQuaternion();
+const scratchTwistRest = createCharacterQuaternion();
+const scratchTwistShare = createCharacterQuaternion();
+const scratchTwistVector = createCharacterVector3();
 
 /**
  * Apply the canonical pose as an absolute anatomical target.
@@ -373,26 +380,26 @@ const scratchTwistVector = new Vector3();
 export function applyRetarget(
   binding: RetargetBinding,
   pose: Pose,
-  rootOffset = new Vector3(),
+  rootOffset = createCharacterVector3(),
 ): void {
   binding.evaluation.apply(pose);
 
   binding.character.root.updateMatrixWorld(true);
   const sceneDelta = binding.character.root.matrixWorld.clone()
     .multiply(binding.restRootWorld.clone().invert());
-  const sceneRotation = new Quaternion().setFromRotationMatrix(
-    new Matrix4().extractRotation(sceneDelta),
+  const sceneRotation = createCharacterQuaternion().setFromRotationMatrix(
+    createCharacterMatrix().extractRotation(sceneDelta),
   );
   let hipsPosition: Vector3 | null = null;
   // Rotate the resting pelvis about the scene origin before adding root motion.
   if (binding.hips) {
-    const rootRotation = new Quaternion().setFromEuler(new Euler(
+    const rootRotation = createCharacterQuaternion().setFromEuler(createCharacterEuler(
       pose.rootRotation.x, pose.rootRotation.y, pose.rootRotation.z, EULER_ORDER,
     ));
     if (binding.mirrorSides) { rootRotation.y *= -1; rootRotation.z *= -1; }
     rootRotation.premultiply(binding.worldAlignment).multiply(binding.worldAlignment.clone().invert());
-    const origin = new Vector3().setFromMatrixPosition(binding.restRootWorld);
-    hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(new Vector3(
+    const origin = createCharacterVector3().setFromMatrixPosition(binding.restRootWorld);
+    hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(createCharacterVector3(
       (pose.rootPosition.x + rootOffset.x) * (binding.mirrorSides ? -1 : 1),
       pose.rootPosition.y + rootOffset.y,
       pose.rootPosition.z + rootOffset.z,
@@ -482,7 +489,7 @@ export function applyRetarget(
     const local = follower.bone.parent
       ? follower.bone.parent.matrixWorld.clone().invert().multiply(world) : world;
     // These are rigid attachments; preserve the source bone's authored scale.
-    local.decompose(follower.bone.position, follower.bone.quaternion, new Vector3());
+    local.decompose(follower.bone.position, follower.bone.quaternion, createCharacterVector3());
     follower.bone.updateMatrixWorld(true);
   }
   binding.character.root.updateMatrixWorld(true);
@@ -511,7 +518,7 @@ function palmTail(
   }
 
   if (positions.length < 2) return null;
-  const average = new Vector3();
+  const average = createCharacterVector3();
   for (const position of positions) average.add(position);
   return average.multiplyScalar(1 / positions.length);
 }
@@ -626,7 +633,7 @@ function restTail(
   // omits the tail. A canonical fallback points an A-posed fingertip elsewhere.
   if (bone && /^DEF[-_]/i.test(bone.name)) {
     const orientation = character.restWorld.get(bone.name)!;
-    return head.clone().add(new Vector3(0, 0.05, 0).applyQuaternion(orientation));
+    return head.clone().add(createCharacterVector3(0, 0.05, 0).applyQuaternion(orientation));
   }
   const direction = rigBone.restTail.clone().sub(rigBone.restHead);
   if (direction.lengthSq() < 1e-9) return null;
@@ -638,12 +645,12 @@ function restTail(
  * away from us would otherwise get every flexion angle backwards.
  */
 function detectForward(character: TargetCharacter, mapping: BoneMapping): Vector3 {
-  const forward = new Vector3(0, 0, 1);
+  const forward = createCharacterVector3(0, 0, 1);
   const pairs: [BoneName, BoneName][] = [
     ['foot_l', 'toe_l'],
     ['foot_r', 'toe_r'],
   ];
-  const direction = new Vector3();
+  const direction = createCharacterVector3();
   let found = 0;
 
   for (const [footName, toeName] of pairs) {
@@ -680,14 +687,13 @@ export function readCharacter(root: Object3D): TargetCharacter {
   const restPosition = new Map<string, Vector3>();
   const restWorldPosition = new Map<string, Vector3>();
   for (const [name, bone] of bones) {
-    restWorld.set(name, bone.getWorldQuaternion(new Quaternion()));
+    restWorld.set(name, bone.getWorldQuaternion(createCharacterQuaternion()));
     restLocal.set(name, bone.quaternion.clone());
     restPosition.set(name, bone.position.clone());
-    restWorldPosition.set(name, new Vector3().setFromMatrixPosition(bone.matrixWorld));
+    restWorldPosition.set(name, createCharacterVector3().setFromMatrixPosition(bone.matrixWorld));
   }
 
-  const box = new Box3().setFromObject(root);
-  const height = Math.max(0.5, box.max.y - box.min.y);
+  const box = measureCharacterObjectHeight(root);
 
   return { root, bones, boneNames, restWorld, restLocal, restPosition, restWorldPosition, height, meshes };
 }

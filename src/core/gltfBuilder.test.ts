@@ -80,7 +80,9 @@ describe('first-party glTF builder', () => {
   });
 
   it('rejects preserved GLBs that require more than one binary buffer', () => {
-    const document = parseHgGlb(new HgGltfBuilder().toGlb());
+    const original = new HgGltfBuilder();
+    original.addAccessor([1], { type: 'SCALAR', componentType: 5126 });
+    const document = parseHgGlb(original.toGlb());
     document.binaryChunks.push(new Uint8Array([1, 2, 3, 4]));
     expect(() => HgGltfBuilder.fromDocument(document)).toThrow(/one BIN chunk/);
   });

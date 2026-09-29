@@ -8,6 +8,7 @@ describe('first-party viewer renderer adapter', () => {
       info: { render: { frame: 0 } },
       setPixelRatio: vi.fn(),
       setSize: vi.fn(),
+      setClearColor: vi.fn(),
       beginFrame: vi.fn(),
       dispose: vi.fn(),
     };
@@ -22,6 +23,7 @@ describe('first-party viewer renderer adapter', () => {
       disposePipelines,
     );
     const scene = new HgScene();
+    scene.background = '#123456';
     const camera = new HgPerspectiveCamera();
 
     adapter.port.setPixelRatio(2);
@@ -30,6 +32,7 @@ describe('first-party viewer renderer adapter', () => {
 
     expect(surface.setPixelRatio).toHaveBeenCalledWith(2);
     expect(surface.setSize).toHaveBeenCalledWith(640, 360, false);
+    expect(surface.setClearColor).toHaveBeenCalledTimes(1);
     expect(surface.beginFrame).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenCalledWith(scene, camera);
     expect(adapter.frame()).toBe(1);

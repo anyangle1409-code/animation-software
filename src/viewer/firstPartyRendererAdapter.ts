@@ -8,6 +8,7 @@ import { HgPrimitiveSceneRenderer } from '../core/webglSceneRenderer';
 import { HgStudioSceneRenderer } from '../core/webglStudioSceneRenderer';
 import { HgTrianglePipeline } from '../core/webglTrianglePipeline';
 import type { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
+import { hgRgbaFromHex } from '../core/sceneMesh';
 
 export interface HgFirstPartyRendererPort {
   setPixelRatio(value: number): void;
@@ -26,6 +27,7 @@ interface HgRendererSurfaceLike {
   readonly info: { render: { frame: number } };
   setPixelRatio(value: number): void;
   setSize(width: number, height: number, updateStyle?: boolean): void;
+  setClearColor(r: number, g: number, b: number, a?: number): void;
   beginFrame(): void;
   dispose(): void;
 }
@@ -54,6 +56,10 @@ export class HgFirstPartyRendererAdapterCore implements HgFirstPartyRendererAdap
         this.surface.setSize(width, height, updateStyle),
       render: (scene, camera) => {
         if (this.disposed) throw new Error('First-party renderer adapter is disposed');
+        if (typeof scene.background === 'string') {
+          const [r, g, b, a] = hgRgbaFromHex(scene.background);
+          this.surface.setClearColor(r, g, b, a);
+        }
         this.surface.beginFrame();
         this.lastDrawCount = this.sceneRenderer.render(scene, camera);
       },

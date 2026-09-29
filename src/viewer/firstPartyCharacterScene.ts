@@ -1,5 +1,8 @@
 import { HgVec3 } from '../core/linearMath';
-import { HgCharacterMesh } from '../core/sceneCharacter';
+import {
+  HgCharacterMesh,
+  type HgCharacterBaseTexture,
+} from '../core/sceneCharacter';
 import type { HgPrimitiveGeometryData } from '../core/primitiveGeometry';
 import { hgRgbaFromHex } from '../core/sceneMesh';
 import type { HgDeformableMeshLike } from '../character/skinningMath';
@@ -28,10 +31,12 @@ export interface HgRenderableCharacterMesh extends HgDeformableMeshLike {
     | {
         color?: { r: number; g: number; b: number };
         opacity?: number;
+        map?: { image?: unknown; flipY?: boolean } | null;
       }
     | Array<{
         color?: { r: number; g: number; b: number };
         opacity?: number;
+        map?: { image?: unknown; flipY?: boolean } | null;
       }>;
   readonly matrixWorld: { readonly elements: ArrayLike<number> };
   updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
@@ -157,12 +162,25 @@ const materialColour = (mesh: HgRenderableCharacterMesh): [number, number, numbe
     : hgRgbaFromHex('#ffffff');
 };
 
+const materialBaseTexture = (
+  mesh: HgRenderableCharacterMesh,
+): HgCharacterBaseTexture | null => {
+  const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+  const image = material?.map?.image;
+  if (!image || (typeof image !== 'object' && typeof image !== 'function')) return null;
+  return {
+    image: image as TexImageSource,
+    flipY: material?.map?.flipY ?? false,
+  };
+};
+
 /** Build one renderer-neutral posed character scene node. */
 export function createHgCharacterMesh(mesh: HgRenderableCharacterMesh): HgCharacterMesh {
   mesh.updateWorldMatrix(true, false);
   const result = new HgCharacterMesh(
     posedCharacterGeometry(mesh),
     materialColour(mesh),
+    materialBaseTexture(mesh),
   );
   result.name = mesh.name;
   result.matrixAutoUpdate = false;
@@ -185,4 +203,5 @@ export function updateHgCharacterMesh(
   target.baseColour[1] = colour[1];
   target.baseColour[2] = colour[2];
   target.baseColour[3] = colour[3];
+  target.baseTexture = materialBaseTexture(mesh);
 }

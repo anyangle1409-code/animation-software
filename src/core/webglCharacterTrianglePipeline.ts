@@ -6,6 +6,7 @@ export type HgCharacterTriangleGeometry = HgCharacterGeometryData;
 export interface HgCharacterTriangleBuffers {
   positions: Float32Array;
   normals: Float32Array;
+  uvs: Float32Array;
   colours: Float32Array;
 }
 
@@ -31,6 +32,27 @@ const expand3 = (
   return out;
 };
 
+const expand2 = (
+  values: readonly number[],
+  indices: readonly number[],
+  label: string,
+): Float32Array => {
+  if (values.length % 2 !== 0) throw new Error(label + ' must contain UV pairs');
+  const vertices = values.length / 2;
+  const out = new Float32Array(indices.length * 2);
+  for (let offset = 0; offset < indices.length; offset += 1) {
+    const vertex = indices[offset];
+    if (!Number.isInteger(vertex) || vertex < 0 || vertex >= vertices) {
+      throw new Error(label + ' index is outside the vertex buffer');
+    }
+    const source = vertex * 2;
+    const target = offset * 2;
+    out[target] = values[source];
+    out[target + 1] = values[source + 1];
+  }
+  return out;
+};
+
 /** Expand one indexed posed character mesh into draw-order triangle buffers. */
 export function characterTriangleBuffers(
   geometry: HgCharacterTriangleGeometry,
@@ -46,13 +68,20 @@ export function characterTriangleBuffers(
   const colours = geometry.colours
     ? geometry.colours
     : Array.from({ length: vertexCount * 3 }, () => 1);
+  const uvs = geometry.uvs
+    ? geometry.uvs
+    : Array.from({ length: vertexCount * 2 }, () => 0);
   if (colours.length !== geometry.positions.length) {
     throw new Error('Character colours must match position vertices');
+  }
+  if (uvs.length !== vertexCount * 2) {
+    throw new Error('Character UVs must match position vertices');
   }
 
   return {
     positions: expand3(geometry.positions, geometry.indices, 'Character position'),
     normals: expand3(geometry.normals, geometry.indices, 'Character normal'),
+    uvs: expand2(uvs, geometry.indices, 'Character UV'),
     colours: expand3(colours, geometry.indices, 'Character colour'),
   };
 }

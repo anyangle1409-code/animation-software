@@ -5,7 +5,14 @@ export interface HgCharacterGeometryData {
   readonly positions: readonly number[];
   readonly normals: readonly number[];
   readonly indices: readonly number[];
+  readonly uvs?: readonly number[];
   readonly colours?: readonly number[];
+}
+
+export interface HgCharacterBaseTexture {
+  /** Browser-native decoded image; no renderer-vendor texture object crosses here. */
+  readonly image: TexImageSource;
+  readonly flipY: boolean;
 }
 
 /**
@@ -20,6 +27,7 @@ export class HgCharacterMesh extends HgObject3D {
   constructor(
     public geometry: HgCharacterGeometryData,
     public readonly baseColour: HgRgba = [1, 1, 1, 1],
+    public baseTexture: HgCharacterBaseTexture | null = null,
   ) {
     super();
   }

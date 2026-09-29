@@ -16,6 +16,7 @@ describe('first-party character triangle buffers', () => {
         0, 0, 1,
         0, 0, 1,
       ],
+      uvs: [0, 0, 1, 0, 0, 1, 1, 1],
       colours: [
         1, 0, 0,
         0, 1, 0,
@@ -41,6 +42,14 @@ describe('first-party character triangle buffers', () => {
       0, 0, 1,
       0, 0, 1,
     ]);
+    expect(Array.from(buffers.uvs)).toEqual([
+      0, 0,
+      1, 0,
+      0, 1,
+      0, 1,
+      1, 0,
+      1, 1,
+    ]);
     expect(Array.from(buffers.colours)).toEqual([
       1, 0, 0,
       0, 1, 0,
@@ -57,6 +66,7 @@ describe('first-party character triangle buffers', () => {
       normals: [0, 0, 1, 0, 0, 1, 0, 0, 1],
       indices: [0, 1, 2],
     });
+    expect(Array.from(buffers.uvs)).toEqual([0, 0, 0, 0, 0, 0]);
     expect(Array.from(buffers.colours)).toEqual([
       1, 1, 1,
       1, 1, 1,

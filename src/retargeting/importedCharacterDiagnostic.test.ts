@@ -17,6 +17,7 @@ import { retargetedCharacterSource } from '../character/retargetSource';
 import type { CharacterBuild, Side } from '../character/types';
 import { equipmentSocket } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
+import { HgMat4 } from '../core/linearMath';
 
 /**
  * Optional diagnostic for a supplied imported character.
@@ -145,14 +146,17 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
     );
     if (!instance || instance.attachment.mode !== 'hand') continue;
 
-    const hand = character.handMatrix(side, new Matrix4());
+    const hand = character.handMatrix(side, new HgMat4());
     if (!hand) continue;
     const socket = equipmentSocket(instance.kind, instance.attachment.socket);
     const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
-    const equipment = new Matrix4().multiplyMatrices(
-      hand,
-      handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }),
-    );
+    const equipment = new Matrix4().fromArray(Array.from(
+      hand.clone().multiply(
+        new HgMat4().copy(
+          handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }),
+        ),
+      ).elements,
+    ));
     const toHandle = equipment.clone().invert();
 
     let penetratingVertices = 0;
@@ -251,7 +255,7 @@ supplied('imported-character diagnostic', () => {
 
         const hands: Record<string, number[] | null> = {};
         for (const side of ['l', 'r'] as const) {
-          const matrix = character.handMatrix?.(side, new Matrix4()) ?? null;
+          const matrix = character.handMatrix?.(side, new HgMat4()) ?? null;
           hands[side] = matrix
             ? new Vector3().setFromMatrixPosition(matrix).toArray().map((value) => Number(value.toFixed(5)))
             : null;

@@ -1,7 +1,5 @@
 import {
-  copyCharacterMatrix,
   type CharacterBone,
-  type CharacterMatrix4,
   type CharacterObject3D,
   type CharacterSkinnedMesh,
 } from './bones';
@@ -216,10 +214,8 @@ export function retargetedCharacterSource(
         return target.copy(scratch.output);
       };
 
-      const handMatrix = (side: Side, target: CharacterMatrix4): CharacterMatrix4 | null => {
-        const frame = handFrame(side, scratch.output);
-        return frame ? copyCharacterMatrix(frame, target) : null;
-      };
+      const handMatrix = (side: Side, target: HgMat4): HgMat4 | null =>
+        handFrame(side, target);
 
       const handFrameLocalMatrix = (side: Side): number[] | null => {
         const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;

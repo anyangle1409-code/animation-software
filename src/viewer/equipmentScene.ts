@@ -121,7 +121,7 @@ export function applyEquipmentDisplayTransforms(
     const placement = placements.get(id);
     group.visible = Boolean(placement?.visible && placement.matrix);
     if (!placement?.visible || !placement.matrix) continue;
-    group.matrix.copy(placement.matrix);
+    group.matrix.fromArray(Array.from(placement.matrix.elements));
     group.matrixWorldNeedsUpdate = true;
   }
 }

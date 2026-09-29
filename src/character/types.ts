@@ -1,6 +1,5 @@
 import type {
   CharacterBone,
-  CharacterMatrix4,
   CharacterObject3D,
   CharacterSkinnedMesh,
   CharacterThreeSkeleton,
@@ -10,6 +9,7 @@ import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { GripKind } from '../exercises/types';
 import type { Pose } from '../rig/types';
 import type { ResolvedContact } from '../constraints/types';
+import type { HgMat4 } from '../core/linearMath';
 
 
 /**
@@ -194,7 +194,7 @@ export interface CharacterBuild {
    * canonical hand is. Equipment follows this rather than the rig, which is
    * what keeps a dumbbell in the hand of a character the rig only drives.
    */
-  handMatrix?: (side: Side, target: CharacterMatrix4) => CharacterMatrix4 | null;
+  handMatrix?: (side: Side, target: HgMat4) => HgMat4 | null;
   /**
    * Fixed transform from this character's source hand-bone frame to the
    * corrected grip frame above, as a column-major 4x4 matrix.

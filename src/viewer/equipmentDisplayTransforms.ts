@@ -1,10 +1,4 @@
-import {
-  copyCharacterMatrix,
-  createCharacterMatrix,
-  multiplyCharacterMatrices,
-  type CharacterMatrix4,
-  type CharacterMatrixLike,
-} from '../character/bones';
+import { HgMat4 } from '../core/linearMath';
 import type { CharacterBuild } from '../character/types';
 import {
   anatomicalGripOffset,
@@ -24,7 +18,7 @@ export type EquipmentDisplayCharacter = Pick<
 
 export interface EquipmentDisplayTransform {
   readonly visible: boolean;
-  readonly matrix: CharacterMatrix4 | null;
+  readonly matrix: HgMat4 | null;
 }
 
 /**
@@ -40,7 +34,7 @@ export interface EquipmentDisplayTransform {
  */
 export function resolveEquipmentDisplayTransforms(
   instances: readonly EquipmentInstance[],
-  transforms: ReadonlyMap<string, { readonly matrix: CharacterMatrixLike }>,
+  transforms: ReadonlyMap<string, { readonly matrix: { readonly elements: ArrayLike<number> } }>,
   character: EquipmentDisplayCharacter | null | undefined,
 ): Map<string, EquipmentDisplayTransform> {
   const drawn = new Map<string, EquipmentDisplayTransform>();
@@ -51,35 +45,35 @@ export function resolveEquipmentDisplayTransforms(
     if (instance.attachment.mode === 'cable') continue;
 
     if (instance.attachment.mode === 'hand' && character?.handMatrix) {
-      const held = character.handMatrix(instance.attachment.side, createCharacterMatrix());
+      const held = character.handMatrix(instance.attachment.side, new HgMat4());
       if (held) {
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const grip =
           instance.attachment.gripOffset ??
           character.gripOffset?.(instance.attachment.side) ??
           anatomicalGripOffset(instance.attachment.side);
-        const local = copyCharacterMatrix(handAttachmentLocalMatrix(
+        const local = handAttachmentLocalMatrix(
           grip,
           socket?.position ?? { x: 0, y: 0, z: 0 },
           {
             gripRotation: instance.attachment.gripRotation,
             socketRotation: socket?.rotation,
           },
-        ));
+        );
         drawn.set(instance.id, {
           visible: true,
-          matrix: multiplyCharacterMatrices(held, local),
+          matrix: new HgMat4().multiplyMatrices(held, local),
         });
         continue;
       }
     }
 
     if (instance.attachment.mode === 'hands' && character?.handMatrix) {
-      const left = character.handMatrix('l', createCharacterMatrix());
-      const right = character.handMatrix('r', createCharacterMatrix());
+      const left = character.handMatrix('l', new HgMat4());
+      const right = character.handMatrix('r', new HgMat4());
       const matrix = left && right ? twoHandAttachmentMatrix(left, right, instance) : null;
       if (matrix) {
-        drawn.set(instance.id, { visible: true, matrix: copyCharacterMatrix(matrix) });
+        drawn.set(instance.id, { visible: true, matrix: matrix.clone() });
         continue;
       }
     }
@@ -90,7 +84,7 @@ export function resolveEquipmentDisplayTransforms(
       continue;
     }
 
-    const canonicalMatrix = copyCharacterMatrix(canonical.matrix);
+    const canonicalMatrix = new HgMat4().copy(canonical.matrix);
     drawn.set(instance.id, {
       visible: true,
       matrix: character?.mirrored
@@ -117,7 +111,7 @@ export function resolveEquipmentDisplayTransforms(
     drawn.set(
       instance.id,
       from && to
-        ? { visible: true, matrix: copyCharacterMatrix(cableMatrix(from, to).matrix) }
+        ? { visible: true, matrix: cableMatrix(from, to).matrix.clone() }
         : { visible: false, matrix: null },
     );
   }

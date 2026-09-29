@@ -26,6 +26,7 @@ import { pushUp } from '../exercises/definitions/pushUp';
 import { exportGlb } from '../export/glb';
 import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 import { anatomicalGripOffset } from '../equipment/attach';
+import { HgMat4 } from '../core/linearMath';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
@@ -305,7 +306,7 @@ describe('an imported character', () => {
       const { frame, evaluation } = curlPose(studioClip.duration * fraction);
       applyCharacterPose(character, rig, frame.pose, evaluation);
 
-      const held = character.handMatrix!('r', new Matrix4());
+      const held = character.handMatrix!('r', new HgMat4());
       expect(held, 'the right hand resolves').not.toBeNull();
       const grip = new Vector3().setFromMatrixPosition(held!);
       const hand = boneAt(character, 'DEF-hand.R');
@@ -340,7 +341,7 @@ describe('an imported character', () => {
       const rebuilt = hand.matrixWorld.clone().multiply(
         new Matrix4().fromArray(local!),
       );
-      const expected = character.handMatrix!('r', new Matrix4())!;
+      const expected = character.handMatrix!('r', new HgMat4())!;
       expect(Math.max(
         ...rebuilt.elements.map((value, index) =>
           Math.abs(value - expected.elements[index]),
@@ -359,7 +360,7 @@ describe('an imported character', () => {
     const character = await source.build(rig);
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
     applyCharacterPose(character, rig, frame.pose, evaluation);
-    const held = character.handMatrix!('r', new Matrix4())!;
+    const held = character.handMatrix!('r', new HgMat4())!;
     const grip = new Vector3().setFromMatrixPosition(held);
     const hand = boneAt(character, 'DEF-hand.R');
     expect(grip.distanceTo(hand)).toBeCloseTo(Math.sqrt(0.0014), 6);
@@ -376,7 +377,7 @@ describe('an imported character', () => {
       const frame = resolveFrame(rig, evaluation, clip, clip.duration * fraction, { anchors });
       expect(frame.contacts).toHaveLength(2);
       applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
-      const grip = new Vector3().setFromMatrixPosition(character.handMatrix!('r', new Matrix4())!);
+      const grip = new Vector3().setFromMatrixPosition(character.handMatrix!('r', new HgMat4())!);
       const target = frame.contacts.find((contact) => contact.chain === 'arm_r')!.target;
       // This fixture uses the same opposite-side convention as the real asset.
       expect(Math.abs(grip.x + target.x)).toBeLessThan(0.02);
@@ -498,18 +499,24 @@ describe('an imported character', () => {
     });
     expect(playedDumbbell, 'the first-party dumbbell is exported').not.toBeNull();
 
-    const expectedDumbbell = character.handMatrix!('r', new Matrix4())!
+    const expectedDumbbell = character.handMatrix!('r', new HgMat4())!
       .multiply(handAttachmentMatrix(
         anatomicalGripOffset('r'),
         { x: 0, y: 0, z: 0 },
       ));
-    const expectedPosition = new Vector3().setFromMatrixPosition(expectedDumbbell);
+    const expectedPosition = new Vector3(
+      expectedDumbbell.elements[12],
+      expectedDumbbell.elements[13],
+      expectedDumbbell.elements[14],
+    );
     const writtenPosition = new Vector3().setFromMatrixPosition(
       (playedDumbbell as unknown as Object3D).matrixWorld,
     );
     expect(writtenPosition.distanceTo(expectedPosition)).toBeLessThan(0.001);
 
-    const expectedRotation = new Quaternion().setFromRotationMatrix(expectedDumbbell);
+    const expectedRotation = new Quaternion().setFromRotationMatrix(
+      new Matrix4().fromArray(Array.from(expectedDumbbell.elements)),
+    );
     const writtenRotation = new Quaternion().setFromRotationMatrix(
       new Matrix4().extractRotation(
         (playedDumbbell as unknown as Object3D).matrixWorld,

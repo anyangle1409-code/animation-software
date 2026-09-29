@@ -13,6 +13,7 @@ export type HgComponentType = 5120 | 5121 | 5122 | 5123 | 5125 | 5126;
 
 export interface HgAccessorData {
   index: number;
+  type: HgAccessorType;
   count: number;
   components: number;
   componentType: HgComponentType;
@@ -177,6 +178,7 @@ export function readHgAccessor(document: HgGlbDocument, index: number): HgAccess
 
   return {
     index,
+    type,
     count,
     components,
     componentType: component,

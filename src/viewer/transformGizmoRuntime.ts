@@ -1,11 +1,9 @@
 import {
   Object3D,
-  Quaternion,
-  Vector3,
   type Camera,
   type Scene,
 } from './threeSceneBoundary';
-import { HgQuat, HgVec3 } from '../core/linearMath';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import {
@@ -49,9 +47,6 @@ const AXES: Record<HgGizmoAxis, HgVec3> = {
 const hgVector = (value: { x: number; y: number; z: number }) =>
   new HgVec3(value.x, value.y, value.z);
 
-const hgQuaternion = (value: { x: number; y: number; z: number; w: number }) =>
-  new HgQuat(value.x, value.y, value.z, value.w);
-
 const hgRay = (event: HgSceneRayEvent) => ({
   origin: hgVector(event.ray.origin),
   direction: hgVector(event.ray.direction),
@@ -85,9 +80,10 @@ export function createTransformGizmoRuntime(
   } = options;
 
   const resources = createTransformGizmoScene(mode);
-  const worldPosition = new Vector3();
-  const worldQuaternion = new Quaternion();
-  const parentQuaternion = new Quaternion();
+  const worldPosition = new HgVec3();
+  const worldQuaternion = new HgQuat();
+  const parentQuaternion = new HgQuat();
+  const matrix = new HgMat4();
   let drag: ActiveDrag | null = null;
   let disposed = false;
 
@@ -96,16 +92,18 @@ export function createTransformGizmoRuntime(
   const begin = (axis: HgGizmoAxis, event: HgSceneRayEvent) => {
     event.stopPropagation();
     object.updateWorldMatrix(true, false);
-    object.getWorldPosition(worldPosition);
-    object.getWorldQuaternion(worldQuaternion);
+    worldPosition.setFromMatrixPosition(object.matrixWorld);
+    worldQuaternion.setFromRotationMatrix(
+      matrix.extractRotation(object.matrixWorld),
+    );
     drag = {
       pointerId: event.pointerId,
       interaction: new HgTransformDrag(
         mode,
         AXES[axis],
         hgRay(event),
-        hgVector(worldPosition),
-        hgQuaternion(worldQuaternion),
+        worldPosition.clone(),
+        worldQuaternion.clone(),
       ),
     };
     updateTransformGizmoActiveAxis(resources, axis);
@@ -122,24 +120,33 @@ export function createTransformGizmoRuntime(
     const result = active.interaction.update(hgRay(event));
     if (!result) return;
 
-    worldPosition.set(result.position.x, result.position.y, result.position.z);
-    worldQuaternion.set(
-      result.quaternion.x,
-      result.quaternion.y,
-      result.quaternion.z,
-      result.quaternion.w,
-    );
+    worldPosition.copy(result.position);
+    worldQuaternion.copy(result.quaternion);
 
     if (object.parent) {
       object.parent.updateWorldMatrix(true, false);
-      object.position.copy(object.parent.worldToLocal(worldPosition));
-      object.parent.getWorldQuaternion(parentQuaternion);
-      object.quaternion.copy(
-        parentQuaternion.invert().multiply(worldQuaternion),
+      const localPosition = worldPosition.clone().applyMatrix4(
+        matrix.copy(object.parent.matrixWorld).invert(),
+      );
+      parentQuaternion.setFromRotationMatrix(
+        matrix.extractRotation(object.parent.matrixWorld),
+      );
+      const localQuaternion = parentQuaternion.invert().multiply(worldQuaternion);
+      object.position.set(localPosition.x, localPosition.y, localPosition.z);
+      object.quaternion.set(
+        localQuaternion.x,
+        localQuaternion.y,
+        localQuaternion.z,
+        localQuaternion.w,
       );
     } else {
-      object.position.copy(worldPosition);
-      object.quaternion.copy(worldQuaternion);
+      object.position.set(worldPosition.x, worldPosition.y, worldPosition.z);
+      object.quaternion.set(
+        worldQuaternion.x,
+        worldQuaternion.y,
+        worldQuaternion.z,
+        worldQuaternion.w,
+      );
     }
     object.updateMatrix();
     object.updateMatrixWorld(true);
@@ -167,9 +174,13 @@ export function createTransformGizmoRuntime(
 
   const removeFrame = sceneState.consumers.add(() => {
     object.updateWorldMatrix(true, false);
-    object.getWorldPosition(worldPosition);
-    resources.group.position.copy(worldPosition);
-    const distance = camera.position.distanceTo(worldPosition);
+    worldPosition.setFromMatrixPosition(object.matrixWorld);
+    resources.group.position.set(worldPosition.x, worldPosition.y, worldPosition.z);
+    const distance = Math.hypot(
+      camera.position.x - worldPosition.x,
+      camera.position.y - worldPosition.y,
+      camera.position.z - worldPosition.z,
+    );
     const scale = Math.max(0.04, distance * 0.12 * size);
     resources.group.scale.setScalar(scale);
   }, SCENE_FRAME_PRIORITY.gizmo);

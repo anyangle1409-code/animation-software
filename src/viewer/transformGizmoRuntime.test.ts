@@ -86,4 +86,11 @@ describe('framework-neutral transform gizmo runtime', () => {
     expect(sceneState.consumers.subscriberCount).toBe(0);
     expect(handlers.size).toBe(0);
   });
+  it('keeps world-transform calculations on Home Gym PT math', async () => {
+    const source = await import('node:fs').then(({ readFileSync }) =>
+      readFileSync(new URL('./transformGizmoRuntime.ts', import.meta.url), 'utf8'));
+    expect(source).toContain("HgMat4, HgQuat, HgVec3");
+    expect(source).not.toMatch(/\b(Quaternion|Vector3)\b[\s\S]*from '\.\/threeSceneBoundary'/);
+  });
+
 });

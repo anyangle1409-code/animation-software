@@ -1,4 +1,5 @@
-import { BufferAttribute, BufferGeometry, Color, Quaternion, Vector3 } from 'three';
+import { HgQuat, HgVec3 } from '../core/linearMath';
+import { createCharacterSkinnedGeometry, type Surface } from '../character/build';
 import type { RigBone, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { BodyBlob, BodyChain, Ring } from './profiles';
@@ -16,7 +17,7 @@ import { BODY_BLOBS, BODY_CHAINS, BODY_COLOURS } from './profiles';
  * The result is one indexed geometry shared by the viewport and GLB exporter.
  */
 export interface BodyGeometry {
-  geometry: BufferGeometry;
+  geometry: Surface['geometry'];
   vertices: number;
   triangles: number;
 }
@@ -39,12 +40,24 @@ interface PlacedRing {
  * shorts, eyes and lips all ship in one mesh with one draw call — which is what
  * keeps the character cheap enough for the phone app.
  */
-const colourCache = new Map<string, Color>();
-const colourOf = (hex: string | undefined): Color => {
+interface LinearColour { r: number; g: number; b: number }
+
+const colourCache = new Map<string, LinearColour>();
+const srgbChannelToLinear = (value: number): number =>
+  value <= 0.04045
+    ? value / 12.92
+    : ((value + 0.055) / 1.055) ** 2.4;
+
+const colourOf = (hex: string | undefined): LinearColour => {
   const key = hex ?? BODY_COLOURS.skin;
   let colour = colourCache.get(key);
   if (!colour) {
-    colour = new Color(key);
+    const value = Number.parseInt(key.replace('#', ''), 16);
+    colour = {
+      r: srgbChannelToLinear(((value >> 16) & 255) / 255),
+      g: srgbChannelToLinear(((value >> 8) & 255) / 255),
+      b: srgbChannelToLinear((value & 255) / 255),
+    };
     colourCache.set(key, colour);
   }
   return colour;
@@ -61,14 +74,21 @@ export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): Bod
   const boneIndex = new Map<string, number>();
   rig.bones.forEach((bone, index) => boneIndex.set(bone.name, index));
 
-  const scratch = new Vector3();
-  const rotation = new Quaternion();
+  const scratch = new HgVec3();
+  const rotation = new HgQuat();
 
-  function pushVertex(placed: PlacedRing, local: Vector3, colour?: string): number {
+  function pushVertex(placed: PlacedRing, local: HgVec3, colour?: string): number {
     const index = positions.length / 3;
     scratch
       .copy(local)
-      .applyQuaternion(rotation.copy(placed.bone.restWorldQuaternion))
+      .applyQuaternion(
+        rotation.set(
+          placed.bone.restWorldQuaternion.x,
+          placed.bone.restWorldQuaternion.y,
+          placed.bone.restWorldQuaternion.z,
+          placed.bone.restWorldQuaternion.w,
+        ),
+      )
       .add(placed.bone.restHead);
     positions.push(scratch.x, scratch.y, scratch.z);
 
@@ -85,15 +105,15 @@ export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): Bod
     return index;
   }
 
-  const ringVertex = (placed: PlacedRing, angle: number): Vector3 =>
-    new Vector3(
+  const ringVertex = (placed: PlacedRing, angle: number): HgVec3 =>
+    new HgVec3(
       (placed.ring.ox ?? 0) + placed.ring.rx * Math.cos(angle),
       placed.ring.t * placed.bone.length,
       (placed.ring.oz ?? 0) + placed.ring.rz * Math.sin(angle),
     );
 
-  const ringCentre = (placed: PlacedRing): Vector3 =>
-    new Vector3(placed.ring.ox ?? 0, placed.ring.t * placed.bone.length, placed.ring.oz ?? 0);
+  const ringCentre = (placed: PlacedRing): HgVec3 =>
+    new HgVec3(placed.ring.ox ?? 0, placed.ring.t * placed.bone.length, placed.ring.oz ?? 0);
 
   for (const chain of BODY_CHAINS) {
     const rings = placeChain(rig, boneIndex, chain);
@@ -156,7 +176,7 @@ export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): Bod
         const theta = (slice / slices) * Math.PI * 2;
         pushVertex(
           placed,
-          new Vector3(
+          new HgVec3(
             blob.centre[0] + blob.radii[0] * Math.sin(phi) * Math.cos(theta),
             blob.centre[1] + blob.radii[1] * Math.cos(phi),
             blob.centre[2] + blob.radii[2] * Math.sin(phi) * Math.sin(theta),
@@ -180,15 +200,13 @@ export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): Bod
     }
   }
 
-  const geometry = new BufferGeometry();
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
-  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(skinIndices), 4));
-  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(skinWeights), 4));
-  geometry.setAttribute('color', new BufferAttribute(new Float32Array(colours), 3));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  geometry.computeBoundingBox();
-  geometry.computeBoundingSphere();
+  const geometry = createCharacterSkinnedGeometry({
+    positions,
+    indices,
+    skinIndices,
+    skinWeights,
+    colours,
+  });
 
   return { geometry, vertices: positions.length / 3, triangles: indices.length / 3 };
 }

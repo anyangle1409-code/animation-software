@@ -1,4 +1,10 @@
-import { MeshStandardMaterial, SkinnedMesh, type BufferGeometry, type Material } from 'three';
+import {
+  BufferAttribute,
+  BufferGeometry,
+  MeshStandardMaterial,
+  SkinnedMesh,
+  type Material,
+} from 'three';
 import type { Skeleton } from '../rig/skeleton';
 import { buildCanonicalBones } from './bones';
 import type { CharacterBuild, CharacterCapabilities, DeformationStack } from './types';
@@ -25,6 +31,25 @@ export interface AssembleOptions {
  * and the exporter cannot drift apart: both call a source's `build`, and every
  * source ends here.
  */
+export function createCharacterSkinnedGeometry(data: {
+  positions: readonly number[];
+  indices: readonly number[];
+  skinIndices: readonly number[];
+  skinWeights: readonly number[];
+  colours: readonly number[];
+}): BufferGeometry {
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position', new BufferAttribute(new Float32Array(data.positions), 3));
+  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(data.skinIndices), 4));
+  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(data.skinWeights), 4));
+  geometry.setAttribute('color', new BufferAttribute(new Float32Array(data.colours), 3));
+  geometry.setIndex([...data.indices]);
+  geometry.computeVertexNormals();
+  geometry.computeBoundingBox();
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
 export function createCharacterSkinnedMesh(
   geometry: Surface['geometry'],
   material: Surface['material'],

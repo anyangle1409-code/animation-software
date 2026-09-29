@@ -11,8 +11,11 @@ export type HgVertexSemantic =
   | 'JOINTS_0'
   | 'WEIGHTS_0';
 
+export type HgMorphSemantic = 'POSITION' | 'NORMAL';
+
 export interface HgGltfPrimitive {
   readonly attributes: Partial<Record<HgVertexSemantic, HgAccessorData>>;
+  readonly targets: Array<Partial<Record<HgMorphSemantic, HgAccessorData>>>;
   readonly indices: HgAccessorData | null;
   readonly material: number | null;
   readonly mode: 4;
@@ -175,7 +178,6 @@ function readAttribute(
 
 function readPrimitive(document: HgGlbDocument, value: JsonObject, label: string): HgGltfPrimitive {
   if (value.extensions !== undefined) throw new Error(`${label} extensions are not supported`);
-  if (value.targets !== undefined) throw new Error(`${label} morph targets are not supported yet`);
 
   const mode = value.mode === undefined ? 4 : nonNegativeInteger(value.mode, `${label}.mode`);
   if (mode !== 4) throw new Error(`${label} must use TRIANGLES mode 4`);
@@ -199,6 +201,31 @@ function readPrimitive(document: HgGlbDocument, value: JsonObject, label: string
   }
   if (!attributes.POSITION) throw new Error(`${label} has no POSITION attribute`);
 
+  const targets = value.targets === undefined
+    ? []
+    : objectArray(value.targets, `${label}.targets`).map((target, targetIndex) => {
+        const decoded: Partial<Record<HgMorphSemantic, HgAccessorData>> = {};
+        for (const [key, rawIndex] of Object.entries(target)) {
+          if (key !== 'POSITION' && key !== 'NORMAL') {
+            throw new Error(`${label}.targets[${targetIndex}] attribute ${key} is not supported`);
+          }
+          const semantic = key as HgMorphSemantic;
+          const accessor = readAttribute(
+            document,
+            semantic,
+            nonNegativeInteger(rawIndex, `${label}.targets[${targetIndex}].${key}`),
+          );
+          if (accessor.count !== vertexCount) {
+            throw new Error(`${label}.targets[${targetIndex}] attribute count does not match base mesh`);
+          }
+          decoded[semantic] = accessor;
+        }
+        if (!Object.keys(decoded).length) {
+          throw new Error(`${label}.targets[${targetIndex}] has no supported attributes`);
+        }
+        return decoded;
+      });
+
   let indices: HgAccessorData | null = null;
   if (value.indices !== undefined) {
     const index = nonNegativeInteger(value.indices, `${label}.indices`);
@@ -212,6 +239,7 @@ function readPrimitive(document: HgGlbDocument, value: JsonObject, label: string
 
   return {
     attributes,
+    targets,
     indices,
     material: optionalIndex(value.material, `${label}.material`),
     mode: 4,

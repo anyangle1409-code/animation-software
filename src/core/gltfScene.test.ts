@@ -9,6 +9,7 @@ function builtScene() {
   const normal = builder.addAccessor([0, 0, 1, 0, 0, 1, 0, 0, 1], { type: 'VEC3', componentType: 5126, target: 34962 });
   const joints = builder.addAccessor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], { type: 'VEC4', componentType: 5121, target: 34962 });
   const weights = builder.addAccessor([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], { type: 'VEC4', componentType: 5126, target: 34962 });
+  const morphPosition = builder.addAccessor([0, 0, 0, 0, 0.1, 0, 0, 0, 0], { type: 'VEC3', componentType: 5126, target: 34962 });
   const indices = builder.addAccessor([0, 1, 2], { type: 'SCALAR', componentType: 5123, target: 34963 });
   const inverseBind = builder.addAccessor(
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -23,6 +24,7 @@ function builtScene() {
     name: 'body_mesh',
     primitives: [{
       attributes: { POSITION: position, NORMAL: normal, JOINTS_0: joints, WEIGHTS_0: weights },
+      targets: [{ POSITION: morphPosition }],
       indices,
       material: 0,
     }],
@@ -50,6 +52,10 @@ describe('first-party glTF scene decoder', () => {
     const primitive = decoded.meshes[0].primitives[0];
     expect(primitive.attributes.POSITION?.values).toEqual([0, 0, 0, 1, 0, 0, 0, 1, 0]);
     expect(primitive.attributes.JOINTS_0?.componentType).toBe(5121);
+    expect(primitive.targets).toHaveLength(1);
+    expect(primitive.targets[0].POSITION?.values).toEqual(
+      Array.from(new Float32Array([0, 0, 0, 0, 0.1, 0, 0, 0, 0])),
+    );
     expect(primitive.indices?.values).toEqual([0, 1, 2]);
     expect(primitive.material).toBe(0);
 
@@ -97,6 +103,22 @@ describe('first-party glTF scene decoder', () => {
     const normal = builder.addAccessor([0, 0, 1, 0, 0, 1], { type: 'VEC3', componentType: 5126 });
     builder.json.meshes = [{ primitives: [{ attributes: { POSITION: position, NORMAL: normal } }] }];
     expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/counts/);
+  });
+
+  it('rejects a morph target whose vertex count differs from the base mesh', () => {
+    const builder = new HgGltfBuilder();
+    const position = builder.addAccessor(
+      [0, 0, 0, 1, 0, 0, 0, 1, 0],
+      { type: 'VEC3', componentType: 5126 },
+    );
+    const morph = builder.addAccessor(
+      [0, 0, 0, 0, 0.1, 0],
+      { type: 'VEC3', componentType: 5126 },
+    );
+    builder.json.meshes = [{
+      primitives: [{ attributes: { POSITION: position }, targets: [{ POSITION: morph }] }],
+    }];
+    expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/target.*count/i);
   });
 
   it('rejects an inverse-bind accessor that is not FLOAT MAT4', () => {

@@ -189,6 +189,8 @@ describe('an imported character', () => {
     expect(scale.x).toBeCloseTo(scale.y, 6);
     expect(scale.y).toBeCloseTo(scale.z, 6);
     expect(scale.x).toBeGreaterThan(0);
+    expect(character.sourceScale).toBeCloseTo(scale.x, 6);
+    expect(character.preservedGlb?.byteLength).toBe(fixture.data.byteLength);
     character.dispose();
   });
 

@@ -145,6 +145,14 @@ export interface CharacterBuild {
   meshes: CharacterSkinnedMesh[];
   deformation: DeformationStack | null;
   capabilities: CharacterCapabilities;
+  /**
+   * Original GLB bytes when this build preserves an imported asset rather than
+   * reconstructing or rebinding it. The first-party exporter can extend these
+   * bytes directly, retaining authored mesh/skin/material/texture data.
+   */
+  preservedGlb?: ArrayBuffer;
+  /** Uniform display/export scale applied around a preserved imported scene. */
+  sourceScale?: number;
 
   /**
    * How this character is posed, when it is not bound to the canonical bones.

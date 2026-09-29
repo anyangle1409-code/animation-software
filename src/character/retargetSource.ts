@@ -288,6 +288,8 @@ export function retargetedCharacterSource(
         meshes: character.meshes as CharacterSkinnedMesh[],
         deformation,
         capabilities: source.capabilities,
+        ...(options.data ? { preservedGlb: options.data.slice(0) } : {}),
+        sourceScale: scale,
 
         driver: drive,
 

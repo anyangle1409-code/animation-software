@@ -42,6 +42,20 @@ type DecodedImage = ImageBitmap | HTMLImageElement;
 
 export type HgThreeSkinnedMesh = SkinnedMesh;
 
+export interface HgThreePrimitiveSource {
+  readonly nodeIndex: number;
+  readonly meshIndex: number;
+  readonly primitiveIndex: number;
+  readonly targetNames: readonly string[];
+}
+
+const primitiveSources = new WeakMap<Object3D, HgThreePrimitiveSource>();
+
+/** Exact original GLB primitive represented by one temporary renderer mesh. */
+export function hgThreePrimitiveSource(object: Object3D): HgThreePrimitiveSource | null {
+  return primitiveSources.get(object) ?? null;
+}
+
 const ATTRIBUTE_NAMES = {
   POSITION: 'position',
   NORMAL: 'normal',
@@ -356,6 +370,12 @@ export async function loadHgThreeScene(
       mesh.name = meshDefinition.primitives.length === 1
         ? baseName
         : `${baseName}_${primitiveIndex}`;
+      primitiveSources.set(mesh, {
+        nodeIndex: node.index,
+        meshIndex: meshDefinition.index,
+        primitiveIndex,
+        targetNames: [...names],
+      });
       // GLTFLoader materializes a single mesh node as the mesh itself. This
       // temporary adapter keeps a lightweight node wrapper for extras and
       // hierarchy, so disambiguate an identical wrapper/mesh name. Otherwise

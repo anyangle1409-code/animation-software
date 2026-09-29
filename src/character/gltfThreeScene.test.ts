@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Bone, MeshStandardMaterial, SkinnedMesh } from 'three';
 import { HgGltfBuilder } from '../core/gltfBuilder';
-import { loadHgThreeScene } from './gltfThreeScene';
+import { hgThreePrimitiveSource, loadHgThreeScene } from './gltfThreeScene';
 
 function fixture(): Uint8Array {
   const builder = new HgGltfBuilder();
@@ -121,6 +121,12 @@ describe('first-party GLB to temporary Three scene adapter', () => {
     expect(mesh.name).toBe('body');
     expect(mesh.parent?.name).not.toBe(mesh.name);
     expect(mesh.parent?.userData.homeGymPT).toEqual({ gripSolutionId: 'fixture' });
+    expect(hgThreePrimitiveSource(mesh)).toEqual({
+      nodeIndex: 1,
+      meshIndex: 0,
+      primitiveIndex: 0,
+      targetNames: ['bend'],
+    });
 
     const material = mesh.material as MeshStandardMaterial;
     expect(material.name).toBe('skin');

@@ -330,16 +330,17 @@ TORSO_LEVELS = [
     # outside the scapula bone tails (f=-0.145), lumbar lordosis at the waist.
     # Glutes: lateral-posterior bulge plus the intergluteal cleft at the back centre.
     (0.885, 0.164, 0.072, -0.132, 2.3, [(2.55, 0.35, 0.020), (math.pi, 0.10, -0.022), (1.05, 0.25, -0.008)]),
-    (0.930, 0.172, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.020), (math.pi, 0.10, -0.018), (1.05, 0.25, -0.004)]),
-    (0.980, 0.169, 0.096, -0.130, 2.4, [(2.60, 0.40, 0.013), (math.pi, 0.12, -0.010)]),
-    (1.030, 0.161, 0.104, -0.104, 2.4, [(math.pi, 0.25, -0.006)]),
-    (1.080, 0.150, 0.108, -0.086, 2.4, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)]),
-    (1.130, 0.143, 0.106, -0.084, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.006)]),
-    (1.180, 0.145, 0.105, -0.094, 2.3, [(math.pi, 0.22, -0.007), (2.75, 0.2, 0.004)]),
-    (1.230, 0.150, 0.108, -0.118, 2.3, [(math.pi, 0.22, -0.006), (1.95, 0.35, 0.004), (2.55, 0.30, 0.006)], 2.8),
-    (1.280, 0.154, 0.109, -0.146, 2.3, [(math.pi, 0.22, -0.008), (0.55, 0.30, 0.003), (1.95, 0.35, 0.006), (2.55, 0.30, 0.014)], 3.4),
-    (1.330, 0.156, 0.116, -0.155, 2.3, [(math.pi, 0.22, -0.009), (0.52, 0.34, 0.017), (0.0, 0.12, -0.005), (1.95, 0.35, 0.007), (2.55, 0.30, 0.012)], 3.4),
-    (1.370, 0.157, 0.116, -0.154, 2.3, [(math.pi, 0.22, -0.009), (0.52, 0.34, 0.018), (0.0, 0.12, -0.005), (1.95, 0.35, 0.007), (2.55, 0.30, 0.008)], 3.2),
+    (0.930, 0.168, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.022), (math.pi, 0.10, -0.018), (1.05, 0.25, -0.004)]),
+    (0.980, 0.162, 0.096, -0.130, 2.4, [(2.60, 0.40, 0.014), (math.pi, 0.12, -0.010)]),
+    (1.030, 0.150, 0.102, -0.102, 2.4, [(math.pi, 0.25, -0.006)]),
+    # athletic V-taper: narrow waist, lats flaring toward the axilla
+    (1.080, 0.139, 0.104, -0.084, 2.4, [(math.pi, 0.22, -0.009), (2.75, 0.2, 0.006)]),
+    (1.130, 0.133, 0.103, -0.083, 2.3, [(math.pi, 0.22, -0.009), (2.75, 0.2, 0.007)]),
+    (1.180, 0.137, 0.104, -0.096, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)], 2.6),
+    (1.230, 0.147, 0.108, -0.121, 2.3, [(math.pi, 0.22, -0.007), (1.95, 0.35, 0.006), (2.55, 0.30, 0.008)], 3.0),
+    (1.280, 0.156, 0.111, -0.147, 2.3, [(math.pi, 0.22, -0.009), (0.55, 0.30, 0.005), (1.95, 0.35, 0.009), (2.55, 0.30, 0.013)], 3.3),
+    (1.330, 0.159, 0.118, -0.156, 2.3, [(math.pi, 0.22, -0.010), (0.52, 0.34, 0.018), (0.0, 0.12, -0.006), (1.95, 0.35, 0.009), (2.55, 0.30, 0.012)], 3.4),
+    (1.370, 0.159, 0.118, -0.155, 2.3, [(math.pi, 0.22, -0.010), (0.52, 0.34, 0.019), (0.0, 0.12, -0.006), (1.95, 0.35, 0.008), (2.55, 0.30, 0.008)], 3.2),
 ]
 # How strongly each torso ring's vertex columns are steered toward the axilla
 # fold/chain columns of ring A (index-aligned with TORSO_LEVELS).
@@ -350,21 +351,21 @@ SHOULDER_RINGS = [
     dict(  # A: axilla level — arm part matches the first arm ring below
         front=[(0.0, 0.114, 1.400), (0.050, 0.128, 1.400), (0.105, 0.120, 1.401), (0.142, 0.092, 1.398), (0.156, 0.052, 1.390)],
         arm=[(0.156, 0.052, 1.390), (0.184, 0.030, 1.396), (0.222, 0.023, 1.400), (0.258, 0.002, 1.400),
-             (0.273, -0.032, 1.400), (0.262, -0.070, 1.400), (0.228, -0.094, 1.400),
+             (0.278, -0.032, 1.400), (0.262, -0.070, 1.400), (0.228, -0.094, 1.400),
              (0.192, -0.098, 1.400), (0.166, -0.092, 1.400)],
         back=[(0.166, -0.092, 1.400), (0.148, -0.126, 1.402), (0.105, -0.150, 1.402), (0.048, -0.156, 1.400), (0.0, -0.150, 1.400)],
     ),
     dict(  # S1: humeral head level, deltoid wraps the joint
         front=[(0.0, 0.096, 1.448), (0.050, 0.108, 1.448), (0.100, 0.100, 1.452), (0.136, 0.074, 1.458), (0.150, 0.046, 1.462)],
         arm=[(0.150, 0.046, 1.462), (0.182, 0.040, 1.458), (0.225, 0.032, 1.452), (0.264, 0.008, 1.450),
-             (0.279, -0.032, 1.450), (0.268, -0.076, 1.452), (0.234, -0.104, 1.456),
+             (0.285, -0.032, 1.450), (0.268, -0.076, 1.452), (0.234, -0.104, 1.456),
              (0.190, -0.114, 1.460), (0.152, -0.118, 1.464)],
         back=[(0.152, -0.118, 1.464), (0.120, -0.140, 1.460), (0.075, -0.150, 1.455), (0.035, -0.148, 1.450), (0.0, -0.143, 1.448)],
     ),
     dict(  # S2: acromial level
         front=[(0.0, 0.066, 1.494), (0.045, 0.070, 1.496), (0.085, 0.068, 1.500), (0.112, 0.060, 1.506), (0.125, 0.054, 1.510)],
         arm=[(0.125, 0.054, 1.510), (0.170, 0.050, 1.504), (0.220, 0.038, 1.498), (0.258, 0.010, 1.495),
-             (0.273, -0.032, 1.495), (0.262, -0.076, 1.498), (0.228, -0.104, 1.503),
+             (0.278, -0.032, 1.495), (0.262, -0.076, 1.498), (0.228, -0.104, 1.503),
              (0.174, -0.116, 1.509), (0.125, -0.118, 1.514)],
         back=[(0.125, -0.118, 1.514), (0.090, -0.130, 1.510), (0.050, -0.132, 1.505), (0.020, -0.128, 1.501), (0.0, -0.125, 1.500)],
     ),
@@ -380,9 +381,9 @@ AXILLA_CHAIN = [(0.182, 0.008, 1.426), (0.183, -0.058, 1.424)]          # F_l ->
 NECK_SIDE_CHAIN = [(0.066, 0.002, 1.576), (0.066, -0.038, 1.585)]        # F_l -> B_l (top)
 SHOULDER_CAP_DOME = 0.006
 
-NECK_RINGS = [
-    [(0.0, 0.046, 1.583), (0.040, 0.036, 1.590), (0.060, -0.002, 1.602), (0.058, -0.042, 1.606), (0.030, -0.072, 1.607), (0.0, -0.077, 1.607)],
-    [(0.0, 0.052, 1.602), (0.040, 0.042, 1.607), (0.058, 0.002, 1.616), (0.056, -0.040, 1.621), (0.030, -0.070, 1.623), (0.0, -0.075, 1.623)],
+NECK_RINGS = [  # athletic neck: sternocleidomastoid/trapezius mass
+    [(0.0, 0.048, 1.583), (0.044, 0.038, 1.590), (0.066, -0.004, 1.602), (0.064, -0.046, 1.606), (0.034, -0.078, 1.607), (0.0, -0.082, 1.607)],
+    [(0.0, 0.054, 1.602), (0.043, 0.044, 1.607), (0.063, 0.001, 1.616), (0.061, -0.043, 1.621), (0.032, -0.074, 1.623), (0.0, -0.079, 1.623)],
 ]
 
 HEAD_RINGS = [
@@ -428,15 +429,15 @@ def limb_prof(front, lateral, back, medial, extra=None):
 ARM_LEVELS = [
     # Neutral hang: palm faces medially, thumb forward. Front = biceps / radial
     # side, back = triceps / ulnar side, lateral = extensors, medial = flexors.
-    (1.370, (0.004, 0.000), (0.053, 0.057, 0.059, 0.046)),
-    (1.330, (0.002, 0.003), (0.054, 0.053, 0.059, 0.045)),
-    (1.285, (0.000, 0.006), (0.058, 0.047, 0.055, 0.046)),
-    (1.240, (0.000, 0.006), (0.055, 0.044, 0.049, 0.045)),
+    (1.370, (0.005, 0.000), (0.055, 0.060, 0.061, 0.046)),
+    (1.330, (0.003, 0.003), (0.057, 0.056, 0.062, 0.045)),
+    (1.285, (0.001, 0.006), (0.062, 0.049, 0.058, 0.046)),
+    (1.240, (0.000, 0.006), (0.058, 0.045, 0.051, 0.045)),
     (1.210, (0.000, 0.003), (0.046, 0.042, 0.044, 0.044)),
     (1.190, (0.000, 0.000), (0.042, 0.044, 0.043, 0.046)),
     (1.170, (0.001, 0.003), (0.044, 0.045, 0.041, 0.045)),
-    (1.140, (0.002, 0.005), (0.049, 0.046, 0.040, 0.044)),
-    (1.100, (0.001, 0.004), (0.047, 0.044, 0.039, 0.042)),
+    (1.140, (0.002, 0.005), (0.052, 0.049, 0.041, 0.045)),
+    (1.100, (0.001, 0.004), (0.050, 0.046, 0.040, 0.043)),
     (1.050, (0.000, 0.002), (0.041, 0.037, 0.035, 0.036)),
     (1.000, (0.000, 0.000), (0.035, 0.028, 0.031, 0.028)),
     (0.960, (0.000, -0.001), (0.031, 0.022, 0.029, 0.021)),
@@ -446,17 +447,17 @@ ARM_LEVELS = [
 LEG_LEVELS = [
     # z, centre (lx, f), radii (front, lateral, back, medial), local deltas {angle: +/-m}
     # angles: 0 front, 90 lateral, 180 back, 270 medial.
-    (0.800, (0.096, 0.004), (0.090, 0.093, 0.084, 0.078), None),          # tucked under the gluteal fold
-    (0.740, (0.096, 0.009), (0.090, 0.087, 0.086, 0.074), None),
-    (0.680, (0.095, 0.011), (0.085, 0.080, 0.078, 0.069), None),
-    (0.620, (0.094, 0.011), (0.077, 0.071, 0.070, 0.066), {300: 0.003}),
-    (0.570, (0.093, 0.009), (0.067, 0.061, 0.061, 0.064), {305: 0.006, 90: -0.002}),   # vastus medialis
+    (0.800, (0.096, 0.004), (0.092, 0.096, 0.086, 0.078), None),          # tucked under the gluteal fold
+    (0.740, (0.096, 0.009), (0.094, 0.091, 0.088, 0.075), None),
+    (0.680, (0.095, 0.011), (0.090, 0.085, 0.080, 0.071), None),
+    (0.620, (0.094, 0.011), (0.081, 0.075, 0.072, 0.068), {300: 0.004}),
+    (0.570, (0.093, 0.009), (0.069, 0.063, 0.062, 0.066), {305: 0.009, 90: -0.002}),   # vastus medialis
     (0.540, (0.092, 0.007), (0.061, 0.055, 0.056, 0.059), {310: 0.004}),
     (0.515, (0.092, 0.006), (0.059, 0.053, 0.052, 0.056), {0: 0.004, 180: -0.003}),   # patella / popliteal
     (0.490, (0.092, 0.004), (0.054, 0.052, 0.055, 0.054), {0: -0.002}),               # patellar tendon
     (0.455, (0.092, -0.001), (0.047, 0.053, 0.063, 0.056), {20: 0.002}),              # tibial tuberosity
-    (0.400, (0.092, -0.006), (0.042, 0.056, 0.073, 0.061), {215: 0.004, 150: -0.002}),  # gastrocnemius heads
-    (0.340, (0.092, -0.006), (0.040, 0.052, 0.068, 0.056), {220: 0.005, 145: -0.001}),
+    (0.400, (0.092, -0.007), (0.043, 0.058, 0.078, 0.064), {215: 0.006, 150: -0.002}),  # gastrocnemius heads
+    (0.340, (0.092, -0.007), (0.041, 0.054, 0.072, 0.059), {220: 0.007, 145: -0.001}),
     (0.270, (0.092, -0.004), (0.036, 0.044, 0.054, 0.045), None),
     (0.200, (0.092, -0.003), (0.032, 0.036, 0.040, 0.035), {180: -0.004}),            # Achilles
     (0.140, (0.092, -0.004), (0.029, 0.032, 0.032, 0.031), {180: -0.004}),
@@ -572,13 +573,30 @@ def build_cage(bones):
 
     # ---- torso below axilla (32-rings), columns steered into the axilla folds ----
     top_pts = B.pos(torso_top)
-    torso_rings = []
+    authored = []
     for level, steer in zip(TORSO_LEVELS, TORSO_COLUMN_STEER):
         z, W, front, back, n, bumps = level[:6]
         n_back = level[6] if len(level) > 6 else None
         ring = ring32_from_half(superellipse_half(z, W, front, back, n=n, bumps=bumps, n_back=n_back))
-        ring = steer_ring(ring, top_pts, steer)
-        torso_rings.append(B.add_many(ring, "torso"))
+        authored.append(np.array(steer_ring(ring, top_pts, steer)))
+    # Double the vertical loop density (mid-rings between authored levels) so
+    # abdominal/back surface definition has enough rows; loops stay continuous.
+    dense = []
+    for i, ring in enumerate(authored):
+        if i:
+            dense.append(0.5 * (authored[i - 1] + ring))
+        dense.append(ring)
+    dense.append(0.5 * (authored[-1] + np.array(top_pts)))
+    # Taubin smoothing down each vertex column removes ledges between authored
+    # levels without shrinking the chest/glute volumes. The crotch ring (first)
+    # and the axilla-adjacent ring (last) stay fixed; symmetry is preserved.
+    D = np.array(dense)
+    for _ in range(4):
+        for lam in (0.5, -0.53):
+            D[1:-1] = D[1:-1] + lam * (0.5 * (D[:-2] + D[2:]) - D[1:-1])
+    D[:, 0, 0] = 0.0
+    D[:, 16, 0] = 0.0
+    torso_rings = [B.add_many(list(ring), "torso") for ring in D]
     for a, b in zip(torso_rings, torso_rings[1:]):
         B.bridge(a, b)
     B.bridge(torso_rings[-1], torso_top)
@@ -652,6 +670,11 @@ def build_leg(B, bones, side, loop):
     lateral = np.array([float(side), 0.0, 0.0])
     rings = []
     for z, (lx, f), (rf, rl, rb, rm), deltas in LEG_LEVELS:
+        # athletic bulk: quads/hamstrings and calves (medial side kept for thigh gap)
+        if 0.55 < z < 0.78:  # the top ring stays clear of the v4 rest thumb
+            rf, rl, rb = rf * 1.05, rl * 1.05, rb * 1.04
+        elif 0.20 < z < 0.46:
+            rl, rb, rm = rl * 1.04, rb * 1.05, rm * 1.04
         extra = {}
         if z > 0.70:
             # Flatter anterolateral upper thigh: leaves room for the v4 rest thumb.
@@ -997,6 +1020,114 @@ def catmull_clark(V, F, regions=None):
 
 
 # --------------------------------------------------------------------------
+# Surface muscle definition (authored displacement field, applied after
+# subdivision along vertex normals). Left side authored as (lx, f, z); the right
+# side is the exact mirror. Each entry is limited to named generator regions.
+#   ("bump", regions, centre, radii (lx, f, z), amplitude)
+#   ("line", regions, p0, p1, radius, amplitude)   # ridge (+) / groove (-)
+# --------------------------------------------------------------------------
+
+TORSO = ("torso", "shoulder", "pelvis")
+DETAIL_GAIN = 1.0  # global multiplier on every amplitude below
+MUSCLE_DETAIL = [
+    # --- chest ---
+    ("bump", TORSO, (0.068, 0.128, 1.362), (0.050, 0.040, 0.034), 0.005),     # pectoralis major mass
+    ("line", TORSO, (0.018, 0.122, 1.308), (0.120, 0.096, 1.335), 0.010, -0.003),  # lower pec border
+    ("line", TORSO, (0.000, 0.126, 1.415), (0.000, 0.120, 1.315), 0.009, -0.003),  # sternal groove
+    ("line", TORSO, (0.138, 0.074, 1.462), (0.160, 0.046, 1.405), 0.007, -0.002),  # deltopectoral groove
+    # --- abdomen ---
+    ("line", TORSO, (0.000, 0.113, 1.300), (0.000, 0.104, 1.040), 0.007, -0.0045),  # linea alba
+    ("line", TORSO, (0.004, 0.112, 1.245), (0.056, 0.108, 1.238), 0.0055, -0.0040),  # tendinous intersections
+    ("line", TORSO, (0.004, 0.109, 1.182), (0.058, 0.105, 1.176), 0.0055, -0.0040),
+    ("line", TORSO, (0.004, 0.106, 1.118), (0.058, 0.103, 1.114), 0.0055, -0.0032),
+    ("bump", TORSO, (0.030, 0.112, 1.272), (0.022, 0.015, 0.024), 0.0050),       # rectus pads
+    ("bump", TORSO, (0.031, 0.109, 1.211), (0.023, 0.015, 0.026), 0.0055),
+    ("bump", TORSO, (0.031, 0.106, 1.148), (0.023, 0.015, 0.026), 0.0050),
+    ("bump", TORSO, (0.029, 0.104, 1.080), (0.022, 0.015, 0.030), 0.0040),
+    ("line", TORSO, (0.068, 0.104, 1.290), (0.060, 0.098, 1.040), 0.008, -0.0040),  # linea semilunaris
+    ("bump", TORSO, (0.112, 0.064, 1.080), (0.030, 0.030, 0.055), 0.006),         # external oblique
+    ("line", TORSO, (0.112, 0.082, 1.000), (0.052, 0.090, 0.925), 0.012, -0.0030),  # inguinal "V" line
+    ("bump", TORSO, (0.136, 0.064, 1.272), (0.012, 0.012, 0.010), 0.0030),        # serratus digitations
+    ("bump", TORSO, (0.142, 0.054, 1.240), (0.012, 0.012, 0.010), 0.0030),
+    ("bump", TORSO, (0.144, 0.042, 1.208), (0.012, 0.012, 0.010), 0.0026),
+    # --- back ---
+    ("bump", TORSO, (0.074, -0.070, 1.565), (0.046, 0.036, 0.040), 0.008),       # upper trapezius
+    ("bump", TORSO, (0.050, -0.140, 1.460), (0.040, 0.020, 0.050), 0.005),       # middle trapezius / rhomboid
+    ("bump", TORSO, (0.088, -0.160, 1.420), (0.034, 0.020, 0.034), 0.008),       # infraspinatus
+    ("line", TORSO, (0.045, -0.150, 1.470), (0.080, -0.155, 1.320), 0.008, -0.004),  # medial scapular border
+    ("bump", TORSO, (0.140, -0.120, 1.370), (0.022, 0.024, 0.030), 0.006),       # teres major
+    ("bump", TORSO, (0.130, -0.112, 1.290), (0.030, 0.040, 0.075), 0.009),       # latissimus
+    ("line", TORSO, (0.100, -0.140, 1.200), (0.150, -0.060, 1.330), 0.010, -0.002),  # lat lower edge
+    ("line", TORSO, (0.030, -0.100, 1.200), (0.030, -0.086, 0.990), 0.015, 0.007),  # erector spinae
+    # --- glutes / hips ---
+    ("bump", TORSO, (0.086, -0.132, 0.925), (0.050, 0.040, 0.050), 0.004),       # gluteus maximus
+    ("bump", TORSO, (0.160, -0.020, 0.950), (0.018, 0.020, 0.020), -0.003),      # hip dimple
+    # --- arms ---
+    ("bump", ("arm", "shoulder"), (0.205, 0.030, 1.450), (0.026, 0.020, 0.034), 0.005),   # anterior deltoid
+    ("bump", ("arm", "shoulder"), (0.282, -0.030, 1.448), (0.020, 0.030, 0.040), 0.006),  # lateral deltoid
+    ("bump", ("arm", "shoulder"), (0.235, -0.104, 1.440), (0.026, 0.020, 0.034), 0.005),  # posterior deltoid
+    ("line", ("arm",), (0.272, -0.030, 1.345), (0.240, 0.020, 1.320), 0.007, -0.002),     # deltoid insertion edge
+    ("bump", ("arm",), (0.215, 0.036, 1.268), (0.024, 0.018, 0.060), 0.006),     # biceps
+    ("bump", ("arm",), (0.218, -0.092, 1.320), (0.028, 0.020, 0.060), 0.006),    # triceps long/lateral head
+    ("line", ("arm",), (0.265, -0.030, 1.360), (0.260, -0.020, 1.220), 0.008, -0.003),  # biceps/triceps groove
+    ("bump", ("arm",), (0.232, 0.034, 1.128), (0.020, 0.020, 0.050), 0.004),     # brachioradialis
+    ("bump", ("arm",), (0.238, -0.025, 1.110), (0.016, 0.018, 0.050), 0.003),    # wrist extensors
+    # --- legs ---
+    ("line", ("leg",), (0.095, 0.100, 0.800), (0.093, 0.080, 0.610), 0.020, 0.005),   # rectus femoris
+    ("bump", ("leg",), (0.178, 0.000, 0.700), (0.020, 0.040, 0.100), 0.006),     # vastus lateralis sweep
+    ("bump", ("leg",), (0.055, 0.042, 0.585), (0.024, 0.026, 0.034), 0.007),     # vastus medialis teardrop
+    ("line", ("leg",), (0.188, -0.010, 0.790), (0.146, -0.006, 0.560), 0.008, -0.003),  # iliotibial band
+    ("line", ("leg",), (0.094, -0.094, 0.780), (0.094, -0.066, 0.560), 0.007, -0.003),  # hamstring split
+    ("line", ("leg",), (0.030, 0.050, 0.800), (0.075, 0.075, 0.600), 0.008, -0.002),  # sartorius line
+    ("bump", ("leg",), (0.070, -0.078, 0.400), (0.024, 0.020, 0.060), 0.006),    # gastrocnemius medial
+    ("bump", ("leg",), (0.120, -0.072, 0.420), (0.020, 0.020, 0.050), 0.005),    # gastrocnemius lateral
+    ("line", ("leg",), (0.130, 0.020, 0.420), (0.110, 0.030, 0.200), 0.010, 0.002),   # tibialis anterior
+]
+
+
+def vertex_normals(V, F):
+    N = np.zeros_like(V)
+    for f in F:
+        p = V[list(f)]
+        n = np.cross(p[2] - p[0], p[3] - p[1]) if len(f) == 4 else np.cross(p[1] - p[0], p[2] - p[0])
+        for i in f:
+            N[i] += n
+    L = np.linalg.norm(N, axis=1)
+    L[L == 0] = 1
+    return N / L[:, None]
+
+
+def apply_muscle_detail(V, F, regions):
+    """Displace along outward normals by the authored MUSCLE_DETAIL field."""
+    V = np.array(V, float)
+    N = vertex_normals(V, orient_faces(V, F))  # consistently outward in these coordinates
+    disp = np.zeros(len(V))
+    for entry in MUSCLE_DETAIL:
+        kind, names = entry[0], entry[1]
+        ids = sorted(set().union(*(set(regions.get(n, ())) for n in names)))
+        if not ids:
+            continue
+        P = V[ids]
+        total = np.zeros(len(ids))
+        for sgn in (-1.0, 1.0):  # left (-X) authored, right mirrored
+            if kind == "bump":
+                c, r, amp = np.array(entry[2], float), np.array(entry[3], float), entry[4]
+                c = np.array([sgn * c[0], c[1], c[2]])
+                q = (P - c) / r
+                total += DETAIL_GAIN * amp * np.exp(-np.sum(q * q, axis=1))
+            else:
+                p0, p1, rad, amp = np.array(entry[2], float), np.array(entry[3], float), entry[4], entry[5]
+                p0 = np.array([sgn * p0[0], p0[1], p0[2]])
+                p1 = np.array([sgn * p1[0], p1[1], p1[2]])
+                seg = p1 - p0
+                t = np.clip(((P - p0) @ seg) / (seg @ seg), 0.0, 1.0)
+                d = np.linalg.norm(P - (p0 + t[:, None] * seg), axis=1)
+                total += DETAIL_GAIN * amp * np.exp(-(d / rad) ** 2)
+        disp[ids] += total
+    return V + N * disp[:, None]
+
+
+# --------------------------------------------------------------------------
 # Finishing: exact height, grounded soles, exact symmetry
 # --------------------------------------------------------------------------
 
@@ -1118,6 +1249,7 @@ def build(rig_path: Path = RIG_PAYLOAD, subdivide: bool = True):
     cage = {"vertices": len(V), "faces": len(F)}
     if subdivide:
         V, F, regions = catmull_clark(V, F, regions)
+        V = apply_muscle_detail(V, F, regions)
     V = enforce_symmetry(finish(V))
     Vb = to_blender(V)
     F = orient_faces(Vb, F)

@@ -112,6 +112,18 @@ scene.display.shading.show_xray = "--xray" in flags
 scene.display.shading.xray_alpha = 0.55
 scene.display.shading.show_cavity = True
 scene.display.shading.cavity_type = "WORLD"
+if "--lit" in flags:
+    # Form-reading light: key-light shadows and stronger cavity for muscle definition.
+    scene.display.shading.show_shadows = True
+    scene.display.shading.shadow_intensity = 0.55
+    scene.display.light_direction = (-0.45, -0.35, 0.82)
+    scene.display.shadow_shift = 0.05
+    scene.display.shading.show_specular_highlight = True
+    scene.display.shading.cavity_type = "BOTH"
+    scene.display.shading.cavity_ridge_factor = 1.4
+    scene.display.shading.cavity_valley_factor = 1.6
+    scene.display.shading.curvature_ridge_factor = 1.2
+    scene.display.shading.curvature_valley_factor = 1.2
 scene.render.resolution_x = 900
 scene.render.resolution_y = 1400
 scene.world = scene.world or bpy.data.worlds.new("REVIEW_WORLD")

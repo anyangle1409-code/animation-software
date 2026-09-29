@@ -44,6 +44,14 @@ export interface CharacterCapabilities {
   textured: boolean;
 }
 
+/** Original GLB location of one runtime surface. */
+export interface CharacterSourcePrimitive {
+  nodeIndex: number;
+  meshIndex: number;
+  primitiveIndex: number;
+  targetNames: readonly string[];
+}
+
 export interface DeformationContext {
   rig: Skeleton;
   pose: Pose;
@@ -157,6 +165,13 @@ export interface CharacterBuild {
    * bytes directly, retaining authored mesh/skin/material/texture data.
    */
   preservedGlb?: ArrayBuffer;
+  /**
+   * Original GLB bytes retained as a resource source even when the runtime
+   * surface has been rebuilt (for example diagnostic rebind mode).
+   */
+  sourceGlb?: ArrayBuffer;
+  /** Original primitive for each runtime surface, in meshes[] order. */
+  sourceSurfaceOrigins?: readonly CharacterSourcePrimitive[];
   /** Uniform display/export scale applied around a preserved imported scene. */
   sourceScale?: number;
 

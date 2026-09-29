@@ -8,6 +8,7 @@ import { rebindToCanonical } from './rebind';
 import type { RebindReport } from './rebind';
 import type { CharacterSource } from './types';
 import {
+  hgThreePrimitiveSource,
   loadHgThreeScene,
   measureHgThreeSceneHeight,
   type HgThreeSkinnedMesh,
@@ -70,6 +71,18 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
       }
 
       const mapping = options.mapping ?? guessedMapping(options.label, scene, boneNames);
+      const origins = meshes.map((mesh) => {
+        const origin = hgThreePrimitiveSource(mesh);
+        if (!origin) {
+          throw new Error(`"${options.label}" lost its source GLB primitive identity.`);
+        }
+        return {
+          nodeIndex: origin.nodeIndex,
+          meshIndex: origin.meshIndex,
+          primitiveIndex: origin.primitiveIndex,
+          targetNames: [...origin.targetNames],
+        };
+      });
       const rebind = meshes.map((mesh) => {
         const report = rebindToCanonical(mesh, mapping, rig);
         mesh.geometry.userData.rebind = report;
@@ -77,7 +90,7 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
       });
       source.lastReport = { mapping: reportMapping(mapping), rebind };
 
-      return assembleCharacter({
+      const build = assembleCharacter({
         source: source.id,
         rig,
         capabilities: source.capabilities,
@@ -87,6 +100,9 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
           name: mesh.name || `${options.id}_${index}`,
         })),
       });
+      if (options.data) build.sourceGlb = options.data.slice(0);
+      build.sourceSurfaceOrigins = origins;
+      return build;
     },
   };
 

@@ -1,4 +1,4 @@
-import { Quaternion, Vector3 } from 'three';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
@@ -11,16 +11,18 @@ import type { EffectorLock } from './types';
 
 /** Where an equipment socket currently is, supplied by the equipment layer. */
 export interface SocketTransform {
-  position: Vector3;
-  quaternion: Quaternion;
+  position: Vec3;
+  quaternion: { x: number; y: number; z: number; w: number };
 }
 
 export type SocketResolver = (equipmentId: string, socket: string) => SocketTransform | null;
 
-const scratchDirection = new Vector3();
-const scratchForward = new Vector3();
-const Y_AXIS = new Vector3(0, 1, 0);
-const Z_AXIS = new Vector3(0, 0, 1);
+const scratchDirection = new HgVec3();
+const scratchForward = new HgVec3();
+const scratchPosition = new HgVec3();
+const scratchQuaternion = new HgQuat();
+const Y_AXIS = new HgVec3(0, 1, 0);
+const Z_AXIS = new HgVec3(0, 0, 1);
 
 /**
  * Turn locks into IK goals for the current frame.
@@ -56,7 +58,7 @@ export function resolveLocks(
         // cannot, and the foot would visibly sink and slide.
         const anchor = lock.position ?? anchors?.get(lock.id);
         if (lock.onBall) {
-          const ball = evaluation.tail(IK_CHAINS[lock.chain].end, new Vector3());
+          const ball = evaluation.firstPartyEvaluation.tail(IK_CHAINS[lock.chain].end, scratchPosition);
           const at = anchor ?? vec3(ball.x, ball.y, ball.z);
           goal.target = { ...at };
           // Unset, the heel lifts only as far as holds the knee this frame's pose
@@ -70,7 +72,7 @@ export function resolveLocks(
           };
           break;
         }
-        const current = evaluation.head(IK_CHAINS[lock.chain].end, new Vector3());
+        const current = evaluation.firstPartyEvaluation.head(IK_CHAINS[lock.chain].end, scratchPosition);
         goal.target = vec3(
           anchor?.x ?? current.x,
           anchor?.y ?? current.y,
@@ -87,8 +89,14 @@ export function resolveLocks(
         if (!transform) continue;
         goal.target = vec3(transform.position.x, transform.position.y, transform.position.z);
         // A gripped hand takes the socket's orientation, not just its position.
-        scratchDirection.copy(Y_AXIS).applyQuaternion(transform.quaternion);
-        scratchForward.copy(Z_AXIS).applyQuaternion(transform.quaternion);
+        scratchQuaternion.set(
+          transform.quaternion.x,
+          transform.quaternion.y,
+          transform.quaternion.z,
+          transform.quaternion.w,
+        );
+        scratchDirection.copy(Y_AXIS).applyQuaternion(scratchQuaternion);
+        scratchForward.copy(Z_AXIS).applyQuaternion(scratchQuaternion);
         goal.endAim = {
           direction: vec3(scratchDirection.x, scratchDirection.y, scratchDirection.z),
           forward: vec3(scratchForward.x, scratchForward.y, scratchForward.z),
@@ -114,13 +122,12 @@ export function lockAnchors(
 ): Map<string, Vec3> {
   evaluation.apply(pose);
   const anchors = new Map<string, Vec3>();
-  const position = new Vector3();
   for (const lock of locks) {
     if (lock.mode !== 'floor') continue;
     // A foot standing on its ball is anchored at the ball, not the ankle.
-    if (lock.onBall) evaluation.tail(IK_CHAINS[lock.chain].end, position);
-    else evaluation.head(IK_CHAINS[lock.chain].end, position);
-    anchors.set(lock.id, vec3(position.x, position.y, position.z));
+    if (lock.onBall) evaluation.firstPartyEvaluation.tail(IK_CHAINS[lock.chain].end, scratchPosition);
+    else evaluation.firstPartyEvaluation.head(IK_CHAINS[lock.chain].end, scratchPosition);
+    anchors.set(lock.id, vec3(scratchPosition.x, scratchPosition.y, scratchPosition.z));
   }
 
   // The orientation to hold is the one the opening frame is *shown* with, which
@@ -137,7 +144,7 @@ export function lockAnchors(
     solveGoals(evaluation.skeleton, evaluation, solved, resolveLocks(evaluation, solved, floorLocks, undefined, anchors));
     evaluation.apply(solved);
     for (const lock of held) {
-      const turn = evaluation.quaternion(IK_CHAINS[lock.chain].end);
+      const turn = evaluation.firstPartyEvaluation.quaternion(IK_CHAINS[lock.chain].end);
       const direction = scratchDirection.copy(Y_AXIS).applyQuaternion(turn);
       const forward = scratchForward.copy(Z_AXIS).applyQuaternion(turn);
       anchors.set(orientationKey(lock.id, 'direction'), vec3(direction.x, direction.y, direction.z));

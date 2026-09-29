@@ -1,10 +1,15 @@
 import {
-  BufferAttribute,
-  InterpolateLinear,
-  NumberKeyframeTrack,
-  Vector3,
-} from 'three';
-import type { Bone, BufferGeometry, InterleavedBufferAttribute, KeyframeTrack, SkinnedMesh } from 'three';
+  createCharacterBufferAttribute,
+  createCharacterNumberKeyframeTrack,
+  createCharacterVector3,
+  type CharacterBone,
+  type CharacterBufferAttribute,
+  type CharacterBufferGeometry,
+  type CharacterInterleavedBufferAttribute,
+  type CharacterKeyframeTrack,
+  type CharacterSkinnedMesh,
+  type CharacterVector3,
+} from './bones';
 import type { Skeleton } from '../rig/skeleton';
 import { PoseEvaluation as RigPoseEvaluation } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
@@ -39,7 +44,7 @@ export interface ImportedElbowRuntimeTuning {
 
 /** One flexion-driven morph target on one mesh, for one side of the body. */
 export interface CorrectiveTarget {
-  mesh: SkinnedMesh;
+  mesh: CharacterSkinnedMesh;
   side: Side;
   influence: number;
   name: string;
@@ -52,8 +57,8 @@ const clampOuterSmooth = (value: number): number => Math.min(1, Math.max(0, valu
 
 /** Build opt-in pose shapes for an imported mesh's own elbow topology. */
 export function importedElbowDeformation(
-  meshes: SkinnedMesh[],
-  boneByName: Map<BoneName, Bone>,
+  meshes: CharacterSkinnedMesh[],
+  boneByName: Map<BoneName, CharacterBone>,
   rig: Skeleton,
   options?: ImportedElbowCorrectiveOptions,
   tuning?: ImportedElbowRuntimeTuning,
@@ -103,8 +108,8 @@ export function importedElbowDeformation(
 }
 
 function appendTargets(
-  mesh: SkinnedMesh,
-  boneByName: Map<BoneName, Bone>,
+  mesh: CharacterSkinnedMesh,
+  boneByName: Map<BoneName, CharacterBone>,
   side: Side,
   options: ImportedElbowCorrectiveOptions,
   tuning?: ImportedElbowRuntimeTuning,
@@ -117,10 +122,10 @@ function appendTargets(
   if (!upperIndices.size || !lowerIndices.size) return { targets: [], hasTunableOuter: false };
 
   mesh.updateWorldMatrix(true, false);
-  const joint = mesh.worldToLocal(lower.getWorldPosition(new Vector3()));
-  const shoulder = mesh.worldToLocal(upper.getWorldPosition(new Vector3()));
+  const joint = mesh.worldToLocal(lower.getWorldPosition(createCharacterVector3()));
+  const shoulder = mesh.worldToLocal(upper.getWorldPosition(createCharacterVector3()));
   const axis = joint.clone().sub(shoulder).normalize();
-  const forward = new Vector3(0, 0, 1);
+  const forward = createCharacterVector3().set(0, 0, 1);
   const position = mesh.geometry.getAttribute('position');
   const skinIndex = mesh.geometry.getAttribute('skinIndex');
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
@@ -130,8 +135,8 @@ function appendTargets(
   const innerAmount = options.inner ?? 0.012;
   const outerAmount = options.outer ?? 0.006;
   const radialDelta = new Float32Array(position.count * 3);
-  const point = new Vector3();
-  const radial = new Vector3();
+  const point = createCharacterVector3();
+  const radial = createCharacterVector3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     pointFrom(position, vertex, point);
@@ -226,7 +231,7 @@ function appendTargets(
 }
 
 function appendMorphTarget(
-  mesh: SkinnedMesh,
+  mesh: CharacterSkinnedMesh,
   side: Side,
   delta: Float32Array,
   name: string,
@@ -251,7 +256,7 @@ function appendMorphTarget(
   // this corrective: doing so would reinterpret every pre-existing expression
   // or body shape. Encode every new target in the existing convention.
   const morph = mesh.geometry.morphTargetsRelative
-    ? new BufferAttribute(delta, 3)
+    ? createCharacterBufferAttribute(delta, 3)
     : absoluteMorph(position, delta);
   morph.name = name;
   const attributes = mesh.geometry.morphAttributes.position ?? [];
@@ -263,8 +268,8 @@ function appendMorphTarget(
 }
 
 function elbowPairWeights(
-  skinIndex: BufferAttribute | InterleavedBufferAttribute,
-  skinWeight: BufferAttribute | InterleavedBufferAttribute,
+  skinIndex: CharacterBufferAttribute | CharacterInterleavedBufferAttribute,
+  skinWeight: CharacterBufferAttribute | CharacterInterleavedBufferAttribute,
   vertex: number,
   upperIndices: Set<number>,
   lowerIndices: Set<number>,
@@ -304,11 +309,11 @@ const OUTER_SMOOTH_MAX_OFFSET = 0.008;
  * offset is capped at 8 mm even when metadata asks for a stronger value.
  */
 function addOuterSmoothing(
-  geometry: BufferGeometry,
+  geometry: CharacterBufferGeometry,
   delta: Float32Array,
-  joint: Vector3,
-  axis: Vector3,
-  forward: Vector3,
+  joint: CharacterVector3,
+  axis: CharacterVector3,
+  forward: CharacterVector3,
   upperIndices: Set<number>,
   lowerIndices: Set<number>,
   reach: number,
@@ -322,12 +327,12 @@ function addOuterSmoothing(
 
   const neighbours = Array.from({ length: position.count }, () => new Set<number>());
   const normals = new Float32Array(position.count * 3);
-  const a = new Vector3();
-  const b = new Vector3();
-  const c = new Vector3();
-  const edgeOne = new Vector3();
-  const edgeTwo = new Vector3();
-  const face = new Vector3();
+  const a = createCharacterVector3();
+  const b = createCharacterVector3();
+  const c = createCharacterVector3();
+  const edgeOne = createCharacterVector3();
+  const edgeTwo = createCharacterVector3();
+  const face = createCharacterVector3();
 
   for (let corner = 0; corner < index.count; corner += 3) {
     const ia = index.getX(corner);
@@ -349,12 +354,12 @@ function addOuterSmoothing(
   }
 
   const smoothReach = reach + OUTER_SMOOTH_EXTRA_REACH;
-  const away = new Vector3();
-  const radial = new Vector3();
-  const normal = new Vector3();
-  const mean = new Vector3();
-  const neighbourPoint = new Vector3();
-  const smooth = new Vector3();
+  const away = createCharacterVector3();
+  const radial = createCharacterVector3();
+  const normal = createCharacterVector3();
+  const mean = createCharacterVector3();
+  const neighbourPoint = createCharacterVector3();
+  const smooth = createCharacterVector3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     pointFrom(position, vertex, a);
@@ -415,18 +420,18 @@ function addOuterSmoothing(
 }
 
 function pointFrom(
-  position: BufferAttribute | InterleavedBufferAttribute,
+  position: CharacterBufferAttribute | CharacterInterleavedBufferAttribute,
   vertex: number,
-  target: Vector3,
-): Vector3 {
+  target: CharacterVector3,
+): CharacterVector3 {
   return target.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
 }
 
 /** Build an absolute-position morph target without changing the source convention. */
 function absoluteMorph(
-  position: BufferAttribute | InterleavedBufferAttribute,
+  position: CharacterBufferAttribute | CharacterInterleavedBufferAttribute,
   delta: Float32Array,
-): BufferAttribute {
+): CharacterBufferAttribute {
   const values = new Float32Array(position.count * 3);
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     const start = vertex * 3;
@@ -434,10 +439,10 @@ function absoluteMorph(
     values[start + 1] = position.getY(vertex) + delta[start + 1];
     values[start + 2] = position.getZ(vertex) + delta[start + 2];
   }
-  return new BufferAttribute(values, 3);
+  return createCharacterBufferAttribute(values, 3);
 }
 
-function matchingBones(mesh: SkinnedMesh, base: string, includeSplitHelpers = false): Set<number> {
+function matchingBones(mesh: CharacterSkinnedMesh, base: string, includeSplitHelpers = false): Set<number> {
   const result = new Set<number>();
   mesh.skeleton.bones.forEach((bone, index) => {
     if (
@@ -470,16 +475,15 @@ export function correctiveSampler(targets: Target[], rig: Skeleton): Deformation
         values[index].push(elbowFlexion(evaluation, target.side) * target.scale()),
       );
     },
-    tracks(times: number[]): KeyframeTrack[] {
+    tracks(times: number[]): CharacterKeyframeTrack[] {
       const loopTimes = [times[0], times[times.length - 1]];
       return targets.flatMap((target, index) => {
         const compressed = compressTrack(values[index], 1, [0]);
         if (!compressed) return [];
-        return [new NumberKeyframeTrack(
+        return [createCharacterNumberKeyframeTrack(
           `${target.mesh.name}.morphTargetInfluences[${target.name}]`,
           compressed.constant ? loopTimes : times,
           compressed.values,
-          InterpolateLinear,
         )];
       });
     },

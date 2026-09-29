@@ -1,6 +1,10 @@
 import {
   Bone,
   BufferAttribute,
+  BufferGeometry,
+  InterleavedBufferAttribute,
+  InterpolateLinear,
+  NumberKeyframeTrack,
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
   Matrix4,
@@ -14,6 +18,16 @@ import type { Skeleton } from '../rig/skeleton';
 
 export type CharacterBone = Bone;
 export type CharacterBufferAttribute = BufferAttribute;
+export type CharacterBufferGeometry = BufferGeometry;
+export type CharacterInterleavedBufferAttribute = InterleavedBufferAttribute;
+
+export function createCharacterNumberKeyframeTrack(
+  name: string,
+  times: readonly number[],
+  values: readonly number[],
+): KeyframeTrack {
+  return new NumberKeyframeTrack(name, times, values, InterpolateLinear);
+}
 
 export function createCharacterBufferAttribute(
   values: Float32Array,

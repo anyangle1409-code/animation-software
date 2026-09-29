@@ -213,6 +213,20 @@ export function retargetedCharacterSource(
         return target;
       };
 
+      const handFrameLocalMatrix = (side: Side): number[] | null => {
+        const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;
+        const bone = boneByName.get(name);
+        if (!bone) return null;
+        bone.updateWorldMatrix(true, false);
+        const frame = handMatrix(side, createCharacterMatrix());
+        if (!frame) return null;
+        const local = createCharacterMatrix()
+          .copy(bone.matrixWorld)
+          .invert()
+          .multiply(frame);
+        return Array.from(local.elements);
+      };
+
       // The solved handle centre, applied here so the renderer, the exporter
       // and the diagnostics all read one corrected offset and cannot diverge.
       const solutionId = scene.userData?.homeGymPT?.gripSolutionId
@@ -294,6 +308,7 @@ export function retargetedCharacterSource(
         driver: drive,
 
         handMatrix,
+        handFrameLocalMatrix,
         ...(binding.mirrorSides ? { mirrored: true } : {}),
         ...(gripOffset ? { gripOffset } : {}),
         // Which solved grip this character may use. A solved grip is measured

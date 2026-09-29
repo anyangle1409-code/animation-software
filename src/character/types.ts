@@ -180,6 +180,16 @@ export interface CharacterBuild {
    * what keeps a dumbbell in the hand of a character the rig only drives.
    */
   handMatrix?: (side: Side, target: CharacterMatrix4) => CharacterMatrix4 | null;
+  /**
+   * Fixed transform from this character's source hand-bone frame to the
+   * corrected grip frame above, as a column-major 4x4 matrix.
+   *
+   * Unlike handMatrix this is renderer-neutral plain data. It includes the
+   * inverse of any preserved import scale, so equipment parented under the
+   * source hand keeps real-world dimensions instead of being scaled with the
+   * character.
+   */
+  handFrameLocalMatrix?: (side: Side) => number[] | null;
 
   /**
    * True when this character's left lies on the rig's right, so every canonical

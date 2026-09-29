@@ -316,6 +316,39 @@ describe('an imported character', () => {
     character.dispose();
   });
 
+  it('exposes a pose-invariant local grip frame for first-party equipment export', async () => {
+    const character = await importedSource().build(rig);
+    expect(character.handFrameLocalMatrix).toBeDefined();
+
+    let reference: number[] | null = null;
+    for (const fraction of [0, 0.2327, TOP, 0.8]) {
+      const { frame, evaluation } = curlPose(studioClip.duration * fraction);
+      applyCharacterPose(character, rig, frame.pose, evaluation);
+
+      const local = character.handFrameLocalMatrix!('r');
+      expect(local).not.toBeNull();
+      expect(local).toHaveLength(16);
+      if (!reference) reference = local!;
+      else local!.forEach((value, index) => {
+        expect(value).toBeCloseTo(reference![index], 6);
+      });
+
+      const hand = character.boneByName.get('hand_r')!;
+      hand.updateWorldMatrix(true, false);
+      const rebuilt = hand.matrixWorld.clone().multiply(
+        new Matrix4().fromArray(local!),
+      );
+      const expected = character.handMatrix!('r', new Matrix4())!;
+      expect(Math.max(
+        ...rebuilt.elements.map((value, index) =>
+          Math.abs(value - expected.elements[index]),
+        ),
+      )).toBeLessThan(1e-6);
+    }
+
+    character.dispose();
+  });
+
   it('applies a character-authored grip-frame calibration', async () => {
     const source = retargetedCharacterSource({
       id: 'calibrated', label: 'Calibrated', data: fixture.data,

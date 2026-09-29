@@ -1,12 +1,11 @@
 import { HgVec3 } from '../core/linearMath';
-import { HgCharacterMesh, type HgCharacterGeometryData } from '../core/sceneCharacter';
+import { HgCharacterMesh } from '../core/sceneCharacter';
 import type { HgPrimitiveGeometryData } from '../core/primitiveGeometry';
 import { hgRgbaFromHex } from '../core/sceneMesh';
 import { HgStandardMaterial, type HgSkinnedMesh } from '../core/sceneSkin';
 import { posedLocalVertex } from '../character/skinningMath';
 
-export interface HgPosedCharacterGeometry
-  extends HgPrimitiveGeometryData, HgCharacterGeometryData {
+export interface HgPosedCharacterGeometry extends HgPrimitiveGeometryData {
   colours?: number[];
 }
 

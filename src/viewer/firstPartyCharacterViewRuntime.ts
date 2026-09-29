@@ -7,7 +7,7 @@ import {
 } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
 import { configureCharacterPresentation } from '../character/build';
-import { HgGroup } from '../core/sceneGraph';
+import { HgGroup, type HgObject3D } from '../core/sceneGraph';
 import type { HandSpec } from '../exercises/types';
 import type { Skeleton } from '../rig/skeleton';
 import type { SceneState } from './sceneStateCore';
@@ -41,7 +41,7 @@ export interface FirstPartyCharacterViewCharacterStorePort {
 
 export interface FirstPartyCharacterViewRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<HgGroup, 'add' | 'remove'>;
+  root: Pick<HgObject3D, 'add' | 'remove'>;
   studioStore: FirstPartyCharacterViewStudioStorePort;
   characterStore: FirstPartyCharacterViewCharacterStorePort;
   skeleton: Skeleton;

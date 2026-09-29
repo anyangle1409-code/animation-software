@@ -40,7 +40,7 @@ A lower item must never silently override a higher item.
 
 ## Current task-specific authorities
 
-- Runtime migration (current): `docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md`
+- Runtime migration (current): `docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md` and `docs/CURRENT_HANDOFF.md`
 - Completed R3F source transition record: `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`
 - Physical browser/device parity: `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`
 - ORIGINAL v1 Blender O2 work: `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`

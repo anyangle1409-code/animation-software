@@ -4,7 +4,7 @@ Prepared:
 - `src/ik/firstPartyOrient.ts`
 - `src/ik/firstPartyOrient.parity.test.ts`
 
-No production IK caller has been switched.
+Production `src/ik/orient.ts` now delegates orientation calculations to these project-owned functions via `Skeleton.firstParty` and `PoseEvaluation.firstPartyEvaluation`. Its Three input/output types are temporary compatibility boundaries. `twoBone.ts` and `solve.ts` are still Three-dependent.
 
 The parallel implementation covers:
 - joint-limit clamping;
@@ -15,7 +15,11 @@ The parallel implementation covers:
 The parity tests compare it to the current Three-based implementation using
 representative exercise poses and arm/leg directions.
 
-## Integration rule
+## Completed orientation integration
+
+Checkpoint `dd4a7abd5129b387612265df2b609b9cb7c13899`: focused parity, full exercise/contact suite, build, software gates and local Chromium smoke pass. Both exact-SHA GitHub Actions workflows (`Standalone prep verification` and `Browser viewport smoke`) passed.
+
+## Next integration rule
 
 Only integrate after:
 1. first-party math parity passes;
@@ -23,7 +27,7 @@ Only integrate after:
 3. this orientation parity passes;
 4. full current suite remains green.
 
-Then migrate one IK chain at a time, comparing:
+Next migrate one IK chain at a time in `twoBone.ts` and `solve.ts`, comparing:
 - solved joint rotations;
 - target residual;
 - pole direction;

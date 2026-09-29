@@ -37,7 +37,7 @@
       "third_party": [
         "three"
       ],
-      "required_action": "Begin parity-gated S5 math/pose integration, then skeleton/IK/GLB/rendering. Keep Three until each replacement layer is independently verified."
+      "required_action": "S5 math, pose, skeleton FK and IK orientation are production first-party; migrate two-bone/solve and remaining S6 engine boundaries, then GLB and renderer with parity gates. Keep Three until every operational replacement layer is verified."
     },
     {
       "id": "runtime_state",

@@ -119,8 +119,8 @@
       "note": "Future Three/GLB replacement work."
     },
     "docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md": {
-      "category": "future_technical",
-      "note": "Future Three-free IK orientation migration."
+      "category": "current_technical",
+      "note": "Active first-party IK orientation cutover and next two-bone boundary."
     },
     "docs/FIRST_PARTY_MATH_PARITY_PLAN.md": {
       "category": "current_technical",

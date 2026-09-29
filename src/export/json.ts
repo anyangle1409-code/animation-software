@@ -1,4 +1,3 @@
-import { AnimationClip } from 'three';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { round } from '../core/math';
@@ -6,7 +5,7 @@ import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { repetitionDuration } from '../exercises/types';
 import { phaseBoundaries } from '../animation/generate';
-import { bakeClip } from './clipBuilder';
+import { bakeClip, serializeThreeAnimationClip } from './clipBuilder';
 import { MUSCLE_GROUPS } from '../muscles/groups';
 
 export const ANIMATION_FORMAT = 'hgpt-animation';
@@ -81,7 +80,7 @@ export function exportAnimationJson(
         values: Array.from(track.values, (value) => round(value, 6)),
       };
     }),
-    threeClip: AnimationClip.toJSON(baked.clip),
+    threeClip: serializeThreeAnimationClip(baked.clip),
   };
 }
 

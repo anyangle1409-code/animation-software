@@ -192,4 +192,12 @@ export function handAttachmentMatrix(
   return matrix;
 }
 
+/**
+ * Compatibility serializer kept at the remaining Three export boundary.
+ * Callers outside this module should not need to import Three directly.
+ */
+export function serializeThreeAnimationClip(clip: AnimationClip): unknown {
+  return AnimationClip.toJSON(clip);
+}
+
 export const zeroVector = new Vector3();

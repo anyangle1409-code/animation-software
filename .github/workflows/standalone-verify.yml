@@ -64,6 +64,7 @@ jobs:
           src/core/linearMath.test.ts
           src/core/linearMath.parity.test.ts
           src/core/sceneSkin.test.ts
+          src/character/gltfFirstPartyScene.test.ts
           src/core/threeRuntimeBoundary.test.ts
           src/core/glbContainer.test.ts
           src/core/gltfAccessors.test.ts

@@ -1,17 +1,25 @@
-import { MeshStandardMaterial, SkinnedMesh } from 'three';
-import type { Bone, BufferGeometry, Material, Skeleton as ThreeSkeleton } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
-import { buildCanonicalBones } from '../character/bones';
+import {
+  buildCanonicalBones,
+  type CharacterBone,
+  type CharacterSkinnedMesh,
+  type CharacterThreeSkeleton,
+} from '../character/bones';
+import {
+  createCharacterSkinnedMesh,
+  createCharacterStandardMaterial,
+  type Surface,
+} from '../character/build';
 import { buildBodyGeometry, BODY_MATERIAL } from './mesh';
 
 export interface BuiltRig {
-  root: Bone;
-  bones: Bone[];
-  boneByName: Map<BoneName, Bone>;
-  mesh: SkinnedMesh;
-  skeleton: ThreeSkeleton;
+  root: CharacterBone;
+  bones: CharacterBone[];
+  boneByName: Map<BoneName, CharacterBone>;
+  mesh: CharacterSkinnedMesh;
+  skeleton: CharacterThreeSkeleton;
 }
 
 export const MANNEQUIN_NAME = 'HGPT_Mannequin';
@@ -21,8 +29,8 @@ export const MANNEQUIN_NAME = 'HGPT_Mannequin';
  * nothing else does. Omitting them gives the character the exporter writes.
  */
 export interface SkinnedRigOptions {
-  geometry?: BufferGeometry;
-  material?: Material;
+  geometry?: Surface['geometry'];
+  material?: Surface['material'];
 }
 
 /**
@@ -41,8 +49,8 @@ export function buildSkinnedRig(
   const { root, bones, boneByName, skeleton } = buildCanonicalBones(rig);
 
   const geometry = options.geometry ?? buildBodyGeometry(rig).geometry;
-  const material = options.material ?? new MeshStandardMaterial({ ...BODY_MATERIAL });
-  const mesh = new SkinnedMesh(geometry, material);
+  const material = options.material ?? createCharacterStandardMaterial({ ...BODY_MATERIAL });
+  const mesh = createCharacterSkinnedMesh(geometry, material);
   mesh.name = MANNEQUIN_NAME;
   mesh.castShadow = true;
   mesh.receiveShadow = true;

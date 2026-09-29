@@ -341,7 +341,18 @@ export async function loadHgThreeScene(
       const mesh = node.skin === null
         ? new Mesh(geometry, material)
         : new SkinnedMesh(geometry, material);
-      mesh.name = meshDefinition.name || node.name || `mesh_${node.index}_${primitiveIndex}`;
+      const baseName = meshDefinition.name || node.name || `mesh_${node.index}`;
+      mesh.name = meshDefinition.primitives.length === 1
+        ? baseName
+        : `${baseName}_${primitiveIndex}`;
+      // GLTFLoader materializes a single mesh node as the mesh itself. This
+      // temporary adapter keeps a lightweight node wrapper for extras and
+      // hierarchy, so disambiguate an identical wrapper/mesh name. Otherwise
+      // Three PropertyBinding finds the wrapper first and morph animation
+      // tracks target an Object3D with no morphTargetInfluences.
+      if (nodes[node.index].name === mesh.name) {
+        nodes[node.index].name = `${mesh.name}__node`;
+      }
       extrasInto(mesh, meshDefinition.extras);
       nodes[node.index].add(mesh);
 

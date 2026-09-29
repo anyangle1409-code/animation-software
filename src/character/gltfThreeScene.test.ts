@@ -66,7 +66,9 @@ function fixture(): Uint8Array {
   builder.json.nodes = [
     { name: 'pelvis', children: [1] },
     {
-      name: 'body_node',
+      // Deliberately matches the mesh name: the compatibility adapter must
+      // not leave two nested objects with the same animation-binding name.
+      name: 'body',
       mesh: 0,
       skin: 0,
       translation: [0, 1, 0],
@@ -98,6 +100,8 @@ describe('first-party GLB to temporary Three scene adapter', () => {
     expect(mesh.skeleton.bones[0]).toBe(bones[0]);
     expect(mesh.morphTargetDictionary).toEqual({ bend: 0 });
     expect(mesh.morphTargetInfluences?.[0]).toBeCloseTo(0.4, 6);
+    expect(mesh.name).toBe('body');
+    expect(mesh.parent?.name).not.toBe(mesh.name);
     expect(mesh.parent?.userData.homeGymPT).toEqual({ gripSolutionId: 'fixture' });
 
     const material = mesh.material as MeshStandardMaterial;

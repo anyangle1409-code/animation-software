@@ -1,13 +1,12 @@
 import {
+  copyCharacterMatrix,
   createCharacterMatrix,
-  createCharacterQuaternion,
-  createCharacterVector3,
   type CharacterBone,
   type CharacterMatrix4,
   type CharacterObject3D,
-  type CharacterQuaternion,
   type CharacterSkinnedMesh,
 } from './bones';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -162,7 +161,7 @@ export function retargetedCharacterSource(
       scene.updateMatrixWorld(true);
 
       const boneByName = new Map<BoneName, CharacterBone>();
-      const correction = new Map<BoneName, CharacterQuaternion>();
+      const correction = new Map<BoneName, HgQuat>();
       for (const bound of binding.bones) {
         boneByName.set(bound.canonical, bound.bone);
         correction.set(bound.canonical, bound.correction);
@@ -190,9 +189,9 @@ export function retargetedCharacterSource(
       const scratch = {
         matrix: createCharacterMatrix(),
         basis: createCharacterMatrix(),
-        rotation: createCharacterQuaternion(),
-        position: createCharacterVector3(),
-        unit: createCharacterVector3(1, 1, 1),
+        rotation: createHgQuat(),
+        position: new HgVec3(),
+        unit: new HgVec3(1, 1, 1),
       };
 
       const handMatrix = (side: Side, target: CharacterMatrix4): CharacterMatrix4 | null => {
@@ -207,10 +206,14 @@ export function retargetedCharacterSource(
         scratch.position.setFromMatrixPosition(scratch.matrix);
         scratch.basis.extractRotation(scratch.matrix);
         scratch.rotation.setFromRotationMatrix(scratch.basis).multiply(change);
-        target.compose(scratch.position, scratch.rotation, scratch.unit);
+        scratch.output.compose(scratch.position, scratch.rotation, scratch.unit);
         const offset = gripOffsets?.[side];
-        if (offset) target.multiply(createCharacterMatrix().makeTranslation(offset.x, offset.y, offset.z));
-        return target;
+        if (offset) {
+          scratch.output.multiply(
+            new HgMat4().makeTranslation(offset.x, offset.y, offset.z),
+          );
+        }
+        return copyCharacterMatrix(scratch.output, target);
       };
 
       const handFrameLocalMatrix = (side: Side): number[] | null => {
@@ -220,11 +223,11 @@ export function retargetedCharacterSource(
         bone.updateWorldMatrix(true, false);
         const frame = handMatrix(side, createCharacterMatrix());
         if (!frame) return null;
-        const local = createCharacterMatrix()
+        const local = new HgMat4()
           .copy(bone.matrixWorld)
           .invert()
           .multiply(frame);
-        return Array.from(local.elements);
+        return local.toArray();
       };
 
       // The solved handle centre, applied here so the renderer, the exporter
@@ -239,8 +242,8 @@ export function retargetedCharacterSource(
             // The embedded centre and any explicitly identified solved correction
             // use the same character-local frame; sum them there, then turn.
             const summed = centre
-              ? createCharacterVector3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
-              : createCharacterVector3(embedded.x, embedded.y, embedded.z);
+              ? new HgVec3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
+              : new HgVec3(embedded.x, embedded.y, embedded.z);
             summed.applyQuaternion(turn[side]);
             return { x: summed.x, y: summed.y, z: summed.z };
           }
@@ -252,7 +255,7 @@ export function retargetedCharacterSource(
           applyRetarget(binding, pose);
           return;
         }
-        const rootOffset = createCharacterVector3();
+        const rootOffset = new HgVec3();
         // A shorter imported limb can be unable to reach a fixed contact. Move
         // this character's body by the shared residual, then let each source
         // limb solve the remaining error. A few bounded passes converge the
@@ -444,24 +447,24 @@ export const CORRECTED_HAND_FRAME = 'hand-v2';
 /** The turn that brings embedded grip offsets into the current hand frame. */
 export function handFrameTurn(
   declared: unknown,
-  legacyHandFrame: Record<Side, CharacterQuaternion>,
-): Record<Side, CharacterQuaternion> {
+  legacyHandFrame: Record<Side, HgQuat>,
+): Record<Side, HgQuat> {
   return declared === CORRECTED_HAND_FRAME
-    ? { l: createCharacterQuaternion(), r: createCharacterQuaternion() }
+    ? { l: createHgQuat(), r: createHgQuat() }
     : legacyHandFrame;
 }
 
 /** Offsets expressed in the hand frame they were measured in, turned into the current one. */
 export function inHandFrame(
   offsets: Partial<Record<Side, { x: number; y: number; z: number }>> | undefined,
-  turn: Record<Side, CharacterQuaternion>,
+  turn: Record<Side, HgQuat>,
 ): Partial<Record<Side, { x: number; y: number; z: number }>> | undefined {
   if (!offsets) return offsets;
   const result: Partial<Record<Side, { x: number; y: number; z: number }>> = {};
   for (const side of ['l', 'r'] as const) {
     const offset = offsets[side];
     if (!offset) continue;
-    const turned = createCharacterVector3(offset.x, offset.y, offset.z).applyQuaternion(turn[side]);
+    const turned = new HgVec3(offset.x, offset.y, offset.z).applyQuaternion(turn[side]);
     result[side] = { x: turned.x, y: turned.y, z: turned.z };
   }
   return result;

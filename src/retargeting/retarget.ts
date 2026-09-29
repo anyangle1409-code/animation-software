@@ -1,21 +1,14 @@
 import {
-  createCharacterEuler,
-  createCharacterMatrix,
-  createCharacterQuaternion,
-  createCharacterVector3,
   measureCharacterObjectHeight,
   type CharacterBone as Bone,
-  type CharacterMatrix4 as Matrix4,
   type CharacterObject3D as Object3D,
-  type CharacterQuaternion as Quaternion,
   type CharacterSkinnedMesh as SkinnedMesh,
-  type CharacterVector3 as Vector3,
 } from '../character/bones';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import { isMetacarpal } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
-import { EULER_ORDER } from '../rig/types';
 import type { Pose } from '../rig/types';
 import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from './boneMap';
@@ -26,10 +19,10 @@ export interface TargetCharacter {
   bones: Map<string, Bone>;
   boneNames: string[];
   /** World position and rotation of each bone in the character's rest pose. */
-  restWorldPosition: Map<string, Vector3>;
-  restWorld: Map<string, Quaternion>;
-  restLocal: Map<string, Quaternion>;
-  restPosition: Map<string, Vector3>;
+  restWorldPosition: Map<string, HgVec3>;
+  restWorld: Map<string, HgQuat>;
+  restLocal: Map<string, HgQuat>;
+  restPosition: Map<string, HgVec3>;
   height: number;
   meshes: SkinnedMesh[];
 }
@@ -37,7 +30,7 @@ export interface TargetCharacter {
 interface BoundBone {
   canonical: BoneName;
   bone: Bone;
-  restLocal: Quaternion;
+  restLocal: HgQuat;
   /**
    * Change of basis from the target bone's authored frame to its anatomical
    * frame. In the rest pose: actualWorld * correction = anatomicalFrame.
@@ -48,7 +41,7 @@ interface BoundBone {
    * character reproduce an arms-down/closed-hand canonical pose absolutely,
    * instead of merely adding deltas to whatever rest pose the asset shipped in.
    */
-  correction: Quaternion;
+  correction: HgQuat;
 }
 
 export interface RetargetBinding {
@@ -56,15 +49,15 @@ export interface RetargetBinding {
   mapping: BoneMapping;
   bones: BoundBone[];
   hips: Bone | null;
-  hipsRest: Vector3;
+  hipsRest: HgVec3;
   /** Scene transform when rest-world measurements were captured. */
-  restRootWorld: Matrix4;
+  restRootWorld: HgMat4;
   /** Target height divided by the canonical rig's height. */
   scale: number;
   /** Canonical forward kinematics reused for every transferred frame. */
   evaluation: PoseEvaluation;
   /** Rotate canonical world frames into the direction the imported character faces. */
-  worldAlignment: Quaternion;
+  worldAlignment: HgQuat;
   mirrorSides: boolean;
   /**
    * Per side, the turn from the hand frame this binding used before mirrored
@@ -74,10 +67,10 @@ export interface RetargetBinding {
    * embedded grip metadata — are brought into the new one by it, so what they
    * describe on the mesh (a fist's centre, a palm's contact point) stays put.
    */
-  legacyHandFrame: Record<'l' | 'r', Quaternion>;
+  legacyHandFrame: Record<'l' | 'r', HgQuat>;
   /** Virtual attachments drive disconnected exported branches without rebinding. */
-  attachments: Map<Bone, { parent: Bone; offset: Vector3 }>;
-  followers: { bone: Bone; parent: Bone; offset: Matrix4 }[];
+  attachments: Map<Bone, { parent: Bone; offset: HgVec3 }>;
+  followers: { bone: Bone; parent: Bone; offset: HgMat4 }[];
   /**
    * Deform twist helpers that must carry a share of their chain's axial twist.
    *
@@ -103,11 +96,11 @@ export interface TwistHelper {
   /** The driven bone below it, which defines the twist to share. */
   distal: BoneName;
   /** Authored local rotation, which the share is composed onto. */
-  restLocal: Quaternion;
+  restLocal: HgQuat;
   /** The helper's own long axis, in its local frame. */
-  axis: Vector3;
+  axis: HgVec3;
   /** Distal-relative-to-proximal orientation in the bind pose. */
-  restRelative: Quaternion;
+  restRelative: HgQuat;
   fraction: number;
 }
 
@@ -134,7 +127,7 @@ function detailParent(name: string): BoneName | null {
   return null;
 }
 
-const WORLD_FORWARD = createCharacterVector3(0, 0, 1);
+const WORLD_FORWARD = new HgVec3(0, 0, 1);
 
 interface QuaternionComponents {
   x: number;
@@ -144,14 +137,14 @@ interface QuaternionComponents {
 }
 
 function copyQuaternionComponents(
-  target: Quaternion,
+  target: HgQuat,
   source: QuaternionComponents,
-): Quaternion {
+): HgQuat {
   return target.set(source.x, source.y, source.z, source.w);
 }
 
-function sceneQuaternion(source: QuaternionComponents): Quaternion {
-  return copyQuaternionComponents(createCharacterQuaternion(), source);
+function sceneQuaternion(source: QuaternionComponents): HgQuat {
+  return copyQuaternionComponents(new HgQuat(), source);
 }
 
 /**
@@ -180,9 +173,9 @@ export function bindRetarget(
   // bone is bound.
   const left = mapping.bones.thigh_l && character.restWorldPosition.get(mapping.bones.thigh_l);
   const right = mapping.bones.thigh_r && character.restWorldPosition.get(mapping.bones.thigh_r);
-  const alignedRight = createCharacterVector3(1, 0, 0).applyQuaternion(createCharacterQuaternion().setFromUnitVectors(WORLD_FORWARD, forward));
+  const alignedRight = new HgVec3(1, 0, 0).applyQuaternion(new HgQuat().setFromUnitVectors(WORLD_FORWARD, forward));
   const mirrorSides = !!(left && right && left.clone().sub(right).dot(alignedRight) > 0);
-  const legacyHandFrame = { l: createCharacterQuaternion(), r: createCharacterQuaternion() };
+  const legacyHandFrame = { l: new HgQuat(), r: new HgQuat() };
 
   for (const rigBone of rig.bones) {
     const targetName = mapping.bones[rigBone.name];
@@ -229,7 +222,7 @@ export function bindRetarget(
     bones.push({
       canonical: rigBone.name,
       bone,
-      restLocal: bone.quaternion.clone(),
+      restLocal: new HgQuat().copy(bone.quaternion),
       correction: restWorld.clone().invert().multiply(sceneQuaternion(targetFrame)),
     });
   }
@@ -252,8 +245,9 @@ export function bindRetarget(
     const helper = childBone.parent as Bone | null;
     if (!helper || helper === parentBone || helper.parent !== parentBone) continue;
     parentBone.updateWorldMatrix(true, true);
-    const axis = childBone.getWorldPosition(createCharacterVector3());
-    helper.worldToLocal(axis);
+    const axis = new HgVec3()
+      .setFromMatrixPosition(childBone.matrixWorld)
+      .applyMatrix4(new HgMat4().copy(helper.matrixWorld).invert());
     if (axis.lengthSq() < 1e-12) continue;
     const proximalRest = character.restWorld.get(parentName);
     const distalRest = character.restWorld.get(childName);
@@ -262,7 +256,7 @@ export function bindRetarget(
       bone: helper,
       proximal,
       distal,
-      restLocal: helper.quaternion.clone(),
+      restLocal: new HgQuat().copy(helper.quaternion),
       axis: axis.normalize(),
       restRelative: proximalRest.clone().invert().multiply(distalRest),
       fraction: FOREARM_TWIST_SHARE,
@@ -272,12 +266,12 @@ export function bindRetarget(
   const hipsName = mapping.bones.pelvis;
   const hips = hipsName ? character.bones.get(hipsName) ?? null : null;
   const hipsRest =
-    (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || createCharacterVector3();
+    (hipsName && character.restWorldPosition.get(hipsName)?.clone()) || new HgVec3();
 
   // Some deform-only exports omit Rigify constraints: thighs, shoulders and
   // upper arms then become armature siblings, as do face bones. Reconstruct
   // only their runtime attachment, retaining the exported hierarchy/bind data.
-  const attachments = new Map<Bone, { parent: Bone; offset: Vector3 }>();
+  const attachments = new Map<Bone, { parent: Bone; offset: HgVec3 }>();
   const byCanonical = new Map(bones.map(b => [b.canonical, b]));
   const hasAncestor = (bone: Bone, parent: Bone) => {
     let walk = bone.parent;
@@ -295,7 +289,7 @@ export function bindRetarget(
       attachments.set(entry.bone, {
         parent,
         offset: character.restWorldPosition.get(entry.bone.name)!.clone()
-          .applyMatrix4(parent.matrixWorld.clone().invert()),
+          .applyMatrix4(new HgMat4().copy(parent.matrixWorld).invert()),
       });
     }
   }
@@ -307,8 +301,11 @@ export function bindRetarget(
     const parent = parentName ? byCanonical.get(parentName)?.bone : undefined;
     if (!parent || hasAncestor(bone, parent)) continue;
     if (followers.some(f => hasAncestor(bone, f.bone))) continue;
-    followers.push({ bone, parent,
-      offset: parent.matrixWorld.clone().invert().multiply(bone.matrixWorld) });
+    followers.push({
+      bone,
+      parent,
+      offset: new HgMat4().copy(parent.matrixWorld).invert().multiply(bone.matrixWorld),
+    });
   }
 
   // Metacarpals ride the hand. Their frames are taken from the target hand's
@@ -343,25 +340,29 @@ export function bindRetarget(
     bones,
     hips,
     hipsRest,
-    restRootWorld: character.root.matrixWorld.clone(),
+    restRootWorld: new HgMat4().copy(character.root.matrixWorld),
     attachments, followers, twistHelpers, mirrorSides, legacyHandFrame,
     scale: character.height / RIG_HEIGHT,
     evaluation: new PoseEvaluation(rig),
-    worldAlignment: createCharacterQuaternion().setFromUnitVectors(WORLD_FORWARD, forward),
+    worldAlignment: new HgQuat().setFromUnitVectors(WORLD_FORWARD, forward),
   };
 }
 
-const scratchDesiredFrame = createCharacterQuaternion();
-const scratchDesiredWorld = createCharacterQuaternion();
-const scratchParentWorld = createCharacterQuaternion();
-const scratchLocal = createCharacterQuaternion();
-const scratchInverseCorrection = createCharacterQuaternion();
-const scratchTwistFrame = createCharacterQuaternion();
-const scratchTwistCorrection = createCharacterQuaternion();
-const scratchTwistDelta = createCharacterQuaternion();
-const scratchTwistRest = createCharacterQuaternion();
-const scratchTwistShare = createCharacterQuaternion();
-const scratchTwistVector = createCharacterVector3();
+const scratchDesiredFrame = new HgQuat();
+const scratchDesiredWorld = new HgQuat();
+const scratchParentWorld = new HgQuat();
+const scratchLocal = new HgQuat();
+const scratchInverseCorrection = new HgQuat();
+const scratchTwistFrame = new HgQuat();
+const scratchTwistCorrection = new HgQuat();
+const scratchTwistDelta = new HgQuat();
+const scratchTwistRest = new HgQuat();
+const scratchTwistShare = new HgQuat();
+const scratchTwistApplied = new HgQuat();
+const scratchTwistVector = new HgVec3();
+const scratchFollowerPosition = new HgVec3();
+const scratchFollowerRotation = new HgQuat();
+const scratchFollowerScale = new HgVec3();
 
 /**
  * Apply the canonical pose as an absolute anatomical target.
@@ -380,26 +381,29 @@ const scratchTwistVector = createCharacterVector3();
 export function applyRetarget(
   binding: RetargetBinding,
   pose: Pose,
-  rootOffset = createCharacterVector3(),
+  rootOffset = new HgVec3(),
 ): void {
   binding.evaluation.apply(pose);
 
   binding.character.root.updateMatrixWorld(true);
-  const sceneDelta = binding.character.root.matrixWorld.clone()
+  const sceneDelta = new HgMat4()
+    .copy(binding.character.root.matrixWorld)
     .multiply(binding.restRootWorld.clone().invert());
-  const sceneRotation = createCharacterQuaternion().setFromRotationMatrix(
-    createCharacterMatrix().extractRotation(sceneDelta),
+  const sceneRotation = new HgQuat().setFromRotationMatrix(
+    new HgMat4().extractRotation(sceneDelta),
   );
-  let hipsPosition: Vector3 | null = null;
+  let hipsPosition: HgVec3 | null = null;
   // Rotate the resting pelvis about the scene origin before adding root motion.
   if (binding.hips) {
-    const rootRotation = createCharacterQuaternion().setFromEuler(createCharacterEuler(
-      pose.rootRotation.x, pose.rootRotation.y, pose.rootRotation.z, EULER_ORDER,
-    ));
+    const rootRotation = new HgQuat().setFromEulerXZY(
+      pose.rootRotation.x,
+      pose.rootRotation.y,
+      pose.rootRotation.z,
+    );
     if (binding.mirrorSides) { rootRotation.y *= -1; rootRotation.z *= -1; }
     rootRotation.premultiply(binding.worldAlignment).multiply(binding.worldAlignment.clone().invert());
-    const origin = createCharacterVector3().setFromMatrixPosition(binding.restRootWorld);
-    hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(createCharacterVector3(
+    const origin = new HgVec3().setFromMatrixPosition(binding.restRootWorld);
+    hipsPosition = binding.hipsRest.clone().sub(origin).applyQuaternion(rootRotation).add(origin).add(new HgVec3(
       (pose.rootPosition.x + rootOffset.x) * (binding.mirrorSides ? -1 : 1),
       pose.rootPosition.y + rootOffset.y,
       pose.rootPosition.z + rootOffset.z,
@@ -423,21 +427,27 @@ export function applyRetarget(
     }
     scratchDesiredFrame.premultiply(binding.worldAlignment).premultiply(sceneRotation);
     if (entry.bone === binding.hips && hipsPosition) {
-      if (entry.bone.parent) entry.bone.parent.worldToLocal(hipsPosition);
-      entry.bone.position.copy(hipsPosition);
+      if (entry.bone.parent) {
+        hipsPosition.applyMatrix4(new HgMat4().copy(entry.bone.parent.matrixWorld).invert());
+      }
+      entry.bone.position.set(hipsPosition.x, hipsPosition.y, hipsPosition.z);
     }
     const attachment = binding.attachments.get(entry.bone);
     if (attachment && entry.bone !== binding.hips) {
       const position = attachment.offset.clone().applyMatrix4(attachment.parent.matrixWorld);
-      if (entry.bone.parent) entry.bone.parent.worldToLocal(position);
-      entry.bone.position.copy(position);
+      if (entry.bone.parent) {
+        position.applyMatrix4(new HgMat4().copy(entry.bone.parent.matrixWorld).invert());
+      }
+      entry.bone.position.set(position.x, position.y, position.z);
     }
     scratchDesiredWorld
       .copy(scratchDesiredFrame)
       .multiply(scratchInverseCorrection.copy(entry.correction).invert());
 
     if (entry.bone.parent) {
-      entry.bone.parent.getWorldQuaternion(scratchParentWorld);
+      scratchParentWorld.setFromRotationMatrix(
+        new HgMat4().extractRotation(entry.bone.parent.matrixWorld),
+      );
       scratchLocal
         .copy(scratchParentWorld)
         .invert()
@@ -446,7 +456,12 @@ export function applyRetarget(
       scratchLocal.copy(scratchDesiredWorld);
     }
 
-    entry.bone.quaternion.copy(scratchLocal);
+    entry.bone.quaternion.set(
+      scratchLocal.x,
+      scratchLocal.y,
+      scratchLocal.z,
+      scratchLocal.w,
+    );
     entry.bone.updateMatrixWorld(true);
 
     // Hand a share of this chain's axial twist to its deform helper, before the
@@ -477,19 +492,41 @@ export function applyRetarget(
       const along = scratchTwistVector.dot(helper.axis);
       const angle = 2 * Math.atan2(along, scratchTwistDelta.w);
       const wrapped = angle > Math.PI ? angle - 2 * Math.PI : angle <= -Math.PI ? angle + 2 * Math.PI : angle;
-      helper.bone.quaternion
+      scratchTwistApplied
         .copy(helper.restLocal)
         .multiply(scratchTwistShare.setFromAxisAngle(helper.axis, wrapped * helper.fraction));
+      helper.bone.quaternion.set(
+        scratchTwistApplied.x,
+        scratchTwistApplied.y,
+        scratchTwistApplied.z,
+        scratchTwistApplied.w,
+      );
       helper.bone.updateMatrixWorld(true);
     }
   }
 
   for (const follower of binding.followers) {
-    const world = follower.parent.matrixWorld.clone().multiply(follower.offset);
+    const world = new HgMat4().copy(follower.parent.matrixWorld).multiply(follower.offset);
     const local = follower.bone.parent
-      ? follower.bone.parent.matrixWorld.clone().invert().multiply(world) : world;
+      ? new HgMat4().copy(follower.bone.parent.matrixWorld).invert().multiply(world)
+      : world;
     // These are rigid attachments; preserve the source bone's authored scale.
-    local.decompose(follower.bone.position, follower.bone.quaternion, createCharacterVector3());
+    local.decompose(
+      scratchFollowerPosition,
+      scratchFollowerRotation,
+      scratchFollowerScale,
+    );
+    follower.bone.position.set(
+      scratchFollowerPosition.x,
+      scratchFollowerPosition.y,
+      scratchFollowerPosition.z,
+    );
+    follower.bone.quaternion.set(
+      scratchFollowerRotation.x,
+      scratchFollowerRotation.y,
+      scratchFollowerRotation.z,
+      scratchFollowerRotation.w,
+    );
     follower.bone.updateMatrixWorld(true);
   }
   binding.character.root.updateMatrixWorld(true);
@@ -506,10 +543,10 @@ function palmTail(
   canonical: 'hand_l' | 'hand_r',
   character: TargetCharacter,
   mapping: BoneMapping,
-): Vector3 | null {
+): HgVec3 | null {
   const side = canonical.endsWith('_l') ? 'l' : 'r';
   const roots = [`index_01_${side}`, `middle_01_${side}`, `ring_01_${side}`, `pinky_01_${side}`] as BoneName[];
-  const positions: Vector3[] = [];
+  const positions: HgVec3[] = [];
 
   for (const root of roots) {
     const mapped = mapping.bones[root];
@@ -518,7 +555,7 @@ function palmTail(
   }
 
   if (positions.length < 2) return null;
-  const average = createCharacterVector3();
+  const average = new HgVec3();
   for (const position of positions) average.add(position);
   return average.multiplyScalar(1 / positions.length);
 }
@@ -566,8 +603,8 @@ function mappedDescendant(
   character: TargetCharacter,
   mapping: BoneMapping,
   rig: Skeleton,
-  head: Vector3,
-): Vector3 | null {
+  head: HgVec3,
+): HgVec3 | null {
   for (const childName of children) {
     if (mapping.bones[childName]) continue;
     const grandchildren = rig.bone(childName).children;
@@ -592,8 +629,8 @@ function restTail(
   character: TargetCharacter,
   mapping: BoneMapping,
   rig: Skeleton,
-  head: Vector3,
-): Vector3 | null {
+  head: HgVec3,
+): HgVec3 | null {
   const rigBone = rig.bone(canonical);
 
   if (canonical === 'hand_l' || canonical === 'hand_r') {
@@ -633,7 +670,7 @@ function restTail(
   // omits the tail. A canonical fallback points an A-posed fingertip elsewhere.
   if (bone && /^DEF[-_]/i.test(bone.name)) {
     const orientation = character.restWorld.get(bone.name)!;
-    return head.clone().add(createCharacterVector3(0, 0.05, 0).applyQuaternion(orientation));
+    return head.clone().add(new HgVec3(0, 0.05, 0).applyQuaternion(orientation));
   }
   const direction = rigBone.restTail.clone().sub(rigBone.restHead);
   if (direction.lengthSq() < 1e-9) return null;
@@ -644,13 +681,13 @@ function restTail(
  * Which way the character faces, taken from its feet. A model exported facing
  * away from us would otherwise get every flexion angle backwards.
  */
-function detectForward(character: TargetCharacter, mapping: BoneMapping): Vector3 {
-  const forward = createCharacterVector3(0, 0, 1);
+function detectForward(character: TargetCharacter, mapping: BoneMapping): HgVec3 {
+  const forward = new HgVec3(0, 0, 1);
   const pairs: [BoneName, BoneName][] = [
     ['foot_l', 'toe_l'],
     ['foot_r', 'toe_r'],
   ];
-  const direction = createCharacterVector3();
+  const direction = new HgVec3();
   let found = 0;
 
   for (const [footName, toeName] of pairs) {
@@ -682,15 +719,20 @@ export function readCharacter(root: Object3D): TargetCharacter {
     if ((object as SkinnedMesh).isSkinnedMesh) meshes.push(object as SkinnedMesh);
   });
 
-  const restWorld = new Map<string, Quaternion>();
-  const restLocal = new Map<string, Quaternion>();
-  const restPosition = new Map<string, Vector3>();
-  const restWorldPosition = new Map<string, Vector3>();
+  const restWorld = new Map<string, HgQuat>();
+  const restLocal = new Map<string, HgQuat>();
+  const restPosition = new Map<string, HgVec3>();
+  const restWorldPosition = new Map<string, HgVec3>();
+  const scratchWorldPosition = new HgVec3();
+  const scratchWorldScale = new HgVec3();
   for (const [name, bone] of bones) {
-    restWorld.set(name, bone.getWorldQuaternion(createCharacterQuaternion()));
-    restLocal.set(name, bone.quaternion.clone());
-    restPosition.set(name, bone.position.clone());
-    restWorldPosition.set(name, createCharacterVector3().setFromMatrixPosition(bone.matrixWorld));
+    const world = new HgMat4().copy(bone.matrixWorld);
+    const worldRotation = new HgQuat();
+    world.decompose(scratchWorldPosition, worldRotation, scratchWorldScale);
+    restWorld.set(name, worldRotation);
+    restLocal.set(name, new HgQuat().copy(bone.quaternion));
+    restPosition.set(name, new HgVec3().copy(bone.position));
+    restWorldPosition.set(name, new HgVec3().setFromMatrixPosition(bone.matrixWorld));
   }
 
   const height = measureCharacterObjectHeight(root);
@@ -702,9 +744,9 @@ export function readCharacter(root: Object3D): TargetCharacter {
 export function resetCharacter(character: TargetCharacter): void {
   for (const [name, bone] of character.bones) {
     const rest = character.restLocal.get(name);
-    if (rest) bone.quaternion.copy(rest);
+    if (rest) bone.quaternion.set(rest.x, rest.y, rest.z, rest.w);
     const position = character.restPosition.get(name);
-    if (position) bone.position.copy(position);
+    if (position) bone.position.set(position.x, position.y, position.z);
   }
   character.root.updateMatrixWorld(true);
 }

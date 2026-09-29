@@ -1,0 +1,11 @@
+{
+  "asset_id": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig_identity": "hgpt_canonical_v4_original",
+  "stage": "O2_unbound_target",
+  "source": "src/rig/canonicalV4Original.ts",
+  "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
+  "pre_v4_blend_sha256": "33f67e42fb8f5bb524b72bfb7b0aee6e3656f853e1c54e6a53034881161f21bf",
+  "blend_sha256": "99b82595cfd1e0a686c57bf5f2f96b4c87d59880137e70f4ae342c1601696c7a",
+  "historical_53_bone_rig": "reference_only_unbound",
+  "legacy_geometry_imported": false
+}

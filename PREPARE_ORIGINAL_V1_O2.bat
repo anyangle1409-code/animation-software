@@ -4,8 +4,12 @@ cd /d "%~dp0"
 
 set "CURRENT_BRANCH="
 for /f "delims=" %%I in ('git branch --show-current 2^>nul') do set "CURRENT_BRANCH=%%I"
-if not "%CURRENT_BRANCH%"=="work/standalone-first-party-audit-20260927" (
-  echo Expected branch work/standalone-first-party-audit-20260927; found "%CURRENT_BRANCH%".
+set "BRANCH_OK="
+if "%CURRENT_BRANCH%"=="work/standalone-first-party-audit-20260927" set "BRANCH_OK=1"
+rem Separate Blender/model branches keep O2 work off the standalone software branch.
+if "%CURRENT_BRANCH:~0,26%"=="claude/original-v1-blender" set "BRANCH_OK=1"
+if not defined BRANCH_OK (
+  echo Expected branch work/standalone-first-party-audit-20260927 or claude/original-v1-blender-*; found "%CURRENT_BRANCH%".
   exit /b 1
 )
 node --version >nul 2>&1

@@ -70,6 +70,10 @@
       "category": "current_technical",
       "note": "Current Blender O2 task handoff."
     },
+    "docs/ORIGINAL_V1_O2_BLENDER_BRANCH_LOG.md": {
+      "category": "current_technical",
+      "note": "Separate Blender branch record: launcher fixes, O2 body generator method, region checkpoints."
+    },
     "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
       "category": "current_technical",
       "note": "Required physical desktop/iPhone visual/input parity gate."

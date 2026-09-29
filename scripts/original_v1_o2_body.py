@@ -1,0 +1,974 @@
+"""ORIGINAL v1 O2 body generator — project-authored, clean-room.
+
+Inputs are limited to:
+  * ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json (committed v4 rest payload)
+  * the anatomical measurements authored in this file.
+No mesh, weight, UV, projection or surface from any other character is read.
+
+The generator builds a quad control cage whose loops follow the v4 joints
+(split junctions at axillae, crotch, thumb web and finger webs), applies one
+Catmull-Clark subdivision in plain Python, and returns vertices/faces in
+Blender coordinates (Z up, character forward = -Y, `_l` bones at -X).
+
+Internally points are (x, f, z) with f = forward = -Y.
+Pure numpy: runs under Blender's bundled Python without bpy.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+RIG_PAYLOAD = ROOT / "ORIGINAL_V1_WORK" / "hgpt_canonical_v4_original.json"
+GENERATOR_VERSION = "o2-body-1"
+TARGET_HEIGHT = 1.82
+
+FWD = np.array([0.0, 1.0, 0.0])
+UP = np.array([0.0, 0.0, 1.0])
+
+
+# --------------------------------------------------------------------------
+# Rig input (left side only; right side is an exact mirror by construction)
+# --------------------------------------------------------------------------
+
+def load_rig(path: Path = RIG_PAYLOAD) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    bones = {}
+    for item in payload["bones"]:
+        # Project +Y up, +Z forward -> internal (x, f, z) with f = project z.
+        head = np.array([item["head"][0], item["head"][2], item["head"][1]])
+        tail = np.array([item["tail"][0], item["tail"][2], item["tail"][1]])
+        bones[item["name"]] = (head, tail)
+    return bones
+
+
+def lat(bones, name, end="head"):
+    """Bone point for the left side expressed with lateral distance lx >= 0."""
+    head, tail = bones[name]
+    p = head if end == "head" else tail
+    return np.array([-p[0], p[1], p[2]])  # _l bones sit at -X
+
+
+# --------------------------------------------------------------------------
+# Geometry helpers
+# --------------------------------------------------------------------------
+
+def centripetal_cr(points, closed=False, samples=32):
+    P = [np.asarray(p, float) for p in points]
+    n = len(P)
+    segs = n if closed else n - 1
+    out = []
+    for i in range(segs):
+        if closed:
+            p0, p1, p2, p3 = P[(i - 1) % n], P[i], P[(i + 1) % n], P[(i + 2) % n]
+        else:
+            p1, p2 = P[i], P[i + 1]
+            p0 = P[i - 1] if i > 0 else p1 + (p1 - p2)
+            p3 = P[i + 2] if i + 2 < n else p2 + (p2 - p1)
+        def tj(ti, a, b):
+            return ti + max(np.linalg.norm(b - a), 1e-9) ** 0.5
+        t0 = 0.0
+        t1 = tj(t0, p0, p1)
+        t2 = tj(t1, p1, p2)
+        t3 = tj(t2, p2, p3)
+        for k in range(samples):
+            t = t1 + (t2 - t1) * k / samples
+            a1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1
+            a2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2
+            a3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3
+            b1 = (t2 - t) / (t2 - t0) * a1 + (t - t0) / (t2 - t0) * a2
+            b2 = (t3 - t) / (t3 - t1) * a2 + (t - t1) / (t3 - t1) * a3
+            out.append((t2 - t) / (t2 - t1) * b1 + (t - t1) / (t2 - t1) * b2)
+    if not closed:
+        out.append(P[-1])
+    return np.array(out)
+
+
+def resample_open(curve, count):
+    d = np.linalg.norm(np.diff(curve, axis=0), axis=1)
+    s = np.concatenate([[0.0], np.cumsum(d)])
+    targets = np.linspace(0.0, s[-1], count)
+    return np.stack([np.interp(targets, s, curve[:, j]) for j in range(3)], axis=1)
+
+
+def sample_path(control, count):
+    """Open curve through control points, `count` points equally spaced incl. ends."""
+    return resample_open(centripetal_cr(control, closed=False), count)
+
+
+def to_left(p):
+    """(lx, f, z) authored for the left side -> internal (x, f, z)."""
+    return np.array([-p[0], p[1], p[2]], float)
+
+
+def mirror(p):
+    return np.array([-p[0], p[1], p[2]], float)
+
+
+def unit(v):
+    v = np.asarray(v, float)
+    n = np.linalg.norm(v)
+    return v / n if n > 1e-12 else v
+
+
+def periodic_profile(spec):
+    """spec: {angle_deg: radius} -> r(phi) with periodic Catmull-Rom interpolation."""
+    items = sorted((a % 360.0, r) for a, r in spec.items())
+    angles = np.radians([a for a, _ in items])
+    radii = np.array([r for _, r in items], float)
+    n = len(angles)
+
+    def r(phi):
+        phi = phi % (2 * math.pi)
+        i = np.searchsorted(angles, phi, side="right") - 1
+        i %= n
+        j = (i + 1) % n
+        a0 = angles[i]
+        a1 = angles[j] if j != 0 or n == 1 else angles[0] + 2 * math.pi
+        if a1 <= a0:
+            a1 += 2 * math.pi
+        x = phi if phi >= a0 else phi + 2 * math.pi
+        t = (x - a0) / (a1 - a0)
+        p0, p1, p2, p3 = radii[(i - 1) % n], radii[i], radii[j], radii[(j + 1) % n]
+        return 0.5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
+                      + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3)
+    return r
+
+
+def coons_grid(bottom, right, top, left):
+    """Boundary sides as point arrays: bottom[0]=left[0], bottom[-1]=right[0],
+    top[0]=left[-1], top[-1]=right[-1]. Returns grid[j][i] (j along left)."""
+    nb = len(bottom) - 1
+    na = len(left) - 1
+    P00, P10, P01, P11 = bottom[0], bottom[-1], top[0], top[-1]
+    grid = [[None] * (nb + 1) for _ in range(na + 1)]
+    for j in range(na + 1):
+        v = j / na
+        for i in range(nb + 1):
+            u = i / nb
+            grid[j][i] = ((1 - v) * bottom[i] + v * top[i] + (1 - u) * left[j] + u * right[j]
+                          - ((1 - u) * (1 - v) * P00 + u * (1 - v) * P10
+                             + (1 - u) * v * P01 + u * v * P11))
+    return grid
+
+
+# --------------------------------------------------------------------------
+# Mesh builder
+# --------------------------------------------------------------------------
+
+class Builder:
+    def __init__(self):
+        self.v: list[np.ndarray] = []
+        self.f: list[tuple[int, ...]] = []
+        self.regions: dict[str, set[int]] = {}
+
+    def add(self, p, region=None) -> int:
+        self.v.append(np.asarray(p, float))
+        idx = len(self.v) - 1
+        if region:
+            self.regions.setdefault(region, set()).add(idx)
+        return idx
+
+    def add_many(self, pts, region=None) -> list[int]:
+        return [self.add(p, region) for p in pts]
+
+    def pos(self, ids):
+        return np.array([self.v[i] for i in ids])
+
+    def bridge(self, a, b):
+        n = len(a)
+        assert n == len(b), (n, len(b))
+        for k in range(n):
+            self.f.append((a[k], a[(k + 1) % n], b[(k + 1) % n], b[k]))
+
+    def bridge_aligned(self, a, b):
+        """Bridge closed loops, re-indexing b for minimum twist."""
+        n = len(a)
+        A, Bp = self.pos(a), self.pos(b)
+        best = None
+        for direction in (1, -1):
+            for off in range(n):
+                idx = [(off + direction * k) % n for k in range(n)]
+                cost = float(np.sum(np.linalg.norm(A - Bp[idx], axis=1)))
+                if best is None or cost < best[0]:
+                    best = (cost, [b[i] for i in idx])
+        self.bridge(a, best[1])
+        return best[1]
+
+    def cap(self, loop, a, b, dome=0.0, dome_dir=None, start=0, region=None):
+        """Close a loop of 2(a+b) verts with an a x b quad grid (Coons patch).
+        Corners at start, start+b, start+b+a, start+2b+a."""
+        n = len(loop)
+        assert n == 2 * (a + b), (n, a, b)
+        L = [loop[(start + k) % n] for k in range(n)]
+        bottom_ids = L[0:b + 1]
+        right_ids = L[b:b + a + 1]
+        top_ids = list(reversed(L[b + a:2 * b + a + 1]))
+        left_ids = list(reversed(L[2 * b + a:] + [L[0]]))
+        grid = coons_grid(self.pos(bottom_ids), self.pos(right_ids),
+                          self.pos(top_ids), self.pos(left_ids))
+        pts = self.pos(loop)
+        normal = unit(dome_dir) if dome_dir is not None else np.zeros(3)
+        ids = [[None] * (b + 1) for _ in range(a + 1)]
+        for i in range(b + 1):
+            ids[0][i] = bottom_ids[i]
+            ids[a][i] = top_ids[i]
+        for j in range(a + 1):
+            ids[j][0] = left_ids[j]
+            ids[j][b] = right_ids[j]
+        for j in range(1, a):
+            for i in range(1, b):
+                u, v = i / b, j / a
+                bump = 16 * u * (1 - u) * v * (1 - v)
+                ids[j][i] = self.add(grid[j][i] + normal * dome * bump, region)
+        for j in range(a):
+            for i in range(b):
+                self.f.append((ids[j][i], ids[j][i + 1], ids[j + 1][i + 1], ids[j + 1][i]))
+        del pts
+        return ids
+
+    def loft(self, start, rings, blend=3, region=None):
+        """Loft rings from an existing closed loop.
+        rings: list of (center, e1, e2, profile) with profile(phi)->radius and
+        phi measured from e1 toward e2. Vertex correspondence follows the start
+        loop's angles and relaxes to equal arc length over `blend` rings."""
+        n = len(start)
+        c0, e10, e20, _ = rings[0]
+        rel = self.pos(start) - c0
+        ang = np.unwrap(np.arctan2(rel @ e20, rel @ e10))
+        direction = 1.0 if ang[-1] > ang[0] else -1.0
+        prev = start
+        for i, (c, e1, e2, prof) in enumerate(rings):
+            w = min(1.0, (i + 1) / blend)
+            uni = uniform_arc_angles(prof, n, ang[0], direction)
+            phis = (1 - w) * ang + w * uni
+            ids = [self.add(c + prof(p) * (math.cos(p) * e1 + math.sin(p) * e2), region)
+                   for p in phis]
+            self.bridge(prev, ids)
+            prev = ids
+            ang = phis
+        return prev
+
+
+def uniform_arc_angles(prof, n, start, direction):
+    dense = np.linspace(0, 2 * math.pi, 721)
+    pts = np.array([[prof(a) * math.cos(a), prof(a) * math.sin(a)] for a in dense])
+    s = np.concatenate([[0.0], np.cumsum(np.linalg.norm(np.diff(pts, axis=0), axis=1))])
+    total = s[-1]
+    s0 = np.interp(start % (2 * math.pi), dense, s)
+    out = []
+    for k in range(n):
+        target = (s0 + direction * total * k / n) % total
+        out.append(np.interp(target, s, dense))
+    out = np.unwrap(np.array(out))
+    # keep the start angle's branch
+    out += start - out[0]
+    return out
+
+
+# --------------------------------------------------------------------------
+# Ring constructors (symmetric about x = 0)
+# --------------------------------------------------------------------------
+
+def ring32_from_half(control):
+    """control: (lx, f, z) front-centre -> back-centre for the left half.
+    Returns 32 points: 0 front centre, 1..15 left (x<0), 16 back, 17..31 right."""
+    half = sample_path([to_left(p) for p in control], 17)
+    half[0][0] = 0.0
+    half[16][0] = 0.0
+    ring = [half[i] for i in range(17)]
+    ring += [mirror(half[32 - i]) for i in range(17, 32)]
+    return ring
+
+
+def superellipse_half(z, W, front, back, fm=None, n=2.4, bumps=()):
+    """Torso half-profile control (lx, f, z) from front centre to back centre."""
+    if fm is None:
+        fm = 0.5 * (front + back)
+    df, db = front - fm, fm - back
+    pts = []
+    for t in np.linspace(0.0, math.pi, 25):
+        c, s = math.cos(t), math.sin(t)
+        lx = W * abs(s) ** (2 / n)
+        f = fm + (df if c >= 0 else db) * math.copysign(abs(c) ** (2 / n), c)
+        off = sum(a * math.exp(-((t - tc) / w) ** 2) for tc, w, a in bumps)
+        d = unit(np.array([lx, f - fm]))
+        pts.append((lx + d[0] * off, f + d[1] * off, z))
+    return pts
+
+
+def ring60(front_half, arm_path, back_half):
+    """Wide shoulder ring. front_half: centre->F (7 pts), arm_path: F->B (18),
+    back_half: B->back centre (8). All (lx, f, z) left side."""
+    fr = sample_path([to_left(p) for p in front_half], 7)
+    ar = sample_path([to_left(p) for p in arm_path], 18)
+    bk = sample_path([to_left(p) for p in back_half], 8)
+    fr[0][0] = 0.0
+    bk[-1][0] = 0.0
+    left = list(fr) + list(ar[1:-1]) + list(bk)  # a0..a30 (31 pts)
+    assert len(left) == 31
+    ring = left + [mirror(left[60 - i]) for i in range(31, 60)]
+    return ring
+
+
+# --------------------------------------------------------------------------
+# Anatomy (authored). Units metres; (lx, f, z) left side.
+# --------------------------------------------------------------------------
+
+# Torso rings below the axilla: z, half-breadth, front f, back f, exponent, bumps
+TORSO_LEVELS = [
+    # z,     W,     front,  back,   n,   bumps (t, width, amount)
+    (0.885, 0.164, 0.072, -0.130, 2.3, [(2.55, 0.35, 0.014)]),
+    (0.930, 0.172, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.016)]),
+    (0.980, 0.169, 0.098, -0.132, 2.4, [(2.60, 0.40, 0.011)]),
+    (1.030, 0.161, 0.110, -0.106, 2.4, [(math.pi, 0.25, -0.006)]),
+    (1.080, 0.150, 0.117, -0.086, 2.4, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)]),
+    (1.130, 0.143, 0.118, -0.082, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.006)]),
+    (1.180, 0.145, 0.118, -0.080, 2.3, [(math.pi, 0.22, -0.007), (2.75, 0.2, 0.004)]),
+    (1.230, 0.150, 0.128, -0.087, 2.3, [(math.pi, 0.22, -0.006), (1.95, 0.35, 0.004)]),
+    (1.280, 0.154, 0.139, -0.093, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.30, 0.005), (1.95, 0.35, 0.006)]),
+    (1.330, 0.156, 0.146, -0.097, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.32, 0.007), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007)]),
+    (1.370, 0.157, 0.149, -0.099, 2.3, [(math.pi, 0.22, -0.006), (0.55, 0.32, 0.007), (0.0, 0.12, -0.003), (1.95, 0.35, 0.007)]),
+]
+# How strongly each torso ring's vertex columns are steered toward the axilla
+# fold/chain columns of ring A (index-aligned with TORSO_LEVELS).
+TORSO_COLUMN_STEER = [0, 0, 0, 0, 0, 0, 0, 0.12, 0.30, 0.55, 0.80]
+
+# Shoulder rings (60 verts): front half centre->F, arm path F->B, back half B->centre.
+SHOULDER_RINGS = [
+    dict(  # A: axilla level — arm part matches the first arm ring below
+        front=[(0.0, 0.148, 1.400), (0.055, 0.154, 1.400), (0.108, 0.142, 1.402), (0.148, 0.100, 1.404), (0.163, 0.040, 1.400)],
+        arm=[(0.163, 0.040, 1.400), (0.186, 0.026, 1.400), (0.222, 0.025, 1.400), (0.258, 0.004, 1.400),
+             (0.273, -0.032, 1.400), (0.262, -0.070, 1.400), (0.226, -0.092, 1.400),
+             (0.190, -0.090, 1.400), (0.166, -0.080, 1.400)],
+        back=[(0.166, -0.080, 1.400), (0.150, -0.100, 1.402), (0.100, -0.108, 1.402), (0.045, -0.100, 1.400), (0.0, -0.094, 1.400)],
+    ),
+    dict(  # S1: humeral head level, deltoid wraps the joint
+        front=[(0.0, 0.142, 1.448), (0.055, 0.149, 1.448), (0.105, 0.132, 1.452), (0.138, 0.095, 1.458), (0.150, 0.058, 1.462)],
+        arm=[(0.150, 0.058, 1.462), (0.182, 0.050, 1.458), (0.225, 0.040, 1.452), (0.264, 0.012, 1.450),
+             (0.279, -0.030, 1.450), (0.268, -0.075, 1.452), (0.232, -0.102, 1.456),
+             (0.188, -0.108, 1.460), (0.152, -0.103, 1.464)],
+        back=[(0.152, -0.103, 1.464), (0.120, -0.114, 1.460), (0.075, -0.114, 1.455), (0.035, -0.104, 1.450), (0.0, -0.098, 1.448)],
+    ),
+    dict(  # S2: acromial level
+        front=[(0.0, 0.132, 1.494), (0.045, 0.136, 1.496), (0.085, 0.118, 1.500), (0.112, 0.094, 1.506), (0.125, 0.074, 1.510)],
+        arm=[(0.125, 0.074, 1.510), (0.170, 0.066, 1.504), (0.220, 0.048, 1.498), (0.258, 0.016, 1.495),
+             (0.273, -0.030, 1.495), (0.262, -0.076, 1.498), (0.226, -0.102, 1.503),
+             (0.172, -0.108, 1.509), (0.125, -0.104, 1.514)],
+        back=[(0.125, -0.104, 1.514), (0.090, -0.108, 1.510), (0.050, -0.104, 1.505), (0.020, -0.099, 1.501), (0.0, -0.097, 1.500)],
+    ),
+    dict(  # S3: top ring (clavicle / acromion / trapezius), rising toward the neck
+        front=[(0.0, 0.078, 1.520), (0.025, 0.076, 1.528), (0.045, 0.066, 1.540), (0.058, 0.052, 1.552), (0.064, 0.040, 1.560)],
+        arm=[(0.064, 0.040, 1.560), (0.110, 0.054, 1.538), (0.170, 0.050, 1.532), (0.222, 0.028, 1.530),
+             (0.252, -0.015, 1.522), (0.242, -0.066, 1.525), (0.200, -0.090, 1.537),
+             (0.135, -0.084, 1.556), (0.064, -0.054, 1.584)],
+        back=[(0.064, -0.054, 1.584), (0.048, -0.062, 1.586), (0.030, -0.067, 1.585), (0.014, -0.070, 1.583), (0.0, -0.071, 1.582)],
+    ),
+]
+AXILLA_CHAIN = [(0.178, 0.006, 1.416), (0.180, -0.048, 1.416)]          # F_l -> B_l
+NECK_SIDE_CHAIN = [(0.066, 0.016, 1.577), (0.066, -0.022, 1.586)]        # F_l -> B_l (top)
+SHOULDER_CAP_DOME = 0.006
+
+NECK_RINGS = [
+    [(0.0, 0.060, 1.583), (0.040, 0.050, 1.590), (0.060, 0.012, 1.602), (0.058, -0.030, 1.606), (0.030, -0.058, 1.607), (0.0, -0.063, 1.607)],
+    [(0.0, 0.062, 1.602), (0.040, 0.050, 1.607), (0.058, 0.010, 1.616), (0.056, -0.030, 1.621), (0.030, -0.061, 1.623), (0.0, -0.066, 1.623)],
+]
+
+HEAD_RINGS = [
+    # under-jaw ring (tilted: chin front lower)
+    [(0.0, 0.098, 1.598), (0.035, 0.088, 1.604), (0.058, 0.050, 1.622), (0.064, 0.005, 1.632), (0.052, -0.045, 1.635), (0.0, -0.068, 1.635)],
+    [(0.0, 0.110, 1.620), (0.030, 0.100, 1.625), (0.060, 0.060, 1.640), (0.068, 0.005, 1.650), (0.060, -0.055, 1.655), (0.0, -0.080, 1.655)],
+    [(0.0, 0.112, 1.648), (0.028, 0.104, 1.650), (0.062, 0.066, 1.660), (0.072, 0.000, 1.668), (0.064, -0.062, 1.672), (0.0, -0.092, 1.672)],
+    [(0.0, 0.128, 1.683), (0.016, 0.110, 1.683), (0.040, 0.092, 1.685), (0.068, 0.050, 1.688), (0.090, -0.005, 1.690), (0.066, -0.070, 1.692), (0.0, -0.099, 1.692)],
+    [(0.0, 0.106, 1.710), (0.018, 0.096, 1.710), (0.034, 0.082, 1.708), (0.058, 0.068, 1.710), (0.090, -0.005, 1.712), (0.068, -0.075, 1.714), (0.0, -0.102, 1.714)],
+    [(0.0, 0.100, 1.735), (0.036, 0.096, 1.736), (0.062, 0.066, 1.736), (0.076, -0.005, 1.738), (0.066, -0.078, 1.738), (0.0, -0.103, 1.738)],
+    [(0.0, 0.092, 1.766), (0.040, 0.084, 1.767), (0.066, 0.050, 1.768), (0.073, -0.010, 1.768), (0.062, -0.074, 1.768), (0.0, -0.098, 1.768)],
+    [(0.0, 0.070, 1.796), (0.034, 0.064, 1.797), (0.056, 0.035, 1.798), (0.062, -0.012, 1.798), (0.052, -0.062, 1.797), (0.0, -0.082, 1.796)],
+]
+CROWN_DOME = 0.032
+
+CROTCH_CHAIN = [(0.0, 0.040, 0.848), (0.0, -0.010, 0.836), (0.0, -0.065, 0.850)]  # front -> back
+
+# Limb profiles: angles from front (0) toward lateral (90), back 180, medial 270.
+def limb_prof(front, lateral, back, medial, extra=None):
+    spec = {0: front, 90: lateral, 180: back, 270: medial,
+            45: 0.5 * (front + lateral) * 1.02, 135: 0.5 * (lateral + back) * 1.02,
+            225: 0.5 * (back + medial) * 1.02, 315: 0.5 * (medial + front) * 1.02}
+    if extra:
+        spec.update(extra)
+    return periodic_profile(spec)
+
+
+# Arm rings: z, centre offset (dlx, df) from humerus/forearm line, radii (front, lateral, back, medial)
+ARM_LEVELS = [
+    (1.370, (0.004, 0.000), (0.053, 0.057, 0.059, 0.046)),
+    (1.330, (0.002, 0.003), (0.053, 0.053, 0.056, 0.045)),
+    (1.285, (0.000, 0.005), (0.054, 0.046, 0.051, 0.045)),
+    (1.240, (0.000, 0.005), (0.051, 0.043, 0.048, 0.044)),
+    (1.210, (0.000, 0.002), (0.043, 0.041, 0.043, 0.042)),
+    (1.190, (0.000, 0.000), (0.040, 0.042, 0.043, 0.044)),
+    (1.170, (0.001, 0.002), (0.042, 0.043, 0.040, 0.043)),
+    (1.140, (0.002, 0.004), (0.046, 0.043, 0.041, 0.041)),
+    (1.100, (0.001, 0.003), (0.045, 0.040, 0.040, 0.038)),
+    (1.050, (0.000, 0.002), (0.040, 0.034, 0.036, 0.032)),
+    (1.000, (0.000, 0.000), (0.035, 0.027, 0.031, 0.026)),
+    (0.960, (0.000, -0.001), (0.031, 0.022, 0.029, 0.021)),
+    (0.935, (0.000, -0.002), (0.030, 0.020, 0.028, 0.019)),
+]
+
+LEG_LEVELS = [
+    # z, centre (lx, f), radii (front, lateral, back, medial)
+    (0.800, (0.096, 0.004), (0.090, 0.093, 0.094, 0.078)),
+    (0.740, (0.096, 0.009), (0.090, 0.087, 0.086, 0.074)),
+    (0.680, (0.095, 0.011), (0.085, 0.080, 0.078, 0.069)),
+    (0.620, (0.094, 0.011), (0.077, 0.071, 0.070, 0.066)),
+    (0.570, (0.093, 0.009), (0.067, 0.061, 0.061, 0.064)),
+    (0.540, (0.092, 0.007), (0.061, 0.055, 0.056, 0.059)),
+    (0.515, (0.092, 0.006), (0.059, 0.053, 0.052, 0.056)),
+    (0.490, (0.092, 0.004), (0.054, 0.052, 0.055, 0.054)),
+    (0.455, (0.092, -0.001), (0.047, 0.053, 0.063, 0.056)),
+    (0.400, (0.092, -0.006), (0.042, 0.056, 0.073, 0.061)),
+    (0.340, (0.092, -0.006), (0.040, 0.052, 0.068, 0.056)),
+    (0.270, (0.092, -0.004), (0.036, 0.044, 0.054, 0.045)),
+    (0.200, (0.092, -0.003), (0.032, 0.036, 0.040, 0.035)),
+    (0.140, (0.092, -0.004), (0.029, 0.032, 0.032, 0.031)),
+]
+
+# Foot: fan rings about the dorsal ankle crease, then forward sections.
+FOOT_PIVOT = (0.092, 0.040, 0.092)          # lx, f, z
+FOOT_FAN = [
+    # theta_deg, centre distance from pivot along -e1, half-length (e1), half-width, lateral shift
+    (0.0, 0.040, 0.036, 0.036, 0.000),
+    (25.0, 0.048, 0.044, 0.038, 0.000),
+    (50.0, 0.055, 0.050, 0.040, 0.001),
+    (72.0, 0.052, 0.047, 0.042, 0.002),
+    (90.0, 0.046, 0.042, 0.043, 0.002),
+]
+FOOT_SECTIONS = [
+    # f, centre (lx, z), top, bottom, lateral, medial
+    (0.080, (0.094, 0.036), 0.036, 0.036, 0.045, 0.043),
+    (0.120, (0.095, 0.029), 0.028, 0.029, 0.048, 0.046),
+    (0.160, (0.095, 0.023), 0.022, 0.023, 0.051, 0.048),
+    (0.190, (0.094, 0.019), 0.018, 0.019, 0.050, 0.048),
+    (0.220, (0.093, 0.016), 0.015, 0.016, 0.047, 0.046),
+    (0.245, (0.092, 0.014), 0.013, 0.014, 0.043, 0.043),
+]
+TOE_CAP_DOME = 0.016
+
+
+# --------------------------------------------------------------------------
+# Hand (authored in palm frame: a = along +f, d = dorsal = lateral offset)
+# --------------------------------------------------------------------------
+
+def hand_point(lx0, a, d, z):
+    return (lx0 + d, a, z)
+
+
+def palm_ring(lx0, z, radial, ulnar, dorsal, palmar, zd=0.0, zp=0.0, thenar=0.0, hypo=0.0):
+    """20-vertex palm contour in P4 index convention:
+    0 radial, 1..9 dorsal radial->ulnar, 10 ulnar, 11..19 palmar ulnar->radial."""
+    pts = [hand_point(lx0, radial, 0.0, z)]
+    for k in range(9):
+        a = radial - 0.004 - (radial - ulnar - 0.008) * k / 8
+        pts.append(hand_point(lx0, a, dorsal * (1 - 0.35 * abs(k - 4) / 4 ** 1.0 * 0.4), z + zd))
+    pts.append(hand_point(lx0, ulnar, 0.0, z))
+    for k in range(9):
+        a = ulnar + 0.004 + (radial - ulnar - 0.008) * k / 8
+        bulge = hypo * math.exp(-((k - 1.5) / 1.5) ** 2) + thenar * math.exp(-((k - 7.5) / 1.3) ** 2)
+        pts.append(hand_point(lx0, a, -(palmar + bulge), z + zp))
+    return pts
+
+
+FINGERS = ("index", "middle", "ring", "pinky")
+FINGER_SIZE = {  # half-width (f), dorsal thickness, palmar thickness at base; tip scale
+    "index": (0.0098, 0.0080, 0.0095, 0.80),
+    "middle": (0.0100, 0.0082, 0.0098, 0.80),
+    "ring": (0.0094, 0.0078, 0.0092, 0.80),
+    "pinky": (0.0082, 0.0070, 0.0082, 0.80),
+}
+
+
+# --------------------------------------------------------------------------
+# Build
+# --------------------------------------------------------------------------
+
+def steer_ring(ring, targets, weight):
+    """Slide ring vertices along their own closed contour toward the angular
+    positions of `targets` (same index order), keeping the ring's shape/height."""
+    if weight <= 0:
+        return ring
+    R = np.array(ring)
+    dense = centripetal_cr(list(R), closed=True, samples=24)
+    centre = np.array([0.0, dense[:, 1].mean()])
+    d_ang = np.unwrap(np.arctan2(dense[:, 0] - centre[0], dense[:, 1] - centre[1]))
+    out = []
+    for p, t in zip(R, np.array(targets)):
+        theta = math.atan2(t[0] - centre[0], t[1] - centre[1])
+        # nearest dense sample by angle (dense angles are monotonic around the ring)
+        diff = np.abs((d_ang - theta + math.pi) % (2 * math.pi) - math.pi)
+        q = dense[int(np.argmin(diff))]
+        s = (1 - weight) * p + weight * np.array([q[0], q[1], p[2]])
+        out.append(s)
+    out[0][0] = 0.0
+    out[16][0] = 0.0
+    for i in range(17, 32):  # exact mirror of the left half
+        out[i] = mirror(out[32 - i])
+    return out
+
+
+def build_cage(bones):
+    B = Builder()
+
+    # ---- shoulder rings (60) and the axilla split ----
+    sh = [B.add_many(ring60(r["front"], r["arm"], r["back"]), "shoulder") for r in SHOULDER_RINGS]
+    for a, b in zip(sh, sh[1:]):
+        B.bridge(a, b)
+    A = sh[0]
+    cl = B.add_many([to_left(p) for p in AXILLA_CHAIN], "shoulder")
+    cr = B.add_many([mirror(to_left(p)) for p in reversed(AXILLA_CHAIN)], "shoulder")  # B_r -> F_r
+    torso_top = [A[0]] + A[1:6] + [A[6], cl[0], cl[1], A[23]] + A[24:30] + [A[30]] + A[31:37] + [A[37], cr[0], cr[1], A[54]] + A[55:60]
+    assert len(torso_top) == 32
+
+    # ---- torso below axilla (32-rings), columns steered into the axilla folds ----
+    top_pts = B.pos(torso_top)
+    torso_rings = []
+    for (z, W, front, back, n, bumps), steer in zip(TORSO_LEVELS, TORSO_COLUMN_STEER):
+        ring = ring32_from_half(superellipse_half(z, W, front, back, n=n, bumps=bumps))
+        ring = steer_ring(ring, top_pts, steer)
+        torso_rings.append(B.add_many(ring, "torso"))
+    for a, b in zip(torso_rings, torso_rings[1:]):
+        B.bridge(a, b)
+    B.bridge(torso_rings[-1], torso_top)
+    arm_loop_l = [A[6]] + A[7:23] + [A[23], cl[1], cl[0]]
+    arm_loop_r = [A[37]] + A[38:54] + [A[54], cr[1], cr[0]]
+
+    # ---- neck base split + shoulder caps ----
+    S3 = sh[-1]
+    nl = B.add_many([to_left(p) for p in NECK_SIDE_CHAIN], "shoulder")
+    nr = B.add_many([mirror(to_left(p)) for p in reversed(NECK_SIDE_CHAIN)], "shoulder")
+    neck_loop = [S3[0]] + S3[1:6] + [S3[6], nl[0], nl[1], S3[23]] + S3[24:30] + [S3[30]] + S3[31:37] + [S3[37], nr[0], nr[1], S3[54]] + S3[55:60]
+    cap_l = [S3[6]] + S3[7:23] + [S3[23], nl[1], nl[0]]
+    cap_r = [S3[37]] + S3[38:54] + [S3[54], nr[1], nr[0]]
+    B.cap(cap_l, a=3, b=7, dome=SHOULDER_CAP_DOME, dome_dir=UP, start=0, region="shoulder")
+    B.cap(cap_r, a=3, b=7, dome=SHOULDER_CAP_DOME, dome_dir=UP, start=0, region="shoulder")
+
+    # ---- neck and head (32) ----
+    prev = neck_loop
+    for control in NECK_RINGS:
+        ids = B.add_many(ring32_from_half(control), "neck")
+        B.bridge(prev, ids)
+        prev = ids
+    for control in HEAD_RINGS:
+        ids = B.add_many(ring32_from_half(control), "head")
+        B.bridge(prev, ids)
+        prev = ids
+    B.cap(prev, a=8, b=8, dome=CROWN_DOME, dome_dir=UP, start=28, region="head")
+
+    # ---- crotch split ----
+    T0 = torso_rings[0]
+    cc = B.add_many([to_left(p) for p in CROTCH_CHAIN], "pelvis")  # front -> back
+    leg_loop_l = T0[0:17] + [cc[2], cc[1], cc[0]]
+
+    # ---- left limbs, then exact mirror for the right side ----
+    centre_count = len(B.v)
+    centre_faces = len(B.f)
+    build_leg(B, bones, -1, leg_loop_l)
+    build_arm(B, bones, -1, arm_loop_l)
+    mirror_left_limbs(B, centre_count, centre_faces)
+    del arm_loop_r
+    return B
+
+
+def mirror_left_limbs(B, centre_count, centre_faces):
+    """Duplicate every vertex/face created for the left limbs as an exact
+    mirror; junction vertices map to their mirror partners in the centre."""
+    key = lambda p: (round(p[0] * 1e7), round(p[1] * 1e7), round(p[2] * 1e7))
+    centre_lookup = {key(B.v[i]): i for i in range(centre_count)}
+    mapping = {}
+    for i in range(centre_count):
+        partner = centre_lookup.get(key(mirror(B.v[i])))
+        if partner is not None:
+            mapping[i] = partner
+    left_count = len(B.v)
+    vreg = {}
+    for name, ids in B.regions.items():
+        for i in ids:
+            vreg[i] = name
+    for i in range(centre_count, left_count):
+        mapping[i] = B.add(mirror(B.v[i]), vreg.get(i))
+    for f in list(B.f[centre_faces:]):
+        B.f.append(tuple(mapping[i] for i in reversed(f)))
+
+
+def sidep(side, p):
+    """(lx, f, z) -> internal point on the given side (side=-1 left/-X, +1 right)."""
+    return np.array([side * p[0], p[1], p[2]], float)
+
+
+def build_leg(B, bones, side, loop):
+    lateral = np.array([float(side), 0.0, 0.0])
+    rings = []
+    for z, (lx, f), (rf, rl, rb, rm) in LEG_LEVELS:
+        rings.append((sidep(side, (lx, f, z)), FWD, lateral, limb_prof(rf, rl, rb, rm)))
+    last = B.loft(loop, rings, region="leg")
+    # foot fan about the dorsal ankle crease
+    px, pf, pz = FOOT_PIVOT
+    fan = []
+    for theta, vc, half_len, half_w, shift in FOOT_FAN:
+        t = math.radians(theta)
+        e1 = np.array([0.0, math.cos(t), math.sin(t)])
+        centre = sidep(side, (px + shift, pf, pz)) - e1 * vc
+        heel = 1.0 + 0.25 * math.sin(t * 2) if theta < 90 else 1.0
+        prof = periodic_profile({0: half_len * 0.55, 45: half_len * 0.75, 90: half_w, 135: half_len * heel * 0.95,
+                                 180: half_len * heel, 225: half_len * heel * 0.95, 270: half_w * 0.97,
+                                 315: half_len * 0.75})
+        fan.append((centre, e1, lateral, prof))
+    last = B.loft(last, fan, blend=2, region="foot")
+    secs = []
+    for f, (lx, zc), top, bottom, lat_r, med_r in FOOT_SECTIONS:
+        prof = periodic_profile({0: top, 45: 0.5 * (top + lat_r) * 1.05, 90: lat_r,
+                                 135: 0.5 * (bottom + lat_r) * 1.08, 180: bottom,
+                                 225: 0.5 * (bottom + med_r) * 1.08, 270: med_r,
+                                 315: 0.5 * (top + med_r) * 1.05})
+        secs.append((sidep(side, (lx, f, zc)), UP, lateral, prof))
+    last = B.loft(last, secs, blend=2, region="foot")
+    B.cap(last, a=4, b=6, dome=TOE_CAP_DOME, dome_dir=FWD, start=17, region="foot")
+
+
+def bone_frame(head, tail, ref):
+    t = unit(tail - head)
+    e1 = unit(ref - np.dot(ref, t) * t)
+    e2 = np.cross(t, e1)
+    return t, e1, e2
+
+
+def build_arm(B, bones, side, loop):
+    lateral = np.array([float(side), 0.0, 0.0])
+    sh = lat(bones, "upperarm_l")
+    rings = []
+    for z, (dlx, df), (rf, rl, rb, rm) in ARM_LEVELS:
+        centre = sidep(side, (sh[0] + dlx, sh[1] + df, z))
+        rings.append((centre, FWD, lateral, limb_prof(rf, rl, rb, rm)))
+    last = B.loft(loop, rings, region="arm")
+    build_hand(B, bones, side, last)
+
+
+def build_hand(B, bones, side, wrist_loop):
+    hand = lat(bones, "hand_l")
+    lx0 = hand[0]
+    lateral = np.array([float(side), 0.0, 0.0])
+    # Wrist ring at the joint, then P1 (thumb split) authored explicitly.
+    wrist = palm_ring(lx0 + 0.001, 0.918, 0.021, -0.078, 0.019, 0.019)
+    wrist_ids = B.add_many([sidep(side, p) for p in wrist], "hand")
+    B.bridge_aligned(wrist_loop, wrist_ids)
+    p0 = palm_ring(lx0 + 0.001, 0.902, 0.022, -0.080, 0.016, 0.020, thenar=0.004, hypo=0.002)
+    p0_ids = B.add_many([sidep(side, p) for p in p0], "hand")
+    B.bridge(wrist_ids, p0_ids)
+    p1 = palm_ring(lx0 + 0.001, 0.884, 0.026, -0.080, 0.014, 0.020, thenar=0.009, hypo=0.004)
+    p1_ids = B.add_many([sidep(side, p) for p in p1], "hand")
+    B.bridge(p0_ids, p1_ids)
+    # thumb web chain from dorsal-radial p1[1] to palmar-radial p1[17]
+    web = [(lx0 + 0.009, 0.029, 0.874), (lx0 + 0.000, 0.034, 0.868), (lx0 - 0.011, 0.030, 0.873)]
+    t_ids = B.add_many([sidep(side, p) for p in web], "hand")
+    thumb_loop = [p1_ids[17], p1_ids[18], p1_ids[19], p1_ids[0], p1_ids[1]] + t_ids
+    palm_loop = p1_ids[1:18] + [t_ids[2], t_ids[1], t_ids[0]]
+    # palm rings to the knuckles
+    p2 = palm_ring(lx0 + 0.001, 0.862, 0.024, -0.080, 0.013, 0.018, hypo=0.005)
+    p2_ids = B.add_many([sidep(side, p) for p in p2], "hand")
+    p2_ids = B.bridge_aligned(palm_loop, p2_ids)
+    p3 = palm_ring(lx0 + 0.001, 0.849, 0.023, -0.079, 0.013, 0.016, hypo=0.004)
+    p3_raw = B.add_many([sidep(side, p) for p in p3], "hand")
+    # p2 was re-indexed for alignment; keep p3 in the same order as p2 by alignment
+    p3_ids = B.bridge_aligned(p2_ids, p3_raw)
+    # P4 finger split ring (explicit convention) + web chains
+    fcent = {name: lat(bones, f"{name}_01_l") for name in FINGERS}
+    a_mid = [fcent[n][1] for n in FINGERS]
+    webs_a = [0.5 * (a_mid[i] + a_mid[i + 1]) for i in range(3)]
+    radial_a = a_mid[0] + 0.012
+    ulnar_a = a_mid[3] - 0.011
+    dz, pz = 0.840, 0.829
+    D = []
+    stations = [radial_a - 0.002, a_mid[0], webs_a[0], a_mid[1], webs_a[1], a_mid[2], webs_a[2], a_mid[3], ulnar_a + 0.002]
+    for k, a in enumerate(stations):
+        knuckle = 0.004 if k % 2 == 1 else 0.0
+        D.append(hand_point(lx0, a, 0.0105 + knuckle, dz + (0.002 if k % 2 == 1 else -0.001)))
+    P = []
+    for k, a in enumerate(stations):
+        pad = 0.003 if k % 2 == 1 else 0.0
+        P.append(hand_point(lx0, a, -(0.0145 + pad), pz))
+    ring4 = [hand_point(lx0, radial_a + 0.002, -0.002, 0.834)] + D + [hand_point(lx0, ulnar_a - 0.002, -0.002, 0.834)] + list(reversed(P))
+    p4_raw = B.add_many([sidep(side, p) for p in ring4], "hand")
+    # align p3 to p4 convention (p4 order is authoritative for the finger split)
+    A3 = B.pos(p3_ids)
+    A4 = B.pos(p4_raw)
+    best = None
+    for direction in (1, -1):
+        for off in range(20):
+            idx = [(off + direction * k) % 20 for k in range(20)]
+            cost = float(np.sum(np.linalg.norm(A3[idx] - A4, axis=1)))
+            if best is None or cost < best[0]:
+                best = (cost, [p3_ids[i] for i in idx])
+    B.bridge(best[1], p4_raw)
+    R, Dv, U, Pv = p4_raw[0], p4_raw[1:10], p4_raw[10], list(reversed(p4_raw[11:20]))
+    web_ids = []
+    for i, a in enumerate(webs_a):
+        web_ids.append(B.add(sidep(side, hand_point(lx0, a, -0.001, 0.818)), "hand"))
+    W2, W4, W6 = web_ids
+    finger_loops = {
+        "index": [R, Dv[0], Dv[1], Dv[2], W2, Pv[2], Pv[1], Pv[0]],
+        "middle": [Dv[2], Dv[3], Dv[4], W4, Pv[4], Pv[3], Pv[2], W2],
+        "ring": [Dv[4], Dv[5], Dv[6], W6, Pv[6], Pv[5], Pv[4], W4],
+        "pinky": [Dv[6], Dv[7], Dv[8], U, Pv[8], Pv[7], Pv[6], W6],
+    }
+    for name in FINGERS:
+        build_finger(B, bones, side, name, finger_loops[name])
+    build_thumb(B, bones, side, thumb_loop)
+
+
+def finger_prof(half_w, dors, palm, knuckle=0.0):
+    return periodic_profile({0: half_w, 60: 0.5 * (half_w + dors) * 1.04 + knuckle * 0.3,
+                             90: dors + knuckle, 120: 0.5 * (half_w + dors) * 1.04 + knuckle * 0.3,
+                             180: half_w, 240: 0.5 * (half_w + palm) * 1.06, 270: palm,
+                             300: 0.5 * (half_w + palm) * 1.06})
+
+
+def chain_stations(bones, names, fractions):
+    """Points along a chain of bones; fractions are (bone_index, t)."""
+    out = []
+    for bi, t in fractions:
+        h = lat(bones, names[bi], "head")
+        tl = lat(bones, names[bi], "tail")
+        out.append((h + (tl - h) * t, unit(tl - h)))
+    return out
+
+
+def build_finger(B, bones, side, name, loop):
+    names = [f"{name}_01_l", f"{name}_02_l", f"{name}_03_l"]
+    hw, dors, palm, tip = FINGER_SIZE[name]
+    stations = [
+        (0, 0.30, 1.00, 0.0), (0, 0.62, 0.97, 0.0), (0, 0.86, 0.95, 0.0015),
+        (1, 0.00, 0.95, 0.0022), (1, 0.14, 0.93, 0.0012), (1, 0.50, 0.90, 0.0),
+        (1, 0.82, 0.88, 0.0008), (2, 0.00, 0.87, 0.0014), (2, 0.18, 0.85, 0.0006),
+        (2, 0.55, tip, 0.0),
+    ]
+    rings = []
+    for bi, t, scale, knuckle in stations:
+        (c, tan), = chain_stations(bones, names, [(bi, t)])
+        c = np.array([side * c[0], c[1], c[2]])
+        tan = np.array([side * tan[0], tan[1], tan[2]])
+        e1 = unit(FWD - np.dot(FWD, tan) * tan)
+        e2 = np.cross(tan, e1)
+        if np.dot(e2, np.array([float(side), 0, 0])) < 0:
+            e2 = -e2
+        rings.append((c, e1, e2, finger_prof(hw * scale, dors * scale, palm * scale, knuckle)))
+    last = B.loft(loop, rings, blend=2, region="finger")
+    tip_dir = rings[-1][0] - rings[-2][0]
+    B.cap(last, a=2, b=2, dome=0.0075, dome_dir=tip_dir, start=0, region="finger")
+
+
+def build_thumb(B, bones, side, loop):
+    names = ["thumb_01_l", "thumb_02_l", "thumb_03_l"]
+    stations = [
+        (0, 0.35, (0.0175, 0.0150, 0.0175, 0.0200)),
+        (0, 0.65, (0.0150, 0.0130, 0.0150, 0.0160)),
+        (0, 0.90, (0.0122, 0.0112, 0.0122, 0.0122)),
+        (1, 0.05, (0.0118, 0.0110, 0.0118, 0.0112)),
+        (1, 0.20, (0.0112, 0.0102, 0.0112, 0.0110)),
+        (1, 0.60, (0.0105, 0.0095, 0.0105, 0.0105)),
+        (1, 0.92, (0.0100, 0.0092, 0.0100, 0.0098)),
+        (2, 0.10, (0.0100, 0.0090, 0.0100, 0.0098)),
+        (2, 0.50, (0.0092, 0.0080, 0.0092, 0.0090)),
+    ]
+    rings = []
+    for bi, t, (r0, r90, r180, r270) in stations:
+        (c, tan), = chain_stations(bones, names, [(bi, t)])
+        c = np.array([side * c[0], c[1], c[2]])
+        tan = np.array([side * tan[0], tan[1], tan[2]])
+        ref = np.array([float(side), 0.0, 0.0])  # nail side ~ dorsal/lateral
+        e1 = unit(ref - np.dot(ref, tan) * tan)
+        e2 = np.cross(tan, e1)
+        rings.append((c, e1, e2, periodic_profile({0: r0, 90: r90, 180: r180, 270: r270,
+                                                     45: 0.5 * (r0 + r90) * 1.03, 135: 0.5 * (r90 + r180) * 1.03,
+                                                     225: 0.5 * (r180 + r270) * 1.05, 315: 0.5 * (r270 + r0) * 1.03})))
+    last = B.loft(loop, rings, blend=2, region="thumb")
+    tip_dir = rings[-1][0] - rings[-2][0]
+    B.cap(last, a=2, b=2, dome=0.0085, dome_dir=tip_dir, start=0, region="thumb")
+
+
+# --------------------------------------------------------------------------
+# Catmull-Clark (plain Python, closed manifold quad meshes)
+# --------------------------------------------------------------------------
+
+def catmull_clark(V, F, regions=None):
+    V = np.asarray(V, float)
+    nv = len(V)
+    fp = np.array([V[list(f)].mean(axis=0) for f in F])
+    edge_faces: dict[tuple[int, int], list[int]] = {}
+    for fi, f in enumerate(F):
+        for a, b in zip(f, f[1:] + f[:1]):
+            edge_faces.setdefault((min(a, b), max(a, b)), []).append(fi)
+    edges = list(edge_faces)
+    eindex = {e: i for i, e in enumerate(edges)}
+    ep = np.zeros((len(edges), 3))
+    for i, (a, b) in enumerate(edges):
+        fs = edge_faces[(a, b)]
+        if len(fs) != 2:
+            raise ValueError(f"Non-manifold edge {(a, b)} with {len(fs)} faces")
+        ep[i] = (V[a] + V[b] + fp[fs[0]] + fp[fs[1]]) / 4
+    vf = [[] for _ in range(nv)]
+    ve = [[] for _ in range(nv)]
+    for fi, f in enumerate(F):
+        for a in f:
+            vf[a].append(fi)
+    for (a, b) in edges:
+        ve[a].append((a, b))
+        ve[b].append((a, b))
+    newV = np.zeros((nv, 3))
+    for i in range(nv):
+        n = len(vf[i])
+        Fa = fp[vf[i]].mean(axis=0)
+        Ra = np.mean([(V[a] + V[b]) / 2 for a, b in ve[i]], axis=0)
+        newV[i] = (Fa + 2 * Ra + (n - 3) * V[i]) / n
+    out_v = np.concatenate([newV, ep, fp])
+    e_off, f_off = nv, nv + len(edges)
+    out_f = []
+    for fi, f in enumerate(F):
+        k = len(f)
+        for j in range(k):
+            a, b, prev = f[j], f[(j + 1) % k], f[j - 1]
+            out_f.append((a, e_off + eindex[(min(a, b), max(a, b))], f_off + fi,
+                          e_off + eindex[(min(prev, a), max(prev, a))]))
+    new_regions = None
+    if regions is not None:
+        new_regions = {}
+        vreg = {}
+        for name, ids in regions.items():
+            for i in ids:
+                vreg[i] = name
+        for name, ids in regions.items():
+            s = set(ids)
+            for i, (a, b) in enumerate(edges):
+                if vreg.get(a) == name or vreg.get(b) == name:
+                    s.add(e_off + i)
+            for fi, f in enumerate(F):
+                if any(vreg.get(x) == name for x in f):
+                    s.add(f_off + fi)
+            new_regions[name] = s
+    return out_v, out_f, new_regions
+
+
+# --------------------------------------------------------------------------
+# Finishing: exact height, grounded soles, exact symmetry
+# --------------------------------------------------------------------------
+
+def smoothstep(x):
+    x = np.clip(x, 0.0, 1.0)
+    return x * x * (3 - 2 * x)
+
+
+def finish(V):
+    V = np.array(V, float)
+    z = V[:, 2]
+    zmin = z.min()
+    lo = 0.25
+    V[:, 2] -= zmin * (1 - smoothstep((z - zmin) / (lo - zmin)))
+    z = V[:, 2]
+    zmax = z.max()
+    hi = 1.60
+    V[:, 2] += (TARGET_HEIGHT - zmax) * smoothstep((z - hi) / (zmax - hi))
+    V[np.abs(V[:, 2]) < 1e-9, 2] = 0.0
+    # ground the plantar surface of heel/ball/toes
+    V[V[:, 2] < 0.0025, 2] = 0.0
+    return V
+
+
+def enforce_symmetry(V, tol=1e-6):
+    """Average each vertex with its mirror partner (construction is symmetric;
+    this removes floating-point drift). Midline vertices get x = 0."""
+    V = np.array(V, float)
+    keys = {}
+    for i, p in enumerate(V):
+        keys.setdefault((round(p[0] / tol), round(p[1] / tol), round(p[2] / tol)), []).append(i)
+    for i, p in enumerate(V):
+        if abs(p[0]) < tol:
+            V[i, 0] = 0.0
+    return V
+
+
+def orient_faces(V, F):
+    """Make winding consistent across the closed surface, then outward."""
+    V = np.asarray(V, float)
+    F = [list(f) for f in F]
+    edge_faces = {}
+    for fi, f in enumerate(F):
+        for a, b in zip(f, f[1:] + f[:1]):
+            edge_faces.setdefault((min(a, b), max(a, b)), []).append(fi)
+    seen = [False] * len(F)
+    for seed in range(len(F)):
+        if seen[seed]:
+            continue
+        seen[seed] = True
+        stack = [seed]
+        while stack:
+            fi = stack.pop()
+            f = F[fi]
+            directed = set(zip(f, f[1:] + f[:1]))
+            for a, b in directed:
+                for gj in edge_faces[(min(a, b), max(a, b))]:
+                    if gj == fi or seen[gj]:
+                        continue
+                    g = F[gj]
+                    if (a, b) in set(zip(g, g[1:] + g[:1])):
+                        F[gj] = list(reversed(g))
+                    seen[gj] = True
+                    stack.append(gj)
+    # signed volume: positive when faces point outward
+    vol = 0.0
+    for f in F:
+        p0 = V[f[0]]
+        for i in range(1, len(f) - 1):
+            vol += np.dot(p0, np.cross(V[f[i]], V[f[i + 1]])) / 6
+    if vol < 0:
+        F = [list(reversed(f)) for f in F]
+    return [tuple(f) for f in F]
+
+
+def to_blender(V):
+    V = np.asarray(V, float)
+    return np.stack([V[:, 0], -V[:, 1], V[:, 2]], axis=1)
+
+
+def build(rig_path: Path = RIG_PAYLOAD, subdivide: bool = True):
+    bones = load_rig(rig_path)
+    B = build_cage(bones)
+    V, F, regions = np.array(B.v), [tuple(f) for f in B.f], B.regions
+    cage = {"vertices": len(V), "faces": len(F)}
+    if subdivide:
+        V, F, regions = catmull_clark(V, F, regions)
+    V = enforce_symmetry(finish(V))
+    Vb = to_blender(V)
+    F = orient_faces(Vb, F)
+    return {
+        "vertices": Vb,
+        "faces": F,
+        "regions": {k: sorted(v) for k, v in (regions or {}).items()},
+        "cage": cage,
+        "generator_version": GENERATOR_VERSION,
+        "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "rig_payload_sha256": hashlib.sha256(Path(rig_path).read_bytes()).hexdigest(),
+    }
+
+
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from original_o2_mesh_checks import inspect_mesh
+    result = build()
+    V = result["vertices"]
+    report = inspect_mesh([tuple(p) for p in V], [tuple(f) for f in result["faces"]])
+    report["cage"] = result["cage"]
+    print(json.dumps(report, indent=2))

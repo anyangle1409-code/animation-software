@@ -327,7 +327,7 @@ export class HgSkeleton {
 }
 
 export class HgMesh extends HgObject3D {
-  override readonly type = 'Mesh';
+  override readonly type: string = 'Mesh';
   castShadow = false;
   receiveShadow = false;
 

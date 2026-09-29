@@ -42,7 +42,7 @@ if(!fs.existsSync(SRC)){
 
 const usage=Object.fromEntries(TARGETS.map(target=>[target,[]]));
 
-const fromImport=/\bimport\s+([^;\n]*?)\s+from\s+["']([^"']+)["']/g;
+const fromImport=/^\s*import\s+(?!["'(])([^;]*?)\s+from\s+["']([^"']+)["']/gm;
 const bareImport=/\bimport\s+["']([^"']+)["']/g;
 const dynamicImport=/\bimport\s*\(\s*["']([^"']+)["']\s*\)/g;
 

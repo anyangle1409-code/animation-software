@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
 import { toDeg } from '../core/math';
@@ -6,10 +6,10 @@ import { boneLabel } from '../rig/boneNames';
 import { resolvePoint } from './points';
 import type { ReferenceDirection, RuleViolation, TechniqueRule } from './types';
 
-const REFERENCE_VECTORS: Record<ReferenceDirection, Vector3> = {
-  vertical: new Vector3(0, 1, 0),
-  forward: new Vector3(0, 0, 1),
-  lateral: new Vector3(1, 0, 0),
+const REFERENCE_VECTORS: Record<ReferenceDirection, HgVec3> = {
+  vertical: new HgVec3(0, 1, 0),
+  forward: new HgVec3(0, 0, 1),
+  lateral: new HgVec3(1, 0, 0),
 };
 
 export interface RuleContext {
@@ -21,9 +21,9 @@ export interface RuleContext {
   reference?: PoseEvaluation;
 }
 
-const scratchA = new Vector3();
-const scratchB = new Vector3();
-const scratchC = new Vector3();
+const scratchA = new HgVec3();
+const scratchB = new HgVec3();
+const scratchC = new HgVec3();
 
 /**
  * Check one frame against a set of technique rules.
@@ -75,8 +75,8 @@ function evaluateRule(
     }
     case 'segmentAngle': {
       const bone = evaluation.skeleton.bone(rule.bone);
-      evaluation.head(rule.bone, scratchA);
-      evaluation.tail(rule.bone, scratchB);
+      evaluation.firstPartyEvaluation.head(rule.bone, scratchA);
+      evaluation.firstPartyEvaluation.tail(rule.bone, scratchB);
       scratchC.subVectors(scratchB, scratchA).normalize();
       const reference = REFERENCE_VECTORS[rule.reference];
       // The acute angle to the axis: a shin pointing down is 0° from vertical,
@@ -144,7 +144,7 @@ function evaluateRule(
       const line = scratchC.clone().sub(scratchA);
       const length = line.length();
       if (length < 1e-6) return null;
-      line.divideScalar(length);
+      line.multiplyScalar(1 / length);
       const offset = scratchB.clone().sub(scratchA);
       const deviation = offset.addScaledVector(line, -offset.dot(line)).length();
       if (deviation <= rule.tolerance) return null;

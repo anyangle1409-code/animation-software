@@ -8,7 +8,6 @@
  */
 import {
   Bone,
-  Box3,
   BufferAttribute,
   BufferGeometry,
   ClampToEdgeWrapping,
@@ -40,7 +39,6 @@ import {
 
 export {
   Bone,
-  Box3,
   BufferAttribute,
   BufferGeometry,
   ClampToEdgeWrapping,

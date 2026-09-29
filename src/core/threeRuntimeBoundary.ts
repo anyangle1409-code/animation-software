@@ -8,7 +8,6 @@
 import {
   ACESFilmicToneMapping,
   Bone,
-  Box3,
   BoxGeometry,
   BufferAttribute,
   BufferGeometry,
@@ -62,7 +61,6 @@ import {
 export {
   ACESFilmicToneMapping,
   Bone,
-  Box3,
   BoxGeometry,
   BufferAttribute,
   BufferGeometry,

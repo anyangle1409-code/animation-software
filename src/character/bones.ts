@@ -1,5 +1,4 @@
 import {
-  Box3,
   Bone,
   BufferAttribute,
   BufferGeometry,
@@ -16,6 +15,7 @@ import {
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
+import { measureSceneHeight } from './sceneBounds';
 
 export type CharacterBone = Bone;
 export type CharacterBufferAttribute = BufferAttribute;
@@ -112,8 +112,7 @@ export function createCharacterVector3(
 }
 
 export function measureCharacterObjectHeight(object: CharacterObject3D): number {
-  const box = new Box3().setFromObject(object);
-  return Math.max(0.5, box.max.y - box.min.y);
+  return measureSceneHeight(object);
 }
 export type CharacterThreeSkeleton = ThreeSkeleton;
 

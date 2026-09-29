@@ -1,6 +1,5 @@
 import {
   Bone,
-  Box3,
   BufferAttribute,
   BufferGeometry,
   ClampToEdgeWrapping,
@@ -25,6 +24,7 @@ import {
   Texture,
 } from './threeSceneBoundary';
 import { parseHgGlb } from '../core/glbContainer';
+import { measureSceneHeight } from './sceneBounds';
 import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {
   readHgGltfScene,
@@ -296,8 +296,7 @@ function inverseMatrices(
 
 /** Measure a materialized imported scene at the remaining Three compatibility boundary. */
 export function measureHgThreeSceneHeight(scene: Object3D): number {
-  const box = new Box3().setFromObject(scene);
-  return Math.max(0.5, box.max.y - box.min.y);
+  return measureSceneHeight(scene);
 }
 
 /**

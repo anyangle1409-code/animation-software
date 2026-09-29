@@ -16,6 +16,6 @@ describe('retarget first-party math boundary', () => {
     const character = source('../character/retargetSource.ts');
     expect(character).toContain("from '../core/linearMath'");
     expect(character).not.toMatch(/createCharacter(?:Quaternion|Vector3)/);
-    expect(character).toContain('copyCharacterMatrix(scratch.output, target)');
+    expect(character).toContain('copyCharacterMatrix(frame, target)');
   });
 });

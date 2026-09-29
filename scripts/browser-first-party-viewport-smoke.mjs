@@ -229,6 +229,8 @@ try {
       },
       frameCount: Number(canvas.dataset.hgptFrameCount ?? "0"),
       rendererFrame: Number(canvas.dataset.hgptRendererFrame ?? "0"),
+      rendererDrawCount: Number(canvas.dataset.hgptRendererDrawCount ?? "0"),
+      rendererBackend: canvas.dataset.hgptRendererBackend ?? "",
       sceneChildren: Number(canvas.dataset.hgptSceneChildren ?? "0"),
       sceneNames: canvas.dataset.hgptSceneNames ?? "",
     };
@@ -248,7 +250,13 @@ try {
     height: "100%",
   });
   assert(liveViewportDom.frameCount >= 2, "Live first-party viewport frame loop did not advance");
+  assert.equal(
+    liveViewportDom.rendererBackend,
+    "home-gym-pt-webgl2",
+    "Live viewport is not using the Home Gym PT WebGL2 renderer",
+  );
   assert(liveViewportDom.rendererFrame > 0, "Live first-party WebGL renderer did not render");
+  assert(liveViewportDom.rendererDrawCount > 0, "Live first-party WebGL renderer submitted no draws");
   assert(liveViewportDom.sceneChildren > 0, "Live first-party viewport scene is empty");
   assert(liveViewportDom.sceneNames.length > 0, "Live first-party viewport emitted no scene names");
   report.checks.liveFirstPartyViewportDom = liveViewportDom;

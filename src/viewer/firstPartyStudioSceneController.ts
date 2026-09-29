@@ -3,10 +3,9 @@ import { characterSource } from '../character';
 import type { CharacterState } from '../editor/characterStoreCore';
 import type { StudioState, ViewMode } from '../editor/storeCore';
 import type { ObservableStore } from '../core/observableStore';
-import type { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
 import type { Skeleton } from '../rig/skeleton';
-import type { HgScenePointerRouter } from './scenePointerRouter';
 import type { SceneState } from './sceneStateCore';
+import type { FirstPartySceneHostBindings } from './firstPartySceneHostTypes';
 import { createFirstPartyStaticStageRuntime } from './firstPartyStaticStageRuntime';
 import {
   createFirstPartySkeletonViewRuntime,
@@ -43,13 +42,6 @@ import {
 } from './firstPartyStudioEditRuntimes';
 
 type StorePort<T> = Pick<ObservableStore<T>, 'getState' | 'subscribe'>;
-
-export interface FirstPartySceneHostBindings {
-  camera: HgPerspectiveCamera;
-  scene: HgScene;
-  element: HTMLCanvasElement;
-  pointers: HgScenePointerRouter;
-}
 
 export interface FirstPartyStudioSceneControllerOptions {
   sceneState: SceneState;

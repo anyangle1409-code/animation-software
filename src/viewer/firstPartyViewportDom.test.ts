@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { characterStore } from '../editor/characterStoreCore';
 import { skeleton, studioStore } from '../editor/storeCore';
 import type { FirstPartyViewportRuntime } from './firstPartyViewportRuntime';
-import type { SceneHostBindings } from './sceneHostTypes';
+import type { FirstPartySceneHostBindings } from './firstPartySceneHostTypes';
 import type { SceneState } from './sceneStateCore';
 import type {
-  StudioSceneController,
-  StudioSceneControllerOptions,
-} from './studioSceneController';
+  FirstPartyStudioSceneController,
+  FirstPartyStudioSceneControllerOptions,
+} from './firstPartyStudioSceneController';
 import {
   createFirstPartyViewportDom,
   type FirstPartyViewportDomDependencies,
@@ -28,15 +28,15 @@ describe('first-party viewport DOM wrapper', () => {
   it('preserves the React host/canvas contract and runtime/controller wiring', () => {
     const order: string[] = [];
     const scene = {} as SceneState;
-    const bindings = {} as SceneHostBindings;
+    const bindings = {} as FirstPartySceneHostBindings;
     let runtimeArgs: unknown[] = [];
-    let controllerOptions: StudioSceneControllerOptions | null = null;
+    let controllerOptions: FirstPartyStudioSceneControllerOptions | null = null;
 
     const runtime: FirstPartyViewportRuntime = {
       bindings,
       dispose() { order.push('runtime'); },
     };
-    const controller: StudioSceneController = {
+    const controller: FirstPartyStudioSceneController = {
       dispose() { order.push('controller'); },
     };
 

@@ -110,6 +110,9 @@ jobs:
           src/viewer/ikHandlesRuntime.test.ts
           src/viewer/ikHandleSnapshot.test.ts
           src/viewer/firstPartyViewportDom.test.ts
+          src/viewer/firstPartyViewportCutover.test.ts
+          src/viewer/firstPartyRendererAdapter.test.ts
+          src/viewer/firstPartyStudioSceneController.test.ts
           src/viewer/firstPartySceneHost.test.ts
           src/viewer/firstPartyRendererAdapter.test.ts
           src/viewer/firstPartyStudioStage.test.ts

@@ -2,14 +2,14 @@ import { characterStore } from '../editor/characterStoreCore';
 import { skeleton, studioStore } from '../editor/storeCore';
 import { createFirstPartyViewportRuntime } from './firstPartyViewportRuntime';
 import { createSceneState } from './sceneStateCore';
-import { createStudioSceneController } from './studioSceneController';
+import { createFirstPartyStudioSceneController } from './firstPartyStudioSceneController';
 
 type DocumentPort = Pick<Document, 'createElement'>;
 
 export interface FirstPartyViewportDomDependencies {
   createSceneState: typeof createSceneState;
   createRuntime: typeof createFirstPartyViewportRuntime;
-  createController: typeof createStudioSceneController;
+  createController: typeof createFirstPartyStudioSceneController;
 }
 
 export interface FirstPartyViewportDom {
@@ -21,7 +21,7 @@ export interface FirstPartyViewportDom {
 const DEFAULT_DEPENDENCIES: FirstPartyViewportDomDependencies = {
   createSceneState,
   createRuntime: createFirstPartyViewportRuntime,
-  createController: createStudioSceneController,
+  createController: createFirstPartyStudioSceneController,
 };
 
 /**

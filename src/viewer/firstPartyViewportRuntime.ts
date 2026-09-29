@@ -3,13 +3,13 @@ import { browserSceneSurface } from '../core/browserSceneSurface';
 import { currentAnchors, skeleton, studioStore } from '../editor/storeCore';
 import type { SceneState } from './sceneStateCore';
 import { driveSceneFrame } from './sceneFrameDriver';
-import type { SceneHostBindings } from './sceneHostTypes';
+import type { FirstPartySceneHostBindings } from './firstPartySceneHostTypes';
 import { HgScenePointerRouter } from './scenePointerRouter';
-import { ThreeSceneHost } from './threeSceneHost';
-import { createThreeRendererAdapter } from './threeRendererAdapter';
+import { FirstPartySceneHost } from './firstPartySceneHost';
+import { createFirstPartyRendererAdapter } from './firstPartyRendererAdapter';
 
 export interface FirstPartyViewportRuntime {
-  bindings: SceneHostBindings;
+  bindings: FirstPartySceneHostBindings;
   dispose(): void;
 }
 
@@ -25,9 +25,9 @@ export function createFirstPartyViewportRuntime(
   canvas: HTMLCanvasElement,
   scene: SceneState,
 ): FirstPartyViewportRuntime {
-  const renderer = createThreeRendererAdapter(canvas);
+  const renderer = createFirstPartyRendererAdapter(canvas);
 
-  const host = new ThreeSceneHost(
+  const host = new FirstPartySceneHost(
     browserFrameScheduler(),
     browserSceneSurface(canvas, container),
     renderer.port,
@@ -73,12 +73,14 @@ export function createFirstPartyViewportRuntime(
       .map((value) => value.toFixed(6))
       .join(',');
     canvas.dataset.hgptRendererFrame = String(renderer.frame());
+    canvas.dataset.hgptRendererDrawCount = String(renderer.drawCount());
+    canvas.dataset.hgptRendererBackend = 'home-gym-pt-webgl2';
     canvas.dataset.hgptSceneNames = host.scene.children
       .map((child) => child.name || child.type)
       .join('|');
   }, -1);
 
-  const bindings: SceneHostBindings = {
+  const bindings: FirstPartySceneHostBindings = {
     camera: host.camera,
     scene: host.scene,
     element: canvas,

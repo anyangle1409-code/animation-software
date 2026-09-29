@@ -15,6 +15,9 @@ export interface BakedBoneTrackData {
   values: number[];
 }
 
+const asFloat32Numbers = (values: readonly number[]): number[] =>
+  Array.from(new Float32Array(values));
+
 export interface BakedClipData {
   name: string;
   duration: number;
@@ -133,8 +136,10 @@ export function bakeClipData(
     tracks.push({
       bone: bone.name,
       property: 'quaternion',
-      times: compressed.constant ? loopTimes : times,
-      values: compressed.values,
+      // Match glTF/Three keyframe storage exactly: animation channels are
+      // FLOAT (32-bit), so pin both time and value arrays to Float32 semantics.
+      times: asFloat32Numbers(compressed.constant ? loopTimes : times),
+      values: asFloat32Numbers(compressed.values),
     });
   }
 
@@ -146,8 +151,8 @@ export function bakeClipData(
       tracks.push({
         bone: rootBone.name,
         property: 'position',
-        times: rootTrack.constant ? loopTimes : times,
-        values: rootTrack.values,
+        times: asFloat32Numbers(rootTrack.constant ? loopTimes : times),
+        values: asFloat32Numbers(rootTrack.values),
       });
     }
   }

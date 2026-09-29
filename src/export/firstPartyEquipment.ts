@@ -3,39 +3,14 @@ import type { HgAnimationTrackInput } from '../core/gltfAnimation';
 import type { HgGltfBuilder } from '../core/gltfBuilder';
 import type { EquipmentInstance } from '../equipment/types';
 import { equipmentParts, MATERIALS, type Part } from '../equipment/geometry';
+import { equipmentPartPrimitiveData } from '../equipment/primitive';
+import type { HgPrimitiveGeometryData } from '../core/primitiveGeometry';
 import type { BakedClipData } from './clipData';
-
-import {
-  boxPrimitiveData,
-  cylinderPrimitiveData,
-  spherePrimitiveData,
-  torusPrimitiveData,
-  type HgPrimitiveGeometryData,
-} from '../core/primitiveGeometry';
 
 export type EquipmentPrimitiveData = HgPrimitiveGeometryData;
 
-export function equipmentPrimitiveData(part: Part): EquipmentPrimitiveData {
-  switch (part.shape) {
-    case 'box':
-      return boxPrimitiveData(part.size);
-    case 'cylinder':
-      return cylinderPrimitiveData(
-        part.radius,
-        part.radiusTop ?? part.radius,
-        part.length,
-        part.segments ?? 16,
-      );
-    case 'sphere':
-      return spherePrimitiveData(part.radius);
-    case 'torus':
-      return torusPrimitiveData(
-        part.radius,
-        part.tube,
-        part.arc ?? Math.PI * 2,
-      );
-  }
-}
+export const equipmentPrimitiveData = (part: Part): EquipmentPrimitiveData =>
+  equipmentPartPrimitiveData(part);
 
 const arrays = (builder: HgGltfBuilder) => {
   const materials = Array.isArray(builder.json.materials)

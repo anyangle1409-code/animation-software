@@ -163,10 +163,13 @@ export class HgGltfBuilder {
     if (buffers !== undefined && !Array.isArray(buffers)) {
       throw new Error('Preserved GLB buffers must be an array');
     }
-    if ((buffers as unknown[] | undefined)?.length > 1) {
+    const bufferList = Array.isArray(buffers)
+      ? buffers as Record<string, unknown>[]
+      : [];
+    if (bufferList.length > 1) {
       throw new Error('Preserved GLB writing requires a single in-file buffer');
     }
-    for (const buffer of (buffers as Record<string, unknown>[] | undefined) ?? []) {
+    for (const buffer of bufferList) {
       if (buffer.uri !== undefined) {
         throw new Error('Preserved GLB writing does not accept external buffers');
       }

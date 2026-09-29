@@ -4,7 +4,7 @@ import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { clonePose, poseFromDegrees, restPose } from '../rig/pose';
 import { toDeg } from '../core/math';
 import { IK_CHAINS } from './chains';
-import { solveTwoBone } from './twoBone';
+import { aimBone, solveTwoBone } from './twoBone';
 import { goalFromPose, solveGoals } from './solve';
 
 const skeleton = canonicalSkeleton;
@@ -127,6 +127,22 @@ describe('leg IK', () => {
 });
 
 describe('goals', () => {
+  it('preserves an end-aim roll with a forward reference', () => {
+    const pose = clonePose(restPose());
+    const aimEvaluation = new PoseEvaluation(skeleton);
+    aimBone(
+      skeleton,
+      aimEvaluation,
+      pose,
+      'hand_l',
+      new Vector3(0.2, 0.8, 0.4),
+      new Vector3(0.2, 0, 1),
+    );
+    expect(pose.rotations.hand_l?.x).toBeCloseTo(0.3490658503988659, 10);
+    expect(pose.rotations.hand_l?.y).toBeCloseTo(0, 10);
+    expect(pose.rotations.hand_l?.z).toBeCloseTo(0.2199879773954594, 10);
+  });
+
   it('creates a goal that leaves the current pose untouched', () => {
     const pose = poseFromDegrees({
       upperarm_l: { x: 35, z: -20 },

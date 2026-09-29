@@ -1,12 +1,9 @@
-import { Vector3 } from 'three';
+import type { Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import { clamp } from '../core/math';
-import {
-  localRotationForDirection,
-  setRotation,
-} from './orient';
+import { setRotation } from './orient';
 import {
   hgHingeRotationForDirection,
   hgLocalRotationForDirection,
@@ -16,7 +13,6 @@ import {
 import type { IKChain, IKResult } from './types';
 
 const EPSILON = 1e-6;
-const Z_AXIS = new Vector3(0, 0, 1);
 const HG_Z_AXIS = new HgVec3(0, 0, 1);
 
 const tmp = {
@@ -266,15 +262,22 @@ export function aimBone(
   direction: Vector3,
   forward?: Vector3,
 ): void {
-  setRotation(pose, name, localRotationForDirection(skeleton, evaluation, name, direction));
+  const aimedDirection = new HgVec3(direction.x, direction.y, direction.z);
+  const fk = evaluation.firstPartyEvaluation;
+  setRotation(
+    pose,
+    name,
+    hgLocalRotationForDirection(skeleton.firstParty, fk, name, aimedDirection),
+  );
   if (!forward) {
     evaluation.apply(pose);
     return;
   }
   evaluation.apply(pose);
-  const current = Z_AXIS.clone().applyQuaternion(evaluation.quaternion(name));
-  const normal = direction.clone().normalize();
-  const desired = forward.clone().addScaledVector(normal, -forward.dot(normal));
+  const current = HG_Z_AXIS.clone().applyQuaternion(fk.quaternion(name));
+  const normal = aimedDirection.clone().normalize();
+  const desired = new HgVec3(forward.x, forward.y, forward.z);
+  desired.addScaledVector(normal, -desired.dot(normal));
   if (desired.lengthSq() < 1e-8) return;
   desired.normalize();
   current.addScaledVector(normal, -current.dot(normal));
@@ -284,7 +287,7 @@ export function aimBone(
   setRotation(
     pose,
     name,
-    localRotationForDirection(skeleton, evaluation, name, direction, angle),
+    hgLocalRotationForDirection(skeleton.firstParty, fk, name, aimedDirection, angle),
   );
   evaluation.apply(pose);
 }

@@ -73,6 +73,7 @@ jobs:
           src/ik/firstPartyOrient.parity.test.ts
           src/rig/firstPartyPose.parity.test.ts
           src/retargeting/retargetMathBoundary.test.ts
+          src/character/deformationMathBoundary.test.ts
           src/viewer/firstPartyCameras.parity.test.ts
           src/viewer/orbitModel.test.ts
           src/viewer/referenceGrid.test.ts

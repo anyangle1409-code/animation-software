@@ -1,14 +1,13 @@
 import {
   createCharacterBufferAttribute,
-  createCharacterVector3,
   type CharacterBone,
   type CharacterBufferAttribute,
   type CharacterBufferGeometry,
   type CharacterInterleavedBufferAttribute,
   type CharacterSkinnedMesh,
-  type CharacterVector3,
 } from './bones';
 import type { Skeleton } from '../rig/skeleton';
+import { HgMat4, HgVec3 } from '../core/linearMath';
 import { PoseEvaluation as RigPoseEvaluation } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
 import type { Pose } from '../rig/types';
@@ -120,10 +119,17 @@ function appendTargets(
   if (!upperIndices.size || !lowerIndices.size) return { targets: [], hasTunableOuter: false };
 
   mesh.updateWorldMatrix(true, false);
-  const joint = mesh.worldToLocal(lower.getWorldPosition(createCharacterVector3()));
-  const shoulder = mesh.worldToLocal(upper.getWorldPosition(createCharacterVector3()));
+  upper.updateWorldMatrix(true, false);
+  lower.updateWorldMatrix(true, false);
+  const meshInverse = new HgMat4().copy(mesh.matrixWorld).invert();
+  const joint = new HgVec3()
+    .setFromMatrixPosition(lower.matrixWorld)
+    .applyMatrix4(meshInverse);
+  const shoulder = new HgVec3()
+    .setFromMatrixPosition(upper.matrixWorld)
+    .applyMatrix4(meshInverse);
   const axis = joint.clone().sub(shoulder).normalize();
-  const forward = createCharacterVector3().set(0, 0, 1);
+  const forward = new HgVec3(0, 0, 1);
   const position = mesh.geometry.getAttribute('position');
   const skinIndex = mesh.geometry.getAttribute('skinIndex');
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
@@ -133,8 +139,8 @@ function appendTargets(
   const innerAmount = options.inner ?? 0.012;
   const outerAmount = options.outer ?? 0.006;
   const radialDelta = new Float32Array(position.count * 3);
-  const point = createCharacterVector3();
-  const radial = createCharacterVector3();
+  const point = new HgVec3();
+  const radial = new HgVec3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     pointFrom(position, vertex, point);
@@ -309,9 +315,9 @@ const OUTER_SMOOTH_MAX_OFFSET = 0.008;
 function addOuterSmoothing(
   geometry: CharacterBufferGeometry,
   delta: Float32Array,
-  joint: CharacterVector3,
-  axis: CharacterVector3,
-  forward: CharacterVector3,
+  joint: HgVec3,
+  axis: HgVec3,
+  forward: HgVec3,
   upperIndices: Set<number>,
   lowerIndices: Set<number>,
   reach: number,
@@ -325,12 +331,12 @@ function addOuterSmoothing(
 
   const neighbours = Array.from({ length: position.count }, () => new Set<number>());
   const normals = new Float32Array(position.count * 3);
-  const a = createCharacterVector3();
-  const b = createCharacterVector3();
-  const c = createCharacterVector3();
-  const edgeOne = createCharacterVector3();
-  const edgeTwo = createCharacterVector3();
-  const face = createCharacterVector3();
+  const a = new HgVec3();
+  const b = new HgVec3();
+  const c = new HgVec3();
+  const edgeOne = new HgVec3();
+  const edgeTwo = new HgVec3();
+  const face = new HgVec3();
 
   for (let corner = 0; corner < index.count; corner += 3) {
     const ia = index.getX(corner);
@@ -352,12 +358,12 @@ function addOuterSmoothing(
   }
 
   const smoothReach = reach + OUTER_SMOOTH_EXTRA_REACH;
-  const away = createCharacterVector3();
-  const radial = createCharacterVector3();
-  const normal = createCharacterVector3();
-  const mean = createCharacterVector3();
-  const neighbourPoint = createCharacterVector3();
-  const smooth = createCharacterVector3();
+  const away = new HgVec3();
+  const radial = new HgVec3();
+  const normal = new HgVec3();
+  const mean = new HgVec3();
+  const neighbourPoint = new HgVec3();
+  const smooth = new HgVec3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     pointFrom(position, vertex, a);
@@ -420,8 +426,8 @@ function addOuterSmoothing(
 function pointFrom(
   position: CharacterBufferAttribute | CharacterInterleavedBufferAttribute,
   vertex: number,
-  target: CharacterVector3,
-): CharacterVector3 {
+  target: HgVec3,
+): HgVec3 {
   return target.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
 }
 

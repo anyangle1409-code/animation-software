@@ -1,12 +1,11 @@
 import {
   createCharacterBufferAttribute,
-  createCharacterVector3,
   type CharacterBone,
   type CharacterBufferAttribute,
   type CharacterSkinnedMesh,
-  type CharacterVector3,
 } from './bones';
 import type { Skeleton } from '../rig/skeleton';
+import { HgMat4, HgVec3 } from '../core/linearMath';
 import type { BoneName, Side } from '../rig/boneNames';
 import { elbowFlexion } from '../rig/elbowFlexion';
 import type {
@@ -80,9 +79,9 @@ const plateau = (t: number, from: number, to: number, edge = 0.18): number => {
   return ramp * ramp * (3 - 2 * ramp);
 };
 
-const point = createCharacterVector3();
-const along = createCharacterVector3();
-const radial = createCharacterVector3();
+const point = new HgVec3();
+const along = new HgVec3();
+const radial = new HgVec3();
 
 export function importedMuscleDeformation(
   meshes: CharacterSkinnedMesh[],
@@ -148,19 +147,29 @@ function appendArm(
   if (!position || !skinIndex || !skinWeight) return [];
 
   mesh.updateWorldMatrix(true, false);
-  const shoulder = mesh.worldToLocal(upper.getWorldPosition(createCharacterVector3()));
-  const elbow = mesh.worldToLocal(lower.getWorldPosition(createCharacterVector3()));
-  const wrist = mesh.worldToLocal(hand.getWorldPosition(createCharacterVector3()));
+  upper.updateWorldMatrix(true, false);
+  lower.updateWorldMatrix(true, false);
+  hand.updateWorldMatrix(true, false);
+  const meshInverse = new HgMat4().copy(mesh.matrixWorld).invert();
+  const shoulder = new HgVec3()
+    .setFromMatrixPosition(upper.matrixWorld)
+    .applyMatrix4(meshInverse);
+  const elbow = new HgVec3()
+    .setFromMatrixPosition(lower.matrixWorld)
+    .applyMatrix4(meshInverse);
+  const wrist = new HgVec3()
+    .setFromMatrixPosition(hand.matrixWorld)
+    .applyMatrix4(meshInverse);
   const upperAxis = elbow.clone().sub(shoulder);
   const foreAxis = wrist.clone().sub(elbow);
   const upperLength = upperAxis.length();
   const foreLength = foreAxis.length();
   if (upperLength < 1e-4 || foreLength < 1e-4) return [];
-  upperAxis.divideScalar(upperLength);
-  foreAxis.divideScalar(foreLength);
+  upperAxis.multiplyScalar(1 / upperLength);
+  foreAxis.multiplyScalar(1 / foreLength);
   // The character stands in a T-pose with +z to the front, so anterior is +z
   // and the biceps is the front of the upper arm.
-  const anterior = createCharacterVector3().set(0, 0, 1);
+  const anterior = new HgVec3().set(0, 0, 1);
 
   const upperOwned = ownership(mesh, upper.name);
   const lowerOwned = ownership(mesh, lower.name);
@@ -176,7 +185,11 @@ function appendArm(
   const forearm = new Float32Array(position.count * 3);
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
-    point.fromBufferAttribute(position, vertex);
+    point.set(
+      position.getX(vertex),
+      position.getY(vertex),
+      position.getZ(vertex),
+    );
     const upperShare = share(skinIndex, skinWeight, vertex, upperOwned);
     const lowerShare = share(skinIndex, skinWeight, vertex, lowerOwned);
 
@@ -262,7 +275,7 @@ function appendArm(
   return built;
 }
 
-const distanceAlong = (p: CharacterVector3, base: CharacterVector3, axis: CharacterVector3): number =>
+const distanceAlong = (p: HgVec3, base: HgVec3, axis: HgVec3): number =>
   p.clone().sub(base).dot(axis);
 
 /** Which skin indices belong to a bone, including its deform twist helpers. */

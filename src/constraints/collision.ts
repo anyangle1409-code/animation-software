@@ -182,7 +182,7 @@ export class PointGrid {
     point: Vec3,
     rings: number,
     position: (index: number, out: T) => Vec3,
-    scratchPoint: T = new HgVec3() as T,
+    scratchPoint: T = new HgVec3() as unknown as T,
   ): { index: number; distance: number } | null {
     const cx = Math.floor(point.x / this.cell);
     const cy = Math.floor(point.y / this.cell);
@@ -241,7 +241,7 @@ export function measureClearance<T extends Vec3 = HgVec3>(
   label: (index: number) => string,
   into: ClearanceSample = { closest: Number.POSITIVE_INFINITY, inside: 0, where: '' },
   backAngle?: number,
-  scratchPoint: T = new HgVec3() as T,
+  scratchPoint: T = new HgVec3() as unknown as T,
 ): ClearanceSample {
   const itemMatrix = copyMatrix(toItem);
   const itemPoint = new HgVec3();

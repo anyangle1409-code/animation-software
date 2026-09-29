@@ -635,9 +635,30 @@ def build_cage(bones):
     centre_faces = len(B.f)
     build_leg(B, bones, -1, leg_loop_l)
     build_arm(B, bones, -1, arm_loop_l)
+    relax_thumb_web(B, bones)
     mirror_left_limbs(B, centre_count, centre_faces)
     del arm_loop_r
     return B
+
+
+def relax_thumb_web(B, bones, radius=0.022, iterations=4, factor=0.5):
+    """Umbrella-relax the cramped thumb/first-web junction of the left hand cage
+    (before mirroring) so no quads fold through each other."""
+    thumb_mcp = lat(bones, "thumb_02_l", "head")
+    index_mcp = lat(bones, "index_01_l", "head")
+    centre = np.array([-0.5 * (thumb_mcp[0] + index_mcp[0]), 0.5 * (thumb_mcp[1] + index_mcp[1]),
+                       0.5 * (thumb_mcp[2] + index_mcp[2]) + 0.012])
+    ids = [i for i in B.regions.get("hand", set()) | B.regions.get("thumb", set())
+           if np.linalg.norm(B.v[i] - centre) < radius]
+    nbrs = {i: set() for i in ids}
+    for f in B.f:
+        for k, a in enumerate(f):
+            if a in nbrs:
+                nbrs[a].update((f[k - 1], f[(k + 1) % len(f)]))
+    for _ in range(iterations):
+        new = {i: B.v[i] + factor * (np.mean([B.v[j] for j in nbrs[i]], axis=0) - B.v[i]) for i in ids}
+        for i, p in new.items():
+            B.v[i] = p
 
 
 def mirror_left_limbs(B, centre_count, centre_faces):
@@ -743,7 +764,8 @@ def build_toes(B, side, section_loop):
         loop = [left] + top + [right] + list(reversed(bot))
         # loop runs medial side -> dorsal -> lateral side -> plantar
         lx_c = 0.5 * (TOE_D_LX[a] + TOE_D_LX[b])
-        half_w = 0.5 * (TOE_D_LX[b] - TOE_D_LX[a]) + (0.004 if a == 0 else 0.0015)
+        # slightly narrower than the web spacing so neighbouring toes never interpenetrate
+        half_w = 0.5 * (TOE_D_LX[b] - TOE_D_LX[a]) + (0.002 if a == 0 else -0.0008)
         h = TOE_HEIGHT[t]
         tip = TOE_TIPS_F[t]
         length = tip - f0
@@ -797,12 +819,12 @@ def build_hand(B, bones, side, wrist_loop):
     B.bridge(p0_ids, p1_ids)
     # Thumb-index web chain from dorsal-radial p1[1] to palmar-radial p1[17]:
     # the first web space runs distally toward the index MCP.
-    web = [(lx0 + 0.007, 0.030, 0.869), (lx0 - 0.004, 0.036, 0.864), (lx0 - 0.016, 0.030, 0.869)]
+    web = [(lx0 + 0.007, 0.030, 0.866), (lx0 - 0.004, 0.035, 0.860), (lx0 - 0.016, 0.029, 0.866)]
     t_ids = B.add_many([sidep(side, p) for p in web], "hand")
     thumb_loop = [p1_ids[17], p1_ids[18], p1_ids[19], p1_ids[0], p1_ids[1]] + t_ids
     palm_loop = p1_ids[1:18] + [t_ids[2], t_ids[1], t_ids[0]]
     # palm rings to the knuckles; radial side lower (distal) below the web
-    p2 = palm_ring(lx0 + 0.001, 0.858, 0.022, -0.080, 0.013, 0.018, hypo=0.005, tilt=-0.010)
+    p2 = palm_ring(lx0 + 0.001, 0.858, 0.022, -0.080, 0.013, 0.018, hypo=0.005, tilt=-0.013)
     p2_ids = B.add_many([sidep(side, p) for p in p2], "hand")
     p2_ids = B.bridge_aligned(palm_loop, p2_ids)
     p3 = palm_ring(lx0 + 0.001, 0.847, 0.022, -0.079, 0.013, 0.016, hypo=0.004, tilt=-0.004)
@@ -942,10 +964,12 @@ def build_thumb(B, bones, side, loop):
     mcp = flip(lat(bones, "thumb_02_l", "head"))
     to_mcp = mcp - centroid
     rings = []
-    for frac, r in ((0.30, (0.0160, 0.0180, 0.0225, 0.0180)), (0.66, (0.0134, 0.0145, 0.0165, 0.0142))):
+    # shifted radially (+f) so the thenar pad sits beside the palm, not inside it
+    for frac, r, shift in ((0.36, (0.0162, 0.0178, 0.0215, 0.0178), 0.0025),
+                           (0.68, (0.0134, 0.0145, 0.0168, 0.0142), 0.0010)):
         tan = unit(to_mcp)
         e1, e2 = frame(tan)
-        rings.append((centroid + to_mcp * frac, e1, e2, thumb_prof(*r)))
+        rings.append((centroid + to_mcp * frac + FWD * shift, e1, e2, thumb_prof(*r)))
     for bi, t, r in THUMB_PHALANX_STATIONS:
         h, tl = lat(bones, names[bi], "head"), lat(bones, names[bi], "tail")
         c = flip(h + (tl - h) * t)

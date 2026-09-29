@@ -1,5 +1,5 @@
 import { createStore } from '../core/observableStore';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { BoneName, Finger } from '../rig/boneNames';
 import { mirrorBoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
@@ -791,4 +791,4 @@ export function currentAnchors(clip: StudioClip): Map<string, Vec3> {
 
 export const phaseDurationOf = phaseDuration;
 export const emptyPose = restPose;
-export const worldVector = (v: Vec3): Vector3 => new Vector3(v.x, v.y, v.z);
+export const worldVector = (v: Vec3): HgVec3 => new HgVec3(v.x, v.y, v.z);

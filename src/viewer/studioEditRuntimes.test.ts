@@ -183,4 +183,11 @@ describe('framework-neutral Studio edit runtimes', () => {
     runtime.dispose();
     expect(sceneState.consumers.subscriberCount).toBe(0);
   });
+  it('keeps edit calculations on Home Gym PT math rather than renderer math classes', async () => {
+    const source = await import('node:fs').then(({ readFileSync }) =>
+      readFileSync(new URL('./studioEditRuntimes.ts', import.meta.url), 'utf8'));
+    expect(source).toContain("from '../core/linearMath'");
+    expect(source).not.toMatch(/\b(Euler|Matrix4|Quaternion|Vector3)\b[\s\S]*from '\.\/threeSceneBoundary'/);
+  });
+
 });

@@ -1,12 +1,9 @@
 import {
-  Euler,
-  Matrix4,
   Object3D,
-  Quaternion,
-  Vector3,
   type Camera,
   type Scene,
 } from './threeSceneBoundary';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { StudioClip } from '../animation/clip';
 import { toDeg } from '../core/math';
 import { equipmentSocketForInstance } from '../equipment/library';
@@ -16,7 +13,7 @@ import type { IKChainId } from '../ik/types';
 import { clampRotation } from '../rig/pose';
 import type { BoneName } from '../rig/boneNames';
 import type { Skeleton } from '../rig/skeleton';
-import { EULER_ORDER, type Vec3 } from '../rig/types';
+import type { Vec3 } from '../rig/types';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import type { HgScenePointerRouter } from './scenePointerRouter';
@@ -89,15 +86,6 @@ const sampleGoal = (
   return (keyframe ?? clip.keyframes[0])?.ik[chain] ?? null;
 };
 
-interface MatrixLike {
-  readonly elements: ArrayLike<number>;
-}
-
-const copyMatrixLike = (source: MatrixLike, target: Matrix4): Matrix4 => {
-  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
-  return target;
-};
-
 export function createStudioSelectionGizmoRuntime(
   options: StudioEditRuntimeOptions,
 ): StudioEditRuntime {
@@ -113,12 +101,13 @@ export function createStudioSelectionGizmoRuntime(
 
   const proxy = new Object3D();
   const socketScratch = {
-    local: new Matrix4(),
-    world: new Matrix4(),
-    inverse: new Matrix4(),
-    position: new Vector3(),
-    quaternion: new Quaternion(),
-    scale: new Vector3(),
+    local: new HgMat4(),
+    world: new HgMat4(),
+    inverse: new HgMat4(),
+    position: new HgVec3(),
+    quaternion: new HgQuat(),
+    scale: new HgVec3(),
+    proxyQuaternion: new HgQuat(),
   };
   let dragging = false;
   let gizmo: TransformGizmoRuntime | null = null;
@@ -176,10 +165,12 @@ export function createStudioSelectionGizmoRuntime(
             skeleton,
             sceneState.evaluation,
             bone,
-            new Quaternion(),
+            new HgQuat(),
           );
-          const local = rest.clone().invert().multiply(proxy.quaternion);
-          const euler = new Euler().setFromQuaternion(local, EULER_ORDER);
+          const local = rest.clone().invert().multiply(
+            socketScratch.proxyQuaternion.copy(proxy.quaternion),
+          );
+          const euler = local.toEulerXZY();
           current.setBoneRotation(
             bone,
             clampRotation(skeleton.bone(bone), {
@@ -201,7 +192,7 @@ export function createStudioSelectionGizmoRuntime(
           const transform = sceneState.frame?.equipment.get(equipmentId);
           if (!transform) return;
           proxy.updateMatrix();
-          copyMatrixLike(transform.matrix, socketScratch.inverse).invert();
+          socketScratch.inverse.copy(transform.matrix).invert();
           socketScratch.local.multiplyMatrices(
             socketScratch.inverse,
             proxy.matrix,
@@ -211,10 +202,7 @@ export function createStudioSelectionGizmoRuntime(
             socketScratch.quaternion,
             socketScratch.scale,
           );
-          const euler = new Euler().setFromQuaternion(
-            socketScratch.quaternion,
-            EULER_ORDER,
-          );
+          const euler = socketScratch.quaternion.toEulerXZY();
           current.setEquipmentSocketTransform(equipmentId, socketId, {
             position: {
               x: socketScratch.position.x,
@@ -241,7 +229,9 @@ export function createStudioSelectionGizmoRuntime(
           return;
         }
 
-        const euler = new Euler().setFromQuaternion(proxy.quaternion, EULER_ORDER);
+        const euler = socketScratch.proxyQuaternion
+          .copy(proxy.quaternion)
+          .toEulerXZY();
         current.setEquipmentTransform(equipmentId, {
           rotation: {
             x: toDeg(euler.x),
@@ -261,12 +251,16 @@ export function createStudioSelectionGizmoRuntime(
     const state = store.getState();
 
     if (state.selection.bone) {
-      proxy.position.copy(
-        sceneState.evaluation.head(state.selection.bone, new Vector3()),
+      const head = sceneState.evaluation.firstPartyEvaluation.head(
+        state.selection.bone,
+        socketScratch.position,
       );
-      proxy.quaternion.copy(
-        sceneState.evaluation.quaternion(state.selection.bone),
+      proxy.position.set(head.x, head.y, head.z);
+      const rotation = sceneState.evaluation.firstPartyEvaluation.quaternion(
+        state.selection.bone,
+        socketScratch.quaternion,
       );
+      proxy.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w);
       return;
     }
 
@@ -283,22 +277,29 @@ export function createStudioSelectionGizmoRuntime(
           socket.position.y,
           socket.position.z,
         ),
-        socketScratch.quaternion.setFromEuler(
-          new Euler(
-            (socket.rotation?.x ?? 0) * Math.PI / 180,
-            (socket.rotation?.y ?? 0) * Math.PI / 180,
-            (socket.rotation?.z ?? 0) * Math.PI / 180,
-            EULER_ORDER,
-          ),
+        socketScratch.quaternion.setFromEulerXZY(
+          (socket.rotation?.x ?? 0) * Math.PI / 180,
+          (socket.rotation?.y ?? 0) * Math.PI / 180,
+          (socket.rotation?.z ?? 0) * Math.PI / 180,
         ),
         socketScratch.scale.set(1, 1, 1),
       );
-      copyMatrixLike(transform.matrix, socketScratch.world)
-        .multiply(socketScratch.local);
+      socketScratch.world.copy(transform.matrix).multiply(socketScratch.local);
       socketScratch.world.decompose(
-        proxy.position,
-        proxy.quaternion,
+        socketScratch.position,
+        socketScratch.quaternion,
         socketScratch.scale,
+      );
+      proxy.position.set(
+        socketScratch.position.x,
+        socketScratch.position.y,
+        socketScratch.position.z,
+      );
+      proxy.quaternion.set(
+        socketScratch.quaternion.x,
+        socketScratch.quaternion.y,
+        socketScratch.quaternion.z,
+        socketScratch.quaternion.w,
       );
       return;
     }

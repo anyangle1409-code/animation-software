@@ -2,7 +2,7 @@ import { createStore } from '../core/observableStore';
 import type { BoneName } from '../rig/boneNames';
 import type { BoneMapping, MappingReport } from '../retargeting/boneMap';
 import { reportMapping } from '../retargeting/boneMap';
-import { saveMapping } from '../retargeting/importGlb';
+import { saveMapping } from '../retargeting/mappingStore';
 import {
   characterSource,
   defaultCharacterId,

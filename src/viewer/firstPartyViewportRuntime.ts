@@ -1,9 +1,3 @@
-import {
-  ACESFilmicToneMapping,
-  PCFSoftShadowMap,
-  SRGBColorSpace,
-  WebGLRenderer,
-} from './threeSceneBoundary';
 import { browserFrameScheduler } from '../core/frameLoop';
 import { browserSceneSurface } from '../core/browserSceneSurface';
 import { currentAnchors, skeleton, studioStore } from '../editor/storeCore';
@@ -12,6 +6,7 @@ import { driveSceneFrame } from './sceneFrameDriver';
 import type { SceneHostBindings } from './sceneHostTypes';
 import { HgScenePointerRouter } from './scenePointerRouter';
 import { ThreeSceneHost } from './threeSceneHost';
+import { createThreeRendererAdapter } from './threeRendererAdapter';
 
 export interface FirstPartyViewportRuntime {
   bindings: SceneHostBindings;
@@ -30,16 +25,12 @@ export function createFirstPartyViewportRuntime(
   canvas: HTMLCanvasElement,
   scene: SceneState,
 ): FirstPartyViewportRuntime {
-  const renderer = new WebGLRenderer({ canvas, antialias: true });
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = PCFSoftShadowMap;
-  renderer.outputColorSpace = SRGBColorSpace;
-  renderer.toneMapping = ACESFilmicToneMapping;
+  const renderer = createThreeRendererAdapter(canvas);
 
   const host = new ThreeSceneHost(
     browserFrameScheduler(),
     browserSceneSurface(canvas, container),
-    renderer,
+    renderer.port,
   );
 
   const pointers = new HgScenePointerRouter(
@@ -81,7 +72,7 @@ export function createFirstPartyViewportRuntime(
       .toArray()
       .map((value) => value.toFixed(6))
       .join(',');
-    canvas.dataset.hgptRendererFrame = String(renderer.info.render.frame);
+    canvas.dataset.hgptRendererFrame = String(renderer.frame());
     canvas.dataset.hgptSceneNames = host.scene.children
       .map((child) => child.name || child.type)
       .join('|');

@@ -1,4 +1,5 @@
-import { PerspectiveCamera, Scene } from './threeSceneBoundary';
+import { Scene } from './threeSceneBoundary';
+import { HgPerspectiveCamera } from '../core/sceneGraph';
 import { HgSceneLifecycle } from '../core/sceneLifecycle';
 import type { HgSceneSurface } from '../core/sceneLifecycle';
 import type { HgFrameCallback, HgFrameScheduler } from '../core/frameLoop';
@@ -7,13 +8,13 @@ import type { HgFrameCallback, HgFrameScheduler } from '../core/frameLoop';
 export interface HgThreeRendererPort {
   setPixelRatio(value: number): void;
   setSize(width: number, height: number, updateStyle: boolean): void;
-  render(scene: Scene, camera: PerspectiveCamera): void;
+  render(scene: Scene, camera: HgPerspectiveCamera): void;
   dispose(): void;
 }
 
 export class ThreeSceneHost {
   readonly scene = new Scene();
-  readonly camera = new PerspectiveCamera(38, 1, 0.05, 100);
+  readonly camera = new HgPerspectiveCamera(38, 1, 0.05, 100);
   private readonly lifecycle: HgSceneLifecycle;
   private disposed = false;
 

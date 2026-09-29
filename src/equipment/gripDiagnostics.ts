@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName, Finger, Side } from '../rig/boneNames';
 import type { PoseEvaluation } from '../rig/skeleton';
 import { twoHandGripOffsets, type EquipmentTransform } from './attach';
@@ -43,8 +43,16 @@ export const gripContactPoints = (side: Side): GripContactPoint[] => [
   { finger: 'thumb', bone: `thumb_03_${side}` as BoneName, along: 1, reach: 0.032 },
 ];
 
-const pointOf = (evaluation: PoseEvaluation, bone: BoneName, along: number): Vector3 =>
-  along >= 1 ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
+const pointOf = (evaluation: PoseEvaluation, bone: BoneName, along: number): HgVec3 =>
+  along >= 1
+    ? evaluation.firstPartyEvaluation.tail(bone, new HgVec3())
+    : evaluation.firstPartyEvaluation.head(bone, new HgVec3());
+
+const matrixCopy = (matrix: { elements: ArrayLike<number> }): HgMat4 => {
+  const result = new HgMat4();
+  for (let index = 0; index < 16; index += 1) result.elements[index] = matrix.elements[index];
+  return result;
+};
 
 /**
  * Measure how the authored fingers surround a cylindrical hand-held handle.
@@ -55,12 +63,18 @@ export function measureGripFit(
   equipment: EquipmentTransform,
   side: Side,
 ): GripFitMeasurement {
-  const handle = equipment.position;
-  const axis = new Vector3(0, 0, 1).applyQuaternion(equipment.quaternion).normalize();
-  const up = new Vector3(0, 1, 0).addScaledVector(axis, -axis.y);
+  const handle = new HgVec3(equipment.position.x, equipment.position.y, equipment.position.z);
+  const rotation = new HgQuat().set(
+    equipment.quaternion.x,
+    equipment.quaternion.y,
+    equipment.quaternion.z,
+    equipment.quaternion.w,
+  );
+  const axis = new HgVec3(0, 0, 1).applyQuaternion(rotation).normalize();
+  const up = new HgVec3(0, 1, 0).addScaledVector(axis, -axis.y);
   if (up.lengthSq() < 1e-10) up.set(1, 0, 0).addScaledVector(axis, -axis.x);
   up.normalize();
-  const across = new Vector3().crossVectors(up, axis).normalize();
+  const across = new HgVec3().crossVectors(up, axis).normalize();
 
   let reachUse = 0;
   const digitReachUse: Record<Finger, number> = {
@@ -122,18 +136,19 @@ export function measureTwoHandFit(
   const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
   if (!offsets || !leftSocket || !rightSocket) return null;
 
-  const leftTarget = evaluation.localToWorld('hand_l', offsets.left, new Vector3());
-  const rightTarget = evaluation.localToWorld('hand_r', offsets.right, new Vector3());
-  const leftActual = new Vector3(
+  const leftTarget = evaluation.firstPartyEvaluation.localToWorld('hand_l', offsets.left, new HgVec3());
+  const rightTarget = evaluation.firstPartyEvaluation.localToWorld('hand_r', offsets.right, new HgVec3());
+  const equipmentMatrix = matrixCopy(equipment.matrix);
+  const leftActual = new HgVec3(
     leftSocket.position.x,
     leftSocket.position.y,
     leftSocket.position.z,
-  ).applyMatrix4(equipment.matrix);
-  const rightActual = new Vector3(
+  ).applyMatrix4(equipmentMatrix);
+  const rightActual = new HgVec3(
     rightSocket.position.x,
     rightSocket.position.y,
     rightSocket.position.z,
-  ).applyMatrix4(equipment.matrix);
+  ).applyMatrix4(equipmentMatrix);
   const targetSeparation = leftTarget.distanceTo(rightTarget);
   const socketSeparation = leftActual.distanceTo(rightActual);
   const leftError = leftActual.distanceTo(leftTarget);

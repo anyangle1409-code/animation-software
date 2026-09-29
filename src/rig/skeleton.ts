@@ -1,36 +1,32 @@
-import { Matrix4, Quaternion, Vector3 } from 'three';
 import type { BoneName } from './boneNames';
 import type { BoneDefinition, Pose, Vec3 } from './types';
 import { HUMANOID_BONES } from './humanoid';
-import { HgVec3 } from '../core/linearMath';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import {
   HgPoseEvaluation,
   HgSkeleton,
   hgBoneFrame,
 } from './firstPartySkeleton';
 
-const THREE_WORLD_FORWARD = new Vector3(0, 0, 1);
+const HG_WORLD_FORWARD: Vec3 = { x: 0, y: 0, z: 1 };
 
 /**
  * Build the orthonormal rest frame of a bone:
  *   +Y along the bone, +Z the body's forward projected perpendicular to Y,
  *   +X = Y x Z.
  *
- * The calculation is now first-party; the Three quaternion returned here is a
- * temporary compatibility object for callers that have not yet crossed the
- * renderer/export boundary.
+ * Both the calculation and the returned quaternion are project-owned.
  */
 export function boneFrame(
-  head: Vector3,
-  tail: Vector3,
-  forward: Vector3 = THREE_WORLD_FORWARD,
-): Quaternion {
-  const frame = hgBoneFrame(
+  head: Vec3,
+  tail: Vec3,
+  forward: Vec3 = HG_WORLD_FORWARD,
+): HgQuat {
+  return hgBoneFrame(
     new HgVec3(head.x, head.y, head.z),
     new HgVec3(tail.x, tail.y, tail.z),
     new HgVec3(forward.x, forward.y, forward.z),
   );
-  return new Quaternion(frame.x, frame.y, frame.z, frame.w);
 }
 
 /** A bone with everything precomputed that forward kinematics needs. */
@@ -43,23 +39,17 @@ export interface RigBone {
   /** Bone length in metres. */
   readonly length: number;
   /** Rest head position in world space. */
-  readonly restHead: Vector3;
-  readonly restTail: Vector3;
+  readonly restHead: HgVec3;
+  readonly restTail: HgVec3;
   /** Rest orientation of the bone frame in world space. */
-  readonly restWorldQuaternion: Quaternion;
+  readonly restWorldQuaternion: HgQuat;
   /** Head position relative to the parent's rest frame. */
-  readonly offset: Vector3;
+  readonly offset: HgVec3;
   /** Rest orientation relative to the parent's rest frame. */
-  readonly restLocalQuaternion: Quaternion;
+  readonly restLocalQuaternion: HgQuat;
   /** Depth in the hierarchy; 0 for the root. */
   readonly depth: number;
 }
-
-const asThreeVector = (value: HgVec3): Vector3 =>
-  new Vector3(value.x, value.y, value.z);
-
-const asThreeQuaternion = (value: { x: number; y: number; z: number; w: number }): Quaternion =>
-  new Quaternion(value.x, value.y, value.z, value.w);
 
 /**
  * Compatibility shell around the project-owned skeleton construction.
@@ -85,11 +75,11 @@ export class Skeleton {
         index: current.index,
         children: [...current.children],
         length: current.length,
-        restHead: asThreeVector(current.restHead),
-        restTail: asThreeVector(current.restTail),
-        restWorldQuaternion: asThreeQuaternion(current.restWorldQuaternion),
-        offset: asThreeVector(current.offset),
-        restLocalQuaternion: asThreeQuaternion(current.restLocalQuaternion),
+        restHead: current.restHead.clone(),
+        restTail: current.restTail.clone(),
+        restWorldQuaternion: current.restWorldQuaternion.clone(),
+        offset: current.offset.clone(),
+        restLocalQuaternion: current.restLocalQuaternion.clone(),
         depth: current.depth,
       };
       this.bones.push(bone);
@@ -157,82 +147,69 @@ export class Skeleton {
 }
 
 /**
- * Forward kinematics compatibility shell.
+ * Forward kinematics facade backed entirely by the project-owned evaluator.
  *
- * HgPoseEvaluation now performs the production transform calculation. The
- * Three matrices/quaternions exposed by this class are copied compatibility
- * views for existing renderer/export/engine callers and can be removed as
- * those boundaries migrate.
+ * The object identity remains stable across apply() calls, but matrices,
+ * quaternions and vectors no longer require Three compatibility objects.
  */
 export class PoseEvaluation {
   readonly skeleton: Skeleton;
   readonly firstPartyEvaluation: HgPoseEvaluation;
-  private readonly matrices: Matrix4[];
-  private readonly quaternions: Quaternion[];
   private readonly scratchVector = new HgVec3();
 
   constructor(skeleton: Skeleton) {
     this.skeleton = skeleton;
     this.firstPartyEvaluation = new HgPoseEvaluation(skeleton.firstParty);
-    // Matrix4 is retained only as a compatibility facade. Point it at the
-    // first-party matrix buffer so callers observe the same live object across
-    // apply() calls without copying sixteen values for every bone every frame.
-    this.matrices = skeleton.bones.map((bone) => {
-      const matrix = new Matrix4();
-      matrix.elements = this.firstPartyEvaluation.matrix(bone.name).elements as unknown as Matrix4['elements'];
-      return matrix;
-    });
-    this.quaternions = skeleton.bones.map(() => new Quaternion());
   }
 
   /** Recompute every bone's world transform for `pose`. */
   apply(pose: Pose): this {
     this.firstPartyEvaluation.apply(pose);
-
-    for (const bone of this.skeleton.bones) {
-      // Matrices share the first-party buffers; only the legacy Quaternion
-      // facade still needs four scalar assignments until IK/render callers
-      // migrate to HgQuat directly.
-      const sourceQuaternion = this.firstPartyEvaluation.quaternion(bone.name);
-      this.quaternions[bone.index].set(
-        sourceQuaternion.x,
-        sourceQuaternion.y,
-        sourceQuaternion.z,
-        sourceQuaternion.w,
-      );
-    }
-
     return this;
   }
 
-  matrix(name: BoneName): Matrix4 {
-    return this.matrices[this.skeleton.bone(name).index];
+  matrix(name: BoneName): HgMat4 {
+    return this.firstPartyEvaluation.matrix(name);
   }
 
-  quaternion(name: BoneName): Quaternion {
-    return this.quaternions[this.skeleton.bone(name).index];
+  quaternion(name: BoneName): HgQuat {
+    return this.firstPartyEvaluation.quaternion(name);
   }
 
   /** World position of a bone's joint. */
-  head(name: BoneName, target = new Vector3()): Vector3 {
+  head<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
+    name: BoneName,
+    target: T = new HgVec3() as T,
+  ): T {
     const point = this.firstPartyEvaluation.head(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** World position of a bone's far end. */
-  tail(name: BoneName, target = new Vector3()): Vector3 {
+  tail<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
+    name: BoneName,
+    target: T = new HgVec3() as T,
+  ): T {
     const point = this.firstPartyEvaluation.tail(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** A point expressed in the bone's local frame, converted to world space. */
-  localToWorld(name: BoneName, local: Vec3, target = new Vector3()): Vector3 {
+  localToWorld<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
+    name: BoneName,
+    local: Vec3,
+    target: T = new HgVec3() as T,
+  ): T {
     const point = this.firstPartyEvaluation.localToWorld(name, local, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** A world point expressed in the bone's local frame. */
-  worldToLocal(name: BoneName, world: Vec3, target = new Vector3()): Vector3 {
+  worldToLocal<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
+    name: BoneName,
+    world: Vec3,
+    target: T = new HgVec3() as T,
+  ): T {
     this.scratchVector.set(world.x, world.y, world.z);
     const point = this.firstPartyEvaluation.worldToLocal(name, this.scratchVector, this.scratchVector);
     return target.set(point.x, point.y, point.z);

@@ -96,7 +96,14 @@ export function bakeClip(
       const rotation = frame.pose.rotations[bone.name];
       euler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
       poseQuaternion.setFromEuler(euler);
-      localQuaternion.copy(bone.restLocalQuaternion).multiply(poseQuaternion);
+      localQuaternion
+        .set(
+          bone.restLocalQuaternion.x,
+          bone.restLocalQuaternion.y,
+          bone.restLocalQuaternion.z,
+          bone.restLocalQuaternion.w,
+        )
+        .multiply(poseQuaternion);
 
       if (bone.parent === null) {
         // The root carries the rig's world placement as well as its rotation.

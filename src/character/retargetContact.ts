@@ -132,7 +132,8 @@ export class RetargetContactResolver {
     const currentFrame = boneFrame(head, tail, width);
     const desiredFrame = boneFrame(head, head.clone().add(direction), forward);
     const delta = desiredFrame.multiply(currentFrame.invert());
-    setWorldRotation(hand, delta.multiply(hand.getWorldQuaternion(this.quaternion())));
+    const targetRotation = this.quaternion().set(delta.x, delta.y, delta.z, delta.w);
+    setWorldRotation(hand, targetRotation.multiply(hand.getWorldQuaternion(this.quaternion())));
     this.binding.character.root.updateMatrixWorld(true);
   }
 

@@ -129,6 +129,24 @@ function detailParent(name: string): BoneName | null {
 
 const WORLD_FORWARD = new Vector3(0, 0, 1);
 
+interface QuaternionComponents {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
+
+function copyQuaternionComponents(
+  target: Quaternion,
+  source: QuaternionComponents,
+): Quaternion {
+  return target.set(source.x, source.y, source.z, source.w);
+}
+
+function threeQuaternion(source: QuaternionComponents): Quaternion {
+  return copyQuaternionComponents(new Quaternion(), source);
+}
+
 /**
  * Work out, once, how each of the character's bones relates to ours.
  *
@@ -198,14 +216,14 @@ export function bindRetarget(
           roll.z *= -1;
         }
         targetFrame = boneFrame(head, tail, width).multiply(roll);
-        if (rigBone.name === `hand_${side}`) legacyHandFrame[side].copy(roll).invert().multiply(unreflected);
+        if (rigBone.name === `hand_${side}`) copyQuaternionComponents(legacyHandFrame[side], roll).invert().multiply(threeQuaternion(unreflected));
       }
     }
     bones.push({
       canonical: rigBone.name,
       bone,
       restLocal: bone.quaternion.clone(),
-      correction: restWorld.clone().invert().multiply(targetFrame),
+      correction: restWorld.clone().invert().multiply(threeQuaternion(targetFrame)),
     });
   }
 
@@ -309,7 +327,7 @@ export function bindRetarget(
       relative.y *= -1;
       relative.z *= -1;
     }
-    entry.correction.copy(restWorld.clone().invert().multiply(handFrame.multiply(relative)));
+    entry.correction.copy(restWorld.clone().invert().multiply(handFrame.multiply(threeQuaternion(relative))));
   }
 
   return {
@@ -389,7 +407,7 @@ export function applyRetarget(
   binding.character.root.updateMatrixWorld(true);
   const byCanonicalEntry = new Map(binding.bones.map((entry) => [entry.canonical, entry]));
   for (const entry of binding.bones) {
-    scratchDesiredFrame.copy(binding.evaluation.quaternion(entry.canonical));
+    copyQuaternionComponents(scratchDesiredFrame, binding.evaluation.quaternion(entry.canonical));
     // S R S reflects a rotation into an opposite side convention while keeping
     // a proper right-handed bone frame. Geometry itself is never reflected.
     if (binding.mirrorSides) {
@@ -432,7 +450,7 @@ export function applyRetarget(
       if (helper.proximal !== entry.canonical) continue;
       const distal = byCanonicalEntry.get(helper.distal);
       if (!distal) continue;
-      scratchTwistFrame.copy(binding.evaluation.quaternion(distal.canonical));
+      copyQuaternionComponents(scratchTwistFrame, binding.evaluation.quaternion(distal.canonical));
       if (binding.mirrorSides) {
         scratchTwistFrame.y *= -1;
         scratchTwistFrame.z *= -1;

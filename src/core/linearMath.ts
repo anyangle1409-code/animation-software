@@ -148,7 +148,7 @@ export class HgQuat {
     return new HgQuat(this.x, this.y, this.z, this.w);
   }
 
-  dot(q: HgQuat): number {
+  dot(q: { x: number; y: number; z: number; w: number }): number {
     return this.x * q.x + this.y * q.y + this.z * q.z + this.w * q.w;
   }
 

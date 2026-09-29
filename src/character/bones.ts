@@ -187,8 +187,13 @@ export function buildCanonicalBones(rig: Skeleton = canonicalSkeleton): Canonica
   for (const rigBone of rig.bones) {
     const bone = new Bone();
     bone.name = rigBone.name;
-    bone.position.copy(rigBone.offset);
-    bone.quaternion.copy(rigBone.restLocalQuaternion);
+    bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
+    bone.quaternion.set(
+      rigBone.restLocalQuaternion.x,
+      rigBone.restLocalQuaternion.y,
+      rigBone.restLocalQuaternion.z,
+      rigBone.restLocalQuaternion.w,
+    );
     bones.push(bone);
     boneByName.set(rigBone.name, bone);
     if (rigBone.parent) boneByName.get(rigBone.parent)!.add(bone);

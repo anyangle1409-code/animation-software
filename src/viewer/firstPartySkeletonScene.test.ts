@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { hgRgbaFromHex } from '../core/sceneMesh';
-import { canonicalSkeleton } from '../rig/skeleton';
+import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import {
   createHgSkeletonScene,
   updateHgSkeletonAppearance,
@@ -88,8 +88,7 @@ describe('first-party skeleton visual scene', () => {
       false,
     );
     const bone = resources.bones.get('upperarm_l')!;
-    const source = canonicalSkeleton
-      .evaluation()
+    const source = new PoseEvaluation(canonicalSkeleton)
       .matrix('upperarm_l')
       .elements;
     bone.group.matrix.fromArray(source);

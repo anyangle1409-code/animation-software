@@ -130,7 +130,7 @@ describe('first-party posed character scene geometry', () => {
     expect(rendered.baseColour[3]).toBeCloseTo(0.75, 10);
 
     source.position.set(0.4, 0.5, 0.6);
-    source.material.opacity = 0.5;
+    material.opacity = 0.5;
     source.updateMatrixWorld(true);
     updateHgCharacterMesh(rendered, source);
     expect(rendered.matrix.elements[12]).toBeCloseTo(0.4, 10);

@@ -3,6 +3,7 @@ import {
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
   Matrix4,
+  Vector3,
   type Object3D,
   type SkinnedMesh,
 } from 'three';
@@ -39,6 +40,11 @@ export function multiplyCharacterMatrices(
 }
 export type CharacterObject3D = Object3D;
 export type CharacterSkinnedMesh = SkinnedMesh;
+export type CharacterVector3 = Vector3;
+
+export function createCharacterVector3(): CharacterVector3 {
+  return new Vector3();
+}
 export type CharacterThreeSkeleton = ThreeSkeleton;
 
 export interface CanonicalBones {

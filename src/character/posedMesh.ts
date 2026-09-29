@@ -1,5 +1,8 @@
-import { Vector3 } from 'three';
-import type { SkinnedMesh } from 'three';
+import {
+  createCharacterCharacterVector3,
+  type CharacterCharacterSkinnedMesh,
+  type CharacterCharacterVector3,
+} from './bones';
 import { HgVec3 } from '../core/linearMath';
 
 /**
@@ -19,7 +22,7 @@ import { HgVec3 } from '../core/linearMath';
  * The caller passes `out` and gets it back, because these run over tens of
  * thousands of vertices per frame and allocating there dominates the cost.
  */
-export function posedVertex(mesh: SkinnedMesh, index: number, out: Vector3): Vector3 {
+export function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
   const position = mesh.geometry.getAttribute('position');
   out.fromBufferAttribute(position, index);
 
@@ -39,25 +42,25 @@ export function posedVertex(mesh: SkinnedMesh, index: number, out: Vector3): Vec
   return mesh.localToWorld(out);
 }
 
-const firstPartyPointScratch = new Vector3();
+const firstPartyPointScratch = createCharacterVector3();
 
 /**
  * First-party point adapter for engine/constraint callers. Three remains
  * confined to the skinned-mesh deformation operation inside this module.
  */
-export function posedVertexPoint(mesh: SkinnedMesh, index: number, out: HgVec3): HgVec3 {
+export function posedVertexPoint(mesh: CharacterSkinnedMesh, index: number, out: HgVec3): HgVec3 {
   const point = posedVertex(mesh, index, firstPartyPointScratch);
   return out.set(point.x, point.y, point.z);
 }
 
-const firstPartyLocalPointScratch = new Vector3();
+const firstPartyLocalPointScratch = createCharacterVector3();
 
 /**
  * First-party adapter for a posed vertex in mesh-local space. This keeps
  * Three's skinning/morph implementation at the character boundary while
  * diagnostics consume project-owned vectors.
  */
-export function posedLocalVertexPoint(mesh: SkinnedMesh, index: number, out: HgVec3): HgVec3 {
+export function posedLocalVertexPoint(mesh: CharacterSkinnedMesh, index: number, out: HgVec3): HgVec3 {
   const point = mesh.getVertexPosition(index, firstPartyLocalPointScratch);
   return out.set(point.x, point.y, point.z);
 }
@@ -71,7 +74,7 @@ export function posedLocalVertexPoint(mesh: SkinnedMesh, index: number, out: HgV
  * body is this" — not a claim that the vertex belongs to one bone; at a joint it
  * is blended across several by design.
  */
-export function dominantBone(mesh: SkinnedMesh, index: number): string {
+export function dominantBone(mesh: CharacterSkinnedMesh, index: number): string {
   const skinIndex = mesh.geometry.getAttribute('skinIndex');
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
   let best = -1;

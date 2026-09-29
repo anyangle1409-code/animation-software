@@ -81,10 +81,12 @@ def inspect_boundary(require_guarded: bool = False) -> list[dict[str, str]]:
     if require_guarded and not bool(scene.get("hgpt_guarded_authoring")):
         _add(blockers, "guard", "Checkpoint was not saved from the guarded O2 authoring launcher.")
 
-    # O2 is stock-Blender-only. Enabled add-ons create an untracked code path
-    # capable of generating or transferring production geometry.
-    for addon in bpy.context.preferences.addons:
-        _add(blockers, "enabled_addon", addon.module)
+    # O2 guarded authoring is stock-Blender-only. Preparation/audit may run
+    # under the user's normal preferences, but the guarded launcher uses
+    # --factory-startup; enabling any add-on after the guard is active taints it.
+    if require_guarded or bool(scene.get("hgpt_guarded_authoring")):
+        for addon in bpy.context.preferences.addons:
+            _add(blockers, "enabled_addon", addon.module)
 
     for library in bpy.data.libraries:
         if library.filepath:

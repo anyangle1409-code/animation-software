@@ -54,5 +54,5 @@ echo The guard remains active until Blender closes.
 echo ============================================================
 echo.
 
-"%BLENDER%" "%CD%\%BLEND%" --python "%CD%\scripts\guard_original_v1_authoring_blender.py"
+"%BLENDER%" --factory-startup "%CD%\%BLEND%" --python "%CD%\scripts\guard_original_v1_authoring_blender.py"
 exit /b %errorlevel%

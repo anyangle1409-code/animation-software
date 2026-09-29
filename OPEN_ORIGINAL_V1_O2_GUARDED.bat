@@ -43,7 +43,7 @@ if exist "ORIGINAL_V1_WORK\AUTHORING_TAINT.json" (
 )
 
 echo Preflighting first-party O2 authoring boundary...
-"%BLENDER%" --background "%BLEND%" --python scripts\audit_original_v4_blender.py
+"%BLENDER%" --background --factory-startup "%BLEND%" --python scripts\audit_original_v4_blender.py
 if errorlevel 1 exit /b 1
 "%BLENDER%" --background --factory-startup "%BLEND%" --python-exit-code 1 --python scripts\disable_addons_for_guarded_session.py --python scripts\audit_original_v1_authoring_boundary_blender.py
 if errorlevel 1 exit /b 1

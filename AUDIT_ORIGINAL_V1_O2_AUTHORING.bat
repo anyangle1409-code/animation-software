@@ -41,7 +41,9 @@ if errorlevel 1 exit /b 1
 python -m unittest discover -s scripts -p test_original_v4_payload.py
 if errorlevel 1 exit /b 1
 
-"%BLENDER%" --background "%BLEND%" --python scripts\audit_original_v4_blender.py
+rem Every audit opens the production Blend in a clean factory process so no
+rem user add-on (e.g. third-party character tools) is loaded alongside it.
+"%BLENDER%" --background --factory-startup "%BLEND%" --python scripts\audit_original_v4_blender.py
 if errorlevel 1 exit /b 1
 rem The add-on check concerns the authoring session (recorded live by the guard);
 rem audit in a clean factory process so the auditor's own add-ons are not counted.
@@ -49,9 +51,9 @@ rem audit in a clean factory process so the auditor's own add-ons are not counte
 if errorlevel 1 exit /b 1
 
 if /I "%~1"=="strict" (
-  "%BLENDER%" --background "%BLEND%" --python scripts\audit_original_o2_mesh_blender.py -- --strict
+  "%BLENDER%" --background --factory-startup "%BLEND%" --python scripts\audit_original_o2_mesh_blender.py -- --strict
 ) else (
-  "%BLENDER%" --background "%BLEND%" --python scripts\audit_original_o2_mesh_blender.py
+  "%BLENDER%" --background --factory-startup "%BLEND%" --python scripts\audit_original_o2_mesh_blender.py
 )
 if errorlevel 1 exit /b 1
 

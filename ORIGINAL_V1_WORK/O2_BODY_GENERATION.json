@@ -1,0 +1,28 @@
+{
+  "generated_utc": "2026-09-29T20:42:11.275122+00:00",
+  "region": "torso_chest_back",
+  "method": "project-authored ring/split-junction quad cage + one Catmull-Clark level (plain Python)",
+  "inputs": {
+    "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json",
+    "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
+    "generator": "scripts/original_v1_o2_body.py",
+    "generator_version": "o2-body-1",
+    "generator_sha256": "68008d0a1961e69a87647a1b6827ec0b627a5c18328b2482c371e8db96f145ea"
+  },
+  "not_used": [
+    "O1 scaffold vertex positions",
+    "legacy/third-party meshes",
+    "projection/shrinkwrap",
+    "weights",
+    "UVs",
+    "materials/textures",
+    "imported bind data"
+  ],
+  "cage": {
+    "vertices": 3672,
+    "faces": 3670
+  },
+  "vertices": 14682,
+  "faces": 14680,
+  "triangles": 29360
+}

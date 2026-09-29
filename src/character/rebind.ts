@@ -222,7 +222,7 @@ export function rebindToCanonical(
       let nearest = Infinity;
       let chosen = anchors[0] ?? 0;
       for (const anchor of anchors) {
-        const distance = source.distanceToSquared(bindHead[anchor]);
+        const distance = source.distanceTo(bindHead[anchor]);
         if (distance < nearest) {
           nearest = distance;
           chosen = anchor;

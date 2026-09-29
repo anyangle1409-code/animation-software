@@ -1,10 +1,10 @@
-import type { Camera } from 'three';
 import type { CameraRecommendation } from '../exercises/types';
 import type { BoneName } from '../rig/boneNames';
 import type { CameraPresetId } from './cameraTypes';
 import {
   StudioCameraRigController,
   type CameraOrbitPort,
+  type CameraPort,
 } from './cameraRigController';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
@@ -22,7 +22,7 @@ export interface CameraRigStorePort {
 
 export interface CameraRigRuntimeOptions {
   sceneState: SceneState;
-  camera: Camera;
+  camera: CameraPort;
   store: CameraRigStorePort;
   controls(): CameraOrbitPort | null;
 }

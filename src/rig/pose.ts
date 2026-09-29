@@ -1,10 +1,10 @@
 import type { BoneName } from './boneNames';
 import { mirrorBoneName } from './boneNames';
-import { Euler, Quaternion, Vector3 } from 'three';
 import type { Axis, Pose, Vec3 } from './types';
-import { AXES, EULER_ORDER, vec3 } from './types';
+import { AXES, vec3 } from './types';
 import type { RigBone, Skeleton } from './skeleton';
 import { clamp, lerpAngle, toRad, round } from '../core/math';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 
 export const ZERO: Vec3 = Object.freeze(vec3(0, 0, 0));
 
@@ -167,11 +167,11 @@ export function blendPoses(a: Pose, b: Pose, t: number, pivot?: Vec3): Pose {
     // Where the pivot is in the world at each end, on a straight line between,
     // and the root placed so the blended rotation puts the pivot there.
     const turned = (rotation: Vec3) =>
-      new Vector3(pivot.x, pivot.y, pivot.z).applyQuaternion(
-        new Quaternion().setFromEuler(new Euler(rotation.x, rotation.y, rotation.z, EULER_ORDER)),
+      new HgVec3(pivot.x, pivot.y, pivot.z).applyQuaternion(
+        new HgQuat().setFromEulerXZY(rotation.x, rotation.y, rotation.z),
       );
-    const from = turned(a.rootRotation).add(new Vector3(a.rootPosition.x, a.rootPosition.y, a.rootPosition.z));
-    const to = turned(b.rootRotation).add(new Vector3(b.rootPosition.x, b.rootPosition.y, b.rootPosition.z));
+    const from = turned(a.rootRotation).add(new HgVec3(a.rootPosition.x, a.rootPosition.y, a.rootPosition.z));
+    const to = turned(b.rootRotation).add(new HgVec3(b.rootPosition.x, b.rootPosition.y, b.rootPosition.z));
     const position = from.lerp(to, t).sub(turned(out.rootRotation));
     out.rootPosition = vec3(position.x, position.y, position.z);
   }

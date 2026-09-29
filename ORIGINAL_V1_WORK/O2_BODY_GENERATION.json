@@ -1,13 +1,13 @@
 {
-  "generated_utc": "2026-09-29T20:49:30.181907+00:00",
-  "region": "shoulder_clavicle_axilla",
+  "generated_utc": "2026-09-29T20:52:32.427918+00:00",
+  "region": "upper_arm_elbow+forearm_wrist",
   "method": "project-authored ring/split-junction quad cage + one Catmull-Clark level (plain Python)",
   "inputs": {
     "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json",
     "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "generator": "scripts/original_v1_o2_body.py",
     "generator_version": "o2-body-1",
-    "generator_sha256": "f612de0d8a53cdb1bc41b40bace833cfe96c2fee5d1098f30d4677ae162ff33c"
+    "generator_sha256": "f3606191e3647c80dc375fd1c80ec78afefd0af3776afa9761cb416518095f34"
   },
   "not_used": [
     "O1 scaffold vertex positions",

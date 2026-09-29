@@ -155,3 +155,22 @@ Entries are appended as regions are checkpointed (see
   arm and chest meet in the arms-down rest pose. It is accepted for O2 and must
   be rechecked under abduction and flexion at O5.
 - **Gates.** Authoring audit PASS; rig-fit PASS; clearance gate PASS.
+
+### 3+4. Upper arm/elbow + forearm/wrist — checkpoint `74ed9055…5a9d` (2026-09-29)
+
+Both regions were refined in one pass and recorded as one checkpoint.
+
+- **Arm.** Twenty-vertex cage rings (40 after subdivision) run along the
+  vertical v4 humerus/forearm line (lx 0.215, f −0.03). The neutral hang has
+  the palm medial and the thumb forward.
+- **Muscles.** Added biceps (front, peak z ≈ 1.285), triceps (back, 1.33),
+  deltoid insertion, and the brachioradialis/extensor/flexor mass in the upper
+  forearm, tapering to the distal forearm.
+- **Elbow.** Cage rings sit at 1.21, 1.19 (joint centre) and 1.17, with the
+  epicondyles and olecranon widened.
+- **Wrist.** Oval section (≈ 62 × 39 mm) matching the forearm, widening into
+  the palm over three rings (`palm_ring(..., arch=)`). This removed a
+  "bracelet" step from the first draft.
+- **Gates.** Authoring audit PASS; rig-fit PASS; clearance PASS.
+- **Open.** Pronation/supination and loaded-wrist deformation checks belong to
+  O4–O5.

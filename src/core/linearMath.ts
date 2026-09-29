@@ -35,7 +35,7 @@ export class HgVec3 {
     return this.set(a.x - b.x, a.y - b.y, a.z - b.z);
   }
 
-  addScaledVector(v: HgVec3, scale: number): this {
+  addScaledVector(v: { x: number; y: number; z: number }, scale: number): this {
     this.x += v.x * scale;
     this.y += v.y * scale;
     this.z += v.z * scale;

@@ -1,5 +1,5 @@
 import { IK_CHAIN_IDS } from '../ik/chains';
-import type { IKChainId, IKGoal } from '../ik/types';
+import type { IKChainId } from '../ik/types';
 import type { Vec3 } from '../rig/types';
 
 export interface IKHandleState {
@@ -12,7 +12,13 @@ export interface IKChainHandleState {
   readonly pole: IKHandleState;
 }
 
-export type IKGoalMap = Partial<Record<IKChainId, IKGoal | undefined>>;
+export interface IKHandleGoalLike {
+  readonly enabled: boolean;
+  readonly target: Vec3;
+  readonly pole: Vec3;
+}
+
+export type IKGoalMap = Partial<Record<IKChainId, IKHandleGoalLike | undefined>>;
 
 const copy = (value: Vec3): Vec3 => ({ x: value.x, y: value.y, z: value.z });
 

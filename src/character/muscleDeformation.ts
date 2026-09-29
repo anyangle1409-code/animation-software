@@ -1,4 +1,11 @@
-import { BufferAttribute, Bone, SkinnedMesh, Vector3 } from 'three';
+import {
+  createCharacterBufferAttribute,
+  createCharacterVector3,
+  type CharacterBone,
+  type CharacterBufferAttribute,
+  type CharacterSkinnedMesh,
+  type CharacterVector3,
+} from './bones';
 import type { Skeleton } from '../rig/skeleton';
 import type { BoneName, Side } from '../rig/boneNames';
 import { elbowFlexion } from '../rig/elbowFlexion';
@@ -73,13 +80,13 @@ const plateau = (t: number, from: number, to: number, edge = 0.18): number => {
   return ramp * ramp * (3 - 2 * ramp);
 };
 
-const point = new Vector3();
-const along = new Vector3();
-const radial = new Vector3();
+const point = createCharacterVector3();
+const along = createCharacterVector3();
+const radial = createCharacterVector3();
 
 export function importedMuscleDeformation(
-  meshes: SkinnedMesh[],
-  boneByName: Map<BoneName, Bone>,
+  meshes: CharacterSkinnedMesh[],
+  boneByName: Map<BoneName, CharacterBone>,
   rig: Skeleton,
   options?: MuscleDeformationOptions,
   tuning?: MuscleRuntimeTuning,
@@ -125,8 +132,8 @@ export function importedMuscleDeformation(
 }
 
 function appendArm(
-  mesh: SkinnedMesh,
-  boneByName: Map<BoneName, Bone>,
+  mesh: CharacterSkinnedMesh,
+  boneByName: Map<BoneName, CharacterBone>,
   side: Side,
   options: MuscleDeformationOptions | undefined,
   tuning: MuscleRuntimeTuning | undefined,
@@ -141,9 +148,9 @@ function appendArm(
   if (!position || !skinIndex || !skinWeight) return [];
 
   mesh.updateWorldMatrix(true, false);
-  const shoulder = mesh.worldToLocal(upper.getWorldPosition(new Vector3()));
-  const elbow = mesh.worldToLocal(lower.getWorldPosition(new Vector3()));
-  const wrist = mesh.worldToLocal(hand.getWorldPosition(new Vector3()));
+  const shoulder = mesh.worldToLocal(upper.getWorldPosition(createCharacterVector3()));
+  const elbow = mesh.worldToLocal(lower.getWorldPosition(createCharacterVector3()));
+  const wrist = mesh.worldToLocal(hand.getWorldPosition(createCharacterVector3()));
   const upperAxis = elbow.clone().sub(shoulder);
   const foreAxis = wrist.clone().sub(elbow);
   const upperLength = upperAxis.length();
@@ -153,7 +160,7 @@ function appendArm(
   foreAxis.divideScalar(foreLength);
   // The character stands in a T-pose with +z to the front, so anterior is +z
   // and the biceps is the front of the upper arm.
-  const anterior = new Vector3(0, 0, 1);
+  const anterior = createCharacterVector3().set(0, 0, 1);
 
   const upperOwned = ownership(mesh, upper.name);
   const lowerOwned = ownership(mesh, lower.name);
@@ -255,11 +262,11 @@ function appendArm(
   return built;
 }
 
-const distanceAlong = (p: Vector3, base: Vector3, axis: Vector3): number =>
+const distanceAlong = (p: CharacterVector3, base: CharacterVector3, axis: CharacterVector3): number =>
   p.clone().sub(base).dot(axis);
 
 /** Which skin indices belong to a bone, including its deform twist helpers. */
-function ownership(mesh: SkinnedMesh, boneName: string): Set<number> {
+function ownership(mesh: CharacterSkinnedMesh, boneName: string): Set<number> {
   const found = new Set<number>();
   const bones = mesh.skeleton?.bones ?? [];
   // GLTFLoader strips dots from node names, so `DEF-forearm.L.001` arrives as
@@ -297,7 +304,7 @@ function share(
  * leaves their behaviour exactly as it was.
  */
 function appendTarget(
-  mesh: SkinnedMesh,
+  mesh: CharacterSkinnedMesh,
   side: Side,
   delta: Float32Array,
   name: string,
@@ -320,7 +327,7 @@ function appendTarget(
   const relative = mesh.geometry.morphTargetsRelative === true;
   const positions = mesh.geometry.morphAttributes.position ?? [];
   const morph = relative
-    ? new BufferAttribute(delta, 3)
+    ? createCharacterBufferAttribute(delta, 3)
     : absolute(position, delta);
   morph.name = name;
   mesh.geometry.morphAttributes.position = [...positions, morph];
@@ -332,8 +339,8 @@ function appendTarget(
     while (normals.length < positions.length) {
       const zeros = new Float32Array(position.count * 3);
       normals.push(relative || !baseNormal
-        ? new BufferAttribute(zeros, 3)
-        : new BufferAttribute(Float32Array.from((baseNormal.array as ArrayLike<number>)), 3));
+        ? createCharacterBufferAttribute(zeros, 3)
+        : createCharacterBufferAttribute(Float32Array.from((baseNormal.array as ArrayLike<number>)), 3));
     }
     normals.push(normalDelta);
     mesh.geometry.morphAttributes.normal = normals;
@@ -348,14 +355,14 @@ function appendTarget(
 function absolute(
   position: { count: number; getX(i: number): number; getY(i: number): number; getZ(i: number): number },
   delta: Float32Array,
-): BufferAttribute {
+): CharacterBufferAttribute {
   const values = new Float32Array(position.count * 3);
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     values[vertex * 3] = position.getX(vertex) + delta[vertex * 3];
     values[vertex * 3 + 1] = position.getY(vertex) + delta[vertex * 3 + 1];
     values[vertex * 3 + 2] = position.getZ(vertex) + delta[vertex * 3 + 2];
   }
-  return new BufferAttribute(values, 3);
+  return createCharacterBufferAttribute(values, 3);
 }
 
 /**
@@ -419,10 +426,10 @@ function smoothNormals(
  * move.
  */
 function normalsFor(
-  mesh: SkinnedMesh,
+  mesh: CharacterSkinnedMesh,
   delta: Float32Array,
   relative: boolean,
-): BufferAttribute | null {
+): CharacterBufferAttribute | null {
   const position = mesh.geometry.getAttribute('position');
   const baseNormal = mesh.geometry.getAttribute('normal');
   const index = mesh.geometry.getIndex();
@@ -478,5 +485,5 @@ function normalsFor(
       values[vertex * 3 + 2] = baseNormal.getZ(vertex) + dz;
     }
   }
-  return touched ? new BufferAttribute(values, 3) : null;
+  return touched ? createCharacterBufferAttribute(values, 3) : null;
 }

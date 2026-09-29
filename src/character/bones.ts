@@ -1,5 +1,6 @@
 import {
   Bone,
+  BufferAttribute,
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
   Matrix4,
@@ -12,6 +13,14 @@ import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 
 export type CharacterBone = Bone;
+export type CharacterBufferAttribute = BufferAttribute;
+
+export function createCharacterBufferAttribute(
+  values: Float32Array,
+  itemSize: number,
+): CharacterBufferAttribute {
+  return new BufferAttribute(values, itemSize);
+}
 export type CharacterKeyframeTrack = KeyframeTrack;
 export type CharacterMatrix4 = Matrix4;
 

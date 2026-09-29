@@ -16,6 +16,10 @@ export class HgStudioSceneRenderer {
   ) {}
 
   render(root: HgObject3D, camera: HgPerspectiveCamera): number {
+    // Own transform freshness here rather than depending on one renderer
+    // family as a side effect. Character-only scenes must render correctly.
+    root.updateMatrixWorld(true);
+    camera.updateWorldMatrix(true, false);
     const primitiveCount = this.primitives.render(root, camera);
     let characterCount = 0;
 

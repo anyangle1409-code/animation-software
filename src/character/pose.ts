@@ -1,18 +1,25 @@
-import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import { HG_UNIT_SCALE, HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
-import { EULER_ORDER } from '../rig/types';
 import type { BoneName, Finger } from '../rig/boneNames';
 import { solvedGripFor } from './solvedGrip';
 import type { CharacterBuild, CharacterPoseContext } from './types';
 
-const UNIT = new Vector3(1, 1, 1);
 const scratch = {
-  euler: new Euler(0, 0, 0, EULER_ORDER),
-  quaternion: new Quaternion(),
-  local: new Quaternion(),
-  placement: new Matrix4(),
-  offset: new Vector3(),
+  quaternion: new HgQuat(),
+  local: new HgQuat(),
+  placement: new HgMat4(),
+  matrix: new HgMat4(),
+  offset: new HgVec3(),
+};
+
+const copyMatrix = (
+  source: HgMat4,
+  target: { elements: { [index: number]: number } },
+): void => {
+  for (let index = 0; index < 16; index += 1) {
+    target.elements[index] = source.elements[index];
+  }
 };
 
 /**
@@ -23,6 +30,10 @@ const scratch = {
  * wrote. That is the whole of the skinning layer's per-frame work — the
  * viewport adds nothing of its own, so what the exporter bakes and what the
  * studio shows come from one piece of code.
+ *
+ * Transform composition is project-owned. Three-backed bone objects remain a
+ * temporary skin/scene compatibility boundary, but their local matrices are
+ * populated from HgMat4 rather than composed through Three math.
  */
 export function applyCharacterPose(
   character: CharacterBuild,
@@ -47,23 +58,45 @@ export function applyCharacterPose(
     const bone = character.boneByName.get(rigBone.name);
     if (!bone) continue;
     const rotation = posed.rotations[rigBone.name];
-    scratch.euler.set(rotation?.x ?? 0, rotation?.y ?? 0, rotation?.z ?? 0, EULER_ORDER);
+    scratch.local.setFromEulerXZY(
+      rotation?.x ?? 0,
+      rotation?.y ?? 0,
+      rotation?.z ?? 0,
+    );
     scratch.quaternion
-      .copy(rigBone.restLocalQuaternion)
-      .multiply(scratch.local.setFromEuler(scratch.euler));
-    bone.matrix.compose(scratch.offset.copy(rigBone.offset), scratch.quaternion, UNIT);
+      .set(
+        rigBone.restLocalQuaternion.x,
+        rigBone.restLocalQuaternion.y,
+        rigBone.restLocalQuaternion.z,
+        rigBone.restLocalQuaternion.w,
+      )
+      .multiply(scratch.local);
+    scratch.matrix.compose(
+      scratch.offset.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z),
+      scratch.quaternion,
+      HG_UNIT_SCALE,
+    );
 
     if (rigBone.parent === null) {
       // The root additionally carries the rig's world placement, exactly as the
       // pose evaluation does — root motion is part of the animation.
-      scratch.euler.set(posed.rootRotation.x, posed.rootRotation.y, posed.rootRotation.z, EULER_ORDER);
       scratch.placement.compose(
-        scratch.offset.set(posed.rootPosition.x, posed.rootPosition.y, posed.rootPosition.z),
-        scratch.quaternion.setFromEuler(scratch.euler),
-        UNIT,
+        scratch.offset.set(
+          posed.rootPosition.x,
+          posed.rootPosition.y,
+          posed.rootPosition.z,
+        ),
+        scratch.local.setFromEulerXZY(
+          posed.rootRotation.x,
+          posed.rootRotation.y,
+          posed.rootRotation.z,
+        ),
+        HG_UNIT_SCALE,
       );
-      bone.matrix.premultiply(scratch.placement);
+      scratch.matrix.premultiply(scratch.placement);
     }
+
+    copyMatrix(scratch.matrix, bone.matrix);
   }
   character.root.updateMatrixWorld(true);
 

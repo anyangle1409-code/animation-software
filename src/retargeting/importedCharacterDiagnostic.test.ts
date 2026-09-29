@@ -16,7 +16,7 @@ import { applyCharacterPose } from '../character/pose';
 import { retargetedCharacterSource } from '../character/retargetSource';
 import type { CharacterBuild, Side } from '../character/types';
 import { equipmentSocket } from '../equipment/library';
-import { handAttachmentMatrix } from '../export/clipBuilder';
+import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 
 /**
  * Optional diagnostic for a supplied imported character.

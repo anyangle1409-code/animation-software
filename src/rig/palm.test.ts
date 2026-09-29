@@ -10,7 +10,7 @@ import { resolveFrame } from '../animation/pipeline';
 import { validateClip } from '../animation/validate';
 import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
-import { bakeClip } from '../export/clipBuilder';
+import { bakeClip } from '../export/test/clipBuilderCompat';
 import { buildSkinnedRig } from '../export/rigBuilder';
 import { EXERCISES } from '../exercises/library';
 

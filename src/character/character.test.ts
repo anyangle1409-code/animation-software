@@ -17,7 +17,7 @@ import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { exportGlb } from '../export/glb';
-import { bakeClip } from '../export/clipBuilder';
+import { bakeClip } from '../export/test/clipBuilderCompat';
 import { createMapping, guessMapping } from '../retargeting/boneMap';
 import { proceduralCharacter } from './procedural';
 import { characterSource, characterSources, defaultCharacterId } from './registry';

@@ -1,4 +1,5 @@
-import { Group, PerspectiveCamera, Scene } from 'three';
+import { Group, Scene } from 'three';
+import { HgPerspectiveCamera } from '../core/sceneGraph';
 import { describe, expect, it, vi } from 'vitest';
 import type { CharacterBuild, CharacterSource } from '../character';
 import { createStore } from '../core/observableStore';
@@ -95,7 +96,7 @@ describe('framework-neutral Studio scene controller', () => {
     });
 
     const root = new Scene();
-    const camera = new PerspectiveCamera();
+    const camera = new HgPerspectiveCamera();
     camera.position.set(2.3, 1.35, 2.7);
     const element = new FakeCanvas() as unknown as HTMLCanvasElement;
     const pointerHandlers = new Map<object, object>();

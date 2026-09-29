@@ -1,6 +1,5 @@
 import {
   Object3D,
-  type Camera,
   type Scene,
 } from './threeSceneBoundary';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
@@ -20,6 +19,7 @@ import type { HgScenePointerRouter } from './scenePointerRouter';
 import {
   createTransformGizmoRuntime,
   type TransformGizmoRuntime,
+  type TransformGizmoCameraPort,
 } from './transformGizmoRuntime';
 import type { HgOrbitControlsHandle } from './orbitControlsRuntime';
 
@@ -57,7 +57,7 @@ export interface StudioEditRuntimeOptions {
   sceneState: SceneState;
   root: Pick<Scene, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
-  camera: Camera;
+  camera: TransformGizmoCameraPort;
   store: StudioEditStorePort;
   skeleton: Skeleton;
   controls(): HgOrbitControlsHandle | null;

@@ -1,6 +1,5 @@
 import {
   Object3D,
-  type Camera,
   type Scene,
 } from './threeSceneBoundary';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
@@ -20,11 +19,15 @@ import {
   type TransformGizmoSceneResources,
 } from './transformGizmoScene';
 
+export interface TransformGizmoCameraPort {
+  position: { x: number; y: number; z: number };
+}
+
 export interface TransformGizmoRuntimeOptions {
   sceneState: SceneState;
   root: Pick<Scene, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
-  camera: Camera;
+  camera: TransformGizmoCameraPort;
   object: Object3D;
   mode: HgTransformMode;
   size?: number;

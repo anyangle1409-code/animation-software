@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { CORE_BONES, isScapula } from '../rig/boneNames';
 import type { CoreBoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
@@ -29,8 +29,8 @@ export function frontPoseDiagram(pose: Pose): DiagramSegment[] {
   // The scapulae are left out: each lies in the plane of the back, so a front
   // projection would draw it as a diagonal across the chest that no limb makes.
   const raw = CORE_BONES.filter((bone) => bone !== 'root' && !isScapula(bone)).map((bone) => {
-    const head = evaluation.head(bone, new Vector3());
-    const tail = evaluation.tail(bone, new Vector3());
+    const head = evaluation.firstPartyEvaluation.head(bone, new HgVec3());
+    const tail = evaluation.firstPartyEvaluation.tail(bone, new HgVec3());
     return { bone, x1: head.x, y1: head.y, x2: tail.x, y2: tail.y };
   });
 

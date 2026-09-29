@@ -88,8 +88,10 @@ export function buildProfileBodyGeometry(rig: Skeleton = canonicalSkeleton): Bod
           placed.bone.restWorldQuaternion.z,
           placed.bone.restWorldQuaternion.w,
         ),
-      )
-      .add(placed.bone.restHead);
+      );
+    scratch.x += placed.bone.restHead.x;
+    scratch.y += placed.bone.restHead.y;
+    scratch.z += placed.bone.restHead.z;
     positions.push(scratch.x, scratch.y, scratch.z);
 
     const tint = colourOf(colour ?? placed.ring.colour);

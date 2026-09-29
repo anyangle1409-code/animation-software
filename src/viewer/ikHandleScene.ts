@@ -5,23 +5,21 @@ import {
   MeshStandardMaterial,
   OctahedronGeometry,
 } from './threeSceneBoundary';
-import { IK_CHAIN_IDS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import type { HgScenePointerRouter } from './scenePointerRouter';
+import {
+  buildHgIKHandleSceneModel,
+  hgIKHandleKey,
+  resolveHgIKHandleAppearance,
+} from './ikHandleSceneModel';
 
 export type IKHandleKind = 'target' | 'pole';
-
-const TARGET_COLOUR = '#4fd6a0';
-const POLE_COLOUR = '#6aa9ff';
-const SELECTED_COLOUR = '#ffb43a';
 
 export interface IKHandleSceneResources {
   group: Group;
   handles: ReadonlyMap<string, Mesh>;
   dispose(): void;
 }
-
-const keyOf = (chain: IKChainId, kind: IKHandleKind) => `${chain}:${kind}`;
 
 export function createIKHandleScene(): IKHandleSceneResources {
   const group = new Group();
@@ -32,25 +30,25 @@ export function createIKHandleScene(): IKHandleSceneResources {
   const handles = new Map<string, Mesh>();
   const materials: MeshStandardMaterial[] = [];
 
-  for (const chain of IK_CHAIN_IDS) {
-    for (const kind of ['target', 'pole'] as const) {
-      const colour = kind === 'target' ? TARGET_COLOUR : POLE_COLOUR;
-      const material = new MeshStandardMaterial({
-        color: colour,
-        emissive: '#000000',
-        emissiveIntensity: 0,
-        transparent: true,
-        opacity: 0.9,
-        depthTest: false,
-      });
-      materials.push(material);
+  for (const visual of buildHgIKHandleSceneModel()) {
+    const material = new MeshStandardMaterial({
+      color: visual.material.colour,
+      emissive: '#000000',
+      emissiveIntensity: 0,
+      transparent: visual.material.transparent,
+      opacity: visual.material.opacity,
+      depthTest: visual.material.depthTest,
+    });
+    materials.push(material);
 
-      const mesh = new Mesh(kind === 'target' ? targetGeometry : poleGeometry, material);
-      mesh.name = `hgpt-ik-${chain}-${kind}`;
-      mesh.visible = false;
-      group.add(mesh);
-      handles.set(keyOf(chain, kind), mesh);
-    }
+    const mesh = new Mesh(
+      visual.geometry.kind === 'box' ? targetGeometry : poleGeometry,
+      material,
+    );
+    mesh.name = `hgpt-ik-${visual.chain}-${visual.kind}`;
+    mesh.visible = false;
+    group.add(mesh);
+    handles.set(visual.key, mesh);
   }
 
   let disposed = false;
@@ -72,21 +70,18 @@ export function updateIKHandleSelection(
   resources: IKHandleSceneResources,
   selection: { chain: IKChainId; kind: IKHandleKind } | null,
 ): void {
-  for (const chain of IK_CHAIN_IDS) {
-    for (const kind of ['target', 'pole'] as const) {
-      const mesh = resources.handles.get(keyOf(chain, kind));
-      if (!mesh) continue;
-      const material = mesh.material as MeshStandardMaterial;
-      const selected = selection?.chain === chain && selection.kind === kind;
-      const colour = selected
-        ? SELECTED_COLOUR
-        : kind === 'target'
-          ? TARGET_COLOUR
-          : POLE_COLOUR;
-      material.color.set(colour);
-      material.emissive.set(selected ? SELECTED_COLOUR : '#000000');
-      material.emissiveIntensity = selected ? 0.5 : 0;
-    }
+  for (const visual of buildHgIKHandleSceneModel()) {
+    const mesh = resources.handles.get(visual.key);
+    if (!mesh) continue;
+    const material = mesh.material as MeshStandardMaterial;
+    const appearance = resolveHgIKHandleAppearance(
+      visual.chain,
+      visual.kind,
+      selection,
+    );
+    material.color.set(appearance.colour);
+    material.emissive.set(appearance.emissive);
+    material.emissiveIntensity = appearance.emissiveIntensity;
   }
 }
 
@@ -96,19 +91,17 @@ export function registerIKHandlePointers(
   select: (selection: { chain: IKChainId; kind: IKHandleKind }) => void,
 ): () => void {
   const remove: Array<() => void> = [];
-  for (const chain of IK_CHAIN_IDS) {
-    for (const kind of ['target', 'pole'] as const) {
-      const mesh = resources.handles.get(keyOf(chain, kind));
-      if (!mesh) continue;
-      remove.push(
-        pointers.register(mesh, {
-          pointerdown: (event) => {
-            event.stopPropagation();
-            select({ chain, kind });
-          },
-        }),
-      );
-    }
+  for (const visual of buildHgIKHandleSceneModel()) {
+    const mesh = resources.handles.get(visual.key);
+    if (!mesh) continue;
+    remove.push(
+      pointers.register(mesh, {
+        pointerdown: (event) => {
+          event.stopPropagation();
+          select({ chain: visual.chain, kind: visual.kind });
+        },
+      }),
+    );
   }
   return () => {
     for (const unregister of remove) unregister();

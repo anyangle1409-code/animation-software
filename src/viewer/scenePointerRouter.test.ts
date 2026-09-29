@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
 import {
   BoxGeometry,
   Group,

@@ -31,7 +31,8 @@ scene = bpy.context.scene
 if not scene.get("hgpt_not_production"):
     raise SystemExit("Pose tests run only on candidate files.")
 rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
-body = next(o for o in bpy.data.objects if o.type == "MESH" and o.find_armature() == rig)
+body = next(o for o in bpy.data.objects if o.type == "MESH" and o.find_armature() == rig and "SHORTS" not in o.name)
+shorts = next((o for o in bpy.data.objects if o.type == "MESH" and "SHORTS" in o.name), None)
 region_names = json.loads(scene["hgpt_region_names"])
 vreg = np.array([d.value for d in body.data.attributes["hgpt_region"].data])
 
@@ -416,6 +417,24 @@ def volume(V):
 
 
 REST_VOL = volume(rest_V)
+_names = [region_names[r] for r in vreg]
+# Visible margin bands next to the waistband and hems (the rest is masked when dressed).
+UNDER_SHORTS = np.array([(n in ("torso", "pelvis") and 0.975 < z < 1.0) or (n == "leg" and 0.628 < z < 0.652)
+                         for n, z in zip(_names, rest_V[:, 2])])
+DRESS_MASK = body.modifiers.get("HGPT_DRESSED_MASK")
+
+
+def set_dressed(on):
+    if DRESS_MASK is not None:
+        DRESS_MASK.show_viewport = on
+        DRESS_MASK.show_render = on
+    if shorts is not None:
+        shorts.hide_render = not on
+        shorts.hide_viewport = not on
+    upd()
+
+
+set_dressed(False)
 
 
 def measure(name):
@@ -484,6 +503,7 @@ scene.render.resolution_x = scene.render.resolution_y = 900
 
 
 def render(name):
+    set_dressed(True)
     upd()
     dg = bpy.context.evaluated_depsgraph_get()
     ev = body.evaluated_get(dg)
@@ -513,6 +533,7 @@ def render(name):
             cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
             scene.render.filepath = str(OUT / f"pose_{name}_close_{zone}_{view}.png")
             bpy.ops.render.render(write_still=True)
+    set_dressed(False)
 
 
 results = []

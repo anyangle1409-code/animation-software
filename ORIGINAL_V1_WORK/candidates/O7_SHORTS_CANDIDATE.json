@@ -1,0 +1,23 @@
+{
+  "generated_utc": "2026-09-29T22:13:22.208544+00:00",
+  "stage": "O7 candidate (not production)",
+  "garment": "ORIGINAL fitted athletic shorts derived from ORIGINAL v1 body surface",
+  "waist_z": 1.005,
+  "hem_z": 0.625,
+  "ease_m": 0.006,
+  "hem_ease_m": 0.016,
+  "thickness_m": 0.0028,
+  "vertices": 2800,
+  "faces": 2802,
+  "weights": "nearest-4 ORIGINAL v1 body vertices (inverse distance) + smoothing, max 4 influences",
+  "materials": {
+    "skin": "authored numeric principled",
+    "fabric": "authored numeric principled"
+  },
+  "not_used": [
+    "legacy/third-party garments",
+    "textures",
+    "external materials"
+  ],
+  "candidate_sha256": "d89dedb5033eb52e27a2d66f000f460c5c106ba8e056421cddce633e369044a4"
+}

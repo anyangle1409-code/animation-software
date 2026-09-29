@@ -281,8 +281,14 @@ describe('glb export', () => {
     const jsonLength = view.getUint32(12, true);
     const json = JSON.parse(
       new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
-    ) as { meshes?: unknown[]; animations: unknown[]; nodes: { name?: string }[] };
+    ) as {
+      asset: { generator?: string };
+      meshes?: unknown[];
+      animations: unknown[];
+      nodes: { name?: string }[];
+    };
 
+    expect(json.asset.generator).toBe('Home Gym PT first-party codec');
     expect(json.animations).toHaveLength(1);
     expect(json.meshes ?? []).toHaveLength(0);
     expect(json.nodes.map((node) => node.name)).toContain('pelvis');

@@ -19,6 +19,7 @@ import { anatomicalGripOffset } from '../equipment/attach';
 import { mirrorInvariant, reflectBakedTrack, reflectedStaticPlacement } from '../equipment/mirror';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject } from './rigBuilder';
+import { exportFirstPartyClipGlb } from './firstPartyClipGlb';
 import { characterSource } from '../character';
 import type { CharacterBuild, CharacterSource } from '../character';
 
@@ -53,6 +54,8 @@ export async function exportGlb(
   options: GlbExportOptions = {},
 ): Promise<Blob> {
   const { includeEquipment = true, clipOnly = false } = options;
+  if (clipOnly) return exportFirstPartyClipGlb(studioClip, exercise, options.fps);
+
   const source =
     typeof options.character === 'object' ? options.character : characterSource(options.character);
   const character = await source.build(canonicalSkeleton);

@@ -1,11 +1,10 @@
-import { Box3, Matrix4, Vector3 } from 'three';
-import type { BufferGeometry, Object3D, SkinnedMesh } from 'three';
+import { HgMat4, HgQuat, HgVec3, HG_UNIT_SCALE } from '../core/linearMath';
+import type { CharacterSkinnedMesh } from './bones';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from '../retargeting/boneMap';
-import { buildCanonicalBones } from './bones';
 
 /**
  * Rebinding an imported surface onto the canonical rig.
@@ -57,6 +56,23 @@ export interface RebindReport {
 
 const INFLUENCES = 4;
 
+interface MatrixLike {
+  readonly elements: ArrayLike<number>;
+}
+
+interface NamedParent {
+  readonly name: string;
+  readonly parent: NamedParent | null;
+}
+
+const hgMatrix = (source: MatrixLike): HgMat4 => {
+  const matrix = new HgMat4();
+  for (let index = 0; index < 16; index += 1) {
+    matrix.elements[index] = source.elements[index];
+  }
+  return matrix;
+};
+
 /**
  * Rebind one imported skinned mesh onto the canonical rig, in place.
  *
@@ -64,11 +80,11 @@ const INFLUENCES = 4;
  * the skin indices and the skin weights are rewritten.
  */
 export function rebindToCanonical(
-  mesh: SkinnedMesh,
+  mesh: CharacterSkinnedMesh,
   mapping: BoneMapping,
   rig: Skeleton = canonicalSkeleton,
 ): RebindReport {
-  const geometry = mesh.geometry as BufferGeometry;
+  const geometry = mesh.geometry;
   const position = geometry.getAttribute('position');
   const skinIndex = geometry.getAttribute('skinIndex');
   const skinWeight = geometry.getAttribute('skinWeight');
@@ -92,13 +108,15 @@ export function rebindToCanonical(
   // Where each source bone sits at bind time, used both for the placement
   // below and for the proximity fallback.
   const bindHead = sourceBones.map((_, index) =>
-    new Vector3().setFromMatrixPosition(mesh.skeleton.boneInverses[index].clone().invert()),
+    new HgVec3().setFromMatrixPosition(
+      hgMatrix(mesh.skeleton.boneInverses[index]).invert(),
+    ),
   );
 
   const owner: (BoneName | null)[] = [];
   const inherited: boolean[] = [];
   for (const bone of sourceBones) {
-    let search: Object3D | null = bone;
+    let search: NamedParent | null = bone;
     let steps = 0;
     let found: BoneName | null = null;
     while (search && steps < 64) {
@@ -121,27 +139,38 @@ export function rebindToCanonical(
 
   // The model's height, measured in the bind space the weights are expressed
   // in, so a centimetre-scaled export is handled like any other.
-  const bindMatrix = mesh.bindMatrix.clone();
-  const bounds = new Box3();
-  const point = new Vector3();
+  const bindMatrix = hgMatrix(mesh.bindMatrix);
+  const point = new HgVec3();
+  let minY = Infinity;
+  let maxY = -Infinity;
   for (let vertex = 0; vertex < position.count; vertex += 1) {
-    bounds.expandByPoint(
-      point.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex)).applyMatrix4(bindMatrix),
-    );
+    point
+      .set(position.getX(vertex), position.getY(vertex), position.getZ(vertex))
+      .applyMatrix4(bindMatrix);
+    minY = Math.min(minY, point.y);
+    maxY = Math.max(maxY, point.y);
   }
-  const height = Math.max(0.2, bounds.max.y - bounds.min.y);
+  const height = Math.max(0.2, maxY - minY);
   const scale = mapping.characterHeight ? RIG_HEIGHT / mapping.characterHeight : RIG_HEIGHT / height;
 
   // Cⱼ · S · Bᵢ⁻¹, one per source bone.
-  const rest = buildCanonicalBones(rig);
-  const scaleMatrix = new Matrix4().makeScale(scale, scale, scale);
-  const placement: (Matrix4 | null)[] = sourceBones.map((_, index) => {
+  const scaleMatrix = new HgMat4().compose(
+    new HgVec3(),
+    new HgQuat(),
+    new HgVec3(scale, scale, scale),
+  );
+  const placement: (HgMat4 | null)[] = sourceBones.map((_, index) => {
     const canonical = owner[index];
     if (!canonical) return null;
-    const bone = rest.boneByName.get(canonical);
+    const bone = rig.firstParty.byName.get(canonical);
     if (!bone) return null;
-    const bind = mesh.skeleton.boneInverses[index].clone(); // Bᵢ⁻¹
-    return bone.matrixWorld.clone().multiply(scaleMatrix).multiply(bind);
+    const restWorld = new HgMat4().compose(
+      bone.restHead,
+      bone.restWorldQuaternion,
+      HG_UNIT_SCALE,
+    );
+    const bind = hgMatrix(mesh.skeleton.boneInverses[index]); // Bᵢ⁻¹
+    return restWorld.multiply(scaleMatrix).multiply(bind);
   });
 
   const pelvis = canonicalIndex.get('pelvis') ?? 0;
@@ -151,9 +180,9 @@ export function rebindToCanonical(
   let reassigned = 0;
   let orphaned = 0;
 
-  const source = new Vector3();
-  const moved = new Vector3();
-  const blended = new Vector3();
+  const source = new HgVec3();
+  const moved = new HgVec3();
+  const blended = new HgVec3();
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     source

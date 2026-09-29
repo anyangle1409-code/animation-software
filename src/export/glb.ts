@@ -60,8 +60,14 @@ export async function exportGlb(
   const source =
     typeof options.character === 'object' ? options.character : characterSource(options.character);
 
-  if (!clipOnly && !includeEquipment && source.id === 'procedural') {
-    return exportFirstPartyCanonicalCharacterGlb(studioClip, exercise, source, options.fps);
+  if (!clipOnly && source.id === 'procedural') {
+    return exportFirstPartyCanonicalCharacterGlb(
+      studioClip,
+      exercise,
+      source,
+      options.fps,
+      includeEquipment,
+    );
   }
   const character = await source.build(canonicalSkeleton);
   // Whatever the character's deformation stack does beyond posing bones —

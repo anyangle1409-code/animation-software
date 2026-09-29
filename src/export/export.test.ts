@@ -255,12 +255,14 @@ describe('glb export', () => {
     const json = JSON.parse(
       new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
     ) as {
+      asset: { generator?: string };
       animations: { name: string; channels: unknown[] }[];
       nodes: { name?: string }[];
       skins: unknown[];
       meshes: unknown[];
     };
 
+    expect(json.asset.generator).toBe('Home Gym PT first-party codec');
     expect(json.animations).toHaveLength(1);
     expect(json.animations[0].name).toBe('bicep_curl');
     expect(json.animations[0].channels.length).toBeGreaterThan(5);

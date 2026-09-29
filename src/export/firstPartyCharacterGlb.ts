@@ -1,10 +1,15 @@
 import type { StudioClip } from '../animation/clip';
 import { HgGltfBuilder } from '../core/gltfBuilder';
-import { addHgGltfAnimation, type HgAnimationPath } from '../core/gltfAnimation';
+import {
+  addHgGltfAnimation,
+  type HgAnimationPath,
+  type HgAnimationTrackInput,
+} from '../core/gltfAnimation';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { CharacterSource } from '../character';
-import { bakeClipData } from './clipData';
+import { bakeClipData, type BakedClipData } from './clipData';
+import { appendFirstPartyEquipment } from './firstPartyEquipment';
 
 interface AttributeLike {
   readonly count: number;
@@ -27,33 +32,33 @@ const indexValues = (index: { readonly count: number; getX(i: number): number })
 
 const animationTracks = (
   builder: HgGltfBuilder,
-  clip: StudioClip,
+  baked: BakedClipData,
   nodeIndex: ReadonlyMap<string, number>,
-  fps?: number,
+  extraTracks: readonly HgAnimationTrackInput[] = [],
 ) => {
-  const baked = bakeClipData(clip, canonicalSkeleton, { fps });
-  const tracks = baked.tracks.map((track) => {
+  const tracks: HgAnimationTrackInput[] = baked.tracks.map((track) => {
     const node = nodeIndex.get(track.bone);
     if (node === undefined) throw new Error(`Animation track references unknown bone "${track.bone}"`);
     const path: HgAnimationPath = track.property === 'quaternion' ? 'rotation' : 'translation';
     return { node, path, times: track.times, values: track.values };
   });
-  addHgGltfAnimation(builder, { name: clip.name, tracks });
+  addHgGltfAnimation(builder, { name: baked.name, tracks: [...tracks, ...extraTracks] });
 };
 
 /**
  * First-party GLB writer for the clean canonical character.
  *
  * This path owns the GLB container, accessors, mesh, skin, node hierarchy and
- * animation. The current scope intentionally excludes textured/imported
- * characters, morph deformation and equipment; those stay on the compatibility
- * exporter until their parity gates are implemented.
+ * animation and project-authored equipment. Textured/imported characters and
+ * morph deformation stay on the compatibility exporter until their parity
+ * gates are implemented.
  */
 export async function exportFirstPartyCanonicalCharacterGlb(
   studioClip: StudioClip,
   exercise: ExerciseDefinition,
   source: CharacterSource,
   fps?: number,
+  includeEquipment = false,
 ): Promise<Blob> {
   const character = await source.build(canonicalSkeleton);
   try {
@@ -81,6 +86,7 @@ export async function exportFirstPartyCanonicalCharacterGlb(
     }
 
     const builder = new HgGltfBuilder();
+    const baked = bakeClipData(studioClip, canonicalSkeleton, { fps });
     const attributes: Record<string, number> = {};
 
     attributes.POSITION = builder.addAccessor(valuesOf(position), {
@@ -211,7 +217,10 @@ export async function exportFirstPartyCanonicalCharacterGlb(
     builder.json.scenes = [{ name: exercise.clipName, nodes: [sceneRootIndex] }];
     builder.json.scene = 0;
 
-    animationTracks(builder, studioClip, boneNodeIndex, fps);
+    const equipmentTracks = includeEquipment
+      ? appendFirstPartyEquipment(builder, studioClip.equipment, baked, sceneRootIndex)
+      : [];
+    animationTracks(builder, baked, boneNodeIndex, equipmentTracks);
 
     const bytes = builder.toGlb();
     return new Blob([new Uint8Array(bytes)], { type: 'model/gltf-binary' });

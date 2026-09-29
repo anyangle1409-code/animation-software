@@ -1,30 +1,13 @@
-import {
-  Euler,
-  Group,
-  Matrix4,
-  Object3D,
-  Quaternion,
-  QuaternionKeyframeTrack,
-  Vector3,
-  VectorKeyframeTrack,
-} from 'three';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { canonicalSkeleton } from '../rig/skeleton';
-import { EULER_ORDER } from '../rig/types';
-import { toRad } from '../core/math';
 import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
-import { equipmentSocket } from '../equipment/library';
-import { anatomicalGripOffset } from '../equipment/attach';
-import { mirrorInvariant, reflectBakedTrack, reflectedStaticPlacement } from '../equipment/mirror';
-import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { bakeClipData } from './clipData';
-import { buildEquipmentObject } from './rigBuilder';
 import { exportFirstPartyClipGlb } from './firstPartyClipGlb';
 import { exportFirstPartyCanonicalCharacterGlb } from './firstPartyCharacterGlb';
 import { exportFirstPartyPreservedCharacterGlb } from './firstPartyPreservedCharacterGlb';
+import { exportFirstPartyReboundCharacterGlb } from './firstPartyReboundCharacterGlb';
 import { characterSource } from '../character';
-import type { CharacterBuild, CharacterSource } from '../character';
+import type { CharacterSource } from '../character';
 
 export interface GlbExportOptions {
   /** Sampling rate for the baked clip. */
@@ -105,144 +88,24 @@ export async function exportGlb(
     }
   }
 
-  const baked = bakeClip(studioClip, canonicalSkeleton, {
-    fps: options.fps,
-    deformation: sampler,
-    boneTracks: !(ownSkeleton && !clipOnly),
-  });
-
-  const scene = new Group();
-  scene.name = exercise.clipName;
-  // A clip that walks in place says how fast to move it: extras on the file's
-  // root node, the group named after the clip.
-  if (exercise.travel) scene.userData.homeGymPT = { travelSpeed: exercise.travel.speed };
-
-  if (clipOnly) {
-    scene.add(character.root);
-  } else {
-    scene.add(character.object);
-  }
-
-  const animations = [baked.clip];
-
-  if (includeEquipment && !clipOnly) {
-    for (const instance of studioClip.equipment) {
-      if (!instance.visible) continue;
-      const object = buildEquipmentObject(instance.kind, instance.backAngle);
-      object.name = instance.label ?? instance.id;
-
-      if (instance.attachment.mode === 'hand') {
-        // Rigidly parented to the hand bone: no extra animation needed, and the
-        // attachment stays exact in whatever engine plays the file.
-        // Parented to the hand bone, whichever skeleton that hand belongs to,
-        // so the attachment stays exact in whatever engine plays the file.
-        const side = instance.attachment.side === 'l' ? 'hand_l' : 'hand_r';
-        const hand = character.boneByName.get(side);
-        const socket = equipmentSocket(instance.kind, instance.attachment.socket);
-        const grip =
-          instance.attachment.gripOffset ??
-          character.gripOffset?.(instance.attachment.side) ??
-          anatomicalGripOffset(instance.attachment.side);
-        const matrix = handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 });
-        if (hand) {
-          hand.updateWorldMatrix(true, false);
-          // Take the grip frame from the character rather than rebuilding it:
-          // handMatrix already drops the import's scale, applies its basis
-          // correction and its own grip frame offset. Reconstructing only the
-          // first two here left the exported item short of the palm by that
-          // offset, so the exported file and the viewport disagreed.
-          const frame = character.handMatrix?.(instance.attachment.side, new Matrix4());
-          const local = new Matrix4();
-          if (frame) {
-            local.copy(hand.matrixWorld).invert().multiply(frame);
-          } else {
-            const worldScale = new Vector3().setFromMatrixScale(hand.matrixWorld);
-            const inverse = 1 / (worldScale.x || 1);
-            local.makeScale(inverse, inverse, inverse);
-            const basis = correctionFor(character, side);
-            if (basis) local.multiply(new Matrix4().makeRotationFromQuaternion(basis));
-          }
-          object.applyMatrix4(local.multiply(matrix));
-          hand.add(object);
-        }
-      } else if (instance.attachment.mode === 'static') {
-        // A mirrored character performs the rig's mirror image, so what the rig
-        // placed is reflected with it; an item already its own mirror image is
-        // left exactly as it was.
-        const placed =
-          character.mirrored && !mirrorInvariant(instance) ? reflectedStaticPlacement(instance) : instance;
-        object.position.set(placed.position.x, placed.position.y, placed.position.z);
-        // Turned as it is in the studio. Without this the incline curl's bench,
-        // placed turned round to face the lifter, exported facing away.
-        object.quaternion.setFromEuler(
-          new Euler(
-            toRad(placed.rotation.x),
-            toRad(placed.rotation.y),
-            toRad(placed.rotation.z),
-            EULER_ORDER,
-          ),
-        );
-        scene.add(object);
-      } else {
-        // Driven by both hands, or a cable between two items, so its motion is
-        // baked as its own track — from the rig, and so reflected for a
-        // mirrored character like a static item.
-        applyBakedEquipmentTrack(object, baked, instance.id, Boolean(character.mirrored));
-        scene.add(object);
-      }
+  if (character.sourceGlb && !ownSkeleton) {
+    try {
+      return exportFirstPartyReboundCharacterGlb(
+        studioClip,
+        exercise,
+        character,
+        options.fps,
+        includeEquipment,
+      );
+    } finally {
+      character.dispose();
     }
   }
 
-  const exporter = new GLTFExporter();
-  const result = await exporter.parseAsync(scene as Object3D, {
-    binary: true,
-    animations,
-    onlyVisible: false,
-    includeCustomExtensions: false,
-  });
-
-  return new Blob([result as ArrayBuffer], { type: 'model/gltf-binary' });
-}
-
-/**
- * Park a two-handed item at its first baked sample and attach the rest of the
- * motion as an animation on that object.
- */
-function applyBakedEquipmentTrack(
-  object: Object3D,
-  baked: ReturnType<typeof bakeClip>,
-  id: string,
-  mirrored: boolean,
-): void {
-  const track = baked.equipmentTracks.get(id);
-  if (!track || track.position.length < 3) return;
-  if (mirrored) reflectBakedTrack(track);
-  object.name = `equipment_${id}`;
-  object.position.copy(new Vector3(track.position[0], track.position[1], track.position[2]));
-  if (track.scale) object.scale.set(track.scale[0], track.scale[1], track.scale[2]);
-
-  // three.js binds tracks by object name, which the exporter preserves.
-  baked.clip.tracks.push(
-    new VectorKeyframeTrack(`${object.name}.position`, baked.times, track.position),
-    new QuaternionKeyframeTrack(`${object.name}.quaternion`, baked.times, track.quaternion),
-    ...(track.scale ? [new VectorKeyframeTrack(`${object.name}.scale`, baked.times, track.scale)] : []),
+  character.dispose();
+  throw new Error(
+    'Character source "' + source.id +
+    '" has no first-party GLB export contract. ' +
+    'Use the canonical, preserved-import, or diagnostic rebind character path.',
   );
-}
-
-/**
- * How a character's hand bone is rotated relative to the canonical hand it
- * stands in for. Read back out of `handMatrix`, which is the one place that
- * change of basis is worked out.
- */
-function correctionFor(character: CharacterBuild, side: 'hand_l' | 'hand_r'): Quaternion | null {
-  if (!character.handMatrix) return null;
-  const bone = character.boneByName.get(side);
-  const world = character.handMatrix(side === 'hand_l' ? 'l' : 'r', new Matrix4());
-  if (!bone || !world) return null;
-  bone.updateWorldMatrix(true, false);
-  const boneRotation = new Quaternion().setFromRotationMatrix(
-    new Matrix4().extractRotation(bone.matrixWorld),
-  );
-  const canonical = new Quaternion().setFromRotationMatrix(new Matrix4().extractRotation(world));
-  return boneRotation.invert().multiply(canonical);
 }

@@ -1,4 +1,3 @@
-import type { Quaternion, Vector3 } from 'three';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
@@ -13,20 +12,30 @@ import {
 const directionScratch = new HgVec3();
 const quaternionScratch = new HgQuat();
 
-/** World rest orientation; Three output remains for existing IK callers. */
-export function restWorldQuaternion(
+interface QuaternionTarget {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+  set(x: number, y: number, z: number, w: number): unknown;
+}
+
+/** World rest orientation on the project-owned FK/math path. */
+export function restWorldQuaternion<T extends QuaternionTarget = HgQuat>(
   skeleton: Skeleton,
   evaluation: PoseEvaluation,
   name: BoneName,
-  target: Quaternion = evaluation.quaternion(name).clone(),
-): Quaternion {
+  target?: T,
+): T {
   const result = hgRestWorldQuaternion(
     skeleton.firstParty,
     evaluation.firstPartyEvaluation,
     name,
     quaternionScratch,
   );
-  return target.set(result.x, result.y, result.z, result.w);
+  const output = (target ?? new HgQuat()) as T;
+  output.set(result.x, result.y, result.z, result.w);
+  return output;
 }
 
 /** Analytic XZY swing on the project-owned FK/math path. */
@@ -34,7 +43,7 @@ export function swingFor(
   skeleton: Skeleton,
   evaluation: PoseEvaluation,
   name: BoneName,
-  direction: Vector3,
+  direction: Vec3,
   twist = 0,
 ): Vec3 {
   return hgSwingFor(
@@ -51,7 +60,7 @@ export function localRotationForDirection(
   skeleton: Skeleton,
   evaluation: PoseEvaluation,
   name: BoneName,
-  direction: Vector3,
+  direction: Vec3,
   twist = 0,
 ): Vec3 {
   return hgLocalRotationForDirection(
@@ -68,7 +77,7 @@ export function hingeRotationForDirection(
   skeleton: Skeleton,
   evaluation: PoseEvaluation,
   name: BoneName,
-  direction: Vector3,
+  direction: Vec3,
 ): Vec3 {
   return hgHingeRotationForDirection(
     skeleton.firstParty,

@@ -1,6 +1,5 @@
 import {
   copyCharacterMatrix,
-  createCharacterMatrix,
   type CharacterBone,
   type CharacterMatrix4,
   type CharacterObject3D,

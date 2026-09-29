@@ -166,20 +166,20 @@ export class Skeleton {
  */
 export class PoseEvaluation {
   readonly skeleton: Skeleton;
-  private readonly firstParty: HgPoseEvaluation;
+  readonly firstPartyEvaluation: HgPoseEvaluation;
   private readonly matrices: Matrix4[];
   private readonly quaternions: Quaternion[];
   private readonly scratchVector = new HgVec3();
 
   constructor(skeleton: Skeleton) {
     this.skeleton = skeleton;
-    this.firstParty = new HgPoseEvaluation(skeleton.firstParty);
+    this.firstPartyEvaluation = new HgPoseEvaluation(skeleton.firstParty);
     // Matrix4 is retained only as a compatibility facade. Point it at the
     // first-party matrix buffer so callers observe the same live object across
     // apply() calls without copying sixteen values for every bone every frame.
     this.matrices = skeleton.bones.map((bone) => {
       const matrix = new Matrix4();
-      matrix.elements = this.firstParty.matrix(bone.name).elements as unknown as Matrix4['elements'];
+      matrix.elements = this.firstPartyEvaluation.matrix(bone.name).elements as unknown as Matrix4['elements'];
       return matrix;
     });
     this.quaternions = skeleton.bones.map(() => new Quaternion());
@@ -187,13 +187,13 @@ export class PoseEvaluation {
 
   /** Recompute every bone's world transform for `pose`. */
   apply(pose: Pose): this {
-    this.firstParty.apply(pose);
+    this.firstPartyEvaluation.apply(pose);
 
     for (const bone of this.skeleton.bones) {
       // Matrices share the first-party buffers; only the legacy Quaternion
       // facade still needs four scalar assignments until IK/render callers
       // migrate to HgQuat directly.
-      const sourceQuaternion = this.firstParty.quaternion(bone.name);
+      const sourceQuaternion = this.firstPartyEvaluation.quaternion(bone.name);
       this.quaternions[bone.index].set(
         sourceQuaternion.x,
         sourceQuaternion.y,
@@ -215,26 +215,26 @@ export class PoseEvaluation {
 
   /** World position of a bone's joint. */
   head(name: BoneName, target = new Vector3()): Vector3 {
-    const point = this.firstParty.head(name, this.scratchVector);
+    const point = this.firstPartyEvaluation.head(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** World position of a bone's far end. */
   tail(name: BoneName, target = new Vector3()): Vector3 {
-    const point = this.firstParty.tail(name, this.scratchVector);
+    const point = this.firstPartyEvaluation.tail(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** A point expressed in the bone's local frame, converted to world space. */
   localToWorld(name: BoneName, local: Vec3, target = new Vector3()): Vector3 {
-    const point = this.firstParty.localToWorld(name, local, this.scratchVector);
+    const point = this.firstPartyEvaluation.localToWorld(name, local, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 
   /** A world point expressed in the bone's local frame. */
   worldToLocal(name: BoneName, world: Vector3, target = new Vector3()): Vector3 {
     this.scratchVector.set(world.x, world.y, world.z);
-    const point = this.firstParty.worldToLocal(name, this.scratchVector, this.scratchVector);
+    const point = this.firstPartyEvaluation.worldToLocal(name, this.scratchVector, this.scratchVector);
     return target.set(point.x, point.y, point.z);
   }
 }

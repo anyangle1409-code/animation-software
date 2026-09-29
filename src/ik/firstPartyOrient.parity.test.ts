@@ -30,6 +30,26 @@ function expectRotation(
 }
 
 describe('first-party IK orientation parity', () => {
+  it('exposes the live first-party FK orientation after each pose update', () => {
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const clip = generateClip(canonicalSkeleton, EXERCISES[0]);
+    for (const fraction of [0.12, 0.76, 0.34]) {
+      const pose = sampleClip(clip, clip.duration * fraction).pose;
+      evaluation.apply(pose);
+      expect(evaluation.firstPartyEvaluation).toBeInstanceOf(HgPoseEvaluation);
+      for (const name of ['upperarm_l', 'forearm_l', 'thigh_r', 'shin_r'] as const) {
+        const expected = restWorldQuaternion(canonicalSkeleton, evaluation, name);
+        const actual = hgRestWorldQuaternion(
+          canonicalSkeleton.firstParty,
+          evaluation.firstPartyEvaluation,
+          name,
+        );
+        expectRotation(actual, expected, `${fraction}/${name}`);
+        expect(Math.abs(actual.w - expected.w)).toBeLessThan(EPS);
+      }
+    }
+  });
+
   it('matches rest-world quaternions through representative exercise poses', () => {
     for (const exercise of EXERCISES.slice(0, 8)) {
       const clip = generateClip(canonicalSkeleton, exercise);

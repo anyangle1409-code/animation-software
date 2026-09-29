@@ -76,6 +76,7 @@ jobs:
           src/viewer/firstPartyEquipmentScene.test.ts
           src/viewer/firstPartyCharacterScene.test.ts
           src/viewer/firstPartyCharacterViewRuntime.test.ts
+          src/viewer/firstPartySceneRuntimes.test.ts
           src/viewer/firstPartySkeletonScene.test.ts
           src/viewer/firstPartyMuscleScene.test.ts
           src/viewer/firstPartyIKHandleScene.test.ts

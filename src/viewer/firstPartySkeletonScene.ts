@@ -1,4 +1,5 @@
 import type { BoneName } from '../rig/boneNames';
+import type { HgScenePointerRouter } from './scenePointerRouter';
 import type { Skeleton } from '../rig/skeleton';
 import {
   cylinderPrimitiveData,
@@ -120,4 +121,26 @@ export function updateHgSkeletonAppearance(
       );
     bone.joint.visible = appearance.jointVisible;
   }
+}
+
+
+export function registerHgSkeletonPointers(
+  resources: HgSkeletonSceneResources,
+  pointers: Pick<HgScenePointerRouter, 'register'>,
+  select: (bone: BoneName) => void,
+): () => void {
+  const remove: Array<() => void> = [];
+  for (const [name, bone] of resources.bones) {
+    remove.push(
+      pointers.register(bone.joint, {
+        pointerdown(event) {
+          event.stopPropagation();
+          select(name);
+        },
+      }),
+    );
+  }
+  return () => {
+    for (const unregister of remove) unregister();
+  };
 }

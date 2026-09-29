@@ -1,14 +1,16 @@
 import {
-  Box3,
-  InterpolateLinear,
-  Matrix4,
-  Object3D,
-  Quaternion,
-  QuaternionKeyframeTrack,
-  Vector3,
-  VectorKeyframeTrack,
-} from 'three';
-import type { Bone, KeyframeTrack, SkinnedMesh } from 'three';
+  createCharacterMatrix,
+  createCharacterQuaternion,
+  createCharacterQuaternionKeyframeTrack,
+  createCharacterVector3,
+  createCharacterVectorKeyframeTrack,
+  type CharacterBone,
+  type CharacterKeyframeTrack,
+  type CharacterMatrix4,
+  type CharacterObject3D,
+  type CharacterQuaternion,
+  type CharacterSkinnedMesh,
+} from './bones';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -34,7 +36,7 @@ import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
 import { importedMuscleDeformation } from './muscleDeformation';
 import type { MuscleRuntimeTuning } from './muscleDeformation';
-import { loadHgThreeScene } from './gltfThreeScene';
+import { loadHgThreeScene, measureHgThreeSceneHeight } from './gltfThreeScene';
 
 /**
  * An imported character, preserved.
@@ -161,8 +163,8 @@ export function retargetedCharacterSource(
       scene.quaternion.identity();
       scene.updateMatrixWorld(true);
 
-      const boneByName = new Map<BoneName, Bone>();
-      const correction = new Map<BoneName, Quaternion>();
+      const boneByName = new Map<BoneName, CharacterBone>();
+      const correction = new Map<BoneName, CharacterQuaternion>();
       for (const bound of binding.bones) {
         boneByName.set(bound.canonical, bound.bone);
         correction.set(bound.canonical, bound.correction);
@@ -188,14 +190,14 @@ export function retargetedCharacterSource(
       };
 
       const scratch = {
-        matrix: new Matrix4(),
-        basis: new Matrix4(),
-        rotation: new Quaternion(),
-        position: new Vector3(),
-        unit: new Vector3(1, 1, 1),
+        matrix: createCharacterMatrix(),
+        basis: createCharacterMatrix(),
+        rotation: createCharacterQuaternion(),
+        position: createCharacterVector3(),
+        unit: createCharacterVector3(1, 1, 1),
       };
 
-      const handMatrix = (side: Side, target: Matrix4): Matrix4 | null => {
+      const handMatrix = (side: Side, target: CharacterMatrix4): CharacterMatrix4 | null => {
         const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;
         const bone = boneByName.get(name);
         const change = correction.get(name);
@@ -209,7 +211,7 @@ export function retargetedCharacterSource(
         scratch.rotation.setFromRotationMatrix(scratch.basis).multiply(change);
         target.compose(scratch.position, scratch.rotation, scratch.unit);
         const offset = gripOffsets?.[side];
-        if (offset) target.multiply(new Matrix4().makeTranslation(offset.x, offset.y, offset.z));
+        if (offset) target.multiply(createCharacterMatrix().makeTranslation(offset.x, offset.y, offset.z));
         return target;
       };
 
@@ -225,8 +227,8 @@ export function retargetedCharacterSource(
             // The embedded centre and any explicitly identified solved correction
             // use the same character-local frame; sum them there, then turn.
             const summed = centre
-              ? new Vector3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
-              : new Vector3(embedded.x, embedded.y, embedded.z);
+              ? createCharacterVector3(embedded.x + (side === 'l' ? centre.x : -centre.x), embedded.y + centre.y, embedded.z + centre.z)
+              : createCharacterVector3(embedded.x, embedded.y, embedded.z);
             summed.applyQuaternion(turn[side]);
             return { x: summed.x, y: summed.y, z: summed.z };
           }
@@ -238,7 +240,7 @@ export function retargetedCharacterSource(
           applyRetarget(binding, pose);
           return;
         }
-        const rootOffset = new Vector3();
+        const rootOffset = createCharacterVector3();
         // A shorter imported limb can be unable to reach a fixed contact. Move
         // this character's body by the shared residual, then let each source
         // limb solve the remaining error. A few bounded passes converge the
@@ -260,7 +262,7 @@ export function retargetedCharacterSource(
         elbowTuningInitialised = true;
       }
       const elbow = importedElbowDeformation(
-        character.meshes as SkinnedMesh[],
+        character.meshes as CharacterSkinnedMesh[],
         boneByName,
         rig,
         elbowOptions,
@@ -270,7 +272,7 @@ export function retargetedCharacterSource(
       // morph normals and three.js indexes those by position-morph slot — it
       // has to see every target the geometry already carries.
       const muscle = importedMuscleDeformation(
-        character.meshes as SkinnedMesh[],
+        character.meshes as CharacterSkinnedMesh[],
         boneByName,
         rig,
         scene.userData?.homeGymPT?.muscleDeformation,
@@ -285,7 +287,7 @@ export function retargetedCharacterSource(
         boneByName,
         skeleton: character.meshes[0].skeleton,
         object: scene,
-        meshes: character.meshes as SkinnedMesh[],
+        meshes: character.meshes as CharacterSkinnedMesh[],
         deformation,
         capabilities: source.capabilities,
 
@@ -389,19 +391,19 @@ export function retargetSampler(
         positions.get(bone.name)!.push(...bone.position.toArray());
       }
     },
-    tracks(times: number[]): KeyframeTrack[] {
-      const built: KeyframeTrack[] = [];
+    tracks(times: number[]): CharacterKeyframeTrack[] {
+      const built: CharacterKeyframeTrack[] = [];
       const loopTimes = [times[0], times[times.length - 1]];
       for (const bone of bones) {
         const rotation = compressTrack(rotations.get(bone.name)!, 4,
           binding.character.restLocal.get(bone.name)!.toArray());
-        if (rotation) built.push(new QuaternionKeyframeTrack(
+        if (rotation) built.push(createCharacterQuaternionKeyframeTrack(
           `${bone.name}.quaternion`, rotation.constant ? loopTimes : times, rotation.values,
         ));
         const position = compressTrack(positions.get(bone.name)!, 3,
           binding.character.restPosition.get(bone.name)!.toArray());
-        if (position) built.push(new VectorKeyframeTrack(
-          `${bone.name}.position`, position.constant ? loopTimes : times, position.values, InterpolateLinear,
+        if (position) built.push(createCharacterVectorKeyframeTrack(
+          `${bone.name}.position`, position.constant ? loopTimes : times, position.values,
         ));
       }
       resetCharacter(binding.character);
@@ -421,30 +423,30 @@ export const CORRECTED_HAND_FRAME = 'hand-v2';
 /** The turn that brings embedded grip offsets into the current hand frame. */
 export function handFrameTurn(
   declared: unknown,
-  legacyHandFrame: Record<Side, Quaternion>,
-): Record<Side, Quaternion> {
+  legacyHandFrame: Record<Side, CharacterQuaternion>,
+): Record<Side, CharacterQuaternion> {
   return declared === CORRECTED_HAND_FRAME
-    ? { l: new Quaternion(), r: new Quaternion() }
+    ? { l: createCharacterQuaternion(), r: createCharacterQuaternion() }
     : legacyHandFrame;
 }
 
 /** Offsets expressed in the hand frame they were measured in, turned into the current one. */
 export function inHandFrame(
   offsets: Partial<Record<Side, { x: number; y: number; z: number }>> | undefined,
-  turn: Record<Side, Quaternion>,
+  turn: Record<Side, CharacterQuaternion>,
 ): Partial<Record<Side, { x: number; y: number; z: number }>> | undefined {
   if (!offsets) return offsets;
   const result: Partial<Record<Side, { x: number; y: number; z: number }>> = {};
   for (const side of ['l', 'r'] as const) {
     const offset = offsets[side];
     if (!offset) continue;
-    const turned = new Vector3(offset.x, offset.y, offset.z).applyQuaternion(turn[side]);
+    const turned = createCharacterVector3(offset.x, offset.y, offset.z).applyQuaternion(turn[side]);
     result[side] = { x: turned.x, y: turned.y, z: turned.z };
   }
   return result;
 }
 
-async function loadScene(options: RetargetedCharacterOptions): Promise<Object3D> {
+async function loadScene(options: RetargetedCharacterOptions): Promise<CharacterObject3D> {
   if (options.data) return loadHgThreeScene(options.data);
   if (options.url) {
     throw new Error(`Character "${options.label}" uses a runtime URL. Standalone mode accepts local GLB bytes only.`);
@@ -452,21 +454,20 @@ async function loadScene(options: RetargetedCharacterOptions): Promise<Object3D>
   throw new Error(`Character "${options.label}" has no local GLB data to load.`);
 }
 
-function guessedMapping(label: string, scene: Object3D, boneNames: string[]): BoneMapping {
+function guessedMapping(label: string, scene: CharacterObject3D, boneNames: string[]): BoneMapping {
   const mapping = createMapping(label, `${label} (${boneNames.length} bones)`);
   mapping.bones = guessMapping(boneNames);
-  const box = new Box3().setFromObject(scene);
-  mapping.characterHeight = Math.max(0.5, box.max.y - box.min.y);
+  mapping.characterHeight = measureHgThreeSceneHeight(scene);
   return mapping;
 }
 
 /** The bone nothing else in the character hangs above. */
-function topmost(bones: Bone[]): Bone {
+function topmost(bones: CharacterBone[]): CharacterBone {
   let best = bones[0];
   let shallowest = Infinity;
   for (const bone of bones) {
     let depth = 0;
-    let walk: Object3D | null = bone;
+    let walk: CharacterObject3D | null = bone;
     while (walk) {
       depth += 1;
       walk = walk.parent;

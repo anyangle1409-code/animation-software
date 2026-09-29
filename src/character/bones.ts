@@ -5,12 +5,15 @@ import {
   InterleavedBufferAttribute,
   InterpolateLinear,
   NumberKeyframeTrack,
+  Quaternion,
+  QuaternionKeyframeTrack,
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
   Matrix4,
   Vector3,
   type Object3D,
   type SkinnedMesh,
+  VectorKeyframeTrack,
 } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
@@ -36,6 +39,32 @@ export function createCharacterBufferAttribute(
   return new BufferAttribute(values, itemSize);
 }
 export type CharacterKeyframeTrack = KeyframeTrack;
+export type CharacterQuaternion = Quaternion;
+
+export function createCharacterQuaternion(
+  x = 0,
+  y = 0,
+  z = 0,
+  w = 1,
+): CharacterQuaternion {
+  return new Quaternion(x, y, z, w);
+}
+
+export function createCharacterQuaternionKeyframeTrack(
+  name: string,
+  times: readonly number[],
+  values: readonly number[],
+): CharacterKeyframeTrack {
+  return new QuaternionKeyframeTrack(name, times, values);
+}
+
+export function createCharacterVectorKeyframeTrack(
+  name: string,
+  times: readonly number[],
+  values: readonly number[],
+): CharacterKeyframeTrack {
+  return new VectorKeyframeTrack(name, times, values, InterpolateLinear);
+}
 export type CharacterMatrix4 = Matrix4;
 
 export interface CharacterMatrixLike {
@@ -65,8 +94,12 @@ export type CharacterObject3D = Object3D;
 export type CharacterSkinnedMesh = SkinnedMesh;
 export type CharacterVector3 = Vector3;
 
-export function createCharacterVector3(): CharacterVector3 {
-  return new Vector3();
+export function createCharacterVector3(
+  x = 0,
+  y = 0,
+  z = 0,
+): CharacterVector3 {
+  return new Vector3(x, y, z);
 }
 export type CharacterThreeSkeleton = ThreeSkeleton;
 

@@ -1,13 +1,13 @@
 {
-  "generated_utc": "2026-09-29T21:09:50.981937+00:00",
-  "region": "pelvis_glutes+thigh_knee+calf_ankle+feet",
+  "generated_utc": "2026-09-29T21:13:12.262172+00:00",
+  "region": "neck_head",
   "method": "project-authored ring/split-junction quad cage + one Catmull-Clark level (plain Python)",
   "inputs": {
     "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json",
     "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "generator": "scripts/original_v1_o2_body.py",
     "generator_version": "o2-body-1",
-    "generator_sha256": "cdf8108df40292861853589db88eeb185f32afc771272ec9edd8225746ac9144"
+    "generator_sha256": "2e8f290f1d6d61475dd798b365e880294a5fc43d41c56ae1b7c3937dd4685470"
   },
   "not_used": [
     "O1 scaffold vertex positions",
@@ -19,10 +19,10 @@
     "imported bind data"
   ],
   "cage": {
-    "vertices": 4040,
-    "faces": 4038
+    "vertices": 4136,
+    "faces": 4134
   },
-  "vertices": 16154,
-  "faces": 16152,
-  "triangles": 32304
+  "vertices": 16538,
+  "faces": 16536,
+  "triangles": 33072
 }

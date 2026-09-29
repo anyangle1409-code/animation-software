@@ -229,3 +229,68 @@ All four regions were reviewed in one pass and recorded as one checkpoint.
   - Deep squat, lunge and hip-hinge groin/hip-crease behaviour needs O4–O5
     posing.
   - The toes are short, stylised stubs without nails.
+
+### 10. Neck/head — STRICT checkpoint `091f27b6…5a68` (2026-09-29)
+
+- **Neck.** Rises from the trapezius and neck-base split (32 vertices) to the
+  under-jaw ring.
+- **Head.** A neutral anatomical head across eleven 32-vertex rings: cranium
+  widest at the parietal level, brow ridge, slightly recessed eye sockets,
+  nose bridge and tip, cheekbones, lips as forms, mandible angle and chin.
+  The crown is at exactly 1.820 m. The earlier lumpy ear placeholders were
+  removed.
+- **Gates.** `CHECKPOINT_ORIGINAL_V1_O2.bat neck_head strict` PASS: v4 rig,
+  guarded boundary, and strict mesh with 0 mirror mismatches, boundary,
+  non-manifold, winding, loose, degenerate or duplicate faces; height
+  1.820 m. Rig-fit PASS; clearance PASS.
+- **Open.** The face has no eye/mouth openings and no ears. Those need
+  dedicated face topology (loops around the eyes and mouth) before facial
+  close-ups; the ring-based head is a neutral mannequin face.
+
+## O2 status summary (2026-09-29)
+
+- **Production Blend (laptop only, gitignored).**
+  `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`, SHA-256
+  `091f27b64dce038b5f63b99a74a890ef586aec74d7e0a9ab4d2066d2aaef5a68`, with a
+  copy in `ORIGINAL_V1_WORK/checkpoints/`. Hashes of every region checkpoint
+  are in `ORIGINAL_V1_WORK/O2_AUTHORING_LOG.jsonl`.
+- **Contents.** The body is 16,538 vertices / 16,536 quads, all-quad, closed
+  and exactly mirror-symmetric, and unbound. The hidden reference-only 53-bone
+  rig and the unbound 63-bone `hgpt_canonical_v4_original` are present.
+- **Review images.** Before/after images (O1 scaffold vs O2), close-ups and
+  topology wireframes are in `ORIGINAL_V1_WORK/review_o2/`.
+- **Numeric gates.** All pass. **O2 is NOT complete until the project owner
+  reviews the neutral anatomy** (handoff rule). No binding, weights, UVs,
+  textures, shorts or deformation posing were done.
+
+### Next exact tasks (after owner review)
+
+1. **Owner review.** Review the neutral anatomy using
+   `ORIGINAL_V1_WORK/review_o2/`, or open the file with
+   `OPEN_ORIGINAL_V1_O2_GUARDED.bat`; on this laptop's Intel graphics, launch
+   Blender with `--gpu-backend vulkan` if the window hangs. Record approval or
+   change requests.
+2. **Apply requested changes.** Edit `scripts/original_v1_o2_body.py`, then
+   run `RUN_ORIGINAL_V1_O2_GUARDED_SCRIPT.bat
+   scripts\apply_original_v1_o2_body_blender.py <region>` and
+   `CHECKPOINT_ORIGINAL_V1_O2.bat <region>`.
+3. **O3 topology audit.** Loop counts at every joint and left/right
+   consistency: read-only evidence.
+4. **O4 bind.** Bind to `hgpt_canonical_v4_original` with original weights
+   (heat/field weights computed on this mesh only; no transfer). The
+   generator's region labels (torso/shoulder/arm/hand/finger/thumb/pelvis/leg/
+   foot/neck/head) can seed weight painting.
+5. **O5/O6.** Movement battery and contacts: curl, push-up, air squat,
+   shoulder press, pull-up, then the full `ORIGINAL_V1_MOVEMENT_ENVELOPE.json`.
+6. **O7/O8.** Original shorts and materials.
+
+### Prohibited next actions
+
+- Do not bind or pose inside the production Blend before owner review.
+- Do not import or trace any legacy/V-series/MakeHuman geometry to "fix" a
+  region. The MPFB add-on is installed in the user's Blender; keep every
+  production session in `--factory-startup` with add-ons disabled.
+- Do not merge this branch into `work/standalone-first-party-audit-20260927`
+  without an explicit owner decision. `docs/CURRENT_HANDOFF.md` is
+  intentionally not edited here, to avoid conflicting with the standalone
+  track.

@@ -24,6 +24,8 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { pushUp } from '../exercises/definitions/pushUp';
 import { exportGlb } from '../export/glb';
+import { handAttachmentMatrix } from '../export/clipBuilder';
+import { anatomicalGripOffset } from '../equipment/attach';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
@@ -442,6 +444,7 @@ describe('an imported character', () => {
     const json = JSON.parse(
       new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
     ) as {
+      asset: { generator?: string };
       meshes: { name?: string }[];
       skins: { joints: number[] }[];
       nodes: { name?: string; children?: number[] }[];
@@ -455,6 +458,7 @@ describe('an imported character', () => {
     expect(joints).toContain('DEF-handR');
     expect(joints).toContain('DEF-upper_armR001');
     expect(json.animations).toHaveLength(1);
+    expect(json.asset.generator).toBe('Home Gym PT first-party codec');
 
     // The dumbbell hangs off the character's own hand bone.
     const hand = json.nodes.findIndex((node) => node.name === 'DEF-handR');
@@ -485,6 +489,31 @@ describe('an imported character', () => {
     // Within a millimetre: the difference is the baked clip's sampling
     // interval, not a different pose.
     expect(written.distanceTo(shown)).toBeLessThan(0.001);
+
+    let playedDumbbell: Object3D | null = null;
+    loaded.scene.traverse((object) => {
+      if (/right.*dumbbell/i.test(object.name)) playedDumbbell = object;
+    });
+    expect(playedDumbbell, 'the first-party dumbbell is exported').not.toBeNull();
+
+    const expectedDumbbell = character.handMatrix!('r', new Matrix4())!
+      .multiply(handAttachmentMatrix(
+        anatomicalGripOffset('r'),
+        { x: 0, y: 0, z: 0 },
+      ));
+    const expectedPosition = new Vector3().setFromMatrixPosition(expectedDumbbell);
+    const writtenPosition = new Vector3().setFromMatrixPosition(
+      (playedDumbbell as unknown as Object3D).matrixWorld,
+    );
+    expect(writtenPosition.distanceTo(expectedPosition)).toBeLessThan(0.001);
+
+    const expectedRotation = new Quaternion().setFromRotationMatrix(expectedDumbbell);
+    const writtenRotation = new Quaternion().setFromRotationMatrix(
+      new Matrix4().extractRotation(
+        (playedDumbbell as unknown as Object3D).matrixWorld,
+      ),
+    );
+    expect(writtenRotation.angleTo(expectedRotation)).toBeLessThan(0.001);
 
     // Nothing about the surface changed on the way out either.
     let exportedVertices = 0;

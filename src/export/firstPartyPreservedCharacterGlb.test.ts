@@ -106,7 +106,11 @@ describe('first-party preserved character GLB writer', () => {
       },
       {
         name: 'fixture_animation',
+        duration: 1,
+        tracks: [],
+        equipmentTracks: new Map(),
         times: [0, 1],
+        fps: 20,
         deformationTracks: [
           {
             target: 'pelvisroot',

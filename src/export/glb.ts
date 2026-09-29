@@ -83,18 +83,23 @@ export async function exportGlb(
     ? null
     : character.sampler?.() ?? character.deformation?.sampler?.() ?? null;
 
-  // A preserved imported character can now keep its exact authored GLB and
-  // receive project-owned source-bone/morph animation without GLTFExporter.
-  // Equipment stays on the retained compatibility path until its imported-hand
-  // attachment parity is proven separately.
-  if (character.preservedGlb && ownSkeleton && !includeEquipment) {
+  // A preserved imported character keeps its exact authored GLB and receives
+  // project-owned source-bone/morph animation plus first-party equipment.
+  // Hand-held items are parented to the imported character's own hand nodes;
+  // world-space items keep their baked transforms outside the character scale.
+  if (character.preservedGlb && ownSkeleton) {
     const bakedData = bakeClipData(studioClip, canonicalSkeleton, {
       fps: options.fps,
       deformation: sampler,
       boneTracks: false,
     });
     try {
-      return exportFirstPartyPreservedCharacterGlb(character, bakedData, exercise);
+      return exportFirstPartyPreservedCharacterGlb(
+        character,
+        bakedData,
+        exercise,
+        includeEquipment ? studioClip.equipment : [],
+      );
     } finally {
       character.dispose();
     }

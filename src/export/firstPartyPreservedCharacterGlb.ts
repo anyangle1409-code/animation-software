@@ -5,8 +5,14 @@ import { HgGltfBuilder } from '../core/gltfBuilder';
 import { addHgGltfAnimation, type HgAnimationTrackInput } from '../core/gltfAnimation';
 import { hgRuntimeNodeNames } from '../core/gltfRuntimeNames';
 import { readHgGltfScene } from '../core/gltfScene';
+import { HgMat4 } from '../core/linearMath';
+import { anatomicalGripOffset, handAttachmentLocalMatrix } from '../equipment/attach';
+import { equipmentSocketForInstance } from '../equipment/library';
+import { reflectBakedTrack } from '../equipment/mirror';
+import type { EquipmentInstance } from '../equipment/types';
 import type { ExerciseDefinition } from '../exercises/types';
 import type { BakedClipData } from './clipData';
+import { appendFirstPartyEquipment } from './firstPartyEquipment';
 
 type JsonObject = Record<string, unknown>;
 
@@ -27,7 +33,10 @@ interface MorphBinding {
 type PreservedCharacter = Pick<
   CharacterBuild,
   'preservedGlb' | 'sourceScale' | 'meshes'
->;
+> & Partial<Pick<
+  CharacterBuild,
+  'boneByName' | 'handFrameLocalMatrix' | 'gripOffset' | 'mirrored'
+>>;
 
 type PreservedBake = Pick<
   BakedClipData,
@@ -301,18 +310,92 @@ function topLevelNodes(decoded: ReturnType<typeof readHgGltfScene>): number[] {
     .map((node) => node.index);
 }
 
+function matrixFromValues(values: readonly number[]): HgMat4 {
+  if (values.length !== 16 || values.some((value) => !Number.isFinite(value))) {
+    throw new Error('Imported hand grip frame must be a finite 4x4 matrix');
+  }
+  const matrix = new HgMat4();
+  for (let index = 0; index < 16; index += 1) matrix.elements[index] = values[index];
+  return matrix;
+}
+
+function equipmentBake(
+  baked: BakedClipData,
+  instances: readonly EquipmentInstance[],
+  mirrored: boolean,
+): BakedClipData {
+  const byId = new Map(instances.map((instance) => [instance.id, instance]));
+  const equipmentTracks = new Map(
+    [...baked.equipmentTracks].map(([id, track]) => {
+      const copy = {
+        position: [...track.position],
+        quaternion: [...track.quaternion],
+        ...(track.scale ? { scale: [...track.scale] } : {}),
+      };
+      const instance = byId.get(id);
+      if (mirrored && instance && instance.attachment.mode !== 'hand') {
+        reflectBakedTrack(copy);
+      }
+      return [id, copy] as const;
+    }),
+  );
+  return { ...baked, equipmentTracks };
+}
+
+function handEquipmentPlacement(
+  character: PreservedCharacter,
+  decoded: ReturnType<typeof readHgGltfScene>,
+): (instance: EquipmentInstance) => { parentNode: number; matrix: number[] } | null {
+  const runtimeNames = hgRuntimeNodeNames(decoded.nodes.map((node) => node.name));
+  const nodeByName = new Map(runtimeNames.map((name, index) => [name, index]));
+
+  return (instance) => {
+    if (instance.attachment.mode !== 'hand') return null;
+    const side = instance.attachment.side;
+    const canonicalHand = side === 'l' ? 'hand_l' : 'hand_r';
+    const hand = character.boneByName?.get(canonicalHand);
+    if (!hand) throw new Error('Preserved character has no ' + canonicalHand + ' bone');
+    const parentNode = nodeByName.get(hand.name);
+    if (parentNode === undefined) {
+      throw new Error('Preserved character hand is missing from source GLB: ' + hand.name);
+    }
+
+    const frame = character.handFrameLocalMatrix?.(side);
+    if (!frame) {
+      throw new Error('Preserved character has no first-party hand grip frame for ' + side);
+    }
+    const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
+    const grip =
+      instance.attachment.gripOffset ??
+      character.gripOffset?.(side) ??
+      anatomicalGripOffset(side);
+    const attachment = handAttachmentLocalMatrix(
+      grip,
+      socket?.position ?? { x: 0, y: 0, z: 0 },
+      {
+        gripRotation: instance.attachment.gripRotation,
+        socketRotation: socket?.rotation,
+      },
+    );
+    const local = matrixFromValues(frame).multiply(attachment);
+    return { parentNode, matrix: Array.from(local.elements) };
+  };
+}
+
+
 /**
- * First-party writer for a preserved imported character, without equipment.
+ * First-party writer for a preserved imported character.
  *
- * It starts from the exact original GLB, appends runtime-created morph targets
- * and Home Gym PT animation data, and adds wrapper nodes for the studio scale
- * and clip metadata. Authored mesh, skin, materials, textures and helper bones
- * stay in their original GLB representation.
+ * It starts from the exact original GLB, appends runtime-created morph targets,
+ * Home Gym PT animation and project-authored equipment, and adds wrapper nodes
+ * for studio scale and clip metadata. Authored mesh, skin, materials, textures
+ * and helper bones stay in their original GLB representation.
  */
 export function exportFirstPartyPreservedCharacterGlb(
   character: PreservedCharacter,
-  baked: PreservedBake,
+  baked: BakedClipData,
   exercise: Pick<ExerciseDefinition, 'clipName' | 'travel'>,
+  equipment: readonly EquipmentInstance[] = [],
 ): Blob {
   if (!character.preservedGlb) {
     throw new Error('Character has no preserved source GLB');
@@ -323,9 +406,6 @@ export function exportFirstPartyPreservedCharacterGlb(
   const builder = HgGltfBuilder.fromDocument(source);
   const morphBindings = appendRuntimeMorphs(builder, character);
   const tracks = animationTracks(decoded, morphBindings, baked);
-
-  builder.json.animations = [];
-  addHgGltfAnimation(builder, { name: baked.name, tracks });
 
   const nodes = objects(builder.json.nodes, 'nodes');
   const sourceScene = decoded.defaultScene === null
@@ -356,6 +436,22 @@ export function exportFirstPartyPreservedCharacterGlb(
   builder.json.nodes = nodes;
   builder.json.scenes = [{ name: exercise.clipName, nodes: [exportRoot] }];
   builder.json.scene = 0;
+
+  const equipmentTracks = equipment.length
+    ? appendFirstPartyEquipment(
+        builder,
+        equipment,
+        equipmentBake(baked, equipment, Boolean(character.mirrored)),
+        exportRoot,
+        { handPlacement: handEquipmentPlacement(character, decoded) },
+      )
+    : [];
+
+  builder.json.animations = [];
+  addHgGltfAnimation(builder, {
+    name: baked.name,
+    tracks: [...tracks, ...equipmentTracks],
+  });
 
   const bytes = builder.toGlb();
   return new Blob([new Uint8Array(bytes)], { type: 'model/gltf-binary' });

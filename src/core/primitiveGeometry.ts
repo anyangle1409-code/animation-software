@@ -241,3 +241,30 @@ export function primitiveTrianglePositions(
   }
   return expanded;
 }
+
+
+/** Expand indexed project mesh normals into the same draw-order as triangle positions. */
+export function primitiveTriangleNormals(
+  mesh: HgPrimitiveGeometryData,
+): Float32Array {
+  if (mesh.normals.length !== mesh.positions.length) {
+    throw new Error('Primitive normals must match XYZ vertex positions');
+  }
+  if (mesh.indices.length % 3 !== 0) {
+    throw new Error('Primitive indices must contain complete triangles');
+  }
+  const vertexCount = mesh.positions.length / 3;
+  const expanded = new Float32Array(mesh.indices.length * 3);
+  for (let index = 0; index < mesh.indices.length; index += 1) {
+    const vertex = mesh.indices[index];
+    if (!Number.isInteger(vertex) || vertex < 0 || vertex >= vertexCount) {
+      throw new Error('Primitive index is outside the normal buffer');
+    }
+    const source = vertex * 3;
+    const target = index * 3;
+    expanded[target] = mesh.normals[source];
+    expanded[target + 1] = mesh.normals[source + 1];
+    expanded[target + 2] = mesh.normals[source + 2];
+  }
+  return expanded;
+}

@@ -5,6 +5,7 @@ import {
   spherePrimitiveData,
   torusPrimitiveData,
   primitiveTrianglePositions,
+  primitiveTriangleNormals,
 } from './primitiveGeometry';
 
 const validate = (mesh: ReturnType<typeof boxPrimitiveData>) => {
@@ -62,6 +63,23 @@ describe('first-party shared primitive geometry', () => {
       ...box,
       indices: [999, 0, 1],
     })).toThrow(/outside the vertex buffer/);
+  });
+
+  it('expands normals in the same indexed draw order as positions', () => {
+    const sphere = spherePrimitiveData(0.4, 8, 6);
+    const positions = primitiveTrianglePositions(sphere);
+    const normals = primitiveTriangleNormals(sphere);
+    expect(normals).toHaveLength(positions.length);
+    const firstVertex = sphere.indices[0];
+    expect(Array.from(normals.slice(0, 3))).toEqual(
+      Array.from(new Float32Array(
+        sphere.normals.slice(firstVertex * 3, firstVertex * 3 + 3),
+      )),
+    );
+    expect(() => primitiveTriangleNormals({
+      ...sphere,
+      normals: sphere.normals.slice(3),
+    })).toThrow(/normals must match/);
   });
 
 });

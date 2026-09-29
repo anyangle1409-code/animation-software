@@ -179,4 +179,78 @@ describe('first-party math migration parity against Three.js', () => {
       expectQuatParity(hgQ, threeQ, 1e-11);
     }
   });
+  it('matches shortest-arc unit-vector quaternion construction', () => {
+    const pairs = [
+      [[0, 0, 1], [0.2, 0.8, 0.4]],
+      [[1, 0, 0], [-1, 0, 0]],
+      [[0, 1, 0], [0, -1, 0]],
+      [[0.3, -0.4, 0.5], [-0.2, 0.9, 0.1]],
+    ] as const;
+    for (const [fromRaw, toRaw] of pairs) {
+      const hgFrom = new HgVec3(...fromRaw).normalize();
+      const hgTo = new HgVec3(...toRaw).normalize();
+      const threeFrom = new Vector3(...fromRaw).normalize();
+      const threeTo = new Vector3(...toRaw).normalize();
+      expectQuatParity(
+        new HgQuat().setFromUnitVectors(hgFrom, hgTo),
+        new Quaternion().setFromUnitVectors(threeFrom, threeTo),
+        1e-11,
+      );
+    }
+  });
+
+  it('matches translation, rotation extraction and affine decomposition', () => {
+    const cases = [
+      {
+        position: [0.2, 1.1, -0.4] as const,
+        rotation: [0.3, -0.2, 0.5] as const,
+        scale: [1, 1, 1] as const,
+      },
+      {
+        position: [-0.7, 0.4, 2.1] as const,
+        rotation: [-0.4, 0.6, -0.2] as const,
+        scale: [1.3, 0.8, 1.1] as const,
+      },
+    ];
+
+    for (const entry of cases) {
+      const [px, py, pz] = entry.position;
+      const [rx, ry, rz] = entry.rotation;
+      const [sx, sy, sz] = entry.scale;
+      const hg = new HgMat4().compose(
+        new HgVec3(px, py, pz),
+        new HgQuat().setFromEulerXZY(rx, ry, rz),
+        new HgVec3(sx, sy, sz),
+      );
+      const three = new Matrix4().compose(
+        new Vector3(px, py, pz),
+        new Quaternion().setFromEuler(new Euler(rx, ry, rz, 'XZY')),
+        new Vector3(sx, sy, sz),
+      );
+
+      expectMatrixParity(new HgMat4().extractRotation(hg), new Matrix4().extractRotation(three), 1e-11);
+      expectMatrixParity(
+        new HgMat4().makeTranslation(px, py, pz),
+        new Matrix4().makeTranslation(px, py, pz),
+      );
+
+      const hgP = new HgVec3(), hgQ = new HgQuat(), hgS = new HgVec3();
+      const threeP = new Vector3(), threeQ = new Quaternion(), threeS = new Vector3();
+      hg.clone().decompose(hgP, hgQ, hgS);
+      three.clone().decompose(threeP, threeQ, threeS);
+      expectVecParity(hgP, threeP, 1e-11);
+      expectQuatParity(hgQ, threeQ, 1e-11);
+      expectVecParity(hgS, threeS, 1e-11);
+    }
+  });
+
+  it('round-trips vectors, quaternions and matrices through plain arrays', () => {
+    const v = new HgVec3(0.2, -0.3, 1.4);
+    const q = new HgQuat().setFromEulerXZY(0.2, 0.1, -0.4);
+    const m = new HgMat4().compose(v, q, new HgVec3(1.1, 0.9, 1.2));
+    expect(v.toArray()).toEqual([0.2, -0.3, 1.4]);
+    expect(q.toArray()).toHaveLength(4);
+    expectMatrixParity(new HgMat4().fromArray(m.toArray()), new Matrix4().fromArray(m.toArray()));
+  });
+
 });

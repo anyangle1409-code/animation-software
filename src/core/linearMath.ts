@@ -15,7 +15,7 @@ export class HgVec3 {
     this.x = x; this.y = y; this.z = z; return this;
   }
 
-  copy(v: HgVec3): this {
+  copy(v: { x: number; y: number; z: number }): this {
     return this.set(v.x, v.y, v.z);
   }
 
@@ -101,7 +101,7 @@ export class HgVec3 {
     return this;
   }
 
-  applyQuaternion(q: HgQuat): this {
+  applyQuaternion(q: { x: number; y: number; z: number; w: number }): this {
     const vx = this.x, vy = this.y, vz = this.z;
     const tx = 2 * (q.y * vz - q.z * vy);
     const ty = 2 * (q.z * vx - q.x * vz);
@@ -112,7 +112,7 @@ export class HgVec3 {
     return this;
   }
 
-  applyMatrix4(matrix: HgMat4): this {
+  applyMatrix4(matrix: { readonly elements: ArrayLike<number> }): this {
     const e = matrix.elements;
     const x = this.x, y = this.y, z = this.z;
     const wDenominator = e[3] * x + e[7] * y + e[11] * z + e[15];
@@ -123,9 +123,16 @@ export class HgVec3 {
     return this;
   }
 
-  setFromMatrixPosition(matrix: HgMat4): this {
+  setFromMatrixPosition(matrix: { readonly elements: ArrayLike<number> }): this {
     const e = matrix.elements;
     return this.set(e[12], e[13], e[14]);
+  }
+
+  toArray(target: number[] = [], offset = 0): number[] {
+    target[offset] = this.x;
+    target[offset + 1] = this.y;
+    target[offset + 2] = this.z;
+    return target;
   }
 }
 
@@ -140,7 +147,7 @@ export class HgQuat {
     return this.set(0, 0, 0, 1);
   }
 
-  copy(q: HgQuat): this {
+  copy(q: { x: number; y: number; z: number; w: number }): this {
     return this.set(q.x, q.y, q.z, q.w);
   }
 
@@ -190,11 +197,35 @@ export class HgQuat {
     );
   }
 
-  setFromAxisAngle(axis: HgVec3, angle: number): this {
-    const unit = axis.clone().normalize();
+  setFromAxisAngle(axis: { x: number; y: number; z: number }, angle: number): this {
+    const unit = new HgVec3(axis.x, axis.y, axis.z).normalize();
     const half = angle / 2;
     const s = Math.sin(half);
     return this.set(unit.x * s, unit.y * s, unit.z * s, Math.cos(half));
+  }
+
+  /** Match Three's shortest-arc rotation between two unit directions. */
+  setFromUnitVectors(
+    from: { x: number; y: number; z: number },
+    to: { x: number; y: number; z: number },
+  ): this {
+    let r = from.x * to.x + from.y * to.y + from.z * to.z + 1;
+    if (r < Number.EPSILON) {
+      r = 0;
+      if (Math.abs(from.x) > Math.abs(from.z)) {
+        this.set(-from.y, from.x, 0, r);
+      } else {
+        this.set(0, -from.z, from.y, r);
+      }
+    } else {
+      this.set(
+        from.y * to.z - from.z * to.y,
+        from.z * to.x - from.x * to.z,
+        from.x * to.y - from.y * to.x,
+        r,
+      );
+    }
+    return this.normalize();
   }
 
   /** Standard XYZ Euler order used by authored equipment-part transforms. Angles are radians. */
@@ -224,7 +255,7 @@ export class HgQuat {
     );
   }
 
-  setFromRotationMatrix(matrix: HgMat4): this {
+  setFromRotationMatrix(matrix: { readonly elements: ArrayLike<number> }): this {
     // Rotation matrices reaching this path are orthonormal/unit-scale. Match
     // the Three reference semantics and avoid normalising every FK bone.
     const e = matrix.elements;
@@ -270,6 +301,14 @@ export class HgQuat {
       s / 4,
       (m21 - m12) / s,
     );
+  }
+
+  toArray(target: number[] = [], offset = 0): number[] {
+    target[offset] = this.x;
+    target[offset + 1] = this.y;
+    target[offset + 2] = this.z;
+    target[offset + 3] = this.w;
+    return target;
   }
 
   slerp(target: HgQuat, t: number): this {
@@ -318,8 +357,13 @@ export class HgMat4 {
     return this;
   }
 
-  copy(matrix: HgMat4): this {
-    this.elements.set(matrix.elements);
+  copy(matrix: { readonly elements: ArrayLike<number> }): this {
+    for (let index = 0; index < 16; index += 1) this.elements[index] = matrix.elements[index];
+    return this;
+  }
+
+  fromArray(values: ArrayLike<number>, offset = 0): this {
+    for (let index = 0; index < 16; index += 1) this.elements[index] = values[offset + index];
     return this;
   }
 
@@ -367,15 +411,69 @@ export class HgMat4 {
     return this;
   }
 
-  multiply(matrix: HgMat4): this {
+  makeTranslation(x: number, y: number, z: number): this {
+    this.identity();
+    this.elements[12] = x;
+    this.elements[13] = y;
+    this.elements[14] = z;
+    return this;
+  }
+
+  extractRotation(matrix: { readonly elements: ArrayLike<number> }): this {
+    const me = matrix.elements;
+    const sx = 1 / Math.hypot(me[0], me[1], me[2]);
+    const sy = 1 / Math.hypot(me[4], me[5], me[6]);
+    const sz = 1 / Math.hypot(me[8], me[9], me[10]);
+    const te = this.elements;
+    te[0] = me[0] * sx; te[1] = me[1] * sx; te[2] = me[2] * sx; te[3] = 0;
+    te[4] = me[4] * sy; te[5] = me[5] * sy; te[6] = me[6] * sy; te[7] = 0;
+    te[8] = me[8] * sz; te[9] = me[9] * sz; te[10] = me[10] * sz; te[11] = 0;
+    te[12] = 0; te[13] = 0; te[14] = 0; te[15] = 1;
+    return this;
+  }
+
+  decompose(position: HgVec3, quaternion: HgQuat, scale: HgVec3): this {
+    const te = this.elements;
+    let sx = Math.hypot(te[0], te[1], te[2]);
+    const sy = Math.hypot(te[4], te[5], te[6]);
+    const sz = Math.hypot(te[8], te[9], te[10]);
+    const determinant =
+      te[0] * (te[5] * te[10] - te[6] * te[9]) -
+      te[4] * (te[1] * te[10] - te[2] * te[9]) +
+      te[8] * (te[1] * te[6] - te[2] * te[5]);
+    if (determinant < 0) sx = -sx;
+
+    position.set(te[12], te[13], te[14]);
+    const rotation = this.clone();
+    const re = rotation.elements;
+    const invSx = sx === 0 ? 0 : 1 / sx;
+    const invSy = sy === 0 ? 0 : 1 / sy;
+    const invSz = sz === 0 ? 0 : 1 / sz;
+    re[0] *= invSx; re[1] *= invSx; re[2] *= invSx;
+    re[4] *= invSy; re[5] *= invSy; re[6] *= invSy;
+    re[8] *= invSz; re[9] *= invSz; re[10] *= invSz;
+    quaternion.setFromRotationMatrix(rotation);
+    scale.set(sx, sy, sz);
+    return this;
+  }
+
+  toArray(target: number[] = [], offset = 0): number[] {
+    for (let index = 0; index < 16; index += 1) target[offset + index] = this.elements[index];
+    return target;
+  }
+
+  multiply(matrix: { readonly elements: ArrayLike<number> }): this {
     return this.multiplyMatrices(this, matrix);
   }
 
-  premultiply(matrix: HgMat4): this {
+  premultiply(matrix: { readonly elements: ArrayLike<number> }): this {
     return this.multiplyMatrices(matrix, this);
   }
 
-  multiplyMatrices(a: HgMat4, b: HgMat4): this {
+  multiplyMatrices(
+    a: { readonly elements: ArrayLike<number> },
+    b: { readonly elements: ArrayLike<number> },
+  ): this {
     const ae = a.elements, be = b.elements, te = this.elements;
 
     // Cache both inputs before writing so this method remains correct when

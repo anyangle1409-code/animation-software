@@ -9,7 +9,6 @@ import {
   VectorKeyframeTrack,
 } from 'three';
 import type { Bone, KeyframeTrack, SkinnedMesh } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -35,6 +34,7 @@ import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
 import { importedMuscleDeformation } from './muscleDeformation';
 import type { MuscleRuntimeTuning } from './muscleDeformation';
+import { loadHgThreeScene } from './gltfThreeScene';
 
 /**
  * An imported character, preserved.
@@ -445,10 +445,11 @@ export function inHandFrame(
 }
 
 async function loadScene(options: RetargetedCharacterOptions): Promise<Object3D> {
-  const loader = new GLTFLoader();
-  if (options.data) return (await loader.parseAsync(options.data, '')).scene as Object3D;
-  if (options.url) return (await loader.loadAsync(options.url)).scene as Object3D;
-  throw new Error(`Character "${options.label}" has neither a URL nor file data to load.`);
+  if (options.data) return loadHgThreeScene(options.data);
+  if (options.url) {
+    throw new Error(`Character "${options.label}" uses a runtime URL. Standalone mode accepts local GLB bytes only.`);
+  }
+  throw new Error(`Character "${options.label}" has no local GLB data to load.`);
 }
 
 function guessedMapping(label: string, scene: Object3D, boneNames: string[]): BoneMapping {

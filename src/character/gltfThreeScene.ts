@@ -370,10 +370,3 @@ export async function loadHgThreeScene(
   return root;
 }
 
-export async function fetchHgThreeScene(url: string): Promise<Object3D> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to load GLB ${url}: HTTP ${response.status}`);
-  }
-  return loadHgThreeScene(await response.arrayBuffer());
-}

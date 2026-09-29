@@ -8,7 +8,7 @@ import { assembleCharacter } from './build';
 import { rebindToCanonical } from './rebind';
 import type { RebindReport } from './rebind';
 import type { CharacterSource } from './types';
-import { fetchHgThreeScene, loadHgThreeScene } from './gltfThreeScene';
+import { loadHgThreeScene } from './gltfThreeScene';
 
 /**
  * A character loaded from a GLB.
@@ -94,8 +94,10 @@ type LoadedScene = Awaited<ReturnType<typeof loadHgThreeScene>>;
 
 async function loadScene(options: GlbCharacterOptions): Promise<LoadedScene> {
   if (options.data) return loadHgThreeScene(options.data);
-  if (options.url) return fetchHgThreeScene(options.url);
-  throw new Error(`Character "${options.label}" has neither a URL nor file data to load.`);
+  if (options.url) {
+    throw new Error(`Character "${options.label}" uses a runtime URL. Standalone mode accepts local GLB bytes only.`);
+  }
+  throw new Error(`Character "${options.label}" has no local GLB data to load.`);
 }
 
 function guessedMapping(label: string, scene: LoadedScene, boneNames: string[]): BoneMapping {

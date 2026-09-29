@@ -22,6 +22,8 @@ function builtScene() {
   }];
   builder.json.meshes = [{
     name: 'body_mesh',
+    weights: [0.25],
+    extras: { targetNames: ['elbow_corrective'] },
     primitives: [{
       attributes: { POSITION: position, NORMAL: normal, JOINTS_0: joints, WEIGHTS_0: weights },
       targets: [{ POSITION: morphPosition }],
@@ -32,9 +34,9 @@ function builtScene() {
   builder.json.skins = [{ name: 'body_skin', joints: [0], skeleton: 0, inverseBindMatrices: inverseBind }];
   builder.json.nodes = [
     { name: 'root', children: [1] },
-    { name: 'body', mesh: 0, skin: 0, translation: [0, 1, 0] },
+    { name: 'body', mesh: 0, skin: 0, translation: [0, 1, 0], weights: [0.5], extras: { homeGymPT: { gripSolutionId: 'fixture' } } },
   ];
-  builder.json.scenes = [{ name: 'main', nodes: [0] }];
+  builder.json.scenes = [{ name: 'main', nodes: [0], extras: { homeGymPT: { source: 'fixture' } } }];
   builder.json.scene = 0;
   return parseHgGlb(builder.toGlb());
 }
@@ -58,6 +60,11 @@ describe('first-party glTF scene decoder', () => {
     );
     expect(primitive.indices?.values).toEqual([0, 1, 2]);
     expect(primitive.material).toBe(0);
+    expect(decoded.meshes[0].weights).toEqual([0.25]);
+    expect(decoded.meshes[0].extras).toEqual({ targetNames: ['elbow_corrective'] });
+    expect(decoded.nodes[1].weights).toEqual([0.5]);
+    expect(decoded.nodes[1].extras).toEqual({ homeGymPT: { gripSolutionId: 'fixture' } });
+    expect(decoded.scenes[0].extras).toEqual({ homeGymPT: { source: 'fixture' } });
 
     expect(decoded.skins[0].joints).toEqual([0]);
     expect(decoded.skins[0].inverseBindMatrices?.type).toBe('MAT4');
@@ -119,6 +126,23 @@ describe('first-party glTF scene decoder', () => {
       primitives: [{ attributes: { POSITION: position }, targets: [{ POSITION: morph }] }],
     }];
     expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/target.*count/i);
+  });
+
+  it('rejects node morph weights that do not match the target count', () => {
+    const builder = new HgGltfBuilder();
+    const position = builder.addAccessor(
+      [0, 0, 0, 1, 0, 0, 0, 1, 0],
+      { type: 'VEC3', componentType: 5126 },
+    );
+    const morph = builder.addAccessor(
+      [0, 0, 0, 0, 0.1, 0, 0, 0, 0],
+      { type: 'VEC3', componentType: 5126 },
+    );
+    builder.json.meshes = [{
+      primitives: [{ attributes: { POSITION: position }, targets: [{ POSITION: morph }] }],
+    }];
+    builder.json.nodes = [{ mesh: 0, weights: [0.1, 0.2] }];
+    expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/weights.*morph-target count/i);
   });
 
   it('rejects an inverse-bind accessor that is not FLOAT MAT4', () => {

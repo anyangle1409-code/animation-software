@@ -25,6 +25,8 @@ export interface HgGltfMesh {
   readonly index: number;
   readonly name: string;
   readonly primitives: HgGltfPrimitive[];
+  readonly weights: number[] | null;
+  readonly extras: unknown;
 }
 
 export interface HgGltfSkin {
@@ -45,6 +47,8 @@ export interface HgGltfNode {
   readonly translation: [number, number, number] | null;
   readonly rotation: [number, number, number, number] | null;
   readonly scale: [number, number, number] | null;
+  readonly weights: number[] | null;
+  readonly extras: unknown;
 }
 
 export interface HgGltfMaterial {
@@ -60,6 +64,7 @@ export interface HgGltfSceneDefinition {
   readonly index: number;
   readonly name: string;
   readonly nodes: number[];
+  readonly extras: unknown;
 }
 
 export interface HgGltfSceneDocument {
@@ -252,7 +257,23 @@ function readMesh(document: HgGlbDocument, value: JsonObject, index: number): Hg
       readPrimitive(document, primitive, `meshes[${index}].primitives[${primitiveIndex}]`),
   );
   if (!primitives.length) throw new Error(`meshes[${index}] has no primitives`);
-  return { index, name: nameOf(value.name), primitives };
+
+  const targetCount = primitives[0].targets.length;
+  if (primitives.some((primitive) => primitive.targets.length !== targetCount)) {
+    throw new Error(`meshes[${index}] primitives must expose the same morph-target count`);
+  }
+
+  const weights = value.weights === undefined
+    ? null
+    : tuple(value.weights, targetCount, `meshes[${index}].weights`);
+
+  return {
+    index,
+    name: nameOf(value.name),
+    primitives,
+    weights,
+    extras: value.extras ?? null,
+  };
 }
 
 function readSkin(document: HgGlbDocument, value: JsonObject, index: number): HgGltfSkin {
@@ -295,6 +316,12 @@ function readNode(value: JsonObject, index: number): HgGltfNode {
     translation: matrix ? null : (value.translation === undefined ? [0, 0, 0] : tuple(value.translation, 3, `nodes[${index}].translation`)) as [number, number, number],
     rotation: matrix ? null : (value.rotation === undefined ? [0, 0, 0, 1] : tuple(value.rotation, 4, `nodes[${index}].rotation`)) as [number, number, number, number],
     scale: matrix ? null : (value.scale === undefined ? [1, 1, 1] : tuple(value.scale, 3, `nodes[${index}].scale`)) as [number, number, number],
+    weights: value.weights === undefined
+      ? null
+      : (Array.isArray(value.weights)
+          ? value.weights.map((entry, weightIndex) => finite(entry, `nodes[${index}].weights[${weightIndex}]`))
+          : (() => { throw new Error(`nodes[${index}].weights must be an array`); })()),
+    extras: value.extras ?? null,
   };
 }
 
@@ -340,7 +367,17 @@ function assertReference(index: number, length: number, label: string): void {
 function validateReferences(scene: HgGltfSceneDocument): void {
   for (const node of scene.nodes) {
     node.children.forEach((child) => assertReference(child, scene.nodes.length, `nodes[${node.index}].children`));
-    if (node.mesh !== null) assertReference(node.mesh, scene.meshes.length, `nodes[${node.index}].mesh`);
+    if (node.mesh !== null) {
+      assertReference(node.mesh, scene.meshes.length, `nodes[${node.index}].mesh`);
+      if (node.weights !== null) {
+        const expected = scene.meshes[node.mesh].primitives[0].targets.length;
+        if (node.weights.length !== expected) {
+          throw new Error(`nodes[${node.index}].weights must match mesh morph-target count`);
+        }
+      }
+    } else if (node.weights !== null) {
+      throw new Error(`nodes[${node.index}] defines morph weights without a mesh`);
+    }
     if (node.skin !== null) assertReference(node.skin, scene.skins.length, `nodes[${node.index}].skin`);
   }
   for (const mesh of scene.meshes) {
@@ -375,6 +412,7 @@ export function readHgGltfScene(document: HgGlbDocument): HgGltfSceneDocument {
     index,
     name: nameOf(value.name),
     nodes: value.nodes === undefined ? [] : integerArray(value.nodes, `scenes[${index}].nodes`),
+    extras: value.extras ?? null,
   }));
   const defaultScene = optionalIndex(document.json.scene, 'scene');
 

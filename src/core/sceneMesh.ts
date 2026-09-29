@@ -31,16 +31,41 @@ export function hgRgbaFromHex(hex: string, alpha = 1): HgRgba {
   throw new Error('Mesh colour must be #rgb or #rrggbb');
 }
 
+export interface HgPrimitiveMaterialOptions {
+  emissive?: string | readonly [number, number, number, number];
+  emissiveIntensity?: number;
+  roughness?: number;
+  metalness?: number;
+}
+
 export class HgPrimitiveMaterial {
   readonly colour: HgRgba;
+  readonly emissive: HgRgba;
+  emissiveIntensity: number;
+  roughness: number;
+  metalness: number;
 
   constructor(
     colour: string | readonly [number, number, number, number],
     public shading: HgPrimitiveShading = 'lit',
+    options: HgPrimitiveMaterialOptions = {},
   ) {
     this.colour = typeof colour === 'string'
       ? hgRgbaFromHex(colour)
       : [colour[0], colour[1], colour[2], colour[3]];
+    this.emissive = options.emissive
+      ? (typeof options.emissive === 'string'
+          ? hgRgbaFromHex(options.emissive)
+          : [
+              options.emissive[0],
+              options.emissive[1],
+              options.emissive[2],
+              options.emissive[3],
+            ])
+      : [0, 0, 0, 1];
+    this.emissiveIntensity = options.emissiveIntensity ?? 0;
+    this.roughness = options.roughness ?? 1;
+    this.metalness = options.metalness ?? 0;
   }
 
   setColour(colour: string | readonly [number, number, number, number]): this {
@@ -59,6 +84,21 @@ export class HgPrimitiveMaterial {
       throw new Error('Mesh alpha must be between 0 and 1');
     }
     this.colour[3] = alpha;
+    return this;
+  }
+
+  setEmissive(
+    colour: string | readonly [number, number, number, number],
+    intensity = this.emissiveIntensity,
+  ): this {
+    const next = typeof colour === 'string'
+      ? hgRgbaFromHex(colour)
+      : [colour[0], colour[1], colour[2], colour[3]] as HgRgba;
+    this.emissive[0] = next[0];
+    this.emissive[1] = next[1];
+    this.emissive[2] = next[2];
+    this.emissive[3] = next[3];
+    this.emissiveIntensity = intensity;
     return this;
   }
 }

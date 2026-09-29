@@ -198,3 +198,34 @@ Both regions were refined in one pass and recorded as one checkpoint.
     with detailing.
   - Grip closure (curl, pull-up, push-up floor contact) must be proven at
     O4–O6 after binding. The rest pose alone cannot show it.
+
+### 6–9. Pelvis/glutes, thigh/knee, calf/ankle, feet — checkpoint `d1b8cf64…5642` (2026-09-29)
+
+All four regions were reviewed in one pass and recorded as one checkpoint.
+
+- **Crotch.** The crotch split (torso 32 → two leg loops of 20) follows the
+  inguinal line.
+- **Glutes.** Posterolateral glute mass, an intergluteal cleft at the back
+  centre, and a gluteal fold (the first thigh ring is tucked behind).
+- **Knee.** Patella, patellar tendon, tibial tuberosity and vastus medialis
+  bulge. There is a popliteal hollow behind, with cage rings at 0.54, 0.515
+  (joint) and 0.49 m.
+- **Calf.** The medial gastrocnemius head is lower and fuller than the
+  lateral. A slim Achilles tendon runs down to the malleoli.
+- **Foot.**
+  - Rings fan about the dorsal ankle crease (pivot f 0.047, z 0.094), forming
+    the heel and ankle bend loops.
+  - A medial longitudinal arch and a higher instep.
+  - The forefoot splits at the webs into five toes (8/8/8/6/6-vertex loops).
+    The second toe carries the v4 toe bone; its terminal tail ends 1.3 mm past
+    the toe skin and is ungated by design.
+  - The plantar surface of the heel, ball and toes is grounded at z = 0.
+- **Clearance.** The upper-thigh and hip contours were eased where the v4 rest
+  thumb reaches them; the gap is now 7.4 mm.
+- **Gates.** Authoring audit PASS; rig-fit PASS (the foot bone near the ankle
+  crease is now 7 mm deep); clearance PASS.
+- **Topology.** 16,154 vertices / 16,152 quads.
+- **Open.**
+  - Deep squat, lunge and hip-hinge groin/hip-crease behaviour needs O4–O5
+    posing.
+  - The toes are short, stylised stubs without nails.

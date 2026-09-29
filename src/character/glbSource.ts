@@ -1,6 +1,5 @@
-import { Box3, Object3D } from 'three';
+import { Box3 } from 'three';
 import type { Material, SkinnedMesh } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { createMapping, guessMapping, reportMapping } from '../retargeting/boneMap';
@@ -9,6 +8,7 @@ import { assembleCharacter } from './build';
 import { rebindToCanonical } from './rebind';
 import type { RebindReport } from './rebind';
 import type { CharacterSource } from './types';
+import { fetchHgThreeScene, loadHgThreeScene } from './gltfThreeScene';
 
 /**
  * A character loaded from a GLB.
@@ -90,20 +90,15 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
   return source;
 }
 
-async function loadScene(options: GlbCharacterOptions): Promise<Object3D> {
-  const loader = new GLTFLoader();
-  if (options.data) {
-    const gltf = await loader.parseAsync(options.data, '');
-    return gltf.scene as Object3D;
-  }
-  if (options.url) {
-    const gltf = await loader.loadAsync(options.url);
-    return gltf.scene as Object3D;
-  }
+type LoadedScene = Awaited<ReturnType<typeof loadHgThreeScene>>;
+
+async function loadScene(options: GlbCharacterOptions): Promise<LoadedScene> {
+  if (options.data) return loadHgThreeScene(options.data);
+  if (options.url) return fetchHgThreeScene(options.url);
   throw new Error(`Character "${options.label}" has neither a URL nor file data to load.`);
 }
 
-function guessedMapping(label: string, scene: Object3D, boneNames: string[]): BoneMapping {
+function guessedMapping(label: string, scene: LoadedScene, boneNames: string[]): BoneMapping {
   const mapping = createMapping(label, `${label} (${boneNames.length} bones)`);
   mapping.bones = guessMapping(boneNames);
   const box = new Box3().setFromObject(scene);

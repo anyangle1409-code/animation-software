@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import { IK_CHAINS } from '../ik/chains';
 import type { Pose } from '../rig/types';
@@ -132,7 +132,7 @@ function soleHeight(goal: IKGoal): number {
 }
 
 function ankleOf(evaluation: PoseEvaluation, chain: IKChainId): Vec3 {
-  const ankle = evaluation.head(IK_CHAINS[chain].end, new Vector3());
+  const ankle = evaluation.firstPartyEvaluation.head(IK_CHAINS[chain].end, new HgVec3());
   return { x: ankle.x, y: ankle.y, z: ankle.z };
 }
 

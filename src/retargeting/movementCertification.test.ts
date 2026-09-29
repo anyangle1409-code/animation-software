@@ -9,6 +9,7 @@ import { pushUp } from '../exercises/definitions/pushUp';
 import { shoulderPress } from '../exercises/definitions/shoulderPress';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import { HgQuat } from '../core/linearMath';
 import type { BoneMapping } from './boneMap';
 import { createMapping, guessMapping } from './boneMap';
 import type { TargetCharacter } from './retarget';
@@ -242,11 +243,13 @@ function flattenedCharacter() {
       ? rig.bone(definition.parent).parent
       : definition.parent;
     const parentBone = parent ? rig.bone(parent) : null;
-    const inverseParent = parentBone ? parentBone.restWorldQuaternion.clone().invert() : new Quaternion();
-    bone.position.copy(parentBone
+    const inverseParent = parentBone ? parentBone.restWorldQuaternion.clone().invert() : new HgQuat();
+    const localPosition = parentBone
       ? definition.restHead.clone().sub(parentBone.restHead).applyQuaternion(inverseParent)
-      : definition.restHead);
-    bone.quaternion.copy(inverseParent.clone().multiply(definition.restWorldQuaternion));
+      : definition.restHead;
+    bone.position.set(localPosition.x, localPosition.y, localPosition.z);
+    const localRotation = inverseParent.clone().multiply(definition.restWorldQuaternion);
+    bone.quaternion.set(localRotation.x, localRotation.y, localRotation.z, localRotation.w);
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
     const rotate = (axis: Vector3, degrees: number) =>
       bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));

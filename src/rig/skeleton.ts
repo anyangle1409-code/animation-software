@@ -179,7 +179,7 @@ export class PoseEvaluation {
   /** World position of a bone's joint. */
   head<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
     name: BoneName,
-    target: T = new HgVec3() as T,
+    target: T = new HgVec3() as unknown as T,
   ): T {
     const point = this.firstPartyEvaluation.head(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
@@ -188,7 +188,7 @@ export class PoseEvaluation {
   /** World position of a bone's far end. */
   tail<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
     name: BoneName,
-    target: T = new HgVec3() as T,
+    target: T = new HgVec3() as unknown as T,
   ): T {
     const point = this.firstPartyEvaluation.tail(name, this.scratchVector);
     return target.set(point.x, point.y, point.z);
@@ -198,7 +198,7 @@ export class PoseEvaluation {
   localToWorld<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
     name: BoneName,
     local: Vec3,
-    target: T = new HgVec3() as T,
+    target: T = new HgVec3() as unknown as T,
   ): T {
     const point = this.firstPartyEvaluation.localToWorld(name, local, this.scratchVector);
     return target.set(point.x, point.y, point.z);
@@ -208,7 +208,7 @@ export class PoseEvaluation {
   worldToLocal<T extends Vec3 & { set(x: number, y: number, z: number): T } = HgVec3>(
     name: BoneName,
     world: Vec3,
-    target: T = new HgVec3() as T,
+    target: T = new HgVec3() as unknown as T,
   ): T {
     this.scratchVector.set(world.x, world.y, world.z);
     const point = this.firstPartyEvaluation.worldToLocal(name, this.scratchVector, this.scratchVector);

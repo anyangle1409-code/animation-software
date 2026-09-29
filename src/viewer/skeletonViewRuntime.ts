@@ -83,7 +83,9 @@ export function createSkeletonViewRuntime(
   const unsubscribeStore = store.subscribe(syncAppearance);
   const removeFrame = sceneState.consumers.add(() => {
     for (const [name, objects] of resources.bones) {
-      objects.group.matrix.copy(sceneState.evaluation.matrix(name));
+      const source = sceneState.evaluation.matrix(name).elements;
+      const target = objects.group.matrix.elements;
+      for (let index = 0; index < 16; index += 1) target[index] = source[index];
       objects.group.matrixWorldNeedsUpdate = true;
     }
   }, SCENE_FRAME_PRIORITY.bone);

@@ -43,8 +43,10 @@ describe('the scapulae', () => {
       expect(scapula.restHead.distanceTo(rig.bone(`upperarm_${side}`).restHead)).toBeLessThan(1e-12);
     }
     // The inferior angle, 2 cm under the measured back skin, mirrored.
-    expect(rig.bone('scapula_l').restTail.toArray()).toEqual([-0.09, 1.25, -0.15]);
-    expect(rig.bone('scapula_r').restTail.toArray()).toEqual([0.09, 1.25, -0.15]);
+    const leftTail = rig.bone('scapula_l').restTail;
+    const rightTail = rig.bone('scapula_r').restTail;
+    expect([leftTail.x, leftTail.y, leftTail.z]).toEqual([-0.09, 1.25, -0.15]);
+    expect([rightTail.x, rightTail.y, rightTail.z]).toEqual([0.09, 1.25, -0.15]);
   });
 
   it('leave every other bone exactly where the 53-bone rig had it', () => {
@@ -83,7 +85,7 @@ describe('the scapulae', () => {
       evaluation.apply(pose);
       return {
         inferior: evaluation.tail('scapula_l', new Vector3()).sub(inferior),
-        superior: evaluation.localToWorld('scapula_l', superiorLocal).sub(superior),
+        superior: evaluation.localToWorld('scapula_l', superiorLocal, new Vector3()).sub(superior),
       };
     };
     // Upward rotation (-z on the left) swings the inferior angle out, away

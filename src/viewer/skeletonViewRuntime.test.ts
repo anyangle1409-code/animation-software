@@ -69,7 +69,9 @@ describe('framework-neutral skeleton view runtime', () => {
       rootRotation: { x: 0, y: 0, z: 0 },
     });
     sceneState.consumers.dispatch({ delta: 0.016, elapsed: 1, timestampMs: 1000 });
-    expect(upperarm.group.matrix.equals(sceneState.evaluation.matrix('upperarm_l'))).toBe(true);
+    expect(Array.from(upperarm.group.matrix.elements)).toEqual(
+      Array.from(sceneState.evaluation.matrix('upperarm_l').elements),
+    );
 
     const handler = handlers.get(upperarm.joint);
     const stopPropagation = vi.fn();

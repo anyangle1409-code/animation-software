@@ -3,6 +3,9 @@ import { parseHgGlb } from '../core/glbContainer';
 import { addHgGltfAnimation, type HgAnimationPath, type HgAnimationTrackInput } from '../core/gltfAnimation';
 import { HgGltfBuilder } from '../core/gltfBuilder';
 import type { CharacterBuild } from '../character/types';
+import { anatomicalGripOffset, handAttachmentLocalMatrix } from '../equipment/attach';
+import { equipmentSocketForInstance } from '../equipment/library';
+import type { EquipmentInstance } from '../equipment/types';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { bakeClipData, type BakedClipData } from './clipData';
@@ -233,12 +236,34 @@ export function exportFirstPartyReboundCharacterGlb(
   builder.json.scene = 0;
   builder.json.animations = [];
 
+  const canonicalHandPlacement = (instance: EquipmentInstance) => {
+    if (instance.attachment.mode !== 'hand') return null;
+    const side = instance.attachment.side;
+    const boneName = side === 'l' ? 'hand_l' : 'hand_r';
+    const parentNode = boneNodeIndex.get(boneName);
+    if (parentNode === undefined) {
+      throw new Error('Rebound export has no canonical ' + boneName + ' node');
+    }
+    const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
+    const grip = instance.attachment.gripOffset ?? anatomicalGripOffset(side);
+    const matrix = handAttachmentLocalMatrix(
+      grip,
+      socket?.position ?? { x: 0, y: 0, z: 0 },
+      {
+        gripRotation: instance.attachment.gripRotation,
+        socketRotation: socket?.rotation,
+      },
+    );
+    return { parentNode, matrix: Array.from(matrix.elements) };
+  };
+
   const equipmentTracks = includeEquipment
     ? appendFirstPartyEquipment(
         builder,
         studioClip.equipment,
         baked,
         exportRoot,
+        { handPlacement: canonicalHandPlacement },
       )
     : [];
   addHgGltfAnimation(builder, {

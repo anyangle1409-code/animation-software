@@ -137,8 +137,12 @@ export function appendFirstPartyEquipment(
     }
 
     const rootIndex = nodes.length;
+    const rootName =
+      instance.attachment.mode === 'hands' || instance.attachment.mode === 'cable'
+        ? 'equipment_' + instance.id
+        : (instance.label ?? instance.id);
     nodes.push({
-      name: instance.label ?? instance.id,
+      name: rootName,
       translation: track.position.slice(0, 3),
       rotation: track.quaternion.slice(0, 4),
       ...(track.scale ? { scale: track.scale.slice(0, 3) } : {}),
@@ -154,7 +158,7 @@ export function appendFirstPartyEquipment(
         const material = Array.isArray(rawMaterial) ? null : rawMaterial;
         if (!geometry || !material) throw new Error('Equipment part is not a single-material mesh');
         const meshIndex = addEquipmentPrimitive(
-          builder, geometry, material, (instance.label ?? instance.id) + '_part_' + partIndex,
+          builder, geometry, material, 'equipment_part_' + rootIndex + '_' + partIndex,
         );
         const part = parts[partIndex];
         const rotation = 'rotation' in part ? part.rotation : undefined;
@@ -163,7 +167,7 @@ export function appendFirstPartyEquipment(
           : new HgQuat();
         const nodeIndex = nodes.length;
         nodes.push({
-          name: (instance.label ?? instance.id) + '_part_' + partIndex,
+          name: 'equipment_part_' + rootIndex + '_' + partIndex,
           mesh: meshIndex,
           ...(part.position ? { translation: [...part.position] } : {}),
           ...(rotation ? { rotation: [quaternion.x, quaternion.y, quaternion.z, quaternion.w] } : {}),

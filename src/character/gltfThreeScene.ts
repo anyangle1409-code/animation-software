@@ -1,5 +1,6 @@
 import {
   Bone,
+  Box3,
   BufferAttribute,
   BufferGeometry,
   ClampToEdgeWrapping,
@@ -37,6 +38,8 @@ import type {
 } from '../core/gltfTextures';
 
 type DecodedImage = ImageBitmap | HTMLImageElement;
+
+export type HgThreeSkinnedMesh = SkinnedMesh;
 
 const ATTRIBUTE_NAMES = {
   POSITION: 'position',
@@ -294,6 +297,12 @@ function inverseMatrices(
   if (!values) return undefined;
   return Array.from({ length: count }, (_, index) =>
     new Matrix4().fromArray(values, index * 16));
+}
+
+/** Measure a materialized imported scene at the remaining Three compatibility boundary. */
+export function measureHgThreeSceneHeight(scene: Object3D): number {
+  const box = new Box3().setFromObject(scene);
+  return Math.max(0.5, box.max.y - box.min.y);
 }
 
 /**

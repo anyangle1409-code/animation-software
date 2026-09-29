@@ -1,14 +1,17 @@
-import { Box3 } from 'three';
-import type { Material, SkinnedMesh } from 'three';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { createMapping, guessMapping, reportMapping } from '../retargeting/boneMap';
 import type { BoneMapping, MappingReport } from '../retargeting/boneMap';
 import { assembleCharacter } from './build';
+import type { Surface } from './build';
 import { rebindToCanonical } from './rebind';
 import type { RebindReport } from './rebind';
 import type { CharacterSource } from './types';
-import { loadHgThreeScene } from './gltfThreeScene';
+import {
+  loadHgThreeScene,
+  measureHgThreeSceneHeight,
+  type HgThreeSkinnedMesh,
+} from './gltfThreeScene';
 
 /**
  * A character loaded from a GLB.
@@ -54,10 +57,10 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
       const scene = await loadScene(options);
       scene.updateMatrixWorld(true);
 
-      const meshes: SkinnedMesh[] = [];
+      const meshes: HgThreeSkinnedMesh[] = [];
       const boneNames: string[] = [];
       scene.traverse((object) => {
-        if ((object as SkinnedMesh).isSkinnedMesh) meshes.push(object as SkinnedMesh);
+        if ((object as HgThreeSkinnedMesh).isSkinnedMesh) meshes.push(object as HgThreeSkinnedMesh);
         if ((object as { isBone?: boolean }).isBone) boneNames.push(object.name);
       });
       if (meshes.length === 0) {
@@ -80,7 +83,7 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
         capabilities: source.capabilities,
         surfaces: meshes.map((mesh, index) => ({
           geometry: mesh.geometry,
-          material: mesh.material as Material,
+          material: mesh.material as Surface['material'],
           name: mesh.name || `${options.id}_${index}`,
         })),
       });
@@ -103,7 +106,6 @@ async function loadScene(options: GlbCharacterOptions): Promise<LoadedScene> {
 function guessedMapping(label: string, scene: LoadedScene, boneNames: string[]): BoneMapping {
   const mapping = createMapping(label, `${label} (${boneNames.length} bones)`);
   mapping.bones = guessMapping(boneNames);
-  const box = new Box3().setFromObject(scene);
-  mapping.characterHeight = Math.max(0.5, box.max.y - box.min.y);
+  mapping.characterHeight = measureHgThreeSceneHeight(scene);
   return mapping;
 }

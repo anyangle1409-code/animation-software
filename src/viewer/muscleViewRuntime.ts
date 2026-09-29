@@ -63,9 +63,14 @@ export function createMuscleViewRuntime(
       const mesh = resources.meshes.get(muscle.id);
       if (!mesh) continue;
       resolveMuscle(sceneState.evaluation, muscle, transform);
-      mesh.position.copy(transform.position);
-      mesh.quaternion.copy(transform.quaternion);
-      mesh.scale.copy(transform.scale);
+      mesh.position.set(transform.position.x, transform.position.y, transform.position.z);
+      mesh.quaternion.set(
+        transform.quaternion.x,
+        transform.quaternion.y,
+        transform.quaternion.z,
+        transform.quaternion.w,
+      );
+      mesh.scale.set(transform.scale.x, transform.scale.y, transform.scale.z);
     }
   }, SCENE_FRAME_PRIORITY.muscle);
 

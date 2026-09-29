@@ -1,7 +1,8 @@
 import { SHOULDER_WIDENING } from '../rig/humanoid';
-import { Matrix4, Quaternion, Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
+import { HgPoseEvaluation } from '../rig/firstPartySkeleton';
 import type { BoneName, Side } from '../rig/boneNames';
-import { PoseEvaluation } from '../rig/skeleton';
+import type { PoseEvaluation } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import type { Vec3 } from '../rig/types';
@@ -342,17 +343,17 @@ export interface MuscleInstance extends MuscleDefinition {
   /** Functional path length in the rest pose, for the bulge calculation. */
   restLength: number;
   /** Unit outward direction in the origin bone's frame. */
-  outwardAxis: Vector3;
+  outwardAxis: HgVec3;
   /** Bones whose skin the belly is fitted against. */
   fitBones: ReadonlySet<string>;
 }
 
-const restScratch = { origin: new Vector3(), insertion: new Vector3() };
-const pathScratchA = new Vector3();
-const pathScratchB = new Vector3();
-let restEvaluation: PoseEvaluation | undefined;
+const restScratch = { origin: new HgVec3(), insertion: new HgVec3() };
+const pathScratchA = new HgVec3();
+const pathScratchB = new HgVec3();
+let restEvaluation: HgPoseEvaluation | undefined;
 
-function measurePath(evaluation: PoseEvaluation, path: readonly MuscleAttachment[]): number {
+function measurePath(evaluation: HgPoseEvaluation, path: readonly MuscleAttachment[]): number {
   if (path.length < 2) return 0;
   evaluation.localToWorld(path[0].bone, path[0].offset, pathScratchA);
   let total = 0;
@@ -375,7 +376,7 @@ function measurePath(evaluation: PoseEvaluation, path: readonly MuscleAttachment
  * machinery without joining `MUSCLES` and appearing as overlay balloons.
  */
 export function muscleInstance(muscle: MuscleDefinition, side: Side | null): MuscleInstance {
-  const evaluation = (restEvaluation ??= new PoseEvaluation(canonicalSkeleton).apply(restPose()));
+  const evaluation = (restEvaluation ??= new HgPoseEvaluation(canonicalSkeleton.firstParty).apply(restPose()));
   const { origin, insertion } = restScratch;
   const path: readonly MuscleAttachment[] = [
     muscle.origin,
@@ -385,7 +386,7 @@ export function muscleInstance(muscle: MuscleDefinition, side: Side | null): Mus
   evaluation.localToWorld(muscle.origin.bone, muscle.origin.offset, origin);
   evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertion);
   const authored = muscle.outward ?? vec3(muscle.origin.offset.x, 0, muscle.origin.offset.z);
-  const outwardAxis = new Vector3(authored.x, authored.y, authored.z);
+  const outwardAxis = new HgVec3(authored.x, authored.y, authored.z);
   if (outwardAxis.lengthSq() < 1e-8) outwardAxis.set(0, 0, 1);
   const bones = new Set<string>(path.map((attachment) => attachment.bone));
   for (const attachment of path) {
@@ -415,21 +416,21 @@ function build(): MuscleInstance[] {
 export const MUSCLES: MuscleInstance[] = build();
 
 export interface MuscleTransform {
-  position: Vector3;
-  quaternion: Quaternion;
+  position: HgVec3;
+  quaternion: HgQuat;
   /** Radius, length and depth scale for the belly. */
-  scale: Vector3;
+  scale: HgVec3;
   /** Current length divided by rest length. */
   stretch: number;
 }
 
-const originScratch = new Vector3();
-const insertionScratch = new Vector3();
-const directionScratch = new Vector3();
-const outwardScratch = new Vector3();
-const widthScratch = new Vector3();
-const basisScratch = new Matrix4();
-const fitScratch = new Vector3();
+const originScratch = new HgVec3();
+const insertionScratch = new HgVec3();
+const directionScratch = new HgVec3();
+const outwardScratch = new HgVec3();
+const widthScratch = new HgVec3();
+const basisScratch = new HgMat4();
+const fitScratch = new HgVec3();
 let probe: SkinProbe | undefined;
 
 /**
@@ -461,24 +462,25 @@ export function resolveMuscle(
   muscle: MuscleInstance,
   out: MuscleTransform,
 ): MuscleTransform {
-  evaluation.localToWorld(muscle.origin.bone, muscle.origin.offset, originScratch);
-  evaluation.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertionScratch);
+  const firstParty = evaluation.firstPartyEvaluation;
+  firstParty.localToWorld(muscle.origin.bone, muscle.origin.offset, originScratch);
+  firstParty.localToWorld(muscle.insertion.bone, muscle.insertion.offset, insertionScratch);
   directionScratch.subVectors(insertionScratch, originScratch);
 
   // Keep the visible belly aligned between its authored end points, but drive
   // contraction from the full anatomical path. This lets a tendon wrap around
   // an elbow/knee while retaining the inexpensive fitted ellipsoid renderer.
   const length = Math.max(0.01, directionScratch.length());
-  const functionalLength = Math.max(0.01, measurePath(evaluation, muscle.path));
+  const functionalLength = Math.max(0.01, measurePath(firstParty, muscle.path));
   const stretch = functionalLength / muscle.restLength;
   const bulge = 1 + (muscle.bulge ?? 0.25) * Math.max(-0.5, Math.min(0.9, 1 / stretch - 1));
 
   out.position.copy(originScratch).addScaledVector(directionScratch, 0.5);
-  directionScratch.divideScalar(length);
+  directionScratch.multiplyScalar(1 / length);
 
   // Outward, carried from the origin bone into the world and made square to the
   // muscle's own length.
-  outwardScratch.copy(muscle.outwardAxis).applyQuaternion(evaluation.quaternion(muscle.origin.bone));
+  outwardScratch.copy(muscle.outwardAxis).applyQuaternion(firstParty.quaternion(muscle.origin.bone));
   outwardScratch.addScaledVector(directionScratch, -outwardScratch.dot(directionScratch));
   if (outwardScratch.lengthSq() < 1e-8) outwardScratch.set(0, 0, 1);
   outwardScratch.normalize();
@@ -525,8 +527,8 @@ export function resolveMuscle(
 }
 
 export const createMuscleTransform = (): MuscleTransform => ({
-  position: new Vector3(),
-  quaternion: new Quaternion(),
-  scale: new Vector3(1, 1, 1),
+  position: new HgVec3(),
+  quaternion: new HgQuat(),
+  scale: new HgVec3(1, 1, 1),
   stretch: 1,
 });

@@ -192,15 +192,13 @@ describe('first-party GLB scene materialiser', () => {
     ]);
   });
   it('decodes embedded base-colour texture data into a first-party material', async () => {
-    const global = globalThis as typeof globalThis & {
-      createImageBitmap?: (blob: Blob) => Promise<ImageBitmap>;
-    };
-    const previous = global.createImageBitmap;
+    const globals = globalThis as unknown as Record<string, unknown>;
+    const previous = globals.createImageBitmap;
     const image = {} as ImageBitmap;
-    global.createImageBitmap = async (blob: Blob) => {
+    globals.createImageBitmap = (async (blob: Blob) => {
       expect(blob.type).toBe('image/png');
       return image;
-    };
+    }) as unknown as typeof createImageBitmap;
     try {
       const scene = await loadHgFirstPartyScene(texturedFixture());
       const { meshes } = collect(scene);
@@ -214,8 +212,8 @@ describe('first-party GLB scene materialiser', () => {
         minFilter: 9729,
       });
     } finally {
-      if (previous) global.createImageBitmap = previous;
-      else delete global.createImageBitmap;
+      if (previous === undefined) delete globals.createImageBitmap;
+      else globals.createImageBitmap = previous;
     }
   });
 

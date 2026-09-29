@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { Vector3 } from 'three';
 import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
@@ -28,8 +29,8 @@ const frames = Array.from({ length: 41 }, (_, step) => {
   return {
     frame,
     twist: Math.max(...(['pelvis', 'spine_01', 'spine_02', 'spine_03'] as const).map((bone) => Math.abs(degrees(bone)))),
-    upper: evaluation.localToWorld('hand_l', anatomicalGripOffset('l'), new HgVec3()),
-    lower: evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new HgVec3()),
+    upper: evaluation.localToWorld('hand_l', anatomicalGripOffset('l'), new Vector3()),
+    lower: evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new Vector3()),
     fit: measureTwoHandFit(evaluation, byId('handle'), frame.equipment.get('handle')!)!,
     elbows: [frame.pose.rotations.forearm_l!.x, frame.pose.rotations.forearm_r!.x].map((x) => (x * 180) / Math.PI),
   };

@@ -5,7 +5,7 @@ import type { StudioClip } from '../animation/clip';
 import type { ExerciseDefinition } from '../exercises/types';
 import { repetitionDuration } from '../exercises/types';
 import { phaseBoundaries } from '../animation/generate';
-import { bakeClip, serializeThreeAnimationClip } from './clipBuilder';
+import { bakeClipData, type BakedBoneTrackData } from './clipData';
 import { MUSCLE_GROUPS } from '../muscles/groups';
 
 export const ANIMATION_FORMAT = 'hgpt-animation';
@@ -43,7 +43,11 @@ export interface AnimationJson {
     times: number[];
     values: number[];
   }[];
-  /** The same clip in three.js's own format, ready for `AnimationClip.parse`. */
+  /**
+   * Legacy Three-compatible JSON shape, generated from project-owned baked
+   * data so consumers using `AnimationClip.parse` keep working without the
+   * exporter itself constructing a Three animation object.
+   */
   threeClip: unknown;
 }
 
@@ -54,13 +58,38 @@ export interface AnimationJson {
  * exercise in the library rather than each exercise shipping its own copy of
  * the mesh.
  */
+function legacyThreeTrackJson(track: BakedBoneTrackData) {
+  return {
+    name: `${track.bone}.${track.property}`,
+    times: [...track.times],
+    values: [...track.values],
+    type: track.property === 'quaternion' ? 'quaternion' : 'vector',
+  };
+}
+
+function legacyThreeClipJson(
+  name: string,
+  duration: number,
+  tracks: readonly BakedBoneTrackData[],
+): unknown {
+  return {
+    name,
+    duration,
+    tracks: tracks.map(legacyThreeTrackJson),
+    uuid: `hgpt-clip-${name}`,
+    // Three's normal animation blend mode. Kept as a file-format compatibility
+    // value; no Three runtime object is needed to produce it.
+    blendMode: 2500,
+  };
+}
+
 export function exportAnimationJson(
   studioClip: StudioClip,
   exercise: ExerciseDefinition,
   rig: Skeleton = canonicalSkeleton,
   fps?: number,
 ): AnimationJson {
-  const baked = bakeClip(studioClip, rig, { fps });
+  const baked = bakeClipData(studioClip, rig, { fps });
 
   return {
     format: ANIMATION_FORMAT,
@@ -71,16 +100,13 @@ export function exportAnimationJson(
     duration: round(studioClip.duration, 6),
     fps: baked.fps,
     loop: studioClip.loop,
-    tracks: baked.clip.tracks.map((track) => {
-      const [bone, property] = track.name.split('.');
-      return {
-        bone,
-        property: property as 'quaternion' | 'position',
-        times: Array.from(track.times, (time) => round(time, 5)),
-        values: Array.from(track.values, (value) => round(value, 6)),
-      };
-    }),
-    threeClip: serializeThreeAnimationClip(baked.clip),
+    tracks: baked.tracks.map((track) => ({
+      bone: track.bone,
+      property: track.property,
+      times: track.times.map((time) => round(time, 5)),
+      values: track.values.map((value) => round(value, 6)),
+    })),
+    threeClip: legacyThreeClipJson(studioClip.name, studioClip.duration, baked.tracks),
   };
 }
 

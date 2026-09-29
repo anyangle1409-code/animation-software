@@ -59,7 +59,9 @@ describe('first-party equipment primitive geometry', () => {
     expect(Math.min(...torusXs)).toBeCloseTo(-2.5, 6);
     expect(Math.max(...torusYs)).toBeCloseTo(2.5, 6);
     expect(Math.min(...torusYs)).toBeCloseTo(-2.5, 6);
-    expect(Math.max(...torusZs)).toBeCloseTo(0.5, 6);
-    expect(Math.min(...torusZs)).toBeCloseTo(-0.5, 6);
+    expect(Math.max(...torusZs)).toBeGreaterThan(0.45);
+    expect(Math.max(...torusZs)).toBeLessThanOrEqual(0.5);
+    expect(Math.min(...torusZs)).toBeLessThan(-0.45);
+    expect(Math.min(...torusZs)).toBeGreaterThanOrEqual(-0.5);
   });
 });

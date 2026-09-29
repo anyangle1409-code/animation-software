@@ -174,7 +174,14 @@ export class PoseEvaluation {
   constructor(skeleton: Skeleton) {
     this.skeleton = skeleton;
     this.firstParty = new HgPoseEvaluation(skeleton.firstParty);
-    this.matrices = skeleton.bones.map(() => new Matrix4());
+    // Matrix4 is retained only as a compatibility facade. Point it at the
+    // first-party matrix buffer so callers observe the same live object across
+    // apply() calls without copying sixteen values for every bone every frame.
+    this.matrices = skeleton.bones.map((bone) => {
+      const matrix = new Matrix4();
+      matrix.elements = this.firstParty.matrix(bone.name).elements as unknown as number[];
+      return matrix;
+    });
     this.quaternions = skeleton.bones.map(() => new Quaternion());
   }
 
@@ -183,12 +190,9 @@ export class PoseEvaluation {
     this.firstParty.apply(pose);
 
     for (const bone of this.skeleton.bones) {
-      const sourceMatrix = this.firstParty.matrix(bone.name).elements;
-      const targetMatrix = this.matrices[bone.index].elements;
-      for (let index = 0; index < 16; index += 1) {
-        targetMatrix[index] = sourceMatrix[index];
-      }
-
+      // Matrices share the first-party buffers; only the legacy Quaternion
+      // facade still needs four scalar assignments until IK/render callers
+      // migrate to HgQuat directly.
       const sourceQuaternion = this.firstParty.quaternion(bone.name);
       this.quaternions[bone.index].set(
         sourceQuaternion.x,

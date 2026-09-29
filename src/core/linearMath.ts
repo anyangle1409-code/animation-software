@@ -194,15 +194,20 @@ export class HgQuat {
   setFromEulerXZY(x: number, y: number, z: number): this {
     const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);
     const s1 = Math.sin(x / 2), s2 = Math.sin(y / 2), s3 = Math.sin(z / 2);
+    // The closed-form Euler conversion is already unit length. Three's
+    // reference implementation also leaves it unnormalised; avoiding a
+    // redundant hypot/sqrt here matters because FK executes this per bone.
     return this.set(
       s1 * c2 * c3 - c1 * s2 * s3,
       c1 * s2 * c3 - s1 * c2 * s3,
       c1 * c2 * s3 + s1 * s2 * c3,
       c1 * c2 * c3 + s1 * s2 * s3,
-    ).normalize();
+    );
   }
 
   setFromRotationMatrix(matrix: HgMat4): this {
+    // Rotation matrices reaching this path are orthonormal/unit-scale. Match
+    // the Three reference semantics and avoid normalising every FK bone.
     const e = matrix.elements;
     const m11 = e[0], m12 = e[4], m13 = e[8];
     const m21 = e[1], m22 = e[5], m23 = e[9];
@@ -216,7 +221,7 @@ export class HgQuat {
         (m13 - m31) / s,
         (m21 - m12) / s,
         s / 4,
-      ).normalize();
+      );
     }
 
     if (m11 >= m22 && m11 >= m33) {
@@ -226,7 +231,7 @@ export class HgQuat {
         (m12 + m21) / s,
         (m13 + m31) / s,
         (m32 - m23) / s,
-      ).normalize();
+      );
     }
 
     if (m22 >= m33) {
@@ -236,7 +241,7 @@ export class HgQuat {
         s / 4,
         (m23 + m32) / s,
         (m13 - m31) / s,
-      ).normalize();
+      );
     }
 
     const s = 2 * Math.sqrt(Math.max(0, 1 + m33 - m11 - m22));
@@ -245,7 +250,7 @@ export class HgQuat {
       (m23 + m32) / s,
       s / 4,
       (m21 - m12) / s,
-    ).normalize();
+    );
   }
 
   slerp(target: HgQuat, t: number): this {

@@ -33,13 +33,12 @@
       "rule": "ReactDOM source imports are zero and the package is removed. It may not return."
     },
     "three": {
-      "max_imports": 3,
+      "max_imports": 2,
       "allowed_files": [
-        "src/character/bones.ts",
-        "src/character/gltfThreeScene.ts",
+        "src/character/threeSceneBoundary.ts",
         "src/viewer/threeSceneBoundary.ts"
       ],
-      "rule": "Three is the final runtime dependency. Direct source imports are confined to these three compatibility/rendering boundaries and may only decrease."
+      "rule": "Three is confined to one character scene adapter and one live-viewer adapter. Direct source imports may only decrease until both adapters are replaced."
     }
   }
 }

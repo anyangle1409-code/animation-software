@@ -23,7 +23,7 @@ import {
   SkinnedMesh,
   SRGBColorSpace,
   Texture,
-} from 'three';
+} from './threeSceneBoundary';
 import { parseHgGlb } from '../core/glbContainer';
 import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {

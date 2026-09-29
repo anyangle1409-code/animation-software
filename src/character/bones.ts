@@ -12,7 +12,7 @@ import {
   SkinnedMesh,
   Vector3,
   type Object3D,
-} from 'three';
+} from './threeSceneBoundary';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';

@@ -4,27 +4,34 @@ import type { Pose } from '../rig/types';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import { clamp } from '../core/math';
 import {
-  hingeRotationForDirection,
   localRotationForDirection,
   setRotation,
 } from './orient';
-import { hgRestWorldQuaternion, hgSwingFor } from './firstPartyOrient';
+import {
+  hgHingeRotationForDirection,
+  hgLocalRotationForDirection,
+  hgRestWorldQuaternion,
+  hgSwingFor,
+} from './firstPartyOrient';
 import type { IKChain, IKResult } from './types';
 
 const EPSILON = 1e-6;
 const Z_AXIS = new Vector3(0, 0, 1);
+const HG_Z_AXIS = new HgVec3(0, 0, 1);
 
 const tmp = {
-  rootHead: new Vector3(),
-  midHead: new Vector3(),
-  effector: new Vector3(),
-  toTarget: new Vector3(),
-  direction: new Vector3(),
-  poleVector: new Vector3(),
-  poleOrtho: new Vector3(),
-  upperDirection: new Vector3(),
-  lowerDirection: new Vector3(),
-  clampedTarget: new Vector3(),
+  rootHead: new HgVec3(),
+  midHead: new HgVec3(),
+  effector: new HgVec3(),
+  target: new HgVec3(),
+  pole: new HgVec3(),
+  toTarget: new HgVec3(),
+  direction: new HgVec3(),
+  poleVector: new HgVec3(),
+  poleOrtho: new HgVec3(),
+  upperDirection: new HgVec3(),
+  lowerDirection: new HgVec3(),
+  clampedTarget: new HgVec3(),
   restQuaternion: new HgQuat(),
   swing: new HgQuat(),
   world: new HgQuat(),
@@ -56,17 +63,20 @@ export function solveTwoBone(
   const lowerLength = midBone.length;
 
   evaluation.apply(pose);
-  evaluation.head(chain.root, tmp.rootHead);
-  evaluation.head(chain.mid, tmp.midHead);
+  const fk = evaluation.firstPartyEvaluation;
+  fk.head(chain.root, tmp.rootHead);
+  fk.head(chain.mid, tmp.midHead);
+  tmp.target.set(target.x, target.y, target.z);
+  tmp.pole.set(pole.x, pole.y, pole.z);
 
-  tmp.toTarget.subVectors(target, tmp.rootHead);
+  tmp.toTarget.subVectors(tmp.target, tmp.rootHead);
   const rawDistance = tmp.toTarget.length();
   const overExtended = rawDistance > upperLength + lowerLength;
 
   if (rawDistance < EPSILON) {
     return { chain: chain.id, error: rawDistance, reached: false, overExtended: false };
   }
-  tmp.direction.copy(tmp.toTarget).divideScalar(rawDistance);
+  tmp.direction.copy(tmp.toTarget).multiplyScalar(1 / rawDistance);
 
   // Keep the triangle solvable: never fully locked out, never folded through itself.
   const minReach = Math.abs(upperLength - lowerLength) + 1e-4;
@@ -75,7 +85,7 @@ export function solveTwoBone(
   tmp.clampedTarget.copy(tmp.rootHead).addScaledVector(tmp.direction, distance);
 
   // Pole direction, orthogonalised against the root-to-target line.
-  tmp.poleVector.subVectors(pole, tmp.rootHead);
+  tmp.poleVector.subVectors(tmp.pole, tmp.rootHead);
   tmp.poleOrtho
     .copy(tmp.poleVector)
     .addScaledVector(tmp.direction, -tmp.poleVector.dot(tmp.direction));
@@ -85,7 +95,7 @@ export function solveTwoBone(
       .subVectors(tmp.midHead, tmp.rootHead)
       .addScaledVector(tmp.direction, -tmp.poleVector.dot(tmp.direction));
     if (tmp.poleOrtho.lengthSq() < 1e-8) {
-      tmp.poleOrtho.copy(Z_AXIS).addScaledVector(tmp.direction, -tmp.direction.z);
+      tmp.poleOrtho.copy(HG_Z_AXIS).addScaledVector(tmp.direction, -tmp.direction.z);
     }
   }
   tmp.poleOrtho.normalize();
@@ -119,26 +129,26 @@ export function solveTwoBone(
   setRotation(
     pose,
     chain.root,
-    localRotationForDirection(skeleton, evaluation, chain.root, tmp.upperDirection, twist),
+    hgLocalRotationForDirection(skeleton.firstParty, fk, chain.root, tmp.upperDirection, twist),
   );
   evaluation.apply(pose);
 
   // Re-aim the lower bone from where the upper bone actually ended up, which
   // may differ from the ideal if a joint limit clamped the solve.
-  evaluation.head(chain.mid, tmp.midHead);
-  tmp.lowerDirection.subVectors(target, tmp.midHead);
+  fk.head(chain.mid, tmp.midHead);
+  tmp.lowerDirection.subVectors(tmp.target, tmp.midHead);
   if (tmp.lowerDirection.lengthSq() < EPSILON) tmp.lowerDirection.copy(tmp.upperDirection);
   tmp.lowerDirection.normalize();
 
   setRotation(
     pose,
     chain.mid,
-    hingeRotationForDirection(skeleton, evaluation, chain.mid, tmp.lowerDirection),
+    hgHingeRotationForDirection(skeleton.firstParty, fk, chain.mid, tmp.lowerDirection),
   );
   evaluation.apply(pose);
 
-  evaluation.head(chain.end, tmp.effector);
-  const error = tmp.effector.distanceTo(target);
+  fk.head(chain.end, tmp.effector);
+  const error = tmp.effector.distanceTo(tmp.target);
   return { chain: chain.id, error, reached: error < 2e-3, overExtended };
 }
 
@@ -160,8 +170,8 @@ function hingeTwist(
   skeleton: Skeleton,
   evaluation: PoseEvaluation,
   chain: IKChain,
-  upperDirection: Vector3,
-  lowerDirection: Vector3,
+  upperDirection: HgVec3,
+  lowerDirection: HgVec3,
 ): number {
   // The untwisted reference must be the same decomposition the solve will
   // ultimately write, or the twist solved here lands against a different frame.
@@ -170,7 +180,7 @@ function hingeTwist(
     skeleton.firstParty,
     evaluation.firstPartyEvaluation,
     chain.root,
-    new HgVec3(upperDirection.x, upperDirection.y, upperDirection.z),
+    upperDirection,
     0,
   );
   tmp.swing.setFromEulerXZY(swing.x, swing.y, swing.z);
@@ -178,7 +188,7 @@ function hingeTwist(
   const midRest = skeleton.firstParty.bone(chain.mid).restLocalQuaternion;
 
   const m = new HgVec3(1, 0, 0).applyQuaternion(midRest);
-  const u = new HgVec3(lowerDirection.x, lowerDirection.y, lowerDirection.z)
+  const u = lowerDirection.clone()
     .applyQuaternion(untwisted.clone().invert());
 
   const a = m.x * u.x + m.z * u.z;
@@ -213,7 +223,7 @@ function midFlexionFor(
   twist: number,
   untwisted: HgQuat,
   midRest: HgQuat,
-  lowerDirection: Vector3,
+  lowerDirection: HgVec3,
 ): number {
   const frame = new HgQuat()
     .copy(untwisted)
@@ -221,8 +231,7 @@ function midFlexionFor(
     .multiply(midRest);
   const restDirection = new HgVec3(0, 1, 0).applyQuaternion(frame);
   const axis = new HgVec3(1, 0, 0).applyQuaternion(frame);
-  const projected = new HgVec3(lowerDirection.x, lowerDirection.y, lowerDirection.z)
-    .addScaledVector(axis, -(lowerDirection.x * axis.x + lowerDirection.y * axis.y + lowerDirection.z * axis.z));
+  const projected = lowerDirection.clone().addScaledVector(axis, -lowerDirection.dot(axis));
   if (projected.lengthSq() < 1e-10) return 0;
   projected.normalize();
   return Math.atan2(

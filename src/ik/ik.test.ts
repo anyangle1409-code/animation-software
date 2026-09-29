@@ -89,6 +89,23 @@ describe('two-bone IK', () => {
 });
 
 describe('leg IK', () => {
+  it('preserves the knee and hip solve for a planted-foot target', () => {
+    const pose = clonePose(restPose());
+    const result = solveTwoBone(
+      skeleton,
+      evaluation,
+      pose,
+      IK_CHAINS.leg_l,
+      new Vector3(-0.082, 0.42, 0.18),
+      new Vector3(-0.1, 0.5, 1.4),
+    );
+    expect(pose.rotations.thigh_l?.x).toBeCloseTo(1.2312145419964278, 10);
+    expect(pose.rotations.thigh_l?.y).toBeCloseTo(0.002250570318530927, 10);
+    expect(pose.rotations.thigh_l?.z).toBeCloseTo(-0.012030845204473612, 10);
+    expect(pose.rotations.shin_l?.x).toBeCloseTo(-1.7716914028904953, 10);
+    expect(result.error).toBeLessThan(1e-10);
+  });
+
   it('plants the foot at a target with the knee tracking the pole', () => {
     const pose = clonePose(restPose());
     const target = new Vector3(-0.082, 0.42, 0.18);

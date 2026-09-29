@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Matrix4, type Object3D } from 'three';
+import { type Object3D } from 'three';
+import { HgMat4 } from '../core/linearMath';
 import type { EquipmentInstance } from '../equipment/types';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 import type { HgScenePointerHandlers } from './scenePointerRouter';
@@ -33,7 +34,7 @@ describe('first-party equipment scene', () => {
 
   it('applies the already-verified display matrix policy without recomputing it', () => {
     const resources = createEquipmentScene([dumbbell]);
-    const matrix = new Matrix4().makeTranslation(1, 2, 3);
+    const matrix = new HgMat4().makeTranslation(1, 2, 3);
 
     applyEquipmentDisplayTransforms(
       resources,
@@ -41,7 +42,7 @@ describe('first-party equipment scene', () => {
     );
     const group = resources.instances.get('db_l')!;
     expect(group.visible).toBe(true);
-    expect(group.matrix.elements).toEqual(matrix.elements);
+    expect(group.matrix.elements).toEqual(Array.from(matrix.elements));
 
     applyEquipmentDisplayTransforms(
       resources,

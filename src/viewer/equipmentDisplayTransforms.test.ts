@@ -11,7 +11,7 @@ interface MatrixLike {
   readonly elements: ArrayLike<number>;
 }
 
-const matrixValues = (matrix: MatrixLike | null) => matrix ? [...matrix.elements] : null;
+const matrixValues = (matrix: MatrixLike | null) => matrix ? Array.from(matrix.elements) : null;
 
 const expectMatrixClose = (actual: MatrixLike | null, expected: MatrixLike) => {
   expect(actual).not.toBeNull();

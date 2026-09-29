@@ -308,7 +308,11 @@ describe('an imported character', () => {
 
       const held = character.handMatrix!('r', new HgMat4());
       expect(held, 'the right hand resolves').not.toBeNull();
-      const grip = new Vector3().setFromMatrixPosition(held!);
+      const grip = new Vector3(
+        held!.elements[12],
+        held!.elements[13],
+        held!.elements[14],
+      );
       const hand = boneAt(character, 'DEF-hand.R');
       offsets.push(grip.distanceTo(hand));
     }
@@ -361,7 +365,11 @@ describe('an imported character', () => {
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
     applyCharacterPose(character, rig, frame.pose, evaluation);
     const held = character.handMatrix!('r', new HgMat4())!;
-    const grip = new Vector3().setFromMatrixPosition(held);
+    const grip = new Vector3(
+      held.elements[12],
+      held.elements[13],
+      held.elements[14],
+    );
     const hand = boneAt(character, 'DEF-hand.R');
     expect(grip.distanceTo(hand)).toBeCloseTo(Math.sqrt(0.0014), 6);
     character.dispose();
@@ -377,7 +385,12 @@ describe('an imported character', () => {
       const frame = resolveFrame(rig, evaluation, clip, clip.duration * fraction, { anchors });
       expect(frame.contacts).toHaveLength(2);
       applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
-      const grip = new Vector3().setFromMatrixPosition(character.handMatrix!('r', new HgMat4())!);
+      const hand = character.handMatrix!('r', new HgMat4())!;
+      const grip = new Vector3(
+        hand.elements[12],
+        hand.elements[13],
+        hand.elements[14],
+      );
       const target = frame.contacts.find((contact) => contact.chain === 'arm_r')!.target;
       // This fixture uses the same opposite-side convention as the real asset.
       expect(Math.abs(grip.x + target.x)).toBeLessThan(0.02);

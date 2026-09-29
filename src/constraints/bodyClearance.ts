@@ -133,10 +133,7 @@ export function measureEquipmentClearance(
         // Rigid in the hand: the item's frame follows the character's own grip,
         // not the canonical rig's.
         const side = instance.attachment.side;
-        const hand = character.handMatrix?.(
-          side,
-          character.object.matrix.clone().identity(),
-        );
+        const hand = character.handMatrix?.(side, new HgMat4());
         if (!hand) continue;
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const offset = instance.attachment.gripOffset ?? character.gripOffset?.(side) ?? anatomicalGripOffset(side);

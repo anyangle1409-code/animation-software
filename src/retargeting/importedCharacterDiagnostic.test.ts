@@ -257,7 +257,8 @@ supplied('imported-character diagnostic', () => {
         for (const side of ['l', 'r'] as const) {
           const matrix = character.handMatrix?.(side, new HgMat4()) ?? null;
           hands[side] = matrix
-            ? new Vector3().setFromMatrixPosition(matrix).toArray().map((value) => Number(value.toFixed(5)))
+            ? [matrix.elements[12], matrix.elements[13], matrix.elements[14]]
+                .map((value) => Number(value.toFixed(5)))
             : null;
         }
 

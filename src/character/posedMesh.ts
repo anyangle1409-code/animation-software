@@ -1,5 +1,6 @@
 import { Vector3 } from 'three';
 import type { SkinnedMesh } from 'three';
+import { HgVec3 } from '../core/linearMath';
 
 /**
  * Where a vertex of a posed skinned mesh actually is, in world space.
@@ -36,6 +37,17 @@ export function posedVertex(mesh: SkinnedMesh, index: number, out: Vector3): Vec
 
   mesh.applyBoneTransform(index, out);
   return mesh.localToWorld(out);
+}
+
+const firstPartyPointScratch = new Vector3();
+
+/**
+ * First-party point adapter for engine/constraint callers. Three remains
+ * confined to the skinned-mesh deformation operation inside this module.
+ */
+export function posedVertexPoint(mesh: SkinnedMesh, index: number, out: HgVec3): HgVec3 {
+  const point = posedVertex(mesh, index, firstPartyPointScratch);
+  return out.set(point.x, point.y, point.z);
 }
 
 /**

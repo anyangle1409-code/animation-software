@@ -56,6 +56,28 @@ const authoredQuaternion = (rotation?: Vec3): HgQuat =>
     toRad(rotation?.z ?? 0),
   );
 
+/**
+ * Local hand-to-equipment transform: grip placement followed by the inverse
+ * authored socket. This is shared first-party math for runtime, analysis and export.
+ */
+export function handAttachmentLocalMatrix(
+  grip: Vec3,
+  socket: Vec3,
+  options: { gripRotation?: Vec3; socketRotation?: Vec3 } = {},
+): HgMat4 {
+  const gripMatrix = new HgMat4().compose(
+    new HgVec3(grip.x, grip.y, grip.z),
+    authoredQuaternion(options.gripRotation),
+    UNIT,
+  );
+  const socketMatrix = new HgMat4().compose(
+    new HgVec3(socket.x, socket.y, socket.z),
+    authoredQuaternion(options.socketRotation),
+    UNIT,
+  );
+  return gripMatrix.multiply(socketMatrix.invert());
+}
+
 const rigidTransform = (id: string, matrix: HgMat4): EquipmentTransform => ({
   id,
   position: new HgVec3().setFromMatrixPosition(matrix),
@@ -153,25 +175,16 @@ function resolveInstance(
   if (attachment.mode === 'hand') {
     const hand = attachment.side === 'l' ? 'hand_l' : 'hand_r';
     const grip = attachment.gripOffset ?? anatomicalGripOffset(attachment.side);
-    const gripMatrix = new HgMat4().compose(
-      new HgVec3(grip.x, grip.y, grip.z),
-      authoredQuaternion(attachment.gripRotation),
-      UNIT,
-    );
-    const matrix = evaluation.firstPartyEvaluation.matrix(hand).clone().multiply(gripMatrix);
-
-    // The equipment socket itself — position and orientation — is what meets
-    // the calibrated hand frame. Inverting the full socket transform keeps the
-    // contact point fixed while allowing the handle to rotate in the palm.
     const socketLocal = equipmentSocketForInstance(instance, attachment.socket);
-    if (socketLocal) {
-      const socketMatrix = new HgMat4().compose(
-        new HgVec3(socketLocal.position.x, socketLocal.position.y, socketLocal.position.z),
-        authoredQuaternion(socketLocal.rotation),
-        UNIT,
-      );
-      matrix.multiply(socketMatrix.invert());
-    }
+    const local = handAttachmentLocalMatrix(
+      grip,
+      socketLocal?.position ?? { x: 0, y: 0, z: 0 },
+      {
+        gripRotation: attachment.gripRotation,
+        socketRotation: socketLocal?.rotation,
+      },
+    );
+    const matrix = evaluation.firstPartyEvaluation.matrix(hand).clone().multiply(local);
     return rigidTransform(instance.id, matrix);
   }
 

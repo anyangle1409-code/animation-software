@@ -1,16 +1,14 @@
-import { Matrix4, Vector3 } from 'three';
-import type { SkinnedMesh } from 'three';
+import { HgMat4, HgVec3 } from '../core/linearMath';
 import type { StudioClip } from '../animation/clip';
 import { sampleClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { applyCharacterPose } from '../character/pose';
-import { dominantBone, posedVertex } from '../character/posedMesh';
+import { dominantBone, posedVertexPoint } from '../character/posedMesh';
 import type { CharacterBuild } from '../character';
 import { equipmentParts } from '../equipment/geometry';
-import { anatomicalGripOffset } from '../equipment/attach';
+import { anatomicalGripOffset, handAttachmentLocalMatrix } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
-import { handAttachmentMatrix } from '../export/clipBuilder';
 import { PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { lockAnchors } from './locks';
@@ -67,15 +65,17 @@ const RINGS = 8;
 
 const copyPlacement = (
   source: { elements: ArrayLike<number> },
-  target: Matrix4,
-): Matrix4 => {
+  target: HgMat4,
+): HgMat4 => {
   for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
   return target;
 };
 
 /** The production body mesh within a built character. */
-export function bodyMeshOf(character: CharacterBuild): SkinnedMesh | undefined {
-  return (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name));
+export function bodyMeshOf(
+  character: CharacterBuild,
+): CharacterBuild['meshes'][number] | undefined {
+  return character.meshes.find((mesh) => /freeman/i.test(mesh.name));
 }
 
 export interface SupportPartClearance {
@@ -115,9 +115,9 @@ export function measureEquipmentClearance(
   const evaluation = new PoseEvaluation(rig);
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
   const worst = new Map<string, ClearanceSample>();
-  const placement = new Matrix4();
+  const placement = new HgMat4();
   const parts = new Map<string, { deepest: number; where: string }[]>();
-  const local = new Vector3();
+  const local = new HgVec3();
 
   for (let step = 0; step <= steps; step += 1) {
     const time = (step / steps) * clip.duration;
@@ -133,11 +133,16 @@ export function measureEquipmentClearance(
         // Rigid in the hand: the item's frame follows the character's own grip,
         // not the canonical rig's.
         const side = instance.attachment.side;
-        const hand = character.handMatrix?.(side, new Matrix4());
+        const hand = character.handMatrix?.(
+          side,
+          character.object.matrix.clone().identity(),
+        );
         if (!hand) continue;
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const offset = instance.attachment.gripOffset ?? character.gripOffset?.(side) ?? anatomicalGripOffset(side);
-        placement.multiplyMatrices(hand, handAttachmentMatrix(offset, socket?.position ?? { x: 0, y: 0, z: 0 })).invert();
+        copyPlacement(hand, placement)
+          .multiply(handAttachmentLocalMatrix(offset, socket?.position ?? { x: 0, y: 0, z: 0 }))
+          .invert();
       } else {
         const transform = frame.equipment.get(instance.id);
         if (!transform) continue;
@@ -156,7 +161,7 @@ export function measureEquipmentClearance(
           equipmentParts(instance.kind, instance.backAngle).map(() => ({ deepest: Number.POSITIVE_INFINITY, where: '' }));
         for (let index = 0; index < count; index += 1) {
           if (!measured[index]) continue;
-          posedVertex(body, index, local).applyMatrix4(placement);
+          posedVertexPoint(body, index, local).applyMatrix4(placement);
           equipmentPartDistances(instance.kind, local, instance.backAngle).forEach((distance, part) => {
             if (distance < record[part].deepest) {
               record[part] = { deepest: distance, where: `${time.toFixed(2)}s, ${dominantBone(body, index)}` };
@@ -245,8 +250,8 @@ export function measureArmTrunkSeparation(
 
   const evaluation = new PoseEvaluation(rig);
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-  const here = new Vector3();
-  const there = new Vector3();
+  const here = new HgVec3();
+  const there = new HgVec3();
   const sides: ArmTrunkSide[] = [];
 
   for (const side of ['L', 'R'] as const) {

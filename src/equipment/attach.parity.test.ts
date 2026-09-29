@@ -3,7 +3,7 @@ import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import { PoseEvaluation, canonicalSkeleton } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import type { EquipmentInstance } from './types';
-import { cableMatrix, resolveEquipment, socketWorldPoint } from './attach';
+import { cableMatrix, handAttachmentLocalMatrix, resolveEquipment, socketWorldPoint } from './attach';
 
 const expectMatrixParity = (
   actual: { elements: ArrayLike<number> },
@@ -40,6 +40,32 @@ describe('first-party equipment attachment parity', () => {
       new Vector3(1, 1, 1),
     );
     expectMatrixParity(actual.matrix, expected);
+  });
+
+  it('matches Three hand-local grip and socket transforms', () => {
+    const grip = { x: -0.021, y: 0.083, z: 0.006 };
+    const socket = { x: 0.012, y: -0.004, z: 0.031 };
+    const gripRotation = { x: 13, y: -8, z: 17 };
+    const socketRotation = { x: -11, y: 6, z: 9 };
+    const actual = handAttachmentLocalMatrix(grip, socket, { gripRotation, socketRotation });
+
+    const rotation = (value: { x: number; y: number; z: number }) =>
+      new Quaternion().setFromEuler(
+        new Euler(
+          (value.x * Math.PI) / 180,
+          (value.y * Math.PI) / 180,
+          (value.z * Math.PI) / 180,
+          'XZY',
+        ),
+      );
+    const expected = new Matrix4()
+      .compose(new Vector3(grip.x, grip.y, grip.z), rotation(gripRotation), new Vector3(1, 1, 1))
+      .multiply(
+        new Matrix4()
+          .compose(new Vector3(socket.x, socket.y, socket.z), rotation(socketRotation), new Vector3(1, 1, 1))
+          .invert(),
+      );
+    expectMatrixParity(actual, expected);
   });
 
   it('matches Three cable orientation, scale and matrix', () => {

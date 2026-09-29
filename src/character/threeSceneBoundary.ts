@@ -36,7 +36,7 @@ import {
   SRGBColorSpace,
   Texture,
   Vector3,
-} from 'three';
+} from '../core/threeRuntimeBoundary';
 
 export {
   Bone,

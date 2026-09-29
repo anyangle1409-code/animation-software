@@ -77,7 +77,8 @@ describe('first-party scene skin structures', () => {
 
     // Vertex starts at y=1, gains 0.1 morph, then follows the tip's +0.5 move.
     expect(point.x).toBeCloseTo(0, 9);
-    expect(point.y).toBeCloseTo(1.6, 9);
+    const storedMorph = new Float32Array([0.2])[0];
+    expect(point.y).toBe(1.5 + storedMorph * 0.5);
     expect(point.z).toBeCloseTo(0, 9);
     expect(mesh.morphTargetDictionary).toEqual({ stretch: 0 });
   });

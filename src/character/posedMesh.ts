@@ -1,7 +1,7 @@
 import {
-  createCharacterCharacterVector3,
-  type CharacterCharacterSkinnedMesh,
-  type CharacterCharacterVector3,
+  createCharacterVector3,
+  type CharacterSkinnedMesh,
+  type CharacterVector3,
 } from './bones';
 import { HgVec3 } from '../core/linearMath';
 

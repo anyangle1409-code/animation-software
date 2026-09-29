@@ -143,3 +143,15 @@ Entries are appended as regions are checkpointed (see
 - **Open for this region.** It is a soft, neutral base without muscular
   detail. Abdominal and oblique definition is deferred to sculpt/normal
   detail after O3. Human neutral-anatomy review is pending.
+
+### 2. Shoulder/clavicle/axilla — checkpoint `5b873a0c…6aab` (2026-09-29)
+
+- **Deltoid.** It wraps the humeral head across four 60-vertex cage rings
+  (about eight after subdivision) from the axilla (1.39–1.42 m) to the
+  acromion (about 1.53 m), and tapers continuously into the arm with no ledge.
+- **Pectoral.** Added pectoral mass with a lower border, a sternal groove and
+  a rounder anterior axillary fold. The posterior fold covers the scapula bone.
+- **Accepted crease.** A ~5 mm crease remains at the anterior fold apex, where
+  arm and chest meet in the arms-down rest pose. It is accepted for O2 and must
+  be rechecked under abduction and flexion at O5.
+- **Gates.** Authoring audit PASS; rig-fit PASS; clearance gate PASS.

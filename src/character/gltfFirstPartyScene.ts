@@ -1,5 +1,5 @@
 import { parseHgGlb } from '../core/glbContainer';
-import { HgMat4, HgVec3 } from '../core/linearMath';
+import { HgMat4 } from '../core/linearMath';
 import { HgBone, HgObject3D } from '../core/sceneGraph';
 import {
   HgBufferAttribute,

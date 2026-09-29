@@ -411,19 +411,21 @@ def limb_prof(front, lateral, back, medial, extra=None):
 
 # Arm rings: z, centre offset (dlx, df) from humerus/forearm line, radii (front, lateral, back, medial)
 ARM_LEVELS = [
+    # Neutral hang: palm faces medially, thumb forward. Front = biceps / radial
+    # side, back = triceps / ulnar side, lateral = extensors, medial = flexors.
     (1.370, (0.004, 0.000), (0.053, 0.057, 0.059, 0.046)),
-    (1.330, (0.002, 0.003), (0.053, 0.053, 0.056, 0.045)),
-    (1.285, (0.000, 0.005), (0.054, 0.046, 0.051, 0.045)),
-    (1.240, (0.000, 0.005), (0.051, 0.043, 0.048, 0.044)),
-    (1.210, (0.000, 0.002), (0.043, 0.041, 0.043, 0.042)),
-    (1.190, (0.000, 0.000), (0.040, 0.042, 0.043, 0.044)),
-    (1.170, (0.001, 0.002), (0.042, 0.043, 0.040, 0.043)),
-    (1.140, (0.002, 0.004), (0.046, 0.043, 0.041, 0.041)),
-    (1.100, (0.001, 0.003), (0.045, 0.040, 0.040, 0.038)),
-    (1.050, (0.000, 0.002), (0.040, 0.034, 0.036, 0.032)),
-    (1.000, (0.000, 0.000), (0.035, 0.027, 0.031, 0.026)),
+    (1.330, (0.002, 0.003), (0.054, 0.053, 0.059, 0.045)),
+    (1.285, (0.000, 0.006), (0.058, 0.047, 0.055, 0.046)),
+    (1.240, (0.000, 0.006), (0.055, 0.044, 0.049, 0.045)),
+    (1.210, (0.000, 0.003), (0.046, 0.042, 0.044, 0.044)),
+    (1.190, (0.000, 0.000), (0.042, 0.044, 0.043, 0.046)),
+    (1.170, (0.001, 0.003), (0.044, 0.045, 0.041, 0.045)),
+    (1.140, (0.002, 0.005), (0.049, 0.046, 0.040, 0.044)),
+    (1.100, (0.001, 0.004), (0.047, 0.044, 0.039, 0.042)),
+    (1.050, (0.000, 0.002), (0.041, 0.037, 0.035, 0.036)),
+    (1.000, (0.000, 0.000), (0.035, 0.028, 0.031, 0.028)),
     (0.960, (0.000, -0.001), (0.031, 0.022, 0.029, 0.021)),
-    (0.935, (0.000, -0.002), (0.030, 0.020, 0.028, 0.019)),
+    (0.935, (0.000, -0.002), (0.031, 0.020, 0.029, 0.019)),
 ]
 
 LEG_LEVELS = [
@@ -474,18 +476,23 @@ def hand_point(lx0, a, d, z):
     return (lx0 + d, a, z)
 
 
-def palm_ring(lx0, z, radial, ulnar, dorsal, palmar, zd=0.0, zp=0.0, thenar=0.0, hypo=0.0):
+def palm_ring(lx0, z, radial, ulnar, dorsal, palmar, zd=0.0, zp=0.0, thenar=0.0, hypo=0.0, arch=0.15):
     """20-vertex palm contour in P4 index convention:
-    0 radial, 1..9 dorsal radial->ulnar, 10 ulnar, 11..19 palmar ulnar->radial."""
+    0 radial, 1..9 dorsal radial->ulnar, 10 ulnar, 11..19 palmar ulnar->radial.
+    arch=1 gives an elliptical (wrist-like) section, small values a flat palm."""
+    def shape(k):
+        u = (k - 4) / 4.6
+        return 1 - arch * (1 - math.sqrt(max(0.0, 1 - u * u)))
+    inset = 0.004 + 0.010 * arch
     pts = [hand_point(lx0, radial, 0.0, z)]
     for k in range(9):
-        a = radial - 0.004 - (radial - ulnar - 0.008) * k / 8
-        pts.append(hand_point(lx0, a, dorsal * (1 - 0.35 * abs(k - 4) / 4 ** 1.0 * 0.4), z + zd))
+        a = radial - inset - (radial - ulnar - 2 * inset) * k / 8
+        pts.append(hand_point(lx0, a, dorsal * shape(k), z + zd))
     pts.append(hand_point(lx0, ulnar, 0.0, z))
     for k in range(9):
-        a = ulnar + 0.004 + (radial - ulnar - 0.008) * k / 8
+        a = ulnar + inset + (radial - ulnar - 2 * inset) * k / 8
         bulge = hypo * math.exp(-((k - 1.5) / 1.5) ** 2) + thenar * math.exp(-((k - 7.5) / 1.3) ** 2)
-        pts.append(hand_point(lx0, a, -(palmar + bulge), z + zp))
+        pts.append(hand_point(lx0, a, -(palmar * shape(8 - k) + bulge), z + zp))
     return pts
 
 
@@ -675,13 +682,14 @@ def build_hand(B, bones, side, wrist_loop):
     lx0 = hand[0]
     lateral = np.array([float(side), 0.0, 0.0])
     # Wrist ring at the joint, then P1 (thumb split) authored explicitly.
-    wrist = palm_ring(lx0 + 0.001, 0.918, 0.021, -0.078, 0.019, 0.019)
+    # Wrist: oval section matching the distal forearm, widening into the palm.
+    wrist = palm_ring(lx0 + 0.001, 0.918, 0.003, -0.061, 0.020, 0.019, arch=1.0)
     wrist_ids = B.add_many([sidep(side, p) for p in wrist], "hand")
     B.bridge_aligned(wrist_loop, wrist_ids)
-    p0 = palm_ring(lx0 + 0.001, 0.902, 0.022, -0.080, 0.016, 0.020, thenar=0.004, hypo=0.002)
+    p0 = palm_ring(lx0 + 0.001, 0.902, 0.012, -0.069, 0.017, 0.020, thenar=0.004, hypo=0.002, arch=0.6)
     p0_ids = B.add_many([sidep(side, p) for p in p0], "hand")
     B.bridge(wrist_ids, p0_ids)
-    p1 = palm_ring(lx0 + 0.001, 0.884, 0.026, -0.080, 0.014, 0.020, thenar=0.009, hypo=0.004)
+    p1 = palm_ring(lx0 + 0.001, 0.884, 0.024, -0.076, 0.014, 0.020, thenar=0.009, hypo=0.004, arch=0.3)
     p1_ids = B.add_many([sidep(side, p) for p in p1], "hand")
     B.bridge(p0_ids, p1_ids)
     # thumb web chain from dorsal-radial p1[1] to palmar-radial p1[17]

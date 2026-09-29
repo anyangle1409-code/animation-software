@@ -8,10 +8,10 @@ import { aimBone, solveTwoBone } from './twoBone';
 import type { IKChainId, IKGoal, IKResult } from './types';
 import type { BoneName } from '../rig/boneNames';
 
-const scratchTarget = new Vector3();
-const scratchPole = new Vector3();
-const scratchDirection = new Vector3();
-const scratchForward = new Vector3();
+const scratchTarget = new HgVec3();
+const scratchPole = new HgVec3();
+const scratchDirection = new HgVec3();
+const scratchForward = new HgVec3();
 
 /**
  * Apply every enabled goal to `pose` (mutating). Chains are independent — an
@@ -59,7 +59,7 @@ export function solveGoals(
 }
 
 /** How far the end bone is from the orientation it was aimed at, radians. */
-function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vector3, forward: Vector3): number {
+function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vec3, forward: Vec3): number {
   const turn = evaluation.firstPartyEvaluation.quaternion(name);
   return Math.max(
     missScratch.copy(HG_Y_AXIS).applyQuaternion(turn).angleTo(
@@ -90,8 +90,8 @@ function settleTibialRotation(
   evaluation: PoseEvaluation,
   pose: Pose,
   chain: (typeof IK_CHAINS)[IKChainId],
-  direction: Vector3,
-  forward: Vector3,
+  direction: Vec3,
+  forward: Vec3,
 ): void {
   if (aimMiss(evaluation, chain.end, direction, forward) < TIBIAL_TOLERANCE) return;
   const limit = skeleton.bone(chain.mid).definition.limits.y;
@@ -198,13 +198,10 @@ function standOnBall(
   const side = chain.end.endsWith('_r') ? -1 : 1;
   const yaw = new HgQuat().setFromAxisAngle(HG_Y_AXIS, (-side * ball.toeOut * Math.PI) / 180);
   const anchor = new HgVec3(ball.anchor.x, ball.anchor.y, ball.anchor.z);
-  const pole = new Vector3(goal.pole.x, goal.pole.y, goal.pole.z);
+  const pole = new HgVec3(goal.pole.x, goal.pole.y, goal.pole.z);
   const direction = new HgVec3();
   const forward = new HgVec3();
   const ankle = new HgVec3();
-  const callerDirection = new Vector3();
-  const callerForward = new Vector3();
-  const callerAnkle = new Vector3();
   let result: IKResult = { chain: chain.id, error: Infinity, reached: false, overExtended: false };
 
   const place = (raise: number) => {
@@ -215,12 +212,9 @@ function standOnBall(
     direction.copy(HG_Y_AXIS).applyQuaternion(turn);
     forward.copy(HG_Z_AXIS).applyQuaternion(turn);
     ankle.copy(anchor).addScaledVector(direction, -foot.length);
-    callerAnkle.set(ankle.x, ankle.y, ankle.z);
-    callerDirection.set(direction.x, direction.y, direction.z);
-    callerForward.set(forward.x, forward.y, forward.z);
-    result = solveTwoBone(skeleton, evaluation, pose, chain, callerAnkle, pole);
-    aimBone(skeleton, evaluation, pose, chain.end, callerDirection, callerForward);
-    settleTibialRotation(skeleton, evaluation, pose, chain, callerDirection, callerForward);
+    result = solveTwoBone(skeleton, evaluation, pose, chain, ankle, pole);
+    aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
+    settleTibialRotation(skeleton, evaluation, pose, chain, direction, forward);
     return ((pose.rotations[chain.end]?.x ?? 0) * 180) / Math.PI;
   };
 
@@ -250,8 +244,8 @@ function standOnBall(
       evaluation,
       pose,
       toe.name,
-      new Vector3(toeDirection.x, toeDirection.y, toeDirection.z),
-      new Vector3(toeForward.x, toeForward.y, toeForward.z),
+      toeDirection,
+      toeForward,
     );
   }
   evaluation.apply(pose);

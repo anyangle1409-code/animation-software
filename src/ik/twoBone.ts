@@ -1,6 +1,5 @@
-import type { Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
-import type { Pose } from '../rig/types';
+import type { Pose, Vec3 } from '../rig/types';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import { clamp } from '../core/math';
 import { setRotation } from './orient';
@@ -50,8 +49,8 @@ export function solveTwoBone(
   evaluation: PoseEvaluation,
   pose: Pose,
   chain: IKChain,
-  target: Vector3,
-  pole: Vector3,
+  target: Vec3,
+  pole: Vec3,
 ): IKResult {
   const upperBone = skeleton.bone(chain.root);
   const midBone = skeleton.bone(chain.mid);
@@ -259,8 +258,8 @@ export function aimBone(
   evaluation: PoseEvaluation,
   pose: Pose,
   name: Parameters<Skeleton['bone']>[0],
-  direction: Vector3,
-  forward?: Vector3,
+  direction: Vec3,
+  forward?: Vec3,
 ): void {
   const aimedDirection = new HgVec3(direction.x, direction.y, direction.z);
   const fk = evaluation.firstPartyEvaluation;

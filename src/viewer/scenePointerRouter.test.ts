@@ -155,4 +155,22 @@ describe('first-party scene pointer router', () => {
     expect(move).not.toHaveBeenCalled();
     expect(surface.hasPointerCapture(7)).toBe(false);
   });
+  it('accepts first-party scene/camera contracts without renderer-specific types', () => {
+    const camera = new HgPerspectiveCamera(38, 1, 0.05, 100);
+    camera.position.set(0, 0, 3);
+    camera.updateMatrixWorld(true);
+    const scene = new HgScene();
+    scene.updateMatrixWorld(true);
+    const surface = new EventTarget() as EventTarget & {
+      getBoundingClientRect(): Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>;
+    };
+    surface.getBoundingClientRect = () => ({
+      left: 0, top: 0, width: 100, height: 100,
+    }) as DOMRect;
+
+    const router = new HgScenePointerRouter(camera, scene, surface);
+    expect(router.hitsRegisteredTarget(50, 50)).toBe(false);
+    router.dispose();
+  });
+
 });

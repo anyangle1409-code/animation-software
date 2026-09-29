@@ -181,6 +181,7 @@ export class HgBone extends HgObject3D {
 export class HgPerspectiveCamera extends HgObject3D {
   override readonly type = 'PerspectiveCamera';
   readonly projectionMatrix = new HgMat4();
+  readonly projectionMatrixInverse = new HgMat4();
   readonly matrixWorldInverse = new HgMat4();
 
   constructor(
@@ -212,6 +213,7 @@ export class HgPerspectiveCamera extends HgObject3D {
     e[1] = 0; e[5] = y; e[9] = b; e[13] = 0;
     e[2] = 0; e[6] = 0; e[10] = c; e[14] = d;
     e[3] = 0; e[7] = 0; e[11] = -1; e[15] = 0;
+    this.projectionMatrixInverse.copy(this.projectionMatrix).invert();
   }
 
   override updateMatrixWorld(force = false): void {

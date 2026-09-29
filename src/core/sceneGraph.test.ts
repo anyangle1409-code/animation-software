@@ -94,6 +94,11 @@ describe('first-party scene graph parity', () => {
     const hg = new HgPerspectiveCamera(38, 16 / 9, 0.05, 100);
     const three = new PerspectiveCamera(38, 16 / 9, 0.05, 100);
     close(hg.projectionMatrix.elements, three.projectionMatrix.elements, 1e-10);
+    close(
+      hg.projectionMatrixInverse.elements,
+      three.projectionMatrixInverse.elements,
+      1e-10,
+    );
 
     hg.position.set(2.3, 1.35, 2.7);
     three.position.set(2.3, 1.35, 2.7);

@@ -119,12 +119,14 @@ describe('first-party GLB scene materialiser', () => {
     expect(mesh.geometry.getAttribute('position')?.count).toBe(3);
     expect(mesh.geometry.getAttribute('skinWeight')?.count).toBe(3);
     expect(mesh.skeleton.bones[0]).toBe(bones[0]);
-    expect(mesh.skeleton.boneInverses[0].toArray()).toEqual([
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      -0.1, -0.2, -0.3, 1,
-    ]);
+    expect(mesh.skeleton.boneInverses[0].toArray()).toEqual(
+      Array.from(new Float32Array([
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        -0.1, -0.2, -0.3, 1,
+      ])),
+    );
     expect(mesh.morphTargetDictionary).toEqual({ bend: 0 });
     expect(mesh.morphTargetInfluences?.[0]).toBeCloseTo(0.35, 7);
     expect(mesh.name).toBe('body');

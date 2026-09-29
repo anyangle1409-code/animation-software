@@ -48,8 +48,8 @@ describe('first-party glTF animation codec', () => {
       ['weights', 2],
     ]);
     expect(decoded[0].channels[0].times).toEqual([0, 1]);
-    expect(decoded[0].channels[0].values).toEqual([0, 0, 0, 0, 0.2, 0]);
-    expect(decoded[0].channels[3].values).toEqual([0, 0.2, 0.8, 1]);
+    expect(decoded[0].channels[0].values).toEqual(Array.from(new Float32Array([0, 0, 0, 0, 0.2, 0])));
+    expect(decoded[0].channels[3].values).toEqual(Array.from(new Float32Array([0, 0.2, 0.8, 1])));
   });
 
   it('rejects non-increasing keyframe times before writing', () => {

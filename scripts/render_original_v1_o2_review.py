@@ -49,6 +49,19 @@ if "--regen" in flags:
     for poly in mesh.polygons:
         poly.use_smooth = True
 
+if "--wire" in flags:
+    # Topology review: a dark wireframe shell over the surface (copy only).
+    wire = body.copy()
+    wire.data = body.data.copy()
+    scene.collection.objects.link(wire)
+    mod = wire.modifiers.new("REVIEW_WIRE", "WIREFRAME")
+    mod.thickness = 0.0007
+    mod.use_replace = True
+    wire_mat = bpy.data.materials.new("REVIEW_WIRE_MAT")
+    wire_mat.diffuse_color = (0.08, 0.08, 0.09, 1.0)
+    wire.data.materials.clear()
+    wire.data.materials.append(wire_mat)
+
 # Bone sticks so joint centres are visible against the surface.
 if rig is not None and "--no-bones" not in flags:
     stick_mat = bpy.data.materials.new("REVIEW_BONE")

@@ -275,6 +275,109 @@ def pose_grip_closeup():
         grip(s)
 
 
+# ------------------------------------------------ handle grip (contact solve)
+HANDLE_RADIUS = 0.017   # 34 mm dumbbell handle
+HANDLE = {}
+
+
+def bone_vertex_sets():
+    """Vertices driven mainly (>0.3) by each bone or its descendants."""
+    groups = {vg.index: vg.name for vg in body.vertex_groups}
+    owners = {}
+    for v in body.data.vertices:
+        for g in v.groups:
+            if g.weight > 0.3:
+                owners.setdefault(groups[g.group], []).append(v.index)
+    return owners
+
+
+OWNERS = None
+
+
+def evaluated_positions(ids):
+    upd()
+    dg = bpy.context.evaluated_depsgraph_get()
+    ev = body.evaluated_get(dg)
+    mw = ev.matrix_world
+    return np.array([(mw @ ev.data.vertices[i].co)[:] for i in ids])
+
+
+def handle_distance(P, s):
+    c, a = HANDLE[s]
+    d = P - c
+    radial = d - np.outer(d @ a, a)
+    return np.linalg.norm(radial, axis=1) - HANDLE_RADIUS  # <0 = inside the handle
+
+
+def place_handle(s):
+    """Handle across the palm at the MCP crease, axis along the knuckle line."""
+    k = (pb(f"pinky_01_{s}").head - pb(f"index_01_{s}").head).normalized()
+    mid = (pb(f"index_01_{s}").head + pb(f"pinky_01_{s}").head) / 2
+    n = palm_normal(s)
+    c = mid + n * (HANDLE_RADIUS + 0.020) + bdir(f"hand_{s}") * 0.006
+    HANDLE[s] = (np.array(c[:]), np.array(k[:]))
+
+
+def close_on_handle(s):
+    global OWNERS
+    OWNERS = OWNERS or bone_vertex_sets()
+    chains = [[f"{f}_0{k}_{s}" for k in (1, 2, 3)] for f in ("index", "middle", "ring", "pinky")]
+    chains.append([f"thumb_0{k}_{s}" for k in (2, 3)])
+    limits = {1: 100, 2: 110, 3: 85}
+    for chain in chains:
+        for bone in chain:
+            k = int(bone.split("_")[1][1])
+            desc = [b for b in chain[chain.index(bone):]]
+            ids = sorted({i for b in desc for i in OWNERS.get(b, [])})
+            if not ids:
+                continue
+            lo, hi = 0.0, float(limits[k])
+            base = pb(bone).matrix.copy()
+            toward = palm_normal(s) if not bone.startswith("thumb") else (Vector(HANDLE[s][0]) - pb(bone).head).normalized()
+            axis = bdir(bone).cross(toward)
+            free = [i for i, d in zip(ids, handle_distance(evaluated_positions(ids), s)) if d > 0]
+            if not free:
+                continue
+            for _ in range(9):
+                mid = 0.5 * (lo + hi)
+                pb(bone).matrix = base
+                rot(bone, axis, mid)
+                if handle_distance(evaluated_positions(free), s).min() < -0.0015:
+                    hi = mid
+                else:
+                    lo = mid
+            pb(bone).matrix = base
+            rot(bone, axis, lo)
+
+
+def pose_curl_handle():
+    for s in "lr":
+        aim(f"upperarm_{s}", D + F * 0.18)
+        aim(f"forearm_{s}", U * 0.95 + F * 0.55 + lat(s) * -0.05)
+        twist_palm(s, B + U * 0.2)
+        place_handle(s)
+        close_on_handle(s)
+
+
+def pose_pullup_bar():
+    for s in "lr":
+        aim(f"upperarm_{s}", lat(s))
+        aim(f"upperarm_{s}", U + lat(s) * 0.45)
+        aim(f"forearm_{s}", U + lat(s) * 0.35)
+        twist_palm(s, F)
+        place_handle(s)
+        close_on_handle(s)
+
+
+def grip_metrics(s):
+    ids = sorted({i for f in ("index", "middle", "ring", "pinky", "thumb") for k in (1, 2, 3)
+                  for i in OWNERS.get(f"{f}_0{k}_{s}", [])})
+    d = handle_distance(evaluated_positions(ids), s)
+    return {"max_penetration_mm": round(float(max(0.0, -d.min())) * 1000, 2),
+            "contact_vertices_within_2mm": int((np.abs(d) < 0.002).sum()),
+            "finger_vertices": len(ids)}
+
+
 POSES = {
     "neutral": pose_neutral, "curl_peak": pose_curl_peak, "press_bottom": pose_press_bottom,
     "press_top": pose_press_top, "press_top_rhythm": lambda: pose_press_top(True),
@@ -282,13 +385,14 @@ POSES = {
     "pullup_hang": pose_pullup_hang, "pullup_hang_rhythm": lambda: pose_pullup_hang(True),
     "pullup_top": pose_pullup_top, "lunge": pose_lunge,
     "row": pose_row, "grip": pose_grip_closeup,
+    "curl_handle": pose_curl_handle, "pullup_bar": pose_pullup_bar,
 }
 # Close-up zones per pose: (bone, head|tail) targets on the left side.
 CLOSEUPS = {
     "curl_peak": ["elbow", "hand"], "press_top": ["shoulder"], "press_top_rhythm": ["shoulder"],
     "pullup_hang": ["shoulder"], "pullup_hang_rhythm": ["shoulder"], "pullup_top": ["shoulder", "hand"],
     "squat_bottom": ["hip", "knee"], "pushup_bottom": ["shoulder", "hand"], "lunge": ["hip", "knee"],
-    "row": ["shoulder", "hip"], "grip": ["hand"],
+    "row": ["shoulder", "hip"], "grip": ["hand"], "curl_handle": ["hand", "elbow"], "pullup_bar": ["hand"],
 }
 ZONES = {"shoulder": ("upperarm_l", "head", 0.34), "elbow": ("forearm_l", "head", 0.30),
          "hand": ("hand_l", "tail", 0.22), "hip": ("thigh_l", "head", 0.40), "knee": ("shin_l", "head", 0.34)}
@@ -419,8 +523,22 @@ for name, fn in POSES.items():
     rig.location = (0, 0, 0)
     rig.rotation_euler = (0, 0, 0)
     upd()
+    HANDLE.clear()
+    for o in [o for o in bpy.data.objects if o.name.startswith("REVIEW_HANDLE")]:
+        bpy.data.objects.remove(o)
     fn()
     res = measure(name)
+    for s, (c, a) in HANDLE.items():
+        res[f"grip_{s}"] = grip_metrics(s)
+        bpy.ops.mesh.primitive_cylinder_add(vertices=24, radius=HANDLE_RADIUS, depth=0.13,
+                                            location=Vector(c.tolist()))
+        h = bpy.context.active_object
+        h.name = f"REVIEW_HANDLE_{s}"
+        h.rotation_mode = "QUATERNION"
+        h.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(Vector(a.tolist()))
+        hm = bpy.data.materials.new("REVIEW_HANDLE_MAT")
+        hm.diffuse_color = (0.12, 0.12, 0.13, 1.0)
+        h.data.materials.append(hm)
     results.append(res)
     print("POSE", json.dumps({k: res[k] for k in ("pose", "volume_ratio", "compressed_edges_lt_0_6",
                                                    "stretched_edges_gt_1_6", "self_intersecting_face_pairs")}))

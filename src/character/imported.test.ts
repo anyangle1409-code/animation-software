@@ -350,6 +350,55 @@ describe('an imported character', () => {
     character.dispose();
   });
 
+  it('uses the first-party codec for a preserved import when equipment is excluded', async () => {
+    const source = importedSource();
+    const blob = await exportGlb(studioClip, bicepCurl, {
+      fps: 20,
+      character: source,
+      includeEquipment: false,
+    });
+    const buffer = await blob.arrayBuffer();
+    const view = new DataView(buffer);
+    const jsonLength = view.getUint32(12, true);
+    const json = JSON.parse(
+      new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
+    ) as {
+      asset: { generator?: string };
+      animations: unknown[];
+      meshes: unknown[];
+      skins: { joints: number[] }[];
+      nodes: { name?: string }[];
+    };
+
+    expect(json.asset.generator).toBe('Home Gym PT first-party codec');
+    expect(json.animations).toHaveLength(1);
+    expect(json.meshes.length).toBeGreaterThan(0);
+    expect(json.skins).toHaveLength(1);
+
+    const loaded = await new GLTFLoader().parseAsync(buffer, '');
+    const mixer = new AnimationMixer(loaded.scene);
+    const time = studioClip.duration * TOP;
+    mixer.clipAction(loaded.animations[0]).play();
+    mixer.setTime(time);
+    loaded.scene.updateMatrixWorld(true);
+
+    let playedHand: Object3D | null = null;
+    loaded.scene.traverse((object) => {
+      if (object.name === 'DEF-handR') playedHand = object;
+    });
+    expect(playedHand, 'the first-party exported hand bone').not.toBeNull();
+
+    const character = await importedSource().build(rig);
+    const { frame, evaluation } = curlPose(time);
+    applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
+    const shown = boneAt(character, 'DEF-hand.R');
+    const written = new Vector3().setFromMatrixPosition(
+      (playedHand as unknown as Object3D).matrixWorld,
+    );
+    expect(written.distanceTo(shown)).toBeLessThan(0.001);
+    character.dispose();
+  }, 30_000);
+
   it('exports its own mesh and skeleton, posed as the viewport poses it', async () => {
     const source = importedSource();
     const blob = await exportGlb(studioClip, bicepCurl, { fps: 20, character: source });

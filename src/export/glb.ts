@@ -18,9 +18,11 @@ import { equipmentSocket } from '../equipment/library';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { mirrorInvariant, reflectBakedTrack, reflectedStaticPlacement } from '../equipment/mirror';
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
+import { bakeClipData } from './clipData';
 import { buildEquipmentObject } from './rigBuilder';
 import { exportFirstPartyClipGlb } from './firstPartyClipGlb';
 import { exportFirstPartyCanonicalCharacterGlb } from './firstPartyCharacterGlb';
+import { exportFirstPartyPreservedCharacterGlb } from './firstPartyPreservedCharacterGlb';
 import { characterSource } from '../character';
 import type { CharacterBuild, CharacterSource } from '../character';
 
@@ -80,6 +82,24 @@ export async function exportGlb(
   const sampler = clipOnly
     ? null
     : character.sampler?.() ?? character.deformation?.sampler?.() ?? null;
+
+  // A preserved imported character can now keep its exact authored GLB and
+  // receive project-owned source-bone/morph animation without GLTFExporter.
+  // Equipment stays on the retained compatibility path until its imported-hand
+  // attachment parity is proven separately.
+  if (character.preservedGlb && ownSkeleton && !includeEquipment) {
+    const bakedData = bakeClipData(studioClip, canonicalSkeleton, {
+      fps: options.fps,
+      deformation: sampler,
+      boneTracks: false,
+    });
+    try {
+      return exportFirstPartyPreservedCharacterGlb(character, bakedData, exercise);
+    } finally {
+      character.dispose();
+    }
+  }
+
   const baked = bakeClip(studioClip, canonicalSkeleton, {
     fps: options.fps,
     deformation: sampler,

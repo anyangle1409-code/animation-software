@@ -1,13 +1,13 @@
 {
-  "generated_utc": "2026-09-29T21:41:59.568320+00:00",
-  "region": "athletic_definition_pass",
+  "generated_utc": "2026-09-29T22:03:09.104696+00:00",
+  "region": "self_intersection_fix",
   "method": "project-authored ring/split-junction quad cage + one Catmull-Clark level (plain Python)",
   "inputs": {
     "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json",
     "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "generator": "scripts/original_v1_o2_body.py",
     "generator_version": "o2-body-1",
-    "generator_sha256": "007ccdbc21d4778b5184e75fbb61358b999b10911690b7093a72d9e047baeaa1"
+    "generator_sha256": "054077e4d28d554ca29e616f01cccf6457ebec16d771d79a99f8740167152c20"
   },
   "not_used": [
     "O1 scaffold vertex positions",

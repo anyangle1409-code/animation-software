@@ -165,6 +165,22 @@ for e in mesh.edges:
 for _ in range(3):
     Wn = np.array([W[n].mean(axis=0) if n else W[i] for i, n in enumerate(nbrs)])
     W = np.where(allowed, 0.5 * W + 0.5 * Wn, 0.0)
+
+# Extra smoothing where joints fold hardest (pose tests showed knife-edge creases):
+# axilla, hip crease, elbow and knee. Radius (m) around the joint centre, iterations.
+joint_zones = []
+for s in "lr":
+    joint_zones += [(rig.data.bones[f"upperarm_{s}"].head_local, 0.16, 14),
+                    (rig.data.bones[f"thigh_{s}"].head_local, 0.15, 10),
+                    (rig.data.bones[f"forearm_{s}"].head_local, 0.07, 5),
+                    (rig.data.bones[f"shin_{s}"].head_local, 0.08, 5)]
+for centre, radius, iterations in joint_zones:
+    c = np.array(centre[:])
+    zone = np.nonzero(np.linalg.norm(Vm - c, axis=1) < radius)[0]
+    falloff = np.clip(1 - np.linalg.norm(Vm[zone] - c, axis=1) / radius, 0, 1)[:, None]
+    for _ in range(iterations):
+        Wz = np.array([W[nbrs[i]].mean(axis=0) for i in zone])
+        W[zone] = np.where(allowed[zone], (1 - 0.5 * falloff) * W[zone] + 0.5 * falloff * Wz, 0.0)
 order = np.argsort(-W, axis=1)
 keep = np.zeros_like(W, dtype=bool)
 rows = np.arange(len(W))[:, None]

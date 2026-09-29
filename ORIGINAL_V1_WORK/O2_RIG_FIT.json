@@ -1,0 +1,3972 @@
+{
+  "blend": "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\HomeGymPT_Male_ORIGINAL_v1.blend",
+  "pass": true,
+  "joint_failures": [],
+  "shallowest_inside": [
+    {
+      "bone": "thumb_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00033,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00033,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00049,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00049,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00186,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00186,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00218,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00218,
+      "gated": true
+    }
+  ],
+  "scope": "Numeric joint containment only; anatomical landmark placement needs visual review.",
+  "joints": [
+    {
+      "bone": "pelvis",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.09585,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.09743,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.09672,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.09271,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.08923,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.08584,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.08305,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.08044,
+      "gated": true
+    },
+    {
+      "bone": "pelvis",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.07848,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.07848,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.07613,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.07495,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0749,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.07579,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.07758,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.08022,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.08379,
+      "gated": true
+    },
+    {
+      "bone": "spine_01",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.08814,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.08814,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.094,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.10048,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.09881,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.10023,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.10362,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.10414,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.10583,
+      "gated": true
+    },
+    {
+      "bone": "spine_02",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.10997,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.10997,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.11302,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.11419,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.11018,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0994,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.08551,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.07005,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.05762,
+      "gated": true
+    },
+    {
+      "bone": "spine_03",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.04676,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.04676,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.04216,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.04146,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.04168,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.04213,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0445,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.04689,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.04974,
+      "gated": true
+    },
+    {
+      "bone": "neck",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.05307,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.05307,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.06303,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.06703,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.07408,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.07535,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0749,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.05203,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.02595,
+      "gated": true
+    },
+    {
+      "bone": "head",
+      "point": "tail",
+      "inside": false,
+      "surface_distance_m": 0.00027,
+      "gated": false
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0385,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.04559,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.05032,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.04924,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.04462,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03969,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.03411,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.02785,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0501,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.05079,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.02885,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0086,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01246,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02009,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01767,
+      "gated": true
+    },
+    {
+      "bone": "scapula_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00482,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.05812,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03976,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03553,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.03946,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0432,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.04428,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.04191,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.04111,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.04111,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.03649,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03548,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03459,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0329,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03056,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02534,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.02079,
+      "gated": true
+    },
+    {
+      "bone": "forearm_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01825,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01825,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01861,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01671,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01523,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0145,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01411,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01361,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00933,
+      "gated": true
+    },
+    {
+      "bone": "hand_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0027,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01087,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00783,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00499,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00244,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00033,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00049,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00267,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00526,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00781,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00781,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0086,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00854,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0088,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0091,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00911,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00906,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00898,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00878,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00878,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0085,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00818,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00784,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00747,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00709,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00656,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00517,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00243,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01526,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.015,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01415,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0136,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01316,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01288,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01264,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0122,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01068,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01068,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00959,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00851,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00797,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00774,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00778,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00806,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00853,
+      "gated": true
+    },
+    {
+      "bone": "index_01_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00829,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00783,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00752,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00729,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0073,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00743,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00768,
+      "gated": true
+    },
+    {
+      "bone": "index_02_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00725,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00651,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0062,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00591,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00554,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00463,
+      "gated": true
+    },
+    {
+      "bone": "index_03_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00229,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0166,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01518,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01408,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01338,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0129,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01262,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01244,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0117,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01028,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01028,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00938,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00849,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00802,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00779,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00814,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00872,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00872,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00842,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00793,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00735,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00737,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.0075,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00778,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00795,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00795,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00737,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00694,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0066,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00629,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00598,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00562,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00463,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00225,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01636,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01512,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01415,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01364,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01327,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01305,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01287,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01213,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01051,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01051,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00936,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00826,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00771,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0074,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00744,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00775,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00826,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00819,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00819,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00803,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00754,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00722,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00698,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00701,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00713,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00742,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00702,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.0066,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00628,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00599,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0057,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00535,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00445,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00222,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01777,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01702,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01647,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0161,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01589,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01574,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01557,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01487,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01182,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01182,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00982,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00809,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0072,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00676,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00676,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00703,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00732,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00718,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00718,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00726,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00682,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00656,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00634,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00635,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00644,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0067,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00636,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00601,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00577,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00553,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00529,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.005,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00406,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00213,
+      "gated": false
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0385,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.04559,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.05032,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.04924,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.04462,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03969,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.03411,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.02785,
+      "gated": true
+    },
+    {
+      "bone": "clavicle_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0501,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.05079,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.02885,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0086,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01246,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02009,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01767,
+      "gated": true
+    },
+    {
+      "bone": "scapula_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00482,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02014,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.05812,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03976,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03553,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.03946,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0432,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.04428,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.04191,
+      "gated": true
+    },
+    {
+      "bone": "upperarm_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.04111,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.04111,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.03649,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03548,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03459,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0329,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03056,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02534,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.02079,
+      "gated": true
+    },
+    {
+      "bone": "forearm_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01825,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01825,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01861,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01671,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01523,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0145,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01411,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01361,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00933,
+      "gated": true
+    },
+    {
+      "bone": "hand_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0027,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01087,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00783,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00499,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00244,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00033,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00049,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00267,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00526,
+      "gated": true
+    },
+    {
+      "bone": "thumb_01_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00781,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00781,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0086,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00854,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0088,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0091,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00911,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00906,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00898,
+      "gated": true
+    },
+    {
+      "bone": "thumb_02_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00878,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00878,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0085,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00818,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00784,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00747,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00709,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00656,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00517,
+      "gated": true
+    },
+    {
+      "bone": "thumb_03_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00243,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01526,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.015,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01415,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0136,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01316,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01288,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01264,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0122,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_index_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01068,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01068,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00959,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00851,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00797,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00774,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00778,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00806,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00853,
+      "gated": true
+    },
+    {
+      "bone": "index_01_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00829,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00783,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00752,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00729,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0073,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00743,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00768,
+      "gated": true
+    },
+    {
+      "bone": "index_02_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00725,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00651,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0062,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00591,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00554,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00463,
+      "gated": true
+    },
+    {
+      "bone": "index_03_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00229,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0166,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01518,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01408,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01338,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0129,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01262,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01244,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0117,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_middle_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01028,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01028,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00938,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00849,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00802,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00779,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00782,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00814,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00865,
+      "gated": true
+    },
+    {
+      "bone": "middle_01_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00872,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00872,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00842,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00793,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00735,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00737,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.0075,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00778,
+      "gated": true
+    },
+    {
+      "bone": "middle_02_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00795,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00795,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00737,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00694,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0066,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00629,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00598,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00562,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00463,
+      "gated": true
+    },
+    {
+      "bone": "middle_03_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00225,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01636,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01512,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01415,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01364,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01327,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01305,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01287,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01213,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_ring_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01051,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01051,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00936,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00826,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00771,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.0074,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00744,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00775,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00826,
+      "gated": true
+    },
+    {
+      "bone": "ring_01_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00819,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00819,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00803,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00754,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00722,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00698,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00701,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00713,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00742,
+      "gated": true
+    },
+    {
+      "bone": "ring_02_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00759,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00702,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.0066,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00628,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00599,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0057,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00535,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00445,
+      "gated": true
+    },
+    {
+      "bone": "ring_03_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00222,
+      "gated": false
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01777,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01702,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.01647,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0161,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01589,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01574,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01557,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01487,
+      "gated": true
+    },
+    {
+      "bone": "metacarpal_pinky_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.01182,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.01182,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00982,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00809,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.0072,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00676,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00676,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00703,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00732,
+      "gated": true
+    },
+    {
+      "bone": "pinky_01_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00718,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00718,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00726,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00682,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00656,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00634,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00635,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00644,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0067,
+      "gated": true
+    },
+    {
+      "bone": "pinky_02_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.00687,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.00636,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00601,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00577,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00553,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.00529,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.005,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00406,
+      "gated": true
+    },
+    {
+      "bone": "pinky_03_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.00213,
+      "gated": false
+    },
+    {
+      "bone": "thigh_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.06579,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.05326,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.06251,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.07339,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.06943,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.06627,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.06203,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.05346,
+      "gated": true
+    },
+    {
+      "bone": "thigh_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0443,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0443,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.04674,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03814,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03481,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.03289,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03076,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02796,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0256,
+      "gated": true
+    },
+    {
+      "bone": "shin_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.02683,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02683,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0073,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00478,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01398,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01775,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01761,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01739,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01717,
+      "gated": true
+    },
+    {
+      "bone": "foot_l",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0158,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0158,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01171,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00723,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00405,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00237,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0022,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00218,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00186,
+      "gated": true
+    },
+    {
+      "bone": "toe_l",
+      "point": "tail",
+      "inside": false,
+      "surface_distance_m": 0.00165,
+      "gated": false
+    },
+    {
+      "bone": "thigh_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.06579,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.05326,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.06251,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.07339,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.06943,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.06627,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.06203,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.05346,
+      "gated": true
+    },
+    {
+      "bone": "thigh_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0443,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0443,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.04674,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.03814,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.03481,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.03289,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.03076,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.02796,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.0256,
+      "gated": true
+    },
+    {
+      "bone": "shin_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.02683,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.02683,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.0073,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00478,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.01398,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.01775,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.01761,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.01739,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.01717,
+      "gated": true
+    },
+    {
+      "bone": "foot_r",
+      "point": "tail",
+      "inside": true,
+      "surface_distance_m": 0.0158,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "head",
+      "inside": true,
+      "surface_distance_m": 0.0158,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t1",
+      "inside": true,
+      "surface_distance_m": 0.01171,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t2",
+      "inside": true,
+      "surface_distance_m": 0.00723,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t3",
+      "inside": true,
+      "surface_distance_m": 0.00405,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t4",
+      "inside": true,
+      "surface_distance_m": 0.00237,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t5",
+      "inside": true,
+      "surface_distance_m": 0.0022,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t6",
+      "inside": true,
+      "surface_distance_m": 0.00218,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "t7",
+      "inside": true,
+      "surface_distance_m": 0.00186,
+      "gated": true
+    },
+    {
+      "bone": "toe_r",
+      "point": "tail",
+      "inside": false,
+      "surface_distance_m": 0.00165,
+      "gated": false
+    }
+  ]
+}

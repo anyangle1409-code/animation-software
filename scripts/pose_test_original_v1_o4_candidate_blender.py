@@ -158,16 +158,38 @@ def pose_curl_peak():
         grip(s)
 
 
-def pose_press_bottom():
+X = Vector((1, 0, 0))  # rotation about +X leans an upright segment forward
+
+
+def rot_toward(name, axis, deg, want):
+    """Rotate about `axis` by +/-deg, keeping the sign that moves the tail along `want`."""
+    before = pb(name).tail.copy()
+    rot(name, axis, deg)
+    if (pb(name).tail - before).dot(Vector(want)) < 0:
+        rot(name, axis, -2 * deg)
+
+
+def shoulder_rhythm(s, frac):
+    """Scapulohumeral rhythm for arm elevation: clavicle elevation and scapular
+    upward rotation (about 1:2 with the arm), used by the *_rhythm variants."""
+    rot_toward(f"clavicle_{s}", F, 14 * frac, U)
+    rot_toward(f"scapula_{s}", F, 28 * frac, lat(s))
+
+
+def pose_press_bottom(rhythm=False):
     for s in "lr":
+        if rhythm:
+            shoulder_rhythm(s, 0.45)
         aim(f"upperarm_{s}", lat(s) + D * 0.15 + F * 0.25)
         aim(f"forearm_{s}", U + F * 0.1)
         twist_palm(s, F)
         grip(s)
 
 
-def pose_press_top():
+def pose_press_top(rhythm=False):
     for s in "lr":
+        if rhythm:
+            shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U * 1.0 + lat(s) * 0.25)
         aim(f"forearm_{s}", U + lat(s) * -0.05)
@@ -176,12 +198,12 @@ def pose_press_top():
 
 
 def pose_squat_bottom():
-    for n, deg in (("spine_01", 8), ("spine_02", 8), ("spine_03", 6)):
-        rot(n, Vector((1, 0, 0)), -deg)
-    rot("neck", Vector((1, 0, 0)), 10)
+    for n, deg in (("pelvis", 18), ("spine_01", 6), ("spine_02", 5), ("spine_03", 4)):
+        rot(n, X, deg)
+    rot("neck", X, -18)
     for s in "lr":
         aim(f"thigh_{s}", F * 1.0 + D * 0.25 + lat(s) * 0.25)
-        aim(f"shin_{s}", D * 1.0 + B * 0.55 + lat(s) * 0.12)
+        aim(f"shin_{s}", D * 1.0 + F * 0.35 + lat(s) * 0.12)
         aim(f"foot_{s}", F + D * 0.3 + lat(s) * 0.15)
         aim(f"upperarm_{s}", F + U * 0.05)
         aim(f"forearm_{s}", F + U * 0.05)
@@ -189,19 +211,22 @@ def pose_squat_bottom():
 
 
 def pose_pushup_bottom():
-    # body rigid-rotated face-down (plank); joints in world directions
-    rig.rotation_euler = (math.radians(-78), 0, 0)
-    rig.location = (0, 0, 0.30)
-    upd()
+    # whole body tipped face-down (plank) through the root bone; joints aimed in world directions
+    rot("root", X, 78)
     for s in "lr":
-        aim(f"upperarm_{s}", D * 0.55 + lat(s) * 0.55 + B * 0.45)
+        aim(f"upperarm_{s}", B * 0.8 + lat(s) * 0.55 + U * 0.15)
         aim(f"forearm_{s}", D)
-        aim(f"hand_{s}", F * 0.3 + lat(s) * 0.25 + U * -0.05 + Vector((0, -0.6, -0.05)))
+        twist_palm(s, D)
+        aim(f"hand_{s}", F + lat(s) * 0.12)
+        aim(f"foot_{s}", D + B * 0.25)
+        rot_toward(f"toe_{s}", X, 60, B)
     ground()
 
 
-def pose_pullup_hang():
+def pose_pullup_hang(rhythm=False):
     for s in "lr":
+        if rhythm:
+            shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U + lat(s) * 0.45)
         aim(f"forearm_{s}", U + lat(s) * 0.35)
@@ -218,26 +243,26 @@ def pose_pullup_top():
 
 
 def pose_lunge():
-    # left leg forward, right leg back
+    # left leg forward (hip/knee ~90), right leg back with the knee near the floor
     aim("thigh_l", F + D * 0.15)
     aim("shin_l", D + F * 0.05)
     aim("foot_l", F + D * 0.25)
-    aim("thigh_r", D + B * 0.45)
-    aim("shin_r", B + D * 0.25)
-    aim("foot_r", D + F * 0.6)
-    rot("toe_r", Vector((1, 0, 0)), 45)
+    aim("thigh_r", D + B * 0.35)
+    aim("shin_r", B + D * 0.15)
+    aim("foot_r", B * 0.3 + D)
+    rot_toward("toe_r", X, 55, B)
     ground()
 
 
 def pose_row():
-    for n, deg in (("pelvis", 30), ("spine_01", 6), ("spine_02", 5), ("spine_03", 4)):
-        rot(n, Vector((1, 0, 0)), -deg)
-    rot("neck", Vector((1, 0, 0)), 25)
+    for n, deg in (("pelvis", 38), ("spine_01", 4), ("spine_02", 3), ("spine_03", 3)):
+        rot(n, X, deg)
+    rot("neck", X, -30)
     for s in "lr":
         aim(f"thigh_{s}", D + F * 0.25)
-        aim(f"shin_{s}", D + B * 0.2)
+        aim(f"shin_{s}", D + F * 0.2)
         aim(f"foot_{s}", F + D * 0.3)
-        aim(f"upperarm_{s}", D * 0.6 + B * 0.75 + lat(s) * 0.15)
+        aim(f"upperarm_{s}", D * 0.35 + B * 0.9 + lat(s) * 0.2)
         aim(f"forearm_{s}", D + B * 0.05)
         twist_palm(s, -lat(s))
         grip(s)
@@ -252,10 +277,21 @@ def pose_grip_closeup():
 
 POSES = {
     "neutral": pose_neutral, "curl_peak": pose_curl_peak, "press_bottom": pose_press_bottom,
-    "press_top": pose_press_top, "squat_bottom": pose_squat_bottom, "pushup_bottom": pose_pushup_bottom,
-    "pullup_hang": pose_pullup_hang, "pullup_top": pose_pullup_top, "lunge": pose_lunge,
+    "press_top": pose_press_top, "press_top_rhythm": lambda: pose_press_top(True),
+    "squat_bottom": pose_squat_bottom, "pushup_bottom": pose_pushup_bottom,
+    "pullup_hang": pose_pullup_hang, "pullup_hang_rhythm": lambda: pose_pullup_hang(True),
+    "pullup_top": pose_pullup_top, "lunge": pose_lunge,
     "row": pose_row, "grip": pose_grip_closeup,
 }
+# Close-up zones per pose: (bone, head|tail) targets on the left side.
+CLOSEUPS = {
+    "curl_peak": ["elbow", "hand"], "press_top": ["shoulder"], "press_top_rhythm": ["shoulder"],
+    "pullup_hang": ["shoulder"], "pullup_hang_rhythm": ["shoulder"], "pullup_top": ["shoulder", "hand"],
+    "squat_bottom": ["hip", "knee"], "pushup_bottom": ["shoulder", "hand"], "lunge": ["hip", "knee"],
+    "row": ["shoulder", "hip"], "grip": ["hand"],
+}
+ZONES = {"shoulder": ("upperarm_l", "head", 0.34), "elbow": ("forearm_l", "head", 0.30),
+         "hand": ("hand_l", "tail", 0.22), "hip": ("thigh_l", "head", 0.40), "knee": ("shin_l", "head", 0.34)}
 
 # ---------------------------------------------------------------- metrics
 rest_mesh = body.data
@@ -360,6 +396,19 @@ def render(name):
         cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
         scene.render.filepath = str(OUT / f"pose_{name}_{view}.png")
         bpy.ops.render.render(write_still=True)
+    for zone in CLOSEUPS.get(name, []):
+        bone, end, scale = ZONES[zone]
+        p = pb(bone)
+        target = rig.matrix_world @ (p.head if end == "head" else p.tail)
+        cam_data.ortho_scale = scale
+        for view, (az, el) in {"a": (40, 15), "b": (140, 15)}.items():
+            a, e = math.radians(az), math.radians(el)
+            direction = Vector((-math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+            cam.location = target + direction * 8
+            cam.rotation_mode = "QUATERNION"
+            cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
+            scene.render.filepath = str(OUT / f"pose_{name}_close_{zone}_{view}.png")
+            bpy.ops.render.render(write_still=True)
 
 
 results = []

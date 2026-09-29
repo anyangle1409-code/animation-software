@@ -30,7 +30,7 @@ let nextSceneNodeId = 1;
 export class HgObject3D {
   readonly id = nextSceneNodeId++;
   name = '';
-  readonly type = 'Object3D';
+  readonly type: string = 'Object3D';
   parent: HgObject3D | null = null;
   readonly children: HgObject3D[] = [];
   readonly position = new HgVec3();

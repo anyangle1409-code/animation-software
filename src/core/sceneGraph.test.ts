@@ -15,6 +15,7 @@ import {
   HgPerspectiveCamera,
   HgScene,
 } from './sceneGraph';
+import { HgVec3 } from './linearMath';
 
 const close = (one: ArrayLike<number>, two: ArrayLike<number>, epsilon = 1e-10) => {
   expect(one.length).toBe(two.length);

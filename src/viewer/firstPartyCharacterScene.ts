@@ -31,7 +31,14 @@ export interface HgRenderableCharacterMesh extends HgDeformableMeshLike {
     | {
         color?: { r: number; g: number; b: number };
         opacity?: number;
-        map?: { image?: unknown; flipY?: boolean } | null;
+        map?: {
+          image?: unknown;
+          flipY?: boolean;
+          wrapS?: 33071 | 33648 | 10497;
+          wrapT?: 33071 | 33648 | 10497;
+          magFilter?: 9728 | 9729 | null;
+          minFilter?: 9728 | 9729 | 9984 | 9985 | 9986 | 9987 | null;
+        } | null;
       }
     | Array<{
         color?: { r: number; g: number; b: number };
@@ -171,6 +178,10 @@ const materialBaseTexture = (
   return {
     image: image as TexImageSource,
     flipY: material?.map?.flipY ?? false,
+    wrapS: material?.map?.wrapS,
+    wrapT: material?.map?.wrapT,
+    magFilter: material?.map?.magFilter,
+    minFilter: material?.map?.minFilter,
   };
 };
 

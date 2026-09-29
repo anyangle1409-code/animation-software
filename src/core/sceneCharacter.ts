@@ -13,6 +13,10 @@ export interface HgCharacterBaseTexture {
   /** Browser-native decoded image; no renderer-vendor texture object crosses here. */
   readonly image: TexImageSource;
   readonly flipY: boolean;
+  readonly wrapS?: 33071 | 33648 | 10497;
+  readonly wrapT?: 33071 | 33648 | 10497;
+  readonly magFilter?: 9728 | 9729 | null;
+  readonly minFilter?: 9728 | 9729 | 9984 | 9985 | 9986 | 9987 | null;
 }
 
 /**

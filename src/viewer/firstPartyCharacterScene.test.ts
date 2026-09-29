@@ -117,7 +117,14 @@ describe('first-party posed character scene geometry', () => {
       transparent: true,
     });
     const image = {} as TexImageSource;
-    material.map = { image, flipY: false };
+    material.map = {
+      image,
+      flipY: false,
+      wrapS: 33071,
+      wrapT: 33648,
+      magFilter: 9728,
+      minFilter: 9729,
+    };
     const source = new HgSkinnedMesh(geometry, material);
     source.name = 'body';
     source.add(root);
@@ -130,7 +137,14 @@ describe('first-party posed character scene geometry', () => {
     expect(rendered.matrixAutoUpdate).toBe(false);
     expect(rendered.matrix.elements[12]).toBeCloseTo(0.1, 10);
     expect(rendered.baseColour[3]).toBeCloseTo(0.75, 10);
-    expect(rendered.baseTexture).toEqual({ image, flipY: false });
+    expect(rendered.baseTexture).toEqual({
+      image,
+      flipY: false,
+      wrapS: 33071,
+      wrapT: 33648,
+      magFilter: 9728,
+      minFilter: 9729,
+    });
 
     source.position.set(0.4, 0.5, 0.6);
     material.opacity = 0.5;

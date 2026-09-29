@@ -1,14 +1,16 @@
 import {
-  AnimationClip,
-  Euler,
-  InterpolateLinear,
-  Matrix4,
-  Quaternion,
-  QuaternionKeyframeTrack,
-  Vector3,
-  VectorKeyframeTrack,
-} from 'three';
-import type { CharacterKeyframeTrack as KeyframeTrack } from '../character/bones';
+  createCharacterAnimationClip,
+  createCharacterEuler,
+  createCharacterMatrix,
+  createCharacterQuaternion,
+  createCharacterQuaternionKeyframeTrack,
+  createCharacterVector3,
+  createCharacterVectorKeyframeTrack,
+  serializeCharacterAnimationClip,
+  type CharacterAnimationClip,
+  type CharacterKeyframeTrack as KeyframeTrack,
+  type CharacterMatrix4,
+} from '../character/bones';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -23,7 +25,7 @@ import type { DeformationSampler } from '../character/types';
 import { compressTrack } from './tracks';
 
 export interface BakedClip {
-  clip: AnimationClip;
+  clip: CharacterAnimationClip;
   /** Per-equipment baked transforms, for items no bone can carry. */
   equipmentTracks: Map<string, { position: number[]; quaternion: number[]; scale?: number[] }>;
   times: number[];
@@ -73,9 +75,9 @@ export function bakeClip(
     );
   }
 
-  const localQuaternion = new Quaternion();
-  const poseQuaternion = new Quaternion();
-  const euler = new Euler(0, 0, 0, EULER_ORDER);
+  const localQuaternion = createCharacterQuaternion();
+  const poseQuaternion = createCharacterQuaternion();
+  const euler = createCharacterEuler(0, 0, 0, EULER_ORDER);
   // Whatever the character's own deformation stack does per frame beyond
   // posing bones — morph-target correctives, most of it — is sampled from the
   // same poses, so the exported file deforms the way the studio does.
@@ -148,7 +150,7 @@ export function bakeClip(
     const compressed = compressTrack(values, 4, rest);
     if (!compressed) continue;
     tracks.push(
-      new QuaternionKeyframeTrack(
+      createCharacterQuaternionKeyframeTrack(
         `${bone.name}.quaternion`,
         compressed.constant ? loopTimes : times,
         compressed.values,
@@ -161,18 +163,17 @@ export function bakeClip(
   const rootTrack = options.boneTracks === false ? null : compressTrack(rootPositions, 3, restPosition);
   if (rootTrack) {
     tracks.push(
-      new VectorKeyframeTrack(
+      createCharacterVectorKeyframeTrack(
         `${rootBone.name}.position`,
         rootTrack.constant ? loopTimes : times,
         rootTrack.values,
-        InterpolateLinear,
       ),
     );
   }
 
   if (deformation) tracks.push(...deformation.tracks(times));
 
-  const clip = new AnimationClip(studioClip.name, studioClip.duration, tracks);
+  const clip = createCharacterAnimationClip(studioClip.name, studioClip.duration, tracks);
   // A stable id keeps repeated exports byte-identical, which makes the output
   // diffable and safe to commit alongside the app that consumes it. three.js
   // types the field as read-only, but it is a plain assignable property.
@@ -185,9 +186,9 @@ export function handAttachmentMatrix(
   grip: { x: number; y: number; z: number },
   socket: { x: number; y: number; z: number },
   options: { gripRotation?: Vec3; socketRotation?: Vec3 } = {},
-): Matrix4 {
+): CharacterMatrix4 {
   const source = handAttachmentLocalMatrix(grip, socket, options);
-  const matrix = new Matrix4();
+  const matrix = createCharacterMatrix();
   for (let index = 0; index < 16; index += 1) matrix.elements[index] = source.elements[index];
   return matrix;
 }
@@ -196,8 +197,8 @@ export function handAttachmentMatrix(
  * Compatibility serializer kept at the remaining Three export boundary.
  * Callers outside this module should not need to import Three directly.
  */
-export function serializeThreeAnimationClip(clip: AnimationClip): unknown {
-  return AnimationClip.toJSON(clip);
+export function serializeThreeAnimationClip(clip: CharacterAnimationClip): unknown {
+  return serializeCharacterAnimationClip(clip);
 }
 
-export const zeroVector = new Vector3();
+export const zeroVector = createCharacterVector3();

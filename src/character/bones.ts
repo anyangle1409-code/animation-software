@@ -1,5 +1,7 @@
 import {
+  AnimationClip,
   Bone,
+  Euler,
   BufferAttribute,
   BufferGeometry,
   InterleavedBufferAttribute,
@@ -38,7 +40,30 @@ export function createCharacterBufferAttribute(
 ): CharacterBufferAttribute {
   return new BufferAttribute(values, itemSize);
 }
+export type CharacterAnimationClip = AnimationClip;
 export type CharacterKeyframeTrack = KeyframeTrack;
+
+export function createCharacterAnimationClip(
+  name: string,
+  duration: number,
+  tracks: CharacterKeyframeTrack[],
+): CharacterAnimationClip {
+  return new AnimationClip(name, duration, tracks);
+}
+
+export function serializeCharacterAnimationClip(clip: CharacterAnimationClip): unknown {
+  return AnimationClip.toJSON(clip);
+}
+
+export function createCharacterEuler(
+  x = 0,
+  y = 0,
+  z = 0,
+  order: Euler['order'] = 'XYZ',
+): Euler {
+  return new Euler(x, y, z, order);
+}
+
 export type CharacterQuaternion = Quaternion;
 
 export function createCharacterQuaternion(

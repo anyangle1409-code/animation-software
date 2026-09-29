@@ -44,6 +44,14 @@ describe('first-party math migration parity against Three.js', () => {
     }
   });
 
+  it('matches XYZ Euler to quaternion conversion used by equipment parts', () => {
+    for (const [x, y, z] of ANGLES) {
+      const hg = new HgQuat().setFromEulerXYZ(x, y, z);
+      const three = new Quaternion().setFromEuler(new Euler(x, y, z, 'XYZ'));
+      expectQuatParity(hg, three);
+    }
+  });
+
   it('matches XZY Euler to quaternion conversion', () => {
     for (const [x, y, z] of ANGLES) {
       const hg = new HgQuat().setFromEulerXZY(x, y, z);

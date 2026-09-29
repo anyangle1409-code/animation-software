@@ -197,6 +197,18 @@ export class HgQuat {
     return this.set(unit.x * s, unit.y * s, unit.z * s, Math.cos(half));
   }
 
+  /** Standard XYZ Euler order used by authored equipment-part transforms. Angles are radians. */
+  setFromEulerXYZ(x: number, y: number, z: number): this {
+    const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);
+    const s1 = Math.sin(x / 2), s2 = Math.sin(y / 2), s3 = Math.sin(z / 2);
+    return this.set(
+      s1 * c2 * c3 + c1 * s2 * s3,
+      c1 * s2 * c3 - s1 * c2 * s3,
+      c1 * c2 * s3 + s1 * s2 * c3,
+      c1 * c2 * c3 - s1 * s2 * s3,
+    );
+  }
+
   /** Project-wide Euler order XZY. Angles are radians. */
   setFromEulerXZY(x: number, y: number, z: number): this {
     const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);

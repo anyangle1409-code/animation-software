@@ -2,10 +2,6 @@
   "schema_version": 1,
   "purpose": "Temporary migration ceiling. Existing third-party runtime dependencies may only decrease; no new runtime dependency may be introduced.",
   "allowed_existing_runtime_dependencies": [
-    "@react-three/drei",
-    "@react-three/fiber",
-    "react",
-    "react-dom",
     "three"
   ],
   "rule": "package.json dependencies must be a subset of this list until the list reaches empty. New entries are forbidden. Source-import ceilings are one-way migration guards: counts/files may only decrease.",
@@ -14,27 +10,36 @@
     "@react-three/fiber": {
       "max_imports": 0,
       "allowed_files": [],
-      "rule": "R3F source imports are zero after first-party viewport-host parity and may not return. The package remains temporarily only because the still-gated Drei package depends on the R3F ecosystem."
+      "rule": "R3F source imports are zero and the package is removed. It may not return."
     },
     "@react-three/drei": {
       "max_imports": 0,
       "allowed_files": [],
-      "rule": "Drei source imports are already zero and may not return."
+      "rule": "Drei source imports are zero and the package is removed. It may not return."
     },
     "zustand": {
       "max_imports": 0,
       "allowed_files": [],
-      "rule": "Direct Zustand source imports are already zero and may not return."
+      "rule": "Direct Zustand source imports are zero and may not return."
     },
     "react": {
       "max_imports": 0,
       "allowed_files": [],
-      "rule": "React source imports are zero after the first-party DOM, viewport and startup migrations and may not return."
+      "rule": "React source imports are zero and the package is removed. It may not return."
     },
     "react-dom": {
       "max_imports": 0,
       "allowed_files": [],
-      "rule": "ReactDOM source imports are zero after the project-owned root/startup switch and may not return."
+      "rule": "ReactDOM source imports are zero and the package is removed. It may not return."
+    },
+    "three": {
+      "max_imports": 3,
+      "allowed_files": [
+        "src/character/bones.ts",
+        "src/character/gltfThreeScene.ts",
+        "src/viewer/threeSceneBoundary.ts"
+      ],
+      "rule": "Three is the final runtime dependency. Direct source imports are confined to these three compatibility/rendering boundaries and may only decrease."
     }
   }
 }

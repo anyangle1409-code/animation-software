@@ -1,4 +1,5 @@
 import { Quaternion, Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
@@ -129,9 +130,10 @@ export function goalFromPose(
 ): IKGoal {
   const chain = IK_CHAINS[chainId];
   evaluation.apply(pose);
-  const root = evaluation.head(chain.root, new Vector3());
-  const mid = evaluation.head(chain.mid, new Vector3());
-  const end = evaluation.head(chain.end, new Vector3());
+  const fk = evaluation.firstPartyEvaluation;
+  const root = fk.head(chain.root, new HgVec3());
+  const mid = fk.head(chain.mid, new HgVec3());
+  const end = fk.head(chain.end, new HgVec3());
 
   const midpoint = root.clone().add(end).multiplyScalar(0.5);
   const bend = mid.clone().sub(midpoint);

@@ -127,6 +127,17 @@ describe('leg IK', () => {
 });
 
 describe('goals', () => {
+  it('retains the authored arm bend when deriving an enabled IK goal', () => {
+    const pose = poseFromDegrees({ upperarm_l: { x: 35, z: -20 }, forearm_l: { x: 80 } });
+    const goal = goalFromPose(new PoseEvaluation(skeleton), pose, 'arm_l');
+    expect(goal.target.x).toBeCloseTo(-0.3217177483973105, 10);
+    expect(goal.target.y).toBeCloseTo(1.3211857870697203, 10);
+    expect(goal.target.z).toBeCloseTo(0.3607739602603038, 10);
+    expect(goal.pole.x).toBeCloseTo(-0.414850578920537, 10);
+    expect(goal.pole.y).toBeCloseTo(0.7817780607343835, 10);
+    expect(goal.pole.z).toBeCloseTo(0.03653366537729348, 10);
+  });
+
   it('preserves an end-aim roll with a forward reference', () => {
     const pose = clonePose(restPose());
     const aimEvaluation = new PoseEvaluation(skeleton);

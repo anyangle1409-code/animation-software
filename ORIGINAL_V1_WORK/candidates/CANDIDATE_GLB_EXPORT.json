@@ -1,0 +1,17 @@
+{
+  "generated_utc": "2026-09-29T22:16:41.833414+00:00",
+  "stage": "candidate review export (not production)",
+  "rig": "hgpt_canonical_v4_original",
+  "exports": {
+    "dressed": {
+      "file": "HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_DRESSED.glb",
+      "bytes": 1121604,
+      "sha256": "2a3fbc5812a56c21725f5834467035b33862643af2607d5945a520ba322b0cba"
+    },
+    "bare": {
+      "file": "HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_BARE.glb",
+      "bytes": 1023324,
+      "sha256": "ba0f88e59099a699d89529892ab219d13eb49225c2339fc3b5e465248de51623"
+    }
+  }
+}

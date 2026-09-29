@@ -1,6 +1,5 @@
 import type {
   CharacterBone,
-  CharacterKeyframeTrack,
   CharacterMatrix4,
   CharacterObject3D,
   CharacterSkinnedMesh,
@@ -99,12 +98,34 @@ export interface DeformationStack {
   sampler?(): DeformationSampler | null;
 }
 
-/** Bakes a stack's per-frame state into animation tracks. */
+/**
+ * Project-owned sampled animation data for a character's own bones or morphs.
+ *
+ * This is deliberately plain data rather than a renderer keyframe-track
+ * object. The remaining Three export boundary may adapt it for compatibility,
+ * while the first-party GLB writer can consume the same samples directly.
+ */
+export type DeformationTrackData =
+  | {
+      target: string;
+      property: 'quaternion' | 'position';
+      times: number[];
+      values: number[];
+    }
+  | {
+      target: string;
+      property: 'morphTargetInfluence';
+      morphTarget: string;
+      times: number[];
+      values: number[];
+    };
+
+/** Bakes a stack's per-frame state into project-owned animation data. */
 export interface DeformationSampler {
   /** One resolved pose, in clip order. */
   sample(pose: Pose, context?: CharacterPoseContext): void;
   /** The tracks for everything sampled so far. */
-  tracks(times: number[]): CharacterKeyframeTrack[];
+  tracks(times: number[]): DeformationTrackData[];
 }
 
 /** Which side a hand-held item is carried on. */

@@ -210,7 +210,8 @@ describe('imported elbow directional smoothing', () => {
     sampler!.sample(restPose());
     sampler!.sample(pose);
     const track = sampler!.tracks([0, 1]).find((entry) =>
-      entry.name.includes('homeGymPT_elbow_outer_l'),
+      entry.property === 'morphTargetInfluence' &&
+      entry.morphTarget.includes('homeGymPT_elbow_outer_l'),
     );
     expect(track).toBeDefined();
     expect(Number(track!.values[track!.values.length - 1])).toBeCloseTo(live, 6);

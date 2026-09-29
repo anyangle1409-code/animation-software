@@ -2,6 +2,7 @@ import {
   createCharacterAnimationClip,
   createCharacterEuler,
   createCharacterMatrix,
+  createCharacterNumberKeyframeTrack,
   createCharacterQuaternion,
   createCharacterQuaternionKeyframeTrack,
   createCharacterVector3,
@@ -21,7 +22,7 @@ import { resolveFrame } from '../animation/pipeline';
 import { sampleClip } from '../animation/clip';
 import { lockAnchors } from '../constraints/locks';
 import { handAttachmentLocalMatrix } from '../equipment/attach';
-import type { DeformationSampler } from '../character/types';
+import type { DeformationSampler, DeformationTrackData } from '../character/types';
 import { compressTrack } from './tracks';
 
 export interface BakedClip {
@@ -178,7 +179,9 @@ export function bakeClip(
     );
   }
 
-  if (deformation) tracks.push(...deformation.tracks(times));
+  if (deformation) {
+    tracks.push(...deformation.tracks(times).map(characterTrackForDeformation));
+  }
 
   const clip = createCharacterAnimationClip(studioClip.name, studioClip.duration, tracks);
   // A stable id keeps repeated exports byte-identical, which makes the output
@@ -186,6 +189,33 @@ export function bakeClip(
   // types the field as read-only, but it is a plain assignable property.
   (clip as { uuid: string }).uuid = `hgpt-clip-${studioClip.name}`;
   return { clip, equipmentTracks, times, fps };
+}
+
+/**
+ * Adapt project-owned deformation samples to the retained Three animation
+ * boundary. First-party GLB writing consumes DeformationTrackData directly.
+ */
+function characterTrackForDeformation(track: DeformationTrackData): KeyframeTrack {
+  switch (track.property) {
+    case 'quaternion':
+      return createCharacterQuaternionKeyframeTrack(
+        `${track.target}.quaternion`,
+        track.times,
+        track.values,
+      );
+    case 'position':
+      return createCharacterVectorKeyframeTrack(
+        `${track.target}.position`,
+        track.times,
+        track.values,
+      );
+    case 'morphTargetInfluence':
+      return createCharacterNumberKeyframeTrack(
+        `${track.target}.morphTargetInfluences[${track.morphTarget}]`,
+        track.times,
+        track.values,
+      );
+  }
 }
 
 /** Local transform of a hand-held item relative to the hand bone that carries it. */

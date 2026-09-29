@@ -1,12 +1,10 @@
 import {
   createCharacterBufferAttribute,
-  createCharacterNumberKeyframeTrack,
   createCharacterVector3,
   type CharacterBone,
   type CharacterBufferAttribute,
   type CharacterBufferGeometry,
   type CharacterInterleavedBufferAttribute,
-  type CharacterKeyframeTrack,
   type CharacterSkinnedMesh,
   type CharacterVector3,
 } from './bones';
@@ -16,7 +14,7 @@ import type { BoneName, Side } from '../rig/boneNames';
 import type { Pose } from '../rig/types';
 import { elbowFlexion } from '../rig/elbowFlexion';
 import { compressTrack } from '../export/tracks';
-import type { DeformationControl, DeformationSampler, DeformationStack } from './types';
+import type { DeformationControl, DeformationSampler, DeformationStack, DeformationTrackData } from './types';
 
 export interface ImportedElbowCorrectiveOptions {
   enabled?: boolean;
@@ -475,16 +473,18 @@ export function correctiveSampler(targets: Target[], rig: Skeleton): Deformation
         values[index].push(elbowFlexion(evaluation, target.side) * target.scale()),
       );
     },
-    tracks(times: number[]): CharacterKeyframeTrack[] {
+    tracks(times: number[]): DeformationTrackData[] {
       const loopTimes = [times[0], times[times.length - 1]];
       return targets.flatMap((target, index) => {
         const compressed = compressTrack(values[index], 1, [0]);
         if (!compressed) return [];
-        return [createCharacterNumberKeyframeTrack(
-          `${target.mesh.name}.morphTargetInfluences[${target.name}]`,
-          compressed.constant ? loopTimes : times,
-          compressed.values,
-        )];
+        return [{
+          target: target.mesh.name,
+          property: 'morphTargetInfluence' as const,
+          morphTarget: target.name,
+          times: compressed.constant ? loopTimes : times,
+          values: compressed.values,
+        }];
       });
     },
   };

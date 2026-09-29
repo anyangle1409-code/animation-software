@@ -1,11 +1,8 @@
 import {
   createCharacterMatrix,
   createCharacterQuaternion,
-  createCharacterQuaternionKeyframeTrack,
   createCharacterVector3,
-  createCharacterVectorKeyframeTrack,
   type CharacterBone,
-  type CharacterKeyframeTrack,
   type CharacterMatrix4,
   type CharacterObject3D,
   type CharacterQuaternion,
@@ -26,6 +23,7 @@ import type {
   CharacterPoseContext,
   CharacterSource,
   DeformationSampler,
+  DeformationTrackData,
   DeformationStack,
   Side,
 } from './types';
@@ -391,20 +389,26 @@ export function retargetSampler(
         positions.get(bone.name)!.push(...bone.position.toArray());
       }
     },
-    tracks(times: number[]): CharacterKeyframeTrack[] {
-      const built: CharacterKeyframeTrack[] = [];
+    tracks(times: number[]): DeformationTrackData[] {
+      const built: DeformationTrackData[] = [];
       const loopTimes = [times[0], times[times.length - 1]];
       for (const bone of bones) {
         const rotation = compressTrack(rotations.get(bone.name)!, 4,
           binding.character.restLocal.get(bone.name)!.toArray());
-        if (rotation) built.push(createCharacterQuaternionKeyframeTrack(
-          `${bone.name}.quaternion`, rotation.constant ? loopTimes : times, rotation.values,
-        ));
+        if (rotation) built.push({
+          target: bone.name,
+          property: 'quaternion',
+          times: rotation.constant ? loopTimes : times,
+          values: rotation.values,
+        });
         const position = compressTrack(positions.get(bone.name)!, 3,
           binding.character.restPosition.get(bone.name)!.toArray());
-        if (position) built.push(createCharacterVectorKeyframeTrack(
-          `${bone.name}.position`, position.constant ? loopTimes : times, position.values,
-        ));
+        if (position) built.push({
+          target: bone.name,
+          property: 'position',
+          times: position.constant ? loopTimes : times,
+          values: position.values,
+        });
       }
       resetCharacter(binding.character);
       return built;

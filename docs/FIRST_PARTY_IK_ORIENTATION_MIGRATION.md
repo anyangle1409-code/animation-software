@@ -4,7 +4,7 @@ Prepared:
 - `src/ik/firstPartyOrient.ts`
 - `src/ik/firstPartyOrient.parity.test.ts`
 
-Production `src/ik/orient.ts` now delegates orientation calculations to these project-owned functions via `Skeleton.firstParty` and `PoseEvaluation.firstPartyEvaluation`. Its Three input/output types are temporary compatibility boundaries. `twoBone.ts` and `solve.ts` are still Three-dependent.
+Production `src/ik/orient.ts` now delegates orientation calculations to these project-owned functions via `Skeleton.firstParty` and `PoseEvaluation.firstPartyEvaluation`. Its Three input/output types are temporary compatibility boundaries. `twoBone.ts` and `solve.ts` retain Three-dependent calculations and caller boundaries. The hinge-twist / mid-flexion internal quaternion calculation of `twoBone.ts` is first-party at `fa06d26da9e0a99a2aa9d1b2ca9528075b4b5025`, with frozen solved rotations; its triangle and pole vector arithmetic remain Three-dependent. Both exact-SHA Actions workflows passed on `fa06d26`.
 
 The parallel implementation covers:
 - joint-limit clamping;

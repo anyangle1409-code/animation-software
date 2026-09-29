@@ -68,6 +68,7 @@ jobs:
           src/core/gltfAccessors.test.ts
           src/core/gltfBuilder.test.ts
           src/core/webglLitRenderer.test.ts
+          src/core/webglSceneRenderer.test.ts
           src/export/firstPartyPreservedCharacterGlb.test.ts
           src/export/firstPartyReboundCharacterGlb.test.ts
           src/core/frameLoop.test.ts

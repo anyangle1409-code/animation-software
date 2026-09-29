@@ -12,9 +12,11 @@ import {
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
   Matrix4,
+  Material,
+  MeshStandardMaterial,
+  SkinnedMesh,
   Vector3,
   type Object3D,
-  type SkinnedMesh,
   VectorKeyframeTrack,
 } from 'three';
 import type { BoneName } from '../rig/boneNames';
@@ -24,6 +26,41 @@ import type { Skeleton } from '../rig/skeleton';
 export type CharacterBone = Bone;
 export type CharacterBufferAttribute = BufferAttribute;
 export type CharacterBufferGeometry = BufferGeometry;
+
+export type CharacterMaterial = Material;
+export type CharacterStandardMaterial = MeshStandardMaterial;
+export type CharacterStandardMaterialParameters =
+  ConstructorParameters<typeof MeshStandardMaterial>[0];
+
+export function createCharacterBufferGeometry(): CharacterBufferGeometry {
+  return new BufferGeometry();
+}
+
+export function createCharacterUint16BufferAttribute(
+  values: Uint16Array,
+  itemSize: number,
+): CharacterBufferAttribute {
+  return new BufferAttribute(values, itemSize);
+}
+
+export function createCharacterSkinnedMeshObject(
+  geometry: CharacterBufferGeometry,
+  material: CharacterMaterial,
+): CharacterSkinnedMesh {
+  return new SkinnedMesh(geometry, material);
+}
+
+export function createCharacterStandardMaterialObject(
+  parameters?: CharacterStandardMaterialParameters,
+): CharacterStandardMaterial {
+  return new MeshStandardMaterial(parameters);
+}
+
+export function isCharacterStandardMaterial(
+  material: unknown,
+): material is CharacterStandardMaterial {
+  return material instanceof MeshStandardMaterial;
+}
 export type CharacterInterleavedBufferAttribute = InterleavedBufferAttribute;
 
 export function createCharacterNumberKeyframeTrack(

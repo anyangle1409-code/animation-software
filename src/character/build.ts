@@ -1,17 +1,23 @@
-import {
-  BufferAttribute,
-  BufferGeometry,
-  MeshStandardMaterial,
-  SkinnedMesh,
-  type Material,
-} from 'three';
 import type { Skeleton } from '../rig/skeleton';
-import { buildCanonicalBones } from './bones';
+import {
+  buildCanonicalBones,
+  createCharacterBufferAttribute,
+  createCharacterBufferGeometry,
+  createCharacterSkinnedMeshObject,
+  createCharacterStandardMaterialObject,
+  createCharacterUint16BufferAttribute,
+  isCharacterStandardMaterial,
+  type CharacterBufferGeometry,
+  type CharacterMaterial,
+  type CharacterSkinnedMesh,
+  type CharacterStandardMaterial,
+  type CharacterStandardMaterialParameters,
+} from './bones';
 import type { CharacterBuild, CharacterCapabilities, DeformationStack } from './types';
 
 export interface Surface {
-  geometry: BufferGeometry;
-  material: Material;
+  geometry: CharacterBufferGeometry;
+  material: CharacterMaterial;
   name: string;
 }
 
@@ -21,7 +27,7 @@ export interface AssembleOptions {
   surfaces: Surface[];
   capabilities: CharacterCapabilities;
   /** Built after the meshes exist, because a stack works on their geometry. */
-  deformation?: (meshes: SkinnedMesh[]) => DeformationStack | null;
+  deformation?: (meshes: CharacterSkinnedMesh[]) => DeformationStack | null;
 }
 
 /**
@@ -37,12 +43,12 @@ export function createCharacterSkinnedGeometry(data: {
   skinIndices: readonly number[];
   skinWeights: readonly number[];
   colours: readonly number[];
-}): BufferGeometry {
-  const geometry = new BufferGeometry();
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array(data.positions), 3));
-  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(data.skinIndices), 4));
-  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(data.skinWeights), 4));
-  geometry.setAttribute('color', new BufferAttribute(new Float32Array(data.colours), 3));
+}): CharacterBufferGeometry {
+  const geometry = createCharacterBufferGeometry();
+  geometry.setAttribute('position', createCharacterBufferAttribute(new Float32Array(data.positions), 3));
+  geometry.setAttribute('skinIndex', createCharacterUint16BufferAttribute(new Uint16Array(data.skinIndices), 4));
+  geometry.setAttribute('skinWeight', createCharacterBufferAttribute(new Float32Array(data.skinWeights), 4));
+  geometry.setAttribute('color', createCharacterBufferAttribute(new Float32Array(data.colours), 3));
   geometry.setIndex([...data.indices]);
   geometry.computeVertexNormals();
   geometry.computeBoundingBox();
@@ -53,14 +59,14 @@ export function createCharacterSkinnedGeometry(data: {
 export function createCharacterSkinnedMesh(
   geometry: Surface['geometry'],
   material: Surface['material'],
-): SkinnedMesh {
-  return new SkinnedMesh(geometry, material);
+): CharacterSkinnedMesh {
+  return createCharacterSkinnedMeshObject(geometry, material);
 }
 
 export function createCharacterStandardMaterial(
-  parameters?: ConstructorParameters<typeof MeshStandardMaterial>[0],
-): MeshStandardMaterial {
-  return new MeshStandardMaterial(parameters);
+  parameters?: CharacterStandardMaterialParameters,
+): CharacterStandardMaterial {
+  return createCharacterStandardMaterialObject(parameters);
 }
 
 export function configureCharacterPresentation(
@@ -70,8 +76,8 @@ export function configureCharacterPresentation(
   depthWrite: boolean,
 ): void {
   for (const mesh of build.meshes) {
-    const material = mesh.material as MeshStandardMaterial;
-    if (!(material instanceof MeshStandardMaterial)) continue;
+    const material = mesh.material;
+    if (!isCharacterStandardMaterial(material)) continue;
     material.color.set(colour);
     material.opacity = opacity;
     material.transparent = opacity < 1;
@@ -87,7 +93,7 @@ export function assembleCharacter(options: AssembleOptions): CharacterBuild {
   for (const bone of bones) bone.matrixAutoUpdate = false;
 
   const meshes = options.surfaces.map((surface) => {
-    const mesh = new SkinnedMesh(surface.geometry, surface.material);
+    const mesh = createCharacterSkinnedMeshObject(surface.geometry, surface.material);
     mesh.name = surface.name;
     mesh.castShadow = true;
     mesh.receiveShadow = true;

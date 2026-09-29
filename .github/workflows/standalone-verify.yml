@@ -101,6 +101,7 @@ jobs:
           src/viewer/transformGizmoMath.test.ts
           src/viewer/transformGizmoRuntime.test.ts
           src/viewer/firstPartyTransformGizmoRuntime.test.ts
+          src/viewer/firstPartyStudioEditRuntimes.test.ts
           src/viewer/studioEditRuntimes.test.ts
           src/viewer/studioSceneController.test.ts
           src/viewer/muscleViewRuntime.test.ts

@@ -64,7 +64,7 @@ function fixture(): Uint8Array {
     inverseBindMatrices: inverseBind,
   }];
   builder.json.nodes = [
-    { name: 'pelvis', children: [1] },
+    { name: 'pelvis.root', children: [1] },
     {
       // Deliberately matches the mesh name: the compatibility adapter must
       // not leave two nested objects with the same animation-binding name.
@@ -81,6 +81,24 @@ function fixture(): Uint8Array {
 }
 
 describe('first-party GLB to temporary Three scene adapter', () => {
+  it('sanitizes and de-duplicates runtime node names used by animation binding', async () => {
+    const builder = new HgGltfBuilder();
+    builder.json.nodes = [
+      { name: 'arm.R' },
+      { name: 'arm:R' },
+      { name: 'arm R' },
+    ];
+    builder.json.scenes = [{ nodes: [0, 1, 2] }];
+    builder.json.scene = 0;
+
+    const scene = await loadHgThreeScene(builder.toGlb());
+    expect(scene.children.map((child) => child.name)).toEqual([
+      'armR',
+      'armR_1',
+      'arm_R',
+    ]);
+  });
+
   it('materializes decoded bones, skin, morphs, material and extras', async () => {
     const scene = await loadHgThreeScene(fixture());
     expect(scene.name).toBe('fixture_scene');
@@ -92,7 +110,7 @@ describe('first-party GLB to temporary Three scene adapter', () => {
       if ((object as SkinnedMesh).isSkinnedMesh) meshes.push(object as SkinnedMesh);
     });
 
-    expect(bones.map((bone) => bone.name)).toEqual(['pelvis']);
+    expect(bones.map((bone) => bone.name)).toEqual(['pelvisroot']);
     expect(meshes).toHaveLength(1);
     const mesh = meshes[0];
     expect(mesh.geometry.getAttribute('position').count).toBe(3);

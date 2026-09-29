@@ -7,7 +7,11 @@ import {
   HgSkinnedMesh,
   HgStandardMaterial,
 } from '../core/sceneSkin';
-import { posedCharacterGeometry } from './firstPartyCharacterScene';
+import {
+  createHgCharacterMesh,
+  posedCharacterGeometry,
+  updateHgCharacterMesh,
+} from './firstPartyCharacterScene';
 
 describe('first-party posed character scene geometry', () => {
   it('snapshots current morph + skin deformation with UV and vertex-colour data', () => {
@@ -86,4 +90,52 @@ describe('first-party posed character scene geometry', () => {
     expect(posed.normals[5]).toBeCloseTo(1, 9);
     expect(posed.normals[8]).toBeCloseTo(1, 9);
   });
+  it('adapts a first-party skinned mesh into a renderer-neutral character scene node', () => {
+    const root = new HgBone();
+    const geometry = new HgBufferGeometry();
+    geometry.setAttribute('position', new HgBufferAttribute(new Float32Array([
+      0, 0, 0,
+      1, 0, 0,
+      0, 1, 0,
+    ]), 3));
+    geometry.setAttribute('skinIndex', new HgBufferAttribute(new Uint16Array([
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+    ]), 4));
+    geometry.setAttribute('skinWeight', new HgBufferAttribute(new Float32Array([
+      1, 0, 0, 0,
+      1, 0, 0, 0,
+      1, 0, 0, 0,
+    ]), 4));
+    geometry.setIndex([0, 1, 2]);
+    geometry.computeVertexNormals();
+
+    const material = new HgStandardMaterial({
+      color: '#8090a0',
+      opacity: 0.75,
+      transparent: true,
+    });
+    const source = new HgSkinnedMesh(geometry, material);
+    source.name = 'body';
+    source.add(root);
+    source.bind(new HgSkeleton([root]));
+    source.position.set(0.1, 0.2, 0.3);
+    source.updateMatrixWorld(true);
+
+    const rendered = createHgCharacterMesh(source);
+    expect(rendered.name).toBe('body');
+    expect(rendered.matrixAutoUpdate).toBe(false);
+    expect(rendered.matrix.elements[12]).toBeCloseTo(0.1, 10);
+    expect(rendered.baseColour[3]).toBeCloseTo(0.75, 10);
+
+    source.position.set(0.4, 0.5, 0.6);
+    source.material.opacity = 0.5;
+    source.updateMatrixWorld(true);
+    updateHgCharacterMesh(rendered, source);
+    expect(rendered.matrix.elements[12]).toBeCloseTo(0.4, 10);
+    expect(rendered.matrix.elements[13]).toBeCloseTo(0.5, 10);
+    expect(rendered.baseColour[3]).toBeCloseTo(0.5, 10);
+  });
+
 });

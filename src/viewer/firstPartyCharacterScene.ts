@@ -1,9 +1,12 @@
 import { HgVec3 } from '../core/linearMath';
+import { HgCharacterMesh, type HgCharacterGeometryData } from '../core/sceneCharacter';
 import type { HgPrimitiveGeometryData } from '../core/primitiveGeometry';
-import type { HgSkinnedMesh } from '../core/sceneSkin';
+import { hgRgbaFromHex } from '../core/sceneMesh';
+import { HgStandardMaterial, type HgSkinnedMesh } from '../core/sceneSkin';
 import { posedLocalVertex } from '../character/skinningMath';
 
-export interface HgPosedCharacterGeometry extends HgPrimitiveGeometryData {
+export interface HgPosedCharacterGeometry
+  extends HgPrimitiveGeometryData, HgCharacterGeometryData {
   colours?: number[];
 }
 
@@ -112,4 +115,48 @@ export function posedCharacterGeometry(
     indices,
     ...(colours ? { colours } : {}),
   };
+}
+
+
+const materialColour = (mesh: HgSkinnedMesh): [number, number, number, number] => {
+  const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+  if (material instanceof HgStandardMaterial) {
+    return [
+      material.color.r,
+      material.color.g,
+      material.color.b,
+      material.opacity,
+    ];
+  }
+  return hgRgbaFromHex('#ffffff');
+};
+
+/** Build one renderer-neutral posed character scene node. */
+export function createHgCharacterMesh(mesh: HgSkinnedMesh): HgCharacterMesh {
+  mesh.updateWorldMatrix(true, false);
+  const result = new HgCharacterMesh(
+    posedCharacterGeometry(mesh),
+    materialColour(mesh),
+  );
+  result.name = mesh.name;
+  result.matrixAutoUpdate = false;
+  result.matrix.copy(mesh.matrixWorld);
+  result.matrixWorldNeedsUpdate = true;
+  return result;
+}
+
+/** Refresh a character scene node after bones/morphs/material opacity change. */
+export function updateHgCharacterMesh(
+  target: HgCharacterMesh,
+  mesh: HgSkinnedMesh,
+): void {
+  mesh.updateWorldMatrix(true, false);
+  target.geometry = posedCharacterGeometry(mesh);
+  target.matrix.copy(mesh.matrixWorld);
+  target.matrixWorldNeedsUpdate = true;
+  const colour = materialColour(mesh);
+  target.baseColour[0] = colour[0];
+  target.baseColour[1] = colour[1];
+  target.baseColour[2] = colour[2];
+  target.baseColour[3] = colour[3];
 }

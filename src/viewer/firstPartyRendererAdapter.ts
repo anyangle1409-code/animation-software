@@ -1,8 +1,11 @@
+import { HgCharacterRenderer } from '../core/webglCharacterRenderer';
+import { HgCharacterTrianglePipeline } from '../core/webglCharacterTrianglePipeline';
 import { HgFlatPrimitiveRenderer } from '../core/webglFlatRenderer';
 import { HgLitPrimitiveRenderer } from '../core/webglLitRenderer';
 import { HgLitTrianglePipeline } from '../core/webglLitTrianglePipeline';
 import { HgWebGLRenderer } from '../core/webglRenderer';
 import { HgPrimitiveSceneRenderer } from '../core/webglSceneRenderer';
+import { HgStudioSceneRenderer } from '../core/webglStudioSceneRenderer';
 import { HgTrianglePipeline } from '../core/webglTrianglePipeline';
 import type { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
 
@@ -75,10 +78,10 @@ export class HgFirstPartyRendererAdapterCore implements HgFirstPartyRendererAdap
 }
 
 /**
- * Browser WebGL2 implementation of the Home Gym PT primitive-scene renderer.
+ * Browser WebGL2 implementation of the Home Gym PT studio renderer.
  *
- * Character triangles use the sibling first-party character pipeline and will
- * join this adapter when the live content graph switches from Three objects.
+ * Primitive scene nodes and posed-character triangle nodes share the same
+ * first-party canvas, frame lifecycle and camera.
  */
 export function createFirstPartyRendererAdapter(
   canvas: HTMLCanvasElement,
@@ -94,15 +97,21 @@ export function createFirstPartyRendererAdapter(
   const surface = new HgWebGLRenderer(canvas, gl);
   const flatTriangles = new HgTrianglePipeline(gl);
   const litTriangles = new HgLitTrianglePipeline(gl);
-  const sceneRenderer = new HgPrimitiveSceneRenderer(
+  const characterTriangles = new HgCharacterTrianglePipeline(gl);
+  const primitiveRenderer = new HgPrimitiveSceneRenderer(
     new HgLitPrimitiveRenderer(litTriangles),
     new HgFlatPrimitiveRenderer(flatTriangles),
+  );
+  const sceneRenderer = new HgStudioSceneRenderer(
+    primitiveRenderer,
+    new HgCharacterRenderer(characterTriangles),
   );
 
   return new HgFirstPartyRendererAdapterCore(
     surface,
     sceneRenderer,
     () => {
+      characterTriangles.dispose();
       litTriangles.dispose();
       flatTriangles.dispose();
     },

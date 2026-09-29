@@ -1,11 +1,7 @@
 import type { HgMat4 } from './linearMath';
+import type { HgCharacterGeometryData } from './sceneCharacter';
 
-export interface HgCharacterTriangleGeometry {
-  readonly positions: readonly number[];
-  readonly normals: readonly number[];
-  readonly indices: readonly number[];
-  readonly colours?: readonly number[];
-}
+export type HgCharacterTriangleGeometry = HgCharacterGeometryData;
 
 export interface HgCharacterTriangleBuffers {
   positions: Float32Array;

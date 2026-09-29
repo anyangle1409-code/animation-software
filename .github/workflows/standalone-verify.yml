@@ -72,6 +72,7 @@ jobs:
           src/core/webglLitRenderer.test.ts
           src/core/webglCharacterTrianglePipeline.test.ts
           src/core/webglSceneRenderer.test.ts
+          src/core/webglStudioSceneRenderer.test.ts
           src/viewer/firstPartyEquipmentScene.test.ts
           src/viewer/firstPartyCharacterScene.test.ts
           src/viewer/firstPartySkeletonScene.test.ts

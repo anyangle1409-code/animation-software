@@ -57,7 +57,12 @@ describe('first-party glTF scene decoder', () => {
   it('decodes the project mesh, skin, node hierarchy and material subset', () => {
     const decoded = readHgGltfScene(builtScene());
     expect(decoded.defaultScene).toBe(0);
-    expect(decoded.scenes[0]).toEqual({ index: 0, name: 'main', nodes: [0] });
+    expect(decoded.scenes[0]).toEqual({
+      index: 0,
+      name: 'main',
+      nodes: [0],
+      extras: { homeGymPT: { source: 'fixture' } },
+    });
     expect(decoded.nodes[0].children).toEqual([1]);
     expect(decoded.nodes[1].translation).toEqual([0, 1, 0]);
     expect(decoded.nodes[1].rotation).toEqual([0, 0, 0, 1]);

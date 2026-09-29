@@ -12,7 +12,7 @@ import {
   PlaneGeometry,
 } from './threeSceneBoundary';
 import type { BackdropStyle } from '../editor/storeCore';
-import { buildHgReferenceGridBuffers } from './referenceGrid';
+import { buildHgStageModel } from './studioStageModel';
 
 export interface StudioStageResources {
   root: Group;
@@ -42,13 +42,18 @@ function gridLineSegments(positions: Float32Array, color: string, opacity: numbe
   return segments;
 }
 
-function createReferenceGrid(cellColor: string, sectionColor: string): Group {
-  const buffers = buildHgReferenceGridBuffers();
+function createReferenceGrid(
+  buffers: { minor: Float32Array; major: Float32Array },
+  cellColor: string,
+  sectionColor: string,
+  cellOpacity: number,
+  sectionOpacity: number,
+): Group {
   const grid = new Group();
   grid.name = 'hgpt-reference-grid';
   grid.add(
-    gridLineSegments(buffers.minor, cellColor, 0.55),
-    gridLineSegments(buffers.major, sectionColor, 0.9),
+    gridLineSegments(buffers.minor, cellColor, cellOpacity),
+    gridLineSegments(buffers.major, sectionColor, sectionOpacity),
   );
   return grid;
 }
@@ -71,51 +76,65 @@ function disposeGrid(grid: Group | null): void {
  * the viewport host.
  */
 export function createStudioStage(backdrop: BackdropStyle, showGrid: boolean): StudioStageResources {
+  const model = buildHgStageModel(backdrop, showGrid);
   const root = new Group();
   root.name = 'hgpt-studio-stage';
 
-  const hemisphere = new HemisphereLight('#f0f4fb', backdrop.ground, backdrop.lighting.ambient);
+  const hemisphere = new HemisphereLight(
+    model.hemisphere.sky,
+    model.hemisphere.ground,
+    model.hemisphere.intensity,
+  );
   hemisphere.name = 'hgpt-stage-ambient';
 
-  const key = new DirectionalLight('#ffffff', backdrop.lighting.key);
+  const key = new DirectionalLight(model.key.colour, model.key.intensity);
   key.name = 'hgpt-stage-key';
-  key.position.set(3, 5, 4);
-  key.castShadow = !backdrop.floorless;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.camera.left = -3;
-  key.shadow.camera.right = 3;
-  key.shadow.camera.top = 3;
-  key.shadow.camera.bottom = -3;
+  key.position.set(...model.key.position);
+  key.castShadow = model.key.castShadow;
+  key.shadow.mapSize.set(...model.key.shadowMapSize);
+  key.shadow.camera.left = model.key.shadowBounds.left;
+  key.shadow.camera.right = model.key.shadowBounds.right;
+  key.shadow.camera.top = model.key.shadowBounds.top;
+  key.shadow.camera.bottom = model.key.shadowBounds.bottom;
 
-  const rim = new DirectionalLight(backdrop.lighting.rimColour, backdrop.lighting.rim);
+  const rim = new DirectionalLight(model.rim.colour, model.rim.intensity);
   rim.name = 'hgpt-stage-rim';
-  rim.position.set(-3, 2.5, -2);
+  rim.position.set(...model.rim.position);
 
   root.add(hemisphere, key, rim);
 
   let grid: Group | null = null;
   let floor: Mesh<PlaneGeometry, MeshStandardMaterial> | null = null;
 
-  if (!backdrop.floorless) {
-    if (showGrid) {
-      grid = createReferenceGrid(backdrop.cell, backdrop.section);
-      root.add(grid);
-    }
+  if (model.grid) {
+    grid = createReferenceGrid(
+      model.grid.buffers,
+      model.grid.cellColour,
+      model.grid.sectionColour,
+      model.grid.cellOpacity,
+      model.grid.sectionOpacity,
+    );
+    root.add(grid);
+  }
 
+  if (model.floor) {
     floor = new Mesh(
-      new PlaneGeometry(24, 24),
-      new MeshStandardMaterial({ color: backdrop.ground, roughness: 0.95 }),
+      new PlaneGeometry(...model.floor.size),
+      new MeshStandardMaterial({
+        color: model.floor.colour,
+        roughness: model.floor.roughness,
+      }),
     );
     floor.name = 'hgpt-stage-floor';
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
+    floor.rotation.x = model.floor.rotationX;
+    floor.receiveShadow = model.floor.receiveShadow;
     root.add(floor);
   }
 
   let disposed = false;
   return {
     root,
-    background: new Color(backdrop.background),
+    background: new Color(model.background),
     hemisphere,
     key,
     rim,

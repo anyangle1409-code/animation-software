@@ -9,13 +9,13 @@ import type { CharacterBuild } from '../character/types';
 import {
   anatomicalGripOffset,
   cableMatrix,
+  handAttachmentLocalMatrix,
   socketWorldPoint,
   twoHandAttachmentMatrix,
 } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
 import type { EquipmentInstance } from '../equipment/types';
-import { handAttachmentMatrix } from '../export/clipBuilder';
 
 export type EquipmentDisplayCharacter = Pick<
   CharacterBuild,
@@ -58,14 +58,14 @@ export function resolveEquipmentDisplayTransforms(
           instance.attachment.gripOffset ??
           character.gripOffset?.(instance.attachment.side) ??
           anatomicalGripOffset(instance.attachment.side);
-        const local = handAttachmentMatrix(
+        const local = copyCharacterMatrix(handAttachmentLocalMatrix(
           grip,
           socket?.position ?? { x: 0, y: 0, z: 0 },
           {
             gripRotation: instance.attachment.gripRotation,
             socketRotation: socket?.rotation,
           },
-        );
+        ));
         drawn.set(instance.id, {
           visible: true,
           matrix: multiplyCharacterMatrices(held, local),

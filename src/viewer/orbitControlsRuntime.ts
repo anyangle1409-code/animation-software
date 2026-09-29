@@ -1,13 +1,22 @@
-import { Vector3 } from 'three';
-import type { Camera } from 'three';
 import { HgVec3 } from '../core/linearMath';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import { HgOrbitModel } from './orbitModel';
 import { HgOrbitPointerTracker, wheelZoomFactor } from './orbitInput';
 
+export interface HgOrbitCameraPort {
+  position: {
+    x: number;
+    y: number;
+    z: number;
+    set(x: number, y: number, z: number): unknown;
+  };
+  lookAt(x: number, y: number, z: number): unknown;
+  updateMatrixWorld(force?: boolean): unknown;
+}
+
 export interface HgOrbitControlsHandle {
-  target: Vector3;
+  target: HgVec3;
   enabled: boolean;
   /** Synchronise after a camera preset/focus update changed camera and target. */
   update(): void;
@@ -23,11 +32,11 @@ const hgVector = (value: { x: number; y: number; z: number }) =>
 
 /** Framework-neutral orbit input/model/frame lifecycle. */
 export function createOrbitControlsRuntime(
-  camera: Camera,
+  camera: HgOrbitCameraPort,
   element: HTMLCanvasElement,
   sceneState: SceneState,
 ): OrbitControlsRuntime {
-  const target = new Vector3(0, 1, 0);
+  const target = new HgVec3(0, 1, 0);
   const model = new HgOrbitModel(hgVector(camera.position), hgVector(target), {
     minDistance: 0.6,
     maxDistance: 12,
@@ -40,7 +49,7 @@ export function createOrbitControlsRuntime(
     enabled: true,
     update: () => {
       model.sync(hgVector(camera.position), hgVector(target));
-      camera.lookAt(target);
+      camera.lookAt(target.x, target.y, target.z);
       camera.updateMatrixWorld();
     },
   };
@@ -99,7 +108,7 @@ export function createOrbitControlsRuntime(
       snapshot.position.z,
     );
     target.set(snapshot.target.x, snapshot.target.y, snapshot.target.z);
-    camera.lookAt(target);
+    camera.lookAt(target.x, target.y, target.z);
     camera.updateMatrixWorld();
   }, SCENE_FRAME_PRIORITY.orbit);
 

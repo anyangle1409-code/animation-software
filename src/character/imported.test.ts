@@ -455,13 +455,15 @@ describe('an imported character', () => {
     expect(json.meshes.length).toBeGreaterThan(0);
     expect(json.skins).toHaveLength(1);
     const joints = json.skins[0].joints.map((node) => json.nodes[node].name ?? '');
-    expect(joints).toContain('DEF-handR');
-    expect(joints).toContain('DEF-upper_armR001');
+    // The first-party writer preserves the authored GLB node names exactly;
+    // unlike GLTFExporter it does not sanitize away dots in source bone names.
+    expect(joints).toContain('DEF-hand.R');
+    expect(joints).toContain('DEF-upper_arm.R.001');
     expect(json.animations).toHaveLength(1);
     expect(json.asset.generator).toBe('Home Gym PT first-party codec');
 
     // The dumbbell hangs off the character's own hand bone.
-    const hand = json.nodes.findIndex((node) => node.name === 'DEF-handR');
+    const hand = json.nodes.findIndex((node) => node.name === 'DEF-hand.R');
     expect(hand).toBeGreaterThanOrEqual(0);
     const held = (json.nodes[hand].children ?? []).map((child) => json.nodes[child].name ?? '');
     expect(held.some((name) => /dumbbell/i.test(name))).toBe(true);

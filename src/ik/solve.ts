@@ -1,4 +1,3 @@
-import { Vector3 } from 'three';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
@@ -159,15 +158,6 @@ export function goalFromPose(
     target: vec3(end.x, end.y, end.z),
     pole: vec3(mid.x + bend.x, mid.y + bend.y, mid.z + bend.z),
   };
-}
-
-/** Where a chain's effector currently is, for UI readouts and constraints. */
-export function effectorPosition(
-  evaluation: PoseEvaluation,
-  chainId: IKChainId,
-  target = new Vector3(),
-): Vector3 {
-  return evaluation.head(IK_CHAINS[chainId].end, target);
 }
 
 export const goalTargetVector = (goal: IKGoal): Vec3 => goal.target;

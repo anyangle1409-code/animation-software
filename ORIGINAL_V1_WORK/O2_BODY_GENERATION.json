@@ -1,13 +1,13 @@
 {
-  "generated_utc": "2026-09-29T20:52:32.427918+00:00",
-  "region": "upper_arm_elbow+forearm_wrist",
+  "generated_utc": "2026-09-29T21:01:12.510618+00:00",
+  "region": "hands_fingers",
   "method": "project-authored ring/split-junction quad cage + one Catmull-Clark level (plain Python)",
   "inputs": {
     "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json",
     "rig_payload_sha256": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "generator": "scripts/original_v1_o2_body.py",
     "generator_version": "o2-body-1",
-    "generator_sha256": "f3606191e3647c80dc375fd1c80ec78afefd0af3776afa9761cb416518095f34"
+    "generator_sha256": "94ca82adc1f534ecfa763244c7d1b14ec36a0ffca40011d7e9715899b99b30cd"
   },
   "not_used": [
     "O1 scaffold vertex positions",
@@ -19,10 +19,10 @@
     "imported bind data"
   ],
   "cage": {
-    "vertices": 3672,
-    "faces": 3670
+    "vertices": 3736,
+    "faces": 3734
   },
-  "vertices": 14682,
-  "faces": 14680,
-  "triangles": 29360
+  "vertices": 14938,
+  "faces": 14936,
+  "triangles": 29872
 }

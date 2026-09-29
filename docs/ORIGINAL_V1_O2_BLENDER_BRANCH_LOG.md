@@ -174,3 +174,27 @@ Both regions were refined in one pass and recorded as one checkpoint.
 - **Gates.** Authoring audit PASS; rig-fit PASS; clearance PASS.
 - **Open.** Pronation/supination and loaded-wrist deformation checks belong to
   O4–O5.
+
+### 5. Hands/fingers — checkpoint `b9174f4e…3367` (2026-09-29)
+
+- **Palm.** Twenty-vertex palm rings run wrist → P0 → P1 (thumb split) → P2/P3
+  (radial side tilted distally under the first web) → P4 (knuckle split into
+  four 8-vertex finger loops). Web chains sit between the fingers.
+- **Thumb.** The base loop is five palm vertices plus a three-vertex first-web
+  chain. The first two thumb rings grow from the loop toward the v4 thumb MCP,
+  because the CMC sits inside the thenar eminence. This removed a crater that
+  appeared when the rings followed the CMC bone directly. Two rings sit at the
+  MCP joint, rings at the IP joint, and a rounded pad beyond the bone tail.
+- **Fingers.** Each finger has three cage rings per joint (MCP, PIP, DIP),
+  about six or more loops after subdivision. It has palmar creases at the
+  joints, dorsal knuckles and a distal pad ring beyond the bone tail; the
+  fingertip bone tails sit about 3 mm inside the skin. Widths are 17.8–21.6 mm
+  at the proximal phalanx, with near-touching spacing.
+- **Gates.** Authoring audit PASS; rig-fit PASS (every finger/thumb sample
+  inside); hand-to-body clearance 5.3 mm.
+- **Open.**
+  - A minor crease remains where the thumb leaves the radial palm edge.
+  - No fingernail plates yet; they are needed for close-ups and are planned
+    with detailing.
+  - Grip closure (curl, pull-up, push-up floor contact) must be proven at
+    O4–O6 after binding. The rest pose alone cannot show it.

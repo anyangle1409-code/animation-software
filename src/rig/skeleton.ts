@@ -179,7 +179,7 @@ export class PoseEvaluation {
     // apply() calls without copying sixteen values for every bone every frame.
     this.matrices = skeleton.bones.map((bone) => {
       const matrix = new Matrix4();
-      matrix.elements = this.firstParty.matrix(bone.name).elements as unknown as number[];
+      matrix.elements = this.firstParty.matrix(bone.name).elements as unknown as Matrix4['elements'];
       return matrix;
     });
     this.quaternions = skeleton.bones.map(() => new Quaternion());

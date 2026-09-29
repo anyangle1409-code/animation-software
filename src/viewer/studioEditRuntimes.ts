@@ -1,7 +1,5 @@
-import {
-  Object3D,
-  type Scene,
-} from './threeSceneBoundary';
+import { type Scene } from './threeSceneBoundary';
+import { HgObject3D } from '../core/sceneGraph';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { StudioClip } from '../animation/clip';
 import { toDeg } from '../core/math';
@@ -99,7 +97,7 @@ export function createStudioSelectionGizmoRuntime(
     controls,
   } = options;
 
-  const proxy = new Object3D();
+  const proxy = new HgObject3D();
   const socketScratch = {
     local: new HgMat4(),
     world: new HgMat4(),
@@ -114,7 +112,6 @@ export function createStudioSelectionGizmoRuntime(
   let gizmoMode: StudioEditState['gizmoMode'] | null = null;
   let disposed = false;
 
-  root.add(proxy);
 
   const selectedSocket = (state: StudioEditState) => {
     const equipment = selectedStaticEquipment(state);
@@ -315,7 +312,7 @@ export function createStudioSelectionGizmoRuntime(
       unsubscribe();
       gizmo?.dispose();
       gizmo = null;
-      root.remove(proxy);
+
     },
   };
 }
@@ -324,12 +321,11 @@ export function createStudioHandleGizmoRuntime(
   options: StudioEditRuntimeOptions,
 ): StudioEditRuntime {
   const { sceneState, root, pointers, camera, store, controls } = options;
-  const proxy = new Object3D();
+  const proxy = new HgObject3D();
   let dragging = false;
   let gizmo: TransformGizmoRuntime | null = null;
   let disposed = false;
 
-  root.add(proxy);
 
   const syncGizmo = () => {
     const selected = store.getState().selection.handle;
@@ -397,7 +393,7 @@ export function createStudioHandleGizmoRuntime(
       unsubscribe();
       gizmo?.dispose();
       gizmo = null;
-      root.remove(proxy);
+
     },
   };
 }

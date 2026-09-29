@@ -1,7 +1,4 @@
-import {
-  Object3D,
-  type Scene,
-} from './threeSceneBoundary';
+import { type Scene } from './threeSceneBoundary';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
@@ -23,12 +20,36 @@ export interface TransformGizmoCameraPort {
   position: { x: number; y: number; z: number };
 }
 
+export interface TransformObjectPort {
+  parent: {
+    readonly matrixWorld: { readonly elements: ArrayLike<number> };
+    updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
+  } | null;
+  readonly position: {
+    x: number;
+    y: number;
+    z: number;
+    set(x: number, y: number, z: number): unknown;
+  };
+  readonly quaternion: {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+    set(x: number, y: number, z: number, w: number): unknown;
+  };
+  readonly matrixWorld: { readonly elements: ArrayLike<number> };
+  updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
+  updateMatrix(): void;
+  updateMatrixWorld(force?: boolean): void;
+}
+
 export interface TransformGizmoRuntimeOptions {
   sceneState: SceneState;
   root: Pick<Scene, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   camera: TransformGizmoCameraPort;
-  object: Object3D;
+  object: TransformObjectPort;
   mode: HgTransformMode;
   size?: number;
   onDragStart?(): void;

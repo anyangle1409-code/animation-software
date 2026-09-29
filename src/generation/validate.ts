@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { StudioClip } from '../animation/clip';
 import { sampleClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
@@ -142,7 +142,7 @@ function lockDrift(rig: Skeleton, clip: StudioClip): CandidateCheck {
   }
   const evaluation = new PoseEvaluation(rig);
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-  const start = new Map<string, Vector3>();
+  const start = new Map<string, HgVec3>();
   let worst = 0;
   let where = '';
   for (let index = 0; index <= 40; index += 1) {
@@ -152,7 +152,9 @@ function lockDrift(rig: Skeleton, clip: StudioClip): CandidateCheck {
       const side = lock.chain.endsWith('_l') ? 'l' : 'r';
       const bone: BoneName = lock.chain.startsWith('arm') ? `hand_${side}` : `foot_${side}`;
       // A foot standing on its ball is held at the ball; its ankle rises.
-      const position = lock.onBall ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
+      const position = lock.onBall
+        ? evaluation.firstPartyEvaluation.tail(bone, new HgVec3())
+        : evaluation.firstPartyEvaluation.head(bone, new HgVec3());
       const first = start.get(lock.id);
       if (!first) start.set(lock.id, position.clone());
       else if (position.distanceTo(first) > worst) {
@@ -180,16 +182,18 @@ function feetFlat(rig: Skeleton, exercise: ExerciseDefinition, clip: StudioClip)
   }
   const evaluation = new PoseEvaluation(rig);
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-  const first = new Map<string, { toe: number; direction: Vector3 }>();
+  const first = new Map<string, { toe: number; direction: HgVec3 }>();
   let toeTravel = 0;
   let swing = 0;
   for (let step = 0; step <= 80; step += 1) {
     const time = (step / 80) * clip.duration;
     evaluation.apply(resolveFrame(rig, evaluation, clip, time, { anchors }).pose);
     for (const side of sides) {
-      const toe = evaluation.tail(`toe_${side}`, new Vector3()).y;
+      const toe = evaluation.firstPartyEvaluation.tail(`toe_${side}`, new HgVec3()).y;
       const onBall = exercise.locks.some((lock) => lock.chain === `leg_${side}` && lock.onBall);
-      const direction = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(onBall ? `toe_${side}` : `foot_${side}`));
+      const direction = new HgVec3(0, 1, 0).applyQuaternion(
+        evaluation.firstPartyEvaluation.quaternion(onBall ? `toe_${side}` : `foot_${side}`),
+      );
       const start = first.get(side);
       if (!start) {
         first.set(side, { toe, direction });

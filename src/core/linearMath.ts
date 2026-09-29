@@ -266,6 +266,40 @@ export class HgQuat {
     );
   }
 
+  /** Convert this rotation to the project-wide XZY Euler order. */
+  toEulerXZY(target = new HgVec3()): HgVec3 {
+    // Same rotation-matrix branch semantics as Three.Euler.setFromQuaternion
+    // for XZY, including the gimbal-lock fallback.
+    const x = this.x, y = this.y, z = this.z, w = this.w;
+    const x2 = x + x, y2 = y + y, z2 = z + z;
+    const xx = x * x2, xy = x * y2, xz = x * z2;
+    const yy = y * y2, yz = y * z2, zz = z * z2;
+    const wx = w * x2, wy = w * y2, wz = w * z2;
+
+    const m11 = 1 - (yy + zz);
+    const m12 = xy - wz;
+    const m13 = xz + wy;
+    const m22 = 1 - (xx + zz);
+    const m23 = yz - wx;
+    const m32 = yz + wx;
+    const m33 = 1 - (xx + yy);
+
+    const clamp = (value: number) => Math.max(-1, Math.min(1, value));
+    const rz = Math.asin(-clamp(m12));
+    if (Math.abs(m12) < 0.9999999) {
+      return target.set(
+        Math.atan2(m32, m22),
+        Math.atan2(m13, m11),
+        rz,
+      );
+    }
+    return target.set(
+      Math.atan2(-m23, m33),
+      0,
+      rz,
+    );
+  }
+
   setFromRotationMatrix(matrix: { readonly elements: ArrayLike<number> }): this {
     // Rotation matrices reaching this path are orthonormal/unit-scale. Match
     // the Three reference semantics and avoid normalising every FK bone.

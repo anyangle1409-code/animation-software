@@ -262,4 +262,21 @@ describe('first-party math migration parity against Three.js', () => {
     expectVecParity(hg.clone().setLength(0.25), three.clone().setLength(0.25), 1e-12);
   });
 
+  it('matches XZY quaternion-to-Euler conversion used by editor gizmos', () => {
+    const cases = [
+      ...ANGLES,
+      [0.3, -0.2, Math.PI / 2 - 1e-8],
+      [-0.5, 0.4, -Math.PI / 2 + 1e-8],
+    ] as const;
+    for (const [x, y, z] of cases) {
+      const hgQ = new HgQuat().setFromEulerXZY(x, y, z);
+      const threeQ = new Quaternion().setFromEuler(new Euler(x, y, z, 'XZY'));
+      const hg = hgQ.toEulerXZY();
+      const three = new Euler().setFromQuaternion(threeQ, 'XZY');
+      expect(Math.abs(hg.x - three.x)).toBeLessThan(1e-10);
+      expect(Math.abs(hg.y - three.y)).toBeLessThan(1e-10);
+      expect(Math.abs(hg.z - three.z)).toBeLessThan(1e-10);
+    }
+  });
+
 });

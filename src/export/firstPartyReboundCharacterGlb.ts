@@ -170,12 +170,18 @@ export function exportFirstPartyReboundCharacterGlb(
   }
 
   const builder = HgGltfBuilder.fromDocument(parseHgGlb(character.sourceGlb));
-  const runtimeMeshes = appendRuntimeMeshes(builder, character);
+  const appendedMeshes = appendRuntimeMeshes(builder, character);
+  const allMeshes = objects(builder.json.meshes, 'meshes');
+  // The original scene graph and source skin are diagnostic input only. Keep
+  // authored materials/textures/binary resources, but export only the rebuilt
+  // runtime surfaces so stale source bones cannot shadow canonical node names.
+  builder.json.meshes = appendedMeshes.map((index) => allMeshes[index]);
+  const runtimeMeshes = appendedMeshes.map((_, index) => index);
   const baked = bakeClipData(studioClip, canonicalSkeleton, { fps });
 
-  const nodes = objects(builder.json.nodes, 'nodes');
+  const nodes: JsonObject[] = [];
   builder.json.nodes = nodes;
-  const skins = objects(builder.json.skins, 'skins');
+  const skins: JsonObject[] = [];
   builder.json.skins = skins;
 
   const inverseBindAccessor = builder.addAccessor(

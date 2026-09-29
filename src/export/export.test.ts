@@ -274,6 +274,29 @@ describe('glb export', () => {
     expect(names.filter((name) => name?.includes('dumbbell')).length).toBe(2);
   });
 
+  it('writes the clean canonical character with the first-party GLB codec when equipment is excluded', async () => {
+    const blob = await exportGlb(studioClip, bicepCurl, { fps: 20, includeEquipment: false });
+    const buffer = await blob.arrayBuffer();
+    const view = new DataView(buffer);
+    const jsonLength = view.getUint32(12, true);
+    const json = JSON.parse(
+      new TextDecoder().decode(new Uint8Array(buffer, 20, jsonLength)),
+    ) as {
+      asset: { generator?: string };
+      animations: unknown[];
+      meshes: unknown[];
+      skins: unknown[];
+      nodes: { name?: string }[];
+    };
+
+    expect(json.asset.generator).toBe('Home Gym PT first-party codec');
+    expect(json.animations).toHaveLength(1);
+    expect(json.meshes).toHaveLength(1);
+    expect(json.skins).toHaveLength(1);
+    expect(json.nodes.map((node) => node.name)).toContain('HGPT_Mannequin');
+    expect(json.nodes.map((node) => node.name)).toContain('hand_r');
+  });
+
   it('can export the animation without the character mesh', async () => {
     const blob = await exportGlb(studioClip, bicepCurl, { fps: 20, clipOnly: true });
     const buffer = await blob.arrayBuffer();

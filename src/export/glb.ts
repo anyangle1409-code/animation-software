@@ -20,6 +20,7 @@ import { mirrorInvariant, reflectBakedTrack, reflectedStaticPlacement } from '..
 import { bakeClip, handAttachmentMatrix } from './clipBuilder';
 import { buildEquipmentObject } from './rigBuilder';
 import { exportFirstPartyClipGlb } from './firstPartyClipGlb';
+import { exportFirstPartyCanonicalCharacterGlb } from './firstPartyCharacterGlb';
 import { characterSource } from '../character';
 import type { CharacterBuild, CharacterSource } from '../character';
 
@@ -58,6 +59,10 @@ export async function exportGlb(
 
   const source =
     typeof options.character === 'object' ? options.character : characterSource(options.character);
+
+  if (!clipOnly && !includeEquipment && source.id === 'procedural') {
+    return exportFirstPartyCanonicalCharacterGlb(studioClip, exercise, source, options.fps);
+  }
   const character = await source.build(canonicalSkeleton);
   // Whatever the character's deformation stack does beyond posing bones —
   // morph-target correctives, most of it — has to be baked in as well, or the

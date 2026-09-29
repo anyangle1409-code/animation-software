@@ -8,10 +8,11 @@ import {
 import type { BoneName } from '../rig/boneNames';
 import type { Skeleton } from '../rig/skeleton';
 import type { HgScenePointerRouter } from './scenePointerRouter';
-
-const BONE_COLOUR = '#8fa3bf';
-const SELECTED_COLOUR = '#ffb43a';
-const JOINT_COLOUR = '#cfe0ff';
+import {
+  buildHgSkeletonSceneModel,
+  HG_SKELETON_COLOURS,
+  resolveHgSkeletonAppearance,
+} from './skeletonSceneModel';
 
 export interface SkeletonBoneScene {
   group: Group;
@@ -34,41 +35,47 @@ export function createSkeletonScene(
   root.name = 'hgpt-skeleton-view';
   const bones = new Map<BoneName, SkeletonBoneScene>();
 
-  for (const name of names) {
-    const bone = rig.bone(name);
-    const shaftRadius = Math.max(0.008, Math.min(0.022, bone.definition.radius * 0.28));
-    const jointRadius = Math.max(0.012, Math.min(0.032, bone.definition.radius * 0.4));
-
+  const model = buildHgSkeletonSceneModel(rig, names, ghosted);
+  for (const [name, visual] of model) {
     const boneGroup = new Group();
     boneGroup.name = `hgpt-bone-${name}`;
     boneGroup.matrixAutoUpdate = false;
 
     let shaft: Mesh<CylinderGeometry, MeshStandardMaterial> | null = null;
-    if (bone.length > 0.001) {
+    if (visual.shaft) {
       shaft = new Mesh(
-        new CylinderGeometry(shaftRadius * 0.6, shaftRadius, bone.length, 6),
+        new CylinderGeometry(
+          visual.shaft.radiusTop,
+          visual.shaft.radiusBottom,
+          visual.shaft.length,
+          visual.shaft.radialSegments,
+        ),
         new MeshStandardMaterial({
-          color: BONE_COLOUR,
-          transparent: ghosted,
-          opacity: ghosted ? 0.35 : 1,
-          roughness: 0.55,
-          metalness: 0.1,
+          color: HG_SKELETON_COLOURS.bone,
+          transparent: visual.shaft.transparent,
+          opacity: visual.shaft.opacity,
+          roughness: visual.shaft.roughness,
+          metalness: visual.shaft.metalness,
         }),
       );
       shaft.name = `hgpt-bone-shaft-${name}`;
-      shaft.position.y = bone.length / 2;
+      shaft.position.y = visual.shaft.positionY;
       boneGroup.add(shaft);
     }
 
     const joint = new Mesh(
-      new SphereGeometry(jointRadius, 12, 10),
+      new SphereGeometry(
+        visual.joint.radius,
+        visual.joint.widthSegments,
+        visual.joint.heightSegments,
+      ),
       new MeshStandardMaterial({
-        color: JOINT_COLOUR,
-        emissive: '#000000',
+        color: HG_SKELETON_COLOURS.joint,
+        emissive: HG_SKELETON_COLOURS.emissiveOff,
         emissiveIntensity: 0,
-        transparent: ghosted,
-        opacity: ghosted ? 0.5 : 1,
-        roughness: 0.4,
+        transparent: visual.joint.transparent,
+        opacity: visual.joint.opacity,
+        roughness: visual.joint.roughness,
       }),
     );
     joint.name = `hgpt-joint-${name}`;
@@ -104,14 +111,12 @@ export function updateSkeletonAppearance(
   showJoints: boolean,
 ): void {
   for (const [name, objects] of resources.bones) {
-    const active = name === selected;
-    if (objects.shaft) {
-      objects.shaft.material.color.set(active ? SELECTED_COLOUR : BONE_COLOUR);
-    }
-    objects.joint.visible = showJoints;
-    objects.joint.material.color.set(active ? SELECTED_COLOUR : JOINT_COLOUR);
-    objects.joint.material.emissive.set(active ? SELECTED_COLOUR : '#000000');
-    objects.joint.material.emissiveIntensity = active ? 0.45 : 0;
+    const appearance = resolveHgSkeletonAppearance(name, selected, showJoints);
+    if (objects.shaft) objects.shaft.material.color.set(appearance.shaftColour);
+    objects.joint.visible = appearance.jointVisible;
+    objects.joint.material.color.set(appearance.jointColour);
+    objects.joint.material.emissive.set(appearance.jointEmissive);
+    objects.joint.material.emissiveIntensity = appearance.jointEmissiveIntensity;
   }
 }
 

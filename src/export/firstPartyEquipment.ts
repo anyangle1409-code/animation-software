@@ -321,12 +321,21 @@ const addEquipmentPrimitive = (
   return meshIndex;
 };
 
+export interface FirstPartyHandEquipmentPlacement {
+  parentNode: number;
+  /** Column-major local matrix under the imported hand node. */
+  matrix: readonly number[];
+}
+
 /** Add project-authored equipment to the first-party GLB and return its animation tracks. */
 export function appendFirstPartyEquipment(
   builder: HgGltfBuilder,
   instances: readonly EquipmentInstance[],
   baked: BakedClipData,
   sceneRootIndex: number,
+  options: {
+    handPlacement?: (instance: EquipmentInstance) => FirstPartyHandEquipmentPlacement | null;
+  } = {},
 ): HgAnimationTrackInput[] {
   const { nodes } = arrays(builder);
   const sceneRoot = nodes[sceneRootIndex];
@@ -336,9 +345,19 @@ export function appendFirstPartyEquipment(
 
   for (const instance of instances) {
     if (!instance.visible) continue;
+    const handPlacement =
+      instance.attachment.mode === 'hand'
+        ? options.handPlacement?.(instance) ?? null
+        : null;
     const track = baked.equipmentTracks.get(instance.id);
-    if (!track || track.position.length < 3 || track.quaternion.length < 4) {
+    if (!handPlacement &&
+        (!track || track.position.length < 3 || track.quaternion.length < 4)) {
       throw new Error('No baked equipment transform for ' + instance.id);
+    }
+    if (handPlacement &&
+        (handPlacement.matrix.length !== 16 ||
+          handPlacement.matrix.some((value) => !Number.isFinite(value)))) {
+      throw new Error('Invalid hand-held equipment matrix for ' + instance.id);
     }
 
     const parts = equipmentParts(instance.kind, instance.backAngle);
@@ -348,14 +367,30 @@ export function appendFirstPartyEquipment(
       instance.attachment.mode === 'hands' || instance.attachment.mode === 'cable'
         ? 'equipment_' + instance.id
         : (instance.label ?? instance.id);
-    nodes.push({
-      name: rootName,
-      translation: track.position.slice(0, 3),
-      rotation: track.quaternion.slice(0, 4),
-      ...(track.scale ? { scale: track.scale.slice(0, 3) } : {}),
-      children: [],
-    });
-    sceneChildren.push(rootIndex);
+    nodes.push(handPlacement
+      ? {
+          name: rootName,
+          matrix: [...handPlacement.matrix],
+          children: [],
+        }
+      : {
+          name: rootName,
+          translation: track!.position.slice(0, 3),
+          rotation: track!.quaternion.slice(0, 4),
+          ...(track!.scale ? { scale: track!.scale.slice(0, 3) } : {}),
+          children: [],
+        });
+    if (handPlacement) {
+      const parent = nodes[handPlacement.parentNode];
+      if (!parent) throw new Error('Hand-held equipment parent node is missing');
+      const children = Array.isArray(parent.children)
+        ? [...parent.children as number[]]
+        : [];
+      children.push(rootIndex);
+      parent.children = children;
+    } else {
+      sceneChildren.push(rootIndex);
+    }
     const partNodes: number[] = [];
 
     parts.forEach((part, partIndex) => {
@@ -380,13 +415,15 @@ export function appendFirstPartyEquipment(
     });
 
     (nodes[rootIndex].children as number[]) = partNodes;
-    tracks.push(
-      { node: rootIndex, path: 'translation', times: baked.times, values: track.position },
-      { node: rootIndex, path: 'rotation', times: baked.times, values: track.quaternion },
-    );
-    if (track.scale) tracks.push({
-      node: rootIndex, path: 'scale', times: baked.times, values: track.scale,
-    });
+    if (!handPlacement) {
+      tracks.push(
+        { node: rootIndex, path: 'translation', times: baked.times, values: track!.position },
+        { node: rootIndex, path: 'rotation', times: baked.times, values: track!.quaternion },
+      );
+      if (track!.scale) tracks.push({
+        node: rootIndex, path: 'scale', times: baked.times, values: track!.scale,
+      });
+    }
   }
 
   sceneRoot.children = sceneChildren;

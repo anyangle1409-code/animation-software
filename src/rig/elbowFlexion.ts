@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import type { Side } from './boneNames';
 import type { PoseEvaluation } from './skeleton';
 
@@ -14,8 +14,12 @@ const FULL_ANGLE = 2.2;
  * biomechanical drive without depending on any particular character surface.
  */
 export function elbowFlexion(evaluation: PoseEvaluation, side: Side): number {
-  const upper = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(`upperarm_${side}`));
-  const lower = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(`forearm_${side}`));
+  const upper = new HgVec3(0, 1, 0).applyQuaternion(
+    evaluation.firstPartyEvaluation.quaternion(`upperarm_${side}`),
+  );
+  const lower = new HgVec3(0, 1, 0).applyQuaternion(
+    evaluation.firstPartyEvaluation.quaternion(`forearm_${side}`),
+  );
   const angle = upper.angleTo(lower);
   const t = Math.min(1, Math.max(0, (angle - REST_ANGLE) / (FULL_ANGLE - REST_ANGLE)));
   return t * t * (3 - 2 * t);

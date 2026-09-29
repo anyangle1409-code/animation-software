@@ -10,8 +10,9 @@ describe('character Three boundary consolidation', () => {
     }
   });
 
-  it('keeps the dependency in the one replaceable character adapter', () => {
+  it('routes the character adapter through the single project-wide vendor gateway', () => {
     const source = readFileSync(new URL('./threeSceneBoundary.ts', import.meta.url), 'utf8');
-    expect(source).toContain("from 'three'");
+    expect(source).not.toMatch(/from ['"]three(?:\/|['"])/);
+    expect(source).toContain("from '../core/threeRuntimeBoundary'");
   });
 });

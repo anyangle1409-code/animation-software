@@ -8,6 +8,7 @@ import {
   HgSkeleton,
   HgSkinnedMesh,
   HgStandardMaterial,
+  type HgTextureMap,
 } from '../core/sceneSkin';
 import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {
@@ -15,7 +16,9 @@ import {
   type HgGltfMaterial,
   type HgGltfPrimitive,
   type HgGltfSceneDocument,
+  type HgGltfTextureInfo,
 } from '../core/gltfScene';
+import type { HgImageMimeType } from '../core/gltfTextures';
 
 export interface HgFirstPartyPrimitiveSource {
   readonly nodeIndex: number;
@@ -104,10 +107,77 @@ function targetNames(extras: unknown, count: number): string[] {
   return raw as string[];
 }
 
-function materialFor(
+type DecodedImage = ImageBitmap | HTMLImageElement;
+
+async function decodeImage(bytes: Uint8Array, mimeType: HgImageMimeType): Promise<DecodedImage> {
+  const blob = new Blob([new Uint8Array(bytes)], { type: mimeType });
+  if (typeof createImageBitmap === 'function') return createImageBitmap(blob);
+  if (
+    typeof Image !== 'undefined' &&
+    typeof URL !== 'undefined' &&
+    typeof URL.createObjectURL === 'function'
+  ) {
+    const url = URL.createObjectURL(blob);
+    try {
+      return await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error('Failed to decode embedded ' + mimeType + ' image'));
+        image.src = url;
+      });
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+  throw new Error('Browser-native image decoding is unavailable for this textured GLB');
+}
+
+class HgTextureCache {
+  private readonly images = new Map<number, Promise<DecodedImage>>();
+  private readonly textures = new Map<number, Promise<HgTextureMap>>();
+
+  constructor(private readonly scene: HgGltfSceneDocument) {}
+
+  texture(info: HgGltfTextureInfo): Promise<HgTextureMap> {
+    let value = this.textures.get(info.index);
+    if (!value) {
+      value = this.build(info.index);
+      this.textures.set(info.index, value);
+    }
+    return value;
+  }
+
+  private async build(index: number): Promise<HgTextureMap> {
+    const definition = this.scene.textureData.textures[index];
+    if (!definition) throw new Error('Missing decoded texture ' + index);
+    const imageDefinition = this.scene.textureData.images[definition.source];
+    if (!imageDefinition) throw new Error('Missing decoded image ' + definition.source);
+
+    let image = this.images.get(definition.source);
+    if (!image) {
+      image = decodeImage(imageDefinition.bytes, imageDefinition.mimeType);
+      this.images.set(definition.source, image);
+    }
+    const sampler = definition.sampler === null
+      ? null
+      : this.scene.textureData.samplers[definition.sampler];
+
+    return {
+      image: await image,
+      flipY: false,
+      wrapS: sampler?.wrapS ?? 10497,
+      wrapT: sampler?.wrapT ?? 10497,
+      magFilter: sampler?.magFilter ?? null,
+      minFilter: sampler?.minFilter ?? null,
+    };
+  }
+}
+
+async function materialFor(
   definition: HgGltfMaterial | null,
   hasVertexColours: boolean,
-): HgStandardMaterial {
+  textures: HgTextureCache,
+): Promise<HgStandardMaterial> {
   const material = new HgStandardMaterial({ vertexColors: hasVertexColours });
   if (!definition) return material;
   material.name = definition.name;
@@ -127,6 +197,9 @@ function materialFor(
     definition.emissiveFactor[1],
     definition.emissiveFactor[2],
   );
+  if (definition.baseColorTexture) {
+    material.map = await textures.texture(definition.baseColorTexture);
+  }
   return material;
 }
 
@@ -203,6 +276,7 @@ export async function loadHgFirstPartyScene(
     });
   }
 
+  const textures = new HgTextureCache(decoded);
   const pending: Array<{ mesh: HgSkinnedMesh; skinIndex: number }> = [];
   for (const node of decoded.nodes) {
     if (node.mesh === null) continue;
@@ -220,9 +294,10 @@ export async function loadHgFirstPartyScene(
       const materialDefinition = primitive.material === null
         ? null
         : decoded.materials[primitive.material];
-      const material = materialFor(
+      const material = await materialFor(
         materialDefinition,
         Boolean(primitive.attributes.COLOR_0),
+        textures,
       );
       const mesh = node.skin === null
         ? new HgMesh(geometry, material)

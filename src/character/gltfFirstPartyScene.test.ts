@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { encodeHgGlb, parseHgGlb } from '../core/glbContainer';
 import { HgGltfBuilder } from '../core/gltfBuilder';
 import { HgBone, HgObject3D } from '../core/sceneGraph';
 import { HgSkinnedMesh, HgStandardMaterial } from '../core/sceneSkin';
@@ -96,6 +97,28 @@ function fixture(): Uint8Array {
   return builder.toGlb();
 }
 
+
+function texturedFixture(): Uint8Array {
+  const document = parseHgGlb(fixture());
+  const original = document.binaryChunks[0] ?? new Uint8Array();
+  const offset = (original.byteLength + 3) & ~3;
+  const imageBytes = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+  const binary = new Uint8Array(offset + imageBytes.byteLength);
+  binary.set(original);
+  binary.set(imageBytes, offset);
+
+  const json = JSON.parse(JSON.stringify(document.json)) as any;
+  const bufferViews = json.bufferViews ?? (json.bufferViews = []);
+  const imageView = bufferViews.length;
+  bufferViews.push({ buffer: 0, byteOffset: offset, byteLength: imageBytes.byteLength });
+  json.images = [{ name: 'albedo-image', bufferView: imageView, mimeType: 'image/png' }];
+  json.samplers = [{ wrapS: 33071, wrapT: 33648, magFilter: 9728, minFilter: 9729 }];
+  json.textures = [{ name: 'albedo', source: 0, sampler: 0 }];
+  json.materials[0].pbrMetallicRoughness.baseColorTexture = { index: 0 };
+  json.buffers = [{ byteLength: binary.byteLength }];
+  return encodeHgGlb(json, [binary]);
+}
+
 const collect = (root: HgObject3D) => {
   root.updateMatrixWorld(true);
   const bones: HgBone[] = [];
@@ -168,4 +191,32 @@ describe('first-party GLB scene materialiser', () => {
       'arm_R',
     ]);
   });
+  it('decodes embedded base-colour texture data into a first-party material', async () => {
+    const global = globalThis as typeof globalThis & {
+      createImageBitmap?: (blob: Blob) => Promise<ImageBitmap>;
+    };
+    const previous = global.createImageBitmap;
+    const image = {} as ImageBitmap;
+    global.createImageBitmap = async (blob: Blob) => {
+      expect(blob.type).toBe('image/png');
+      return image;
+    };
+    try {
+      const scene = await loadHgFirstPartyScene(texturedFixture());
+      const { meshes } = collect(scene);
+      const material = meshes[0].material as HgStandardMaterial;
+      expect(material.map).toEqual({
+        image,
+        flipY: false,
+        wrapS: 33071,
+        wrapT: 33648,
+        magFilter: 9728,
+        minFilter: 9729,
+      });
+    } finally {
+      if (previous) global.createImageBitmap = previous;
+      else delete global.createImageBitmap;
+    }
+  });
+
 });

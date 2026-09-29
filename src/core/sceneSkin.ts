@@ -250,6 +250,19 @@ export class HgColour {
   }
 }
 
+export type HgTextureWrap = 33071 | 33648 | 10497;
+export type HgTextureMagFilter = 9728 | 9729 | null;
+export type HgTextureMinFilter = 9728 | 9729 | 9984 | 9985 | 9986 | 9987 | null;
+
+export interface HgTextureMap {
+  readonly image: TexImageSource;
+  readonly flipY: boolean;
+  readonly wrapS?: HgTextureWrap;
+  readonly wrapT?: HgTextureWrap;
+  readonly magFilter?: HgTextureMagFilter;
+  readonly minFilter?: HgTextureMinFilter;
+}
+
 export interface HgStandardMaterialParameters {
   color?: string | number;
   vertexColors?: boolean;
@@ -279,7 +292,7 @@ export class HgStandardMaterial extends HgMaterial {
   roughness = 1;
   vertexColors = false;
   side = 0;
-  map: unknown = null;
+  map: HgTextureMap | null = null;
   metalnessMap: unknown = null;
   roughnessMap: unknown = null;
   normalMap: unknown = null;

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { buildHgIKHandleSceneModel, HG_IK_HANDLE_COLOURS } from './ikHandleSceneModel';
+import type { HgScenePointerHandlers } from './scenePointerRouter';
 import {
   createHgIKHandleScene,
   registerHgIKHandlePointers,
@@ -39,7 +40,7 @@ describe('first-party IK handle scene', () => {
       0x3a / 255,
     ]);
 
-    const registrations: Array<{ object: unknown; handlers: { pointerdown?: (event: { stopPropagation(): void }) => void } }> = [];
+    const registrations: Array<{ object: unknown; handlers: HgScenePointerHandlers }> = [];
     const unregister = vi.fn();
     const select = vi.fn();
     const remove = registerHgIKHandlePointers(
@@ -54,7 +55,15 @@ describe('first-party IK handle scene', () => {
     );
     expect(registrations).toHaveLength(buildHgIKHandleSceneModel().length);
     const stop = vi.fn();
-    registrations[0].handlers.pointerdown?.({ stopPropagation: stop });
+    registrations[0].handlers.pointerdown?.({
+      pointerId: 1,
+      ray: {
+        origin: { x: 0, y: 0, z: 1 },
+        direction: { x: 0, y: 0, z: -1 },
+      },
+      target: null,
+      stopPropagation: stop,
+    });
     expect(stop).toHaveBeenCalledTimes(1);
     expect(select).toHaveBeenCalledWith({
       chain: first.chain,

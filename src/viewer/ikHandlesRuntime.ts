@@ -1,6 +1,6 @@
 import { HgVec3 } from '../core/linearMath';
 import { sampleClip, type StudioClip } from '../animation/clip';
-import { IK_CHAINS, IK_CHAIN_IDS } from '../ik/chains';
+import { IK_CHAINS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
@@ -12,6 +12,7 @@ import {
   type IKHandleSceneResources,
 } from './ikHandleScene';
 import type { HgScenePointerRouter } from './scenePointerRouter';
+import { resolveIKHandleStates } from './ikHandleSnapshot';
 
 export interface IKHandlesState {
   time: number;
@@ -66,23 +67,32 @@ export function createIKHandlesRuntime(
   const removeFrame = sceneState.consumers.add(() => {
     const state = store.getState();
     const sample = sampleClip(state.document.clip, state.time);
-    for (const chain of IK_CHAIN_IDS) {
-      const goal = sample.ik[chain];
+    const snapshot = resolveIKHandleStates(
+      sample.ik,
+      (chain) => {
+        sceneState.evaluation.firstPartyEvaluation.head(IK_CHAINS[chain].end, scratch);
+        return { x: scratch.x, y: scratch.y, z: scratch.z };
+      },
+    );
+
+    for (const [chain, handles] of snapshot) {
       const target = resources.handles.get(`${chain}:target`);
       const pole = resources.handles.get(`${chain}:pole`);
-      const active = Boolean(goal?.enabled);
-
       if (target) {
-        target.visible = active;
-        if (goal) target.position.set(goal.target.x, goal.target.y, goal.target.z);
+        target.visible = handles.target.visible;
+        target.position.set(
+          handles.target.position.x,
+          handles.target.position.y,
+          handles.target.position.z,
+        );
       }
       if (pole) {
-        pole.visible = active;
-        if (goal) pole.position.set(goal.pole.x, goal.pole.y, goal.pole.z);
-      }
-      if (!active && target) {
-        sceneState.evaluation.firstPartyEvaluation.head(IK_CHAINS[chain].end, scratch);
-        target.position.set(scratch.x, scratch.y, scratch.z);
+        pole.visible = handles.pole.visible;
+        pole.position.set(
+          handles.pole.position.x,
+          handles.pole.position.y,
+          handles.pole.position.z,
+        );
       }
     }
   }, SCENE_FRAME_PRIORITY.ik);

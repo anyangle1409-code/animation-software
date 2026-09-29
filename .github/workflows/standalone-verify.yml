@@ -87,6 +87,10 @@ jobs:
           src/viewer/transformGizmoRuntime.test.ts
           src/viewer/studioEditRuntimes.test.ts
           src/viewer/studioSceneController.test.ts
+          src/viewer/muscleViewRuntime.test.ts
+          src/viewer/muscleFrameSnapshot.test.ts
+          src/viewer/ikHandlesRuntime.test.ts
+          src/viewer/ikHandleSnapshot.test.ts
           src/viewer/firstPartyViewportDom.test.ts
           src/editor/store.test.ts
           src/editor/characterStore.test.ts

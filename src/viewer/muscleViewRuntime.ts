@@ -1,4 +1,4 @@
-import { MUSCLES, createMuscleTransform, resolveMuscle } from '../muscles/model';
+import { captureMuscleFrame } from './muscleFrameSnapshot';
 import type { MuscleInvolvement } from '../exercises/types';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
@@ -42,7 +42,6 @@ export function createMuscleViewRuntime(
 
   let involvement = store.getState().document.exercise.muscles;
   let resources = createMuscleScene(involvement);
-  const transform = createMuscleTransform();
   root.add(resources.group);
 
   const rebuild = (next: MuscleInvolvement) => {
@@ -59,18 +58,13 @@ export function createMuscleViewRuntime(
   });
 
   const removeFrame = sceneState.consumers.add(() => {
-    for (const muscle of MUSCLES) {
-      const mesh = resources.meshes.get(muscle.id);
+    const snapshot = captureMuscleFrame(sceneState.evaluation);
+    for (const [id, transform] of snapshot) {
+      const mesh = resources.meshes.get(id);
       if (!mesh) continue;
-      resolveMuscle(sceneState.evaluation, muscle, transform);
-      mesh.position.set(transform.position.x, transform.position.y, transform.position.z);
-      mesh.quaternion.set(
-        transform.quaternion.x,
-        transform.quaternion.y,
-        transform.quaternion.z,
-        transform.quaternion.w,
-      );
-      mesh.scale.set(transform.scale.x, transform.scale.y, transform.scale.z);
+      mesh.position.set(...transform.position);
+      mesh.quaternion.set(...transform.quaternion);
+      mesh.scale.set(...transform.scale);
     }
   }, SCENE_FRAME_PRIORITY.muscle);
 

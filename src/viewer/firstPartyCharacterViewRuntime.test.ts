@@ -80,7 +80,11 @@ describe('first-party character view runtime', () => {
       root,
       studioStore: {
         getState: () => ({
-          document: { exercise: { hands: { grip: 'neutral', closure: 0 } } },
+          document: {
+            exercise: {
+              hands: { grip: 'none', orientation: 'neutral', closure: 0 },
+            },
+          },
         }),
       },
       characterStore: store,

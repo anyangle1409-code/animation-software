@@ -18,7 +18,7 @@ export interface HgRenderableCharacterMesh extends HgDeformableMeshLike {
     } | undefined;
   };
   readonly skeleton: {
-    readonly bones: readonly Array<{
+    readonly bones: ReadonlyArray<{
       readonly matrixWorld: { readonly elements: ArrayLike<number> };
       updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
     }>;
@@ -149,21 +149,16 @@ export function posedCharacterGeometry(
 }
 
 
-const materialColour = (mesh: HgSkinnedMesh): [number, number, number, number] => {
+const materialColour = (mesh: HgRenderableCharacterMesh): [number, number, number, number] => {
   const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-  if (material instanceof HgStandardMaterial) {
-    return [
-      material.color.r,
-      material.color.g,
-      material.color.b,
-      material.opacity,
-    ];
-  }
-  return hgRgbaFromHex('#ffffff');
+  const colour = material?.color;
+  return colour
+    ? [colour.r, colour.g, colour.b, material?.opacity ?? 1]
+    : hgRgbaFromHex('#ffffff');
 };
 
 /** Build one renderer-neutral posed character scene node. */
-export function createHgCharacterMesh(mesh: HgSkinnedMesh): HgCharacterMesh {
+export function createHgCharacterMesh(mesh: HgRenderableCharacterMesh): HgCharacterMesh {
   mesh.updateWorldMatrix(true, false);
   const result = new HgCharacterMesh(
     posedCharacterGeometry(mesh),

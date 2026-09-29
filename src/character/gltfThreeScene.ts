@@ -29,10 +29,10 @@ import {
   type HgGltfMaterial,
   type HgGltfPrimitive,
   type HgGltfSceneDocument,
+  type HgGltfTextureInfo,
 } from '../core/gltfScene';
 import type {
   HgGltfSampler,
-  HgGltfTextureInfo,
   HgImageMimeType,
 } from '../core/gltfTextures';
 

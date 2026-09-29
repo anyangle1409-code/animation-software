@@ -8,6 +8,7 @@ import {
   Matrix4,
   MeshStandardMaterial,
   Object3D,
+  Quaternion,
 
   Skeleton as ThreeSkeleton,
   SkinnedMesh,
@@ -202,10 +203,16 @@ describe('an imported character', () => {
       return elbow.clone().sub(shoulder).angleTo(wrist.clone().sub(elbow));
     };
     /** The same angle on the rig that is driving it. */
-    const canonicalAngle = (evaluation: PoseEvaluation) =>
-      new Vector3(0, 1, 0)
-        .applyQuaternion(evaluation.quaternion('upperarm_r'))
-        .angleTo(new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion('forearm_r')));
+    const canonicalAngle = (evaluation: PoseEvaluation) => {
+      const upper = evaluation.quaternion('upperarm_r');
+      const forearm = evaluation.quaternion('forearm_r');
+      return new Vector3(0, 1, 0)
+        .applyQuaternion(new Quaternion(upper.x, upper.y, upper.z, upper.w))
+        .angleTo(
+          new Vector3(0, 1, 0)
+            .applyQuaternion(new Quaternion(forearm.x, forearm.y, forearm.z, forearm.w)),
+        );
+    };
 
     const bottom = curlPose(0);
     applyCharacterPose(character, rig, bottom.frame.pose, bottom.evaluation);

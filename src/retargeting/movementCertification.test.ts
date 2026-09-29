@@ -38,8 +38,13 @@ function biasedCharacter() {
   for (const definition of rig.bones) {
     const bone = new Bone();
     bone.name = definition.name;
-    bone.position.copy(definition.offset);
-    bone.quaternion.copy(definition.restLocalQuaternion);
+    bone.position.set(definition.offset.x, definition.offset.y, definition.offset.z);
+    bone.quaternion.set(
+      definition.restLocalQuaternion.x,
+      definition.restLocalQuaternion.y,
+      definition.restLocalQuaternion.z,
+      definition.restLocalQuaternion.w,
+    );
 
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
     if (definition.name === 'spine_01') rotate(bone, new Vector3(1, 0, 0), 9);
@@ -363,8 +368,13 @@ function sidedCharacter(mirrored: boolean) {
     const source = rig.bone(swap(definition.name) as BoneName);
     const bone = new Bone();
     bone.name = definition.name;
-    bone.position.copy(source.offset);
-    bone.quaternion.copy(source.restLocalQuaternion);
+    bone.position.set(source.offset.x, source.offset.y, source.offset.z);
+    bone.quaternion.set(
+      source.restLocalQuaternion.x,
+      source.restLocalQuaternion.y,
+      source.restLocalQuaternion.z,
+      source.restLocalQuaternion.w,
+    );
     // Rolled rests on the hand and every digit, so the binding has to work
     // out each one's anatomical frame rather than inherit it.
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;

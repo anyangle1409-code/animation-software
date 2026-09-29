@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationMixer, Object3D, Vector3 } from 'three';
+import { AnimationMixer, Object3D, Quaternion, Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { skeletonV2 } from './earlierRigs';
 import { restPose } from './pose';
@@ -26,6 +26,9 @@ const rig = canonicalSkeleton;
 const earlier = skeletonV2();
 const NUMERIC = 1e-12;
 const R = Math.PI / 180;
+
+const threeQuaternion = (value: { x: number; y: number; z: number; w: number }): Quaternion =>
+  new Quaternion(value.x, value.y, value.z, value.w);
 
 describe('the palm bones', () => {
   it('give each finger a metacarpal between the hand and its knuckle, and the thumb none', () => {
@@ -89,7 +92,7 @@ describe('the palm bones', () => {
 
   it('turn about the axes their limits name', () => {
     const evaluation = new PoseEvaluation(rig);
-    const padNormal = (bone: BoneName) => new Vector3(1, 0, 0).applyQuaternion(evaluation.quaternion(bone)).negate();
+    const padNormal = (bone: BoneName) => new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion(bone))).negate();
     const posed = (bone: BoneName, axis: 'x' | 'y' | 'z', degrees: number) => {
       const pose = restPose();
       pose.rotations[bone] = { x: 0, y: 0, z: 0, [axis]: degrees * R };
@@ -137,7 +140,7 @@ describe('the palm bones', () => {
     const evaluation = new PoseEvaluation(rig);
     const pad = (name: BoneName) => {
       const bone = rig.bone(name);
-      const normal = new Vector3(1, 0, 0).applyQuaternion(evaluation.quaternion(name)).negate();
+      const normal = new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion(name))).negate();
       const point = evaluation.head(name, new Vector3()).lerp(evaluation.tail(name, new Vector3()), 0.6);
       return { point: point.addScaledVector(normal, (bone.definition.radius ?? 0.008) * 0.76), normal };
     };
@@ -174,7 +177,7 @@ describe('the palm bones', () => {
       const wrist = evaluation.head('hand_l', new Vector3());
       const normal = evaluation.head('index_01_l', new Vector3()).sub(wrist)
         .cross(evaluation.head('pinky_01_l', new Vector3()).sub(wrist)).normalize();
-      if (normal.dot(new Vector3(1, 0, 0).applyQuaternion(evaluation.quaternion('hand_l')).negate()) < 0) normal.negate();
+      if (normal.dot(new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion('hand_l'))).negate()) < 0) normal.negate();
       const thumbAxis = evaluation.tail('thumb_01_l', new Vector3()).sub(evaluation.head('thumb_01_l', new Vector3())).normalize();
       expect(Math.asin(thumbAxis.dot(normal)) / R, `${finger} palmar abduction`).toBeGreaterThan(30);
     }

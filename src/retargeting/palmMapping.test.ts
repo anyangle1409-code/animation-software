@@ -38,8 +38,13 @@ function palmCharacter(mirrored: boolean, biased = true) {
     const source = rig.bone(swap(definition.name) as BoneName);
     const bone = new Bone();
     bone.name = definition.name;
-    bone.position.copy(source.offset);
-    bone.quaternion.copy(source.restLocalQuaternion);
+    bone.position.set(source.offset.x, source.offset.y, source.offset.z);
+    bone.quaternion.set(
+      source.restLocalQuaternion.x,
+      source.restLocalQuaternion.y,
+      source.restLocalQuaternion.z,
+      source.restLocalQuaternion.w,
+    );
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
     const rotate = (axis: Vector3, degrees: number) =>
       bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));

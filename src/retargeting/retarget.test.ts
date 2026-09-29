@@ -27,8 +27,13 @@ function buildCharacter(options: {
   for (const rigBone of skeleton.bones) {
     const bone = new Bone();
     bone.name = options.names(rigBone.name);
-    bone.position.copy(rigBone.offset);
-    bone.quaternion.copy(rigBone.restLocalQuaternion);
+    bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
+    bone.quaternion.set(
+      rigBone.restLocalQuaternion.x,
+      rigBone.restLocalQuaternion.y,
+      rigBone.restLocalQuaternion.z,
+      rigBone.restLocalQuaternion.w,
+    );
     if (options.tPose && (rigBone.name === 'upperarm_l' || rigBone.name === 'upperarm_r')) {
       // Raise the arms to horizontal: a genuinely different rest pose.
       const side = rigBone.name.endsWith('_l') ? -1 : 1;
@@ -165,7 +170,13 @@ describe('retargeting', () => {
     // canonical rest: the target arm must come down rather than staying in its
     // source T pose.
     const targetUpper = bone('upperarm_l').getWorldQuaternion(new Quaternion());
-    expect(targetUpper.angleTo(evaluation.quaternion('upperarm_l'))).toBeLessThan(1e-5);
+    const expectedUpper = evaluation.quaternion('upperarm_l');
+    expect(targetUpper.angleTo(new Quaternion(
+      expectedUpper.x,
+      expectedUpper.y,
+      expectedUpper.z,
+      expectedUpper.w,
+    ))).toBeLessThan(1e-5);
     expect(worldOf('forearm_l').y).toBeCloseTo(evaluation.head('forearm_l').y, 5);
 
     // Curling the source elbow still bends the target by the canonical amount.

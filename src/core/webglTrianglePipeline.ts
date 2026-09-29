@@ -1,4 +1,5 @@
 import type { HgMat4 } from './linearMath';
+import { primitiveTrianglePositions, type HgPrimitiveGeometryData } from './primitiveGeometry';
 
 export interface HgTriangleDraw {
   readonly positions: Float32Array;
@@ -84,6 +85,18 @@ export class HgTrianglePipeline {
     this.buffer = buffer;
     this.matrixLocation = matrixLocation;
     this.colourLocation = colourLocation;
+  }
+
+  drawPrimitive(
+    geometry: HgPrimitiveGeometryData,
+    matrix: HgMat4,
+    colour: readonly [number, number, number, number],
+  ): void {
+    this.draw({
+      positions: primitiveTrianglePositions(geometry),
+      matrix,
+      colour,
+    });
   }
 
   draw(draw: HgTriangleDraw): void {

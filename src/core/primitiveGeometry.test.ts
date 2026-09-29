@@ -4,6 +4,7 @@ import {
   cylinderPrimitiveData,
   spherePrimitiveData,
   torusPrimitiveData,
+  primitiveTrianglePositions,
 } from './primitiveGeometry';
 
 const validate = (mesh: ReturnType<typeof boxPrimitiveData>) => {
@@ -48,4 +49,19 @@ describe('first-party shared primitive geometry', () => {
       expect(mesh.indices.length).toBeGreaterThan(0);
     }
   });
+  it('expands indexed geometry into deterministic triangle draw order', () => {
+    const box = boxPrimitiveData([1, 2, 3]);
+    const triangles = primitiveTrianglePositions(box);
+    expect(triangles).toHaveLength(box.indices.length * 3);
+    expect(Array.from(triangles.slice(0, 9))).toEqual(
+      box.indices.slice(0, 3).flatMap((vertex) =>
+        box.positions.slice(vertex * 3, vertex * 3 + 3),
+      ),
+    );
+    expect(() => primitiveTrianglePositions({
+      ...box,
+      indices: [999, 0, 1],
+    })).toThrow(/outside the vertex buffer/);
+  });
+
 });

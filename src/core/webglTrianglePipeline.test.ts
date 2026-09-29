@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { HgMat4 } from './linearMath';
 import { HgTrianglePipeline } from './webglTrianglePipeline';
+import { boxPrimitiveData } from './primitiveGeometry';
 
 function fakeGl() {
   const calls: Array<[string, ...unknown[]]> = [];
@@ -85,4 +86,16 @@ describe('first-party WebGL triangle pipeline', () => {
     expect((x.gl.deleteBuffer as unknown as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1);
     expect((x.gl.deleteProgram as unknown as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1);
   });
+  it('draws shared project-owned indexed primitive geometry', () => {
+    const x = fakeGl();
+    const pipeline = new HgTrianglePipeline(x.gl);
+    const box = boxPrimitiveData([1, 1, 1]);
+    pipeline.drawPrimitive(box, new HgMat4(), [0.8, 0.2, 0.1, 1]);
+
+    const draw = x.calls.find((entry) => entry[0] === 'draw');
+    expect(draw).toEqual(['draw', 0x0004, 0, box.indices.length]);
+    const uploaded = x.calls.find((entry) => entry[0] === 'bufferData');
+    expect(uploaded).toHaveLength(1 + box.indices.length * 3);
+  });
+
 });

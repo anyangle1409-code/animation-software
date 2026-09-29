@@ -215,3 +215,29 @@ export function torusPrimitiveData(
   }
   return mesh;
 }
+
+/** Expand an indexed project mesh into draw-order XYZ triangle vertices. */
+export function primitiveTrianglePositions(
+  mesh: HgPrimitiveGeometryData,
+): Float32Array {
+  if (mesh.positions.length % 3 !== 0) {
+    throw new Error('Primitive positions must contain XYZ vertices');
+  }
+  if (mesh.indices.length % 3 !== 0) {
+    throw new Error('Primitive indices must contain complete triangles');
+  }
+  const vertexCount = mesh.positions.length / 3;
+  const expanded = new Float32Array(mesh.indices.length * 3);
+  for (let index = 0; index < mesh.indices.length; index += 1) {
+    const vertex = mesh.indices[index];
+    if (!Number.isInteger(vertex) || vertex < 0 || vertex >= vertexCount) {
+      throw new Error('Primitive index is outside the vertex buffer');
+    }
+    const source = vertex * 3;
+    const target = index * 3;
+    expanded[target] = mesh.positions[source];
+    expanded[target + 1] = mesh.positions[source + 1];
+    expanded[target + 2] = mesh.positions[source + 2];
+  }
+  return expanded;
+}

@@ -3,7 +3,7 @@ import { HgGltfBuilder } from '../core/gltfBuilder';
 import { addHgGltfAnimation, type HgAnimationPath } from '../core/gltfAnimation';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
-import { bakeClip } from './clipBuilder';
+import { bakeClipData } from './clipData';
 
 /**
  * Write an animation-only GLB with project-owned glTF/GLB code.
@@ -53,26 +53,20 @@ export function exportFirstPartyClipGlb(
   builder.json.scenes = [{ name: exercise.clipName, nodes: [sceneRootIndex] }];
   builder.json.scene = 0;
 
-  const baked = bakeClip(studioClip, rig, { fps });
-  const tracks = baked.clip.tracks.map((track) => {
-    const separator = track.name.lastIndexOf('.');
-    if (separator <= 0) throw new Error(`Unsupported animation track name "${track.name}"`);
-    const boneName = track.name.slice(0, separator);
-    const property = track.name.slice(separator + 1);
-    const node = nodeIndex.get(boneName);
-    if (node === undefined) throw new Error(`Animation track references unknown bone "${boneName}"`);
+  const baked = bakeClipData(studioClip, rig, { fps });
+  const tracks = baked.tracks.map((track) => {
+    const node = nodeIndex.get(track.bone);
+    if (node === undefined) throw new Error(`Animation track references unknown bone "${track.bone}"`);
 
     let path: HgAnimationPath;
-    if (property === 'quaternion') path = 'rotation';
-    else if (property === 'position') path = 'translation';
-    else if (property === 'scale') path = 'scale';
-    else throw new Error(`Unsupported animation track property "${property}"`);
+    if (track.property === 'quaternion') path = 'rotation';
+    else path = 'translation';
 
     return {
       node,
       path,
-      times: Array.from(track.times),
-      values: Array.from(track.values),
+      times: track.times,
+      values: track.values,
     };
   });
 

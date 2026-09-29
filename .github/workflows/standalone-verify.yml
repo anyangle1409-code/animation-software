@@ -103,6 +103,8 @@ jobs:
           src/viewer/ikHandlesRuntime.test.ts
           src/viewer/ikHandleSnapshot.test.ts
           src/viewer/firstPartyViewportDom.test.ts
+          src/viewer/firstPartySceneHost.test.ts
+          src/viewer/firstPartyRendererAdapter.test.ts
           src/editor/store.test.ts
           src/editor/characterStore.test.ts
           src/editor/appShellDom.test.ts

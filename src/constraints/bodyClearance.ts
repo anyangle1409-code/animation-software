@@ -171,6 +171,7 @@ export function measureEquipmentClearance(
         (index) => `${instance.id} at ${time.toFixed(2)}s, against ${dominantBone(body, index)}`,
         sample,
         instance.backAngle,
+        local,
       );
       worst.set(instance.id, sample);
     }

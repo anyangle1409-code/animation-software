@@ -1,4 +1,5 @@
-import { Euler, Matrix4, Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
+import type { Vec3 } from '../rig/types';
 import { equipmentParts } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 import type { EquipmentKind } from '../equipment/types';
@@ -36,23 +37,33 @@ import type { EquipmentKind } from '../equipment/types';
  * number is a lower bound on the true clearance.
  */
 
-const scratch = new Vector3();
-const local = new Vector3();
+const local = new HgVec3();
+const UNIT_SCALE = new HgVec3(1, 1, 1);
 
-/** Inverse of a part's own placement within the equipment frame. */
-function partMatrix(part: Part): Matrix4 {
-  const [px, py, pz] = part.position ?? [0, 0, 0];
-  const matrix = new Matrix4();
-  if ('rotation' in part && part.rotation) {
-    const [rx, ry, rz] = part.rotation;
-    matrix.makeRotationFromEuler(new Euler(rx, ry, rz));
-  }
-  matrix.setPosition(px, py, pz);
-  return matrix.invert();
+interface MatrixLike {
+  readonly elements: ArrayLike<number>;
 }
 
-const INVERSE = new WeakMap<Part, Matrix4>();
-const inverseOf = (part: Part): Matrix4 => {
+function copyMatrix(matrix: MatrixLike, target = new HgMat4()): HgMat4 {
+  for (let index = 0; index < 16; index += 1) target.elements[index] = matrix.elements[index];
+  return target;
+}
+
+/** Inverse of a part's own placement within the equipment frame. */
+function partMatrix(part: Part): HgMat4 {
+  const [px, py, pz] = part.position ?? [0, 0, 0];
+  const rotation = new HgQuat();
+  if ('rotation' in part && part.rotation) {
+    const [rx, ry, rz] = part.rotation;
+    rotation.setFromEulerXYZ(rx, ry, rz);
+  }
+  return new HgMat4()
+    .compose(new HgVec3(px, py, pz), rotation, UNIT_SCALE)
+    .invert();
+}
+
+const INVERSE = new WeakMap<Part, HgMat4>();
+const inverseOf = (part: Part): HgMat4 => {
   let matrix = INVERSE.get(part);
   if (!matrix) {
     matrix = partMatrix(part);
@@ -68,7 +79,7 @@ const inverseOf = (part: Part): Matrix4 => {
  * A cylinder is authored along its own Y, which is why the radial term uses x
  * and z rather than x and y.
  */
-function distanceToPart(part: Part, point: Vector3): number {
+function distanceToPart(part: Part, point: Vec3): number {
   switch (part.shape) {
     case 'cylinder': {
       const radius = Math.max(part.radius, part.radiusTop ?? part.radius);
@@ -88,7 +99,7 @@ function distanceToPart(part: Part, point: Vector3): number {
       return outside > 0 ? outside : Math.max(dx, dy, dz);
     }
     case 'sphere':
-      return point.length() - part.radius;
+      return Math.hypot(point.x, point.y, point.z) - part.radius;
     case 'torus': {
       // The ring lies in the part's own XZ plane, its tube swept about Y.
       const ring = Math.hypot(point.x, point.z) - part.radius;
@@ -106,11 +117,11 @@ function distanceToPart(part: Part, point: Vector3): number {
  * `backAngle` reaches the incline bench's own back-pad angle through to its
  * geometry; every other kind ignores it.
  */
-export function equipmentDistance(kind: EquipmentKind, point: Vector3, backAngle?: number): number {
+export function equipmentDistance(kind: EquipmentKind, point: Vec3, backAngle?: number): number {
   const parts = equipmentParts(kind, backAngle);
   let closest = Number.POSITIVE_INFINITY;
   for (const part of parts) {
-    local.copy(point).applyMatrix4(inverseOf(part));
+    local.set(point.x, point.y, point.z).applyMatrix4(inverseOf(part));
     const distance = distanceToPart(part, local);
     if (distance < closest) closest = distance;
   }
@@ -122,8 +133,10 @@ export function equipmentDistance(kind: EquipmentKind, point: Vector3, backAngle
  * `equipmentParts` order: which part of a bench a seat meets, and which a back
  * rests on. `equipmentDistance` is the smallest of these.
  */
-export function equipmentPartDistances(kind: EquipmentKind, point: Vector3, backAngle?: number): number[] {
-  return equipmentParts(kind, backAngle).map((part) => distanceToPart(part, local.copy(point).applyMatrix4(inverseOf(part))));
+export function equipmentPartDistances(kind: EquipmentKind, point: Vec3, backAngle?: number): number[] {
+  return equipmentParts(kind, backAngle).map((part) =>
+    distanceToPart(part, local.set(point.x, point.y, point.z).applyMatrix4(inverseOf(part))),
+  );
 }
 
 /**
@@ -148,7 +161,7 @@ export class PointGrid {
     return `${Math.floor(x / this.cell)},${Math.floor(y / this.cell)},${Math.floor(z / this.cell)}`;
   }
 
-  add(index: number, point: Vector3): void {
+  add(index: number, point: Vec3): void {
     const key = this.key(point.x, point.y, point.z);
     const bucket = this.cells.get(key);
     if (bucket) bucket.push(index);
@@ -165,11 +178,11 @@ export class PointGrid {
    * genuinely nothing within `rings` cells — a fact the caller must report as a
    * bound rather than as a distance.
    */
-  nearest(
-    point: Vector3,
+  nearest<T extends Vec3 = HgVec3>(
+    point: Vec3,
     rings: number,
-    position: (index: number, out: Vector3) => Vector3,
-    scratchPoint = new Vector3(),
+    position: (index: number, out: T) => Vec3,
+    scratchPoint: T = new HgVec3() as T,
   ): { index: number; distance: number } | null {
     const cx = Math.floor(point.x / this.cell);
     const cy = Math.floor(point.y / this.cell);
@@ -186,7 +199,8 @@ export class PointGrid {
             const bucket = this.cells.get(`${cx + dx},${cy + dy},${cz + dz}`);
             if (!bucket) continue;
             for (const index of bucket) {
-              const distance = point.distanceTo(position(index, scratchPoint));
+              const candidate = position(index, scratchPoint);
+              const distance = Math.hypot(point.x - candidate.x, point.y - candidate.y, point.z - candidate.z);
               if (distance < best) {
                 best = distance;
                 found = index;
@@ -219,19 +233,23 @@ export interface ClearanceSample {
  * transform that places it — and `points` is called back for each index so the
  * caller keeps ownership of how the body is posed and which vertices count.
  */
-export function measureClearance(
+export function measureClearance<T extends Vec3 = HgVec3>(
   kind: EquipmentKind,
-  toItem: Matrix4,
+  toItem: MatrixLike,
   count: number,
-  points: (index: number, out: Vector3) => Vector3 | null,
+  points: (index: number, out: T) => Vec3 | null,
   label: (index: number) => string,
   into: ClearanceSample = { closest: Number.POSITIVE_INFINITY, inside: 0, where: '' },
   backAngle?: number,
+  scratchPoint: T = new HgVec3() as T,
 ): ClearanceSample {
+  const itemMatrix = copyMatrix(toItem);
+  const itemPoint = new HgVec3();
   for (let index = 0; index < count; index += 1) {
-    const world = points(index, scratch);
+    const world = points(index, scratchPoint);
     if (!world) continue;
-    const distance = equipmentDistance(kind, world.applyMatrix4(toItem), backAngle);
+    itemPoint.set(world.x, world.y, world.z).applyMatrix4(itemMatrix);
+    const distance = equipmentDistance(kind, itemPoint, backAngle);
     if (distance < 0) into.inside += 1;
     if (distance < into.closest) {
       into.closest = distance;

@@ -1,4 +1,4 @@
-import { PerspectiveCamera, Scene } from 'three';
+import { PerspectiveCamera, Scene } from './threeSceneBoundary';
 import { HgSceneLifecycle } from '../core/sceneLifecycle';
 import type { HgSceneSurface } from '../core/sceneLifecycle';
 import type { HgFrameCallback, HgFrameScheduler } from '../core/frameLoop';

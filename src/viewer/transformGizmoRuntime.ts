@@ -4,7 +4,7 @@ import {
   Vector3,
   type Camera,
   type Scene,
-} from 'three';
+} from './threeSceneBoundary';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';

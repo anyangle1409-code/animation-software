@@ -3,7 +3,7 @@ import {
   PCFSoftShadowMap,
   SRGBColorSpace,
   WebGLRenderer,
-} from 'three';
+} from './threeSceneBoundary';
 import { browserFrameScheduler } from '../core/frameLoop';
 import { browserSceneSurface } from '../core/browserSceneSurface';
 import { currentAnchors, skeleton, studioStore } from '../editor/storeCore';

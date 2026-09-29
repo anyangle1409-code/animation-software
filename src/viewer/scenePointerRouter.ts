@@ -4,7 +4,7 @@ import {
   type Camera,
   type Object3D,
   type Scene,
-} from 'three';
+} from './threeSceneBoundary';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 
 export type HgScenePointerKind = 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel';

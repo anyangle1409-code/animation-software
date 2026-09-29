@@ -1,4 +1,4 @@
-import { Group, Mesh, MeshStandardMaterial, SphereGeometry } from 'three';
+import { Group, Mesh, MeshStandardMaterial, SphereGeometry } from './threeSceneBoundary';
 import { MUSCLES } from '../muscles/model';
 import { ACTIVATION_STYLES, activationMap, activationOf } from '../muscles/activation';
 import { MUSCLE_GROUPS } from '../muscles/groups';

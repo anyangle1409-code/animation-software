@@ -10,7 +10,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   PlaneGeometry,
-} from 'three';
+} from './threeSceneBoundary';
 import type { BackdropStyle } from '../editor/storeCore';
 import { buildHgReferenceGridBuffers } from './referenceGrid';
 

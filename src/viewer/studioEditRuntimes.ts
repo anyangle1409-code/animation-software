@@ -6,7 +6,7 @@ import {
   Vector3,
   type Camera,
   type Scene,
-} from 'three';
+} from './threeSceneBoundary';
 import type { StudioClip } from '../animation/clip';
 import { toDeg } from '../core/math';
 import { equipmentSocketForInstance } from '../equipment/library';

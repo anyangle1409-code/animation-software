@@ -6,7 +6,7 @@ import {
   MeshBasicMaterial,
   TorusGeometry,
   type Object3D,
-} from 'three';
+} from './threeSceneBoundary';
 import type { HgSceneRayEvent } from './scenePointerTypes';
 import type { HgScenePointerRouter } from './scenePointerRouter';
 import type { HgTransformMode } from './transformGizmoInteraction';

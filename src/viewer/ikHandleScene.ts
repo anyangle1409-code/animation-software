@@ -4,7 +4,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   OctahedronGeometry,
-} from 'three';
+} from './threeSceneBoundary';
 import { IK_CHAIN_IDS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import type { HgScenePointerRouter } from './scenePointerRouter';

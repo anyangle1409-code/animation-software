@@ -4,7 +4,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   SphereGeometry,
-} from 'three';
+} from './threeSceneBoundary';
 import type { BoneName } from '../rig/boneNames';
 import type { Skeleton } from '../rig/skeleton';
 import type { HgScenePointerRouter } from './scenePointerRouter';

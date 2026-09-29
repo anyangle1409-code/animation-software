@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { resolveFrame } from '../animation/pipeline';
 import type { StudioClip } from '../animation/clip';
 import { IK_CHAINS } from '../ik/chains';
@@ -25,7 +25,7 @@ export interface ContactDiagnostic {
   status: ContactStatus;
 }
 
-const asVec3 = (point: Vector3): Vec3 => ({ x: point.x, y: point.y, z: point.z });
+const asVec3 = (point: Vec3): Vec3 => ({ x: point.x, y: point.y, z: point.z });
 
 /**
  * Inspect the production contact solution at one playhead time.
@@ -85,8 +85,8 @@ export function contactDiagnostics(
       };
     }
 
-    const actualPoint = evaluation.head(IK_CHAINS[lock.chain].end, new Vector3());
-    const targetPoint = new Vector3(contact.target.x, contact.target.y, contact.target.z);
+    const actualPoint = evaluation.firstPartyEvaluation.head(IK_CHAINS[lock.chain].end, new HgVec3());
+    const targetPoint = new HgVec3(contact.target.x, contact.target.y, contact.target.z);
     const result = finalResults.get(lock.chain);
     const error = actualPoint.distanceTo(targetPoint);
     const status: ContactStatus = result?.overExtended

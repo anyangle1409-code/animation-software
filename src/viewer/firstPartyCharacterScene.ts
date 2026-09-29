@@ -2,8 +2,40 @@ import { HgVec3 } from '../core/linearMath';
 import { HgCharacterMesh } from '../core/sceneCharacter';
 import type { HgPrimitiveGeometryData } from '../core/primitiveGeometry';
 import { hgRgbaFromHex } from '../core/sceneMesh';
-import { HgStandardMaterial, type HgSkinnedMesh } from '../core/sceneSkin';
+import type { HgDeformableMeshLike } from '../character/skinningMath';
 import { posedLocalVertex } from '../character/skinningMath';
+
+
+export interface HgRenderableCharacterMesh extends HgDeformableMeshLike {
+  readonly name: string;
+  readonly geometry: HgDeformableMeshLike['geometry'] & {
+    getIndex(): { readonly count: number; getX(index: number): number } | null;
+    getAttribute(name: string): {
+      readonly count: number;
+      getX(index: number): number;
+      getY(index: number): number;
+      getZ(index: number): number;
+    } | undefined;
+  };
+  readonly skeleton: {
+    readonly bones: readonly Array<{
+      readonly matrixWorld: { readonly elements: ArrayLike<number> };
+      updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
+    }>;
+    readonly boneInverses: readonly { readonly elements: ArrayLike<number> }[];
+  };
+  readonly material:
+    | {
+        color?: { r: number; g: number; b: number };
+        opacity?: number;
+      }
+    | Array<{
+        color?: { r: number; g: number; b: number };
+        opacity?: number;
+      }>;
+  readonly matrixWorld: { readonly elements: ArrayLike<number> };
+  updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
+}
 
 export interface HgPosedCharacterGeometry extends HgPrimitiveGeometryData {
   colours?: number[];
@@ -25,7 +57,7 @@ const component = (
  * authored per-vertex data for the texture/colour WebGL stage.
  */
 export function posedCharacterGeometry(
-  mesh: HgSkinnedMesh,
+  mesh: HgRenderableCharacterMesh,
 ): HgPosedCharacterGeometry {
   mesh.updateWorldMatrix(true, false);
   for (const bone of mesh.skeleton.bones) bone.updateWorldMatrix(true, false);
@@ -147,7 +179,7 @@ export function createHgCharacterMesh(mesh: HgSkinnedMesh): HgCharacterMesh {
 /** Refresh a character scene node after bones/morphs/material opacity change. */
 export function updateHgCharacterMesh(
   target: HgCharacterMesh,
-  mesh: HgSkinnedMesh,
+  mesh: HgRenderableCharacterMesh,
 ): void {
   mesh.updateWorldMatrix(true, false);
   target.geometry = posedCharacterGeometry(mesh);

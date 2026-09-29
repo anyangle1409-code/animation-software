@@ -21,7 +21,7 @@ describe('viewer Three compatibility boundary', () => {
       expect(source, file).not.toMatch(/from ['"]three(?:\/|['"])/);
     }
   });
-  it('keeps camera ownership first-party outside the final renderer adapter', () => {
+  it('keeps the live viewport off the retained Three renderer compatibility path', () => {
     const host = readFileSync(new URL('./threeSceneHost.ts', import.meta.url), 'utf8');
     const runtime = readFileSync(
       new URL('./firstPartyViewportRuntime.ts', import.meta.url),
@@ -30,7 +30,9 @@ describe('viewer Three compatibility boundary', () => {
     expect(host).toContain("from '../core/sceneGraph'");
     expect(host).not.toContain('PerspectiveCamera, Scene');
     expect(runtime).not.toContain("from './threeSceneBoundary'");
-    expect(runtime).toContain('createThreeRendererAdapter');
+    expect(runtime).toContain('createFirstPartyRendererAdapter');
+    expect(runtime).not.toContain('createThreeRendererAdapter');
+    expect(runtime).not.toContain('ThreeSceneHost');
   });
 
 });

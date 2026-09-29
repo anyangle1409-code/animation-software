@@ -1,7 +1,8 @@
-import { Matrix4, Vector3 } from 'three';
+import { HgMat4, HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { BoneName } from '../rig/boneNames';
+import type { Vec3 } from '../rig/types';
 import type { Ring } from './profiles';
 import { BODY_CHAINS } from './profiles';
 
@@ -151,7 +152,7 @@ function sectionAt(section: Section, t: number): { ring: Ring; overshoot: number
  * instance — pays for the inversion once instead of once per sample.
  */
 export interface SkinProbe {
-  sections: { section: Section; inverse: Matrix4 }[];
+  sections: { section: Section; inverse: HgMat4 }[];
 }
 
 export function skinProbe(
@@ -168,11 +169,13 @@ export function skinProbe(
     const slot = probe.sections[index];
     if (slot) {
       slot.section = section;
-      slot.inverse.copy(evaluation.matrix(section.bone as never)).invert();
+      slot.inverse.copy(evaluation.firstPartyEvaluation.matrix(section.bone as never)).invert();
     } else {
       probe.sections.push({
         section,
-        inverse: new Matrix4().copy(evaluation.matrix(section.bone as never)).invert(),
+        inverse: new HgMat4()
+          .copy(evaluation.firstPartyEvaluation.matrix(section.bone as never))
+          .invert(),
       });
     }
     index += 1;
@@ -182,17 +185,17 @@ export function skinProbe(
 }
 
 /** Signed distance from a world point to the sections a probe holds. */
-export function probeDepth(probe: SkinProbe, world: Vector3): SkinSample {
+export function probeDepth(probe: SkinProbe, world: Vec3): SkinSample {
   let best: SkinSample = { depth: Number.POSITIVE_INFINITY, bone: null };
   for (const entry of probe.sections) {
-    local.copy(world).applyMatrix4(entry.inverse);
+    local.set(world.x, world.y, world.z).applyMatrix4(entry.inverse);
     const sample = measureSection(entry.section, local);
     if (sample < best.depth) best = { depth: sample, bone: entry.section.bone };
   }
   return best;
 }
 
-function measureSection(section: Section, point: Vector3): number {
+function measureSection(section: Section, point: Vec3): number {
   const t = section.length <= 1e-6 ? 0 : point.y / section.length;
   const { ring, overshoot } = sectionAt(section, t);
   const dx = (point.x - (ring.ox ?? 0)) / Math.max(1e-6, ring.rx);
@@ -204,7 +207,8 @@ function measureSection(section: Section, point: Vector3): number {
   return overshoot > 0 ? Math.hypot(Math.max(0, across), overshoot) : across;
 }
 
-const local = new Vector3();
+const local = new HgVec3();
+const worldScratch = new HgVec3();
 
 /**
  * Signed distance from a world point to the character's surface, negative when
@@ -213,7 +217,7 @@ const local = new Vector3();
  */
 export function skinDepth(
   evaluation: PoseEvaluation,
-  world: Vector3,
+  world: Vec3,
   rig: Skeleton = canonicalSkeleton,
   /** Limit the search to these bones' sections, which is much cheaper. */
   bones?: ReadonlySet<string>,
@@ -223,7 +227,11 @@ export function skinDepth(
 
   for (const section of sections) {
     if (bones && !bones.has(section.bone)) continue;
-    evaluation.worldToLocal(section.bone as never, world, local);
+    evaluation.firstPartyEvaluation.worldToLocal(
+      section.bone as never,
+      worldScratch.set(world.x, world.y, world.z),
+      local,
+    );
     const depth = measureSection(section, local);
     if (depth < best.depth) best = { depth, bone: section.bone };
   }
@@ -234,6 +242,6 @@ export function skinDepth(
 /** True when the point sits inside the character's surface. */
 export const insideSkin = (
   evaluation: PoseEvaluation,
-  world: Vector3,
+  world: Vec3,
   rig: Skeleton = canonicalSkeleton,
 ): boolean => skinDepth(evaluation, world, rig).depth <= 0;

@@ -10,7 +10,6 @@ import {
 } from './skeletonScene';
 import type { SkeletonSceneResources } from './skeletonScene';
 import type { HgScenePointerRouter } from './scenePointerRouter';
-import type { Scene } from 'three';
 
 export interface SkeletonViewState {
   selection: { bone: BoneName | null };
@@ -23,9 +22,14 @@ export interface SkeletonViewStorePort {
   subscribe(listener: () => void): () => void;
 }
 
+export interface SkeletonViewRootPort {
+  add(object: SkeletonSceneResources['group']): unknown;
+  remove(object: SkeletonSceneResources['group']): unknown;
+}
+
 export interface SkeletonViewRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<Scene, 'add' | 'remove'>;
+  root: SkeletonViewRootPort;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: SkeletonViewStorePort;
   skeleton: Skeleton;

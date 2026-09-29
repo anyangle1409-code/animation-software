@@ -10,7 +10,6 @@ import {
 import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
 import type { EquipmentDisplayCharacter } from './equipmentDisplayTransforms';
 import type { HgScenePointerRouter } from './scenePointerRouter';
-import type { Scene } from 'three';
 
 export interface EquipmentViewStudioState {
   document: { clip: { equipment: EquipmentInstance[] } };
@@ -26,9 +25,14 @@ export interface EquipmentViewCharacterPort {
   getState(): { active: EquipmentDisplayCharacter | null };
 }
 
+export interface EquipmentViewRootPort {
+  add(object: EquipmentSceneResources['group']): unknown;
+  remove(object: EquipmentSceneResources['group']): unknown;
+}
+
 export interface EquipmentViewRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<Scene, 'add' | 'remove'>;
+  root: EquipmentViewRootPort;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: EquipmentViewStorePort;
   characterStore: EquipmentViewCharacterPort;

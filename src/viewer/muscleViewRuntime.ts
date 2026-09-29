@@ -1,6 +1,5 @@
 import { MUSCLES, createMuscleTransform, resolveMuscle } from '../muscles/model';
 import type { MuscleInvolvement } from '../exercises/types';
-import type { Scene } from 'three';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import { createMuscleScene, type MuscleSceneResources } from './muscleScene';
@@ -14,9 +13,14 @@ export interface MuscleViewStorePort {
   subscribe(listener: () => void): () => void;
 }
 
+export interface MuscleViewRootPort {
+  add(object: MuscleSceneResources['group']): unknown;
+  remove(object: MuscleSceneResources['group']): unknown;
+}
+
 export interface MuscleViewRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<Scene, 'add' | 'remove'>;
+  root: MuscleViewRootPort;
   store: MuscleViewStorePort;
 }
 

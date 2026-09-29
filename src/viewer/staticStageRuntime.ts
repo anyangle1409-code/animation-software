@@ -1,4 +1,3 @@
-import type { Scene } from 'three';
 import { BACKDROPS, type Backdrop } from '../editor/storeCore';
 import { createStudioStage, type StudioStageResources } from './studioStage';
 
@@ -17,6 +16,12 @@ export interface StaticStageRuntime {
   dispose(): void;
 }
 
+export interface StaticStageRootPort {
+  background: unknown;
+  add(object: StudioStageResources['root']): unknown;
+  remove(object: StudioStageResources['root']): unknown;
+}
+
 /**
  * Framework-neutral Studio stage controller.
  *
@@ -24,7 +29,7 @@ export interface StaticStageRuntime {
  * the host scene's prior background on disposal.
  */
 export function createStaticStageRuntime(
-  root: Scene,
+  root: StaticStageRootPort,
   store: StaticStageStorePort,
 ): StaticStageRuntime {
   const previousBackground = root.background;

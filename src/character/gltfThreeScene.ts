@@ -27,6 +27,11 @@ import { parseHgGlb } from '../core/glbContainer';
 import { measureSceneHeight } from './sceneBounds';
 import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {
+  characterPrimitiveSource,
+  setCharacterPrimitiveSource,
+  type HgCharacterPrimitiveSource,
+} from './primitiveSource';
+import {
   readHgGltfScene,
   type HgGltfMaterial,
   type HgGltfPrimitive,
@@ -42,18 +47,11 @@ type DecodedImage = ImageBitmap | HTMLImageElement;
 
 export type HgThreeSkinnedMesh = SkinnedMesh;
 
-export interface HgThreePrimitiveSource {
-  readonly nodeIndex: number;
-  readonly meshIndex: number;
-  readonly primitiveIndex: number;
-  readonly targetNames: readonly string[];
-}
+export type HgThreePrimitiveSource = HgCharacterPrimitiveSource;
 
-const primitiveSources = new WeakMap<Object3D, HgThreePrimitiveSource>();
-
-/** Exact original GLB primitive represented by one temporary renderer mesh. */
+/** @deprecated Use characterPrimitiveSource; retained for test compatibility. */
 export function hgThreePrimitiveSource(object: Object3D): HgThreePrimitiveSource | null {
-  return primitiveSources.get(object) ?? null;
+  return characterPrimitiveSource(object);
 }
 
 const ATTRIBUTE_NAMES = {
@@ -369,7 +367,7 @@ export async function loadHgThreeScene(
       mesh.name = meshDefinition.primitives.length === 1
         ? baseName
         : `${baseName}_${primitiveIndex}`;
-      primitiveSources.set(mesh, {
+      setCharacterPrimitiveSource(mesh, {
         nodeIndex: node.index,
         meshIndex: meshDefinition.index,
         primitiveIndex,

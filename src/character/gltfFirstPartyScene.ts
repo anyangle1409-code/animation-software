@@ -12,6 +12,11 @@ import {
 } from '../core/sceneSkin';
 import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {
+  characterPrimitiveSource,
+  setCharacterPrimitiveSource,
+  type HgCharacterPrimitiveSource,
+} from './primitiveSource';
+import {
   readHgGltfScene,
   type HgGltfMaterial,
   type HgGltfPrimitive,
@@ -20,19 +25,12 @@ import {
 } from '../core/gltfScene';
 import type { HgImageMimeType } from '../core/gltfTextures';
 
-export interface HgFirstPartyPrimitiveSource {
-  readonly nodeIndex: number;
-  readonly meshIndex: number;
-  readonly primitiveIndex: number;
-  readonly targetNames: readonly string[];
-}
-
-const primitiveSources = new WeakMap<HgObject3D, HgFirstPartyPrimitiveSource>();
+export type HgFirstPartyPrimitiveSource = HgCharacterPrimitiveSource;
 
 export function hgFirstPartyPrimitiveSource(
   object: HgObject3D,
 ): HgFirstPartyPrimitiveSource | null {
-  return primitiveSources.get(object) ?? null;
+  return characterPrimitiveSource(object);
 }
 
 const ATTRIBUTE_NAMES = {
@@ -307,7 +305,7 @@ export async function loadHgFirstPartyScene(
       mesh.name = meshDefinition.primitives.length === 1
         ? baseName
         : `${baseName}_${primitiveIndex}`;
-      primitiveSources.set(mesh, {
+      setCharacterPrimitiveSource(mesh, {
         nodeIndex: node.index,
         meshIndex: meshDefinition.index,
         primitiveIndex,

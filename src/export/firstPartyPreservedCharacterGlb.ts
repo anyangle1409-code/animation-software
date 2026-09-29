@@ -1,5 +1,5 @@
 import type { CharacterBuild, DeformationTrackData } from '../character/types';
-import { hgThreePrimitiveSource } from '../character/gltfThreeScene';
+import { characterPrimitiveSource } from '../character/primitiveSource';
 import { parseHgGlb } from '../core/glbContainer';
 import { HgGltfBuilder } from '../core/gltfBuilder';
 import { addHgGltfAnimation, type HgAnimationTrackInput } from '../core/gltfAnimation';
@@ -117,7 +117,7 @@ function appendRuntimeMorphs(
   const meshDefaults = new Map<number, number[]>();
 
   for (const mesh of character.meshes) {
-    const source = hgThreePrimitiveSource(mesh);
+    const source = characterPrimitiveSource(mesh);
     if (!source) throw new Error('Imported mesh has no preserved GLB primitive identity');
 
     const jsonMesh = jsonMeshes[source.meshIndex];

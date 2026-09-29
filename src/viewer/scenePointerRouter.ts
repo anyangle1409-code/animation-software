@@ -1,10 +1,11 @@
 import {
-  createHgPointerSceneRay,
-  intersectHgPointerSceneMeshes,
-  setHgPointerSceneRayFromHgPointerCamera,
-  type HgRayHgPointerCameraLike,
+  createSceneRay,
+  intersectSceneMeshes,
+  setSceneRayFromCamera,
+  type HgRayCameraLike,
   type HgRaycastObjectLike,
 } from './sceneRaycast';
+import type { HgSceneRayEvent } from './scenePointerTypes';
 
 export interface HgPointerSceneObject extends HgRaycastObjectLike {
   readonly children: readonly HgPointerSceneObject[];
@@ -17,21 +18,21 @@ export interface HgPointerScene extends HgPointerSceneObject {
   readonly children: readonly HgPointerSceneObject[];
 }
 
-export interface HgPointerCamera extends HgRayHgPointerCameraLike {
+export interface HgPointerCamera extends HgRayCameraLike {
   updateMatrixWorld(force?: boolean): unknown;
 }
-import type { HgHgPointerSceneRayEvent } from './scenePointerTypes';
 
-export type HgHgPointerScenePointerKind = 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel';
+export type HgScenePointerKind =
+  'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel';
 
-export interface HgHgPointerScenePointerHandlers {
-  pointerdown?: (event: HgHgPointerSceneRayEvent) => void;
-  pointermove?: (event: HgHgPointerSceneRayEvent) => void;
-  pointerup?: (event: HgHgPointerSceneRayEvent) => void;
-  pointercancel?: (event: HgHgPointerSceneRayEvent) => void;
+export interface HgScenePointerHandlers {
+  pointerdown?: (event: HgSceneRayEvent) => void;
+  pointermove?: (event: HgSceneRayEvent) => void;
+  pointerup?: (event: HgSceneRayEvent) => void;
+  pointercancel?: (event: HgSceneRayEvent) => void;
 }
 
-export interface HgHgPointerScenePointerInput {
+export interface HgScenePointerInput {
   pointerId: number;
   clientX: number;
   clientY: number;
@@ -45,7 +46,10 @@ export interface HgPointerSurface extends EventTarget {
   hasPointerCapture?(pointerId: number): boolean;
 }
 
-function visibleThroughHgPointerScene(object: HgPointerSceneObject, scene: HgPointerScene): boolean {
+function visibleThroughScene(
+  object: HgPointerSceneObject,
+  scene: HgPointerScene,
+): boolean {
   let current: HgPointerSceneObject | null = object;
   while (current) {
     if (!current.visible) return false;
@@ -58,15 +62,13 @@ function visibleThroughHgPointerScene(object: HgPointerSceneObject, scene: HgPoi
 /**
  * First-party DOM/raycast router for interactive scene objects.
  *
- * Targets register directly by HgPointerSceneObject. The nearest registered ancestor of
- * the nearest visible ray hit receives the event, then handlers bubble through
- * registered ancestors until stopPropagation is called. Pointer capture is
- * remembered after pointerdown so drag move/up events keep their original
- * scene target even when the ray leaves its geometry.
+ * Targets register by structural scene node, not renderer-specific classes.
+ * The nearest registered ancestor of the nearest visible ray hit receives the
+ * event, then handlers bubble through registered ancestors until stopped.
  */
-export class HgHgPointerScenePointerRouter {
-  private readonly ray = createHgPointerSceneRay();
-  private readonly targets = new Map<HgPointerSceneObject, HgHgPointerScenePointerHandlers>();
+export class HgScenePointerRouter {
+  private readonly ray = createSceneRay();
+  private readonly targets = new Map<HgPointerSceneObject, HgScenePointerHandlers>();
   private readonly captured = new Map<number, HgPointerSceneObject>();
   private mounted = false;
 
@@ -74,10 +76,13 @@ export class HgHgPointerScenePointerRouter {
     private readonly camera: HgPointerCamera,
     private readonly scene: HgPointerScene,
     private readonly element: HgPointerSurface,
-    private readonly onMiss?: (input: HgHgPointerScenePointerInput) => void,
+    private readonly onMiss?: (input: HgScenePointerInput) => void,
   ) {}
 
-  register(object: HgPointerSceneObject, handlers: HgHgPointerScenePointerHandlers): () => void {
+  register(
+    object: HgPointerSceneObject,
+    handlers: HgScenePointerHandlers,
+  ): () => void {
     this.targets.set(object, handlers);
     return () => {
       this.targets.delete(object);
@@ -118,19 +123,21 @@ export class HgHgPointerScenePointerRouter {
     return this.updateRay(clientX, clientY) && this.pickCurrentRay() !== null;
   }
 
-  dispatch(kind: HgHgPointerScenePointerKind, input: HgHgPointerScenePointerInput): boolean {
+  dispatch(kind: HgScenePointerKind, input: HgScenePointerInput): boolean {
     if (!this.updateRay(input.clientX, input.clientY)) return false;
     const captured = this.captured.get(input.pointerId);
     const target = captured ?? this.pickCurrentRay();
 
     if (!target) {
       if (kind === 'pointerdown') this.onMiss?.(input);
-      if (kind === 'pointerup' || kind === 'pointercancel') this.captured.delete(input.pointerId);
+      if (kind === 'pointerup' || kind === 'pointercancel') {
+        this.captured.delete(input.pointerId);
+      }
       return false;
     }
 
     let stopped = false;
-    const event: HgHgPointerSceneRayEvent = {
+    const event: HgSceneRayEvent = {
       pointerId: input.pointerId,
       ray: {
         origin: {
@@ -177,14 +184,14 @@ export class HgHgPointerScenePointerRouter {
     const y = -((clientY - bounds.top) / bounds.height) * 2 + 1;
     this.camera.updateMatrixWorld();
     this.scene.updateMatrixWorld(true);
-    setHgPointerSceneRayFromHgPointerCamera(this.ray, this.camera, x, y);
+    setSceneRayFromCamera(this.ray, this.camera, x, y);
     return true;
   }
 
   private pickCurrentRay(): HgPointerSceneObject | null {
-    for (const hit of intersectHgPointerSceneMeshes(this.scene.children, this.ray)) {
+    for (const hit of intersectSceneMeshes(this.scene.children, this.ray)) {
       const object = hit.object as HgPointerSceneObject;
-      if (!visibleThroughHgPointerScene(object, this.scene)) continue;
+      if (!visibleThroughScene(object, this.scene)) continue;
       let current: HgPointerSceneObject | null = object;
       while (current) {
         if (this.targets.has(current)) return current;
@@ -212,7 +219,10 @@ export class HgHgPointerScenePointerRouter {
   };
 }
 
-function isDescendantOf(object: HgPointerSceneObject, ancestor: HgPointerSceneObject): boolean {
+function isDescendantOf(
+  object: HgPointerSceneObject,
+  ancestor: HgPointerSceneObject,
+): boolean {
   let current: HgPointerSceneObject | null = object;
   while (current) {
     if (current === ancestor) return true;

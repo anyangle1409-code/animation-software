@@ -1,5 +1,6 @@
 import type { HgGlbDocument } from './glbContainer';
 import { readHgAccessor, type HgAccessorData } from './gltfAccessors';
+import { readHgGltfTextures, type HgGltfTextureDocument } from './gltfTextures';
 
 type JsonObject = Record<string, unknown>;
 
@@ -51,12 +52,31 @@ export interface HgGltfNode {
   readonly extras: unknown;
 }
 
+export interface HgGltfTextureInfo {
+  readonly index: number;
+  readonly texCoord: 0;
+}
+
+export interface HgGltfNormalTextureInfo extends HgGltfTextureInfo {
+  readonly scale: number;
+}
+
+export interface HgGltfOcclusionTextureInfo extends HgGltfTextureInfo {
+  readonly strength: number;
+}
+
 export interface HgGltfMaterial {
   readonly index: number;
   readonly name: string;
   readonly baseColorFactor: [number, number, number, number];
+  readonly baseColorTexture: HgGltfTextureInfo | null;
   readonly metallicFactor: number;
   readonly roughnessFactor: number;
+  readonly metallicRoughnessTexture: HgGltfTextureInfo | null;
+  readonly normalTexture: HgGltfNormalTextureInfo | null;
+  readonly occlusionTexture: HgGltfOcclusionTextureInfo | null;
+  readonly emissiveTexture: HgGltfTextureInfo | null;
+  readonly emissiveFactor: [number, number, number];
   readonly doubleSided: boolean;
 }
 
@@ -72,6 +92,7 @@ export interface HgGltfSceneDocument {
   readonly meshes: HgGltfMesh[];
   readonly skins: HgGltfSkin[];
   readonly materials: HgGltfMaterial[];
+  readonly textureData: HgGltfTextureDocument;
   readonly scenes: HgGltfSceneDefinition[];
   readonly defaultScene: number | null;
 }
@@ -332,30 +353,77 @@ function unitFactor(value: unknown, fallback: number, label: string): number {
   return result;
 }
 
+function textureInfo(value: unknown, label: string): HgGltfTextureInfo {
+  const info = object(value, label);
+  if (info.extensions !== undefined) throw new Error(`${label} extensions are not supported`);
+  const texCoord = info.texCoord === undefined ? 0 : nonNegativeInteger(info.texCoord, `${label}.texCoord`);
+  if (texCoord !== 0) throw new Error(`${label} only supports TEXCOORD_0`);
+  return {
+    index: nonNegativeInteger(info.index, `${label}.index`),
+    texCoord: 0,
+  };
+}
+
 function readMaterial(value: JsonObject, index: number): HgGltfMaterial {
-  if (value.extensions !== undefined) throw new Error(`materials[${index}] extensions are not supported`);
-  for (const key of ['normalTexture', 'occlusionTexture', 'emissiveTexture'] as const) {
-    if (value[key] !== undefined) throw new Error(`materials[${index}].${key} is not supported yet`);
-  }
+  const label = `materials[${index}]`;
+  if (value.extensions !== undefined) throw new Error(`${label} extensions are not supported`);
   if (value.alphaMode !== undefined && value.alphaMode !== 'OPAQUE') {
-    throw new Error(`materials[${index}] only supports OPAQUE alpha mode`);
+    throw new Error(`${label} only supports OPAQUE alpha mode`);
   }
 
   const pbr = value.pbrMetallicRoughness === undefined
     ? {}
-    : object(value.pbrMetallicRoughness, `materials[${index}].pbrMetallicRoughness`);
-  if (pbr.baseColorTexture !== undefined || pbr.metallicRoughnessTexture !== undefined) {
-    throw new Error(`materials[${index}] texture maps are not supported yet`);
-  }
+    : object(value.pbrMetallicRoughness, `${label}.pbrMetallicRoughness`);
+
+  const baseColorTexture = pbr.baseColorTexture === undefined
+    ? null
+    : textureInfo(pbr.baseColorTexture, `${label}.pbrMetallicRoughness.baseColorTexture`);
+  const metallicRoughnessTexture = pbr.metallicRoughnessTexture === undefined
+    ? null
+    : textureInfo(pbr.metallicRoughnessTexture, `${label}.pbrMetallicRoughness.metallicRoughnessTexture`);
+
+  const normalTexture = value.normalTexture === undefined
+    ? null
+    : (() => {
+        const info = object(value.normalTexture, `${label}.normalTexture`);
+        const base = textureInfo(info, `${label}.normalTexture`);
+        return {
+          ...base,
+          scale: info.scale === undefined ? 1 : finite(info.scale, `${label}.normalTexture.scale`),
+        };
+      })();
+
+  const occlusionTexture = value.occlusionTexture === undefined
+    ? null
+    : (() => {
+        const info = object(value.occlusionTexture, `${label}.occlusionTexture`);
+        const base = textureInfo(info, `${label}.occlusionTexture`);
+        return {
+          ...base,
+          strength: unitFactor(info.strength, 1, `${label}.occlusionTexture.strength`),
+        };
+      })();
+
+  const emissiveTexture = value.emissiveTexture === undefined
+    ? null
+    : textureInfo(value.emissiveTexture, `${label}.emissiveTexture`);
 
   return {
     index,
     name: nameOf(value.name),
     baseColorFactor: (pbr.baseColorFactor === undefined
       ? [1, 1, 1, 1]
-      : tuple(pbr.baseColorFactor, 4, `materials[${index}].baseColorFactor`)) as [number, number, number, number],
-    metallicFactor: unitFactor(pbr.metallicFactor, 1, `materials[${index}].metallicFactor`),
-    roughnessFactor: unitFactor(pbr.roughnessFactor, 1, `materials[${index}].roughnessFactor`),
+      : tuple(pbr.baseColorFactor, 4, `${label}.baseColorFactor`)) as [number, number, number, number],
+    baseColorTexture,
+    metallicFactor: unitFactor(pbr.metallicFactor, 1, `${label}.metallicFactor`),
+    roughnessFactor: unitFactor(pbr.roughnessFactor, 1, `${label}.roughnessFactor`),
+    metallicRoughnessTexture,
+    normalTexture,
+    occlusionTexture,
+    emissiveTexture,
+    emissiveFactor: (value.emissiveFactor === undefined
+      ? [0, 0, 0]
+      : tuple(value.emissiveFactor, 3, `${label}.emissiveFactor`)) as [number, number, number],
     doubleSided: value.doubleSided === true,
   };
 }
@@ -385,6 +453,20 @@ function validateReferences(scene: HgGltfSceneDocument): void {
       if (primitive.material !== null) assertReference(primitive.material, scene.materials.length, `meshes[${mesh.index}].material`);
     }
   }
+  for (const material of scene.materials) {
+    const textureRefs = [
+      material.baseColorTexture,
+      material.metallicRoughnessTexture,
+      material.normalTexture,
+      material.occlusionTexture,
+      material.emissiveTexture,
+    ];
+    for (const texture of textureRefs) {
+      if (texture) {
+        assertReference(texture.index, scene.textureData.textures.length, `materials[${material.index}].texture`);
+      }
+    }
+  }
   for (const skin of scene.skins) {
     skin.joints.forEach((joint) => assertReference(joint, scene.nodes.length, `skins[${skin.index}].joints`));
     if (skin.skeleton !== null) assertReference(skin.skeleton, scene.nodes.length, `skins[${skin.index}].skeleton`);
@@ -404,6 +486,7 @@ export function readHgGltfScene(document: HgGlbDocument): HgGltfSceneDocument {
     if (document.json.extensionsRequired.length) throw new Error('Required glTF extensions are not supported');
   }
 
+  const textureData = readHgGltfTextures(document);
   const materials = objectArray(document.json.materials, 'materials').map(readMaterial);
   const meshes = objectArray(document.json.meshes, 'meshes').map((mesh, index) => readMesh(document, mesh, index));
   const skins = objectArray(document.json.skins, 'skins').map((skin, index) => readSkin(document, skin, index));
@@ -416,7 +499,7 @@ export function readHgGltfScene(document: HgGlbDocument): HgGltfSceneDocument {
   }));
   const defaultScene = optionalIndex(document.json.scene, 'scene');
 
-  const decoded: HgGltfSceneDocument = { nodes, meshes, skins, materials, scenes, defaultScene };
+  const decoded: HgGltfSceneDocument = { nodes, meshes, skins, materials, textureData, scenes, defaultScene };
   validateReferences(decoded);
   return decoded;
 }

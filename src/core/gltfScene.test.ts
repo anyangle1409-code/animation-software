@@ -6,6 +6,7 @@ import { readHgGltfScene } from './gltfScene';
 function builtScene() {
   const builder = new HgGltfBuilder();
   const position = builder.addAccessor([0, 0, 0, 1, 0, 0, 0, 1, 0], { type: 'VEC3', componentType: 5126, target: 34962 });
+  const positionView = builder.json.accessors[position].bufferView as number;
   const normal = builder.addAccessor([0, 0, 1, 0, 0, 1, 0, 0, 1], { type: 'VEC3', componentType: 5126, target: 34962 });
   const joints = builder.addAccessor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], { type: 'VEC4', componentType: 5121, target: 34962 });
   const weights = builder.addAccessor([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], { type: 'VEC4', componentType: 5126, target: 34962 });
@@ -16,9 +17,20 @@ function builtScene() {
     { type: 'MAT4', componentType: 5126 },
   );
 
+  builder.json.images = [{ bufferView: positionView, mimeType: 'image/png' }];
+  builder.json.textures = [{ source: 0 }];
   builder.json.materials = [{
     name: 'body',
-    pbrMetallicRoughness: { baseColorFactor: [0.7, 0.55, 0.42, 1], metallicFactor: 0, roughnessFactor: 0.8 },
+    pbrMetallicRoughness: {
+      baseColorFactor: [0.7, 0.55, 0.42, 1],
+      baseColorTexture: { index: 0 },
+      metallicFactor: 0,
+      roughnessFactor: 0.8,
+    },
+    normalTexture: { index: 0, scale: 0.7 },
+    occlusionTexture: { index: 0, strength: 0.6 },
+    emissiveTexture: { index: 0 },
+    emissiveFactor: [0.1, 0.2, 0.3],
   }];
   builder.json.meshes = [{
     name: 'body_mesh',
@@ -73,10 +85,18 @@ describe('first-party glTF scene decoder', () => {
       index: 0,
       name: 'body',
       baseColorFactor: [0.7, 0.55, 0.42, 1],
+      baseColorTexture: { index: 0, texCoord: 0 },
       metallicFactor: 0,
       roughnessFactor: 0.8,
+      metallicRoughnessTexture: null,
+      normalTexture: { index: 0, texCoord: 0, scale: 0.7 },
+      occlusionTexture: { index: 0, texCoord: 0, strength: 0.6 },
+      emissiveTexture: { index: 0, texCoord: 0 },
+      emissiveFactor: [0.1, 0.2, 0.3],
       doubleSided: false,
     });
+    expect(decoded.textureData.textures).toHaveLength(1);
+    expect(decoded.textureData.images).toHaveLength(1);
   });
 
   it('preserves an authored node matrix without inventing TRS', () => {
@@ -143,6 +163,16 @@ describe('first-party glTF scene decoder', () => {
     }];
     builder.json.nodes = [{ mesh: 0, weights: [0.1, 0.2] }];
     expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/weights.*morph-target count/i);
+  });
+
+  it('rejects material texture coordinates outside TEXCOORD_0', () => {
+    const builder = new HgGltfBuilder();
+    builder.json.materials = [{
+      pbrMetallicRoughness: { baseColorTexture: { index: 0, texCoord: 1 } },
+    }];
+    builder.json.images = [];
+    builder.json.textures = [];
+    expect(() => readHgGltfScene(parseHgGlb(builder.toGlb()))).toThrow(/TEXCOORD_0/);
   });
 
   it('rejects an inverse-bind accessor that is not FLOAT MAT4', () => {

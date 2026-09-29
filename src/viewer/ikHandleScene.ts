@@ -9,7 +9,6 @@ import type { IKChainId } from '../ik/types';
 import type { HgScenePointerRouter } from './scenePointerRouter';
 import {
   buildHgIKHandleSceneModel,
-  hgIKHandleKey,
   resolveHgIKHandleAppearance,
 } from './ikHandleSceneModel';
 

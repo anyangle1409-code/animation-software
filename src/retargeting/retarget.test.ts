@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AnimationClip, AnimationMixer, Bone, Group, LoopOnce, Matrix4, Quaternion, Vector3 } from 'three';
 import { retargetSampler } from '../character/retargetSource';
+import { deformationTrackToCharacterTrack } from '../export/clipBuilder';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { poseFromDegrees, restPose } from '../rig/pose';
 import { generateClip } from '../animation/generate';
@@ -353,13 +354,17 @@ describe('disconnected source deform branches', () => {
       expected.push(new Map([...binding.character.bones].map(([name, bone]) => [name, bone.matrixWorld.clone()])));
     }
     const tracks = sampler.tracks([0, 1]);
-    expect(tracks.some(t => t.name === 'thigh_l.position')).toBe(true);
-    expect(tracks.some(t => t.name === 'DEF-jaw.position')).toBe(true);
+    expect(tracks.some(t => t.target === 'thigh_l' && t.property === 'position')).toBe(true);
+    expect(tracks.some(t => t.target === 'DEF-jaw' && t.property === 'position')).toBe(true);
     for (const [name, bone] of binding.character.bones) {
       expect(bone.position.distanceTo(binding.character.restPosition.get(name)!)).toBeLessThan(1e-9);
     }
     const mixer = new AnimationMixer(binding.character.root);
-    const action = mixer.clipAction(new AnimationClip('source', 1, tracks));
+    const action = mixer.clipAction(new AnimationClip(
+      'source',
+      1,
+      tracks.map(deformationTrackToCharacterTrack),
+    ));
     action.setLoop(LoopOnce, 1); action.clampWhenFinished = true; action.play();
     for (const time of [0, 1]) {
       mixer.setTime(time);

@@ -180,7 +180,7 @@ export function bakeClip(
   }
 
   if (deformation) {
-    tracks.push(...deformation.tracks(times).map(characterTrackForDeformation));
+    tracks.push(...deformation.tracks(times).map(deformationTrackToCharacterTrack));
   }
 
   const clip = createCharacterAnimationClip(studioClip.name, studioClip.duration, tracks);
@@ -195,7 +195,7 @@ export function bakeClip(
  * Adapt project-owned deformation samples to the retained Three animation
  * boundary. First-party GLB writing consumes DeformationTrackData directly.
  */
-function characterTrackForDeformation(track: DeformationTrackData): KeyframeTrack {
+export function deformationTrackToCharacterTrack(track: DeformationTrackData): KeyframeTrack {
   switch (track.property) {
     case 'quaternion':
       return createCharacterQuaternionKeyframeTrack(

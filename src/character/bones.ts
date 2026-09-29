@@ -9,7 +9,6 @@ import {
   Material,
   MeshStandardMaterial,
   SkinnedMesh,
-  Vector3,
   type Object3D,
 } from './threeSceneBoundary';
 import type { BoneName } from '../rig/boneNames';
@@ -101,16 +100,6 @@ export function multiplyCharacterMatrices(
 }
 export type CharacterObject3D = Object3D;
 export type CharacterSkinnedMesh = SkinnedMesh;
-export type CharacterVector3 = Vector3;
-
-export function createCharacterVector3(
-  x = 0,
-  y = 0,
-  z = 0,
-): CharacterVector3 {
-  return new Vector3(x, y, z);
-}
-
 export function measureCharacterObjectHeight(object: CharacterObject3D): number {
   return measureSceneHeight(object);
 }

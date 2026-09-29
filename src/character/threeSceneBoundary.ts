@@ -34,7 +34,6 @@ import {
   SphereGeometry,
   SRGBColorSpace,
   Texture,
-  Vector3,
 } from '../core/threeRuntimeBoundary';
 
 export {
@@ -65,5 +64,4 @@ export {
   SphereGeometry,
   SRGBColorSpace,
   Texture,
-  Vector3,
 };

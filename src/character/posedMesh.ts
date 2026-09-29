@@ -1,91 +1,57 @@
-import {
-  createCharacterVector3,
-  type CharacterSkinnedMesh,
-  type CharacterVector3,
-} from './bones';
+import type { CharacterSkinnedMesh } from './bones';
 import { HgVec3 } from '../core/linearMath';
+import {
+  posedLocalVertex as firstPartyPosedLocalVertex,
+  skinnedBindLocalVertex,
+} from './skinningMath';
+
+interface PointTarget<T> {
+  set(x: number, y: number, z: number): T;
+}
 
 /**
  * Where a vertex of a posed skinned mesh actually is, in world space.
  *
- * Reading `position` alone gives the bind pose, which is rarely what a
- * measurement wants: anything checking clearance, penetration or strain needs
- * the vertex where the character currently holds it. That means the morph
- * targets at their current influence, then the skin transform, then the mesh's
- * own world matrix, in that order — and getting the order wrong produces
- * plausible numbers that are quietly measuring a different body.
- *
- * `morphTargetsRelative` decides whether a morph stores an offset or an absolute
- * position, and both conventions appear in the assets this project imports, so
- * it is honoured rather than assumed.
- *
- * The caller passes `out` and gets it back, because these run over tens of
- * thousands of vertices per frame and allocating there dominates the cost.
+ * Morphing and skinning are first-party. The generic output keeps older tests
+ * and diagnostics free to pass their own vector object without making the
+ * production character layer construct renderer vectors.
  */
-export function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
-  const position = mesh.geometry.getAttribute('position');
-  out.fromBufferAttribute(position, index);
-
-  const morphs = mesh.geometry.morphAttributes.position ?? [];
-  const influences = mesh.morphTargetInfluences ?? [];
-  const relative = mesh.geometry.morphTargetsRelative === true;
-  for (let slot = 0; slot < morphs.length; slot += 1) {
-    const weight = influences[slot] ?? 0;
-    if (!weight) continue;
-    const morph = morphs[slot];
-    out.x += (relative ? morph.getX(index) : morph.getX(index) - position.getX(index)) * weight;
-    out.y += (relative ? morph.getY(index) : morph.getY(index) - position.getY(index)) * weight;
-    out.z += (relative ? morph.getZ(index) : morph.getZ(index) - position.getZ(index)) * weight;
-  }
-
-  mesh.applyBoneTransform(index, out);
-  return mesh.localToWorld(out);
-}
-
-const firstPartyPointScratch = createCharacterVector3();
-
-/**
- * First-party point adapter for engine/constraint callers. Three remains
- * confined to the skinned-mesh deformation operation inside this module.
- */
-export function posedVertexPoint(mesh: CharacterSkinnedMesh, index: number, out: HgVec3): HgVec3 {
-  const point = posedVertex(mesh, index, firstPartyPointScratch);
+export function posedVertex<T extends PointTarget<T>>(
+  mesh: CharacterSkinnedMesh,
+  index: number,
+  out: T,
+): T {
+  const point = posedVertexPoint(mesh, index, posedWorldScratch);
   return out.set(point.x, point.y, point.z);
 }
 
-const firstPartyBindSkinScratch = createCharacterVector3();
+const posedWorldScratch = new HgVec3();
 
-/**
- * Skin one bind-position vertex into world space without applying morphs.
- *
- * This preserves the historical contact-floor measurement exactly while
- * keeping the renderer Vector3 confined to this character adapter.
- */
+/** Current morphed + skinned vertex in world space. */
+export function posedVertexPoint(
+  mesh: CharacterSkinnedMesh,
+  index: number,
+  out: HgVec3,
+): HgVec3 {
+  return firstPartyPosedLocalVertex(mesh, index, out).applyMatrix4(mesh.matrixWorld);
+}
+
+/** Skin one bind-position vertex into world space without applying morphs. */
 export function skinnedBindVertexPoint(
   mesh: CharacterSkinnedMesh,
   index: number,
   out: HgVec3,
 ): HgVec3 {
-  const position = mesh.geometry.getAttribute('position');
-  firstPartyBindSkinScratch.fromBufferAttribute(position, index);
-  mesh.applyBoneTransform(index, firstPartyBindSkinScratch).applyMatrix4(mesh.matrixWorld);
-  return out.set(
-    firstPartyBindSkinScratch.x,
-    firstPartyBindSkinScratch.y,
-    firstPartyBindSkinScratch.z,
-  );
+  return skinnedBindLocalVertex(mesh, index, out).applyMatrix4(mesh.matrixWorld);
 }
 
-const firstPartyLocalPointScratch = createCharacterVector3();
-
-/**
- * First-party adapter for a posed vertex in mesh-local space. This keeps
- * Three's skinning/morph implementation at the character boundary while
- * diagnostics consume project-owned vectors.
- */
-export function posedLocalVertexPoint(mesh: CharacterSkinnedMesh, index: number, out: HgVec3): HgVec3 {
-  const point = mesh.getVertexPosition(index, firstPartyLocalPointScratch);
-  return out.set(point.x, point.y, point.z);
+/** Current morphed + skinned vertex in mesh-local space. */
+export function posedLocalVertexPoint(
+  mesh: CharacterSkinnedMesh,
+  index: number,
+  out: HgVec3,
+): HgVec3 {
+  return firstPartyPosedLocalVertex(mesh, index, out);
 }
 
 /**

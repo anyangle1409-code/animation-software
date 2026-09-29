@@ -1,5 +1,9 @@
-import { Box3, Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
-import type { Bone, SkinnedMesh } from 'three';
+import { Box3, Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import type {
+  CharacterBone as Bone,
+  CharacterObject3D as Object3D,
+  CharacterSkinnedMesh as SkinnedMesh,
+} from '../character/bones';
 import type { BoneName } from '../rig/boneNames';
 import { isMetacarpal } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';

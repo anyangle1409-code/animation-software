@@ -65,6 +65,14 @@ const armSide = (bone: string): string | null => {
 const CELL = 0.03;
 const RINGS = 8;
 
+const copyPlacement = (
+  source: { elements: ArrayLike<number> },
+  target: Matrix4,
+): Matrix4 => {
+  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
+  return target;
+};
+
 /** The production body mesh within a built character. */
 export function bodyMeshOf(character: CharacterBuild): SkinnedMesh | undefined {
   return (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name));
@@ -133,13 +141,9 @@ export function measureEquipmentClearance(
       } else {
         const transform = frame.equipment.get(instance.id);
         if (!transform) continue;
-        placement.compose(
-          new Vector3(transform.position.x, transform.position.y, transform.position.z),
-          transform.quaternion,
-          // A cable is stretched along its length; its surface is then measured
-          // exactly beside it, where a body would meet it.
-          transform.scale ?? new Vector3(1, 1, 1),
-        );
+        // Canonical equipment now resolves on first-party math. Copy the
+        // finished matrix into the temporary Three mesh-analysis boundary.
+        copyPlacement(transform.matrix, placement);
         // Placed by the rig; the character is its mirror image, so the item is
         // reflected into the character's world, as it is drawn.
         if (character.mirrored) reflectPlacement(placement, placement);

@@ -22,6 +22,14 @@ export interface EquipmentDisplayTransform {
   readonly matrix: Matrix4 | null;
 }
 
+const toThreeMatrix = (
+  source: { elements: ArrayLike<number> },
+  target = new Matrix4(),
+): Matrix4 => {
+  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
+  return target;
+};
+
 /**
  * Resolve the matrices actually drawn by EquipmentView without depending on
  * React or R3F. This is intentionally still a temporary Three boundary:
@@ -74,7 +82,7 @@ export function resolveEquipmentDisplayTransforms(
       const right = character.handMatrix('r', new Matrix4());
       const matrix = left && right ? twoHandAttachmentMatrix(left, right, instance) : null;
       if (matrix) {
-        drawn.set(instance.id, { visible: true, matrix });
+        drawn.set(instance.id, { visible: true, matrix: toThreeMatrix(matrix) });
         continue;
       }
     }
@@ -85,11 +93,12 @@ export function resolveEquipmentDisplayTransforms(
       continue;
     }
 
+    const canonicalMatrix = toThreeMatrix(canonical.matrix);
     drawn.set(instance.id, {
       visible: true,
       matrix: character?.mirrored
-        ? reflectPlacement(canonical.matrix, new Matrix4())
-        : canonical.matrix.clone(),
+        ? reflectPlacement(canonicalMatrix)
+        : canonicalMatrix,
     });
   }
 
@@ -111,7 +120,7 @@ export function resolveEquipmentDisplayTransforms(
     drawn.set(
       instance.id,
       from && to
-        ? { visible: true, matrix: cableMatrix(from, to).matrix }
+        ? { visible: true, matrix: toThreeMatrix(cableMatrix(from, to).matrix) }
         : { visible: false, matrix: null },
     );
   }

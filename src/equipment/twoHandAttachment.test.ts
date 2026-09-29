@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Matrix4, Vector3 } from 'three';
+import { Matrix4, Quaternion, Vector3 } from 'three';
 import { resolveEquipment, twoHandAttachmentMatrix, twoHandGripOffsets } from './attach';
 import { measureTwoHandFit } from './gripDiagnostics';
 import { withTwoHandGripWidth } from './library';
@@ -46,7 +46,9 @@ describe('rigid two-hand equipment attachment', () => {
     expect(fit.leftError).toBeLessThan(1e-8);
     expect(fit.rightError).toBeLessThan(1e-8);
     expect(fit.withinEnvelope).toBe(true);
-    expect(transform.matrix.determinant()).toBeCloseTo(1, 8);
+    const matrix = new Matrix4();
+    for (let index = 0; index < 16; index += 1) matrix.elements[index] = transform.matrix.elements[index];
+    expect(matrix.determinant()).toBeCloseTo(1, 8);
   });
 
   it('applies roll around the grip axis without changing either socket position', () => {
@@ -64,7 +66,19 @@ describe('rigid two-hand equipment attachment', () => {
     const afterFit = measureTwoHandFit(pose, rolled, after)!;
     expect(afterFit.leftError).toBeLessThan(1e-8);
     expect(afterFit.rightError).toBeLessThan(1e-8);
-    expect(after.quaternion.angleTo(before.quaternion)).toBeGreaterThan(0.1);
+    const afterQuaternion = new Quaternion(
+      after.quaternion.x,
+      after.quaternion.y,
+      after.quaternion.z,
+      after.quaternion.w,
+    );
+    const beforeQuaternion = new Quaternion(
+      before.quaternion.x,
+      before.quaternion.y,
+      before.quaternion.z,
+      before.quaternion.w,
+    );
+    expect(afterQuaternion.angleTo(beforeQuaternion)).toBeGreaterThan(0.1);
   });
 
   it('works from arbitrary hand matrices for preserved-source imported characters', () => {
@@ -73,7 +87,7 @@ describe('rigid two-hand equipment attachment', () => {
     const calibrated = withTwoHandGripWidth(base, 0.62);
     const matrix = twoHandAttachmentMatrix(left, right, calibrated)!;
     const offsets = twoHandGripOffsets(calibrated)!;
-    const centre = new Vector3().setFromMatrixPosition(matrix);
+    const centre = new Vector3(matrix.elements[12], matrix.elements[13], matrix.elements[14]);
     expect(centre.y).toBeCloseTo(1.15 + offsets.left.y, 8);
     expect(centre.z).toBeCloseTo(0.22 + offsets.left.z, 8);
   });

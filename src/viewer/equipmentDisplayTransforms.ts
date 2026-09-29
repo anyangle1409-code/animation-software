@@ -6,7 +6,6 @@ import {
   socketWorldPoint,
   twoHandAttachmentMatrix,
 } from '../equipment/attach';
-import type { EquipmentTransform } from '../equipment/attach';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
 import type { EquipmentInstance } from '../equipment/types';
@@ -22,8 +21,12 @@ export interface EquipmentDisplayTransform {
   readonly matrix: Matrix4 | null;
 }
 
+interface MatrixLike {
+  readonly elements: ArrayLike<number>;
+}
+
 const toThreeMatrix = (
-  source: { elements: ArrayLike<number> },
+  source: MatrixLike,
   target = new Matrix4(),
 ): Matrix4 => {
   for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
@@ -43,7 +46,7 @@ const toThreeMatrix = (
  */
 export function resolveEquipmentDisplayTransforms(
   instances: readonly EquipmentInstance[],
-  transforms: ReadonlyMap<string, Pick<EquipmentTransform, 'matrix'>>,
+  transforms: ReadonlyMap<string, { readonly matrix: MatrixLike }>,
   character: EquipmentDisplayCharacter | null | undefined,
 ): Map<string, EquipmentDisplayTransform> {
   const drawn = new Map<string, EquipmentDisplayTransform>();

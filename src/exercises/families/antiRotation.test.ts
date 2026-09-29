@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -28,8 +28,8 @@ const frames = Array.from({ length: 41 }, (_, step) => {
   return {
     frame,
     twist: Math.max(...(['pelvis', 'spine_01', 'spine_02', 'spine_03'] as const).map((bone) => Math.abs(degrees(bone)))),
-    upper: evaluation.localToWorld('hand_l', anatomicalGripOffset('l'), new Vector3()),
-    lower: evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new Vector3()),
+    upper: evaluation.localToWorld('hand_l', anatomicalGripOffset('l'), new HgVec3()),
+    lower: evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new HgVec3()),
     fit: measureTwoHandFit(evaluation, byId('handle'), frame.equipment.get('handle')!)!,
     elbows: [frame.pose.rotations.forearm_l!.x, frame.pose.rotations.forearm_r!.x].map((x) => (x * 180) / Math.PI),
   };
@@ -68,8 +68,8 @@ describe('the anti-rotation family', () => {
       const pulley = socketWorldPoint(byId('tower'), 'pulley_mid', frame.equipment.get('tower')!.matrix)!;
       const clipPoint = socketWorldPoint(byId('handle'), 'clip', frame.equipment.get('handle')!.matrix)!;
       const cable = frame.equipment.get('cable')!;
-      expect(new Vector3(0, 0, 0).applyMatrix4(cable.matrix).distanceTo(pulley)).toBeLessThan(1e-9);
-      expect(new Vector3(0, 1, 0).applyMatrix4(cable.matrix).distanceTo(clipPoint)).toBeLessThan(1e-9);
+      expect(new HgVec3(0, 0, 0).applyMatrix4(cable.matrix).distanceTo(pulley)).toBeLessThan(1e-9);
+      expect(new HgVec3(0, 1, 0).applyMatrix4(cable.matrix).distanceTo(clipPoint)).toBeLessThan(1e-9);
       const grips = frame.equipment.get('handle')!.position;
       // The clip is on the pulley's side of the handle: 9 cm of its 11, the
       // handle being tipped forward a little.

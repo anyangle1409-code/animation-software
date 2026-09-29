@@ -89,6 +89,15 @@ const sampleGoal = (
   return (keyframe ?? clip.keyframes[0])?.ik[chain] ?? null;
 };
 
+interface MatrixLike {
+  readonly elements: ArrayLike<number>;
+}
+
+const copyMatrixLike = (source: MatrixLike, target: Matrix4): Matrix4 => {
+  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
+  return target;
+};
+
 export function createStudioSelectionGizmoRuntime(
   options: StudioEditRuntimeOptions,
 ): StudioEditRuntime {
@@ -192,7 +201,7 @@ export function createStudioSelectionGizmoRuntime(
           const transform = sceneState.frame?.equipment.get(equipmentId);
           if (!transform) return;
           proxy.updateMatrix();
-          socketScratch.inverse.copy(transform.matrix).invert();
+          copyMatrixLike(transform.matrix, socketScratch.inverse).invert();
           socketScratch.local.multiplyMatrices(
             socketScratch.inverse,
             proxy.matrix,
@@ -284,10 +293,8 @@ export function createStudioSelectionGizmoRuntime(
         ),
         socketScratch.scale.set(1, 1, 1),
       );
-      socketScratch.world.multiplyMatrices(
-        transform.matrix,
-        socketScratch.local,
-      );
+      copyMatrixLike(transform.matrix, socketScratch.world)
+        .multiply(socketScratch.local);
       socketScratch.world.decompose(
         proxy.position,
         proxy.quaternion,

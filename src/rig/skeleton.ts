@@ -232,7 +232,7 @@ export class PoseEvaluation {
   }
 
   /** A world point expressed in the bone's local frame. */
-  worldToLocal(name: BoneName, world: Vector3, target = new Vector3()): Vector3 {
+  worldToLocal(name: BoneName, world: Vec3, target = new Vector3()): Vector3 {
     this.scratchVector.set(world.x, world.y, world.z);
     const point = this.firstPartyEvaluation.worldToLocal(name, this.scratchVector, this.scratchVector);
     return target.set(point.x, point.y, point.z);

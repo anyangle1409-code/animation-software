@@ -90,7 +90,7 @@ export class HgVec3 {
     return length > 0 ? this.multiplyScalar(1 / length) : this.set(0, 0, 0);
   }
 
-  distanceTo(v: HgVec3): number {
+  distanceTo(v: { x: number; y: number; z: number }): number {
     return Math.hypot(this.x - v.x, this.y - v.y, this.z - v.z);
   }
 

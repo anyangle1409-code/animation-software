@@ -7,14 +7,18 @@ import { reflectPlacement } from '../equipment/mirror';
 import { handAttachmentMatrix } from '../export/clipBuilder';
 import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
 
+interface MatrixLike {
+  readonly elements: ArrayLike<number>;
+}
+
 const matrixValues = (matrix: Matrix4 | null) => matrix ? [...matrix.elements] : null;
 
-const expectMatrixClose = (actual: Matrix4 | null, expected: Matrix4) => {
+const expectMatrixClose = (actual: Matrix4 | null, expected: MatrixLike) => {
   expect(actual).not.toBeNull();
   const values = actual!.elements;
-  expected.elements.forEach((value, index) => {
-    expect(values[index]).toBeCloseTo(value, 10);
-  });
+  for (let index = 0; index < 16; index += 1) {
+    expect(values[index]).toBeCloseTo(expected.elements[index], 10);
+  }
 };
 
 const instance = (

@@ -21,9 +21,11 @@ rig = bpy.data.objects.get('HGPT_CANONICAL_V4_ORIGINAL')
 old = bpy.data.objects.get('HGPT_CLEAN_HISTORICAL_REFERENCE_RIG')
 if old is None or old.type != 'ARMATURE' or len(old.data.bones) != 53 or not old.get('hgpt_reference_only'):
     errors.append('historical reference rig')
+elif not old.hide_viewport or not old.hide_render:
+    errors.append('historical reference rig must remain hidden at O2')
 body = bpy.data.objects.get('HGPT_ORIGINAL_V1_CLEAN_SCAFFOLD')
-if body is None or body.type != 'MESH' or body.modifiers or body.vertex_groups:
-    errors.append('scaffold must be unbound, with no historical skin groups')
+if body is None or body.type != 'MESH' or body.modifiers or body.vertex_groups or body.parent is not None:
+    errors.append('scaffold must be unbound/unparented, with no historical skin groups')
 if rig is None or rig.type != 'ARMATURE':
     errors.append('v4 armature missing')
 else:

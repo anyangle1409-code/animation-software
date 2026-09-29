@@ -8,15 +8,6 @@ if not "%CURRENT_BRANCH%"=="work/standalone-first-party-audit-20260927" (
   echo Expected branch work/standalone-first-party-audit-20260927; found "%CURRENT_BRANCH%".
   exit /b 1
 )
-node --version >nul 2>&1
-if errorlevel 1 (
-  echo Node.js is required for the committed v4 rig export check.
-  exit /b 1
-)
-if not exist "node_modules\esbuild\package.json" (
-  echo Local development tools missing. Run npm ci, then rerun this command.
-  exit /b 1
-)
 
 set "BLENDER="
 if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"
@@ -27,7 +18,7 @@ if not defined BLENDER (
 )
 if not defined BLENDER (
   for /f "delims=" %%I in ('dir /b /s "C:\Program Files\Blender Foundation\Blender *\blender.exe" 2^>nul') do (
-    set "BLENDER=%%I"
+    if not defined BLENDER set "BLENDER=%%I"
   )
 )
 if not defined BLENDER (
@@ -37,20 +28,31 @@ if not defined BLENDER (
 
 set "BLEND=ORIGINAL_V1_WORK\HomeGymPT_Male_ORIGINAL_v1.blend"
 if not exist "%BLEND%" (
-  echo Missing O1 Blend. Run PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat on the laptop first.
+  echo Missing %BLEND%.
+  echo Run PREPARE_ORIGINAL_V1_O2.bat first.
+  exit /b 1
+)
+if exist "ORIGINAL_V1_WORK\AUTHORING_TAINT.json" (
+  echo AUTHORING_TAINT.json exists.
+  echo Recover and inspect the last clean checkpoint. Do not delete the taint record merely to continue.
   exit /b 1
 )
 
-node scripts\export-original-v4-rig.mjs --check
-if errorlevel 1 exit /b 1
-"%BLENDER%" --background "%BLEND%" --python scripts\materialize_original_v4_blender.py
-if errorlevel 1 exit /b 1
+echo Preflighting first-party O2 authoring boundary...
 "%BLENDER%" --background "%BLEND%" --python scripts\audit_original_v4_blender.py
 if errorlevel 1 exit /b 1
 "%BLENDER%" --background "%BLEND%" --python scripts\audit_original_v1_authoring_boundary_blender.py
 if errorlevel 1 exit /b 1
 
-echo O2 v4 rig ready.
-echo Do NOT open %BLEND% directly for modelling.
-echo Use OPEN_ORIGINAL_V1_O2_GUARDED.bat so the first-party authoring guard is active.
-exit /b 0
+echo.
+echo ============================================================
+echo GUARDED ORIGINAL v1 O2 AUTHORING
+echo ============================================================
+echo Do not import, append, link, or use external image/reference assets.
+echo Use stock Blender tools plus committed project scripts only.
+echo The guard remains active until Blender closes.
+echo ============================================================
+echo.
+
+"%BLENDER%" "%CD%\%BLEND%" --python "%CD%\scripts\guard_original_v1_authoring_blender.py"
+exit /b %errorlevel%

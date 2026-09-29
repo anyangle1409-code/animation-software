@@ -40,6 +40,13 @@ jobs:
           scripts/init_original_v1_blender.py
           scripts/generate_original_v1_clean_scaffold.py
           scripts/audit_original_v1_blender.py
+          scripts/materialize_original_v4_blender.py
+          scripts/audit_original_v4_blender.py
+          scripts/audit_original_o2_mesh_blender.py
+          scripts/original_v1_authoring_boundary.py
+          scripts/audit_original_v1_authoring_boundary_blender.py
+          scripts/guard_original_v1_authoring_blender.py
+          scripts/checkpoint_original_v1_o2.py
 
       - name: Standalone status script
         run: node scripts/standalone-status.mjs

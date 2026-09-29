@@ -43,7 +43,7 @@ A lower item must never silently override a higher item.
 - Runtime migration (current): `docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md` and `docs/CURRENT_HANDOFF.md`
 - Completed R3F source transition record: `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`
 - Physical browser/device parity: `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`
-- ORIGINAL v1 Blender O2 work: `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`
+- ORIGINAL v1 Blender O2 work: `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; production modelling must use `OPEN_ORIGINAL_V1_O2_GUARDED.bat` and `CHECKPOINT_ORIGINAL_V1_O2.bat`
 - Clean-room character requirements: `docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md`
 - Canonical v4 rig: `docs/CANONICAL_V4_ORIGINAL_RIG_PLAN.md` and `docs/CANONICAL_V4_ORIGINAL_DIMENSIONS.md`
 - Provenance: `docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md` and `docs/THIRD_PARTY_REFERENCE_ONLY.md`

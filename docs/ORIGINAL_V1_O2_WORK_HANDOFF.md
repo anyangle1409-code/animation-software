@@ -12,11 +12,20 @@ From the repository root on the requested branch, with the existing local O1 Ble
 
 ```bat
 PREPARE_ORIGINAL_V1_O2.bat
+OPEN_ORIGINAL_V1_O2_GUARDED.bat
 ```
 
-The launcher checks the branch, Node.js and local `esbuild` installation before editing the Blend. The Blender script then compares the untouched O1 Blend SHA-256 to `ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json` and checks blank-source/scaffold provenance flags before any change. If `BLENDER_EXE` is needed, set it to Blender's full `blender.exe` path before running. The command checks the committed rig export, backs up the Blend to `ORIGINAL_V1_WORK/checkpoints/PRE_V4_<UTC>.blend`, creates the unbound v4 armature, and writes `reports/original_v4_blender_audit.json`. Open `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend`. It deliberately fails on rerun or on a modified O1 baseline; never delete objects merely to make it pass. The old `HGPT_CLEAN_HISTORICAL_REFERENCE_RIG` remains hidden and reference-only: its O1 armature modifier and historical skin groups are removed from the scaffold after the backup. `ORIGINAL_V1_WORK/O2_RIG_PROVENANCE.json` records both Blend hashes and the v4 payload hash. The v4 armature must remain unbound throughout O2.
+The launcher checks the branch, Node.js and local `esbuild` installation before editing the Blend. The Blender script then compares the untouched O1 Blend SHA-256 to `ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json` and checks blank-source/scaffold provenance flags before any change. If `BLENDER_EXE` is needed, set it to Blender's full `blender.exe` path before running. The command checks the committed rig export, backs up the Blend to `ORIGINAL_V1_WORK/checkpoints/PRE_V4_<UTC>.blend`, creates the unbound v4 armature, and writes `reports/original_v4_blender_audit.json`. Do **not** open `ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend` directly for production modelling; use `OPEN_ORIGINAL_V1_O2_GUARDED.bat` so the live first-party authoring guard is active. It deliberately fails on rerun or on a modified O1 baseline; never delete objects merely to make it pass. The old `HGPT_CLEAN_HISTORICAL_REFERENCE_RIG` remains hidden and reference-only: its O1 armature modifier and historical skin groups are removed from the scaffold after the backup. `ORIGINAL_V1_WORK/O2_RIG_PROVENANCE.json` records both Blend hashes and the v4 payload hash. The v4 armature must remain unbound throughout O2.
 
 If the local O1 Blend is missing, recover the verified O1 checkpoint on the laptop or rerun `PREPARE_ORIGINAL_V1_CLEAN_ROOM.bat` after checking the O1 provenance and evidence. Never manufacture a replacement from a legacy Blend.
+
+## Guarded first-party authoring
+
+Every O2 production modelling session must enter through `OPEN_ORIGINAL_V1_O2_GUARDED.bat`. The launcher first reruns the v4/scene boundary checks, then installs a live Blender guard. The guard keeps a sticky taint record if an unexpected object, mesh/armature datablock, material, collection, enabled add-on, linked/overridden datablock, image or other external media, action, UV layer, shape key, vertex group, modifier or constraint appears — even if it is renamed or deleted later.
+
+Use only the existing `HGPT_ORIGINAL_V1_CLEAN_SCAFFOLD`, the committed v4 dimensions/rest payload, stock Blender modelling/edit/sculpt tools and committed project scripts. Do not use Import/Append/Link, external or legacy meshes, image planes/photos/scans/videos, Asset Browser content, shrinkwrap, surface/mesh deform, data transfer, projection/nearest-surface fitting, third-party Blender add-ons/scripts, or any weight/UV/material/bind-data transfer. The production O2 Blend must retain only the body, hidden clean historical reference rig, v4 target rig and existing scaffold material.
+
+After each region, close Blender and run `CHECKPOINT_ORIGINAL_V1_O2.bat <region_name>`. It reruns provenance/rig/mesh audits before copying the Blend to the checkpoint folder and appending the Blend SHA-256 plus Git HEAD to `ORIGINAL_V1_WORK/O2_AUTHORING_LOG.jsonl`. At final O2 completion use `CHECKPOINT_ORIGINAL_V1_O2.bat neck_head strict`.
 
 ## Modelling stages
 
@@ -35,7 +44,7 @@ Work on the `HGPT_ORIGINAL_V1_CLEAN_SCAFFOLD` geometry as a clean starting volum
 | 9 | Feet | Heel, sole plane, arch, ball and toes; bilateral grounded neutral contact. |
 | 10 | Neck/head | Cervical transition, cranium, face/ears from original shape decisions. |
 
-Do not bind, transfer weights, UV unwrap, add texture images, or make shorts during O2. Deformation checks use temporary non-destructive poses/copies only after neutral review; do not save animation actions into the clean O2 scene.
+Do not bind, transfer weights, UV unwrap, add texture images, or make shorts during O2. Do not create duplicate/reference meshes or saved helper objects in the guarded production Blend. Any disposable deformation experiment that needs copies belongs in a separate file made from a passing checkpoint and must never be merged back into the production Blend.
 
 ## Objective gates after each region
 
@@ -46,7 +55,8 @@ Do not bind, transfer weights, UV unwrap, add texture images, or make shorts dur
 5. **Proportion:** design target 1.82 m crown-to-floor, shoulder joint breadth 430 mm, hip joint breadth 184 mm, upper arm 325 mm, forearm 270 mm, wrist-to-palm axis 95 mm; design segment tolerance ±2 mm before bind. Outer chest/hip breadth and depth are new visual design decisions, not values to transplant from the 1.75 m scaffold.
 6. **Movement envelopes:** at least the v4 rig limits recorded in `src/rig/canonicalV4Original.ts` (both minima and maxima on every defined axis), plus the category battery in `ORIGINAL_V1_MOVEMENT_ENVELOPE.json`: trunk flexion/extension/rotation/lateral flexion, hip hinge/deep squat/lunge, calf raise, push/pull/elevation, elbow and forearm, loaded wrist and thumb/finger grip. At O2 check neutral clearance and loop provision; full numerical deformation, contacts and silhouette evidence belong to O4–O6. Never claim pose acceptance from a rest-pose script.
 
-After each region, also run from repository root:
+`CHECKPOINT_ORIGINAL_V1_O2.bat <region_name>` is the required region gate. It includes the following numerical mesh audit, which may also be run directly for diagnostics:
+
 
 ```bat
 blender --background ORIGINAL_V1_WORK/HomeGymPT_Male_ORIGINAL_v1.blend --python scripts/audit_original_o2_mesh_blender.py
@@ -57,6 +67,8 @@ It writes `reports/original_v1_o2_mesh_audit.json` with height, mirrored vertice
 The tolerances above are stage gates chosen for this original design, not measurements inherited from the legacy character. If a gate conflicts with sound anatomy, stop and document the proposed revision before changing the specification.
 
 ## Stop and recovery
+
+If `ORIGINAL_V1_WORK/AUTHORING_TAINT.json` is created, stop the production session. Do not delete that file or clear the scene marker merely to make the audit pass. Inspect the recorded blocker, recover the latest passing checkpoint, rerun the guarded audits, and resume only from that clean checkpoint.
 
 Stop on missing O1 Blend/provenance, an O1 Blend hash mismatch (do not simply edit the recorded hash; inspect/recover the verified O1 file and its evidence), failed rig export/audit, extra scene objects with unclear origin, any imported geometry or linked image, visible asymmetry outside the declared design, topology errors that cannot be explained by an intentional opening, or a need to fit to V15f/MakeHuman. Keep the last passing checkpoint. To recover, open the most recent checkpoint in `ORIGINAL_V1_WORK/checkpoints/`, rerun `node scripts/export-original-v4-rig.mjs --check` and the v4 Blender audit, record its SHA-256 and the discarded stage, then resume from the last approved region. Do not run the O1 count audit after editing geometry: its fixed 3,890/7,280 counts apply to the untouched scaffold only.
 

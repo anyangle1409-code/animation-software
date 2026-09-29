@@ -54,6 +54,15 @@ for modifier in list(body.modifiers):
 for group in list(body.vertex_groups):
     body.vertex_groups.remove(group)
 
+# The O1 scaffold was parented to the historical rig as part of its temporary
+# generated skin. O2 keeps that rig only as hidden provenance/reference data;
+# detach the body while preserving its world transform so the historical rig
+# cannot move or otherwise drive production geometry.
+body_world = body.matrix_world.copy()
+body.parent = None
+body.matrix_parent_inverse.identity()
+body.matrix_world = body_world
+
 armature = bpy.data.armatures.new(RIG_NAME)
 obj = bpy.data.objects.new(RIG_NAME, armature)
 bpy.data.collections['ORIGINAL_RIG'].objects.link(obj)

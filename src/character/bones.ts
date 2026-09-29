@@ -2,7 +2,7 @@ import {
   Bone,
   Skeleton as ThreeSkeleton,
   type KeyframeTrack,
-  type Matrix4,
+  Matrix4,
   type Object3D,
   type SkinnedMesh,
 } from 'three';
@@ -13,6 +13,30 @@ import type { Skeleton } from '../rig/skeleton';
 export type CharacterBone = Bone;
 export type CharacterKeyframeTrack = KeyframeTrack;
 export type CharacterMatrix4 = Matrix4;
+
+export interface CharacterMatrixLike {
+  readonly elements: ArrayLike<number>;
+}
+
+export function createCharacterMatrix(): CharacterMatrix4 {
+  return new Matrix4();
+}
+
+export function copyCharacterMatrix(
+  source: CharacterMatrixLike,
+  target = createCharacterMatrix(),
+): CharacterMatrix4 {
+  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
+  return target;
+}
+
+export function multiplyCharacterMatrices(
+  left: CharacterMatrix4,
+  right: CharacterMatrix4,
+  target = createCharacterMatrix(),
+): CharacterMatrix4 {
+  return target.multiplyMatrices(left, right);
+}
 export type CharacterObject3D = Object3D;
 export type CharacterSkinnedMesh = SkinnedMesh;
 export type CharacterThreeSkeleton = ThreeSkeleton;

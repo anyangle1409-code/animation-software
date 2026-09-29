@@ -1,4 +1,10 @@
-import { Matrix4 } from 'three';
+import {
+  copyCharacterMatrix,
+  createCharacterMatrix,
+  multiplyCharacterMatrices,
+  type CharacterMatrix4,
+  type CharacterMatrixLike,
+} from '../character/bones';
 import type { CharacterBuild } from '../character/types';
 import {
   anatomicalGripOffset,
@@ -18,20 +24,8 @@ export type EquipmentDisplayCharacter = Pick<
 
 export interface EquipmentDisplayTransform {
   readonly visible: boolean;
-  readonly matrix: Matrix4 | null;
+  readonly matrix: CharacterMatrix4 | null;
 }
-
-interface MatrixLike {
-  readonly elements: ArrayLike<number>;
-}
-
-const toThreeMatrix = (
-  source: MatrixLike,
-  target = new Matrix4(),
-): Matrix4 => {
-  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
-  return target;
-};
 
 /**
  * Resolve the matrices actually drawn by EquipmentView without depending on
@@ -46,7 +40,7 @@ const toThreeMatrix = (
  */
 export function resolveEquipmentDisplayTransforms(
   instances: readonly EquipmentInstance[],
-  transforms: ReadonlyMap<string, { readonly matrix: MatrixLike }>,
+  transforms: ReadonlyMap<string, { readonly matrix: CharacterMatrixLike }>,
   character: EquipmentDisplayCharacter | null | undefined,
 ): Map<string, EquipmentDisplayTransform> {
   const drawn = new Map<string, EquipmentDisplayTransform>();
@@ -57,7 +51,7 @@ export function resolveEquipmentDisplayTransforms(
     if (instance.attachment.mode === 'cable') continue;
 
     if (instance.attachment.mode === 'hand' && character?.handMatrix) {
-      const held = character.handMatrix(instance.attachment.side, new Matrix4());
+      const held = character.handMatrix(instance.attachment.side, createCharacterMatrix());
       if (held) {
         const socket = equipmentSocketForInstance(instance, instance.attachment.socket);
         const grip =
@@ -74,18 +68,18 @@ export function resolveEquipmentDisplayTransforms(
         );
         drawn.set(instance.id, {
           visible: true,
-          matrix: new Matrix4().multiplyMatrices(held, local),
+          matrix: multiplyCharacterMatrices(held, local),
         });
         continue;
       }
     }
 
     if (instance.attachment.mode === 'hands' && character?.handMatrix) {
-      const left = character.handMatrix('l', new Matrix4());
-      const right = character.handMatrix('r', new Matrix4());
+      const left = character.handMatrix('l', createCharacterMatrix());
+      const right = character.handMatrix('r', createCharacterMatrix());
       const matrix = left && right ? twoHandAttachmentMatrix(left, right, instance) : null;
       if (matrix) {
-        drawn.set(instance.id, { visible: true, matrix: toThreeMatrix(matrix) });
+        drawn.set(instance.id, { visible: true, matrix: copyCharacterMatrix(matrix) });
         continue;
       }
     }
@@ -96,7 +90,7 @@ export function resolveEquipmentDisplayTransforms(
       continue;
     }
 
-    const canonicalMatrix = toThreeMatrix(canonical.matrix);
+    const canonicalMatrix = copyCharacterMatrix(canonical.matrix);
     drawn.set(instance.id, {
       visible: true,
       matrix: character?.mirrored
@@ -123,7 +117,7 @@ export function resolveEquipmentDisplayTransforms(
     drawn.set(
       instance.id,
       from && to
-        ? { visible: true, matrix: toThreeMatrix(cableMatrix(from, to).matrix) }
+        ? { visible: true, matrix: copyCharacterMatrix(cableMatrix(from, to).matrix) }
         : { visible: false, matrix: null },
     );
   }

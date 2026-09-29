@@ -1,24 +1,17 @@
 import {
-  AnimationClip,
   Box3,
   Bone,
-  Euler,
   BufferAttribute,
   BufferGeometry,
   InterleavedBufferAttribute,
-  InterpolateLinear,
-  NumberKeyframeTrack,
   Quaternion,
-  QuaternionKeyframeTrack,
   Skeleton as ThreeSkeleton,
-  type KeyframeTrack,
   Matrix4,
   Material,
   MeshStandardMaterial,
   SkinnedMesh,
   Vector3,
   type Object3D,
-  VectorKeyframeTrack,
 } from 'three';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
@@ -64,44 +57,12 @@ export function isCharacterStandardMaterial(
 }
 export type CharacterInterleavedBufferAttribute = InterleavedBufferAttribute;
 
-export function createCharacterNumberKeyframeTrack(
-  name: string,
-  times: readonly number[],
-  values: readonly number[],
-): KeyframeTrack {
-  return new NumberKeyframeTrack(name, times, values, InterpolateLinear);
-}
-
 export function createCharacterBufferAttribute(
   values: Float32Array,
   itemSize: number,
 ): CharacterBufferAttribute {
   return new BufferAttribute(values, itemSize);
 }
-export type CharacterAnimationClip = AnimationClip;
-export type CharacterKeyframeTrack = KeyframeTrack;
-
-export function createCharacterAnimationClip(
-  name: string,
-  duration: number,
-  tracks: CharacterKeyframeTrack[],
-): CharacterAnimationClip {
-  return new AnimationClip(name, duration, tracks);
-}
-
-export function serializeCharacterAnimationClip(clip: CharacterAnimationClip): unknown {
-  return AnimationClip.toJSON(clip);
-}
-
-export function createCharacterEuler(
-  x = 0,
-  y = 0,
-  z = 0,
-  order: Euler['order'] = 'XYZ',
-): Euler {
-  return new Euler(x, y, z, order);
-}
-
 export type CharacterQuaternion = Quaternion;
 
 export function createCharacterQuaternion(
@@ -113,21 +74,6 @@ export function createCharacterQuaternion(
   return new Quaternion(x, y, z, w);
 }
 
-export function createCharacterQuaternionKeyframeTrack(
-  name: string,
-  times: readonly number[],
-  values: readonly number[],
-): CharacterKeyframeTrack {
-  return new QuaternionKeyframeTrack(name, times, values);
-}
-
-export function createCharacterVectorKeyframeTrack(
-  name: string,
-  times: readonly number[],
-  values: readonly number[],
-): CharacterKeyframeTrack {
-  return new VectorKeyframeTrack(name, times, values, InterpolateLinear);
-}
 export type CharacterMatrix4 = Matrix4;
 
 export interface CharacterMatrixLike {

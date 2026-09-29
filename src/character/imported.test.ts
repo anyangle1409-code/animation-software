@@ -24,7 +24,7 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { pushUp } from '../exercises/definitions/pushUp';
 import { exportGlb } from '../export/glb';
-import { handAttachmentMatrix } from '../export/clipBuilder';
+import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 import { anatomicalGripOffset } from '../equipment/attach';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';

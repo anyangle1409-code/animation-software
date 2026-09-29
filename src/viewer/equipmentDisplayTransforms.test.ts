@@ -4,7 +4,7 @@ import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix } from '../equip
 import type { EquipmentInstance } from '../equipment/types';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
-import { handAttachmentMatrix } from '../export/clipBuilder';
+import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
 
 interface MatrixLike {

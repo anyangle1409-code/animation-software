@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
-import { bakeClip } from './clipBuilder';
+import { bakeClip } from './test/clipBuilderCompat';
 import { bakeClipData } from './clipData';
 import type { DeformationSampler } from '../character/types';
 

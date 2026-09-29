@@ -9,7 +9,7 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { cablePushdown } from '../exercises/definitions/cablePushdown';
 import { inclineCurl } from '../exercises/definitions/inclineCurl';
-import { bakeClip } from './clipBuilder';
+import { bakeClip } from './test/clipBuilderCompat';
 import { buildSkinnedRig } from './rigBuilder';
 import { exportAnimationJson, exportMetadataJson, SKELETON_ID } from './json';
 import { exportGlb } from './glb';

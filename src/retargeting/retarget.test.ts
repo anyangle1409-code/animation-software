@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AnimationClip, AnimationMixer, Bone, Group, LoopOnce, Matrix4, Quaternion, Vector3 } from 'three';
 import { retargetSampler } from '../character/retargetSource';
-import { deformationTrackToCharacterTrack } from '../export/clipBuilder';
+import { deformationTrackToCharacterTrack } from '../export/test/clipBuilderCompat';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { poseFromDegrees, restPose } from '../rig/pose';
 import { generateClip } from '../animation/generate';

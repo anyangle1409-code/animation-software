@@ -1,29 +1,43 @@
+/** Test-only Three compatibility oracle. Never imported by production code. */
 import {
-  createCharacterAnimationClip,
-  createCharacterEuler,
-  createCharacterMatrix,
-  createCharacterNumberKeyframeTrack,
-  createCharacterQuaternion,
-  createCharacterQuaternionKeyframeTrack,
-  createCharacterVector3,
-  createCharacterVectorKeyframeTrack,
-  serializeCharacterAnimationClip,
-  type CharacterAnimationClip,
-  type CharacterKeyframeTrack as KeyframeTrack,
-  type CharacterMatrix4,
-} from '../character/bones';
-import type { BoneName } from '../rig/boneNames';
-import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import type { Skeleton } from '../rig/skeleton';
-import { EULER_ORDER } from '../rig/types';
-import type { StudioClip } from '../animation/clip';
-import type { Vec3 } from '../rig/types';
-import { resolveFrame } from '../animation/pipeline';
-import { sampleClip } from '../animation/clip';
-import { lockAnchors } from '../constraints/locks';
-import { handAttachmentLocalMatrix } from '../equipment/attach';
-import type { DeformationSampler, DeformationTrackData } from '../character/types';
-import { compressTrack } from './tracks';
+  AnimationClip,
+  Euler,
+  Matrix4,
+  NumberKeyframeTrack,
+  Quaternion,
+  QuaternionKeyframeTrack,
+  Vector3,
+  VectorKeyframeTrack,
+  type KeyframeTrack,
+} from 'three';
+type CharacterAnimationClip = AnimationClip;
+type CharacterMatrix4 = Matrix4;
+const createCharacterAnimationClip = (name: string, duration: number, tracks: KeyframeTrack[]) =>
+  new AnimationClip(name, duration, tracks);
+const createCharacterEuler = (x = 0, y = 0, z = 0, order: Euler['order'] = 'XYZ') =>
+  new Euler(x, y, z, order);
+const createCharacterMatrix = () => new Matrix4();
+const createCharacterNumberKeyframeTrack = (name: string, times: readonly number[], values: readonly number[]) =>
+  new NumberKeyframeTrack(name, times, values);
+const createCharacterQuaternion = () => new Quaternion();
+const createCharacterQuaternionKeyframeTrack = (name: string, times: readonly number[], values: readonly number[]) =>
+  new QuaternionKeyframeTrack(name, times, values);
+const createCharacterVector3 = () => new Vector3();
+const createCharacterVectorKeyframeTrack = (name: string, times: readonly number[], values: readonly number[]) =>
+  new VectorKeyframeTrack(name, times, values);
+const serializeCharacterAnimationClip = (clip: AnimationClip): unknown => AnimationClip.toJSON(clip);
+import type { BoneName } from '../../rig/boneNames';
+import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
+import type { Skeleton } from '../../rig/skeleton';
+import { EULER_ORDER } from '../../rig/types';
+import type { StudioClip } from '../../animation/clip';
+import type { Vec3 } from '../../rig/types';
+import { resolveFrame } from '../../animation/pipeline';
+import { sampleClip } from '../../animation/clip';
+import { lockAnchors } from '../../constraints/locks';
+import { handAttachmentLocalMatrix } from '../../equipment/attach';
+import type { DeformationSampler, DeformationTrackData } from '../../character/types';
+import { compressTrack } from '../tracks';
 
 export interface BakedClip {
   clip: CharacterAnimationClip;

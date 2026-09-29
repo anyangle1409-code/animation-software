@@ -1,4 +1,6 @@
 import type { ResolvedContact } from '../constraints/types';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
+import { createCharacterVector3 } from './bones';
 import { IK_CHAINS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import type { BoneName } from '../rig/boneNames';
@@ -9,10 +11,10 @@ import type { Side } from './types';
 type SourceBone = RetargetBinding['bones'][number]['bone'];
 type SourceObject = RetargetBinding['character']['root'];
 type SourceMesh = RetargetBinding['character']['meshes'][number];
-type SourceVector = RetargetBinding['hipsRest'];
-type SourceQuaternion = RetargetBinding['worldAlignment'];
-type SourceMatrix = RetargetBinding['restRootWorld'];
-type HandMatrix = (side: Side, target: SourceMatrix) => SourceMatrix | null;
+type SourceVector = HgVec3;
+type SourceQuaternion = HgQuat;
+type SourceMatrix = HgMat4;
+type HandMatrix = (side: Side, target: HgMat4) => HgMat4 | null;
 
 interface ContactRegion {
   mesh: SourceMesh;
@@ -35,6 +37,7 @@ interface ContactRegion {
 export class RetargetContactResolver {
   private readonly regions: Map<IKChainId, ContactRegion[]>;
   private readonly point: SourceVector;
+  private readonly scenePoint = createCharacterVector3();
   private readonly implicitFootAnchors = new Map<IKChainId, SourceVector>();
 
   constructor(
@@ -90,7 +93,7 @@ export class RetargetContactResolver {
       if (!end) continue;
       let anchor = this.implicitFootAnchors.get(chain);
       if (!anchor) {
-        anchor = end.getWorldPosition(this.vector());
+        anchor = worldPosition(end, this.vector());
         this.implicitFootAnchors.set(chain, anchor);
       }
       result.push({ chain, mode: 'floor', target: this.sourceToCanonical(anchor) });
@@ -114,14 +117,14 @@ export class RetargetContactResolver {
     const pinky = this.boneByName.get(`pinky_01_${side}` as BoneName);
     if (!hand || !index || !middle || !ring || !pinky) return;
 
-    const head = hand.getWorldPosition(this.vector());
+    const head = worldPosition(hand, this.vector());
     const tail = this.vector();
     for (const bone of [index, middle, ring, pinky]) {
-      tail.add(bone.getWorldPosition(this.vector()));
+      tail.add(worldPosition(bone, this.vector()));
     }
     tail.multiplyScalar(0.25);
-    const width = index.getWorldPosition(this.vector())
-      .sub(pinky.getWorldPosition(this.vector()));
+    const width = worldPosition(index, this.vector())
+      .sub(worldPosition(pinky, this.vector()));
     if (tail.distanceToSquared(head) < 1e-8 || width.lengthSq() < 1e-8) return;
 
     const direction = transformedDirection(contact.aim.direction, this.binding);
@@ -133,7 +136,7 @@ export class RetargetContactResolver {
     const desiredFrame = boneFrame(head, head.clone().add(direction), forward);
     const delta = desiredFrame.multiply(currentFrame.invert());
     const targetRotation = this.quaternion().set(delta.x, delta.y, delta.z, delta.w);
-    setWorldRotation(hand, targetRotation.multiply(hand.getWorldQuaternion(this.quaternion())));
+    setWorldRotation(hand, targetRotation.multiply(worldQuaternion(hand, this.quaternion())));
     this.binding.character.root.updateMatrixWorld(true);
   }
 
@@ -155,7 +158,7 @@ export class RetargetContactResolver {
     if (!Number.isFinite(delta.lengthSq()) || delta.lengthSq() < 1e-12) return;
     // A malformed asset must not drag a limb arbitrarily far across the scene.
     if (delta.length() > 0.25) delta.setLength(0.25);
-    const target = end.getWorldPosition(this.vector()).add(delta);
+    const target = worldPosition(end, this.vector()).add(delta);
     ccd(this.binding.character.root, root, mid, end, target);
   }
 
@@ -171,7 +174,7 @@ export class RetargetContactResolver {
       : null;
     const currentPoint = current
       ? this.point.setFromMatrixPosition(current).clone()
-      : end.getWorldPosition(this.vector());
+      : worldPosition(end, this.vector());
     const target = this.vector(contact.target.x, contact.target.y, contact.target.z);
     if (this.binding.mirrorSides) target.x *= -1;
     target.applyQuaternion(this.binding.worldAlignment);
@@ -193,9 +196,9 @@ export class RetargetContactResolver {
       mesh.updateWorldMatrix(true, false);
       const position = mesh.geometry.getAttribute('position');
       for (const vertex of vertices) {
-        this.point.fromBufferAttribute(position, vertex);
-        mesh.applyBoneTransform(vertex, this.point).applyMatrix4(mesh.matrixWorld);
-        minimum = Math.min(minimum, this.point.y);
+        this.scenePoint.fromBufferAttribute(position, vertex);
+        mesh.applyBoneTransform(vertex, this.scenePoint).applyMatrix4(mesh.matrixWorld);
+        minimum = Math.min(minimum, this.scenePoint.y);
       }
     }
     return minimum;
@@ -218,16 +221,18 @@ function ccd(
   end: SourceBone,
   target: SourceVector,
 ): void {
-  const endWorld = end.getWorldQuaternion(end.quaternion.clone());
+  const endWorld = worldQuaternion(end, new HgQuat());
   for (let iteration = 0; iteration < 5; iteration += 1) {
     for (const joint of [mid, root]) {
-      const jointPosition = joint.getWorldPosition(joint.position.clone());
-      const current = end.getWorldPosition(end.position.clone()).sub(jointPosition);
+      const jointPosition = worldPosition(joint, new HgVec3());
+      const current = worldPosition(end, new HgVec3()).sub(jointPosition);
       const desired = target.clone().sub(jointPosition);
       if (current.lengthSq() < 1e-10 || desired.lengthSq() < 1e-10) continue;
-      const delta = joint.quaternion.clone()
-        .setFromUnitVectors(current.normalize(), desired.normalize());
-      const world = joint.getWorldQuaternion(joint.quaternion.clone());
+      const delta = new HgQuat().setFromUnitVectors(
+        current.normalize(),
+        desired.normalize(),
+      );
+      const world = worldQuaternion(joint, new HgQuat());
       setWorldRotation(joint, delta.multiply(world));
       rootObject.updateMatrixWorld(true);
     }
@@ -237,11 +242,22 @@ function ccd(
   rootObject.updateMatrixWorld(true);
 }
 
+function worldPosition(bone: SourceBone, target: HgVec3): HgVec3 {
+  bone.updateWorldMatrix(true, false);
+  return target.setFromMatrixPosition(bone.matrixWorld);
+}
+
+function worldQuaternion(bone: SourceBone, target: HgQuat): HgQuat {
+  bone.updateWorldMatrix(true, false);
+  return target.setFromRotationMatrix(new HgMat4().extractRotation(bone.matrixWorld));
+}
+
 function setWorldRotation(bone: SourceBone, world: SourceQuaternion): void {
   const parent = bone.parent
-    ? bone.parent.getWorldQuaternion(bone.quaternion.clone())
-    : bone.quaternion.clone().identity();
-  bone.quaternion.copy(parent.invert().multiply(world));
+    ? new HgQuat().setFromRotationMatrix(new HgMat4().extractRotation(bone.parent.matrixWorld))
+    : new HgQuat();
+  const local = parent.invert().multiply(world);
+  bone.quaternion.set(local.x, local.y, local.z, local.w);
   bone.updateMatrixWorld(true);
 }
 

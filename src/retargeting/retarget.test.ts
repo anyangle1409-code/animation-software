@@ -12,6 +12,12 @@ import { applyRetarget, bindRetarget, readCharacter, resetCharacter } from './re
 
 const skeleton = canonicalSkeleton;
 
+const threeVector = (value: { x: number; y: number; z: number }) =>
+  new Vector3(value.x, value.y, value.z);
+const threeQuaternion = (value: { x: number; y: number; z: number; w: number }) =>
+  new Quaternion(value.x, value.y, value.z, value.w);
+
+
 /**
  * A stand-in imported character: the canonical rig rebuilt under a different
  * naming convention, optionally with a deliberately different authored rest
@@ -317,8 +323,8 @@ describe('disconnected source deform branches', () => {
     expect(detached.hips!.getWorldPosition(new Vector3()).y).toBeCloseTo(pose.rootPosition.y * detached.scale, 6);
     resetCharacter(detached.character);
     for (const [name, bone] of detached.character.bones) {
-      expect(bone.position.distanceTo(detached.character.restPosition.get(name)!)).toBeLessThan(1e-9);
-      expect(bone.quaternion.angleTo(detached.character.restLocal.get(name)!)).toBeLessThan(1e-6);
+      expect(bone.position.distanceTo(threeVector(detached.character.restPosition.get(name)!))).toBeLessThan(1e-9);
+      expect(bone.quaternion.angleTo(threeQuaternion(detached.character.restLocal.get(name)!))).toBeLessThan(1e-6);
     }
   });
 
@@ -357,7 +363,7 @@ describe('disconnected source deform branches', () => {
     expect(tracks.some(t => t.target === 'thigh_l' && t.property === 'position')).toBe(true);
     expect(tracks.some(t => t.target === 'DEF-jaw' && t.property === 'position')).toBe(true);
     for (const [name, bone] of binding.character.bones) {
-      expect(bone.position.distanceTo(binding.character.restPosition.get(name)!)).toBeLessThan(1e-9);
+      expect(bone.position.distanceTo(threeVector(binding.character.restPosition.get(name)!))).toBeLessThan(1e-9);
     }
     const mixer = new AnimationMixer(binding.character.root);
     const action = mixer.clipAction(new AnimationClip(

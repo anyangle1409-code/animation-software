@@ -187,14 +187,15 @@ export function retargetedCharacterSource(
       };
 
       const scratch = {
-        matrix: createCharacterMatrix(),
-        basis: createCharacterMatrix(),
-        rotation: createHgQuat(),
+        matrix: new HgMat4(),
+        basis: new HgMat4(),
+        rotation: new HgQuat(),
         position: new HgVec3(),
         unit: new HgVec3(1, 1, 1),
+        output: new HgMat4(),
       };
 
-      const handMatrix = (side: Side, target: CharacterMatrix4): CharacterMatrix4 | null => {
+      const handFrame = (side: Side, target: HgMat4): HgMat4 | null => {
         const name = (side === 'l' ? 'hand_l' : 'hand_r') as BoneName;
         const bone = boneByName.get(name);
         const change = correction.get(name);
@@ -213,7 +214,12 @@ export function retargetedCharacterSource(
             new HgMat4().makeTranslation(offset.x, offset.y, offset.z),
           );
         }
-        return copyCharacterMatrix(scratch.output, target);
+        return target.copy(scratch.output);
+      };
+
+      const handMatrix = (side: Side, target: CharacterMatrix4): CharacterMatrix4 | null => {
+        const frame = handFrame(side, scratch.output);
+        return frame ? copyCharacterMatrix(frame, target) : null;
       };
 
       const handFrameLocalMatrix = (side: Side): number[] | null => {
@@ -221,13 +227,13 @@ export function retargetedCharacterSource(
         const bone = boneByName.get(name);
         if (!bone) return null;
         bone.updateWorldMatrix(true, false);
-        const frame = handMatrix(side, createCharacterMatrix());
+        const frame = handFrame(side, new HgMat4());
         if (!frame) return null;
-        const local = new HgMat4()
+        return new HgMat4()
           .copy(bone.matrixWorld)
           .invert()
-          .multiply(frame);
-        return local.toArray();
+          .multiply(frame)
+          .toArray();
       };
 
       // The solved handle centre, applied here so the renderer, the exporter
@@ -249,7 +255,7 @@ export function retargetedCharacterSource(
           }
         : undefined;
 
-      const contacts = new RetargetContactResolver(binding, boneByName, handMatrix);
+      const contacts = new RetargetContactResolver(binding, boneByName, handFrame);
       const drive = (pose: Pose, context?: CharacterPoseContext) => {
         if (!context?.contacts?.length) {
           applyRetarget(binding, pose);
@@ -445,19 +451,26 @@ export function retargetSampler(
 export const CORRECTED_HAND_FRAME = 'hand-v2';
 
 /** The turn that brings embedded grip offsets into the current hand frame. */
+interface QuaternionLike {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
+
 export function handFrameTurn(
   declared: unknown,
-  legacyHandFrame: Record<Side, HgQuat>,
-): Record<Side, HgQuat> {
+  legacyHandFrame: Record<Side, QuaternionLike>,
+): Record<Side, QuaternionLike> {
   return declared === CORRECTED_HAND_FRAME
-    ? { l: createHgQuat(), r: createHgQuat() }
+    ? { l: new HgQuat(), r: new HgQuat() }
     : legacyHandFrame;
 }
 
 /** Offsets expressed in the hand frame they were measured in, turned into the current one. */
 export function inHandFrame(
   offsets: Partial<Record<Side, { x: number; y: number; z: number }>> | undefined,
-  turn: Record<Side, HgQuat>,
+  turn: Record<Side, QuaternionLike>,
 ): Partial<Record<Side, { x: number; y: number; z: number }>> | undefined {
   if (!offsets) return offsets;
   const result: Partial<Record<Side, { x: number; y: number; z: number }>> = {};

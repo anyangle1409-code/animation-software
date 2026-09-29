@@ -253,4 +253,13 @@ describe('first-party math migration parity against Three.js', () => {
     expectMatrixParity(new HgMat4().fromArray(m.toArray()), new Matrix4().fromArray(m.toArray()));
   });
 
+  it('matches vector distance-squared and set-length operations used by retarget contact IK', () => {
+    const hg = new HgVec3(0.3, -0.4, 0.5);
+    const three = new Vector3(0.3, -0.4, 0.5);
+    const hgOther = new HgVec3(-0.2, 0.1, 0.9);
+    const threeOther = new Vector3(-0.2, 0.1, 0.9);
+    expect(Math.abs(hg.distanceToSquared(hgOther) - three.distanceToSquared(threeOther))).toBeLessThan(EPS);
+    expectVecParity(hg.clone().setLength(0.25), three.clone().setLength(0.25), 1e-12);
+  });
+
 });

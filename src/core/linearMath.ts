@@ -94,6 +94,17 @@ export class HgVec3 {
     return Math.hypot(this.x - v.x, this.y - v.y, this.z - v.z);
   }
 
+  distanceToSquared(v: { x: number; y: number; z: number }): number {
+    const dx = this.x - v.x;
+    const dy = this.y - v.y;
+    const dz = this.z - v.z;
+    return dx * dx + dy * dy + dz * dz;
+  }
+
+  setLength(length: number): this {
+    return this.normalize().multiplyScalar(length);
+  }
+
   lerp(v: HgVec3, t: number): this {
     this.x += (v.x - this.x) * t;
     this.y += (v.y - this.y) * t;

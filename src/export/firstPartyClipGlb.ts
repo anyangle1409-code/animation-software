@@ -19,7 +19,9 @@ export function exportFirstPartyClipGlb(
   const builder = new HgGltfBuilder();
   const rig = canonicalSkeleton;
   const sceneRootIndex = 0;
-  const nodeIndex = new Map(rig.bones.map((bone, index) => [bone.name, index + 1]));
+  const nodeIndex = new Map<string, number>(
+    rig.bones.map((bone, index) => [bone.name, index + 1]),
+  );
 
   const boneNodes = rig.bones.map((bone) => {
     const children = rig.bones

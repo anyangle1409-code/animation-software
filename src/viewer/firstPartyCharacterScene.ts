@@ -43,7 +43,14 @@ export interface HgRenderableCharacterMesh extends HgDeformableMeshLike {
     | Array<{
         color?: { r: number; g: number; b: number };
         opacity?: number;
-        map?: { image?: unknown; flipY?: boolean } | null;
+        map?: {
+          image?: unknown;
+          flipY?: boolean;
+          wrapS?: 33071 | 33648 | 10497;
+          wrapT?: 33071 | 33648 | 10497;
+          magFilter?: 9728 | 9729 | null;
+          minFilter?: 9728 | 9729 | 9984 | 9985 | 9986 | 9987 | null;
+        } | null;
       }>;
   readonly matrixWorld: { readonly elements: ArrayLike<number> };
   updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;

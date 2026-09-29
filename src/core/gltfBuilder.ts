@@ -1,4 +1,5 @@
 import { encodeHgGlb } from './glbContainer';
+import type { HgGlbDocument } from './glbContainer';
 import type { HgAccessorType, HgComponentType } from './gltfAccessors';
 
 const COMPONENTS: Record<HgAccessorType, number> = {
@@ -40,6 +41,12 @@ export interface HgGltfJson {
 class HgBinaryBuilder {
   private readonly chunks: Array<{ offset: number; bytes: Uint8Array }> = [];
   private length = 0;
+
+  constructor(initial?: Uint8Array) {
+    if (!initial?.byteLength) return;
+    this.chunks.push({ offset: 0, bytes: new Uint8Array(initial) });
+    this.length = initial.byteLength;
+  }
 
   append(bytes: Uint8Array, alignment = 4): { byteOffset: number; byteLength: number } {
     const mask = alignment - 1;
@@ -119,14 +126,82 @@ function minMax(values: readonly number[], components: number) {
  * options only when the Home Gym PT production format actually needs them.
  */
 export class HgGltfBuilder {
-  readonly json: HgGltfJson = {
-    asset: { version: '2.0', generator: 'Home Gym PT first-party codec' },
-    buffers: [],
-    bufferViews: [],
-    accessors: [],
-  };
+  readonly json: HgGltfJson;
+  private readonly binary: HgBinaryBuilder;
 
-  private readonly binary = new HgBinaryBuilder();
+  constructor(seed?: { json: HgGltfJson; binary?: Uint8Array }) {
+    this.json = seed?.json ?? {
+      asset: { version: '2.0', generator: 'Home Gym PT first-party codec' },
+      buffers: [],
+      bufferViews: [],
+      accessors: [],
+    };
+    this.binary = new HgBinaryBuilder(seed?.binary);
+  }
+
+  /**
+   * Continue writing an existing standalone GLB without rebuilding its scene.
+   *
+   * Existing bufferView offsets remain valid because the original BIN payload
+   * is copied first and every new accessor is appended after it. This is the
+   * foundation for preserving an imported character's authored mesh, skin,
+   * materials and embedded textures while Home Gym PT adds its own animation.
+   */
+  static fromDocument(document: HgGlbDocument): HgGltfBuilder {
+    if (document.binaryChunks.length > 1) {
+      throw new Error('Preserved GLB writing requires at most one BIN chunk');
+    }
+
+    const cloned = JSON.parse(JSON.stringify(document.json)) as Record<string, unknown>;
+    const asset = cloned.asset;
+    if (!asset || typeof asset !== 'object' || Array.isArray(asset) ||
+        (asset as Record<string, unknown>).version !== '2.0') {
+      throw new Error('Preserved GLB writing requires glTF 2.0');
+    }
+
+    const buffers = cloned.buffers;
+    if (buffers !== undefined && !Array.isArray(buffers)) {
+      throw new Error('Preserved GLB buffers must be an array');
+    }
+    if ((buffers as unknown[] | undefined)?.length > 1) {
+      throw new Error('Preserved GLB writing requires a single in-file buffer');
+    }
+    for (const buffer of (buffers as Record<string, unknown>[] | undefined) ?? []) {
+      if (buffer.uri !== undefined) {
+        throw new Error('Preserved GLB writing does not accept external buffers');
+      }
+    }
+
+    const bufferViews = cloned.bufferViews;
+    if (bufferViews !== undefined && !Array.isArray(bufferViews)) {
+      throw new Error('Preserved GLB bufferViews must be an array');
+    }
+    for (const [index, view] of ((bufferViews as Record<string, unknown>[] | undefined) ?? []).entries()) {
+      const buffer = view.buffer ?? 0;
+      if (buffer !== 0) {
+        throw new Error(`Preserved GLB bufferView ${index} references unsupported buffer ${String(buffer)}`);
+      }
+    }
+
+    const accessors = cloned.accessors;
+    if (accessors !== undefined && !Array.isArray(accessors)) {
+      throw new Error('Preserved GLB accessors must be an array');
+    }
+
+    const json = cloned as HgGltfJson;
+    json.asset = {
+      ...(asset as HgGltfJson['asset']),
+      generator: 'Home Gym PT first-party codec',
+    };
+    json.buffers = Array.isArray(buffers) ? buffers as Array<{ byteLength: number }> : [];
+    json.bufferViews = Array.isArray(bufferViews) ? bufferViews as Array<Record<string, unknown>> : [];
+    json.accessors = Array.isArray(accessors) ? accessors as Array<Record<string, unknown>> : [];
+
+    return new HgGltfBuilder({
+      json,
+      binary: document.binaryChunks[0],
+    });
+  }
 
   addAccessor(
     values: readonly number[],

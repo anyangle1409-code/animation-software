@@ -25,6 +25,7 @@ import {
   Texture,
 } from 'three';
 import { parseHgGlb } from '../core/glbContainer';
+import { hgRuntimeNodeName } from '../core/gltfRuntimeNames';
 import {
   readHgGltfScene,
   type HgGltfMaterial,
@@ -54,26 +55,6 @@ function extrasInto(object: Object3D, extras: unknown): void {
   if (extras && typeof extras === 'object' && !Array.isArray(extras)) {
     Object.assign(object.userData, extras);
   }
-}
-
-const RESERVED_BINDING_CHARS = /[\[\].:\/]/g;
-
-/**
- * Match the established glTF runtime naming contract without calling Three's
- * PropertyBinding helper: whitespace becomes underscores and characters
- * reserved by animation track syntax are removed.
- */
-function runtimeNodeName(name: string, used: Map<string, number>): string {
-  const sanitized = name.replace(/\s/g, '_').replace(RESERVED_BINDING_CHARS, '');
-  if (!sanitized) return '';
-  const seen = used.get(sanitized);
-  if (seen === undefined) {
-    used.set(sanitized, 0);
-    return sanitized;
-  }
-  const next = seen + 1;
-  used.set(sanitized, next);
-  return `${sanitized}_${next}`;
 }
 
 function geometryFor(primitive: HgGltfPrimitive, targetNames: string[]): BufferGeometry {
@@ -321,7 +302,7 @@ export async function loadHgThreeScene(
   const nodeNamesUsed = new Map<string, number>();
   const nodes = decoded.nodes.map((node) => {
     const object = jointNodes.has(node.index) ? new Bone() : new Object3D();
-    object.name = runtimeNodeName(node.name, nodeNamesUsed);
+    object.name = hgRuntimeNodeName(node.name, nodeNamesUsed);
     applyNodeTransform(object, node);
     extrasInto(object, node.extras);
     return object;

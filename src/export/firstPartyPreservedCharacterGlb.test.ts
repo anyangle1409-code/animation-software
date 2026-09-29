@@ -138,11 +138,13 @@ describe('first-party preserved character GLB writer', () => {
     expect(meshes[0].extras?.targetNames).toEqual(['bend', 'runtime_bend']);
     expect(meshes[0].primitives[0].targets).toHaveLength(2);
     const appended = meshes[0].primitives[0].targets![1].POSITION!;
-    expect(readHgAccessor(output, appended).values).toEqual([
-      0, 0, 0,
-      0, 0.2, 0,
-      0, 0, 0,
-    ]);
+    expect(readHgAccessor(output, appended).values).toEqual(
+      Array.from(new Float32Array([
+        0, 0, 0,
+        0, 0.2, 0,
+        0, 0, 0,
+      ])),
+    );
 
     const animations = readHgGltfAnimations(output);
     expect(animations).toHaveLength(1);

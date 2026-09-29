@@ -476,32 +476,35 @@ def hand_point(lx0, a, d, z):
     return (lx0 + d, a, z)
 
 
-def palm_ring(lx0, z, radial, ulnar, dorsal, palmar, zd=0.0, zp=0.0, thenar=0.0, hypo=0.0, arch=0.15):
+def palm_ring(lx0, z, radial, ulnar, dorsal, palmar, zd=0.0, zp=0.0, thenar=0.0, hypo=0.0, arch=0.15, tilt=0.0):
     """20-vertex palm contour in P4 index convention:
     0 radial, 1..9 dorsal radial->ulnar, 10 ulnar, 11..19 palmar ulnar->radial.
-    arch=1 gives an elliptical (wrist-like) section, small values a flat palm."""
+    arch=1 gives an elliptical (wrist-like) section, small values a flat palm.
+    tilt lowers the radial side (negative) relative to the ulnar side."""
     def shape(k):
         u = (k - 4) / 4.6
         return 1 - arch * (1 - math.sqrt(max(0.0, 1 - u * u)))
+    mid, half = 0.5 * (radial + ulnar), 0.5 * (radial - ulnar)
+    zt = lambda a: z + tilt * (a - mid) / half
     inset = 0.004 + 0.010 * arch
-    pts = [hand_point(lx0, radial, 0.0, z)]
+    pts = [hand_point(lx0, radial, 0.0, zt(radial))]
     for k in range(9):
         a = radial - inset - (radial - ulnar - 2 * inset) * k / 8
-        pts.append(hand_point(lx0, a, dorsal * shape(k), z + zd))
-    pts.append(hand_point(lx0, ulnar, 0.0, z))
+        pts.append(hand_point(lx0, a, dorsal * shape(k), zt(a) + zd))
+    pts.append(hand_point(lx0, ulnar, 0.0, zt(ulnar)))
     for k in range(9):
         a = ulnar + inset + (radial - ulnar - 2 * inset) * k / 8
         bulge = hypo * math.exp(-((k - 1.5) / 1.5) ** 2) + thenar * math.exp(-((k - 7.5) / 1.3) ** 2)
-        pts.append(hand_point(lx0, a, -(palmar * shape(8 - k) + bulge), z + zp))
+        pts.append(hand_point(lx0, a, -(palmar * shape(8 - k) + bulge), zt(a) + zp))
     return pts
 
 
 FINGERS = ("index", "middle", "ring", "pinky")
 FINGER_SIZE = {  # half-width (f), dorsal thickness, palmar thickness at base; tip scale
-    "index": (0.0098, 0.0080, 0.0095, 0.80),
-    "middle": (0.0100, 0.0082, 0.0098, 0.80),
-    "ring": (0.0094, 0.0078, 0.0092, 0.80),
-    "pinky": (0.0082, 0.0070, 0.0082, 0.80),
+    "index": (0.0106, 0.0082, 0.0100, 0.80),
+    "middle": (0.0108, 0.0084, 0.0103, 0.80),
+    "ring": (0.0102, 0.0080, 0.0097, 0.80),
+    "pinky": (0.0089, 0.0072, 0.0086, 0.80),
 }
 
 
@@ -686,22 +689,23 @@ def build_hand(B, bones, side, wrist_loop):
     wrist = palm_ring(lx0 + 0.001, 0.918, 0.003, -0.061, 0.020, 0.019, arch=1.0)
     wrist_ids = B.add_many([sidep(side, p) for p in wrist], "hand")
     B.bridge_aligned(wrist_loop, wrist_ids)
-    p0 = palm_ring(lx0 + 0.001, 0.902, 0.012, -0.069, 0.017, 0.020, thenar=0.004, hypo=0.002, arch=0.6)
+    p0 = palm_ring(lx0 + 0.001, 0.902, 0.016, -0.069, 0.017, 0.020, thenar=0.004, hypo=0.002, arch=0.6)
     p0_ids = B.add_many([sidep(side, p) for p in p0], "hand")
     B.bridge(wrist_ids, p0_ids)
-    p1 = palm_ring(lx0 + 0.001, 0.884, 0.024, -0.076, 0.014, 0.020, thenar=0.009, hypo=0.004, arch=0.3)
+    p1 = palm_ring(lx0 + 0.001, 0.884, 0.031, -0.076, 0.014, 0.020, thenar=0.002, hypo=0.004, arch=0.3)
     p1_ids = B.add_many([sidep(side, p) for p in p1], "hand")
     B.bridge(p0_ids, p1_ids)
-    # thumb web chain from dorsal-radial p1[1] to palmar-radial p1[17]
-    web = [(lx0 + 0.009, 0.029, 0.874), (lx0 + 0.000, 0.034, 0.868), (lx0 - 0.011, 0.030, 0.873)]
+    # Thumb-index web chain from dorsal-radial p1[1] to palmar-radial p1[17]:
+    # the first web space runs distally toward the index MCP.
+    web = [(lx0 + 0.007, 0.030, 0.869), (lx0 - 0.004, 0.036, 0.864), (lx0 - 0.016, 0.030, 0.869)]
     t_ids = B.add_many([sidep(side, p) for p in web], "hand")
     thumb_loop = [p1_ids[17], p1_ids[18], p1_ids[19], p1_ids[0], p1_ids[1]] + t_ids
     palm_loop = p1_ids[1:18] + [t_ids[2], t_ids[1], t_ids[0]]
-    # palm rings to the knuckles
-    p2 = palm_ring(lx0 + 0.001, 0.862, 0.024, -0.080, 0.013, 0.018, hypo=0.005)
+    # palm rings to the knuckles; radial side lower (distal) below the web
+    p2 = palm_ring(lx0 + 0.001, 0.858, 0.022, -0.080, 0.013, 0.018, hypo=0.005, tilt=-0.010)
     p2_ids = B.add_many([sidep(side, p) for p in p2], "hand")
     p2_ids = B.bridge_aligned(palm_loop, p2_ids)
-    p3 = palm_ring(lx0 + 0.001, 0.849, 0.023, -0.079, 0.013, 0.016, hypo=0.004)
+    p3 = palm_ring(lx0 + 0.001, 0.847, 0.022, -0.079, 0.013, 0.016, hypo=0.004, tilt=-0.004)
     p3_raw = B.add_many([sidep(side, p) for p in p3], "hand")
     # p2 was re-indexed for alignment; keep p3 in the same order as p2 by alignment
     p3_ids = B.bridge_aligned(p2_ids, p3_raw)
@@ -767,58 +771,90 @@ def chain_stations(bones, names, fractions):
     return out
 
 
+# Finger stations: (bone index, t along bone, width, dorsal, palmar scale, knuckle).
+# Palmar creases narrow the palmar side at each joint; dorsal knuckles rise over
+# PIP/DIP; the distal phalanx carries a full palmar pad and a flatter nail side.
+FINGER_STATIONS = [
+    (0, 0.30, 1.00, 1.00, 1.06, 0.0), (0, 0.62, 0.96, 0.96, 1.02, 0.0),
+    (0, 0.88, 0.95, 0.97, 0.90, 0.0012),
+    (1, 0.00, 0.96, 1.00, 0.88, 0.0022), (1, 0.14, 0.93, 0.95, 0.94, 0.0010),
+    (1, 0.50, 0.89, 0.90, 0.98, 0.0), (1, 0.84, 0.87, 0.90, 0.88, 0.0006),
+    (2, 0.00, 0.87, 0.92, 0.84, 0.0014), (2, 0.18, 0.85, 0.86, 0.92, 0.0004),
+    (2, 0.55, 0.84, 0.78, 1.04, 0.0), (2, 0.86, 0.78, 0.68, 0.96, 0.0),
+    (2, 1.02, 0.60, 0.50, 0.70, 0.0),
+]
+
+
 def build_finger(B, bones, side, name, loop):
     names = [f"{name}_01_l", f"{name}_02_l", f"{name}_03_l"]
-    hw, dors, palm, tip = FINGER_SIZE[name]
-    stations = [
-        (0, 0.30, 1.00, 0.0), (0, 0.62, 0.97, 0.0), (0, 0.86, 0.95, 0.0015),
-        (1, 0.00, 0.95, 0.0022), (1, 0.14, 0.93, 0.0012), (1, 0.50, 0.90, 0.0),
-        (1, 0.82, 0.88, 0.0008), (2, 0.00, 0.87, 0.0014), (2, 0.18, 0.85, 0.0006),
-        (2, 0.55, 0.83, 0.0), (2, 0.92, tip, 0.0),
-    ]
+    hw, dors, palm, _tip = FINGER_SIZE[name]
     rings = []
-    for bi, t, scale, knuckle in stations:
-        (c, tan), = chain_stations(bones, names, [(bi, t)])
+    for bi, t, sw, sd, sp, knuckle in FINGER_STATIONS:
+        (c, tan), = chain_stations(bones, names, [(bi, min(t, 1.0))])
+        if t > 1.0:  # beyond the bone tail (fingertip pad)
+            h, tl = lat(bones, names[bi], "head"), lat(bones, names[bi], "tail")
+            c = h + (tl - h) * t
         c = np.array([side * c[0], c[1], c[2]])
         tan = np.array([side * tan[0], tan[1], tan[2]])
         e1 = unit(FWD - np.dot(FWD, tan) * tan)
         e2 = np.cross(tan, e1)
         if np.dot(e2, np.array([float(side), 0, 0])) < 0:
             e2 = -e2
-        rings.append((c, e1, e2, finger_prof(hw * scale, dors * scale, palm * scale, knuckle)))
+        rings.append((c, e1, e2, finger_prof(hw * sw, dors * sd, palm * sp, knuckle)))
     last = B.loft(loop, rings, blend=2, region="finger")
     tip_dir = rings[-1][0] - rings[-2][0]
-    B.cap(last, a=2, b=2, dome=0.0105, dome_dir=tip_dir, start=0, region="finger")
+    B.cap(last, a=2, b=2, dome=0.0042, dome_dir=tip_dir, start=0, region="finger")
+
+
+# Thumb rings after the metacarpal: (bone index, t, (nail, side, pad, side) radii).
+THUMB_PHALANX_STATIONS = [
+    (1, 0.00, (0.0118, 0.0120, 0.0122, 0.0118)),
+    (1, 0.18, (0.0108, 0.0112, 0.0118, 0.0110)),
+    (1, 0.55, (0.0100, 0.0106, 0.0114, 0.0104)),
+    (1, 0.90, (0.0098, 0.0104, 0.0100, 0.0102)),
+    (2, 0.10, (0.0094, 0.0102, 0.0100, 0.0100)),
+    (2, 0.50, (0.0082, 0.0098, 0.0112, 0.0096)),
+    (2, 0.84, (0.0070, 0.0088, 0.0100, 0.0086)),
+    (2, 1.02, (0.0048, 0.0064, 0.0072, 0.0062)),
+]
+
+
+def thumb_prof(r_nail, r_s1, r_pad, r_s2):
+    return periodic_profile({0: r_nail, 90: r_s1, 180: r_pad, 270: r_s2,
+                             45: 0.5 * (r_nail + r_s1) * 1.03, 135: 0.5 * (r_s1 + r_pad) * 1.05,
+                             225: 0.5 * (r_pad + r_s2) * 1.05, 315: 0.5 * (r_s2 + r_nail) * 1.03})
 
 
 def build_thumb(B, bones, side, loop):
     names = ["thumb_01_l", "thumb_02_l", "thumb_03_l"]
-    stations = [
-        (0, 0.35, (0.0175, 0.0150, 0.0175, 0.0200)),
-        (0, 0.65, (0.0150, 0.0130, 0.0150, 0.0160)),
-        (0, 0.90, (0.0122, 0.0112, 0.0122, 0.0122)),
-        (1, 0.05, (0.0118, 0.0110, 0.0118, 0.0112)),
-        (1, 0.20, (0.0112, 0.0102, 0.0112, 0.0110)),
-        (1, 0.60, (0.0105, 0.0095, 0.0105, 0.0105)),
-        (1, 0.92, (0.0100, 0.0092, 0.0100, 0.0098)),
-        (2, 0.10, (0.0100, 0.0090, 0.0100, 0.0098)),
-        (2, 0.50, (0.0092, 0.0080, 0.0092, 0.0090)),
-        (2, 0.90, (0.0080, 0.0068, 0.0080, 0.0078)),
-    ]
+    flip = lambda p: np.array([side * p[0], p[1], p[2]])
+    # Nail faces anterolaterally in the neutral hang.
+    nail_ref = unit(np.array([0.55 * side, 0.83, 0.0]))
+
+    def frame(tan):
+        e1 = unit(nail_ref - np.dot(nail_ref, tan) * tan)
+        return e1, np.cross(tan, e1)
+
+    # Thenar/metacarpal rings grow out of the base loop toward the MCP joint
+    # (the CMC joint itself lies buried inside the thenar eminence).
+    loop_pts = B.pos(loop)
+    centroid = loop_pts.mean(axis=0)
+    mcp = flip(lat(bones, "thumb_02_l", "head"))
+    to_mcp = mcp - centroid
     rings = []
-    for bi, t, (r0, r90, r180, r270) in stations:
-        (c, tan), = chain_stations(bones, names, [(bi, t)])
-        c = np.array([side * c[0], c[1], c[2]])
-        tan = np.array([side * tan[0], tan[1], tan[2]])
-        ref = np.array([float(side), 0.0, 0.0])  # nail side ~ dorsal/lateral
-        e1 = unit(ref - np.dot(ref, tan) * tan)
-        e2 = np.cross(tan, e1)
-        rings.append((c, e1, e2, periodic_profile({0: r0, 90: r90, 180: r180, 270: r270,
-                                                     45: 0.5 * (r0 + r90) * 1.03, 135: 0.5 * (r90 + r180) * 1.03,
-                                                     225: 0.5 * (r180 + r270) * 1.05, 315: 0.5 * (r270 + r0) * 1.03})))
+    for frac, r in ((0.30, (0.0160, 0.0180, 0.0225, 0.0180)), (0.66, (0.0134, 0.0145, 0.0165, 0.0142))):
+        tan = unit(to_mcp)
+        e1, e2 = frame(tan)
+        rings.append((centroid + to_mcp * frac, e1, e2, thumb_prof(*r)))
+    for bi, t, r in THUMB_PHALANX_STATIONS:
+        h, tl = lat(bones, names[bi], "head"), lat(bones, names[bi], "tail")
+        c = flip(h + (tl - h) * t)
+        tan = unit(flip(tl - h))
+        e1, e2 = frame(tan)
+        rings.append((c, e1, e2, thumb_prof(*r)))
     last = B.loft(loop, rings, blend=2, region="thumb")
     tip_dir = rings[-1][0] - rings[-2][0]
-    B.cap(last, a=2, b=2, dome=0.0115, dome_dir=tip_dir, start=0, region="thumb")
+    B.cap(last, a=2, b=2, dome=0.0045, dome_dir=tip_dir, start=0, region="thumb")
 
 
 # --------------------------------------------------------------------------

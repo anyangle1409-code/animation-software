@@ -48,6 +48,31 @@ if "--regen" in flags:
     body.matrix_world.identity()
     for poly in mesh.polygons:
         poly.use_smooth = True
+    keep_regions = next((a.split("=", 1)[1].split(",") for a in args if a.startswith("--regions=")), None)
+    if keep_regions:
+        # Inspection aid (copy only): keep generator regions on the left (-X) side.
+        import bmesh
+        keep = set()
+        for name in keep_regions:
+            keep.update(i for i in result["regions"].get(name, []) if result["vertices"][i][0] < 0)
+        bm = bmesh.new()
+        bm.from_mesh(mesh)
+        bm.verts.ensure_lookup_table()
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.index not in keep], context="VERTS")
+        bm.to_mesh(mesh)
+        bm.free()
+
+isolate = next((a for a in args if a.startswith("--isolate=")), None)
+if isolate:
+    # Inspection aid (copy only): keep only vertices inside an x,y,z box.
+    import bmesh
+    x0, x1, y0, y1, z0, z1 = (float(v) for v in isolate.split("=", 1)[1].split(","))
+    bm = bmesh.new()
+    bm.from_mesh(body.data)
+    doomed = [v for v in bm.verts if not (x0 <= v.co.x <= x1 and y0 <= v.co.y <= y1 and z0 <= v.co.z <= z1)]
+    bmesh.ops.delete(bm, geom=doomed, context="VERTS")
+    bm.to_mesh(body.data)
+    bm.free()
 
 if "--wire" in flags:
     # Topology review: a dark wireframe shell over the surface (copy only).
@@ -117,7 +142,11 @@ VIEWS = {
     "shoulder_back": (180, 0, (LX, 0.03, 1.40), 0.40, (1000, 1000)),
     "shoulder_top": (0, 80, (LX * 0.6, 0.0, 1.50), 0.55, (1000, 1000)),
     "hand_lateral": (90, 0, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
+    # palm-side views clip away the rest of the body in front of the left hand
+    # palm-side views: combine with --isolate=-0.30,-0.14,-0.12,0.10,0.70,0.97
     "hand_medial": (-90, 0, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
+    "hand_palm_34": (-50, -10, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
+    "hand_top": (0, 70, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
     "hand_front": (0, 0, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
     "hand_34": (40, -20, (LX, 0.02, 0.84), 0.24, (1000, 1000)),
     "foot_side": (90, 0, (-0.092, -0.1, 0.07), 0.40, (1100, 800)),
@@ -137,7 +166,8 @@ VIEWS = {
 }
 
 for view in views:
-    az, el, target, scale, (w, h) = VIEWS[view]
+    az, el, target, scale, (w, h) = VIEWS[view][:5]
+    cam_data.clip_start = VIEWS[view][5] if len(VIEWS[view]) > 5 else 0.1
     scene.render.resolution_x, scene.render.resolution_y = w, h
     cam_data.ortho_scale = scale
     a, e = math.radians(az), math.radians(el)

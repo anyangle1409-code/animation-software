@@ -3,6 +3,7 @@ import { HgQuat } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import type { StudioClip } from '../animation/clip';
+import type { DeformationSampler, DeformationTrackData } from '../character/types';
 import { resolveFrame } from '../animation/pipeline';
 import { sampleClip } from '../animation/clip';
 import { lockAnchors } from '../constraints/locks';
@@ -22,6 +23,7 @@ export interface BakedClipData {
   name: string;
   duration: number;
   tracks: BakedBoneTrackData[];
+  deformationTracks: DeformationTrackData[];
   equipmentTracks: Map<string, { position: number[]; quaternion: number[]; scale?: number[] }>;
   times: number[];
   fps: number;
@@ -35,7 +37,7 @@ export interface BakedClipData {
 export function bakeClipData(
   studioClip: StudioClip,
   rig: Skeleton = canonicalSkeleton,
-  options: { fps?: number; boneTracks?: boolean } = {},
+  options: { fps?: number; boneTracks?: boolean; deformation?: DeformationSampler | null } = {},
 ): BakedClipData {
   const fps = options.fps ?? studioClip.fps;
   const evaluation = new PoseEvaluation(rig);
@@ -59,6 +61,7 @@ export function bakeClipData(
 
   const localQuaternion = new HgQuat();
   const poseQuaternion = new HgQuat();
+  const deformation = options.deformation ?? null;
 
   for (let index = 0; index <= frameCount; index += 1) {
     const time = index === frameCount
@@ -67,6 +70,8 @@ export function bakeClipData(
     times.push(time);
 
     const frame = resolveFrame(rig, evaluation, studioClip, time, { anchors });
+
+    deformation?.sample(frame.pose, { contacts: frame.contacts });
 
     for (const bone of rig.bones) {
       const rotation = frame.pose.rotations[bone.name];
@@ -157,10 +162,17 @@ export function bakeClipData(
     }
   }
 
+  const deformationTracks = (deformation?.tracks(times) ?? []).map((track) => ({
+    ...track,
+    times: asFloat32Numbers(track.times),
+    values: asFloat32Numbers(track.values),
+  }));
+
   return {
     name: studioClip.name,
     duration: studioClip.duration,
     tracks,
+    deformationTracks,
     equipmentTracks,
     times,
     fps,

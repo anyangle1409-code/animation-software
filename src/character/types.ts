@@ -108,7 +108,13 @@ export interface DeformationStack {
 export type DeformationTrackData =
   | {
       target: string;
-      property: 'quaternion' | 'position';
+      property: 'quaternion';
+      times: number[];
+      values: number[];
+    }
+  | {
+      target: string;
+      property: 'position';
       times: number[];
       values: number[];
     }

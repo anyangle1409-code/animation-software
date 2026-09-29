@@ -2,13 +2,16 @@ import { describe, expect, it, vi } from 'vitest';
 import { HgScene } from '../core/sceneGraph';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { createSceneState } from './sceneStateCore';
-import { createFirstPartyStaticStageRuntime } from './firstPartyStaticStageRuntime';
+import {
+  createFirstPartyStaticStageRuntime,
+  type FirstPartyStaticStageState,
+} from './firstPartyStaticStageRuntime';
 import { createFirstPartySkeletonViewRuntime } from './firstPartySkeletonViewRuntime';
 
 describe('first-party scene lifecycle wrappers', () => {
   it('mounts/rebuilds the project-owned stage and skeleton without vendor scene nodes', () => {
     const scene = new HgScene();
-    let stageState = { backdrop: 'studio' as const, showGrid: true };
+    let stageState: FirstPartyStaticStageState = { backdrop: 'studio', showGrid: true };
     const stageListeners = new Set<() => void>();
     const stage = createFirstPartyStaticStageRuntime(scene, {
       getState: () => stageState,

@@ -1,5 +1,5 @@
 import type { MuscleInvolvement } from '../exercises/types';
-import type { HgGroup } from '../core/sceneGraph';
+import type { HgObject3D } from '../core/sceneGraph';
 import { captureMuscleFrame } from './muscleFrameSnapshot';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
@@ -23,7 +23,7 @@ export interface FirstPartyMuscleViewRuntime {
 
 export function createFirstPartyMuscleViewRuntime(options: {
   sceneState: SceneState;
-  root: Pick<HgGroup, 'add' | 'remove'>;
+  root: Pick<HgObject3D, 'add' | 'remove'>;
   store: FirstPartyMuscleViewStorePort;
 }): FirstPartyMuscleViewRuntime {
   const { sceneState, root, store } = options;

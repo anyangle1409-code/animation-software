@@ -1,5 +1,5 @@
 import { HgVec3 } from '../core/linearMath';
-import type { HgGroup } from '../core/sceneGraph';
+import type { HgObject3D } from '../core/sceneGraph';
 import { sampleClip, type StudioClip } from '../animation/clip';
 import { IK_CHAINS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
@@ -32,7 +32,7 @@ export interface FirstPartyIKHandlesRuntime {
 
 export function createFirstPartyIKHandlesRuntime(options: {
   sceneState: SceneState;
-  root: Pick<HgGroup, 'add' | 'remove'>;
+  root: Pick<HgObject3D, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: FirstPartyIKHandlesStorePort;
 }): FirstPartyIKHandlesRuntime {

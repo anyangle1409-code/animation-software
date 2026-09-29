@@ -1,5 +1,5 @@
 import type { EquipmentInstance } from '../equipment/types';
-import type { HgGroup } from '../core/sceneGraph';
+import type { HgObject3D } from '../core/sceneGraph';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import {
@@ -32,7 +32,7 @@ export interface FirstPartyEquipmentViewRuntime {
 
 export function createFirstPartyEquipmentViewRuntime(options: {
   sceneState: SceneState;
-  root: Pick<HgGroup, 'add' | 'remove'>;
+  root: Pick<HgObject3D, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: FirstPartyEquipmentViewStorePort;
   characterStore: FirstPartyEquipmentViewCharacterPort;

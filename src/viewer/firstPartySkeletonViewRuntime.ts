@@ -1,7 +1,7 @@
 import type { BoneName } from '../rig/boneNames';
 import { isFingerBone } from '../rig/boneNames';
 import type { Skeleton } from '../rig/skeleton';
-import type { HgGroup } from '../core/sceneGraph';
+import type { HgObject3D } from '../core/sceneGraph';
 import type { SceneState } from './sceneStateCore';
 import { SCENE_FRAME_PRIORITY } from './sceneStateCore';
 import {
@@ -28,7 +28,7 @@ export interface FirstPartySkeletonViewRuntime {
 
 export function createFirstPartySkeletonViewRuntime(options: {
   sceneState: SceneState;
-  root: Pick<HgGroup, 'add' | 'remove'>;
+  root: Pick<HgObject3D, 'add' | 'remove'>;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: FirstPartySkeletonViewStorePort;
   skeleton: Skeleton;

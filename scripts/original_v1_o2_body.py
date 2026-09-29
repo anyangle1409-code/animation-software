@@ -328,9 +328,10 @@ TORSO_LEVELS = [
     # Sagittal placement follows the v4 plumb line (ear/shoulder/hip joints near
     # f=0): sternal notch just ahead of the clavicle heads, upper back just
     # outside the scapula bone tails (f=-0.145), lumbar lordosis at the waist.
-    (0.885, 0.164, 0.072, -0.130, 2.3, [(2.55, 0.35, 0.014)]),
-    (0.930, 0.172, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.016)]),
-    (0.980, 0.169, 0.096, -0.130, 2.4, [(2.60, 0.40, 0.011)]),
+    # Glutes: lateral-posterior bulge plus the intergluteal cleft at the back centre.
+    (0.885, 0.164, 0.072, -0.132, 2.3, [(2.55, 0.35, 0.020), (math.pi, 0.10, -0.022), (1.05, 0.25, -0.008)]),
+    (0.930, 0.172, 0.086, -0.140, 2.4, [(2.55, 0.40, 0.020), (math.pi, 0.10, -0.018), (1.05, 0.25, -0.004)]),
+    (0.980, 0.169, 0.096, -0.130, 2.4, [(2.60, 0.40, 0.013), (math.pi, 0.12, -0.010)]),
     (1.030, 0.161, 0.104, -0.104, 2.4, [(math.pi, 0.25, -0.006)]),
     (1.080, 0.150, 0.108, -0.086, 2.4, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.005)]),
     (1.130, 0.143, 0.106, -0.084, 2.3, [(math.pi, 0.22, -0.008), (2.75, 0.2, 0.006)]),
@@ -429,25 +430,26 @@ ARM_LEVELS = [
 ]
 
 LEG_LEVELS = [
-    # z, centre (lx, f), radii (front, lateral, back, medial)
-    (0.800, (0.096, 0.004), (0.090, 0.093, 0.094, 0.078)),
-    (0.740, (0.096, 0.009), (0.090, 0.087, 0.086, 0.074)),
-    (0.680, (0.095, 0.011), (0.085, 0.080, 0.078, 0.069)),
-    (0.620, (0.094, 0.011), (0.077, 0.071, 0.070, 0.066)),
-    (0.570, (0.093, 0.009), (0.067, 0.061, 0.061, 0.064)),
-    (0.540, (0.092, 0.007), (0.061, 0.055, 0.056, 0.059)),
-    (0.515, (0.092, 0.006), (0.059, 0.053, 0.052, 0.056)),
-    (0.490, (0.092, 0.004), (0.054, 0.052, 0.055, 0.054)),
-    (0.455, (0.092, -0.001), (0.047, 0.053, 0.063, 0.056)),
-    (0.400, (0.092, -0.006), (0.042, 0.056, 0.073, 0.061)),
-    (0.340, (0.092, -0.006), (0.040, 0.052, 0.068, 0.056)),
-    (0.270, (0.092, -0.004), (0.036, 0.044, 0.054, 0.045)),
-    (0.200, (0.092, -0.003), (0.032, 0.036, 0.040, 0.035)),
-    (0.140, (0.092, -0.004), (0.029, 0.032, 0.032, 0.031)),
+    # z, centre (lx, f), radii (front, lateral, back, medial), local deltas {angle: +/-m}
+    # angles: 0 front, 90 lateral, 180 back, 270 medial.
+    (0.800, (0.096, 0.004), (0.090, 0.093, 0.084, 0.078), None),          # tucked under the gluteal fold
+    (0.740, (0.096, 0.009), (0.090, 0.087, 0.086, 0.074), None),
+    (0.680, (0.095, 0.011), (0.085, 0.080, 0.078, 0.069), None),
+    (0.620, (0.094, 0.011), (0.077, 0.071, 0.070, 0.066), {300: 0.003}),
+    (0.570, (0.093, 0.009), (0.067, 0.061, 0.061, 0.064), {305: 0.006, 90: -0.002}),   # vastus medialis
+    (0.540, (0.092, 0.007), (0.061, 0.055, 0.056, 0.059), {310: 0.004}),
+    (0.515, (0.092, 0.006), (0.059, 0.053, 0.052, 0.056), {0: 0.004, 180: -0.003}),   # patella / popliteal
+    (0.490, (0.092, 0.004), (0.054, 0.052, 0.055, 0.054), {0: -0.002}),               # patellar tendon
+    (0.455, (0.092, -0.001), (0.047, 0.053, 0.063, 0.056), {20: 0.002}),              # tibial tuberosity
+    (0.400, (0.092, -0.006), (0.042, 0.056, 0.073, 0.061), {215: 0.004, 150: -0.002}),  # gastrocnemius heads
+    (0.340, (0.092, -0.006), (0.040, 0.052, 0.068, 0.056), {220: 0.005, 145: -0.001}),
+    (0.270, (0.092, -0.004), (0.036, 0.044, 0.054, 0.045), None),
+    (0.200, (0.092, -0.003), (0.032, 0.036, 0.040, 0.035), {180: -0.004}),            # Achilles
+    (0.140, (0.092, -0.004), (0.029, 0.032, 0.032, 0.031), {180: -0.004}),
 ]
 
 # Foot: fan rings about the dorsal ankle crease, then forward sections.
-FOOT_PIVOT = (0.092, 0.040, 0.092)          # lx, f, z
+FOOT_PIVOT = (0.092, 0.047, 0.094)          # lx, f, z (dorsal ankle crease)
 FOOT_FAN = [
     # theta_deg, centre distance from pivot along -e1, half-length (e1), half-width, lateral shift
     (0.0, 0.040, 0.036, 0.036, 0.000),
@@ -457,15 +459,20 @@ FOOT_FAN = [
     (90.0, 0.046, 0.042, 0.043, 0.002),
 ]
 FOOT_SECTIONS = [
-    # f, centre (lx, z), top, bottom, lateral, medial
-    (0.080, (0.094, 0.036), 0.036, 0.036, 0.045, 0.043),
-    (0.120, (0.095, 0.029), 0.028, 0.029, 0.048, 0.046),
-    (0.160, (0.095, 0.023), 0.022, 0.023, 0.051, 0.048),
-    (0.190, (0.094, 0.019), 0.018, 0.019, 0.050, 0.048),
-    (0.220, (0.093, 0.016), 0.015, 0.016, 0.047, 0.046),
-    (0.245, (0.092, 0.014), 0.013, 0.014, 0.043, 0.043),
+    # f, centre (lx, z), top, bottom, lateral, medial, deltas {angle: m}
+    # angles: 0 dorsum, 90 lateral, 180 sole, 270 medial; 225 = medial arch.
+    (0.080, (0.093, 0.038), 0.037, 0.038, 0.044, 0.042, {225: -0.009}),
+    (0.120, (0.094, 0.031), 0.029, 0.031, 0.048, 0.046, {225: -0.010}),
+    (0.155, (0.094, 0.025), 0.023, 0.025, 0.051, 0.049, {225: -0.005}),
+    (0.185, (0.094, 0.019), 0.018, 0.019, 0.050, 0.047, None),        # ball of the foot
 ]
-TOE_CAP_DOME = 0.016
+# Toe split ring at the webs (P4-like convention across the foot, medial first):
+# R (medial side), D0..D8 dorsal medial->lateral, U (lateral side), P8..P0 plantar.
+TOE_SPLIT_F = 0.203
+TOE_D_LX = [0.054, 0.066, 0.080, 0.089, 0.098, 0.105, 0.112, 0.124, 0.136]
+TOE_SPANS = [(0, 2), (2, 4), (4, 6), (6, 7), (7, 8)]   # big toe .. little toe (D indices)
+TOE_TIPS_F = [0.272, 0.268, 0.256, 0.245, 0.233]
+TOE_HEIGHT = [0.013, 0.010, 0.0095, 0.009, 0.0085]      # half dorsal-plantar thickness
 
 
 # --------------------------------------------------------------------------
@@ -630,12 +637,15 @@ def sidep(side, p):
 def build_leg(B, bones, side, loop):
     lateral = np.array([float(side), 0.0, 0.0])
     rings = []
-    for z, (lx, f), (rf, rl, rb, rm) in LEG_LEVELS:
-        extra = None
+    for z, (lx, f), (rf, rl, rb, rm), deltas in LEG_LEVELS:
+        extra = {}
         if z > 0.70:
             # Flatter anterolateral upper thigh: leaves room for the v4 rest thumb.
             k = (z - 0.70) / 0.10
-            extra = {40: 0.5 * (rf + rl) * (1.02 - 0.14 * k), 60: 0.5 * (rf + rl) * (1.02 - 0.12 * k)}
+            extra = {40: 0.5 * (rf + rl) * (1.02 - 0.16 * k), 60: 0.5 * (rf + rl) * (1.02 - 0.15 * k)}
+        base = limb_prof(rf, rl, rb, rm, extra)
+        for ang, d in (deltas or {}).items():
+            extra[ang] = base(math.radians(ang)) + d
         rings.append((sidep(side, (lx, f, z)), FWD, lateral, limb_prof(rf, rl, rb, rm, extra)))
     last = B.loft(loop, rings, region="leg")
     # foot fan about the dorsal ankle crease
@@ -652,14 +662,67 @@ def build_leg(B, bones, side, loop):
         fan.append((centre, e1, lateral, prof))
     last = B.loft(last, fan, blend=2, region="foot")
     secs = []
-    for f, (lx, zc), top, bottom, lat_r, med_r in FOOT_SECTIONS:
-        prof = periodic_profile({0: top, 45: 0.5 * (top + lat_r) * 1.05, 90: lat_r,
-                                 135: 0.5 * (bottom + lat_r) * 1.08, 180: bottom,
-                                 225: 0.5 * (bottom + med_r) * 1.08, 270: med_r,
-                                 315: 0.5 * (top + med_r) * 1.05})
-        secs.append((sidep(side, (lx, f, zc)), UP, lateral, prof))
+    for f, (lx, zc), top, bottom, lat_r, med_r, deltas in FOOT_SECTIONS:
+        spec = {0: top, 45: 0.5 * (top + lat_r) * 1.05, 90: lat_r,
+                135: 0.5 * (bottom + lat_r) * 1.08, 180: bottom,
+                225: 0.5 * (bottom + med_r) * 1.08, 270: med_r,
+                315: 0.5 * (top + med_r) * 1.05}
+        for ang, d in (deltas or {}).items():
+            spec[ang] = spec.get(ang, periodic_profile(spec)(math.radians(ang))) + d
+        secs.append((sidep(side, (lx, f, zc)), UP, lateral, periodic_profile(spec)))
     last = B.loft(last, secs, blend=2, region="foot")
-    B.cap(last, a=4, b=6, dome=TOE_CAP_DOME, dome_dir=FWD, start=17, region="foot")
+    build_toes(B, side, last)
+
+
+def build_toes(B, side, section_loop):
+    """Split the forefoot at the webs into five toes (8/8/8/6/6-vertex loops)."""
+    f0 = TOE_SPLIT_F
+    D = [(lx, f0, 0.029 - 0.004 * k / 8) for k, lx in enumerate(TOE_D_LX)]
+    P = [(lx, f0 + 0.004, 0.0015) for lx in TOE_D_LX]
+    R = (TOE_D_LX[0] - 0.005, f0, 0.015)
+    U = (TOE_D_LX[-1] + 0.004, f0, 0.012)
+    ring = [R] + D + [U] + list(reversed(P))
+    ring_ids = B.add_many([sidep(side, p) for p in ring], "foot")
+    # align the lofted forefoot section to this authored ring
+    A3, A4 = B.pos(section_loop), B.pos(ring_ids)
+    n = len(ring_ids)
+    best = None
+    for direction in (1, -1):
+        for off in range(n):
+            idx = [(off + direction * k) % n for k in range(n)]
+            cost = float(np.sum(np.linalg.norm(A3[idx] - A4, axis=1)))
+            if best is None or cost < best[0]:
+                best = (cost, [section_loop[i] for i in idx])
+    B.bridge(best[1], ring_ids)
+    Rv, Dv, Uv, Pv = ring_ids[0], ring_ids[1:10], ring_ids[10], list(reversed(ring_ids[11:20]))
+    webs = {}
+    for (_a, b) in TOE_SPANS[:-1]:
+        webs[b] = B.add(sidep(side, (TOE_D_LX[b], f0 + 0.010, 0.013)), "foot")
+    for t, (a, b) in enumerate(TOE_SPANS):
+        top = Dv[a:b + 1]
+        bot = Pv[a:b + 1]
+        left = Rv if a == 0 else webs[a]
+        right = Uv if b == 8 else webs[b]
+        loop = [left] + top + [right] + list(reversed(bot))
+        # loop runs medial side -> dorsal -> lateral side -> plantar
+        lx_c = 0.5 * (TOE_D_LX[a] + TOE_D_LX[b])
+        half_w = 0.5 * (TOE_D_LX[b] - TOE_D_LX[a]) + (0.004 if a == 0 else 0.0015)
+        h = TOE_HEIGHT[t]
+        tip = TOE_TIPS_F[t]
+        length = tip - f0
+        rings = []
+        for frac, s, zc in ((0.22, 1.00, 0.0135), (0.45, 0.96, 0.0125), (0.62, 0.93, 0.0118),
+                            (0.80, 0.88, 0.0110), (0.93, 0.70, 0.0100)):
+            prof = periodic_profile({0: h * s * 0.95, 90: half_w * s, 180: h * s * 1.05, 270: half_w * s,
+                                     45: 0.5 * (h + half_w) * s, 135: 0.5 * (h + half_w) * s * 1.04,
+                                     225: 0.5 * (h + half_w) * s * 1.04, 315: 0.5 * (h + half_w) * s})
+            rings.append((sidep(side, (lx_c, f0 + length * frac, zc * (h / 0.010))), UP,
+                          np.array([float(side), 0.0, 0.0]), prof))
+        last = B.loft(loop, rings, blend=2, region="foot")
+        if len(loop) == 8:
+            B.cap(last, a=2, b=2, dome=0.004, dome_dir=FWD, start=0, region="foot")
+        else:
+            B.cap(last, a=1, b=2, dome=0.0035, dome_dir=FWD, start=0, region="foot")
 
 
 def bone_frame(head, tail, ref):

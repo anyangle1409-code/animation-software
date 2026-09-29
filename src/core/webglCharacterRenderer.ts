@@ -1,5 +1,6 @@
 import { HgMat4 } from './linearMath';
 import type { HgPerspectiveCamera } from './sceneGraph';
+import type { HgCharacterBaseTexture } from './sceneCharacter';
 import type { HgCharacterTriangleGeometry } from './webglCharacterTrianglePipeline';
 import type { HgCharacterTrianglePipeline } from './webglCharacterTrianglePipeline';
 import { hgClipMatrix } from './webglFlatRenderer';
@@ -15,12 +16,14 @@ export class HgCharacterRenderer {
     world: { readonly elements: ArrayLike<number> },
     geometry: HgCharacterTriangleGeometry,
     baseColour: readonly [number, number, number, number],
+    baseTexture: HgCharacterBaseTexture | null = null,
   ): void {
     this.triangles.draw(
       geometry,
       hgClipMatrix(camera, world, this.clip),
       world,
       baseColour,
+      baseTexture,
     );
   }
 }

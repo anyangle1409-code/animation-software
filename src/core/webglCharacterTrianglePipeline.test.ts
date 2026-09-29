@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { characterTriangleBuffers } from './webglCharacterTrianglePipeline';
 
@@ -87,4 +88,17 @@ describe('first-party character triangle buffers', () => {
       indices: [0, 1, 0],
     })).toThrow(/outside/i);
   });
+  it('owns UV upload and base-texture sampling in the first-party shader', () => {
+    const source = readFileSync(
+      new URL('./webglCharacterTrianglePipeline.ts', import.meta.url),
+      'utf8',
+    );
+    expect(source).toContain('layout(location = 3) in vec2 a_uv');
+    expect(source).toContain('texture(u_baseTexture, v_uv)');
+    expect(source).toContain('gl.texImage2D(');
+    expect(source).toContain('gl.vertexAttribPointer(3, 2');
+    expect(source).toContain('UNPACK_FLIP_Y_WEBGL');
+    expect(source).toContain('SRGB8_ALPHA8');
+  });
+
 });

@@ -32,6 +32,7 @@ export class HgStudioSceneRenderer {
           object.matrixWorld,
           object.geometry,
           object.baseColour,
+          object.baseTexture,
         );
         characterCount += 1;
       }

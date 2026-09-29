@@ -38,6 +38,16 @@ describe('first-party math migration parity against Three.js', () => {
     }
   });
 
+  it('preserves quaternion multiply and premultiply parity when the output aliases an input', () => {
+    const hgA = new HgQuat().setFromEulerXZY(0.3, -0.2, 0.4);
+    const hgB = new HgQuat().setFromEulerXZY(-0.5, 0.15, -0.1);
+    const threeA = new Quaternion().setFromEuler(new Euler(0.3, -0.2, 0.4, 'XZY'));
+    const threeB = new Quaternion().setFromEuler(new Euler(-0.5, 0.15, -0.1, 'XZY'));
+
+    expectQuatParity(hgA.clone().multiply(hgB), threeA.clone().multiply(threeB));
+    expectQuatParity(hgB.clone().premultiply(hgA), threeB.clone().premultiply(threeA));
+  });
+
   it('matches quaternion vector transforms', () => {
     const vectors = [
       [1, 0, 0],
@@ -113,6 +123,8 @@ describe('first-party math migration parity against Three.js', () => {
     );
 
     expectMatrixParity(new HgMat4().multiplyMatrices(hgA, hgB), new Matrix4().multiplyMatrices(threeA, threeB));
+    expectMatrixParity(hgA.clone().multiply(hgB), threeA.clone().multiply(threeB));
+    expectMatrixParity(hgB.clone().premultiply(hgA), threeB.clone().premultiply(threeA));
     expectMatrixParity(hgA.clone().invert(), threeA.clone().invert(), 1e-11);
   });
 

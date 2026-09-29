@@ -91,4 +91,23 @@ describe('first-party primitive scene rendering', () => {
     expect(renderer.render(scene, new HgPerspectiveCamera())).toBe(0);
     expect(draw).not.toHaveBeenCalled();
   });
+  it('keeps alpha-zero pointer hit meshes in the scene but out of draw submission', () => {
+    const litDraw = vi.fn();
+    const flatDraw = vi.fn();
+    const renderer = new HgPrimitiveSceneRenderer(
+      { draw: litDraw },
+      { draw: flatDraw },
+    );
+    const scene = new HgScene();
+    const hiddenHit = new HgPrimitiveMesh(
+      boxPrimitiveData([1, 1, 1]),
+      new HgPrimitiveMaterial('#ffffff', 'flat').setOpacity(0),
+    );
+    scene.add(hiddenHit);
+    const count = renderer.render(scene, new HgPerspectiveCamera());
+    expect(count).toBe(0);
+    expect(flatDraw).not.toHaveBeenCalled();
+    expect(hiddenHit.visible).toBe(true);
+  });
+
 });

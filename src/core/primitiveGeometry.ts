@@ -174,6 +174,42 @@ export function spherePrimitiveData(
   return mesh;
 }
 
+
+export function octahedronPrimitiveData(radius: number): HgPrimitiveGeometryData {
+  const mesh = emptyPrimitive();
+  const top: Point3 = [0, radius, 0];
+  const bottom: Point3 = [0, -radius, 0];
+  const east: Point3 = [radius, 0, 0];
+  const west: Point3 = [-radius, 0, 0];
+  const north: Point3 = [0, 0, radius];
+  const south: Point3 = [0, 0, -radius];
+
+  const triangle = (a: Point3, b: Point3, c: Point3) => {
+    const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+    const vx = c[0] - a[0], vy = c[1] - a[1], vz = c[2] - a[2];
+    let nx = uy * vz - uz * vy;
+    let ny = uz * vx - ux * vz;
+    let nz = ux * vy - uy * vx;
+    const length = Math.hypot(nx, ny, nz) || 1;
+    nx /= length; ny /= length; nz /= length;
+    const start = mesh.positions.length / 3;
+    pushVertex(mesh, a, [nx, ny, nz], [0.5, 1]);
+    pushVertex(mesh, b, [nx, ny, nz], [0, 0]);
+    pushVertex(mesh, c, [nx, ny, nz], [1, 0]);
+    mesh.indices.push(start, start + 1, start + 2);
+  };
+
+  triangle(top, north, east);
+  triangle(top, west, north);
+  triangle(top, south, west);
+  triangle(top, east, south);
+  triangle(bottom, east, north);
+  triangle(bottom, north, west);
+  triangle(bottom, west, south);
+  triangle(bottom, south, east);
+  return mesh;
+}
+
 export function torusPrimitiveData(
   radius: number,
   tube: number,

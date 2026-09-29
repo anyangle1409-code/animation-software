@@ -7,6 +7,7 @@ import { equipmentParts, MATERIALS, type Part } from '../equipment/geometry';
 import { equipmentPartPrimitiveData } from '../equipment/primitive';
 import type { EquipmentInstance } from '../equipment/types';
 import type { EquipmentDisplayTransform } from './equipmentDisplayTransforms';
+import type { HgScenePointerRouter } from './scenePointerRouter';
 
 export interface HgEquipmentInstanceScene {
   readonly group: HgGroup;
@@ -83,4 +84,26 @@ export function applyHgEquipmentDisplayTransforms(
     instance.group.matrix.copy(placement.matrix);
     instance.group.matrixWorldNeedsUpdate = true;
   }
+}
+
+
+export function registerHgEquipmentPointers(
+  resources: HgEquipmentSceneResources,
+  pointers: Pick<HgScenePointerRouter, 'register'>,
+  select: (id: string) => void,
+): () => void {
+  const remove: Array<() => void> = [];
+  for (const [id, instance] of resources.instances) {
+    remove.push(
+      pointers.register(instance.group, {
+        pointerdown(event) {
+          event.stopPropagation();
+          select(id);
+        },
+      }),
+    );
+  }
+  return () => {
+    for (const unregister of remove) unregister();
+  };
 }

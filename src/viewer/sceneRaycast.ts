@@ -16,10 +16,15 @@ interface IndexAttributeLike {
   getX(index: number): number;
 }
 
-interface GeometryLike {
+interface AccessorGeometryLike {
   getAttribute(name: string): PositionAttributeLike | undefined;
   getIndex(): IndexAttributeLike | null;
 }
+interface PrimitiveGeometryLike {
+  readonly positions: readonly number[];
+  readonly indices: readonly number[];
+}
+type GeometryLike = AccessorGeometryLike | PrimitiveGeometryLike;
 
 export interface HgRaycastObjectLike {
   readonly children: readonly HgRaycastObjectLike[];
@@ -99,13 +104,32 @@ const triangleVertex = (
   position.getZ(index),
 );
 
+const positionAttribute = (geometry: GeometryLike): PositionAttributeLike | null => {
+  if ('getAttribute' in geometry) return geometry.getAttribute('position') ?? null;
+  if (geometry.positions.length % 3 !== 0) return null;
+  return {
+    count: geometry.positions.length / 3,
+    getX: (index) => geometry.positions[index * 3] ?? 0,
+    getY: (index) => geometry.positions[index * 3 + 1] ?? 0,
+    getZ: (index) => geometry.positions[index * 3 + 2] ?? 0,
+  };
+};
+const indexAttribute = (geometry: GeometryLike): IndexAttributeLike | null =>
+  'getIndex' in geometry
+    ? geometry.getIndex()
+    : {
+        count: geometry.indices.length,
+        getX: (index) => geometry.indices[index] ?? 0,
+      };
+
 const meshDistance = (
   object: HgRaycastObjectLike,
   ray: HgSceneRay,
 ): number | null => {
   const geometry = object.geometry;
-  const position = geometry?.getAttribute('position');
-  if (!geometry || !position || position.count < 3) return null;
+  if (!geometry) return null;
+  const position = positionAttribute(geometry);
+  if (!position || position.count < 3) return null;
 
   const inverseWorld = new HgMat4().copy(object.matrixWorld).invert();
   const localOrigin = ray.origin.clone().applyMatrix4(inverseWorld);
@@ -117,7 +141,7 @@ const meshDistance = (
   const c = new HgVec3();
   const localHit = new HgVec3();
   const worldHit = new HgVec3();
-  const index = geometry.getIndex();
+  const index = indexAttribute(geometry);
 
   let best = Infinity;
   const triangleCount = index

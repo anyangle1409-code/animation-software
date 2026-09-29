@@ -127,6 +127,24 @@ describe('leg IK', () => {
 });
 
 describe('goals', () => {
+  it('preserves toe-out ball-foot IK rotation and contact', () => {
+    const pose = clonePose(restPose());
+    const ball = new PoseEvaluation(skeleton).apply(pose).tail('foot_r', new Vector3());
+    const result = solveGoals(skeleton, evaluation, pose, [{
+      chain: 'leg_r',
+      enabled: true,
+      target: { x: 0, y: 0, z: 0 },
+      pole: { x: 0.1, y: 0.5, z: 1.4 },
+      ball: { anchor: { x: ball.x, y: ball.y, z: ball.z }, ankle: 25, toeOut: 15 },
+    }])[0];
+    expect(pose.rotations.foot_r?.x).toBeCloseTo(0.038754237982525176, 10);
+    expect(pose.rotations.foot_r?.y).toBeCloseTo(0.06388643191545393, 10);
+    expect(pose.rotations.foot_r?.z).toBeCloseTo(-0.04725902227983521, 10);
+    expect(pose.rotations.shin_r?.x).toBeCloseTo(-0.06020742463045516, 10);
+    expect(pose.rotations.toe_r?.x).toBeCloseTo(4.1091744118482174e-8, 10);
+    expect(result.error).toBeCloseTo(0.001520585717277288, 10);
+  });
+
   it('retains the authored arm bend when deriving an enabled IK goal', () => {
     const pose = poseFromDegrees({ upperarm_l: { x: 35, z: -20 }, forearm_l: { x: 80 } });
     const goal = goalFromPose(new PoseEvaluation(skeleton), pose, 'arm_l');

@@ -1,5 +1,5 @@
-import { Quaternion, Vector3 } from 'three';
-import { HgVec3 } from '../core/linearMath';
+import { Vector3 } from 'three';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { vec3 } from '../rig/types';
@@ -118,8 +118,7 @@ function settleTibialRotation(
 
 /** A foot within this of its aim is left as the ankle placed it (0.05°). */
 const TIBIAL_TOLERANCE = (0.05 * Math.PI) / 180;
-const Y_AXIS = new Vector3(0, 1, 0);
-const Z_AXIS = new Vector3(0, 0, 1);
+const HG_X_AXIS = new HgVec3(1, 0, 0);
 const HG_Y_AXIS = new HgVec3(0, 1, 0);
 const HG_Z_AXIS = new HgVec3(0, 0, 1);
 const missScratch = new HgVec3();
@@ -197,25 +196,31 @@ function standOnBall(
   const foot = skeleton.bone(chain.end);
   const toe = skeleton.bones.find((bone) => bone.parent === chain.end);
   const side = chain.end.endsWith('_r') ? -1 : 1;
-  const yaw = new Quaternion().setFromAxisAngle(Y_AXIS, (-side * ball.toeOut * Math.PI) / 180);
-  const anchor = new Vector3(ball.anchor.x, ball.anchor.y, ball.anchor.z);
+  const yaw = new HgQuat().setFromAxisAngle(HG_Y_AXIS, (-side * ball.toeOut * Math.PI) / 180);
+  const anchor = new HgVec3(ball.anchor.x, ball.anchor.y, ball.anchor.z);
   const pole = new Vector3(goal.pole.x, goal.pole.y, goal.pole.z);
-  const direction = new Vector3();
-  const forward = new Vector3();
-  const ankle = new Vector3();
+  const direction = new HgVec3();
+  const forward = new HgVec3();
+  const ankle = new HgVec3();
+  const callerDirection = new Vector3();
+  const callerForward = new Vector3();
+  const callerAnkle = new Vector3();
   let result: IKResult = { chain: chain.id, error: Infinity, reached: false, overExtended: false };
 
   const place = (raise: number) => {
-    const turn = new Quaternion()
+    const turn = new HgQuat()
       .copy(yaw)
-      .multiply(new Quaternion().setFromAxisAngle(X_AXIS, (raise * Math.PI) / 180))
-      .multiply(foot.restWorldQuaternion);
-    direction.copy(Y_AXIS).applyQuaternion(turn);
-    forward.copy(Z_AXIS).applyQuaternion(turn);
+      .multiply(new HgQuat().setFromAxisAngle(HG_X_AXIS, (raise * Math.PI) / 180))
+      .multiply(skeleton.firstParty.bone(chain.end).restWorldQuaternion);
+    direction.copy(HG_Y_AXIS).applyQuaternion(turn);
+    forward.copy(HG_Z_AXIS).applyQuaternion(turn);
     ankle.copy(anchor).addScaledVector(direction, -foot.length);
-    result = solveTwoBone(skeleton, evaluation, pose, chain, ankle, pole);
-    aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
-    settleTibialRotation(skeleton, evaluation, pose, chain, direction, forward);
+    callerAnkle.set(ankle.x, ankle.y, ankle.z);
+    callerDirection.set(direction.x, direction.y, direction.z);
+    callerForward.set(forward.x, forward.y, forward.z);
+    result = solveTwoBone(skeleton, evaluation, pose, chain, callerAnkle, pole);
+    aimBone(skeleton, evaluation, pose, chain.end, callerDirection, callerForward);
+    settleTibialRotation(skeleton, evaluation, pose, chain, callerDirection, callerForward);
     return ((pose.rotations[chain.end]?.x ?? 0) * 180) / Math.PI;
   };
 
@@ -237,19 +242,19 @@ function standOnBall(
 
   if (toe) {
     // The toes lie flat on the floor, turned out with the foot.
-    const flat = new Quaternion().copy(yaw).multiply(toe.restWorldQuaternion);
+    const flat = new HgQuat().copy(yaw).multiply(skeleton.firstParty.bone(toe.name).restWorldQuaternion);
+    const toeDirection = HG_Y_AXIS.clone().applyQuaternion(flat);
+    const toeForward = HG_Z_AXIS.clone().applyQuaternion(flat);
     aimBone(
       skeleton,
       evaluation,
       pose,
       toe.name,
-      new Vector3(0, 1, 0).applyQuaternion(flat),
-      new Vector3(0, 0, 1).applyQuaternion(flat),
+      new Vector3(toeDirection.x, toeDirection.y, toeDirection.z),
+      new Vector3(toeForward.x, toeForward.y, toeForward.z),
     );
   }
   evaluation.apply(pose);
-  const reachedBall = evaluation.tail(chain.end, new Vector3()).distanceTo(anchor);
+  const reachedBall = evaluation.firstPartyEvaluation.tail(chain.end, new HgVec3()).distanceTo(anchor);
   return { ...result, error: Math.max(result.error, reachedBall), reached: result.reached && reachedBall < 2e-3 };
 }
-
-const X_AXIS = new Vector3(1, 0, 0);

@@ -18,6 +18,18 @@ function solveArm(target: Vector3, pole: Vector3) {
 }
 
 describe('two-bone IK', () => {
+  it('preserves the shoulder hinge-twist solution for a reachable arm target', () => {
+    const { pose, result } = solveArm(
+      new Vector3(-0.3, 1.15, 0.32),
+      new Vector3(-0.5, 1.1, -0.5),
+    );
+    expect(pose.rotations.upperarm_l?.y).toBeCloseTo(-0.3544732204228822, 10);
+    expect(pose.rotations.upperarm_l?.x).toBeCloseTo(0.3755704592731539, 10);
+    expect(pose.rotations.upperarm_l?.z).toBeCloseTo(-0.4391033302324271, 10);
+    expect(pose.rotations.forearm_l?.x).toBeCloseTo(1.1634409553483458, 10);
+    expect(result.error).toBeCloseTo(0, 10);
+  });
+
   it('places the hand on a reachable target', () => {
     const target = new Vector3(-0.3, 1.15, 0.32);
     const { result } = solveArm(target, new Vector3(-0.5, 1.1, -0.5));

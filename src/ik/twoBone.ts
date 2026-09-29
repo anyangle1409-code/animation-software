@@ -1,20 +1,17 @@
-import { Euler, Quaternion, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
-import { EULER_ORDER } from '../rig/types';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import { clamp } from '../core/math';
 import {
   hingeRotationForDirection,
   localRotationForDirection,
-  restWorldQuaternion,
   setRotation,
-  swingFor,
 } from './orient';
+import { hgRestWorldQuaternion, hgSwingFor } from './firstPartyOrient';
 import type { IKChain, IKResult } from './types';
 
 const EPSILON = 1e-6;
-const X_AXIS = new Vector3(1, 0, 0);
-const Y_AXIS = new Vector3(0, 1, 0);
 const Z_AXIS = new Vector3(0, 0, 1);
 
 const tmp = {
@@ -28,10 +25,9 @@ const tmp = {
   upperDirection: new Vector3(),
   lowerDirection: new Vector3(),
   clampedTarget: new Vector3(),
-  restQuaternion: new Quaternion(),
-  swing: new Quaternion(),
-  world: new Quaternion(),
-  euler: new Euler(0, 0, 0, EULER_ORDER),
+  restQuaternion: new HgQuat(),
+  swing: new HgQuat(),
+  world: new HgQuat(),
 };
 
 /**
@@ -169,14 +165,21 @@ function hingeTwist(
 ): number {
   // The untwisted reference must be the same decomposition the solve will
   // ultimately write, or the twist solved here lands against a different frame.
-  restWorldQuaternion(skeleton, evaluation, chain.root, tmp.restQuaternion);
-  const swing = swingFor(skeleton, evaluation, chain.root, upperDirection, 0);
-  tmp.swing.setFromEuler(tmp.euler.set(swing.x, swing.y, swing.z, EULER_ORDER));
+  hgRestWorldQuaternion(skeleton.firstParty, evaluation.firstPartyEvaluation, chain.root, tmp.restQuaternion);
+  const swing = hgSwingFor(
+    skeleton.firstParty,
+    evaluation.firstPartyEvaluation,
+    chain.root,
+    new HgVec3(upperDirection.x, upperDirection.y, upperDirection.z),
+    0,
+  );
+  tmp.swing.setFromEulerXZY(swing.x, swing.y, swing.z);
   const untwisted = tmp.world.copy(tmp.restQuaternion).multiply(tmp.swing);
-  const midRest = skeleton.bone(chain.mid).restLocalQuaternion;
+  const midRest = skeleton.firstParty.bone(chain.mid).restLocalQuaternion;
 
-  const m = X_AXIS.clone().applyQuaternion(midRest);
-  const u = lowerDirection.clone().applyQuaternion(untwisted.clone().invert());
+  const m = new HgVec3(1, 0, 0).applyQuaternion(midRest);
+  const u = new HgVec3(lowerDirection.x, lowerDirection.y, lowerDirection.z)
+    .applyQuaternion(untwisted.clone().invert());
 
   const a = m.x * u.x + m.z * u.z;
   const b = m.z * u.x - m.x * u.z;
@@ -208,19 +211,18 @@ function hingeTwist(
 /** Flexion angle the hinge would take for a given upper-bone twist. */
 function midFlexionFor(
   twist: number,
-  untwisted: Quaternion,
-  midRest: Quaternion,
+  untwisted: HgQuat,
+  midRest: HgQuat,
   lowerDirection: Vector3,
 ): number {
-  const frame = new Quaternion()
+  const frame = new HgQuat()
     .copy(untwisted)
-    .multiply(new Quaternion().setFromAxisAngle(Y_AXIS, twist))
+    .multiply(new HgQuat().setFromAxisAngle(new HgVec3(0, 1, 0), twist))
     .multiply(midRest);
-  const restDirection = Y_AXIS.clone().applyQuaternion(frame);
-  const axis = X_AXIS.clone().applyQuaternion(frame);
-  const projected = lowerDirection
-    .clone()
-    .addScaledVector(axis, -lowerDirection.dot(axis));
+  const restDirection = new HgVec3(0, 1, 0).applyQuaternion(frame);
+  const axis = new HgVec3(1, 0, 0).applyQuaternion(frame);
+  const projected = new HgVec3(lowerDirection.x, lowerDirection.y, lowerDirection.z)
+    .addScaledVector(axis, -(lowerDirection.x * axis.x + lowerDirection.y * axis.y + lowerDirection.z * axis.z));
   if (projected.lengthSq() < 1e-10) return 0;
   projected.normalize();
   return Math.atan2(

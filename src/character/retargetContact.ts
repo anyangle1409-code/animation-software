@@ -1,5 +1,3 @@
-import { Matrix4, Quaternion, Vector3 } from 'three';
-import type { Bone, Object3D, SkinnedMesh } from 'three';
 import type { ResolvedContact } from '../constraints/types';
 import { IK_CHAINS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
@@ -8,10 +6,16 @@ import { boneFrame } from '../rig/skeleton';
 import type { RetargetBinding } from '../retargeting/retarget';
 import type { Side } from './types';
 
-type HandMatrix = (side: Side, target: Matrix4) => Matrix4 | null;
+type SourceBone = RetargetBinding['bones'][number]['bone'];
+type SourceObject = RetargetBinding['character']['root'];
+type SourceMesh = RetargetBinding['character']['meshes'][number];
+type SourceVector = RetargetBinding['hipsRest'];
+type SourceQuaternion = RetargetBinding['worldAlignment'];
+type SourceMatrix = RetargetBinding['restRootWorld'];
+type HandMatrix = (side: Side, target: SourceMatrix) => SourceMatrix | null;
 
 interface ContactRegion {
-  mesh: SkinnedMesh;
+  mesh: SourceMesh;
   vertices: number[];
 }
 
@@ -22,29 +26,47 @@ interface ContactRegion {
  * limb lengths need not match the canonical rig. Small source-space IK
  * corrections put its actual distal surface on the floor or equipment without
  * changing the shared exercise pose or replacing the authored skeleton.
+ *
+ * The imported character objects remain the current scene compatibility
+ * boundary, but this module no longer imports Three directly. Its vector,
+ * quaternion and matrix object types are inherited from RetargetBinding until
+ * the retarget layer itself crosses to first-party scene primitives.
  */
 export class RetargetContactResolver {
   private readonly regions: Map<IKChainId, ContactRegion[]>;
-  private readonly point = new Vector3();
-  private readonly implicitFootAnchors = new Map<IKChainId, Vector3>();
+  private readonly point: SourceVector;
+  private readonly implicitFootAnchors = new Map<IKChainId, SourceVector>();
 
   constructor(
     private readonly binding: RetargetBinding,
-    private readonly boneByName: Map<BoneName, Bone>,
+    private readonly boneByName: Map<BoneName, SourceBone>,
     private readonly handMatrix: HandMatrix,
   ) {
+    this.point = this.vector();
     this.regions = contactRegions(binding);
   }
 
+  private vector(x = 0, y = 0, z = 0): SourceVector {
+    return this.binding.hipsRest.clone().set(x, y, z);
+  }
+
+  private matrix(): SourceMatrix {
+    return this.binding.restRootWorld.clone().identity();
+  }
+
+  private quaternion(): SourceQuaternion {
+    return this.binding.worldAlignment.clone().identity();
+  }
+
   /** Apply distal IK and return any residual equipment error shared by the body. */
-  apply(contacts: ResolvedContact[]): Vector3 | null {
+  apply(contacts: ResolvedContact[]): SourceVector | null {
     const active = this.withImplicitFeet(contacts);
     for (const contact of active) this.orient(contact);
     for (let pass = 0; pass < 3; pass += 1) {
       for (const contact of active) this.solve(contact);
     }
 
-    const residual = new Vector3();
+    const residual = this.vector();
     let count = 0;
     for (const contact of active) {
       residual.add(this.delta(contact));
@@ -68,7 +90,7 @@ export class RetargetContactResolver {
       if (!end) continue;
       let anchor = this.implicitFootAnchors.get(chain);
       if (!anchor) {
-        anchor = end.getWorldPosition(new Vector3());
+        anchor = end.getWorldPosition(this.vector());
         this.implicitFootAnchors.set(chain, anchor);
       }
       result.push({ chain, mode: 'floor', target: this.sourceToCanonical(anchor) });
@@ -76,7 +98,7 @@ export class RetargetContactResolver {
     return result;
   }
 
-  private sourceToCanonical(source: Vector3): { x: number; y: number; z: number } {
+  private sourceToCanonical(source: SourceVector): { x: number; y: number; z: number } {
     const target = source.clone().applyQuaternion(this.binding.worldAlignment.clone().invert());
     if (this.binding.mirrorSides) target.x *= -1;
     return { x: target.x, y: target.y, z: target.z };
@@ -92,11 +114,14 @@ export class RetargetContactResolver {
     const pinky = this.boneByName.get(`pinky_01_${side}` as BoneName);
     if (!hand || !index || !middle || !ring || !pinky) return;
 
-    const head = hand.getWorldPosition(new Vector3());
-    const tail = new Vector3();
-    for (const bone of [index, middle, ring, pinky]) tail.add(bone.getWorldPosition(new Vector3()));
+    const head = hand.getWorldPosition(this.vector());
+    const tail = this.vector();
+    for (const bone of [index, middle, ring, pinky]) {
+      tail.add(bone.getWorldPosition(this.vector()));
+    }
     tail.multiplyScalar(0.25);
-    const width = index.getWorldPosition(new Vector3()).sub(pinky.getWorldPosition(new Vector3()));
+    const width = index.getWorldPosition(this.vector())
+      .sub(pinky.getWorldPosition(this.vector()));
     if (tail.distanceToSquared(head) < 1e-8 || width.lengthSq() < 1e-8) return;
 
     const direction = transformedDirection(contact.aim.direction, this.binding);
@@ -107,12 +132,12 @@ export class RetargetContactResolver {
     const currentFrame = boneFrame(head, tail, width);
     const desiredFrame = boneFrame(head, head.clone().add(direction), forward);
     const delta = desiredFrame.multiply(currentFrame.invert());
-    setWorldRotation(hand, delta.multiply(hand.getWorldQuaternion(new Quaternion())));
+    setWorldRotation(hand, delta.multiply(hand.getWorldQuaternion(this.quaternion())));
     this.binding.character.root.updateMatrixWorld(true);
   }
 
   /** Convert a world displacement back into the canonical root-motion frame. */
-  rootOffset(world: Vector3): Vector3 {
+  rootOffset(world: SourceVector): SourceVector {
     const offset = world.clone().applyQuaternion(this.binding.worldAlignment.clone().invert());
     if (this.binding.mirrorSides) offset.x *= -1;
     return offset;
@@ -129,24 +154,24 @@ export class RetargetContactResolver {
     if (!Number.isFinite(delta.lengthSq()) || delta.lengthSq() < 1e-12) return;
     // A malformed asset must not drag a limb arbitrarily far across the scene.
     if (delta.length() > 0.25) delta.setLength(0.25);
-    const target = end.getWorldPosition(new Vector3()).add(delta);
+    const target = end.getWorldPosition(this.vector()).add(delta);
     ccd(this.binding.character.root, root, mid, end, target);
   }
 
-  private delta(contact: ResolvedContact): Vector3 {
+  private delta(contact: ResolvedContact): SourceVector {
     const chain = IK_CHAINS[contact.chain];
     const side: Side = contact.chain.endsWith('_l') ? 'l' : 'r';
     const arm = contact.chain.startsWith('arm');
     const end = this.boneByName.get(chain.end);
-    if (!end) return new Vector3();
+    if (!end) return this.vector();
 
     const current = arm
-      ? this.handMatrix(side, new Matrix4())
+      ? this.handMatrix(side, this.matrix())
       : null;
     const currentPoint = current
       ? this.point.setFromMatrixPosition(current).clone()
-      : end.getWorldPosition(new Vector3());
-    const target = new Vector3(contact.target.x, contact.target.y, contact.target.z);
+      : end.getWorldPosition(this.vector());
+    const target = this.vector(contact.target.x, contact.target.y, contact.target.z);
     if (this.binding.mirrorSides) target.x *= -1;
     target.applyQuaternion(this.binding.worldAlignment);
 
@@ -179,22 +204,29 @@ export class RetargetContactResolver {
 function transformedDirection(
   value: { x: number; y: number; z: number },
   binding: RetargetBinding,
-): Vector3 {
-  const result = new Vector3(value.x, value.y, value.z);
+): SourceVector {
+  const result = binding.hipsRest.clone().set(value.x, value.y, value.z);
   if (binding.mirrorSides) result.x *= -1;
   return result.applyQuaternion(binding.worldAlignment).normalize();
 }
 
-function ccd(rootObject: Object3D, root: Bone, mid: Bone, end: Bone, target: Vector3): void {
-  const endWorld = end.getWorldQuaternion(new Quaternion());
+function ccd(
+  rootObject: SourceObject,
+  root: SourceBone,
+  mid: SourceBone,
+  end: SourceBone,
+  target: SourceVector,
+): void {
+  const endWorld = end.getWorldQuaternion(end.quaternion.clone());
   for (let iteration = 0; iteration < 5; iteration += 1) {
     for (const joint of [mid, root]) {
-      const jointPosition = joint.getWorldPosition(new Vector3());
-      const current = end.getWorldPosition(new Vector3()).sub(jointPosition);
+      const jointPosition = joint.getWorldPosition(joint.position.clone());
+      const current = end.getWorldPosition(end.position.clone()).sub(jointPosition);
       const desired = target.clone().sub(jointPosition);
       if (current.lengthSq() < 1e-10 || desired.lengthSq() < 1e-10) continue;
-      const delta = new Quaternion().setFromUnitVectors(current.normalize(), desired.normalize());
-      const world = joint.getWorldQuaternion(new Quaternion());
+      const delta = joint.quaternion.clone()
+        .setFromUnitVectors(current.normalize(), desired.normalize());
+      const world = joint.getWorldQuaternion(joint.quaternion.clone());
       setWorldRotation(joint, delta.multiply(world));
       rootObject.updateMatrixWorld(true);
     }
@@ -204,8 +236,10 @@ function ccd(rootObject: Object3D, root: Bone, mid: Bone, end: Bone, target: Vec
   rootObject.updateMatrixWorld(true);
 }
 
-function setWorldRotation(bone: Bone, world: Quaternion): void {
-  const parent = bone.parent?.getWorldQuaternion(new Quaternion()) ?? new Quaternion();
+function setWorldRotation(bone: SourceBone, world: SourceQuaternion): void {
+  const parent = bone.parent
+    ? bone.parent.getWorldQuaternion(bone.quaternion.clone())
+    : bone.quaternion.clone().identity();
   bone.quaternion.copy(parent.invert().multiply(world));
   bone.updateMatrixWorld(true);
 }
@@ -230,7 +264,9 @@ function contactRegions(binding: RetargetBinding): Map<IKChainId, ContactRegion[
       for (let vertex = 0; vertex < indices.count; vertex += 1) {
         let strongest = 0;
         for (let slot = 1; slot < 4; slot += 1) {
-          if (weights.getComponent(vertex, slot) > weights.getComponent(vertex, strongest)) strongest = slot;
+          if (weights.getComponent(vertex, slot) > weights.getComponent(vertex, strongest)) {
+            strongest = slot;
+          }
         }
         const bone = mesh.skeleton.bones[indices.getComponent(vertex, strongest)];
         if (bone && sourceNames.has(bone.name)) vertices.push(vertex);

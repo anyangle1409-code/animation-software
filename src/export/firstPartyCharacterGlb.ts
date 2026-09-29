@@ -3,7 +3,7 @@ import { HgGltfBuilder } from '../core/gltfBuilder';
 import { addHgGltfAnimation, type HgAnimationPath } from '../core/gltfAnimation';
 import type { ExerciseDefinition } from '../exercises/types';
 import { canonicalSkeleton } from '../rig/skeleton';
-import type { CharacterBuild, CharacterSource } from '../character';
+import type { CharacterSource } from '../character';
 import { bakeClipData } from './clipData';
 
 interface AttributeLike {

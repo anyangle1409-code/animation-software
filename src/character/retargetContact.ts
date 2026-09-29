@@ -1,6 +1,6 @@
 import type { ResolvedContact } from '../constraints/types';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
-import { createCharacterVector3 } from './bones';
+import { skinnedBindVertexPoint } from './posedMesh';
 import { IK_CHAINS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
 import type { BoneName } from '../rig/boneNames';
@@ -37,7 +37,6 @@ interface ContactRegion {
 export class RetargetContactResolver {
   private readonly regions: Map<IKChainId, ContactRegion[]>;
   private readonly point: SourceVector;
-  private readonly scenePoint = createCharacterVector3();
   private readonly implicitFootAnchors = new Map<IKChainId, SourceVector>();
 
   constructor(
@@ -196,9 +195,8 @@ export class RetargetContactResolver {
       mesh.updateWorldMatrix(true, false);
       const position = mesh.geometry.getAttribute('position');
       for (const vertex of vertices) {
-        this.scenePoint.fromBufferAttribute(position, vertex);
-        mesh.applyBoneTransform(vertex, this.scenePoint).applyMatrix4(mesh.matrixWorld);
-        minimum = Math.min(minimum, this.scenePoint.y);
+        skinnedBindVertexPoint(mesh, vertex, this.point);
+        minimum = Math.min(minimum, this.point.y);
       }
     }
     return minimum;

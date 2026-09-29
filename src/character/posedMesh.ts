@@ -22,7 +22,7 @@ import { HgVec3 } from '../core/linearMath';
  * The caller passes `out` and gets it back, because these run over tens of
  * thousands of vertices per frame and allocating there dominates the cost.
  */
-export function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
+function posedVertex(mesh: CharacterSkinnedMesh, index: number, out: CharacterVector3): CharacterVector3 {
   const position = mesh.geometry.getAttribute('position');
   out.fromBufferAttribute(position, index);
 
@@ -51,6 +51,29 @@ const firstPartyPointScratch = createCharacterVector3();
 export function posedVertexPoint(mesh: CharacterSkinnedMesh, index: number, out: HgVec3): HgVec3 {
   const point = posedVertex(mesh, index, firstPartyPointScratch);
   return out.set(point.x, point.y, point.z);
+}
+
+const firstPartyBindSkinScratch = createCharacterVector3();
+
+/**
+ * Skin one bind-position vertex into world space without applying morphs.
+ *
+ * This preserves the historical contact-floor measurement exactly while
+ * keeping the renderer Vector3 confined to this character adapter.
+ */
+export function skinnedBindVertexPoint(
+  mesh: CharacterSkinnedMesh,
+  index: number,
+  out: HgVec3,
+): HgVec3 {
+  const position = mesh.geometry.getAttribute('position');
+  firstPartyBindSkinScratch.fromBufferAttribute(position, index);
+  mesh.applyBoneTransform(index, firstPartyBindSkinScratch).applyMatrix4(mesh.matrixWorld);
+  return out.set(
+    firstPartyBindSkinScratch.x,
+    firstPartyBindSkinScratch.y,
+    firstPartyBindSkinScratch.z,
+  );
 }
 
 const firstPartyLocalPointScratch = createCharacterVector3();

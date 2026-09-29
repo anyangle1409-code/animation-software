@@ -1,4 +1,4 @@
-import { Vector3, type Scene } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { sampleClip, type StudioClip } from '../animation/clip';
 import { IK_CHAINS, IK_CHAIN_IDS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
@@ -25,9 +25,14 @@ export interface IKHandlesStorePort {
   subscribe(listener: () => void): () => void;
 }
 
+export interface IKHandlesSceneRootPort {
+  add(object: IKHandleSceneResources['group']): unknown;
+  remove(object: IKHandleSceneResources['group']): unknown;
+}
+
 export interface IKHandlesRuntimeOptions {
   sceneState: SceneState;
-  root: Pick<Scene, 'add' | 'remove'>;
+  root: IKHandlesSceneRootPort;
   pointers: Pick<HgScenePointerRouter, 'register'>;
   store: IKHandlesStorePort;
 }
@@ -57,7 +62,7 @@ export function createIKHandlesRuntime(
   syncSelection();
   const unsubscribeStore = store.subscribe(syncSelection);
 
-  const scratch = new Vector3();
+  const scratch = new HgVec3();
   const removeFrame = sceneState.consumers.add(() => {
     const state = store.getState();
     const sample = sampleClip(state.document.clip, state.time);
@@ -76,8 +81,8 @@ export function createIKHandlesRuntime(
         if (goal) pole.position.set(goal.pole.x, goal.pole.y, goal.pole.z);
       }
       if (!active && target) {
-        sceneState.evaluation.head(IK_CHAINS[chain].end, scratch);
-        target.position.copy(scratch);
+        sceneState.evaluation.firstPartyEvaluation.head(IK_CHAINS[chain].end, scratch);
+        target.position.set(scratch.x, scratch.y, scratch.z);
       }
     }
   }, SCENE_FRAME_PRIORITY.ik);

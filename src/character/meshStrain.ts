@@ -1,5 +1,6 @@
-import { Vector3 } from 'three';
-import type { BufferAttribute, InterleavedBufferAttribute, SkinnedMesh } from 'three';
+import { HgVec3 } from '../core/linearMath';
+import type { CharacterBuild } from './types';
+import { posedLocalVertexPoint } from './posedMesh';
 
 export interface MeshStrainDiagnostic {
   mesh: string;
@@ -17,7 +18,7 @@ export interface MeshStrainDiagnostic {
  * mesh-local comparison is enough and avoids mixing camera/stage placement in.
  */
 export function meshStrainDiagnostics(
-  meshes: SkinnedMesh[],
+  meshes: CharacterBuild['meshes'],
   maxEdgesPerMesh = 4000,
 ): MeshStrainDiagnostic[] {
   return meshes.flatMap((mesh) => {
@@ -26,7 +27,7 @@ export function meshStrainDiagnostics(
   });
 }
 
-function measureMesh(mesh: SkinnedMesh, maxEdges: number): MeshStrainDiagnostic | null {
+function measureMesh(mesh: CharacterBuild['meshes'][number], maxEdges: number): MeshStrainDiagnostic | null {
   const position = mesh.geometry.getAttribute('position');
   if (!position || position.count < 2) return null;
   const index = mesh.geometry.getIndex();
@@ -38,10 +39,8 @@ function measureMesh(mesh: SkinnedMesh, maxEdges: number): MeshStrainDiagnostic 
   const strains: number[] = [];
   let severeCompression = 0;
   let severeStretch = 0;
-  const baseA = new Vector3();
-  const baseB = new Vector3();
-  const posedA = new Vector3();
-  const posedB = new Vector3();
+  const posedA = new HgVec3();
+  const posedB = new HgVec3();
   const pairs: [number, number][] = [[0, 1], [1, 2], [2, 0]];
   let ordinal = 0;
 
@@ -55,12 +54,14 @@ function measureMesh(mesh: SkinnedMesh, maxEdges: number): MeshStrainDiagnostic 
       if (ordinal++ % stride !== 0) continue;
       const a = vertices[from];
       const b = vertices[to];
-      pointFrom(position, a, baseA);
-      pointFrom(position, b, baseB);
-      const rest = baseA.distanceTo(baseB);
+      const rest = Math.hypot(
+        position.getX(a) - position.getX(b),
+        position.getY(a) - position.getY(b),
+        position.getZ(a) - position.getZ(b),
+      );
       if (rest < 1e-7) continue;
-      mesh.getVertexPosition(a, posedA);
-      mesh.getVertexPosition(b, posedB);
+      posedLocalVertexPoint(mesh, a, posedA);
+      posedLocalVertexPoint(mesh, b, posedB);
       const ratio = posedA.distanceTo(posedB) / rest;
       if (!Number.isFinite(ratio)) continue;
       const strain = Math.abs(ratio - 1);
@@ -83,16 +84,8 @@ function measureMesh(mesh: SkinnedMesh, maxEdges: number): MeshStrainDiagnostic 
   };
 }
 
-function vertexIndex(index: BufferAttribute | null, corner: number): number {
+function vertexIndex(index: { getX(corner: number): number } | null, corner: number): number {
   return index ? index.getX(corner) : corner;
-}
-
-function pointFrom(
-  position: BufferAttribute | InterleavedBufferAttribute,
-  vertex: number,
-  target: Vector3,
-): Vector3 {
-  return target.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
 }
 
 function percentile(sorted: number[], value: number): number {

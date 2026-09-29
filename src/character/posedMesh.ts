@@ -50,6 +50,18 @@ export function posedVertexPoint(mesh: SkinnedMesh, index: number, out: HgVec3):
   return out.set(point.x, point.y, point.z);
 }
 
+const firstPartyLocalPointScratch = new Vector3();
+
+/**
+ * First-party adapter for a posed vertex in mesh-local space. This keeps
+ * Three's skinning/morph implementation at the character boundary while
+ * diagnostics consume project-owned vectors.
+ */
+export function posedLocalVertexPoint(mesh: SkinnedMesh, index: number, out: HgVec3): HgVec3 {
+  const point = mesh.getVertexPosition(index, firstPartyLocalPointScratch);
+  return out.set(point.x, point.y, point.z);
+}
+
 /**
  * The bone with the largest share of a vertex, as a plain name.
  *

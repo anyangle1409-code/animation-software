@@ -1099,6 +1099,53 @@ solves (o14, o17, o19) plateaued at ~104 PIP-crease triangle pairs.
    wrist-only solve.
 4. Then start Priority 3 (`lunge` pelvis/torso), which is untouched.
 
+**Session stop — battery checkpoint (2026-10-01).**
+
+- `o22` (the r30 finger-minimum recovery) was started on the r29 base and
+  **stopped deliberately, unfinished**.
+- Battery was 44% and discharging ~1%/min with no AC, too little to finish
+  the ~45 min solve plus the ~25 min evidence run. The solver cannot resume
+  mid-run, so no partial o22 output exists and none was used.
+- All candidates, weight files, logs, evidence and review artifacts up to r29
+  are committed.
+- No solver or Blender process was left running.
+
+To resume:
+
+```bat
+python scripts\optimize_original_v1_o4_shoulder_weights.py <r29 dump.npz> o22.npz --preset o22 --r2-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json
+```
+
+- The r29 dump comes from `scripts\dump_original_v1_o4_pose_skinning_blender.py`
+  on `…_CANDIDATE_r29.blend`.
+- Then apply `o22.npz` onto `…_r29.blend`, giving `r30`.
+- Then run `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat r30 r29`.
+- Compare with both r28 and r29.
+
+**Candidate status at stop:**
+
+| Candidate | Status | Notes |
+|---|---|---|
+| r24 | experimental (best shoulder) | unchanged |
+| r26 | experimental | superseded by r28 |
+| r28 | experimental (best "no regression vs prior") | 8 failures; 6 regressions vs R2 |
+| r29 | experimental (fewest failures) | 7 failures; 6 regressions vs R2; trade-off vs r28 |
+
+Rejected: r15–r23, r25, r27. None are accepted. **Production approval
+remains false.** `DEFORMATION_BASELINE_R2.json`, the thresholds and all
+approval flags are unchanged.
+
+**Owner decisions still pending (not taken here):**
+
+1. Grip penetration: the thumb rest pose vs the frozen handle-grip pose
+   script (weights cannot fix it; proven above).
+2. Elbow flexion contact in `curl_peak`: now within the gate in r29, but
+   still weight-limited if it regresses.
+3. The r24 shoulder trade-offs, which every later candidate inherits, keep
+   strict acceptance impossible without new authorised shoulder tools.
+
+Battery at final checkpoint: 44%, discharging (no AC).
+
 **Earlier resume steps (kept for reference), if r29 had not been evaluated:**
 
 1. If `weight_solutions/o21.npz` is missing, re-run:

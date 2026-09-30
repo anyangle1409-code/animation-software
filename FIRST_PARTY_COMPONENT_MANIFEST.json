@@ -60,9 +60,9 @@
     {
       "id": "canonical_rig",
       "category": "asset_and_code",
-      "status": "original_v4_candidate_materialized_bound_structurally_verified",
-      "required_action": "Preserve the independent 63-bone hgpt_canonical_v4_original structure while O4 weighting/deformation is repaired; do not change rig structure unless a separate rig defect is proven.",
-      "notes": "The model branch contains a bound 63-bone v4 candidate. Candidate GLB audits confirm the expected joint set/hierarchy; production approval remains blocked by character movement/deformation and final asset gates."
+      "status": "first_party_v4_runtime_active_release_not_approved",
+      "required_action": "Keep hgpt_canonical_v4_original as the live runtime rig and preserve its 63-bone structure. Final release approval still depends on the approved ORIGINAL v1 production assets, exact hashes, offline/device acceptance and promotion gates.",
+      "notes": "Canonical v4 passed the shadow behavioural compatibility suite and replaced the v3 runtime default on 2026-09-30. The historical v3 rig is retained only for regression/reference tests and must remain unreachable from src/main.ts."
     },
     {
       "id": "equipment_geometry",

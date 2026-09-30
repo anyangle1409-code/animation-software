@@ -2,7 +2,6 @@ import { HgMat4, HgQuat, HgVec3, HG_UNIT_SCALE } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
-import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from '../retargeting/boneMap';
 
 /**
@@ -180,7 +179,11 @@ export function rebindToCanonical(
     maxY = Math.max(maxY, point.y);
   }
   const height = Math.max(0.2, maxY - minY);
-  const scale = mapping.characterHeight ? RIG_HEIGHT / mapping.characterHeight : RIG_HEIGHT / height;
+  const targetRigHeight =
+    rig.bone('head').restTail.y - rig.bone('root').restHead.y;
+  const scale = mapping.characterHeight
+    ? targetRigHeight / mapping.characterHeight
+    : targetRigHeight / height;
 
   // Cⱼ · S · Bᵢ⁻¹, one per source bone.
   const scaleMatrix = new HgMat4().compose(

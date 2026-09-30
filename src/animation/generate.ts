@@ -141,7 +141,7 @@ function buildPose(
 
   const pose = poseFromDegrees(joints, spec.root);
   applyGrip(pose, exercise.hands);
-  applyStance(pose, exercise.feet, spec);
+  applyStance(pose, exercise.feet, spec, skeleton);
   return clampPose(skeleton, pose);
 }
 
@@ -187,9 +187,22 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
  * Set the stance from the exercise's foot spec: hips abduct to reach the
  * requested width, and the feet turn out by the requested angle.
  */
-export function applyStance(pose: Pose, feet: FootSpec, spec: PoseSpec): void {
-  const HIP_HALF_WIDTH = 0.09;
-  const LEG_LENGTH = 0.84;
+export function applyStance(
+  pose: Pose,
+  feet: FootSpec,
+  spec: PoseSpec,
+  skeleton?: Skeleton,
+): void {
+  // Preserve the accepted v3 numbers exactly when no skeleton is supplied,
+  // while letting shadow/future rigs derive stance from their own rest geometry.
+  // v3: hip half-width 0.09 m, hip-to-ankle vertical span 0.84 m.
+  // ORIGINAL v4: 0.092 m and 0.875 m respectively.
+  const HIP_HALF_WIDTH = skeleton
+    ? Math.abs(skeleton.bone('thigh_l').restHead.x)
+    : 0.09;
+  const LEG_LENGTH = skeleton
+    ? Math.abs(skeleton.bone('thigh_l').restHead.y - skeleton.bone('shin_l').restTail.y)
+    : 0.84;
   const halfWidth = feet.width / 2;
   const abduction = Math.atan2(halfWidth - HIP_HALF_WIDTH, LEG_LENGTH);
 

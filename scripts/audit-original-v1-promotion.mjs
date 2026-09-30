@@ -72,30 +72,61 @@ function parseGlb(file) {
   if (version !== 2) throw new Error("GLB version must be 2");
   if (declaredLength !== data.length) throw new Error("GLB declared length mismatch");
 
-  const jsonLength = data.readUInt32LE(12);
-  const jsonType = data.readUInt32LE(16);
-  if (jsonType !== 0x4e4f534a) throw new Error("first GLB chunk is not JSON");
-  const json = JSON.parse(
-    data.subarray(20, 20 + jsonLength).toString("utf8").replace(/[\u0000\s]+$/g, ""),
-  );
-  return json;
+  const chunks = [];
+  let offset = 12;
+  let json = null;
+  while (offset < data.length) {
+    if (offset + 8 > data.length) throw new Error("truncated GLB chunk header");
+    const length = data.readUInt32LE(offset);
+    const type = data.readUInt32LE(offset + 4);
+    offset += 8;
+    const end = offset + length;
+    if (end > data.length) throw new Error("GLB chunk exceeds file length");
+    const payload = data.subarray(offset, end);
+    chunks.push({ type, length });
+    if (chunks.length === 1) {
+      if (type !== 0x4e4f534a) throw new Error("first GLB chunk is not JSON");
+      json = JSON.parse(payload.toString("utf8").replace(/[\u0000\s]+$/g, ""));
+    } else if (type !== 0x004e4942) {
+      throw new Error(`unexpected GLB chunk type 0x${type.toString(16)}`);
+    }
+    offset = end;
+  }
+  if (offset !== data.length) throw new Error("GLB chunk walk did not end at file length");
+  if (!json) throw new Error("GLB JSON chunk missing");
+  return { json, chunks };
 }
 
 function inspectProductionGlb(file, expectedRigBones) {
   const errors = [];
   const expectedBones = expectedRigBones.map(bone => bone.name);
   let gltf;
+  let chunks;
   try {
-    gltf = parseGlb(file);
+    const parsed = parseGlb(file);
+    gltf = parsed.json;
+    chunks = parsed.chunks;
   } catch (error) {
     return { pass: false, errors: [String(error?.message || error)] };
   }
 
-  for (const [i, buffer] of (gltf.buffers || []).entries()) {
-    if (buffer.uri) errors.push(`buffer ${i} has URI ${buffer.uri}`);
+  if (gltf.asset?.version !== "2.0") {
+    errors.push(`glTF asset version must be 2.0, got ${JSON.stringify(gltf.asset?.version)}`);
+  }
+  if (chunks.length !== 2 || chunks[0]?.type !== 0x4e4f534a || chunks[1]?.type !== 0x004e4942) {
+    errors.push("production GLB must contain exactly one JSON chunk and one BIN chunk");
+  }
+
+  const buffers = gltf.buffers || [];
+  if (buffers.length !== 1) errors.push(`expected exactly one embedded GLB buffer, found ${buffers.length}`);
+  for (const [i, buffer] of buffers.entries()) {
+    if (buffer.uri) errors.push(`buffer ${i} has external URI ${buffer.uri}`);
   }
   for (const [i, image] of (gltf.images || []).entries()) {
-    if (image.uri) errors.push(`image ${i} has URI ${image.uri}`);
+    if (image.uri) errors.push(`image ${i} has external URI ${image.uri}`);
+  }
+  if ((gltf.animations || []).length) {
+    errors.push(`base production character must contain no baked animations; found ${gltf.animations.length}`);
   }
 
   const nodes = gltf.nodes || [];
@@ -114,6 +145,10 @@ function inspectProductionGlb(file, expectedRigBones) {
   const parents = new Map();
   for (const [parentIndex, node] of nodes.entries()) {
     for (const child of node.children || []) {
+      if (!Number.isInteger(child) || child < 0 || child >= nodes.length) {
+        errors.push(`node ${parentIndex} has invalid child index ${child}`);
+        continue;
+      }
       if (parents.has(child)) errors.push(`node ${child} has multiple parents`);
       parents.set(child, parentIndex);
     }
@@ -135,10 +170,18 @@ function inspectProductionGlb(file, expectedRigBones) {
     }
   }
 
+  const accessors = gltf.accessors || [];
   const skins = gltf.skins || [];
-  if (skins.length < 1) errors.push("no skin found");
+  if (skins.length !== 1) errors.push(`expected exactly one skin, found ${skins.length}`);
   for (const [i, skin] of skins.entries()) {
-    const names = (skin.joints || []).map(index => gltf.nodes?.[index]?.name).filter(Boolean);
+    const jointIndices = skin.joints || [];
+    const invalidJointIndices = jointIndices.filter(
+      index => !Number.isInteger(index) || index < 0 || index >= nodes.length,
+    );
+    if (invalidJointIndices.length) {
+      errors.push(`skin ${i} has invalid joint indices: ${JSON.stringify(invalidJointIndices)}`);
+    }
+    const names = jointIndices.map(index => nodes[index]?.name).filter(Boolean);
     if (names.length !== expectedBones.length) {
       errors.push(`skin ${i} has ${names.length} joints, expected ${expectedBones.length}`);
     }
@@ -147,6 +190,38 @@ function inspectProductionGlb(file, expectedRigBones) {
     const extra = [...set].filter(name => !expectedSet.has(name));
     if (missing.length || extra.length) {
       errors.push(`skin ${i} joint set mismatch: missing=${JSON.stringify(missing)} extra=${JSON.stringify(extra)}`);
+    }
+    if (!Number.isInteger(skin.inverseBindMatrices) ||
+        skin.inverseBindMatrices < 0 ||
+        skin.inverseBindMatrices >= accessors.length) {
+      errors.push(`skin ${i} has no valid inverseBindMatrices accessor`);
+    }
+  }
+
+  const meshes = gltf.meshes || [];
+  const meshNodes = nodes
+    .map((node, index) => ({ node, index }))
+    .filter(({ node }) => node.mesh !== undefined);
+  if (!meshNodes.length) errors.push("no mesh nodes found");
+
+  for (const { node, index } of meshNodes) {
+    if (!Number.isInteger(node.skin) || node.skin < 0 || node.skin >= skins.length) {
+      errors.push(`mesh node ${node.name || index} has no valid skin`);
+    }
+    if (!Number.isInteger(node.mesh) || node.mesh < 0 || node.mesh >= meshes.length) {
+      errors.push(`mesh node ${node.name || index} references invalid mesh ${node.mesh}`);
+      continue;
+    }
+    const mesh = meshes[node.mesh];
+    const primitives = mesh.primitives || [];
+    if (!primitives.length) errors.push(`mesh ${mesh.name || node.mesh} has no primitives`);
+    for (const [primitiveIndex, primitive] of primitives.entries()) {
+      const attrs = new Set(Object.keys(primitive.attributes || {}));
+      const required = ["POSITION", "NORMAL", "JOINTS_0", "WEIGHTS_0"];
+      const missing = required.filter(name => !attrs.has(name));
+      if (missing.length) {
+        errors.push(`mesh ${mesh.name || node.mesh} primitive ${primitiveIndex} missing attributes ${missing.join(", ")}`);
+      }
     }
   }
 
@@ -157,10 +232,13 @@ function inspectProductionGlb(file, expectedRigBones) {
   return {
     pass: errors.length === 0,
     errors,
-    nodeCount: (gltf.nodes || []).length,
+    chunkCount: chunks.length,
+    nodeCount: nodes.length,
+    meshNodeCount: meshNodes.length,
     skinCount: skins.length,
     imageCount: (gltf.images || []).length,
     textureCount: (gltf.textures || []).length,
+    animationCount: (gltf.animations || []).length,
   };
 }
 

@@ -8,6 +8,7 @@ import { goalFromPose } from '../ik/solve';
 import type { IKGoal, IKResult } from '../ik/types';
 import { solveGoals } from '../ik/solve';
 import type { EffectorLock } from './types';
+import { floorTargetForSkeleton } from './floorGeometry';
 
 /** Where an equipment socket currently is, supplied by the equipment layer. */
 export interface SocketTransform {
@@ -56,7 +57,14 @@ export function resolveLocks(
         // Hold the contact exactly where the repetition started. Deriving the
         // height from the mesh instead would ask the leg to reach somewhere it
         // cannot, and the foot would visibly sink and slide.
-        const anchor = lock.position ?? anchors?.get(lock.id);
+        const anchor = lock.position
+          ? floorTargetForSkeleton(
+              evaluation.skeleton,
+              lock.chain,
+              lock.position,
+              Boolean(lock.onBall),
+            )
+          : anchors?.get(lock.id);
         if (lock.onBall) {
           const ball = evaluation.firstPartyEvaluation.tail(IK_CHAINS[lock.chain].end, scratchPosition);
           const at = anchor ?? vec3(ball.x, ball.y, ball.z);

@@ -287,13 +287,16 @@ describe('first-party linear algebra invariants', () => {
       },
     ];
     for (const entry of cases) {
+      const [px, py, pz] = entry.position;
+      const [rx, ry, rz] = entry.rotation;
+      const [sx, sy, sz] = entry.scale;
       const matrix = new HgMat4().compose(
-        new HgVec3(...entry.position),
-        new HgQuat().setFromEulerXZY(...entry.rotation),
-        new HgVec3(...entry.scale),
+        new HgVec3(px, py, pz),
+        new HgQuat().setFromEulerXZY(rx, ry, rz),
+        new HgVec3(sx, sy, sz),
       );
       closeArray(
-        new HgMat4().makeTranslation(...entry.position).elements,
+        new HgMat4().makeTranslation(px, py, pz).elements,
         [
           1, 0, 0, 0,
           0, 1, 0, 0,
@@ -316,7 +319,7 @@ describe('first-party linear algebra invariants', () => {
 
       const p = new HgVec3(), q = new HgQuat(), s = new HgVec3();
       matrix.clone().decompose(p, q, s);
-      expect(p.distanceTo(new HgVec3(...entry.position))).toBeLessThan(EPS);
+      expect(p.distanceTo(new HgVec3(px, py, pz))).toBeLessThan(EPS);
       closeArray(s.toArray(), entry.scale);
       closeArray(new HgMat4().compose(p, q, s).elements, matrix.elements, 1e-10);
     }
@@ -354,7 +357,8 @@ describe('first-party linear algebra invariants', () => {
       [-0.5, 0.4, -Math.PI / 2 + 1e-8],
     ] as const;
     for (const angles of cases) {
-      const original = new HgQuat().setFromEulerXZY(...angles).normalize();
+      const [x, y, z] = angles;
+      const original = new HgQuat().setFromEulerXZY(x, y, z).normalize();
       const recovered = original.toEulerXZY();
       const rebuilt = new HgQuat().setFromEulerXZY(
         recovered.x,

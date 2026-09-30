@@ -12,14 +12,16 @@ Standalone/runtime recovery checkpoint:
 
 Model/deformation validation checkpoint:
 - branch: `claude/original-v1-blender-o2-20260929`
-- exact green SHA: `956e78f1563cb0019f1969469a83c223dd42146a`
-- ORIGINAL v1 deformation validation run `36740868657`: **PASS**
+- exact green SHA: `df36f325f67acb459d62e526fd80abf5d761e71c`
+- ORIGINAL v1 deformation validation run `36741083640`: **PASS**
 - validation includes the full R2 two-equipment grip evidence, full Priority-1
   shoulder subset, candidate-status contract, GLB structural audit, repair
-  queue ownership and Python syntax for the new Blender shoulder-weight audit.
+  queue ownership and Python syntax for the Blender shoulder-weight/gradient
+  diagnostics.
 
-Later documentation-only handoff commits may sit above the green model
-checkpoint; do not confuse that with a model/asset state change.
+This is the preferred laptop starting checkpoint unless the remote model branch
+has moved again. If it has, inspect the newer commits and require the newest
+deformation-validation run to be green before editing Blender.
 
 Standalone moving-branch caution as of this handoff:
 - observed main standalone HEAD: `e3a7d915079f018acbfd8198655f623ea7831fbf`;
@@ -51,8 +53,8 @@ There are two separate tracks:
 
 2. **Blender/model track — use this for the laptop session**
    - Branch: `claude/original-v1-blender-o2-20260929`.
-   - Last observed HEAD before handoff:
-     `bc7f90ac25fe5ce20d6c20ef675a6c714a41ff11`.
+   - Last verified green HEAD before handoff:
+     `df36f325f67acb459d62e526fd80abf5d761e71c`.
    - If remote HEAD is newer, **do not reset or overwrite it**. Read the newer
      commits/handoff first and continue from the newest state.
 

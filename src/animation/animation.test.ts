@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { toDeg } from '../core/math';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
@@ -117,8 +117,8 @@ describe('grip', () => {
     const evaluated = new PoseEvaluation(skeleton).apply(pose);
     const reach = (side: 'l' | 'r') =>
       evaluated
-        .head(`middle_01_${side}`, new Vector3())
-        .distanceTo(evaluated.tail(`middle_03_${side}`, new Vector3()));
+        .head(`middle_01_${side}`, new HgVec3())
+        .distanceTo(evaluated.tail(`middle_03_${side}`, new HgVec3()));
 
     expect(reach('r')).toBeCloseTo(reach('l'), 6);
     // A closed hand is much shorter than an open one: 9.5 cm of finger folds
@@ -170,11 +170,11 @@ describe('resistance-training easing', () => {
 
 describe('resolved frames', () => {
   it('keeps the feet planted for the whole repetition', () => {
-    const positions: Vector3[] = [];
+    const positions: HgVec3[] = [];
     for (let time = 0; time <= clip.duration; time += 0.1) {
       const frame = resolveFrame(skeleton, evaluation, clip, time);
       evaluation.apply(frame.pose);
-      positions.push(evaluation.head('foot_l', new Vector3()));
+      positions.push(evaluation.head('foot_l', new HgVec3()));
     }
     const first = positions[0];
     for (const position of positions) {
@@ -192,7 +192,7 @@ describe('resolved frames', () => {
         const gripInHand = evaluation.localToWorld(
           `hand_${side}`,
           anatomicalGripOffset(side),
-          new Vector3(),
+          new HgVec3(),
         );
         expect(dumbbell!.position.distanceTo(gripInHand)).toBeLessThan(1e-6);
       }
@@ -208,17 +208,17 @@ describe('resolved frames', () => {
         const handle = evaluation.worldToLocal(
           hand,
           frame.equipment.get(`dumbbell_${side}`)!.position,
-          new Vector3(),
+          new HgVec3(),
         );
         const knuckle = evaluation.worldToLocal(
           hand,
-          evaluation.head(`middle_01_${side}`, new Vector3()),
-          new Vector3(),
+          evaluation.head(`middle_01_${side}`, new HgVec3()),
+          new HgVec3(),
         );
         const fingertip = evaluation.worldToLocal(
           hand,
-          evaluation.tail(`middle_03_${side}`, new Vector3()),
-          new Vector3(),
+          evaluation.tail(`middle_03_${side}`, new HgVec3()),
+          new HgVec3(),
         );
         const fingerCentre = knuckle.clone().add(fingertip).multiplyScalar(0.5);
 

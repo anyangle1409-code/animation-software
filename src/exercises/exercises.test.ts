@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { BoneName } from '../rig/boneNames';
 import { generateClip } from '../animation/generate';
@@ -41,7 +41,7 @@ describe.each(EXERCISES.map((exercise) => [exercise.name, exercise.id] as const)
 
     it('keeps every locked contact still for the whole repetition', () => {
       const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-      const start = new Map<string, Vector3>();
+      const start = new Map<string, HgVec3>();
 
       for (let index = 0; index <= 40; index += 1) {
         const time = (index / 40) * clip.duration;
@@ -58,7 +58,7 @@ describe.each(EXERCISES.map((exercise) => [exercise.name, exercise.id] as const)
               ? 'foot_l'
               : 'foot_r';
           // A foot standing on its ball is held at the ball; its ankle rises.
-          const position = lock.onBall ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
+          const position = lock.onBall ? evaluation.tail(bone, new HgVec3()) : evaluation.head(bone, new HgVec3());
           const first = start.get(lock.id);
           if (!first) start.set(lock.id, position.clone());
           else expect(position.distanceTo(first), `${lock.id} at ${time.toFixed(2)}s`).toBeLessThan(0.005);

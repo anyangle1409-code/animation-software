@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { HgVec3 } from '../../core/linearMath';
 import { EXERCISES } from '../library';
 import { shoulderPress } from '../definitions/shoulderPress';
 import { bicepCurl } from '../definitions/bicepCurl';
 import { pressFamily } from './press';
 import { seatedShoulderPress } from '../definitions/seatedShoulderPress';
-import { Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -116,11 +116,11 @@ describe('the press family', () => {
     for (let step = 0; step <= 40; step += 1) {
       const time = (step / 40) * clip.duration;
       evaluation.apply(resolveFrame(canonicalSkeleton, evaluation, clip, time, { anchors }).pose);
-      const pelvis = evaluation.head('pelvis', new Vector3());
+      const pelvis = evaluation.head('pelvis', new HgVec3());
       // 16 cm above the pad's top, where the production character's seat meets it.
       expect(pelvis.y, `pelvis at ${time.toFixed(2)}s`).toBeCloseTo(0.62, 9);
       // Hips and knees bent about a right angle, feet flat in front.
-      const hip = (evaluation.head('shin_l', new Vector3()).y - evaluation.head('thigh_l', new Vector3()).y);
+      const hip = (evaluation.head('shin_l', new HgVec3()).y - evaluation.head('thigh_l', new HgVec3()).y);
       expect(Math.abs(hip), `thigh near horizontal at ${time.toFixed(2)}s`).toBeLessThan(0.1);
     }
   });

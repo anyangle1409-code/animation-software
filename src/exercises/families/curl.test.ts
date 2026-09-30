@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { HgVec3 } from '../../core/linearMath';
 import { EXERCISES } from '../library';
 import { bicepCurl } from '../definitions/bicepCurl';
 import { hammerCurl } from '../definitions/hammerCurl';
 import { curlFamily } from './curl';
 import { inclineCurl } from '../definitions/inclineCurl';
-import { Vector3 } from 'three';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -105,16 +105,16 @@ describe('the incline curl', () => {
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
   const at = (time: number) => {
     evaluation.apply(resolveFrame(canonicalSkeleton, evaluation, clip, time, { anchors }).pose);
-    const shoulder = evaluation.head('upperarm_l', new Vector3());
-    const elbow = evaluation.head('forearm_l', new Vector3());
+    const shoulder = evaluation.head('upperarm_l', new HgVec3());
+    const elbow = evaluation.head('forearm_l', new HgVec3());
     const upperArm = elbow.clone().sub(shoulder);
     return {
       shoulder,
       elbow,
       /** Angle of the upper arm in the sagittal plane, from straight down; + is forward. */
       hang: (Math.atan2(upperArm.z, -upperArm.y) * 180) / Math.PI,
-      pelvis: evaluation.head('pelvis', new Vector3()),
-      back: evaluation.tail('spine_02', new Vector3()).sub(evaluation.head('spine_02', new Vector3())),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
+      back: evaluation.tail('spine_02', new HgVec3()).sub(evaluation.head('spine_02', new HgVec3())),
     };
   };
 

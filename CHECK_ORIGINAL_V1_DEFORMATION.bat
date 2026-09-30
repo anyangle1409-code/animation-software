@@ -25,16 +25,15 @@ if not exist "%POSE_REPORT%" (
   echo ERROR: Missing %POSE_REPORT%
   exit /b 2
 )
-if not exist "%GRIP_REPORT%" (
-  echo ERROR: Missing %GRIP_REPORT%
-  exit /b 2
-)
-
-echo [1/2] Testing the deformation evaluator...
-python scripts\test_evaluate_original_v1_deformation_report.py
+echo [1/3] Testing deformation tooling...
+python -m unittest discover -s scripts -p "test_*deformation*.py"
 if errorlevel 1 exit /b %errorlevel%
 
-echo [2/2] Evaluating ORIGINAL v1 candidate against %PROFILE%...
+echo [2/3] Verifying pinned R2 baseline...
+python scripts\verify_original_v1_deformation_baseline.py
+if errorlevel 1 exit /b %errorlevel%
+
+echo [3/3] Evaluating ORIGINAL v1 candidate against %PROFILE%...
 python scripts\evaluate_original_v1_deformation_report.py ^
   "%POSE_REPORT%" ^
   --grip-report "%GRIP_REPORT%" ^

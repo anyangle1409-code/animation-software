@@ -246,6 +246,8 @@ returns `REGRESSION` if any existing pose or grip gains failed checks, even
 when another pose improves. This prevents an apparent global improvement from
 hiding a newly damaged shoulder, hand, hip or contact.
 
+The exact current comparison anchor is pinned in `ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json`, including the candidate SHA-256, report blob SHAs and the 52-check development baseline. Do not silently replace that baseline; create a new numbered baseline only after an explicitly accepted improvement.
+
 ## Integration rule
 
 The candidate branch is intentionally divergent from the latest standalone

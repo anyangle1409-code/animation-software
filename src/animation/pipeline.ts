@@ -7,6 +7,7 @@ import { solveGoals } from '../ik/solve';
 import { resolveLocks } from '../constraints/locks';
 import type { Vec3 } from '../rig/types';
 import type { EffectorLock, ResolvedContact } from '../constraints/types';
+import { floorTargetForSkeleton } from '../constraints/floorGeometry';
 import { resolveEquipment, socketResolver } from '../equipment/attach';
 import type { EquipmentTransform } from '../equipment/attach';
 import type { EquipmentInstance } from '../equipment/types';
@@ -59,7 +60,7 @@ export function resolveFrame(
   const pose = sample.pose;
   const ikResults: IKResult[] = [];
 
-  const keyframeGoals = goalsFromKeyframe(sample.ik);
+  const keyframeGoals = goalsFromKeyframe(sample.ik, skeleton);
   if (keyframeGoals.length > 0) {
     ikResults.push(...solveGoals(skeleton, evaluation, pose, keyframeGoals));
   }
@@ -152,18 +153,26 @@ function ankleOf(evaluation: PoseEvaluation, chain: IKChainId): Vec3 {
   return { x: ankle.x, y: ankle.y, z: ankle.z };
 }
 
-function goalsFromKeyframe(ik: Partial<Record<IKChainId, KeyframeIK>>): IKGoal[] {
+function goalsFromKeyframe(
+  ik: Partial<Record<IKChainId, KeyframeIK>>,
+  skeleton: Skeleton,
+): IKGoal[] {
   const goals: IKGoal[] = [];
   for (const [chain, value] of Object.entries(ik)) {
     if (!value?.enabled) continue;
+    const chainId = chain as IKChainId;
+    const floorContact = chainId.startsWith('leg') && Boolean(value.aim || value.onBall);
+    const target = floorContact
+      ? floorTargetForSkeleton(skeleton, chainId, value.target, Boolean(value.onBall))
+      : { ...value.target };
     goals.push({
-      chain: chain as IKChainId,
+      chain: chainId,
       enabled: true,
-      target: value.target,
+      target,
       pole: value.pole,
       ...(value.aim ? { endAim: value.aim } : {}),
       // A foot on its ball, solved as a lock's is (`standOnBall`).
-      ...(value.onBall ? { ball: { anchor: { ...value.target }, ankle: value.onBall.ankle, toeOut: 0 } } : {}),
+      ...(value.onBall ? { ball: { anchor: { ...target }, ankle: value.onBall.ankle, toeOut: 0 } } : {}),
     });
   }
   return goals;

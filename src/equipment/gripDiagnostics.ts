@@ -131,7 +131,10 @@ export function measureTwoHandFit(
   equipment: EquipmentTransform,
 ): TwoHandFitMeasurement | null {
   if (instance.attachment.mode !== 'hands') return null;
-  const offsets = twoHandGripOffsets(instance);
+  const offsets = twoHandGripOffsets(instance, {
+    left: evaluation.skeleton.bone('hand_l').length,
+    right: evaluation.skeleton.bone('hand_r').length,
+  });
   const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
   const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
   if (!offsets || !leftSocket || !rightSocket) return null;

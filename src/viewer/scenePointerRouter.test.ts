@@ -1,13 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
-import { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
-import {
-  BoxGeometry,
-  Group,
-  Mesh,
-  MeshBasicMaterial,
-  PerspectiveCamera,
-  Scene,
-} from 'three';
+import { HgGroup, HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
+import { boxPrimitiveData } from '../core/primitiveGeometry';
+import { HgPrimitiveMaterial, HgPrimitiveMesh } from '../core/sceneMesh';
 import { HgScenePointerRouter, type HgPointerSurface } from './scenePointerRouter';
 
 class FakeSurface extends EventTarget implements HgPointerSurface {
@@ -31,15 +25,18 @@ class FakeSurface extends EventTarget implements HgPointerSurface {
 }
 
 function fixture() {
-  const scene = new Scene();
-  const camera = new PerspectiveCamera(50, 2, 0.1, 100);
+  const scene = new HgScene();
+  const camera = new HgPerspectiveCamera(50, 2, 0.1, 100);
   camera.position.set(0, 0, 5);
   camera.lookAt(0, 0, 0);
   camera.updateProjectionMatrix();
   camera.updateMatrixWorld(true);
 
-  const parent = new Group();
-  const mesh = new Mesh(new BoxGeometry(1, 1, 1), new MeshBasicMaterial());
+  const parent = new HgGroup();
+  const mesh = new HgPrimitiveMesh(
+    boxPrimitiveData([1, 1, 1]),
+    new HgPrimitiveMaterial('#ffffff'),
+  );
   parent.add(mesh);
   scene.add(parent);
 

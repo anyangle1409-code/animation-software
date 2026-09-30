@@ -6,7 +6,7 @@ import path from "node:path";
 const ROOT = process.cwd();
 
 const MODEL_OR_TEXTURE_EXT =
-  /\.(?:glb|gltf|blend|blend1|fbx|obj|dae|stl|ply|abc|usd|usda|usdc|usdz|3ds|mtl|bin|ktx|ktx2|dds|png|jpe?g|webp|bmp|tga|exr|hdr|tiff?)$/i;
+  /\.(?:glb|gltf|blend|blend1|fbx|obj|dae|stl|ply|abc|usd|usda|usdc|usdz|3ds|c4d|max|ma|mb|lwo|lws|x3d|3mf|step|stp|iges|igs|mtl|bin|ktx|ktx2|dds|png|jpe?g|webp|bmp|tga|exr|hdr|tiff?|psd|kra|xcf|zip|7z|rar|tar|tgz|gz)$/i;
 
 const LEGACY_PATH_PATTERNS = [
   /HOME_GYM_PT_GPT_MESH_HANDOFF/i,

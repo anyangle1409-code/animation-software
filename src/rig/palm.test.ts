@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationMixer, Quaternion, Vector3 } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { skeletonV2 } from './earlierRigs';
 import { restPose } from './pose';
@@ -13,6 +11,8 @@ import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
 import { exportGlb } from '../export/glb';
 import { EXERCISES } from '../exercises/library';
+import { HgVec3 } from '../core/linearMath';
+import { loadHgTestGltfPlayback } from '../test/firstPartyGltfPlayback';
 
 /**
  * The palm: a metacarpal for each finger, and a thumb base that can oppose.
@@ -26,9 +26,6 @@ const rig = canonicalSkeleton;
 const earlier = skeletonV2();
 const NUMERIC = 1e-12;
 const R = Math.PI / 180;
-
-const threeQuaternion = (value: { x: number; y: number; z: number; w: number }): Quaternion =>
-  new Quaternion(value.x, value.y, value.z, value.w);
 
 describe('the palm bones', () => {
   it('give each finger a metacarpal between the hand and its knuckle, and the thumb none', () => {
@@ -92,35 +89,35 @@ describe('the palm bones', () => {
 
   it('turn about the axes their limits name', () => {
     const evaluation = new PoseEvaluation(rig);
-    const padNormal = (bone: BoneName) => new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion(bone))).negate();
+    const padNormal = (bone: BoneName) => new HgVec3(1, 0, 0).applyQuaternion(evaluation.quaternion(bone)).multiplyScalar(-1);
     const posed = (bone: BoneName, axis: 'x' | 'y' | 'z', degrees: number) => {
       const pose = restPose();
       pose.rotations[bone] = { x: 0, y: 0, z: 0, [axis]: degrees * R };
       return evaluation.apply(pose);
     };
     evaluation.apply(restPose());
-    const knuckle = evaluation.tail('metacarpal_pinky_l', new Vector3());
+    const knuckle = evaluation.tail('metacarpal_pinky_l', new HgVec3());
     const palmar = padNormal('metacarpal_pinky_l');
-    const ringKnuckle = evaluation.tail('metacarpal_ring_l', new Vector3());
-    const thumbBase = evaluation.head('thumb_01_l', new Vector3());
-    const towardsThumb = thumbBase.clone().sub(evaluation.head('pinky_01_l', new Vector3())).normalize();
+    const ringKnuckle = evaluation.tail('metacarpal_ring_l', new HgVec3());
+    const thumbBase = evaluation.head('thumb_01_l', new HgVec3());
+    const towardsThumb = thumbBase.clone().sub(evaluation.head('pinky_01_l', new HgVec3())).normalize();
     const pinkyPad = padNormal('pinky_01_l').dot(towardsThumb);
-    const thumbTip = evaluation.tail('thumb_01_l', new Vector3());
-    const pinkyKnuckle = evaluation.head('pinky_01_l', new Vector3());
-    const towardsFingers = evaluation.head('middle_01_l', new Vector3()).sub(evaluation.tail('thumb_03_l', new Vector3())).normalize();
+    const thumbTip = evaluation.tail('thumb_01_l', new HgVec3());
+    const pinkyKnuckle = evaluation.head('pinky_01_l', new HgVec3());
+    const towardsFingers = evaluation.head('middle_01_l', new HgVec3()).sub(evaluation.tail('thumb_03_l', new HgVec3())).normalize();
     const thumbPad = padNormal('thumb_01_l').dot(towardsFingers);
 
     // Metacarpal: +z flexes the knuckle palmward (cupping), +x spreads it
     // towards the thumb, +y turns the finger towards the thumb.
-    expect(posed('metacarpal_pinky_l', 'z', 10).tail('metacarpal_pinky_l', new Vector3()).sub(knuckle).dot(palmar)).toBeGreaterThan(0.008);
-    expect(posed('metacarpal_pinky_l', 'x', 10).tail('metacarpal_pinky_l', new Vector3()).sub(knuckle).dot(ringKnuckle.clone().sub(knuckle).normalize())).toBeGreaterThan(0.008);
+    expect(posed('metacarpal_pinky_l', 'z', 10).tail('metacarpal_pinky_l', new HgVec3()).sub(knuckle).dot(palmar)).toBeGreaterThan(0.008);
+    expect(posed('metacarpal_pinky_l', 'x', 10).tail('metacarpal_pinky_l', new HgVec3()).sub(knuckle).dot(ringKnuckle.clone().sub(knuckle).normalize())).toBeGreaterThan(0.008);
     posed('metacarpal_pinky_l', 'y', 10);
     expect(padNormal('pinky_01_l').dot(towardsThumb)).toBeGreaterThan(pinkyPad);
     expect(rig.bone('metacarpal_pinky_l').definition.limits.z!.positive).toBe('Flexion');
     expect(rig.bone('metacarpal_pinky_l').definition.limits.y!.positive).toBe('Rotation towards thumb');
 
     // Thumb base: -x sweeps across the palm, -y turns the pad to the fingers.
-    expect(posed('thumb_01_l', 'x', -20).tail('thumb_01_l', new Vector3()).distanceTo(pinkyKnuckle)).toBeLessThan(thumbTip.distanceTo(pinkyKnuckle) - 0.01);
+    expect(posed('thumb_01_l', 'x', -20).tail('thumb_01_l', new HgVec3()).distanceTo(pinkyKnuckle)).toBeLessThan(thumbTip.distanceTo(pinkyKnuckle) - 0.01);
     posed('thumb_01_l', 'y', -20);
     expect(padNormal('thumb_01_l').dot(towardsFingers)).toBeGreaterThan(thumbPad);
     const thumb = rig.bone('thumb_01_l').definition.limits;
@@ -140,8 +137,8 @@ describe('the palm bones', () => {
     const evaluation = new PoseEvaluation(rig);
     const pad = (name: BoneName) => {
       const bone = rig.bone(name);
-      const normal = new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion(name))).negate();
-      const point = evaluation.head(name, new Vector3()).lerp(evaluation.tail(name, new Vector3()), 0.6);
+      const normal = new HgVec3(1, 0, 0).applyQuaternion(evaluation.quaternion(name)).multiplyScalar(-1);
+      const point = evaluation.head(name, new HgVec3()).lerp(evaluation.tail(name, new HgVec3()), 0.6);
       return { point: point.addScaledVector(normal, (bone.definition.radius ?? 0.008) * 0.76), normal };
     };
     for (const [finger, v] of Object.entries(poses)) {
@@ -174,11 +171,11 @@ describe('the palm bones', () => {
       expect(thumb.point.distanceTo(tip.point), `${finger} pad gap`).toBeLessThan(0.001);
       expect(Math.acos(thumb.normal.dot(tip.normal)) / R, `${finger} pads face`).toBeGreaterThan(150);
       // Opposition, not a flat sweep: the thumb metacarpal stands out of the palm.
-      const wrist = evaluation.head('hand_l', new Vector3());
-      const normal = evaluation.head('index_01_l', new Vector3()).sub(wrist)
-        .cross(evaluation.head('pinky_01_l', new Vector3()).sub(wrist)).normalize();
-      if (normal.dot(new Vector3(1, 0, 0).applyQuaternion(threeQuaternion(evaluation.quaternion('hand_l'))).negate()) < 0) normal.negate();
-      const thumbAxis = evaluation.tail('thumb_01_l', new Vector3()).sub(evaluation.head('thumb_01_l', new Vector3())).normalize();
+      const wrist = evaluation.head('hand_l', new HgVec3());
+      const normal = evaluation.head('index_01_l', new HgVec3()).sub(wrist)
+        .cross(evaluation.head('pinky_01_l', new HgVec3()).sub(wrist)).normalize();
+      if (normal.dot(new HgVec3(1, 0, 0).applyQuaternion(evaluation.quaternion('hand_l')).multiplyScalar(-1)) < 0) normal.multiplyScalar(-1);
+      const thumbAxis = evaluation.tail('thumb_01_l', new HgVec3()).sub(evaluation.head('thumb_01_l', new HgVec3())).normalize();
       expect(Math.asin(thumbAxis.dot(normal)) / R, `${finger} palmar abduction`).toBeGreaterThan(30);
     }
   });
@@ -245,15 +242,12 @@ describe('every exercise, with the palm at rest', () => {
 
 describe('export and runtime agree', () => {
   it.each(EXERCISES.map((exercise) => [exercise.id, exercise] as const))(
-    '%s: every one of the 63 bones, played back through three.js, lands where the studio put it',
+    '%s: every one of the 63 exported bones lands where the studio put it',
     async (_id, exercise) => {
       const clip = generateClip(rig, exercise);
       const fps = clip.fps;
       const blob = await exportGlb(clip, exercise, { fps, clipOnly: true });
-      const loaded = await new GLTFLoader().parseAsync(await blob.arrayBuffer(), '');
-      expect(loaded.animations).toHaveLength(1);
-      const mixer = new AnimationMixer(loaded.scene);
-      mixer.clipAction(loaded.animations[0]).play();
+      const playback = await loadHgTestGltfPlayback(await blob.arrayBuffer());
       const evaluation = new PoseEvaluation(rig);
       const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
       const frameCount = Math.max(2, Math.round(clip.duration * fps));
@@ -264,14 +258,13 @@ describe('export and runtime agree', () => {
       // or add error: what remains is GLB float32 storage and reader playback.
       for (let index = 0; index < times.length; index += Math.max(1, Math.floor(times.length / 12))) {
         const time = times[index];
-        mixer.setTime(time);
-        loaded.scene.updateMatrixWorld(true);
+        playback.setTime(time);
         evaluation.apply(resolveFrame(rig, evaluation, clip, time, { anchors }).pose);
         for (const bone of rig.bones) {
-          const node = loaded.scene.getObjectByName(bone.name);
-          expect(node, bone.name).toBeDefined();
-          const played = new Vector3().setFromMatrixPosition(node!.matrixWorld);
-          worst = Math.max(worst, played.distanceTo(evaluation.head(bone.name, new Vector3())));
+          const node = playback.object(bone.name);
+          expect(node, bone.name).not.toBeNull();
+          const played = new HgVec3().setFromMatrixPosition(node!.matrixWorld);
+          worst = Math.max(worst, played.distanceTo(evaluation.head(bone.name, new HgVec3())));
         }
       }
       expect(worst).toBeLessThan(1e-5);

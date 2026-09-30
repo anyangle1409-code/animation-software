@@ -1,7 +1,8 @@
 import type { BoneName, Side } from '../rig/boneNames';
 import { FINGERS } from '../rig/boneNames';
-import { PoseEvaluation, canonicalSkeleton, type Skeleton } from '../rig/skeleton';
+import { PoseEvaluation, Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
+import { EXERCISE_AUTHORING_REFERENCE_BONES } from '../rig/exerciseAuthoringReference';
 import { clampPose, clonePose, poseFromDegrees } from '../rig/pose';
 import { toRad } from '../core/math';
 import { HgQuat, HgVec3 } from '../core/linearMath';
@@ -23,6 +24,10 @@ import { resolveEquipment, socketResolver } from '../equipment/attach';
 import { measureGripFit } from '../equipment/gripDiagnostics';
 import type { EquipmentInstance } from '../equipment/types';
 import { floorTargetForSkeleton } from '../constraints/floorGeometry';
+
+const exerciseAuthoringReferenceSkeleton = new Skeleton(
+  EXERCISE_AUTHORING_REFERENCE_BONES,
+);
 
 /**
  * Build an animation from an exercise definition.
@@ -130,7 +135,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
  * without changing the authored v3 clip at all.
  */
 function rootPivotForSkeleton(pivot: Vec3, skeleton: Skeleton): Vec3 {
-  const referencePelvis = canonicalSkeleton.bone('pelvis').restHead;
+  const referencePelvis = exerciseAuthoringReferenceSkeleton.bone('pelvis').restHead;
   const activePelvis = skeleton.bone('pelvis').restHead;
   const isReferencePelvis =
     Math.abs(pivot.x - referencePelvis.x) < 1e-9 &&
@@ -233,7 +238,7 @@ function fitRootEndpointToActivePivot(
 ): void {
   if (!exercise.rootPivot) return;
 
-  const referencePelvis = canonicalSkeleton.bone('pelvis').restHead;
+  const referencePelvis = exerciseAuthoringReferenceSkeleton.bone('pelvis').restHead;
   const pivot = exercise.rootPivot;
   const usesReferencePelvis =
     Math.abs(pivot.x - referencePelvis.x) < 1e-9 &&
@@ -324,7 +329,7 @@ function fitDynamicBallPivotRoot(
   );
   if (dynamicBallLocks.length === 0) return pose;
 
-  const referenceFoot = canonicalSkeleton.bone('foot_l');
+  const referenceFoot = exerciseAuthoringReferenceSkeleton.bone('foot_l');
   const activeFoot = skeleton.bone('foot_l');
   if (
     Math.abs(activeFoot.length - referenceFoot.length) < 1e-9 &&
@@ -385,8 +390,8 @@ function fitPitchedFloorRoot(
 
   // Preserve the accepted reference geometry exactly. The shadow/future rig
   // path is what needs body-relative adaptation.
-  const referenceThigh = canonicalSkeleton.bone('thigh_l');
-  const referenceShin = canonicalSkeleton.bone('shin_l');
+  const referenceThigh = exerciseAuthoringReferenceSkeleton.bone('thigh_l');
+  const referenceShin = exerciseAuthoringReferenceSkeleton.bone('shin_l');
   const activeThigh = skeleton.bone('thigh_l');
   const activeShin = skeleton.bone('shin_l');
   if (
@@ -765,8 +770,8 @@ function ikFromSpecForSkeleton(
   let referenceEvaluation: PoseEvaluation | null = null;
   let activeEvaluation: PoseEvaluation | null = null;
   if (hasArmIK) {
-    const referencePose = buildPose(canonicalSkeleton, exercise, spec, end);
-    referenceEvaluation = new PoseEvaluation(canonicalSkeleton).apply(referencePose);
+    const referencePose = buildPose(exerciseAuthoringReferenceSkeleton, exercise, spec, end);
+    referenceEvaluation = new PoseEvaluation(exerciseAuthoringReferenceSkeleton).apply(referencePose);
     activeEvaluation = new PoseEvaluation(skeleton).apply(activePose);
   }
 
@@ -833,8 +838,8 @@ function armIKForSkeleton(
   const referenceDistance = direction.length();
   if (referenceDistance < 1e-9) return { target: { ...target }, pole: { ...pole } };
 
-  const referenceUpper = canonicalSkeleton.bone(chain.root).length;
-  const referenceLower = canonicalSkeleton.bone(chain.mid).length;
+  const referenceUpper = exerciseAuthoringReferenceSkeleton.bone(chain.root).length;
+  const referenceLower = exerciseAuthoringReferenceSkeleton.bone(chain.mid).length;
   const activeUpper = skeleton.bone(chain.root).length;
   const activeLower = skeleton.bone(chain.mid).length;
 

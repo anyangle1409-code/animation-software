@@ -2,15 +2,17 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 describe('single Three runtime gateway', () => {
-  it('keeps character and viewer boundaries off direct Three imports', () => {
-    for (const file of [
-      '../character/threeSceneBoundary.ts',
-      '../viewer/threeSceneBoundary.ts',
-    ]) {
-      const source = readFileSync(new URL(file, import.meta.url), 'utf8');
-      expect(source).not.toMatch(/from ['"]three(?:\/|['"])/);
-      expect(source).toContain("threeRuntimeBoundary");
-    }
+  it('removes the character compatibility boundary and contains the viewer boundary', () => {
+    expect(() =>
+      readFileSync(new URL('../character/threeSceneBoundary.ts', import.meta.url), 'utf8'),
+    ).toThrow();
+
+    const viewer = readFileSync(
+      new URL('../viewer/threeSceneBoundary.ts', import.meta.url),
+      'utf8',
+    );
+    expect(viewer).not.toMatch(/from ['"]three(?:\/|['"])/);
+    expect(viewer).toContain("threeRuntimeBoundary");
   });
 
   it('contains the remaining direct runtime import in one explicit file', () => {

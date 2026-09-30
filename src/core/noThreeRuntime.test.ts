@@ -47,6 +47,7 @@ describe('zero operational Three runtime seam', () => {
   it('keeps runtime dependency and source ceilings at zero', () => {
     const pkg = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8')) as {
       dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
     };
     const allowlist = JSON.parse(
       readFileSync(join(repoRoot, 'RUNTIME_MIGRATION_ALLOWLIST.json'), 'utf8'),
@@ -55,6 +56,8 @@ describe('zero operational Three runtime seam', () => {
       source_import_ceilings: { three: { max_imports: number; allowed_files: string[] } };
     };
     expect(pkg.dependencies ?? {}).toEqual({});
+    expect(pkg.devDependencies?.three).toBeUndefined();
+    expect(pkg.devDependencies?.['@types/three']).toBeUndefined();
     expect(allowlist.allowed_existing_runtime_dependencies).toEqual([]);
     expect(allowlist.source_import_ceilings.three).toMatchObject({
       max_imports: 0,

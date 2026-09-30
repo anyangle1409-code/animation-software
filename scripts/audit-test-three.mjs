@@ -49,4 +49,4 @@ fs.writeFileSync(
 );
 
 console.log(JSON.stringify(report, null, 2));
-if (operational.length) process.exit(1);
+if (operational.length || testOnly.length) process.exit(1);

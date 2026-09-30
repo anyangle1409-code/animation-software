@@ -19,11 +19,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
-    "@types/three": "^0.180.0",
     "playwright": "1.56",
     "typescript": "^5.9.2",
     "vite": "^7.1.0",
-    "vitest": "^3.2.4",
-    "three": "^0.180.0"
+    "vitest": "^3.2.4"
   }
 }

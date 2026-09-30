@@ -68,13 +68,14 @@
         "arm"
       ],
       "poses": [
+        "press_bottom",
         "press_top",
         "press_top_rhythm",
         "pullup_hang",
         "pullup_hang_rhythm",
         "pullup_top"
       ],
-      "reason": "Current reports show the largest local stretch/collapse in overhead/elevation poses. Fix shoulder girdle weight distribution and topology support before cosmetic work."
+      "reason": "Current reports show the largest local stretch/collapse in shoulder loading and overhead/elevation poses. Fix shoulder girdle weight distribution and topology support across press bottom/top and pull-up ranges before cosmetic work."
     },
     {
       "priority": 2,

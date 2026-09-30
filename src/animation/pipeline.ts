@@ -1,5 +1,5 @@
 import { HgVec3 } from '../core/linearMath';
-import type { PoseEvaluation, Skeleton } from '../rig/skeleton';
+import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
 import { IK_CHAINS } from '../ik/chains';
 import type { Pose } from '../rig/types';
 import type { IKGoal, IKResult } from '../ik/types';
@@ -8,9 +8,10 @@ import { resolveLocks } from '../constraints/locks';
 import type { Vec3 } from '../rig/types';
 import type { EffectorLock, ResolvedContact } from '../constraints/types';
 import { floorTargetForSkeleton } from '../constraints/floorGeometry';
-import { resolveEquipment, socketResolver } from '../equipment/attach';
+import { resolveEquipment, socketResolver, twoHandGripOffsets } from '../equipment/attach';
 import type { EquipmentTransform } from '../equipment/attach';
 import type { EquipmentInstance } from '../equipment/types';
+import { equipmentSocketForInstance, withTwoHandGripWidth } from '../equipment/library';
 import { sampleClip } from './clip';
 import type { StudioClip } from './clip';
 import type { KeyframeIK } from './clip';
@@ -55,7 +56,11 @@ export function resolveFrame(
 ): ResolvedFrame {
   const sample = sampleClip(clip, time);
   const locks = options.locks ?? clip.locks;
-  const equipment = options.equipment ?? clip.equipment;
+  const equipment = fitTwoHandEquipmentForRuntime(
+    skeleton,
+    clip,
+    options.equipment ?? clip.equipment,
+  );
 
   const pose = sample.pose;
   const ikResults: IKResult[] = [];
@@ -114,6 +119,76 @@ export function resolveFrame(
     });
   }
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
+}
+
+const TWO_HAND_FIT_ENVELOPE = 0.005;
+
+/**
+ * Calibrate only grip-socket positions for pose-driven rigid two-hand
+ * equipment. The authored clip remains unchanged; this runtime boundary is
+ * where a compatible skeleton's different hand geometry is allowed to affect
+ * fit.
+ *
+ * Arm-IK-driven clips are deliberately excluded: their hand spacing is solved
+ * later in this pipeline, so raw keyframe poses are not an honest calibration
+ * source. They keep their authored sockets and remain subject to the same
+ * review gate.
+ */
+function fitTwoHandEquipmentForRuntime(
+  skeleton: Skeleton,
+  clip: StudioClip,
+  instances: EquipmentInstance[],
+): EquipmentInstance[] {
+  const hasArmIK = clip.keyframes.some(
+    (keyframe) => keyframe.ik.arm_l?.enabled || keyframe.ik.arm_r?.enabled,
+  );
+  if (hasArmIK) return instances;
+
+  const evaluation = new PoseEvaluation(skeleton);
+  const handLengths = {
+    left: skeleton.bone('hand_l').length,
+    right: skeleton.bone('hand_r').length,
+  };
+
+  return instances.map((instance) => {
+    if (instance.attachment.mode !== 'hands') return instance;
+    const offsets = twoHandGripOffsets(instance, handLengths);
+    const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
+    const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
+    if (!offsets || !leftSocket || !rightSocket) return instance;
+
+    const socketSeparation = Math.hypot(
+      rightSocket.position.x - leftSocket.position.x,
+      rightSocket.position.y - leftSocket.position.y,
+      rightSocket.position.z - leftSocket.position.z,
+    );
+
+    let minTarget = Number.POSITIVE_INFINITY;
+    let maxTarget = 0;
+    for (let index = 0; index <= 8; index += 1) {
+      const sampled = sampleClip(clip, (clip.duration * index) / 8);
+      evaluation.apply(sampled.pose);
+      const left = evaluation.localToWorld('hand_l', offsets.left);
+      const right = evaluation.localToWorld('hand_r', offsets.right);
+      const separation = left.distanceTo(right);
+      minTarget = Math.min(minTarget, separation);
+      maxTarget = Math.max(maxTarget, separation);
+    }
+
+    const currentWorst =
+      Math.max(
+        Math.abs(minTarget - socketSeparation),
+        Math.abs(maxTarget - socketSeparation),
+      ) / 2;
+    if (currentWorst <= TWO_HAND_FIT_ENVELOPE) return instance;
+
+    // One fixed pair of sockets can cover a separation interval with per-hand
+    // error <= E when the interval width is <= 4E.
+    const bestPossibleWorst = (maxTarget - minTarget) / 4;
+    if (bestPossibleWorst > TWO_HAND_FIT_ENVELOPE) return instance;
+
+    return withTwoHandGripWidth(instance, (minTarget + maxTarget) / 2);
+  });
 }
 
 interface FlatFootMetrics {

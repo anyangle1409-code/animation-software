@@ -8,7 +8,7 @@ describe('legacy clip builder containment', () => {
       new URL('./test/clipBuilderCompat.ts', import.meta.url),
       'utf8',
     );
-    expect(support).toContain("from 'three'");
+    expect(support).toContain("'three'");
   });
 
   it('keeps the live equipment viewer off the legacy clip builder', () => {

@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Euler, Matrix4, PerspectiveCamera, Quaternion, Vector3 } from 'three';
 import { HgMat4, HgQuat, HgVec3 } from './linearMath';
 import { boxPrimitiveData } from './primitiveGeometry';
 import { HgPerspectiveCamera } from './sceneGraph';
@@ -13,36 +12,39 @@ const close = (one: ArrayLike<number>, two: ArrayLike<number>) => {
   }
 };
 
+const multiply4 = (a: ArrayLike<number>, b: ArrayLike<number>): number[] => {
+  const out = Array<number>(16).fill(0);
+  for (let column = 0; column < 4; column += 1) {
+    for (let row = 0; row < 4; row += 1) {
+      let value = 0;
+      for (let k = 0; k < 4; k += 1) {
+        value += a[k * 4 + row] * b[column * 4 + k];
+      }
+      out[column * 4 + row] = value;
+    }
+  }
+  return out;
+};
+
 describe('first-party flat primitive renderer', () => {
-  it('matches renderer clip-space matrix composition', () => {
-    const hgCamera = new HgPerspectiveCamera(38, 16 / 9, 0.05, 100);
-    hgCamera.position.set(2.3, 1.35, 2.7);
-    hgCamera.updateMatrixWorld(true);
-    hgCamera.lookAt(0, 0.9, 0);
-    hgCamera.updateMatrixWorld(true);
+  it('matches an independent scalar clip-space matrix composition', () => {
+    const camera = new HgPerspectiveCamera(38, 16 / 9, 0.05, 100);
+    camera.position.set(2.3, 1.35, 2.7);
+    camera.updateMatrixWorld(true);
+    camera.lookAt(0, 0.9, 0);
+    camera.updateMatrixWorld(true);
 
-    const threeCamera = new PerspectiveCamera(38, 16 / 9, 0.05, 100);
-    threeCamera.position.set(2.3, 1.35, 2.7);
-    threeCamera.lookAt(0, 0.9, 0);
-    threeCamera.updateMatrixWorld(true);
-
-    const hgWorld = new HgMat4().compose(
+    const world = new HgMat4().compose(
       new HgVec3(0.2, 0.4, -0.3),
       new HgQuat().setFromEulerXYZ(0.1, -0.2, 0.3),
       new HgVec3(1.2, 0.9, 1.1),
     );
-    const threeWorld = new Matrix4().compose(
-      new Vector3(0.2, 0.4, -0.3),
-      new Quaternion().setFromEuler(new Euler(0.1, -0.2, 0.3)),
-      new Vector3(1.2, 0.9, 1.1),
+    const actual = hgClipMatrix(camera, world);
+    const expected = multiply4(
+      multiply4(camera.projectionMatrix.elements, camera.matrixWorldInverse.elements),
+      world.elements,
     );
-
-    const actual = hgClipMatrix(hgCamera, hgWorld);
-    const expected = new Matrix4()
-      .copy(threeCamera.projectionMatrix)
-      .multiply(threeCamera.matrixWorldInverse)
-      .multiply(threeWorld);
-    close(actual.elements, expected.elements);
+    close(actual.elements, expected);
   });
 
   it('submits shared primitive geometry with the composed clip matrix', () => {

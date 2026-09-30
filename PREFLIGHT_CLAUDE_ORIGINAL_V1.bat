@@ -49,8 +49,7 @@ python scripts\build_original_v1_repair_queue.py ^
   ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
   --profile development_blocker ^
   --require-complete-ownership ^
-  --expect-next-priority 1 ^
-  --markdown-out ORIGINAL_V1_WORK\candidates\repair_queue_preflight.md
+  --expect-next-priority 1
 if errorlevel 1 (
   echo ERROR: Repair queue is not in the expected guarded state.
   exit /b 1

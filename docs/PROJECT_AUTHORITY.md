@@ -46,9 +46,12 @@ A lower item must never silently override a higher item.
   instructions to restore or repeat removed dependency work.
 - Physical browser/device parity:
   `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`.
-- ORIGINAL v1 Blender O2 work:
-  `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; production modelling must use
-  `OPEN_ORIGINAL_V1_O2_GUARDED.bat` and `CHECKPOINT_ORIGINAL_V1_O2.bat`.
+- ORIGINAL v1 Blender/model work:
+  the isolated branch `claude/original-v1-blender-o2-20260929` and its
+  `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md` are the active deformation
+  authority. `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md` is retained for clean-room
+  setup/provenance and recovery history only; do not restart O2 while the O4
+  candidate track exists.
 - Clean-room character requirements:
   `docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md`.
 - Canonical v4 rig:

@@ -53,6 +53,8 @@ export function reviewExercise(
   let gripChecks = 0;
   let worstReachUse = 0;
   let widestGripGap = 0;
+  let worstGripFinger = '';
+  let worstGripFingerUse = 0;
   let twoHandFailures = 0;
   let twoHandChecks = 0;
   let worstTwoHandError = 0;
@@ -96,6 +98,12 @@ export function reviewExercise(
         gripChecks += 1;
         worstReachUse = Math.max(worstReachUse, fit.reachUse);
         widestGripGap = Math.max(widestGripGap, fit.widestGapDeg);
+        for (const [finger, use] of Object.entries(fit.digitReachUse)) {
+          if (use > worstGripFingerUse) {
+            worstGripFinger = finger;
+            worstGripFingerUse = use;
+          }
+        }
         if (!fit.withinEnvelope) gripFailures += 1;
       }
       for (const instance of twoHandInstances) {
@@ -161,7 +169,7 @@ export function reviewExercise(
         ? 'Not applicable: no supported single-hand dumbbell grip.'
         : gripFailures === 0
           ? `${gripChecks} grip samples pass; max reach ${Math.round(worstReachUse * 100)}%, widest gap ${widestGripGap.toFixed(1)}°.`
-          : `${gripFailures} of ${gripChecks} grip samples need review; max reach ${Math.round(worstReachUse * 100)}%, widest gap ${widestGripGap.toFixed(1)}°.`,
+          : `${gripFailures} of ${gripChecks} grip samples need review; max reach ${Math.round(worstReachUse * 100)}% (${worstGripFinger || 'unknown'} ${Math.round(worstGripFingerUse * 100)}%), widest gap ${widestGripGap.toFixed(1)}°.`,
       applicable: supportedGripInstances.length > 0,
     },
     {

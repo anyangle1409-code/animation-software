@@ -8,6 +8,7 @@ import {
 import { hgRuntimeNodeNames } from '../core/gltfRuntimeNames';
 import { HgQuat } from '../core/linearMath';
 import type { HgObject3D } from '../core/sceneGraph';
+import { HgSkinnedMesh } from '../core/sceneSkin';
 
 export interface HgTestGltfPlayback {
   readonly scene: HgObject3D;
@@ -80,8 +81,24 @@ export async function loadHgTestGltfPlayback(
           object.quaternion.set(values[0], values[1], values[2], values[3]);
         } else if (channel.path === 'scale') {
           object.scale.set(values[0], values[1], values[2]);
-        } else {
-          throw new Error('Test playback does not apply morph weights');
+        } else if (channel.path === 'weights') {
+          const meshes: HgSkinnedMesh[] = [];
+          object.traverse((candidate) => {
+            if (candidate instanceof HgSkinnedMesh) meshes.push(candidate);
+          });
+          if (!meshes.length) {
+            throw new Error(`Weight channel node ${channel.node} has no skinned mesh`);
+          }
+          for (const mesh of meshes) {
+            if (!mesh.morphTargetInfluences) mesh.updateMorphTargets();
+            const influences = mesh.morphTargetInfluences ?? [];
+            if (influences.length !== values.length) {
+              throw new Error(
+                `Weight channel size ${values.length} does not match mesh morph count ${influences.length}`,
+              );
+            }
+            values.forEach((value, index) => { influences[index] = value; });
+          }
         }
         object.matrixWorldNeedsUpdate = true;
       }

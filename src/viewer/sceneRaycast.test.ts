@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { boxPrimitiveData } from '../core/primitiveGeometry';
 import { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
 import { HgPrimitiveMaterial, HgPrimitiveMesh } from '../core/sceneMesh';
-import { HgMat4, HgVec3 } from '../core/linearMath';
+import { HgMat4 } from '../core/linearMath';
 import {
   createSceneRay,
   intersectSceneMeshes,

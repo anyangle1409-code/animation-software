@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { EQUIPMENT_PARTS, equipmentParts } from './geometry';
 import { equipmentDistance, equipmentPartDistances } from '../constraints/collision';
 import type { EquipmentKind } from './types';
@@ -84,7 +84,7 @@ describe('the incline bench back angle', () => {
     // 45°, but the pad has rotated away from it at a very different angle, so
     // the envelope must disagree between the two — proving `equipmentDistance`
     // actually consults the angle rather than a cached default.
-    const point = new Vector3(0, 0.691, 0.105);
+    const point = new HgVec3(0, 0.691, 0.105);
     const at45 = equipmentDistance('incline_bench', point, 45);
     const at90 = equipmentDistance('incline_bench', point, 90);
     expect(at45).toBeLessThan(0);
@@ -92,7 +92,7 @@ describe('the incline bench back angle', () => {
   });
 
   it('equipmentPartDistances agrees with equipmentDistance, at any angle', () => {
-    const point = new Vector3(0.05, 0.5, -0.3);
+    const point = new HgVec3(0.05, 0.5, -0.3);
     for (const angle of [30, 45, 60]) {
       const distances = equipmentPartDistances('incline_bench', point, angle);
       expect(Math.min(...distances)).toBeCloseTo(equipmentDistance('incline_bench', point, angle), 9);

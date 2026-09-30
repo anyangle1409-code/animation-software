@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { resolveFrame } from '../animation/pipeline';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { studioStore } from './storeCore';
@@ -209,7 +209,7 @@ describe('equipment grip-offset calibration', () => {
     const evaluation = new PoseEvaluation(canonicalSkeleton);
     const frame = resolveFrame(canonicalSkeleton, evaluation, clip, 0);
     evaluation.apply(frame.pose);
-    const expected = evaluation.localToWorld('hand_l', custom, new Vector3());
+    const expected = evaluation.localToWorld('hand_l', custom, new HgVec3());
     expect(frame.equipment.get('dumbbell_l')!.position.distanceTo(expected)).toBeLessThan(1e-9);
 
     studioStore.getState().setEquipmentGripOffset('dumbbell_l', null);
@@ -380,7 +380,7 @@ describe('hand-local grip orientation calibration', () => {
     const evaluation = new PoseEvaluation(canonicalSkeleton);
     const frame = resolveFrame(canonicalSkeleton, evaluation, state.document.clip, 0);
     evaluation.apply(frame.pose);
-    const expected = evaluation.localToWorld('hand_l', { x: -0.025, y: 0.085, z: 0 }, new Vector3());
+    const expected = evaluation.localToWorld('hand_l', { x: -0.025, y: 0.085, z: 0 }, new HgVec3());
     expect(frame.equipment.get('dumbbell_l')!.position.distanceTo(expected)).toBeLessThan(1e-9);
 
     state.undo();

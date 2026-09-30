@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Matrix4, Quaternion, Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { resolveEquipment, twoHandAttachmentMatrix, twoHandGripOffsets } from './attach';
 import { measureTwoHandFit } from './gripDiagnostics';
 import { withTwoHandGripWidth } from './library';
@@ -46,9 +46,12 @@ describe('rigid two-hand equipment attachment', () => {
     expect(fit.leftError).toBeLessThan(1e-8);
     expect(fit.rightError).toBeLessThan(1e-8);
     expect(fit.withinEnvelope).toBe(true);
-    const matrix = new Matrix4();
-    for (let index = 0; index < 16; index += 1) matrix.elements[index] = transform.matrix.elements[index];
-    expect(matrix.determinant()).toBeCloseTo(1, 8);
+    const e = transform.matrix.elements;
+    const determinant =
+      e[0] * (e[5] * e[10] - e[6] * e[9]) -
+      e[4] * (e[1] * e[10] - e[2] * e[9]) +
+      e[8] * (e[1] * e[6] - e[2] * e[5]);
+    expect(determinant).toBeCloseTo(1, 8);
   });
 
   it('applies roll around the grip axis without changing either socket position', () => {
@@ -66,28 +69,28 @@ describe('rigid two-hand equipment attachment', () => {
     const afterFit = measureTwoHandFit(pose, rolled, after)!;
     expect(afterFit.leftError).toBeLessThan(1e-8);
     expect(afterFit.rightError).toBeLessThan(1e-8);
-    const afterQuaternion = new Quaternion(
+    const afterHgQuat = new HgQuat(
       after.quaternion.x,
       after.quaternion.y,
       after.quaternion.z,
       after.quaternion.w,
     );
-    const beforeQuaternion = new Quaternion(
+    const beforeHgQuat = new HgQuat(
       before.quaternion.x,
       before.quaternion.y,
       before.quaternion.z,
       before.quaternion.w,
     );
-    expect(afterQuaternion.angleTo(beforeQuaternion)).toBeGreaterThan(0.1);
+    expect(afterHgQuat.angleTo(beforeHgQuat)).toBeGreaterThan(0.1);
   });
 
   it('works from arbitrary hand matrices for preserved-source imported characters', () => {
-    const left = new Matrix4().makeTranslation(-0.31, 1.15, 0.22);
-    const right = new Matrix4().makeTranslation(0.31, 1.15, 0.22);
+    const left = new HgMat4().makeTranslation(-0.31, 1.15, 0.22);
+    const right = new HgMat4().makeTranslation(0.31, 1.15, 0.22);
     const calibrated = withTwoHandGripWidth(base, 0.62);
     const matrix = twoHandAttachmentMatrix(left, right, calibrated)!;
     const offsets = twoHandGripOffsets(calibrated)!;
-    const centre = new Vector3(matrix.elements[12], matrix.elements[13], matrix.elements[14]);
+    const centre = new HgVec3(matrix.elements[12], matrix.elements[13], matrix.elements[14]);
     expect(centre.y).toBeCloseTo(1.15 + offsets.left.y, 8);
     expect(centre.z).toBeCloseTo(0.22 + offsets.left.z, 8);
   });

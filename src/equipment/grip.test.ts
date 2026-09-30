@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -28,8 +28,8 @@ const gripPoints = (side: Side): { bone: BoneName; along: number; reach: number 
   { bone: `thumb_03_${side}` as BoneName, along: 1, reach: 0.032 },
 ];
 
-const pointOf = (bone: BoneName, along: number): Vector3 =>
-  along >= 1 ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
+const pointOf = (bone: BoneName, along: number): HgVec3 =>
+  along >= 1 ? evaluation.tail(bone, new HgVec3()) : evaluation.head(bone, new HgVec3());
 
 describe.each([
   ['Dumbbell Bicep Curl', bicepCurl],
@@ -49,9 +49,9 @@ describe.each([
         expect(dumbbell, `dumbbell_${side}`).toBeDefined();
         const handle = dumbbell!.position;
         // The bar of a dumbbell runs along its own +Z.
-        const axis = new Vector3(0, 0, 1).applyQuaternion(dumbbell!.quaternion).normalize();
-        const up = new Vector3(0, 1, 0).addScaledVector(axis, -axis.y).normalize();
-        const across = new Vector3().crossVectors(up, axis);
+        const axis = new HgVec3(0, 0, 1).applyQuaternion(dumbbell!.quaternion).normalize();
+        const up = new HgVec3(0, 1, 0).addScaledVector(axis, -axis.y).normalize();
+        const across = new HgVec3().crossVectors(up, axis);
 
         const angles: number[] = [];
         for (const { bone, along, reach } of gripPoints(side)) {
@@ -84,7 +84,7 @@ describe.each([
         const expected = evaluation.localToWorld(
           `hand_${side}`,
           anatomicalGripOffset(side),
-          new Vector3(),
+          new HgVec3(),
         );
         // Rigidly attached: the handle is exactly where the hand puts it, with
         // no drift of its own at any point in the repetition.
@@ -98,7 +98,7 @@ describe.each([
   it('turns the dumbbell with the hand rather than sliding in it', () => {
     const first = resolveFrame(skeleton, evaluation, clip, 0);
     evaluation.apply(first.pose);
-    const reference = new Map<Side, Vector3>();
+    const reference = new Map<Side, HgVec3>();
     for (const side of ['l', 'r'] as const) {
       const dumbbell = first.equipment.get(`dumbbell_${side}`)!;
       // The bar axis, expressed in the hand's own frame.
@@ -107,10 +107,10 @@ describe.each([
         evaluation
           .worldToLocal(
             `hand_${side}`,
-            new Vector3(0, 0, 1).applyQuaternion(dumbbell.quaternion).add(dumbbell.position),
-            new Vector3(),
+            new HgVec3(0, 0, 1).applyQuaternion(dumbbell.quaternion).add(dumbbell.position),
+            new HgVec3(),
           )
-          .sub(evaluation.worldToLocal(`hand_${side}`, dumbbell.position.clone(), new Vector3()))
+          .sub(evaluation.worldToLocal(`hand_${side}`, dumbbell.position.clone(), new HgVec3()))
           .normalize(),
       );
     }
@@ -123,10 +123,10 @@ describe.each([
         const axis = evaluation
           .worldToLocal(
             `hand_${side}`,
-            new Vector3(0, 0, 1).applyQuaternion(dumbbell.quaternion).add(dumbbell.position),
-            new Vector3(),
+            new HgVec3(0, 0, 1).applyQuaternion(dumbbell.quaternion).add(dumbbell.position),
+            new HgVec3(),
           )
-          .sub(evaluation.worldToLocal(`hand_${side}`, dumbbell.position.clone(), new Vector3()))
+          .sub(evaluation.worldToLocal(`hand_${side}`, dumbbell.position.clone(), new HgVec3()))
           .normalize();
         expect(axis.angleTo(reference.get(side)!), `${side} at ${time.toFixed(2)}s`).toBeLessThan(
           1e-6,

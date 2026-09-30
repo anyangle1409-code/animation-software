@@ -21,6 +21,9 @@ on:
       - "ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json"
       - "scripts/evaluate_original_v1_deformation_report.py"
       - "scripts/compare_original_v1_deformation_reports.py"
+      - "scripts/audit_original_v1_shoulder_weights_blender.py"
+      - "scripts/pose_test_original_v1_o4_candidate_blender.py"
+      - "scripts/export_original_v1_candidate_glb_blender.py"
       - "scripts/verify_original_v1_deformation_baseline.py"
       - "scripts/build_original_v1_repair_queue.py"
       - "scripts/test_build_original_v1_repair_queue.py"
@@ -53,6 +56,9 @@ jobs:
           python3 -m py_compile
           scripts/evaluate_original_v1_deformation_report.py
           scripts/compare_original_v1_deformation_reports.py
+          scripts/audit_original_v1_shoulder_weights_blender.py
+          scripts/pose_test_original_v1_o4_candidate_blender.py
+          scripts/export_original_v1_candidate_glb_blender.py
           scripts/verify_original_v1_deformation_baseline.py
           scripts/build_original_v1_repair_queue.py
           scripts/test_build_original_v1_repair_queue.py
@@ -104,8 +110,8 @@ jobs:
           python3 scripts/compare_original_v1_deformation_reports.py
           ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
           ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
-          --baseline-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
-          --candidate-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
+          --baseline-grip-report ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          --candidate-grip-report ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
           --profile development_blocker
 
       - name: Targeted shoulder-comparison self-check
@@ -114,4 +120,4 @@ jobs:
           ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
           ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
           --profile development_blocker
-          --poses press_bottom,press_top,press_top_rhythm,pullup_hang,pullup_hang_rhythm,pullup_top
+          --poses press_bottom,press_top,press_top_rhythm,squat_bottom,pullup_hang,pullup_hang_rhythm,pullup_top,pullup_bar

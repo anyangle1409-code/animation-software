@@ -1,15 +1,13 @@
 import { describe, expect, it } from 'vitest';
+import { HgBone } from '../core/sceneGraph';
 import {
-  Bone,
-  BufferAttribute,
-  BufferGeometry,
-  Matrix4,
-  MeshStandardMaterial,
-  Quaternion,
-  Skeleton as ThreeSkeleton,
-  SkinnedMesh,
-  Vector3,
-} from 'three';
+  HgBufferAttribute,
+  HgBufferGeometry,
+  HgSkeleton,
+  HgSkinnedMesh,
+  HgStandardMaterial,
+} from '../core/sceneSkin';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -17,7 +15,7 @@ import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { exportGlb } from '../export/glb';
-import { bakeClip } from '../export/test/clipBuilderCompat';
+import { bakeClipData } from '../export/clipData';
 import { createMapping, guessMapping } from '../retargeting/boneMap';
 import { proceduralCharacter } from './procedural';
 import { characterSource, characterSources, defaultCharacterId } from './registry';
@@ -25,7 +23,6 @@ import { glbCharacterSource } from './glbSource';
 import { rebindToCanonical } from './rebind';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
-import { asThreeMatrix } from '../test/threeInterop';
 
 const rig = canonicalSkeleton;
 const studioClip = generateClip(rig, bicepCurl);
@@ -39,8 +36,8 @@ function curlPose(time: number) {
 }
 
 /** Where a bone's head ends up once a character has been posed. */
-const boneHead = (character: CharacterBuild, name: string): Vector3 =>
-  new Vector3().setFromMatrixPosition(asThreeMatrix(character.boneByName.get(name as never)!.matrixWorld));
+const boneHead = (character: CharacterBuild, name: string): HgVec3 =>
+  new HgVec3().setFromMatrixPosition(character.boneByName.get(name as never)!.matrixWorld);
 
 describe('the character registry', () => {
   it('offers the clean procedural character as the standalone default', () => {
@@ -67,13 +64,13 @@ describe('rebinding a surface by bone name', () => {
    * bone order, and a bone the canonical rig does not carry.
    */
   function foreignCharacter() {
-    const hips = new Bone();
+    const hips = new HgBone();
     hips.name = 'mixamorigHips';
     hips.position.set(0, 1.0, 0);
-    const spine = new Bone();
+    const spine = new HgBone();
     spine.name = 'mixamorigSpine';
     spine.position.set(0, 0.1, 0);
-    const twist = new Bone();
+    const twist = new HgBone();
     // Not in the canonical rig: its weight must fall back to an ancestor.
     twist.name = 'mixamorigSpine_twist';
     twist.position.set(0, 0.05, 0);
@@ -82,25 +79,25 @@ describe('rebinding a surface by bone name', () => {
     hips.updateMatrixWorld(true);
 
     const bones = [spine, twist, hips]; // deliberately not the canonical order
-    const geometry = new BufferGeometry();
+    const geometry = new HgBufferGeometry();
     geometry.setAttribute(
       'position',
-      new BufferAttribute(new Float32Array([0, 1.1, 0, 0.1, 1.1, 0, 0, 1.15, 0]), 3),
+      new HgBufferAttribute(new Float32Array([0, 1.1, 0, 0.1, 1.1, 0, 0, 1.15, 0]), 3),
     );
-    geometry.setAttribute('uv', new BufferAttribute(new Float32Array([0, 0, 1, 0, 0, 1]), 2));
+    geometry.setAttribute('uv', new HgBufferAttribute(new Float32Array([0, 0, 1, 0, 0, 1]), 2));
     geometry.setAttribute(
       'skinIndex',
-      new BufferAttribute(new Uint16Array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]), 4),
+      new HgBufferAttribute(new Uint16Array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]), 4),
     );
     geometry.setAttribute(
       'skinWeight',
-      new BufferAttribute(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]), 4),
+      new HgBufferAttribute(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]), 4),
     );
 
-    const mesh = new SkinnedMesh(geometry, new MeshStandardMaterial());
+    const mesh = new HgSkinnedMesh(geometry, new HgStandardMaterial());
     mesh.add(hips);
     mesh.updateMatrixWorld(true);
-    mesh.bind(new ThreeSkeleton(bones));
+    mesh.bind(new HgSkeleton(bones));
     return mesh;
   }
 
@@ -138,7 +135,7 @@ describe('rebinding a surface by bone name', () => {
     // 100 mm above ours, wherever that is.
     const spine = rig.bone('spine_01');
     const position = mesh.geometry.getAttribute('position');
-    const moved = new Vector3(position.getX(0), position.getY(0), position.getZ(0));
+    const moved = new HgVec3(position.getX(0), position.getY(0), position.getZ(0));
     expect(moved.distanceTo(spine.restHead)).toBeCloseTo(0.0, 2);
   });
 
@@ -262,7 +259,7 @@ describe('a GLB character through the source architecture', () => {
 describe('the viewport and the exported file', () => {
   it('pose the same character the same way', { timeout: 30_000 }, async () => {
     const character = await proceduralCharacter.build(rig);
-    const baked = bakeClip(studioClip, rig, { fps: 20 });
+    const baked = bakeClipData(studioClip, rig, { fps: 20 });
 
     for (const fraction of [0, 0.2327, 0.4545, 0.8]) {
       const time = studioClip.duration * fraction;
@@ -270,11 +267,11 @@ describe('the viewport and the exported file', () => {
       applyCharacterPose(character, rig, frame.pose, evaluation);
 
       for (const name of ['upperarm_r', 'forearm_r', 'hand_r'] as const) {
-        const track = baked.clip.tracks.find((entry) => entry.name === `${name}.quaternion`);
+        const track = baked.tracks.find((entry) => entry.bone === name && entry.property === 'quaternion');
         if (!track) continue;
-        const sampled = sampleQuaternion(track.times as unknown as number[], track.values as unknown as number[], time);
-        const posed = new Quaternion().setFromRotationMatrix(
-          new Matrix4().extractRotation(asThreeMatrix(character.boneByName.get(name)!.matrix)),
+        const sampled = sampleQuaternion(track.times, track.values, time);
+        const posed = new HgQuat().setFromRotationMatrix(
+          new HgMat4().extractRotation(character.boneByName.get(name)!.matrix),
         );
         // Same rotation, allowing for the baked clip's own sampling interval.
         expect(Math.abs(sampled.dot(posed)), `${name} at ${fraction}`).toBeGreaterThan(0.999);
@@ -292,29 +289,29 @@ function wristSurface(character: CharacterBuild): number {
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
   const hand = rig.bones.findIndex((bone) => bone.name === 'hand_r');
 
-  const skinned = new Vector3();
-  const source = new Vector3();
-  const matrix = new Matrix4();
+  const skinned = new HgVec3();
+  const source = new HgVec3();
+  const matrix = new HgMat4();
   let highest = -Infinity;
 
   for (let vertex = 0; vertex < position.count; vertex += 1) {
     if (skinIndex.getX(vertex) !== hand || skinWeight.getX(vertex) < 0.99) continue;
     source.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
     matrix
-      .copy(asThreeMatrix(mesh.skeleton.bones[hand].matrixWorld))
-      .multiply(asThreeMatrix(mesh.skeleton.boneInverses[hand]));
+      .copy(mesh.skeleton.bones[hand].matrixWorld)
+      .multiply(mesh.skeleton.boneInverses[hand]);
     highest = Math.max(highest, skinned.copy(source).applyMatrix4(matrix).y);
   }
   return highest;
 }
 
 /** Nearest-sample read of a baked quaternion track. */
-function sampleQuaternion(times: number[], values: number[], time: number): Quaternion {
+function sampleQuaternion(times: number[], values: number[], time: number): HgQuat {
   let best = 0;
   for (let index = 1; index < times.length; index += 1) {
     if (Math.abs(times[index] - time) < Math.abs(times[best] - time)) best = index;
   }
-  return new Quaternion(
+  return new HgQuat(
     values[best * 4],
     values[best * 4 + 1],
     values[best * 4 + 2],

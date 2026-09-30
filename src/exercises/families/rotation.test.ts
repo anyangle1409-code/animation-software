@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -33,10 +33,10 @@ function frames(steps = 40) {
       time,
       pose: frame.pose,
       phase: frame.phaseId,
-      pelvis: evaluation.head('pelvis', new Vector3()),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
       hands: {
-        l: evaluation.head('hand_l', new Vector3()).lerp(evaluation.tail('hand_l', new Vector3()), 0.5),
-        r: evaluation.head('hand_r', new Vector3()).lerp(evaluation.tail('hand_r', new Vector3()), 0.5),
+        l: evaluation.head('hand_l', new HgVec3()).lerp(evaluation.tail('hand_l', new HgVec3()), 0.5),
+        r: evaluation.head('hand_r', new HgVec3()).lerp(evaluation.tail('hand_r', new HgVec3()), 0.5),
       },
       twist: (['spine_01', 'spine_02', 'spine_03'] as const).reduce(
         (total, bone) => total + (frame.pose.rotations[bone]?.y ?? 0) / R,
@@ -98,7 +98,7 @@ describe.skipIf(!existsSync(ASSET))('Russian twist on the production character',
     const seat = Array.from({ length: count }, (_, index) => /^(spine|pelvis|thigh)[LR]?$/.test(dominantBone(body, index)));
     const evaluation = new PoseEvaluation(rig);
     let lowest = Infinity;
-    const vertex = new Vector3();
+    const vertex = new HgVec3();
     for (const frame of frames(8)) {
       evaluation.apply(frame.pose);
       applyCharacterPose(character, rig, frame.pose, evaluation);
@@ -126,20 +126,20 @@ describe('cable woodchop', () => {
     const frame = resolveFrame(rig, evaluation, clip, (step / 40) * clip.duration, { anchors });
     evaluation.apply(frame.pose);
     const grip = evaluation
-      .localToWorld('hand_l', anatomicalGripOffset('l'), new Vector3())
-      .add(evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new Vector3()))
+      .localToWorld('hand_l', anatomicalGripOffset('l'), new HgVec3())
+      .add(evaluation.localToWorld('hand_r', anatomicalGripOffset('r'), new HgVec3()))
       .multiplyScalar(0.5);
-    const shoulders = evaluation.head('upperarm_l', new Vector3()).add(evaluation.head('upperarm_r', new Vector3())).multiplyScalar(0.5);
+    const shoulders = evaluation.head('upperarm_l', new HgVec3()).add(evaluation.head('upperarm_r', new HgVec3())).multiplyScalar(0.5);
     return {
       frame,
       grip,
       reach: grip.distanceTo(shoulders),
-      head: evaluation.head('head', new Vector3()),
+      head: evaluation.head('head', new HgVec3()),
       fit: measureTwoHandFit(evaluation, handle, frame.equipment.get('handle')!)!,
       elbows: [frame.pose.rotations.forearm_l!.x, frame.pose.rotations.forearm_r!.x].map((x) => x / R),
       feet: (['l', 'r'] as const).map((side) => ({
-        ankle: evaluation.head(`foot_${side}`, new Vector3()),
-        toe: evaluation.tail(`toe_${side}`, new Vector3()),
+        ankle: evaluation.head(`foot_${side}`, new HgVec3()),
+        toe: evaluation.tail(`toe_${side}`, new HgVec3()),
       })),
     };
   });

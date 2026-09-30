@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -27,14 +27,14 @@ function frames(exercise: ExerciseDefinition, steps = 40) {
   return Array.from({ length: steps + 1 }, (_, step) => {
     const frame = resolveFrame(rig, evaluation, clip, (step / steps) * clip.duration, { anchors });
     evaluation.apply(frame.pose);
-    const head = (bone: 'spine_01' | 'spine_02') => evaluation.head(bone, new Vector3());
+    const head = (bone: 'spine_01' | 'spine_02') => evaluation.head(bone, new HgVec3());
     const angle = (bone: 'spine_01' | 'spine_02') =>
-      (Math.acos(evaluation.tail(bone, new Vector3()).sub(head(bone)).normalize().y) * 180) / Math.PI;
+      (Math.acos(evaluation.tail(bone, new HgVec3()).sub(head(bone)).normalize().y) * 180) / Math.PI;
     return {
       frame,
       pose: frame.pose,
-      pelvis: evaluation.head('pelvis', new Vector3()),
-      shoulder: evaluation.head('upperarm_l', new Vector3()),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
+      shoulder: evaluation.head('upperarm_l', new HgVec3()),
       lowerBack: angle('spine_01'),
       midBack: angle('spine_02'),
     };
@@ -107,7 +107,7 @@ describe.skipIf(!existsSync(ASSET))('lying and sitting on the production charact
       const trunk = Array.from({ length: count }, (_, index) => /^(spine|pelvis|breast)/.test(dominantBone(body, index)));
       const head = Array.from({ length: count }, (_, index) => /^spine006/.test(dominantBone(body, index)));
       const evaluation = new PoseEvaluation(rig);
-      const vertex = new Vector3();
+      const vertex = new HgVec3();
       const sampled = frames(exercise, 16);
       let deepest = Infinity;
       sampled.forEach(({ pose, frame }, index) => {

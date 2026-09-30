@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import { resolvePoint } from '../constraints/points';
@@ -112,8 +112,8 @@ describe('mirroring', () => {
         const evaluation = new PoseEvaluation(skeleton);
         const clip = generateClip(skeleton, exercise);
         const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-        const left = new Vector3();
-        const right = new Vector3();
+        const left = new HgVec3();
+        const right = new HgVec3();
         let worst = 0;
         let where = '';
         for (let step = 0; step <= 40; step += 1) {
@@ -184,8 +184,8 @@ describe('mirroring', () => {
       // alone. Checked against the rest skeleton rather than asserted, for every
       // sided point any rule in the library actually names.
       const evaluation = new PoseEvaluation(skeleton).apply(restPose());
-      const here = new Vector3();
-      const there = new Vector3();
+      const here = new HgVec3();
+      const there = new HgVec3();
       let checked = 0;
       for (const exercise of EXERCISES) {
         for (const rule of exercise.technique) {

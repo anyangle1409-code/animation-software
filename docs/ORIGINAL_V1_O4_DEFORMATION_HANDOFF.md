@@ -226,6 +226,26 @@ For each repair batch:
    provenance checks, human anatomy review, runtime contacts/movement, dressed
    review and standalone release gates all pass.
 
+## Regression protection
+
+After a repaired Blender candidate produces a new pose report, compare it with
+the previous accepted checkpoint instead of looking only at the new total:
+
+```bat
+python scripts\compare_original_v1_deformation_reports.py ^
+  ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+  ORIGINAL_V1_WORK\candidates\pose_test_report_r3.json ^
+  --baseline-grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r1.json ^
+  --candidate-grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r2.json ^
+  --profile development_blocker ^
+  --json-out ORIGINAL_V1_WORK\candidates\deformation_compare_r2_r3.json
+```
+
+The comparator deliberately does **not** use one blended quality score. It
+returns `REGRESSION` if any existing pose or grip gains failed checks, even
+when another pose improves. This prevents an apparent global improvement from
+hiding a newly damaged shoulder, hand, hip or contact.
+
 ## Integration rule
 
 The candidate branch is intentionally divergent from the latest standalone

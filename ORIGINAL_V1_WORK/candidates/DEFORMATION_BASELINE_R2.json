@@ -18,8 +18,8 @@
     },
     "acceptance_spec": {
       "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
-      "git_blob_sha": "af0e4ff674b8c2a823c27e3c9137a789df12d602",
-      "note": "Acceptance pass/fail thresholds unchanged; this blob also adds explicit candidate-to-candidate severity comparison tolerances."
+      "git_blob_sha": "b63cc2ca2563e17808d201cd21dc18b7dd2476c7",
+      "note": "Acceptance pass/fail thresholds unchanged; this blob adds severity comparison tolerances and includes press_bottom in Priority-1 shoulder repair coverage."
     }
   },
   "evaluation": {

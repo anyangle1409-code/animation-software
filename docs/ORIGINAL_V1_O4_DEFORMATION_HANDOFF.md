@@ -280,6 +280,45 @@ Work first on weight distribution and deformation support across
 clavicle/scapula/deltoid/upper-arm/upper-torso transitions. Preserve the
 63-bone rig structure unless a separate rig defect is independently proven.
 
+### Priority 1 measured R2 targets
+
+Do not spend the first Blender iteration rediscovering which shoulder poses are
+worst. The pinned R2 report already establishes the following development
+blockers:
+
+| Pose | Current blocker(s) |
+|---|---|
+| `press_top` | shoulder max **9.089**, shoulder min **0.094** |
+| `pullup_hang` | shoulder max **8.987** |
+| `pullup_bar` | shoulder max **8.987** |
+| `press_top_rhythm` | shoulder max **8.283**, shoulder min **0.143**, torso max **8.317**, volume **1.1309** |
+| `squat_bottom` | shoulder max **8.053** |
+| `pullup_hang_rhythm` | shoulder max **7.907**, torso max **8.317**, volume **1.1361** |
+| `press_bottom` | shoulder max **6.414** |
+| `pullup_top` | shoulder max **5.169**, self-intersections **216** |
+
+Development-blocker targets:
+
+- regional maximum edge ratio: **≤ 5.0**;
+- regional minimum edge ratio: **≥ 0.15**;
+- whole-body volume ratio: **0.90–1.10**;
+- self-intersecting face pairs: **≤ 200**.
+
+Suggested Blender order inside Priority 1:
+
+1. `press_top` — largest shoulder stretch and the only severe shoulder collapse;
+2. `pullup_hang` / `pullup_bar` — nearly identical high-elevation stretch;
+3. rhythm poses — fix shoulder/torso volume interaction without regressing the
+   static overhead poses;
+4. `squat_bottom` arm position;
+5. `press_bottom`;
+6. `pullup_top` — clear both the remaining shoulder stretch and the
+   self-intersection excess.
+
+This ordering is diagnostic only. Priority 1 is not clear until the full
+owned-pose set passes the development blocker and the regression comparator
+reports no material worsening elsewhere.
+
 ### Priority 1 repair-cycle command
 
 For shoulder-only iteration, use the read-only targeted runner:

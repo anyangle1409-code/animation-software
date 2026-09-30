@@ -27,6 +27,17 @@ const UNIT = new HgVec3(1, 1, 1);
 const Y_AXIS = new HgVec3(0, 1, 0);
 const Z_AXIS = new HgVec3(0, 0, 1);
 
+/**
+ * The accepted v3 hand bone is 90 mm from wrist to palm-axis end. Existing
+ * grip offsets were authored against that frame. Scale only the generic
+ * fallback when another canonical skeleton has a different hand length;
+ * explicit exercise/model grip offsets remain authoritative and unchanged.
+ */
+const REFERENCE_HAND_BONE_LENGTH = 0.09;
+
+const handBoneLength = (evaluation: PoseEvaluation, side: 'l' | 'r'): number =>
+  evaluation.skeleton.bone(`hand_${side}`).length;
+
 const copyMatrix = (source: MatrixLike, target = new HgMat4()): HgMat4 => {
   for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
   return target;
@@ -174,7 +185,8 @@ function resolveInstance(
 
   if (attachment.mode === 'hand') {
     const hand = attachment.side === 'l' ? 'hand_l' : 'hand_r';
-    const grip = attachment.gripOffset ?? anatomicalGripOffset(attachment.side);
+    const grip = attachment.gripOffset ??
+      anatomicalGripOffset(attachment.side, evaluation.skeleton.bone(hand).length);
     const socketLocal = equipmentSocketForInstance(instance, attachment.socket);
     const local = handAttachmentLocalMatrix(
       grip,
@@ -192,20 +204,36 @@ function resolveInstance(
     evaluation.firstPartyEvaluation.matrix('hand_l'),
     evaluation.firstPartyEvaluation.matrix('hand_r'),
     instance,
+    {
+      left: handBoneLength(evaluation, 'l'),
+      right: handBoneLength(evaluation, 'r'),
+    },
   );
   return matrix ? rigidTransform(instance.id, matrix) : null;
 }
 
 /** Hand-local targets used by a rigid two-hand attachment. */
-export function twoHandGripOffsets(instance: EquipmentInstance): {
+export function twoHandGripOffsets(
+  instance: EquipmentInstance,
+  handLengths: { left: number; right: number } = {
+    left: REFERENCE_HAND_BONE_LENGTH,
+    right: REFERENCE_HAND_BONE_LENGTH,
+  },
+): {
   left: { x: number; y: number; z: number };
   right: { x: number; y: number; z: number };
 } | null {
   if (instance.attachment.mode !== 'hands') return null;
   const shared = instance.attachment.gripOffset;
   return {
-    left: instance.attachment.leftGripOffset ?? shared ?? anatomicalGripOffset('l'),
-    right: instance.attachment.rightGripOffset ?? shared ?? anatomicalGripOffset('r'),
+    left:
+      instance.attachment.leftGripOffset ??
+      shared ??
+      anatomicalGripOffset('l', handLengths.left),
+    right:
+      instance.attachment.rightGripOffset ??
+      shared ??
+      anatomicalGripOffset('r', handLengths.right),
   };
 }
 
@@ -217,9 +245,10 @@ export function twoHandAttachmentMatrix(
   leftHand: MatrixLike,
   rightHand: MatrixLike,
   instance: EquipmentInstance,
+  handLengths?: { left: number; right: number },
 ): HgMat4 | null {
   if (instance.attachment.mode !== 'hands') return null;
-  const offsets = twoHandGripOffsets(instance);
+  const offsets = twoHandGripOffsets(instance, handLengths);
   if (!offsets) return null;
   const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
   const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
@@ -272,8 +301,19 @@ export function twoHandAttachmentMatrix(
  * Centre of a cylindrical handle inside the curled fingers, in hand-local
  * coordinates. The palm-facing axis is mirrored between hands.
  */
-export function anatomicalGripOffset(side: 'l' | 'r'): { x: number; y: number; z: number } {
-  return { x: side === 'l' ? -0.025 : 0.025, y: 0.085, z: 0 };
+export function anatomicalGripOffset(
+  side: 'l' | 'r',
+  handLength = REFERENCE_HAND_BONE_LENGTH,
+): { x: number; y: number; z: number } {
+  const scale =
+    Number.isFinite(handLength) && handLength > 1e-9
+      ? handLength / REFERENCE_HAND_BONE_LENGTH
+      : 1;
+  return {
+    x: (side === 'l' ? -0.025 : 0.025) * scale,
+    y: 0.085 * scale,
+    z: 0,
+  };
 }
 
 /**

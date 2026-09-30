@@ -63,7 +63,7 @@ not the runtime exercise solver.
 ```bat
 python scripts\evaluate_original_v1_deformation_report.py ^
   ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
-  --grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r1.json ^
+  --grip-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
   --profile development_blocker ^
   --require-group core_five ^
   --markdown-out ORIGINAL_V1_WORK\candidates\deformation_acceptance_r2.md
@@ -77,7 +77,7 @@ Before promotion, repeat with:
 ```bat
 python scripts\evaluate_original_v1_deformation_report.py ^
   ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
-  --grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r1.json ^
+  --grip-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
   --profile production_target ^
   --require-group core_five
 ```
@@ -115,11 +115,15 @@ Most frequently implicated regions in the development-blocker failures:
 | finger | 11 |
 | shoulder | 10 |
 | torso | 4 |
-| pelvis | 1 |\n| grip_l | 2 |\n| grip_r | 2 |
+| pelvis | 1 |
+| grip_l | 2 |
+| grip_r | 2 |
 
-The handle-grip report also fails both hands on penetration:
-**5.93 mm** current versus **2.0 mm** development limit and **1.0 mm**
-production target.
+The R2 report contains two equipment-contact poses, and both currently fail
+penetration on both hands: `curl_handle` and `pullup_bar` are each **5.93 mm**
+versus the **2.0 mm** development limit and **1.0 mm** production target.
+The expanded coverage raises the pinned development baseline from the earlier
+52-check count to **54**; no threshold was weakened.
 
 Neutral remains an important control: it reports volume 1.0, zero compressed
 or stretched edges under the current stress thresholds, and zero
@@ -235,8 +239,8 @@ the previous accepted checkpoint instead of looking only at the new total:
 python scripts\compare_original_v1_deformation_reports.py ^
   ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
   ORIGINAL_V1_WORK\candidates\pose_test_report_r3.json ^
-  --baseline-grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r1.json ^
-  --candidate-grip-report ORIGINAL_V1_WORK\candidates\grip_test_report_r2.json ^
+  --baseline-grip-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+  --candidate-grip-report ORIGINAL_V1_WORK\candidates\pose_test_report_r3.json ^
   --profile development_blocker ^
   --json-out ORIGINAL_V1_WORK\candidates\deformation_compare_r2_r3.json
 ```

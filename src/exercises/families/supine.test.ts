@@ -116,7 +116,7 @@ describe('dumbbell fly', () => {
     // Palms up: the grip sits above the line of the forearm.
     const forearm = bottom.wrist.clone().sub(bottom.elbow).normalize();
     const up = new HgVec3(-forearm.y, forearm.x, 0).normalize();
-    if (up.y < 0) up.negate();
+    if (up.y < 0) up.multiplyScalar(-1);
     expect(bottom.grip.clone().sub(bottom.wrist).dot(up)).toBeGreaterThan(0.01);
   });
 });

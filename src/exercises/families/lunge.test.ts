@@ -266,7 +266,8 @@ describe.skipIf(!existsSync(ASSET))('feet on the production character', () => {
       let worstSole = 0;
       const ankle = (side: 'L' | 'R') => {
         const position = body.skeleton.bones.find((bone) => bone.name === `DEF-foot${side}`)!.getWorldPosition(new HgVec3());
-        return position.setX(-position.x); // the character is the rig's mirror image
+        position.x = -position.x; // the character is the rig's mirror image
+        return position;
       };
       for (let index = 0; index <= 20; index += 1) {
         const time = (index / 20) * clip.duration;

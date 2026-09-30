@@ -23,7 +23,8 @@ describe('a flat foot', () => {
 
   it('turns out about the vertical, towards the outside of the left foot', () => {
     const aim = flatFootAim(10);
-    const flat = vector(aim.direction).setY(0);
+    const flat = vector(aim.direction);
+    flat.y = 0;
     expect((Math.atan2(-flat.x, flat.z) * 180) / Math.PI).toBeCloseTo(10, 9);
     expect(aim.direction.y).toBeCloseTo(flatFootAim(0).direction.y, 12);
   });

@@ -15,12 +15,12 @@
       "volume_ratio_min": 0.9,
       "volume_ratio_max": 1.1,
       "edge_ratio_p01_min": 0.4,
-      "edge_ratio_p99_max": 2.0,
+      "edge_ratio_p99_max": 2,
       "region_min_ratio_min": 0.15,
-      "region_max_ratio_max": 5.0,
+      "region_max_ratio_max": 5,
       "self_intersecting_face_pairs_max": 200,
       "lowest_z_min_m": -0.002,
-      "grip_max_penetration_mm": 2.0,
+      "grip_max_penetration_mm": 2,
       "grip_min_contact_vertices_within_2mm": 20
     },
     "production_target": {
@@ -30,10 +30,10 @@
       "edge_ratio_p01_min": 0.65,
       "edge_ratio_p99_max": 1.5,
       "region_min_ratio_min": 0.5,
-      "region_max_ratio_max": 2.0,
+      "region_max_ratio_max": 2,
       "self_intersecting_face_pairs_max": 0,
       "lowest_z_min_m": -0.002,
-      "grip_max_penetration_mm": 1.0,
+      "grip_max_penetration_mm": 1,
       "grip_min_contact_vertices_within_2mm": 40
     }
   },
@@ -62,32 +62,73 @@
   "repair_priority": [
     {
       "priority": 1,
-      "regions": ["shoulder", "torso", "arm"],
-      "poses": ["press_top", "press_top_rhythm", "pullup_hang", "pullup_hang_rhythm", "pullup_top"],
+      "regions": [
+        "shoulder",
+        "torso",
+        "arm"
+      ],
+      "poses": [
+        "press_top",
+        "press_top_rhythm",
+        "pullup_hang",
+        "pullup_hang_rhythm",
+        "pullup_top"
+      ],
       "reason": "Current reports show the largest local stretch/collapse in overhead/elevation poses. Fix shoulder girdle weight distribution and topology support before cosmetic work."
     },
     {
       "priority": 2,
-      "regions": ["hand", "finger", "thumb", "arm"],
-      "poses": ["curl_peak", "grip", "curl_handle", "pullup_bar", "pullup_top"],
+      "regions": [
+        "hand",
+        "finger",
+        "thumb",
+        "arm"
+      ],
+      "poses": [
+        "curl_peak",
+        "grip",
+        "curl_handle",
+        "pullup_bar",
+        "pullup_top"
+      ],
       "reason": "Current reports show severe hand/finger local ratios, repeated self-intersections and excessive handle penetration."
     },
     {
       "priority": 3,
-      "regions": ["pelvis", "torso", "leg"],
-      "poses": ["squat_bottom", "lunge"],
+      "regions": [
+        "pelvis",
+        "torso",
+        "leg"
+      ],
+      "poses": [
+        "squat_bottom",
+        "lunge"
+      ],
       "reason": "Deep-flexion tests expose groin/hip/torso collapse and stretch that must be resolved before final shorts or materials."
     },
     {
       "priority": 4,
-      "regions": ["hand", "arm", "shoulder", "foot"],
-      "poses": ["pushup_bottom"],
+      "regions": [
+        "hand",
+        "arm",
+        "shoulder",
+        "foot"
+      ],
+      "poses": [
+        "pushup_bottom"
+      ],
       "reason": "Floor-loaded wrist/hand and arm deformation still shows local collapse and self-intersection."
     },
     {
       "priority": 5,
-      "regions": ["arm", "shoulder", "torso"],
-      "poses": ["row"],
+      "regions": [
+        "arm",
+        "shoulder",
+        "torso"
+      ],
+      "poses": [
+        "row"
+      ],
       "reason": "Row deformation is secondary to overhead, grip and deep-flexion blockers but must pass before broad exercise-family promotion."
     }
   ],
@@ -96,5 +137,17 @@
     "V9-V14 hand experiments exposed palm, fingertip, thumb and grip failure modes that should become tests rather than copied geometry.",
     "The accepted shoulder/clavicle skeleton correction showed that later forward-shoulder visual defects were mesh/skin problems, so ORIGINAL v1 must prove shoulder deformation under elevation.",
     "V15f is reference-only and may inform visual failure cases and quality expectations, never production implementation data."
-  ]
+  ],
+  "comparison_tolerances": {
+    "description": "Maximum numerical drift permitted before a candidate is classified as a severity regression. These are noise/iteration tolerances, not relaxed acceptance limits.",
+    "volume_deviation_from_1_rise": 0.005,
+    "edge_ratio_p01_drop": 0.02,
+    "edge_ratio_p99_rise": 0.05,
+    "region_min_ratio_drop": 0.02,
+    "region_max_ratio_rise": 0.1,
+    "self_intersecting_face_pairs_rise": 5,
+    "lowest_z_drop_m": 0.001,
+    "grip_penetration_rise_mm": 0.25,
+    "grip_contact_fraction_drop": 0.01
+  }
 }

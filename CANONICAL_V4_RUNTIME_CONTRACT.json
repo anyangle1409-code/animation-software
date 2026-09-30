@@ -1,12 +1,10 @@
 {
   "schema_version": 1,
-  "mode": "shadow_v3_active",
+  "mode": "v4_active",
   "entrypoint": "src/main.ts",
   "v3_module": "src/rig/humanoid.ts",
   "v4_module": "src/rig/canonicalV4Original.ts",
-  "allowed_v3_runtime_importers": [
-    "src/rig/skeleton.ts"
-  ],
+  "allowed_v3_runtime_importers": [],
   "requirements": {
     "shadow_v3_active": [
       "The live runtime remains on the accepted v3 rig until an explicit cutover.",
@@ -20,7 +18,16 @@
     ]
   },
   "notes": [
-    "This contract controls runtime rig coupling only; it does not approve the ORIGINAL v1 mesh.",
-    "Historical/reference v3 files may remain in the repository if they are not reachable from src/main.ts."
-  ]
+    "Canonical v4 is now the live first-party runtime skeleton.",
+    "The historical v3 rig may remain in the repository for regression/reference tests but must not be reachable from src/main.ts.",
+    "This contract controls runtime rig coupling only; it does not approve the ORIGINAL v1 mesh, garment or release promotion."
+  ],
+  "activation_evidence": {
+    "activated_utc": "2026-09-30",
+    "pre_cutover_checkpoint": "27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3",
+    "pre_cutover_standalone_verification": "PASS",
+    "pre_cutover_browser_viewport_smoke": "PASS",
+    "shadow_behavioral_compatibility": "PASS",
+    "note": "The live rig cutover does not approve or activate the ORIGINAL v1 character assets."
+  }
 }

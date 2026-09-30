@@ -1,8 +1,19 @@
-import { SHOULDER_WIDENING } from '../rig/humanoid';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { HgPoseEvaluation } from '../rig/firstPartySkeleton';
 import type { BoneName, Side } from '../rig/boneNames';
 import type { PoseEvaluation } from '../rig/skeleton';
+
+/**
+ * Frozen first-party deltoid anchor offsets from the accepted muscle model.
+ *
+ * These are the final reviewed local coordinates, not a formula tied to the
+ * active canonical rig. v4 visual/anatomy review may replace them with newly
+ * measured ORIGINAL-v4 anchors, but switching rigs must not silently move
+ * muscle origins by importing a historical rig correction.
+ */
+const DELTOID_ANTERIOR_ORIGIN_Y = 0.13367;
+const DELTOID_MEDIAL_ORIGIN_Y = 0.18367;
+const DELTOID_POSTERIOR_ORIGIN_Y = 0.14367;
 import { canonicalSkeleton } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import type { Vec3 } from '../rig/types';
@@ -131,7 +142,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // agonist floor (stretch 0.829 at 60 deg of shoulder flexion, against the
     // 0.98 the functional test requires). The medial and posterior heads are
     // unaffected and keep their own anchors.
-    origin: at('clavicle_l', 0.01, 0.1 + SHOULDER_WIDENING, 0.016),
+    origin: at('clavicle_l', 0.01, DELTOID_ANTERIOR_ORIGIN_Y, 0.016),
     insertion: at('upperarm_l', 0.006, 0.13, 0.024),
     thickness: 0.036,
     bulge: 0.3,
@@ -146,7 +157,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
     // outward with the shoulder, so the along-bone offset carries the widening.
     // Measured, deltoid_medial went back to lengthening (1.0045) in its own
     // abduction before this. The anchors translate; no belly is scaled.
-    origin: at('clavicle_l', 0.03, 0.15 + SHOULDER_WIDENING, 0),
+    origin: at('clavicle_l', 0.03, DELTOID_MEDIAL_ORIGIN_Y, 0),
     insertion: at('upperarm_l', 0.05, 0.11, 0),
     thickness: 0.042,
     bulge: 0.3,
@@ -157,7 +168,7 @@ const LEFT_MUSCLES: MuscleDefinition[] = [
   },
   {
     group: 'deltoid_posterior',
-    origin: at('clavicle_l', 0.008, 0.11 + SHOULDER_WIDENING, -0.024),
+    origin: at('clavicle_l', 0.008, DELTOID_POSTERIOR_ORIGIN_Y, -0.024),
     insertion: at('upperarm_l', 0.006, 0.13, -0.026),
     thickness: 0.036,
     bulge: 0.3,

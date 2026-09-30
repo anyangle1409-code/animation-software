@@ -32,7 +32,6 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:pull|chin)[-\s]?ups?\b|\blat\s+pull/, 'the vertical-pull family (pull-up) is not certified for generation yet.'],
   [/\b(?:lateral|side|front)\s+raises?\b/, 'the raise family (lateral and front raise) is not certified for generation yet.'],
   [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],
-  [/\bcalf\s+raises?\b|\bcalves\b/, 'the calf family (calf raises) is not certified for generation yet.'],
   [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
   [/\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/, 'the trunk-flexion family (crunch, sit-up) is not certified for generation yet.'],
   [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],

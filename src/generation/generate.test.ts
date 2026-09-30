@@ -14,12 +14,15 @@ import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
 import { horizontalPressFamily } from '../exercises/families/horizontalPress';
 import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
 import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { pushUp } from '../exercises/definitions/pushUp';
+import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -39,6 +42,7 @@ const STANDING_PRESS = 'Create a standing dumbbell shoulder press with 10 kg dum
 const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const PUSH_UP = 'Create a standard push-up with controlled tempo.';
+const CALF_RAISE = 'Create a standing calf raise with a slow tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -79,6 +83,21 @@ describe('generating without a character', () => {
   it('reproduces the accepted push-up motion from the same family defaults', () => {
     const result = generateExercise('a push-up', options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(pushUp));
+  });
+
+  it('builds the standing calf raise from the calf family', () => {
+    const result = generateExercise(CALF_RAISE, options);
+    expect(result.family?.id).toBe('calf');
+    expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
+    expect(result.reference).toBe('standing_calf_raise');
+    expect(result.exercise?.equipment.instances).toEqual([]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+    expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
+  });
+
+  it('reproduces the accepted standing calf raise from the family defaults', () => {
+    const result = generateExercise('a calf raise', options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(calfRaise));
   });
 
   it(
@@ -172,6 +191,7 @@ describe('generating on the clean first-party fallback', () => {
         [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
         [PUSH_UP, 'horizontal_press', 'push_up'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
+        [CALF_RAISE, 'calf', 'standing_calf_raise'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         const detail = JSON.stringify({

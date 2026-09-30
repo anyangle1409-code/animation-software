@@ -63,6 +63,18 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent?.grip).toBeUndefined();
   });
 
+  it('reads the bodyweight standing calf raise', () => {
+    const parsed = parsePrompt('Create a standing calf raise with a slow tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'bodyweight',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'slow' },
+    });
+  });
+
   it('reads the three lunge variants', () => {
     expect(parsePrompt('Create a split squat.').intent).toMatchObject({ family: 'lunge', step: undefined });
     expect(parsePrompt('Create a forward lunge.').intent).toMatchObject({ family: 'lunge', step: 'forward' });
@@ -132,6 +144,9 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('knee push-up')).toEqual(['variant']);
     expect(blocking('incline push-up')).toEqual(['support']);
     expect(blocking('push-up with 10 kg dumbbells')).toEqual(['equipment', 'load']);
+    expect(blocking('single-leg calf raise')).toEqual(['variant']);
+    expect(blocking('seated calf raise')).toEqual(['support']);
+    expect(blocking('dumbbell calf raise')).toEqual(['equipment']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

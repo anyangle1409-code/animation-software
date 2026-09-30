@@ -9,6 +9,8 @@ import { squatFamily } from '../exercises/families/squat';
 import type { SquatVariant } from '../exercises/families/squat';
 import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
+import { calfFamily } from '../exercises/families/calf';
+import type { CalfVariant } from '../exercises/families/calf';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -805,6 +807,103 @@ const lunge: GeneratorFamily<LungeVariant> = {
   levers: [],
 };
 
+// ---------------------------------------------------------------------------
+// Calf raise
+// ---------------------------------------------------------------------------
+
+/**
+ * Only the accepted bodyweight standing calf raise is generator-certified.
+ * The family also owns a loaded dumbbell variant, but it remains unavailable
+ * here until the generation/body-clearance path certifies that variant too.
+ */
+const calf: GeneratorFamily<CalfVariant> = {
+  id: 'calf',
+  label: 'Calf raise',
+  builder: 'calfFamily',
+  detect: /\bcalf\s+raises?\b|\bcalves?\s+raises?\b/,
+  library: ['standing_calf_raise'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:single[-\s]?leg|one[-\s]?leg)\b/, 'a single-leg calf raise is unilateral; only the even two-leg version is certified.'],
+        [/\bdonkey\b/, 'a donkey calf raise changes the trunk/support position; only the upright standing version is certified.'],
+        [/\b(?:step|deficit)\b/, 'a step or deficit calf raise changes the bottom range below floor level; only the flat-floor version is certified.'],
+        [/\bweighted\b|\bloaded\b/, 'a loaded calf raise is not generator-certified yet; ask for the bodyweight standing calf raise.'],
+      ],
+      issues,
+    );
+
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the bodyweight calf raise does not hold an implement.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(
+      slots,
+      ['standing'],
+      'calf raise',
+      assumptions,
+      issues,
+    );
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the standing calf raise has no adjustable support angle.`,
+        ),
+      );
+    }
+
+    const { tempo } = interpretCommon(
+      slots,
+      'calf raise',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+    return {
+      intent: {
+        prompt,
+        family: 'calf',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support,
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Standing Calf Raise', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standing bodyweight calf raise on a flat floor, ` +
+        `rising onto both balls of the feet with the knees held steady${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: calfFamily,
+
+  reference: () => 'standing_calf_raise',
+
+  levers: [],
+};
+
 /** Families certified for generation, in detection order. */
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
@@ -812,6 +911,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   horizontalPress as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
+  calf as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

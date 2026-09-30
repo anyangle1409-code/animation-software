@@ -75,6 +75,20 @@ physical visual/input parity gate.
 Runtime dependency removal is complete. The overall product/release is **not**
 complete because separate asset and acceptance gates remain:
 
+### Canonical v4 runtime status — active
+
+The runtime rig cutover has now moved beyond shadow validation:
+
+- `hgpt_canonical_v4_original` is the live `canonicalSkeleton`;
+- the historical v3 humanoid rig is no longer reachable from `src/main.ts`;
+- the full v4 shadow compatibility suite cleared every v3→v4 automated
+  review-gate regression before activation;
+- the procedural first-party character remains the live/default character;
+- ORIGINAL v1 production GLBs remain dormant and unapproved.
+
+This is a **rig activation only**. It does not promote the O4/O7 character
+candidate, change the ORIGINAL-v1 promotion contract, or authorize release.
+
 1. **ORIGINAL v1 production character**
    - The isolated model branch `claude/original-v1-blender-o2-20260929` has
      progressed beyond O2 to an independently authored O4 bound candidate.
@@ -82,6 +96,9 @@ complete because separate asset and acceptance gates remain:
      `bb0cef0d869ea7ff7544c6e23bf5b7b61465c0e2`.
    - Candidate bare/dressed GLBs pass structural/self-contained audits, but
      they are **not production-approved**.
+   - The standalone runtime now already uses the same 63-bone
+     `hgpt_canonical_v4_original` rig architecture; this removes v3 runtime
+     coupling but does not bypass any model/deformation gate.
    - Deformation remains blocked: **54 development checks / 133 production
      checks** at the pinned R2 baseline; current repair priority is
      **1 — shoulder/upper torso**.

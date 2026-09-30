@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Group, Matrix4, Vector3 } from 'three';
+import { HgMat4, HgVec3 } from '../core/linearMath';
+import { HgGroup } from '../core/sceneGraph';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
@@ -12,10 +13,10 @@ describe('isolated scene frame objects', () => {
     const skeleton = canonicalSkeleton;
     const evaluation = new PoseEvaluation(skeleton);
     const clip = generateClip(skeleton, bicepCurl);
-    const root = new Group();
-    const forearm = new Group();
-    const dumbbell = new Group();
-    const rightDumbbell = new Group();
+    const root = new HgGroup();
+    const forearm = new HgGroup();
+    const dumbbell = new HgGroup();
+    const rightDumbbell = new HgGroup();
     root.add(forearm, dumbbell, rightDumbbell);
     const bones = new Map([['forearm_l' as const, forearm]]);
     const equipment = new Map([['dumbbell_l', dumbbell], ['dumbbell_r', rightDumbbell]]);
@@ -35,9 +36,9 @@ describe('isolated scene frame objects', () => {
   });
 
   it('rejects nested objects and missing required targets rather than silently misplacing them', () => {
-    const root = new Group();
-    const child = new Group();
-    const parent = new Group();
+    const root = new HgGroup();
+    const child = new HgGroup();
+    const parent = new HgGroup();
     root.add(parent);
     parent.add(child);
     const snapshot = {
@@ -53,9 +54,9 @@ describe('isolated scene frame objects', () => {
   });
 
   it('validates all targets before changing the first object', () => {
-    const root = new Group();
-    const first = new Group();
-    const second = new Group();
+    const root = new HgGroup();
+    const first = new HgGroup();
+    const second = new HgGroup();
     root.add(first, second);
     const initial = [...first.matrix.elements];
     const snapshot = {
@@ -74,16 +75,16 @@ describe('isolated scene frame objects', () => {
     expect(first.matrixAutoUpdate).toBe(true);
   });
 
-  it('preserves a BoneGroups-style local child under a world-matrix bone group', () => {
+  it('preserves a BoneHgGroups-style local child under a world-matrix bone group', () => {
     const skeleton = canonicalSkeleton;
     const evaluation = new PoseEvaluation(skeleton);
     const clip = generateClip(skeleton, bicepCurl);
-    const root = new Group();
-    const bone = new Group();
-    const leftEquipment = new Group();
-    const rightEquipment = new Group();
+    const root = new HgGroup();
+    const bone = new HgGroup();
+    const leftEquipment = new HgGroup();
+    const rightEquipment = new HgGroup();
     const equipment = new Map([['dumbbell_l', leftEquipment], ['dumbbell_r', rightEquipment]]);
-    const localChild = new Group();
+    const localChild = new HgGroup();
     localChild.position.y = skeleton.bone('forearm_l').length / 2;
     root.add(bone, leftEquipment, rightEquipment);
     bone.add(localChild);
@@ -96,10 +97,10 @@ describe('isolated scene frame objects', () => {
         root, bones: new Map([['forearm_l', bone]]), equipment,
       });
       root.updateMatrixWorld(true);
-      const expected = new Matrix4().fromArray(snapshot.bones.get('forearm_l')!)
-        .multiply(new Matrix4().makeTranslation(0, localChild.position.y, 0));
-      expect(new Vector3().setFromMatrixPosition(localChild.matrixWorld).distanceTo(
-        new Vector3().setFromMatrixPosition(expected),
+      const expected = new HgMat4().fromArray(snapshot.bones.get('forearm_l')!)
+        .multiply(new HgMat4().makeTranslation(0, localChild.position.y, 0));
+      expect(new HgVec3().setFromMatrixPosition(localChild.matrixWorld).distanceTo(
+        new HgVec3().setFromMatrixPosition(expected),
       )).toBeLessThan(1e-12);
     }
 

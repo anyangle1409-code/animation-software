@@ -1,4 +1,4 @@
-import { Group, Scene } from 'three';
+import { HgGroup, HgScene } from '../core/sceneGraph';
 import { describe, expect, it, vi } from 'vitest';
 import type {
   CharacterBuild,
@@ -15,7 +15,7 @@ import {
 } from './characterViewRuntime';
 
 function fakeBuild(source: string): CharacterBuild {
-  const object = new Group();
+  const object = new HgGroup();
   object.name = `build-${source}`;
   return {
     source,
@@ -66,7 +66,7 @@ function characterStore(sourceId: string): CharacterViewCharacterStorePort & {
 describe('framework-neutral character view runtime', () => {
   it('replaces async builds by source and disposes scene resources deterministically', async () => {
     const sceneState = createSceneState();
-    const root = new Scene();
+    const root = new HgScene();
     const store = characterStore('one');
     const builds = new Map<string, CharacterBuild>([
       ['one', fakeBuild('one')],

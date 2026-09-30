@@ -66,7 +66,12 @@ export function solveTwoBone(
 
   tmp.toTarget.subVectors(tmp.target, tmp.rootHead);
   const rawDistance = tmp.toTarget.length();
-  const overExtended = rawDistance > upperLength + lowerLength;
+  // Treat an exact lockout as reachable. Rest geometry can land a few floating-
+  // point ulps beyond the algebraic sum of the two bone lengths; classifying
+  // that as over-extension makes a fully straight planted limb fail even when
+  // its solved residual is sub-millimetre. Meaningful reach excess remains
+  // visible and is still clamped/reported.
+  const overExtended = rawDistance > upperLength + lowerLength + EPSILON;
 
   if (rawDistance < EPSILON) {
     return { chain: chain.id, error: rawDistance, reached: false, overExtended: false };

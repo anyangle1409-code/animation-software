@@ -161,6 +161,10 @@ PRESETS = {
 # o17/o18: symmetric-by-construction versions of o15 (hand) and o16 (elbow); r24/r25 showed
 # independent sides drift apart (R2 was exactly symmetric).
 PRESETS["o17"] = dict(PRESETS["o15"], symmetric=True)
+# o19 (r28): symmetric hand re-solve on the r26 base itself (stricter of R2 and r26 bounds keeps r26's
+# hand max 3.495), tighter max margin for push-up hand max, 10x fold barrier against PIP crease overlap.
+PRESETS["o19"] = dict(PRESETS["o15"], symmetric=True, max_margin=0.03, w_fold=2e4, fold_cos=0.0,
+                      tt_delta=0.001, rounds=3)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

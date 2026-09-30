@@ -1,9 +1,9 @@
 import {
-  measureCharacterObjectHeight,
   type CharacterBone as Bone,
   type CharacterObject3D as Object3D,
   type CharacterSkinnedMesh as SkinnedMesh,
 } from '../character/bones';
+import { measureSceneHeight, type SceneNodeLike } from '../character/sceneBounds';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import { isMetacarpal } from '../rig/boneNames';
@@ -704,8 +704,13 @@ function detectForward(character: TargetCharacter, mapping: BoneMapping): HgVec3
   return direction.normalize();
 }
 
-/** Read a loaded GLB scene into the structure the retargeter works with. */
-export function readCharacter(root: Object3D): TargetCharacter {
+interface RetargetSceneLike extends SceneNodeLike {
+  readonly name: string;
+  traverse(callback: (object: any) => void): void;
+}
+
+/** Read a loaded scene into the structure the retargeter works with. */
+export function readCharacter(root: RetargetSceneLike): TargetCharacter {
   const bones = new Map<string, Bone>();
   const meshes: SkinnedMesh[] = [];
   const boneNames: string[] = [];
@@ -735,9 +740,19 @@ export function readCharacter(root: Object3D): TargetCharacter {
     restWorldPosition.set(name, new HgVec3().setFromMatrixPosition(bone.matrixWorld));
   }
 
-  const height = measureCharacterObjectHeight(root);
+  const height = measureSceneHeight(root);
 
-  return { root, bones, boneNames, restWorld, restLocal, restPosition, restWorldPosition, height, meshes };
+  return {
+    root: root as unknown as Object3D,
+    bones,
+    boneNames,
+    restWorld,
+    restLocal,
+    restPosition,
+    restWorldPosition,
+    height,
+    meshes,
+  };
 }
 
 /** Put a character back into the rest pose it was imported in. */

@@ -5,7 +5,7 @@ import {
   type HgMatrixLike,
 } from './skinningMath';
 
-interface SceneNodeLike extends Partial<HgDeformableMeshLike> {
+export interface SceneNodeLike extends Partial<HgDeformableMeshLike> {
   readonly children: readonly SceneNodeLike[];
   readonly matrixWorld: HgMatrixLike;
   updateMatrixWorld(force: boolean): void;

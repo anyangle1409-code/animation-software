@@ -1,5 +1,5 @@
 import { HgVec3 } from '../core/linearMath';
-import type { CharacterBuild } from './types';
+import type { PosedCharacterMeshLike } from './posedMesh';
 import { posedLocalVertexPoint } from './posedMesh';
 
 export interface MeshStrainDiagnostic {
@@ -18,7 +18,7 @@ export interface MeshStrainDiagnostic {
  * mesh-local comparison is enough and avoids mixing camera/stage placement in.
  */
 export function meshStrainDiagnostics(
-  meshes: CharacterBuild['meshes'],
+  meshes: readonly PosedCharacterMeshLike[],
   maxEdgesPerMesh = 4000,
 ): MeshStrainDiagnostic[] {
   return meshes.flatMap((mesh) => {
@@ -27,7 +27,7 @@ export function meshStrainDiagnostics(
   });
 }
 
-function measureMesh(mesh: CharacterBuild['meshes'][number], maxEdges: number): MeshStrainDiagnostic | null {
+function measureMesh(mesh: PosedCharacterMeshLike, maxEdges: number): MeshStrainDiagnostic | null {
   const position = mesh.geometry.getAttribute('position');
   if (!position || position.count < 2) return null;
   const index = mesh.geometry.getIndex();

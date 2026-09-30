@@ -36,8 +36,8 @@ export interface CharacterViewCharacterStorePort {
 export interface CharacterViewRuntimeOptions {
   sceneState: SceneState;
   root: {
-    add(...objects: CharacterBuild['object'][]): unknown;
-    remove(...objects: CharacterBuild['object'][]): unknown;
+    add(...objects: any[]): unknown;
+    remove(...objects: any[]): unknown;
   };
   studioStore: CharacterViewStudioStorePort;
   characterStore: CharacterViewCharacterStorePort;

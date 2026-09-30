@@ -1,5 +1,4 @@
 import { HgMat4, HgQuat, HgVec3, HG_UNIT_SCALE } from '../core/linearMath';
-import type { CharacterSkinnedMesh } from './bones';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
@@ -65,6 +64,36 @@ interface NamedParent {
   readonly parent: NamedParent | null;
 }
 
+interface RebindAttributeLike {
+  readonly count: number;
+  needsUpdate?: boolean;
+  getX(index: number): number;
+  getY(index: number): number;
+  getZ(index: number): number;
+  getW(index: number): number;
+  setXYZ(index: number, x: number, y: number, z: number): unknown;
+  setXYZW(index: number, x: number, y: number, z: number, w: number): unknown;
+}
+
+interface RebindGeometryLike {
+  morphAttributes: Record<string, unknown>;
+  getAttribute(name: string): RebindAttributeLike | undefined;
+  deleteAttribute(name: string): unknown;
+  computeVertexNormals(): void;
+  computeBoundingBox(): void;
+  computeBoundingSphere(): void;
+}
+
+export interface RebindMeshLike {
+  readonly name: string;
+  readonly geometry: RebindGeometryLike;
+  readonly skeleton: {
+    readonly bones: readonly NamedParent[];
+    readonly boneInverses: readonly MatrixLike[];
+  };
+  readonly bindMatrix: MatrixLike;
+}
+
 const hgMatrix = (source: MatrixLike): HgMat4 => {
   const matrix = new HgMat4();
   for (let index = 0; index < 16; index += 1) {
@@ -80,7 +109,7 @@ const hgMatrix = (source: MatrixLike): HgMat4 => {
  * the skin indices and the skin weights are rewritten.
  */
 export function rebindToCanonical(
-  mesh: CharacterSkinnedMesh,
+  mesh: RebindMeshLike,
   mapping: BoneMapping,
   rig: Skeleton = canonicalSkeleton,
 ): RebindReport {

@@ -1,23 +1,42 @@
-import type { CharacterSkinnedMesh } from './bones';
 import { HgVec3 } from '../core/linearMath';
 import {
   posedLocalVertex as firstPartyPosedLocalVertex,
   skinnedBindLocalVertex,
+  type HgAttributeLike,
+  type HgDeformableMeshLike,
+  type HgGeometryLike,
+  type HgMatrixLike,
 } from './skinningMath';
 
 interface PointTarget<T> {
   set(x: number, y: number, z: number): T;
 }
 
+export interface PosedCharacterMeshLike extends HgDeformableMeshLike {
+  readonly name?: string;
+  readonly geometry: HgGeometryLike & {
+    getAttribute(name: string): HgAttributeLike | undefined;
+    getIndex?(): { readonly count: number; getX(index: number): number } | null;
+  };
+  readonly matrixWorld: HgMatrixLike;
+  readonly skeleton: {
+    readonly bones: ReadonlyArray<{
+      readonly name: string;
+      readonly matrixWorld: HgMatrixLike;
+    }>;
+    readonly boneInverses: readonly HgMatrixLike[];
+  };
+}
+
 /**
  * Where a vertex of a posed skinned mesh actually is, in world space.
  *
- * Morphing and skinning are first-party. The generic output keeps older tests
- * and diagnostics free to pass their own vector object without making the
- * production character layer construct renderer vectors.
+ * Morphing and skinning are first-party. The mesh contract is deliberately
+ * structural so legacy Three fixtures can remain independent parity inputs
+ * without making production construct renderer objects.
  */
 export function posedVertex<T extends PointTarget<T>>(
-  mesh: CharacterSkinnedMesh,
+  mesh: PosedCharacterMeshLike,
   index: number,
   out: T,
 ): T {
@@ -29,7 +48,7 @@ const posedWorldScratch = new HgVec3();
 
 /** Current morphed + skinned vertex in world space. */
 export function posedVertexPoint(
-  mesh: CharacterSkinnedMesh,
+  mesh: PosedCharacterMeshLike,
   index: number,
   out: HgVec3,
 ): HgVec3 {
@@ -38,7 +57,7 @@ export function posedVertexPoint(
 
 /** Skin one bind-position vertex into world space without applying morphs. */
 export function skinnedBindVertexPoint(
-  mesh: CharacterSkinnedMesh,
+  mesh: PosedCharacterMeshLike,
   index: number,
   out: HgVec3,
 ): HgVec3 {
@@ -47,32 +66,28 @@ export function skinnedBindVertexPoint(
 
 /** Current morphed + skinned vertex in mesh-local space. */
 export function posedLocalVertexPoint(
-  mesh: CharacterSkinnedMesh,
+  mesh: PosedCharacterMeshLike,
   index: number,
   out: HgVec3,
 ): HgVec3 {
   return firstPartyPosedLocalVertex(mesh, index, out);
 }
 
-/**
- * The bone with the largest share of a vertex, as a plain name.
- *
- * Imported rigs prefix their deform bones (`DEF-upper_arm.L`), so the prefix is
- * stripped and callers can match one pattern against both the canonical rig and
- * an import. This is a label for grouping and reporting — "which part of the
- * body is this" — not a claim that the vertex belongs to one bone; at a joint it
- * is blended across several by design.
- */
-export function dominantBone(mesh: CharacterSkinnedMesh, index: number): string {
+/** Bone carrying the largest share of one vertex, as a normalized plain name. */
+export function dominantBone(mesh: PosedCharacterMeshLike, index: number): string {
   const skinIndex = mesh.geometry.getAttribute('skinIndex');
   const skinWeight = mesh.geometry.getAttribute('skinWeight');
+  if (!skinIndex || !skinWeight) return '';
   let best = -1;
   let name = '';
   for (let lane = 0; lane < 4; lane += 1) {
-    const weight = skinWeight.getComponent(index, lane);
+    const weight = skinWeight.getComponent?.(index, lane) ??
+      [skinWeight.getX(index), skinWeight.getY(index), skinWeight.getZ(index), skinWeight.getW?.(index) ?? 0][lane];
     if (weight > best) {
       best = weight;
-      name = mesh.skeleton.bones[skinIndex.getComponent(index, lane)]?.name ?? '';
+      const boneIndex = skinIndex.getComponent?.(index, lane) ??
+        [skinIndex.getX(index), skinIndex.getY(index), skinIndex.getZ(index), skinIndex.getW?.(index) ?? 0][lane];
+      name = mesh.skeleton.bones[Math.round(boneIndex)]?.name ?? '';
     }
   }
   return name.replace(/^DEF-?/, '');

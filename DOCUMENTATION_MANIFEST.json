@@ -131,8 +131,12 @@
       "note": "Separate Blender branch record: launcher fixes, O2 body generator method, region checkpoints."
     },
     "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md": {
+      "category": "supporting_reference",
+      "note": "O1/O2 clean-room setup, provenance and recovery history. Do not restart O2 while the O4 candidate track exists."
+    },
+    "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md": {
       "category": "current_technical",
-      "note": "Current Blender O2 task handoff."
+      "note": "Active ORIGINAL v1 O4 deformation/repair authority for the isolated Blender model branch."
     },
     "docs/ORIGINAL_V1_PROCEDURAL_SCAFFOLD_DECISION.md": {
       "category": "future_technical",

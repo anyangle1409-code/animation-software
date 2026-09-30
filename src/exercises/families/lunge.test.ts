@@ -10,7 +10,6 @@ import { splitSquat } from '../definitions/splitSquat';
 import { forwardLunge } from '../definitions/forwardLunge';
 import { reverseLunge } from '../definitions/reverseLunge';
 import { existsSync, readFileSync } from 'node:fs';
-import type { SkinnedMesh } from 'three';
 import { applyCharacterPose } from '../../character/pose';
 import { retargetedCharacterSource } from '../../character/retargetSource';
 import { dominantBone, posedVertex } from '../../character/posedMesh';

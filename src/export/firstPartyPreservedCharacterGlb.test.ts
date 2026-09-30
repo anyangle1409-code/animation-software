@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { BufferAttribute, SkinnedMesh } from 'three';
+import { HgBufferAttribute, HgHgSkinnedMesh } from '../core/sceneSkin';
 import { parseHgGlb } from '../core/glbContainer';
 import { readHgAccessor } from '../core/gltfAccessors';
 import { readHgGltfAnimations } from '../core/gltfAnimation';
 import { HgGltfBuilder } from '../core/gltfBuilder';
-import { loadHgThreeScene } from '../character/gltfThreeScene';
+import { loadHgFirstPartyScene } from '../character/gltfFirstPartyScene';
 import { exportFirstPartyPreservedCharacterGlb } from './firstPartyPreservedCharacterGlb';
 
 function sourceFixture(): { data: ArrayBuffer; positionAccessor: number } {
@@ -72,15 +72,15 @@ function sourceFixture(): { data: ArrayBuffer; positionAccessor: number } {
 describe('first-party preserved character GLB writer', () => {
   it('keeps authored GLB data and appends source-bone and runtime morph animation', async () => {
     const fixture = sourceFixture();
-    const scene = await loadHgThreeScene(fixture.data);
-    let mesh: SkinnedMesh | null = null;
+    const scene = await loadHgFirstPartyScene(fixture.data);
+    let mesh: HgSkinnedMesh | null = null;
     scene.traverse((object) => {
-      if ((object as SkinnedMesh).isSkinnedMesh) mesh = object as SkinnedMesh;
+      if ((object as HgSkinnedMesh).isHgSkinnedMesh) mesh = object as HgSkinnedMesh;
     });
     expect(mesh).not.toBeNull();
 
     const geometry = mesh!.geometry;
-    const runtimeMorph = new BufferAttribute(
+    const runtimeMorph = new HgBufferAttribute(
       new Float32Array([
         0, 0, 0,
         0, 0.2, 0,

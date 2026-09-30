@@ -4,6 +4,7 @@ import {
   HgBufferGeometry,
   HgSkeleton,
   HgSkinnedMesh,
+  HgStandardMaterial,
 } from '../core/sceneSkin';
 import { describe, expect, it } from 'vitest';
 import { meshStrainDiagnostics } from './meshStrain';
@@ -34,7 +35,7 @@ function skinnedTriangle(): { mesh: HgSkinnedMesh; bone: HgBone } {
   morph.name = 'homeGymPT_test';
   geometry.morphTargetsRelative = true;
   geometry.morphAttributes.position = [morph];
-  const mesh = new HgSkinnedMesh(geometry);
+  const mesh = new HgSkinnedMesh(geometry, new HgStandardMaterial());
   mesh.name = 'TestBody';
   const bone = new HgBone();
   mesh.add(bone);

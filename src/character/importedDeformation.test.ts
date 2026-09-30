@@ -57,7 +57,7 @@ function elbowFixture() {
   mesh.bind(new HgSkeleton([upper, lower]));
   scene.updateMatrixWorld(true);
 
-  const boneByName = new Map<BoneName, Bone>([
+  const boneByName = new Map<BoneName, HgBone>([
     ['upperarm_l', upper],
     ['forearm_l', lower],
   ]);

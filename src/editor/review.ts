@@ -4,7 +4,7 @@ import type { ExerciseDefinition } from '../exercises/types';
 import type { StudioClip } from '../animation/clip';
 import { sampleClip } from '../animation/clip';
 import { validateClip } from '../animation/validate';
-import { resolveFrame } from '../animation/pipeline';
+import { resolveFrame, runtimeEquipmentForClip } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
 import { contactDiagnostics } from '../constraints/contactDiagnostics';
 import { measureGripFit, measureTwoHandFit } from '../equipment/gripDiagnostics';
@@ -69,10 +69,11 @@ export function reviewExercise(
   let maxTwoHandTargetSeparation = 0;
   let lastTwoHandSocketSeparation = 0;
 
-  const supportedGripInstances = clip.equipment.filter(
+  const reviewEquipment = runtimeEquipmentForClip(rig, clip, clip.equipment);
+  const supportedGripInstances = reviewEquipment.filter(
     (instance) => instance.kind === 'dumbbell' && instance.attachment.mode === 'hand',
   );
-  const twoHandInstances = clip.equipment.filter(
+  const twoHandInstances = reviewEquipment.filter(
     (instance) => instance.attachment.mode === 'hands',
   );
 

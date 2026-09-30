@@ -11,6 +11,7 @@ import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from './canonicalV4Original';
 import { HUMANOID_BONES } from './humanoid';
 import { PoseEvaluation, Skeleton } from './skeleton';
 import { hgRigifyFixture } from '../test/rigifyGlbFixture';
+import { reviewExercise } from '../editor/review';
 
 const v3 = new Skeleton(HUMANOID_BONES);
 const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
@@ -185,6 +186,30 @@ describe('canonical v4 ORIGINAL shadow runtime compatibility', () => {
       shadow.dispose();
     }
   }, 30_000);
+
+  it('does not introduce new automated review-gate failures on v4', () => {
+    const regressions: string[] = [];
+
+    for (const exercise of EXERCISES) {
+      const currentClip = generateClip(v3, exercise);
+      const shadowClip = generateClip(v4, exercise);
+      const current = reviewExercise(v3, exercise, currentClip, 3);
+      const shadow = reviewExercise(v4, exercise, shadowClip, 3);
+      const shadowById = new Map(shadow.gates.map(gate => [gate.id, gate]));
+
+      for (const gate of current.gates) {
+        if (!gate.passed) continue;
+        const candidate = shadowById.get(gate.id);
+        if (!candidate?.passed) {
+          regressions.push(
+            `${exercise.id}/${gate.id}: v3 PASS -> v4 FAIL (${candidate?.detail ?? 'missing gate'})`,
+          );
+        }
+      }
+    }
+
+    expect(regressions, regressions.join('\n')).toEqual([]);
+  }, 90_000);
 
   it('uses each skeleton own hip width and leg span for generated stance', () => {
     const current = generateClip(v3, airSquat);

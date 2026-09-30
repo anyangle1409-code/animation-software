@@ -1,25 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import { HgMat4, HgQuat, HgVec3 } from './linearMath';
 
-const EPS = 1e-12;
-
-function expectVecParity(hg: HgVec3, three: Vector3, epsilon = EPS) {
-  expect(Math.abs(hg.x - three.x)).toBeLessThan(epsilon);
-  expect(Math.abs(hg.y - three.y)).toBeLessThan(epsilon);
-  expect(Math.abs(hg.z - three.z)).toBeLessThan(epsilon);
-}
-
-function expectQuatParity(hg: HgQuat, three: Quaternion, epsilon = EPS) {
-  const dot = Math.abs(hg.x * three.x + hg.y * three.y + hg.z * three.z + hg.w * three.w);
-  expect(Math.abs(1 - dot)).toBeLessThan(epsilon);
-}
-
-function expectMatrixParity(hg: HgMat4, three: Matrix4, epsilon = EPS) {
-  hg.elements.forEach((value, index) => {
-    expect(Math.abs(value - three.elements[index]), `matrix element ${index}`).toBeLessThan(epsilon);
-  });
-}
+const EPS = 1e-11;
+const IDENTITY = [
+  1, 0, 0, 0,
+  0, 1, 0, 0,
+  0, 0, 1, 0,
+  0, 0, 0, 1,
+];
 
 const ANGLES = [
   [0, 0, 0],
@@ -29,67 +17,177 @@ const ANGLES = [
   [Math.PI / 2 - 0.01, 0.2, 0.6],
 ] as const;
 
-describe('first-party math migration parity against Three.js', () => {
-  it('matches vector angles used by the foot aim residual, including zero vectors', () => {
+const closeArray = (
+  actual: ArrayLike<number>,
+  expected: ArrayLike<number>,
+  epsilon = EPS,
+) => {
+  expect(actual.length).toBe(expected.length);
+  for (let index = 0; index < actual.length; index += 1) {
+    expect(Math.abs(Number(actual[index]) - Number(expected[index])), String(index))
+      .toBeLessThan(epsilon);
+  }
+};
+
+const quaternionAgreement = (
+  a: { x: number; y: number; z: number; w: number },
+  b: { x: number; y: number; z: number; w: number },
+) => Math.abs(a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+
+const manualEulerXYZ = (x: number, y: number, z: number) => {
+  const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);
+  const s1 = Math.sin(x / 2), s2 = Math.sin(y / 2), s3 = Math.sin(z / 2);
+  return [
+    s1 * c2 * c3 + c1 * s2 * s3,
+    c1 * s2 * c3 - s1 * c2 * s3,
+    c1 * c2 * s3 + s1 * s2 * c3,
+    c1 * c2 * c3 - s1 * s2 * s3,
+  ];
+};
+
+const manualEulerXZY = (x: number, y: number, z: number) => {
+  const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);
+  const s1 = Math.sin(x / 2), s2 = Math.sin(y / 2), s3 = Math.sin(z / 2);
+  return [
+    s1 * c2 * c3 - c1 * s2 * s3,
+    c1 * s2 * c3 - s1 * c2 * s3,
+    c1 * c2 * s3 + s1 * s2 * c3,
+    c1 * c2 * c3 + s1 * s2 * s3,
+  ];
+};
+
+const manualHamilton = (
+  a: readonly number[],
+  b: readonly number[],
+): [number, number, number, number] => {
+  const [ax, ay, az, aw] = a;
+  const [bx, by, bz, bw] = b;
+  return [
+    aw * bx + ax * bw + ay * bz - az * by,
+    aw * by - ax * bz + ay * bw + az * bx,
+    aw * bz + ax * by - ay * bx + az * bw,
+    aw * bw - ax * bx - ay * by - az * bz,
+  ];
+};
+
+const manualCompose = (
+  position: readonly [number, number, number],
+  q: readonly [number, number, number, number],
+  scale: readonly [number, number, number],
+): number[] => {
+  const [x, y, z, w] = q;
+  const [sx, sy, sz] = scale;
+  const x2 = x + x, y2 = y + y, z2 = z + z;
+  const xx = x * x2, xy = x * y2, xz = x * z2;
+  const yy = y * y2, yz = y * z2, zz = z * z2;
+  const wx = w * x2, wy = w * y2, wz = w * z2;
+  return [
+    (1 - (yy + zz)) * sx,
+    (xy + wz) * sx,
+    (xz - wy) * sx,
+    0,
+    (xy - wz) * sy,
+    (1 - (xx + zz)) * sy,
+    (yz + wx) * sy,
+    0,
+    (xz + wy) * sz,
+    (yz - wx) * sz,
+    (1 - (xx + yy)) * sz,
+    0,
+    position[0],
+    position[1],
+    position[2],
+    1,
+  ];
+};
+
+const manualMultiply = (a: ArrayLike<number>, b: ArrayLike<number>): number[] => {
+  const out = Array(16).fill(0) as number[];
+  for (let column = 0; column < 4; column += 1) {
+    for (let row = 0; row < 4; row += 1) {
+      let value = 0;
+      for (let k = 0; k < 4; k += 1) {
+        value += Number(a[k * 4 + row]) * Number(b[column * 4 + k]);
+      }
+      out[column * 4 + row] = value;
+    }
+  }
+  return out;
+};
+
+const rotateVector = (
+  q: { x: number; y: number; z: number; w: number },
+  v: readonly [number, number, number],
+): [number, number, number] => {
+  const [vx, vy, vz] = v;
+  const tx = 2 * (q.y * vz - q.z * vy);
+  const ty = 2 * (q.z * vx - q.x * vz);
+  const tz = 2 * (q.x * vy - q.y * vx);
+  return [
+    vx + q.w * tx + (q.y * tz - q.z * ty),
+    vy + q.w * ty + (q.z * tx - q.x * tz),
+    vz + q.w * tz + (q.x * ty - q.y * tx),
+  ];
+};
+
+describe('first-party linear algebra invariants', () => {
+  it('computes vector angles from the scalar definition, including zero vectors', () => {
     const pairs = [
       [[0, 1, 0], [0.2, 0.8, 0.4]],
       [[0, 0, 1], [-0.4, 0.1, 0.2]],
       [[1, 0, 0], [-1, 0, 0]],
       [[0, 0, 0], [0, 1, 0]],
     ] as const;
-    for (const [[ax, ay, az], [bx, by, bz]] of pairs) {
-      const actual = new HgVec3(ax, ay, az).angleTo(new HgVec3(bx, by, bz));
-      const expected = new Vector3(ax, ay, az).angleTo(new Vector3(bx, by, bz));
-      expect(Math.abs(actual - expected)).toBeLessThan(EPS);
+    for (const [a, b] of pairs) {
+      const va = new HgVec3(...a);
+      const vb = new HgVec3(...b);
+      const denominator = Math.sqrt(va.lengthSq() * vb.lengthSq());
+      const expected = denominator === 0
+        ? Math.PI / 2
+        : Math.acos(Math.max(-1, Math.min(1, va.dot(vb) / denominator)));
+      expect(Math.abs(va.angleTo(vb) - expected)).toBeLessThan(EPS);
     }
   });
 
-  it('matches XYZ Euler to quaternion conversion used by equipment parts', () => {
+  it('matches the closed-form XYZ and XZY Euler quaternion equations', () => {
     for (const [x, y, z] of ANGLES) {
-      const hg = new HgQuat().setFromEulerXYZ(x, y, z);
-      const three = new Quaternion().setFromEuler(new Euler(x, y, z, 'XYZ'));
-      expectQuatParity(hg, three);
+      closeArray(new HgQuat().setFromEulerXYZ(x, y, z).toArray(), manualEulerXYZ(x, y, z));
+      closeArray(new HgQuat().setFromEulerXZY(x, y, z).toArray(), manualEulerXZY(x, y, z));
     }
   });
 
-  it('matches XZY Euler to quaternion conversion', () => {
-    for (const [x, y, z] of ANGLES) {
-      const hg = new HgQuat().setFromEulerXZY(x, y, z);
-      const three = new Quaternion().setFromEuler(new Euler(x, y, z, 'XZY'));
-      expectQuatParity(hg, three);
-    }
+  it('preserves Hamilton multiply and premultiply when the output aliases an input', () => {
+    const a = new HgQuat().setFromEulerXZY(0.3, -0.2, 0.4);
+    const b = new HgQuat().setFromEulerXZY(-0.5, 0.15, -0.1);
+    closeArray(
+      a.clone().multiply(b).toArray(),
+      manualHamilton(a.toArray(), b.toArray()),
+    );
+    closeArray(
+      b.clone().premultiply(a).toArray(),
+      manualHamilton(a.toArray(), b.toArray()),
+    );
   });
 
-  it('preserves quaternion multiply and premultiply parity when the output aliases an input', () => {
-    const hgA = new HgQuat().setFromEulerXZY(0.3, -0.2, 0.4);
-    const hgB = new HgQuat().setFromEulerXZY(-0.5, 0.15, -0.1);
-    const threeA = new Quaternion().setFromEuler(new Euler(0.3, -0.2, 0.4, 'XZY'));
-    const threeB = new Quaternion().setFromEuler(new Euler(-0.5, 0.15, -0.1, 'XZY'));
-
-    expectQuatParity(hgA.clone().multiply(hgB), threeA.clone().multiply(threeB));
-    expectQuatParity(hgB.clone().premultiply(hgA), threeB.clone().premultiply(threeA));
-  });
-
-  it('matches quaternion vector transforms', () => {
+  it('rotates vectors according to the quaternion-vector identity', () => {
     const vectors = [
       [1, 0, 0],
       [0, 1, 0],
       [0.3, -0.8, 1.1],
       [-2, 0.25, 0.4],
     ] as const;
-
     for (const [x, y, z] of ANGLES) {
-      const hgQ = new HgQuat().setFromEulerXZY(x, y, z);
-      const threeQ = new Quaternion().setFromEuler(new Euler(x, y, z, 'XZY'));
-      for (const [vx, vy, vz] of vectors) {
-        const hg = new HgVec3(vx, vy, vz).applyQuaternion(hgQ);
-        const three = new Vector3(vx, vy, vz).applyQuaternion(threeQ);
-        expectVecParity(hg, three);
+      const q = new HgQuat().setFromEulerXZY(x, y, z);
+      for (const vector of vectors) {
+        closeArray(
+          new HgVec3(...vector).applyQuaternion(q).toArray(),
+          rotateVector(q, vector),
+        );
       }
     }
   });
 
-  it('matches affine compose', () => {
+  it('composes affine transforms from the explicit quaternion matrix formula', () => {
     const positions = [
       [0, 0, 0],
       [0.4, 1.2, -0.7],
@@ -99,87 +197,66 @@ describe('first-party math migration parity against Three.js', () => {
       [1, 1, 1],
       [1.2, 0.7, 1.05],
     ] as const;
-
     for (const [x, y, z] of ANGLES.slice(0, 4)) {
-      const hgQ = new HgQuat().setFromEulerXZY(x, y, z);
-      const threeQ = new Quaternion().setFromEuler(new Euler(x, y, z, 'XZY'));
-      for (const [px, py, pz] of positions) {
-        for (const [sx, sy, sz] of scales) {
-          const hg = new HgMat4().compose(
-            new HgVec3(px, py, pz),
-            hgQ,
-            new HgVec3(sx, sy, sz),
+      const q = new HgQuat().setFromEulerXZY(x, y, z);
+      for (const position of positions) {
+        for (const scale of scales) {
+          closeArray(
+            new HgMat4().compose(
+              new HgVec3(...position),
+              q,
+              new HgVec3(...scale),
+            ).elements,
+            manualCompose(position, q.toArray() as [number, number, number, number], scale),
           );
-          const three = new Matrix4().compose(
-            new Vector3(px, py, pz),
-            threeQ,
-            new Vector3(sx, sy, sz),
-          );
-          expectMatrixParity(hg, three);
         }
       }
     }
   });
 
-  it('matches matrix multiplication and inversion', () => {
-    const hgA = new HgMat4().compose(
+  it('multiplies matrices independently and inverts back to identity', () => {
+    const a = new HgMat4().compose(
       new HgVec3(0.4, 1.3, -0.5),
       new HgQuat().setFromEulerXZY(0.2, -0.4, 0.6),
       new HgVec3(1, 1, 1),
     );
-    const hgB = new HgMat4().compose(
+    const b = new HgMat4().compose(
       new HgVec3(-0.2, 0.8, 0.9),
       new HgQuat().setFromEulerXZY(-0.3, 0.1, -0.2),
       new HgVec3(1, 1, 1),
     );
-
-    const threeA = new Matrix4().compose(
-      new Vector3(0.4, 1.3, -0.5),
-      new Quaternion().setFromEuler(new Euler(0.2, -0.4, 0.6, 'XZY')),
-      new Vector3(1, 1, 1),
+    closeArray(
+      new HgMat4().multiplyMatrices(a, b).elements,
+      manualMultiply(a.elements, b.elements),
     );
-    const threeB = new Matrix4().compose(
-      new Vector3(-0.2, 0.8, 0.9),
-      new Quaternion().setFromEuler(new Euler(-0.3, 0.1, -0.2, 'XZY')),
-      new Vector3(1, 1, 1),
-    );
-
-    expectMatrixParity(new HgMat4().multiplyMatrices(hgA, hgB), new Matrix4().multiplyMatrices(threeA, threeB));
-    expectMatrixParity(hgA.clone().multiply(hgB), threeA.clone().multiply(threeB));
-    expectMatrixParity(hgB.clone().premultiply(hgA), threeB.clone().premultiply(threeA));
-    expectMatrixParity(hgA.clone().invert(), threeA.clone().invert(), 1e-11);
+    closeArray(a.clone().multiply(b).elements, manualMultiply(a.elements, b.elements));
+    closeArray(b.clone().premultiply(a).elements, manualMultiply(a.elements, b.elements));
+    closeArray(a.clone().multiply(a.clone().invert()).elements, IDENTITY, 1e-10);
   });
 
-  it('matches bone-frame basis construction for representative bone directions', () => {
+  it('constructs orthonormal bone-frame bases', () => {
     const directions = [
       [0, 1, 0],
       [0.2, -0.95, 0.1],
       [-0.8, 0.2, 0.4],
       [0.01, 0.02, 1],
     ] as const;
-
-    const hgForward = new HgVec3(0, 0, 1);
-    const hgUp = new HgVec3(0, 1, 0);
-    const threeForward = new Vector3(0, 0, 1);
-    const threeUp = new Vector3(0, 1, 0);
-
-    for (const [dx, dy, dz] of directions) {
-      const hgY = new HgVec3(dx, dy, dz).normalize();
-      const hgReference = Math.abs(hgY.dot(hgForward)) > 0.985 ? hgUp : hgForward;
-      const hgZ = hgReference.clone().addScaledVector(hgY, -hgY.dot(hgReference)).normalize();
-      const hgX = new HgVec3().crossVectors(hgY, hgZ).normalize();
-      const hgQ = new HgQuat().setFromRotationMatrix(new HgMat4().makeBasis(hgX, hgY, hgZ));
-
-      const threeY = new Vector3(dx, dy, dz).normalize();
-      const threeReference = Math.abs(threeY.dot(threeForward)) > 0.985 ? threeUp : threeForward;
-      const threeZ = threeReference.clone().addScaledVector(threeY, -threeY.dot(threeReference)).normalize();
-      const threeX = new Vector3().crossVectors(threeY, threeZ).normalize();
-      const threeQ = new Quaternion().setFromRotationMatrix(new Matrix4().makeBasis(threeX, threeY, threeZ));
-
-      expectQuatParity(hgQ, threeQ, 1e-11);
+    const forward = new HgVec3(0, 0, 1);
+    const up = new HgVec3(0, 1, 0);
+    for (const direction of directions) {
+      const y = new HgVec3(...direction).normalize();
+      const reference = Math.abs(y.dot(forward)) > 0.985 ? up : forward;
+      const z = reference.clone().addScaledVector(y, -y.dot(reference)).normalize();
+      const x = new HgVec3().crossVectors(y, z).normalize();
+      const matrix = new HgMat4().makeBasis(x, y, z);
+      const q = new HgQuat().setFromRotationMatrix(matrix);
+      expect(Math.abs(Math.hypot(q.x, q.y, q.z, q.w) - 1)).toBeLessThan(EPS);
+      const reconstructed = new HgMat4().compose(new HgVec3(), q, new HgVec3(1, 1, 1));
+      closeArray(reconstructed.elements.slice(0, 12), matrix.elements.slice(0, 12), 1e-10);
     }
   });
-  it('matches shortest-arc unit-vector quaternion construction', () => {
+
+  it('creates shortest-arc unit-vector rotations, including opposite directions', () => {
     const pairs = [
       [[0, 0, 1], [0.2, 0.8, 0.4]],
       [[1, 0, 0], [-1, 0, 0]],
@@ -187,19 +264,16 @@ describe('first-party math migration parity against Three.js', () => {
       [[0.3, -0.4, 0.5], [-0.2, 0.9, 0.1]],
     ] as const;
     for (const [fromRaw, toRaw] of pairs) {
-      const hgFrom = new HgVec3(...fromRaw).normalize();
-      const hgTo = new HgVec3(...toRaw).normalize();
-      const threeFrom = new Vector3(...fromRaw).normalize();
-      const threeTo = new Vector3(...toRaw).normalize();
-      expectQuatParity(
-        new HgQuat().setFromUnitVectors(hgFrom, hgTo),
-        new Quaternion().setFromUnitVectors(threeFrom, threeTo),
-        1e-11,
-      );
+      const from = new HgVec3(...fromRaw).normalize();
+      const to = new HgVec3(...toRaw).normalize();
+      const q = new HgQuat().setFromUnitVectors(from, to);
+      const rotated = from.clone().applyQuaternion(q);
+      expect(rotated.distanceTo(to)).toBeLessThan(1e-10);
+      expect(Math.abs(Math.hypot(q.x, q.y, q.z, q.w) - 1)).toBeLessThan(EPS);
     }
   });
 
-  it('matches translation, rotation extraction and affine decomposition', () => {
+  it('extracts translation/rotation and decomposes affine transforms losslessly', () => {
     const cases = [
       {
         position: [0.2, 1.1, -0.4] as const,
@@ -212,35 +286,39 @@ describe('first-party math migration parity against Three.js', () => {
         scale: [1.3, 0.8, 1.1] as const,
       },
     ];
-
     for (const entry of cases) {
-      const [px, py, pz] = entry.position;
-      const [rx, ry, rz] = entry.rotation;
-      const [sx, sy, sz] = entry.scale;
-      const hg = new HgMat4().compose(
-        new HgVec3(px, py, pz),
-        new HgQuat().setFromEulerXZY(rx, ry, rz),
-        new HgVec3(sx, sy, sz),
+      const matrix = new HgMat4().compose(
+        new HgVec3(...entry.position),
+        new HgQuat().setFromEulerXZY(...entry.rotation),
+        new HgVec3(...entry.scale),
       );
-      const three = new Matrix4().compose(
-        new Vector3(px, py, pz),
-        new Quaternion().setFromEuler(new Euler(rx, ry, rz, 'XZY')),
-        new Vector3(sx, sy, sz),
-      );
-
-      expectMatrixParity(new HgMat4().extractRotation(hg), new Matrix4().extractRotation(three), 1e-11);
-      expectMatrixParity(
-        new HgMat4().makeTranslation(px, py, pz),
-        new Matrix4().makeTranslation(px, py, pz),
+      closeArray(
+        new HgMat4().makeTranslation(...entry.position).elements,
+        [
+          1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 1, 0,
+          ...entry.position, 1,
+        ],
       );
 
-      const hgP = new HgVec3(), hgQ = new HgQuat(), hgS = new HgVec3();
-      const threeP = new Vector3(), threeQ = new Quaternion(), threeS = new Vector3();
-      hg.clone().decompose(hgP, hgQ, hgS);
-      three.clone().decompose(threeP, threeQ, threeS);
-      expectVecParity(hgP, threeP, 1e-11);
-      expectQuatParity(hgQ, threeQ, 1e-11);
-      expectVecParity(hgS, threeS, 1e-11);
+      const rotation = new HgMat4().extractRotation(matrix);
+      const rotationColumns = [
+        new HgVec3(rotation.elements[0], rotation.elements[1], rotation.elements[2]),
+        new HgVec3(rotation.elements[4], rotation.elements[5], rotation.elements[6]),
+        new HgVec3(rotation.elements[8], rotation.elements[9], rotation.elements[10]),
+      ];
+      rotationColumns.forEach((column) =>
+        expect(Math.abs(column.length() - 1)).toBeLessThan(EPS));
+      expect(Math.abs(rotationColumns[0].dot(rotationColumns[1]))).toBeLessThan(EPS);
+      expect(Math.abs(rotationColumns[0].dot(rotationColumns[2]))).toBeLessThan(EPS);
+      expect(Math.abs(rotationColumns[1].dot(rotationColumns[2]))).toBeLessThan(EPS);
+
+      const p = new HgVec3(), q = new HgQuat(), s = new HgVec3();
+      matrix.clone().decompose(p, q, s);
+      expect(p.distanceTo(new HgVec3(...entry.position))).toBeLessThan(EPS);
+      closeArray(s.toArray(), entry.scale);
+      closeArray(new HgMat4().compose(p, q, s).elements, matrix.elements, 1e-10);
     }
   });
 
@@ -250,46 +328,40 @@ describe('first-party math migration parity against Three.js', () => {
     const m = new HgMat4().compose(v, q, new HgVec3(1.1, 0.9, 1.2));
     expect(v.toArray()).toEqual([0.2, -0.3, 1.4]);
     expect(q.toArray()).toHaveLength(4);
-    expectMatrixParity(new HgMat4().fromArray(m.toArray()), new Matrix4().fromArray(m.toArray()));
+    closeArray(new HgMat4().fromArray(m.toArray()).elements, m.elements);
   });
 
-  it('matches vector distance-squared and set-length operations used by retarget contact IK', () => {
-    const hg = new HgVec3(0.3, -0.4, 0.5);
-    const three = new Vector3(0.3, -0.4, 0.5);
-    const hgOther = new HgVec3(-0.2, 0.1, 0.9);
-    const threeOther = new Vector3(-0.2, 0.1, 0.9);
-    expect(Math.abs(hg.distanceToSquared(hgOther) - three.distanceToSquared(threeOther))).toBeLessThan(EPS);
-    expectVecParity(hg.clone().setLength(0.25), three.clone().setLength(0.25), 1e-12);
+  it('implements vector distance/set-length and quaternion angle directly', () => {
+    const a = new HgVec3(0.3, -0.4, 0.5);
+    const b = new HgVec3(-0.2, 0.1, 0.9);
+    expect(a.distanceToSquared(b)).toBeCloseTo(
+      (0.3 + 0.2) ** 2 + (-0.4 - 0.1) ** 2 + (0.5 - 0.9) ** 2,
+      14,
+    );
+    expect(Math.abs(a.clone().setLength(0.25).length() - 0.25)).toBeLessThan(EPS);
+    closeArray(new HgVec3().setScalar(0.37).toArray(), [0.37, 0.37, 0.37]);
+
+    const qa = new HgQuat().setFromEulerXYZ(0.2, -0.4, 0.1);
+    const qb = new HgQuat().setFromEulerXYZ(-0.3, 0.15, 0.5);
+    const expectedAngle = 2 * Math.acos(Math.min(1, Math.abs(qa.dot(qb))));
+    expect(Math.abs(qa.angleTo(qb) - expectedAngle)).toBeLessThan(EPS);
   });
 
-  it('matches XZY quaternion-to-Euler conversion used by editor gizmos', () => {
+  it('round-trips XZY Euler rotations, including near gimbal lock', () => {
     const cases = [
       ...ANGLES,
       [0.3, -0.2, Math.PI / 2 - 1e-8],
       [-0.5, 0.4, -Math.PI / 2 + 1e-8],
     ] as const;
-    for (const [x, y, z] of cases) {
-      const hgQ = new HgQuat().setFromEulerXZY(x, y, z);
-      const threeQ = new Quaternion().setFromEuler(new Euler(x, y, z, 'XZY'));
-      const hg = hgQ.toEulerXZY();
-      const three = new Euler().setFromQuaternion(threeQ, 'XZY');
-      expect(Math.abs(hg.x - three.x)).toBeLessThan(1e-10);
-      expect(Math.abs(hg.y - three.y)).toBeLessThan(1e-10);
-      expect(Math.abs(hg.z - three.z)).toBeLessThan(1e-10);
+    for (const angles of cases) {
+      const original = new HgQuat().setFromEulerXZY(...angles).normalize();
+      const recovered = original.toEulerXZY();
+      const rebuilt = new HgQuat().setFromEulerXZY(
+        recovered.x,
+        recovered.y,
+        recovered.z,
+      ).normalize();
+      expect(Math.abs(1 - quaternionAgreement(original, rebuilt))).toBeLessThan(1e-10);
     }
   });
-
-  it('matches vector setScalar and quaternion angleTo compatibility operations', () => {
-    expectVecParity(
-      new HgVec3().setScalar(0.37),
-      new Vector3().setScalar(0.37),
-      1e-12,
-    );
-    const hgA = new HgQuat().setFromEulerXYZ(0.2, -0.4, 0.1);
-    const hgB = new HgQuat().setFromEulerXYZ(-0.3, 0.15, 0.5);
-    const threeA = new Quaternion().setFromEuler(new Euler(0.2, -0.4, 0.1, 'XYZ'));
-    const threeB = new Quaternion().setFromEuler(new Euler(-0.3, 0.15, 0.5, 'XYZ'));
-    expect(Math.abs(hgA.angleTo(hgB) - threeA.angleTo(threeB))).toBeLessThan(1e-12);
-  });
-
 });

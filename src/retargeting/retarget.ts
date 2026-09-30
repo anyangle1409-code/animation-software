@@ -10,7 +10,6 @@ import { isMetacarpal } from '../rig/boneNames';
 import { boneFrame, canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import type { Pose } from '../rig/types';
-import { RIG_HEIGHT } from '../rig/humanoid';
 import type { BoneMapping } from './boneMap';
 
 /** A character imported from a GLB, measured once at load time. */
@@ -342,7 +341,8 @@ export function bindRetarget(
     hipsRest,
     restRootWorld: new HgMat4().copy(character.root.matrixWorld),
     attachments, followers, twistHelpers, mirrorSides, legacyHandFrame,
-    scale: character.height / RIG_HEIGHT,
+    scale: character.height /
+      (rig.bone('head').restTail.y - rig.bone('root').restHead.y),
     evaluation: new PoseEvaluation(rig),
     worldAlignment: new HgQuat().setFromUnitVectors(WORLD_FORWARD, forward),
   };

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "branch": "claude/original-v1-blender-o2-20260929",
+  "overall_status": "candidate_not_production",
+  "production_approved": false,
+  "first_party_boundary": {
+    "historical_v_series_role": "reference_only_lessons_and_failure_cases",
+    "implementation_copying_from_v8_v15f_or_makehuman": "prohibited",
+    "blender_role": "development_tool_not_shipped_runtime"
+  },
+  "gates": {
+    "o1_clean_scaffold_provenance": {
+      "status": "verified"
+    },
+    "canonical_v4_structure": {
+      "status": "verified_candidate",
+      "expected_bones": 63
+    },
+    "o2_neutral_numeric": {
+      "status": "passed"
+    },
+    "owner_neutral_anatomy_review": {
+      "status": "pending"
+    },
+    "o4_binding": {
+      "status": "candidate_built",
+      "candidate_sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
+      "third_party_weight_transfer_used": false
+    },
+    "deformation_development": {
+      "status": "blocked",
+      "failed_checks": 54,
+      "next_repair_priority": 1,
+      "unmapped_failures": 0
+    },
+    "deformation_production": {
+      "status": "blocked",
+      "failed_checks": 133
+    },
+    "equipment_grip": {
+      "status": "blocked",
+      "curl_handle_max_penetration_mm": 5.93,
+      "pullup_bar_max_penetration_mm": 5.93,
+      "development_limit_mm": 2.0,
+      "production_limit_mm": 1.0
+    },
+    "candidate_glb_structure": {
+      "status": "passed_candidate_only",
+      "bare_sha256": "ba0f88e59099a699d89529892ab219d13eb49225c2339fc3b5e465248de51623",
+      "dressed_sha256": "2a3fbc5812a56c21725f5834467035b33862643af2607d5945a520ba322b0cba",
+      "images": 0,
+      "textures": 0,
+      "animations": 0,
+      "legacy_token_hits": 0
+    },
+    "shorts": {
+      "status": "candidate_exists_not_approved",
+      "independently_authored_from_original_v1_body": true,
+      "external_textures_or_materials_used": false
+    },
+    "final_visual_detail": {
+      "status": "pending",
+      "notes": "Face/ears/nails and final production polish remain later work after deformation blockers."
+    },
+    "runtime_integration": {
+      "status": "pending"
+    },
+    "release_promotion": {
+      "status": "blocked"
+    }
+  },
+  "current_blockers": [
+    "owner_neutral_anatomy_review",
+    "deformation_development",
+    "deformation_production",
+    "equipment_grip",
+    "shorts_final_deformation_and_visual_review",
+    "final_visual_detail",
+    "runtime_integration",
+    "release_promotion"
+  ],
+  "next_action": {
+    "priority": 1,
+    "group": "shoulder",
+    "instruction": "Repair shoulder girdle/upper-torso deformation first, rerun the grouped shoulder check, reject any severity regression, then regenerate the repair queue."
+  },
+  "authority": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+}

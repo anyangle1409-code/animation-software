@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
 import { EXERCISES } from '../exercises/library';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
@@ -87,7 +86,7 @@ describe('first-party IK orientation parity', () => {
           canonicalSkeleton,
           current,
           bone,
-          new Vector3(x, y, z),
+          new HgVec3(x, y, z),
           0.17,
         );
         const b = hgSwingFor(
@@ -121,7 +120,7 @@ describe('first-party IK orientation parity', () => {
           canonicalSkeleton,
           current,
           bone,
-          new Vector3(x, y, z),
+          new HgVec3(x, y, z),
         );
         const b = hgHingeRotationForDirection(
           hgCanonicalSkeleton,

@@ -10,6 +10,7 @@ on:
       - claude/original-v1-blender-o2-20260929
     paths:
       - "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json"
+      - "ORIGINAL_V1_CANDIDATE_STATUS.json"
       - "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json"
       - "ORIGINAL_V1_WORK/candidates/O4_CANDIDATE_BUILD.json"
       - "ORIGINAL_V1_WORK/candidates/CANDIDATE_GLB_EXPORT.json"
@@ -25,6 +26,8 @@ on:
       - "scripts/test_build_original_v1_repair_queue.py"
       - "scripts/audit_original_v1_candidate_glbs.py"
       - "scripts/test_audit_original_v1_candidate_glbs.py"
+      - "scripts/verify_original_v1_candidate_status.py"
+      - "scripts/test_verify_original_v1_candidate_status.py"
       - "scripts/test_evaluate_original_v1_deformation_report.py"
       - "scripts/test_compare_original_v1_deformation_reports.py"
       - ".github/workflows/original-v1-deformation-check.yml"
@@ -55,6 +58,8 @@ jobs:
           scripts/test_build_original_v1_repair_queue.py
           scripts/audit_original_v1_candidate_glbs.py
           scripts/test_audit_original_v1_candidate_glbs.py
+          scripts/verify_original_v1_candidate_status.py
+          scripts/test_verify_original_v1_candidate_status.py
           scripts/test_evaluate_original_v1_deformation_report.py
           scripts/test_compare_original_v1_deformation_reports.py
 
@@ -68,6 +73,11 @@ jobs:
           mkdir -p reports
           python3 scripts/audit_original_v1_candidate_glbs.py --json-out reports/original_v1_candidate_glb_audit.json
           python3 scripts/test_audit_original_v1_candidate_glbs.py
+
+      - name: Verify candidate status contract
+        run: |
+          python3 scripts/verify_original_v1_candidate_status.py --json-out reports/original_v1_candidate_status_verify.json
+          python3 scripts/test_verify_original_v1_candidate_status.py
 
       - name: Verify pinned R2 baseline
         run: python3 scripts/verify_original_v1_deformation_baseline.py

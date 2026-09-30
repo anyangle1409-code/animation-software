@@ -60,9 +60,9 @@
     {
       "id": "canonical_rig",
       "category": "asset_and_code",
-      "status": "original_v4_shadow_candidate_release_not_approved",
-      "required_action": "Keep hgpt_canonical_v4_original in shadow while finishing behavioural compatibility. Reactivate only after the full repository suite, v3 parity invariants, and v4 shadow review compatibility are green on the same exact commit.",
-      "notes": "A v4 runtime activation was attempted on 2026-09-30 but rolled back after full CI exposed v3 parity regressions and remaining v4 technique failures. The 63-bone v4 structure and compatibility work remain preserved for shadow testing."
+      "status": "first_party_v4_runtime_active_release_not_approved",
+      "required_action": "Keep hgpt_canonical_v4_original as the live runtime rig. Final release approval still depends on approved ORIGINAL v1 production assets, exact hashes, offline/device acceptance and promotion gates.",
+      "notes": "Reactivated on the green decoupled authoring-reference base. The historical v3 humanoid module remains for regression/history only and must stay unreachable from src/main.ts."
     },
     {
       "id": "equipment_geometry",

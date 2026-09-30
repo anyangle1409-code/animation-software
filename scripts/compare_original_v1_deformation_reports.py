@@ -318,6 +318,7 @@ def main() -> int:
     parser.add_argument("--profile", default="development_blocker")
     parser.add_argument("--baseline-grip-report", type=Path)
     parser.add_argument("--candidate-grip-report", type=Path)
+    parser.add_argument("--poses", help="Comma-separated pose names to compare; defaults to every baseline pose.")
     parser.add_argument("--json-out", type=Path)
     parser.add_argument("--report-only", action="store_true")
     args = parser.parse_args()
@@ -340,6 +341,21 @@ def main() -> int:
         cand_grip = load_optional(args.candidate_grip_report)
         if (base_grip is None) != (cand_grip is None):
             raise ValueError("supply both baseline and candidate grip reports, or neither")
+
+        selected_poses = None
+        if args.poses:
+            selected_poses = {name.strip() for name in args.poses.split(",") if name.strip()}
+            if not selected_poses:
+                raise ValueError("--poses did not contain any pose names")
+            baseline_index = index_by_pose(baseline)
+            missing_baseline = sorted(selected_poses - set(baseline_index))
+            if missing_baseline:
+                raise ValueError(f"selected poses missing from baseline: {missing_baseline}")
+            baseline = [item for item in baseline if str(item.get("pose")) in selected_poses]
+            candidate = [item for item in candidate if str(item.get("pose")) in selected_poses]
+            if base_grip is not None:
+                base_grip = [item for item in base_grip if str(item.get("pose")) in selected_poses]
+                cand_grip = [item for item in cand_grip if str(item.get("pose")) in selected_poses]
 
         base_pose_counts = pose_failure_counts(baseline, limits)
         cand_pose_counts = pose_failure_counts(candidate, limits)
@@ -376,6 +392,7 @@ def main() -> int:
             "grip_failure_counts_baseline": base_grip_counts,
             "grip_failure_counts_candidate": cand_grip_counts,
             "comparison_tolerances": tolerances,
+            "selected_poses": sorted(selected_poses) if selected_poses else None,
             "regression_count": len(regressions),
             "improvement_count": len(improvements),
             "regressions": regressions,

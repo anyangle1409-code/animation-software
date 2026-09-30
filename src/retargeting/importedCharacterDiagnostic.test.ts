@@ -1,6 +1,15 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Bone, BufferGeometry, Float32BufferAttribute, Matrix4, MeshBasicMaterial, Skeleton, SkinnedMesh, Vector3 } from 'three';
+import {
+  HgBone,
+} from '../core/sceneGraph';
+import {
+  HgBufferAttribute,
+  HgBufferGeometry,
+  HgSkeleton,
+  HgSkinnedMesh,
+  HgStandardMaterial,
+} from '../core/sceneSkin';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import type { StudioClip } from '../animation/clip';
@@ -16,9 +25,8 @@ import { applyCharacterPose } from '../character/pose';
 import { retargetedCharacterSource } from '../character/retargetSource';
 import type { CharacterBuild, Side } from '../character/types';
 import { equipmentSocket } from '../equipment/library';
-import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
-import { HgMat4 } from '../core/linearMath';
-import { asThreeMatrix } from '../test/threeInterop';
+import { handAttachmentLocalMatrix } from '../equipment/attach';
+import { HgMat4, HgVec3 } from '../core/linearMath';
 
 /**
  * Optional diagnostic for a supplied imported character.
@@ -46,7 +54,7 @@ interface EdgeSet {
   rest: number[];
 }
 
-function meshEdges(mesh: SkinnedMesh): EdgeSet {
+function meshEdges(mesh: HgSkinnedMesh): EdgeSet {
   const position = mesh.geometry.getAttribute('position');
   const index = mesh.geometry.getIndex();
   if (!index) throw new Error(`${mesh.name || 'mesh'} is not indexed`);
@@ -54,8 +62,8 @@ function meshEdges(mesh: SkinnedMesh): EdgeSet {
   const edges: [number, number][] = [];
   const rest: number[] = [];
   const seen = new Set<number>();
-  const one = new Vector3();
-  const two = new Vector3();
+  const one = new HgVec3();
+  const two = new HgVec3();
 
   for (let triangle = 0; triangle < index.count; triangle += 3) {
     const corners = [index.getX(triangle), index.getX(triangle + 1), index.getX(triangle + 2)];
@@ -85,9 +93,9 @@ function percentile(values: number[], fraction: number): number {
   return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * fraction))];
 }
 
-function strain(mesh: SkinnedMesh, set: EdgeSet) {
-  const one = new Vector3();
-  const two = new Vector3();
+function strain(mesh: HgSkinnedMesh, set: EdgeSet) {
+  const one = new HgVec3();
+  const two = new HgVec3();
   const ratios: number[] = [];
 
   mesh.skeleton.update();
@@ -135,8 +143,8 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
   };
   if (!character.handMatrix) return result;
 
-  const vertex = new Vector3();
-  const handleLocal = new Vector3();
+  const vertex = new HgVec3();
+  const handleLocal = new HgVec3();
 
   for (const side of ['l', 'r'] as const) {
     const instance = clip.equipment.find(
@@ -151,13 +159,12 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
     if (!hand) continue;
     const socket = equipmentSocket(instance.kind, instance.attachment.socket);
     const grip = instance.attachment.gripOffset ?? { x: 0, y: 0.045, z: 0 };
-    const equipment = new Matrix4().fromArray(Array.from(
-      hand.clone().multiply(
-        new HgMat4().copy(
-          handAttachmentMatrix(grip, socket?.position ?? { x: 0, y: 0, z: 0 }),
-        ),
-      ).elements,
-    ));
+    const equipment = hand.clone().multiply(
+      handAttachmentLocalMatrix(
+        grip,
+        socket?.position ?? { x: 0, y: 0, z: 0 },
+      ),
+    );
     const toHandle = equipment.clone().invert();
 
     let penetratingVertices = 0;
@@ -170,7 +177,7 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
       const count = mesh.geometry.getAttribute('position').count;
       for (let index = 0; index < count; index += 1) {
         mesh.getVertexPosition(index, vertex);
-        handleLocal.copy(vertex).applyMatrix4(asThreeMatrix(mesh.matrixWorld)).applyMatrix4(toHandle);
+        handleLocal.copy(vertex).applyMatrix4(mesh.matrixWorld).applyMatrix4(toHandle);
         if (Math.abs(handleLocal.z) > DUMBBELL_HANDLE_HALF_LENGTH) continue;
         sampledVertices += 1;
         const clearance = Math.hypot(handleLocal.x, handleLocal.y) - DUMBBELL_HANDLE_RADIUS;
@@ -194,19 +201,25 @@ const supplied = path ? describe : describe.skip;
 describe('strain measurement includes pose shapes', () => {
   for (const relative of [true, false]) {
     it(`measures ${relative ? 'relative' : 'absolute'} morphs before skinning`, () => {
-      const geometry = new BufferGeometry();
-      geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 1, 0, 0, 0, 1, 0], 3));
+      const geometry = new HgBufferGeometry();
+      geometry.setAttribute('position', new HgBufferAttribute(new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0]), 3));
       geometry.setIndex([0, 1, 2]);
-      geometry.setAttribute('skinIndex', new Float32BufferAttribute(new Array(12).fill(0), 4));
-      geometry.setAttribute('skinWeight', new Float32BufferAttribute([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+      geometry.setAttribute('skinIndex', new HgBufferAttribute(new Float32Array(12), 4));
+      geometry.setAttribute('skinWeight', new HgBufferAttribute(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]), 4));
       geometry.morphTargetsRelative = relative;
-      geometry.morphAttributes.position = [new Float32BufferAttribute(
-        relative ? [0, 0, 0, 1, 0, 0, 0, 0, 0] : [0, 0, 0, 2, 0, 0, 0, 1, 0], 3,
+      geometry.morphAttributes.position = [new HgBufferAttribute(
+        new Float32Array(
+          relative
+            ? [0, 0, 0, 1, 0, 0, 0, 0, 0]
+            : [0, 0, 0, 2, 0, 0, 0, 1, 0],
+        ),
+        3,
       )];
-      const mesh = new SkinnedMesh(geometry, new MeshBasicMaterial());
-      const bone = new Bone();
+      const mesh = new HgSkinnedMesh(geometry, new HgStandardMaterial());
+      const bone = new HgBone();
       mesh.add(bone);
-      mesh.bind(new Skeleton([bone]));
+      mesh.bind(new HgSkeleton([bone]));
+      mesh.updateMorphTargets();
       const edges = meshEdges(mesh);
       expect(strain(mesh, edges).max).toBeCloseTo(1);
       mesh.morphTargetInfluences![0] = 1;
@@ -214,8 +227,7 @@ describe('strain measurement includes pose shapes', () => {
       mesh.morphTargetInfluences![0] = 0;
       expect(strain(mesh, edges).max).toBeCloseTo(1);
       geometry.dispose();
-      (mesh.material as MeshBasicMaterial).dispose();
-      mesh.skeleton.dispose();
+      (mesh.material as HgStandardMaterial).dispose();
     });
   }
 });
@@ -235,7 +247,7 @@ supplied('imported-character diagnostic', () => {
     expect(report.mapping.missingRequired).toEqual([]);
     expect(character.meshes.length).toBeGreaterThan(0);
 
-    const edgeSets = new Map(character.meshes.map((mesh) => [mesh, meshEdges(mesh as unknown as SkinnedMesh)]));
+    const edgeSets = new Map(character.meshes.map((mesh) => [mesh, meshEdges(mesh)]));
     const results: Record<string, unknown[]> = {};
 
     for (const definition of definitions) {
@@ -251,7 +263,7 @@ supplied('imported-character diagnostic', () => {
 
         const meshStats = character.meshes.map((mesh) => ({
           mesh: mesh.name,
-          ...strain(mesh as unknown as SkinnedMesh, edgeSets.get(mesh)!),
+          ...strain(mesh, edgeSets.get(mesh)!),
         }));
 
         const hands: Record<string, number[] | null> = {};

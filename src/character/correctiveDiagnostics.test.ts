@@ -1,20 +1,20 @@
-import { BufferAttribute, BufferGeometry, SkinnedMesh } from 'three';
+import { HgBufferAttribute, HgBufferGeometry, HgSkinnedMesh, HgStandardMaterial } from '../core/sceneSkin';
 import { describe, expect, it } from 'vitest';
 import { correctiveDiagnostics, suppressCorrectives } from './correctiveDiagnostics';
 
-function mesh(relative = true): SkinnedMesh {
-  const geometry = new BufferGeometry();
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array([0, 0, 0, 1, 0, 0]), 3));
+function mesh(relative = true): HgSkinnedMesh {
+  const geometry = new HgBufferGeometry();
+  geometry.setAttribute('position', new HgBufferAttribute(new Float32Array([0, 0, 0, 1, 0, 0]), 3));
   geometry.morphTargetsRelative = relative;
   const values = relative
     ? new Float32Array([0.008, 0, 0, 0, 0, 0])
     : new Float32Array([0.008, 0, 0, 1, 0, 0]);
-  const corrective = new BufferAttribute(values, 3);
+  const corrective = new HgBufferAttribute(values, 3);
   corrective.name = 'homeGymPT_elbow_l';
-  const face = new BufferAttribute(new Float32Array([0, 0, 0, 0, 0, 0]), 3);
+  const face = new HgBufferAttribute(new Float32Array([0, 0, 0, 0, 0, 0]), 3);
   face.name = 'smile';
   geometry.morphAttributes.position = [corrective, face];
-  const skinned = new SkinnedMesh(geometry);
+  const skinned = new HgSkinnedMesh(geometry, new HgStandardMaterial());
   skinned.name = 'Body';
   skinned.morphTargetDictionary = { homeGymPT_elbow_l: 0, smile: 1 };
   skinned.morphTargetInfluences = [0.5, 0.75];

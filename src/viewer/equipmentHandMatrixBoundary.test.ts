@@ -14,8 +14,12 @@ describe('first-party hand matrix contract', () => {
     expect(display).not.toContain("from '../character/bones'");
   });
 
-  it('copies first-party matrix values only at the live viewer adapter', () => {
-    const scene = readFileSync(new URL('./equipmentScene.ts', import.meta.url), 'utf8');
-    expect(scene).toContain('group.matrix.fromArray(Array.from(placement.matrix.elements))');
+  it('keeps first-party matrices first-party in the live equipment scene', () => {
+    const scene = readFileSync(
+      new URL('./firstPartyEquipmentScene.ts', import.meta.url),
+      'utf8',
+    );
+    expect(scene).toContain('instance.group.matrix.copy(placement.matrix)');
+    expect(scene).not.toContain('fromArray(Array.from(placement.matrix.elements))');
   });
 });

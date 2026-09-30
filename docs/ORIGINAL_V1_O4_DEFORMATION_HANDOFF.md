@@ -129,6 +129,50 @@ Neutral remains an important control: it reports volume 1.0, zero compressed
 or stretched edges under the current stress thresholds, and zero
 self-intersections.
 
+## Candidate GLB structural audit
+
+The committed bare/dressed review exports now have an independent,
+Blender-free structural audit:
+
+`scripts/audit_original_v1_candidate_glbs.py`
+
+GitHub Actions run **36715160223** passed the audit for both files.
+
+Current evidence:
+
+| Check | Bare | Dressed |
+|---|---:|---:|
+| SHA-256 matches export manifest | PASS | PASS |
+| glTF/GLB version | 2.0 | 2.0 |
+| Expected v4 bones | 63 | 63 |
+| Bone hierarchy / skin joint set | PASS | PASS |
+| Mesh nodes | 1 | 2 |
+| Skins | 1 | 1 |
+| Images | 0 | 0 |
+| Textures | 0 | 0 |
+| Animations | 0 | 0 |
+| External buffer/image URIs | 0 | 0 |
+| Legacy/reference token hits | 0 | 0 |
+
+Bare:
+`ba0f88e59099a699d89529892ab219d13eb49225c2339fc3b5e465248de51623`
+(1,023,324 bytes).
+
+Dressed:
+`2a3fbc5812a56c21725f5834467035b33862643af2607d5945a520ba322b0cba`
+(1,121,604 bytes).
+
+The bare export contains only
+`HGPT_ORIGINAL_V1_SKIN_CANDIDATE`. The dressed export contains that skin
+material plus `HGPT_ORIGINAL_V1_SHORTS_FABRIC_CANDIDATE`; both are
+texture-free numeric materials.
+
+This does **not** approve either GLB for production. It proves only that the
+current committed review exports are structurally self-contained, match their
+manifest, carry the expected ORIGINAL-v4 rig and show no audited legacy-name or
+external-resource contamination. Deformation, anatomy, garment quality,
+clean-room history and release promotion remain separate gates.
+
 ## Automatic repair queue
 
 The repair order is now machine-readable in `ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json`

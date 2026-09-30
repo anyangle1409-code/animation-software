@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "shadow_v3_active",
+  "entrypoint": "src/main.ts",
+  "v3_module": "src/rig/humanoid.ts",
+  "v4_module": "src/rig/canonicalV4Original.ts",
+  "allowed_v3_runtime_importers": [
+    "src/rig/skeleton.ts"
+  ],
+  "requirements": {
+    "shadow_v3_active": [
+      "The live runtime remains on the accepted v3 rig until an explicit cutover.",
+      "Only src/rig/skeleton.ts may import the v3 humanoid definition in the reachable runtime graph.",
+      "v4 stays testable in shadow without becoming the default accidentally."
+    ],
+    "v4_active": [
+      "No reachable runtime module may import src/rig/humanoid.ts.",
+      "src/rig/canonicalV4Original.ts must be reachable from the runtime entrypoint.",
+      "The v4 shadow compatibility suite must be green before switching this mode."
+    ]
+  },
+  "notes": [
+    "This contract controls runtime rig coupling only; it does not approve the ORIGINAL v1 mesh.",
+    "Historical/reference v3 files may remain in the repository if they are not reachable from src/main.ts."
+  ]
+}

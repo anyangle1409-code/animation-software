@@ -406,6 +406,48 @@ hiding a newly damaged shoulder, hand, hip or contact.
 
 The exact current comparison anchor is pinned in `ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json`, including the candidate SHA-256, report blob SHAs and the 54-check development baseline. Do not silently replace that baseline; create a new numbered baseline only after an explicitly accepted improvement.
 
+## Future production runtime metadata — do not fabricate yet
+
+The standalone promotion path now requires the final production GLBs to carry
+project-owned scene extras under `homeGymPT`. This is deliberately a **future
+production gate**, not something to fake on the current R2 candidate.
+
+Required final fields:
+
+- `assetId: "HomeGymPT_Male_ORIGINAL_v1"`;
+- `rigId: "hgpt_canonical_v4_original"`;
+- `offsetFrame: "hand-v2"`;
+- finite `gripFrameOffsets.l` and `gripFrameOffsets.r`;
+- finite `handleGripOffsets.l` and `handleGripOffsets.r`;
+- an ORIGINAL-v1-specific `gripSolutionId` that exists in the first-party
+  runtime solved-grip table.
+
+The current standalone solved-grip table intentionally contains **no
+character-specific rows**. Do not reuse any legacy/V-series hand solution.
+
+The candidate export script now sets Blender's `export_extras=True` for
+**future** exports, so custom properties can pass through to glTF extras once
+they are legitimately authored. The committed candidate GLBs are unchanged by
+that script change.
+
+### When to author the grip metadata
+
+Do this only after Priority 2 hand/grip work has produced evidence that meets
+the deformation/contact gates:
+
+1. repair finger/palm/thumb weights and geometry;
+2. achieve the equipment penetration/contact thresholds on
+   `curl_handle` and `pullup_bar`;
+3. measure each hand's grip/contact frame and handle centre from ORIGINAL v1
+   itself;
+4. generate an ORIGINAL-v1-specific solved grip row from those measurements;
+5. record the exact values as scene `homeGymPT` custom properties;
+6. export with extras and verify the standalone production metadata gate.
+
+The generic runtime `anatomicalGripOffset` is only a fallback. **Do not**
+treat its current ±25 mm / 85 mm values as the final ORIGINAL v1 solution and
+do not tune the model to fit that fallback.
+
 ## Integration rule
 
 The candidate branch is intentionally divergent from the latest standalone

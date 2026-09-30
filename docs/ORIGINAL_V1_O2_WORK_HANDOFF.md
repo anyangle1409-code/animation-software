@@ -1,5 +1,7 @@
 # ORIGINAL v1 O2 neutral anatomy — Work to Blender handoff
 
+> **CURRENT PICKUP — 2026-09-30:** this branch has progressed beyond the O2-only state described below. It now contains an O4 bound candidate, O7 shorts candidate, candidate GLBs and deformation/grip reports. **Do not restart O2 or treat the candidate as production.** Read `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md` and `ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json` first. The remainder of this document is retained as O2 provenance/history and still defines the clean-room source boundary.
+
 > **Status on `claude/original-v1-blender-o2-20260929` (2026-09-29).** All ten
 > regions are checkpointed, and the strict numeric O2 gate passed on the
 > laptop. The owner's neutral-anatomy review is pending. Method, launcher

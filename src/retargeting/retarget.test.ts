@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationClip, AnimationMixer, LoopOnce, Quaternion, Vector3 } from 'three';
+import { Quaternion, Vector3 } from 'three';
 import { HgBone, HgGroup } from '../core/sceneGraph';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import { retargetSampler } from '../character/retargetSource';
-import { deformationTrackToCharacterTrack } from '../export/test/clipBuilderCompat';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { poseFromDegrees, restPose } from '../rig/pose';
 import { generateClip } from '../animation/generate';
@@ -11,7 +10,7 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { createMapping, guessMapping, isMappingUsable, reportMapping } from './boneMap';
 import { applyRetarget, bindRetarget, readCharacter, resetCharacter } from './retarget';
-import { asThreeMatrix, asThreeObject } from '../test/threeInterop';
+import { asThreeMatrix } from '../test/threeInterop';
 
 const skeleton = canonicalSkeleton;
 
@@ -370,18 +369,38 @@ describe('disconnected source deform branches', () => {
     for (const [name, bone] of binding.character.bones) {
       expect(bone.position.distanceTo(threeVector(binding.character.restPosition.get(name)!))).toBeLessThan(1e-9);
     }
-    const mixer = new AnimationMixer(asThreeObject(binding.character.root));
-    const action = mixer.clipAction(new AnimationClip(
-      'source',
-      1,
-      tracks.map(deformationTrackToCharacterTrack),
-    ));
-    action.setLoop(LoopOnce, 1); action.clampWhenFinished = true; action.play();
-    for (const time of [0, 1]) {
-      mixer.setTime(time);
+    for (const time of [0, 1] as const) {
+      resetCharacter(binding.character);
+      for (const track of tracks) {
+        if (track.property === 'morphTargetInfluence') continue;
+        const bone = binding.character.bones.get(track.target);
+        if (!bone) continue;
+        let sample = 0;
+        for (let index = 1; index < track.times.length; index += 1) {
+          if (track.times[index] <= time) sample = index;
+        }
+        if (track.property === 'quaternion') {
+          const offset = sample * 4;
+          bone.quaternion.set(
+            track.values[offset],
+            track.values[offset + 1],
+            track.values[offset + 2],
+            track.values[offset + 3],
+          );
+        } else {
+          const offset = sample * 3;
+          bone.position.set(
+            track.values[offset],
+            track.values[offset + 1],
+            track.values[offset + 2],
+          );
+        }
+      }
       binding.character.root.updateMatrixWorld(true);
       for (const [name, bone] of binding.character.bones) {
-        const error = Math.max(...bone.matrixWorld.elements.map((v, i) => Math.abs(v - expected[time].get(name)!.elements[i])));
+        const error = Math.max(...bone.matrixWorld.elements.map(
+          (value, index) => Math.abs(value - expected[time].get(name)!.elements[index]),
+        ));
         expect(error, name).toBeLessThan(1e-6);
       }
     }

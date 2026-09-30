@@ -75,8 +75,8 @@ function meshEdges(mesh: HgSkinnedMesh): EdgeSet {
       const key = lo * position.count + hi;
       if (seen.has(key)) continue;
       seen.add(key);
-      one.fromBufferAttribute(position, lo);
-      two.fromBufferAttribute(position, hi);
+      one.set(position.getX(lo), position.getY(lo), position.getZ(lo));
+      two.set(position.getX(hi), position.getY(hi), position.getZ(hi));
       const length = one.distanceTo(two);
       if (length < 1e-8) continue;
       edges.push([lo, hi]);

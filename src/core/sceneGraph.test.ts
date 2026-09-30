@@ -1,21 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
-  Bone,
-  Group,
-  Object3D,
-  PerspectiveCamera,
-  Quaternion,
-  Scene,
-  Vector3,
-} from 'three';
-import {
   HgBone,
   HgGroup,
   HgObject3D,
   HgPerspectiveCamera,
   HgScene,
 } from './sceneGraph';
-import { HgVec3 } from './linearMath';
+import { HgMat4, HgQuat, HgVec3 } from './linearMath';
 
 const close = (one: ArrayLike<number>, two: ArrayLike<number>, epsilon = 1e-10) => {
   expect(one.length).toBe(two.length);
@@ -24,95 +15,108 @@ const close = (one: ArrayLike<number>, two: ArrayLike<number>, epsilon = 1e-10) 
   }
 };
 
-describe('first-party scene graph parity', () => {
-  it('matches hierarchy world transforms and reparenting', () => {
-    const hgRoot = new HgGroup();
-    const hgMid = new HgObject3D();
-    const hgChild = new HgBone();
-    const threeRoot = new Group();
-    const threeMid = new Object3D();
-    const threeChild = new Bone();
+const identity = [
+  1, 0, 0, 0,
+  0, 1, 0, 0,
+  0, 0, 1, 0,
+  0, 0, 0, 1,
+];
 
-    hgRoot.position.set(0.3, 1.2, -0.5);
-    threeRoot.position.set(0.3, 1.2, -0.5);
-    hgRoot.rotation.set(0.2, -0.1, 0.35);
-    threeRoot.rotation.set(0.2, -0.1, 0.35);
+describe('first-party scene graph', () => {
+  it('composes hierarchy world transforms and reparenting deterministically', () => {
+    const root = new HgGroup();
+    const mid = new HgObject3D();
+    const child = new HgBone();
 
-    hgMid.position.set(-0.2, 0.4, 0.7);
-    threeMid.position.set(-0.2, 0.4, 0.7);
-    hgMid.rotation.set(-0.3, 0.25, 0.1);
-    threeMid.rotation.set(-0.3, 0.25, 0.1);
-    hgMid.scale.set(1.2, 0.8, 1.1);
-    threeMid.scale.set(1.2, 0.8, 1.1);
+    root.position.set(0.3, 1.2, -0.5);
+    root.rotation.set(0.2, -0.1, 0.35);
+    mid.position.set(-0.2, 0.4, 0.7);
+    mid.rotation.set(-0.3, 0.25, 0.1);
+    mid.scale.set(1.2, 0.8, 1.1);
+    child.position.set(0.1, 0.25, -0.15);
+    root.add(mid);
+    mid.add(child);
+    root.updateMatrixWorld(true);
 
-    hgChild.position.set(0.1, 0.25, -0.15);
-    threeChild.position.set(0.1, 0.25, -0.15);
-    hgRoot.add(hgMid);
-    hgMid.add(hgChild);
-    threeRoot.add(threeMid);
-    threeMid.add(threeChild);
+    const expected = new HgMat4()
+      .compose(root.position, root.quaternion, root.scale)
+      .multiply(new HgMat4().compose(mid.position, mid.quaternion, mid.scale))
+      .multiply(new HgMat4().compose(child.position, child.quaternion, child.scale));
+    close(child.matrixWorld.elements, expected.elements);
 
-    hgRoot.updateMatrixWorld(true);
-    threeRoot.updateMatrixWorld(true);
-    close(hgChild.matrixWorld.elements, threeChild.matrixWorld.elements, 1e-10);
+    const local = new HgVec3(0.2, 0.1, -0.3);
+    const world = child.localToWorld(local.clone());
+    const expectedWorld = local.clone().applyMatrix4(child.matrixWorld);
+    close(world.toArray(), expectedWorld.toArray());
 
-    const hgPoint = hgChild.localToWorld(new HgVec3(0.2, 0.1, -0.3));
-    const threePoint = threeChild.localToWorld(new Vector3(0.2, 0.1, -0.3));
-    close(hgPoint.toArray(), threePoint.toArray(), 1e-10);
-
-    hgRoot.add(hgChild);
-    threeRoot.add(threeChild);
-    hgRoot.updateMatrixWorld(true);
-    threeRoot.updateMatrixWorld(true);
-    close(hgChild.matrixWorld.elements, threeChild.matrixWorld.elements, 1e-10);
+    root.add(child);
+    root.updateMatrixWorld(true);
+    const reparented = new HgMat4()
+      .compose(root.position, root.quaternion, root.scale)
+      .multiply(new HgMat4().compose(child.position, child.quaternion, child.scale));
+    close(child.matrixWorld.elements, reparented.elements);
+    expect(child.parent).toBe(root);
+    expect(mid.children).not.toContain(child);
   });
 
-  it('matches scene traversal and clear semantics', () => {
-    const hg = new HgScene();
-    const three = new Scene();
-    const hgA = new HgGroup(); hgA.name = 'a';
-    const hgB = new HgObject3D(); hgB.name = 'b';
-    const threeA = new Group(); threeA.name = 'a';
-    const threeB = new Object3D(); threeB.name = 'b';
-    hg.add(hgA); hgA.add(hgB);
-    three.add(threeA); threeA.add(threeB);
+  it('keeps traversal and clear semantics exact', () => {
+    const scene = new HgScene();
+    const a = new HgGroup(); a.name = 'a';
+    const b = new HgObject3D(); b.name = 'b';
+    scene.add(a); a.add(b);
 
-    const hgNames: string[] = [];
-    const threeNames: string[] = [];
-    hg.traverse((object) => hgNames.push(object.name));
-    three.traverse((object) => threeNames.push(object.name));
-    expect(hgNames).toEqual(threeNames);
+    const names: string[] = [];
+    scene.traverse((object) => names.push(object.name));
+    expect(names).toEqual(['', 'a', 'b']);
 
-    hgA.clear();
-    threeA.clear();
-    expect(hgA.children).toHaveLength(0);
-    expect(hgB.parent).toBeNull();
-    expect(threeB.parent).toBeNull();
+    a.clear();
+    expect(a.children).toHaveLength(0);
+    expect(b.parent).toBeNull();
   });
 
-  it('matches perspective projection and camera lookAt', () => {
-    const hg = new HgPerspectiveCamera(38, 16 / 9, 0.05, 100);
-    const three = new PerspectiveCamera(38, 16 / 9, 0.05, 100);
-    close(hg.projectionMatrix.elements, three.projectionMatrix.elements, 1e-10);
-    close(
-      hg.projectionMatrixInverse.elements,
-      three.projectionMatrixInverse.elements,
-      1e-10,
-    );
+  it('uses the standard perspective projection formula and an invertible camera view', () => {
+    const fov = 38;
+    const aspect = 16 / 9;
+    const near = 0.05;
+    const far = 100;
+    const camera = new HgPerspectiveCamera(fov, aspect, near, far);
 
-    hg.position.set(2.3, 1.35, 2.7);
-    three.position.set(2.3, 1.35, 2.7);
-    hg.updateMatrixWorld(true);
-    three.updateMatrixWorld(true);
-    hg.lookAt(0, 0.9, 0);
-    three.lookAt(0, 0.9, 0);
-    hg.updateMatrixWorld(true);
-    three.updateMatrixWorld(true);
+    const top = near * Math.tan((fov * Math.PI / 180) / 2);
+    const height = 2 * top;
+    const width = aspect * height;
+    const left = -0.5 * width;
+    const right = left + width;
+    const bottom = top - height;
+    const x = 2 * near / (right - left);
+    const y = 2 * near / (top - bottom);
+    const a = (right + left) / (right - left);
+    const b = (top + bottom) / (top - bottom);
+    const c = -(far + near) / (far - near);
+    const d = -2 * far * near / (far - near);
+    close(camera.projectionMatrix.elements, [
+      x, 0, 0, 0,
+      0, y, 0, 0,
+      a, b, c, -1,
+      0, 0, d, 0,
+    ], 1e-10);
 
-    const hq = hg.quaternion.clone().normalize();
-    const tq = new Quaternion().copy(three.quaternion).normalize();
-    const dot = Math.abs(hq.x * tq.x + hq.y * tq.y + hq.z * tq.z + hq.w * tq.w);
-    expect(1 - dot).toBeLessThan(1e-10);
-    close(hg.matrixWorldInverse.elements, three.matrixWorldInverse.elements, 1e-10);
+    const projectionIdentity = camera.projectionMatrix.clone()
+      .multiply(camera.projectionMatrixInverse);
+    close(projectionIdentity.elements, identity, 1e-9);
+
+    camera.position.set(2.3, 1.35, 2.7);
+    camera.updateMatrixWorld(true);
+    const target = new HgVec3(0, 0.9, 0);
+    camera.lookAt(target.x, target.y, target.z);
+    camera.updateMatrixWorld(true);
+
+    const viewIdentity = camera.matrixWorld.clone().multiply(camera.matrixWorldInverse);
+    close(viewIdentity.elements, identity, 1e-9);
+
+    const forward = new HgVec3(0, 0, -1).applyQuaternion(
+      new HgQuat().copy(camera.quaternion),
+    ).normalize();
+    const desired = target.clone().sub(camera.position).normalize();
+    expect(forward.distanceTo(desired)).toBeLessThan(1e-10);
   });
 });

@@ -32,6 +32,7 @@ const library = (id: string) => EXERCISE_BY_ID.get(id);
 const HAMMER = 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.';
 const INCLINE = 'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.';
 const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
+const STANDING_PRESS = 'Create a standing dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
 const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 
@@ -147,7 +148,7 @@ describe('generating on the clean first-party fallback', () => {
     'fully certifies clean-fallback examples for every certified movement family',
     async () => {
       for (const [prompt, family, reference] of [
-        [PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
+        [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });

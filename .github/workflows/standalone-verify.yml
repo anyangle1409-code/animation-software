@@ -77,6 +77,12 @@ jobs:
       - name: ORIGINAL v1 promotion remains blocked safely
         run: npm run audit:original-v1-promotion
 
+      - name: Test dormant ORIGINAL v1 runtime cutover guard
+        run: node --test scripts/audit-original-v1-runtime-cutover.test.mjs
+
+      - name: ORIGINAL v1 runtime cutover remains dormant
+        run: npm run audit:original-v1-runtime-cutover
+
       - name: Test canonical v4 runtime coupling contract
         run: node --test scripts/audit-canonical-v4-runtime-coupling.test.mjs
 
@@ -95,6 +101,7 @@ jobs:
           src/core/sceneSkin.test.ts
           src/core/noThreeRuntime.test.ts
           src/character/gltfFirstPartyScene.test.ts
+          src/character/bundled.test.ts
           src/core/glbContainer.test.ts
           src/core/gltfAccessors.test.ts
           src/core/gltfBuilder.test.ts

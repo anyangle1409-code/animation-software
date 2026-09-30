@@ -1,0 +1,181 @@
+{
+  "r20": {
+    "failed_checks": 42,
+    "regressions_vs_R2": 7,
+    "improvements_vs_R2": 36,
+    "priorities": {
+      "1": "BLOCKED",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "BLOCKED",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "d747af216448248ce0dc214c8e6a71c986eb255fad8e45b3e766e15cbd66f97f",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: self_intersecting_face_pairs 174.0 -> 202.0",
+      "press_top/neck: region_min_ratio 1.0 -> 0.978",
+      "press_top/torso: region_min_ratio 0.886 -> 0.837",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861",
+      "squat_bottom/arm: region_min_ratio 0.606 -> 0.585"
+    ],
+    "poses": 14
+  },
+  "r22": {
+    "failed_checks": 40,
+    "regressions_vs_R2": 11,
+    "improvements_vs_R2": 34,
+    "priorities": {
+      "1": "BLOCKED",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "BLOCKED",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "c32eb0ac93b35eed877a9852db0bd44a1f6b4bb9c90ab5f3be96b7cf7db7c898",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.546",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top/neck: region_min_ratio 1.0 -> 0.974",
+      "press_top/torso: region_min_ratio 0.886 -> 0.829",
+      "press_top_rhythm: self_intersecting_face_pairs 110.0 -> 118.0",
+      "pullup_bar: self_intersecting_face_pairs 146.0 -> 157.0",
+      "pullup_bar/neck: region_min_ratio 1.0 -> 0.976",
+      "pullup_hang: self_intersecting_face_pairs 147.0 -> 158.0",
+      "pullup_hang/neck: region_min_ratio 1.0 -> 0.976",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.655",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.86"
+    ],
+    "poses": 15
+  },
+  "r23": {
+    "failed_checks": 40,
+    "regressions_vs_R2": 12,
+    "improvements_vs_R2": 31,
+    "priorities": {
+      "1": "BLOCKED",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "BLOCKED",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "e2fad422529886436c0fcc76ae365a065d0431452ec6d59aa669d23ebedccbf3",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.534",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: self_intersecting_face_pairs 174.0 -> 197.0",
+      "press_top/neck: region_min_ratio 1.0 -> 0.974",
+      "press_top/torso: region_min_ratio 0.886 -> 0.821",
+      "pullup_bar: self_intersecting_face_pairs 146.0 -> 154.0",
+      "pullup_bar/neck: region_min_ratio 1.0 -> 0.976",
+      "pullup_hang: self_intersecting_face_pairs 147.0 -> 155.0",
+      "pullup_hang/neck: region_min_ratio 1.0 -> 0.976",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.626",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861",
+      "squat_bottom: self_intersecting_face_pairs 42.0 -> 50.0"
+    ],
+    "poses": 15
+  },
+  "r24": {
+    "failed_checks": 40,
+    "regressions_vs_R2": 11,
+    "improvements_vs_R2": 36,
+    "priorities": {
+      "1": "BLOCKED",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "BLOCKED",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "78de365042c930f8a42061a0329db35306f703400beec50fb2f4efbdc5c4525d",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.545",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: self_intersecting_face_pairs 174.0 -> 181.0",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "press_top_rhythm: self_intersecting_face_pairs 110.0 -> 118.0",
+      "pullup_bar: self_intersecting_face_pairs 146.0 -> 161.0",
+      "pullup_bar/torso: region_min_ratio 0.891 -> 0.87",
+      "pullup_hang: self_intersecting_face_pairs 147.0 -> 162.0",
+      "pullup_hang/torso: region_min_ratio 0.891 -> 0.87",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.654",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.86"
+    ],
+    "poses": 15
+  },
+  "r25": {
+    "failed_checks": 8,
+    "regressions_vs_R2": 10,
+    "improvements_vs_R2": 90,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "275411522e09691dab57f00104a492e637ec2503daa3b30e954d60ea5b0159e0",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.545",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: edge_ratio_p99 1.679 -> 1.73",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_bar/torso: region_min_ratio 0.891 -> 0.87",
+      "pullup_hang: edge_ratio_p99 1.675 -> 1.73",
+      "pullup_hang/torso: region_min_ratio 0.891 -> 0.87",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.654",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.86",
+      "pushup_bottom/hand: region_max_ratio 1.915 -> 2.083"
+    ],
+    "poses": 15
+  },
+  "r26": {
+    "failed_checks": 8,
+    "regressions_vs_R2": 8,
+    "improvements_vs_R2": 92,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "ae18941e3d82dac71a3f80721e3863ff26e79f3429378121046ad60ec0bd9855",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: edge_ratio_p99 1.679 -> 1.751",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_hang: edge_ratio_p99 1.675 -> 1.739",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861",
+      "pushup_bottom/hand: region_max_ratio 1.915 -> 2.082"
+    ],
+    "poses": 15
+  },
+  "r27": {
+    "failed_checks": 8,
+    "regressions_vs_R2": 8,
+    "improvements_vs_R2": 91,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "86afebea7c313c6c10b92d70bd696af8301d14a02932926c07c0eb688f47afe6",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top: edge_ratio_p99 1.679 -> 1.734",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_hang: edge_ratio_p99 1.675 -> 1.728",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861",
+      "pushup_bottom/hand: region_max_ratio 1.915 -> 2.031"
+    ],
+    "poses": 15
+  }
+}

@@ -52,7 +52,7 @@
     },
     "docs/FINAL_CHARACTER_RUNTIME_PLAN.md": {
       "category": "current_technical",
-      "note": "Production character runtime replacement path."
+      "note": "Current production-character cutover and deny-by-default ORIGINAL v1 promotion path."
     },
     "docs/FIRST_PARTY_FINAL_BUILD_PATH.md": {
       "category": "current_technical",
@@ -68,7 +68,7 @@
     },
     "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md": {
       "category": "current_technical",
-      "note": "Current Blender O2 task handoff."
+      "note": "O1/O2 clean-room setup/provenance and recovery record. Active Blender repair work has progressed to the O4 deformation handoff on the isolated model branch."
     },
     "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
       "category": "current_technical",

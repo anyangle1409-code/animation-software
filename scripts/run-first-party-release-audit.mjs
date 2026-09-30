@@ -7,6 +7,7 @@ const ROOT=process.cwd();
 const checks=[
   ["standalone_source","scripts/run-standalone-audit.mjs",[]],
   ["production_output","scripts/audit-production-output.mjs",["dist"]],
+  ["release_components","scripts/audit-first-party-release-components.mjs",[]],
   ["release_allowlist","scripts/audit-release-allowlist.mjs",["dist"]],
 ];
 

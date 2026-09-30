@@ -132,5 +132,17 @@
     }
   ],
   "authority": "docs/CURRENT_HANDOFF.md",
-  "documentation_manifest": "DOCUMENTATION_MANIFEST.json"
+  "documentation_manifest": "DOCUMENTATION_MANIFEST.json",
+  "required_release_component_ids": [
+    "runtime_exercise_engine",
+    "runtime_ui",
+    "runtime_scene_bridge",
+    "runtime_renderer_math_gltf",
+    "runtime_state",
+    "male_character",
+    "male_shorts",
+    "canonical_rig",
+    "equipment_geometry",
+    "exercise_animation_data"
+  ]
 }

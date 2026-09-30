@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { Bone, Euler, Group, Quaternion, Vector3 } from 'three';
+import { HgBone, HgGroup } from '../core/sceneGraph';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
-import { EULER_ORDER } from '../rig/types';
 import { METACARPAL_BONES } from '../rig/boneNames';
 import type { BoneName } from '../rig/boneNames';
 import { generateClip } from '../animation/generate';
@@ -30,13 +30,13 @@ const R = Math.PI / 180;
  * with each side's geometry on the other side of the body to exercise mirroring.
  */
 function palmCharacter(mirrored: boolean, biased = true) {
-  const root = new Group();
-  const bones = new Map<string, Bone>();
+  const root = new HgGroup();
+  const bones = new Map<string, HgBone>();
   const swap = (name: string) => (mirrored ? name.replace(/_([lr])$/, (_, s) => (s === 'l' ? '_r' : '_l')) : name);
   for (const definition of rig.bones) {
     // A mirrored character's bone named `_l` has the geometry of the rig's `_r`.
     const source = rig.bone(swap(definition.name) as BoneName);
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = definition.name;
     bone.position.set(source.offset.x, source.offset.y, source.offset.z);
     bone.quaternion.set(
@@ -46,11 +46,11 @@ function palmCharacter(mirrored: boolean, biased = true) {
       source.restLocalQuaternion.w,
     );
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
-    const rotate = (axis: Vector3, degrees: number) =>
-      bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
-    if (biased && /^hand_/.test(definition.name)) rotate(new Vector3(0, 0, 1), side * 14);
-    if (biased && /^metacarpal_/.test(definition.name)) rotate(new Vector3(0.3, 1, 0.2).normalize(), side * 23);
-    if (biased && /^(index|middle|ring|pinky)_01_/.test(definition.name)) rotate(new Vector3(1, 0, 0), 12);
+    const rotate = (axis: HgVec3, degrees: number) =>
+      bone.quaternion.multiply(new HgQuat().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
+    if (biased && /^hand_/.test(definition.name)) rotate(new HgVec3(0, 0, 1), side * 14);
+    if (biased && /^metacarpal_/.test(definition.name)) rotate(new HgVec3(0.3, 1, 0.2).normalize(), side * 23);
+    if (biased && /^(index|middle|ring|pinky)_01_/.test(definition.name)) rotate(new HgVec3(1, 0, 0), 12);
     bones.set(definition.name, bone);
     if (definition.parent) bones.get(definition.parent)!.add(bone);
     else root.add(bone);
@@ -112,15 +112,15 @@ describe('a character with palm bones', () => {
     applyRetarget(binding, pose);
     const hand = character.bones.get('hand_l')!;
     const palm = character.bones.get('metacarpal_pinky_l')!;
-    const relativeAtRest = hand.getWorldQuaternion(new Quaternion()).invert().multiply(palm.getWorldQuaternion(new Quaternion()));
+    const relativeAtRest = hand.getWorldQuaternion(new HgQuat()).invert().multiply(palm.getWorldQuaternion(new HgQuat()));
 
     // Cup the little finger's metacarpal: 20° of flexion, 10° towards the thumb.
     pose.rotations.metacarpal_pinky_l = { x: 0, y: 10 * R, z: 20 * R };
     applyRetarget(binding, pose);
     evaluation.apply(pose);
-    const relative = hand.getWorldQuaternion(new Quaternion()).invert().multiply(palm.getWorldQuaternion(new Quaternion()));
+    const relative = hand.getWorldQuaternion(new HgQuat()).invert().multiply(palm.getWorldQuaternion(new HgQuat()));
     const turned = (2 * Math.acos(Math.min(1, Math.abs(relativeAtRest.clone().invert().multiply(relative).w)))) / R;
-    const canonical = (2 * Math.acos(Math.min(1, Math.abs(new Quaternion().setFromEuler(new Euler(0, 10 * R, 20 * R, EULER_ORDER)).w)))) / R;
+    const canonical = (2 * Math.acos(Math.min(1, Math.abs(new HgQuat().setFromEulerXZY(0, 10 * R, 20 * R).w)))) / R;
     expect(canonical).toBeGreaterThan(20);
     // The palm bone turns relative to its hand by exactly the metacarpal's angle.
     expect(Math.abs(turned - canonical)).toBeLessThan(1e-6);
@@ -132,22 +132,22 @@ describe('a character with palm bones', () => {
     // any palm bone moves). Checked on the characters whose rest geometry is
     // the rig's own; a rolled rest carries its knuckles somewhere else.
     if (biased) return;
-    const swing = (base: Vector3, before: Vector3, after: Vector3) => ({
+    const swing = (base: HgVec3, before: HgVec3, after: HgVec3) => ({
       radius: before.distanceTo(base),
       angle: before.clone().sub(base).angleTo(after.clone().sub(base)) / R,
     });
-    const at = (name: string) => character.bones.get(name)!.getWorldPosition(new Vector3());
+    const at = (name: string) => character.bones.get(name)!.getWorldPosition(new HgVec3());
     const rest = restPose();
     applyRetarget(binding, rest);
     evaluation.apply(rest);
     const baseRest = at('metacarpal_pinky_l');
     const knuckleRest = at('pinky_01_l');
-    const rigBase = evaluation.head('metacarpal_pinky_l', new Vector3());
-    const rigKnuckleRest = evaluation.head('pinky_01_l', new Vector3());
+    const rigBase = evaluation.head('metacarpal_pinky_l', new HgVec3());
+    const rigKnuckleRest = evaluation.head('pinky_01_l', new HgVec3());
     applyRetarget(binding, pose);
     evaluation.apply(pose);
     const moved = swing(baseRest, knuckleRest, at('pinky_01_l').sub(at('metacarpal_pinky_l')).add(baseRest));
-    const expected = swing(rigBase, rigKnuckleRest, evaluation.head('pinky_01_l', new Vector3()).sub(evaluation.head('metacarpal_pinky_l', new Vector3())).add(rigBase));
+    const expected = swing(rigBase, rigKnuckleRest, evaluation.head('pinky_01_l', new HgVec3()).sub(evaluation.head('metacarpal_pinky_l', new HgVec3())).add(rigBase));
     // 20° exactly: the 10° about the metacarpal's own axis cannot swing a
     // knuckle that lies on that axis; the flexion does.
     expect(expected.angle).toBeCloseTo(20, 9);
@@ -162,17 +162,17 @@ describe('a character with palm bones', () => {
     // Measured from the hand's geometry — wrist to knuckle centre, and across
     // the knuckle fan — so it reads the same on a mirrored character, whose bone
     // frames belong to the other side's geometry.
-    const handAxes = (point: (name: string) => Vector3) => {
+    const handAxes = (point: (name: string) => HgVec3) => {
       const wrist = point('hand_l');
       const knuckles = ['index', 'middle', 'ring', 'pinky'].map((finger) => point(`${finger}_01_l`));
-      const centre = knuckles.reduce((sum, knuckle) => sum.add(knuckle), new Vector3()).multiplyScalar(0.25);
+      const centre = knuckles.reduce((sum, knuckle) => sum.add(knuckle), new HgVec3()).multiplyScalar(0.25);
       return [centre.sub(wrist), knuckles[0].clone().sub(knuckles[3])];
     };
     applyRetarget(binding, rest);
     evaluation.apply(rest);
-    const flip = (v: Vector3) => (mirrored ? new Vector3(-v.x, v.y, v.z) : v);
+    const flip = (v: HgVec3) => (mirrored ? new HgVec3(-v.x, v.y, v.z) : v);
     const characterAxes = handAxes((name) => flip(at(name)));
-    const rigAxes = handAxes((name) => evaluation.head(name as BoneName, new Vector3()));
+    const rigAxes = handAxes((name) => evaluation.head(name as BoneName, new HgVec3()));
     const handOffset = Math.max(...characterAxes.map((axis, index) => axis.angleTo(rigAxes[index]) / R));
     expect(handOffset).toBeLessThan(mirrored ? 5.6 : 0.6);
     expect(Math.abs(moved.angle - expected.angle)).toBeLessThan(Math.min(handOffset, 0.1));

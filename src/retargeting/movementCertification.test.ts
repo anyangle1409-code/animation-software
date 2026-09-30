@@ -1,4 +1,5 @@
-import { Bone, Group, Quaternion, Vector3 } from 'three';
+import { HgBone, HgGroup } from '../core/sceneGraph';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
@@ -9,13 +10,11 @@ import { pushUp } from '../exercises/definitions/pushUp';
 import { shoulderPress } from '../exercises/definitions/shoulderPress';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import { HgQuat } from '../core/linearMath';
 import type { BoneMapping } from './boneMap';
 import { createMapping, guessMapping } from './boneMap';
 import type { TargetCharacter } from './retarget';
 import { applyRetarget, bindRetarget, readCharacter } from './retarget';
 import { describe, expect, it } from 'vitest';
-import { asThreeMatrix } from '../test/threeInterop';
 
 const rig = canonicalSkeleton;
 const MAX_DIRECTION_ERROR = 0.01; // radians, about 0.57 degrees
@@ -28,17 +27,17 @@ const MAX_PALM_DIRECTION_ERROR = 0.02; // radians, about 1.15 degrees
  * pass.  The absolute retargeter must still reproduce every exercise pose.
  */
 function biasedCharacter() {
-  const root = new Group();
-  const bones = new Map<BoneName, Bone>();
+  const root = new HgGroup();
+  const bones = new Map<BoneName, HgBone>();
 
-  const rotate = (bone: Bone, axis: Vector3, degrees: number) => {
+  const rotate = (bone: HgBone, axis: HgVec3, degrees: number) => {
     bone.quaternion.multiply(
-      new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180),
+      new HgQuat().setFromAxisAngle(axis, (degrees * Math.PI) / 180),
     );
   };
 
   for (const definition of rig.bones) {
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = definition.name;
     bone.position.set(definition.offset.x, definition.offset.y, definition.offset.z);
     bone.quaternion.set(
@@ -49,16 +48,16 @@ function biasedCharacter() {
     );
 
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
-    if (definition.name === 'spine_01') rotate(bone, new Vector3(1, 0, 0), 9);
-    if (definition.name === 'spine_02') rotate(bone, new Vector3(0, 0, 1), -7);
-    if (/^upperarm_[lr]$/.test(definition.name)) rotate(bone, new Vector3(0, 0, 1), side * 48);
-    if (/^forearm_[lr]$/.test(definition.name)) rotate(bone, new Vector3(1, 0, 0), 17);
-    if (/^hand_[lr]$/.test(definition.name)) rotate(bone, new Vector3(0, 0, 1), side * 14);
-    if (/^thigh_[lr]$/.test(definition.name)) rotate(bone, new Vector3(1, 0, 0), side * 18);
-    if (/^shin_[lr]$/.test(definition.name)) rotate(bone, new Vector3(1, 0, 0), -11);
-    if (/^foot_[lr]$/.test(definition.name)) rotate(bone, new Vector3(1, 0, 0), 8);
+    if (definition.name === 'spine_01') rotate(bone, new HgVec3(1, 0, 0), 9);
+    if (definition.name === 'spine_02') rotate(bone, new HgVec3(0, 0, 1), -7);
+    if (/^upperarm_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(0, 0, 1), side * 48);
+    if (/^forearm_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(1, 0, 0), 17);
+    if (/^hand_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(0, 0, 1), side * 14);
+    if (/^thigh_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(1, 0, 0), side * 18);
+    if (/^shin_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(1, 0, 0), -11);
+    if (/^foot_[lr]$/.test(definition.name)) rotate(bone, new HgVec3(1, 0, 0), 8);
     if (/^(thumb|index|middle|ring|pinky)_01_[lr]$/.test(definition.name)) {
-      rotate(bone, new Vector3(1, 0, 0), side * 18);
+      rotate(bone, new HgVec3(1, 0, 0), side * 18);
     }
 
     bones.set(definition.name, bone);
@@ -84,16 +83,16 @@ function targetDirection(
   character: TargetCharacter,
   mapping: BoneMapping,
   name: BoneName,
-): Vector3 {
+): HgVec3 {
   const targetName = mapping.bones[name]!;
-  const head = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(targetName)!.matrixWorld));
+  const head = new HgVec3().setFromMatrixPosition(character.bones.get(targetName)!.matrixWorld);
 
   if (name === 'hand_l' || name === 'hand_r') {
     const side = name.endsWith('_l') ? 'l' : 'r';
-    const palm = new Vector3();
+    const palm = new HgVec3();
     for (const root of palmRoots(side)) {
       const mapped = mapping.bones[root]!;
-      palm.add(new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mapped)!.matrixWorld)));
+      palm.add(new HgVec3().setFromMatrixPosition(character.bones.get(mapped)!.matrixWorld));
     }
     palm.multiplyScalar(0.25);
     return palm.sub(head).normalize();
@@ -102,24 +101,24 @@ function targetDirection(
   const child = rig.bone(name).children[0];
   expect(child, `${name} must have a child for direction certification`).toBeDefined();
   const mappedChild = mapping.bones[child]!;
-  const tail = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mappedChild)!.matrixWorld));
+  const tail = new HgVec3().setFromMatrixPosition(character.bones.get(mappedChild)!.matrixWorld);
   return tail.sub(head).normalize();
 }
 
-function expectedDirection(evaluation: PoseEvaluation, name: BoneName): Vector3 {
-  const head = evaluation.head(name, new Vector3());
+function expectedDirection(evaluation: PoseEvaluation, name: BoneName): HgVec3 {
+  const head = evaluation.head(name, new HgVec3());
 
   if (name === 'hand_l' || name === 'hand_r') {
     const side = name.endsWith('_l') ? 'l' : 'r';
-    const palm = new Vector3();
-    for (const root of palmRoots(side)) palm.add(evaluation.head(root, new Vector3()));
+    const palm = new HgVec3();
+    for (const root of palmRoots(side)) palm.add(evaluation.head(root, new HgVec3()));
     palm.multiplyScalar(0.25);
     return palm.sub(head).normalize();
   }
 
   const child = rig.bone(name).children[0];
   expect(child, `${name} must have a child for direction certification`).toBeDefined();
-  return evaluation.head(child, new Vector3()).sub(head).normalize();
+  return evaluation.head(child, new HgVec3()).sub(head).normalize();
 }
 
 function certifyExercise(definition: ExerciseDefinition, names: BoneName[]) {
@@ -232,11 +231,11 @@ describe('whole-body imported-character movement certification', () => {
  * elbow joint is where the canonical rig puts it, relative to the chest.
  */
 function flattenedCharacter() {
-  const root = new Group();
-  const bones = new Map<string, Bone>();
+  const root = new HgGroup();
+  const bones = new Map<string, HgBone>();
   for (const definition of rig.bones) {
     if (/^scapula_[lr]$/.test(definition.name)) continue;
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = definition.name;
     // Rest transform relative to the nearest ancestor this character has.
     // This character has no scapulae: its upper arms hang from the clavicles.
@@ -252,11 +251,11 @@ function flattenedCharacter() {
     const localRotation = inverseParent.clone().multiply(definition.restWorldQuaternion);
     bone.quaternion.set(localRotation.x, localRotation.y, localRotation.z, localRotation.w);
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
-    const rotate = (axis: Vector3, degrees: number) =>
-      bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
-    if (/^clavicle_[lr]$/.test(definition.name)) rotate(new Vector3(0, 0, 1), side * 11);
-    if (/^upperarm_[lr]$/.test(definition.name)) rotate(new Vector3(0, 0, 1), side * 48);
-    if (/^forearm_[lr]$/.test(definition.name)) rotate(new Vector3(1, 0, 0), 17);
+    const rotate = (axis: HgVec3, degrees: number) =>
+      bone.quaternion.multiply(new HgQuat().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
+    if (/^clavicle_[lr]$/.test(definition.name)) rotate(new HgVec3(0, 0, 1), side * 11);
+    if (/^upperarm_[lr]$/.test(definition.name)) rotate(new HgVec3(0, 0, 1), side * 48);
+    if (/^forearm_[lr]$/.test(definition.name)) rotate(new HgVec3(1, 0, 0), 17);
     // The thighs are flattened below but not rolled. A rolled thigh turns the
     // feet, the retargeter reads the character's facing from its feet, and the
     // whole body is then re-aligned by 0.35° — which the connected case above
@@ -295,7 +294,7 @@ function certifyFlattened(definition: ExerciseDefinition, names: BoneName[]) {
   const clip = generateClip(rig, definition);
   const evaluation = new PoseEvaluation(rig);
   const position = (bone: BoneName) =>
-    new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mapping.bones[bone]!)!.matrixWorld));
+    new HgVec3().setFromMatrixPosition(character.bones.get(mapping.bones[bone]!)!.matrixWorld);
   let worstDirection = 0;
   let worstJoint = 0;
 
@@ -307,7 +306,7 @@ function certifyFlattened(definition: ExerciseDefinition, names: BoneName[]) {
     for (const name of names) {
       const child = mappedChild(mapping, name)!;
       const target = position(child).sub(position(name)).normalize();
-      const expected = evaluation.head(child, new Vector3()).sub(evaluation.head(name, new Vector3())).normalize();
+      const expected = evaluation.head(child, new HgVec3()).sub(evaluation.head(name, new HgVec3())).normalize();
       const error = target.angleTo(expected);
       worstDirection = Math.max(worstDirection, error);
       expect(error, `${definition.id} ${name} at ${fraction}`).toBeLessThan(MAX_DIRECTION_ERROR);
@@ -315,9 +314,9 @@ function certifyFlattened(definition: ExerciseDefinition, names: BoneName[]) {
     // Where the joints are, relative to the chest: a detached upper arm keeps
     // pointing the right way while its shoulder stays behind.
     const chest = position('spine_03');
-    const canonicalChest = evaluation.head('spine_03', new Vector3());
+    const canonicalChest = evaluation.head('spine_03', new HgVec3());
     for (const joint of ['upperarm_l', 'upperarm_r', 'forearm_l', 'forearm_r'] as BoneName[]) {
-      const offset = position(joint).sub(chest).distanceTo(evaluation.head(joint, new Vector3()).sub(canonicalChest));
+      const offset = position(joint).sub(chest).distanceTo(evaluation.head(joint, new HgVec3()).sub(canonicalChest));
       worstJoint = Math.max(worstJoint, offset);
       expect(offset, `${definition.id} ${joint} joint at ${fraction}`).toBeLessThan(MAX_JOINT_ERROR);
     }
@@ -365,12 +364,12 @@ describe('flattened-hierarchy movement certification, collarbone included', () =
  * mirrored one must have too, bone for bone, and nothing more.
  */
 function sidedCharacter(mirrored: boolean) {
-  const root = new Group();
-  const bones = new Map<string, Bone>();
+  const root = new HgGroup();
+  const bones = new Map<string, HgBone>();
   const swap = (name: string) => (mirrored ? name.replace(/_([lr])$/, (_, s) => (s === 'l' ? '_r' : '_l')) : name);
   for (const definition of rig.bones) {
     const source = rig.bone(swap(definition.name) as BoneName);
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = definition.name;
     bone.position.set(source.offset.x, source.offset.y, source.offset.z);
     bone.quaternion.set(
@@ -382,10 +381,10 @@ function sidedCharacter(mirrored: boolean) {
     // Rolled rests on the hand and every digit, so the binding has to work
     // out each one's anatomical frame rather than inherit it.
     const side = definition.name.endsWith('_l') ? 1 : definition.name.endsWith('_r') ? -1 : 0;
-    const rotate = (axis: Vector3, degrees: number) =>
-      bone.quaternion.multiply(new Quaternion().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
-    if (/^hand_/.test(definition.name)) rotate(new Vector3(0, 1, 0), side * 21);
-    if (/^(thumb|index|middle|ring|pinky)_0[123]_/.test(definition.name)) rotate(new Vector3(0, 1, 0), side * 17);
+    const rotate = (axis: HgVec3, degrees: number) =>
+      bone.quaternion.multiply(new HgQuat().setFromAxisAngle(axis, (degrees * Math.PI) / 180));
+    if (/^hand_/.test(definition.name)) rotate(new HgVec3(0, 1, 0), side * 21);
+    if (/^(thumb|index|middle|ring|pinky)_0[123]_/.test(definition.name)) rotate(new HgVec3(0, 1, 0), side * 17);
     bones.set(definition.name, bone);
     if (definition.parent) bones.get(definition.parent)!.add(bone);
     else root.add(bone);
@@ -411,7 +410,7 @@ function sidedErrors(mirrored: boolean, definition: ExerciseDefinition) {
   const evaluation = new PoseEvaluation(rig);
   // Positions read back on the rig's side of the body.
   const at = (name: string) => {
-    const position = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(name)!.matrixWorld));
+    const position = new HgVec3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
     return mirrored ? position.setX(-position.x) : position;
   };
   const errors: number[] = [];
@@ -425,13 +424,13 @@ function sidedErrors(mirrored: boolean, definition: ExerciseDefinition) {
         : (rig.bone(name).children.find((next) => !next.startsWith('metacarpal_')) ?? rig.bone(name).children[0]);
       if (child) {
         errors.push(at(child).sub(at(name)).angleTo(
-          evaluation.head(child, new Vector3()).sub(evaluation.head(name, new Vector3()))));
+          evaluation.head(child, new HgVec3()).sub(evaluation.head(name, new HgVec3()))));
       }
     }
     // The hand's roll: its knuckle fan, index to little finger.
     for (const side of ['l', 'r'] as const) {
       errors.push(at(`index_01_${side}`).sub(at(`pinky_01_${side}`)).angleTo(
-        evaluation.head(`index_01_${side}`, new Vector3()).sub(evaluation.head(`pinky_01_${side}`, new Vector3()))));
+        evaluation.head(`index_01_${side}`, new HgVec3()).sub(evaluation.head(`pinky_01_${side}`, new HgVec3()))));
     }
   }
   return errors;

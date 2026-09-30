@@ -759,7 +759,7 @@ function ikFromSpecForSkeleton(
 ): Partial<Record<IKChainId, KeyframeIK>> {
   const out: Partial<Record<IKChainId, KeyframeIK>> = {};
   const hasArmIK = Object.entries(spec.ik ?? {}).some(
-    ([chain, value]) => Boolean(value?.enabled ?? value) && chain.startsWith('arm'),
+    ([chain, value]) => Boolean(value) && chain.startsWith('arm'),
   );
 
   let referenceEvaluation: PoseEvaluation | null = null;

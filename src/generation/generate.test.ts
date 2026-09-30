@@ -22,6 +22,8 @@ import { splitSquat } from '../exercises/definitions/splitSquat';
 import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
 import { pushUp } from '../exercises/definitions/pushUp';
+import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
+import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -210,6 +212,36 @@ describe('generating on the clean first-party fallback', () => {
         expect(result.report?.checks.every((check) => check.status === 'pass'), detail).toBe(true);
         expect(result.report?.character, detail).toBe(proceduralCharacter.label);
         expect(result.validations, detail).toBeGreaterThan(0);
+      }
+    },
+    180_000,
+  );
+
+  it(
+    'measures accepted hinge and row references on the clean fallback before generator certification',
+    () => {
+      for (const exercise of [romanianDeadlift, bentOverRow]) {
+        const report = validateCandidate(
+          { rig, character, reference: exercise },
+          exercise,
+          generateClip(rig, exercise),
+          (definition) => generateClip(rig, definition),
+        );
+        const detail = JSON.stringify({
+          id: exercise.id,
+          passed: report.passed,
+          failed: report.failed,
+          skipped: report.skipped,
+          checks: report.checks.map((check) => ({
+            id: check.id,
+            status: check.status,
+            measured: check.measured,
+            note: check.note,
+          })),
+        });
+        expect(report.skipped, detail).toEqual([]);
+        expect(report.failed, detail).toEqual([]);
+        expect(report.passed, detail).toBe(true);
       }
     },
     180_000,

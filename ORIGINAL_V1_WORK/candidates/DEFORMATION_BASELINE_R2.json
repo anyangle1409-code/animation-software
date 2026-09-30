@@ -12,8 +12,9 @@
       "git_blob_sha": "c6b5c5af17d08846afb2a4955ca68e0d839f1e3f"
     },
     "grip_report": {
-      "path": "ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json",
-      "git_blob_sha": "942848e52a3624feef829bb6458d27ffce2bc25e"
+      "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+      "git_blob_sha": "c6b5c5af17d08846afb2a4955ca68e0d839f1e3f",
+      "note": "Grip metrics are embedded in the full R2 pose report; this covers both curl_handle and pullup_bar. grip_test_report_r1.json remains supplemental historical evidence."
     },
     "acceptance_spec": {
       "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
@@ -22,8 +23,8 @@
     }
   },
   "evaluation": {
-    "development_blocker_failed_checks": 52,
-    "production_target_failed_checks": 131,
+    "development_blocker_failed_checks": 54,
+    "production_target_failed_checks": 133,
     "development_failure_counts_by_pose": {
       "press_top_rhythm": 7,
       "pullup_hang_rhythm": 6,
@@ -36,7 +37,7 @@
       "lunge": 3,
       "row": 3,
       "grip": 3,
-      "pullup_bar": 2,
+      "pullup_bar": 4,
       "squat_bottom": 1,
       "pushup_bottom": 1,
       "neutral": 0
@@ -47,8 +48,8 @@
       "shoulder": 10,
       "torso": 4,
       "pelvis": 1,
-      "grip_l": 1,
-      "grip_r": 1
+      "grip_l": 2,
+      "grip_r": 2
     }
   },
   "known_control": {
@@ -57,9 +58,11 @@
   },
   "known_grip_blocker": {
     "curl_handle_max_penetration_mm_left": 5.93,
-    "curl_handle_max_penetration_mm_right": 5.93
+    "curl_handle_max_penetration_mm_right": 5.93,
+    "pullup_bar_max_penetration_mm_left": 5.93,
+    "pullup_bar_max_penetration_mm_right": 5.93
   },
-  "comparison_rule": "Future repairs should reduce failed checks without increasing the failed-check count of any baseline pose or grip. Use scripts/compare_original_v1_deformation_reports.py.",
+  "comparison_rule": "Future repairs should reduce failed checks without increasing the failed-check count or materially worsening severity for any baseline pose/grip. Use scripts/compare_original_v1_deformation_reports.py.",
   "provenance_rule": "V8-V15f material remains reference-only. This baseline records ORIGINAL v1 candidate measurements only and authorizes no copying from legacy/reference assets.",
   "status": "candidate_baseline_not_production"
 }

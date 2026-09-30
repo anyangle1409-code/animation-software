@@ -1,0 +1,611 @@
+import type { BoneName, Finger, MetacarpalFinger, Side } from './boneNames';
+import { FINGERS, METACARPAL_FINGERS, SIDES } from './boneNames';
+import type { AxisLimit, BoneDefinition, JointLimits, Vec3 } from './types';
+import { vec3 } from './types';
+
+/**
+ * Frozen first-party exercise-authoring reference geometry: roughly a 1.75 m
+ * adult, standing on the floor at
+ * the origin, facing +Z. The character's left is world -X (the side you see on
+ * the right of the screen from the default front camera).
+ *
+ * The arms hang vertically at rest so that a shoulder abduction angle means
+ * exactly what it says — a rig with built-in splay quietly adds a few degrees
+ * to every angle an exercise author writes down.
+ *
+ * This is NOT the live runtime rig. It preserves the coordinate system in
+ * which the exercise library was originally authored so active canonical rigs
+ * can translate body-relative targets deterministically.
+ *
+ * Rest positions are authored in world space because that is how a body is
+ * actually measured; the bone-local frames and parent-relative offsets are
+ * derived from them in `skeleton.ts`.
+ */
+
+const limit = (min: number, max: number, positive: string, negative: string): AxisLimit => ({
+  min,
+  max,
+  positive,
+  negative,
+});
+
+const joint = (
+  x: AxisLimit | null,
+  y: AxisLimit | null,
+  z: AxisLimit | null,
+): JointLimits => ({ x, y, z });
+
+/** Free joint, used for the root and as a permissive default. */
+const free = (): JointLimits =>
+  joint(
+    limit(-180, 180, 'Pitch up', 'Pitch down'),
+    limit(-180, 180, 'Yaw left', 'Yaw right'),
+    limit(-180, 180, 'Roll right', 'Roll left'),
+  );
+
+/** Mirror a single axis limit for the opposite side of the body. */
+function mirrorLimit(axis: AxisLimit | null): AxisLimit | null {
+  if (!axis) return null;
+  return { min: -axis.max, max: -axis.min, positive: axis.negative, negative: axis.positive };
+}
+
+/**
+ * Flexion (x) has the same sign on both sides of the body; axial rotation (y)
+ * and abduction (z) are handed, so they flip.
+ */
+function mirrorLimits(limits: JointLimits): JointLimits {
+  return { x: limits.x, y: mirrorLimit(limits.y), z: mirrorLimit(limits.z) };
+}
+
+const mirrorVec = (v: Vec3): Vec3 => vec3(-v.x, v.y, v.z);
+
+/** Produce the right-side twin of a left-side bone definition. */
+function mirrorBone(bone: BoneDefinition): BoneDefinition {
+  const swap = (name: BoneName | null): BoneName | null =>
+    name && name.endsWith('_l') ? (`${name.slice(0, -2)}_r` as BoneName) : name;
+  return {
+    ...bone,
+    name: swap(bone.name) as BoneName,
+    parent: swap(bone.parent),
+    head: mirrorVec(bone.head),
+    tail: mirrorVec(bone.tail),
+    limits: mirrorLimits(bone.limits),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Spine, head and root
+// ---------------------------------------------------------------------------
+
+const CENTRE_BONES: BoneDefinition[] = [
+  {
+    name: 'root',
+    parent: null,
+    head: vec3(0, 0, 0),
+    tail: vec3(0, 0.2, 0),
+    limits: free(),
+    radius: 0.05,
+  },
+  {
+    name: 'pelvis',
+    parent: 'root',
+    head: vec3(0, 0.95, 0),
+    tail: vec3(0, 1.03, 0),
+    limits: joint(
+      limit(-45, 45, 'Anterior tilt', 'Posterior tilt'),
+      limit(-45, 45, 'Rotation right', 'Rotation left'),
+      limit(-30, 30, 'Hike left', 'Hike right'),
+    ),
+    radius: 0.115,
+  },
+  {
+    name: 'spine_01',
+    parent: 'pelvis',
+    head: vec3(0, 1.03, 0),
+    tail: vec3(0, 1.15, 0),
+    limits: joint(
+      limit(-15, 30, 'Flexion', 'Extension'),
+      limit(-12, 12, 'Rotation right', 'Rotation left'),
+      limit(-22, 22, 'Side bend left', 'Side bend right'),
+    ),
+    radius: 0.105,
+  },
+  {
+    name: 'spine_02',
+    parent: 'spine_01',
+    head: vec3(0, 1.15, 0),
+    tail: vec3(0, 1.27, 0),
+    limits: joint(
+      limit(-12, 25, 'Flexion', 'Extension'),
+      limit(-20, 20, 'Rotation right', 'Rotation left'),
+      limit(-20, 20, 'Side bend left', 'Side bend right'),
+    ),
+    radius: 0.11,
+  },
+  {
+    name: 'spine_03',
+    parent: 'spine_02',
+    head: vec3(0, 1.27, 0),
+    tail: vec3(0, 1.42, 0),
+    limits: joint(
+      limit(-10, 20, 'Flexion', 'Extension'),
+      limit(-25, 25, 'Rotation right', 'Rotation left'),
+      limit(-18, 18, 'Side bend left', 'Side bend right'),
+    ),
+    radius: 0.125,
+  },
+  {
+    name: 'neck',
+    parent: 'spine_03',
+    head: vec3(0, 1.42, 0),
+    tail: vec3(0, 1.52, 0),
+    limits: joint(
+      limit(-45, 40, 'Flexion', 'Extension'),
+      limit(-55, 55, 'Rotation right', 'Rotation left'),
+      limit(-35, 35, 'Side bend left', 'Side bend right'),
+    ),
+    radius: 0.055,
+  },
+  {
+    name: 'head',
+    parent: 'neck',
+    head: vec3(0, 1.52, 0),
+    tail: vec3(0, 1.75, 0),
+    limits: joint(
+      limit(-20, 20, 'Flexion', 'Extension'),
+      limit(-25, 25, 'Rotation right', 'Rotation left'),
+      limit(-15, 15, 'Side bend left', 'Side bend right'),
+    ),
+    radius: 0.095,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Left arm and leg — the right side is generated by mirroring
+// ---------------------------------------------------------------------------
+
+const LEFT_BONES: BoneDefinition[] = [
+  {
+    name: 'clavicle_l',
+    parent: 'spine_03',
+    head: vec3(-0.02, 1.42, 0.012),
+    // The clavicle angles back from the sternoclavicular joint to the acromion.
+    // It used to run almost straight out (4.5° of posterior angle), which put
+    // the shoulder girdle — and with it the whole arm — in front of the
+    // ribcage, reading as a forward shoulder ledge in side view. A real
+    // clavicle angles back 15-20°; this tail gives 17.5°, and the arm chain
+    // below follows it so the deltoid stacks over the humerus.
+    tail: vec3(-0.17, 1.44, -0.035),
+    limits: joint(
+      limit(-18, 18, 'Protraction', 'Retraction'),
+      null,
+      limit(-25, 10, 'Depression', 'Elevation'),
+    ),
+    radius: 0.035,
+  },
+  {
+    // The shoulder blade, hinged to the clavicle at the acromioclavicular joint
+    // and carrying the arm. Its head is the clavicle's tail (which the widening
+    // below moves with it); its tail is the inferior angle, 2 cm under the back
+    // skin measured on the production character (-169 mm at 85 mm from the
+    // midline, 1.25 m up), so the bone lies along the blade's lateral border.
+    //
+    // It is structural only. Nothing drives it: every exercise leaves it at
+    // rest, and at rest the arm below it is where it always was — the upper
+    // arm keeps its world rest frame, and its local angles still mean exactly
+    // what they meant under the clavicle. A scapulohumeral rhythm, and the
+    // weights that would let the back surface follow it, are later decisions.
+    //
+    // Axes, measured rather than assumed (left side, 10° each):
+    //   -z swings the inferior angle 36 mm out from the spine: upward rotation.
+    //      Pivoting at the acromion it also drops 25 mm; the rise real upward
+    //      rotation shows comes from the clavicle elevating above it.
+    //   +x drives the inferior angle 40 mm forward into the ribs: posterior tilt.
+    //   +y presses the medial border 14 mm in against the ribs: external
+    //      rotation, so winging is -y.
+    // The limits cover what a measured scapulohumeral rhythm asked for at full
+    // elevation (32.7° up, 18.7° of tilt), with margin. With nothing driving the
+    // bone, they constrain only hand edits.
+    name: 'scapula_l',
+    parent: 'clavicle_l',
+    head: vec3(-0.17, 1.44, -0.035),
+    tail: vec3(-0.09, 1.25, -0.15),
+    limits: joint(
+      limit(-10, 30, 'Posterior tilt', 'Anterior tilt'),
+      limit(-25, 25, 'External rotation', 'Internal rotation'),
+      limit(-45, 10, 'Downward rotation', 'Upward rotation'),
+    ),
+    radius: 0.03,
+  },
+  {
+    name: 'upperarm_l',
+    parent: 'scapula_l',
+    head: vec3(-0.17, 1.44, -0.035),
+    tail: vec3(-0.17, 1.14, -0.035),
+    limits: joint(
+      limit(-60, 180, 'Flexion', 'Extension'),
+      limit(-90, 90, 'External rotation', 'Internal rotation'),
+      limit(-180, 40, 'Adduction', 'Abduction'),
+    ),
+    radius: 0.05,
+  },
+  {
+    name: 'forearm_l',
+    parent: 'upperarm_l',
+    head: vec3(-0.17, 1.14, -0.035),
+    tail: vec3(-0.17, 0.88, -0.035),
+    limits: joint(
+      limit(-5, 150, 'Flexion', 'Extension'),
+      limit(-85, 85, 'Supination', 'Pronation'),
+      null,
+    ),
+    radius: 0.042,
+  },
+  {
+    name: 'hand_l',
+    parent: 'forearm_l',
+    head: vec3(-0.17, 0.88, -0.035),
+    tail: vec3(-0.17, 0.79, -0.035),
+    limits: joint(
+      limit(-30, 20, 'Radial deviation', 'Ulnar deviation'),
+      null,
+      limit(-70, 80, 'Flexion', 'Extension'),
+    ),
+    radius: 0.035,
+  },
+  {
+    name: 'thigh_l',
+    parent: 'pelvis',
+    head: vec3(-0.09, 0.92, 0),
+    tail: vec3(-0.082, 0.5, 0),
+    limits: joint(
+      limit(-25, 125, 'Flexion', 'Extension'),
+      limit(-40, 50, 'External rotation', 'Internal rotation'),
+      limit(-45, 25, 'Adduction', 'Abduction'),
+    ),
+    radius: 0.08,
+  },
+  {
+    name: 'shin_l',
+    parent: 'thigh_l',
+    head: vec3(-0.082, 0.5, 0),
+    tail: vec3(-0.082, 0.08, 0),
+    limits: joint(
+      limit(-150, 2, 'Extension', 'Flexion'),
+      limit(-15, 15, 'External rotation', 'Internal rotation'),
+      null,
+    ),
+    radius: 0.056,
+  },
+  {
+    name: 'foot_l',
+    parent: 'shin_l',
+    head: vec3(-0.082, 0.08, 0),
+    tail: vec3(-0.082, 0.025, 0.14),
+    limits: joint(
+      // Weight-bearing dorsiflexion reaches far past the passive range, and a
+      // squat needs it: the shin has to travel forward over a planted foot.
+      limit(-45, 35, 'Dorsiflexion', 'Plantarflexion'),
+      limit(-15, 25, 'Inversion', 'Eversion'),
+      limit(-10, 10, 'Adduction', 'Abduction'),
+    ),
+    radius: 0.04,
+  },
+  {
+    name: 'toe_l',
+    parent: 'foot_l',
+    head: vec3(-0.082, 0.025, 0.14),
+    tail: vec3(-0.082, 0.02, 0.21),
+    // The toes bend back up to 80°: the back foot of a lunge stands on its ball
+    // with the heel high, and the toes lie flat under it. 60° left the back foot
+    // unable to reach the floor at the bottom of a split squat.
+    limits: joint(limit(-35, 80, 'Extension', 'Flexion'), null, null),
+    radius: 0.028,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Fingers — generated, because 30 near-identical bones are not worth typing out
+// ---------------------------------------------------------------------------
+
+interface FingerSpec {
+  finger: Finger;
+  /** Knuckle position on the left hand, world space at rest. */
+  knuckle: Vec3;
+  /** Direction the finger points at rest (need not be normalised). */
+  direction: Vec3;
+  /** Length of each of the three segments, in metres. */
+  segments: [number, number, number];
+  radius: number;
+}
+
+/**
+ * At rest the arms hang with the palms facing the thighs, so the fingers spread
+ * along Z: the index finger sits towards the front of the body, the little
+ * finger towards the back.
+ *
+ * These are absolute world rest positions, so they carry the arm chain's own
+ * z offset (-0.035, from the clavicle's corrected rest angle). Leaving them on
+ * the old centre line would tilt the hand's measured axis by
+ * atan(0.035 / 0.09) = 21.3 deg, because the palm axis is derived from the mean
+ * knuckle position rather than from the hand bone's tail.
+ */
+const FINGER_SPECS: FingerSpec[] = [
+  {
+    finger: 'thumb',
+    knuckle: vec3(-0.163, 0.852, -0.013),
+    direction: vec3(0.06, -0.72, 0.69),
+    segments: [0.042, 0.032, 0.024],
+    radius: 0.011,
+  },
+  {
+    finger: 'index',
+    knuckle: vec3(-0.171, 0.789, -0.003),
+    direction: vec3(-0.01, -1, 0.02),
+    segments: [0.042, 0.026, 0.02],
+    radius: 0.0095,
+  },
+  {
+    finger: 'middle',
+    knuckle: vec3(-0.172, 0.788, -0.024),
+    direction: vec3(0, -1, 0),
+    segments: [0.046, 0.028, 0.021],
+    radius: 0.0095,
+  },
+  {
+    finger: 'ring',
+    knuckle: vec3(-0.171, 0.789, -0.045),
+    direction: vec3(0.005, -1, -0.015),
+    segments: [0.042, 0.026, 0.02],
+    radius: 0.009,
+  },
+  {
+    finger: 'pinky',
+    knuckle: vec3(-0.168, 0.792, -0.065),
+    direction: vec3(0.01, -1, -0.03),
+    segments: [0.034, 0.021, 0.017],
+    radius: 0.008,
+  },
+];
+
+/**
+ * Finger flexion curls towards the palm, which at rest faces the body. In the
+ * bone frame convention that puts flexion on the z axis, not x — the same as
+ * the wrist.
+ */
+function fingerLimits(segment: number, finger: Finger): JointLimits {
+  const isBase = segment === 0;
+  if (finger === 'thumb' && isBase) return thumbBaseLimits();
+  const flexion =
+    finger === 'thumb'
+      ? [-25, 60]
+      : segment === 0
+        ? [-30, 90]
+        : segment === 1
+          ? [-5, 110]
+          : [-5, 80];
+  return joint(
+    isBase ? limit(-14, 14, 'Spread towards thumb', 'Spread towards little finger') : null,
+    null,
+    limit(flexion[0], flexion[1], 'Flexion', 'Extension'),
+  );
+}
+
+/**
+ * The thumb's metacarpal. Its head is the carpometacarpal joint — the
+ * production character's `DEF-thumb.01` is the same bone, 45 mm long with the
+ * proximal phalanx as its child — so the joint that lets a thumb oppose is
+ * this bone's own, and three axes on it are the whole of it. A dedicated CMC
+ * bone was tested for and not needed: at the same pivot it adds nothing, and
+ * with this pivot the thumb pad already meets every fingertip pad.
+ *
+ * Measured, left hand, 10-20° each: -x sweeps the thumb across the palm
+ * towards the little finger, +z lifts it out of the palm plane, -y turns its
+ * pad towards the fingers. The ranges are what pad-to-pad opposition asked for
+ * with the metacarpal stood at least 30° out of the palm (0 mm gap, pads 150°
+ * or more face to face), searched for the least excursion that reaches it:
+ *
+ *   index  x -35  z 25     middle x -50  z 26
+ *   ring   x -55..-67 z 27-31   pinky x -85  z 25-30 (pinky metacarpal turned)
+ *   axial twist within ±6 throughout
+ *
+ * The sweep looks large because this thumb rests 44° out from the index in the
+ * palm plane; from that rest, reaching the little finger is the rest angle
+ * plus the ~45° of flexion a real carpometacarpal joint has. The old ±14 on x
+ * and -25..60 on z are kept inside the new ranges, so no existing pose moves.
+ */
+function thumbBaseLimits(): JointLimits {
+  return joint(
+    limit(-85, 20, 'Extension', 'Flexion across the palm'),
+    limit(-20, 20, 'Supination', 'Pronation'),
+    limit(-25, 60, 'Palmar abduction', 'Retroposition'),
+  );
+}
+
+/**
+ * Metacarpal lengths, adult male means — index 68, middle 65, ring 57, little
+ * 53 mm — for a 190 mm hand, scaled to this rig's 187 mm (wrist crease to the
+ * middle fingertip).
+ */
+const METACARPAL_LENGTH: Record<MetacarpalFinger, number> = {
+  index: 0.068,
+  middle: 0.065,
+  ring: 0.057,
+  pinky: 0.053,
+};
+const HAND_LENGTH = 0.187;
+const REFERENCE_HAND_LENGTH = 0.19;
+
+/**
+ * How far the metacarpal bases gather towards one another at the carpus: their
+ * spread is this fraction of the knuckles'. At 0.5 the four bases span 31 mm,
+ * the width of the distal carpal row; swept from 0.5 to 1.0 against the
+ * production character's hand, every metacarpal line stayed inside the skin,
+ * and 0.5 kept the bases furthest from it (10.6 to 14.6 mm).
+ */
+const METACARPAL_CONVERGENCE = 0.5;
+
+/**
+ * The palm's joints, measured against what the hand has to do.
+ *
+ * Power grip asked for none: in the dumbbell grip the little finger already
+ * lies 18.3 mm from the bar's centre line, against the grip test's 38 mm, and
+ * cupping only lifts it away. Opposition is what needs the palm — the little
+ * finger's metacarpal turned 10-15° towards the thumb and spread 5-8°, the
+ * ring's about 10° — and index and middle, as in a real hand, barely move.
+ *
+ * Axes, measured on the left little finger: +z flexes the knuckle palmward
+ * (cupping), +x spreads it towards the thumb side, +y turns the finger towards
+ * the thumb.
+ */
+function metacarpalLimits(finger: MetacarpalFinger): JointLimits {
+  const range: Record<MetacarpalFinger, { spread: number; turn: number; flexion: [number, number] }> = {
+    index: { spread: 3, turn: 3, flexion: [-3, 3] },
+    middle: { spread: 3, turn: 3, flexion: [-3, 3] },
+    ring: { spread: 5, turn: 10, flexion: [-5, 15] },
+    pinky: { spread: 8, turn: 15, flexion: [-5, 30] },
+  };
+  const { spread, turn, flexion } = range[finger];
+  return joint(
+    limit(-spread, spread, 'Spread towards thumb', 'Spread towards little finger'),
+    limit(-turn, turn, 'Rotation towards thumb', 'Rotation away from thumb'),
+    limit(flexion[0], flexion[1], 'Flexion', 'Extension'),
+  );
+}
+
+/**
+ * A metacarpal, from its carpometacarpal joint to the finger's knuckle.
+ *
+ * The production character carries palm bones, but they cannot be measured
+ * from: every `DEF-palm` joint sits 207-213 mm from its own knuckle and 99-146
+ * mm behind the wrist, points 16-37° off the wrist-to-knuckle line, and has no
+ * skin weight at all — the export kept the joints and lost their placement. So
+ * the knuckle (the finger's existing head) fixes the tail, the anatomical
+ * length fixes how far back the base is, and the carpal-row convergence fixes
+ * where across the palm; the base stays in the palm plane of its knuckle.
+ */
+function metacarpal(finger: MetacarpalFinger, knuckles: Record<MetacarpalFinger, Vec3>): BoneDefinition {
+  const knuckle = knuckles[finger];
+  const centre = METACARPAL_FINGERS.reduce((sum, name) => sum + knuckles[name].z, 0) / METACARPAL_FINGERS.length;
+  const length = METACARPAL_LENGTH[finger] * (HAND_LENGTH / REFERENCE_HAND_LENGTH);
+  const baseZ = centre + (knuckle.z - centre) * METACARPAL_CONVERGENCE;
+  const across = knuckle.z - baseZ;
+  return {
+    name: `metacarpal_${finger}_l` as BoneName,
+    parent: 'hand_l',
+    head: vec3(knuckle.x, knuckle.y + Math.sqrt(length * length - across * across), baseZ),
+    tail: knuckle,
+    limits: metacarpalLimits(finger),
+    radius: 0.008,
+    minor: true,
+  };
+}
+
+function buildFingerBones(): BoneDefinition[] {
+  const bones: BoneDefinition[] = [];
+  const knuckles = Object.fromEntries(
+    FINGER_SPECS.filter((spec) => spec.finger !== 'thumb').map((spec) => [spec.finger, spec.knuckle]),
+  ) as Record<MetacarpalFinger, Vec3>;
+  for (const spec of FINGER_SPECS) {
+    const hasMetacarpal = spec.finger !== 'thumb';
+    if (hasMetacarpal) bones.push(metacarpal(spec.finger as MetacarpalFinger, knuckles));
+    const length = Math.hypot(spec.direction.x, spec.direction.y, spec.direction.z);
+    const unit = vec3(
+      spec.direction.x / length,
+      spec.direction.y / length,
+      spec.direction.z / length,
+    );
+    let head = spec.knuckle;
+    spec.segments.forEach((segmentLength, index) => {
+      const tail = vec3(
+        head.x + unit.x * segmentLength,
+        head.y + unit.y * segmentLength,
+        head.z + unit.z * segmentLength,
+      );
+      bones.push({
+        name: `${spec.finger}_0${index + 1}_l` as BoneName,
+        // A finger hangs from its metacarpal; the thumb's first segment is its
+        // metacarpal, and hangs from the hand.
+        parent: (index === 0
+          ? hasMetacarpal ? `metacarpal_${spec.finger}_l` : 'hand_l'
+          : `${spec.finger}_0${index}_l`) as BoneName,
+        head,
+        tail,
+        limits: fingerLimits(index, spec.finger),
+        radius: spec.radius * (1 - index * 0.12),
+        minor: true,
+      });
+      head = tail;
+    });
+  }
+  return bones;
+}
+
+/**
+ * Stage 2 shoulder widening, metres outboard per side.
+ *
+ * The canonical rig was narrower across the shoulders than the supplied
+ * physique reference by 4.17% of figure height. Half of that per side, at
+ * RIG_HEIGHT (1.75, declared below this point), is this. The character's own
+ * arm chain is translated by the same fraction of its own height, so the two
+ * stay in step — a grip or a contact solved on one is solved on the other.
+ *
+ * The whole arm translates; nothing is scaled. Upper-arm and forearm lengths
+ * are untouched, and the clavicle simply spans further, which is what a wider
+ * shoulder is. No mass is added: widening by inflating the deltoid was
+ * considered and rejected.
+ */
+export const SHOULDER_WIDENING = 0.01924 * 1.75;
+
+/**
+ * Shoulder setback, metres posterior — the companion to the widening above.
+ *
+ * The clavicle's corrected rest angle (17.5° back from the sternoclavicular
+ * joint, against the 4.5° it used to run at) carries its tail, and with it the
+ * whole arm chain and the five finger knuckles, this far behind the old centre
+ * line. Those bone positions are written out literally above rather than
+ * derived here, so that the accepted rig keeps exactly the values it was
+ * reviewed with; `rigRegression.test.ts` asserts the two agree.
+ *
+ * It is declared as a constant because the rig is not the only thing that has
+ * to know. The baked anatomical surface is authored against where the bones
+ * used to be, so it needs the same offset applied at build time — the identical
+ * problem SHOULDER_WIDENING already solves in the x axis, and it is solved the
+ * same way, through one constant rather than two re-bakes.
+ */
+export const SHOULDER_SETBACK = 0.035;
+
+/** The chain that moves: everything outboard of the sternoclavicular joint. */
+const widened = (bones: BoneDefinition[]): BoneDefinition[] =>
+  bones.map((bone) => {
+    if (bone.name === 'clavicle_l') {
+      // Its head stays at the sternum; only the tail follows the arm.
+      return { ...bone, tail: vec3(bone.tail.x - SHOULDER_WIDENING, bone.tail.y, bone.tail.z) };
+    }
+    if (bone.name === 'scapula_l') {
+      // Hinged at the clavicle's tail, so its head follows it; the inferior
+      // angle stays where it was measured on the back.
+      return { ...bone, head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z) };
+    }
+    if (!/^(upperarm|forearm|hand|metacarpal|thumb|index|middle|ring|pinky)/.test(bone.name)) return bone;
+    return {
+      ...bone,
+      head: vec3(bone.head.x - SHOULDER_WIDENING, bone.head.y, bone.head.z),
+      tail: vec3(bone.tail.x - SHOULDER_WIDENING, bone.tail.y, bone.tail.z),
+    };
+  });
+
+const LEFT_ALL = widened([...LEFT_BONES, ...buildFingerBones()]);
+
+/** Every bone of the canonical rig, parents always before their children. */
+export const EXERCISE_AUTHORING_REFERENCE_BONES: BoneDefinition[] = [
+  ...CENTRE_BONES,
+  ...LEFT_ALL,
+  ...LEFT_ALL.map(mirrorBone),
+];
+
+/** Approximate standing height of the rest pose, in metres. */
+export const EXERCISE_AUTHORING_REFERENCE_HEIGHT = 1.75;
+
+export const SIDE_LIST: readonly Side[] = SIDES;
+export const FINGER_LIST: readonly Finger[] = FINGERS;

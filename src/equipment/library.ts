@@ -280,7 +280,9 @@ export function withTwoHandGripWidth(
     setPosition(leftSocket, null);
     setPosition(rightSocket, null);
   } else {
-    const requested = Math.max(0.1, Math.min(2.0, width));
+    // Small two-hand handles legitimately place interlocked hands below
+    // 100 mm apart; bars still remain bounded by the same 2 m upper guard.
+    const requested = Math.max(0.02, Math.min(2.0, width));
     const midpoint = {
       x: (left.position.x + right.position.x) / 2,
       y: (left.position.y + right.position.y) / 2,

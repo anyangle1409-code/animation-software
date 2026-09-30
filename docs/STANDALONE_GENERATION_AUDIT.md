@@ -1,38 +1,62 @@
 # Standalone prompt-generation audit
 
-## Finding
+## Current finding
 
-The current exercise-generation pipeline is already architecturally compatible
-with the zero-third-party operational target.
+The exercise-generation pipeline is operationally first-party and compatible
+with the zero-runtime-dependency target.
 
-Verified source path:
+Current live path:
+
 - `src/generation/parse.ts`
 - `src/generation/slots.ts`
 - `src/generation/intent.ts`
 - `src/generation/families.ts`
 - `src/generation/generate.ts`
 - `src/generation/validate.ts`
+- `src/editor/generationStoreCore.ts`
 
-At source reference:
-`chatgpt/absolute-retarget-imports @ 47187360b5d631d438a6b33b284ad06732e244cb`
+The parser, family selection, validation and bounded correction loop are local,
+deterministic and project-owned. They do not require a hosted AI/LLM service.
 
-## Current design
+## Live validation character
 
-Prompt handling is:
-- local;
-- rule-based;
-- deterministic;
-- explainable;
-- family-certified;
-- bounded by project validation;
-- corrected by project-owned numeric levers.
+Until ORIGINAL v1 is production-approved, the live Generate panel validates
+body-dependent checks against the clean project-authored procedural fallback:
 
-The parser explicitly says it is deterministic rather than a language model.
-The generation loop does not require a hosted AI/LLM service.
+`Home Gym PT clean scaffold`
+
+This is the same first-party operational fallback used elsewhere in the studio.
+It is not the final production character and must not be promoted as ORIGINAL
+v1, but it allows prompt generation to run equipment/body/self-clearance checks
+without borrowing any legacy or imported character.
+
+The fallback is built lazily once per app session and reused serially by the
+generation store.
+
+## Current automated evidence
+
+Repository tests prove, on the clean fallback, that:
+
+- a generated bodyweight squat completes with no skipped body checks;
+- a loaded hammer curl can be corrected within its certified family and passes
+  equipment-clearance and arm-to-trunk checks;
+- unsupported/ambiguous prompts are blocked before validation rather than
+  guessed;
+- generated definitions remain candidates and are not silently inserted into
+  the exercise library.
+
+Browser automation additionally exercises the live Generate panel. The
+production-output smoke uses built `dist` content, generates a bodyweight squat,
+requires `READY FOR REVIEW`, requires all rendered validation gates to pass,
+and rejects any HTTP(S) request to a non-local origin.
+
+These browser checks are supplementary automated evidence. They do not close
+the final ORIGINAL-v1 packaging or real desktop/iPhone offline acceptance gates.
 
 ## Standalone rule
 
 Do **not** introduce a runtime dependency on:
+
 - OpenAI API;
 - Anthropic API;
 - Gemini/Google AI;
@@ -47,30 +71,42 @@ the finished operational product.
 ## How to make prompt handling smarter without third-party runtime AI
 
 Prefer:
+
 1. expand project-owned vocabulary/slot parsing;
 2. add certified movement families;
 3. add deterministic synonyms/grammar;
 4. add project-owned intent disambiguation;
-5. use the existing validation/correction loop;
+5. extend first-party validation/correction evidence;
 6. decline unsupported biomechanics rather than guessing.
 
 If a learned model is ever proposed for the finished product, it must separately
 satisfy the project's first-party provenance rule. Until then, the deterministic
 parser is the approved production architecture.
 
-## Remaining third-party coupling in generation
+## Current dependency state
 
-The generation **logic** is first-party, but its validation path currently uses
-Three.js mathematics indirectly/directly, for example `Vector3` in
-`src/generation/validate.ts` and the Three-based canonical
-`PoseEvaluation`.
+Generation no longer has a Three/runtime-framework dependency to migrate away.
+The math, scene, character deformation, collision and rendering paths beneath
+generation are project-owned, and guarded third-party source-import ceilings are
+zero.
 
-That dependency disappears through the prepared first-party math migration. It
-does not require redesigning the prompt/generation architecture.
+Do not reopen the completed dependency migration merely because this historical
+audit once described Three-based validation.
+
+## Remaining generation work
+
+The architecture is approved, but release acceptance remains open because:
+
+- ORIGINAL v1 is not yet the production validation/render character;
+- the certified family vocabulary is intentionally bounded;
+- final production-package offline acceptance and physical-device evidence are
+  still required;
+- promotion of generated candidates remains an explicit human/code decision.
 
 ## Conclusion
 
-Keep the generation architecture.
+Keep the current deterministic generation architecture.
 
-Replace its underlying third-party math/runtime implementation as part of the
-normal Three.js migration; do not replace the generation system itself.
+Improve coverage by adding project-owned vocabulary, certified families and
+validation evidence. Do not replace the generation system with a hosted runtime
+AI service, and do not weaken validation to make new prompts pass.

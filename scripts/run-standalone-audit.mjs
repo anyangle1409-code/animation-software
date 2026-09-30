@@ -38,7 +38,7 @@ const summary={
   generatedAt:new Date().toISOString(),
   checks:results.map(({id,script,gate,status,pass})=>({id,script,gate,status,pass})),
   gatePass:results.filter(x=>x.gate).every(x=>x.pass),
-  expectedToday:"release_readiness is expected to fail until the remaining third-party runtime dependencies are removed and ORIGINAL v1/final release-asset approvals are complete."
+  expectedToday:"Operational source/runtime readiness is expected to pass. Final release remains blocked separately by deny-by-default release assets, ORIGINAL v1, production-package offline acceptance and physical-device evidence."
 };
 
 fs.mkdirSync(path.join(ROOT,"reports"),{recursive:true});

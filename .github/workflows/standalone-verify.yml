@@ -157,6 +157,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Standalone aggregate audit
+        run: npm run audit:standalone
+
       - name: Production output third-party gate
         run: npm run audit:production -- dist
 

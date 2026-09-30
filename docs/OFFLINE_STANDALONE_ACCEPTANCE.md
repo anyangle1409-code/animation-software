@@ -67,6 +67,29 @@ Require:
 - full test suite PASS;
 - offline manual/automated acceptance PASS.
 
+## Automated production-output evidence
+
+Cloud CI may provide **supplementary** evidence before the final physical
+offline session:
+
+- build `dist` from the current source;
+- serve only that production output on a local preview origin;
+- launch Chromium against the production build;
+- require the first-party WebGL renderer to draw;
+- use the live Generate panel to build and fully validate a supported prompt on
+  the clean first-party fallback;
+- require every rendered validation gate to pass;
+- record all browser HTTP(S) requests and fail if any request leaves the local
+  origin.
+
+The script `scripts/browser-production-offline-smoke.mjs` and the Browser
+viewport smoke workflow provide this evidence.
+
+This does **not** close the final offline acceptance gate because the final
+ORIGINAL-v1 production assets are not packaged yet, real external connectivity
+is not physically disabled by this CI check, and desktop/iPhone physical input
+and visual parity remain separate required evidence.
+
 ## Network observation
 
 Where browser tooling is available, record all network requests during the test.

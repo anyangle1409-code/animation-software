@@ -35,23 +35,51 @@ generation store.
 
 ## Current automated evidence
 
-Repository tests prove, on the clean fallback, that:
+Repository tests prove on the clean project-authored procedural fallback that
+**every currently certified generator family** can be built and fully validated
+with no skipped body checks:
 
-- a generated bodyweight squat completes with no skipped body checks;
-- a loaded hammer curl can be corrected within its certified family and passes
-  equipment-clearance and arm-to-trunk checks;
-- unsupported/ambiguous prompts are blocked before validation rather than
-  guessed;
-- generated definitions remain candidates and are not silently inserted into
-  the exercise library.
+- curl — including bounded correction of a loaded hammer curl;
+- overhead press — standing dumbbell shoulder press;
+- horizontal press — standard push-up;
+- squat — bodyweight air squat;
+- lunge — split/forward/reverse family evidence, with reverse lunge in the
+  all-family clean-fallback certification loop;
+- calf — standing calf raise;
+- hinge — dumbbell Romanian deadlift;
+- row — dumbbell bent-over row;
+- raise — lateral and front raises;
+- vertical pull — strict pull-up;
+- extension — dumbbell overhead triceps extension.
 
-Browser automation additionally exercises the live Generate panel. The
-production-output smoke uses built `dist` content, generates a bodyweight squat,
-requires `READY FOR REVIEW`, requires all rendered validation gates to pass,
-and rejects any HTTP(S) request to a non-local origin.
+The same suite also proves that accepted family defaults reproduce the relevant
+hand-authored library motion where that comparison is defined, generated
+definitions remain candidates rather than silently entering the library, and
+unsupported/ambiguous requests are blocked instead of guessed.
+
+The exact product-level shorthand requested for normal use is covered by the
+production-output browser smoke:
+
+`exercise: dumbbell shoulder press`
+
+Against built `dist`, the live Generate panel must take that command to
+`READY FOR REVIEW`, show the clean first-party fallback as the validation
+character, emit validation gates, and have **zero non-pass gates**. The smoke
+uses the same local deterministic generation path as longer natural-language
+requests; there is no separate command parser or hosted service.
+
+The same production smoke also:
+
+- fully validates a generated bodyweight squat;
+- submits an unsupported goblet squat and requires `NEEDS A DECISION` with a
+  local, specific explanation and no preview/approval candidate actions;
+- requires the project-owned WebGL renderer to draw the production build;
+- records browser HTTP(S) traffic and fails if any request leaves the local
+  preview origin.
 
 These browser checks are supplementary automated evidence. They do not close
 the final ORIGINAL-v1 packaging or real desktop/iPhone offline acceptance gates.
+
 
 ## Standalone rule
 
@@ -98,7 +126,8 @@ audit once described Three-based validation.
 The architecture is approved, but release acceptance remains open because:
 
 - ORIGINAL v1 is not yet the production validation/render character;
-- the certified family vocabulary is intentionally bounded;
+- the certified family vocabulary is intentionally bounded even though every
+  currently certified family now has clean-fallback generation evidence;
 - final production-package offline acceptance and physical-device evidence are
   still required;
 - promotion of generated candidates remains an explicit human/code decision.

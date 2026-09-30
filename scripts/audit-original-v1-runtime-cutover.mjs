@@ -22,6 +22,29 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
 
   const contract = readJson(contractPath);
   const blockers = [];
+
+  const promotionPath = path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json");
+  if (!fs.existsSync(promotionPath)) {
+    blockers.push("missing ORIGINAL_V1_PROMOTION_CONTRACT.json");
+  }
+  const promotion = fs.existsSync(promotionPath) ? readJson(promotionPath) : null;
+  const promotionPaths = promotion
+    ? Object.values(promotion.production_targets || {})
+        .filter(target => target?.required)
+        .map(target => String(target.release_path || ""))
+        .filter(Boolean)
+        .sort()
+    : [];
+  const cutoverPaths = [...(contract.production_paths || [])].map(String).sort();
+  if (
+    promotion &&
+    JSON.stringify(promotionPaths) !== JSON.stringify(cutoverPaths)
+  ) {
+    blockers.push(
+      "runtime cutover production paths do not exactly match the promotion contract: " +
+        JSON.stringify({ promotion: promotionPaths, cutover: cutoverPaths }),
+    );
+  }
   let graph;
   try {
     graph = buildRuntimeImportGraph(root, contract.entrypoint);
@@ -117,6 +140,9 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
     currentDefaultSource: contract.current_default_source,
     futureProductionSource: contract.future_production_source,
     productionPaths: contract.production_paths,
+    promotionPaths,
+    productionPathContractsMatch:
+      JSON.stringify(promotionPaths) === JSON.stringify(cutoverPaths),
     reachableModuleCount: graph.reachable.length,
     blockers,
     note:

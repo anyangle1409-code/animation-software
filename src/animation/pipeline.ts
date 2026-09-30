@@ -56,7 +56,7 @@ export function resolveFrame(
 ): ResolvedFrame {
   const sample = sampleClip(clip, time);
   const locks = options.locks ?? clip.locks;
-  const equipment = fitTwoHandEquipmentForRuntime(
+  const equipment = runtimeEquipmentForClip(
     skeleton,
     clip,
     options.equipment ?? clip.equipment,
@@ -134,7 +134,7 @@ const TWO_HAND_FIT_ENVELOPE = 0.005;
  * source. They keep their authored sockets and remain subject to the same
  * review gate.
  */
-function fitTwoHandEquipmentForRuntime(
+export function runtimeEquipmentForClip(
   skeleton: Skeleton,
   clip: StudioClip,
   instances: EquipmentInstance[],

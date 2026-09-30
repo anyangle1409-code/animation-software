@@ -342,7 +342,6 @@ function fitThumbGripToSkeleton(
       candidateInstance.attachment.side === opposite,
   );
   if (hasOpposite) {
-    const sign = side === 'l' ? -1 : 1;
     for (let segment = 1; segment <= 3; segment += 1) {
       const source = prefix(segment);
       const target = `thumb_0${segment}_${opposite}` as BoneName;
@@ -351,7 +350,7 @@ function fitThumbGripToSkeleton(
       pose.rotations[target] = {
         ...targetRotation,
         x: sourceRotation.x,
-        z: sourceRotation.z * sign,
+        z: -sourceRotation.z,
       };
     }
   }

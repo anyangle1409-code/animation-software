@@ -171,6 +171,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('pronated lateral raise')).toContain('grip');
     expect(blocking('neutral grip front raise')).toContain('grip');
     expect(blocking('rear delt raise')).toEqual(['family']);
+    expect(blocking('chin-up')).toEqual(['family']);
+    expect(blocking('weighted pull-up')).toContain('variant');
+    expect(blocking('neutral grip pull-up')).toContain('variant');
+    expect(blocking('single-arm overhead triceps extension')).toContain('variant');
+    expect(blocking('cable pushdown')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -182,7 +187,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
@@ -239,6 +244,29 @@ describe('parsing a request into an ExerciseIntent', () => {
       support: 'standing',
       raiseDirection: 'front',
       load: 5,
+    });
+  });
+
+  it('parses only the certified strict pull-up and overhead extension', () => {
+    const pull = parsePrompt('exercise: strict pull-up with controlled tempo');
+    expect(pull.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(pull.intent).toMatchObject({
+      family: 'vertical_pull',
+      equipment: 'bodyweight',
+      grip: 'pronated',
+      support: 'hanging',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+
+    const extension = parsePrompt('exercise: dumbbell overhead triceps extension with 9 kg dumbbells');
+    expect(extension.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(extension.intent).toMatchObject({
+      family: 'extension',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      load: 9,
     });
   });
 

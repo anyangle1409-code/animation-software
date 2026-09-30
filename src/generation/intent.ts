@@ -12,13 +12,13 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'horizontal_press' | 'squat' | 'lunge' | 'calf' | 'hinge' | 'row' | 'raise';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'horizontal_press' | 'squat' | 'lunge' | 'calf' | 'hinge' | 'row' | 'raise' | 'vertical_pull' | 'extension';
 
 /** What the body moves against. Bodyweight families hold no external load yet. */
 export type IntentImplement = 'dumbbell' | 'bodyweight';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
-export type IntentSupport = 'standing' | 'seated' | 'incline' | 'floor';
+export type IntentSupport = 'standing' | 'seated' | 'incline' | 'floor' | 'hanging';
 
 /**
  * Which foot steps, for the lunge family's three variants. Undefined is the

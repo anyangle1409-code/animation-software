@@ -17,6 +17,10 @@ import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
 import { raiseFamily } from '../exercises/families/raise';
 import type { RaiseDirection, RaiseVariant } from '../exercises/families/raise';
+import { verticalPullFamily } from '../exercises/families/verticalPull';
+import type { VerticalPullVariant } from '../exercises/families/verticalPull';
+import { extensionFamily } from '../exercises/families/extension';
+import type { ExtensionVariant } from '../exercises/families/extension';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1108,6 +1112,149 @@ const raise: GeneratorFamily<RaiseVariant> = {
 };
 
 // ---------------------------------------------------------------------------
+// Pull-up
+// ---------------------------------------------------------------------------
+
+/**
+ * Only the accepted strict pronated bodyweight pull-up is certified. The rack,
+ * grip width, body path and equipment locks remain owned by verticalPullFamily.
+ */
+const verticalPull: GeneratorFamily<VerticalPullVariant> = {
+  id: 'vertical_pull',
+  label: 'Pull-up',
+  builder: 'verticalPullFamily',
+  detect: /\bpull[-\s]?ups?\b/,
+  library: ['pull_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:kipping|kip)\b/, 'a kipping pull-up changes the whole-body path; only the strict pull-up is certified.'],
+        [/\b(?:assisted|banded)\b/, 'an assisted pull-up changes the load/support system; only bodyweight is certified.'],
+        [/\bweighted\b/, 'a weighted pull-up adds external load; only bodyweight is certified.'],
+        [/\b(?:neutral[-\s]?grip|hammer[-\s]?grip)\b/, 'a neutral-grip pull-up changes the rack grip orientation; only pronated is certified.'],
+      ],
+      issues,
+    );
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(blocking('grip', 'The certified pull-up uses a pronated overhand grip; chin-up/neutral-grip variants are not certified.'));
+    }
+    const support = interpretSupport(slots, ['hanging'], 'pull-up', assumptions, issues);
+    const { load, tempo } = interpretCommon(slots, 'pull-up', 'bodyweight', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'vertical_pull',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        grip: 'pronated',
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Pull-Up', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A strict bodyweight pull-up from a dead hang with the family-certified pronated grip and body path` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: verticalPullFamily,
+  reference: () => 'pull_up',
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
+// Overhead triceps extension
+// ---------------------------------------------------------------------------
+
+/**
+ * Only the accepted standing bilateral dumbbell overhead extension is
+ * certified. Cable pushdowns and other triceps variants stay blocked.
+ */
+const extension: GeneratorFamily<ExtensionVariant> = {
+  id: 'extension',
+  label: 'Overhead triceps extension',
+  builder: 'extensionFamily',
+  detect: /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b/,
+  library: ['dumbbell_overhead_triceps_extension'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:single|one)[-\s]?arm(?:ed)?\b|\bunilateral\b/, 'a one-arm overhead extension is unilateral; only the even two-arm version is certified.'],
+        [/\bseated\b/, 'a seated overhead extension changes body support; only standing is certified.'],
+        [/\b(?:ez[-\s]?bar|barbell|cable|rope)\b/, 'the certified overhead extension uses one dumbbell in each hand.'],
+      ],
+      issues,
+    );
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(blocking('grip', 'The certified overhead extension uses a neutral grip with the palms facing each other.'));
+    }
+    const support = interpretSupport(slots, ['standing'], 'overhead triceps extension', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the certified overhead extension has no adjustable support angle.`));
+    }
+    const { load, tempo } = interpretCommon(
+      slots,
+      'overhead triceps extension',
+      'dumbbell',
+      8,
+      assumptions,
+      issues,
+    );
+    return {
+      intent: {
+        prompt,
+        family: 'extension',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip: 'neutral',
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Dumbbell Overhead Triceps Extension', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standing bilateral overhead triceps extension with ${formatLoad(intent.load)} in each hand, ` +
+        `using the family-certified upper-arm and elbow path${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      position: 'overhead',
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: extensionFamily,
+  reference: () => 'dumbbell_overhead_triceps_extension',
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
 
@@ -1215,6 +1362,8 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   hinge as unknown as GeneratorFamily,
   row as unknown as GeneratorFamily,
   raise as unknown as GeneratorFamily,
+  verticalPull as unknown as GeneratorFamily,
+  extension as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

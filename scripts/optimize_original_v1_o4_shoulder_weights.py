@@ -48,6 +48,21 @@ PRESETS = {
                w_fold=20.0, fold_cos=-0.2, fold_margin=0.05,
                w_strain=0.02, w_vol=2e5, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
                iters=400, polish_iters=150),
+    # o5: o4 objective, stiffer no-regression hinges, solved with softmax L-BFGS.
+    "o5": dict(solver="lbfgs", scap_zone=True, zone_radius=0.24, hi=4.3, lo=0.24, w_hinge=400.0,
+               no_regress=True, min_margin=0.012, max_margin=0.07,
+               w_fold=20.0, fold_cos=-0.2, fold_margin=0.05,
+               w_strain=0.02, w_vol=2e5, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+               iters=500, polish_iters=200),
+    # o6: o5 + proximity barrier (deltoid cap folding into the acromion made the
+    # new self-intersections), p99 guard, stiffer volume/no-regression terms.
+    "o6": dict(solver="lbfgs", scap_zone=True, zone_radius=0.24, hi=4.3, lo=0.24, w_hinge=3000.0,
+               no_regress=True, min_margin=0.012, max_margin=0.07,
+               w_fold=20.0, fold_cos=-0.2, fold_margin=0.05,
+               w_prox=2e6, prox_delta=0.010, prox_search=0.015, prox_rest_min=0.012, rounds=3,
+               w_p99=5.0, p99_margin=0.03,
+               w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+               iters=250, polish_iters=200),
 }
 
 
@@ -157,6 +172,34 @@ def main():
         n1, n2 = n[adj[:, 0]], n[adj[:, 1]]
         return (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
 
+    P99T = np.array([np.log(np.percentile(np.linalg.norm(evald[p][E[:, 0]] - evald[p][E[:, 1]], axis=1) / L0all, 99)
+                             + P.get("p99_margin", 0.03)) for p in range(npz)])
+    # proximity: candidate vertices = zone + upper-body neighbours; pairs found per outer round
+    cand = np.nonzero(zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.08)))[0]
+    PAIRS = [np.zeros((0, 2), int) for _ in range(npz)]
+    PDELTA = [np.zeros(0) for _ in range(npz)]
+
+    def find_pairs(Wz):
+        rad, dmin_rest = P.get("prox_search", 0.015), P.get("prox_rest_min", 0.012)
+        for p in range(npz):
+            Pp = positions(Wz, p)
+            X = Pp[cand]
+            found = []
+            for i0 in range(0, len(cand), 600):
+                D = np.linalg.norm(X[i0:i0 + 600, None] - X[None], axis=2)
+                ii, jj = np.nonzero(D < rad)
+                ii += i0
+                keep = ii < jj
+                found.append(np.c_[cand[ii[keep]], cand[jj[keep]]])
+            pr = np.concatenate(found)
+            pr = pr[(zpos[pr[:, 0]] >= 0) | (zpos[pr[:, 1]] >= 0)]
+            pr = pr[np.linalg.norm(rest[pr[:, 0]] - rest[pr[:, 1]], axis=1) > dmin_rest]
+            # merge with previous rounds' pairs
+            pr = np.unique(np.concatenate([PAIRS[p], pr]), axis=0)
+            dR2 = np.linalg.norm(evald[p][pr[:, 0]] - evald[p][pr[:, 1]], axis=1)
+            PAIRS[p] = pr
+            PDELTA[p] = np.minimum(P.get("prox_delta", 0.010), dR2 - 0.001)
+
     FOLD = np.array([np.minimum(P.get("fold_cos", -2.0), dihedral_cos(evald[p]) - P.get("fold_margin", 0.0))
                      for p in range(npz)])
 
@@ -204,6 +247,24 @@ def main():
                 np.add.at(gP, Tz[:, 0], np.cross(gn, C - B_))
                 np.add.at(gP, Tz[:, 1], np.cross(gn, A - C))
                 np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A))
+            # p99 guard: zone edges pushed under R2's 99th-percentile stretch (+margin)
+            if P.get("w_p99", 0) > 0:
+                o99 = np.maximum(lr - P99T[p], 0)
+                total += P["w_p99"] * (o99 ** 2).sum()
+                gp = (P["w_p99"] * 2 * o99 / np.maximum(L, 1e-12) ** 2)[:, None] * dv
+                np.add.at(gP, Ez[:, 0], gp)
+                np.add.at(gP, Ez[:, 1], -gp)
+            # proximity barrier: far-at-rest vertices must not approach closer than delta / R2
+            if P.get("w_prox", 0) > 0 and len(PAIRS[p]):
+                pr = PAIRS[p]
+                dd = Pp[pr[:, 0]] - Pp[pr[:, 1]]
+                dn = np.maximum(np.linalg.norm(dd, axis=1), 1e-9)
+                ex = np.maximum(PDELTA[p] - dn, 0)
+                total += P["w_prox"] * (ex ** 2).sum()
+                parts[poses[p]].append(round(float(P["w_prox"] * (ex ** 2).sum()), 2))
+                gq = (-2 * P["w_prox"] * ex / dn)[:, None] * dd
+                np.add.at(gP, pr[:, 0], gq)
+                np.add.at(gP, pr[:, 1], -gq)
             # volume barrier
             A, B_, C = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
             vol = vol_all(Pp)
@@ -262,6 +323,64 @@ def main():
                 print(f"iter {t:5d} loss {f:.4f} step {step:.2e}", flush=True)
         return Wz
 
+    def lbfgs(Wz, mask, iters, mem=12):
+        """L-BFGS over softmax logits (weights stay on the simplex of permitted bones)."""
+        NEG = -1e9
+
+        def to_w(th):
+            x = np.where(mask, th, NEG)
+            x = x - x.max(axis=1, keepdims=True)
+            e = np.where(mask, np.exp(x), 0.0)
+            return e / e.sum(axis=1, keepdims=True)
+
+        def fg(th):
+            W = to_w(th)
+            f, G = loss_grad(W)
+            gth = W * (G - (W * G).sum(axis=1, keepdims=True))
+            return f, np.where(mask, gth, 0.0)
+
+        th = np.where(mask, np.log(np.maximum(Wz, 1e-4)), 0.0)
+        f, g = fg(th)
+        S, Y = [], []
+        for t in range(1, iters + 1):
+            q = g.copy()
+            al = []
+            for s_, y_ in reversed(list(zip(S, Y))):
+                rho = 1.0 / (y_ * s_).sum()
+                a_ = rho * (s_ * q).sum()
+                al.append((rho, a_))
+                q -= a_ * y_
+            if S:
+                q *= (S[-1] * Y[-1]).sum() / (Y[-1] * Y[-1]).sum()
+            for (s_, y_), (rho, a_) in zip(zip(S, Y), reversed(al)):
+                b_ = rho * (y_ * q).sum()
+                q += s_ * (a_ - b_)
+            dirn = -q
+            gd = (g * dirn).sum()
+            if gd >= 0:
+                dirn, gd, S, Y = -g, -(g * g).sum(), [], []
+            step = 1.0 if S else 1.0 / max(np.abs(g).max(), 1e-12)
+            while True:
+                thn = th + step * dirn
+                fn, gn = fg(thn)
+                if fn <= f + 1e-4 * step * gd or step < 1e-12:
+                    break
+                step *= 0.5
+            if fn >= f:
+                print(f"lbfgs stalled at iter {t}", flush=True)
+                break
+            s_, y_ = thn - th, gn - g
+            if (s_ * y_).sum() > 1e-12:
+                S.append(s_); Y.append(y_)
+                if len(S) > mem:
+                    S.pop(0); Y.pop(0)
+            th, f, g = thn, fn, gn
+            if t % 25 == 0 or t == 1:
+                print(f"iter {t:5d} loss {f:.4f}", flush=True)
+        return to_w(th)
+
+    if P.get("w_prox", 0) > 0:
+        find_pairs(Wz0)
     f0, G0 = loss_grad(Wz0)
     if a.gradcheck:
         rng = np.random.default_rng(0)
@@ -277,7 +396,16 @@ def main():
     print("terms [stretch hinge, compress hinge, strain, (volume)]", json.dumps(parts))
     if a.diagnose:
         return
-    if P.get("solver") == "pgd":
+    if P.get("solver") == "lbfgs" and P.get("w_prox", 0) > 0:
+        Wz = Wz0.copy()
+        find_pairs(Wz)
+        for rnd in range(P.get("rounds", 3)):
+            Wz = lbfgs(Wz, allowed, P["iters"])
+            find_pairs(Wz)
+            print("round", rnd, "pairs", [len(x) for x in PAIRS], flush=True)
+    elif P.get("solver") == "lbfgs":
+        Wz = lbfgs(Wz0.copy(), allowed, P["iters"])
+    elif P.get("solver") == "pgd":
         Wz = pgd(Wz0.copy(), allowed, P["iters"], P["step"])
     else:
         Wz = adam(Wz0.copy(), allowed, P["iters"], P["lr"])
@@ -287,7 +415,11 @@ def main():
     sup[np.arange(len(Wz))[:, None], order[:, :4]] = True
     sup &= allowed
     Wz = project_simplex(np.where(sup, Wz, 0.0), sup)
-    if P.get("solver") == "pgd":
+    if P.get("solver") == "lbfgs":
+        Wz = lbfgs(Wz, sup, P["polish_iters"])
+        Wz = np.where(Wz < 1e-4, 0.0, Wz)
+        Wz /= Wz.sum(axis=1, keepdims=True)
+    elif P.get("solver") == "pgd":
         Wz = pgd(Wz, sup, P["polish_iters"], P["step"])
     else:
         Wz = adam(Wz, sup, P["polish_iters"], P["lr"] * 0.5)

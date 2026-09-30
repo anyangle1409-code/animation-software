@@ -12,6 +12,7 @@ const checks=[
   ["legacy_coupling","scripts/audit-legacy-character-coupling.mjs",false],
   ["active_model_asset_boundary","scripts/audit-active-model-assets.mjs",true],
   ["original_v1_promotion_boundary","scripts/audit-original-v1-promotion.mjs",true,["--expect-blocked"]],
+  ["original_v1_runtime_cutover","scripts/audit-original-v1-runtime-cutover.mjs",true],
   ["canonical_v4_runtime_coupling","scripts/audit-canonical-v4-runtime-coupling.mjs",true],
   ["final_character_runtime","scripts/audit-final-character-runtime.mjs",true],
   ["external_runtime_resources","scripts/audit-external-runtime-resources.mjs",true],

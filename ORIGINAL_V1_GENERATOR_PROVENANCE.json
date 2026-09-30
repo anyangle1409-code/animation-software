@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "purpose": "Freeze the exact O1 scaffold generator and its pre-MakeHuman project-authored source pins. Any generator change requires explicit provenance review and policy update.",
+  "generator_path": "scripts/generate_original_v1_clean_scaffold.py",
+  "generator_blob_sha": "90b4b53038ae8b60d78a8a37a71429557f8cad68",
+  "pinned_profile_commit": "e6ef05b4312a1928cc6fbb71b92a94ceaff1cc62",
+  "pinned_profile_blob_sha": "ee56a49bfb2e32530520fd1811ed9427460256bd",
+  "pinned_mesh_algorithm_blob_sha": "0216035a6574a0b753f8716f49e603967923f68f",
+  "pinned_clean_rig_commit": "287f72c6a6ac9b1dcd771946ef548d77a40b8ea1",
+  "pinned_clean_rig_blob_sha": "5c0182ae6db57e8de99547aa96d80216105a36ba",
+  "rule": "Generator must be the exact committed blob above, its working tree must be clean, and the pinned source hashes may not change without explicit clean-room provenance review."
+}

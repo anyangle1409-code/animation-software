@@ -21,6 +21,8 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -28,6 +30,9 @@ import bpy
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from validate_original_o1_generator import validate_generator_policy
+
 OUT_DIR = ROOT / "ORIGINAL_V1_WORK"
 BLEND = OUT_DIR / "HomeGymPT_Male_ORIGINAL_v1.blend"
 PROVENANCE = OUT_DIR / "ORIGINAL_V1_PROVENANCE.json"
@@ -37,6 +42,39 @@ PROFILE_BLOB = "ee56a49bfb2e32530520fd1811ed9427460256bd"
 MESH_BLOB = "0216035a6574a0b753f8716f49e603967923f68f"
 RIG_COMMIT = "287f72c6a6ac9b1dcd771946ef548d77a40b8ea1"
 RIG_BLOB = "5c0182ae6db57e8de99547aa96d80216105a36ba"
+GENERATOR_POLICY = ROOT / "ORIGINAL_V1_GENERATOR_PROVENANCE.json"
+GENERATOR_REL = "scripts/generate_original_v1_clean_scaffold.py"
+
+
+def _git_value(*args: str) -> str:
+    return subprocess.check_output(
+        ["git", *args],
+        cwd=ROOT,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    ).strip()
+
+
+def verify_generator_provenance() -> None:
+    if not GENERATOR_POLICY.exists():
+        raise RuntimeError(f"Missing generator provenance policy: {GENERATOR_POLICY}")
+    policy = json.loads(GENERATOR_POLICY.read_text(encoding="utf-8"))
+    try:
+        committed_blob = _git_value("rev-parse", f"HEAD:{GENERATOR_REL}")
+    except Exception as exc:
+        raise RuntimeError("Unable to resolve committed ORIGINAL v1 generator blob.") from exc
+    dirty = subprocess.run(
+        ["git", "diff", "--quiet", "--", GENERATOR_REL],
+        cwd=ROOT,
+        check=False,
+    ).returncode != 0
+    errors = validate_generator_policy(policy, committed_blob, dirty=dirty)
+    if errors:
+        raise RuntimeError(f"ORIGINAL v1 generator provenance failed: {errors}")
+
+
+verify_generator_provenance()
 
 FINGERS = ("thumb", "index", "middle", "ring", "pinky")
 

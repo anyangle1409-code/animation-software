@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`017a063d2fdf563f58446113816511c1248a843b` — first-party runtime dependency migration complete.
+`27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL shadow-runtime compatibility is green, and the operational standalone aggregate gates pass.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -49,23 +49,55 @@ Development tools such as Node/npm, TypeScript, Vite, Vitest, Playwright,
 Blender, Git/GitHub, GPT and Claude remain permitted by the frozen product
 boundary. They are development tools, not shipped runtime dependencies.
 
-## Verification at 017a063d
+## Canonical v4 ORIGINAL runtime compatibility
+
+`hgpt_canonical_v4_original` now clears the automated shadow-runtime
+compatibility gate across the full exercise library: there are **no remaining
+v3 PASS -> v4 FAIL automated review-gate regressions**.
+
+The compatibility work kept authored exercise biomechanics and acceptance
+thresholds intact. Adaptation is confined to deterministic runtime/generation
+boundaries where body proportions legitimately differ:
+
+- exact floor contacts are resolved in the active rig's foot frame;
+- exact/reached IK contacts are not failed merely by floating-point reach noise;
+- rigid two-hand grip sockets are calibrated at runtime without scaling equipment;
+- equipment-locked root height is solved from active arm geometry;
+- pitched floor-supported roots preserve authored knee geometry on active leg
+  proportions;
+- calf-rise root travel is derived from the active ankle-to-ball lever;
+- pelvis-pivot endpoint paths are preserved across canonical proportions;
+- arm IK preserves shoulder-relative direction and elbow flexion against active
+  upper-arm/forearm lengths;
+- the ORIGINAL-v1 packaged asset seam remains dormant and restricts its reviewed
+  browser resource read to the two exact product-relative production paths.
+
+This proves deterministic engine/rig compatibility only. It does **not** approve
+the current O4/O7 character or close Blender deformation/anatomy/garment review.
+
+## Verification at 27ac3697
 
 GitHub Actions on exact SHA
-`017a063d2fdf563f58446113816511c1248a843b`:
+`27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3`:
 
-- clean `npm ci`: PASS with Three absent;
-- typecheck: PASS;
-- focused first-party foundations: **84 files / 236 tests passed**;
-- full suite: **185 files passed, 2 skipped; 1096 tests passed, 62 skipped**;
+- clean typecheck: PASS;
+- focused first-party foundations: **86 files / 245 tests passed**;
+- full suite: **188 files passed, 2 skipped; 1,142 tests passed, 62 skipped**;
+- canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
+- standalone aggregate audit: PASS;
 - production-output third-party gate: PASS;
-- repository hygiene: PASS;
+- repository hygiene / prepared first-party foundations: PASS;
 - final-character runtime-path gate: PASS;
 - runtime dependency anti-creep gate: PASS;
 - external runtime resource gate: PASS;
 - runtime network/API gate: PASS;
 - automated Chromium first-party viewport smoke: PASS.
+
+The runtime-network audit permits no remote host/API exception. Its only reviewed
+dynamic browser resource-read seam is the dormant ORIGINAL-v1 packaged loader,
+restricted to the exact production-relative paths frozen by
+`ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json`.
 
 The automated browser smoke does **not** close the required real desktop/iPhone
 physical visual/input parity gate.
@@ -92,8 +124,14 @@ candidate, change the ORIGINAL-v1 promotion contract, or authorize release.
 1. **ORIGINAL v1 production character**
    - The isolated model branch `claude/original-v1-blender-o2-20260929` has
      progressed beyond O2 to an independently authored O4 bound candidate.
-   - Verified model-branch checkpoint:
-     `bb0cef0d869ea7ff7544c6e23bf5b7b61465c0e2`.
+   - Current isolated model-branch HEAD:
+     `bc7f90ac25fe5ce20d6c20ef675a6c714a41ff11`.
+   - The machine-readable candidate-status verification remains anchored by the
+     successful validation batch around `7d35754677f48414dc9fa5ff5511f422bd79af50`
+     / status-recording checkpoint `bb0cef0d869ea7ff7544c6e23bf5b7b61465c0e2`.
+     Later model-branch commits preserve future GLB extras and document the
+     production grip-metadata gate; they do not make the current candidate
+     production-approved.
    - Candidate bare/dressed GLBs pass structural/self-contained audits, but
      they are **not production-approved**.
    - The standalone runtime now already uses the same 63-bone
@@ -140,13 +178,16 @@ candidate, change the ORIGINAL-v1 promotion contract, or authorize release.
 
 For cloud/repository work, do not restart completed framework/Three migration.
 
-1. Keep the zero-dependency/import ceilings and first-party regression gates
-   active while improving the remaining release/generation acceptance evidence.
-2. Work only on release/offline/prompt-generation items that can be proven in
-   repository/CI without pretending to close physical-device or Blender gates.
+1. Keep the zero-dependency/import ceilings, canonical-v4 shadow-runtime gate
+   and first-party regression gates active; do not restart completed framework,
+   Three or v4 compatibility work.
+2. Continue cloud/repository work only on release/offline/prompt-generation
+   acceptance evidence that can be proved in CI without pretending to close
+   physical-device or Blender gates.
 3. When a laptop is available, continue the isolated model branch from
-   `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair Priority-1 shoulder
-   deformation first and use the grouped regression checks before moving on.
+   `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
+   deformation** first, regenerate the targeted evidence, and clear its owned
+   development blockers without regression before moving to Priority 2 hands/grip.
 4. Keep `ORIGINAL_V1_PROMOTION_CONTRACT.json` in
    `blocked_pending_approval` mode until all model/garment/runtime gates pass.
    Do not copy candidate GLBs into `public/characters/`.

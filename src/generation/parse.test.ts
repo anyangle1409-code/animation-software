@@ -167,6 +167,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('pronated bent-over row')).toContain('grip');
     expect(blocking('barbell bent-over row')).toContain('equipment');
     expect(blocking('Pendlay row')).toEqual(['family']);
+    expect(blocking('single-arm lateral raise')).toContain('variant');
+    expect(blocking('pronated lateral raise')).toContain('grip');
+    expect(blocking('neutral grip front raise')).toContain('grip');
+    expect(blocking('rear delt raise')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -178,7 +182,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
@@ -211,6 +215,30 @@ describe('parsing a request into an ExerciseIntent', () => {
       support: 'standing',
       load: 16,
       tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('parses the certified lateral and front raise directions', () => {
+    const lateral = parsePrompt('exercise: dumbbell lateral raise with 7 kg dumbbells');
+    expect(lateral.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(lateral.intent).toMatchObject({
+      family: 'raise',
+      equipment: 'dumbbell',
+      grip: 'neutral',
+      support: 'standing',
+      raiseDirection: 'lateral',
+      load: 7,
+    });
+
+    const front = parsePrompt('exercise: dumbbell front raise with 5 kg dumbbells');
+    expect(front.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(front.intent).toMatchObject({
+      family: 'raise',
+      equipment: 'dumbbell',
+      grip: 'pronated',
+      support: 'standing',
+      raiseDirection: 'front',
+      load: 5,
     });
   });
 

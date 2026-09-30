@@ -30,7 +30,7 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/(?<!romanian\s)\bdeadlifts?\b|\bhip\s+hinges?\b|\bgood\s?mornings?\b/, 'only the bilateral dumbbell Romanian deadlift is certified in the hinge family; conventional deadlifts, generic hinges and good mornings are not.'],
   [/\b(?:barbell|cable|machine|upright|pendlay|renegade|seated|chest[-\s]?supported|seal)\s+rows?\b/, 'only the bilateral dumbbell bent-over row is certified in the row family.'],
   [/\b(?:pull|chin)[-\s]?ups?\b|\blat\s+pull/, 'the vertical-pull family (pull-up) is not certified for generation yet.'],
-  [/\b(?:lateral|side|front)\s+raises?\b/, 'the raise family (lateral and front raise) is not certified for generation yet.'],
+  [/\b(?:rear(?:[-\s]?delt)?|bent[-\s]?over|incline|plate)\s+raises?\b/, 'only the bilateral standing dumbbell lateral and front raises are certified in the raise family.'],
   [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],
   [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
   [/\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/, 'the trunk-flexion family (crunch, sit-up) is not certified for generation yet.'],

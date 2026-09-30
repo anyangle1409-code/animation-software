@@ -20,6 +20,8 @@ import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
 import { rowFamily } from '../exercises/families/row';
 import type { RowVariant } from '../exercises/families/row';
+import { raiseFamily } from '../exercises/families/raise';
+import type { RaiseVariant } from '../exercises/families/raise';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -55,6 +57,8 @@ const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 const CALF_RAISE = 'Create a standing calf raise with a slow tempo.';
 const RDL = 'Create a dumbbell Romanian deadlift with 16 kg dumbbells and controlled tempo.';
 const ROW = 'exercise: dumbbell bent-over row with 16 kg dumbbells and controlled tempo';
+const LATERAL_RAISE = 'exercise: dumbbell lateral raise with 6 kg dumbbells and controlled tempo';
+const FRONT_RAISE = 'exercise: dumbbell front raise with 6 kg dumbbells and controlled tempo';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -163,6 +167,33 @@ describe('generating without a character', () => {
     expect(motionOf(exercise)).toEqual(motionOf(bentOverRow));
   });
 
+  it('builds lateral/front raises from the raise family', () => {
+    for (const [prompt, direction, reference] of [
+      [LATERAL_RAISE, 'lateral', 'dumbbell_lateral_raise'],
+      [FRONT_RAISE, 'front', 'dumbbell_front_raise'],
+    ] as const) {
+      const parsed = parsePrompt(prompt);
+      expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+      const family = generatorFamily(parsed.intent!.family);
+      const variant = family.variant(parsed.intent!) as RaiseVariant;
+      const exercise = family.build(variant);
+      expect(family.id).toBe('raise');
+      expect(variant.direction).toBe(direction);
+      expect(exercise).toEqual(raiseFamily(variant));
+      expect(family.reference(parsed.intent!)).toBe(reference);
+      expect(exercise.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([6, 6]);
+      expect(exercise.tempo).toEqual(TEMPO_PROFILES.controlled);
+      expect(EXERCISES.some((entry) => entry.id === exercise.id)).toBe(false);
+    }
+  });
+
+  it('reproduces the accepted lateral/front raise motion from family defaults', () => {
+    expect(motionOf(generateExercise('a dumbbell lateral raise', options).exercise!))
+      .toEqual(motionOf(lateralRaise));
+    expect(motionOf(generateExercise('a dumbbell front raise', options).exercise!))
+      .toEqual(motionOf(frontRaise));
+  });
+
 
   it(
     'builds the squat and lunge variants from their families, not from per-exercise code',
@@ -258,6 +289,8 @@ describe('generating on the clean first-party fallback', () => {
         [CALF_RAISE, 'calf', 'standing_calf_raise'],
         [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
         [ROW, 'row', 'dumbbell_bent_over_row'],
+        [LATERAL_RAISE, 'raise', 'dumbbell_lateral_raise'],
+        [FRONT_RAISE, 'raise', 'dumbbell_front_raise'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         const detail = JSON.stringify({
@@ -311,7 +344,7 @@ describe('generating on the clean first-party fallback', () => {
   );
 
   it(
-    'measures accepted lateral/front raise references before generator certification',
+    'keeps accepted lateral/front raise references clean after generator certification',
     () => {
       for (const exercise of [lateralRaise, frontRaise]) {
         const report = validateCandidate(

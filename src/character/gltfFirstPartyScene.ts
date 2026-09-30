@@ -24,6 +24,7 @@ import {
   type HgGltfTextureInfo,
 } from '../core/gltfScene';
 import type { HgImageMimeType } from '../core/gltfTextures';
+import { measureSceneHeight } from './sceneBounds';
 
 export type HgFirstPartyPrimitiveSource = HgCharacterPrimitiveSource;
 
@@ -343,4 +344,10 @@ export async function loadHgFirstPartyScene(
   }
   root.updateMatrixWorld(true);
   return root;
+}
+
+
+/** Height of a materialised first-party GLB scene in its authored rest pose. */
+export function measureHgFirstPartySceneHeight(scene: HgObject3D): number {
+  return measureSceneHeight(scene);
 }

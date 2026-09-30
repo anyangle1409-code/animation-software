@@ -30,7 +30,7 @@ import { importedElbowDeformation } from './importedDeformation';
 import type { ImportedElbowRuntimeTuning } from './importedDeformation';
 import { importedMuscleDeformation } from './muscleDeformation';
 import type { MuscleRuntimeTuning } from './muscleDeformation';
-import { loadHgThreeScene, measureHgThreeSceneHeight } from './gltfThreeScene';
+import { loadHgFirstPartyScene, measureHgFirstPartySceneHeight } from './gltfFirstPartyScene';
 
 /**
  * An imported character, preserved.
@@ -479,7 +479,7 @@ export function inHandFrame(
 }
 
 async function loadScene(options: RetargetedCharacterOptions): Promise<CharacterObject3D> {
-  if (options.data) return loadHgThreeScene(options.data);
+  if (options.data) return loadHgFirstPartyScene(options.data);
   if (options.url) {
     throw new Error(`Character "${options.label}" uses a runtime URL. Standalone mode accepts local GLB bytes only.`);
   }
@@ -489,7 +489,7 @@ async function loadScene(options: RetargetedCharacterOptions): Promise<Character
 function guessedMapping(label: string, scene: CharacterObject3D, boneNames: string[]): BoneMapping {
   const mapping = createMapping(label, `${label} (${boneNames.length} bones)`);
   mapping.bones = guessMapping(boneNames);
-  mapping.characterHeight = measureHgThreeSceneHeight(scene);
+  mapping.characterHeight = measureHgFirstPartySceneHeight(scene);
   return mapping;
 }
 

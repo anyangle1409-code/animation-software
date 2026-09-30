@@ -8,11 +8,11 @@ import { rebindToCanonical } from './rebind';
 import type { RebindReport } from './rebind';
 import type { CharacterSource } from './types';
 import {
-  hgThreePrimitiveSource,
-  loadHgThreeScene,
-  measureHgThreeSceneHeight,
-  type HgThreeSkinnedMesh,
-} from './gltfThreeScene';
+  hgFirstPartyPrimitiveSource,
+  loadHgFirstPartyScene,
+  measureHgFirstPartySceneHeight,
+} from './gltfFirstPartyScene';
+import { HgSkinnedMesh } from '../core/sceneSkin';
 
 /**
  * A character loaded from a GLB.
@@ -58,10 +58,10 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
       const scene = await loadScene(options);
       scene.updateMatrixWorld(true);
 
-      const meshes: HgThreeSkinnedMesh[] = [];
+      const meshes: HgSkinnedMesh[] = [];
       const boneNames: string[] = [];
       scene.traverse((object) => {
-        if ((object as HgThreeSkinnedMesh).isSkinnedMesh) meshes.push(object as HgThreeSkinnedMesh);
+        if ((object as HgSkinnedMesh).isSkinnedMesh) meshes.push(object as HgSkinnedMesh);
         if ((object as { isBone?: boolean }).isBone) boneNames.push(object.name);
       });
       if (meshes.length === 0) {
@@ -72,7 +72,7 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
 
       const mapping = options.mapping ?? guessedMapping(options.label, scene, boneNames);
       const origins = meshes.map((mesh) => {
-        const origin = hgThreePrimitiveSource(mesh);
+        const origin = hgFirstPartyPrimitiveSource(mesh);
         if (!origin) {
           throw new Error(`"${options.label}" lost its source GLB primitive identity.`);
         }
@@ -109,10 +109,10 @@ export function glbCharacterSource(options: GlbCharacterOptions): GlbCharacterSo
   return source;
 }
 
-type LoadedScene = Awaited<ReturnType<typeof loadHgThreeScene>>;
+type LoadedScene = Awaited<ReturnType<typeof loadHgFirstPartyScene>>;
 
 async function loadScene(options: GlbCharacterOptions): Promise<LoadedScene> {
-  if (options.data) return loadHgThreeScene(options.data);
+  if (options.data) return loadHgFirstPartyScene(options.data);
   if (options.url) {
     throw new Error(`Character "${options.label}" uses a runtime URL. Standalone mode accepts local GLB bytes only.`);
   }
@@ -122,6 +122,6 @@ async function loadScene(options: GlbCharacterOptions): Promise<LoadedScene> {
 function guessedMapping(label: string, scene: LoadedScene, boneNames: string[]): BoneMapping {
   const mapping = createMapping(label, `${label} (${boneNames.length} bones)`);
   mapping.bones = guessMapping(boneNames);
-  mapping.characterHeight = measureHgThreeSceneHeight(scene);
+  mapping.characterHeight = measureHgFirstPartySceneHeight(scene);
   return mapping;
 }

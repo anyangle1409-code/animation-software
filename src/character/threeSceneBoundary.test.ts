@@ -1,16 +1,23 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-describe('character Three boundary consolidation', () => {
-  it('keeps direct Three imports out of character construction and GLB materialization', () => {
-    for (const file of ['./bones.ts', './gltfThreeScene.ts']) {
+describe('character production scene boundary', () => {
+  it('keeps canonical character construction on first-party scene/skin classes', () => {
+    const source = readFileSync(new URL('./bones.ts', import.meta.url), 'utf8');
+    expect(source).not.toContain("from './threeSceneBoundary'");
+    expect(source).toContain("from '../core/sceneGraph'");
+    expect(source).toContain("from '../core/sceneSkin'");
+  });
+
+  it('keeps production GLB character loaders on the first-party materialiser', () => {
+    for (const file of ['./glbSource.ts', './retargetSource.ts']) {
       const source = readFileSync(new URL(file, import.meta.url), 'utf8');
-      expect(source).not.toMatch(/from ['"]three(?:\/|['"])/);
-      expect(source).toContain("from './threeSceneBoundary'");
+      expect(source).toContain("from './gltfFirstPartyScene'");
+      expect(source).not.toContain("from './gltfThreeScene'");
     }
   });
 
-  it('routes the character adapter through the single project-wide vendor gateway', () => {
+  it('retains the legacy Three adapter only as a compatibility/parity surface', () => {
     const source = readFileSync(new URL('./threeSceneBoundary.ts', import.meta.url), 'utf8');
     expect(source).not.toMatch(/from ['"]three(?:\/|['"])/);
     expect(source).toContain("from '../core/threeRuntimeBoundary'");

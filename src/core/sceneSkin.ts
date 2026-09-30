@@ -68,6 +68,7 @@ export interface HgBoundingSphere {
 
 export class HgBufferGeometry {
   readonly attributes: Record<string, HgBufferAttribute> = {};
+  readonly userData: Record<string, unknown> = {};
   morphAttributes: {
     position?: HgBufferAttribute[];
     normal?: HgBufferAttribute[];

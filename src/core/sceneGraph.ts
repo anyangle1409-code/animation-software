@@ -176,6 +176,7 @@ export class HgScene extends HgObject3D {
 
 export class HgBone extends HgObject3D {
   override readonly type = 'Bone';
+  readonly isBone = true;
 }
 
 export class HgPerspectiveCamera extends HgObject3D {

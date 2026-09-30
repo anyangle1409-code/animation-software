@@ -1,68 +1,72 @@
+import { HgMat4, HgQuat } from '../core/linearMath';
+import { HgBone, HgObject3D } from '../core/sceneGraph';
 import {
-  Bone,
-  BufferAttribute,
-  BufferGeometry,
-  InterleavedBufferAttribute,
-  Quaternion,
-  Skeleton as ThreeSkeleton,
-  Matrix4,
-  Material,
-  MeshStandardMaterial,
-  SkinnedMesh,
-  type Object3D,
-} from './threeSceneBoundary';
+  HgBufferAttribute,
+  HgBufferGeometry,
+  HgMaterial,
+  HgSkeleton,
+  HgSkinnedMesh,
+  HgStandardMaterial,
+  type HgStandardMaterialParameters,
+} from '../core/sceneSkin';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
 import { measureSceneHeight } from './sceneBounds';
 
-export type CharacterBone = Bone;
-export type CharacterBufferAttribute = BufferAttribute;
-export type CharacterBufferGeometry = BufferGeometry;
+export type CharacterBone = HgBone;
+export type CharacterBufferAttribute = HgBufferAttribute;
+export type CharacterBufferGeometry = HgBufferGeometry;
 
-export type CharacterMaterial = Material;
-export type CharacterStandardMaterial = MeshStandardMaterial;
-export type CharacterStandardMaterialParameters =
-  ConstructorParameters<typeof MeshStandardMaterial>[0];
+export type CharacterMaterial = HgMaterial;
+export type CharacterStandardMaterial = HgStandardMaterial;
+export type CharacterStandardMaterialParameters = HgStandardMaterialParameters;
 
 export function createCharacterBufferGeometry(): CharacterBufferGeometry {
-  return new BufferGeometry();
+  return new HgBufferGeometry();
 }
 
 export function createCharacterUint16BufferAttribute(
   values: Uint16Array,
   itemSize: number,
 ): CharacterBufferAttribute {
-  return new BufferAttribute(values, itemSize);
+  return new HgBufferAttribute(values, itemSize);
 }
 
 export function createCharacterSkinnedMeshObject(
   geometry: CharacterBufferGeometry,
   material: CharacterMaterial,
 ): CharacterSkinnedMesh {
-  return new SkinnedMesh(geometry, material);
+  return new HgSkinnedMesh(geometry, material);
 }
 
 export function createCharacterStandardMaterialObject(
   parameters?: CharacterStandardMaterialParameters,
 ): CharacterStandardMaterial {
-  return new MeshStandardMaterial(parameters);
+  return new HgStandardMaterial(parameters);
 }
 
 export function isCharacterStandardMaterial(
   material: unknown,
 ): material is CharacterStandardMaterial {
-  return material instanceof MeshStandardMaterial;
+  return material instanceof HgStandardMaterial;
 }
-export type CharacterInterleavedBufferAttribute = InterleavedBufferAttribute;
+
+/**
+ * Kept as a structural alias while imported assets/tests may still mention the
+ * former interleaved attribute type. First-party GLB materialisation normalises
+ * supported attributes into contiguous project-owned buffers.
+ */
+export type CharacterInterleavedBufferAttribute = HgBufferAttribute;
 
 export function createCharacterBufferAttribute(
   values: Float32Array,
   itemSize: number,
 ): CharacterBufferAttribute {
-  return new BufferAttribute(values, itemSize);
+  return new HgBufferAttribute(values, itemSize);
 }
-export type CharacterQuaternion = Quaternion;
+
+export type CharacterQuaternion = HgQuat;
 
 export function createCharacterQuaternion(
   x = 0,
@@ -70,25 +74,24 @@ export function createCharacterQuaternion(
   z = 0,
   w = 1,
 ): CharacterQuaternion {
-  return new Quaternion(x, y, z, w);
+  return new HgQuat(x, y, z, w);
 }
 
-export type CharacterMatrix4 = Matrix4;
+export type CharacterMatrix4 = HgMat4;
 
 export interface CharacterMatrixLike {
   readonly elements: ArrayLike<number>;
 }
 
 export function createCharacterMatrix(): CharacterMatrix4 {
-  return new Matrix4();
+  return new HgMat4();
 }
 
 export function copyCharacterMatrix(
   source: CharacterMatrixLike,
   target = createCharacterMatrix(),
 ): CharacterMatrix4 {
-  for (let index = 0; index < 16; index += 1) target.elements[index] = source.elements[index];
-  return target;
+  return target.copy(source);
 }
 
 export function multiplyCharacterMatrices(
@@ -98,34 +101,35 @@ export function multiplyCharacterMatrices(
 ): CharacterMatrix4 {
   return target.multiplyMatrices(left, right);
 }
-export type CharacterObject3D = Object3D;
-export type CharacterSkinnedMesh = SkinnedMesh;
+
+export type CharacterObject3D = HgObject3D;
+export type CharacterSkinnedMesh = HgSkinnedMesh;
+
 export function measureCharacterObjectHeight(object: CharacterObject3D): number {
   return measureSceneHeight(object);
 }
-export type CharacterThreeSkeleton = ThreeSkeleton;
+
+export type CharacterThreeSkeleton = HgSkeleton;
 
 export interface CanonicalBones {
-  root: Bone;
-  bones: Bone[];
-  boneByName: Map<BoneName, Bone>;
-  skeleton: ThreeSkeleton;
+  root: CharacterBone;
+  bones: CharacterBone[];
+  boneByName: Map<BoneName, CharacterBone>;
+  skeleton: CharacterThreeSkeleton;
 }
 
 /**
- * The canonical rig as three.js bones, in the rig's own order.
+ * Canonical Home Gym PT bone hierarchy in the project-owned scene runtime.
  *
- * Every character is bound to a hierarchy built here, whatever surface it
- * wears. That is what lets one animation, one set of IK chains and one grip
- * solver drive any of them — and why equipment parented to `hand_r` stays in
- * the hand no matter which mesh is on screen.
+ * Every character is bound to this shared hierarchy unless it preserves an
+ * imported skeleton and is driven through retargeting.
  */
 export function buildCanonicalBones(rig: Skeleton = canonicalSkeleton): CanonicalBones {
-  const bones: Bone[] = [];
-  const boneByName = new Map<BoneName, Bone>();
+  const bones: CharacterBone[] = [];
+  const boneByName = new Map<BoneName, CharacterBone>();
 
   for (const rigBone of rig.bones) {
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = rigBone.name;
     bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
     bone.quaternion.set(
@@ -142,5 +146,5 @@ export function buildCanonicalBones(rig: Skeleton = canonicalSkeleton): Canonica
   const root = boneByName.get(rig.bones[0].name)!;
   root.updateMatrixWorld(true);
 
-  return { root, bones, boneByName, skeleton: new ThreeSkeleton(bones) };
+  return { root, bones, boneByName, skeleton: new HgSkeleton(bones) };
 }

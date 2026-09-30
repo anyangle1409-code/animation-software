@@ -188,10 +188,16 @@ function buildPose(
     end,
     floorReferencePose,
   );
-  return fitEquipmentLockedArmRoot(
+  const fittedBallPivot = fitDynamicBallPivotRoot(
     skeleton,
     exercise,
     fittedFloor,
+    floorReferencePose,
+  );
+  return fitEquipmentLockedArmRoot(
+    skeleton,
+    exercise,
+    fittedBallPivot,
     end,
   );
 }
@@ -232,6 +238,72 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
       });
     }
   }
+}
+
+/**
+ * A calf-style floor lock with `onBall: {}` lets the ankle rise around a ball
+ * that stays fixed. The authored root arc encodes a rotation of the reference
+ * foot lever, not an absolute metre displacement. Recover that rotation from
+ * the reference foot, then apply it to the active skeleton's ankle-to-ball
+ * lever so a longer/shorter compatible foot reaches the same plantarflexion.
+ */
+function fitDynamicBallPivotRoot(
+  skeleton: Skeleton,
+  exercise: ExerciseDefinition,
+  pose: Pose,
+  floorReferencePose?: Pose,
+): Pose {
+  if (!floorReferencePose || Math.abs(pose.rootRotation.x) > 1e-6) return pose;
+  const dynamicBallLocks = exercise.locks.filter(
+    (lock) =>
+      lock.enabled &&
+      lock.mode === 'floor' &&
+      lock.onBall !== undefined &&
+      lock.onBall.ankle === undefined &&
+      lock.chain.startsWith('leg'),
+  );
+  if (dynamicBallLocks.length === 0) return pose;
+
+  const referenceFoot = canonicalSkeleton.bone('foot_l');
+  const activeFoot = skeleton.bone('foot_l');
+  if (
+    Math.abs(activeFoot.length - referenceFoot.length) < 1e-9 &&
+    Math.abs(activeFoot.restHead.y - referenceFoot.restHead.y) < 1e-9 &&
+    Math.abs(activeFoot.restTail.z - referenceFoot.restTail.z) < 1e-9
+  ) {
+    return pose;
+  }
+
+  const deltaY = pose.rootPosition.y - floorReferencePose.rootPosition.y;
+  const deltaZ = pose.rootPosition.z - floorReferencePose.rootPosition.z;
+  if (Math.hypot(deltaY, deltaZ) < 1e-9) return pose;
+
+  const refY = referenceFoot.restHead.y - referenceFoot.restTail.y;
+  const refZ = referenceFoot.restHead.z - referenceFoot.restTail.z;
+  const refStart = Math.atan2(refY, -refZ);
+  const refEnd = Math.atan2(refY + deltaY, -(refZ + deltaZ));
+  const rotation = refEnd - refStart;
+
+  const activeEvaluation = new PoseEvaluation(skeleton).apply(floorReferencePose);
+  const chain = IK_CHAINS[dynamicBallLocks[0].chain];
+  const ankle = activeEvaluation.head(chain.end);
+  const ball = activeEvaluation.tail(chain.end);
+  const activeY = ankle.y - ball.y;
+  const activeZ = ankle.z - ball.z;
+  const activeLength = Math.hypot(activeY, activeZ);
+  if (activeLength < 1e-9) return pose;
+
+  const activeStart = Math.atan2(activeY, -activeZ);
+  const activeEnd = activeStart + rotation;
+  const desiredY = activeLength * Math.sin(activeEnd);
+  const desiredZ = -activeLength * Math.cos(activeEnd);
+
+  pose.rootPosition = {
+    ...pose.rootPosition,
+    y: floorReferencePose.rootPosition.y + (desiredY - activeY),
+    z: floorReferencePose.rootPosition.z + (desiredZ - activeZ),
+  };
+  return pose;
 }
 
 /**

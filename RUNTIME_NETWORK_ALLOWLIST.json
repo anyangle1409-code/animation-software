@@ -3,10 +3,10 @@
   "purpose": "Allow only reviewed local packaged-resource network primitives. No external host/API exceptions.",
   "entries": [
     {
-      "file": "src/character/bundled.ts",
+      "file": "src/character/originalV1Bundled.ts",
       "contains": "fetch(url",
-      "classification": "local_packaged_character_probe",
-      "constraint": "The caller may pass only product-relative packaged character paths. Final paths must point to HomeGymPT_Male_ORIGINAL_v1 assets."
+      "classification": "local_packaged_original_v1_character_fetch",
+      "constraint": "Only the two exact product-relative ORIGINAL v1 production paths frozen in ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json may reach this reviewed fetch; no caller-supplied URL, remote host, candidate path or arbitrary local asset is permitted."
     }
   ]
 }

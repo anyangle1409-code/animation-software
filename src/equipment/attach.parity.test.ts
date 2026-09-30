@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
-import { PoseEvaluation, canonicalSkeleton } from '../rig/skeleton';
+import { PoseEvaluation, Skeleton, canonicalSkeleton } from '../rig/skeleton';
+import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from '../rig/canonicalV4Original';
 import { restPose } from '../rig/pose';
 import type { EquipmentInstance } from './types';
-import { cableMatrix, handAttachmentLocalMatrix, resolveEquipment, socketWorldPoint } from './attach';
+import {
+  anatomicalGripOffset,
+  cableMatrix,
+  handAttachmentLocalMatrix,
+  resolveEquipment,
+  socketWorldPoint,
+} from './attach';
 
 const expectMatrixParity = (
   actual: { elements: ArrayLike<number> },
@@ -57,6 +64,38 @@ describe('first-party equipment attachment', () => {
           .invert(),
       );
     expectMatrixParity(actual, expected);
+  });
+
+  it('preserves the accepted v3 generic grip point and scales it to v4 hand length', () => {
+    expect(anatomicalGripOffset('l')).toEqual({ x: -0.025, y: 0.085, z: 0 });
+    expect(anatomicalGripOffset('r')).toEqual({ x: 0.025, y: 0.085, z: 0 });
+
+    const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const scale = v4.bone('hand_l').length / canonicalSkeleton.bone('hand_l').length;
+    const left = anatomicalGripOffset('l', v4.bone('hand_l').length);
+    expect(left.x).toBeCloseTo(-0.025 * scale, 12);
+    expect(left.y).toBeCloseTo(0.085 * scale, 12);
+    expect(left.z).toBe(0);
+  });
+
+  it('places a v4 fallback hand-held item at the v4-scaled grip point', () => {
+    const skeleton = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const evaluation = new PoseEvaluation(skeleton).apply(restPose());
+    const instance: EquipmentInstance = {
+      id: 'v4_dumbbell',
+      kind: 'dumbbell',
+      position: { x: 0, y: 0, z: 0 },
+      rotation: { x: 0, y: 0, z: 0 },
+      attachment: { mode: 'hand', side: 'l', socket: 'grip' },
+      visible: true,
+    };
+    const transform = resolveEquipment(evaluation, [instance]).get(instance.id)!;
+    const expected = evaluation.localToWorld(
+      'hand_l',
+      anatomicalGripOffset('l', skeleton.bone('hand_l').length),
+      new HgVec3(),
+    );
+    expect(transform.position.distanceTo(expected)).toBeLessThan(1e-9);
   });
 
   it('matches an explicit cable orientation, scale and matrix composition', () => {

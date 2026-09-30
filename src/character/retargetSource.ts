@@ -301,7 +301,7 @@ export function retargetedCharacterSource(
         root,
         bones,
         boneByName,
-        skeleton: character.meshes[0].skeleton,
+        skeleton: character.meshes[0]!.skeleton,
         object: scene,
         meshes: character.meshes as CharacterSkinnedMesh[],
         deformation,

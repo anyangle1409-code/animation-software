@@ -14,8 +14,8 @@ interface CorrectiveGeometryLike {
 interface CorrectiveMeshLike {
   readonly name: string;
   readonly geometry: CorrectiveGeometryLike;
-  readonly morphTargetDictionary?: Record<string, number>;
-  readonly morphTargetInfluences?: number[];
+  readonly morphTargetDictionary?: Record<string, number> | null;
+  readonly morphTargetInfluences?: number[] | null;
 }
 
 export interface CorrectiveDiagnostic {

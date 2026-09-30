@@ -279,4 +279,17 @@ describe('first-party math migration parity against Three.js', () => {
     }
   });
 
+  it('matches vector setScalar and quaternion angleTo compatibility operations', () => {
+    expectVecParity(
+      new HgVec3().setScalar(0.37),
+      new Vector3().setScalar(0.37),
+      1e-12,
+    );
+    const hgA = new HgQuat().setFromEulerXYZ(0.2, -0.4, 0.1);
+    const hgB = new HgQuat().setFromEulerXYZ(-0.3, 0.15, 0.5);
+    const threeA = new Quaternion().setFromEuler(new Euler(0.2, -0.4, 0.1, 'XYZ'));
+    const threeB = new Quaternion().setFromEuler(new Euler(-0.3, 0.15, 0.5, 'XYZ'));
+    expect(Math.abs(hgA.angleTo(hgB) - threeA.angleTo(threeB))).toBeLessThan(1e-12);
+  });
+
 });

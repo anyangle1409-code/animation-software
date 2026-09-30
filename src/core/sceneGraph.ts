@@ -42,7 +42,7 @@ export class HgObject3D {
   matrixAutoUpdate = true;
   matrixWorldNeedsUpdate = false;
   visible = true;
-  readonly userData: Record<string, unknown> = {};
+  readonly userData: Record<string, any> = {};
 
   constructor() {
     this.rotation = new HgEuler(0, 0, 0, 'XYZ', () => {
@@ -124,6 +124,36 @@ export class HgObject3D {
   worldToLocal(vector: HgVec3): HgVec3 {
     this.updateWorldMatrix(true, false);
     return vector.applyMatrix4(this.matrixWorld.clone().invert());
+  }
+
+  getWorldPosition<T extends { set(x: number, y: number, z: number): T }>(target: T): T {
+    this.updateWorldMatrix(true, false);
+    const e = this.matrixWorld.elements;
+    return target.set(e[12], e[13], e[14]);
+  }
+
+  getWorldQuaternion<T extends { set(x: number, y: number, z: number, w: number): T }>(target: T): T {
+    this.updateWorldMatrix(true, false);
+    const rotation = new HgQuat().setFromRotationMatrix(
+      new HgMat4().extractRotation(this.matrixWorld),
+    );
+    return target.set(rotation.x, rotation.y, rotation.z, rotation.w);
+  }
+
+  /**
+   * Reparent while preserving the object's world transform.
+   * Mirrors the subset of Object3D.attach used by retarget diagnostics.
+   */
+  attach(object: HgObject3D): this {
+    this.updateWorldMatrix(true, false);
+    object.updateWorldMatrix(true, false);
+    const world = object.matrixWorld.clone();
+    this.add(object);
+    const local = this.matrixWorld.clone().invert().multiply(world);
+    local.decompose(object.position, object.quaternion, object.scale);
+    object.updateMatrix();
+    object.updateMatrixWorld(true);
+    return this;
   }
 
   lookAt(x: number, y: number, z: number): void {

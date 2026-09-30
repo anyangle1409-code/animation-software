@@ -85,8 +85,11 @@ export class HgBufferGeometry {
     return this;
   }
 
-  getAttribute(name: string): HgBufferAttribute | undefined {
-    return this.attributes[name];
+  getAttribute(name: string): HgBufferAttribute {
+    // Match the former BufferGeometry typing: callers that construct a known
+    // character surface can use the attribute directly; optional callers may
+    // still perform a runtime falsy check.
+    return this.attributes[name] as HgBufferAttribute;
   }
 
   deleteAttribute(name: string): this {
@@ -384,5 +387,59 @@ export class HgSkinnedMesh extends HgMesh {
       { length: count },
       (_, index) => previous[index] ?? 0,
     );
+  }
+
+  applyBoneTransform<T extends { set(x: number, y: number, z: number): T; x: number; y: number; z: number }>(
+    index: number,
+    target: T,
+  ): T {
+    const position = new HgVec3(target.x, target.y, target.z).applyMatrix4(this.bindMatrix);
+    const skinIndex = this.geometry.getAttribute('skinIndex');
+    const skinWeight = this.geometry.getAttribute('skinWeight');
+    const result = new HgVec3();
+    const transformed = new HgVec3();
+    const matrix = new HgMat4();
+
+    for (let slot = 0; slot < 4; slot += 1) {
+      const weight = skinWeight.getComponent(index, slot);
+      if (weight === 0) continue;
+      const boneIndex = Math.round(skinIndex.getComponent(index, slot));
+      const bone = this.skeleton.bones[boneIndex];
+      const inverse = this.skeleton.boneInverses[boneIndex];
+      if (!bone || !inverse) continue;
+      matrix.copy(bone.matrixWorld).multiply(inverse);
+      transformed.copy(position).applyMatrix4(matrix);
+      result.addScaledVector(transformed, weight);
+    }
+    result.applyMatrix4(this.bindMatrixInverse);
+    return target.set(result.x, result.y, result.z);
+  }
+
+  getVertexPosition<T extends { set(x: number, y: number, z: number): T; x: number; y: number; z: number }>(
+    index: number,
+    target: T,
+  ): T {
+    const position = this.geometry.getAttribute('position');
+    let x = position.getX(index);
+    let y = position.getY(index);
+    let z = position.getZ(index);
+    const morphs = this.geometry.morphAttributes.position ?? [];
+    const influences = this.morphTargetInfluences ?? [];
+    for (let slot = 0; slot < morphs.length; slot += 1) {
+      const influence = influences[slot] ?? 0;
+      if (influence === 0) continue;
+      const morph = morphs[slot];
+      if (this.geometry.morphTargetsRelative) {
+        x += morph.getX(index) * influence;
+        y += morph.getY(index) * influence;
+        z += morph.getZ(index) * influence;
+      } else {
+        x += (morph.getX(index) - position.getX(index)) * influence;
+        y += (morph.getY(index) - position.getY(index)) * influence;
+        z += (morph.getZ(index) - position.getZ(index)) * influence;
+      }
+    }
+    target.set(x, y, z);
+    return this.applyBoneTransform(index, target);
   }
 }

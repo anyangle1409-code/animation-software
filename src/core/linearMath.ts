@@ -46,6 +46,10 @@ export class HgVec3 {
     this.x *= scale; this.y *= scale; this.z *= scale; return this;
   }
 
+  setScalar(value: number): this {
+    return this.set(value, value, value);
+  }
+
   dot(v: HgVec3): number {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
@@ -168,6 +172,10 @@ export class HgQuat {
 
   dot(q: { x: number; y: number; z: number; w: number }): number {
     return this.x * q.x + this.y * q.y + this.z * q.z + this.w * q.w;
+  }
+
+  angleTo(q: { x: number; y: number; z: number; w: number }): number {
+    return 2 * Math.acos(Math.min(1, Math.abs(this.dot(q))));
   }
 
   normalize(): this {

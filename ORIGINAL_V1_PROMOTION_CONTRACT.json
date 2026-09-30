@@ -42,6 +42,7 @@
     "approved_source_commit must be one exact 40-hex commit from the isolated model branch.",
     "Every production target must have one exact 64-hex SHA-256 and the repository file must match it byte-for-byte.",
     "Production target names must not contain CANDIDATE, BASELINE, CORNER_FINAL, V9-V15, MakeHuman or other legacy/reference identities.",
+    "Both production GLBs must embed scene extras homeGymPT metadata with the exact asset/rig identity, offsetFrame=hand-v2, finite left/right gripFrameOffsets and handleGripOffsets, and a non-null ORIGINAL-v1-specific gripSolutionId that exists in the first-party solved-grip table.",
     "The standalone RELEASE_ASSET_ALLOWLIST.json must explicitly allow the exact release paths; broad character-directory or extension wildcards are forbidden.",
     "male_character, male_shorts and canonical_rig must remain non-approved in FIRST_PARTY_COMPONENT_MANIFEST.json until the exact promoted assets and final rig have passed their production gates.",
     "Promotion must copy only approved production artifacts/evidence. Do not merge the model branch into the standalone branch.",
@@ -57,5 +58,15 @@
     "next_repair_group": "shoulder",
     "candidate_glb_structure": "passed_candidate_only",
     "note": "Advisory snapshot only. It does not authorize promotion and may become stale as Blender work continues."
+  },
+  "required_runtime_metadata": {
+    "scene_extras_namespace": "homeGymPT",
+    "assetId": "HomeGymPT_Male_ORIGINAL_v1",
+    "rigId": "hgpt_canonical_v4_original",
+    "offsetFrame": "hand-v2",
+    "require_grip_frame_offsets_both_hands": true,
+    "require_handle_grip_offsets_both_hands": true,
+    "gripSolutionId": null,
+    "note": "gripSolutionId remains null until an ORIGINAL-v1-specific first-party solved grip is generated from approved hand/equipment evidence. Approved promotion must set a concrete id and embed matching scene extras in both production GLBs."
   }
 }

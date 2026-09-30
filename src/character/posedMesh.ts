@@ -16,7 +16,7 @@ export interface PosedCharacterMeshLike extends HgDeformableMeshLike {
   readonly name?: string;
   readonly geometry: HgGeometryLike & {
     getAttribute(name: string): HgAttributeLike | undefined;
-    getIndex?(): { readonly count: number; getX(index: number): number } | null;
+    getIndex(): { readonly count: number; getX(index: number): number } | null;
   };
   readonly matrixWorld: HgMatrixLike;
   readonly skeleton: {

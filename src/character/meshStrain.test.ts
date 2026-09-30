@@ -1,26 +1,32 @@
-import { Bone, BufferAttribute, BufferGeometry, Skeleton, SkinnedMesh } from 'three';
+import { HgBone } from '../core/sceneGraph';
+import {
+  HgBufferAttribute,
+  HgBufferGeometry,
+  HgSkeleton,
+  HgSkinnedMesh,
+} from '../core/sceneSkin';
 import { describe, expect, it } from 'vitest';
 import { meshStrainDiagnostics } from './meshStrain';
 
-function skinnedTriangle(): { mesh: SkinnedMesh; bone: Bone } {
-  const geometry = new BufferGeometry();
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array([
+function skinnedTriangle(): { mesh: HgSkinnedMesh; bone: HgBone } {
+  const geometry = new HgBufferGeometry();
+  geometry.setAttribute('position', new HgBufferAttribute(new Float32Array([
     0, 0, 0,
     1, 0, 0,
     0, 1, 0,
   ]), 3));
   geometry.setIndex([0, 1, 2]);
-  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array([
+  geometry.setAttribute('skinIndex', new HgBufferAttribute(new Uint16Array([
     0, 0, 0, 0,
     0, 0, 0, 0,
     0, 0, 0, 0,
   ]), 4));
-  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array([
+  geometry.setAttribute('skinWeight', new HgBufferAttribute(new Float32Array([
     1, 0, 0, 0,
     1, 0, 0, 0,
     1, 0, 0, 0,
   ]), 4));
-  const morph = new BufferAttribute(new Float32Array([
+  const morph = new HgBufferAttribute(new Float32Array([
     0, 0, 0,
     0.5, 0, 0,
     0, 0, 0,
@@ -28,11 +34,11 @@ function skinnedTriangle(): { mesh: SkinnedMesh; bone: Bone } {
   morph.name = 'homeGymPT_test';
   geometry.morphTargetsRelative = true;
   geometry.morphAttributes.position = [morph];
-  const mesh = new SkinnedMesh(geometry);
+  const mesh = new HgSkinnedMesh(geometry);
   mesh.name = 'TestBody';
-  const bone = new Bone();
+  const bone = new HgBone();
   mesh.add(bone);
-  mesh.bind(new Skeleton([bone]));
+  mesh.bind(new HgSkeleton([bone]));
   mesh.updateMorphTargets();
   return { mesh, bone };
 }

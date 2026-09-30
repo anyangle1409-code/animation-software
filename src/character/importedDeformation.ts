@@ -1,8 +1,10 @@
 import {
   createCharacterBufferAttribute,
+  type CharacterBone,
   type CharacterBufferAttribute,
   type CharacterBufferGeometry,
   type CharacterInterleavedBufferAttribute,
+  type CharacterSkinnedMesh,
 } from './bones';
 import type { Skeleton } from '../rig/skeleton';
 import { HgMat4, HgVec3 } from '../core/linearMath';
@@ -12,31 +14,6 @@ import type { Pose } from '../rig/types';
 import { elbowFlexion } from '../rig/elbowFlexion';
 import { compressTrack } from '../export/tracks';
 import type { DeformationControl, DeformationSampler, DeformationStack, DeformationTrackData } from './types';
-
-interface ImportedBoneLike {
-  readonly name: string;
-  readonly matrixWorld: { readonly elements: ArrayLike<number> };
-  updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
-}
-
-interface ImportedMeshLike {
-  readonly name: string;
-  readonly geometry: CharacterBufferGeometry | {
-    morphTargetsRelative: boolean;
-    morphAttributes: {
-      position?: Array<CharacterBufferAttribute | any>;
-      normal?: Array<CharacterBufferAttribute | any>;
-    };
-    getAttribute(name: string): any;
-    getIndex(): { count: number; getX(index: number): number } | null;
-  };
-  readonly skeleton: { readonly bones: readonly { readonly name: string }[] };
-  readonly matrixWorld: { readonly elements: ArrayLike<number> };
-  morphTargetDictionary: Record<string, number> | null;
-  morphTargetInfluences: number[] | null;
-  updateWorldMatrix(updateParents: boolean, updateChildren: boolean): void;
-  updateMorphTargets(): void;
-}
 
 export interface ImportedElbowCorrectiveOptions {
   enabled?: boolean;
@@ -64,7 +41,7 @@ export interface ImportedElbowRuntimeTuning {
 
 /** One flexion-driven morph target on one mesh, for one side of the body. */
 export interface CorrectiveTarget {
-  mesh: ImportedMeshLike;
+  mesh: CharacterSkinnedMesh;
   side: Side;
   influence: number;
   name: string;
@@ -77,8 +54,8 @@ const clampOuterSmooth = (value: number): number => Math.min(1, Math.max(0, valu
 
 /** Build opt-in pose shapes for an imported mesh's own elbow topology. */
 export function importedElbowDeformation(
-  meshes: ImportedMeshLike[],
-  boneByName: Map<BoneName, ImportedBoneLike>,
+  meshes: CharacterSkinnedMesh[],
+  boneByName: Map<BoneName, CharacterBone>,
   rig: Skeleton,
   options?: ImportedElbowCorrectiveOptions,
   tuning?: ImportedElbowRuntimeTuning,
@@ -128,8 +105,8 @@ export function importedElbowDeformation(
 }
 
 function appendTargets(
-  mesh: ImportedMeshLike,
-  boneByName: Map<BoneName, ImportedBoneLike>,
+  mesh: CharacterSkinnedMesh,
+  boneByName: Map<BoneName, CharacterBone>,
   side: Side,
   options: ImportedElbowCorrectiveOptions,
   tuning?: ImportedElbowRuntimeTuning,
@@ -258,7 +235,7 @@ function appendTargets(
 }
 
 function appendMorphTarget(
-  mesh: ImportedMeshLike,
+  mesh: CharacterSkinnedMesh,
   side: Side,
   delta: Float32Array,
   name: string,
@@ -469,7 +446,7 @@ function absoluteMorph(
   return createCharacterBufferAttribute(values, 3);
 }
 
-function matchingBones(mesh: ImportedMeshLike, base: string, includeSplitHelpers = false): Set<number> {
+function matchingBones(mesh: CharacterSkinnedMesh, base: string, includeSplitHelpers = false): Set<number> {
   const result = new Set<number>();
   mesh.skeleton.bones.forEach((bone, index) => {
     if (

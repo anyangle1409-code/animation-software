@@ -1,23 +1,22 @@
 import { describe, expect, it } from 'vitest';
+import { HgBone, HgGroup } from '../core/sceneGraph';
 import {
-  Bone,
-  BufferAttribute,
-  BufferGeometry,
-  Group,
-  MeshBasicMaterial,
-  Skeleton as ThreeSkeleton,
-  SkinnedMesh,
-} from 'three';
+  HgBufferAttribute,
+  HgBufferGeometry,
+  HgSkeleton,
+  HgSkinnedMesh,
+  HgStandardMaterial,
+} from '../core/sceneSkin';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import type { BoneName } from '../rig/boneNames';
 import { importedElbowDeformation } from './importedDeformation';
 
 function elbowFixture() {
-  const upper = new Bone();
+  const upper = new HgBone();
   upper.name = 'DEF-upper_arm.L';
   upper.position.set(0, 0.1, 0);
-  const lower = new Bone();
+  const lower = new HgBone();
   lower.name = 'DEF-forearm.L';
   lower.position.set(0, -0.1, 0);
   upper.add(lower);
@@ -43,19 +42,19 @@ function elbowFixture() {
     skinWeight.push(0.5, 0.5, 0, 0);
   }
 
-  const geometry = new BufferGeometry();
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
-  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(skinIndex), 4));
-  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(skinWeight), 4));
+  const geometry = new HgBufferGeometry();
+  geometry.setAttribute('position', new HgBufferAttribute(new Float32Array(positions), 3));
+  geometry.setAttribute('skinIndex', new HgBufferAttribute(new Uint16Array(skinIndex), 4));
+  geometry.setAttribute('skinWeight', new HgBufferAttribute(new Float32Array(skinWeight), 4));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
 
-  const mesh = new SkinnedMesh(geometry, new MeshBasicMaterial());
+  const mesh = new HgSkinnedMesh(geometry, new HgStandardMaterial());
   mesh.name = 'elbow-fixture';
-  const scene = new Group();
+  const scene = new HgGroup();
   scene.add(mesh, upper);
   scene.updateMatrixWorld(true);
-  mesh.bind(new ThreeSkeleton([upper, lower]));
+  mesh.bind(new HgSkeleton([upper, lower]));
   scene.updateMatrixWorld(true);
 
   const boneByName = new Map<BoneName, Bone>([
@@ -65,7 +64,7 @@ function elbowFixture() {
   return { mesh, boneByName };
 }
 
-function morphOffset(mesh: SkinnedMesh, morph: BufferAttribute, vertex: number) {
+function morphOffset(mesh: HgSkinnedMesh, morph: HgBufferAttribute, vertex: number) {
   const base = mesh.geometry.getAttribute('position');
   const baseX = mesh.geometry.morphTargetsRelative ? 0 : base.getX(vertex);
   const baseY = mesh.geometry.morphTargetsRelative ? 0 : base.getY(vertex);
@@ -77,7 +76,7 @@ function morphOffset(mesh: SkinnedMesh, morph: BufferAttribute, vertex: number) 
   };
 }
 
-function addExistingMorph(mesh: SkinnedMesh, relative: boolean) {
+function addExistingMorph(mesh: HgSkinnedMesh, relative: boolean) {
   const position = mesh.geometry.getAttribute('position');
   const values = new Float32Array(position.count * 3);
   for (let vertex = 0; vertex < position.count; vertex += 1) {
@@ -90,7 +89,7 @@ function addExistingMorph(mesh: SkinnedMesh, relative: boolean) {
   }
   // Give the pre-existing target an easily checked, non-zero expression delta.
   values[0] += 0.012;
-  const expression = new BufferAttribute(values, 3);
+  const expression = new HgBufferAttribute(values, 3);
   expression.name = 'existing_expression';
   mesh.geometry.morphTargetsRelative = relative;
   mesh.geometry.morphAttributes.position = [expression];
@@ -120,7 +119,7 @@ describe('imported elbow directional smoothing', () => {
     );
     expect(deformation).not.toBeNull();
 
-    const morph = mesh.geometry.morphAttributes.position?.[0] as BufferAttribute | undefined;
+    const morph = mesh.geometry.morphAttributes.position?.[0] as HgBufferAttribute | undefined;
     expect(morph).toBeDefined();
     let maximum = 0;
     for (let vertex = 0; vertex < morph!.count; vertex += 1) {
@@ -150,7 +149,7 @@ describe('imported elbow directional smoothing', () => {
       expect(deformation).not.toBeNull();
       expect(mesh.geometry.morphTargetsRelative).toBe(relative);
 
-      const morphs = mesh.geometry.morphAttributes.position as BufferAttribute[];
+      const morphs = mesh.geometry.morphAttributes.position as HgBufferAttribute[];
       expect(morphs).toHaveLength(2);
       expect(Array.from(morphs[0].array as ArrayLike<number>)).toEqual(before);
       expect(morphs[0].name).toBe('existing_expression');

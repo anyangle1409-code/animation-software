@@ -1,0 +1,71 @@
+name: ORIGINAL v1 deformation validation
+
+concurrency:
+  group: original-v1-deformation-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - claude/original-v1-blender-o2-20260929
+    paths:
+      - "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json"
+      - "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json"
+      - "ORIGINAL_V1_WORK/candidates/O4_CANDIDATE_BUILD.json"
+      - "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json"
+      - "ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json"
+      - "scripts/evaluate_original_v1_deformation_report.py"
+      - "scripts/compare_original_v1_deformation_reports.py"
+      - "scripts/verify_original_v1_deformation_baseline.py"
+      - "scripts/test_evaluate_original_v1_deformation_report.py"
+      - "scripts/test_compare_original_v1_deformation_reports.py"
+      - ".github/workflows/original-v1-deformation-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python version
+        run: python3 --version
+
+      - name: Syntax-check deformation tooling
+        run: >
+          python3 -m py_compile
+          scripts/evaluate_original_v1_deformation_report.py
+          scripts/compare_original_v1_deformation_reports.py
+          scripts/verify_original_v1_deformation_baseline.py
+          scripts/test_evaluate_original_v1_deformation_report.py
+          scripts/test_compare_original_v1_deformation_reports.py
+
+      - name: Run deformation tooling tests
+        run: python3 -m unittest discover -s scripts -p "test_*deformation*.py"
+
+      - name: Verify pinned R2 baseline
+        run: python3 scripts/verify_original_v1_deformation_baseline.py
+
+      - name: Reproduce current development report
+        run: >
+          python3 scripts/evaluate_original_v1_deformation_report.py
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          --grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
+          --profile development_blocker
+          --require-group core_five
+          --report-only
+
+      - name: Comparator self-check against pinned report
+        run: >
+          python3 scripts/compare_original_v1_deformation_reports.py
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          --baseline-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
+          --candidate-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
+          --profile development_blocker

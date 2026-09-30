@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AnimationClip, AnimationMixer, LoopOnce, Quaternion, Vector3 } from 'three';
 import { HgBone, HgGroup } from '../core/sceneGraph';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import { retargetSampler } from '../character/retargetSource';
 import { deformationTrackToCharacterTrack } from '../export/test/clipBuilderCompat';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
@@ -47,7 +48,7 @@ function buildCharacter(options: {
       // Raise the arms to horizontal: a genuinely different rest pose.
       const side = rigBone.name.endsWith('_l') ? -1 : 1;
       bone.quaternion.multiply(
-        new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), (side * Math.PI) / 2),
+        new HgQuat().setFromAxisAngle(new HgVec3(0, 0, 1), (side * Math.PI) / 2),
       );
     }
     if (
@@ -59,7 +60,7 @@ function buildCharacter(options: {
       // be treated as a delta on top of this authored spread.
       const side = rigBone.name.endsWith('_l') ? 1 : -1;
       bone.quaternion.multiply(
-        new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), side * 0.38),
+        new HgQuat().setFromAxisAngle(new HgVec3(0, 0, 1), side * 0.38),
       );
     }
     bones.set(rigBone.name, bone);

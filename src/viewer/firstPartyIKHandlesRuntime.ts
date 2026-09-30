@@ -11,7 +11,7 @@ import {
   updateHgIKHandleSelection,
   type HgIKHandleSceneResources,
 } from './firstPartyIKHandleScene';
-import type { IKHandleKind } from './ikHandleScene';
+import type { IKHandleKind } from './ikHandleSceneModel';
 import type { HgScenePointerRouter } from './scenePointerRouter';
 import { resolveIKHandleStates } from './ikHandleSnapshot';
 

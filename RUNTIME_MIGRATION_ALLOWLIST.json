@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "purpose": "Runtime dependency ceiling is now zero. Development-only parity tooling may retain explicitly guarded compatibility imports until those tests are replaced.",
+  "purpose": "Runtime dependency and operational source-import ceilings are zero. Development-only test parity tooling may still use Three until those tests are independently replaced.",
   "allowed_existing_runtime_dependencies": [],
-  "rule": "package.json runtime dependencies must remain empty. Development dependencies do not ship, but guarded compatibility source imports may only decrease and must never enter production output.",
+  "rule": "package.json runtime dependencies must remain empty. Operational source imports of guarded runtime dependencies must remain zero; development-only test imports may not enter production output.",
   "final_target": [],
   "source_import_ceilings": {
     "@react-three/fiber": {
@@ -31,11 +31,9 @@
       "rule": "ReactDOM source imports are zero and the package is removed. It may not return."
     },
     "three": {
-      "max_imports": 1,
-      "allowed_files": [
-        "src/core/threeRuntimeBoundary.ts"
-      ],
-      "rule": "Three is development-only and retained solely behind the legacy parity/compatibility gateway. The live Home Gym PT viewport uses first-party scene/skinning/WebGL code. Production-output audit must remain free of Three; this source ceiling must eventually reach zero too."
+      "max_imports": 0,
+      "allowed_files": [],
+      "rule": "Operational Three source imports are zero. The live Home Gym PT viewport, scene graph, skinning and WebGL renderer are first-party; Three may exist only in excluded development tests until test parity migration is complete."
     }
   }
 }

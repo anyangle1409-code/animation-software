@@ -1,6 +1,7 @@
 import { IK_CHAIN_IDS } from '../ik/chains';
 import type { IKChainId } from '../ik/types';
-import type { IKHandleKind } from './ikHandleScene';
+
+export type IKHandleKind = 'target' | 'pole';
 
 export const HG_IK_HANDLE_COLOURS = {
   target: '#4fd6a0',

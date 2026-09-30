@@ -12,8 +12,8 @@ import type { HgScenePointerRouter } from './scenePointerRouter';
 import {
   buildHgIKHandleSceneModel,
   resolveHgIKHandleAppearance,
+  type IKHandleKind,
 } from './ikHandleSceneModel';
-import type { IKHandleKind } from './ikHandleScene';
 
 export interface HgIKHandleSceneResources {
   readonly group: HgGroup;

@@ -75,7 +75,7 @@ describe('first-party preserved character GLB writer', () => {
     const scene = await loadHgFirstPartyScene(fixture.data);
     let mesh: HgSkinnedMesh | null = null;
     scene.traverse((object) => {
-      if ((object as HgSkinnedMesh).isHgSkinnedMesh) mesh = object as HgSkinnedMesh;
+      if ((object as HgSkinnedMesh).isSkinnedMesh) mesh = object as HgSkinnedMesh;
     });
     expect(mesh).not.toBeNull();
 

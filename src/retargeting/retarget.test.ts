@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationClip, AnimationMixer, Bone, Group, LoopOnce, Matrix4, Quaternion, Vector3 } from 'three';
+import { AnimationClip, AnimationMixer, LoopOnce, Quaternion, Vector3 } from 'three';
+import { HgBone, HgGroup } from '../core/sceneGraph';
 import { retargetSampler } from '../character/retargetSource';
 import { deformationTrackToCharacterTrack } from '../export/test/clipBuilderCompat';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
@@ -29,11 +30,11 @@ function buildCharacter(options: {
   tPose?: boolean;
   openHand?: boolean;
 }) {
-  const group = new Group();
-  const bones = new Map<string, Bone>();
+  const group = new HgGroup();
+  const bones = new Map<string, HgBone>();
 
   for (const rigBone of skeleton.bones) {
-    const bone = new Bone();
+    const bone = new HgBone();
     bone.name = options.names(rigBone.name);
     bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
     bone.quaternion.set(
@@ -223,7 +224,9 @@ describe('retargeting', () => {
       ['pinky_02_r', 'pinky_03_r'],
     ] as const;
     for (const [name, child] of segments) {
-      const targetHead = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+      const targetHead = new Vector3().setFromMatrixPosition(
+        asThreeMatrix(character.bones.get(name)!.matrixWorld),
+      );
       const targetTail = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(child)!.matrixWorld));
       const targetDirection = targetTail.sub(targetHead).normalize();
       const expectedHead = evaluation.head(name, new Vector3());
@@ -235,11 +238,11 @@ describe('retargeting', () => {
 
   it('transfers asymmetric motion into the source side convention without reflecting geometry', () => {
     const original = buildCharacter({ names: identityNames });
-    const group = new Group();
-    const bones = new Map<string, Bone>();
+    const group = new HgGroup();
+    const bones = new Map<string, HgBone>();
     for (const definition of skeleton.bones) {
       const source = original.bones.get(definition.name)!;
-      const bone = new Bone(); bone.name = source.name;
+      const bone = new HgBone(); bone.name = source.name;
       bone.position.copy(source.getWorldPosition(new Vector3())); bone.position.x *= -1;
       bone.quaternion.copy(source.getWorldQuaternion(new Quaternion()));
       bone.quaternion.y *= -1; bone.quaternion.z *= -1;
@@ -286,16 +289,16 @@ describe('disconnected source deform branches', () => {
     const group = original.root;
     if (detached) {
       for (const name of ['thigh_l', 'thigh_r', 'clavicle_l', 'clavicle_r', 'upperarm_l', 'upperarm_r']) {
-        group.attach(asThreeObject(original.bones.get(name)!));
+        group.attach(original.bones.get(name)!);
       }
     }
     for (const [name, parentName] of [
       ['DEF-jaw', 'head'], ['DEF-breastL', 'spine_03'], ['DEF-pelvisL', 'pelvis'],
     ]) {
-      const detail = new Bone();
+      const detail = new HgBone();
       detail.name = name;
       detail.position.set(0.02, 0.03, 0.04);
-      asThreeObject(original.bones.get(parentName)!).add(detail);
+      original.bones.get(parentName)!.add(detail);
       group.updateMatrixWorld(true);
       if (detached) group.attach(detail);
     }

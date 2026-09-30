@@ -485,7 +485,9 @@ export function applyStance(
   }
 }
 
-function ikFromSpec(spec: PoseSpec): Partial<Record<IKChainId, KeyframeIK>> {
+function ikFromSpec(
+  spec: PoseSpec,
+): Partial<Record<IKChainId, KeyframeIK>> {
   const out: Partial<Record<IKChainId, KeyframeIK>> = {};
   for (const [chain, value] of Object.entries(spec.ik ?? {})) {
     if (!value) continue;
@@ -493,7 +495,7 @@ function ikFromSpec(spec: PoseSpec): Partial<Record<IKChainId, KeyframeIK>> {
       enabled: true,
       target: { ...value.target },
       pole: { ...value.pole },
-      ...(value.aim ? { aim: value.aim } : {}),
+      ...(value.aim ? { aim: structuredClone(value.aim) } : {}),
       ...(value.onBall ? { onBall: { ...value.onBall } } : {}),
     };
   }

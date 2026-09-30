@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
 import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
@@ -26,13 +25,13 @@ const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
 function at(time: number) {
   const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
   evaluation.apply(frame.pose);
-  const shoulder = evaluation.head('upperarm_l', new Vector3());
-  const elbow = evaluation.head('forearm_l', new Vector3());
+  const shoulder = evaluation.head('upperarm_l', new HgVec3());
+  const elbow = evaluation.head('forearm_l', new HgVec3());
   return {
-    upperArm: (elbow.clone().sub(shoulder).normalize().angleTo(new Vector3(0, 1, 0)) * 180) / Math.PI,
+    upperArm: (elbow.clone().sub(shoulder).normalize().angleTo(new HgVec3(0, 1, 0)) * 180) / Math.PI,
     elbow,
-    hand: evaluation.head('hand_l', new Vector3()),
-    head: evaluation.head('head', new Vector3()),
+    hand: evaluation.head('hand_l', new HgVec3()),
+    head: evaluation.head('head', new HgVec3()),
     gap: frame.equipment.get('dumbbell_l')!.position.distanceTo(frame.equipment.get('dumbbell_r')!.position),
   };
 }
@@ -80,8 +79,8 @@ describe('the cable pushdown', () => {
     pushEvaluation.apply(frame.pose);
     return {
       frame,
-      elbow: pushEvaluation.head('forearm_l', new Vector3()),
-      shoulder: pushEvaluation.head('upperarm_l', new Vector3()),
+      elbow: pushEvaluation.head('forearm_l', new HgVec3()),
+      shoulder: pushEvaluation.head('upperarm_l', new HgVec3()),
       fit: measureTwoHandFit(pushEvaluation, byId('bar'), frame.equipment.get('bar')!)!,
     };
   });
@@ -119,7 +118,7 @@ describe('the cable pushdown', () => {
     for (const { elbow, shoulder } of frames) {
       expect(elbow.distanceTo(first.elbow)).toBeLessThan(1e-6);
       // 7° forward of vertical, measured.
-      const upperArm = (elbow.clone().sub(shoulder).normalize().angleTo(new Vector3(0, -1, 0)) * 180) / Math.PI;
+      const upperArm = (elbow.clone().sub(shoulder).normalize().angleTo(new HgVec3(0, -1, 0)) * 180) / Math.PI;
       expect(upperArm).toBeLessThan(10);
       expect(elbow.z).toBeGreaterThan(shoulder.z);
     }

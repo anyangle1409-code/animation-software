@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -27,8 +27,8 @@ const all = Array.from({ length: 401 }, (_, index) => {
   const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
   evaluation.apply(frame.pose);
   const side = (name: 'l' | 'r') => ({
-    ankle: evaluation.head(`foot_${name}`, new Vector3()),
-    ball: evaluation.tail(`foot_${name}`, new Vector3()),
+    ankle: evaluation.head(`foot_${name}`, new HgVec3()),
+    ball: evaluation.tail(`foot_${name}`, new HgVec3()),
   });
   // The left foot is down for the first step, the right for the second.
   const planted = time < step ? 'l' : 'r';

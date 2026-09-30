@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { blendPoses, poseFromDegrees } from '../../rig/pose';
 import { generateClip } from '../../animation/generate';
@@ -37,10 +37,10 @@ function playback(exercise: ExerciseDefinition, samples = 60) {
     return {
       time,
       pose: frame.pose,
-      pelvis: evaluation.head('pelvis', new Vector3()),
-      knee: evaluation.head('shin_l', new Vector3()),
-      toe: evaluation.tail('toe_l', new Vector3()),
-      foot: new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion('foot_l')),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
+      knee: evaluation.head('shin_l', new HgVec3()),
+      toe: evaluation.tail('toe_l', new HgVec3()),
+      foot: new HgVec3(0, 1, 0).applyQuaternion(evaluation.quaternion('foot_l')),
     };
   });
 }
@@ -167,7 +167,7 @@ describe('blending the root about a pivot', () => {
     const at = (t: number) => {
       const pose = blendPoses(standing, hinged, t, pivot);
       const evaluation = new PoseEvaluation(rig).apply(pose);
-      return { pose, pelvis: evaluation.head('pelvis', new Vector3()) };
+      return { pose, pelvis: evaluation.head('pelvis', new HgVec3()) };
     };
     for (const t of [0, 1]) {
       const plain = blendPoses(standing, hinged, t);

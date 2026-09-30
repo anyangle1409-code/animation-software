@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -28,18 +28,18 @@ const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
 function at(time: number) {
   const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
   evaluation.apply(frame.pose);
-  const heel = evaluation.head('foot_r', new Vector3());
-  const ball = evaluation.tail('foot_r', new Vector3());
+  const heel = evaluation.head('foot_r', new HgVec3());
+  const ball = evaluation.tail('foot_r', new HgVec3());
   return {
     pose: frame.pose,
     ball,
-    toeTip: evaluation.tail('toe_r', new Vector3()),
-    toe: new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion('toe_r')),
+    toeTip: evaluation.tail('toe_r', new HgVec3()),
+    toe: new HgVec3(0, 1, 0).applyQuaternion(evaluation.quaternion('toe_r')),
     /** How far the back foot is pitched up off the floor, degrees. */
     heel: (Math.asin((heel.y - ball.y) / heel.distanceTo(ball)) * 180) / Math.PI,
-    backKnee: evaluation.head('shin_r', new Vector3()),
-    frontKnee: evaluation.head('shin_l', new Vector3()),
-    frontAnkle: evaluation.head('foot_l', new Vector3()),
+    backKnee: evaluation.head('shin_r', new HgVec3()),
+    frontKnee: evaluation.head('shin_l', new HgVec3()),
+    frontAnkle: evaluation.head('foot_l', new HgVec3()),
   };
 }
 const bottom = splitSquat.tempo.eccentric + splitSquat.tempo.pauseStretched / 2;
@@ -102,11 +102,11 @@ describe('forward lunge', () => {
     return {
       time,
       frame,
-      ankle: evaluation.head('foot_l', new Vector3()),
-      frontToe: evaluation.tail('toe_l', new Vector3()),
-      backBall: evaluation.tail('foot_r', new Vector3()),
-      backHeel: evaluation.head('foot_r', new Vector3()),
-      backKnee: evaluation.head('shin_r', new Vector3()),
+      ankle: evaluation.head('foot_l', new HgVec3()),
+      frontToe: evaluation.tail('toe_l', new HgVec3()),
+      backBall: evaluation.tail('foot_r', new HgVec3()),
+      backHeel: evaluation.head('foot_r', new HgVec3()),
+      backKnee: evaluation.head('shin_r', new HgVec3()),
     };
   });
 
@@ -161,7 +161,7 @@ describe('forward lunge', () => {
     // The back foot's contact names its ankle, not the ball it pivots on.
     const bottom = all.find((entry) => entry.frame.phaseId === 'bottom')!;
     const back = bottom.frame.contacts.find((entry) => entry.chain === 'leg_r')!;
-    expect(new Vector3(back.target.x, back.target.y, back.target.z).distanceTo(bottom.backHeel)).toBeLessThan(1e-9);
+    expect(new HgVec3(back.target.x, back.target.y, back.target.z).distanceTo(bottom.backHeel)).toBeLessThan(1e-9);
   });
 });
 
@@ -178,11 +178,11 @@ describe('reverse lunge', () => {
     return {
       time,
       frame,
-      front: evaluation.head('foot_l', new Vector3()),
-      backAnkle: evaluation.head('foot_r', new Vector3()),
-      backBall: evaluation.tail('foot_r', new Vector3()),
-      backToe: evaluation.tail('toe_r', new Vector3()),
-      backKnee: evaluation.head('shin_r', new Vector3()),
+      front: evaluation.head('foot_l', new HgVec3()),
+      backAnkle: evaluation.head('foot_r', new HgVec3()),
+      backBall: evaluation.tail('foot_r', new HgVec3()),
+      backToe: evaluation.tail('toe_r', new HgVec3()),
+      backKnee: evaluation.head('shin_r', new HgVec3()),
     };
   });
   const bottom = all.find((entry) => entry.frame.phaseId === 'bottom')!;
@@ -226,7 +226,7 @@ describe('reverse lunge', () => {
 
   it('reports the stepping foot to a character by its ankle, lifted by its ball', () => {
     const landed = bottom.frame.contacts.find((entry) => entry.chain === 'leg_r')!;
-    expect(new Vector3(landed.target.x, landed.target.y, landed.target.z).distanceTo(bottom.backAnkle)).toBeLessThan(1e-9);
+    expect(new HgVec3(landed.target.x, landed.target.y, landed.target.z).distanceTo(bottom.backAnkle)).toBeLessThan(1e-9);
     expect(landed.lift).toBe(0);
     const swinging = all.find(({ backBall }) => backBall.y > 0.06)!;
     const contact = swinging.frame.contacts.find((entry) => entry.chain === 'leg_r')!;
@@ -262,10 +262,10 @@ describe.skipIf(!existsSync(ASSET))('feet on the production character', () => {
       const evaluation = new PoseEvaluation(rig);
       const clip = generateClip(rig, exercise);
       const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-      const vertex = new Vector3();
+      const vertex = new HgVec3();
       let worstSole = 0;
       const ankle = (side: 'L' | 'R') => {
-        const position = body.skeleton.bones.find((bone) => bone.name === `DEF-foot${side}`)!.getWorldPosition(new Vector3());
+        const position = body.skeleton.bones.find((bone) => bone.name === `DEF-foot${side}`)!.getWorldPosition(new HgVec3());
         return position.setX(-position.x); // the character is the rig's mirror image
       };
       for (let index = 0; index <= 20; index += 1) {
@@ -282,7 +282,7 @@ describe.skipIf(!existsSync(ASSET))('feet on the production character', () => {
           const at = `${side} at ${time.toFixed(2)}s`;
           worstSole = Math.max(worstSole, Math.abs(lowest - (contact.lift ?? 0)));
           expect(Math.abs(lowest - (contact.lift ?? 0)), `sole, ${at}`).toBeLessThan(SOLE);
-          const rigAnkle = evaluation.head(side === 'l' ? 'foot_l' : 'foot_r', new Vector3());
+          const rigAnkle = evaluation.head(side === 'l' ? 'foot_l' : 'foot_r', new HgVec3());
           const drawn = ankle(side === 'l' ? 'L' : 'R');
           expect(Math.hypot(drawn.x - rigAnkle.x, drawn.z - rigAnkle.z), `ankle, ${at}`).toBeLessThan(0.005);
         }

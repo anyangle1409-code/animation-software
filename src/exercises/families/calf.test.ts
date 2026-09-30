@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -22,9 +22,9 @@ const frames = Array.from({ length: 41 }, (_, step) => {
   const frame = resolveFrame(rig, evaluation, clip, (step / 40) * clip.duration, { anchors });
   evaluation.apply(frame.pose);
   return {
-    ball: evaluation.tail('foot_l', new Vector3()),
-    ankle: evaluation.head('foot_l', new Vector3()),
-    toeTip: evaluation.tail('toe_l', new Vector3()),
+    ball: evaluation.tail('foot_l', new HgVec3()),
+    ankle: evaluation.head('foot_l', new HgVec3()),
+    toeTip: evaluation.tail('toe_l', new HgVec3()),
     knee: (frame.pose.rotations.shin_l!.x * 180) / Math.PI,
     foot: (frame.pose.rotations.foot_l!.x * 180) / Math.PI,
     reached: frame.ikResults.every((result) => result.reached),
@@ -64,8 +64,8 @@ describe('calf raise contacts', () => {
       const frame = resolveFrame(canonicalSkeleton, evaluation, clip, fraction * clip.duration, { anchors });
       evaluation.apply(frame.pose);
       for (const contact of frame.contacts) {
-        const ankle = evaluation.head(contact.chain === 'leg_l' ? 'foot_l' : 'foot_r', new Vector3());
-        expect(new Vector3(contact.target.x, contact.target.y, contact.target.z).distanceTo(ankle)).toBeLessThan(1e-12);
+        const ankle = evaluation.head(contact.chain === 'leg_l' ? 'foot_l' : 'foot_r', new HgVec3());
+        expect(new HgVec3(contact.target.x, contact.target.y, contact.target.z).distanceTo(ankle)).toBeLessThan(1e-12);
       }
     }
   });

@@ -1039,6 +1039,49 @@ SHA-256 and parent SHA.
 Battery at the r28 checkpoint: 89%, discharging (no AC), runtime estimate
 unavailable.
 
+**PIP crease repair (minimal local geometry, evidence-based).** Three weight
+solves (o14, o17, o19) plateaued at ~104 PIP-crease triangle pairs.
+
+- A numpy LBS test on r28 weights showed that evenly re-spacing each finger's
+  PIP crease rings removes **all** finger/hand collisions in
+  grip/curl_peak/press/row: 106 → 0 triangle pairs, and curl_handle 52 → 42.
+- `scripts/relax_original_v1_o4_pip_crease_rings_blender.py` does this
+  first-party:
+  - the mesh's own rings within ±12.5 mm of each PIP head are re-spaced
+    evenly between fixed end rings;
+  - each vertex slides along its own mesh column (piecewise-linear), so it
+    stays on the original surface;
+  - no topology, weight, UV, material or rig change; exact mirror symmetry is
+    checked.
+- **r29a** (intermediate) = r28 relaxed: 672 vertices, max 2.05 mm, SHA-256
+  `bec7a83c46c557b438bb6140ba9d8700b93abf894a5afa2c88a9cccf329f1677`.
+- With r28's weights the relaxed crease concentrates palm-side compression
+  (finger min 0.239 → 0.080 in the numpy test). The weights are therefore
+  re-solved on r29a with `o21` (= o20 settings: symmetric, collapse floor
+  0.17, max margin 0.02, stricter of the R2 and r29a bounds).
+- `o20` (the same settings on the r28 geometry) was stopped unfinished; it is
+  superseded.
+
+**If this session stopped before r29 was evaluated, next exact action:**
+
+1. If `weight_solutions/o21.npz` is missing, re-run:
+
+   ```bat
+   python scripts\optimize_original_v1_o4_shoulder_weights.py <r29a dump.npz> o21.npz --preset o21 --r2-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json
+   ```
+
+   The dump comes from `scripts\dump_original_v1_o4_pose_skinning_blender.py`
+   on `…_r29a_pip_relax.blend`.
+2. Apply `o21.npz` onto `…_r29a_pip_relax.blend`, giving
+   `…_CANDIDATE_r29.blend`.
+3. Run `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat r29 r28`.
+4. Accept r29 as the new best experimental candidate only if it has no
+   regression vs r28. Watch `curl_peak` (expected to pass ≤ 200), `pushup`
+   self-intersections (o21 round 1 raised push-up wrist pairs 74 → 100 triangle
+   pairs) and the finger minima.
+
+Battery at this checkpoint: 66%, discharging (no AC), falling ~1%/min.
+
 ### Priority 2 — hands / fingers / thumb / equipment grip
 
 Target poses:

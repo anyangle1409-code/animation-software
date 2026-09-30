@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateClip } from '../animation/generate';
+import { retargetedCharacterSource } from '../character/retargetSource';
 import { sampleClip } from '../animation/clip';
 import { resolveFrame } from '../animation/pipeline';
 import { lockAnchors } from '../constraints/locks';
@@ -8,7 +9,8 @@ import { airSquat } from '../exercises/definitions/airSquat';
 import { EXERCISES } from '../exercises/library';
 import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from './canonicalV4Original';
 import { HUMANOID_BONES } from './humanoid';
-import { Skeleton } from './skeleton';
+import { PoseEvaluation, Skeleton } from './skeleton';
+import { hgRigifyFixture } from '../test/rigifyGlbFixture';
 
 const v3 = new Skeleton(HUMANOID_BONES);
 const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
@@ -154,6 +156,35 @@ describe('canonical v4 ORIGINAL shadow runtime compatibility', () => {
       }
     }
   }, 90_000);
+
+  it('scales a preserved GLB to the height of the supplied skeleton', async () => {
+    const fixture = hgRigifyFixture();
+    const currentSource = retargetedCharacterSource({
+      id: 'v3-shadow-scale',
+      label: 'v3 shadow scale',
+      data: fixture.data,
+    });
+    const shadowSource = retargetedCharacterSource({
+      id: 'v4-shadow-scale',
+      label: 'v4 shadow scale',
+      data: fixture.data,
+    });
+
+    const current = await currentSource.build(v3);
+    const shadow = await shadowSource.build(v4);
+    try {
+      const sourceHeight = currentSource.lastReport!.height;
+      expect(sourceHeight).toBeGreaterThan(0);
+      expect(shadowSource.lastReport!.height).toBeCloseTo(sourceHeight, 9);
+      expect(currentSource.lastReport!.scale).toBeCloseTo(1.75 / sourceHeight, 9);
+      expect(shadowSource.lastReport!.scale).toBeCloseTo(1.82 / sourceHeight, 9);
+      expect(shadowSource.lastReport!.scale / currentSource.lastReport!.scale)
+        .toBeCloseTo(1.82 / 1.75, 9);
+    } finally {
+      current.dispose();
+      shadow.dispose();
+    }
+  }, 30_000);
 
   it('uses each skeleton own hip width and leg span for generated stance', () => {
     const current = generateClip(v3, airSquat);

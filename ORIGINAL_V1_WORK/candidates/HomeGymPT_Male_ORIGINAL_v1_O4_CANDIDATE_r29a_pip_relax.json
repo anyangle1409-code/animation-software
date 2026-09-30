@@ -1,0 +1,91 @@
+{
+  "generated_utc": "2026-09-30T22:29:16.915659+00:00",
+  "stage": "O4 candidate first-party local geometry repair: PIP crease ring re-spacing (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r28.blend",
+  "source_sha256": "68889eefeb5e22e9bf8c5f96209f8b5440a3d11e501313b3b32a06274509515d",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29a_pip_relax.blend",
+  "candidate_sha256": "bec7a83c46c557b438bb6140ba9d8700b93abf894a5afa2c88a9cccf329f1677",
+  "vertices_moved": 672,
+  "max_displacement_mm": 2.047,
+  "ring_axial_shift_mm": {
+    "index_l": [
+      0.0,
+      -1.747,
+      -1.92,
+      -1.102,
+      0.12,
+      0.803,
+      0.0
+    ],
+    "middle_l": [
+      0.0,
+      -1.871,
+      -2.027,
+      -1.115,
+      0.217,
+      0.933,
+      0.0
+    ],
+    "ring_l": [
+      0.0,
+      -1.765,
+      -1.92,
+      -1.07,
+      0.18,
+      0.86,
+      0.0
+    ],
+    "pinky_l": [
+      0.0,
+      -1.201,
+      -1.141,
+      -0.297,
+      0.857,
+      1.561,
+      1.056,
+      0.0
+    ],
+    "index_r": [
+      0.0,
+      -1.747,
+      -1.92,
+      -1.102,
+      0.12,
+      0.803,
+      0.0
+    ],
+    "middle_r": [
+      0.0,
+      -1.871,
+      -2.027,
+      -1.115,
+      0.217,
+      0.933,
+      0.0
+    ],
+    "ring_r": [
+      0.0,
+      -1.765,
+      -1.92,
+      -1.07,
+      0.18,
+      0.86,
+      0.0
+    ],
+    "pinky_r": [
+      0.0,
+      -1.201,
+      -1.141,
+      -0.297,
+      0.857,
+      1.561,
+      1.056,
+      0.0
+    ]
+  },
+  "mirror_symmetry_max_error_m": 0.0,
+  "topology_changed": false,
+  "weights_changed": false,
+  "rig_bones": 63,
+  "inputs": "this candidate's own ORIGINAL v1 mesh and the v4 rig only"
+}

@@ -165,6 +165,12 @@ PRESETS["o17"] = dict(PRESETS["o15"], symmetric=True)
 # hand max 3.495), tighter max margin for push-up hand max, 10x fold barrier against PIP crease overlap.
 PRESETS["o19"] = dict(PRESETS["o15"], symmetric=True, max_margin=0.03, w_fold=2e4, fold_cos=0.0,
                       tt_delta=0.001, rounds=3)
+# o20 (r29): o19 on the r28 base with a 0.17 collapse floor (still above the 0.15 gate and R2's 0.139
+# push-up wrist crease) and a 0.02 max margin, to bring push-up hand max back within R2 tolerance.
+PRESETS["o20"] = dict(PRESETS["o19"], lo=0.17, max_margin=0.02, rounds=2)
+# o21 (r29): o20 settings on the r29a PIP-ring-relaxed geometry (o20 itself was stopped unfinished
+# because its finger weights targeted the pre-relax geometry).
+PRESETS["o21"] = dict(PRESETS["o20"])
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

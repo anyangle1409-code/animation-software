@@ -18,7 +18,8 @@
     "test:browser-smoke:first-party": "node scripts/browser-first-party-viewport-smoke.mjs",
     "test:browser-smoke:production": "node scripts/browser-production-offline-smoke.mjs",
     "audit:original-v1-promotion": "node scripts/audit-original-v1-promotion.mjs --expect-blocked",
-    "audit:v4-runtime-coupling": "node scripts/audit-canonical-v4-runtime-coupling.mjs"
+    "audit:v4-runtime-coupling": "node scripts/audit-canonical-v4-runtime-coupling.mjs",
+    "audit:original-v1-runtime-cutover": "node scripts/audit-original-v1-runtime-cutover.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

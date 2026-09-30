@@ -85,7 +85,7 @@ python scripts\evaluate_original_v1_deformation_report.py ^
 ## Current candidate status
 
 Against the newly recorded `development_blocker` profile, the current R2
-candidate has **52 failed checks**. This is expected evidence that O4 requires
+candidate has **54 failed checks**. This is expected evidence that O4 requires
 repair; it is not a regression in the standalone software.
 
 Highest failing poses by check count:
@@ -103,7 +103,7 @@ Highest failing poses by check count:
 | lunge | 3 |
 | row | 3 |
 | grip | 3 |
-| pullup_bar | 2 |
+| pullup_bar | 4 |
 | squat_bottom | 1 |
 | pushup_bottom | 1 |
 
@@ -115,7 +115,7 @@ Most frequently implicated regions in the development-blocker failures:
 | finger | 11 |
 | shoulder | 10 |
 | torso | 4 |
-| pelvis | 1 |
+| pelvis | 1 |\n| grip_l | 2 |\n| grip_r | 2 |
 
 The handle-grip report also fails both hands on penetration:
 **5.93 mm** current versus **2.0 mm** development limit and **1.0 mm**
@@ -246,7 +246,7 @@ returns `REGRESSION` if any existing pose or grip gains failed checks, even
 when another pose improves. This prevents an apparent global improvement from
 hiding a newly damaged shoulder, hand, hip or contact.
 
-The exact current comparison anchor is pinned in `ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json`, including the candidate SHA-256, report blob SHAs and the 52-check development baseline. Do not silently replace that baseline; create a new numbered baseline only after an explicitly accepted improvement.
+The exact current comparison anchor is pinned in `ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json`, including the candidate SHA-256, report blob SHAs and the 54-check development baseline. Do not silently replace that baseline; create a new numbered baseline only after an explicitly accepted improvement.
 
 ## Integration rule
 

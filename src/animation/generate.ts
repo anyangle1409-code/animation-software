@@ -2,7 +2,7 @@ import type { BoneName, Side } from '../rig/boneNames';
 import { FINGERS } from '../rig/boneNames';
 import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
-import { clampPose, clonePose, poseFromDegrees } from '../rig/pose';
+import { blendPoses, clampPose, clonePose, poseFromDegrees } from '../rig/pose';
 import { toRad } from '../core/math';
 import { nextId } from '../core/id';
 import type {
@@ -19,9 +19,10 @@ import type { IKChainId } from '../ik/types';
 import type { EffectorLock } from '../constraints/types';
 import { ANKLE_HEIGHT, BALL_HEIGHT } from '../exercises/stance';
 import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
-import { resolveEquipment } from '../equipment/attach';
+import { resolveEquipment, twoHandGripOffsets } from '../equipment/attach';
 import { measureGripFit } from '../equipment/gripDiagnostics';
 import type { EquipmentInstance } from '../equipment/types';
+import { equipmentSocketForInstance, withTwoHandGripWidth } from '../equipment/library';
 
 /**
  * Build an animation from an exercise definition.
@@ -94,10 +95,87 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     loop: true,
     keyframes,
     locks: exercise.locks.map((lock) => floorLockForSkeleton(lock, skeleton)),
-    equipment: exercise.equipment.instances.map((instance) => ({ ...instance })),
+    equipment: fitTwoHandEquipmentToSkeleton(
+      skeleton,
+      poses.start,
+      poses.peak,
+      exercise.equipment.instances,
+    ),
     hands: { ...exercise.hands },
     ...(exercise.rootPivot ? { rootPivot: { ...exercise.rootPivot } } : {}),
   };
+}
+
+const TWO_HAND_FIT_ENVELOPE = 0.005;
+
+/**
+ * A rigid two-hand implement keeps its size, but hands may grip at different
+ * points along its usable handle. Preserve the authored socket spacing whenever
+ * it already fits the active rig. If it does not, and one fixed socket spacing
+ * can keep the whole authored movement inside the existing 5 mm per-hand
+ * envelope, move only the grip sockets to the minimax midpoint.
+ *
+ * This is body-relative calibration, not scaling: the equipment matrix remains
+ * rigid and the item geometry is unchanged.
+ */
+function fitTwoHandEquipmentToSkeleton(
+  skeleton: Skeleton,
+  start: Pose,
+  peak: Pose,
+  instances: EquipmentInstance[],
+): EquipmentInstance[] {
+  const evaluation = new PoseEvaluation(skeleton);
+  const handLengths = {
+    left: skeleton.bone('hand_l').length,
+    right: skeleton.bone('hand_r').length,
+  };
+
+  return instances.map((source) => {
+    const instance: EquipmentInstance = {
+      ...source,
+      ...(source.socketOverrides
+        ? { socketOverrides: structuredClone(source.socketOverrides) }
+        : {}),
+    };
+    if (instance.attachment.mode !== 'hands') return instance;
+
+    const offsets = twoHandGripOffsets(instance, handLengths);
+    const leftSocket = equipmentSocketForInstance(instance, instance.attachment.leftSocket);
+    const rightSocket = equipmentSocketForInstance(instance, instance.attachment.rightSocket);
+    if (!offsets || !leftSocket || !rightSocket) return instance;
+
+    const socketSeparation = Math.hypot(
+      rightSocket.position.x - leftSocket.position.x,
+      rightSocket.position.y - leftSocket.position.y,
+      rightSocket.position.z - leftSocket.position.z,
+    );
+
+    let minTarget = Number.POSITIVE_INFINITY;
+    let maxTarget = 0;
+    for (let index = 0; index <= 8; index += 1) {
+      const pose = blendPoses(start, peak, index / 8);
+      evaluation.apply(pose);
+      const left = evaluation.localToWorld('hand_l', offsets.left);
+      const right = evaluation.localToWorld('hand_r', offsets.right);
+      const separation = left.distanceTo(right);
+      minTarget = Math.min(minTarget, separation);
+      maxTarget = Math.max(maxTarget, separation);
+    }
+
+    const currentWorst =
+      Math.max(
+        Math.abs(minTarget - socketSeparation),
+        Math.abs(maxTarget - socketSeparation),
+      ) / 2;
+    if (currentWorst <= TWO_HAND_FIT_ENVELOPE) return instance;
+
+    // A single rigid socket spacing can fit the full motion only when the hand
+    // spacing range itself is no wider than twice the per-hand envelope.
+    const bestPossibleWorst = (maxTarget - minTarget) / 4;
+    if (bestPossibleWorst > TWO_HAND_FIT_ENVELOPE) return instance;
+
+    return withTwoHandGripWidth(instance, (minTarget + maxTarget) / 2);
+  });
 }
 
 const round = (value: number): number => Math.round(value * 1e6) / 1e6;

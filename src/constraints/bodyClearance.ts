@@ -52,7 +52,8 @@ export const CLEARANCE_BODY = /^(thigh|pelvis|shin|spine|breast|neck)/i;
  * segment suffix (`upper_armL001`), so the side is captured explicitly rather
  * than read from the last character.
  */
-const ARM = /^(upper_?arm|forearm)([LR])\d*$/i;
+const ARM = /^(upper_?arm|forearm)_?([LR])\d*$/i;
+const THIGH = /^thigh_?([LR])\d*$/i;
 const TRUNK = /^(spine|breast|pelvis)/i;
 const armSide = (bone: string): string | null => {
   const match = ARM.exec(bone);
@@ -71,11 +72,53 @@ const copyPlacement = (
   return target;
 };
 
-/** The production body mesh within a built character. */
+/**
+ * The full-body skinned surface within a built character.
+ *
+ * Do not identify it by an asset/model name: the clean procedural fallback,
+ * imported review characters and ORIGINAL v1 have different names. A body is
+ * identified by the anatomy its vertices are actually weighted to — trunk,
+ * both arms and both thighs. Garments can share the same skeleton but do not
+ * span all five regions.
+ */
 export function bodyMeshOf(
   character: CharacterBuild,
 ): CharacterBuild['meshes'][number] | undefined {
-  return character.meshes.find((mesh) => /freeman/i.test(mesh.name));
+  let best: CharacterBuild['meshes'][number] | undefined;
+  let bestVertices = -1;
+
+  for (const mesh of character.meshes) {
+    const position = mesh.geometry.getAttribute('position');
+    const skinIndex = mesh.geometry.getAttribute('skinIndex');
+    const skinWeight = mesh.geometry.getAttribute('skinWeight');
+    if (!position || !skinIndex || !skinWeight) continue;
+
+    let trunk = false;
+    let armL = false;
+    let armR = false;
+    let thighL = false;
+    let thighR = false;
+
+    for (let index = 0; index < position.count; index += 1) {
+      const bone = dominantBone(mesh, index);
+      if (TRUNK.test(bone)) trunk = true;
+      const arm = armSide(bone);
+      if (arm === 'L') armL = true;
+      else if (arm === 'R') armR = true;
+      const thigh = THIGH.exec(bone)?.[1]?.toUpperCase();
+      if (thigh === 'L') thighL = true;
+      else if (thigh === 'R') thighR = true;
+
+      if (trunk && armL && armR && thighL && thighR) break;
+    }
+
+    if (trunk && armL && armR && thighL && thighR && position.count > bestVertices) {
+      best = mesh;
+      bestVertices = position.count;
+    }
+  }
+
+  return best;
 }
 
 export interface SupportPartClearance {

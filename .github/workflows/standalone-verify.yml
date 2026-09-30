@@ -89,6 +89,7 @@ jobs:
           src/rig/firstPartySkeleton.parity.test.ts
           src/ik/firstPartyOrient.parity.test.ts
           src/rig/firstPartyPose.parity.test.ts
+          src/constraints/bodyClearance.firstParty.test.ts
           src/retargeting/retargetMathBoundary.test.ts
           src/character/deformationMathBoundary.test.ts
           src/character/sceneBounds.test.ts

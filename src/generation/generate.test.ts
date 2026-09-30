@@ -1,9 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { retargetedCharacterSource } from '../character/retargetSource';
 import type { CharacterBuild } from '../character';
+import { proceduralCharacter } from '../character/procedural';
 import { EXERCISES, EXERCISE_BY_ID } from '../exercises/library';
 import { curlFamily } from '../exercises/families/curl';
 import type { CurlVariant } from '../exercises/families/curl';
@@ -111,6 +112,36 @@ describe('generating without a character', () => {
       expect(result.validations, prompt).toBe(0);
     }
   });
+});
+
+describe('generating on the clean first-party fallback', () => {
+  let character: { build: CharacterBuild; label: string };
+
+  beforeAll(async () => {
+    character = {
+      build: await proceduralCharacter.build(rig),
+      label: proceduralCharacter.label,
+    };
+  });
+
+  afterAll(() => {
+    character.build.dispose();
+  });
+
+  it(
+    'fully certifies a generated bodyweight squat with no skipped body checks',
+    async () => {
+      const result = await generateExerciseAsync(SQUAT, { rig, library, character });
+      expect(result.family?.id).toBe('squat');
+      expect(result.status).toBe('passed');
+      expect(result.report?.skipped).toEqual([]);
+      expect(result.report?.failed).toEqual([]);
+      expect(result.report?.checks.every((check) => check.status === 'pass')).toBe(true);
+      expect(result.report?.character).toBe(proceduralCharacter.label);
+      expect(result.validations).toBe(1);
+    },
+    120_000,
+  );
 });
 
 const ASSET =

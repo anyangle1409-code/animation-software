@@ -3,7 +3,9 @@ import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { pullUp } from '../exercises/definitions/pullUp';
-import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import { canonicalSkeleton, PoseEvaluation, Skeleton } from '../rig/skeleton';
+import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from '../rig/canonicalV4Original';
+import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { vec3 } from '../rig/types';
 import { lockAnchors } from './locks';
 import { contactDiagnostics } from './contactDiagnostics';
@@ -52,6 +54,26 @@ describe('live contact diagnostics', () => {
       expect(diagnostic.target).not.toBeNull();
       expect(diagnostic.actual).not.toBeNull();
       expect(Number.isFinite(diagnostic.error)).toBe(true);
+    }
+  });
+
+  it('reports a sub-millimetre v4 lunge contact as reached while preserving reach metadata', () => {
+    const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const clip = generateClip(v4, forwardLunge);
+    const evaluation = new PoseEvaluation(v4);
+    const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
+    const diagnostics = contactDiagnostics(
+      v4,
+      new PoseEvaluation(v4),
+      clip,
+      clip.duration * 0.5,
+      anchors,
+    );
+    for (const diagnostic of diagnostics.filter((entry) => entry.enabled)) {
+      if (diagnostic.error !== null && diagnostic.error < 0.002) {
+        expect(diagnostic.status).toBe('reached');
+        expect(diagnostic.reached).toBe(true);
+      }
     }
   });
 

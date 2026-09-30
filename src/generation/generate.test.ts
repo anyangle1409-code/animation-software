@@ -18,6 +18,8 @@ import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
 import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
+import { rowFamily } from '../exercises/families/row';
+import type { RowVariant } from '../exercises/families/row';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -50,6 +52,7 @@ const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 const CALF_RAISE = 'Create a standing calf raise with a slow tempo.';
 const RDL = 'Create a dumbbell Romanian deadlift with 16 kg dumbbells and controlled tempo.';
+const ROW = 'exercise: dumbbell bent-over row with 16 kg dumbbells and controlled tempo';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -134,6 +137,28 @@ describe('generating without a character', () => {
     const family = generatorFamily(parsed.intent!.family);
     const exercise = family.build(family.variant(parsed.intent!) as HingeVariant);
     expect(motionOf(exercise)).toEqual(motionOf(romanianDeadlift));
+  });
+
+  it('builds the bent-over row from the row family', () => {
+    const parsed = parsePrompt(ROW);
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const variant = family.variant(parsed.intent!) as RowVariant;
+    const exercise = family.build(variant);
+    expect(family.id).toBe('row');
+    expect(exercise).toEqual(rowFamily(variant));
+    expect(family.reference(parsed.intent!)).toBe('dumbbell_bent_over_row');
+    expect(exercise.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([16, 16]);
+    expect(exercise.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(EXERCISES.some((entry) => entry.id === exercise.id)).toBe(false);
+  });
+
+  it('reproduces the accepted bent-over row motion from the family defaults', () => {
+    const parsed = parsePrompt('a dumbbell bent-over row');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const exercise = family.build(family.variant(parsed.intent!) as RowVariant);
+    expect(motionOf(exercise)).toEqual(motionOf(bentOverRow));
   });
 
 
@@ -230,6 +255,7 @@ describe('generating on the clean first-party fallback', () => {
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
         [CALF_RAISE, 'calf', 'standing_calf_raise'],
         [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
+        [ROW, 'row', 'dumbbell_bent_over_row'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         const detail = JSON.stringify({
@@ -254,7 +280,7 @@ describe('generating on the clean first-party fallback', () => {
   );
 
   it(
-    'measures the accepted row reference on the clean fallback before generator certification',
+    'keeps the accepted row reference clean after generator certification',
     () => {
       for (const exercise of [bentOverRow]) {
         const report = validateCandidate(

@@ -37,6 +37,17 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent).toMatchObject({ family: 'overhead_press', grip: 'pronated', support: 'seated', load: 10 });
   });
 
+  it('accepts the exact exercise-command form', () => {
+    const parsed = parsePrompt('exercise: dumbbell shoulder press');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'overhead_press',
+      grip: 'pronated',
+      support: 'standing',
+      equipment: 'dumbbell',
+    });
+  });
+
   it('reads the standard push-up as the certified horizontal-press family', () => {
     const parsed = parsePrompt('Create a standard push-up with controlled tempo.');
     expect(parsed.issues).toEqual([]);
@@ -152,6 +163,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('neutral grip Romanian deadlift')).toEqual(['grip']);
     expect(blocking('conventional deadlift')).toEqual(['family']);
     expect(blocking('good morning')).toEqual(['family']);
+    expect(blocking('one-arm dumbbell row')).toContain('variant');
+    expect(blocking('pronated bent-over row')).toContain('grip');
+    expect(blocking('barbell bent-over row')).toContain('equipment');
+    expect(blocking('Pendlay row')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -163,7 +178,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['upright row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
@@ -181,6 +196,20 @@ describe('parsing a request into an ExerciseIntent', () => {
       grip: 'pronated',
       support: 'standing',
       load: 20,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
+  it('parses only the certified bent-over row variant', () => {
+    const parsed = parsePrompt('exercise: dumbbell bent-over row with 16 kg dumbbells and controlled tempo');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'row',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'neutral',
+      support: 'standing',
+      load: 16,
       tempo: { profile: 'controlled' },
     });
   });

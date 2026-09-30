@@ -13,6 +13,8 @@ import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
 import { hingeFamily } from '../exercises/families/hinge';
 import type { HingeVariant } from '../exercises/families/hinge';
+import { rowFamily } from '../exercises/families/row';
+import type { RowVariant } from '../exercises/families/row';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -902,6 +904,100 @@ const hinge: GeneratorFamily<HingeVariant> = {
 };
 
 // ---------------------------------------------------------------------------
+// Bent-over row
+// ---------------------------------------------------------------------------
+
+/**
+ * Only the accepted bilateral dumbbell bent-over row is generator-certified.
+ * The row builder owns the fixed hinge posture, elbow path, stance and neutral
+ * grip. Prompts may select load and tempo only.
+ */
+const row: GeneratorFamily<RowVariant> = {
+  id: 'row',
+  label: 'Bent-over row',
+  builder: 'rowFamily',
+  detect: /\bbent[-\s]?over\s+rows?\b|\bdumbbell\s+rows?\b/,
+  library: ['dumbbell_bent_over_row'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:single|one)[-\s]?arm(?:ed)?\b|\bunilateral\b/, 'a one-arm row is unilateral; only the even two-arm bent-over row is certified.'],
+        [/\bpendlay\b/, 'a Pendlay row starts each repetition from the floor; the certified row keeps the dumbbells hanging below the shoulders.'],
+        [/\bupright\b/, 'an upright row is a different vertical pulling pattern; only the bent-over row is certified.'],
+        [/\b(?:chest[-\s]?supported|seal)\b/, 'a chest-supported row changes the support arrangement; it is not certified.'],
+        [/\brenegade\b/, 'a renegade row uses a plank position and unilateral loading; it is not certified.'],
+        [/\bseated\b/, 'a seated row changes the support and equipment; only the standing bent-over dumbbell row is certified.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified bent-over row uses a neutral grip with the palms facing each other; pronated or supinated variants are not certified.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'bent-over row', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the bent-over row posture is fixed by the certified family, not a prompt-adjustable angle.`,
+        ),
+      );
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      'bent-over row',
+      'dumbbell',
+      14,
+      assumptions,
+      issues,
+    );
+    return {
+      intent: {
+        prompt,
+        family: 'row',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip: 'neutral',
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Dumbbell Bent-Over Row', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A bilateral dumbbell bent-over row held in the family-certified hinge posture, palms facing in, ` +
+        `using ${formatLoad(intent.load)} in each hand${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: rowFamily,
+  reference: () => 'dumbbell_bent_over_row',
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
 
@@ -1007,6 +1103,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
   hinge as unknown as GeneratorFamily,
+  row as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

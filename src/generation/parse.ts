@@ -28,7 +28,7 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:bench|chest|floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b|\bfl(?:y|ies|yes)\b/, 'lying presses and flyes belong to the supine family (dumbbell bench press, dumbbell fly), which is not certified for generation yet.'],
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
   [/(?<!romanian\s)\bdeadlifts?\b|\bhip\s+hinges?\b|\bgood\s?mornings?\b/, 'only the bilateral dumbbell Romanian deadlift is certified in the hinge family; conventional deadlifts, generic hinges and good mornings are not.'],
-  [/\brows?\b/, 'the row family (bent-over row) is not certified for generation yet.'],
+  [/\b(?:barbell|cable|machine|upright|pendlay|renegade|seated|chest[-\s]?supported|seal)\s+rows?\b/, 'only the bilateral dumbbell bent-over row is certified in the row family.'],
   [/\b(?:pull|chin)[-\s]?ups?\b|\blat\s+pull/, 'the vertical-pull family (pull-up) is not certified for generation yet.'],
   [/\b(?:lateral|side|front)\s+raises?\b/, 'the raise family (lateral and front raise) is not certified for generation yet.'],
   [/\btriceps?\b|\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\bextensions?\b/, 'the extension family (overhead extension, cable pushdown) is not certified for generation yet.'],

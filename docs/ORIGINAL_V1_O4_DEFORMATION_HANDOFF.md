@@ -673,6 +673,193 @@ The weights alone have not removed the acromion buckling.
 
 The next evidence label is `shoulder_r22`.
 
+### Priority 1 session log — r22–r24 (targeted collisions + support loop)
+
+**Status:**
+
+- Priority 1 is still BLOCKED. No candidate is accepted.
+- The accepted baseline remains pinned R2. `DEFORMATION_BASELINE_R2.json`,
+  `ORIGINAL_V1_CANDIDATE_STATUS.json`, all thresholds and all approval flags
+  are unchanged.
+- Production approval remains **false**.
+- The 63-bone rig is unchanged; every script refuses any other rig.
+
+**New evidence tooling:**
+
+- `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <rN> [prior]` runs the full pipeline for
+  one candidate:
+  - every repair group: `shoulder`, `hand` (with grip), `hip`, `pushup`, `row`;
+  - a neutral rest-pose control (`neutral_<rN>`), so all **15** poses are
+    covered;
+  - `scripts/merge_original_v1_repair_group_reports.py`, which runs the
+    committed evaluator and repair queue, then the comparator against pinned
+    R2 and against the prior candidate (on common poses).
+
+  Outputs are `repair_checks/full_<rN>_*`.
+- `scripts/tritri_original_v1.py`: numpy triangle-triangle intersection test.
+  It agrees with Blender's counts to within one pair of the change: press_top
+  shoulder +27 triangle pairs vs Blender +28 quad pairs, and the same drop
+  pattern in pull-up hang.
+- Optimiser additions:
+  - `prox_mode="tritri"`: constraints from the triangle pairs that newly
+    intersect versus R2, keeping each vertex on its R2 side of the other
+    triangle's plane;
+  - `--init-dump`;
+  - `--r2-report`: bounds, percentiles and volume targets taken from the
+    pinned R2 report, for topology-changed meshes;
+  - `zone_regions`;
+  - `polish_rounds`: collision re-detection interleaved with the 4-influence
+    polish.
+- `scripts/add_original_v1_o4_shoulder_support_loop_blender.py`: a
+  first-party loop cut of the closed, symmetric 120-edge **shoulder-yoke**
+  ring. The ring is found from this mesh's own topology; its crossing edges
+  are 12–48 mm and run neck/trapezius → acromion.
+  - Mesh stays all-quad: 17,946 → 18,066 vertices, 17,944 → 18,064 faces.
+  - Original vertex order and positions are verified unchanged.
+  - New vertices get averaged endpoint weights (top 4, renormalised) and
+    their endpoint's region.
+
+**Candidate lineage and results.** All are full 15-pose evidence against
+pinned R2 (54 failed checks). Parent is `…CANDIDATE.blend` (d89dedb5…)
+unless stated.
+
+| Cand. | What | SHA-256 | Failed | Regr. vs R2 | P1 owned | Verdict |
+|---|---|---|---:|---:|---:|---|
+| r20/r21 | o10 (previous session) | 16d5f3fd… (r21) | 42 | 7 | 3 | rejected (best "fewest regressions") |
+| r22 | o11 = o10 + tritri collision constraints (`o11.npz` 6a21396d…) | c32eb0ac93b35eed… | 40 | 11 | **1** | rejected: collisions moved to pullup_hang/bar and rhythm; neck and chest minima |
+| r23a | loop cut on R2 weights (intermediate, reference for o12) | b0772b4cef72472a… | — | — | — | intermediate only |
+| r23b | loop cut on r21/o10 weights (warm start for o12) | 561f796f97c52def… | — | — | — | intermediate only |
+| r23 | r23a + o12 re-solve on the looped mesh (`o12.npz` 98173520…) | e2fad42252988643… | 40 | 12 | 1 | **rejected: the support loop does not help** (6 regressions vs r22) |
+| r24 | o13 = o11 with neck vertices kept at R2 + collision-checked polish (`o13.npz` e36e4bfc…) | 78de365042c930f8… | 40 | 11 | 1 | rejected; best weights-only balance (vs r22: 1 regression, 11 improvements) |
+
+Reproduce any candidate:
+
+```bat
+blender --background --factory-startup <parent>.blend --python-exit-code 1 ^
+  --python scripts\apply_original_v1_o4_weight_solution_blender.py -- ^
+  ORIGINAL_V1_WORK\candidates\weight_solutions\oNN.npz <new>.blend
+```
+
+- The parent is `r23a_loop_R2w` for r23.
+- `r23a`/`r23b` come from the loop script run on `…CANDIDATE.blend` and
+  `…_r21.blend` respectively.
+
+Re-solve r24:
+
+```bat
+python scripts\optimize_original_v1_o4_shoulder_weights.py <dump.npz> o13.npz --preset o13 --init o11.npz
+```
+
+The dump comes from `scripts\dump_original_v1_o4_pose_skinning_blender.py` on
+the parent. Logs are saved next to each solution
+(`weight_solutions/oNN.log`).
+
+**r24 exact before → after (R2 → r24):**
+
+| Pose | Shoulder max | Shoulder min | Torso max | Volume | Self-int. | p99 |
+|---|---:|---:|---:|---:|---:|---:|
+| `press_bottom` | 6.414 → **3.205** | 0.577 → **0.545** | 2.569 → **2.362** | 1.0312 → **1.0307** | 196 → **196** | 1.559 → **1.559** |
+| `press_top` | 9.089 → **4.335** | 0.094 → **0.188** | 3.974 → **3.53** | 0.9993 → **0.9962** | 174 → **181** | 1.679 → **1.688** |
+| `press_top_rhythm` | 8.283 → **4.33** | 0.143 → **0.236** | 8.317 → **4.06** | 1.1309 → **1.0837** | 110 → **118** | 1.977 → **1.945** |
+| `squat_bottom` | 8.053 → **4.224** | 0.184 → **0.237** | 4.204 → **4.204** | 0.9627 → **0.9607** | 42 → **42** | 1.745 → **1.758** |
+| `pullup_hang` | 8.987 → **4.305** | 0.15 → **0.238** | 3.888 → **3.46** | 1.0055 → **1.0027** | 147 → **162** | 1.675 → **1.683** |
+| `pullup_hang_rhythm` | 7.907 → **4.245** | 0.202 → **0.269** | 8.317 → **3.974** | 1.1361 → **1.0898** | 110 → **110** | 1.962 → **1.945** |
+| `pullup_top` | 5.169 → **2.737** | 0.694 → **0.654** | 2.086 → **1.967** | 1.0271 → **1.027** | 216 → **216** | 1.521 → **1.501** |
+| `pullup_bar` | 8.987 → **4.305** | 0.15 → **0.238** | 3.888 → **3.46** | 1.0056 → **1.0027** | 146 → **161** | 1.664 → **1.667** |
+
+**Remaining r24 regressions against R2.** Every one still passes its gate:
+
+| Pose | Metric | R2 → r24 | Gate |
+|---|---|---:|---:|
+| `press_top` | self-intersections | 174 → 181 | ≤ 200 |
+| `press_top_rhythm` | self-intersections | 110 → 118 | ≤ 200 |
+| `pullup_hang` | self-intersections | 147 → 162 | ≤ 200 |
+| `pullup_bar` | self-intersections | 146 → 161 | ≤ 200 |
+| `press_bottom` / shoulder | region minimum | 0.577 → 0.545 | ≥ 0.15 |
+| `press_bottom` / torso | region minimum | 0.943 → 0.889 | ≥ 0.15 |
+| `press_top` / torso | region minimum | 0.886 → 0.823 | ≥ 0.15 |
+| `pullup_hang` / torso | region minimum | 0.891 → 0.870 | ≥ 0.15 |
+| `pullup_bar` / torso | region minimum | 0.891 → 0.870 | ≥ 0.15 |
+| `pullup_top` / shoulder | region minimum | 0.694 → 0.654 | ≥ 0.15 |
+| `pullup_top` / torso | region minimum | 0.883 → 0.860 | ≥ 0.15 |
+
+Push-up, row, hip and grip-contact groups show no regressions for r22–r24.
+
+**The last Priority-1-owned failure is not a shoulder failure (proven).**
+`pullup_top` self-intersections are 216 in R2 and in every candidate. A
+location probe in Blender maps every intersecting face pair back to rest
+positions:
+
+- **110** pairs are hand/finger faces on both sides (rest z < 0.95);
+- **106** pairs are faces whose nearest joint is the **elbow**
+  (`forearm_l` head z 1.19);
+- **none** are at the shoulder.
+
+The repair queue owns this under Priority 1 only because `pullup_top` is a
+Priority-1 pose and self-intersection is a pose-level metric. It must be
+fixed by elbow-fold and finger work, not by shoulder weights. It is not hidden
+or reclassified here; the queue still reports it.
+
+**Conclusions from r15–r24:**
+
+1. Multi-pose weight optimisation clears every shoulder/torso gate: stretch,
+   collapse, volume and p99. The remaining shoulder issue is purely the strict
+   no-regression comparison.
+2. The comparator regressions are a genuine trade-off. Stopping the overhead
+   tear needs arm weight on the front-chest/axilla skin, which lowers some
+   chest-edge minima in other poses. Removing new acromion/deltoid collisions
+   in one overhead pose re-creates them in another (r22: press_top fixed,
+   pullup_hang/bar +11).
+3. The minimal first-party supporting loop (r23) does not remove the buckling.
+   It adds resolution to the fold rather than preventing it.
+4. Neck-region vertices must keep R2 weights (r24 removes all neck
+   regressions).
+
+**Decision needed from the owner (unchanged, now with more evidence).**
+Neither weights nor the minimal topology loop achieve zero comparator
+regressions against R2. Options:
+
+- (a) Accept a documented trade-off candidate. r24 is the best balance:
+  every Priority-1 gate cleared except the proven elbow/finger `pullup_top`
+  collisions. Its remaining regressions are listed above, every one still
+  inside its gate. The acceptance tolerances must not be changed silently: if
+  approved, record the decision and pin a new numbered baseline, as the R2
+  baseline file prescribes.
+- (b) Keep the strict rule and try heavier first-party tools, which need
+  approval:
+  - corrective shape keys driven by upper-arm elevation (currently out of
+    scope);
+  - a larger shoulder retopology (more than one loop);
+  - adding twist/helper bones would change the frozen rig and is **not**
+    allowed.
+
+**Priority 2 groundwork (read-only; no hand edits made).** In R2, the hand
+failures are identical in `grip`, `curl_peak` and the press poses, because
+they share the same finger-closing pose:
+
+| Location | Metric | Weight split |
+|---|---|---|
+| Ring-MCP knuckle crease (rest ≈ −0.199, 0.039, 0.83) | min **0.070** | ring_01 / hand / metacarpal_ring |
+| Index/middle PIP creases (2 mm edges) | min 0.113 / 0.140 | ~0.6/0.4 between phalanges |
+| Thumb web | max **5.39** | skin split ~50/50 between `metacarpal_index` and `thumb_01` |
+| Push-up wrist crease | min 0.139 | forearm / metacarpal split |
+
+The same exact-LBS optimiser can take a hand zone. The grip poses
+(`curl_handle`, `pullup_bar`) must be re-dumped after each candidate, because
+their finger closure is solved against the handle. Do not start this until
+the Priority-1 decision above is made, per the repair-order rule.
+
+**Next recommended action:**
+
+1. Owner chooses (a) or (b).
+2. If (a): run `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat` on the chosen candidate,
+   record the decision in the decision log, pin `DEFORMATION_BASELINE_R24.json`,
+   then start Priority 2 with the hand-zone optimiser.
+3. If (b): prototype elevation-driven corrective shape keys on a candidate
+   copy, evaluated by the same full pipeline.
+
+The next labels are `r25` / `shoulder_r25`.
+
 ### Priority 2 — hands / fingers / thumb / equipment grip
 
 Target poses:

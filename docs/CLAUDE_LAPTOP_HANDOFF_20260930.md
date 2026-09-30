@@ -39,6 +39,16 @@ git rev-parse HEAD
 Do not merge `work/standalone-first-party-audit-20260927` into the model
 branch and do not merge the model branch wholesale into standalone.
 
+Then run the guarded repo/model preflight:
+
+```bat
+PREFLIGHT_CLAUDE_ORIGINAL_V1.bat
+```
+
+It verifies the branch, current candidate-status contract, pinned R2 evidence and
+repair-queue ownership before any Blender edit. Stop and investigate if it does
+not pass.
+
 ## Read these before opening/editing Blender
 
 1. `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`

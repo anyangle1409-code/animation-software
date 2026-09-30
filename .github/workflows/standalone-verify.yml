@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - work/standalone-first-party-audit-20260927
+      - handoff/standalone-v4-shadow-safe-20260930
   workflow_dispatch:
 
 permissions:

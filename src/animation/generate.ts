@@ -16,8 +16,6 @@ import type {
 import { tempoDuration } from '../exercises/types';
 import { gripProfile } from '../exercises/gripProfiles';
 import type { IKChainId } from '../ik/types';
-import type { EffectorLock } from '../constraints/types';
-import { ANKLE_HEIGHT, BALL_HEIGHT } from '../exercises/stance';
 import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
 import { resolveEquipment, twoHandGripOffsets } from '../equipment/attach';
 import { measureGripFit } from '../equipment/gripDiagnostics';
@@ -38,8 +36,8 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     peak: buildPose(skeleton, exercise, exercise.peakPose, 'peak'),
   };
   const ik: Record<'start' | 'peak', Partial<Record<IKChainId, KeyframeIK>>> = {
-    start: ikFromSpec(exercise.startPose, skeleton),
-    peak: ikFromSpec(exercise.peakPose, skeleton),
+    start: ikFromSpec(exercise.startPose),
+    peak: ikFromSpec(exercise.peakPose),
   };
 
   const phases = exercise.phases;
@@ -94,7 +92,7 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     fps: 30,
     loop: true,
     keyframes,
-    locks: exercise.locks.map((lock) => floorLockForSkeleton(lock, skeleton)),
+    locks: exercise.locks.map((lock) => ({ ...lock })),
     equipment: fitTwoHandEquipmentToSkeleton(
       skeleton,
       poses.start,
@@ -487,69 +485,19 @@ export function applyStance(
   }
 }
 
-function ikFromSpec(
-  spec: PoseSpec,
-  skeleton?: Skeleton,
-): Partial<Record<IKChainId, KeyframeIK>> {
+function ikFromSpec(spec: PoseSpec): Partial<Record<IKChainId, KeyframeIK>> {
   const out: Partial<Record<IKChainId, KeyframeIK>> = {};
   for (const [chain, value] of Object.entries(spec.ik ?? {})) {
     if (!value) continue;
-    const chainId = chain as IKChainId;
-    const target = { ...value.target };
-    if (
-      skeleton &&
-      chainId.startsWith('leg') &&
-      (value.aim || value.onBall)
-    ) {
-      target.y += floorTargetHeightDelta(skeleton, chainId, Boolean(value.onBall));
-    }
-    out[chainId] = {
+    out[chain as IKChainId] = {
       enabled: true,
-      target,
+      target: { ...value.target },
       pole: { ...value.pole },
       ...(value.aim ? { aim: value.aim } : {}),
       ...(value.onBall ? { onBall: { ...value.onBall } } : {}),
     };
   }
   return out;
-}
-
-function floorTargetHeightDelta(
-  skeleton: Skeleton,
-  chain: IKChainId,
-  onBall: boolean,
-): number {
-  const side = chain.endsWith('_r') ? 'r' : 'l';
-  const foot = skeleton.bone(`foot_${side}`);
-  const active = onBall ? foot.restTail.y : foot.restHead.y;
-  const authored = onBall ? BALL_HEIGHT : ANKLE_HEIGHT;
-  return active - authored;
-}
-
-/**
- * Explicit floor positions are authored in the current canonical-v3 floor
- * frame. Shift only their contact height to the active rig's own ankle/ball
- * geometry; x/z placement, poles and authored orientation remain unchanged.
- * Locks without an explicit position already derive their anchor from the
- * active skeleton and need no adjustment.
- */
-function floorLockForSkeleton(lock: EffectorLock, skeleton: Skeleton): EffectorLock {
-  if (
-    lock.mode !== 'floor' ||
-    !lock.position ||
-    !lock.chain.startsWith('leg')
-  ) {
-    return { ...lock };
-  }
-  return {
-    ...lock,
-    position: {
-      ...lock.position,
-      y:
-        lock.position.y +
-        floorTargetHeightDelta(skeleton, lock.chain, Boolean(lock.onBall)),
-    },
-  };
 }
 
 function cloneIK(

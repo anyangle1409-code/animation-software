@@ -37,6 +37,14 @@ Current pinned R2 state:
 Work Priority 1 first. Do not jump to cosmetic hand/detail work just because it
 is visually easier.
 
+Before repainting shoulder weights, run:
+
+`AUDIT_ORIGINAL_V1_SHOULDER_WEIGHTS.bat ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend r2_before_repair`
+
+Use that read-only report plus the pose/deformation evidence to decide what to
+change. Do not blindly increase smoothing or regenerate the O4 weights over a
+manual repair.
+
 Priority-1 evidence poses include:
 - press_bottom
 - press_top

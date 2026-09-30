@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from 'three';
+import { HgPerspectiveCamera } from '../core/sceneGraph';
 import { describe, expect, it, vi } from 'vitest';
 import { createSceneState } from './sceneStateCore';
 import { createOrbitControlsRuntime } from './orbitControlsRuntime';
@@ -40,7 +40,7 @@ function fire(
 
 describe('framework-neutral orbit runtime', () => {
   it('owns input/frame lifecycle and restores the canvas on dispose', () => {
-    const camera = new PerspectiveCamera(38, 1, 0.05, 100);
+    const camera = new HgPerspectiveCamera(38, 1, 0.05, 100);
     camera.position.set(2.3, 1.35, 2.7);
     const sceneState = createSceneState();
     const { element, listeners, captured } = fakeCanvas();

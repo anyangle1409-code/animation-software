@@ -1,4 +1,5 @@
-import { PerspectiveCamera, Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
+import { HgPerspectiveCamera } from '../core/sceneGraph';
 import { describe, expect, it, vi } from 'vitest';
 import type { CameraRecommendation } from '../exercises/types';
 import type { CameraPresetId } from './cameraTypes';
@@ -37,7 +38,7 @@ function createStore(initial: CameraRigState): CameraRigStorePort & {
 
 describe('framework-neutral camera rig runtime', () => {
   it('subscribes to camera state, updates on frames and disposes', () => {
-    const camera = new PerspectiveCamera(38, 1, 0.05, 100);
+    const camera = new HgPerspectiveCamera(38, 1, 0.05, 100);
     camera.position.set(2.3, 1.35, 2.7);
     const sceneState = createSceneState();
     const recommendation: CameraRecommendation = {
@@ -48,7 +49,7 @@ describe('framework-neutral camera rig runtime', () => {
       document: { exercise: { camera: recommendation } },
       selection: { bone: null },
     });
-    const target = new Vector3(0, 1, 0);
+    const target = new HgVec3(0, 1, 0);
     const update = vi.fn();
     const controls = { target, update };
 

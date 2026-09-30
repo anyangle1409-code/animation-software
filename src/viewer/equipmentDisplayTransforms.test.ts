@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { Matrix4 } from 'three';
-import { cableMatrix, socketWorldPoint, twoHandAttachmentMatrix } from '../equipment/attach';
+import { HgMat4 } from '../core/linearMath';
+import { cableMatrix, handAttachmentLocalMatrix, socketWorldPoint, twoHandAttachmentMatrix } from '../equipment/attach';
 import type { EquipmentInstance } from '../equipment/types';
 import { equipmentSocketForInstance } from '../equipment/library';
 import { reflectPlacement } from '../equipment/mirror';
-import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 import { resolveEquipmentDisplayTransforms } from './equipmentDisplayTransforms';
 
 interface MatrixLike {
@@ -38,7 +37,7 @@ describe('equipment display transforms', () => {
   it('copies canonical display matrices and hides a visible instance with no resolved transform', () => {
     const shown = instance('shown', 'flat_bench', { mode: 'static' });
     const missing = instance('missing', 'flat_bench', { mode: 'static' });
-    const canonical = new Matrix4().makeTranslation(0.2, 0.4, -0.6);
+    const canonical = new HgMat4().makeTranslation(0.2, 0.4, -0.6);
     const result = resolveEquipmentDisplayTransforms(
       [shown, missing],
       new Map([['shown', { matrix: canonical }]]),
@@ -57,11 +56,11 @@ describe('equipment display transforms', () => {
       side: 'l',
       socket: 'grip',
     });
-    const hand = new Matrix4().makeTranslation(-0.31, 1.14, 0.22);
+    const hand = new HgMat4().makeTranslation(-0.31, 1.14, 0.22);
     const grip = { x: -0.041, y: 0.094, z: 0.013 };
     const result = resolveEquipmentDisplayTransforms(
       [dumbbell],
-      new Map([['db_l', { matrix: new Matrix4().makeTranslation(-9, -9, -9) }]]),
+      new Map([['db_l', { matrix: new HgMat4().makeTranslation(-9, -9, -9) }]]),
       {
         handMatrix: (_side, target) => target.copy(hand),
         gripOffset: () => grip,
@@ -69,16 +68,16 @@ describe('equipment display transforms', () => {
     );
 
     const socket = equipmentSocketForInstance(dumbbell, 'grip')!;
-    const expected = new Matrix4().multiplyMatrices(
+    const expected = new HgMat4().multiplyMatrices(
       hand,
-      handAttachmentMatrix(grip, socket.position, { socketRotation: socket.rotation }),
+      handAttachmentLocalMatrix(grip, socket.position, { socketRotation: socket.rotation }),
     );
     expectMatrixClose(result.get('db_l')?.matrix ?? null, expected);
   });
 
   it('reflects canonical world placement for a mirrored character when no hand override applies', () => {
     const bench = instance('bench', 'flat_bench', { mode: 'static' });
-    const canonical = new Matrix4().makeTranslation(0.45, 0.5, -0.2);
+    const canonical = new HgMat4().makeTranslation(0.45, 0.5, -0.2);
     const result = resolveEquipmentDisplayTransforms(
       [bench],
       new Map([['bench', { matrix: canonical }]]),
@@ -93,11 +92,11 @@ describe('equipment display transforms', () => {
       leftSocket: 'grip_l',
       rightSocket: 'grip_r',
     });
-    const left = new Matrix4().makeTranslation(-0.31, 1.12, 0.18);
-    const right = new Matrix4().makeTranslation(0.31, 1.12, 0.18);
+    const left = new HgMat4().makeTranslation(-0.31, 1.12, 0.18);
+    const right = new HgMat4().makeTranslation(0.31, 1.12, 0.18);
     const result = resolveEquipmentDisplayTransforms(
       [bar],
-      new Map([['bar', { matrix: new Matrix4().makeTranslation(0, -5, 0) }]]),
+      new Map([['bar', { matrix: new HgMat4().makeTranslation(0, -5, 0) }]]),
       {
         handMatrix: (side, target) => target.copy(side === 'l' ? left : right),
       },
@@ -118,9 +117,9 @@ describe('equipment display transforms', () => {
       to: { equipment: 'handle', socket: 'clip' },
     });
 
-    const towerMatrix = new Matrix4().makeTranslation(-0.7, 0, 0.2);
-    const canonicalHandle = new Matrix4().makeTranslation(9, 9, 9);
-    const rightHand = new Matrix4().makeTranslation(0.42, 1.08, -0.16);
+    const towerMatrix = new HgMat4().makeTranslation(-0.7, 0, 0.2);
+    const canonicalHandle = new HgMat4().makeTranslation(9, 9, 9);
+    const rightHand = new HgMat4().makeTranslation(0.42, 1.08, -0.16);
     const result = resolveEquipmentDisplayTransforms(
       [tower, handle, cable],
       new Map([

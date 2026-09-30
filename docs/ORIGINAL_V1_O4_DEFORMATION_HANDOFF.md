@@ -138,6 +138,7 @@ deformation blockers are resolved.
 
 Target poses:
 
+- `press_bottom`
 - `press_top`
 - `press_top_rhythm`
 - `pullup_hang`
@@ -166,6 +167,7 @@ RUN_ORIGINAL_V1_SHOULDER_CHECK.bat
 
 By default it tests the current O4 candidate with:
 
+- `press_bottom`
 - `press_top`
 - `press_top_rhythm`
 - `pullup_hang`

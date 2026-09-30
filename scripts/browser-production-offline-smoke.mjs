@@ -175,6 +175,45 @@ try {
   assert.equal(generation.sourceVisible, true);
   report.checks.productionPromptGeneration = generation;
 
+  // The product-level shorthand requested for normal use must drive the same
+  // local deterministic pipeline, not a separate parser or hosted service.
+  await panel
+    .locator('[data-hgpt-generate-control="prompt"]')
+    .fill("exercise: dumbbell shoulder press");
+  await panel.locator('[data-hgpt-generate-control="generate"]').click();
+
+  await page.waitForFunction(
+    () =>
+      document.querySelector(
+        '[data-hgpt-panel="generate-first-party"] .review-status strong',
+      )?.textContent === "READY FOR REVIEW",
+    undefined,
+    { timeout: 120_000 },
+  );
+
+  const commandGeneration = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+    if (!(panel instanceof HTMLElement)) {
+      throw new Error("Production Generate panel is unavailable for exercise command");
+    }
+    const cards = Array.from(panel.querySelectorAll(".review-gates article"));
+    return {
+      status: panel.querySelector(".review-status strong")?.textContent ?? null,
+      note: panel.querySelector(".generate-candidate .panel__note")?.textContent ?? "",
+      gateCount: cards.length,
+      nonPassGates: cards
+        .filter((card) => !card.classList.contains("is-pass"))
+        .map((card) => card.textContent ?? ""),
+      sourceVisible: panel.querySelector(".generate-source") !== null,
+    };
+  });
+  assert.equal(commandGeneration.status, "READY FOR REVIEW");
+  assert.match(commandGeneration.note, /Home Gym PT clean scaffold/);
+  assert(commandGeneration.gateCount > 0, "Exercise command emitted no validation gates");
+  assert.deepEqual(commandGeneration.nonPassGates, []);
+  assert.equal(commandGeneration.sourceVisible, true);
+  report.checks.productionExerciseCommand = commandGeneration;
+
   // Unsupported biomechanics must be rejected locally and explained instead
   // of being guessed, silently approximated, or sent to a hosted AI service.
   await panel

@@ -59,5 +59,23 @@ fs.writeFileSync(
   path.join(ROOT, "reports", "first_party_release_components.json"),
   JSON.stringify(result, null, 2) + "\n",
 );
+const expectBlocked = process.argv.includes("--expect-blocked");
+if (expectBlocked) {
+  const requiredPending = ["male_character", "male_shorts", "canonical_rig"];
+  const pendingIds = new Set(notApproved.map((entry) => entry.id));
+  const expectationPass =
+    !pass &&
+    missing.length === 0 &&
+    requiredPending.every((id) => pendingIds.has(id));
+  const expectation = {
+    ...result,
+    expectation: "release_blocked_by_pending_original_model_components",
+    requiredPending,
+    expectationPass,
+  };
+  console.log(JSON.stringify(expectation, null, 2));
+  process.exit(expectationPass ? 0 : 1);
+}
+
 console.log(JSON.stringify(result, null, 2));
 process.exit(pass ? 0 : 1);

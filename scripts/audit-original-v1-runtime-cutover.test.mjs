@@ -32,6 +32,19 @@ function fixture() {
     ],
   };
   writeJson(path.join(root, "ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json"), contract);
+  writeJson(path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json"), {
+    mode: "blocked_pending_approval",
+    production_targets: {
+      bare: {
+        release_path: "characters/HomeGymPT_Male_ORIGINAL_v1.glb",
+        required: true,
+      },
+      dressed: {
+        release_path: "characters/HomeGymPT_Male_ORIGINAL_v1_DRESSED.glb",
+        required: true,
+      },
+    },
+  });
   write(
     path.join(root, "src/main.ts"),
     "import './character/registry';\n",
@@ -133,6 +146,26 @@ test("prepared loader rejects unexpected/candidate GLB paths at audit time", () 
     assert.equal(result.pass, false);
     assert.ok(
       result.blockers.some(message => message.includes("unexpected GLB path")),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("runtime and promotion contracts must name the same exact production paths", () => {
+  const { root } = fixture();
+  try {
+    const promotionPath = path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json");
+    const promotion = JSON.parse(fs.readFileSync(promotionPath, "utf8"));
+    promotion.production_targets.dressed.release_path =
+      "characters/HomeGymPT_Male_ORIGINAL_v1_OTHER.glb";
+    writeJson(promotionPath, promotion);
+
+    const result = auditOriginalV1RuntimeCutover(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message => message.includes("do not exactly match the promotion contract")),
       JSON.stringify(result, null, 2),
     );
   } finally {

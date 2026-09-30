@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "mode": "blocked_pending_approval",
+  "asset_id": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig_id": "hgpt_canonical_v4_original",
+  "purpose": "Deny-by-default promotion contract for moving only explicitly approved ORIGINAL v1 production assets into the standalone runtime.",
+  "source_track": {
+    "model_branch": "claude/original-v1-blender-o2-20260929",
+    "approved_source_commit": null,
+    "note": "The model branch is a candidate workspace. Never merge it wholesale into the standalone branch. Promotion must pin one explicitly approved source commit and exact production hashes."
+  },
+  "production_targets": {
+    "bare": {
+      "repository_path": "public/characters/HomeGymPT_Male_ORIGINAL_v1.glb",
+      "release_path": "characters/HomeGymPT_Male_ORIGINAL_v1.glb",
+      "sha256": null,
+      "required": true
+    },
+    "dressed": {
+      "repository_path": "public/characters/HomeGymPT_Male_ORIGINAL_v1_DRESSED.glb",
+      "release_path": "characters/HomeGymPT_Male_ORIGINAL_v1_DRESSED.glb",
+      "sha256": null,
+      "required": true
+    }
+  },
+  "required_gates": {
+    "clean_room_provenance": "verified_candidate_history",
+    "neutral_anatomy_owner_review": "pending",
+    "canonical_v4_structure": "verified_candidate",
+    "deformation_development": "blocked",
+    "deformation_production": "blocked",
+    "equipment_grip": "blocked",
+    "garment_deformation_and_visual_review": "pending",
+    "runtime_first_party_glb_compatibility": "pending",
+    "runtime_exercise_regression": "pending",
+    "offline_acceptance_with_final_assets": "pending",
+    "physical_desktop_iphone_parity": "pending",
+    "explicit_production_approval": "pending"
+  },
+  "approval_requirements": [
+    "Every required gate must be set to approved or verified_production as appropriate before mode may become approved_for_promotion.",
+    "approved_source_commit must be one exact 40-hex commit from the isolated model branch.",
+    "Every production target must have one exact 64-hex SHA-256 and the repository file must match it byte-for-byte.",
+    "Production target names must not contain CANDIDATE, BASELINE, CORNER_FINAL, V9-V15, MakeHuman or other legacy/reference identities.",
+    "The standalone RELEASE_ASSET_ALLOWLIST.json must explicitly allow the exact release paths; broad character-directory or extension wildcards are forbidden.",
+    "male_character, male_shorts and canonical_rig must remain non-approved in FIRST_PARTY_COMPONENT_MANIFEST.json until the exact promoted assets and final rig have passed their production gates.",
+    "Promotion must copy only approved production artifacts/evidence. Do not merge the model branch into the standalone branch.",
+    "After promotion, rerun the full standalone, production-output, release, offline and browser/device acceptance gates on the exact resulting commit."
+  ],
+  "candidate_observation": {
+    "recorded_utc": "2026-09-30",
+    "model_branch_checkpoint": "bb0cef0d869ea7ff7544c6e23bf5b7b61465c0e2",
+    "candidate_status": "candidate_not_production",
+    "development_deformation_failed_checks": 54,
+    "production_deformation_failed_checks": 133,
+    "next_repair_priority": 1,
+    "next_repair_group": "shoulder",
+    "candidate_glb_structure": "passed_candidate_only",
+    "note": "Advisory snapshot only. It does not authorize promotion and may become stale as Blender work continues."
+  }
+}

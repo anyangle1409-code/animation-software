@@ -3,12 +3,12 @@ import { EXERCISES } from '../exercises/library';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { HgVec3 } from '../core/linearMath';
-import { HUMANOID_BONES } from './humanoid';
+import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from './canonicalV4Original';
 import { HgPoseEvaluation, HgSkeleton } from './firstPartySkeleton';
 import { PoseEvaluation, canonicalSkeleton } from './skeleton';
 
 const EPS = 2e-11;
-const hgCanonicalSkeleton = new HgSkeleton(HUMANOID_BONES);
+const hgCanonicalSkeleton = new HgSkeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
 
 const quaternionNorm = (q: { x: number; y: number; z: number; w: number }) =>
   Math.hypot(q.x, q.y, q.z, q.w);
@@ -21,12 +21,12 @@ const quaternionAgreement = (
 );
 
 describe('first-party skeleton production invariants', () => {
-  it('derives the canonical rest skeleton exactly from authored humanoid geometry', () => {
-    const authoredNames = HUMANOID_BONES.map((bone) => bone.name);
+  it('derives the live canonical rest skeleton exactly from authored v4 geometry', () => {
+    const authoredNames = HGPT_CANONICAL_V4_ORIGINAL_BONES.map((bone) => bone.name);
     expect(canonicalSkeleton.names).toEqual(authoredNames);
     expect(hgCanonicalSkeleton.names).toEqual(authoredNames);
 
-    for (const definition of HUMANOID_BONES) {
+    for (const definition of HGPT_CANONICAL_V4_ORIGINAL_BONES) {
       const current = canonicalSkeleton.bone(definition.name);
       const hg = hgCanonicalSkeleton.bone(definition.name);
       const authoredHead = new HgVec3(

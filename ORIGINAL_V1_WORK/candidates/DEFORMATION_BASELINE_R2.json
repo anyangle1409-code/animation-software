@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "baseline_id": "original_v1_o4_r2_20260930",
+  "purpose": "Pinned comparison baseline for subsequent ORIGINAL v1 deformation repair candidates. This is not an approval record.",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "candidate_sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
+  "source_o2_blend_sha256": "ee23c76f2849a45f9077236119a9e1e4e1116c1ef0dda2e6d751659f58647d44",
+  "inputs": {
+    "pose_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+      "git_blob_sha": "c6b5c5af17d08846afb2a4955ca68e0d839f1e3f"
+    },
+    "grip_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json",
+      "git_blob_sha": "942848e52a3624feef829bb6458d27ffce2bc25e"
+    },
+    "acceptance_spec": {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "git_blob_sha": "a9324afadcf27b7985c8e6df453776cb7f79ead8"
+    }
+  },
+  "evaluation": {
+    "development_blocker_failed_checks": 52,
+    "production_target_failed_checks": 131,
+    "development_failure_counts_by_pose": {
+      "press_top_rhythm": 7,
+      "pullup_hang_rhythm": 6,
+      "press_top": 5,
+      "pullup_top": 5,
+      "curl_peak": 4,
+      "press_bottom": 4,
+      "pullup_hang": 4,
+      "curl_handle": 4,
+      "lunge": 3,
+      "row": 3,
+      "grip": 3,
+      "pullup_bar": 2,
+      "squat_bottom": 1,
+      "pushup_bottom": 1,
+      "neutral": 0
+    },
+    "development_failure_counts_by_region": {
+      "hand": 19,
+      "finger": 11,
+      "shoulder": 10,
+      "torso": 4,
+      "pelvis": 1,
+      "grip_l": 1,
+      "grip_r": 1
+    }
+  },
+  "known_control": {
+    "neutral_volume_ratio": 1.0,
+    "neutral_self_intersections": 0
+  },
+  "known_grip_blocker": {
+    "curl_handle_max_penetration_mm_left": 5.93,
+    "curl_handle_max_penetration_mm_right": 5.93
+  },
+  "comparison_rule": "Future repairs should reduce failed checks without increasing the failed-check count of any baseline pose or grip. Use scripts/compare_original_v1_deformation_reports.py.",
+  "provenance_rule": "V8-V15f material remains reference-only. This baseline records ORIGINAL v1 candidate measurements only and authorizes no copying from legacy/reference assets.",
+  "status": "candidate_baseline_not_production"
+}

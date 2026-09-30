@@ -4,10 +4,11 @@ import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { HgVec3 } from '../core/linearMath';
 import { HUMANOID_BONES } from './humanoid';
-import { HgPoseEvaluation, hgCanonicalSkeleton } from './firstPartySkeleton';
+import { HgPoseEvaluation, HgSkeleton } from './firstPartySkeleton';
 import { PoseEvaluation, canonicalSkeleton } from './skeleton';
 
 const EPS = 2e-11;
+const hgCanonicalSkeleton = new HgSkeleton(HUMANOID_BONES);
 
 const quaternionNorm = (q: { x: number; y: number; z: number; w: number }) =>
   Math.hypot(q.x, q.y, q.z, q.w);

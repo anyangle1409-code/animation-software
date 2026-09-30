@@ -436,6 +436,10 @@ try {
   assert.equal(liveGeneratePanel.validations, 1);
   assert.equal(liveGeneratePanel.running, false);
   report.checks.liveOfflinePromptGeneration = liveGeneratePanel;
+  await page.evaluate(async () => {
+    const { studioStore } = await import("/src/editor/storeCore.ts");
+    studioStore.getState().loadExercise("dumbbell_bicep_curl");
+  });
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
 
   const reviewStateBeforeLive = await page.evaluate(async () => {

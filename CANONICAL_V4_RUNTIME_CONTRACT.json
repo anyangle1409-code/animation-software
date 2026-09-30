@@ -1,12 +1,10 @@
 {
   "schema_version": 1,
-  "mode": "shadow_v3_active",
+  "mode": "v4_active",
   "entrypoint": "src/main.ts",
   "v3_module": "src/rig/humanoid.ts",
   "v4_module": "src/rig/canonicalV4Original.ts",
-  "allowed_v3_runtime_importers": [
-    "src/rig/skeleton.ts"
-  ],
+  "allowed_v3_runtime_importers": [],
   "requirements": {
     "shadow_v3_active": [
       "The live runtime remains on the accepted v3 rig until an explicit cutover.",
@@ -20,15 +18,17 @@
     ]
   },
   "notes": [
-    "Canonical v4 remains the production-target rig architecture but is held in shadow until the full repository suite and v4 behavioural compatibility suite are simultaneously green.",
-    "The accepted v3 rig remains the live canonicalSkeleton during this guarded period so existing runtime parity is preserved exactly.",
+    "Canonical v4 is the live first-party runtime skeleton under guarded reactivation verification.",
+    "The historical v3 humanoid module must remain unreachable from src/main.ts; frozen exercise-authoring reference geometry is a separate migration aid, not the live rig.",
     "This contract controls runtime rig coupling only; it does not approve the ORIGINAL v1 mesh, garment or release promotion."
   ],
   "activation_evidence": {
-    "status": "activation_rolled_back_pending_full_green",
-    "attempted_activation_utc": "2026-09-30",
-    "safe_reference_checkpoint": "27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3",
-    "reason": "Post-activation full CI exposed v3 parity regressions and remaining v4 technique regressions. V4 activation must wait until both full-suite parity and shadow behavioural compatibility are green on the same exact commit.",
-    "current_required_state": "shadow_v3_active"
+    "status": "reactivation_in_verification",
+    "reactivated_utc": "2026-09-30",
+    "green_shadow_checkpoint": "87178e218e219a89a4f404fac06e9d3726adeafd",
+    "green_shadow_standalone_verification": "PASS",
+    "green_shadow_browser_viewport_smoke": "PASS",
+    "architecture_change": "Exercise-authoring reference geometry is now decoupled from the live canonical skeleton, so v4 activation no longer removes legacy-coordinate adaptation.",
+    "note": "Rig activation does not approve or activate ORIGINAL v1 character assets."
   }
 }

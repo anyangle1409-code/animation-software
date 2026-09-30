@@ -5,11 +5,11 @@ import { auditCanonicalV4RuntimeCoupling } from "./audit-canonical-v4-runtime-co
 
 const ROOT = resolve(".");
 
-test("current runtime keeps canonical v4 in guarded shadow mode", () => {
+test("current runtime activates canonical v4 with no reachable v3 rig seam", () => {
   const result = auditCanonicalV4RuntimeCoupling(ROOT);
   assert.equal(result.pass, true, JSON.stringify(result, null, 2));
-  assert.equal(result.mode, "shadow_v3_active");
-  assert.deepEqual(result.v3Importers, ["src/rig/skeleton.ts"]);
-  assert.equal(result.v4Reachable, false);
+  assert.equal(result.mode, "v4_active");
+  assert.deepEqual(result.v3Importers, []);
+  assert.equal(result.v4Reachable, true);
   assert.equal(result.blockers.length, 0);
 });

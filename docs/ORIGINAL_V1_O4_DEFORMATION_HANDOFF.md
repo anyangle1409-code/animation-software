@@ -129,6 +129,49 @@ Neutral remains an important control: it reports volume 1.0, zero compressed
 or stretched edges under the current stress thresholds, and zero
 self-intersections.
 
+## Automatic repair queue
+
+The repair order is now machine-readable in `ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json`
+and can be regenerated from any pose report:
+
+```bat
+python scripts\build_original_v1_repair_queue.py ^
+  ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+  --profile development_blocker ^
+  --require-complete-ownership ^
+  --markdown-out ORIGINAL_V1_WORK\candidates\repair_queue_r2.md
+```
+
+For pinned R2 the expected state is:
+
+- acceptance failures: **54**
+- unmapped blockers: **0**
+- next repair priority: **1**
+- Priority 1 owns **15** current failed checks
+- Priority 2 owns **38**
+- Priority 3 owns **3**
+- Priority 4 owns **1**
+- Priority 5 currently owns **0** development-blocker failures
+
+Some failures intentionally appear in more than one repair group when a
+pose-global metric spans regions. The queue is an ownership plan, not a blended
+score.
+
+Use the grouped read-only runner for each stage:
+
+```bat
+RUN_ORIGINAL_V1_REPAIR_CHECK.bat shoulder
+RUN_ORIGINAL_V1_REPAIR_CHECK.bat hand
+RUN_ORIGINAL_V1_REPAIR_CHECK.bat hip
+RUN_ORIGINAL_V1_REPAIR_CHECK.bat pushup
+RUN_ORIGINAL_V1_REPAIR_CHECK.bat row
+```
+
+Work only the lowest-numbered `BLOCKED` priority. After a repair, regenerate
+the queue from the new full pose report. Do not move to a later priority merely
+because its renders look better; the earlier priority must clear its owned
+development blockers without regression first.
+
 ## Repair order
 
 Do not polish the face, materials or shorts before the higher-priority

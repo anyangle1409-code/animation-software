@@ -96,7 +96,15 @@ Known equipment grip blocker:
 
 ## Laptop task — Priority 1 only first
 
-Repair shoulder/upper-torso deformation before moving to hands.
+Before the first shoulder weight edit, capture the current weight evidence:
+
+```bat
+AUDIT_ORIGINAL_V1_SHOULDER_WEIGHTS.bat ^
+  ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend ^
+  r2_before_repair
+```
+
+Then repair shoulder/upper-torso deformation before moving to hands.
 
 Priority-1 pose set includes:
 - `press_bottom`

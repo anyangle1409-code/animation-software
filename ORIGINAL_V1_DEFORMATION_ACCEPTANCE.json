@@ -71,11 +71,13 @@
         "press_bottom",
         "press_top",
         "press_top_rhythm",
+        "squat_bottom",
         "pullup_hang",
         "pullup_hang_rhythm",
-        "pullup_top"
+        "pullup_top",
+        "pullup_bar"
       ],
-      "reason": "Current reports show the largest local stretch/collapse in shoulder loading and overhead/elevation poses. Fix shoulder girdle weight distribution and topology support across press bottom/top and pull-up ranges before cosmetic work."
+      "reason": "Own every current shoulder/upper-torso blocker across press, arm-elevation, squat arm position and pull-up/bar loading before cosmetic work."
     },
     {
       "priority": 2,
@@ -87,12 +89,18 @@
       ],
       "poses": [
         "curl_peak",
+        "press_bottom",
+        "press_top",
+        "press_top_rhythm",
+        "pullup_hang",
+        "pullup_hang_rhythm",
+        "pullup_top",
+        "row",
         "grip",
         "curl_handle",
-        "pullup_bar",
-        "pullup_top"
+        "pullup_bar"
       ],
-      "reason": "Current reports show severe hand/finger local ratios, repeated self-intersections and excessive handle penetration."
+      "reason": "Own current hand/finger/thumb/arm and equipment-contact blockers across all major gripping orientations, not only curl close-ups."
     },
     {
       "priority": 3,

@@ -37,7 +37,8 @@ export function reviewExercise(
 ): ExerciseReview {
   const evaluation = new PoseEvaluation(rig);
   const validation = validateClip(rig, evaluation, exercise, clip, samplesPerSecond);
-  const techniqueErrors = validation.violations.filter((entry) => entry.severity === 'error').length;
+  const techniqueErrorEntries = validation.violations.filter((entry) => entry.severity === 'error');
+  const techniqueErrors = techniqueErrorEntries.length;
   const techniqueWarnings = validation.violations.filter((entry) => entry.severity === 'warning').length;
 
   const anchors = lockAnchors(
@@ -49,6 +50,11 @@ export function reviewExercise(
   const step = clip.duration / frames;
   let contactFailures = 0;
   let worstContactError = 0;
+  const contactStatusCounts = {
+    unresolved: 0,
+    limited: 0,
+    overextended: 0,
+  };
   let gripFailures = 0;
   let gripChecks = 0;
   let worstReachUse = 0;
@@ -80,6 +86,9 @@ export function reviewExercise(
         (contact.error !== null && contact.error > 0.005)
       ) {
         contactFailures += 1;
+        if (contact.status === 'unresolved') contactStatusCounts.unresolved += 1;
+        if (contact.status === 'limited') contactStatusCounts.limited += 1;
+        if (contact.status === 'overextended') contactStatusCounts.overextended += 1;
       }
     }
 
@@ -133,7 +142,7 @@ export function reviewExercise(
       passed: techniqueErrors === 0,
       detail: techniqueErrors === 0
         ? `${exercise.technique.length} rules checked; ${techniqueWarnings} warning${techniqueWarnings === 1 ? '' : 's'}.`
-        : `${techniqueErrors} error rule${techniqueErrors === 1 ? '' : 's'} still fail.`,
+        : `${techniqueErrors} error rule${techniqueErrors === 1 ? '' : 's'} still fail: ${techniqueErrorEntries.map((entry) => entry.ruleId).join(', ')}.`,
       warnings: techniqueWarnings,
     },
     {
@@ -148,7 +157,7 @@ export function reviewExercise(
       passed: validation.unreachable.length === 0,
       detail: validation.unreachable.length === 0
         ? 'No unreachable IK samples.'
-        : `${validation.unreachable.length} sampled IK targets are unreachable.`,
+        : `${validation.unreachable.length} sampled IK targets are unreachable; worst ${validation.unreachable.reduce((worst, entry) => entry.error > worst.error ? entry : worst, validation.unreachable[0]).chain} ${(Math.max(...validation.unreachable.map((entry) => entry.error)) * 1000).toFixed(1)} mm.`,
     },
     {
       id: 'contacts',
@@ -158,7 +167,7 @@ export function reviewExercise(
         ? 'No explicit contact locks in this exercise.'
         : contactFailures === 0
           ? `All enabled locks stay resolved; worst error ${(worstContactError * 1000).toFixed(1)} mm.`
-          : `${contactFailures} sampled lock failures; worst error ${(worstContactError * 1000).toFixed(1)} mm.`,
+          : `${contactFailures} sampled lock failures; worst error ${(worstContactError * 1000).toFixed(1)} mm; unresolved ${contactStatusCounts.unresolved}, limited ${contactStatusCounts.limited}, overextended ${contactStatusCounts.overextended}.`,
       applicable: clip.locks.length > 0,
     },
     {

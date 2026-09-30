@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { Quaternion, Vector3 } from 'three';
 import { HgBone, HgGroup } from '../core/sceneGraph';
 import { HgQuat, HgVec3 } from '../core/linearMath';
 import { retargetSampler } from '../character/retargetSource';
@@ -10,14 +9,13 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { createMapping, guessMapping, isMappingUsable, reportMapping } from './boneMap';
 import { applyRetarget, bindRetarget, readCharacter, resetCharacter } from './retarget';
-import { asThreeMatrix } from '../test/threeInterop';
 
 const skeleton = canonicalSkeleton;
 
 const threeVector = (value: { x: number; y: number; z: number }) =>
-  new Vector3(value.x, value.y, value.z);
-const threeQuaternion = (value: { x: number; y: number; z: number; w: number }) =>
-  new Quaternion(value.x, value.y, value.z, value.w);
+  new HgVec3(value.x, value.y, value.z);
+const threeHgQuat = (value: { x: number; y: number; z: number; w: number }) =>
+  new HgQuat(value.x, value.y, value.z, value.w);
 
 
 /**
@@ -38,10 +36,10 @@ function buildCharacter(options: {
     bone.name = options.names(rigBone.name);
     bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
     bone.quaternion.set(
-      rigBone.restLocalQuaternion.x,
-      rigBone.restLocalQuaternion.y,
-      rigBone.restLocalQuaternion.z,
-      rigBone.restLocalQuaternion.w,
+      rigBone.restLocalHgQuat.x,
+      rigBone.restLocalHgQuat.y,
+      rigBone.restLocalHgQuat.z,
+      rigBone.restLocalHgQuat.w,
     );
     if (options.tPose && (rigBone.name === 'upperarm_l' || rigBone.name === 'upperarm_r')) {
       // Raise the arms to horizontal: a genuinely different rest pose.
@@ -156,8 +154,8 @@ describe('retargeting', () => {
     evaluation.apply(pose);
 
     for (const name of ['hand_l', 'forearm_r', 'foot_l', 'head'] as const) {
-      const target = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(name)!.matrixWorld));
-      expect(target.distanceTo(evaluation.head(name, new Vector3())), name).toBeLessThan(1e-6);
+      const target = new HgVec3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+      expect(target.distanceTo(evaluation.head(name, new HgVec3())), name).toBeLessThan(1e-6);
     }
   });
 
@@ -168,7 +166,7 @@ describe('retargeting', () => {
     const bone = (canonical: 'upperarm_l' | 'forearm_l' | 'hand_l') =>
       character.bones.get(mapping.bones[canonical]!)!;
     const worldOf = (canonical: 'upperarm_l' | 'forearm_l' | 'hand_l') =>
-      new Vector3().setFromMatrixPosition(asThreeMatrix(bone(canonical).matrixWorld));
+      new HgVec3().setFromMatrixPosition(bone(canonical).matrixWorld);
 
     const binding = bindRetarget(character, mapping);
     const rest = restPose();
@@ -178,9 +176,9 @@ describe('retargeting', () => {
     // The source was authored with horizontal arms, but canonical zero means
     // canonical rest: the target arm must come down rather than staying in its
     // source T pose.
-    const targetUpper = bone('upperarm_l').getWorldQuaternion(new Quaternion());
+    const targetUpper = bone('upperarm_l').getWorldHgQuat(new HgQuat());
     const expectedUpper = evaluation.quaternion('upperarm_l');
-    expect(targetUpper.angleTo(new Quaternion(
+    expect(targetUpper.angleTo(new HgQuat(
       expectedUpper.x,
       expectedUpper.y,
       expectedUpper.z,
@@ -224,13 +222,13 @@ describe('retargeting', () => {
       ['pinky_02_r', 'pinky_03_r'],
     ] as const;
     for (const [name, child] of segments) {
-      const targetHead = new Vector3().setFromMatrixPosition(
-        asThreeMatrix(character.bones.get(name)!.matrixWorld),
+      const targetHead = new HgVec3().setFromMatrixPosition(
+        character.bones.get(name)!.matrixWorld,
       );
-      const targetTail = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(child)!.matrixWorld));
+      const targetTail = new HgVec3().setFromMatrixPosition(character.bones.get(child)!.matrixWorld);
       const targetDirection = targetTail.sub(targetHead).normalize();
-      const expectedHead = evaluation.head(name, new Vector3());
-      const expectedTail = evaluation.head(child, new Vector3());
+      const expectedHead = evaluation.head(name, new HgVec3());
+      const expectedTail = evaluation.head(child, new HgVec3());
       const expectedDirection = expectedTail.sub(expectedHead).normalize();
       expect(targetDirection.angleTo(expectedDirection), `${name}->${child}`).toBeLessThan(1e-5);
     }
@@ -243,8 +241,8 @@ describe('retargeting', () => {
     for (const definition of skeleton.bones) {
       const source = original.bones.get(definition.name)!;
       const bone = new HgBone(); bone.name = source.name;
-      bone.position.copy(source.getWorldPosition(new Vector3())); bone.position.x *= -1;
-      bone.quaternion.copy(source.getWorldQuaternion(new Quaternion()));
+      bone.position.copy(source.getWorldPosition(new HgVec3())); bone.position.x *= -1;
+      bone.quaternion.copy(source.getWorldHgQuat(new HgQuat()));
       bone.quaternion.y *= -1; bone.quaternion.z *= -1;
       group.add(bone); bones.set(bone.name, bone);
     }
@@ -259,8 +257,8 @@ describe('retargeting', () => {
     const pose = poseFromDegrees({ upperarm_l: { x: -40, z: 20 }, forearm_l: { x: 110 }, thigh_r: { x: 30 } });
     applyRetarget(binding, pose); evaluation.apply(pose);
     for (const name of ['hand_l', 'forearm_l', 'hand_r', 'foot_r'] as const) {
-      const expected = evaluation.head(name, new Vector3()); expected.x *= -1;
-      expect(character.bones.get(name)!.getWorldPosition(new Vector3()).distanceTo(expected), name).toBeLessThan(1e-6);
+      const expected = evaluation.head(name, new HgVec3()); expected.x *= -1;
+      expect(character.bones.get(name)!.getWorldPosition(new HgVec3()).distanceTo(expected), name).toBeLessThan(1e-6);
     }
     expect(group.scale.toArray()).toEqual([1, 1, 1]);
   });
@@ -319,16 +317,16 @@ describe('disconnected source deform branches', () => {
     applyRetarget(detached, pose);
     for (const [name, bone] of detached.character.bones) {
       const expected = connected.character.bones.get(name)!;
-      expect(bone.getWorldPosition(new Vector3()).distanceTo(expected.getWorldPosition(new Vector3())), name).toBeLessThan(1e-6);
-      expect(bone.getWorldQuaternion(new Quaternion()).angleTo(expected.getWorldQuaternion(new Quaternion())), name).toBeLessThan(1e-6);
+      expect(bone.getWorldPosition(new HgVec3()).distanceTo(expected.getWorldPosition(new HgVec3())), name).toBeLessThan(1e-6);
+      expect(bone.getWorldHgQuat(new HgQuat()).angleTo(expected.getWorldHgQuat(new HgQuat())), name).toBeLessThan(1e-6);
     }
     expect([...detached.character.bones.values()].map(b => b.parent)).toEqual(parents);
     // The pelvis must rotate about the root, not remain at standing height.
-    expect(detached.hips!.getWorldPosition(new Vector3()).y).toBeCloseTo(pose.rootPosition.y * detached.scale, 6);
+    expect(detached.hips!.getWorldPosition(new HgVec3()).y).toBeCloseTo(pose.rootPosition.y * detached.scale, 6);
     resetCharacter(detached.character);
     for (const [name, bone] of detached.character.bones) {
       expect(bone.position.distanceTo(threeVector(detached.character.restPosition.get(name)!))).toBeLessThan(1e-9);
-      expect(bone.quaternion.angleTo(threeQuaternion(detached.character.restLocal.get(name)!))).toBeLessThan(1e-6);
+      expect(bone.quaternion.angleTo(threeHgQuat(detached.character.restLocal.get(name)!))).toBeLessThan(1e-6);
     }
   });
 
@@ -347,8 +345,8 @@ describe('disconnected source deform branches', () => {
     applyRetarget(plain, pose);
     applyRetarget(transformed, pose);
     for (const [name, bone] of transformed.character.bones) {
-      const expected = plain.character.bones.get(name)!.getWorldPosition(new Vector3()).applyMatrix4(asThreeMatrix(transform));
-      expect(bone.getWorldPosition(new Vector3()).distanceTo(expected), name).toBeLessThan(1e-6);
+      const expected = plain.character.bones.get(name)!.getWorldPosition(new HgVec3()).applyMatrix4(transform);
+      expect(bone.getWorldPosition(new HgVec3()).distanceTo(expected), name).toBeLessThan(1e-6);
     }
   });
 

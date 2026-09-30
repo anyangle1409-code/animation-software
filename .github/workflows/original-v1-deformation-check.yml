@@ -17,6 +17,8 @@ on:
       - "scripts/evaluate_original_v1_deformation_report.py"
       - "scripts/compare_original_v1_deformation_reports.py"
       - "scripts/verify_original_v1_deformation_baseline.py"
+      - "scripts/build_original_v1_repair_queue.py"
+      - "scripts/test_build_original_v1_repair_queue.py"
       - "scripts/test_evaluate_original_v1_deformation_report.py"
       - "scripts/test_compare_original_v1_deformation_reports.py"
       - ".github/workflows/original-v1-deformation-check.yml"
@@ -43,14 +45,26 @@ jobs:
           scripts/evaluate_original_v1_deformation_report.py
           scripts/compare_original_v1_deformation_reports.py
           scripts/verify_original_v1_deformation_baseline.py
+          scripts/build_original_v1_repair_queue.py
+          scripts/test_build_original_v1_repair_queue.py
           scripts/test_evaluate_original_v1_deformation_report.py
           scripts/test_compare_original_v1_deformation_reports.py
 
       - name: Run deformation tooling tests
-        run: python3 -m unittest discover -s scripts -p "test_*deformation*.py"
+        run: |
+          python3 -m unittest discover -s scripts -p "test_*deformation*.py"
+          python3 scripts/test_build_original_v1_repair_queue.py
 
       - name: Verify pinned R2 baseline
         run: python3 scripts/verify_original_v1_deformation_baseline.py
+
+      - name: Verify repair queue ownership
+        run: >
+          python3 scripts/build_original_v1_repair_queue.py
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          --profile development_blocker
+          --require-complete-ownership
+          --expect-next-priority 1
 
       - name: Reproduce current development report
         run: >

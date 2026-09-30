@@ -158,6 +158,10 @@ PRESETS = {
                 w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
                 iters=150, polish_iters=100, polish_rounds=2),
 }
+# o17/o18: symmetric-by-construction versions of o15 (hand) and o16 (elbow); r24/r25 showed
+# independent sides drift apart (R2 was exactly symmetric).
+PRESETS["o17"] = dict(PRESETS["o15"], symmetric=True)
+PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
 def project_simplex(X, allowed):
@@ -250,9 +254,27 @@ def main():
     zpos[Z] = np.arange(len(Z))
     used = np.nonzero(allowed_full[Z].any(axis=0))[0]          # compact bone set
     allowed = allowed_full[Z][:, used]
+    MZ = MS = None
+    if P.get("symmetric"):
+        # exact left/right symmetry by construction: mirror twin of every zone vertex (x -> -x)
+        # and _l/_r column swap; gradients and iterates are kept mirror-symmetric.
+        key = {tuple(np.round(rest[v] * [-1, 1, 1], 5)): k for k, v in enumerate(Z)}
+        MZ = np.array([key.get(tuple(np.round(rest[v], 5)), -1) for v in Z])
+        if (MZ < 0).any():
+            raise SystemExit(f"symmetric: {(MZ < 0).sum()} zone vertices lack a mirror twin in the zone")
+        ub = [bones[i] for i in used]
+        def _sw(n):
+            return n[:-2] + ("_r" if n.endswith("_l") else "_l") if n[-2:] in ("_l", "_r") else n
+        if any(_sw(n) not in ub for n in ub):
+            raise SystemExit("symmetric: zone bone set is not mirror-closed")
+        MS = np.array([ub.index(_sw(n)) for n in ub])
+        allowed = allowed | allowed[MZ][:, MS]
     Wz = W0[Z][:, used].copy()
     Wz /= Wz.sum(axis=1, keepdims=True)
     Wz0 = Wz.copy()
+
+    def sym(X):
+        return X if MZ is None else 0.5 * (X + X[MZ][:, MS])
 
     rest_h = np.c_[rest, np.ones(len(rest))]
     T = np.einsum("pbij,vj->pvbi", mats[:, used, :3, :], rest_h[Z])   # [pose, zone, bone, 3]
@@ -606,7 +628,7 @@ def main():
         np.add.at(G, ia, 2 * P["w_smooth"] * dW)
         np.add.at(G, ib, -2 * P["w_smooth"] * dW)
         G += 2 * P["w_close"] * (Wz - Wz0)
-        return total, G
+        return total, sym(G)
 
     def adam(Wz, mask, iters, lr):
         # Adam with cosine step decay (lr -> lr/20); returns the best iterate seen.
@@ -720,6 +742,7 @@ def main():
     if a.diagnose:
         return
     Winit = Wz0.copy()
+    Wz0 = sym(Wz0)          # closeness target symmetric too (identity unless symmetric)
     if a.init_dump:
         di = np.load(a.init_dump)
         if di["W"].shape != d["W"].shape or [str(x) for x in di["bones"]] != bones:
@@ -747,6 +770,7 @@ def main():
         Winit = np.where(allowed, np.maximum(Winit, 1e-4), 0.0)
         Winit /= Winit.sum(axis=1, keepdims=True)
         print("warm start from", a.init, flush=True)
+    Winit = sym(Winit)
     if P.get("solver") == "lbfgs" and P.get("w_prox", 0) > 0:
         Wz = Winit.copy()
         find_pairs(Wz)
@@ -764,6 +788,7 @@ def main():
     else:
         Wz = adam(Wz0.copy(), allowed, P["iters"], P["lr"])
     # prune to 4 influences, polish on that support
+    Wz = sym(Wz)
     order = np.argsort(-Wz, axis=1)
     sup = np.zeros_like(allowed)
     sup[np.arange(len(Wz))[:, None], order[:, :4]] = True
@@ -782,6 +807,11 @@ def main():
         Wz = pgd(Wz, sup, P["polish_iters"], P["step"])
     else:
         Wz = adam(Wz, sup, P["polish_iters"], P["lr"] * 0.5)
+    Wz = sym(Wz)
+    if MZ is not None:
+        Wz = np.where(Wz < 1e-4, 0.0, Wz)
+        Wz /= Wz.sum(axis=1, keepdims=True)
+        print("symmetric: max L1 twin difference", float(np.abs(Wz - Wz[MZ][:, MS]).sum(axis=1).max()), flush=True)
     f1, _ = loss_grad(Wz)
     print("final terms", json.dumps(parts))
 

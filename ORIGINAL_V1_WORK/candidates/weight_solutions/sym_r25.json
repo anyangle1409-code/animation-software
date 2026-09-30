@@ -1,0 +1,15 @@
+{
+  "generated_utc": "2026-09-30T21:28:28.574548+00:00",
+  "method": "mirror average (x -> -x, _l/_r swap), top 4",
+  "source_dump": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r25.blend",
+  "vertices_written": 2697,
+  "asymmetry_L1_before": {
+    "max": 0.5097089029314775,
+    "verts_gt_0.05": 283
+  },
+  "asymmetry_L1_after": {
+    "max": 0.06046668648746769,
+    "verts_gt_0.05": 1
+  },
+  "inputs": "this candidate's own ORIGINAL v1 weights only"
+}

@@ -12,6 +12,10 @@ on:
       - "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json"
       - "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json"
       - "ORIGINAL_V1_WORK/candidates/O4_CANDIDATE_BUILD.json"
+      - "ORIGINAL_V1_WORK/candidates/CANDIDATE_GLB_EXPORT.json"
+      - "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_BARE.glb"
+      - "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_DRESSED.glb"
+      - "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json"
       - "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json"
       - "ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json"
       - "scripts/evaluate_original_v1_deformation_report.py"
@@ -19,6 +23,8 @@ on:
       - "scripts/verify_original_v1_deformation_baseline.py"
       - "scripts/build_original_v1_repair_queue.py"
       - "scripts/test_build_original_v1_repair_queue.py"
+      - "scripts/audit_original_v1_candidate_glbs.py"
+      - "scripts/test_audit_original_v1_candidate_glbs.py"
       - "scripts/test_evaluate_original_v1_deformation_report.py"
       - "scripts/test_compare_original_v1_deformation_reports.py"
       - ".github/workflows/original-v1-deformation-check.yml"
@@ -47,6 +53,8 @@ jobs:
           scripts/verify_original_v1_deformation_baseline.py
           scripts/build_original_v1_repair_queue.py
           scripts/test_build_original_v1_repair_queue.py
+          scripts/audit_original_v1_candidate_glbs.py
+          scripts/test_audit_original_v1_candidate_glbs.py
           scripts/test_evaluate_original_v1_deformation_report.py
           scripts/test_compare_original_v1_deformation_reports.py
 
@@ -54,6 +62,12 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts -p "test_*deformation*.py"
           python3 scripts/test_build_original_v1_repair_queue.py
+
+      - name: Audit committed candidate GLBs
+        run: |
+          mkdir -p reports
+          python3 scripts/audit_original_v1_candidate_glbs.py --json-out reports/original_v1_candidate_glb_audit.json
+          python3 scripts/test_audit_original_v1_candidate_glbs.py
 
       - name: Verify pinned R2 baseline
         run: python3 scripts/verify_original_v1_deformation_baseline.py

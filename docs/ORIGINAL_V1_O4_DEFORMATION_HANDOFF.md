@@ -1062,7 +1062,44 @@ solves (o14, o17, o19) plateaued at ~104 PIP-crease triangle pairs.
 - `o20` (the same settings on the r28 geometry) was stopped unfinished; it is
   superseded.
 
-**If this session stopped before r29 was evaluated, next exact action:**
+**r29 result (evaluated).**
+
+- r29 = r29a + `o21`. SHA-256
+  `d9b24e75fa6f2eb4c8999787fd925d5986f236691e00c9d251be3f0f061d7574`.
+- Full 15-pose evidence: **7 failed checks**, the fewest so far.
+  **`curl_peak` now passes**: its PIP-crease collisions are gone, leaving only
+  the elbow contact.
+- Regressions vs R2: **6**, the same set as r28 (5 inherited r24
+  shoulder/torso minima, `pushup_bottom` hand max 1.915 → 2.032).
+- Regressions vs r28: **12**, with 11 improvements:
+  - finger min 0.239 → 0.193 (0.169 in the handle poses), still far above the
+    0.15 gate and R2's 0.113/0.086;
+  - `pushup_bottom` self-intersections 144 → 150 (R2 156).
+- **Verdict:** r29 is a trade-off against r28, not a strict improvement. It
+  removes a gate failure but lowers finger minima that r28 had raised.
+  - r28 stays the "no regression vs prior" best.
+  - r29 is the "fewest failures" experimental candidate.
+  - Neither is accepted; production approval remains false.
+
+**Remaining development failures (r29, 7):**
+
+- grip penetration 5.93 mm × 4: proven weight-independent (thumb IP inside
+  the handle before closing). Needs an owner decision on the thumb rest
+  pose vs the frozen grip pose script.
+- `lunge` × 3: Priority 3, not yet started.
+
+**Next exact action:**
+
+1. Recover r29's finger minima toward r28 while keeping `curl_peak` clear:
+   run a symmetric hand re-solve on the r29 base with `lo=0.24` (o19
+   settings), warm-started from o21, which gives r30.
+2. Evaluate with `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat r30 r29` and compare with
+   r28.
+3. The push-up hand-max regression (wrist extension) still needs a
+   wrist-only solve.
+4. Then start Priority 3 (`lunge` pelvis/torso), which is untouched.
+
+**Earlier resume steps (kept for reference), if r29 had not been evaluated:**
 
 1. If `weight_solutions/o21.npz` is missing, re-run:
 
@@ -1080,7 +1117,7 @@ solves (o14, o17, o19) plateaued at ~104 PIP-crease triangle pairs.
    self-intersections (o21 round 1 raised push-up wrist pairs 74 → 100 triangle
    pairs) and the finger minima.
 
-Battery at this checkpoint: 66%, discharging (no AC), falling ~1%/min.
+Battery at this checkpoint: 66%, discharging (no AC), falling ~1%/min. Battery at the r29 checkpoint: 54%, discharging (no AC).
 
 ### Priority 2 — hands / fingers / thumb / equipment grip
 

@@ -129,6 +129,42 @@ Neutral remains an important control: it reports volume 1.0, zero compressed
 or stretched edges under the current stress thresholds, and zero
 self-intersections.
 
+## Machine-readable candidate status
+
+`ORIGINAL_V1_CANDIDATE_STATUS.json` is now the compact current-state contract
+for the model branch. It deliberately keeps `production_approved: false` and
+separates verified candidate evidence from open gates.
+
+`scripts/verify_original_v1_candidate_status.py` recomputes the status from:
+
+- O1 clean-room provenance;
+- O2 rig provenance;
+- the 63-bone v4 payload;
+- O4 bind metadata;
+- O7 shorts metadata;
+- both committed candidate GLBs;
+- R2 deformation and equipment-grip reports;
+- the automatic repair queue.
+
+GitHub Actions run **36715570852** passed this status contract. Current verified
+state remains:
+
+- overall: **candidate_not_production**
+- development deformation: **BLOCKED — 54 failed checks**
+- production deformation: **BLOCKED — 133 failed checks**
+- repair ownership: **complete — 0 unmapped**
+- next repair priority: **1 / shoulder**
+- candidate GLB structure: **PASS (candidate-only)**
+- owner neutral-anatomy review: **pending**
+- runtime integration: **pending**
+- release promotion: **blocked**
+
+A safety diff from Claude's original candidate-export checkpoint
+`34a8c9e55e120a0443df30ce3ffdcb9c7b52a48f` confirms this verification batch
+changed only validation, CI, status and handoff files. It did **not** modify the
+body mesh, skin weights, shorts geometry, committed candidate GLBs or
+standalone runtime implementation.
+
 ## Candidate GLB structural audit
 
 The committed bare/dressed review exports now have an independent,

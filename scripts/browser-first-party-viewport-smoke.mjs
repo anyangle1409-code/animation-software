@@ -7,13 +7,13 @@ import { chromium } from "playwright";
 
 const BASE_URL = process.env.HGPT_BROWSER_URL || "http://127.0.0.1:5174";
 const BASE_ORIGIN = new URL(BASE_URL).origin;
-const URL = BASE_URL;
+const APP_URL = BASE_URL;
 const OUT = path.resolve("reports/browser-smoke/first-party-host");
 fs.mkdirSync(OUT, { recursive: true });
 
 const report = {
   generatedAt: new Date().toISOString(),
-  url: URL,
+  url: APP_URL,
   sceneHost: "first-party",
   status: "FAIL",
   supplementaryOnly: true,
@@ -81,7 +81,7 @@ try {
     }
   });
 
-  await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.goto(APP_URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.waitForSelector('[data-hgpt-scene-host="first-party"]', {
     state: "visible",
     timeout: 20_000,

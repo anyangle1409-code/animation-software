@@ -57,4 +57,11 @@ fs.writeFileSync(
 );
 
 console.log(JSON.stringify(summary,null,2));
+for (const result of results.filter((entry) => entry.gate && !entry.pass)) {
+  console.error(
+    `\n[standalone-audit failure] ${result.id} (${result.script})\n` +
+      (result.stdout || "<no stdout>") +
+      (result.stderr ? `\n[stderr]\n${result.stderr}` : ""),
+  );
+}
 process.exit(summary.gatePass?0:1);

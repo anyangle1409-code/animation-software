@@ -148,7 +148,7 @@ export function reviewExercise(
       passed: techniqueErrors === 0,
       detail: techniqueErrors === 0
         ? `${exercise.technique.length} rules checked; ${techniqueWarnings} warning${techniqueWarnings === 1 ? '' : 's'}.`
-        : `${techniqueErrors} error rule${techniqueErrors === 1 ? '' : 's'} still fail: ${techniqueErrorEntries.map((entry) => entry.ruleId).join(', ')}.`,
+        : `${techniqueErrors} error rule${techniqueErrors === 1 ? '' : 's'} still fail: ${techniqueErrorEntries.map((entry) => `${entry.ruleId} [${entry.message}]`).join('; ')}.`,
       warnings: techniqueWarnings,
     },
     {

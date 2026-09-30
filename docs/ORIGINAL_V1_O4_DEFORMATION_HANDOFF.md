@@ -319,6 +319,46 @@ This ordering is diagnostic only. Priority 1 is not clear until the full
 owned-pose set passes the development blocker and the regression comparator
 reports no material worsening elsewhere.
 
+### Before the first shoulder weight edit
+
+Capture the current project-authored weight distribution once:
+
+```bat
+AUDIT_ORIGINAL_V1_SHOULDER_WEIGHTS.bat ^
+  ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend ^
+  r2_before_repair
+```
+
+The audit is read-only. It reports shoulder/torso/arm vertex counts,
+normalisation error, influence counts, dominant bones, cross-side contamination
+and distance-banded mean weights around each upper-arm head.
+
+The current O4 binder used:
+
+- region permissions that allow shoulder vertices to use
+  `spine_02/spine_03/neck + clavicle/scapula/upperarm`;
+- three general neighbour-smoothing passes;
+- an additional shoulder joint zone of **160 mm radius / 14 iterations**;
+- maximum four influences per vertex.
+
+Those facts are **diagnostic context, not a prescription**. Do not simply add
+more smoothing because the shoulder stretches. First use the audit plus the
+pose evidence to determine whether the defect is:
+
+- too-wide/too-soft ownership across the axilla/deltoid transition;
+- too little stable torso/scapula support;
+- too much upper-arm ownership near the torso;
+- a sharp permission/region boundary;
+- topology that cannot support the required fold/elevation;
+- or a combination.
+
+After a meaningful repair, rerun the audit with a new label (for example
+`shoulder_r3`) so the weight change is reviewable alongside the deformation
+comparison.
+
+Do not rerun the original O4 binder over the repaired candidate as a shortcut:
+that would recreate the generated weights and can destroy manual evidence.
+
 ### Priority 1 repair-cycle command
 
 For shoulder-only iteration, use the read-only targeted runner:

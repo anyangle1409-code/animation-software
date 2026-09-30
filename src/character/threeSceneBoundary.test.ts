@@ -17,9 +17,9 @@ describe('character production scene boundary', () => {
     }
   });
 
-  it('retains the legacy Three adapter only as a compatibility/parity surface', () => {
-    const source = readFileSync(new URL('./threeSceneBoundary.ts', import.meta.url), 'utf8');
-    expect(source).not.toMatch(/from ['"]three(?:\/|['"])/);
-    expect(source).toContain("from '../core/threeRuntimeBoundary'");
+  it('removes the legacy character Three scene adapters from production source', () => {
+    for (const file of ['./threeSceneBoundary.ts', './gltfThreeScene.ts']) {
+      expect(() => readFileSync(new URL(file, import.meta.url), 'utf8')).toThrow();
+    }
   });
 });

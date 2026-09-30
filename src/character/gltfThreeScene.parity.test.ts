@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { Bone, MeshStandardMaterial, SkinnedMesh, type Object3D } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { HgGltfBuilder } from '../core/gltfBuilder';
-import { loadHgThreeScene } from './gltfThreeScene';
+import { HgBone, HgObject3D } from '../core/sceneGraph';
+import { HgSkinnedMesh, HgStandardMaterial } from '../core/sceneSkin';
+import { loadHgFirstPartyScene } from './gltfFirstPartyScene';
 
 function fixture(): Uint8Array {
   const builder = new HgGltfBuilder();
@@ -82,13 +84,24 @@ function fixture(): Uint8Array {
   return builder.toGlb();
 }
 
-function collect(root: Object3D) {
+function collectThree(root: Object3D) {
   root.updateMatrixWorld(true);
   const bones: Bone[] = [];
   const meshes: SkinnedMesh[] = [];
   root.traverse((object) => {
     if ((object as Bone).isBone) bones.push(object as Bone);
     if ((object as SkinnedMesh).isSkinnedMesh) meshes.push(object as SkinnedMesh);
+  });
+  return { bones, meshes };
+}
+
+function collectFirstParty(root: HgObject3D) {
+  root.updateMatrixWorld(true);
+  const bones: HgBone[] = [];
+  const meshes: HgSkinnedMesh[] = [];
+  root.traverse((object) => {
+    if (object instanceof HgBone) bones.push(object);
+    if (object instanceof HgSkinnedMesh) meshes.push(object);
   });
   return { bones, meshes };
 }
@@ -100,7 +113,7 @@ function expectArrayClose(actual: ArrayLike<number>, expected: ArrayLike<number>
   }
 }
 
-describe('first-party GLB scene adapter parity', () => {
+describe('first-party GLB scene materialiser parity', () => {
   it('matches GLTFLoader for the supported skinned/morph subset', async () => {
     const bytes = fixture();
     const buffer = bytes.buffer.slice(
@@ -109,10 +122,10 @@ describe('first-party GLB scene adapter parity', () => {
     ) as ArrayBuffer;
 
     const reference = (await new GLTFLoader().parseAsync(buffer, '')).scene;
-    const actual = await loadHgThreeScene(bytes);
+    const actual = await loadHgFirstPartyScene(bytes);
 
-    const expected = collect(reference);
-    const current = collect(actual);
+    const expected = collectThree(reference);
+    const current = collectFirstParty(actual);
     expect(current.bones.map((bone) => bone.name)).toEqual(expected.bones.map((bone) => bone.name));
     expect(current.meshes).toHaveLength(expected.meshes.length);
     expect(current.bones).toHaveLength(1);
@@ -142,10 +155,13 @@ describe('first-party GLB scene adapter parity', () => {
     if (Array.isArray(currentMaterial) || Array.isArray(expectedMaterial)) {
       throw new Error('Fixture unexpectedly produced a material array');
     }
-    const currentStandard = currentMaterial as MeshStandardMaterial;
+    const currentStandard = currentMaterial as HgStandardMaterial;
     const expectedStandard = expectedMaterial as MeshStandardMaterial;
     expect(currentStandard.metalness).toBeCloseTo(expectedStandard.metalness, 7);
     expect(currentStandard.roughness).toBeCloseTo(expectedStandard.roughness, 7);
-    expectArrayClose(currentStandard.color.toArray(), expectedStandard.color.toArray());
+    expectArrayClose(
+      [currentStandard.color.r, currentStandard.color.g, currentStandard.color.b],
+      expectedStandard.color.toArray(),
+    );
   });
 });

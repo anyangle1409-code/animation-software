@@ -90,6 +90,7 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
     }
     if (
       source.includes("./bundled") ||
+      source.includes("./originalV1Bundled") ||
       source.includes("bundledOriginalV1Source") ||
       source.includes("original-v1-dressed")
     ) {

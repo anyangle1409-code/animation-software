@@ -27,6 +27,8 @@ import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
+import { generatorFamily } from './families';
+import { parsePrompt } from './parse';
 import type { GenerationOptions } from './generate';
 import { TEMPO_PROFILES } from './intent';
 import { validateCandidate } from './validate';
@@ -87,28 +89,27 @@ describe('generating without a character', () => {
     expect(motionOf(result.exercise!)).toEqual(motionOf(pushUp));
   });
 
-  it(
-    'builds the standing calf raise from the calf family',
-    () => {
-      const result = generateExercise(CALF_RAISE, options);
-      expect(result.family?.id).toBe('calf');
-      expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
-      expect(result.reference).toBe('standing_calf_raise');
-      expect(result.exercise?.equipment.instances).toEqual([]);
-      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
-      expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
-    },
-    30_000,
-  );
+  it('builds the standing calf raise from the calf family', () => {
+    const parsed = parsePrompt(CALF_RAISE);
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const variant = family.variant(parsed.intent!) as CalfVariant;
+    const exercise = family.build(variant);
+    expect(family.id).toBe('calf');
+    expect(exercise).toEqual(calfFamily(variant));
+    expect(family.reference(parsed.intent!)).toBe('standing_calf_raise');
+    expect(exercise.equipment.instances).toEqual([]);
+    expect(exercise.tempo).toEqual(TEMPO_PROFILES.slow);
+    expect(EXERCISES.some((entry) => entry.id === exercise.id)).toBe(false);
+  });
 
-  it(
-    'reproduces the accepted standing calf raise from the family defaults',
-    () => {
-      const result = generateExercise('a calf raise', options);
-      expect(motionOf(result.exercise!)).toEqual(motionOf(calfRaise));
-    },
-    30_000,
-  );
+  it('reproduces the accepted standing calf raise from the family defaults', () => {
+    const parsed = parsePrompt('a calf raise');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const exercise = family.build(family.variant(parsed.intent!) as CalfVariant);
+    expect(motionOf(exercise)).toEqual(motionOf(calfRaise));
+  });
 
   it(
     'builds the squat and lunge variants from their families, not from per-exercise code',

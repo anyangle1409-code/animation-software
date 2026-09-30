@@ -2,6 +2,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const ROOT = process.cwd();
 
@@ -20,35 +21,6 @@ const LEGACY_PATH_PATTERNS = [
   /Meshy/i,
 ];
 
-const git = spawnSync("git", ["ls-files", "-z"], {
-  cwd: ROOT,
-  encoding: "utf8",
-  stdio: ["ignore", "pipe", "pipe"],
-});
-
-if (git.status !== 0) {
-  console.error(JSON.stringify({
-    pass: false,
-    error: "Unable to enumerate tracked files with git ls-files.",
-    stderr: (git.stderr || "").trim(),
-  }, null, 2));
-  process.exit(1);
-}
-
-const tracked = (git.stdout || "")
-  .split("\0")
-  .filter(Boolean)
-  .map((file) => file.replaceAll("\\", "/"))
-  .sort();
-
-const trackedModelOrTextureAssets = tracked.filter((file) =>
-  MODEL_OR_TEXTURE_EXT.test(file)
-);
-
-const legacyPathHits = tracked.filter((file) =>
-  LEGACY_PATH_PATTERNS.some((pattern) => pattern.test(file))
-);
-
 const ignoredLocalAuthoringPatterns = [
   "ORIGINAL_V1_WORK/*.blend",
   "ORIGINAL_V1_WORK/*.blend1",
@@ -57,30 +29,137 @@ const ignoredLocalAuthoringPatterns = [
   "ORIGINAL_V1_WORK/checkpoints/",
 ];
 
-const pass =
-  trackedModelOrTextureAssets.length === 0 &&
-  legacyPathHits.length === 0;
+function enumerateTracked(root) {
+  const git = spawnSync("git", ["ls-files", "-z"], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  if (git.status !== 0) {
+    throw new Error(
+      "Unable to enumerate tracked files with git ls-files: " + (git.stderr || "").trim(),
+    );
+  }
+  return (git.stdout || "")
+    .split("\0")
+    .filter(Boolean)
+    .map(file => file.replaceAll("\\", "/"))
+    .sort();
+}
 
-const result = {
-  generatedAt: new Date().toISOString(),
-  pass,
-  policy:
-    "Until HomeGymPT_Male_ORIGINAL_v1 is explicitly provenance-approved, the active branch must track zero model/texture creative assets. Guarded local Blender authoring remains git-ignored and is audited separately.",
-  trackedFileCount: tracked.length,
-  trackedModelOrTextureAssetCount: trackedModelOrTextureAssets.length,
-  trackedModelOrTextureAssets,
-  legacyPathHitCount: legacyPathHits.length,
-  legacyPathHits,
-  ignoredLocalAuthoringPatterns,
-  nextPromotionRule:
-    "When ORIGINAL v1 is ready for repository/release promotion, replace this zero-asset stage rule only with an exact first-party asset allowlist plus provenance/hash verification. Never weaken it to a broad extension or directory exception.",
-};
+export function evaluateActiveModelAssetBoundary({ tracked, contract }) {
+  const trackedModelOrTextureAssets = tracked.filter(file =>
+    MODEL_OR_TEXTURE_EXT.test(file),
+  );
+  const legacyPathHits = tracked.filter(file =>
+    LEGACY_PATH_PATTERNS.some(pattern => pattern.test(file)),
+  );
 
-fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
-fs.writeFileSync(
-  path.join(ROOT, "reports", "active_model_asset_boundary.json"),
-  JSON.stringify(result, null, 2) + "\n",
-);
+  const blockers = [];
+  let allowedProductionAssetPaths = [];
 
-console.log(JSON.stringify(result, null, 2));
-process.exit(pass ? 0 : 1);
+  if (contract.mode === "blocked_pending_approval") {
+    allowedProductionAssetPaths = [];
+  } else if (contract.mode === "approved_for_promotion") {
+    allowedProductionAssetPaths = Object.values(contract.production_targets || {})
+      .filter(target => target?.required)
+      .map(target => String(target.repository_path || "").replaceAll("\\", "/"))
+      .filter(Boolean)
+      .sort();
+    if (allowedProductionAssetPaths.length === 0) {
+      blockers.push("approved promotion contract declares no required production asset paths");
+    }
+  } else {
+    blockers.push(`unsupported promotion mode ${JSON.stringify(contract.mode)}`);
+  }
+
+  const allowed = new Set(allowedProductionAssetPaths);
+  const unexpectedModelOrTextureAssets = trackedModelOrTextureAssets.filter(
+    file => !allowed.has(file),
+  );
+  const missingApprovedProductionAssets =
+    contract.mode === "approved_for_promotion"
+      ? allowedProductionAssetPaths.filter(file => !trackedModelOrTextureAssets.includes(file))
+      : [];
+
+  if (unexpectedModelOrTextureAssets.length) {
+    blockers.push(
+      "tracked model/texture assets outside the exact approved production set: " +
+        unexpectedModelOrTextureAssets.join(", "),
+    );
+  }
+  if (missingApprovedProductionAssets.length) {
+    blockers.push(
+      "approved production assets are not tracked: " +
+        missingApprovedProductionAssets.join(", "),
+    );
+  }
+  if (legacyPathHits.length) {
+    blockers.push("legacy/reference paths are tracked: " + legacyPathHits.join(", "));
+  }
+
+  const pass = blockers.length === 0;
+
+  return {
+    schemaVersion: 2,
+    pass,
+    promotionMode: contract.mode,
+    policy:
+      contract.mode === "blocked_pending_approval"
+        ? "Before explicit ORIGINAL v1 approval, the active standalone branch must track zero model/texture creative assets."
+        : "After explicit ORIGINAL v1 approval, the active standalone branch may track only the exact production asset paths named by the approved promotion contract.",
+    trackedFileCount: tracked.length,
+    trackedModelOrTextureAssetCount: trackedModelOrTextureAssets.length,
+    trackedModelOrTextureAssets,
+    allowedProductionAssetPaths,
+    unexpectedModelOrTextureAssets,
+    missingApprovedProductionAssets,
+    legacyPathHitCount: legacyPathHits.length,
+    legacyPathHits,
+    ignoredLocalAuthoringPatterns,
+    blockers,
+    nextPromotionRule:
+      "Stage transition is controlled only by ORIGINAL_V1_PROMOTION_CONTRACT.json plus exact-path/hash promotion audits. Never replace this with a broad directory or extension exception.",
+  };
+}
+
+export function auditActiveModelAssets(root = ROOT) {
+  const contractPath = path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json");
+  if (!fs.existsSync(contractPath)) {
+    return {
+      schemaVersion: 2,
+      pass: false,
+      promotionMode: null,
+      blockers: ["missing ORIGINAL_V1_PROMOTION_CONTRACT.json"],
+    };
+  }
+  const contract = JSON.parse(fs.readFileSync(contractPath, "utf8"));
+  const tracked = enumerateTracked(root);
+  return evaluateActiveModelAssetBoundary({ tracked, contract });
+}
+
+function main() {
+  let result;
+  try {
+    result = auditActiveModelAssets(ROOT);
+  } catch (error) {
+    result = {
+      schemaVersion: 2,
+      pass: false,
+      promotionMode: null,
+      blockers: [String(error?.message || error)],
+    };
+  }
+
+  fs.mkdirSync(path.join(ROOT, "reports"), { recursive: true });
+  fs.writeFileSync(
+    path.join(ROOT, "reports", "active_model_asset_boundary.json"),
+    JSON.stringify(result, null, 2) + "\n",
+  );
+
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(result.pass ? 0 : 1);
+}
+
+const invoked = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invoked) main();

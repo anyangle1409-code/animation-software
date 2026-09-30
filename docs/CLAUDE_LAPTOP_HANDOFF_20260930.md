@@ -49,6 +49,14 @@ It verifies the branch, current candidate-status contract, pinned R2 evidence an
 repair-queue ownership before any Blender edit. Stop and investigate if it does
 not pass.
 
+For the first Blender open, Claude can use:
+
+```bat
+OPEN_ORIGINAL_V1_O4_GUARDED.bat
+```
+
+That runs the same preflight and opens only the expected O4 candidate Blend.
+
 ## Read these before opening/editing Blender
 
 1. `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`

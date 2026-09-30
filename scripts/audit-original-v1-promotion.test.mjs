@@ -22,6 +22,26 @@ function fileSha256(file) {
   return crypto.createHash("sha256").update(readFileSync(file)).digest("hex");
 }
 
+function productionSceneExtras(contract) {
+  const required = contract.required_runtime_metadata;
+  return {
+    homeGymPT: {
+      assetId: required.assetId,
+      rigId: required.rigId,
+      offsetFrame: required.offsetFrame,
+      gripSolutionId: required.gripSolutionId,
+      gripFrameOffsets: {
+        l: { x: -0.01, y: 0.02, z: 0.003 },
+        r: { x: 0.01, y: 0.02, z: 0.003 },
+      },
+      handleGripOffsets: {
+        l: { x: -0.025, y: 0.082, z: 0.001 },
+        r: { x: 0.025, y: 0.082, z: 0.001 },
+      },
+    },
+  };
+}
+
 function makeBlockedFixture() {
   const root = mkdtempSync(join(tmpdir(), "hgpt-original-promotion-"));
   copyJson(
@@ -133,6 +153,7 @@ function makeApprovedFixture() {
   const contract = JSON.parse(readFileSync(contractPath, "utf8"));
   contract.mode = "approved_for_promotion";
   contract.source_track.approved_source_commit = "a".repeat(40);
+  contract.required_runtime_metadata.gripSolutionId = "fixture-original-v1";
   for (const gate of Object.keys(contract.required_gates)) {
     contract.required_gates[gate] = "approved";
   }
@@ -140,10 +161,19 @@ function makeApprovedFixture() {
   for (const target of Object.values(contract.production_targets)) {
     const file = join(root, target.repository_path);
     mkdirSync(dirname(file), { recursive: true });
-    writeFileSync(file, makeMinimalRigGlb(rig));
+    writeFileSync(
+      file,
+      makeMinimalRigGlb(rig, null, gltf => {
+        gltf.scenes[0].extras = productionSceneExtras(contract);
+      }),
+    );
     target.sha256 = fileSha256(file);
   }
   writeJson(contractPath, contract);
+  writeJson(
+    join(root, "src", "character", "solvedGrip.ts"),
+    { note: "test fixture only", rows: { "fixture-original-v1": {} } },
+  );
 
   const allowlist = JSON.parse(readFileSync(allowlistPath, "utf8"));
   allowlist.approved_paths = Object.values(contract.production_targets).map(
@@ -244,6 +274,11 @@ test("approved promotion mode requires the complete exact contract and canonical
     assert.equal(result.expectedBlockedState, false);
     assert.equal(result.auditedTargets.length, 2);
     assert.ok(result.auditedTargets.every(target => target.glb.pass));
+    assert.ok(
+      result.auditedTargets.every(
+        target => target.glb.runtimeMetadata.gripSolutionId === "fixture-original-v1",
+      ),
+    );
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -346,6 +381,58 @@ test("approved promotion mode rejects an unskinned mesh primitive", () => {
     assert.ok(
       result.blockers.some(message =>
         message.includes("missing attributes WEIGHTS_0"),
+      ),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+
+test("approved promotion mode rejects a missing final ORIGINAL-v1 solved-grip id", () => {
+  const { root, contractPath } = makeApprovedFixture();
+  try {
+    const contract = JSON.parse(readFileSync(contractPath, "utf8"));
+    contract.required_runtime_metadata.gripSolutionId = null;
+    writeJson(contractPath, contract);
+
+    const result = auditOriginalV1Promotion(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message =>
+        message.includes("required_runtime_metadata.gripSolutionId must be set"),
+      ),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("approved promotion mode rejects incomplete per-hand grip metadata", () => {
+  const { root, contractPath, rig } = makeApprovedFixture();
+  try {
+    const contract = JSON.parse(readFileSync(contractPath, "utf8"));
+    const dressed = contract.production_targets.dressed;
+    const file = join(root, dressed.repository_path);
+
+    writeFileSync(
+      file,
+      makeMinimalRigGlb(rig, null, gltf => {
+        const extras = productionSceneExtras(contract);
+        delete extras.homeGymPT.handleGripOffsets.r;
+        gltf.scenes[0].extras = extras;
+      }),
+    );
+    dressed.sha256 = fileSha256(file);
+    writeJson(contractPath, contract);
+
+    const result = auditOriginalV1Promotion(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message =>
+        message.includes("handleGripOffsets.r must be a finite vec3"),
       ),
       JSON.stringify(result, null, 2),
     );

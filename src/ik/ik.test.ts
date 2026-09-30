@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { HgVec3 } from '../core/linearMath';
-import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import { canonicalSkeleton, PoseEvaluation, Skeleton } from '../rig/skeleton';
+import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from '../rig/canonicalV4Original';
 import { clonePose, poseFromDegrees, restPose } from '../rig/pose';
 import { toDeg } from '../core/math';
 import { IK_CHAINS } from './chains';
@@ -77,6 +78,42 @@ describe('two-bone IK', () => {
     const toHand = hand.clone().sub(shoulder).normalize();
     const toTarget = target.clone().sub(shoulder).normalize();
     expect(toHand.dot(toTarget)).toBeGreaterThan(0.98);
+  });
+
+  it('does not classify an exact v4 straight-leg lockout as overextended', () => {
+    const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const pose = clonePose(restPose());
+    const v4Evaluation = new PoseEvaluation(v4).apply(pose);
+    const target = v4Evaluation.head('foot_l', new HgVec3()).clone();
+    const result = solveTwoBone(
+      v4,
+      v4Evaluation,
+      pose,
+      IK_CHAINS.leg_l,
+      target,
+      new HgVec3(target.x, target.y + 0.5, target.z + 1),
+    );
+    expect(result.overExtended).toBe(false);
+    expect(result.error).toBeLessThan(2e-3);
+  });
+
+  it('still classifies a material reach excess as overextended', () => {
+    const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const pose = clonePose(restPose());
+    const v4Evaluation = new PoseEvaluation(v4).apply(pose);
+    const hip = v4Evaluation.head('thigh_l', new HgVec3());
+    const ankle = v4Evaluation.head('foot_l', new HgVec3());
+    const direction = ankle.clone().sub(hip).normalize();
+    const target = ankle.clone().addScaledVector(direction, 0.005);
+    const result = solveTwoBone(
+      v4,
+      v4Evaluation,
+      pose,
+      IK_CHAINS.leg_l,
+      target,
+      new HgVec3(target.x, target.y + 0.5, target.z + 1),
+    );
+    expect(result.overExtended).toBe(true);
   });
 
   it('respects joint limits instead of producing an impossible pose', () => {

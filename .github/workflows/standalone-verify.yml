@@ -54,6 +54,9 @@ jobs:
       - name: Runtime dependency usage map
         run: node scripts/map-third-party-runtime.mjs
 
+      - name: Test-only Three inventory
+        run: node scripts/audit-test-three.mjs
+
       - name: Repository authority / hygiene gate
         run: npm run audit:hygiene
 

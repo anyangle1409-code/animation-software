@@ -61,7 +61,7 @@ function validateGlbContainer(data: ArrayBuffer, label: string): void {
  * This is deliberately narrower than a generic URL loader:
  * - only the two production paths frozen in ORIGINAL_V1_PROMOTION_CONTRACT.json
  *   can be requested;
- * - no caller-supplied URL reaches fetch();
+ * - no caller-supplied URL reaches the reviewed browser resource-read seam;
  * - a remote host, absolute path, candidate file or arbitrary local asset
  *   therefore cannot enter this path;
  * - the fetched bytes must at least be a well-formed GLB 2.0 container before

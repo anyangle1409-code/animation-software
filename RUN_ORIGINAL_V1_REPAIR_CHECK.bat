@@ -29,7 +29,7 @@ if "%GROUP%"=="" (
 set "POSES="
 set "WITH_GRIP="
 if /I "%GROUP%"=="shoulder" (
-  set "POSES=press_top,press_top_rhythm,pullup_hang,pullup_hang_rhythm,pullup_top"
+  set "POSES=press_bottom,press_top,press_top_rhythm,pullup_hang,pullup_hang_rhythm,pullup_top"
 )
 if /I "%GROUP%"=="hand" (
   set "POSES=curl_peak,grip,curl_handle,pullup_bar,pullup_top"

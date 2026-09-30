@@ -1,5 +1,26 @@
 # Claude laptop handoff — 2026-09-30
 
+## Verified handover checkpoints
+
+Standalone/runtime recovery checkpoint:
+- branch: `handoff/standalone-v4-shadow-safe-20260930`
+- exact green SHA: `0a5b90544e08574ddbdf02b51be116339fbc8c2f`
+- Standalone prep verification run `36740155156`: **PASS**
+- Browser viewport smoke run `36740155224`: **PASS**
+- state: accepted v3 runtime default, canonical v4 guarded in shadow, ORIGINAL
+  v1 assets dormant/blocked.
+
+Model/deformation validation checkpoint:
+- branch: `claude/original-v1-blender-o2-20260929`
+- exact green SHA: `956e78f1563cb0019f1969469a83c223dd42146a`
+- ORIGINAL v1 deformation validation run `36740868657`: **PASS**
+- validation includes the full R2 two-equipment grip evidence, full Priority-1
+  shoulder subset, candidate-status contract, GLB structural audit, repair
+  queue ownership and Python syntax for the new Blender shoulder-weight audit.
+
+Later documentation-only handoff commits may sit above the green model
+checkpoint; do not confuse that with a model/asset state change.
+
 ## Purpose
 
 Use the laptop/Blender session to continue the isolated ORIGINAL v1 character

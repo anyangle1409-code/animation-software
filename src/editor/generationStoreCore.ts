@@ -1,4 +1,6 @@
 import { createStore } from '../core/observableStore';
+import { proceduralCharacter } from '../character/procedural';
+import type { CharacterBuild } from '../character/types';
 import { EXERCISE_BY_ID } from '../exercises/library';
 import { generateExerciseAsync } from '../generation/generate';
 import type { GenerationResult } from '../generation/generate';
@@ -36,13 +38,25 @@ export interface GenerationState {
 }
 
 /**
- * No production validation surface is mounted during the standalone migration.
+ * Prompt generation validates against the clean project-authored procedural
+ * fallback until ORIGINAL v1 is production-approved.
  *
- * Until ORIGINAL v1 is promoted, body-dependent checks stay explicitly
- * unavailable and candidates report unverified rather than borrowing a legacy
- * character.
+ * The fallback is built lazily once for the app session and reused serially:
+ * generationStore already rejects a second Generate action while one is
+ * running. This keeps body/equipment/self-collision checks available without
+ * borrowing any legacy or imported character.
  */
 let counter = 0;
+let validationCharacterPromise:
+  | Promise<{ build: CharacterBuild; label: string }>
+  | null = null;
+
+const generationValidationCharacter = () => {
+  validationCharacterPromise ??= proceduralCharacter
+    .build(canonicalSkeleton)
+    .then((build) => ({ build, label: proceduralCharacter.label }));
+  return validationCharacterPromise;
+};
 
 export const generationStore = createStore<GenerationState>((set, get) => ({
   prompt: 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.',
@@ -59,12 +73,21 @@ export const generationStore = createStore<GenerationState>((set, get) => ({
     if (!prompt || get().running) return;
     set({
       running: true,
-      progress: ['Preparing standalone validation'],
+      progress: ['Preparing clean first-party validation character'],
       validationCharacter: null,
+    });
+    const character = await generationValidationCharacter();
+    set({
+      validationCharacter: character.label,
+      progress: [...get().progress, `Validating on ${character.label}`],
     });
     const result = await generateExerciseAsync(
       prompt,
-      { rig: canonicalSkeleton, library: (id) => EXERCISE_BY_ID.get(id) },
+      {
+        rig: canonicalSkeleton,
+        library: (id) => EXERCISE_BY_ID.get(id),
+        character,
+      },
       (progress) => set({ progress: [...get().progress, progress.message] }),
     );
     counter += 1;

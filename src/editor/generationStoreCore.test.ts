@@ -9,6 +9,7 @@ import {
 import { studioStore } from './storeCore';
 
 const PROMPT = 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.';
+const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 
 const candidate = (
   key: string,
@@ -72,4 +73,25 @@ describe('framework-neutral generation session store', () => {
       generationStore.getState().candidates.find((entry) => entry.key === failed.key)?.approved,
     ).toBe(false);
   });
+  it(
+    'fully validates supported prompts on the clean first-party fallback',
+    async () => {
+      generationStore.getState().setPrompt(SQUAT);
+      await generationStore.getState().generate();
+
+      const state = generationStore.getState();
+      expect(state.running).toBe(false);
+      expect(state.validationCharacter).toBe('Home Gym PT clean scaffold');
+      expect(state.candidates).toHaveLength(1);
+      expect(state.candidates[0]?.result.status).toBe('passed');
+      expect(state.candidates[0]?.result.report?.skipped).toEqual([]);
+      expect(state.candidates[0]?.result.report?.failed).toEqual([]);
+      expect(state.candidates[0]?.result.report?.character).toBe(
+        'Home Gym PT clean scaffold',
+      );
+      expect(studioStore.getState().document.exercise.id).toMatch(/^generated_/);
+    },
+    120_000,
+  );
+
 });

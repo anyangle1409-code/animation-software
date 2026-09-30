@@ -14,22 +14,6 @@
       "category": "authority",
       "note": "Shared GPT/Claude working method and reference rules."
     },
-    "docs/BRANCH_HYGIENE.md": {
-      "category": "authority",
-      "note": "Branch keep/retire policy and guarded cleanup."
-    },
-    "docs/CURRENT_HANDOFF.md": {
-      "category": "authority",
-      "note": "Single operational entry point and exact next tasks."
-    },
-    "docs/DECISION_LOG.md": {
-      "category": "authority",
-      "note": "Frozen project decisions."
-    },
-    "docs/PROJECT_AUTHORITY.md": {
-      "category": "authority",
-      "note": "Authority precedence and read order."
-    },
     "docs/ARCHITECTURE.md": {
       "category": "current_technical",
       "note": "Current code/module architecture."
@@ -37,6 +21,10 @@
     "docs/ASSET_PROVENANCE_AUDIT.md": {
       "category": "current_technical",
       "note": "Asset provenance classification."
+    },
+    "docs/BRANCH_HYGIENE.md": {
+      "category": "authority",
+      "note": "Branch keep/retire policy and guarded cleanup."
     },
     "docs/CANONICAL_V4_ORIGINAL_DIMENSIONS.md": {
       "category": "current_technical",
@@ -50,6 +38,22 @@
       "category": "current_technical",
       "note": "Canonical-v4 provenance decision."
     },
+    "docs/CLAUDE_LAPTOP_HANDOFF_20260930.md": {
+      "category": "current_technical",
+      "note": "Time-boxed laptop/Blender handoff for continuing the isolated ORIGINAL v1 O4 deformation track; subordinate to docs/CURRENT_HANDOFF.md and the O4 deformation handoff."
+    },
+    "docs/CLAUDE_LAPTOP_PROMPT_20260930.md": {
+      "category": "supporting_reference",
+      "note": "Paste-ready Claude session prompt implementing the current laptop handoff; not independent project authority."
+    },
+    "docs/CURRENT_HANDOFF.md": {
+      "category": "authority",
+      "note": "Single operational entry point and exact next tasks."
+    },
+    "docs/DECISION_LOG.md": {
+      "category": "authority",
+      "note": "Frozen project decisions."
+    },
     "docs/FINAL_CHARACTER_RUNTIME_PLAN.md": {
       "category": "current_technical",
       "note": "Production character runtime replacement path."
@@ -57,66 +61,6 @@
     "docs/FIRST_PARTY_FINAL_BUILD_PATH.md": {
       "category": "current_technical",
       "note": "Target first-party build/runtime path."
-    },
-    "docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md": {
-      "category": "current_technical",
-      "note": "Confirmed first-party/third-party provenance findings."
-    },
-    "docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md": {
-      "category": "current_technical",
-      "note": "Clean-room character requirements."
-    },
-    "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md": {
-      "category": "current_technical",
-      "note": "Current Blender O2 task handoff."
-    },
-    "docs/ORIGINAL_V1_O2_BLENDER_BRANCH_LOG.md": {
-      "category": "current_technical",
-      "note": "Separate Blender branch record: launcher fixes, O2 body generator method, region checkpoints."
-    },
-    "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
-      "category": "current_technical",
-      "note": "Required physical desktop/iPhone visual/input parity gate."
-    },
-    "docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md": {
-      "category": "supporting_reference",
-      "note": "Completed R3F source-transition record; not the current migration handoff."
-    },
-    "docs/RUNTIME_DEPENDENCY_USAGE_MAP.md": {
-      "category": "current_technical",
-      "note": "Runtime dependency surfaces and replacement requirements."
-    },
-    "docs/THIRD_PARTY_REFERENCE_ONLY.md": {
-      "category": "current_technical",
-      "note": "Reference-only boundary for legacy/third-party material."
-    },
-    "docs/FIRST_PARTY_RELEASE_AUDIT.md": {
-      "category": "verification",
-      "note": "First-party release audit procedure."
-    },
-    "docs/OFFLINE_STANDALONE_ACCEPTANCE.md": {
-      "category": "verification",
-      "note": "Offline standalone acceptance gate."
-    },
-    "docs/ORIGINAL_V1_CLEAN_ROOM_AUDIT.md": {
-      "category": "verification",
-      "note": "O1 clean-room audit contract."
-    },
-    "docs/ORIGINAL_V1_GEOMETRY_INDEPENDENCE_GATE.md": {
-      "category": "verification",
-      "note": "Geometry independence acceptance gate."
-    },
-    "docs/STANDALONE_AUDIT_COMMAND.md": {
-      "category": "verification",
-      "note": "Standalone audit command reference."
-    },
-    "docs/STANDALONE_GENERATION_AUDIT.md": {
-      "category": "verification",
-      "note": "Generation-system standalone audit."
-    },
-    "docs/VERIFY_STANDALONE_PREP.md": {
-      "category": "verification",
-      "note": "Prepared first-party foundation verification."
     },
     "docs/FIRST_PARTY_GLB_PLAN.md": {
       "category": "future_technical",
@@ -134,6 +78,14 @@
       "category": "current_technical",
       "note": "Current first production Three-math cutover: pivot-aware pose blending."
     },
+    "docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md": {
+      "category": "current_technical",
+      "note": "Confirmed first-party/third-party provenance findings."
+    },
+    "docs/FIRST_PARTY_RELEASE_AUDIT.md": {
+      "category": "verification",
+      "note": "First-party release audit procedure."
+    },
     "docs/FIRST_PARTY_SKELETON_MIGRATION.md": {
       "category": "future_technical",
       "note": "Future Three-free skeleton migration."
@@ -150,29 +102,41 @@
       "category": "future_technical",
       "note": "Long-range exercise-engine roadmap."
     },
+    "docs/OFFLINE_STANDALONE_ACCEPTANCE.md": {
+      "category": "verification",
+      "note": "Offline standalone acceptance gate."
+    },
+    "docs/ORIGINAL_V1_CLEAN_ROOM_AUDIT.md": {
+      "category": "verification",
+      "note": "O1 clean-room audit contract."
+    },
+    "docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md": {
+      "category": "current_technical",
+      "note": "Clean-room character requirements."
+    },
     "docs/ORIGINAL_V1_DATA_MIGRATION_MAP.md": {
       "category": "future_technical",
       "note": "Future production data migration planning."
+    },
+    "docs/ORIGINAL_V1_GEOMETRY_INDEPENDENCE_GATE.md": {
+      "category": "verification",
+      "note": "Geometry independence acceptance gate."
     },
     "docs/ORIGINAL_V1_MOVEMENT_ENVELOPE_PLAN.md": {
       "category": "future_technical",
       "note": "Future movement-envelope validation plan."
     },
+    "docs/ORIGINAL_V1_O2_BLENDER_BRANCH_LOG.md": {
+      "category": "current_technical",
+      "note": "Separate Blender branch record: launcher fixes, O2 body generator method, region checkpoints."
+    },
+    "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Current Blender O2 task handoff."
+    },
     "docs/ORIGINAL_V1_PROCEDURAL_SCAFFOLD_DECISION.md": {
       "category": "future_technical",
       "note": "Scaffold design record; not production acceptance."
-    },
-    "docs/PROMPT_TO_EXERCISE_GENERATION.md": {
-      "category": "future_technical",
-      "note": "Prompt-to-exercise generation roadmap."
-    },
-    "docs/SELF_SUFFICIENT_EXERCISE_GENERATION_PLAN.md": {
-      "category": "future_technical",
-      "note": "Long-range self-sufficient generation plan."
-    },
-    "docs/STUDIO_CAPABILITY_ROADMAP.md": {
-      "category": "future_technical",
-      "note": "Long-range studio capability roadmap."
     },
     "docs/ORIGINAL_V1_PROVENANCE.md": {
       "category": "supporting_reference",
@@ -182,9 +146,53 @@
       "category": "supporting_reference",
       "note": "O1 scaffold recovery/usage reference."
     },
+    "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
+      "category": "current_technical",
+      "note": "Required physical desktop/iPhone visual/input parity gate."
+    },
+    "docs/PROJECT_AUTHORITY.md": {
+      "category": "authority",
+      "note": "Authority precedence and read order."
+    },
+    "docs/PROMPT_TO_EXERCISE_GENERATION.md": {
+      "category": "future_technical",
+      "note": "Prompt-to-exercise generation roadmap."
+    },
+    "docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md": {
+      "category": "supporting_reference",
+      "note": "Completed R3F source-transition record; not the current migration handoff."
+    },
     "docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md": {
       "category": "supporting_reference",
       "note": "Completed React/ReactDOM source-transition record; source imports are pinned at zero."
+    },
+    "docs/RUNTIME_DEPENDENCY_USAGE_MAP.md": {
+      "category": "current_technical",
+      "note": "Runtime dependency surfaces and replacement requirements."
+    },
+    "docs/SELF_SUFFICIENT_EXERCISE_GENERATION_PLAN.md": {
+      "category": "future_technical",
+      "note": "Long-range self-sufficient generation plan."
+    },
+    "docs/STANDALONE_AUDIT_COMMAND.md": {
+      "category": "verification",
+      "note": "Standalone audit command reference."
+    },
+    "docs/STANDALONE_GENERATION_AUDIT.md": {
+      "category": "verification",
+      "note": "Generation-system standalone audit."
+    },
+    "docs/STUDIO_CAPABILITY_ROADMAP.md": {
+      "category": "future_technical",
+      "note": "Long-range studio capability roadmap."
+    },
+    "docs/THIRD_PARTY_REFERENCE_ONLY.md": {
+      "category": "current_technical",
+      "note": "Reference-only boundary for legacy/third-party material."
+    },
+    "docs/VERIFY_STANDALONE_PREP.md": {
+      "category": "verification",
+      "note": "Prepared first-party foundation verification."
     }
   }
 }

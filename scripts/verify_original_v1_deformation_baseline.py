@@ -150,6 +150,14 @@ def main() -> int:
         if right != float(baseline["known_grip_blocker"]["curl_handle_max_penetration_mm_right"]):
             fail(errors, "right curl-handle penetration no longer matches pinned baseline")
 
+        pullup = find_pose(grip_report, "pullup_bar")
+        pullup_left = float(pullup["grip_l"]["max_penetration_mm"])
+        pullup_right = float(pullup["grip_r"]["max_penetration_mm"])
+        if pullup_left != float(baseline["known_grip_blocker"]["pullup_bar_max_penetration_mm_left"]):
+            fail(errors, "left pull-up-bar penetration no longer matches pinned baseline")
+        if pullup_right != float(baseline["known_grip_blocker"]["pullup_bar_max_penetration_mm_right"]):
+            fail(errors, "right pull-up-bar penetration no longer matches pinned baseline")
+
         build = deval.load_json(ROOT / "ORIGINAL_V1_WORK/candidates/O4_CANDIDATE_BUILD.json")
         if build["candidate_sha256"] != baseline["candidate_sha256"]:
             fail(errors, "O4 candidate SHA-256 no longer matches pinned baseline")

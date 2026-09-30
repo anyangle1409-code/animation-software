@@ -1,6 +1,5 @@
 import type { BoneName } from './boneNames';
 import type { BoneDefinition, Pose, Vec3 } from './types';
-import { HUMANOID_BONES } from './humanoid';
 import { HgMat4, HgQuat, HgVec3, HG_UNIT_SCALE } from '../core/linearMath';
 
 const WORLD_FORWARD = new HgVec3(0, 0, 1);
@@ -44,7 +43,7 @@ export class HgSkeleton {
   readonly byName = new Map<BoneName, HgRigBone>();
   readonly names: BoneName[] = [];
 
-  constructor(definitions: BoneDefinition[] = HUMANOID_BONES) {
+  constructor(definitions: BoneDefinition[]) {
     definitions.forEach((definition, index) => {
       const head = new HgVec3(definition.head.x, definition.head.y, definition.head.z);
       const tail = new HgVec3(definition.tail.x, definition.tail.y, definition.tail.z);
@@ -228,4 +227,3 @@ export class HgPoseEvaluation {
   }
 }
 
-export const hgCanonicalSkeleton = new HgSkeleton();

@@ -1,5 +1,13 @@
 # ORIGINAL v1 O2 neutral anatomy — Work to Blender handoff
 
+> **STATUS — 2026-09-30:** this document is retained for O1/O2 provenance,
+> clean-room setup and recovery guidance. The isolated model branch
+> `claude/original-v1-blender-o2-20260929` has progressed to an O4 bound
+> candidate with O7 shorts and deformation/grip testing. Do **not** restart O2
+> from this document. On that model branch, the current task authority is
+> `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`; current repair priority is
+> shoulder/upper-torso deformation. Candidate assets remain non-production.
+
 ## Identity and source boundary
 
 Work only on `work/standalone-first-party-audit-20260927`. The asset is `HomeGymPT_Male_ORIGINAL_v1`; its unbound production rig target is `hgpt_canonical_v4_original`. The O1 profile scaffold is 1.75 m historical clean geometry, whereas the independently re-authored v4 target is **1.82 m**. The older `ORIGINAL_V1_DIMENSION_SPEC.json` records the scaffold, not a competing final v4 height. Do not scale the armature to 1.75 m or copy v3 rest coordinates. V15f is a visual benchmark only.

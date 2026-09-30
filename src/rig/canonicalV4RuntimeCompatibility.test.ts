@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { generateClip } from '../animation/generate';
+import { sampleClip } from '../animation/clip';
+import { resolveFrame } from '../animation/pipeline';
+import { lockAnchors } from '../constraints/locks';
+import { IK_CHAINS } from '../ik/chains';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { EXERCISES } from '../exercises/library';
 import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from './canonicalV4Original';
@@ -56,6 +60,100 @@ describe('canonical v4 ORIGINAL shadow runtime compatibility', () => {
       }
     }
   }, 60_000);
+
+  it('resolves full v4 frames through IK, locks, contacts and equipment with finite output', () => {
+    const fractions = [0, 0.13, 0.27, 0.43, 0.61, 0.79, 0.97];
+
+    for (const exercise of EXERCISES) {
+      const clip = generateClip(v4, exercise);
+      const evaluation = new PoseEvaluation(v4);
+      const anchors = lockAnchors(
+        evaluation,
+        sampleClip(clip, 0).pose,
+        clip.locks,
+      );
+
+      for (const fraction of fractions) {
+        const time = clip.duration * fraction;
+        const frame = resolveFrame(v4, evaluation, clip, time, { anchors });
+
+        expect(finitePose(frame.pose), `${exercise.id} @ ${fraction}: pose`).toBe(true);
+
+        for (const result of frame.ikResults) {
+          expect(IK_CHAINS[result.chain], `${exercise.id} @ ${fraction}: ${result.chain}`)
+            .toBeDefined();
+          expect(Number.isFinite(result.error), `${exercise.id} @ ${fraction}: IK error`)
+            .toBe(true);
+          expect(typeof result.reached).toBe('boolean');
+          expect(typeof result.overExtended).toBe('boolean');
+          if (result.reached) {
+            expect(result.error, `${exercise.id} @ ${fraction}: reached IK residual`)
+              .toBeLessThan(0.01);
+          }
+        }
+
+        for (const contact of frame.contacts) {
+          expect(IK_CHAINS[contact.chain], `${exercise.id} @ ${fraction}: contact chain`)
+            .toBeDefined();
+          expect(
+            [contact.target.x, contact.target.y, contact.target.z].every(Number.isFinite),
+            `${exercise.id} @ ${fraction}: contact target`,
+          ).toBe(true);
+          if (contact.aim) {
+            expect(
+              [contact.aim.direction.x, contact.aim.direction.y, contact.aim.direction.z]
+                .every(Number.isFinite),
+              `${exercise.id} @ ${fraction}: contact aim`,
+            ).toBe(true);
+            if (contact.aim.forward) {
+              expect(
+                [contact.aim.forward.x, contact.aim.forward.y, contact.aim.forward.z]
+                  .every(Number.isFinite),
+                `${exercise.id} @ ${fraction}: contact forward`,
+              ).toBe(true);
+            }
+          }
+          if (contact.lift !== undefined) {
+            expect(Number.isFinite(contact.lift)).toBe(true);
+            expect(contact.lift).toBeGreaterThanOrEqual(0);
+          }
+        }
+
+        for (const [id, equipment] of frame.equipment) {
+          expect(
+            [equipment.position.x, equipment.position.y, equipment.position.z]
+              .every(Number.isFinite),
+            `${exercise.id} @ ${fraction}: equipment ${id} position`,
+          ).toBe(true);
+          expect(
+            [equipment.quaternion.x, equipment.quaternion.y, equipment.quaternion.z, equipment.quaternion.w]
+              .every(Number.isFinite),
+            `${exercise.id} @ ${fraction}: equipment ${id} quaternion`,
+          ).toBe(true);
+          expect(
+            Array.from(equipment.matrix.elements).every(Number.isFinite),
+            `${exercise.id} @ ${fraction}: equipment ${id} matrix`,
+          ).toBe(true);
+          if (equipment.scale) {
+            expect(
+              [equipment.scale.x, equipment.scale.y, equipment.scale.z].every(Number.isFinite),
+              `${exercise.id} @ ${fraction}: equipment ${id} scale`,
+            ).toBe(true);
+          }
+        }
+
+        evaluation.apply(frame.pose);
+        for (const bone of v4.bones) {
+          const head = evaluation.head(bone.name);
+          const tail = evaluation.tail(bone.name);
+          expect(
+            [head.x, head.y, head.z, tail.x, tail.y, tail.z].every(Number.isFinite),
+            `${exercise.id} @ ${fraction}: ${bone.name}`,
+          ).toBe(true);
+        }
+      }
+    }
+  }, 90_000);
 
   it('uses each skeleton own hip width and leg span for generated stance', () => {
     const current = generateClip(v3, airSquat);

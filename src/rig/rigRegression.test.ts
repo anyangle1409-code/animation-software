@@ -101,7 +101,7 @@ describe('shared-rig regression', () => {
       // samples to establish the arm centroid plus the registration bounds
       // below are.
       expect(count, 'upper-arm surface vertices').toBeGreaterThan(40);
-      centre.divideScalar(count);
+      centre.multiplyScalar(1 / count);
 
       const joint = new PoseEvaluation(rig).apply(restPose()).head('upperarm_l', new HgVec3());
       // The authored profile puts the arm's surface a few millimetres in front

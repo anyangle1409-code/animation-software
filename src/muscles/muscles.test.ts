@@ -26,16 +26,14 @@ function bellyPoints(muscle: MuscleInstance): HgVec3[] {
     const phi = (i / 8) * Math.PI;
     for (let j = 0; j < 12; j += 1) {
       const theta = (j / 12) * Math.PI * 2;
-      points.push(
-        new HgVec3(
-          Math.sin(phi) * Math.cos(theta),
-          Math.cos(phi),
-          Math.sin(phi) * Math.sin(theta),
-        )
-          .multiply(transform.scale)
-          .applyQuaternion(transform.quaternion)
-          .add(transform.position),
-      );
+      const point = new HgVec3(
+        Math.sin(phi) * Math.cos(theta) * transform.scale.x,
+        Math.cos(phi) * transform.scale.y,
+        Math.sin(phi) * Math.sin(theta) * transform.scale.z,
+      )
+        .applyQuaternion(transform.quaternion)
+        .add(transform.position);
+      points.push(point);
     }
   }
   return points;

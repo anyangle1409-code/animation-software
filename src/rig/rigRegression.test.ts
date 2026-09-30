@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import { SHOULDER_SETBACK, SHOULDER_WIDENING } from '../rig/humanoid';
@@ -84,7 +84,7 @@ describe('shared-rig regression', () => {
       expect(slot).toBeGreaterThanOrEqual(0);
 
       let count = 0;
-      const centre = new Vector3();
+      const centre = new HgVec3();
       for (let vertex = 0; vertex < position.count; vertex += 1) {
         let owned = 0;
         for (let lane = 0; lane < 4; lane += 1) {
@@ -103,7 +103,7 @@ describe('shared-rig regression', () => {
       expect(count, 'upper-arm surface vertices').toBeGreaterThan(40);
       centre.divideScalar(count);
 
-      const joint = new PoseEvaluation(rig).apply(restPose()).head('upperarm_l', new Vector3());
+      const joint = new PoseEvaluation(rig).apply(restPose()).head('upperarm_l', new HgVec3());
       // The authored profile puts the arm's surface a few millimetres in front
       // of its bone; 20 mm is comfortably inside that and nowhere near the
       // 38.7 mm the surface sat behind when the shift was missing.
@@ -127,7 +127,7 @@ describe('shared-rig regression', () => {
 
       let drift = 0;
       let driftAt = '';
-      const start = new Map<string, Vector3>();
+      const start = new Map<string, HgVec3>();
       for (let step = 0; step <= 40; step += 1) {
         const time = (step / 40) * clip.duration;
         const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
@@ -136,7 +136,7 @@ describe('shared-rig regression', () => {
           const side = lock.chain.endsWith('_l') ? 'l' : 'r';
           const bone = (lock.chain.startsWith('arm') ? `hand_${side}` : `foot_${side}`) as BoneName;
           // A foot standing on its ball is held at the ball; its ankle rises.
-          const position = lock.onBall ? evaluation.tail(bone, new Vector3()) : evaluation.head(bone, new Vector3());
+          const position = lock.onBall ? evaluation.tail(bone, new HgVec3()) : evaluation.head(bone, new HgVec3());
           const first = start.get(lock.id);
           if (!first) start.set(lock.id, position.clone());
           else if (position.distanceTo(first) > drift) {

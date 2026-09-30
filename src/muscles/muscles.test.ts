@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -19,15 +19,15 @@ const curlClip = generateClip(skeleton, curl);
 const CURL_TIMES = [0, curlClip.duration * 0.25, 2.5, curlClip.duration * 0.75];
 
 /** Points on the belly's surface, for measuring it against the skin. */
-function bellyPoints(muscle: MuscleInstance): Vector3[] {
+function bellyPoints(muscle: MuscleInstance): HgVec3[] {
   resolveMuscle(evaluation, muscle, transform);
-  const points: Vector3[] = [];
+  const points: HgVec3[] = [];
   for (let i = 0; i <= 8; i += 1) {
     const phi = (i / 8) * Math.PI;
     for (let j = 0; j < 12; j += 1) {
       const theta = (j / 12) * Math.PI * 2;
       points.push(
-        new Vector3(
+        new HgVec3(
           Math.sin(phi) * Math.cos(theta),
           Math.cos(phi),
           Math.sin(phi) * Math.sin(theta),
@@ -103,12 +103,12 @@ describe('muscle overlay', () => {
         const origin = evaluation.localToWorld(
           muscle.origin.bone,
           muscle.origin.offset,
-          new Vector3(),
+          new HgVec3(),
         );
         const insertion = evaluation.localToWorld(
           muscle.insertion.bone,
           muscle.insertion.offset,
-          new Vector3(),
+          new HgVec3(),
         );
         resolveMuscle(evaluation, muscle, transform);
 
@@ -119,7 +119,7 @@ describe('muscle overlay', () => {
           `${muscle.id} centre at ${time.toFixed(2)}s`,
         ).toBeLessThan(1e-6);
 
-        const axis = new Vector3(0, 1, 0).applyQuaternion(transform.quaternion);
+        const axis = new HgVec3(0, 1, 0).applyQuaternion(transform.quaternion);
         const half = origin.distanceTo(insertion) / 2;
         for (const [end, sign] of [
           [insertion, 1],
@@ -184,7 +184,7 @@ describe('the biceps through a curl', () => {
         const local = evaluation.worldToLocal(
           `upperarm_${side}`,
           transform.position.clone(),
-          new Vector3(),
+          new HgVec3(),
         );
         // In front of the humerus, on its own side, and along its length — not
         // behind it where the triceps belongs.

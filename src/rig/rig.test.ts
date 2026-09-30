@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { ALL_BONES, mirrorBoneName } from './boneNames';
 import { clampRotation, mirrorPose, poseFromDegrees, restPose } from './pose';
@@ -41,8 +41,8 @@ describe('canonical skeleton', () => {
     const evaluation = new PoseEvaluation(skeleton).apply(restPose());
     for (const bone of skeleton.bones) {
       if (!bone.name.endsWith('_l')) continue;
-      const left = evaluation.head(bone.name, new Vector3());
-      const right = evaluation.head(mirrorBoneName(bone.name), new Vector3());
+      const left = evaluation.head(bone.name, new HgVec3());
+      const right = evaluation.head(mirrorBoneName(bone.name), new HgVec3());
       expect(right.x).toBeCloseTo(-left.x, 6);
       expect(right.y).toBeCloseTo(left.y, 6);
       expect(right.z).toBeCloseTo(left.z, 6);
@@ -55,37 +55,37 @@ describe('bone frame convention', () => {
 
   it('bends the elbow forwards on positive x for both arms', () => {
     const rest = evaluation.apply(restPose());
-    const restHand = rest.head('hand_l', new Vector3());
+    const restHand = rest.head('hand_l', new HgVec3());
     const flexed = evaluation.apply(poseFromDegrees({ forearm_l: { x: 90 } }));
-    const flexedHand = flexed.head('hand_l', new Vector3());
+    const flexedHand = flexed.head('hand_l', new HgVec3());
     expect(flexedHand.z).toBeGreaterThan(restHand.z + 0.15);
 
     const flexedRight = evaluation.apply(poseFromDegrees({ forearm_r: { x: 90 } }));
-    expect(flexedRight.head('hand_r', new Vector3()).z).toBeGreaterThan(restHand.z + 0.15);
+    expect(flexedRight.head('hand_r', new HgVec3()).z).toBeGreaterThan(restHand.z + 0.15);
   });
 
   it('bends the knee backwards on negative x for both legs', () => {
     const flexed = evaluation.apply(poseFromDegrees({ shin_l: { x: -90 } }));
-    expect(flexed.head('foot_l', new Vector3()).z).toBeLessThan(-0.2);
+    expect(flexed.head('foot_l', new HgVec3()).z).toBeLessThan(-0.2);
     const flexedRight = evaluation.apply(poseFromDegrees({ shin_r: { x: -90 } }));
-    expect(flexedRight.head('foot_r', new Vector3()).z).toBeLessThan(-0.2);
+    expect(flexedRight.head('foot_r', new HgVec3()).z).toBeLessThan(-0.2);
   });
 
   it('raises each arm sideways on its own abduction sign', () => {
     const left = evaluation.apply(poseFromDegrees({ upperarm_l: { z: -90 } }));
-    const leftHand = left.head('hand_l', new Vector3());
+    const leftHand = left.head('hand_l', new HgVec3());
     expect(leftHand.y).toBeGreaterThan(1.3);
     expect(leftHand.x).toBeLessThan(-0.4);
 
     const right = evaluation.apply(poseFromDegrees({ upperarm_r: { z: 90 } }));
-    const rightHand = right.head('hand_r', new Vector3());
+    const rightHand = right.head('hand_r', new HgVec3());
     expect(rightHand.y).toBeGreaterThan(1.3);
     expect(rightHand.x).toBeGreaterThan(0.4);
   });
 
   it('flexes the hip forwards on positive x', () => {
     const flexed = evaluation.apply(poseFromDegrees({ thigh_l: { x: 90 } }));
-    const knee = flexed.head('shin_l', new Vector3());
+    const knee = flexed.head('shin_l', new HgVec3());
     expect(knee.z).toBeGreaterThan(0.35);
     expect(knee.y).toBeCloseTo(0.92, 1);
   });
@@ -94,7 +94,7 @@ describe('bone frame convention', () => {
     const flexed = evaluation.apply(
       poseFromDegrees({ spine_01: { x: 25 }, spine_02: { x: 25 }, spine_03: { x: 20 } }),
     );
-    expect(flexed.head('neck', new Vector3()).z).toBeGreaterThan(0.15);
+    expect(flexed.head('neck', new HgVec3()).z).toBeGreaterThan(0.15);
   });
 });
 
@@ -132,8 +132,8 @@ describe('pose mirroring', () => {
       thigh_r: { x: 30, z: -10 },
     });
     const evaluation = new PoseEvaluation(skeleton);
-    const original = evaluation.apply(pose).head('hand_l', new Vector3());
-    const mirroredHand = evaluation.apply(mirrorPose(skeleton, pose)).head('hand_r', new Vector3());
+    const original = evaluation.apply(pose).head('hand_l', new HgVec3());
+    const mirroredHand = evaluation.apply(mirrorPose(skeleton, pose)).head('hand_r', new HgVec3());
     expect(mirroredHand.x).toBeCloseTo(-original.x, 6);
     expect(mirroredHand.y).toBeCloseTo(original.y, 6);
     expect(mirroredHand.z).toBeCloseTo(original.z, 6);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { skeletonV1 } from './earlierRigs';
 import { restPose } from './pose';
@@ -76,16 +76,16 @@ describe('the scapulae', () => {
     // Measured, left side, 10° each: which way the inferior angle and the
     // superior angle (near the medial border) actually go.
     const evaluation = new PoseEvaluation(rig).apply(restPose());
-    const superior = new Vector3(-0.08, 1.4, -0.15);
-    const superiorLocal = evaluation.worldToLocal('scapula_l', superior.clone(), new Vector3());
-    const inferior = evaluation.tail('scapula_l', new Vector3());
+    const superior = new HgVec3(-0.08, 1.4, -0.15);
+    const superiorLocal = evaluation.worldToLocal('scapula_l', superior.clone(), new HgVec3());
+    const inferior = evaluation.tail('scapula_l', new HgVec3());
     const moved = (axis: 'x' | 'y' | 'z', degrees: number) => {
       const pose = restPose();
       pose.rotations.scapula_l = { x: 0, y: 0, z: 0, [axis]: (degrees * Math.PI) / 180 };
       evaluation.apply(pose);
       return {
-        inferior: evaluation.tail('scapula_l', new Vector3()).sub(inferior),
-        superior: evaluation.localToWorld('scapula_l', superiorLocal, new Vector3()).sub(superior),
+        inferior: evaluation.tail('scapula_l', new HgVec3()).sub(inferior),
+        superior: evaluation.localToWorld('scapula_l', superiorLocal, new HgVec3()).sub(superior),
       };
     };
     // Upward rotation (-z on the left) swings the inferior angle out, away

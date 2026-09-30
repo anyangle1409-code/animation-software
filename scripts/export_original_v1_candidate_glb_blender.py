@@ -4,7 +4,9 @@ blender --background --factory-startup ORIGINAL_V1_WORK/candidates/HomeGymPT_Mal
         --python scripts/export_original_v1_candidate_glb_blender.py
 
 Uses Blender's bundled glTF exporter as a development tool (enabled only for
-this candidate export session). Output: rest-pose skinned GLBs for runtime
+this candidate export session). Blender custom properties are preserved as
+extras so future ORIGINAL-v1-specific runtime metadata can be tested without
+changing geometry or weights. Output: rest-pose skinned GLBs for runtime
 review; they are candidates, not production assets.
 """
 import hashlib
@@ -41,7 +43,8 @@ for variant in ("dressed", "bare"):
     path = out / f"HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_{variant.upper()}.glb"
     bpy.ops.export_scene.gltf(filepath=str(path), export_format="GLB", use_selection=True,
                               export_apply=True, export_skins=True, export_animations=False,
-                              export_yup=True, export_texcoords=False, export_materials="EXPORT")
+                              export_yup=True, export_texcoords=False, export_materials="EXPORT",
+                              export_extras=True)
     results[variant] = {"file": path.name, "bytes": path.stat().st_size,
                         "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
     for o in bpy.data.objects:

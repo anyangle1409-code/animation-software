@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationMixer, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationMixer, Quaternion, Vector3 } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from './skeleton';
 import { skeletonV2 } from './earlierRigs';
 import { restPose } from './pose';
@@ -10,8 +11,7 @@ import { resolveFrame } from '../animation/pipeline';
 import { validateClip } from '../animation/validate';
 import { lockAnchors } from '../constraints/locks';
 import { sampleClip } from '../animation/clip';
-import { bakeClip } from '../export/test/clipBuilderCompat';
-import { buildSkinnedRig } from '../export/rigBuilder';
+import { exportGlb } from '../export/glb';
 import { EXERCISES } from '../exercises/library';
 
 /**
@@ -246,28 +246,31 @@ describe('every exercise, with the palm at rest', () => {
 describe('export and runtime agree', () => {
   it.each(EXERCISES.map((exercise) => [exercise.id, exercise] as const))(
     '%s: every one of the 63 bones, played back through three.js, lands where the studio put it',
-    (_id, exercise) => {
+    async (_id, exercise) => {
       const clip = generateClip(rig, exercise);
-      const baked = bakeClip(clip, rig);
-      const exported = buildSkinnedRig(rig);
-      expect(exported.bones).toHaveLength(63);
-      const holder = new Object3D();
-      holder.add(exported.mesh);
-      const mixer = new AnimationMixer(holder);
-      mixer.clipAction(baked.clip).play();
+      const fps = clip.fps;
+      const blob = await exportGlb(clip, exercise, { fps, clipOnly: true });
+      const loaded = await new GLTFLoader().parseAsync(await blob.arrayBuffer(), '');
+      expect(loaded.animations).toHaveLength(1);
+      const mixer = new AnimationMixer(loaded.scene);
+      mixer.clipAction(loaded.animations[0]).play();
       const evaluation = new PoseEvaluation(rig);
       const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-      const times = baked.clip.tracks[0].times;
+      const frameCount = Math.max(2, Math.round(clip.duration * fps));
+      const times = Array.from({ length: frameCount + 1 }, (_, index) =>
+        index === frameCount ? clip.duration : (index / frameCount) * clip.duration);
       let worst = 0;
-      // Exactly on baked samples, so interpolation cannot hide or add error:
-      // what remains is float32 track storage.
+      // Exactly on the first-party bake samples, so interpolation cannot hide
+      // or add error: what remains is GLB float32 storage and reader playback.
       for (let index = 0; index < times.length; index += Math.max(1, Math.floor(times.length / 12))) {
         const time = times[index];
         mixer.setTime(time);
-        holder.updateMatrixWorld(true);
+        loaded.scene.updateMatrixWorld(true);
         evaluation.apply(resolveFrame(rig, evaluation, clip, time, { anchors }).pose);
         for (const bone of rig.bones) {
-          const played = new Vector3().setFromMatrixPosition(exported.boneByName.get(bone.name)!.matrixWorld);
+          const node = loaded.scene.getObjectByName(bone.name);
+          expect(node, bone.name).toBeDefined();
+          const played = new Vector3().setFromMatrixPosition(node!.matrixWorld);
           worst = Math.max(worst, played.distanceTo(evaluation.head(bone.name, new Vector3())));
         }
       }

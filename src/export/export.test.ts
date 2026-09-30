@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AnimationClip, AnimationMixer, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationClip, AnimationMixer, Quaternion, Vector3 } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import type { BoneName } from '../rig/boneNames';
 import { generateClip } from '../animation/generate';
@@ -13,6 +14,8 @@ import { bakeClip } from './test/clipBuilderCompat';
 import { buildSkinnedRig } from './rigBuilder';
 import { exportAnimationJson, exportMetadataJson, SKELETON_ID } from './json';
 import { exportGlb } from './glb';
+import { applyCharacterPose } from '../character/pose';
+import { asThreeMatrix } from '../test/threeInterop';
 
 const skeleton = canonicalSkeleton;
 const studioClip = generateClip(skeleton, bicepCurl);
@@ -87,26 +90,36 @@ describe('skinned rig', () => {
     rig.root.updateMatrixWorld(true);
     const evaluation = new PoseEvaluation(skeleton).apply(sampleClip(studioClip, 0).pose);
     const head = rig.boneByName.get('head')!;
-    const exported = new Vector3().setFromMatrixPosition(head.matrixWorld);
+    const exported = new Vector3().setFromMatrixPosition(asThreeMatrix(head.matrixWorld));
     // The bind pose is the rig's rest pose, so bones start where the rig says.
     expect(exported.distanceTo(evaluation.head('head', new Vector3()))).toBeLessThan(0.35);
   });
 
   it('keeps the complete skin together in the contracted curl pose', () => {
     const posed = buildSkinnedRig(skeleton);
-    const holder = new Object3D();
-    holder.add(posed.mesh);
-    const mixer = new AnimationMixer(holder);
-    mixer.clipAction(bakeClip(studioClip, skeleton, { fps: 30 }).clip).play();
-    mixer.setTime(2);
-    holder.updateMatrixWorld(true);
+    const evaluation = new PoseEvaluation(skeleton);
+    const anchors = lockAnchors(evaluation, sampleClip(studioClip, 0).pose, studioClip.locks);
+    const frame = resolveFrame(skeleton, evaluation, studioClip, 2, { anchors });
+    applyCharacterPose({
+      source: 'skin-test',
+      root: posed.root,
+      bones: posed.bones,
+      boneByName: posed.boneByName,
+      skeleton: posed.skeleton,
+      object: posed.mesh,
+      meshes: [posed.mesh],
+      deformation: null,
+      capabilities: { anatomy: false, textured: false },
+      dispose() {},
+    }, skeleton, frame.pose, evaluation);
+    posed.root.updateMatrixWorld(true);
     posed.skeleton.update();
 
     const positions = posed.mesh.geometry.getAttribute('position');
     const point = new Vector3();
     const transformed: Vector3[] = [];
     for (let index = 0; index < positions.count; index += 1) {
-      point.fromBufferAttribute(positions, index);
+      point.set(positions.getX(index), positions.getY(index), positions.getZ(index));
       posed.mesh.applyBoneTransform(index, point);
       expect(Number.isFinite(point.x) && Number.isFinite(point.y) && Number.isFinite(point.z)).toBe(true);
       // This catches a mesh bound in a different rest pose: fingers and limb
@@ -129,9 +142,9 @@ describe('skinned rig', () => {
       const a = transformed[ia];
       const b = transformed[ib];
       const c = transformed[ic];
-      bindA.fromBufferAttribute(positions, ia);
-      bindB.fromBufferAttribute(positions, ib);
-      bindC.fromBufferAttribute(positions, ic);
+      bindA.set(positions.getX(ia), positions.getY(ia), positions.getZ(ia));
+      bindB.set(positions.getX(ib), positions.getY(ib), positions.getZ(ib));
+      bindC.set(positions.getX(ic), positions.getY(ic), positions.getZ(ic));
       const bindMax = Math.max(
         bindA.distanceTo(bindB),
         bindB.distanceTo(bindC),
@@ -177,27 +190,29 @@ describe('baked animation', () => {
     expect(first.angleTo(last)).toBeLessThan(1e-5);
   });
 
-  it('reproduces the studio pose when played back through three.js', () => {
-    // Play the baked clip on the exported rig and compare bone positions with
-    // the studio's own pipeline: an export that does not match is worthless.
-    const rig = buildSkinnedRig(skeleton);
-    const holder = new Object3D();
-    holder.add(rig.mesh);
-    const mixer = new AnimationMixer(holder);
-    const action = mixer.clipAction(baked.clip);
-    action.play();
+  it('reproduces the studio pose when the real exported GLB is played through three.js', async () => {
+    const blob = await exportGlb(studioClip, bicepCurl, {
+      fps: 30,
+      clipOnly: true,
+    });
+    const loaded = await new GLTFLoader().parseAsync(await blob.arrayBuffer(), '');
+    expect(loaded.animations).toHaveLength(1);
+    const mixer = new AnimationMixer(loaded.scene);
+    mixer.clipAction(loaded.animations[0]).play();
 
     const evaluation = new PoseEvaluation(skeleton);
     const anchors = lockAnchors(evaluation, sampleClip(studioClip, 0).pose, studioClip.locks);
 
     for (const time of [0, 1, 2, 3.5, 5]) {
       mixer.setTime(time);
-      holder.updateMatrixWorld(true);
+      loaded.scene.updateMatrixWorld(true);
       const frame = resolveFrame(skeleton, evaluation, studioClip, time, { anchors });
       evaluation.apply(frame.pose);
 
       for (const name of ['hand_l', 'hand_r', 'foot_l', 'head'] as const) {
-        const exported = new Vector3().setFromMatrixPosition(rig.boneByName.get(name)!.matrixWorld);
+        const node = loaded.scene.getObjectByName(name);
+        expect(node, name).toBeDefined();
+        const exported = new Vector3().setFromMatrixPosition(node!.matrixWorld);
         const expected = evaluation.head(name, new Vector3());
         expect(exported.distanceTo(expected), `${name} at ${time}s`).toBeLessThan(2e-3);
       }

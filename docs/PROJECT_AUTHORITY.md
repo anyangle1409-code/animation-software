@@ -43,7 +43,12 @@ A lower item must never silently override a higher item.
 - Runtime migration (current): `docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md` and `docs/CURRENT_HANDOFF.md`
 - Completed R3F source transition record: `docs/R3F_FIRST_PARTY_MIGRATION_HANDOFF.md`
 - Physical browser/device parity: `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`
-- ORIGINAL v1 Blender O2 work: `docs/ORIGINAL_V1_O2_WORK_HANDOFF.md`; production modelling must use `OPEN_ORIGINAL_V1_O2_GUARDED.bat` and `CHECKPOINT_ORIGINAL_V1_O2.bat`
+- ORIGINAL v1 Blender/model work: on the explicitly isolated branch
+  `claude/original-v1-blender-o2-20260929`, the active repair authority is
+  `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`. Start with
+  `PREFLIGHT_CLAUDE_ORIGINAL_V1.bat` and
+  `OPEN_ORIGINAL_V1_O4_GUARDED.bat`. The O2 handoff is setup/provenance
+  history unless O4 explicitly requires recovery from it.
 - Clean-room character requirements: `docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md`
 - Canonical v4 rig: `docs/CANONICAL_V4_ORIGINAL_RIG_PLAN.md` and `docs/CANONICAL_V4_ORIGINAL_DIMENSIONS.md`
 - Provenance: `docs/FIRST_PARTY_PROVENANCE_FINDINGS_2026-09-27.md` and `docs/THIRD_PARTY_REFERENCE_ONLY.md`
@@ -57,7 +62,13 @@ Legacy V5-V15f/CORNER_FINAL, old MakeHuman-derived body data, rejected candidate
 
 ## Branch rule
 
-Only the active standalone branch is a development authority. `main`, `chatgpt/absolute-retarget-imports`, the V15f branch, Codex candidate branches, prompt-generation branches, self-review branches, and internal-reference branches are non-authoritative unless `CURRENT_HANDOFF.md` explicitly opens one for a named comparison.
+The active standalone branch is the software/runtime development authority.
+The isolated `claude/original-v1-blender-o2-20260929` branch is explicitly
+authorised only for the ORIGINAL v1 Blender/model candidate work named by the
+current O4 handoff. `main`, `chatgpt/absolute-retarget-imports`, the V15f
+branch, Codex candidate branches, prompt-generation branches, self-review
+branches, and internal-reference branches are non-authoritative unless the
+current handoff explicitly opens one for a named comparison.
 
 Do not inspect another branch "just in case".
 

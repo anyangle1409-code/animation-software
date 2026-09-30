@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton } from '../rig/skeleton';
 import { ANKLE_HEIGHT, flatFootAim } from './stance';
 
@@ -10,12 +10,12 @@ import { ANKLE_HEIGHT, flatFootAim } from './stance';
  */
 describe('a flat foot', () => {
   const rest = canonicalSkeleton.bone('foot_l');
-  const vector = (value: { x: number; y: number; z: number }) => new Vector3(value.x, value.y, value.z);
+  const vector = (value: { x: number; y: number; z: number }) => new HgVec3(value.x, value.y, value.z);
 
   it('is the resting foot when not turned out', () => {
     const aim = flatFootAim(0);
-    const direction = new Vector3(0, 1, 0).applyQuaternion(rest.restWorldQuaternion);
-    const forward = new Vector3(0, 0, 1).applyQuaternion(rest.restWorldQuaternion);
+    const direction = new HgVec3(0, 1, 0).applyQuaternion(rest.restWorldQuaternion);
+    const forward = new HgVec3(0, 0, 1).applyQuaternion(rest.restWorldQuaternion);
     expect(vector(aim.direction).angleTo(direction)).toBeLessThan(1e-6);
     expect(vector(aim.forward).angleTo(forward)).toBeLessThan(1e-6);
     expect(rest.restHead.y).toBe(ANKLE_HEIGHT);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -26,13 +26,13 @@ function frames(exercise: ExerciseDefinition) {
     const dumbbell = frame.equipment.get('dumbbell_l')!;
     return {
       phase: frame.phaseId,
-      pelvis: evaluation.head('pelvis', new Vector3()),
-      shoulder: evaluation.head('upperarm_l', new Vector3()),
-      elbow: evaluation.head('forearm_l', new Vector3()),
-      wrist: evaluation.head('hand_l', new Vector3()),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
+      shoulder: evaluation.head('upperarm_l', new HgVec3()),
+      elbow: evaluation.head('forearm_l', new HgVec3()),
+      wrist: evaluation.head('hand_l', new HgVec3()),
       elbowBend: ((frame.pose.rotations.forearm_l?.x ?? 0) * 180) / Math.PI,
-      grip: new Vector3(dumbbell.position.x, dumbbell.position.y, dumbbell.position.z),
-      handle: new Vector3(0, 0, 1).applyQuaternion(dumbbell.quaternion),
+      grip: new HgVec3(dumbbell.position.x, dumbbell.position.y, dumbbell.position.z),
+      handle: new HgVec3(0, 0, 1).applyQuaternion(dumbbell.quaternion),
     };
   });
 }
@@ -115,7 +115,7 @@ describe('dumbbell fly', () => {
     expect(top.grip.x - top.wrist.x).toBeGreaterThan(0.03);
     // Palms up: the grip sits above the line of the forearm.
     const forearm = bottom.wrist.clone().sub(bottom.elbow).normalize();
-    const up = new Vector3(-forearm.y, forearm.x, 0).normalize();
+    const up = new HgVec3(-forearm.y, forearm.x, 0).normalize();
     if (up.y < 0) up.negate();
     expect(bottom.grip.clone().sub(bottom.wrist).dot(up)).toBeGreaterThan(0.01);
   });

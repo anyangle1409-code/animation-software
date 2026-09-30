@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -46,8 +46,8 @@ function startsFlat(exercise: (typeof EXERCISES)[number]): boolean {
   const clip = generateClip(rig, exercise);
   const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
   evaluation.apply(resolveFrame(rig, evaluation, clip, 0, { anchors }).pose);
-  const ankle = evaluation.head('foot_l', new Vector3()).y;
-  const toe = evaluation.tail('toe_l', new Vector3()).y;
+  const ankle = evaluation.head('foot_l', new HgVec3()).y;
+  const toe = evaluation.tail('toe_l', new HgVec3()).y;
   return Math.abs(ankle - 0.082) < 0.01 && toe < 0.03;
 }
 
@@ -93,7 +93,7 @@ describe('standing feet', () => {
       const evaluation = new PoseEvaluation(rig);
       const clip = generateClip(rig, exercise);
       const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-      const first = new Map<string, { toe: number; direction: Vector3 }>();
+      const first = new Map<string, { toe: number; direction: HgVec3 }>();
       const known = KNOWN_DEFECTS[exercise.id];
       let lowest = Infinity;
       let highest = -Infinity;
@@ -107,11 +107,11 @@ describe('standing feet', () => {
           // the forward lunge's front foot lifts by design — and is held flat
           // where it lands by its own family's test.
           if (!exercise.locks.some((lock) => lock.chain === `leg_${side}`)) continue;
-          const toe = evaluation.tail(`toe_${side}`, new Vector3()).y;
+          const toe = evaluation.tail(`toe_${side}`, new HgVec3()).y;
           // A foot standing on its ball pivots on it, heel rising and falling;
           // its toes are what lie flat and still.
           const onBall = exercise.locks.some((lock) => lock.chain === `leg_${side}` && lock.onBall);
-          const direction = new Vector3(0, 1, 0).applyQuaternion(evaluation.quaternion(onBall ? `toe_${side}` : `foot_${side}`));
+          const direction = new HgVec3(0, 1, 0).applyQuaternion(evaluation.quaternion(onBall ? `toe_${side}` : `foot_${side}`));
           const start = first.get(side);
           if (!start) {
             first.set(side, { toe, direction });

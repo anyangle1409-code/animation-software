@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -31,14 +31,14 @@ function playback(samples = 60) {
     const time = (step / samples) * clip.duration;
     const frame = resolveFrame(rig, evaluation, clip, time, { anchors });
     evaluation.apply(frame.pose);
-    const forearm = evaluation.tail('forearm_l', new Vector3()).sub(evaluation.head('forearm_l', new Vector3()));
+    const forearm = evaluation.tail('forearm_l', new HgVec3()).sub(evaluation.head('forearm_l', new HgVec3()));
     return {
       time,
       pose: frame.pose,
-      chest: evaluation.tail('spine_03', new Vector3()),
-      pelvis: evaluation.head('pelvis', new Vector3()),
-      shoulder: evaluation.head('upperarm_l', new Vector3()),
-      elbow: evaluation.head('forearm_l', new Vector3()),
+      chest: evaluation.tail('spine_03', new HgVec3()),
+      pelvis: evaluation.head('pelvis', new HgVec3()),
+      shoulder: evaluation.head('upperarm_l', new HgVec3()),
+      elbow: evaluation.head('forearm_l', new HgVec3()),
       forearmFromVertical: (Math.acos(-forearm.normalize().y) * 180) / Math.PI,
     };
   });
@@ -57,7 +57,7 @@ describe('the row family', () => {
     const evaluation = new PoseEvaluation(rig);
     const clip = generateClip(rig, romanianDeadlift);
     const anchors = lockAnchors(evaluation, sampleClip(clip, 0).pose, clip.locks);
-    const vector = (value: { x: number; y: number; z: number }) => new Vector3(value.x, value.y, value.z);
+    const vector = (value: { x: number; y: number; z: number }) => new HgVec3(value.x, value.y, value.z);
     expect(vector(anchors.get('foot_l')!).distanceTo(vector(FOOT_L.position))).toBeLessThan(1e-4);
     for (const axis of ['direction', 'forward'] as const) {
       const hinge = vector(anchors.get(`foot_l#${axis}`)!);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Vector3 } from 'three';
+import { HgVec3 } from '../../core/linearMath';
 import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { generateClip } from '../../animation/generate';
 import { resolveFrame } from '../../animation/pipeline';
@@ -40,7 +40,7 @@ function atBottom(exercise: ExerciseDefinition) {
     hip: deg(frame.pose.rotations.thigh_l?.x),
     knee: deg(frame.pose.rotations.shin_l?.x),
     ankle: deg(frame.pose.rotations.foot_l?.x),
-    pelvis: evaluation.head('pelvis', new Vector3()).y,
+    pelvis: evaluation.head('pelvis', new HgVec3()).y,
   };
 }
 

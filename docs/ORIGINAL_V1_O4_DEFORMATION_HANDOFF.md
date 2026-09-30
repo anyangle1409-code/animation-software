@@ -156,6 +156,35 @@ Work first on weight distribution and deformation support across
 clavicle/scapula/deltoid/upper-arm/upper-torso transitions. Preserve the
 63-bone rig structure unless a separate rig defect is independently proven.
 
+### Priority 1 repair-cycle command
+
+For shoulder-only iteration, use the read-only targeted runner:
+
+```bat
+RUN_ORIGINAL_V1_SHOULDER_CHECK.bat
+```
+
+By default it tests the current O4 candidate with:
+
+- `press_top`
+- `press_top_rhythm`
+- `pullup_hang`
+- `pullup_hang_rhythm`
+- `pullup_top`
+
+It writes a fresh evidence folder under
+`ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_current/`, renders only
+those poses, and compares them with the matching poses from pinned R2 using
+both gate-count and severity-regression protection.
+
+For a different candidate or evidence label:
+
+```bat
+RUN_ORIGINAL_V1_SHOULDER_CHECK.bat path\to\candidate.blend shoulder_r3
+```
+
+Never reuse an existing label; the runner refuses to mix evidence directories.
+
 ### Priority 2 — hands / fingers / thumb / equipment grip
 
 Target poses:

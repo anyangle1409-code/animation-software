@@ -107,6 +107,7 @@ jobs:
           src/export/firstPartyReboundCharacterGlb.test.ts
           src/core/frameLoop.test.ts
           src/rig/firstPartySkeleton.parity.test.ts
+          src/rig/canonicalV4RuntimeCompatibility.test.ts
           src/ik/firstPartyOrient.parity.test.ts
           src/rig/firstPartyPose.parity.test.ts
           src/constraints/bodyClearance.firstParty.test.ts

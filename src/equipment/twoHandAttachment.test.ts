@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { resolveEquipment, twoHandAttachmentMatrix, twoHandGripOffsets } from './attach';
 import { measureTwoHandFit } from './gripDiagnostics';
-import { withTwoHandGripWidth } from './library';
+import { equipmentSocketForInstance, withTwoHandGripWidth } from './library';
 import type { EquipmentInstance } from './types';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
@@ -52,6 +52,30 @@ describe('rigid two-hand equipment attachment', () => {
       e[4] * (e[1] * e[10] - e[2] * e[9]) +
       e[8] * (e[1] * e[6] - e[2] * e[5]);
     expect(determinant).toBeCloseTo(1, 8);
+  });
+
+  it('calibrates interlocked hands below 100 mm without scaling the handle', () => {
+    const handle: EquipmentInstance = {
+      ...base,
+      id: 'small_handle',
+      kind: 'cable_handle',
+      attachment: {
+        mode: 'hands',
+        leftSocket: 'grip_l',
+        rightSocket: 'grip_r',
+      },
+    };
+    const calibrated = withTwoHandGripWidth(handle, 0.07);
+    if (calibrated.attachment.mode !== 'hands') throw new Error('Expected two-hand attachment');
+    const left = equipmentSocketForInstance(calibrated, calibrated.attachment.leftSocket)!;
+    const right = equipmentSocketForInstance(calibrated, calibrated.attachment.rightSocket)!;
+    const separation = Math.hypot(
+      right.position.x - left.position.x,
+      right.position.y - left.position.y,
+      right.position.z - left.position.z,
+    );
+    expect(separation).toBeCloseTo(0.07, 10);
+    expect(calibrated.kind).toBe('cable_handle');
   });
 
   it('applies roll around the grip axis without changing either socket position', () => {

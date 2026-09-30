@@ -25,10 +25,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).parent))
+from tritri_original_v1 import tri_pairs_intersecting  # noqa: E402
 
 PRESETS = {
     # o1: first multi-pose solve from R2 weights.
@@ -98,6 +102,32 @@ PRESETS = {
                 w_p99=3e4, p99_mode="budget", p99_margin=0.04, p99_cap=1.985, p01_margin=0.015, p99_slack=6,
                 w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
                 iters=200, polish_iters=200),
+    # o11 (r22): warm start from o10; collision constraints from true triangle-triangle
+    # intersections new versus R2 (acromion/deltoid buckling), tighter p99 cap.
+    "o11": dict(solver="lbfgs", scap_zone=True, zone_radius=0.24, hi=4.3, lo=0.24, w_hinge=3e4,
+                no_regress=True, min_margin=0.012, max_margin=0.07,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_delta=0.002, rounds=4,
+                w_p99=1e5, p99_mode="budget", p99_margin=0.04, p99_cap=1.975, p01_margin=0.015, p99_slack=6,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=150),
+    # o12 (r23): o11 objective on the shoulder-yoke support-loop mesh, bounds from the pinned R2 report.
+    "o12": dict(solver="lbfgs", scap_zone=True, zone_radius=0.24, hi=4.3, lo=0.24, w_hinge=3e4,
+                no_regress=True, min_margin=0.012, max_margin=0.07,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_delta=0.002, rounds=4,
+                w_p99=1e5, p99_mode="budget", p99_margin=0.04, p99_cap=1.975, p01_margin=0.015, p99_slack=6,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=150),
+    # o13 (r24): o11 on the original mesh with neck-region vertices kept at R2 weights and
+    # collision re-detection interleaved with the 4-influence polish (r22's collisions re-formed there).
+    "o13": dict(solver="lbfgs", scap_zone=True, zone_radius=0.24, zone_regions=("shoulder", "torso", "arm"),
+                hi=4.3, lo=0.24, w_hinge=3e4, no_regress=True, min_margin=0.012, max_margin=0.07,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_delta=0.002, rounds=3,
+                w_p99=1e5, p99_mode="budget", p99_margin=0.04, p99_cap=1.975, p01_margin=0.015, p99_slack=6,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=100, polish_rounds=3),
 }
 
 
@@ -121,6 +151,8 @@ def main():
     ap.add_argument("--gradcheck", action="store_true")
     ap.add_argument("--diagnose", action="store_true")
     ap.add_argument("--init", help="warm start from an earlier solution with the same zone")
+    ap.add_argument("--init-dump", help="warm start from another dump of the same mesh (e.g. looped o10 weights)")
+    ap.add_argument("--r2-report", help="take no-regression bounds/percentiles/volume targets from this pinned report")
     a = ap.parse_args()
     P = PRESETS[a.preset]
     d = np.load(a.dump)
@@ -136,7 +168,7 @@ def main():
     # midline back vertices shared by BOTH scapulae, torn apart in the rhythm poses).
     zone_mask = np.zeros(len(rest), bool)
     allowed_full = W0 > 1e-6
-    regs = np.isin(region, [rid[n] for n in ("shoulder", "torso", "arm", "neck")])
+    regs = np.isin(region, [rid[n] for n in P.get("zone_regions", ("shoulder", "torso", "arm", "neck"))])
     scap_w = W0[:, b["scapula_l"]] + W0[:, b["scapula_r"]]
     for s in "lr":
         H = d["heads"][b[f"upperarm_{s}"]]
@@ -192,6 +224,21 @@ def main():
                 kz = ereg_z == rgn
                 LLO[p, kz] = np.log(max(P["lo"], r_all[k].min() - P["min_margin"]))
                 LHI[p, kz] = np.log(min(P["hi"], r_all[k].max() + P["max_margin"]))
+    if a.r2_report:
+        # Topology-changed candidates: judge against the pinned R2 report itself (as the comparator does).
+        rep = {x["pose"]: x for x in json.loads(Path(a.r2_report).read_text(encoding="utf-8"))}
+        ereg_z = region[Ez[:, 0]]
+        for p, nm in enumerate(poses):
+            for rgn in np.unique(ereg_z):
+                st = rep[nm]["by_region"].get(rnames[rgn])
+                if st is None:
+                    continue
+                kz = ereg_z == rgn
+                LLO[p, kz] = np.log(max(P["lo"], st["min_ratio"] - P["min_margin"]))
+                LHI[p, kz] = np.log(min(P["hi"], st["max_ratio"] + P["max_margin"]))
+            dev_R2[p] = abs(rep[nm]["volume_ratio"] - 1)
+        vol_target[:] = np.minimum(dev_R2 + P.get("vol_slack", 0.0), P["vol_target_cap"])
+        print("bounds, volume targets and percentiles from", a.r2_report, flush=True)
     # fold proxy: dihedral cosine between triangles sharing a mesh/diagonal edge in the zone
     edge_tris = {}
     for t, (x, y, zv) in enumerate(Tz):
@@ -210,6 +257,10 @@ def main():
 
     P99T = np.array([np.log(min(np.percentile(np.linalg.norm(evald[p][E[:, 0]] - evald[p][E[:, 1]], axis=1) / L0all, 99)
                                  + P.get("p99_margin", 0.03), P.get("p99_cap", 99.0))) for p in range(npz)])
+    if a.r2_report:
+        rep = {x["pose"]: x for x in json.loads(Path(a.r2_report).read_text(encoding="utf-8"))}
+        P99T = np.array([np.log(min(rep[nm]["edge_ratio_p99"] + P.get("p99_margin", 0.03), P.get("p99_cap", 99.0)))
+                         for nm in poses])
     # proximity: candidate vertices = zone + upper-body neighbours; pairs found per outer round
     cand = np.nonzero(zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.08)))[0]
     PAIRS = [np.zeros((0, 2), int) for _ in range(npz)]
@@ -251,7 +302,49 @@ def main():
             PAIRS[p], SNB[p] = pr, nb
             PDELTA[p] = np.minimum(P.get("prox_delta", 0.003), sR2 - 0.0005)
 
+    # tritri: constraints from triangle pairs that intersect now but not in R2
+    TT = [dict(v=np.zeros(0, int), tb=np.zeros((0, 3), int), n=np.zeros((0, 3)), sg=np.zeros(0), tgt=np.zeros(0))
+          for _ in range(npz)]
+    TT_R2 = {}
+    tt_cand = np.nonzero(((zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.05)))[tris]).all(axis=1)
+                         & (zone_mask[tris]).any(axis=1))[0]
+    tt_poses = [p for p, nm in enumerate(poses) if nm in P.get("tt_poses", poses)]
+
+    def tri_normal(Pp, tb):
+        n = np.cross(Pp[tb[:, 1]] - Pp[tb[:, 0]], Pp[tb[:, 2]] - Pp[tb[:, 0]])
+        return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+
+    def find_pairs_tritri(Wz):
+        for p in tt_poses:
+            if p not in TT_R2:
+                TT_R2[p] = {tuple(x) for x in tri_pairs_intersecting(evald[p], tris, tt_cand)}
+            Pp = positions(Wz, p)
+            cur = tri_pairs_intersecting(Pp, tris, tt_cand)
+            new = np.array([x for x in cur if tuple(x) not in TT_R2[p]], int).reshape(-1, 2)
+            vs, tbs = [], []
+            for ta, tb in new:
+                for x, y in ((ta, tb), (tb, ta)):
+                    for v in tris[x]:
+                        vs.append(v)
+                        tbs.append(tris[y])
+            if not vs:
+                continue
+            vs, tbs = np.array(vs), np.array(tbs)
+            nR2 = tri_normal(evald[p], tbs)
+            sR2 = ((evald[p][vs] - evald[p][tbs].mean(axis=1)) * nR2).sum(axis=1)
+            ok = np.abs(sR2) > 0.0005
+            vs, tbs, sR2 = vs[ok], tbs[ok], sR2[ok]
+            n = tri_normal(Pp, tbs)
+            old = TT[p]
+            TT[p] = dict(v=np.r_[old["v"], vs], tb=np.r_[old["tb"], tbs], n=np.r_[old["n"], n],
+                         sg=np.r_[old["sg"], np.sign(sR2)],
+                         tgt=np.r_[old["tgt"], np.minimum(P.get("tt_delta", 0.002), np.abs(sR2) - 0.0003)])
+            print(f"  tritri {poses[p]}: intersecting {len(cur)} (R2 {len(TT_R2[p])}), new {len(new)}, "
+                  f"constraints {len(TT[p]['v'])}", flush=True)
+
     def find_pairs(Wz):
+        if P.get("prox_mode") == "tritri":
+            return find_pairs_tritri(Wz)
         if P.get("prox_mode") == "signed":
             return find_pairs_signed(Wz)
         rad, dmin_rest = P.get("prox_search", 0.015), P.get("prox_rest_min", 0.012)
@@ -278,6 +371,8 @@ def main():
     P01ACT = [np.zeros(0, int) for _ in range(npz)]
     P01T = np.array([np.log(np.percentile(np.linalg.norm(evald[p][E[:, 0]] - evald[p][E[:, 1]], axis=1) / L0all, 1)
                              - P.get("p01_margin", 0.015)) for p in range(npz)])
+    if a.r2_report:
+        P01T = np.array([np.log(rep[nm]["edge_ratio_p01"] - P.get("p01_margin", 0.015)) for nm in poses])
     ez_mask = (zpos[E[:, 0]] >= 0) | (zpos[E[:, 1]] >= 0)      # Ez == E[ez_mask] (same order)
     nonzone_ratio = [np.linalg.norm(evald[p][E[~ez_mask, 0]] - evald[p][E[~ez_mask, 1]], axis=1) / L0all[~ez_mask]
                      for p in range(npz)]
@@ -369,6 +464,16 @@ def main():
                 np.add.at(gP, Ez[:, 0], gp)
                 np.add.at(gP, Ez[:, 1], -gp)
             # proximity barrier: far-at-rest vertices must not approach closer than delta / R2
+            if P.get("w_prox", 0) > 0 and P.get("prox_mode") == "tritri" and len(TT[p]["v"]):
+                c = TT[p]
+                sep = c["sg"] * ((Pp[c["v"]] - Pp[c["tb"]].mean(axis=1)) * c["n"]).sum(axis=1)
+                ex = np.maximum(c["tgt"] - sep, 0)
+                total += P["w_prox"] * (ex ** 2).sum()
+                parts[poses[p]].append(round(float(P["w_prox"] * (ex ** 2).sum()), 2))
+                gq = (-2 * P["w_prox"] * ex * c["sg"])[:, None] * c["n"]
+                np.add.at(gP, c["v"], gq)
+                for k in range(3):
+                    np.add.at(gP, c["tb"][:, k], -gq / 3)
             if P.get("w_prox", 0) > 0 and len(PAIRS[p]) and P.get("prox_mode") == "signed":
                 pr, nb = PAIRS[p], SNB[p]
                 sep = ((Pp[pr[:, 0]] - Pp[pr[:, 1]]) * nb).sum(axis=1)
@@ -521,6 +626,14 @@ def main():
     if a.diagnose:
         return
     Winit = Wz0.copy()
+    if a.init_dump:
+        di = np.load(a.init_dump)
+        if di["W"].shape != d["W"].shape or [str(x) for x in di["bones"]] != bones:
+            raise SystemExit("--init-dump has a different mesh or bone set")
+        Winit = di["W"][Z][:, used].copy()
+        Winit = np.where(allowed, np.maximum(Winit, 1e-4), 0.0)
+        Winit /= Winit.sum(axis=1, keepdims=True)
+        print("warm start from dump", a.init_dump, flush=True)
     if a.init:
         ini = np.load(a.init)
         ub = [bones[i] for i in used]
@@ -560,9 +673,14 @@ def main():
     sup &= allowed
     Wz = project_simplex(np.where(sup, Wz, 0.0), sup)
     if P.get("solver") == "lbfgs":
-        Wz = lbfgs(Wz, sup, P["polish_iters"])
-        Wz = np.where(Wz < 1e-4, 0.0, Wz)
-        Wz /= Wz.sum(axis=1, keepdims=True)
+        for prnd in range(P.get("polish_rounds", 1)):
+            Wz = lbfgs(Wz, sup, P["polish_iters"])
+            Wz = np.where(Wz < 1e-4, 0.0, Wz)
+            Wz /= Wz.sum(axis=1, keepdims=True)
+            if P.get("polish_rounds", 1) > 1 and P.get("w_prox", 0) > 0:
+                find_pairs(Wz)          # re-detect collisions the polish itself created
+                refresh_p99(Wz)
+                print("polish round", prnd, flush=True)
     elif P.get("solver") == "pgd":
         Wz = pgd(Wz, sup, P["polish_iters"], P["step"])
     else:

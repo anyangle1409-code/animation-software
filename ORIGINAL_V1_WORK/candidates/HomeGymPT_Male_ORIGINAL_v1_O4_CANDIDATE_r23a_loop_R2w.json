@@ -1,0 +1,20 @@
+{
+  "generated_utc": "2026-09-30T20:15:22.791351+00:00",
+  "stage": "O4 candidate first-party topology repair: shoulder-yoke support loop (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend",
+  "source_sha256": "d89dedb5033eb52e27a2d66f000f460c5c106ba8e056421cddce633e369044a4",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r23a_loop_R2w.blend",
+  "candidate_sha256": "b0772b4cef72472a3c235a864b374f17c48e648e66d2e6f36c8a12415ad45cc1",
+  "vertices_before": 17946,
+  "vertices_after": 18066,
+  "faces_before": 17944,
+  "faces_after": 18064,
+  "ring_edges_split": 120,
+  "new_vertex_index_range": [
+    17946,
+    18065
+  ],
+  "rig_bones": 63,
+  "method": "bmesh subdivide_edges(cuts=1, grid fill) on the closed shoulder-yoke edge ring; new vertices: averaged endpoint deform weights, top 4, renormalised",
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+}

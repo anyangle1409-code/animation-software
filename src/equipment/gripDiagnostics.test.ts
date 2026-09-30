@@ -3,7 +3,8 @@ import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { shoulderPress } from '../exercises/definitions/shoulderPress';
-import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
+import { canonicalSkeleton, PoseEvaluation, Skeleton } from '../rig/skeleton';
+import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from '../rig/canonicalV4Original';
 import { GRIP_CLOSURE_PRESETS, measureGripFit } from './gripDiagnostics';
 import { FINGERS } from '../rig/boneNames';
 
@@ -38,6 +39,38 @@ describe('grip authoring diagnostics', () => {
           expect(fit.digitReachUse[finger]).toBeLessThan(1);
         }
         expect(fit.reachUse).toBeCloseTo(Math.max(...Object.values(fit.digitReachUse)), 10);
+      }
+    }
+  });
+
+  it('fits the clean-room v4 thumb to the unchanged dumbbell envelope deterministically', () => {
+    const v4 = new Skeleton(HGPT_CANONICAL_V4_ORIGINAL_BONES);
+    const first = generateClip(v4, bicepCurl);
+    const second = generateClip(v4, bicepCurl);
+
+    const firstPose = first.keyframes[0].pose;
+    const secondPose = second.keyframes[0].pose;
+    for (const segment of [1, 2, 3] as const) {
+      const left = `thumb_0${segment}_l` as const;
+      const right = `thumb_0${segment}_r` as const;
+      expect(firstPose.rotations[left]).toEqual(secondPose.rotations[left]);
+      expect(firstPose.rotations[right]).toEqual(secondPose.rotations[right]);
+      expect(firstPose.rotations[right]?.x).toBeCloseTo(firstPose.rotations[left]?.x ?? 0, 12);
+      expect(firstPose.rotations[right]?.z).toBeCloseTo(-(firstPose.rotations[left]?.z ?? 0), 12);
+    }
+
+    const evaluation = new PoseEvaluation(v4);
+    for (let index = 0; index <= 12; index += 1) {
+      const time = (index / 12) * first.duration;
+      const frame = resolveFrame(v4, evaluation, first, time);
+      evaluation.apply(frame.pose);
+      for (const side of ['l', 'r'] as const) {
+        const equipment = frame.equipment.get(`dumbbell_${side}`);
+        expect(equipment).toBeDefined();
+        const fit = measureGripFit(evaluation, equipment!, side);
+        expect(fit.withinEnvelope, `${side} at ${time.toFixed(2)}s`).toBe(true);
+        expect(fit.reachUse).toBeLessThan(1);
+        expect(fit.widestGapDeg).toBeLessThan(170);
       }
     }
   });

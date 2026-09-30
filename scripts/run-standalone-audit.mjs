@@ -11,6 +11,7 @@ const checks=[
   ["first_party_markers","scripts/audit-first-party-markers.mjs",false],
   ["legacy_coupling","scripts/audit-legacy-character-coupling.mjs",false],
   ["active_model_asset_boundary","scripts/audit-active-model-assets.mjs",true],
+  ["original_v1_promotion_boundary","scripts/audit-original-v1-promotion.mjs",true,["--expect-blocked"]],
   ["final_character_runtime","scripts/audit-final-character-runtime.mjs",true],
   ["external_runtime_resources","scripts/audit-external-runtime-resources.mjs",true],
   ["runtime_network","scripts/audit-runtime-network.mjs",true],
@@ -22,8 +23,8 @@ const checks=[
 ];
 
 const results=[];
-for(const [id,script,gate] of checks){
-  const proc=spawnSync(process.execPath,[script],{
+for(const [id,script,gate,args=[]] of checks){
+  const proc=spawnSync(process.execPath,[script,...args],{
     cwd:ROOT,
     encoding:"utf8",
     stdio:["ignore","pipe","pipe"],
@@ -32,6 +33,7 @@ for(const [id,script,gate] of checks){
     id,
     script,
     gate,
+    args,
     status:proc.status,
     pass:proc.status===0,
     stdout:(proc.stdout||"").slice(-12000),
@@ -41,7 +43,7 @@ for(const [id,script,gate] of checks){
 
 const summary={
   generatedAt:new Date().toISOString(),
-  checks:results.map(({id,script,gate,status,pass})=>({id,script,gate,status,pass})),
+  checks:results.map(({id,script,gate,args,status,pass})=>({id,script,gate,args,status,pass})),
   gatePass:results.filter(x=>x.gate).every(x=>x.pass),
   expectedToday:"Operational source/runtime readiness is expected to pass. Final release remains blocked separately by deny-by-default release assets, ORIGINAL v1, production-package offline acceptance and physical-device evidence."
 };

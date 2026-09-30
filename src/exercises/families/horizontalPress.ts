@@ -1,4 +1,3 @@
-import { SHOULDER_WIDENING } from '../../rig/humanoid';
 import type {
   CameraRecommendation,
   CommonError,
@@ -10,6 +9,16 @@ import type { Vec3 } from '../../rig/types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
 import { evenSides, plantedContact } from '../presets';
+
+/**
+ * Accepted first-party push-up body-line tolerance, metres.
+ *
+ * This is frozen from the reviewed movement rule itself (93.67 mm), rather
+ * than recomputed from whichever canonical rest rig happens to be active.
+ * Keeping technique semantics independent of v3/v4 rest geometry prevents a
+ * rig cutover from silently weakening or tightening an accepted exercise rule.
+ */
+const PUSH_UP_BODY_LINE_TOLERANCE = 0.09367;
 
 /**
  * The horizontal-press family: pressing the body away from the floor, or a load
@@ -233,10 +242,10 @@ export function horizontalPressFamily(variant: HorizontalPressVariant): Exercise
         // lateral term — a shoulder is simply wider than a hip — on top of the
         // sagittal sag or pike the rule exists to catch. Measured, the sagittal
         // deviation is 0.0000 at every frame and the whole 0.0669 is that lateral
-        // constant, which Stage 2 grew by exactly SHOULDER_WIDENING. Carrying the
-        // same amount into the tolerance leaves the sagittal margin at 26.8 mm,
-        // precisely what it was before the shoulder moved.
-        tolerance: 0.06 + SHOULDER_WIDENING,
+        // constant. The accepted 93.67 mm tolerance below freezes that measured
+        // rule directly, so later canonical-rig geometry cannot change technique
+        // semantics as a side effect.
+        tolerance: PUSH_UP_BODY_LINE_TOLERANCE,
         severity: 'error',
       },
       {

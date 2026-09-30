@@ -637,16 +637,19 @@ def main():
     if a.init:
         ini = np.load(a.init)
         ub = [bones[i] for i in used]
-        col = {n: ub.index(str(n)) for n in ini["bones"] if str(n) in ub}
-        if len(col) != len(ini["bones"]):
-            raise SystemExit("--init solution uses bones outside this zone's bone set")
+        col = {str(n): ub.index(str(n)) for n in ini["bones"] if str(n) in ub}
         Winit = Wz0.copy()
+        dropped = 0.0
         for k, v in enumerate(ini["vertices"]):         # map by vertex; new zone vertices keep R2 weights
             if zpos[v] >= 0:
                 row = np.zeros(len(ub))
                 for j, n in enumerate(ini["bones"]):
-                    row[col[str(n)]] = ini["weights"][k, j]
-                Winit[zpos[v]] = row
+                    if str(n) in col:
+                        row[col[str(n)]] = ini["weights"][k, j]
+                    else:
+                        dropped += ini["weights"][k, j]
+                Winit[zpos[v]] = row / max(row.sum(), 1e-12)
+        print(f"init: dropped weight on bones outside this zone's set: {dropped:.4f}", flush=True)
         Winit = np.where(allowed, np.maximum(Winit, 1e-4), 0.0)
         Winit /= Winit.sum(axis=1, keepdims=True)
         print("warm start from", a.init, flush=True)

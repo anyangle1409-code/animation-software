@@ -1,0 +1,633 @@
+{
+  "generated_utc": "2026-09-30T20:37:55.752926+00:00",
+  "preset": "o12",
+  "parameters": {
+    "solver": "lbfgs",
+    "scap_zone": true,
+    "zone_radius": 0.24,
+    "hi": 4.3,
+    "lo": 0.24,
+    "w_hinge": 30000.0,
+    "no_regress": true,
+    "min_margin": 0.012,
+    "max_margin": 0.07,
+    "w_fold": 2000.0,
+    "fold_cos": 0.2,
+    "fold_margin": 0.05,
+    "w_prox": 5000000.0,
+    "prox_mode": "tritri",
+    "tt_delta": 0.002,
+    "rounds": 4,
+    "w_p99": 100000.0,
+    "p99_mode": "budget",
+    "p99_margin": 0.04,
+    "p99_cap": 1.975,
+    "p01_margin": 0.015,
+    "p99_slack": 6,
+    "w_strain": 0.01,
+    "w_vol": 2000000.0,
+    "vol_slack": 0.003,
+    "vol_target_cap": 0.085,
+    "w_smooth": 0.02,
+    "w_close": 0.02,
+    "iters": 150,
+    "polish_iters": 150
+  },
+  "source_dump": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r23a_loop_R2w.blend",
+  "zone_vertices": 2946,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "spine_03",
+    "neck",
+    "head",
+    "clavicle_l",
+    "scapula_l",
+    "upperarm_l",
+    "forearm_l",
+    "clavicle_r",
+    "scapula_r",
+    "upperarm_r",
+    "forearm_r",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "loss_before": 1199448.3474343687,
+  "loss_after": 149990.18086087986,
+  "predicted_before": {
+    "neutral": {
+      "volume_ratio": 1.0,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        1.0,
+        1.0
+      ],
+      "arm": [
+        1.0,
+        1.0
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "curl_peak": {
+      "volume_ratio": 0.9971,
+      "shoulder": [
+        0.796,
+        1.284
+      ],
+      "torso": [
+        0.862,
+        1.247
+      ],
+      "arm": [
+        0.193,
+        1.621
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "press_bottom": {
+      "volume_ratio": 1.0311,
+      "shoulder": [
+        0.556,
+        6.414
+      ],
+      "torso": [
+        0.943,
+        2.569
+      ],
+      "arm": [
+        0.312,
+        2.858
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "press_top": {
+      "volume_ratio": 0.9993,
+      "shoulder": [
+        0.094,
+        9.089
+      ],
+      "torso": [
+        0.886,
+        3.974
+      ],
+      "arm": [
+        0.731,
+        3.702
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "press_top_rhythm": {
+      "volume_ratio": 1.1309,
+      "shoulder": [
+        0.143,
+        8.283
+      ],
+      "torso": [
+        0.662,
+        8.317
+      ],
+      "arm": [
+        0.731,
+        3.415
+      ],
+      "neck": [
+        0.535,
+        1.052
+      ]
+    },
+    "squat_bottom": {
+      "volume_ratio": 0.9626,
+      "shoulder": [
+        0.184,
+        8.053
+      ],
+      "torso": [
+        0.173,
+        4.204
+      ],
+      "arm": [
+        0.606,
+        3.627
+      ],
+      "neck": [
+        0.753,
+        1.132
+      ]
+    },
+    "pushup_bottom": {
+      "volume_ratio": 1.007,
+      "shoulder": [
+        0.773,
+        3.398
+      ],
+      "torso": [
+        0.493,
+        1.904
+      ],
+      "arm": [
+        0.188,
+        1.925
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "pullup_hang": {
+      "volume_ratio": 1.0055,
+      "shoulder": [
+        0.113,
+        8.987
+      ],
+      "torso": [
+        0.891,
+        3.888
+      ],
+      "arm": [
+        0.737,
+        3.673
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "pullup_hang_rhythm": {
+      "volume_ratio": 1.136,
+      "shoulder": [
+        0.202,
+        7.907
+      ],
+      "torso": [
+        0.662,
+        8.317
+      ],
+      "arm": [
+        0.737,
+        3.281
+      ],
+      "neck": [
+        0.535,
+        1.052
+      ]
+    },
+    "pullup_top": {
+      "volume_ratio": 1.0271,
+      "shoulder": [
+        0.694,
+        5.169
+      ],
+      "torso": [
+        0.883,
+        2.086
+      ],
+      "arm": [
+        0.307,
+        2.399
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "lunge": {
+      "volume_ratio": 0.9833,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        0.121,
+        7.2
+      ],
+      "arm": [
+        1.0,
+        1.0
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "row": {
+      "volume_ratio": 0.9838,
+      "shoulder": [
+        0.284,
+        2.214
+      ],
+      "torso": [
+        0.434,
+        2.44
+      ],
+      "arm": [
+        0.26,
+        1.588
+      ],
+      "neck": [
+        0.621,
+        1.24
+      ]
+    },
+    "grip": {
+      "volume_ratio": 0.9967,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        1.0,
+        1.0
+      ],
+      "arm": [
+        0.265,
+        1.645
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "curl_handle": {
+      "volume_ratio": 0.9971,
+      "shoulder": [
+        0.796,
+        1.284
+      ],
+      "torso": [
+        0.862,
+        1.247
+      ],
+      "arm": [
+        0.193,
+        1.621
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "pullup_bar": {
+      "volume_ratio": 1.0056,
+      "shoulder": [
+        0.113,
+        8.987
+      ],
+      "torso": [
+        0.891,
+        3.888
+      ],
+      "arm": [
+        0.737,
+        3.673
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "predicted_after": {
+    "neutral": {
+      "volume_ratio": 1.0,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        1.0,
+        1.0
+      ],
+      "arm": [
+        1.0,
+        1.0
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "curl_peak": {
+      "volume_ratio": 0.9969,
+      "shoulder": [
+        0.807,
+        1.287
+      ],
+      "torso": [
+        0.879,
+        1.17
+      ],
+      "arm": [
+        0.193,
+        1.621
+      ],
+      "neck": [
+        0.999,
+        1.001
+      ]
+    },
+    "press_bottom": {
+      "volume_ratio": 1.0305,
+      "shoulder": [
+        0.534,
+        3.206
+      ],
+      "torso": [
+        0.889,
+        2.424
+      ],
+      "arm": [
+        0.312,
+        2.765
+      ],
+      "neck": [
+        0.984,
+        1.014
+      ]
+    },
+    "press_top": {
+      "volume_ratio": 0.996,
+      "shoulder": [
+        0.222,
+        4.333
+      ],
+      "torso": [
+        0.821,
+        3.568
+      ],
+      "arm": [
+        0.731,
+        3.557
+      ],
+      "neck": [
+        0.974,
+        1.026
+      ]
+    },
+    "press_top_rhythm": {
+      "volume_ratio": 1.0834,
+      "shoulder": [
+        0.233,
+        4.353
+      ],
+      "torso": [
+        0.65,
+        4.055
+      ],
+      "arm": [
+        0.731,
+        3.34
+      ],
+      "neck": [
+        0.535,
+        1.057
+      ]
+    },
+    "squat_bottom": {
+      "volume_ratio": 0.9606,
+      "shoulder": [
+        0.238,
+        4.163
+      ],
+      "torso": [
+        0.173,
+        4.204
+      ],
+      "arm": [
+        0.594,
+        3.448
+      ],
+      "neck": [
+        0.741,
+        1.152
+      ]
+    },
+    "pushup_bottom": {
+      "volume_ratio": 1.0072,
+      "shoulder": [
+        0.761,
+        2.07
+      ],
+      "torso": [
+        0.493,
+        1.527
+      ],
+      "arm": [
+        0.188,
+        1.925
+      ],
+      "neck": [
+        0.994,
+        1.006
+      ]
+    },
+    "pullup_hang": {
+      "volume_ratio": 1.0025,
+      "shoulder": [
+        0.221,
+        4.303
+      ],
+      "torso": [
+        0.877,
+        3.513
+      ],
+      "arm": [
+        0.737,
+        3.51
+      ],
+      "neck": [
+        0.976,
+        1.024
+      ]
+    },
+    "pullup_hang_rhythm": {
+      "volume_ratio": 1.0895,
+      "shoulder": [
+        0.273,
+        4.273
+      ],
+      "torso": [
+        0.65,
+        3.978
+      ],
+      "arm": [
+        0.734,
+        3.304
+      ],
+      "neck": [
+        0.535,
+        1.057
+      ]
+    },
+    "pullup_top": {
+      "volume_ratio": 1.0269,
+      "shoulder": [
+        0.626,
+        2.695
+      ],
+      "torso": [
+        0.861,
+        2.017
+      ],
+      "arm": [
+        0.307,
+        2.422
+      ],
+      "neck": [
+        0.987,
+        1.011
+      ]
+    },
+    "lunge": {
+      "volume_ratio": 0.9833,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        0.121,
+        7.2
+      ],
+      "arm": [
+        1.0,
+        1.0
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "row": {
+      "volume_ratio": 0.9839,
+      "shoulder": [
+        0.306,
+        1.524
+      ],
+      "torso": [
+        0.434,
+        2.223
+      ],
+      "arm": [
+        0.26,
+        1.588
+      ],
+      "neck": [
+        0.609,
+        1.279
+      ]
+    },
+    "grip": {
+      "volume_ratio": 0.9967,
+      "shoulder": [
+        1.0,
+        1.0
+      ],
+      "torso": [
+        1.0,
+        1.0
+      ],
+      "arm": [
+        0.265,
+        1.645
+      ],
+      "neck": [
+        1.0,
+        1.0
+      ]
+    },
+    "curl_handle": {
+      "volume_ratio": 0.997,
+      "shoulder": [
+        0.807,
+        1.287
+      ],
+      "torso": [
+        0.879,
+        1.17
+      ],
+      "arm": [
+        0.193,
+        1.621
+      ],
+      "neck": [
+        0.999,
+        1.001
+      ]
+    },
+    "pullup_bar": {
+      "volume_ratio": 1.0025,
+      "shoulder": [
+        0.221,
+        4.303
+      ],
+      "torso": [
+        0.877,
+        3.513
+      ],
+      "arm": [
+        0.737,
+        3.51
+      ],
+      "neck": [
+        0.976,
+        1.024
+      ]
+    }
+  },
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+}

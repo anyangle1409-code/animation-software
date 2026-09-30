@@ -81,8 +81,9 @@ function parseGlb(file) {
   return json;
 }
 
-function inspectProductionGlb(file, expectedBones) {
+function inspectProductionGlb(file, expectedRigBones) {
   const errors = [];
+  const expectedBones = expectedRigBones.map(bone => bone.name);
   let gltf;
   try {
     gltf = parseGlb(file);
@@ -97,14 +98,45 @@ function inspectProductionGlb(file, expectedBones) {
     if (image.uri) errors.push(`image ${i} has URI ${image.uri}`);
   }
 
-  const nodeNames = new Set((gltf.nodes || []).map(node => node.name).filter(Boolean));
+  const nodes = gltf.nodes || [];
+  const nodeIndicesByName = new Map();
+  for (const [index, node] of nodes.entries()) {
+    if (!node.name) continue;
+    if (!nodeIndicesByName.has(node.name)) nodeIndicesByName.set(node.name, []);
+    nodeIndicesByName.get(node.name).push(index);
+  }
+
   for (const bone of expectedBones) {
-    if (!nodeNames.has(bone)) errors.push(`missing expected bone node ${bone}`);
+    const count = nodeIndicesByName.get(bone)?.length || 0;
+    if (count !== 1) errors.push(`expected bone node ${bone} appears ${count} times`);
+  }
+
+  const parents = new Map();
+  for (const [parentIndex, node] of nodes.entries()) {
+    for (const child of node.children || []) {
+      if (parents.has(child)) errors.push(`node ${child} has multiple parents`);
+      parents.set(child, parentIndex);
+    }
+  }
+
+  const expectedSet = new Set(expectedBones);
+  if (expectedRigBones.every(bone => (nodeIndicesByName.get(bone.name)?.length || 0) === 1)) {
+    for (const bone of expectedRigBones) {
+      const index = nodeIndicesByName.get(bone.name)[0];
+      const parentIndex = parents.get(index);
+      const actualParent = parentIndex === undefined ? null : nodes[parentIndex]?.name ?? null;
+      if (bone.parent === null) {
+        if (actualParent && expectedSet.has(actualParent)) {
+          errors.push(`root bone ${bone.name} unexpectedly has bone parent ${actualParent}`);
+        }
+      } else if (actualParent !== bone.parent) {
+        errors.push(`bone parent mismatch for ${bone.name}: expected ${bone.parent}, got ${actualParent}`);
+      }
+    }
   }
 
   const skins = gltf.skins || [];
   if (skins.length < 1) errors.push("no skin found");
-  const expectedSet = new Set(expectedBones);
   for (const [i, skin] of skins.entries()) {
     const names = (skin.joints || []).map(index => gltf.nodes?.[index]?.name).filter(Boolean);
     if (names.length !== expectedBones.length) {
@@ -242,7 +274,7 @@ export function auditOriginalV1Promotion(root = ROOT) {
       blockers.push(`${variant}: broad allowlist pattern(s) match production target: ${broad.join(", ")}`);
     }
 
-    const glb = inspectProductionGlb(file, expectedBones);
+    const glb = inspectProductionGlb(file, rig.bones || []);
     if (!glb.pass) {
       blockers.push(...glb.errors.map(error => `${variant}: ${error}`));
     }

@@ -221,6 +221,103 @@ def summarise(
     }
 
 
+def percentile(values: list[float], fraction: float) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(values)
+    position = fraction * (len(ordered) - 1)
+    low = int(math.floor(position))
+    high = int(math.ceil(position))
+    if low == high:
+        return ordered[low]
+    t = position - low
+    return ordered[low] * (1 - t) + ordered[high] * t
+
+
+def gradient_stats(values: list[float]) -> dict:
+    if not values:
+        return {"count": 0, "mean_l1": None, "p95_l1": None, "p99_l1": None, "max_l1": None}
+    return {
+        "count": len(values),
+        "mean_l1": sum(values) / len(values),
+        "p95_l1": percentile(values, 0.95),
+        "p99_l1": percentile(values, 0.99),
+        "max_l1": max(values),
+    }
+
+
+def edge_weight_gradients(
+    body: bpy.types.Object,
+    rows: list[dict[str, float]],
+    regions: list[str],
+) -> dict:
+    buckets: dict[str, list[float]] = {
+        "all_relevant": [],
+        "shoulder_incident": [],
+        "region_boundary": [],
+        "left": [],
+        "right": [],
+    }
+    top: list[dict] = []
+
+    for edge in body.data.edges:
+        a, b = (int(edge.vertices[0]), int(edge.vertices[1]))
+        ra, rb = regions[a], regions[b]
+        if ra not in REGIONS and rb not in REGIONS:
+            continue
+        row_a, row_b = rows[a], rows[b]
+        bones = set(row_a) | set(row_b)
+        l1 = sum(abs(row_a.get(name, 0.0) - row_b.get(name, 0.0)) for name in bones)
+
+        xa = float(body.data.vertices[a].co.x)
+        xb = float(body.data.vertices[b].co.x)
+        side = side_of_x((xa + xb) * 0.5)
+        buckets["all_relevant"].append(l1)
+        if ra == "shoulder" or rb == "shoulder":
+            buckets["shoulder_incident"].append(l1)
+        if ra != rb:
+            buckets["region_boundary"].append(l1)
+        if side in ("l", "r"):
+            buckets["left" if side == "l" else "right"].append(l1)
+
+        largest = sorted(
+            (
+                {
+                    "bone": name,
+                    "delta": row_b.get(name, 0.0) - row_a.get(name, 0.0),
+                    "abs_delta": abs(row_b.get(name, 0.0) - row_a.get(name, 0.0)),
+                }
+                for name in bones
+            ),
+            key=lambda item: (-item["abs_delta"], item["bone"]),
+        )[:6]
+        top.append(
+            {
+                "vertices": [a, b],
+                "regions": [ra, rb],
+                "side": side,
+                "l1_weight_delta": l1,
+                "midpoint": {
+                    "x": (float(body.data.vertices[a].co.x) + float(body.data.vertices[b].co.x)) * 0.5,
+                    "y": (float(body.data.vertices[a].co.y) + float(body.data.vertices[b].co.y)) * 0.5,
+                    "z": (float(body.data.vertices[a].co.z) + float(body.data.vertices[b].co.z)) * 0.5,
+                },
+                "largest_bone_deltas": largest,
+            }
+        )
+
+    top.sort(key=lambda item: (-item["l1_weight_delta"], item["vertices"]))
+    return {
+        "metric": (
+            "L1 difference between normalised bone-weight vectors across one mesh edge. "
+            "High values identify abrupt skinning transitions; they are diagnostic, not an "
+            "automatic acceptance threshold."
+        ),
+        "stats": {name: gradient_stats(values) for name, values in buckets.items()},
+        "top_25_edges": top[:25],
+    }
+
+
 def main() -> int:
     args = args_after_double_dash()
     out = Path(args[0]).resolve() if args else DEFAULT_OUT.resolve()
@@ -262,6 +359,7 @@ def main() -> int:
             ),
         },
         "regions": {},
+        "edge_weight_gradients": edge_weight_gradients(body, rows, regions),
     }
 
     for region in REGIONS:

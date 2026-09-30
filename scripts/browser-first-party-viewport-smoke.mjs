@@ -6,6 +6,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 
 const BASE_URL = process.env.HGPT_BROWSER_URL || "http://127.0.0.1:5174";
+const BASE_ORIGIN = new URL(BASE_URL).origin;
 const URL = BASE_URL;
 const OUT = path.resolve("reports/browser-smoke/first-party-host");
 fs.mkdirSync(OUT, { recursive: true });
@@ -21,6 +22,7 @@ const report = {
   consoleErrors: [],
   pageErrors: [],
   failedCriticalRequests: [],
+  externalRequests: [],
 };
 
 const hash = (buffer) => crypto.createHash("sha256").update(buffer).digest("hex");
@@ -57,6 +59,18 @@ try {
     if (message.type() === "error") report.consoleErrors.push(message.text());
   });
   page.on("pageerror", (error) => report.pageErrors.push(error.message));
+  page.on("request", (request) => {
+    const target = new URL(request.url());
+    if (
+      (target.protocol === "http:" || target.protocol === "https:") &&
+      target.origin !== BASE_ORIGIN
+    ) {
+      report.externalRequests.push({
+        url: request.url(),
+        resourceType: request.resourceType(),
+      });
+    }
+  });
   page.on("requestfailed", (request) => {
     if (["document", "script", "stylesheet"].includes(request.resourceType())) {
       report.failedCriticalRequests.push({
@@ -371,6 +385,57 @@ try {
     "Export mount-local defaults did not reset on remount",
   );
   report.checks.liveExportPanel = { ...liveExportPanel, remounted: remountedExport };
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+
+  // Supplementary offline-generation evidence: the live app builds and fully
+  // validates a supported prompt on the clean first-party scaffold, entirely
+  // through local source/runtime paths. This does not replace the final
+  // production-package offline or physical-device acceptance gates.
+  await rightTabs.getByRole("button", { name: "Generate", exact: true }).click();
+  await page.locator('[data-hgpt-panel="generate-first-party"]').waitFor();
+  const generationPanel = page.locator('[data-hgpt-panel="generate-first-party"]');
+  await generationPanel
+    .locator('[data-hgpt-generate-control="prompt"]')
+    .fill("Create a bodyweight squat with a slow tempo.");
+  await generationPanel.locator('[data-hgpt-generate-control="generate"]').click();
+  await page.waitForFunction(
+    async () => {
+      const { generationStore } = await import("/src/editor/generationStoreCore.ts");
+      const state = generationStore.getState();
+      return !state.running && state.candidates[0]?.result.status === "passed";
+    },
+    undefined,
+    { timeout: 120_000 },
+  );
+  const liveGeneratePanel = await page.evaluate(async () => {
+    const { generationStore } = await import("/src/editor/generationStoreCore.ts");
+    const state = generationStore.getState();
+    const candidate = state.candidates[0];
+    const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+    return {
+      panelCount: document.querySelectorAll('[data-hgpt-panel="generate-first-party"]').length,
+      statusText: panel?.querySelector(".review-status strong")?.textContent ?? null,
+      validationCharacter: state.validationCharacter,
+      resultStatus: candidate?.result.status ?? null,
+      failed: candidate?.result.report?.failed ?? null,
+      skipped: candidate?.result.report?.skipped ?? null,
+      reportCharacter: candidate?.result.report?.character ?? null,
+      exerciseId: candidate?.result.exercise?.id ?? null,
+      validations: candidate?.result.validations ?? null,
+      running: state.running,
+    };
+  });
+  assert.equal(liveGeneratePanel.panelCount, 1, "Generate panel ownership is ambiguous");
+  assert.equal(liveGeneratePanel.statusText, "READY FOR REVIEW");
+  assert.equal(liveGeneratePanel.validationCharacter, "Home Gym PT clean scaffold");
+  assert.equal(liveGeneratePanel.resultStatus, "passed");
+  assert.deepEqual(liveGeneratePanel.failed, []);
+  assert.deepEqual(liveGeneratePanel.skipped, []);
+  assert.equal(liveGeneratePanel.reportCharacter, "Home Gym PT clean scaffold");
+  assert.match(liveGeneratePanel.exerciseId ?? "", /^generated_/);
+  assert.equal(liveGeneratePanel.validations, 1);
+  assert.equal(liveGeneratePanel.running, false);
+  report.checks.liveOfflinePromptGeneration = liveGeneratePanel;
   await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
 
   const reviewStateBeforeLive = await page.evaluate(async () => {
@@ -1948,6 +2013,11 @@ try {
     report.failedCriticalRequests.length,
     0,
     `Critical request failures: ${JSON.stringify(report.failedCriticalRequests)}`,
+  );
+  assert.equal(
+    report.externalRequests.length,
+    0,
+    `External browser requests: ${JSON.stringify(report.externalRequests)}`,
   );
   assert.equal(report.consoleErrors.length, 0, `Console errors: ${report.consoleErrors.join(" | ")}`);
 

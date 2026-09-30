@@ -107,19 +107,23 @@ physical visual/input parity gate.
 Runtime dependency removal is complete. The overall product/release is **not**
 complete because separate asset and acceptance gates remain:
 
-### Canonical v4 runtime status — active
+### Canonical v4 runtime status — guarded shadow
 
-The runtime rig cutover has now moved beyond shadow validation:
+Canonical v4 is **not** the live runtime default yet.
 
-- `hgpt_canonical_v4_original` is the live `canonicalSkeleton`;
-- the historical v3 humanoid rig is no longer reachable from `src/main.ts`;
-- the full v4 shadow compatibility suite cleared every v3→v4 automated
-  review-gate regression before activation;
+- the accepted v3 humanoid remains the live `canonicalSkeleton`;
+- `hgpt_canonical_v4_original` remains explicitly testable through the shadow
+  compatibility suite and keeps all proportion-adaptation work completed so far;
+- a 2026-09-30 v4 activation attempt was rolled back after the full verification
+  suite exposed v3 parity regressions and remaining v4 technique regressions;
+- activation is permitted only when the v3 parity suite, full repository suite,
+  browser smoke, and v4 shadow behavioural compatibility all pass on the same
+  exact commit;
 - the procedural first-party character remains the live/default character;
 - ORIGINAL v1 production GLBs remain dormant and unapproved.
 
-This is a **rig activation only**. It does not promote the O4/O7 character
-candidate, change the ORIGINAL-v1 promotion contract, or authorize release.
+The rollback preserves the v4 code/data and compatibility work; it only prevents
+an unverified rig cutover from becoming the operational default.
 
 1. **ORIGINAL v1 production character**
    - The isolated model branch `claude/original-v1-blender-o2-20260929` has
@@ -134,9 +138,10 @@ candidate, change the ORIGINAL-v1 promotion contract, or authorize release.
      production-approved.
    - Candidate bare/dressed GLBs pass structural/self-contained audits, but
      they are **not production-approved**.
-   - The standalone runtime now already uses the same 63-bone
-     `hgpt_canonical_v4_original` rig architecture; this removes v3 runtime
-     coupling but does not bypass any model/deformation gate.
+   - The standalone runtime contains and tests the same 63-bone
+     `hgpt_canonical_v4_original` architecture in guarded shadow mode.
+     The live default remains v3 until full cutover verification is green;
+     this does not bypass any model/deformation gate.
    - Deformation remains blocked: **54 development checks / 133 production
      checks** at the pinned R2 baseline; current repair priority is
      **1 — shoulder/upper torso**.

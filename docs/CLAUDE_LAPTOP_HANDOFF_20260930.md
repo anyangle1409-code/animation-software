@@ -21,6 +21,17 @@ Model/deformation validation checkpoint:
 Later documentation-only handoff commits may sit above the green model
 checkpoint; do not confuse that with a model/asset state change.
 
+Standalone moving-branch caution as of this handoff:
+- observed main standalone HEAD: `e3a7d915079f018acbfd8198655f623ea7831fbf`;
+- its Standalone prep run `36739619686` is **FAIL**, despite the commit message
+  referring to v4 reactivation;
+- the failing invariant is the accepted v3 first-party skeleton parity
+  (`root` / `root-tail` differ by about **20 mm**);
+- therefore do not use that red moving-branch HEAD as evidence that v4 runtime
+  activation is complete. Prefer the green frozen recovery checkpoint above
+  unless a newer exact main-branch commit has subsequently passed the full
+  suite and browser smoke.
+
 ## Purpose
 
 Use the laptop/Blender session to continue the isolated ORIGINAL v1 character

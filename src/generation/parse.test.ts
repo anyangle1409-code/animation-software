@@ -147,6 +147,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('single-leg calf raise')).toEqual(['variant']);
     expect(blocking('seated calf raise')).toEqual(['support']);
     expect(blocking('dumbbell calf raise')).toEqual(['equipment']);
+    expect(blocking('single-leg RDL')).toEqual(['variant']);
+    expect(blocking('barbell Romanian deadlift')).toEqual(['equipment']);
+    expect(blocking('neutral grip Romanian deadlift')).toEqual(['grip']);
+    expect(blocking('conventional deadlift')).toEqual(['family']);
+    expect(blocking('good morning')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -158,12 +163,26 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['Romanian deadlift', 'bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['bent-over row', 'lateral raise', 'dumbbell bench press', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
     }
     expect(parsePrompt('make me something nice').issues[0].message).toMatch(/No certified movement/);
+  });
+
+  it('parses only the certified Romanian-deadlift hinge variant', () => {
+    const parsed = parsePrompt('Create a dumbbell Romanian deadlift with 20 kg dumbbells and controlled tempo.');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'hinge',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'pronated',
+      support: 'standing',
+      load: 20,
+      tempo: { profile: 'controlled' },
+    });
   });
 
   it('is deterministic', () => {

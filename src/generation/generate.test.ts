@@ -16,6 +16,8 @@ import { horizontalPressFamily } from '../exercises/families/horizontalPress';
 import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
 import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
+import { hingeFamily } from '../exercises/families/hinge';
+import type { HingeVariant } from '../exercises/families/hinge';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -47,6 +49,7 @@ const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 const CALF_RAISE = 'Create a standing calf raise with a slow tempo.';
+const RDL = 'Create a dumbbell Romanian deadlift with 16 kg dumbbells and controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -110,6 +113,29 @@ describe('generating without a character', () => {
     const exercise = family.build(family.variant(parsed.intent!) as CalfVariant);
     expect(motionOf(exercise)).toEqual(motionOf(calfRaise));
   });
+
+  it('builds the Romanian deadlift from the hinge family', () => {
+    const parsed = parsePrompt(RDL);
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const variant = family.variant(parsed.intent!) as HingeVariant;
+    const exercise = family.build(variant);
+    expect(family.id).toBe('hinge');
+    expect(exercise).toEqual(hingeFamily(variant));
+    expect(family.reference(parsed.intent!)).toBe('dumbbell_romanian_deadlift');
+    expect(exercise.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([16, 16]);
+    expect(exercise.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(EXERCISES.some((entry) => entry.id === exercise.id)).toBe(false);
+  });
+
+  it('reproduces the accepted Romanian deadlift motion from the family defaults', () => {
+    const parsed = parsePrompt('a Romanian deadlift');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const exercise = family.build(family.variant(parsed.intent!) as HingeVariant);
+    expect(motionOf(exercise)).toEqual(motionOf(romanianDeadlift));
+  });
+
 
   it(
     'builds the squat and lunge variants from their families, not from per-exercise code',
@@ -203,6 +229,7 @@ describe('generating on the clean first-party fallback', () => {
         [PUSH_UP, 'horizontal_press', 'push_up'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
         [CALF_RAISE, 'calf', 'standing_calf_raise'],
+        [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });
         const detail = JSON.stringify({
@@ -227,9 +254,9 @@ describe('generating on the clean first-party fallback', () => {
   );
 
   it(
-    'measures accepted hinge and row references on the clean fallback before generator certification',
+    'measures the accepted row reference on the clean fallback before generator certification',
     () => {
-      for (const exercise of [romanianDeadlift, bentOverRow]) {
+      for (const exercise of [bentOverRow]) {
         const report = validateCandidate(
           { rig, character, reference: exercise },
           exercise,

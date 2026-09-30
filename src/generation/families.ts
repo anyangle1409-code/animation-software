@@ -11,6 +11,8 @@ import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
 import { calfFamily } from '../exercises/families/calf';
 import type { CalfVariant } from '../exercises/families/calf';
+import { hingeFamily } from '../exercises/families/hinge';
+import type { HingeVariant } from '../exercises/families/hinge';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -808,6 +810,98 @@ const lunge: GeneratorFamily<LungeVariant> = {
 };
 
 // ---------------------------------------------------------------------------
+// Romanian deadlift / hinge
+// ---------------------------------------------------------------------------
+
+/**
+ * Only the accepted bilateral dumbbell Romanian deadlift is generator-certified.
+ * The hinge builder remains the single source of its stance, depth, joint
+ * targets, contacts and technique rules. Prompts may select load and tempo only.
+ */
+const hinge: GeneratorFamily<HingeVariant> = {
+  id: 'hinge',
+  label: 'Romanian deadlift',
+  builder: 'hingeFamily',
+  detect: /\bromanian\s+deadlifts?\b|\brdls?\b/,
+  library: ['dumbbell_romanian_deadlift'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:single[-\s]?leg|one[-\s]?leg|unilateral)\b/, 'a single-leg Romanian deadlift changes support and balance; only the even two-leg version is certified.'],
+        [/\b(?:stiff[-\s]?leg(?:ged)?|straight[-\s]?leg)\b/, 'a stiff-leg deadlift changes the knee position and hinge depth; only the accepted Romanian deadlift is certified.'],
+        [/\bdeficit\b/, 'a deficit Romanian deadlift extends the range below the certified floor/stance geometry.'],
+        [/\bsumo\b/, 'a sumo stance changes the certified stance width and hip mechanics.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+    if (grip !== 'pronated') {
+      issues.push(
+        blocking(
+          'grip',
+          'The certified Romanian deadlift uses a pronated dumbbell grip; neutral or supinated variants are not certified.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'Romanian deadlift', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the accepted Romanian deadlift does not take a requested body or bench angle.`,
+        ),
+      );
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      'Romanian deadlift',
+      'dumbbell',
+      16,
+      assumptions,
+      issues,
+    );
+    return {
+      intent: {
+        prompt,
+        family: 'hinge',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip: 'pronated',
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Dumbbell Romanian Deadlift', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A bilateral dumbbell Romanian deadlift with a flat back, soft knees and the hips travelling back, ` +
+        `using ${formatLoad(intent.load)} in each hand${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: hingeFamily,
+  reference: () => 'dumbbell_romanian_deadlift',
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
 
@@ -912,6 +1006,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,
+  hinge as unknown as GeneratorFamily,
 ];
 
 export const generatorFamily = (id: GeneratorFamilyId): GeneratorFamily =>

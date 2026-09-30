@@ -47,6 +47,21 @@ jobs:
           wait "$SERVER_PID" 2>/dev/null || true
           exit "$SMOKE_STATUS"
 
+      - name: Build production output
+        run: npm run build
+
+      - name: Run production-output offline browser smoke
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4174 > reports/browser-smoke/preview.log 2>&1 &
+          PREVIEW_PID=$!
+          set +e
+          HGPT_BROWSER_URL=http://127.0.0.1:4174 npm run test:browser-smoke:production
+          SMOKE_STATUS=$?
+          kill "$PREVIEW_PID" 2>/dev/null || true
+          wait "$PREVIEW_PID" 2>/dev/null || true
+          exit "$SMOKE_STATUS"
+
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

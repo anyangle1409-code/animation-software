@@ -4,6 +4,7 @@ import { PoseEvaluation, canonicalSkeleton, type Skeleton } from '../rig/skeleto
 import type { Pose, Vec3 } from '../rig/types';
 import { clampPose, clonePose, poseFromDegrees } from '../rig/pose';
 import { toRad } from '../core/math';
+import { HgQuat, HgVec3 } from '../core/linearMath';
 import { nextId } from '../core/id';
 import type {
   ExerciseDefinition,
@@ -174,6 +175,7 @@ function buildPose(
   }
 
   const pose = poseFromDegrees(joints, spec.root);
+  fitRootEndpointToActivePivot(skeleton, exercise, pose);
   applyGrip(pose, exercise.hands);
   applyStance(pose, exercise.feet, spec, skeleton);
   const fittedGrip = fitThumbGripToSkeleton(
@@ -200,6 +202,52 @@ function buildPose(
     fittedBallPivot,
     end,
   );
+}
+
+/**
+ * Exercise roots that rotate about the reference pelvis are authored so that
+ * that pelvis landmark follows a particular world-space path. A compatible
+ * skeleton with a different pelvis height needs a translated root endpoint to
+ * keep that same path.
+ *
+ * This is exact geometry, not proportional scaling: move the root by the
+ * rotated difference between the active and reference pivot landmarks. The
+ * reference rig therefore remains bit-for-bit unchanged.
+ */
+function fitRootEndpointToActivePivot(
+  skeleton: Skeleton,
+  exercise: ExerciseDefinition,
+  pose: Pose,
+): void {
+  if (!exercise.rootPivot) return;
+
+  const referencePelvis = canonicalSkeleton.bone('pelvis').restHead;
+  const pivot = exercise.rootPivot;
+  const usesReferencePelvis =
+    Math.abs(pivot.x - referencePelvis.x) < 1e-9 &&
+    Math.abs(pivot.y - referencePelvis.y) < 1e-9 &&
+    Math.abs(pivot.z - referencePelvis.z) < 1e-9;
+  if (!usesReferencePelvis) return;
+
+  const activePelvis = skeleton.bone('pelvis').restHead;
+  const delta = new HgVec3(
+    activePelvis.x - referencePelvis.x,
+    activePelvis.y - referencePelvis.y,
+    activePelvis.z - referencePelvis.z,
+  );
+  if (delta.lengthSq() < 1e-18) return;
+
+  const rotation = new HgQuat().setFromEulerXZY(
+    pose.rootRotation.x,
+    pose.rootRotation.y,
+    pose.rootRotation.z,
+  );
+  delta.applyQuaternion(rotation);
+  pose.rootPosition = {
+    x: pose.rootPosition.x - delta.x,
+    y: pose.rootPosition.y - delta.y,
+    z: pose.rootPosition.z - delta.z,
+  };
 }
 
 /**

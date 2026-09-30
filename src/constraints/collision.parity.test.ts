@@ -1,22 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { equipmentParts } from '../equipment/geometry';
 import type { Part } from '../equipment/geometry';
 import type { EquipmentKind } from '../equipment/types';
 import { equipmentDistance, equipmentPartDistances, measureClearance, PointGrid } from './collision';
 
-function referencePartMatrix(part: Part): Matrix4 {
+function referencePartMatrix(part: Part): HgMat4 {
   const [px, py, pz] = part.position ?? [0, 0, 0];
-  const matrix = new Matrix4();
-  if ('rotation' in part && part.rotation) {
-    const [rx, ry, rz] = part.rotation;
-    matrix.makeRotationFromEuler(new Euler(rx, ry, rz, 'XYZ'));
-  }
-  matrix.setPosition(px, py, pz);
-  return matrix.invert();
+  const rotation = 'rotation' in part && part.rotation
+    ? new HgQuat().setFromEulerXYZ(...part.rotation)
+    : new HgQuat();
+  return new HgMat4()
+    .compose(new HgVec3(px, py, pz), rotation, new HgVec3(1, 1, 1))
+    .invert();
 }
 
-function referenceDistanceToPart(part: Part, point: Vector3): number {
+function referenceDistanceToPart(part: Part, point: HgVec3): number {
   switch (part.shape) {
     case 'cylinder': {
       const radius = Math.max(part.radius, part.radiusTop ?? part.radius);
@@ -43,17 +42,17 @@ function referenceDistanceToPart(part: Part, point: Vector3): number {
   }
 }
 
-function referencePartDistances(kind: EquipmentKind, point: Vector3, backAngle?: number): number[] {
+function referencePartDistances(kind: EquipmentKind, point: HgVec3, backAngle?: number): number[] {
   return equipmentParts(kind, backAngle).map((part) =>
     referenceDistanceToPart(part, point.clone().applyMatrix4(referencePartMatrix(part))),
   );
 }
 
 const POINTS = [
-  new Vector3(0, 0, 0),
-  new Vector3(0.04, 0.08, -0.11),
-  new Vector3(-0.23, 0.41, 0.37),
-  new Vector3(0.71, 1.13, -0.52),
+  new HgVec3(0, 0, 0),
+  new HgVec3(0.04, 0.08, -0.11),
+  new HgVec3(-0.23, 0.41, 0.37),
+  new HgVec3(0.71, 1.13, -0.52),
 ];
 
 const CASES: Array<{ kind: EquipmentKind; backAngle?: number }> = [
@@ -64,8 +63,8 @@ const CASES: Array<{ kind: EquipmentKind; backAngle?: number }> = [
   { kind: 'incline_bench', backAngle: 67 },
 ];
 
-describe('first-party collision math parity', () => {
-  it('matches the previous Three part transforms and signed distances', () => {
+describe('first-party collision math', () => {
+  it('matches an independent part-transform and signed-distance reference', () => {
     for (const { kind, backAngle } of CASES) {
       for (const point of POINTS) {
         const expected = referencePartDistances(kind, point, backAngle);
@@ -79,37 +78,38 @@ describe('first-party collision math parity', () => {
     }
   });
 
-  it('keeps PointGrid compatible with caller-owned Three vectors', () => {
+  it('keeps PointGrid compatible with caller-owned first-party vectors', () => {
     const points = [
-      new Vector3(0.01, 0.02, 0.03),
-      new Vector3(0.22, 0.01, -0.04),
-      new Vector3(-0.18, 0.07, 0.09),
+      new HgVec3(0.01, 0.02, 0.03),
+      new HgVec3(0.22, 0.01, -0.04),
+      new HgVec3(-0.18, 0.07, 0.09),
     ];
     const grid = new PointGrid(0.1);
     points.forEach((point, index) => grid.add(index, point));
-    const scratch = new Vector3();
+    const scratch = new HgVec3();
+    const query = new HgVec3(0.19, 0.01, -0.03);
     const hit = grid.nearest(
-      new Vector3(0.19, 0.01, -0.03),
+      query,
       3,
       (index, out) => out.copy(points[index]),
       scratch,
     );
     expect(hit?.index).toBe(1);
-    expect(hit?.distance).toBeCloseTo(new Vector3(0.19, 0.01, -0.03).distanceTo(points[1]), 12);
+    expect(hit?.distance).toBeCloseTo(query.distanceTo(points[1]), 12);
   });
 
-  it('keeps clearance measurement compatible with a Three placement and scratch vector', () => {
-    const toItem = new Matrix4()
+  it('measures clearance with first-party placement and scratch vectors', () => {
+    const toItem = new HgMat4()
       .compose(
-        new Vector3(0.2, -0.1, 0.3),
-        new Quaternion().setFromEuler(new Euler(0.2, -0.3, 0.15, 'XYZ')),
-        new Vector3(1, 1, 1),
+        new HgVec3(0.2, -0.1, 0.3),
+        new HgQuat().setFromEulerXYZ(0.2, -0.3, 0.15),
+        new HgVec3(1, 1, 1),
       )
       .invert();
     const points = [
-      new Vector3(0.2, -0.1, 0.3),
-      new Vector3(0.27, -0.02, 0.18),
-      new Vector3(-0.1, 0.4, 0.6),
+      new HgVec3(0.2, -0.1, 0.3),
+      new HgVec3(0.27, -0.02, 0.18),
+      new HgVec3(-0.1, 0.4, 0.6),
     ];
     const expected = points.map((point) => {
       const local = point.clone().applyMatrix4(toItem);
@@ -123,7 +123,7 @@ describe('first-party collision math parity', () => {
       (index) => String(index),
       undefined,
       undefined,
-      new Vector3(),
+      new HgVec3(),
     );
     expect(result.closest).toBeCloseTo(Math.min(...expected), 12);
     expect(result.inside).toBe(expected.filter((distance) => distance < 0).length);

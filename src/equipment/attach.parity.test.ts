@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { PoseEvaluation, canonicalSkeleton } from '../rig/skeleton';
 import { restPose } from '../rig/pose';
 import type { EquipmentInstance } from './types';
@@ -7,7 +7,7 @@ import { cableMatrix, handAttachmentLocalMatrix, resolveEquipment, socketWorldPo
 
 const expectMatrixParity = (
   actual: { elements: ArrayLike<number> },
-  expected: Matrix4,
+  expected: { elements: ArrayLike<number> },
   precision = 11,
 ) => {
   for (let index = 0; index < 16; index += 1) {
@@ -15,8 +15,15 @@ const expectMatrixParity = (
   }
 };
 
-describe('first-party equipment attachment parity', () => {
-  it('matches Three static XZY placement', () => {
+const degreesXzy = (value: { x: number; y: number; z: number }) =>
+  new HgQuat().setFromEulerXZY(
+    (value.x * Math.PI) / 180,
+    (value.y * Math.PI) / 180,
+    (value.z * Math.PI) / 180,
+  );
+
+describe('first-party equipment attachment', () => {
+  it('matches the explicit static XZY placement composition', () => {
     const instance: EquipmentInstance = {
       id: 'static',
       kind: 'flat_bench',
@@ -27,59 +34,43 @@ describe('first-party equipment attachment parity', () => {
     };
     const evaluation = new PoseEvaluation(canonicalSkeleton).apply(restPose());
     const actual = resolveEquipment(evaluation, [instance]).get(instance.id)!;
-    const expected = new Matrix4().compose(
-      new Vector3(0.35, 0.12, -0.42),
-      new Quaternion().setFromEuler(
-        new Euler(
-          (17 * Math.PI) / 180,
-          (-31 * Math.PI) / 180,
-          (9 * Math.PI) / 180,
-          'XZY',
-        ),
-      ),
-      new Vector3(1, 1, 1),
+    const expected = new HgMat4().compose(
+      new HgVec3(0.35, 0.12, -0.42),
+      degreesXzy(instance.rotation),
+      new HgVec3(1, 1, 1),
     );
     expectMatrixParity(actual.matrix, expected);
   });
 
-  it('matches Three hand-local grip and socket transforms', () => {
+  it('matches the explicit hand-local grip and socket composition', () => {
     const grip = { x: -0.021, y: 0.083, z: 0.006 };
     const socket = { x: 0.012, y: -0.004, z: 0.031 };
     const gripRotation = { x: 13, y: -8, z: 17 };
     const socketRotation = { x: -11, y: 6, z: 9 };
     const actual = handAttachmentLocalMatrix(grip, socket, { gripRotation, socketRotation });
 
-    const rotation = (value: { x: number; y: number; z: number }) =>
-      new Quaternion().setFromEuler(
-        new Euler(
-          (value.x * Math.PI) / 180,
-          (value.y * Math.PI) / 180,
-          (value.z * Math.PI) / 180,
-          'XZY',
-        ),
-      );
-    const expected = new Matrix4()
-      .compose(new Vector3(grip.x, grip.y, grip.z), rotation(gripRotation), new Vector3(1, 1, 1))
+    const expected = new HgMat4()
+      .compose(new HgVec3(grip.x, grip.y, grip.z), degreesXzy(gripRotation), new HgVec3(1, 1, 1))
       .multiply(
-        new Matrix4()
-          .compose(new Vector3(socket.x, socket.y, socket.z), rotation(socketRotation), new Vector3(1, 1, 1))
+        new HgMat4()
+          .compose(new HgVec3(socket.x, socket.y, socket.z), degreesXzy(socketRotation), new HgVec3(1, 1, 1))
           .invert(),
       );
     expectMatrixParity(actual, expected);
   });
 
-  it('matches Three cable orientation, scale and matrix', () => {
-    const from = new Vector3(-0.2, 1.7, 0.4);
-    const to = new Vector3(0.55, 0.82, -0.31);
+  it('matches an explicit cable orientation, scale and matrix composition', () => {
+    const from = new HgVec3(-0.2, 1.7, 0.4);
+    const to = new HgVec3(0.55, 0.82, -0.31);
     const actual = cableMatrix(from, to);
     const along = to.clone().sub(from);
     const length = along.length();
-    const quaternion = new Quaternion().setFromUnitVectors(
-      new Vector3(0, 1, 0),
-      along.clone().divideScalar(length),
+    const quaternion = new HgQuat().setFromUnitVectors(
+      new HgVec3(0, 1, 0),
+      along.clone().normalize(),
     );
-    const scale = new Vector3(1, length, 1);
-    const expected = new Matrix4().compose(from, quaternion, scale);
+    const scale = new HgVec3(1, length, 1);
+    const expected = new HgMat4().compose(from, quaternion, scale);
     expect(actual.position.x).toBeCloseTo(from.x, 12);
     expect(actual.position.y).toBeCloseTo(from.y, 12);
     expect(actual.position.z).toBeCloseTo(from.z, 12);
@@ -87,7 +78,7 @@ describe('first-party equipment attachment parity', () => {
     expectMatrixParity(actual.matrix, expected);
   });
 
-  it('accepts a Three placement at the socket compatibility boundary', () => {
+  it('accepts a first-party placement at the socket boundary', () => {
     const instance: EquipmentInstance = {
       id: 'socket',
       kind: 'dumbbell',
@@ -96,15 +87,15 @@ describe('first-party equipment attachment parity', () => {
       attachment: { mode: 'static' },
       visible: true,
     };
-    const placement = new Matrix4().compose(
-      new Vector3(0.4, 1.2, -0.3),
-      new Quaternion().setFromEuler(new Euler(0.2, -0.15, 0.1, 'XZY')),
-      new Vector3(1, 1, 1),
+    const placement = new HgMat4().compose(
+      new HgVec3(0.4, 1.2, -0.3),
+      new HgQuat().setFromEulerXZY(0.2, -0.15, 0.1),
+      new HgVec3(1, 1, 1),
     );
     const actual = socketWorldPoint(instance, 'grip', placement);
     expect(actual).not.toBeNull();
     if (!actual) return;
-    const socket = new Vector3(0, 0, 0).applyMatrix4(placement);
+    const socket = new HgVec3(0, 0, 0).applyMatrix4(placement);
     expect(actual.x).toBeCloseTo(socket.x, 12);
     expect(actual.y).toBeCloseTo(socket.y, 12);
     expect(actual.z).toBeCloseTo(socket.z, 12);

@@ -171,6 +171,9 @@ PRESETS["o20"] = dict(PRESETS["o19"], lo=0.17, max_margin=0.02, rounds=2)
 # o21 (r29): o20 settings on the r29a PIP-ring-relaxed geometry (o20 itself was stopped unfinished
 # because its finger weights targeted the pre-relax geometry).
 PRESETS["o21"] = dict(PRESETS["o20"])
+# o22 (r30): on the r29 base (PIP-relaxed geometry + o21), restore the 0.24 collapse margin to lift
+# finger minima back toward r28 while keeping the r29 bounds (curl_peak clear) and 0.02 max margin.
+PRESETS["o22"] = dict(PRESETS["o19"], max_margin=0.02, rounds=2)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

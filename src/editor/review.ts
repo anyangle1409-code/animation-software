@@ -65,6 +65,9 @@ export function reviewExercise(
   let twoHandChecks = 0;
   let worstTwoHandError = 0;
   let worstTwoHandSpacingError = 0;
+  let minTwoHandTargetSeparation = Number.POSITIVE_INFINITY;
+  let maxTwoHandTargetSeparation = 0;
+  let lastTwoHandSocketSeparation = 0;
 
   const supportedGripInstances = clip.equipment.filter(
     (instance) => instance.kind === 'dumbbell' && instance.attachment.mode === 'hand',
@@ -130,6 +133,9 @@ export function reviewExercise(
         twoHandChecks += 1;
         worstTwoHandError = Math.max(worstTwoHandError, fit.leftError, fit.rightError);
         worstTwoHandSpacingError = Math.max(worstTwoHandSpacingError, Math.abs(fit.separationError));
+        minTwoHandTargetSeparation = Math.min(minTwoHandTargetSeparation, fit.targetSeparation);
+        maxTwoHandTargetSeparation = Math.max(maxTwoHandTargetSeparation, fit.targetSeparation);
+        lastTwoHandSocketSeparation = fit.socketSeparation;
         if (!fit.withinEnvelope) twoHandFailures += 1;
       }
     }
@@ -189,7 +195,7 @@ export function reviewExercise(
         ? 'Not applicable: no rigid two-hand equipment attachment.'
         : twoHandFailures === 0
           ? `${twoHandChecks} bilateral samples pass; worst socket error ${(worstTwoHandError * 1000).toFixed(1)} mm.`
-          : `${twoHandFailures} sampled bilateral fits exceed the 5 mm envelope; worst socket error ${(worstTwoHandError * 1000).toFixed(1)} mm, spacing mismatch ${(worstTwoHandSpacingError * 1000).toFixed(1)} mm.`,
+          : `${twoHandFailures} sampled bilateral fits exceed the 5 mm envelope; worst socket error ${(worstTwoHandError * 1000).toFixed(1)} mm, spacing mismatch ${(worstTwoHandSpacingError * 1000).toFixed(1)} mm; target spacing ${(minTwoHandTargetSeparation * 1000).toFixed(1)}–${(maxTwoHandTargetSeparation * 1000).toFixed(1)} mm, sockets ${(lastTwoHandSocketSeparation * 1000).toFixed(1)} mm.`,
       applicable: twoHandInstances.length > 0,
     },
   ];

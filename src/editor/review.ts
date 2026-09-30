@@ -161,7 +161,7 @@ export function reviewExercise(
         ? 'Not applicable: no supported single-hand dumbbell grip.'
         : gripFailures === 0
           ? `${gripChecks} grip samples pass; max reach ${Math.round(worstReachUse * 100)}%, widest gap ${widestGripGap.toFixed(1)}°.`
-          : `${gripFailures} of ${gripChecks} grip samples need review.`,
+          : `${gripFailures} of ${gripChecks} grip samples need review; max reach ${Math.round(worstReachUse * 100)}%, widest gap ${widestGripGap.toFixed(1)}°.`,
       applicable: supportedGripInstances.length > 0,
     },
     {

@@ -3,6 +3,8 @@ import { curlFamily } from '../exercises/families/curl';
 import type { CurlVariant } from '../exercises/families/curl';
 import { pressFamily } from '../exercises/families/press';
 import type { PressVariant } from '../exercises/families/press';
+import { horizontalPressFamily } from '../exercises/families/horizontalPress';
+import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
 import { squatFamily } from '../exercises/families/squat';
 import type { SquatVariant } from '../exercises/families/squat';
 import { lungeFamily } from '../exercises/families/lunge';
@@ -84,9 +86,8 @@ const quote = (words: string[]) => words.map((word) => `"${word}"`).join(' and '
  * tempo. Grip and support differ by family and are left to it.
  *
  * `implement` says what the family holds. A dumbbell family reads a load and
- * refuses any other equipment; a bodyweight family holds nothing yet, so any
- * load or equipment named is refused instead of silently dropped — the family
- * cannot really carry it.
+ * refuses any other equipment; a bodyweight family holds no external load, so
+ * any named load/equipment is refused instead of silently dropped.
  */
 function interpretCommon(
   slots: PromptSlots,
@@ -551,6 +552,104 @@ const overheadPress: GeneratorFamily<PressVariant> = {
 };
 
 // ---------------------------------------------------------------------------
+// Horizontal press / push-up
+// ---------------------------------------------------------------------------
+
+/**
+ * The generator certifies only the existing accepted standard push-up. The
+ * family builder can move the hands, but those wider/narrower variants are not
+ * certified here until they pass the same generation/validation gates.
+ */
+const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
+  id: 'horizontal_press',
+  label: 'Push-up',
+  builder: 'horizontalPressFamily',
+  detect: /\bpush[-\s]?ups?\b|\bpress[-\s]?ups?\b/,
+  library: ['push_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bdecline\b/, 'a decline push-up elevates the feet; only the standard floor push-up is certified.'],
+        [/\b(?:knee|kneeling)\b/, 'a knee push-up changes the lower-body support; only the standard toe-supported push-up is certified.'],
+        [/\bdiamond\b|\bclose[-\s]?grip\b|\bnarrow\b/, 'a narrow or diamond push-up changes hand spacing; that variant is not certified.'],
+        [/\bwide(?:[-\s]?grip)?\b/, 'a wide push-up changes hand spacing; that variant is not certified.'],
+        [/\barcher\b/, 'an archer push-up shifts load asymmetrically; only the even two-arm push-up is certified.'],
+        [/\b(?:clap(?:ping)?|plyometric|explosive)\b/, 'a plyometric push-up leaves the floor; the certified family keeps all four contacts planted.'],
+      ],
+      issues,
+    );
+
+    const grips = distinct(slots.grips);
+    if (grips.length > 1 || (grips.length === 1 && grips[0] !== 'pronated')) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the standard push-up is certified with flat, forward-facing palms only.`,
+        ),
+      );
+    } else if (grips.length === 0) {
+      assumptions.push('Flat palms on the floor, the standard push-up hand position.');
+    }
+
+    const support = interpretSupport(slots, ['floor'], 'push-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the standard floor push-up has no adjustable support angle.`,
+        ),
+      );
+    }
+
+    const { tempo } = interpretCommon(
+      slots,
+      'push-up',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+    return {
+      intent: {
+        prompt,
+        family: 'horizontal_press',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support,
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Push-Up', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A standard bodyweight push-up from toes and flat palms, ` +
+        `the body moving as one rigid unit${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: horizontalPressFamily,
+
+  reference: () => 'push_up',
+
+  // No correction lever: the only certified generated variant is the accepted
+  // standard push-up itself.
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
 // Squat
 // ---------------------------------------------------------------------------
 
@@ -710,6 +809,7 @@ const lunge: GeneratorFamily<LungeVariant> = {
 export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
   overheadPress as unknown as GeneratorFamily,
+  horizontalPress as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
 ];

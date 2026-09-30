@@ -12,13 +12,13 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'squat' | 'lunge';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'horizontal_press' | 'squat' | 'lunge';
 
-/** What the body moves against. Bodyweight families hold no equipment yet. */
+/** What the body moves against. Bodyweight families hold no external load yet. */
 export type IntentImplement = 'dumbbell' | 'bodyweight';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
-export type IntentSupport = 'standing' | 'seated' | 'incline';
+export type IntentSupport = 'standing' | 'seated' | 'incline' | 'floor';
 
 /**
  * Which foot steps, for the lunge family's three variants. Undefined is the
@@ -43,7 +43,7 @@ export interface ExerciseIntent {
   /** The sentence it came from. */
   prompt: string;
   family: GeneratorFamilyId;
-  /** Hand-held dumbbells, or a bodyweight lower-body family that holds no equipment yet. */
+  /** Hand-held dumbbells, or a bodyweight family that holds no external load yet. */
   equipment: IntentImplement;
   /** Both sides together. Alternating and single-limb work are not certified yet. */
   execution: 'bilateral';

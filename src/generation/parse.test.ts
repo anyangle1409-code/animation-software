@@ -37,6 +37,19 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent).toMatchObject({ family: 'overhead_press', grip: 'pronated', support: 'seated', load: 10 });
   });
 
+  it('reads the standard push-up as the certified horizontal-press family', () => {
+    const parsed = parsePrompt('Create a standard push-up with controlled tempo.');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'horizontal_press',
+      equipment: 'bodyweight',
+      support: 'floor',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+    expect(parsed.intent?.grip).toBeUndefined();
+  });
+
   it('reads the bodyweight squat', () => {
     const parsed = parsePrompt('Create a bodyweight squat with a slow tempo.');
     expect(parsed.issues).toEqual([]);
@@ -115,6 +128,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('walking lunge')).toEqual(['variant']);
     expect(blocking('a squat with 20 kg dumbbells')).toEqual(['equipment', 'load']);
     expect(blocking('a split squat and a forward lunge')).toEqual(['variant']);
+    expect(blocking('diamond push-up')).toEqual(['variant']);
+    expect(blocking('knee push-up')).toEqual(['variant']);
+    expect(blocking('incline push-up')).toEqual(['support']);
+    expect(blocking('push-up with 10 kg dumbbells')).toEqual(['equipment', 'load']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

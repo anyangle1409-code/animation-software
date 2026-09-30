@@ -12,11 +12,14 @@ import { squatFamily } from '../exercises/families/squat';
 import type { SquatVariant } from '../exercises/families/squat';
 import { lungeFamily } from '../exercises/families/lunge';
 import type { LungeVariant } from '../exercises/families/lunge';
+import { horizontalPressFamily } from '../exercises/families/horizontalPress';
+import type { HorizontalPressVariant } from '../exercises/families/horizontalPress';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
 import { forwardLunge } from '../exercises/definitions/forwardLunge';
 import { reverseLunge } from '../exercises/definitions/reverseLunge';
+import { pushUp } from '../exercises/definitions/pushUp';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import type { GenerationOptions } from './generate';
@@ -35,6 +38,7 @@ const PRESS = 'Create a seated dumbbell shoulder press with 10 kg dumbbells and 
 const STANDING_PRESS = 'Create a standing dumbbell shoulder press with 10 kg dumbbells and controlled tempo.';
 const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
+const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -58,6 +62,32 @@ describe('generating without a character', () => {
   it('reproduces a library exercise from the same intent, which is what makes the family the source', () => {
     const result = generateExercise('a standing dumbbell curl with 10 kg dumbbells', options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(bicepCurl));
+  });
+
+  it('builds the standard push-up from the horizontal-press family', () => {
+    const result = generateExercise(PUSH_UP, options);
+    expect(result.family?.id).toBe('horizontal_press');
+    expect(result.exercise).toEqual(
+      horizontalPressFamily(result.variant as HorizontalPressVariant),
+    );
+    expect(result.reference).toBe('push_up');
+    expect(motionOf(result.exercise!)).toEqual(
+      motionOf(horizontalPressFamily({
+        id: result.exercise!.id,
+        name: result.exercise!.name,
+        clipName: result.exercise!.clipName,
+        description: result.exercise!.description,
+        tempo: TEMPO_PROFILES.controlled,
+      })),
+    );
+    expect(result.exercise?.equipment.instances).toEqual([]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
+  });
+
+  it('reproduces the accepted push-up motion from the same family defaults', () => {
+    const result = generateExercise('a push-up', options);
+    expect(motionOf(result.exercise!)).toEqual(motionOf(pushUp));
   });
 
   it(
@@ -149,6 +179,7 @@ describe('generating on the clean first-party fallback', () => {
     async () => {
       for (const [prompt, family, reference] of [
         [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
+        [PUSH_UP, 'horizontal_press', 'push_up'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
       ] as const) {
         const result = await generateExerciseAsync(prompt, { rig, library, character });

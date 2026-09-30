@@ -89,10 +89,15 @@ export function contactDiagnostics(
     const targetPoint = new HgVec3(contact.target.x, contact.target.y, contact.target.z);
     const result = finalResults.get(lock.chain);
     const error = actualPoint.distanceTo(targetPoint);
-    const status: ContactStatus = result?.overExtended
-      ? 'overextended'
-      : result?.reached
-        ? 'reached'
+    // Final contact success takes precedence over the geometric warning:
+    // a target can lie a fraction beyond the algebraic two-bone maximum yet
+    // still resolve inside the solver/contact tolerance. Preserve
+    // overExtended as a diagnostic flag, but reserve the failure status for a
+    // target the solver did not actually reach.
+    const status: ContactStatus = result?.reached
+      ? 'reached'
+      : result?.overExtended
+        ? 'overextended'
         : 'limited';
 
     return {

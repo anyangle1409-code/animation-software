@@ -60,6 +60,9 @@ jobs:
       - name: Repository authority / hygiene gate
         run: npm run audit:hygiene
 
+      - name: Active model asset anti-creep gate
+        run: node scripts/audit-active-model-assets.mjs
+
       - name: Verify prepared first-party foundations
         run: >
           npm test --

@@ -24,19 +24,20 @@ Do not restore its geometry, encoded positions/indices/weights/colours, characte
 
 Rendered comparisons and diagnostic boards produced from legacy/reference assets are engineering evidence only and must not enter the distributable product.
 
-## Third-party runtime libraries still present during migration
+## Runtime dependency removal status
 
-Current package-level migration dependencies are:
+The runtime migration is complete on the active standalone branch.
 
-- react
-- react-dom
-- three
-- @react-three/fiber
-- @react-three/drei
+- declared runtime dependencies: **0**
+- React / ReactDOM imports and packages: **0**
+- R3F / Drei imports and packages: **0**
+- Zustand imports and package: **0**
+- Three imports in operational source and tests: **0**
+- Three and @types/three packages: **removed**
 
-Direct Zustand has already been removed and replaced by the project-owned store.
-
-Drei has zero source imports but remains installed until its explicit physical Grid/Orbit/Transform parity gate is complete. The other libraries remain only until their staged first-party replacements pass the required integration/parity gates.
+Do not restore any removed framework/renderer as a compatibility shortcut. Physical
+desktop/iPhone parity remains a release-quality acceptance gate, not permission
+to reintroduce a third-party runtime dependency.
 
 ## Development tooling
 

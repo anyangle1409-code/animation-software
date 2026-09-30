@@ -21,6 +21,7 @@ import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
 import { resolveEquipment, socketResolver } from '../equipment/attach';
 import { measureGripFit } from '../equipment/gripDiagnostics';
 import type { EquipmentInstance } from '../equipment/types';
+import { floorTargetForSkeleton } from '../constraints/floorGeometry';
 
 /**
  * Build an animation from an exercise definition.
@@ -31,9 +32,17 @@ import type { EquipmentInstance } from '../equipment/types';
  * point the editor can then refine, not a black box.
  */
 export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): StudioClip {
+  const startPose = buildPose(skeleton, exercise, exercise.startPose, 'start');
+  const peakPose = buildPose(
+    skeleton,
+    exercise,
+    exercise.peakPose,
+    'peak',
+    startPose,
+  );
   const poses: Record<'start' | 'peak', Pose> = {
-    start: buildPose(skeleton, exercise, exercise.startPose, 'start'),
-    peak: buildPose(skeleton, exercise, exercise.peakPose, 'peak'),
+    start: startPose,
+    peak: peakPose,
   };
   const ik: Record<'start' | 'peak', Partial<Record<IKChainId, KeyframeIK>>> = {
     start: ikFromSpec(exercise.startPose),
@@ -153,6 +162,7 @@ function buildPose(
   exercise: ExerciseDefinition,
   spec: PoseSpec,
   end: 'start' | 'peak',
+  floorReferencePose?: Pose,
 ): Pose {
   const joints: PoseSpec['joints'] = {};
   for (const [bone, rotation] of Object.entries(spec.joints)) {
@@ -171,10 +181,17 @@ function buildPose(
     clampPose(skeleton, pose),
     exercise.equipment.instances,
   );
-  return fitEquipmentLockedArmRoot(
+  const fittedFloor = fitPitchedFloorRoot(
     skeleton,
     exercise,
     fittedGrip,
+    end,
+    floorReferencePose,
+  );
+  return fitEquipmentLockedArmRoot(
+    skeleton,
+    exercise,
+    fittedFloor,
     end,
   );
 }
@@ -215,6 +232,100 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
       });
     }
   }
+}
+
+/**
+ * A pitched body supported by planted feet should keep the knee bend authored
+ * by its exercise when a compatible skeleton has different femur/tibia lengths.
+ *
+ * Solve only root Y from two-bone geometry. Root Z, pitch, foot placement and
+ * every authored technique threshold remain unchanged. Unpositioned floor
+ * locks use the opening pose as their anchor, matching the runtime lock model.
+ */
+function fitPitchedFloorRoot(
+  skeleton: Skeleton,
+  exercise: ExerciseDefinition,
+  pose: Pose,
+  end: 'start' | 'peak',
+  floorReferencePose?: Pose,
+): Pose {
+  if (Math.abs(pose.rootRotation.x) < 1e-6) return pose;
+
+  // Preserve the accepted reference geometry exactly. The shadow/future rig
+  // path is what needs body-relative adaptation.
+  const referenceThigh = canonicalSkeleton.bone('thigh_l');
+  const referenceShin = canonicalSkeleton.bone('shin_l');
+  const activeThigh = skeleton.bone('thigh_l');
+  const activeShin = skeleton.bone('shin_l');
+  if (
+    Math.abs(activeThigh.length - referenceThigh.length) < 1e-9 &&
+    Math.abs(activeShin.length - referenceShin.length) < 1e-9
+  ) {
+    return pose;
+  }
+
+  const floorLocks = exercise.locks.filter(
+    (lock) => lock.enabled && lock.mode === 'floor' && lock.chain.startsWith('leg'),
+  );
+  if (floorLocks.length === 0) return pose;
+
+  const evaluation = new PoseEvaluation(skeleton).apply(pose);
+  const referenceEvaluation = floorReferencePose
+    ? new PoseEvaluation(skeleton).apply(floorReferencePose)
+    : null;
+  const deltas: number[] = [];
+
+  for (const lock of floorLocks) {
+    const chain = IK_CHAINS[lock.chain];
+    const authored = exercise.jointTargets.find(
+      (entry) => entry.bone === chain.mid && entry.axis === 'x',
+    );
+    if (!authored) continue;
+
+    const kneeDegrees = end === 'start' ? authored.start : authored.peak;
+    const knee = Math.abs(toRad(kneeDegrees));
+    const upper = skeleton.bone(chain.root).length;
+    const lower = skeleton.bone(chain.mid).length;
+    const desiredReach = Math.sqrt(
+      upper * upper +
+      lower * lower +
+      2 * upper * lower * Math.cos(knee),
+    );
+
+    let target: Vec3 | null = null;
+    if (lock.position) {
+      target = floorTargetForSkeleton(
+        skeleton,
+        lock.chain,
+        lock.position,
+        Boolean(lock.onBall),
+      );
+    } else if (referenceEvaluation) {
+      const point = lock.onBall
+        ? referenceEvaluation.tail(chain.end)
+        : referenceEvaluation.head(chain.end);
+      target = { x: point.x, y: point.y, z: point.z };
+    }
+    if (!target) continue;
+
+    const hip = evaluation.head(chain.root);
+    const dx = target.x - hip.x;
+    const dz = target.z - hip.z;
+    const verticalSquared = desiredReach * desiredReach - dx * dx - dz * dz;
+    if (verticalSquared <= 0) continue;
+
+    const desiredHipY = target.y + Math.sqrt(verticalSquared);
+    deltas.push(desiredHipY - hip.y);
+  }
+
+  if (deltas.length === 0) return pose;
+  const delta = deltas.reduce((sum, value) => sum + value, 0) / deltas.length;
+  if (!Number.isFinite(delta) || Math.abs(delta) < 1e-9) return pose;
+  pose.rootPosition = {
+    ...pose.rootPosition,
+    y: pose.rootPosition.y + delta,
+  };
+  return pose;
 }
 
 /**

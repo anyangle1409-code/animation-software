@@ -411,7 +411,7 @@ function sidedErrors(mirrored: boolean, definition: ExerciseDefinition) {
   // Positions read back on the rig's side of the body.
   const at = (name: string) => {
     const position = new HgVec3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
-    return mirrored ? position.setX(-position.x) : position;
+    return mirrored ? position.set(-position.x, position.y, position.z) : position;
   };
   const errors: number[] = [];
   for (const fraction of [0, 0.2, 0.45, 0.7, 0.95]) {

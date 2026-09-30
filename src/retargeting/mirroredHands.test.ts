@@ -18,7 +18,7 @@ describe('grip metadata hand-frame compatibility', () => {
       r: { x: -0.015, y: 0.055, z: 0.012 },
     };
     const turned = inHandFrame(offsets, handFrameTurn(undefined, earlierFrame))!;
-    const expected = new HgVec3(0.015, 0.055, 0.012).applyHgQuat(earlierFrame.l);
+    const expected = new HgVec3(0.015, 0.055, 0.012).applyQuaternion(earlierFrame.l);
     expect(new HgVec3(turned.l!.x, turned.l!.y, turned.l!.z).distanceTo(expected)).toBeLessThan(1e-15);
     expect(turned.r).toEqual(offsets.r);
     expect(inHandFrame(offsets, handFrameTurn(CORRECTED_HAND_FRAME, earlierFrame))).toEqual(offsets);

@@ -36,10 +36,10 @@ function buildCharacter(options: {
     bone.name = options.names(rigBone.name);
     bone.position.set(rigBone.offset.x, rigBone.offset.y, rigBone.offset.z);
     bone.quaternion.set(
-      rigBone.restLocalHgQuat.x,
-      rigBone.restLocalHgQuat.y,
-      rigBone.restLocalHgQuat.z,
-      rigBone.restLocalHgQuat.w,
+      rigBone.restLocalQuaternion.x,
+      rigBone.restLocalQuaternion.y,
+      rigBone.restLocalQuaternion.z,
+      rigBone.restLocalQuaternion.w,
     );
     if (options.tPose && (rigBone.name === 'upperarm_l' || rigBone.name === 'upperarm_r')) {
       // Raise the arms to horizontal: a genuinely different rest pose.
@@ -176,7 +176,7 @@ describe('retargeting', () => {
     // The source was authored with horizontal arms, but canonical zero means
     // canonical rest: the target arm must come down rather than staying in its
     // source T pose.
-    const targetUpper = bone('upperarm_l').getWorldHgQuat(new HgQuat());
+    const targetUpper = bone('upperarm_l').getWorldQuaternion(new HgQuat());
     const expectedUpper = evaluation.quaternion('upperarm_l');
     expect(targetUpper.angleTo(new HgQuat(
       expectedUpper.x,
@@ -242,7 +242,7 @@ describe('retargeting', () => {
       const source = original.bones.get(definition.name)!;
       const bone = new HgBone(); bone.name = source.name;
       bone.position.copy(source.getWorldPosition(new HgVec3())); bone.position.x *= -1;
-      bone.quaternion.copy(source.getWorldHgQuat(new HgQuat()));
+      bone.quaternion.copy(source.getWorldQuaternion(new HgQuat()));
       bone.quaternion.y *= -1; bone.quaternion.z *= -1;
       group.add(bone); bones.set(bone.name, bone);
     }
@@ -318,7 +318,7 @@ describe('disconnected source deform branches', () => {
     for (const [name, bone] of detached.character.bones) {
       const expected = connected.character.bones.get(name)!;
       expect(bone.getWorldPosition(new HgVec3()).distanceTo(expected.getWorldPosition(new HgVec3())), name).toBeLessThan(1e-6);
-      expect(bone.getWorldHgQuat(new HgQuat()).angleTo(expected.getWorldHgQuat(new HgQuat())), name).toBeLessThan(1e-6);
+      expect(bone.getWorldQuaternion(new HgQuat()).angleTo(expected.getWorldQuaternion(new HgQuat())), name).toBeLessThan(1e-6);
     }
     expect([...detached.character.bones.values()].map(b => b.parent)).toEqual(parents);
     // The pelvis must rotate about the root, not remain at standing height.

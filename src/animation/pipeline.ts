@@ -94,9 +94,10 @@ export function resolveFrame(
     ...(goal.endAim ? { aim: goal.endAim } : {}),
   }));
   // A leg driven by the keyframe instead of a lock — a foot stepping — is a
-  // floor contact too, lifted as far as the rig's own sole is off the floor, so
-  // a character with its own leg lengths plants that foot, and lifts it, where
-  // the rig does — a foot pushing off with its heel up still has its ball down.
+  // floor contact too, lifted as far as the active rig's own sole is off the
+  // floor. This must come from the skeleton rather than v3 constants: canonical
+  // v4 has a different ankle height, ball height and foot length.
+  const flatFoot = flatFootMetrics(skeleton);
   for (const goal of keyframeGoals) {
     if (!goal.chain.startsWith('leg') || activeLocks.some((lock) => lock.chain === goal.chain)) continue;
     contacts.push({
@@ -106,28 +107,43 @@ export function resolveFrame(
       // ball lock's does, and the sole's lowest point is the ball.
       target: goal.ball ? ankleOf(evaluation, goal.chain) : { ...goal.target },
       ...(goal.endAim ? { aim: goal.endAim } : {}),
-      lift: goal.ball ? Math.max(0, goal.ball.anchor.y - FLAT_FOOT.ball) : soleHeight(goal),
+      lift: goal.ball
+        ? Math.max(0, goal.ball.anchor.y - flatFoot.ball)
+        : soleHeight(goal, flatFoot),
     });
   }
   return { time, pose, equipment: transforms, ikResults, contacts, phaseId: sample.phaseId };
 }
 
-/** The rig's ankle and ball heights above the floor with the foot flat, and the foot's length, metres. */
-const FLAT_FOOT = { ankle: 0.08, ball: 0.025, length: Math.hypot(0.055, 0.14) };
+interface FlatFootMetrics {
+  ankle: number;
+  ball: number;
+  length: number;
+}
+
+/** Flat-foot geometry derived from the active rig rather than v3 dimensions. */
+function flatFootMetrics(skeleton: Skeleton): FlatFootMetrics {
+  const foot = skeleton.bone('foot_l');
+  return {
+    ankle: foot.restHead.y,
+    ball: foot.restTail.y,
+    length: foot.length,
+  };
+}
 
 /**
  * How far a stepping foot's goal holds it off the floor: its lower point, the
  * heel under the ankle or the ball the aim points the foot at, each measured
- * from where it sits with the foot flat. Read from the goal rather than the
- * solved bones, so a planted foot reads exactly zero rather than the solve's
- * residual.
+ * from where it sits with the active rig's foot flat. Read from the goal rather
+ * than the solved bones, so a planted foot reads exactly zero rather than the
+ * solve's residual.
  */
-function soleHeight(goal: IKGoal): number {
-  const heel = goal.target.y - FLAT_FOOT.ankle;
+function soleHeight(goal: IKGoal, flatFoot: FlatFootMetrics): number {
+  const heel = goal.target.y - flatFoot.ankle;
   const direction = goal.endAim?.direction;
   if (!direction) return Math.max(0, heel);
   const length = Math.hypot(direction.x, direction.y, direction.z);
-  const ball = goal.target.y + (direction.y / length) * FLAT_FOOT.length - FLAT_FOOT.ball;
+  const ball = goal.target.y + (direction.y / length) * flatFoot.length - flatFoot.ball;
   return Math.max(0, Math.min(heel, ball));
 }
 

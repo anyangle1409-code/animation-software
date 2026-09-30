@@ -144,6 +144,35 @@ describe('generating on the clean first-party fallback', () => {
   );
 
   it(
+    'fully certifies clean-fallback examples for every certified movement family',
+    async () => {
+      for (const [prompt, family, reference] of [
+        [PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
+        [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
+      ] as const) {
+        const result = await generateExerciseAsync(prompt, { rig, library, character });
+        const detail = JSON.stringify({
+          prompt,
+          status: result.status,
+          failed: result.report?.failed,
+          skipped: result.report?.skipped,
+          corrections: result.corrections,
+          validations: result.validations,
+        });
+        expect(result.family?.id, detail).toBe(family);
+        expect(result.reference, detail).toBe(reference);
+        expect(result.status, detail).toBe('passed');
+        expect(result.report?.skipped, detail).toEqual([]);
+        expect(result.report?.failed, detail).toEqual([]);
+        expect(result.report?.checks.every((check) => check.status === 'pass'), detail).toBe(true);
+        expect(result.report?.character, detail).toBe(proceduralCharacter.label);
+        expect(result.validations, detail).toBeGreaterThan(0);
+      }
+    },
+    180_000,
+  );
+
+  it(
     'fully certifies a generated loaded hammer curl with clean-body equipment checks',
     async () => {
       const result = await generateExerciseAsync(HAMMER, { rig, library, character });

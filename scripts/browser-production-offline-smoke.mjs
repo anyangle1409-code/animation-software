@@ -175,6 +175,51 @@ try {
   assert.equal(generation.sourceVisible, true);
   report.checks.productionPromptGeneration = generation;
 
+  // Unsupported biomechanics must be rejected locally and explained instead
+  // of being guessed, silently approximated, or sent to a hosted AI service.
+  await panel
+    .locator('[data-hgpt-generate-control="prompt"]')
+    .fill("Create a goblet squat.");
+  await panel.locator('[data-hgpt-generate-control="generate"]').click();
+
+  await page.waitForFunction(
+    () =>
+      document.querySelector(
+        '[data-hgpt-panel="generate-first-party"] .review-status strong',
+      )?.textContent === "NEEDS A DECISION",
+    undefined,
+    { timeout: 30_000 },
+  );
+
+  const rejection = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+    if (!(panel instanceof HTMLElement)) {
+      throw new Error("Production Generate panel is unavailable after rejection");
+    }
+    const issues = Array.from(panel.querySelectorAll(".generate-issues li"))
+      .map((item) => item.textContent ?? "")
+      .filter(Boolean);
+    return {
+      status: panel.querySelector(".review-status strong")?.textContent ?? null,
+      issues,
+      approveVisible:
+        panel.querySelector('[data-hgpt-generate-control^="approve-"]') !== null,
+      previewVisible:
+        panel.querySelector('[data-hgpt-generate-control^="preview-"]') !== null,
+      sourceVisible: panel.querySelector(".generate-source") !== null,
+    };
+  });
+  assert.equal(rejection.status, "NEEDS A DECISION");
+  assert(rejection.issues.length > 0, "Blocked prompt emitted no local explanation");
+  assert(
+    rejection.issues.some((issue) => /goblet|bodyweight|not certified/i.test(issue)),
+    `Blocked prompt explanation was not specific: ${JSON.stringify(rejection.issues)}`,
+  );
+  assert.equal(rejection.approveVisible, false);
+  assert.equal(rejection.previewVisible, false);
+  assert.equal(rejection.sourceVisible, false);
+  report.checks.productionUnsupportedPrompt = rejection;
+
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas');
   await canvas.screenshot({ path: path.join(OUT, "generated-squat.png") });
 

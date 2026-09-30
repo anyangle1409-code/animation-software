@@ -1,21 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import {
-  AnimationMixer,
-  Bone,
-  BufferAttribute,
-  BufferGeometry,
-  Group,
-  Matrix4,
-  MeshStandardMaterial,
-  Object3D,
-  Quaternion,
-
-  Skeleton as ThreeSkeleton,
-  SkinnedMesh,
-  Vector3,
-} from 'three';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
 import { generateClip } from '../animation/generate';
 import { resolveFrame } from '../animation/pipeline';
@@ -24,13 +7,15 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { pushUp } from '../exercises/definitions/pushUp';
 import { exportGlb } from '../export/glb';
-import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
-import { anatomicalGripOffset } from '../equipment/attach';
-import { HgMat4 } from '../core/linearMath';
+import { anatomicalGripOffset, handAttachmentLocalMatrix } from '../equipment/attach';
+import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
-import { asThreeMatrix } from '../test/threeInterop';
+import { hgRigifyFixture } from '../test/rigifyGlbFixture';
+import { loadHgTestGltfPlayback } from '../test/firstPartyGltfPlayback';
+import { parseHgGlb } from '../core/glbContainer';
+import { readHgGltfScene } from '../core/gltfScene';
 
 /**
  * An imported character is *preserved*: the studio drives its skeleton and
@@ -53,124 +38,18 @@ function curlPose(time: number) {
   return { frame: resolveFrame(rig, evaluation, studioClip, time, { anchors }), evaluation };
 }
 
-interface Fixture {
-  data: ArrayBuffer;
-  /** The positions as authored, to compare an import against. */
-  positions: Float32Array;
-  boneNames: string[];
-}
-
-/** A small skinned humanoid on Rigify deform names, exported as a GLB. */
-async function rigifyFixture(): Promise<Fixture> {
-  const made = new Map<string, Bone>();
-  const bone = (name: string, parent: string | null, offset: [number, number, number]) => {
-    const made1 = new Bone();
-    made1.name = name;
-    made1.position.set(...offset);
-    if (parent) made.get(parent)!.add(made1);
-    made.set(name, made1);
-    return made1;
-  };
-
-  const root = bone('DEF-spine', null, [0, 0.95, 0]);
-  bone('DEF-spine.001', 'DEF-spine', [0, 0.14, 0]);
-  bone('DEF-spine.002', 'DEF-spine.001', [0, 0.14, 0]);
-  bone('DEF-spine.003', 'DEF-spine.002', [0, 0.14, 0]);
-  bone('DEF-spine.004', 'DEF-spine.003', [0, 0.15, 0]);
-  bone('DEF-spine.005', 'DEF-spine.004', [0, 0.05, 0]);
-  bone('DEF-spine.006', 'DEF-spine.005', [0, 0.05, 0]);
-  // A helper hung off the armature root rather than off the head — the shape
-  // a Rigify face rig arrives in.
-  bone('DEF-jaw.helper', 'DEF-spine', [0.02, 0.62, 0.06]);
-
-  for (const [side, sign] of [['L', 1], ['R', -1]] as [string, number][]) {
-    bone(`DEF-shoulder.${side}`, 'DEF-spine.003', [sign * 0.04, 0.12, 0]);
-    bone(`DEF-upper_arm.${side}`, `DEF-shoulder.${side}`, [sign * 0.12, 0, 0]);
-    bone(`DEF-upper_arm.${side}.001`, `DEF-upper_arm.${side}`, [sign * 0.14, 0, 0]);
-    bone(`DEF-forearm.${side}`, `DEF-upper_arm.${side}.001`, [sign * 0.14, 0, 0]);
-    bone(`DEF-forearm.${side}.001`, `DEF-forearm.${side}`, [sign * 0.12, 0, 0]);
-    bone(`DEF-hand.${side}`, `DEF-forearm.${side}.001`, [sign * 0.12, 0, 0]);
-    bone(`DEF-thigh.${side}`, 'DEF-spine', [sign * 0.09, -0.04, 0]);
-    bone(`DEF-shin.${side}`, `DEF-thigh.${side}`, [0, -0.42, 0]);
-    bone(`DEF-foot.${side}`, `DEF-shin.${side}`, [0, -0.42, 0]);
-    bone(`DEF-toe.${side}`, `DEF-foot.${side}`, [0, -0.04, 0.12]);
-  }
-
-  root.updateMatrixWorld(true);
-  const bones = [...made.values()];
-
-  // Six vertices around each bone's head, weighted to that bone, and a couple
-  // shared with its parent so joints have something that must not tear.
-  const positions: number[] = [];
-  const skinIndices: number[] = [];
-  const skinWeights: number[] = [];
-  const indices: number[] = [];
-  const head = new Vector3();
-
-  bones.forEach((each, boneIndex) => {
-    const parentIndex = bones.indexOf(each.parent as Bone);
-    head.setFromMatrixPosition(each.matrixWorld);
-    const start = positions.length / 3;
-    for (let step = 0; step < 6; step += 1) {
-      const angle = (step / 6) * Math.PI * 2;
-      positions.push(
-        head.x + 0.04 * Math.cos(angle),
-        head.y + 0.02 * (step % 2 === 0 ? 1 : -1),
-        head.z + 0.04 * Math.sin(angle),
-      );
-      // Two of the six share with the parent, so every joint carries a blend.
-      const shared = step < 2 && parentIndex >= 0;
-      skinIndices.push(boneIndex, shared ? parentIndex : 0, 0, 0);
-      skinWeights.push(shared ? 0.6 : 1, shared ? 0.4 : 0, 0, 0);
-    }
-    for (let step = 0; step < 4; step += 1) {
-      indices.push(start, start + step + 1, start + step + 2 > start + 5 ? start + 1 : start + step + 2);
-    }
-  });
-
-  const geometry = new BufferGeometry();
-  const authored = new Float32Array(positions);
-  geometry.setAttribute('position', new BufferAttribute(authored.slice(), 3));
-  geometry.setAttribute(
-    'uv',
-    new BufferAttribute(new Float32Array((positions.length / 3) * 2).fill(0.5), 2),
-  );
-  geometry.setAttribute('skinIndex', new BufferAttribute(new Uint16Array(skinIndices), 4));
-  geometry.setAttribute('skinWeight', new BufferAttribute(new Float32Array(skinWeights), 4));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-
-  const mesh = new SkinnedMesh(geometry, new MeshStandardMaterial({ color: '#cccccc' }));
-  mesh.name = 'FixtureBody';
-  const scene = new Group();
-  scene.name = 'FixtureCharacter';
-  scene.add(mesh);
-  scene.add(root);
-  scene.updateMatrixWorld(true);
-  mesh.bind(new ThreeSkeleton(bones));
-
-  const exported = await new GLTFExporter().parseAsync(scene as Object3D, {
-    binary: true,
-    onlyVisible: false,
-  });
-
-  return {
-    data: exported as ArrayBuffer,
-    positions: authored,
-    boneNames: bones.map((each) => each.name),
-  };
-}
-
-const fixture = await rigifyFixture();
+const fixture = hgRigifyFixture();
 const importedSource = () =>
   retargetedCharacterSource({ id: 'fixture', label: 'Fixture', data: fixture.data });
 
 /** Where a bone of the character's own skeleton has ended up. */
-const boneAt = (character: CharacterBuild, name: string): Vector3 => {
-  const bone = character.bones.find((each) => each.name.replace(/[.]/g, '') === name.replace(/[.]/g, ''));
+const boneAt = (character: CharacterBuild, name: string): HgVec3 => {
+  const bone = character.bones.find(
+    (each) => each.name.replace(/[.]/g, '') === name.replace(/[.]/g, ''),
+  );
   if (!bone) throw new Error(`no bone ${name}`);
   bone.updateWorldMatrix(true, false);
-  return new Vector3().setFromMatrixPosition(asThreeMatrix(bone.matrixWorld));
+  return new HgVec3().setFromMatrixPosition(bone.matrixWorld);
 };
 
 describe('an imported character', () => {
@@ -189,7 +68,13 @@ describe('an imported character', () => {
       expect(position.getZ(vertex), `z${vertex}`).toBeCloseTo(fixture.positions[vertex * 3 + 2], 6);
     }
 
-    const scale = new Vector3().setFromMatrixScale(asThreeMatrix(character.object.matrixWorld));
+    character.object.updateWorldMatrix(true, false);
+    const scale = new HgVec3();
+    new HgMat4().copy(character.object.matrixWorld).decompose(
+      new HgVec3(),
+      new HgQuat(),
+      scale,
+    );
     expect(scale.x).toBeCloseTo(scale.y, 6);
     expect(scale.y).toBeCloseTo(scale.z, 6);
     expect(scale.x).toBeGreaterThan(0);
@@ -212,12 +97,9 @@ describe('an imported character', () => {
     const canonicalAngle = (evaluation: PoseEvaluation) => {
       const upper = evaluation.quaternion('upperarm_r');
       const forearm = evaluation.quaternion('forearm_r');
-      return new Vector3(0, 1, 0)
-        .applyQuaternion(new Quaternion(upper.x, upper.y, upper.z, upper.w))
-        .angleTo(
-          new Vector3(0, 1, 0)
-            .applyQuaternion(new Quaternion(forearm.x, forearm.y, forearm.z, forearm.w)),
-        );
+      return new HgVec3(0, 1, 0)
+        .applyQuaternion(upper)
+        .angleTo(new HgVec3(0, 1, 0).applyQuaternion(forearm));
     };
 
     const bottom = curlPose(0);
@@ -263,9 +145,9 @@ describe('an imported character', () => {
       // … and therefore travels with the upper arm rather than staying behind.
       parent.updateWorldMatrix(true, false);
       twist.updateWorldMatrix(true, false);
-      const gap = new Vector3()
-        .setFromMatrixPosition(asThreeMatrix(twist.matrixWorld))
-        .distanceTo(new Vector3().setFromMatrixPosition(asThreeMatrix(parent.matrixWorld)));
+      const gap = new HgVec3()
+        .setFromMatrixPosition(twist.matrixWorld)
+        .distanceTo(new HgVec3().setFromMatrixPosition(parent.matrixWorld));
       expect(gap, `distance from its parent at ${fraction}`).toBeGreaterThan(0.01);
     }
     character.dispose();
@@ -285,14 +167,14 @@ describe('an imported character', () => {
 
     const helper = character.bones.find((each) => /jaw/i.test(each.name))!;
     expect(helper, 'the helper bone survives the import').toBeDefined();
-    const restWorld = new Vector3().setFromMatrixPosition(asThreeMatrix(helper.matrixWorld));
+    const restWorld = new HgVec3().setFromMatrixPosition(helper.matrixWorld);
 
     // It rides its parent: posing the character moves it, and it does not fly
     // off to the origin or stay pinned while the body moves.
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
     applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     helper.updateWorldMatrix(true, false);
-    const posed = new Vector3().setFromMatrixPosition(asThreeMatrix(helper.matrixWorld));
+    const posed = new HgVec3().setFromMatrixPosition(helper.matrixWorld);
     expect(posed.length()).toBeGreaterThan(0.1);
     expect(posed.distanceTo(restWorld)).toBeLessThan(0.35);
     character.dispose();
@@ -309,7 +191,7 @@ describe('an imported character', () => {
 
       const held = character.handMatrix!('r', new HgMat4());
       expect(held, 'the right hand resolves').not.toBeNull();
-      const grip = new Vector3(
+      const grip = new HgVec3(
         held!.elements[12],
         held!.elements[13],
         held!.elements[14],
@@ -343,8 +225,8 @@ describe('an imported character', () => {
 
       const hand = character.boneByName.get('hand_r')!;
       hand.updateWorldMatrix(true, false);
-      const rebuilt = hand.matrixWorld.clone().multiply(
-        new Matrix4().fromArray(local!),
+      const rebuilt = new HgMat4().copy(hand.matrixWorld).multiply(
+        new HgMat4().fromArray(local!),
       );
       const expected = character.handMatrix!('r', new HgMat4())!;
       expect(Math.max(
@@ -366,7 +248,7 @@ describe('an imported character', () => {
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
     applyCharacterPose(character, rig, frame.pose, evaluation);
     const held = character.handMatrix!('r', new HgMat4())!;
-    const grip = new Vector3(
+    const grip = new HgVec3(
       held.elements[12],
       held.elements[13],
       held.elements[14],
@@ -387,7 +269,7 @@ describe('an imported character', () => {
       expect(frame.contacts).toHaveLength(2);
       applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
       const hand = character.handMatrix!('r', new HgMat4())!;
-      const grip = new Vector3(
+      const grip = new HgVec3(
         hand.elements[12],
         hand.elements[13],
         hand.elements[14],
@@ -425,26 +307,18 @@ describe('an imported character', () => {
     expect(json.meshes.length).toBeGreaterThan(0);
     expect(json.skins).toHaveLength(1);
 
-    const loaded = await new GLTFLoader().parseAsync(buffer, '');
-    const mixer = new AnimationMixer(loaded.scene);
+    const playback = await loadHgTestGltfPlayback(buffer);
     const time = studioClip.duration * TOP;
-    mixer.clipAction(loaded.animations[0]).play();
-    mixer.setTime(time);
-    loaded.scene.updateMatrixWorld(true);
+    playback.setTime(time);
 
-    let playedHand: Object3D | null = null;
-    loaded.scene.traverse((object) => {
-      if (object.name === 'DEF-handR') playedHand = object;
-    });
+    const playedHand = playback.object('DEF-handR');
     expect(playedHand, 'the first-party exported hand bone').not.toBeNull();
 
     const character = await importedSource().build(rig);
     const { frame, evaluation } = curlPose(time);
     applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     const shown = boneAt(character, 'DEF-hand.R');
-    const written = new Vector3().setFromMatrixPosition(
-      (playedHand as unknown as Object3D).matrixWorld,
-    );
+    const written = new HgVec3().setFromMatrixPosition(playedHand!.matrixWorld);
     expect(written.distanceTo(shown)).toBeLessThan(0.001);
     character.dispose();
   }, 30_000);
@@ -471,7 +345,7 @@ describe('an imported character', () => {
     expect(json.skins).toHaveLength(1);
     const joints = json.skins[0].joints.map((node) => json.nodes[node].name ?? '');
     // The first-party writer preserves the authored GLB node names exactly;
-    // unlike GLTFExporter it does not sanitize away dots in source bone names.
+    // The first-party writer keeps dots in the source bone names exactly.
     expect(joints).toContain('DEF-hand.R');
     expect(joints).toContain('DEF-upper_arm.R.001');
     expect(json.animations).toHaveLength(1);
@@ -484,67 +358,52 @@ describe('an imported character', () => {
     expect(held.some((name) => /dumbbell/i.test(name))).toBe(true);
 
     // And playing it back reproduces the pose the viewport shows.
-    const loaded = await new GLTFLoader().parseAsync(buffer, '');
-    const mixer = new AnimationMixer(loaded.scene);
+    const playback = await loadHgTestGltfPlayback(buffer);
     const time = studioClip.duration * TOP;
-    mixer.clipAction(loaded.animations[0]).play();
-    mixer.setTime(time);
-    loaded.scene.updateMatrixWorld(true);
+    playback.setTime(time);
 
-    let playedHand: Object3D | null = null;
-    loaded.scene.traverse((object) => {
-      if (object.name === 'DEF-handR') playedHand = object;
-    });
+    const playedHand = playback.object('DEF-handR');
     expect(playedHand, 'the exported hand bone').not.toBeNull();
 
     const character = await importedSource().build(rig);
     const { frame, evaluation } = curlPose(time);
     applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     const shown = boneAt(character, 'DEF-hand.R');
-    const written = new Vector3().setFromMatrixPosition((playedHand as unknown as Object3D).matrixWorld);
+    const written = new HgVec3().setFromMatrixPosition(playedHand!.matrixWorld);
 
     // Within a millimetre: the difference is the baked clip's sampling
     // interval, not a different pose.
     expect(written.distanceTo(shown)).toBeLessThan(0.001);
 
-    let playedDumbbell: Object3D | null = null;
-    loaded.scene.traverse((object) => {
+    let playedDumbbell = null as import('../core/sceneGraph').HgObject3D | null;
+    playback.scene.traverse((object) => {
       if (/right.*dumbbell/i.test(object.name)) playedDumbbell = object;
     });
     expect(playedDumbbell, 'the first-party dumbbell is exported').not.toBeNull();
 
     const expectedDumbbell = character.handMatrix!('r', new HgMat4())!
-      .multiply(handAttachmentMatrix(
+      .multiply(handAttachmentLocalMatrix(
         anatomicalGripOffset('r'),
         { x: 0, y: 0, z: 0 },
       ));
-    const expectedPosition = new Vector3(
-      expectedDumbbell.elements[12],
-      expectedDumbbell.elements[13],
-      expectedDumbbell.elements[14],
-    );
-    const writtenPosition = new Vector3().setFromMatrixPosition(
-      (playedDumbbell as unknown as Object3D).matrixWorld,
-    );
+    const expectedPosition = new HgVec3().setFromMatrixPosition(expectedDumbbell);
+    const writtenPosition = new HgVec3().setFromMatrixPosition(playedDumbbell!.matrixWorld);
     expect(writtenPosition.distanceTo(expectedPosition)).toBeLessThan(0.001);
 
-    const expectedRotation = new Quaternion().setFromRotationMatrix(
-      new Matrix4().fromArray(Array.from(expectedDumbbell.elements)),
+    const expectedRotation = new HgQuat().setFromRotationMatrix(
+      new HgMat4().extractRotation(expectedDumbbell),
     );
-    const writtenRotation = new Quaternion().setFromRotationMatrix(
-      new Matrix4().extractRotation(
-        (playedDumbbell as unknown as Object3D).matrixWorld,
-      ),
+    const writtenRotation = new HgQuat().setFromRotationMatrix(
+      new HgMat4().extractRotation(playedDumbbell!.matrixWorld),
     );
     expect(writtenRotation.angleTo(expectedRotation)).toBeLessThan(0.001);
 
     // Nothing about the surface changed on the way out either.
-    let exportedVertices = 0;
-    loaded.scene.traverse((object) => {
-      const skinned = object as SkinnedMesh;
-      if (skinned.isSkinnedMesh) exportedVertices = skinned.geometry.getAttribute('position').count;
-    });
-    expect(exportedVertices).toBe(fixture.positions.length / 3);
+    const decoded = readHgGltfScene(parseHgGlb(buffer));
+    const exportedBody = decoded.meshes.find((mesh) => mesh.name === 'FixtureBody');
+    expect(exportedBody).toBeDefined();
+    expect(exportedBody!.primitives[0].attributes.POSITION?.count)
+      .toBe(fixture.positions.length / 3);
     character.dispose();
   }, 30_000);
 });

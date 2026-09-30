@@ -993,16 +993,51 @@ r26 regressions vs R2 (8):
 `curl_peak` passes the gate if either the elbow or the PIP residue drops by
 10 pairs.
 
-**In progress (unattended session):** `o19` → r28 is a symmetric hand
-re-solve on the r26 base. It uses the stricter of the R2 and r26 bounds, a
-0.03 max margin and a 10× fold barrier. Targets:
+**r28 — best experimental candidate.**
 
-- push-up hand max back under the R2 tolerance;
-- press_top/pullup_hang p99 back within tolerance;
-- fewer PIP-crease pairs.
+- r28 = r26 + `o19`, a symmetric hand re-solve on the r26 base: stricter of
+  the R2 and r26 bounds, 0.03 max margin, 10× fold barrier.
+  `symmetric: max L1 twin difference 2.8e-16`.
+- SHA-256 `68889eefeb5e22e9bf8c5f96209f8b5440a3d11e501313b3b32a06274509515d`.
+- Full 15-pose evidence: **8 failed checks**, Priority 1 CLEAR,
+  **0 regressions vs r26** (13 improvements), **6 regressions vs R2**:
+  - the 5 inherited r24 shoulder/torso minima;
+  - `pushup_bottom` hand max 1.915 → 2.067 (inside the 5.0 gate).
+- The p99 regressions of r25–r27 are gone.
+- Hand max ≈1.95 in the gripping poses (R2 5.39; thumb web relaxed).
+- Cross-side contamination 0; exact left/right symmetry in the hand zone.
+- PIP-crease residue unchanged (≈104 triangle pairs). This is the third solve
+  (o14, o17, o19) on that plateau.
 
-Battery at checkpoint: 96%, discharging (no AC), runtime estimate
-unavailable (2026-09-30 ~23:20 local).
+Rebuild r28 (parent r26; r26 comes from r25 with `sym_r25.npz`, r25 from r24
+with `o14.npz`):
+
+```bat
+blender --background --factory-startup ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r26.blend --python-exit-code 1 ^
+  --python scripts\apply_original_v1_o4_weight_solution_blender.py -- ^
+  ORIGINAL_V1_WORK\candidates\weight_solutions\o19.npz ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_<new>.blend
+```
+
+Verify:
+
+```bat
+RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <rN> r26
+```
+
+Review artifacts (regenerate with
+`python scripts\build_original_v1_candidate_review.py`):
+
+- `ORIGINAL_V1_WORK/candidates/review/candidate_review.md`;
+- `candidate_metrics.csv`;
+- `candidate_summary.json`.
+
+Local candidate `.blend` files (git-ignored) are in
+`C:\Users\Mark\Documents\animation-software\repo\ORIGINAL_V1_WORK\candidates\`.
+Each `HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_rNN.json` manifest records its
+SHA-256 and parent SHA.
+
+Battery at the r28 checkpoint: 89%, discharging (no AC), runtime estimate
+unavailable.
 
 ### Priority 2 — hands / fingers / thumb / equipment grip
 

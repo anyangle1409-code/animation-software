@@ -14,11 +14,10 @@ const finitePose = (pose: ReturnType<typeof generateClip>['keyframes'][number]['
     if (!rotation) continue;
     if (![rotation.x, rotation.y, rotation.z].every(Number.isFinite)) return false;
   }
-  const root = pose.root;
-  if (root?.position && ![root.position.x, root.position.y, root.position.z].every(Number.isFinite)) {
+  if (![pose.rootPosition.x, pose.rootPosition.y, pose.rootPosition.z].every(Number.isFinite)) {
     return false;
   }
-  if (root?.rotation && ![root.rotation.x, root.rotation.y, root.rotation.z].every(Number.isFinite)) {
+  if (![pose.rootRotation.x, pose.rootRotation.y, pose.rootRotation.z].every(Number.isFinite)) {
     return false;
   }
   return true;

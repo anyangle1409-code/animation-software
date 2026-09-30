@@ -68,6 +68,12 @@ jobs:
       - name: Active model asset anti-creep gate
         run: node scripts/audit-active-model-assets.mjs
 
+      - name: Test ORIGINAL v1 promotion guard
+        run: node --test scripts/audit-original-v1-promotion.test.mjs
+
+      - name: ORIGINAL v1 promotion remains blocked safely
+        run: npm run audit:original-v1-promotion
+
       - name: Final release remains blocked until original model approval
         run: node scripts/audit-first-party-release-components.mjs --expect-blocked
 

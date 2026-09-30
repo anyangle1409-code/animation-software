@@ -46,8 +46,20 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     peak: peakPose,
   };
   const ik: Record<'start' | 'peak', Partial<Record<IKChainId, KeyframeIK>>> = {
-    start: ikFromSpec(exercise.startPose),
-    peak: ikFromSpec(exercise.peakPose),
+    start: ikFromSpecForSkeleton(
+      skeleton,
+      exercise,
+      exercise.startPose,
+      'start',
+      poses.start,
+    ),
+    peak: ikFromSpecForSkeleton(
+      skeleton,
+      exercise,
+      exercise.peakPose,
+      'peak',
+      poses.peak,
+    ),
   };
 
   const phases = exercise.phases;
@@ -738,21 +750,133 @@ export function applyStance(
   }
 }
 
-function ikFromSpec(
+function ikFromSpecForSkeleton(
+  skeleton: Skeleton,
+  exercise: ExerciseDefinition,
   spec: PoseSpec,
+  end: 'start' | 'peak',
+  activePose: Pose,
 ): Partial<Record<IKChainId, KeyframeIK>> {
   const out: Partial<Record<IKChainId, KeyframeIK>> = {};
+  const hasArmIK = Object.entries(spec.ik ?? {}).some(
+    ([chain, value]) => Boolean(value?.enabled ?? value) && chain.startsWith('arm'),
+  );
+
+  let referenceEvaluation: PoseEvaluation | null = null;
+  let activeEvaluation: PoseEvaluation | null = null;
+  if (hasArmIK) {
+    const referencePose = buildPose(canonicalSkeleton, exercise, spec, end);
+    referenceEvaluation = new PoseEvaluation(canonicalSkeleton).apply(referencePose);
+    activeEvaluation = new PoseEvaluation(skeleton).apply(activePose);
+  }
+
   for (const [chain, value] of Object.entries(spec.ik ?? {})) {
     if (!value) continue;
-    out[chain as IKChainId] = {
+    const chainId = chain as IKChainId;
+    let target = { ...value.target };
+    let pole = { ...value.pole };
+
+    if (
+      chainId.startsWith('arm') &&
+      referenceEvaluation &&
+      activeEvaluation
+    ) {
+      const fitted = armIKForSkeleton(
+        skeleton,
+        chainId,
+        target,
+        pole,
+        referenceEvaluation,
+        activeEvaluation,
+      );
+      target = fitted.target;
+      pole = fitted.pole;
+    }
+
+    out[chainId] = {
       enabled: true,
-      target: { ...value.target },
-      pole: { ...value.pole },
+      target,
+      pole,
       ...(value.aim ? { aim: structuredClone(value.aim) } : {}),
       ...(value.onBall ? { onBall: { ...value.onBall } } : {}),
     };
   }
   return out;
+}
+
+/**
+ * Arm IK targets are authored in the reference rig's world frame. Preserve
+ * their actual biomechanics on a compatible rig by keeping the shoulder-to-
+ * wrist direction and elbow flexion, then solving that same flexion against the
+ * active upper-arm and forearm lengths. The pole is translated/scaled from the
+ * shoulder by the same total-arm ratio so the elbow plane remains authored.
+ *
+ * The canonical/reference rig is mathematically unchanged by this mapping.
+ */
+function armIKForSkeleton(
+  skeleton: Skeleton,
+  chainId: IKChainId,
+  target: Vec3,
+  pole: Vec3,
+  referenceEvaluation: PoseEvaluation,
+  activeEvaluation: PoseEvaluation,
+): { target: Vec3; pole: Vec3 } {
+  const chain = IK_CHAINS[chainId];
+  const referenceShoulder = referenceEvaluation.head(chain.root);
+  const activeShoulder = activeEvaluation.head(chain.root);
+
+  const direction = new HgVec3(
+    target.x - referenceShoulder.x,
+    target.y - referenceShoulder.y,
+    target.z - referenceShoulder.z,
+  );
+  const referenceDistance = direction.length();
+  if (referenceDistance < 1e-9) return { target: { ...target }, pole: { ...pole } };
+
+  const referenceUpper = canonicalSkeleton.bone(chain.root).length;
+  const referenceLower = canonicalSkeleton.bone(chain.mid).length;
+  const activeUpper = skeleton.bone(chain.root).length;
+  const activeLower = skeleton.bone(chain.mid).length;
+
+  const cosine = Math.max(
+    -1,
+    Math.min(
+      1,
+      (
+        referenceDistance * referenceDistance -
+        referenceUpper * referenceUpper -
+        referenceLower * referenceLower
+      ) / (2 * referenceUpper * referenceLower),
+    ),
+  );
+  const activeDistance = Math.sqrt(
+    activeUpper * activeUpper +
+    activeLower * activeLower +
+    2 * activeUpper * activeLower * cosine,
+  );
+  direction.multiplyScalar(activeDistance / referenceDistance);
+
+  const armScale =
+    (activeUpper + activeLower) /
+    (referenceUpper + referenceLower);
+  const poleOffset = new HgVec3(
+    pole.x - referenceShoulder.x,
+    pole.y - referenceShoulder.y,
+    pole.z - referenceShoulder.z,
+  ).multiplyScalar(armScale);
+
+  return {
+    target: {
+      x: activeShoulder.x + direction.x,
+      y: activeShoulder.y + direction.y,
+      z: activeShoulder.z + direction.z,
+    },
+    pole: {
+      x: activeShoulder.x + poleOffset.x,
+      y: activeShoulder.y + poleOffset.y,
+      z: activeShoulder.z + poleOffset.z,
+    },
+  };
 }
 
 function cloneIK(

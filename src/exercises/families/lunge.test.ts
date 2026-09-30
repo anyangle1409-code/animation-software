@@ -251,7 +251,7 @@ describe.skipIf(!existsSync(ASSET))('feet on the production character', () => {
       const bytes = readFileSync(ASSET);
       const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
       const character = await retargetedCharacterSource({ id: ASSET, label: ASSET, data }).build(rig);
-      const body = (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name))!;
+      const body = character.meshes.find((mesh) => /freeman/i.test(mesh.name))!;
       const count = body.geometry.getAttribute('position').count;
       const sides = { l: [] as number[], r: [] as number[] };
       for (let index = 0; index < count; index += 1) {

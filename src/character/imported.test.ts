@@ -30,6 +30,7 @@ import { HgMat4 } from '../core/linearMath';
 import { retargetedCharacterSource } from './retargetSource';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
+import { asThreeMatrix } from '../test/threeInterop';
 
 /**
  * An imported character is *preserved*: the studio drives its skeleton and
@@ -169,7 +170,7 @@ const boneAt = (character: CharacterBuild, name: string): Vector3 => {
   const bone = character.bones.find((each) => each.name.replace(/[.]/g, '') === name.replace(/[.]/g, ''));
   if (!bone) throw new Error(`no bone ${name}`);
   bone.updateWorldMatrix(true, false);
-  return new Vector3().setFromMatrixPosition(bone.matrixWorld);
+  return new Vector3().setFromMatrixPosition(asThreeMatrix(bone.matrixWorld));
 };
 
 describe('an imported character', () => {
@@ -188,7 +189,7 @@ describe('an imported character', () => {
       expect(position.getZ(vertex), `z${vertex}`).toBeCloseTo(fixture.positions[vertex * 3 + 2], 6);
     }
 
-    const scale = new Vector3().setFromMatrixScale(character.object.matrixWorld);
+    const scale = new Vector3().setFromMatrixScale(asThreeMatrix(character.object.matrixWorld));
     expect(scale.x).toBeCloseTo(scale.y, 6);
     expect(scale.y).toBeCloseTo(scale.z, 6);
     expect(scale.x).toBeGreaterThan(0);
@@ -247,7 +248,7 @@ describe('an imported character', () => {
   it('leaves twist bones rigid with the limb that carries them', async () => {
     const character = await importedSource().build(rig);
     const twist = character.bones.find((each) => /upper_armR001|upper_arm\.R\.001/.test(each.name))!;
-    const parent = twist.parent as Bone;
+    const parent = twist.parent!;
     const restLocal = twist.quaternion.clone();
     const restOffset = twist.position.clone();
 
@@ -263,8 +264,8 @@ describe('an imported character', () => {
       parent.updateWorldMatrix(true, false);
       twist.updateWorldMatrix(true, false);
       const gap = new Vector3()
-        .setFromMatrixPosition(twist.matrixWorld)
-        .distanceTo(new Vector3().setFromMatrixPosition(parent.matrixWorld));
+        .setFromMatrixPosition(asThreeMatrix(twist.matrixWorld))
+        .distanceTo(new Vector3().setFromMatrixPosition(asThreeMatrix(parent.matrixWorld)));
       expect(gap, `distance from its parent at ${fraction}`).toBeGreaterThan(0.01);
     }
     character.dispose();
@@ -284,14 +285,14 @@ describe('an imported character', () => {
 
     const helper = character.bones.find((each) => /jaw/i.test(each.name))!;
     expect(helper, 'the helper bone survives the import').toBeDefined();
-    const restWorld = new Vector3().setFromMatrixPosition(helper.matrixWorld);
+    const restWorld = new Vector3().setFromMatrixPosition(asThreeMatrix(helper.matrixWorld));
 
     // It rides its parent: posing the character moves it, and it does not fly
     // off to the origin or stay pinned while the body moves.
     const { frame, evaluation } = curlPose(studioClip.duration * TOP);
     applyCharacterPose(character, rig, frame.pose, evaluation, { contacts: frame.contacts });
     helper.updateWorldMatrix(true, false);
-    const posed = new Vector3().setFromMatrixPosition(helper.matrixWorld);
+    const posed = new Vector3().setFromMatrixPosition(asThreeMatrix(helper.matrixWorld));
     expect(posed.length()).toBeGreaterThan(0.1);
     expect(posed.distanceTo(restWorld)).toBeLessThan(0.35);
     character.dispose();

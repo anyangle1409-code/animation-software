@@ -93,7 +93,7 @@ describe.skipIf(!existsSync(ASSET))('Russian twist on the production character',
     const bytes = readFileSync(ASSET);
     const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
     const character = await retargetedCharacterSource({ id: ASSET, label: ASSET, data }).build(rig);
-    const body = (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name))!;
+    const body = character.meshes.find((mesh) => /freeman/i.test(mesh.name))!;
     const count = body.geometry.getAttribute('position').count;
     // The seat: buttocks and the backs of the thighs.
     const seat = Array.from({ length: count }, (_, index) => /^(spine|pelvis|thigh)[LR]?$/.test(dominantBone(body, index)));

@@ -27,7 +27,7 @@ function fakeBuild(source: string): CharacterBuild {
     bones: [],
     boneByName: new Map(),
     skeleton: null!,
-    object,
+    object: object as unknown as CharacterBuild['object'],
     meshes: [],
     deformation: null,
     capabilities: { anatomy: false, textured: false },

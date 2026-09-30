@@ -101,7 +101,7 @@ describe.skipIf(!existsSync(ASSET))('lying and sitting on the production charact
       const bytes = readFileSync(ASSET);
       const data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
       const character = await retargetedCharacterSource({ id: ASSET, label: ASSET, data }).build(rig);
-      const body = (character.meshes as SkinnedMesh[]).find((mesh) => /freeman/i.test(mesh.name))!;
+      const body = character.meshes.find((mesh) => /freeman/i.test(mesh.name))!;
       const count = body.geometry.getAttribute('position').count;
       // The trunk and head by the production skeleton's names: its spine chain
       // runs from the pelvis (`spine`) to the head (`spine.006`).

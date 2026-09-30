@@ -25,6 +25,7 @@ import { glbCharacterSource } from './glbSource';
 import { rebindToCanonical } from './rebind';
 import { applyCharacterPose } from './pose';
 import type { CharacterBuild } from './types';
+import { asThreeMatrix } from '../test/threeInterop';
 
 const rig = canonicalSkeleton;
 const studioClip = generateClip(rig, bicepCurl);
@@ -39,7 +40,7 @@ function curlPose(time: number) {
 
 /** Where a bone's head ends up once a character has been posed. */
 const boneHead = (character: CharacterBuild, name: string): Vector3 =>
-  new Vector3().setFromMatrixPosition(character.boneByName.get(name as never)!.matrixWorld);
+  new Vector3().setFromMatrixPosition(asThreeMatrix(character.boneByName.get(name as never)!.matrixWorld));
 
 describe('the character registry', () => {
   it('offers the clean procedural character as the standalone default', () => {
@@ -273,7 +274,7 @@ describe('the viewport and the exported file', () => {
         if (!track) continue;
         const sampled = sampleQuaternion(track.times as unknown as number[], track.values as unknown as number[], time);
         const posed = new Quaternion().setFromRotationMatrix(
-          new Matrix4().extractRotation(character.boneByName.get(name)!.matrix),
+          new Matrix4().extractRotation(asThreeMatrix(character.boneByName.get(name)!.matrix)),
         );
         // Same rotation, allowing for the baked clip's own sampling interval.
         expect(Math.abs(sampled.dot(posed)), `${name} at ${fraction}`).toBeGreaterThan(0.999);
@@ -300,8 +301,8 @@ function wristSurface(character: CharacterBuild): number {
     if (skinIndex.getX(vertex) !== hand || skinWeight.getX(vertex) < 0.99) continue;
     source.set(position.getX(vertex), position.getY(vertex), position.getZ(vertex));
     matrix
-      .copy(mesh.skeleton.bones[hand].matrixWorld)
-      .multiply(mesh.skeleton.boneInverses[hand]);
+      .copy(asThreeMatrix(mesh.skeleton.bones[hand].matrixWorld))
+      .multiply(asThreeMatrix(mesh.skeleton.boneInverses[hand]));
     highest = Math.max(highest, skinned.copy(source).applyMatrix4(matrix).y);
   }
   return highest;

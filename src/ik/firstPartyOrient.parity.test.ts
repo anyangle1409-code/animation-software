@@ -3,7 +3,7 @@ import { EXERCISES } from '../exercises/library';
 import { generateClip } from '../animation/generate';
 import { sampleClip } from '../animation/clip';
 import { canonicalSkeleton, PoseEvaluation } from '../rig/skeleton';
-import { HgPoseEvaluation, hgCanonicalSkeleton } from '../rig/firstPartySkeleton';
+import { HgPoseEvaluation } from '../rig/firstPartySkeleton';
 import { HgVec3 } from '../core/linearMath';
 import {
   hingeRotationForDirection,
@@ -17,6 +17,7 @@ import {
 } from './firstPartyOrient';
 
 const EPS = 2e-11;
+const hgCanonicalSkeleton = canonicalSkeleton.firstParty;
 
 function expectRotation(
   actual: { x: number; y: number; z: number },

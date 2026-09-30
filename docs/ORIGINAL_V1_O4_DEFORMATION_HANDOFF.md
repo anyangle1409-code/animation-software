@@ -1270,14 +1270,63 @@ software branch. When an asset eventually passes:
 - replace the temporary procedural fallback only after the production asset is
   explicitly approved.
 
+## Repo-side r30 preparation — 2026-10-01
+
+Prepared without opening or modifying Blender candidates:
+
+- `RUN_ORIGINAL_V1_R30.bat` now automates the exact r29 -> r30 step already
+  specified above: dump r29, solve `o22` warm-started from `o21`, apply into
+  a new r30 candidate, run all 15 evidence poses, compare r30 with R2/r29/r28,
+  rebuild the generated candidate review and collect a compact visual review.
+- `scripts/collect_original_v1_review_images.py` copies 17 selected renders
+  from the full evidence directories into
+  `ORIGINAL_V1_WORK/candidates/review/visual_r30/` with a SHA-256 manifest.
+  This makes the latest state reviewable from GitHub/phone without committing
+  every diagnostic render.
+
+These helpers do not modify thresholds, the pinned R2 baseline, approval flags,
+existing candidate assets, rig structure or exercise pose definitions. They
+only make the already-authorised next experiment deterministic and easier to
+review. The generated r30 candidate must still be judged by the unchanged
+comparators and remains non-production unless separately approved.
+
 ## Next Blender session
 
-Claude should begin with **Priority 1 shoulder deformation**, then Priority 2
-hands/grip. Do not spend the next session on new exercise features, facial
-detail, material polish or further third-party migration work.
+Current state entering the next laptop session:
 
-The immediate objective is simple:
+- Priority 1 shoulder work is clear at the development gate in the current
+  experimental lineage; do not restart the earlier shoulder search.
+- r28 remains the best no-regression-vs-prior experimental hand candidate.
+- r29 has the fewest development failures (**7**) and clears `curl_peak`, but
+  trades away some finger minimum margin relative to r28.
+- production approval remains false.
 
-> reduce the current development-blocker failures without weakening the gates,
+Run this first:
+
+```bat
+RUN_ORIGINAL_V1_R30.bat
+```
+
+Then inspect the generated R2/r29/r28 comparisons and the compact
+`visual_r30` review before deciding whether r30 supersedes either r28 or r29.
+
+If r30 is acceptable under the existing gates, continue in this order:
+
+1. isolate the `pushup_bottom` wrist-extension hand-max regression with a
+   wrist-only solve; do not reopen the whole hand zone unnecessarily;
+2. resolve the proven weight-independent 5.93 mm grip penetration by reviewing
+   the ORIGINAL-v1 thumb rest pose versus the frozen grip pose script — do not
+   hide it by relaxing tolerance;
+3. start Priority 3 `lunge` pelvis/torso work, which remains untouched;
+4. only after those development blockers are resolved, proceed to production
+   profile, anatomy, garment, runtime-contact and release-approval gates.
+
+Do not spend the next session on new exercise features, facial/material polish,
+or unrelated third-party migration work.
+
+The immediate objective remains:
+
+> reduce the remaining development-blocker failures without weakening the gates,
 > while keeping ORIGINAL v1 independently authored and preserving the clean
 > standalone runtime boundary.
+

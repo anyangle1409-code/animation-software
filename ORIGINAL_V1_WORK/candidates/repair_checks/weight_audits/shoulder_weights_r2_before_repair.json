@@ -1,0 +1,2035 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-09-30T16:35:57.713487+00:00",
+  "stage": "O4 candidate shoulder-weight diagnostic (read-only, not production)",
+  "blend": "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\candidates\\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend",
+  "blend_sha256": "d89dedb5033eb52e27a2d66f000f460c5c106ba8e056421cddce633e369044a4",
+  "body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+  "rig": "HGPT_CANONICAL_V4_ORIGINAL",
+  "region_names": [
+    "arm",
+    "finger",
+    "foot",
+    "hand",
+    "head",
+    "leg",
+    "neck",
+    "pelvis",
+    "shoulder",
+    "thumb",
+    "torso"
+  ],
+  "rules": {
+    "mutates_blend": false,
+    "saves_blend": false,
+    "purpose": "Quantify current ORIGINAL-v1 O4 shoulder/upper-torso weight distribution before manual repair."
+  },
+  "regions": {
+    "shoulder": {
+      "l": {
+        "vertex_count": 488,
+        "max_weight_sum_error": 9.90554690361023e-06,
+        "influence_count_histogram": {
+          "3": 98,
+          "4": 390
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "clavicle_l": 191,
+          "upperarm_l": 134,
+          "scapula_l": 119,
+          "spine_03": 29,
+          "neck": 15
+        },
+        "bone_stats": [
+          {
+            "bone": "clavicle_l",
+            "mean_weight_over_region": 0.36381335500446454,
+            "weight_sum": 177.5409172421787,
+            "max_weight": 0.9398316144943237,
+            "vertices_gt_0_05": 415,
+            "vertices_gt_0_25": 276,
+            "dominant_vertices": 191
+          },
+          {
+            "bone": "upperarm_l",
+            "mean_weight_over_region": 0.26299836427308754,
+            "weight_sum": 128.3432017652667,
+            "max_weight": 0.9920082092285156,
+            "vertices_gt_0_05": 273,
+            "vertices_gt_0_25": 185,
+            "dominant_vertices": 134
+          },
+          {
+            "bone": "scapula_l",
+            "mean_weight_over_region": 0.23237951041830426,
+            "weight_sum": 113.40120108413248,
+            "max_weight": 0.9803361892700195,
+            "vertices_gt_0_05": 291,
+            "vertices_gt_0_25": 177,
+            "dominant_vertices": 119
+          },
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.07269157133234636,
+            "weight_sum": 35.47348681018502,
+            "max_weight": 0.7376238107681274,
+            "vertices_gt_0_05": 139,
+            "vertices_gt_0_25": 54,
+            "dominant_vertices": 29
+          },
+          {
+            "bone": "neck",
+            "mean_weight_over_region": 0.06258155068594608,
+            "weight_sum": 30.539796734741685,
+            "max_weight": 0.6927381753921509,
+            "vertices_gt_0_05": 128,
+            "vertices_gt_0_25": 49,
+            "dominant_vertices": 15
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.005535389088972956,
+            "weight_sum": 2.7012698754188023,
+            "max_weight": 0.11884880065917969,
+            "vertices_gt_0_05": 26,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.0,
+            "distance_max_m": 0.04,
+            "vertex_count": 18,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.4320616838004854,
+              "scapula_l": 0.24133486631843779,
+              "upperarm_l": 0.3263014844722218,
+              "spine_02": 0.0,
+              "spine_03": 0.0,
+              "neck": 0.00030123364993212616
+            }
+          },
+          {
+            "distance_min_m": 0.04,
+            "distance_max_m": 0.08,
+            "vertex_count": 87,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.35661418688879615,
+              "scapula_l": 0.22768635197071593,
+              "upperarm_l": 0.41394153759739866,
+              "spine_02": 0.0,
+              "spine_03": 7.951517784084868e-05,
+              "neck": 0.0016778641499628462
+            }
+          },
+          {
+            "distance_min_m": 0.08,
+            "distance_max_m": 0.12,
+            "vertex_count": 133,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.32222534625798016,
+              "scapula_l": 0.2568544897993088,
+              "upperarm_l": 0.40065078631995765,
+              "spine_02": 0.0,
+              "spine_03": 0.008440894717805486,
+              "neck": 0.011828394220235777
+            }
+          },
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 106,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.37253854913364676,
+              "scapula_l": 0.2387055140535044,
+              "upperarm_l": 0.29176103903241796,
+              "spine_02": 0.0021184263048025795,
+              "spine_03": 0.032701345122336106,
+              "neck": 0.06217478174463429
+            }
+          }
+        ]
+      },
+      "r": {
+        "vertex_count": 488,
+        "max_weight_sum_error": 9.948387742042542e-06,
+        "influence_count_histogram": {
+          "3": 98,
+          "4": 390
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "clavicle_r": 191,
+          "upperarm_r": 134,
+          "scapula_r": 119,
+          "spine_03": 29,
+          "neck": 15
+        },
+        "bone_stats": [
+          {
+            "bone": "clavicle_r",
+            "mean_weight_over_region": 0.3638133512410053,
+            "weight_sum": 177.54091540561058,
+            "max_weight": 0.9398316144943237,
+            "vertices_gt_0_05": 415,
+            "vertices_gt_0_25": 276,
+            "dominant_vertices": 191
+          },
+          {
+            "bone": "upperarm_r",
+            "mean_weight_over_region": 0.2629983653809937,
+            "weight_sum": 128.34320230592493,
+            "max_weight": 0.9920082688331604,
+            "vertices_gt_0_05": 273,
+            "vertices_gt_0_25": 185,
+            "dominant_vertices": 134
+          },
+          {
+            "bone": "scapula_r",
+            "mean_weight_over_region": 0.23237951288214032,
+            "weight_sum": 113.40120228648448,
+            "max_weight": 0.9803361892700195,
+            "vertices_gt_0_05": 291,
+            "vertices_gt_0_25": 177,
+            "dominant_vertices": 119
+          },
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.07269157252772246,
+            "weight_sum": 35.47348739352856,
+            "max_weight": 0.7376238703727722,
+            "vertices_gt_0_05": 139,
+            "vertices_gt_0_25": 54,
+            "dominant_vertices": 29
+          },
+          {
+            "bone": "neck",
+            "mean_weight_over_region": 0.06258155029540756,
+            "weight_sum": 30.53979654415889,
+            "max_weight": 0.6927381753921509,
+            "vertices_gt_0_05": 128,
+            "vertices_gt_0_25": 49,
+            "dominant_vertices": 15
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.005535388800200933,
+            "weight_sum": 2.701269734498055,
+            "max_weight": 0.11884880065917969,
+            "vertices_gt_0_05": 26,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.0,
+            "distance_max_m": 0.04,
+            "vertex_count": 18,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.43206168793969685,
+              "scapula_r": 0.2413348654905955,
+              "upperarm_r": 0.32630148116085267,
+              "spine_02": 0.0,
+              "spine_03": 0.0,
+              "neck": 0.0003012335323546722
+            }
+          },
+          {
+            "distance_min_m": 0.04,
+            "distance_max_m": 0.08,
+            "vertex_count": 87,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.3566141856042133,
+              "scapula_r": 0.22768635346671973,
+              "upperarm_r": 0.4139415380684124,
+              "spine_02": 0.0,
+              "spine_03": 7.951516970766617e-05,
+              "neck": 0.0016778638479896973
+            }
+          },
+          {
+            "distance_min_m": 0.08,
+            "distance_max_m": 0.12,
+            "vertex_count": 133,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.32222534040395256,
+              "scapula_r": 0.25685449477015554,
+              "upperarm_r": 0.4006507877449512,
+              "spine_02": 0.0,
+              "spine_03": 0.008440894466340458,
+              "neck": 0.011828392880372286
+            }
+          },
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 106,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.37253854899306976,
+              "scapula_r": 0.2387055162988924,
+              "upperarm_r": 0.2917610419656928,
+              "spine_02": 0.002118426006076471,
+              "spine_03": 0.03270134433447345,
+              "neck": 0.062174779438773496
+            }
+          }
+        ]
+      },
+      "centre": {
+        "vertex_count": 14,
+        "max_weight_sum_error": 3.3527612686157227e-08,
+        "influence_count_histogram": {
+          "4": 14
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "spine_03": 9,
+          "neck": 3,
+          "clavicle_l": 2
+        },
+        "bone_stats": [
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.36894747974084957,
+            "weight_sum": 5.165264716371894,
+            "max_weight": 0.7091383934020996,
+            "vertices_gt_0_05": 13,
+            "vertices_gt_0_25": 9,
+            "dominant_vertices": 9
+          },
+          {
+            "bone": "neck",
+            "mean_weight_over_region": 0.1700566742303116,
+            "weight_sum": 2.3807934392243624,
+            "max_weight": 0.6824173331260681,
+            "vertices_gt_0_05": 8,
+            "vertices_gt_0_25": 4,
+            "dominant_vertices": 3
+          },
+          {
+            "bone": "clavicle_l",
+            "mean_weight_over_region": 0.1578852677983897,
+            "weight_sum": 2.210393749177456,
+            "max_weight": 0.37446603178977966,
+            "vertices_gt_0_05": 11,
+            "vertices_gt_0_25": 4,
+            "dominant_vertices": 2
+          },
+          {
+            "bone": "clavicle_r",
+            "mean_weight_over_region": 0.1507743283041886,
+            "weight_sum": 2.1108405962586403,
+            "max_weight": 0.37446603178977966,
+            "vertices_gt_0_05": 10,
+            "vertices_gt_0_25": 4,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "scapula_l",
+            "mean_weight_over_region": 0.06768793293407985,
+            "weight_sum": 0.9476310610771179,
+            "max_weight": 0.2749514579772949,
+            "vertices_gt_0_05": 4,
+            "vertices_gt_0_25": 2,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "scapula_r",
+            "mean_weight_over_region": 0.06768793293407985,
+            "weight_sum": 0.9476310610771179,
+            "max_weight": 0.2749514579772949,
+            "vertices_gt_0_05": 4,
+            "vertices_gt_0_25": 2,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.016960385654653822,
+            "weight_sum": 0.2374453991651535,
+            "max_weight": 0.11246808618307114,
+            "vertices_gt_0_05": 2,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": []
+      }
+    },
+    "torso": {
+      "l": {
+        "vertex_count": 1364,
+        "max_weight_sum_error": 1.0000000356230885,
+        "influence_count_histogram": {
+          "1": 4,
+          "2": 24,
+          "3": 133,
+          "4": 1176,
+          "5": 27
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "scapula_l": 282,
+          "HGPT_UNDER_SHORTS": 270,
+          "spine_01": 256,
+          "spine_02": 221,
+          "thigh_l": 165,
+          "spine_03": 99,
+          "pelvis": 64,
+          "upperarm_l": 7
+        },
+        "bone_stats": [
+          {
+            "bone": "thigh_l",
+            "mean_weight_over_region": 0.284072528719806,
+            "weight_sum": 387.4749291738153,
+            "max_weight": 0.9999998807907104,
+            "vertices_gt_0_05": 711,
+            "vertices_gt_0_25": 495,
+            "dominant_vertices": 165
+          },
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "mean_weight_over_region": 0.19794721407624633,
+            "weight_sum": 270.0,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 270,
+            "vertices_gt_0_25": 270,
+            "dominant_vertices": 270
+          },
+          {
+            "bone": "scapula_l",
+            "mean_weight_over_region": 0.18989088208857144,
+            "weight_sum": 259.01116316881144,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 504,
+            "vertices_gt_0_25": 331,
+            "dominant_vertices": 282
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.17080562410971392,
+            "weight_sum": 232.9788712856498,
+            "max_weight": 0.7026398181915283,
+            "vertices_gt_0_05": 763,
+            "vertices_gt_0_25": 401,
+            "dominant_vertices": 221
+          },
+          {
+            "bone": "spine_01",
+            "mean_weight_over_region": 0.16605347710627782,
+            "weight_sum": 226.49694277296294,
+            "max_weight": 0.6914880871772766,
+            "vertices_gt_0_05": 756,
+            "vertices_gt_0_25": 382,
+            "dominant_vertices": 256
+          },
+          {
+            "bone": "pelvis",
+            "mean_weight_over_region": 0.09652605832675189,
+            "weight_sum": 131.66154355768958,
+            "max_weight": 0.6582759618759155,
+            "vertices_gt_0_05": 600,
+            "vertices_gt_0_25": 172,
+            "dominant_vertices": 64
+          },
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.07040616495937697,
+            "weight_sum": 96.03400900459019,
+            "max_weight": 0.7400025129318237,
+            "vertices_gt_0_05": 334,
+            "vertices_gt_0_25": 152,
+            "dominant_vertices": 99
+          },
+          {
+            "bone": "upperarm_l",
+            "mean_weight_over_region": 0.013825315601021067,
+            "weight_sum": 18.857730479792735,
+            "max_weight": 0.5068856477737427,
+            "vertices_gt_0_05": 111,
+            "vertices_gt_0_25": 20,
+            "dominant_vertices": 7
+          },
+          {
+            "bone": "clavicle_l",
+            "mean_weight_over_region": 0.00841898071716222,
+            "weight_sum": 11.483489698209269,
+            "max_weight": 0.22309495508670807,
+            "vertices_gt_0_05": 84,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "neck",
+            "mean_weight_over_region": 7.563239999017828e-07,
+            "weight_sum": 0.0010316259358660318,
+            "max_weight": 0.000564174260944128,
+            "vertices_gt_0_05": 0,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.08,
+            "distance_max_m": 0.12,
+            "vertex_count": 3,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.03448876986900965,
+              "scapula_l": 0.46953268845876056,
+              "upperarm_l": 0.439213494459788,
+              "spine_02": 0.003674241714179516,
+              "spine_03": 0.053090816984574,
+              "neck": 0.0
+            }
+          },
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 21,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.01522634139854788,
+              "scapula_l": 0.666162738487834,
+              "upperarm_l": 0.21634962256731732,
+              "spine_02": 0.033708574156879056,
+              "spine_03": 0.06855272431857884,
+              "neck": 0.0
+            }
+          }
+        ]
+      },
+      "r": {
+        "vertex_count": 1364,
+        "max_weight_sum_error": 1.000000037252903,
+        "influence_count_histogram": {
+          "1": 4,
+          "2": 24,
+          "3": 131,
+          "4": 1178,
+          "5": 27
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "scapula_r": 282,
+          "HGPT_UNDER_SHORTS": 270,
+          "spine_01": 256,
+          "spine_02": 221,
+          "thigh_r": 165,
+          "spine_03": 99,
+          "pelvis": 64,
+          "upperarm_r": 7
+        },
+        "bone_stats": [
+          {
+            "bone": "thigh_r",
+            "mean_weight_over_region": 0.28406935585430293,
+            "weight_sum": 387.4706013852692,
+            "max_weight": 0.9999998807907104,
+            "vertices_gt_0_05": 711,
+            "vertices_gt_0_25": 495,
+            "dominant_vertices": 165
+          },
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "mean_weight_over_region": 0.19794721407624633,
+            "weight_sum": 270.0,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 270,
+            "vertices_gt_0_25": 270,
+            "dominant_vertices": 270
+          },
+          {
+            "bone": "scapula_r",
+            "mean_weight_over_region": 0.18989088212003835,
+            "weight_sum": 259.0111632117323,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 504,
+            "vertices_gt_0_25": 331,
+            "dominant_vertices": 282
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.17080563485071434,
+            "weight_sum": 232.97888593637435,
+            "max_weight": 0.7026398181915283,
+            "vertices_gt_0_05": 763,
+            "vertices_gt_0_25": 401,
+            "dominant_vertices": 221
+          },
+          {
+            "bone": "spine_01",
+            "mean_weight_over_region": 0.16605495896282307,
+            "weight_sum": 226.49896402529066,
+            "max_weight": 0.6914881467819214,
+            "vertices_gt_0_05": 756,
+            "vertices_gt_0_25": 382,
+            "dominant_vertices": 256
+          },
+          {
+            "bone": "pelvis",
+            "mean_weight_over_region": 0.0965277515411883,
+            "weight_sum": 131.66385310218084,
+            "max_weight": 0.6585249304771423,
+            "vertices_gt_0_05": 600,
+            "vertices_gt_0_25": 172,
+            "dominant_vertices": 64
+          },
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.07040616483868889,
+            "weight_sum": 96.03400883997165,
+            "max_weight": 0.7400025129318237,
+            "vertices_gt_0_05": 334,
+            "vertices_gt_0_25": 152,
+            "dominant_vertices": 99
+          },
+          {
+            "bone": "upperarm_r",
+            "mean_weight_over_region": 0.013825315793359192,
+            "weight_sum": 18.85773074214194,
+            "max_weight": 0.5068856477737427,
+            "vertices_gt_0_05": 111,
+            "vertices_gt_0_25": 20,
+            "dominant_vertices": 7
+          },
+          {
+            "bone": "clavicle_r",
+            "mean_weight_over_region": 0.008418980491907587,
+            "weight_sum": 11.48348939096195,
+            "max_weight": 0.22309496998786926,
+            "vertices_gt_0_05": 84,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "neck",
+            "mean_weight_over_region": 7.563238125352058e-07,
+            "weight_sum": 0.0010316256802980206,
+            "max_weight": 0.0005641742027364671,
+            "vertices_gt_0_05": 0,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.08,
+            "distance_max_m": 0.12,
+            "vertex_count": 3,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.03448876862724622,
+              "scapula_r": 0.46953266859054565,
+              "upperarm_r": 0.43921351432800293,
+              "spine_02": 0.0036742407828569412,
+              "spine_03": 0.053090812638401985,
+              "neck": 0.0
+            }
+          },
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 21,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.015226341009457385,
+              "scapula_r": 0.6661627370686758,
+              "upperarm_r": 0.2163496348297312,
+              "spine_02": 0.033708571041123445,
+              "spine_03": 0.06855272091880102,
+              "neck": 0.0
+            }
+          }
+        ]
+      },
+      "centre": {
+        "vertex_count": 88,
+        "max_weight_sum_error": 1.0000000298023224,
+        "influence_count_histogram": {
+          "3": 2,
+          "4": 71,
+          "5": 15
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "spine_02": 21,
+          "HGPT_UNDER_SHORTS": 18,
+          "spine_01": 17,
+          "pelvis": 14,
+          "spine_03": 13,
+          "scapula_l": 5
+        },
+        "bone_stats": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "mean_weight_over_region": 0.20454545454545456,
+            "weight_sum": 18.0,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 18,
+            "vertices_gt_0_25": 18,
+            "dominant_vertices": 18
+          },
+          {
+            "bone": "spine_02",
+            "mean_weight_over_region": 0.20419907531785694,
+            "weight_sum": 17.96951862797141,
+            "max_weight": 0.7051281929016113,
+            "vertices_gt_0_05": 54,
+            "vertices_gt_0_25": 30,
+            "dominant_vertices": 21
+          },
+          {
+            "bone": "pelvis",
+            "mean_weight_over_region": 0.19913109019603326,
+            "weight_sum": 17.523535937250927,
+            "max_weight": 0.6394494771957397,
+            "vertices_gt_0_05": 48,
+            "vertices_gt_0_25": 31,
+            "dominant_vertices": 14
+          },
+          {
+            "bone": "spine_01",
+            "mean_weight_over_region": 0.19646230869427034,
+            "weight_sum": 17.28868316509579,
+            "max_weight": 0.7009802460670471,
+            "vertices_gt_0_05": 53,
+            "vertices_gt_0_25": 26,
+            "dominant_vertices": 17
+          },
+          {
+            "bone": "spine_03",
+            "mean_weight_over_region": 0.11846914524424144,
+            "weight_sum": 10.425284781493247,
+            "max_weight": 0.7166980504989624,
+            "vertices_gt_0_05": 30,
+            "vertices_gt_0_25": 17,
+            "dominant_vertices": 13
+          },
+          {
+            "bone": "thigh_r",
+            "mean_weight_over_region": 0.08090308044021102,
+            "weight_sum": 7.11947107873857,
+            "max_weight": 0.43465110659599304,
+            "vertices_gt_0_05": 33,
+            "vertices_gt_0_25": 12,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "thigh_l",
+            "mean_weight_over_region": 0.08061602469322017,
+            "weight_sum": 7.0942101730033755,
+            "max_weight": 0.43465107679367065,
+            "vertices_gt_0_05": 32,
+            "vertices_gt_0_25": 12,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "scapula_r",
+            "mean_weight_over_region": 0.05665552399163558,
+            "weight_sum": 4.985686111263931,
+            "max_weight": 0.3143514394760132,
+            "vertices_gt_0_05": 21,
+            "vertices_gt_0_25": 13,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "scapula_l",
+            "mean_weight_over_region": 0.05514677529307929,
+            "weight_sum": 4.8529162257909775,
+            "max_weight": 0.3143514394760132,
+            "vertices_gt_0_05": 20,
+            "vertices_gt_0_25": 13,
+            "dominant_vertices": 5
+          },
+          {
+            "bone": "clavicle_l",
+            "mean_weight_over_region": 0.004495238887267822,
+            "weight_sum": 0.39558102207956836,
+            "max_weight": 0.07260964065790176,
+            "vertices_gt_0_05": 3,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "clavicle_r",
+            "mean_weight_over_region": 0.003921677294949239,
+            "weight_sum": 0.345107601955533,
+            "max_weight": 0.07260964065790176,
+            "vertices_gt_0_05": 3,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": []
+      }
+    },
+    "arm": {
+      "l": {
+        "vertex_count": 1040,
+        "max_weight_sum_error": 1.4722347259521484e-05,
+        "influence_count_histogram": {
+          "1": 74,
+          "2": 839,
+          "3": 116,
+          "4": 11
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "forearm_l": 578,
+          "upperarm_l": 462
+        },
+        "bone_stats": [
+          {
+            "bone": "forearm_l",
+            "mean_weight_over_region": 0.5524130098037657,
+            "weight_sum": 574.5095301959163,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 746,
+            "vertices_gt_0_25": 640,
+            "dominant_vertices": 578
+          },
+          {
+            "bone": "upperarm_l",
+            "mean_weight_over_region": 0.4313311677681178,
+            "weight_sum": 448.5844144788425,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 628,
+            "vertices_gt_0_25": 520,
+            "dominant_vertices": 462
+          },
+          {
+            "bone": "scapula_l",
+            "mean_weight_over_region": 0.01001559549240133,
+            "weight_sum": 10.416219312097382,
+            "max_weight": 0.48914384841918945,
+            "vertices_gt_0_05": 53,
+            "vertices_gt_0_25": 10,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "hand_l",
+            "mean_weight_over_region": 0.005331400430418398,
+            "weight_sum": 5.544656447635134,
+            "max_weight": 0.14373494684696198,
+            "vertices_gt_0_05": 40,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "clavicle_l",
+            "mean_weight_over_region": 0.0009085978699142918,
+            "weight_sum": 0.9449417847108634,
+            "max_weight": 0.09999487549066544,
+            "vertices_gt_0_05": 6,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 80,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_l": 0.011385886760206177,
+              "scapula_l": 0.1073377032529379,
+              "upperarm_l": 0.8812760554254055,
+              "spine_02": 0.0,
+              "spine_03": 0.0,
+              "neck": 0.0
+            }
+          }
+        ]
+      },
+      "r": {
+        "vertex_count": 1040,
+        "max_weight_sum_error": 1.4722347259521484e-05,
+        "influence_count_histogram": {
+          "1": 74,
+          "2": 839,
+          "3": 116,
+          "4": 11
+        },
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {
+          "forearm_r": 578,
+          "upperarm_r": 462
+        },
+        "bone_stats": [
+          {
+            "bone": "forearm_r",
+            "mean_weight_over_region": 0.5524130091680088,
+            "weight_sum": 574.5095295347292,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 746,
+            "vertices_gt_0_25": 640,
+            "dominant_vertices": 578
+          },
+          {
+            "bone": "upperarm_r",
+            "mean_weight_over_region": 0.4313311684221442,
+            "weight_sum": 448.58441515902996,
+            "max_weight": 1.0,
+            "vertices_gt_0_05": 628,
+            "vertices_gt_0_25": 520,
+            "dominant_vertices": 462
+          },
+          {
+            "bone": "scapula_r",
+            "mean_weight_over_region": 0.010015595085698036,
+            "weight_sum": 10.416218889125958,
+            "max_weight": 0.48914384841918945,
+            "vertices_gt_0_05": 53,
+            "vertices_gt_0_25": 10,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "hand_r",
+            "mean_weight_over_region": 0.005331400705121653,
+            "weight_sum": 5.544656733326519,
+            "max_weight": 0.14373496174812317,
+            "vertices_gt_0_05": 40,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          },
+          {
+            "bone": "clavicle_r",
+            "mean_weight_over_region": 0.0009085978360155003,
+            "weight_sum": 0.9449417494561203,
+            "max_weight": 0.09999486804008484,
+            "vertices_gt_0_05": 6,
+            "vertices_gt_0_25": 0,
+            "dominant_vertices": 0
+          }
+        ],
+        "distance_bands_from_upperarm_head": [
+          {
+            "distance_min_m": 0.12,
+            "distance_max_m": 0.16,
+            "vertex_count": 80,
+            "mean_weight_by_relevant_bone": {
+              "clavicle_r": 0.011385886352286434,
+              "scapula_r": 0.10733770003052996,
+              "upperarm_r": 0.8812760584056377,
+              "spine_02": 0.0,
+              "spine_03": 0.0,
+              "neck": 0.0
+            }
+          }
+        ]
+      },
+      "centre": {
+        "vertex_count": 0,
+        "max_weight_sum_error": null,
+        "influence_count_histogram": {},
+        "cross_side_weight_vertices": 0,
+        "dominant_bones": {},
+        "bone_stats": [],
+        "distance_bands_from_upperarm_head": []
+      }
+    }
+  },
+  "edge_weight_gradients": {
+    "metric": "L1 difference between normalised bone-weight vectors across one mesh edge. High values identify abrupt skinning transitions; they are diagnostic, not an automatic acceptance threshold.",
+    "stats": {
+      "all_relevant": {
+        "count": 11884,
+        "mean_l1": 0.10751796928054694,
+        "p95_l1": 0.3337757669389248,
+        "p99_l1": 0.6552397439135166,
+        "max_l1": 1.1589090971792757
+      },
+      "shoulder_incident": {
+        "count": 2088,
+        "mean_l1": 0.18564242829090988,
+        "p95_l1": 0.43033990627154706,
+        "p99_l1": 0.6487956565688364,
+        "max_l1": 0.9439079165458679
+      },
+      "region_boundary": {
+        "count": 356,
+        "mean_l1": 0.30496855351789187,
+        "p95_l1": 0.6760962445405312,
+        "p99_l1": 0.8368547604419266,
+        "max_l1": 0.9727517515420914
+      },
+      "left": {
+        "count": 5890,
+        "mean_l1": 0.10690737245078465,
+        "p95_l1": 0.33299289704445983,
+        "p99_l1": 0.6497246180606797,
+        "max_l1": 1.1589090971792757
+      },
+      "right": {
+        "count": 5890,
+        "mean_l1": 0.10691084135531387,
+        "p95_l1": 0.33299288492853524,
+        "p99_l1": 0.649724669494133,
+        "max_l1": 1.1589086574058456
+      }
+    },
+    "top_25_edges": [
+      {
+        "vertices": [
+          375,
+          5138
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1589090971792757,
+        "midpoint": {
+          "x": -0.07754968479275703,
+          "y": -0.08555417880415916,
+          "z": 0.9799919426441193
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.07943767309188843,
+            "abs_delta": 0.07943767309188843
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.07346592843532562,
+            "abs_delta": 0.07346592843532562
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.005988612771034241,
+            "abs_delta": 0.005988612771034241
+          },
+          {
+            "bone": "spine_02",
+            "delta": -1.6882881027413532e-05,
+            "abs_delta": 1.6882881027413532e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          401,
+          5192
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1589086574058456,
+        "midpoint": {
+          "x": 0.07754968479275703,
+          "y": -0.08555417880415916,
+          "z": 0.9799919426441193
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.07943743467330933,
+            "abs_delta": 0.07943743467330933
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.07346563041210175,
+            "abs_delta": 0.07346563041210175
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.005988709628582001,
+            "abs_delta": 0.005988709628582001
+          },
+          {
+            "bone": "spine_02",
+            "delta": -1.6882691852515563e-05,
+            "abs_delta": 1.6882691852515563e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          387,
+          5162
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1551450230181217,
+        "midpoint": {
+          "x": -0.034322116523981094,
+          "y": 0.12846750020980835,
+          "z": 0.9800435304641724
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": 0.07757246494293213,
+            "abs_delta": 0.07757246494293213
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.07273006439208984,
+            "abs_delta": 0.07273006439208984
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.004842493683099747,
+            "abs_delta": 0.004842493683099747
+          }
+        ]
+      },
+      {
+        "vertices": [
+          389,
+          5168
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1551450192928314,
+        "midpoint": {
+          "x": 0.034322116523981094,
+          "y": 0.12846750020980835,
+          "z": 0.9800435304641724
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": 0.07757246494293213,
+            "abs_delta": 0.07757246494293213
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.07273006439208984,
+            "abs_delta": 0.07273006439208984
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.004842489957809448,
+            "abs_delta": 0.004842489957809448
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5192,
+          13797
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.136154497784446,
+        "midpoint": {
+          "x": 0.07018467038869858,
+          "y": -0.08938060700893402,
+          "z": 0.9861565828323364
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.06807726621627808,
+            "abs_delta": 0.06807726621627808
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.041083067655563354,
+            "abs_delta": 0.041083067655563354
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02679288387298584,
+            "abs_delta": 0.02679288387298584
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.0002012800396187231,
+            "abs_delta": 0.0002012800396187231
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5138,
+          13770
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1361540728939872,
+        "midpoint": {
+          "x": -0.07018467038869858,
+          "y": -0.08938060700893402,
+          "z": 0.9861565828323364
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.06807702779769897,
+            "abs_delta": 0.06807702779769897
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.04108282923698425,
+            "abs_delta": 0.04108282923698425
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02679293602705002,
+            "abs_delta": 0.02679293602705002
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.0002012798322539311,
+            "abs_delta": 0.0002012798322539311
+          }
+        ]
+      },
+      {
+        "vertices": [
+          389,
+          5229
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1292687729001045,
+        "midpoint": {
+          "x": 0.02723084669560194,
+          "y": 0.12399006262421608,
+          "z": 0.9862480461597443
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.0646359920501709,
+            "abs_delta": 0.0646359920501709
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.047351568937301636,
+            "abs_delta": 0.047351568937301636
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.01728121191263199,
+            "abs_delta": 0.01728121191263199
+          }
+        ]
+      },
+      {
+        "vertices": [
+          387,
+          5225
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1292687430977821,
+        "midpoint": {
+          "x": -0.02723084669560194,
+          "y": 0.12399006262421608,
+          "z": 0.9862480461597443
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.0646359920501709,
+            "abs_delta": 0.0646359920501709
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.04735153913497925,
+            "abs_delta": 0.04735153913497925
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.01728121191263199,
+            "abs_delta": 0.01728121191263199
+          }
+        ]
+      },
+      {
+        "vertices": [
+          402,
+          5255
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.129248666267813,
+        "midpoint": {
+          "x": 0.056369321420788765,
+          "y": -0.09233182668685913,
+          "z": 0.9861443340778351
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.06462433934211731,
+            "abs_delta": 0.06462433934211731
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.037807583808898926,
+            "abs_delta": 0.037807583808898926
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.026674002408981323,
+            "abs_delta": 0.026674002408981323
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.00014274070781539194,
+            "abs_delta": 0.00014274070781539194
+          }
+        ]
+      },
+      {
+        "vertices": [
+          374,
+          5199
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1292458387742954,
+        "midpoint": {
+          "x": -0.056369321420788765,
+          "y": -0.09233182668685913,
+          "z": 0.9861443340778351
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.06462293863296509,
+            "abs_delta": 0.06462293863296509
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.03780549764633179,
+            "abs_delta": 0.03780549764633179
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02667466551065445,
+            "abs_delta": 0.02667466551065445
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.00014273698434408288,
+            "abs_delta": 0.00014273698434408288
+          }
+        ]
+      },
+      {
+        "vertices": [
+          388,
+          5227
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "centre",
+        "l1_weight_delta": 1.1211949959397316,
+        "midpoint": {
+          "x": 0.0,
+          "y": 0.11905019357800484,
+          "z": 0.986176997423172
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.04440006613731384,
+            "abs_delta": 0.04440006613731384
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.030298754572868347,
+            "abs_delta": 0.030298754572868347
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.030298739671707153,
+            "abs_delta": 0.030298739671707153
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.016197435557842255,
+            "abs_delta": 0.016197435557842255
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5166,
+          13784
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1209701299667358,
+        "midpoint": {
+          "x": 0.013560737948864698,
+          "y": 0.12084652855992317,
+          "z": 0.9861958026885986
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.060485661029815674,
+            "abs_delta": 0.060485661029815674
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.04320991039276123,
+            "abs_delta": 0.04320991039276123
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.017274558544158936,
+            "abs_delta": 0.017274558544158936
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5164,
+          13783
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1209701001644135,
+        "midpoint": {
+          "x": -0.013560737948864698,
+          "y": 0.12084652855992317,
+          "z": 0.9861958026885986
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.060485661029815674,
+            "abs_delta": 0.060485661029815674
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.04320988059043884,
+            "abs_delta": 0.04320988059043884
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.017274558544158936,
+            "abs_delta": 0.017274558544158936
+          }
+        ]
+      },
+      {
+        "vertices": [
+          401,
+          5189
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1188194524693245,
+        "midpoint": {
+          "x": 0.08475609123706818,
+          "y": -0.08120006322860718,
+          "z": 0.9739215672016144
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": 0.0594058632850647,
+            "abs_delta": 0.0594058632850647
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.03584153950214386,
+            "abs_delta": 0.03584153950214386
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.023516453802585602,
+            "abs_delta": 0.023516453802585602
+          },
+          {
+            "bone": "spine_02",
+            "delta": -5.559587953030132e-05,
+            "abs_delta": 5.559587953030132e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          375,
+          5137
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.118819359340705,
+        "midpoint": {
+          "x": -0.08475609123706818,
+          "y": -0.08120006322860718,
+          "z": 0.9739215672016144
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": 0.05940580368041992,
+            "abs_delta": 0.05940580368041992
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.03584150969982147,
+            "abs_delta": 0.03584150969982147
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.023516450077295303,
+            "abs_delta": 0.023516450077295303
+          },
+          {
+            "bone": "spine_02",
+            "delta": -5.5595883168280125e-05,
+            "abs_delta": 5.5595883168280125e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          400,
+          5251
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1184611374919768,
+        "midpoint": {
+          "x": 0.10902765765786171,
+          "y": -0.0734187699854374,
+          "z": 0.9862325191497803
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.05923056602478027,
+            "abs_delta": 0.05923056602478027
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.03214642405509949,
+            "abs_delta": 0.03214642405509949
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.026705332100391388,
+            "abs_delta": 0.026705332100391388
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.0003788153117056936,
+            "abs_delta": 0.0003788153117056936
+          }
+        ]
+      },
+      {
+        "vertices": [
+          376,
+          5203
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1184611338321702,
+        "midpoint": {
+          "x": -0.10902765765786171,
+          "y": -0.0734187699854374,
+          "z": 0.9862325191497803
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.05923056602478027,
+            "abs_delta": 0.05923056602478027
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.03214642405509949,
+            "abs_delta": 0.03214642405509949
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02670532837510109,
+            "abs_delta": 0.02670532837510109
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.00037881537718931213,
+            "abs_delta": 0.00037881537718931213
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5168,
+          13753
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1179948300123215,
+        "midpoint": {
+          "x": 0.04136398807168007,
+          "y": 0.13263317197561264,
+          "z": 0.9738671481609344
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": 0.058997511863708496,
+            "abs_delta": 0.058997511863708496
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.04110494256019592,
+            "abs_delta": 0.04110494256019592
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.017892375588417053,
+            "abs_delta": 0.017892375588417053
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5162,
+          13750
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.117994800209999,
+        "midpoint": {
+          "x": -0.04136398807168007,
+          "y": 0.13263317197561264,
+          "z": 0.9738671481609344
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": 0.05899745225906372,
+            "abs_delta": 0.05899745225906372
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.04110497236251831,
+            "abs_delta": 0.04110497236251831
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.017892375588417053,
+            "abs_delta": 0.017892375588417053
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5194,
+          13798
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.111965018396404,
+        "midpoint": {
+          "x": 0.04237909987568855,
+          "y": -0.09433455765247345,
+          "z": 0.9861445426940918
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.05598253011703491,
+            "abs_delta": 0.05598253011703491
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.029259562492370605,
+            "abs_delta": 0.029259562492370605
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02662840485572815,
+            "abs_delta": 0.02662840485572815
+          },
+          {
+            "bone": "spine_02",
+            "delta": 9.452093127038097e-05,
+            "abs_delta": 9.452093127038097e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5136,
+          13769
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.111951160109129,
+        "midpoint": {
+          "x": -0.04237909987568855,
+          "y": -0.09433455765247345,
+          "z": 0.9861445426940918
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.05597558617591858,
+            "abs_delta": 0.05597558617591858
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.029246807098388672,
+            "abs_delta": 0.029246807098388672
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02663429081439972,
+            "abs_delta": 0.02663429081439972
+          },
+          {
+            "bone": "spine_02",
+            "delta": 9.447602042200742e-05,
+            "abs_delta": 9.447602042200742e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5190,
+          13764
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1101480855795671,
+        "midpoint": {
+          "x": 0.09823717549443245,
+          "y": -0.07666530832648277,
+          "z": 0.9737984240055084
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": 0.05507403612136841,
+            "abs_delta": 0.05507403612136841
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.03166350722312927,
+            "abs_delta": 0.03166350722312927
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.02334795519709587,
+            "abs_delta": 0.02334795519709587
+          },
+          {
+            "bone": "spine_02",
+            "delta": -6.258703797357157e-05,
+            "abs_delta": 6.258703797357157e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5140,
+          13739
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1101480744155197,
+        "midpoint": {
+          "x": -0.09823717549443245,
+          "y": -0.07666530832648277,
+          "z": 0.9737984240055084
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": 1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": 0.05507403612136841,
+            "abs_delta": 0.05507403612136841
+          },
+          {
+            "bone": "pelvis",
+            "delta": -0.03166349232196808,
+            "abs_delta": 0.03166349232196808
+          },
+          {
+            "bone": "spine_01",
+            "delta": -0.02334795892238617,
+            "abs_delta": 0.02334795892238617
+          },
+          {
+            "bone": "spine_02",
+            "delta": -6.258704979700269e-05,
+            "abs_delta": 6.258704979700269e-05
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5142,
+          13772
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "l",
+        "l1_weight_delta": 1.1100560610648245,
+        "midpoint": {
+          "x": -0.12136168032884598,
+          "y": -0.06671208888292313,
+          "z": 0.9861342310905457
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_l",
+            "delta": -0.05502802133560181,
+            "abs_delta": 0.05502802133560181
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.02839203178882599,
+            "abs_delta": 0.02839203178882599
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02622595801949501,
+            "abs_delta": 0.02622595801949501
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.00041004992090165615,
+            "abs_delta": 0.00041004992090165615
+          }
+        ]
+      },
+      {
+        "vertices": [
+          5188,
+          13795
+        ],
+        "regions": [
+          "torso",
+          "torso"
+        ],
+        "side": "r",
+        "l1_weight_delta": 1.1100560460763518,
+        "midpoint": {
+          "x": 0.12136168032884598,
+          "y": -0.06671208888292313,
+          "z": 0.9861342310905457
+        },
+        "largest_bone_deltas": [
+          {
+            "bone": "HGPT_UNDER_SHORTS",
+            "delta": -1.0,
+            "abs_delta": 1.0
+          },
+          {
+            "bone": "thigh_r",
+            "delta": -0.05502802133560181,
+            "abs_delta": 0.05502802133560181
+          },
+          {
+            "bone": "pelvis",
+            "delta": 0.028392016887664795,
+            "abs_delta": 0.028392016887664795
+          },
+          {
+            "bone": "spine_01",
+            "delta": 0.02622595801949501,
+            "abs_delta": 0.02622595801949501
+          },
+          {
+            "bone": "spine_02",
+            "delta": 0.0004100498335901648,
+            "abs_delta": 0.0004100498335901648
+          }
+        ]
+      }
+    ]
+  }
+}

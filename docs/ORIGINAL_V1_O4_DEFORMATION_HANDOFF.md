@@ -389,6 +389,96 @@ RUN_ORIGINAL_V1_SHOULDER_CHECK.bat path\to\candidate.blend shoulder_r3
 
 Never reuse an existing label; the runner refuses to mix evidence directories.
 
+### Priority 1 session log — 2026-09-30 (laptop, Claude)
+
+**Status: Priority 1 still BLOCKED. No repaired candidate accepted.**
+`DEFORMATION_BASELINE_R2.json` is unchanged and R2 remains the comparison
+anchor.
+
+Lineage note: the local `HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend` hashes
+to `d89dedb5…44a4`. That is the O7-shorts record hash, i.e. the exact file the
+R2 evidence was produced from. `f0cfa84c…` in the baseline is the earlier bind
+hash. This is consistent lineage, not drift.
+
+The read-only baseline audit is at
+`repair_checks/weight_audits/shoulder_weights_r2_before_repair.json`. Audit
+artefact: `HGPT_UNDER_SHORTS` (the shorts mask group) is counted as a bone, so
+the torso shows weight-sum error 1.0 and 5 influences. The deform weights
+themselves are normalised with at most 4 influences. The audit script should
+skip `HGPT_*` groups; it was not edited this session.
+
+Diagnosis (from edge probes run after the pose test): every 5–9.7× stretched
+edge in `press_top` and its rhythm variant sits in the axilla vault, at rest
+approximately x ±0.17–0.18, y 0.02–0.07, z 1.40–1.415. Those vertices have
+weight split roughly evenly (.38/.33/.29) across
+`upperarm`/`scapula`/`spine_03`, so when the arm elevates they are pulled three
+ways.
+
+Repair tool (first-party, operates only on this candidate's own weights):
+`scripts/repair_original_v1_o4_shoulder_weights_blender.py <source> -- <new.blend> <preset>`.
+It refuses to overwrite and writes a `<new>.json` record with parameters and
+hashes. It has four operations:
+
+- **A:** raises upper-arm share on the lateral deltoid cap;
+- **B:** moves back-of-shoulder scapula weight toward spine;
+- **D:** harmonic (Laplacian) blend of the axilla vault;
+- **C:** a gentle permission-bounded band smooth.
+
+Results on the shoulder subset (R2 = 34 failed checks). Candidate `.blend`
+files are git-ignored; the `.json` records and `repair_checks/shoulder_rN/`
+evidence are committed.
+
+| Cand. | Change | Failed | Regressions | Note |
+|---|---|---:|---:|---|
+| r3 | A .82 + B keep .40 + band 10 it | 30 | 9 | too much smoothing |
+| r4 | A + B .60 + axilla D (all regions) | 30 | 19 | D on arm verts hurts |
+| **r5** | A + B .50 + D (shoulder/torso only) | **29** | 8 | best count |
+| r6 | r5 without A | 31 | 4 | axilla collapse returns |
+| r7 | r5 without B | 30 | 8 | B is harmless/helpful |
+| r8 | narrower/weaker A (.55) | 33 | 8 | |
+| r9 | A .65 | 34 | 7 | |
+| **r10** | r5 + A tapered toward acromion (z 1.47–1.545, ×0.55) | 32 | **5** | best balance |
+| r11 | taper z 1.49–1.55, ×0.75 | 31 | 7 | rhythm collapse |
+| r12 | r11 with A .76 | 31 | 5 | rhythm collapse |
+
+What improved (r5/r10/r12 alike), shoulder maximum stretch:
+
+| Pose | Before | After |
+|---|---:|---:|
+| press_top | 9.09 | 5.94 |
+| pullup_hang / bar | 8.99 | 5.88 |
+| squat_bottom | 8.05 | 5.27 |
+| press_bottom | 6.41 | 4.30 |
+| pullup_top | 5.17 | 3.52 |
+| press_top_rhythm | 8.28 | 6.64 |
+| pullup_hang_rhythm | 7.91 | 6.51 |
+
+Torso maximum in the rhythm poses fell from 8.32 to 5.03, and rhythm volume
+fell from 1.131/1.136 to 1.097/1.103. `press_top` shoulder minimum rose from
+0.094 to 0.123–0.194.
+
+What still fails or regresses:
+
+1. Shoulder maximum is still above 5.0 in all overhead poses (5.3–6.6).
+2. A single-edge **shoulder minimum** near the acromion/deltoid top is very
+   sensitive to the operation A taper:
+   - r10 fixes both rhythm poses but drops `pullup_hang`/`pullup_bar` to 0.107;
+   - r11/r12 fix `pullup_hang` but drop the rhythm poses to 0.07–0.09.
+
+   A height-only taper cannot satisfy both. The next attempt should localise
+   the compressed edge with the stretch/min probe for both pose families and
+   blend that small patch harmonically, like operation D, instead of tapering.
+3. `squat_bottom` volume deviation is 0.0373 → ~0.043 in every run using
+   operation A, just over the 0.005 tolerance. Likely cause: the cap raise
+   moves lateral deltoid volume with the arm. Test restricting A to z > ~1.42,
+   or compensating with B.
+4. Self-intersections in the rhythm poses sometimes rise (r5: 110 → 150). r10
+   kept them at the baseline.
+
+**Next step:** start from preset `r10`, add a localised harmonic patch for the
+acromion compressed edge, and address the squat volume drift. Never reuse an
+evidence label; the next label is `shoulder_r13`.
+
 ### Priority 2 — hands / fingers / thumb / equipment grip
 
 Target poses:

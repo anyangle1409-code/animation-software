@@ -2,82 +2,61 @@
 
 ## Authority
 
-This document describes durable migration boundaries. It does not freeze live import counts.
-
 For the exact current task use `docs/CURRENT_HANDOFF.md`.
 
 For live source counts run:
 
 ```bash
 node scripts/map-third-party-runtime.mjs
+node scripts/audit-test-three.mjs
 ```
 
-## Declared runtime packages
+## Verified state
 
-The branch still declares:
+At exact verified checkpoint
+`017a063d2fdf563f58446113816511c1248a843b`:
 
-- `@react-three/drei`
-- `@react-three/fiber`
-- `react`
-- `react-dom`
-- `three`
+- declared runtime dependencies: **0**
+- `react` operational imports: **0**
+- `react-dom` operational imports: **0**
+- `@react-three/fiber` operational imports: **0**
+- `@react-three/drei` operational imports: **0**
+- `zustand` operational imports: **0**
+- `three` operational imports: **0**
+- `three` test imports: **0**
+- `three` and `@types/three` packages: **removed**
 
-Direct Zustand is removed.
+The production-output third-party gate and automated Chromium viewport smoke both
+pass at that exact checkpoint.
 
-A declared package is not evidence of a live source dependency; source import ceilings and production-output gates are separate.
+## Live first-party runtime
 
-## R3F / Drei
+The active product path is project-owned across:
 
-Operational source imports for both are **zero**.
+- editor state and DOM lifecycle;
+- math, FK, IK, constraints, contacts and retargeting;
+- scene graph, geometry, materials, skinning and deformation;
+- local GLB parsing/materialisation/preservation/export;
+- equipment geometry and attachment;
+- camera/orbit, raycasting, selection and transform gizmos;
+- WebGL rendering and viewport composition.
 
-The live viewport is project-owned and the R3F rollback path is removed.
+The old React/R3F/Drei/Three migration plans are historical implementation
+records, not active instructions.
 
-Both packages remain temporarily because the explicit physical desktop/iPhone Grid/Orbit/Transform gate for Drei is still open and the packages share the peer ecosystem. Source imports may not return.
+## Development tools
 
-## React / ReactDOM — active source migration
+The project target is distributable/runtime independence, not removal of all
+development tooling. Node/npm, TypeScript, Vite, Vitest, Playwright, Blender,
+Git/GitHub and AI development tools may remain when they are not shipped as
+prohibited runtime code/content.
 
-React currently supplies editor/scene composition lifecycle and the ReactDOM root.
-
-Already moved outside React:
-
-- observable Studio store core
-- keyboard shortcut controller
-- editor layout state
-- WebGL/canvas/frame/pointer viewport runtime
-- scene-host binding types
-- substantial scene geometry/update/pointer logic
-
-Current task-specific handoff:
-
-`docs/REACT_FIRST_PARTY_MIGRATION_HANDOFF.md`
-
-Target:
-
-- project-owned DOM creation/update/disposal;
-- direct store subscriptions;
-- explicit browser event lifecycle;
-- project-owned scene controller;
-- preserved editor/viewport behavior.
-
-## Three.js
-
-Three remains the final large migration target and stays last.
-
-It still supplies significant math, rig/IK helpers, scene objects/materials, camera/raycasting, GLB integrations and final WebGL rendering.
-
-Prepared first-party foundations already exist for math, skeleton/pose parity, GLB building and lifecycle.
-
-## Required order
-
-1. R3F source migration — **complete**.
-2. React/ReactDOM source and UI/lifecycle migration — **current**.
-3. Complete physical gate and retire Drei/R3F packages when install/peer behavior is safe.
-4. Three.js replacement last.
-5. Run final provenance, production-output, release-allowlist and offline gates.
-
-## Non-negotiable rules
+## Ongoing rules
 
 - no replacement third-party runtime framework;
-- no exercise/biomechanics changes to make migration easier;
-- no dependency removal before behavioral/parity requirements are met;
-- no test or provenance threshold weakening.
+- no reintroduction of removed runtime packages or guarded source imports;
+- no exercise/biomechanics changes to make infrastructure work easier;
+- keep dependency/import anti-creep, production-output, resource and network
+  audits active;
+- keep physical desktop/iPhone parity as a separate release gate;
+- keep final production assets subject to their clean-room/provenance gates.

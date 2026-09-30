@@ -80,7 +80,7 @@
     },
     "docs/RUNTIME_DEPENDENCY_USAGE_MAP.md": {
       "category": "current_technical",
-      "note": "Runtime dependency surfaces and replacement requirements."
+      "note": "Verified zero-runtime-dependency/import state and ongoing anti-creep requirements."
     },
     "docs/THIRD_PARTY_REFERENCE_ONLY.md": {
       "category": "current_technical",
@@ -115,28 +115,28 @@
       "note": "Prepared first-party foundation verification."
     },
     "docs/FIRST_PARTY_GLB_PLAN.md": {
-      "category": "future_technical",
-      "note": "Future Three/GLB replacement work."
+      "category": "supporting_reference",
+      "note": "Completed GLB migration planning record; operational GLB paths are now first-party."
     },
     "docs/FIRST_PARTY_IK_ORIENTATION_MIGRATION.md": {
-      "category": "current_technical",
-      "note": "Active first-party IK orientation cutover and next two-bone boundary."
+      "category": "supporting_reference",
+      "note": "Completed IK/orientation migration record; not current execution authority."
     },
     "docs/FIRST_PARTY_MATH_PARITY_PLAN.md": {
-      "category": "current_technical",
-      "note": "Current Three-free math migration plan; promoted after verified React source removal."
+      "category": "supporting_reference",
+      "note": "Completed first-party math migration/parity record."
     },
     "docs/FIRST_PARTY_POSE_MIGRATION.md": {
-      "category": "current_technical",
-      "note": "Current first production Three-math cutover: pivot-aware pose blending."
+      "category": "supporting_reference",
+      "note": "Completed pose-math cutover record."
     },
     "docs/FIRST_PARTY_SKELETON_MIGRATION.md": {
-      "category": "future_technical",
-      "note": "Future Three-free skeleton migration."
+      "category": "supporting_reference",
+      "note": "Completed skeleton migration planning/implementation record."
     },
     "docs/FIRST_PARTY_SOFTWARE_ARCHITECTURE.md": {
-      "category": "future_technical",
-      "note": "Target standalone software architecture."
+      "category": "supporting_reference",
+      "note": "Target architecture record supporting the now-live first-party runtime."
     },
     "docs/FIRST_PARTY_STANDALONE_PLAN.md": {
       "category": "future_technical",

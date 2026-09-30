@@ -2,7 +2,19 @@
 
 ## Why this gate is still open
 
-The source now has zero `@react-three/drei` imports. Project-owned Grid, Orbit and Transform controls are mounted in `Viewport.tsx`, but no compatible browser/device visual-input review has been recorded. The previous in-app localhost browser loaded HTML without executing the Vite module. Pure unit tests and the isolated fake-renderer host do not close this gate. Keep Drei installed until the actual app passes the checks below; keep R3F, React/ReactDOM and Three as separate later gates.
+The first-party runtime cutover is complete: React/ReactDOM, R3F/Drei and Three
+are removed from the live source/package graph, and the automated Chromium
+WebGL smoke passes without them.
+
+This physical gate remains open for a different reason: no recorded real
+desktop + iPhone Safari human visual/input review has yet closed the subjective
+and touch-interaction requirements below. Unit tests and headless Chromium are
+strong engineering evidence, but they do not prove iPhone touch cancellation,
+human grid/gizmo appearance, or physical-device interaction quality.
+
+Package removal is **not** waiting on this gate anymore. This gate now controls
+physical parity/release evidence only; removed packages must not be restored to
+make a physical check pass.
 
 ## Automated Chromium evidence
 
@@ -39,4 +51,12 @@ Use the Vite URL printed by the terminal in a compatible desktop browser. For iP
 
 ## Decision record
 
-For each Grid, desktop Orbit, iPhone Orbit, bone Transform, equipment/socket Transform, and IK target/pole Transform, record **PASS/FAIL/NOT TESTED** plus the screenshot/recording path and a one-line observation. A failed or untested item keeps the physical gate open. If all pass, rerun focused controls tests, typecheck/build and `npm run audit:standalone` before proposing Drei package removal. Do not interpret this one gate as approval to remove R3F, React/ReactDOM or Three.
+For each Grid, desktop Orbit, iPhone Orbit, bone Transform,
+equipment/socket Transform, and IK target/pole Transform, record
+**PASS/FAIL/NOT TESTED** plus the screenshot/recording path and a one-line
+observation. A failed or untested item keeps the physical release gate open.
+
+If all pass, rerun focused controls tests, typecheck/build,
+`npm run audit:standalone`, and the applicable release/offline gates. Runtime
+package removal is already complete; this evidence must not reintroduce React,
+R3F/Drei, Three or another runtime framework.

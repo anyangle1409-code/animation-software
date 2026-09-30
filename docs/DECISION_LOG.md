@@ -20,13 +20,22 @@ These decisions remain in force until deliberately reopened with new evidence an
 
 ## Runtime
 
-- Direct Zustand has been replaced by the project-owned store.
-- React/ReactDOM source migration is complete: production source imports are pinned at zero and no production TSX is required.
-- React/ReactDOM packages may remain temporarily while the retained R3F/Drei peer ecosystem and physical-device package gate remain open; package retention does not authorize source use.
-- Three.js replacement may proceed through deterministic math/rig/IK/GLB layers before final renderer/package retirement, but biomechanics and acceptance thresholds remain fixed.
-- Runtime migration order remains: Drei/R3F -> React/ReactDOM -> Three.js last, unless evidence requires an explicit change.
-- Do not remove a dependency solely to lower the count. Live imports and required parity gates must pass first.
-- Exercise mechanics must not be altered to hide renderer/model migration defects.
+- The operational product has no declared third-party runtime dependencies.
+- Zustand is replaced by the project-owned observable state system.
+- React/ReactDOM, R3F/Drei and Three are removed from the live source and package
+  graph; their guarded source-import ceilings are zero.
+- Three is also removed from tests/development dependencies. Project-owned math,
+  scene graph, skinning, GLB handling and WebGL rendering are the live path.
+- Removed runtime frameworks/renderers may not be restored as compatibility
+  shortcuts without deliberately reopening this frozen decision with new
+  evidence and equivalent first-party/release gates.
+- Development tools remain outside the distributable/runtime boundary as
+  defined above; zero runtime dependency does not mean replacing Node,
+  TypeScript, Vite, Vitest, Playwright, Blender, Git or AI development tools.
+- Exercise mechanics, contacts, thresholds and authored biomechanics must not
+  be altered to hide renderer/model/runtime defects.
+- Dependency and import anti-creep gates remain mandatory even though migration
+  is complete.
 
 ## Verification
 

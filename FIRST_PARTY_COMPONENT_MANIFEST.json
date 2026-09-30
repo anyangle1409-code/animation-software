@@ -6,47 +6,42 @@
     {
       "id": "runtime_exercise_engine",
       "category": "code",
-      "status": "project_authored_runtime_migration_pending",
-      "notes": "Exercise/biomechanics/generation logic is project-authored; final standalone approval waits for remaining third-party runtime imports in shared engine paths to reach zero."
+      "status": "first_party_approved",
+      "notes": "Exercise/generation runtime is project-authored. Guarded runtime imports and declared runtime dependencies are zero at verified checkpoint 017a063d.",
+      "third_party": [],
+      "required_action": "Keep biomechanics/generation regression, dependency anti-creep, offline and release gates active."
     },
     {
       "id": "runtime_ui",
       "category": "code",
-      "status": "first_party_ui_verified_packages_temporarily_retained",
-      "third_party": [
-        "react",
-        "react-dom"
-      ],
-      "required_action": "Keep react/react-dom source imports pinned at zero. Retain packages only while the still-declared R3F/Drei peer ecosystem and physical-device package gate require them.",
-      "notes": "All live UI, viewport DOM lifecycle, startup and keyboard ownership are project-authored; no production TSX remains."
+      "status": "first_party_approved",
+      "third_party": [],
+      "required_action": "Keep React/ReactDOM source and package reintroduction blocked by dependency/import gates.",
+      "notes": "Live editor UI, lifecycle, startup and keyboard ownership are project-authored; no production TSX or React runtime remains."
     },
     {
       "id": "runtime_scene_bridge",
       "category": "code",
-      "status": "first_party_scene_host_verified_packages_temporarily_retained",
-      "third_party": [
-        "@react-three/fiber",
-        "@react-three/drei"
-      ],
-      "required_action": "Keep R3F/Drei source imports at zero. First-party viewport is sole live path. Retire packages only when the separate physical Drei gate and peer/install consistency permit."
+      "status": "first_party_approved",
+      "third_party": [],
+      "required_action": "Keep R3F/Drei source/package reintroduction blocked; maintain first-party viewport regression and physical parity evidence.",
+      "notes": "Live scene host, stage, selection and viewport runtime are project-owned. Physical desktop/iPhone parity remains a separate release-quality gate."
     },
     {
       "id": "runtime_renderer_math_gltf",
       "category": "code",
-      "status": "third_party_dependent_migration_active",
-      "third_party": [
-        "three"
-      ],
-      "required_action": "IK solve/orientation and lightweight constraint/contact math are production first-party. Continue collision/body-clearance and equipment attachment transforms, then character/retarget math, operational GLB, and renderer with parity gates. Keep Three until every operational replacement layer is verified.",
-      "notes": "Verified through dd20158a: orient/twoBone/solve, constraint points/locks/contact diagnostics/rules, and equipment reflection have no direct Three source import; 63 Three/Three-examples production-source imports remain from the prior 71-import baseline."
+      "status": "first_party_approved",
+      "third_party": [],
+      "required_action": "Keep zero-Three import/package gates, GLB regressions, WebGL/browser smoke and production-output audits active.",
+      "notes": "Project-owned math, skeleton/IK/retargeting, scene graph, skinning/deformation, GLB import/export, raycasting and WebGL rendering are live. Three and @types/three are removed."
     },
     {
       "id": "runtime_state",
       "category": "code",
-      "status": "first_party_replacement_verified",
+      "status": "first_party_approved",
       "third_party": [],
-      "required_action": "keep first-party store regression and dependency-creep guards active",
-      "notes": "Framework-neutral observableStore/studioStore/characterStore/generationStore are active; temporary React hook adapters are removed."
+      "required_action": "Keep first-party store regressions and dependency-creep guards active.",
+      "notes": "Framework-neutral observableStore/studioStore/characterStore/generationStore are active; Zustand and temporary framework adapters are removed."
     },
     {
       "id": "male_character",

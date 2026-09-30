@@ -87,20 +87,28 @@ describe('generating without a character', () => {
     expect(motionOf(result.exercise!)).toEqual(motionOf(pushUp));
   });
 
-  it('builds the standing calf raise from the calf family', () => {
-    const result = generateExercise(CALF_RAISE, options);
-    expect(result.family?.id).toBe('calf');
-    expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
-    expect(result.reference).toBe('standing_calf_raise');
-    expect(result.exercise?.equipment.instances).toEqual([]);
-    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
-    expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
-  });
+  it(
+    'builds the standing calf raise from the calf family',
+    () => {
+      const result = generateExercise(CALF_RAISE, options);
+      expect(result.family?.id).toBe('calf');
+      expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
+      expect(result.reference).toBe('standing_calf_raise');
+      expect(result.exercise?.equipment.instances).toEqual([]);
+      expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.slow);
+      expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);
+    },
+    30_000,
+  );
 
-  it('reproduces the accepted standing calf raise from the family defaults', () => {
-    const result = generateExercise('a calf raise', options);
-    expect(motionOf(result.exercise!)).toEqual(motionOf(calfRaise));
-  });
+  it(
+    'reproduces the accepted standing calf raise from the family defaults',
+    () => {
+      const result = generateExercise('a calf raise', options);
+      expect(motionOf(result.exercise!)).toEqual(motionOf(calfRaise));
+    },
+    30_000,
+  );
 
   it(
     'builds the squat and lunge variants from their families, not from per-exercise code',

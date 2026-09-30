@@ -1,6 +1,6 @@
 import type { BoneName, Side } from '../rig/boneNames';
 import { FINGERS } from '../rig/boneNames';
-import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
+import { PoseEvaluation, canonicalSkeleton, type Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { clampPose, clonePose, poseFromDegrees } from '../rig/pose';
 import { toRad } from '../core/math';
@@ -94,8 +94,28 @@ export function generateClip(skeleton: Skeleton, exercise: ExerciseDefinition): 
     locks: exercise.locks.map((lock) => ({ ...lock })),
     equipment: exercise.equipment.instances.map((instance) => ({ ...instance })),
     hands: { ...exercise.hands },
-    ...(exercise.rootPivot ? { rootPivot: { ...exercise.rootPivot } } : {}),
+    ...(exercise.rootPivot
+      ? { rootPivot: rootPivotForSkeleton(exercise.rootPivot, skeleton) }
+      : {}),
   };
+}
+
+/**
+ * Root pivots are authored against the current canonical reference rig. When
+ * the pivot is the reference pelvis landmark, rotate a compatible future rig
+ * about its own pelvis instead. That keeps body-relative motion body-relative
+ * without changing the authored v3 clip at all.
+ */
+function rootPivotForSkeleton(pivot: Vec3, skeleton: Skeleton): Vec3 {
+  const referencePelvis = canonicalSkeleton.bone('pelvis').restHead;
+  const activePelvis = skeleton.bone('pelvis').restHead;
+  const isReferencePelvis =
+    Math.abs(pivot.x - referencePelvis.x) < 1e-9 &&
+    Math.abs(pivot.y - referencePelvis.y) < 1e-9 &&
+    Math.abs(pivot.z - referencePelvis.z) < 1e-9;
+  return isReferencePelvis
+    ? { x: activePelvis.x, y: activePelvis.y, z: activePelvis.z }
+    : { ...pivot };
 }
 
 const round = (value: number): number => Math.round(value * 1e6) / 1e6;

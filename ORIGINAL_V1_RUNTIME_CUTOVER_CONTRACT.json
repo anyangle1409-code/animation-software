@@ -3,7 +3,7 @@
   "mode": "blocked_procedural_default",
   "entrypoint": "src/main.ts",
   "registry_module": "src/character/registry.ts",
-  "prepared_loader_module": "src/character/bundled.ts",
+  "prepared_loader_module": "src/character/originalV1Bundled.ts",
   "current_default_source": "procedural",
   "future_production_source": "original-v1-dressed",
   "production_paths": [
@@ -11,7 +11,7 @@
     "characters/HomeGymPT_Male_ORIGINAL_v1_DRESSED.glb"
   ],
   "requirements": [
-    "While mode is blocked_procedural_default, the prepared ORIGINAL v1 bundled loader must not be reachable from src/main.ts.",
+    "While mode is blocked_procedural_default, the prepared ORIGINAL v1 production loader must not be reachable from src/main.ts.",
     "The live registry must continue to default to the clean procedural character.",
     "The prepared loader may contain only the exact product-relative production paths and must reject arbitrary/candidate/remote paths.",
     "Changing this contract to any activation mode is intentionally unsupported until ORIGINAL_V1_PROMOTION_CONTRACT.json is approved with exact source commit and production hashes.",

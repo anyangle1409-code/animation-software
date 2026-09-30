@@ -68,6 +68,14 @@ jobs:
       - name: Active model asset anti-creep gate
         run: node scripts/audit-active-model-assets.mjs
 
+      - name: Final release remains blocked until original model approval
+        run: |
+          if node scripts/audit-first-party-release-components.mjs; then
+            echo "Release component gate unexpectedly opened before all required first-party components were approved."
+            exit 1
+          fi
+          echo "Release component gate correctly remains closed while ORIGINAL model components are pending."
+
       - name: Verify prepared first-party foundations
         run: >
           npm test --

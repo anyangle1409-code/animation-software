@@ -142,6 +142,35 @@ describe('generating on the clean first-party fallback', () => {
     },
     120_000,
   );
+
+  it(
+    'fully certifies a generated loaded hammer curl with clean-body equipment checks',
+    async () => {
+      const result = await generateExerciseAsync(HAMMER, { rig, library, character });
+      const detail = JSON.stringify({
+        status: result.status,
+        failed: result.report?.failed,
+        skipped: result.report?.skipped,
+        corrections: result.corrections,
+        validations: result.validations,
+      });
+      expect(result.family?.id).toBe('curl');
+      expect(result.status, detail).toBe('passed');
+      expect(result.report?.skipped, detail).toEqual([]);
+      expect(result.report?.failed, detail).toEqual([]);
+      expect(result.report?.checks.every((check) => check.status === 'pass'), detail).toBe(true);
+      expect(result.validations).toBeGreaterThan(0);
+      expect(result.validations).toBeLessThanOrEqual(40);
+      expect(result.corrections.length).toBeLessThanOrEqual(3);
+      expect(
+        result.report?.checks.find((check) => check.id === 'equipmentClearance')?.status,
+      ).toBe('pass');
+      expect(
+        result.report?.checks.find((check) => check.id === 'armTrunk')?.status,
+      ).toBe('pass');
+    },
+    180_000,
+  );
 });
 
 const ASSET =

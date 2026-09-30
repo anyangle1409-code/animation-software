@@ -236,7 +236,6 @@ describe('generating on the clean first-party fallback', () => {
             id: check.id,
             status: check.status,
             measured: check.measured,
-            note: check.note,
           })),
         });
         expect(report.skipped, detail).toEqual([]);

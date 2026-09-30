@@ -97,7 +97,76 @@ function parseGlb(file) {
   return { json, chunks };
 }
 
-function inspectProductionGlb(file, expectedRigBones) {
+function finiteVec3(value) {
+  return (
+    value &&
+    typeof value === "object" &&
+    Number.isFinite(value.x) &&
+    Number.isFinite(value.y) &&
+    Number.isFinite(value.z)
+  );
+}
+
+function inspectHomeGymPtMetadata(gltf, required) {
+  const errors = [];
+  if (!required || typeof required !== "object") {
+    return { pass: false, errors: ["promotion contract is missing required_runtime_metadata"] };
+  }
+
+  const scenes = gltf.scenes || [];
+  const sceneIndex = Number.isInteger(gltf.scene) ? gltf.scene : 0;
+  const scene = scenes[sceneIndex] ?? scenes[0];
+  const namespace = required.scene_extras_namespace || "homeGymPT";
+  const metadata = scene?.extras?.[namespace];
+
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return {
+      pass: false,
+      errors: [`scene extras are missing ${namespace} production metadata`],
+    };
+  }
+
+  for (const key of ["assetId", "rigId", "offsetFrame"]) {
+    if (metadata[key] !== required[key]) {
+      errors.push(
+        `scene extras ${namespace}.${key} mismatch: expected ${JSON.stringify(required[key])}, got ${JSON.stringify(metadata[key])}`,
+      );
+    }
+  }
+
+  const gripSolutionId = required.gripSolutionId;
+  if (typeof gripSolutionId !== "string" || !gripSolutionId.trim()) {
+    errors.push("promotion contract has no final ORIGINAL-v1 gripSolutionId");
+  } else if (metadata.gripSolutionId !== gripSolutionId) {
+    errors.push(
+      `scene extras ${namespace}.gripSolutionId mismatch: expected ${JSON.stringify(gripSolutionId)}, got ${JSON.stringify(metadata.gripSolutionId)}`,
+    );
+  }
+
+  if (required.require_grip_frame_offsets_both_hands) {
+    for (const side of ["l", "r"]) {
+      if (!finiteVec3(metadata.gripFrameOffsets?.[side])) {
+        errors.push(`scene extras ${namespace}.gripFrameOffsets.${side} must be a finite vec3`);
+      }
+    }
+  }
+  if (required.require_handle_grip_offsets_both_hands) {
+    for (const side of ["l", "r"]) {
+      if (!finiteVec3(metadata.handleGripOffsets?.[side])) {
+        errors.push(`scene extras ${namespace}.handleGripOffsets.${side} must be a finite vec3`);
+      }
+    }
+  }
+
+  return {
+    pass: errors.length === 0,
+    errors,
+    namespace,
+    metadata,
+  };
+}
+
+function inspectProductionGlb(file, expectedRigBones, requiredRuntimeMetadata) {
   const errors = [];
   const expectedBones = expectedRigBones.map(bone => bone.name);
   let gltf;
@@ -225,6 +294,11 @@ function inspectProductionGlb(file, expectedRigBones) {
     }
   }
 
+  const runtimeMetadata = inspectHomeGymPtMetadata(gltf, requiredRuntimeMetadata);
+  if (!runtimeMetadata.pass) {
+    errors.push(...runtimeMetadata.errors);
+  }
+
   const text = JSON.stringify(gltf).toLowerCase();
   const legacyHits = FORBIDDEN_PRODUCTION_TOKENS.filter(token => text.includes(token));
   if (legacyHits.length) errors.push(`forbidden legacy/candidate token(s) in GLB JSON: ${legacyHits.join(", ")}`);
@@ -239,6 +313,12 @@ function inspectProductionGlb(file, expectedRigBones) {
     imageCount: (gltf.images || []).length,
     textureCount: (gltf.textures || []).length,
     animationCount: (gltf.animations || []).length,
+    runtimeMetadata: {
+      pass: runtimeMetadata.pass,
+      namespace: runtimeMetadata.namespace ?? null,
+      gripSolutionId:
+        runtimeMetadata.metadata?.gripSolutionId ?? null,
+    },
   };
 }
 
@@ -320,6 +400,26 @@ export function auditOriginalV1Promotion(root = ROOT) {
     blockers.push("canonical v4 rig payload does not match contract identity/63-bone target");
   }
 
+  const runtimeMetadata = contract.required_runtime_metadata;
+  const gripSolutionId = runtimeMetadata?.gripSolutionId;
+  if (typeof gripSolutionId !== "string" || !gripSolutionId.trim()) {
+    blockers.push("required_runtime_metadata.gripSolutionId must be set before approved promotion");
+  } else {
+    const solvedGripPath = path.join(root, "src", "character", "solvedGrip.ts");
+    if (!fs.existsSync(solvedGripPath)) {
+      blockers.push("missing first-party solved grip table src/character/solvedGrip.ts");
+    } else {
+      const source = fs.readFileSync(solvedGripPath, "utf8");
+      const quotedSingle = `'${gripSolutionId}'`;
+      const quotedDouble = `"${gripSolutionId}"`;
+      if (!source.includes(quotedSingle) && !source.includes(quotedDouble)) {
+        blockers.push(
+          `first-party solved grip table has no row for ${JSON.stringify(gripSolutionId)}`,
+        );
+      }
+    }
+  }
+
   const auditedTargets = [];
   for (const [variant, target] of targets) {
     const lowerName = path.basename(target.repository_path).toLowerCase();
@@ -352,7 +452,11 @@ export function auditOriginalV1Promotion(root = ROOT) {
       blockers.push(`${variant}: broad allowlist pattern(s) match production target: ${broad.join(", ")}`);
     }
 
-    const glb = inspectProductionGlb(file, rig.bones || []);
+    const glb = inspectProductionGlb(
+      file,
+      rig.bones || [],
+      runtimeMetadata,
+    );
     if (!glb.pass) {
       blockers.push(...glb.errors.map(error => `${variant}: ${error}`));
     }

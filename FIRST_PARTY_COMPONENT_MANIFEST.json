@@ -46,20 +46,23 @@
     {
       "id": "male_character",
       "category": "asset",
-      "status": "original_v1_in_progress_legacy_runtime_removed",
-      "required_action": "Complete ORIGINAL v1 O2+ modelling, bind/weight/movement gates, then promote only the independently authored asset."
+      "status": "original_v1_o4_candidate_deformation_blocked",
+      "required_action": "On the isolated model branch, repair Priority-1 shoulder/upper-torso deformation first, then hand/grip, deep-flexion and remaining movement blockers. Promote only after production deformation, anatomy, provenance and release gates pass.",
+      "notes": "Model branch claude/original-v1-blender-o2-20260929 at bb0cef0d contains an independently authored O4 bound candidate. Candidate GLBs are structurally self-contained, but deformation remains blocked at 54 development / 133 production failed checks."
     },
     {
       "id": "male_shorts",
       "category": "asset",
-      "status": "original_v1_rebuild_pending_legacy_runtime_removed",
-      "required_action": "Author original garment for ORIGINAL v1 and approve through the first-party asset/release gates."
+      "status": "original_v1_o7_candidate_not_approved",
+      "required_action": "Keep the ORIGINAL-v1-derived shorts candidate isolated until body deformation stabilizes, then rerun garment deformation/visual review and promote only the final independently authored garment.",
+      "notes": "An O7 shorts candidate exists on the isolated model branch and records no legacy/third-party garments, textures or external materials. It is not production-approved."
     },
     {
       "id": "canonical_rig",
       "category": "asset_and_code",
-      "status": "original_v4_candidate_structurally_verified",
-      "required_action": "materialize independent 63-bone rest target in O1 Blend; O2 anatomy and later bind/movement gates remain open"
+      "status": "original_v4_candidate_materialized_bound_structurally_verified",
+      "required_action": "Preserve the independent 63-bone hgpt_canonical_v4_original structure while O4 weighting/deformation is repaired; do not change rig structure unless a separate rig defect is proven.",
+      "notes": "The model branch contains a bound 63-bone v4 candidate. Candidate GLB audits confirm the expected joint set/hierarchy; production approval remains blocked by character movement/deformation and final asset gates."
     },
     {
       "id": "equipment_geometry",
@@ -109,8 +112,8 @@
       "id": "original_v1_clean_scaffold_generator",
       "category": "authoring_tool",
       "status": "project_authored_o1_verified",
-      "required_action": "continue O2 neutral anatomy; 3890 vertices / 7280 triangles / 53 reference bones, zero O1 blockers/warnings",
-      "notes": "Recreates pinned project-authored numeric profiles; imports no legacy/MakeHuman geometry."
+      "required_action": "Keep O1 clean-room scaffold provenance reproducible; active character work has progressed to the isolated O4 candidate and must not back-import legacy implementation data.",
+      "notes": "O1 scaffold remains the clean-room provenance foundation. Historical V8-V15f learning may inform failure cases/quality expectations only, never copied geometry, weights or materials."
     },
     {
       "id": "external_runtime_resources",
@@ -121,8 +124,9 @@
     {
       "id": "original_v4_blender_handoff",
       "category": "authoring_tool_and_data",
-      "status": "first_party_deterministic_prep_verified_blender_pending",
-      "required_action": "run PREPARE_ORIGINAL_V1_O2.bat on laptop, inspect the 63-bone unbound armature, then model O2 without legacy import"
+      "status": "first_party_o4_candidate_workflow_active",
+      "required_action": "Use the isolated model branch O4 deformation handoff and grouped repair checks. Current next repair priority is shoulder; do not restart O2 or merge the model branch wholesale.",
+      "notes": "The original v4 rig has already been materialized and bound on the candidate branch; this manifest entry now tracks the guarded Blender workflow rather than pending setup."
     },
     {
       "id": "repository_hygiene",

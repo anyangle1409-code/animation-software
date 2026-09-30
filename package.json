@@ -17,7 +17,8 @@
     "audit:hygiene": "node scripts/check-repository-hygiene.mjs",
     "test:browser-smoke:first-party": "node scripts/browser-first-party-viewport-smoke.mjs",
     "test:browser-smoke:production": "node scripts/browser-production-offline-smoke.mjs",
-    "audit:original-v1-promotion": "node scripts/audit-original-v1-promotion.mjs --expect-blocked"
+    "audit:original-v1-promotion": "node scripts/audit-original-v1-promotion.mjs --expect-blocked",
+    "audit:v4-runtime-coupling": "node scripts/audit-canonical-v4-runtime-coupling.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

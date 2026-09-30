@@ -860,6 +860,150 @@ the Priority-1 decision above is made, per the repair-order rule.
 
 The next labels are `r25` / `shoulder_r25`.
 
+### Owner decision recorded — strict rule kept
+
+The owner kept the strict no-regression rule:
+
+- r24 is **not** accepted and no new baseline is pinned.
+  `DEFORMATION_BASELINE_R2.json`, thresholds and approval flags are
+  unchanged.
+- r24 stays the best **experimental** shoulder candidate, with the trade-offs
+  listed above.
+- Shoulder-only optimisation stops for now. Heavier shoulder topology and
+  pose-driven shape corrections are not authorised.
+- The rig stays frozen.
+- Work moves to Priority 2 (elbow, hands, fingers, thumb, wrist, grip),
+  warm-started from r24 and preserving its shoulder gains.
+
+### Priority 2 session log — r25–r28 (hands / fingers / thumb / wrist / elbow)
+
+**Status:**
+
+- No candidate is accepted under the strict rule. Every candidate built on
+  r24 inherits r24's shoulder/torso minima regressions (by owner decision
+  these are not being re-optimised).
+- Production approval remains **false**.
+- Best experimental candidate: **r26**. See the r28 addendum below.
+
+**Ownership check (r24, Blender probe).** Every intersecting face pair was
+mapped back to rest positions:
+
+| Pose | Elbow | Hand/finger | Shoulder |
+|---|---:|---:|---:|
+| `pullup_top` | 106 | 110 | **0** |
+| `curl_peak` | 152 (+6 elbow–wrist) | 110 | 0 |
+| `curl_handle` | 152 (+6 elbow–wrist) | 108 | 0 |
+| `grip` | 42 | 110 | 0 |
+
+All finger pairs are at the **PIP** creases of all four fingers (pinky 32,
+the others 26, both hands).
+
+**Tools added** (all first-party, operating only on this candidate's own
+weights):
+
+- Optimiser `zone_mode="hand"`:
+  - zone = hand/finger/thumb vertices plus a 50 mm forearm wrist band, both
+    hands, disjoint from the r24 shoulder zone;
+  - permitted bones = existing, plus same-side hand-chain bones whose head
+    lies within 40 mm.
+- Optimiser `zone_mode="elbow"`: arm vertices within 120 mm of the elbow,
+  excluding the shoulder and hand zones; `upperarm`/`forearm` only.
+- `tt_resolve`: every current colliding triangle pair must separate
+  outward-to-outward, which fixes collisions already present in R2.
+- `strict_both`: no-regression bounds are the stricter of the pinned R2
+  report and the base candidate.
+- `symmetric`: exact left/right symmetry by construction (mirror-averaged
+  gradients, iterates and supports).
+- `scripts/symmetrize_original_v1_o4_weights.py`: mirror-average an existing
+  candidate's weights.
+
+**Symmetry finding.** R2 is exactly symmetric: maximum mirror L1 weight
+difference 0.002. r24 was not: 109 vertices above 0.05, max 0.36, because the
+earlier optimiser solved each side independently. r25 had 283 vertices above
+0.05. Cross-side contamination is **0** in every candidate.
+
+**Candidates.** All have full 15-pose evidence
+(`RUN_ORIGINAL_V1_FULL_EVIDENCE.bat`); R2 has 54 failed checks, r24 40.
+
+| Cand. | What | SHA-256 | Failed | Regr. vs R2 | Regr. vs prior | Verdict |
+|---|---|---|---:|---:|---|---|
+| r25 | r24 + `o14` hand-zone solve (`o14.npz` 2790ce66…) | 27541152… | **8** | 10 | 1 vs r24 (push-up hand max 1.915 → 2.083) | rejected |
+| **r26** | r25 mirror-averaged (`sym_r25.npz` c8d3eaa7…) | **ae18941e…** | **8** | 8 | **0 vs r25** (15 improvements) | best experimental |
+| r27 | r26 + `o17` symmetric hand solve (`o17.npz` 0aae7b7f…) | 86afebea… | 8 | 8 | 9 vs r26 (hand max 3.495 → 4.248) | rejected |
+
+Solver-only evidence, not promoted to candidates:
+
+- `o16` / `o18` elbow solves: curl_peak elbow collisions oscillate or don't
+  move (172 → 158/175/164/170 triangle pairs), and press_top arm minimum
+  regresses by 0.03.
+
+**r26 exact before → after (R2 → r26), hand/finger/collisions/grip:**
+
+| Pose | Hand min | Hand max | Finger min | Self-int. | Grip pen. (mm) |
+|---|---:|---:|---:|---:|---:|
+| `curl_peak` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 268 → **210** | – |
+| `press_bottom` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 196 → **138** | – |
+| `press_top` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 174 → **128** | – |
+| `grip` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 152 → **94** | – |
+| `pushup_bottom` | 0.139 → **0.24** | 1.915 → **2.082** | 1.0 → 1.0 | 156 → **142** | – |
+| `pullup_top` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 216 → **158** | – |
+| `row` | 0.07 → **0.244** | 5.387 → **3.495** | 0.113 → **0.239** | 110 → **52** | – |
+| `curl_handle` | 0.334 → 0.337 | 1.514 → 1.457 | 0.086 → **0.234** | 266 → **198** | 5.93 → 5.93 |
+
+r26 remaining development failures (8):
+
+| Priority | Failures |
+|---|---|
+| 1 | **CLEAR** (0 owned) |
+| 2 | `curl_peak` self-intersections 210 (158 elbow + 52 finger); grip penetration 5.93 mm on both hands in `curl_handle` and `pullup_bar` (4 checks) |
+| 3 | `lunge` (3, untouched) |
+
+r26 regressions vs R2 (8):
+
+- 5 inherited r24 shoulder/torso minima;
+- `press_top` p99 1.679 → 1.751 and `pullup_hang` p99 1.675 → 1.739;
+- `pushup_bottom` hand max 1.915 → 2.082.
+
+**Proven blockers that weights cannot fix:**
+
+1. **Grip penetration (5.93 mm, gate 2.0).**
+   - The deepest vertices are the **thumb IP crease** (thumb_02/03): 29
+     finger-owned vertices are already 4.7 mm inside the handle *before* any
+     finger closes.
+   - At that point the whole hand is rigid with the forearm, so the positions
+     are weight-independent.
+   - The pose script's closing search protects only initially-outside
+     vertices, so closing the thumb pushes them to 5.93 mm.
+   - Fixing it needs either a thumb rest pose clear of the handle placement
+     (the thumb bones are part of the frozen rig) or a change to the frozen
+     evaluation pose. **Owner decision required;** the evaluation script was
+     not changed.
+2. **Elbow flexion contact** (`curl_peak` elbow 152–158 pairs). The colliding
+   faces are forearm-front vs biceps-front skin 2.6–24 cm apart at rest, in
+   genuine contact at about 140° flexion. Two elbow solves (o16, o18) could
+   not reduce it. It needs soft-tissue compression, meaning corrective shapes,
+   not authorised.
+3. **PIP crease residue** (52 pairs after the hand solve, from 110). The
+   colliding faces are ~2 mm apart at rest, across the tight crease loop at
+   each PIP, folding over each other at the pose's 88° PIP bend. o17 made no
+   further progress (106 triangle pairs held flat). A minimal local fix would
+   widen or relax the tight crease loop (geometry slide, not new topology);
+   not attempted.
+
+`curl_peak` passes the gate if either the elbow or the PIP residue drops by
+10 pairs.
+
+**In progress (unattended session):** `o19` → r28 is a symmetric hand
+re-solve on the r26 base. It uses the stricter of the R2 and r26 bounds, a
+0.03 max margin and a 10× fold barrier. Targets:
+
+- push-up hand max back under the R2 tolerance;
+- press_top/pullup_hang p99 back within tolerance;
+- fewer PIP-crease pairs.
+
+Battery at checkpoint: 96%, discharging (no AC), runtime estimate
+unavailable (2026-09-30 ~23:20 local).
+
 ### Priority 2 — hands / fingers / thumb / equipment grip
 
 Target poses:

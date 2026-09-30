@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { boxPrimitiveData, spherePrimitiveData } from '../core/primitiveGeometry';
+import { boxPrimitiveData } from '../core/primitiveGeometry';
 import { HgPerspectiveCamera, HgScene } from '../core/sceneGraph';
 import { HgPrimitiveMaterial, HgPrimitiveMesh } from '../core/sceneMesh';
 import { HgMat4, HgVec3 } from '../core/linearMath';
@@ -40,23 +40,6 @@ const boxDistance = (
   return worldHit.distanceTo(ray.origin);
 };
 
-const sphereDistance = (
-  ray: HgSceneRay,
-  centre: HgVec3,
-  radius: number,
-): number | null => {
-  const offset = ray.origin.clone().sub(centre);
-  const b = offset.dot(ray.direction);
-  const c = offset.lengthSq() - radius * radius;
-  const discriminant = b * b - c;
-  if (discriminant < 0) return null;
-  const root = Math.sqrt(discriminant);
-  const near = -b - root;
-  const far = -b + root;
-  if (far < 0) return null;
-  return near >= 0 ? near : far;
-};
-
 describe('first-party scene raycast', () => {
   it('matches independent analytic hit ordering and distance for transformed meshes', () => {
     const camera = new HgPerspectiveCamera(50, 1.5, 0.1, 100);
@@ -74,11 +57,12 @@ describe('first-party scene raycast', () => {
     near.position.set(0, 0.1, 0.4);
     near.rotation.y = 0.25;
     const far = new HgPrimitiveMesh(
-      spherePrimitiveData(0.7, 24, 16),
+      boxPrimitiveData([1.4, 1.4, 1.4]),
       new HgPrimitiveMaterial('#ffffff'),
     );
     far.name = 'far';
     far.position.set(0, 0.1, -1.1);
+    far.rotation.y = -0.17;
     root.add(near, far);
     root.updateMatrixWorld(true);
 
@@ -86,7 +70,7 @@ describe('first-party scene raycast', () => {
     setSceneRayFromCamera(ray, camera, 0, 0);
     const expected = [
       { name: near.name, distance: boxDistance(ray, near.matrixWorld)! },
-      { name: far.name, distance: sphereDistance(ray, far.position, 0.7)! },
+      { name: far.name, distance: boxDistance(ray, far.matrixWorld, 0.7)! },
     ].sort((left, right) => left.distance - right.distance);
     const actual = intersectSceneMeshes(root.children, ray);
 

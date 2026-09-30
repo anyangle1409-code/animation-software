@@ -56,7 +56,7 @@ jobs:
         run: >
           python3 scripts/evaluate_original_v1_deformation_report.py
           ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
-          --grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
+          --grip-report ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
           --profile development_blocker
           --require-group core_five
           --report-only

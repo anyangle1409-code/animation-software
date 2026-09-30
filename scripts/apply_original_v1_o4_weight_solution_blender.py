@@ -51,7 +51,10 @@ for j, n in enumerate(bnames):
         if w > 1e-6:
             g.add([v], w, "REPLACE")
 
-scene["hgpt_candidate"] = new_path.stem
+# Keep the O4 stage tag (read-only audits require 'O4_bind'); record the revision separately.
+if scene.get("hgpt_candidate") != "O4_bind":
+    raise SystemExit(f"Source is not an O4_bind candidate: {scene.get('hgpt_candidate')!r}")
+scene["hgpt_candidate_revision"] = new_path.stem
 scene["hgpt_candidate_parent_sha256"] = src_sha
 bpy.ops.wm.save_as_mainfile(filepath=str(new_path), copy=True)
 rec = {"generated_utc": datetime.now(timezone.utc).isoformat(),

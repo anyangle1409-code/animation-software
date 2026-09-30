@@ -498,10 +498,180 @@ folds in overhead elevation whatever the weights. The fix is likely one of:
   iteration rule allows only if evidence requires it;
 - corrective shape keys, which are out of scope until approved.
 
-**Next step:** keep `r10` as the reference best-balance weights (5
-regressions). Try re-seating the top-of-deltoid edge loop or a small clavicle
-share on the acromion ridge, and address the squat volume drift. Never reuse an
-evidence label; the next label is `shoulder_r15`.
+(The r3–r14 hand-tuned presets are superseded by the multi-pose optimiser
+below.)
+
+### Priority 1 session log — 2026-09-30 evening (laptop, Claude): multi-pose weight optimiser
+
+**Status: Priority 1 still BLOCKED, but it now owns 3 failures instead of 15.**
+
+- Best candidate: `r21`, file
+  `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r21.blend`
+  (git-ignored, reproducible; see below).
+- Hashes:
+  - candidate SHA-256 `16d5f3fd0d47f7be91e231230039294059d948f32f9ddd3eb0114664f4f5afd7`;
+  - parent (R2 evidence file) `d89dedb5…44a4`;
+  - weight solution `weight_solutions/o10.npz`, SHA-256
+    `4ae61cb8014b89beb9adcb6d6a4ff0215deb9414f0779874236b8000c3c0c90d`.
+- Not accepted by the comparator: 7 small regressions, listed below.
+- `DEFORMATION_BASELINE_R2.json`, `ORIGINAL_V1_CANDIDATE_STATUS.json` and every
+  promotion/approval flag are unchanged. The 63-bone rig is unchanged; the
+  apply script refuses any other rig. Mesh, shorts and non-zone vertices are
+  untouched.
+
+**Diagnosis added this session:**
+
+1. **Torso back tear.** The R2 rhythm torso maximum of 8.32 is not at the
+   shoulder. It is on the back midline (x = 0, y ≈ 0.14, z 1.22–1.39). Those
+   vertices were weighted about 0.31 to *both* `scapula_l` and `scapula_r`, so
+   the two blades rotating apart tore the midline. The fix moved that weight
+   to `spine_02`/`spine_03`.
+2. **Axilla vault stretch.** The overhead stretch came from the three-way
+   `upperarm`/`scapula`/`spine_03` split already noted above.
+3. **New self-intersections come from buckling on the acromion ridge.** When a
+   repair reduced stretch, the deltoid-cap skin (x ≈ ±0.24–0.28, z 1.44–1.52)
+   buckled into the acromion top (z 1.51–1.54). The colliding faces were
+   13–90 mm apart at rest and 1–5 mm apart when posed.
+
+**Method (all first-party, operating only on this candidate's own
+mesh/weights and the v4 rig):**
+
+1. `scripts/dump_original_v1_o4_pose_skinning_blender.py` dumps the rest mesh,
+   weights and per-pose skinning matrices for all 15 stress poses. It reuses
+   the pose test's own pose code and verifies that numpy linear-blend skinning
+   reproduces Blender's evaluated mesh (max error below 1 µm in every pose).
+2. `scripts/optimize_original_v1_o4_shoulder_weights.py` solves the weights of
+   2,826 zone vertices. The zone is both shoulders within 240 mm of the
+   glenohumeral joint, plus every upper-body vertex carrying scapula weight.
+   The solve is L-BFGS over softmax-parameterised weights (always normalised,
+   only permitted bones), then pruned to 4 influences and polished. It
+   optimises against **all 15 poses at once** with:
+   - hinge barriers at the gate margins (stretch ≤ 4.3, compression ≥ 0.24);
+   - per-pose, per-region no-regression bounds against R2;
+   - a whole-body volume barrier;
+   - count-aware p99/p01 budgets;
+   - a dihedral fold barrier;
+   - a signed facing-sheet separation barrier against self-intersection;
+   - smoothness and closeness to R2.
+
+   Every term was gradient-checked.
+3. `scripts/apply_original_v1_o4_weight_solution_blender.py` writes a solution
+   into a new numbered candidate and refuses to overwrite. It keeps the scene
+   stage tag `hgpt_candidate = O4_bind`, which the read-only audit requires, and
+   records `hgpt_candidate_revision` plus the parent SHA. (r15–r20 were saved
+   before this fix and carry their own name as the tag, so the audit refuses
+   them; r21 is r20's exact weights with the correct tag.)
+
+Reproduce r21:
+
+```bat
+blender --background --factory-startup ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend --python-exit-code 1 ^
+  --python scripts\apply_original_v1_o4_weight_solution_blender.py -- ^
+  ORIGINAL_V1_WORK\candidates\weight_solutions\o10.npz ^
+  ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_<new>.blend
+```
+
+**Candidate history (shoulder subset; R2 = 34 failed checks):**
+
+| Cand. | Solution | Failed | Regressions | Note |
+|---|---|---:|---:|---|
+| r15 | o3 (projected gradient) | 23 | 17 | first multi-pose solve; self-intersections +64 |
+| r16 | o5 (L-BFGS + no-regression bounds) | 23 | 8 | |
+| r17 | o6 (+ distance barrier, p99 guard) | 23 | 10 | the distance barrier misses the collisions |
+| r18 | o7 (+ signed barrier) | 23 | 16 | p01/p99 regressions |
+| r19 | o8 (count-aware p99/p01) | 23 | 6 | |
+| **r20 / r21** | **o10** (stronger fold barrier) | **22** | **7** | best; p99 regressions gone |
+
+(o9, a 300 mm zone, was predicted no better and was not applied.)
+
+**r21 exact before → after (R2 → r21):**
+
+| Pose | Shoulder max | Shoulder min | Torso max | Volume | Self-int. | p99 |
+|---|---:|---:|---:|---:|---:|---:|
+| `press_bottom` | 6.414 → **3.169** | 0.577 → **0.548** | 2.569 → **2.425** | 1.0312 → **1.0301** | 196 → **196** | 1.559 → **1.568** |
+| `press_top` | 9.089 → **4.337** | 0.094 → **0.232** | 3.974 → **3.57** | 0.9993 → **0.9958** | 174 → **202** | 1.679 → **1.721** |
+| `press_top_rhythm` | 8.283 → **4.323** | 0.143 → **0.236** | 8.317 → **4.062** | 1.1309 → **1.083** | 110 → **110** | 1.977 → **2.013** |
+| `squat_bottom` | 8.053 → **3.987** | 0.184 → **0.237** | 4.204 → **4.204** | 0.9627 → **0.9604** | 42 → **33** | 1.745 → **1.776** |
+| `pullup_hang` | 8.987 → **4.307** | 0.15 → **0.23** | 3.888 → **3.515** | 1.0055 → **1.0022** | 147 → **121** | 1.675 → **1.705** |
+| `pullup_hang_rhythm` | 7.907 → **4.243** | 0.202 → **0.265** | 8.317 → **3.979** | 1.1361 → **1.0892** | 110 → **110** | 1.962 → **1.977** |
+| `pullup_top` | 5.169 → **2.697** | 0.694 → **0.674** | 2.086 → **2.018** | 1.0271 → **1.0266** | 216 → **216** | 1.521 → **1.496** |
+| `pullup_bar` | 8.987 → **4.307** | 0.15 → **0.23** | 3.888 → **3.515** | 1.0056 → **1.0022** | 146 → **120** | 1.664 → **1.678** |
+
+**Full-coverage evidence for r20 (same weights as r21):**
+
+- Every repair group was run: `shoulder_r20`, `hand_r20` (with grip),
+  `hip_r20`, `pushup_r20` and `row_r20`.
+- All 14 stressed poses were merged into
+  `repair_checks/full_r20_merged_pose_report.json`. `neutral` is omitted; it is
+  the rest pose and cannot change with weights.
+- Development-blocker failures: **54 → 42** (`full_r20_deformation_acceptance.md`).
+- Repair queue (`full_r20_repair_queue.md`):
+
+  | Priority | Owned failures |
+  |---|---:|
+  | 1 | **3** (was 15) |
+  | 2 | 38 |
+  | 3 | 3 |
+
+  Ownership is complete. Push-up, row and grip contact show no regressions.
+
+**Remaining Priority 1 blockers:**
+
+- `press_top` self-intersections 202 (gate ≤ 200).
+- `press_top_rhythm` p99 2.013 (gate ≤ 2.0).
+- `pullup_top` self-intersections 216. Unchanged from R2: 106 elbow/arm pairs
+  plus 110 finger pairs, outside the shoulder zone. It probably needs elbow and
+  finger work (Priority 2 territory) rather than shoulder weights.
+
+**Remaining comparator regressions (why r21 is not accepted).** The
+tolerances are 0.02 for a minimum drop and +5 for self-intersections:
+
+| Pose / region | Metric | R2 | r21 |
+|---|---|---:|---:|
+| `press_top` | self-intersections | 174 | 202 |
+| `press_bottom` / shoulder | region minimum | 0.577 | 0.548 |
+| `press_bottom` / torso | region minimum | 0.943 | 0.889 |
+| `press_top` / torso | region minimum | 0.886 | 0.837 |
+| `press_top` / neck | region minimum | 1.000 | 0.978 |
+| `pullup_top` / torso | region minimum | 0.883 | 0.861 |
+| `squat_bottom` / arm | region minimum | 0.606 | 0.585 |
+
+Every one of these minima still passes the gate comfortably (≥ 0.548 against
+0.15). The optimiser shows this is a genuine multi-pose trade-off. The small
+arm weights on the front-chest/axilla vertices that stop overhead tearing move
+a 12 mm chest edge by centimetres in other poses. Even very stiff penalties
+(3e4) could not hold all bounds together with the collision barriers.
+
+**Weight audit** (`weight_audits/shoulder_weights_shoulder_r21.json`):
+
+- All 976 left/right shoulder vertices have exactly 4 normalised influences
+  (R2: 98 had 3).
+- Max weight-sum error 4e-8 (R2: 1e-5).
+- Cross-side contamination: 0.
+- The top-25 weight-gradient edges are unchanged from R2 (torso front,
+  outside the zone), so no new abrupt seams were introduced.
+
+**Decision needed from the owner.** This is a genuine decision point, not a
+routine step. Either:
+
+- (a) accept that region minima may fall by more than 0.02 when they stay far
+  above the gate, making r21's remaining blocker the press_top
+  self-intersection (+28); or
+- (b) keep the strict rule, in which case the next step is topology.
+
+The weights alone have not removed the acromion buckling.
+
+**Next exact repair task:**
+
+1. Warm-start the optimiser from `o10.npz` and target only `press_top`
+   self-intersections (≤ 179) and rhythm p99 (≤ 2.0). One option is to
+   restrict the facing-sheet barrier to the acromion/deltoid-cap region with a
+   larger search radius.
+2. If that fails, add one edge loop across the top of the deltoid
+   (first-party topology edit) and re-dump. The optimiser and apply tools work
+   on any O4_bind candidate.
+
+The next evidence label is `shoulder_r22`.
 
 ### Priority 2 — hands / fingers / thumb / equipment grip
 

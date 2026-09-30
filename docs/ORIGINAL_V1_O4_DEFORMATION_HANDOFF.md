@@ -475,9 +475,33 @@ What still fails or regresses:
 4. Self-intersections in the rhythm poses sometimes rise (r5: 110 → 150). r10
    kept them at the baseline.
 
-**Next step:** start from preset `r10`, add a localised harmonic patch for the
-acromion compressed edge, and address the squat volume drift. Never reuse an
-evidence label; the next label is `shoulder_r13`.
+A follow-up probe confirmed that every regressing shoulder minimum (r10
+pull-up hang 0.107, r12 rhythm 0.07/0.09) is on the same few edges, at rest
+approximately (±0.22–0.25, y 0.00–0.10, z 1.50–1.535). Those vertices carry
+upperarm ~.4–.6, clavicle ~.1–.4 and scapula ~.2–.4.
+
+I then tried operation E, a harmonic blend of that acromion patch (radius 50 mm,
+80 iterations):
+
+| Cand. | Change | Failed | Regressions | Note |
+|---|---|---:|---:|---|
+| r13 | r10 + E | 33 | 7 | minima 0.12–0.17, all still just under baseline |
+| r14 | r5 + E | 33 | 9 | worse |
+
+Smoothing the acromion weights spreads the fold rather than removing it.
+Conclusion: under linear-blend skinning with this topology, the deltoid top
+folds in overhead elevation whatever the weights. The fix is likely one of:
+
+- a pose-independent redistribution of upperarm vs clavicle/scapula along the
+  acromion that is tested per pose family;
+- a topology/edge-flow change (extra loop across the deltoid top), which the
+  iteration rule allows only if evidence requires it;
+- corrective shape keys, which are out of scope until approved.
+
+**Next step:** keep `r10` as the reference best-balance weights (5
+regressions). Try re-seating the top-of-deltoid edge loop or a small clavicle
+share on the acromion ridge, and address the squat volume drift. Never reuse an
+evidence label; the next label is `shoulder_r15`.
 
 ### Priority 2 — hands / fingers / thumb / equipment grip
 

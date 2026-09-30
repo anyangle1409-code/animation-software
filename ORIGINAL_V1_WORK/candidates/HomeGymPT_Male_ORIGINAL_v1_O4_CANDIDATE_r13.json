@@ -1,0 +1,51 @@
+{
+  "generated_utc": "2026-09-30T16:57:13.166353+00:00",
+  "stage": "O4 candidate shoulder weight repair (not production)",
+  "preset": "r13",
+  "parameters": {
+    "cap_lx0": 0.165,
+    "cap_lx1": 0.245,
+    "cap_zmin": 1.37,
+    "cap_max": 0.82,
+    "cap_ztaper0": 1.47,
+    "cap_ztaper1": 1.545,
+    "cap_top_factor": 0.55,
+    "scap_keep": 0.5,
+    "scap_zmax": 1.5,
+    "band_radius": 0.2,
+    "band_iters": 4,
+    "band_rate": 0.5,
+    "axilla_radius": 0.085,
+    "axilla_iters": 120,
+    "axilla_regions": [
+      "shoulder",
+      "torso"
+    ],
+    "acro_radius": 0.05,
+    "acro_iters": 80
+  },
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend",
+  "source_sha256": "d89dedb5033eb52e27a2d66f000f460c5c106ba8e056421cddce633e369044a4",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r13.blend",
+  "candidate_sha256": "4fcae8c925ec5a8668fcb97baca0fac433eb285b2d0f8e30cc94477bfcaa23ee",
+  "vertices_changed": 2294,
+  "per_side": {
+    "l": {
+      "cap_vertices_raised": 102,
+      "back_vertices_rebalanced": 437,
+      "axilla_harmonic_vertices": 92,
+      "acromion_harmonic_vertices": 35,
+      "band_vertices_smoothed": 668
+    },
+    "r": {
+      "cap_vertices_raised": 102,
+      "back_vertices_rebalanced": 437,
+      "axilla_harmonic_vertices": 92,
+      "acromion_harmonic_vertices": 35,
+      "band_vertices_smoothed": 668
+    }
+  },
+  "max_influences": 4,
+  "weight_sum_error": 2.220446049250313e-16,
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+}

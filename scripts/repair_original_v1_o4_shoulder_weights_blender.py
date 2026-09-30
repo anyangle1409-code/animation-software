@@ -83,6 +83,16 @@ PRESETS = {
                 scap_keep=0.50, scap_zmax=1.50, band_radius=0.20, band_iters=4, band_rate=0.5,
                 axilla_radius=0.085, axilla_iters=120, axilla_regions=("shoulder", "torso")),
     # r10 taper too strong (pull-up hang top collapse 0.107): milder, higher taper.
+    # r13/r14: r10 / r5 plus a harmonic acromion patch (operation E).
+    "r13": dict(cap_lx0=0.165, cap_lx1=0.245, cap_zmin=1.37, cap_max=0.82,
+                cap_ztaper0=1.47, cap_ztaper1=1.545, cap_top_factor=0.55,
+                scap_keep=0.50, scap_zmax=1.50, band_radius=0.20, band_iters=4, band_rate=0.5,
+                axilla_radius=0.085, axilla_iters=120, axilla_regions=("shoulder", "torso"),
+                acro_radius=0.05, acro_iters=80),
+    "r14": dict(cap_lx0=0.165, cap_lx1=0.245, cap_zmin=1.37, cap_max=0.82,
+                scap_keep=0.50, scap_zmax=1.50, band_radius=0.20, band_iters=4, band_rate=0.5,
+                axilla_radius=0.085, axilla_iters=120, axilla_regions=("shoulder", "torso"),
+                acro_radius=0.05, acro_iters=80),
     "r11": dict(cap_lx0=0.165, cap_lx1=0.245, cap_zmin=1.37, cap_max=0.82,
                 cap_ztaper0=1.49, cap_ztaper1=1.55, cap_top_factor=0.75,
                 scap_keep=0.50, scap_zmax=1.50, band_radius=0.20, band_iters=4, band_rate=0.5,
@@ -190,6 +200,19 @@ for s, sx in (("l", -1.0), ("r", 1.0)):
             W[zoneD] = np.where(allowed[zoneD], avg, 0.0)
             W[zoneD] /= np.maximum(W[zoneD].sum(axis=1, keepdims=True), 1e-9)
 
+    # E: harmonic weights across the acromion/deltoid-top patch. The min-edge
+    # probe put every overhead compression (r10 pull-up hang 0.107, r12 rhythm
+    # 0.07) on short edges here where the A-cap share jumps between neighbours.
+    acro_n = 0
+    if P.get("acro_radius", 0) > 0:
+        CE = np.array([sx * 0.230, 0.045, 1.525])
+        zoneE = np.nonzero(side & (reg == "shoulder") & (np.linalg.norm(V - CE, axis=1) < P["acro_radius"]))[0]
+        acro_n = int(len(zoneE))
+        for _ in range(P["acro_iters"]):
+            avg = np.array([W[nbrs[i]].mean(axis=0) for i in zoneE])
+            W[zoneE] = np.where(allowed[zoneE], avg, 0.0)
+            W[zoneE] /= np.maximum(W[zoneE].sum(axis=1, keepdims=True), 1e-9)
+
     # C: wider, permission-bounded smoothing band around the glenohumeral joint
     dist = np.linalg.norm(V - H, axis=1)
     zoneC = np.nonzero(side & np.isin(reg, ["shoulder", "torso", "arm"]) & (dist < P["band_radius"]))[0]
@@ -198,7 +221,7 @@ for s, sx in (("l", -1.0), ("r", 1.0)):
         avg = np.array([W[nbrs[i]].mean(axis=0) for i in zoneC])
         W[zoneC] = np.where(allowed[zoneC], (1 - P["band_rate"] * fall) * W[zoneC] + P["band_rate"] * fall * avg, 0.0)
     stats[s] = {"cap_vertices_raised": changedA, "back_vertices_rebalanced": changedB,
-                "axilla_harmonic_vertices": axilla_n, "band_vertices_smoothed": int(len(zoneC))}
+                "axilla_harmonic_vertices": axilla_n, "acromion_harmonic_vertices": acro_n, "band_vertices_smoothed": int(len(zoneC))}
 
 # max 4 influences, normalise
 order = np.argsort(-W, axis=1)

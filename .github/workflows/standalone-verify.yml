@@ -158,6 +158,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Production output third-party gate
+        run: npm run audit:production -- dist
+
       - name: Final character runtime-path gate
         run: node scripts/audit-final-character-runtime.mjs
 

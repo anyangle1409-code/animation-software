@@ -1,9 +1,11 @@
 /**
- * The single remaining third-party runtime gateway.
+ * Development-only Three.js compatibility gateway.
  *
- * No production feature module imports Three.js directly. Character scene
- * materialization and the live viewer import only from this file, making the
- * eventual renderer/skinning replacement one explicit seam.
+ * The live Home Gym PT viewport, scene graph, skinning and WebGL renderer are
+ * first-party and do not depend on this module. Legacy parity/compatibility
+ * code still imports these classes so independent comparison tests can remain
+ * available while the final test-only seam is retired. This module must never
+ * appear in production output.
  */
 import {
   ACESFilmicToneMapping,

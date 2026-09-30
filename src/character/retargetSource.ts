@@ -7,7 +7,6 @@ import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import type { BoneName } from '../rig/boneNames';
 import { canonicalSkeleton } from '../rig/skeleton';
 import type { Skeleton } from '../rig/skeleton';
-import { RIG_HEIGHT } from '../rig/humanoid';
 import type { Pose } from '../rig/types';
 import { createMapping, guessMapping, reportMapping } from '../retargeting/boneMap';
 import type { BoneMapping, MappingReport } from '../retargeting/boneMap';
@@ -148,10 +147,12 @@ export function retargetedCharacterSource(
       const gripOffsets = options.gripFrameOffsets ?? inHandFrame(embeddedGripOffsets, turn);
 
       // The one change made to the character: a uniform scale so a model of
-      // any height stands at the rig's scale. `applyRetarget` already scales
+      // any height stands at the supplied rig's scale. `applyRetarget` already scales
       // root motion by the model's height, so the two cancel and a step is a
       // step wherever the character came from.
-      const scale = RIG_HEIGHT / character.height;
+      const targetRigHeight =
+        rig.bone('head').restTail.y - rig.bone('root').restHead.y;
+      const scale = targetRigHeight / character.height;
       scene.scale.setScalar(scale);
       scene.position.set(0, 0, 0);
       scene.quaternion.identity();

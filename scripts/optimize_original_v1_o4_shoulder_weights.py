@@ -128,6 +128,35 @@ PRESETS = {
                 w_p99=1e5, p99_mode="budget", p99_margin=0.04, p99_cap=1.975, p01_margin=0.015, p99_slack=6,
                 w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
                 iters=150, polish_iters=100, polish_rounds=3),
+    # o14 (r25): Priority 2 hand zone on r24 (shoulder zone untouched): all poses, gate hinges,
+    # no-regression vs the stricter of pinned R2 and r24, finger-crease collisions resolved
+    # (outward-side constraints) in every gripping pose.
+    "o14": dict(solver="lbfgs", zone_mode="hand", wrist_radius=0.05, allow_radius=0.04,
+                hi=4.3, lo=0.24, w_hinge=3e4, no_regress=True, strict_both=True, min_margin=0.012, max_margin=0.07,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_resolve=True, tt_delta=0.0005, tt_radius=0.015, rounds=3,
+                w_p99=1e5, p99_mode="budget", p99_margin=0.04, p99_cap=1.975, p01_margin=0.015, p99_slack=6,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=100, polish_rounds=2),
+    # o15 (r26): hand re-solve warm-started from o14; tighter max/p99 margins and stiffer bounds
+    # (r25 regressed push-up hand max 1.915 -> 2.083 and press_top/pullup_hang p99 by 0.051).
+    "o15": dict(solver="lbfgs", zone_mode="hand", wrist_radius=0.05, allow_radius=0.04,
+                hi=4.3, lo=0.24, w_hinge=2e5, no_regress=True, strict_both=True, min_margin=0.012, max_margin=0.04,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_resolve=True, tt_delta=0.0005, tt_radius=0.015, rounds=2,
+                w_p99=3e5, p99_mode="budget", p99_margin=0.02, p99_cap=1.975, p01_margin=0.012, p99_slack=10,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=100, polish_rounds=2),
+    # o16 (r27): elbow zone on r25 (hand and shoulder zones untouched): resolve elbow-fold
+    # collisions in the flexed poses (curl_peak 210 > 200 gate).
+    "o16": dict(solver="lbfgs", zone_mode="elbow", elbow_radius=0.12,
+                hi=4.3, lo=0.24, w_hinge=2e5, no_regress=True, strict_both=True, min_margin=0.012, max_margin=0.04,
+                w_fold=2000.0, fold_cos=0.2, fold_margin=0.05,
+                w_prox=5e6, prox_mode="tritri", tt_resolve=True, tt_delta=0.0005, tt_radius=0.03, rounds=3,
+                tt_poses=("curl_peak", "curl_handle", "pullup_top", "grip", "row", "pushup_bottom"),
+                w_p99=3e5, p99_mode="budget", p99_margin=0.02, p99_cap=1.975, p01_margin=0.012, p99_slack=10,
+                w_strain=0.01, w_vol=2e6, vol_slack=0.003, vol_target_cap=0.085, w_smooth=0.02, w_close=0.02,
+                iters=150, polish_iters=100, polish_rounds=2),
 }
 
 
@@ -170,7 +199,7 @@ def main():
     allowed_full = W0 > 1e-6
     regs = np.isin(region, [rid[n] for n in P.get("zone_regions", ("shoulder", "torso", "arm", "neck"))])
     scap_w = W0[:, b["scapula_l"]] + W0[:, b["scapula_r"]]
-    for s in "lr":
+    for s in ("lr" if P.get("zone_mode", "shoulder") == "shoulder" else ""):
         H = d["heads"][b[f"upperarm_{s}"]]
         side = rest[:, 0] * np.sign(H[0]) > -0.005          # midline belongs to both sides
         near = np.linalg.norm(rest - H, axis=1) < P["zone_radius"]
@@ -182,6 +211,40 @@ def main():
             allowed_full[zs & near, b[n]] = True
         for n in ("spine_03", "spine_02", "spine_01"):
             allowed_full[zs & ~near, b[n]] = True
+    if P.get("zone_mode") == "hand":
+        # Priority 2: hand/finger/thumb vertices (+ forearm-side wrist band) of both hands, disjoint
+        # from the shoulder zone. Permitted bones: existing + same-side hand-chain bones whose head
+        # lies within allow_radius of the vertex.
+        zone_mask = np.zeros(len(rest), bool)
+        allowed_full = W0 > 1e-6
+        hregs = np.isin(region, [rid[n] for n in ("hand", "finger", "thumb")])
+        for s_ in "lr":
+            chain = [i for i, n in enumerate(bones) if n.endswith("_" + s_) and
+                     any(k in n for k in ("hand", "metacarpal", "index", "middle", "ring", "pinky", "thumb", "forearm"))]
+            Hh = d["heads"][b[f"hand_{s_}"]]
+            side = rest[:, 0] * np.sign(Hh[0]) > 0.0
+            wrist = (region == rid["arm"]) & (np.linalg.norm(rest - Hh, axis=1) < P.get("wrist_radius", 0.05))
+            zs = side & (hregs | wrist)
+            zone_mask |= zs
+            idx = np.nonzero(zs)[0]
+            dist = np.linalg.norm(rest[idx][:, None] - d["heads"][chain][None], axis=2)
+            for j, bi in enumerate(chain):
+                allowed_full[idx[dist[:, j] < P.get("allow_radius", 0.04)], bi] = True
+    if P.get("zone_mode") == "elbow":
+        # Priority 2: arm-region vertices around each elbow (forearm head), disjoint from the r24
+        # shoulder zone (<= 0.24 m from the glenohumeral joint) and from the hand zone.
+        zone_mask = np.zeros(len(rest), bool)
+        allowed_full = W0 > 1e-6
+        for s_ in "lr":
+            He = d["heads"][b[f"forearm_{s_}"]]
+            Hs = d["heads"][b[f"upperarm_{s_}"]]
+            Hh = d["heads"][b[f"hand_{s_}"]]
+            side = rest[:, 0] * np.sign(He[0]) > 0.0
+            zs = (side & (region == rid["arm"]) & (np.linalg.norm(rest - He, axis=1) < P.get("elbow_radius", 0.12))
+                  & (np.linalg.norm(rest - Hs, axis=1) > 0.24) & (np.linalg.norm(rest - Hh, axis=1) > 0.05))
+            zone_mask |= zs
+            for n in (f"upperarm_{s_}", f"forearm_{s_}"):
+                allowed_full[zs, b[n]] = True
     Z = np.nonzero(zone_mask)[0]
     zpos = -np.ones(len(rest), int)
     zpos[Z] = np.arange(len(Z))
@@ -226,6 +289,8 @@ def main():
                 LHI[p, kz] = np.log(min(P["hi"], r_all[k].max() + P["max_margin"]))
     if a.r2_report:
         # Topology-changed candidates: judge against the pinned R2 report itself (as the comparator does).
+        # With strict_both the dump's own (e.g. r24) bounds are kept too and the stricter one wins.
+        LLO_self, LHI_self = LLO.copy(), LHI.copy()
         rep = {x["pose"]: x for x in json.loads(Path(a.r2_report).read_text(encoding="utf-8"))}
         ereg_z = region[Ez[:, 0]]
         for p, nm in enumerate(poses):
@@ -238,7 +303,12 @@ def main():
                 LHI[p, kz] = np.log(min(P["hi"], st["max_ratio"] + P["max_margin"]))
             dev_R2[p] = abs(rep[nm]["volume_ratio"] - 1)
         vol_target[:] = np.minimum(dev_R2 + P.get("vol_slack", 0.0), P["vol_target_cap"])
-        print("bounds, volume targets and percentiles from", a.r2_report, flush=True)
+        if P.get("strict_both"):
+            LLO, LHI = np.maximum(LLO, LLO_self), np.minimum(LHI, LHI_self)
+            dev_self = np.array([abs(abs(vol_all(evald[p])) / abs(vol0_all) - 1) for p in range(npz)])
+            vol_target[:] = np.minimum(vol_target, np.minimum(dev_self + P.get("vol_slack", 0.0), P["vol_target_cap"]))
+        print("bounds, volume targets and percentiles from", a.r2_report,
+              "(stricter of report and dump)" if P.get("strict_both") else "", flush=True)
     # fold proxy: dihedral cosine between triangles sharing a mesh/diagonal edge in the zone
     edge_tris = {}
     for t, (x, y, zv) in enumerate(Tz):
@@ -308,6 +378,11 @@ def main():
     TT_R2 = {}
     tt_cand = np.nonzero(((zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.05)))[tris]).all(axis=1)
                          & (zone_mask[tris]).any(axis=1))[0]
+    if P.get("zone_mode") in ("hand", "elbow"):
+        nbr_mask = zone_mask.copy()
+        nbr_mask[E[zone_mask[E[:, 0]], 1]] = True
+        nbr_mask[E[zone_mask[E[:, 1]], 0]] = True
+        tt_cand = np.nonzero(nbr_mask[tris].all(axis=1) & zone_mask[tris].any(axis=1))[0]
     tt_poses = [p for p, nm in enumerate(poses) if nm in P.get("tt_poses", poses)]
 
     def tri_normal(Pp, tb):
@@ -317,9 +392,28 @@ def main():
     def find_pairs_tritri(Wz):
         for p in tt_poses:
             if p not in TT_R2:
-                TT_R2[p] = {tuple(x) for x in tri_pairs_intersecting(evald[p], tris, tt_cand)}
+                TT_R2[p] = {tuple(x) for x in tri_pairs_intersecting(evald[p], tris, tt_cand, radius=P.get("tt_radius", 0.03))}
             Pp = positions(Wz, p)
-            cur = tri_pairs_intersecting(Pp, tris, tt_cand)
+            cur = tri_pairs_intersecting(Pp, tris, tt_cand, radius=P.get("tt_radius", 0.03))
+            if P.get("tt_resolve"):
+                # resolve existing collisions too: each vertex must lie on the OUTWARD side of the
+                # other triangle (skin sheets meet outside-to-outside; no reference pose needed)
+                vs, tbs = [], []
+                for ta, tb in cur:
+                    for x, y in ((ta, tb), (tb, ta)):
+                        for v in tris[x]:
+                            vs.append(v)
+                            tbs.append(tris[y])
+                if vs:
+                    vs, tbs = np.array(vs), np.array(tbs)
+                    n = orient * tri_normal(Pp, tbs)
+                    old = TT[p]
+                    TT[p] = dict(v=np.r_[old["v"], vs], tb=np.r_[old["tb"], tbs], n=np.r_[old["n"], n],
+                                 sg=np.r_[old["sg"], np.ones(len(vs))],
+                                 tgt=np.r_[old["tgt"], np.full(len(vs), P.get("tt_delta", 0.0005))])
+                print(f"  tritri-resolve {poses[p]}: intersecting {len(cur)} (dump {len(TT_R2[p])}), "
+                      f"constraints {len(TT[p]['v'])}", flush=True)
+                continue
             new = np.array([x for x in cur if tuple(x) not in TT_R2[p]], int).reshape(-1, 2)
             vs, tbs = [], []
             for ta, tb in new:

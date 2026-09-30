@@ -32,6 +32,8 @@ import { romanianDeadlift } from '../exercises/definitions/romanianDeadlift';
 import { bentOverRow } from '../exercises/definitions/bentOverRow';
 import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
+import { pullUp } from '../exercises/definitions/pullUp';
+import { overheadExtension } from '../exercises/definitions/overheadExtension';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -347,6 +349,35 @@ describe('generating on the clean first-party fallback', () => {
     'keeps accepted lateral/front raise references clean after generator certification',
     () => {
       for (const exercise of [lateralRaise, frontRaise]) {
+        const report = validateCandidate(
+          { rig, character, reference: exercise },
+          exercise,
+          generateClip(rig, exercise),
+          (definition) => generateClip(rig, definition),
+        );
+        const detail = JSON.stringify({
+          id: exercise.id,
+          passed: report.passed,
+          failed: report.failed,
+          skipped: report.skipped,
+          checks: report.checks.map((check) => ({
+            id: check.id,
+            status: check.status,
+            measured: check.measured,
+          })),
+        });
+        expect(report.skipped, detail).toEqual([]);
+        expect(report.failed, detail).toEqual([]);
+        expect(report.passed, detail).toBe(true);
+      }
+    },
+    180_000,
+  );
+
+  it(
+    'measures accepted pull-up and overhead-extension references before generator certification',
+    () => {
+      for (const exercise of [pullUp, overheadExtension]) {
         const report = validateCandidate(
           { rig, character, reference: exercise },
           exercise,

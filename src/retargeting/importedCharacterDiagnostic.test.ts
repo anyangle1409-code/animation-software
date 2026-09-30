@@ -18,6 +18,7 @@ import type { CharacterBuild, Side } from '../character/types';
 import { equipmentSocket } from '../equipment/library';
 import { handAttachmentMatrix } from '../export/test/clipBuilderCompat';
 import { HgMat4 } from '../core/linearMath';
+import { asThreeMatrix } from '../test/threeInterop';
 
 /**
  * Optional diagnostic for a supplied imported character.
@@ -169,7 +170,7 @@ function dumbbellHandleSkinClearance(character: CharacterBuild, clip: StudioClip
       const count = mesh.geometry.getAttribute('position').count;
       for (let index = 0; index < count; index += 1) {
         mesh.getVertexPosition(index, vertex);
-        handleLocal.copy(vertex).applyMatrix4(mesh.matrixWorld).applyMatrix4(toHandle);
+        handleLocal.copy(vertex).applyMatrix4(asThreeMatrix(mesh.matrixWorld)).applyMatrix4(toHandle);
         if (Math.abs(handleLocal.z) > DUMBBELL_HANDLE_HALF_LENGTH) continue;
         sampledVertices += 1;
         const clearance = Math.hypot(handleLocal.x, handleLocal.y) - DUMBBELL_HANDLE_RADIUS;
@@ -234,7 +235,7 @@ supplied('imported-character diagnostic', () => {
     expect(report.mapping.missingRequired).toEqual([]);
     expect(character.meshes.length).toBeGreaterThan(0);
 
-    const edgeSets = new Map(character.meshes.map((mesh) => [mesh, meshEdges(mesh)]));
+    const edgeSets = new Map(character.meshes.map((mesh) => [mesh, meshEdges(mesh as unknown as SkinnedMesh)]));
     const results: Record<string, unknown[]> = {};
 
     for (const definition of definitions) {
@@ -250,7 +251,7 @@ supplied('imported-character diagnostic', () => {
 
         const meshStats = character.meshes.map((mesh) => ({
           mesh: mesh.name,
-          ...strain(mesh, edgeSets.get(mesh)!),
+          ...strain(mesh as unknown as SkinnedMesh, edgeSets.get(mesh)!),
         }));
 
         const hands: Record<string, number[] | null> = {};

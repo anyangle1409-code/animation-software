@@ -15,6 +15,7 @@ import { createMapping, guessMapping } from './boneMap';
 import type { TargetCharacter } from './retarget';
 import { applyRetarget, bindRetarget, readCharacter } from './retarget';
 import { describe, expect, it } from 'vitest';
+import { asThreeMatrix } from '../test/threeInterop';
 
 const rig = canonicalSkeleton;
 const MAX_DIRECTION_ERROR = 0.01; // radians, about 0.57 degrees
@@ -85,14 +86,14 @@ function targetDirection(
   name: BoneName,
 ): Vector3 {
   const targetName = mapping.bones[name]!;
-  const head = new Vector3().setFromMatrixPosition(character.bones.get(targetName)!.matrixWorld);
+  const head = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(targetName)!.matrixWorld));
 
   if (name === 'hand_l' || name === 'hand_r') {
     const side = name.endsWith('_l') ? 'l' : 'r';
     const palm = new Vector3();
     for (const root of palmRoots(side)) {
       const mapped = mapping.bones[root]!;
-      palm.add(new Vector3().setFromMatrixPosition(character.bones.get(mapped)!.matrixWorld));
+      palm.add(new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mapped)!.matrixWorld)));
     }
     palm.multiplyScalar(0.25);
     return palm.sub(head).normalize();
@@ -101,7 +102,7 @@ function targetDirection(
   const child = rig.bone(name).children[0];
   expect(child, `${name} must have a child for direction certification`).toBeDefined();
   const mappedChild = mapping.bones[child]!;
-  const tail = new Vector3().setFromMatrixPosition(character.bones.get(mappedChild)!.matrixWorld);
+  const tail = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mappedChild)!.matrixWorld));
   return tail.sub(head).normalize();
 }
 
@@ -294,7 +295,7 @@ function certifyFlattened(definition: ExerciseDefinition, names: BoneName[]) {
   const clip = generateClip(rig, definition);
   const evaluation = new PoseEvaluation(rig);
   const position = (bone: BoneName) =>
-    new Vector3().setFromMatrixPosition(character.bones.get(mapping.bones[bone]!)!.matrixWorld);
+    new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(mapping.bones[bone]!)!.matrixWorld));
   let worstDirection = 0;
   let worstJoint = 0;
 
@@ -410,7 +411,7 @@ function sidedErrors(mirrored: boolean, definition: ExerciseDefinition) {
   const evaluation = new PoseEvaluation(rig);
   // Positions read back on the rig's side of the body.
   const at = (name: string) => {
-    const position = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+    const position = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(name)!.matrixWorld));
     return mirrored ? position.setX(-position.x) : position;
   };
   const errors: number[] = [];

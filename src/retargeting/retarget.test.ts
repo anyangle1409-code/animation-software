@@ -9,6 +9,7 @@ import { sampleClip } from '../animation/clip';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { createMapping, guessMapping, isMappingUsable, reportMapping } from './boneMap';
 import { applyRetarget, bindRetarget, readCharacter, resetCharacter } from './retarget';
+import { asThreeMatrix, asThreeObject } from '../test/threeInterop';
 
 const skeleton = canonicalSkeleton;
 
@@ -154,7 +155,7 @@ describe('retargeting', () => {
     evaluation.apply(pose);
 
     for (const name of ['hand_l', 'forearm_r', 'foot_l', 'head'] as const) {
-      const target = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
+      const target = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(name)!.matrixWorld));
       expect(target.distanceTo(evaluation.head(name, new Vector3())), name).toBeLessThan(1e-6);
     }
   });
@@ -166,7 +167,7 @@ describe('retargeting', () => {
     const bone = (canonical: 'upperarm_l' | 'forearm_l' | 'hand_l') =>
       character.bones.get(mapping.bones[canonical]!)!;
     const worldOf = (canonical: 'upperarm_l' | 'forearm_l' | 'hand_l') =>
-      new Vector3().setFromMatrixPosition(bone(canonical).matrixWorld);
+      new Vector3().setFromMatrixPosition(asThreeMatrix(bone(canonical).matrixWorld));
 
     const binding = bindRetarget(character, mapping);
     const rest = restPose();
@@ -223,7 +224,7 @@ describe('retargeting', () => {
     ] as const;
     for (const [name, child] of segments) {
       const targetHead = new Vector3().setFromMatrixPosition(character.bones.get(name)!.matrixWorld);
-      const targetTail = new Vector3().setFromMatrixPosition(character.bones.get(child)!.matrixWorld);
+      const targetTail = new Vector3().setFromMatrixPosition(asThreeMatrix(character.bones.get(child)!.matrixWorld));
       const targetDirection = targetTail.sub(targetHead).normalize();
       const expectedHead = evaluation.head(name, new Vector3());
       const expectedTail = evaluation.head(child, new Vector3());
@@ -285,7 +286,7 @@ describe('disconnected source deform branches', () => {
     const group = original.root;
     if (detached) {
       for (const name of ['thigh_l', 'thigh_r', 'clavicle_l', 'clavicle_r', 'upperarm_l', 'upperarm_r']) {
-        group.attach(original.bones.get(name)!);
+        group.attach(asThreeObject(original.bones.get(name)!));
       }
     }
     for (const [name, parentName] of [
@@ -294,7 +295,7 @@ describe('disconnected source deform branches', () => {
       const detail = new Bone();
       detail.name = name;
       detail.position.set(0.02, 0.03, 0.04);
-      original.bones.get(parentName)!.add(detail);
+      asThreeObject(original.bones.get(parentName)!).add(detail);
       group.updateMatrixWorld(true);
       if (detached) group.attach(detail);
     }
@@ -343,7 +344,7 @@ describe('disconnected source deform branches', () => {
     applyRetarget(plain, pose);
     applyRetarget(transformed, pose);
     for (const [name, bone] of transformed.character.bones) {
-      const expected = plain.character.bones.get(name)!.getWorldPosition(new Vector3()).applyMatrix4(transform);
+      const expected = plain.character.bones.get(name)!.getWorldPosition(new Vector3()).applyMatrix4(asThreeMatrix(transform));
       expect(bone.getWorldPosition(new Vector3()).distanceTo(expected), name).toBeLessThan(1e-6);
     }
   });
@@ -354,7 +355,7 @@ describe('disconnected source deform branches', () => {
     const poses = [restPose(), poseFromDegrees({ thigh_l: { x: 80 }, spine_03: { x: 20 }, upperarm_l: { x: -90 } })];
     poses[1].rootPosition.y = -0.25;
     poses[1].rootRotation.x = 0.7;
-    const expected: Map<string, Matrix4>[] = [];
+    const expected: Map<string, { readonly elements: ArrayLike<number> }>[] = [];
     for (const pose of poses) {
       sampler.sample(pose);
       expected.push(new Map([...binding.character.bones].map(([name, bone]) => [name, bone.matrixWorld.clone()])));
@@ -365,7 +366,7 @@ describe('disconnected source deform branches', () => {
     for (const [name, bone] of binding.character.bones) {
       expect(bone.position.distanceTo(threeVector(binding.character.restPosition.get(name)!))).toBeLessThan(1e-9);
     }
-    const mixer = new AnimationMixer(binding.character.root);
+    const mixer = new AnimationMixer(asThreeObject(binding.character.root));
     const action = mixer.clipAction(new AnimationClip(
       'source',
       1,

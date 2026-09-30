@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { HgBufferAttribute, HgHgSkinnedMesh } from '../core/sceneSkin';
+import { HgBufferAttribute, HgSkinnedMesh } from '../core/sceneSkin';
 import { parseHgGlb } from '../core/glbContainer';
 import { readHgAccessor } from '../core/gltfAccessors';
 import { readHgGltfAnimations } from '../core/gltfAnimation';

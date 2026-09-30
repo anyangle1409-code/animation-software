@@ -16,8 +16,9 @@ import type {
 import { tempoDuration } from '../exercises/types';
 import { gripProfile } from '../exercises/gripProfiles';
 import type { IKChainId } from '../ik/types';
+import { IK_CHAINS } from '../ik/chains';
 import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
-import { resolveEquipment } from '../equipment/attach';
+import { resolveEquipment, socketResolver } from '../equipment/attach';
 import { measureGripFit } from '../equipment/gripDiagnostics';
 import type { EquipmentInstance } from '../equipment/types';
 
@@ -165,10 +166,16 @@ function buildPose(
   const pose = poseFromDegrees(joints, spec.root);
   applyGrip(pose, exercise.hands);
   applyStance(pose, exercise.feet, spec, skeleton);
-  return fitThumbGripToSkeleton(
+  const fittedGrip = fitThumbGripToSkeleton(
     skeleton,
     clampPose(skeleton, pose),
     exercise.equipment.instances,
+  );
+  return fitEquipmentLockedArmRoot(
+    skeleton,
+    exercise,
+    fittedGrip,
+    end,
   );
 }
 
@@ -208,6 +215,79 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
       });
     }
   }
+}
+
+/**
+ * Place a root-translated body so a static equipment-locked arm reaches its
+ * fixed socket at the elbow flexion already authored by the exercise's
+ * jointTargets. This turns body size into root placement instead of relying on
+ * one v3-specific world-space height.
+ *
+ * The fit adjusts only root Y. X/Z path, equipment, pole targets and joint
+ * standards stay authored. Exercises without static arm equipment locks are
+ * untouched.
+ */
+function fitEquipmentLockedArmRoot(
+  skeleton: Skeleton,
+  exercise: ExerciseDefinition,
+  pose: Pose,
+  end: 'start' | 'peak',
+): Pose {
+  const armLocks = exercise.locks.filter(
+    (lock) =>
+      lock.enabled &&
+      lock.mode === 'equipment' &&
+      lock.chain.startsWith('arm') &&
+      lock.equipmentId &&
+      lock.socket,
+  );
+  if (armLocks.length === 0) return pose;
+
+  const evaluation = new PoseEvaluation(skeleton).apply(pose);
+  const transforms = resolveEquipment(evaluation, exercise.equipment.instances);
+  const resolveSocket = socketResolver(exercise.equipment.instances, transforms);
+  const deltas: number[] = [];
+
+  for (const lock of armLocks) {
+    if (!lock.equipmentId || !lock.socket) continue;
+    const chain = IK_CHAINS[lock.chain];
+    const target = resolveSocket(lock.equipmentId, lock.socket);
+    if (!target) continue;
+
+    const authored = exercise.jointTargets.find(
+      (entry) => entry.bone === chain.mid && entry.axis === 'x',
+    );
+    if (!authored) continue;
+    const flexionDegrees = end === 'start' ? authored.start : authored.peak;
+    const flexion = Math.abs(toRad(flexionDegrees));
+    const upper = skeleton.bone(chain.root).length;
+    const lower = skeleton.bone(chain.mid).length;
+    const desiredReach = Math.sqrt(
+      upper * upper +
+      lower * lower +
+      2 * upper * lower * Math.cos(flexion),
+    );
+
+    const shoulder = evaluation.head(chain.root);
+    const dx = target.position.x - shoulder.x;
+    const dz = target.position.z - shoulder.z;
+    const verticalSquared = desiredReach * desiredReach - dx * dx - dz * dz;
+    if (verticalSquared <= 0) continue;
+
+    // Equipment-locked overhead grips sit above the shoulder in the supported
+    // family; preserve that branch of the geometric solution.
+    const desiredShoulderY = target.position.y - Math.sqrt(verticalSquared);
+    deltas.push(desiredShoulderY - shoulder.y);
+  }
+
+  if (deltas.length === 0) return pose;
+  const delta = deltas.reduce((sum, value) => sum + value, 0) / deltas.length;
+  if (!Number.isFinite(delta) || Math.abs(delta) < 1e-9) return pose;
+  pose.rootPosition = {
+    ...pose.rootPosition,
+    y: pose.rootPosition.y + delta,
+  };
+  return pose;
 }
 
 interface ThumbGripAxes {

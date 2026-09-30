@@ -48,6 +48,11 @@ jobs:
           scripts/guard_original_v1_authoring_blender.py
           scripts/checkpoint_original_v1_o2.py
 
+      - name: ORIGINAL v1 provenance and v4 payload tests
+        run: |
+          node scripts/export-original-v4-rig.mjs --check
+          python -m unittest discover -s scripts -p "test_original_*.py"
+
       - name: Standalone status script
         run: node scripts/standalone-status.mjs
 

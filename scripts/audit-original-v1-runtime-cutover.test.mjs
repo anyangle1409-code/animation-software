@@ -23,7 +23,7 @@ function fixture() {
     mode: "blocked_procedural_default",
     entrypoint: "src/main.ts",
     registry_module: "src/character/registry.ts",
-    prepared_loader_module: "src/character/bundled.ts",
+    prepared_loader_module: "src/character/originalV1Bundled.ts",
     current_default_source: "procedural",
     future_production_source: "original-v1-dressed",
     production_paths: [
@@ -65,7 +65,7 @@ function fixture() {
     ].join("\n"),
   );
   write(
-    path.join(root, "src/character/bundled.ts"),
+    path.join(root, "src/character/originalV1Bundled.ts"),
     [
       "const PATHS = {",
       "  bare: 'characters/HomeGymPT_Male_ORIGINAL_v1.glb',",
@@ -107,7 +107,7 @@ test("blocked stage rejects making the prepared loader runtime-reachable", () =>
   const { root } = fixture();
   try {
     const registry = path.join(root, "src/character/registry.ts");
-    fs.appendFileSync(registry, "import './bundled';\n");
+    fs.appendFileSync(registry, "import './originalV1Bundled';\n");
     const result = auditOriginalV1RuntimeCutover(root);
     assert.equal(result.pass, false);
     assert.ok(
@@ -139,7 +139,7 @@ test("prepared loader rejects unexpected/candidate GLB paths at audit time", () 
   const { root } = fixture();
   try {
     fs.appendFileSync(
-      path.join(root, "src/character/bundled.ts"),
+      path.join(root, "src/character/originalV1Bundled.ts"),
       "const bad = 'characters/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE.glb';\n",
     );
     const result = auditOriginalV1RuntimeCutover(root);

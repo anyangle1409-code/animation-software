@@ -77,6 +77,12 @@ jobs:
       - name: ORIGINAL v1 promotion remains blocked safely
         run: npm run audit:original-v1-promotion
 
+      - name: Test canonical v4 runtime coupling contract
+        run: node --test scripts/audit-canonical-v4-runtime-coupling.test.mjs
+
+      - name: Canonical v4 runtime coupling gate
+        run: npm run audit:v4-runtime-coupling
+
       - name: Final release remains blocked until original model approval
         run: node scripts/audit-first-party-release-components.mjs --expect-blocked
 

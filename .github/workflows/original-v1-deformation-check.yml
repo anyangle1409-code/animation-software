@@ -69,3 +69,11 @@ jobs:
           --baseline-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
           --candidate-grip-report ORIGINAL_V1_WORK/candidates/grip_test_report_r1.json
           --profile development_blocker
+
+      - name: Targeted shoulder-comparison self-check
+        run: >
+          python3 scripts/compare_original_v1_deformation_reports.py
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json
+          --profile development_blocker
+          --poses press_top,press_top_rhythm,pullup_hang,pullup_hang_rhythm,pullup_top

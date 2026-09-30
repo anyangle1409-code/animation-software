@@ -1,6 +1,6 @@
 import type { BoneName, Side } from '../rig/boneNames';
 import { FINGERS } from '../rig/boneNames';
-import type { Skeleton } from '../rig/skeleton';
+import { PoseEvaluation, type Skeleton } from '../rig/skeleton';
 import type { Pose, Vec3 } from '../rig/types';
 import { clampPose, clonePose, poseFromDegrees } from '../rig/pose';
 import { toRad } from '../core/math';
@@ -17,6 +17,9 @@ import { tempoDuration } from '../exercises/types';
 import { gripProfile } from '../exercises/gripProfiles';
 import type { IKChainId } from '../ik/types';
 import type { Keyframe, KeyframeIK, PoseMarkerKind, StudioClip } from './clip';
+import { resolveEquipment } from '../equipment/attach';
+import { measureGripFit } from '../equipment/gripDiagnostics';
+import type { EquipmentInstance } from '../equipment/types';
 
 /**
  * Build an animation from an exercise definition.
@@ -142,7 +145,11 @@ function buildPose(
   const pose = poseFromDegrees(joints, spec.root);
   applyGrip(pose, exercise.hands);
   applyStance(pose, exercise.feet, spec, skeleton);
-  return clampPose(skeleton, pose);
+  return fitThumbGripToSkeleton(
+    skeleton,
+    clampPose(skeleton, pose),
+    exercise.equipment.instances,
+  );
 }
 
 /**
@@ -181,6 +188,175 @@ export function applyGrip(pose: Pose, hands: HandSpec): void {
       });
     }
   }
+}
+
+interface ThumbGripAxes {
+  baseX: number;
+  baseZ: number;
+  middleZ: number;
+  tipZ: number;
+}
+
+interface ThumbSearchAxis {
+  bone: BoneName;
+  axis: 'x' | 'z';
+  key: keyof ThumbGripAxes;
+}
+
+/**
+ * Keep the accepted authored grip profile whenever it already fits the active
+ * skeleton. A clean-room/future rig may place its thumb differently at rest;
+ * in that case fit only the thumb, against the exact same geometric envelope,
+ * using that skeleton's own joint limits.
+ *
+ * The search is deterministic coordinate descent on a 5-degree grid. It never
+ * changes the envelope, finger rotations, equipment geometry or hand bone. If
+ * no legal thumb pose clears the existing envelope, the authored pose is
+ * restored so the review gate continues to fail visibly.
+ */
+function fitThumbGripToSkeleton(
+  skeleton: Skeleton,
+  pose: Pose,
+  equipmentInstances: EquipmentInstance[],
+): Pose {
+  const instance = equipmentInstances.find(
+    (candidate) =>
+      candidate.kind === 'dumbbell' &&
+      candidate.attachment.mode === 'hand',
+  );
+  if (!instance || instance.attachment.mode !== 'hand') return pose;
+
+  const side = instance.attachment.side;
+  const evaluation = new PoseEvaluation(skeleton).apply(pose);
+  const transform = resolveEquipment(evaluation, [instance]).get(instance.id);
+  if (!transform) return pose;
+
+  const initial = measureGripFit(evaluation, transform, side);
+  if (initial.withinEnvelope) return pose;
+
+  const prefix = (segment: number) => `thumb_0${segment}_${side}` as BoneName;
+  const searchAxes: ThumbSearchAxis[] = [
+    { bone: prefix(1), axis: 'x', key: 'baseX' },
+    { bone: prefix(1), axis: 'z', key: 'baseZ' },
+    { bone: prefix(2), axis: 'z', key: 'middleZ' },
+    { bone: prefix(3), axis: 'z', key: 'tipZ' },
+  ];
+  const degreesOf = (bone: BoneName, axis: 'x' | 'z') =>
+    ((pose.rotations[bone]?.[axis] ?? 0) * 180) / Math.PI;
+  const original: ThumbGripAxes = {
+    baseX: degreesOf(prefix(1), 'x'),
+    baseZ: degreesOf(prefix(1), 'z'),
+    middleZ: degreesOf(prefix(2), 'z'),
+    tipZ: degreesOf(prefix(3), 'z'),
+  };
+  const candidate: ThumbGripAxes = { ...original };
+
+  const applyCandidate = () => {
+    for (const item of searchAxes) {
+      const existing = pose.rotations[item.bone] ?? { x: 0, y: 0, z: 0 };
+      pose.rotations[item.bone] = {
+        ...existing,
+        [item.axis]: toRad(candidate[item.key]),
+      };
+    }
+    evaluation.apply(pose);
+    return measureGripFit(evaluation, transform, side);
+  };
+
+  const score = (fit: ReturnType<typeof measureGripFit>) => {
+    const reachFailure = Math.max(0, fit.reachUse - 1);
+    const gapFailure = Math.max(0, fit.widestGapDeg - 170);
+    const deviation =
+      Object.keys(candidate).reduce((sum, key) => {
+        const name = key as keyof ThumbGripAxes;
+        const delta = (candidate[name] - original[name]) / 60;
+        return sum + delta * delta;
+      }, 0);
+    // Failure terms dominate. Once the established envelope is clear, prefer
+    // a compact wrap and the smallest departure from the authored profile.
+    return (
+      reachFailure * 1000 +
+      gapFailure * 20 +
+      fit.reachUse +
+      fit.widestGapDeg / 360 +
+      deviation * 0.02
+    );
+  };
+
+  let bestFit = initial;
+  let bestScore = score(initial);
+  for (let pass = 0; pass < 2; pass += 1) {
+    for (const item of searchAxes) {
+      const limit = skeleton.bone(item.bone).definition.limits[item.axis];
+      if (!limit) continue;
+      const values = new Set<number>([
+        candidate[item.key],
+        original[item.key],
+        limit.min,
+        limit.max,
+      ]);
+      const first = Math.ceil(limit.min / 5) * 5;
+      for (let value = first; value <= limit.max + 1e-9; value += 5) {
+        values.add(value);
+      }
+
+      let axisBest = candidate[item.key];
+      let axisBestFit = bestFit;
+      let axisBestScore = bestScore;
+      for (const value of values) {
+        candidate[item.key] = value;
+        const fit = applyCandidate();
+        const nextScore = score(fit);
+        if (nextScore < axisBestScore - 1e-12) {
+          axisBest = value;
+          axisBestFit = fit;
+          axisBestScore = nextScore;
+        }
+      }
+      candidate[item.key] = axisBest;
+      bestFit = applyCandidate();
+      bestScore = axisBestScore;
+      // Preserve the exact measurement selected for the winning coordinate;
+      // the re-application above should be numerically identical.
+      if (
+        Math.abs(bestFit.reachUse - axisBestFit.reachUse) > 1e-10 ||
+        Math.abs(bestFit.widestGapDeg - axisBestFit.widestGapDeg) > 1e-8
+      ) {
+        bestFit = axisBestFit;
+      }
+    }
+  }
+
+  if (!bestFit.withinEnvelope) {
+    Object.assign(candidate, original);
+    applyCandidate();
+    return pose;
+  }
+
+  // Keep a symmetric opposite hand when the exercise carries the usual pair.
+  const opposite = side === 'l' ? 'r' : 'l';
+  const hasOpposite = equipmentInstances.some(
+    (candidateInstance) =>
+      candidateInstance.kind === 'dumbbell' &&
+      candidateInstance.attachment.mode === 'hand' &&
+      candidateInstance.attachment.side === opposite,
+  );
+  if (hasOpposite) {
+    const sign = side === 'l' ? -1 : 1;
+    for (let segment = 1; segment <= 3; segment += 1) {
+      const source = prefix(segment);
+      const target = `thumb_0${segment}_${opposite}` as BoneName;
+      const sourceRotation = pose.rotations[source] ?? { x: 0, y: 0, z: 0 };
+      const targetRotation = pose.rotations[target] ?? { x: 0, y: 0, z: 0 };
+      pose.rotations[target] = {
+        ...targetRotation,
+        x: sourceRotation.x,
+        z: sourceRotation.z * sign,
+      };
+    }
+  }
+
+  return pose;
 }
 
 /**

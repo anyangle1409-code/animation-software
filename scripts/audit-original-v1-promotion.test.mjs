@@ -43,7 +43,7 @@ function makeBlockedFixture() {
   return root;
 }
 
-function makeMinimalRigGlb(rig, hierarchyMutation = null) {
+function makeMinimalRigGlb(rig, hierarchyMutation = null, gltfMutation = null) {
   const bones = rig.bones.map(bone => ({ ...bone }));
   if (hierarchyMutation) hierarchyMutation(bones);
 
@@ -57,29 +57,68 @@ function makeMinimalRigGlb(rig, hierarchyMutation = null) {
     nodes[parentIndex].children.push(index);
   }
 
+  const bodyNodeIndex = nodes.length;
+  nodes.push({
+    name: "HGPT_ORIGINAL_V1_BODY",
+    mesh: 0,
+    skin: 0,
+  });
+
   const gltf = {
     asset: { version: "2.0", generator: "HomeGymPT promotion gate test fixture" },
     scene: 0,
-    scenes: [{ nodes: [indexByName.get("root")] }],
+    scenes: [{ nodes: [indexByName.get("root"), bodyNodeIndex] }],
     nodes,
-    skins: [{ joints: bones.map((_bone, index) => index) }],
+    buffers: [{ byteLength: 4096 }],
+    bufferViews: [{ buffer: 0, byteOffset: 0, byteLength: 4096 }],
+    accessors: [
+      { bufferView: 0, componentType: 5126, count: bones.length, type: "MAT4" },
+      { bufferView: 0, componentType: 5126, count: 1, type: "VEC3" },
+      { bufferView: 0, componentType: 5126, count: 1, type: "VEC3" },
+      { bufferView: 0, componentType: 5123, count: 1, type: "VEC4" },
+      { bufferView: 0, componentType: 5126, count: 1, type: "VEC4" },
+    ],
+    meshes: [{
+      name: "HGPT_ORIGINAL_V1_BODY_MESH",
+      primitives: [{
+        attributes: {
+          POSITION: 1,
+          NORMAL: 2,
+          JOINTS_0: 3,
+          WEIGHTS_0: 4,
+        },
+      }],
+    }],
+    skins: [{
+      name: "HGPT_CANONICAL_V4_ORIGINAL",
+      joints: bones.map((_bone, index) => index),
+      inverseBindMatrices: 0,
+    }],
   };
+  if (gltfMutation) gltfMutation(gltf);
 
   const raw = Buffer.from(JSON.stringify(gltf), "utf8");
   const paddedLength = Math.ceil(raw.length / 4) * 4;
   const jsonChunk = Buffer.alloc(paddedLength, 0x20);
   raw.copy(jsonChunk);
 
+  const binChunk = Buffer.alloc(4096);
+  const totalLength = 12 + 8 + jsonChunk.length + 8 + binChunk.length;
+
   const header = Buffer.alloc(12);
   header.write("glTF", 0, 4, "ascii");
   header.writeUInt32LE(2, 4);
-  header.writeUInt32LE(12 + 8 + jsonChunk.length, 8);
+  header.writeUInt32LE(totalLength, 8);
 
-  const chunkHeader = Buffer.alloc(8);
-  chunkHeader.writeUInt32LE(jsonChunk.length, 0);
-  chunkHeader.writeUInt32LE(0x4e4f534a, 4);
+  const jsonHeader = Buffer.alloc(8);
+  jsonHeader.writeUInt32LE(jsonChunk.length, 0);
+  jsonHeader.writeUInt32LE(0x4e4f534a, 4);
 
-  return Buffer.concat([header, chunkHeader, jsonChunk]);
+  const binHeader = Buffer.alloc(8);
+  binHeader.writeUInt32LE(binChunk.length, 0);
+  binHeader.writeUInt32LE(0x004e4942, 4);
+
+  return Buffer.concat([header, jsonHeader, jsonChunk, binHeader, binChunk]);
 }
 
 function makeApprovedFixture() {
@@ -257,3 +296,61 @@ test("approved promotion mode rejects a wrong canonical bone parent", () => {
     rmSync(root, { recursive: true, force: true });
   }
 });
+test("approved promotion mode rejects baked animations in the base character", () => {
+  const { root, contractPath, rig } = makeApprovedFixture();
+  try {
+    const contract = JSON.parse(readFileSync(contractPath, "utf8"));
+    const bare = contract.production_targets.bare;
+    const file = join(root, bare.repository_path);
+
+    writeFileSync(
+      file,
+      makeMinimalRigGlb(rig, null, gltf => {
+        gltf.animations = [{ name: "not_allowed_in_base_asset", channels: [], samplers: [] }];
+      }),
+    );
+    bare.sha256 = fileSha256(file);
+    writeJson(contractPath, contract);
+
+    const result = auditOriginalV1Promotion(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message =>
+        message.includes("base production character must contain no baked animations"),
+      ),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("approved promotion mode rejects an unskinned mesh primitive", () => {
+  const { root, contractPath, rig } = makeApprovedFixture();
+  try {
+    const contract = JSON.parse(readFileSync(contractPath, "utf8"));
+    const dressed = contract.production_targets.dressed;
+    const file = join(root, dressed.repository_path);
+
+    writeFileSync(
+      file,
+      makeMinimalRigGlb(rig, null, gltf => {
+        delete gltf.meshes[0].primitives[0].attributes.WEIGHTS_0;
+      }),
+    );
+    dressed.sha256 = fileSha256(file);
+    writeJson(contractPath, contract);
+
+    const result = auditOriginalV1Promotion(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message =>
+        message.includes("missing attributes WEIGHTS_0"),
+      ),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+

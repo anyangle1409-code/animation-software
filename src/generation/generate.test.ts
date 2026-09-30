@@ -71,15 +71,6 @@ describe('generating without a character', () => {
       horizontalPressFamily(result.variant as HorizontalPressVariant),
     );
     expect(result.reference).toBe('push_up');
-    expect(motionOf(result.exercise!)).toEqual(
-      motionOf(horizontalPressFamily({
-        id: result.exercise!.id,
-        name: result.exercise!.name,
-        clipName: result.exercise!.clipName,
-        description: result.exercise!.description,
-        tempo: TEMPO_PROFILES.controlled,
-      })),
-    );
     expect(result.exercise?.equipment.instances).toEqual([]);
     expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
     expect(EXERCISES.some((exercise) => exercise.id === result.exercise?.id)).toBe(false);

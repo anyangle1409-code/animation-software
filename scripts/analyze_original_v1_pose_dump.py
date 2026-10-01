@@ -62,6 +62,7 @@ def main():
     evaluated = d["evaluated"]
     poses = [str(x) for x in d["poses"]]
     source = str(d["source"].item()) if d["source"].shape == () else str(d["source"])
+    source_sha256 = str(d["source_sha256"].item()) if "source_sha256" in d else None
 
     pose_index = {n: i for i, n in enumerate(poses)}
     region_index = {n: i for i, n in enumerate(regions)}
@@ -79,6 +80,7 @@ def main():
         "schema_version": 1,
         "source_dump": str(args.dump),
         "source_candidate": source,
+        "source_candidate_sha256": source_sha256,
         "purpose": "read-only exact-edge diagnostics for remaining ORIGINAL-v1 blockers",
         "targets": [],
     }
@@ -141,6 +143,7 @@ def main():
         "# ORIGINAL v1 remaining deformation edge probe",
         "",
         "- Candidate: " + source,
+        "- Candidate SHA-256: " + (source_sha256 or "unavailable in legacy dump"),
         "- Read-only diagnostic; no mesh, weights, gates or baseline changed.",
         "",
     ]

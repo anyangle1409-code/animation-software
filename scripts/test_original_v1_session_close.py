@@ -39,6 +39,12 @@ class SessionCloseTests(unittest.TestCase):
         self.assertEqual(status,"NEEDS_ATTENTION_BEFORE_ENDING")
         self.assertTrue(any("local partial Blend missing" in x for x in blockers))
 
+    def test_missing_current_complete_blend_blocks(self):
+        info=self.base();info["current_blend"]={"manifest_exists":True,"blend_exists":False,"blend_hash_matches":False}
+        status,blockers,actions=s.assess(info)
+        self.assertEqual(status,"NEEDS_ATTENTION_BEFORE_ENDING")
+        self.assertTrue(any("current complete candidate Blend missing" in x for x in blockers))
+
     def test_dirty_tree_blocks(self):
         info=self.base();info["sync"]="SYNCED_DIRTY";info["working_tree"]=" M file"
         status,blockers,actions=s.assess(info)

@@ -42,6 +42,13 @@ unresolved R2 regression. Use its work package for exact replay/snapshot/pinning
 commands. Later phases require preceding completion records and their domain evidence.
 Final owner visual acceptance remains mandatory for production promotion.
 
+Phase 12 does not use an ordinary phase-exit packet. Use the technical promotion
+workflow first, then the separate final-freeze contract in
+`docs/work_packages/PHASE_12_PRODUCTION_FREEZE.md`. The final-freeze verifier
+revalidates the exact Phase 4-11 exit-report bytes, requires Phase 9 to bind the
+final model source commit and Phases 10/11 to bind the final runtime commit, and
+requires an explicit owner production-freeze authorization. It never promotes.
+
 ## Candidate changes and historical reports
 
 Exit records identify the exact current candidate. Preserve older records and

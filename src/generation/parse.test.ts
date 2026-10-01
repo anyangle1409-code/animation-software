@@ -281,6 +281,15 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not turn an explicit single dumbbell into a paired-dumbbell exercise', () => {
+    expect(blocking('exercise: shoulder press with one dumbbell')).toContain('equipment');
+    expect(blocking('exercise: single dumbbell Romanian deadlift')).toContain('equipment');
+    expect(blocking("exercise: farmer's walk with 1 dumbbell")).toContain('equipment');
+
+    expect(parsePrompt('exercise: curl with one dumbbell per hand').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: shoulder press with one dumbbell in each hand').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not ignore written carry distance prescriptions', () => {
     expect(blocking("exercise: farmer's walk for ten metres")).toContain('variant');
     expect(blocking("exercise: farmer's walk for twenty-five meters")).toContain('variant');

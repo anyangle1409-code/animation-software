@@ -121,6 +121,19 @@ function interpretCommon(
 ): { load: number; tempo: ExerciseIntent['tempo'] } {
   let load = defaultLoad;
   if (implement === 'dumbbell') {
+    const explicitSingleDumbbell = /\b(?:one|single|1)\s+dumbbells?\b/.test(slots.text);
+    const explicitPerHand =
+      /\b(?:one|single|1)\s+dumbbells?\s+(?:in\s+)?(?:each|per)\s+hand\b/.test(slots.text) ||
+      /\b(?:each|per)\s+hand\b/.test(slots.text);
+    if (explicitSingleDumbbell && !explicitPerHand) {
+      issues.push(
+        blocking(
+          'equipment',
+          'The certified dumbbell families use a matched pair, one dumbbell in each hand. An explicit one/single-dumbbell request is not substituted with two dumbbells.',
+        ),
+      );
+    }
+
     const others = slots.equipment.filter((slot) => slot.value !== 'dumbbell');
     if (others.length > 0) {
       issues.push(

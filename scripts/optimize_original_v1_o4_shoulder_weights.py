@@ -182,6 +182,10 @@ PRESETS["o24"] = dict(PRESETS["o22"], zone_mode="wrist", wrist_zone_radius=0.07,
 # vertices whose whole weight is already on the wrist chain, chain bones only (no finger/thumb-tip bones).
 # o24/r31 exceeded that envelope (28 thumb-region vertices, finger-bone weights) and is kept as evidence.
 PRESETS["o25"] = dict(PRESETS["o24"], wrist_regions=("arm", "hand"), chain_only=True)
+# o26: same declared strict mask as o25 (hyperparameters are not permissions). o25 stopped 0.008 short of the
+# R2 band (push-up hand max 2.023 vs 2.015) because collision-resolve goals competed with the stretch bound
+# in this zone; o26 keeps only no-new-collision constraints and a zero stretch margin.
+PRESETS["o26"] = dict(PRESETS["o25"], tt_resolve=False, max_margin=0.0)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

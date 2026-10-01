@@ -90,7 +90,15 @@ function collect<T>(text: string, table: [RegExp, T][]): Slot<T>[] {
 const POUND = 0.45359237;
 
 export function readSlots(prompt: string): PromptSlots {
-  const text = prompt.toLowerCase().replace(/\s+/g, ' ').trim();
+  const text = prompt
+    .toLowerCase()
+    // Mobile keyboards and copied text commonly substitute typographic
+    // apostrophes/dashes. Normalise only punctuation that is semantically
+    // equivalent to the ASCII forms the deterministic vocabulary expects.
+    .replace(/[‘’]/g, "'")
+    .replace(/[‐‑‒–—―−]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
 
   const loads: Slot<number>[] = [];
   for (const match of text.matchAll(/(\d+(?:\.\d+)?)\s*(kgs?|kilo(?:gram)?s?|lbs?|pounds?)\b/g)) {

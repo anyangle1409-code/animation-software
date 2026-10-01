@@ -216,6 +216,23 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('normalises mobile punctuation before deterministic parsing', () => {
+    const cases = [
+      ['exercise: farmer’s walk', 'carry'],
+      ['exercise: push‑up', 'horizontal_press'],
+      ['exercise: sit‑up', 'trunk_flexion'],
+      ['exercise: bent‑over dumbbell row', 'row'],
+      ['exercise: Romanian dead‑lift', 'hinge'],
+      ['exercise: cable triceps press‑down', 'extension'],
+    ] as const;
+
+    for (const [prompt, family] of cases) {
+      const parsed = parsePrompt(prompt);
+      expect(parsed.issues.filter((issue) => issue.blocking), prompt).toEqual([]);
+      expect(parsed.intent?.family, prompt).toBe(family);
+    }
+  });
+
   it('accepts safe naming aliases without changing biomechanics', () => {
     const aliases = [
       ['exercise: Romanian dead lift', 'hinge', 'dumbbell_romanian_deadlift'],

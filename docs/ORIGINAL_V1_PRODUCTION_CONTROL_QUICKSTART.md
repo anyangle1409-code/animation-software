@@ -144,3 +144,12 @@ for exact capture/publication paths and first-run Blender validation limitations
 For completed source captures, publication-only mode is available without rerender:
 `python scripts/original_v1_milestone_review.py <revision>`. Publish actual images
 and source JSON, regenerate daily status, record owner_review pending, continue.
+
+## Later phase completion
+
+Read `docs/ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md` before recording Phase 4–11 COMPLETE.
+Use INCOMPLETE templates, execute every named domain test, attach exact source
+references, verify the actual report, then update phase_completion_records. A bare
+PASS object is now refused. Phase 4 has an execution package and a metrics-only
+independent replay utility. Neither makes r29 freeze-eligible; its current seven
+blockers and strict regressions remain visible. Review snapshots stay non-blocking.

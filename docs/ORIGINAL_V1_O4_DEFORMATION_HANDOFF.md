@@ -1558,3 +1558,18 @@ snapshot formats as history and export new files; Blender execution remains loca
 
 Validation: 99 Python tests pass; generated status still verifies r29 / seven
 failures. The preceding milestone-capture commit passed both GitHub checks.
+
+### Intermediate phase exit / replay preparation — 2026-10-01
+
+Live source HEAD checked: `02364bf6aac1b111f8d1fccbe74e65729cfaf178`. Added explicit
+Phase 4–11 exit contracts and INCOMPLETE template mode. Empty PASS markers, missing
+checks, failing/duplicate checks, unbound evidence, wrong identities and external
+paths cannot complete a phase. Phase 12 remains reserved for final production gates.
+
+Prepared the Phase 4 work package and source-bound 15-pose numeric replay checker.
+Metrics-only capture reuses the existing Blender renderer through the established
+preflight/capture checks, emits no fake review images and never saves the Blend.
+Replay requires matching candidate/script/Blender/invocation identities, complete
+coverage and exact metrics. Frozen pose/metric functions, rig, gates and R2 remain
+unchanged. 119 Python tests pass; actual Blender replay remains unexecuted here.
+r29 remains EXPERIMENTAL with seven development failures; next action remains r30.

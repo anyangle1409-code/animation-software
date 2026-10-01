@@ -225,6 +225,10 @@
     "docs/VERIFY_STANDALONE_PREP.md": {
       "category": "verification",
       "note": "Prepared first-party foundation verification."
+    },
+    "docs/ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md": {
+      "category": "verification",
+      "note": "Explicit intermediate phase exit contracts, source integrity and non-blocking review; no production approval."
     }
   }
 }

@@ -87,12 +87,15 @@ def publish(root,revision):
     return out
 
 
-def capture(revision):
+def capture(revision,mode="milestone"):
     import shutil
     import subprocess
     import sys
     from original_v1_session_preflight import run,repository_issues,blender_path,power_info,process_info
     from original_v1_production_control import build,read
+    if mode not in ('milestone','numeric_replay'):raise ValueError('unsupported capture mode')
+    label='milestone' if mode=='milestone' else 'freeze_replay'
+    flag='--milestone' if mode=='milestone' else '--metrics-only'
     control=read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
     branch=run(['git','branch','--show-current']);head=run(['git','rev-parse','HEAD'])
     live=run(['git','ls-remote','--exit-code','origin','refs/heads/'+control['branch']]).split()[0]
@@ -105,14 +108,14 @@ def capture(revision):
     print(json.dumps({'power':power,'processes':processes,'local_head':head,'live_head':live},indent=2))
     if processes.get('conflicts'):issues.append('conflicting Blender/optimiser processes; inspect PIDs')
     if issues:raise ValueError('; '.join(issues))
-    out=ROOT/RC/f'milestone_{revision}'
-    if out.exists() or (ROOT/CAND/f'review/milestone_{revision}').exists():raise ValueError('milestone output collision; preserve existing files')
+    out=ROOT/RC/f'{label}_{revision}'
+    if out.exists() or (mode=='milestone' and (ROOT/CAND/f'review/milestone_{revision}').exists()):raise ValueError('milestone output collision; preserve existing files')
     candidate=ROOT/CAND/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{revision}.blend'
     man=read(ROOT,candidate.with_suffix('.json').relative_to(ROOT))
     if man.get('candidate')!=candidate.name or digest(candidate)!=man.get('candidate_sha256'):
         raise ValueError('local milestone candidate hash/name mismatch')
     subprocess.run([str(blender),'--background','--factory-startup',str(candidate),'--python-exit-code','1',
-        '--python','scripts/pose_test_original_v1_o4_candidate_blender.py','--',str(out),'','--milestone'],cwd=ROOT,check=True)
+        '--python','scripts/pose_test_original_v1_o4_candidate_blender.py','--',str(out),'',flag],cwd=ROOT,check=True)
     # Never save the Blend, resume partial rendering automatically or promote a candidate.
 
 

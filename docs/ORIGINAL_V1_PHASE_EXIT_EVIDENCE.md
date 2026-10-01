@@ -1,0 +1,59 @@
+# ORIGINAL v1 intermediate phase exit evidence
+
+Phases 4–11 COMPLETE requires a candidate-bound exit packet with explicit checks
+and exact source references. A plain PASS marker is insufficient. Phase 12 always
+uses the separate production-promotion workflow. REVIEW SNAPSHOTS ARE NON-BLOCKING.
+
+## Contract and commands
+
+Create an INCOMPLETE template with:
+`python scripts/verify_original_v1_phase_exit.py --phase <4–11> --template --json-out <fresh template.json>`.
+
+Execute the roadmap/work-package tests, then create the actual exit report. Each
+check has id, passed=true and a non-empty evidence list of repository path/SHA
+references. Include schema_version=1, phase, candidate_sha256, status=PASS,
+production_approved=false, actual command, exact source_git_commit and ISO
+evidence_timestamp with timezone. owner_review is pending or explicitly accepted;
+blocking=false. Phases 10/11 also require the exact target_runtime_commit.
+
+Verify using `python scripts/verify_original_v1_phase_exit.py <packet.json> --phase <N> --json-out <fresh receipt.json>`.
+
+Only verified actual reports belong in phase_completion_records. Source paths are
+repository-local; hashes, check coverage/uniqueness, identity and dependencies are
+checked. Templates never claim executed checks. The utility never mutates shared
+state, assets or approval flags. Domain test results still need to be genuine:
+contract validation does not infer anatomy quality or perform the runtime engine tests.
+
+## Required checks by phase
+
+| Phase | Explicit exit checks |
+|---|---|
+| 4 | `development_zero_failures`, `no_unresolved_regressions`, `replay_matches_primary`, `frozen_rig_baseline_gates`, `source_lineage_verified`, `published_review_snapshot`, `freeze_record_pinned` |
+| 5 | `anatomy_5A_torso`, `anatomy_5B_shoulders`, `anatomy_5C_arms`, `anatomy_5D_hands`, `anatomy_5E_pelvis_legs`, `anatomy_5F_feet`, `anatomy_5G_head_neck`, `mesh_weight_audits`, `deformation_regression_checks`, `published_review_snapshots` |
+| 6 | `manifold_surface`, `normals`, `degenerate_faces`, `joint_support`, `symmetry`, `topology_weight_audit`, `deformation_regression_checks` |
+| 7 | `original_garment_provenance`, `dressed_deformation`, `coverage_clearance`, `bare_dressed_equivalence`, `published_review_snapshot` |
+| 8 | `owned_material_sources`, `stable_presentation_capture`, `readable_application_views`, `no_concealed_body_failures`, `published_review_snapshot` |
+| 9 | `production_target_zero_failures`, `continuous_motion_ranges`, `bilateral_grip_floor_contact`, `intersection_classification`, `final_body_clothing_hashes` |
+| 10 | `real_engine_exercises`, `smooth_human_motion`, `canonical_rig_binding`, `bare_dressed_equivalence`, `export_round_trip`, `standalone_runtime_audit` |
+| 11 | `deterministic_capture`, `automatic_visual_checks`, `pose_camera_region_coverage`, `first_party_reference_policy`, `coverage_limits_recorded`, `candidate_runtime_binding` |
+
+Phase 4 additionally remains blocked by any recomputed development failure or
+unresolved R2 regression. Use its work package for exact replay/snapshot/pinning
+commands. Later phases require preceding completion records and their domain evidence.
+Final owner visual acceptance remains mandatory for production promotion.
+
+## Candidate changes and historical reports
+
+Exit records identify the exact current candidate. Preserve older records and
+freeze pins as history; do not relabel them when geometry/weights change. Re-run
+relevant evidence and create new candidate-bound exit reports. R2 remains pinned.
+Pending reviews permit safe follow-on work; owner rejection or conflicting lineage
+blocks only work that depends on that state.
+
+If an experimental candidate change leaves active completion entries stale, first
+copy those entries/reports into explicit phase_completion_history in production
+control, preserving paths/hashes and the immutable freeze pin. Remove only the
+archived entries from active phase_completion_records. Regenerate state so the
+new candidate is experimental and affected phases need revalidation. Do not
+relabel old reports. Create fresh exit packets, then repopulate the active records.
+This is lineage maintenance, not a baseline promotion or deletion of history.

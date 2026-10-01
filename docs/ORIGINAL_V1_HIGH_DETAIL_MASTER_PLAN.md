@@ -160,3 +160,13 @@ milestone previous-versus-new comparison mode. See the visual review specificati
 for exact commands and limitations. No actual milestone capture is claimed; no
 Phase 5 modelling or phase completion is inferred. Pending snapshots remain
 NON-BLOCKING, and the current deformation next task remains r30 on the laptop.
+
+### Intermediate exit evidence contract — 2026-10-01
+
+Phases 4–11 require the explicit check/source contract documented in
+`docs/ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md`; a bare candidate-bound PASS marker is
+insufficient. The Phase 4 execution package is prepared under docs/work_packages.
+Its numeric replay uses the existing frozen poses without renders and must match
+all primary metrics under the same candidate/script/Blender identities. No freeze
+or later phase has been executed on r29, and R2 remains pinned. This contract checks
+record integrity; every referenced domain test still must genuinely pass.

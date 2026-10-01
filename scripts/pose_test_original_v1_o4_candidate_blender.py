@@ -480,6 +480,7 @@ def measure(name):
 # ---------------------------------------------------------------- rendering
 # Optional milestone capture changes cameras/presentation only, never poses/metrics.
 MILESTONE = len(args) > 2 and args[2] == "--milestone"
+METRICS_ONLY = len(args) > 2 and args[2] == "--metrics-only"
 if MILESTONE:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from original_v1_milestone_review import load_plan, views
@@ -589,6 +590,8 @@ def render_milestone(name):
 
 
 def render(name):
+    if METRICS_ONLY:
+        return
     if MILESTONE:
         render_milestone(name)
         return
@@ -664,6 +667,8 @@ print("POSE TESTS DONE", len(results))
     "render_script_sha256": RENDER_SCRIPT_SHA256,
     "pose_report_sha256": hashlib.sha256((OUT / "pose_test_report.json").read_bytes()).hexdigest(),
     "blender_version": bpy.app.version_string,
+    "capture_mode": "numeric_replay" if METRICS_ONLY else "milestone" if MILESTONE else "repair",
+    "capture_arguments": args,
     "images": CAPTURE_RECORDS,
     "owner_review": "pending",
     "blocking": False,

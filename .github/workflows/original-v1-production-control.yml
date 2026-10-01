@@ -42,6 +42,8 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_interrupted_run.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_evidence_bytes.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_milestone_review.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_phase_exit.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_replay.py'
       - name: Verify exact generated state and unchanged baseline
         run: |
           python3 scripts/build_original_v1_daily_status.py --check

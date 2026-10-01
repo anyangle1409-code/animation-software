@@ -218,7 +218,8 @@ def next_action(status, control):
         return {'action':'RECONCILE freeze regressions','reason':'zero blockers is insufficient for strict freeze; inherited R2 regressions remain',
                 'command':None,'safe_parallel_task':'Read-only inherited-regression diagnostics; do not reopen frozen structure.'}
     if phases['4']['state']!='complete':
-        return {'action':'ENTER development freeze validation','reason':'zero blockers and no unresolved strict regressions','command':None}
+        return {'action':'ENTER development freeze validation','reason':'zero blockers and no unresolved strict regressions','command':None,
+                'work_package':'docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md'}
     if phases['5']['state']!='complete':
         return {'action':'PREPARE Phase 5 anatomy','reason':'development freeze recorded; execute region packages in order','command':None}
     for n in range(6,13):
@@ -339,11 +340,14 @@ def build(root=ROOT):
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
         if record:
-            if record.get('candidate_sha256')!=current['sha256'] or digest(root/record['evidence']['path'])!=record['evidence']['sha256']:
+            from verify_original_v1_production_promotion import safe_path
+            packet_path=safe_path(root,record['evidence']['path'])
+            if record.get('candidate_sha256')!=current['sha256'] or digest(packet_path)!=record['evidence']['sha256']:
                 raise ValueError('stale phase completion record: '+str(n))
             packet=read(root,record['evidence']['path'])
-            if packet.get('status')!='PASS' or packet.get('candidate_sha256')!=current['sha256']:
-                raise ValueError('invalid phase completion evidence: '+str(n))
+            from verify_original_v1_phase_exit import verify_exit
+            exit_issues=verify_exit(root,n,packet,current['sha256'])
+            if exit_issues:raise ValueError('invalid phase exit evidence '+str(n)+': '+'; '.join(exit_issues))
             if n==4 and (fails or regs): raise ValueError('development freeze requires zero blockers and unresolved regressions')
             if n>4 and phases[str(n-1)]['state']!='complete': raise ValueError('phase completion bypasses dependency')
             # This model status never grants final promotion, even if a packet claims it.

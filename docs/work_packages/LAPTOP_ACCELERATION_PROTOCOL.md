@@ -38,6 +38,16 @@ The brief includes:
 If any start check disagrees with the live state, stop rather than using stale work
 instructions.
 
+### Blender smoke gate
+
+`RUN_ORIGINAL_V1_CLAUDE_START.bat` now runs `RUN_ORIGINAL_V1_BLENDER_SMOKE.bat`
+after repository preflight. The smoke check opens the current complete candidate in
+Blender background/factory-startup mode and verifies the candidate hash/manifest,
+candidate-only scene marker, canonical 63-bone v4 rig, single owned body mesh,
+evaluated mesh availability, NumPy/BVHTree APIs and absence of linked Blender
+libraries. It never saves the Blend. A smoke failure blocks the start wrapper before
+the expensive modelling command runs.
+
 ## 2. Execute only the selected work
 
 The actual modelling command remains separate.

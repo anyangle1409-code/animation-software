@@ -114,7 +114,7 @@ for name in poses:
     rows.append({
         "pose":name,
         "status":"IDENTICAL" if identical else "DIFFERENT",
-        "body_mask_disabled_both_states":dress_mask is not None,
+        "body_mask":{"present":dress_mask is not None,"active_in_either_state":False},
         "bare":{"vertex_count":int(len(bare)),"face_count":int(bare_faces),"vertex_sha256_round9":bh,
                 "pose_state_sha256":bare_pose,"metrics_sha256":bm},
         "dressed_presence":{"vertex_count":int(len(dressed)),"face_count":int(dressed_faces),"vertex_sha256_round9":dh,

@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`c61656499dab6c0159dd01f6928fa2f0819a5361` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the prompt/UI safety hardening below is fully verified.
+`99164b073efff65a6a78c752f9c24be16c24b1b5` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the expanded prompt-safety hardening below is fully verified.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at c6165649
+## Verification at 99164b07
 
 GitHub Actions on exact SHA
-`c61656499dab6c0159dd01f6928fa2f0819a5361`:
+`99164b073efff65a6a78c752f9c24be16c24b1b5`:
 
 - clean typecheck: PASS;
-- focused first-party foundations: **86 files / 245 tests passed**;
-- full suite: **189 files passed, 2 skipped; 1,188 tests passed, 62 skipped**;
+- focused first-party foundations: **86 files / 246 tests passed**;
+- full suite: **189 files passed, 2 skipped; 1,194 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -156,6 +156,23 @@ while making normal prompt entry safer and clearer:
 - compact strength tempo notation such as `tempo 3010` is read as 3-0-1-0;
 - unilateral wording such as `one-handed`, `left-hand` and `right-arm`
   is recognised and blocked where only bilateral motion is certified;
+- written weight and angle amounts are parsed deterministically (for example
+  `ten kg`, `twenty-five pounds`, `forty-five degrees`) so stated values
+  cannot disappear into a default;
+- ambiguous `free weight(s)` wording is treated as unsupported equipment
+  instead of silently assuming dumbbells;
+- partial/half/1.5/eccentric-only repetition styles are blocked rather than
+  substituted with a normal full repetition;
+- set/rep counts and timed-set prescriptions are blocked because the current
+  output schema represents one validated repetition clip, not workout
+  programming;
+- dumbbell load is explicitly per hand: total/combined wording is blocked unless
+  the request clearly gives a per-hand load;
+- written farmer's-walk distance prescriptions are blocked because the looping
+  carry clip exports travel speed rather than an encoded distance target;
+- explicit one/single-dumbbell wording is blocked because the certified
+  dumbbell families use a matched pair, except when the prompt explicitly says
+  one dumbbell in/per each hand;
 - the Generate panel now defaults to the target shorthand
   `exercise: dumbbell shoulder press`, labels cable equipment correctly, and
   retains explicit review/validation behaviour.
@@ -268,8 +285,12 @@ For cloud/repository work, do not restart completed framework/Three migration.
    mobile punctuation, common equipment spellings, compact tempo notation and
    unilateral-wording guards are now covered; continue closing cases where a
    user's stated parameter could otherwise be silently replaced by a default.
-   Keep genuinely new movement, support, grip, side or equipment variants
-   blocked until they gain their own family-level validation evidence.
+   Written loads/angles, free-weight ambiguity, rep-style/programming requests,
+   total-vs-per-hand loads, written carry distance and explicit single-dumbbell
+   wording are now guarded. Continue only with similarly evidence-backed
+   deterministic language/intent gaps; keep genuinely new movement, support,
+   grip, side or equipment variants blocked until they gain their own
+   family-level validation evidence.
 3. When a laptop is available, continue the isolated model branch from
    `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
    deformation** first, regenerate the targeted evidence, and clear its owned

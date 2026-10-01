@@ -88,6 +88,12 @@ biomechanical boundary:
 - `tempo 3010` is accepted as compact 3-0-1-0 notation;
 - unilateral hand/arm wording is caught and blocked when only bilateral motion
   is certified;
+- written number words are parsed for supported weight/angle units instead of
+  being silently ignored;
+- ambiguous free-weight wording, unsupported repetition styles, set/rep/timed
+  prescriptions, total/combined dumbbell loads, written carry distances and
+  explicit single-dumbbell requests are all blocked when the current
+  certified/output schema cannot represent them faithfully;
 - the Generate panel exposes the simple `exercise: ...` workflow directly and
   reports cable equipment as cable rather than bodyweight.
 

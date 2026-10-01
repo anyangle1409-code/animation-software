@@ -115,6 +115,31 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('lying crunch').intent?.support).toBe('floor');
   });
 
+  it('reads the certified cable woodchop and Pallof press', () => {
+    const woodchop = parsePrompt('exercise: cable woodchop with controlled tempo');
+    expect(woodchop.issues).toEqual([]);
+    expect(woodchop.intent).toMatchObject({
+      family: 'rotation',
+      equipment: 'cable',
+      execution: 'bilateral',
+      support: 'standing',
+      rotationSetup: 'cable',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+
+    const pallof = parsePrompt('exercise: Pallof press with controlled tempo');
+    expect(pallof.issues).toEqual([]);
+    expect(pallof.intent).toMatchObject({
+      family: 'anti_rotation',
+      equipment: 'cable',
+      execution: 'bilateral',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+  });
+
   it('reads the seated bodyweight Russian twist', () => {
     const parsed = parsePrompt('exercise: Russian twist with controlled tempo');
     expect(parsed.issues).toEqual([]);
@@ -285,6 +310,18 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('Russian twist with 10 kg')).toEqual(['load']);
     expect(blocking('Russian twist with palms down')).toEqual(['grip']);
     expect(blocking('Russian twist at 30 degrees')).toEqual(['angle']);
+    expect(blocking('dumbbell cable woodchop')).toEqual(['equipment']);
+    expect(blocking('cable woodchop with 10 kg')).toEqual(['load']);
+    expect(blocking('seated cable woodchop')).toEqual(['support']);
+    expect(blocking('low-to-high cable woodchop')).toEqual(['variant']);
+    expect(blocking('left-side cable woodchop')).toEqual(['variant']);
+    expect(blocking('cable woodchop with palms down')).toEqual(['grip']);
+    expect(blocking('dumbbell Pallof press')).toEqual(['equipment']);
+    expect(blocking('Pallof press with 10 kg')).toEqual(['load']);
+    expect(blocking('kneeling Pallof press')).toEqual(['variant']);
+    expect(blocking('right-side Pallof press')).toEqual(['variant']);
+    expect(blocking('single-arm Pallof press')).toEqual(['execution']);
+    expect(blocking('Pallof press with neutral grip')).toEqual(['grip']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -296,7 +333,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'cable woodchop', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

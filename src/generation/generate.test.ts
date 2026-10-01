@@ -34,6 +34,8 @@ import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
 import { rotationFamily } from '../exercises/families/rotation';
 import type { RotationVariant } from '../exercises/families/rotation';
+import { antiRotationFamily } from '../exercises/families/antiRotation';
+import type { AntiRotationVariant } from '../exercises/families/antiRotation';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -52,6 +54,8 @@ import { crunch } from '../exercises/definitions/crunch';
 import { sitUp } from '../exercises/definitions/sitUp';
 import { farmersWalk } from '../exercises/definitions/farmersWalk';
 import { russianTwist } from '../exercises/definitions/russianTwist';
+import { cableWoodchop } from '../exercises/definitions/cableWoodchop';
+import { pallofPress } from '../exercises/definitions/pallofPress';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -87,6 +91,8 @@ const CRUNCH = 'exercise: bodyweight crunch with controlled tempo';
 const SIT_UP = 'exercise: bodyweight sit-up with controlled tempo';
 const FARMERS_WALK = "exercise: farmer's walk with 24 kg dumbbells";
 const RUSSIAN_TWIST = 'exercise: Russian twist with controlled tempo';
+const CABLE_WOODCHOP = 'exercise: cable woodchop with controlled tempo';
+const PALLOF_PRESS = 'exercise: Pallof press with controlled tempo';
 
 const CLEAN_FALLBACK_CASES = [
   [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
@@ -97,6 +103,8 @@ const CLEAN_FALLBACK_CASES = [
   [SIT_UP, 'trunk_flexion', 'sit_up'],
   [FARMERS_WALK, 'carry', 'farmers_walk'],
   [RUSSIAN_TWIST, 'rotation', 'russian_twist'],
+  [CABLE_WOODCHOP, 'rotation', 'cable_woodchop'],
+  [PALLOF_PRESS, 'anti_rotation', 'cable_pallof_press'],
   [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
   [CALF_RAISE, 'calf', 'standing_calf_raise'],
   [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
@@ -174,6 +182,39 @@ describe('generating without a character', () => {
   it('reproduces the accepted crunch and sit-up motion from family defaults', () => {
     expect(motionOf(generateExercise('a crunch', options).exercise!)).toEqual(motionOf(crunch));
     expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
+  });
+
+  it('builds cable woodchop and Pallof press from their existing families', () => {
+    const woodchop = generateExercise(CABLE_WOODCHOP, options);
+    expect(woodchop.family?.id).toBe('rotation');
+    expect(woodchop.exercise).toEqual(rotationFamily(woodchop.variant as RotationVariant));
+    expect(woodchop.reference).toBe('cable_woodchop');
+    expect(woodchop.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual([
+      'cable',
+      'cable_handle',
+      'cable_tower',
+    ]);
+    expect(woodchop.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+
+    const pallof = generateExercise(PALLOF_PRESS, options);
+    expect(pallof.family?.id).toBe('anti_rotation');
+    expect(pallof.exercise).toEqual(antiRotationFamily(pallof.variant as AntiRotationVariant));
+    expect(pallof.reference).toBe('cable_pallof_press');
+    expect(pallof.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual([
+      'cable',
+      'cable_handle',
+      'cable_tower',
+    ]);
+    expect(pallof.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces accepted cable woodchop and Pallof motion from family defaults', () => {
+    expect(motionOf(generateExercise('a cable woodchop', options).exercise!)).toEqual(
+      motionOf(cableWoodchop),
+    );
+    expect(motionOf(generateExercise('a Pallof press', options).exercise!)).toEqual(
+      motionOf(pallofPress),
+    );
   });
 
   it('builds the Russian twist from the rotation family without rewriting its trunk motion', () => {

@@ -12,10 +12,10 @@ import type { Tempo } from '../exercises/types';
  */
 
 /** The families the generator is certified to build from. */
-export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'horizontal_press' | 'supine' | 'trunk_flexion' | 'carry' | 'rotation' | 'squat' | 'lunge' | 'calf' | 'hinge' | 'row' | 'raise' | 'vertical_pull' | 'extension';
+export type GeneratorFamilyId = 'curl' | 'overhead_press' | 'horizontal_press' | 'supine' | 'trunk_flexion' | 'carry' | 'rotation' | 'anti_rotation' | 'squat' | 'lunge' | 'calf' | 'hinge' | 'row' | 'raise' | 'vertical_pull' | 'extension';
 
-/** What the body moves against. Bodyweight families hold no external load yet. */
-export type IntentImplement = 'dumbbell' | 'bodyweight';
+/** What the body moves against. Cable resistance is not numerically parameterised yet. */
+export type IntentImplement = 'dumbbell' | 'cable' | 'bodyweight';
 
 export type IntentGrip = 'supinated' | 'neutral' | 'pronated';
 export type IntentSupport = 'standing' | 'seated' | 'incline' | 'floor' | 'hanging' | 'supine';
@@ -60,6 +60,8 @@ export interface ExerciseIntent {
   supineMotion?: 'press' | 'fly';
   /** Only the floor trunk-flexion family reads this. */
   trunkFlexionMotion?: 'crunch' | 'situp';
+  /** Only the rotation family reads this. */
+  rotationSetup?: 'seated' | 'cable';
   /** Load per hand, kilograms. Always 0 for a bodyweight family. */
   load: number;
   tempo: { profile: TempoProfile } | { explicit: Tempo };

@@ -29,6 +29,8 @@ import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
 import { rotationFamily } from '../exercises/families/rotation';
 import type { RotationVariant } from '../exercises/families/rotation';
+import { antiRotationFamily } from '../exercises/families/antiRotation';
+import type { AntiRotationVariant } from '../exercises/families/antiRotation';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -144,6 +146,27 @@ function interpretCommon(
     } else {
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
+  } else if (implement === 'cable') {
+    const others = slots.equipment.filter((slot) => slot.value !== 'cable');
+    if (others.length > 0) {
+      issues.push(
+        blocking(
+          'equipment',
+          `${quote(others.map((slot) => slot.words))}: the ${family} family is certified on the project cable station only.`,
+        ),
+      );
+    } else if (slots.equipment.length === 0) {
+      assumptions.push('Cable station and handle — the equipment this family is certified with.');
+    }
+    if (slots.loads.length > 0) {
+      issues.push(
+        blocking(
+          'load',
+          `${quote(slots.loads.map((slot) => slot.words))}: cable resistance is not parameterised in the certified motion yet, so a numeric stack load cannot be accepted.`,
+        ),
+      );
+    }
+    load = 0;
   } else {
     const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
     if (others.length > 0) {
@@ -1485,24 +1508,72 @@ const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
 
 
 // ---------------------------------------------------------------------------
-// Seated bodyweight rotation: Russian twist
+// Rotation: Russian twist / cable woodchop
 // ---------------------------------------------------------------------------
 
 /**
- * The accepted bodyweight Russian twist is certified here. The rotation family
- * owns the 40° seated lean, planted heels, ±50° trunk turn and clasped-hand
- * path; generation selects only tempo and does not author joint angles.
+ * Both accepted rotation-family motions are certified here. The family owns
+ * every turn, stance, cable placement, handle path and technique rule;
+ * generation only selects seated bodyweight versus the fixed high-to-low cable
+ * setup and an optional tempo.
  */
 const rotation: GeneratorFamily<RotationVariant> = {
   id: 'rotation',
-  label: 'Russian twist',
+  label: 'Russian twist / cable woodchop',
   builder: 'rotationFamily',
-  detect: /\brussian\s+twists?\b/,
-  library: ['russian_twist'],
+  detect: /\brussian\s+twists?\b|\b(?:cable\s+)?wood\s?chops?\b/,
+  library: ['russian_twist', 'cable_woodchop'],
 
   interpret(slots, prompt) {
     const assumptions: string[] = [];
     const issues: IntentIssue[] = [];
+    const cable = /\bwood\s?chops?\b/.test(slots.text);
+
+    if (cable) {
+      unsupportedNames(
+        slots,
+        [
+          [/\blow[-\s]?to[-\s]?high\b|\bupward\b/, 'only the accepted high-to-low cable woodchop is certified.'],
+          [/\b(?:left|right)(?:[-\s]?side)?\b/, 'side/direction-specific woodchops are not certified; the accepted family path keeps its authored cable side and direction.'],
+          [/\bweighted\b|\bloaded\b/, 'cable resistance is not parameterised yet; use the plain cable woodchop.'],
+        ],
+        issues,
+      );
+
+      if (slots.grips.length > 0) {
+        issues.push(
+          blocking(
+            'grip',
+            `${quote(slots.grips.map((slot) => slot.words))}: the certified woodchop uses the family's fixed two-hand cable-handle grip.`,
+          ),
+        );
+      }
+
+      const support = interpretSupport(slots, ['standing'], 'cable woodchop', assumptions, issues);
+      if (slots.angles.length > 0) {
+        issues.push(
+          blocking(
+            'angle',
+            `${quote(slots.angles.map((slot) => slot.words))}: the accepted woodchop owns its cable and body angles; prompt angle overrides are not certified.`,
+          ),
+        );
+      }
+      const { tempo } = interpretCommon(slots, 'cable woodchop', 'cable', 0, assumptions, issues);
+      return {
+        intent: {
+          prompt,
+          family: 'rotation',
+          equipment: 'cable',
+          execution: 'bilateral',
+          support,
+          rotationSetup: 'cable',
+          load: 0,
+          tempo,
+        },
+        assumptions,
+        issues,
+      };
+    }
 
     unsupportedNames(
       slots,
@@ -1524,7 +1595,6 @@ const rotation: GeneratorFamily<RotationVariant> = {
     }
 
     let supports = distinct(slots.supports);
-    // "Seated on the floor" is one certified setup, not contradictory support.
     if (supports.every((support) => support === 'seated' || support === 'floor')) {
       supports = supports.length > 0 ? ['seated'] : [];
     }
@@ -1548,15 +1618,7 @@ const rotation: GeneratorFamily<RotationVariant> = {
       );
     }
 
-    const { tempo } = interpretCommon(
-      slots,
-      'Russian twist',
-      'bodyweight',
-      0,
-      assumptions,
-      issues,
-    );
-
+    const { tempo } = interpretCommon(slots, 'Russian twist', 'bodyweight', 0, assumptions, issues);
     return {
       intent: {
         prompt,
@@ -1564,6 +1626,97 @@ const rotation: GeneratorFamily<RotationVariant> = {
         equipment: 'bodyweight',
         execution: 'bilateral',
         support: 'seated',
+        rotationSetup: 'seated',
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    if (intent.rotationSetup === 'cable') {
+      return {
+        ...identity('Cable Woodchop', intent),
+        description:
+          `Generated from "${intent.prompt.trim()}". A standing high-to-low cable woodchop using the family's certified cable placement, long-arm handle arc and planted-foot turn` +
+          `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+        setup: 'cable',
+        ...(tempo ? { tempo } : {}),
+      };
+    }
+    return {
+      ...identity('Russian Twist', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A seated bodyweight Russian twist with both heels down, using the family-certified trunk turn and clasped-hand path` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: rotationFamily,
+  reference: (intent) => (intent.rotationSetup === 'cable' ? 'cable_woodchop' : 'russian_twist'),
+  levers: [],
+};
+
+// ---------------------------------------------------------------------------
+// Cable anti-rotation: Pallof press
+// ---------------------------------------------------------------------------
+
+/**
+ * The accepted standing cable Pallof press is the anti-rotation proving case.
+ * The family owns the cable side, two-hand handle fit, press line and the
+ * no-twist rules. Side-specific and altered-stance variants remain blocked.
+ */
+const antiRotation: GeneratorFamily<AntiRotationVariant> = {
+  id: 'anti_rotation',
+  label: 'Pallof press',
+  builder: 'antiRotationFamily',
+  detect: /\bpallof(?:\s+press(?:es)?)?\b/,
+  library: ['cable_pallof_press'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:left|right)(?:[-\s]?side)?\b|\bfrom\s+(?:the\s+)?(?:left|right)\b/, 'side-specific Pallof variants are not certified yet; the accepted family reference uses its authored cable side.'],
+        [/\b(?:half[-\s]?kneeling|kneeling|split[-\s]?stance)\b/, 'only the standing square-stance Pallof press is certified.'],
+        [/\bweighted\b|\bloaded\b/, 'cable resistance is not parameterised yet; use the plain Pallof press.'],
+      ],
+      issues,
+    );
+
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the Pallof press uses the family's fixed two-hand cable-handle grip.`,
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], 'Pallof press', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the accepted Pallof press owns its cable and arm geometry; prompt angle overrides are not certified.`,
+        ),
+      );
+    }
+    const { tempo } = interpretCommon(slots, 'Pallof press', 'cable', 0, assumptions, issues);
+    return {
+      intent: {
+        prompt,
+        family: 'anti_rotation',
+        equipment: 'cable',
+        execution: 'bilateral',
+        support,
         load: 0,
         tempo,
       },
@@ -1575,16 +1728,17 @@ const rotation: GeneratorFamily<RotationVariant> = {
   variant(intent) {
     const tempo = tempoOf(intent);
     return {
-      ...identity('Russian Twist', intent),
+      ...identity('Cable Pallof Press', intent),
       description:
-        `Generated from "${intent.prompt.trim()}". A seated bodyweight Russian twist with both heels down, using the family-certified trunk turn and clasped-hand path` +
+        `Generated from "${intent.prompt.trim()}". A standing cable Pallof press using the family's certified two-hand press line and no-rotation trunk constraints` +
         `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      side: 'left',
       ...(tempo ? { tempo } : {}),
     };
   },
 
-  build: rotationFamily,
-  reference: () => 'russian_twist',
+  build: antiRotationFamily,
+  reference: () => 'cable_pallof_press',
   levers: [],
 };
 
@@ -1797,6 +1951,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   trunkFlexion as unknown as GeneratorFamily,
   carry as unknown as GeneratorFamily,
   rotation as unknown as GeneratorFamily,
+  antiRotation as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,

@@ -284,6 +284,8 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('curl with ten kg dumbbells').intent?.load).toBe(10);
     expect(parsePrompt('curl with twenty-five pounds dumbbells').intent?.load).toBe(11.5);
     expect(parsePrompt('curl with one hundred kg dumbbells').issues.map((issue) => issue.code)).toContain('load');
+    expect(parsePrompt('incline curl at forty-five degrees').intent?.benchAngle).toBe(45);
+    expect(blocking('incline curl at thirty degrees')).toEqual(['angle']);
     expect(parsePrompt('slow curl').intent?.tempo).toEqual({ profile: 'slow' });
     expect(parsePrompt('curl, tempo 3-1-2-0').intent?.tempo).toEqual({
       explicit: { eccentric: 3, pauseStretched: 1, concentric: 2, pauseContracted: 0 },

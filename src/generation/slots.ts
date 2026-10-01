@@ -173,6 +173,14 @@ export function readSlots(prompt: string): PromptSlots {
   for (const match of text.matchAll(/(\d+(?:\.\d+)?)\s*(?:°|º|-?deg(?:ree)?s?\b)/g)) {
     angles.push({ value: Number(match[1]), words: match[0] });
   }
+  const wordAnglePattern = new RegExp(
+    `\\b(${WEIGHT_NUMBER_WORD}(?:(?:[-\\s]+(?:and[-\\s]+)?)${WEIGHT_NUMBER_WORD})*)\\s*(?:degrees?|deg)\\b`,
+    'g',
+  );
+  for (const match of text.matchAll(wordAnglePattern)) {
+    const amount = parseNumberWords(match[1]);
+    if (amount !== null) angles.push({ value: amount, words: match[0] });
+  }
 
   const tempo: PromptSlots['tempo'] = [];
   // Standard tempo notation: lowering, pause at the bottom, lifting, pause at

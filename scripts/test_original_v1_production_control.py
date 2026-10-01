@@ -15,18 +15,30 @@ class ControlTests(unittest.TestCase):
                         'evidence-led production control is not implemented')
         return importlib.import_module('original_v1_production_control')
 
+    def latest(self, c):
+        """Live latest complete numbered candidate and the next free revision (derived, never hard-coded)."""
+        status, _ = c.build(ROOT)
+        rev = status['current_candidate']
+        self.assertRegex(rev, r'^r\d+$')
+        return rev, 'r%d' % (int(rev[1:]) + 1)
+
     def test_live_evidence_preserves_tradeoff_and_baseline(self):
         c = self.module()
         status, ledger = c.build(ROOT)
-        self.assertEqual(status['current_candidate'], 'r29')
-        self.assertEqual(status['development_failure_count'], 7)
+        rows = {x['revision']: x for x in ledger['candidates']}
+        rev = status['current_candidate']
+        # The live state advanced past r29: the current candidate is the latest complete numbered revision.
+        self.assertRegex(rev, r'^r\d+$')
+        self.assertGreaterEqual(int(rev[1:]), 29)
+        self.assertEqual(status['development_failure_count'], rows[rev]['development_failure_count'])
         self.assertFalse(status['production_approved'])
         self.assertEqual(status['pinned_baseline']['revision'], 'R2')
-        r29 = next(x for x in ledger['candidates'] if x['revision'] == 'r29')
-        self.assertEqual(r29['comparisons']['r28']['regression_count'], 12)
-        self.assertEqual(r29['classification'], 'TRADE-OFF')
-        self.assertEqual(status['phases']['3D']['state'], 'refinement')
-        self.assertEqual(status['next_action']['action'], 'RUN r30')
+        # Historical evidence is immutable: r29 stays a trade-off with its recorded r28 comparison.
+        self.assertEqual(rows['r29']['comparisons']['r28']['regression_count'], 12)
+        self.assertEqual(rows['r29']['classification'], 'TRADE-OFF')
+        # An advanced state may never silently promote: no production approval and the action is a known repair/diagnostic step.
+        self.assertNotIn(status['next_action']['action'], ('VERIFY production promotion packet',))
+        self.assertIn(status['phases']['3D']['state'], ('refinement', 'complete'))
 
     def fixture(self):
         td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
@@ -41,12 +53,13 @@ class ControlTests(unittest.TestCase):
 
     def test_partial_new_candidate_cannot_replace_latest_complete(self):
         c = self.module(); root = self.fixture()
+        latest, new = self.latest(c)
         cand = root/'ORIGINAL_V1_WORK/candidates'
-        man = json.loads((cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json').read_text())
-        man['candidate'] = man['candidate'].replace('r29.blend','r30.blend')
-        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
+        man = json.loads((cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{latest}.json').read_text())
+        man['candidate'] = man['candidate'].replace(f'{latest}.blend', f'{new}.blend')
+        (cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{new}.json').write_text(json.dumps(man))
         status, _ = c.build(root)
-        self.assertEqual(status['current_candidate'], 'r29')
+        self.assertEqual(status['current_candidate'], latest)
         self.assertEqual(status['next_action']['action'], 'STOP')
         self.assertIn('incomplete', status['next_action']['reason'])
 
@@ -89,7 +102,12 @@ class ControlTests(unittest.TestCase):
         c=self.module();status,_=c.build(ROOT)
         status['current_candidate']='r30';status['incomplete_candidates']=[]
         status['latest_evidence']=[{'path':c.RC+'/remaining_diagnostics_r30/'+n} for n in ('edge_extremes.json','grip_penetration.json')]
+        # Define the scenario explicitly (hand recovery done; wrist still open, grip and lunge blocked) instead of
+        # inheriting whatever the live phases are, so the ORDER wrist -> grip/thumb -> lunge is what is tested.
         status['phases']['3B']['state']='complete'
+        status['phases']['3D']['state']='refinement'
+        status['phases']['3C']['state']='blocked'
+        status['phases']['3E']['state']='blocked'
         control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
         control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
         self.assertEqual(c.next_action(status,control)['action'],'REPAIR wrist')
@@ -116,9 +134,10 @@ class ControlTests(unittest.TestCase):
 
     def test_partial_candidate_stays_incomplete_after_ledger_update(self):
         c=self.module();root=self.fixture();cand=root/'ORIGINAL_V1_WORK/candidates'
-        man=json.loads((cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json').read_text())
-        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
-        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
+        latest,new=self.latest(c)
+        man=json.loads((cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{latest}.json').read_text())
+        man['candidate']=man['candidate'].replace(f'{latest}.blend',f'{new}.blend')
+        (cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{new}.json').write_text(json.dumps(man))
         first,ledger=c.build(root)
         (root/'ORIGINAL_V1_CANDIDATE_LEDGER.json').write_text(json.dumps(ledger))
         second,_=c.build(root)
@@ -127,11 +146,12 @@ class ControlTests(unittest.TestCase):
 
     def test_new_full_candidate_requires_source_receipt(self):
         c=self.module();root=self.fixture();cand=root/c.CAND
-        man=c.read(root,c.CAND+'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json')
-        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
-        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
-        shutil.copy(root/c.RC/'full_r29_merged_pose_report.json',root/c.RC/'full_r30_merged_pose_report.json')
-        shutil.copy(root/c.RC/'full_r29_comparison_vs_R2.json',root/c.RC/'full_r30_comparison_vs_R2.json')
+        latest,new=self.latest(c)
+        man=c.read(root,c.CAND+f'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{latest}.json')
+        man['candidate']=man['candidate'].replace(f'{latest}.blend',f'{new}.blend')
+        (cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{new}.json').write_text(json.dumps(man))
+        shutil.copy(root/c.RC/f'full_{latest}_merged_pose_report.json',root/c.RC/f'full_{new}_merged_pose_report.json')
+        shutil.copy(root/c.RC/f'full_{latest}_comparison_vs_R2.json',root/c.RC/f'full_{new}_comparison_vs_R2.json')
         with self.assertRaisesRegex(ValueError,'source receipt'):c.build(root)
 
     def receipt_fixture(self):
@@ -172,31 +192,36 @@ class ControlTests(unittest.TestCase):
         import sys
         import merge_original_v1_repair_group_reports as merger
         c=self.module();root=self.fixture();cand=root/c.CAND
-        man=c.read(root,c.CAND+'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json')
-        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
-        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
-        real={x['pose']:x for x in c.read(root,c.RC+'/full_r29_merged_pose_report.json')}
+        latest,new=self.latest(c)
+        live_status,live_ledger=c.build(ROOT)
+        live_row=next(x for x in live_ledger['candidates'] if x['revision']==latest)
+        man=c.read(root,c.CAND+f'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{latest}.json')
+        man['candidate']=man['candidate'].replace(f'{latest}.blend',f'{new}.blend')
+        (cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{new}.json').write_text(json.dumps(man))
+        real={x['pose']:x for x in c.read(root,c.RC+f'/full_{latest}_merged_pose_report.json')}
         for group,poses in merger.GROUP_POSES.items():
-            directory=root/c.RC/f'{group}_r30';directory.mkdir()
+            directory=root/c.RC/f'{group}_{new}';directory.mkdir()
             report=directory/'pose_test_report.json';report.write_text(json.dumps([real[n] for n in poses]))
             source={'candidate_sha256':man['candidate_sha256'],'pose_report_sha256':c.digest(report),
                     'render_script_sha256':'a'*64,'blender_version':'test fixture only','images':[]}
             (directory/'render_source_manifest.json').write_text(json.dumps(source))
-        rows,receipt=merger.collect_reports(root,'r30')
-        merged=root/c.RC/'full_r30_merged_pose_report.json';merged.write_text(json.dumps(rows))
+        rows,receipt=merger.collect_reports(root,new)
+        merged=root/c.RC/f'full_{new}_merged_pose_report.json';merged.write_text(json.dumps(rows))
         receipt['merged_pose_report_sha256']=c.digest(merged)
-        (root/c.RC/'full_r30_evidence_manifest.json').write_text(json.dumps(receipt))
-        for previous in ('R2','r29','r28'):
+        (root/c.RC/f'full_{new}_evidence_manifest.json').write_text(json.dumps(receipt))
+        for previous in ('R2',latest,'r28'):
             baseline=root/c.CAND/'pose_test_report_r2.json' if previous=='R2' else root/c.RC/f'full_{previous}_merged_pose_report.json'
-            out=root/c.RC/f'full_r30_comparison_vs_{previous}.json'
+            out=root/c.RC/f'full_{new}_comparison_vs_{previous}.json'
             result=subprocess.run([sys.executable,str(ROOT/'scripts/compare_original_v1_deformation_reports.py'),str(baseline),str(merged),
                 '--baseline-grip-report',str(baseline),'--candidate-grip-report',str(merged),
                 '--profile','development_blocker','--report-only','--json-out',str(out)],capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stderr)
         status,ledger=c.build(root)
-        self.assertEqual(status['current_candidate'],'r30');self.assertEqual(status['development_failure_count'],7)
+        # The fixture candidate carries the live latest candidate's own evidence, so it must be selected as the new
+        # current candidate with the SAME development failure count and classification, and never production-approved.
+        self.assertEqual(status['current_candidate'],new);self.assertEqual(status['development_failure_count'],live_row['development_failure_count'])
         self.assertFalse(status['production_approved'])
-        self.assertEqual(status['candidate_classification'],'TRADE-OFF')
+        self.assertEqual(status['candidate_classification'],live_row['classification'])
         self.assertTrue(any(x['path'].endswith('evidence_manifest.json') for x in status['latest_evidence']))
         again,again_ledger=c.build(root)
         self.assertEqual(status,again);self.assertEqual(ledger,again_ledger)

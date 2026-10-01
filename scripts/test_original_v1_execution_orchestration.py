@@ -17,15 +17,37 @@ class ExecutionOrchestrationTests(unittest.TestCase):
         from original_v1_production_control import build
         return build(o.ROOT)[0]
 
-    def test_live_plan_covers_all_prepared_support_and_selects_r30(self):
+    def test_live_plan_covers_all_prepared_support_and_selects_the_live_node(self):
         plan = self.plan()
         info = o.validate_plan(o.ROOT, plan)
         self.assertEqual(info["prepared_stage_count"], 12)
         self.assertGreaterEqual(info["critical_path_count"], 10)
         state = self.current_state()
         node = o.select_node(plan, state)
-        self.assertEqual(node["id"], "3B_r30")
-        self.assertEqual(node["action"], "RUN_ORIGINAL_V1_R30.bat")
+        # The orchestration node must agree with the live generated state (not a hard-coded historical step).
+        phase3 = {"3B": "3B_r30", "3C": "3C_grip_thumb", "3D": "3D_wrist", "3E": "3E_lunge"}
+        if state["phases"]["3"]["state"] != "complete":
+            self.assertIn(state["current_subphase"], phase3)
+            self.assertEqual(node["id"], phase3[state["current_subphase"]])
+        else:
+            self.assertNotIn(node["id"], phase3.values())
+
+    def test_each_phase3_subphase_selects_its_own_node(self):
+        plan = self.plan()
+        base = copy.deepcopy(self.current_state())
+        base["phases"]["3"]["state"] = "active"
+        expected = {"3C": "3C_grip_thumb", "3D": "3D_wrist", "3E": "3E_lunge"}
+        for sub, node_id in expected.items():
+            state = copy.deepcopy(base)
+            state["current_subphase"] = sub
+            self.assertEqual(o.select_node(plan, state)["id"], node_id)
+        state = copy.deepcopy(base)
+        state["current_subphase"] = "3B"
+        state["next_action"] = {"command": next(r for r in plan["critical_path"] if r["id"] == "3B_r30")["action"]}
+        self.assertEqual(o.select_node(plan, state)["id"], "3B_r30")
+        state["current_subphase"] = "3X"
+        with self.assertRaisesRegex(ValueError, "unsupported active Phase 3 subphase"):
+            o.select_node(plan, state)
 
     def test_phase_progression_selects_first_incomplete_phase(self):
         plan = self.plan()
@@ -50,9 +72,12 @@ class ExecutionOrchestrationTests(unittest.TestCase):
 
     def test_r30_selector_drift_refused(self):
         plan = self.plan()
-        state = self.current_state()
-        state = copy.deepcopy(state)
-        state["next_action"]["command"] = "RUN_SOMETHING_ELSE.bat"
+        # Explicit synthetic Phase 3B state (the live state has moved on): a selector command that differs
+        # from the orchestration r30 action must still be refused.
+        state = copy.deepcopy(self.current_state())
+        state["phases"]["3"]["state"] = "active"
+        state["current_subphase"] = "3B"
+        state["next_action"] = {"command": "RUN_SOMETHING_ELSE.bat"}
         with self.assertRaisesRegex(ValueError, "selector command differs"):
             o.select_node(plan, state)
 

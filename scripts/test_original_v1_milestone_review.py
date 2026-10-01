@@ -24,8 +24,14 @@ class MilestoneTests(unittest.TestCase):
             self.assertTrue(all(anchor[0] in names for anchor in region['anchors']))
             self.assertTrue(all(anchor[1] in ('head','tail') for anchor in region['anchors']))
     def test_milestone_switch_does_not_change_frozen_poses(self):
-        from original_v1_production_control import build
-        self.assertEqual(build(ROOT)[0]['current_candidate'],'r29')
+        # Building the live production control re-verifies the hash-pinned frozen stress-pose definition and
+        # frozen inputs; it must succeed (and not raise 'frozen stress-pose definition changed') on the live state
+        # whatever the latest candidate revision is.
+        from original_v1_production_control import build, read
+        status=build(ROOT)[0]
+        self.assertRegex(status['current_candidate'],r'^r\d+$')
+        self.assertFalse(status['production_approved'])
+        self.assertIn('frozen_pose_definition',read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json'))
     def test_incomplete_actual_capture_is_rejected(self):
         c=self.module();plan=c.load_plan(ROOT)
         with tempfile.TemporaryDirectory() as temp:

@@ -151,3 +151,12 @@ original stress-pose AST remains identical apart from metadata-only import.
 No Windows/Blender execution, new candidate render or runtime integration was
 claimed. Repo controls use standard Python/project-owned code; no runtime
 package or production asset dependency was added.
+
+### Capture tooling preparation checkpoint — 2026-10-01
+
+The optional milestone capture workflow is now prepared: a 57-view bare-body plan,
+`RUN_ORIGINAL_V1_MILESTONE_REVIEW.bat`, verified publication/phone index, and
+milestone previous-versus-new comparison mode. See the visual review specification
+for exact commands and limitations. No actual milestone capture is claimed; no
+Phase 5 modelling or phase completion is inferred. Pending snapshots remain
+NON-BLOCKING, and the current deformation next task remains r30 on the laptop.

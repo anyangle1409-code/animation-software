@@ -149,6 +149,41 @@ def verify_full_receipt(root, rev):
         raise ValueError('source receipt missing/incomplete for '+rev+': '+str(exc)) from exc
 
 
+def verified_review(root, revision, candidate_sha, kind):
+    """Verify published images and small original capture manifests, not raw render folders."""
+    path=f'{CAND}/review/{kind}_{revision}/visual_review_manifest.json'
+    if not (root/path).exists():return None
+    packet=read(root,path)
+    man=f'{CAND}/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{revision}.json'
+    if (packet.get('candidate_revision')!=revision or packet.get('candidate_sha256')!=candidate_sha or
+        packet.get('candidate_manifest_sha256')!=digest(root/man) or
+        packet.get('production_approved') is not False or packet.get('blocking') is not False):
+        raise ValueError('review identity/non-blocking contract differs: '+path)
+    folder=(root/path).parent.resolve();names=set();sources={}
+    for reference in packet['source_manifests']:
+        target=(root/reference['path']).resolve()
+        if not target.is_relative_to((root/RC).resolve()) or digest(target)!=reference['sha256']:
+            raise ValueError('review source manifest hash/path differs')
+        capture=read(root,reference['path'])
+        if capture.get('candidate_sha256')!=candidate_sha:raise ValueError('review capture candidate differs')
+        for image in capture['images']:
+            sources.setdefault(image['file'],[]).append(image)
+    for row in packet['files']:
+        image=(root/row['output']).resolve()
+        if not image.is_relative_to(folder) or image.name in names or digest(image)!=row['sha256']:
+            raise ValueError('review published image hash/path differs')
+        names.add(image.name)
+        source_name=Path(row.get('source',row.get('file',image.name))).name
+        if not any(x['sha256']==row['sha256'] and x.get('capture')==row.get('capture') for x in sources.get(source_name,[])):
+            raise ValueError('review image differs from original capture manifest')
+    if not names:raise ValueError('review has no actual published images')
+    result={'checkpoint':f'{revision} {kind} snapshot','owner_review':'pending','blocking':False,
+            'candidate_sha256':candidate_sha,'evidence':evidence(root,path)}
+    index=(root/path).parent/'README.md'
+    if index.exists():result['review_index']=index.relative_to(root).as_posix()
+    return result
+
+
 def next_action(status, control):
     incomplete = status['incomplete_candidates']
     if incomplete:
@@ -323,6 +358,12 @@ def build(root=ROOT):
             d=json.loads(p.read_text()); source=d.get('source_candidate_sha256',d.get('candidate_sha256'))
             # Diagnostics lacking source identity are visible but cannot select edits.
             if source==current['sha256']: refs.append(evidence(root,p.relative_to(root).as_posix()))
+    snapshot_reviews=[]
+    for kind in ('visual','milestone'):
+        snapshot=verified_review(root,rev,current['sha256'],kind)
+        if snapshot:
+            snapshot_reviews.append(snapshot); refs.append(snapshot['evidence'])
+            current[kind+'_review_location']=snapshot['evidence']['path']
     status={'schema_version':1,'asset':'HomeGymPT_Male_ORIGINAL_v1','rig':'hgpt_canonical_v4_original',
         'branch':control['branch'],'current_phase':next((n for n in range(3,13) if phases[str(n)]['state']!='complete'),12),
         'current_subphase':('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4')) if phases['4']['state']!='complete' else next((str(n) for n in range(5,13) if phases[str(n)]['state']!='complete'),'12'),
@@ -331,7 +372,7 @@ def build(root=ROOT):
         'development_failure_count':ev['failure_count'],'development_failures':fails,
         'production_failure_count':evaluate(root,current['evidence_location'],'production_target')['failure_count'],
         'production_approved':False,'phases':phases,'unresolved_regressions':regs,
-        'pending_owner_reviews':[x for x in control['owner_reviews'] if x['owner_review']=='pending'],
+        'pending_owner_reviews':[x for x in control['owner_reviews'] if x['owner_review']=='pending']+snapshot_reviews,
         'latest_evidence':refs,'last_known_candidate_sha256':current['sha256'],
         'evidence_timestamp':current['evidence_timestamp'],'source_head':control['source_head'],
         'incomplete_candidates':sorted(set(incomplete),key=revision_key),

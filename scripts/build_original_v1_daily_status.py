@@ -22,7 +22,7 @@ def dashboard(s):
     lines += ['', 'WHAT CHANGED',s['what_changed'],'','WHAT PASSED']
     lines += ['- '+p for p in s['what_passed']] or ['- No newly clear subphase.']
     lines += ['', 'PENDING OWNER REVIEWS']
-    lines += ['- '+r['checkpoint']+' — pending, NON-BLOCKING.' for r in s['pending_owner_reviews']]
+    lines += ['- '+('['+r['checkpoint']+'](../'+r['review_index']+')' if r.get('review_index') else r['checkpoint'])+' — pending, NON-BLOCKING.' for r in s['pending_owner_reviews']]
     lines += ['- Latest candidate snapshot remains pending; images must come from real renders.','',
               'NEXT EXACT TASK',nxt['action']+' — '+nxt['reason']]
     if nxt.get('command'): lines.append('`'+nxt['command']+'`')

@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "protocol": "original_v1_milestone_render_v1",
+  "purpose": "Actual candidate capture only; no approval or modelling operation.",
+  "neutral": {
+    "centre": [
+      0,
+      0,
+      0.91
+    ],
+    "orthographic_scale": 2.15,
+    "views": {
+      "front": [
+        0,
+        5
+      ],
+      "rear": [
+        180,
+        5
+      ],
+      "side": [
+        90,
+        5
+      ],
+      "three_quarter": [
+        35,
+        12
+      ],
+      "three_quarter_rear": [
+        145,
+        12
+      ]
+    }
+  },
+  "anatomy": [
+    {
+      "region": "head_neck",
+      "anchors": [
+        [
+          "neck",
+          "head"
+        ],
+        [
+          "head",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.42,
+      "angles": [
+        0,
+        90
+      ]
+    },
+    {
+      "region": "shoulder",
+      "anchors": [
+        [
+          "upperarm_l",
+          "head"
+        ]
+      ],
+      "orthographic_scale": 0.34,
+      "angles": [
+        35,
+        145
+      ]
+    },
+    {
+      "region": "chest_torso",
+      "anchors": [
+        [
+          "spine_03",
+          "head"
+        ],
+        [
+          "spine_03",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.65,
+      "angles": [
+        0,
+        35
+      ]
+    },
+    {
+      "region": "back",
+      "anchors": [
+        [
+          "spine_02",
+          "head"
+        ],
+        [
+          "spine_02",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.68,
+      "angles": [
+        180,
+        145
+      ]
+    },
+    {
+      "region": "elbow",
+      "anchors": [
+        [
+          "forearm_l",
+          "head"
+        ]
+      ],
+      "orthographic_scale": 0.3,
+      "angles": [
+        35,
+        145
+      ]
+    },
+    {
+      "region": "palm",
+      "anchors": [
+        [
+          "hand_l",
+          "head"
+        ],
+        [
+          "hand_l",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.24,
+      "angles": [
+        "palm",
+        "palm_oblique"
+      ]
+    },
+    {
+      "region": "dorsal_hand",
+      "anchors": [
+        [
+          "hand_l",
+          "head"
+        ],
+        [
+          "hand_l",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.24,
+      "angles": [
+        "dorsal",
+        "dorsal_oblique"
+      ]
+    },
+    {
+      "region": "thumb",
+      "anchors": [
+        [
+          "thumb_02_l",
+          "head"
+        ],
+        [
+          "thumb_02_l",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.18,
+      "angles": [
+        40,
+        140
+      ]
+    },
+    {
+      "region": "hip",
+      "anchors": [
+        [
+          "thigh_l",
+          "head"
+        ]
+      ],
+      "orthographic_scale": 0.42,
+      "angles": [
+        35,
+        145
+      ]
+    },
+    {
+      "region": "knee",
+      "anchors": [
+        [
+          "shin_l",
+          "head"
+        ]
+      ],
+      "orthographic_scale": 0.34,
+      "angles": [
+        0,
+        90
+      ]
+    },
+    {
+      "region": "foot",
+      "anchors": [
+        [
+          "foot_l",
+          "head"
+        ],
+        [
+          "foot_l",
+          "tail"
+        ]
+      ],
+      "orthographic_scale": 0.34,
+      "angles": [
+        35,
+        145
+      ]
+    }
+  ],
+  "exercise": {
+    "centre": [
+      0,
+      0,
+      1.0
+    ],
+    "orthographic_scale": 2.65,
+    "views": {
+      "front": [
+        0,
+        5
+      ],
+      "side": [
+        90,
+        5
+      ],
+      "three_quarter": [
+        35,
+        12
+      ]
+    },
+    "poses": [
+      "curl_peak",
+      "curl_handle",
+      "press_bottom",
+      "press_top",
+      "pullup_hang",
+      "pullup_top",
+      "squat_bottom",
+      "lunge",
+      "pushup_bottom",
+      "row"
+    ]
+  },
+  "resolution": [
+    900,
+    900,
+    100
+  ],
+  "dressed": false,
+  "owner_review": "pending",
+  "blocking": false,
+  "production_approved": false,
+  "note": "Fixed whole-body framing; crop is checked against evaluated body vertices before rendering. Anatomy cameras follow owned neutral landmarks. Left-side closeups are representative; full deformation metrics remain bilateral."
+}

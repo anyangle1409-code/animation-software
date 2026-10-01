@@ -134,3 +134,13 @@ Keep owner_review pending and continue safe work.
 across Git, including when core.autocrlf is true. Do not run `git add --renormalize`
 or rewrite existing evidence to satisfy a mismatch. Inspect and preserve the exact
 source bytes instead. This protects hashes without changing geometry or gates.
+
+## Optional milestone visibility checkpoint
+
+Use `RUN_ORIGINAL_V1_MILESTONE_REVIEW.bat <verified candidate>` to capture the full
+57-view bare model board when laptop power/time allows. This is optional alongside
+Phase 3 repair and never blocks the next safe task. Read the visual review spec
+for exact capture/publication paths and first-run Blender validation limitations.
+For completed source captures, publication-only mode is available without rerender:
+`python scripts/original_v1_milestone_review.py <revision>`. Publish actual images
+and source JSON, regenerate daily status, record owner_review pending, continue.

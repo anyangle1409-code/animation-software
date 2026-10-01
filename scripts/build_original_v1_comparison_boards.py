@@ -26,29 +26,34 @@ def board_svg(before_rev,after_rev,before_bytes,after_bytes,before_capture,after
     return text,matched
 
 
-def load_review(rev):
-    path=ROOT/CAND/f'review/visual_{rev}/visual_review_manifest.json'
+def load_review(rev,kind="visual"):
+    path=ROOT/CAND/f'review/{kind}_{rev}/visual_review_manifest.json'
     d=json.loads(path.read_text(encoding='utf-8'))
     manifest=ROOT/CAND/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.json'
     if d.get('candidate_sha256')!=json.loads(manifest.read_text(encoding='utf-8-sig'))['candidate_sha256']:
         raise ValueError('review candidate identity mismatch')
+    if d.get('candidate_revision')!=rev or d.get('candidate_manifest_sha256')!=digest(manifest):
+        raise ValueError('review manifest identity/hash mismatch')
     result={}
     for row in d['files']:
         p=(ROOT/row['output']).resolve()
-        if not p.is_relative_to((ROOT/CAND/f'review/visual_{rev}').resolve()):raise ValueError('review image outside candidate folder')
+        if not p.is_relative_to((ROOT/CAND/f'review/{kind}_{rev}').resolve()):raise ValueError('review image outside candidate folder')
         if digest(p)!=row['sha256']:raise ValueError('review image hash mismatch')
+        if p.name in result:raise ValueError('duplicate review view')
         result[p.name]=(p,row)
     return path,d,result
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('previous');ap.add_argument('candidate');args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('previous');ap.add_argument('candidate');ap.add_argument('--milestone',action='store_true');args=ap.parse_args()
     for r in (args.previous,args.candidate):
         if not re.fullmatch(r'r\d+',r):raise SystemExit('numbered candidate revisions required')
-    out=ROOT/CAND/f'review/comparison_{args.previous}_{args.candidate}'
+    kind='milestone' if args.milestone else 'visual'
+    suffix='_milestone' if args.milestone else ''
+    out=ROOT/CAND/f'review/comparison_{args.previous}_{args.candidate}{suffix}'
     if out.exists():raise SystemExit('STOP — comparison output collision')
     try:
-        apath,a,old=load_review(args.previous);bpath,b,new=load_review(args.candidate)
+        apath,a,old=load_review(args.previous,kind);bpath,b,new=load_review(args.candidate,kind)
         names=sorted(old.keys()&new.keys())
         if not names:raise ValueError('no matching actual rendered views')
         rows=[];boards=[]

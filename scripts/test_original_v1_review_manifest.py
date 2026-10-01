@@ -29,4 +29,25 @@ class ReviewTests(unittest.TestCase):
         self.assertIn(base64.b64encode(b'real-after').decode(),svg)
         self.assertFalse(matched)
         self.assertIn('CAPTURE SETTINGS DIFFER',svg)
+
+    def test_published_compact_prefix_resolves_to_actual_source_and_tampering_stops(self):
+        import original_v1_production_control as c
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);candidate=root/c.CAND/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json'
+            candidate.parent.mkdir(parents=True);candidate.write_text(json.dumps({'candidate_sha256':'a'*64}))
+            source=root/c.RC/'shoulder_r29/render_source_manifest.json';source.parent.mkdir(parents=True)
+            folder=root/c.CAND/'review/visual_r29';folder.mkdir(parents=True)
+            image=folder/'shoulder__pose_press_top_front.png';image.write_bytes(b'test fixture only')
+            capture={'protocol':'test fixture only'}
+            source.write_text(json.dumps({'candidate_sha256':'a'*64,'images':[{'file':'pose_press_top_front.png','sha256':c.digest(image),'capture':capture}]}))
+            packet={'candidate_revision':'r29','candidate_sha256':'a'*64,'candidate_manifest_sha256':c.digest(candidate),
+                    'blocking':False,'production_approved':False,'owner_review':'pending',
+                    'source_manifests':[{'path':source.relative_to(root).as_posix(),'sha256':c.digest(source)}],
+                    'files':[{'output':image.relative_to(root).as_posix(),'source':(source.parent/'pose_press_top_front.png').relative_to(root).as_posix(),'sha256':c.digest(image),'capture':capture}]}
+            (folder/'visual_review_manifest.json').write_text(json.dumps(packet))
+            result=c.verified_review(root,'r29','a'*64,'visual')
+            self.assertEqual(result['owner_review'],'pending');self.assertFalse(result['blocking'])
+            image.write_bytes(b'tampered')
+            with self.assertRaisesRegex(ValueError,'image hash'):c.verified_review(root,'r29','a'*64,'visual')
+
 if __name__=='__main__':unittest.main()

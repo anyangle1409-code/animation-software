@@ -478,6 +478,16 @@ def measure(name):
 
 
 # ---------------------------------------------------------------- rendering
+# Optional milestone capture changes cameras/presentation only, never poses/metrics.
+MILESTONE = len(args) > 2 and args[2] == "--milestone"
+if MILESTONE:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from original_v1_milestone_review import load_plan, views
+    MILESTONE_PLAN = load_plan()
+    MILESTONE_VIEWS = views(MILESTONE_PLAN)
+    MILESTONE_PLAN_SHA256 = hashlib.sha256((Path(__file__).resolve().parent.parent / "ORIGINAL_V1_VISUAL_BOARD_PLAN.json").read_bytes()).hexdigest()
+CURRENT_MILESTONE_VIEW = None
+
 scene.render.engine = "BLENDER_WORKBENCH"
 scene.display.shading.light = "STUDIO"
 scene.display.shading.color_type = "MATERIAL"
@@ -501,6 +511,9 @@ cam = bpy.data.objects.new("REVIEW_CAM", cam_data)
 scene.collection.objects.link(cam)
 scene.camera = cam
 scene.render.resolution_x = scene.render.resolution_y = 900
+if MILESTONE:
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = "PNG"
 
 
 CAPTURE_RECORDS = []
@@ -515,7 +528,7 @@ def capture_render():
         "file": path.name,
         "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "capture": {
-            "protocol": "original_v1_stress_render_v1",
+            "protocol": MILESTONE_PLAN["protocol"] if MILESTONE else "original_v1_stress_render_v1",
             "render_script_sha256": RENDER_SCRIPT_SHA256,
             "camera_matrix_world": [list(row) for row in cam.matrix_world],
             "orthographic_scale": cam_data.ortho_scale,
@@ -527,12 +540,58 @@ def capture_render():
             "shadows": scene.display.shading.show_shadows,
             "shadow_intensity": scene.display.shading.shadow_intensity,
             "cavity": scene.display.shading.show_cavity,
-            "dressed": True,
+            "dressed": not MILESTONE,
+            **({"milestone_plan_sha256": MILESTONE_PLAN_SHA256,
+                "view_id": CURRENT_MILESTONE_VIEW["file"],
+                "pose": CURRENT_MILESTONE_VIEW["pose"]} if MILESTONE else {}),
         },
     })
 
 
+def render_milestone(name):
+    global CURRENT_MILESTONE_VIEW
+    set_dressed(False)
+    upd()
+    for row in MILESTONE_VIEWS:
+        if row["pose"] != name:
+            continue
+        if "centre" in row:
+            target = Vector(row["centre"])
+        else:
+            points = [rig.matrix_world @ (pb(bone).head if end == "head" else pb(bone).tail)
+                      for bone, end in row["anchors"]]
+            target = sum(points, Vector((0, 0, 0))) / len(points)
+        angles = row["angles"]
+        if isinstance(angles, str):
+            normal = palm_normal("l") * (-1 if angles.startswith("dorsal") else 1)
+            if angles.endswith("oblique"):
+                normal += bdir("hand_l").normalized() * 0.35
+            direction = (rig.matrix_world.to_3x3() @ normal).normalized()
+        else:
+            az, el = (angles, 15) if isinstance(angles, (int, float)) else angles
+            a, e = math.radians(az), math.radians(el)
+            direction = Vector((-math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+        cam_data.ortho_scale = row["scale"]
+        cam.location = target + direction * 8
+        cam.rotation_mode = "QUATERNION"
+        cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
+        upd()
+        if row["set"] != "anatomy":
+            evaluated = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
+            inverse = cam.matrix_world.inverted()
+            points = [inverse @ (evaluated.matrix_world @ v.co) for v in evaluated.data.vertices]
+            half = cam_data.ortho_scale / 2
+            if any(abs(p.x) > half or abs(p.y) > half for p in points):
+                raise RuntimeError("Milestone fixed frame crops body: " + row["file"] + "; preserve output and inspect; do not auto-fit")
+        CURRENT_MILESTONE_VIEW = row
+        scene.render.filepath = str(OUT / row["file"])
+        capture_render()
+
+
 def render(name):
+    if MILESTONE:
+        render_milestone(name)
+        return
     set_dressed(True)
     upd()
     dg = bpy.context.evaluated_depsgraph_get()

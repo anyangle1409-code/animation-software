@@ -1526,3 +1526,20 @@ No geometry, weights, rig, pose definitions, thresholds or R2 baseline changed.
 Validation: 85 Python tests pass; exact generated r29 status, pinned R2, existing
 candidate GLB structural audit and repository documentation hygiene remain valid.
 Real r30 creation/rendering and Windows Blender execution remain laptop tasks.
+
+### Full milestone visual capture preparation — 2026-10-01
+
+Live source HEAD checked: `a04b9041e7ba77d292b94e406dd539ccb2d5d5cd`. Prepared
+`RUN_ORIGINAL_V1_MILESTONE_REVIEW.bat`, a deterministic 57-view plan and opt-in
+capture/publishing mode. The existing stress renderer gains camera-only milestone
+mode after the frozen metrics/pose section. Original pose definitions, candidate
+geometry/weights, rig, R2 and gates remain unchanged. The runner captures bare
+neutral/rear/anatomy/exercise views, guards fixed whole-body framing against crop,
+verifies source/image identities and creates a phone-friendly review README.
+
+Published compact/milestone snapshots are checked against original capture manifests
+and image bytes, then appear in the daily dashboard as pending NON-BLOCKING reviews.
+Milestone comparison boards use actual copied images and preserve capture mismatch
+warnings. 92 Python tests pass; no actual milestone renders are claimed. Blender
+execution/camera usefulness still require the laptop. r29 remains experimental with
+seven development failures. The next deformation action remains RUN r30.

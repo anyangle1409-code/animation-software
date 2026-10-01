@@ -114,4 +114,15 @@ class ControlTests(unittest.TestCase):
         p.write_text(p.read_text().replace('ONLY = set(', 'ONLY = frozenset(',1))
         with self.assertRaisesRegex(ValueError,'frozen stress-pose'):c.build(root)
 
+    def test_partial_candidate_stays_incomplete_after_ledger_update(self):
+        c=self.module();root=self.fixture();cand=root/'ORIGINAL_V1_WORK/candidates'
+        man=json.loads((cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json').read_text())
+        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
+        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
+        first,ledger=c.build(root)
+        (root/'ORIGINAL_V1_CANDIDATE_LEDGER.json').write_text(json.dumps(ledger))
+        second,_=c.build(root)
+        self.assertEqual(first['incomplete_candidates'],second['incomplete_candidates'])
+        self.assertEqual(second['next_action']['action'],'STOP')
+
 if __name__ == '__main__': unittest.main()

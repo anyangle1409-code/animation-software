@@ -71,3 +71,25 @@ Full milestone rear/anatomy views remain a later capture requirement; the existi
 manifests remain historical; regenerate verified evidence into a fresh label rather
 than relabelling them. The project requires zero third-party shipped runtime/assets;
 existing stock Blender/Python authoring tools are development tools, not content.
+
+## Full-evidence collection and interruption safety
+
+The full runner uses report-only comparison mode while collecting each group.
+A measured REGRESSION remains in the comparison JSON and blocks strict improvement;
+it does not masquerade as a Blender/process failure. Direct targeted repair runs
+retain strict comparator exit codes. The merger requires all six groups, including
+neutral, with identical candidate and render-script identities and identical
+metrics for overlapping poses. It records a source-bound evidence manifest and
+stops on evaluator/queue/comparator execution errors. Existing outputs are protected.
+
+If an interrupted run leaves a new candidate manifest without complete evidence,
+status remains STOP across repeated ledger/dashboard generation. Preserve the local
+blend, solution and partial evidence. Do not rerun the solver simply to clear an
+output collision. A valid existing candidate can receive the missing evidence in
+fresh group folders after its identity and inputs are verified. Never mix group
+reports from different script versions or candidates.
+
+2026-10-01 follow-up validation: 72 Python tests pass, including real subprocess
+fixture runs proving a valid seven-failure / six-regression result remains recorded,
+invalid metrics stop processing, and partial-candidate state remains deterministic.
+Windows batch execution and actual Blender renders still require the laptop.

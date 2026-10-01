@@ -11,7 +11,17 @@ rem   hand      - hand/finger/thumb/grip including equipment contact
 rem   hip       - squat/lunge pelvis and deep flexion
 rem   pushup    - loaded wrist/hand/arm floor contact
 rem   row       - row / posterior-chain upper-body deformation
+rem Optional fourth argument: --report-only (collect experimental evidence despite regressions).
 rem The Blender pose script never saves the candidate.
+
+set "COMPARE_MODE="
+if not "%~4"=="" (
+  if /I not "%~4"=="--report-only" (
+    echo ERROR: Fourth argument must be --report-only or omitted.
+    exit /b 2
+  )
+  set "COMPARE_MODE=--report-only"
+)
 
 set "CURRENT_BRANCH="
 for /f "delims=" %%I in ('git branch --show-current 2^>nul') do set "CURRENT_BRANCH=%%I"
@@ -119,17 +129,26 @@ if defined WITH_GRIP (
     --candidate-grip-report "%OUT%\pose_test_report.json" ^
     --profile development_blocker ^
     --poses "%POSES%" ^
-    --json-out "%OUT%\comparison_vs_R2.json"
+    --json-out "%OUT%\comparison_vs_R2.json" %COMPARE_MODE%
 ) else (
   python scripts\compare_original_v1_deformation_reports.py ^
     ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
     "%OUT%\pose_test_report.json" ^
     --profile development_blocker ^
     --poses "%POSES%" ^
-    --json-out "%OUT%\comparison_vs_R2.json"
+    --json-out "%OUT%\comparison_vs_R2.json" %COMPARE_MODE%
 )
 
 set "RC=%ERRORLEVEL%"
+if defined COMPARE_MODE (
+  if not "%RC%"=="0" (
+    echo ERROR: Experimental evidence comparison could not execute.
+    exit /b %RC%
+  )
+  echo Evidence comparison completed. Read comparison_vs_R2.json for REGRESSION/IMPROVED status.
+  echo Report-only does not approve the candidate or clear any gate.
+  exit /b 0
+)
 if "%RC%"=="0" (
   echo.
   echo %GROUP% subset did not regress against R2.

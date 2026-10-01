@@ -3,7 +3,8 @@ setlocal
 rem Full deformation evidence for one numbered O4 candidate (read-only; never saves the Blend).
 rem Usage: RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <rN> [prior rM]
 rem Runs every repair group (shoulder, hand+grip, hip, pushup, row) with labels <group>_<rN>,
-rem a neutral rest-pose control run (neutral_<rN>), then merges all 15 poses and runs the
+rem report-only comparisons preserve experimental regressions without treating them as execution errors.
+rem A neutral rest-pose control run (neutral_<rN>), then merges all 15 poses and runs the
 rem committed evaluator, repair queue and comparator vs pinned R2 (and vs the prior candidate).
 cd /d "%~dp0"
 set "REV=%~1"
@@ -17,7 +18,7 @@ if not exist "%CANDIDATE%" (
   exit /b 2
 )
 for %%G in (shoulder hand hip pushup row) do (
-  call RUN_ORIGINAL_V1_REPAIR_CHECK.bat %%G "%CANDIDATE%" %%G_%REV%
+  call RUN_ORIGINAL_V1_REPAIR_CHECK.bat %%G "%CANDIDATE%" %%G_%REV% --report-only
   if errorlevel 1 exit /b 1
 )
 set "BLENDER="

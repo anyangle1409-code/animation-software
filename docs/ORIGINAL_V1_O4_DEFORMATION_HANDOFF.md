@@ -1485,3 +1485,15 @@ The r30 runner calls session preflight and regenerates high-detail status after
 successful evidence collection. Full-evidence iteration now stops immediately if
 any group fails, preventing a later group from concealing an earlier failure.
 No completed r30 exists and current r29 remains experimental with seven blockers.
+
+### GPT production-control follow-up — 2026-10-01
+
+Live source HEAD checked: `753a96d88c3ebd5a64c972633f18affe333b4d0b`.
+Model state remains experimental r29 / seven development failures; R2 and gates
+remain frozen. Corrected the full-evidence fail-fast behavior: measured inherited
+regressions are report-only during collection, while execution errors still stop.
+Direct targeted checks remain strict. New full merges require complete six-group
+source-bound evidence and reject conflicting overlapping poses, mixed script or
+candidate identities, and output collisions. Repeated status generation now retains
+new incomplete candidates even after writing their ledger entries. 72 Python tests
+pass; no laptop/Blender execution or new candidate result is claimed.

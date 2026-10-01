@@ -149,9 +149,10 @@ def build(root=ROOT):
     old_path = root/'ORIGINAL_V1_CANDIDATE_LEDGER.json'
     old = json.loads(old_path.read_text()) if old_path.exists() else {'candidates':[]}
     historic = {x['revision']:x for x in old['candidates']}
-    entries = dict(historic); complete = []; incomplete = []
+    entries = dict(historic); complete = []; incomplete = []; observed = set()
     for manifest in sorted((root/CAND).glob('HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r*.json')):
         rev = manifest.stem.split('_CANDIDATE_',1)[1]
+        observed.add(rev)
         man = json.loads(manifest.read_text(encoding='utf-8-sig'))
         sha = man['candidate_sha256']
         if not re.fullmatch('[0-9a-f]{64}',sha): raise ValueError('invalid candidate hash: '+rev)
@@ -201,7 +202,7 @@ def build(root=ROOT):
     rev = max(complete,key=revision_key); current=entries[rev]
     # Any later manifest or report/solution is partial until full evidence verifies.
     for r in entries:
-        if revision_key(r)[0]>revision_key(rev)[0] and r not in historic and r not in incomplete: incomplete.append(r)
+        if revision_key(r)[0]>revision_key(rev)[0] and r in observed and r not in incomplete: incomplete.append(r)
     planned=control['planned_experiment']['revision']
     if planned not in complete and ((root/f'{CAND}/weight_solutions/{control["planned_experiment"]["solution"]}').exists() or
          (root/f'{RC}/full_{planned}_merged_pose_report.json').exists()):

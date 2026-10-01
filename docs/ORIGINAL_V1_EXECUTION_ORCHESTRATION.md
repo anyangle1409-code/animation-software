@@ -185,3 +185,12 @@ contract in `PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md`. It converts the existing
 5A-5G briefs into candidate-bound templates/receipts and forces each region to
 inherit from the previous verified regional candidate. This reduces future Claude
 session setup but does not alter the current r30 node.
+
+
+## Session-close gate
+
+At the end of each laptop session run `RUN_ORIGINAL_V1_SESSION_CLOSE.bat` after
+the intended save/evidence/handoff/commit/push steps. The read-only checker reports
+`READY_TO_END_SESSION`, `PARTIAL_WORK_PRESERVED`, or exact blockers/actions. This
+prevents a future Claude pickup from discovering unpushed commits, stale status,
+an undocumented partial candidate or a local Blend/manifest identity mismatch.

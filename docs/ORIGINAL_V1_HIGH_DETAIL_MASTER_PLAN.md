@@ -188,6 +188,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 7 | Evaluated static dressed stress-pose clearance/intersection evidence plus matched bare/dressed review capture | PREPARED; actual Blender execution, contact classification and continuous dressed motion remain open |
 | 8 | Deterministic sampled dressed movement ranges with exact per-sample raw contact evidence and explicit classification template | PREPARED; actual Blender execution, real classification, push-up/equipment paths and runtime-specific refinement remain open |
 | 9 | First-party contact source bridge for real push-up endpoints, hand-driven dumbbells and fixed pull-up rack sockets | PREPARED; source semantics/hashes only, actual live-runtime capture remains Phase 10-bound |
+| 10 | Live standalone runtime discovery, cross-branch semantic comparison and incomplete real-engine evidence harness contract | PREPARED; current runtime HEAD is not exact-SHA green and actual Phase 10 execution remains blocked by Phase 9/final assets/runtime gates |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -243,3 +244,6 @@ records exact source hashes and fails on semantic drift, but does not execute th
 solver or copy runtime motion into Blender. The live standalone runtime must still
 be rediscovered and bound at Phase 10. Current laptop deformation priority remains
 RUN r30.
+
+Stage 10 runtime discovery/harness preparation: `docs/work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`.
+The authoritative standalone branch was resolved to `work/standalone-first-party-audit-20260927`; current source shows v4 active, but its live HEAD e3a7d915... is not a green integration checkpoint because focused skeleton parity failed by 0.02 m and downstream gates did not run. The new read-only verifier compares a separate clean runtime checkout against the Stage 9 contact semantics, hashes every source, detects source-vs-handoff discrepancies and never edits either branch. `ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` remains INCOMPLETE until real Phase 10 execution. Current laptop deformation priority remains RUN r30.

@@ -62,17 +62,24 @@ def inventory(root:Path)->dict:
     rows.sort(key=lambda row:revision_key(row["revision"]))
     unresolved=[row for row in rows if row["status"]!="IDENTITY_VERIFIED"]
     current=state.get("current_candidate")
+    expected=[]
+    for revision in [current,*state.get("incomplete_candidates",[])]:
+        if revision and revision not in expected:expected.append(revision)
+    present={row["revision"] for row in rows}
+    missing_expected=[revision for revision in expected if revision not in present]
     current_rows=[row for row in rows if row["revision"]==current]
+    has_gaps=bool(unresolved or missing_expected)
     return {
         "schema_version":1,
-        "status":"LOCAL_IDENTITY_GAPS" if unresolved else "LOCAL_BLEND_IDENTITIES_VERIFIED",
+        "status":"LOCAL_IDENTITY_GAPS" if has_gaps else "LOCAL_BLEND_IDENTITIES_VERIFIED",
         "production_approved":False,
         "current_candidate":current,
         "incomplete_candidates":state.get("incomplete_candidates",[]),
         "blend_count":len(rows),
         "current_blend_present":bool(current_rows),
+        "missing_expected_revisions":missing_expected,
         "rows":rows,
-        "unresolved_count":len(unresolved),
+        "unresolved_count":len(unresolved)+len(missing_expected),
         "notes":[
             "This is local file identity/recovery information, not remote backup.",
             "Blend binaries remain local under existing policy unless a separate project policy changes.",

@@ -23,6 +23,8 @@ import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
 import { supineFamily } from '../exercises/families/supine';
 import type { SupineMotion, SupineVariant } from '../exercises/families/supine';
+import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
+import type { FlexionMotion, TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1363,6 +1365,119 @@ const supine: GeneratorFamily<SupineVariant> = {
   levers: [],
 };
 
+
+// ---------------------------------------------------------------------------
+// Floor trunk flexion: crunch / sit-up
+// ---------------------------------------------------------------------------
+
+/**
+ * The accepted bodyweight crunch and sit-up are certified here. The family
+ * owns the lying geometry, planted feet, root pivot, spinal curl and technique
+ * rules; generation selects only the family motion and tempo.
+ */
+const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
+  id: 'trunk_flexion',
+  label: 'Crunch / sit-up',
+  builder: 'trunkFlexionFamily',
+  detect: /\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/,
+  library: ['crunch', 'sit_up'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    const motion: FlexionMotion = /\bsit[-\s]?ups?\b/.test(slots.text) ? 'situp' : 'crunch';
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:bicycle|reverse|oblique|twisting)\s+crunch(?:es)?\b/, 'that changes the trunk/leg motion; only the plain floor crunch is certified.'],
+        [/\bdecline(?:d)?\b/, 'decline trunk flexion changes the support angle; only the flat-floor movement is certified.'],
+        [/\bweighted\b|\bloaded\b/, 'loaded trunk flexion is not certified; only the bodyweight version is certified.'],
+        [/\bbutterfly\s+sit[-\s]?ups?\b/, 'the butterfly sit-up changes the leg position; only the planted-feet sit-up is certified.'],
+      ],
+      issues,
+    );
+
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the bodyweight ${motion === 'situp' ? 'sit-up' : 'crunch'} holds no implement and has no grip variant.`,
+        ),
+      );
+    }
+
+    let supports = distinct(slots.supports);
+    // "lying/supine" and "on the floor" describe the same certified setup.
+    if (supports.every((support) => support === 'floor' || support === 'supine')) {
+      supports = supports.length > 0 ? ['floor'] : [];
+    }
+    const support: IntentSupport = supports.length === 0 ? 'floor' : supports[0];
+    if (supports.length === 0) {
+      assumptions.push('Floor, lying on the back with both feet planted — the family default.');
+    } else if (supports.length > 1 || support !== 'floor') {
+      issues.push(
+        blocking(
+          'support',
+          `A ${supports.join(' and ')} ${motion === 'situp' ? 'sit-up' : 'crunch'} is not certified; this family is floor-supported.`,
+        ),
+      );
+    }
+
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the certified trunk-flexion family has no adjustable support angle.`,
+        ),
+      );
+    }
+
+    const { tempo } = interpretCommon(
+      slots,
+      motion === 'situp' ? 'sit-up' : 'crunch',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'trunk_flexion',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support: 'floor',
+        trunkFlexionMotion: motion,
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const motion: FlexionMotion = intent.trunkFlexionMotion === 'situp' ? 'situp' : 'crunch';
+    const situp = motion === 'situp';
+    const tempo = tempoOf(intent);
+    const title = situp ? 'Sit-Up' : 'Crunch';
+    return {
+      ...identity(title, intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A bodyweight ${situp ? 'sit-up from lying to upright with planted feet' : 'floor crunch that curls the shoulder blades clear while the lower back stays down'}` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      motion,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: trunkFlexionFamily,
+  reference: (intent) => (intent.trunkFlexionMotion === 'situp' ? 'sit_up' : 'crunch'),
+  levers: [],
+};
+
 // ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
@@ -1466,6 +1581,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   overheadPress as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
   supine as unknown as GeneratorFamily,
+  trunkFlexion as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,

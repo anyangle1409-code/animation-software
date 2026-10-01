@@ -88,6 +88,33 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.intent?.grip).toBeUndefined();
   });
 
+  it('reads the bodyweight crunch and sit-up as the certified trunk-flexion family', () => {
+    const crunch = parsePrompt('exercise: bodyweight crunch with controlled tempo');
+    expect(crunch.issues).toEqual([]);
+    expect(crunch.intent).toMatchObject({
+      family: 'trunk_flexion',
+      equipment: 'bodyweight',
+      execution: 'bilateral',
+      support: 'floor',
+      trunkFlexionMotion: 'crunch',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+
+    const situp = parsePrompt('exercise: sit-up on the floor');
+    expect(situp.issues).toEqual([]);
+    expect(situp.intent).toMatchObject({
+      family: 'trunk_flexion',
+      equipment: 'bodyweight',
+      support: 'floor',
+      trunkFlexionMotion: 'situp',
+      load: 0,
+    });
+
+    expect(parsePrompt('lying crunch').issues).toEqual([]);
+    expect(parsePrompt('lying crunch').intent?.support).toBe('floor');
+  });
+
   it('reads the bodyweight squat', () => {
     const parsed = parsePrompt('Create a bodyweight squat with a slow tempo.');
     expect(parsed.issues).toEqual([]);
@@ -209,6 +236,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('dumbbell fly with palms down')).toEqual(['grip']);
     expect(blocking('reverse dumbbell fly')).toContain('variant');
     expect(blocking('floor press')).toEqual(['family']);
+    expect(blocking('bicycle crunch')).toEqual(['variant']);
+    expect(blocking('reverse crunch')).toEqual(['variant']);
+    expect(blocking('weighted crunch')).toEqual(['variant']);
+    expect(blocking('decline sit-up')).toEqual(['variant']);
+    expect(blocking('standing crunch')).toEqual(['support']);
+    expect(blocking('crunch with 10 kg')).toEqual(['load']);
+    expect(blocking('crunch with palms down')).toEqual(['grip']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {

@@ -33,7 +33,6 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:rear(?:[-\s]?delt)?|bent[-\s]?over|incline|plate)\s+raises?\b/, 'only the bilateral standing dumbbell lateral and front raises are certified in the raise family.'],
   [/\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\b(?:lying|cable)\s+(?:triceps?\s+)?extensions?\b/, 'only the standing bilateral dumbbell overhead triceps extension is certified in the extension family.'],
   [/\bfarmers?'?s?\s+(?:walk|carry)\b|\bcarry\b|\bcarries\b/, "the carry family (farmer's walk) is not certified for generation yet."],
-  [/\bcrunch(?:es)?\b|\bsit[-\s]?ups?\b/, 'the trunk-flexion family (crunch, sit-up) is not certified for generation yet.'],
   [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],
 ];
 

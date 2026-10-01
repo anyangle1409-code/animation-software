@@ -28,3 +28,45 @@ Known scope: snapshots audit body geometry/weights, not clothing/material qualit
 whole scene provenance, pose mechanics or actual runtime animation. Mirror pairing
 uses this character's own exact quantized coordinate twins; missing/ambiguous twin
 coverage is reported and must not be called perfect symmetry.
+
+## Snapshot schema 2 identity checks
+
+The exporter now records both mesh/rig world matrices, all 63 rest bones including
+parent, head, tail, full rest matrix (roll/orientation) and deformation flag, and
+scene unit scale. This uses the candidate's own rig; it imports no reference mesh
+or rig. Non-deform group names omitted from weight rows are listed separately.
+
+Before comparing, the auditor requires schema 2, hgpt_canonical_v4_original, metre
+units (scene scale 1, matching the foundation initializer), matching coordinate
+frames and identical rig-rest/deformation identity. A transform or rig mismatch
+returns STOP rather than misleading local vertex deltas. Preserve old schema-1
+snapshots; export new schema-2 files to fresh paths rather than rewriting history.
+Actual Blender export of these additional fields remains a laptop validation task.
+
+The edit policy must contain `before_candidate_sha256` and `candidate_sha256`
+matching the exact snapshot sources. Allowed IDs must be unique valid integers;
+allowed bones/regions must exist. Normalization tolerance and influence count must
+be finite/valid. The output records its policy limits explicitly. Region membership
+is checked in both parent and child, so relabelling a distant vertex cannot mask
+an edit. Changes to region labels remain separately visible. These checks protect
+evidence comparability; an audit report is never model/production approval.
+
+Example policy shape (fill hashes and IDs from the verified operation history):
+
+```json
+{
+  "before_candidate_sha256": "EXACT_PARENT_SHA256",
+  "candidate_sha256": "EXACT_CHILD_SHA256",
+  "allowed_regions": ["hand"],
+  "allowed_vertex_ids": [],
+  "allowed_bones": ["hand_l", "hand_r"],
+  "index_correspondence_confirmed": true,
+  "change_epsilon": 1e-8,
+  "normalization_tolerance": 1e-6,
+  "max_influences": 4
+}
+```
+
+This illustrative hand mask does not authorize a complete hand edit or infer that
+vertex IDs correspond. Use each work package's permitted region and actual authored
+edit mask. Empty IDs permit no change. Placeholder hashes deliberately fail.

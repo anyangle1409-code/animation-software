@@ -35,12 +35,17 @@ for i,p in enumerate(coords):
     if len(twin)==1 and i<=twin[0]:pairs.append([i,twin[0]])
     elif len(twin)>1:ambiguous.append(i)
 x=rig.data.bones['upperarm_l'].head_local.x
-result={'schema_version':1,'source_candidate':source.name,'candidate_sha256':sha,
-        'rig_id':'hgpt_canonical_v4_original','coordinate_space':'raw mesh local Blender coordinates in metres',
+rest_bones=[{'name':b.name,'parent':b.parent.name if b.parent else None,
+             'head':list(b.head_local),'tail':list(b.tail_local),'matrix':[list(row) for row in b.matrix_local],
+             'use_deform':b.use_deform} for b in sorted(rig.data.bones,key=lambda x:x.name)]
+result={'schema_version':2,'source_candidate':source.name,'candidate_sha256':sha,
+        'rig_id':'hgpt_canonical_v4_original','scene_unit_scale_length':bpy.context.scene.unit_settings.scale_length,'coordinate_space':'raw mesh local Blender coordinates in metres',
         'vertices':coords,'faces':[list(p.vertices) for p in body.data.polygons],
         'regions':[regions[d.value] for d in labels],'weights':weights,
         'mirror_pairs':pairs,'ambiguous_mirror_vertex_ids':ambiguous,'left_x_sign':-1 if x<0 else 1,
         'mesh_matrix_world':[list(row) for row in body.matrix_world],
+        'rig_matrix_world':[list(row) for row in rig.matrix_world],'rig_rest_bones':rest_bones,
+        'ignored_non_deform_groups':sorted(set(names.values())-deform),
         'bone_names':sorted(deform),'blender_version':bpy.app.version_string,
         'snapshot_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'note':'Raw weights; index correspondence must be explicitly confirmed by operation history before change comparison.'}

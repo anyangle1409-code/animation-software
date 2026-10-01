@@ -5,12 +5,30 @@ import argparse
 import collections
 import json
 import math
+import re
 from pathlib import Path
 from original_v1_production_control import digest,ensure_finite
 
 
 def validate(s):
     ensure_finite(s)
+    if s.get('schema_version')!=2:raise ValueError('schema 2 snapshot required; preserve older snapshots and export a new file')
+    if s.get('rig_id')!='hgpt_canonical_v4_original':raise ValueError('canonical original rig identity required')
+    if not re.fullmatch('[0-9a-f]{64}',s.get('candidate_sha256','')):raise ValueError('invalid snapshot candidate hash')
+    if s.get('scene_unit_scale_length')!=1.0:raise ValueError('metre coordinate frame requires scene unit scale 1')
+    if s.get('coordinate_space')!='raw mesh local Blender coordinates in metres':raise ValueError('unknown snapshot coordinate frame')
+    for key in ('mesh_matrix_world','rig_matrix_world'):
+        matrix=s[key]
+        if len(matrix)!=4 or any(len(row)!=4 or any(type(x) not in (int,float) for x in row) for row in matrix):raise ValueError('invalid coordinate frame matrix')
+    rest=s['rig_rest_bones'];names=[b['name'] for b in rest]
+    if len(names)!=63 or len(set(names))!=63:raise ValueError('frozen 63-bone rest snapshot required')
+    for bone in rest:
+        if bone['parent'] is not None and bone['parent'] not in names:raise ValueError('unknown rig parent')
+        if len(bone['head'])!=3 or len(bone['tail'])!=3 or any(type(x) not in (int,float) for x in bone['head']+bone['tail']):raise ValueError('invalid rest bone coordinates')
+        if len(bone['matrix'])!=4 or any(len(row)!=4 or any(type(x) not in (int,float) for x in row) for row in bone['matrix']):raise ValueError('invalid rest bone matrix')
+        if type(bone['use_deform']) is not bool:raise ValueError('invalid deformation bone flag')
+    if not set(s['bone_names']).issubset(names):raise ValueError('unknown bone names in snapshot')
+    if any(set(row)-set(s['bone_names']) for row in s['weights']):raise ValueError('unknown bone weights in snapshot')
     v=s['vertices']; w=s['weights']; r=s['regions']
     if not v or len(v)!=len(w) or len(v)!=len(r):raise ValueError('invalid snapshot row counts')
     if any(len(p)!=3 for p in v):raise ValueError('coordinates must have three components')
@@ -36,7 +54,24 @@ def symmetry(s,pairs):
 
 
 def audit(before,after,policy):
-    validate(before);validate(after)
+    validate(before);validate(after);ensure_finite(policy)
+    if policy.get('before_candidate_sha256')!=before['candidate_sha256'] or policy.get('candidate_sha256')!=after['candidate_sha256']:
+        raise ValueError('policy candidate hashes must identify exact before and after sources')
+    if (before['coordinate_space']!=after['coordinate_space'] or
+        before['mesh_matrix_world']!=after['mesh_matrix_world'] or before['rig_matrix_world']!=after['rig_matrix_world']):
+        raise ValueError('coordinate frame changed; local deltas are not comparable')
+    if (sorted(before['rig_rest_bones'],key=lambda x:x['name'])!=sorted(after['rig_rest_bones'],key=lambda x:x['name']) or
+        set(before['bone_names'])!=set(after['bone_names']) or before['left_x_sign']!=after['left_x_sign']):
+        raise ValueError('frozen rig rest/deformation identity changed; preserve snapshots and diagnose')
+    tolerance=policy.get('normalization_tolerance',1e-6);maximum=policy.get('max_influences',4)
+    if type(tolerance) not in (int,float) or tolerance<0:raise ValueError('invalid normalization tolerance')
+    if type(maximum) is not int or maximum<=0:raise ValueError('invalid maximum influence count')
+    ids=policy.get('allowed_vertex_ids',[])
+    if any(type(i) is not int or not 0<=i<len(after['vertices']) for i in ids) or len(ids)!=len(set(ids)):
+        raise ValueError('invalid/duplicate edit policy vertex IDs')
+    if not set(policy.get('allowed_bones',[])).issubset(before['bone_names']):raise ValueError('unknown allowed policy bone')
+    if not set(policy.get('allowed_regions',[])).issubset(set(before['regions'])|set(after['regions'])):
+        raise ValueError('unknown allowed policy region')
     bv,av=before['vertices'],after['vertices']
     topology=len(bv)!=len(av) or before['faces']!=after['faces']
     correspondence=not topology and policy.get('index_correspondence_confirmed') is True
@@ -45,7 +80,7 @@ def audit(before,after,policy):
     allowed_regions=set(policy.get('allowed_regions',[]));allowed_ids=set(policy.get('allowed_vertex_ids',[]))
     allowed_bones=set(policy.get('allowed_bones',[]))
     def permitted(i):
-        return after['regions'][i] in allowed_regions and i in allowed_ids
+        return before['regions'][i] in allowed_regions and after['regions'][i] in allowed_regions and i in allowed_ids
     displacement=[math.dist(p,q)*1000 for p,q in zip(bv,av)] if correspondence else None
     moved=[i for i,x in enumerate(displacement) if x>epsilon*1000] if displacement is not None else None
     mesh={'vertex_count_before':len(bv),'vertex_count_after':len(av),'vertex_count_change':len(av)-len(bv),
@@ -85,8 +120,10 @@ def audit(before,after,policy):
              'cross_side_vertex_ids':cross,'affected_regions':dict(collections.Counter(after['regions'][i] for i in changed)) if correspondence else None,
              'unexpected_vertex_ids':[i for i in changed if not permitted(i)] if correspondence else None,
              'unexpected_bones':sorted(unexpected_bones) if correspondence else None,'symmetry':after_sym}
-    return {'schema_version':1,'before_candidate_sha256':before['candidate_sha256'],
+    return {'schema_version':2,'before_candidate_sha256':before['candidate_sha256'],
             'candidate_sha256':after['candidate_sha256'],'mesh':mesh,'weights':weights,
+            'comparison_identity':'VERIFIED_COORDINATE_FRAMES_AND_FROZEN_RIG_REST',
+            'policy_limits':{'change_epsilon':epsilon,'normalization_tolerance':tolerance,'max_influences':maximum},
             'production_approved':False,'purpose':'change evidence only; no approval or gate relaxation'}
 
 

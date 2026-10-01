@@ -1543,3 +1543,18 @@ Milestone comparison boards use actual copied images and preserve capture mismat
 warnings. 92 Python tests pass; no actual milestone renders are claimed. Blender
 execution/camera usefulness still require the laptop. r29 remains experimental with
 seven development failures. The next deformation action remains RUN r30.
+
+### Mesh/weight audit identity hardening — 2026-10-01
+
+Live source HEAD: `24c7fddd96a9ec8832e0237444962370f039f881`. Snapshot schema 2
+now records 63 bone rest records/roll matrices, rig/body coordinate frames, scene
+unit scale and ignored non-deform groups. The audit requires exact parent/child
+policy hashes, metre units and unchanged frames/rig-rest identity before local
+deltas. Unknown weight bones, invalid/non-finite policy limits and invalid IDs
+are refused. Parent-and-child region masks prevent relabelling distant edits out
+of scope; region-label changes remain visible. These tools only collect evidence.
+No model/rig/gate/baseline changes or production approval occur. Preserve earlier
+snapshot formats as history and export new files; Blender execution remains local.
+
+Validation: 99 Python tests pass; generated status still verifies r29 / seven
+failures. The preceding milestone-capture commit passed both GitHub checks.

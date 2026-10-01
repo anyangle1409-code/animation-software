@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "state": "RECORDED",
+  "phase": "3E",
+  "child_candidate": "r35",
+  "candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+  "before_candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "linked_pre_edit_intent": {
+    "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3E_audit/edit_intent_frozen_pre_edit.json",
+    "sha256": "7bbff61ded1c2fb82a58c97e59b8a797d06ffe9d55efe6daf7c90941a8748987"
+  },
+  "operations": [
+    {
+      "step": "solve",
+      "script": "scripts/optimize_original_v1_o4_shoulder_weights.py",
+      "preset": "o29",
+      "solution": "ORIGINAL_V1_WORK/candidates/weight_solutions/o29.npz",
+      "solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c"
+    },
+    {
+      "step": "blend",
+      "script": "scripts/blend_original_v1_o4_weight_solution.py",
+      "flags": "--isolate-sides",
+      "alpha_torso_region": 0.25,
+      "alpha_other_region": 0.2,
+      "solution": "ORIGINAL_V1_WORK/candidates/weight_solutions/o33.npz",
+      "solution_sha256": "c02ec6f18a9e69b55679787469066fe56875a663928c473d53e28cd1f2b6126f",
+      "record": "ORIGINAL_V1_WORK/candidates/weight_solutions/o33.json"
+    },
+    {
+      "step": "apply",
+      "script": "scripts/apply_original_v1_o4_weight_solution_blender.py",
+      "vertices_rewritten": 945
+    }
+  ],
+  "supersedes": "r34 (same scope; rejected because its audit found 350 cross-side vertices)",
+  "geometry_changed": false,
+  "topology_changed": false,
+  "rig_changed": false
+}

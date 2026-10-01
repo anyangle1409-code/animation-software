@@ -4,22 +4,21 @@ CURRENT PHASE
 Phase 3 / 3C
 
 CURRENT CANDIDATE
-r32 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
-SHA-256: `56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295`
+r35 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
+SHA-256: `741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8`
 
 DEVELOPMENT BLOCKERS
-7 failures; 5 separate strict severity regressions versus R2.
+6 failures; 5 separate strict severity regressions versus R2.
 
-- lunge / pelvis / region_max_ratio: 7.559 (<= 5.0)
-- lunge / torso / region_min_ratio: 0.12 (>= 0.15)
-- lunge / torso / region_max_ratio: 7.2 (<= 5.0)
+- lunge / pelvis / region_max_ratio: 7.237 (<= 5.0)
+- lunge / torso / region_max_ratio: 6.371 (<= 5.0)
 - curl_handle / grip_l / grip_max_penetration_mm: 5.93 (<= 2.0)
 - curl_handle / grip_r / grip_max_penetration_mm: 5.93 (<= 2.0)
 - pullup_bar / grip_l / grip_max_penetration_mm: 5.93 (<= 2.0)
 - pullup_bar / grip_r / grip_max_penetration_mm: 5.93 (<= 2.0)
 
 WHAT CHANGED
-r32: solution o26.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.blend; candidate remains experimental.
+r35: solution o33.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -31,7 +30,7 @@ WHAT PASSED
 PENDING OWNER REVIEWS
 - O2 neutral anatomy — pending, NON-BLOCKING.
 - O4 deformation candidates — pending, NON-BLOCKING.
-- r32 visual snapshot — pending, NON-BLOCKING.
+- r35 visual snapshot — pending, NON-BLOCKING.
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
@@ -58,21 +57,22 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-01T17:52:25.369854+00:00
+Evidence timestamp: 2026-10-01T18:44:26.103886+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_R2.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r28.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r29.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r30.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/grip_penetration.json`
-- `ORIGINAL_V1_WORK/candidates/review/visual_r32/visual_review_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_R2.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r28.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r29.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r30.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r32.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/review/visual_r35/visual_review_manifest.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

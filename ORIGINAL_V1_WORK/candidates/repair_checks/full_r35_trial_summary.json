@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "candidate": "r35",
+  "classification": "TRADEOFF_OR_REGRESSION",
+  "production_approved": false,
+  "rule": "Experimental comparison only. Production approval remains a separate gated decision.",
+  "comparisons": [
+    {
+      "baseline": "r32",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 6,
+      "delta_failed_checks": -1,
+      "regression_count": 0,
+      "improvement_count": 8
+    },
+    {
+      "baseline": "r30",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 6,
+      "delta_failed_checks": -1,
+      "regression_count": 0,
+      "improvement_count": 9
+    },
+    {
+      "baseline": "r29",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 6,
+      "delta_failed_checks": -1,
+      "regression_count": 0,
+      "improvement_count": 20
+    },
+    {
+      "baseline": "r28",
+      "status": "REGRESSION",
+      "baseline_failed_checks": 8,
+      "candidate_failed_checks": 6,
+      "delta_failed_checks": -2,
+      "regression_count": 1,
+      "improvement_count": 20
+    }
+  ],
+  "versus_R2": {
+    "status": "REGRESSION",
+    "baseline_failed_checks": 54,
+    "candidate_failed_checks": 6,
+    "delta_failed_checks": -48,
+    "regression_count": 5,
+    "improvement_count": 99
+  }
+}

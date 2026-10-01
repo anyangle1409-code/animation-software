@@ -328,5 +328,26 @@
       "pullup_top/torso: region_min_ratio 0.883 -> 0.861"
     ],
     "poses": 15
+  },
+  "r35": {
+    "failed_checks": 6,
+    "regressions_vs_R2": 5,
+    "improvements_vs_R2": 99,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "BLOCKED",
+      "3": "BLOCKED",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861"
+    ],
+    "poses": 15
   }
 }

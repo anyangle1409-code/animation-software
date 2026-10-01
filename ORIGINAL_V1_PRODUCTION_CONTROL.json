@@ -119,6 +119,50 @@
           "sha256": "1e62c9a2e98bcc27a016028fdcffdd0ced9eb982e121b6362c0352d53eedf636"
         }
       ]
+    },
+    "r35": {
+      "candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+      "chosen_parent": "r32",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r35 is chosen as the experimental continuation: versus its direct parent r32 and versus r30 and r29 it is a strict improvement (0 regressions, 8-20 improvements), versus pinned R2 it carries only the 5 inherited shoulder/torso severity regressions (no new ones), and the lunge torso-min gate failure is cleared (0.120 -> 0.161); development failures 54 -> 6. Its change audit (frozen 3E scope declared before any solve) shows the edit stayed inside 945 declared vertices and 5 declared bones, mesh untouched, 0 unexpected vertices/bones, 0 cross-side vertices, symmetry unchanged. Versus r28 it keeps one separately visible regression (pushup_bottom self-intersections 144 -> 154, gate 200). r33 (hairline squat-volume breach) and r34 (350 cross-side vertices found by its audit) are preserved as evidence and NOT chosen. Remaining 3E failures (lunge pelvis max 7.24, torso max 6.37) could not be reached by weights inside the declared mask without comparator regressions. No threshold, R2, rig or frozen pose changed.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_R2.json",
+          "sha256": "38a848fe18c48e7fb51c0b0bddb3c9c2f1581e19fa73b2230011b5bf442b5fe8"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r32.json",
+          "sha256": "c8fc0ce21006379fbc71450c5631ea3d88af5930362f77500b733d66fe0f8747"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r30.json",
+          "sha256": "4c65610e56256d77a33d1a5b4aed31bb32ea94dff62e0c07675d7feea912db46"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r29.json",
+          "sha256": "321ffbf7f149bfbe3e63b16134c9e5a3a943f05a269759c1d26a27947d368e37"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r28.json",
+          "sha256": "4490169aedd69752d09988a4ede12bf80100e7d950af108d92ea4b65c57b666f"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_trial_summary.json",
+          "sha256": "e4454df2d2a61caea4a4c1f5efcbb5dc0b0bb59d5ea2d8a64b6f91225be18409"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_evidence_manifest.json",
+          "sha256": "19eb709f6e65f98cd3dd4059d43bec5face86001f467a90db84776ad11921131"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/diagnostic_brief.json",
+          "sha256": "4575ff7a007e715cc077ddaf10d735c1d9d888c8d880802bbd7ddead70d0d913"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3E_audit/change_audit_r32_to_r35.json",
+          "sha256": "ae2fab462086500323d377241433ebba4bdc49dc890eb3031397a1b7f2ccca56"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

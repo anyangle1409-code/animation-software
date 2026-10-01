@@ -1,0 +1,54 @@
+{
+  "generated_utc": "2026-10-01T18:44:26.103886+00:00",
+  "stage": "O4 candidate shoulder weight optimisation (not production)",
+  "solution": "o33.npz",
+  "solution_sha256": "c02ec6f18a9e69b55679787469066fe56875a663928c473d53e28cd1f2b6126f",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.blend",
+  "source_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.blend",
+  "candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+  "vertices_rewritten": 945,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "rig_bones": 63,
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only",
+  "optimisation": {
+    "generated_utc": "2026-10-01T18:44:19.381118+00:00",
+    "tool": "scripts/blend_original_v1_o4_weight_solution.py",
+    "source_solution": "o29.npz",
+    "source_solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c",
+    "base_dump": "r32_dump.npz",
+    "base_report": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_merged_pose_report.json",
+    "r2_report": "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+    "alpha_torso_region": 0.25,
+    "alpha_other_region": 0.2,
+    "zone_vertices": 945,
+    "bones": [
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "thigh_l",
+      "thigh_r"
+    ],
+    "exempt_inherited_vs_r2": [
+      "press_bottom/shoulder/min",
+      "press_bottom/torso/min",
+      "press_top/torso/min",
+      "pullup_top/shoulder/min",
+      "pullup_top/torso/min"
+    ],
+    "cross_side_vertices_in_zone": 0,
+    "isolate_sides": true,
+    "safety_margin": 0.001,
+    "volume_safety_margin": 0.0001,
+    "twin_L1_max": 0.0,
+    "max_influences": 4,
+    "predicted_violations": [],
+    "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+  }
+}

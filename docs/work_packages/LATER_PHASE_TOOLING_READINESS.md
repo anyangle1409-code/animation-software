@@ -6,7 +6,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 
 | Phase | Ready tooling | Missing work before its exit checks can pass |
 |---|---|---|
-| 6 | Raw schema-2 snapshots; mesh/weight deltas; full bare stress evidence; source-bound review capture | Candidate-bound surface audit for manifold components, winding/normals, degenerate faces, joint-support landmarks and symmetry coverage |
+| 6 | Raw schema-2 snapshots; prepared surface audit for incidence/vertex links, winding, degeneracy, components and symmetry; mesh/weight deltas; bare stress/review evidence | Actual candidate snapshot execution, evaluated/custom shading-normal audit, self-intersection evidence and joint-support landmarks/loaded review |
 | 7 | Original authoring boundary rules; body snapshot/change audits; bare stress controls | Garment-local geometry/weight audit, dressed pose/contact capture with source receipts, body/garment clearance measurements and dressed review protocol |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics | Continuous range sampler, per-frame garment/body/contact checks, explicit legitimate-contact classification and final export identity binding |
@@ -47,3 +47,7 @@ raw measurements and coverage/limits; do not give it promotion authority.
 
 No missing tool is claimed implemented by these documents. Earlier shorts/GLBs
 remain candidate history and cannot be relabelled as exports of r29 or later models.
+
+Stage 4 now prepares `scripts/audit_original_v1_surface.py`; see
+`SURFACE_AUDIT_PROTOCOL.md`. It supplies raw findings only, not actual shading
+normals, self-intersection/joint-support review or automatic Phase 6 completion.

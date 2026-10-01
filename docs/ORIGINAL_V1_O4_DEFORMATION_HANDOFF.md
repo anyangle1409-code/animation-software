@@ -1648,3 +1648,24 @@ paths/flags/group names, deterministic current status, pinned R2 and documentati
 hygiene. Existing 149-test suite remains passing from Stage 2; this stage is docs
 only and adds no executable behaviour. Current model remains experimental r29 / seven
 blockers, next laptop task RUN r30. Next GPT tooling stage: raw-snapshot surface audit.
+
+### Staged GPT preparation: Stage 4 raw surface audit — 2026-10-01
+
+Live source HEAD checked: `12fa9307ba1611fe6a5f4da3c8c0e4c5c1e689cb`. Added a
+standard-Python, read-only raw schema-2 surface audit with candidate-manifest binding
+and collision-refusing JSON/Markdown output. It reports edge incidence, vertex-link
+pinches, winding conflicts, connected shells, signed-volume hints, duplicate/repeated
+faces, degeneracy/nonplanarity, raw unused/coincident vertices and explicit reflected
+coordinate/face symmetry coverage. Exact IDs/regions and diagnostic precision are
+preserved; no nearest-surface matching, model repair, gate PASS or approval occurs.
+
+Actual shading normals, self-intersection, joint-support/anatomy, posed deformation
+and garment/runtime checks remain unresolved. No actual candidate snapshot/report
+is claimed. A synthetic 10,000-face grid tested runtime scaling only, without model
+evidence. Raw snapshots still require Blender on the laptop.
+
+168 Python tests pass, including 19 surface/CLI cases with known defects, source
+hashes, collisions, aliases and invalid inputs. Generated state, pinned R2 and
+documentation hygiene verify unchanged. Current model remains experimental r29 /
+seven blockers; next actual deformation task RUN r30. Next GPT tooling stage:
+revision-isolated candidate GLB export preparation.

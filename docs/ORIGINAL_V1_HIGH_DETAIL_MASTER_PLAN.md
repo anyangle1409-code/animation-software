@@ -182,7 +182,8 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 1 | Phase 3 source-verified diagnostic brief from existing probes, wired into the existing runner | PREPARED; real probes still require laptop Blender |
 | 2 | Candidate-bound local edit/audit policy drafts; verified probe IDs stay inspection references with no automatic edit permission | PREPARED; r29 drafts await actual probes and a declared local mask |
 | 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | PREPARED; domain-tool gaps explicit, all phases remain NOT STARTED |
-| 4 | Snapshot-based Phase 6 surface audit using the candidate's own raw geometry | Next repo-side tooling stage; no Blender modelling or phase completion |
+| 4 | Snapshot-based Phase 6 surface audit using the candidate's own raw geometry | PREPARED; actual snapshots and remaining domain reviews still required |
+| 5 | Revision-isolated candidate GLB export with exact source/settings hashes and collision refusal | Next repo-side tooling stage; no export or model acceptance here |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -198,3 +199,8 @@ with each. Existing static/capture tools provide bare-body evidence only; missin
 dressed, continuous-motion, runtime and visual detectors remain open. Phase 10
 may validate a candidate in an isolated runtime fixture under that branch's policy;
 production asset allowlist/loader promotion stays exclusively in Phase 12.
+
+Stage 4 surface evidence tooling is documented in
+`docs/work_packages/SURFACE_AUDIT_PROTOCOL.md`. It reports topology/geometry
+findings from real raw snapshots without repairing geometry or awarding a gate
+PASS. Unknown shading normals, intersections and joint-support review stay open.

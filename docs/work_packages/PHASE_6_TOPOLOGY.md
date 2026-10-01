@@ -14,16 +14,17 @@ mask. Prefer preserving IDs/faces. No broad remesh, automatic reference fitting,
 V-series/third-party transfer, rig/rest or gate changes. A topology change must
 record old/new faces/counts, affected regions and authored correspondence.
 
-Prepare the missing surface auditor before execution. Input: exact schema-2 raw
-body snapshot plus source identity and declared numerical precision. Output:
-defect IDs/regions, component and boundary classifications, face/edge health,
-symmetry coverage/ambiguity and explicit limits. Joint-support review also needs
+The raw surface auditor is prepared: follow `SURFACE_AUDIT_PROTOCOL.md` and run
+`python scripts/audit_original_v1_surface.py <snapshot.json> --candidate-manifest <candidate.json> --json-out <fresh surface.json> --markdown-out <fresh surface.md>`.
+It reports defect IDs/regions, vertex links, components/boundaries, winding,
+degeneracy and symmetry coverage/ambiguity with declared precision. It never
+completes the phase. Actual shading normals are not captured. Joint-support review also needs
 actual joint landmarks and posed views; topology statistics alone cannot pass it.
 No unclassified manifold, winding or degenerate defect may be silently waived.
 
 ## Tests, renders and exit
 
-Run raw before/after change audit and full bare stress evidence using the shared
+Run raw surface and before/after change audits, then full bare stress evidence using the shared
 commands. Compare R2, parent, development freeze and hand/contact anchors. Require
 no new development blocker or material predecessor regression; preserve production
 deficits until Phase 9. Unknown correspondence blocks numerical displacement/weight

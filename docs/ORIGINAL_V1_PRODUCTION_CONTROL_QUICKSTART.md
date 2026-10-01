@@ -184,3 +184,9 @@ Use them when those phases become eligible. Read the missing-tools column before
 scheduling Blender work: bare stress renders do not prove dressed or continuous
 motion, old export filenames must not overwrite history, and model-branch audits
 do not prove a different runtime commit. All six phases remain NOT STARTED.
+
+Stage 4 prepares `scripts/audit_original_v1_surface.py` for the raw schema-2
+snapshot. Follow `docs/work_packages/SURFACE_AUDIT_PROTOCOL.md`; supply the exact
+candidate manifest and fresh JSON/Markdown outputs. It lists surface defects and
+coverage as EVIDENCE_ONLY. No candidate report or Phase 6 completion is claimed
+until real snapshots and the remaining domain checks exist.

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE_PHASE8_MATERIAL_PROVENANCE",
+  "phase": 8,
+  "phase_complete": false,
+  "production_approved": false,
+  "candidate_sha256": null,
+  "policy": {
+    "numeric_materials_only": true,
+    "third_party_textures_allowed": false,
+    "external_hdri_allowed": false,
+    "linked_material_libraries_allowed": false,
+    "geometry_or_weight_changes_allowed": false
+  },
+  "materials": [],
+  "required_material_fields": [
+    "name",
+    "assigned_scope",
+    "independent_authorship",
+    "numeric_only",
+    "third_party_content",
+    "external_image_sources",
+    "operation_evidence"
+  ],
+  "presentation_review": {
+    "status": "pending",
+    "viewing_conditions": null,
+    "app_distance_capture_manifest": null,
+    "closeup_capture_manifest": null
+  },
+  "note": "Template only. Fill from actual project-authored numeric materials and real presentation captures; no ownership/readability is inferred."
+}

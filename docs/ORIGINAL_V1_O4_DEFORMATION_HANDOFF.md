@@ -2036,16 +2036,64 @@ Evidence: `remaining_diagnostics_r32/grip_penetration.json` and `grip_weight_ind
 (frozen rig) or the frozen hand pose, or (c) approve a first-party local thumb-pad reshape of about 4–5 mm (then
 3C proceeds with the declared-mask process above). Nothing frozen was changed.
 
-### Phase 3E — hip / pelvis / lunge (in progress, r32 parent)
+### Phase 3E — hip / pelvis / lunge: PARTIALLY repaired on r35 (1 of 3 lunge failures cleared, clean)
 
 Cause measured (read-only, from the r32 dump): the lunge failures sit on the **midline** gluteal/groin/lower-back
 strip. Vertices at x = 0 carry about 47/47 `thigh_l`/`thigh_r` with only 5–20 % `pelvis`, so opposite thigh swings
-tear the strip (the same mechanism as the shoulder midline-scapula tear). The declared mask (committed `87fc9ad`
-before any solve) is `repair_preparation/r32_3E_pelvis_declared/pelvis_mask_declared_before_edit.json`: 945
-pelvis/torso/leg vertices with 0.74 < z < 1.0 whose whole weight is on {pelvis, spine_01, spine_02, thigh_l,
+tear the strip (the same mechanism as the shoulder midline-scapula tear). The first declared mask (committed
+`87fc9ad` before any solve) is `repair_preparation/r32_3E_pelvis_declared/pelvis_mask_declared_before_edit.json`:
+945 pelvis/torso/leg vertices with 0.74 < z < 1.0 whose whole weight is on {pelvis, spine_01, spine_02, thigh_l,
 thigh_r}, mirror-closed, covering all 54 measured lunge extreme-edge vertices; permitted bones are those 5.
 
-- `o27` (in scope): predicted lunge torso min 0.120 → 0.239 and torso max 7.200 → 4.18 (both inside gates),
-  pelvis max 7.559 → 6.35 (gate 5.0), but squat pelvis min 0.785 → 0.743 and row torso min 0.435 → 0.385 exceed the
-  comparator tolerance. Not applied: the loss was still falling at its iteration limit.
-- `o28` continues the same mask with about 3x the budget (hyperparameters are not permissions).
+**Candidates (parent r32; full 15-pose evidence each):**
+
+| Cand. | What | Failed (R2 54) | Strict regr. vs R2 | vs r32 | Verdict |
+|---|---|---:|---:|---|---|
+| r33 | `o31`: blend of base and solver solution `o29`, torso α 0.25 / other α 0.25 | 6 | 6 | IMPROVED, 0 regr. | evidence only: squat volume deviation 0.0373 → 0.0423 = +0.005000000000000004 against the 0.005 tolerance (the blend scan stopped on the feasibility edge and compared unrounded volume; the report rounds to 4 decimals) |
+| r34 | `o32`: same blend, α 0.25 / 0.20, built with explicit safety margins | 6 | 5 | IMPROVED, 0 regr. | **rejected**: its change audit found **350 cross-side vertices** (r32: 0; mean 0.000, max 0.016 opposite-thigh weight, solver leakage). Left/right isolation is a protected property |
+| **r35** | `o33`: same blend projected onto left/right isolation (`--isolate-sides`) | **6** | **5** | IMPROVED, 0 regr. (also vs r30, r29) | **current continuation**; clean evidence AND clean audit |
+
+r35 versus pinned R2: only the 5 inherited shoulder/torso severity regressions. Versus r28: 1 regression
+(`pushup_bottom` self-intersections 144 → 154, gate 200). Lunge torso min 0.120 → **0.161 (passes)**; lunge torso
+max 6.37 and pelvis max 7.24 still fail (gate 5.0). r35 change audit
+(`repair_preparation/r35_3E_audit/change_audit_r32_to_r35.json`, scope = the frozen pre-edit intent): mesh untouched,
+exactly the 945 declared vertices and 5 declared bones changed, 0 unexpected vertices/bones, **0 cross-side**,
+symmetry unchanged, unnormalised vertices 229 → 133 (inherited ones now exact).
+
+**Why the remaining two lunge failures were not cleared inside that mask — the measured frontier** (exact numpy LBS
+model, versus pinned R2 excluding the 5 inherited; solver points before any blend):
+
+| Point | Lunge failures left | New comparator regressions vs R2 |
+|---|---|---|
+| r35 (chosen) | pelvis max 7.24, torso max 6.37 | **0** |
+| `o29` full | pelvis max 5.58 | 3: row leg min 0.822→0.800, squat p99 1.745→1.845, squat volume 0.9627→0.9534 |
+| `o30` full | pelvis max 5.13 | 7 |
+| `o28` full | pelvis max 5.05 | 8 (incl. lunge leg max 1.615→2.204, row torso min 0.434→0.392) |
+| `o27` full | pelvis max 6.35 | 7 |
+
+No solver point inside the first mask clears the pelvis max gate even when regressions are accepted, and every point
+that reaches the torso-max gate costs squat volume/p99 headroom (R2 deviation 0.0373, tolerance +0.005).
+
+Method notes for the next worker: `scripts/blend_original_v1_o4_weight_solution.py` blends a solver solution with the
+base inside the declared mask, comparing exactly as the comparator does (rounded values, strict `>`, tolerances read
+from `ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json`) with explicit safety margins (ratio 0.001, volume 0.0001), and
+`--isolate-sides` removes opposite-side weight. The optimiser gained `guard_mult` / `guard_p99_mult` (regression guards
+weighted above gate bounds; gradient-checked 6/6 exact with the symmetry projection off — with it on, one of six
+differs in sign because the loss is evaluated at an asymmetric perturbation while the returned gradient is
+mirror-symmetrised). `o30` (percentile guard boost) was worse than `o29`; penalty tuning is not converging, so
+selection is done by exact evaluation instead.
+
+**Attempt 2 (in progress at this checkpoint, parent r35):** a WIDER band declared and committed (`8087fdf`) before any
+solve: `repair_preparation/r35_3E_wide_declared/pelvis_wide_mask_declared_before_edit.json`: 0.55 < z < 1.12,
+pelvis/torso/leg, whole weight already on the same 5 chain bones, 1,701 vertices (strict superset of the first mask,
++756), same 5 permitted bones, covers all 56 measured r35 lunge vertices; solver-side isolation (`isolate_sides`),
+preset `o34`. Rationale: the first band was my own choice inside the package envelope, the frontier above shows it
+cannot reach the gates, and a wider band lets the weight gradient spread over more vertex rings. The first band,
+r33/r34/r35 are untouched. If it does not clear the gates without regressions, the remaining lunge failures need an
+owner decision (below).
+
+**Owner decision needed (3E) if attempt 2 does not clear the lunge:** (a) accept r35's partial 3E result and record an
+evidence-backed disposition for the two remaining lunge failures (no threshold change), (b) authorise supporting
+geometry in the groin/gluteal strip (subdividing an edge with interpolated weights does not reduce its stretch ratio,
+so a new loop only helps together with a re-solved gradient), or (c) authorise a wider/other scope or pose-driven
+correction. Phase 4 cannot start while any development failure remains.

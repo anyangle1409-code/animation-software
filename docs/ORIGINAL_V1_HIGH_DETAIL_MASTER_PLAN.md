@@ -181,10 +181,20 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 |---|---|---|
 | 1 | Phase 3 source-verified diagnostic brief from existing probes, wired into the existing runner | PREPARED; real probes still require laptop Blender |
 | 2 | Candidate-bound local edit/audit policy drafts; verified probe IDs stay inspection references with no automatic edit permission | PREPARED; r29 drafts await actual probes and a declared local mask |
-| 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | Prepare instructions only; phases remain NOT STARTED |
+| 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | PREPARED; domain-tool gaps explicit, all phases remain NOT STARTED |
+| 4 | Snapshot-based Phase 6 surface audit using the candidate's own raw geometry | Next repo-side tooling stage; no Blender modelling or phase completion |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
 pre/post-close penetration, contact counts, exact edge IDs and measured weights.
 These are observations: no cause, permitted mask, geometry repair or model phase
 completion is inferred. No fake diagnostics or review images are produced.
+
+Stage 3 packages: `docs/work_packages/PHASE_6_TOPOLOGY.md`,
+`PHASE_7_CLOTHING.md`, `PHASE_8_MATERIALS.md`, `PHASE_9_PRODUCTION_DEFORMATION.md`,
+`PHASE_10_RUNTIME.md` and `PHASE_11_AUTOMATIC_QA.md` in that same directory.
+Apply `LATER_PHASE_EXECUTION_CONTRACT.md` and `LATER_PHASE_TOOLING_READINESS.md`
+with each. Existing static/capture tools provide bare-body evidence only; missing
+dressed, continuous-motion, runtime and visual detectors remain open. Phase 10
+may validate a candidate in an isolated runtime fixture under that branch's policy;
+production asset allowlist/loader promotion stays exclusively in Phase 12.

@@ -57,3 +57,9 @@ archived entries from active phase_completion_records. Regenerate state so the
 new candidate is experimental and affected phases need revalidation. Do not
 relabel old reports. Create fresh exit packets, then repopulate the active records.
 This is lineage maintenance, not a baseline promotion or deletion of history.
+
+Phase 6–11 domain execution packages are now prepared under docs/work_packages.
+Read their shared execution contract and tooling-readiness table. The named check
+contract is implemented; several domain measurements remain unimplemented. A
+template or contract PASS cannot substitute for missing dressed, continuous-motion,
+runtime, surface or visual evidence. Keep those checks INCOMPLETE until executed.

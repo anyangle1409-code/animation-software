@@ -1626,3 +1626,25 @@ post-hand-recovery continuation candidate; r29 drafts do not bypass r30.
 phase completion or baseline/gate change occurs. Current model remains experimental
 r29 / seven blockers. Next GPT preparation stage: Phase 6–11 execution packages.
 Next actual deformation task remains RUN r30 on the laptop.
+
+### Staged GPT preparation: Stage 3 Phase 6–11 packages — 2026-10-01
+
+Live source HEAD checked: `61689f5119aab4ee619940ddfabe9176201f03b5`. Prepared six
+later-phase execution packages plus a shared contract and tooling-readiness table.
+Each defines entry/dependencies, permitted/frozen scope, real tests/renders,
+regression/rejection conditions, exact exit-check IDs, publication and continuation
+while routine reviews remain pending. No later phase is executed or marked complete.
+
+Inspected scripts/CLI coverage: full pose/milestone capture is bare only; early
+shorts construction uses nearest-body weights; old GLB export names can overwrite
+history; scaffold/structural/browser audits have limited scope. Packages do not
+misrepresent these as dressed, production topology, continuous or runtime gates.
+Missing domain tools remain explicit GPT preparation tasks. Model-branch application
+code is not transferred; candidate runtime testing must use an isolated fixture and
+its live commit/policy, while production promotion stays in Phase 12.
+
+Verified package check coverage against the executable exit contract, real command
+paths/flags/group names, deterministic current status, pinned R2 and documentation
+hygiene. Existing 149-test suite remains passing from Stage 2; this stage is docs
+only and adds no executable behaviour. Current model remains experimental r29 / seven
+blockers, next laptop task RUN r30. Next GPT tooling stage: raw-snapshot surface audit.

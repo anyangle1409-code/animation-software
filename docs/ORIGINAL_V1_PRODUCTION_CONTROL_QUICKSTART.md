@@ -177,3 +177,10 @@ Stage 2 adds `python scripts/prepare_original_v1_repair_policy.py <3C|3D|3E>
 3D/3E folders. They are INCOMPLETE drafts, not permission to bypass r30. Generate
 a new packet for the actual continuation candidate after hand recovery. Read its
 README, preserve the original drafts and record a local intent before editing.
+
+Stage 3 prepares Phase 6–11 packages under `docs/work_packages/`, with shared
+`LATER_PHASE_EXECUTION_CONTRACT.md` and `LATER_PHASE_TOOLING_READINESS.md`.
+Use them when those phases become eligible. Read the missing-tools column before
+scheduling Blender work: bare stress renders do not prove dressed or continuous
+motion, old export filenames must not overwrite history, and model-branch audits
+do not prove a different runtime commit. All six phases remain NOT STARTED.

@@ -325,3 +325,14 @@ z-buffer PGM mask path. Future Blender capture scripts can generate source-bound
 subject/body/garment/hand/foot/equipment masks immediately after a real render,
 without third-party image libraries or an external vision model. Final Phase 11
 runtime masks must still be emitted/bound by the exact Phase 10 runtime frame.
+
+
+### End every laptop session deterministically
+
+After saving the numbered Blend, generating available evidence, updating the O4
+handoff/status, committing and pushing, run `RUN_ORIGINAL_V1_SESSION_CLOSE.bat`.
+Read `work_packages/SESSION_CLOSE_PROTOCOL.md`. `READY_TO_END_SESSION` means the
+branch is clean/synced and handoff/status are current. `PARTIAL_WORK_PRESERVED`
+means an incomplete candidate is explicitly recorded with a matching local Blend
+and manifest. Any other result prints exact closing actions. The checker never
+commits, pushes, fetches, deletes or saves Blender files.

@@ -1379,6 +1379,7 @@ next edit should be made.
   o22 and safely regenerates its disposable pose dump if an interrupted session
   left one behind. It still refuses to overwrite any existing o22 solution or
   r30 candidate.
+- the r30 runner now also writes a deterministic trial summary against both r29 and r28, classifying only experimental comparison status (strict improvement / non-regressing / trade-off); it never sets production approval.
 - `RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat` also verifies the selected
   local candidate hash before collecting evidence.
 - new skinning dumps record the exact source candidate SHA-256 and file size;

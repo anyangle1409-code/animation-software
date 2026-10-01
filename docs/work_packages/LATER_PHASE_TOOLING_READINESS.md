@@ -12,7 +12,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 8 | Strict numeric-material provenance template/verifier; detailed shader/world/light/camera/renderer/colour-management capture; fixed bare/dressed app-distance capture plan; existing comparison boards | Actual owned material authoring, real Phase-8 scene execution, required source-bound renders, unchanged geometry/weight audit and real readability/no-concealment review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; deterministic six-path dressed range sampler; first-party contact source bridge for push-up endpoints, hand-driven dumbbells and fixed pull-up rack/socket semantics | Actual Blender/static sampling execution, evidence-backed classification, live-runtime capture of push-up/equipment contact, any warranted refinement and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; Stage 9 contact source bridge; Stage 10 read-only live-runtime discovery/cross-branch semantic verifier; INCOMPLETE real-engine evidence template | Exact green live-runtime commit, Phase 9 final asset evidence, actual model-specific runtime harness execution, contact/continuity capture and export round-trip evidence |
-| 11 | Review source/image hashes; matched boards; 57-view planning; deterministic mask QA contract/analyzer; coverage plan; empty explicit first-party reference inventory | Actual Phase 10-bound source images/masks, runtime-frame coverage, replay/reproducibility evidence, real reference entries and owner visual decisions |
+| 11 | Review source/image hashes; matched boards; 57-view planning; deterministic mask QA contract/analyzer; first-party z-buffer PGM rasterizer and Blender mask adapter; coverage plan; empty explicit reference inventory | Actual Phase 10-bound runtime source images/masks, runtime-frame coverage/provider binding, replay/reproducibility evidence, real reference entries and owner visual decisions |
 | 12 | Existing technical promotion verifier plus exact packet-bound eligibility receipt; final freeze contract/verifier; separate owner freeze-authorization requirement | All prior real evidence, final bare/dressed assets, green exact runtime release commit, OWNER ACCEPTED visual record, OWNER AUTHORISED PRODUCTION FREEZE record and controlled post-eligibility release operation |
 
 Queue missing deterministic tooling as GPT repo-side work before the corresponding
@@ -150,3 +150,10 @@ Phase 8 gap closure adds `ORIGINAL_V1_PHASE8_MATERIAL_PROVENANCE_TEMPLATE.json`,
 and `PHASE_8_PRESENTATION_PROTOCOL.md`. The numeric-material policy rejects image
 textures/HDRIs and linked material resources; app-distance readability remains an
 actual review requirement.
+
+
+Visual-QA mask gap closure adds `scripts/original_v1_mask_raster.py`,
+`capture_original_v1_visual_qa_masks_blender.py` and
+`VISUAL_QA_MASK_CAPTURE_PROTOCOL.md`. Model/Blender review masks can now be produced
+without third-party image libraries or segmentation models; final Phase 11 still
+requires equivalent masks from the exact real-runtime capture path.

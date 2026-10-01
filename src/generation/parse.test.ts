@@ -422,11 +422,18 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('exercise: dumbbell curl slow cadence').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
-  it('blocks set, repetition-count and timed-set prescriptions that have no output field yet', () => {
+  it('blocks set, repetition-count and workout-programming prescriptions that have no output field yet', () => {
     expect(blocking('exercise: dumbbell curl for 10 reps')).toEqual(['programming']);
     expect(blocking('exercise: 3 sets dumbbell shoulder press')).toEqual(['programming']);
     expect(blocking('exercise: ten reps dumbbell calf raise')).toEqual(['programming']);
     expect(blocking('exercise: squat for 30 seconds')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell curl 3x10')).toEqual(['programming']);
+    expect(blocking('exercise: squat 5×5')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell curl AMRAP')).toEqual(['programming']);
+    expect(blocking('exercise: push-up to failure')).toEqual(['programming']);
+    expect(blocking('exercise: squat RPE 8')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell row RIR 2')).toEqual(['programming']);
+    expect(blocking('exercise: shoulder press rest 60 seconds')).toEqual(['programming']);
   });
 
   it('blocks rep-style modifiers that would otherwise be silently replaced by a full repetition', () => {

@@ -10,6 +10,7 @@ describe('prompt-safety coverage across the registered exercise library', () => 
     for (const exercise of EXERCISES) {
       const name = exercise.name;
       expect(blockingCodes(`exercise: ${name} for 10 reps`), name).toContain('programming');
+      expect(blockingCodes(`exercise: ${name} 3x10`), name).toContain('programming');
       expect(blockingCodes(`exercise: kneeling ${name}`), name).toContain('support');
       expect(blockingCodes(`exercise: wide stance ${name}`), name).toContain('variant');
       expect(blockingCodes(`exercise: wide grip ${name}`), name).toContain('grip');

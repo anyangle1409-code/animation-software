@@ -11,6 +11,7 @@ It never changes the candidate or the acceptance gate.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import tempfile
@@ -115,6 +116,8 @@ def setup_pose(name):
 result = {
     "schema_version": 1,
     "candidate": Path(bpy.data.filepath).name,
+    "source_candidate_sha256": hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest(),
+    "pose_script_sha256": hashlib.sha256(Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py").read_bytes()).hexdigest(),
     "purpose": "read-only evidence for thumb/finger versus frozen handle-grip pose",
     "acceptance_gate_mm": 2.0,
     "poses": {},

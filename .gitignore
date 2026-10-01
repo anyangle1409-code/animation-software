@@ -16,3 +16,7 @@ ORIGINAL_V1_WORK/AUTHORING_SESSION.json
 ORIGINAL_V1_WORK/AUTHORING_TAINT.json
 ORIGINAL_V1_WORK/candidates/*.blend
 ORIGINAL_V1_WORK/candidates/*.blend1
+
+# Python authoring/validation caches are disposable, not session edits.
+__pycache__/
+*.pyc

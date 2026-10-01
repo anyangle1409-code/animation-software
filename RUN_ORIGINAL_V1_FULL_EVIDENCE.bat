@@ -18,6 +18,7 @@ if not exist "%CANDIDATE%" (
 )
 for %%G in (shoulder hand hip pushup row) do (
   call RUN_ORIGINAL_V1_REPAIR_CHECK.bat %%G "%CANDIDATE%" %%G_%REV%
+  if errorlevel 1 exit /b 1
 )
 set "BLENDER="
 if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"

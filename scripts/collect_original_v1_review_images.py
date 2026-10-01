@@ -52,6 +52,27 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def verify_source(path: Path, candidate_sha: str):
+    if not path.is_file():
+        raise ValueError("missing render source manifest; regenerate actual evidence on laptop: " + str(path))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("candidate_sha256") != candidate_sha:
+        raise ValueError("render source candidate SHA mismatch")
+    for row in data["images"]:
+        name = Path(row["file"])
+        if name.is_absolute() or len(name.parts) != 1:
+            raise ValueError("invalid image filename")
+        image_path = path.parent / name
+        if not image_path.is_file() or sha256(image_path) != row["sha256"]:
+            raise ValueError("render image SHA mismatch: " + str(image_path))
+    report = path.parent / "pose_test_report.json"
+    if not report.is_file() or sha256(report) != data.get("pose_report_sha256"):
+        raise ValueError("render source pose report SHA mismatch")
+    if not data.get("render_script_sha256") or not data.get("blender_version"):
+        raise ValueError("render source lacks script/Blender identity")
+    return data
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("revision", help="Candidate revision, for example r30")
@@ -63,11 +84,28 @@ def main() -> int:
     out = REVIEW / f"visual_{rev}"
     if out.exists():
         raise SystemExit(f"refusing to overwrite existing visual review: {out}")
+    candidate_manifest = CAND / f"HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.json"
+    candidate_data = json.loads(candidate_manifest.read_text(encoding="utf-8-sig"))
+    candidate_sha = candidate_data["candidate_sha256"]
+    sources = {}
+    for group, _ in SELECTIONS:
+        if group not in sources:
+            sources[group] = verify_source(RC / f"{group}_{rev}" / "render_source_manifest.json", candidate_sha)
+    for group, name in SELECTIONS:
+        if not any(x["file"] == name for x in sources[group]["images"]):
+            raise ValueError("expected view missing from render source manifest: " + name)
     out.mkdir(parents=True)
 
     manifest = {
         "schema_version": 1,
         "candidate_revision": rev,
+        "candidate_sha256": candidate_sha,
+        "candidate_manifest_sha256": sha256(candidate_manifest),
+        "source_manifests": [{"path": (RC / f"{g}_{rev}" / "render_source_manifest.json").relative_to(ROOT).as_posix(),
+                              "sha256": sha256(RC / f"{g}_{rev}" / "render_source_manifest.json")} for g in sources],
+        "owner_review": "pending",
+        "blocking": False,
+        "coverage": "compact repair snapshot; full milestone protocol remains separate",
         "purpose": "compact visual review copied from full deformation evidence",
         "production_approved": False,
         "files": [],
@@ -87,6 +125,7 @@ def main() -> int:
                 "source": str(src.relative_to(ROOT)).replace("\\", "/"),
                 "sha256": sha256(dst),
                 "bytes": dst.stat().st_size,
+                "capture": next(x["capture"] for x in sources[group]["images"] if x["file"] == name),
             }
         )
 
@@ -102,4 +141,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise SystemExit("STOP — " + str(exc))

@@ -2,6 +2,9 @@
 setlocal EnableExtensions
 cd /d "%~dp0"
 
+call RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat
+if errorlevel 1 exit /b 2
+
 rem Deterministic r29 -> r30 helper for the current ORIGINAL-v1 Priority-2 hand work.
 rem This does not alter thresholds, R2, promotion state, or any production asset.
 rem It creates a NEW local r30 .blend, runs the complete evidence suite, compares
@@ -121,6 +124,10 @@ if errorlevel 1 exit /b 1
 
 echo [8/8] Collect compact visual review images...
 python scripts\collect_original_v1_review_images.py r30
+if errorlevel 1 exit /b 1
+
+rem Update authoritative state from completed evidence, not optimiser score.
+python scripts\build_original_v1_daily_status.py
 if errorlevel 1 exit /b 1
 
 echo.

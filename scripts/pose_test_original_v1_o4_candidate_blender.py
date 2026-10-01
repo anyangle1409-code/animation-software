@@ -12,6 +12,7 @@ front / side / three-quarter review images.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import sys
@@ -502,6 +503,35 @@ scene.camera = cam
 scene.render.resolution_x = scene.render.resolution_y = 900
 
 
+CAPTURE_RECORDS = []
+SOURCE_CANDIDATE_SHA256 = hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest()
+RENDER_SCRIPT_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
+
+def capture_render():
+    bpy.ops.render.render(write_still=True)
+    path = Path(scene.render.filepath)
+    CAPTURE_RECORDS.append({
+        "file": path.name,
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "capture": {
+            "protocol": "original_v1_stress_render_v1",
+            "render_script_sha256": RENDER_SCRIPT_SHA256,
+            "camera_matrix_world": [list(row) for row in cam.matrix_world],
+            "orthographic_scale": cam_data.ortho_scale,
+            "resolution": [scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage],
+            "engine": scene.render.engine,
+            "light_direction": list(scene.display.light_direction),
+            "shading_light": scene.display.shading.light,
+            "shading_color_type": scene.display.shading.color_type,
+            "shadows": scene.display.shading.show_shadows,
+            "shadow_intensity": scene.display.shading.shadow_intensity,
+            "cavity": scene.display.shading.show_cavity,
+            "dressed": True,
+        },
+    })
+
+
 def render(name):
     set_dressed(True)
     upd()
@@ -519,7 +549,7 @@ def render(name):
         cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
         scene.render.filepath = str(OUT / f"pose_{name}_{view}.png")
-        bpy.ops.render.render(write_still=True)
+        capture_render()
     for zone in CLOSEUPS.get(name, []):
         bone, end, scale = ZONES[zone]
         p = pb(bone)
@@ -532,7 +562,7 @@ def render(name):
             cam.rotation_mode = "QUATERNION"
             cam.rotation_quaternion = (-direction).to_track_quat("-Z", "Y")
             scene.render.filepath = str(OUT / f"pose_{name}_close_{zone}_{view}.png")
-            bpy.ops.render.render(write_still=True)
+            capture_render()
     set_dressed(False)
 
 
@@ -567,3 +597,16 @@ for name, fn in POSES.items():
 
 (OUT / "pose_test_report.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
 print("POSE TESTS DONE", len(results))
+
+(OUT / "render_source_manifest.json").write_text(json.dumps({
+    "schema_version": 1,
+    "candidate": Path(bpy.data.filepath).name,
+    "candidate_sha256": SOURCE_CANDIDATE_SHA256,
+    "render_script_sha256": RENDER_SCRIPT_SHA256,
+    "pose_report_sha256": hashlib.sha256((OUT / "pose_test_report.json").read_bytes()).hexdigest(),
+    "blender_version": bpy.app.version_string,
+    "images": CAPTURE_RECORDS,
+    "owner_review": "pending",
+    "blocking": False,
+    "production_approved": False,
+}, indent=2) + "\n", encoding="utf-8")

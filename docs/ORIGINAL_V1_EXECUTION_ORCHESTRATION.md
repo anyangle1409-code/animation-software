@@ -194,3 +194,12 @@ the intended save/evidence/handoff/commit/push steps. The read-only checker repo
 `READY_TO_END_SESSION`, `PARTIAL_WORK_PRESERVED`, or exact blockers/actions. This
 prevents a future Claude pickup from discovering unpushed commits, stale status,
 an undocumented partial candidate or a local Blend/manifest identity mismatch.
+
+
+## Session close
+
+At the end of every laptop execution session, use
+`RUN_ORIGINAL_V1_SESSION_CLOSE.bat` after saving/evidence/handoff/commit/push.
+It confirms the handoff is unambiguous or that partial work is explicitly
+preserved. It is read-only and does not make pending routine owner review a
+session-close blocker.

@@ -1830,7 +1830,7 @@ const carry: GeneratorFamily<CarryVariant> = {
       [
         [/\b(?:suitcase|waiter|overhead|front[-\s]?rack|rack)\b/, 'that changes the load position or makes the carry unilateral; only the bilateral load-at-the-sides farmer\'s walk is certified.'],
         [/\b(?:trap[-\s]?bar|hex[-\s]?bar)\b/, 'the certified carry uses one dumbbell in each hand; a trap/hex bar changes the grip and equipment path.'],
-        [/\b\d+(?:\.\d+)?\s*(?:m|metres?|meters?|ft|feet|yards?)\b/, 'distance prescriptions are not encoded in the looping clip; the family exports travel speed instead.'],
+        [/\b(?:\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)(?:[-\s]+(?:one|two|three|four|five|six|seven|eight|nine))?\s*(?:m|metres?|meters?|ft|feet|yards?)\b/, 'distance prescriptions are not encoded in the looping clip; the family exports travel speed instead.'],
       ],
       issues,
     );

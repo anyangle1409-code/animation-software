@@ -281,6 +281,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not ignore written carry distance prescriptions', () => {
+    expect(blocking("exercise: farmer's walk for ten metres")).toContain('variant');
+    expect(blocking("exercise: farmer's walk for twenty-five meters")).toContain('variant');
+  });
+
   it('does not reinterpret total dumbbell load as a per-hand load', () => {
     expect(blocking('exercise: dumbbell curl with 20 kg total')).toContain('load');
     expect(blocking('exercise: dumbbell shoulder press with ten kg combined')).toContain('load');

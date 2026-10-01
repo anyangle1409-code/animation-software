@@ -11,6 +11,12 @@ colour contrast. No third-party textures/HDRIs, image-derived likeness or detail
 that conceals silhouette/contact defects. Geometry, skin weights, garment shape,
 rig/rest, poses/handles, R2 and thresholds are frozen for this package.
 
+Prepared numeric material/presentation tooling is documented in
+`PHASE_8_PRESENTATION_PROTOCOL.md`. It provides a strict no-image/no-HDRI material
+provenance template, detailed shader/world/light/camera/colour-management capture,
+a one-command future scene verifier and a fixed app-distance real-render plan. The
+scene verifier cannot satisfy readability or owner review by itself.
+
 Prepare a scene/material inventory before capture: owned material/node sources,
 numeric parameters, object assignments, external-resource checks, lighting,
 camera/projection, colour management, renderer/version and output dimensions.

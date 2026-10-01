@@ -203,3 +203,10 @@ At the end of every laptop execution session, use
 It confirms the handoff is unambiguous or that partial work is explicitly
 preserved. It is read-only and does not make pending routine owner review a
 session-close blocker.
+
+
+## Concise progress view
+
+For phone/status checks, `RUN_ORIGINAL_V1_PROGRESS.bat` prints a compact projection
+of the same evidence-derived state. It separates actual roadmap completion from
+prepared infrastructure and does not estimate a synthetic percentage.

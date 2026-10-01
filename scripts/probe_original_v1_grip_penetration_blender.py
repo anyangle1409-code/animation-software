@@ -36,6 +36,14 @@ sys.argv = saved_argv
 
 rig = ns["rig"]
 body = ns["body"]
+# The pose test measures the BARE body: it disables the dressed-hide mask before every measurement.
+# Mirror that here (in memory only; this probe never saves the Blend). Otherwise the evaluated mesh has
+# fewer vertices than the base mesh and indexing the finger-owned vertices raises IndexError.
+_mask = body.modifiers.get("HGPT_DRESSED_MASK")
+if _mask is not None:
+    _mask.show_viewport = False
+    _mask.show_render = False
+bpy.context.view_layer.update()
 region_names = ns["region_names"]
 vreg = ns["vreg"]
 owners = ns["bone_vertex_sets"]()

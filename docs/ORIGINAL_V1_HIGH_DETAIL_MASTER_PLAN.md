@@ -190,6 +190,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 9 | First-party contact source bridge for real push-up endpoints, hand-driven dumbbells and fixed pull-up rack sockets | PREPARED; source semantics/hashes only, actual live-runtime capture remains Phase 10-bound |
 | 10 | Live standalone runtime discovery, cross-branch semantic comparison and incomplete real-engine evidence harness contract | PREPARED; current runtime HEAD is not exact-SHA green and actual Phase 10 execution remains blocked by Phase 9/final assets/runtime gates |
 | 11 | Deterministic first-party mask visual QA, immutable reference registry, coverage plan and capture-mismatch separation | PREPARED; no real Phase 10-approved runtime captures/references exist yet, owner anatomy acceptance remains mandatory |
+| 12 | Final technical promotion packet, exact packet-bound receipt and two-key owner-authorised production-freeze verifier | PREPARED; no current candidate can pass and verifier never mutates production state |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -251,3 +252,13 @@ The authoritative standalone branch was resolved to `work/standalone-first-party
 
 Stage 11 automated visual QA preparation: `docs/work_packages/VISUAL_QA_PROTOCOL.md`.
 The first-party detector binds immutable source images to standard-library PGM masks, verifies source/mask hashes and dimensions, detects missing/cropped expected regions, measures connected components and neutral symmetry, and computes matched silhouette IoU/XOR/centroid/bounds only when capture identities match. Capture-setting drift becomes CAPTURE_MISMATCH rather than a model regression. `ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json` is intentionally empty until actual owned captures exist. No external vision service/reference corpus is used and no QA score can approve anatomy. Current laptop deformation priority remains RUN r30.
+
+Stage 12 final-freeze preparation: `docs/work_packages/PHASE_12_PRODUCTION_FREEZE.md`.
+The existing technical promotion verifier now binds successful receipts to the exact
+promotion-packet SHA/candidate/runtime identities. The new final-freeze verifier
+revalidates that packet, every Phase 4-11 exit report, final asset bytes, Phase 9
+model commit, Phase 10/11 runtime commit, current deformation state and a separate
+explicit OWNER AUTHORISED PRODUCTION FREEZE record. Even full eligibility remains
+non-mutating with production_approved=false; actual release is a separate controlled
+asset-only/runtime operation followed by exact-SHA release re-verification. Current
+laptop deformation priority remains RUN r30.

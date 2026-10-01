@@ -121,6 +121,14 @@ export function readSlots(prompt: string): PromptSlots {
     const [eccentric, pauseStretched, concentric, pauseContracted] = match.slice(1, 5).map(Number);
     tempo.push({ value: { explicit: { eccentric, pauseStretched, concentric, pauseContracted } }, words: match[0] });
   }
+  // Common strength-program shorthand: "tempo 3010" means 3 s lowering,
+  // no stretched pause, 1 s lifting, no contracted pause.
+  if (tempo.length === 0) {
+    for (const match of text.matchAll(/\btempo\s*(\d)(\d)(\d)(\d)\b/g)) {
+      const [eccentric, pauseStretched, concentric, pauseContracted] = match.slice(1, 5).map(Number);
+      tempo.push({ value: { explicit: { eccentric, pauseStretched, concentric, pauseContracted } }, words: match[0] });
+    }
+  }
   if (tempo.length === 0) tempo.push(...collect(text, TEMPO_WORDS).map((slot) => ({ ...slot, value: { profile: slot.value } })));
 
   const execution: PromptSlots['execution'] = [];

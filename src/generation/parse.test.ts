@@ -279,6 +279,9 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('curl, tempo 3-1-2-0').intent?.tempo).toEqual({
       explicit: { eccentric: 3, pauseStretched: 1, concentric: 2, pauseContracted: 0 },
     });
+    expect(parsePrompt('curl, tempo 3010').intent?.tempo).toEqual({
+      explicit: { eccentric: 3, pauseStretched: 0, concentric: 1, pauseContracted: 0 },
+    });
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 

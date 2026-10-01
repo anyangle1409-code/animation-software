@@ -48,6 +48,8 @@ with no skipped body checks:
   family motion and fully validating with no skipped body checks;
 - carry — farmer's walk with paired dumbbells, preserving the family's fixed
   two-step gait and exported travel speed; tempo/distance variants remain blocked;
+- rotation — seated bodyweight Russian twist, preserving the accepted lean,
+  planted heels, trunk turn and clasped-hand path;
 - squat — bodyweight air squat;
 - lunge — split/forward/reverse family evidence, with reverse lunge in the
   all-family clean-fallback certification loop;

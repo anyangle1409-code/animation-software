@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`3a926f13f1ac23fb243815a84d37567b554651cb` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and the deterministic prompt generator now certifies farmer's walk as the 14th core movement family.
+`846ef04b56e8c0bef629e24d7eaae2e9780951d1` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and the deterministic prompt generator now certifies Russian twist as the 15th core movement family.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 3a926f13
+## Verification at 846ef04b
 
 GitHub Actions on exact SHA
-`3a926f13f1ac23fb243815a84d37567b554651cb`:
+`846ef04b56e8c0bef629e24d7eaae2e9780951d1`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 245 tests passed**;
-- full suite: **188 files passed, 2 skipped; 1,151 tests passed, 62 skipped**;
+- full suite: **188 files passed, 2 skipped; 1,169 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -104,17 +104,22 @@ physical visual/input parity gate.
 
 ## Verified prompt-generation expansion
 
-The deterministic local prompt pipeline now certifies **14 generator families**
+The deterministic local prompt pipeline now certifies **15 generator families**
 against the clean first-party fallback. The latest expansion exposes the
-existing project-authored carry family:
+existing project-authored seated rotation family:
 
-- `exercise: farmer's walk with 24 kg dumbbells` -> the existing two-step farmer's walk gait.
+- `exercise: Russian twist with controlled tempo` -> the existing seated bodyweight Russian twist.
 
-Generation changes only the dumbbell load and preserves `carryFamily`'s fixed
-0.6 s step timing, foot IK and exported travel speed. Tempo prescriptions,
-distance prescriptions, unilateral carries and other load positions are blocked
-rather than silently approximated. Supine and trunk-flexion generation remain
-certified.
+Generation changes only tempo and preserves `rotationFamily`'s seated lean,
+planted heels, ±50° trunk turn and clasped-hand path. Weighted/loaded,
+medicine-ball/plate, raised-feet, standing, grip and angle-override variants are
+blocked rather than approximated. Carry, supine and trunk-flexion generation
+remain certified.
+
+The clean-fallback certification suite has also been split into independent
+per-example cases with a 60 s case limit; every existing case preserves the same
+body/equipment/IK/technique assertions, and the slowest current case is below
+41 s. No validation threshold or global timeout was increased.
 
 The clean-fallback support gate initially measured the flat-bench pad at
 **3.04 mm** from the body against the existing **3.00 mm** contact limit. The
@@ -224,12 +229,11 @@ For cloud/repository work, do not restart completed framework/Three migration.
    Three or v4 compatibility work.
 2. Continue cloud/repository work on release/offline/prompt-generation
    acceptance evidence that can be proved in CI without pretending to close
-   physical-device or Blender gates. Before adding more families, split the
-   all-family clean-fallback certification loop into per-family cases because it
-   now takes about 155 s of its 180 s aggregate test budget; preserve the same
-   assertions and use stricter per-case time bounds rather than increasing the
-   aggregate timeout. Then certify rotation (Russian twist) and anti-rotation /
-   cable variants through the same clean-fallback gate.
+   physical-device or Blender gates. The final core-family generation increment
+   is cable rotation/anti-rotation: expose the existing cable woodchop variant
+   and Pallof press through a bounded cable intent, then require both to pass the
+   same independent clean-fallback certification cases. Keep cable load/side or
+   direction variants blocked unless separately certified.
 3. When a laptop is available, continue the isolated model branch from
    `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
    deformation** first, regenerate the targeted evidence, and clear its owned

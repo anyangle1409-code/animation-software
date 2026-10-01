@@ -13,13 +13,16 @@ group evaluations. Require zero production failures with the committed 1 mm grip
 penetration and contact-count gates unchanged. Retain development/predecessor/R2
 comparisons; contact classification cannot suppress numerical failures.
 
-Prepare continuous range/contact tooling before execution. Input: independently
-authored ORIGINAL movement paths, exact candidate/body/garment hashes, sample
-times and fixed floor/equipment frames. Output: every sampled pose/time, bilateral
-contact/penetration/clearance, shape/intersection/volume/edge measurements, peak
-defect IDs, reproducibility and coverage limits. Declare sampling rate/refinement
-policy; endpoints alone cannot establish continuous safety. Stress interpolation
-is model range testing, not evidence of accurate runtime exercise biomechanics.
+Use the prepared `DRESSED_RANGE_CONTACT_PROTOCOL.md` and
+`ORIGINAL_V1_DRESSED_RANGE_PLAN.json` as the finite model-range foundation.
+It supplies six source-bound body/garment/floor sampling paths, exact sample times,
+raw intersection/clearance/floor evidence and an explicit per-sample classification
+record. Actual Blender execution and evidence-backed classification are still
+required. Push-up support motion and moving equipment contact remain open because
+the current frozen stress set lacks valid continuous source endpoints/transforms;
+do not synthesize them. Phase 9 still requires those missing paths, any warranted
+refinement and real runtime evidence. Stress interpolation is model range testing,
+not evidence of accurate runtime exercise biomechanics.
 
 Cover curl, press bottom/top, pull-up hang/top, squat, lunge, push-up and row with
 bare and dressed streams. Inspect thumb/web handles, palm/floor, groin/hip and

@@ -72,8 +72,15 @@ export interface SupineVariant {
 /** The pelvis joint, lying, and the body's pitch (negative lies back). */
 const LYING = { pelvis: { y: 0.598, z: 0 }, pitch: -84.3 };
 
-/** The bench's centre: its foot end 17.5 cm past the hips. */
-const BENCH = vec3(0, 0, -0.45);
+/**
+ * The bench's centre: its foot end 17.5 cm past the hips.
+ *
+ * The 0.1 mm lift keeps the clean first-party fallback in physical contact
+ * with the pad (3.04 mm clear at y=0 versus the 3 mm support limit) without
+ * changing the body's authored pose or relaxing the support-clearance gate.
+ * The production-character compression remains comfortably below 15 mm.
+ */
+const BENCH = vec3(0, 0.0001, -0.45);
 
 const FEET = { width: 0.42, toeOut: 10, forward: 0.5 };
 

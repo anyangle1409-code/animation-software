@@ -1771,3 +1771,26 @@ equipment transforms for curl/pull-up. Those remain open for independently autho
 or real-runtime evidence. This is finite model-range sampling, not proof of runtime
 biomechanics or unsampled intervals. Phase 9 remains NOT STARTED. Current model is
 still EXPERIMENTAL r29; next actual deformation action remains RUN r30.
+
+
+### Staged GPT preparation: Stage 9 first-party contact source bridge — 2026-10-01
+
+Rechecked the live model branch after Stage 8, then inspected the existing
+project-owned push-up, curl, pull-up and equipment attachment sources. The missing
+continuous-contact semantics already exist in the exercise/runtime layer, so this
+stage does not duplicate them as new Blender poses or trajectories.
+
+Added `ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.json`,
+`scripts/original_v1_contact_source_bridge.py`, fail-closed tests,
+`RUN_ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.bat` and the protocol under work_packages.
+The bridge verifies exact current source bytes and authored facts: push-up Top and
+Bottom root states with world-locked floor hands and planted toes; bicep-curl
+dumbbells attached rigidly to each real evaluated hand matrix through the grip
+socket; and pull-up motion against a static squat-rack with equipment socket locks.
+
+This is source evidence only. `runtime_executed=false`, no candidate/model asset is
+changed, no Blender stress-pose definition is added, no old V-series implementation
+data is used, and no Phase 9/10 PASS is inferred. The model branch is not declared
+the live standalone runtime. Phase 10 must rediscover the actual runtime commit,
+compare these semantics, then capture the real solver/equipment/contact frames.
+Current model remains EXPERIMENTAL r29; next actual deformation action remains RUN r30.

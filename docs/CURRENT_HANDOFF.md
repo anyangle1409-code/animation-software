@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`66684f9e73ea7db931e4c5573bf80f7a2e1c40bf` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and deterministic prompt generation now covers all 16 core movement families and all 28 exercises currently registered in the first-party library.
+`c61656499dab6c0159dd01f6928fa2f0819a5361` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the prompt/UI safety hardening below is fully verified.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 66684f9e
+## Verification at c6165649
 
 GitHub Actions on exact SHA
-`66684f9e73ea7db931e4c5573bf80f7a2e1c40bf`:
+`c61656499dab6c0159dd01f6928fa2f0819a5361`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 245 tests passed**;
-- full suite: **189 files passed, 2 skipped; 1,183 tests passed, 62 skipped**;
+- full suite: **189 files passed, 2 skipped; 1,188 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -139,6 +139,29 @@ including equipment/body clearance.
 
 See `docs/STANDALONE_GENERATION_AUDIT.md` for the current generation boundary
 and evidence.
+
+### Verified prompt-language / Generate-panel hardening
+
+The same exact green checkpoint also preserves the 28/28 biomechanics boundary
+while making normal prompt entry safer and clearer:
+
+- safe naming aliases are deterministic only (for example `RDL`, `OHP`,
+  `press-up`, `farmer's carries`, `heel raise`, `pressdown`);
+- smart apostrophes and Unicode dash/hyphen variants are normalised before
+  parsing, so mobile/iPhone text such as `farmer’s walk` or `push‑up` is
+  equivalent to the ASCII spelling;
+- common equipment spellings such as `dumbell`, `barbel`, `bar bell`,
+  `kettle bell` and `body weight` are recognised so a requested unsupported
+  implement cannot disappear into a family default;
+- compact strength tempo notation such as `tempo 3010` is read as 3-0-1-0;
+- unilateral wording such as `one-handed`, `left-hand` and `right-arm`
+  is recognised and blocked where only bilateral motion is certified;
+- the Generate panel now defaults to the target shorthand
+  `exercise: dumbbell shoulder press`, labels cable equipment correctly, and
+  retains explicit review/validation behaviour.
+
+These are parser/UI breadth and safety changes only. They do not certify any new
+movement, support, grip, side or equipment biomechanics.
 
 ## What is still open
 
@@ -241,10 +264,12 @@ For cloud/repository work, do not restart completed framework/Three migration.
    acceptance evidence that can be proved in CI without pretending to close
    physical-device or Blender gates. Core-family and current-library prompt
    coverage are complete. The next safe generation work is deterministic
-   language/intent breadth for already-certified biomechanics (tested aliases,
-   synonyms and clearer disambiguation), while keeping genuinely new movement,
-   support, grip, side or equipment variants blocked until they gain their own
-   family-level validation evidence.
+   language/intent breadth for already-certified biomechanics. Safe aliases,
+   mobile punctuation, common equipment spellings, compact tempo notation and
+   unilateral-wording guards are now covered; continue closing cases where a
+   user's stated parameter could otherwise be silently replaced by a default.
+   Keep genuinely new movement, support, grip, side or equipment variants
+   blocked until they gain their own family-level validation evidence.
 3. When a laptop is available, continue the isolated model branch from
    `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
    deformation** first, regenerate the targeted evidence, and clear its owned

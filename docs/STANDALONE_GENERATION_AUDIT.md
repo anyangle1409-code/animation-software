@@ -77,6 +77,20 @@ proving set and requires each product-facing exercise name to parse back to its
 exact library reference. This is a maintenance gate, not a claim that every
 conceivable variation of those movements is certified.
 
+Deterministic prompt-language hardening is also verified without widening the
+biomechanical boundary:
+
+- tested safe aliases include RDL/OHP, press-up, farmer's carries, heel raise and
+  pressdown spellings;
+- mobile smart apostrophes and Unicode dash/hyphen variants are normalised;
+- common equipment spellings/spacing are recognised instead of being silently
+  ignored;
+- `tempo 3010` is accepted as compact 3-0-1-0 notation;
+- unilateral hand/arm wording is caught and blocked when only bilateral motion
+  is certified;
+- the Generate panel exposes the simple `exercise: ...` workflow directly and
+  reports cable equipment as cable rather than bodyweight.
+
 The exact product-level shorthand requested for normal use is covered by the
 production-output browser smoke:
 

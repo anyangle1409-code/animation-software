@@ -153,7 +153,7 @@ def verify_packet(root,packet):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('packet',type=Path,nargs='?');ap.add_argument('--json-out',type=Path)
     ap.add_argument('--template',action='store_true',help='Prepare INCOMPLETE packet/report shapes; no checks or promotion');args=ap.parse_args()
-    issues=[]
+    issues=[];packet_identity=None
     try:
         if args.template:
             if args.packet or not args.json_out:raise ValueError('template mode requires --json-out and no packet')
@@ -163,6 +163,7 @@ def main():
             print('INCOMPLETE promotion template written; no gates executed or approval changed');return 0
         if not args.packet:raise ValueError('packet required unless creating a template')
         packet=json.loads(args.packet.read_text(encoding='utf-8-sig'));ensure_finite(packet)
+        packet_identity={'path':args.packet.as_posix(),'sha256':digest(args.packet)}
         if not isinstance(packet,dict):raise ValueError('packet must be a JSON object')
         issues=verify_packet(ROOT,packet)
         state,_=build(ROOT)
@@ -176,7 +177,9 @@ def main():
             if state['phases'][str(n)]['state']!='complete':issues.append('Phase '+str(n)+' is incomplete')
     except (OSError,ValueError,KeyError,TypeError) as exc:issues.append(str(exc))
     result={'schema_version':1,'eligibility':'REFUSED' if issues else 'ALL_REQUIRED_GATES_SATISFIED',
-            'production_approved':False,'issues':issues,
+            'production_approved':False,'issues':issues,'promotion_packet':packet_identity,
+            'candidate_sha256':packet.get('candidate_sha256') if isinstance(locals().get('packet'),dict) else None,
+            'target_runtime_commit':packet.get('target_runtime_commit') if isinstance(locals().get('packet'),dict) else None,
             'note':'Eligibility evidence only. No assets, baseline, state or release allowlist is modified.'}
     if args.json_out:
         if args.json_out.exists():raise SystemExit('STOP — promotion receipt output already exists')

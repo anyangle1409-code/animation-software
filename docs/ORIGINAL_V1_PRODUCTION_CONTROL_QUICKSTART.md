@@ -159,3 +159,14 @@ For future Phase 12 preparation, create an INCOMPLETE packet with
 Read the promotion workflow before filling it: all gates and final owner acceptance
 must identify the exact two bare/dressed exports. Templates never count as evidence
 and the verifier never changes production approval.
+
+## Phase 3 probe interpretation prepared for Claude
+
+The existing remaining-diagnostics runner now also writes `diagnostic_brief.json`
+and `diagnostic_brief.md` beside the raw probes. Read the brief first. It checks
+exact source identities and agreement with the full rounded pose report, lists
+pre/post-close grip measurements and local extreme-edge inspection IDs, and links
+the repair packages. It neither diagnoses a cause nor authorises edits. Existing
+probe files can be summarised without Blender using
+`python scripts/build_original_v1_diagnostic_brief.py <latest revision>`; both
+brief output paths must be unused. Preserve conflicting/partial evidence on STOP.

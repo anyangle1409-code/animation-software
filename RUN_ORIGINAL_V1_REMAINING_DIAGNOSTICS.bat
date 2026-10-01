@@ -75,20 +75,24 @@ echo Candidate: %REV%
 echo No model changes will be made.
 echo ============================================================
 
-echo [1/3] Dump exact push-up/lunge skinning...
+echo [1/4] Dump exact push-up/lunge skinning...
 "%BLENDER%" --background --factory-startup "%CANDIDATE%" --python-exit-code 1 ^
   --python scripts\dump_original_v1_o4_pose_skinning_blender.py -- "%DUMP%" "pushup_bottom,lunge"
 if errorlevel 1 goto :fail
 
-echo [2/3] Locate exact extreme edges and current bone weights...
+echo [2/4] Locate exact extreme edges and current bone weights...
 python scripts\analyze_original_v1_pose_dump.py "%DUMP%" ^
   --json-out "%OUT%\edge_extremes.json" ^
   --markdown-out "%OUT%\edge_extremes.md"
 if errorlevel 1 goto :fail
 
-echo [3/3] Probe grip penetration before and after finger closing...
+echo [3/4] Probe grip penetration before and after finger closing...
 "%BLENDER%" --background --factory-startup "%CANDIDATE%" --python-exit-code 1 ^
   --python scripts\probe_original_v1_grip_penetration_blender.py -- "%OUT%\grip_penetration.json"
+if errorlevel 1 goto :fail
+
+echo [4/4] Build source-verified Phase 3 diagnostic brief...
+python scripts\build_original_v1_diagnostic_brief.py "%REV%"
 if errorlevel 1 goto :fail
 
 if exist "%DUMP%" del /q "%DUMP%"

@@ -7,8 +7,10 @@ pending. r29 lunge failures: pelvis max 7.559, torso min 0.120, torso max 7.200.
 Squat is a control, not permission to hide lunge behind a five-exercise report.
 
 Exact task: existing remaining diagnostics report lunge extreme edges, rest/posed
-coordinates and current bone weights. Identify pelvis/upper-thigh/lower-torso
-transition; record explicit bilateral vertex mask and allowed bone names before
+coordinates and current bone weights. Inspect the pelvis/upper-thigh/lower-torso
+transition using `diagnostic_brief.md`/JSON and the raw edge rows. Listed IDs are
+inspection targets, not an authorised edit mask or proof that weights are the cause.
+Record an explicit bilateral vertex mask and allowed bone names before
 editing a NEW candidate. Begin with local weight repair; supporting geometry only
 if weight evidence proves necessary. Do not edit shoulders, arms/hands/feet, shorts,
 frozen 63-bone rig/rest, lunge/squat definitions, R2 or thresholds.

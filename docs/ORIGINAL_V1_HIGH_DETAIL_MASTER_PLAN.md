@@ -170,3 +170,21 @@ Its numeric replay uses the existing frozen poses without renders and must match
 all primary metrics under the same candidate/script/Blender identities. No freeze
 or later phase has been executed on r29, and R2 remains pinned. This contract checks
 record integrity; every referenced domain test still must genuinely pass.
+
+## Staged GPT preparation before Blender — 2026-10-01
+
+These stages take preparation off Claude; they do not complete model phases.
+Check back with the owner after each published stage. Routine snapshots remain
+NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
+
+| Stage | Preparation | State / boundary |
+|---|---|---|
+| 1 | Phase 3 source-verified diagnostic brief from existing probes, wired into the existing runner | PREPARED; real probes still require laptop Blender |
+| 2 | Candidate-bound local edit/audit policy templates from verified inspection IDs; no automatic edit permission | Next repo-side stage; raw probes required for candidate-specific masks |
+| 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | Prepare instructions only; phases remain NOT STARTED |
+
+Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
+finite measurements and agreement with the primary rounded metrics. It lists
+pre/post-close penetration, contact counts, exact edge IDs and measured weights.
+These are observations: no cause, permitted mask, geometry repair or model phase
+completion is inferred. No fake diagnostics or review images are produced.

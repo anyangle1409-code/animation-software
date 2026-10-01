@@ -7,8 +7,11 @@ Defect: pushup_bottom hand maximum ratio R2 1.915 → r29 2.032 exceeds the comm
 0.1 comparison tolerance. r28 is 2.067; r29 self-intersections 150 versus r28 144.
 
 Exact task: existing remaining diagnostic locates worst pushup_bottom/hand/max
-edges, vertex IDs, mirror edge, rest/posed midpoint and bone weights. Define a
-wrist-only bilateral permitted mask from those IDs before a new candidate edit.
+edges, vertex IDs, mirror edge, rest/posed midpoint and bone weights. Record a
+separate edit mask; `diagnostic_brief.md`/JSON lists measured inspection IDs only.
+Agreement with the complete rounded pose report is required before the brief is
+written; a discrepancy stops the runner and must be reconciled without relabelling.
+Define a wrist-only bilateral permitted mask from those IDs before a new candidate edit.
 Change only local forearm/hand transition weights unless evidence requires a local
 geometry experiment. Preserve finger/PIP improvements and unrelated shoulders/body.
 No rest/hierarchy, push-up pose, floor, threshold or equipment edits. No broad hand

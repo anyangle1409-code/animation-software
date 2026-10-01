@@ -1590,3 +1590,19 @@ Validation: all 129 Python tests pass; template creation and subsequent refusal
 were exercised, generated r29 state and pinned R2 remain valid. No candidate,
 geometry, weights, pose definition, frozen structure or gate threshold changed.
 Actual model execution remains on the laptop; next task remains RUN r30.
+
+### Staged GPT preparation: Stage 1 diagnostic brief — 2026-10-01
+
+Live source HEAD checked: `a44ce05468feb3b46f36a865a120a27bd790c4be`. Read the master
+plan and prepared a source-verified Phase 3 brief from the existing grip/edge
+probes. The remaining-diagnostics runner now emits it as step 4, without another
+Blender run. It records exact measured pre/post-close penetration, contact counts,
+handle frames, extreme edges and inspection IDs; candidate/script identities,
+required coverage and agreement with full rounded metrics are checked. It does
+not infer causes, authorise vertex masks, edit models or claim visual evidence.
+
+139 Python tests pass. Without actual probe files the utility returns STOP and
+writes no fabricated report. Real Windows/Blender probes remain unexecuted here.
+Generated state remains experimental r29 / seven blockers; R2 remains pinned.
+Next GPT preparation stage: candidate-bound local edit/audit policy templates.
+Next actual deformation action remains RUN r30 on the laptop.

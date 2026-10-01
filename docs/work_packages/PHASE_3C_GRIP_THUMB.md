@@ -7,7 +7,11 @@ Current evidence: curl_handle and pullup_bar each have 5.93 mm penetration on bo
 sides; prior solves show weight-independence. Do not repeat blind weight solves.
 
 Exact diagnosis: run `RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat <revision>` once
-into a new output folder. Read grip_penetration.json for pre/post-close depth,
+into a new output folder. Start with `diagnostic_brief.md` and its JSON. The runner
+checks candidate/script identity and agreement with the full rounded pose metrics,
+then lists all four pre/post-close depths, contact counts and deepest points.
+The brief cannot prove weight independence or authorise a frozen-frame repair.
+Read grip_penetration.json for pre/post-close depth,
 deepest vertex IDs/regions/weights and handle centre/axis/radius. Verify source SHA.
 Separate thumb IP rest conflict, handle frame, closing pose and local geometry.
 Evidence may identify a frozen rig/pose defect; document it, do not silently repair

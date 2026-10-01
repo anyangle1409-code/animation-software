@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_COVERAGE_PLAN",
+  "phase_complete": false,
+  "production_approved": false,
+  "model_visibility_planning": {
+    "source_plan": "ORIGINAL_V1_VISUAL_BOARD_PLAN.json",
+    "expected_views": 57,
+    "neutral_views": [
+      "front",
+      "rear",
+      "side",
+      "three_quarter",
+      "three_quarter_rear"
+    ],
+    "anatomy_regions": [
+      "head_neck",
+      "shoulder",
+      "chest_torso",
+      "back",
+      "elbow",
+      "palm",
+      "dorsal_hand",
+      "thumb",
+      "hip",
+      "knee",
+      "foot"
+    ],
+    "anatomy_views_per_region": 2,
+    "exercise_poses": [
+      "curl_peak",
+      "curl_handle",
+      "press_bottom",
+      "press_top",
+      "pullup_hang",
+      "pullup_top",
+      "squat_bottom",
+      "lunge",
+      "pushup_bottom",
+      "row"
+    ],
+    "exercise_views": [
+      "front",
+      "side",
+      "three_quarter"
+    ],
+    "boundary": "Model-side visibility/camera planning only; does not satisfy runtime capture."
+  },
+  "runtime_visual_qa": {
+    "prerequisite": "Phase 10 exact runtime/model/asset identities and real-engine evidence",
+    "scenarios": [
+      "dumbbell_shoulder_press",
+      "dumbbell_bicep_curl",
+      "pull_up",
+      "push_up",
+      "air_squat",
+      "lunge",
+      "bent_over_row"
+    ],
+    "required_view_classes": [
+      "front",
+      "side",
+      "three_quarter"
+    ],
+    "required_temporal_classes": [
+      "start",
+      "intermediate_outbound",
+      "peak_or_bottom",
+      "intermediate_return",
+      "end_or_loop_close",
+      "turnaround_neighbourhood"
+    ],
+    "exact_frame_rule": "Use deterministic real-runtime frame/time identities from Phase 10. This plan does not invent numeric frame times.",
+    "required_subject_masks": [
+      "subject"
+    ],
+    "conditional_region_masks": [
+      "hand_l",
+      "hand_r",
+      "foot_l",
+      "foot_r",
+      "equipment",
+      "garment",
+      "body"
+    ],
+    "source_images_required": true
+  },
+  "detector_coverage": {
+    "objective": [
+      "source/hash integrity",
+      "mask/source dimension equality",
+      "missing expected-visible regions",
+      "unexpected edge crop for views that prohibit it",
+      "connected-component measurements",
+      "neutral horizontal symmetry measurements",
+      "matched silhouette IoU/XOR/centroid/bounding-box deltas",
+      "capture-setting mismatch separation"
+    ],
+    "unknown_without_other_evidence": [
+      "subjective anatomy quality",
+      "occluded anatomy",
+      "true 3D physical contact",
+      "temporal smoothness from still frames",
+      "material aesthetic quality"
+    ]
+  },
+  "review_policy": {
+    "owner_review": "pending",
+    "blocking": false,
+    "final_owner_acceptance_required": true
+  }
+}

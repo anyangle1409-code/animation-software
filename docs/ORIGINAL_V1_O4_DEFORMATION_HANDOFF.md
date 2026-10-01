@@ -2083,17 +2083,25 @@ differs in sign because the loss is evaluated at an asymmetric perturbation whil
 mirror-symmetrised). `o30` (percentile guard boost) was worse than `o29`; penalty tuning is not converging, so
 selection is done by exact evaluation instead.
 
-**Attempt 2 (in progress at this checkpoint, parent r35):** a WIDER band declared and committed (`8087fdf`) before any
-solve: `repair_preparation/r35_3E_wide_declared/pelvis_wide_mask_declared_before_edit.json`: 0.55 < z < 1.12,
+**Attempt 2 (finished, parent r35, no new candidate built):** a WIDER band declared and committed (`8087fdf`) before
+any solve: `repair_preparation/r35_3E_wide_declared/pelvis_wide_mask_declared_before_edit.json`: 0.55 < z < 1.12,
 pelvis/torso/leg, whole weight already on the same 5 chain bones, 1,701 vertices (strict superset of the first mask,
-+756), same 5 permitted bones, covers all 56 measured r35 lunge vertices; solver-side isolation (`isolate_sides`),
-preset `o34`. Rationale: the first band was my own choice inside the package envelope, the frontier above shows it
-cannot reach the gates, and a wider band lets the weight gradient spread over more vertex rings. The first band,
-r33/r34/r35 are untouched. If it does not clear the gates without regressions, the remaining lunge failures need an
-owner decision (below).
++756), same 5 permitted bones, covers all 56 measured r35 lunge vertices; solver-side left/right isolation
+(`isolate_sides`; 0 cross-side vertices in every solution). The first band and r33/r34/r35 are untouched.
 
-**Owner decision needed (3E) if attempt 2 does not clear the lunge:** (a) accept r35's partial 3E result and record an
-evidence-backed disposition for the two remaining lunge failures (no threshold change), (b) authorise supporting
-geometry in the groin/gluteal strip (subdividing an edge with interpolated weights does not reduce its stretch ratio,
-so a new loop only helps together with a re-solved gradient), or (c) authorise a wider/other scope or pose-driven
-correction. Phase 4 cannot start while any development failure remains.
+| Solve (same wide mask) | Lunge | Squat | Verdict |
+|---|---|---|---|
+| `o34` | torso min 0.245, torso max 4.05 (pass); pelvis max 6.03 (fail) | p99 1.876, volume 0.9542 break tolerance | exact blend scan vs r35: **only α = 0** is clean |
+| `o35` (asks for squat-volume headroom, `vol_slack` −0.006) | torso min 0.245, torso max 4.41 (pass); pelvis max 6.00 (fail) | volume 0.9590 (headroom created) but squat p99 1.897 and lunge p99 1.408 break tolerance | best clean blend reaches only lunge torso max 5.69 (> 5.0): no gate beyond r35's |
+
+Reading: r35 has exhausted the squat volume budget (squat volume 0.9578 against a limit of 0.9577); spending headroom
+elsewhere then fails the 99th-percentile edge-stretch tolerance (+0.05) in the squat and lunge. The comparator's
+p99 guard is the binding limit for any weight-only lunge repair, so the weight search was stopped. Both solves are
+recorded (`weight_solutions/o34.*`, `o35.*`) and not applied.
+
+**Owner decision needed (3E):** the two remaining lunge failures (pelvis max 7.24, torso max 6.37 on r35) cannot be
+cleared by weights inside either declared mask without breaking comparator tolerances. Options: (a) accept r35's
+partial 3E result and record an evidence-backed disposition for the two failures (no threshold change); (b) authorise
+supporting geometry in the groin/gluteal strip (note: subdividing an edge with interpolated weights does not reduce
+its stretch ratio, so a new loop only helps together with a re-solved gradient); (c) authorise a pose-driven
+correction (shape keys) or a different scope. Phase 4 cannot start while any development failure remains.

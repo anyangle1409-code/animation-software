@@ -1371,6 +1371,23 @@ If r30 is rejected and work remains on r29, use \`r29\` instead. Do not use a
 diagnostic result to mark a candidate accepted; it only identifies where the
 next edit should be made.
 
+### Resume/provenance safeguards added after the battery stop
+
+- `scripts/verify_original_v1_local_candidate.py` now checks a local
+  git-ignored candidate against its committed JSON manifest before long work.
+- `RUN_ORIGINAL_V1_R30.bat` verifies the exact r29 SHA-256 before starting
+  o22 and safely regenerates its disposable pose dump if an interrupted session
+  left one behind. It still refuses to overwrite any existing o22 solution or
+  r30 candidate.
+- `RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat` also verifies the selected
+  local candidate hash before collecting evidence.
+- new skinning dumps record the exact source candidate SHA-256 and file size;
+  the edge diagnostic carries that hash into its JSON/Markdown output.
+
+This is intended to prevent stale-local-file drift and wasted battery/compute.
+It does not change any candidate, optimiser thresholds, acceptance limits or
+promotion state.
+
 ## Next Blender session
 
 Current state entering the next laptop session:

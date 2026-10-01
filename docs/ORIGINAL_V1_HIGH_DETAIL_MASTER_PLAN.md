@@ -262,3 +262,17 @@ explicit OWNER AUTHORISED PRODUCTION FREEZE record. Even full eligibility remain
 non-mutating with production_approved=false; actual release is a separate controlled
 asset-only/runtime operation followed by exact-SHA release re-verification. Current
 laptop deformation priority remains RUN r30.
+
+
+### Post-preparation execution orchestration — 2026-10-01
+
+Repository-side Stages 1-12 are prepared. This does **not** add Roadmap Phase 13.
+Use `ORIGINAL_V1_EXECUTION_ORCHESTRATION.json`,
+`docs/ORIGINAL_V1_EXECUTION_ORCHESTRATION.md` and
+`RUN_ORIGINAL_V1_EXECUTION_PLAN.bat` to map the evidence-derived current state onto
+one critical-path node and the relevant prepared support tools. The orchestrator is
+read-only: it validates that all Stage 1-12 support artifacts exist, checks the
+critical-path graph, compares the r30 node against the existing next-action
+selector and prints safe parallel work without launching Blender or advancing a
+phase. At the current expected r29 / Phase 3B state, the actual model action remains
+`RUN_ORIGINAL_V1_R30.bat` after live preflight.

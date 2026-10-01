@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "state": "INCOMPLETE",
+  "phase": "3D",
+  "before_candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",
+  "candidate_sha256": null,
+  "allowed_regions": [],
+  "allowed_vertex_ids": [],
+  "allowed_bones": [],
+  "index_correspondence_confirmed": false,
+  "change_epsilon": 1e-08,
+  "normalization_tolerance": 1e-06,
+  "max_influences": 4,
+  "production_approved": false,
+  "note": "Draft only. Empty lists permit no changes; unknown child SHA prevents an audit. Fill a new policy copy after explicit local scope and actual operation/correspondence evidence."
+}

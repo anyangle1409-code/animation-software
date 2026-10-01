@@ -174,6 +174,10 @@ PRESETS["o21"] = dict(PRESETS["o20"])
 # o22 (r30): on the r29 base (PIP-relaxed geometry + o21), restore the 0.24 collapse margin to lift
 # finger minima back toward r28 while keeping the r29 bounds (curl_peak clear) and 0.02 max margin.
 PRESETS["o22"] = dict(PRESETS["o19"], max_margin=0.02, rounds=2)
+# o24 (3D, r31): symmetric wrist-band-only solve on r30. Bounds are the stricter of pinned R2 and the base,
+# so the push-up hand maximum is pulled back to R2's level (1.915 + margin) without losing any other pose.
+PRESETS["o24"] = dict(PRESETS["o22"], zone_mode="wrist", wrist_zone_radius=0.07, max_margin=0.02, rounds=2,
+                      tt_poses=("pushup_bottom", "curl_peak", "curl_handle", "pullup_bar", "pullup_top", "grip", "row"))
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -196,6 +200,7 @@ def main():
     ap.add_argument("--preset", default="o1")
     ap.add_argument("--gradcheck", action="store_true")
     ap.add_argument("--diagnose", action="store_true")
+    ap.add_argument("--declare-mask", help="write the explicit permitted vertex/bone mask to this JSON and exit")
     ap.add_argument("--init", help="warm start from an earlier solution with the same zone")
     ap.add_argument("--init-dump", help="warm start from another dump of the same mesh (e.g. looped o10 weights)")
     ap.add_argument("--r2-report", help="take no-regression bounds/percentiles/volume targets from this pinned report")
@@ -247,6 +252,21 @@ def main():
             dist = np.linalg.norm(rest[idx][:, None] - d["heads"][chain][None], axis=2)
             for j, bi in enumerate(chain):
                 allowed_full[idx[dist[:, j] < P.get("allow_radius", 0.04)], bi] = True
+    if P.get("zone_mode") == "wrist":
+        # Phase 3D: the wrist band only. Arm/hand/thumb vertices within wrist_zone_radius of each wrist joint
+        # (hand_<s> head). Permitted bones: that side's forearm, hand, thumb_01 and the four metacarpals, on
+        # top of each vertex's existing bones. Finger-region vertices are never in the zone.
+        zone_mask = np.zeros(len(rest), bool)
+        allowed_full = W0 > 1e-6
+        wregs = np.isin(region, [rid[n] for n in ("arm", "hand", "thumb")])
+        for s_ in "lr":
+            Hh = d["heads"][b[f"hand_{s_}"]]
+            side = rest[:, 0] * np.sign(Hh[0]) > 0.0
+            zs = side & wregs & (np.linalg.norm(rest - Hh, axis=1) < P.get("wrist_zone_radius", 0.07))
+            zone_mask |= zs
+            for n in (f"forearm_{s_}", f"hand_{s_}", f"thumb_01_{s_}", f"metacarpal_index_{s_}",
+                      f"metacarpal_middle_{s_}", f"metacarpal_ring_{s_}", f"metacarpal_pinky_{s_}"):
+                allowed_full[zs, b[n]] = True
     if P.get("zone_mode") == "elbow":
         # Priority 2: arm-region vertices around each elbow (forearm head), disjoint from the r24
         # shoulder zone (<= 0.24 m from the glenohumeral joint) and from the hand zone.
@@ -263,6 +283,20 @@ def main():
             for n in (f"upperarm_{s_}", f"forearm_{s_}"):
                 allowed_full[zs, b[n]] = True
     Z = np.nonzero(zone_mask)[0]
+    if a.declare_mask:
+        import hashlib
+        ub_ = [bones[i] for i in np.nonzero(allowed_full[Z].any(axis=0))[0]]
+        rec_ = {"declared_utc": datetime.now(timezone.utc).isoformat(), "preset": a.preset, "parameters": P,
+                "source_dump": str(d["source"]), "vertex_count": int(len(Z)),
+                "allowed_vertex_ids": [int(v) for v in Z],
+                "allowed_vertex_ids_sha256": hashlib.sha256(np.asarray(Z, dtype="<i8").tobytes()).hexdigest(),
+                "allowed_regions": sorted({rnames[r] for r in np.unique(region[Z])}),
+                "allowed_bones": ub_,
+                "declared_before_edit": True,
+                "note": "Mask rule applied to the parent's own rest mesh. Declared before any weight is changed."}
+        Path(a.declare_mask).write_text(json.dumps(rec_, indent=2) + "\n", encoding="utf-8")
+        print("MASK DECLARED", a.declare_mask, "vertices", len(Z), "sha", rec_["allowed_vertex_ids_sha256"][:16])
+        return
     zpos = -np.ones(len(rest), int)
     zpos[Z] = np.arange(len(Z))
     used = np.nonzero(allowed_full[Z].any(axis=0))[0]          # compact bone set
@@ -413,7 +447,7 @@ def main():
     TT_R2 = {}
     tt_cand = np.nonzero(((zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.05)))[tris]).all(axis=1)
                          & (zone_mask[tris]).any(axis=1))[0]
-    if P.get("zone_mode") in ("hand", "elbow"):
+    if P.get("zone_mode") in ("hand", "elbow", "wrist"):
         nbr_mask = zone_mask.copy()
         nbr_mask[E[zone_mask[E[:, 0]], 1]] = True
         nbr_mask[E[zone_mask[E[:, 1]], 0]] = True

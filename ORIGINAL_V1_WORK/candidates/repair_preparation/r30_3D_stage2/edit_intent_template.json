@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "state": "DRAFT",
+  "phase": "3D",
+  "parent_candidate": "r30",
+  "before_candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",
+  "child_candidate": null,
+  "candidate_sha256": null,
+  "work_package": "docs/work_packages/PHASE_3D_WRIST_PUSHUP.md",
+  "purpose": "Repair the local forearm/hand transition while retaining finger improvements and unchanged floor contact.",
+  "change_type": null,
+  "local_defect_description": null,
+  "planned_operations": [],
+  "permitted_vertex_ids": [],
+  "allowed_regions": [],
+  "allowed_bones": [],
+  "mask_basis_evidence": [],
+  "symmetry_plan": null,
+  "index_correspondence_basis": null,
+  "frozen_constraints": [
+    "R2 baseline",
+    "63-bone canonical rig rest/hierarchy",
+    "acceptance thresholds",
+    "stress poses",
+    "equipment handle frames",
+    "first-party provenance"
+  ],
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
+      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+    },
+    {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "sha256": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95"
+    },
+    {
+      "path": "ORIGINAL_V1_PRODUCTION_CONTROL.json",
+      "sha256": "a4222ce47233c2dd36cbf5bcf4e45b4f01a46459c9f09bf42b7ad81478de6ea0"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json",
+      "sha256": "f7b2be8e8159a50480e980f0043f4b0768e1623dff4fd9c7d872cd661241f362"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_R2.json",
+      "sha256": "ae4b96e5f070f9b329e1d5c3b74203c2e5c2ba4d9aeaff33b28e70aa2f58c5a4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r28.json",
+      "sha256": "a836ab5f7e3fc5f7dd26106814171b2fcb367d1c3e09bca09125c3092ae50460"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r29.json",
+      "sha256": "ae2fd78410873d461f7c427248d27e26723c2c1f5c383be0151cea6b6520280e"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_evidence_manifest.json",
+      "sha256": "ced079bc799b29b6529aa9da38c0ac70ef83d5109057e9be1ff84d3c818e1e7b"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_merged_pose_report.json",
+      "sha256": "b3d85d4f0282a445e0c8edd65fca5bbd8b309b4cd9f5bfc32a15d7d78bc21136"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/diagnostic_brief.json",
+      "sha256": "80ec401aff5e89fa00290fefd8e1c75964f849a968a187fc1c560c6ca4f3aab2"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/edge_extremes.json",
+      "sha256": "d44e1a24b595a2da8ee042a36307660c7732daba9399779f557d31bc06ffc3f1"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/grip_penetration.json",
+      "sha256": "d212b2061ffcdb0a7fd83b8a713d1a0be6571cb357058d201555953388d9c782"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r30/visual_review_manifest.json",
+      "sha256": "6d221da8f622590c067e1baa8d652e9311be3e64d9709a3a35c4644c0c3dee4f"
+    },
+    {
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+      "sha256": "0f65d66e511c7b8102a4490e488485e63370de991dfef5a8bc448bf8cdd02935"
+    }
+  ],
+  "production_approved": false,
+  "note": "Record a pre-edit intent before any candidate edit. Preserve it and append actual operation evidence; do not retrospectively broaden the mask to hide changes."
+}

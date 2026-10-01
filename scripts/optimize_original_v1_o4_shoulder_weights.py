@@ -199,6 +199,10 @@ PRESETS["o28"] = dict(PRESETS["o27"], iters=450, polish_iters=300, rounds=3)
 # (lunge leg max, squat pelvis min, row torso min/leg max). guard_mult makes the regression guards dominate the
 # gate bounds so no regression can be bought; the solve starts from the base weights (which satisfy every guard).
 PRESETS["o29"] = dict(PRESETS["o28"], guard_mult=40.0)
+# o30: o29 plus a 40x percentile-budget guard. o29 fixed lunge torso min/max with every region bound inside tolerance
+# but raised the squat 99th-percentile edge stretch to R2 + 0.100 (tolerance 0.05): the percentile guard did not
+# get the same priority boost.
+PRESETS["o30"] = dict(PRESETS["o29"], guard_p99_mult=40.0)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -606,6 +610,7 @@ def main():
     # base/R2 statistic + margin) and a GATE bound when it equals the gate cap. With guard_mult > 1 the guards
     # dominate, so reaching a gate can never be paid for with a comparator regression elsewhere.
     gm = P.get("guard_mult", 1.0)
+    WP99 = P.get("w_p99", 0.0) * P.get("guard_p99_mult", 1.0)      # percentile budgets are regression guards too
     FH = 1.0 + (gm - 1.0) * (LHI < lhi - 1e-9)
     FL = 1.0 + (gm - 1.0) * (LLO > llo + 1e-9)
 
@@ -665,8 +670,8 @@ def main():
                 act01 = P01ACT[p]
                 u01 = np.zeros_like(lr)
                 u01[act01] = np.maximum((P01T[p] - np.log(0.975)) - lr[act01], 0)
-                total += P["w_p99"] * ((o99 ** 2).sum() + (u01 ** 2).sum())
-                gp = (P["w_p99"] * 2 * (o99 - u01) / np.maximum(L, 1e-12) ** 2)[:, None] * dv
+                total += WP99 * ((o99 ** 2).sum() + (u01 ** 2).sum())
+                gp = (WP99 * 2 * (o99 - u01) / np.maximum(L, 1e-12) ** 2)[:, None] * dv
                 np.add.at(gP, Ez[:, 0], gp)
                 np.add.at(gP, Ez[:, 1], -gp)
             elif P.get("w_p99", 0) > 0:

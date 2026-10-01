@@ -1897,3 +1897,35 @@ r29 / Phase 3B. If live generated status or the existing selector differs, the
 orchestrator stops instead of recommending stale work. Re-run it after each
 meaningful committed candidate/evidence transition. No model geometry, weights,
 rig, R2 baseline, stress poses, thresholds or runtime branch were changed.
+
+
+### Remaining deterministic tooling-gap closure — 2026-10-01
+
+After the Stage 1-12 preparation/orchestration work, completed the remaining
+high-value repo-side gaps that could reduce future Blender/session overhead:
+
+- Phase 5: machine-readable ordered 5A-5G anatomy execution plan plus regional
+  template/verifier/runner. Each region binds exact scope, focused poses, required
+  views/artifacts/checks and 5B-5G must inherit from the previous verified regional
+  candidate.
+- Phase 6: authored joint-support template plus one-command raw/evaluated surface
+  capture for manifold/symmetry, evaluated normals and exact non-adjacent BVH
+  self-intersections. Joint support IDs are deliberately not inferred.
+- Phase 7: detailed body/garment modifier, shape-key/driver, custom-normal,
+  group/attribute/library/material/image scene capture plus explicit clean-room
+  garment operation-history verifier and one-command future runner.
+- Phase 8: strict numeric-only owned material provenance, shader/world/light/camera/
+  renderer/colour-management capture, fixed real-render coverage plan and
+  one-command scene verifier. Image textures/HDRIs/linked material resources are
+  rejected; readability remains a real review.
+- Visual QA: project-owned standard-Python z-buffer rasterizer and Blender adapter
+  for source-bound PGM subject/body/garment/hand/foot/equipment masks. Final runtime
+  masks still require the exact Phase 10 runtime frame/commit.
+- Session close: `RUN_ORIGINAL_V1_SESSION_CLOSE.bat` detects unpushed commits,
+  remote-ahead/divergence, dirty/stale generated state, orphaned/mismatched local
+  Blends and undocumented partial candidates; it never commits/pushes/fetches or
+  deletes evidence.
+
+These are preparation/evidence controls only. None executes the current Phase 3
+repair, changes geometry/weights/rig/R2/poses/thresholds, completes later phases
+or grants production approval. Current actual model action remains RUN r30.

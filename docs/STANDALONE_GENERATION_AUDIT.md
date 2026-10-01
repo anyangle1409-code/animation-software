@@ -44,6 +44,8 @@ with no skipped body checks:
 - horizontal press — standard push-up;
 - supine — flat dumbbell bench press and dumbbell fly, both passing the same
   clean-fallback equipment/body clearance gate without relaxing its limits;
+- trunk flexion — bodyweight crunch and sit-up, both reproducing the accepted
+  family motion and fully validating with no skipped body checks;
 - squat — bodyweight air squat;
 - lunge — split/forward/reverse family evidence, with reverse lunge in the
   all-family clean-fallback certification loop;

@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`0c1fa20bacc7070434149a85ddb927ca3f25e1b0` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely back in guarded shadow mode, the prompt generator now certifies flat dumbbell bench press and dumbbell fly, and the operational standalone aggregate gates pass.
+`a413d36c2972e02a27d818d32bd6e005ade3e72a` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and the prompt generator now certifies the bodyweight crunch and sit-up in addition to the prior supine expansion.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 0c1fa20b
+## Verification at a413d36c
 
 GitHub Actions on exact SHA
-`0c1fa20bacc7070434149a85ddb927ca3f25e1b0`:
+`a413d36c2972e02a27d818d32bd6e005ade3e72a`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 245 tests passed**;
-- full suite: **188 files passed, 2 skipped; 1,145 tests passed, 62 skipped**;
+- full suite: **188 files passed, 2 skipped; 1,148 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -104,17 +104,18 @@ physical visual/input parity gate.
 
 ## Verified prompt-generation expansion
 
-The deterministic local prompt pipeline now certifies **12 generator families**
-against the clean first-party fallback, including the newly exposed supine
-family:
+The deterministic local prompt pipeline now certifies **13 generator families**
+against the clean first-party fallback. The latest expansion exposes the
+existing project-authored trunk-flexion family:
 
-- `exercise: dumbbell bench press` -> flat dumbbell bench press;
-- `exercise: dumbbell fly` -> flat dumbbell fly.
+- `exercise: bodyweight crunch` -> floor crunch;
+- `exercise: bodyweight sit-up` -> planted-feet sit-up.
 
-Both use the existing project-authored `supineFamily`; generation selects
-motion/load/tempo rather than copying a library exercise. Unsupported incline,
-decline, barbell, single-arm, reverse-fly and floor-press requests remain
-blocked rather than approximated.
+Both use the existing project-authored `trunkFlexionFamily`; generation selects
+motion/tempo rather than copying a library exercise. Weighted, decline,
+bicycle/reverse-crunch and unsupported support/grip requests remain blocked
+rather than approximated. The prior flat dumbbell bench press / fly supine
+expansion remains certified.
 
 The clean-fallback support gate initially measured the flat-bench pad at
 **3.04 mm** from the body against the existing **3.00 mm** contact limit. The
@@ -224,10 +225,10 @@ For cloud/repository work, do not restart completed framework/Three migration.
    Three or v4 compatibility work.
 2. Continue cloud/repository work on release/offline/prompt-generation
    acceptance evidence that can be proved in CI without pretending to close
-   physical-device or Blender gates. The next safe generation expansion is an
-   existing project-authored family with bounded semantics (trunk flexion is a
-   current candidate); require clean-fallback validation before calling it
-   certified.
+   physical-device or Blender gates. The next safe generation expansion is the
+   existing project-authored carry family (farmer's walk), followed by the
+   remaining rotation / anti-rotation families; require clean-fallback validation
+   before calling any of them certified.
 3. When a laptop is available, continue the isolated model branch from
    `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
    deformation** first, regenerate the targeted evidence, and clear its owned

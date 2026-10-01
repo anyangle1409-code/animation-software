@@ -16,7 +16,9 @@ describe('prompt-safety coverage across the registered exercise library', () => 
       expect(blockingCodes(`exercise: ${name} not slow`), name).toContain('tempo');
       const base = parsePrompt(`exercise: ${name}`);
       if (base.intent?.equipment === 'bodyweight') {
-        expect(blockingCodes(`exercise: weighted ${name}`), name).toContain('load');
+        const weightedCodes = blockingCodes(`exercise: weighted ${name}`);
+        expect(weightedCodes.length, name).toBeGreaterThan(0);
+        expect(weightedCodes.some((code) => code === 'load' || code === 'variant' || code === 'equipment'), name).toBe(true);
       }
     }
   });

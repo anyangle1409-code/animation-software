@@ -33,6 +33,30 @@ own measured palm/thumb/handle/floor contact. Freeze the canonical rig structure
 If actual binding identifies a skeletal defect, preserve the evidence and pause
 only that protected change; continue independent safe validation work.
 
+## Prepared Stage 10 discovery/harness tooling
+
+Before any future runtime integration, follow
+`RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md` and run the read-only
+`RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat` against a **separate clean checkout** of the
+runtime authority branch. The prepared contract currently resolves that authority
+to `work/standalone-first-party-audit-20260927`, but the runner rechecks local vs
+remote HEAD and Stage 9 contact semantics rather than assuming the snapshot remains
+current.
+
+At preparation time runtime HEAD `e3a7d915079f018acbfd8198655f623ea7831fbf`
+showed v4 active in source/contract, while older CURRENT_HANDOFF prose still said
+v3 was live. Source and executable contracts outrank that prose. That exact HEAD
+is **not an integration checkpoint**: standalone run 36739619686 failed two
+`firstPartySkeleton.parity.test.ts` assertions at a 0.02 m root/root-tail delta,
+and downstream full-suite/build/audit steps did not run; browser run 36739619753
+was cancelled. Do not weaken those gates or inherit the older green checkpoint.
+
+`ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` is deliberately INCOMPLETE. Populate
+it only after Phase 9 exact final bare/dressed assets exist and the selected runtime
+HEAD is green on its required exact-SHA gates. The first real acceptance request
+remains `exercise: dumbbell shoulder press`; all scenario results must come from
+the real runtime generator/solver/equipment/export path.
+
 ## Exact execution requirements
 
 Prepare a runtime evidence harness on the actual standalone target before execution.

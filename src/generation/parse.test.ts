@@ -301,6 +301,14 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 
+  it('blocks rep-style modifiers that would otherwise be silently replaced by a full repetition', () => {
+    expect(blocking('exercise: half-rep dumbbell curl')).toEqual(['variant']);
+    expect(blocking('exercise: partial squat')).toEqual(['variant']);
+    expect(blocking('exercise: top half dumbbell bench press')).toEqual(['variant']);
+    expect(blocking('exercise: eccentric-only pull-up')).toEqual(['variant']);
+    expect(blocking('exercise: 1.5 reps dumbbell shoulder press')).toEqual(['variant']);
+  });
+
   it('asks only when the answer changes the exercise', () => {
     // Contradictions.
     expect(blocking('hammer curl with palms up')).toEqual(['grip']);

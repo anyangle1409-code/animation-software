@@ -35,8 +35,32 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:suitcase|waiter|overhead|front[-\s]?rack|rack|trap[-\s]?bar|hex[-\s]?bar)\s+(?:walk|carry)\b/, "only the bilateral dumbbell farmer's walk is certified in the carry family."],
 ];
 
+const UNSUPPORTED_REP_STYLE = [
+  /\bpartial\b/,
+  /\b(?:half|quarter)[-\s]?(?:reps?|repetitions?)\b/,
+  /\b(?:top|bottom)[-\s]+half\b/,
+  /\b(?:1\.5|one[-\s]+and[-\s]+a[-\s]+half)[-\s]?(?:reps?|repetitions?)\b/,
+  /\beccentric[-\s]?only\b|\bnegative[-\s]?(?:reps?|repetitions?)\b/,
+];
+
 export function parsePrompt(prompt: string): ParsedPrompt {
   const slots = readSlots(prompt);
+
+  for (const pattern of UNSUPPORTED_REP_STYLE) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'variant',
+          message: `"${match[0]}": partial/eccentric-only repetition styles change the certified range or repetition structure and are not substituted with a normal full repetition.`,
+          blocking: true,
+        }],
+      };
+    }
+  }
 
   for (const [pattern, reason] of NOT_CERTIFIED) {
     const match = slots.text.match(pattern);

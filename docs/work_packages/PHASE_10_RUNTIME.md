@@ -14,6 +14,14 @@ name `work/standalone-first-party-audit-20260927` is a handoff reference; verify
 live availability/current authority rather than assuming it is still the target.
 Do not edit another branch from this model-preparation stage.
 
+Before building the runtime evidence harness, read
+`CONTACT_SOURCE_BRIDGE_PROTOCOL.md` and generate/inspect its source packet. Treat it
+as a comparison contract only: it records what this model branch currently means
+by push-up floor locks, curl hand-driven dumbbells and pull-up fixed rack sockets.
+On the actual live runtime commit, verify those semantics again. A mismatch must be
+recorded and reconciled; never import the older model-branch runtime implementation
+merely to make the bridge match.
+
 Candidate testing must stay separate from the production release allowlist and
 approval flags. If runtime policy forbids unapproved candidates in its production
 loader, use an isolated test fixture; do not weaken that policy or prematurely

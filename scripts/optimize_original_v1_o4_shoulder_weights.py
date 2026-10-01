@@ -195,6 +195,10 @@ PRESETS["o27"] = dict(PRESETS["o22"], zone_mode="pelvis", zmin=0.74, zmax=1.0, s
 # o28: continuation of o27 on the SAME declared mask (hyperparameters are not permissions). o27 ended with the
 # loss still falling (3.3M -> ~1.2M) at its iteration limits; o28 warm-starts from it with ~3x the budget.
 PRESETS["o28"] = dict(PRESETS["o27"], iters=450, polish_iters=300, rounds=3)
+# o29: same declared mask. o28 reached the lunge gate region but only by trading comparator regressions elsewhere
+# (lunge leg max, squat pelvis min, row torso min/leg max). guard_mult makes the regression guards dominate the
+# gate bounds so no regression can be bought; the solve starts from the base weights (which satisfy every guard).
+PRESETS["o29"] = dict(PRESETS["o28"], guard_mult=40.0)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -598,6 +602,13 @@ def main():
             excess01 = len(below) - budget01
             P01ACT[p] = below[np.argsort(-r[below])[:excess01]] if excess01 > 0 else np.zeros(0, int)
 
+    # Guard weighting: a bound is a REGRESSION GUARD when it is tighter than the development gate (derived from the
+    # base/R2 statistic + margin) and a GATE bound when it equals the gate cap. With guard_mult > 1 the guards
+    # dominate, so reaching a gate can never be paid for with a comparator regression elsewhere.
+    gm = P.get("guard_mult", 1.0)
+    FH = 1.0 + (gm - 1.0) * (LHI < lhi - 1e-9)
+    FL = 1.0 + (gm - 1.0) * (LLO > llo + 1e-9)
+
     FOLD = np.array([np.minimum(P.get("fold_cos", -2.0), dihedral_cos(evald[p]) - P.get("fold_margin", 0.0))
                      for p in range(npz)])
 
@@ -618,10 +629,11 @@ def main():
             L = np.linalg.norm(dv, axis=1)
             lr = np.log(np.maximum(L, 1e-12) / L0)
             over, under = np.maximum(lr - LHI[p], 0), np.maximum(LLO[p] - lr, 0)
-            h_hi, h_lo, st = P["w_hinge"] * (over ** 2).sum(), P["w_hinge"] * (under ** 2).sum(), P["w_strain"] * (lr ** 2).sum()
+            h_hi, h_lo, st = (P["w_hinge"] * (FH[p] * over ** 2).sum(), P["w_hinge"] * (FL[p] * under ** 2).sum(),
+                              P["w_strain"] * (lr ** 2).sum())
             total += h_hi + h_lo + st
             parts[poses[p]] = [round(float(h_hi), 2), round(float(h_lo), 2), round(float(st), 2)]
-            g = P["w_hinge"] * 2 * (over - under) + P["w_strain"] * 2 * lr     # dLoss/dlr
+            g = P["w_hinge"] * 2 * (FH[p] * over - FL[p] * under) + P["w_strain"] * 2 * lr     # dLoss/dlr
             gP = np.zeros_like(Pp)
             coef = (g / np.maximum(L, 1e-12) ** 2)[:, None] * dv
             np.add.at(gP, Ez[:, 0], coef)

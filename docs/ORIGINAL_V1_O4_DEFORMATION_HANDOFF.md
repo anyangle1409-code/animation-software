@@ -1692,3 +1692,27 @@ export determinism are unexecuted. No actual new GLBs, images, production gate o
 model-phase completion is claimed. Current model remains EXPERIMENTAL r29 / seven
 blockers; next actual deformation task RUN r30. Next GPT preparation stage:
 candidate-bound dressed evidence tooling.
+
+### Staged GPT preparation: Stage 6 raw garment evidence — 2026-10-01
+
+Live source HEAD checked: `17c59e47a61f79e3f4f44cf940374b4c6bc34c4a`.
+Extended the existing schema-2 snapshot script with explicit --garment capture;
+body remains the default. Shared capture code records exact named mesh/scope,
+source manifest/candidate/script/helper hashes, source commit/command/time, raw
+non-deform coverage weights and partial ordered MASK/ARMATURE modifier settings.
+Added standard-Python same-candidate body/garment pair verification and raw-weight
+diagnostics; reuse existing surface/change audits rather than inventing duplicates.
+Different garment/rig coordinate frames leave cross-side diagnosis unresolved.
+
+See `work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md` for exact laptop commands,
+source preservation and explicit garment/frozen-body policy requirements. No actual
+candidate snapshots, posed clearance, dressed images, garment construction or
+Phase 7 completion are claimed. Full evaluated modifiers/shape keys/normals, actual
+Blender API compatibility and dressed contact/motion still need separate evidence.
+
+198 Python tests pass, including 16 garment cases covering raw capture/wrapper,
+missing garments, source/candidate/rig mismatches, mask rows, nonfinite weights,
+coordinate frames, receipt hashes and output preservation. Generated state,
+pinned R2, frozen pose/rig and historical exports remain unchanged. Current model
+remains EXPERIMENTAL r29 / seven development blockers; next laptop task RUN r30.
+Next GPT preparation: evaluated dressed pose/contact and matched review capture.

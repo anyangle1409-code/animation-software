@@ -7,7 +7,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | Phase | Ready tooling | Missing work before its exit checks can pass |
 |---|---|---|
 | 6 | Raw schema-2 snapshots; prepared surface audit for incidence/vertex links, winding, degeneracy, components and symmetry; mesh/weight deltas; bare stress/review evidence | Actual candidate snapshot execution, evaluated/custom shading-normal audit, self-intersection evidence and joint-support landmarks/loaded review |
-| 7 | Original authoring boundary rules; body snapshot/change audits; bare stress controls | Garment-local geometry/weight audit, dressed pose/contact capture with source receipts, body/garment clearance measurements and dressed review protocol |
+| 7 | Original authoring boundary rules; named body/garment raw snapshots and pair receipts; existing mesh/weight/surface audits; bare stress controls | Actual garment snapshot execution, complete evaluated scene audit, dressed pose/contact capture with source receipts, body/garment clearance measurements and dressed review protocol |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics | Continuous range sampler, per-frame garment/body/contact checks, explicit legitimate-contact classification and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; standalone source/release/browser audits exist on this branch | Actual Blender export verification, ORIGINAL-owned measured runtime grip metadata, real standalone-engine exercise/contact/continuity and export round-trip evidence on its live integration commit |
@@ -53,3 +53,7 @@ normals, self-intersection/joint-support review or automatic Phase 6 completion.
 
 Stage 5 prepares revision-isolated source-bound export capture and verification.
 See `CANDIDATE_EXPORT_PROTOCOL.md`; no actual GLB capture or phase completion is claimed.
+
+Stage 6 prepares raw named garment snapshots and source-bound body/garment pair
+evidence. See `GARMENT_RAW_EVIDENCE_PROTOCOL.md`; evaluated dressed clearance,
+contact, motion and review capture remain open. Phase 7 stays NOT STARTED.

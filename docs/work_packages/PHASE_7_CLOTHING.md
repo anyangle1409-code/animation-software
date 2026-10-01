@@ -18,8 +18,9 @@ configuration. Freeze the underlying body mesh/weights and canonical rig. Snapsh
 the body before/after garment work and prove unchanged bare controls. Document any
 intentional body visibility mask; it cannot remove underlying failure measurements.
 
-Before Blender execution, prepare garment-local raw snapshots/change audit and
-dressed capture/contact tooling. Outputs must identify body and garment hashes,
+Use the prepared `GARMENT_RAW_EVIDENCE_PROTOCOL.md` for garment-local raw
+snapshots/change audits. Before Phase 7 execution also prepare evaluated dressed
+capture/contact tooling. Outputs must identify body and garment hashes,
 pose, raw clearance/intersection points and coverage mask, plus full source/image
 receipts. Existing bare FULL_EVIDENCE/milestone commands do not satisfy this check.
 Do not invent a dressed flag or declare hidden skin clipping harmless without

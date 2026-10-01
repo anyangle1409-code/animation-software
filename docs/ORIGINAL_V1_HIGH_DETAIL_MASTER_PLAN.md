@@ -184,6 +184,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | PREPARED; domain-tool gaps explicit, all phases remain NOT STARTED |
 | 4 | Snapshot-based Phase 6 surface audit using the candidate's own raw geometry | PREPARED; actual snapshots and remaining domain reviews still required |
 | 5 | Revision-isolated candidate GLB export with exact source/settings hashes and collision refusal | PREPARED; actual Blender capture/validation required, no model acceptance |
+| 6 | Named raw garment snapshots, body-mask receipts and source-bound pair diagnostics, reusing existing change/surface audits | PREPARED; evaluated dressed motion/contact/review tooling remains open |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -209,3 +210,8 @@ Stage 5 export tooling: `docs/work_packages/CANDIDATE_EXPORT_PROTOCOL.md`.
 It isolates candidate exports and binds source/settings/bytes, preserving historical
 GLBs. Next GPT preparation stage: candidate-bound dressed evidence tooling; current
 laptop deformation action remains RUN r30. No later model phase is executed.
+
+Stage 6 raw garment foundation: `docs/work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`.
+Actual snapshots require Blender; no garment modelling or Phase 7 completion is
+claimed. Next GPT preparation: evaluated dressed pose/contact and matched review
+capture. Current laptop task remains RUN r30.

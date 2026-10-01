@@ -195,3 +195,8 @@ Optional source-bound candidate export evidence: follow
 `work_packages/CANDIDATE_EXPORT_PROTOCOL.md` and
 `RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede RUN r30 or
 validate production/runtime motion. Actual laptop capture remains required.
+
+Raw garment/body snapshot evidence is prepared in
+`work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`. Existing snapshot command defaults
+to the body; optional --garment captures the owned shorts. This does not measure
+posed clothing clearance or supersede RUN r30.

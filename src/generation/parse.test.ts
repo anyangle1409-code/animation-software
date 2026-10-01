@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { parsePrompt } from './parse';
 import { TEMPO_PROFILES } from './intent';
+import { GENERATOR_FAMILIES } from './families';
 
 const blocking = (prompt: string) =>
   parsePrompt(prompt)
@@ -213,6 +214,27 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.issues).toEqual([]);
     expect(parsed.intent).toMatchObject({ family: 'lunge', step: 'forward' });
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
+  });
+
+  it('accepts safe naming aliases without changing biomechanics', () => {
+    const aliases = [
+      ['exercise: Romanian dead lift', 'hinge', 'dumbbell_romanian_deadlift'],
+      ["exercise: farmer's carries", 'carry', 'farmers_walk'],
+      ['exercise: heel raise', 'calf', 'standing_calf_raise'],
+      ['exercise: cable triceps pressdown', 'extension', 'cable_triceps_pushdown'],
+      ['exercise: tricep press down', 'extension', 'cable_triceps_pushdown'],
+      ['exercise: press up', 'horizontal_press', 'push_up'],
+      ['exercise: RDL', 'hinge', 'dumbbell_romanian_deadlift'],
+      ['exercise: OHP', 'overhead_press', 'dumbbell_shoulder_press'],
+    ] as const;
+
+    for (const [prompt, familyId, reference] of aliases) {
+      const parsed = parsePrompt(prompt);
+      expect(parsed.issues.filter((issue) => issue.blocking), prompt).toEqual([]);
+      expect(parsed.intent?.family, prompt).toBe(familyId);
+      expect(GENERATOR_FAMILIES.find((family) => family.id === familyId)?.reference(parsed.intent!), prompt)
+        .toBe(reference);
+    }
   });
 
   it('fills sensible defaults and says so', () => {

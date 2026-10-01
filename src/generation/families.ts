@@ -861,7 +861,7 @@ const hinge: GeneratorFamily<HingeVariant> = {
   id: 'hinge',
   label: 'Romanian deadlift',
   builder: 'hingeFamily',
-  detect: /\bromanian\s+deadlifts?\b|\brdls?\b/,
+  detect: /\bromanian\s+dead[-\s]?lifts?\b|\brdls?\b/,
   library: ['dumbbell_romanian_deadlift'],
 
   interpret(slots, prompt) {
@@ -1221,13 +1221,13 @@ const extension: GeneratorFamily<ExtensionVariant> = {
   id: 'extension',
   label: 'Triceps extension / cable pushdown',
   builder: 'extensionFamily',
-  detect: /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b|\b(?:cable\s+)?(?:triceps?\s+)?push[-\s]?downs?\b/,
+  detect: /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b|\b(?:cable\s+)?(?:triceps?\s+)?(?:push[-\s]?downs?|press[-\s]?downs?)\b/,
   library: ['dumbbell_overhead_triceps_extension', 'cable_triceps_pushdown'],
 
   interpret(slots, prompt) {
     const assumptions: string[] = [];
     const issues: IntentIssue[] = [];
-    const pushdown = /\bpush[-\s]?downs?\b/.test(slots.text);
+    const pushdown = /\b(?:push[-\s]?downs?|press[-\s]?downs?)\b/.test(slots.text);
 
     if (pushdown) {
       unsupportedNames(
@@ -1808,7 +1808,7 @@ const carry: GeneratorFamily<CarryVariant> = {
   id: 'carry',
   label: "Farmer's walk",
   builder: 'carryFamily',
-  detect: /\bfarmer(?:'s|s)?\s+(?:walk|carry)\b/,
+  detect: /\bfarmer(?:'s|s)?\s+(?:walks?|carr(?:y|ies))\b/,
   library: ['farmers_walk'],
 
   interpret(slots, prompt) {
@@ -1908,7 +1908,7 @@ const calf: GeneratorFamily<CalfVariant> = {
   id: 'calf',
   label: 'Calf raise',
   builder: 'calfFamily',
-  detect: /\bcalf\s+raises?\b|\bcalves?\s+raises?\b/,
+  detect: /\bcalf\s+raises?\b|\bcalves?\s+raises?\b|\bheel\s+raises?\b/,
   library: ['standing_calf_raise', 'dumbbell_calf_raise'],
 
   interpret(slots, prompt) {

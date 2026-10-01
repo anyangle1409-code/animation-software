@@ -86,6 +86,16 @@ class PromotionTests(unittest.TestCase):
     def module(self):
         self.assertTrue((Path(__file__).parent/'verify_original_v1_production_promotion.py').exists(),'promotion gate missing')
         return importlib.import_module('verify_original_v1_production_promotion')
+    def test_eligibility_receipt_binds_exact_packet_identity(self):
+        c=self.module();packet={'candidate_sha256':'a'*64,'target_runtime_commit':'b'*40}
+        identity={'path':'phase12/promotion.json','sha256':'c'*64}
+        result=c.eligibility_receipt([],identity,packet)
+        self.assertEqual(result['eligibility'],'ALL_REQUIRED_GATES_SATISFIED')
+        self.assertEqual(result['promotion_packet'],identity)
+        self.assertEqual(result['candidate_sha256'],packet['candidate_sha256'])
+        self.assertEqual(result['target_runtime_commit'],packet['target_runtime_commit'])
+        self.assertFalse(result['production_approved'])
+
     def test_empty_packet_cannot_promote(self):
         c=self.module()
         with tempfile.TemporaryDirectory() as td:

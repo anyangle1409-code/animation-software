@@ -1929,3 +1929,17 @@ high-value repo-side gaps that could reduce future Blender/session overhead:
 These are preparation/evidence controls only. None executes the current Phase 3
 repair, changes geometry/weights/rig/R2/poses/thresholds, completes later phases
 or grants production approval. Current actual model action remains RUN r30.
+
+
+### Repository-side gap-closure pass — 2026-10-01
+
+Prepared the remaining high-value non-Blender tooling that directly reduces future
+Claude laptop setup: ordered Phase 5A-5G anatomy packet/lineage verification;
+Phase 6 evaluated normals/BVH self-intersection capture plus explicitly authored
+joint-support evidence; Phase 7 detailed garment scene/shape-key/modifier/library
+capture plus clean-room operation ledger; Phase 8 strict numeric-material and
+presentation-state capture with fixed app-distance review plan; first-party
+z-buffer PGM mask generation for model-side visual QA; and a read-only end-of-session
+checker for pushed/clean/partial recovery state. None of these tools execute later
+roadmap phases early or alter current model evidence. Current actual action remains
+`RUN_ORIGINAL_V1_R30.bat` after normal preflight.

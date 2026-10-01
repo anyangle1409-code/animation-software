@@ -1251,6 +1251,9 @@ const verticalPull: GeneratorFamily<VerticalPullVariant> = {
         [/\b(?:assisted|banded)\b/, 'an assisted pull-up changes the load/support system; only bodyweight is certified.'],
         [/\bweighted\b/, 'a weighted pull-up adds external load; only bodyweight is certified.'],
         [/\b(?:neutral[-\s]?grip|hammer[-\s]?grip)\b/, 'a neutral-grip pull-up changes the rack grip orientation; only pronated is certified.'],
+        [/\bchest[-\s]?to[-\s]?bar\b|\bsternum\b/, 'a chest-to-bar/sternum pull-up changes the certified top range and body path.'],
+        [/\bl[-\s]?sit\b/, 'an L-sit pull-up adds a sustained hip-flexion/leg position the strict pull-up family does not build.'],
+        [/\bcommando\b/, 'a commando pull-up changes hand orientation and body path; only the standard pronated pull-up is certified.'],
       ],
       issues,
     );

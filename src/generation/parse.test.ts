@@ -489,6 +489,9 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('chin-up')).toEqual(['family']);
     expect(blocking('weighted pull-up')).toContain('variant');
     expect(blocking('neutral grip pull-up')).toContain('variant');
+    expect(blocking('chest-to-bar pull-up')).toContain('variant');
+    expect(blocking('L-sit pull-up')).toContain('variant');
+    expect(blocking('commando pull-up')).toContain('variant');
     expect(blocking('single-arm overhead triceps extension')).toContain('variant');
     expect(blocking('rope cable pushdown')).toContain('variant');
     expect(blocking('single-arm cable pushdown')).toContain('variant');

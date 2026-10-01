@@ -55,11 +55,11 @@ const COUNT_WORD =
 const UNSUPPORTED_PROGRAMMING = [
   new RegExp(`\\b${COUNT_WORD}\\s*(?:sets?|reps?|repetitions?)\\b`),
   new RegExp(`\\bfor\\s+${COUNT_WORD}\\s*(?:seconds?|secs?|minutes?|mins?)\\b`),
-  /\\b\\d+\\s*[x×]\\s*\\d+\\b/,
-  /\\b(?:amrap|emom)\\b/,
-  /\\b(?:to|until)\\s+failure\\b/,
-  /\\brpe\\s*\\d+(?:\\.\\d+)?\\b|\\brir\\s*\\d+\\b|\\breps?\\s+in\\s+reserve\\b/,
-  /\\brest(?:ing)?\\s+(?:for\\s+)?\\d+(?:\\.\\d+)?\\s*(?:s|secs?|seconds?|m|mins?|minutes?)\\b/,
+  /\b\d+\s*[x×]\s*\d+\b/,
+  /\b(?:amrap|emom)\b/,
+  /\b(?:to|until)\s+failure\b/,
+  /\brpe\s*\d+(?:\.\d+)?\b|\brir\s*\d+\b|\breps?\s+in\s+reserve\b/,
+  /\brest(?:ing)?\s+(?:for\s+)?\d+(?:\.\d+)?\s*(?:s|secs?|seconds?|m|mins?|minutes?)\b/,
 ];
 
 const NEGATED_GRIP =

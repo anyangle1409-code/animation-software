@@ -1,4 +1,4 @@
-# Phase 6–12 tooling readiness
+# Phase 5–12 tooling readiness
 
 This is preparation scope, not phase completion. Scripts were inspected at model
 source HEAD `61689f5119aab4ee619940ddfabe9176201f03b5`. Check live code again at
@@ -6,6 +6,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 
 | Phase | Ready tooling | Missing work before its exit checks can pass |
 |---|---|---|
+| 5 | Seven region briefs plus machine-readable ordered 5A–5G plan, regional evidence verifier/templates, predecessor-candidate binding and required capture/evidence inventory | Actual Blender anatomy modelling, real region masks/operations/snapshots, full candidate evidence, actual review images and final Phase 5 exit report |
 | 6 | Raw schema-2 snapshots; prepared surface audit for incidence/vertex links, winding, degeneracy, components and symmetry; mesh/weight deltas; bare stress/review evidence | Actual candidate snapshot execution, evaluated/custom shading-normal audit, self-intersection evidence and joint-support landmarks/loaded review |
 | 7 | Original authoring boundary rules; named raw body/garment snapshots and pair receipts; existing mesh/weight/surface audits; prepared static evaluated dressed stress-pose clearance/intersection capture and matched bare/dressed review protocol | Actual Blender execution, complete modifier/shape-key/custom-normal scene audit, continuous dressed motion, legitimate-contact classification, operation-history equivalence and final owner review |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
@@ -115,3 +116,11 @@ promotion-packet bytes/candidate/runtime. Final-freeze verification rechecks all
 Phase 4-11 exits and exact model/runtime/assets plus separate owner freeze
 authorization, but never changes production state. Current r29 is expected to be
 refused until the roadmap is genuinely complete.
+
+
+Phase 5 gap closure adds `ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json`,
+`scripts/original_v1_phase5_anatomy.py`, `RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat`
+and `PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md`. Each 5A-5G region is now an ordered,
+candidate-bound evidence step with exact scope, poses, views, artifacts and nine
+required checks. 5B-5G must prove the preceding verified region candidate is their
+direct parent. The tool never edits Blender or decides visual anatomy quality.

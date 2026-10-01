@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`846ef04b56e8c0bef629e24d7eaae2e9780951d1` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and the deterministic prompt generator now certifies Russian twist as the 15th core movement family.
+`66684f9e73ea7db931e4c5573bf80f7a2e1c40bf` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, and deterministic prompt generation now covers all 16 core movement families and all 28 exercises currently registered in the first-party library.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 846ef04b
+## Verification at 66684f9e
 
 GitHub Actions on exact SHA
-`846ef04b56e8c0bef629e24d7eaae2e9780951d1`:
+`66684f9e73ea7db931e4c5573bf80f7a2e1c40bf`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 245 tests passed**;
-- full suite: **188 files passed, 2 skipped; 1,169 tests passed, 62 skipped**;
+- full suite: **189 files passed, 2 skipped; 1,183 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -104,22 +104,32 @@ physical visual/input parity gate.
 
 ## Verified prompt-generation expansion
 
-The deterministic local prompt pipeline now certifies **15 generator families**
-against the clean first-party fallback. The latest expansion exposes the
-existing project-authored seated rotation family:
+The deterministic local prompt pipeline now covers **all 16 core movement
+families** and all **28 exercises currently registered in the first-party
+library**.
 
-- `exercise: Russian twist with controlled tempo` -> the existing seated bodyweight Russian twist.
+The final core-family work added the existing project-authored cable rotation
+and anti-rotation motions:
 
-Generation changes only tempo and preserves `rotationFamily`'s seated lean,
-planted heels, ±50° trunk turn and clasped-hand path. Weighted/loaded,
-medicine-ball/plate, raised-feet, standing, grip and angle-override variants are
-blocked rather than approximated. Carry, supine and trunk-flexion generation
-remain certified.
+- `exercise: cable woodchop` -> the accepted high-to-low cable woodchop;
+- `exercise: Pallof press` -> the accepted standing cable Pallof press.
 
-The clean-fallback certification suite has also been split into independent
-per-example cases with a 60 s case limit; every existing case preserves the same
-body/equipment/IK/technique assertions, and the slowest current case is below
-41 s. No validation threshold or global timeout was increased.
+The remaining two registered library variants were then exposed without new
+motion math:
+
+- `exercise: dumbbell calf raise` -> the existing loaded calf-family variant;
+- `exercise: cable triceps pushdown` -> the existing straight-bar pushdown
+  variant in `extensionFamily`.
+
+Both of those variants pass the same clean first-party body/equipment/IK/
+technique validation path with no skipped body checks. No validation threshold
+or global timeout was increased.
+
+`src/generation/libraryCoverage.test.ts` now makes complete current-library
+coverage an invariant: every registered exercise must belong to exactly one
+generator family, and `exercise: <its product-facing name>` must parse back to
+that exact library reference. A future library exercise therefore cannot be
+added silently without a deterministic prompt path.
 
 The clean-fallback support gate initially measured the flat-bench pad at
 **3.04 mm** from the body against the existing **3.00 mm** contact limit. The
@@ -229,11 +239,12 @@ For cloud/repository work, do not restart completed framework/Three migration.
    Three or v4 compatibility work.
 2. Continue cloud/repository work on release/offline/prompt-generation
    acceptance evidence that can be proved in CI without pretending to close
-   physical-device or Blender gates. The final core-family generation increment
-   is cable rotation/anti-rotation: expose the existing cable woodchop variant
-   and Pallof press through a bounded cable intent, then require both to pass the
-   same independent clean-fallback certification cases. Keep cable load/side or
-   direction variants blocked unless separately certified.
+   physical-device or Blender gates. Core-family and current-library prompt
+   coverage are complete. The next safe generation work is deterministic
+   language/intent breadth for already-certified biomechanics (tested aliases,
+   synonyms and clearer disambiguation), while keeping genuinely new movement,
+   support, grip, side or equipment variants blocked until they gain their own
+   family-level validation evidence.
 3. When a laptop is available, continue the isolated model branch from
    `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
    deformation** first, regenerate the targeted evidence, and clear its owned

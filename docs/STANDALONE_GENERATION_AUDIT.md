@@ -48,17 +48,17 @@ with no skipped body checks:
   family motion and fully validating with no skipped body checks;
 - carry — farmer's walk with paired dumbbells, preserving the family's fixed
   two-step gait and exported travel speed; tempo/distance variants remain blocked;
-- rotation — seated bodyweight Russian twist, preserving the accepted lean,
-  planted heels, trunk turn and clasped-hand path;
+- rotation — seated bodyweight Russian twist and the accepted high-to-low cable woodchop;
+- anti-rotation — standing cable Pallof press with the accepted two-hand press line and no-twist constraints;
 - squat — bodyweight air squat;
 - lunge — split/forward/reverse family evidence, with reverse lunge in the
   all-family clean-fallback certification loop;
-- calf — standing calf raise;
+- calf — bodyweight standing calf raise and the paired-dumbbell loaded variant;
 - hinge — dumbbell Romanian deadlift;
 - row — dumbbell bent-over row;
 - raise — lateral and front raises;
 - vertical pull — strict pull-up;
-- extension — dumbbell overhead triceps extension.
+- extension — dumbbell overhead triceps extension and straight-bar cable triceps pushdown.
 
 For the supine family, an initial clean-fallback run measured the bench pad
 3.04 mm from the body against the existing 3.00 mm support-contact limit. The
@@ -69,6 +69,13 @@ The same suite also proves that accepted family defaults reproduce the relevant
 hand-authored library motion where that comparison is defined, generated
 definitions remain candidates rather than silently entering the library, and
 unsupported/ambiguous requests are blocked instead of guessed.
+
+Current structural coverage is **28 / 28 registered exercises** across all
+**16 core movement families**. `src/generation/libraryCoverage.test.ts`
+requires every registered exercise to appear in exactly one generator family's
+proving set and requires each product-facing exercise name to parse back to its
+exact library reference. This is a maintenance gate, not a claim that every
+conceivable variation of those movements is certified.
 
 The exact product-level shorthand requested for normal use is covered by the
 production-output browser smoke:
@@ -139,8 +146,9 @@ audit once described Three-based validation.
 The architecture is approved, but release acceptance remains open because:
 
 - ORIGINAL v1 is not yet the production validation/render character;
-- the certified family vocabulary is intentionally bounded even though every
-  currently certified family now has clean-fallback generation evidence;
+- all current library exercises have deterministic prompt routes, but the accepted
+  vocabulary and biomechanical variants remain intentionally bounded; new variants
+  still require their own validation evidence;
 - final production-package offline acceptance and physical-device evidence are
   still required;
 - promotion of generated candidates remains an explicit human/code decision.

@@ -8,7 +8,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 |---|---|---|
 | 5 | Seven region briefs plus machine-readable ordered 5A–5G plan, regional evidence verifier/templates, predecessor-candidate binding and required capture/evidence inventory | Actual Blender anatomy modelling, real region masks/operations/snapshots, full candidate evidence, actual review images and final Phase 5 exit report |
 | 6 | Raw schema-2 snapshots; surface audit for incidence/vertex links/winding/degeneracy/components/symmetry; one-command evaluated normal + BVH self-intersection capture; authored 12-joint support template/verifier; mesh/weight deltas | Actual Phase-6 candidate execution, authored support-loop vertex IDs/views, any local repairs, topology/weight correspondence evidence and owner wire/surface review |
-| 7 | Original authoring boundary rules; named raw body/garment snapshots and pair receipts; existing mesh/weight/surface audits; prepared static evaluated dressed stress-pose clearance/intersection capture and matched bare/dressed review protocol | Actual Blender execution, complete modifier/shape-key/custom-normal scene audit, continuous dressed motion, legitimate-contact classification, operation-history equivalence and final owner review |
+| 7 | Original authoring boundary rules; raw body/garment snapshots; detailed modifier/shape-key/driver/custom-normal/library scene capture; explicit clean-room garment operation ledger/verifier; static dressed and continuous dressed evidence | Actual garment modelling/authoring record, Blender execution, evidence-backed contact classification, bare/dressed equivalence, real reviews and final Phase 7 exit record |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; deterministic six-path dressed range sampler; first-party contact source bridge for push-up endpoints, hand-driven dumbbells and fixed pull-up rack/socket semantics | Actual Blender/static sampling execution, evidence-backed classification, live-runtime capture of push-up/equipment contact, any warranted refinement and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; Stage 9 contact source bridge; Stage 10 read-only live-runtime discovery/cross-branch semantic verifier; INCOMPLETE real-engine evidence template | Exact green live-runtime commit, Phase 9 final asset evidence, actual model-specific runtime harness execution, contact/continuity capture and export round-trip evidence |
@@ -133,3 +133,11 @@ Phase 6 gap closure adds `ORIGINAL_V1_PHASE6_JOINT_SUPPORT_PLAN.json`,
 `PHASE_6_ADVANCED_SURFACE_PROTOCOL.md`. Evaluated normals and exact non-adjacent
 self-intersections are captured automatically; joint-support IDs remain explicitly
 authored from the real final mesh rather than inferred.
+
+
+Phase 7 gap closure adds `ORIGINAL_V1_PHASE7_GARMENT_AUTHORING_TEMPLATE.json`,
+`capture_original_v1_garment_scene_blender.py`, `original_v1_phase7_garment_scene.py`,
+`original_v1_phase7_scene_capture.py`, `RUN_ORIGINAL_V1_PHASE7_GARMENT_SCENE.bat`
+and `PHASE_7_GARMENT_SCENE_PROTOCOL.md`. It records full scene/modifier/shape-key
+coverage and a candidate-chained clean-room operation history rather than inferring
+first-party provenance from dressed appearance.

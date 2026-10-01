@@ -58,3 +58,14 @@ Keep readable labels and report metrics beside imagery, rather than a blended
 quality score. Each candidate retains its own folder; never overwrite rejected
 or superseded review evidence. No screenshots currently exist in the committed
 r29 evidence, so cloud preparation cannot truthfully show a current render.
+
+## Numeric source lineage from r30 onward
+
+Publish the full merger's evidence receipt plus all six original group report and
+render-source JSON pairs. The cloud checker verifies candidate/manifest/script
+identities, source hashes and identical overlapping metrics before selecting a
+future candidate. This numeric lineage check is separate from the local PNG-byte
+verification and owner visual review. Full-resolution images can remain local;
+publish the verified compact review set. Git attributes protect evidence byte hashes
+from automatic newline conversion. Never rewrite historical evidence or invent
+source manifests for earlier renders.

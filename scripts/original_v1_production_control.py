@@ -89,6 +89,66 @@ def verify_comparison(root, path, base_path, candidate_path, historical=False):
     return {**expected,'evidence':evidence(root,path),'regressions':regressions}
 
 
+def verify_full_receipt(root, rev):
+    """Verify committed numeric source lineage; actual PNG bytes have a separate audit.
+
+    Every source report and render manifest must be committed. Full-resolution PNGs
+    may stay on the laptop; the compact review collector verifies their bytes there.
+    Historical pre-r30 evidence is preserved without retroactive invented receipts.
+    """
+    from merge_original_v1_repair_group_reports import GROUP_POSES
+    path=f'{RC}/full_{rev}_evidence_manifest.json'
+    try:
+        receipt=read(root,path)
+        man_path=f'{CAND}/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.json'
+        man=read(root,man_path)
+        merged_path=f'{RC}/full_{rev}_merged_pose_report.json'
+        if (receipt.get('schema_version')!=1 or receipt.get('candidate_revision')!=rev or
+            receipt.get('candidate_sha256')!=man['candidate_sha256'] or
+            receipt.get('candidate_manifest_sha256')!=digest(root/man_path) or
+            receipt.get('production_approved') is not False):
+            raise ValueError('source receipt candidate identity/schema differs: '+rev)
+        script_sha=receipt.get('render_script_sha256','')
+        if not re.fullmatch('[0-9a-f]{64}',script_sha):raise ValueError('source receipt script identity missing')
+        if receipt.get('merged_pose_report_sha256')!=digest(root/merged_path):
+            raise ValueError('source receipt merged report hash differs')
+        groups=receipt['groups'];names=[x['group'] for x in groups]
+        if len(names)!=len(set(names)) or set(names)!=set(GROUP_POSES):
+            raise ValueError('source receipt requires all six groups')
+        rows={}
+        for row in groups:
+            group=row['group']
+            report_path=f'{RC}/{group}_{rev}/pose_test_report.json'
+            source_path=f'{RC}/{group}_{rev}/render_source_manifest.json'
+            if row['pose_report']!=report_path or row['render_source_manifest']!=source_path:
+                raise ValueError('source receipt group paths differ')
+            if (row['pose_report_sha256']!=digest(root/report_path) or
+                row['render_source_manifest_sha256']!=digest(root/source_path)):
+                raise ValueError('source receipt group hash differs: '+group)
+            source=read(root,source_path)
+            if (source.get('candidate_sha256')!=man['candidate_sha256'] or
+                source.get('render_script_sha256')!=script_sha or
+                source.get('pose_report_sha256')!=row['pose_report_sha256'] or
+                not source.get('blender_version')):
+                raise ValueError('source receipt capture identity differs: '+group)
+            report=read(root,report_path);ensure_finite(report)
+            poses=[x['pose'] for x in report]
+            if len(poses)!=len(set(poses)) or set(poses)!=set(GROUP_POSES[group]):
+                raise ValueError('source receipt group pose coverage differs: '+group)
+            for pose in report:
+                name=pose['pose']
+                if name in rows and rows[name]!=pose:raise ValueError('source receipt overlapping metrics differ: '+name)
+                rows[name]=pose
+        order=[x['pose'] for x in read(root,f'{CAND}/pose_test_report_r2.json')]
+        if set(rows)!=set(order) or receipt.get('pose_count')!=len(order):
+            raise ValueError('source receipt full coverage differs')
+        if [rows[name] for name in order]!=read(root,merged_path):
+            raise ValueError('source receipt merged metrics differ from original groups')
+        return evidence(root,path)
+    except (OSError,KeyError,TypeError) as exc:
+        raise ValueError('source receipt missing/incomplete for '+rev+': '+str(exc)) from exc
+
+
 def next_action(status, control):
     incomplete = status['incomplete_candidates']
     if incomplete:
@@ -162,7 +222,10 @@ def build(root=ROOT):
         comparisons = {}
         report = root/report_path
         eval_result = None
+        receipt_ref = None
         if report.exists():
+            if revision_key(rev)[0]>=30:
+                receipt_ref=verify_full_receipt(root,rev)
             eval_result = evaluate(root,report_path,historical=(rev=='r20'))
             paths = sorted((root/RC).glob(f'full_{rev}_comparison_vs_*.json'))
             for p in paths:
@@ -198,6 +261,7 @@ def build(root=ROOT):
             'manifest':evidence(root,manifest.relative_to(root).as_posix()),
             'visual_review_location': f'{CAND}/review/visual_{rev}/visual_review_manifest.json' if (root/f'{CAND}/review/visual_{rev}/visual_review_manifest.json').exists() else None,
             'evidence_timestamp':man.get('generated_utc')}
+        if receipt_ref: entries[rev]['full_evidence_receipt']=receipt_ref
     if not complete: raise ValueError('no complete experimental candidate evidence')
     rev = max(complete,key=revision_key); current=entries[rev]
     # Any later manifest or report/solution is partial until full evidence verifies.
@@ -251,6 +315,7 @@ def build(root=ROOT):
             if n==12: raise ValueError('Phase 12 requires separate controlled promotion workflow')
             phases[str(n)]={'state':'complete','reason':'Candidate-bound exit packet verified.','evidence':record['evidence']}
     refs=[evidence(root,current['evidence_location']),current['manifest'],evidence(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')]
+    if current.get('full_evidence_receipt'): refs.append(current['full_evidence_receipt'])
     for c in current['comparisons'].values(): refs.append(c['evidence'])
     diag=root/f'{RC}/remaining_diagnostics_{rev}'
     if diag.exists():

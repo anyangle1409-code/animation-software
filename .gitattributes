@@ -1,0 +1,5 @@
+# Preserve exact byte hashes across Git for laptop/cloud model evidence.
+# This disables newline conversion, not text diffs. Never renormalize old evidence.
+ORIGINAL_V1*.json -text
+ORIGINAL_V1_WORK/** -text
+src/rig/canonicalV4Original.ts -text

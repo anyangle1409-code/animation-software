@@ -45,3 +45,8 @@ If r30 has already been created, preserve it and o22. Run
 and missing-evidence instructions. Do not rerun the optimiser to get around a
 preflight collision. STOP means reconcile the named evidence conflict while
 continuing independent safe documentation or diagnostics.
+
+For r30 and later, also commit the full source receipt and all six group report /
+render-source JSON pairs. The cloud status checker verifies their candidate hashes
+and merged metrics without requiring every full-resolution render to be published.
+Keep the compact real-image review set and owner_review pending.

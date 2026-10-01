@@ -125,4 +125,80 @@ class ControlTests(unittest.TestCase):
         self.assertEqual(first['incomplete_candidates'],second['incomplete_candidates'])
         self.assertEqual(second['next_action']['action'],'STOP')
 
+    def test_new_full_candidate_requires_source_receipt(self):
+        c=self.module();root=self.fixture();cand=root/c.CAND
+        man=c.read(root,c.CAND+'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json')
+        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
+        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
+        shutil.copy(root/c.RC/'full_r29_merged_pose_report.json',root/c.RC/'full_r30_merged_pose_report.json')
+        shutil.copy(root/c.RC/'full_r29_comparison_vs_R2.json',root/c.RC/'full_r30_comparison_vs_R2.json')
+        with self.assertRaisesRegex(ValueError,'source receipt'):c.build(root)
+
+    def receipt_fixture(self):
+        from test_original_v1_evidence_merge import MergeTests
+        import merge_original_v1_repair_group_reports as merger
+        helper=MergeTests();root=helper.fixture(merger);self.addCleanup(helper.doCleanups)
+        rows,receipt=merger.collect_reports(root,'r29')
+        output=root/merger.RC/'full_r29_merged_pose_report.json'
+        output.write_text(json.dumps(rows))
+        receipt['merged_pose_report_sha256']=merger.sha256(output)
+        packet=output.with_name('full_r29_evidence_manifest.json');packet.write_text(json.dumps(receipt))
+        return root,packet
+
+    def test_receipt_checks_without_requiring_every_render_on_phone(self):
+        c=self.module();root,packet=self.receipt_fixture()
+        verified=c.verify_full_receipt(root,'r29')
+        self.assertEqual(verified['path'],packet.relative_to(root).as_posix())
+
+    def test_receipt_candidate_mismatch_is_refused(self):
+        c=self.module();root,packet=self.receipt_fixture()
+        d=json.loads(packet.read_text());d['candidate_sha256']='b'*64;packet.write_text(json.dumps(d))
+        with self.assertRaisesRegex(ValueError,'candidate'):c.verify_full_receipt(root,'r29')
+
+    def test_receipt_source_tampering_is_refused(self):
+        c=self.module();root,packet=self.receipt_fixture()
+        path=root/c.RC/'hand_r29/pose_test_report.json';path.write_text('[]')
+        with self.assertRaisesRegex(ValueError,'hash'):c.verify_full_receipt(root,'r29')
+
+    def test_receipt_cannot_hide_disagreement_with_merged_metrics(self):
+        c=self.module();root,packet=self.receipt_fixture()
+        path=root/c.RC/'full_r29_merged_pose_report.json';rows=json.loads(path.read_text())
+        rows[0]['volume_ratio']+=.01;path.write_text(json.dumps(rows))
+        d=json.loads(packet.read_text());d['merged_pose_report_sha256']=c.digest(path);packet.write_text(json.dumps(d))
+        with self.assertRaisesRegex(ValueError,'merged metrics'):c.verify_full_receipt(root,'r29')
+
+    def test_future_candidate_with_verified_sources_is_selected(self):
+        import subprocess
+        import sys
+        import merge_original_v1_repair_group_reports as merger
+        c=self.module();root=self.fixture();cand=root/c.CAND
+        man=c.read(root,c.CAND+'/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json')
+        man['candidate']=man['candidate'].replace('r29.blend','r30.blend')
+        (cand/'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json').write_text(json.dumps(man))
+        real={x['pose']:x for x in c.read(root,c.RC+'/full_r29_merged_pose_report.json')}
+        for group,poses in merger.GROUP_POSES.items():
+            directory=root/c.RC/f'{group}_r30';directory.mkdir()
+            report=directory/'pose_test_report.json';report.write_text(json.dumps([real[n] for n in poses]))
+            source={'candidate_sha256':man['candidate_sha256'],'pose_report_sha256':c.digest(report),
+                    'render_script_sha256':'a'*64,'blender_version':'test fixture only','images':[]}
+            (directory/'render_source_manifest.json').write_text(json.dumps(source))
+        rows,receipt=merger.collect_reports(root,'r30')
+        merged=root/c.RC/'full_r30_merged_pose_report.json';merged.write_text(json.dumps(rows))
+        receipt['merged_pose_report_sha256']=c.digest(merged)
+        (root/c.RC/'full_r30_evidence_manifest.json').write_text(json.dumps(receipt))
+        for previous in ('R2','r29','r28'):
+            baseline=root/c.CAND/'pose_test_report_r2.json' if previous=='R2' else root/c.RC/f'full_{previous}_merged_pose_report.json'
+            out=root/c.RC/f'full_r30_comparison_vs_{previous}.json'
+            result=subprocess.run([sys.executable,str(ROOT/'scripts/compare_original_v1_deformation_reports.py'),str(baseline),str(merged),
+                '--baseline-grip-report',str(baseline),'--candidate-grip-report',str(merged),
+                '--profile','development_blocker','--report-only','--json-out',str(out)],capture_output=True,text=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+        status,ledger=c.build(root)
+        self.assertEqual(status['current_candidate'],'r30');self.assertEqual(status['development_failure_count'],7)
+        self.assertFalse(status['production_approved'])
+        self.assertEqual(status['candidate_classification'],'TRADE-OFF')
+        self.assertTrue(any(x['path'].endswith('evidence_manifest.json') for x in status['latest_evidence']))
+        again,again_ledger=c.build(root)
+        self.assertEqual(status,again);self.assertEqual(ledger,again_ledger)
+
 if __name__ == '__main__': unittest.main()

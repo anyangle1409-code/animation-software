@@ -5,6 +5,7 @@ on:
     branches:
       - claude/original-v1-blender-o2-20260929
     paths:
+      - '.gitattributes'
       - 'ORIGINAL_V1*.json'
       - 'ORIGINAL_V1_WORK/**'
       - 'scripts/*original*v1*.py'
@@ -39,6 +40,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_review_manifest.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_evidence_merge.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_interrupted_run.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_evidence_bytes.py'
       - name: Verify exact generated state and unchanged baseline
         run: |
           python3 scripts/build_original_v1_daily_status.py --check

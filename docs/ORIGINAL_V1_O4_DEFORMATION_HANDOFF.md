@@ -1508,3 +1508,21 @@ Incomplete/conflicting groups and full-output collisions stop instructions while
 preserving files. The Phase 3B package and shared quickstart explain pickup.
 78 Python tests pass; the preceding evidence-runner commit also passed GitHub
 production-control CI. Current candidate remains r29; r30 is still unexecuted here.
+
+### Candidate source-chain and byte preservation — 2026-10-01
+
+Live source HEAD: `0f83d1ec4612789344f9dc00119425423e2473ce`. New full candidates
+from r30 onward require the merger's source receipt and committed six-group report /
+render-source JSON pairs. Status recomputes source hashes, candidate/script identity,
+coverage, overlapping metrics and exact merged-row agreement before selection.
+Historical pre-r30 evidence remains unchanged. Cloud numeric lineage verification
+does not imply visual inspection of local full-resolution PNGs.
+
+Added targeted Git attributes preserving ORIGINAL-v1 evidence/JSON and frozen rig
+source bytes. A Git fixture with core.autocrlf=true reproduced hash-changing newline
+conversion before this fix and proves byte-preserving add/checkout afterward.
+No geometry, weights, rig, pose definitions, thresholds or R2 baseline changed.
+
+Validation: 85 Python tests pass; exact generated r29 status, pinned R2, existing
+candidate GLB structural audit and repository documentation hygiene remain valid.
+Real r30 creation/rendering and Windows Blender execution remain laptop tasks.

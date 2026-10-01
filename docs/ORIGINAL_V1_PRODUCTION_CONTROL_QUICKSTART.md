@@ -114,3 +114,23 @@ r28 comparison with --report-only; trial summary against r29 and r28; generated
 candidate review; compact real-image collection; daily status generation. These
 steps must use fresh output paths. Publish evidence and record non-blocking pending
 owner review. Resume from the next-action selector, never from an optimiser score.
+
+## Required evidence publishing from r30 onward
+
+A full new candidate must include `full_<revision>_evidence_manifest.json` generated
+by the full merger. Commit its six group `pose_test_report.json` files and six
+`render_source_manifest.json` files, alongside the candidate manifest, merged
+report and comparisons. Status generation verifies every hash, candidate/script
+identity, exact group membership and overlapping pose metrics against the merged
+report. A missing source receipt or altered source stops processing. Historical
+pre-r30 results remain historical evidence; never fabricate retrospective receipts.
+
+Full-resolution group PNGs may remain local under the existing storage policy.
+The laptop collector verifies PNG bytes and publishes the real compact review set.
+Cloud numeric receipt verification does not claim to inspect unavailable images.
+Keep owner_review pending and continue safe work.
+
+`.gitattributes` preserves ORIGINAL-v1 evidence/JSON and frozen rig-source bytes
+across Git, including when core.autocrlf is true. Do not run `git add --renormalize`
+or rewrite existing evidence to satisfy a mismatch. Inspect and preserve the exact
+source bytes instead. This protects hashes without changing geometry or gates.

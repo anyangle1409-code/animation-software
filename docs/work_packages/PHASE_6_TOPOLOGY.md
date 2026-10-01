@@ -14,6 +14,13 @@ mask. Prefer preserving IDs/faces. No broad remesh, automatic reference fitting,
 V-series/third-party transfer, rig/rest or gate changes. A topology change must
 record old/new faces/counts, affected regions and authored correspondence.
 
+Advanced evaluated-surface tooling is also prepared in
+`PHASE_6_ADVANCED_SURFACE_PROTOCOL.md`. It adds a one-command future capture path
+for evaluated normals, exact non-adjacent BVH self-intersections and explicit
+authored joint-support evidence. The joint-support template deliberately contains
+no inferred vertex IDs; they must be authored from the final mesh. Even an
+EVIDENCE_COMPLETE combined report is not Phase 6 completion.
+
 The raw surface auditor is prepared: follow `SURFACE_AUDIT_PROTOCOL.md` and run
 `python scripts/audit_original_v1_surface.py <snapshot.json> --candidate-manifest <candidate.json> --json-out <fresh surface.json> --markdown-out <fresh surface.md>`.
 It reports defect IDs/regions, vertex links, components/boundaries, winding,

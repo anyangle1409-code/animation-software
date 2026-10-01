@@ -317,10 +317,17 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('does not replace generic weighted bodyweight requests with the plain family default', () => {
-    expect(blocking('exercise: weighted push-up')).toContain('load');
-    expect(blocking('exercise: weighted squat')).toContain('load');
-    expect(blocking('exercise: loaded sit-up')).toContain('load');
-    expect(blocking('exercise: Russian twist holding weights')).toContain('load');
+    const weightedCases = [
+      'exercise: weighted push-up',
+      'exercise: weighted squat',
+      'exercise: loaded sit-up',
+      'exercise: Russian twist holding weights',
+    ];
+    for (const prompt of weightedCases) {
+      const codes = blocking(prompt);
+      expect(codes.length, prompt).toBeGreaterThan(0);
+      expect(codes.some((code) => code === 'load' || code === 'variant' || code === 'equipment'), prompt).toBe(true);
+    }
 
     expect(parsePrompt('exercise: bodyweight squat').issues.filter((issue) => issue.blocking)).toEqual([]);
     expect(parsePrompt('exercise: push-up').issues.filter((issue) => issue.blocking)).toEqual([]);

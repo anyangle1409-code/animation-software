@@ -478,6 +478,11 @@ def measure(name):
 
 
 # ---------------------------------------------------------------- rendering
+# Blender resolves a RELATIVE render filepath against the drive root, but Python resolves OUT against
+# the working directory. With a relative output folder every render landed outside the repository and
+# the capture hash read-back below failed on Windows. Make OUT absolute for everything from here on.
+# (Placed after the frozen pose/metrics definition on purpose; that region is hash-pinned.)
+OUT = OUT.resolve()
 # Optional milestone capture changes cameras/presentation only, never poses/metrics.
 MILESTONE = len(args) > 2 and args[2] == "--milestone"
 METRICS_ONLY = len(args) > 2 and args[2] == "--metrics-only"

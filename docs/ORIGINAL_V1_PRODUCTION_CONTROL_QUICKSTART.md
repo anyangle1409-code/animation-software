@@ -381,3 +381,12 @@ After the actual Phase 7 garment exists, run
 remain identical when only garment visibility changes. The body dressed-mask is
 inactive in both comparison states. This is evidence-only and does not classify
 garment contact or complete Phase 7.
+
+
+### Blender smoke gate
+
+`RUN_ORIGINAL_V1_CLAUDE_START.bat` now includes `RUN_ORIGINAL_V1_BLENDER_SMOKE.bat`.
+It opens the current complete candidate read-only in background Blender and checks
+candidate identity, the canonical 63-bone v4 rig/body, evaluated mesh APIs and
+linked-library state before Claude starts the selected modelling command. It never
+saves the Blend.

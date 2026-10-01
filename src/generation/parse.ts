@@ -43,6 +43,13 @@ const UNSUPPORTED_REP_STYLE = [
   /\beccentric[-\s]?only\b|\bnegative[-\s]?(?:reps?|repetitions?)\b/,
 ];
 
+const COUNT_WORD =
+  '(?:\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
+const UNSUPPORTED_PROGRAMMING = [
+  new RegExp(`\\b${COUNT_WORD}\\s*(?:sets?|reps?|repetitions?)\\b`),
+  new RegExp(`\\bfor\\s+${COUNT_WORD}\\s*(?:seconds?|secs?|minutes?|mins?)\\b`),
+];
+
 export function parsePrompt(prompt: string): ParsedPrompt {
   const slots = readSlots(prompt);
 
@@ -56,6 +63,22 @@ export function parsePrompt(prompt: string): ParsedPrompt {
         issues: [{
           code: 'variant',
           message: `"${match[0]}": partial/eccentric-only repetition styles change the certified range or repetition structure and are not substituted with a normal full repetition.`,
+          blocking: true,
+        }],
+      };
+    }
+  }
+
+  for (const pattern of UNSUPPORTED_PROGRAMMING) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'programming',
+          message: `"${match[0]}": the generator currently produces one validated repetition clip; set/rep counts and timed-set duration are not encoded yet.`,
           blocking: true,
         }],
       };

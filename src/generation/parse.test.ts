@@ -301,6 +301,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 
+  it('blocks set, repetition-count and timed-set prescriptions that have no output field yet', () => {
+    expect(blocking('exercise: dumbbell curl for 10 reps')).toEqual(['programming']);
+    expect(blocking('exercise: 3 sets dumbbell shoulder press')).toEqual(['programming']);
+    expect(blocking('exercise: ten reps dumbbell calf raise')).toEqual(['programming']);
+    expect(blocking('exercise: squat for 30 seconds')).toEqual(['programming']);
+  });
+
   it('blocks rep-style modifiers that would otherwise be silently replaced by a full repetition', () => {
     expect(blocking('exercise: half-rep dumbbell curl')).toEqual(['variant']);
     expect(blocking('exercise: partial squat')).toEqual(['variant']);

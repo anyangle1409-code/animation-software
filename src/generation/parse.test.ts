@@ -115,6 +115,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('lying crunch').intent?.support).toBe('floor');
   });
 
+  it('reads the seated bodyweight Russian twist', () => {
+    const parsed = parsePrompt('exercise: Russian twist with controlled tempo');
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'rotation',
+      equipment: 'bodyweight',
+      execution: 'bilateral',
+      support: 'seated',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
+    expect(parsePrompt('seated Russian twist on the floor').issues).toEqual([]);
+  });
+
   it("reads the bilateral dumbbell farmer's walk", () => {
     const parsed = parsePrompt("exercise: farmer's walk with 24 kg dumbbells");
     expect(parsed.issues).toEqual([]);
@@ -264,6 +278,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking("farmer's walk with controlled tempo")).toEqual(['tempo']);
     expect(blocking("farmer's walk for 20 m")).toEqual(['variant']);
     expect(blocking('suitcase carry')).toEqual(['family']);
+    expect(blocking('weighted Russian twist')).toEqual(['variant']);
+    expect(blocking('Russian twist with a medicine ball')).toEqual(['variant']);
+    expect(blocking('Russian twist with feet raised')).toEqual(['variant']);
+    expect(blocking('standing Russian twist')).toEqual(['support']);
+    expect(blocking('Russian twist with 10 kg')).toEqual(['load']);
+    expect(blocking('Russian twist with palms down')).toEqual(['grip']);
+    expect(blocking('Russian twist at 30 degrees')).toEqual(['angle']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -275,7 +296,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'russian twist', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'cable woodchop', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

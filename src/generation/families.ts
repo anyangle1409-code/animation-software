@@ -27,6 +27,8 @@ import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
 import type { FlexionMotion, TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
+import { rotationFamily } from '../exercises/families/rotation';
+import type { RotationVariant } from '../exercises/families/rotation';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1481,6 +1483,111 @@ const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
 };
 
 
+
+// ---------------------------------------------------------------------------
+// Seated bodyweight rotation: Russian twist
+// ---------------------------------------------------------------------------
+
+/**
+ * The accepted bodyweight Russian twist is certified here. The rotation family
+ * owns the 40° seated lean, planted heels, ±50° trunk turn and clasped-hand
+ * path; generation selects only tempo and does not author joint angles.
+ */
+const rotation: GeneratorFamily<RotationVariant> = {
+  id: 'rotation',
+  label: 'Russian twist',
+  builder: 'rotationFamily',
+  detect: /\brussian\s+twists?\b/,
+  library: ['russian_twist'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bweighted\b|\bloaded\b/, 'loaded Russian twists are not certified; only the bodyweight seated movement is certified.'],
+        [/\b(?:medicine|med)\s+balls?\b|\bplates?\b/, 'the certified Russian twist holds no external implement.'],
+        [/\b(?:feet?|heels?)\s+(?:up|raised|elevated)\b|\bv[-\s]?sit\b/, 'the certified Russian twist keeps both heels down on the floor.'],
+      ],
+      issues,
+    );
+
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the bodyweight Russian twist clasps the hands and has no implement grip variant.`,
+        ),
+      );
+    }
+
+    let supports = distinct(slots.supports);
+    // "Seated on the floor" is one certified setup, not contradictory support.
+    if (supports.every((support) => support === 'seated' || support === 'floor')) {
+      supports = supports.length > 0 ? ['seated'] : [];
+    }
+    if (supports.length === 0) {
+      assumptions.push('Seated on the floor with both heels down — the family default.');
+    } else if (supports.length > 1 || supports[0] !== 'seated') {
+      issues.push(
+        blocking(
+          'support',
+          `A ${supports.join(' and ')} Russian twist is not certified; this family is seated on the floor.`,
+        ),
+      );
+    }
+
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the accepted Russian twist owns its lean and turn angles; prompt angle overrides are not certified.`,
+        ),
+      );
+    }
+
+    const { tempo } = interpretCommon(
+      slots,
+      'Russian twist',
+      'bodyweight',
+      0,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'rotation',
+        equipment: 'bodyweight',
+        execution: 'bilateral',
+        support: 'seated',
+        load: 0,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const tempo = tempoOf(intent);
+    return {
+      ...identity('Russian Twist', intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A seated bodyweight Russian twist with both heels down, using the family-certified trunk turn and clasped-hand path` +
+        `${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: rotationFamily,
+  reference: () => 'russian_twist',
+  levers: [],
+};
+
 // ---------------------------------------------------------------------------
 // Farmer's walk / carry
 // ---------------------------------------------------------------------------
@@ -1689,6 +1796,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   supine as unknown as GeneratorFamily,
   trunkFlexion as unknown as GeneratorFamily,
   carry as unknown as GeneratorFamily,
+  rotation as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,

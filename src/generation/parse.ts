@@ -33,7 +33,7 @@ const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:rear(?:[-\s]?delt)?|bent[-\s]?over|incline|plate)\s+raises?\b/, 'only the bilateral standing dumbbell lateral and front raises are certified in the raise family.'],
   [/\bskull\s?crushers?\b|\bpush[-\s]?downs?\b|\b(?:lying|cable)\s+(?:triceps?\s+)?extensions?\b/, 'only the standing bilateral dumbbell overhead triceps extension is certified in the extension family.'],
   [/\b(?:suitcase|waiter|overhead|front[-\s]?rack|rack|trap[-\s]?bar|hex[-\s]?bar)\s+(?:walk|carry)\b/, "only the bilateral dumbbell farmer's walk is certified in the carry family."],
-  [/\brussian\s+twists?\b|\bwood\s?chops?\b|\bpallof\b/, 'the rotation and anti-rotation families are not certified for generation yet.'],
+  [/\bwood\s?chops?\b|\bpallof\b/, 'cable rotation and anti-rotation movements are not certified for generation yet.'],
 ];
 
 export function parsePrompt(prompt: string): ParsedPrompt {

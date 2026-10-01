@@ -32,6 +32,8 @@ import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
 import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
 import { carryFamily } from '../exercises/families/carry';
 import type { CarryVariant } from '../exercises/families/carry';
+import { rotationFamily } from '../exercises/families/rotation';
+import type { RotationVariant } from '../exercises/families/rotation';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -49,6 +51,7 @@ import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
 import { crunch } from '../exercises/definitions/crunch';
 import { sitUp } from '../exercises/definitions/sitUp';
 import { farmersWalk } from '../exercises/definitions/farmersWalk';
+import { russianTwist } from '../exercises/definitions/russianTwist';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -83,6 +86,7 @@ const FLY = 'exercise: dumbbell fly with 10 kg dumbbells and controlled tempo';
 const CRUNCH = 'exercise: bodyweight crunch with controlled tempo';
 const SIT_UP = 'exercise: bodyweight sit-up with controlled tempo';
 const FARMERS_WALK = "exercise: farmer's walk with 24 kg dumbbells";
+const RUSSIAN_TWIST = 'exercise: Russian twist with controlled tempo';
 
 const CLEAN_FALLBACK_CASES = [
   [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
@@ -92,6 +96,7 @@ const CLEAN_FALLBACK_CASES = [
   [CRUNCH, 'trunk_flexion', 'crunch'],
   [SIT_UP, 'trunk_flexion', 'sit_up'],
   [FARMERS_WALK, 'carry', 'farmers_walk'],
+  [RUSSIAN_TWIST, 'rotation', 'russian_twist'],
   [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
   [CALF_RAISE, 'calf', 'standing_calf_raise'],
   [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
@@ -169,6 +174,21 @@ describe('generating without a character', () => {
   it('reproduces the accepted crunch and sit-up motion from family defaults', () => {
     expect(motionOf(generateExercise('a crunch', options).exercise!)).toEqual(motionOf(crunch));
     expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
+  });
+
+  it('builds the Russian twist from the rotation family without rewriting its trunk motion', () => {
+    const result = generateExercise(RUSSIAN_TWIST, options);
+    expect(result.family?.id).toBe('rotation');
+    expect(result.exercise).toEqual(rotationFamily(result.variant as RotationVariant));
+    expect(result.reference).toBe('russian_twist');
+    expect(result.exercise?.equipment.instances).toEqual([]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces the accepted Russian-twist motion from family defaults', () => {
+    expect(motionOf(generateExercise('a Russian twist', options).exercise!)).toEqual(
+      motionOf(russianTwist),
+    );
   });
 
   it("builds the farmer's walk from the carry family without rewriting the gait", () => {

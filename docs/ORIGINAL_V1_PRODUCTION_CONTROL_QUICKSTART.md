@@ -272,3 +272,14 @@ It validates the prepared support artifacts and prints one current critical-path
 node plus relevant support/parallel-safe work. It never launches Blender or
 advances a phase. This is execution navigation only; the roadmap still ends at
 Phase 12. Current expected model action remains RUN r30.
+
+
+### Phase 5 anatomy gap-closure tooling
+
+Once Phase 4 is genuinely frozen, use
+`docs/work_packages/PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat`. The machine plan fixes the 5A→5G order,
+permitted/protected scope, focused poses, required real views and evidence slots.
+5B-5G require a verified predecessor-region receipt whose candidate is the direct
+parent. Templates are INCOMPLETE only; actual Blender anatomy and real review
+evidence are still required. Current work remains Phase 3/r30.

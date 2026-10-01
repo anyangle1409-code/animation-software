@@ -113,7 +113,7 @@ def markdown(data:dict)->str:
         lines += [f"## {review['kind'].title()} review",""]
         for item in review["files"]:
             label=" / ".join(str(x) for x in (item.get("region") or item.get("pose"),item.get("view")) if x)
-            lines += [f"- [{label or Path(item['path']).name}](../{Path(item['path']).name}) — \`{item['sha256'][:12]}…\`"]
+            lines += [f"- {label or Path(item['path']).name}: {item['path']} — {item['sha256'][:12]}..."]
         lines.append("")
     if data["comparison_sets"]:
         lines+=["## Comparisons",""]

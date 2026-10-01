@@ -46,6 +46,30 @@ def validate_plan(root: Path, plan: dict) -> dict:
                 raise ValueError(f"prepared support artifact missing: {rel}")
             checked_artifacts.append({"path": rel, "sha256": digest(path)})
 
+    operational = plan.get("operational_tools")
+    if not isinstance(operational, dict) or not operational:
+        raise ValueError("operational tooling map missing")
+    for name,row in operational.items():
+        if name=="protocol":
+            rel=row
+            if not isinstance(rel,str) or not rel:
+                raise ValueError("operational protocol path invalid")
+            p=(root/rel).resolve()
+            if not p.is_relative_to(root.resolve()) or not p.exists():
+                raise ValueError("operational protocol missing: "+rel)
+            checked_artifacts.append({"path":rel,"sha256":digest(p)})
+            continue
+        if not isinstance(row,dict) or not isinstance(row.get("command"),str) or not row["command"]:
+            raise ValueError(f"operational tool {name} command missing")
+        artifacts=row.get("artifacts")
+        if not isinstance(artifacts,list) or not artifacts:
+            raise ValueError(f"operational tool {name} artifacts missing")
+        for rel in artifacts:
+            p=(root/rel).resolve()
+            if not p.is_relative_to(root.resolve()) or not p.exists():
+                raise ValueError(f"operational tool artifact missing: {rel}")
+            checked_artifacts.append({"path":rel,"sha256":digest(p)})
+
     path = plan.get("critical_path")
     if not isinstance(path, list) or not path:
         raise ValueError("critical path missing")

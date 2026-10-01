@@ -19,8 +19,10 @@ the body before/after garment work and prove unchanged bare controls. Document a
 intentional body visibility mask; it cannot remove underlying failure measurements.
 
 Use the prepared `GARMENT_RAW_EVIDENCE_PROTOCOL.md` for garment-local raw
-snapshots/change audits. Before Phase 7 execution also prepare evaluated dressed
-capture/contact tooling. Outputs must identify body and garment hashes,
+snapshots/change audits, then `DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md` for
+candidate-bound static evaluated body/garment evidence and matched review capture.
+That prepared tool does not classify legitimate contact or continuous motion;
+those remain required before Phase 7 can exit. Outputs must identify body and garment hashes,
 pose, raw clearance/intersection points and coverage mask, plus full source/image
 receipts. Existing bare FULL_EVIDENCE/milestone commands do not satisfy this check.
 Do not invent a dressed flag or declare hidden skin clipping harmless without
@@ -36,7 +38,9 @@ and explicit clearance measurements; classify intentional seams/contact separate
 
 Render actual bare/dressed neutral front/rear/side/3/4, waist/hem/seat close-ups,
 squat, lunge, push-up, press and row, with identical matched capture settings and
-exact body/garment identities. Dressed images require the prepared dressed protocol;
+exact body/garment identities. Use the prepared dressed evidence protocol for the
+static matched subset, then extend candidate-bound coverage where Phase 7 requires it.
+Dressed images require the prepared dressed protocol;
 bare milestone renders alone are insufficient. Publish NON-BLOCKING pending review,
 continue material/tooling work while retaining the valid body/garment parent.
 

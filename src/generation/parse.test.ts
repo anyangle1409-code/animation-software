@@ -367,9 +367,15 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('reverse curl').intent?.grip).toBe('pronated');
     expect(parsePrompt('curl with 25 lb dumbbells').intent?.load).toBe(11.5);
     expect(parsePrompt('curl with ten kg dumbbells').intent?.load).toBe(10);
+    expect(parsePrompt('curl with ten point five kg dumbbells').intent?.load).toBe(10.5);
+    expect(parsePrompt('curl with 10,5 kg dumbbells').intent?.load).toBe(10.5);
     expect(parsePrompt('curl with twenty-five pounds dumbbells').intent?.load).toBe(11.5);
     expect(parsePrompt('curl with one hundred kg dumbbells').issues.map((issue) => issue.code)).toContain('load');
     expect(parsePrompt('incline curl at forty-five degrees').intent?.benchAngle).toBe(45);
+    expect(parsePrompt('incline curl at forty-five point five degrees').intent?.benchAngle).toBe(45.5);
+    expect(blocking('incline curl at forty-five point five degrees')).toEqual(['angle']);
+    expect(parsePrompt('incline curl at 45,5 degrees').intent?.benchAngle).toBe(45.5);
+    expect(blocking('incline curl at 45,5 degrees')).toEqual(['angle']);
     expect(blocking('incline curl at thirty degrees')).toEqual(['angle']);
     expect(parsePrompt('slow curl').intent?.tempo).toEqual({ profile: 'slow' });
     expect(parsePrompt('curl, tempo 3-1-2-0').intent?.tempo).toEqual({

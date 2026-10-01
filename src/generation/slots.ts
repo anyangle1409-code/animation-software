@@ -124,8 +124,13 @@ const NUMBER_WORD_VALUES: Record<string, number> = {
 
 const WEIGHT_NUMBER_WORD =
   '(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
+const DECIMAL_DIGIT_WORD = '(?:zero|one|two|three|four|five|six|seven|eight|nine)';
+const NUMBER_WORD_SEQUENCE =
+  `${WEIGHT_NUMBER_WORD}(?:(?:[-\\s]+(?:and[-\\s]+)?)${WEIGHT_NUMBER_WORD})*`;
+const NUMBER_WORD_PHRASE =
+  `${NUMBER_WORD_SEQUENCE}(?:\\s+point\\s+${DECIMAL_DIGIT_WORD}(?:[-\\s]+${DECIMAL_DIGIT_WORD})*)?`;
 
-const parseNumberWords = (words: string): number | null => {
+const parseWholeNumberWords = (words: string): number | null => {
   const tokens = words.replace(/-/g, ' ').split(/\s+/).filter((token) => token && token !== 'and');
   if (tokens.length === 0) return null;
   let value = 0;
@@ -141,6 +146,18 @@ const parseNumberWords = (words: string): number | null => {
   return value;
 };
 
+const parseNumberWords = (words: string): number | null => {
+  const [wholeWords, decimalWords] = words.split(/\s+point\s+/, 2);
+  const whole = parseWholeNumberWords(wholeWords);
+  if (whole === null) return null;
+  if (!decimalWords) return whole;
+
+  const digitTokens = decimalWords.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
+  const digits = digitTokens.map((token) => NUMBER_WORD_VALUES[token]);
+  if (digits.length === 0 || digits.some((digit) => digit === undefined || digit > 9)) return null;
+  return whole + Number(`0.${digits.join('')}`);
+};
+
 export function readSlots(prompt: string): PromptSlots {
   const text = prompt
     .toLowerCase()
@@ -149,6 +166,12 @@ export function readSlots(prompt: string): PromptSlots {
     // equivalent to the ASCII forms the deterministic vocabulary expects.
     .replace(/[‘’]/g, "'")
     .replace(/[‐‑‒–—―−]/g, '-')
+    // Decimal commas are normalised only when immediately followed by a
+    // supported weight/angle unit. Other punctuation remains untouched.
+    .replace(
+      /(\d+),(\d+)(?=\s*(?:(?:kgs?|kilo(?:gram)?s?|lbs?|pounds?|deg(?:ree)?s?)\b|[°º]))/g,
+      (_match, whole: string, fraction: string) => `${whole}.${fraction}`,
+    )
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -161,7 +184,7 @@ export function readSlots(prompt: string): PromptSlots {
     loads.push({ value: pounds ? Math.round(amount * POUND * 2) / 2 : amount, words: match[0] });
   }
   const wordLoadPattern = new RegExp(
-    `\\b(${WEIGHT_NUMBER_WORD}(?:(?:[-\\s]+(?:and[-\\s]+)?)${WEIGHT_NUMBER_WORD})*)\\s*(kgs?|kilo(?:gram)?s?|lbs?|pounds?)\\b`,
+    `\\b(${NUMBER_WORD_PHRASE})\\s*(kgs?|kilo(?:gram)?s?|lbs?|pounds?)\\b`,
     'g',
   );
   for (const match of text.matchAll(wordLoadPattern)) {
@@ -176,7 +199,7 @@ export function readSlots(prompt: string): PromptSlots {
     angles.push({ value: Number(match[1]), words: match[0] });
   }
   const wordAnglePattern = new RegExp(
-    `\\b(${WEIGHT_NUMBER_WORD}(?:(?:[-\\s]+(?:and[-\\s]+)?)${WEIGHT_NUMBER_WORD})*)\\s*(?:degrees?|deg)\\b`,
+    `\\b(${NUMBER_WORD_PHRASE})\\s*(?:degrees?|deg)\\b`,
     'g',
   );
   for (const match of text.matchAll(wordAnglePattern)) {

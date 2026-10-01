@@ -1209,23 +1209,62 @@ const verticalPull: GeneratorFamily<VerticalPullVariant> = {
 };
 
 // ---------------------------------------------------------------------------
-// Overhead triceps extension
+// Triceps extension: overhead dumbbells / cable pushdown
 // ---------------------------------------------------------------------------
 
 /**
- * Only the accepted standing bilateral dumbbell overhead extension is
- * certified. Cable pushdowns and other triceps variants stay blocked.
+ * The accepted bilateral overhead dumbbell extension and straight-bar cable
+ * pushdown share this adapter. The extension family owns the elbow paths,
+ * cable station, two-hand bar fit, stance and technique rules.
  */
 const extension: GeneratorFamily<ExtensionVariant> = {
   id: 'extension',
-  label: 'Overhead triceps extension',
+  label: 'Triceps extension / cable pushdown',
   builder: 'extensionFamily',
-  detect: /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b/,
-  library: ['dumbbell_overhead_triceps_extension'],
+  detect: /\boverhead\s+(?:dumbbell\s+)?(?:triceps?\s+)?extensions?\b|\bdumbbell\s+overhead\s+(?:triceps?\s+)?extensions?\b|\b(?:cable\s+)?(?:triceps?\s+)?push[-\s]?downs?\b/,
+  library: ['dumbbell_overhead_triceps_extension', 'cable_triceps_pushdown'],
 
   interpret(slots, prompt) {
     const assumptions: string[] = [];
     const issues: IntentIssue[] = [];
+    const pushdown = /\bpush[-\s]?downs?\b/.test(slots.text);
+
+    if (pushdown) {
+      unsupportedNames(
+        slots,
+        [
+          [/\b(?:single|one)[-\s]?arm(?:ed)?\b|\bunilateral\b/, 'a one-arm cable pushdown is unilateral; only the even two-hand straight-bar version is certified.'],
+          [/\b(?:rope|v[-\s]?bar|ez[-\s]?bar)\b/, 'only the straight-bar cable pushdown is certified.'],
+          [/\b(?:reverse[-\s]?grip|underhand)\b/, 'the certified straight-bar pushdown uses an overhand/pronated grip.'],
+          [/\bseated\b|\bkneeling\b/, 'the certified cable pushdown is standing.'],
+        ],
+        issues,
+      );
+      const grip = interpretGrip(slots, null, 'pronated', assumptions, issues);
+      if (grip !== 'pronated') {
+        issues.push(blocking('grip', 'The certified cable pushdown uses a pronated overhand grip on the straight bar.'));
+      }
+      const support = interpretSupport(slots, ['standing'], 'cable pushdown', assumptions, issues);
+      if (slots.angles.length > 0) {
+        issues.push(blocking('angle', `${quote(slots.angles.map((slot) => slot.words))}: the cable pushdown owns its fixed cable/body geometry; prompt angle overrides are not certified.`));
+      }
+      const { tempo } = interpretCommon(slots, 'cable pushdown', 'cable', 0, assumptions, issues);
+      return {
+        intent: {
+          prompt,
+          family: 'extension',
+          equipment: 'cable',
+          execution: 'bilateral',
+          grip,
+          support,
+          load: 0,
+          tempo,
+        },
+        assumptions,
+        issues,
+      };
+    }
+
     unsupportedNames(
       slots,
       [
@@ -1269,6 +1308,16 @@ const extension: GeneratorFamily<ExtensionVariant> = {
 
   variant(intent) {
     const tempo = tempoOf(intent);
+    const pushdown = intent.equipment === 'cable';
+    if (pushdown) {
+      return {
+        ...identity('Cable Triceps Pushdown', intent),
+        description:
+          `Generated from "${intent.prompt.trim()}". A standing straight-bar cable pushdown using the family's certified pinned-elbow path, cable station and lockout${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+        position: 'pushdown',
+        ...(tempo ? { tempo } : {}),
+      };
+    }
     return {
       ...identity('Dumbbell Overhead Triceps Extension', intent),
       description:
@@ -1281,7 +1330,7 @@ const extension: GeneratorFamily<ExtensionVariant> = {
   },
 
   build: extensionFamily,
-  reference: () => 'dumbbell_overhead_triceps_extension',
+  reference: (intent) => (intent.equipment === 'cable' ? 'cable_triceps_pushdown' : 'dumbbell_overhead_triceps_extension'),
   levers: [],
 };
 
@@ -1850,16 +1899,17 @@ const carry: GeneratorFamily<CarryVariant> = {
 // ---------------------------------------------------------------------------
 
 /**
- * Only the accepted bodyweight standing calf raise is generator-certified.
- * The family also owns a loaded dumbbell variant, but it remains unavailable
- * here until the generation/body-clearance path certifies that variant too.
+ * The accepted standing bodyweight and paired-dumbbell calf raises share this
+ * adapter. The calf family owns the ball-of-foot pivot, root arc, knee control
+ * and technique rules; generation only selects whether the hands carry the
+ * already-supported dumbbells, plus load and tempo.
  */
 const calf: GeneratorFamily<CalfVariant> = {
   id: 'calf',
   label: 'Calf raise',
   builder: 'calfFamily',
   detect: /\bcalf\s+raises?\b|\bcalves?\s+raises?\b/,
-  library: ['standing_calf_raise'],
+  library: ['standing_calf_raise', 'dumbbell_calf_raise'],
 
   interpret(slots, prompt) {
     const assumptions: string[] = [];
@@ -1871,12 +1921,27 @@ const calf: GeneratorFamily<CalfVariant> = {
         [/\b(?:single[-\s]?leg|one[-\s]?leg)\b/, 'a single-leg calf raise is unilateral; only the even two-leg version is certified.'],
         [/\bdonkey\b/, 'a donkey calf raise changes the trunk/support position; only the upright standing version is certified.'],
         [/\b(?:step|deficit)\b/, 'a step or deficit calf raise changes the bottom range below floor level; only the flat-floor version is certified.'],
-        [/\bweighted\b|\bloaded\b/, 'a loaded calf raise is not generator-certified yet; ask for the bodyweight standing calf raise.'],
       ],
       issues,
     );
 
-    if (slots.grips.length > 0) {
+    const dumbbell = slots.equipment.some((slot) => slot.value === 'dumbbell');
+    if (/\bweighted\b|\bloaded\b/.test(slots.text) && !dumbbell) {
+      issues.push(
+        blocking(
+          'variant',
+          'A generic weighted calf raise does not say how the load is carried; the certified loaded variant uses one dumbbell in each hand.',
+        ),
+      );
+    }
+
+    let grip: IntentGrip | undefined;
+    if (dumbbell) {
+      grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+      if (grip !== 'neutral') {
+        issues.push(blocking('grip', 'The certified dumbbell calf raise carries both dumbbells with a neutral grip at the sides.'));
+      }
+    } else if (slots.grips.length > 0) {
       issues.push(
         blocking(
           'grip',
@@ -1901,11 +1966,11 @@ const calf: GeneratorFamily<CalfVariant> = {
       );
     }
 
-    const { tempo } = interpretCommon(
+    const { load, tempo } = interpretCommon(
       slots,
-      'calf raise',
-      'bodyweight',
-      0,
+      dumbbell ? 'dumbbell calf raise' : 'calf raise',
+      dumbbell ? 'dumbbell' : 'bodyweight',
+      dumbbell ? 14 : 0,
       assumptions,
       issues,
     );
@@ -1913,10 +1978,11 @@ const calf: GeneratorFamily<CalfVariant> = {
       intent: {
         prompt,
         family: 'calf',
-        equipment: 'bodyweight',
+        equipment: dumbbell ? 'dumbbell' : 'bodyweight',
         execution: 'bilateral',
+        ...(grip ? { grip } : {}),
         support,
-        load: 0,
+        load,
         tempo,
       },
       assumptions,
@@ -1926,18 +1992,20 @@ const calf: GeneratorFamily<CalfVariant> = {
 
   variant(intent) {
     const tempo = tempoOf(intent);
+    const loaded = intent.equipment === 'dumbbell';
     return {
-      ...identity('Standing Calf Raise', intent),
-      description:
-        `Generated from "${intent.prompt.trim()}". A standing bodyweight calf raise on a flat floor, ` +
-        `rising onto both balls of the feet with the knees held steady${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...identity(loaded ? 'Dumbbell Calf Raise' : 'Standing Calf Raise', intent),
+      description: loaded
+        ? `Generated from "${intent.prompt.trim()}". A standing calf raise carrying ${formatLoad(intent.load)} in each hand, rising onto both balls of the feet with the knees held steady${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`
+        : `Generated from "${intent.prompt.trim()}". A standing bodyweight calf raise on a flat floor, rising onto both balls of the feet with the knees held steady${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      ...(loaded ? { mass: intent.load } : {}),
       ...(tempo ? { tempo } : {}),
     };
   },
 
   build: calfFamily,
 
-  reference: () => 'standing_calf_raise',
+  reference: (intent) => (intent.equipment === 'dumbbell' ? 'dumbbell_calf_raise' : 'standing_calf_raise'),
 
   levers: [],
 };

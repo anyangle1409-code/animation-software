@@ -264,7 +264,8 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('push-up with 10 kg dumbbells')).toEqual(['equipment', 'load']);
     expect(blocking('single-leg calf raise')).toEqual(['variant']);
     expect(blocking('seated calf raise')).toEqual(['support']);
-    expect(blocking('dumbbell calf raise')).toEqual(['equipment']);
+    expect(blocking('weighted calf raise')).toEqual(['variant']);
+    expect(blocking('dumbbell calf raise with palms down')).toEqual(['grip']);
     expect(blocking('single-leg RDL')).toEqual(['variant']);
     expect(blocking('barbell Romanian deadlift')).toEqual(['equipment']);
     expect(blocking('neutral grip Romanian deadlift')).toEqual(['grip']);
@@ -282,7 +283,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('weighted pull-up')).toContain('variant');
     expect(blocking('neutral grip pull-up')).toContain('variant');
     expect(blocking('single-arm overhead triceps extension')).toContain('variant');
-    expect(blocking('cable pushdown')).toEqual(['family']);
+    expect(blocking('rope cable pushdown')).toContain('variant');
+    expect(blocking('single-arm cable pushdown')).toContain('variant');
+    expect(blocking('underhand cable pushdown')).toContain('variant');
+    expect(blocking('dumbbell cable pushdown')).toEqual(['equipment']);
+    expect(blocking('cable pushdown with 10 kg')).toEqual(['load']);
     expect(blocking('barbell bench press')).toEqual(['equipment']);
     expect(blocking('incline dumbbell bench press')).toEqual(['support']);
     expect(blocking('single-arm dumbbell bench press')).toEqual(['execution']);
@@ -333,12 +338,38 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);
     }
     expect(parsePrompt('make me something nice').issues[0].message).toMatch(/No certified movement/);
+  });
+
+  it('reads the loaded calf raise and cable pushdown from their existing families', () => {
+    const calf = parsePrompt('exercise: dumbbell calf raise with 14 kg dumbbells and controlled tempo');
+    expect(calf.issues).toEqual([]);
+    expect(calf.intent).toMatchObject({
+      family: 'calf',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'neutral',
+      support: 'standing',
+      load: 14,
+      tempo: { profile: 'controlled' },
+    });
+
+    const pushdown = parsePrompt('exercise: cable triceps pushdown with controlled tempo');
+    expect(pushdown.issues).toEqual([]);
+    expect(pushdown.intent).toMatchObject({
+      family: 'extension',
+      equipment: 'cable',
+      execution: 'bilateral',
+      grip: 'pronated',
+      support: 'standing',
+      load: 0,
+      tempo: { profile: 'controlled' },
+    });
   });
 
   it('parses only the certified Romanian-deadlift hinge variant', () => {

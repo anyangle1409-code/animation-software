@@ -48,6 +48,7 @@ import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
 import { pullUp } from '../exercises/definitions/pullUp';
 import { overheadExtension } from '../exercises/definitions/overheadExtension';
+import { cablePushdown } from '../exercises/definitions/cablePushdown';
 import { dumbbellBenchPress } from '../exercises/definitions/dumbbellBenchPress';
 import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
 import { crunch } from '../exercises/definitions/crunch';
@@ -57,6 +58,7 @@ import { russianTwist } from '../exercises/definitions/russianTwist';
 import { cableWoodchop } from '../exercises/definitions/cableWoodchop';
 import { pallofPress } from '../exercises/definitions/pallofPress';
 import { calfRaise } from '../exercises/definitions/calfRaise';
+import { dumbbellCalfRaise } from '../exercises/definitions/dumbbellCalfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
 import { generatorFamily } from './families';
@@ -79,12 +81,14 @@ const SQUAT = 'Create a bodyweight squat with a slow tempo.';
 const REVERSE_LUNGE = 'Create a reverse lunge with controlled tempo.';
 const PUSH_UP = 'Create a standard push-up with controlled tempo.';
 const CALF_RAISE = 'Create a standing calf raise with a slow tempo.';
+const DUMBBELL_CALF_RAISE = 'exercise: dumbbell calf raise with 14 kg dumbbells and controlled tempo';
 const RDL = 'Create a dumbbell Romanian deadlift with 16 kg dumbbells and controlled tempo.';
 const ROW = 'exercise: dumbbell bent-over row with 16 kg dumbbells and controlled tempo';
 const LATERAL_RAISE = 'exercise: dumbbell lateral raise with 6 kg dumbbells and controlled tempo';
 const FRONT_RAISE = 'exercise: dumbbell front raise with 6 kg dumbbells and controlled tempo';
 const PULL_UP = 'exercise: strict pull-up with controlled tempo';
 const OVERHEAD_EXTENSION = 'exercise: dumbbell overhead triceps extension with 8 kg dumbbells and controlled tempo';
+const CABLE_PUSHDOWN = 'exercise: cable triceps pushdown with controlled tempo';
 const BENCH_PRESS = 'exercise: dumbbell bench press with 16 kg dumbbells and controlled tempo';
 const FLY = 'exercise: dumbbell fly with 10 kg dumbbells and controlled tempo';
 const CRUNCH = 'exercise: bodyweight crunch with controlled tempo';
@@ -107,12 +111,14 @@ const CLEAN_FALLBACK_CASES = [
   [PALLOF_PRESS, 'anti_rotation', 'cable_pallof_press'],
   [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
   [CALF_RAISE, 'calf', 'standing_calf_raise'],
+  [DUMBBELL_CALF_RAISE, 'calf', 'dumbbell_calf_raise'],
   [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
   [ROW, 'row', 'dumbbell_bent_over_row'],
   [LATERAL_RAISE, 'raise', 'dumbbell_lateral_raise'],
   [FRONT_RAISE, 'raise', 'dumbbell_front_raise'],
   [PULL_UP, 'vertical_pull', 'pull_up'],
   [OVERHEAD_EXTENSION, 'extension', 'dumbbell_overhead_triceps_extension'],
+  [CABLE_PUSHDOWN, 'extension', 'cable_triceps_pushdown'],
 ] as const;
 
 /** Everything but what names and describes an exercise. */
@@ -281,6 +287,20 @@ describe('generating without a character', () => {
     expect(EXERCISES.some((entry) => entry.id === exercise.id)).toBe(false);
   });
 
+  it('builds the loaded dumbbell calf raise from the same calf family', () => {
+    const result = generateExercise(DUMBBELL_CALF_RAISE, options);
+    expect(result.family?.id).toBe('calf');
+    expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
+    expect(result.reference).toBe('dumbbell_calf_raise');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([14, 14]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces the accepted dumbbell calf raise from family defaults', () => {
+    expect(motionOf(generateExercise('a dumbbell calf raise', options).exercise!))
+      .toEqual(motionOf(dumbbellCalfRaise));
+  });
+
   it('reproduces the accepted standing calf raise from the family defaults', () => {
     const parsed = parsePrompt('a calf raise');
     expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
@@ -374,6 +394,24 @@ describe('generating without a character', () => {
     expect(extension.reference).toBe('dumbbell_overhead_triceps_extension');
     expect(extension.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([8, 8]);
     expect(extension.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('builds the cable pushdown from the extension family', () => {
+    const result = generateExercise(CABLE_PUSHDOWN, options);
+    expect(result.family?.id).toBe('extension');
+    expect(result.exercise).toEqual(extensionFamily(result.variant as ExtensionVariant));
+    expect(result.reference).toBe('cable_triceps_pushdown');
+    expect(result.exercise?.equipment.instances.map((item) => item.kind).sort()).toEqual([
+      'cable',
+      'cable_bar',
+      'cable_tower',
+    ]);
+    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces the accepted cable pushdown motion from family defaults', () => {
+    expect(motionOf(generateExercise('a cable pushdown', options).exercise!))
+      .toEqual(motionOf(cablePushdown));
   });
 
   it('reproduces accepted pull-up and overhead-extension motion from family defaults', () => {

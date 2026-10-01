@@ -1794,3 +1794,31 @@ data is used, and no Phase 9/10 PASS is inferred. The model branch is not declar
 the live standalone runtime. Phase 10 must rediscover the actual runtime commit,
 compare these semantics, then capture the real solver/equipment/contact frames.
 Current model remains EXPERIMENTAL r29; next actual deformation action remains RUN r30.
+
+
+### Staged GPT preparation: Stage 10 live runtime discovery/harness — 2026-10-01
+
+Resolved the standalone authority from its own CURRENT_HANDOFF/PROJECT_AUTHORITY:
+`work/standalone-first-party-audit-20260927` is the active runtime branch; the
+separate handoff branch is not a development target. At discovery its live HEAD
+was `e3a7d915079f018acbfd8198655f623ea7831fbf`, 25 commits beyond the handoff's
+last fully verified `27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3` checkpoint.
+
+Current runtime source/contract shows canonical v4 active even though some handoff
+prose still says v3 is live. Source plus executable contracts take precedence.
+The exact live runtime HEAD is not green: Standalone prep run 36739619686 failed
+two `firstPartySkeleton.parity.test.ts` assertions at 0.02 m root/root-tail
+parity after v4 reactivation; downstream full suite/build/audits did not run and
+browser smoke run 36739619753 was cancelled. No test/threshold was weakened.
+
+Prepared `ORIGINAL_V1_RUNTIME_DISCOVERY_CONTRACT.json`,
+`scripts/original_v1_runtime_discovery.py`, fail-closed tests,
+`RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat`,
+`ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` and
+`work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`. Discovery requires a
+separate clean runtime checkout at current remote HEAD, reruns Stage 9 contact
+semantics against it, verifies actual v4 source/contract state and hashes all
+cross-branch sources. A changed runtime HEAD gets UNKNOWN CI rather than inheriting
+the snapshot. The evidence template is INCOMPLETE only. No runtime code, model
+asset, rig, threshold or approval state was changed. Current model remains
+EXPERIMENTAL r29; next actual deformation action remains RUN r30.

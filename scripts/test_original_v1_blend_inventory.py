@@ -26,6 +26,14 @@ class BlendInventoryTests(unittest.TestCase):
             self.assertEqual(result["rows"][0]["status"],"IDENTITY_VERIFIED")
             self.assertTrue(result["current_blend_present"])
 
+    def test_missing_current_blend_is_gap(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);state=self.setup_root(root)
+            with patch.object(b,"build",return_value=(state,None)):
+                result=b.inventory(root)
+            self.assertEqual(result["status"],"LOCAL_IDENTITY_GAPS")
+            self.assertIn("r30",result["missing_expected_revisions"])
+
     def test_missing_manifest_is_gap(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);state=self.setup_root(root)

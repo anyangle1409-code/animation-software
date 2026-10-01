@@ -59,7 +59,7 @@ const generationValidationCharacter = () => {
 };
 
 export const generationStore = createStore<GenerationState>((set, get) => ({
-  prompt: 'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.',
+  prompt: 'exercise: dumbbell shoulder press',
   running: false,
   progress: [],
   candidates: [],

@@ -19,9 +19,9 @@ export interface GeneratePanelDom {
 }
 
 const EXAMPLES = [
-  'Create a standing hammer curl with 12 kg dumbbells and controlled tempo.',
+  'exercise: dumbbell shoulder press',
   'Create an incline dumbbell curl at 45 degrees with 8 kg dumbbells.',
-  'Create a seated dumbbell shoulder press with 10 kg dumbbells.',
+  'exercise: cable triceps pushdown',
 ];
 
 const STATUS: Record<GenerationStatus, { label: string; tone: string; note: string }> = {
@@ -176,6 +176,8 @@ const candidateDetail = (
     );
     if (result.intent.equipment === 'dumbbell') {
       spec(documentRef, list, 'Load', `${result.intent.load} kg per hand`);
+    } else if (result.intent.equipment === 'cable') {
+      spec(documentRef, list, 'Equipment', 'Cable station');
     } else {
       spec(documentRef, list, 'Equipment', 'Bodyweight');
     }
@@ -341,7 +343,7 @@ export function createGeneratePanelDom(
     documentRef,
     'p',
     'panel__hint',
-    'Describe an exercise. It is built from a certified movement family, validated, corrected where a bounded fix exists, and opened for review. Candidates stay in this session; nothing is added to the library.',
+    'Type a simple command such as "exercise: dumbbell shoulder press", or describe the exercise in more detail. It is built from a certified movement family, validated, corrected where a bounded fix exists, and opened for review. Candidates stay in this session; nothing is added to the library.',
   );
 
   const form = documentRef.createElement('form');
@@ -349,6 +351,7 @@ export function createGeneratePanelDom(
   const prompt = documentRef.createElement('textarea');
   prompt.rows = 3;
   prompt.setAttribute('aria-label', 'Exercise request');
+  prompt.setAttribute('placeholder', 'exercise: dumbbell shoulder press');
   prompt.dataset.hgptGenerateControl = 'prompt';
   const buttonRow = node(documentRef, 'div', 'button-row');
   const generate = documentRef.createElement('button');

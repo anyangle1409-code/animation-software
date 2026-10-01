@@ -216,6 +216,12 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('blocks unilateral arm/hand wording instead of silently substituting bilateral motion', () => {
+    expect(blocking('exercise: one-handed dumbbell curl')).toContain('execution');
+    expect(blocking("exercise: left-hand farmer's walk")).toContain('execution');
+    expect(blocking('exercise: right-arm dumbbell shoulder press')).toContain('execution');
+  });
+
   it('recognises common equipment spellings so defaults cannot hide the requested implement', () => {
     expect(parsePrompt('exercise: dumbell calf raise with 14 kg').issues.filter((issue) => issue.blocking)).toEqual([]);
     expect(parsePrompt('exercise: dumbell calf raise with 14 kg').intent?.equipment).toBe('dumbbell');

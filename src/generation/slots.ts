@@ -133,7 +133,9 @@ export function readSlots(prompt: string): PromptSlots {
 
   const execution: PromptSlots['execution'] = [];
   for (const match of text.matchAll(/\balternat(?:e|ing|ed)\b/g)) execution.push({ value: 'alternating', words: match[0] });
-  for (const match of text.matchAll(/\b(?:single|one)[-\s]arm(?:ed)?\b|\bunilateral\b/g)) {
+  for (const match of text.matchAll(
+    /\b(?:single|one)[-\s](?:arm(?:ed)?|hand(?:ed)?)\b|\b(?:left|right)[-\s]?(?:arm(?:ed)?|hand(?:ed)?)\b|\bunilateral\b/g,
+  )) {
     execution.push({ value: 'single', words: match[0] });
   }
 

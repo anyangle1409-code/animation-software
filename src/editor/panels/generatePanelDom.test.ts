@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { getExercise } from '../../exercises/library';
 import type { GenerationResult } from '../../generation/generate';
 import { parsePrompt } from '../../generation/parse';
+import { generatorFamily } from '../../generation/families';
 import {
   generationStore,
   type Candidate,
@@ -93,6 +94,10 @@ describe('first-party Generate panel DOM', () => {
     prompt!.dispatchEvent({ type: 'input' } as Event);
     expect(generationStore.getState().prompt).toBe(prompt!.value);
 
+    const simple = all(root).find((item) => item.dataset.hgptGenerateControl === 'example-0');
+    expect(simple?.textContent).toBe('exercise: dumbbell shoulder press');
+    expect(prompt!.attributes.get('placeholder')).toBe('exercise: dumbbell shoulder press');
+
     const example = all(root).find((item) => item.dataset.hgptGenerateControl === 'example-1');
     example!.click();
     expect(generationStore.getState().prompt).toContain('incline dumbbell curl');
@@ -107,6 +112,33 @@ describe('first-party Generate panel DOM', () => {
       .toBe('Generating…');
     const progress = current.find((item) => item.className === 'generate-progress');
     expect(progress?.children.map((item) => item.textContent)).toEqual(['two', 'three', 'four', 'five']);
+    panel.dispose();
+  });
+
+  it('labels cable generation as cable equipment rather than bodyweight', () => {
+    const prompt = 'exercise: cable triceps pushdown';
+    const parsed = parsePrompt(prompt);
+    const entry: Candidate = {
+      key: 'candidate_cable_panel',
+      prompt,
+      approved: false,
+      result: {
+        parsed,
+        intent: parsed.intent!,
+        family: generatorFamily('extension'),
+        reference: 'cable_triceps_pushdown',
+        status: 'passed',
+        exercise: getExercise('cable_triceps_pushdown'),
+        attempts: [],
+        corrections: [],
+        validations: 1,
+      } satisfies GenerationResult,
+    };
+    generationStore.setState({ candidates: [entry], selected: entry.key });
+    const panel = createGeneratePanelDom(fakeDocument(), generationStore);
+    const text = all(fake(panel.element)).map((item) => item.textContent).filter(Boolean);
+    expect(text).toContain('Cable station');
+    expect(text).not.toContain('Bodyweight');
     panel.dispose();
   });
 

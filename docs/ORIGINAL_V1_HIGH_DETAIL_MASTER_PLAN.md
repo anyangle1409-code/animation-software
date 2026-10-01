@@ -278,3 +278,14 @@ phase. At the current expected r29 / Phase 3B state, the actual model action rem
 `RUN_ORIGINAL_V1_R30.bat` after live preflight.
 
 `docs/CURRENT_HANDOFF.md` now points model pickup through the same read-only execution-orchestration runner, so the operational entry point and this roadmap agree on the r30-first critical path.
+
+
+### Remaining repo-side tooling gaps closed — 2026-10-01
+
+The post-preparation gap-closure pass adds deterministic Phase 5 regional anatomy
+packets, Phase 6 evaluated surface/joint-support evidence, Phase 7 garment
+scene+clean-room operation auditing, Phase 8 numeric material/presentation
+capture, first-party QA mask rasterization and a read-only laptop session-close
+gate. These tools reduce future Claude setup/audit work but do not change roadmap
+completion: Phase 3B remains active on r29 and the next real model command remains
+`RUN_ORIGINAL_V1_R30.bat` after live preflight/orchestration agreement.

@@ -229,6 +229,10 @@
     "docs/ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md": {
       "category": "verification",
       "note": "Explicit intermediate phase exit contracts, source integrity and non-blocking review; no production approval."
+    },
+    "docs/ORIGINAL_V1_EXECUTION_ORCHESTRATION.md": {
+      "category": "current_technical",
+      "note": "Read-only cross-phase execution map tying prepared Stages 1-12 to the evidence-derived current roadmap node; subordinate to CURRENT_HANDOFF/master plan."
     }
   }
 }

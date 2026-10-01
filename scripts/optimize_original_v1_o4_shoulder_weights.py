@@ -203,6 +203,10 @@ PRESETS["o29"] = dict(PRESETS["o28"], guard_mult=40.0)
 # but raised the squat 99th-percentile edge stretch to R2 + 0.100 (tolerance 0.05): the percentile guard did not
 # get the same priority boost.
 PRESETS["o30"] = dict(PRESETS["o29"], guard_p99_mult=40.0)
+# o34 (3E attempt 2, parent r35): WIDER declared pelvis band (0.55 < z < 1.12, still pelvis/torso/leg and the same 5
+# chain bones) so the weight gradient can spread over more vertex rings, with left/right isolation inside the solver.
+# o27-o30 showed the narrow band cannot reach the lunge pelvis/torso max gates without comparator regressions.
+PRESETS["o34"] = dict(PRESETS["o29"], zmin=0.55, zmax=1.12, isolate_sides=True)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -312,6 +316,14 @@ def main():
         allowed_full[zs, :] = False
         for bi_ in chain_:
             allowed_full[zs, bi_] = True
+        if P.get("isolate_sides"):
+            # Left/right isolation inside the solver: off-midline vertices may not take the OPPOSITE thigh at all
+            # (the midline strip |x| <= 1e-8 keeps both). Avoids solver leakage that audits flag as cross-side weight.
+            lsign_ = np.sign(d["heads"][b["hand_l"]][0])
+            for bi_, nm_ in ((b["thigh_r"], "r"), (b["thigh_l"], "l")):
+                xs_ = rest[:, 0] * lsign_
+                off_ = (xs_ > 1e-8) if nm_ == "r" else (xs_ < -1e-8)
+                allowed_full[zone_mask & off_, bi_] = False
     if P.get("zone_mode") == "elbow":
         # Priority 2: arm-region vertices around each elbow (forearm head), disjoint from the r24
         # shoulder zone (<= 0.24 m from the glenohumeral joint) and from the hand zone.

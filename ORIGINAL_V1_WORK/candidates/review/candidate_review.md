@@ -14,6 +14,7 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 | r27 | 15 | 8 | 8 | 91 | CLEAR | BLOCKED | BLOCKED | `86afebea7c313c6c` |
 | r28 | 15 | 8 | 6 | 91 | CLEAR | BLOCKED | BLOCKED | `68889eefeb5e22e9` |
 | r29 | 15 | 7 | 6 | 92 | CLEAR | BLOCKED | BLOCKED | `d9b24e75fa6f2eb4` |
+| r30 | 15 | 7 | 6 | 91 | CLEAR | BLOCKED | BLOCKED | `c842992f435ab43b` |
 
 ## Key worst-case metrics per candidate (min over poses of region min, max of region max)
 
@@ -29,6 +30,7 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 | r27 | 0.215 / 4.33 | 0.120 / 7.20 | 0.188 / 2.83 | 0.239 / 4.25 | 0.239 / 1.95 | 0.510 / 1.34 | 210 |
 | r28 | 0.215 / 4.33 | 0.120 / 7.20 | 0.188 / 2.83 | 0.235 / 2.07 | 0.239 / 1.94 | 0.510 / 1.34 | 212 |
 | r29 | 0.215 / 4.33 | 0.120 / 7.20 | 0.188 / 2.83 | 0.220 / 2.03 | 0.169 / 1.91 | 0.510 / 1.34 | 178 |
+| r30 | 0.215 / 4.33 | 0.120 / 7.20 | 0.188 / 2.83 | 0.239 / 2.10 | 0.240 / 1.91 | 0.510 / 1.34 | 182 |
 
 ## Regressions vs R2 (strict comparator)
 
@@ -41,3 +43,4 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 - **r27** (8): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top: edge_ratio_p99 1.679 -> 1.734; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_hang: edge_ratio_p99 1.675 -> 1.728; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; pushup_bottom/hand: region_max_ratio 1.915 -> 2.031
 - **r28** (6): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; pushup_bottom/hand: region_max_ratio 1.915 -> 2.067
 - **r29** (6): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; pushup_bottom/hand: region_max_ratio 1.915 -> 2.032
+- **r30** (6): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; pushup_bottom/hand: region_max_ratio 1.915 -> 2.096

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "CAPTURE_TEMPLATE_ONLY",
+  "phase_complete": false,
+  "production_approved": false,
+  "candidate_sha256": null,
+  "asset_sha256": null,
+  "target_runtime_commit": null,
+  "source_image": {
+    "path": null,
+    "sha256": null,
+    "width": null,
+    "height": null
+  },
+  "capture": {
+    "capture_key": null,
+    "view_id": null,
+    "pose_or_exercise": null,
+    "frame_or_time": null,
+    "renderer": null,
+    "renderer_version": null,
+    "colour_management": null,
+    "crop": null,
+    "camera": null,
+    "scale": null,
+    "lighting": null,
+    "dressed": null
+  },
+  "masks": [
+    {
+      "role": "subject",
+      "path": null,
+      "sha256": null,
+      "expected_visible": true,
+      "allow_edge_touch": false,
+      "symmetry_axis_x": null
+    }
+  ],
+  "reference": null,
+  "owner_review": "pending",
+  "blocking": false,
+  "note": "Template only. A real CAPTURE_EVIDENCE manifest must bind actual source image and derived mask bytes. Do not use this file as evidence."
+}

@@ -97,6 +97,18 @@ def assess(info):
     if not info.get("handoff_has_next_action"):
         blockers.append("O4 handoff does not contain the evidence-selected next action");actions.append("record the exact next action in O4 handoff")
 
+    current_blend=info.get("current_blend")
+    if isinstance(current_blend,dict):
+        if not current_blend.get("manifest_exists"):
+            blockers.append("current complete candidate manifest missing locally")
+            actions.append("restore/preserve the current candidate manifest before ending session")
+        elif not current_blend.get("blend_exists"):
+            blockers.append("current complete candidate Blend missing locally")
+            actions.append("locate/restore the current candidate Blend before ending session")
+        elif not current_blend.get("blend_hash_matches"):
+            blockers.append("current complete candidate Blend hash differs from manifest")
+            actions.append("reconcile current candidate Blend/manifest identity; do not overwrite either")
+
     partial=info.get("partial_candidates",[])
     if partial:
         for row in partial:
@@ -153,6 +165,7 @@ def main()->int:
         next_tokens=[str(next_action.get("action") or ""),str(next_action.get("command") or ""),str(next_action.get("work_package") or "")]
         handoff_has_next=any(token and token in handoff for token in next_tokens)
 
+        current_blend=candidate_local_state(ROOT,current)
         partial=[]
         for revision in state.get("incomplete_candidates",[]):
             row=candidate_local_state(ROOT,revision);row["handoff_mentions"]=revision in handoff;partial.append(row)
@@ -163,7 +176,7 @@ def main()->int:
         info={"expected_branch":expected,"branch":branch,"local_head":head,"remote_head":remote,
               "sync":sync,"working_tree":tree,"generated_status_current":check.returncode==0,
               "generated_status_check_stdout":check.stdout.strip(),"generated_status_check_stderr":check.stderr.strip(),
-              "current_candidate":current,"candidate_state":state["candidate_state"],
+              "current_candidate":current,"candidate_state":state["candidate_state"],"current_blend":current_blend,
               "next_action":next_action,"handoff":HANDOFF,
               "handoff_has_current_revision":handoff_has_current,"handoff_has_next_action":handoff_has_next,
               "partial_candidates":partial,"local_blends":local_blends,

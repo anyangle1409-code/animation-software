@@ -289,3 +289,13 @@ capture, first-party QA mask rasterization and a read-only laptop session-close
 gate. These tools reduce future Claude setup/audit work but do not change roadmap
 completion: Phase 3B remains active on r29 and the next real model command remains
 `RUN_ORIGINAL_V1_R30.bat` after live preflight/orchestration agreement.
+
+
+### Final laptop acceleration layer — 2026-10-01
+
+The repository now also provides a consolidated read-only Claude start/end workflow,
+candidate evidence closure/handoff checks, real-review indexing, local Blend identity
+inventory and optional hash-verified local recovery backup. See
+`docs/work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. These operational tools do not
+advance the roadmap or replace Blender execution; the current evidence-derived action
+remains r30 from Phase 3B.

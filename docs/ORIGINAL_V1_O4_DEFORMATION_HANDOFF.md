@@ -1822,3 +1822,31 @@ cross-branch sources. A changed runtime HEAD gets UNKNOWN CI rather than inherit
 the snapshot. The evidence template is INCOMPLETE only. No runtime code, model
 asset, rig, threshold or approval state was changed. Current model remains
 EXPERIMENTAL r29; next actual deformation action remains RUN r30.
+
+
+### Staged GPT preparation: Stage 11 deterministic automated visual QA — 2026-10-01
+
+Rechecked the live model branch after Stage 10 and prepared a first-party visual
+QA layer without changing model/rig/poses or requiring an external vision model.
+Added `ORIGINAL_V1_VISUAL_QA_CONTRACT.json`,
+`ORIGINAL_V1_VISUAL_QA_COVERAGE_PLAN.json`,
+`ORIGINAL_V1_VISUAL_QA_CAPTURE_TEMPLATE.json`, an empty explicit reference
+inventory, `scripts/original_v1_visual_qa.py`, fail-closed fixture tests,
+`RUN_ORIGINAL_V1_VISUAL_QA.bat` and `work_packages/VISUAL_QA_PROTOCOL.md`.
+
+Actual source PNGs remain immutable owner-review evidence. Automated checks use
+separate project-owned 8-bit PGM masks bound to the same candidate/asset/runtime,
+source-image and capture identities. The standard-library detector verifies hashes
+and dimensions, fails missing expected-visible masks or prohibited edge crops,
+measures connected components and neutral horizontal symmetry, and computes
+matched silhouette IoU/XOR/occupancy/centroid/bounding-box deltas. Unequal camera,
+view, pose/frame, renderer, colour-management, crop or dressed settings produce
+CAPTURE_MISMATCH and no regression metrics. Unsupported domains remain UNKNOWN.
+
+The reference inventory is empty by design and deny-by-default: only versioned
+actual project-authored captures may later be added; pending owner review is not
+acceptance and references are never silently replaced. Synthetic masks are test
+fixtures only. The existing 57-view board remains model visibility planning, not
+runtime proof. Real Stage 11 execution still waits for Phase 10 exact runtime/model
+assets and frames. No production approval is inferred. Current model remains
+EXPERIMENTAL r29; next actual deformation action remains RUN r30.

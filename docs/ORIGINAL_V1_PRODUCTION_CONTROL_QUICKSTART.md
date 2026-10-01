@@ -294,3 +294,14 @@ After Phase 5 is actually complete, follow
 It runs raw surface audit, evaluated normal capture, exact BVH self-intersection
 capture and joint-support contract verification without saving/repairing Blender.
 Current r29/Phase 3 is not eligible.
+
+
+### Phase 7 garment scene/provenance gap closure
+
+After Phase 6 is complete, create the actual clean-room garment operation ledger
+from `ORIGINAL_V1_PHASE7_GARMENT_AUTHORING_TEMPLATE.json`, then use
+`RUN_ORIGINAL_V1_PHASE7_GARMENT_SCENE.bat <rN> <authoring-record.json> <raw-pair.json> <fresh-output-dir>`.
+It captures modifier properties, shape keys/drivers, custom-normal state, groups,
+attributes, libraries and material/image references and verifies the operation
+chain. Dressed motion/contact evidence still comes from the existing Stage 7/8
+tools. Current work remains Phase 3/r30.

@@ -316,6 +316,16 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('exercise: dumbbell curl tempo 3-1-2-0').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
+  it('does not replace generic weighted bodyweight requests with the plain family default', () => {
+    expect(blocking('exercise: weighted push-up')).toContain('load');
+    expect(blocking('exercise: weighted squat')).toContain('load');
+    expect(blocking('exercise: loaded sit-up')).toContain('load');
+    expect(blocking('exercise: Russian twist holding weights')).toContain('load');
+
+    expect(parsePrompt('exercise: bodyweight squat').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: push-up').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not replace qualitative load requests with arbitrary family defaults', () => {
     expect(blocking('exercise: dumbbell curl with heavy dumbbells')).toContain('load');
     expect(blocking('exercise: shoulder press with moderate load')).toContain('load');

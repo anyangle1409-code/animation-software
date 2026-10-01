@@ -14,6 +14,10 @@ describe('prompt-safety coverage across the registered exercise library', () => 
       expect(blockingCodes(`exercise: wide stance ${name}`), name).toContain('variant');
       expect(blockingCodes(`exercise: wide grip ${name}`), name).toContain('grip');
       expect(blockingCodes(`exercise: ${name} not slow`), name).toContain('tempo');
+      const base = parsePrompt(`exercise: ${name}`);
+      if (base.intent?.equipment === 'bodyweight') {
+        expect(blockingCodes(`exercise: weighted ${name}`), name).toContain('load');
+      }
     }
   });
 

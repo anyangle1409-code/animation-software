@@ -233,6 +233,22 @@ function interpretCommon(
     }
     load = 0;
   } else {
+    const genericExternalLoad =
+      /\b(?:weighted|loaded)\b|\b(?:with|holding|carrying)\s+(?:an?\s+)?(?:external\s+)?weights?\b/.test(slots.text);
+    if (
+      genericExternalLoad &&
+      slots.loads.length === 0 &&
+      slots.equipment.filter((slot) => slot.value !== 'bodyweight').length === 0 &&
+      !issues.some((issue) => issue.blocking)
+    ) {
+      issues.push(
+        blocking(
+          'load',
+          `The ${family} family is certified as bodyweight only. A weighted/loaded request cannot be replaced with the plain bodyweight version.`,
+        ),
+      );
+    }
+
     const others = slots.equipment.filter((slot) => slot.value !== 'bodyweight');
     if (others.length > 0) {
       issues.push(

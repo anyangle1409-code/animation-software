@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "mode": "explicit_versioned_references_only",
+  "status": "EMPTY_PENDING_REAL_CAPTURE",
+  "production_approved": false,
+  "phase_complete": false,
+  "references": [],
+  "rules": [
+    "Only actual project-authored capture evidence may be added.",
+    "Every reference entry must use a unique immutable id and bind candidate, asset, runtime commit, capture manifest, source image and mask SHA-256 values.",
+    "owner_review=pending remains experimental and cannot be called accepted.",
+    "A replacement reference is appended as a new entry; never mutate or delete the superseded record to hide a regression.",
+    "Synthetic detector fixtures, generated images, V-series images and third-party images are prohibited."
+  ],
+  "note": "Empty by design. Presence of a file outside this inventory does not make it a visual QA reference."
+}

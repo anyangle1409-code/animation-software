@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "state": "RECORDED",
+  "phase": "3E",
+  "child_candidate": "r34",
+  "candidate_sha256": "302f0eb19f6d3c3e022819904d3a6d68fc0390e13d44610549dbfd443c4da9e7",
+  "before_candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "linked_pre_edit_intent": {
+    "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r34_3E_audit/edit_intent_frozen_pre_edit.json",
+    "sha256": "7bbff61ded1c2fb82a58c97e59b8a797d06ffe9d55efe6daf7c90941a8748987"
+  },
+  "operations": [
+    {
+      "step": "solve",
+      "script": "scripts/optimize_original_v1_o4_shoulder_weights.py",
+      "preset": "o29",
+      "solution": "ORIGINAL_V1_WORK/candidates/weight_solutions/o29.npz",
+      "solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c"
+    },
+    {
+      "step": "blend",
+      "script": "scripts/blend_original_v1_o4_weight_solution.py",
+      "alpha_torso_region": 0.25,
+      "alpha_other_region": 0.2,
+      "solution": "ORIGINAL_V1_WORK/candidates/weight_solutions/o32.npz",
+      "solution_sha256": "e9b156079158c0262223f34c459073c92d3c71501b176c19f2340391875f8a24",
+      "record": "ORIGINAL_V1_WORK/candidates/weight_solutions/o32.json"
+    },
+    {
+      "step": "apply",
+      "script": "scripts/apply_original_v1_o4_weight_solution_blender.py",
+      "vertices_rewritten": 945
+    }
+  ],
+  "geometry_changed": false,
+  "topology_changed": false,
+  "rig_changed": false
+}

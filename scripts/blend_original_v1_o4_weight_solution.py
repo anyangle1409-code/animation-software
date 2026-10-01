@@ -117,6 +117,8 @@ def main():
     ap.add_argument("--alpha-other", type=float)
     ap.add_argument("--out")
     ap.add_argument("--exempt", nargs="*", default=[], help="pose/region/min|max items inherited from the base, excluded vs R2")
+    ap.add_argument("--isolate-sides", action="store_true",
+                    help="project the solution onto left/right isolation: zero the OPPOSITE-side bones on every off-midline vertex")
     ap.add_argument("--poses", help="comma-separated poses to evaluate (default: all in the dump)")
     ap.add_argument("--margin", type=float, default=0.001, help="keep every ratio/percentile metric this far inside its tolerance")
     ap.add_argument("--volume-margin", type=float, default=0.0001, help="same for the 4-decimal volume deviation (model-vs-Blender error is ~1e-6)")
@@ -132,12 +134,30 @@ def main():
     W0z = M.W0[Z][:, used]
     W0z = W0z / W0z.sum(axis=1, keepdims=True)
     torso = np.array([M.rn[M.reg[v]] == "torso" for v in Z])
+    left_sign = np.sign(M.d["heads"][M.bones.index("hand_l")][0])      # x sign of the character's left side
+
+    def isolate(Wz):
+        """Left-side vertices (x*left > 1e-8) lose weight on *_r bones and right-side ones on *_l bones; midline
+        vertices (|x| <= 1e-8) keep both (that is the legitimate shared strip). Rows are renormalised."""
+        Wz = Wz.copy()
+        for k, v in enumerate(Z):
+            x = M.rest[v, 0] * left_sign
+            if x > 1e-8:
+                drop = [j for j, n in enumerate(ub) if n.endswith("_r")]
+            elif x < -1e-8:
+                drop = [j for j, n in enumerate(ub) if n.endswith("_l")]
+            else:
+                continue
+            Wz[k, drop] = 0.0
+        return Wz / Wz.sum(axis=1, keepdims=True)
+
+    sol_w = isolate(s["weights"]) if a.isolate_sides else s["weights"]
 
     def blend(aT, aO):
         Wz = W0z.copy()
-        Wz[torso] = prune4((1 - aT) * W0z[torso] + aT * s["weights"][torso])
-        Wz[~torso] = prune4((1 - aO) * W0z[~torso] + aO * s["weights"][~torso])
-        return Wz
+        Wz[torso] = prune4((1 - aT) * W0z[torso] + aT * sol_w[torso])
+        Wz[~torso] = prune4((1 - aO) * W0z[~torso] + aO * sol_w[~torso])
+        return isolate(Wz) if a.isolate_sides else Wz
 
     if a.scan:
         grid = np.round(np.arange(0, 1.0001, 0.05), 2)
@@ -162,6 +182,13 @@ def main():
         Wz = 0.5 * (Wz + Wz[tw][:, sw])
         Wz = np.where(Wz < 1e-6, 0.0, Wz)
         Wz /= Wz.sum(axis=1, keepdims=True)
+        if a.isolate_sides:
+            Wz = isolate(Wz)
+        cross = 0
+        for k, v in enumerate(Z):
+            x = M.rest[v, 0] * left_sign
+            bad = [j for j, n in enumerate(ub) if (x > 1e-8 and n.endswith("_r")) or (x < -1e-8 and n.endswith("_l"))]
+            cross += int(any(Wz[k, j] > 1e-8 for j in bad))
         m = M.metrics(Z, used, Wz)
         v = M.all_violations(m, exempt)
         if v:
@@ -171,7 +198,7 @@ def main():
                "source_solution": Path(a.solution).name, "source_solution_sha256": hashlib.sha256(Path(a.solution).read_bytes()).hexdigest(),
                "base_dump": Path(a.dump).name, "base_report": a.base_report, "r2_report": a.r2_report,
                "alpha_torso_region": a.alpha_torso, "alpha_other_region": a.alpha_other, "zone_vertices": int(len(Z)), "bones": ub,
-               "exempt_inherited_vs_r2": sorted("/".join(x) for x in exempt), "safety_margin": a.margin, "volume_safety_margin": a.volume_margin,
+               "exempt_inherited_vs_r2": sorted("/".join(x) for x in exempt), "cross_side_vertices_in_zone": cross, "isolate_sides": bool(a.isolate_sides), "safety_margin": a.margin, "volume_safety_margin": a.volume_margin,
                "twin_L1_max": float(np.abs(Wz - Wz[tw][:, sw]).sum(1).max()), "max_influences": int((Wz > 0).sum(1).max()),
                "predicted_violations": [], "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"}
         Path(a.out).with_suffix(".json").write_text(json.dumps(rec, indent=2) + "\n", encoding="utf-8")

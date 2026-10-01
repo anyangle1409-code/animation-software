@@ -1,0 +1,34 @@
+{
+  "generated_utc": "2026-10-01T18:44:19.381118+00:00",
+  "tool": "scripts/blend_original_v1_o4_weight_solution.py",
+  "source_solution": "o29.npz",
+  "source_solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c",
+  "base_dump": "r32_dump.npz",
+  "base_report": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_merged_pose_report.json",
+  "r2_report": "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+  "alpha_torso_region": 0.25,
+  "alpha_other_region": 0.2,
+  "zone_vertices": 945,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "exempt_inherited_vs_r2": [
+    "press_bottom/shoulder/min",
+    "press_bottom/torso/min",
+    "press_top/torso/min",
+    "pullup_top/shoulder/min",
+    "pullup_top/torso/min"
+  ],
+  "cross_side_vertices_in_zone": 0,
+  "isolate_sides": true,
+  "safety_margin": 0.001,
+  "volume_safety_margin": 0.0001,
+  "twin_L1_max": 0.0,
+  "max_influences": 4,
+  "predicted_violations": [],
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+}

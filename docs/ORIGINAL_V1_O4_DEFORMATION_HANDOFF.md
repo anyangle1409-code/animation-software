@@ -2014,6 +2014,25 @@ unexpected vertices/bones; 0 cross-side weights; max 4 influences. **Known flag:
 weight-sum error up to 1.5e-5 (tolerance 1e-6). They are identical before and after, all outside the mask, and
 inherited from the original binder; this edit introduced none.
 
+### Known repository test status (not touched by this session)
+
+`python -m unittest discover -s scripts -p "test_original_v1_*.py"` (289 tests) reports 6 failures and 3 errors on the
+live state. They are tests written for the pre-r30 state, not tooling defects, and were deliberately **not rewritten**
+(they are the other worker's suite and encode the r29 → r30 transition):
+
+- selector / orchestration expectations that the live candidate is r29 and the next action is `RUN r30`
+  (`test_live_plan_covers_all_prepared_support_and_selects_r30`, `test_r30_selector_drift_refused`,
+  `test_live_evidence_preserves_tradeoff_and_baseline`, `test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery`,
+  `test_milestone_switch_does_not_change_frozen_poses`);
+- fixtures that create a *fake* r30 on a copy of the live repository, which now holds the real r30 and therefore
+  raises `candidate identity replaced: r30` or `FileExistsError ... shoulder_r30`
+  (`test_future_candidate_with_verified_sources_is_selected`, `test_partial_candidate_stays_incomplete_after_ledger_update`,
+  `test_partial_new_candidate_cannot_replace_latest_complete`, `test_new_full_candidate_requires_source_receipt`).
+
+Fix by moving those fixtures to a revision that does not exist (for example r99) and by deriving the selector
+expectations from the live ledger. No gate, threshold or frozen-pose guard was weakened; the
+`frozen_pose_definition` guard passes on the live state.
+
 ### Phase 3C — grip / thumb: BLOCKED on a frozen-structure decision (evidence complete)
 
 Evidence: `remaining_diagnostics_r32/grip_penetration.json` and `grip_weight_independence.json`.

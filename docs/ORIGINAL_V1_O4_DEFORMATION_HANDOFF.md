@@ -1716,3 +1716,32 @@ coordinate frames, receipt hashes and output preservation. Generated state,
 pinned R2, frozen pose/rig and historical exports remain unchanged. Current model
 remains EXPERIMENTAL r29 / seven development blockers; next laptop task RUN r30.
 Next GPT preparation: evaluated dressed pose/contact and matched review capture.
+
+
+### Staged GPT preparation: Stage 7 evaluated dressed evidence — 2026-10-01
+
+Live source HEAD checked before this stage: `58ce9706efb5dc4abe733b68cb319536321889cf`.
+Prepared a Blender-only evaluated body/garment evidence capture that invokes the
+authoritative stress-pose script in metrics-only mode and reuses its returned
+`POSES` functions directly. No pose definitions, R2 baseline, gates, rig/rest,
+candidate assets or approval flags are changed. All 15 static poses record raw
+body/garment cross-surface intersection counts, bidirectional minimum surface
+distances, garment floor evidence and a pose-state hash while the body visibility
+mask is disabled for clearance evaluation.
+
+The same execution captures matched bare/dressed real-image pairs with one fixed
+camera state per pair: neutral front/rear/side/3/4, waist/hem/seat close-ups and
+clothing-relevant exercise extrema. A standard-Python verifier binds candidate,
+raw Stage 6 pair, source scripts, pose evidence and image bytes and refuses
+mismatched camera pairs, incomplete pose/view coverage, non-finite metrics,
+candidate drift, output collisions or any approval/phase-complete claim.
+
+See `work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat`. Eight fail-closed unit cases cover the
+pure verifier; Blender-facing execution remains unrun here and must occur on the
+laptop against real candidate bytes. Raw intersection/distance evidence is not
+legitimate-contact classification and does not pass Phase 7. Continuous dressed
+motion, full modifier/shape-key/custom-normal inventory, garment provenance and
+owner acceptance remain open. Current model remains EXPERIMENTAL r29; next actual
+deformation task remains RUN r30. Next GPT preparation: continuous dressed
+range/contact sampling and explicit per-frame contact classification.

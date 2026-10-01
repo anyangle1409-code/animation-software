@@ -153,3 +153,9 @@ references, verify the actual report, then update phase_completion_records. A ba
 PASS object is now refused. Phase 4 has an execution package and a metrics-only
 independent replay utility. Neither makes r29 freeze-eligible; its current seven
 blockers and strict regressions remain visible. Review snapshots stay non-blocking.
+
+For future Phase 12 preparation, create an INCOMPLETE packet with
+`python scripts/verify_original_v1_production_promotion.py --template --json-out <fresh packet.json>`.
+Read the promotion workflow before filling it: all gates and final owner acceptance
+must identify the exact two bare/dressed exports. Templates never count as evidence
+and the verifier never changes production approval.

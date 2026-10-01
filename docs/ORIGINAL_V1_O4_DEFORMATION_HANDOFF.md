@@ -1573,3 +1573,20 @@ Replay requires matching candidate/script/Blender/invocation identities, complet
 coverage and exact metrics. Frozen pose/metric functions, rig, gates and R2 remain
 unchanged. 119 Python tests pass; actual Blender replay remains unexecuted here.
 r29 remains EXPERIMENTAL with seven development failures; next action remains r30.
+
+### Final export / promotion evidence binding — 2026-10-01
+
+Live source HEAD checked: `9f5dda6d25e2ddff118e234c6377bbd0c97906b6`. The future
+promotion verifier now requires exactly two distinct bare/dressed exports and
+the same content/lineage inventory in every gate and the explicit owner record.
+Changing export bytes invalidates earlier evidence even with an unchanged Blend
+SHA. Check IDs and source references must be unique; each check binds verified
+raw evidence listed in its gate. Commands must be text and timestamps must be
+ISO with a timezone. Added INCOMPLETE packet/report template mode; it executes
+no gates and never infers acceptance. Contract verification does not replace
+domain tools or authenticate the owner. Routine review remains non-blocking.
+
+Validation: all 129 Python tests pass; template creation and subsequent refusal
+were exercised, generated r29 state and pinned R2 remain valid. No candidate,
+geometry, weights, pose definition, frozen structure or gate threshold changed.
+Actual model execution remains on the laptop; next task remains RUN r30.

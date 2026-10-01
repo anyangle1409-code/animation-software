@@ -42,6 +42,8 @@ with no skipped body checks:
 - curl — including bounded correction of a loaded hammer curl;
 - overhead press — standing dumbbell shoulder press;
 - horizontal press — standard push-up;
+- supine — flat dumbbell bench press and dumbbell fly, both passing the same
+  clean-fallback equipment/body clearance gate without relaxing its limits;
 - squat — bodyweight air squat;
 - lunge — split/forward/reverse family evidence, with reverse lunge in the
   all-family clean-fallback certification loop;
@@ -51,6 +53,11 @@ with no skipped body checks:
 - raise — lateral and front raises;
 - vertical pull — strict pull-up;
 - extension — dumbbell overhead triceps extension.
+
+For the supine family, an initial clean-fallback run measured the bench pad
+3.04 mm from the body against the existing 3.00 mm support-contact limit. The
+bench placement was corrected by 0.1 mm at the family source; the threshold was
+not weakened. The full clean-fallback family loop then passed.
 
 The same suite also proves that accepted family defaults reproduce the relevant
 hand-authored library motion where that comparison is defined, generated

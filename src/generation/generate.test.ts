@@ -359,6 +359,12 @@ describe('generating on the clean first-party fallback', () => {
           status: result.status,
           failed: result.report?.failed,
           skipped: result.report?.skipped,
+          checks: result.report?.checks.map((check) => ({
+            id: check.id,
+            status: check.status,
+            detail: check.detail,
+            measured: check.measured,
+          })),
           corrections: result.corrections,
           validations: result.validations,
         });

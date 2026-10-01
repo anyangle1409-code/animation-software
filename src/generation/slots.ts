@@ -89,6 +89,56 @@ function collect<T>(text: string, table: [RegExp, T][]): Slot<T>[] {
 
 const POUND = 0.45359237;
 
+const NUMBER_WORD_VALUES: Record<string, number> = {
+  zero: 0,
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+  thirteen: 13,
+  fourteen: 14,
+  fifteen: 15,
+  sixteen: 16,
+  seventeen: 17,
+  eighteen: 18,
+  nineteen: 19,
+  twenty: 20,
+  thirty: 30,
+  forty: 40,
+  fifty: 50,
+  sixty: 60,
+  seventy: 70,
+  eighty: 80,
+  ninety: 90,
+};
+
+const WEIGHT_NUMBER_WORD =
+  '(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
+
+const parseNumberWords = (words: string): number | null => {
+  const tokens = words.replace(/-/g, ' ').split(/\s+/).filter((token) => token && token !== 'and');
+  if (tokens.length === 0) return null;
+  let value = 0;
+  for (const token of tokens) {
+    if (token === 'hundred') {
+      value = (value || 1) * 100;
+      continue;
+    }
+    const amount = NUMBER_WORD_VALUES[token];
+    if (amount === undefined) return null;
+    value += amount;
+  }
+  return value;
+};
+
 export function readSlots(prompt: string): PromptSlots {
   const text = prompt
     .toLowerCase()
@@ -106,6 +156,16 @@ export function readSlots(prompt: string): PromptSlots {
     const pounds = /^(?:lb|pound)/.test(match[2]);
     // Pounds are converted to the nearest half kilogram, the smallest step a
     // dumbbell rack is made in.
+    loads.push({ value: pounds ? Math.round(amount * POUND * 2) / 2 : amount, words: match[0] });
+  }
+  const wordLoadPattern = new RegExp(
+    `\\b(${WEIGHT_NUMBER_WORD}(?:(?:[-\\s]+(?:and[-\\s]+)?)${WEIGHT_NUMBER_WORD})*)\\s*(kgs?|kilo(?:gram)?s?|lbs?|pounds?)\\b`,
+    'g',
+  );
+  for (const match of text.matchAll(wordLoadPattern)) {
+    const amount = parseNumberWords(match[1]);
+    if (amount === null) continue;
+    const pounds = /^(?:lb|pound)/.test(match[2]);
     loads.push({ value: pounds ? Math.round(amount * POUND * 2) / 2 : amount, words: match[0] });
   }
 

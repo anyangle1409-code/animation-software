@@ -1,6 +1,6 @@
 import type { BoneName } from './boneNames';
 import type { BoneDefinition, Pose, Vec3 } from './types';
-import { HGPT_CANONICAL_V4_ORIGINAL_BONES } from './canonicalV4Original';
+import { HUMANOID_BONES } from './humanoid';
 import { HgMat4, HgQuat, HgVec3 } from '../core/linearMath';
 import {
   HgPoseEvaluation,
@@ -64,7 +64,7 @@ export class Skeleton {
   readonly names: BoneName[] = [];
   readonly firstParty: HgSkeleton;
 
-  constructor(definitions: BoneDefinition[] = HGPT_CANONICAL_V4_ORIGINAL_BONES) {
+  constructor(definitions: BoneDefinition[] = HUMANOID_BONES) {
     this.firstParty = new HgSkeleton(definitions);
 
     for (const current of this.firstParty.bones) {

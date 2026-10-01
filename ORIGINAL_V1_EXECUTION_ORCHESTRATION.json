@@ -49,10 +49,14 @@
     },
     {
       "stage": 3,
-      "name": "Later-phase execution packages",
+      "name": "Later-phase execution packages plus Phase 5-8 gap-closure contracts",
       "artifacts": [
         "docs/work_packages/LATER_PHASE_EXECUTION_CONTRACT.md",
-        "docs/work_packages/LATER_PHASE_TOOLING_READINESS.md"
+        "docs/work_packages/LATER_PHASE_TOOLING_READINESS.md",
+        "docs/work_packages/PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md",
+        "docs/work_packages/PHASE_6_ADVANCED_SURFACE_PROTOCOL.md",
+        "docs/work_packages/PHASE_7_GARMENT_SCENE_PROTOCOL.md",
+        "docs/work_packages/PHASE_8_PRESENTATION_PROTOCOL.md"
       ],
       "boundary": "packages only; phases not complete"
     },
@@ -124,7 +128,9 @@
       "name": "Deterministic visual QA",
       "artifacts": [
         "RUN_ORIGINAL_V1_VISUAL_QA.bat",
-        "docs/work_packages/VISUAL_QA_PROTOCOL.md"
+        "docs/work_packages/VISUAL_QA_PROTOCOL.md",
+        "scripts/original_v1_mask_raster.py",
+        "docs/work_packages/VISUAL_QA_MASK_CAPTURE_PROTOCOL.md"
       ],
       "boundary": "actual Phase 10-bound captures/references required"
     },
@@ -249,7 +255,7 @@
       "entry": [
         "Phase 4 verified freeze"
       ],
-      "action": "Execute 5A-5G region packages with candidate-bound review/evidence after each meaningful region",
+      "action": "Execute ordered 5A-5G Blender modelling; use RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat templates/receipts to bind each region to its verified parent",
       "support_stages": [
         3
       ],
@@ -264,7 +270,7 @@
       "entry": [
         "stable Phase 5 candidate"
       ],
-      "action": "Execute topology/surface package and snapshot-based surface audits",
+      "action": "Execute topology/surface repairs; author joint-support IDs and run RUN_ORIGINAL_V1_PHASE6_SURFACE.bat for raw/evaluated surface evidence",
       "support_stages": [
         3,
         4
@@ -280,7 +286,7 @@
       "entry": [
         "stable final body topology"
       ],
-      "action": "Execute original garment provenance/construction, raw pair, static dressed and continuous dressed evidence",
+      "action": "Execute independently authored garment work; bind clean-room operation ledger and run RUN_ORIGINAL_V1_PHASE7_GARMENT_SCENE.bat plus dressed evidence tools",
       "support_stages": [
         3,
         6,
@@ -298,7 +304,7 @@
       "entry": [
         "Phase 5-7 stable"
       ],
-      "action": "Execute owned material/presentation package with repeatable app-distance captures",
+      "action": "Author owned numeric materials; run RUN_ORIGINAL_V1_PHASE8_PRESENTATION.bat and the fixed real-render capture plan",
       "support_stages": [
         3
       ],
@@ -349,7 +355,7 @@
       "entry": [
         "stable Phase 10 runtime/model/assets and real captures"
       ],
-      "action": "Run first-party mask QA, versioned references, coverage/replay checks and owner-facing evidence",
+      "action": "Run exact-runtime first-party mask QA, versioned references, coverage/replay checks and owner-facing evidence; Blender masks use the prepared project-owned rasterizer",
       "support_stages": [
         11
       ],
@@ -385,5 +391,10 @@
       "action": "Asset-only/config-only production activation on verified standalone runtime; then rerun exact-SHA standalone/browser/release/first-party audits and record immutable production freeze",
       "boundary": "Never merge the model branch wholesale. Any asset/runtime byte change invalidates affected evidence."
     }
-  ]
+  ],
+  "session_close": {
+    "protocol": "docs/work_packages/SESSION_CLOSE_PROTOCOL.md",
+    "command": "RUN_ORIGINAL_V1_SESSION_CLOSE.bat",
+    "rule": "Run after saving/evidence/handoff/commit/push. READY_TO_END_SESSION or PARTIAL_WORK_PRESERVED is required for an unambiguous handoff; never force-push/delete evidence to obtain it."
+  }
 }

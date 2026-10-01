@@ -57,7 +57,7 @@ def evidence_refs(root: Path, refs, label: str) -> list[dict]:
 
 def validate_joint_support(root: Path, joint: dict, candidate_sha: str, raw_vertex_count: int) -> list[str]:
     issues = []
-    template = json.loads((root / JOINT_TEMPLATE).read_text(encoding="utf-8"))
+    template = json.loads((ROOT / JOINT_TEMPLATE).read_text(encoding="utf-8"))
     expected = {row["id"]: row for row in template["joints"]}
     if joint.get("schema_version") != 1 or joint.get("status") != "JOINT_SUPPORT_EVIDENCE_COMPLETE":
         issues.append("joint-support evidence identity/status differs")

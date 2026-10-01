@@ -135,7 +135,7 @@ function interpretCommon(
 
     const loads = distinct(slots.loads);
     const totalLoadWording =
-      /\b(?:total|combined)(?:\s+(?:load|weight))?\b|\b(?:load|weight)\s+(?:total|combined)\b|\b(?:between|for)\s+both\s+(?:hands|dumbbells)\b/.test(slots.text);
+      /\b(?:total|combined)\s+(?:load|weight)\b|\b(?:load|weight)\s+(?:total|combined)\b|\b(?:kgs?|kilograms?|kilos?|lbs?|pounds?)\s+(?:in\s+)?total\b|\b(?:kgs?|kilograms?|kilos?|lbs?|pounds?)\s+combined\b(?!\s+with\b)|\b(?:between|for)\s+both\s+(?:hands|dumbbells)\b/.test(slots.text);
     if (loads.length > 0 && totalLoadWording) {
       issues.push(
         blocking(

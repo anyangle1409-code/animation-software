@@ -285,9 +285,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('exercise: dumbbell curl with 20 kg total')).toContain('load');
     expect(blocking('exercise: dumbbell shoulder press with ten kg combined')).toContain('load');
     expect(blocking('exercise: dumbbell row with 24 kg between both hands')).toContain('load');
+    expect(blocking('exercise: dumbbell curl with combined load 20 kg')).toContain('load');
 
     expect(parsePrompt('exercise: dumbbell curl with 10 kg per hand').issues.filter((issue) => issue.blocking)).toEqual([]);
     expect(parsePrompt('exercise: dumbbell curl with ten kg each').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl with 10 kg combined with slow tempo').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
   it('reads grips, loads and tempo in several phrasings', () => {

@@ -78,29 +78,29 @@ echo Source: r29
 echo Optimiser: o22, warm-start o21, pinned R2 comparator bounds
 echo ============================================================
 
-echo [1/7] Dump r29 pose skinning...
+echo [1/8] Dump r29 pose skinning...
 "%BLENDER%" --background --factory-startup "%R29%" --python-exit-code 1 ^
   --python scripts\dump_original_v1_o4_pose_skinning_blender.py -- "%DUMP%"
 if errorlevel 1 exit /b 1
 
-echo [2/7] Solve o22...
+echo [2/8] Solve o22...
 python scripts\optimize_original_v1_o4_shoulder_weights.py "%DUMP%" "%SOL%" ^
   --preset o22 --init "%INIT%" --r2-report "%R2%"
 if errorlevel 1 exit /b 1
 
-echo [3/7] Apply o22 to a NEW r30 candidate...
+echo [3/8] Apply o22 to a NEW r30 candidate...
 "%BLENDER%" --background --factory-startup "%R29%" --python-exit-code 1 ^
   --python scripts\apply_original_v1_o4_weight_solution_blender.py -- "%SOL%" "%R30%"
 if errorlevel 1 exit /b 1
 
-echo [4/7] Run full 15-pose evidence and compare with r29/R2...
+echo [4/8] Run full 15-pose evidence and compare with r29/R2...
 call RUN_ORIGINAL_V1_FULL_EVIDENCE.bat r30 r29
 if errorlevel 1 (
   echo ERROR: Full r30 evidence pipeline failed.
   exit /b 1
 )
 
-echo [5/7] Add explicit r30 comparison against r28...
+echo [5/8] Add explicit r30 comparison against r28...
 python scripts\compare_original_v1_deformation_reports.py ^
   "%RC%\full_r28_merged_pose_report.json" ^
   "%RC%\full_r30_merged_pose_report.json" ^
@@ -111,11 +111,15 @@ python scripts\compare_original_v1_deformation_reports.py ^
   --report-only
 if errorlevel 1 exit /b 1
 
-echo [6/7] Rebuild generated candidate review...
+echo [6/8] Classify r30 deterministically against r29 and r28...
+python scripts\summarize_original_v1_trial.py r30 r29 r28
+if errorlevel 1 exit /b 1
+
+echo [7/8] Rebuild generated candidate review...
 python scripts\build_original_v1_candidate_review.py
 if errorlevel 1 exit /b 1
 
-echo [7/7] Collect compact visual review images...
+echo [8/8] Collect compact visual review images...
 python scripts\collect_original_v1_review_images.py r30
 if errorlevel 1 exit /b 1
 
@@ -128,6 +132,7 @@ echo   %RC%\full_r30_deformation_acceptance.md
 echo   %RC%\full_r30_comparison_vs_R2.json
 echo   %RC%\full_r30_comparison_vs_r29.json
 echo   %RC%\full_r30_comparison_vs_r28.json
+echo   %RC%\full_r30_trial_summary.md
 echo   ORIGINAL_V1_WORK\candidates\review\visual_r30\
 echo ============================================================
 exit /b 0

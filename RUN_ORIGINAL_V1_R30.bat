@@ -39,6 +39,13 @@ for %%F in ("%R29%" "%INIT%" "%R2%") do (
   )
 )
 
+set "R29_MANIFEST=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json"
+python scripts\verify_original_v1_local_candidate.py "%R29%" "%R29_MANIFEST%"
+if errorlevel 1 (
+  echo ERROR: Local r29 does not match its committed manifest. Do not run o22.
+  exit /b 2
+)
+
 for %%F in ("%R30%" "%SOL%") do (
   if exist "%%~F" (
     echo ERROR: Refusing to overwrite existing r30 work: %%~F

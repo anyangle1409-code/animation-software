@@ -371,3 +371,13 @@ copy can be made with `RUN_ORIGINAL_V1_LOCAL_BACKUP.bat <fresh-directory-outside
 End with `RUN_ORIGINAL_V1_CLAUDE_END.bat [rN]`. Full rules are in
 `work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. None of these wrappers advances a
 roadmap phase or infers acceptance.
+
+
+### Phase 7 bare/dressed equivalence
+
+After the actual Phase 7 garment exists, run
+`RUN_ORIGINAL_V1_PHASE7_EQUIVALENCE.bat <rN> <fresh-output-dir>`. It reuses all
+15 frozen stress poses and requires the full underlying body/rig/body metrics to
+remain identical when only garment visibility changes. The body dressed-mask is
+inactive in both comparison states. This is evidence-only and does not classify
+garment contact or complete Phase 7.

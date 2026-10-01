@@ -2014,6 +2014,20 @@ unexpected vertices/bones; 0 cross-side weights; max 4 influences. **Known flag:
 weight-sum error up to 1.5e-5 (tolerance 1e-6). They are identical before and after, all outside the mask, and
 inherited from the original binder; this edit introduced none.
 
+### Next exact action (evidence-selected, at HEAD of this section)
+
+Generated state: current candidate **r35** (experimental, TRADE-OFF versus r28 only; 6 development failures; Priority 1
+clear), `python scripts/select_original_v1_next_action.py` →
+
+> **REPAIR grip/thumb** — Bilateral equipment penetration must satisfy unchanged gates —
+> `docs/work_packages/PHASE_3C_GRIP_THUMB.md`
+
+That action is **blocked on the owner decision recorded under "Phase 3C"** below (the penetration is proven
+weight-independent; the remaining causes are frozen structure). Nothing was changed to bypass it. Independent safe
+work that does not depend on that decision: the Phase 3E owner decision (below), and the repository test updates
+listed under "Known repository test status". Phase 4 cannot start while any development failure remains
+(6 now: lunge pelvis max, lunge torso max, and the four grip penetrations).
+
 ### Known repository test status (not touched by this session)
 
 `python -m unittest discover -s scripts -p "test_original_v1_*.py"` (289 tests) reports 6 failures and 3 errors on the

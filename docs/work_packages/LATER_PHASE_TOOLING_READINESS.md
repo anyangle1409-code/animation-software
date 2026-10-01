@@ -10,7 +10,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 7 | Original authoring boundary rules; body snapshot/change audits; bare stress controls | Garment-local geometry/weight audit, dressed pose/contact capture with source receipts, body/garment clearance measurements and dressed review protocol |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics | Continuous range sampler, per-frame garment/body/contact checks, explicit legitimate-contact classification and final export identity binding |
-| 10 | Candidate GLB structural auditor accepts an explicit manifest; standalone source/release/browser audits exist on this branch | Revision-isolated candidate exporter, ORIGINAL-owned measured runtime grip metadata, real standalone-engine exercise/contact/continuity and export round-trip evidence on its live integration commit |
+| 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; standalone source/release/browser audits exist on this branch | Actual Blender export verification, ORIGINAL-owned measured runtime grip metadata, real standalone-engine exercise/contact/continuity and export round-trip evidence on its live integration commit |
 | 11 | Review source/image hashes; matched boards; coverage plan; stable bare capture protocol | Runtime-bound frame capture and actual visual defect tests with coverage/limits, reproducibility checks and a first-party reference inventory |
 
 Queue missing deterministic tooling as GPT repo-side work before the corresponding
@@ -29,11 +29,10 @@ raw measurements and coverage/limits; do not give it promotion authority.
   uses early fixed dimensions and nearest-body weight assignment. Do not rerun it
   as Phase 7 production construction. Prepare independently authored garment
   operations with explicit source correspondence under the current boundary.
-- `scripts/export_original_v1_candidate_glb_blender.py` writes shared GLB filenames
-  and CANDIDATE_GLB_EXPORT.json beside its input, without revision isolation or
-  final candidate-SHA binding. Do not run it over historical exports. A future
-  replacement/opt-in mode needs fresh output paths, collision refusal, exact
-  candidate identity, export settings and raw export hashes; preserve old outputs.
+- `scripts/export_original_v1_candidate_glb_blender.py` now requires explicit
+  revision/source manifest and a fresh isolated output folder. No-argument export
+  is refused. Follow `CANDIDATE_EXPORT_PROTOCOL.md`; actual Blender validation,
+  dressed deformation, deterministic repeat exports and runtime checks remain open.
 - `scripts/audit_original_v1_candidate_glbs.py --manifest <new manifest.json>` is a
   structural/self-contained packaging check. It does not establish anatomy,
   dressed deformation, final lineage or runtime motion. The default manifest is
@@ -51,3 +50,6 @@ remain candidate history and cannot be relabelled as exports of r29 or later mod
 Stage 4 now prepares `scripts/audit_original_v1_surface.py`; see
 `SURFACE_AUDIT_PROTOCOL.md`. It supplies raw findings only, not actual shading
 normals, self-intersection/joint-support review or automatic Phase 6 completion.
+
+Stage 5 prepares revision-isolated source-bound export capture and verification.
+See `CANDIDATE_EXPORT_PROTOCOL.md`; no actual GLB capture or phase completion is claimed.

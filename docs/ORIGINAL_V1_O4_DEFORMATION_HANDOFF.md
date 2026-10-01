@@ -1669,3 +1669,26 @@ hashes, collisions, aliases and invalid inputs. Generated state, pinned R2 and
 documentation hygiene verify unchanged. Current model remains experimental r29 /
 seven blockers; next actual deformation task RUN r30. Next GPT tooling stage:
 revision-isolated candidate GLB export preparation.
+
+### Staged GPT preparation: Stage 5 isolated candidate exports — 2026-10-01
+
+Live source HEAD checked: `a52b71660a8c7a181eec3291c705dde44efa3034`.
+Prepared a revision-isolated REST bare/dressed exporter using the existing Blender
+script, exact source manifest/candidate/exporter hashes, explicit stock settings,
+GLB identity extras, output collision refusal and scene restoration. Added a
+laptop runner, evidence-only preflight and standalone receipt verification using
+the existing structural GLB auditor. Historical shared exports remain untouched;
+old no-argument export now refuses. See `work_packages/CANDIDATE_EXPORT_PROTOCOL.md`.
+
+Source-byte preservation now includes ORIGINAL-v1 Python files so Windows/cloud
+hashes agree without newline conversion. Frozen pose content, rig, R2, geometry,
+weights and thresholds are unchanged. Preserve existing laptop work; the protocol
+explains safe fresh-checkout handling of already-converted source files.
+
+182 Python tests pass, including 13 export tests with mocked Blender REST/selection
+and failure restoration, collision/identity/settings checks, and a Git autocrlf
+byte round trip. Actual Blender capture, bundled-exporter compatibility and repeat
+export determinism are unexecuted. No actual new GLBs, images, production gate or
+model-phase completion is claimed. Current model remains EXPERIMENTAL r29 / seven
+blockers; next actual deformation task RUN r30. Next GPT preparation stage:
+candidate-bound dressed evidence tooling.

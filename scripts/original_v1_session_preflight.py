@@ -77,6 +77,7 @@ def process_info():
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--minimum-free-gib',type=float,default=2.0)
+    ap.add_argument('--evidence-only',action='store_true',help='Check read-only evidence environment/source without optimiser inputs or next-task outputs')
     ap.add_argument('--json',action='store_true');args=ap.parse_args()
     issues=[];info={'python':sys.executable,'python_version':sys.version.split()[0]}
     try:
@@ -90,18 +91,18 @@ def main():
         issues+=repository_issues(branch,control['branch'],head,live,tree)
         info.update(branch=branch,local_head=head,live_head=live,working_tree=tree or 'clean')
         state,_=build(ROOT);info['next_action']=state['next_action']
-        if state['next_action']['action']=='STOP': issues.append(state['next_action']['reason'])
+        if state['next_action']['action']=='STOP' and not args.evidence_only: issues.append(state['next_action']['reason'])
         bp=blender_path();info['blender']=str(bp) if bp else None
         if not bp: issues.append('Blender executable unavailable; set BLENDER_EXE to its exact path')
         free=shutil.disk_usage(ROOT).free;info['disk_free_bytes']=free
         if args.minimum_free_gib<=0:issues.append('minimum-free-gib must be positive')
         elif free<args.minimum_free_gib*1024**3:issues.append('insufficient disk space for evidence; minimum '+str(args.minimum_free_gib)+' GiB')
-        source=state['next_action'].get('execution_parent') or state['current_candidate']
+        source=state['current_candidate'] if args.evidence_only else state['next_action'].get('execution_parent') or state['current_candidate']
         mp=f'{CAND}/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{source}.json';man=read(ROOT,mp)
         candidate=ROOT/CAND/man['candidate'];info['local_candidate']=str(candidate)
         if not candidate.is_file(): issues.append('required local candidate missing: '+str(candidate))
         elif digest(candidate)!=man['candidate_sha256']:issues.append('local candidate hash differs from committed manifest')
-        if state['next_action']['action']=='RUN r30':
+        if state['next_action']['action']=='RUN r30' and not args.evidence_only:
             init=ROOT/CAND/'weight_solutions/o21.npz'
             if not init.is_file() or digest(init)!=man.get('solution_sha256'):issues.append('o21 warm-start missing or hash mismatch')
             issues+=collision_issues(ROOT,'r30','o22.npz')
@@ -110,13 +111,16 @@ def main():
             info['dump']='r29_for_o22_dump.npz is disposable; existing runner regenerates it from verified r29'
         else:
             diagnostic=ROOT/RC/f'remaining_diagnostics_{source}'
-            if state['next_action']['action']=='RUN remaining diagnostics' and diagnostic.exists():
+            if not args.evidence_only and state['next_action']['action']=='RUN remaining diagnostics' and diagnostic.exists():
                 issues.append('diagnostic output collision: '+str(diagnostic))
         info['power']=power_info();info['processes']=process_info()
         if info['processes'].get('conflicts'):issues.append('conflicting Blender/optimiser processes exist; inspect PIDs before starting')
         if not info['processes']['available']:info['process_note']='Process conflict check unavailable; inspect manually on laptop.'
         # Unknown battery is reported, never invented or treated as proof of AC.
-        if info['power'].get('ac')=='disconnected':info['power_note']='Battery is discharging. Connect AC for the approximately 70-minute r30 solve/evidence run.'
+        if info['power'].get('ac')=='disconnected':
+            info['power_note']=('Battery is discharging. Connect AC for the approximately 70-minute r30 solve/evidence run.'
+                if state['next_action']['action']=='RUN r30' and not args.evidence_only else
+                'Battery is discharging. Connect AC for Blender evidence where practical; no duration guarantee.')
     except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as exc:issues.append(str(exc))
     result={'status':'STOP' if issues else 'SAFE TO START','issues':issues,'information':info,
             'scope':'Read-only checks; pending routine owner review does not block a session.'}

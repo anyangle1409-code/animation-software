@@ -18,7 +18,11 @@ class EvidenceByteTests(unittest.TestCase):
                    'ORIGINAL_V1_WORK/candidates/repair_checks/hand_r30/pose_test_report.json',
                    'ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json',
                    'ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json',
-                   'src/rig/canonicalV4Original.ts')
+                   'src/rig/canonicalV4Original.ts',
+                   'scripts/export_original_v1_candidate_glb_blender.py',
+                   'scripts/pose_test_original_v1_o4_candidate_blender.py',
+                   'scripts/snapshot_original_v1_model_blender.py',
+                   'scripts/original_v1_export_evidence.py')
             for name in paths:
                 with self.subTest(path=name):
                     path=root/name;path.parent.mkdir(parents=True,exist_ok=True)

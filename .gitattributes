@@ -3,3 +3,4 @@
 ORIGINAL_V1*.json -text
 ORIGINAL_V1_WORK/** -text
 src/rig/canonicalV4Original.ts -text
+scripts/*original*v1*.py -text

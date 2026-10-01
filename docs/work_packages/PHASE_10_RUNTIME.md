@@ -76,3 +76,7 @@ images/clips and model handoff/state references. Reject copied metadata, wrong
 rig/asset/commit binding, lost contact, discontinuities, failed round trips, hidden
 network/runtime dependencies or production-policy bypass. Preserve evidence and
 use the previous valid runtime fixture. Next: Phase 11 automatic visual QA.
+
+For exact source-bound bare/dressed export preparation, use
+`CANDIDATE_EXPORT_PROTOCOL.md`. Actual capture remains unexecuted; REST export
+identity/structure does not replace real-engine motion or round-trip evidence.

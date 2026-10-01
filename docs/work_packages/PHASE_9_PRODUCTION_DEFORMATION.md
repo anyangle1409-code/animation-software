@@ -28,8 +28,9 @@ region/frame and whether it is independently reviewed legitimate surface contact
 or an unexplained defect. Missing classification remains unresolved; never alter
 the production zero-unexplained-intersection requirement or evaluator thresholds.
 
-Use revision-isolated exports only after the exporter described in tooling
-readiness is prepared. Bind exact bare/dressed file paths and SHA-256 to the
+Use the prepared `CANDIDATE_EXPORT_PROTOCOL.md` revision-isolated exporter; actual
+Blender capture and verification are still required. Bind exact bare/dressed file
+paths and SHA-256 to the
 candidate and validation packet. Export bytes are a distinct identity: a repeated
 export requires revalidation even if the source Blend SHA is unchanged.
 

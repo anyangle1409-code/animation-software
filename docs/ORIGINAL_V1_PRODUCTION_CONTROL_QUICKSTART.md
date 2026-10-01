@@ -190,3 +190,8 @@ snapshot. Follow `docs/work_packages/SURFACE_AUDIT_PROTOCOL.md`; supply the exac
 candidate manifest and fresh JSON/Markdown outputs. It lists surface defects and
 coverage as EVIDENCE_ONLY. No candidate report or Phase 6 completion is claimed
 until real snapshots and the remaining domain checks exist.
+
+Optional source-bound candidate export evidence: follow
+`work_packages/CANDIDATE_EXPORT_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede RUN r30 or
+validate production/runtime motion. Actual laptop capture remains required.

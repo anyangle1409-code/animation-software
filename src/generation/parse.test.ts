@@ -404,6 +404,17 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 
+  it('does not silently discard malformed or unsupported tempo directives', () => {
+    expect(blocking('exercise: dumbbell curl tempo 30x0')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl tempo 3-1-2')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl cadence 3-1-2-0')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl tempo 0000')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl tempo 0-1-2-0')).toEqual(['tempo']);
+    expect(parsePrompt('exercise: dumbbell curl tempo 3-0-1-0').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl controlled tempo').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl slow cadence').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('blocks set, repetition-count and timed-set prescriptions that have no output field yet', () => {
     expect(blocking('exercise: dumbbell curl for 10 reps')).toEqual(['programming']);
     expect(blocking('exercise: 3 sets dumbbell shoulder press')).toEqual(['programming']);

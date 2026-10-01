@@ -155,6 +155,40 @@ export function parsePrompt(prompt: string): ParsedPrompt {
     };
   }
 
+  const timingDirective = slots.text.match(/\b(?:tempo|cadence)\b/);
+  if (timingDirective && slots.tempo.length === 0) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message:
+          `"${timingDirective[0]}": a timing instruction was given but no supported tempo could be read. ` +
+          'Use a named profile such as slow/controlled/fast or four-phase seconds such as "tempo 3-1-2-0" / "tempo 3010".',
+        blocking: true,
+      }],
+    };
+  }
+
+  const invalidExplicitTempo = slots.tempo.find((slot) =>
+    'explicit' in slot.value &&
+    (slot.value.explicit.eccentric <= 0 || slot.value.explicit.concentric <= 0)
+  );
+  if (invalidExplicitTempo) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message:
+          `"${invalidExplicitTempo.words}": lowering and lifting phases must both have positive duration; zero is only valid for pause phases.`,
+        blocking: true,
+      }],
+    };
+  }
+
   const unsupportedSupport = slots.text.match(UNSUPPORTED_SUPPORT_POSITION);
   if (unsupportedSupport) {
     return {

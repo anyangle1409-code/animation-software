@@ -3767,7 +3767,7 @@
         "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.json",
         "sha256": "57cf872b3cbbbf0cf8f4b9353fb2b16d10a895a5626b151a2f12e0b0ddb352b0"
       },
-      "visual_review_location": null,
+      "visual_review_location": "ORIGINAL_V1_WORK/candidates/review/visual_r38/visual_review_manifest.json",
       "evidence_timestamp": "2026-10-01T21:54:25.996131+00:00",
       "full_evidence_receipt": {
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_evidence_manifest.json",

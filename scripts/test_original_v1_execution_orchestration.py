@@ -27,8 +27,13 @@ class ExecutionOrchestrationTests(unittest.TestCase):
         # The orchestration node must agree with the live generated state (not a hard-coded historical step).
         phase3 = {"3B": "3B_r30", "3C": "3C_grip_thumb", "3D": "3D_wrist", "3E": "3E_lunge"}
         if state["phases"]["3"]["state"] != "complete":
-            self.assertIn(state["current_subphase"], phase3)
-            self.assertEqual(node["id"], phase3[state["current_subphase"]])
+            if state["current_subphase"] == "4":
+                # all 3x subphases done, strict regressions still to reconcile: next node is the prepared Phase 4 package
+                self.assertTrue(state["next_action"]["action"].startswith(("RECONCILE", "ENTER development freeze")))
+                self.assertEqual(node["id"], "4_freeze")
+            else:
+                self.assertIn(state["current_subphase"], phase3)
+                self.assertEqual(node["id"], phase3[state["current_subphase"]])
         else:
             self.assertNotIn(node["id"], phase3.values())
 
@@ -41,6 +46,14 @@ class ExecutionOrchestrationTests(unittest.TestCase):
             state = copy.deepcopy(base)
             state["current_subphase"] = sub
             self.assertEqual(o.select_node(plan, state)["id"], node_id)
+        state = copy.deepcopy(base)
+        state["current_subphase"] = "4"
+        state["next_action"] = {"action": "RECONCILE freeze regressions"}
+        self.assertEqual(o.select_node(plan, state)["id"], "4_freeze")
+        state["next_action"] = {"action": "REPAIR lunge"}
+        with self.assertRaisesRegex(ValueError, "unsupported active Phase 3 subphase"):
+            o.select_node(plan, state)
+        state["phases"]["3"]["state"] = "active"
         state = copy.deepcopy(base)
         state["current_subphase"] = "3B"
         state["next_action"] = {"command": next(r for r in plan["critical_path"] if r["id"] == "3B_r30")["action"]}

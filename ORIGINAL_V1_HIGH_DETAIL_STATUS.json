@@ -195,6 +195,16 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    },
+    {
+      "checkpoint": "r38 visual snapshot",
+      "owner_review": "pending",
+      "blocking": false,
+      "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/review/visual_r38/visual_review_manifest.json",
+        "sha256": "211d5600cd7c8e0cef792783432c60c1b78e480088e3d9eb3697fe645287cd8c"
+      }
     }
   ],
   "latest_evidence": [
@@ -257,6 +267,10 @@
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r38/grip_penetration.json",
       "sha256": "9677f934b79d14cb978448baccde3a83998aedde2e701ebab83ed80b134ef621"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r38/visual_review_manifest.json",
+      "sha256": "211d5600cd7c8e0cef792783432c60c1b78e480088e3d9eb3697fe645287cd8c"
     }
   ],
   "last_known_candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",

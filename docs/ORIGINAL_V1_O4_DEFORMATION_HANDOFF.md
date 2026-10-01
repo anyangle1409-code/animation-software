@@ -2028,24 +2028,13 @@ work that does not depend on that decision: the Phase 3E owner decision (below),
 listed under "Known repository test status". Phase 4 cannot start while any development failure remains
 (6 now: lunge pelvis max, lunge torso max, and the four grip penetrations).
 
-### Known repository test status (not touched by this session)
+### Repository test status (UPDATED 2026-10-01, commit 745242e)
 
-`python -m unittest discover -s scripts -p "test_original_v1_*.py"` (289 tests) reports 6 failures and 3 errors on the
-live state. They are tests written for the pre-r30 state, not tooling defects, and were deliberately **not rewritten**
-(they are the other worker's suite and encode the r29 → r30 transition):
-
-- selector / orchestration expectations that the live candidate is r29 and the next action is `RUN r30`
-  (`test_live_plan_covers_all_prepared_support_and_selects_r30`, `test_r30_selector_drift_refused`,
-  `test_live_evidence_preserves_tradeoff_and_baseline`, `test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery`,
-  `test_milestone_switch_does_not_change_frozen_poses`);
-- fixtures that create a *fake* r30 on a copy of the live repository, which now holds the real r30 and therefore
-  raises `candidate identity replaced: r30` or `FileExistsError ... shoulder_r30`
-  (`test_future_candidate_with_verified_sources_is_selected`, `test_partial_candidate_stays_incomplete_after_ledger_update`,
-  `test_partial_new_candidate_cannot_replace_latest_complete`, `test_new_full_candidate_requires_source_receipt`).
-
-Fix by moving those fixtures to a revision that does not exist (for example r99) and by deriving the selector
-expectations from the live ledger. No gate, threshold or frozen-pose guard was weakened; the
-`frozen_pose_definition` guard passes on the live state.
+`python -m unittest discover -s scripts -p "test_original_v1_*.py"` passes (290 tests). The stale r29/r30-era fixtures were
+rewritten to derive the live latest candidate and next free revision instead of hard-coding history; the safety checks
+(stale candidate identity, wrong next action, missing evidence, forbidden phase advancement, missing local Blend identity,
+protected-structure drift, false production approval) were kept and mutation-checked. The earlier note that these tests were
+failing is obsolete.
 
 ### Phase 3C — grip / thumb: BLOCKED on a frozen-structure decision (evidence complete)
 
@@ -2138,3 +2127,42 @@ partial 3E result and record an evidence-backed disposition for the two failures
 supporting geometry in the groin/gluteal strip (note: subdividing an edge with interpolated weights does not reduce
 its stretch ratio, so a new loop only helps together with a re-solved gradient); (c) authorise a pose-driven
 correction (shape keys) or a different scope. Phase 4 cannot start while any development failure remains.
+
+## Claude laptop session — 2026-10-01 (continued): Phase 3C and 3E resolved on r38
+
+Owner authorisations used: local first-party thumb-pad reshape (3C) and local first-party midline support geometry plus
+constrained weight re-solve (3E). Process followed each time: declare the mask and frozen intent on disk and commit BEFORE any
+edit; apply to a NEW numbered candidate (verification that edited set == declared set); full 15-pose evidence; comparisons vs
+direct parent, r35, r32, r30, r29, r28 and pinned R2; before/after snapshots and change audit under a policy of the same scope.
+
+| Candidate | Parent | Change | Dev failures | Result |
+|---|---|---|---:|---|
+| r36 | r35 | 3C: 186 thumb-region vertices moved radially (max 5.31 mm) so no thumb vertex is inside the frozen handle before closing (29 -> 0 inside) | 2 | grip penetration 5.93 -> 1.627 mm (gate 2.0; production target 1.0 not yet met); vs r35 IMPROVED, 0 regressions |
+| r37 | r36 | 3E: midline relief groove, 38 vertices (declared 40), max 10 mm inward, core = 19 midline vertices stretched >3x in the lunge | 0 | lunge pelvis/torso max 7.24/6.37 -> 4.57/4.46; BUT squat volume deviation 0.0373 -> 0.0431 (comparator regression) |
+| r38 | r37 | 3E: constrained weight re-solve (preset o35, declared 1701-vertex band, blend alpha torso 0.30 / other 0, isolated sides) | **0** | vs r37/r36/r35/r32/r30/r29 IMPROVED, 0 regressions; vs R2 only the 5 inherited shoulder/torso minima; vs r28 the single pushup self-intersection 144 -> 154 (gate 200) |
+
+Reasoning for 3E: the midline cleft had zero rest separation, so hip flexion stretched it 6-7x; stretch ratio is roughly the
+posed gap divided by rest length, so giving the cleft rest length (the groove) lowers it without changing weights. The groove
+costs squat volume, which the later weight solve restores (squat volume now 0.9602 vs R2 0.9569). No joint-angle-driven
+corrective deformation was needed, so the escalation stays prepared-only (not implemented).
+
+Audits: r35->r36 only the 186 declared thumb vertices moved, weights/topology unchanged, symmetry 1.3e-4 mm.
+r36->r37 38 vertices inside the declared mask, 0 unexpected. r37->r38 mesh untouched, 1308 weight rows changed inside the
+declared mask, 0 unexpected vertices/bones, 0 cross-side, 0 over-influence. The blend tool now prunes to <=4 influences after
+mirror averaging (r37 solution had 8 five-influence rows before that fix).
+
+### Current state and what blocks Phase 3/4 now
+
+r38 is the experimental continuation (classification TRADE-OFF only because of the one r28 comparison). It has **0
+development failures**. The selector therefore says `RECONCILE freeze regressions`: the Phase 4 contract requires no
+unresolved strict regressions, and r38 still carries the five inherited r24 shoulder/torso minima versus R2
+(press_bottom shoulder 0.577->0.548 and torso 0.943->0.889, press_top torso 0.886->0.823, pullup_top shoulder 0.694->0.670
+and torso 0.883->0.861; tolerance 0.02; all far above the 0.15 gate). The owner earlier kept the strict rule and stopped
+shoulder-only optimisation; heavier shoulder topology or pose-driven corrections were not authorised. Nothing was done here to
+bypass this. Phase 4 and Phase 5 were therefore NOT started.
+
+**Owner decision needed:** (a) accept the five minima as a documented trade-off and pin a new numbered baseline (R2 file
+untouched, tolerances unchanged), then run Phase 4 freeze validation on r38; or (b) authorise a further tool for the
+shoulder/chest minima: a generic joint-angle-driven corrective shape (driven by shoulder elevation, deterministic,
+first-party, not keyed to any exercise name) or local chest/shoulder geometry under the declare-mask process; or (c) allow
+another weights-only attempt with the five minima as hard constraints on the r38 base.

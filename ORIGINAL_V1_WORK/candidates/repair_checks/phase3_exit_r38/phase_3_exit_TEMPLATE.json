@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "phase": "3",
+  "contract_status": "REFUSED",
+  "production_approved": false,
+  "issues": [
+    "Phase 4\u201311 templates only; Phase 12 uses the final promotion workflow"
+  ],
+  "note": "Source/contract verification only. Run all domain tests; do not infer anatomy quality or owner acceptance. No shared state is modified."
+}

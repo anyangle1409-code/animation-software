@@ -1,0 +1,20 @@
+{
+  "generated_utc": "2026-10-01T18:29:33.607577+00:00",
+  "method": "two-factor convex blend of the base (r32) weights and solver solution o29 inside the declared mask: torso-region vertices alpha=0.25, pelvis+leg-region vertices alpha=0.25, top-4 pruned and renormalised",
+  "source_solution": "o29.npz",
+  "source_solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c",
+  "base_candidate": "r32",
+  "alpha_torso_region": 0.25,
+  "alpha_pelvis_leg_region": 0.25,
+  "zone_vertices": 945,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "selection_basis": "largest zero-regression combination from a 21x21 scan against every comparator tolerance (region min/max, p01, p99, volume) versus pinned R2 (excluding the 5 inherited items) and versus r32, evaluated with the exact numpy LBS model (reconstruction error < 1e-6)",
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only",
+  "symmetrised": "mirror-averaged after pruning; twin L1 max 2.52e-16"
+}

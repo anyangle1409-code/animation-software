@@ -1,0 +1,40 @@
+{
+  "generated_utc": "2026-10-01T18:30:36.173984+00:00",
+  "stage": "O4 candidate shoulder weight optimisation (not production)",
+  "solution": "o31.npz",
+  "solution_sha256": "6dda82a58b73db95b8a26d91ee94ee0da241f778f51e8bc0de71db046ce9b0bf",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.blend",
+  "source_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r33.blend",
+  "candidate_sha256": "77e4cbdd9cd383db6f79dbf4461c5857bea1f113e3a6a399404673d4dd376cb8",
+  "vertices_rewritten": 945,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "rig_bones": 63,
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only",
+  "optimisation": {
+    "generated_utc": "2026-10-01T18:29:33.607577+00:00",
+    "method": "two-factor convex blend of the base (r32) weights and solver solution o29 inside the declared mask: torso-region vertices alpha=0.25, pelvis+leg-region vertices alpha=0.25, top-4 pruned and renormalised",
+    "source_solution": "o29.npz",
+    "source_solution_sha256": "2bdec9aebbf4aafc2f239d6d29d20712109069117051db5b74c67a4e21ec442c",
+    "base_candidate": "r32",
+    "alpha_torso_region": 0.25,
+    "alpha_pelvis_leg_region": 0.25,
+    "zone_vertices": 945,
+    "bones": [
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "thigh_l",
+      "thigh_r"
+    ],
+    "selection_basis": "largest zero-regression combination from a 21x21 scan against every comparator tolerance (region min/max, p01, p99, volume) versus pinned R2 (excluding the 5 inherited items) and versus r32, evaluated with the exact numpy LBS model (reconstruction error < 1e-6)",
+    "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only",
+    "symmetrised": "mirror-averaged after pruning; twin L1 max 2.52e-16"
+  }
+}

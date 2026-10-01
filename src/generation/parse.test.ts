@@ -281,6 +281,41 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not silently replace unsupported support, stance or grip-width modifiers with family defaults', () => {
+    expect(blocking('exercise: kneeling dumbbell shoulder press')).toEqual(['support']);
+    expect(blocking('exercise: half-kneeling dumbbell curl')).toEqual(['support']);
+    expect(blocking('exercise: quadruped dumbbell row')).toEqual(['support']);
+    expect(blocking('exercise: pull-up from all fours')).toEqual(['support']);
+    expect(blocking('exercise: wide stance squat')).toEqual(['variant']);
+    expect(blocking('exercise: narrow stance Romanian deadlift')).toEqual(['variant']);
+    expect(blocking("exercise: farmer's walk feet together")).toEqual(['variant']);
+    expect(blocking('exercise: wide grip pull-up')).toEqual(['grip']);
+    expect(blocking('exercise: push-up hands close')).toEqual(['grip']);
+  });
+
+  it('does not invert negated movement, grip, support or tempo wording', () => {
+    expect(blocking('exercise: not a squat')).toEqual(['family']);
+    expect(blocking('exercise: no pull-up')).toEqual(['family']);
+    expect(blocking("exercise: without a farmer's walk")).toEqual(['family']);
+    expect(blocking('exercise: not dumbbell bench press')).toEqual(['family']);
+    expect(blocking('exercise: curl not underhand')).toEqual(['grip']);
+    expect(blocking('exercise: push-up not palms down')).toEqual(['grip']);
+    expect(blocking('exercise: shoulder press not seated')).toEqual(['support']);
+    expect(blocking('exercise: incline curl not inclined')).toEqual(['support']);
+    expect(blocking('exercise: dumbbell curl not slow')).toEqual(['tempo']);
+    expect(blocking('exercise: shoulder press not fast')).toEqual(['tempo']);
+    expect(blocking('exercise: squat not controlled')).toEqual(['tempo']);
+  });
+
+  it('blocks isometric, pause, hold and eccentric-emphasis wording that is not encoded by the family clip', () => {
+    expect(blocking('exercise: isometric squat')).toEqual(['variant']);
+    expect(blocking('exercise: paused dumbbell bench press')).toEqual(['variant']);
+    expect(blocking('exercise: dumbbell curl hold at the top')).toEqual(['variant']);
+    expect(blocking('exercise: negative pull-up')).toEqual(['variant']);
+    expect(blocking('exercise: eccentric calf raise')).toEqual(['variant']);
+    expect(parsePrompt('exercise: dumbbell curl tempo 3-1-2-0').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not replace qualitative load requests with arbitrary family defaults', () => {
     expect(blocking('exercise: dumbbell curl with heavy dumbbells')).toContain('load');
     expect(blocking('exercise: shoulder press with moderate load')).toContain('load');
@@ -451,7 +486,7 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('cable woodchop with palms down')).toEqual(['grip']);
     expect(blocking('dumbbell Pallof press')).toEqual(['equipment']);
     expect(blocking('Pallof press with 10 kg')).toEqual(['load']);
-    expect(blocking('kneeling Pallof press')).toEqual(['variant']);
+    expect(blocking('kneeling Pallof press')).toEqual(['support']);
     expect(blocking('right-side Pallof press')).toEqual(['variant']);
     expect(blocking('single-arm Pallof press')).toEqual(['execution']);
     expect(blocking('Pallof press with neutral grip')).toEqual(['grip']);

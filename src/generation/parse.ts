@@ -3,6 +3,9 @@ import { GENERATOR_FAMILIES } from './families';
 import type { GeneratorFamily } from './families';
 import { readSlots } from './slots';
 
+const escapeRegExp = (text: string) =>
+  text.replace(/[.*+?^$\{\}()|[\]\\]/g, (character) => `\\${character}`);
+
 /**
  * Natural-language request → `ExerciseIntent`.
  *
@@ -41,6 +44,10 @@ const UNSUPPORTED_REP_STYLE = [
   /\b(?:top|bottom)[-\s]+half\b/,
   /\b(?:1\.5|one[-\s]+and[-\s]+a[-\s]+half)[-\s]?(?:reps?|repetitions?)\b/,
   /\beccentric[-\s]?only\b|\bnegative[-\s]?(?:reps?|repetitions?)\b/,
+  /\b(?:isometric(?:s)?|iso[-\s]?holds?|static[-\s]+holds?)\b/,
+  /\b(?:paused?|pausing)\b/,
+  /\b(?:hold|holding)\s+(?:at|in|for)\b/,
+  /\beccentrics?\b|\bnegatives?\b/,
 ];
 
 const COUNT_WORD =
@@ -49,6 +56,19 @@ const UNSUPPORTED_PROGRAMMING = [
   new RegExp(`\\b${COUNT_WORD}\\s*(?:sets?|reps?|repetitions?)\\b`),
   new RegExp(`\\bfor\\s+${COUNT_WORD}\\s*(?:seconds?|secs?|minutes?|mins?)\\b`),
 ];
+
+const NEGATED_GRIP =
+  /\b(?:not|no|without)\s+(?:a\s+)?(?:neutral(?:[-\s]grip)?|hammer[-\s]grip|underhand|overhand|supinat(?:ed|ion)|pronat(?:ed|ion)|palms?\s+(?:facing\s+)?(?:up|down|forwards?|each\s+other|inwards?))\b/;
+const NEGATED_SUPPORT =
+  /\b(?:not|no|without)\s+(?:being\s+)?(?:standing|seated|sitting|sat|inclined?|lying|supine|hanging|floor[-\s]?supported)\b/;
+const NEGATED_TEMPO =
+  /\b(?:not|no|without)\s+(?:a\s+)?(?:slow(?:ly)?|fast|quick(?:ly)?|controll?ed|explosive(?:ly)?)(?:\s+tempo)?\b/;
+const UNSUPPORTED_SUPPORT_POSITION =
+  /\b(?:half[-\s]?)?kneeling\b|\bquadruped\b|\ball[-\s]+fours\b/;
+const UNSUPPORTED_STANCE_WIDTH =
+  /\b(?:wide|narrow|close|staggered)[-\s]+stance\b|\b(?:feet|foot)\s+(?:wide|wider|close|closer|together)\b/;
+const UNSUPPORTED_GRIP_WIDTH =
+  /\b(?:wide|narrow|close)[-\s]+grip\b|\bhands?\s+(?:wide|wider|close|closer|together)\b/;
 
 export function parsePrompt(prompt: string): ParsedPrompt {
   const slots = readSlots(prompt);
@@ -132,6 +152,109 @@ export function parsePrompt(prompt: string): ParsedPrompt {
           blocking: true,
         },
       ],
+    };
+  }
+
+  const unsupportedSupport = slots.text.match(UNSUPPORTED_SUPPORT_POSITION);
+  if (unsupportedSupport) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'support',
+        message: `"${unsupportedSupport[0]}": that body-support position is not certified by the current generator families and cannot be replaced with the family default.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const unsupportedStance = slots.text.match(UNSUPPORTED_STANCE_WIDTH);
+  if (unsupportedStance) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'variant',
+        message: `"${unsupportedStance[0]}": stance-width/offset changes are not prompt-parameterised by the certified families and cannot be replaced with the family default stance.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const unsupportedGripWidth = slots.text.match(UNSUPPORTED_GRIP_WIDTH);
+  if (unsupportedGripWidth) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'grip',
+        message: `"${unsupportedGripWidth[0]}": grip/hand spacing is not prompt-parameterised by the certified families and cannot be replaced with the family default spacing.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const movementWords = slots.text.match(matches[0].detect)?.[0];
+  if (movementWords) {
+    const negatedMovement = slots.text.match(
+      new RegExp(`\\b(?:not|no|without)\\s+(?:an?\\s+)?${escapeRegExp(movementWords)}\\b`),
+    );
+    if (negatedMovement) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'family',
+          message: `"${negatedMovement[0]}": the only detected exercise is explicitly negated. Name the exercise you do want instead.`,
+          blocking: true,
+        }],
+      };
+    }
+  }
+
+  const negatedGrip = slots.text.match(NEGATED_GRIP);
+  if (negatedGrip) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'grip',
+        message: `"${negatedGrip[0]}": a negated grip cannot be treated as the positive grip token or silently replaced with the family default. State the grip you do want.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const negatedSupport = slots.text.match(NEGATED_SUPPORT);
+  if (negatedSupport) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'support',
+        message: `"${negatedSupport[0]}": a negated body/support position cannot be treated as a positive position or silently replaced with the family default. State the support you do want.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const negatedTempo = slots.text.match(NEGATED_TEMPO);
+  if (negatedTempo) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message: `"${negatedTempo[0]}": a negated tempo cannot be treated as the positive tempo token or silently replaced with the family default. State the tempo you do want.`,
+        blocking: true,
+      }],
     };
   }
 

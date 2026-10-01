@@ -9,6 +9,7 @@ is input for scripts/optimize_original_v1_o4_shoulder_weights.py. It reads only
 this candidate's own mesh/weights and the v4 rig. It also checks that linear
 blend skinning in numpy reproduces Blender's evaluated mesh.
 """
+import hashlib
 import json
 import sys
 import tempfile
@@ -93,8 +94,11 @@ for name, fn in POSES.items():
     evald.append(P)
     pose_names.append(name)
 
+source_path = Path(bpy.data.filepath)
+source_sha256 = hashlib.sha256(source_path.read_bytes()).hexdigest()
 np.savez_compressed(out_path, W=W, rest=rest, edges=edges, tris=np.array(tris), region=region,
                     region_names=np.array(names), bones=np.array(deform), heads=heads, mats=np.stack(mats),
                     evaluated=np.stack(evald), poses=np.array(pose_names),
-                    source=np.array(Path(bpy.data.filepath).name))
-print("DUMP DONE", out_path, len(pose_names), "poses")
+                    source=np.array(source_path.name), source_sha256=np.array(source_sha256),
+                    source_size_bytes=np.array(source_path.stat().st_size))
+print("DUMP DONE", out_path, len(pose_names), "poses", source_sha256)

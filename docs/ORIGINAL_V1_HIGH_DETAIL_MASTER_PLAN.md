@@ -276,3 +276,5 @@ critical-path graph, compares the r30 node against the existing next-action
 selector and prints safe parallel work without launching Blender or advancing a
 phase. At the current expected r29 / Phase 3B state, the actual model action remains
 `RUN_ORIGINAL_V1_R30.bat` after live preflight.
+
+`docs/CURRENT_HANDOFF.md` now points model pickup through the same read-only execution-orchestration runner, so the operational entry point and this roadmap agree on the r30-first critical path.

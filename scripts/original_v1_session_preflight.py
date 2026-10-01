@@ -106,7 +106,9 @@ def main():
             init=ROOT/CAND/'weight_solutions/o21.npz'
             if not init.is_file() or digest(init)!=man.get('solution_sha256'):issues.append('o21 warm-start missing or hash mismatch')
             issues+=collision_issues(ROOT,'r30','o22.npz')
-            for pkg in ('numpy','scipy'):
+            # Only dependencies the r30 pipeline actually imports: the optimiser/dump/apply/pose-test
+            # scripts are numpy-only (L-BFGS is project-owned); no repository script imports scipy.
+            for pkg in ('numpy',):
                 if importlib.util.find_spec(pkg) is None:issues.append('Python authoring dependency unavailable: '+pkg)
             info['dump']='r29_for_o22_dump.npz is disposable; existing runner regenerates it from verified r29'
         else:

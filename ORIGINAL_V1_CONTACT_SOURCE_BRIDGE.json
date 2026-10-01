@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "purpose": "Fail-closed bridge from project-owned model-branch exercise/contact source to future real-runtime contact capture. Records source facts only; does not execute the solver or create Blender poses.",
+  "status": "PREPARED_SOURCE_BRIDGE",
+  "production_approved": false,
+  "phase_complete": false,
+  "branch_role": "model-preparation source evidence only; Phase 10 must rediscover and bind the live standalone runtime commit",
+  "sources": [
+    "src/exercises/definitions/pushUp.ts",
+    "src/exercises/families/horizontalPress.ts",
+    "src/exercises/definitions/bicepCurl.ts",
+    "src/exercises/families/curl.ts",
+    "src/exercises/definitions/pullUp.ts",
+    "src/exercises/families/verticalPull.ts",
+    "src/equipment/attach.ts",
+    "src/equipment/library.ts",
+    "src/equipment/types.ts"
+  ],
+  "scenarios": {
+    "push_up": {
+      "exercise_id": "push_up",
+      "definition_builder": "horizontalPressFamily",
+      "contact_model": "four fixed body contacts; bilateral world-locked hands plus planted toes",
+      "start_label": "Top",
+      "peak_label": "Bottom",
+      "root_endpoints": {
+        "start": {
+          "pitch_deg": 75.59,
+          "y_m": 0.1804,
+          "z_m": 0.0045
+        },
+        "peak": {
+          "pitch_deg": 85.54,
+          "y_m": 0.2062,
+          "z_m": 0.0382
+        }
+      },
+      "left_hand_world_m": {
+        "x": -0.3,
+        "y": 0.055,
+        "z": 1.295
+      },
+      "hand_lock_mode": "world",
+      "hand_grip": "floor",
+      "runtime_requirement": "Capture real solver frames for the authored start→peak→start phases; do not recreate this path as a Blender stress pose."
+    },
+    "dumbbell_bicep_curl": {
+      "exercise_id": "dumbbell_bicep_curl",
+      "definition_builder": "curlFamily",
+      "grip_variant": "supinated",
+      "equipment_kind": "dumbbell",
+      "equipment_attachment_mode": "hand",
+      "equipment_socket": "grip",
+      "equipment_socket_position_m": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "hands_grip": "dumbbell",
+      "runtime_requirement": "Equipment motion must be resolved from each real evaluated hand matrix through the first-party attachment function at every sampled frame."
+    },
+    "pull_up": {
+      "exercise_id": "pull_up",
+      "definition_builder": "verticalPullFamily",
+      "contact_model": "bilateral equipment-locked hands on a static squat rack; no floor contact",
+      "start_label": "Dead hang",
+      "peak_label": "Chin to the bar",
+      "root_endpoints": {
+        "start": {
+          "y_m": -0.0631,
+          "z_m": -0.06
+        },
+        "peak": {
+          "y_m": 0.5,
+          "z_m": -0.2
+        }
+      },
+      "equipment_kind": "squat_rack",
+      "equipment_attachment_mode": "static",
+      "left_socket": "pullup_l",
+      "right_socket": "pullup_r",
+      "socket_height_m": 1.97,
+      "hands_grip": "bar",
+      "runtime_requirement": "Capture the real solver with static rack placement and equipment socket locks; do not interpolate a moving bar."
+    }
+  },
+  "required_future_evidence": [
+    "live_runtime_commit",
+    "exercise_definition_identity",
+    "deterministic_frame_times",
+    "real_solver_pose_evaluation",
+    "resolved_equipment_transforms",
+    "bilateral_hand_or_floor_contact_error",
+    "body_and_garment_contact_clearance",
+    "continuity_and_turnaround_metrics",
+    "source_bound_images_or_clips",
+    "export_round_trip_identity"
+  ],
+  "limits": [
+    "This bridge proves source semantics and exact current source bytes only.",
+    "It does not prove the model branch is the live runtime target.",
+    "It does not execute the animation solver, IK, equipment resolver or exporter.",
+    "It does not close Phase 9 or Phase 10 and cannot promote an asset."
+  ]
+}

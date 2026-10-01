@@ -281,6 +281,15 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not reinterpret total dumbbell load as a per-hand load', () => {
+    expect(blocking('exercise: dumbbell curl with 20 kg total')).toContain('load');
+    expect(blocking('exercise: dumbbell shoulder press with ten kg combined')).toContain('load');
+    expect(blocking('exercise: dumbbell row with 24 kg between both hands')).toContain('load');
+
+    expect(parsePrompt('exercise: dumbbell curl with 10 kg per hand').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl with ten kg each').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('reads grips, loads and tempo in several phrasings', () => {
     expect(parsePrompt('curl, palms facing each other').intent?.grip).toBe('neutral');
     expect(parsePrompt('overhand curl').intent?.grip).toBe('pronated');

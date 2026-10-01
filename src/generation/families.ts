@@ -134,6 +134,16 @@ function interpretCommon(
     }
 
     const loads = distinct(slots.loads);
+    const totalLoadWording =
+      /\b(?:total|combined)(?:\s+(?:load|weight))?\b|\b(?:load|weight)\s+(?:total|combined)\b|\b(?:between|for)\s+both\s+(?:hands|dumbbells)\b/.test(slots.text);
+    if (loads.length > 0 && totalLoadWording) {
+      issues.push(
+        blocking(
+          'load',
+          'Dumbbell load is encoded per hand. A total/combined load cannot be divided or doubled implicitly; state the load for each hand instead.',
+        ),
+      );
+    }
     if (loads.length > 1) {
       issues.push(blocking('load', `Several loads were given (${quote(slots.loads.map((slot) => slot.words))}); say which one per hand.`));
     } else if (loads.length === 1) {

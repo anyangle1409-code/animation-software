@@ -281,6 +281,15 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not replace qualitative load requests with arbitrary family defaults', () => {
+    expect(blocking('exercise: dumbbell curl with heavy dumbbells')).toContain('load');
+    expect(blocking('exercise: shoulder press with moderate load')).toContain('load');
+    expect(blocking('exercise: Pallof press with light cable resistance')).toContain('load');
+
+    expect(parsePrompt('exercise: dumbbell curl with heavy 12 kg dumbbells').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not treat negated equipment wording as permission to use the family default', () => {
     expect(blocking('exercise: shoulder press without dumbbells')).toContain('equipment');
     expect(blocking('exercise: dumbbell curl with no weights')).toContain('equipment');

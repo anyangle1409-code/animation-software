@@ -158,6 +158,17 @@ function interpretCommon(
     }
 
     const loads = distinct(slots.loads);
+    const qualitativeLoadWording =
+      /\b(?:light|heavy|moderate|medium|max(?:imum)?|low|high)[-\s]+(?:load|weight|weights|dumbbells?|resistance)\b|\b(?:light|heavy|moderate|medium|low|high)[-\s]?resistance\b/.test(slots.text);
+    if (qualitativeLoadWording && loads.length === 0) {
+      issues.push(
+        blocking(
+          'load',
+          'A qualitative load was requested, but the certified dumbbell output stores an exact per-hand mass. Give a numeric load or omit the load to use the documented family default.',
+        ),
+      );
+    }
+
     const totalLoadWording =
       /\b(?:total|combined)\s+(?:load|weight)\b|\b(?:load|weight)\s+(?:total|combined)\b|\b(?:kgs?|kilograms?|kilos?|lbs?|pounds?)\s+(?:in\s+)?total\b|\b(?:kgs?|kilograms?|kilos?|lbs?|pounds?)\s+combined\b(?!\s+with\b)|\b(?:between|for)\s+both\s+(?:hands|dumbbells)\b/.test(slots.text);
     if (loads.length > 0 && totalLoadWording) {
@@ -203,11 +214,20 @@ function interpretCommon(
     } else if (slots.equipment.length === 0) {
       assumptions.push('Cable station and handle — the equipment this family is certified with.');
     }
+    const qualitativeCableLoad =
+      /\b(?:light|heavy|moderate|medium|max(?:imum)?|low|high)[-\s]+(?:load|weight|weights|resistance)\b|\b(?:light|heavy|moderate|medium|low|high)[-\s]?resistance\b/.test(slots.text);
     if (slots.loads.length > 0) {
       issues.push(
         blocking(
           'load',
           `${quote(slots.loads.map((slot) => slot.words))}: cable resistance is not parameterised in the certified motion yet, so a numeric stack load cannot be accepted.`,
+        ),
+      );
+    } else if (qualitativeCableLoad) {
+      issues.push(
+        blocking(
+          'load',
+          'Cable resistance is not parameterised in the certified motion yet, so qualitative resistance such as light/heavy cannot be accepted.',
         ),
       );
     }

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_DISCOVERY_CONTRACT",
+  "phase_complete": false,
+  "production_approved": false,
+  "purpose": "Read-only discovery/comparison contract for future ORIGINAL-v1 real-runtime integration. It must not edit the standalone runtime or promote model assets.",
+  "model_branch": "claude/original-v1-blender-o2-20260929",
+  "runtime_authority": {
+    "active_branch": "work/standalone-first-party-audit-20260927",
+    "authority_files": [
+      "docs/CURRENT_HANDOFF.md",
+      "docs/PROJECT_AUTHORITY.md"
+    ],
+    "rule": "Current runtime source and executable gates outrank stale prose. Never develop on the handoff branch or merge the model branch wholesale."
+  },
+  "discovery_snapshot": {
+    "observed_utc": "2026-10-01",
+    "runtime_head": "e3a7d915079f018acbfd8198655f623ea7831fbf",
+    "last_fully_verified_checkpoint": "27ac3697d47bbcf32c9e94e674707f8e4b1eb5c3",
+    "commits_ahead_of_last_verified": 25,
+    "canonical_v4_runtime_contract_mode": "v4_active",
+    "source_default_skeleton": "hgpt_canonical_v4_original",
+    "handoff_prose_discrepancy": "CURRENT_HANDOFF still contains older text describing v3 as the live default; CANONICAL_V4_RUNTIME_CONTRACT.json and src/rig/skeleton.ts at the live HEAD show v4 active. Source/contracts take precedence.",
+    "latest_standalone_run": {
+      "id": 36739619686,
+      "conclusion": "failure",
+      "failed_step": "Verify prepared first-party foundations",
+      "failing_test_file": "src/rig/firstPartySkeleton.parity.test.ts",
+      "failures": [
+        "derives the canonical rest skeleton exactly from authored humanoid geometry: root difference 0.02 m exceeds 2e-11",
+        "keeps the compatibility evaluator identical across the whole exercise library: root/tail difference 0.02 m exceeds 2e-11"
+      ],
+      "early_gates_before_failure": [
+        "typecheck PASS",
+        "Blender helper Python syntax PASS",
+        "ORIGINAL v1 provenance and v4 payload tests PASS",
+        "repository authority/hygiene PASS",
+        "ORIGINAL v1 promotion guard PASS",
+        "ORIGINAL v1 runtime cutover guard PASS",
+        "canonical v4 runtime coupling gate PASS"
+      ],
+      "downstream_gates_not_executed": [
+        "full test suite",
+        "production build",
+        "standalone aggregate audit",
+        "production output third-party gate",
+        "final character runtime-path gate",
+        "runtime dependency anti-creep gate",
+        "external runtime resource gate",
+        "runtime network/API gate"
+      ]
+    },
+    "browser_viewport_smoke": {
+      "run_id": 36739619753,
+      "conclusion": "cancelled"
+    }
+  },
+  "contact_bridge": {
+    "spec": "ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.json",
+    "verifier": "scripts/original_v1_contact_source_bridge.py",
+    "required_semantic_result": "VERIFIED_CURRENT_MODEL_BRANCH_SOURCE",
+    "source_paths": [
+      "src/exercises/definitions/pushUp.ts",
+      "src/exercises/families/horizontalPress.ts",
+      "src/exercises/definitions/bicepCurl.ts",
+      "src/exercises/families/curl.ts",
+      "src/exercises/definitions/pullUp.ts",
+      "src/exercises/families/verticalPull.ts",
+      "src/equipment/attach.ts",
+      "src/equipment/library.ts",
+      "src/equipment/types.ts"
+    ]
+  },
+  "current_cross_branch_source_snapshot": [
+    {
+      "path": "src/exercises/definitions/pushUp.ts",
+      "model_git_blob": "b36999881f3f1d93b36873f79778c1b4d816e5a4",
+      "runtime_git_blob": "b36999881f3f1d93b36873f79778c1b4d816e5a4",
+      "byte_identical": true
+    },
+    {
+      "path": "src/exercises/families/horizontalPress.ts",
+      "model_git_blob": "56d8f1023b5a4d80e710b3a44c996706aefbe9f0",
+      "runtime_git_blob": "84ba9c1a27cb7bd4c99a878f314d4e4214abd0fe",
+      "byte_identical": false
+    },
+    {
+      "path": "src/exercises/definitions/bicepCurl.ts",
+      "model_git_blob": "5de0304d3abd9e1e7bdd88e130240d3507a93892",
+      "runtime_git_blob": "5de0304d3abd9e1e7bdd88e130240d3507a93892",
+      "byte_identical": true
+    },
+    {
+      "path": "src/exercises/families/curl.ts",
+      "model_git_blob": "45ef8eb945b7c0cd96e6427b74fff0d414bbbc42",
+      "runtime_git_blob": "45ef8eb945b7c0cd96e6427b74fff0d414bbbc42",
+      "byte_identical": true
+    },
+    {
+      "path": "src/exercises/definitions/pullUp.ts",
+      "model_git_blob": "a14ff16f3a91d091516f230d15742157380e8392",
+      "runtime_git_blob": "a14ff16f3a91d091516f230d15742157380e8392",
+      "byte_identical": true
+    },
+    {
+      "path": "src/exercises/families/verticalPull.ts",
+      "model_git_blob": "788b2ab9c6b860c0eabcc4ea6900040f7765fbd2",
+      "runtime_git_blob": "788b2ab9c6b860c0eabcc4ea6900040f7765fbd2",
+      "byte_identical": true
+    },
+    {
+      "path": "src/equipment/attach.ts",
+      "model_git_blob": "f95e904682bac16d9c21015696fc720a725f45e9",
+      "runtime_git_blob": "b766d305beb4d84f45cd581d5eef1348d41f9514",
+      "byte_identical": false
+    },
+    {
+      "path": "src/equipment/library.ts",
+      "model_git_blob": "4fe381c0aef0be4de812d6c5c382d34b801bacae",
+      "runtime_git_blob": "9eddc52c2abfcc0c5ea80cad38f3ec98e15d1d64",
+      "byte_identical": false
+    },
+    {
+      "path": "src/equipment/types.ts",
+      "model_git_blob": "851149493eb73fcfc27a3c678d451415a87f98ab",
+      "runtime_git_blob": "851149493eb73fcfc27a3c678d451415a87f98ab",
+      "byte_identical": true
+    }
+  ],
+  "semantic_comparison_snapshot": {
+    "compatible": true,
+    "note": "The three byte-diverged files retain the Stage-9 contact semantics. Runtime divergence includes v4 proportion adaptation such as hand-length-scaled anatomical grip offsets; push-up authored Top/Bottom and world hand locks remain unchanged, dumbbells still resolve from real evaluated hand matrices, and pull-up sockets remain fixed on the static rack.",
+    "prohibited_interpretation": "Semantic compatibility is not runtime integration approval and does not override the failed live runtime CI."
+  },
+  "preintegration_requirements": [
+    "runtime checkout is on the active authority branch and clean",
+    "local runtime HEAD equals the current remote branch HEAD",
+    "Stage-9 contact semantics verify against that exact runtime checkout",
+    "canonical v4 runtime coupling is internally consistent",
+    "standalone verification and browser viewport smoke are green on the same exact runtime HEAD",
+    "Phase 9 exact final bare/dressed asset hashes and production deformation evidence exist",
+    "ORIGINAL-v1 production promotion remains blocked until all explicit gates pass"
+  ],
+  "output_status": "DISCOVERY_ONLY"
+}

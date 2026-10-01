@@ -1745,3 +1745,29 @@ motion, full modifier/shape-key/custom-normal inventory, garment provenance and
 owner acceptance remain open. Current model remains EXPERIMENTAL r29; next actual
 deformation task remains RUN r30. Next GPT preparation: continuous dressed
 range/contact sampling and explicit per-frame contact classification.
+
+
+### Staged GPT preparation: Stage 8 continuous dressed range/contact — 2026-10-01
+
+Live branch was rechecked after Stage 7 before this work. Added
+`ORIGINAL_V1_DRESSED_RANGE_PLAN.json`, a Blender-only sampled range capture,
+a standard-Python fail-closed verifier/classification tool, tests and
+`RUN_ORIGINAL_V1_DRESSED_RANGE.bat`. The sampler reuses only authoritative
+frozen stress-pose waypoint states and interpolates armature/bone transforms with
+linear translation/scale plus quaternion slerp. Six project-owned paths are
+sampled at 21 points per segment with shared endpoints de-duplicated.
+
+Each sample preserves exact body/garment intersecting face pairs and pair hash,
+bidirectional nearest-surface distances, floor-penetrating body/garment vertex
+IDs, near-floor vertex IDs and a pose-state hash. Body masking is disabled for
+measurement. The generated contact-classification record represents every sample
+and domain; real findings default to UNCLASSIFIED. LEGITIMATE_CONTACT and
+UNEXPLAINED_DEFECT require source-bound evidence notes and cannot alter raw IDs,
+counts or hashes. No classification grants a production PASS.
+
+The plan explicitly refuses to fabricate continuous push-up motion because the
+frozen set has no compatible top/support endpoint, and it does not invent moving
+equipment transforms for curl/pull-up. Those remain open for independently authored
+or real-runtime evidence. This is finite model-range sampling, not proof of runtime
+biomechanics or unsampled intervals. Phase 9 remains NOT STARTED. Current model is
+still EXPERIMENTAL r29; next actual deformation action remains RUN r30.

@@ -92,9 +92,12 @@
       "name": "Static dressed evaluated evidence",
       "artifacts": [
         "RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat",
-        "docs/work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md"
+        "docs/work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md",
+        "scripts/capture_original_v1_bare_dressed_equivalence_blender.py",
+        "scripts/original_v1_bare_dressed_equivalence.py",
+        "RUN_ORIGINAL_V1_PHASE7_EQUIVALENCE.bat"
       ],
-      "boundary": "contact classification/continuous motion remain open"
+      "boundary": "Actual garment execution/contact classification/review still required; equivalence verifier proves underlying-body identity only."
     },
     {
       "stage": 8,
@@ -286,7 +289,7 @@
       "entry": [
         "stable final body topology"
       ],
-      "action": "Execute independently authored garment work; bind clean-room operation ledger and run RUN_ORIGINAL_V1_PHASE7_GARMENT_SCENE.bat plus dressed evidence tools",
+      "action": "Execute independently authored garment work; bind clean-room operation ledger, run garment scene/static/continuous dressed evidence and exact bare-vs-dressed body equivalence",
       "support_stages": [
         3,
         6,

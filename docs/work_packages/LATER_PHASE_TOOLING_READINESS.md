@@ -9,7 +9,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 6 | Raw schema-2 snapshots; prepared surface audit for incidence/vertex links, winding, degeneracy, components and symmetry; mesh/weight deltas; bare stress/review evidence | Actual candidate snapshot execution, evaluated/custom shading-normal audit, self-intersection evidence and joint-support landmarks/loaded review |
 | 7 | Original authoring boundary rules; named raw body/garment snapshots and pair receipts; existing mesh/weight/surface audits; prepared static evaluated dressed stress-pose clearance/intersection capture and matched bare/dressed review protocol | Actual Blender execution, complete modifier/shape-key/custom-normal scene audit, continuous dressed motion, legitimate-contact classification, operation-history equivalence and final owner review |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
-| 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics | Continuous range sampler, per-frame garment/body/contact checks, explicit legitimate-contact classification and final export identity binding |
+| 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; prepared deterministic six-path dressed range sampler with per-sample body/garment/floor evidence and explicit classification template | Actual Blender execution, evidence-backed classification, continuous push-up/equipment paths, any warranted refinement and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; standalone source/release/browser audits exist on this branch | Actual Blender export verification, ORIGINAL-owned measured runtime grip metadata, real standalone-engine exercise/contact/continuity and export round-trip evidence on its live integration commit |
 | 11 | Review source/image hashes; matched boards; coverage plan; stable bare capture protocol | Runtime-bound frame capture and actual visual defect tests with coverage/limits, reproducibility checks and a first-party reference inventory |
 
@@ -65,3 +65,12 @@ Stage 7 now prepares `scripts/capture_original_v1_dressed_evidence_blender.py`,
 functions and records raw static dressed evidence plus matched review pairs. It
 does not define a clothing clearance gate or classify contact. Continuous
 per-frame dressed sampling remains the next missing deterministic tool.
+
+
+Stage 8 prepares `ORIGINAL_V1_DRESSED_RANGE_PLAN.json`,
+`scripts/capture_original_v1_dressed_range_blender.py`,
+`scripts/original_v1_dressed_range_evidence.py` and
+`DRESSED_RANGE_CONTACT_PROTOCOL.md`. It covers six deterministic finite stress
+ranges and records raw per-sample contact evidence without inferring a production
+clearance or contact PASS. Push-up continuous support and moving equipment remain
+open instead of being synthesized.

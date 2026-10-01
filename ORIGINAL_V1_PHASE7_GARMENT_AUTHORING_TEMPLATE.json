@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE_GARMENT_AUTHORING_RECORD",
+  "phase": 7,
+  "phase_complete": false,
+  "production_approved": false,
+  "candidate_sha256": null,
+  "garment_object": "HGPT_ORIGINAL_V1_SHORTS_CANDIDATE",
+  "provenance": {
+    "independent_authorship": null,
+    "starting_source": null,
+    "legacy_geometry_imported": null,
+    "third_party_geometry_imported": null,
+    "transferred_weights_or_bind_data": null,
+    "external_texture_or_material_content": null
+  },
+  "operation_history": [],
+  "required_operation_fields": [
+    "id",
+    "description",
+    "tool_or_method",
+    "scope",
+    "input_candidate_sha256",
+    "output_candidate_sha256",
+    "topology_changed",
+    "weights_changed",
+    "evidence"
+  ],
+  "required_scene_domains": [
+    "body_and_garment_object_identity",
+    "linked_library_state",
+    "full_modifier_property_capture",
+    "shape_keys_and_drivers",
+    "custom_normal_state",
+    "vertex_groups",
+    "mesh_attributes",
+    "material_and_image_references"
+  ],
+  "forbidden": [
+    "V-series geometry/topology/weights/bind matrices/materials/textures/garment data",
+    "MakeHuman/Meshy/third-party character or garment content",
+    "nearest-body weight transfer used as unrecorded final production authoring",
+    "silent replacement of existing garment history"
+  ],
+  "note": "Template only. Fill from actual independently authored Phase 7 garment operations and exact evidence. No provenance is inferred."
+}

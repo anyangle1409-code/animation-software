@@ -1850,3 +1850,31 @@ fixtures only. The existing 57-view board remains model visibility planning, not
 runtime proof. Real Stage 11 execution still waits for Phase 10 exact runtime/model
 assets and frames. No production approval is inferred. Current model remains
 EXPERIMENTAL r29; next actual deformation action remains RUN r30.
+
+
+### Staged GPT preparation: Stage 12 final production freeze/promotion gate — 2026-10-01
+
+Rechecked the live model branch after Stage 11 and prepared the final fail-closed
+release boundary without changing any asset, baseline, rig, runtime allowlist or
+approval flag. The existing technical promotion verifier is retained and hardened:
+its eligibility receipt now binds the exact promotion-packet path/SHA, final
+candidate SHA and exact target runtime commit, with unit coverage.
+
+Added `ORIGINAL_V1_FINAL_FREEZE_CONTRACT.json`,
+`scripts/verify_original_v1_final_freeze.py`, fail-closed tests,
+`RUN_ORIGINAL_V1_FINAL_FREEZE_CHECK.bat` and
+`work_packages/PHASE_12_PRODUCTION_FREEZE.md`. Final-freeze verification requires
+the exact successful promotion packet+receipt, exact bare/dressed asset bytes,
+every Phase 4-11 exit report, Phase 9 source commit equal to the final model commit,
+Phase 10/11 bound to the final runtime commit, current zero-failure/no-regression
+state, and a separate explicit OWNER AUTHORISED PRODUCTION FREEZE record that binds
+the exact assets/runtime/promotion evidence. OWNER ACCEPTED visual approval remains
+a separate prerequisite inside the promotion packet.
+
+A successful final-freeze receipt still has `production_approved=false` and does
+not edit a loader/allowlist or merge branches. Actual production activation must
+be a separate controlled owner-authorised asset-only operation on the verified
+standalone runtime, followed by exact-SHA standalone/browser/release/first-party
+audits and an immutable release freeze record. Current r29 cannot pass this gate:
+Phase 3 remains active, failures/regressions remain and Phases 4-11/runtime/owner
+final evidence are incomplete. Next actual deformation action remains RUN r30.

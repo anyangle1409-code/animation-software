@@ -281,6 +281,17 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not treat negated equipment wording as permission to use the family default', () => {
+    expect(blocking('exercise: shoulder press without dumbbells')).toContain('equipment');
+    expect(blocking('exercise: dumbbell curl with no weights')).toContain('equipment');
+    expect(blocking('exercise: unweighted dumbbell Romanian deadlift')).toContain('equipment');
+    expect(blocking("exercise: empty-handed farmer's walk")).toContain('equipment');
+    expect(blocking('exercise: Pallof press without cable')).toContain('equipment');
+
+    expect(parsePrompt('exercise: shoulder press with dumbbells').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: Pallof press with cable').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not turn an explicit single dumbbell into a paired-dumbbell exercise', () => {
     expect(blocking('exercise: shoulder press with one dumbbell')).toContain('equipment');
     expect(blocking('exercise: single dumbbell Romanian deadlift')).toContain('equipment');

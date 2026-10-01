@@ -121,6 +121,17 @@ function interpretCommon(
 ): { load: number; tempo: ExerciseIntent['tempo'] } {
   let load = defaultLoad;
   if (implement === 'dumbbell') {
+    const negatedDumbbell =
+      /\b(?:no|without)\s+(?:a\s+pair\s+of\s+)?dumbbells?\b|\b(?:no|without)\s+(?:external\s+)?(?:weights?|equipment)\b|\bunweighted\b|\bempty[-\s]?handed\b/.test(slots.text);
+    if (negatedDumbbell) {
+      issues.push(
+        blocking(
+          'equipment',
+          `The ${family} family is certified with a matched dumbbell pair. Negated/unweighted equipment wording cannot be substituted with the dumbbell default.`,
+        ),
+      );
+    }
+
     const explicitSingleDumbbell = /\b(?:one|single|1)\s+dumbbells?\b/.test(slots.text);
     const explicitPerHand =
       /\b(?:one|single|1)\s+dumbbells?\s+(?:in\s+)?(?:each|per)\s+hand\b/.test(slots.text) ||
@@ -170,6 +181,17 @@ function interpretCommon(
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
   } else if (implement === 'cable') {
+    const negatedCable =
+      /\b(?:no|without)\s+(?:the\s+)?(?:cable|pulley|cable\s+station|equipment)\b|\b(?:cable|pulley)[-\s]?free\b/.test(slots.text);
+    if (negatedCable) {
+      issues.push(
+        blocking(
+          'equipment',
+          `The ${family} family is certified on the project cable station. A no-cable request cannot be substituted with the cable default.`,
+        ),
+      );
+    }
+
     const others = slots.equipment.filter((slot) => slot.value !== 'cable');
     if (others.length > 0) {
       issues.push(

@@ -187,6 +187,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 6 | Named raw garment snapshots, body-mask receipts and source-bound pair diagnostics, reusing existing change/surface audits | PREPARED; actual Blender capture remains open |
 | 7 | Evaluated static dressed stress-pose clearance/intersection evidence plus matched bare/dressed review capture | PREPARED; actual Blender execution, contact classification and continuous dressed motion remain open |
 | 8 | Deterministic sampled dressed movement ranges with exact per-sample raw contact evidence and explicit classification template | PREPARED; actual Blender execution, real classification, push-up/equipment paths and runtime-specific refinement remain open |
+| 9 | First-party contact source bridge for real push-up endpoints, hand-driven dumbbells and fixed pull-up rack sockets | PREPARED; source semantics/hashes only, actual live-runtime capture remains Phase 10-bound |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -233,3 +234,12 @@ creates a source-bound per-sample classification record. It deliberately leaves
 unsupported push-up and moving-equipment paths open rather than inventing them.
 Actual Blender execution and evidence-backed classifications are still required;
 current laptop deformation priority remains RUN r30.
+
+Stage 9 contact source bridge: `docs/work_packages/CONTACT_SOURCE_BRIDGE_PROTOCOL.md`.
+It verifies the project-owned exercise/contact source facts that Stage 8 correctly
+left unsupported: real push-up Top↔Bottom endpoints and fixed hand/toe contacts,
+hand-matrix-driven dumbbell attachment, and fixed pull-up rack/socket locks. It
+records exact source hashes and fails on semantic drift, but does not execute the
+solver or copy runtime motion into Blender. The live standalone runtime must still
+be rediscovered and bound at Phase 10. Current laptop deformation priority remains
+RUN r30.

@@ -34,6 +34,38 @@ controlled defects using explicitly marked synthetic test fixtures or deliberate
 altered owned copies. These are test inputs only, never review snapshots or approved
 candidate imagery. Keep genuine model captures and detector fixtures separate.
 
+## Prepared deterministic detector layer
+
+Use `VISUAL_QA_PROTOCOL.md`, `ORIGINAL_V1_VISUAL_QA_CONTRACT.json` and
+`ORIGINAL_V1_VISUAL_QA_COVERAGE_PLAN.json` as the prepared first-party detector
+contract. `scripts/original_v1_visual_qa.py` consumes actual source-image receipts
+plus separate project-owned PGM masks. It verifies source/mask hashes and equal
+dimensions, detects missing expected-visible masks and prohibited edge crops, and
+measures component structure, neutral horizontal symmetry and matched silhouette
+IoU/XOR/occupancy/centroid/bounding-box deltas.
+
+Quantitative comparison is allowed only when capture key, dimensions, view,
+pose/exercise, exact frame/time, renderer, colour management, crop and dressed
+state match. Otherwise the report is `CAPTURE_MISMATCH` and no model-regression
+metric is produced. Unsupported domains remain UNKNOWN. Physical 3D contact and
+temporal smoothness remain Phase 9/10 evidence; still-image masks cannot override
+them.
+
+`ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json` is deliberately empty and
+explicit-version-only. Only actual project-authored captures may later be added;
+owner_review pending is not accepted, synthetic fixtures are excluded, and a new
+reference must append a new record rather than silently replace an old one.
+
+The prepared command is:
+
+```bat
+RUN_ORIGINAL_V1_VISUAL_QA.bat <capture-manifest.json> [reference-manifest.json] [fresh-output.json]
+```
+
+The current capture template is not evidence and Phase 11 remains NOT STARTED
+until Phase 10 supplies exact approved runtime/model/asset identities and actual
+source captures/masks.
+
 ## Renders, exit and rejection
 
 Publish actual parent/new matched boards, runtime contact/clearance frames and QA

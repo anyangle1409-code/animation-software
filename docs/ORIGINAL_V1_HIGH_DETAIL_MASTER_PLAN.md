@@ -186,6 +186,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 5 | Revision-isolated candidate GLB export with exact source/settings hashes and collision refusal | PREPARED; actual Blender capture/validation required, no model acceptance |
 | 6 | Named raw garment snapshots, body-mask receipts and source-bound pair diagnostics, reusing existing change/surface audits | PREPARED; actual Blender capture remains open |
 | 7 | Evaluated static dressed stress-pose clearance/intersection evidence plus matched bare/dressed review capture | PREPARED; actual Blender execution, contact classification and continuous dressed motion remain open |
+| 8 | Deterministic sampled dressed movement ranges with exact per-sample raw contact evidence and explicit classification template | PREPARED; actual Blender execution, real classification, push-up/equipment paths and runtime-specific refinement remain open |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -224,3 +225,11 @@ bare/dressed review pairs without changing the pose definitions or approving
 contact. Actual Blender execution is still required. Next GPT preparation is a
 continuous dressed range/contact sampler with explicit per-frame contact
 classification; current laptop deformation task remains RUN r30.
+
+Stage 8 continuous dressed-range evidence: `docs/work_packages/DRESSED_RANGE_CONTACT_PROTOCOL.md`.
+The project-owned plan samples six declared stress-pose paths at 21 points per
+segment, preserves exact body/garment face-pair and floor-vertex evidence, and
+creates a source-bound per-sample classification record. It deliberately leaves
+unsupported push-up and moving-equipment paths open rather than inventing them.
+Actual Blender execution and evidence-backed classifications are still required;
+current laptop deformation priority remains RUN r30.

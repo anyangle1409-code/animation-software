@@ -215,7 +215,7 @@ function interpretCommon(
       assumptions.push('Cable station and handle — the equipment this family is certified with.');
     }
     const qualitativeCableLoad =
-      /\b(?:light|heavy|moderate|medium|max(?:imum)?|low|high)[-\s]+(?:load|weight|weights|resistance)\b|\b(?:light|heavy|moderate|medium|low|high)[-\s]?resistance\b/.test(slots.text);
+      /\b(?:light|heavy|moderate|medium|max(?:imum)?|low|high)[-\s]+(?:(?:cable|stack)[-\s]+)?(?:load|weight|weights|resistance)\b|\b(?:light|heavy|moderate|medium|low|high)[-\s]?resistance\b/.test(slots.text);
     if (slots.loads.length > 0) {
       issues.push(
         blocking(

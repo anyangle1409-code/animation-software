@@ -298,6 +298,18 @@
       "sha256": "ae2fd78410873d461f7c427248d27e26723c2c1f5c383be0151cea6b6520280e"
     },
     {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/diagnostic_brief.json",
+      "sha256": "80ec401aff5e89fa00290fefd8e1c75964f849a968a187fc1c560c6ca4f3aab2"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/edge_extremes.json",
+      "sha256": "d44e1a24b595a2da8ee042a36307660c7732daba9399779f557d31bc06ffc3f1"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/grip_penetration.json",
+      "sha256": "d212b2061ffcdb0a7fd83b8a713d1a0be6571cb357058d201555953388d9c782"
+    },
+    {
       "path": "ORIGINAL_V1_WORK/candidates/review/visual_r30/visual_review_manifest.json",
       "sha256": "6d221da8f622590c067e1baa8d652e9311be3e64d9709a3a35c4644c0c3dee4f"
     }
@@ -315,8 +327,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RUN remaining diagnostics",
-    "reason": "isolate wrist/grip/lunge locally before editing",
-    "command": "RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r30"
+    "action": "REPAIR wrist",
+    "reason": "Local wrist-extension severity regression versus R2.",
+    "command": null,
+    "work_package": "docs/work_packages/PHASE_3D_WRIST_PUSHUP.md"
   }
 }

@@ -34,8 +34,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN remaining diagnostics — isolate wrist/grip/lunge locally before editing
-`RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r30`
+REPAIR wrist — Local wrist-extension severity regression versus R2.
+Read `docs/work_packages/PHASE_3D_WRIST_PUSHUP.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 
@@ -67,6 +67,9 @@ Evidence references (exact content hashes are in machine status):
 - `ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_R2.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r28.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r29.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/grip_penetration.json`
 - `ORIGINAL_V1_WORK/candidates/review/visual_r30/visual_review_manifest.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.

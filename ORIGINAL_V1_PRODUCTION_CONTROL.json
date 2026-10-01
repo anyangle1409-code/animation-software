@@ -47,7 +47,40 @@
     }
   ],
   "phase_completion_records": {},
-  "continuation_decisions": {},
+  "continuation_decisions": {
+    "r30": {
+      "candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",
+      "chosen_parent": "r29",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only, not owner acceptance, not a baseline promotion and not production approval. r30 is chosen as the experimental continuation for Phases 3C-3E because versus its direct parent r29 it is a strict improvement (0 regressions, 11 material improvements), it has the fewest development failures so far (7), and its strict regressions versus pinned R2 are the same six inherited r29 items. Versus r28 it carries one separately visible regression (pushup_bottom self-intersections 144 -> 154, development gate 200) alongside 11 improvements. No threshold, R2, rig or frozen pose was changed.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_R2.json",
+          "sha256": "ae4b96e5f070f9b329e1d5c3b74203c2e5c2ba4d9aeaff33b28e70aa2f58c5a4"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r29.json",
+          "sha256": "ae2fd78410873d461f7c427248d27e26723c2c1f5c383be0151cea6b6520280e"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r28.json",
+          "sha256": "a836ab5f7e3fc5f7dd26106814171b2fcb367d1c3e09bca09125c3092ae50460"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_trial_summary.json",
+          "sha256": "8b9b4f3460674ed8b8515b41afcd6b2ab5318c5960bc3c4c2baa6f6f352e1332"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_evidence_manifest.json",
+          "sha256": "ced079bc799b29b6529aa9da38c0ac70ef83d5109057e9be1ff84d3c818e1e7b"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/diagnostic_brief.json",
+          "sha256": "80ec401aff5e89fa00290fefd8e1c75964f849a968a187fc1c560c6ca4f3aab2"
+        }
+      ]
+    }
+  },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",

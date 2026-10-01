@@ -10,7 +10,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 7 | Original authoring boundary rules; named raw body/garment snapshots and pair receipts; existing mesh/weight/surface audits; prepared static evaluated dressed stress-pose clearance/intersection capture and matched bare/dressed review protocol | Actual Blender execution, complete modifier/shape-key/custom-normal scene audit, continuous dressed motion, legitimate-contact classification, operation-history equivalence and final owner review |
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; deterministic six-path dressed range sampler; first-party contact source bridge for push-up endpoints, hand-driven dumbbells and fixed pull-up rack/socket semantics | Actual Blender/static sampling execution, evidence-backed classification, live-runtime capture of push-up/equipment contact, any warranted refinement and final export identity binding |
-| 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; standalone source/release/browser audits exist on this branch | Actual Blender export verification, ORIGINAL-owned measured runtime grip metadata, real standalone-engine exercise/contact/continuity and export round-trip evidence on its live integration commit |
+| 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; Stage 9 contact source bridge; Stage 10 read-only live-runtime discovery/cross-branch semantic verifier; INCOMPLETE real-engine evidence template | Exact green live-runtime commit, Phase 9 final asset evidence, actual model-specific runtime harness execution, contact/continuity capture and export round-trip evidence |
 | 11 | Review source/image hashes; matched boards; coverage plan; stable bare capture protocol | Runtime-bound frame capture and actual visual defect tests with coverage/limits, reproducibility checks and a first-party reference inventory |
 
 Queue missing deterministic tooling as GPT repo-side work before the corresponding
@@ -82,3 +82,14 @@ Stage 9 prepares `ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.json`,
 it proves current project-owned push-up/contact/equipment semantics and hashes.
 The real solver path remains a live-runtime execution requirement; do not copy the
 model branch's older runtime code into production.
+
+
+Stage 10 now prepares `ORIGINAL_V1_RUNTIME_DISCOVERY_CONTRACT.json`,
+`scripts/original_v1_runtime_discovery.py`,
+`RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat`,
+`ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` and
+`RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`. The prepared snapshot found the active
+standalone branch at e3a7d915... with v4 source active but exact-SHA standalone
+verification failing legacy skeleton parity by 0.02 m; therefore it is explicitly
+not integration-ready. A future changed runtime HEAD gets UNKNOWN CI until its own
+exact-SHA gates are inspected.

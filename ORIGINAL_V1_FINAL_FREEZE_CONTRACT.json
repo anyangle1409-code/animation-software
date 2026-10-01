@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_FINAL_FREEZE_CONTRACT",
+  "phase_complete": false,
+  "production_approved": false,
+  "purpose": "Fail-closed Phase 12 production-freeze eligibility. Verifies exact evidence identities only; never mutates approval flags, allowlists, branches, assets or release state.",
+  "prerequisites": {
+    "roadmap_phases_complete": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "intermediate_phase_exit_reports": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "promotion_eligibility": "ALL_REQUIRED_GATES_SATISFIED",
+    "final_owner_visual_decision": "OWNER ACCEPTED",
+    "final_owner_freeze_authorization": "OWNER AUTHORISED PRODUCTION FREEZE",
+    "exact_assets": [
+      "bare",
+      "dressed"
+    ],
+    "exact_runtime_commit_required": true,
+    "exact_model_commit_required": true
+  },
+  "identity_rules": [
+    "Candidate SHA-256 must match promotion packet, promotion receipt, every Phase 4-11 exit packet, owner records and both final assets.",
+    "Bare and dressed assets must be distinct repository-local files with exact SHA-256 and the same candidate lineage.",
+    "Phase 10 and 11 exit packets must target the exact final standalone runtime commit.",
+    "The promotion eligibility receipt must bind the exact promotion-packet SHA-256 that it verified.",
+    "The final freeze authorization must bind the exact candidate, final assets, runtime commit, promotion packet and promotion receipt.",
+    "Any byte, candidate, runtime commit or referenced report change invalidates the freeze packet until reverified."
+  ],
+  "non_mutation_rules": [
+    "This verifier never sets production_approved=true.",
+    "This verifier never edits the standalone runtime branch or production allowlist.",
+    "This verifier never moves/replaces the R2 deformation baseline.",
+    "This verifier never creates owner acceptance or authorization from inference.",
+    "A successful receipt means prerequisites are satisfied for a separate controlled owner-authorised release operation."
+  ],
+  "current_state_boundary": {
+    "current_candidate": "r29",
+    "expected_next_model_action": "RUN_ORIGINAL_V1_R30.bat",
+    "note": "Current candidate cannot satisfy Phase 12: Phase 3 is active, development and production failures remain, Phases 4-11 are incomplete, runtime exact-SHA gates are not green, reference inventory is empty, and no final owner acceptance/authorization exists."
+  }
+}

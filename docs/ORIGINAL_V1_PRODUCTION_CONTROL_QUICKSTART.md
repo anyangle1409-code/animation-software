@@ -336,3 +336,14 @@ branch is clean/synced and handoff/status are current. `PARTIAL_WORK_PRESERVED`
 means an incomplete candidate is explicitly recorded with a matching local Blend
 and manifest. Any other result prints exact closing actions. The checker never
 commits, pushes, fetches, deletes or saves Blender files.
+
+
+### End-of-session handoff safety
+
+Before ending a Claude/Blender laptop session, run
+`RUN_ORIGINAL_V1_SESSION_CLOSE.bat`. It verifies local/remote branch state,
+working-tree cleanliness, generated status, O4 handoff coverage and incomplete
+candidate/Blend identity. It reports `READY_TO_END_SESSION`,
+`PARTIAL_WORK_PRESERVED` or `NEEDS_ATTENTION_BEFORE_ENDING`. It never commits,
+pushes, fetches, deletes or saves Blender files. See
+`work_packages/SESSION_CLOSE_PROTOCOL.md`.

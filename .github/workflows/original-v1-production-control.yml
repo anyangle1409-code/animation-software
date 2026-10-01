@@ -49,6 +49,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_surface_audit.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_export_evidence.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_garment_evidence.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_dressed_evidence.py'
       - name: Verify exact generated state and unchanged baseline
         run: |
           python3 scripts/build_original_v1_daily_status.py --check
@@ -58,6 +59,6 @@ jobs:
       - name: Syntax-check Blender-facing evidence tools
         run: |
           python3 -m py_compile scripts/snapshot_original_v1_model_blender.py scripts/pose_test_original_v1_o4_candidate_blender.py scripts/probe_original_v1_grip_penetration_blender.py scripts/original_v1_milestone_review.py
-          python3 -m py_compile scripts/export_original_v1_candidate_glb_blender.py scripts/original_v1_export_evidence.py scripts/original_v1_garment_evidence.py
+          python3 -m py_compile scripts/export_original_v1_candidate_glb_blender.py scripts/original_v1_export_evidence.py scripts/original_v1_garment_evidence.py scripts/original_v1_dressed_evidence.py scripts/capture_original_v1_dressed_evidence_blender.py
       - name: Check repository documentation classification
         run: node scripts/check-repository-hygiene.mjs

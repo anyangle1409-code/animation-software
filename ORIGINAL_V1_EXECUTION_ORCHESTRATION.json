@@ -452,6 +452,14 @@
         "RUN_ORIGINAL_V1_CLAUDE_END.bat"
       ]
     },
-    "protocol": "docs/work_packages/LAPTOP_ACCELERATION_PROTOCOL.md"
+    "protocol": "docs/work_packages/LAPTOP_ACCELERATION_PROTOCOL.md",
+    "blender_smoke": {
+      "command": "RUN_ORIGINAL_V1_BLENDER_SMOKE.bat",
+      "artifacts": [
+        "scripts/smoke_original_v1_candidate_blender.py",
+        "scripts/original_v1_blender_smoke.py",
+        "RUN_ORIGINAL_V1_BLENDER_SMOKE.bat"
+      ]
+    }
   }
 }

@@ -1878,3 +1878,22 @@ standalone runtime, followed by exact-SHA standalone/browser/release/first-party
 audits and an immutable release freeze record. Current r29 cannot pass this gate:
 Phase 3 remains active, failures/regressions remain and Phases 4-11/runtime/owner
 final evidence are incomplete. Next actual deformation action remains RUN r30.
+
+
+### Post-preparation execution orchestration — 2026-10-01
+
+After completing repository-side preparation Stages 1-12, added a single
+read-only cross-phase execution map rather than inventing a Roadmap Phase 13.
+`ORIGINAL_V1_EXECUTION_ORCHESTRATION.json` maps the real critical path from the
+current 3B/r30 work through Phase 12 and the separate controlled release. The
+runner `RUN_ORIGINAL_V1_EXECUTION_PLAN.bat` performs normal session preflight,
+checks generated status, validates all Stage 1-12 support artifacts and prints
+the current critical-path node, relevant prepared support and explicitly safe
+parallel work. It does not launch Blender, edit evidence, choose subjective
+repairs, complete phases or promote production.
+
+The current expected selector agreement is still `RUN_ORIGINAL_V1_R30.bat` for
+r29 / Phase 3B. If live generated status or the existing selector differs, the
+orchestrator stops instead of recommending stale work. Re-run it after each
+meaningful committed candidate/evidence transition. No model geometry, weights,
+rig, R2 baseline, stress poses, thresholds or runtime branch were changed.

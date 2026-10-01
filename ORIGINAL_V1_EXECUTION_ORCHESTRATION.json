@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_EXECUTION_ORCHESTRATION",
+  "production_approved": false,
+  "phase_complete": false,
+  "purpose": "Single non-executing orchestration map for Claude/GPT pickup after repository-side Stages 1-12 preparation. It never launches Blender, edits a model, promotes a phase, or chooses a subjective owner decision.",
+  "authority_order": [
+    "live branch/source and executable evidence",
+    "ORIGINAL_V1_HIGH_DETAIL_STATUS.json",
+    "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md",
+    "docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md",
+    "this orchestration map",
+    "individual work-package documents"
+  ],
+  "branch": "claude/original-v1-blender-o2-20260929",
+  "current_expected_state": {
+    "phase": "3B",
+    "candidate": "r29",
+    "next_action": "RUN r30",
+    "command": "RUN_ORIGINAL_V1_R30.bat",
+    "note": "Runtime values are re-read from generated status; these are preparation-time expectations only."
+  },
+  "global_rules": [
+    "Before any write or Blender execution, re-read remote HEAD and preserve newer work.",
+    "Never work from main and never merge the model branch wholesale into the standalone runtime branch.",
+    "R2, canonical-v4 structure, acceptance thresholds and frozen stress-pose definitions remain protected.",
+    "No legacy V-series implementation data or third-party character content may enter ORIGINAL v1.",
+    "Routine owner review snapshots are non-blocking; final owner acceptance/freeze authorization remain explicit later gates.",
+    "Every candidate/output uses a fresh revision/label/path; never overwrite historical evidence.",
+    "Prepared tooling is not phase completion. Actual execution evidence controls progression."
+  ],
+  "prepared_support_stages": [
+    {
+      "stage": 1,
+      "name": "Phase 3 diagnostic brief",
+      "artifacts": [
+        "scripts/build_original_v1_diagnostic_brief.py",
+        "RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat"
+      ],
+      "boundary": "real probes require Blender"
+    },
+    {
+      "stage": 2,
+      "name": "Candidate-bound local repair policy",
+      "artifacts": [
+        "scripts/prepare_original_v1_repair_policy.py"
+      ],
+      "boundary": "declared local masks/intents only; no edit permission inferred"
+    },
+    {
+      "stage": 3,
+      "name": "Later-phase execution packages",
+      "artifacts": [
+        "docs/work_packages/LATER_PHASE_EXECUTION_CONTRACT.md",
+        "docs/work_packages/LATER_PHASE_TOOLING_READINESS.md"
+      ],
+      "boundary": "packages only; phases not complete"
+    },
+    {
+      "stage": 4,
+      "name": "Surface audit",
+      "artifacts": [
+        "scripts/audit_original_v1_surface.py",
+        "docs/work_packages/SURFACE_AUDIT_PROTOCOL.md"
+      ],
+      "boundary": "requires real candidate snapshots"
+    },
+    {
+      "stage": 5,
+      "name": "Revision-isolated GLB export",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat",
+        "docs/work_packages/CANDIDATE_EXPORT_PROTOCOL.md"
+      ],
+      "boundary": "actual Blender export/validation required"
+    },
+    {
+      "stage": 6,
+      "name": "Raw garment/body evidence",
+      "artifacts": [
+        "scripts/original_v1_garment_evidence.py",
+        "docs/work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md"
+      ],
+      "boundary": "actual Blender capture required"
+    },
+    {
+      "stage": 7,
+      "name": "Static dressed evaluated evidence",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat",
+        "docs/work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md"
+      ],
+      "boundary": "contact classification/continuous motion remain open"
+    },
+    {
+      "stage": 8,
+      "name": "Continuous dressed range evidence",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_DRESSED_RANGE.bat",
+        "docs/work_packages/DRESSED_RANGE_CONTACT_PROTOCOL.md"
+      ],
+      "boundary": "finite model-range sampling only; no runtime-biomechanics claim"
+    },
+    {
+      "stage": 9,
+      "name": "First-party contact source bridge",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.bat",
+        "docs/work_packages/CONTACT_SOURCE_BRIDGE_PROTOCOL.md"
+      ],
+      "boundary": "source semantics only; real runtime solver not executed"
+    },
+    {
+      "stage": 10,
+      "name": "Live runtime discovery/harness",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat",
+        "docs/work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md"
+      ],
+      "boundary": "requires separate clean runtime checkout; no branch mutation"
+    },
+    {
+      "stage": 11,
+      "name": "Deterministic visual QA",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_VISUAL_QA.bat",
+        "docs/work_packages/VISUAL_QA_PROTOCOL.md"
+      ],
+      "boundary": "actual Phase 10-bound captures/references required"
+    },
+    {
+      "stage": 12,
+      "name": "Final production freeze/promotion gate",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_FINAL_FREEZE_CHECK.bat",
+        "docs/work_packages/PHASE_12_PRODUCTION_FREEZE.md"
+      ],
+      "boundary": "eligibility only; owner-authorised release remains separate"
+    }
+  ],
+  "critical_path": [
+    {
+      "id": "3B_r30",
+      "roadmap": "Phase 3B hands/fingers",
+      "entry": [
+        "preflight green",
+        "selector says RUN r30",
+        "no newer conflicting candidate work"
+      ],
+      "action": "RUN_ORIGINAL_V1_R30.bat",
+      "exit": [
+        "complete r30 evidence manifest",
+        "full 15-pose merged report",
+        "R2/r29/r28 comparisons",
+        "candidate disposition recorded"
+      ],
+      "next_on_pass": "3C_grip_thumb",
+      "next_on_tradeoff": "diagnose and create a new numbered candidate; never auto-promote",
+      "parallel_safe": [
+        "milestone capture/review publication if a verified candidate exists",
+        "read-only diagnostics",
+        "handoff/status regeneration"
+      ]
+    },
+    {
+      "id": "3C_grip_thumb",
+      "roadmap": "Phase 3C grip/thumb",
+      "entry": [
+        "selected continuation candidate has complete evidence",
+        "hand recovery prerequisite resolved"
+      ],
+      "action": "Run remaining diagnostics, generate fresh 3C repair policy, perform only source-authorised local thumb/grip edits and full comparisons",
+      "support_stages": [
+        1,
+        2,
+        9
+      ],
+      "exit": [
+        "bilateral equipment penetration <= unchanged development gate",
+        "no material R2/predecessor regression",
+        "real contact evidence preserved"
+      ],
+      "next_on_pass": "3D_wrist",
+      "parallel_safe": [
+        "non-blocking real review capture"
+      ]
+    },
+    {
+      "id": "3D_wrist",
+      "roadmap": "Phase 3D wrist/push-up",
+      "entry": [
+        "3C evidence reconciled"
+      ],
+      "action": "Use fresh 3D repair policy and push-up/wrist diagnostics; preserve frozen poses and floor contacts",
+      "support_stages": [
+        1,
+        2,
+        9
+      ],
+      "exit": [
+        "wrist/push-up local regression resolved without new failures"
+      ],
+      "next_on_pass": "3E_lunge",
+      "parallel_safe": [
+        "review publication",
+        "read-only Phase 4 preparation checks"
+      ]
+    },
+    {
+      "id": "3E_lunge",
+      "roadmap": "Phase 3E hip/pelvis/groin/deep flexion",
+      "entry": [
+        "3D evidence reconciled"
+      ],
+      "action": "Use fresh 3E local repair policy; repair lunge pelvis/torso deformation and re-run full evidence",
+      "support_stages": [
+        1,
+        2
+      ],
+      "exit": [
+        "zero Phase 3 development blockers",
+        "strict regressions resolved or explicitly dispositioned without threshold change"
+      ],
+      "next_on_pass": "4_freeze",
+      "parallel_safe": [
+        "full milestone capture"
+      ]
+    },
+    {
+      "id": "4_freeze",
+      "roadmap": "Phase 4 development deformation freeze",
+      "entry": [
+        "Phase 3 zero blockers",
+        "required regressions resolved",
+        "complete replay/source lineage"
+      ],
+      "action": "Execute Phase 4 work package and verified exit report; pin development freeze without replacing R2",
+      "support_stages": [
+        3
+      ],
+      "exit": [
+        "Phase 4 exit record verified"
+      ],
+      "next_on_pass": "5_anatomy"
+    },
+    {
+      "id": "5_anatomy",
+      "roadmap": "Phase 5 high-detail anatomy",
+      "entry": [
+        "Phase 4 verified freeze"
+      ],
+      "action": "Execute 5A-5G region packages with candidate-bound review/evidence after each meaningful region",
+      "support_stages": [
+        3
+      ],
+      "exit": [
+        "all seven anatomy regions complete with mesh/weight/deformation evidence and reviews recorded"
+      ],
+      "next_on_pass": "6_topology"
+    },
+    {
+      "id": "6_topology",
+      "roadmap": "Phase 6 final topology/surface",
+      "entry": [
+        "stable Phase 5 candidate"
+      ],
+      "action": "Execute topology/surface package and snapshot-based surface audits",
+      "support_stages": [
+        3,
+        4
+      ],
+      "exit": [
+        "Phase 6 exit report verified"
+      ],
+      "next_on_pass": "7_clothing"
+    },
+    {
+      "id": "7_clothing",
+      "roadmap": "Phase 7 first-party clothing",
+      "entry": [
+        "stable final body topology"
+      ],
+      "action": "Execute original garment provenance/construction, raw pair, static dressed and continuous dressed evidence",
+      "support_stages": [
+        3,
+        6,
+        7,
+        8
+      ],
+      "exit": [
+        "Phase 7 exit report verified; bare/dressed parity and unexplained clipping resolved"
+      ],
+      "next_on_pass": "8_materials"
+    },
+    {
+      "id": "8_materials",
+      "roadmap": "Phase 8 materials/presentation",
+      "entry": [
+        "Phase 5-7 stable"
+      ],
+      "action": "Execute owned material/presentation package with repeatable app-distance captures",
+      "support_stages": [
+        3
+      ],
+      "exit": [
+        "Phase 8 exit report verified"
+      ],
+      "next_on_pass": "9_production_deformation"
+    },
+    {
+      "id": "9_production_deformation",
+      "roadmap": "Phase 9 production deformation validation",
+      "entry": [
+        "final body/clothing/material identities frozen for validation"
+      ],
+      "action": "Run production_target, continuous ranges, contact classification and final export identity evidence",
+      "support_stages": [
+        5,
+        7,
+        8,
+        9
+      ],
+      "exit": [
+        "zero required production failures; all contacts classified; final body/clothing hashes bound"
+      ],
+      "next_on_pass": "10_runtime"
+    },
+    {
+      "id": "10_runtime",
+      "roadmap": "Phase 10 real animation-runtime integration",
+      "entry": [
+        "Phase 9 verified",
+        "authoritative standalone runtime HEAD rediscovered and exact-SHA green"
+      ],
+      "action": "Use separate runtime checkout; run discovery then real-engine harness/export round trip for required exercises",
+      "support_stages": [
+        5,
+        9,
+        10
+      ],
+      "exit": [
+        "Phase 10 exit report verified on exact runtime commit"
+      ],
+      "next_on_pass": "11_visual_qa"
+    },
+    {
+      "id": "11_visual_qa",
+      "roadmap": "Phase 11 automated visual QA",
+      "entry": [
+        "stable Phase 10 runtime/model/assets and real captures"
+      ],
+      "action": "Run first-party mask QA, versioned references, coverage/replay checks and owner-facing evidence",
+      "support_stages": [
+        11
+      ],
+      "exit": [
+        "Phase 11 exit report verified; coverage limits explicit; final owner anatomy acceptance still separately required"
+      ],
+      "next_on_pass": "12_freeze"
+    },
+    {
+      "id": "12_freeze",
+      "roadmap": "Phase 12 production freeze/promotion",
+      "entry": [
+        "Phases 0-11 complete",
+        "exact final assets/runtime/model commit",
+        "OWNER ACCEPTED final visual decision"
+      ],
+      "action": "Run technical promotion verifier, then final-freeze verifier with separate OWNER AUTHORISED PRODUCTION FREEZE record",
+      "support_stages": [
+        12
+      ],
+      "exit": [
+        "ALL_FREEZE_PREREQUISITES_SATISFIED receipt; production_approved remains false until separate controlled runtime-side release"
+      ],
+      "next_on_pass": "controlled_release"
+    },
+    {
+      "id": "controlled_release",
+      "roadmap": "Post-Phase-12 owner-authorised release operation",
+      "entry": [
+        "successful final-freeze eligibility receipt",
+        "explicit owner release authorization"
+      ],
+      "action": "Asset-only/config-only production activation on verified standalone runtime; then rerun exact-SHA standalone/browser/release/first-party audits and record immutable production freeze",
+      "boundary": "Never merge the model branch wholesale. Any asset/runtime byte change invalidates affected evidence."
+    }
+  ]
+}

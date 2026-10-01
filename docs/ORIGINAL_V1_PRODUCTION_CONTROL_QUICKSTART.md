@@ -15,6 +15,7 @@ Read in order:
 ```bat
 RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat
 RUN_ORIGINAL_V1_NEXT.bat
+RUN_ORIGINAL_V1_EXECUTION_PLAN.bat
 RUN_ORIGINAL_V1_R30.bat
 ```
 
@@ -260,3 +261,14 @@ assets, Phase 9 model commit, Phase 10/11 runtime commit and a separate explicit
 `OWNER AUTHORISED PRODUCTION FREEZE` record. Even successful eligibility keeps
 `production_approved=false`; actual release is a separate controlled runtime-side
 operation. Current r29 cannot pass and this does not supersede RUN r30.
+
+
+## Post-preparation orchestration
+
+Stages 1-12 of GPT repository-side preparation are now mapped by
+`ORIGINAL_V1_EXECUTION_ORCHESTRATION.json`. `RUN_ORIGINAL_V1_EXECUTION_PLAN.bat`
+is read-only and should be rerun after each meaningful candidate/phase transition.
+It validates the prepared support artifacts and prints one current critical-path
+node plus relevant support/parallel-safe work. It never launches Blender or
+advances a phase. This is execution navigation only; the roadmap still ends at
+Phase 12. Current expected model action remains RUN r30.

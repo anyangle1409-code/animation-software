@@ -79,6 +79,46 @@
           "sha256": "80ec401aff5e89fa00290fefd8e1c75964f849a968a187fc1c560c6ca4f3aab2"
         }
       ]
+    },
+    "r32": {
+      "candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+      "chosen_parent": "r30",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r32 is chosen as the experimental continuation for Phases 3C/3E: it is a strict improvement over its direct parent r30 and over r29 (0 regressions), it clears the pushup_bottom hand-max severity regression versus R2 (2.096 -> 1.912), and its change audit shows the edit stayed inside the scope declared and committed before editing (880 vertices, arm+hand, 14 wrist-chain bones; mesh untouched, 0 unexpected vertices/bones, 0 cross-side weights). Versus r28 it keeps one separately visible regression (pushup_bottom self-intersections 144 -> 154, gate 200). r31 (a broader wrist mask) is non-regressing versus every predecessor but exceeded the PHASE_3D envelope (thumb-region vertices and finger-bone weights), so it is preserved as evidence and NOT chosen. No threshold, R2, rig or frozen pose changed.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_R2.json",
+          "sha256": "01d8fdc232415c1dce8535e2389dfb30e7c24bc1bffde22b2b7d412dfad03481"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r30.json",
+          "sha256": "5d2f0bd87f3ac7f2ce01c83d79d5822cb028b52e51ce7a2d6e9651286f8dc5cd"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r29.json",
+          "sha256": "fff7d9c3ebf3fe18e7b3351e59777dc3b6d5a14ecd73a53e9f50fb1527ef0ebd"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r28.json",
+          "sha256": "a5dedade3c183848ce94f36df985a3846bc482e54dd9be103f336f6bf4ca5ce4"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_trial_summary.json",
+          "sha256": "fa320ac8164238d9b84dee36384e7afd3f1ffad94539a312b7fda6bb3dd6e8fd"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_evidence_manifest.json",
+          "sha256": "78f4353daaa4ea2e691282443e707bd2817ab6fa076c7ad83ff9b97568db3cd4"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/diagnostic_brief.json",
+          "sha256": "8f5dc0e9438fba027b5be91f120d8e143a90e874bc08653d0e6ae37d1b0a9097"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r32_3D_audit/change_audit_r30_to_r32.json",
+          "sha256": "1e62c9a2e98bcc27a016028fdcffdd0ced9eb982e121b6362c0352d53eedf636"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

@@ -4,8 +4,8 @@
   "rig": "hgpt_canonical_v4_original",
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
-  "current_subphase": "3D",
-  "current_candidate": "r30",
+  "current_subphase": "3C",
+  "current_candidate": "r32",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -69,7 +69,7 @@
       "rule": "<= 2.0"
     }
   ],
-  "production_failure_count": 109,
+  "production_failure_count": 108,
   "production_approved": false,
   "phases": {
     "0": {
@@ -104,7 +104,7 @@
       "reason": "Bilateral equipment penetration must satisfy unchanged gates."
     },
     "3D": {
-      "state": "refinement",
+      "state": "complete",
       "reason": "Local wrist-extension severity regression versus R2."
     },
     "3E": {
@@ -231,17 +231,6 @@
       "delta": -0.02200000000000002,
       "direction": "higher_is_better",
       "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "pushup_bottom",
-      "region": "hand",
-      "metric": "region_max_ratio",
-      "baseline": 1.915,
-      "candidate": 2.096,
-      "delta": 0.18100000000000005,
-      "direction": "lower_is_better",
-      "tolerance": 0.1
     }
   ],
   "pending_owner_reviews": [
@@ -258,78 +247,83 @@
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
     },
     {
-      "checkpoint": "r30 visual snapshot",
+      "checkpoint": "r32 visual snapshot",
       "owner_review": "pending",
       "blocking": false,
-      "candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",
+      "candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
       "evidence": {
-        "path": "ORIGINAL_V1_WORK/candidates/review/visual_r30/visual_review_manifest.json",
-        "sha256": "6d221da8f622590c067e1baa8d652e9311be3e64d9709a3a35c4644c0c3dee4f"
+        "path": "ORIGINAL_V1_WORK/candidates/review/visual_r32/visual_review_manifest.json",
+        "sha256": "3e08c61a537c4d9c1df3cfdf15df60bcdc7b48a6fd87bb4715856417545047ca"
       }
     }
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_merged_pose_report.json",
-      "sha256": "b3d85d4f0282a445e0c8edd65fca5bbd8b309b4cd9f5bfc32a15d7d78bc21136"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_merged_pose_report.json",
+      "sha256": "f12456d58bab99d861dfd5bedd3bb24edebfe3ca5cda13987f378e1e6763d960"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.json",
-      "sha256": "f7b2be8e8159a50480e980f0043f4b0768e1623dff4fd9c7d872cd661241f362"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.json",
+      "sha256": "2318a59daf526e474663b0d226a6d4c7a7745181015b89ce38d5f505660d44c7"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_evidence_manifest.json",
-      "sha256": "ced079bc799b29b6529aa9da38c0ac70ef83d5109057e9be1ff84d3c818e1e7b"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_evidence_manifest.json",
+      "sha256": "78f4353daaa4ea2e691282443e707bd2817ab6fa076c7ad83ff9b97568db3cd4"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_R2.json",
-      "sha256": "ae4b96e5f070f9b329e1d5c3b74203c2e5c2ba4d9aeaff33b28e70aa2f58c5a4"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_R2.json",
+      "sha256": "01d8fdc232415c1dce8535e2389dfb30e7c24bc1bffde22b2b7d412dfad03481"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r28.json",
-      "sha256": "a836ab5f7e3fc5f7dd26106814171b2fcb367d1c3e09bca09125c3092ae50460"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r28.json",
+      "sha256": "a5dedade3c183848ce94f36df985a3846bc482e54dd9be103f336f6bf4ca5ce4"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r30_comparison_vs_r29.json",
-      "sha256": "ae2fd78410873d461f7c427248d27e26723c2c1f5c383be0151cea6b6520280e"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r29.json",
+      "sha256": "fff7d9c3ebf3fe18e7b3351e59777dc3b6d5a14ecd73a53e9f50fb1527ef0ebd"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/diagnostic_brief.json",
-      "sha256": "80ec401aff5e89fa00290fefd8e1c75964f849a968a187fc1c560c6ca4f3aab2"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r30.json",
+      "sha256": "5d2f0bd87f3ac7f2ce01c83d79d5822cb028b52e51ce7a2d6e9651286f8dc5cd"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/edge_extremes.json",
-      "sha256": "d44e1a24b595a2da8ee042a36307660c7732daba9399779f557d31bc06ffc3f1"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/diagnostic_brief.json",
+      "sha256": "8f5dc0e9438fba027b5be91f120d8e143a90e874bc08653d0e6ae37d1b0a9097"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r30/grip_penetration.json",
-      "sha256": "d212b2061ffcdb0a7fd83b8a713d1a0be6571cb357058d201555953388d9c782"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/edge_extremes.json",
+      "sha256": "b09c2776e21d29e9c5b588e268dfc7acedc8318a394b92842589c5a0742c194c"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r30/visual_review_manifest.json",
-      "sha256": "6d221da8f622590c067e1baa8d652e9311be3e64d9709a3a35c4644c0c3dee4f"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/grip_penetration.json",
+      "sha256": "873cd60dd0e6434de996155f3a304ee4f0418637e6c1918373f1cb8328306138"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r32/visual_review_manifest.json",
+      "sha256": "3e08c61a537c4d9c1df3cfdf15df60bcdc7b48a6fd87bb4715856417545047ca"
     }
   ],
-  "last_known_candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",
-  "evidence_timestamp": "2026-10-01T17:07:09.695473+00:00",
+  "last_known_candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "evidence_timestamp": "2026-10-01T17:52:25.369854+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r30: solution o22.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.blend; candidate remains experimental.",
+  "what_changed": "r32: solution o26.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
+    "3D DEVELOPMENT CLEAR",
     "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)",
     "pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)"
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "REPAIR wrist",
-    "reason": "Local wrist-extension severity regression versus R2.",
+    "action": "REPAIR grip/thumb",
+    "reason": "Bilateral equipment penetration must satisfy unchanged gates.",
     "command": null,
-    "work_package": "docs/work_packages/PHASE_3D_WRIST_PUSHUP.md"
+    "work_package": "docs/work_packages/PHASE_3C_GRIP_THUMB.md"
   }
 }

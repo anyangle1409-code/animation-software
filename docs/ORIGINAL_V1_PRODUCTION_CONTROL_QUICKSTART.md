@@ -347,3 +347,13 @@ candidate/Blend identity. It reports `READY_TO_END_SESSION`,
 `PARTIAL_WORK_PRESERVED` or `NEEDS_ATTENTION_BEFORE_ENDING`. It never commits,
 pushes, fetches, deletes or saves Blender files. See
 `work_packages/SESSION_CLOSE_PROTOCOL.md`.
+
+
+### Phone-friendly progress summary
+
+Run `RUN_ORIGINAL_V1_PROGRESS.bat` for a concise read-only status derived from the
+same production-control state and execution-orchestration map. It shows current
+candidate/phase, blocker counts, exact next action, next major milestone, completed
+and remaining roadmap phases, Phase 3/5 subphase states and the 12/12 prepared
+support-tooling count. It deliberately does not invent a model-completion
+percentage because roadmap phases have unequal real Blender workload.

@@ -1,0 +1,45 @@
+{
+  "generated_utc": "2026-10-01T20:49:04.332763+00:00",
+  "stage": "O4 candidate first-party local geometry edit: thumb-pad clearance (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.blend",
+  "source_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r36.blend",
+  "candidate_sha256": "6ae04e949fefdc3ec57e5a9a1c66e6d9aad3560075eda1cc0e43bcbf22e57f0d",
+  "declared_mask": "thumb_pad_mask_declared_before_edit.json",
+  "declared_mask_sha256": "e7ea407b416ad193282421dc213515fc73d151ac8c81db36b7021caf7a8e94aa",
+  "declared_ids_sha256": "6f57552a549903bde4468e0d7d5eaaa58f4341b2eb3aed364bb527fbbf2fc641",
+  "survey": "thumb_pad_clearance_survey_r35.json",
+  "survey_sha256": "76be91f6b05505853e0ce3120c323addb33d768cf6be0706167df78408fdb110",
+  "parameters": {
+    "margin_mm": 0.6,
+    "falloff_mm": 10.0
+  },
+  "vertices_moved": 186,
+  "max_displacement_mm": 5.312,
+  "mean_displacement_mm": 1.4484,
+  "planned": {
+    "l": {
+      "inside_vertices": 29,
+      "max_penetration_mm": 4.7119,
+      "mask_vertices": 93,
+      "max_displacement_mm": 5.3119,
+      "handle_radius_mm": 17.0
+    },
+    "r": {
+      "inside_vertices": 29,
+      "max_penetration_mm": 4.712,
+      "mask_vertices": 93,
+      "max_displacement_mm": 5.312,
+      "handle_radius_mm": 17.0
+    }
+  },
+  "min_clearance_after_mm_of_formerly_inside_vertices": 0.5997,
+  "vertices_before": 17946,
+  "vertices_after": 17946,
+  "faces_before": 17944,
+  "faces_after": 17944,
+  "weights_changed": false,
+  "topology_changed": false,
+  "rig_bones": 63,
+  "inputs": "this candidate's own ORIGINAL v1 mesh and the project's own handle frame only"
+}

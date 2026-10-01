@@ -4,8 +4,8 @@
   "rig": "hgpt_canonical_v4_original",
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
-  "current_subphase": "3C",
-  "current_candidate": "r35",
+  "current_subphase": "3E",
+  "current_candidate": "r36",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -17,7 +17,7 @@
       "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
     }
   },
-  "development_failure_count": 6,
+  "development_failure_count": 2,
   "development_failures": [
     {
       "pose": "lunge",
@@ -32,34 +32,6 @@
       "metric": "region_max_ratio",
       "value": 6.371,
       "rule": "<= 5.0"
-    },
-    {
-      "pose": "curl_handle",
-      "region": "grip_l",
-      "metric": "grip_max_penetration_mm",
-      "value": 5.93,
-      "rule": "<= 2.0"
-    },
-    {
-      "pose": "curl_handle",
-      "region": "grip_r",
-      "metric": "grip_max_penetration_mm",
-      "value": 5.93,
-      "rule": "<= 2.0"
-    },
-    {
-      "pose": "pullup_bar",
-      "region": "grip_l",
-      "metric": "grip_max_penetration_mm",
-      "value": 5.93,
-      "rule": "<= 2.0"
-    },
-    {
-      "pose": "pullup_bar",
-      "region": "grip_r",
-      "metric": "grip_max_penetration_mm",
-      "value": 5.93,
-      "rule": "<= 2.0"
     }
   ],
   "production_failure_count": 108,
@@ -93,7 +65,7 @@
       "reason": "Recover finger minima without losing curl_peak clearance."
     },
     "3C": {
-      "state": "blocked",
+      "state": "complete",
       "reason": "Bilateral equipment penetration must satisfy unchanged gates."
     },
     "3D": {
@@ -238,89 +210,67 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
-    },
-    {
-      "checkpoint": "r35 visual snapshot",
-      "owner_review": "pending",
-      "blocking": false,
-      "candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
-      "evidence": {
-        "path": "ORIGINAL_V1_WORK/candidates/review/visual_r35/visual_review_manifest.json",
-        "sha256": "6f9a62f6a41fa293d0103c39fda08bc34efc5c302bfb68e50f7fc2d2412fac7b"
-      }
     }
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_merged_pose_report.json",
-      "sha256": "276279fffe454baba6820627c6c531477d1d6577d91325b28797414786aee4b5"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_merged_pose_report.json",
+      "sha256": "0cae948c201082f13ff61bd29e35b1bebdc7c35109a621c74dd513668b27e953"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.json",
-      "sha256": "e703fba8a5ae517fc79957f09520b6f022873805ea5f6b4a71f89040272b8333"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r36.json",
+      "sha256": "fb2f2043d9884c1121ae72308b7eb0aa002cfd2b6e8677d0451fcff9c23190cc"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_evidence_manifest.json",
-      "sha256": "19eb709f6e65f98cd3dd4059d43bec5face86001f467a90db84776ad11921131"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_evidence_manifest.json",
+      "sha256": "fe790ccaba436601d9545cf755f15b41403d37715d8718433ac66c77943563e6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_R2.json",
-      "sha256": "38a848fe18c48e7fb51c0b0bddb3c9c2f1581e19fa73b2230011b5bf442b5fe8"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_R2.json",
+      "sha256": "a94186e6063d03de43adf4322485b36b213e4b589104887c4df0bb6be9ada103"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r28.json",
-      "sha256": "4490169aedd69752d09988a4ede12bf80100e7d950af108d92ea4b65c57b666f"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r28.json",
+      "sha256": "1549780f13919c7e76ed6bd85c969ef1a9a6f0ff20e185996d835a12e89a9326"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r29.json",
-      "sha256": "321ffbf7f149bfbe3e63b16134c9e5a3a943f05a269759c1d26a27947d368e37"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r29.json",
+      "sha256": "6bd87d654b3cf700248787f7ac9b8a7a2539c003dd8a1e7dba3db95ac0007dcc"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r30.json",
-      "sha256": "4c65610e56256d77a33d1a5b4aed31bb32ea94dff62e0c07675d7feea912db46"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r30.json",
+      "sha256": "3c806740019d5e5af625773b0a1fbb9f8fa2b1258dd04fceae60f2f264af2257"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r32.json",
-      "sha256": "c8fc0ce21006379fbc71450c5631ea3d88af5930362f77500b733d66fe0f8747"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r32.json",
+      "sha256": "4fd62dc289f5b40701f740f3f070e5e9edd3662fb9b5e94ff5c79c2971470b70"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/diagnostic_brief.json",
-      "sha256": "4575ff7a007e715cc077ddaf10d735c1d9d888c8d880802bbd7ddead70d0d913"
-    },
-    {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/edge_extremes.json",
-      "sha256": "b47f5f078cf151cc87e53809eeadff7ef6ca0d16a28127c80beac36f796f6dce"
-    },
-    {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/grip_penetration.json",
-      "sha256": "ae43fbdcdb84ae312abfba94f94f5f94b399de86934f37dc1f3680bc6347e335"
-    },
-    {
-      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r35/visual_review_manifest.json",
-      "sha256": "6f9a62f6a41fa293d0103c39fda08bc34efc5c302bfb68e50f7fc2d2412fac7b"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r35.json",
+      "sha256": "fa737197e6fb8b7b65262541a1ea665de92a1314bd2874a0b98b98a00cf8351d"
     }
   ],
-  "last_known_candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
-  "evidence_timestamp": "2026-10-01T18:44:26.103886+00:00",
+  "last_known_candidate_sha256": "6ae04e949fefdc3ec57e5a9a1c66e6d9aad3560075eda1cc0e43bcbf22e57f0d",
+  "evidence_timestamp": "2026-10-01T20:49:04.332763+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r35: solution o33.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.blend; candidate remains experimental.",
+  "what_changed": "r36: solution geometry edit on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
+    "3C DEVELOPMENT CLEAR",
     "3D DEVELOPMENT CLEAR",
     "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)",
     "pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)"
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "REPAIR grip/thumb",
-    "reason": "Bilateral equipment penetration must satisfy unchanged gates.",
-    "command": null,
-    "work_package": "docs/work_packages/PHASE_3C_GRIP_THUMB.md"
+    "action": "RUN remaining diagnostics",
+    "reason": "isolate wrist/grip/lunge locally before editing",
+    "command": "RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r36"
   }
 }

@@ -28,8 +28,18 @@ if errorlevel 1 (
 )
 
 set "CANDIDATE=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%REV%.blend"
+set "MANIFEST=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%REV%.json"
 if not exist "%CANDIDATE%" (
   echo ERROR: Candidate Blend not found: %CANDIDATE%
+  exit /b 2
+)
+if not exist "%MANIFEST%" (
+  echo ERROR: Candidate manifest not found: %MANIFEST%
+  exit /b 2
+)
+python scripts\verify_original_v1_local_candidate.py "%CANDIDATE%" "%MANIFEST%"
+if errorlevel 1 (
+  echo ERROR: Local candidate does not match its committed manifest.
   exit /b 2
 )
 

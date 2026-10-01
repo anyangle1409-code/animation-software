@@ -1337,6 +1337,40 @@ only make the already-authorised next experiment deterministic and easier to
 review. The generated r30 candidate must still be judged by the unchanged
 comparators and remains non-production unless separately approved.
 
+## Repo-side remaining-blocker diagnostics — 2026-10-01
+
+Prepared after the battery stop, without modifying any Blender candidate:
+
+- \`scripts/analyze_original_v1_pose_dump.py\` reads a temporary pose-skinning
+  dump and reports the exact worst mesh edges, rest/posed midpoints, mirror
+  partner and current top bone weights for:
+  - \`pushup_bottom / hand / max\`;
+  - \`lunge / pelvis / max\`;
+  - \`lunge / torso / min\`;
+  - \`lunge / torso / max\`.
+- \`scripts/probe_original_v1_grip_penetration_blender.py\` measures
+  \`curl_handle\` and \`pullup_bar\` before and after the existing finger-close
+  solve, including the deepest vertices, regions, weights and handle frames.
+  This is specifically intended to distinguish a rest-pose/handle-placement
+  conflict from a skin-weight problem without relaxing the 2 mm gate.
+- \`RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat <rN>\` runs both probes
+  read-only and deletes its temporary NPZ dump. It writes only compact
+  JSON/Markdown evidence under
+  \`repair_checks/remaining_diagnostics_<rN>/\`.
+
+These tools do not author a repair. They make the next wrist/grip/lunge change
+evidence-led and local, and preserve the current R2 baseline and all thresholds.
+
+After r30 evidence is complete, run:
+
+\`\`\`bat
+RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r30
+\`\`\`
+
+If r30 is rejected and work remains on r29, use \`r29\` instead. Do not use a
+diagnostic result to mark a candidate accepted; it only identifies where the
+next edit should be made.
+
 ## Next Blender session
 
 Current state entering the next laptop session:

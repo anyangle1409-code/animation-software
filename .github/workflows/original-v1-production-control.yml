@@ -38,6 +38,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_promotion_gate.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_review_manifest.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_evidence_merge.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_interrupted_run.py'
       - name: Verify exact generated state and unchanged baseline
         run: |
           python3 scripts/build_original_v1_daily_status.py --check

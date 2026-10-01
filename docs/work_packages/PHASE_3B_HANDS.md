@@ -37,3 +37,11 @@ and O4 handoff. Record an evidence-backed continuation decision for chosen SHA
 in production control; this is experimental execution lineage, not owner approval.
 Next: `RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat <chosen revision>`, then 3D local
 wrist, 3C grip diagnostic/repair, and 3E lunge. Continue safe work while review pending.
+
+## Interrupted execution
+
+If r30 has already been created, preserve it and o22. Run
+`python scripts/inspect_original_v1_interrupted_run.py r30` for read-only identity
+and missing-evidence instructions. Do not rerun the optimiser to get around a
+preflight collision. STOP means reconcile the named evidence conflict while
+continuing independent safe documentation or diagnostics.

@@ -1497,3 +1497,14 @@ source-bound evidence and reject conflicting overlapping poses, mixed script or
 candidate identities, and output collisions. Repeated status generation now retains
 new incomplete candidates even after writing their ledger entries. 72 Python tests
 pass; no laptop/Blender execution or new candidate result is claimed.
+
+### Interrupted-run inspector — 2026-10-01
+
+Prepared `scripts/inspect_original_v1_interrupted_run.py` for an already-created
+numbered candidate. It verifies local blend/solution/parent identities, reports
+verified versus missing evidence groups and prints existing capture/merge commands.
+It never mutates outputs, reruns the optimiser or claims environment authorization.
+Incomplete/conflicting groups and full-output collisions stop instructions while
+preserving files. The Phase 3B package and shared quickstart explain pickup.
+78 Python tests pass; the preceding evidence-runner commit also passed GitHub
+production-control CI. Current candidate remains r29; r30 is still unexecuted here.

@@ -93,3 +93,24 @@ reports from different script versions or candidates.
 fixture runs proving a valid seven-failure / six-regression result remains recorded,
 invalid metrics stop processing, and partial-candidate state remains deterministic.
 Windows batch execution and actual Blender renders still require the laptop.
+
+### Inspect an already-created candidate after an interruption
+
+```bat
+python scripts/inspect_original_v1_interrupted_run.py r30
+```
+
+This read-only utility verifies candidate bytes, parent manifest, solution bytes,
+existing group sources, current render-script identity and complete pose membership.
+It prints existing runner commands only for missing groups; it never reruns o22,
+deletes files, changes status or claims SAFE TO START. Recheck live branch and
+laptop environment first. Set BLENDER_EXE to the verified executable for neutral
+capture. Reinspect after collecting missing groups. Once all groups verify, it
+prints the full merger command. An unfinished group or existing full output stops
+recovery instructions and preserves evidence for reconciliation.
+
+After a verified fresh merge, complete the existing r30 runner steps 5–8: explicit
+r28 comparison with --report-only; trial summary against r29 and r28; generated
+candidate review; compact real-image collection; daily status generation. These
+steps must use fresh output paths. Publish evidence and record non-blocking pending
+owner review. Resume from the next-action selector, never from an optimiser score.

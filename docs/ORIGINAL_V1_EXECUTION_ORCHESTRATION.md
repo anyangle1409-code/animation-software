@@ -176,3 +176,12 @@ RUN_ORIGINAL_V1_R30.bat
 ```
 
 subject to live preflight and selector agreement.
+
+
+## Phase 5 execution gap closure
+
+When the orchestrator eventually selects `5_anatomy`, use the prepared regional
+contract in `PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md`. It converts the existing
+5A-5G briefs into candidate-bound templates/receipts and forces each region to
+inherit from the previous verified regional candidate. This reduces future Claude
+session setup but does not alter the current r30 node.

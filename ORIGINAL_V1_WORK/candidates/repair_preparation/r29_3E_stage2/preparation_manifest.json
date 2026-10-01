@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "state": "PREPARATION_ONLY",
+  "phase": "3E",
+  "parent_candidate": "r29",
+  "before_candidate_sha256": "d9b24e75fa6f2eb4c8999787fd925d5986f236691e00c9d251be3f0f061d7574",
+  "diagnostics_state": "AWAITING_PROBES",
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
+      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+    },
+    {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "sha256": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95"
+    },
+    {
+      "path": "ORIGINAL_V1_PRODUCTION_CONTROL.json",
+      "sha256": "acabddb950abf73e004a149a1acadc13814a031d9fe8672bd389985567946467"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json",
+      "sha256": "d4bf23dcbb68f83d6c81bb78fa58dd01a36a4cfce21a729d1a7d6780fdc1b29f"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_comparison_vs_R2.json",
+      "sha256": "57957d5d71f89531f12100b4c5e31416fd3bd38b5379b19ec18820f73a514dcd"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_comparison_vs_r28.json",
+      "sha256": "d319d91fd86d1ccfeffb6103a28c44b3bd976ed7e3feb1aa990f393bd76eb4c4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_merged_pose_report.json",
+      "sha256": "7750c9d7bb09e9b0b06c61795bd6c5ec40c350e99ff458256773ddf5dee49762"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3E_stage2/README.md",
+      "sha256": "318e3b564fad0cc2109157d8afff7f75ace45fb7e72aad15933881d52f0c6557"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3E_stage2/audit_policy_template.json",
+      "sha256": "bc32cacd44c3b4af60f0e46a94d4806c29ccb13bd9150709ef767dfe2b244cfd"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3E_stage2/edit_intent_template.json",
+      "sha256": "7de37c95f63702d470508299f7acbabd8f7128c7f3bda1d6f6904655d930f6d5"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3E_stage2/inspection_context.json",
+      "sha256": "1bbe2a5a7ca60f321009a91fdfd13ff0c81f10fce953502f9637a946651c7379"
+    }
+  ],
+  "edit_authorised": false,
+  "production_approved": false
+}

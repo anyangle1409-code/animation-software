@@ -45,6 +45,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_phase_exit.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_replay.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_diagnostic_brief.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_repair_preparation.py'
       - name: Verify exact generated state and unchanged baseline
         run: |
           python3 scripts/build_original_v1_daily_status.py --check

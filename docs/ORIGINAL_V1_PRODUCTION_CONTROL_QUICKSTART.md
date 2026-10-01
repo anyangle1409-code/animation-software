@@ -170,3 +170,10 @@ the repair packages. It neither diagnoses a cause nor authorises edits. Existing
 probe files can be summarised without Blender using
 `python scripts/build_original_v1_diagnostic_brief.py <latest revision>`; both
 brief output paths must be unused. Preserve conflicting/partial evidence on STOP.
+
+Stage 2 adds `python scripts/prepare_original_v1_repair_policy.py <3C|3D|3E>
+--out-dir <fresh repository folder>` (one line). The prepared r29 examples live in
+`ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3C_stage2/` and corresponding
+3D/3E folders. They are INCOMPLETE drafts, not permission to bypass r30. Generate
+a new packet for the actual continuation candidate after hand recovery. Read its
+README, preserve the original drafts and record a local intent before editing.

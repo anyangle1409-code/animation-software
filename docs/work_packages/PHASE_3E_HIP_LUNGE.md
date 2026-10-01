@@ -14,6 +14,9 @@ Record an explicit bilateral vertex mask and allowed bone names before
 editing a NEW candidate. Begin with local weight repair; supporting geometry only
 if weight evidence proves necessary. Do not edit shoulders, arms/hands/feet, shorts,
 frozen 63-bone rig/rest, lunge/squat definitions, R2 or thresholds.
+Use the Stage 2 intent/policy generator from the change-audit protocol. Preserve
+the parent-bound draft and pre-edit intent; numerical audit permissions must match
+that intended local scope, not an expanded mask chosen after seeing the result.
 
 Tests: `RUN_ORIGINAL_V1_REPAIR_CHECK.bat hip <new.blend> <unique label>`, then full
 15-pose `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <new revision> <predecessor>`.

@@ -22,6 +22,9 @@ thumb/web local geometry, if diagnostics demonstrate a mesh defect and it can be
 repaired without changing frozen rig/poses. Record permitted vertex mask before
 editing, mesh/weight audit and bilateral symmetry. No whole-hand remesh, external
 reference fitting, handle radius/tolerance changes, rig rest edits or copied weights.
+Use the Stage 2 generator in `docs/ORIGINAL_V1_CHANGE_AUDIT_PROTOCOL.md` to prepare
+parent-bound intent/policy drafts. Inspection IDs are not permitted IDs; preserve
+the pre-edit intent and use the same declared scope for the final audit policy.
 
 Tests: focused `RUN_ORIGINAL_V1_REPAIR_CHECK.bat hand <new.blend> <unique label>`;
 then `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <new revision> <predecessor>` and additional

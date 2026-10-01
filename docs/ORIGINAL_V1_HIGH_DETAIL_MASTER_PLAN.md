@@ -180,7 +180,7 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | Stage | Preparation | State / boundary |
 |---|---|---|
 | 1 | Phase 3 source-verified diagnostic brief from existing probes, wired into the existing runner | PREPARED; real probes still require laptop Blender |
-| 2 | Candidate-bound local edit/audit policy templates from verified inspection IDs; no automatic edit permission | Next repo-side stage; raw probes required for candidate-specific masks |
+| 2 | Candidate-bound local edit/audit policy drafts; verified probe IDs stay inspection references with no automatic edit permission | PREPARED; r29 drafts await actual probes and a declared local mask |
 | 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | Prepare instructions only; phases remain NOT STARTED |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,

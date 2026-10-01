@@ -1606,3 +1606,23 @@ writes no fabricated report. Real Windows/Blender probes remain unexecuted here.
 Generated state remains experimental r29 / seven blockers; R2 remains pinned.
 Next GPT preparation stage: candidate-bound local edit/audit policy templates.
 Next actual deformation action remains RUN r30 on the laptop.
+
+### Staged GPT preparation: Stage 2 local intent/audit drafts — 2026-10-01
+
+Live source HEAD checked: `92bc122b5f618fe0b789191a4a5d5df19a6db671`. Added a
+deterministic preparation generator for 3C, 3D and 3E using the existing diagnostic
+validation and mesh/weight audit tools. Generated r29 example folders under
+`ORIGINAL_V1_WORK/candidates/repair_preparation/`. Each binds the exact parent,
+leaves child hash/correspondence/permission lists incomplete, preserves original
+draft hashes and records AWAITING_PROBES honestly. Verified probe IDs, when present,
+remain inspection references; they never populate edit permissions automatically.
+
+Before editing, record a separate minimal local intent. Afterwards link the actual
+child/operation history and audit the same intended mask; never broaden permission
+retrospectively. Drafts cannot act as completed audit policies. Regenerate for the
+post-hand-recovery continuation candidate; r29 drafts do not bypass r30.
+
+149 Python tests pass. No Blender work, mesh/weight changes, candidate acceptance,
+phase completion or baseline/gate change occurs. Current model remains experimental
+r29 / seven blockers. Next GPT preparation stage: Phase 6–11 execution packages.
+Next actual deformation task remains RUN r30 on the laptop.

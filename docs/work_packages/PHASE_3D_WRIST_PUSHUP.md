@@ -16,6 +16,9 @@ Change only local forearm/hand transition weights unless evidence requires a loc
 geometry experiment. Preserve finger/PIP improvements and unrelated shoulders/body.
 No rest/hierarchy, push-up pose, floor, threshold or equipment edits. No broad hand
 re-solve merely to improve one edge; no legacy/third-party data.
+Prepare intent/policy drafts with the Stage 2 generator in the change-audit protocol.
+Record the explicit local mask before editing; child hashes and correspondence
+must come from the actual NEW candidate and operation history, never a template.
 
 Tests: `RUN_ORIGINAL_V1_REPAIR_CHECK.bat pushup <new.blend> <unique label>` and hand
 subset; then `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <new revision> <predecessor>`.

@@ -70,3 +70,23 @@ Example policy shape (fill hashes and IDs from the verified operation history):
 This illustrative hand mask does not authorize a complete hand edit or infer that
 vertex IDs correspond. Use each work package's permitted region and actual authored
 edit mask. Empty IDs permit no change. Placeholder hashes deliberately fail.
+
+## Phase 3 repair preparation drafts
+
+Use `python scripts/prepare_original_v1_repair_policy.py 3D --out-dir <fresh repository folder>`
+(or 3C / 3E) to prepare an edit-intent draft, audit-policy draft, inspection context
+and execution README for the latest complete candidate. It reuses the existing
+auditor and diagnostic brief validation; it does not add modelling or approval tools.
+
+The parent hash is pinned. Child hash is null, correspondence is false, and all
+permission lists remain empty. Raw probes, when available, are source-checked and
+their IDs remain inspection references only. A missing pair is AWAITING_PROBES;
+a partial, stale or contradictory pair is STOP. Missing data never invents a mask.
+The preparation manifest binds source files and original draft bytes.
+
+Preserve the generated drafts. Before editing, copy the intent to a fresh record
+and record exact local IDs/regions/bones, defect evidence, operation and symmetry
+plan. After making a NEW candidate, bind actual child identity and operation history
+in a new linked record, export snapshots and create the completed policy using the
+same pre-edit scope. Never retrospectively broaden a mask to hide distant edits.
+Regenerate for a newer continuation candidate instead of relabelling old drafts.

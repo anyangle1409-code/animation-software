@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE_TEMPLATE",
+  "phase_complete": false,
+  "production_approved": false,
+  "purpose": "Future real-engine evidence packet. Template only; must never be treated as runtime or model evidence.",
+  "prerequisite_discovery_report": null,
+  "model": {
+    "branch": "claude/original-v1-blender-o2-20260929",
+    "commit": null,
+    "candidate_sha256": null,
+    "bare_glb": {
+      "path": null,
+      "sha256": null
+    },
+    "dressed_glb": {
+      "path": null,
+      "sha256": null
+    },
+    "phase9_exit_evidence": {
+      "path": null,
+      "sha256": null
+    }
+  },
+  "runtime": {
+    "branch": "work/standalone-first-party-audit-20260927",
+    "commit": null,
+    "standalone_verification": null,
+    "browser_viewport_smoke": null,
+    "canonical_v4_contract_sha256": null,
+    "zero_runtime_dependencies_verified": null
+  },
+  "request_mapping": {
+    "first_acceptance_request": "exercise: dumbbell shoulder press",
+    "resolved_exercise_id": null,
+    "mapping_evidence": null
+  },
+  "scenarios": [
+    {
+      "id": "dumbbell_shoulder_press",
+      "required": [
+        "real_solver_frames",
+        "bilateral_dumbbell_transforms",
+        "grip_contact",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "dumbbell_bicep_curl",
+      "required": [
+        "real_solver_frames",
+        "bilateral_hand_driven_dumbbells",
+        "grip_fit",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "pull_up",
+      "required": [
+        "real_solver_frames",
+        "fixed_rack_socket_contacts",
+        "bilateral_grip_error",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "push_up",
+      "required": [
+        "real_solver_frames",
+        "fixed_hand_floor_contacts",
+        "toe_floor_contacts",
+        "wrist_contact",
+        "body_line",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "air_squat",
+      "required": [
+        "real_solver_frames",
+        "floor_contact",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "lunge",
+      "required": [
+        "real_solver_frames",
+        "bilateral_floor_contact",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    },
+    {
+      "id": "bent_over_row",
+      "required": [
+        "real_solver_frames",
+        "equipment_contact",
+        "joint_range",
+        "continuity",
+        "bare_dressed",
+        "export_round_trip"
+      ]
+    }
+  ],
+  "sampling": {
+    "deterministic": true,
+    "seed_or_config": null,
+    "duration_s": null,
+    "frame_times_s": null,
+    "turnaround_samples_required": true,
+    "note": "Use the real engine's phase/easing path. Do not substitute Blender stress interpolation for runtime motion."
+  },
+  "metrics": {
+    "contact_errors": null,
+    "equipment_transforms": null,
+    "joint_range_errors": null,
+    "smoothness": null,
+    "body_garment_clearance": null,
+    "bare_dressed_equivalence": null,
+    "export_reimport": null
+  },
+  "review": {
+    "owner_review": "pending",
+    "blocking": false,
+    "images_or_clips": []
+  },
+  "limits": [
+    "Template is not evidence.",
+    "Every final result must bind exact runtime commit, model commit, asset SHA-256, command/config and frame times.",
+    "Aggregate scores cannot hide a failed contact, range, continuity or round-trip check.",
+    "Production promotion remains a separate Phase 12 action."
+  ]
+}

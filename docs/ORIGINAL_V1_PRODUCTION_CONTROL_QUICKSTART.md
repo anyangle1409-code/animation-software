@@ -283,3 +283,14 @@ permitted/protected scope, focused poses, required real views and evidence slots
 5B-5G require a verified predecessor-region receipt whose candidate is the direct
 parent. Templates are INCOMPLETE only; actual Blender anatomy and real review
 evidence are still required. Current work remains Phase 3/r30.
+
+
+### Phase 6 advanced surface gap-closure tooling
+
+After Phase 5 is actually complete, follow
+`work_packages/PHASE_6_ADVANCED_SURFACE_PROTOCOL.md`. Populate the authored
+`ORIGINAL_V1_PHASE6_JOINT_SUPPORT_PLAN.json` for the exact candidate, then use
+`RUN_ORIGINAL_V1_PHASE6_SURFACE.bat <rN> <joint-support.json> <fresh-output-dir>`.
+It runs raw surface audit, evaluated normal capture, exact BVH self-intersection
+capture and joint-support contract verification without saving/repairing Blender.
+Current r29/Phase 3 is not eligible.

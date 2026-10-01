@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "candidate": "r38",
+  "classification": "TRADEOFF_OR_REGRESSION",
+  "production_approved": false,
+  "rule": "Experimental comparison only. Production approval remains a separate gated decision.",
+  "comparisons": [
+    {
+      "baseline": "r37",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 0,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": 0,
+      "regression_count": 0,
+      "improvement_count": 2
+    },
+    {
+      "baseline": "r36",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 2,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -2,
+      "regression_count": 0,
+      "improvement_count": 5
+    },
+    {
+      "baseline": "r35",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 6,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -6,
+      "regression_count": 0,
+      "improvement_count": 18
+    },
+    {
+      "baseline": "r32",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -7,
+      "regression_count": 0,
+      "improvement_count": 21
+    },
+    {
+      "baseline": "r30",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -7,
+      "regression_count": 0,
+      "improvement_count": 22
+    },
+    {
+      "baseline": "r29",
+      "status": "IMPROVED",
+      "baseline_failed_checks": 7,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -7,
+      "regression_count": 0,
+      "improvement_count": 33
+    },
+    {
+      "baseline": "r28",
+      "status": "REGRESSION",
+      "baseline_failed_checks": 8,
+      "candidate_failed_checks": 0,
+      "delta_failed_checks": -8,
+      "regression_count": 1,
+      "improvement_count": 33
+    }
+  ],
+  "versus_R2": {
+    "status": "REGRESSION",
+    "baseline_failed_checks": 54,
+    "candidate_failed_checks": 0,
+    "delta_failed_checks": -54,
+    "regression_count": 5,
+    "improvement_count": 102
+  }
+}

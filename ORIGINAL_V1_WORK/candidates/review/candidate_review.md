@@ -20,6 +20,9 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 | r33 | 15 | 6 | 6 | 99 | CLEAR | BLOCKED | BLOCKED | `77e4cbdd9cd383db` |
 | r34 | 15 | 6 | 5 | 99 | CLEAR | BLOCKED | BLOCKED | `302f0eb19f6d3c3e` |
 | r35 | 15 | 6 | 5 | 99 | CLEAR | BLOCKED | BLOCKED | `741ff74f24ffdfbd` |
+| r36 | 15 | 2 | 5 | 103 | CLEAR | CLEAR | BLOCKED | `6ae04e949fefdc3e` |
+| r37 | 15 | 0 | 6 | 102 | CLEAR | CLEAR | CLEAR | `f16d8a485177995e` |
+| r38 | 15 | 0 | 5 | 102 | CLEAR | CLEAR | CLEAR | `7369b2d886ddffe6` |
 
 ## Key worst-case metrics per candidate (min over poses of region min, max of region max)
 
@@ -41,6 +44,9 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 | r33 | 0.215 / 4.33 | 0.161 / 6.37 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.510 / 1.34 | 182 |
 | r34 | 0.215 / 4.33 | 0.161 / 6.37 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.510 / 1.34 | 182 |
 | r35 | 0.215 / 4.33 | 0.161 / 6.37 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.510 / 1.34 | 182 |
+| r36 | 0.215 / 4.33 | 0.161 / 6.37 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.588 / 1.34 | 182 |
+| r37 | 0.215 / 4.33 | 0.161 / 4.46 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.588 / 1.34 | 182 |
+| r38 | 0.215 / 4.33 | 0.185 / 3.90 | 0.188 / 2.83 | 0.240 / 1.91 | 0.240 / 1.91 | 0.588 / 1.34 | 182 |
 
 ## Regressions vs R2 (strict comparator)
 
@@ -59,3 +65,6 @@ Development-blocker profile; R2 = pinned baseline (54 failed checks). **No candi
 - **r33** (6): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; squat_bottom: volume_deviation_from_1 0.0373 -> 0.042300000000000004
 - **r34** (5): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861
 - **r35** (5): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861
+- **r36** (5): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861
+- **r37** (6): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861; squat_bottom: volume_deviation_from_1 0.0373 -> 0.04310000000000003
+- **r38** (5): press_bottom/shoulder: region_min_ratio 0.577 -> 0.548; press_bottom/torso: region_min_ratio 0.943 -> 0.889; press_top/torso: region_min_ratio 0.886 -> 0.823; pullup_top/shoulder: region_min_ratio 0.694 -> 0.67; pullup_top/torso: region_min_ratio 0.883 -> 0.861

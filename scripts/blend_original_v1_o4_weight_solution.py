@@ -180,7 +180,7 @@ def main():
             raise SystemExit("zone is not mirror-closed")
         sw = [ub.index(n[:-2] + ("_r" if n.endswith("_l") else "_l")) if n[-2:] in ("_l", "_r") else ub.index(n) for n in ub]
         Wz = 0.5 * (Wz + Wz[tw][:, sw])
-        Wz = np.where(Wz < 1e-6, 0.0, Wz)
+        Wz = prune4(np.where(Wz < 1e-6, 0.0, Wz))      # mirror-averaging can union two different top-4 sets: keep <= 4 influences
         Wz /= Wz.sum(axis=1, keepdims=True)
         if a.isolate_sides:
             Wz = isolate(Wz)

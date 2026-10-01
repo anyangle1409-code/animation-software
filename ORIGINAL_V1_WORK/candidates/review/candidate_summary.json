@@ -349,5 +349,69 @@
       "pullup_top/torso: region_min_ratio 0.883 -> 0.861"
     ],
     "poses": 15
+  },
+  "r36": {
+    "failed_checks": 2,
+    "regressions_vs_R2": 5,
+    "improvements_vs_R2": 103,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "CLEAR",
+      "3": "BLOCKED",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "6ae04e949fefdc3ec57e5a9a1c66e6d9aad3560075eda1cc0e43bcbf22e57f0d",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861"
+    ],
+    "poses": 15
+  },
+  "r37": {
+    "failed_checks": 0,
+    "regressions_vs_R2": 6,
+    "improvements_vs_R2": 102,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "CLEAR",
+      "3": "CLEAR",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "f16d8a485177995eb83cd75c779427ca7b2f9e6f9b77de1795fb25942e17719c",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861",
+      "squat_bottom: volume_deviation_from_1 0.0373 -> 0.04310000000000003"
+    ],
+    "poses": 15
+  },
+  "r38": {
+    "failed_checks": 0,
+    "regressions_vs_R2": 5,
+    "improvements_vs_R2": 102,
+    "priorities": {
+      "1": "CLEAR",
+      "2": "CLEAR",
+      "3": "CLEAR",
+      "4": "CLEAR",
+      "5": "CLEAR"
+    },
+    "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+    "regressions": [
+      "press_bottom/shoulder: region_min_ratio 0.577 -> 0.548",
+      "press_bottom/torso: region_min_ratio 0.943 -> 0.889",
+      "press_top/torso: region_min_ratio 0.886 -> 0.823",
+      "pullup_top/shoulder: region_min_ratio 0.694 -> 0.67",
+      "pullup_top/torso: region_min_ratio 0.883 -> 0.861"
+    ],
+    "poses": 15
   }
 }

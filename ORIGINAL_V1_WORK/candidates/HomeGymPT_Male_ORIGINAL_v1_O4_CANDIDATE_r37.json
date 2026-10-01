@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-10-01T21:26:28.457181+00:00",
+  "stage": "O4 candidate first-party local geometry edit: midline relief (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r36.blend",
+  "source_sha256": "6ae04e949fefdc3ec57e5a9a1c66e6d9aad3560075eda1cc0e43bcbf22e57f0d",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r37.blend",
+  "candidate_sha256": "f16d8a485177995eb83cd75c779427ca7b2f9e6f9b77de1795fb25942e17719c",
+  "declared_mask": "relief_mask_declared_before_edit.json",
+  "declared_mask_sha256": "7df8a8152f4bfa58c2c8f13b93d3f962b5b3ca3d33a623cec18b4c0cbf1f584c",
+  "parameters": {
+    "depth_mm": 10.0,
+    "half_width_mm": 12.0,
+    "taper_mm": 50.0,
+    "core_ratio": 3.0
+  },
+  "vertices_moved": 40,
+  "max_displacement_mm": 10.0,
+  "mean_displacement_mm": 5.5736,
+  "planned": {
+    "core_vertices": 19,
+    "mask_vertices": 40,
+    "max_displacement_mm": 10.0
+  },
+  "weights_changed": false,
+  "topology_changed": false,
+  "rig_bones": 63
+}

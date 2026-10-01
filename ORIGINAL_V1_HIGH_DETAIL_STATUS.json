@@ -4,8 +4,8 @@
   "rig": "hgpt_canonical_v4_original",
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
-  "current_subphase": "3E",
-  "current_candidate": "r36",
+  "current_subphase": "4",
+  "current_candidate": "r38",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -17,23 +17,8 @@
       "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
     }
   },
-  "development_failure_count": 2,
-  "development_failures": [
-    {
-      "pose": "lunge",
-      "region": "pelvis",
-      "metric": "region_max_ratio",
-      "value": 7.237,
-      "rule": "<= 5.0"
-    },
-    {
-      "pose": "lunge",
-      "region": "torso",
-      "metric": "region_max_ratio",
-      "value": 6.371,
-      "rule": "<= 5.0"
-    }
-  ],
+  "development_failure_count": 0,
+  "development_failures": [],
   "production_failure_count": 108,
   "production_approved": false,
   "phases": {
@@ -73,7 +58,7 @@
       "reason": "Local wrist-extension severity regression versus R2."
     },
     "3E": {
-      "state": "blocked",
+      "state": "complete",
       "reason": "Lunge pelvis/torso collapse and stretch; repair local hip transition."
     },
     "4": {
@@ -214,63 +199,85 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_merged_pose_report.json",
-      "sha256": "0cae948c201082f13ff61bd29e35b1bebdc7c35109a621c74dd513668b27e953"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_merged_pose_report.json",
+      "sha256": "211521c5ab56e750dc9226b860dbb153eae825ccb904ac20fafe7bce69c12e57"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r36.json",
-      "sha256": "fb2f2043d9884c1121ae72308b7eb0aa002cfd2b6e8677d0451fcff9c23190cc"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.json",
+      "sha256": "57cf872b3cbbbf0cf8f4b9353fb2b16d10a895a5626b151a2f12e0b0ddb352b0"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_evidence_manifest.json",
-      "sha256": "fe790ccaba436601d9545cf755f15b41403d37715d8718433ac66c77943563e6"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_evidence_manifest.json",
+      "sha256": "f8c9d560ffccc43cf29ec913052644d25bb47aa0c2995b24fd70bdba1b13518d"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_R2.json",
-      "sha256": "a94186e6063d03de43adf4322485b36b213e4b589104887c4df0bb6be9ada103"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_R2.json",
+      "sha256": "63ff04a3639f0387c9d3e8cd050af96418650d6760633a4ef3c1540d9cbe56be"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r28.json",
-      "sha256": "1549780f13919c7e76ed6bd85c969ef1a9a6f0ff20e185996d835a12e89a9326"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r28.json",
+      "sha256": "0cb2f0a02457a046804956e29d332851c488adc8d2f8412e4e625b7087b8e823"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r29.json",
-      "sha256": "6bd87d654b3cf700248787f7ac9b8a7a2539c003dd8a1e7dba3db95ac0007dcc"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r29.json",
+      "sha256": "595e4a861ec286fcf231cd9fb997f48791beb6de4c1d5fe7e22f5aeac90fc343"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r30.json",
-      "sha256": "3c806740019d5e5af625773b0a1fbb9f8fa2b1258dd04fceae60f2f264af2257"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r30.json",
+      "sha256": "fbec696c8aa6b95270b48b4f3f0bb03661f3a0a748db78be3af1bc1ffd0e7a43"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r32.json",
-      "sha256": "4fd62dc289f5b40701f740f3f070e5e9edd3662fb9b5e94ff5c79c2971470b70"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r32.json",
+      "sha256": "426d64701ed9b487ce70fbd63348a90b85177214928d28bc493ce77f6e2df840"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r36_comparison_vs_r35.json",
-      "sha256": "fa737197e6fb8b7b65262541a1ea665de92a1314bd2874a0b98b98a00cf8351d"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r35.json",
+      "sha256": "d714c7ca669eea00dd348d594a9ab0321aacbdf45e533ea14046b5dbda92b132"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r36.json",
+      "sha256": "0a82826a4b1d70064d9161baf43040ac6ad4ea58bbb8164f9ab2dc772fa06872"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r37.json",
+      "sha256": "98eeb04aea8b7e8ad61995fd48760dd0d3281c0dd45670a2b8784c0d0b1d8f3e"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r38/diagnostic_brief.json",
+      "sha256": "9216609c4e808c1bc99ae8f040e1e0a4a2fd6a339cc387622f8000ecb3f746b6"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r38/edge_extremes.json",
+      "sha256": "1eb84b5a77a3d20b192830c779c1b397f2ab733fb7c63dc2e720ad88414e7dd4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r38/grip_penetration.json",
+      "sha256": "9677f934b79d14cb978448baccde3a83998aedde2e701ebab83ed80b134ef621"
     }
   ],
-  "last_known_candidate_sha256": "6ae04e949fefdc3ec57e5a9a1c66e6d9aad3560075eda1cc0e43bcbf22e57f0d",
-  "evidence_timestamp": "2026-10-01T20:49:04.332763+00:00",
+  "last_known_candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+  "evidence_timestamp": "2026-10-01T21:54:25.996131+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r36: solution geometry edit on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.blend; candidate remains experimental.",
+  "what_changed": "r38: solution o37b.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r37.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
     "3C DEVELOPMENT CLEAR",
     "3D DEVELOPMENT CLEAR",
+    "3E DEVELOPMENT CLEAR",
     "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)",
     "pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)"
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RUN remaining diagnostics",
-    "reason": "isolate wrist/grip/lunge locally before editing",
-    "command": "RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r36"
+    "action": "RECONCILE freeze regressions",
+    "reason": "zero blockers is insufficient for strict freeze; inherited R2 regressions remain",
+    "command": null,
+    "safe_parallel_task": "Read-only inherited-regression diagnostics; do not reopen frozen structure."
   }
 }

@@ -1,0 +1,54 @@
+{
+  "generated_utc": "2026-10-01T21:54:25.996131+00:00",
+  "stage": "O4 candidate shoulder weight optimisation (not production)",
+  "solution": "o37b.npz",
+  "solution_sha256": "700a49adee1c9b61783864d42dc195a6432c79325fca7ee00d53ca070e5b578a",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r37.blend",
+  "source_sha256": "f16d8a485177995eb83cd75c779427ca7b2f9e6f9b77de1795fb25942e17719c",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+  "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+  "vertices_rewritten": 1701,
+  "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r"
+  ],
+  "rig_bones": 63,
+  "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only",
+  "optimisation": {
+    "generated_utc": "2026-10-01T21:54:21.520055+00:00",
+    "tool": "scripts/blend_original_v1_o4_weight_solution.py",
+    "source_solution": "o37.npz",
+    "source_solution_sha256": "c8e0a14d11efb66dd9b445df847ae374baf5a623d0df91edeedabcfdab649822",
+    "base_dump": "r37_dump.npz",
+    "base_report": "C:/Users/Mark/Documents/animation-software/repo/ORIGINAL_V1_WORK/candidates/repair_checks/full_r37_merged_pose_report.json",
+    "r2_report": "C:/Users/Mark/Documents/animation-software/repo/ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+    "alpha_torso_region": 0.3,
+    "alpha_other_region": 0.0,
+    "zone_vertices": 1701,
+    "bones": [
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "thigh_l",
+      "thigh_r"
+    ],
+    "exempt_inherited_vs_r2": [
+      "press_bottom/shoulder/min",
+      "press_bottom/torso/min",
+      "press_top/torso/min",
+      "pullup_top/shoulder/min",
+      "pullup_top/torso/min"
+    ],
+    "cross_side_vertices_in_zone": 0,
+    "isolate_sides": true,
+    "safety_margin": 0.001,
+    "volume_safety_margin": 0.0001,
+    "twin_L1_max": 0.025336720862286517,
+    "max_influences": 4,
+    "predicted_violations": [],
+    "inputs": "this candidate's own ORIGINAL v1 mesh/weights and the v4 rig only"
+  }
+}

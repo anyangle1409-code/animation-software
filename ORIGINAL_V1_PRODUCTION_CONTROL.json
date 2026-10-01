@@ -163,6 +163,70 @@
           "sha256": "ae2fab462086500323d377241433ebba4bdc49dc890eb3031397a1b7f2ccca56"
         }
       ]
+    },
+    "r38": {
+      "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+      "chosen_parent": "r37",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. Lineage r35 -> r36 (3C local thumb-pad clearance, 186 declared thumb vertices) -> r37 (3E declared midline relief, 38 vertices moved, max 10 mm) -> r38 (3E constrained weight re-solve inside the declared 1701-vertex pelvis band, alpha torso 0.30 / other 0.0, isolated sides). r38: 0 development failures across 15 poses (r35 had 6, R2 54); vs direct parent r37 IMPROVED 0 regressions (r37 alone had a squat volume comparator regression 0.0373 -> 0.0431 which the re-solve removed); vs r36, r35, r32, r30, r29 IMPROVED with 0 regressions; vs pinned R2 only the 5 inherited shoulder/torso severity regressions; vs r28 the same single visible regression as r35 (pushup_bottom self-intersections 144 -> 154, gate 200). Change audits: r36->r37 38 vertices inside the declared relief mask, 0 unexpected, no weights/topology change; r37->r38 mesh untouched, 1308 vertices inside declared mask, 0 unexpected vertices/bones, 0 cross-side, 0 over-influence. Grip penetration 1.627 mm (development gate 2.0; production target 1.0 not yet met). No threshold, R2, rig or frozen pose changed.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_R2.json",
+          "sha256": "63ff04a3639f0387c9d3e8cd050af96418650d6760633a4ef3c1540d9cbe56be"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r37.json",
+          "sha256": "98eeb04aea8b7e8ad61995fd48760dd0d3281c0dd45670a2b8784c0d0b1d8f3e"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r36.json",
+          "sha256": "0a82826a4b1d70064d9161baf43040ac6ad4ea58bbb8164f9ab2dc772fa06872"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r35.json",
+          "sha256": "d714c7ca669eea00dd348d594a9ab0321aacbdf45e533ea14046b5dbda92b132"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r32.json",
+          "sha256": "426d64701ed9b487ce70fbd63348a90b85177214928d28bc493ce77f6e2df840"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r30.json",
+          "sha256": "fbec696c8aa6b95270b48b4f3f0bb03661f3a0a748db78be3af1bc1ffd0e7a43"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r29.json",
+          "sha256": "595e4a861ec286fcf231cd9fb997f48791beb6de4c1d5fe7e22f5aeac90fc343"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_comparison_vs_r28.json",
+          "sha256": "0cb2f0a02457a046804956e29d332851c488adc8d2f8412e4e625b7087b8e823"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_trial_summary.json",
+          "sha256": "7dd082e3411847c463644d8f44f90e4865681123f4bb2e1c8ef85d09517e2fa8"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_evidence_manifest.json",
+          "sha256": "f8c9d560ffccc43cf29ec913052644d25bb47aa0c2995b24fd70bdba1b13518d"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r38/diagnostic_brief.json",
+          "sha256": "9216609c4e808c1bc99ae8f040e1e0a4a2fd6a339cc387622f8000ecb3f746b6"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r37_3E_audit/change_audit_r36_to_r37.json",
+          "sha256": "8835bd27c1924bcea9601f02ec6734ad30540a3414df3f5ecb36cf8b8a79d8cc"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r37_3E_audit/change_audit_r37_to_r38.json",
+          "sha256": "e7a6010c35cd289ca0824fc9be85ac627a5aa8aaeef829b83b02e8fba9c38b94"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r36_3C_audit/change_audit_r35_to_r36.json",
+          "sha256": "20e53e207bf04097f6b0be5f78ede94149841b4209eac5690b40ec271e3f0417"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

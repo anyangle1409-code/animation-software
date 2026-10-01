@@ -1,4 +1,4 @@
-# Phase 6–11 tooling readiness
+# Phase 6–12 tooling readiness
 
 This is preparation scope, not phase completion. Scripts were inspected at model
 source HEAD `61689f5119aab4ee619940ddfabe9176201f03b5`. Check live code again at
@@ -12,6 +12,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; deterministic six-path dressed range sampler; first-party contact source bridge for push-up endpoints, hand-driven dumbbells and fixed pull-up rack/socket semantics | Actual Blender/static sampling execution, evidence-backed classification, live-runtime capture of push-up/equipment contact, any warranted refinement and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; Stage 9 contact source bridge; Stage 10 read-only live-runtime discovery/cross-branch semantic verifier; INCOMPLETE real-engine evidence template | Exact green live-runtime commit, Phase 9 final asset evidence, actual model-specific runtime harness execution, contact/continuity capture and export round-trip evidence |
 | 11 | Review source/image hashes; matched boards; 57-view planning; deterministic mask QA contract/analyzer; coverage plan; empty explicit first-party reference inventory | Actual Phase 10-bound source images/masks, runtime-frame coverage, replay/reproducibility evidence, real reference entries and owner visual decisions |
+| 12 | Existing technical promotion verifier plus exact packet-bound eligibility receipt; final freeze contract/verifier; separate owner freeze-authorization requirement | All prior real evidence, final bare/dressed assets, green exact runtime release commit, OWNER ACCEPTED visual record, OWNER AUTHORISED PRODUCTION FREEZE record and controlled post-eligibility release operation |
 
 Queue missing deterministic tooling as GPT repo-side work before the corresponding
 Blender session. The packages define required inputs/outputs below; Claude should
@@ -104,3 +105,13 @@ Stage 11 prepares `ORIGINAL_V1_VISUAL_QA_CONTRACT.json`,
 mask evidence and separates CAPTURE_MISMATCH from measured silhouette regression.
 No reference is accepted yet; the registry is intentionally empty until actual
 owned Phase 10-bound captures exist.
+
+
+Stage 12 prepares `ORIGINAL_V1_FINAL_FREEZE_CONTRACT.json`,
+`scripts/verify_original_v1_final_freeze.py`,
+`RUN_ORIGINAL_V1_FINAL_FREEZE_CHECK.bat` and
+`PHASE_12_PRODUCTION_FREEZE.md`. The existing promotion receipt now binds the exact
+promotion-packet bytes/candidate/runtime. Final-freeze verification rechecks all
+Phase 4-11 exits and exact model/runtime/assets plus separate owner freeze
+authorization, but never changes production state. Current r29 is expected to be
+refused until the roadmap is genuinely complete.

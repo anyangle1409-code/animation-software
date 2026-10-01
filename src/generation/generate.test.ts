@@ -84,6 +84,24 @@ const CRUNCH = 'exercise: bodyweight crunch with controlled tempo';
 const SIT_UP = 'exercise: bodyweight sit-up with controlled tempo';
 const FARMERS_WALK = "exercise: farmer's walk with 24 kg dumbbells";
 
+const CLEAN_FALLBACK_CASES = [
+  [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
+  [PUSH_UP, 'horizontal_press', 'push_up'],
+  [BENCH_PRESS, 'supine', 'dumbbell_bench_press'],
+  [FLY, 'supine', 'dumbbell_fly'],
+  [CRUNCH, 'trunk_flexion', 'crunch'],
+  [SIT_UP, 'trunk_flexion', 'sit_up'],
+  [FARMERS_WALK, 'carry', 'farmers_walk'],
+  [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
+  [CALF_RAISE, 'calf', 'standing_calf_raise'],
+  [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
+  [ROW, 'row', 'dumbbell_bent_over_row'],
+  [LATERAL_RAISE, 'raise', 'dumbbell_lateral_raise'],
+  [FRONT_RAISE, 'raise', 'dumbbell_front_raise'],
+  [PULL_UP, 'vertical_pull', 'pull_up'],
+  [OVERHEAD_EXTENSION, 'extension', 'dumbbell_overhead_triceps_extension'],
+] as const;
+
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
 
@@ -388,52 +406,34 @@ describe('generating on the clean first-party fallback', () => {
     120_000,
   );
 
-  it(
-    'fully certifies clean-fallback examples for every certified movement family',
-    async () => {
-      for (const [prompt, family, reference] of [
-        [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
-        [PUSH_UP, 'horizontal_press', 'push_up'],
-        [BENCH_PRESS, 'supine', 'dumbbell_bench_press'],
-        [FLY, 'supine', 'dumbbell_fly'],
-        [CRUNCH, 'trunk_flexion', 'crunch'],
-        [SIT_UP, 'trunk_flexion', 'sit_up'],
-        [FARMERS_WALK, 'carry', 'farmers_walk'],
-        [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
-        [CALF_RAISE, 'calf', 'standing_calf_raise'],
-        [RDL, 'hinge', 'dumbbell_romanian_deadlift'],
-        [ROW, 'row', 'dumbbell_bent_over_row'],
-        [LATERAL_RAISE, 'raise', 'dumbbell_lateral_raise'],
-        [FRONT_RAISE, 'raise', 'dumbbell_front_raise'],
-        [PULL_UP, 'vertical_pull', 'pull_up'],
-        [OVERHEAD_EXTENSION, 'extension', 'dumbbell_overhead_triceps_extension'],
-      ] as const) {
-        const result = await generateExerciseAsync(prompt, { rig, library, character });
-        const detail = JSON.stringify({
-          prompt,
-          status: result.status,
-          failed: result.report?.failed,
-          skipped: result.report?.skipped,
-          checks: result.report?.checks.map((check) => ({
-            id: check.id,
-            status: check.status,
-            detail: check.detail,
-            measured: check.measured,
-          })),
-          corrections: result.corrections,
-          validations: result.validations,
-        });
-        expect(result.family?.id, detail).toBe(family);
-        expect(result.reference, detail).toBe(reference);
-        expect(result.status, detail).toBe('passed');
-        expect(result.report?.skipped, detail).toEqual([]);
-        expect(result.report?.failed, detail).toEqual([]);
-        expect(result.report?.checks.every((check) => check.status === 'pass'), detail).toBe(true);
-        expect(result.report?.character, detail).toBe(proceduralCharacter.label);
-        expect(result.validations, detail).toBeGreaterThan(0);
-      }
+  it.each(CLEAN_FALLBACK_CASES)(
+    'fully certifies clean-fallback example %s',
+    async (prompt, family, reference) => {
+      const result = await generateExerciseAsync(prompt, { rig, library, character });
+      const detail = JSON.stringify({
+        prompt,
+        status: result.status,
+        failed: result.report?.failed,
+        skipped: result.report?.skipped,
+        checks: result.report?.checks.map((check) => ({
+          id: check.id,
+          status: check.status,
+          detail: check.detail,
+          measured: check.measured,
+        })),
+        corrections: result.corrections,
+        validations: result.validations,
+      });
+      expect(result.family?.id, detail).toBe(family);
+      expect(result.reference, detail).toBe(reference);
+      expect(result.status, detail).toBe('passed');
+      expect(result.report?.skipped, detail).toEqual([]);
+      expect(result.report?.failed, detail).toEqual([]);
+      expect(result.report?.checks.every((check) => check.status === 'pass'), detail).toBe(true);
+      expect(result.report?.character, detail).toBe(proceduralCharacter.label);
+      expect(result.validations, detail).toBeGreaterThan(0);
     },
-    180_000,
+    60_000,
   );
 
   it(

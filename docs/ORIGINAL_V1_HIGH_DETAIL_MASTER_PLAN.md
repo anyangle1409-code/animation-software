@@ -184,7 +184,8 @@ NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
 | 3 | Later Phase 6–11 execution packages and evidence commands using existing exit contracts | PREPARED; domain-tool gaps explicit, all phases remain NOT STARTED |
 | 4 | Snapshot-based Phase 6 surface audit using the candidate's own raw geometry | PREPARED; actual snapshots and remaining domain reviews still required |
 | 5 | Revision-isolated candidate GLB export with exact source/settings hashes and collision refusal | PREPARED; actual Blender capture/validation required, no model acceptance |
-| 6 | Named raw garment snapshots, body-mask receipts and source-bound pair diagnostics, reusing existing change/surface audits | PREPARED; evaluated dressed motion/contact/review tooling remains open |
+| 6 | Named raw garment snapshots, body-mask receipts and source-bound pair diagnostics, reusing existing change/surface audits | PREPARED; actual Blender capture remains open |
+| 7 | Evaluated static dressed stress-pose clearance/intersection evidence plus matched bare/dressed review capture | PREPARED; actual Blender execution, contact classification and continuous dressed motion remain open |
 
 Stage 1 verifies candidate/script identity, exact target/bilateral coverage,
 finite measurements and agreement with the primary rounded metrics. It lists
@@ -215,3 +216,11 @@ Stage 6 raw garment foundation: `docs/work_packages/GARMENT_RAW_EVIDENCE_PROTOCO
 Actual snapshots require Blender; no garment modelling or Phase 7 completion is
 claimed. Next GPT preparation: evaluated dressed pose/contact and matched review
 capture. Current laptop task remains RUN r30.
+
+Stage 7 evaluated dressed evidence: `docs/work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md`.
+It reuses the frozen pose functions directly, measures full-body/garment evaluated
+surface relationships on all 15 stress poses and captures source-bound matched
+bare/dressed review pairs without changing the pose definitions or approving
+contact. Actual Blender execution is still required. Next GPT preparation is a
+continuous dressed range/contact sampler with explicit per-frame contact
+classification; current laptop deformation task remains RUN r30.

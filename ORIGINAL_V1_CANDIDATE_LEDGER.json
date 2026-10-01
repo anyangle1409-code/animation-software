@@ -5,6 +5,27 @@
   "historical_disposition_source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md",
   "candidates": [
     {
+      "revision": "R2",
+      "sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
+      "parent": "ee23c76f2849a45f9077236119a9e1e4e1116c1ef0dda2e6d751659f58647d44",
+      "change_type": "Pinned original deformation baseline",
+      "weight_solution": null,
+      "topology_change": null,
+      "development_failure_count": 54,
+      "regression_count": 0,
+      "improvement_count": 0,
+      "comparison_baselines": [],
+      "state": "experimental",
+      "reason": "Pinned baseline, not owner acceptance or production approval.",
+      "owner_review": "pending",
+      "evidence_location": "ORIGINAL_V1_WORK/candidates/pose_test_report_r2.json",
+      "visual_review_location": null,
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json",
+        "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
+      }
+    },
+    {
       "revision": "r3",
       "sha256": "fdc7605cebcc300c91c472e260a77a23adb888146dd63f0b1b11bbd017f421a0",
       "parent": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE.blend",

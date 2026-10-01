@@ -106,6 +106,10 @@
       "category": "verification",
       "note": "Offline standalone acceptance gate."
     },
+    "docs/ORIGINAL_V1_CHANGE_AUDIT_PROTOCOL.md": {
+      "category": "verification",
+      "note": "Mesh and raw weight snapshot/change evidence protocol; never approval."
+    },
     "docs/ORIGINAL_V1_CLEAN_ROOM_AUDIT.md": {
       "category": "verification",
       "note": "O1 clean-room audit contract."
@@ -114,6 +118,10 @@
       "category": "current_technical",
       "note": "Clean-room character requirements."
     },
+    "docs/ORIGINAL_V1_DAILY_STATUS.md": {
+      "category": "verification",
+      "note": "Generated phone dashboard from complete candidate reports and unchanged gates; no approval inference."
+    },
     "docs/ORIGINAL_V1_DATA_MIGRATION_MAP.md": {
       "category": "future_technical",
       "note": "Future production data migration planning."
@@ -121,6 +129,14 @@
     "docs/ORIGINAL_V1_GEOMETRY_INDEPENDENCE_GATE.md": {
       "category": "verification",
       "note": "Geometry independence acceptance gate."
+    },
+    "docs/ORIGINAL_V1_HIGH_DETAIL_ANATOMY_SPEC.md": {
+      "category": "future_technical",
+      "note": "Prepared Phase 5 original anatomy specification; not permission to skip development freeze."
+    },
+    "docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md": {
+      "category": "current_technical",
+      "note": "Single high-level ORIGINAL-v1 phase roadmap on the isolated model branch; cross-project precedence remains PROJECT_AUTHORITY."
     },
     "docs/ORIGINAL_V1_MOVEMENT_ENVELOPE_PLAN.md": {
       "category": "future_technical",
@@ -142,6 +158,14 @@
       "category": "future_technical",
       "note": "Scaffold design record; not production acceptance."
     },
+    "docs/ORIGINAL_V1_PRODUCTION_CONTROL_QUICKSTART.md": {
+      "category": "current_technical",
+      "note": "Shared GPT/Claude execution navigation, preflight and next-task sequence."
+    },
+    "docs/ORIGINAL_V1_PRODUCTION_PROMOTION_WORKFLOW.md": {
+      "category": "future_technical",
+      "note": "Fail-closed final eligibility packet and separate owner-authorised release workflow."
+    },
     "docs/ORIGINAL_V1_PROVENANCE.md": {
       "category": "supporting_reference",
       "note": "O1 provenance record."
@@ -149,6 +173,10 @@
     "docs/ORIGINAL_V1_SCAFFOLD_USAGE.md": {
       "category": "supporting_reference",
       "note": "O1 scaffold recovery/usage reference."
+    },
+    "docs/ORIGINAL_V1_VISUAL_REVIEW_SPEC.md": {
+      "category": "verification",
+      "note": "Actual render/source capture protocol and non-blocking review system."
     },
     "docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md": {
       "category": "current_technical",

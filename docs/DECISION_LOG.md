@@ -40,3 +40,18 @@ These decisions remain in force until deliberately reopened with new evidence an
 - The repository is authoritative, not GPT memory, Claude memory, or chat history.
 - GPT and Claude follow the same operating contract, reference rules, quality stack, and tests.
 - Old branches and historical handoffs are non-authoritative unless the current handoff explicitly names them.
+
+## ORIGINAL v1 roadmap and review policy — 2026-10-01
+
+Owner-authorised roadmap phases 0–12 and shared terminology are recorded in
+`docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`. R2 remains the pinned comparison
+baseline and canonical v4 remains frozen at 63 bones. High-detail Phase 5 awaits
+stable deformation/freeze; early O7 shorts do not mean Phase 7 completion.
+
+Review snapshots are non-blocking by default. Pending visual review never becomes
+acceptance by timeout or numerical optimisation. Safe reversible local experiments
+and read-only diagnostics proceed while review remains pending. Frozen rig/pose,
+baseline/gate changes or contradictory lineage stop only the affected task.
+Final production approval requires explicit final owner acceptance and every
+provenance, anatomy, topology, clothing, deformation/contact, runtime/QA and
+standalone release gate. Production-control tools cannot set approval flags.

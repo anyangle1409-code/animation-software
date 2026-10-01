@@ -14,7 +14,7 @@ LABELS = [('0','Provenance'),('1','Base body'),('2','Rig'),('3A','Shoulders'),
 def dashboard(s):
     nxt=s['next_action']
     lines=['# ORIGINAL v1 daily status (generated)', '',
-           'CURRENT PHASE',f"Phase {s['current_phase']} / {s['current_subphase']} — core deformation",'',
+           'CURRENT PHASE',f"Phase {s['current_phase']} / {s['current_subphase']}",'',
            'CURRENT CANDIDATE',f"{s['current_candidate']} — {s['candidate_classification']}; EXPERIMENTAL. R2 stays pinned.",
            f"SHA-256: `{s['last_known_candidate_sha256']}`",'',
            'DEVELOPMENT BLOCKERS',f"{s['development_failure_count']} failures; {len(s['unresolved_regressions'])} separate strict severity regressions versus R2.",'']

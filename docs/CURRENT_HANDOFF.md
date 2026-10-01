@@ -1,5 +1,7 @@
 # Current handoff
 
+> **MODEL BRANCH PICKUP — 2026-10-01:** On `claude/original-v1-blender-o2-20260929`, read `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`, `ORIGINAL_V1_HIGH_DETAIL_STATUS.json`, `docs/ORIGINAL_V1_DAILY_STATUS.md` and `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`. Run `RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat`; next is the existing r30/o22 experiment from verified r29. `docs/ORIGINAL_V1_PRODUCTION_CONTROL_QUICKSTART.md` gives the exact sequence. R2 remains pinned; production approval is false. Review snapshots are non-blocking by default. The runtime checkpoint below belongs to its separate branch and is retained as history on this isolated model branch; do not use it to restart O2 or shoulder exploration.
+
 ## Start here
 
 Active branch: `work/standalone-first-party-audit-20260927`.

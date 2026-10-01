@@ -1429,3 +1429,59 @@ The immediate objective remains:
 > while keeping ORIGINAL v1 independently authored and preserving the clean
 > standalone runtime boundary.
 
+
+## Shared production-control pickup — 2026-10-01
+
+The authoritative high-level roadmap is now
+`docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`. Read latest
+`ORIGINAL_V1_HIGH_DETAIL_STATUS.json`, generated
+`docs/ORIGINAL_V1_DAILY_STATUS.md` and `ORIGINAL_V1_CANDIDATE_LEDGER.json`.
+The old `ORIGINAL_V1_CANDIDATE_STATUS.json` intentionally remains the verified
+R2/export checkpoint contract; its shoulder-first instruction is historical.
+The new dashboard recomputes the complete r29 evidence: **7 failures**, four grip
+penetrations and three lunge failures, with **6 separate strict regressions vs R2**.
+It preserves r28/r29 comparisons and every rejected experimental checkpoint.
+
+Use `RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat`, then `RUN_ORIGINAL_V1_NEXT.bat`.
+`PREFLIGHT_CLAUDE_ORIGINAL_V1.bat` delegates to the new preflight. Next remains
+`RUN_ORIGINAL_V1_R30.bat`; no r30/o22 output has been produced by cloud preparation.
+Follow `docs/ORIGINAL_V1_PRODUCTION_CONTROL_QUICKSTART.md` and the Phase 3 packages.
+
+REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. The earlier blanket owner-decision
+wording for grip is superseded for safe read-only diagnosis and reversible local
+geometry experiments authorised by the owner. Frozen rig rest, handle/pose or gate
+changes still require a scoped evidence-backed decision. Never change them to
+manufacture a pass; continue wrist/lunge and other safe work while such a decision
+is unresolved. Routine image review never pauses autonomous work.
+
+Prepared tools/specs: phase 3B–3E and 5A–5G packages, full anatomy and visual-board
+specifications, Windows session checks, mesh/weight snapshot/change audits, actual
+image source manifests/comparison SVGs, and fail-closed future production eligibility.
+The pose renderer now records source SHA/camera/settings/image hashes; metrics and
+stress-pose definitions are unchanged. Existing local renders without those source
+manifests stay historical and must be recaptured under fresh labels for verified
+comparison. Compact repair coverage is not full milestone view coverage.
+
+No geometry, weights, candidate binaries, rig/rest, R2, threshold/tolerance,
+production flags, existing GLBs or runtime code was changed. The Phase 5 packages
+are preparation only. Windows/Blender execution and real runtime integration remain
+laptop/future gates; cloud tests do not close them.
+
+### Production-control verification evidence
+
+- Full Python unittest discovery: **63 passed**.
+- Generated high-detail status/ledger/dashboard exact reproduction: **PASS**.
+- Pinned R2 integrity: **PASS**; original R2/export status contract: **PASS**.
+- Existing bare/dressed candidate GLB structural audits: **PASS**.
+- Documentation manifest/hygiene and diff whitespace: **PASS**.
+- ORIGINAL-v1 Python syntax and unchanged stress-pose definition AST: **PASS**.
+- Windows preflight APIs, Blender captures/snapshots and real runtime: **NOT RUN**
+  in cloud; they remain their own execution gates.
+
+Prepared A–M outputs and their remaining execution boundaries are ticked in the
+master plan. Automated CI now checks production-control safety cases, exact
+regeneration, frozen baseline, candidate/export structure and doc classification.
+The r30 runner calls session preflight and regenerates high-detail status after
+successful evidence collection. Full-evidence iteration now stops immediately if
+any group fails, preventing a later group from concealing an earlier failure.
+No completed r30 exists and current r29 remains experimental with seven blockers.

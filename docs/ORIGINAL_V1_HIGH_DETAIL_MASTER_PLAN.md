@@ -113,13 +113,41 @@ reviews never silently become accepted.
 
 ## Repo-side implementation sequence
 
-- [ ] Roadmap and authority links; verify against r28/r29/R2 evidence.
-- [ ] Shared evidence parser, immutable candidate history, machine status and
+- [x] Roadmap and authority links; verify against r28/r29/R2 evidence.
+- [x] Shared evidence parser, immutable candidate history, machine status and
   deterministic phone dashboard; test incomplete/stale/conflicting evidence.
-- [ ] Next-action selector and read-only Windows session preflight; test collision,
+- [x] Next-action selector and read-only Windows session preflight; test collision,
   dirty/stale branch, source hashes and missing tools; do not launch modelling.
-- [ ] Phase 3/5 execution packages, original anatomy and visual protocol.
-- [ ] Mesh/weight snapshot audits and future fail-closed promotion verifier;
+- [x] Phase 3/5 execution packages, original anatomy and visual protocol.
+- [x] Mesh/weight snapshot audits and future fail-closed promotion verifier;
   test distant edits, cross-side weights, false/missing/stale approval evidence.
-- [ ] Verify deterministic regeneration and existing model gates, commit/push
+- [x] Verify deterministic regeneration and existing model gates, commit/push
   logical batches; state Windows/Blender checks not executed in cloud.
+
+## Repo-side preparation completion — 2026-10-01
+
+These ticks describe prepared repository controls, not model phase completion.
+
+| Package | Prepared output | Remaining execution boundary |
+|---|---|---|
+| [✅] A | This master roadmap | Future candidate/phase evidence updates |
+| [✅] B | Evidence-derived high-detail status | Regenerate after each committed candidate |
+| [✅] C | Deterministic daily phone dashboard | Actual Blender evidence comes from laptop |
+| [✅] D | Historical candidate ledger including R2/rejected/intermediate states | Never remove historical rejection evidence |
+| [✅] E | Read-only Windows session preflight | Real Windows/Blender/power availability not tested in cloud |
+| [✅] F | Ordered next-action selector / NEXT runner | Prints exact task; no automatic promotion |
+| [✅] G | 3B–3E local repair packages | Execute candidate experiments on laptop |
+| [✅] H | Shared non-blocking review contract | Owner decisions must be truthfully recorded |
+| [✅] I | Actual render-source manifests and previous/new SVG board generator | Recapture real renders; full rear/anatomy coverage still needed |
+| [✅] J | 22-region original anatomy specification | Phase 5 remains not started |
+| [✅] K | Seven Phase 5 regional modelling packages | Do not execute before stable foundation/freeze |
+| [✅] L | Raw model snapshot exporter and mesh/weight change audit | Blender snapshot execution and candidate correspondence |
+| [✅] M | Fail-closed production eligibility verifier/workflow | All final gates and owner acceptance remain open |
+
+Verification: 63 Python unittest cases pass; generated outputs reproduce exactly;
+pinned R2 verifier, R2/export candidate status verifier, candidate GLB structural
+audit and documentation hygiene pass. ORIGINAL-v1 Python syntax checks pass;
+original stress-pose AST remains identical apart from metadata-only import.
+No Windows/Blender execution, new candidate render or runtime integration was
+claimed. Repo controls use standard Python/project-owned code; no runtime
+package or production asset dependency was added.

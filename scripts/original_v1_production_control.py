@@ -102,7 +102,7 @@ def next_action(status, control):
                 'command':'RUN_ORIGINAL_V1_R30.bat','execution_parent':'r29'}
     diagnostics = f'{RC}/remaining_diagnostics_{rev}'
     refs = {x['path'] for x in status['latest_evidence']}
-    if not any(p.startswith(diagnostics+'/') for p in refs):
+    if not all(diagnostics+'/'+name in refs for name in ('edge_extremes.json','grip_penetration.json')):
         return {'action':'RUN remaining diagnostics','reason':'isolate wrist/grip/lunge locally before editing',
                 'command':f'RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat {rev}'}
     decision = control.get('continuation_decisions',{}).get(rev)
@@ -136,6 +136,11 @@ def build(root=ROOT):
     control = read(root,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
     for path, sha in control['frozen_inputs'].items():
         if digest(root/path)!=sha: raise ValueError('frozen input changed: '+path)
+    pose_pin = control.get('frozen_pose_definition')
+    if pose_pin:
+        prefix=(root/pose_pin['path']).read_text(encoding='utf-8').split('# ---------------------------------------------------------------- metrics',1)[0].replace('import hashlib\n','')
+        if hashlib.sha256(prefix.encode()).hexdigest()!=pose_pin['sha256']:
+            raise ValueError('frozen stress-pose definition changed')
     baseline = read(root,CAND+'/DEFORMATION_BASELINE_R2.json')
     baseline_path = baseline['inputs']['pose_report']['path']
     base_eval = evaluate(root,baseline_path)
@@ -198,8 +203,7 @@ def build(root=ROOT):
     for r in entries:
         if revision_key(r)[0]>revision_key(rev)[0] and r not in historic and r not in incomplete: incomplete.append(r)
     planned=control['planned_experiment']['revision']
-    if planned not in complete and ((root/CAND/control['planned_experiment']['solution']).exists() or
-         (root/f'{CAND}/weight_solutions/{control["planned_experiment"]["solution"]}').exists() or
+    if planned not in complete and ((root/f'{CAND}/weight_solutions/{control["planned_experiment"]["solution"]}').exists() or
          (root/f'{RC}/full_{planned}_merged_pose_report.json').exists()):
         if planned not in incomplete: incomplete.append(planned)
     ev = evaluate(root,current['evidence_location']); fails=ev['failures']
@@ -227,7 +231,11 @@ def build(root=ROOT):
     phases['3C']={'state':'blocked' if grip else 'complete','reason':'Bilateral equipment penetration must satisfy unchanged gates.'}
     phases['3D']={'state':'refinement' if wrist else 'blocked' if any(f['pose']=='pushup_bottom' for f in fails) else 'complete','reason':'Local wrist-extension severity regression versus R2.'}
     phases['3E']={'state':'blocked' if hip else 'complete','reason':'Lunge pelvis/torso collapse and stretch; repair local hip transition.'}
+    if not fails and not regs and all(phases[p]['state']=='complete' for p in ('3A','3B','3C','3D','3E')):
+        phases['3']={'state':'complete','reason':'All development subphases clear; no unresolved strict regressions.'}
     for n in range(4,13): phases[str(n)]={'state':'not_started','reason':'Required ordered exit evidence has not been recorded.'}
+    for p in ('5A','5B','5C','5D','5E','5F','5G'):
+        phases[p]={'state':'not_started','reason':'Regional anatomy package prepared; modelling not executed.'}
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
         if record:
@@ -250,8 +258,8 @@ def build(root=ROOT):
             # Diagnostics lacking source identity are visible but cannot select edits.
             if source==current['sha256']: refs.append(evidence(root,p.relative_to(root).as_posix()))
     status={'schema_version':1,'asset':'HomeGymPT_Male_ORIGINAL_v1','rig':'hgpt_canonical_v4_original',
-        'branch':control['branch'],'current_phase':3 if phases['4']['state']!='complete' else 5,
-        'current_subphase':'3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4'),
+        'branch':control['branch'],'current_phase':next((n for n in range(3,13) if phases[str(n)]['state']!='complete'),12),
+        'current_subphase':('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4')) if phases['4']['state']!='complete' else next((str(n) for n in range(5,13) if phases[str(n)]['state']!='complete'),'12'),
         'current_candidate':rev,'candidate_state':current['state'],'candidate_classification':current['classification'],
         'pinned_baseline':{'revision':'R2','id':baseline['baseline_id'],'candidate_sha256':baseline['candidate_sha256'],'evidence':evidence(root,CAND+'/DEFORMATION_BASELINE_R2.json')},
         'development_failure_count':ev['failure_count'],'development_failures':fails,
@@ -261,10 +269,18 @@ def build(root=ROOT):
         'latest_evidence':refs,'last_known_candidate_sha256':current['sha256'],
         'evidence_timestamp':current['evidence_timestamp'],'source_head':control['source_head'],
         'incomplete_candidates':sorted(set(incomplete),key=revision_key),
-        'what_changed':f'{rev}: '+current['change_type'],
-        'what_passed':[p+' DEVELOPMENT CLEAR' for p in ('3A','3B','3C','3D','3E') if phases[p]['state']=='complete'],
+        'what_changed':f"{rev}: solution {current['weight_solution'] or 'geometry edit'} on {current['parent'] or 'original source'}; candidate remains experimental.",
+        'what_passed':([p+' DEVELOPMENT CLEAR' for p in ('3A','3B','3C','3D','3E') if phases[p]['state']=='complete']
+                       + [pose+' DEVELOPMENT CLEAR (severity comparisons remain separate)' for pose in ('curl_peak','pushup_bottom') if not any(f['pose']==pose for f in fails)]),
         'note':'Derived from complete committed evidence; no visual acceptance or production promotion inferred.'}
     status['next_action']=next_action(status,control)
+    entries['R2']={'revision':'R2','sha256':baseline['candidate_sha256'],
+        'parent':baseline.get('source_o2_blend_sha256'),'change_type':'Pinned original deformation baseline',
+        'weight_solution':None,'topology_change':None,'development_failure_count':base_eval['failure_count'],
+        'regression_count':0,'improvement_count':0,'comparison_baselines':[],
+        'state':'experimental','reason':'Pinned baseline, not owner acceptance or production approval.',
+        'owner_review':'pending','evidence_location':baseline_path,'visual_review_location':None,
+        'manifest':evidence(root,CAND+'/DEFORMATION_BASELINE_R2.json')}
     ledger={'schema_version':1,'pinned_baseline':'R2','production_approved':False,
             'historical_disposition_source':control['historical_dispositions']['source'],
             'candidates':[entries[r] for r in sorted(entries,key=revision_key)]}

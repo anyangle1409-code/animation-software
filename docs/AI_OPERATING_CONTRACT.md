@@ -105,3 +105,23 @@ Stop the affected task and record the conflict instead of guessing if:
 ## Model independence
 
 Do not introduce GPT-specific or Claude-specific project rules. Both agents use the same repository authority, references, acceptance criteria, tests, and handoff format.
+
+## ORIGINAL v1 model coordination / review contract
+
+On the isolated model branch both workers read the same high-detail master plan,
+high-detail status, daily dashboard, candidate ledger and O4 handoff. PHASE,
+CANDIDATE, BASELINE, EXPERIMENTAL, DEVELOPMENT CLEAR, OWNER REVIEW/ACCEPTED/REJECTED,
+PRODUCTION APPROVED, REGRESSION, STRICT IMPROVEMENT, TRADE-OFF, REVIEW SNAPSHOT and
+FREEZE use the master plan definitions. R2, v4 structure and gates stay frozen.
+
+REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Publish only actual source-hash-bound
+candidate renders, record pending owner review and continue safe work. Pending
+review does not mean accepted. Pause only the affected task on explicit PAUSE,
+rejected direct parent, irreversible subjective choice without safe alternative,
+frozen structure/gate change, or contradictory lineage. Keep safe independent
+work moving. Final promotion still requires explicit owner acceptance of the final
+SHA and every required production/runtime/standalone gate.
+
+Before each edit/push recheck LIVE model branch HEAD. If it advanced, stop stale
+edits, read new commits and reconcile; never overwrite, force push or duplicate
+newer candidates. Commit precise manifests/evidence/state for the next worker.

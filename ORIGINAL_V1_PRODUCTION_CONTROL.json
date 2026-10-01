@@ -5,7 +5,8 @@
   "frozen_inputs": {
     "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95",
     "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
-    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768"
+    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
+    "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe"
   },
   "execution_parent": "r29",
   "planned_experiment": {
@@ -47,5 +48,10 @@
   ],
   "phase_completion_records": {},
   "continuation_decisions": {},
-  "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts."
+  "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
+  "frozen_pose_definition": {
+    "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+    "section": "before metrics; metadata-only hashlib import excluded",
+    "sha256": "fc0c76b50ee05a5684388273ab49ede93179def7aedac338dab7668948ae188e"
+  }
 }

@@ -45,8 +45,11 @@ A lower item must never silently override a higher item.
 - Physical browser/device parity: `docs/PHYSICAL_VIEWPORT_PARITY_HANDOFF.md`
 - ORIGINAL v1 Blender/model work: on the explicitly isolated branch
   `claude/original-v1-blender-o2-20260929`, the active repair authority is
-  `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`. Start with
-  `PREFLIGHT_CLAUDE_ORIGINAL_V1.bat` and
+  `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`. The single high-level model roadmap is
+  `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`; latest deformation state is
+  `ORIGINAL_V1_HIGH_DETAIL_STATUS.json` and the generated daily dashboard.
+  `ORIGINAL_V1_CANDIDATE_STATUS.json` continues to verify the R2/export checkpoint.
+  Start with `RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat` and
   `OPEN_ORIGINAL_V1_O4_GUARDED.bat`. The O2 handoff is setup/provenance
   history unless O4 explicitly requires recovery from it.
 - Clean-room character requirements: `docs/ORIGINAL_V1_CLEAN_ROOM_CHARACTER_BRIEF.md`

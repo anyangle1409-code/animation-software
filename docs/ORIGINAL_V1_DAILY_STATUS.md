@@ -1,7 +1,7 @@
 # ORIGINAL v1 daily status (generated)
 
 CURRENT PHASE
-Phase 3 / 3B — core deformation
+Phase 3 / 3B
 
 CURRENT CANDIDATE
 r29 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
@@ -19,10 +19,12 @@ DEVELOPMENT BLOCKERS
 - pullup_bar / grip_r / grip_max_penetration_mm: 5.93 (<= 2.0)
 
 WHAT CHANGED
-r29: O4 candidate shoulder weight optimisation (not production)
+r29: solution o21.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29a_pip_relax.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
+- curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)
+- pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)
 
 PENDING OWNER REVIEWS
 - O2 neutral anatomy — pending, NON-BLOCKING.

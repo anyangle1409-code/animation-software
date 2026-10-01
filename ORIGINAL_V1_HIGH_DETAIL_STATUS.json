@@ -146,6 +146,34 @@
     "12": {
       "state": "not_started",
       "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "5A": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5B": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5C": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5D": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5E": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5F": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
+    },
+    "5G": {
+      "state": "not_started",
+      "reason": "Regional anatomy package prepared; modelling not executed."
     }
   },
   "unresolved_regressions": [
@@ -256,9 +284,11 @@
   "evidence_timestamp": "2026-09-30T23:03:40.828334+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r29: O4 candidate shoulder weight optimisation (not production)",
+  "what_changed": "r29: solution o21.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29a_pip_relax.blend; candidate remains experimental.",
   "what_passed": [
-    "3A DEVELOPMENT CLEAR"
+    "3A DEVELOPMENT CLEAR",
+    "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)",
+    "pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)"
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {

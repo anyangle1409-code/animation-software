@@ -32,6 +32,10 @@ class ControlTests(unittest.TestCase):
         td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
         root = Path(td.name)
         shutil.copytree(ROOT/'ORIGINAL_V1_WORK', root/'ORIGINAL_V1_WORK')
+        (root/'src/rig').mkdir(parents=True)
+        shutil.copy(ROOT/'src/rig/canonicalV4Original.ts',root/'src/rig/canonicalV4Original.ts')
+        (root/'scripts').mkdir()
+        shutil.copy(ROOT/'scripts/pose_test_original_v1_o4_candidate_blender.py',root/'scripts/pose_test_original_v1_o4_candidate_blender.py')
         for p in ROOT.glob('ORIGINAL_V1*.json'): shutil.copy(p, root/p.name)
         return root
 
@@ -73,5 +77,41 @@ class ControlTests(unittest.TestCase):
         d = json.loads(p.read_text()); d['profiles']['development_blocker']['grip_max_penetration_mm'] = 6
         p.write_text(json.dumps(d))
         with self.assertRaisesRegex(ValueError,'frozen'): c.build(root)
+
+    def test_next_action_requires_both_source_bound_diagnostics(self):
+        c=self.module();status,_=c.build(ROOT)
+        status['current_candidate']='r30';status['incomplete_candidates']=[]
+        status['latest_evidence']=[{'path':c.RC+'/remaining_diagnostics_r30/edge_extremes.json'}]
+        control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        self.assertEqual(c.next_action(status,control)['action'],'RUN remaining diagnostics')
+
+    def test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery(self):
+        c=self.module();status,_=c.build(ROOT)
+        status['current_candidate']='r30';status['incomplete_candidates']=[]
+        status['latest_evidence']=[{'path':c.RC+'/remaining_diagnostics_r30/'+n} for n in ('edge_extremes.json','grip_penetration.json')]
+        status['phases']['3B']['state']='complete'
+        control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
+        self.assertEqual(c.next_action(status,control)['action'],'REPAIR wrist')
+        status['phases']['3D']['state']='complete'
+        self.assertEqual(c.next_action(status,control)['action'],'REPAIR grip/thumb')
+        status['phases']['3C']['state']='complete'
+        self.assertEqual(c.next_action(status,control)['action'],'REPAIR lunge')
+
+    def test_zero_blockers_cannot_hide_inherited_regressions(self):
+        c=self.module();status,_=c.build(ROOT)
+        status['current_candidate']='r30';status['incomplete_candidates']=[]
+        status['latest_evidence']=[{'path':c.RC+'/remaining_diagnostics_r30/'+n} for n in ('edge_extremes.json','grip_penetration.json')]
+        for p in ('3B','3C','3D','3E'):status['phases'][p]['state']='complete'
+        status['development_failure_count']=0
+        control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
+        self.assertEqual(c.next_action(status,control)['action'],'RECONCILE freeze regressions')
+
+    def test_frozen_stress_pose_drift_is_refused(self):
+        c=self.module();root=self.fixture()
+        p=root/'scripts/pose_test_original_v1_o4_candidate_blender.py'
+        p.write_text(p.read_text().replace('ONLY = set(', 'ONLY = frozenset(',1))
+        with self.assertRaisesRegex(ValueError,'frozen stress-pose'):c.build(root)
 
 if __name__ == '__main__': unittest.main()

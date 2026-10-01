@@ -217,3 +217,13 @@ static dressed evidence file. The default contact-classification template leaves
 all real findings UNCLASSIFIED and cannot grant a PASS. The sampler deliberately
 omits unsupported continuous push-up and moving-equipment paths rather than
 inventing them. It does not supersede RUN r30 or prove runtime biomechanics.
+
+
+Stage 9 first-party contact source bridging is prepared in
+`work_packages/CONTACT_SOURCE_BRIDGE_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.bat`. It verifies current source semantics
+and SHA-256 evidence for push-up floor locks, hand-driven curl dumbbells and the
+fixed pull-up rack/socket contact model. It does not run the solver, does not add
+Blender poses and does not declare this model branch to be the live runtime. Use
+it later as a fail-closed comparison contract when Phase 10 discovers the actual
+standalone runtime commit. It does not supersede RUN r30.

@@ -56,6 +56,12 @@ class ExecutionOrchestrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "selector command differs"):
             o.select_node(plan, state)
 
+    def test_operational_tool_artifacts_are_validated(self):
+        plan=self.plan()
+        info=o.validate_plan(o.ROOT,plan)
+        self.assertIn("session_start",plan["operational_tools"])
+        self.assertGreater(info["artifact_count"],0)
+
     def test_unknown_support_stage_refused(self):
         plan = self.plan()
         plan = copy.deepcopy(plan)

@@ -1943,3 +1943,15 @@ z-buffer PGM mask generation for model-side visual QA; and a read-only end-of-se
 checker for pushed/clean/partial recovery state. None of these tools execute later
 roadmap phases early or alter current model evidence. Current actual action remains
 `RUN_ORIGINAL_V1_R30.bat` after normal preflight.
+
+
+### Final laptop-acceleration closure — 2026-10-01
+
+Added candidate evidence closure, real-review package indexing, local Blend
+identity inventory, combined candidate handoff summary, compact live Claude brief,
+single read-only Claude start/end wrappers and an optional collision-safe local
+Blend recovery-copy command. Session close now explicitly refuses a missing or
+hash-mismatched current complete Blend. The backup destination must be outside the
+repository and fresh; copied bytes are re-hashed and are recovery-only, never
+production evidence. See `work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. Current
+actual model work remains r29 / Phase 3B -> `RUN_ORIGINAL_V1_R30.bat`.

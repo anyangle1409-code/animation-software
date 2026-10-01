@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "branch": "claude/original-v1-blender-o2-20260929",
+  "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
+  "frozen_inputs": {
+    "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
+    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768"
+  },
+  "execution_parent": "r29",
+  "planned_experiment": {
+    "revision": "r30",
+    "parent": "r29",
+    "solution": "o22.npz",
+    "runner": "RUN_ORIGINAL_V1_R30.bat"
+  },
+  "historical_dispositions": {
+    "rejected": [
+      "r15",
+      "r16",
+      "r17",
+      "r18",
+      "r19",
+      "r20",
+      "r21",
+      "r22",
+      "r23",
+      "r25",
+      "r27"
+    ],
+    "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md",
+    "reason": "Historical experimental rejection recorded in O4 handoff; not owner visual rejection."
+  },
+  "owner_reviews": [
+    {
+      "checkpoint": "O2 neutral anatomy",
+      "owner_review": "pending",
+      "blocking": false,
+      "source": "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md"
+    },
+    {
+      "checkpoint": "O4 deformation candidates",
+      "owner_review": "pending",
+      "blocking": false,
+      "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    }
+  ],
+  "phase_completion_records": {},
+  "continuation_decisions": {},
+  "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts."
+}

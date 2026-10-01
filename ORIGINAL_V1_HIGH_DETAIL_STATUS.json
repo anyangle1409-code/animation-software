@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "branch": "claude/original-v1-blender-o2-20260929",
+  "current_phase": 3,
+  "current_subphase": "3B",
+  "current_candidate": "r29",
+  "candidate_state": "experimental",
+  "candidate_classification": "TRADE-OFF",
+  "pinned_baseline": {
+    "revision": "R2",
+    "id": "original_v1_o4_r2_20260930",
+    "candidate_sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
+    "evidence": {
+      "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json",
+      "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
+    }
+  },
+  "development_failure_count": 7,
+  "development_failures": [
+    {
+      "pose": "lunge",
+      "region": "pelvis",
+      "metric": "region_max_ratio",
+      "value": 7.559,
+      "rule": "<= 5.0"
+    },
+    {
+      "pose": "lunge",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "value": 0.12,
+      "rule": ">= 0.15"
+    },
+    {
+      "pose": "lunge",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "value": 7.2,
+      "rule": "<= 5.0"
+    },
+    {
+      "pose": "curl_handle",
+      "region": "grip_l",
+      "metric": "grip_max_penetration_mm",
+      "value": 5.93,
+      "rule": "<= 2.0"
+    },
+    {
+      "pose": "curl_handle",
+      "region": "grip_r",
+      "metric": "grip_max_penetration_mm",
+      "value": 5.93,
+      "rule": "<= 2.0"
+    },
+    {
+      "pose": "pullup_bar",
+      "region": "grip_l",
+      "metric": "grip_max_penetration_mm",
+      "value": 5.93,
+      "rule": "<= 2.0"
+    },
+    {
+      "pose": "pullup_bar",
+      "region": "grip_r",
+      "metric": "grip_max_penetration_mm",
+      "value": 5.93,
+      "rule": "<= 2.0"
+    }
+  ],
+  "production_failure_count": 109,
+  "production_approved": false,
+  "phases": {
+    "0": {
+      "state": "complete",
+      "reason": "Verified foundation checkpoint; visual acceptance tracked separately.",
+      "evidence_source": "ORIGINAL_V1_CANDIDATE_STATUS.json#o1_clean_scaffold_provenance"
+    },
+    "1": {
+      "state": "complete",
+      "reason": "Verified foundation checkpoint; visual acceptance tracked separately.",
+      "evidence_source": "ORIGINAL_V1_CANDIDATE_STATUS.json#o2_neutral_numeric"
+    },
+    "2": {
+      "state": "complete",
+      "reason": "Verified foundation checkpoint; visual acceptance tracked separately.",
+      "evidence_source": "ORIGINAL_V1_CANDIDATE_STATUS.json#canonical_v4_structure"
+    },
+    "3": {
+      "state": "active",
+      "reason": "Core deformation foundation still under repair."
+    },
+    "3A": {
+      "state": "complete",
+      "reason": "Development clear; inherited R2 severity regressions remain separate."
+    },
+    "3B": {
+      "state": "active",
+      "reason": "Recover finger minima without losing curl_peak clearance."
+    },
+    "3C": {
+      "state": "blocked",
+      "reason": "Bilateral equipment penetration must satisfy unchanged gates."
+    },
+    "3D": {
+      "state": "refinement",
+      "reason": "Local wrist-extension severity regression versus R2."
+    },
+    "3E": {
+      "state": "blocked",
+      "reason": "Lunge pelvis/torso collapse and stretch; repair local hip transition."
+    },
+    "4": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "5": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "6": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "7": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "8": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "9": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "10": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "11": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    },
+    "12": {
+      "state": "not_started",
+      "reason": "Required ordered exit evidence has not been recorded."
+    }
+  },
+  "unresolved_regressions": [
+    {
+      "kind": "severity",
+      "name": "press_bottom",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.577,
+      "candidate": 0.548,
+      "delta": -0.028999999999999915,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "press_bottom",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline": 0.943,
+      "candidate": 0.889,
+      "delta": -0.05399999999999994,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "press_top",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline": 0.886,
+      "candidate": 0.823,
+      "delta": -0.06300000000000006,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_top",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.694,
+      "candidate": 0.67,
+      "delta": -0.02399999999999991,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_top",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline": 0.883,
+      "candidate": 0.861,
+      "delta": -0.02200000000000002,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pushup_bottom",
+      "region": "hand",
+      "metric": "region_max_ratio",
+      "baseline": 1.915,
+      "candidate": 2.032,
+      "delta": 0.11699999999999999,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    }
+  ],
+  "pending_owner_reviews": [
+    {
+      "checkpoint": "O2 neutral anatomy",
+      "owner_review": "pending",
+      "blocking": false,
+      "source": "docs/ORIGINAL_V1_O2_WORK_HANDOFF.md"
+    },
+    {
+      "checkpoint": "O4 deformation candidates",
+      "owner_review": "pending",
+      "blocking": false,
+      "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    }
+  ],
+  "latest_evidence": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_merged_pose_report.json",
+      "sha256": "7750c9d7bb09e9b0b06c61795bd6c5ec40c350e99ff458256773ddf5dee49762"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r29.json",
+      "sha256": "d4bf23dcbb68f83d6c81bb78fa58dd01a36a4cfce21a729d1a7d6780fdc1b29f"
+    },
+    {
+      "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
+      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_comparison_vs_R2.json",
+      "sha256": "57957d5d71f89531f12100b4c5e31416fd3bd38b5379b19ec18820f73a514dcd"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r29_comparison_vs_r28.json",
+      "sha256": "d319d91fd86d1ccfeffb6103a28c44b3bd976ed7e3feb1aa990f393bd76eb4c4"
+    }
+  ],
+  "last_known_candidate_sha256": "d9b24e75fa6f2eb4c8999787fd925d5986f236691e00c9d251be3f0f061d7574",
+  "evidence_timestamp": "2026-09-30T23:03:40.828334+00:00",
+  "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
+  "incomplete_candidates": [],
+  "what_changed": "r29: O4 candidate shoulder weight optimisation (not production)",
+  "what_passed": [
+    "3A DEVELOPMENT CLEAR"
+  ],
+  "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
+  "next_action": {
+    "action": "RUN r30",
+    "reason": "authorised finger-minimum recovery, preserving curl_peak clearance",
+    "command": "RUN_ORIGINAL_V1_R30.bat",
+    "execution_parent": "r29"
+  }
+}

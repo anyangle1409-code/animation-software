@@ -11,7 +11,7 @@ execution. Do not call an early O-stage checkpoint a later production gate.
 | 8 | Repeatable bare-body milestone cameras and actual-image comparison boards | Candidate-bound scene/material inventory, numeric material/presentation state capture, dressed/application-distance capture and readability review |
 | 9 | Unchanged production_target evaluator for all 15 static stress poses; grip/floor metrics; deterministic six-path dressed range sampler; first-party contact source bridge for push-up endpoints, hand-driven dumbbells and fixed pull-up rack/socket semantics | Actual Blender/static sampling execution, evidence-backed classification, live-runtime capture of push-up/equipment contact, any warranted refinement and final export identity binding |
 | 10 | Revision-isolated source-bound REST exporter and GLB structural auditor; Stage 9 contact source bridge; Stage 10 read-only live-runtime discovery/cross-branch semantic verifier; INCOMPLETE real-engine evidence template | Exact green live-runtime commit, Phase 9 final asset evidence, actual model-specific runtime harness execution, contact/continuity capture and export round-trip evidence |
-| 11 | Review source/image hashes; matched boards; coverage plan; stable bare capture protocol | Runtime-bound frame capture and actual visual defect tests with coverage/limits, reproducibility checks and a first-party reference inventory |
+| 11 | Review source/image hashes; matched boards; 57-view planning; deterministic mask QA contract/analyzer; coverage plan; empty explicit first-party reference inventory | Actual Phase 10-bound source images/masks, runtime-frame coverage, replay/reproducibility evidence, real reference entries and owner visual decisions |
 
 Queue missing deterministic tooling as GPT repo-side work before the corresponding
 Blender session. The packages define required inputs/outputs below; Claude should
@@ -93,3 +93,14 @@ standalone branch at e3a7d915... with v4 source active but exact-SHA standalone
 verification failing legacy skeleton parity by 0.02 m; therefore it is explicitly
 not integration-ready. A future changed runtime HEAD gets UNKNOWN CI until its own
 exact-SHA gates are inspected.
+
+
+Stage 11 prepares `ORIGINAL_V1_VISUAL_QA_CONTRACT.json`,
+`ORIGINAL_V1_VISUAL_QA_COVERAGE_PLAN.json`,
+`ORIGINAL_V1_VISUAL_QA_CAPTURE_TEMPLATE.json`,
+`ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json`,
+`scripts/original_v1_visual_qa.py`, `RUN_ORIGINAL_V1_VISUAL_QA.bat` and
+`VISUAL_QA_PROTOCOL.md`. It separates immutable source imagery from deterministic
+mask evidence and separates CAPTURE_MISMATCH from measured silhouette regression.
+No reference is accepted yet; the registry is intentionally empty until actual
+owned Phase 10-bound captures exist.

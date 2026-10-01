@@ -153,7 +153,7 @@ class FinalFreezeTests(unittest.TestCase):
             "unresolved_regressions": [],
             "incomplete_candidates": [],
             "phases": {str(n): {"state": "complete"} for n in range(13)},
-            "latest_evidence": [{"path": "merged_pose_report.json"}],
+            "latest_evidence": [{"path": "fixture_merged_pose_report.json"}],
         }
         return packet, state
 

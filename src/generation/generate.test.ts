@@ -30,6 +30,8 @@ import { supineFamily } from '../exercises/families/supine';
 import type { SupineVariant } from '../exercises/families/supine';
 import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
 import type { TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
+import { carryFamily } from '../exercises/families/carry';
+import type { CarryVariant } from '../exercises/families/carry';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -46,6 +48,7 @@ import { dumbbellBenchPress } from '../exercises/definitions/dumbbellBenchPress'
 import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
 import { crunch } from '../exercises/definitions/crunch';
 import { sitUp } from '../exercises/definitions/sitUp';
+import { farmersWalk } from '../exercises/definitions/farmersWalk';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -79,6 +82,7 @@ const BENCH_PRESS = 'exercise: dumbbell bench press with 16 kg dumbbells and con
 const FLY = 'exercise: dumbbell fly with 10 kg dumbbells and controlled tempo';
 const CRUNCH = 'exercise: bodyweight crunch with controlled tempo';
 const SIT_UP = 'exercise: bodyweight sit-up with controlled tempo';
+const FARMERS_WALK = "exercise: farmer's walk with 24 kg dumbbells";
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -147,6 +151,24 @@ describe('generating without a character', () => {
   it('reproduces the accepted crunch and sit-up motion from family defaults', () => {
     expect(motionOf(generateExercise('a crunch', options).exercise!)).toEqual(motionOf(crunch));
     expect(motionOf(generateExercise('a sit-up', options).exercise!)).toEqual(motionOf(sitUp));
+  });
+
+  it("builds the farmer's walk from the carry family without rewriting the gait", () => {
+    const result = generateExercise(FARMERS_WALK, options);
+    expect(result.family?.id).toBe('carry');
+    expect(result.exercise).toEqual(carryFamily(result.variant as CarryVariant));
+    expect(result.reference).toBe('farmers_walk');
+    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([24, 24]);
+    expect(result.exercise?.travel).toEqual(farmersWalk.travel);
+    expect(result.exercise?.phases.map((phase) => phase.duration)).toEqual(
+      farmersWalk.phases.map((phase) => phase.duration),
+    );
+  });
+
+  it("reproduces the accepted farmer's-walk motion from family defaults", () => {
+    expect(motionOf(generateExercise("a farmer's walk", options).exercise!)).toEqual(
+      motionOf(farmersWalk),
+    );
   });
 
   it('builds the standard push-up from the horizontal-press family', () => {
@@ -376,6 +398,7 @@ describe('generating on the clean first-party fallback', () => {
         [FLY, 'supine', 'dumbbell_fly'],
         [CRUNCH, 'trunk_flexion', 'crunch'],
         [SIT_UP, 'trunk_flexion', 'sit_up'],
+        [FARMERS_WALK, 'carry', 'farmers_walk'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
         [CALF_RAISE, 'calf', 'standing_calf_raise'],
         [RDL, 'hinge', 'dumbbell_romanian_deadlift'],

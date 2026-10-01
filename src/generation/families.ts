@@ -25,6 +25,8 @@ import { supineFamily } from '../exercises/families/supine';
 import type { SupineMotion, SupineVariant } from '../exercises/families/supine';
 import { trunkFlexionFamily } from '../exercises/families/trunkFlexion';
 import type { FlexionMotion, TrunkFlexionVariant } from '../exercises/families/trunkFlexion';
+import { carryFamily } from '../exercises/families/carry';
+import type { CarryVariant } from '../exercises/families/carry';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1478,6 +1480,110 @@ const trunkFlexion: GeneratorFamily<TrunkFlexionVariant> = {
   levers: [],
 };
 
+
+// ---------------------------------------------------------------------------
+// Farmer's walk / carry
+// ---------------------------------------------------------------------------
+
+/**
+ * The accepted bilateral dumbbell farmer's walk is certified here. The carry
+ * family owns the gait, foot IK, travel speed, trunk counter-rotation and arm
+ * clearance; generation selects only load while preserving that gait.
+ *
+ * The family's phases have explicit 0.6 s step durations, so a prompt tempo
+ * cannot safely override them yet. Tempo requests are blocked rather than
+ * accepted and silently ignored.
+ */
+const carry: GeneratorFamily<CarryVariant> = {
+  id: 'carry',
+  label: "Farmer's walk",
+  builder: 'carryFamily',
+  detect: /\bfarmer(?:'s|s)?\s+(?:walk|carry)\b/,
+  library: ['farmers_walk'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+
+    unsupportedNames(
+      slots,
+      [
+        [/\b(?:suitcase|waiter|overhead|front[-\s]?rack|rack)\b/, 'that changes the load position or makes the carry unilateral; only the bilateral load-at-the-sides farmer\'s walk is certified.'],
+        [/\b(?:trap[-\s]?bar|hex[-\s]?bar)\b/, 'the certified carry uses one dumbbell in each hand; a trap/hex bar changes the grip and equipment path.'],
+        [/\b\d+(?:\.\d+)?\s*(?:m|metres?|meters?|ft|feet|yards?)\b/, 'distance prescriptions are not encoded in the looping clip; the family exports travel speed instead.'],
+      ],
+      issues,
+    );
+
+    const grip = interpretGrip(slots, null, 'neutral', assumptions, issues);
+    if (grip !== 'neutral') {
+      issues.push(
+        blocking(
+          'grip',
+          "The certified farmer's walk carries the dumbbells at the sides with a neutral grip.",
+        ),
+      );
+    }
+
+    const support = interpretSupport(slots, ['standing'], "farmer's walk", assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the farmer's walk has no adjustable support angle.`,
+        ),
+      );
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      "farmer's walk",
+      'dumbbell',
+      24,
+      assumptions,
+      issues,
+    );
+
+    if (slots.tempo.length > 0) {
+      issues.push(
+        blocking(
+          'tempo',
+          "The carry family's gait is certified at its fixed 0.6 s step timing; requested tempo variants are not certified yet.",
+        ),
+      );
+    }
+
+    return {
+      intent: {
+        prompt,
+        family: 'carry',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip: 'neutral',
+        support,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    return {
+      ...identity("Farmer's Walk", intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A bilateral dumbbell farmer's walk with ${formatLoad(intent.load)} in each hand, ` +
+        'using the family-certified two-step gait and exported travel speed.',
+      mass: intent.load,
+    };
+  },
+
+  build: carryFamily,
+  reference: () => 'farmers_walk',
+  levers: [],
+};
+
 // ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
@@ -1582,6 +1688,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   horizontalPress as unknown as GeneratorFamily,
   supine as unknown as GeneratorFamily,
   trunkFlexion as unknown as GeneratorFamily,
+  carry as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,

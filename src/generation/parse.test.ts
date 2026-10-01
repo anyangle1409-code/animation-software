@@ -115,6 +115,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('lying crunch').intent?.support).toBe('floor');
   });
 
+  it("reads the bilateral dumbbell farmer's walk", () => {
+    const parsed = parsePrompt("exercise: farmer's walk with 24 kg dumbbells");
+    expect(parsed.issues).toEqual([]);
+    expect(parsed.intent).toMatchObject({
+      family: 'carry',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'neutral',
+      support: 'standing',
+      load: 24,
+      tempo: { profile: 'family' },
+    });
+  });
+
   it('reads the bodyweight squat', () => {
     const parsed = parsePrompt('Create a bodyweight squat with a slow tempo.');
     expect(parsed.issues).toEqual([]);
@@ -243,6 +257,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('standing crunch')).toEqual(['support']);
     expect(blocking('crunch with 10 kg')).toEqual(['load']);
     expect(blocking('crunch with palms down')).toEqual(['grip']);
+    expect(blocking("single-arm farmer's walk")).toEqual(['execution']);
+    expect(blocking("barbell farmer's walk")).toEqual(['equipment']);
+    expect(blocking("seated farmer's walk")).toEqual(['support']);
+    expect(blocking("farmer's walk with palms down")).toEqual(['grip']);
+    expect(blocking("farmer's walk with controlled tempo")).toEqual(['tempo']);
+    expect(blocking("farmer's walk for 20 m")).toEqual(['variant']);
+    expect(blocking('suitcase carry')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -254,7 +275,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', "farmer's walk", 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'russian twist', 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

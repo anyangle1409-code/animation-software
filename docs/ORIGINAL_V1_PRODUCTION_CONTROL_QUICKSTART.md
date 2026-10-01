@@ -305,3 +305,14 @@ It captures modifier properties, shape keys/drivers, custom-normal state, groups
 attributes, libraries and material/image references and verifies the operation
 chain. Dressed motion/contact evidence still comes from the existing Stage 7/8
 tools. Current work remains Phase 3/r30.
+
+
+### Phase 8 material/presentation gap closure
+
+After Phase 7 completes, fill the actual owned numeric material record from
+`ORIGINAL_V1_PHASE8_MATERIAL_PROVENANCE_TEMPLATE.json`, then run
+`RUN_ORIGINAL_V1_PHASE8_PRESENTATION.bat <rN> <material-provenance.json> <fresh-output-dir>`.
+Use `ORIGINAL_V1_PHASE8_PRESENTATION_CAPTURE_PLAN.json` for the required real
+bare/dressed app-distance and close-up review renders. Image textures/HDRIs and
+linked material resources are rejected by the prepared verifier. Readability is
+still a real review, not an automated PASS. Current work remains Phase 3/r30.

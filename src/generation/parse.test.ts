@@ -404,6 +404,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 
+  it('does not ignore explicit left/right lower-limb execution wording', () => {
+    expect(blocking('exercise: forward lunge with right leg')).toEqual(['execution']);
+    expect(blocking('exercise: left-foot split squat')).toEqual(['execution']);
+    expect(blocking('exercise: calf raise on the right foot')).toEqual(['execution']);
+    expect(blocking('exercise: Romanian deadlift using left leg')).toEqual(['execution']);
+  });
+
   it('does not silently discard malformed or unsupported tempo directives', () => {
     expect(blocking('exercise: dumbbell curl tempo 30x0')).toEqual(['tempo']);
     expect(blocking('exercise: dumbbell curl tempo 3-1-2')).toEqual(['tempo']);

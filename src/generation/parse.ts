@@ -69,6 +69,8 @@ const UNSUPPORTED_STANCE_WIDTH =
   /\b(?:wide|narrow|close|staggered)[-\s]+stance\b|\b(?:feet|foot)\s+(?:wide|wider|close|closer|together)\b/;
 const UNSUPPORTED_GRIP_WIDTH =
   /\b(?:wide|narrow|close)[-\s]+grip\b|\bhands?\s+(?:wide|wider|close|closer|together)\b/;
+const UNSUPPORTED_LOWER_SIDE =
+  /\b(?:left|right)[-\s]?(?:leg|foot)(?:ed)?\b|\b(?:on|with|using)\s+(?:the\s+)?(?:left|right)\s+(?:leg|foot)\b/;
 
 export function parsePrompt(prompt: string): ParsedPrompt {
   const slots = readSlots(prompt);
@@ -212,6 +214,21 @@ export function parsePrompt(prompt: string): ParsedPrompt {
       issues: [{
         code: 'variant',
         message: `"${unsupportedStance[0]}": stance-width/offset changes are not prompt-parameterised by the certified families and cannot be replaced with the family default stance.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const unsupportedLowerSide = slots.text.match(UNSUPPORTED_LOWER_SIDE);
+  if (unsupportedLowerSide) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'execution',
+        message:
+          `"${unsupportedLowerSide[0]}": explicit left/right leg or foot execution is not encoded by the current certified repetition and cannot be replaced with the even/default side pattern.`,
         blocking: true,
       }],
     };

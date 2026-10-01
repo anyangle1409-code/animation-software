@@ -18,11 +18,14 @@ Use the prepared `DRESSED_RANGE_CONTACT_PROTOCOL.md` and
 It supplies six source-bound body/garment/floor sampling paths, exact sample times,
 raw intersection/clearance/floor evidence and an explicit per-sample classification
 record. Actual Blender execution and evidence-backed classification are still
-required. Push-up support motion and moving equipment contact remain open because
-the current frozen stress set lacks valid continuous source endpoints/transforms;
-do not synthesize them. Phase 9 still requires those missing paths, any warranted
-refinement and real runtime evidence. Stress interpolation is model range testing,
-not evidence of accurate runtime exercise biomechanics.
+required. For the deliberately unsupported push-up/equipment paths, use
+`CONTACT_SOURCE_BRIDGE_PROTOCOL.md`: it verifies the project-owned runtime source
+semantics without recreating them as Blender poses. Push-up must use its real
+Top↔Bottom solver path with fixed hand/toe contacts; curl equipment must follow
+real evaluated hand matrices; pull-up uses a fixed rack/socket frame. Phase 9/10
+still require real live-runtime capture, any warranted refinement and exact export
+identity. Stress interpolation is model range testing, not evidence of accurate
+runtime exercise biomechanics.
 
 Cover curl, press bottom/top, pull-up hang/top, squat, lunge, push-up and row with
 bare and dressed streams. Inspect thumb/web handles, palm/floor, groin/hip and

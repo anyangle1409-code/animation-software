@@ -208,3 +208,12 @@ Static evaluated clothing evidence is now prepared in
 raw pair receipt and produces EVIDENCE_ONLY static clearance/intersection metrics
 plus matched bare/dressed review pairs. It does not supersede RUN r30, classify
 legitimate contact, prove continuous dressed motion or complete Phase 7.
+
+
+Stage 8 sampled dressed range/contact tooling is prepared in
+`work_packages/DRESSED_RANGE_CONTACT_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_DRESSED_RANGE.bat`. It requires a same-candidate verified Stage 7
+static dressed evidence file. The default contact-classification template leaves
+all real findings UNCLASSIFIED and cannot grant a PASS. The sampler deliberately
+omits unsupported continuous push-up and moving-equipment paths rather than
+inventing them. It does not supersede RUN r30 or prove runtime biomechanics.

@@ -249,3 +249,14 @@ setting differences are reported as CAPTURE_MISMATCH rather than model regressio
 and unsupported checks remain UNKNOWN. The explicit reference inventory is empty
 until real project-authored Phase 10-bound captures exist. Synthetic detector
 fixtures are never model evidence. This does not supersede RUN r30.
+
+
+Stage 12 final production-freeze preparation is available through
+`work_packages/PHASE_12_PRODUCTION_FREEZE.md` and
+`RUN_ORIGINAL_V1_FINAL_FREEZE_CHECK.bat`. The technical promotion verifier now
+binds its receipt to the exact promotion packet SHA/candidate/runtime. The final
+freeze verifier additionally rechecks Phase 4-11 exit reports, exact bare/dressed
+assets, Phase 9 model commit, Phase 10/11 runtime commit and a separate explicit
+`OWNER AUTHORISED PRODUCTION FREEZE` record. Even successful eligibility keeps
+`production_approved=false`; actual release is a separate controlled runtime-side
+operation. Current r29 cannot pass and this does not supersede RUN r30.

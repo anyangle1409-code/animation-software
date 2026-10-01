@@ -1955,3 +1955,97 @@ hash-mismatched current complete Blend. The backup destination must be outside t
 repository and fresh; copied bytes are re-hashed and are recovery-only, never
 production evidence. See `work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. Current
 actual model work remains r29 / Phase 3B -> `RUN_ORIGINAL_V1_R30.bat`.
+
+
+## Claude laptop session — 2026-10-01 (r30 → r32, Phases 3B / 3C / 3D, 3E in progress)
+
+Authoritative current state is `ORIGINAL_V1_HIGH_DETAIL_STATUS.json` / `docs/ORIGINAL_V1_DAILY_STATUS.md`
+(regenerate with `python scripts/build_original_v1_daily_status.py`, then `--check`). This section records what
+this session did and why, so the next worker does not have to reconstruct it. R2, thresholds, comparator
+tolerances, the 15 stress poses and the 63-bone rig are unchanged. **No candidate is accepted and production
+approval is false.**
+
+### Two tooling bugs found by the first real Blender runs (both fixed, frozen region untouched)
+
+1. **Relative render path.** `pose_test_original_v1_o4_candidate_blender.py` received a *relative* output folder.
+   Blender resolves a relative `render.filepath` against the drive root, Python against the working directory, so
+   every render went to `C:\ORIGINAL_V1_WORK\...` (about 1,960 PNGs from earlier sessions are still there, outside
+   the repository and never hash-bound) and the new capture hash read-back failed with `FileNotFoundError`,
+   aborting the first r30 evidence run. Fix: one statement `OUT = OUT.resolve()` placed **after** the
+   `# --- metrics` marker. An attempted fix above that marker was reverted: the
+   `ORIGINAL_V1_PRODUCTION_CONTROL.json` `frozen_pose_definition` pin hashes everything before the marker and
+   correctly refused it (`frozen stress-pose definition changed`).
+2. **Grip probe.** `probe_original_v1_grip_penetration_blender.py` raised `IndexError` because the
+   `HGPT_DRESSED_MASK` modifier was still active, so the evaluated mesh had fewer vertices than the body. Fix:
+   disable the mask in memory (as the pose test does) before measuring.
+
+Also: the session preflight required `scipy`, which no repository script imports; it now requires only `numpy`.
+
+Local-only storage: `.git/info/exclude` (not committed) lists the full-resolution group renders
+(`repair_checks/*/*.png`, hash-bound by the committed `render_source_manifest.json`) and the disposable
+`weight_solutions/*_dump.npz`, so the session-close clean-tree check works without bloating the repository.
+Folders renamed (never deleted) after aborted runs: `repair_checks/shoulder_r30_ABORTED_20261001_relative_render_path_bug_empty`
+(empty) and `repair_checks/remaining_diagnostics_r30_PARTIAL_20261001_grip_probe_mask_bug` (valid edge probe output).
+
+### Candidates this session (all with full 15-pose evidence via `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat`)
+
+| Candidate | Parent | What | Failed (R2 54) | Strict regressions vs R2 | Versus direct parent | Status |
+|---|---|---|---:|---:|---|---|
+| r30 | r29 | `o22` symmetric hand re-solve (finger-minimum recovery) | 7 | 6 | IMPROVED, 0 regr.; vs r28: 1 regr. | TRADE-OFF; continuation decision recorded |
+| r31 | r30 | `o24` wrist band, 970 verts | 7 | 5 | IMPROVED, 0 regr. (also 0 vs r29 and r28) | **evidence only**: declared scope exceeded the 3D envelope (28 thumb-region vertices, finger-bone weights) |
+| r32 | r30 | `o26` **strict** wrist mask, 880 verts, arm+hand, 14 chain bones | 7 | 5 | IMPROVED, 0 regr.; vs r28: 1 regr. | TRADE-OFF; **current continuation**; in-scope audit |
+
+r30 → r32 key metric: `pushup_bottom` hand max 2.096 → 1.912 (R2 1.915, tolerance +0.1); the push-up wrist
+severity regression versus R2 is gone. The 5 remaining strict R2 regressions are the inherited shoulder/torso
+minima (press_bottom shoulder/torso, press_top torso, pullup_top shoulder/torso). The single regression of r32
+versus r28 is `pushup_bottom` self-intersections 144 → 154 (gate 200; R2 156).
+
+**Process for each local repair (3D, 3E), as the work packages require:** generate the parent-bound drafts
+(`prepare_original_v1_repair_policy.py`); **declare the mask on disk and commit it before any weight is solved**
+(`optimize_original_v1_o4_shoulder_weights.py ... --declare-mask`); solve; apply to a NEW candidate
+(`apply_original_v1_o4_weight_solution_blender.py`); check the solution vertices and bones equal the declaration;
+run the full evidence; export before/after snapshots and run `audit_original_v1_changes.py` against a policy with
+the SAME scope. r31 shows why: its metrics were the best, but auditing its scope against the package envelope
+found thumb-region vertices and finger-bone weights, so a strict mask was declared and r32 was built instead.
+
+r32 change audit (`repair_preparation/r32_3D_audit/change_audit_r30_to_r32.json`): mesh untouched (0 vertices
+moved, topology and symmetry unchanged); exactly the 880 declared vertices and 14 declared bones changed; 0
+unexpected vertices/bones; 0 cross-side weights; max 4 influences. **Known flag:** 229 vertices have raw
+weight-sum error up to 1.5e-5 (tolerance 1e-6). They are identical before and after, all outside the mask, and
+inherited from the original binder; this edit introduced none.
+
+### Phase 3C — grip / thumb: BLOCKED on a frozen-structure decision (evidence complete)
+
+Evidence: `remaining_diagnostics_r32/grip_penetration.json` and `grip_weight_independence.json`.
+
+- All four checks (curl_handle and pullup_bar, both sides) are **4.712 mm before any finger closes** and 5.928 mm
+  after (closing adds 1.216 mm). Gates: 2.0 mm development, 1.0 mm production. 29 vertices are inside before
+  closing and 90 after. The deepest 12 are all **thumb-region**, weighted on `thumb_02`/`thumb_03` (the IP segment).
+- **Weight independence is proven, not assumed.** `scripts/probe_original_v1_grip_weight_independence_blender.py`
+  builds the pose up to (not including) `close_on_handle` and compares the armature-space skinning matrices of all
+  20 hand-chain bones: max deviation **4.8e-7**. With every bone carrying the same rigid transform, no
+  re-weighting can move a vertex, so the pre-close depth cannot be repaired by weights.
+- To pass 2.0 mm the deepest thumb vertices must clear the handle by **at least 3.93 mm** (4.93 mm for 1 mm).
+- The remaining causes are all frozen structure: the thumb's rest geometry/orientation relative to the hand (rig),
+  the hand pose built by `pose_curl_handle`/`pose_pullup_bar`, or the handle frame (`place_handle`: centre offset
+  `HANDLE_RADIUS + 0.020` = 37 mm from the knuckle-midpoint plane, radius 17 mm, so the near surface is 20 mm off
+  that plane while the thumb pad rests about 15 mm off it). A local thumb-pad reshape of 3.9 mm or more is *not*
+  "minimal" and was not attempted: it is a visible anatomy change that needs an owner decision.
+
+**Owner decision needed (3C):** (a) change the frozen handle frame/offset, (b) change the thumb rest orientation
+(frozen rig) or the frozen hand pose, or (c) approve a first-party local thumb-pad reshape of about 4–5 mm (then
+3C proceeds with the declared-mask process above). Nothing frozen was changed.
+
+### Phase 3E — hip / pelvis / lunge (in progress, r32 parent)
+
+Cause measured (read-only, from the r32 dump): the lunge failures sit on the **midline** gluteal/groin/lower-back
+strip. Vertices at x = 0 carry about 47/47 `thigh_l`/`thigh_r` with only 5–20 % `pelvis`, so opposite thigh swings
+tear the strip (the same mechanism as the shoulder midline-scapula tear). The declared mask (committed `87fc9ad`
+before any solve) is `repair_preparation/r32_3E_pelvis_declared/pelvis_mask_declared_before_edit.json`: 945
+pelvis/torso/leg vertices with 0.74 < z < 1.0 whose whole weight is on {pelvis, spine_01, spine_02, thigh_l,
+thigh_r}, mirror-closed, covering all 54 measured lunge extreme-edge vertices; permitted bones are those 5.
+
+- `o27` (in scope): predicted lunge torso min 0.120 → 0.239 and torso max 7.200 → 4.18 (both inside gates),
+  pelvis max 7.559 → 6.35 (gate 5.0), but squat pelvis min 0.785 → 0.743 and row torso min 0.435 → 0.385 exceed the
+  comparator tolerance. Not applied: the loss was still falling at its iteration limit.
+- `o28` continues the same mask with about 3x the budget (hyperparameters are not permissions).

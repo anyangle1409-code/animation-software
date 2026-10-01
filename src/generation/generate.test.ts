@@ -288,17 +288,24 @@ describe('generating without a character', () => {
   });
 
   it('builds the loaded dumbbell calf raise from the same calf family', () => {
-    const result = generateExercise(DUMBBELL_CALF_RAISE, options);
-    expect(result.family?.id).toBe('calf');
-    expect(result.exercise).toEqual(calfFamily(result.variant as CalfVariant));
-    expect(result.reference).toBe('dumbbell_calf_raise');
-    expect(result.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([14, 14]);
-    expect(result.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+    const parsed = parsePrompt(DUMBBELL_CALF_RAISE);
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const variant = family.variant(parsed.intent!) as CalfVariant;
+    const exercise = family.build(variant);
+    expect(family.id).toBe('calf');
+    expect(exercise).toEqual(calfFamily(variant));
+    expect(family.reference(parsed.intent!)).toBe('dumbbell_calf_raise');
+    expect(exercise.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([14, 14]);
+    expect(exercise.tempo).toEqual(TEMPO_PROFILES.controlled);
   });
 
   it('reproduces the accepted dumbbell calf raise from family defaults', () => {
-    expect(motionOf(generateExercise('a dumbbell calf raise', options).exercise!))
-      .toEqual(motionOf(dumbbellCalfRaise));
+    const parsed = parsePrompt('a dumbbell calf raise');
+    expect(parsed.issues.filter((issue) => issue.blocking)).toEqual([]);
+    const family = generatorFamily(parsed.intent!.family);
+    const exercise = family.build(family.variant(parsed.intent!) as CalfVariant);
+    expect(motionOf(exercise)).toEqual(motionOf(dumbbellCalfRaise));
   });
 
   it('reproduces the accepted standing calf raise from the family defaults', () => {

@@ -227,3 +227,15 @@ fixed pull-up rack/socket contact model. It does not run the solver, does not ad
 Blender poses and does not declare this model branch to be the live runtime. Use
 it later as a fail-closed comparison contract when Phase 10 discovers the actual
 standalone runtime commit. It does not supersede RUN r30.
+
+
+Stage 10 live-runtime discovery/harness preparation is available through
+`work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat <separate-runtime-checkout> [fresh-output]`.
+It rechecks the active standalone branch/remote HEAD, reruns the Stage 9 contact
+semantic contract against that checkout, confirms actual canonical-v4 source state
+and records SHA-256 source comparisons without editing the runtime. The prepared
+runtime evidence JSON is an INCOMPLETE TEMPLATE only. The current discovered
+runtime HEAD e3a7d915... is not green because focused skeleton parity fails at a
+0.02 m root/root-tail delta; do not use it as integration proof. This does not
+supersede RUN r30.

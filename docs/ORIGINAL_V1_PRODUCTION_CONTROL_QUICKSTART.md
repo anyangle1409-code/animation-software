@@ -239,3 +239,13 @@ runtime evidence JSON is an INCOMPLETE TEMPLATE only. The current discovered
 runtime HEAD e3a7d915... is not green because focused skeleton parity fails at a
 0.02 m root/root-tail delta; do not use it as integration proof. This does not
 supersede RUN r30.
+
+
+Stage 11 deterministic visual QA preparation is available through
+`work_packages/VISUAL_QA_PROTOCOL.md` and `RUN_ORIGINAL_V1_VISUAL_QA.bat`.
+Actual source images stay immutable; first-party PGM masks provide deterministic
+crop/visibility/component/symmetry and matched silhouette measurements. Capture
+setting differences are reported as CAPTURE_MISMATCH rather than model regression,
+and unsupported checks remain UNKNOWN. The explicit reference inventory is empty
+until real project-authored Phase 10-bound captures exist. Synthetic detector
+fixtures are never model evidence. This does not supersede RUN r30.

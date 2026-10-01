@@ -200,3 +200,11 @@ Raw garment/body snapshot evidence is prepared in
 `work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`. Existing snapshot command defaults
 to the body; optional --garment captures the owned shorts. This does not measure
 posed clothing clearance or supersede RUN r30.
+
+
+Static evaluated clothing evidence is now prepared in
+`work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md` and
+`RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat`. It requires a same-candidate Stage 6
+raw pair receipt and produces EVIDENCE_ONLY static clearance/intersection metrics
+plus matched bare/dressed review pairs. It does not supersede RUN r30, classify
+legitimate contact, prove continuous dressed motion or complete Phase 7.

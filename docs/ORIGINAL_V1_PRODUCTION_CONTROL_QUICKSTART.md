@@ -316,3 +316,12 @@ Use `ORIGINAL_V1_PHASE8_PRESENTATION_CAPTURE_PLAN.json` for the required real
 bare/dressed app-distance and close-up review renders. Image textures/HDRIs and
 linked material resources are rejected by the prepared verifier. Readability is
 still a real review, not an automated PASS. Current work remains Phase 3/r30.
+
+
+### First-party visual-QA mask capture
+
+`work_packages/VISUAL_QA_MASK_CAPTURE_PROTOCOL.md` documents the project-owned
+z-buffer PGM mask path. Future Blender capture scripts can generate source-bound
+subject/body/garment/hand/foot/equipment masks immediately after a real render,
+without third-party image libraries or an external vision model. Final Phase 11
+runtime masks must still be emitted/bound by the exact Phase 10 runtime frame.

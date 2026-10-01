@@ -24,6 +24,19 @@ Python standard library.
 No third-party image package, external AI vision service, generated reference
 image, stock character image or historical V-series render is required or allowed.
 
+## Prepared first-party mask generation
+
+For Blender/model-side source images, use the project-owned rasterization path in
+`VISUAL_QA_MASK_CAPTURE_PROTOCOL.md`. It projects evaluated scene triangles through
+the active camera and writes deterministic PGM masks with a z-buffer, without
+Pillow/OpenCV/external segmentation or special material passes. It can produce
+subject/body/garment/left-right hand/left-right foot/equipment masks and records
+zero-pixel roles explicitly.
+
+These Blender masks do not replace final runtime capture. Phase 11 runtime masks
+must still bind the exact Phase 10 runtime commit, frame/time and final asset SHA.
+
+
 ## Capture manifest
 
 `ORIGINAL_V1_VISUAL_QA_CAPTURE_TEMPLATE.json` is a template only. A real capture

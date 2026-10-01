@@ -396,5 +396,59 @@
     "protocol": "docs/work_packages/SESSION_CLOSE_PROTOCOL.md",
     "command": "RUN_ORIGINAL_V1_SESSION_CLOSE.bat",
     "rule": "Run after saving/evidence/handoff/commit/push. READY_TO_END_SESSION or PARTIAL_WORK_PRESERVED is required for an unambiguous handoff; never force-push/delete evidence to obtain it."
+  },
+  "operational_tools": {
+    "session_start": {
+      "command": "RUN_ORIGINAL_V1_CLAUDE_START.bat",
+      "artifacts": [
+        "scripts/original_v1_claude_brief.py",
+        "RUN_ORIGINAL_V1_CLAUDE_BRIEF.bat",
+        "RUN_ORIGINAL_V1_CLAUDE_START.bat"
+      ]
+    },
+    "candidate_close": {
+      "command": "RUN_ORIGINAL_V1_CANDIDATE_CLOSE.bat <rN>",
+      "artifacts": [
+        "scripts/original_v1_candidate_closure.py",
+        "RUN_ORIGINAL_V1_CANDIDATE_CLOSE.bat"
+      ]
+    },
+    "review_package": {
+      "command": "RUN_ORIGINAL_V1_REVIEW_PACKAGE.bat <rN>",
+      "artifacts": [
+        "scripts/original_v1_review_package.py",
+        "RUN_ORIGINAL_V1_REVIEW_PACKAGE.bat"
+      ]
+    },
+    "candidate_handoff": {
+      "command": "RUN_ORIGINAL_V1_CANDIDATE_HANDOFF.bat <rN>",
+      "artifacts": [
+        "scripts/original_v1_candidate_handoff.py",
+        "RUN_ORIGINAL_V1_CANDIDATE_HANDOFF.bat"
+      ]
+    },
+    "blend_inventory": {
+      "command": "RUN_ORIGINAL_V1_BLEND_INVENTORY.bat",
+      "artifacts": [
+        "scripts/original_v1_blend_inventory.py",
+        "RUN_ORIGINAL_V1_BLEND_INVENTORY.bat"
+      ]
+    },
+    "local_recovery_backup": {
+      "command": "RUN_ORIGINAL_V1_LOCAL_BACKUP.bat <fresh-directory-outside-repo>",
+      "artifacts": [
+        "scripts/original_v1_local_backup.py",
+        "RUN_ORIGINAL_V1_LOCAL_BACKUP.bat"
+      ]
+    },
+    "session_end": {
+      "command": "RUN_ORIGINAL_V1_CLAUDE_END.bat [rN]",
+      "artifacts": [
+        "scripts/original_v1_session_close.py",
+        "RUN_ORIGINAL_V1_SESSION_CLOSE.bat",
+        "RUN_ORIGINAL_V1_CLAUDE_END.bat"
+      ]
+    },
+    "protocol": "docs/work_packages/LAPTOP_ACCELERATION_PROTOCOL.md"
   }
 }

@@ -39,13 +39,16 @@ for %%F in ("%R29%" "%INIT%" "%R2%") do (
   )
 )
 
-for %%F in ("%R30%" "%SOL%" "%DUMP%") do (
+for %%F in ("%R30%" "%SOL%") do (
   if exist "%%~F" (
     echo ERROR: Refusing to overwrite existing r30 work: %%~F
     echo Inspect the existing file before deciding whether a new revision label is required.
     exit /b 2
   )
 )
+rem The pose dump is a disposable read-only derivative. Claude's battery-stop session
+rem may have left one behind even though no o22 solution exists, so regenerate it.
+if exist "%DUMP%" del /q "%DUMP%"
 
 set "BLENDER="
 if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"

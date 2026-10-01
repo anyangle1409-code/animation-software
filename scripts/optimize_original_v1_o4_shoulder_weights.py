@@ -186,6 +186,12 @@ PRESETS["o25"] = dict(PRESETS["o24"], wrist_regions=("arm", "hand"), chain_only=
 # R2 band (push-up hand max 2.023 vs 2.015) because collision-resolve goals competed with the stretch bound
 # in this zone; o26 keeps only no-new-collision constraints and a zero stretch margin.
 PRESETS["o26"] = dict(PRESETS["o25"], tt_resolve=False, max_margin=0.0)
+# o27 (3E, r33): symmetric lower-body solve on the pelvis zone above. The lunge tears the gluteal/groin midline
+# because vertices at x = 0 carry ~47/47 thigh_l/thigh_r with only 5-20 % pelvis. Bounds are the stricter of the
+# pinned R2 report and the base candidate across all 15 poses; no collision-resolve goal (new collisions only).
+PRESETS["o27"] = dict(PRESETS["o22"], zone_mode="pelvis", zmin=0.74, zmax=1.0, symmetric=True, tt_resolve=False,
+                      max_margin=0.02, rounds=2,
+                      tt_poses=("lunge", "squat_bottom", "pushup_bottom", "row", "neutral"))
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -281,6 +287,20 @@ def main():
             zone_mask |= zs
             for bi_ in chain_:
                 allowed_full[zs, bi_] = True
+    if P.get("zone_mode") == "pelvis":
+        # Phase 3E: lower body only. Pelvis/torso/leg vertices with zmin < z < zmax whose ENTIRE weight is already on
+        # the pelvis chain (pelvis, spine_01, spine_02, thigh_l, thigh_r); only those bones may carry weight afterwards.
+        # Shoulders, arms, hands, feet, shins and every other bone are untouched. Mirror-closed by construction.
+        zone_mask = np.zeros(len(rest), bool)
+        allowed_full = W0 > 1e-6
+        chain_ = [b[n] for n in ("pelvis", "spine_01", "spine_02", "thigh_l", "thigh_r")]
+        zs = (np.isin(region, [rid[n] for n in ("pelvis", "torso", "leg")])
+              & (rest[:, 2] > P.get("zmin", 0.74)) & (rest[:, 2] < P.get("zmax", 1.0))
+              & ((W0.sum(axis=1) - W0[:, chain_].sum(axis=1)) < 1e-6))
+        zone_mask |= zs
+        allowed_full[zs, :] = False
+        for bi_ in chain_:
+            allowed_full[zs, bi_] = True
     if P.get("zone_mode") == "elbow":
         # Priority 2: arm-region vertices around each elbow (forearm head), disjoint from the r24
         # shoulder zone (<= 0.24 m from the glenohumeral joint) and from the hand zone.
@@ -461,7 +481,7 @@ def main():
     TT_R2 = {}
     tt_cand = np.nonzero(((zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.05)))[tris]).all(axis=1)
                          & (zone_mask[tris]).any(axis=1))[0]
-    if P.get("zone_mode") in ("hand", "elbow", "wrist"):
+    if P.get("zone_mode") in ("hand", "elbow", "wrist", "pelvis"):
         nbr_mask = zone_mask.copy()
         nbr_mask[E[zone_mask[E[:, 0]], 1]] = True
         nbr_mask[E[zone_mask[E[:, 1]], 0]] = True

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "state": "DRAFT",
+  "phase": "3E",
+  "parent_candidate": "r32",
+  "before_candidate_sha256": "56205ee89a4bd5f8d5999ce64cf97f3b09a14876465af2c8fe7f382abf989295",
+  "child_candidate": null,
+  "candidate_sha256": null,
+  "work_package": "docs/work_packages/PHASE_3E_HIP_LUNGE.md",
+  "purpose": "Repair the pelvis/upper-thigh/lower-torso transition for lunge without worsening squat or distant regions.",
+  "change_type": null,
+  "local_defect_description": null,
+  "planned_operations": [],
+  "permitted_vertex_ids": [],
+  "allowed_regions": [],
+  "allowed_bones": [],
+  "mask_basis_evidence": [],
+  "symmetry_plan": null,
+  "index_correspondence_basis": null,
+  "frozen_constraints": [
+    "R2 baseline",
+    "63-bone canonical rig rest/hierarchy",
+    "acceptance thresholds",
+    "stress poses",
+    "equipment handle frames",
+    "first-party provenance"
+  ],
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
+      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+    },
+    {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "sha256": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95"
+    },
+    {
+      "path": "ORIGINAL_V1_PRODUCTION_CONTROL.json",
+      "sha256": "b34d07c1f96fc26b0a13a716e3d3f68e5dfbd080b2975e3d54707b91f33edf28"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r32.json",
+      "sha256": "2318a59daf526e474663b0d226a6d4c7a7745181015b89ce38d5f505660d44c7"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_R2.json",
+      "sha256": "01d8fdc232415c1dce8535e2389dfb30e7c24bc1bffde22b2b7d412dfad03481"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r28.json",
+      "sha256": "a5dedade3c183848ce94f36df985a3846bc482e54dd9be103f336f6bf4ca5ce4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r29.json",
+      "sha256": "fff7d9c3ebf3fe18e7b3351e59777dc3b6d5a14ecd73a53e9f50fb1527ef0ebd"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_comparison_vs_r30.json",
+      "sha256": "5d2f0bd87f3ac7f2ce01c83d79d5822cb028b52e51ce7a2d6e9651286f8dc5cd"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_evidence_manifest.json",
+      "sha256": "78f4353daaa4ea2e691282443e707bd2817ab6fa076c7ad83ff9b97568db3cd4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r32_merged_pose_report.json",
+      "sha256": "f12456d58bab99d861dfd5bedd3bb24edebfe3ca5cda13987f378e1e6763d960"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/diagnostic_brief.json",
+      "sha256": "8f5dc0e9438fba027b5be91f120d8e143a90e874bc08653d0e6ae37d1b0a9097"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/edge_extremes.json",
+      "sha256": "b09c2776e21d29e9c5b588e268dfc7acedc8318a394b92842589c5a0742c194c"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r32/grip_penetration.json",
+      "sha256": "873cd60dd0e6434de996155f3a304ee4f0418637e6c1918373f1cb8328306138"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r32/visual_review_manifest.json",
+      "sha256": "3e08c61a537c4d9c1df3cfdf15df60bcdc7b48a6fd87bb4715856417545047ca"
+    },
+    {
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+      "sha256": "0f65d66e511c7b8102a4490e488485e63370de991dfef5a8bc448bf8cdd02935"
+    }
+  ],
+  "production_approved": false,
+  "note": "Record a pre-edit intent before any candidate edit. Preserve it and append actual operation evidence; do not retrospectively broaden the mask to hide changes."
+}

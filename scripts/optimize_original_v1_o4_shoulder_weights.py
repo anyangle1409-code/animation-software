@@ -178,6 +178,10 @@ PRESETS["o22"] = dict(PRESETS["o19"], max_margin=0.02, rounds=2)
 # so the push-up hand maximum is pulled back to R2's level (1.915 + margin) without losing any other pose.
 PRESETS["o24"] = dict(PRESETS["o22"], zone_mode="wrist", wrist_zone_radius=0.07, max_margin=0.02, rounds=2,
                       tt_poses=("pushup_bottom", "curl_peak", "curl_handle", "pullup_bar", "pullup_top", "grip", "row"))
+# o25 (3D, r32): the STRICT wrist scope required by PHASE_3D_WRIST_PUSHUP.md: regions arm+hand only, only
+# vertices whose whole weight is already on the wrist chain, chain bones only (no finger/thumb-tip bones).
+# o24/r31 exceeded that envelope (28 thumb-region vertices, finger-bone weights) and is kept as evidence.
+PRESETS["o25"] = dict(PRESETS["o24"], wrist_regions=("arm", "hand"), chain_only=True)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 
@@ -258,15 +262,21 @@ def main():
         # top of each vertex's existing bones. Finger-region vertices are never in the zone.
         zone_mask = np.zeros(len(rest), bool)
         allowed_full = W0 > 1e-6
-        wregs = np.isin(region, [rid[n] for n in ("arm", "hand", "thumb")])
+        wregs = np.isin(region, [rid[n] for n in P.get("wrist_regions", ("arm", "hand", "thumb"))])
         for s_ in "lr":
             Hh = d["heads"][b[f"hand_{s_}"]]
             side = rest[:, 0] * np.sign(Hh[0]) > 0.0
             zs = side & wregs & (np.linalg.norm(rest - Hh, axis=1) < P.get("wrist_zone_radius", 0.07))
+            chain_ = [b[n] for n in (f"forearm_{s_}", f"hand_{s_}", f"thumb_01_{s_}", f"metacarpal_index_{s_}",
+                                     f"metacarpal_middle_{s_}", f"metacarpal_ring_{s_}", f"metacarpal_pinky_{s_}")]
+            if P.get("chain_only"):
+                # Strict scope: only vertices whose ENTIRE weight is already on the wrist chain, and only chain
+                # bones may carry weight afterwards. Finger/thumb-tip bones and finger regions are untouched.
+                zs &= (W0.sum(axis=1) - W0[:, chain_].sum(axis=1)) < 1e-6
+                allowed_full[zs, :] = False
             zone_mask |= zs
-            for n in (f"forearm_{s_}", f"hand_{s_}", f"thumb_01_{s_}", f"metacarpal_index_{s_}",
-                      f"metacarpal_middle_{s_}", f"metacarpal_ring_{s_}", f"metacarpal_pinky_{s_}"):
-                allowed_full[zs, b[n]] = True
+            for bi_ in chain_:
+                allowed_full[zs, bi_] = True
     if P.get("zone_mode") == "elbow":
         # Priority 2: arm-region vertices around each elbow (forearm head), disjoint from the r24
         # shoulder zone (<= 0.24 m from the glenohumeral joint) and from the hand zone.

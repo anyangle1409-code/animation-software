@@ -210,3 +210,13 @@ session-close blocker.
 For phone/status checks, `RUN_ORIGINAL_V1_PROGRESS.bat` prints a compact projection
 of the same evidence-derived state. It separates actual roadmap completion from
 prepared infrastructure and does not estimate a synthetic percentage.
+
+
+## Laptop acceleration layer
+
+`work_packages/LAPTOP_ACCELERATION_PROTOCOL.md` consolidates the read-only start,
+candidate closure/review/handoff, local Blend inventory/recovery and end-session
+commands. The preferred start is `RUN_ORIGINAL_V1_CLAUDE_START.bat`; the preferred
+end summary is `RUN_ORIGINAL_V1_CLAUDE_END.bat [rN]`. Local recovery backup is
+optional and requires a fresh destination outside the repository. These commands
+reduce context/evidence overhead only; they do not launch or approve Blender work.

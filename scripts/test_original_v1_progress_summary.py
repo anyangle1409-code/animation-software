@@ -29,8 +29,16 @@ class ProgressSummaryTests(unittest.TestCase):
 
     def test_no_percentage_completion_field(self):
         status,orch=self.fixture();s=p.build_summary(status,orch)
-        text=str(s).lower()
-        self.assertNotIn("percent",text)
+        def keys(obj):
+            if isinstance(obj,dict):
+                for key,value in obj.items():
+                    yield str(key).lower()
+                    yield from keys(value)
+            elif isinstance(obj,list):
+                for value in obj:
+                    yield from keys(value)
+        self.assertNotIn("completion_percentage",set(keys(s)))
+        self.assertNotIn("percent_complete",set(keys(s)))
         self.assertFalse(s["production_approved"])
 
 

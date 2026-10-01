@@ -207,6 +207,10 @@ PRESETS["o30"] = dict(PRESETS["o29"], guard_p99_mult=40.0)
 # chain bones) so the weight gradient can spread over more vertex rings, with left/right isolation inside the solver.
 # o27-o30 showed the narrow band cannot reach the lunge pelvis/torso max gates without comparator regressions.
 PRESETS["o34"] = dict(PRESETS["o29"], zmin=0.55, zmax=1.12, isolate_sides=True)
+# o35: same declared wide mask as o34, but creates squat-volume HEADROOM instead of spending it. r35 sits at the very
+# edge of the volume tolerance (squat 0.9578, limit 0.9577), so every further lunge gain failed on squat volume/p99.
+# vol_slack < 0 asks each pose's whole-body volume deviation to be below its R2/base value by 0.006, w_vol stronger.
+PRESETS["o35"] = dict(PRESETS["o34"], vol_slack=-0.006, w_vol=2e7)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

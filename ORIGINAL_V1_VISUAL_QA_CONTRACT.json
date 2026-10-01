@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_VISUAL_QA_CONTRACT",
+  "phase_complete": false,
+  "production_approved": false,
+  "purpose": "Deterministic first-party mask-based visual QA. Source renders remain immutable review evidence; QA masks are derived evidence bound to the same capture identity.",
+  "principles": [
+    "No external vision model, third-party image corpus, generated reference image or legacy V-series image may become a reference.",
+    "Capture mismatch is separate from model regression. Unequal camera/pose/frame/renderer/crop settings are not quantitatively compared.",
+    "Unsupported or absent detectors are UNKNOWN, never PASS.",
+    "Raw per-case measurements are retained; no aggregate quality score may hide a failing or unknown case.",
+    "Numerical visual QA never substitutes for owner anatomy acceptance."
+  ],
+  "mask_format": {
+    "kind": "PGM",
+    "supported_magic": [
+      "P5",
+      "P2"
+    ],
+    "max_value": 255,
+    "foreground_rule": "sample > 0",
+    "reason": "Portable grayscale masks are parseable with Python standard library and avoid image-library dependencies."
+  },
+  "required_capture_identity": [
+    "candidate_sha256",
+    "asset_sha256",
+    "target_runtime_commit",
+    "source_image.path",
+    "source_image.sha256",
+    "source_image.width",
+    "source_image.height",
+    "capture.capture_key",
+    "capture.view_id",
+    "capture.pose_or_exercise",
+    "capture.frame_or_time",
+    "capture.renderer",
+    "capture.colour_management",
+    "capture.crop",
+    "capture.dressed"
+  ],
+  "mask_roles": {
+    "subject": "Body plus visible owned garment where applicable; required.",
+    "body": "Underlying body if capture provider can produce it; otherwise UNKNOWN.",
+    "garment": "Owned garment only for dressed captures; otherwise UNKNOWN.",
+    "hand_l": "Left hand visibility mask when provider supports region masks.",
+    "hand_r": "Right hand visibility mask when provider supports region masks.",
+    "foot_l": "Left foot visibility mask when provider supports region masks.",
+    "foot_r": "Right foot visibility mask when provider supports region masks.",
+    "equipment": "Owned exercise equipment mask when present and provider supports it."
+  },
+  "detectors": {
+    "source_integrity": {
+      "classification": "PASS_FAIL",
+      "requirements": [
+        "declared file exists",
+        "SHA-256 matches",
+        "mask dimensions match source image dimensions"
+      ]
+    },
+    "crop_visibility": {
+      "classification": "PASS_FAIL_UNKNOWN",
+      "rule": "For masks marked expected_visible, empty mask is FAIL. For whole-body views with allow_edge_touch=false, any foreground on image edge is FAIL. Close-ups may explicitly allow edge touch."
+    },
+    "connected_components": {
+      "classification": "MEASURED",
+      "note": "Record component count and largest-component ratio. No production threshold is created here."
+    },
+    "horizontal_symmetry": {
+      "classification": "MEASURED_UNKNOWN",
+      "scope": "neutral front/rear subject masks only when a declared symmetry axis is supplied",
+      "note": "Record mirrored XOR ratio, centroid offset and side occupancies; no anatomy PASS threshold is created here."
+    },
+    "matched_silhouette_regression": {
+      "classification": "MEASURED_CAPTURE_MISMATCH",
+      "requirements": [
+        "same capture_key",
+        "same view_id",
+        "same pose_or_exercise",
+        "same frame_or_time",
+        "same dimensions",
+        "same mask role"
+      ],
+      "metrics": [
+        "IoU",
+        "XOR ratio",
+        "occupancy delta",
+        "centroid shift pixels",
+        "bounding-box edge deltas"
+      ]
+    },
+    "contact_visibility": {
+      "classification": "MEASURED_UNKNOWN",
+      "note": "Region/equipment mask pixel gap may be measured when both masks exist. Physical contact error remains authoritative from runtime/model contact evidence."
+    }
+  },
+  "milestone_mapping": {
+    "plan": "ORIGINAL_V1_VISUAL_BOARD_PLAN.json",
+    "required_view_count": 57,
+    "note": "The existing 57-view plan defines model-side visual coverage planning only. Future runtime capture must bind its own exact frame/time and runtime commit."
+  },
+  "controlled_fixture_policy": {
+    "allowed": true,
+    "label": "SYNTHETIC_TEST_FIXTURE_ONLY",
+    "rule": "Deliberately altered project-owned fixture masks may prove detector sensitivity. They are never review snapshots, references or production evidence."
+  },
+  "reference_policy": {
+    "owner": "project-authored actual captures only",
+    "immutable_binding": [
+      "reference_manifest_sha256",
+      "source_image_sha256",
+      "mask_sha256",
+      "candidate_sha256",
+      "asset_sha256",
+      "runtime_commit",
+      "capture_key"
+    ],
+    "replacement": "A new reference is a new versioned reference record. Never overwrite or silently replace a pinned reference.",
+    "owner_review": "pending references remain experimental and cannot be labelled accepted."
+  }
+}

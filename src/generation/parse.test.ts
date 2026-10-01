@@ -48,6 +48,33 @@ describe('parsing a request into an ExerciseIntent', () => {
     });
   });
 
+  it('reads the flat dumbbell bench press and fly as the certified supine family', () => {
+    const press = parsePrompt('exercise: dumbbell bench press with 16 kg dumbbells and controlled tempo');
+    expect(press.issues).toEqual([]);
+    expect(press.intent).toMatchObject({
+      family: 'supine',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'pronated',
+      support: 'supine',
+      supineMotion: 'press',
+      load: 16,
+      tempo: { profile: 'controlled' },
+    });
+
+    const fly = parsePrompt('exercise: dumbbell fly with 10 kg dumbbells');
+    expect(fly.issues).toEqual([]);
+    expect(fly.intent).toMatchObject({
+      family: 'supine',
+      equipment: 'dumbbell',
+      execution: 'bilateral',
+      grip: 'neutral',
+      support: 'supine',
+      supineMotion: 'fly',
+      load: 10,
+    });
+  });
+
   it('reads the standard push-up as the certified horizontal-press family', () => {
     const parsed = parsePrompt('Create a standard push-up with controlled tempo.');
     expect(parsed.issues).toEqual([]);
@@ -176,6 +203,12 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('neutral grip pull-up')).toContain('variant');
     expect(blocking('single-arm overhead triceps extension')).toContain('variant');
     expect(blocking('cable pushdown')).toEqual(['family']);
+    expect(blocking('barbell bench press')).toEqual(['equipment']);
+    expect(blocking('incline dumbbell bench press')).toEqual(['support']);
+    expect(blocking('single-arm dumbbell bench press')).toEqual(['execution']);
+    expect(blocking('dumbbell fly with palms down')).toEqual(['grip']);
+    expect(blocking('reverse dumbbell fly')).toContain('variant');
+    expect(blocking('floor press')).toEqual(['family']);
   });
 
   it('says why an uncertified incline angle is refused, not just that it is', () => {
@@ -187,7 +220,7 @@ describe('parsing a request into an ExerciseIntent', () => {
   });
 
   it('recognises the rest of the library and declines it with the reason', () => {
-    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', 'dumbbell bench press', 'leg curl']) {
+    for (const prompt of ['upright row', 'rear delt raise', 'chin-up', 'cable pushdown', "farmer's walk", 'leg curl']) {
       const parsed = parsePrompt(prompt);
       expect(parsed.intent, prompt).toBeNull();
       expect(parsed.issues.map((issue) => issue.code), prompt).toEqual(['family']);

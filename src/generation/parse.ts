@@ -19,13 +19,13 @@ import { readSlots } from './slots';
 
 /**
  * Movements the library has but the generator is not certified to build, and
- * movements that share a word with a certified family ("leg curl", "bench
+ * movements that share a word with a certified family ("leg curl", "chest
  * press"). Checked first, so neither is mistaken for a certified family.
  */
 const NOT_CERTIFIED: [RegExp, string][] = [
   [/\b(?:leg|hamstring|nordic|lying leg)\s+curls?\b/, 'a leg curl works the hamstrings on a machine; the curl family is the elbow-flexion curl.'],
   [/\bwrist\s+curls?\b/, 'a wrist curl moves only the wrist; not certified.'],
-  [/\b(?:bench|chest|floor|incline bench|incline chest|incline dumbbell)\s+press(?:es)?\b|\bfl(?:y|ies|yes)\b/, 'lying presses and flyes belong to the supine family (dumbbell bench press, dumbbell fly), which is not certified for generation yet.'],
+  [/\b(?:chest|floor)\s+press(?:es)?\b/, 'only the flat dumbbell bench press is certified in the supine family; generic chest presses and floor presses are not.'],
   [/\bleg\s+press\b/, 'a leg press needs a machine the equipment library does not have.'],
   [/(?<!romanian\s)\bdeadlifts?\b|\bhip\s+hinges?\b|\bgood\s?mornings?\b/, 'only the bilateral dumbbell Romanian deadlift is certified in the hinge family; conventional deadlifts, generic hinges and good mornings are not.'],
   [/\b(?:barbell|cable|machine|upright|pendlay|renegade|seated|chest[-\s]?supported|seal)\s+rows?\b/, 'only the bilateral dumbbell bent-over row is certified in the row family.'],

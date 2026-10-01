@@ -59,6 +59,7 @@ const SUPPORT_WORDS: [RegExp, IntentSupport][] = [
   [/\binclined?\b/g, 'incline'],
   [/\b(?:floor|prone)\b/g, 'floor'],
   [/\b(?:hanging|dead[-\s]?hang)\b/g, 'hanging'],
+  [/\b(?:lying|supine|flat[-\s]?bench)\b/g, 'supine'],
 ];
 
 const TEMPO_WORDS: [RegExp, Exclude<TempoProfile, 'family'>][] = [

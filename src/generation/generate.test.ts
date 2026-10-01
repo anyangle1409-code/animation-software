@@ -26,6 +26,8 @@ import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
+import { supineFamily } from '../exercises/families/supine';
+import type { SupineVariant } from '../exercises/families/supine';
 import { bicepCurl } from '../exercises/definitions/bicepCurl';
 import { airSquat } from '../exercises/definitions/airSquat';
 import { splitSquat } from '../exercises/definitions/splitSquat';
@@ -38,6 +40,8 @@ import { lateralRaise } from '../exercises/definitions/lateralRaise';
 import { frontRaise } from '../exercises/definitions/frontRaise';
 import { pullUp } from '../exercises/definitions/pullUp';
 import { overheadExtension } from '../exercises/definitions/overheadExtension';
+import { dumbbellBenchPress } from '../exercises/definitions/dumbbellBenchPress';
+import { dumbbellFly } from '../exercises/definitions/dumbbellFly';
 import { calfRaise } from '../exercises/definitions/calfRaise';
 import type { ExerciseDefinition } from '../exercises/types';
 import { generateExercise, generateExerciseAsync } from './generate';
@@ -67,6 +71,8 @@ const LATERAL_RAISE = 'exercise: dumbbell lateral raise with 6 kg dumbbells and 
 const FRONT_RAISE = 'exercise: dumbbell front raise with 6 kg dumbbells and controlled tempo';
 const PULL_UP = 'exercise: strict pull-up with controlled tempo';
 const OVERHEAD_EXTENSION = 'exercise: dumbbell overhead triceps extension with 8 kg dumbbells and controlled tempo';
+const BENCH_PRESS = 'exercise: dumbbell bench press with 16 kg dumbbells and controlled tempo';
+const FLY = 'exercise: dumbbell fly with 10 kg dumbbells and controlled tempo';
 
 /** Everything but what names and describes an exercise. */
 const motionOf = ({ id: _id, name: _name, clipName: _clip, description: _description, ...rest }: ExerciseDefinition) => rest;
@@ -90,6 +96,27 @@ describe('generating without a character', () => {
   it('reproduces a library exercise from the same intent, which is what makes the family the source', () => {
     const result = generateExercise('a standing dumbbell curl with 10 kg dumbbells', options);
     expect(motionOf(result.exercise!)).toEqual(motionOf(bicepCurl));
+  });
+
+  it('builds the flat bench press and fly from the supine family', () => {
+    const press = generateExercise(BENCH_PRESS, options);
+    expect(press.family?.id).toBe('supine');
+    expect(press.exercise).toEqual(supineFamily(press.variant as SupineVariant));
+    expect(press.reference).toBe('dumbbell_bench_press');
+    expect(press.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([16, 16]);
+    expect(press.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+
+    const fly = generateExercise(FLY, options);
+    expect(fly.family?.id).toBe('supine');
+    expect(fly.exercise).toEqual(supineFamily(fly.variant as SupineVariant));
+    expect(fly.reference).toBe('dumbbell_fly');
+    expect(fly.exercise?.equipment.instances.filter((item) => item.kind === 'dumbbell').map((item) => item.mass)).toEqual([10, 10]);
+    expect(fly.exercise?.tempo).toEqual(TEMPO_PROFILES.controlled);
+  });
+
+  it('reproduces the accepted flat bench press and fly motion from family defaults', () => {
+    expect(motionOf(generateExercise('a dumbbell bench press', options).exercise!)).toEqual(motionOf(dumbbellBenchPress));
+    expect(motionOf(generateExercise('a dumbbell fly', options).exercise!)).toEqual(motionOf(dumbbellFly));
   });
 
   it('builds the standard push-up from the horizontal-press family', () => {
@@ -315,6 +342,8 @@ describe('generating on the clean first-party fallback', () => {
       for (const [prompt, family, reference] of [
         [STANDING_PRESS, 'overhead_press', 'dumbbell_shoulder_press'],
         [PUSH_UP, 'horizontal_press', 'push_up'],
+        [BENCH_PRESS, 'supine', 'dumbbell_bench_press'],
+        [FLY, 'supine', 'dumbbell_fly'],
         [REVERSE_LUNGE, 'lunge', 'reverse_lunge'],
         [CALF_RAISE, 'calf', 'standing_calf_raise'],
         [RDL, 'hinge', 'dumbbell_romanian_deadlift'],

@@ -21,6 +21,8 @@ import { verticalPullFamily } from '../exercises/families/verticalPull';
 import type { VerticalPullVariant } from '../exercises/families/verticalPull';
 import { extensionFamily } from '../exercises/families/extension';
 import type { ExtensionVariant } from '../exercises/families/extension';
+import { supineFamily } from '../exercises/families/supine';
+import type { SupineMotion, SupineVariant } from '../exercises/families/supine';
 import type { ExerciseIntent, GeneratorFamilyId, IntentGrip, IntentImplement, IntentIssue, IntentSupport } from './intent';
 import { tempoOf } from './intent';
 import type { PromptSlots } from './slots';
@@ -1254,6 +1256,113 @@ const extension: GeneratorFamily<ExtensionVariant> = {
   levers: [],
 };
 
+
+// ---------------------------------------------------------------------------
+// Flat-bench supine press / fly
+// ---------------------------------------------------------------------------
+
+/**
+ * The accepted flat dumbbell bench press and dumbbell fly are certified here.
+ * The supine family owns every pose, contact, bench placement and technique
+ * rule; generation only selects press versus fly, load and tempo.
+ */
+const supine: GeneratorFamily<SupineVariant> = {
+  id: 'supine',
+  label: 'Flat dumbbell bench press / fly',
+  builder: 'supineFamily',
+  detect: /\b(?:dumbbell\s+)?bench\s+press(?:es)?\b|\b(?:dumbbell\s+)?fl(?:y|ies|yes)\b/,
+  library: ['dumbbell_bench_press', 'dumbbell_fly'],
+
+  interpret(slots, prompt) {
+    const assumptions: string[] = [];
+    const issues: IntentIssue[] = [];
+    const motion: SupineMotion = /\bfl(?:y|ies|yes)\b/.test(slots.text) ? 'fly' : 'press';
+
+    unsupportedNames(
+      slots,
+      [
+        [/\bdecline(?:d)?\b/, 'the supine generator is certified on a flat bench only.'],
+        [/\breverse\b|\brear[-\s]?delt\b|\bpec[-\s]?deck\b/, 'that is a different movement; only the chest dumbbell fly is certified in this family.'],
+      ],
+      issues,
+    );
+
+    const expectedGrip: IntentGrip = motion === 'fly' ? 'neutral' : 'pronated';
+    const grip = interpretGrip(slots, null, expectedGrip, assumptions, issues);
+    if (grip !== expectedGrip) {
+      issues.push(
+        blocking(
+          'grip',
+          motion === 'fly'
+            ? 'The certified dumbbell fly uses a neutral grip with the palms facing each other.'
+            : 'The certified dumbbell bench press uses a pronated grip with the palms facing towards the feet.',
+        ),
+      );
+    }
+
+    const support = interpretSupport(
+      slots,
+      ['supine'],
+      motion === 'fly' ? 'dumbbell fly' : 'dumbbell bench press',
+      assumptions,
+      issues,
+    );
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the certified supine family uses a flat bench; adjustable bench angles are not certified.`,
+        ),
+      );
+    }
+
+    const { load, tempo } = interpretCommon(
+      slots,
+      motion === 'fly' ? 'dumbbell fly' : 'dumbbell bench press',
+      'dumbbell',
+      motion === 'fly' ? 10 : 16,
+      assumptions,
+      issues,
+    );
+
+    return {
+      intent: {
+        prompt,
+        family: 'supine',
+        equipment: 'dumbbell',
+        execution: 'bilateral',
+        grip,
+        support,
+        supineMotion: motion,
+        load,
+        tempo,
+      },
+      assumptions,
+      issues,
+    };
+  },
+
+  variant(intent) {
+    const motion: SupineMotion = intent.supineMotion === 'fly' ? 'fly' : 'press';
+    const fly = motion === 'fly';
+    const tempo = tempoOf(intent);
+    const title = fly ? 'Dumbbell Fly' : 'Dumbbell Bench Press';
+    return {
+      ...identity(title, intent),
+      description:
+        `Generated from "${intent.prompt.trim()}". A flat-bench ${fly ? 'dumbbell fly with a fixed soft elbow' : 'dumbbell press from beside the chest to over the shoulders'} ` +
+        `with ${formatLoad(intent.load)} in each hand${tempoWords(intent) ? `, ${tempoWords(intent)}` : ''}.`,
+      motion,
+      mass: intent.load,
+      ...(tempo ? { tempo } : {}),
+    };
+  },
+
+  build: supineFamily,
+  reference: (intent) => (intent.supineMotion === 'fly' ? 'dumbbell_fly' : 'dumbbell_bench_press'),
+  levers: [],
+};
+
 // ---------------------------------------------------------------------------
 // Calf raise
 // ---------------------------------------------------------------------------
@@ -1356,6 +1465,7 @@ export const GENERATOR_FAMILIES: GeneratorFamily[] = [
   curl as unknown as GeneratorFamily,
   overheadPress as unknown as GeneratorFamily,
   horizontalPress as unknown as GeneratorFamily,
+  supine as unknown as GeneratorFamily,
   squat as unknown as GeneratorFamily,
   lunge as unknown as GeneratorFamily,
   calf as unknown as GeneratorFamily,

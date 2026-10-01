@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_PHASE8_CAPTURE_PLAN",
+  "phase": 8,
+  "phase_complete": false,
+  "production_approved": false,
+  "app_distance_context": {
+    "full_body_height_pixels_min": 300,
+    "full_body_height_pixels_max": 700,
+    "note": "Review context from the anatomy spec, not a runtime performance or device-resolution promise."
+  },
+  "matched_capture_rules": [
+    "candidate SHA identical",
+    "same view/pose framing when comparing bare vs dressed or parent vs candidate",
+    "renderer/version, colour management, lighting, resolution and crop recorded",
+    "capture mismatch recorded explicitly instead of normalized away"
+  ],
+  "required_captures": [
+    {
+      "key": "neutral_front",
+      "pose": "neutral",
+      "view": "front",
+      "presentations": [
+        "bare",
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "neutral_rear",
+      "pose": "neutral",
+      "view": "rear",
+      "presentations": [
+        "bare",
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "neutral_side",
+      "pose": "neutral",
+      "view": "side",
+      "presentations": [
+        "bare",
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "neutral_three_quarter",
+      "pose": "neutral",
+      "view": "three_quarter",
+      "presentations": [
+        "bare",
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "press",
+      "pose": "press_top",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "curl",
+      "pose": "curl_handle",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "squat",
+      "pose": "squat_bottom",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "lunge",
+      "pose": "lunge",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "pushup",
+      "pose": "pushup_bottom",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "row",
+      "pose": "row",
+      "view": "three_quarter",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "app_distance"
+    },
+    {
+      "key": "skin_shoulder_close",
+      "pose": "neutral",
+      "view": "shoulder_close",
+      "presentations": [
+        "bare"
+      ],
+      "class": "closeup"
+    },
+    {
+      "key": "skin_hand_close",
+      "pose": "neutral",
+      "view": "hand_close",
+      "presentations": [
+        "bare"
+      ],
+      "class": "closeup"
+    },
+    {
+      "key": "cloth_waist_close",
+      "pose": "neutral",
+      "view": "waist_front",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "closeup"
+    },
+    {
+      "key": "cloth_hem_close",
+      "pose": "neutral",
+      "view": "hem_front",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "closeup"
+    },
+    {
+      "key": "cloth_seat_close",
+      "pose": "neutral",
+      "view": "seat_rear",
+      "presentations": [
+        "dressed"
+      ],
+      "class": "closeup"
+    }
+  ],
+  "review_checks": [
+    "anatomy remains legible at app-distance context",
+    "lighting/glare/shadow does not conceal joint collapse or contact defects",
+    "fingertips and hand/equipment contacts remain readable",
+    "waist/garment clearance remains readable",
+    "floor penetration/contact remains readable",
+    "skin/cloth materials remain visually distinct without hiding geometry"
+  ],
+  "owner_review": "pending",
+  "blocking": false,
+  "note": "Plan only. Real candidate renders and source manifests are required; no readability PASS is inferred."
+}

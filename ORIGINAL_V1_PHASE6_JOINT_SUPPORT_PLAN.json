@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE_AUTHORED_JOINT_SUPPORT_PLAN",
+  "phase": 6,
+  "phase_complete": false,
+  "production_approved": false,
+  "candidate_sha256": null,
+  "coordinate_space": "raw body mesh vertex IDs from the exact final Phase 6 candidate",
+  "rule": "Vertex IDs must be authored/recorded from the actual candidate topology. Do not populate by nearest-bone or nearest-surface inference.",
+  "joints": [
+    {
+      "id": "shoulder_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "press_bottom",
+        "press_top",
+        "pullup_hang",
+        "pullup_top"
+      ]
+    },
+    {
+      "id": "shoulder_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "press_bottom",
+        "press_top",
+        "pullup_hang",
+        "pullup_top"
+      ]
+    },
+    {
+      "id": "elbow_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "curl_peak",
+        "press_top",
+        "row"
+      ]
+    },
+    {
+      "id": "elbow_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "curl_peak",
+        "press_top",
+        "row"
+      ]
+    },
+    {
+      "id": "wrist_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "pushup_bottom",
+        "curl_handle",
+        "pullup_bar"
+      ]
+    },
+    {
+      "id": "wrist_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "pushup_bottom",
+        "curl_handle",
+        "pullup_bar"
+      ]
+    },
+    {
+      "id": "hip_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    },
+    {
+      "id": "hip_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    },
+    {
+      "id": "knee_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    },
+    {
+      "id": "knee_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    },
+    {
+      "id": "ankle_l",
+      "side": "left",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    },
+    {
+      "id": "ankle_r",
+      "side": "right",
+      "support_vertex_ids": null,
+      "loaded_poses": [
+        "lunge",
+        "squat_bottom"
+      ]
+    }
+  ],
+  "required_per_joint_evidence": [
+    "neutral wire/surface view",
+    "every declared loaded-pose wire/surface view",
+    "support-loop/vertex-ID record",
+    "candidate/source identity"
+  ],
+  "note": "Template only. Filling this plan is a Phase 6 authoring/evidence task, not an automatic topology inference."
+}

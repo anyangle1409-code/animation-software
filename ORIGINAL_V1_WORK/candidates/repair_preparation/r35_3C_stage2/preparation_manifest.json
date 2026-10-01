@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "state": "PREPARATION_ONLY",
+  "phase": "3C",
+  "parent_candidate": "r35",
+  "before_candidate_sha256": "741ff74f24ffdfbda952875ca6136e23abe05a68881b83dceeb42758ed1f31d8",
+  "diagnostics_state": "VERIFIED_PROBES",
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
+      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+    },
+    {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "sha256": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95"
+    },
+    {
+      "path": "ORIGINAL_V1_PRODUCTION_CONTROL.json",
+      "sha256": "bd66e7ef2ad1b53404c7c8479960dd2b8abc685bc4966223037a86327e9061fc"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r35.json",
+      "sha256": "e703fba8a5ae517fc79957f09520b6f022873805ea5f6b4a71f89040272b8333"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_R2.json",
+      "sha256": "38a848fe18c48e7fb51c0b0bddb3c9c2f1581e19fa73b2230011b5bf442b5fe8"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r28.json",
+      "sha256": "4490169aedd69752d09988a4ede12bf80100e7d950af108d92ea4b65c57b666f"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r29.json",
+      "sha256": "321ffbf7f149bfbe3e63b16134c9e5a3a943f05a269759c1d26a27947d368e37"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r30.json",
+      "sha256": "4c65610e56256d77a33d1a5b4aed31bb32ea94dff62e0c07675d7feea912db46"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_comparison_vs_r32.json",
+      "sha256": "c8fc0ce21006379fbc71450c5631ea3d88af5930362f77500b733d66fe0f8747"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_evidence_manifest.json",
+      "sha256": "19eb709f6e65f98cd3dd4059d43bec5face86001f467a90db84776ad11921131"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r35_merged_pose_report.json",
+      "sha256": "276279fffe454baba6820627c6c531477d1d6577d91325b28797414786aee4b5"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/diagnostic_brief.json",
+      "sha256": "4575ff7a007e715cc077ddaf10d735c1d9d888c8d880802bbd7ddead70d0d913"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/edge_extremes.json",
+      "sha256": "b47f5f078cf151cc87e53809eeadff7ef6ca0d16a28127c80beac36f796f6dce"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r35/grip_penetration.json",
+      "sha256": "ae43fbdcdb84ae312abfba94f94f5f94b399de86934f37dc1f3680bc6347e335"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/visual_r35/visual_review_manifest.json",
+      "sha256": "6f9a62f6a41fa293d0103c39fda08bc34efc5c302bfb68e50f7fc2d2412fac7b"
+    },
+    {
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+      "sha256": "0f65d66e511c7b8102a4490e488485e63370de991dfef5a8bc448bf8cdd02935"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3C_stage2/README.md",
+      "sha256": "7cfb26bbc48008b258c00a98a1491d3332c3b5efa67c79209d02426a2f4178ef"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3C_stage2/audit_policy_template.json",
+      "sha256": "591eeca299dfef7d89abcdebc81112c947a3b66f09d542c1dda621a208ea3c68"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3C_stage2/edit_intent_template.json",
+      "sha256": "f70d040fab43d79825ce1e432ad39d7689e7d2e0031832f028cc3aec433975ca"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r35_3C_stage2/inspection_context.json",
+      "sha256": "63b1387926c6ad3ad7101ff2c369b71defa4bc6f48ff654585e8064cb7d2c351"
+    }
+  ],
+  "edit_authorised": false,
+  "production_approved": false
+}

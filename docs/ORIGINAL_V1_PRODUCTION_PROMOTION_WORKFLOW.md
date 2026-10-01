@@ -56,6 +56,17 @@ identity, explicit check coverage, phase dependencies, owner acceptance, assets,
 recomputes development/production deformation and refuses unresolved strict R2
 regressions. It never flips production flags or edits a release allowlist.
 
+The eligibility receipt now also binds the exact promotion-packet path/SHA-256,
+final candidate SHA-256 and target runtime commit. A later final-freeze verifier
+must see that exact binding; historical receipts without it must be regenerated
+from the final packet rather than relabelled.
+
+After a successful promotion eligibility receipt, follow
+`docs/work_packages/PHASE_12_PRODUCTION_FREEZE.md`. The final-freeze layer requires
+all Phase 4-11 exit reports plus a separate explicit owner decision
+`OWNER AUTHORISED PRODUCTION FREEZE`, bound to the same assets/runtime/promotion
+packet+receipt. That verifier remains non-mutating and cannot set production state.
+
 On refusal, preserve issues and repair only the failed gate. On all gates
 satisfied, perform a separate controlled owner-authorised asset-only integration
 on the standalone branch; never merge this branch's older runtime/framework code.

@@ -699,6 +699,9 @@ const horizontalPress: GeneratorFamily<HorizontalPressVariant> = {
       slots,
       [
         [/\bdecline\b/, 'a decline push-up elevates the feet; only the standard floor push-up is certified.'],
+        [/\b(?:feet?|toes?)\s+(?:elevated|raised|on\s+(?:a\s+)?(?:bench|box|step))\b/, 'raising the feet/toes makes this a decline push-up; only the standard floor push-up is certified.'],
+        [/\b(?:hands?|palms?)\s+(?:elevated|raised|on\s+(?:a\s+)?(?:bench|box|step))\b/, 'raising the hands makes this an incline push-up; only the standard floor push-up is certified.'],
+        [/\belevated\s+push[-\s]?ups?\b/, 'an elevated push-up changes support height; only the standard floor push-up is certified.'],
         [/\b(?:knee|kneeling)\b/, 'a knee push-up changes the lower-body support; only the standard toe-supported push-up is certified.'],
         [/\bdiamond\b|\bclose[-\s]?grip\b|\bnarrow\b/, 'a narrow or diamond push-up changes hand spacing; that variant is not certified.'],
         [/\bwide(?:[-\s]?grip)?\b/, 'a wide push-up changes hand spacing; that variant is not certified.'],

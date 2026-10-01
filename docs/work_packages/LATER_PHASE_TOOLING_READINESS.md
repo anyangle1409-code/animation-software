@@ -157,3 +157,13 @@ Visual-QA mask gap closure adds `scripts/original_v1_mask_raster.py`,
 `VISUAL_QA_MASK_CAPTURE_PROTOCOL.md`. Model/Blender review masks can now be produced
 without third-party image libraries or segmentation models; final Phase 11 still
 requires equivalent masks from the exact real-runtime capture path.
+
+
+## Cross-phase laptop close safety
+
+`RUN_ORIGINAL_V1_SESSION_CLOSE.bat` and `SESSION_CLOSE_PROTOCOL.md` now provide a
+read-only end-of-session check across all model phases. They verify branch/remote
+sync, dirty files, generated status, O4 handoff coverage, partial candidate local
+Blend/manifest identity and orphaned local candidate bytes. A preserved partial
+candidate remains incomplete; the checker only ensures the next session receives
+an unambiguous recovery state.

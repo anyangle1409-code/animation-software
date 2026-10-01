@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_PHASE5_EXECUTION_PLAN",
+  "phase_complete": false,
+  "production_approved": false,
+  "phase": 5,
+  "phase_name": "High-detail anatomy",
+  "entry": [
+    "Phase 4 candidate-bound exit report verified",
+    "development freeze candidate exact SHA known",
+    "zero development blockers and no unresolved strict freeze regressions",
+    "live branch reconciled and local candidate/source manifest verified"
+  ],
+  "order": [
+    "5A",
+    "5B",
+    "5C",
+    "5D",
+    "5E",
+    "5F",
+    "5G"
+  ],
+  "common_rules": [
+    "Each region starts from the latest verified Phase-5 parent, never from an older visual preference.",
+    "Record candidate-bound region mask/vertex IDs and operation intent before editing.",
+    "Preserve 1.82 m dimensions, 63-bone canonical-v4 rest/hierarchy, R2 baseline, frozen poses and thresholds.",
+    "Prefer stable vertex IDs/topology. Any topology change is isolated and requires explicit authored correspondence.",
+    "No legacy/V-series/third-party geometry, weights, bind data, images, scans, textures or projection.",
+    "Every meaningful candidate receives full 15-pose evidence and comparisons against R2, direct parent and development-freeze candidate.",
+    "Routine real-image review is non-blocking; OWNER ACCEPTED is not inferred.",
+    "A regional improvement cannot hide a new blocker, contact loss, protected-region edit or material predecessor regression."
+  ],
+  "regions": {
+    "5A": {
+      "name": "Torso",
+      "work_package": "docs/work_packages/PHASE_5A_TORSO.md",
+      "permitted_scope": "Chest, ribcage, back and abdomen skin only",
+      "protected_boundaries": [
+        "shoulder joint ring",
+        "pelvis boundary",
+        "neck boundary"
+      ],
+      "landmarks": [
+        "ribcage barrel",
+        "sternum/pectoral margins",
+        "scapular/back planes",
+        "lumbar/oblique transitions"
+      ],
+      "focused_poses": [
+        "press_top",
+        "press_top_rhythm",
+        "pullup_hang_rhythm",
+        "row",
+        "lunge",
+        "squat_bottom"
+      ],
+      "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "neutral_three_quarter",
+        "torso_close",
+        "back_close",
+        "press_top",
+        "row",
+        "squat_bottom",
+        "lunge"
+      ]
+    },
+    "5B": {
+      "name": "Shoulders",
+      "work_package": "docs/work_packages/PHASE_5B_SHOULDERS.md",
+      "permitted_scope": "Deltoid, clavicular and axillary surface only",
+      "protected_boundaries": [
+        "Phase 3A deformation support",
+        "solved shoulder weights outside declared need"
+      ],
+      "landmarks": [
+        "clavicle path",
+        "acromion",
+        "humeral cap",
+        "anterior axilla",
+        "posterior axilla"
+      ],
+      "focused_poses": [
+        "press_bottom",
+        "press_top",
+        "press_top_rhythm",
+        "pullup_hang",
+        "pullup_hang_rhythm",
+        "pullup_top"
+      ],
+      "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "shoulder_front_close",
+        "shoulder_rear_close",
+        "press_bottom",
+        "press_top",
+        "pullup_hang",
+        "pullup_top"
+      ]
+    },
+    "5C": {
+      "name": "Arms",
+      "work_package": "docs/work_packages/PHASE_5C_ARMS.md",
+      "permitted_scope": "Upper-arm and forearm surface inside declared mask",
+      "protected_boundaries": [
+        "shoulder ring",
+        "palm",
+        "finger vertices"
+      ],
+      "landmarks": [
+        "biceps/triceps paths",
+        "olecranon/condyles",
+        "forearm flexor/extensor mass",
+        "wrist landmarks"
+      ],
+      "focused_poses": [
+        "curl_peak",
+        "press_bottom",
+        "press_top",
+        "row",
+        "pushup_bottom"
+      ],
+      "required_views": [
+        "neutral_arm_front",
+        "neutral_arm_rear",
+        "neutral_arm_side",
+        "elbow_close",
+        "wrist_close",
+        "curl_peak",
+        "press_top",
+        "row",
+        "pushup_bottom"
+      ]
+    },
+    "5D": {
+      "name": "Hands",
+      "work_package": "docs/work_packages/PHASE_5D_HANDS.md",
+      "permitted_scope": "Local palm, dorsal, finger and thumb forms inside declared mask",
+      "protected_boundaries": [
+        "recovered crease spacing",
+        "wrist boundary",
+        "measured equipment frames",
+        "grip contact solution"
+      ],
+      "landmarks": [
+        "palm arch",
+        "thenar/hypothenar",
+        "thumb web",
+        "MCP/PIP/DIP",
+        "thumb IP",
+        "fingertips"
+      ],
+      "focused_poses": [
+        "curl_peak",
+        "grip",
+        "curl_handle",
+        "pullup_bar",
+        "pushup_bottom"
+      ],
+      "required_views": [
+        "palm_left",
+        "palm_right",
+        "dorsal_left",
+        "dorsal_right",
+        "thumb_close",
+        "curl_handle_close",
+        "pullup_bar_close",
+        "pushup_loaded_hand"
+      ]
+    },
+    "5E": {
+      "name": "Pelvis and legs",
+      "work_package": "docs/work_packages/PHASE_5E_PELVIS_LEGS.md",
+      "permitted_scope": "Pelvis, glute, thigh, knee and calf surface inside declared mask",
+      "protected_boundaries": [
+        "torso boundary",
+        "foot boundary",
+        "repaired groin support"
+      ],
+      "landmarks": [
+        "iliac/glute transitions",
+        "adductors/quads/hamstrings",
+        "patella/condyles",
+        "calf/Achilles"
+      ],
+      "focused_poses": [
+        "lunge",
+        "squat_bottom",
+        "pushup_bottom",
+        "row"
+      ],
+      "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "hip_close",
+        "knee_close",
+        "lunge_front",
+        "lunge_side",
+        "lunge_three_quarter",
+        "squat_front",
+        "squat_side"
+      ]
+    },
+    "5F": {
+      "name": "Feet",
+      "work_package": "docs/work_packages/PHASE_5F_FEET.md",
+      "permitted_scope": "Foot and toe surface only",
+      "protected_boundaries": [
+        "ankle boundary",
+        "foot-lock/contact geometry",
+        "canonical rig"
+      ],
+      "landmarks": [
+        "heel/arch/ball",
+        "malleoli/Achilles transition",
+        "toe roots",
+        "rounded toe tips",
+        "sole plane"
+      ],
+      "focused_poses": [
+        "squat_bottom",
+        "lunge",
+        "pushup_bottom"
+      ],
+      "required_views": [
+        "neutral_foot_side",
+        "neutral_foot_top",
+        "neutral_sole",
+        "neutral_foot_rear",
+        "ankle_close",
+        "squat_floor",
+        "lunge_floor",
+        "pushup_floor"
+      ]
+    },
+    "5G": {
+      "name": "Head and neck",
+      "work_package": "docs/work_packages/PHASE_5G_HEAD_NECK.md",
+      "permitted_scope": "Head and upper cervical skin only",
+      "protected_boundaries": [
+        "frozen neck joint/rest",
+        "shoulder/trapezius boundary"
+      ],
+      "landmarks": [
+        "cranial/jaw planes",
+        "eye/nose/ear volumes",
+        "cervical/SCM/trapezius transitions"
+      ],
+      "focused_poses": [
+        "press_top_rhythm",
+        "pullup_hang_rhythm",
+        "row"
+      ],
+      "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "neutral_three_quarter_front",
+        "neutral_three_quarter_rear",
+        "face_close",
+        "ear_close",
+        "neck_close",
+        "press_top_rhythm",
+        "row_neck"
+      ]
+    }
+  },
+  "per_region_required_evidence": [
+    "entry_receipt",
+    "candidate/source manifest identity",
+    "development-freeze report identity",
+    "direct-parent identity",
+    "declared edit mask/policy",
+    "before raw snapshot",
+    "after raw snapshot",
+    "change audit",
+    "mesh/weight audit",
+    "full 15-pose merged report and source receipt",
+    "R2 comparison",
+    "direct-parent comparison",
+    "development-freeze comparison",
+    "actual required render/capture manifest",
+    "regional review manifest",
+    "regional execution report"
+  ],
+  "regional_exit_rules": [
+    "all declared required views captured from real candidate imagery",
+    "all focused poses represented in evidence",
+    "changes remain inside permitted region or explicitly authored correspondence",
+    "no protected-boundary edits",
+    "no new development blockers",
+    "no material direct-parent or development-freeze regressions",
+    "no grip/floor/contact loss",
+    "topology and weight changes fully accounted for",
+    "owner_review recorded explicitly as pending/accepted/rejected; never inferred"
+  ],
+  "phase_exit": "After 5G, create the Phase 5 exit report using ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md. Region packets do not themselves mark Phase 5 complete."
+}

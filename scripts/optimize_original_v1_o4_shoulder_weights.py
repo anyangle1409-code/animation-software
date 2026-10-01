@@ -192,6 +192,9 @@ PRESETS["o26"] = dict(PRESETS["o25"], tt_resolve=False, max_margin=0.0)
 PRESETS["o27"] = dict(PRESETS["o22"], zone_mode="pelvis", zmin=0.74, zmax=1.0, symmetric=True, tt_resolve=False,
                       max_margin=0.02, rounds=2,
                       tt_poses=("lunge", "squat_bottom", "pushup_bottom", "row", "neutral"))
+# o28: continuation of o27 on the SAME declared mask (hyperparameters are not permissions). o27 ended with the
+# loss still falling (3.3M -> ~1.2M) at its iteration limits; o28 warm-starts from it with ~3x the budget.
+PRESETS["o28"] = dict(PRESETS["o27"], iters=450, polish_iters=300, rounds=3)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
 
 

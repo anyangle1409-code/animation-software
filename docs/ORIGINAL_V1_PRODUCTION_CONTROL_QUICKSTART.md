@@ -357,3 +357,17 @@ candidate/phase, blocker counts, exact next action, next major milestone, comple
 and remaining roadmap phases, Phase 3/5 subphase states and the 12/12 prepared
 support-tooling count. It deliberately does not invent a model-completion
 percentage because roadmap phases have unequal real Blender workload.
+
+
+### Claude laptop acceleration
+
+Use `RUN_ORIGINAL_V1_CLAUDE_START.bat` at the start of a laptop session. It runs
+preflight, next-action selection, execution-plan validation and prints the compact
+live Claude brief without launching Blender. For completed candidates use
+`RUN_ORIGINAL_V1_CANDIDATE_CLOSE.bat <rN>`, `RUN_ORIGINAL_V1_REVIEW_PACKAGE.bat <rN>`
+and/or `RUN_ORIGINAL_V1_CANDIDATE_HANDOFF.bat <rN>`. Check laptop-only Blend
+identity with `RUN_ORIGINAL_V1_BLEND_INVENTORY.bat`; an optional local recovery
+copy can be made with `RUN_ORIGINAL_V1_LOCAL_BACKUP.bat <fresh-directory-outside-repo>`.
+End with `RUN_ORIGINAL_V1_CLAUDE_END.bat [rN]`. Full rules are in
+`work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. None of these wrappers advances a
+roadmap phase or infers acceptance.

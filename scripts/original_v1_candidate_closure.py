@@ -66,14 +66,18 @@ def verify_candidate(root:Path,revision:str)->dict:
         else:
             try:
                 pose=json.loads(pose_path.read_text(encoding="utf-8-sig"));ensure_finite(pose)
-                # Candidate identity may live in one of several existing receipt shapes.
-                values={
-                    pose.get("candidate_sha256"),
-                    pose.get("source_candidate_sha256"),
-                    pose.get("manifest_candidate_sha256"),
-                }-{None}
-                if values and sha not in values:
-                    issues.append("merged pose report candidate identity differs")
+                # Candidate identity may live in one of several existing receipt shapes. The real merged pose
+                # report written by merge_original_v1_repair_group_reports.py is a LIST of per-pose records with no
+                # identity fields (its identity is bound by full_<rN>_evidence_manifest.json, which production
+                # control verifies), so only a dict-shaped receipt can carry an identity to compare here.
+                if isinstance(pose,dict):
+                    values={
+                        pose.get("candidate_sha256"),
+                        pose.get("source_candidate_sha256"),
+                        pose.get("manifest_candidate_sha256"),
+                    }-{None}
+                    if values and sha not in values:
+                        issues.append("merged pose report candidate identity differs")
             except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
                 issues.append("merged pose report invalid: "+str(exc))
 

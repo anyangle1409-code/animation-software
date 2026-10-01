@@ -150,6 +150,14 @@ def verify_packet(root,packet):
     return issues
 
 
+
+def eligibility_receipt(issues,packet_identity,packet):
+    return {'schema_version':1,'eligibility':'REFUSED' if issues else 'ALL_REQUIRED_GATES_SATISFIED',
+            'production_approved':False,'issues':list(issues),'promotion_packet':packet_identity,
+            'candidate_sha256':packet.get('candidate_sha256') if isinstance(packet,dict) else None,
+            'target_runtime_commit':packet.get('target_runtime_commit') if isinstance(packet,dict) else None,
+            'note':'Eligibility evidence only. No assets, baseline, state or release allowlist is modified.'}
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('packet',type=Path,nargs='?');ap.add_argument('--json-out',type=Path)
     ap.add_argument('--template',action='store_true',help='Prepare INCOMPLETE packet/report shapes; no checks or promotion');args=ap.parse_args()
@@ -176,11 +184,7 @@ def main():
         for n in range(0,12):
             if state['phases'][str(n)]['state']!='complete':issues.append('Phase '+str(n)+' is incomplete')
     except (OSError,ValueError,KeyError,TypeError) as exc:issues.append(str(exc))
-    result={'schema_version':1,'eligibility':'REFUSED' if issues else 'ALL_REQUIRED_GATES_SATISFIED',
-            'production_approved':False,'issues':issues,'promotion_packet':packet_identity,
-            'candidate_sha256':packet.get('candidate_sha256') if isinstance(locals().get('packet'),dict) else None,
-            'target_runtime_commit':packet.get('target_runtime_commit') if isinstance(locals().get('packet'),dict) else None,
-            'note':'Eligibility evidence only. No assets, baseline, state or release allowlist is modified.'}
+    result=eligibility_receipt(issues,packet_identity,locals().get('packet'))
     if args.json_out:
         if args.json_out.exists():raise SystemExit('STOP — promotion receipt output already exists')
         args.json_out.parent.mkdir(parents=True,exist_ok=True);args.json_out.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')

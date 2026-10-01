@@ -69,14 +69,14 @@ const TEMPO_WORDS: [RegExp, Exclude<TempoProfile, 'family'>][] = [
 ];
 
 const EQUIPMENT_WORDS: [RegExp, Equipment][] = [
-  [/\bdumb-?bells?\b|\bdbs?\b/g, 'dumbbell'],
+  [/\bdumb[-\s]?bells?\b|\bdumbells?\b|\bdbs?\b/g, 'dumbbell'],
   [/\bez[-\s]?(?:curl[-\s]?)?bar\b/g, 'ez_bar'],
-  [/\bbarbells?\b/g, 'barbell'],
+  [/\bbar[-\s]?bells?\b|\bbar[-\s]?bels?\b/g, 'barbell'],
   [/\bcables?\b|\bpulley\b/g, 'cable'],
-  [/\bkettle-?bells?\b|\bkbs?\b/g, 'kettlebell'],
+  [/\bkettle[-\s]?bells?\b|\bkbs?\b/g, 'kettlebell'],
   [/\b(?:resistance\s+)?bands?\b/g, 'band'],
   [/\bmachines?\b/g, 'machine'],
-  [/\bbody-?weight\b/g, 'bodyweight'],
+  [/\bbody[-\s]?weight\b/g, 'bodyweight'],
 ];
 
 function collect<T>(text: string, table: [RegExp, T][]): Slot<T>[] {

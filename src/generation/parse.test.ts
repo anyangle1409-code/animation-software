@@ -216,6 +216,16 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('recognises common equipment spellings so defaults cannot hide the requested implement', () => {
+    expect(parsePrompt('exercise: dumbell calf raise with 14 kg').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbell calf raise with 14 kg').intent?.equipment).toBe('dumbbell');
+
+    expect(blocking('exercise: barbel shoulder press')).toContain('equipment');
+    expect(blocking('exercise: bar bell shoulder press')).toContain('equipment');
+    expect(blocking('exercise: body weight shoulder press')).toContain('equipment');
+    expect(blocking('exercise: kettle bell shoulder press')).toContain('equipment');
+  });
+
   it('normalises mobile punctuation before deterministic parsing', () => {
     const cases = [
       ['exercise: farmer’s walk', 'carry'],

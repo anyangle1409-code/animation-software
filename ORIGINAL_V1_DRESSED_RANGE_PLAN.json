@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "purpose": "Deterministic ORIGINAL-v1 sampled movement-range plan for body/garment/floor evidence. This is model stress interpolation, not runtime exercise biomechanics.",
+  "sample_policy": {
+    "kind": "uniform_normalized_segments",
+    "samples_per_segment": 21,
+    "includes_segment_endpoints": true,
+    "deduplicate_shared_waypoints": true,
+    "adaptive_refinement": false,
+    "limitation": "Uniform finite sampling does not mathematically prove the unsampled intervals. Phase 9 still requires explicit review of peaks and any later runtime-specific continuous evidence."
+  },
+  "interpolation": {
+    "rig_object": "linear location/scale plus quaternion slerp",
+    "pose_bones": "matrix_basis decomposition; linear location/scale plus quaternion slerp",
+    "source_waypoints": "authoritative frozen POSES from scripts/pose_test_original_v1_o4_candidate_blender.py",
+    "prohibited": "No new pose definitions, no runtime exercise solver substitution, no gate or baseline changes."
+  },
+  "contact_scope": {
+    "measured": [
+      "body_garment_face_intersections",
+      "body_floor_vertices",
+      "garment_floor_vertices",
+      "body_garment_nearest_surface_distance"
+    ],
+    "equipment": "not interpolated here; curl_handle and pullup_bar remain static endpoint evidence until an independently authored continuous equipment path/runtime harness exists",
+    "classification": [
+      "UNCLASSIFIED",
+      "LEGITIMATE_CONTACT",
+      "UNEXPLAINED_DEFECT"
+    ],
+    "rule": "Every sampled body/garment intersection set and floor penetration finding remains UNCLASSIFIED unless a source-bound classification row explicitly covers that sample. Classification never changes raw measurements."
+  },
+  "paths": [
+    {
+      "id": "curl_range",
+      "waypoints": [
+        "neutral",
+        "curl_peak",
+        "neutral"
+      ],
+      "coverage": [
+        "elbow_flexion",
+        "forearm_hand",
+        "garment_stability"
+      ]
+    },
+    {
+      "id": "press_range",
+      "waypoints": [
+        "press_bottom",
+        "press_top",
+        "press_bottom"
+      ],
+      "coverage": [
+        "overhead_shoulder",
+        "torso",
+        "waist_clearance"
+      ]
+    },
+    {
+      "id": "pullup_range",
+      "waypoints": [
+        "pullup_hang",
+        "pullup_top",
+        "pullup_hang"
+      ],
+      "coverage": [
+        "overhead_traction_range",
+        "shoulder",
+        "torso",
+        "waist_clearance"
+      ]
+    },
+    {
+      "id": "squat_range",
+      "waypoints": [
+        "neutral",
+        "squat_bottom",
+        "neutral"
+      ],
+      "coverage": [
+        "deep_hip_flexion",
+        "groin",
+        "seat",
+        "waist",
+        "floor"
+      ]
+    },
+    {
+      "id": "lunge_range",
+      "waypoints": [
+        "neutral",
+        "lunge",
+        "neutral"
+      ],
+      "coverage": [
+        "unilateral_hip",
+        "groin",
+        "hem",
+        "toe_floor"
+      ]
+    },
+    {
+      "id": "row_range",
+      "waypoints": [
+        "neutral",
+        "row",
+        "neutral"
+      ],
+      "coverage": [
+        "hip_hinge",
+        "torso",
+        "waist",
+        "shoulder"
+      ]
+    }
+  ],
+  "deliberately_uncovered": [
+    {
+      "id": "pushup_continuous",
+      "reason": "Only pushup_bottom is frozen in the current authoritative stress set. Interpolating from neutral would not represent a meaningful push-up range. Requires an independently authored compatible top/support endpoint or the real runtime path."
+    },
+    {
+      "id": "continuous_equipment_contact",
+      "reason": "Static curl_handle and pullup_bar evidence exists, but the current stress script does not define source-bound continuous equipment transforms for interpolation."
+    }
+  ],
+  "production_approved": false,
+  "phase_complete": false
+}

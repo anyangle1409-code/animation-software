@@ -216,6 +216,11 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('blocks ambiguous free-weight wording instead of silently assuming dumbbells', () => {
+    expect(blocking('exercise: free weights shoulder press')).toContain('equipment');
+    expect(blocking('exercise: free-weight Romanian deadlift')).toContain('equipment');
+  });
+
   it('blocks unilateral arm/hand wording instead of silently substituting bilateral motion', () => {
     expect(blocking('exercise: one-handed dumbbell curl')).toContain('execution');
     expect(blocking("exercise: left-hand farmer's walk")).toContain('execution');

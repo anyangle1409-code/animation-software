@@ -841,9 +841,27 @@ const squat: GeneratorFamily<SquatVariant> = {
       issues,
     );
 
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the bodyweight squat holds no implement and has no prompt-selectable grip.`,
+        ),
+      );
+    }
+    const support = interpretSupport(slots, ['standing'], 'squat', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: squat depth and joint angles are owned by the certified family and are not prompt-parameterised.`,
+        ),
+      );
+    }
+
     const { tempo } = interpretCommon(slots, 'squat', 'bodyweight', 0, assumptions, issues);
     return {
-      intent: { prompt, family: 'squat', equipment: 'bodyweight', execution: 'bilateral', support: 'standing', load: 0, tempo },
+      intent: { prompt, family: 'squat', equipment: 'bodyweight', execution: 'bilateral', support, load: 0, tempo },
       assumptions,
       issues,
     };
@@ -925,9 +943,27 @@ const lunge: GeneratorFamily<LungeVariant> = {
       assumptions.push('No step direction was named; read as the forward lunge, stepping in from standing.');
     }
 
+    if (slots.grips.length > 0) {
+      issues.push(
+        blocking(
+          'grip',
+          `${quote(slots.grips.map((slot) => slot.words))}: the bodyweight lunge/split squat holds no implement and has no prompt-selectable grip.`,
+        ),
+      );
+    }
+    const support = interpretSupport(slots, ['standing'], 'lunge', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: lunge depth and joint angles are owned by the certified family and are not prompt-parameterised.`,
+        ),
+      );
+    }
+
     const { tempo } = interpretCommon(slots, 'lunge', 'bodyweight', 0, assumptions, issues);
     return {
-      intent: { prompt, family: 'lunge', equipment: 'bodyweight', execution: 'bilateral', support: 'standing', step, load: 0, tempo },
+      intent: { prompt, family: 'lunge', equipment: 'bodyweight', execution: 'bilateral', support, step, load: 0, tempo },
       assumptions,
       issues,
     };
@@ -1289,6 +1325,14 @@ const verticalPull: GeneratorFamily<VerticalPullVariant> = {
       issues.push(blocking('grip', 'The certified pull-up uses a pronated overhand grip; chin-up/neutral-grip variants are not certified.'));
     }
     const support = interpretSupport(slots, ['hanging'], 'pull-up', assumptions, issues);
+    if (slots.angles.length > 0) {
+      issues.push(
+        blocking(
+          'angle',
+          `${quote(slots.angles.map((slot) => slot.words))}: the strict pull-up's body and joint angles are fixed by the certified family and are not prompt-parameterised.`,
+        ),
+      );
+    }
     const { load, tempo } = interpretCommon(slots, 'pull-up', 'bodyweight', 0, assumptions, issues);
     return {
       intent: {

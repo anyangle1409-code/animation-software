@@ -281,6 +281,22 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not silently discard support, grip or angle instructions in squat/lunge/pull-up families', () => {
+    expect(blocking('exercise: seated squat')).toEqual(['support']);
+    expect(blocking('exercise: squat at 90 degrees')).toEqual(['angle']);
+    expect(blocking('exercise: squat with palms up')).toEqual(['grip']);
+
+    expect(blocking('exercise: seated forward lunge')).toEqual(['support']);
+    expect(blocking('exercise: forward lunge at 90 degrees')).toEqual(['angle']);
+    expect(blocking('exercise: reverse lunge with palms down')).toEqual(['grip']);
+
+    expect(blocking('exercise: pull-up at 90 degrees')).toEqual(['angle']);
+
+    expect(parsePrompt('exercise: standing squat').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: standing reverse lunge').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: strict pull-up from a dead hang').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not silently replace unsupported support, stance or grip-width modifiers with family defaults', () => {
     expect(blocking('exercise: kneeling dumbbell shoulder press')).toEqual(['support']);
     expect(blocking('exercise: half-kneeling dumbbell curl')).toEqual(['support']);

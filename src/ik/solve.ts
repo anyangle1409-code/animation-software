@@ -177,7 +177,10 @@ function settleForearmRotation(
   }
   const preciseLow = Math.max(limit.min, best.degrees - 0.3);
   const preciseHigh = Math.min(limit.max, best.degrees + 0.3);
-  for (let degrees = preciseLow; degrees <= preciseHigh + 1e-9; degrees += 0.025) {
+  // World contacts need the palm plane itself to settle, not merely look close.
+  // A 0.001° final sweep is still bounded to 0.6° around the already-found
+  // basin and runs only for explicitly opted-in world arm contacts.
+  for (let degrees = preciseLow; degrees <= preciseHigh + 1e-9; degrees += 0.001) {
     const result = tryTwist(degrees);
     if (better(result, best.result)) best = { degrees, result };
   }

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "baseline_id": "original_v1_o4_p2b1_20261002",
+  "purpose": "Pinned comparison baseline for ORIGINAL v1 deformation candidates evaluated under stress-pose definition P2 (skeleton-motion validation). Candidate r38 re-measured under P2. R2 remains the pinned baseline of the P1 pose-definition epoch (candidates r1..r38). Not an approval record.",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "epoch": "P2",
+  "pose_definition": {
+    "revision": "P2",
+    "path": "scripts/pose_test_original_v1_o4_candidate_blender.py"
+  },
+  "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+  "inputs": {
+    "pose_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
+      "git_blob_sha": "0b71472c36f8b4b63f145f909a89ae99553b2f39"
+    },
+    "grip_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
+      "git_blob_sha": "0b71472c36f8b4b63f145f909a89ae99553b2f39",
+      "note": "Grip metrics embedded in the pose report."
+    },
+    "acceptance_spec": {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "git_blob_sha": "ca9316fd4d15921bdf980dc2e1c68b97009329ce",
+      "note": "Acceptance pass/fail thresholds unchanged; this blob adds severity comparison tolerances and complete repair-group ownership for current blockers."
+    }
+  },
+  "evaluation": {
+    "development_blocker_failed_checks": 5,
+    "production_target_failed_checks": 118,
+    "development_failure_counts_by_pose": {
+      "press_top": 1,
+      "press_top_rhythm": 1,
+      "pushup_bottom": 1,
+      "pullup_hang": 1,
+      "pullup_bar": 1
+    },
+    "development_failure_counts_by_region": {
+      "shoulder": 3,
+      "null": 1,
+      "hand": 1
+    }
+  },
+  "comparison_rule": "Future repairs should reduce failed checks without increasing the failed-check count or materially worsening severity for any baseline pose/grip. Use scripts/compare_original_v1_deformation_reports.py.",
+  "provenance_rule": "V8-V15f material remains reference-only. This baseline records ORIGINAL v1 candidate measurements only and authorizes no copying from legacy/reference assets.",
+  "status": "candidate_baseline_not_production"
+}

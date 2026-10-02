@@ -17,6 +17,7 @@ if not exist "%CANDIDATE%" (
   echo ERROR: Candidate Blend not found: %CANDIDATE%
   exit /b 2
 )
+for /f "tokens=1,2" %%A in ('python scripts\original_v1_epoch_baseline.py %REV%') do (set "BASELINE_TAG=%%A" & set "BASELINE_REPORT=%%B")
 for %%G in (shoulder hand hip pushup row) do (
   call RUN_ORIGINAL_V1_REPAIR_CHECK.bat %%G "%CANDIDATE%" %%G_%REV% --report-only
   if errorlevel 1 exit /b 1

@@ -6,7 +6,8 @@
     "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95",
     "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
     "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
-    "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe"
+    "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "7e21abaedc7cd58aae9c63d6bcc8435c768027645ce4e90c836f62a78e1fa48c"
   },
   "execution_parent": "r29",
   "planned_experiment": {
@@ -234,7 +235,7 @@
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
     "revision": "P2",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "14fd0f7f803b55c029ced8e82bd824766a5d36408a06e2dd8cade6d7968722e5",
+    "sha256": "dbc0ca8ccf566e46d853522c465a003b0a383bb9590ac818089f7eaa36d9d05b",
     "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
   },
   "pose_definition_history": [
@@ -251,6 +252,22 @@
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_joint_kinematics.json",
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_skeleton_motion.json"
       ]
+    }
+  ],
+  "baseline_epochs": [
+    {
+      "name": "R2",
+      "pose_definition": "P1",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json",
+      "first_rev": 0,
+      "note": "candidates r1..r38 (all evidence recorded before 2026-10-02)"
+    },
+    {
+      "name": "P2B1",
+      "pose_definition": "P2",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
+      "first_rev": 39,
+      "note": "candidates r39+ are measured under stress-pose definition P2; baseline = r38 re-measured under P2"
     }
   ]
 }

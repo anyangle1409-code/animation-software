@@ -71,6 +71,17 @@ def rest_axes():
 AXES = rest_axes()
 
 
+def rest_thumb_axes():
+    reset()
+    out = {}
+    for s in "lr":
+        out[s] = pb(f"hand_{s}").matrix.to_3x3().inverted() @ dirn(f"thumb_01_{s}").cross(palm_normal(s)).normalized()
+    return out
+
+
+THUMB_AXES = rest_thumb_axes()
+
+
 def signed(a, b, axis):
     a, b = a.normalized(), b.normalized()
     return math.degrees(math.atan2(axis.dot(a.cross(b)), a.dot(b)))
@@ -90,6 +101,14 @@ def finger(s, f):
             "cumulative_deg": [round(c, 3) for c in cum], "flags": flags}
 
 
+def thumb(s):
+    axis = (pb(f"hand_{s}").matrix.to_3x3() @ THUMB_AXES[s]).normalized()
+    c = [dirn(f"thumb_0{k}_{s}") for k in (1, 2, 3)]
+    mcp, ip = signed(c[0], c[1], axis), signed(c[1], c[2], axis)
+    flags = ["reverse_bend"] if min(mcp, ip) < -2.0 else []
+    return {"mcp_deg": round(mcp, 3), "ip_deg": round(ip, 3), "flags": flags}
+
+
 result = {"schema_version": 1, "generated_utc": datetime.now(timezone.utc).isoformat(),
           "purpose": "fixed-axis finger flexion audit (reversal-proof); read-only",
           "source_candidate": Path(bpy.data.filepath).name,
@@ -106,6 +125,10 @@ for name, fn in POSES.items():
     rec = {"pose": name, "hands": {}}
     for s in "lr":
         rec["hands"][s] = {f: finger(s, f) for f in FINGERS}
+        t = thumb(s)
+        rec.setdefault("thumbs", {})[s] = t
+        for fl in t["flags"]:
+            result["flagged"].append({"pose": name, "side": s, "finger": "thumb", "flag": fl, "mcp_deg": t["mcp_deg"], "ip_deg": t["ip_deg"]})
         for f, r in rec["hands"][s].items():
             for fl in r["flags"]:
                 result["flagged"].append({"pose": name, "side": s, "finger": f, "flag": fl, **{k: r[k] for k in ("mcp_deg", "pip_deg", "dip_deg")}})

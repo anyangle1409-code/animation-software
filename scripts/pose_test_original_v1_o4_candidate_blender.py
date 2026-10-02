@@ -146,10 +146,10 @@ def grip(s, amount=1.0, thumb=True):
         for k, deg in ((1, 70), (2, 88), (3, 55)):
             rot(f"{f}_0{k}_{s}", axis, deg * amount)
     if thumb:
+        # the thumb MCP/IP joints are parallel hinges too: one axis for the chain (P1 re-derived it per bone and reversed the IP)
+        axis = bdir(f"thumb_01_{s}").cross(n + bdir(f"index_01_{s}") * 0.6).normalized()
         for k, deg in ((1, 28), (2, 30), (3, 38)):
-            name = f"thumb_0{k}_{s}"
-            axis = bdir(name).cross(n + bdir(f"index_01_{s}") * 0.6)
-            rot(name, axis, deg * amount)
+            rot(f"thumb_0{k}_{s}", axis, deg * amount)
 
 
 def lat(s):

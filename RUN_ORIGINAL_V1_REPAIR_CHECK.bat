@@ -69,6 +69,9 @@ if not exist "%CANDIDATE%" (
 set "LABEL=%~3"
 if "%LABEL%"=="" set "LABEL=%GROUP%_current"
 set "OUT=ORIGINAL_V1_WORK\candidates\repair_checks\%LABEL%"
+rem Baseline of the candidate's stress-pose epoch (the full-evidence runner sets these; default = historical R2).
+if not defined BASELINE_TAG set "BASELINE_TAG=R2"
+if not defined BASELINE_REPORT set "BASELINE_REPORT=ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json"
 
 git diff --quiet HEAD -- scripts\pose_test_original_v1_o4_candidate_blender.py scripts\compare_original_v1_deformation_reports.py ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json
 if errorlevel 1 (
@@ -123,20 +126,20 @@ if not exist "%OUT%\pose_test_report.json" (
 
 if defined WITH_GRIP (
   python scripts\compare_original_v1_deformation_reports.py ^
-    ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+    %BASELINE_REPORT% ^
     "%OUT%\pose_test_report.json" ^
-    --baseline-grip-report ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+    --baseline-grip-report %BASELINE_REPORT% ^
     --candidate-grip-report "%OUT%\pose_test_report.json" ^
     --profile development_blocker ^
     --poses "%POSES%" ^
-    --json-out "%OUT%\comparison_vs_R2.json" %COMPARE_MODE%
+    --json-out "%OUT%\comparison_vs_%BASELINE_TAG%.json" %COMPARE_MODE%
 ) else (
   python scripts\compare_original_v1_deformation_reports.py ^
-    ORIGINAL_V1_WORK\candidates\pose_test_report_r2.json ^
+    %BASELINE_REPORT% ^
     "%OUT%\pose_test_report.json" ^
     --profile development_blocker ^
     --poses "%POSES%" ^
-    --json-out "%OUT%\comparison_vs_R2.json" %COMPARE_MODE%
+    --json-out "%OUT%\comparison_vs_%BASELINE_TAG%.json" %COMPARE_MODE%
 )
 
 set "RC=%ERRORLEVEL%"

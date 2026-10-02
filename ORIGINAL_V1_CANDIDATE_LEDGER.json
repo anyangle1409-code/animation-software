@@ -5,6 +5,27 @@
   "historical_disposition_source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md",
   "candidates": [
     {
+      "revision": "P2B1",
+      "sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+      "parent": null,
+      "change_type": "Pinned deformation baseline for stress-pose epoch P2",
+      "weight_solution": null,
+      "topology_change": null,
+      "development_failure_count": 5,
+      "regression_count": 0,
+      "improvement_count": 0,
+      "comparison_baselines": [],
+      "state": "experimental",
+      "reason": "Pinned baseline, not owner acceptance or production approval.",
+      "owner_review": "pending",
+      "evidence_location": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
+      "visual_review_location": null,
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
+        "sha256": "7e21abaedc7cd58aae9c63d6bcc8435c768027645ce4e90c836f62a78e1fa48c"
+      }
+    },
+    {
       "revision": "R2",
       "sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
       "parent": "ee23c76f2849a45f9077236119a9e1e4e1116c1ef0dda2e6d751659f58647d44",
@@ -37,6 +58,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -63,6 +85,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -89,6 +112,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -115,6 +139,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -141,6 +166,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -167,6 +193,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -193,6 +220,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -219,6 +247,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -245,6 +274,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -271,6 +301,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -297,6 +328,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -323,6 +355,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -349,6 +382,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -375,6 +409,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -401,6 +436,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -427,6 +463,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -453,6 +490,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -479,6 +517,7 @@
       "development_failure_count": 42,
       "regression_count": 7,
       "improvement_count": 36,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2"
       ],
@@ -598,6 +637,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -624,6 +664,7 @@
       "development_failure_count": 40,
       "regression_count": 11,
       "improvement_count": 34,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r20"
@@ -911,6 +952,7 @@
       "development_failure_count": 40,
       "regression_count": 12,
       "improvement_count": 31,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r22"
@@ -1165,6 +1207,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -1191,6 +1234,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -1217,6 +1261,7 @@
       "development_failure_count": 40,
       "regression_count": 11,
       "improvement_count": 36,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r22"
@@ -1405,6 +1450,7 @@
       "development_failure_count": 8,
       "regression_count": 10,
       "improvement_count": 90,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r24"
@@ -1582,6 +1628,7 @@
       "development_failure_count": 8,
       "regression_count": 8,
       "improvement_count": 92,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r25"
@@ -1725,6 +1772,7 @@
       "development_failure_count": 8,
       "regression_count": 8,
       "improvement_count": 91,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r26"
@@ -1968,6 +2016,7 @@
       "development_failure_count": 8,
       "regression_count": 6,
       "improvement_count": 91,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r26"
@@ -2089,6 +2138,7 @@
       "development_failure_count": 7,
       "regression_count": 6,
       "improvement_count": 92,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28"
@@ -2343,6 +2393,7 @@
       "development_failure_count": null,
       "regression_count": null,
       "improvement_count": null,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [],
       "comparisons": {},
       "classification": "EXPERIMENTAL",
@@ -2369,6 +2420,7 @@
       "development_failure_count": 7,
       "regression_count": 6,
       "improvement_count": 91,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -2519,6 +2571,7 @@
       "development_failure_count": 7,
       "regression_count": 5,
       "improvement_count": 92,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -2659,6 +2712,7 @@
       "development_failure_count": 7,
       "regression_count": 5,
       "improvement_count": 91,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -2811,6 +2865,7 @@
       "development_failure_count": 6,
       "regression_count": 6,
       "improvement_count": 99,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r30",
@@ -2949,6 +3004,7 @@
       "development_failure_count": 6,
       "regression_count": 5,
       "improvement_count": 99,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -3114,6 +3170,7 @@
       "development_failure_count": 6,
       "regression_count": 5,
       "improvement_count": 99,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -3279,6 +3336,7 @@
       "development_failure_count": 2,
       "regression_count": 5,
       "improvement_count": 103,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -3457,6 +3515,7 @@
       "development_failure_count": 0,
       "regression_count": 6,
       "improvement_count": 102,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r36"
@@ -3582,6 +3641,7 @@
       "development_failure_count": 0,
       "regression_count": 5,
       "improvement_count": 102,
+      "pinned_baseline_name": "R2",
       "comparison_baselines": [
         "R2",
         "r28",
@@ -3773,6 +3833,33 @@
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r38_evidence_manifest.json",
         "sha256": "f8c9d560ffccc43cf29ec913052644d25bb47aa0c2995b24fd70bdba1b13518d"
       }
+    },
+    {
+      "revision": "r39",
+      "sha256": "f08842fa1eb2714555c0a288dd166724ab20473d7b9ae2f030960bb36f6e24e3",
+      "parent": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+      "parent_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+      "change_type": "O4 candidate first-party rig revision: axial twist helpers (not production)",
+      "weight_solution": null,
+      "weight_solution_sha256": null,
+      "topology_change": false,
+      "development_failure_count": null,
+      "regression_count": null,
+      "improvement_count": null,
+      "pinned_baseline_name": "P2B1",
+      "comparison_baselines": [],
+      "comparisons": {},
+      "classification": "EXPERIMENTAL",
+      "state": "experimental",
+      "reason": "Experimental evidence only; owner acceptance not recorded.",
+      "owner_review": "pending",
+      "evidence_location": null,
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r39.json",
+        "sha256": "bb658108079a0a769e517d762252d894303d1365ba5baed32de452d4d662b23e"
+      },
+      "visual_review_location": null,
+      "evidence_timestamp": "2026-10-02T14:28:48.925004+00:00"
     }
   ]
 }

@@ -194,8 +194,15 @@ for name, (h, t, p) in bones_before.items():
         raise SystemExit(f"existing bone {name} changed")
 if len(rig.data.bones) != 63 + len(th.helper_names()):
     raise SystemExit("unexpected bone count")
-over = [v.index for v in me.vertices if sum(1 for g in v.groups if g.weight > 1e-6) > 4]
+bone_names = {b.name for b in rig.data.bones}
+over = [v.index for v in me.vertices
+        if sum(1 for g in v.groups if g.weight > 1e-6 and body.vertex_groups[g.group].name in bone_names) > 4]
 if over:
+    inside = [i for i in over if i in changed]
+    ex = over[0]
+    print("DBG over", len(over), "inside declaration", len(inside), "example", ex,
+          [(body.vertex_groups[g.group].name, round(g.weight, 5)) for g in me.vertices[ex].groups],
+          "planned", changed.get(ex), "before", before.get(ex) or other_before.get(ex))
     raise SystemExit(f"{len(over)} vertices exceed four influences")
 
 scene["hgpt_rig_revision"] = th.REVISION

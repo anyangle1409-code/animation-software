@@ -17,6 +17,26 @@
       "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
     }
   },
+  "historical_pinned_baselines": [
+    {
+      "revision": "R2",
+      "id": "original_v1_o4_r2_20260930",
+      "first_candidate_number": 0,
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json",
+        "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
+      }
+    },
+    {
+      "revision": "P2B1",
+      "id": "original_v1_o4_p2b1_20261002",
+      "first_candidate_number": 39,
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
+        "sha256": "7e21abaedc7cd58aae9c63d6bcc8435c768027645ce4e90c836f62a78e1fa48c"
+      }
+    }
+  ],
   "development_failure_count": 0,
   "development_failures": [],
   "production_failure_count": 108,
@@ -276,7 +296,9 @@
   "last_known_candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
   "evidence_timestamp": "2026-10-01T21:54:25.996131+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
-  "incomplete_candidates": [],
+  "incomplete_candidates": [
+    "r39"
+  ],
   "what_changed": "r38: solution o37b.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r37.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
@@ -289,9 +311,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RECONCILE freeze regressions",
-    "reason": "zero blockers is insufficient for strict freeze; inherited R2 regressions remain",
+    "action": "STOP",
+    "reason": "new candidate evidence is incomplete: r39",
     "command": null,
-    "safe_parallel_task": "Read-only inherited-regression diagnostics; do not reopen frozen structure."
+    "safe_parallel_task": "Inspect partial files read-only; preserve them and finish their evidence using a new collision-free label."
   }
 }

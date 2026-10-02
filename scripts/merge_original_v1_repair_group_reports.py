@@ -14,7 +14,7 @@ import re
 import subprocess
 import sys
 from collect_original_v1_review_images import verify_source
-from original_v1_production_control import ensure_finite
+from original_v1_production_control import ensure_finite, epoch_baseline
 
 ROOT=Path(__file__).resolve().parent.parent
 CAND=Path('ORIGINAL_V1_WORK/candidates')
@@ -62,9 +62,10 @@ def collect_reports(root,revision):
                        'pose_report_sha256':sha256(report_path),
                        'render_source_manifest':source_path.relative_to(root).as_posix(),
                        'render_source_manifest_sha256':sha256(source_path)})
-    baseline=json.loads((root/CAND/'pose_test_report_r2.json').read_text(encoding='utf-8-sig'))
+    pin,pin_path=epoch_baseline(root,revision)
+    baseline=json.loads((root/pin_path).read_text(encoding='utf-8-sig'))
     order=[x['pose'] for x in baseline]
-    if set(merged)!=set(order):raise ValueError('full merged report coverage differs from pinned R2')
+    if set(merged)!=set(order):raise ValueError('full merged report coverage differs from the pinned baseline '+pin)
     receipt={'schema_version':1,'candidate_revision':revision,'candidate_sha256':candidate_sha,
              'candidate_manifest_sha256':sha256(candidate_manifest),'render_script_sha256':script_hash,
              'groups':groups,'pose_count':len(merged),'production_approved':False,
@@ -86,9 +87,10 @@ def main():
     try:
         rows,receipt=collect_reports(root,args.rev)
         if args.prior and not re.fullmatch(r'r\d+',args.prior):raise ValueError('numbered predecessor required')
+        pin,pin_path=epoch_baseline(root,args.rev)
         outputs=[root/RC/f'full_{args.rev}_{suffix}' for suffix in (
             'merged_pose_report.json','evidence_manifest.json','deformation_acceptance.md',
-            'repair_queue.md','comparison_vs_R2.json')]
+            'repair_queue.md',f'comparison_vs_{pin}.json')]
         if args.prior:outputs.append(root/RC/f'full_{args.rev}_comparison_vs_{args.prior}.json')
         if any(p.exists() for p in outputs):raise ValueError('full-evidence output collision; preserve existing outputs')
         if args.prior:
@@ -98,7 +100,7 @@ def main():
         out=outputs[0];out.write_text(json.dumps(rows,indent=2)+'\n',encoding='utf-8')
         receipt['merged_pose_report_sha256']=sha256(out)
         outputs[1].write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
-        r2=root/CAND/'pose_test_report_r2.json'
+        r2=root/pin_path   # the pinned baseline of this candidate's stress-pose epoch
         jobs=[['scripts/evaluate_original_v1_deformation_report.py',out,'--grip-report',out,
                '--profile','development_blocker','--require-group','core_five','--report-only','--markdown-out',outputs[2]],
               ['scripts/build_original_v1_repair_queue.py',out,'--profile','development_blocker',

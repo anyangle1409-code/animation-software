@@ -228,6 +228,14 @@ def next_action(status, control):
     return {'action':'VERIFY production promotion packet','reason':'final separate owner and release gates required','command':None}
 
 
+def epoch_baseline(root, rev):
+    """(baseline name, pose-report path) of the stress-pose epoch that candidate `rev` belongs to."""
+    control = read(root,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+    epochs = control.get('baseline_epochs') or [{'name':'R2','baseline':CAND+'/DEFORMATION_BASELINE_R2.json','first_rev':0}]
+    ep = max((e for e in epochs if e['first_rev']<=revision_key(rev)[0]),key=lambda e:e['first_rev'])
+    return ep['name'], read(root,ep['baseline'])['inputs']['pose_report']['path']
+
+
 def build(root=ROOT):
     control = read(root,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
     for path, sha in control['frozen_inputs'].items():
@@ -246,6 +254,18 @@ def build(root=ROOT):
     base_eval = evaluate(root,baseline_path)
     if base_eval['failure_count']!=baseline['evaluation']['development_blocker_failed_checks']:
         raise ValueError('pinned baseline count changed')
+    # Baseline EPOCHS: each stress-pose definition revision has its own pinned baseline (R2 = P1 era r1..r38; P2B1 = P2 era).
+    epochs = control.get('baseline_epochs') or [{'name':'R2','baseline':CAND+'/DEFORMATION_BASELINE_R2.json','first_rev':0}]
+    bases = {}
+    for ep in epochs:
+        b = baseline if ep['name']=='R2' else read(root,ep['baseline'])
+        bp = b['inputs']['pose_report']['path']
+        ev0 = base_eval if ep['name']=='R2' else evaluate(root,bp)
+        if ev0['failure_count']!=b['evaluation']['development_blocker_failed_checks']:
+            raise ValueError('pinned baseline count changed: '+ep['name'])
+        bases[ep['name']] = {'baseline':b,'path':bp,'first_rev':ep['first_rev'],'file':ep['baseline'],'eval':ev0}
+    def pin_of(rev_):
+        return max((n for n in bases if bases[n]['first_rev']<=revision_key(rev_)[0]),key=lambda n:bases[n]['first_rev'])
     old_path = root/'ORIGINAL_V1_CANDIDATE_LEDGER.json'
     old = json.loads(old_path.read_text()) if old_path.exists() else {'candidates':[]}
     historic = {x['revision']:x for x in old['candidates']}
@@ -270,11 +290,12 @@ def build(root=ROOT):
             paths = sorted((root/RC).glob(f'full_{rev}_comparison_vs_*.json'))
             for p in paths:
                 name = p.stem.split('_comparison_vs_',1)[1]
-                bpath = baseline_path if name=='R2' else f'{RC}/full_{name}_merged_pose_report.json'
+                bpath = bases[name]['path'] if name in bases else f'{RC}/full_{name}_merged_pose_report.json'
                 if not (root/bpath).exists(): raise ValueError('missing comparison predecessor: '+bpath)
                 comparisons[name] = verify_comparison(root,p.relative_to(root).as_posix(),bpath,report_path,historical=(rev=='r20'))
-            if 'R2' not in comparisons: raise ValueError('missing R2 comparison: '+rev)
-            if eval_result['failure_count']!=comparisons['R2']['candidate_failed_checks']:
+            pin = pin_of(rev)
+            if pin not in comparisons: raise ValueError('missing '+pin+' comparison: '+rev)
+            if eval_result['failure_count']!=comparisons[pin]['candidate_failed_checks']:
                 raise ValueError('comparison count disagrees: '+rev)
             if rev=='r30' and not {'r29','r28'}.issubset(comparisons):
                 incomplete.append(rev)
@@ -285,7 +306,8 @@ def build(root=ROOT):
         reason = previous.get('reason','Experimental evidence only; owner acceptance not recorded.')
         if rev in control['historical_dispositions']['rejected']:
             disposition='rejected'; reason=control['historical_dispositions']['reason']
-        predecessors = [x for name,x in comparisons.items() if name!='R2']
+        pin = pin_of(rev)
+        predecessors = [x for name,x in comparisons.items() if name not in bases]
         classification = ('TRADE-OFF' if any(x['regression_count'] for x in predecessors)
                           else 'STRICT IMPROVEMENT' if predecessors and any(x['improvement_count'] or x['candidate_failed_checks']<x['baseline_failed_checks'] for x in predecessors)
                           else 'EXPERIMENTAL')
@@ -293,8 +315,9 @@ def build(root=ROOT):
             'parent_sha256':man.get('source_sha256'),'change_type':man.get('stage'),
             'weight_solution':man.get('solution'),'weight_solution_sha256':man.get('solution_sha256'),
             'topology_change':topology,'development_failure_count':eval_result['failure_count'] if eval_result else None,
-            'regression_count':comparisons.get('R2',{}).get('regression_count'),
-            'improvement_count':comparisons.get('R2',{}).get('improvement_count'),
+            'regression_count':comparisons.get(pin,{}).get('regression_count'),
+            'improvement_count':comparisons.get(pin,{}).get('improvement_count'),
+            'pinned_baseline_name':pin,
             'comparison_baselines':list(comparisons),'comparisons':comparisons,'classification':classification,
             'state':disposition,'reason':reason,'owner_review':previous.get('owner_review','pending'),
             'evidence_location':report_path if report.exists() else None,
@@ -312,7 +335,7 @@ def build(root=ROOT):
          (root/f'{RC}/full_{planned}_merged_pose_report.json').exists()):
         if planned not in incomplete: incomplete.append(planned)
     ev = evaluate(root,current['evidence_location']); fails=ev['failures']
-    r2cmp=current['comparisons']['R2']; regs=r2cmp['regressions']
+    r2cmp=current['comparisons'][current['pinned_baseline_name']]; regs=r2cmp['regressions']
     foundation=read(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')['gates']
     prov=read(root,'ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json')
     if not prov.get('clean_room') or prov.get('starting_geometry')!='blank' or prov.get('legacy_geometry_imported') is not False:
@@ -326,7 +349,7 @@ def build(root=ROOT):
     shoulder_poses=set(read(root,'ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json')['repair_priority'][0]['poses'])
     shoulders=[f for f in fails if f['pose'] in shoulder_poses and f.get('region') not in ('hand','finger','thumb','grip_l','grip_r')]
     hand=[f for f in fails if f.get('region') in ('hand','finger','thumb') or f['pose'] in ('curl_peak','grip')]
-    hand_reg=[r for name,c in current['comparisons'].items() if name!='R2' for r in c['regressions'] if r.get('region') in ('finger','thumb')]
+    hand_reg=[r for name,c in current['comparisons'].items() if name not in bases for r in c['regressions'] if r.get('region') in ('finger','thumb')]
     grip=[f for f in fails if str(f.get('region','')).startswith('grip_')]
     wrist=[r for r in regs if r['name']=='pushup_bottom' and r.get('region')=='hand']
     hip=[f for f in fails if f['pose'] in ('lunge','squat_bottom') and f.get('region') in ('pelvis','torso','leg')]
@@ -376,7 +399,8 @@ def build(root=ROOT):
         'branch':control['branch'],'current_phase':next((n for n in range(3,13) if phases[str(n)]['state']!='complete'),12),
         'current_subphase':('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4')) if phases['4']['state']!='complete' else next((str(n) for n in range(5,13) if phases[str(n)]['state']!='complete'),'12'),
         'current_candidate':rev,'candidate_state':current['state'],'candidate_classification':current['classification'],
-        'pinned_baseline':{'revision':'R2','id':baseline['baseline_id'],'candidate_sha256':baseline['candidate_sha256'],'evidence':evidence(root,CAND+'/DEFORMATION_BASELINE_R2.json')},
+        'pinned_baseline':{'revision':current['pinned_baseline_name'],'id':bases[current['pinned_baseline_name']]['baseline']['baseline_id'],'candidate_sha256':bases[current['pinned_baseline_name']]['baseline']['candidate_sha256'],'evidence':evidence(root,bases[current['pinned_baseline_name']]['file'])},
+        'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],
         'development_failure_count':ev['failure_count'],'development_failures':fails,
         'production_failure_count':evaluate(root,current['evidence_location'],'production_target')['failure_count'],
         'production_approved':False,'phases':phases,'unresolved_regressions':regs,
@@ -396,7 +420,15 @@ def build(root=ROOT):
         'state':'experimental','reason':'Pinned baseline, not owner acceptance or production approval.',
         'owner_review':'pending','evidence_location':baseline_path,'visual_review_location':None,
         'manifest':evidence(root,CAND+'/DEFORMATION_BASELINE_R2.json')}
-    ledger={'schema_version':1,'pinned_baseline':'R2','production_approved':False,
+    for n,b in bases.items():
+        if n=='R2': continue
+        entries[n]={'revision':n,'sha256':b['baseline']['candidate_sha256'],'parent':None,'change_type':'Pinned deformation baseline for stress-pose epoch '+b['baseline'].get('epoch',''),
+            'weight_solution':None,'topology_change':None,'development_failure_count':b['eval']['failure_count'],
+            'regression_count':0,'improvement_count':0,'comparison_baselines':[],
+            'state':'experimental','reason':'Pinned baseline, not owner acceptance or production approval.',
+            'owner_review':'pending','evidence_location':b['path'],'visual_review_location':None,
+            'manifest':evidence(root,b['file'])}
+    ledger={'schema_version':1,'pinned_baseline':current['pinned_baseline_name'],'production_approved':False,
             'historical_disposition_source':control['historical_dispositions']['source'],
             'candidates':[entries[r] for r in sorted(entries,key=revision_key)]}
     return status,ledger

@@ -69,11 +69,33 @@ describe('the palm bones', () => {
       expect(now.restHead.distanceTo(bone.restHead), bone.name).toBeLessThan(NUMERIC);
       expect(now.restTail.distanceTo(bone.restTail), bone.name).toBeLessThan(NUMERIC);
       expect(1 - Math.abs(now.restWorldQuaternion.dot(bone.restWorldQuaternion)), bone.name).toBeLessThan(NUMERIC);
-      if (/^thumb_01_/.test(bone.name)) continue;
+      // Thumb opposition and the reviewed loaded-push-up wrist extension
+      // are the only intentional limit changes from the frozen 55-bone rig.
+      if (/^(?:thumb_01|hand)_[lr]$/.test(bone.name)) continue;
       expect(now.definition.limits, bone.name).toEqual(bone.definition.limits);
     }
   });
 
+  it('keeps the old wrist range inside the reviewed loaded-push-up range', () => {
+    for (const side of ['l', 'r'] as const) {
+      const now = rig.bone(`hand_${side}`).definition.limits;
+      const then = earlier.bone(`hand_${side}`).definition.limits;
+
+      // Radial/ulnar deviation and the locked twist axis are unchanged.
+      expect(now.x, side).toEqual(then.x);
+      expect(now.y, side).toEqual(then.y);
+
+      // Only extension expands, by 20°, and mirroring puts that extension
+      // bound on the opposite signed end of the right-hand local Z axis.
+      expect(now.z!.min, side).toBeLessThanOrEqual(then.z!.min);
+      expect(now.z!.max, side).toBeGreaterThanOrEqual(then.z!.max);
+      expect(now.z, side).toEqual(
+        side === 'l'
+          ? { ...then.z!, min: -90 }
+          : { ...then.z!, max: 90 },
+      );
+    }
+  });
   it('keep the thumb base\'s old ranges inside its new ones', () => {
     for (const side of ['l', 'r'] as const) {
       const now = rig.bone(`thumb_01_${side}`).definition.limits;

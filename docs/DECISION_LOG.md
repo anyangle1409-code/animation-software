@@ -55,3 +55,15 @@ baseline/gate changes or contradictory lineage stop only the affected task.
 Final production approval requires explicit final owner acceptance and every
 provenance, anatomy, topology, clothing, deformation/contact, runtime/QA and
 standalone release gate. Production-control tools cannot set approval flags.
+
+## ORIGINAL v1 pre-freeze owner decisions — 2026-10-02
+
+These decisions supersede the earlier unresolved-owner-decision wording for the affected model work.
+
+- The owner accepts the five inherited R2 shoulder/torso minima regressions on the r38 continuation as an explicitly documented DEVELOPMENT trade-off. R2 itself remains untouched; thresholds and comparison tolerances remain unchanged. The accepted values are a development floor, not a quality target.
+- Before Phase 4 freeze, newly identified functional correctness defects must be resolved or classified from real r38 evidence: reverse-bending distal fingers in flexed grips; incorrect push-up palm support; incorrect push-up wrist orientation/extension; incorrect push-up toe/forefoot support; and the overhead shoulder/axilla webbing/pinch.
+- Finger direction, push-up palm/wrist support and push-up forefoot/toe support are not deferred as Phase 5 cosmetic work. They are pre-freeze correctness tasks.
+- Shoulder/axilla must be classified before freeze. If deformation/weight/support based, repair it pre-freeze; if mechanically sound and only coarse surface anatomy, document and defer its surface-form refinement to Phase 5B.
+- Athletic/training shoes are approved as a later first-party clothing item, expected under Phase 7, but cannot be used to conceal an unresolved barefoot toe/forefoot contact failure.
+- The detailed execution contract is `docs/work_packages/PHASE_3_PRE_FREEZE_OWNER_CORRECTIONS_20261002.md`.
+

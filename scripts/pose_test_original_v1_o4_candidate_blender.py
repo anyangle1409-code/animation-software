@@ -156,6 +156,15 @@ def lat(s):
     return Vector((1.0 if s == "r" else -1.0, 0, 0))
 
 
+def flat_thumb(s):
+    """Bring the thumb chain into the palm plane (palmar abduction to zero): remove the thumb's palmar component."""
+    n = palm_normal(s)
+    d = bdir(f"thumb_01_{s}")
+    t = d - n * d.dot(n)
+    if t.length > 1e-6:
+        aim(f"thumb_01_{s}", t.normalized())
+
+
 REST3 = {b.name: b.matrix_local.to_3x3() for b in rig.data.bones}
 
 
@@ -297,16 +306,39 @@ def pose_squat_bottom():
 
 
 def pose_pushup_bottom():
-    # whole body tipped face-down (plank) through the root bone; joints aimed in world directions
-    rot("root", X, 78)
-    for s in "lr":
-        aim(f"upperarm_{s}", B * 0.8 + lat(s) * 0.55 + U * 0.15)
-        hinge_humerus(s, D + F * 0.18)
-        aim(f"forearm_{s}", D + F * 0.18)          # forearm leans so the loaded wrist is extended ~80 deg, not 90
-        twist_palm(s, B)                           # pronate: palm faces back; wrist extension then turns it to the floor
-        aim(f"hand_{s}", F + lat(s) * 0.12)
-        aim(f"foot_{s}", D + F * 0.3)              # ball of the foot under the ankle, heel raised
-        rot_toward(f"toe_{s}", X, 70, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
+    """Loaded support: whole body tipped face-down (plank) through the root bone, joints aimed in world directions, and the plank
+    angle SOLVED so the palms and the toe pads touch the floor together. (P1 fixed the angle at 78 degrees and left the hands 29 cm
+    in the air while the toes carried the floor contact, so palm loading could not be represented at all.)"""
+    hand_ids = [i for i in range(len(vreg)) if region_names[vreg[i]] in ("hand", "finger", "thumb")]
+    foot_ids = [i for i in range(len(vreg)) if region_names[vreg[i]] == "foot"]
+
+    def build(angle):
+        reset()
+        rig.location = (0, 0, 0)
+        rot("root", X, angle)
+        for s in "lr":
+            aim(f"upperarm_{s}", B * 0.8 + lat(s) * 0.55 + U * 0.15)
+            hinge_humerus(s, D + F * 0.18)
+            aim(f"forearm_{s}", D + F * 0.18)          # forearm leans so the loaded wrist is extended ~80 deg, not 90
+            twist_palm(s, B)                           # pronate: palm faces back; wrist extension then turns it to the floor
+            aim(f"hand_{s}", F + lat(s) * 0.12)
+            flat_thumb(s)                              # thumb in the palm plane (the rest thumb opposes the palm: it would point into the floor)
+            aim(f"foot_{s}", D + F * 0.3)              # ball of the foot under the ankle, heel raised
+            rot_toward(f"toe_{s}", X, 70, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
+
+    def gap(angle):
+        build(angle)
+        P = evaluated_positions(hand_ids + foot_ids)
+        return float(P[:len(hand_ids), 2].min() - P[len(hand_ids):, 2].min())
+
+    lo, hi = 70.0, 98.0                                # hands above the floor at lo, below it at hi (gap decreases with tilt)
+    for _ in range(16):
+        mid = 0.5 * (lo + hi)
+        if gap(mid) > 0.0:
+            lo = mid
+        else:
+            hi = mid
+    build(0.5 * (lo + hi))
     ground()
 
 

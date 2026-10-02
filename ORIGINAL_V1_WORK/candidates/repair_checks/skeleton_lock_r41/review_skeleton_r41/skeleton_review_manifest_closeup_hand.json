@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.blend",
+  "source_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
+  "pose_definition_script": "pose_test_original_v1_o4_candidate_blender.py",
+  "pose_definition_script_sha256": "11b90fe43bb6dafcb634ce41167b4a1d0ea4b6231b3ddc2151dab6776385d981",
+  "purpose": "skeleton-only diagnostic review; temporary project-generated proxy; not production geometry",
+  "captures": [
+    {
+      "pose": "pushup_bottom",
+      "view": "front",
+      "focus": "hand_l",
+      "path": "pushup_bottom__skeleton_closeup_hand_front.png"
+    },
+    {
+      "pose": "pushup_bottom",
+      "view": "side",
+      "focus": "hand_l",
+      "path": "pushup_bottom__skeleton_closeup_hand_side.png"
+    },
+    {
+      "pose": "pushup_bottom",
+      "view": "three_quarter",
+      "focus": "hand_l",
+      "path": "pushup_bottom__skeleton_closeup_hand_three_quarter.png"
+    }
+  ]
+}

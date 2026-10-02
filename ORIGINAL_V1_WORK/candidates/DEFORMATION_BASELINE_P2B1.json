@@ -14,11 +14,11 @@
   "inputs": {
     "pose_report": {
       "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
-      "git_blob_sha": "0b71472c36f8b4b63f145f909a89ae99553b2f39"
+      "git_blob_sha": "b1ffd29867de4442d5a2b1c386e2c106377c2af1"
     },
     "grip_report": {
       "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
-      "git_blob_sha": "0b71472c36f8b4b63f145f909a89ae99553b2f39",
+      "git_blob_sha": "b1ffd29867de4442d5a2b1c386e2c106377c2af1",
       "note": "Grip metrics embedded in the pose report."
     },
     "acceptance_spec": {
@@ -39,7 +39,7 @@
     },
     "development_failure_counts_by_region": {
       "shoulder": 3,
-      "null": 1,
+      "None": 1,
       "hand": 1
     }
   },

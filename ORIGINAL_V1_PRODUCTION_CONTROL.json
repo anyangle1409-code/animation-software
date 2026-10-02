@@ -7,7 +7,7 @@
     "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
     "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe",
-    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "7e21abaedc7cd58aae9c63d6bcc8435c768027645ce4e90c836f62a78e1fa48c"
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "6f5e34e213d163ad031e57d5d1baaaf82d0eae2de54755510df068b8ee402e70"
   },
   "execution_parent": "r29",
   "planned_experiment": {
@@ -235,7 +235,7 @@
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
     "revision": "P2",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "dbc0ca8ccf566e46d853522c465a003b0a383bb9590ac818089f7eaa36d9d05b",
+    "sha256": "7fffb81f0f54fb28bb2270c46ef50b36f00f4d63e1677cc0d1a463a2c3c99ca0",
     "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
   },
   "pose_definition_history": [

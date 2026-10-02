@@ -489,20 +489,21 @@
   },
   {
     "pose": "pushup_bottom",
-    "volume_ratio": 1.0095,
-    "edge_ratio_p01": 0.719,
-    "edge_ratio_p99": 1.332,
-    "compressed_edges_lt_0_6": 164,
-    "stretched_edges_gt_1_6": 100,
-    "self_intersecting_face_pairs": 138,
+    "volume_ratio": 1.0136,
+    "edge_ratio_p01": 0.704,
+    "edge_ratio_p99": 1.33,
+    "compressed_edges_lt_0_6": 192,
+    "stretched_edges_gt_1_6": 116,
+    "self_intersecting_face_pairs": 166,
     "self_intersection_by_region": {
-      "arm": 122,
-      "hand": 16
+      "hand": 38,
+      "thumb": 6,
+      "arm": 122
     },
     "by_region": {
       "arm": {
         "compressed": 82,
-        "stretched": 30,
+        "stretched": 32,
         "min_ratio": 0.215,
         "max_ratio": 1.95
       },
@@ -513,14 +514,14 @@
         "max_ratio": 1.0
       },
       "foot": {
-        "compressed": 30,
+        "compressed": 52,
         "stretched": 0,
         "min_ratio": 0.335,
         "max_ratio": 1.475
       },
       "hand": {
-        "compressed": 50,
-        "stretched": 38,
+        "compressed": 58,
+        "stretched": 64,
         "min_ratio": 0.119,
         "max_ratio": 4.115
       },
@@ -533,8 +534,8 @@
       "leg": {
         "compressed": 0,
         "stretched": 0,
-        "min_ratio": 0.967,
-        "max_ratio": 1.025
+        "min_ratio": 0.96,
+        "max_ratio": 1.041
       },
       "neck": {
         "compressed": 0,
@@ -550,21 +551,21 @@
       },
       "shoulder": {
         "compressed": 0,
-        "stretched": 32,
-        "min_ratio": 0.745,
-        "max_ratio": 2.108
+        "stretched": 20,
+        "min_ratio": 0.753,
+        "max_ratio": 2.035
       },
       "thumb": {
         "compressed": 0,
         "stretched": 0,
-        "min_ratio": 1.0,
-        "max_ratio": 1.0
+        "min_ratio": 0.996,
+        "max_ratio": 1.006
       },
       "torso": {
-        "compressed": 2,
+        "compressed": 0,
         "stretched": 0,
-        "min_ratio": 0.508,
-        "max_ratio": 1.558
+        "min_ratio": 0.66,
+        "max_ratio": 1.427
       }
     },
     "lowest_z": 0.0

@@ -1,0 +1,300 @@
+{
+  "source": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.blend",
+  "thorax_inset_m": 0.025,
+  "long_bones": {
+    "upperarm_l": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0638,
+        "dist_neg_u": 0.0765,
+        "dist_pos_w": 0.0701,
+        "dist_neg_w": 0.5001,
+        "centring_u": 0.0906,
+        "centring_w": 0.7542
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.0563,
+        "dist_neg_u": 0.0627,
+        "dist_pos_w": 0.0603,
+        "dist_neg_w": 0.0399,
+        "centring_u": 0.054,
+        "centring_w": 0.2038
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.0707,
+        "dist_neg_u": 0.0511,
+        "dist_pos_w": 0.0467,
+        "dist_neg_w": 0.0444,
+        "centring_u": 0.1609,
+        "centring_w": 0.0252
+      }
+    ],
+    "forearm_l": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0562,
+        "dist_neg_u": 0.0356,
+        "dist_pos_w": 0.0483,
+        "dist_neg_w": 0.0415,
+        "centring_u": 0.2245,
+        "centring_w": 0.0758
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.0439,
+        "dist_neg_u": 0.033,
+        "dist_pos_w": 0.0378,
+        "dist_neg_w": 0.0358,
+        "centring_u": 0.1417,
+        "centring_w": 0.027
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.0329,
+        "dist_neg_u": 0.0302,
+        "dist_pos_w": 0.0261,
+        "dist_neg_w": 0.0257,
+        "centring_u": 0.0434,
+        "centring_w": 0.0089
+      }
+    ],
+    "thigh_l": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0731,
+        "dist_neg_u": 0.1128,
+        "dist_pos_w": 0.0792,
+        "dist_neg_w": 0.2632,
+        "centring_u": 0.2135,
+        "centring_w": 0.5374
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.107,
+        "dist_neg_u": 0.0788,
+        "dist_pos_w": 0.0993,
+        "dist_neg_w": 0.07,
+        "centring_u": 0.1516,
+        "centring_w": 0.1734
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.098,
+        "dist_neg_u": 0.0632,
+        "dist_pos_w": 0.0825,
+        "dist_neg_w": 0.0649,
+        "centring_u": 0.2157,
+        "centring_w": 0.1192
+      }
+    ],
+    "shin_l": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0385,
+        "dist_neg_u": 0.0853,
+        "dist_pos_w": 0.0565,
+        "dist_neg_w": 0.0619,
+        "centring_u": 0.3779,
+        "centring_w": 0.0455
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.033,
+        "dist_neg_u": 0.0695,
+        "dist_pos_w": 0.0484,
+        "dist_neg_w": 0.0512,
+        "centring_u": 0.3563,
+        "centring_w": 0.0286
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.028,
+        "dist_neg_u": 0.0389,
+        "dist_pos_w": 0.035,
+        "dist_neg_w": 0.0343,
+        "centring_u": 0.1627,
+        "centring_w": 0.0105
+      }
+    ],
+    "upperarm_r": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0638,
+        "dist_neg_u": 0.0765,
+        "dist_pos_w": 0.5001,
+        "dist_neg_w": 0.0701,
+        "centring_u": 0.0906,
+        "centring_w": 0.7542
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.0563,
+        "dist_neg_u": 0.0627,
+        "dist_pos_w": 0.0399,
+        "dist_neg_w": 0.0603,
+        "centring_u": 0.054,
+        "centring_w": 0.2038
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.0707,
+        "dist_neg_u": 0.0511,
+        "dist_pos_w": 0.0444,
+        "dist_neg_w": 0.0467,
+        "centring_u": 0.1609,
+        "centring_w": 0.0252
+      }
+    ],
+    "forearm_r": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0562,
+        "dist_neg_u": 0.0356,
+        "dist_pos_w": 0.0415,
+        "dist_neg_w": 0.0483,
+        "centring_u": 0.2245,
+        "centring_w": 0.0758
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.0439,
+        "dist_neg_u": 0.033,
+        "dist_pos_w": 0.0358,
+        "dist_neg_w": 0.0378,
+        "centring_u": 0.1417,
+        "centring_w": 0.027
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.0329,
+        "dist_neg_u": 0.0302,
+        "dist_pos_w": 0.0257,
+        "dist_neg_w": 0.0261,
+        "centring_u": 0.0434,
+        "centring_w": 0.0089
+      }
+    ],
+    "thigh_r": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0731,
+        "dist_neg_u": 0.1128,
+        "dist_pos_w": 0.2632,
+        "dist_neg_w": 0.0792,
+        "centring_u": 0.2135,
+        "centring_w": 0.5374
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.107,
+        "dist_neg_u": 0.0788,
+        "dist_pos_w": 0.07,
+        "dist_neg_w": 0.0993,
+        "centring_u": 0.1516,
+        "centring_w": 0.1734
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.098,
+        "dist_neg_u": 0.0632,
+        "dist_pos_w": 0.0649,
+        "dist_neg_w": 0.0825,
+        "centring_u": 0.2157,
+        "centring_w": 0.1192
+      }
+    ],
+    "shin_r": [
+      {
+        "fraction": 0.25,
+        "dist_pos_u": 0.0385,
+        "dist_neg_u": 0.0853,
+        "dist_pos_w": 0.0619,
+        "dist_neg_w": 0.0565,
+        "centring_u": 0.3779,
+        "centring_w": 0.0455
+      },
+      {
+        "fraction": 0.5,
+        "dist_pos_u": 0.033,
+        "dist_neg_u": 0.0695,
+        "dist_pos_w": 0.0512,
+        "dist_neg_w": 0.0484,
+        "centring_u": 0.3563,
+        "centring_w": 0.0286
+      },
+      {
+        "fraction": 0.75,
+        "dist_pos_u": 0.028,
+        "dist_neg_u": 0.0389,
+        "dist_pos_w": 0.0343,
+        "dist_neg_w": 0.035,
+        "centring_u": 0.1627,
+        "centring_w": 0.0105
+      }
+    ]
+  },
+  "joint_centres": {
+    "upperarm_l_head": {
+      "lateral": 0.0422,
+      "anterior": 0.057,
+      "posterior": 0.0705
+    },
+    "forearm_l_head": {
+      "lateral": 0.0435,
+      "anterior": 0.0434,
+      "posterior": 0.0417
+    },
+    "hand_l_head": {
+      "lateral": 0.0204,
+      "anterior": 0.0305,
+      "posterior": 0.028
+    },
+    "thigh_l_head": {
+      "lateral": 0.0693,
+      "anterior": 0.0774,
+      "posterior": 0.1382
+    },
+    "shin_l_head": {
+      "lateral": 0.052,
+      "anterior": 0.0662,
+      "posterior": 0.0443
+    },
+    "foot_l_head": {
+      "lateral": 0.0376,
+      "anterior": 0.0274,
+      "posterior": 0.0341
+    },
+    "upperarm_r_head": {
+      "lateral": 0.0422,
+      "anterior": 0.057,
+      "posterior": 0.0705
+    },
+    "forearm_r_head": {
+      "lateral": 0.0435,
+      "anterior": 0.0434,
+      "posterior": 0.0417
+    },
+    "hand_r_head": {
+      "lateral": 0.0204,
+      "anterior": 0.0305,
+      "posterior": 0.028
+    },
+    "thigh_r_head": {
+      "lateral": 0.0693,
+      "anterior": 0.0774,
+      "posterior": 0.1382
+    },
+    "shin_r_head": {
+      "lateral": 0.052,
+      "anterior": 0.0662,
+      "posterior": 0.0443
+    },
+    "foot_r_head": {
+      "lateral": 0.0376,
+      "anterior": 0.0274,
+      "posterior": 0.0341
+    }
+  }
+}

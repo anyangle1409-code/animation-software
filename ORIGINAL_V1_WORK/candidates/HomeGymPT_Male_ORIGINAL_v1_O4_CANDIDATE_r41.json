@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-10-02T14:41:51.406844+00:00",
+  "stage": "O4 candidate first-party rig revision: axial twist helpers (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+  "source_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.blend",
+  "candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
+  "declaration": "twist_helpers_declared_before_edit.json",
+  "declaration_sha256": "6cad4bd4b15df3110e883eab6c09d8a485aa4ab9c3e2547104667c2bc33cd8c8",
+  "rig_revision": "rev2_twist_helpers",
+  "bone_count": 71,
+  "new_bones": [
+    "upperarm_tw0_l",
+    "upperarm_tw1_l",
+    "upperarm_tw0_r",
+    "upperarm_tw1_r",
+    "forearm_tw0_l",
+    "forearm_tw1_l",
+    "forearm_tw0_r",
+    "forearm_tw1_r"
+  ],
+  "weights_rewritten_vertices": 3536,
+  "pruned_vertices": 0,
+  "max_pruned_weight_fraction": 0.0,
+  "topology_changed": false,
+  "geometry_changed": false
+}

@@ -1,7 +1,7 @@
 """Skin-on close-up renders of a stress pose, optionally with the skeleton proxy overlaid (never saves the .blend).
 
 blender --background --factory-startup <candidate.blend> --python-exit-code 1 ^
-  --python scripts/render_original_v1_pose_closeup_blender.py -- <out_dir> <pose> <focus_bone> <ortho_scale> <tag> [--skeleton]
+  --python scripts/render_original_v1_pose_closeup_blender.py -- <out_dir> <pose> <focus_bone> <ortho_scale> <tag> [--skeleton] [--pose-script <path>]
 
 Reuses the exact pose constructors of scripts/pose_test_original_v1_o4_candidate_blender.py (executed up to its metrics
 section), shows the BARE body (dressed mask and shorts hidden so barefoot/skin mechanics are visible), and writes
@@ -24,9 +24,10 @@ if len(args) < 5:
 OUT = Path(args[0]).resolve()
 POSE, FOCUS, SCALE, TAG = args[1], args[2], float(args[3]), args[4]
 SKEL = "--skeleton" in args
+POSE_SCRIPT_ARG = next((args[i + 1] for i, a in enumerate(args) if a == "--pose-script"), None)
 OUT.mkdir(parents=True, exist_ok=True)
 
-pose_script = Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py")
+pose_script = Path(POSE_SCRIPT_ARG).resolve() if POSE_SCRIPT_ARG else Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py")
 src = pose_script.read_text(encoding="utf-8")
 src_defs = src[:src.index("# ---------------------------------------------------------------- metrics")]
 saved = sys.argv

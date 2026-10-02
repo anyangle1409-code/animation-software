@@ -90,7 +90,7 @@ for b in rig.data.bones:
         head_err = (lh - rhm).length
         tail_err = (lt - rtm).length
         length_err = abs(b.length - mate.length)
-        parent_expected = mirror_name(b.parent.name) if b.parent else None
+        parent_expected = (mirror_name(b.parent.name) or b.parent.name) if b.parent else None   # centre-line parents mirror to themselves
         parent_ok = (mate.parent.name if mate.parent else None) == parent_expected
         # Full local-axis mirror check: reflect the left bone basis across X and compare with the right bone basis.
         S = Matrix.Diagonal((-1.0, 1.0, 1.0))
@@ -109,6 +109,30 @@ for b in rig.data.bones:
         if max(head_err, tail_err, length_err) > 1e-5 or axis_err_deg > 0.01 or not parent_ok:
             flags.append({"bone": b.name, "issue": "mirror_asymmetry", **rec})
 
+# rev2 twist helpers (scripts/original_v1_twist_helpers.py): children of their segment bone, same rest orientation, on the segment axis
+rig_revision = bpy.context.scene.get("hgpt_rig_revision", "v4_63_bone")
+helper_checks = []
+if rig_revision != "v4_63_bone":
+    import json as _json
+    for h in _json.loads(bpy.context.scene["hgpt_twist_helpers"]):
+        b = by_name.get(h["name"])
+        seg = by_name.get(h["parent"])
+        if b is None or seg is None:
+            flags.append({"bone": h["name"], "issue": "helper_or_segment_missing"})
+            continue
+        axis_err = math.degrees((seg.matrix_local.to_3x3().inverted() @ b.matrix_local.to_3x3()).to_quaternion().angle)
+        sh, st = Vector(seg.head_local), Vector(seg.tail_local)
+        ax = (st - sh).normalized()
+        off = (Vector(b.head_local) - sh)
+        perp = (off - ax * off.dot(ax)).length
+        frac = off.dot(ax) / (st - sh).length
+        rec = {"helper": h["name"], "parent_ok": bool(b.parent and b.parent.name == h["parent"]), "deform": bool(b.use_deform),
+               "rest_axis_error_deg": round(float(axis_err), 6), "off_axis_m": round(float(perp), 9),
+               "station_fraction_along_segment": round(float(frac), 4), "twist_fraction": h["twist_fraction"]}
+        helper_checks.append(rec)
+        if not rec["parent_ok"] or not rec["deform"] or axis_err > 0.01 or perp > 1e-6:
+            flags.append({"bone": h["name"], "issue": "helper_rest_inconsistent", **rec})
+
 roots = [b.name for b in rig.data.bones if b.parent is None]
 deform = [b.name for b in rig.data.bones if b.use_deform]
 
@@ -124,6 +148,12 @@ for group, names in required_named_groups.items():
     if missing:
         flags.append({"group": group, "issue": "missing_expected_bones", "missing": missing})
 
+# Rig identity: hash of the structure only (names, parents, deform flags, rest head/tail/roll rounded to 1e-7 m / rad), independent of
+# weights, poses and the mesh. Two candidates with the same hash have the same skeleton.
+_canon = [[b["name"], b["parent"], b["use_deform"], [round(x, 7) for x in b["head_local"]], [round(x, 7) for x in b["tail_local"]],
+           round(b["roll_rad"], 7)] for b in sorted(bones, key=lambda r: r["name"])]
+rig_structure_sha256 = hashlib.sha256(json.dumps(_canon, separators=(",", ":")).encode()).hexdigest()
+
 result = {
     "schema_version": 1,
     "generated_utc": datetime.now(timezone.utc).isoformat(),
@@ -131,6 +161,9 @@ result = {
     "source_candidate": source_path.name,
     "source_candidate_sha256": hashlib.sha256(source_path.read_bytes()).hexdigest(),
     "rig_name": rig.name,
+    "rig_revision": rig_revision,
+    "rig_structure_sha256": rig_structure_sha256,
+    "helper_checks": helper_checks,
     "bone_count": len(rig.data.bones),
     "deform_bone_count": len(deform),
     "roots": roots,
@@ -148,4 +181,4 @@ result = {
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-print("RIG STRUCTURE AUDIT", OUT, "bones", len(bones), "flags", len(flags))
+print("RIG STRUCTURE AUDIT", OUT, "bones", len(bones), "flags", len(flags), "rig_structure_sha256", rig_structure_sha256)

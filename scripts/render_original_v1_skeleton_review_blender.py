@@ -128,6 +128,8 @@ def build_proxy():
     for p in rig.pose.bones:
         if not p.bone.use_deform and p.name not in {"root", "pelvis"}:
             continue
+        if "_tw" in p.name:      # rev2 twist helpers lie on their segment bone: omit them so the review shows the main skeleton
+            continue
         h = mw @ p.head
         t = mw @ p.tail
         # Thinner helper appearance for fingers/toes.

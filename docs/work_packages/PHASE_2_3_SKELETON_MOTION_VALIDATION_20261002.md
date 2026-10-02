@@ -1,6 +1,6 @@
 # Phase 2/3 skeleton-motion validation — pre-freeze package
 
-Status: PREPARED; requires Blender execution  
+Status: OWNER-MANDATED PRE-FREEZE GATE; requires Blender execution  
 Effective: 2026-10-02  
 Purpose: prove whether a visible defect comes from the skeleton/pose/constraint layer or from skinning/topology before Phase 4 freeze.
 
@@ -14,9 +14,17 @@ Owner review of r38 showed defects that could plausibly originate in either laye
 - push-up toe/forefoot support is incorrect;
 - overhead shoulder/axilla behaviour may be a pose/rig problem or a skinning/topology problem.
 
-Do not assume these are skinning problems merely because Phase 2 is marked complete.
+Do not assume these are skinning problems merely because Phase 2 is marked complete. The owner explicitly authorises reopening Phase 2 rig details where direct evidence proves the functional skeleton itself is wrong.
 
-A frozen structure can be reopened locally only when evidence proves that the frozen structure itself is wrong. Any reopening must be minimal, documented, regression-tested and must preserve the 63-bone hierarchy/name contract unless a separate explicit owner decision authorises a structural change.
+A frozen structure can be reopened when evidence proves that the frozen structure itself is wrong. Any reopening must be documented, regression-tested and as local as practical. Preserve the 63-bone semantic contract, names and hierarchy where possible. If evidence proves the existing hierarchy/bone count cannot represent required human movement, stop and record that as an explicit structural-rig decision before changing the contract.
+
+## Gate rule
+
+Phase 4 deformation freeze is blocked until skeleton-only motion validation is complete and any proven rig/pose/constraint defects are corrected.
+
+The objective is to finish this layer once, record a new skeleton-motion lock identity, and then move on to skinning/deformation with the rig treated as fixed unless later direct evidence proves a genuine rig defect.
+
+Correctness takes priority over preserving an earlier freeze label.
 
 ## Required diagnostic order
 
@@ -180,3 +188,22 @@ Commit:
 - full existing deformation/comparison reports.
 
 Phase 4 must not freeze a known mechanical joint-direction or loaded-contact defect merely because aggregate deformation metrics are green.
+
+
+## Skeleton-motion lock exit criteria
+
+Do not declare the skeleton locked until all of the following are evidenced:
+
+- no known joint bends in an anatomically impossible direction in the tested movement envelope;
+- finger MCP/PIP/DIP and thumb chains behave coherently in neutral, grip and loaded positions;
+- wrist/hand support can produce believable push-up loading with correct palm orientation;
+- foot/toe chain can produce believable forefoot/toe support;
+- shoulder/humerus/clavicle/scapula motion is coherent through overhead elevation and pull-up ranges;
+- elbow, hip, knee and ankle representative ranges show correct hinge/multi-axis behaviour;
+- left/right symmetry is consistent except where an intentional asymmetry is documented;
+- intermediate samples do not show sign flips, sudden reversals or discontinuities hidden by endpoint tests;
+- external human-reference observations have been recorded for the affected regions;
+- all dependent deformation/contact/grip evidence is rerun after any rig correction;
+- a new candidate/rig identity and hash are recorded as the skeleton-motion lock.
+
+After that lock, subsequent Phase 3 skinning/deformation work must treat the rig as fixed by default.

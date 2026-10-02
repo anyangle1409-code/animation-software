@@ -48,7 +48,7 @@ class ControlTests(unittest.TestCase):
         shutil.copy(ROOT/'src/rig/canonicalV4Original.ts',root/'src/rig/canonicalV4Original.ts')
         (root/'scripts').mkdir()
         shutil.copy(ROOT/'scripts/pose_test_original_v1_o4_candidate_blender.py',root/'scripts/pose_test_original_v1_o4_candidate_blender.py')
-        shutil.copy(ROOT/'scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py',root/'scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py')
+        for hist in ROOT.glob('scripts/pose_test_original_v1_o4_candidate_blender_P*_historical.py'): shutil.copy(hist,root/'scripts'/hist.name)
         for p in ROOT.glob('ORIGINAL_V1*.json'): shutil.copy(p, root/p.name)
         return root
 

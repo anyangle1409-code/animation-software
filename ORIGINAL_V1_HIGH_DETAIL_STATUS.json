@@ -35,6 +35,15 @@
         "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
         "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
       }
+    },
+    {
+      "revision": "P3B1",
+      "id": "original_v1_o4_p3b1_20261002",
+      "first_candidate_number": 42,
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+        "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+      }
     }
   ],
   "development_failure_count": 2,
@@ -390,7 +399,9 @@
   "last_known_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
   "evidence_timestamp": "2026-10-02T14:41:51.406844+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
-  "incomplete_candidates": [],
+  "incomplete_candidates": [
+    "r42"
+  ],
   "what_changed": "r41: solution geometry edit on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend; candidate remains experimental.",
   "what_passed": [
     "3C DEVELOPMENT CLEAR",
@@ -399,9 +410,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "REPAIR hands/fingers",
-    "reason": "Recover finger minima without losing curl_peak clearance.",
+    "action": "STOP",
+    "reason": "new candidate evidence is incomplete: r42",
     "command": null,
-    "work_package": "docs/work_packages/PHASE_3B_HANDS.md"
+    "safe_parallel_task": "Inspect partial files read-only; preserve them and finish their evidence using a new collision-free label."
   }
 }

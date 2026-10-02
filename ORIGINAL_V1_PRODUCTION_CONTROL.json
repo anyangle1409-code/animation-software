@@ -7,7 +7,8 @@
     "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
     "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
     "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe",
-    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
   },
   "execution_parent": "r29",
   "planned_experiment": {
@@ -261,9 +262,9 @@
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
-    "revision": "P2",
+    "revision": "P3",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "f70104fe00e969e251008532450b7b7a84d0f8deab21ea2f2bee5975d513ab11",
+    "sha256": "5a3d94fac478dc851e1e5b67b4ae6f985526d644d576e51ad3d4da244a72ef5d",
     "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
   },
   "pose_definition_history": [
@@ -279,6 +280,18 @@
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_finger_flexion.json",
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_joint_kinematics.json",
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_skeleton_motion.json"
+      ]
+    },
+    {
+      "revision": "P2",
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender_P2_historical.py",
+      "section": "before metrics; metadata-only hashlib import excluded",
+      "sha256": "f70104fe00e969e251008532450b7b7a84d0f8deab21ea2f2bee5975d513ab11",
+      "used_by": "candidates r39..r41 (P2 epoch, baseline P2B1)",
+      "superseded_utc": "2026-10-02",
+      "reason": "Owner review of r41: toes tilted 8 deg up instead of flat on the floor; the plain press/pull-up poses held the shoulder girdle still (166 deg glenohumeral-only elevation, physiologically impossible) while only the *_rhythm variants used a fixed 14/28 deg girdle. P3 applies an interval-dependent scapulohumeral rhythm to every elevated-arm pose and flattens the toes.",
+      "evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/"
       ]
     }
   ],
@@ -296,6 +309,13 @@
       "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
       "first_rev": 39,
       "note": "candidates r39+ are measured under stress-pose definition P2; baseline = r38 re-measured under P2"
+    },
+    {
+      "name": "P3B1",
+      "pose_definition": "P3",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+      "first_rev": 42,
+      "note": "candidates r42+ are measured under stress-pose definition P3; baseline = r42 re-measured under P3"
     }
   ]
 }

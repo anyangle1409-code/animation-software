@@ -10,11 +10,6 @@ same joint ranges. For each pose the script measures volume change, edge
 stretch/compression (by body region) and self-intersections, and renders
 front / side / three-quarter review images.
 
-POSE DEFINITION REVISION P3 (2026-10-02, owner review of r41) = P2 plus: toes lie flat on the floor in push-up/lunge (r41's toe tilted 8 deg
-up); every elevated-arm pose now carries scapulohumeral rhythm from an interval-dependent profile (P2 held the girdle still in the
-plain press/pull-up poses: 166 deg of glenohumeral-only elevation, which no human can do; the *_rhythm poses now use a 1.25x
-high-scapular-share subject so two plausible rhythms are exercised). P2 is preserved as pose_test_..._P2_historical.py.
-
 POSE DEFINITION REVISION P2 (2026-10-02, owner-authorised skeleton-motion validation): the skeleton-only audits
 (scripts/audit_original_v1_finger_flexion_blender.py, audit_original_v1_joint_kinematics_blender.py) proved the rig bones are
 sound but the pose CONSTRUCTION produced anatomically wrong joint motion. Corrected here, generically (no exercise-name logic):
@@ -268,38 +263,16 @@ def rot_toward(name, axis, deg, want):
 
 
 def shoulder_rhythm(s, frac):
-    """P1/P2 rule (fixed 14/28 deg), kept only for history; P3 poses use girdle_for_elevation()."""
+    """Scapulohumeral rhythm for arm elevation: clavicle elevation and scapular
+    upward rotation (about 1:2 with the arm), used by the *_rhythm variants."""
     rot_toward(f"clavicle_{s}", F, 14 * frac, U)
     rot_toward(f"scapula_{s}", F, 28 * frac, lat(s))
 
 
-def scapular_upward_rotation(theta):
-    """Scapular upward rotation (deg) accumulated at humerothoracic elevation `theta` (deg), from interval data, NOT a fixed ratio:
-    the scapula contributes about 2.5 % of the first 30 deg, about 30 % (21-38 %) of 30-90 deg and about 53 % of 90-120 deg
-    (PMC3377910); above 120 deg the share is extrapolated at 0.55 (project-conservative)."""
-    if theta <= 30.0:
-        return 0.025 * theta
-    if theta <= 90.0:
-        return 0.75 + 0.30 * (theta - 30.0)
-    if theta <= 120.0:
-        return 18.75 + 0.53 * (theta - 90.0)
-    return 34.65 + 0.55 * (theta - 120.0)
-
-
-def girdle_for_elevation(s, target, share=1.0):
-    """Shoulder girdle contribution for raising the arm toward world direction `target`: scapular upward rotation by the interval
-    profile above plus clavicular elevation (about 9 % of the elevation, at most 15 deg, project-conservative; no figure in the
-    fetched sources). `share` scales both (1.0 = central estimate; 1.25 = a high-scapular-share subject: references show 0.9:1..3.8:1
-    between individuals/intervals, so two plausible rhythms are exercised instead of one fixed ratio). The glenohumeral joint
-    supplies the remaining elevation through the following aim() calls."""
-    theta = math.degrees(Vector(target).angle(D))
-    rot_toward(f"clavicle_{s}", F, min(15.0, 0.09 * theta) * share, U)
-    rot_toward(f"scapula_{s}", F, scapular_upward_rotation(theta) * share, lat(s))
-
-
 def pose_press_bottom(rhythm=False):
     for s in "lr":
-        girdle_for_elevation(s, lat(s) + D * 0.15 + F * 0.25, 1.25 if rhythm else 1.0)
+        if rhythm:
+            shoulder_rhythm(s, 0.45)
         aim(f"upperarm_{s}", lat(s) + D * 0.15 + F * 0.25)
         hinge_humerus(s, U + F * 0.1)
         aim(f"forearm_{s}", U + F * 0.1)
@@ -309,7 +282,8 @@ def pose_press_bottom(rhythm=False):
 
 def pose_press_top(rhythm=False):
     for s in "lr":
-        girdle_for_elevation(s, U * 1.0 + lat(s) * 0.25, 1.25 if rhythm else 1.0)
+        if rhythm:
+            shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U * 1.0 + lat(s) * 0.25)
         hinge_humerus(s, U + lat(s) * -0.05)
@@ -350,7 +324,7 @@ def pose_pushup_bottom():
             aim(f"hand_{s}", F + lat(s) * 0.12)
             flat_thumb(s)                              # thumb in the palm plane (the rest thumb opposes the palm: it would point into the floor)
             aim(f"foot_{s}", D + F * 0.1)              # ball of the foot under the ankle, heel raised (ankle dorsiflexion <= ~25 deg)
-            aim(f"toe_{s}", F)                         # toes flat on the floor, pointing toward the head (real push-up photographs: foot ~vertical, toe pads flat; MTP extension ~85-90 deg)
+            rot_toward(f"toe_{s}", X, 80, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
 
     def gap(angle):
         build(angle)
@@ -370,7 +344,8 @@ def pose_pushup_bottom():
 
 def pose_pullup_hang(rhythm=False):
     for s in "lr":
-        girdle_for_elevation(s, U + lat(s) * 0.45, 1.25 if rhythm else 1.0)
+        if rhythm:
+            shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U + lat(s) * 0.45)
         hinge_humerus(s, U + lat(s) * 0.35)
@@ -381,7 +356,6 @@ def pose_pullup_hang(rhythm=False):
 
 def pose_pullup_top():
     for s in "lr":
-        girdle_for_elevation(s, lat(s) * 0.85 + D * 0.45 + F * 0.15)
         aim(f"upperarm_{s}", lat(s) * 0.85 + D * 0.45 + F * 0.15)
         hinge_humerus(s, U + lat(s) * 0.15 + F * 0.05)
         aim(f"forearm_{s}", U + lat(s) * 0.15 + F * 0.05)
@@ -397,7 +371,7 @@ def pose_lunge():
     aim("thigh_r", D + B * 0.35)
     aim("shin_r", B + D * 0.15)
     aim("foot_r", D + F * 0.3)
-    aim("toe_r", F)                                # rear-foot toes flat on the floor (P1 curled the toe under: tip toward the sole)
+    rot_toward("toe_r", X, 55, F)                  # dorsiflexion (P1 curled the toe under: tip toward the sole)
     ground()
 
 
@@ -510,7 +484,6 @@ def pose_curl_handle():
 
 def pose_pullup_bar():
     for s in "lr":
-        girdle_for_elevation(s, U + lat(s) * 0.45)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U + lat(s) * 0.45)
         hinge_humerus(s, U + lat(s) * 0.35)

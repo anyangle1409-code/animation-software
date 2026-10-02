@@ -27,8 +27,7 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-REPAIR hands/fingers — Recover finger minima without losing curl_peak clearance.
-Read `docs/work_packages/PHASE_3B_HANDS.md`.
+STOP — new candidate evidence is incomplete: r42
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

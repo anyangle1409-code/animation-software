@@ -26,6 +26,27 @@
       }
     },
     {
+      "revision": "P3B1",
+      "sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
+      "parent": null,
+      "change_type": "Pinned deformation baseline for stress-pose epoch P3",
+      "weight_solution": null,
+      "topology_change": null,
+      "development_failure_count": 14,
+      "regression_count": 0,
+      "improvement_count": 0,
+      "comparison_baselines": [],
+      "state": "experimental",
+      "reason": "Pinned baseline, not owner acceptance or production approval.",
+      "owner_review": "pending",
+      "evidence_location": "ORIGINAL_V1_WORK/candidates/pose_test_report_p3b1.json",
+      "visual_review_location": null,
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+        "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+      }
+    },
+    {
       "revision": "R2",
       "sha256": "f0cfa84c23bc105483237ff22c5441be2415bead4cfc78888ee1352808d48e58",
       "parent": "ee23c76f2849a45f9077236119a9e1e4e1116c1ef0dda2e6d751659f58647d44",
@@ -4083,6 +4104,33 @@
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json",
         "sha256": "3acd9b2314d30716f4a170ccff76606a394509d635b111998702f42eda0bd90f"
       }
+    },
+    {
+      "revision": "r42",
+      "sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
+      "parent": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+      "parent_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+      "change_type": "O4 candidate first-party rig revision: axial twist helpers (not production)",
+      "weight_solution": null,
+      "weight_solution_sha256": null,
+      "topology_change": false,
+      "development_failure_count": null,
+      "regression_count": null,
+      "improvement_count": null,
+      "pinned_baseline_name": "P3B1",
+      "comparison_baselines": [],
+      "comparisons": {},
+      "classification": "EXPERIMENTAL",
+      "state": "experimental",
+      "reason": "Experimental evidence only; owner acceptance not recorded.",
+      "owner_review": "pending",
+      "evidence_location": null,
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r42.json",
+        "sha256": "4b68bb0c4d9aff604696cdda83c8c1f2ea6880c2a504d6ec3849122b51bfa851"
+      },
+      "visual_review_location": null,
+      "evidence_timestamp": "2026-10-02T15:07:43.618032+00:00"
     }
   ]
 }

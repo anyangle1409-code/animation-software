@@ -132,17 +132,44 @@ function interpretCommon(
       );
     }
 
-    const explicitSingleDumbbell = /\b(?:one|single|1)\s+dumbbells?\b/.test(slots.text);
-    const explicitPerHand =
-      /\b(?:one|single|1)\s+dumbbells?\s+(?:in\s+)?(?:each|per)\s+hand\b/.test(slots.text) ||
-      /\b(?:each|per)\s+hand\b/.test(slots.text);
-    if (explicitSingleDumbbell && !explicitPerHand) {
-      issues.push(
-        blocking(
-          'equipment',
-          'The certified dumbbell families use a matched pair, one dumbbell in each hand. An explicit one/single-dumbbell request is not substituted with two dumbbells.',
-        ),
+    const dumbbellCountMatch = slots.text.match(
+      /\b(one|single|two|three|four|five|six|seven|eight|nine|\d+)\s+dumbbells?\b/,
+    );
+    if (dumbbellCountMatch) {
+      const countWords: Record<string, number> = {
+        one: 1,
+        single: 1,
+        two: 2,
+        three: 3,
+        four: 4,
+        five: 5,
+        six: 6,
+        seven: 7,
+        eight: 8,
+        nine: 9,
+      };
+      const token = dumbbellCountMatch[1];
+      const count = /^\d+$/.test(token) ? Number(token) : countWords[token];
+      const countPerHandMatch = slots.text.match(
+        /\b(one|single|two|three|four|five|six|seven|eight|nine|\d+)\s+dumbbells?\s+(?:in\s+)?(?:each|per)\s+hand\b/,
       );
+      const countPerHandToken = countPerHandMatch?.[1];
+      const countPerHand = countPerHandToken
+        ? (/^\d+$/.test(countPerHandToken) ? Number(countPerHandToken) : countWords[countPerHandToken])
+        : null;
+
+      const representsMatchedPair =
+        countPerHand === 1 ||
+        (countPerHand === null && count === 2);
+
+      if (!representsMatchedPair) {
+        issues.push(
+          blocking(
+            'equipment',
+            'The certified dumbbell families use exactly two dumbbells, one in each hand. An explicit equipment count that represents any other setup cannot be substituted with the matched pair.',
+          ),
+        );
+      }
     }
 
     const others = slots.equipment.filter((slot) => slot.value !== 'dumbbell');

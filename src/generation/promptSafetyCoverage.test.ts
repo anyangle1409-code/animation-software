@@ -37,6 +37,8 @@ describe('prompt-safety coverage across the registered exercise library', () => 
       if (base.intent!.equipment === 'dumbbell') {
         expect(blockingCodes(`exercise: ${exercise.name} without dumbbells`), exercise.id)
           .toContain('equipment');
+        expect(blockingCodes(`exercise: ${exercise.name} with three dumbbells`), exercise.id)
+          .toContain('equipment');
       } else if (base.intent!.equipment === 'cable') {
         expect(blockingCodes(`exercise: ${exercise.name} without cable`), exercise.id)
           .toContain('equipment');

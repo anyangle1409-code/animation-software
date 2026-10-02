@@ -360,6 +360,10 @@ describe('parsing a request into an ExerciseIntent', () => {
 
     expect(parsePrompt('exercise: curl with one dumbbell per hand').issues.filter((issue) => issue.blocking)).toEqual([]);
     expect(parsePrompt('exercise: shoulder press with one dumbbell in each hand').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl with two dumbbells').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(blocking('exercise: dumbbell curl with three dumbbells')).toContain('equipment');
+    expect(blocking('exercise: shoulder press with 4 dumbbells')).toContain('equipment');
+    expect(blocking('exercise: dumbbell row with two dumbbells per hand')).toContain('equipment');
   });
 
   it('does not ignore written carry distance prescriptions', () => {

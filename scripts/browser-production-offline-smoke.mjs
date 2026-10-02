@@ -135,6 +135,18 @@ try {
   await rightTabs.getByRole("button", { name: "Generate", exact: true }).click();
   const panel = page.locator('[data-hgpt-panel="generate-first-party"]');
   await panel.waitFor({ state: "visible", timeout: 20_000 });
+  const discardCurrentCandidate = async () => {
+    const discard = panel.locator('[data-hgpt-generate-control^="discard-"]').first();
+    await discard.click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector(
+          '[data-hgpt-panel="generate-first-party"] .review-status',
+        ) === null,
+      undefined,
+      { timeout: 10_000 },
+    );
+  };
   await panel
     .locator('[data-hgpt-generate-control="prompt"]')
     .fill("Create a bodyweight squat with a slow tempo.");
@@ -174,6 +186,7 @@ try {
   assert.equal(generation.approveVisible, true);
   assert.equal(generation.sourceVisible, true);
   report.checks.productionPromptGeneration = generation;
+  await discardCurrentCandidate();
 
   // The product-level shorthand requested for normal use must drive the same
   // local deterministic pipeline, not a separate parser or hosted service.
@@ -213,6 +226,59 @@ try {
   assert.deepEqual(commandGeneration.nonPassGates, []);
   assert.equal(commandGeneration.sourceVisible, true);
   report.checks.productionExerciseCommand = commandGeneration;
+  await discardCurrentCandidate();
+
+  // Exercise-command integration must also cover the cable equipment path:
+  // local parsing, first-party validation, generated source and UI equipment
+  // reporting all have to agree in the built production bundle.
+  await panel
+    .locator('[data-hgpt-generate-control="prompt"]')
+    .fill("exercise: cable triceps pushdown");
+  await panel.locator('[data-hgpt-generate-control="generate"]').click();
+
+  await page.waitForFunction(
+    () =>
+      document.querySelector(
+        '[data-hgpt-panel="generate-first-party"] .review-status strong',
+      )?.textContent === "READY FOR REVIEW",
+    undefined,
+    { timeout: 120_000 },
+  );
+
+  const cableGeneration = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+    if (!(panel instanceof HTMLElement)) {
+      throw new Error("Production Generate panel is unavailable for cable command");
+    }
+    const cards = Array.from(panel.querySelectorAll(".review-gates article"));
+    const specValues = Array.from(panel.querySelectorAll(".spec-list dd"))
+      .map((item) => item.textContent ?? "")
+      .filter(Boolean);
+    return {
+      status: panel.querySelector(".review-status strong")?.textContent ?? null,
+      note: panel.querySelector(".generate-candidate .panel__note")?.textContent ?? "",
+      gateCount: cards.length,
+      nonPassGates: cards
+        .filter((card) => !card.classList.contains("is-pass"))
+        .map((card) => card.textContent ?? ""),
+      specValues,
+      approveVisible:
+        panel.querySelector('[data-hgpt-generate-control^="approve-"]') !== null,
+      sourceVisible: panel.querySelector(".generate-source") !== null,
+    };
+  });
+  assert.equal(cableGeneration.status, "READY FOR REVIEW");
+  assert.match(cableGeneration.note, /Home Gym PT clean scaffold/);
+  assert(cableGeneration.gateCount > 0, "Cable command emitted no validation gates");
+  assert.deepEqual(cableGeneration.nonPassGates, []);
+  assert(
+    cableGeneration.specValues.includes("Cable station"),
+    `Cable generation did not report cable equipment: ${JSON.stringify(cableGeneration.specValues)}`,
+  );
+  assert.equal(cableGeneration.approveVisible, true);
+  assert.equal(cableGeneration.sourceVisible, true);
+  report.checks.productionCableExerciseCommand = cableGeneration;
+  await discardCurrentCandidate();
 
   // Unsupported biomechanics must be rejected locally and explained instead
   // of being guessed, silently approximated, or sent to a hosted AI service.

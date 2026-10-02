@@ -29,6 +29,9 @@ OUT = Path(args[0]).resolve() if args else None
 if OUT is None:
     raise SystemExit("Usage: ... -- <out_dir> [pose,pose,...]")
 ONLY = set(args[1].split(",")) if len(args) > 1 and args[1] else None
+FOCUS = args[2] if len(args) > 2 and args[2] else None          # optional close-up on this bone's head
+SCALE = float(args[3]) if len(args) > 3 else 2.3
+TAG = args[4] if len(args) > 4 else ""
 OUT.mkdir(parents=True, exist_ok=True)
 
 pose_script = Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py")
@@ -42,6 +45,10 @@ exec(compile(src_defs, "pose_test_defs", "exec"), ns)
 sys.argv = saved_argv
 
 rig = ns["rig"]
+_mask = ns["body"].modifiers.get("HGPT_DRESSED_MASK")   # the pose script's closing search expects the undressed body
+if _mask is not None:
+    _mask.show_viewport = False
+    _mask.show_render = False
 POSES = ns["POSES"]
 reset = ns["reset"]
 upd = ns["upd"]
@@ -68,6 +75,8 @@ scene.render.image_settings.file_format = "PNG"
 # Temporary collection.
 coll = bpy.data.collections.new("HGPT_SKELETON_REVIEW_TMP")
 scene.collection.children.link(coll)
+stage = bpy.data.collections.new("HGPT_SKELETON_REVIEW_STAGE_TMP")   # floor + camera: never cleared between poses
+scene.collection.children.link(stage)
 
 bone_mat = bpy.data.materials.new("HGPT_SKELETON_BONE_MAT_TMP")
 bone_mat.diffuse_color = (0.72, 0.72, 0.72, 1.0)
@@ -75,11 +84,11 @@ joint_mat = bpy.data.materials.new("HGPT_SKELETON_JOINT_MAT_TMP")
 joint_mat.diffuse_color = (0.92, 0.92, 0.92, 1.0)
 
 
-def link_only(obj):
+def link_only(obj, target=None):
     # primitive ops link into active scene collection; move to our temp collection
     for c in list(obj.users_collection):
         c.objects.unlink(obj)
-    coll.objects.link(obj)
+    (target or coll).objects.link(obj)
 
 
 def sphere_at(p, radius=0.010):
@@ -143,13 +152,13 @@ floor_mat = bpy.data.materials.new("HGPT_SKELETON_FLOOR_MAT_TMP")
 floor_mat.diffuse_color = (0.25, 0.25, 0.25, 1.0)
 bpy.ops.mesh.primitive_plane_add(size=4.0, location=(0, 0, 0))
 floor = bpy.context.object
-link_only(floor)
+link_only(floor, stage)
 floor.data.materials.append(floor_mat)
 
 cam_data = bpy.data.cameras.new("HGPT_SKELETON_REVIEW_CAM_TMP")
 cam_data.type = "ORTHO"
 cam = bpy.data.objects.new("HGPT_SKELETON_REVIEW_CAM_TMP", cam_data)
-coll.objects.link(cam)
+stage.objects.link(cam)
 scene.camera = cam
 
 
@@ -191,20 +200,23 @@ for pose_name, fn in POSES.items():
     # Approximate target from root/pelvis world-space position.
     pelvis = rig.matrix_world @ rig.pose.bones["pelvis"].head
     target = Vector((pelvis.x, pelvis.y, max(0.8, pelvis.z)))
-    cam_data.ortho_scale = 2.3
+    if FOCUS:
+        target = rig.matrix_world @ rig.pose.bones[FOCUS].head
+    cam_data.ortho_scale = SCALE
 
     for view, offset in VIEWS.items():
         # Keep camera distance but centre around current subject.
         cam.location = target + offset
         look_at(cam, target)
-        path = OUT / f"{pose_name}__skeleton_{view}.png"
+        path = OUT / f"{pose_name}__skeleton{TAG}_{view}.png"
         scene.render.filepath = str(path)
         bpy.ops.render.render(write_still=True)
         manifest["captures"].append({
             "pose": pose_name,
             "view": view,
+            "focus": FOCUS,
             "path": path.name,
         })
 
-(OUT / "skeleton_review_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+(OUT / f"skeleton_review_manifest{TAG}.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 print("SKELETON REVIEW", len(manifest["captures"]), "captures ->", OUT)

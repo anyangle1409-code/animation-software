@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 if not args:
@@ -63,7 +63,7 @@ for b in rig.data.bones:
         "length_m": round(float(b.length), 9),
         "head_local": vec(b.head_local),
         "tail_local": vec(b.tail_local),
-        "roll_rad": round(float(b.roll), 9),
+        "roll_rad": round(float(b.AxisRollFromMatrix(b.matrix_local.to_3x3())[1]), 9),   # Bone has no .roll in object mode
         "matrix_local": mat4(b.matrix_local),
         "children": [c.name for c in b.children],
     }
@@ -92,16 +92,21 @@ for b in rig.data.bones:
         length_err = abs(b.length - mate.length)
         parent_expected = mirror_name(b.parent.name) if b.parent else None
         parent_ok = (mate.parent.name if mate.parent else None) == parent_expected
+        # Full local-axis mirror check: reflect the left bone basis across X and compare with the right bone basis.
+        S = Matrix.Diagonal((-1.0, 1.0, 1.0))
+        reflected = S @ b.matrix_local.to_3x3() @ S
+        axis_err_deg = math.degrees((reflected.inverted() @ mate.matrix_local.to_3x3()).to_quaternion().angle)
         rec = {
             "left": b.name,
             "right": mate.name,
+            "axis_mirror_error_deg": round(float(axis_err_deg), 6),
             "head_mirror_error_m": round(float(head_err), 9),
             "tail_mirror_error_m": round(float(tail_err), 9),
             "length_error_m": round(float(length_err), 9),
             "parent_mirror_ok": bool(parent_ok),
         }
         mirror_checks.append(rec)
-        if max(head_err, tail_err, length_err) > 1e-5 or not parent_ok:
+        if max(head_err, tail_err, length_err) > 1e-5 or axis_err_deg > 0.01 or not parent_ok:
             flags.append({"bone": b.name, "issue": "mirror_asymmetry", **rec})
 
 roots = [b.name for b in rig.data.bones if b.parent is None]

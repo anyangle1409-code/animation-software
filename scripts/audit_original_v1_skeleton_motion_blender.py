@@ -50,6 +50,10 @@ exec(compile(src_defs, "pose_test_defs", "exec"), ns)
 sys.argv = saved_argv
 
 rig = ns["rig"]
+_mask = ns["body"].modifiers.get("HGPT_DRESSED_MASK")   # the pose script's closing search expects the undressed body
+if _mask is not None:
+    _mask.show_viewport = False
+    _mask.show_render = False
 POSES = ns["POSES"]
 pb = ns["pb"]
 reset = ns["reset"]

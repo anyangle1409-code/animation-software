@@ -1,0 +1,3370 @@
+{
+ "press_bottom": {
+  "n_bad_vertices": 0,
+  "bad": []
+ },
+ "press_top": {
+  "n_bad_vertices": 55,
+  "bad": [
+   {
+    "v": 5,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1435,
+     -0.0804,
+     1.4022
+    ],
+    "weights": {
+     "spine_02": 0.05,
+     "spine_03": 0.48,
+     "clavicle_l": 0.24,
+     "upperarm_l": 0.23
+    }
+   },
+   {
+    "v": 66,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1484,
+     -0.0503,
+     1.4584
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 67,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0437,
+     1.4571
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.5,
+     "upperarm_l": 0.41
+    }
+   },
+   {
+    "v": 68,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.187,
+     -0.0416,
+     1.4548
+    ],
+    "weights": {
+     "clavicle_l": 0.45,
+     "upperarm_l": 0.53
+    }
+   },
+   {
+    "v": 129,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1885,
+     -0.0433,
+     1.4994
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 130,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2108,
+     -0.0378,
+     1.4971
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 131,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2316,
+     -0.0281,
+     1.4953
+    ],
+    "weights": {
+     "clavicle_l": 0.38,
+     "upperarm_l": 0.6
+    }
+   },
+   {
+    "v": 132,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2499,
+     -0.0145,
+     1.494
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.15,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 191,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2019,
+     -0.0215,
+     1.5278
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 197,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2206,
+     0.0861,
+     1.5287
+    ],
+    "weights": {
+     "clavicle_l": 0.15,
+     "scapula_l": 0.37,
+     "upperarm_l": 0.49
+    }
+   },
+   {
+    "v": 963,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2254,
+     0.0557,
+     1.5327
+    ],
+    "weights": {
+     "clavicle_l": 0.23,
+     "scapula_l": 0.25,
+     "upperarm_l": 0.52
+    }
+   },
+   {
+    "v": 2111,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.1841,
+     -0.0155,
+     1.3681
+    ],
+    "weights": {
+     "clavicle_l": 0.09,
+     "scapula_l": 0.15,
+     "upperarm_l": 0.76
+    }
+   },
+   {
+    "v": 2112,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.191,
+     -0.0197,
+     1.3679
+    ],
+    "weights": {
+     "clavicle_l": 0.09,
+     "scapula_l": 0.09,
+     "upperarm_l": 0.82
+    }
+   },
+   {
+    "v": 4502,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1407,
+     -0.077,
+     1.4271
+    ],
+    "weights": {
+     "spine_02": 0.19,
+     "spine_03": 0.35,
+     "clavicle_l": 0.27,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4504,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1498,
+     -0.0661,
+     1.4001
+    ],
+    "weights": {
+     "spine_02": 0.07,
+     "spine_03": 0.24,
+     "clavicle_l": 0.33,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4505,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1527,
+     -0.0508,
+     1.4261
+    ],
+    "weights": {
+     "spine_03": 0.31,
+     "clavicle_l": 0.17,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4506,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1409,
+     -0.0601,
+     1.4576
+    ],
+    "weights": {
+     "spine_03": 0.15,
+     "clavicle_l": 0.6,
+     "upperarm_l": 0.21
+    }
+   },
+   {
+    "v": 4507,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1657,
+     -0.0416,
+     1.3975
+    ],
+    "weights": {
+     "clavicle_l": 0.35,
+     "scapula_l": 0.06,
+     "upperarm_l": 0.56
+    }
+   },
+   {
+    "v": 4508,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1697,
+     -0.0417,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.42,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4509,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1573,
+     -0.0456,
+     1.4581
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4511,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1873,
+     -0.0366,
+     1.4261
+    ],
+    "weights": {
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.62
+    }
+   },
+   {
+    "v": 4512,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.177,
+     -0.0423,
+     1.4561
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.47
+    }
+   },
+   {
+    "v": 4681,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1588,
+     -0.0473,
+     1.4832
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 4685,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2015,
+     -0.0426,
+     1.4774
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4686,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1771,
+     -0.045,
+     1.5007
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 4687,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2223,
+     -0.0365,
+     1.4752
+    ],
+    "weights": {
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.6
+    }
+   },
+   {
+    "v": 4688,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1997,
+     -0.041,
+     1.4982
+    ],
+    "weights": {
+     "clavicle_l": 0.58,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4690,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2215,
+     -0.0335,
+     1.4962
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4692,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2411,
+     -0.0217,
+     1.4946
+    ],
+    "weights": {
+     "clavicle_l": 0.24,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.68
+    }
+   },
+   {
+    "v": 4694,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2578,
+     -0.0061,
+     1.4934
+    ],
+    "weights": {
+     "clavicle_l": 0.15,
+     "scapula_l": 0.21,
+     "upperarm_l": 0.64
+    }
+   },
+   {
+    "v": 4805,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0395,
+     1.5173
+    ],
+    "weights": {
+     "clavicle_l": 0.78,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4807,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1918,
+     -0.0349,
+     1.5154
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 4809,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2155,
+     -0.0277,
+     1.514
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4810,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1888,
+     -0.0242,
+     1.5286
+    ],
+    "weights": {
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.27
+    }
+   },
+   {
+    "v": 4811,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2371,
+     -0.0158,
+     1.5125
+    ],
+    "weights": {
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.6
+    }
+   },
+   {
+    "v": 4822,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2316,
+     0.0796,
+     1.5255
+    ],
+    "weights": {
+     "clavicle_l": 0.17,
+     "scapula_l": 0.19,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 6289,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1425,
+     -0.08,
+     1.3895
+    ],
+    "weights": {
+     "spine_02": 0.12,
+     "spine_03": 0.43,
+     "clavicle_l": 0.24,
+     "upperarm_l": 0.22
+    }
+   },
+   {
+    "v": 6331,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1998,
+     -0.0065,
+     1.5348
+    ],
+    "weights": {
+     "clavicle_l": 0.66,
+     "upperarm_l": 0.29
+    }
+   },
+   {
+    "v": 6347,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2284,
+     0.0368,
+     1.5321
+    ],
+    "weights": {
+     "clavicle_l": 0.31,
+     "scapula_l": 0.43,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 6348,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2126,
+     0.057,
+     1.5371
+    ],
+    "weights": {
+     "clavicle_l": 0.3,
+     "scapula_l": 0.36,
+     "upperarm_l": 0.34
+    }
+   },
+   {
+    "v": 6356,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2203,
+     0.0737,
+     1.5329
+    ],
+    "weights": {
+     "clavicle_l": 0.12,
+     "scapula_l": 0.32,
+     "upperarm_l": 0.57
+    }
+   },
+   {
+    "v": 8683,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.1872,
+     -0.0182,
+     1.3677
+    ],
+    "weights": {
+     "clavicle_l": 0.09,
+     "scapula_l": 0.11,
+     "upperarm_l": 0.79
+    }
+   },
+   {
+    "v": 13465,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1468,
+     -0.0631,
+     1.4265
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 13466,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1613,
+     -0.0452,
+     1.4262
+    ],
+    "weights": {
+     "spine_03": 0.09,
+     "clavicle_l": 0.4,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 13467,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1784,
+     -0.0387,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.55
+    }
+   },
+   {
+    "v": 13527,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1694,
+     -0.046,
+     1.4818
+    ],
+    "weights": {
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 13529,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2121,
+     -0.0403,
+     1.4762
+    ],
+    "weights": {
+     "clavicle_l": 0.43,
+     "upperarm_l": 0.57
+    }
+   },
+   {
+    "v": 13589,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1795,
+     -0.0375,
+     1.5162
+    ],
+    "weights": {
+     "clavicle_l": 0.75,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 13590,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2038,
+     -0.0318,
+     1.5147
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 13591,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2267,
+     -0.0224,
+     1.5133
+    ],
+    "weights": {
+     "clavicle_l": 0.41,
+     "scapula_l": 0.06,
+     "upperarm_l": 0.53
+    }
+   },
+   {
+    "v": 13592,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2462,
+     -0.0075,
+     1.5113
+    ],
+    "weights": {
+     "clavicle_l": 0.28,
+     "upperarm_l": 0.68
+    }
+   },
+   {
+    "v": 14348,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.186,
+     -0.0086,
+     1.5366
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 14356,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2154,
+     0.0361,
+     1.5363
+    ],
+    "weights": {
+     "clavicle_l": 0.49,
+     "scapula_l": 0.31,
+     "upperarm_l": 0.2
+    }
+   },
+   {
+    "v": 14364,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.232,
+     0.0695,
+     1.5288
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.17,
+     "upperarm_l": 0.62
+    }
+   },
+   {
+    "v": 15562,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.1908,
+     -0.0163,
+     1.35
+    ],
+    "weights": {
+     "scapula_l": 0.06,
+     "upperarm_l": 0.91
+    }
+   }
+  ]
+ },
+ "press_top_rhythm": {
+  "n_bad_vertices": 37,
+  "bad": [
+   {
+    "v": 5,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1435,
+     -0.0804,
+     1.4022
+    ],
+    "weights": {
+     "spine_02": 0.05,
+     "spine_03": 0.48,
+     "clavicle_l": 0.24,
+     "upperarm_l": 0.23
+    }
+   },
+   {
+    "v": 66,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1484,
+     -0.0503,
+     1.4584
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 67,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0437,
+     1.4571
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.5,
+     "upperarm_l": 0.41
+    }
+   },
+   {
+    "v": 125,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1034,
+     -0.0592,
+     1.5042
+    ],
+    "weights": {
+     "spine_03": 0.08,
+     "clavicle_l": 0.85
+    }
+   },
+   {
+    "v": 129,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1885,
+     -0.0433,
+     1.4994
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 130,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2108,
+     -0.0378,
+     1.4971
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 190,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1754,
+     -0.0263,
+     1.5295
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.23
+    }
+   },
+   {
+    "v": 191,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2019,
+     -0.0215,
+     1.5278
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 4502,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1407,
+     -0.077,
+     1.4271
+    ],
+    "weights": {
+     "spine_02": 0.19,
+     "spine_03": 0.35,
+     "clavicle_l": 0.27,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4504,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1498,
+     -0.0661,
+     1.4001
+    ],
+    "weights": {
+     "spine_02": 0.07,
+     "spine_03": 0.24,
+     "clavicle_l": 0.33,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4505,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1527,
+     -0.0508,
+     1.4261
+    ],
+    "weights": {
+     "spine_03": 0.31,
+     "clavicle_l": 0.17,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4506,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1409,
+     -0.0601,
+     1.4576
+    ],
+    "weights": {
+     "spine_03": 0.15,
+     "clavicle_l": 0.6,
+     "upperarm_l": 0.21
+    }
+   },
+   {
+    "v": 4508,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1697,
+     -0.0417,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.42,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4509,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1573,
+     -0.0456,
+     1.4581
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4512,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.177,
+     -0.0423,
+     1.4561
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.47
+    }
+   },
+   {
+    "v": 4677,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1208,
+     -0.0668,
+     1.4814
+    ],
+    "weights": {
+     "spine_03": 0.17,
+     "clavicle_l": 0.75,
+     "upperarm_l": 0.08
+    }
+   },
+   {
+    "v": 4679,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1382,
+     -0.0518,
+     1.4851
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.16
+    }
+   },
+   {
+    "v": 4680,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1121,
+     -0.0544,
+     1.507
+    ],
+    "weights": {
+     "spine_03": 0.06,
+     "clavicle_l": 0.76,
+     "upperarm_l": 0.14
+    }
+   },
+   {
+    "v": 4681,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1588,
+     -0.0473,
+     1.4832
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 4685,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2015,
+     -0.0426,
+     1.4774
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4686,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1771,
+     -0.045,
+     1.5007
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 4688,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1997,
+     -0.041,
+     1.4982
+    ],
+    "weights": {
+     "clavicle_l": 0.58,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4690,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2215,
+     -0.0335,
+     1.4962
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4805,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0395,
+     1.5173
+    ],
+    "weights": {
+     "clavicle_l": 0.78,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4807,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1918,
+     -0.0349,
+     1.5154
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 4808,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1619,
+     -0.0283,
+     1.5303
+    ],
+    "weights": {
+     "clavicle_l": 0.81,
+     "upperarm_l": 0.18
+    }
+   },
+   {
+    "v": 4809,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2155,
+     -0.0277,
+     1.514
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4810,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1888,
+     -0.0242,
+     1.5286
+    ],
+    "weights": {
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.27
+    }
+   },
+   {
+    "v": 6289,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1425,
+     -0.08,
+     1.3895
+    ],
+    "weights": {
+     "spine_02": 0.12,
+     "spine_03": 0.43,
+     "clavicle_l": 0.24,
+     "upperarm_l": 0.22
+    }
+   },
+   {
+    "v": 6331,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1998,
+     -0.0065,
+     1.5348
+    ],
+    "weights": {
+     "clavicle_l": 0.66,
+     "upperarm_l": 0.29
+    }
+   },
+   {
+    "v": 13465,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1468,
+     -0.0631,
+     1.4265
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 13466,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1613,
+     -0.0452,
+     1.4262
+    ],
+    "weights": {
+     "spine_03": 0.09,
+     "clavicle_l": 0.4,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 13525,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1295,
+     -0.0587,
+     1.4837
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.18
+    }
+   },
+   {
+    "v": 13527,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1694,
+     -0.046,
+     1.4818
+    ],
+    "weights": {
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 13589,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1795,
+     -0.0375,
+     1.5162
+    ],
+    "weights": {
+     "clavicle_l": 0.75,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 13590,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2038,
+     -0.0318,
+     1.5147
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 14348,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.186,
+     -0.0086,
+     1.5366
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.26
+    }
+   }
+  ]
+ },
+ "pullup_hang": {
+  "n_bad_vertices": 32,
+  "bad": [
+   {
+    "v": 6,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1584,
+     -0.0482,
+     1.3944
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.11,
+     "scapula_l": 0.14,
+     "upperarm_l": 0.5
+    }
+   },
+   {
+    "v": 67,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0437,
+     1.4571
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.5,
+     "upperarm_l": 0.41
+    }
+   },
+   {
+    "v": 129,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1885,
+     -0.0433,
+     1.4994
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 130,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2108,
+     -0.0378,
+     1.4971
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 131,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2316,
+     -0.0281,
+     1.4953
+    ],
+    "weights": {
+     "clavicle_l": 0.38,
+     "upperarm_l": 0.6
+    }
+   },
+   {
+    "v": 191,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2019,
+     -0.0215,
+     1.5278
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 4504,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1498,
+     -0.0661,
+     1.4001
+    ],
+    "weights": {
+     "spine_02": 0.07,
+     "spine_03": 0.24,
+     "clavicle_l": 0.33,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4505,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1527,
+     -0.0508,
+     1.4261
+    ],
+    "weights": {
+     "spine_03": 0.31,
+     "clavicle_l": 0.17,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4506,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1409,
+     -0.0601,
+     1.4576
+    ],
+    "weights": {
+     "spine_03": 0.15,
+     "clavicle_l": 0.6,
+     "upperarm_l": 0.21
+    }
+   },
+   {
+    "v": 4508,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1697,
+     -0.0417,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.42,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4509,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1573,
+     -0.0456,
+     1.4581
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4512,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.177,
+     -0.0423,
+     1.4561
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.47
+    }
+   },
+   {
+    "v": 4515,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1971,
+     -0.0413,
+     1.4534
+    ],
+    "weights": {
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.58
+    }
+   },
+   {
+    "v": 4679,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1382,
+     -0.0518,
+     1.4851
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.16
+    }
+   },
+   {
+    "v": 4680,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1121,
+     -0.0544,
+     1.507
+    ],
+    "weights": {
+     "spine_03": 0.06,
+     "clavicle_l": 0.76,
+     "upperarm_l": 0.14
+    }
+   },
+   {
+    "v": 4681,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1588,
+     -0.0473,
+     1.4832
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 4683,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1801,
+     -0.0449,
+     1.4804
+    ],
+    "weights": {
+     "spine_03": 0.11,
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4684,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1544,
+     -0.0475,
+     1.5039
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.17
+    }
+   },
+   {
+    "v": 4685,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2015,
+     -0.0426,
+     1.4774
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4686,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1771,
+     -0.045,
+     1.5007
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 4688,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1997,
+     -0.041,
+     1.4982
+    ],
+    "weights": {
+     "clavicle_l": 0.58,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4690,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2215,
+     -0.0335,
+     1.4962
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4692,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2411,
+     -0.0217,
+     1.4946
+    ],
+    "weights": {
+     "clavicle_l": 0.24,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.68
+    }
+   },
+   {
+    "v": 4805,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0395,
+     1.5173
+    ],
+    "weights": {
+     "clavicle_l": 0.78,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4807,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1918,
+     -0.0349,
+     1.5154
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 4809,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2155,
+     -0.0277,
+     1.514
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4810,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1888,
+     -0.0242,
+     1.5286
+    ],
+    "weights": {
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.27
+    }
+   },
+   {
+    "v": 6290,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1552,
+     -0.049,
+     1.389
+    ],
+    "weights": {
+     "spine_03": 0.28,
+     "clavicle_l": 0.21,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 13525,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1295,
+     -0.0587,
+     1.4837
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.18
+    }
+   },
+   {
+    "v": 13527,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1694,
+     -0.046,
+     1.4818
+    ],
+    "weights": {
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 13528,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1908,
+     -0.0439,
+     1.4789
+    ],
+    "weights": {
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.45
+    }
+   },
+   {
+    "v": 13590,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2038,
+     -0.0318,
+     1.5147
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   }
+  ]
+ },
+ "pullup_hang_rhythm": {
+  "n_bad_vertices": 40,
+  "bad": [
+   {
+    "v": 5,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1435,
+     -0.0804,
+     1.4022
+    ],
+    "weights": {
+     "spine_02": 0.05,
+     "spine_03": 0.48,
+     "clavicle_l": 0.24,
+     "upperarm_l": 0.23
+    }
+   },
+   {
+    "v": 6,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1584,
+     -0.0482,
+     1.3944
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.11,
+     "scapula_l": 0.14,
+     "upperarm_l": 0.5
+    }
+   },
+   {
+    "v": 66,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1484,
+     -0.0503,
+     1.4584
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 67,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0437,
+     1.4571
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.5,
+     "upperarm_l": 0.41
+    }
+   },
+   {
+    "v": 128,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1657,
+     -0.0464,
+     1.5022
+    ],
+    "weights": {
+     "clavicle_l": 0.71,
+     "upperarm_l": 0.22
+    }
+   },
+   {
+    "v": 129,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1885,
+     -0.0433,
+     1.4994
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 130,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2108,
+     -0.0378,
+     1.4971
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 191,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2019,
+     -0.0215,
+     1.5278
+    ],
+    "weights": {
+     "clavicle_l": 0.7,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 956,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2021,
+     0.0137,
+     1.538
+    ],
+    "weights": {
+     "clavicle_l": 0.66,
+     "scapula_l": 0.22,
+     "upperarm_l": 0.12
+    }
+   },
+   {
+    "v": 4502,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1407,
+     -0.077,
+     1.4271
+    ],
+    "weights": {
+     "spine_02": 0.19,
+     "spine_03": 0.35,
+     "clavicle_l": 0.27,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4504,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1498,
+     -0.0661,
+     1.4001
+    ],
+    "weights": {
+     "spine_02": 0.07,
+     "spine_03": 0.24,
+     "clavicle_l": 0.33,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4505,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1527,
+     -0.0508,
+     1.4261
+    ],
+    "weights": {
+     "spine_03": 0.31,
+     "clavicle_l": 0.17,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4506,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1409,
+     -0.0601,
+     1.4576
+    ],
+    "weights": {
+     "spine_03": 0.15,
+     "clavicle_l": 0.6,
+     "upperarm_l": 0.21
+    }
+   },
+   {
+    "v": 4508,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1697,
+     -0.0417,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.42,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4509,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1573,
+     -0.0456,
+     1.4581
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4512,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.177,
+     -0.0423,
+     1.4561
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.47
+    }
+   },
+   {
+    "v": 4515,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1971,
+     -0.0413,
+     1.4534
+    ],
+    "weights": {
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.58
+    }
+   },
+   {
+    "v": 4679,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1382,
+     -0.0518,
+     1.4851
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.16
+    }
+   },
+   {
+    "v": 4680,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1121,
+     -0.0544,
+     1.507
+    ],
+    "weights": {
+     "spine_03": 0.06,
+     "clavicle_l": 0.76,
+     "upperarm_l": 0.14
+    }
+   },
+   {
+    "v": 4681,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1588,
+     -0.0473,
+     1.4832
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 4683,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1801,
+     -0.0449,
+     1.4804
+    ],
+    "weights": {
+     "spine_03": 0.11,
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4684,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1544,
+     -0.0475,
+     1.5039
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.17
+    }
+   },
+   {
+    "v": 4685,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2015,
+     -0.0426,
+     1.4774
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4686,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1771,
+     -0.045,
+     1.5007
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 4688,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1997,
+     -0.041,
+     1.4982
+    ],
+    "weights": {
+     "clavicle_l": 0.58,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4690,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2215,
+     -0.0335,
+     1.4962
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4805,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0395,
+     1.5173
+    ],
+    "weights": {
+     "clavicle_l": 0.78,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4807,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1918,
+     -0.0349,
+     1.5154
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 4809,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2155,
+     -0.0277,
+     1.514
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4810,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1888,
+     -0.0242,
+     1.5286
+    ],
+    "weights": {
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.27
+    }
+   },
+   {
+    "v": 6290,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1552,
+     -0.049,
+     1.389
+    ],
+    "weights": {
+     "spine_03": 0.28,
+     "clavicle_l": 0.21,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 6331,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1998,
+     -0.0065,
+     1.5348
+    ],
+    "weights": {
+     "clavicle_l": 0.66,
+     "upperarm_l": 0.29
+    }
+   },
+   {
+    "v": 6334,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2158,
+     0.0155,
+     1.5349
+    ],
+    "weights": {
+     "clavicle_l": 0.55,
+     "scapula_l": 0.21,
+     "upperarm_l": 0.24
+    }
+   },
+   {
+    "v": 6345,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2018,
+     0.0356,
+     1.5401
+    ],
+    "weights": {
+     "clavicle_l": 0.59,
+     "scapula_l": 0.33,
+     "upperarm_l": 0.07
+    }
+   },
+   {
+    "v": 13465,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1468,
+     -0.0631,
+     1.4265
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 13525,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1295,
+     -0.0587,
+     1.4837
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.18
+    }
+   },
+   {
+    "v": 13527,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1694,
+     -0.046,
+     1.4818
+    ],
+    "weights": {
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 13528,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1908,
+     -0.0439,
+     1.4789
+    ],
+    "weights": {
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.45
+    }
+   },
+   {
+    "v": 13589,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1795,
+     -0.0375,
+     1.5162
+    ],
+    "weights": {
+     "clavicle_l": 0.75,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 13590,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2038,
+     -0.0318,
+     1.5147
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   }
+  ]
+ },
+ "pullup_top": {
+  "n_bad_vertices": 4,
+  "bad": [
+   {
+    "v": 197,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2206,
+     0.0861,
+     1.5287
+    ],
+    "weights": {
+     "clavicle_l": 0.15,
+     "scapula_l": 0.37,
+     "upperarm_l": 0.49
+    }
+   },
+   {
+    "v": 4822,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2316,
+     0.0796,
+     1.5255
+    ],
+    "weights": {
+     "clavicle_l": 0.17,
+     "scapula_l": 0.19,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 6356,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2203,
+     0.0737,
+     1.5329
+    ],
+    "weights": {
+     "clavicle_l": 0.12,
+     "scapula_l": 0.32,
+     "upperarm_l": 0.57
+    }
+   },
+   {
+    "v": 14364,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.232,
+     0.0695,
+     1.5288
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.17,
+     "upperarm_l": 0.62
+    }
+   }
+  ]
+ },
+ "squat_bottom": {
+  "n_bad_vertices": 59,
+  "bad": [
+   {
+    "v": 6,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1584,
+     -0.0482,
+     1.3944
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.11,
+     "scapula_l": 0.14,
+     "upperarm_l": 0.5
+    }
+   },
+   {
+    "v": 23,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1668,
+     0.0915,
+     1.402
+    ],
+    "weights": {
+     "scapula_l": 0.71,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 66,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1484,
+     -0.0503,
+     1.4584
+    ],
+    "weights": {
+     "spine_03": 0.29,
+     "clavicle_l": 0.39,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 67,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0437,
+     1.4571
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.5,
+     "upperarm_l": 0.41
+    }
+   },
+   {
+    "v": 128,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1657,
+     -0.0464,
+     1.5022
+    ],
+    "weights": {
+     "clavicle_l": 0.71,
+     "upperarm_l": 0.22
+    }
+   },
+   {
+    "v": 129,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1885,
+     -0.0433,
+     1.4994
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 130,
+    "score": 0.33,
+    "region": "shoulder",
+    "rest": [
+     -0.2108,
+     -0.0378,
+     1.4971
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 132,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2499,
+     -0.0145,
+     1.494
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.15,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 195,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.249,
+     0.0521,
+     1.5209
+    ],
+    "weights": {
+     "clavicle_l": 0.14,
+     "scapula_l": 0.21,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 196,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2416,
+     0.0725,
+     1.5206
+    ],
+    "weights": {
+     "clavicle_l": 0.11,
+     "scapula_l": 0.26,
+     "upperarm_l": 0.63
+    }
+   },
+   {
+    "v": 197,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2206,
+     0.0861,
+     1.5287
+    ],
+    "weights": {
+     "clavicle_l": 0.15,
+     "scapula_l": 0.37,
+     "upperarm_l": 0.49
+    }
+   },
+   {
+    "v": 241,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1789,
+     0.0521,
+     1.4116
+    ],
+    "weights": {
+     "scapula_l": 0.56,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 922,
+    "score": 0.31,
+    "region": "torso",
+    "rest": [
+     -0.1525,
+     -0.0476,
+     1.3824
+    ],
+    "weights": {
+     "spine_03": 0.41,
+     "clavicle_l": 0.13,
+     "scapula_l": 0.09,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4504,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1498,
+     -0.0661,
+     1.4001
+    ],
+    "weights": {
+     "spine_02": 0.07,
+     "spine_03": 0.24,
+     "clavicle_l": 0.33,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4505,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1527,
+     -0.0508,
+     1.4261
+    ],
+    "weights": {
+     "spine_03": 0.31,
+     "clavicle_l": 0.17,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4506,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1409,
+     -0.0601,
+     1.4576
+    ],
+    "weights": {
+     "spine_03": 0.15,
+     "clavicle_l": 0.6,
+     "upperarm_l": 0.21
+    }
+   },
+   {
+    "v": 4508,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1697,
+     -0.0417,
+     1.4263
+    ],
+    "weights": {
+     "clavicle_l": 0.42,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4509,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1573,
+     -0.0456,
+     1.4581
+    ],
+    "weights": {
+     "spine_03": 0.25,
+     "clavicle_l": 0.36,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4512,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.177,
+     -0.0423,
+     1.4561
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.47
+    }
+   },
+   {
+    "v": 4515,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1971,
+     -0.0413,
+     1.4534
+    ],
+    "weights": {
+     "clavicle_l": 0.41,
+     "upperarm_l": 0.58
+    }
+   },
+   {
+    "v": 4679,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1382,
+     -0.0518,
+     1.4851
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.16
+    }
+   },
+   {
+    "v": 4681,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1588,
+     -0.0473,
+     1.4832
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.26
+    }
+   },
+   {
+    "v": 4683,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1801,
+     -0.0449,
+     1.4804
+    ],
+    "weights": {
+     "spine_03": 0.11,
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 4684,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1544,
+     -0.0475,
+     1.5039
+    ],
+    "weights": {
+     "spine_03": 0.07,
+     "clavicle_l": 0.74,
+     "upperarm_l": 0.17
+    }
+   },
+   {
+    "v": 4685,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2015,
+     -0.0426,
+     1.4774
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4686,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1771,
+     -0.045,
+     1.5007
+    ],
+    "weights": {
+     "spine_03": 0.1,
+     "clavicle_l": 0.64,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 4688,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1997,
+     -0.041,
+     1.4982
+    ],
+    "weights": {
+     "clavicle_l": 0.58,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 4690,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2215,
+     -0.0335,
+     1.4962
+    ],
+    "weights": {
+     "clavicle_l": 0.48,
+     "upperarm_l": 0.51
+    }
+   },
+   {
+    "v": 4691,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2577,
+     -0.0119,
+     1.4727
+    ],
+    "weights": {
+     "clavicle_l": 0.17,
+     "upperarm_l": 0.81
+    }
+   },
+   {
+    "v": 4692,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2411,
+     -0.0217,
+     1.4946
+    ],
+    "weights": {
+     "clavicle_l": 0.24,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.68
+    }
+   },
+   {
+    "v": 4803,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1422,
+     -0.0417,
+     1.5204
+    ],
+    "weights": {
+     "clavicle_l": 0.86,
+     "upperarm_l": 0.13
+    }
+   },
+   {
+    "v": 4805,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1671,
+     -0.0395,
+     1.5173
+    ],
+    "weights": {
+     "clavicle_l": 0.78,
+     "upperarm_l": 0.19
+    }
+   },
+   {
+    "v": 4807,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1918,
+     -0.0349,
+     1.5154
+    ],
+    "weights": {
+     "clavicle_l": 0.72,
+     "upperarm_l": 0.28
+    }
+   },
+   {
+    "v": 4808,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1619,
+     -0.0283,
+     1.5303
+    ],
+    "weights": {
+     "clavicle_l": 0.81,
+     "upperarm_l": 0.18
+    }
+   },
+   {
+    "v": 4809,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2155,
+     -0.0277,
+     1.514
+    ],
+    "weights": {
+     "clavicle_l": 0.52,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4810,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1888,
+     -0.0242,
+     1.5286
+    ],
+    "weights": {
+     "clavicle_l": 0.73,
+     "upperarm_l": 0.27
+    }
+   },
+   {
+    "v": 4817,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.262,
+     0.0491,
+     1.5095
+    ],
+    "weights": {
+     "clavicle_l": 0.13,
+     "scapula_l": 0.33,
+     "upperarm_l": 0.54
+    }
+   },
+   {
+    "v": 4818,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2517,
+     0.0384,
+     1.5202
+    ],
+    "weights": {
+     "clavicle_l": 0.21,
+     "scapula_l": 0.4,
+     "upperarm_l": 0.39
+    }
+   },
+   {
+    "v": 4819,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2513,
+     0.0712,
+     1.512
+    ],
+    "weights": {
+     "clavicle_l": 0.08,
+     "scapula_l": 0.36,
+     "upperarm_l": 0.55
+    }
+   },
+   {
+    "v": 4820,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2439,
+     0.065,
+     1.5222
+    ],
+    "weights": {
+     "clavicle_l": 0.16,
+     "scapula_l": 0.3,
+     "upperarm_l": 0.54
+    }
+   },
+   {
+    "v": 4822,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2316,
+     0.0796,
+     1.5255
+    ],
+    "weights": {
+     "clavicle_l": 0.17,
+     "scapula_l": 0.19,
+     "upperarm_l": 0.65
+    }
+   },
+   {
+    "v": 6036,
+    "score": 0.43,
+    "region": "torso",
+    "rest": [
+     -0.1052,
+     -0.1042,
+     1.3292
+    ],
+    "weights": {
+     "spine_02": 0.35,
+     "spine_03": 0.51,
+     "clavicle_l": 0.08,
+     "upperarm_l": 0.06
+    }
+   },
+   {
+    "v": 6231,
+    "score": 0.31,
+    "region": "torso",
+    "rest": [
+     -0.1503,
+     -0.0464,
+     1.3755
+    ],
+    "weights": {
+     "spine_02": 0.16,
+     "spine_03": 0.36,
+     "scapula_l": 0.12,
+     "upperarm_l": 0.36
+    }
+   },
+   {
+    "v": 6234,
+    "score": 0.31,
+    "region": "torso",
+    "rest": [
+     -0.1611,
+     -0.0281,
+     1.389
+    ],
+    "weights": {
+     "spine_03": 0.33,
+     "clavicle_l": 0.12,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.46
+    }
+   },
+   {
+    "v": 6290,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1552,
+     -0.049,
+     1.389
+    ],
+    "weights": {
+     "spine_03": 0.28,
+     "clavicle_l": 0.21,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.42
+    }
+   },
+   {
+    "v": 6293,
+    "score": 1.0,
+    "region": "torso",
+    "rest": [
+     -0.1761,
+     0.0518,
+     1.4084
+    ],
+    "weights": {
+     "scapula_l": 0.62,
+     "upperarm_l": 0.34
+    }
+   },
+   {
+    "v": 6294,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1805,
+     0.0244,
+     1.4147
+    ],
+    "weights": {
+     "scapula_l": 0.37,
+     "upperarm_l": 0.56
+    }
+   },
+   {
+    "v": 6296,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1738,
+     0.0718,
+     1.4041
+    ],
+    "weights": {
+     "scapula_l": 0.65,
+     "upperarm_l": 0.34
+    }
+   },
+   {
+    "v": 6349,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2372,
+     0.0542,
+     1.528
+    ],
+    "weights": {
+     "clavicle_l": 0.21,
+     "scapula_l": 0.1,
+     "upperarm_l": 0.69
+    }
+   },
+   {
+    "v": 6356,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2203,
+     0.0737,
+     1.5329
+    ],
+    "weights": {
+     "clavicle_l": 0.12,
+     "scapula_l": 0.32,
+     "upperarm_l": 0.57
+    }
+   },
+   {
+    "v": 8715,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.1739,
+     0.0746,
+     1.3865
+    ],
+    "weights": {
+     "scapula_l": 0.48,
+     "upperarm_l": 0.52
+    }
+   },
+   {
+    "v": 13526,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1481,
+     -0.0487,
+     1.4846
+    ],
+    "weights": {
+     "spine_03": 0.11,
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.23
+    }
+   },
+   {
+    "v": 13527,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1694,
+     -0.046,
+     1.4818
+    ],
+    "weights": {
+     "clavicle_l": 0.65,
+     "upperarm_l": 0.3
+    }
+   },
+   {
+    "v": 13528,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1908,
+     -0.0439,
+     1.4789
+    ],
+    "weights": {
+     "clavicle_l": 0.53,
+     "upperarm_l": 0.45
+    }
+   },
+   {
+    "v": 13531,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2497,
+     -0.019,
+     1.4731
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.08,
+     "upperarm_l": 0.72
+    }
+   },
+   {
+    "v": 13589,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.1795,
+     -0.0375,
+     1.5162
+    ],
+    "weights": {
+     "clavicle_l": 0.75,
+     "upperarm_l": 0.25
+    }
+   },
+   {
+    "v": 13590,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.2038,
+     -0.0318,
+     1.5147
+    ],
+    "weights": {
+     "clavicle_l": 0.67,
+     "upperarm_l": 0.32
+    }
+   },
+   {
+    "v": 14364,
+    "score": 1.0,
+    "region": "shoulder",
+    "rest": [
+     -0.232,
+     0.0695,
+     1.5288
+    ],
+    "weights": {
+     "clavicle_l": 0.2,
+     "scapula_l": 0.17,
+     "upperarm_l": 0.62
+    }
+   },
+   {
+    "v": 15559,
+    "score": 1.0,
+    "region": "arm",
+    "rest": [
+     -0.175,
+     0.0646,
+     1.391
+    ],
+    "weights": {
+     "scapula_l": 0.47,
+     "upperarm_l": 0.53
+    }
+   }
+  ]
+ }
+}

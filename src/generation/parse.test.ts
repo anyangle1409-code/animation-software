@@ -476,6 +476,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('exercise: dumbbell curl 3-second lowering')).toEqual(['tempo']);
     expect(blocking('exercise: dumbbell curl lowering for three seconds')).toEqual(['tempo']);
     expect(blocking('exercise: shoulder press 2 sec up')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl slow lowering')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl lower slowly')).toEqual(['tempo']);
+    expect(blocking('exercise: shoulder press explosive ascent')).toEqual(['tempo']);
+    expect(blocking('exercise: shoulder press lift quickly')).toEqual(['tempo']);
     expect(parsePrompt('exercise: dumbbell curl tempo 3-0-1-0').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 

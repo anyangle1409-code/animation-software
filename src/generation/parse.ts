@@ -72,9 +72,12 @@ const UNSUPPORTED_ANGLE_RANGE = [
 ];
 
 const PHASE_WORD = '(?:eccentric|concentric|lower(?:ing)?|lift(?:ing)?|descent|ascent|down|up)';
+const QUALITATIVE_TEMPO_WORD = '(?:slow(?:ly)?|fast|quick(?:ly)?|explosive(?:ly)?|controll?ed)';
 const UNSUPPORTED_PHASE_TIMING = [
   new RegExp(`\\b${COUNT_WORD}[-\\s]*(?:s|secs?|seconds?)\\s+${PHASE_WORD}\\b`),
   new RegExp(`\\b${PHASE_WORD}\\s+(?:for\\s+)?${COUNT_WORD}\\s*(?:s|secs?|seconds?)\\b`),
+  new RegExp(`\\b${QUALITATIVE_TEMPO_WORD}[-\\s]+${PHASE_WORD}\\b`),
+  new RegExp(`\\b${PHASE_WORD}[-\\s]+${QUALITATIVE_TEMPO_WORD}\\b`),
 ];
 const UNSUPPORTED_PROGRAMMING = [
   new RegExp(`\\b${COUNT_WORD}\\s*(?:sets?|reps?|repetitions?)\\b`),

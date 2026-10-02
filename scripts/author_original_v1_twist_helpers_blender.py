@@ -52,6 +52,7 @@ def segment_geometry(name):
 
 DEBUG = []
 NEGLIGIBLE = 0.003
+TRUNK_FULL = 0.25
 SMALL_OTHER = 0.03
 cleaned, folded = [], []
 collapsed = []
@@ -82,12 +83,17 @@ def plan():
             big = max((k for k in new if k not in tiny), key=lambda k: new[k])
             for k in tiny:
                 new[big] += new.pop(k)
-            w = dict(new)
-            cleaned.append(v.index)
+            cleaned.append(v.index)   # `w` keeps the ORIGINAL groups so the apply step removes the folded ones
         for name in hit:
             h, ax, L = geo[name]
             t = float((rest[v.index] - h) @ ax / L)
             a0, a1, a2 = th.partition(t)
+            # r40 lesson: chest/shoulder-cap vertices that only SHARE a few percent of weight with the arm must not follow the
+            # humeral twist: neighbours that landed on different stations collapsed 1 cm edges to 0.26. Blend the partition toward
+            # the twist-free station in proportion to the weight the vertex puts on trunk/girdle bones (full at >= 25 %).
+            trunk = sum(x for k, x in new.items() if k.startswith(("spine", "clavicle", "scapula", "neck", "pelvis", "head")))
+            beta = min(1.0, (trunk / total) / TRUNK_FULL)
+            a0, a1, a2 = (1 - beta) * a0 + beta, (1 - beta) * a1, (1 - beta) * a2
             seg, side = name.split("_")
             wv = new.pop(name)
             # Keep within four influences WITHOUT discarding weight where possible: the 50 % station's share can be folded half
@@ -146,7 +152,7 @@ if mode == "declare":
                           "vertices over four influences keep their four largest (renormalised to the original sum)",
            "source_bones_changed": segment_groups, "allowed_vertex_ids": ids, "vertex_count": len(ids),
            "allowed_vertex_ids_sha256": ids_hash,
-           "weight_cleanup": {"negligible_below": NEGLIGIBLE, "small_other_below": SMALL_OTHER,
+           "weight_cleanup": {"negligible_below": NEGLIGIBLE, "trunk_weight_full_twist_free_at": TRUNK_FULL, "small_other_below": SMALL_OTHER,
                               "vertices_with_negligible_weights_folded": len(cleaned), "vertices_with_small_other_folded": len(folded),
                               "vertices_collapsed_to_one_station": len(set(collapsed))},
            "planned": {"vertices_pruned_to_4_influences": len(prunes),

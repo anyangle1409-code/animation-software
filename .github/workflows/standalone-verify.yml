@@ -98,7 +98,7 @@ jobs:
       - name: Canonical v4 runtime coupling gate
         run: npm run audit:v4-runtime-coupling
 
-      - name: Final release remains blocked until original model approval
+      - name: Final component blockers are limited to ORIGINAL model, rig and equipment fit
         run: node scripts/audit-first-party-release-components.mjs --expect-blocked
 
       - name: Verify prepared first-party foundations

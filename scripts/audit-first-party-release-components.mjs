@@ -61,16 +61,26 @@ fs.writeFileSync(
 );
 const expectBlocked = process.argv.includes("--expect-blocked");
 if (expectBlocked) {
-  const requiredPending = ["male_character", "male_shorts", "canonical_rig"];
+  const requiredPending = [
+    "male_character",
+    "male_shorts",
+    "canonical_rig",
+    "equipment_geometry",
+  ];
   const pendingIds = new Set(notApproved.map((entry) => entry.id));
+  const unexpectedPending = notApproved.filter(
+    (entry) => !requiredPending.includes(entry.id),
+  );
   const expectationPass =
     !pass &&
     missing.length === 0 &&
-    requiredPending.every((id) => pendingIds.has(id));
+    requiredPending.every((id) => pendingIds.has(id)) &&
+    unexpectedPending.length === 0;
   const expectation = {
     ...result,
-    expectation: "release_blocked_by_pending_original_model_components",
+    expectation: "release_blocked_only_by_original_model_rig_and_final_equipment_fit",
     requiredPending,
+    unexpectedPending,
     expectationPass,
   };
   console.log(JSON.stringify(expectation, null, 2));

@@ -2221,3 +2221,5 @@ Owner review of r41 withdrew the first lock (toes/forefoot and shoulder/axilla n
 - Next options (owner-level or next session): (a) add a face-area/fold barrier plus second driver (scapular rotation) to the corrective; (b) a first-party axilla-pit weight/topology edit (new declared mask) for the ~40 pit vertices; (c) accept r55 as a development trade-off and freeze. Current evidence candidate for review: r55 (sha256 CCAEF8BA1FDDE161B9E5769175B7576EEB88D96F4C99E41CDD0147041A93BBD7).
 
 NEXT ACTION (evidence-selected): RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r55, then decide between options (a)/(b)/(c) above; r55 has 0 development failures but a visual armpit residual, so Phase 3 exit has not been run.
+
+Status-selected next action: RECONCILE trial lineage (r49-r54 are preserved trial/exploratory candidates leading to r55; r55 is the current evidence candidate). After that, choose corrective option (a)/(b)/(c).

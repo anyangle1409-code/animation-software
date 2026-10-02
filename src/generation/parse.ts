@@ -154,22 +154,6 @@ export function parsePrompt(prompt: string): ParsedPrompt {
     }
   }
 
-  for (const pattern of UNSUPPORTED_REP_STYLE) {
-    const match = slots.text.match(pattern);
-    if (match) {
-      return {
-        prompt,
-        intent: null,
-        assumptions: [],
-        issues: [{
-          code: 'variant',
-          message: `"${match[0]}": partial/eccentric-only repetition styles change the certified range or repetition structure and are not substituted with a normal full repetition.`,
-          blocking: true,
-        }],
-      };
-    }
-  }
-
   const unsupportedPauseStyle = slots.text.match(UNSUPPORTED_PAUSE_STYLE);
   if (unsupportedPauseStyle) {
     return {
@@ -184,6 +168,22 @@ export function parsePrompt(prompt: string): ParsedPrompt {
         blocking: true,
       }],
     };
+  }
+
+  for (const pattern of UNSUPPORTED_REP_STYLE) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'variant',
+          message: `"${match[0]}": partial/eccentric-only repetition styles change the certified range or repetition structure and are not substituted with a normal full repetition.`,
+          blocking: true,
+        }],
+      };
+    }
   }
 
   // A phrase introduced by "tempo" or "cadence" is a timing constraint first.

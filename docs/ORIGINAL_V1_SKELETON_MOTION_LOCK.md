@@ -1,6 +1,8 @@
 # ORIGINAL v1 skeleton-motion lock — rig revision rev2 (twist helpers)
 
-Status: RECORDED 2026-10-02 · machine record `ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_twist_helpers.json` · not a production approval
+**Status: REOPENED 2026-10-02 (see `ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_REOPEN_20261002.json`) — the skeleton is OPEN again after owner visual review of r41: push-up foot/toes and shoulder/axilla/upper-arm form must be convincing against real-human movement before any lock. The text below is the withdrawn first lock, kept as history.**
+
+Original status: RECORDED 2026-10-02 · machine record `ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_twist_helpers.json` · not a production approval
 
 ## Identity
 

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "kind": "SKELETON_MOTION_LOCK_REOPENED",
+  "generated_utc": "2026-10-02T16:11:23.954773+00:00",
+  "reopens": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_twist_helpers.json",
+  "lock_record_sha256": "95f8a73d749fe8b2dda49f09402e570c66e3f66b7d7affcbb7431fbf532a8fcf",
+  "status": "SKELETON OPEN - lock withdrawn pending owner-directed re-validation",
+  "reason": "Owner visual review of r41 (2026-10-02): (A) push-up foot/toes not yet convincing as a loaded human forefoot; (B) shoulder/axilla/upper-arm form not yet convincing. Numerical gates (envelope, symmetry, no finger reversal, aggregate metrics) are necessary but not sufficient: the lock requires convincing movement against real-human references.",
+  "rows_reopened": [
+    "forefoot/toes",
+    "shoulder girdle",
+    "upper arm / twist"
+  ],
+  "rows_unaffected_unless_new_evidence": [
+    "head/neck",
+    "thorax/spine",
+    "elbow",
+    "forearm / twist",
+    "wrist",
+    "palm",
+    "thumb",
+    "fingers",
+    "hip",
+    "knee",
+    "shin/calf / twist",
+    "ankle"
+  ],
+  "required_before_relock": [
+    "toe/forefoot re-validation vs multiple real push-up examples + >=3 foot/toe sources; hallux decision",
+    "shoulder skeleton-only diagnosis (6 poses, fine sampling) vs real references",
+    "upper-arm/forearm helper with/without comparison",
+    "explicit answers to the owner's lock questions",
+    "new lock record with new hashes if the rig changes"
+  ]
+}

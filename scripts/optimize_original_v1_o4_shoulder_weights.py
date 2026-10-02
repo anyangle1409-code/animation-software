@@ -212,6 +212,9 @@ PRESETS["o34"] = dict(PRESETS["o29"], zmin=0.55, zmax=1.12, isolate_sides=True)
 # vol_slack < 0 asks each pose's whole-body volume deviation to be below its R2/base value by 0.006, w_vol stronger.
 PRESETS["o35"] = dict(PRESETS["o34"], vol_slack=-0.006, w_vol=2e7)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
+# o41 (P3 epoch): the best historical shoulder-zone objective (o13) re-run on the realistic (interval-rhythm) P3 poses, symmetric, with bounds from
+# the pinned P3 baseline report. The shoulder weights were tuned for glenohumeral-only elevation; the scapula now carries about 60 deg.
+PRESETS["o41"] = dict(PRESETS["o13"], symmetric=True)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
 # solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
 # bounds as o22 (pinned report = the P2 baseline P2B1), symmetric, no-regression guards.

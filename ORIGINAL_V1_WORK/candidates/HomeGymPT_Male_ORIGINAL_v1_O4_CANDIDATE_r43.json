@@ -1,0 +1,15 @@
+{
+  "generated_utc": "2026-10-02T16:25:42.774782+00:00",
+  "stage": "O4 candidate first-party rig revision: scapula pivot relocation (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r42.blend",
+  "source_sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r43.blend",
+  "candidate_sha256": "2939cd3b4dc374192d9457276ed5141ff63e335ae38adbcc5531977243f3d8a3",
+  "declaration": "scapula_pivot_declared_before_edit.json",
+  "declaration_sha256": "9ec76b174ec48e8353d20d3de797a0786951c5376f7022519b59695e61c1e42f",
+  "fraction_toward_tail": 0.35,
+  "bone_count": 67,
+  "weights_changed": false,
+  "geometry_changed": false,
+  "topology_changed": false
+}

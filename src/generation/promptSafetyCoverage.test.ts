@@ -11,6 +11,8 @@ describe('prompt-safety coverage across the registered exercise library', () => 
       const name = exercise.name;
       expect(blockingCodes(`exercise: ${name} for 10 reps`), name).toContain('programming');
       expect(blockingCodes(`exercise: ${name} 3x10`), name).toContain('programming');
+      expect(blockingCodes(`exercise: ${name} 3 rounds`), name).toContain('programming');
+      expect(blockingCodes(`exercise: ${name} 3-second lowering`), name).toContain('tempo');
       expect(blockingCodes(`exercise: kneeling ${name}`), name).toContain('support');
       expect(blockingCodes(`exercise: wide stance ${name}`), name).toContain('variant');
       expect(blockingCodes(`exercise: wide grip ${name}`), name).toContain('grip');

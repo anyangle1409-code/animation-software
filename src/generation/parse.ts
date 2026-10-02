@@ -52,10 +52,18 @@ const UNSUPPORTED_REP_STYLE = [
 
 const COUNT_WORD =
   '(?:\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
+const PHASE_WORD = '(?:eccentric|concentric|lower(?:ing)?|lift(?:ing)?|descent|ascent|down|up)';
+const UNSUPPORTED_PHASE_TIMING = [
+  new RegExp(`\\b${COUNT_WORD}[-\\s]*(?:s|secs?|seconds?)\\s+${PHASE_WORD}\\b`),
+  new RegExp(`\\b${PHASE_WORD}\\s+(?:for\\s+)?${COUNT_WORD}\\s*(?:s|secs?|seconds?)\\b`),
+];
 const UNSUPPORTED_PROGRAMMING = [
   new RegExp(`\\b${COUNT_WORD}\\s*(?:sets?|reps?|repetitions?)\\b`),
+  new RegExp(`\\bsets?\\s+of\\s+${COUNT_WORD}\\b`),
+  new RegExp(`\\b${COUNT_WORD}\\s*(?:rounds?|circuits?)\\b`),
   new RegExp(`\\bfor\\s+${COUNT_WORD}\\s*(?:seconds?|secs?|minutes?|mins?)\\b`),
   /\b\d+\s*[x×]\s*\d+\b/,
+  /\b(?:drop[-\s]?sets?|super[-\s]?sets?|giant[-\s]?sets?|cluster[-\s]?sets?|rest[-\s]?pause)\b/,
   /\b(?:amrap|emom)\b/,
   /\b(?:to|until)\s+failure\b/,
   /\brpe\s*\d+(?:\.\d+)?\b|\brir\s*\d+\b|\breps?\s+in\s+reserve\b/,
@@ -131,6 +139,24 @@ export function parsePrompt(prompt: string): ParsedPrompt {
         blocking: true,
       }],
     };
+  }
+
+  for (const pattern of UNSUPPORTED_PHASE_TIMING) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'tempo',
+          message:
+            `"${match[0]}": phase-specific timing is not represented independently by the current family clips. ` +
+            'Use a complete four-phase tempo such as "tempo 3-1-2-0" / "tempo 3010", or omit the phase timing.',
+          blocking: true,
+        }],
+      };
+    }
   }
 
   for (const pattern of UNSUPPORTED_PROGRAMMING) {

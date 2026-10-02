@@ -422,6 +422,13 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('exercise: dumbbell curl slow cadence').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
+  it('does not silently drop phase-specific timing that the clip cannot encode independently', () => {
+    expect(blocking('exercise: dumbbell curl 3-second lowering')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell curl lowering for three seconds')).toEqual(['tempo']);
+    expect(blocking('exercise: shoulder press 2 sec up')).toEqual(['tempo']);
+    expect(parsePrompt('exercise: dumbbell curl tempo 3-0-1-0').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('blocks set, repetition-count and workout-programming prescriptions that have no output field yet', () => {
     expect(blocking('exercise: dumbbell curl for 10 reps')).toEqual(['programming']);
     expect(blocking('exercise: 3 sets dumbbell shoulder press')).toEqual(['programming']);
@@ -434,6 +441,10 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('exercise: squat RPE 8')).toEqual(['programming']);
     expect(blocking('exercise: dumbbell row RIR 2')).toEqual(['programming']);
     expect(blocking('exercise: shoulder press rest 60 seconds')).toEqual(['programming']);
+    expect(blocking('exercise: squat 3 rounds')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell curl sets of ten')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell curl drop set')).toEqual(['programming']);
+    expect(blocking('exercise: shoulder press superset')).toEqual(['programming']);
   });
 
   it('blocks rep-style modifiers that would otherwise be silently replaced by a full repetition', () => {

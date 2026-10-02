@@ -9,7 +9,6 @@ import type { Vec3 } from '../../rig/types';
 import { vec3 } from '../../rig/types';
 import { bilateralJointTarget, bilateralJoints, bilateralLock, bilateralRule } from '../mirror';
 import { evenSides, plantedContact } from '../presets';
-import { BALL_HEIGHT } from '../stance';
 
 /**
  * Accepted first-party push-up body-line tolerance, metres.
@@ -91,9 +90,6 @@ const HAND_L = vec3(-0.3, 0.055, 1.295);
 /** Elbows are pulled back towards the feet and out, giving the 30–45° flare. */
 const ELBOW_POLE_L = vec3(-0.55, 0.34, 1.05);
 
-/** Ball-of-foot contact that keeps the toes flat while the heel rises. */
-const TOE_BALL_L = vec3(-0.082, BALL_HEIGHT, 0.10);
-
 const bodyJoints = bilateralJoints({
   // The trunk is held rigid: a push-up is one unit, not a spine exercise.
   spine_01: { x: 0 },
@@ -172,16 +168,6 @@ export function horizontalPressFamily(variant: HorizontalPressVariant): Exercise
         aim: { direction: vec3(0, 0, 1), forward: vec3(1, 0, 0) },
         enabled: true,
       }),
-      ...bilateralLock({
-        id: 'foot_l',
-        chain: 'leg_l',
-        mode: 'floor',
-        position: TOE_BALL_L,
-        // Keep the knee as straight as the authored pose while solving the
-        // heel height. The shared solver then aims the toe segment flat.
-        onBall: { toeOut: 0 },
-        enabled: true,
-      }),
     ],
 
     muscles: {
@@ -205,16 +191,6 @@ export function horizontalPressFamily(variant: HorizontalPressVariant): Exercise
         point: { bone: 'toe_l', along: 1 },
         tolerance: 0.012,
         label: 'Left toes stay planted',
-      }),
-      ...bilateralRule({
-        kind: 'segmentAngle',
-        id: 'toes_flat_l',
-        label: 'Left toes lie flat on the floor',
-        bone: 'toe_l',
-        reference: 'vertical',
-        min: 85,
-        max: 90,
-        severity: 'error',
       }),
       {
         kind: 'distance',

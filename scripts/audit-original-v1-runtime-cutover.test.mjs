@@ -135,6 +135,92 @@ test("activation cannot happen by changing the contract mode alone", () => {
   }
 });
 
+test("approved active mode requires the dressed ORIGINAL v1 source to be reachable, registered and default", () => {
+  const { root, contract } = fixture();
+  try {
+    contract.mode = "original_v1_active";
+    contract.current_default_source = "original-v1-dressed";
+    writeJson(path.join(root, "ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json"), contract);
+
+    const promotionPath = path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json");
+    const promotion = JSON.parse(fs.readFileSync(promotionPath, "utf8"));
+    promotion.mode = "approved_for_promotion";
+    writeJson(promotionPath, promotion);
+
+    write(
+      path.join(root, "src/character/registry.ts"),
+      [
+        "import { proceduralCharacter } from './procedural';",
+        "import { bundledOriginalV1Source } from './originalV1Bundled';",
+        "const sources = new Map();",
+        "const originalV1Dressed = bundledOriginalV1Source('dressed');",
+        "let fallback = originalV1Dressed.id;",
+        "function registerCharacterSource(source) { sources.set(source.id, source); return source; }",
+        "registerCharacterSource(proceduralCharacter);",
+        "registerCharacterSource(originalV1Dressed);",
+        "",
+      ].join("\n"),
+    );
+
+    const result = auditOriginalV1RuntimeCutover(root);
+    assert.equal(result.pass, true, JSON.stringify(result, null, 2));
+    assert.equal(result.mode, "original_v1_active");
+    assert.equal(result.preparedLoaderReachable, true);
+    assert.equal(result.currentDefaultSource, "original-v1-dressed");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("active mode rejects activation while promotion remains blocked", () => {
+  const { root, contract } = fixture();
+  try {
+    contract.mode = "original_v1_active";
+    contract.current_default_source = "original-v1-dressed";
+    writeJson(path.join(root, "ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json"), contract);
+    fs.appendFileSync(
+      path.join(root, "src/character/registry.ts"),
+      "import './originalV1Bundled';\n",
+    );
+
+    const result = auditOriginalV1RuntimeCutover(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message => message.includes("approved_for_promotion")),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("active mode rejects keeping the procedural source as the runtime default", () => {
+  const { root, contract } = fixture();
+  try {
+    contract.mode = "original_v1_active";
+    writeJson(path.join(root, "ORIGINAL_V1_RUNTIME_CUTOVER_CONTRACT.json"), contract);
+
+    const promotionPath = path.join(root, "ORIGINAL_V1_PROMOTION_CONTRACT.json");
+    const promotion = JSON.parse(fs.readFileSync(promotionPath, "utf8"));
+    promotion.mode = "approved_for_promotion";
+    writeJson(promotionPath, promotion);
+
+    fs.appendFileSync(
+      path.join(root, "src/character/registry.ts"),
+      "import './originalV1Bundled';\n",
+    );
+
+    const result = auditOriginalV1RuntimeCutover(root);
+    assert.equal(result.pass, false);
+    assert.ok(
+      result.blockers.some(message => message.includes("does not match future production source")),
+      JSON.stringify(result, null, 2),
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("prepared loader rejects unexpected/candidate GLB paths at audit time", () => {
   const { root } = fixture();
   try {

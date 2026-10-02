@@ -12,10 +12,11 @@
   ],
   "requirements": [
     "While mode is blocked_procedural_default, the prepared ORIGINAL v1 production loader must not be reachable from src/main.ts.",
-    "The live registry must continue to default to the clean procedural character.",
+    "The live registry must continue to default to the clean procedural character while promotion is blocked.",
     "The prepared loader may contain only the exact product-relative production paths and must reject arbitrary/candidate/remote paths.",
-    "Changing this contract to any activation mode is intentionally unsupported until ORIGINAL_V1_PROMOTION_CONTRACT.json is approved with exact source commit and production hashes.",
+    "The only supported activation mode is original_v1_active, and it is valid only after ORIGINAL_V1_PROMOTION_CONTRACT.json is approved_for_promotion.",
+    "In original_v1_active mode the dressed bundled ORIGINAL-v1 source must be reachable from src/main.ts, registered by the live registry and be the runtime default; the procedural source remains registered as a diagnostic fallback.",
     "Activation must be a reviewed code change with runtime/default-character tests, not a configuration-only switch."
   ],
-  "note": "This contract guards runtime reachability only. It does not approve the model, garment, rig cutover, deformation, grip, offline or physical-device gates."
+  "note": "This contract guards both the current dormant cutover and the exact future activation shape. The mode remains blocked_procedural_default until production approval; adding active-mode audit support does not activate or approve the model."
 }

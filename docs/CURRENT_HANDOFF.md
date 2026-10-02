@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`99164b073efff65a6a78c752f9c24be16c24b1b5` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the expanded prompt-safety hardening below is fully verified.
+`fa3ab87b9e80425f8894bd4120fc14fae7e82522` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the current prompt-safety / production-browser acceptance hardening below is fully verified.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 99164b07
+## Verification at fa3ab87b
 
 GitHub Actions on exact SHA
-`99164b073efff65a6a78c752f9c24be16c24b1b5`:
+`fa3ab87b9e80425f8894bd4120fc14fae7e82522`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 246 tests passed**;
-- full suite: **189 files passed, 2 skipped; 1,194 tests passed, 62 skipped**;
+- full suite: **190 files passed, 2 skipped; 1,214 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -173,6 +173,25 @@ while making normal prompt entry safer and clearer:
 - explicit one/single-dumbbell wording is blocked because the certified
   dumbbell families use a matched pair, except when the prompt explicitly says
   one dumbbell in/per each hand;
+- explicit support/grip/angle and range/path instructions that the selected
+  family cannot encode are blocked rather than silently replaced, including
+  depth/parallel cues, elbow tuck/flare and short-of-lockout requests;
+- wall/bench/counter/table/assisted/handle/parallette push-up requests are
+  blocked because only the standard flat-palm floor push-up is certified;
+- generic plate/hand-weight wording is treated as unsupported equipment instead
+  of disappearing into a dumbbell/bodyweight default;
+- no-pause, touch-and-go and continuous-repetition timing are blocked when the
+  family clip cannot encode that timing independently;
+- vague timing directives such as steady/normal/moderate `pace` or `speed`
+  are blocked unless they contain a supported slow/controlled/fast meaning;
+- shoulder-/hip-width stance requests and explicit toe/foot orientation are
+  blocked because stance width and foot angle are not prompt parameters;
+- qualitative workout programming such as high/low reps, multiple sets,
+  "for reps" and "as many reps as possible" is blocked because the output is
+  one validated repetition clip;
+- the production-output browser smoke now proves the mobile-keyboard command
+  `exercise: farmer’s walk` end-to-end on built `dist`, in addition to the
+  shoulder-press shorthand and cable-generation paths;
 - the Generate panel now defaults to the target shorthand
   `exercise: dumbbell shoulder press`, labels cable equipment correctly, and
   retains explicit review/validation behaviour.
@@ -280,15 +299,12 @@ For cloud/repository work, do not restart completed framework/Three migration.
 2. Continue cloud/repository work on release/offline/prompt-generation
    acceptance evidence that can be proved in CI without pretending to close
    physical-device or Blender gates. Core-family and current-library prompt
-   coverage are complete. The next safe generation work is deterministic
-   language/intent breadth for already-certified biomechanics. Safe aliases,
-   mobile punctuation, common equipment spellings, compact tempo notation and
-   unilateral-wording guards are now covered; continue closing cases where a
-   user's stated parameter could otherwise be silently replaced by a default.
-   Written loads/angles, free-weight ambiguity, rep-style/programming requests,
-   total-vs-per-hand loads, written carry distance and explicit single-dumbbell
-   wording are now guarded. Continue only with similarly evidence-backed
-   deterministic language/intent gaps; keep genuinely new movement, support,
+   coverage are complete, and the known silent-default classes now have broad
+   deterministic guards (equipment ambiguity/counts, loads/ranges, support,
+   grip/spacing, side, stance/foot angle, range/path, tempo/pause/pace, and
+   workout programming). Do not turn this into open-ended synonym/regex churn:
+   add another parser rule only when a concrete prompt can currently change or
+   discard a stated parameter silently. Keep genuinely new movement, support,
    grip, side or equipment variants blocked until they gain their own
    family-level validation evidence.
 3. When a laptop is available, continue the isolated model branch from

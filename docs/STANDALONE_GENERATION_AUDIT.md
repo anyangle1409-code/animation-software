@@ -90,10 +90,21 @@ biomechanical boundary:
   is certified;
 - written number words are parsed for supported weight/angle units instead of
   being silently ignored;
-- ambiguous free-weight wording, unsupported repetition styles, set/rep/timed
-  prescriptions, total/combined dumbbell loads, written carry distances and
-  explicit single-dumbbell requests are all blocked when the current
-  certified/output schema cannot represent them faithfully;
+- ambiguous free-weight/plate/hand-weight wording, unsupported repetition
+  styles, set/rep/timed prescriptions, total/combined dumbbell loads, written
+  carry distances and explicit single-dumbbell requests are all blocked when
+  the current certified/output schema cannot represent them faithfully;
+- explicit support/grip/angle, stance-width, foot-orientation, movement-range
+  and joint-path directives are blocked when the selected family has no
+  corresponding intent field;
+- no-pause/touch-and-go/continuous-repetition timing, vague pace/speed wording
+  and phase-specific timing are blocked instead of being replaced by the family
+  default; complete supported tempo notation remains accepted;
+- qualitative workout programming (for example high/low reps, multiple sets,
+  "for reps" and "as many reps as possible") is blocked because the current
+  product generates one validated repetition clip;
+- unsupported push-up support variants such as wall/bench/counter/table,
+  assisted, handles and parallettes are blocked rather than approximated;
 - the Generate panel exposes the simple `exercise: ...` workflow directly and
   reports cable equipment as cable rather than bodyweight.
 
@@ -111,6 +122,10 @@ requests; there is no separate command parser or hosted service.
 The same production smoke also:
 
 - fully validates a generated bodyweight squat;
+- fully validates `exercise: cable triceps pushdown` and requires the live
+  Generate panel to report `Cable station`, not bodyweight;
+- fully validates the mobile-keyboard spelling `exercise: farmer’s walk`
+  (smart apostrophe) through the built production bundle;
 - submits an unsupported goblet squat and requires `NEEDS A DECISION` with a
   local, specific explanation and no preview/approval candidate actions;
 - requires the project-owned WebGL renderer to draw the production build;
@@ -177,6 +192,8 @@ The architecture is approved, but release acceptance remains open because:
 
 Keep the current deterministic generation architecture.
 
-Improve coverage by adding project-owned vocabulary, certified families and
-validation evidence. Do not replace the generation system with a hosted runtime
-AI service, and do not weaken validation to make new prompts pass.
+Keep improving coverage only from concrete evidence: add project-owned
+vocabulary when a real prompt would otherwise be misread, add a new family or
+variant only with its own validation evidence, and keep unsupported intent
+blocked rather than guessed. Do not replace the generation system with a hosted
+runtime AI service, and do not weaken validation to make new prompts pass.

@@ -290,9 +290,9 @@
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
-    "revision": "P3",
+    "revision": "P3a",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "5a3d94fac478dc851e1e5b67b4ae6f985526d644d576e51ad3d4da244a72ef5d",
+    "sha256": "f6dc7d7ca871f5bca46ff9609b458ad1f850061fd096e9f043a92f826e4a54d9",
     "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
   },
   "pose_definition_history": [
@@ -320,6 +320,18 @@
       "reason": "Owner review of r41: toes tilted 8 deg up instead of flat on the floor; the plain press/pull-up poses held the shoulder girdle still (166 deg glenohumeral-only elevation, physiologically impossible) while only the *_rhythm variants used a fixed 14/28 deg girdle. P3 applies an interval-dependent scapulohumeral rhythm to every elevated-arm pose and flattens the toes.",
       "evidence": [
         "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/"
+      ]
+    },
+    {
+      "revision": "P3",
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender_P3_historical.py",
+      "section": "before metrics; metadata-only hashlib import excluded",
+      "sha256": "5a3d94fac478dc851e1e5b67b4ae6f985526d644d576e51ad3d4da244a72ef5d",
+      "used_by": "candidates r42..r48 (P3 epoch, baseline P3B1)",
+      "superseded_utc": "2026-10-02",
+      "reason": "P3a adds only the evaluation-time driver of the generic shoulder corrective shape keys (no-op without the keys); exercise pose definitions unchanged, P3B1 remains valid.",
+      "evidence": [
+        "docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md"
       ]
     }
   ],

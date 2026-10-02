@@ -10,9 +10,6 @@ same joint ranges. For each pose the script measures volume change, edge
 stretch/compression (by body region) and self-intersections, and renders
 front / side / three-quarter review images.
 
-POSE DEFINITION REVISION P3a (2026-10-02) = P3 plus upd() driving the generic shoulder corrective shape keys (infrastructure only: a no-op on every candidate
-without the keys, so every earlier measurement and the baseline P3B1 stay valid). P3 is preserved as pose_test_..._P3_historical.py.
-
 POSE DEFINITION REVISION P3 (2026-10-02, owner review of r41) = P2 plus: toes lie flat on the floor in push-up/lunge (r41's toe tilted 8 deg
 up); every elevated-arm pose now carries scapulohumeral rhythm from an interval-dependent profile (P2 held the girdle still in the
 plain press/pull-up poses: 166 deg of glenohumeral-only elevation, which no human can do; the *_rhythm poses now use a 1.25x
@@ -81,34 +78,9 @@ def drive_twist_helpers():
         pose[name].matrix_basis = Quaternion((0.0, 1.0, 0.0), -(1.0 - f) * twist).to_matrix().to_4x4()
 
 
-def drive_shoulder_corrective():
-    """Generic joint-angle-driven shoulder/axilla corrective (docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md). Per side, set the shape key
-    HGPT_SHOULDER_CORR_<L|R> to a(theta), theta = humerothoracic elevation = angle between the humerus direction and the downward trunk axis
-    (-spine_03 direction) in the armature frame, a = C1 smoothstep between theta0 and theta1 (stored on the scene). No-op without the keys."""
-    spec = bpy.context.scene.get("hgpt_shoulder_corrective")
-    keys = body.data.shape_keys
-    if not spec or keys is None:
-        return False
-    cfg = json.loads(spec)
-    pose = rig.pose.bones
-    down = -(pose["spine_03"].tail - pose["spine_03"].head).normalized()
-    changed = False
-    for side, kname in (("l", cfg["keys"]["l"]), ("r", cfg["keys"]["r"])):
-        h = (pose[f"upperarm_{side}"].tail - pose[f"upperarm_{side}"].head).normalized()
-        t = min(1.0, max(0.0, (math.degrees(h.angle(down)) - cfg["theta0_deg"]) / (cfg["theta1_deg"] - cfg["theta0_deg"])))
-        a = t * t * (3.0 - 2.0 * t)
-        kb = keys.key_blocks.get(kname)
-        if kb is not None and abs(kb.value - a) > 1e-9:
-            kb.value = a
-            changed = True
-    return changed
-
-
 def upd():
     drive_twist_helpers()
     bpy.context.view_layer.update()
-    if drive_shoulder_corrective():
-        bpy.context.view_layer.update()
 
 
 def pb(name):

@@ -28,6 +28,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import original_v1_twist_helpers as th  # noqa: E402
 
 args = sys.argv[sys.argv.index("--") + 1:]
+if "--segments" in args:
+    i = args.index("--segments")
+    th.ACTIVE_SEGMENTS = tuple(x for x in args[i + 1].split(",") if x in th.SEGMENTS)
+    del args[i:i + 2]
+    if th.ACTIVE_SEGMENTS != th.SEGMENTS:
+        th.REVISION = "rev2_" + "_".join(th.ACTIVE_SEGMENTS) + "_twist_only"
 mode = args[0]
 if mode not in ("declare", "apply"):
     raise SystemExit("mode must be declare or apply")
@@ -41,7 +47,7 @@ if len(rig.data.bones) != 63:
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 me = body.data
 group_names = {vg.index: vg.name for vg in body.vertex_groups}
-segment_groups = [f"{seg}_{s}" for seg in th.SEGMENTS for s in th.SIDES]
+segment_groups = [f"{seg}_{s}" for seg in th.ACTIVE_SEGMENTS for s in th.SIDES]
 
 
 def segment_geometry(name):

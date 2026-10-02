@@ -1,0 +1,217 @@
+{
+  "schema_version": 2,
+  "profile": "development_blocker",
+  "status": "REGRESSION",
+  "baseline_failed_checks": 4,
+  "candidate_failed_checks": 0,
+  "delta_failed_checks": -4,
+  "pose_failure_counts_baseline": {
+    "squat_bottom": 1,
+    "lunge": 3
+  },
+  "pose_failure_counts_candidate": {
+    "squat_bottom": 0,
+    "lunge": 0
+  },
+  "grip_failure_counts_baseline": {},
+  "grip_failure_counts_candidate": {},
+  "comparison_tolerances": {
+    "description": "Maximum numerical drift permitted before a candidate is classified as a severity regression. These are noise/iteration tolerances, not relaxed acceptance limits.",
+    "volume_deviation_from_1_rise": 0.005,
+    "edge_ratio_p01_drop": 0.02,
+    "edge_ratio_p99_rise": 0.05,
+    "region_min_ratio_drop": 0.02,
+    "region_max_ratio_rise": 0.1,
+    "self_intersecting_face_pairs_rise": 5,
+    "lowest_z_drop_m": 0.001,
+    "grip_penetration_rise_mm": 0.25,
+    "grip_contact_fraction_drop": 0.01
+  },
+  "selected_poses": [
+    "lunge",
+    "squat_bottom"
+  ],
+  "regression_count": 5,
+  "improvement_count": 11,
+  "regressions": [
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": null,
+      "metric": "volume_deviation_from_1",
+      "baseline": 0.0373,
+      "candidate": 0.04369999999999996,
+      "delta": 0.006399999999999961,
+      "direction": "lower_is_better",
+      "tolerance": 0.005
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 42.0,
+      "candidate": 108.0,
+      "delta": 66.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "foot",
+      "metric": "region_min_ratio",
+      "baseline": 0.857,
+      "candidate": 0.57,
+      "delta": -0.28700000000000003,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "leg",
+      "metric": "region_min_ratio",
+      "baseline": 0.373,
+      "candidate": 0.258,
+      "delta": -0.11499999999999999,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "leg",
+      "metric": "region_max_ratio",
+      "baseline": 1.543,
+      "candidate": 1.693,
+      "delta": 0.15000000000000013,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    }
+  ],
+  "improvements": [
+    {
+      "kind": "severity",
+      "name": "lunge",
+      "region": "foot",
+      "metric": "region_min_ratio",
+      "baseline": 0.419,
+      "candidate": 0.486,
+      "delta": 0.067,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "lunge",
+      "region": "pelvis",
+      "metric": "region_max_ratio",
+      "baseline": 7.559,
+      "candidate": 4.573,
+      "delta": -2.9859999999999998,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "lunge",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline": 0.121,
+      "candidate": 0.185,
+      "delta": 0.064,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "lunge",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 7.2,
+      "candidate": 3.904,
+      "delta": -3.2960000000000003,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "arm",
+      "metric": "region_max_ratio",
+      "baseline": 3.627,
+      "candidate": 2.666,
+      "delta": -0.9609999999999999,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "foot",
+      "metric": "region_max_ratio",
+      "baseline": 1.32,
+      "candidate": 1.15,
+      "delta": -0.17000000000000015,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "pelvis",
+      "metric": "region_max_ratio",
+      "baseline": 3.498,
+      "candidate": 2.336,
+      "delta": -1.1620000000000004,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.184,
+      "candidate": 0.244,
+      "delta": 0.06,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 8.053,
+      "candidate": 4.214,
+      "delta": -3.8390000000000004,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline": 0.173,
+      "candidate": 0.207,
+      "delta": 0.034,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 4.204,
+      "candidate": 3.332,
+      "delta": -0.8719999999999999,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    }
+  ],
+  "rule": "No baseline pose/grip may disappear, gain gate failures, or materially worsen a tracked severity metric while repairing another region."
+}

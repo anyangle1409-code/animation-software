@@ -32,13 +32,16 @@ SIDES = ("l", "r")
 REVISION = "rev2_twist_helpers"
 
 
+ACTIVE_SEGMENTS = SEGMENTS      # an authoring run may restrict this (scripts/author_original_v1_twist_helpers_blender.py --segments)
+
+
 def helper_names():
-    return [f"{seg}_{st}_{s}" for seg in SEGMENTS for s in SIDES for st, _ in STATIONS]
+    return [f"{seg}_{st}_{s}" for seg in ACTIVE_SEGMENTS for s in SIDES for st, _ in STATIONS]
 
 
 def helper_spec():
     return [{"name": f"{seg}_{st}_{s}", "parent": f"{seg}_{s}", "twist_fraction": f, "segment": seg, "side": s}
-            for seg in SEGMENTS for s in SIDES for st, f in STATIONS]
+            for seg in ACTIVE_SEGMENTS for s in SIDES for st, f in STATIONS]
 
 
 def partition(t):

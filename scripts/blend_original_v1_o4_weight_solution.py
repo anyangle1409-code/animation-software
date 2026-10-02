@@ -117,6 +117,7 @@ def main():
     ap.add_argument("--alpha-other", type=float)
     ap.add_argument("--out")
     ap.add_argument("--exempt", nargs="*", default=[], help="pose/region/min|max items inherited from the base, excluded vs R2")
+    ap.add_argument("--allow-violations", action="store_true", help="write the blend even if the exact model predicts comparator violations (evidence run decides)")
     ap.add_argument("--isolate-sides", action="store_true",
                     help="project the solution onto left/right isolation: zero the OPPOSITE-side bones on every off-midline vertex")
     ap.add_argument("--poses", help="comma-separated poses to evaluate (default: all in the dump)")
@@ -191,8 +192,10 @@ def main():
             cross += int(any(Wz[k, j] > 1e-8 for j in bad))
         m = M.metrics(Z, used, Wz)
         v = M.all_violations(m, exempt)
-        if v:
+        if v and not a.allow_violations:
             raise SystemExit("refusing to write: blend has predicted violations " + json.dumps(v)[:400])
+        if v:
+            print("WARNING: writing a blend with", len(v), "predicted comparator violations (--allow-violations); the full evidence run decides")
         np.savez_compressed(a.out, vertices=Z, bones=np.array(ub), weights=Wz)
         rec = {"generated_utc": datetime.now(timezone.utc).isoformat(), "tool": "scripts/blend_original_v1_o4_weight_solution.py",
                "source_solution": Path(a.solution).name, "source_solution_sha256": hashlib.sha256(Path(a.solution).read_bytes()).hexdigest(),

@@ -151,6 +151,35 @@ Do not silently alter:
 No V8-V15f geometry, topology, coordinates, weights, bind data, materials, textures or garment
 content may be copied or transferred.
 
+
+## External human-reference validation — REQUIRED for this pre-freeze package
+
+Read and follow `docs/EXTERNAL_HUMAN_MOVEMENT_REFERENCE_POLICY.md`.
+
+Before accepting the corrections for finger flexion, push-up palm/wrist support,
+push-up forefoot/toe support, or shoulder/axilla classification, use suitable external
+human exercise imagery/video as **reference-only development evidence**.
+
+Required use:
+- compare the project-owned candidate at defined movement checkpoints with multiple
+  competent human examples where practical;
+- record source metadata plus relevant timecode/frame location;
+- write generic anatomical/biomechanical observations rather than copying a person's
+  exact form;
+- use the reference to identify whether the model problem is pose/constraint,
+  contact/support, joint direction, weighting/deformation, topology/support, or
+  surface anatomy;
+- then implement the smallest general first-party correction and re-run all project
+  evidence.
+
+External media is NOT production content. Do not transfer or copy geometry, topology,
+coordinates, weights, bind data, textures, motion data, authored animation curves,
+or person-specific body proportions. Prefer committing links/timecodes and
+project-authored observations rather than third-party media.
+
+This reference layer supplements — never replaces — the unchanged numerical gates,
+contact diagnostics, provenance rules and real Blender review renders.
+
 ## Execution method
 
 1. Fetch/re-read live remote HEAD before touching Blender.

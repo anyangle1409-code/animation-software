@@ -37,6 +37,10 @@ Do not:
 
 Prefer repository evidence consisting of source metadata, links/timecodes and project-authored observations rather than copied external media.
 
+## Multiple-source requirement
+
+For skeleton/joint-motion signoff, use a minimum of **two independent reputable sources per major joint group**, and three where practical for the current high-risk shoulder, hand/wrist and foot/toe reviews. Record disagreement and normal human variation rather than forcing a single source's number into the rig. The detailed source matrix and bone-sufficiency rules are in `docs/SKELETON_HUMAN_MOVEMENT_AND_BONE_SUFFICIENCY_POLICY.md`.
+
 ## Reference quality
 
 Prefer:

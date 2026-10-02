@@ -292,7 +292,7 @@
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
     "revision": "P3a",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "f6dc7d7ca871f5bca46ff9609b458ad1f850061fd096e9f043a92f826e4a54d9",
+    "sha256": "f9f9006171fb3f385e1638d1fc279bde1627057083175b2d417eb20838bc6d97",
     "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
   },
   "pose_definition_history": [

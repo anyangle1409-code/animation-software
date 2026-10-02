@@ -84,7 +84,8 @@ def drive_twist_helpers():
 def drive_shoulder_corrective():
     """Generic joint-angle-driven shoulder/axilla corrective (docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md). Per side, set the shape key
     HGPT_SHOULDER_CORR_<L|R> to a(theta), theta = humerothoracic elevation = angle between the humerus direction and the downward trunk axis
-    (-spine_03 direction) in the armature frame, a = C1 smoothstep between theta0 and theta1 (stored on the scene). No-op without the keys."""
+    (-spine_03 direction) in the armature frame, a = C1 smoothstep between theta0 and theta1 (stored on the scene) times the abduction fraction lam
+    (plane of elevation: share of the humerus' horizontal trunk-frame direction that is lateral; 1 = abduction, 0 = flexion). No-op without the keys."""
     spec = bpy.context.scene.get("hgpt_shoulder_corrective")
     keys = body.data.shape_keys
     if not spec or keys is None:
@@ -93,10 +94,15 @@ def drive_shoulder_corrective():
     pose = rig.pose.bones
     down = -(pose["spine_03"].tail - pose["spine_03"].head).normalized()
     changed = False
+    R = pose["spine_03"].matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()
+    lat_t, ant_t = R @ Vector((1, 0, 0)), R @ Vector((0, -1, 0))
     for side, kname in (("l", cfg["keys"]["l"]), ("r", cfg["keys"]["r"])):
         h = (pose[f"upperarm_{side}"].tail - pose[f"upperarm_{side}"].head).normalized()
         t = min(1.0, max(0.0, (math.degrees(h.angle(down)) - cfg["theta0_deg"]) / (cfg["theta1_deg"] - cfg["theta0_deg"])))
-        a = t * t * (3.0 - 2.0 * t)
+        hl, ha = h.dot(lat_t), h.dot(ant_t)
+        nn = hl * hl + ha * ha
+        lam = 1.0 if nn < 1e-6 else hl * hl / nn          # plane of elevation: 1 = abduction, 0 = flexion
+        a = t * t * (3.0 - 2.0 * t) * lam
         kb = keys.key_blocks.get(kname)
         if kb is not None and abs(kb.value - a) > 1e-9:
             kb.value = a

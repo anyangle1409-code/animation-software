@@ -5,7 +5,7 @@ python scripts/optimize_original_v1_shoulder_corrective.py <arc dump.npz> <out s
 
 Design: docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md. The posed position of a vertex with the corrective is
 
-    P_v(pose) = P0_v(pose) + A_v(pose) . ( a(theta_L) D^L_v + a(theta_R) D^R_v ),   A_v = sum_b W_vb R_b(pose)   (3x3 blend of the bone rotations)
+    P_v(pose) = P0_v(pose) + A_v(pose) . ( lam_L a(theta_L) D^L_v + lam_R a(theta_R) D^R_v ),   A_v = sum_b W_vb R_b(pose)   (3x3 blend of the bone rotations)
 
 because skinning is linear in the rest position. D^L lives on the left-owned mask (x <= 0, midline included), D^R(v) = S * D^L(m(v)) with S = (-1,1,1) and m the exact
 mirror map: symmetric by construction. a(theta) is the C1 smoothstep between theta0 and theta1. Minimised over D^L: edge stretch/compression hinges (against the TRUE rest length),
@@ -49,6 +49,7 @@ def main():
     ap.add_argument("--trunk-a0", type=float, default=0.05)
     ap.add_argument("--trunk-a1", type=float, default=0.20)
     ap.add_argument("--trunk-rb", type=float, default=0.18)
+    ap.add_argument("--w-fold", type=float, default=0.0, help="dihedral fold barrier (cos below min(0.2, current-0.05) is penalised)")
     ap.add_argument("--w-smooth", type=float, default=20.0)
     ap.add_argument("--w-mag", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=300)
@@ -102,8 +103,9 @@ def main():
 
     A = np.einsum("vb,pbij->pvij", W[Z], mats[:, :, :3, :3])           # [pose, zone vertex, 3, 3]
     P0 = evald.copy()
-    al = smoothstep(theta[:, 0], a.theta0, a.theta1)
-    ar = smoothstep(theta[:, 1], a.theta0, a.theta1)
+    lam = d["lam"] if "lam" in d.files else np.ones_like(theta)
+    al = smoothstep(theta[:, 0], a.theta0, a.theta1) * lam[:, 0]
+    ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * lam[:, 1]
     # trunk-driven reference positions (trunk bones only, weights renormalised)
     trunk = [b[n] for n in ("root", "pelvis", "spine_01", "spine_02", "spine_03", "neck", "head") if n in b]
     Wt = np.zeros_like(W)
@@ -124,6 +126,22 @@ def main():
     # smoothness edges (inside the mask, on the net field)
     Es = E[in_mask[E[:, 0]] & in_mask[E[:, 1]]]
     Esz0, Esz1 = np.array([zpos[int(v)] for v in Es[:, 0]]), np.array([zpos[int(v)] for v in Es[:, 1]])
+    # fold barrier: triangles touching the mask and the adjacent pairs among them (new buckling/self-intersection proxy)
+    tris = d["tris"]
+    Tz = tris[in_mask[tris].any(axis=1)]
+    edge_tris = {}
+    for t, (x_, y_, z_) in enumerate(Tz):
+        for e in ((x_, y_), (y_, z_), (z_, x_)):
+            edge_tris.setdefault((min(e), max(e)), []).append(t)
+    adj = np.array([v for v in edge_tris.values() if len(v) == 2])
+
+    def dihedral(Pp):
+        A_, B_, C_ = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+        n = np.cross(B_ - A_, C_ - A_)
+        n1, n2 = n[adj[:, 0]], n[adj[:, 1]]
+        return n, n1, n2, (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
+
+    FOLD = np.stack([np.minimum(0.2, dihedral(P0[p])[3] - 0.05) for p in range(nP)]) if a.w_fold > 0 else None
     zidx = -np.ones(nV, int)
     zidx[Z] = np.arange(len(Z))
 
@@ -163,6 +181,22 @@ def main():
             exc = np.where(TORSO, np.maximum(dn - ALLOW, 0.0), 0.0)
             total += a.w_trunk * (exc ** 2).sum()
             gP[Z] += (2.0 * a.w_trunk * exc / dn)[:, None] * dtr
+            if a.w_fold > 0:
+                n, n1, n2, cs = dihedral(Pp)
+                fx = np.maximum(FOLD[p] - cs, 0.0)
+                if (fx > 0).any():
+                    total += a.w_fold * (fx ** 2).sum()
+                    l1, l2 = np.maximum(np.linalg.norm(n1, axis=1), 1e-12), np.maximum(np.linalg.norm(n2, axis=1), 1e-12)
+                    gc = (-2.0 * a.w_fold * fx)[:, None]
+                    gn1 = gc * (n2 / (l1 * l2)[:, None] - cs[:, None] * n1 / (l1 ** 2)[:, None])
+                    gn2 = gc * (n1 / (l1 * l2)[:, None] - cs[:, None] * n2 / (l2 ** 2)[:, None])
+                    gn = np.zeros_like(n)
+                    np.add.at(gn, adj[:, 0], gn1)
+                    np.add.at(gn, adj[:, 1], gn2)
+                    A_, B_, C_ = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                    np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
+                    np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
+                    np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
             gDeff = np.einsum("vji,vj->vi", A[p], gP[Z])                 # A^T gP
             gDL += al[p] * gDeff
             gDR += ar[p] * gDeff

@@ -66,7 +66,7 @@ ns["reset"]()
 rig.location = (0, 0, 0)
 ns["upd"]()
 heads = np.array([(rig.matrix_world @ rig.data.bones[n].head_local)[:] for n in deform])
-mats, evald, pose_names, thetas = [], [], [], []
+mats, evald, pose_names, thetas, lams = [], [], [], [], []
 pb_ = ns["pb"]
 
 
@@ -74,6 +74,16 @@ def elevation(side):
     h = (pb_(f"upperarm_{side}").tail - pb_(f"upperarm_{side}").head).normalized()
     down = -(pb_("spine_03").tail - pb_("spine_03").head).normalized()
     return math.degrees(h.angle(down))
+
+
+def abduction_fraction(side):
+    """Plane of elevation: share of the humerus' horizontal (trunk-frame) direction that is lateral rather than anterior (1 = pure abduction,
+    0 = pure flexion); defined as h_lat^2 / (h_lat^2 + h_ant^2), 1 when the arm is vertical. Trunk frame = spine_03 rotation relative to rest."""
+    h = (pb_(f"upperarm_{side}").tail - pb_(f"upperarm_{side}").head).normalized()
+    R = pb_("spine_03").matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()
+    hl, ha = h.dot(R @ Vector((1, 0, 0))), h.dot(R @ Vector((0, -1, 0)))
+    n = hl * hl + ha * ha
+    return 1.0 if n < 1e-6 else hl * hl / n
 
 
 def swing_twist(q):
@@ -113,6 +123,7 @@ def record(label):
     evald.append(P)
     pose_names.append(label)
     thetas.append([elevation("l"), elevation("r")])
+    lams.append([abduction_fraction("l"), abduction_fraction("r")])
 
 
 for name, fn in POSES.items():
@@ -135,7 +146,7 @@ source_path = Path(bpy.data.filepath)
 source_sha256 = hashlib.sha256(source_path.read_bytes()).hexdigest()
 np.savez_compressed(out_path, W=W, rest=rest, edges=edges, tris=np.array(tris), region=region,
                     region_names=np.array(names), bones=np.array(deform), heads=heads, mats=np.stack(mats),
-                    evaluated=np.stack(evald), poses=np.array(pose_names), theta=np.array(thetas),
+                    evaluated=np.stack(evald), poses=np.array(pose_names), theta=np.array(thetas), lam=np.array(lams),
                     source=np.array(source_path.name), source_sha256=np.array(source_sha256),
                     source_size_bytes=np.array(source_path.stat().st_size))
 print("DUMP DONE", out_path, len(pose_names), "entries", source_sha256)

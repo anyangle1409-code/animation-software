@@ -74,16 +74,13 @@ const BOTTOM = { pitch: 85.54, root: { y: 0.2062, z: 0.0382 } };
  * elbows at about 40° from the torso, which is the technique this exercise is
  * defined by.
  */
-// Forward placement is derived, not inherited. On the locked Stage 2 anatomy the
-// old z of 1.24 put true wrist extension at 92.1°, past the roughly 70-80° the
-// human wrist has, and the forearm read as a flattened strap. Measured through
-// the twist/swing decomposition that accounts for the 14.62° hand-to-forearm
-// bind offset, extension falls monotonically as the hands move forward:
-// 1.24 -> 92.1°, 1.30 -> 80.3°, 1.34 -> 73.9°, 1.36 -> 71.0°, 1.42 -> 63.6°.
-//
-// 1.34 is the smallest move that sits inside the 70-75° working band with margin
-// at both ends. That is +100 mm, NOT the historical ~200 mm estimate, which this
-// measurement does not support.
+// The accepted hand placement remains z=1.295. A measured z=1.34 trial reduced
+// wrist extension, but it moved each bottom forearm 95 mm away from vertical,
+// beyond this exercise's accepted 60 mm maximum, so the full suite rejected it.
+// Palm contact is corrected by the hand lock's explicit floor aim instead of by
+// moving the whole arm chain forward. The floor grip keeps every finger segment
+// essentially straight, and the global joint-limit regression continues to guard
+// the wrist itself.
 // Only the left is authored; the right hand and its pole are the mirror of these.
 const HAND_L = vec3(-0.3, 0.055, 1.295);
 
@@ -98,6 +95,8 @@ const bodyJoints = bilateralJoints({
   neck: { x: -25 },
   head: { x: -10 },
   // Toes tucked under, which is what puts the body on the balls of the feet.
+  // Their contact is carried by the authored root path. Do not layer a second
+  // leg/on-ball IK lock over it without re-authoring that root trajectory.
   foot_l: { x: 25 },
   // A starting guess for the arms; the hand locks solve them exactly.
   upperarm_l: { x: 85, z: -14 },

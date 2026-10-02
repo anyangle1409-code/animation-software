@@ -19,6 +19,10 @@ describe('the horizontal-press family', () => {
     expect(pushUp.peakPose.root?.rotation?.x).toBe(85.54);
   });
 
+  it('keeps toe contact root-authored instead of adding a competing leg IK lock', () => {
+    expect(pushUp.locks.map((lock) => lock.chain)).toEqual(['arm_l', 'arm_r']);
+  });
+
   it('keeps the standard push-up palms explicitly flat to the floor', () => {
     for (const lock of pushUp.locks.filter((entry) => entry.id.startsWith('hand_'))) {
       expect(lock.aim).toEqual({

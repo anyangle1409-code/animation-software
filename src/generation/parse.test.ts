@@ -552,6 +552,14 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('knee push-up')).toEqual(['variant']);
     expect(blocking('incline push-up')).toEqual(['support']);
     expect(blocking('push-up with feet elevated')).toEqual(['variant']);
+    expect(blocking('wall push-up')).toEqual(['variant']);
+    expect(blocking('push-up against a wall')).toEqual(['variant']);
+    expect(blocking('bench push-up')).toEqual(['variant']);
+    expect(blocking('countertop push-up')).toEqual(['variant']);
+    expect(blocking('push-up on a table')).toEqual(['variant']);
+    expect(blocking('assisted push-up')).toEqual(['variant']);
+    expect(blocking('push-up using handles')).toEqual(['variant']);
+    expect(blocking('push-up on parallettes')).toEqual(['variant']);
     expect(blocking('push-up with hands on a bench')).toEqual(['variant']);
     expect(blocking('elevated push-up')).toEqual(['variant']);
     expect(blocking('push-up with 10 kg dumbbells')).toEqual(['equipment', 'load']);

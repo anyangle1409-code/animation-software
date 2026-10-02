@@ -91,7 +91,16 @@ def skin_mats():
 def evaluate():
     M = skin_mats()
     T = np.einsum("bij,vj->vbi", M[:, :3, :], rest_h)
-    return np.einsum("vb,vbi->vi", W, T), np.einsum("vb,vbi->vi", Wt, T)
+    Tt = T
+    sk = body.data.shape_keys
+    if sk is not None:                       # corrective shape keys act on the rest position before skinning
+        eff = rest.copy()
+        for kb in sk.key_blocks:
+            if kb.name != "Basis" and kb.value != 0.0:
+                eff += kb.value * (np.array([d.co[:] for d in kb.data]) - rest)
+        T = np.einsum("bij,vj->vbi", M[:, :3, :], np.c_[eff, np.ones(len(eff))])
+    # P = what the candidate actually shows; Pt = where the trunk bones alone would put the UNcorrected rest mesh
+    return np.einsum("vb,vbi->vi", W, T), np.einsum("vb,vbi->vi", Wt, Tt)
 
 
 def swing_twist(q):

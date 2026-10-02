@@ -50,6 +50,10 @@ def main():
     ap.add_argument("--trunk-a1", type=float, default=0.20)
     ap.add_argument("--trunk-rb", type=float, default=0.18)
     ap.add_argument("--w-fold", type=float, default=0.0, help="dihedral fold barrier (cos below min(0.2, current-0.05) is penalised)")
+    ap.add_argument("--w-prox", type=float, default=0.0, help="no-new-contact barrier between non-neighbouring mask vertices (sheets must not close below min(base distance, --prox-d))")
+    ap.add_argument("--prox-d", type=float, default=0.012)
+    ap.add_argument("--rounds", type=int, default=1)
+    ap.add_argument("--p99-tail", type=float, default=1.95, help="edges currently below this ratio may not rise above it (keeps the 99th percentile); edges above keep the --hi bound")
     ap.add_argument("--w-smooth", type=float, default=20.0)
     ap.add_argument("--w-mag", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=300)
@@ -121,7 +125,7 @@ def main():
     Em = E[in_mask[E[:, 0]] | in_mask[E[:, 1]]]
     L0 = np.linalg.norm(rest[Em[:, 0]] - rest[Em[:, 1]], axis=1)
     cur = np.stack([np.log(np.maximum(np.linalg.norm(P0[p][Em[:, 0]] - P0[p][Em[:, 1]], axis=1), 1e-12) / L0) for p in range(nP)])
-    LHI = np.maximum(np.log(a.hi), 0.0) * np.ones_like(cur)
+    LHI = np.where(cur < np.log(a.p99_tail), np.log(a.p99_tail), np.log(a.hi))     # no NEW tail edges; existing tail edges may stay under --hi
     LLO = (np.log(a.lo) * np.ones_like(cur)) if a.abs_lo else np.minimum(np.log(a.lo), cur)                                # never required to be better than the current compression, never allowed to get worse than min(lo, current)
     # smoothness edges (inside the mask, on the net field)
     Es = E[in_mask[E[:, 0]] & in_mask[E[:, 1]]]
@@ -142,6 +146,28 @@ def main():
         return n, n1, n2, (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
 
     FOLD = np.stack([np.minimum(0.2, dihedral(P0[p])[3] - 0.05) for p in range(nP)]) if a.w_fold > 0 else None
+    # no-new-contact barrier: pairs of mask vertices far apart on the rest surface (>= 3 cm) that are close in a pose
+    rZ = rest[Z]
+    far_rest = None
+
+    def find_pairs(Pc, base):
+        """Pairs (i, j) (zone indices, i < j) within 2.5 x prox-d now or in the base pose; dmin = min(base distance, prox-d)."""
+        out = []
+        for lo in range(0, len(Z), 600):
+            blk = slice(lo, min(lo + 600, len(Z)))
+            dnow = np.linalg.norm(Pc[blk, None, :] - Pc[None, :, :], axis=2)
+            dbase = np.linalg.norm(base[blk, None, :] - base[None, :, :], axis=2)
+            drest = np.linalg.norm(rZ[blk, None, :] - rZ[None, :, :], axis=2)
+            ii, jj = np.nonzero(((dnow < 2.5 * a.prox_d) | (dbase < 2.5 * a.prox_d)) & (drest > 0.03))
+            ii = ii + lo
+            keep = ii < jj
+            out.append(np.stack([ii[keep], jj[keep]], axis=1))
+        pr = np.concatenate(out) if out else np.zeros((0, 2), int)
+        db = np.linalg.norm(base[pr[:, 0]] - base[pr[:, 1]], axis=1)
+        return pr, np.minimum(db, a.prox_d) * 0.95
+
+    PAIRS = [np.zeros((0, 2), int) for _ in range(nP)]
+    PDMIN = [np.zeros(0) for _ in range(nP)]
     zidx = -np.ones(nV, int)
     zidx[Z] = np.arange(len(Z))
 
@@ -197,6 +223,16 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
                     np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
                     np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
+            if a.w_prox > 0 and len(PAIRS[p]):
+                pr, dmin = PAIRS[p], PDMIN[p]
+                pi_, pj_ = Z[pr[:, 0]], Z[pr[:, 1]]
+                dd = Pp[pi_] - Pp[pj_]
+                dn_ = np.maximum(np.linalg.norm(dd, axis=1), 1e-9)
+                ex_ = np.maximum(dmin - dn_, 0.0)
+                total += a.w_prox * (ex_ ** 2).sum()
+                gq = (-2.0 * a.w_prox * ex_ / dn_)[:, None] * dd
+                np.add.at(gP, pi_, gq)
+                np.add.at(gP, pj_, -gq)
             gDeff = np.einsum("vji,vj->vi", A[p], gP[Z])                 # A^T gP
             gDL += al[p] * gDeff
             gDR += ar[p] * gDeff
@@ -222,6 +258,21 @@ def main():
         for k, v in enumerate(Lset):
             if int(v) in mp:
                 x[3 * k:3 * k + 3] = s0["delta"][mp[int(v)]]
+    def refresh_pairs(xv):
+        if a.w_prox <= 0:
+            return
+        Dv_ = xv.reshape(nL, 3)
+        DL_, DR_ = net_fields(Dv_)
+        tot = 0
+        for p in range(nP):
+            if al[p] <= 0 and ar[p] <= 0:
+                continue
+            Pc = P0[p][Z] + np.einsum("vij,vj->vi", A[p], al[p] * DL_ + ar[p] * DR_)
+            PAIRS[p], PDMIN[p] = find_pairs(Pc, P0[p][Z])
+            tot += len(PAIRS[p])
+        print("contact pairs refreshed:", tot, flush=True)
+
+    refresh_pairs(x)
     f, g = loss_grad(x)
     print(f"mask left-owned {nL} total {len(Z)} edges {len(Em)} poses {nP} (active {int(((al > 0) | (ar > 0)).sum())}) initial loss {f:.1f}")
     # L-BFGS with Armijo backtracking
@@ -262,6 +313,10 @@ def main():
                 S_.pop(0)
                 Y_.pop(0)
         x, f, g = xn, fn, gn
+        if a.rounds > 1 and it % max(a.iters // a.rounds, 1) == 0 and it < a.iters:
+            refresh_pairs(x)
+            f, g = loss_grad(x)
+            S_, Y_ = [], []
         if it % 25 == 0 or it == 1:
             print(f"iter {it:4d} loss {f:.3f} |g| {np.linalg.norm(g):.3e} max|D| {np.abs(x).max():.4f}")
     Dv = x.reshape(nL, 3)

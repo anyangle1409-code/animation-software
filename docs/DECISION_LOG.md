@@ -61,6 +61,32 @@ These decisions remain in force until deliberately reopened with new evidence an
   pass provenance, deformation, contact and promotion gates. Footwear must not
   be used to hide an actual kinematic/contact failure.
 
+## Release / provenance boundary
+
+- `npm run audit:standalone` is the pre-promotion operational gate; it must keep
+  proving that unapproved ORIGINAL-v1 production assets are dormant.
+- `npm run audit:release` is the final-mode release gate and must be capable of
+  passing only after approved ORIGINAL-v1 promotion and active runtime cutover;
+  it must not depend on a guard whose success requires promotion to remain
+  blocked.
+- The only supported future runtime activation mode is
+  `original_v1_active`. It requires approved promotion, the exact dressed
+  bundled ORIGINAL-v1 source to be reachable/registered/default, and retention
+  of the procedural source as a diagnostic fallback.
+- Release packaging remains deny-by-default. Before final asset promotion, only
+  the verified first-party software shell (`index.html`, hashed JS and CSS) is
+  approved. Production character GLBs require explicit exact-path/hash
+  promotion.
+- Operational exercise animation data is first-party project-authored source
+  data. Its release approval is conditional on the executable provenance gate:
+  no prerecorded/external animation assets, remote reads, bare third-party
+  imports or legacy character implementation identities may enter
+  `src/exercises`.
+- Before final model approval, the only permitted pending **required** release
+  components are the ORIGINAL character, ORIGINAL shorts, canonical v4 rig and
+  final equipment/body fit. Any additional pending required component is a CI
+  failure.
+
 ## Verification
 
 - Physical visual/input parity remains a real gate; unit tests do not substitute for it.

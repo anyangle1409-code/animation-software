@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`46e5545133e4eb9e5936d92258340e44e72cbf67` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the reviewed push-up palm/wrist correction below is fully verified without increasing any test timeout.
+`301f794d125de1e8679d904c6d97636afe2fc8d8` — the cloud/software side is release-gated as far as it can be before final ORIGINAL-v1 assets: zero-runtime-dependency operation remains intact, prompt generation covers all 16 core movement families / all 28 registered exercises, push-up palm/wrist mechanics remain verified, the final release audit is promotion-safe, the real built software shell is deny-by-default allowlisted, and exercise-animation data is first-party approved behind an executable provenance gate.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,16 +75,18 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at 46e55451
+## Verification at 301f794d
 
 GitHub Actions on exact SHA
-`46e5545133e4eb9e5936d92258340e44e72cbf67`:
+`301f794d125de1e8679d904c6d97636afe2fc8d8`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **87 files / 252 tests passed**;
 - full suite: **190 files passed, 2 skipped; 1,218 tests passed, 62 skipped**;
+- exercise-animation provenance: **51 operational source files / 28 definitions / 16 family files**, with zero external animation assets, remote reads, bare third-party imports or legacy implementation identities: PASS;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
+- real built `dist` software-shell release allowlist (`index.html`, hashed JS/CSS only; **3 files** at this checkpoint): PASS;
 - standalone aggregate audit: PASS;
 - production-output third-party gate: PASS;
 - repository hygiene / prepared first-party foundations: PASS;
@@ -198,6 +200,44 @@ while making normal prompt entry safer and clearer:
 
 These are parser/UI breadth and safety changes only. They do not certify any new
 movement, support, grip, side or equipment biomechanics.
+
+## Verified release-gate hardening
+
+The software/repository release path is now structurally ready for the later
+approved ORIGINAL-v1 promotion without activating any unapproved asset today.
+
+- `npm run audit:standalone` remains the **pre-promotion** operational gate and
+  intentionally proves that ORIGINAL v1 is still blocked/dormant.
+- `npm run audit:release` is now a distinct **final-mode** gate. It no longer
+  calls the blocked-stage standalone aggregate; it requires final promotion,
+  active runtime cutover, canonical-v4 coupling, runtime/network/resource gates,
+  production output, first-party component approval and the release allowlist.
+- `scripts/audit-original-v1-runtime-cutover.mjs` still passes the current
+  `blocked_procedural_default` state, but it now also has tested rules for the
+  future `original_v1_active` state. That future mode requires the promotion
+  contract to be approved, the dressed bundled ORIGINAL-v1 source to be
+  reachable/registered/default, and the procedural source to remain available
+  as a diagnostic fallback.
+- `RELEASE_ASSET_ALLOWLIST.json` is deny-by-default and currently approves only
+  the verified first-party software shell: `index.html`, `assets/*.js`, and
+  `assets/*.css`. Production character GLBs remain unapproved and are rejected
+  until their exact paths/hashes are promoted.
+- CI now runs the release allowlist against the **actual built `dist`**, not
+  only against fixtures.
+- `exercise_animation_data` is now `first_party_approved` in
+  `FIRST_PARTY_COMPONENT_MANIFEST.json`, backed by
+  `EXERCISE_ANIMATION_PROVENANCE.json` and the executable provenance gate.
+- The blocked-stage required-component check is now exact: there are **no
+  unexpected pending required components**. The only permitted pending set is
+  `male_character`, `male_shorts`, `canonical_rig`, and
+  `equipment_geometry`; the last must be revalidated against the final
+  ORIGINAL-v1 body/hand dimensions.
+
+This does **not** make the final release green. Final release is correctly
+blocked until the approved production character/garment exists, canonical v4 is
+activated through the reviewed cutover, final equipment/body fit is revalidated,
+the exact production GLBs are allowlisted by hash/path, and physical/offline
+acceptance is collected.
 
 ## Verified push-up hand/contact corrective pass
 
@@ -325,14 +365,20 @@ behavioural suite must be green first.
      `docs/STANDALONE_GENERATION_AUDIT.md`,
      `RELEASE_ASSET_ALLOWLIST.json`, `ORIGINAL_V1_PROMOTION_CONTRACT.json`,
      and `npm run audit:release` authoritative.
-   - `scripts/audit-original-v1-promotion.mjs` now guards the promotion seam:
-     while approval is blocked, production GLBs, production hashes, release
-     allowlisting and component approval must all remain absent.
+   - `scripts/audit-original-v1-promotion.mjs` guards the promotion seam: while
+     approval is blocked, production GLBs, production hashes and production-GLB
+     allowlisting must remain absent.
+   - The first-party software shell is already deny-by-default allowlisted and
+     verified against built `dist`; exact ORIGINAL-v1 production GLB paths are
+     added only during approved promotion.
+   - `exercise_animation_data` is already first-party approved behind its
+     executable provenance gate. Current required-component blockers are limited
+     to the final character, shorts, canonical rig and equipment/body fit.
    - Never merge the model branch wholesale. Final promotion must pin one exact
      approved model-branch commit plus exact production asset SHA-256 values and
      copy only the approved artifacts/evidence.
    - Final release remains deny-by-default until the required production assets,
-     physical evidence, prompt-generation behaviour and offline acceptance pass.
+     active cutover, final equipment fit, physical evidence and offline acceptance pass.
 
 ## Next exact deterministic work
 
@@ -341,17 +387,14 @@ For cloud/repository work, do not restart completed framework/Three migration.
 1. Keep the zero-dependency/import ceilings, canonical-v4 shadow-runtime gate
    and first-party regression gates active; do not restart completed framework,
    Three or v4 compatibility work.
-2. Continue cloud/repository work on release/offline/prompt-generation
-   acceptance evidence that can be proved in CI without pretending to close
-   physical-device or Blender gates. Core-family and current-library prompt
-   coverage are complete, and the known silent-default classes now have broad
-   deterministic guards (equipment ambiguity/counts, loads/ranges, support,
-   grip/spacing, side, stance/foot angle, range/path, tempo/pause/pace, and
-   workout programming). Do not turn this into open-ended synonym/regex churn:
-   add another parser rule only when a concrete prompt can currently change or
-   discard a stated parameter silently. Keep genuinely new movement, support,
-   grip, side or equipment variants blocked until they gain their own
-   family-level validation evidence.
+2. Treat the ordinary cloud/software-preparation track as **substantially
+   complete**. The required software/data components, prompt coverage,
+   provenance gates, release-audit composition and software-shell packaging gate
+   are green. Do not restart parser/regex, dependency-removal or renderer work
+   without a concrete failing case. The next repository changes should be tied
+   to an actual final-asset integration need: approved ORIGINAL-v1 promotion,
+   canonical-v4 activation, solved grip metadata, final equipment/body fit,
+   exact production-asset allowlisting, or final offline/device evidence.
 3. When a laptop is available, continue the isolated model branch from its
    current `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md` /
    `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md` state. At the latest observed

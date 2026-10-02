@@ -59,13 +59,20 @@ If included in the release:
 
 ### Release evidence
 Require:
-- `npm run audit:standalone` source/provenance gates PASS;
+- pre-promotion `npm run audit:standalone` source/runtime/provenance gates PASS;
+- exercise-animation provenance gate PASS;
 - production-output audit PASS;
 - runtime network audit PASS;
 - final character runtime audit PASS;
-- release asset allowlist PASS;
+- release asset allowlist PASS against the actual built package;
+- after approved asset promotion and runtime cutover, `npm run audit:release` PASS;
 - full test suite PASS;
 - offline manual/automated acceptance PASS.
+
+Before ORIGINAL-v1 approval, `npm run audit:release` is **expected to remain
+red** because it is the true final-mode gate: it requires approved production
+components/assets and active cutover. The blocked-stage `audit:standalone` gate
+must stay green in the meantime.
 
 ## Automated production-output evidence
 
@@ -80,7 +87,9 @@ offline session:
   the clean first-party fallback;
 - require every rendered validation gate to pass;
 - record all browser HTTP(S) requests and fail if any request leaves the local
-  origin.
+  origin;
+- run the deny-by-default release allowlist against the actual built `dist` so
+  unexpected package files fail before final asset promotion.
 
 The script `scripts/browser-production-offline-smoke.mjs` and the Browser
 viewport smoke workflow provide this evidence.

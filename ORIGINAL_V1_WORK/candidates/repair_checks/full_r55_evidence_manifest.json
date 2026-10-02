@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "candidate_revision": "r55",
+  "candidate_sha256": "ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7",
+  "candidate_manifest_sha256": "b127d36f154fd2e48ab60777342230ca590596fce819436b6460f28ff1cbf5e0",
+  "render_script_sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06",
+  "groups": [
+    {
+      "group": "shoulder",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_r55/pose_test_report.json",
+      "pose_report_sha256": "8aba17579ce46e21feb6383f49a7bac38ec468f48578d4791cec7616beff4f68",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "d015bf2f45df0c242966f54645a26624dbe0ee8ea61382c7d0ca4c47825304d5"
+    },
+    {
+      "group": "hand",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/hand_r55/pose_test_report.json",
+      "pose_report_sha256": "0754d5bd68d0063ad57f62b8917bb697497e3e542bff161d95225ccbc2f0313f",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/hand_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "807fd729d2f11ff60752cc05530247b0543a946b8bfeb5655796dc3db4f069a6"
+    },
+    {
+      "group": "hip",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/hip_r55/pose_test_report.json",
+      "pose_report_sha256": "43ec1a6248b323f2ee9572c7816ab6e7318b19ba39149424f618eedd2266327f",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/hip_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "6d5b088a1e7b0c58e23034151facfdc95df6d863206ed648664dcb30c44cfaf3"
+    },
+    {
+      "group": "pushup",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/pushup_r55/pose_test_report.json",
+      "pose_report_sha256": "c18a10fa321d3bda2fee340b25cc520022648d78079fdd880cc2448aed6690dd",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/pushup_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "56fef6c64687b750bf84d7bc84a7fbdcb0f0cf8d14cc0a62d03fc006ab454729"
+    },
+    {
+      "group": "row",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/row_r55/pose_test_report.json",
+      "pose_report_sha256": "c80bfab8b0f082b83eaabb606392df659edea894d56ec3016aa69805490060cf",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/row_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "f42bb864c633ca420a1b053138b4ada858a55108c2843698dc1e0c38bf96c6b9"
+    },
+    {
+      "group": "neutral",
+      "pose_report": "ORIGINAL_V1_WORK/candidates/repair_checks/neutral_r55/pose_test_report.json",
+      "pose_report_sha256": "6f36ee57b4bbe79565ea1a3e4466a79b1e5c65f423214406b2eda6c3d8163c95",
+      "render_source_manifest": "ORIGINAL_V1_WORK/candidates/repair_checks/neutral_r55/render_source_manifest.json",
+      "render_source_manifest_sha256": "9a2d8c179f294cd656a67a843f39f476f05849850add4d7780b0f0423da7b342"
+    }
+  ],
+  "pose_count": 15,
+  "production_approved": false,
+  "purpose": "Complete source-bound merge receipt, not acceptance or baseline promotion.",
+  "merged_pose_report_sha256": "725992de6b1e04d4913c13b5b94dc132f49e76af988c96d0b567f35d9bf2ddaf"
+}

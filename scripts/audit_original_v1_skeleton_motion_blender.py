@@ -104,24 +104,33 @@ def bone_record(name):
     }
 
 
+def rest_finger_axes():
+    """Hinge axis per finger in the hand bone's local frame, taken ONCE from the neutral rest pose (finger direction x palm normal)."""
+    reset()
+    out = {}
+    for side in "lr":
+        hand_inv = pb(f"hand_{side}").matrix.to_3x3().inverted()
+        for finger in ("index", "middle", "ring", "pinky"):
+            out[(side, finger)] = hand_inv @ direction(f"{finger}_01_{side}").cross(palm_normal(side)).normalized()
+    return out
+
+
+REST_FINGER_AXES = rest_finger_axes()
+
+
 def finger_chain_record(side, finger):
+    """Joint bends about the FIXED hinge axis (the parallel-hinge model). The earlier version re-derived the axis from each already
+    curled segment (d x palm_normal), which flips sign once the cumulative curl passes 90 degrees: a reversed distal bend then
+    still read as positive and no reversal was ever flagged (and a correct deep curl was flagged). See
+    scripts/audit_original_v1_finger_flexion_blender.py for the full per-joint report incl. the metacarpal->proximal joint."""
     n1 = f"{finger}_01_{side}"
     n2 = f"{finger}_02_{side}"
     n3 = f"{finger}_03_{side}"
     d1, d2, d3 = direction(n1), direction(n2), direction(n3)
-    # Use a chain-local flexion axis derived from the proximal segment and the
-    # posed palm normal. We care primarily about whether the distal bend reverses
-    # relative to the preceding bend, not which global sign is "positive".
-    pn = palm_normal(side)
-    axis12 = d1.cross(pn)
-    axis23 = d2.cross(pn)
-    a12 = signed_angle_deg(d1, d2, axis12)
-    a23 = signed_angle_deg(d2, d3, axis23)
-    reversal = (
-        a12 is not None and a23 is not None
-        and abs(a12) >= 5.0 and abs(a23) >= 5.0
-        and a12 * a23 < 0.0
-    )
+    axis = (pb(f"hand_{side}").matrix.to_3x3() @ REST_FINGER_AXES[(side, finger)]).normalized()
+    a12 = signed_angle_deg(d1, d2, axis)
+    a23 = signed_angle_deg(d2, d3, axis)
+    reversal = (a12 is not None and a23 is not None and (a12 < -2.0 or a23 < -2.0))
     return {
         "bones": [n1, n2, n3],
         "proximal_to_middle_signed_deg": a12,

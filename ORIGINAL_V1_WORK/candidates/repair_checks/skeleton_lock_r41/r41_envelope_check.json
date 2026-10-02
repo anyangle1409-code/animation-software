@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "envelope_revision": "env1",
+  "kinematics": "r41_joint_kinematics_fine.json",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.blend",
+  "source_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
+  "pose_definition_script_sha256": "0395264b92af74a8c1eefca612499be5104ae0d25567c38f3ea4a8af114ed23e",
+  "components_checked": 25110,
+  "violations": [],
+  "left_right_asymmetries": [],
+  "status": "PASS",
+  "note": "Envelope check is evidence, not approval; ranges are reference-based project limits (see the envelope file)."
+}

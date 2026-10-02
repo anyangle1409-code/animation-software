@@ -14,11 +14,11 @@
   "inputs": {
     "pose_report": {
       "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
-      "git_blob_sha": "b1ffd29867de4442d5a2b1c386e2c106377c2af1"
+      "git_blob_sha": "dddf3385caa84c9fb506cbd7872230daca265e3d"
     },
     "grip_report": {
       "path": "ORIGINAL_V1_WORK/candidates/pose_test_report_p2b1.json",
-      "git_blob_sha": "b1ffd29867de4442d5a2b1c386e2c106377c2af1",
+      "git_blob_sha": "dddf3385caa84c9fb506cbd7872230daca265e3d",
       "note": "Grip metrics embedded in the pose report."
     },
     "acceptance_spec": {

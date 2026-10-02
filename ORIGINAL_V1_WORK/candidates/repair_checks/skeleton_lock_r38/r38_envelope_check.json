@@ -1,0 +1,4958 @@
+{
+  "schema_version": 1,
+  "envelope_revision": "env1",
+  "kinematics": "r38_joint_kinematics.json",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+  "source_candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+  "pose_definition_script_sha256": "0f65d66e511c7b8102a4490e488485e63370de991dfef5a8bc448bf8cdd02935",
+  "components_checked": 13950,
+  "violations": [
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -22.3513,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -22.3513,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -39.1344,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -39.1344,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -44.2373,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -44.2373,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_peak",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 40.5983,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 40.5983,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 64.7626,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 64.7626,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 91.2368,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7654,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7674,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 91.2368,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7654,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7674,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "squat_bottom",
+      "fraction": 1.0,
+      "bone": "shin_l",
+      "component": "abd_deg",
+      "value_deg": -15.4121,
+      "envelope_deg": [
+        -15,
+        15
+      ],
+      "joint": "knee"
+    },
+    {
+      "pose": "squat_bottom",
+      "fraction": 1.0,
+      "bone": "shin_r",
+      "component": "abd_deg",
+      "value_deg": -15.4121,
+      "envelope_deg": [
+        -15,
+        15
+      ],
+      "joint": "knee"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.5,
+      "bone": "hand_l",
+      "component": "abd_deg",
+      "value_deg": 44.0012,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.5,
+      "bone": "hand_r",
+      "component": "abd_deg",
+      "value_deg": 44.0012,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.75,
+      "bone": "hand_l",
+      "component": "abd_deg",
+      "value_deg": 66.0018,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.75,
+      "bone": "hand_r",
+      "component": "abd_deg",
+      "value_deg": 66.0018,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.75,
+      "bone": "toe_l",
+      "component": "flex_deg",
+      "value_deg": -44.802,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 0.75,
+      "bone": "toe_r",
+      "component": "flex_deg",
+      "value_deg": -44.802,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 1.0,
+      "bone": "hand_l",
+      "component": "abd_deg",
+      "value_deg": 88.0024,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 1.0,
+      "bone": "hand_r",
+      "component": "abd_deg",
+      "value_deg": 88.0024,
+      "envelope_deg": [
+        -45,
+        25
+      ],
+      "joint": "wrist"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 1.0,
+      "bone": "toe_l",
+      "component": "flex_deg",
+      "value_deg": -59.736,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "pushup_bottom",
+      "fraction": 1.0,
+      "bone": "toe_r",
+      "component": "flex_deg",
+      "value_deg": -59.736,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3838,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7654,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8518,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8518,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7654,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7606,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 22.3166,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 22.3166,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 47.7953,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 47.7953,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 76.2781,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 76.2781,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": 106.5007,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": 106.5007,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "lunge",
+      "fraction": 0.75,
+      "bone": "toe_r",
+      "component": "flex_deg",
+      "value_deg": -41.0685,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "lunge",
+      "fraction": 1.0,
+      "bone": "toe_r",
+      "component": "flex_deg",
+      "value_deg": -54.758,
+      "envelope_deg": [
+        -40,
+        90
+      ],
+      "joint": "toe"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7691,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "row",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6913,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6923,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6919,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.25,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -13.6901,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3827,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3846,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3837,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.5,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -27.3803,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -24.6389,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.074,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0769,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0756,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 0.75,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -41.0704,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "thumb_03_l",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "pinky_03_l",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "thumb_03_r",
+      "component": "flex_deg",
+      "value_deg": -32.8519,
+      "envelope_deg": [
+        -20,
+        90
+      ],
+      "joint": "thumb"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7653,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7692,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7675,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "grip",
+      "fraction": 1.0,
+      "bone": "pinky_03_r",
+      "component": "flex_deg",
+      "value_deg": -54.7605,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -22.3513,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.118,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.1195,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.1188,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -22.3513,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.118,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.1195,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.1188,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -39.1344,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.236,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.2389,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.2377,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -39.1344,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.236,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.2389,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.2377,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "forearm_l",
+      "component": "abd_deg",
+      "value_deg": -44.2373,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.354,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.3584,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.3565,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "forearm_r",
+      "component": "abd_deg",
+      "value_deg": -44.2373,
+      "envelope_deg": [
+        -20,
+        20
+      ],
+      "joint": "elbow"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.354,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.3584,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.3565,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.472,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.4779,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.4753,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.472,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.4779,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "curl_handle",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.4753,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.118,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.1195,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -21.1188,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.118,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.1195,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.25,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -21.1188,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.236,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.2389,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -42.2377,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.236,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.239,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.5,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -42.2377,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.354,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.3584,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -63.3565,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.354,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.3584,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 0.75,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -63.3565,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "index_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.472,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "middle_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.4779,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "ring_03_l",
+      "component": "flex_deg",
+      "value_deg": -84.4753,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "index_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.472,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "middle_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.4779,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    },
+    {
+      "pose": "pullup_bar",
+      "fraction": 1.0,
+      "bone": "ring_03_r",
+      "component": "flex_deg",
+      "value_deg": -84.4754,
+      "envelope_deg": [
+        -10,
+        90
+      ],
+      "joint": "finger_dip"
+    }
+  ],
+  "left_right_asymmetries": [],
+  "status": "FLAGGED",
+  "note": "Envelope check is evidence, not approval; ranges are reference-based project limits (see the envelope file)."
+}

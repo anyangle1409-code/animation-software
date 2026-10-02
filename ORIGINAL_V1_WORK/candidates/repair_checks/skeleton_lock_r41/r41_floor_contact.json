@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.blend",
+  "source_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
+  "pose_definition_script_sha256": "0395264b92af74a8c1eefca612499be5104ae0d25567c38f3ea4a8af114ed23e",
+  "contact_mm": 6.0,
+  "poses": {
+    "pushup_bottom": {
+      "min_z_m": 0.0,
+      "contact_vertices": 462,
+      "by_region": {
+        "foot": 262,
+        "hand": 20,
+        "thumb": 180
+      },
+      "by_dominant_bone": {
+        "toe_l": 130,
+        "toe_r": 130,
+        "thumb_03_l": 45,
+        "thumb_03_r": 45,
+        "thumb_02_l": 39,
+        "thumb_02_r": 39,
+        "thumb_01_l": 16,
+        "thumb_01_r": 16,
+        "foot_l": 1,
+        "foot_r": 1
+      },
+      "min_z_by_region_m": {
+        "arm": 0.03514,
+        "finger": 0.00902,
+        "foot": 0.0,
+        "hand": 0.0036,
+        "head": 0.09464,
+        "leg": 0.10512,
+        "neck": 0.1579,
+        "pelvis": 0.16808,
+        "shoulder": 0.09035,
+        "thumb": 0.0,
+        "torso": 0.08662
+      },
+      "patch_l": {
+        "x_range_m": [
+          -0.3897,
+          -0.0582
+        ],
+        "y_range_m": [
+          -1.414,
+          -0.097
+        ],
+        "vertices": 231
+      },
+      "patch_r": {
+        "x_range_m": [
+          0.0582,
+          0.3897
+        ],
+        "y_range_m": [
+          -1.414,
+          -0.097
+        ],
+        "vertices": 231
+      },
+      "palm_normal_l": [
+        -0.099,
+        0.0119,
+        -0.995
+      ],
+      "palm_normal_to_down_deg_l": 5.72,
+      "hand_dir_l": [
+        -0.1191,
+        -0.9929,
+        -0.0
+      ],
+      "toe_dir_l": [
+        0.0,
+        -0.9905,
+        0.1375
+      ],
+      "palm_normal_r": [
+        0.099,
+        0.0119,
+        -0.995
+      ],
+      "palm_normal_to_down_deg_r": 5.72,
+      "hand_dir_r": [
+        0.1191,
+        -0.9929,
+        -0.0
+      ],
+      "toe_dir_r": [
+        0.0,
+        -0.9905,
+        0.1375
+      ]
+    },
+    "lunge": {
+      "min_z_m": 0.0,
+      "contact_vertices": 116,
+      "by_region": {
+        "foot": 116
+      },
+      "by_dominant_bone": {
+        "toe_r": 116
+      },
+      "min_z_by_region_m": {
+        "arm": 0.67116,
+        "finger": 0.46436,
+        "foot": 0.0,
+        "hand": 0.55658,
+        "head": 1.3385,
+        "leg": 0.19574,
+        "neck": 1.28492,
+        "pelvis": 0.61341,
+        "shoulder": 1.12953,
+        "thumb": 0.56041,
+        "torso": 0.55248
+      },
+      "patch_r": {
+        "x_range_m": [
+          0.0637,
+          0.1345
+        ],
+        "y_range_m": [
+          0.4377,
+          0.5237
+        ],
+        "vertices": 116
+      },
+      "palm_normal_l": [
+        0.9958,
+        -0.0915,
+        -0.0
+      ],
+      "palm_normal_to_down_deg_l": 90.0,
+      "hand_dir_l": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "toe_dir_l": [
+        0.0,
+        -0.9995,
+        -0.0321
+      ],
+      "palm_normal_r": [
+        -0.9958,
+        -0.0915,
+        -0.0
+      ],
+      "palm_normal_to_down_deg_r": 90.0,
+      "hand_dir_r": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "toe_dir_r": [
+        0.0,
+        -0.9943,
+        -0.1064
+      ]
+    },
+    "squat_bottom": {
+      "min_z_m": 0.0,
+      "contact_vertices": 44,
+      "by_region": {
+        "foot": 44
+      },
+      "by_dominant_bone": {
+        "foot_l": 11,
+        "toe_l": 11,
+        "foot_r": 11,
+        "toe_r": 11
+      },
+      "min_z_by_region_m": {
+        "arm": 1.02455,
+        "finger": 1.08099,
+        "foot": 0.0,
+        "hand": 1.07238,
+        "head": 1.13865,
+        "leg": 0.12775,
+        "neck": 1.09056,
+        "pelvis": 0.46663,
+        "shoulder": 0.91509,
+        "thumb": 1.15802,
+        "torso": 0.44102
+      },
+      "patch_l": {
+        "x_range_m": [
+          -0.2861,
+          -0.2384
+        ],
+        "y_range_m": [
+          -0.4331,
+          -0.2428
+        ],
+        "vertices": 22
+      },
+      "patch_r": {
+        "x_range_m": [
+          0.2384,
+          0.2861
+        ],
+        "y_range_m": [
+          -0.4331,
+          -0.2428
+        ],
+        "vertices": 22
+      },
+      "palm_normal_l": [
+        0.9958,
+        0.0046,
+        0.0914
+      ],
+      "palm_normal_to_down_deg_l": 95.24,
+      "hand_dir_l": [
+        0.0,
+        -0.9988,
+        0.0499
+      ],
+      "toe_dir_l": [
+        -0.1124,
+        -0.9906,
+        -0.0784
+      ],
+      "palm_normal_r": [
+        -0.9958,
+        0.0046,
+        0.0914
+      ],
+      "palm_normal_to_down_deg_r": 95.24,
+      "hand_dir_r": [
+        0.0,
+        -0.9988,
+        0.0499
+      ],
+      "toe_dir_r": [
+        0.1124,
+        -0.9906,
+        -0.0784
+      ]
+    }
+  }
+}

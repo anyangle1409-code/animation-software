@@ -49,6 +49,7 @@ if _mask is not None:
     _mask.show_viewport = False
     _mask.show_render = False
 region_names = json.loads(bpy.context.scene["hgpt_region_names"])
+group_names = {vg.index: vg.name for vg in body.vertex_groups}
 vreg = np.array([d.value for d in body.data.attributes["hgpt_region"].data])
 rest_V = np.array([v.co[:] for v in body.data.vertices])
 edges = np.array([e.vertices[:] for e in body.data.edges])
@@ -116,7 +117,15 @@ for seg, (bone, region, angles) in SEGMENTS.items():
             el = np.linalg.norm(P[edges[:, 0]] - P[edges[:, 1]], axis=1) / rest_len
             ratios = el[edges_sel]
             vals = [x for x in prof if x is not None]
-            rows.append({"twist_deg": sign * ang, "slice_radius_ratio_profile": prof,
+            worst = []
+            if sign > 0:
+                idx = np.nonzero(edges_sel)[0]
+                for k in idx[np.argsort(el[idx])[:3]].tolist() + idx[np.argsort(-el[idx])[:3]].tolist():
+                    a, b = edges[k]
+                    worst.append({"ratio": round(float(el[k]), 3), "rest_mid": [round(float(x), 3) for x in (rest_V[a] + rest_V[b]) / 2],
+                                  "weights_a": {group_names[g.group]: round(g.weight, 3) for g in body.data.vertices[a].groups if g.weight > 0.01},
+                                  "weights_b": {group_names[g.group]: round(g.weight, 3) for g in body.data.vertices[b].groups if g.weight > 0.01}})
+            rows.append({"worst_edges": worst, "twist_deg": sign * ang, "slice_radius_ratio_profile": prof,
                          "min_slice_radius_ratio": round(min(vals), 4), "max_slice_radius_ratio": round(max(vals), 4),
                          "segment_edge_min_ratio": round(float(ratios.min()), 4),
                          "segment_edge_max_ratio": round(float(ratios.max()), 4)})

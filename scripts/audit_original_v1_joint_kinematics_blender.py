@@ -159,9 +159,16 @@ def final_local():
 
 
 def apply_fraction(final, f):
+    """Sample the pose at fraction f of the way from rest. Each joint rotation is split into swing and twist about the bone's own
+    axis (Q = swing * twist) and the two parts are interpolated SEPARATELY (swing by slerp, twist by angle). A single slerp of the
+    whole quaternion mixes flexion with twist along the path and shows a transient sideways bend that no hinge joint has (it appeared
+    as a 20-44 degree elbow 'abduction' mid-path in the supinated curl); this is the interpolation a runtime solver should use."""
     for p in rig.pose.bones:
         q, t = final[p.name]
-        qf = Quaternion((1, 0, 0, 0)).slerp(q, f)
+        sw, tw = swing_twist(q, Vector((0, 1, 0)))
+        ang = 2.0 * math.atan2(tw.y, tw.w)
+        ang = (ang + math.pi) % (2.0 * math.pi) - math.pi
+        qf = Quaternion((1, 0, 0, 0)).slerp(sw, f) @ Quaternion((0.0, 1.0, 0.0), f * ang)
         p.matrix_basis = Matrix.Translation(t * f) @ qf.to_matrix().to_4x4()
     upd()
 

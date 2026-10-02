@@ -323,8 +323,8 @@ def pose_pushup_bottom():
             twist_palm(s, B)                           # pronate: palm faces back; wrist extension then turns it to the floor
             aim(f"hand_{s}", F + lat(s) * 0.12)
             flat_thumb(s)                              # thumb in the palm plane (the rest thumb opposes the palm: it would point into the floor)
-            aim(f"foot_{s}", D + F * 0.3)              # ball of the foot under the ankle, heel raised
-            rot_toward(f"toe_{s}", X, 70, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
+            aim(f"foot_{s}", D + F * 0.1)              # ball of the foot under the ankle, heel raised (ankle dorsiflexion <= ~25 deg)
+            rot_toward(f"toe_{s}", X, 80, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
 
     def gap(angle):
         build(angle)

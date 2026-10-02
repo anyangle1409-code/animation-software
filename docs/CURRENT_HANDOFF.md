@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`eb7a38ebfb703c48fa43866be0f95816f7f08a25` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the push-up hand/contact corrective pass below is fully verified.
+`46e5545133e4eb9e5936d92258340e44e72cbf67` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the reviewed push-up palm/wrist correction below is fully verified without increasing any test timeout.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at eb7a38eb
+## Verification at 46e55451
 
 GitHub Actions on exact SHA
-`eb7a38ebfb703c48fa43866be0f95816f7f08a25`:
+`46e5545133e4eb9e5936d92258340e44e72cbf67`:
 
 - clean typecheck: PASS;
-- focused first-party foundations: **86 files / 246 tests passed**;
-- full suite: **190 files passed, 2 skipped; 1,216 tests passed, 62 skipped**;
+- focused first-party foundations: **87 files / 252 tests passed**;
+- full suite: **190 files passed, 2 skipped; 1,218 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -211,8 +211,15 @@ The software-side push-up audit now has a strict, measured boundary:
 - the floor grip keeps all three segments of index/middle/ring/pinky essentially
   straight and tests require every segment to remain non-negative, preventing
   fingertip hyperextension/back-bending;
-- the normal wrist/joint-limit regression remains in force; no wrist limit or
-  technique threshold was widened;
+- the loaded flat-palm solve now has a reviewed **90° wrist-extension range** on
+  the extension side only (mirrored by handedness). The previous 70° range remains
+  inside it; radial/ulnar deviation and the locked twist axis are unchanged, and
+  no technique threshold was widened;
+- explicitly opted-in world hand contacts may share the palm orientation between
+  wrist aim and anatomical forearm axial rotation. The final forearm refinement
+  uses a bounded step-halving search over the already-found ±0.3° basin rather
+  than a dense 0.001° sweep, preserving the same palm-plane/aim objective while
+  keeping the existing test budgets;
 - the accepted toe contact remains driven by the authored push-up root path.
   A trial that added competing leg/on-ball IK locks was rejected: it produced
   **142 unreachable samples**, a worst reach miss of **175.18 mm**, and

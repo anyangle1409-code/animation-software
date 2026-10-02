@@ -46,6 +46,8 @@ These decisions remain in force until deliberately reopened with new evidence an
 - Palm presentation is an engine/contact responsibility: hand locks explicitly
   aim the palm at the floor, and the floor grip must keep finger segments from
   hyperextending backward.
+- Loaded flat-palm push-ups permit 90° of wrist extension on the anatomical extension side only. The previous 70° range stays inside the new range; deviation/twist limits are unchanged. This is a reviewed anatomical limit change, not a relaxed technique threshold.
+- Forearm axial rotation may share an explicitly opted-in world hand-contact aim with the wrist. Use the bounded coarse/fine/step-halving search in `src/ik/solve.ts`; do not restore the dense 0.001° full sweep or increase test timeouts to compensate for it.
 - Toe contact remains root-authored for the standard push-up. Do not add a
   second leg/on-ball IK lock as a cosmetic toe fix; that trial created
   unreachable targets, contact drift and regression failures.

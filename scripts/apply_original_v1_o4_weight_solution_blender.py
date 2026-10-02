@@ -29,8 +29,8 @@ src_sha = hashlib.sha256(src_path.read_bytes()).hexdigest()
 rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 n_bones = len(rig.data.bones)
-if n_bones != 63:
-    raise SystemExit(f"Expected the 63-bone v4 rig, found {n_bones}")
+if n_bones not in (63, 71):      # 63 = v4; 71 = rev2 (+ axial twist helpers); see ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_*.json
+    raise SystemExit(f"Expected the 63-bone v4 rig or the 71-bone rev2 rig, found {n_bones}")
 
 sol = np.load(sol_path)
 verts = [int(v) for v in sol["vertices"]]

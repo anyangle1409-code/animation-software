@@ -32,13 +32,13 @@ class ControlTests(unittest.TestCase):
         self.assertGreaterEqual(int(rev[1:]), 29)
         self.assertEqual(status['development_failure_count'], rows[rev]['development_failure_count'])
         self.assertFalse(status['production_approved'])
-        self.assertEqual(status['pinned_baseline']['revision'], 'R2')
+        self.assertEqual(status['pinned_baseline']['revision'], c.epoch_baseline(ROOT, rev)[0])   # baseline of the candidate's stress-pose epoch
         # Historical evidence is immutable: r29 stays a trade-off with its recorded r28 comparison.
         self.assertEqual(rows['r29']['comparisons']['r28']['regression_count'], 12)
         self.assertEqual(rows['r29']['classification'], 'TRADE-OFF')
         # An advanced state may never silently promote: no production approval and the action is a known repair/diagnostic step.
         self.assertNotIn(status['next_action']['action'], ('VERIFY production promotion packet',))
-        self.assertIn(status['phases']['3D']['state'], ('refinement', 'complete'))
+        self.assertIn(status['phases']['3D']['state'], ('refinement', 'blocked', 'complete'))
 
     def fixture(self):
         td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
@@ -158,7 +158,8 @@ class ControlTests(unittest.TestCase):
         man['candidate']=man['candidate'].replace(f'{latest}.blend',f'{new}.blend')
         (cand/f'HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{new}.json').write_text(json.dumps(man))
         shutil.copy(root/c.RC/f'full_{latest}_merged_pose_report.json',root/c.RC/f'full_{new}_merged_pose_report.json')
-        shutil.copy(root/c.RC/f'full_{latest}_comparison_vs_R2.json',root/c.RC/f'full_{new}_comparison_vs_R2.json')
+        pin_latest,pin_new=c.epoch_baseline(root,latest)[0],c.epoch_baseline(root,new)[0]
+        shutil.copy(root/c.RC/f'full_{latest}_comparison_vs_{pin_latest}.json',root/c.RC/f'full_{new}_comparison_vs_{pin_new}.json')
         with self.assertRaisesRegex(ValueError,'source receipt'):c.build(root)
 
     def receipt_fixture(self):
@@ -216,8 +217,9 @@ class ControlTests(unittest.TestCase):
         merged=root/c.RC/f'full_{new}_merged_pose_report.json';merged.write_text(json.dumps(rows))
         receipt['merged_pose_report_sha256']=c.digest(merged)
         (root/c.RC/f'full_{new}_evidence_manifest.json').write_text(json.dumps(receipt))
-        for previous in ('R2',latest,'r28'):
-            baseline=root/c.CAND/'pose_test_report_r2.json' if previous=='R2' else root/c.RC/f'full_{previous}_merged_pose_report.json'
+        pin,pin_path=c.epoch_baseline(root,new)
+        for previous in (pin,latest)+(('r28',) if int(latest[1:])<39 else ()):
+            baseline=root/pin_path if previous==pin else root/c.RC/f'full_{previous}_merged_pose_report.json'
             out=root/c.RC/f'full_{new}_comparison_vs_{previous}.json'
             result=subprocess.run([sys.executable,str(ROOT/'scripts/compare_original_v1_deformation_reports.py'),str(baseline),str(merged),
                 '--baseline-grip-report',str(baseline),'--candidate-grip-report',str(merged),

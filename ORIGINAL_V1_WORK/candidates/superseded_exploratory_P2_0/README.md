@@ -8,3 +8,12 @@ evidence is preserved here, unmodified, and is NOT part of the current lineage: 
 Findings that drove the iterations: r39 collapsed arm-ring vertices to one twist station (arm edge stretch 4.8x);
 r40 fixed that but left chest-side vertices on mixed stations (torso min edge 0.26); r41 blends trunk-weighted vertices toward
 the twist-free station.
+
+## r42 — forearm-only helper variant (comparison evidence, metrics-only)
+
+r42 = r38 + forearm helpers only (`--segments forearm`, declaration `repair_preparation/r42_forearm_twist_declared`). Metrics-only against
+P2B1: 0 regressions / 7 improvements but the same 5 development failures (shoulder minima at press_top / pull-up, press_top_rhythm p99,
+push-up hand). r41 (both segments): 2 development failures / 36 improvements / 16 regressions (arm-region stretch up to 3.2, still inside the
+5.0 gate). The upper-arm helpers are what clear the shoulder-minimum failures, so the full rev2 (r41) is kept and its arm-stretch regressions
+are left to the weight re-solve (the solver sees the helper bones). Files: `r42_forearm_only_vs_P2B1_metrics_only.json`,
+`r41_both_segments_vs_P2B1_metrics_only.json`.

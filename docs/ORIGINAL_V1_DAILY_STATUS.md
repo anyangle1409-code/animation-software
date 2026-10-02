@@ -27,8 +27,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN remaining diagnostics — isolate wrist/grip/lunge locally before editing
-`RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r41`
+REPAIR hands/fingers — Recover finger minima without losing curl_peak clearance.
+Read `docs/work_packages/PHASE_3B_HANDS.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 
@@ -58,6 +58,9 @@ Evidence references (exact content hashes are in machine status):
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_comparison_vs_P2B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

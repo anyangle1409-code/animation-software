@@ -228,6 +228,34 @@
           "sha256": "20e53e207bf04097f6b0be5f78ede94149841b4209eac5690b40ec271e3f0417"
         }
       ]
+    },
+    "r41": {
+      "candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
+      "chosen_parent": "r38",
+      "classification": "EXPERIMENTAL",
+      "reason": "Worker execution lineage only; not owner acceptance, not production approval. r41 = r38 + declared rev2 twist-helper rig revision (8 deform helpers, 3536 vertex weights split, 0 influence overflow, geometry and the 63 original bones untouched) measured under corrected stress-pose definition P2 against the P2-epoch baseline P2B1 (r38 re-measured under P2: 5 development failures). r41: 2 development failures (press_top_rhythm p99 2.091, push-up hand min 0.119), 36 material improvements, 16 regressions (arm-region stretch <=3.2 vs gate 5.0, volumes, +6/+28 self-intersections) left to the weight re-solve. Skeleton-motion lock recorded on this candidate. Exploratory r39/r40 (and r42 forearm-only comparison) preserved under superseded_exploratory_P2_0.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_comparison_vs_P2B1.json",
+          "sha256": "bdbf013c3c2b68cf71eeae6256d287607fcd802947207b9139df5dac794724de"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json",
+          "sha256": "3acd9b2314d30716f4a170ccff76606a394509d635b111998702f42eda0bd90f"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/diagnostic_brief.json",
+          "sha256": "ba82bc626196c4736e7c1caa04e0b27006427a3de604a1fefe7e96c0a71f25c8"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_twist_helpers.json",
+          "sha256": "95f8a73d749fe8b2dda49f09402e570c66e3f66b7d7affcbb7431fbf532a8fcf"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r41_twist_helpers_declared/twist_helpers_declared_before_edit.json",
+          "sha256": "6cad4bd4b15df3110e883eab6c09d8a485aa4ab9c3e2547104667c2bc33cd8c8"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

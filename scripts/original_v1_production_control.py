@@ -230,7 +230,10 @@ def next_action(status, control):
 
 def epoch_baseline(root, rev):
     """(baseline name, pose-report path) of the stress-pose epoch that candidate `rev` belongs to."""
-    control = read(root,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+    try:
+        control = read(root,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+    except FileNotFoundError:           # evidence-only roots without the control file use the historical R2 epoch
+        return 'R2', CAND+'/pose_test_report_r2.json'
     epochs = control.get('baseline_epochs') or [{'name':'R2','baseline':CAND+'/DEFORMATION_BASELINE_R2.json','first_rev':0}]
     ep = max((e for e in epochs if e['first_rev']<=revision_key(rev)[0]),key=lambda e:e['first_rev'])
     return ep['name'], read(root,ep['baseline'])['inputs']['pose_report']['path']

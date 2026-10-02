@@ -212,6 +212,10 @@ PRESETS["o34"] = dict(PRESETS["o29"], zmin=0.55, zmax=1.12, isolate_sides=True)
 # vol_slack < 0 asks each pose's whole-body volume deviation to be below its R2/base value by 0.006, w_vol stronger.
 PRESETS["o35"] = dict(PRESETS["o34"], vol_slack=-0.006, w_vol=2e7)
 PRESETS["o18"] = dict(PRESETS["o16"], symmetric=True)
+# o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
+# solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
+# bounds as o22 (pinned report = the P2 baseline P2B1), symmetric, no-regression guards.
+PRESETS["o40"] = dict(PRESETS["o22"], zone_mode="shoulder", scap_zone=True, zone_radius=0.24, allow_twist_helpers=True, symmetric=True)
 
 
 def project_simplex(X, allowed):
@@ -264,6 +268,10 @@ def main():
         zone_mask |= zs
         for n in (f"upperarm_{s}", f"clavicle_{s}", f"scapula_{s}", "spine_03", "spine_02", "neck"):
             allowed_full[zs & near, b[n]] = True
+        if P.get("allow_twist_helpers"):       # rev2 rig: the solver may re-distribute twist among the upper-arm helper stations
+            for n in (f"upperarm_tw0_{s}", f"upperarm_tw1_{s}"):
+                if n in b:
+                    allowed_full[zs & near, b[n]] = True
         for n in ("spine_03", "spine_02", "spine_01"):
             allowed_full[zs & ~near, b[n]] = True
     if P.get("zone_mode") == "hand":

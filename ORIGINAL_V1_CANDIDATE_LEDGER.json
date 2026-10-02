@@ -22,7 +22,7 @@
       "visual_review_location": null,
       "manifest": {
         "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
-        "sha256": "6f5e34e213d163ad031e57d5d1baaaf82d0eae2de54755510df068b8ee402e70"
+        "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
       }
     },
     {
@@ -3886,7 +3886,7 @@
           "status": "REGRESSION",
           "evidence": {
             "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_comparison_vs_P2B1.json",
-            "sha256": "2f0b56d50d677504f74e47322257f33a13d13198ac52930426a260f60e935205"
+            "sha256": "bdbf013c3c2b68cf71eeae6256d287607fcd802947207b9139df5dac794724de"
           },
           "regressions": [
             {
@@ -4059,8 +4059,8 @@
               "name": "pushup_bottom",
               "region": "torso",
               "metric": "region_min_ratio",
-              "baseline": 0.66,
-              "candidate": 0.626,
+              "baseline": 0.663,
+              "candidate": 0.629,
               "delta": -0.03400000000000003,
               "direction": "higher_is_better",
               "tolerance": 0.02
@@ -4081,7 +4081,7 @@
       "evidence_timestamp": "2026-10-02T14:41:51.406844+00:00",
       "full_evidence_receipt": {
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json",
-        "sha256": "ca47717694abbce5c35a56cf92f35990505d2d0426264b0a367d7cdea2e25390"
+        "sha256": "3acd9b2314d30716f4a170ccff76606a394509d635b111998702f42eda0bd90f"
       }
     }
   ]

@@ -102,24 +102,24 @@ For every region:
 
 ## Lock table
 
-Claude should copy/update this section during the laptop session rather than claiming completion from prepared text.
+Updated 2026-10-02 from executed evidence (see `docs/ORIGINAL_V1_SKELETON_MOTION_LOCK.md`).
 
 | Region | Status | Rig defect? | Extra bone/helper? | Evidence path | Notes |
 |---|---|---|---|---|---|
-| head/neck | NOT RUN | — | — | — | |
-| thorax/spine | NOT RUN | — | — | — | |
-| shoulder girdle | NOT RUN | — | — | — | |
-| upper arm / twist | NOT RUN | — | — | — | |
-| elbow | NOT RUN | — | — | — | |
-| forearm / twist | NOT RUN | — | — | — | |
-| wrist | NOT RUN | — | — | — | |
-| palm | NOT RUN | — | — | — | |
-| thumb | NOT RUN | — | — | — | |
-| fingers | NOT RUN | — | — | — | |
-| hip | NOT RUN | — | — | — | |
-| knee | NOT RUN | — | — | — | |
-| shin/calf / twist | NOT RUN | — | — | — | |
-| ankle | NOT RUN | — | — | — | |
-| forefoot/toes | NOT RUN | — | — | — | |
+| head/neck | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | neck/head hinge in squat/row within envelope; single neck + head chain sufficient for exercise instruction |
+| thorax/spine | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | pelvis hinge plus three spine segments distribute flexion (row: pelvis 38 + spine 10; squat 18 + 15); rib-cage proxy built; no rib bones, no chest helper required |
+| shoulder girdle | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | clavicle + scapula + humerus coherent through press/pull-up; rhythm poses use a modest, non-fixed scapular share (references show 0.9:1..3.8:1); axilla defect classified as pose/rig construction and fixed (P2 + twist helpers) |
+| upper arm / twist | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | upperarm_tw0/tw1 (l,r) | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | humeral rotation 63-90 deg in 7 poses; twist stress at 90 deg: slice radius 0.856 -> 0.907 but the abstract minimum edge worsened 0.28 -> 0.22 at the dense (8 mm) deltoid edges; in the real stress poses the helpers clear the shoulder-minimum development failures (5 -> 2 failures vs P2B1) at the price of arm-region stretch up to 3.2 (gate 5.0), left to the weight re-solve; forearm-only variant r42 shown for contrast |
+| elbow | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | hinge purity: elbow abduction within +-10 deg in all poses and samples (P1: up to 107 deg sideways) |
+| forearm / twist | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | forearm_tw0/tw1 (l,r) | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | twist stress 90 deg: slice radius 0.76 -> 0.92, edge min 0.705 -> 0.92 |
+| wrist | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | push-up: ~78 deg loaded extension, small ulnar deviation (P1: 88 deg radial deviation); no wrist helper required |
+| palm | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | palm planted (hand region 3.6 mm, thumb pad 0 mm, palm normal 5.7 deg from the floor normal); cupping handled by metacarpal + finger chains; palm helpers not justified |
+| thumb | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | P1 reversed the thumb IP in the grip; fixed with a single chain hinge; thumb flattened into the palm plane for loaded support |
+| fingers | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | P1 bent the distal joint backwards (-55 deg; -85 on handle grips) in 11 poses due to pose-construction axis flip; fixed (fixed hinge axis); 0 reversal flags |
+| hip | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | squat/lunge within envelope; thigh twist helper considered and rejected (femoral 45 deg: slice radius 0.99, edge 0.86) |
+| knee | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | flexion 98 (squat), 79/62 (lunge) within envelope, hinge only; no helper |
+| shin/calf / twist | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | shin twist helper considered and rejected (physiological +-30 deg: slice radius 0.97, edge 0.90) |
+| ankle | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | P1 squat ankle plantarflexed (seated posture); P2 dorsiflexion 23 deg, push-up <= ~25 deg |
+| forefoot/toes | LOCKED (2026-10-02, r41, rig rev2) | rig bones: none; pose-construction defects fixed in P2 where noted | no | ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r41/ (kinematics, finger, twist, floor, envelope, proxy, review images) | P1 bent the toe the wrong way (-60 deg); P2 dorsiflexion 80 deg with toe pads on the floor; single toe bone sufficient for support mechanics; hallux/lesser-toe split deferred until individually modelled toes exist (Phase 5F trigger documented) |
 
 No row may be marked LOCKED solely because the current model passes a deformation metric.

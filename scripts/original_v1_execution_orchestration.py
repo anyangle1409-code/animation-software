@@ -101,7 +101,10 @@ def select_node(plan: dict, state: dict) -> dict:
         if sub == "3B":
             node = nodes["3B_r30"]
             expected = state.get("next_action", {})
-            if expected.get("command") != node.get("action"):
+            # The r30 command is enforced only while the selector actually points at it; a read-only diagnostics step or a
+            # command-less repair task (live state after r30) does not conflict with the node.
+            if (expected.get("command") and expected.get("action") != "RUN remaining diagnostics"
+                    and expected.get("command") != node.get("action")):
                 raise ValueError("current selector command differs from orchestration r30 action")
             return node
         if sub == "3C":

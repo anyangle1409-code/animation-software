@@ -14,7 +14,7 @@
     "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
     "evidence": {
       "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
-      "sha256": "6f5e34e213d163ad031e57d5d1baaaf82d0eae2de54755510df068b8ee402e70"
+      "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
     }
   },
   "historical_pinned_baselines": [
@@ -33,7 +33,7 @@
       "first_candidate_number": 39,
       "evidence": {
         "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
-        "sha256": "6f5e34e213d163ad031e57d5d1baaaf82d0eae2de54755510df068b8ee402e70"
+        "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
       }
     }
   ],
@@ -332,8 +332,8 @@
       "name": "pushup_bottom",
       "region": "torso",
       "metric": "region_min_ratio",
-      "baseline": 0.66,
-      "candidate": 0.626,
+      "baseline": 0.663,
+      "candidate": 0.629,
       "delta": -0.03400000000000003,
       "direction": "higher_is_better",
       "tolerance": 0.02
@@ -356,7 +356,7 @@
   "latest_evidence": [
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_merged_pose_report.json",
-      "sha256": "bf4175874eca8ddaa7cda23bf32dbe4453d4cf0f295e6b3c121923a54bfe0dda"
+      "sha256": "74978cf41db29d3893e5611aed60ffd0372a329600dac65bbfe459d6f3264f7d"
     },
     {
       "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.json",
@@ -368,11 +368,23 @@
     },
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json",
-      "sha256": "ca47717694abbce5c35a56cf92f35990505d2d0426264b0a367d7cdea2e25390"
+      "sha256": "3acd9b2314d30716f4a170ccff76606a394509d635b111998702f42eda0bd90f"
     },
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_comparison_vs_P2B1.json",
-      "sha256": "2f0b56d50d677504f74e47322257f33a13d13198ac52930426a260f60e935205"
+      "sha256": "bdbf013c3c2b68cf71eeae6256d287607fcd802947207b9139df5dac794724de"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/diagnostic_brief.json",
+      "sha256": "ba82bc626196c4736e7c1caa04e0b27006427a3de604a1fefe7e96c0a71f25c8"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/edge_extremes.json",
+      "sha256": "dbe2391a639ad13b24502edbac23bbe61e9883e470052c7d863359b8287728b0"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/grip_penetration.json",
+      "sha256": "0f6b2ff418da697a460723007408dca4202395d37344bad5fd0707cf2020aeb3"
     }
   ],
   "last_known_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
@@ -387,8 +399,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RUN remaining diagnostics",
-    "reason": "isolate wrist/grip/lunge locally before editing",
-    "command": "RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r41"
+    "action": "REPAIR hands/fingers",
+    "reason": "Recover finger minima without losing curl_peak clearance.",
+    "command": null,
+    "work_package": "docs/work_packages/PHASE_3B_HANDS.md"
   }
 }

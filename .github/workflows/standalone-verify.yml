@@ -201,6 +201,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Release software-shell allowlist gate
+        run: node scripts/audit-release-allowlist.mjs dist
+
       - name: Standalone aggregate audit
         run: npm run audit:standalone
 

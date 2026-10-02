@@ -37,6 +37,28 @@ These decisions remain in force until deliberately reopened with new evidence an
 - Dependency and import anti-creep gates remain mandatory even though migration
   is complete.
 
+## Push-up contact / surface boundary
+
+- The standard push-up keeps its accepted hand target at **z = 1.295 m**.
+  The z = 1.34 m wrist-relief trial is rejected unless deliberately reopened
+  with new evidence: it made each bottom forearm 95 mm off vertical against the
+  frozen 60 mm maximum.
+- Palm presentation is an engine/contact responsibility: hand locks explicitly
+  aim the palm at the floor, and the floor grip must keep finger segments from
+  hyperextending backward.
+- Toe contact remains root-authored for the standard push-up. Do not add a
+  second leg/on-ball IK lock as a cosmetic toe fix; that trial created
+  unreachable targets, contact drift and regression failures.
+- A toe-bone centre-line is not the production sole surface. Measured attempts
+  to make that bone line flat required about 50–62 mm of whole-body lowering
+  even when foot and toe rotation shared the correction. Do not re-author the
+  whole push-up merely to make that internal bone line visually horizontal.
+- Final toe/sole silhouette and optional shoes are production-character asset
+  concerns. They may be solved in ORIGINAL v1 with independently authored
+  foot/footwear geometry only after the relevant topology is stable, and must
+  pass provenance, deformation, contact and promotion gates. Footwear must not
+  be used to hide an actual kinematic/contact failure.
+
 ## Verification
 
 - Physical visual/input parity remains a real gate; unit tests do not substitute for it.

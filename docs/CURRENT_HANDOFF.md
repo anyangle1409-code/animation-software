@@ -5,7 +5,7 @@
 Active branch: `work/standalone-first-party-audit-20260927`.
 
 Latest fully verified implementation checkpoint:
-`fa3ab87b9e80425f8894bd4120fc14fae7e82522` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the current prompt-safety / production-browser acceptance hardening below is fully verified.
+`eb7a38ebfb703c48fa43866be0f95816f7f08a25` — first-party runtime dependency migration remains complete, canonical-v4 ORIGINAL is safely in guarded shadow mode, deterministic prompt generation covers all 16 core movement families / all 28 registered exercises, and the push-up hand/contact corrective pass below is fully verified.
 
 Exact-SHA `Standalone prep verification` and `Browser viewport smoke` both passed.
 
@@ -75,14 +75,14 @@ boundaries where body proportions legitimately differ:
 This proves deterministic engine/rig compatibility only. It does **not** approve
 the current O4/O7 character or close Blender deformation/anatomy/garment review.
 
-## Verification at fa3ab87b
+## Verification at eb7a38eb
 
 GitHub Actions on exact SHA
-`fa3ab87b9e80425f8894bd4120fc14fae7e82522`:
+`eb7a38ebfb703c48fa43866be0f95816f7f08a25`:
 
 - clean typecheck: PASS;
 - focused first-party foundations: **86 files / 246 tests passed**;
-- full suite: **190 files passed, 2 skipped; 1,214 tests passed, 62 skipped**;
+- full suite: **190 files passed, 2 skipped; 1,216 tests passed, 62 skipped**;
 - canonical-v4 ORIGINAL shadow-runtime review compatibility: PASS;
 - production build: PASS;
 - standalone aggregate audit: PASS;
@@ -199,6 +199,41 @@ while making normal prompt entry safer and clearer:
 These are parser/UI breadth and safety changes only. They do not certify any new
 movement, support, grip, side or equipment biomechanics.
 
+## Verified push-up hand/contact corrective pass
+
+The software-side push-up audit now has a strict, measured boundary:
+
+- the accepted hand target remains at **z = 1.295 m**; a measured move to
+  **z = 1.34 m** was rejected because each bottom forearm became **95 mm** away
+  from vertical against the existing **60 mm** technique maximum;
+- each hand floor lock now carries an explicit floor-facing aim so the palm is
+  presented flat rather than resting on its side;
+- the floor grip keeps all three segments of index/middle/ring/pinky essentially
+  straight and tests require every segment to remain non-negative, preventing
+  fingertip hyperextension/back-bending;
+- the normal wrist/joint-limit regression remains in force; no wrist limit or
+  technique threshold was widened;
+- the accepted toe contact remains driven by the authored push-up root path.
+  A trial that added competing leg/on-ball IK locks was rejected: it produced
+  **142 unreachable samples**, a worst reach miss of **175.18 mm**, and
+  **28.26 mm** foot contact drift, plus parity/export regressions;
+- measurement-only sweeps then proved that forcing the **toe bone centre-line**
+  flat is not a valid substitute for a flat shoe/skin sole. Toe-only correction
+  required roughly **57–63 mm** of body lowering. Even sharing correction
+  between foot and toe bones within their existing limits still required
+  **49.8 mm** lowering at the top and **61.8 mm** at the bottom;
+- therefore no second leg IK lock or whole-body lowering is retained. The
+  temporary diagnostics were removed and a regression test now requires the
+  push-up to retain only its two arm locks.
+
+Interpretation for the production character: correct toe/sole **surface
+presentation** belongs to the independently authored ORIGINAL-v1 foot/footwear
+asset, while the engine preserves the already-verified toe contact and body
+mechanics. Optional shoes may be added later as first-party production
+character/garment work after the relevant foot/body topology is stable, and
+must pass the same provenance, deformation, contact and promotion evidence.
+Shoes must not be used to conceal a kinematic failure.
+
 ## What is still open
 
 Runtime dependency removal is complete. The overall product/release is **not**
@@ -235,7 +270,7 @@ behavioural suite must be green first.
    - The isolated model branch `claude/original-v1-blender-o2-20260929` has
      progressed beyond O2 to an independently authored O4 bound candidate.
    - Latest isolated model-branch HEAD observed while this handoff was updated:
-     `f5f4913a4a2f6525e252ba8b1d15883c6de5d426`.
+     `f3936a69fedc69a38565a57b65f23e8b402e48e2`.
      The model branch's own `docs/CURRENT_HANDOFF.md` and
      `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md` remain authoritative for
      Claude's current Blender execution node; do not infer Blender completion
@@ -252,11 +287,14 @@ behavioural suite must be green first.
      `hgpt_canonical_v4_original` architecture in guarded shadow mode.
      The live default remains v3 until full cutover verification is green;
      this does not bypass any model/deformation gate.
-   - Deformation remains blocked: **54 development checks / 133 production
-     checks** at the pinned R2 baseline; current repair priority is
-     **1 — shoulder/upper torso**.
-   - On the model branch, use `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`.
-     The O2 handoff remains provenance/setup history, not the current repair task.
+   - The isolated model branch has advanced beyond that pinned R2 observation:
+     its current handoff reports the r38 continuation state, with 3C/3E resolved
+     and Phase 4 blocked on its inherited-minima decision. Treat the model
+     branch's own current status/handoff as authoritative for exact candidate
+     counts and the next Blender action.
+   - On the model branch, use `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`
+     together with `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`. The O2 handoff
+     remains provenance/setup history, not the current repair task.
    - Historical V8–V15f material remains reference-only: lessons/failure modes
      may be used, but no geometry, weights, bind data, materials or other
      implementation data may be copied into ORIGINAL v1.
@@ -307,10 +345,14 @@ For cloud/repository work, do not restart completed framework/Three migration.
    discard a stated parameter silently. Keep genuinely new movement, support,
    grip, side or equipment variants blocked until they gain their own
    family-level validation evidence.
-3. When a laptop is available, continue the isolated model branch from
-   `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`: repair **Priority 1 shoulder
-   deformation** first, regenerate the targeted evidence, and clear its owned
-   development blockers without regression before moving to Priority 2 hands/grip.
+3. When a laptop is available, continue the isolated model branch from its
+   current `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md` /
+   `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md` state. At the latest observed
+   model HEAD this is the r38 continuation / Phase-4 inherited-minima decision,
+   not the old Priority-1 shoulder starting point. Keep push-up palm/finger
+   mechanics from this runtime pass as engine facts; treat final foot/sole and
+   any optional shoe surface as Blender asset work, with fresh deformation and
+   contact evidence.
 4. Keep `ORIGINAL_V1_PROMOTION_CONTRACT.json` in
    `blocked_pending_approval` mode until all model/garment/runtime gates pass.
    Do not copy candidate GLBs into `public/characters/`.

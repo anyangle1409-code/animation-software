@@ -1,4 +1,4 @@
-"""Multi-pose shoulder/upper-torso skin-weight optimisation for the O4 CANDIDATE.
+﻿"""Multi-pose shoulder/upper-torso skin-weight optimisation for the O4 CANDIDATE.
 
 python scripts/optimize_original_v1_o4_shoulder_weights.py <dump.npz> <solution.npz> [--preset NAME]
 
@@ -221,7 +221,8 @@ PRESETS["o42"] = dict(PRESETS["o41"], w_p99=1e6, p99_cap=1.9, p99_margin=0.06, i
 # o43 (P3 epoch): o41 plus the trunk-anchoring form prior (torso skin must stay within a0 + a1*exp(-(r/rb)^2) of its trunk-driven position).
 # o44: moderate anchoring (o43 pinned the torso skin so hard that the axilla web tore: shoulder max 7.9; o41 with none left 0.2 m tent flaps).
 PRESETS["o44"] = dict(PRESETS["o41"], w_trunk=1e6, trunk_a0=0.05, trunk_a1=0.20, trunk_rb=0.18, iters=250, polish_iters=150)
-PRESETS["o43"] = dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
+PRESETS["o45"] = dict(PRESETS["o44"], w_area=2e4, area_floor=0.2, w_lap=2e4, lap_tol=0.35)
+PRESETS["o43"] =dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
 # solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
 # bounds as o22 (pinned report = the P2 baseline P2B1), symmetric, no-regression guards.
@@ -672,6 +673,28 @@ def main():
         ALLOW = P.get("trunk_a0", 0.02) + P.get("trunk_a1", 0.10) * np.exp(-(rj / P.get("trunk_rb", 0.15)) ** 2)
         TORSO_Z = region[Z] == rid["torso"]
 
+    # ---- surface-quality barriers (P3 epoch): face-area floor (collapse / sliver) and vertex roughness (spikes, crumpling).
+    # Both are measured on the posed surface against the REST surface, so they only penalise what the pose adds.
+    if P.get("w_area", 0) > 0:
+        _n0 = np.cross(rest[Tz[:, 1]] - rest[Tz[:, 0]], rest[Tz[:, 2]] - rest[Tz[:, 0]])
+        AREA0 = np.maximum(0.5 * np.linalg.norm(_n0, axis=1), 1e-12)
+    if P.get("w_lap", 0) > 0:
+        _zi = -np.ones(len(rest), int)
+        _zi[Z] = np.arange(len(Z))
+        _sel = (_zi[E[:, 0]] >= 0)
+        _sel2 = (_zi[E[:, 1]] >= 0)
+        _dv = np.concatenate([E[_sel, 0], E[_sel2, 1]])
+        _du = np.concatenate([E[_sel, 1], E[_sel2, 0]])
+        LV = _zi[_dv]
+        LDEG = np.maximum(np.bincount(LV, minlength=len(Z)).astype(float), 1.0)
+        LEL = np.maximum(np.bincount(LV, weights=np.linalg.norm(rest[_dv] - rest[_du], axis=1), minlength=len(Z)) / LDEG, 1e-9)
+
+        def lap_vec(Pp_):
+            sn = np.zeros((len(Z), 3))
+            np.add.at(sn, LV, Pp_[_du])
+            return Pp_[Z] - sn / LDEG[:, None]
+        LAP0 = np.linalg.norm(lap_vec(rest), axis=1) / LEL
+
     parts = {}
 
     def loss_grad(Wz):
@@ -773,6 +796,30 @@ def main():
                 np.add.at(gP, Tz[:, 0], gv * np.cross(B_, C))
                 np.add.at(gP, Tz[:, 1], gv * np.cross(C, A))
                 np.add.at(gP, Tz[:, 2], gv * np.cross(A, B_))
+            if P.get("w_area", 0) > 0:
+                _A, _B, _C = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                _n = np.cross(_B - _A, _C - _A)
+                _ln = np.maximum(np.linalg.norm(_n, axis=1), 1e-12)
+                _ex = np.maximum(P.get("area_floor", 0.2) - 0.5 * _ln / AREA0, 0.0)
+                if (_ex > 0).any():
+                    a_loss = P["w_area"] * (_ex ** 2).sum()
+                    total += a_loss
+                    parts[poses[p]].append(round(float(a_loss), 2))
+                    _gn = (-2.0 * P["w_area"] * _ex / AREA0 * 0.5 / _ln)[:, None] * _n
+                    np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
+                    np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
+                    np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
+            if P.get("w_lap", 0) > 0:
+                _l = lap_vec(Pp)
+                _ln2 = np.maximum(np.linalg.norm(_l, axis=1), 1e-12)
+                _ex2 = np.maximum(_ln2 / LEL - LAP0 - P.get("lap_tol", 0.35), 0.0)
+                if (_ex2 > 0).any():
+                    l_loss = P["w_lap"] * (_ex2 ** 2).sum()
+                    total += l_loss
+                    parts[poses[p]].append(round(float(l_loss), 2))
+                    _gl = (2.0 * P["w_lap"] * _ex2 / LEL / _ln2)[:, None] * _l
+                    gP[Z] += _gl
+                    np.add.at(gP, _du, -(_gl / LDEG[:, None])[LV])
             if P.get("w_trunk", 0) > 0:
                 dtr = Pp[Z] - PTR[p]
                 dn_ = np.maximum(np.linalg.norm(dtr, axis=1), 1e-12)

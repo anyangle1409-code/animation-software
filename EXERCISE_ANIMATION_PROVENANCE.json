@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "component_id": "exercise_animation_data",
+  "classification": "first_party_project_authored",
+  "operational_source_root": "src/exercises",
+  "source_method": "Project-authored TypeScript movement families, exercise definitions, contacts, IK targets, phases, technique rules and deterministic parameters. The operational product does not ingest prerecorded motion clips or external animation assets.",
+  "third_party_sources": [],
+  "external_animation_inputs": [],
+  "prohibited_production_inputs": [
+    "BVH/FBX/glTF/GLB/DAE/USD or other prerecorded animation clips as exercise source data",
+    "remote animation/model URLs or hosted motion services",
+    "legacy V-series/CORNER_FINAL/MakeHuman character implementation data",
+    "bare third-party package imports inside operational exercise data"
+  ],
+  "guard_script": "scripts/audit-exercise-animation-provenance.mjs",
+  "authority": [
+    "docs/PROJECT_AUTHORITY.md",
+    "docs/AI_OPERATING_CONTRACT.md",
+    "docs/DECISION_LOG.md"
+  ],
+  "note": "This record documents the production-input boundary for exercise animation data. Generic anatomical/biomechanical knowledge may inform independently authored rules; legacy/reference assets are not production data inputs."
+}

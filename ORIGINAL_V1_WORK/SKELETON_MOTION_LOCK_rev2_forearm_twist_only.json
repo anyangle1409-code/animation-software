@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-02T17:43:22.366329+00:00",
+  "kind": "SKELETON_MOTION_LOCK",
+  "production_approved": false,
+  "rig": {
+    "identity": "hgpt_canonical_v4_original",
+    "revision": "rev2_forearm_twist_only",
+    "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+    "bone_count": 67,
+    "deform_bone_count": 66,
+    "payload": {
+      "path": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json",
+      "sha256": "ed5f9699e1bfe2a200af80eae6b92a985b482a2fdf1007c55f097841a590045b"
+    },
+    "base_revision": "v4_63_bone (unchanged; preserved as historical evidence; r38 rig_structure_sha256 19493caa...)",
+    "bone_list_and_hierarchy": "payload bones[] and rig_structure bones[] (name, parent, head, tail, roll, matrix, deform)"
+  },
+  "locked_candidate": {
+    "revision": "r45",
+    "sha256": "9917ae2910505be5a2ed8356fd501472a6efde203c2ecbbc157d1c0b555dd390",
+    "manifest": {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r45.json",
+      "sha256": "b3e0b702ce8300bd1febad7c0c47b790f9439869d4ab82592b6d5a63599c2aac"
+    },
+    "parent": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r44.blend",
+    "full_evidence_receipt": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r45_evidence_manifest.json",
+      "sha256": "828d004e0b53545d9d932c5876a60415ecba1231c84259eba2b0c440ef30bfda"
+    }
+  },
+  "stress_pose_definition": {
+    "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+    "revision": "P3",
+    "section": "before metrics; metadata-only hashlib import excluded",
+    "sha256": "5a3d94fac478dc851e1e5b67b4ae6f985526d644d576e51ad3d4da244a72ef5d",
+    "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged.",
+    "history": [
+      "P1",
+      "P2"
+    ]
+  },
+  "movement_envelope": {
+    "path": "ORIGINAL_V1_SKELETON_MOVEMENT_ENVELOPE.json",
+    "sha256": "6b493ed7a3a532e50b0f1e1dc5dc518d4d164beb6d15f5808425bda37e8745e4"
+  },
+  "reference_matrix": {
+    "path": "docs/ORIGINAL_V1_SKELETON_REFERENCE_EVIDENCE.md",
+    "sha256": "09f9434199957ec0210a68377e4729d7daa31b0be3e9ee4acc05078e58a4d1bb"
+  },
+  "evidence": {
+    "rig_structure": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_rig_structure.json",
+      "sha256": "71c56a8fe848b24ee3a0311b62239605103f7467bb070aec34424208808f56fd"
+    },
+    "skeleton_motion": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_skeleton_motion.json",
+      "sha256": "6003f2b40f0df976725085ccfd7a579d28012a77e45a177828b9b3a19f71e96c"
+    },
+    "finger_flexion": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_finger_flexion.json",
+      "sha256": "5891b3ddf4e80f3acdf50f9539526d2f29384cf05549487af1284a00f24425d0"
+    },
+    "joint_kinematics_fine": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_joint_kinematics_fine.json",
+      "sha256": "c4f6bbc99778cb21b7f25e04673ac7b07a964444247fc49b119254894ad804ce"
+    },
+    "twist_stress": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_twist_stress.json",
+      "sha256": "f98277fc341a2992a42295aab5e520818f87d4f12961006da1966c749fab8dc6"
+    },
+    "floor_contact": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_floor_contact.json",
+      "sha256": "5a2b8c92471d842e492dca90d84d0df29a0c7d19cef7faac0d686dc9cc362745"
+    },
+    "envelope_check": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r45/r45_envelope_check.json",
+      "sha256": "bdb30cfad6ddf49c2c6b8c292ebc5524a1a52620b8c28f92ea494e109bfff92e"
+    }
+  },
+  "helper_decisions": {
+    "added": [
+      "forearm_tw0_l/r",
+      "forearm_tw1_l/r"
+    ],
+    "added_reason": "generic axial-twist distribution along long segments (twist stress evidence); deterministic closed-form drive scripts/original_v1_twist_helpers.py; identity helpers when there is no twist",
+    "considered_rejected": [
+      {
+        "helper": "upper-arm twist (built as r41)",
+        "reason": "worse than no helper under realistic P3 poses; benefit under P2 was an artefact of an impossible pose"
+      },
+      {
+        "helper": "thigh twist",
+        "reason": "femoral rotation +-45 deg: slice radius >= 0.988, edge >= 0.86"
+      },
+      {
+        "helper": "shin/calf twist",
+        "reason": "tibial rotation +-30 deg: slice radius >= 0.971, edge >= 0.895"
+      },
+      {
+        "helper": "palm cupping / thumb helper",
+        "reason": "no evidence the existing metacarpal + finger + thumb chains cannot cup or ground the palm; revisit at Phase 5D"
+      },
+      {
+        "helper": "hallux + lesser-toe split",
+        "reason": "single toe hinge reproduces loaded forefoot support (toe pads on the floor); revisit only if Phase 5F models individual toes"
+      },
+      {
+        "helper": "individual rib bones / chest expansion",
+        "reason": "rib cage distributes thoracic motion; no breathing requirement; rib-cage proxy used for validation only"
+      },
+      {
+        "helper": "extra shoulder/thorax helper",
+        "reason": "scapula/clavicle controls sufficient; no evidence of a missing degree of freedom"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "region": "head/neck",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "neck/head hinge in squat/row within envelope; single neck + head chain sufficient for exercise instruction"
+    },
+    {
+      "region": "thorax/spine",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "pelvis hinge plus three spine segments distribute flexion; rib-cage proxy built; no rib bones, no chest helper required"
+    },
+    {
+      "region": "shoulder girdle",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": "scapula pivot relocated 35% along the bone (rev2c)",
+      "notes": "P3 gives every elevated-arm pose an interval-dependent scapulohumeral rhythm (scapula ~60 deg at 166 deg total, 1.25x high-share variant; no fixed ratio). The AC-corner pivot swung the plate 2.4x too far (upper-back edges stretched up to 5.9x; volume 1.12): pivot moved toward the plate (literature: instantaneous centre starts at the medial root of the spine and migrates toward the AC joint). Skeleton-only paths smooth, envelope clean. The remaining visible axilla problem is DEFORMATION (hard-anchoring the torso tears the axilla web, no anchoring drags tent flaps: linear skinning alone cannot do both) - not a skeleton defect"
+    },
+    {
+      "region": "upper arm / twist",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "humeral external rotation 63-90 deg handled by the hinge rule; upper-arm twist helpers were built (r41), compared with and without under realistic P3 poses (17 vs 14 failures, shoulder minimum 0.185 -> 0.112/0.068) and REJECTED"
+    },
+    {
+      "region": "elbow",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "hinge purity: elbow abduction within +-10 deg in all poses and samples (P1: up to 107 deg sideways)"
+    },
+    {
+      "region": "forearm / twist",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": "forearm_tw0/tw1 (l,r)",
+      "notes": "twist stress 90 deg: slice radius 0.76 -> 0.92, edge min 0.705 -> 0.92; forearm-only rig has 0 regressions and 7 improvements versus 63 bones under P3"
+    },
+    {
+      "region": "wrist",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "push-up: ~78 deg loaded extension, small ulnar deviation (P1: 88 deg radial deviation); no wrist helper required"
+    },
+    {
+      "region": "palm",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "palm planted (hand region 3.6 mm, thumb pad 0 mm, palm normal 5.7 deg from the floor normal); cupping handled by metacarpal + finger chains; palm helpers not justified"
+    },
+    {
+      "region": "thumb",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "P1 reversed the thumb IP in the grip; fixed with a single chain hinge; thumb flattened into the palm plane for loaded support"
+    },
+    {
+      "region": "fingers",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "P1 bent the distal joint backwards (-55 deg; -85 on handle grips) in 11 poses due to a pose-construction axis flip; fixed (fixed hinge axis); 0 reversal flags"
+    },
+    {
+      "region": "hip",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "squat/lunge within envelope; thigh twist helper considered and rejected (femoral 45 deg: slice radius 0.99, edge 0.86)"
+    },
+    {
+      "region": "knee",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "flexion 98 (squat), 79/62 (lunge) within envelope, hinge only; no helper"
+    },
+    {
+      "region": "shin/calf / twist",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "shin twist helper considered and rejected (physiological +-30 deg: slice radius 0.97, edge 0.90)"
+    },
+    {
+      "region": "ankle",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "ankle +22 (rest-relative; real push-up photographs ~+22): matches; squat dorsiflexion 23 deg"
+    },
+    {
+      "region": "forefoot/toes",
+      "status": "LOCKED",
+      "rig_defect_found_in_rig_bones": false,
+      "extra_bone_helper": null,
+      "notes": "owner re-check: compared with 3 barefoot push-up/chaturanga photographs of different people (foot ~vertical, toe pads flat, MTP ~85-90 deg) and foot/toe literature; r41 over-flexed the toe 8 deg (tip lifted) - fixed in P3 (toe flat, contact 216 toe-owned vertices); single toe hinge reproduces loaded forefoot; hallux/lesser-toe split deferred until individually modelled toes (Phase 5F trigger)"
+    }
+  ],
+  "owner_authorised_inherited_minima_not_reopened": true,
+  "reopen_rule": "only direct new evidence of a true rig defect (skeleton-only audits still correct => deformation is not a reason)",
+  "note": "Pre-freeze evidence checkpoint. Not production approval; R2 and thresholds unchanged."
+}

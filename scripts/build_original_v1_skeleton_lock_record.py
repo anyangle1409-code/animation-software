@@ -22,20 +22,20 @@ CAND = "ORIGINAL_V1_WORK/candidates"
 
 ROWS = [
     ("head/neck", "LOCKED", False, None, "neck/head hinge in squat/row within envelope; single neck + head chain sufficient for exercise instruction"),
-    ("thorax/spine", "LOCKED", False, None, "pelvis hinge plus three spine segments distribute flexion (row: pelvis 38 + spine 10; squat 18 + 15); rib-cage proxy built; no rib bones, no chest helper required"),
-    ("shoulder girdle", "LOCKED", False, None, "clavicle + scapula + humerus coherent through press/pull-up; rhythm poses use a modest, non-fixed scapular share (references show 0.9:1..3.8:1); axilla defect classified as pose/rig construction and fixed (P2 + twist helpers)"),
-    ("upper arm / twist", "LOCKED", True, "upperarm_tw0/tw1 (l,r)", "humeral rotation 63-90 deg in 7 poses; twist stress at 90 deg: slice radius 0.856 -> 0.907 but the abstract minimum edge worsened 0.28 -> 0.22 at the dense (8 mm) deltoid edges; in the real stress poses the helpers clear the shoulder-minimum development failures (5 -> 2 failures vs P2B1) at the price of arm-region stretch up to 3.2 (gate 5.0), left to the weight re-solve; forearm-only variant r42 shown for contrast"),
+    ("thorax/spine", "LOCKED", False, None, "pelvis hinge plus three spine segments distribute flexion; rib-cage proxy built; no rib bones, no chest helper required"),
+    ("shoulder girdle", "LOCKED", False, "scapula pivot relocated 35% along the bone (rev2c)", "P3 gives every elevated-arm pose an interval-dependent scapulohumeral rhythm (scapula ~60 deg at 166 deg total, 1.25x high-share variant; no fixed ratio). The AC-corner pivot swung the plate 2.4x too far (upper-back edges stretched up to 5.9x; volume 1.12): pivot moved toward the plate (literature: instantaneous centre starts at the medial root of the spine and migrates toward the AC joint). Skeleton-only paths smooth, envelope clean. The remaining visible axilla problem is DEFORMATION (hard-anchoring the torso tears the axilla web, no anchoring drags tent flaps: linear skinning alone cannot do both) - not a skeleton defect"),
+    ("upper arm / twist", "LOCKED", False, None, "humeral external rotation 63-90 deg handled by the hinge rule; upper-arm twist helpers were built (r41), compared with and without under realistic P3 poses (17 vs 14 failures, shoulder minimum 0.185 -> 0.112/0.068) and REJECTED"),
     ("elbow", "LOCKED", False, None, "hinge purity: elbow abduction within +-10 deg in all poses and samples (P1: up to 107 deg sideways)"),
-    ("forearm / twist", "LOCKED", True, "forearm_tw0/tw1 (l,r)", "twist stress 90 deg: slice radius 0.76 -> 0.92, edge min 0.705 -> 0.92"),
+    ("forearm / twist", "LOCKED", True, "forearm_tw0/tw1 (l,r)", "twist stress 90 deg: slice radius 0.76 -> 0.92, edge min 0.705 -> 0.92; forearm-only rig has 0 regressions and 7 improvements versus 63 bones under P3"),
     ("wrist", "LOCKED", False, None, "push-up: ~78 deg loaded extension, small ulnar deviation (P1: 88 deg radial deviation); no wrist helper required"),
     ("palm", "LOCKED", False, None, "palm planted (hand region 3.6 mm, thumb pad 0 mm, palm normal 5.7 deg from the floor normal); cupping handled by metacarpal + finger chains; palm helpers not justified"),
     ("thumb", "LOCKED", False, None, "P1 reversed the thumb IP in the grip; fixed with a single chain hinge; thumb flattened into the palm plane for loaded support"),
-    ("fingers", "LOCKED", False, None, "P1 bent the distal joint backwards (-55 deg; -85 on handle grips) in 11 poses due to pose-construction axis flip; fixed (fixed hinge axis); 0 reversal flags"),
+    ("fingers", "LOCKED", False, None, "P1 bent the distal joint backwards (-55 deg; -85 on handle grips) in 11 poses due to a pose-construction axis flip; fixed (fixed hinge axis); 0 reversal flags"),
     ("hip", "LOCKED", False, None, "squat/lunge within envelope; thigh twist helper considered and rejected (femoral 45 deg: slice radius 0.99, edge 0.86)"),
     ("knee", "LOCKED", False, None, "flexion 98 (squat), 79/62 (lunge) within envelope, hinge only; no helper"),
     ("shin/calf / twist", "LOCKED", False, None, "shin twist helper considered and rejected (physiological +-30 deg: slice radius 0.97, edge 0.90)"),
-    ("ankle", "LOCKED", False, None, "P1 squat ankle plantarflexed (seated posture); P2 dorsiflexion 23 deg, push-up <= ~25 deg"),
-    ("forefoot/toes", "LOCKED", False, None, "P1 bent the toe the wrong way (-60 deg); P2 dorsiflexion 80 deg with toe pads on the floor; single toe bone sufficient for support mechanics; hallux/lesser-toe split deferred until individually modelled toes exist (Phase 5F trigger documented)"),
+    ("ankle", "LOCKED", False, None, "ankle +22 (rest-relative; real push-up photographs ~+22): matches; squat dorsiflexion 23 deg"),
+    ("forefoot/toes", "LOCKED", False, None, "owner re-check: compared with 3 barefoot push-up/chaturanga photographs of different people (foot ~vertical, toe pads flat, MTP ~85-90 deg) and foot/toe literature; r41 over-flexed the toe 8 deg (tip lifted) - fixed in P3 (toe flat, contact 216 toe-owned vertices); single toe hinge reproduces loaded forefoot; hallux/lesser-toe split deferred until individually modelled toes (Phase 5F trigger)"),
 ]
 
 
@@ -79,7 +79,7 @@ def main():
     if problems:
         raise SystemExit("STOP - lock refused: " + "; ".join(problems))
     control = json.loads((ROOT / "ORIGINAL_V1_PRODUCTION_CONTROL.json").read_text(encoding="utf-8"))
-    payload = "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2.json"
+    payload = "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json"
     record = {
         "schema_version": 1, "generated_utc": datetime.now(timezone.utc).isoformat(),
         "kind": "SKELETON_MOTION_LOCK", "production_approved": False,
@@ -94,9 +94,10 @@ def main():
         "movement_envelope": need("ORIGINAL_V1_SKELETON_MOVEMENT_ENVELOPE.json"),
         "reference_matrix": need("docs/ORIGINAL_V1_SKELETON_REFERENCE_EVIDENCE.md"),
         "evidence": ev,
-        "helper_decisions": {"added": ["upperarm_tw0_l/r", "upperarm_tw1_l/r", "forearm_tw0_l/r", "forearm_tw1_l/r"],
+        "helper_decisions": {"added": ["forearm_tw0_l/r", "forearm_tw1_l/r"],
                              "added_reason": "generic axial-twist distribution along long segments (twist stress evidence); deterministic closed-form drive scripts/original_v1_twist_helpers.py; identity helpers when there is no twist",
                              "considered_rejected": [
+                                 {"helper": "upper-arm twist (built as r41)", "reason": "worse than no helper under realistic P3 poses; benefit under P2 was an artefact of an impossible pose"},
                                  {"helper": "thigh twist", "reason": "femoral rotation +-45 deg: slice radius >= 0.988, edge >= 0.86"},
                                  {"helper": "shin/calf twist", "reason": "tibial rotation +-30 deg: slice radius >= 0.971, edge >= 0.895"},
                                  {"helper": "palm cupping / thumb helper", "reason": "no evidence the existing metacarpal + finger + thumb chains cannot cup or ground the palm; revisit at Phase 5D"},

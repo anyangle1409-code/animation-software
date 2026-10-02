@@ -1,6 +1,6 @@
 # Push-up foot/toes and shoulder/axilla — re-validation against real humans (owner review of r41, 2026-10-02)
 
-Status: IN PROGRESS · skeleton lock WITHDRAWN (`ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_REOPEN_20261002.json`)
+Status: COMPLETE for the skeleton question · skeleton RE-LOCKED as rev2c (`ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json`) after the first lock was withdrawn (`SKELETON_MOTION_LOCK_REOPEN_20261002.json`); the remaining shoulder problem is classified as DEFORMATION
 Evidence folder: `ORIGINAL_V1_WORK/candidates/repair_checks/revalidation_20261002/` (+ earlier `skeleton_lock_r41/`)
 
 ## A. Push-up foot / toes
@@ -67,6 +67,42 @@ pullup_hang_rhythm and pullup_top on r42 under P3 (`revalidation_20261002/`), pl
    improvements); the forearm-only variant (r42) equals the 63-bone rig with 0 regressions and 7 improvements. **Decision: reject the upper-arm helpers** (their earlier benefit was an artefact of the impossible poses);
    **retain forearm helpers** (pronation/supination is a real, repeated 20–77° twist in curl, push-up, press, pull-up and they improved forearm/elbow metrics). Rev2b = 63 + 4 forearm helpers = 67 bones.
 
-### Shoulder skin/deformation diagnosis (to be completed by the o41 solves)
+### Shoulder skin / deformation diagnosis (completed)
 
-Pending: results of the shoulder-zone re-solves on r42 and r43, then classification of the two blockers (press_top_rhythm p99; push-up hand minimum) by rig / weighting / topology / corrective / pose cause.
+Weights re-solved on the realistic P3 poses (shoulder-zone solver, declared mask 2570 vertices, symmetric, bounds = pinned P3 baseline):
+
+| Candidate | Rig | Weights | Dev failures | Visible form of press_top |
+|---|---|---|---:|---|
+| r42 | forearm helpers, scapula pivot at the AC corner | R2-era weights | 14 | torso side skin dragged up as a 0.2 m tent; volume 1.10–1.12 |
+| r43 | + scapula pivot 35 % | same weights | 11 (metrics-only) | tent flaps remain |
+| r45 | r43 + o41 (gate-only objective) + wrist band | | 5 | tent flaps (326 torso vertices > 10 cm from their trunk-driven position) |
+| r46 | r43 + o43 (hard trunk anchoring: torso skin within 2 cm + 10 cm·exp(−(r/0.15)²) of trunk-driven position) | | 14 | flaps gone, **axilla web tears** (shoulder max stretch 7.9) |
+| r47 | r43 + o44 (moderate anchoring) | | 4 | flaps reduced, jagged torn edges remain |
+| r48 | r47 + wrist band (o26) | | **3** (torso max stretch: press_top 5.12, press_top_rhythm 6.34, pullup_hang_rhythm 5.84) | as r47 |
+
+**Classification.** Rig: skeleton-only paths are correct (lock record); the causes found there (impossible poses, scapula pivot) are fixed. Weighting: 14 → 3 failures, push-up hand minimum cleared with wrist weights,
+**but the tent ↔ tear frontier (r45 ↔ r46 ↔ r47) is the signature of a limit of linear blend skinning**: the lateral-torso skin below the armpit has to follow the arm a little and stay on the ribs a lot, and the web
+between them has almost no rest-pose surface (the axilla is a hairline sliver at rest), so any weight field either lets the torso skin ride up with the scapula/arm or stretches the web 6–8×.
+Topology: an earlier shoulder-yoke support loop (r23) did not help under the old poses; it has not been re-tested under P3 (candidate for the corrective step). Pose/contact: no longer the cause.
+
+**Corrective deformation: justified, NOT implemented (prepared).** Exact trigger: glenohumeral elevation (angle between the humerus and the downward trunk axis) above ≈ 60°, ramping to full effect at ≈ 150°, together with the scapular upward rotation of the same pose.
+Effect: slide the lateral-torso and axillary-web vertices back toward their trunk-driven positions and relax the web (a displacement field in rest-pose coordinates scaled by the elevation parameter), generic to every overhead/pull movement, deterministic,
+authored first-party by a positions-level solve against the declared mask, stored as a shape key driven by the joint state (not by an exercise name). Evidence that weights alone cannot satisfy both gates and form: r45/r46/r47 above.
+It is not implemented because it changes the asset's data model (shape keys/morph targets in the runtime) and needs an explicit design pass; the candidates, the solver prior (`w_trunk`) and the displacement diagnostics needed to build it are committed.
+
+### Blockers (3 development failures on r48) — classification
+
+1. `press_top`, `press_top_rhythm`, `pullup_hang_rhythm` torso `region_max_ratio` (5.12 / 6.34 / 5.84, gate 5.0): **corrective-deformation cause** (LBS limit at the axilla web); weights sit on the tent/tear frontier.
+2. `pushup_bottom / hand` region minimum 0.119 → cleared on r48 by the wrist-band weight re-solve: **weighting cause** (the extended-wrist crease).
+3. The earlier p99 blockers disappeared with the realistic poses + scapula pivot + weights.
+
+## Answers required before locking the skeleton
+
+* Are the toes/forefoot mechanically convincing in a loaded push-up? **Yes** after P3 (flat toe; ankle and MTP match three barefoot references; toe *surface form* is Phase 5F).
+* Are the shoulder bones moving correctly through overhead press and pull-up? **Yes** (interval-dependent rhythm, smooth paths, envelope clean, pivot moved).
+* Is humeral rotation correct? **Yes** (hinge rule; 63–90° external rotation; forearm twist −5…+22°).
+* Is scapula/clavicle contribution believable? **Yes** (≈ 60° scapular upward rotation at 166° total, 1.25× variant; no fixed ratio).
+* Are the twist helpers justified? **Forearm yes; upper-arm no (removed).**
+* Are additional bones required? **No** (hallux, thigh/shin twist, palm, rib and extra shoulder helpers rejected with evidence).
+
+The skeleton is therefore RE-LOCKED as rev2c; the remaining shoulder form issue is deformation.

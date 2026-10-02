@@ -257,6 +257,34 @@
           "sha256": "6cad4bd4b15df3110e883eab6c09d8a485aa4ab9c3e2547104667c2bc33cd8c8"
         }
       ]
+    },
+    "r48": {
+      "candidate_sha256": "251ed96c0f11f8a320f9dbe1f9d2984bfaacad6ec97de707864767dd450eff7a",
+      "chosen_parent": "r47",
+      "classification": "EXPERIMENTAL",
+      "reason": "Worker execution lineage only; not owner acceptance, not production approval. r48 = r47 + wrist-band weights; r47 = r43 (scapula pivot relocated 35 percent, forearm-only twist helpers, rig rev2c) + o44 shoulder weights (moderate trunk anchoring). Measured under stress-pose definition P3 against baseline P3B1 (r42 re-measured under P3, 14 failures): 3 development failures (torso region max stretch in press_top 5.12, press_top_rhythm 6.34, pullup_hang_rhythm 5.84), 30 improvements. Skeleton re-locked as rev2c on r45. The remaining failures are classified as a linear-skinning limit at the axilla (tent/tear frontier r45/r46/r47); a generic joint-angle-driven corrective is justified and prepared, not implemented.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_P3B1.json",
+          "sha256": "3208c719322ca5bee6cb2564b8801d905fea7835d85a58260de80a407d0fc8a1"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_r47.json",
+          "sha256": "15b75e5092aacdea4d1a6e251bf9c6a0594241f18dcbdc35e47d2270fd1fb3fe"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_evidence_manifest.json",
+          "sha256": "27034b117381a2bcc2bdb9ce1e1569a2e72be69b70ffd9e485bcf3a5f4521c1d"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
+          "sha256": "56dd76634a9c8f8f56716ce15dc3cd1f1e19c7316bb19d809b0eebe12dc8ec5e"
+        },
+        {
+          "path": "docs/ORIGINAL_V1_PUSHUP_FOOT_AND_SHOULDER_REVALIDATION_20261002.md",
+          "sha256": "cdde102776995310df2643888f7207f00c0bcfb73019c2023b0476439cb92513"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

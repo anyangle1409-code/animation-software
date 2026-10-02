@@ -4,17 +4,17 @@
   "rig": "hgpt_canonical_v4_original",
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
-  "current_subphase": "3B",
-  "current_candidate": "r41",
+  "current_subphase": "4",
+  "current_candidate": "r48",
   "candidate_state": "experimental",
-  "candidate_classification": "EXPERIMENTAL",
+  "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
-    "revision": "P2B1",
-    "id": "original_v1_o4_p2b1_20261002",
-    "candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+    "revision": "P3B1",
+    "id": "original_v1_o4_p3b1_20261002",
+    "candidate_sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
     "evidence": {
-      "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
-      "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
+      "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+      "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
     }
   },
   "historical_pinned_baselines": [
@@ -46,24 +46,31 @@
       }
     }
   ],
-  "development_failure_count": 2,
+  "development_failure_count": 3,
   "development_failures": [
     {
-      "pose": "press_top_rhythm",
-      "region": null,
-      "metric": "edge_ratio_p99",
-      "value": 2.091,
-      "rule": "<= 2.0"
+      "pose": "press_top",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "value": 5.118,
+      "rule": "<= 5.0"
     },
     {
-      "pose": "pushup_bottom",
-      "region": "hand",
-      "metric": "region_min_ratio",
-      "value": 0.119,
-      "rule": ">= 0.15"
+      "pose": "press_top_rhythm",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "value": 6.343,
+      "rule": "<= 5.0"
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "value": 5.844,
+      "rule": "<= 5.0"
     }
   ],
-  "production_failure_count": 109,
+  "production_failure_count": 118,
   "production_approved": false,
   "phases": {
     "0": {
@@ -90,7 +97,7 @@
       "reason": "Development clear; inherited R2 severity regressions remain separate."
     },
     "3B": {
-      "state": "active",
+      "state": "complete",
       "reason": "Recover finger minima without losing curl_peak clearance."
     },
     "3C": {
@@ -98,7 +105,7 @@
       "reason": "Bilateral equipment penetration must satisfy unchanged gates."
     },
     "3D": {
-      "state": "blocked",
+      "state": "complete",
       "reason": "Local wrist-extension severity regression versus R2."
     },
     "3E": {
@@ -174,176 +181,264 @@
     {
       "kind": "severity",
       "name": "press_bottom",
-      "region": null,
-      "metric": "volume_deviation_from_1",
-      "baseline": 0.019500000000000073,
-      "candidate": 0.02639999999999998,
-      "delta": 0.006899999999999906,
-      "direction": "lower_is_better",
-      "tolerance": 0.005
-    },
-    {
-      "kind": "severity",
-      "name": "press_bottom",
       "region": "arm",
       "metric": "region_max_ratio",
-      "baseline": 2.318,
-      "candidate": 2.857,
-      "delta": 0.5390000000000001,
+      "baseline": 2.099,
+      "candidate": 2.234,
+      "delta": 0.1349999999999998,
       "direction": "lower_is_better",
       "tolerance": 0.1
     },
     {
       "kind": "severity",
-      "name": "press_top",
-      "region": "arm",
+      "name": "press_bottom",
+      "region": "torso",
       "metric": "region_min_ratio",
-      "baseline": 0.692,
-      "candidate": 0.58,
-      "delta": -0.11199999999999999,
+      "baseline": 0.698,
+      "candidate": 0.643,
+      "delta": -0.05499999999999994,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
     {
       "kind": "severity",
       "name": "press_top",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 95.0,
+      "candidate": 166.0,
+      "delta": 71.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "press_top",
+      "region": "arm",
+      "metric": "region_min_ratio",
+      "baseline": 0.78,
+      "candidate": 0.754,
+      "delta": -0.026000000000000023,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "press_top_rhythm",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 54.0,
+      "candidate": 155.0,
+      "delta": 101.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "press_top_rhythm",
       "region": "arm",
       "metric": "region_max_ratio",
-      "baseline": 2.84,
-      "candidate": 3.202,
-      "delta": 0.3620000000000001,
+      "baseline": 2.244,
+      "candidate": 2.405,
+      "delta": 0.1609999999999996,
       "direction": "lower_is_better",
       "tolerance": 0.1
     },
     {
       "kind": "severity",
       "name": "press_top_rhythm",
-      "region": null,
-      "metric": "volume_deviation_from_1",
-      "baseline": 0.06840000000000002,
-      "candidate": 0.0815999999999999,
-      "delta": 0.013199999999999878,
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 5.944,
+      "candidate": 6.343,
+      "delta": 0.399,
       "direction": "lower_is_better",
-      "tolerance": 0.005
+      "tolerance": 0.1
     },
     {
       "kind": "severity",
-      "name": "press_top_rhythm",
+      "name": "pullup_bar",
       "region": null,
-      "metric": "edge_ratio_p01",
-      "baseline": 0.537,
-      "candidate": 0.512,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 4.0,
+      "candidate": 100.0,
+      "delta": 96.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_bar",
+      "region": "arm",
+      "metric": "region_min_ratio",
+      "baseline": 0.865,
+      "candidate": 0.84,
       "delta": -0.025000000000000022,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
     {
       "kind": "severity",
-      "name": "press_top_rhythm",
-      "region": null,
-      "metric": "edge_ratio_p99",
-      "baseline": 2.008,
-      "candidate": 2.091,
-      "delta": 0.08300000000000018,
+      "name": "pullup_bar",
+      "region": "arm",
+      "metric": "region_max_ratio",
+      "baseline": 2.346,
+      "candidate": 2.497,
+      "delta": 0.1509999999999998,
       "direction": "lower_is_better",
-      "tolerance": 0.05
+      "tolerance": 0.1
     },
     {
       "kind": "severity",
-      "name": "press_top_rhythm",
+      "name": "pullup_hang",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 4.0,
+      "candidate": 100.0,
+      "delta": 96.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang",
       "region": "arm",
       "metric": "region_min_ratio",
-      "baseline": 0.763,
-      "candidate": 0.598,
-      "delta": -0.16500000000000004,
+      "baseline": 0.865,
+      "candidate": 0.84,
+      "delta": -0.025000000000000022,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
     {
       "kind": "severity",
-      "name": "press_top_rhythm",
-      "region": "arm",
-      "metric": "region_max_ratio",
-      "baseline": 2.728,
-      "candidate": 3.362,
-      "delta": 0.6339999999999999,
-      "direction": "lower_is_better",
-      "tolerance": 0.1
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_bar",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 42.0,
-      "candidate": 48.0,
-      "delta": 6.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_bar",
-      "region": "arm",
-      "metric": "region_max_ratio",
-      "baseline": 2.837,
-      "candidate": 2.948,
-      "delta": 0.11099999999999977,
-      "direction": "lower_is_better",
-      "tolerance": 0.1
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_hang",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 42.0,
-      "candidate": 48.0,
-      "delta": 6.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
-    },
-    {
-      "kind": "severity",
       "name": "pullup_hang",
       "region": "arm",
       "metric": "region_max_ratio",
-      "baseline": 2.837,
-      "candidate": 2.948,
-      "delta": 0.11099999999999977,
+      "baseline": 2.346,
+      "candidate": 2.497,
+      "delta": 0.1509999999999998,
       "direction": "lower_is_better",
       "tolerance": 0.1
     },
     {
       "kind": "severity",
       "name": "pullup_hang_rhythm",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 0.0,
+      "candidate": 132.0,
+      "delta": 132.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang_rhythm",
       "region": "arm",
+      "metric": "region_max_ratio",
+      "baseline": 2.214,
+      "candidate": 2.398,
+      "delta": 0.18400000000000016,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang_rhythm",
+      "region": "shoulder",
       "metric": "region_min_ratio",
-      "baseline": 0.788,
-      "candidate": 0.728,
-      "delta": -0.06000000000000005,
+      "baseline": 0.3,
+      "candidate": 0.239,
+      "delta": -0.061,
       "direction": "higher_is_better",
       "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang_rhythm",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 5.58,
+      "candidate": 5.844,
+      "delta": 0.26400000000000023,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
     },
     {
       "kind": "severity",
       "name": "pullup_top",
       "region": "arm",
       "metric": "region_max_ratio",
-      "baseline": 2.134,
-      "candidate": 3.017,
-      "delta": 0.883,
+      "baseline": 1.989,
+      "candidate": 2.107,
+      "delta": 0.1180000000000001,
       "direction": "lower_is_better",
       "tolerance": 0.1
     },
     {
       "kind": "severity",
-      "name": "pushup_bottom",
+      "name": "pullup_top",
       "region": "torso",
       "metric": "region_min_ratio",
-      "baseline": 0.663,
-      "candidate": 0.629,
-      "delta": -0.03400000000000003,
+      "baseline": 0.693,
+      "candidate": 0.627,
+      "delta": -0.06599999999999995,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pushup_bottom",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 158.0,
+      "candidate": 164.0,
+      "delta": 6.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "pushup_bottom",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.753,
+      "candidate": 0.724,
+      "delta": -0.029000000000000026,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pushup_bottom",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 2.034,
+      "candidate": 2.154,
+      "delta": 0.1200000000000001,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 108.0,
+      "candidate": 134.0,
+      "delta": 26.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "arm",
+      "metric": "region_min_ratio",
+      "baseline": 0.597,
+      "candidate": 0.519,
+      "delta": -0.07799999999999996,
       "direction": "higher_is_better",
       "tolerance": 0.02
     }
@@ -364,55 +459,59 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_merged_pose_report.json",
-      "sha256": "74978cf41db29d3893e5611aed60ffd0372a329600dac65bbfe459d6f3264f7d"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_merged_pose_report.json",
+      "sha256": "5b5d24bb40cfa3785d8cd858b62e5a96710d1b8e620b86131cdc8d081fb74f9f"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r41.json",
-      "sha256": "16f4d2d63997aefa4a13b5b8eaa563b62d9d702ed2014c61e0d1269a64354034"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r48.json",
+      "sha256": "8f8ab76b9da659ea36912b1f595d7aa9cf4fe836e6f4e1bb9dda7305e32832c0"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_evidence_manifest.json",
-      "sha256": "3acd9b2314d30716f4a170ccff76606a394509d635b111998702f42eda0bd90f"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_evidence_manifest.json",
+      "sha256": "27034b117381a2bcc2bdb9ce1e1569a2e72be69b70ffd9e485bcf3a5f4521c1d"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r41_comparison_vs_P2B1.json",
-      "sha256": "bdbf013c3c2b68cf71eeae6256d287607fcd802947207b9139df5dac794724de"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_P3B1.json",
+      "sha256": "3208c719322ca5bee6cb2564b8801d905fea7835d85a58260de80a407d0fc8a1"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/diagnostic_brief.json",
-      "sha256": "ba82bc626196c4736e7c1caa04e0b27006427a3de604a1fefe7e96c0a71f25c8"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_r47.json",
+      "sha256": "15b75e5092aacdea4d1a6e251bf9c6a0594241f18dcbdc35e47d2270fd1fb3fe"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/edge_extremes.json",
-      "sha256": "dbe2391a639ad13b24502edbac23bbe61e9883e470052c7d863359b8287728b0"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/diagnostic_brief.json",
+      "sha256": "6f9d66d8f48ba1ba0d80a29d0cfea37dff1f608672ee7a206740a4f9f426328c"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r41/grip_penetration.json",
-      "sha256": "0f6b2ff418da697a460723007408dca4202395d37344bad5fd0707cf2020aeb3"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/edge_extremes.json",
+      "sha256": "a135396fec10c84f21eff21cb7eec8ef38d1e99ac066713c2f1896d94890f7a4"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/grip_penetration.json",
+      "sha256": "8212576fb843c0033688f9712376d99d176b51dd30f7694bd57ce09c0bf0e7a2"
     }
   ],
-  "last_known_candidate_sha256": "19a3f9b4581693df103d5740bb0e3b03c4ad39d7f09a9898959894746803a94f",
-  "evidence_timestamp": "2026-10-02T14:41:51.406844+00:00",
+  "last_known_candidate_sha256": "251ed96c0f11f8a320f9dbe1f9d2984bfaacad6ec97de707864767dd450eff7a",
+  "evidence_timestamp": "2026-10-02T17:56:26.528017+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
-  "incomplete_candidates": [
-    "r42"
-  ],
-  "what_changed": "r41: solution geometry edit on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend; candidate remains experimental.",
+  "incomplete_candidates": [],
+  "what_changed": "r48: solution o26_r47_b.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r47.blend; candidate remains experimental.",
   "what_passed": [
+    "3B DEVELOPMENT CLEAR",
     "3C DEVELOPMENT CLEAR",
+    "3D DEVELOPMENT CLEAR",
     "3E DEVELOPMENT CLEAR",
-    "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)"
+    "curl_peak DEVELOPMENT CLEAR (severity comparisons remain separate)",
+    "pushup_bottom DEVELOPMENT CLEAR (severity comparisons remain separate)"
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "STOP",
-    "reason": "new candidate evidence is incomplete: r42",
-    "command": null,
-    "safe_parallel_task": "Inspect partial files read-only; preserve them and finish their evidence using a new collision-free label."
+    "reason": "unmapped development blockers",
+    "command": null
   }
 }

@@ -106,3 +106,11 @@ These decisions supersede the earlier unresolved-owner-decision wording for the 
 - Bone sufficiency: axial-twist stress test justified **rig revision rev2** = 63 + 8 deform helpers (upperarm/forearm × tw0/tw1 × l/r), closed-form drive `scripts/original_v1_twist_helpers.py`, identity when there is no twist. Thigh/shin twist, palm/thumb helpers, hallux/lesser-toe split, rib bones and extra shoulder/thorax helpers were considered and rejected (documented in the lock record).
 - Skeleton-motion LOCK recorded for rig rev2 on candidate r41 (see `docs/ORIGINAL_V1_SKELETON_MOTION_LOCK.md`). Reopen only on direct evidence of a rig defect.
 - The five inherited R2 shoulder/torso minima remain an owner-accepted DEVELOPMENT trade-off for the P1 epoch and are not reopened; under P2 the shoulder minima are measured fresh.
+
+## Owner re-validation of r41 (toes, shoulder); P3, rig rev2c, re-lock - 2026-10-02 (Claude)
+
+- The first skeleton lock (rev2) was withdrawn the same day on owner review: push-up foot/toes and shoulder/axilla were not convincing. Record: `docs/ORIGINAL_V1_PUSHUP_FOOT_AND_SHOULDER_REVALIDATION_20261002.md`.
+- Toes: compared with three barefoot push-up/chaturanga photographs of different people and foot/toe literature; the ankle already matched; r41 over-flexed the toe 8 deg (tip lifted). Pose P3 lays the toe flat. No toe rig change; a hallux split is not justified (documented trigger: Phase 5F individual toes).
+- Shoulder: the plain press/pull-up poses held the girdle still (166 deg glenohumeral-only). P3 applies an interval-dependent scapulohumeral rhythm to every elevated-arm pose. The scapula bone pivoted about the AC corner and swung the plate 2.4x too far: pivot relocated 35 % toward the tail (rig rev2c). Upper-arm twist helpers REJECTED (worse under realistic poses); forearm helpers kept.
+- Stress-pose epochs: P1 (R2) -> P2 (P2B1) -> P3 (P3B1, candidates r42+); P1/P2 preserved and pinned.
+- Skeleton RE-LOCKED as rev2c on r45. The remaining shoulder problem is classified as a linear-skinning limit at the axilla (tent / tear frontier r45, r46, r47); a generic joint-angle-driven corrective is justified and prepared (trigger and design in the re-validation record), not implemented.

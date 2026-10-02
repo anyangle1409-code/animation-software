@@ -1,0 +1,30 @@
+{
+  "generated_utc": "2026-10-02T21:23:57.414295+00:00",
+  "stage": "O4 candidate: generic shoulder/axilla corrective shape keys (not production)",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r48.blend",
+  "source_sha256": "251ed96c0f11f8a320f9dbe1f9d2984bfaacad6ec97de707864767dd450eff7a",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r57.blend",
+  "candidate_sha256": "2b05e25a90778343cdd89fd52bd79f6a10d5cc1cb471fa8fe6567cecdeafa8b9",
+  "declaration": "shoulder_corrective_mask_declared_before_solve.json",
+  "declaration_sha256": "416abb3802ad340df9c1a86ceb178516ce99217c84a11cc3a49434a25d07dd63",
+  "solution": "corr_v10.npz",
+  "solution_sha256": "51853bfdcbf6fe35389d552217f57971876ad831088861465717fe9a060fd553",
+  "runtime_spec": "shoulder_corrective_r57.json",
+  "runtime_spec_sha256": "d22588df4ef8dc49bb7f9c320d290965929e7eb6a9989a9df07e39478421c549",
+  "driver_config": {
+    "theta0_deg": 40.0,
+    "theta1_deg": 150.0,
+    "keys": {
+      "l": "HGPT_SHOULDER_CORR_L",
+      "r": "HGPT_SHOULDER_CORR_R"
+    }
+  },
+  "left_owned_vertices": 1491,
+  "max_delta_m": 0.1348,
+  "mirror_asymmetry_m": 0.0,
+  "weights_changed": false,
+  "topology_changed": false,
+  "bones_changed": false,
+  "rest_geometry_changed": false,
+  "bone_count": 67
+}

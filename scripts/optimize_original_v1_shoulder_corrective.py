@@ -52,6 +52,11 @@ def main():
     ap.add_argument("--w-fold", type=float, default=0.0, help="dihedral fold barrier (cos below min(0.2, current-0.05) is penalised)")
     ap.add_argument("--w-prox", type=float, default=0.0, help="no-new-contact barrier between non-neighbouring mask vertices (sheets must not close below min(base distance, --prox-d))")
     ap.add_argument("--prox-d", type=float, default=0.012)
+    ap.add_argument("--w-area", type=float, default=0.0, help="face-area floor: triangles touching the mask whose posed/rest area ratio is below --area-floor are penalised (collapse / sliver)")
+    ap.add_argument("--area-floor", type=float, default=0.2)
+    ap.add_argument("--w-lap", type=float, default=0.0, help="surface roughness barrier: |v - mean(neighbours)| / mean edge length of a mask vertex may exceed its rest value by at most --lap-tol")
+    ap.add_argument("--lap-tol", type=float, default=0.35)
+    ap.add_argument("--fold-floor", type=float, default=None, help="absolute dihedral-cosine floor for adjacent triangle pairs that are smooth at rest (cos>0.5); default keeps the old 'never worse than now' rule")
     ap.add_argument("--rounds", type=int, default=1)
     ap.add_argument("--p99-tail", type=float, default=1.95, help="edges currently below this ratio may not rise above it (keeps the 99th percentile); edges above keep the --hi bound")
     ap.add_argument("--w-smooth", type=float, default=20.0)
@@ -146,6 +151,25 @@ def main():
         return n, n1, n2, (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
 
     FOLD = np.stack([np.minimum(0.2, dihedral(P0[p])[3] - 0.05) for p in range(nP)]) if a.w_fold > 0 else None
+    # rest geometry of the same triangles/pairs: face areas, and which adjacent pairs are smooth at rest
+    _n0 = np.cross(rest[Tz[:, 1]] - rest[Tz[:, 0]], rest[Tz[:, 2]] - rest[Tz[:, 0]])
+    AREA0 = np.maximum(0.5 * np.linalg.norm(_n0, axis=1), 1e-12)
+    _u0 = _n0 / np.maximum(np.linalg.norm(_n0, axis=1), 1e-18)[:, None]
+    SMOOTH_REST = (_u0[adj[:, 0]] * _u0[adj[:, 1]]).sum(axis=1) > 0.5
+    # roughness barrier set-up: directed neighbour pairs (v in the mask, u any neighbour)
+    _dv = np.concatenate([E[in_mask[E[:, 0]], 0], E[in_mask[E[:, 1]], 1]])
+    _du = np.concatenate([E[in_mask[E[:, 0]], 1], E[in_mask[E[:, 1]], 0]])
+    LV = np.array([zpos[int(v)] for v in _dv])                        # zone index of v for each directed pair
+    LDEG = np.maximum(np.bincount(LV, minlength=len(Z)).astype(float), 1.0)
+    LEL = np.maximum(np.bincount(LV, weights=np.linalg.norm(rest[_dv] - rest[_du], axis=1), minlength=len(Z)) / LDEG, 1e-9)
+
+    def lap_vec(Pp_):
+        sn = np.zeros((len(Z), 3))
+        np.add.at(sn, LV, Pp_[_du])
+        return Pp_[Z] - sn / LDEG[:, None]
+    LAP0 = np.linalg.norm(lap_vec(rest), axis=1) / LEL
+    if a.w_fold > 0 and a.fold_floor is not None:
+        FOLD = np.where(SMOOTH_REST[None, :], a.fold_floor, FOLD)
     # no-new-contact barrier: pairs of mask vertices far apart on the rest surface (>= 3 cm) that are close in a pose
     rZ = rest[Z]
     far_rest = None
@@ -223,6 +247,26 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
                     np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
                     np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
+            if a.w_area > 0:
+                _A, _B, _C = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                _n = np.cross(_B - _A, _C - _A)
+                _ln = np.maximum(np.linalg.norm(_n, axis=1), 1e-12)
+                _ex = np.maximum(a.area_floor - 0.5 * _ln / AREA0, 0.0)
+                if (_ex > 0).any():
+                    total += a.w_area * (_ex ** 2).sum()
+                    _gn = (-2.0 * a.w_area * _ex / AREA0 * 0.5 / _ln)[:, None] * _n          # d penalty / d n
+                    np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
+                    np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
+                    np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
+            if a.w_lap > 0:
+                _l = lap_vec(Pp)
+                _ln2 = np.maximum(np.linalg.norm(_l, axis=1), 1e-12)
+                _ex2 = np.maximum(_ln2 / LEL - LAP0 - a.lap_tol, 0.0)
+                if (_ex2 > 0).any():
+                    total += a.w_lap * (_ex2 ** 2).sum()
+                    _gl = (2.0 * a.w_lap * _ex2 / LEL / _ln2)[:, None] * _l
+                    gP[Z] += _gl
+                    np.add.at(gP, _du, -(_gl / LDEG[:, None])[LV])
             if a.w_prox > 0 and len(PAIRS[p]):
                 pr, dmin = PAIRS[p], PDMIN[p]
                 pi_, pj_ = Z[pr[:, 0]], Z[pr[:, 1]]

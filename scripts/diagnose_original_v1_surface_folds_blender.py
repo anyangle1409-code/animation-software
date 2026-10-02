@@ -59,6 +59,15 @@ for t, (x, y, z) in enumerate(tris):
 ADJ = np.array([v for v in em.values() if len(v) == 2])
 n0, A0 = tri_geom(rest)
 cos0 = (n0[ADJ[:, 0]] * n0[ADJ[:, 1]]).sum(axis=1)
+EDG = np.array([e.vertices[:] for e in me.edges])
+DEG = np.zeros(len(rest))
+np.add.at(DEG, EDG[:, 0], 1)
+np.add.at(DEG, EDG[:, 1], 1)
+_el = np.linalg.norm(rest[EDG[:, 0]] - rest[EDG[:, 1]], axis=1)
+ELEN = np.zeros(len(rest))
+np.add.at(ELEN, EDG[:, 0], _el)
+np.add.at(ELEN, EDG[:, 1], _el)
+ELEN = ELEN / DEG
 result = {"source": Path(bpy.data.filepath).name, "area_ratio_floor": FLOOR, "fold_cos": FOLD, "poses": {}}
 for name in poses:
     reset()
@@ -75,11 +84,23 @@ for name in poses:
     fold = (cos1 < FOLD) & (cos0 > 0.5)
     small = ratio < FLOOR
     bad_v = set(tris[small].ravel().tolist()) | set(tris[ADJ[fold].ravel()].ravel().tolist())
-    result["poses"][name] = {
+    # spikiness: distance of a vertex from the mean of its edge neighbours, in units of its mean edge length, posed minus rest
+    def lap_mag(Q):
+        s = np.zeros_like(Q)
+        np.add.at(s, EDG[:, 0], Q[EDG[:, 1]])
+        np.add.at(s, EDG[:, 1], Q[EDG[:, 0]])
+        return np.linalg.norm(Q - s / DEG[:, None], axis=1) / ELEN
+    spike = np.maximum(lap_mag(P) - lap_mag(rest), 0.0)
+    sp_v = np.nonzero(spike > 0.5)[0]
+    result_spike = {"n_spike_vertices": int(len(sp_v)), "max_spike": round(float(spike.max()), 3),
+                    "spike_regions": {names[r]: int(c) for r, c in zip(*np.unique(reg[sp_v], return_counts=True))} if len(sp_v) else {},
+                    "spike_vertices": [int(v) for v in sp_v]}
+    result["poses"][name] = {"spikes": result_spike,
         "triangles": int(len(tris)), "area_ratio_min": round(float(ratio.min()), 4), "area_ratio_p01": round(float(np.percentile(ratio, 1)), 4),
         "n_collapsed": int(small.sum()), "n_fold_pairs": int(fold.sum()), "n_vertices_in_bad_faces": len(bad_v),
         "bad_vertices": sorted(int(v) for v in bad_v),
         "bad_regions": {names[r]: int(c) for r, c in zip(*np.unique(reg[sorted(bad_v)], return_counts=True))} if bad_v else {}}
+    print("SPIKES", name, {k: v for k, v in result["poses"][name]["spikes"].items() if k != "spike_vertices"})
     print("SURFACE", name, "area min %.3f collapsed %d folds %d vertices %d" % (ratio.min(), small.sum(), fold.sum(), len(bad_v)), result["poses"][name]["bad_regions"])
 reset()
 out.parent.mkdir(parents=True, exist_ok=True)

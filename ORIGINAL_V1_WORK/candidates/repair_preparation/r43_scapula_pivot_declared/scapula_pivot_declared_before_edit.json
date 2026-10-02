@@ -1,0 +1,52 @@
+{
+  "declared_utc": "2026-10-02T16:25:18.798714+00:00",
+  "declared_before_edit": true,
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r42.blend",
+  "source_sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
+  "operation": "scapula pivot relocation",
+  "fraction_toward_tail": 0.35,
+  "bones_changed": [
+    "scapula_l",
+    "scapula_r"
+  ],
+  "plan": {
+    "scapula_l": {
+      "old_head": [
+        -0.2150000035762787,
+        0.029999999329447746,
+        1.5149999856948853
+      ],
+      "new_head": [
+        -0.176500001,
+        0.070249998,
+        1.439749974
+      ],
+      "tail": [
+        -0.10499999672174454,
+        0.14499999582767487,
+        1.2999999523162842
+      ]
+    },
+    "scapula_r": {
+      "old_head": [
+        0.2150000035762787,
+        0.029999999329447746,
+        1.5149999856948853
+      ],
+      "new_head": [
+        0.176500001,
+        0.070249998,
+        1.439749974
+      ],
+      "tail": [
+        0.10499999672174454,
+        0.14499999582767487,
+        1.2999999523162842
+      ]
+    }
+  },
+  "weights_changed": false,
+  "geometry_changed": false,
+  "other_bones_changed": false,
+  "evidence": "P3 upper-back stretch with the AC-corner pivot (r42 P3 dump) and the literature on the scapular instantaneous centre"
+}

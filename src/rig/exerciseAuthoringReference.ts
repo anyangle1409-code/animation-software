@@ -246,10 +246,13 @@ const LEFT_BONES: BoneDefinition[] = [
     parent: 'forearm_l',
     head: vec3(-0.17, 0.88, -0.035),
     tail: vec3(-0.17, 0.79, -0.035),
+    // Canonical XZY convention: X = flexion/extension and Z = side-to-side
+    // deviation. Keep the accepted anatomical ranges unchanged, but attach
+    // them to the axes the FK/IK solver actually uses.
     limits: joint(
-      limit(-30, 20, 'Radial deviation', 'Ulnar deviation'),
-      null,
       limit(-70, 80, 'Flexion', 'Extension'),
+      null,
+      limit(-30, 20, 'Radial deviation', 'Ulnar deviation'),
     ),
     radius: 0.035,
   },

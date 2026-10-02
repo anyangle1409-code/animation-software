@@ -102,7 +102,9 @@ const LEFT_CORE: BoneDefinition[] = [
   },
   {
     name: 'hand_l', parent: 'forearm_l', head: vec3(shoulderX, wristY, armZ), tail: vec3(shoulderX, palmAxisEndY, armZ), radius: 0.037,
-    limits: joint(limit(-30, 20, 'Radial deviation', 'Ulnar deviation'), null, limit(-70, 80, 'Flexion', 'Extension')),
+    // Same anatomical ranges as before, aligned to the shared XZY convention:
+    // X flexes/extends the hand; Z carries radial/ulnar deviation.
+    limits: joint(limit(-70, 80, 'Flexion', 'Extension'), null, limit(-30, 20, 'Radial deviation', 'Ulnar deviation')),
   },
   {
     name: 'thigh_l', parent: 'pelvis', head: vec3(hipX, 0.96, 0), tail: vec3(hipX, 0.515, 0), radius: 0.084,

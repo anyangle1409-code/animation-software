@@ -22,7 +22,7 @@ function walk(dir, out = []) {
 function importedSpecifiers(source) {
   const found = [];
   const patterns = [
-    /\bfrom\s+["']([^"']+)["']/g,
+    /\bimport\s+(?:type\s+)?[^;\n]*?\s+from\s+["']([^"']+)["']/g,
     /\bimport\s*\(\s*["']([^"']+)["']\s*\)/g,
     /\bimport\s+["']([^"']+)["']/g,
   ];

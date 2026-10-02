@@ -77,6 +77,39 @@ function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vec3, fo
 }
 
 /**
+ * Angle between the end bone's actual Y/Z plane and the requested Y/Z plane.
+ *
+ * A planted palm primarily needs its plane flush with the contact surface.
+ * Rotation *within* that plane is secondary and remains represented by
+ * `aimMiss`. Keeping the two objectives separate lets forearm pronation take
+ * load off a saturated wrist without weakening the authored wrist limits.
+ */
+function aimPlaneMiss(
+  evaluation: PoseEvaluation,
+  name: BoneName,
+  direction: Vec3,
+  forward: Vec3,
+): number {
+  const turn = evaluation.firstPartyEvaluation.quaternion(name);
+  const actualDirection = planeDirection.copy(HG_Y_AXIS).applyQuaternion(turn).normalize();
+  const actualForward = planeForward.copy(HG_Z_AXIS).applyQuaternion(turn).normalize();
+  const actualNormal = planeNormal.copy(actualDirection).cross(actualForward).normalize();
+
+  const requestedDirection = targetPlaneDirection
+    .set(direction.x, direction.y, direction.z)
+    .normalize();
+  const requestedForward = targetPlaneForward
+    .set(forward.x, forward.y, forward.z)
+    .normalize();
+  const requestedNormal = targetPlaneNormal
+    .copy(requestedDirection)
+    .cross(requestedForward)
+    .normalize();
+
+  return actualNormal.angleTo(requestedNormal);
+}
+
+/**
  * A hand aim that the wrist cannot realize alone: use forearm axial rotation
  * before asking the wrist to finish the orientation.
  *
@@ -105,33 +138,48 @@ function settleForearmRotation(
   if (!limit) return;
 
   const base = { ...(pose.rotations[chain.mid] ?? { x: 0, y: 0, z: 0 }) };
+  const score = () => ({
+    plane: aimPlaneMiss(evaluation, chain.end, direction, forward),
+    aim: aimMiss(evaluation, chain.end, direction, forward),
+  });
   const tryTwist = (degrees: number) => {
     pose.rotations[chain.mid] = { ...base, y: (degrees * Math.PI) / 180 };
     evaluation.apply(pose);
     aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
-    return aimMiss(evaluation, chain.end, direction, forward);
+    return score();
   };
+  const better = (
+    candidate: { plane: number; aim: number },
+    current: { plane: number; aim: number },
+  ) =>
+    candidate.plane < current.plane - FOREARM_PLANE_TIE ||
+    (Math.abs(candidate.plane - current.plane) <= FOREARM_PLANE_TIE &&
+      candidate.aim < current.aim);
 
-  // The objective is smooth for an axial forearm turn. A coarse sweep finds
-  // the right basin without assuming its sign, then a bounded local sweep gets
-  // below the end-aim tolerance without an expensive whole-range fine scan.
-  let best = { degrees: 0, miss: initialMiss };
+  // A world contact first needs the end-bone plane flush with its contact
+  // plane. Among equally flat solutions, keep the original two-axis aim as
+  // close as possible. This lets the forearm use its anatomical axial freedom
+  // before a wrist axis is forced against its limit.
+  let best = {
+    degrees: (base.y * 180) / Math.PI,
+    result: score(),
+  };
   const coarseStep = 10;
   for (let degrees = limit.min; degrees <= limit.max + 1e-9; degrees += coarseStep) {
-    const miss = tryTwist(degrees);
-    if (miss < best.miss) best = { degrees, miss };
+    const result = tryTwist(degrees);
+    if (better(result, best.result)) best = { degrees, result };
   }
   const fineLow = Math.max(limit.min, best.degrees - coarseStep);
   const fineHigh = Math.min(limit.max, best.degrees + coarseStep);
   for (let degrees = fineLow; degrees <= fineHigh + 1e-9; degrees += 0.25) {
-    const miss = tryTwist(degrees);
-    if (miss < best.miss) best = { degrees, miss };
+    const result = tryTwist(degrees);
+    if (better(result, best.result)) best = { degrees, result };
   }
   const preciseLow = Math.max(limit.min, best.degrees - 0.3);
   const preciseHigh = Math.min(limit.max, best.degrees + 0.3);
   for (let degrees = preciseLow; degrees <= preciseHigh + 1e-9; degrees += 0.025) {
-    const miss = tryTwist(degrees);
-    if (miss < best.miss) best = { degrees, miss };
+    const result = tryTwist(degrees);
+    if (better(result, best.result)) best = { degrees, result };
   }
   tryTwist(best.degrees);
 }
@@ -183,6 +231,8 @@ function settleTibialRotation(
 
 /** A hand already within 2° keeps the established arm solve unchanged. */
 const FOREARM_SETTLE_THRESHOLD = (2 * Math.PI) / 180;
+/** Plane scores this close are treated as equivalent before comparing in-plane aim. */
+const FOREARM_PLANE_TIE = (0.005 * Math.PI) / 180;
 /** A foot within this of its aim is left as the ankle placed it (0.05°). */
 const TIBIAL_TOLERANCE = (0.05 * Math.PI) / 180;
 const HG_X_AXIS = new HgVec3(1, 0, 0);
@@ -191,6 +241,12 @@ const HG_Z_AXIS = new HgVec3(0, 0, 1);
 const missScratch = new HgVec3();
 const aimDirection = new HgVec3();
 const aimForward = new HgVec3();
+const planeDirection = new HgVec3();
+const planeForward = new HgVec3();
+const planeNormal = new HgVec3();
+const targetPlaneDirection = new HgVec3();
+const targetPlaneForward = new HgVec3();
+const targetPlaneNormal = new HgVec3();
 
 /**
  * A goal that holds a limb exactly where it is now, with a pole placed along

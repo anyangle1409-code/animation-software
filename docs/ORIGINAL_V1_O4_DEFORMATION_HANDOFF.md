@@ -2166,3 +2166,34 @@ untouched, tolerances unchanged), then run Phase 4 freeze validation on r38; or 
 shoulder/chest minima: a generic joint-angle-driven corrective shape (driven by shoulder elevation, deterministic,
 first-party, not keyed to any exercise name) or local chest/shoulder geometry under the declare-mask process; or (c) allow
 another weights-only attempt with the five minima as hard constraints on the r38 base.
+
+## Claude laptop session — 2026-10-02: skeleton-motion validation, pose revision P2, rig rev2, LOCK
+
+Authority: owner brief 2026-10-02 (skeleton first). Everything below is evidence-backed; see `docs/ORIGINAL_V1_SKELETON_MOTION_LOCK.md`,
+`docs/ORIGINAL_V1_SKELETON_REFERENCE_EVIDENCE.md`, `docs/ORIGINAL_V1_SKELETON_JOINT_VALIDATION_MATRIX.md` (all 15 rows LOCKED), decision log entry of the same date.
+
+**Findings.** The 63 rig BONES were sound (structure audit 0 flags; rest identical to the v4 payload to 5e-7 m). The stress-pose CONSTRUCTION was wrong:
+distal finger joint bent backwards (−55°; −85° on handle grips) and thumb IP reversed (hinge axis re-derived per curled segment flips past 90°);
+push-up wrist 88° radial deviation (degenerate pronation target); toes bent the wrong way (push-up, lunge); no humeral axial rotation in elevated poses
+(elbow hinged sideways up to 107°, forearm carried 85° twist — this was the axilla/"webbing" cause: pose/rig construction, not weights/topology); squat
+ankle plantarflexed (knee behind ankle); push-up hands 0.29 m above the floor; rest thumb pointing into the floor. The earlier skeleton-motion audit's finger check had the same
+axis flaw (it never flagged the reversal and would flag a correct deep curl) — fixed.
+
+**Corrections.** Pose definition **P2** (P1 preserved verbatim, both pinned in `ORIGINAL_V1_PRODUCTION_CONTROL.json`). Because P2 changes every hand/arm measurement,
+baselines are now per stress-pose epoch (`baseline_epochs`): **R2** = P1 epoch r1..r38 (unchanged), **P2B1** = r38 re-measured under P2 (5 development failures) for r39+.
+Evidence tools (`merge`, repair-check/full-evidence .bat, control) are epoch-aware. Rig **rev2** = 63 + 8 axial-twist helpers (`upperarm/forearm × tw0/tw1 × l/r`),
+closed-form drive in `scripts/original_v1_twist_helpers.py` (inlined in `upd()` of the pose script); payload `ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2.json`,
+structure hash `09d02e45…`. Rejected helpers (thigh/shin twist, palm/thumb, hallux split, ribs, shoulder/thorax) documented in the lock record.
+
+**Lock.** `ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_twist_helpers.json` on candidate **r41** (SHA `19a3f9b4…`). Gates: rig structure 0 flags; fixed-axis finger/thumb 0 flags (r38/P1: 84);
+continuous kinematics 9 samples × 15 poses with separate swing/twist interpolation 0 path flags; movement-envelope check 25 110 components 0 violations 0 L/R asymmetries (r38/P1: 412);
+floor contact: push-up palm 3.6 mm / thumb pad 0 / toe pads 262 contact vertices. First-party anatomical proxy built (`proxy_r41/`): joint centres inside the skin, tibia/femur anterior-biased as anatomy predicts, scapula/clavicle inside the torso shell; no skeleton-level defect found.
+Reopen only on direct evidence of a rig defect.
+
+**Deformation state.** r41 (full evidence, P2): 2 development failures (press_top_rhythm p99 2.091; push-up hand min 0.119); vs P2B1 36 improvements / 16 regressions (arm-region
+stretch ≤3.2, two volume deviations, small self-intersection increases). Forearm-only variant r42 (metrics-only): 0 regressions but the same 5 failures — the upper-arm helpers are what clear the shoulder minima.
+Exploratory r39/r40/r42 evidence preserved in `ORIGINAL_V1_WORK/candidates/superseded_exploratory_P2_0/`.
+
+**Next.** Weight re-solve on r41 with preset `o40` (declared mask `repair_preparation/r43_shoulder_arm_declared/`, 2820 vertices incl. helper stations), then the push-up wrist/hand minimum;
+new candidate numbers start at r43. Then recompute status, run the Phase 3 exit contract and (if clear) the Phase 4 freeze. Repo test suite green with epoch-aware fixtures.
+The standalone runtime TypeScript payload (`src/rig/canonicalV4Original.ts`) is NOT changed; moving it to rev2 is a separate prepared step (runtime must drive helpers as documented).

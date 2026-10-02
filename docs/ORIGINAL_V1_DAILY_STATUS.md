@@ -4,20 +4,18 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r48 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
-SHA-256: `251ed96c0f11f8a320f9dbe1f9d2984bfaacad6ec97de707864767dd450eff7a`
+r55 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
+SHA-256: `ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7`
 
 DEVELOPMENT BLOCKERS
-3 failures; 24 separate strict severity regressions versus R2.
+0 failures; 31 separate strict severity regressions versus R2.
 
-- press_top / torso / region_max_ratio: 5.118 (<= 5.0)
-- press_top_rhythm / torso / region_max_ratio: 6.343 (<= 5.0)
-- pullup_hang_rhythm / torso / region_max_ratio: 5.844 (<= 5.0)
 
 WHAT CHANGED
-r48: solution o26_r47_b.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r47.blend; candidate remains experimental.
+r55: solution corr_v8.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r48.blend; candidate remains experimental.
 
 WHAT PASSED
+- 3A DEVELOPMENT CLEAR
 - 3B DEVELOPMENT CLEAR
 - 3C DEVELOPMENT CLEAR
 - 3D DEVELOPMENT CLEAR
@@ -31,14 +29,14 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-STOP — unmapped development blockers
+RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 
 [✅] Phase 0 Provenance
 [✅] Phase 1 Base body
 [✅] Phase 2 Rig
-[🟠] Phase 3A Shoulders
+[✅] Phase 3A Shoulders
 [✅] Phase 3B Hands/fingers
 [✅] Phase 3C Grip
 [✅] Phase 3D Wrist
@@ -53,18 +51,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-02T17:56:26.528017+00:00
+Evidence timestamp: 2026-10-02T20:04:13.183031+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r48.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r55.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r48_comparison_vs_r47.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r48/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_r48.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

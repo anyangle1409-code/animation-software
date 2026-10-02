@@ -45,6 +45,7 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
         JSON.stringify({ promotion: promotionPaths, cutover: cutoverPaths }),
     );
   }
+
   let graph;
   try {
     graph = buildRuntimeImportGraph(root, contract.entrypoint);
@@ -61,52 +62,100 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
   const registryModule = String(contract.registry_module || "");
   const loaderReachable = graph.reachable.includes(loaderModule);
   const registryReachable = graph.reachable.includes(registryModule);
+  const blockedMode = contract.mode === "blocked_procedural_default";
+  const activeMode = contract.mode === "original_v1_active";
 
-  if (contract.mode !== "blocked_procedural_default") {
+  if (!blockedMode && !activeMode) {
     blockers.push(
-      `unsupported runtime-cutover mode ${JSON.stringify(contract.mode)}; activation requires a reviewed code/audit change after production approval`,
+      \`unsupported runtime-cutover mode \${JSON.stringify(contract.mode)}; expected blocked_procedural_default or original_v1_active\`,
     );
   }
 
-  if (loaderReachable) {
+  if (blockedMode && loaderReachable) {
     blockers.push(
-      `prepared ORIGINAL v1 loader is reachable from ${contract.entrypoint} before production approval`,
+      \`prepared ORIGINAL v1 loader is reachable from \${contract.entrypoint} before production approval\`,
     );
   }
+
+  if (activeMode) {
+    if (promotion?.mode !== "approved_for_promotion") {
+      blockers.push(
+        "ORIGINAL v1 runtime activation requires promotion mode approved_for_promotion",
+      );
+    }
+    if (!loaderReachable) {
+      blockers.push(
+        \`ORIGINAL v1 production loader is not reachable from \${contract.entrypoint} after activation\`,
+      );
+    }
+    if (contract.current_default_source !== contract.future_production_source) {
+      blockers.push(
+        \`active runtime default \${JSON.stringify(contract.current_default_source)} does not match future production source \${JSON.stringify(contract.future_production_source)}\`,
+      );
+    }
+  }
+
   if (!registryReachable) {
-    blockers.push(`live character registry is not reachable from ${contract.entrypoint}`);
+    blockers.push(\`live character registry is not reachable from \${contract.entrypoint}\`);
   }
 
   const registryPath = path.join(root, registryModule);
   if (!fs.existsSync(registryPath)) {
-    blockers.push(`missing registry module ${registryModule}`);
+    blockers.push(\`missing registry module \${registryModule}\`);
   } else {
     const source = fs.readFileSync(registryPath, "utf8");
-    if (!source.includes("let fallback = proceduralCharacter.id;")) {
-      blockers.push("live registry no longer pins the procedural character as its default fallback");
+
+    if (blockedMode) {
+      if (!source.includes("let fallback = proceduralCharacter.id;")) {
+        blockers.push("live registry no longer pins the procedural character as its default fallback");
+      }
+      if (!source.includes("registerCharacterSource(proceduralCharacter);")) {
+        blockers.push("live registry no longer registers the clean procedural character");
+      }
+      if (
+        source.includes("./bundled") ||
+        source.includes("./originalV1Bundled") ||
+        source.includes("bundledOriginalV1Source") ||
+        source.includes("original-v1-dressed")
+      ) {
+        blockers.push("live registry references the dormant ORIGINAL v1 production loader/source");
+      }
     }
-    if (!source.includes("registerCharacterSource(proceduralCharacter);")) {
-      blockers.push("live registry no longer registers the clean procedural character");
-    }
-    if (
-      source.includes("./bundled") ||
-      source.includes("./originalV1Bundled") ||
-      source.includes("bundledOriginalV1Source") ||
-      source.includes("original-v1-dressed")
-    ) {
-      blockers.push("live registry references the dormant ORIGINAL v1 production loader/source");
+
+    if (activeMode) {
+      if (!source.includes("registerCharacterSource(proceduralCharacter);")) {
+        blockers.push("active registry must retain the clean procedural source as a diagnostic fallback");
+      }
+
+      const dressed = source.match(
+        /const\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*bundledOriginalV1Source\(\s*["']dressed["']\s*\)\s*;/,
+      );
+      if (!dressed) {
+        blockers.push("active registry does not construct the exact dressed ORIGINAL v1 bundled source");
+      } else {
+        const variable = dressed[1];
+        if (!source.includes(\`registerCharacterSource(\${variable});\`)) {
+          blockers.push("active registry does not register the dressed ORIGINAL v1 source");
+        }
+        const fallbackPattern = new RegExp(
+          \`let\\\\s+fallback\\\\s*=\\\\s*\${variable}\\\\.id\\\\s*;\`,
+        );
+        if (!fallbackPattern.test(source)) {
+          blockers.push("active registry does not make the dressed ORIGINAL v1 source the default");
+        }
+      }
     }
   }
 
   const loaderPath = path.join(root, loaderModule);
   if (!fs.existsSync(loaderPath)) {
-    blockers.push(`missing prepared loader module ${loaderModule}`);
+    blockers.push(\`missing prepared loader module \${loaderModule}\`);
   } else {
     const source = fs.readFileSync(loaderPath, "utf8");
     const expectedPaths = contract.production_paths || [];
     for (const expected of expectedPaths) {
-      if (!source.includes(`'${expected}'`) && !source.includes(`"${expected}"`)) {
-        blockers.push(`prepared loader does not pin production path ${expected}`);
+      if (!source.includes(\`'\${expected}'\`) && !source.includes(\`"\${expected}"\`)) {
+        blockers.push(\`prepared loader does not pin production path \${expected}\`);
       }
     }
 
@@ -146,8 +195,9 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
       JSON.stringify(promotionPaths) === JSON.stringify(cutoverPaths),
     reachableModuleCount: graph.reachable.length,
     blockers,
-    note:
-      "Blocked-stage runtime cutover gate. PASS means ORIGINAL v1 loading is prepared but not reachable/active; it does not approve any production asset.",
+    note: blockedMode
+      ? "Blocked-stage runtime cutover gate. PASS means ORIGINAL v1 loading is prepared but not reachable/active; it does not approve any production asset."
+      : "Active-stage runtime cutover gate. PASS means an approved ORIGINAL v1 dressed source is reachable, registered and the runtime default; production approval remains governed by the promotion/release gates.",
   };
 }
 

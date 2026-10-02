@@ -54,14 +54,20 @@ const COUNT_WORD =
   '(?:\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
 const RANGE_NUMBER =
   `(?:\\d+(?:\\.\\d+)?|${COUNT_WORD}(?:[-\\s]+(?:and[-\\s]+)?${COUNT_WORD})*)`;
+const DIGIT_RANGE_NUMBER = '\\d+(?:\\.\\d+)?';
 const WEIGHT_UNIT = '(?:kgs?|kilo(?:gram)?s?|lbs?|pounds?)';
 const ANGLE_UNIT = '(?:(?:degrees?|deg)\\b|[°º])';
 const UNSUPPORTED_LOAD_RANGE = [
-  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:-|to|through)\\s*${RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
+  // A hyphen inside a valid written number ("twenty-five") is not a range.
+  // Hyphenated ranges therefore require numeric endpoints; written ranges use
+  // "to", "through", or "between ... and ...".
+  new RegExp(`\\b${DIGIT_RANGE_NUMBER}\\s*-\\s*${DIGIT_RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
+  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:to|through)\\s*${RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
   new RegExp(`\\bbetween\\s+${RANGE_NUMBER}\\s+and\\s+${RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
 ];
 const UNSUPPORTED_ANGLE_RANGE = [
-  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:-|to|through)\\s*${RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
+  new RegExp(`\\b${DIGIT_RANGE_NUMBER}\\s*-\\s*${DIGIT_RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
+  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:to|through)\\s*${RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
   new RegExp(`\\bbetween\\s+${RANGE_NUMBER}\\s+and\\s+${RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
 ];
 

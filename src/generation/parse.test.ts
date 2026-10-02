@@ -391,6 +391,7 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('exercise: incline dumbbell curl between thirty and forty-five degrees')).toEqual(['angle']);
 
     expect(parsePrompt('exercise: dumbbell curl with 12 kg dumbbells').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl with twenty-five pounds dumbbells').intent?.load).toBe(11.5);
     expect(parsePrompt('exercise: incline dumbbell curl at 45 degrees').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 

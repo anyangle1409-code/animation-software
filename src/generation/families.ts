@@ -120,6 +120,19 @@ function interpretCommon(
   issues: IntentIssue[],
 ): { load: number; tempo: ExerciseIntent['tempo'] } {
   let load = defaultLoad;
+  const ambiguousGenericWeights =
+    implement !== 'bodyweight' &&
+    slots.equipment.length === 0 &&
+    /\b(?:with|using|holding|carrying)\b[^,.!?;]{0,40}\bweights?\b/.test(slots.text);
+  if (ambiguousGenericWeights) {
+    issues.push(
+      blocking(
+        'equipment',
+        `The ${family} request names generic "weight(s)" but not the implement. State dumbbells or cable explicitly; the generator will not choose equipment from an ambiguous weight reference.`,
+      ),
+    );
+  }
+
   if (implement === 'dumbbell') {
     const negatedDumbbell =
       /\b(?:no|without)\s+(?:a\s+pair\s+of\s+)?dumbbells?\b|\b(?:no|without)\s+(?:external\s+)?(?:weights?|equipment)\b|\bunweighted\b|\bempty[-\s]?handed\b/.test(slots.text);
@@ -180,7 +193,7 @@ function interpretCommon(
           `${quote(others.map((slot) => slot.words))}: the ${family} family is certified with dumbbells only.`,
         ),
       );
-    } else if (slots.equipment.length === 0) {
+    } else if (slots.equipment.length === 0 && !ambiguousGenericWeights) {
       assumptions.push('Dumbbells, one in each hand — the implement this family is certified with.');
     }
 
@@ -215,7 +228,7 @@ function interpretCommon(
       }
       if (/lb|pound/.test(slots.loads[0].words)) assumptions.push(`${slots.loads[0].words} read as ${load} kg per hand.`);
       else assumptions.push(`${load} kg read as the load in each hand.`);
-    } else {
+    } else if (!ambiguousGenericWeights) {
       assumptions.push(`${defaultLoad} kg per hand, the family's default load. The load is recorded for export; it does not change the motion.`);
     }
   } else if (implement === 'cable') {
@@ -238,7 +251,7 @@ function interpretCommon(
           `${quote(others.map((slot) => slot.words))}: the ${family} family is certified on the project cable station only.`,
         ),
       );
-    } else if (slots.equipment.length === 0) {
+    } else if (slots.equipment.length === 0 && !ambiguousGenericWeights) {
       assumptions.push('Cable station and handle — the equipment this family is certified with.');
     }
     const qualitativeCableLoad =

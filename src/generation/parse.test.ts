@@ -216,6 +216,20 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.join(' ')).toMatch(/forward lunge/);
   });
 
+  it('blocks generic weight wording when it does not identify the required implement', () => {
+    const ambiguous = parsePrompt('exercise: shoulder press with weights');
+    expect(ambiguous.issues.filter((issue) => issue.blocking).map((issue) => issue.code)).toContain('equipment');
+    expect(ambiguous.assumptions.join(' ')).not.toMatch(/default load|kg per hand|dumbbells, one in each hand/i);
+
+    expect(blocking('exercise: curl holding a weight')).toContain('equipment');
+    expect(blocking("exercise: farmer's walk carrying 20 kg weights")).toContain('equipment');
+    expect(blocking('exercise: Pallof press holding weights')).toContain('equipment');
+
+    expect(parsePrompt('exercise: dumbbell shoulder press with weights').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl holding a weight').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: Pallof press with cable').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('blocks ambiguous free-weight wording instead of silently assuming dumbbells', () => {
     expect(blocking('exercise: free weights shoulder press')).toContain('equipment');
     expect(blocking('exercise: free-weight Romanian deadlift')).toContain('equipment');

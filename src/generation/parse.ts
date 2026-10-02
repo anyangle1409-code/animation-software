@@ -101,6 +101,11 @@ const UNSUPPORTED_STANCE_WIDTH =
   /\b(?:wide|narrow|close|staggered)[-\s]+stance\b|\b(?:feet|foot)\s+(?:wide|wider|close|closer|together)\b/;
 const UNSUPPORTED_GRIP_WIDTH =
   /\b(?:wide|narrow|close)[-\s]+grip\b|\bhands?\s+(?:wide|wider|close|closer|together)\b/;
+const UNSUPPORTED_RANGE_OR_PATH = [
+  /\b(?:atg|ass[-\s]+to[-\s]+grass|to[-\s]+parallel|below[-\s]+parallel|above[-\s]+parallel|parallel[-\s]+squats?)\b/,
+  /\b(?:elbows?|arms?)\s+(?:tucked|flared|out|in)\b|\b(?:tuck|flare)\s+(?:the\s+)?elbows?\b/,
+  /\b(?:no|without)\s+(?:full[-\s]+)?lock[-\s]?out\b|\bstop(?:ping)?\s+short\s+of\s+(?:full[-\s]+)?lock[-\s]?out\b/,
+];
 const UNSUPPORTED_LOWER_SIDE =
   /\b(?:left|right)[-\s]?(?:leg|foot)(?:ed)?\b|\b(?:on|with|using)\s+(?:the\s+)?(?:left|right)\s+(?:leg|foot)\b/;
 
@@ -335,6 +340,24 @@ export function parsePrompt(prompt: string): ParsedPrompt {
         blocking: true,
       }],
     };
+  }
+
+  for (const pattern of UNSUPPORTED_RANGE_OR_PATH) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'variant',
+          message:
+            `"${match[0]}": requested range-of-motion or joint-path changes are not prompt-parameterised by the certified families. ` +
+            'Use the family-certified full movement, or add a separately validated variant before requesting that path.',
+          blocking: true,
+        }],
+      };
+    }
   }
 
   const movementWords = slots.text.match(matches[0].detect)?.[0];

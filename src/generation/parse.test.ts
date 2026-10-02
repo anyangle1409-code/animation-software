@@ -281,6 +281,23 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsed.assumptions.length).toBeGreaterThanOrEqual(3);
   });
 
+  it('does not silently replace requested depth, elbow path or lockout changes with family defaults', () => {
+    expect(blocking('exercise: ATG squat')).toEqual(['variant']);
+    expect(blocking('exercise: squat to parallel')).toEqual(['variant']);
+    expect(blocking('exercise: below parallel squat')).toEqual(['variant']);
+
+    expect(blocking('exercise: dumbbell bench press with elbows tucked')).toEqual(['variant']);
+    expect(blocking('exercise: push-up with elbows flared')).toEqual(['variant']);
+    expect(blocking('exercise: shoulder press flare the elbows')).toEqual(['variant']);
+
+    expect(blocking('exercise: dumbbell shoulder press stop short of lockout')).toEqual(['variant']);
+    expect(blocking('exercise: cable triceps pushdown without lockout')).toEqual(['variant']);
+
+    expect(parsePrompt('exercise: bodyweight squat').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell bench press').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: cable triceps pushdown').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not silently discard support, grip or angle instructions in squat/lunge/pull-up families', () => {
     expect(blocking('exercise: seated squat')).toEqual(['support']);
     expect(blocking('exercise: squat at 90 degrees')).toEqual(['angle']);

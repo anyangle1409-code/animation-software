@@ -382,6 +382,18 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('exercise: dumbbell curl with 10 kg combined with slow tempo').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
+  it('does not collapse load or angle ranges to one endpoint', () => {
+    expect(blocking('exercise: dumbbell curl with 10-12 kg dumbbells')).toEqual(['load']);
+    expect(blocking('exercise: dumbbell curl with ten to twelve kg dumbbells')).toEqual(['load']);
+    expect(blocking('exercise: dumbbell curl between 10 and 12 kg')).toEqual(['load']);
+    expect(blocking('exercise: incline dumbbell curl at 30-45 degrees')).toEqual(['angle']);
+    expect(blocking('exercise: incline dumbbell curl at 30–45°')).toEqual(['angle']);
+    expect(blocking('exercise: incline dumbbell curl between thirty and forty-five degrees')).toEqual(['angle']);
+
+    expect(parsePrompt('exercise: dumbbell curl with 12 kg dumbbells').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: incline dumbbell curl at 45 degrees').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('reads grips, loads and tempo in several phrasings', () => {
     expect(parsePrompt('curl, palms facing each other').intent?.grip).toBe('neutral');
     expect(parsePrompt('overhand curl').intent?.grip).toBe('pronated');

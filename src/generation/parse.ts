@@ -52,6 +52,19 @@ const UNSUPPORTED_REP_STYLE = [
 
 const COUNT_WORD =
   '(?:\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
+const RANGE_NUMBER =
+  `(?:\\d+(?:\\.\\d+)?|${COUNT_WORD}(?:[-\\s]+(?:and[-\\s]+)?${COUNT_WORD})*)`;
+const WEIGHT_UNIT = '(?:kgs?|kilo(?:gram)?s?|lbs?|pounds?)';
+const ANGLE_UNIT = '(?:(?:degrees?|deg)\\b|[°º])';
+const UNSUPPORTED_LOAD_RANGE = [
+  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:-|to|through)\\s*${RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
+  new RegExp(`\\bbetween\\s+${RANGE_NUMBER}\\s+and\\s+${RANGE_NUMBER}\\s*${WEIGHT_UNIT}\\b`),
+];
+const UNSUPPORTED_ANGLE_RANGE = [
+  new RegExp(`\\b${RANGE_NUMBER}\\s*(?:-|to|through)\\s*${RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
+  new RegExp(`\\bbetween\\s+${RANGE_NUMBER}\\s+and\\s+${RANGE_NUMBER}\\s*${ANGLE_UNIT}`),
+];
+
 const PHASE_WORD = '(?:eccentric|concentric|lower(?:ing)?|lift(?:ing)?|descent|ascent|down|up)';
 const UNSUPPORTED_PHASE_TIMING = [
   new RegExp(`\\b${COUNT_WORD}[-\\s]*(?:s|secs?|seconds?)\\s+${PHASE_WORD}\\b`),
@@ -87,6 +100,42 @@ const UNSUPPORTED_LOWER_SIDE =
 
 export function parsePrompt(prompt: string): ParsedPrompt {
   const slots = readSlots(prompt);
+
+  for (const pattern of UNSUPPORTED_LOAD_RANGE) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'load',
+          message:
+            `"${match[0]}": the current exercise intent stores one exact load, not a load range. ` +
+            'Give one exact load per hand, or omit it to use the documented family default.',
+          blocking: true,
+        }],
+      };
+    }
+  }
+
+  for (const pattern of UNSUPPORTED_ANGLE_RANGE) {
+    const match = slots.text.match(pattern);
+    if (match) {
+      return {
+        prompt,
+        intent: null,
+        assumptions: [],
+        issues: [{
+          code: 'angle',
+          message:
+            `"${match[0]}": the current exercise intent stores one exact support angle, not an angle range. ` +
+            'Give one certified angle or omit the angle.',
+          blocking: true,
+        }],
+      };
+    }
+  }
 
   for (const pattern of UNSUPPORTED_REP_STYLE) {
     const match = slots.text.match(pattern);

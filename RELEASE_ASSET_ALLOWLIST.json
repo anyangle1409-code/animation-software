@@ -1,8 +1,12 @@
 {
   "schema_version": 1,
   "mode": "deny_by_default",
-  "description": "Release packaging must include only explicitly approved first-party paths/components.",
-  "approved_paths": [],
+  "description": "Release packaging is deny-by-default. The project-authored software shell is approved now; production character GLBs remain absent from approved_paths until ORIGINAL v1 promotion is explicitly approved.",
+  "approved_paths": [
+    "index.html",
+    "assets/*.js",
+    "assets/*.css"
+  ],
   "explicitly_denied_patterns": [
     "HOME_GYM_PT_GPT_MESH_HANDOFF/**",
     "review-assets/characters/**",

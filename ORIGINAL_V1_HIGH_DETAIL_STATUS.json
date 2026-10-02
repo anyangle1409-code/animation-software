@@ -566,9 +566,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RECONCILE trial lineage",
-    "reason": "record evidence-backed continuation choice; a trade-off is not auto-promoted",
+    "action": "RECONCILE freeze regressions",
+    "reason": "zero blockers is insufficient for strict freeze; inherited R2 regressions remain",
     "command": null,
-    "safe_parallel_task": "Read-only analysis and review collection; compare R2 and all predecessors."
+    "safe_parallel_task": "Read-only inherited-regression diagnostics; do not reopen frozen structure."
   }
 }

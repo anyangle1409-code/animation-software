@@ -285,6 +285,34 @@
           "sha256": "cdde102776995310df2643888f7207f00c0bcfb73019c2023b0476439cb92513"
         }
       ]
+    },
+    "r55": {
+      "candidate_sha256": "ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7",
+      "chosen_parent": "r48",
+      "classification": "EXPERIMENTAL",
+      "reason": "Worker execution lineage only; not owner acceptance, not production approval, not a Phase 3 exit. r55 = r48 + generic shoulder/axilla corrective shape keys (solution corr_v8; humerothoracic-elevation smoothstep 40..150 deg times trunk-frame abduction fraction; 1491 declared left-owned vertices, mirror-symmetric). Trial lineage r49..r54 preserved: r49 theta-only (squat self-intersections), r50 +abduction fraction, r51 tight anchoring (p99 up), r52/r53 gate-clean but visibly torn (r53 = corr_v6), r54 looser tail bounds (2 p99 failures, crumpled). Measured under P3 against P3B1: 0 development failures (was 3 on r48), torso edge max <= 3.66, 31 comparator regressions vs P3B1 (self-intersections up in pull-up/press poses, all under the 200 gate). Known material visual defect: sliver tears at the axilla pit and crumpled lateral torso in overhead poses; owner decision 2026-10-02: do NOT accept (option C refused); proceed with option A (fold/face-area barrier, scapular driver), auto-escalate to option B (declared axilla-pit edit) if evidence justifies.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_P3B1.json",
+          "sha256": "114005245fa7a389f285a665646d41e37483785163b4a9569ea144b1fef73c98"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_r48.json",
+          "sha256": "622ad0468ac948eb1c08fd25f6fd732cae4b6757b536b09bc9e5b75f220818cf"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_evidence_manifest.json",
+          "sha256": "63df90b16472ea5d39d1f922c0ca4728639c001f70695813744e997e4961a965"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r55.json",
+          "sha256": "b7981eab0af09c41f2caf88928ae0b93703a405637ec9b6727629e42e666caec"
+        },
+        {
+          "path": "docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md",
+          "sha256": "e5a55116441a1ae59b594b1dc502c7293c629d3a4e3606744147fa84ae2f6e3a"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

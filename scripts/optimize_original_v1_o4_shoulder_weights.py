@@ -222,7 +222,8 @@ PRESETS["o42"] = dict(PRESETS["o41"], w_p99=1e6, p99_cap=1.9, p99_margin=0.06, i
 # o44: moderate anchoring (o43 pinned the torso skin so hard that the axilla web tore: shoulder max 7.9; o41 with none left 0.2 m tent flaps).
 PRESETS["o44"] = dict(PRESETS["o41"], w_trunk=1e6, trunk_a0=0.05, trunk_a1=0.20, trunk_rb=0.18, iters=250, polish_iters=150)
 PRESETS["o45"] = dict(PRESETS["o44"], w_area=2e4, area_floor=0.2, w_lap=2e4, lap_tol=0.35)
-PRESETS["o43"] =dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
+PRESETS["o46"] = dict(PRESETS["o45"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15)
+PRESETS["o43"] = dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
 # solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
 # bounds as o22 (pinned report = the P2 baseline P2B1), symmetric, no-regression guards.

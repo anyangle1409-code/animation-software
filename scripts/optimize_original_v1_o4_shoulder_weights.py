@@ -664,7 +664,7 @@ def main():
         Wt = np.zeros_like(W0)
         Wt[:, trunk_idx] = W0[:, trunk_idx]
         Wt = Wt / np.maximum(Wt.sum(axis=1, keepdims=True), 1e-9)
-        PTR = [np.einsum("vb,vbi->vi", Wt[Z], T[p]) for p in range(len(poses))]
+        PTR = [np.einsum("vb,vbi->vi", Wt[Z][:, used], T[p]) for p in range(len(poses))]   # T only spans the compact `used` bone set; trunk bones with weight are always in it
         Hj = [d["heads"][b[f"upperarm_{s_}"]] for s_ in "lr"]
         rj = np.minimum(np.linalg.norm(rest[Z] - Hj[0], axis=1), np.linalg.norm(rest[Z] - Hj[1], axis=1))
         ALLOW = P.get("trunk_a0", 0.02) + P.get("trunk_a1", 0.10) * np.exp(-(rj / P.get("trunk_rb", 0.15)) ** 2)

@@ -102,9 +102,9 @@ const LEFT_CORE: BoneDefinition[] = [
   },
   {
     name: 'hand_l', parent: 'forearm_l', head: vec3(shoulderX, wristY, armZ), tail: vec3(shoulderX, palmAxisEndY, armZ), radius: 0.037,
-    // Same anatomical ranges as before, aligned to the shared XZY convention:
-    // X flexes/extends the hand; Z carries radial/ulnar deviation.
-    limits: joint(limit(-70, 80, 'Flexion', 'Extension'), null, limit(-30, 20, 'Radial deviation', 'Ulnar deviation')),
+    // Preserve the hand rig's established axes. Flat-palm push-ups require
+    // roughly 90° of loaded extension, so only the negative-Z bound changes.
+    limits: joint(limit(-30, 20, 'Radial deviation', 'Ulnar deviation'), null, limit(-90, 80, 'Flexion', 'Extension')),
   },
   {
     name: 'thigh_l', parent: 'pelvis', head: vec3(hipX, 0.96, 0), tail: vec3(hipX, 0.515, 0), radius: 0.084,

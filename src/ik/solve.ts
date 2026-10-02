@@ -51,6 +51,8 @@ export function solveGoals(
       );
       if (forward && chain.mid.startsWith('shin_')) {
         settleTibialRotation(skeleton, evaluation, pose, chain, scratchDirection, scratchForward);
+      } else if (forward && chain.mid.startsWith('forearm_')) {
+        settleForearmRotation(skeleton, evaluation, pose, chain, scratchDirection, scratchForward);
       }
     }
   }
@@ -68,6 +70,66 @@ function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vec3, fo
       aimForward.set(forward.x, forward.y, forward.z),
     ),
   );
+}
+
+/**
+ * A hand aim that the wrist cannot realize alone: use forearm axial rotation
+ * before asking the wrist to finish the orientation.
+ *
+ * The two-bone arm solve owns elbow flexion and shoulder placement but leaves
+ * forearm pronation/supination at zero. For a floor-supported palm that makes
+ * the wrist absorb the entire ~90° change of hand plane, which can clamp on
+ * the wrist's deviation axis even though the forearm has the anatomical axial
+ * degree of freedom needed to share the orientation.
+ *
+ * Only large misses enter this search, so already-resolved dumbbell/equipment
+ * grips keep their existing pose. The search never exceeds the forearm's own
+ * authored y-axis limits.
+ */
+function settleForearmRotation(
+  skeleton: Skeleton,
+  evaluation: PoseEvaluation,
+  pose: Pose,
+  chain: (typeof IK_CHAINS)[IKChainId],
+  direction: Vec3,
+  forward: Vec3,
+): void {
+  const initialMiss = aimMiss(evaluation, chain.end, direction, forward);
+  if (initialMiss < FOREARM_SETTLE_THRESHOLD) return;
+
+  const limit = skeleton.bone(chain.mid).definition.limits.y;
+  if (!limit) return;
+
+  const base = { ...(pose.rotations[chain.mid] ?? { x: 0, y: 0, z: 0 }) };
+  const tryTwist = (degrees: number) => {
+    pose.rotations[chain.mid] = { ...base, y: (degrees * Math.PI) / 180 };
+    evaluation.apply(pose);
+    aimBone(skeleton, evaluation, pose, chain.end, direction, forward);
+    return aimMiss(evaluation, chain.end, direction, forward);
+  };
+
+  // The objective is smooth for an axial forearm turn. A coarse sweep finds
+  // the right basin without assuming its sign, then a bounded local sweep gets
+  // below the end-aim tolerance without an expensive whole-range fine scan.
+  let best = { degrees: 0, miss: initialMiss };
+  const coarseStep = 10;
+  for (let degrees = limit.min; degrees <= limit.max + 1e-9; degrees += coarseStep) {
+    const miss = tryTwist(degrees);
+    if (miss < best.miss) best = { degrees, miss };
+  }
+  const fineLow = Math.max(limit.min, best.degrees - coarseStep);
+  const fineHigh = Math.min(limit.max, best.degrees + coarseStep);
+  for (let degrees = fineLow; degrees <= fineHigh + 1e-9; degrees += 0.25) {
+    const miss = tryTwist(degrees);
+    if (miss < best.miss) best = { degrees, miss };
+  }
+  const preciseLow = Math.max(limit.min, best.degrees - 0.3);
+  const preciseHigh = Math.min(limit.max, best.degrees + 0.3);
+  for (let degrees = preciseLow; degrees <= preciseHigh + 1e-9; degrees += 0.025) {
+    const miss = tryTwist(degrees);
+    if (miss < best.miss) best = { degrees, miss };
+  }
+  tryTwist(best.degrees);
 }
 
 /**
@@ -115,6 +177,8 @@ function settleTibialRotation(
   tryTwist(best.degrees);
 }
 
+/** A hand already within 2° keeps the established arm solve unchanged. */
+const FOREARM_SETTLE_THRESHOLD = (2 * Math.PI) / 180;
 /** A foot within this of its aim is left as the ankle placed it (0.05°). */
 const TIBIAL_TOLERANCE = (0.05 * Math.PI) / 180;
 const HG_X_AXIS = new HgVec3(1, 0, 0);

@@ -222,7 +222,9 @@ PRESETS["o42"] = dict(PRESETS["o41"], w_p99=1e6, p99_cap=1.9, p99_margin=0.06, i
 # o44: moderate anchoring (o43 pinned the torso skin so hard that the axilla web tore: shoulder max 7.9; o41 with none left 0.2 m tent flaps).
 PRESETS["o44"] = dict(PRESETS["o41"], w_trunk=1e6, trunk_a0=0.05, trunk_a1=0.20, trunk_rb=0.18, iters=250, polish_iters=150)
 PRESETS["o45"] = dict(PRESETS["o44"], w_area=2e4, area_floor=0.2, w_lap=2e4, lap_tol=0.35)
-PRESETS["o46"] = dict(PRESETS["o45"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15)
+PRESETS["o47"] = dict(PRESETS["o45"], zone_mode="vertex_file", symmetric=True, w_lap=1e5, lap_tol=0.1, w_area=1e5, area_floor=0.5, w_fold=1e4, fold_cos=0.5,
+                       w_trunk=0.0, tt_resolve=False, iters=400, polish_iters=200, rounds=3)
+PRESETS["o46"] =dict(PRESETS["o45"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15)
 PRESETS["o43"] = dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
 # solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
@@ -252,6 +254,7 @@ def main():
     ap.add_argument("--declare-mask", help="write the explicit permitted vertex/bone mask to this JSON and exit")
     ap.add_argument("--init", help="warm start from an earlier solution with the same zone")
     ap.add_argument("--init-dump", help="warm start from another dump of the same mesh (e.g. looped o10 weights)")
+    ap.add_argument("--zone-file", help="declared vertex-zone JSON for zone_mode=vertex_file")
     ap.add_argument("--r2-report", help="take no-regression bounds/percentiles/volume targets from this pinned report")
     a = ap.parse_args()
     P = PRESETS[a.preset]
@@ -363,6 +366,20 @@ def main():
             zone_mask |= zs
             for n in (f"upperarm_{s_}", f"forearm_{s_}"):
                 allowed_full[zs, b[n]] = True
+    if P.get("zone_mode") == "vertex_file":
+        # Option B (local): the explicit declared vertex set (scripts/declare_original_v1_pit_knot_zone.py); the solve refuses any other set.
+        decl_ = json.loads(Path(a.zone_file).read_text(encoding="utf-8"))
+        ids_ = np.array(decl_["zone_vertex_ids"], dtype=int)
+        import hashlib as _h
+        if _h.sha256(np.asarray(ids_, dtype="<i8").tobytes()).hexdigest() != decl_["zone_ids_sha256"]:
+            raise SystemExit("declared zone ids do not match their recorded hash")
+        zone_mask = np.zeros(len(rest), bool)
+        zone_mask[ids_] = True
+        allowed_full = W0 > 1e-6
+        for s_ in "lr":
+            sd_ = rest[:, 0] * (-1.0 if s_ == "l" else 1.0) > -0.005
+            for n_ in (f"upperarm_{s_}", f"clavicle_{s_}", f"scapula_{s_}", "spine_03", "spine_02", "neck"):
+                allowed_full[zone_mask & sd_, b[n_]] = True
     Z = np.nonzero(zone_mask)[0]
     if a.declare_mask:
         import hashlib
@@ -528,7 +545,7 @@ def main():
     TT_R2 = {}
     tt_cand = np.nonzero(((zone_mask | ((rest[:, 2] > 1.15) & (np.abs(rest[:, 0]) > 0.05)))[tris]).all(axis=1)
                          & (zone_mask[tris]).any(axis=1))[0]
-    if P.get("zone_mode") in ("hand", "elbow", "wrist", "pelvis"):
+    if P.get("zone_mode") in ("hand", "elbow", "wrist", "pelvis", "vertex_file"):
         nbr_mask = zone_mask.copy()
         nbr_mask[E[zone_mask[E[:, 0]], 1]] = True
         nbr_mask[E[zone_mask[E[:, 1]], 0]] = True

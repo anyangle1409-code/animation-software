@@ -77,3 +77,15 @@ These decisions supersede the earlier unresolved-owner-decision wording for the 
 - Prefer source links/timecodes and project-authored observations in repository evidence rather than storing third-party media.
 - The long-term goal is to convert these observations into first-party checkpoint/QA criteria so standalone runtime validation does not depend on external reference access.
 
+## Skeleton correctness takes priority over freeze — 2026-10-02
+
+- The owner explicitly authorises reopening and correcting the ORIGINAL v1 skeleton/rig if direct evidence shows that any part of its functional human movement is wrong.
+- The project must not preserve an incorrect rig merely because Phase 2 was previously marked complete or frozen.
+- Before Phase 4 deformation freeze, the skeleton/rig must pass a dedicated skeleton-only movement validation with the mesh hidden, supported by external human anatomical/biomechanical reference under `docs/EXTERNAL_HUMAN_MOVEMENT_REFERENCE_POLICY.md`.
+- Validation must cover not only rest hierarchy but functional motion: local axes, rotation direction, joint limits/ranges, coupled motion, left/right symmetry and continuous motion through representative exercise ranges.
+- Current priority areas include fingers/thumbs, wrist/hand support, toes/forefoot, shoulder/clavicle/scapula behaviour, plus representative elbow, hip, knee and ankle motion.
+- If a defect is in pose/constraint logic, fix that layer. If a defect is in rest orientation/local axes or another rig property, create an isolated audited rig correction and rerun all downstream deformation/contact evidence that depends on it.
+- Preserve the 63-bone semantic contract, names and hierarchy where possible. A structural hierarchy/bone-count change requires direct evidence that the existing structure cannot represent required human movement and must be treated as a deliberate, fully audited revision rather than a cosmetic edit.
+- Once skeleton-motion validation passes, record a new skeleton-motion lock/freeze identity. Subsequent skinning/anatomy work should assume that locked rig and reopen it only if new direct evidence proves a true rig defect.
+- Correct skeleton mechanics take precedence over schedule or preserving earlier freeze labels. The intent is to pay the cost now rather than build skinning, anatomy and clothing on a flawed foundation.
+

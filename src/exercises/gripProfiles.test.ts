@@ -34,11 +34,16 @@ describe('equipment-aware grip profiles', () => {
     expect(deg(rope.rotations.thumb_02_l?.z)).toBeCloseTo(70 * 0.85, 8);
   });
 
-  it('keeps a floor-contact profile almost open at push-up closure', () => {
+  it('keeps a floor-contact profile straight without fingertip hyperextension', () => {
     const exercise = getExercise('push_up');
     const pose = generateClip(canonicalSkeleton, exercise).keyframes[0].pose;
-    expect(Math.abs(deg(pose.rotations.index_01_l?.z))).toBeLessThan(1);
-    expect(Math.abs(deg(pose.rotations.index_02_l?.z))).toBeLessThan(1);
+    for (const finger of ['index', 'middle', 'ring', 'pinky'] as const) {
+      for (const segment of ['01', '02', '03'] as const) {
+        const angle = deg(pose.rotations[`${finger}_${segment}_l`]?.z);
+        expect(angle, `${finger}_${segment}`).toBeGreaterThanOrEqual(0);
+        expect(angle, `${finger}_${segment}`).toBeLessThan(1);
+      }
+    }
   });
 
   it('can trim one digit without changing the rest of the accepted dumbbell grip', () => {

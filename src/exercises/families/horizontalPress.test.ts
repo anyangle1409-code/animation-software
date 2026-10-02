@@ -14,9 +14,23 @@ const strip = ({ id: _id, name: _name, clipName: _clip, description: _descriptio
 
 describe('the horizontal-press family', () => {
   it('carries the accepted push-up values', () => {
-    expect(pushUp.locks.map((lock) => lock.position)).toEqual([vec3(-0.3, 0.055, 1.295), vec3(0.3, 0.055, 1.295)]);
+    expect(pushUp.locks.map((lock) => lock.position)).toEqual([vec3(-0.3, 0.055, 1.34), vec3(0.3, 0.055, 1.34)]);
     expect(pushUp.startPose.root?.rotation?.x).toBe(75.59);
     expect(pushUp.peakPose.root?.rotation?.x).toBe(85.54);
+  });
+
+  it('keeps the standard push-up palms explicitly flat to the floor', () => {
+    for (const lock of pushUp.locks.filter((entry) => entry.id.startsWith('hand_'))) {
+      expect(lock.aim).toEqual({
+        direction: vec3(0, 0, 1),
+        forward: vec3(lock.id.endsWith('_l') ? 1 : -1, 0, 0),
+      });
+    }
+    expect(pushUp.hands).toMatchObject({
+      grip: 'floor',
+      orientation: 'pronated',
+      closure: 0.05,
+    });
   });
 
   it('builds the push-up from nothing but its name', () => {
@@ -24,8 +38,8 @@ describe('the horizontal-press family', () => {
   });
 
   it('lets a variant move only the hands', () => {
-    const wide = horizontalPressFamily({ ...identity, hand: vec3(-0.4, 0.055, 1.295) });
-    expect(wide.locks.map((lock) => lock.position)).toEqual([vec3(-0.4, 0.055, 1.295), vec3(0.4, 0.055, 1.295)]);
+    const wide = horizontalPressFamily({ ...identity, hand: vec3(-0.4, 0.055, 1.34) });
+    expect(wide.locks.map((lock) => lock.position)).toEqual([vec3(-0.4, 0.055, 1.34), vec3(0.4, 0.055, 1.34)]);
     const withoutHands = (definition: typeof pushUp) => ({
       ...strip(definition),
       locks: definition.locks.map(({ position: _position, ...lock }) => lock),

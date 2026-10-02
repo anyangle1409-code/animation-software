@@ -228,6 +228,48 @@ try {
   report.checks.productionExerciseCommand = commandGeneration;
   await discardCurrentCandidate();
 
+  // Mobile keyboards commonly emit a smart apostrophe. The built production
+  // app must normalise it through the same deterministic prompt path rather
+  // than requiring ASCII-only exercise names.
+  await panel
+    .locator('[data-hgpt-generate-control="prompt"]')
+    .fill("exercise: farmer’s walk");
+  await panel.locator('[data-hgpt-generate-control="generate"]').click();
+
+  await page.waitForFunction(
+    () =>
+      document.querySelector(
+        '[data-hgpt-panel="generate-first-party"] .review-status strong',
+      )?.textContent === "READY FOR REVIEW",
+    undefined,
+    { timeout: 120_000 },
+  );
+
+  const mobilePunctuationGeneration = await page.evaluate(() => {
+    const panel = document.querySelector('[data-hgpt-panel="generate-first-party"]');
+    if (!(panel instanceof HTMLElement)) {
+      throw new Error("Production Generate panel is unavailable for mobile punctuation command");
+    }
+    const cards = Array.from(panel.querySelectorAll(".review-gates article"));
+    return {
+      status: panel.querySelector(".review-status strong")?.textContent ?? null,
+      note: panel.querySelector(".generate-candidate .panel__note")?.textContent ?? "",
+      gateCount: cards.length,
+      nonPassGates: cards
+        .filter((card) => !card.classList.contains("is-pass"))
+        .map((card) => card.textContent ?? ""),
+      sourceVisible: panel.querySelector(".generate-source") !== null,
+    };
+  });
+  assert.equal(mobilePunctuationGeneration.status, "READY FOR REVIEW");
+  assert.match(mobilePunctuationGeneration.note, /Farmer's Walk/);
+  assert.match(mobilePunctuationGeneration.note, /Home Gym PT clean scaffold/);
+  assert(mobilePunctuationGeneration.gateCount > 0, "Mobile punctuation command emitted no validation gates");
+  assert.deepEqual(mobilePunctuationGeneration.nonPassGates, []);
+  assert.equal(mobilePunctuationGeneration.sourceVisible, true);
+  report.checks.productionMobilePunctuationCommand = mobilePunctuationGeneration;
+  await discardCurrentCandidate();
+
   // Exercise-command integration must also cover the cable equipment path:
   // local parsing, first-party validation, generated source and UI equipment
   // reporting all have to agree in the built production bundle.

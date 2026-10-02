@@ -488,11 +488,34 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(TEMPO_PROFILES.controlled.eccentric).toBeGreaterThan(TEMPO_PROFILES.controlled.concentric);
   });
 
+  it('does not silently replace stance-width or foot-angle requests with family defaults', () => {
+    expect(blocking('exercise: squat with shoulder-width stance')).toEqual(['variant']);
+    expect(blocking('exercise: Romanian deadlift with hip-width stance')).toEqual(['variant']);
+    expect(blocking('exercise: squat with feet shoulder width apart')).toEqual(['variant']);
+    expect(blocking('exercise: calf raise with feet hip width')).toEqual(['variant']);
+    expect(blocking('exercise: squat with toes turned out')).toEqual(['variant']);
+    expect(blocking('exercise: calf raise toe forward')).toEqual(['variant']);
+    expect(blocking('exercise: split squat with front foot turned out')).toEqual(['variant']);
+
+    expect(parsePrompt('exercise: bodyweight squat').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell Romanian deadlift').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not ignore explicit left/right lower-limb execution wording', () => {
     expect(blocking('exercise: forward lunge with right leg')).toEqual(['execution']);
     expect(blocking('exercise: left-foot split squat')).toEqual(['execution']);
     expect(blocking('exercise: calf raise on the right foot')).toEqual(['execution']);
     expect(blocking('exercise: Romanian deadlift using left leg')).toEqual(['execution']);
+  });
+
+  it('does not silently replace vague pace or speed wording with the family default', () => {
+    expect(blocking('exercise: dumbbell curl at a steady pace')).toEqual(['tempo']);
+    expect(blocking('exercise: shoulder press at normal speed')).toEqual(['tempo']);
+    expect(blocking('exercise: squat at moderate pace')).toEqual(['tempo']);
+
+    expect(parsePrompt('exercise: dumbbell curl at a slow pace').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: shoulder press at fast speed').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: squat controlled pace').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
   it('does not silently discard malformed or unsupported tempo directives', () => {

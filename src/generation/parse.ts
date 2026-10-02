@@ -104,7 +104,9 @@ const NEGATED_TEMPO =
 const UNSUPPORTED_SUPPORT_POSITION =
   /\b(?:half[-\s]?)?kneeling\b|\bquadruped\b|\ball[-\s]+fours\b/;
 const UNSUPPORTED_STANCE_WIDTH =
-  /\b(?:wide|narrow|close|staggered)[-\s]+stance\b|\b(?:feet|foot)\s+(?:wide|wider|close|closer|together)\b/;
+  /\b(?:wide|narrow|close|staggered|shoulder[-\s]?width|hip[-\s]?width)[-\s]+stance\b|\b(?:feet|foot)\s+(?:(?:shoulder|hip)[-\s]?width(?:\s+apart)?|wide|wider|close|closer|together)\b/;
+const UNSUPPORTED_FOOT_ORIENTATION =
+  /\b(?:(?:front|back|rear)\s+)?(?:toes?|feet|foot)\s+(?:(?:turn(?:ed)?|point(?:ed)?)\s+)?(?:out(?:wards?)?|in(?:wards?)?|forwards?)\b|\b(?:turn|point)\s+(?:the\s+)?(?:(?:front|back|rear)\s+)?(?:toes?|feet|foot)\s+(?:out(?:wards?)?|in(?:wards?)?|forwards?)\b/;
 const UNSUPPORTED_GRIP_WIDTH =
   /\b(?:wide|narrow|close)[-\s]+grip\b|\bhands?\s+(?:wide|wider|close|closer|together)\b/;
 const UNSUPPORTED_RANGE_OR_PATH = [
@@ -189,7 +191,7 @@ export function parsePrompt(prompt: string): ParsedPrompt {
   // A phrase introduced by "tempo" or "cadence" is a timing constraint first.
   // Classify malformed/invalid timing before the generic NxN workout-programming
   // guard so "tempo 30x0" cannot be mistaken for a "30x0" set/rep prescription.
-  const timingDirective = slots.text.match(/\b(?:tempo|cadence)\b/);
+  const timingDirective = slots.text.match(/\b(?:tempo|cadence|pace|speed)\b/);
   if (timingDirective && slots.tempo.length === 0) {
     return {
       prompt,
@@ -330,6 +332,21 @@ export function parsePrompt(prompt: string): ParsedPrompt {
       issues: [{
         code: 'variant',
         message: `"${unsupportedStance[0]}": stance-width/offset changes are not prompt-parameterised by the certified families and cannot be replaced with the family default stance.`,
+        blocking: true,
+      }],
+    };
+  }
+
+  const unsupportedFootOrientation = slots.text.match(UNSUPPORTED_FOOT_ORIENTATION);
+  if (unsupportedFootOrientation) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'variant',
+        message:
+          `"${unsupportedFootOrientation[0]}": foot/toe orientation is not prompt-parameterised by the certified families and cannot be substituted with the family default foot angle.`,
         blocking: true,
       }],
     };

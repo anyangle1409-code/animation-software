@@ -41,6 +41,54 @@ describe('the horizontal-press family', () => {
     });
   });
 
+  it('measures elbow-pole candidates before changing the accepted push-up', () => {
+    const degrees = (radians: number) => (radians * 180) / Math.PI;
+    const worldUp = new HgVec3(0, 1, 0);
+    const rows: string[] = [];
+
+    for (let poleZ = 0.75; poleZ <= 1.30 + 1e-9; poleZ += 0.05) {
+      const candidate = {
+        ...pushUp,
+        locks: pushUp.locks.map((lock) => ({
+          ...lock,
+          pole: lock.pole ? { ...lock.pole, z: Number(poleZ.toFixed(2)) } : lock.pole,
+        })),
+      };
+      const clip = generateClip(canonicalSkeleton, candidate);
+      const evaluation = new PoseEvaluation(canonicalSkeleton);
+
+      const top = resolveFrame(canonicalSkeleton, evaluation, clip, 0);
+      evaluation.apply(top.pose);
+      const handTurn = evaluation.firstPartyEvaluation.quaternion('hand_l');
+      const handDirection = new HgVec3(0, 1, 0).applyQuaternion(handTurn).normalize();
+      const handForward = new HgVec3(0, 0, 1).applyQuaternion(handTurn).normalize();
+      const palmNormal = handDirection.clone().cross(handForward).normalize();
+      const palmTilt = degrees(Math.acos(Math.min(1, Math.abs(palmNormal.dot(worldUp)))));
+      const handZ = degrees(top.pose.rotations.hand_l?.z ?? 0);
+
+      const bottomTime = candidate.tempo.eccentric;
+      const bottom = resolveFrame(canonicalSkeleton, evaluation, clip, bottomTime);
+      evaluation.apply(bottom.pose);
+      const forearm = evaluation.firstPartyEvaluation.head('forearm_l', new HgVec3());
+      const hand = evaluation.firstPartyEvaluation.head('hand_l', new HgVec3());
+      const upperarm = evaluation.firstPartyEvaluation.head('upperarm_l', new HgVec3());
+      const forearmVerticalZ = Math.abs(hand.z - forearm.z);
+      const flareX = forearm.x - upperarm.x;
+      const behindZ = forearm.z - upperarm.z;
+
+      rows.push(
+        'poleZ=' + poleZ.toFixed(2) +
+        ' tilt=' + palmTilt.toFixed(2) + 'deg' +
+        ' handZ=' + handZ.toFixed(2) + 'deg' +
+        ' bottomForearmZ=' + (forearmVerticalZ * 1000).toFixed(1) + 'mm' +
+        ' flareX=' + (flareX * 1000).toFixed(1) + 'mm' +
+        ' behindZ=' + (behindZ * 1000).toFixed(1) + 'mm',
+      );
+    }
+
+    console.info('PUSH_UP_POLE_SWEEP\n' + rows.join('\n'));
+    expect(rows).toHaveLength(12);
+  });
   it('keeps both resolved palms flat and every digit out of hyperextension through the repetition', () => {
     const clip = generateClip(canonicalSkeleton, pushUp);
     const evaluation = new PoseEvaluation(canonicalSkeleton);

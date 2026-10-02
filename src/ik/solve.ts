@@ -178,11 +178,24 @@ function settleForearmRotation(
   const preciseLow = Math.max(limit.min, best.degrees - 0.3);
   const preciseHigh = Math.min(limit.max, best.degrees + 0.3);
   // World contacts need the palm plane itself to settle, not merely look close.
-  // A 0.001° final sweep is still bounded to 0.6° around the already-found
-  // basin and runs only for explicitly opted-in world arm contacts.
-  for (let degrees = preciseLow; degrees <= preciseHigh + 1e-9; degrees += 0.001) {
-    const result = tryTwist(degrees);
-    if (better(result, best.result)) best = { degrees, result };
+  // Refining by a full 0.001° sweep is accurate but needlessly expensive:
+  // every trial reapplies the whole pose and re-aims the wrist. The 0.25° pass
+  // above has already found the correct local basin, so walk that same bounded
+  // ±0.3° interval with a deterministic step-halving search. It uses the exact
+  // same lexicographic plane/aim objective, never leaves the reviewed basin,
+  // and resolves below 0.001° without hundreds of redundant evaluations.
+  let refineStep = 0.1;
+  while (refineStep >= 0.0005) {
+    let improved = false;
+    for (const candidate of [best.degrees - refineStep, best.degrees + refineStep]) {
+      if (candidate < preciseLow - 1e-9 || candidate > preciseHigh + 1e-9) continue;
+      const result = tryTwist(candidate);
+      if (better(result, best.result)) {
+        best = { degrees: candidate, result };
+        improved = true;
+      }
+    }
+    if (!improved) refineStep /= 2;
   }
   tryTwist(best.degrees);
 }

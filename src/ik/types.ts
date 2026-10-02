@@ -31,6 +31,12 @@ export interface IKGoal {
    */
   endAim?: { direction: Vec3; forward?: Vec3 };
   /**
+   * Permit the chain's middle joint axial rotation to help an end aim that the
+   * end joint cannot realize alone. Intentionally opt-in: equipment/socket aims
+   * preserve their established solve unless their own family is re-certified.
+   */
+  settleEndAimWithMidTwist?: boolean;
+  /**
    * Stand the end bone on its tail instead of its head: `anchor` is where the
    * ball of the foot must be, and the heel's height is solved so the ankle
    * holds `ankle` degrees. See `EffectorLock.onBall`.

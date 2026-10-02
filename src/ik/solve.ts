@@ -51,7 +51,11 @@ export function solveGoals(
       );
       if (forward && chain.mid.startsWith('shin_')) {
         settleTibialRotation(skeleton, evaluation, pose, chain, scratchDirection, scratchForward);
-      } else if (forward && chain.mid.startsWith('forearm_')) {
+      } else if (
+        forward &&
+        goal.settleEndAimWithMidTwist &&
+        chain.mid.startsWith('forearm_')
+      ) {
         settleForearmRotation(skeleton, evaluation, pose, chain, scratchDirection, scratchForward);
       }
     }
@@ -82,9 +86,9 @@ function aimMiss(evaluation: PoseEvaluation, name: BoneName, direction: Vec3, fo
  * the wrist's deviation axis even though the forearm has the anatomical axial
  * degree of freedom needed to share the orientation.
  *
- * Only large misses enter this search, so already-resolved dumbbell/equipment
- * grips keep their existing pose. The search never exceeds the forearm's own
- * authored y-axis limits.
+ * Only explicitly opted-in world-contact goals can enter this search, and only
+ * for a large miss. Equipment/socket grips therefore keep their established
+ * solve. The search never exceeds the forearm's own authored y-axis limits.
  */
 function settleForearmRotation(
   skeleton: Skeleton,

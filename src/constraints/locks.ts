@@ -113,7 +113,15 @@ export function resolveLocks(
       }
     }
 
-    if (lock.aim) goal.endAim = lock.aim;
+    if (lock.aim) {
+      goal.endAim = lock.aim;
+      // A world-space arm contact (currently the standard push-up) may share
+      // orientation between forearm axial rotation and the wrist. Equipment
+      // sockets remain on their established orientation solve.
+      if (lock.mode === 'world' && lock.chain.startsWith('arm_')) {
+        goal.settleEndAimWithMidTwist = true;
+      }
+    }
     goals.push(goal);
   }
   return goals;

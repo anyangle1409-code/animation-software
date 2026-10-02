@@ -51,6 +51,10 @@ def segment_geometry(name):
 
 
 DEBUG = []
+NEGLIGIBLE = 0.003
+SMALL_OTHER = 0.03
+cleaned, folded = [], []
+collapsed = []
 
 
 def plan():
@@ -70,6 +74,16 @@ def plan():
             continue
         total = sum(w.values())
         new = dict(w)
+        # r39 lesson: near-zero influences (<0.3 %) on arm-flesh vertices used up the four-influence budget and forced the
+        # 'collapse to one station' fallback, which put adjacent ring vertices on different stations (4.8x edge stretch). Fold
+        # such negligible weights into the vertex's largest influence first (never the segment bone being split).
+        tiny = [k for k, x in new.items() if x < NEGLIGIBLE and k not in segment_groups]
+        if tiny and len(new) > len(tiny):
+            big = max((k for k in new if k not in tiny), key=lambda k: new[k])
+            for k in tiny:
+                new[big] += new.pop(k)
+            w = dict(new)
+            cleaned.append(v.index)
         for name in hit:
             h, ax, L = geo[name]
             t = float((rest[v.index] - h) @ ax / L)
@@ -81,9 +95,19 @@ def plan():
             if len(new) + sum(1 for a in (a0, a1, a2) if a * wv > 1e-7) > 4:
                 a0, a2, a1 = a0 + 0.5 * a1, a2 + 0.5 * a1, 0.0
             if len(new) + sum(1 for a in (a0, a1, a2) if a * wv > 1e-7) > 4:
+                # still over budget: fold the smallest OTHER influence (if under SMALL_OTHER) into the largest other one
+                others = [k for k in new if k not in segment_groups and k not in th.helper_names()]
+                if len(others) >= 2:
+                    small = min(others, key=lambda k: new[k])
+                    if new[small] < SMALL_OTHER:
+                        bigk = max((k for k in others if k != small), key=lambda k: new[k])
+                        new[bigk] += new.pop(small)
+                        folded.append(v.index)
+            if len(new) + sum(1 for a in (a0, a1, a2) if a * wv > 1e-7) > 4:
                 # the vertex already carries three other influences (chest-side axilla / shoulder-cap vertices): give the whole
                 # share to the nearest station so no other weight is touched
                 a0, a1, a2 = (1.0, 0.0, 0.0) if a0 >= a2 else (0.0, 0.0, 1.0)
+                collapsed.append(v.index)
             for nm, a in ((f"{seg}_tw0_{side}", a0), (f"{seg}_tw1_{side}", a1), (name, a2)):
                 if a * wv > 1e-7:
                     new[nm] = new.get(nm, 0.0) + a * wv
@@ -122,6 +146,9 @@ if mode == "declare":
                           "vertices over four influences keep their four largest (renormalised to the original sum)",
            "source_bones_changed": segment_groups, "allowed_vertex_ids": ids, "vertex_count": len(ids),
            "allowed_vertex_ids_sha256": ids_hash,
+           "weight_cleanup": {"negligible_below": NEGLIGIBLE, "small_other_below": SMALL_OTHER,
+                              "vertices_with_negligible_weights_folded": len(cleaned), "vertices_with_small_other_folded": len(folded),
+                              "vertices_collapsed_to_one_station": len(set(collapsed))},
            "planned": {"vertices_pruned_to_4_influences": len(prunes),
                        "max_pruned_weight_fraction": round(max(prunes), 6) if prunes else 0.0,
                        "mean_pruned_weight_fraction": round(float(np.mean(prunes)), 6) if prunes else 0.0},

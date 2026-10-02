@@ -1,0 +1,84 @@
+[
+  {
+    "pose": "pushup_bottom",
+    "volume_ratio": 1.0076,
+    "edge_ratio_p01": 0.72,
+    "edge_ratio_p99": 1.332,
+    "compressed_edges_lt_0_6": 162,
+    "stretched_edges_gt_1_6": 98,
+    "self_intersecting_face_pairs": 130,
+    "self_intersection_by_region": {
+      "arm": 114,
+      "hand": 16
+    },
+    "by_region": {
+      "arm": {
+        "compressed": 80,
+        "stretched": 26,
+        "min_ratio": 0.235,
+        "max_ratio": 1.95
+      },
+      "finger": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 1.0,
+        "max_ratio": 1.0
+      },
+      "foot": {
+        "compressed": 30,
+        "stretched": 0,
+        "min_ratio": 0.335,
+        "max_ratio": 1.475
+      },
+      "hand": {
+        "compressed": 50,
+        "stretched": 38,
+        "min_ratio": 0.119,
+        "max_ratio": 4.115
+      },
+      "head": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 1.0,
+        "max_ratio": 1.0
+      },
+      "leg": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 0.967,
+        "max_ratio": 1.025
+      },
+      "neck": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 1.0,
+        "max_ratio": 1.0
+      },
+      "pelvis": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 1.0,
+        "max_ratio": 1.0
+      },
+      "shoulder": {
+        "compressed": 0,
+        "stretched": 34,
+        "min_ratio": 0.761,
+        "max_ratio": 2.071
+      },
+      "thumb": {
+        "compressed": 0,
+        "stretched": 0,
+        "min_ratio": 1.0,
+        "max_ratio": 1.0
+      },
+      "torso": {
+        "compressed": 2,
+        "stretched": 0,
+        "min_ratio": 0.508,
+        "max_ratio": 1.565
+      }
+    },
+    "lowest_z": 0.0
+  }
+]

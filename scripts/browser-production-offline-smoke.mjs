@@ -19,8 +19,9 @@ const report = {
   finalOfflineGateClosed: false,
   note:
     "Automated production-dist evidence. It proves the built app runs locally, " +
-    "uses the first-party renderer, validates a prompt on the clean fallback, " +
-    "and attempts no external HTTP(S) request. It does not substitute for final " +
+    "uses the first-party renderer, validates prompts on the clean fallback, " +
+    "loads/plays/scrubs every registered library exercise, and attempts no external HTTP(S) request. " +
+    "It does not substitute for final " +
     "ORIGINAL-v1 packaging or real desktop/iPhone offline acceptance.",
   checks: {},
   consoleErrors: [],
@@ -369,6 +370,142 @@ try {
 
   const canvas = page.locator('[data-hgpt-scene-host="first-party"] canvas');
   await canvas.screenshot({ path: path.join(OUT, "generated-squat.png") });
+
+  // Supplement the source-level all-library regression suite with production-
+  // bundle evidence that every registered exercise exposed in the toolbar can
+  // actually be loaded, played and scrubbed through the first-party Studio UI.
+  // This is deliberately interaction-level evidence only: it does not claim
+  // that a headless browser replaces final desktop/iPhone visual acceptance.
+  await discardCurrentCandidate();
+  await rightTabs.getByRole("button", { name: "Exercise", exact: true }).click();
+  const exercisePanel = page.locator('[data-hgpt-panel="exercise-first-party"]');
+  await exercisePanel.waitFor({ state: "visible", timeout: 20_000 });
+
+  const toolbar = page.locator('[data-hgpt-toolbar="first-party"]');
+  const exerciseSelect = toolbar.locator("select").first();
+  const libraryOptions = await exerciseSelect.locator("option").evaluateAll((options) =>
+    options
+      .map((option) => ({
+        value: option.value,
+        label: option.textContent ?? "",
+      }))
+      .filter((option) => !option.label.startsWith("Candidate:")),
+  );
+  assert(libraryOptions.length > 0, "Production toolbar exposed no library exercises");
+  assert.equal(
+    new Set(libraryOptions.map((option) => option.value)).size,
+    libraryOptions.length,
+    "Production toolbar exposed duplicate library exercise ids",
+  );
+
+  const timeline = page.locator('[data-hgpt-timeline="first-party"]');
+  await timeline.waitFor({ state: "visible", timeout: 20_000 });
+  const timeReadout = timeline.locator(".timeline__time").first();
+  const track = timeline.locator(".timeline__track");
+  const libraryPlayback = [];
+
+  for (const option of libraryOptions) {
+    await exerciseSelect.selectOption(option.value);
+    await page.waitForFunction(
+      ({ expectedId, expectedName }) => {
+        const select = document.querySelector(
+          '[data-hgpt-toolbar="first-party"] select',
+        );
+        const title = document.querySelector(
+          '[data-hgpt-panel="exercise-first-party"] h2',
+        );
+        return (
+          select instanceof HTMLSelectElement &&
+          select.value === expectedId &&
+          title?.textContent === expectedName
+        );
+      },
+      { expectedId: option.value, expectedName: option.label },
+      { timeout: 10_000 },
+    );
+
+    const initialTime = await timeReadout.textContent();
+    assert.match(
+      initialTime ?? "",
+      /^0\.00s \/ \d+(?:\.\d+)?s$/,
+      `${option.value}: loading the exercise did not reset the timeline`,
+    );
+
+    const frameBefore = await canvas.evaluate((element) =>
+      Number(element.dataset.hgptRendererFrame ?? "0"),
+    );
+
+    await timeline.getByRole("button", { name: "Play", exact: true }).click();
+    await page.waitForFunction(
+      () => {
+        const readout = document.querySelector(
+          '[data-hgpt-timeline="first-party"] .timeline__time',
+        )?.textContent;
+        return readout ? Number.parseFloat(readout) > 0.01 : false;
+      },
+      undefined,
+      { timeout: 5_000 },
+    );
+    const advancedTime = await timeReadout.textContent();
+    await timeline.getByRole("button", { name: "Pause", exact: true }).click();
+
+    const scrubTime = await track.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      element.dispatchEvent(
+        new PointerEvent("pointerdown", {
+          bubbles: true,
+          pointerId: 1,
+          buttons: 1,
+          clientX: bounds.left + bounds.width * 0.37,
+          clientY: bounds.top + bounds.height * 0.5,
+        }),
+      );
+      return element
+        .closest('[data-hgpt-timeline="first-party"]')
+        ?.querySelector(".timeline__time")
+        ?.textContent ?? "";
+    });
+    const scrubSeconds = Number.parseFloat(scrubTime);
+    assert(
+      Number.isFinite(scrubSeconds) && scrubSeconds > 0,
+      `${option.value}: midpoint scrub did not move the timeline`,
+    );
+
+    await page.waitForFunction(
+      ({ before }) => {
+        const element = document.querySelector(
+          '[data-hgpt-scene-host="first-party"] canvas',
+        );
+        return (
+          element instanceof HTMLCanvasElement &&
+          Number(element.dataset.hgptRendererFrame ?? "0") > before &&
+          Number(element.dataset.hgptRendererDrawCount ?? "0") > 0
+        );
+      },
+      { before: frameBefore },
+      { timeout: 5_000 },
+    );
+
+    const scene = await canvas.evaluate((element) => ({
+      frame: Number(element.dataset.hgptRendererFrame ?? "0"),
+      drawCount: Number(element.dataset.hgptRendererDrawCount ?? "0"),
+      sceneChildren: Number(element.dataset.hgptSceneChildren ?? "0"),
+    }));
+    assert(scene.sceneChildren > 0, `${option.value}: rendered scene became empty`);
+
+    libraryPlayback.push({
+      id: option.value,
+      name: option.label,
+      advancedTime,
+      scrubTime,
+      ...scene,
+    });
+  }
+
+  report.checks.productionLibraryExercisePlayback = {
+    exerciseCount: libraryPlayback.length,
+    exercises: libraryPlayback,
+  };
 
   assert.equal(report.pageErrors.length, 0, `Page errors: ${report.pageErrors.join(" | ")}`);
   assert.equal(

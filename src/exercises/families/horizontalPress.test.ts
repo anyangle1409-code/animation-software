@@ -1,4 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { HgVec3 } from '../../core/linearMath';
+import { generateClip } from '../../animation/generate';
+import { resolveFrame } from '../../animation/pipeline';
+import { canonicalSkeleton, PoseEvaluation } from '../../rig/skeleton';
 import { vec3 } from '../../rig/types';
 import { horizontalPressFamily } from './horizontalPress';
 import { pushUp } from '../definitions/pushUp';
@@ -35,6 +39,45 @@ describe('the horizontal-press family', () => {
       orientation: 'pronated',
       closure: 0.05,
     });
+  });
+
+  it('keeps both resolved palms flat and every digit out of hyperextension through the repetition', () => {
+    const clip = generateClip(canonicalSkeleton, pushUp);
+    const evaluation = new PoseEvaluation(canonicalSkeleton);
+    const floorDirection = new HgVec3(0, 0, 1);
+
+    for (const fraction of [0, 0.25, 0.5, 0.75, 1]) {
+      const frame = resolveFrame(canonicalSkeleton, evaluation, clip, clip.duration * fraction);
+      evaluation.apply(frame.pose);
+
+      for (const side of ['l', 'r'] as const) {
+        const turn = evaluation.firstPartyEvaluation.quaternion(`hand_${side}`);
+        const handDirection = new HgVec3(0, 1, 0).applyQuaternion(turn).normalize();
+        const handForward = new HgVec3(0, 0, 1).applyQuaternion(turn).normalize();
+        const expectedForward = new HgVec3(side === 'l' ? 1 : -1, 0, 0);
+
+        // Both in-plane hand axes are horizontal, which means the solved palm
+        // plane is flat rather than resting on the side of the hand.
+        expect(handDirection.dot(floorDirection), `${fraction}/${side}/direction`).toBeGreaterThan(0.999);
+        expect(handForward.dot(expectedForward), `${fraction}/${side}/forward`).toBeGreaterThan(0.999);
+
+        for (const finger of ['index', 'middle', 'ring', 'pinky'] as const) {
+          for (const segment of ['01', '02', '03'] as const) {
+            const raw = ((frame.pose.rotations[`${finger}_${segment}_${side}`]?.z ?? 0) * 180) / Math.PI;
+            // Z is a handed local axis, so right-hand flexion has the opposite
+            // sign. Convert it back to anatomical flexion before checking it.
+            const flexion = side === 'l' ? raw : -raw;
+            expect(flexion, `${fraction}/${finger}_${segment}_${side}`).toBeGreaterThanOrEqual(0);
+            expect(flexion, `${fraction}/${finger}_${segment}_${side}`).toBeLessThan(1);
+          }
+        }
+
+        for (const segment of ['01', '02', '03'] as const) {
+          const angle = ((frame.pose.rotations[`thumb_${segment}_${side}`]?.z ?? 0) * 180) / Math.PI;
+          expect(Math.abs(angle), `${fraction}/thumb_${segment}_${side}`).toBeLessThan(1);
+        }
+      }
+    }
   });
 
   it('builds the push-up from nothing but its name', () => {

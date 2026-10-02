@@ -86,6 +86,12 @@ jobs:
       - name: Test final release audit composition
         run: node --test scripts/run-first-party-release-audit.test.mjs
 
+      - name: Test exercise animation-data provenance
+        run: node --test scripts/audit-exercise-animation-provenance.test.mjs
+
+      - name: Exercise animation-data provenance gate
+        run: node scripts/audit-exercise-animation-provenance.mjs
+
       - name: Test canonical v4 runtime coupling contract
         run: node --test scripts/audit-canonical-v4-runtime-coupling.test.mjs
 

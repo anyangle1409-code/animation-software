@@ -22,6 +22,7 @@ export const RELEASE_CHECKS = Object.freeze([
   { id: "final_character_runtime", script: "scripts/audit-final-character-runtime.mjs", args: [] },
   { id: "external_runtime_resources", script: "scripts/audit-external-runtime-resources.mjs", args: [] },
   { id: "runtime_network", script: "scripts/audit-runtime-network.mjs", args: [] },
+  { id: "exercise_animation_provenance", script: "scripts/audit-exercise-animation-provenance.mjs", args: [] },
   { id: "production_output", script: "scripts/audit-production-output.mjs", args: ["dist"] },
   { id: "release_components", script: "scripts/audit-first-party-release-components.mjs", args: [] },
   { id: "release_allowlist", script: "scripts/audit-release-allowlist.mjs", args: ["dist"] },

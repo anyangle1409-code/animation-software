@@ -18,6 +18,7 @@ test("final release audit uses final-mode gates rather than the blocked standalo
     "final_character_runtime",
     "external_runtime_resources",
     "runtime_network",
+    "exercise_animation_provenance",
     "production_output",
     "release_components",
     "release_allowlist",

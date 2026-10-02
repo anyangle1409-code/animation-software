@@ -73,8 +73,14 @@
     {
       "id": "exercise_animation_data",
       "category": "data",
-      "status": "project_authored_candidate",
-      "required_action": "document_generation_provenance"
+      "status": "first_party_approved",
+      "required_action": "Keep EXERCISE_ANIMATION_PROVENANCE.json and scripts/audit-exercise-animation-provenance.mjs green; new exercise data must remain project-authored source rules with no external clip/remote/legacy production inputs.",
+      "third_party": [],
+      "notes": "Operational exercise animation data is authored as project TypeScript families/definitions/contacts/IK/technique rules. The provenance gate rejects prerecorded animation assets, remote reads, bare third-party imports and legacy character implementation identities.",
+      "provenance": {
+        "record": "EXERCISE_ANIMATION_PROVENANCE.json",
+        "gate": "scripts/audit-exercise-animation-provenance.mjs"
+      }
     },
     {
       "id": "review_renders",

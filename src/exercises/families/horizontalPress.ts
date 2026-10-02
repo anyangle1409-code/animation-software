@@ -85,7 +85,7 @@ const BOTTOM = { pitch: 85.54, root: { y: 0.2062, z: 0.0382 } };
 // at both ends. That is +100 mm, NOT the historical ~200 mm estimate, which this
 // measurement does not support.
 // Only the left is authored; the right hand and its pole are the mirror of these.
-const HAND_L = vec3(-0.3, 0.055, 1.34);
+const HAND_L = vec3(-0.3, 0.055, 1.295);
 
 /** Elbows are pulled back towards the feet and out, giving the 30–45° flare. */
 const ELBOW_POLE_L = vec3(-0.55, 0.34, 1.05);

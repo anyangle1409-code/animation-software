@@ -96,6 +96,43 @@ export function parsePrompt(prompt: string): ParsedPrompt {
     }
   }
 
+  // A phrase introduced by "tempo" or "cadence" is a timing constraint first.
+  // Classify malformed/invalid timing before the generic NxN workout-programming
+  // guard so "tempo 30x0" cannot be mistaken for a "30x0" set/rep prescription.
+  const timingDirective = slots.text.match(/\b(?:tempo|cadence)\b/);
+  if (timingDirective && slots.tempo.length === 0) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message:
+          `"${timingDirective[0]}": a timing instruction was given but no supported tempo could be read. ` +
+          'Use a named profile such as slow/controlled/fast or four-phase seconds such as "tempo 3-1-2-0" / "tempo 3010".',
+        blocking: true,
+      }],
+    };
+  }
+
+  const invalidExplicitTempo = slots.tempo.find((slot) =>
+    'explicit' in slot.value &&
+    (slot.value.explicit.eccentric <= 0 || slot.value.explicit.concentric <= 0)
+  );
+  if (invalidExplicitTempo) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message:
+          `"${invalidExplicitTempo.words}": lowering and lifting phases must both have positive duration; zero is only valid for pause phases.`,
+        blocking: true,
+      }],
+    };
+  }
+
   for (const pattern of UNSUPPORTED_PROGRAMMING) {
     const match = slots.text.match(pattern);
     if (match) {
@@ -159,40 +196,6 @@ export function parsePrompt(prompt: string): ParsedPrompt {
           blocking: true,
         },
       ],
-    };
-  }
-
-  const timingDirective = slots.text.match(/\b(?:tempo|cadence)\b/);
-  if (timingDirective && slots.tempo.length === 0) {
-    return {
-      prompt,
-      intent: null,
-      assumptions: [],
-      issues: [{
-        code: 'tempo',
-        message:
-          `"${timingDirective[0]}": a timing instruction was given but no supported tempo could be read. ` +
-          'Use a named profile such as slow/controlled/fast or four-phase seconds such as "tempo 3-1-2-0" / "tempo 3010".',
-        blocking: true,
-      }],
-    };
-  }
-
-  const invalidExplicitTempo = slots.tempo.find((slot) =>
-    'explicit' in slot.value &&
-    (slot.value.explicit.eccentric <= 0 || slot.value.explicit.concentric <= 0)
-  );
-  if (invalidExplicitTempo) {
-    return {
-      prompt,
-      intent: null,
-      assumptions: [],
-      issues: [{
-        code: 'tempo',
-        message:
-          `"${invalidExplicitTempo.words}": lowering and lifting phases must both have positive duration; zero is only valid for pause phases.`,
-        blocking: true,
-      }],
     };
   }
 

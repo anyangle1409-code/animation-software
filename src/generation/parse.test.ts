@@ -558,6 +558,17 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(blocking('exercise: shoulder press superset')).toEqual(['programming']);
   });
 
+  it('blocks qualitative workout-programming requests that have no clip field', () => {
+    expect(blocking('exercise: dumbbell curl for high reps')).toEqual(['programming']);
+    expect(blocking('exercise: shoulder press for low reps')).toEqual(['programming']);
+    expect(blocking('exercise: squat for reps')).toEqual(['programming']);
+    expect(blocking('exercise: push-up as many reps as possible')).toEqual(['programming']);
+    expect(blocking('exercise: dumbbell row multiple sets')).toEqual(['programming']);
+    expect(blocking('exercise: calf raise several reps')).toEqual(['programming']);
+
+    expect(parsePrompt('exercise: dumbbell curl').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('blocks rep-style modifiers that would otherwise be silently replaced by a full repetition', () => {
     expect(blocking('exercise: half-rep dumbbell curl')).toEqual(['variant']);
     expect(blocking('exercise: partial squat')).toEqual(['variant']);

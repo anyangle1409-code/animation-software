@@ -218,6 +218,8 @@ PRESETS["o41"] = dict(PRESETS["o13"], symmetric=True)
 # o42 (P3 epoch): continuation of o41 on the SAME declared mask with a much stiffer 99th-percentile budget and a lower cap, because the
 # remaining blockers are upper-back scapula/spine seam edges (paraspinal vertices still carrying 16-40 % scapula weight).
 PRESETS["o42"] = dict(PRESETS["o41"], w_p99=1e6, p99_cap=1.9, p99_margin=0.06, iters=250, polish_iters=150, rounds=4)
+# o43 (P3 epoch): o41 plus the trunk-anchoring form prior (torso skin must stay within a0 + a1*exp(-(r/rb)^2) of its trunk-driven position).
+PRESETS["o43"] = dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the
 # solver may now move weight among tw0/tw1/upperarm so arm-region stretch and the shoulder p99 recover. Same stricter-of-baseline
 # bounds as o22 (pinned report = the P2 baseline P2B1), symmetric, no-regression guards.
@@ -652,6 +654,22 @@ def main():
         Pp[Z] = np.einsum("vb,vbi->vi", Wz, T[p])
         return Pp
 
+    # ---- trunk anchoring (visual-form prior, P3 epoch): torso-region skin may not be dragged far from where the TRUNK bones alone
+    # would put it. Found because gate-only objectives accepted 'tent' flaps: with a physiological 60 deg scapular rotation the
+    # scapula (a lever from the AC corner) carried the weights of the whole lateral upper torso and dragged it 0.2 m. The allowance
+    # decays with rest distance from the nearest glenohumeral joint: a0 + a1 * exp(-(r / rb)^2). Reference = trunk bones only,
+    # weights renormalised (fixed, not differentiated).
+    if P.get("w_trunk", 0) > 0:
+        trunk_idx = [b[n] for n in ("root", "pelvis", "spine_01", "spine_02", "spine_03", "neck", "head") if n in b]
+        Wt = np.zeros_like(W0)
+        Wt[:, trunk_idx] = W0[:, trunk_idx]
+        Wt = Wt / np.maximum(Wt.sum(axis=1, keepdims=True), 1e-9)
+        PTR = [np.einsum("vb,vbi->vi", Wt[Z], T[p]) for p in range(len(poses))]
+        Hj = [d["heads"][b[f"upperarm_{s_}"]] for s_ in "lr"]
+        rj = np.minimum(np.linalg.norm(rest[Z] - Hj[0], axis=1), np.linalg.norm(rest[Z] - Hj[1], axis=1))
+        ALLOW = P.get("trunk_a0", 0.02) + P.get("trunk_a1", 0.10) * np.exp(-(rj / P.get("trunk_rb", 0.15)) ** 2)
+        TORSO_Z = region[Z] == rid["torso"]
+
     parts = {}
 
     def loss_grad(Wz):
@@ -753,6 +771,15 @@ def main():
                 np.add.at(gP, Tz[:, 0], gv * np.cross(B_, C))
                 np.add.at(gP, Tz[:, 1], gv * np.cross(C, A))
                 np.add.at(gP, Tz[:, 2], gv * np.cross(A, B_))
+            if P.get("w_trunk", 0) > 0:
+                dtr = Pp[Z] - PTR[p]
+                dn_ = np.maximum(np.linalg.norm(dtr, axis=1), 1e-12)
+                exc = np.where(TORSO_Z, np.maximum(dn_ - ALLOW, 0.0), 0.0)
+                tr_loss = P["w_trunk"] * (exc ** 2).sum()
+                if tr_loss > 0:
+                    total += tr_loss
+                    parts[poses[p]].append(round(float(tr_loss), 2))
+                    gP[Z] += (2 * P["w_trunk"] * exc / dn_)[:, None] * dtr
             G += np.einsum("vi,vbi->vb", gP[Z], T[p])
         dW = Wz[ia] - Wz[ib]
         total += P["w_smooth"] * (dW ** 2).sum() + P["w_close"] * ((Wz - Wz0) ** 2).sum()

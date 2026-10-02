@@ -59,9 +59,20 @@ describe('the horizontal-press family', () => {
         // World Y is vertical. Both hand-plane axes must stay horizontal and
         // their normal must stay vertical, so the solved palm cannot roll onto
         // its side even if the wrist rotates within the floor plane.
-        expect(Math.abs(handDirection.dot(worldUp)), `${fraction}/${side}/direction-height`).toBeLessThan(1e-3);
-        expect(Math.abs(handForward.dot(worldUp)), `${fraction}/${side}/forward-height`).toBeLessThan(1e-3);
-        expect(Math.abs(palmNormal.dot(worldUp)), `${fraction}/${side}/palm-normal`).toBeGreaterThan(0.999);
+        const degrees = (radians: number) => (radians * 180) / Math.PI;
+        const forearm = frame.pose.rotations[`forearm_${side}`] ?? { x: 0, y: 0, z: 0 };
+        const hand = frame.pose.rotations[`hand_${side}`] ?? { x: 0, y: 0, z: 0 };
+        const diagnostic =
+          `${fraction}/${side} ` +
+          `dirY=${handDirection.dot(worldUp).toFixed(6)} ` +
+          `fwdY=${handForward.dot(worldUp).toFixed(6)} ` +
+          `normalY=${palmNormal.dot(worldUp).toFixed(6)} ` +
+          `forearmY=${degrees(forearm.y).toFixed(2)}deg ` +
+          `handX=${degrees(hand.x).toFixed(2)}deg handZ=${degrees(hand.z).toFixed(2)}deg`;
+
+        expect(Math.abs(handDirection.dot(worldUp)), diagnostic).toBeLessThan(1e-3);
+        expect(Math.abs(handForward.dot(worldUp)), diagnostic).toBeLessThan(1e-3);
+        expect(Math.abs(palmNormal.dot(worldUp)), diagnostic).toBeGreaterThan(0.999);
 
         for (const finger of ['index', 'middle', 'ring', 'pinky'] as const) {
           for (const segment of ['01', '02', '03'] as const) {

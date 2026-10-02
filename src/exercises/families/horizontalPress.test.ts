@@ -44,7 +44,7 @@ describe('the horizontal-press family', () => {
   it('keeps both resolved palms flat and every digit out of hyperextension through the repetition', () => {
     const clip = generateClip(canonicalSkeleton, pushUp);
     const evaluation = new PoseEvaluation(canonicalSkeleton);
-    const floorDirection = new HgVec3(0, 0, 1);
+    const worldUp = new HgVec3(0, 1, 0);
 
     for (const fraction of [0, 0.25, 0.5, 0.75, 1]) {
       const frame = resolveFrame(canonicalSkeleton, evaluation, clip, clip.duration * fraction);
@@ -54,12 +54,14 @@ describe('the horizontal-press family', () => {
         const turn = evaluation.firstPartyEvaluation.quaternion(`hand_${side}`);
         const handDirection = new HgVec3(0, 1, 0).applyQuaternion(turn).normalize();
         const handForward = new HgVec3(0, 0, 1).applyQuaternion(turn).normalize();
-        const expectedForward = new HgVec3(side === 'l' ? 1 : -1, 0, 0);
+        const palmNormal = handDirection.clone().cross(handForward).normalize();
 
-        // Both in-plane hand axes are horizontal, which means the solved palm
-        // plane is flat rather than resting on the side of the hand.
-        expect(handDirection.dot(floorDirection), `${fraction}/${side}/direction`).toBeGreaterThan(0.999);
-        expect(handForward.dot(expectedForward), `${fraction}/${side}/forward`).toBeGreaterThan(0.999);
+        // World Y is vertical. Both hand-plane axes must stay horizontal and
+        // their normal must stay vertical, so the solved palm cannot roll onto
+        // its side even if the wrist rotates within the floor plane.
+        expect(Math.abs(handDirection.dot(worldUp)), `${fraction}/${side}/direction-height`).toBeLessThan(1e-3);
+        expect(Math.abs(handForward.dot(worldUp)), `${fraction}/${side}/forward-height`).toBeLessThan(1e-3);
+        expect(Math.abs(palmNormal.dot(worldUp)), `${fraction}/${side}/palm-normal`).toBeGreaterThan(0.999);
 
         for (const finger of ['index', 'middle', 'ring', 'pinky'] as const) {
           for (const segment of ['01', '02', '03'] as const) {

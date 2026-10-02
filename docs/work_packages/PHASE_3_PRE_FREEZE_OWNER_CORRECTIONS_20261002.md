@@ -152,6 +152,24 @@ No V8-V15f geometry, topology, coordinates, weights, bind data, materials, textu
 content may be copied or transferred.
 
 
+## Skeleton-first diagnostic — REQUIRED before editing the flagged regions
+
+Read and execute `docs/work_packages/PHASE_2_3_SKELETON_MOTION_VALIDATION_20261002.md`.
+
+Use `scripts/audit_original_v1_skeleton_motion_blender.py` on the live candidate before
+assuming that the visible finger, push-up wrist/palm/toe, or shoulder defect is a skinning
+problem.
+
+Decision rule:
+- if the bone/pose/constraint motion is wrong, repair that layer first;
+- if bone motion is anatomically plausible and only the mesh is wrong, keep the rig frozen
+  and repair deformation/topology;
+- reopen a frozen Phase 2 rest/local-axis detail only when direct evidence proves that
+  specific frozen detail is wrong, and do so as an isolated audited correction.
+
+Inspect intermediate motion samples as well as endpoints so a joint-direction flip or
+contact roll cannot hide between stress poses.
+
 ## External human-reference validation — REQUIRED for this pre-freeze package
 
 Read and follow `docs/EXTERNAL_HUMAN_MOVEMENT_REFERENCE_POLICY.md`.

@@ -50,6 +50,9 @@ const UNSUPPORTED_REP_STYLE = [
   /\beccentrics?\b|\bnegatives?\b/,
 ];
 
+const UNSUPPORTED_PAUSE_STYLE =
+  /\b(?:no[-\s]+pauses?|without[-\s]+pauses?|touch[-\s]+and[-\s]+go|continuous(?:ly)?[-\s]+reps?|continuous[-\s]+repetitions?)\b/;
+
 const COUNT_WORD =
   '(?:\\d+(?:\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
 const RANGE_NUMBER =
@@ -165,6 +168,22 @@ export function parsePrompt(prompt: string): ParsedPrompt {
         }],
       };
     }
+  }
+
+  const unsupportedPauseStyle = slots.text.match(UNSUPPORTED_PAUSE_STYLE);
+  if (unsupportedPauseStyle) {
+    return {
+      prompt,
+      intent: null,
+      assumptions: [],
+      issues: [{
+        code: 'tempo',
+        message:
+          `"${unsupportedPauseStyle[0]}": pause/continuous-repetition style changes are not independently represented by the current family clip. ` +
+          'Use a complete four-phase tempo if exact phase timing matters, or omit the directive to use the certified family timing.',
+        blocking: true,
+      }],
+    };
   }
 
   // A phrase introduced by "tempo" or "cadence" is a timing constraint first.

@@ -380,6 +380,26 @@ describe('parsing a request into an ExerciseIntent', () => {
     expect(parsePrompt('exercise: push-up').issues.filter((issue) => issue.blocking)).toEqual([]);
   });
 
+  it('does not silently discard pause-style timing directives', () => {
+    expect(blocking('exercise: dumbbell curl with no pause')).toEqual(['tempo']);
+    expect(blocking('exercise: dumbbell bench press without pauses')).toEqual(['tempo']);
+    expect(blocking('exercise: touch-and-go dumbbell shoulder press')).toEqual(['tempo']);
+    expect(blocking('exercise: continuous reps dumbbell calf raise')).toEqual(['tempo']);
+
+    expect(parsePrompt('exercise: dumbbell curl tempo 3-0-1-0').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: dumbbell curl').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
+  it('does not silently reinterpret generic plates or hand weights as a certified implement', () => {
+    expect(blocking('exercise: shoulder press with weight plates')).toContain('equipment');
+    expect(blocking('exercise: dumbbell curl holding a plate')).toContain('equipment');
+    expect(blocking('exercise: squat with hand weights')).toContain('equipment');
+    expect(blocking('exercise: front raise with hand weights')).toContain('equipment');
+
+    expect(parsePrompt('exercise: dumbbell shoulder press').issues.filter((issue) => issue.blocking)).toEqual([]);
+    expect(parsePrompt('exercise: bodyweight squat').issues.filter((issue) => issue.blocking)).toEqual([]);
+  });
+
   it('does not replace qualitative load requests with arbitrary family defaults', () => {
     expect(blocking('exercise: dumbbell curl with heavy dumbbells')).toContain('load');
     expect(blocking('exercise: shoulder press with moderate load')).toContain('load');

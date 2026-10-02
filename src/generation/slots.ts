@@ -77,7 +77,7 @@ const EQUIPMENT_WORDS: [RegExp, Equipment][] = [
   [/\bkettle[-\s]?bells?\b|\bkbs?\b/g, 'kettlebell'],
   [/\b(?:resistance\s+)?bands?\b/g, 'band'],
   [/\bmachines?\b/g, 'machine'],
-  [/\bfree[-\s]?weights?\b/g, 'free_weight'],
+  [/\bfree[-\s]?weights?\b|\b(?:weight[-\s]?)?plates?\b|\bhand[-\s]?weights?\b/g, 'free_weight'],
   [/\bbody[-\s]?weight\b/g, 'bodyweight'],
 ];
 

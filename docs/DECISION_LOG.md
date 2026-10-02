@@ -88,4 +88,12 @@ These decisions supersede the earlier unresolved-owner-decision wording for the 
 - Preserve the 63-bone semantic contract, names and hierarchy where possible. A structural hierarchy/bone-count change requires direct evidence that the existing structure cannot represent required human movement and must be treated as a deliberate, fully audited revision rather than a cosmetic edit.
 - Once skeleton-motion validation passes, record a new skeleton-motion lock/freeze identity. Subsequent skinning/anatomy work should assume that locked rig and reopen it only if new direct evidence proves a true rig defect.
 - Correct skeleton mechanics take precedence over schedule or preserving earlier freeze labels. The intent is to pay the cost now rather than build skinning, anatomy and clothing on a flawed foundation.
+## Bone sufficiency and 3D anatomical proxy — 2026-10-02
+
+- Before the skeleton-motion lock, audit whether the current 63-bone rig has enough functional and deformation degrees of freedom for the intended exercise library.
+- Bone count is not protected for its own sake. If multiple-source anatomy/biomechanics evidence and project motion/deformation evidence show that an extra anatomical or helper/deform bone is genuinely required, add it as a new audited rig revision and rerun dependent evidence.
+- In particular, evaluate generic twist/deformation helpers for upper arm, forearm, thigh and shin/calf; shoulder/thorax helper controls; forefoot/toe expressiveness; and palm/thumb support. Do not add helpers automatically or create exercise-specific hacks.
+- A separate 3D anatomical skeleton mesh is not required to drive the skin. A project-owned, non-production 3D anatomical proxy is approved as a validation/debug tool for pelvis, rib cage/sternum, scapulae, long bones and joint centres.
+- The rib cage should inform thoracic volume, shoulder-girdle placement and torso mechanics, but individual rib deform bones are not presumed necessary. Validate simpler thorax/spine/scapula/clavicle plus generic corrective deformation first.
+- Use multiple independent reputable external references under `docs/SKELETON_HUMAN_MOVEMENT_AND_BONE_SUFFICIENCY_POLICY.md`; do not copy external anatomical meshes or assets.
 

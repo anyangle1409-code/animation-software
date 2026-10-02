@@ -26,6 +26,8 @@ The objective is to finish this layer once, record a new skeleton-motion lock id
 
 Correctness takes priority over preserving an earlier freeze label.
 
+Read and follow `docs/SKELETON_HUMAN_MOVEMENT_AND_BONE_SUFFICIENCY_POLICY.md` before final skeleton lock. This adds the multi-source requirement, bone-sufficiency audit, twist/helper-bone decision, and 3D anatomical proxy/rib-cage guidance.
+
 ## Required diagnostic order
 
 For each flagged issue use this order:

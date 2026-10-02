@@ -67,3 +67,13 @@ These decisions supersede the earlier unresolved-owner-decision wording for the 
 - Athletic/training shoes are approved as a later first-party clothing item, expected under Phase 7, but cannot be used to conceal an unresolved barefoot toe/forefoot contact failure.
 - The detailed execution contract is `docs/work_packages/PHASE_3_PRE_FREEZE_OWNER_CORRECTIONS_20261002.md`.
 
+## External movement reference policy — 2026-10-02
+
+- The owner authorises use of suitable external human exercise imagery/video as **reference-only development evidence** for ORIGINAL v1 deformation and exercise validation.
+- This is intended to improve human-movement correctness at each exercise checkpoint and help distinguish pose/contact/rig/deformation failures from later surface-anatomy work.
+- The policy is defined in `docs/EXTERNAL_HUMAN_MOVEMENT_REFERENCE_POLICY.md`.
+- External reference may inform generic observations and project-owned validation rules, but must not contribute copied geometry, topology, coordinates, weights, bind data, materials, textures, motion-capture data, authored animation curves or person-specific body proportions.
+- For the current pre-freeze work it is required for finger flexion, push-up palm/wrist support, push-up forefoot/toe support, and shoulder/axilla classification.
+- Prefer source links/timecodes and project-authored observations in repository evidence rather than storing third-party media.
+- The long-term goal is to convert these observations into first-party checkpoint/QA criteria so standalone runtime validation does not depend on external reference access.
+

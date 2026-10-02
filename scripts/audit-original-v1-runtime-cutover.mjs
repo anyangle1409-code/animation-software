@@ -67,13 +67,17 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
 
   if (!blockedMode && !activeMode) {
     blockers.push(
-      \`unsupported runtime-cutover mode \${JSON.stringify(contract.mode)}; expected blocked_procedural_default or original_v1_active\`,
+      "unsupported runtime-cutover mode " +
+        JSON.stringify(contract.mode) +
+        "; expected blocked_procedural_default or original_v1_active",
     );
   }
 
   if (blockedMode && loaderReachable) {
     blockers.push(
-      \`prepared ORIGINAL v1 loader is reachable from \${contract.entrypoint} before production approval\`,
+      "prepared ORIGINAL v1 loader is reachable from " +
+        contract.entrypoint +
+        " before production approval",
     );
   }
 
@@ -85,32 +89,43 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
     }
     if (!loaderReachable) {
       blockers.push(
-        \`ORIGINAL v1 production loader is not reachable from \${contract.entrypoint} after activation\`,
+        "ORIGINAL v1 production loader is not reachable from " +
+          contract.entrypoint +
+          " after activation",
       );
     }
     if (contract.current_default_source !== contract.future_production_source) {
       blockers.push(
-        \`active runtime default \${JSON.stringify(contract.current_default_source)} does not match future production source \${JSON.stringify(contract.future_production_source)}\`,
+        "active runtime default " +
+          JSON.stringify(contract.current_default_source) +
+          " does not match future production source " +
+          JSON.stringify(contract.future_production_source),
       );
     }
   }
 
   if (!registryReachable) {
-    blockers.push(\`live character registry is not reachable from \${contract.entrypoint}\`);
+    blockers.push(
+      "live character registry is not reachable from " + contract.entrypoint,
+    );
   }
 
   const registryPath = path.join(root, registryModule);
   if (!fs.existsSync(registryPath)) {
-    blockers.push(\`missing registry module \${registryModule}\`);
+    blockers.push("missing registry module " + registryModule);
   } else {
     const source = fs.readFileSync(registryPath, "utf8");
 
     if (blockedMode) {
       if (!source.includes("let fallback = proceduralCharacter.id;")) {
-        blockers.push("live registry no longer pins the procedural character as its default fallback");
+        blockers.push(
+          "live registry no longer pins the procedural character as its default fallback",
+        );
       }
       if (!source.includes("registerCharacterSource(proceduralCharacter);")) {
-        blockers.push("live registry no longer registers the clean procedural character");
+        blockers.push(
+          "live registry no longer registers the clean procedural character",
+        );
       }
       if (
         source.includes("./bundled") ||
@@ -118,30 +133,40 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
         source.includes("bundledOriginalV1Source") ||
         source.includes("original-v1-dressed")
       ) {
-        blockers.push("live registry references the dormant ORIGINAL v1 production loader/source");
+        blockers.push(
+          "live registry references the dormant ORIGINAL v1 production loader/source",
+        );
       }
     }
 
     if (activeMode) {
       if (!source.includes("registerCharacterSource(proceduralCharacter);")) {
-        blockers.push("active registry must retain the clean procedural source as a diagnostic fallback");
+        blockers.push(
+          "active registry must retain the clean procedural source as a diagnostic fallback",
+        );
       }
 
       const dressed = source.match(
         /const\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*bundledOriginalV1Source\(\s*["']dressed["']\s*\)\s*;/,
       );
       if (!dressed) {
-        blockers.push("active registry does not construct the exact dressed ORIGINAL v1 bundled source");
+        blockers.push(
+          "active registry does not construct the exact dressed ORIGINAL v1 bundled source",
+        );
       } else {
         const variable = dressed[1];
-        if (!source.includes(\`registerCharacterSource(\${variable});\`)) {
-          blockers.push("active registry does not register the dressed ORIGINAL v1 source");
+        if (!source.includes("registerCharacterSource(" + variable + ");")) {
+          blockers.push(
+            "active registry does not register the dressed ORIGINAL v1 source",
+          );
         }
         const fallbackPattern = new RegExp(
-          \`let\\\\s+fallback\\\\s*=\\\\s*\${variable}\\\\.id\\\\s*;\`,
+          "let\\s+fallback\\s*=\\s*" + variable + "\\.id\\s*;",
         );
         if (!fallbackPattern.test(source)) {
-          blockers.push("active registry does not make the dressed ORIGINAL v1 source the default");
+          blockers.push(
+            "active registry does not make the dressed ORIGINAL v1 source the default",
+          );
         }
       }
     }
@@ -149,13 +174,16 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
 
   const loaderPath = path.join(root, loaderModule);
   if (!fs.existsSync(loaderPath)) {
-    blockers.push(\`missing prepared loader module \${loaderModule}\`);
+    blockers.push("missing prepared loader module " + loaderModule);
   } else {
     const source = fs.readFileSync(loaderPath, "utf8");
     const expectedPaths = contract.production_paths || [];
     for (const expected of expectedPaths) {
-      if (!source.includes(\`'\${expected}'\`) && !source.includes(\`"\${expected}"\`)) {
-        blockers.push(\`prepared loader does not pin production path \${expected}\`);
+      if (
+        !source.includes("'" + expected + "'") &&
+        !source.includes('"' + expected + '"')
+      ) {
+        blockers.push("prepared loader does not pin production path " + expected);
       }
     }
 
@@ -166,15 +194,20 @@ export function auditOriginalV1RuntimeCutover(root = ROOT) {
       .filter(value => !expectedPaths.includes(value));
     if (unexpected.length) {
       blockers.push(
-        "prepared loader contains unexpected GLB path(s): " + unexpected.join(", "),
+        "prepared loader contains unexpected GLB path(s): " +
+          unexpected.join(", "),
       );
     }
 
     if (!source.includes("const response = await fetch(url);")) {
-      blockers.push("prepared loader no longer uses the reviewed exact local fetch seam");
+      blockers.push(
+        "prepared loader no longer uses the reviewed exact local fetch seam",
+      );
     }
     if (/fetch\s*\(\s*['"](?:https?:)?\/\//i.test(source)) {
-      blockers.push("prepared loader contains a remote/protocol-relative fetch");
+      blockers.push(
+        "prepared loader contains a remote/protocol-relative fetch",
+      );
     }
   }
 
@@ -213,5 +246,6 @@ function main() {
 }
 
 const invoked =
-  process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invoked) main();

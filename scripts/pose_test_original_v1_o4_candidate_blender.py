@@ -9,6 +9,20 @@ replace the runtime exercise solver; they exercise the mesh/weights through the
 same joint ranges. For each pose the script measures volume change, edge
 stretch/compression (by body region) and self-intersections, and renders
 front / side / three-quarter review images.
+
+POSE DEFINITION REVISION P2 (2026-10-02, owner-authorised skeleton-motion validation): the skeleton-only audits
+(scripts/audit_original_v1_finger_flexion_blender.py, audit_original_v1_joint_kinematics_blender.py) proved the rig bones are
+sound but the pose CONSTRUCTION produced anatomically wrong joint motion. Corrected here, generically (no exercise-name logic):
+  1. finger/thumb flexion uses ONE hinge axis per chain (the parallel-hinge model) instead of re-deriving the axis from the
+     already-curled segment, which flipped sign past 90 degrees of cumulative curl and bent the distal joint backwards;
+  2. a pronation/supination target that is parallel to the forearm axis is refused instead of silently doing nothing (the
+     loaded push-up wrist was 88 degrees of radial deviation instead of wrist extension);
+  3. toe dorsiflexion moves the toe tip toward the dorsum (it moved it toward the sole in push-up and lunge);
+  4. the humerus is axially rotated so the elbow hinges about the transepicondylar axis and elevated arms are externally
+     rotated (previously the forearm carried an 85 degree twist and the elbow bent sideways in the humerus frame);
+  5. squat shin/ankle: knee travels over the foot with ankle dorsiflexion (the shin tilted the wrong way);
+  6. upd() drives the rig-revision-2 axial twist helper bones (no-op on the 63-bone rig).
+The previous definition is preserved verbatim as pose_test_original_v1_o4_candidate_blender_P1_historical.py.
 """
 from __future__ import annotations
 
@@ -20,7 +34,7 @@ from pathlib import Path
 
 import bpy
 import numpy as np
-from mathutils import Matrix, Vector
+from mathutils import Matrix, Quaternion, Vector
 from mathutils.bvhtree import BVHTree
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
@@ -43,7 +57,24 @@ U = Vector((0, 0, 1))
 D = -U
 
 
+TWIST_HELPERS = [(f"{seg}_{st}_{s}", f"{seg}_{s}", f) for seg in ("upperarm", "forearm") for s in "lr" for st, f in (("tw0", 0.0), ("tw1", 0.5))]
+
+
+def drive_twist_helpers():
+    """Rig revision rev2 (scripts/original_v1_twist_helpers.py): each helper is a child of its segment bone and rotates about the
+    bone's own Y axis by -(1 - f) x (the segment's swing-twist twist), so it carries the segment's swing plus fraction f of its
+    axial twist. No-op on the 63-bone rig (no helper bones)."""
+    pose = rig.pose.bones
+    for name, parent, f in TWIST_HELPERS:
+        if name not in pose or parent not in pose:
+            continue
+        q = pose[parent].matrix_basis.to_quaternion()
+        twist = (2.0 * math.atan2(q.y, q.w) + math.pi) % (2.0 * math.pi) - math.pi
+        pose[name].matrix_basis = Quaternion((0.0, 1.0, 0.0), -(1.0 - f) * twist).to_matrix().to_4x4()
+
+
 def upd():
+    drive_twist_helpers()
     bpy.context.view_layer.update()
 
 
@@ -92,10 +123,13 @@ def palm_normal(s):
 
 
 def twist_palm(s, target):
-    """Pronate/supinate the forearm so the palm faces `target` as closely as possible."""
+    """Pronate/supinate the forearm so the palm faces `target` as closely as possible.
+    A target parallel to the forearm axis has no component in the rotation plane: refuse (P1 silently produced garbage)."""
     axis = bdir(f"forearm_{s}")
     n = palm_normal(s)
     t = Vector(target)
+    if (t - axis * t.dot(axis)).length < 1e-6 or (n - axis * n.dot(axis)).length < 1e-6:
+        raise ValueError("twist_palm target is parallel to the forearm axis")
     n_p = (n - axis * n.dot(axis)).normalized()
     t_p = (t - axis * t.dot(axis)).normalized()
     ang = math.degrees(n_p.angle(t_p))
@@ -104,22 +138,70 @@ def twist_palm(s, target):
 
 
 def grip(s, amount=1.0, thumb=True):
-    """Close the fingers toward the palm (cylindrical handle grip)."""
+    """Close the fingers toward the palm (cylindrical handle grip). MCP/PIP/DIP are parallel hinges: ONE axis per finger,
+    taken from the uncurled proximal bone, is used for all three joints (P1 re-derived it per joint and reversed the DIP)."""
+    n = palm_normal(s)
     for f in ("index", "middle", "ring", "pinky"):
+        axis = bdir(f"{f}_01_{s}").cross(n).normalized()
         for k, deg in ((1, 70), (2, 88), (3, 55)):
-            name = f"{f}_0{k}_{s}"
-            axis = bdir(name).cross(palm_normal(s))
-            rot(name, axis, deg * amount)
+            rot(f"{f}_0{k}_{s}", axis, deg * amount)
     if thumb:
         for k, deg in ((1, 28), (2, 30), (3, 38)):
             name = f"thumb_0{k}_{s}"
-            n = palm_normal(s)
             axis = bdir(name).cross(n + bdir(f"index_01_{s}") * 0.6)
             rot(name, axis, deg * amount)
 
 
 def lat(s):
     return Vector((1.0 if s == "r" else -1.0, 0, 0))
+
+
+REST3 = {b.name: b.matrix_local.to_3x3() for b in rig.data.bones}
+
+
+def swing_of(name):
+    """Rotation of a posed bone relative to its own rest orientation, in world axes."""
+    upd()
+    return pb(name).matrix.to_3x3() @ REST3[name].inverted()
+
+
+def hinge_humerus(s, forearm_target):
+    """Axially rotate the humerus so the elbow hinges about the transepicondylar axis.
+
+    The elbow is a hinge: its flexion axis is the humerus' own lateral axis (rest X carried by the humerus swing). For a
+    wanted forearm direction the rotation that takes the humerus direction to the forearm direction is about humerus x
+    forearm. Flexion is rotation about the humerus' lateral axis by a NEGATIVE angle (the forearm tip moves anteriorly), so
+    the lateral axis must point along -(humerus x forearm); a unique humeral axial rotation achieves that (the opposite
+    solution would be hyperextension). Without this, elevated arms bend the elbow sideways in the humerus frame and the
+    forearm has to carry the missing rotation as an 85 degree twist."""
+    name = f"upperarm_{s}"
+    h = bdir(name)
+    t = Vector(forearm_target).normalized()
+    hinge = h.cross(t)
+    if hinge.length < 0.26:                       # forearm within ~15 deg of the humerus axis: hinge is ill-defined
+        return external_rotation_for_elevation(s)
+    want = -hinge.normalized()
+    lat_now = swing_of(name) @ Vector((1, 0, 0))
+    a = lat_now - h * lat_now.dot(h)
+    a.normalize()
+    ang = math.degrees(math.atan2(h.dot(a.cross(want)), a.dot(want)))
+    rot(name, h, ang)
+
+
+def external_rotation_for_elevation(s):
+    """Straight elevated arm: couple external humeral rotation to elevation (about half of the elevation above 30 deg,
+    at most 80 deg), the physiological requirement for clearing the acromion in the frontal plane."""
+    name = f"upperarm_{s}"
+    h = bdir(name)
+    elev = math.degrees(h.angle(D))
+    er = min(80.0, 0.5 * max(0.0, elev - 30.0))
+    if er < 1.0:
+        return
+    # external rotation turns the palm side of an arm at the side toward the character's front; find that sign numerically
+    Fp = swing_of(name) @ F
+    p0 = swing_of(name) @ (-lat(s))               # rest palm side (medial), carried by the humerus swing
+    sign = 1.0 if h.cross(p0).dot(Fp) > 0 else -1.0
+    rot(name, h, sign * er)
 
 
 def reset():
@@ -183,6 +265,7 @@ def pose_press_bottom(rhythm=False):
         if rhythm:
             shoulder_rhythm(s, 0.45)
         aim(f"upperarm_{s}", lat(s) + D * 0.15 + F * 0.25)
+        hinge_humerus(s, U + F * 0.1)
         aim(f"forearm_{s}", U + F * 0.1)
         twist_palm(s, F)
         grip(s)
@@ -194,6 +277,7 @@ def pose_press_top(rhythm=False):
             shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U * 1.0 + lat(s) * 0.25)
+        hinge_humerus(s, U + lat(s) * -0.05)
         aim(f"forearm_{s}", U + lat(s) * -0.05)
         twist_palm(s, F)
         grip(s)
@@ -205,7 +289,7 @@ def pose_squat_bottom():
     rot("neck", X, -18)
     for s in "lr":
         aim(f"thigh_{s}", F * 1.0 + D * 0.25 + lat(s) * 0.25)
-        aim(f"shin_{s}", D * 1.0 + F * 0.35 + lat(s) * 0.12)
+        aim(f"shin_{s}", D * 1.0 + B * 0.45 + lat(s) * 0.12)   # knee over the foot (P1 put the ankle ahead of the knee)
         aim(f"foot_{s}", F + D * 0.3 + lat(s) * 0.15)
         aim(f"upperarm_{s}", F + U * 0.05)
         aim(f"forearm_{s}", F + U * 0.05)
@@ -217,11 +301,12 @@ def pose_pushup_bottom():
     rot("root", X, 78)
     for s in "lr":
         aim(f"upperarm_{s}", B * 0.8 + lat(s) * 0.55 + U * 0.15)
-        aim(f"forearm_{s}", D)
-        twist_palm(s, D)
+        hinge_humerus(s, D + F * 0.18)
+        aim(f"forearm_{s}", D + F * 0.18)          # forearm leans so the loaded wrist is extended ~80 deg, not 90
+        twist_palm(s, B)                           # pronate: palm faces back; wrist extension then turns it to the floor
         aim(f"hand_{s}", F + lat(s) * 0.12)
-        aim(f"foot_{s}", D + B * 0.25)
-        rot_toward(f"toe_{s}", X, 60, B)
+        aim(f"foot_{s}", D + F * 0.3)              # ball of the foot under the ankle, heel raised
+        rot_toward(f"toe_{s}", X, 70, F)           # toe dorsiflexion: tip toward the dorsum (head direction in the plank)
     ground()
 
 
@@ -231,6 +316,7 @@ def pose_pullup_hang(rhythm=False):
             shoulder_rhythm(s, 1.0)
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U + lat(s) * 0.45)
+        hinge_humerus(s, U + lat(s) * 0.35)
         aim(f"forearm_{s}", U + lat(s) * 0.35)
         twist_palm(s, F)
         grip(s)
@@ -239,6 +325,7 @@ def pose_pullup_hang(rhythm=False):
 def pose_pullup_top():
     for s in "lr":
         aim(f"upperarm_{s}", lat(s) * 0.85 + D * 0.45 + F * 0.15)
+        hinge_humerus(s, U + lat(s) * 0.15 + F * 0.05)
         aim(f"forearm_{s}", U + lat(s) * 0.15 + F * 0.05)
         twist_palm(s, F)
         grip(s)
@@ -251,8 +338,8 @@ def pose_lunge():
     aim("foot_l", F + D * 0.25)
     aim("thigh_r", D + B * 0.35)
     aim("shin_r", B + D * 0.15)
-    aim("foot_r", B * 0.3 + D)
-    rot_toward("toe_r", X, 55, B)
+    aim("foot_r", D + F * 0.3)
+    rot_toward("toe_r", X, 55, F)                  # dorsiflexion (P1 curled the toe under: tip toward the sole)
     ground()
 
 
@@ -327,6 +414,9 @@ def close_on_handle(s):
     chains.append([f"thumb_0{k}_{s}" for k in (2, 3)])
     limits = {1: 100, 2: 110, 3: 85}
     for chain in chains:
+        # one parallel-hinge axis per chain, from the uncurled proximal bone (P1 re-derived it per joint: reversed the DIP)
+        toward0 = palm_normal(s) if not chain[0].startswith("thumb") else (Vector(HANDLE[s][0]) - pb(chain[0]).head).normalized()
+        axis0 = bdir(chain[0]).cross(toward0).normalized()
         for bone in chain:
             k = int(bone.split("_")[1][1])
             desc = [b for b in chain[chain.index(bone):]]
@@ -335,8 +425,7 @@ def close_on_handle(s):
                 continue
             lo, hi = 0.0, float(limits[k])
             base = pb(bone).matrix.copy()
-            toward = palm_normal(s) if not bone.startswith("thumb") else (Vector(HANDLE[s][0]) - pb(bone).head).normalized()
-            axis = bdir(bone).cross(toward)
+            axis = axis0
             free = [i for i, d in zip(ids, handle_distance(evaluated_positions(ids), s)) if d > 0]
             if not free:
                 continue
@@ -365,6 +454,7 @@ def pose_pullup_bar():
     for s in "lr":
         aim(f"upperarm_{s}", lat(s))
         aim(f"upperarm_{s}", U + lat(s) * 0.45)
+        hinge_humerus(s, U + lat(s) * 0.35)
         aim(f"forearm_{s}", U + lat(s) * 0.35)
         twist_palm(s, F)
         place_handle(s)

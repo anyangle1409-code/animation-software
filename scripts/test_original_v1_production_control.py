@@ -48,6 +48,7 @@ class ControlTests(unittest.TestCase):
         shutil.copy(ROOT/'src/rig/canonicalV4Original.ts',root/'src/rig/canonicalV4Original.ts')
         (root/'scripts').mkdir()
         shutil.copy(ROOT/'scripts/pose_test_original_v1_o4_candidate_blender.py',root/'scripts/pose_test_original_v1_o4_candidate_blender.py')
+        shutil.copy(ROOT/'scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py',root/'scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py')
         for p in ROOT.glob('ORIGINAL_V1*.json'): shutil.copy(p, root/p.name)
         return root
 
@@ -131,6 +132,12 @@ class ControlTests(unittest.TestCase):
         p=root/'scripts/pose_test_original_v1_o4_candidate_blender.py'
         p.write_text(p.read_text().replace('ONLY = set(', 'ONLY = frozenset(',1))
         with self.assertRaisesRegex(ValueError,'frozen stress-pose'):c.build(root)
+
+    def test_historical_stress_pose_definition_drift_is_refused(self):
+        c=self.module();root=self.fixture()
+        p=root/'scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py'
+        p.write_text(p.read_text().replace('ONLY = set(', 'ONLY = frozenset(',1))
+        with self.assertRaisesRegex(ValueError,'historical stress-pose'):c.build(root)
 
     def test_partial_candidate_stays_incomplete_after_ledger_update(self):
         c=self.module();root=self.fixture();cand=root/'ORIGINAL_V1_WORK/candidates'

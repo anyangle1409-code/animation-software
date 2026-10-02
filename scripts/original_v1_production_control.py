@@ -237,6 +237,10 @@ def build(root=ROOT):
         prefix=(root/pose_pin['path']).read_text(encoding='utf-8').split('# ---------------------------------------------------------------- metrics',1)[0].replace('import hashlib\n','')
         if hashlib.sha256(prefix.encode()).hexdigest()!=pose_pin['sha256']:
             raise ValueError('frozen stress-pose definition changed')
+        for hist in control.get('pose_definition_history',[]):
+            hp=(root/hist['path']).read_text(encoding='utf-8').split('# ---------------------------------------------------------------- metrics',1)[0].replace('import hashlib\n','')
+            if hashlib.sha256(hp.encode()).hexdigest()!=hist['sha256']:
+                raise ValueError('historical stress-pose definition changed: '+hist['revision'])
     baseline = read(root,CAND+'/DEFORMATION_BASELINE_R2.json')
     baseline_path = baseline['inputs']['pose_report']['path']
     base_eval = evaluate(root,baseline_path)

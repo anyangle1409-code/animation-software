@@ -1,0 +1,542 @@
+{
+ "schema_version": 1,
+ "generated_utc": "2026-10-02T14:07:34.666097+00:00",
+ "purpose": "axial twist / candy-wrapper stress test (read-only)",
+ "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r38.blend",
+ "source_candidate_sha256": "7369b2d886ddffe6d8f80911a14f0efc69d8b5daf741ba92014434433323819b",
+ "pose_definition_script_sha256": "c315f64caabd8d36b3f3b8e1f8b4c76b14550a5d598a919dd50080c3badc5c91",
+ "results": {
+  "forearm": {
+   "bone": "forearm_l",
+   "region": "arm",
+   "vertices": 588,
+   "tests": [
+    {
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      0.9365,
+      0.9691,
+      0.9845,
+      0.9951,
+      0.9992,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9365,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9228,
+     "segment_edge_max_ratio": 1.1718
+    },
+    {
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      0.9365,
+      0.9691,
+      0.9845,
+      0.9951,
+      0.9992,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9365,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9227,
+     "segment_edge_max_ratio": 1.1966
+    },
+    {
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      0.7606,
+      0.8899,
+      0.9461,
+      0.9833,
+      0.9972,
+      0.9998,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.7606,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7052,
+     "segment_edge_max_ratio": 1.4506
+    },
+    {
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      0.7606,
+      0.8899,
+      0.9461,
+      0.9833,
+      0.9972,
+      0.9998,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.7606,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.705,
+     "segment_edge_max_ratio": 1.4585
+    },
+    {
+     "twist_deg": 150,
+     "slice_radius_ratio_profile": [
+      0.4438,
+      0.7821,
+      0.8967,
+      0.9686,
+      0.9948,
+      0.9996,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.4438,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.2562,
+     "segment_edge_max_ratio": 1.7024
+    },
+    {
+     "twist_deg": -150,
+     "slice_radius_ratio_profile": [
+      0.4438,
+      0.7821,
+      0.8967,
+      0.9686,
+      0.9948,
+      0.9996,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.4438,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.2559,
+     "segment_edge_max_ratio": 1.6901
+    }
+   ]
+  },
+  "upperarm": {
+   "bone": "upperarm_l",
+   "region": "arm",
+   "vertices": 460,
+   "tests": [
+    {
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.9612,
+      0.9718,
+      0.9865,
+      0.9966,
+      0.9996,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9612,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.6217,
+     "segment_edge_max_ratio": 1.2667
+    },
+    {
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.9612,
+      0.9718,
+      0.9865,
+      0.9966,
+      0.9996,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9612,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7015,
+     "segment_edge_max_ratio": 1.2486
+    },
+    {
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.8557,
+      0.8963,
+      0.9517,
+      0.9882,
+      0.9988,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.8557,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.2789,
+     "segment_edge_max_ratio": 1.3976
+    },
+    {
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.8557,
+      0.8963,
+      0.9517,
+      0.9882,
+      0.9988,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.8557,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.3834,
+     "segment_edge_max_ratio": 1.3175
+    },
+    {
+     "twist_deg": 135,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.7182,
+      0.8035,
+      0.9128,
+      0.9795,
+      0.9979,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.7182,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.1572,
+     "segment_edge_max_ratio": 1.3573
+    },
+    {
+     "twist_deg": -135,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.7182,
+      0.8035,
+      0.9128,
+      0.9795,
+      0.9979,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.7182,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.1637,
+     "segment_edge_max_ratio": 1.2167
+    }
+   ]
+  },
+  "thigh": {
+   "bone": "thigh_l",
+   "region": "leg",
+   "vertices": 538,
+   "tests": [
+    {
+     "twist_deg": 30,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9946,
+      0.9982,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9946,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9054,
+     "segment_edge_max_ratio": 1.064
+    },
+    {
+     "twist_deg": -30,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9946,
+      0.9982,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9946,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9038,
+     "segment_edge_max_ratio": 1.0793
+    },
+    {
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9881,
+      0.9961,
+      0.9994,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9881,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8597,
+     "segment_edge_max_ratio": 1.082
+    },
+    {
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9881,
+      0.9961,
+      0.9994,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9881,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8466,
+     "segment_edge_max_ratio": 1.1078
+    },
+    {
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9583,
+      0.9865,
+      0.9979,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9583,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7645,
+     "segment_edge_max_ratio": 1.09
+    },
+    {
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9583,
+      0.9865,
+      0.9979,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9583,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.6797,
+     "segment_edge_max_ratio": 1.1347
+    }
+   ]
+  },
+  "shin": {
+   "bone": "shin_l",
+   "region": "leg",
+   "vertices": 592,
+   "tests": [
+    {
+     "twist_deg": 20,
+     "slice_radius_ratio_profile": [
+      0.9869,
+      0.9952,
+      0.9991,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9869,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9371,
+     "segment_edge_max_ratio": 1.0852
+    },
+    {
+     "twist_deg": -20,
+     "slice_radius_ratio_profile": [
+      0.9869,
+      0.9952,
+      0.9991,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9869,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9368,
+     "segment_edge_max_ratio": 1.0468
+    },
+    {
+     "twist_deg": 30,
+     "slice_radius_ratio_profile": [
+      0.9707,
+      0.9892,
+      0.998,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9707,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8952,
+     "segment_edge_max_ratio": 1.1394
+    },
+    {
+     "twist_deg": -30,
+     "slice_radius_ratio_profile": [
+      0.9707,
+      0.9892,
+      0.998,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9707,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8948,
+     "segment_edge_max_ratio": 1.0868
+    },
+    {
+     "twist_deg": 60,
+     "slice_radius_ratio_profile": [
+      0.8854,
+      0.9591,
+      0.9925,
+      0.999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.8854,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7321,
+     "segment_edge_max_ratio": 1.3218
+    },
+    {
+     "twist_deg": -60,
+     "slice_radius_ratio_profile": [
+      0.8854,
+      0.9591,
+      0.9925,
+      0.999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.8854,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7311,
+     "segment_edge_max_ratio": 1.2477
+    }
+   ]
+  }
+ }
+}

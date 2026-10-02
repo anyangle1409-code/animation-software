@@ -232,7 +232,25 @@
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+    "revision": "P2",
     "section": "before metrics; metadata-only hashlib import excluded",
-    "sha256": "fc0c76b50ee05a5684388273ab49ede93179def7aedac338dab7668948ae188e"
-  }
+    "sha256": "14fd0f7f803b55c029ced8e82bd824766a5d36408a06e2dd8cade6d7968722e5",
+    "authority": "Owner decision 2026-10-02 (skeleton-motion validation before Phase 4): correct pose-construction defects proven by direct skeleton evidence; preserve P1 as history; re-pin; rerun dependent evidence. R2, thresholds and tolerances unchanged."
+  },
+  "pose_definition_history": [
+    {
+      "revision": "P1",
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender_P1_historical.py",
+      "section": "before metrics; metadata-only hashlib import excluded",
+      "sha256": "fc0c76b50ee05a5684388273ab49ede93179def7aedac338dab7668948ae188e",
+      "used_by": "R2 baseline and candidates r1..r38 (all evidence recorded before 2026-10-02)",
+      "superseded_utc": "2026-10-02",
+      "reason": "Skeleton-only audits proved the P1 pose CONSTRUCTION produced anatomically wrong joint motion (reversed distal finger joint in 11 grip poses, 88 deg radial-deviation push-up wrist, toe bent the wrong way in push-up/lunge, no humeral axial rotation so the elbow hinged sideways, squat ankle plantarflexed). Rig bones were sound.",
+      "evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_finger_flexion.json",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_joint_kinematics.json",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/skeleton_lock_r38/r38_skeleton_motion.json"
+      ]
+    }
+  ]
 }

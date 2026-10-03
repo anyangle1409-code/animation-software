@@ -48,6 +48,18 @@ revalidates the exact Phase 4-11 exit-report bytes, requires Phase 9 to bind the
 final model source commit and Phases 10/11 to bind the final runtime commit, and
 requires an explicit owner production-freeze authorization. It never promotes.
 
+## Phase 5 ordered regional receipt chain
+
+Phase 5 exit is additionally fail-closed on the seven regional anatomy receipts.
+Each `anatomy_5A...` through `anatomy_5G...` check must reference exactly one
+`REGION_EVIDENCE_VERIFIED` receipt for the matching region. The verifier follows
+the receipt to its exact hashed regional report, requires 5A's parent to equal the
+recorded Phase 4 freeze candidate, requires every 5B–5G parent/previous-receipt link
+to match the immediately preceding verified region, holds the active epoch/freeze
+identity constant across the sequence, and requires the final 5G candidate to equal
+the Phase 5 exit candidate. Arbitrary hashed PASS files cannot satisfy these seven
+checks.
+
 ## Candidate changes and historical reports
 
 A phase-exit packet is permanently bound to the exact candidate that passed that

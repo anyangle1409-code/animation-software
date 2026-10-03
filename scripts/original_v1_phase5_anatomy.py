@@ -83,7 +83,16 @@ def load_plan(root: Path) -> dict:
     if rig.get("payload") != lock_rig.get("payload", {}).get("path") or rig.get("payload_sha256") != lock_rig.get("payload", {}).get("sha256"):
         raise ValueError("Phase 5 locked rig payload disagrees with skeleton-motion lock")
     helpers = lock.get("helper_decisions", {}).get("added", [])
-    if rig.get("helper_bones") != helpers:
+    expanded_helpers = []
+    for helper in helpers:
+        if isinstance(helper, str) and helper.endswith("_l/r"):
+            base = helper[:-4]
+            expanded_helpers.extend([base + "_l", base + "_r"])
+        else:
+            expanded_helpers.append(helper)
+    declared_helpers = rig.get("helper_bones")
+    if (not isinstance(declared_helpers, list) or len(declared_helpers) != len(set(declared_helpers)) or
+            sorted(declared_helpers) != sorted(expanded_helpers)):
         raise ValueError("Phase 5 helper-bone contract disagrees with skeleton-motion lock")
     capture_plan = read(root, CAPTURE_PLAN)
     if capture_plan.get("schema_version") != 1 or capture_plan.get("status") != "PREPARED_PHASE5_REGION_CAPTURE_PLAN":

@@ -4,15 +4,15 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r55 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
-SHA-256: `ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7`
+r69 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
+SHA-256: `1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215`
 
 DEVELOPMENT BLOCKERS
-0 failures; 31 separate strict severity regressions versus R2.
+0 failures; 23 separate strict severity regressions versus R2.
 
 
 WHAT CHANGED
-r55: solution corr_v8.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r48.blend; candidate remains experimental.
+r69: solution corr_v17.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r68.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -51,18 +51,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-02T20:04:13.183031+00:00
+Evidence timestamp: 2026-10-02T23:32:22.558779+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r55.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r69.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_r48.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_r48.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

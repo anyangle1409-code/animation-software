@@ -313,6 +313,38 @@
           "sha256": "e5a55116441a1ae59b594b1dc502c7293c629d3a4e3606744147fa84ae2f6e3a"
         }
       ]
+    },
+    "r69": {
+      "candidate_sha256": "1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215",
+      "chosen_parent": "r48",
+      "classification": "EXPERIMENTAL",
+      "reason": "Worker execution lineage only; not owner acceptance, not production approval. r69 = r43 (rig rev2c, scapula pivot 35 percent, forearm-only twist helpers) + shoulder weights o45 (o44 trunk anchoring plus face-area floor and surface-roughness barriers) + wrist band (o26) + LOCAL pit-knot weight edit o47 (Option B, declared zone of 168 vertices before the solve: ORIGINAL_V1_WORK/candidates/repair_preparation/r68_pit_knot_weights_declared) + generic shoulder/axilla corrective shape keys (solution corr_v17; humerothoracic-elevation smoothstep 40..150 deg times trunk-frame abduction fraction; 1491 declared left-owned vertices, mirror-symmetric; solver barriers: edge stretch/compression, p99 tail, fold floor 0.3, face-area floor 0.35, roughness tolerance 0.2, contact). Trial lineage r49..r67 and r68 preserved. Owner decision 2026-10-02: option A first, auto-escalate to B on evidence; option C refused. Evidence: option A alone saturated (r66 vs r67: tightening barriers further gave no gain, anterior-shoulder knot of mixed clavicle/upper-arm weights persisted), so B was applied to the knot zone (r68) and the corrective re-fitted (r69). Measured under P3: 0 development failures (r48 had 3), 23 comparator regressions vs P3B1 (self-intersections in overhead poses up to 130, under the 200 gate; arm-region ratio ranges wider, inside gates), 18 vs r48. Continuous arc (33 samples per pose): torso edge max 3.31 min 0.455, volume 1.000-1.047 with max step 0.4 percent, drift max 0.147 m. Visual: tears, slivers and crumpling cleared; remaining items (rounded shoulder cap, chest scoops, one small pointed tip at the pit top) are stylisation for Phase 5B.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_P3B1.json",
+          "sha256": "ec8d3b1c5a0d414d98992067e573abb34659b17b652cdc835c84d6f02d1a95c3"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_r48.json",
+          "sha256": "d20e23e23292486d32caf2ccb73531b1e1afa5cc8251b18a9ace59665476dcd7"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_evidence_manifest.json",
+          "sha256": "4ec1f8410d4adb0eb8eccd4312075629e445431638bd23ef19584e5f96bd7abf"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r69.json",
+          "sha256": "1bb5e605241d7330f1de8c3721c61edd3111565a5d39518f495dcd8e248741db"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r68_pit_knot_weights_declared/pit_knot_zone_declared_before_solve.json",
+          "sha256": "1c8b0d2a76957e8cce9bc058ac980635628d08ca5ce345a8fff6ae6a6fe23dc8"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r69_arc.json",
+          "sha256": "f95c14a7dadb1777a9a5e93748ded15dc5015fea693073be3603bebff5e1f3df"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

@@ -15,6 +15,7 @@ import subprocess
 
 from original_v1_production_control import ROOT, build, digest, ensure_finite, read
 from verify_original_v1_production_promotion import safe_path
+from original_v1_phase5_region_review import load_capture_plan, verify_source_metadata, verify_published_review
 
 PLAN = "ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json"
 CAPTURE_PLAN = "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json"
@@ -222,11 +223,28 @@ def verify_region_report(root: Path, report: dict, plan: dict, region: str, expe
     if not isinstance(artifacts, dict) or set(artifacts) != set(required_artifacts):
         issues.append("regional artifact inventory must exactly cover required evidence")
     else:
+        resolved_artifacts = {}
         for key in required_artifacts:
             try:
-                ref_file(root, artifacts[key], key)
+                resolved_artifacts[key] = ref_file(root, artifacts[key], key)
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 issues.append(f"{key}: {exc}")
+        if sha and "actual required render/capture manifest" in resolved_artifacts and "regional review manifest" in resolved_artifacts:
+            try:
+                capture_plan = load_capture_plan(root)
+                source_path = resolved_artifacts["actual required render/capture manifest"]
+                source_data = verify_source_metadata(root, source_path, region, sha, capture_plan)
+                verify_published_review(
+                    root,
+                    resolved_artifacts["regional review manifest"],
+                    region,
+                    sha,
+                    capture_plan,
+                    source_path,
+                    source_data,
+                )
+            except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+                issues.append("regional capture/review evidence: " + str(exc))
 
     prev = predecessor(plan, region)
     if prev is None:

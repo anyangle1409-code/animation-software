@@ -76,6 +76,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_locked_rig.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_axilla_disposition.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_continuation_decision.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_collision_free_revision.py'
           python3 scripts/audit_original_v1_current_contracts.py
       - name: Verify generated status is exact
         run: python3 scripts/build_original_v1_daily_status.py --check
@@ -87,7 +88,7 @@ jobs:
         run: python3 scripts/audit_original_v1_candidate_glbs.py
       - name: Syntax-check Blender-facing evidence tools
         run: |
-          python3 -m py_compile scripts/snapshot_original_v1_model_blender.py scripts/pose_test_original_v1_o4_candidate_blender.py scripts/probe_original_v1_grip_penetration_blender.py scripts/original_v1_milestone_review.py scripts/original_v1_locked_rig.py scripts/original_v1_axilla_disposition.py scripts/verify_original_v1_continuation_decision.py scripts/audit_original_v1_current_contracts.py
+          python3 -m py_compile scripts/snapshot_original_v1_model_blender.py scripts/pose_test_original_v1_o4_candidate_blender.py scripts/probe_original_v1_grip_penetration_blender.py scripts/original_v1_milestone_review.py scripts/original_v1_locked_rig.py scripts/original_v1_axilla_disposition.py scripts/verify_original_v1_continuation_decision.py scripts/select_original_v1_collision_free_revision.py scripts/audit_original_v1_current_contracts.py
           python3 scripts/test_original_v1_shoulder_corrective_area_gradient.py
           python3 -m py_compile scripts/run_original_v1_axilla_trial_sweep.py
           python3 -m py_compile scripts/dump_original_v1_arc_skinning_blender.py scripts/optimize_original_v1_shoulder_corrective.py scripts/audit_original_v1_axilla_pit_blender.py scripts/audit_original_v1_axilla_candidate_blender.py scripts/apply_original_v1_axilla_delta_blender.py

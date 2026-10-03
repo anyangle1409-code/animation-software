@@ -21,7 +21,19 @@ RUN_ORIGINAL_V1_EXECUTION_PLAN.bat
 RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
 ```
 
-Use the next collision-free target revision if `r56` already exists locally.
+If you do not know whether `r56` or another target label already exists locally,
+use the collision-safe wrapper instead:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r55
+```
+
+It scans actual local candidate/evidence paths, treats partial work as reserving its
+revision, selects one number above the highest observed `rN`, and then calls the
+same guarded pipeline. It is only a label allocator; it does not alter model state,
+accept evidence or bypass any child-stage collision check.
+
+Use the AUTO wrapper when the next collision-free target is uncertain; otherwise the explicit r55→r56 command remains valid while r56 is unused.
 Preflight/NEXT/orchestration are read-only; they must agree that the active action
 is `RUN local axilla repair` before executing the pipeline. If generated status
 has advanced, follow it instead of this embedded example.

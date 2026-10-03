@@ -103,7 +103,7 @@ def build_package(root:Path,revision:str)->dict:
 def markdown(data:dict)->str:
     lines=[
         f"# {data['candidate_revision']} review package","",
-        f"Candidate SHA: \`{data['candidate_sha256']}\`",
+        f"Candidate SHA: `{data['candidate_sha256']}`",
         f"Classification/state: **{data.get('candidate_classification')} / {data.get('candidate_state')}**",
         f"Owner review: **{data.get('owner_review')}** — routine review NON-BLOCKING.","",
     ]

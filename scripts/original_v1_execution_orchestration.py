@@ -113,11 +113,14 @@ def select_node(plan: dict, state: dict) -> dict:
             return nodes["3D_wrist"]
         if sub == "3E":
             return nodes["3E_lunge"]
-        if sub == "4" and state.get("next_action", {}).get("action", "").startswith(("RECONCILE", "ENTER development freeze")):
-            # Every 3x subphase is complete but Phase 3 itself is not (strict regressions still to reconcile): show the
-            # prepared Phase 4 package as the upcoming node. This only selects a document; it never completes a phase
-            # and the Phase 4 package itself refuses to run while regressions are unresolved.
-            return nodes["4_freeze"]
+        if sub == "4":
+            action = state.get("next_action", {}).get("action", "")
+            if action == "RUN local axilla repair":
+                return nodes["3A_axilla_local"]
+            if action.startswith(("RECONCILE", "ENTER development freeze")):
+                # Every 3x subphase is complete but Phase 3 itself is not. Reconciliation/preflight points at
+                # the prepared Phase 4 package; candidate-bound local deformation work stays on its own node.
+                return nodes["4_freeze"]
         raise ValueError(f"unsupported active Phase 3 subphase: {sub}")
 
     mapping = {

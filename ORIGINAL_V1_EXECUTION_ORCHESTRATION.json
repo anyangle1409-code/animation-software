@@ -236,6 +236,32 @@
       ]
     },
     {
+      "id": "3A_axilla_local",
+      "roadmap": "Phase 3A residual local axilla deformation repair before development freeze",
+      "entry": [
+        "current complete candidate is explicitly bound by production control to a local axilla repair",
+        "development blockers are zero but strict/visual axilla evidence still blocks freeze",
+        "rev2c rig, P3a pose definition, thresholds and pinned baselines remain locked"
+      ],
+      "action": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+      "support_stages": [
+        1,
+        2,
+        3,
+        9
+      ],
+      "exit": [
+        "new collision-free candidate has complete full evidence and predecessor/P3B1 comparisons",
+        "declared axilla-face arc audit has no unresolved inversion/collapse regression",
+        "real review renders are captured and candidate disposition is reconciled"
+      ],
+      "next_on_pass": "4_freeze",
+      "next_on_tradeoff": "preserve evidence and continue only with a new declared local experiment; never auto-freeze",
+      "parallel_safe": [
+        "read-only comparator/review analysis"
+      ]
+    },
+    {
       "id": "4_freeze",
       "roadmap": "Phase 4 development deformation freeze",
       "entry": [
@@ -459,6 +485,17 @@
         "scripts/smoke_original_v1_candidate_blender.py",
         "scripts/original_v1_blender_smoke.py",
         "RUN_ORIGINAL_V1_BLENDER_SMOKE.bat"
+      ]
+    },
+    "axilla_local_repair": {
+      "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+      "artifacts": [
+        "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat",
+        "RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat",
+        "RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat",
+        "RUN_ORIGINAL_V1_AXILLA_PIT_APPLY.bat",
+        "RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat",
+        "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md"
       ]
     }
   }

@@ -28,9 +28,13 @@ class ExecutionOrchestrationTests(unittest.TestCase):
         phase3 = {"3B": "3B_r30", "3C": "3C_grip_thumb", "3D": "3D_wrist", "3E": "3E_lunge"}
         if state["phases"]["3"]["state"] != "complete":
             if state["current_subphase"] == "4":
-                # all 3x subphases done, strict regressions still to reconcile: next node is the prepared Phase 4 package
-                self.assertTrue(state["next_action"]["action"].startswith(("RECONCILE", "ENTER development freeze")))
-                self.assertEqual(node["id"], "4_freeze")
+                action=state["next_action"]["action"]
+                if action=="RUN local axilla repair":
+                    self.assertEqual(node["id"],"3A_axilla_local")
+                    self.assertEqual(node["action"],state["next_action"]["command"])
+                else:
+                    self.assertTrue(action.startswith(("RECONCILE", "ENTER development freeze")))
+                    self.assertEqual(node["id"], "4_freeze")
             else:
                 self.assertIn(state["current_subphase"], phase3)
                 self.assertEqual(node["id"], phase3[state["current_subphase"]])
@@ -50,6 +54,8 @@ class ExecutionOrchestrationTests(unittest.TestCase):
         state["current_subphase"] = "4"
         state["next_action"] = {"action": "RECONCILE freeze regressions"}
         self.assertEqual(o.select_node(plan, state)["id"], "4_freeze")
+        state["next_action"] = {"action": "RUN local axilla repair", "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56"}
+        self.assertEqual(o.select_node(plan, state)["id"], "3A_axilla_local")
         state["next_action"] = {"action": "REPAIR lunge"}
         with self.assertRaisesRegex(ValueError, "unsupported active Phase 3 subphase"):
             o.select_node(plan, state)

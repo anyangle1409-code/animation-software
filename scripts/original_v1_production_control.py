@@ -37,6 +37,54 @@ def revision_key(rev):
     return (int(m[1]), m[2]) if m else (-1, rev)
 
 
+def candidate_lineage(entries, current_revision):
+    """Return current->ancestor candidate rows using exact parent SHA identity.
+
+    Historical/baseline rows without candidate parent identity are not traversed.
+    A repeated SHA or missing declared parent stops inheritance rather than guessing.
+    """
+    if current_revision not in entries:
+        raise ValueError("current candidate missing from lineage map")
+    by_sha = {}
+    for revision, row in entries.items():
+        sha = row.get("sha256")
+        if isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha):
+            if sha in by_sha and by_sha[sha].get("revision") != row.get("revision"):
+                raise ValueError("candidate SHA appears under multiple revisions")
+            by_sha[sha] = row
+    chain = []
+    seen = set()
+    row = entries[current_revision]
+    while row:
+        sha = row.get("sha256")
+        if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{64}", sha):
+            raise ValueError("invalid candidate SHA in lineage")
+        if sha in seen:
+            raise ValueError("candidate lineage cycle")
+        seen.add(sha)
+        chain.append(row)
+        parent_sha = row.get("parent_sha256")
+        if not parent_sha:
+            break
+        parent = by_sha.get(parent_sha)
+        if parent is None:
+            # Parent may be the non-candidate original source. Never infer a candidate
+            # ancestor from a filename or revision number when its SHA is unavailable.
+            break
+        row = parent
+    return chain
+
+
+def phase_checkpoint_on_lineage(entries, current_revision, checkpoint_sha):
+    if not isinstance(checkpoint_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", checkpoint_sha):
+        raise ValueError("phase completion candidate SHA invalid")
+    lineage = candidate_lineage(entries, current_revision)
+    for depth, row in enumerate(lineage):
+        if row["sha256"] == checkpoint_sha:
+            return {"revision": row["revision"], "sha256": checkpoint_sha, "depth": depth}
+    raise ValueError("phase completion candidate is not on current candidate lineage")
+
+
 def ensure_finite(value):
     if isinstance(value, float) and not math.isfinite(value): raise ValueError('non-finite evidence')
     if isinstance(value, dict):
@@ -371,22 +419,39 @@ def build(root=ROOT):
     for n in range(4,13): phases[str(n)]={'state':'not_started','reason':'Required ordered exit evidence has not been recorded.'}
     for p in ('5A','5B','5C','5D','5E','5F','5G'):
         phases[p]={'state':'not_started','reason':'Regional anatomy package prepared; modelling not executed.'}
+    previous_checkpoint_depth = None
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
         if record:
             from verify_original_v1_production_promotion import safe_path
             packet_path=safe_path(root,record['evidence']['path'])
-            if record.get('candidate_sha256')!=current['sha256'] or digest(packet_path)!=record['evidence']['sha256']:
-                raise ValueError('stale phase completion record: '+str(n))
+            if digest(packet_path)!=record['evidence']['sha256']:
+                raise ValueError('stale phase completion record evidence: '+str(n))
+            checkpoint = phase_checkpoint_on_lineage(entries, rev, record.get('candidate_sha256'))
+            # Later phases must be recorded on the same or a NEWER descendant checkpoint
+            # than the preceding phase (depth 0=current; larger depth=older ancestor).
+            if previous_checkpoint_depth is not None and checkpoint['depth'] > previous_checkpoint_depth:
+                raise ValueError('phase completion checkpoint order conflicts with candidate lineage: '+str(n))
             packet=read(root,record['evidence']['path'])
             from verify_original_v1_phase_exit import verify_exit
-            exit_issues=verify_exit(root,n,packet,current['sha256'])
+            exit_issues=verify_exit(root,n,packet,checkpoint['sha256'])
             if exit_issues:raise ValueError('invalid phase exit evidence '+str(n)+': '+'; '.join(exit_issues))
-            if n==4 and (fails or regs): raise ValueError('development freeze requires zero blockers and unresolved regressions')
-            if n>4 and phases[str(n-1)]['state']!='complete': raise ValueError('phase completion bypasses dependency')
-            # This model status never grants final promotion, even if a packet claims it.
-            if n==12: raise ValueError('Phase 12 requires separate controlled promotion workflow')
-            phases[str(n)]={'state':'complete','reason':'Candidate-bound exit packet verified.','evidence':record['evidence']}
+            # If Phase 4 is being recorded on the CURRENT candidate, the current
+            # deformation state itself must still be freeze-clean. Descendants may
+            # inherit the immutable Phase 4 checkpoint only through exact SHA lineage;
+            # any new regression reopens Phase 3 independently.
+            if n==4 and checkpoint['depth']==0 and (fails or regs):
+                raise ValueError('development freeze requires zero blockers and unresolved regressions')
+            if n>4 and phases[str(n-1)]['state']!='complete':
+                raise ValueError('phase completion bypasses dependency')
+            if n==12:
+                raise ValueError('Phase 12 requires separate controlled promotion workflow')
+            phases[str(n)]={'state':'complete',
+                            'reason':'Candidate-bound phase checkpoint verified on current lineage.',
+                            'checkpoint_revision':checkpoint['revision'],
+                            'checkpoint_candidate_sha256':checkpoint['sha256'],
+                            'evidence':record['evidence']}
+            previous_checkpoint_depth = checkpoint['depth']
     refs=[evidence(root,current['evidence_location']),current['manifest'],evidence(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')]
     if current.get('full_evidence_receipt'): refs.append(current['full_evidence_receipt'])
     for c in current['comparisons'].values(): refs.append(c['evidence'])

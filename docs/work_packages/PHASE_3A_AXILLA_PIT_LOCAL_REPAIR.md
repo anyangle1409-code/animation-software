@@ -158,3 +158,13 @@ A candidate may replace r55 as the experimental continuation only when:
 - the declared-mask audit proves the edit stayed local.
 
 Phase 4 is still blocked while unresolved strict regressions remain. A zero-blocker candidate is not automatically a freeze candidate.
+
+### One-command candidate validation
+
+After `RUN_ORIGINAL_V1_AXILLA_PIT_APPLY.bat r55 <rev>` creates the new candidate, run:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat <rev> r55
+```
+
+This runs the full 15-pose evidence set and r55/P3B1 comparisons, the remaining diagnostics, a declared-triangle axilla arc audit against same-pose uncorrected LBS, real milestone review captures, and candidate evidence-closure verification. It is read-only with respect to the candidate and never records acceptance or production promotion.

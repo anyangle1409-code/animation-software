@@ -2243,3 +2243,7 @@ Added `scripts/audit_original_v1_axilla_pit_blender.py` and `RUN_ORIGINAL_V1_AXI
 ### 2026-10-03 incremental parent reconstruction guard
 
 The r55 local solve reconstructs active relative shape keys before validating the arc dump's LBS model. This is necessary because r55 already carries the broad shoulder corrective: comparing its evaluated surface with Basis-only LBS would fail and prevent the incremental solve. The optimizer starts from the evaluated r55 surface, while its signed-area target remains the same-pose uncorrected LBS surface. A deterministic finite-difference check of the signed-area analytic gradient now runs before each axilla solve. No candidate asset, gate, rig, pose definition or baseline is changed by this guard.
+
+### 2026-10-03 post-edit validation loop
+
+Added `RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat` plus `scripts/audit_original_v1_axilla_candidate_blender.py`. A fresh incremental candidate can now be taken through full 15-pose evidence, predecessor comparison, remaining diagnostics, declared-triangle arc-area/orientation audit, real milestone captures and evidence-closure verification with one command. The local face audit is numeric evidence only and never substitutes for visual review or production gates.

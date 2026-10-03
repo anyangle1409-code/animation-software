@@ -1,0 +1,49 @@
+contact pairs refreshed: 1295666
+mask left-owned 1491 total 2944 edges 6018 poses 51 (active 35) initial loss 829246.8
+iter    1 loss 829226.237 |g| 2.057e+07 max|D| 0.0736
+iter   25 loss 636912.864 |g| 3.723e+06 max|D| 0.0737
+iter   50 loss 624493.693 |g| 2.688e+06 max|D| 0.0737
+iter   75 loss 619058.042 |g| 1.653e+06 max|D| 0.0737
+iter  100 loss 615458.017 |g| 1.183e+06 max|D| 0.0737
+iter  125 loss 613048.885 |g| 1.310e+06 max|D| 0.0736
+contact pairs refreshed: 1297176
+iter  150 loss 610759.443 |g| 1.048e+06 max|D| 0.0736
+iter  175 loss 609888.505 |g| 6.537e+05 max|D| 0.0736
+iter  200 loss 608710.761 |g| 1.031e+06 max|D| 0.0736
+iter  225 loss 606833.064 |g| 1.755e+06 max|D| 0.0736
+iter  250 loss 604570.981 |g| 1.213e+06 max|D| 0.0753
+iter  275 loss 601969.239 |g| 3.138e+06 max|D| 0.0777
+contact pairs refreshed: 1300620
+iter  300 loss 598903.429 |g| 2.529e+06 max|D| 0.0802
+iter  325 loss 597799.393 |g| 7.418e+05 max|D| 0.0800
+iter  350 loss 596872.031 |g| 1.158e+06 max|D| 0.0798
+iter  375 loss 596144.134 |g| 9.120e+05 max|D| 0.0799
+iter  400 loss 595067.086 |g| 8.849e+05 max|D| 0.0805
+iter  425 loss 593905.936 |g| 9.788e+05 max|D| 0.0817
+iter  450 loss 592449.488 |g| 9.704e+05 max|D| 0.0833
+entry                     theta  act  edgeMax before->after   edgeMin before->after   torsoDrift before->after
+press_bottom                81.7  0.30     3.94 ->   2.85         0.313 ->  0.500         0.121 ->  0.116
+press_bottom@0.500          40.9  0.00     2.49 ->   2.49         0.578 ->  0.578         0.064 ->  0.064
+press_bottom@0.750          61.3  0.09     3.29 ->   2.86         0.511 ->  0.557         0.095 ->  0.093
+press_bottom@0.875          71.5  0.19     3.64 ->   2.85         0.412 ->  0.594         0.109 ->  0.105
+press_top                  166.0  1.00     4.31 ->   2.85         0.268 ->  0.445         0.151 ->  0.148
+press_top@0.500             83.0  0.34     3.25 ->   2.18         0.203 ->  0.516         0.098 ->  0.093
+press_top@0.750            124.6  0.86     4.06 ->   2.58         0.216 ->  0.425         0.134 ->  0.126
+press_top@0.875            145.3  0.99     4.25 ->   2.63         0.313 ->  0.372         0.145 ->  0.139
+press_top_rhythm           166.0  1.00     4.26 ->   2.72         0.234 ->  0.445         0.185 ->  0.147
+press_top_rhythm@0.500      83.1  0.34     3.15 ->   2.13         0.166 ->  0.432         0.096 ->  0.091
+press_top_rhythm@0.750     124.7  0.87     3.96 ->   2.53         0.249 ->  0.435         0.139 ->  0.124
+press_top_rhythm@0.875     145.4  0.99     4.17 ->   2.65         0.290 ->  0.439         0.162 ->  0.137
+pullup_hang                155.8  1.00     4.18 ->   2.61         0.275 ->  0.431         0.145 ->  0.141
+pullup_hang@0.500           77.9  0.27     2.95 ->   2.00         0.260 ->  0.565         0.087 ->  0.084
+pullup_hang@0.750          116.9  0.78     3.78 ->   2.46         0.134 ->  0.456         0.123 ->  0.116
+pullup_hang@0.875          136.4  0.96     4.04 ->   2.57         0.214 ->  0.448         0.136 ->  0.130
+pullup_hang_rhythm         155.8  1.00     4.12 ->   2.71         0.260 ->  0.413         0.170 ->  0.140
+pullup_hang_rhythm@0.500    78.0  0.27     2.85 ->   1.98         0.180 ->  0.464         0.085 ->  0.082
+pullup_hang_rhythm@0.750   117.0  0.78     3.68 ->   2.41         0.165 ->  0.386         0.128 ->  0.114
+pullup_hang_rhythm@0.875   136.4  0.96     3.96 ->   2.56         0.208 ->  0.407         0.149 ->  0.129
+pullup_top                  62.5  0.10     3.72 ->   3.31         0.285 ->  0.396         0.109 ->  0.107
+pullup_top@0.750            46.8  0.01     3.08 ->   3.03         0.464 ->  0.467         0.085 ->  0.085
+pullup_top@0.875            54.7  0.05     3.42 ->   3.21         0.390 ->  0.435         0.098 ->  0.097
+pullup_bar                 155.8  1.00     4.18 ->   2.61         0.275 ->  0.431         0.145 ->  0.141
+SOLUTION C:\Users\Mark\AppData\Local\Temp\claude\C--Users-Mark-Documents-animation-software\a03a00a6-7deb-42cf-83e5-afef93e56c83\scratchpad\corr_v18.npz loss 592449.488 max |D| 0.0833 m

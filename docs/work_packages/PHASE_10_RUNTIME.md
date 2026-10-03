@@ -7,7 +7,7 @@ not the runtime integration target; never merge its older app/framework code.
 
 ## Scope and boundary
 
-Prepare and test asset-only integration using project-owned canonical-v4 binding
+Prepare and test asset-only integration using the project-owned locked rev2c canonical-v4 binding
 and measured ORIGINAL contact/grip metadata. Discover the live standalone branch
 state read-only before choosing its exact integration commit. Historical branch
 name `work/standalone-first-party-audit-20260927` is a handoff reference; verify its
@@ -29,7 +29,11 @@ promote the model. Final production transfer belongs to Phase 12.
 
 No old V-series grip frames, bind matrices, offsets, assets or fallback character
 rows may become production input. Derive explicit metadata from this candidate's
-own measured palm/thumb/handle/floor contact. Freeze the canonical rig structure.
+own measured palm/thumb/handle/floor contact. Freeze the recorded rev2c rig structure:
+67 total / 66 deform bones, structure SHA
+`aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197`.
+A runtime that merely reports `v4_active` but does not declare this exact revision,
+bone count and structure identity is not compatible evidence.
 If actual binding identifies a skeletal defect, preserve the evidence and pause
 only that protected change; continue independent safe validation work.
 
@@ -45,7 +49,9 @@ current.
 
 At preparation time runtime HEAD `e3a7d915079f018acbfd8198655f623ea7831fbf`
 showed v4 active in source/contract, while older CURRENT_HANDOFF prose still said
-v3 was live. Source and executable contracts outrank that prose. That exact HEAD
+v3 was live. Source and executable contracts outrank that prose. Generic v4 activation
+is not enough for the current model: future discovery must additionally match the
+model's `rev2_forearm_twist_only` 67-bone structure identity. That exact HEAD
 is **not an integration checkpoint**: standalone run 36739619686 failed two
 `firstPartySkeleton.parity.test.ts` assertions at a 0.02 m root/root-tail delta,
 and downstream full-suite/build/audit steps did not run; browser run 36739619753
@@ -60,7 +66,7 @@ the real runtime generator/solver/equipment/export path.
 ## Exact execution requirements
 
 Prepare a runtime evidence harness on the actual standalone target before execution.
-Bind engine commit, candidate and both asset hashes, own metadata, exercise ID,
+Bind engine commit, candidate and both asset hashes, exact rev2c rig identity/revision/structure SHA, own metadata, exercise ID,
 parameters, deterministic seed/config, duration and sample times. Execute the real
 exercise generation/validation/export path. First acceptance scenario: the product
 request `exercise: dumbbell shoulder press`; preserve the request-to-definition

@@ -318,15 +318,15 @@ def build(args) -> tuple[dict, int]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--full-evidence-manifest", type=Path, required=True)
-    ap.add_argument("--merged-pose-report", type=Path, required=True)
-    ap.add_argument("--raw-pair", type=Path, required=True)
-    ap.add_argument("--static-dressed", type=Path, required=True)
-    ap.add_argument("--range-evidence", type=Path, required=True)
-    ap.add_argument("--contact-bridge", type=Path, required=True)
-    ap.add_argument("--bare-dressed-equivalence", type=Path, required=True)
-    ap.add_argument("--export-evidence", type=Path, required=True)
-    ap.add_argument("--out-dir", type=Path, required=True)
+    ap.add_argument("--full-evidence-manifest", type=Path)
+    ap.add_argument("--merged-pose-report", type=Path)
+    ap.add_argument("--raw-pair", type=Path)
+    ap.add_argument("--static-dressed", type=Path)
+    ap.add_argument("--range-evidence", type=Path)
+    ap.add_argument("--contact-bridge", type=Path)
+    ap.add_argument("--bare-dressed-equivalence", type=Path)
+    ap.add_argument("--export-evidence", type=Path)
+    ap.add_argument("--out-dir", type=Path)
     ap.add_argument("--verify-receipt", type=Path)
     args = ap.parse_args()
     try:
@@ -335,6 +335,20 @@ def main() -> int:
             issues = verify_receipt(ROOT, data)
             print(json.dumps({"contract_status": "REFUSED" if issues else "PHASE9_VALIDATION_VERIFIED", "issues": issues, "production_approved": False}, indent=2))
             return 1 if issues else 0
+        required = {
+            "--full-evidence-manifest": args.full_evidence_manifest,
+            "--merged-pose-report": args.merged_pose_report,
+            "--raw-pair": args.raw_pair,
+            "--static-dressed": args.static_dressed,
+            "--range-evidence": args.range_evidence,
+            "--contact-bridge": args.contact_bridge,
+            "--bare-dressed-equivalence": args.bare_dressed_equivalence,
+            "--export-evidence": args.export_evidence,
+            "--out-dir": args.out_dir,
+        }
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise ValueError("build mode missing required arguments: " + ", ".join(missing))
         receipt, code = build(args)
         print(json.dumps({"contract_status": receipt["contract_status"], "candidate_revision": receipt["candidate_revision"], "issues": receipt["issues"], "production_approved": False}, indent=2))
         return code

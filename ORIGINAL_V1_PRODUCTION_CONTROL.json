@@ -285,6 +285,32 @@
           "sha256": "cdde102776995310df2643888f7207f00c0bcfb73019c2023b0476439cb92513"
         }
       ]
+    },
+    "r55": {
+      "candidate_sha256": "ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7",
+      "chosen_parent": "r48",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r49-r54 are preserved corrective trials branching from r48. r55 is selected only as the current experimental continuation because it clears all 14 P3B1 development failures (0 remaining) and clears the 3 r48 development failures while keeping continuous-arc volume/symmetry stable. It is NOT eligible for Phase 4 freeze: versus P3B1 it still has 31 strict severity regressions and visual evidence shows residual axilla-pit sliver tearing/crumpling, with elevated self-intersection counts in press/pull-up poses. Diagnostics show the worst edges are <=3.65, so the residual is a thin-face folding/topology-weight problem rather than a rig, pose-definition or broad edge-stretch defect. Continue with a declared local axilla-pit repair / face-area barrier; do not reopen rev2c skeleton, P3a pose definition, thresholds or pinned baselines.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_comparison_vs_r48.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r55_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r55/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r55_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r55_press_top_worst_edges.json"
+        }
+      ]
     }
   },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",

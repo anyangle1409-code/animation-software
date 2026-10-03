@@ -50,6 +50,8 @@ def main():
     ap.add_argument("--trunk-a1", type=float, default=0.20)
     ap.add_argument("--trunk-rb", type=float, default=0.18)
     ap.add_argument("--w-fold", type=float, default=0.0, help="dihedral fold barrier (cos below min(0.2, current-0.05) is penalised)")
+    ap.add_argument("--w-area", type=float, default=0.0, help="signed face-area/orientation barrier for mask triangles; disabled by default")
+    ap.add_argument("--area-min", type=float, default=0.20, help="minimum signed projected double-area ratio versus the uncorrected pose")
     ap.add_argument("--w-prox", type=float, default=0.0, help="no-new-contact barrier between non-neighbouring mask vertices (sheets must not close below min(base distance, --prox-d))")
     ap.add_argument("--prox-d", type=float, default=0.012)
     ap.add_argument("--rounds", type=int, default=1)
@@ -146,6 +148,20 @@ def main():
         return n, n1, n2, (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
 
     FOLD = np.stack([np.minimum(0.2, dihedral(P0[p])[3] - 0.05) for p in range(nP)]) if a.w_fold > 0 else None
+    # signed projected face-area/orientation reference. A negative ratio means a face flipped;
+    # a small positive ratio means it collapsed into a sliver. This targets the r55 axilla-pit
+    # failure mode that edge-length and dihedral-only checks can miss.
+    AREA_N0 = AREA_DEN = None
+    if a.w_area > 0:
+        area_n0, area_den = [], []
+        for p in range(nP):
+            A0_, B0_, C0_ = P0[p][Tz[:, 0]], P0[p][Tz[:, 1]], P0[p][Tz[:, 2]]
+            n0 = np.cross(B0_ - A0_, C0_ - A0_)
+            area_n0.append(n0)
+            area_den.append(np.maximum((n0 * n0).sum(axis=1), 1e-18))
+        AREA_N0 = np.stack(area_n0)
+        AREA_DEN = np.stack(area_den)
+
     # no-new-contact barrier: pairs of mask vertices far apart on the rest surface (>= 3 cm) that are close in a pose
     rZ = rest[Z]
     far_rest = None
@@ -220,6 +236,17 @@ def main():
                     np.add.at(gn, adj[:, 0], gn1)
                     np.add.at(gn, adj[:, 1], gn2)
                     A_, B_, C_ = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                    np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
+                    np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
+                    np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
+            if a.w_area > 0:
+                A_, B_, C_ = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                n = np.cross(B_ - A_, C_ - A_)
+                signed_area_ratio = (n * AREA_N0[p]).sum(axis=1) / AREA_DEN[p]
+                ax = np.maximum(a.area_min - signed_area_ratio, 0.0)
+                if (ax > 0).any():
+                    total += a.w_area * (ax ** 2).sum()
+                    gn = ((-2.0 * a.w_area * ax) / AREA_DEN[p])[:, None] * AREA_N0[p]
                     np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
                     np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
                     np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))

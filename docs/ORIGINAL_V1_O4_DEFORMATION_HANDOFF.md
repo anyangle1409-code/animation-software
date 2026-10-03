@@ -2223,3 +2223,12 @@ Owner review of r41 withdrew the first lock (toes/forefoot and shoulder/axilla n
 NEXT ACTION (evidence-selected): RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r55, then decide between options (a)/(b)/(c) above; r55 has 0 development failures but a visual armpit residual, so Phase 3 exit has not been run.
 
 Status-selected next action: RECONCILE trial lineage (r49-r54 are preserved trial/exploratory candidates leading to r55; r55 is the current evidence candidate). After that, choose corrective option (a)/(b)/(c).
+
+## GPT repository assist — 2026-10-03: r55 lineage reconciled, local axilla repair prepared
+
+- Recorded r55 in `ORIGINAL_V1_PRODUCTION_CONTROL.json` as the current **experimental continuation only**. This is not owner acceptance, baseline promotion, Phase 4 freeze or production approval. r49-r54 remain preserved trial evidence.
+- The continuation decision is evidence-led: r55 has 0 development failures, but 31 strict severity regressions versus P3B1 and a visible axilla-pit sliver/crumple residual. The r55 worst-edge probe is <=3.65, so the remaining visible spike is treated as thin-face collapse/folding rather than a reason to reopen the rev2c skeleton or P3a stress poses.
+- Added a disabled-by-default signed face-area/orientation barrier to `scripts/optimize_original_v1_shoulder_corrective.py` (`--w-area`, `--area-min`). Existing solves are unchanged at the default `--w-area 0`. The barrier detects both sliver collapse and face inversion relative to the uncorrected pose and is intended for the next local corrective attempt.
+- Added `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md` as the next worker package. It requires a declared local mask before editing, preserves the frozen rig/pose/gates, starts with weight/corrective repair before any topology change, and requires full evidence plus continuous-arc and visual checks before Phase 4 can be considered.
+
+**NEXT WORKER ACTION:** follow the axilla-pit package from r55 using the next collision-free candidate label. Do not freeze r55 as-is and do not reopen the rig, P3a pose definition, thresholds or pinned baselines.

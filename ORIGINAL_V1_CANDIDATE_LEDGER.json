@@ -8803,7 +8803,8 @@
       "full_evidence_receipt": {
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_evidence_manifest.json",
         "sha256": "e9349af99b39575997960f0ad3c756fdd9781f60d77711ca3ce0fd3b56c2419d"
-      }
+      },
+      "milestone_review_location": "ORIGINAL_V1_WORK/candidates/review/milestone_r76/visual_review_manifest.json"
     }
   ]
 }

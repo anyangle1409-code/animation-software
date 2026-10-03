@@ -26,6 +26,7 @@ WHAT PASSED
 PENDING OWNER REVIEWS
 - O2 neutral anatomy — pending, NON-BLOCKING.
 - O4 deformation candidates — pending, NON-BLOCKING.
+- [r76 milestone snapshot](../ORIGINAL_V1_WORK/candidates/review/milestone_r76/README.md) — pending, NON-BLOCKING.
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
@@ -63,6 +64,7 @@ Evidence references (exact content hashes are in machine status):
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/diagnostic_brief.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/edge_extremes.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/review/milestone_r76/visual_review_manifest.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

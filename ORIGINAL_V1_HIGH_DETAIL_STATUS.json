@@ -422,6 +422,17 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    },
+    {
+      "checkpoint": "r76 milestone snapshot",
+      "owner_review": "pending",
+      "blocking": false,
+      "candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r76/visual_review_manifest.json",
+        "sha256": "06beeb8d2a1c542cfddc1cf774abf6cce09db3672364bdacd0e673253053d335"
+      },
+      "review_index": "ORIGINAL_V1_WORK/candidates/review/milestone_r76/README.md"
     }
   ],
   "latest_evidence": [
@@ -460,6 +471,10 @@
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/grip_penetration.json",
       "sha256": "e536549699f7668edf7e0a4aa5fae06be3f8e2bd4791bb401915f6f2181d5a8d"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r76/visual_review_manifest.json",
+      "sha256": "06beeb8d2a1c542cfddc1cf774abf6cce09db3672364bdacd0e673253053d335"
     }
   ],
   "last_known_candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",

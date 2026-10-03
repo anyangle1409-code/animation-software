@@ -75,6 +75,15 @@ def verify_phase5_region_receipts(root,checks,candidate_sha):
             receipt.get('phase_complete') is not False or receipt.get('production_approved') is not False or
             receipt.get('issues') not in ([],None)):
             issues.append(f'{check_id}: regional receipt contract differs')
+        plan_ref=receipt.get('plan') or {}
+        try:
+            plan_path=safe_path(root,plan_ref['path'])
+            if plan_ref.get('path')!='ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json' or digest(plan_path)!=plan_ref.get('sha256'):
+                issues.append(f'{check_id}: Phase 5 execution-plan identity differs')
+        except (OSError,ValueError,KeyError,TypeError):
+            issues.append(f'{check_id}: Phase 5 execution-plan identity missing')
+        if not re.fullmatch('[0-9a-f]{40}',str(receipt.get('source_git_commit',''))):
+            issues.append(f'{check_id}: regional receipt source Git commit missing/invalid')
         rsha=receipt.get('candidate_sha256')
         if not re.fullmatch('[0-9a-f]{64}',str(rsha or '')):
             issues.append(f'{check_id}: regional candidate SHA invalid')
@@ -89,6 +98,8 @@ def verify_phase5_region_receipts(root,checks,candidate_sha):
                 issues.append(f'{check_id}: regional report identity/contract differs')
             rfreeze=report.get('development_freeze_candidate_sha256')
             epoch=(report.get('active_epoch_baseline_revision'),report.get('active_epoch_baseline_candidate_sha256'))
+            if not isinstance(epoch[0],str) or not epoch[0] or not re.fullmatch('[0-9a-f]{64}',str(epoch[1] or '')):
+                issues.append(f'{check_id}: active epoch baseline identity missing/invalid')
             if rfreeze!=freeze_sha: issues.append(f'{check_id}: Phase 4 freeze SHA differs from production control')
             if freeze_seen is None: freeze_seen=rfreeze
             elif rfreeze!=freeze_seen: issues.append(f'{check_id}: development-freeze identity changed within Phase 5')

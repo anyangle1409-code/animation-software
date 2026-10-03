@@ -13,10 +13,12 @@ import re
 import subprocess
 
 from original_v1_production_control import ROOT, digest, ensure_finite
+from original_v1_locked_rig import load_locked_rig
 from verify_original_v1_production_promotion import safe_path
 
 TEMPLATE="ORIGINAL_V1_PHASE8_MATERIAL_PROVENANCE_TEMPLATE.json"
 HELPER="scripts/original_v1_phase8_presentation.py"
+CAPTURE="scripts/capture_original_v1_presentation_scene_blender.py"
 
 
 def verify_ref(root:Path,ref:dict,label:str)->None:
@@ -103,6 +105,16 @@ def verify_scene(root:Path,scene:dict,provenance:dict,manifest:dict)->dict:
     if scene.get("candidate_sha256")!=candidate:raise ValueError("presentation scene candidate differs")
     if scene.get("status")!="EVIDENCE_ONLY" or scene.get("phase_complete") is not False or scene.get("production_approved") is not False:
         raise ValueError("presentation scene status differs")
+    locked=load_locked_rig(root)
+    expected_lock={"revision":locked["revision"],"rig_structure_sha256":locked["rig_structure_sha256"],
+                   "bone_count":locked["bone_count"],"deform_bone_count":locked["deform_bone_count"],
+                   "lock":locked["lock"],"payload":locked["payload"]}
+    if scene.get("rig_id")!=locked["identity"] or scene.get("locked_rig")!=expected_lock:
+        raise ValueError("presentation locked rev2c rig identity differs")
+    if scene.get("capture_script")!={"path":CAPTURE,"sha256":digest(root/CAPTURE)}:
+        raise ValueError("presentation capture-script identity differs")
+    if not re.fullmatch(r"[0-9a-f]{40}",str(scene.get("source_git_commit",""))):
+        raise ValueError("presentation source Git commit missing/invalid")
     blockers=[]
     if scene.get("scene_linked_libraries"):blockers.append("scene contains linked external libraries")
     scopes,materials=material_assignments(scene)
@@ -158,7 +170,11 @@ def main()->int:
             path=p.resolve()
             if not path.is_relative_to(ROOT.resolve()) or not path.is_file():raise ValueError(label+" missing/outside repository")
             data=json.loads(path.read_text(encoding="utf-8-sig"));ensure_finite(data);loaded.append((path,data))
-        result=verify_scene(ROOT,loaded[0][1],loaded[1][1],loaded[2][1])
+        scene,manifest=loaded[0][1],loaded[2][1]
+        manifest_path=loaded[2][0]
+        if scene.get("source_candidate_manifest")!={"file":manifest_path.name,"sha256":digest(manifest_path)}:
+            raise ValueError("presentation candidate-manifest identity differs")
+        result=verify_scene(ROOT,scene,loaded[1][1],manifest)
         result["source_evidence"]=[{"path":p.relative_to(ROOT).as_posix(),"sha256":digest(p)} for p,_ in loaded]
         result["provenance_template"]={"path":TEMPLATE,"sha256":digest(ROOT/TEMPLATE)}
         result["verifier"]={"path":HELPER,"sha256":digest(ROOT/HELPER)}

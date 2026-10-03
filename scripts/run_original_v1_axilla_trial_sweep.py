@@ -50,6 +50,7 @@ def main():
     ap.add_argument("--hinge-weight",type=float,default=20000.0)
     ap.add_argument("--hold-region-max",type=float,default=None,help="hold family: a region maximum may rise by at most this margin (must stay inside the comparator region-max tolerance)")
     ap.add_argument("--hold-scope",choices=("region","local"),default=None,help="hold family: bound scope (local = the mask edges of each pose, as the trial selection measures them)")
+    ap.add_argument("--pen-weight",type=float,default=None,help="hold family: enable the anti-penetration barrier with this weight (vertices stay on their rest side of nearby non-adjacent skin triangles)")
     ap.add_argument("--w-hold",type=float,default=None,help="hold family: separate, stronger hinge weight for the regional guards")
     ap.add_argument("--contact-guard",action="store_true",
                     help="with --hold-region-min: also enable the no-new-contact barrier in the hold trial family (guards against new self-intersections)")
@@ -86,6 +87,8 @@ def main():
             if a.hold_region_max is not None:
                 if not 0.0 <= a.hold_region_max < edge_max_tol: raise SystemExit("--hold-region-max must stay inside the comparator region-max tolerance")
                 cmd += ["--hold-region-max",str(a.hold_region_max)]
+            if a.pen_weight is not None:
+                cmd += ["--w-pen",str(a.pen_weight)]
             if a.hold_scope is not None:
                 cmd += ["--hold-scope",a.hold_scope]
             if a.w_hold is not None:

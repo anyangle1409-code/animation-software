@@ -67,6 +67,10 @@ def main():
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--init")
     ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
+    ap.add_argument("--w-pen", type=float, default=0.0, help="anti-penetration barrier: a moving vertex must stay on the same side of every nearby non-adjacent skin triangle as it is at rest (separation >= --pen-delta)")
+    ap.add_argument("--pen-delta", type=float, default=0.002)
+    ap.add_argument("--pen-radius", type=float, default=0.05, help="only vertex/triangle pairs closer than this (posed) are constrained")
+    ap.add_argument("--pen-rest-min", type=float, default=0.03, help="vertex/triangle pairs closer than this at rest are neighbours on the same surface and are skipped")
     ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
@@ -264,6 +268,34 @@ def main():
         db = np.linalg.norm(base[pr[:, 0]] - base[pr[:, 1]], axis=1)
         return pr, np.minimum(db, a.prox_d) * 0.95
 
+    # anti-penetration barrier set-up: triangles that touch the mask, their REST centroids/normals (side reference) and per-pose constrained (vertex, triangle) pairs
+    TP = d["tris"][in_mask[d["tris"]].any(axis=1)]
+    _r0, _r1, _r2 = rest[TP[:, 0]], rest[TP[:, 1]], rest[TP[:, 2]]
+    CT0 = (_r0 + _r1 + _r2) / 3.0
+    _n = np.cross(_r1 - _r0, _r2 - _r0)
+    NT0 = _n / np.maximum(np.linalg.norm(_n, axis=1, keepdims=True), 1e-18)
+    PEN = [None] * nP
+
+    def find_pen(Pfull):
+        """(vertex id, triangle row, side sign at rest, fixed current normal) for posed vertex/triangle pairs within --pen-radius that are far apart at rest."""
+        c = (Pfull[TP[:, 0]] + Pfull[TP[:, 1]] + Pfull[TP[:, 2]]) / 3.0
+        nn = np.cross(Pfull[TP[:, 1]] - Pfull[TP[:, 0]], Pfull[TP[:, 2]] - Pfull[TP[:, 0]])
+        nn = nn / np.maximum(np.linalg.norm(nn, axis=1, keepdims=True), 1e-18)
+        vs, ts = [], []
+        for lo in range(0, len(Z), 300):
+            vb = Z[lo:lo + 300]
+            near = np.linalg.norm(Pfull[vb][:, None, :] - c[None, :, :], axis=2) < a.pen_radius
+            far = np.linalg.norm(rest[vb][:, None, :] - CT0[None, :, :], axis=2) > a.pen_rest_min
+            member = (TP[None, :, :] == vb[:, None, None]).any(axis=2)
+            ii, jj = np.nonzero(near & far & ~member)
+            vs.append(vb[ii])
+            ts.append(jj)
+        v_ = np.concatenate(vs) if vs else np.zeros(0, int)
+        t_ = np.concatenate(ts) if ts else np.zeros(0, int)
+        sg = np.sign(((rest[v_] - CT0[t_]) * NT0[t_]).sum(axis=1))
+        sg[sg == 0] = 1.0
+        return v_, t_, sg, nn[t_]
+
     PAIRS = [np.zeros((0, 2), int) for _ in range(nP)]
     PDMIN = [np.zeros(0) for _ in range(nP)]
     zidx = -np.ones(nV, int)
@@ -356,6 +388,17 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
                     np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
                     np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
+            if a.w_pen > 0 and PEN[p] is not None and len(PEN[p][0]):
+                pv, pt, psg, pn = PEN[p]
+                cT = (Pp[TP[pt, 0]] + Pp[TP[pt, 1]] + Pp[TP[pt, 2]]) / 3.0
+                s_ = psg * ((Pp[pv] - cT) * pn).sum(axis=1)
+                ex_p = np.maximum(a.pen_delta - s_, 0.0)
+                if (ex_p > 0).any():
+                    total += a.w_pen * (ex_p ** 2).sum()
+                    gs = (-2.0 * a.w_pen * ex_p * psg)[:, None] * pn
+                    np.add.at(gP, pv, gs)
+                    for k_ in range(3):
+                        np.add.at(gP, TP[pt, k_], -gs / 3.0)
             if a.w_prox > 0 and len(PAIRS[p]):
                 pr, dmin = PAIRS[p], PDMIN[p]
                 pi_, pj_ = Z[pr[:, 0]], Z[pr[:, 1]]
@@ -409,7 +452,25 @@ def main():
             tot += len(PAIRS[p])
         print("contact pairs refreshed:", tot, flush=True)
 
+    def refresh_pen(xv):
+        if a.w_pen <= 0:
+            return
+        DL_, DR_ = net_fields(xv.reshape(nL, 3))
+        tot = viol = 0
+        for p in range(nP):
+            if al[p] <= 0 and ar[p] <= 0:
+                continue
+            Pc = P0[p].copy()
+            Pc[Z] += np.einsum("vij,vj->vi", A[p], al[p] * DL_ + ar[p] * DR_)
+            PEN[p] = find_pen(Pc)
+            pv, pt, psg, pn = PEN[p]
+            cT = (Pc[TP[pt, 0]] + Pc[TP[pt, 1]] + Pc[TP[pt, 2]]) / 3.0
+            tot += len(pv)
+            viol += int((psg * ((Pc[pv] - cT) * pn).sum(axis=1) < 0).sum())
+        print("penetration pairs refreshed:", tot, "currently on the wrong side:", viol, flush=True)
+
     refresh_pairs(x)
+    refresh_pen(x)
     f, g = loss_grad(x)
     print(f"mask left-owned {nL} total {len(Z)} edges {len(Em)} poses {nP} (active {int(((al > 0) | (ar > 0)).sum())}) initial loss {f:.1f}")
     # L-BFGS with Armijo backtracking
@@ -452,6 +513,7 @@ def main():
         x, f, g = xn, fn, gn
         if a.rounds > 1 and it % max(a.iters // a.rounds, 1) == 0 and it < a.iters:
             refresh_pairs(x)
+            refresh_pen(x)
             f, g = loss_grad(x)
             S_, Y_ = [], []
         if it % 25 == 0 or it == 1:

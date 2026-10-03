@@ -128,6 +128,7 @@ def validate(report: dict, raw_pair: dict, manifest: dict) -> dict:
         "production_approved": False,
         "candidate_revision": report.get("candidate_revision"),
         "candidate_sha256": candidate_sha,
+        "locked_rig": expected_lock,
         "pose_count": len(by_pose),
         "review_pair_count": len(REVIEW_KEYS),
         "max_body_garment_intersecting_face_pairs": max(row["body_garment_intersecting_face_pairs"] for row in by_pose.values()),

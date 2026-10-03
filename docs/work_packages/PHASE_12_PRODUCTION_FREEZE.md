@@ -6,8 +6,9 @@ Phase 12 is the final controlled release boundary for
 `HomeGymPT_Male_ORIGINAL_v1`. No optimiser, model-selection script, comparison
 score, CI job, automated QA detector or agent may promote an asset.
 
-The current model remains experimental and the real Blender priority remains
-`RUN_ORIGINAL_V1_R30.bat`.
+The current model remains experimental. The real Blender priority is always read from
+generated production control / execution orchestration; this Phase 12 package never
+hard-codes an intermediate candidate command.
 
 ## Two-key release model
 
@@ -92,7 +93,7 @@ This prevents a final release from mixing old model validation with a newer mesh
 or old runtime/QA evidence with a different standalone build.
 
 The current production-control state must also independently report Phases 0–11
-complete, no development failures, no strict R2 regressions, no newer incomplete
+complete, no development failures, no unresolved strict regressions against the active immutable epoch baseline, no newer incomplete
 candidate and zero recomputed production deformation failures.
 
 ## Final owner records
@@ -156,7 +157,7 @@ It never:
 - changes a runtime asset allowlist;
 - changes a production loader;
 - merges branches;
-- edits the R2 baseline;
+- edits or replaces any immutable deformation baseline (including historical R2/P2B1/P3B1);
 - edits the model;
 - creates an owner decision.
 
@@ -184,21 +185,24 @@ If the release commit changes afterward, its release evidence must be re-run.
 If either final asset byte changes, Phase 12 eligibility is invalid and the
 affected upstream evidence must be regenerated.
 
-## Current state
+## Current-state boundary
 
-Stage 12 tooling is prepared, but roadmap Phase 12 is **NOT STARTED**.
+Stage 12 tooling is prepared, but roadmap Phase 12 remains **NOT STARTED** until
+live generated state proves every prerequisite. Do not store a candidate revision
+or next Blender command in this package; those values become stale.
 
-Current r29 cannot pass:
+At execution time `scripts/verify_original_v1_final_freeze.py` independently reads
+the evidence-derived current state and refuses eligibility unless:
 
-- Phase 3 is still active;
-- development failures and R2 regressions remain;
-- production failures remain;
-- Phases 4–11 have not exited;
-- the discovered live runtime checkpoint is not exact-SHA green;
-- the visual-reference inventory is intentionally empty pending real captures;
-- there is no final OWNER ACCEPTED record;
-- there is no OWNER AUTHORISED PRODUCTION FREEZE record;
-- there are no final production bare/dressed exports.
+- the packet candidate is the latest complete non-rejected candidate;
+- no development failures or unresolved strict active-epoch regressions remain;
+- there is no newer incomplete candidate evidence;
+- Phases 0–11 are complete;
+- the recomputed production-target deformation gate is clean;
+- exact Phase 4–11 exit reports, final assets, model/runtime commits and promotion
+  packet/receipt all bind the same identities;
+- final `OWNER ACCEPTED` and separate
+  `OWNER AUTHORISED PRODUCTION FREEZE` records exist for those exact bytes.
 
-This is expected. The Phase 12 package exists now so the eventual release boundary
-is deterministic and cannot be improvised during the final session.
+This package intentionally remains state-neutral so it cannot misdirect a future
+session after the live candidate or epoch changes.

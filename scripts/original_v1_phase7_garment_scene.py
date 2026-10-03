@@ -13,6 +13,7 @@ import re
 import subprocess
 
 from original_v1_production_control import ROOT, digest, ensure_finite
+from original_v1_locked_rig import load_locked_rig
 from verify_original_v1_production_promotion import safe_path
 
 TEMPLATE = "ORIGINAL_V1_PHASE7_GARMENT_AUTHORING_TEMPLATE.json"
@@ -24,32 +25,21 @@ RIG_LOCK = "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json"
 
 
 def locked_rig_contract() -> dict:
-    lock = json.loads((ROOT / RIG_LOCK).read_text(encoding="utf-8"))
-    rig = lock["rig"]
-    payload_path = ROOT / rig["payload"]["path"]
-    if digest(payload_path) != rig["payload"]["sha256"]:
-        raise ValueError("locked rev2c rig payload bytes differ")
-    payload = json.loads(payload_path.read_text(encoding="utf-8"))
-    bones = sorted(
-        [{"name": row["name"], "parent": row.get("parent")} for row in payload["bones"]],
-        key=lambda row: row["name"],
-    )
-    if payload.get("rig_structure_sha256") != rig.get("rig_structure_sha256"):
-        raise ValueError("locked rev2c rig payload structure identity differs")
+    """Backward-compatible Phase 7 view of the single shared rev2c lock."""
+    rig = load_locked_rig(ROOT)
     return {
-        "name": EXPECTED_RIG,
+        "name": rig["object_name"],
         "identity": rig["identity"],
         "revision": rig["revision"],
         "rig_structure_sha256": rig["rig_structure_sha256"],
         "bone_count": rig["bone_count"],
         "deform_bone_count": rig["deform_bone_count"],
-        "bones": bones,
-        "lock_path": RIG_LOCK,
-        "lock_sha256": digest(ROOT / RIG_LOCK),
+        "bones": rig["bones"],
+        "lock_path": rig["lock"]["path"],
+        "lock_sha256": rig["lock"]["sha256"],
         "payload_path": rig["payload"]["path"],
         "payload_sha256": rig["payload"]["sha256"],
     }
-
 
 def file_ref(root: Path, ref: dict, label: str) -> Path:
     if not isinstance(ref, dict) or not ref.get("path") or not re.fullmatch(r"[0-9a-f]{64}", str(ref.get("sha256", ""))):
@@ -172,9 +162,19 @@ def verify_scene(root: Path, scene: dict, authoring: dict, raw_pair: dict, manif
             raise ValueError(f"{label} candidate differs")
         if obj.get("status") != "EVIDENCE_ONLY" or obj.get("phase_complete") is not False or obj.get("production_approved") is not False:
             raise ValueError(f"{label} status differs")
+    locked = locked_rig_contract()
+    expected_raw_lock = {
+        "revision": locked["revision"],
+        "rig_structure_sha256": locked["rig_structure_sha256"],
+        "bone_count": locked["bone_count"],
+        "deform_bone_count": locked["deform_bone_count"],
+        "lock": {"path": locked["lock_path"], "sha256": locked["lock_sha256"]},
+        "payload": {"path": locked["payload_path"], "sha256": locked["payload_sha256"]},
+    }
+    if raw_pair.get("locked_rig") != expected_raw_lock:
+        raise ValueError("raw body/garment evidence locked rev2c identity differs")
 
     blockers = []
-    locked = locked_rig_contract()
     if scene.get("rig_id") != locked["identity"]:
         blockers.append("locked rev2c rig identity missing")
     scene_rig = scene.get("rig", {})

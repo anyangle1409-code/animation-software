@@ -36,6 +36,8 @@ if errorlevel 1 (
   exit /b 2
 )
 
+rem Optional override (default 1 ring, safety cap unchanged): set AXILLA_PIT_RINGS=0 for a tighter mask.
+if "%AXILLA_PIT_RINGS%"=="" set "AXILLA_PIT_RINGS=1"
 set "SOURCE_BLEND=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%SOURCE_REV%.blend"
 set "SOURCE_MANIFEST=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%SOURCE_REV%.json"
 set "TARGET_BLEND=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%TARGET_REV%.blend"
@@ -99,7 +101,7 @@ echo ============================================================
   "%OUT%\face_collapse_audit.json" ^
   "%OUT%\face_collapse_audit.md" ^
   "%OUT%\axilla_pit_mask_declared_before_edit.json" ^
-  "%TARGET_REV%" 17 12 1 0.20 0.20 0.30
+  "%TARGET_REV%" 17 12 %AXILLA_PIT_RINGS% 0.20 0.20 0.30
 if errorlevel 1 goto :fail
 
 echo.

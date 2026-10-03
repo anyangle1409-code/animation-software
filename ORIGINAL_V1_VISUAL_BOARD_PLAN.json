@@ -223,6 +223,13 @@
       1.0
     ],
     "orthographic_scale": 2.65,
+    "pose_frames": {
+      "pushup_bottom": {
+        "centre": [0, -0.914, 0.19],
+        "orthographic_scale": 2.4,
+        "note": "Fixed frame measured from the P3 push-up extent (y -1.82..-0.008, z 0..0.375); the shared exercise frame is centred at y=0 and crops the 1.81 m plank. Not auto-fitted."
+      }
+    },
     "views": {
       "front": [
         0,

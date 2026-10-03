@@ -17,6 +17,18 @@ class MilestoneTests(unittest.TestCase):
         self.assertEqual({x['view'] for x in rows if x['set']=='neutral'}, {'front','rear','side','three_quarter','three_quarter_rear'})
         self.assertEqual(len({x['region'] for x in rows if x['set']=='anatomy'}),11)
         self.assertEqual(len({x['pose'] for x in rows if x['set']=='exercise'}),10)
+    def test_pushup_has_its_own_fixed_frame_and_other_poses_keep_the_shared_one(self):
+        # The P3 push-up plank is 1.81 m long and offset in depth: the shared exercise frame (centre y=0, scale 2.65)
+        # crops it. The fixed per-pose frame is explicit in the plan (never auto-fitted) and affects only that pose.
+        c=self.module();plan=c.load_plan(ROOT);rows=c.views(plan)
+        shared=plan['exercise']
+        push=[x for x in rows if x['pose']=='pushup_bottom']
+        self.assertEqual(len(push),3)
+        frame=shared['pose_frames']['pushup_bottom']
+        self.assertTrue(all(x['centre']==frame['centre'] and x['scale']==frame['orthographic_scale'] for x in push))
+        self.assertGreaterEqual(frame['orthographic_scale']/2, 0.906)       # half the measured 1.81 m depth extent, centred
+        others=[x for x in rows if x['set']=='exercise' and x['pose']!='pushup_bottom']
+        self.assertTrue(all(x['centre']==shared['centre'] and x['scale']==shared['orthographic_scale'] for x in others))
     def test_plan_targets_only_owned_canonical_bones(self):
         c=self.module();plan=c.load_plan(ROOT)
         names={x['name'] for x in json.loads((ROOT/'ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json').read_text())['bones']}

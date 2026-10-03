@@ -28,9 +28,10 @@ def views(plan):
                          'file':f'milestone_anatomy_{region["region"]}_{n+1}.png','anchors':region['anchors'],
                          'scale':region['orthographic_scale'],'angles':angle})
     for pose in plan['exercise']['poses']:
+        frame=plan['exercise'].get('pose_frames',{}).get(pose,{})
         for view,angles in plan['exercise']['views'].items():
             rows.append({'set':'exercise','pose':pose,'view':view,'file':f'milestone_{pose}_{view}.png',
-                         'centre':plan['exercise']['centre'],'scale':plan['exercise']['orthographic_scale'],'angles':angles})
+                         'centre':frame.get('centre',plan['exercise']['centre']),'scale':frame.get('orthographic_scale',plan['exercise']['orthographic_scale']),'angles':angles})
     return rows
 
 

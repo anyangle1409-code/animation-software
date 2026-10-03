@@ -48,6 +48,7 @@ class Phase5AnatomyTests(unittest.TestCase):
         self.assertEqual(plan["rig_contract"]["bone_count"],67)
         self.assertEqual(plan["rig_contract"]["base_structural_bone_count"],63)
         self.assertEqual(plan["rig_contract"]["helper_bones"],["forearm_tw0_l","forearm_tw1_l","forearm_tw0_r","forearm_tw1_r"])
+        self.assertEqual(plan["regions"]["5C"]["required_capture_ids"],plan["regions"]["5C"]["required_views"])
 
     def test_5a_complete_evidence_contract_verifies(self):
         with tempfile.TemporaryDirectory() as td:

@@ -67,6 +67,8 @@ def main():
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--init")
     ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
+    ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
+    ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
     ap.add_argument("--hold-region-min", type=float, default=None, help="regional-minimum guard: mask edges may not shorten below (that region's current whole-mesh minimum edge ratio in that pose) minus this margin")
     a = ap.parse_args()
 
@@ -158,18 +160,30 @@ def main():
     cur = np.stack([np.log(np.maximum(np.linalg.norm(P0[p][Em[:, 0]] - P0[p][Em[:, 1]], axis=1), 1e-12) / L0) for p in range(nP)])
     LHI = np.where(cur < np.log(a.p99_tail), np.log(a.p99_tail), np.log(a.hi))     # no NEW tail edges; existing tail edges may stay under --hi
     LLO = (np.log(a.lo) * np.ones_like(cur)) if a.abs_lo else np.minimum(np.log(a.lo), cur)                                # never required to be better than the current compression, never allowed to get worse than min(lo, current)
-    if a.hold_region_min is not None:
-        # Regional-minimum guard (comparator region_min_ratio_drop): for every pose and region, no mask edge may shorten below that region's CURRENT whole-mesh
-        # minimum edge ratio minus the margin, so the corrected region minimum can drop by at most the margin. Edge region = region shared by both endpoints.
+    LLO_H = LHI_H = None
+    if a.hold_region_min is not None or a.hold_region_max is not None:
+        # Regional guards that mirror the comparator tolerances (region_min_ratio_drop / region_max_ratio_rise): for every pose and region, no mask edge may
+        # shorten below that region's CURRENT whole-mesh minimum edge ratio minus --hold-region-min, nor stretch above its CURRENT maximum plus --hold-region-max.
+        # Edge region = region shared by both endpoints. Without --w-hold they are merged into the ordinary hinge bounds (earlier behaviour, weight --w-hinge);
+        # with --w-hold they get their own, much stronger hinge.
         EA, EB = E[:, 0], E[:, 1]
         L0_all = np.linalg.norm(rest[EA] - rest[EB], axis=1)
         reg_e = np.where(region[EA] == region[EB], region[EA], -1)
         reg_m = reg_e[in_mask[E[:, 0]] | in_mask[E[:, 1]]]
+        LLO_H = np.full(cur.shape, -1e9)
+        LHI_H = np.full(cur.shape, 1e9)
         for p in range(nP):
             r_all = np.linalg.norm(P0[p][EA] - P0[p][EB], axis=1) / np.maximum(L0_all, 1e-12)
             for rg in np.unique(reg_m[reg_m >= 0]):
-                m_pr = float(r_all[reg_e == rg].min())
-                LLO[p, reg_m == rg] = np.maximum(LLO[p, reg_m == rg], np.log(max(m_pr - a.hold_region_min, 1e-3)))
+                sel = reg_m == rg
+                if a.hold_region_min is not None:
+                    LLO_H[p, sel] = np.log(max(float(r_all[reg_e == rg].min()) - a.hold_region_min, 1e-3))
+                if a.hold_region_max is not None:
+                    LHI_H[p, sel] = np.log(float(r_all[reg_e == rg].max()) + a.hold_region_max)
+        if a.w_hold is None:
+            LLO = np.maximum(LLO, LLO_H)
+            LHI = np.minimum(LHI, LHI_H)
+            LLO_H = LHI_H = None
     # smoothness edges (inside the mask, on the net field)
     Es = E[in_mask[E[:, 0]] & in_mask[E[:, 1]]]
     Esz0, Esz1 = np.array([zpos[int(v)] for v in Es[:, 0]]), np.array([zpos[int(v)] for v in Es[:, 1]])
@@ -273,6 +287,10 @@ def main():
             over, under = np.maximum(lr - LHI[p], 0.0), np.maximum(LLO[p] - lr, 0.0)
             total += a.w_hinge * ((over ** 2).sum() + (under ** 2).sum())
             g = a.w_hinge * 2.0 * (over - under)
+            if LLO_H is not None:
+                oh, uh = np.maximum(lr - LHI_H[p], 0.0), np.maximum(LLO_H[p] - lr, 0.0)
+                total += a.w_hold * ((oh ** 2).sum() + (uh ** 2).sum())
+                g = g + a.w_hold * 2.0 * (oh - uh)
             gP = np.zeros_like(Pp)
             coef = (g / Ln ** 2)[:, None] * dv
             np.add.at(gP, Em[:, 0], coef)

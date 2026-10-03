@@ -48,6 +48,8 @@ def main():
     ap.add_argument("--area-min",type=float,default=0.20)
     ap.add_argument("--area-multipliers",default="0.25,1,4")
     ap.add_argument("--hinge-weight",type=float,default=20000.0)
+    ap.add_argument("--hold-region-max",type=float,default=None,help="hold family: a region maximum may rise by at most this margin (must stay inside the comparator region-max tolerance)")
+    ap.add_argument("--w-hold",type=float,default=None,help="hold family: separate, stronger hinge weight for the regional guards")
     ap.add_argument("--contact-guard",action="store_true",
                     help="with --hold-region-min: also enable the no-new-contact barrier in the hold trial family (guards against new self-intersections)")
     ap.add_argument("--hold-region-min",type=float,default=None,
@@ -80,6 +82,11 @@ def main():
              "--json-out",str(report)]
         if hold is not None:
             cmd += ["--hold-region-min",str(hold)]
+            if a.hold_region_max is not None:
+                if not 0.0 <= a.hold_region_max < edge_max_tol: raise SystemExit("--hold-region-max must stay inside the comparator region-max tolerance")
+                cmd += ["--hold-region-max",str(a.hold_region_max)]
+            if a.w_hold is not None:
+                cmd += ["--w-hold",str(a.w_hold)]
             if a.contact_guard:
                 # no-new-contact barrier (non-neighbouring mask vertices may not approach closer than in the same-pose base surface)
                 i=cmd.index("--w-prox"); cmd[i+1]="3000000"; cmd += ["--prox-d","0.02"]

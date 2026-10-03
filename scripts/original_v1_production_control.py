@@ -436,9 +436,7 @@ def build(root=ROOT):
     phase5_order=('5A','5B','5C','5D','5E','5F','5G')
     phase5_plan=read(root,'ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json')
     for p in phase5_order:
-        phases[p]={'state':'not_started',
-                   'reason':'Regional anatomy package prepared; modelling not executed.',
-                   'work_package':phase5_plan['regions'][p]['work_package']}
+        phases[p]={'state':'not_started','reason':'Regional anatomy package prepared; modelling not executed.'}
     previous_checkpoint_depth = None
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
@@ -540,6 +538,7 @@ def build(root=ROOT):
             if phases[region]['state']!='complete':
                 phases[region]['state']='active'
                 phases[region]['reason']='Next ordered Phase 5 anatomy region; modelling/evidence not yet verified.'
+                phases[region]['work_package']=phase5_plan['regions'][region]['work_package']
                 break
 
     refs=[evidence(root,current['evidence_location']),current['manifest'],evidence(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')]

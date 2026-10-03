@@ -66,6 +66,18 @@
         "row",
         "squat_bottom",
         "lunge"
+      ],
+      "required_capture_ids": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "neutral_three_quarter",
+        "torso_close",
+        "back_close",
+        "press_top",
+        "row",
+        "squat_bottom",
+        "lunge"
       ]
     },
     "5B": {
@@ -101,6 +113,17 @@
         "press_top",
         "pullup_hang",
         "pullup_top"
+      ],
+      "required_capture_ids": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "shoulder_front_close",
+        "shoulder_rear_close",
+        "press_bottom",
+        "press_top",
+        "pullup_hang",
+        "pullup_top"
       ]
     },
     "5C": {
@@ -126,6 +149,17 @@
         "pushup_bottom"
       ],
       "required_views": [
+        "neutral_arm_front",
+        "neutral_arm_rear",
+        "neutral_arm_side",
+        "elbow_close",
+        "wrist_close",
+        "curl_peak",
+        "press_top",
+        "row",
+        "pushup_bottom"
+      ],
+      "required_capture_ids": [
         "neutral_arm_front",
         "neutral_arm_rear",
         "neutral_arm_side",
@@ -171,6 +205,16 @@
         "curl_handle_close",
         "pullup_bar_close",
         "pushup_loaded_hand"
+      ],
+      "required_capture_ids": [
+        "palm_left",
+        "palm_right",
+        "dorsal_left",
+        "dorsal_right",
+        "thumb_close",
+        "curl_handle_close",
+        "pullup_bar_close",
+        "pushup_loaded_hand"
       ]
     },
     "5E": {
@@ -195,6 +239,18 @@
         "row"
       ],
       "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "hip_close",
+        "knee_close",
+        "lunge_front",
+        "lunge_side",
+        "lunge_three_quarter",
+        "squat_front",
+        "squat_side"
+      ],
+      "required_capture_ids": [
         "neutral_front",
         "neutral_rear",
         "neutral_side",
@@ -237,6 +293,16 @@
         "squat_floor",
         "lunge_floor",
         "pushup_floor"
+      ],
+      "required_capture_ids": [
+        "neutral_foot_side",
+        "neutral_foot_top",
+        "neutral_sole",
+        "neutral_foot_rear",
+        "ankle_close",
+        "squat_floor",
+        "lunge_floor",
+        "pushup_floor"
       ]
     },
     "5G": {
@@ -258,6 +324,18 @@
         "row"
       ],
       "required_views": [
+        "neutral_front",
+        "neutral_rear",
+        "neutral_side",
+        "neutral_three_quarter_front",
+        "neutral_three_quarter_rear",
+        "face_close",
+        "ear_close",
+        "neck_close",
+        "press_top_rhythm",
+        "row_neck"
+      ],
+      "required_capture_ids": [
         "neutral_front",
         "neutral_rear",
         "neutral_side",
@@ -318,5 +396,6 @@
     ],
     "lock_path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
     "rule": "Phase 5 anatomy must preserve this locked rev2c rig; the 63-bone v4 structure remains historical base evidence, not the current full bone count."
-  }
+  },
+  "regional_capture_plan": "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json"
 }

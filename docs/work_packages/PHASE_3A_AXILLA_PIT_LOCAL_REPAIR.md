@@ -192,3 +192,13 @@ RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
 ```
 
 This chains the pre-edit declaration, one-dump three-point numeric sweep, incremental apply and full validation/review capture. Every child stage remains fail-closed and refuses output collisions. A completed pipeline produces an **experimental candidate plus evidence**; it does not accept the candidate, enter Phase 4 or approve production.
+
+### Post-validation disposition
+
+After full validation/closure, run:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_DISPOSITION.bat <candidate-rN> <parent-rN>
+```
+
+The unified axilla pipeline runs this automatically as its final read-only step. The report combines evidence closure, direct-parent and active-epoch comparisons, the declared-face post-edit audit and real-review availability. It can classify a candidate as numerically blocked, ready for review capture, ready for visual disposition with Phase 4 still blocked, or numerically eligible for Phase 4 **after** explicit lineage and visual disposition. It never records continuation lineage, accepts anatomy, enters Phase 4 or approves production.

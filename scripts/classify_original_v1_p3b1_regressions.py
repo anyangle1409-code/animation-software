@@ -32,7 +32,8 @@ def load_rows(path):
 
 
 rows_c = load_rows(RC / f"full_{rev}_merged_pose_report.json")
-rows_p = load_rows(RC / f"full_{pre}_merged_pose_report.json")
+pre_label = Path(pre).stem if pre.endswith(".json") else pre
+rows_p = load_rows(Path(pre) if pre.endswith(".json") else RC / f"full_{pre}_merged_pose_report.json")
 cmp_ = json.loads((RC / f"full_{rev}_comparison_vs_P3B1.json").read_text(encoding="utf-8"))
 tol_key = {"region_min_ratio": "region_min_ratio_drop", "region_max_ratio": "region_max_ratio_rise", "self_intersecting_face_pairs": "self_intersecting_face_pairs_rise",
            "edge_ratio_p99": "edge_ratio_p99_rise", "edge_ratio_p01": "edge_ratio_p01_drop"}
@@ -78,7 +79,7 @@ for x in cmp_["regressions"]:
     reg_si = None
     if metric == "self_intersecting_face_pairs":
         reg_si = {"candidate_by_region": rows_c[pose].get("self_intersection_by_region"), "baseline_by_region": None}
-    result.append({"pose": pose, "region": region, "metric": metric, "baseline_P3B1": base, "pre_corrective_" + pre: prev, "candidate_" + rev: cand,
+    result.append({"pose": pose, "region": region, "metric": metric, "baseline_P3B1": base, "pre_corrective_" + pre_label: prev, "candidate_" + rev: cand,
                    "tolerance": tolerance, "worse_than_baseline_by": round(worse(metric, base, cand), 4),
                    "pre_corrective_worse_than_baseline_by": None if pre_worse is None else round(pre_worse, 4),
                    "corrective_added": None if added is None else round(added, 4), "attribution": cause,
@@ -97,6 +98,6 @@ lines = [f"# {rev} strict regressions vs P3B1 - attribution", "", f"Pre-correcti
          f"All inside the development gate: {rec['all_inside_development_gate']}. All inside the production target: {rec['all_inside_production_target']}.", "",
          "| pose | region | metric | P3B1 | pre | cand | worse by | tol | attribution | gate margin | prod margin |", "|---|---|---|---|---|---|---|---|---|---|---|"]
 for r in result:
-    lines.append(f"| {r['pose']} | {r['region'] or 'mesh'} | {r['metric']} | {r['baseline_P3B1']} | {r['pre_corrective_' + pre]} | {r['candidate_' + rev]} | {r['worse_than_baseline_by']} | {r['tolerance']} | {r['attribution']} | {r['gate_margin']} | {r['production_margin']} |")
+    lines.append(f"| {r['pose']} | {r['region'] or 'mesh'} | {r['metric']} | {r['baseline_P3B1']} | {r['pre_corrective_' + pre_label]} | {r['candidate_' + rev]} | {r['worse_than_baseline_by']} | {r['tolerance']} | {r['attribution']} | {r['gate_margin']} | {r['production_margin']} |")
 out_md.write_text("\n".join(lines) + "\n", encoding="utf-8")
 print("CLASSIFIED", len(result), summary, "inside gate:", rec["all_inside_development_gate"], "inside production target:", rec["all_inside_production_target"], "min gate margin", rec["min_gate_margin"])

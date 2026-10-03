@@ -426,14 +426,52 @@
           "sha256": "cba2b1dee7dda191a715859ece68ea3fe55aadeca1c3e48f32499896f2ba2b1a"
         }
       ]
+    },
+    "r80": {
+      "candidate_sha256": "f1859d403626c934d311da93cc4e92ad4472b0225ca83f776d4b1df8bc158eb4",
+      "chosen_parent": "r68",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r80 = r68 (r43 + o45 shoulder weights + wrist band o26 + local knot weights o47; rig rev2c) + deterministic weight DIFFUSION SMOOTHING of the declared shoulder-top collision zone (528 vertices, declaration committed before the edit: repair_preparation/r80_collision_zone_weight_smoothing_declared; scripts/smooth_original_v1_weights_zone.py --iters 12 --lam 0.5, boundary fixed, mirror-symmetrised, top-4 influences, renormalised; intermediate Blend SHA-256 3f7eb0b43dd48a0772d742e8631c12cf4afc36ec8e3ba412c45cb29b5d5e281b preserved in repair_preparation/r80_shoulder_corrective_declared) + a RE-FITTED generic humerothoracic-elevation shoulder corrective (solution corr_v19, mask declared before the solve, 1491 left-owned vertices, same barriers as r69). Evidence: the shoulder-top self-intersections (clavicle-driven skin crossing upper-arm-driven skin) sit where the clavicle/upper-arm weight changes about 2.5 times more steeply between neighbouring vertices than over the rest of the shoulder (0.062 versus 0.024 per cm). Refused earlier routes preserved: r77 (anti-penetration barrier with rest-pose side reference) and r78/r79 (tri-tri collision-resolving weights o48: pull-ups improved but press poses far worse). Measured under P3: 0 development failures; strict regressions versus P3B1 13 (r76 had 23; r69 23); versus r76 7 small compressions inside the gates (curl torso min -0.031, press_bottom shoulder min -0.065, pullup_hang_rhythm arm min -0.032 and shoulder max +0.236, squat arm min -0.116, squat shoulder min -0.051). Self-intersections P3B1 / r76 / r80: press_top 95 / 132 / 58, press_top_rhythm 54 / 112 / 74, pullup_hang 4 / 102 / 40, pullup_hang_rhythm 0 / 126 / 48, squat_bottom 108 / 138 / 100. Continuous arc (17 samples, six shoulder poses): torso edge max 3.10, min 0.471, volume 0.994-1.042 with max step 0.8 percent, drift max 0.150 m. Thin margin to note: squat_bottom shoulder minimum edge ratio 0.178 against the 0.15 gate. Real renders: pit lump smoother, one jagged flap remains on the right front; visually similar to r76. NOT eligible for Phase 4: 13 strict P3B1 regressions remain unresolved (arm/torso minimum-edge compression 0.505-0.645 versus 0.69-0.87, self-intersections 40-74 versus 0-54 in rhythm and pull-up poses, push-up +6).",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_r76.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r80_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r80/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r80/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r80_collision_zone_weight_smoothing_declared/weight_smoothing_zone_declared_before_edit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r80_shoulder_corrective_declared/shoulder_corrective_mask_declared_before_solve.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r80.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r76",
-    "candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+    "candidate_revision": "r80",
+    "candidate_sha256": "f1859d403626c934d311da93cc4e92ad4472b0225ca83f776d4b1df8bc158eb4",
     "action": "RUN local axilla repair",
-    "reason": "r76 is development-clear with zero strict regressions versus its direct parent r73 and a numeric-clear declared-face audit, but real overhead renders still show a rounded front-shoulder bulb with a small residual cusp, over-stretched pectoral skin and a deep scoop under the arm, and 23 strict P3B1 regressions remain unresolved; the next work is a visual-anatomy experiment (not a face-audit one) or an owner disposition of the P3B1 regression set",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r76",
+    "reason": "r80 is development-clear and cuts the strict P3B1 regressions from 23 to 13 and the shoulder-top self-intersections by about 55 percent, but 13 remain (arm/torso minimum-edge compression, self-intersections 40-74 in rhythm and pull-up poses, a thin squat shoulder minimum margin of 0.028) and real renders still show a jagged flap on the right front; next is a second declared smoothing/corrective iteration or an owner disposition of the remaining P3B1 regressions",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r80",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

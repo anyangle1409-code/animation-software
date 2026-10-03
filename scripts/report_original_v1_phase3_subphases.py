@@ -22,7 +22,7 @@ def rows(p):
 
 
 C = rows(RC / f"full_{rev}_merged_pose_report.json")
-P = rows(RC / f"full_{pre}_merged_pose_report.json")
+P = rows(Path(pre) if pre.endswith(".json") else RC / f"full_{pre}_merged_pose_report.json")
 B = rows(ROOT / "ORIGINAL_V1_WORK/candidates/pose_test_report_p3b1.json")
 rp = spec["repair_priority"]
 GROUPS = {

@@ -64,7 +64,7 @@ At the 2026-10-03 reconciled state the selected node is:
 - candidate: `r55`;
 - phase/subphase: Phase 3 / pre-Phase-4 residual repair;
 - next action: `RUN local axilla repair`;
-- command: `RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r76` (the generated status is authoritative; the AUTO wrapper selects a collision-free target).
+- command: `RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r80` (the generated status is authoritative; the AUTO wrapper selects a collision-free target).
 
 Use the next collision-free target label if `r56` already exists locally. If the
 selector has advanced, follow the generated state instead of this example.

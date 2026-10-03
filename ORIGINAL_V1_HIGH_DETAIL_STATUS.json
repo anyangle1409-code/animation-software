@@ -72,7 +72,7 @@
     },
     "3A": {
       "state": "complete",
-      "reason": "Development clear; inherited R2 severity regressions remain separate."
+      "reason": "Development clear; active-epoch severity regressions remain separate."
     },
     "3B": {
       "state": "complete",
@@ -84,7 +84,7 @@
     },
     "3D": {
       "state": "complete",
-      "reason": "Local wrist-extension severity regression versus R2."
+      "reason": "Local wrist-extension severity regression versus the active epoch baseline."
     },
     "3E": {
       "state": "complete",

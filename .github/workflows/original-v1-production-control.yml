@@ -34,6 +34,7 @@ jobs:
       - name: Run production-control safety tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_original_v1_production_control.py'
+          python3 -m unittest discover -s scripts -p 'test_original_v1_phase4_preflight.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_session_preflight.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_change_audit.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_promotion_gate.py'

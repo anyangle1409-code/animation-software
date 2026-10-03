@@ -41,7 +41,7 @@ pores, veins or tiny wrinkles that disappear during exercise instruction.
 
 ## Constraints on every region
 
-Preserve 1.82 m project-owned dimensions and frozen 63-bone rest/hierarchy.
+Preserve 1.82 m project-owned dimensions and the locked rev2c rig: 67 bones total / 66 deform bones, comprising the historical 63-bone canonical-v4 structure plus four project-owned forearm-twist helpers. Do not remove, rename, reparent or repurpose those helpers during anatomy work.
 Maintain bilateral symmetry unless an explicit authored asymmetry is documented.
 Retain stable vertex IDs/topology during Phase 5 region form changes where possible;
 if new topology is required, isolate it in a new candidate with explicit mapping,
@@ -58,7 +58,7 @@ failures. Preserve every existing gate and report material regressions individua
 
 Each regional package produces before/after fixed-camera neutral views, joint
 close views and relevant loaded poses; mesh/weight audits and full comparisons
-against R2, frozen development candidate and direct parent. Record owner_review
+against the active stress-pose epoch baseline, frozen development candidate and direct parent. Record owner_review
 pending, commit/push real evidence and continue safe regions/diagnostics. Do not
 make an irreversible subjective face/proportion choice while its parent review is
 rejected or lineage is contradictory. Final anatomy approval requires owner

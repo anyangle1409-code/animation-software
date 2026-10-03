@@ -9,7 +9,8 @@
     "Phase 4 candidate-bound exit report verified",
     "development freeze candidate exact SHA known",
     "zero development blockers and no unresolved strict freeze regressions",
-    "live branch reconciled and local candidate/source manifest verified"
+    "live branch reconciled and local candidate/source manifest verified",
+    "active stress-pose epoch baseline identity known and unchanged"
   ],
   "order": [
     "5A",
@@ -23,10 +24,10 @@
   "common_rules": [
     "Each region starts from the latest verified Phase-5 parent, never from an older visual preference.",
     "Record candidate-bound region mask/vertex IDs and operation intent before editing.",
-    "Preserve 1.82 m dimensions, 63-bone canonical-v4 rest/hierarchy, R2 baseline, frozen poses and thresholds.",
+    "Preserve 1.82 m dimensions, the locked rev2c 67-bone rig (63 structural bones plus four forearm-twist helpers), the active stress-pose epoch baseline, frozen poses and thresholds.",
     "Prefer stable vertex IDs/topology. Any topology change is isolated and requires explicit authored correspondence.",
     "No legacy/V-series/third-party geometry, weights, bind data, images, scans, textures or projection.",
-    "Every meaningful candidate receives full 15-pose evidence and comparisons against R2, direct parent and development-freeze candidate.",
+    "Every meaningful candidate receives full 15-pose evidence and comparisons against the active stress-pose epoch baseline, direct parent and development-freeze candidate.",
     "Routine real-image review is non-blocking; OWNER ACCEPTED is not inferred.",
     "A regional improvement cannot hide a new blocker, contact loss, protected-region edit or material predecessor regression."
   ],
@@ -281,7 +282,7 @@
     "change audit",
     "mesh/weight audit",
     "full 15-pose merged report and source receipt",
-    "R2 comparison",
+    "active epoch baseline comparison",
     "direct-parent comparison",
     "development-freeze comparison",
     "actual required render/capture manifest",
@@ -294,10 +295,28 @@
     "changes remain inside permitted region or explicitly authored correspondence",
     "no protected-boundary edits",
     "no new development blockers",
-    "no material direct-parent or development-freeze regressions",
+    "no material active-epoch-baseline, direct-parent or development-freeze regressions",
     "no grip/floor/contact loss",
     "topology and weight changes fully accounted for",
     "owner_review recorded explicitly as pending/accepted/rejected; never inferred"
   ],
-  "phase_exit": "After 5G, create the Phase 5 exit report using ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md. Region packets do not themselves mark Phase 5 complete."
+  "phase_exit": "After 5G, create the Phase 5 exit report using ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md. Region packets do not themselves mark Phase 5 complete.",
+  "rig_contract": {
+    "identity": "hgpt_canonical_v4_original",
+    "revision": "rev2_forearm_twist_only",
+    "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+    "payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json",
+    "payload_sha256": "ed5f9699e1bfe2a200af80eae6b92a985b482a2fdf1007c55f097841a590045b",
+    "bone_count": 67,
+    "deform_bone_count": 66,
+    "base_structural_bone_count": 63,
+    "helper_bones": [
+      "forearm_tw0_l",
+      "forearm_tw1_l",
+      "forearm_tw0_r",
+      "forearm_tw1_r"
+    ],
+    "lock_path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
+    "rule": "Phase 5 anatomy must preserve this locked rev2c rig; the 63-bone v4 structure remains historical base evidence, not the current full bone count."
+  }
 }

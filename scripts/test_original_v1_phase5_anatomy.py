@@ -31,6 +31,7 @@ class Phase5AnatomyTests(unittest.TestCase):
             "candidate_revision":"r101","candidate_sha256":candidate_sha,
             "parent_revision":"r100","parent_candidate_sha256":parent_sha,
             "development_freeze_candidate_sha256":"d"*64,
+            "active_epoch_baseline_revision":"P3B1","active_epoch_baseline_candidate_sha256":"a"*64,
             "source_git_commit":"e"*40,"evidence_timestamp":"2026-10-01T14:00:00+01:00",
             "work_package":row["work_package"],"permitted_scope":row["permitted_scope"],
             "protected_boundaries":row["protected_boundaries"],
@@ -44,6 +45,9 @@ class Phase5AnatomyTests(unittest.TestCase):
     def test_plan_has_all_seven_regions_and_real_packages(self):
         plan=self.plan()
         self.assertEqual(plan["order"],["5A","5B","5C","5D","5E","5F","5G"])
+        self.assertEqual(plan["rig_contract"]["bone_count"],67)
+        self.assertEqual(plan["rig_contract"]["base_structural_bone_count"],63)
+        self.assertEqual(plan["rig_contract"]["helper_bones"],["forearm_tw0_l","forearm_tw1_l","forearm_tw0_r","forearm_tw1_r"])
 
     def test_5a_complete_evidence_contract_verifies(self):
         with tempfile.TemporaryDirectory() as td:
@@ -97,14 +101,32 @@ class Phase5AnatomyTests(unittest.TestCase):
                 issues=a.verify_region_report(root,report,self.plan(),"5A")
                 self.assertTrue(any("cannot claim" in x for x in issues))
 
+    def test_recorded_freeze_identity_is_enforced(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);report=self.fixture_report(root,"5A")
+            issues=a.verify_region_report(root,report,self.plan(),"5A",expected_freeze_sha="e"*64)
+            self.assertIn("development-freeze candidate SHA differs from recorded Phase 4 freeze",issues)
+
+    def test_active_epoch_identity_is_enforced(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);report=self.fixture_report(root,"5A")
+            issues=a.verify_region_report(root,report,self.plan(),"5A",expected_epoch_revision="P2B1",expected_epoch_sha="f"*64)
+            self.assertIn("active epoch baseline revision differs from generated state",issues)
+            self.assertIn("active epoch baseline candidate SHA differs from generated state",issues)
+
     def test_template_stays_incomplete(self):
-        state={"current_candidate":"r29","last_known_candidate_sha256":"a"*64,
-               "current_phase":3,"current_subphase":"3B","phases":{"4":{"state":"not_started"}}}
-        t=a.make_template(self.plan(),"5D",state)
+        state={"current_candidate":"r55","last_known_candidate_sha256":"c"*64,
+               "current_phase":3,"current_subphase":"4","phases":{"4":{"state":"not_started"}},
+               "pinned_baseline":{"revision":"P3B1","candidate_sha256":"a"*64}}
+        control={"phase_completion_records":{"4":{"candidate_sha256":"d"*64}}}
+        t=a.make_template(self.plan(),"5D",state,control)
         self.assertEqual(t["status"],"INCOMPLETE")
         self.assertFalse(t["phase_complete"]);self.assertFalse(t["production_approved"])
         self.assertTrue(all(x["passed"] is None for x in t["checks"]))
         self.assertEqual(t["entry_state"]["region_predecessor"],"5C")
+        self.assertEqual(t["development_freeze_candidate_sha256"],"d"*64)
+        self.assertEqual(t["active_epoch_baseline_revision"],"P3B1")
+        self.assertEqual(t["entry_state"]["locked_rig_bone_count"],67)
 
 
 if __name__=="__main__":

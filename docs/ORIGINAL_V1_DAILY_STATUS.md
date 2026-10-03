@@ -29,7 +29,9 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE freeze regressions — zero blockers is insufficient for strict freeze; inherited R2 regressions remain
+RUN local axilla repair — r55 is development-clear but candidate-bound visual and face-area evidence still records a local axilla-pit sliver/crumple; complete the declared local repair before freeze reconciliation
+`RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56`
+Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

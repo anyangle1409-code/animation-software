@@ -313,6 +313,16 @@
       ]
     }
   },
+  "active_local_repair": {
+    "candidate_revision": "r55",
+    "candidate_sha256": "ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7",
+    "action": "RUN local axilla repair",
+    "reason": "r55 is development-clear but candidate-bound visual and face-area evidence still records a local axilla-pit sliver/crumple; complete the declared local repair before freeze reconciliation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
+    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
+    "production_approved": false
+  },
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",

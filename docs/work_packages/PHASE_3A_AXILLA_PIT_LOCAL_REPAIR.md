@@ -182,3 +182,13 @@ RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat <rev> r55
 ```
 
 This runs the full 15-pose evidence set and r55/P3B1 comparisons, the remaining diagnostics, a declared-triangle axilla arc audit against same-pose uncorrected LBS, real milestone review captures, and candidate evidence-closure verification. It is read-only with respect to the candidate and never records acceptance or production promotion.
+
+### End-to-end guarded pipeline
+
+Preferred uninterrupted laptop/Claude path, when `r56` is still collision-free:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
+```
+
+This chains the pre-edit declaration, one-dump three-point numeric sweep, incremental apply and full validation/review capture. Every child stage remains fail-closed and refuses output collisions. A completed pipeline produces an **experimental candidate plus evidence**; it does not accept the candidate, enter Phase 4 or approve production.

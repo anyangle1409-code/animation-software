@@ -566,9 +566,10 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RECONCILE freeze regressions",
-    "reason": "zero blockers is insufficient for strict freeze; inherited R2 regressions remain",
-    "command": null,
-    "safe_parallel_task": "Read-only inherited-regression diagnostics; do not reopen frozen structure."
+    "action": "RUN local axilla repair",
+    "reason": "r55 is development-clear but candidate-bound visual and face-area evidence still records a local axilla-pit sliver/crumple; complete the declared local repair before freeze reconciliation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
+    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }
 }

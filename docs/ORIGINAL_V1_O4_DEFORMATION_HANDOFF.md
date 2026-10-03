@@ -2249,3 +2249,13 @@ The r55 local solve reconstructs active relative shape keys before validating th
 Added `RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat` plus `scripts/audit_original_v1_axilla_candidate_blender.py`. A fresh incremental candidate can now be taken through full 15-pose evidence, predecessor comparison, remaining diagnostics, declared-triangle arc-area/orientation audit, real milestone captures and evidence-closure verification with one command. The local face audit is numeric evidence only and never substitutes for visual review or production gates.
 - **Single-dump numeric axilla sweep (2026-10-03):** added `RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat` and `scripts/run_original_v1_axilla_trial_sweep.py`. One verified source arc dump feeds three area-weight probes (0.25x/1x/4x hinge weight); unsafe trials are rejected before any Blend exists; all trial reports remain preserved; only the selected numerically safe solve is copied to the apply path. This is pre-apply engineering triage, not acceptance/promotion.
 - **Phase 4 freeze preflight refreshed (2026-10-03):** removed stale r29/R2 assumptions from the prepared Phase 4 package. Added `scripts/original_v1_phase4_preflight.py`, tests and `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat`. The preflight derives the current candidate/active epoch baseline from production control and refuses freeze validation while failures, strict regressions, stale continuation lineage, incomplete evidence or mismatched local Blend bytes remain. No freeze or approval is performed.
+
+### 2026-10-03 unified local-repair worker action
+
+Production control now binds the unresolved r55 axilla evidence to the exact r55 SHA, so the evidence-selected next action is no longer the ambiguous generic freeze-regression reconciliation. While r55 remains the current complete candidate, the worker action is:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
+```
+
+Use the next collision-free revision if r56 already exists locally. The pipeline declares the local mask before editing, reuses one r55 arc dump for deterministic numeric trial selection, applies only the selected declared incremental corrective, then runs the full evidence/comparator/local-face/real-render validation loop. Phase 4 preflight remains expected to refuse r55 and any successor that still has unresolved strict regressions. No automatic acceptance, freeze or production promotion is performed.

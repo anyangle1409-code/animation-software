@@ -127,6 +127,18 @@ class ControlTests(unittest.TestCase):
         control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
         self.assertEqual(c.next_action(status,control)['action'],'RECONCILE freeze regressions')
 
+    def test_candidate_bound_local_repair_precedes_freeze_reconciliation(self):
+        c=self.module();status,_=c.build(ROOT)
+        control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        active=control['active_local_repair']
+        self.assertEqual(status['current_candidate'],active['candidate_revision'])
+        self.assertEqual(status['last_known_candidate_sha256'],active['candidate_sha256'])
+        action=c.next_action(status,control)
+        self.assertEqual(action['action'],active['action'])
+        self.assertEqual(action['command'],active['command'])
+        self.assertEqual(action['work_package'],active['work_package'])
+
+
     def test_frozen_stress_pose_drift_is_refused(self):
         c=self.module();root=self.fixture()
         p=root/'scripts/pose_test_original_v1_o4_candidate_blender.py'

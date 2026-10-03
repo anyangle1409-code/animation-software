@@ -204,6 +204,10 @@ def next_action(status, control):
     if not decision or decision.get('candidate_sha256')!=status['last_known_candidate_sha256']:
         return {'action':'RECONCILE trial lineage','reason':'record evidence-backed continuation choice; a trade-off is not auto-promoted',
                 'command':None,'safe_parallel_task':'Read-only analysis and review collection; compare R2 and all predecessors.'}
+    active = control.get('active_local_repair')
+    if isinstance(active,dict) and active.get('candidate_revision')==rev and active.get('candidate_sha256')==status['last_known_candidate_sha256']:
+        return {'action':active['action'],'reason':active['reason'],'command':active.get('command'),
+                'work_package':active.get('work_package'),'safe_parallel_task':active.get('safe_parallel_task')}
     phases = status['phases']
     for phase, action, package in [('3B','REPAIR hands/fingers','PHASE_3B_HANDS.md'),
                                    ('3D','REPAIR wrist','PHASE_3D_WRIST_PUSHUP.md'),

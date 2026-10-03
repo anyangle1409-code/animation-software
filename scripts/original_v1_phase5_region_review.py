@@ -30,6 +30,29 @@ def verify_source_metadata(root,path,region,candidate_sha,plan):
         cid=row["capture_id"];cap=row.get("capture",{})
         if row.get("file")!=exp[cid] or not re.fullmatch(r"[0-9a-f]{64}",str(row.get("sha256",""))) or cap.get("capture_id")!=cid or cap.get("region")!=region or cap.get("pose")!=pose_by[cid]: raise ValueError("regional capture row differs")
     return d
+def verify_published_review(root,path,region,candidate_sha,plan,source_path,source_data=None):
+    data=json.loads(path.read_text(encoding="utf-8"));ensure_finite(data);exp=expected_files(plan,region)
+    source_data=source_data or verify_source_metadata(root,source_path,region,candidate_sha,plan)
+    if data.get("schema_version")!=1 or data.get("phase")!=5 or data.get("region")!=region or data.get("candidate_sha256")!=candidate_sha:
+        raise ValueError("regional published review identity differs")
+    if data.get("production_approved") is not False or data.get("phase_complete") is not False or data.get("blocking") is not False:
+        raise ValueError("regional published review completion/blocking contract differs")
+    if data.get("owner_review") not in ("pending","accepted","rejected"):
+        raise ValueError("regional published review owner state missing")
+    src=data.get("source_manifest",{})
+    if src.get("path")!=source_path.relative_to(root).as_posix() or src.get("sha256")!=digest(source_path):
+        raise ValueError("regional published review source manifest differs")
+    rows=data.get("files",[]);ids=[x.get("capture_id") for x in rows]
+    if ids!=list(exp): raise ValueError("regional published review coverage/order differs")
+    source_by={x["capture_id"]:x for x in source_data["images"]};folder=path.parent.resolve()
+    for row in rows:
+        cid=row["capture_id"];out=(root/row.get("output","")).resolve()
+        if not out.is_relative_to(folder) or not out.is_file() or digest(out)!=row.get("sha256"):
+            raise ValueError("regional published review image bytes/path differ")
+        if row.get("sha256")!=source_by[cid]["sha256"]:
+            raise ValueError("regional published image differs from raw capture manifest")
+    return data
+
 def publish(root,region,revision):
     if not re.fullmatch(r"5[A-G]",region) or not re.fullmatch(r"r\d+[a-z]?",revision,re.I): raise ValueError("valid region/revision required")
     plan=load_capture_plan(root);cp=root/CAND/f"HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{revision}.json";cand=read(root,cp.relative_to(root).as_posix());sha=cand["candidate_sha256"]

@@ -48,6 +48,8 @@ def main():
     ap.add_argument("--area-min",type=float,default=0.20)
     ap.add_argument("--area-multipliers",default="0.25,1,4")
     ap.add_argument("--hinge-weight",type=float,default=20000.0)
+    ap.add_argument("--hold-region-min",type=float,default=None,
+                    help="optional extra trial family: also hold each region's current minimum edge ratio (minus this margin) in every pose; selection rules are unchanged")
     ap.add_argument("--canonical-solution",type=Path); ap.add_argument("--canonical-report",type=Path)
     a=ap.parse_args()
     if a.out_dir.exists(): raise SystemExit("refusing to overwrite trial directory: "+str(a.out_dir))
@@ -60,14 +62,22 @@ def main():
     drift_tol=1e-9
     a.out_dir.mkdir(parents=True)
     trials=[]
-    for mult in multipliers:
-        label=("area_%gx"%mult).replace(".","p")
+    families=[(None,"")]
+    if a.hold_region_min is not None:
+        if not 0.0 <= a.hold_region_min < 0.02:
+            raise SystemExit("--hold-region-min must stay inside the comparator region-min tolerance (0 <= m < 0.02)")
+        families.append((a.hold_region_min,"_hold"))
+    for hold,suffix in families:
+      for mult in multipliers:
+        label=("area_%gx"%mult).replace(".","p")+suffix
         sol=a.out_dir/(label+".npz"); report=a.out_dir/(label+".json")
         cmd=[sys.executable,str(OPT),str(a.dump),str(sol),"--mask-file",str(a.declaration),
              "--hi","3.6","--lo","0.30","--w-hinge",str(a.hinge_weight),"--w-trunk","3000000",
              "--w-area",str(a.hinge_weight*mult),"--area-min",str(a.area_min),
              "--w-fold","0","--w-prox","0","--rounds","3","--w-smooth","300","--w-mag","2","--iters","300",
              "--json-out",str(report)]
+        if hold is not None:
+            cmd += ["--hold-region-min",str(hold)]
         p=subprocess.run(cmd,cwd=ROOT)
         if p.returncode: raise SystemExit(f"trial {label} failed with exit code {p.returncode}")
         m=collect(load(report))

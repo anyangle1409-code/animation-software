@@ -35,7 +35,9 @@ set "DUMP=%TEMP%\hgpt_%SOURCE_REV%_%TARGET_REV%_axilla_sweep.npz"
 if exist "%DUMP%" del /q "%DUMP%"
 "%BLENDER%" --background --factory-startup "%BLEND%" --python-exit-code 1 --python scripts\dump_original_v1_arc_skinning_blender.py -- "%DUMP%" "0.25,0.375,0.5,0.625,0.75,0.875"
 if errorlevel 1 goto :fail
-python scripts\run_original_v1_axilla_trial_sweep.py "%DUMP%" "%DECL%" "%TRIALS%" --canonical-solution "%SOL%" --canonical-report "%REPORT%"
+set "HOLD_ARG="
+if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" set "HOLD_ARG=--hold-region-min %AXILLA_PIT_HOLD_REGION_MIN%"
+python scripts\run_original_v1_axilla_trial_sweep.py "%DUMP%" "%DECL%" "%TRIALS%" --canonical-solution "%SOL%" --canonical-report "%REPORT%" %HOLD_ARG%
 if errorlevel 1 goto :fail
 if exist "%DUMP%" del /q "%DUMP%"
 echo SWEEP COMPLETE. Selection: %TRIALS%\selection.json

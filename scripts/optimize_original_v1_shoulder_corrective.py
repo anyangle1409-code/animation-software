@@ -67,6 +67,7 @@ def main():
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--init")
     ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
+    ap.add_argument("--hold-region-min", type=float, default=None, help="regional-minimum guard: mask edges may not shorten below (that region's current whole-mesh minimum edge ratio in that pose) minus this margin")
     a = ap.parse_args()
 
     d = np.load(a.dump)
@@ -157,6 +158,18 @@ def main():
     cur = np.stack([np.log(np.maximum(np.linalg.norm(P0[p][Em[:, 0]] - P0[p][Em[:, 1]], axis=1), 1e-12) / L0) for p in range(nP)])
     LHI = np.where(cur < np.log(a.p99_tail), np.log(a.p99_tail), np.log(a.hi))     # no NEW tail edges; existing tail edges may stay under --hi
     LLO = (np.log(a.lo) * np.ones_like(cur)) if a.abs_lo else np.minimum(np.log(a.lo), cur)                                # never required to be better than the current compression, never allowed to get worse than min(lo, current)
+    if a.hold_region_min is not None:
+        # Regional-minimum guard (comparator region_min_ratio_drop): for every pose and region, no mask edge may shorten below that region's CURRENT whole-mesh
+        # minimum edge ratio minus the margin, so the corrected region minimum can drop by at most the margin. Edge region = region shared by both endpoints.
+        EA, EB = E[:, 0], E[:, 1]
+        L0_all = np.linalg.norm(rest[EA] - rest[EB], axis=1)
+        reg_e = np.where(region[EA] == region[EB], region[EA], -1)
+        reg_m = reg_e[in_mask[E[:, 0]] | in_mask[E[:, 1]]]
+        for p in range(nP):
+            r_all = np.linalg.norm(P0[p][EA] - P0[p][EB], axis=1) / np.maximum(L0_all, 1e-12)
+            for rg in np.unique(reg_m[reg_m >= 0]):
+                m_pr = float(r_all[reg_e == rg].min())
+                LLO[p, reg_m == rg] = np.maximum(LLO[p, reg_m == rg], np.log(max(m_pr - a.hold_region_min, 1e-3)))
     # smoothness edges (inside the mask, on the net field)
     Es = E[in_mask[E[:, 0]] & in_mask[E[:, 1]]]
     Esz0, Esz1 = np.array([zpos[int(v)] for v in Es[:, 0]]), np.array([zpos[int(v)] for v in Es[:, 1]])

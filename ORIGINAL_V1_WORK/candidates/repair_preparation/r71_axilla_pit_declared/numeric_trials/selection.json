@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "purpose": "numeric pre-apply selection only; no acceptance/promotion",
+  "area_reference": "same_pose_uncorrected_lbs",
+  "selection_rules": {
+    "max_flipped_faces_after": 0,
+    "below_area_faces_may_increase": false,
+    "region_max_ratio_rise_tolerance": 0.1,
+    "region_min_ratio_drop_tolerance": 0.02,
+    "torso_drift_worsening_tolerance_m": 1e-09,
+    "minimum_signed_area_may_worsen": false
+  },
+  "trials": [
+    {
+      "label": "area_0p25x",
+      "area_multiplier": 0.25,
+      "w_area": 5000.0,
+      "solution": "area_0p25x.npz",
+      "report": "area_0p25x.json",
+      "feasible_for_apply_trial": false,
+      "min_signed_before": -9.440976864272024,
+      "min_signed_after": 0.057592448334455065,
+      "max_below_before": 126,
+      "max_below_after": 47,
+      "max_flips_after": 0,
+      "max_edge_max_rise": -1.793653795711947e-05,
+      "max_edge_min_drop": 0.11536399367155076,
+      "max_drift_rise_m": -2.762811039148938e-07,
+      "max_abs_delta_m": 0.017196486651781237,
+      "final_loss": 9805.984589999809
+    },
+    {
+      "label": "area_1x",
+      "area_multiplier": 1.0,
+      "w_area": 20000.0,
+      "solution": "area_1x.npz",
+      "report": "area_1x.json",
+      "feasible_for_apply_trial": false,
+      "min_signed_before": -9.440976864272024,
+      "min_signed_after": 0.07580084244233093,
+      "max_below_before": 126,
+      "max_below_after": 50,
+      "max_flips_after": 0,
+      "max_edge_max_rise": -1.9831464475039695e-05,
+      "max_edge_min_drop": 0.0857110357385043,
+      "max_drift_rise_m": -2.8073789680102545e-07,
+      "max_abs_delta_m": 0.017190887724133515,
+      "final_loss": 19454.561525882884
+    },
+    {
+      "label": "area_4x",
+      "area_multiplier": 4.0,
+      "w_area": 80000.0,
+      "solution": "area_4x.npz",
+      "report": "area_4x.json",
+      "feasible_for_apply_trial": false,
+      "min_signed_before": -9.440976864272024,
+      "min_signed_after": 0.0758315380948091,
+      "max_below_before": 126,
+      "max_below_after": 36,
+      "max_flips_after": 0,
+      "max_edge_max_rise": -5.270516683619775e-05,
+      "max_edge_min_drop": 0.10433444399615271,
+      "max_drift_rise_m": 1.2848346993971083e-06,
+      "max_abs_delta_m": 0.017376923219828675,
+      "final_loss": 52965.03261776016
+    }
+  ],
+  "selected_trial": null,
+  "status": "NO_NUMERICALLY_SAFE_TRIAL",
+  "production_approved": false
+}

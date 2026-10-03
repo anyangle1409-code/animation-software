@@ -2236,3 +2236,5 @@ Status-selected next action: RECONCILE trial lineage (r49-r54 are preserved tria
 ## GPT repository assist — 2026-10-03: deterministic axilla preflight
 
 Added `scripts/audit_original_v1_axilla_pit_blender.py` and `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat`. The runner is read-only: it verifies the local source candidate against its committed manifest, refuses target-label collisions, samples the six elevated-arm poses through 17 arc positions, compares the evaluated r55 surface against the same skeletal pose without the corrective, ranks signed face-area collapse/orientation reversal, and writes a mirror-closed one-ring local declaration before any edit. Default invocation for the next free label is `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat r55 r56`.
+
+- **Incremental local-mask plumbing (2026-10-03):** optimizer `--mask-file`, cross-source `--init` rejection, a 180-left-vertex preflight cap, and guarded solve/apply runners now connect the declared pit mask to an incremental correction of r55's existing shape keys. The apply path preserves Basis/weights/topology/bones and emits a complete updated runtime corrective spec.

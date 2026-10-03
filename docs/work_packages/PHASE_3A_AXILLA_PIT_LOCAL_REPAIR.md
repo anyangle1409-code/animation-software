@@ -59,7 +59,7 @@ The repository now has a read-only deterministic preflight. From a clean checkou
 RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat r55 r56
 ```
 
-Use the next collision-free target revision if `r56` already exists. The runner never saves the Blend. It samples the full shoulder arcs, ranks signed face-area collapse/orientation reversal, mirror-closes the worst local faces, expands one topological ring, and writes both the audit and the declaration before any edit.
+Use the next collision-free target revision if `r56` already exists. The runner never saves the Blend. It samples the full shoulder arcs, ranks signed face-area collapse/orientation reversal, mirror-closes the worst local faces, expands one topological ring, and writes both the audit and the declaration before any edit. It aborts if the default declaration exceeds 180 left-owned vertices so a local repair cannot silently become another broad shoulder edit.
 
 It creates:
 
@@ -84,7 +84,9 @@ Start from the actual triangles that form the visible r55 sliver/crumple. Expand
 
 Prefer a local first-party weight/corrective edit before changing topology.
 
-Use the existing r55 corrective as the initialization. The updated optimizer supports:
+The source Blend already contains the r55 corrective, so the next solve is an **incremental delta from zero** on top of r55. Do **not** pass `corr_v8.npz` as `--init`: corr_v8 was solved against r48 and that would double-apply the correction. Cross-source `--init` is now rejected.
+
+The optimizer now supports `--mask-file <declaration.json>` to restrict the solve to the committed local vertices. It also supports:
 
 - `--w-fold`: dihedral fold barrier;
 - `--w-area`: signed face-area/orientation barrier;
@@ -96,6 +98,24 @@ The face-area barrier is disabled by default, so historical results remain repro
 The signed-area term must stop a triangle from becoming a near-zero-area sliver or flipping orientation even when all individual edge lengths remain inside the existing edge gates.
 
 Do not choose parameter values merely to make the aggregate development gate pass; r55 already passes that gate. Choose them to remove the visible fold while avoiding new severity regressions.
+
+### Deterministic local solve/apply
+
+After Step A:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_SOLVE.bat r55 r56 <w-area> [area-min] [w-fold] [w-prox]
+```
+
+The area weight is explicit rather than silently tuned. This writes an incremental solution only and does not save a Blend.
+
+After inspecting that solve:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_APPLY.bat r55 r56
+```
+
+The apply step verifies source SHA, declaration, mirror mapping and parent runtime spec; changes only the existing shoulder corrective keys at declared vertices; preserves Basis, weights, topology and bones; and emits a full updated runtime corrective spec.
 
 ## Step C — topology only if the local weight/corrective attempt is insufficient
 

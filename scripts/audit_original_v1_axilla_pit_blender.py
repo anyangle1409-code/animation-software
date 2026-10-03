@@ -33,7 +33,7 @@ argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 if len(argv) < 4:
     raise SystemExit(
         "Usage: ... -- <audit.json> <audit.md> <declaration.json> <target-rN> "
-        "[samples=17] [seed_faces=12] [rings=1] [area_min=0.20] [signed_min=0.20] [radius=0.30]"
+        "[samples=17] [seed_faces=12] [rings=1] [area_min=0.20] [signed_min=0.20] [radius=0.30] [max_left_vertices=180]"
     )
 
 OUT_JSON = Path(argv[0]).resolve()
@@ -46,7 +46,8 @@ RINGS = int(argv[6]) if len(argv) > 6 else 1
 AREA_MIN = float(argv[7]) if len(argv) > 7 else 0.20
 SIGNED_MIN = float(argv[8]) if len(argv) > 8 else 0.20
 RADIUS = float(argv[9]) if len(argv) > 9 else 0.30
-if NS < 3 or SEED_FACE_COUNT < 1 or RINGS < 0 or not (0.0 < AREA_MIN <= 1.0) or not (0.0 < SIGNED_MIN <= 1.0):
+MAX_LEFT_VERTICES = int(argv[10]) if len(argv) > 10 else 180
+if NS < 3 or SEED_FACE_COUNT < 1 or RINGS < 0 or MAX_LEFT_VERTICES < 1 or not (0.0 < AREA_MIN <= 1.0) or not (0.0 < SIGNED_MIN <= 1.0):
     raise SystemExit("invalid audit parameters")
 
 POSE_LIST = ("press_bottom", "press_top", "press_top_rhythm", "pullup_hang", "pullup_hang_rhythm", "pullup_top")
@@ -317,6 +318,7 @@ audit = {
         "area_min": AREA_MIN,
         "signed_min": SIGNED_MIN,
         "diagnostic_radius_m": RADIUS,
+        "max_left_vertices": MAX_LEFT_VERTICES,
     },
     "zone_face_count": int(len(zone_face_ids)),
     "sample_summary": sample_rows,
@@ -334,6 +336,11 @@ audit = {
 
 if not left_owned:
     raise SystemExit("diagnostic produced an empty left-owned mask")
+if len(left_owned) > MAX_LEFT_VERTICES:
+    raise SystemExit(
+        f"local mask expanded to {len(left_owned)} left-owned vertices, above safety cap {MAX_LEFT_VERTICES}; "
+        "reduce seed faces/rings or inspect the audit instead of broadening the edit"
+    )
 bbox = rest[mask_all]
 ids_bytes = np.asarray(left_owned, dtype="<i8").tobytes()
 declaration = {

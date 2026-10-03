@@ -40,6 +40,7 @@ def main():
     ap.add_argument("--theta0", type=float, default=40.0)
     ap.add_argument("--theta1", type=float, default=150.0)
     ap.add_argument("--declare-mask")
+    ap.add_argument("--mask-file", help="restrict solve to left_owned_vertex_ids from an existing pre-edit declaration")
     ap.add_argument("--radius", type=float, default=0.30)
     ap.add_argument("--hi", type=float, default=3.2)
     ap.add_argument("--lo", type=float, default=0.30)
@@ -78,8 +79,26 @@ def main():
     regs = np.isin(region, [rn.index(n) for n in ("torso", "shoulder", "arm")])
     Hl = d["heads"][b["upperarm_l"]]
     left_gh = np.linalg.norm(rest - Hl, axis=1)
-    Lset = np.nonzero((rest[:, 0] <= 1e-8) & regs & ((left_gh < a.radius) | (W[:, b["scapula_l"]] > 0.01)))[0]
-    Rset = mir[Lset[rest[Lset, 0] < -1e-8]]                       # right-owned mirror twins of the strictly-left vertices
+    if a.declare_mask and a.mask_file:
+        raise SystemExit("--declare-mask and --mask-file are mutually exclusive")
+    if a.mask_file:
+        decl = json.loads(Path(a.mask_file).read_text(encoding="utf-8"))
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        if decl.get("source_candidate_sha256") != source_sha:
+            raise SystemExit("local mask declaration was created from a different source candidate")
+        ids = decl.get("left_owned_vertex_ids")
+        if not isinstance(ids, list) or not ids or ids != sorted(set(int(v) for v in ids)):
+            raise SystemExit("local mask left_owned_vertex_ids must be non-empty, sorted and unique")
+        Lset = np.asarray(ids, dtype=int)
+        if (Lset < 0).any() or (Lset >= nV).any() or (rest[Lset, 0] > 1e-8).any():
+            raise SystemExit("local mask contains invalid or non-left-owned vertices")
+        expected_right = sorted(int(mir[v]) for v in Lset if rest[v, 0] < -1e-8)
+        declared_right = sorted(int(v) for v in decl.get("mirror_of_strict_left_vertex_ids", []))
+        if declared_right != expected_right:
+            raise SystemExit("local mask mirror set disagrees with source mesh")
+    else:
+        Lset = np.nonzero((rest[:, 0] <= 1e-8) & regs & ((left_gh < a.radius) | (W[:, b["scapula_l"]] > 0.01)))[0]
+    Rset = mir[Lset[rest[Lset, 0] < -1e-8]]
     mask_all = np.unique(np.concatenate([Lset, Rset]))
     mid = Lset[np.abs(rest[Lset, 0]) <= 1e-8]
     if a.declare_mask:
@@ -281,6 +300,10 @@ def main():
     x = np.zeros(nL * 3)
     if a.init:
         s0 = np.load(a.init)
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        init_sha = str(s0["source_sha256"].item()) if "source_sha256" in s0 and np.asarray(s0["source_sha256"]).shape == () else str(s0["source_sha256"]) if "source_sha256" in s0 else ""
+        if init_sha != source_sha:
+            raise SystemExit("--init solution was solved against a different source candidate; refusing double-application")
         mp = {int(v): k for k, v in enumerate(s0["vertices"])}
         for k, v in enumerate(Lset):
             if int(v) in mp:

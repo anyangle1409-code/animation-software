@@ -1,0 +1,614 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-03T17:15:51.552356+00:00",
+  "declared_before_edit": true,
+  "target_revision": "r73",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.blend",
+  "source_candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
+  "selection_rule": "mirror closure of all flipped diagnostic-zone faces plus the worst 12 faces by minimum signed projected area ratio across 17 samples of each elevated-arm stress pose, expanded 0 topological ring(s)",
+  "diagnostic_parameters": {
+    "poses": [
+      "press_bottom",
+      "press_top",
+      "press_top_rhythm",
+      "pullup_hang",
+      "pullup_hang_rhythm",
+      "pullup_top"
+    ],
+    "samples_per_pose": 17,
+    "seed_face_count": 12,
+    "topological_rings": 0,
+    "area_min": 0.2,
+    "signed_min": 0.2,
+    "diagnostic_radius_m": 0.3,
+    "max_left_vertices": 180
+  },
+  "seed_triangle_ids": [
+    512,
+    544,
+    549,
+    890,
+    895,
+    922,
+    1055,
+    1349,
+    5876,
+    5966,
+    6879,
+    7013
+  ],
+  "mirror_closed_triangle_ids": [
+    512,
+    544,
+    549,
+    890,
+    895,
+    922,
+    1055,
+    1349,
+    5876,
+    5966,
+    6879,
+    7013
+  ],
+  "left_owned_vertex_ids": [
+    129,
+    191,
+    240,
+    4503,
+    4515,
+    4675,
+    4683,
+    4685,
+    4686,
+    4809,
+    4812,
+    6049,
+    6050,
+    6291,
+    6294,
+    13524,
+    13528,
+    14194
+  ],
+  "mirror_of_strict_left_vertex_ids": [
+    171,
+    229,
+    243,
+    4644,
+    4656,
+    4769,
+    4771,
+    4772,
+    4779,
+    4885,
+    4886,
+    6069,
+    6072,
+    6313,
+    6314,
+    13571,
+    13575,
+    14205
+  ],
+  "vertex_count_total": 36,
+  "ids_sha256": "5bc0d3232e4aeddc8b6886ce368b6ee81de0aa9e3e3ac362fca47b4576e5fc3e",
+  "rest_bbox_min_m": [
+    -0.215509,
+    -0.081856,
+    1.316877
+  ],
+  "rest_bbox_max_m": [
+    0.215509,
+    0.132433,
+    1.52781
+  ],
+  "vertex_metadata": [
+    {
+      "vertex": 129,
+      "rest_position_m": [
+        -0.188453,
+        -0.043271,
+        1.499351
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.684882
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.28169
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.033022
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.000406
+        }
+      ],
+      "mirror_vertex": 171
+    },
+    {
+      "vertex": 191,
+      "rest_position_m": [
+        -0.201917,
+        -0.021453,
+        1.52781
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.691459
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.286729
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.021358
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.000454
+        }
+      ],
+      "mirror_vertex": 229
+    },
+    {
+      "vertex": 240,
+      "rest_position_m": [
+        -0.177771,
+        -0.004234,
+        1.411604
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "upperarm_l",
+          "weight": 0.575969
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.17452
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.15332
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.096191
+        }
+      ],
+      "mirror_vertex": 243
+    },
+    {
+      "vertex": 4503,
+      "rest_position_m": [
+        -0.123517,
+        -0.081856,
+        1.454686
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "spine_03",
+          "weight": 0.433572
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.416863
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.092961
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.056603
+        }
+      ],
+      "mirror_vertex": 4656
+    },
+    {
+      "vertex": 4515,
+      "rest_position_m": [
+        -0.197097,
+        -0.041343,
+        1.453386
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "upperarm_l",
+          "weight": 0.605291
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.166073
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.142648
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.085988
+        }
+      ],
+      "mirror_vertex": 4644
+    },
+    {
+      "vertex": 4675,
+      "rest_position_m": [
+        -0.099887,
+        -0.079302,
+        1.477255
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.697622
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.244915
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.045518
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.011945
+        }
+      ],
+      "mirror_vertex": 4779
+    },
+    {
+      "vertex": 4683,
+      "rest_position_m": [
+        -0.180071,
+        -0.044862,
+        1.480378
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.418304
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.360518
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.219634
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.001545
+        }
+      ],
+      "mirror_vertex": 4771
+    },
+    {
+      "vertex": 4685,
+      "rest_position_m": [
+        -0.201505,
+        -0.042641,
+        1.477447
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "upperarm_l",
+          "weight": 0.496644
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.49451
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.008081
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.000766
+        }
+      ],
+      "mirror_vertex": 4769
+    },
+    {
+      "vertex": 4686,
+      "rest_position_m": [
+        -0.177085,
+        -0.045041,
+        1.500684
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.723988
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.215412
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.052837
+        },
+        {
+          "bone": "neck",
+          "weight": 0.007762
+        }
+      ],
+      "mirror_vertex": 4772
+    },
+    {
+      "vertex": 4809,
+      "rest_position_m": [
+        -0.215509,
+        -0.027664,
+        1.514
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.461539
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.38027
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.157671
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.000521
+        }
+      ],
+      "mirror_vertex": 4885
+    },
+    {
+      "vertex": 4812,
+      "rest_position_m": [
+        -0.214692,
+        -0.017571,
+        1.52685
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.503606
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.357001
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.139168
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.000226
+        }
+      ],
+      "mirror_vertex": 4886
+    },
+    {
+      "vertex": 6049,
+      "rest_position_m": [
+        -0.145356,
+        0.132433,
+        1.316877
+      ],
+      "region": "torso",
+      "top_weights": [
+        {
+          "bone": "scapula_l",
+          "weight": 0.578644
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.409631
+        },
+        {
+          "bone": "neck",
+          "weight": 0.005863
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.005863
+        }
+      ],
+      "mirror_vertex": 6069
+    },
+    {
+      "vertex": 6050,
+      "rest_position_m": [
+        -0.153278,
+        0.120364,
+        1.328928
+      ],
+      "region": "torso",
+      "top_weights": [
+        {
+          "bone": "scapula_l",
+          "weight": 0.688912
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.301069
+        },
+        {
+          "bone": "neck",
+          "weight": 0.00501
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.00501
+        }
+      ],
+      "mirror_vertex": 6072
+    },
+    {
+      "vertex": 6291,
+      "rest_position_m": [
+        -0.173622,
+        -0.00493,
+        1.40841
+      ],
+      "region": "torso",
+      "top_weights": [
+        {
+          "bone": "upperarm_l",
+          "weight": 0.529124
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.225904
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.178314
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.066658
+        }
+      ],
+      "mirror_vertex": 6313
+    },
+    {
+      "vertex": 6294,
+      "rest_position_m": [
+        -0.180537,
+        0.024384,
+        1.414687
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "upperarm_l",
+          "weight": 0.556962
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.366041
+        },
+        {
+          "bone": "clavicle_l",
+          "weight": 0.038665
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.038331
+        }
+      ],
+      "mirror_vertex": 6314
+    },
+    {
+      "vertex": 13524,
+      "rest_position_m": [
+        -0.110879,
+        -0.073722,
+        1.479215
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.749656
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.178661
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.061006
+        },
+        {
+          "bone": "spine_02",
+          "weight": 0.010676
+        }
+      ],
+      "mirror_vertex": 13575
+    },
+    {
+      "vertex": 13528,
+      "rest_position_m": [
+        -0.190781,
+        -0.043908,
+        1.478876
+      ],
+      "region": "shoulder",
+      "top_weights": [
+        {
+          "bone": "clavicle_l",
+          "weight": 0.4327
+        },
+        {
+          "bone": "upperarm_l",
+          "weight": 0.424829
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.140896
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.001575
+        }
+      ],
+      "mirror_vertex": 13571
+    },
+    {
+      "vertex": 14194,
+      "rest_position_m": [
+        -0.153638,
+        0.119291,
+        1.316983
+      ],
+      "region": "torso",
+      "top_weights": [
+        {
+          "bone": "spine_02",
+          "weight": 0.521838
+        },
+        {
+          "bone": "scapula_l",
+          "weight": 0.473449
+        },
+        {
+          "bone": "neck",
+          "weight": 0.002357
+        },
+        {
+          "bone": "spine_03",
+          "weight": 0.002357
+        }
+      ],
+      "mirror_vertex": 14205
+    }
+  ],
+  "allowed_change": "shoulder-corrective shape-key displacement and/or skin weights of the declared mirror-closed vertices only; no bone, bind, pose-definition, threshold, baseline, rest-geometry or topology change. Any topology edit requires a separate declaration.",
+  "production_approved": false
+}

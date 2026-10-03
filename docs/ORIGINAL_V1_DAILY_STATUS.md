@@ -4,15 +4,15 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r72 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
-SHA-256: `c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e`
+r73 — EXPERIMENTAL; EXPERIMENTAL. P3B1 stays pinned.
+SHA-256: `db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e`
 
 DEVELOPMENT BLOCKERS
 0 failures; 23 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED
-r72: solution incremental_corrective_solution.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r69.blend; candidate remains experimental.
+r73: solution incremental_corrective_solution.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -29,9 +29,7 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r72 is development-clear and improves the declared local face statistics over r69, but one strict regression versus its direct parent (press_top self-intersections +8) and a LOCAL_FACE_REVIEW_REQUIRED face audit remain, and real renders still show the small pointed tip at the front pit top; run the contact-guarded local trial family before freeze reconciliation
-`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72`
-Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
+RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 
@@ -53,18 +51,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-03T16:19:57.671694+00:00
+Evidence timestamp: 2026-10-03T17:18:17.449052+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r73.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_r69.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_r72.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

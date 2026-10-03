@@ -1,0 +1,4685 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-03T17:15:51.551350+00:00",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.blend",
+  "source_candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
+  "target_revision": "r73",
+  "pose_definition_script_sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06",
+  "purpose": "read-only axilla face-collapse diagnostic and deterministic pre-edit local mask selection",
+  "parameters": {
+    "poses": [
+      "press_bottom",
+      "press_top",
+      "press_top_rhythm",
+      "pullup_hang",
+      "pullup_hang_rhythm",
+      "pullup_top"
+    ],
+    "samples_per_pose": 17,
+    "seed_face_count": 12,
+    "topological_rings": 0,
+    "area_min": 0.2,
+    "signed_min": 0.2,
+    "diagnostic_radius_m": 0.3,
+    "max_left_vertices": 180
+  },
+  "zone_face_count": 6130,
+  "sample_summary": [
+    {
+      "pose": "press_bottom",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.0625,
+      "elevation_l_deg": 5.104,
+      "elevation_r_deg": 5.104,
+      "min_signed_projected_area_ratio": 0.999974,
+      "min_area_ratio": 0.999974,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.125,
+      "elevation_l_deg": 10.21,
+      "elevation_r_deg": 10.21,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.1875,
+      "elevation_l_deg": 15.317,
+      "elevation_r_deg": 15.317,
+      "min_signed_projected_area_ratio": 0.999977,
+      "min_area_ratio": 0.999977,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.25,
+      "elevation_l_deg": 20.425,
+      "elevation_r_deg": 20.425,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.3125,
+      "elevation_l_deg": 25.533,
+      "elevation_r_deg": 25.533,
+      "min_signed_projected_area_ratio": 0.999963,
+      "min_area_ratio": 0.999963,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.375,
+      "elevation_l_deg": 30.642,
+      "elevation_r_deg": 30.642,
+      "min_signed_projected_area_ratio": 0.999965,
+      "min_area_ratio": 0.999965,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.4375,
+      "elevation_l_deg": 35.752,
+      "elevation_r_deg": 35.752,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5,
+      "elevation_l_deg": 40.862,
+      "elevation_r_deg": 40.862,
+      "min_signed_projected_area_ratio": 0.999468,
+      "min_area_ratio": 0.999468,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.5625,
+      "elevation_l_deg": 45.971,
+      "elevation_r_deg": 45.971,
+      "min_signed_projected_area_ratio": 0.977329,
+      "min_area_ratio": 0.977348,
+      "min_orientation_cosine": 0.999242,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.625,
+      "elevation_l_deg": 51.081,
+      "elevation_r_deg": 51.081,
+      "min_signed_projected_area_ratio": 0.930714,
+      "min_area_ratio": 0.930897,
+      "min_orientation_cosine": 0.993455,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.6875,
+      "elevation_l_deg": 56.19,
+      "elevation_r_deg": 56.19,
+      "min_signed_projected_area_ratio": 0.86897,
+      "min_area_ratio": 0.869688,
+      "min_orientation_cosine": 0.97313,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.75,
+      "elevation_l_deg": 61.299,
+      "elevation_r_deg": 61.299,
+      "min_signed_projected_area_ratio": 0.792358,
+      "min_area_ratio": 0.792423,
+      "min_orientation_cosine": 0.923918,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.8125,
+      "elevation_l_deg": 66.406,
+      "elevation_r_deg": 66.406,
+      "min_signed_projected_area_ratio": 0.697719,
+      "min_area_ratio": 0.69786,
+      "min_orientation_cosine": 0.839963,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.875,
+      "elevation_l_deg": 71.513,
+      "elevation_r_deg": 71.513,
+      "min_signed_projected_area_ratio": 0.593749,
+      "min_area_ratio": 0.594062,
+      "min_orientation_cosine": 0.719432,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 0.9375,
+      "elevation_l_deg": 76.618,
+      "elevation_r_deg": 76.618,
+      "min_signed_projected_area_ratio": 0.484252,
+      "min_area_ratio": 0.484994,
+      "min_orientation_cosine": 0.541105,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_bottom",
+      "fraction": 1.0,
+      "elevation_l_deg": 81.72,
+      "elevation_r_deg": 81.72,
+      "min_signed_projected_area_ratio": 0.229945,
+      "min_area_ratio": 0.374824,
+      "min_orientation_cosine": 0.224395,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.0625,
+      "elevation_l_deg": 10.348,
+      "elevation_r_deg": 10.348,
+      "min_signed_projected_area_ratio": 0.999975,
+      "min_area_ratio": 0.999975,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.125,
+      "elevation_l_deg": 20.708,
+      "elevation_r_deg": 20.708,
+      "min_signed_projected_area_ratio": 0.99997,
+      "min_area_ratio": 0.99997,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.1875,
+      "elevation_l_deg": 31.078,
+      "elevation_r_deg": 31.078,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.25,
+      "elevation_l_deg": 41.455,
+      "elevation_r_deg": 41.455,
+      "min_signed_projected_area_ratio": 0.998156,
+      "min_area_ratio": 0.998156,
+      "min_orientation_cosine": 0.999997,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.3125,
+      "elevation_l_deg": 51.839,
+      "elevation_r_deg": 51.839,
+      "min_signed_projected_area_ratio": 0.902037,
+      "min_area_ratio": 0.902066,
+      "min_orientation_cosine": 0.98884,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.375,
+      "elevation_l_deg": 62.227,
+      "elevation_r_deg": 62.227,
+      "min_signed_projected_area_ratio": 0.724472,
+      "min_area_ratio": 0.724584,
+      "min_orientation_cosine": 0.894449,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.4375,
+      "elevation_l_deg": 72.618,
+      "elevation_r_deg": 72.618,
+      "min_signed_projected_area_ratio": 0.528248,
+      "min_area_ratio": 0.531313,
+      "min_orientation_cosine": 0.680672,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5,
+      "elevation_l_deg": 83.01,
+      "elevation_r_deg": 83.01,
+      "min_signed_projected_area_ratio": 0.348637,
+      "min_area_ratio": 0.354515,
+      "min_orientation_cosine": 0.429262,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.5625,
+      "elevation_l_deg": 93.402,
+      "elevation_r_deg": 93.402,
+      "min_signed_projected_area_ratio": 0.217014,
+      "min_area_ratio": 0.234205,
+      "min_orientation_cosine": 0.2198,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.625,
+      "elevation_l_deg": 103.791,
+      "elevation_r_deg": 103.791,
+      "min_signed_projected_area_ratio": 0.143173,
+      "min_area_ratio": 0.19327,
+      "min_orientation_cosine": 0.156298,
+      "faces_below_signed_min": 4,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.6875,
+      "elevation_l_deg": 114.176,
+      "elevation_r_deg": 114.176,
+      "min_signed_projected_area_ratio": 0.12276,
+      "min_area_ratio": 0.217548,
+      "min_orientation_cosine": 0.025612,
+      "faces_below_signed_min": 20,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.75,
+      "elevation_l_deg": 124.555,
+      "elevation_r_deg": 124.555,
+      "min_signed_projected_area_ratio": 0.140821,
+      "min_area_ratio": 0.198786,
+      "min_orientation_cosine": 0.10673,
+      "faces_below_signed_min": 32,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.8125,
+      "elevation_l_deg": 134.926,
+      "elevation_r_deg": 134.926,
+      "min_signed_projected_area_ratio": 0.092985,
+      "min_area_ratio": 0.183576,
+      "min_orientation_cosine": 0.082776,
+      "faces_below_signed_min": 42,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.875,
+      "elevation_l_deg": 145.288,
+      "elevation_r_deg": 145.288,
+      "min_signed_projected_area_ratio": 0.050267,
+      "min_area_ratio": 0.20874,
+      "min_orientation_cosine": 0.052192,
+      "faces_below_signed_min": 44,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 0.9375,
+      "elevation_l_deg": 155.636,
+      "elevation_r_deg": 155.636,
+      "min_signed_projected_area_ratio": 0.046776,
+      "min_area_ratio": 0.266432,
+      "min_orientation_cosine": 0.048465,
+      "faces_below_signed_min": 38,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top",
+      "fraction": 1.0,
+      "elevation_l_deg": 165.964,
+      "elevation_r_deg": 165.964,
+      "min_signed_projected_area_ratio": 0.045786,
+      "min_area_ratio": 0.214775,
+      "min_orientation_cosine": 0.047254,
+      "faces_below_signed_min": 44,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.0625,
+      "elevation_l_deg": 10.336,
+      "elevation_r_deg": 10.336,
+      "min_signed_projected_area_ratio": 0.999975,
+      "min_area_ratio": 0.999975,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.125,
+      "elevation_l_deg": 20.694,
+      "elevation_r_deg": 20.694,
+      "min_signed_projected_area_ratio": 0.999944,
+      "min_area_ratio": 0.999944,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.1875,
+      "elevation_l_deg": 31.07,
+      "elevation_r_deg": 31.07,
+      "min_signed_projected_area_ratio": 0.999973,
+      "min_area_ratio": 0.999973,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.25,
+      "elevation_l_deg": 41.459,
+      "elevation_r_deg": 41.459,
+      "min_signed_projected_area_ratio": 0.998155,
+      "min_area_ratio": 0.998155,
+      "min_orientation_cosine": 0.999998,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.3125,
+      "elevation_l_deg": 51.86,
+      "elevation_r_deg": 51.86,
+      "min_signed_projected_area_ratio": 0.902691,
+      "min_area_ratio": 0.90271,
+      "min_orientation_cosine": 0.989469,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.375,
+      "elevation_l_deg": 62.268,
+      "elevation_r_deg": 62.268,
+      "min_signed_projected_area_ratio": 0.72705,
+      "min_area_ratio": 0.727153,
+      "min_orientation_cosine": 0.900253,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.4375,
+      "elevation_l_deg": 72.68,
+      "elevation_r_deg": 72.68,
+      "min_signed_projected_area_ratio": 0.530446,
+      "min_area_ratio": 0.533189,
+      "min_orientation_cosine": 0.683618,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5,
+      "elevation_l_deg": 83.093,
+      "elevation_r_deg": 83.092,
+      "min_signed_projected_area_ratio": 0.351194,
+      "min_area_ratio": 0.357552,
+      "min_orientation_cosine": 0.28572,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.5625,
+      "elevation_l_deg": 93.502,
+      "elevation_r_deg": 93.502,
+      "min_signed_projected_area_ratio": -7.040738,
+      "min_area_ratio": 0.241076,
+      "min_orientation_cosine": -0.731199,
+      "faces_below_signed_min": 2,
+      "faces_below_area_min": 0,
+      "flipped_faces": 2
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.625,
+      "elevation_l_deg": 103.906,
+      "elevation_r_deg": 103.906,
+      "min_signed_projected_area_ratio": 0.143035,
+      "min_area_ratio": 0.208939,
+      "min_orientation_cosine": 0.161506,
+      "faces_below_signed_min": 2,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.6875,
+      "elevation_l_deg": 114.3,
+      "elevation_r_deg": 114.3,
+      "min_signed_projected_area_ratio": 0.119688,
+      "min_area_ratio": 0.24291,
+      "min_orientation_cosine": 0.097084,
+      "faces_below_signed_min": 6,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.75,
+      "elevation_l_deg": 124.681,
+      "elevation_r_deg": 124.681,
+      "min_signed_projected_area_ratio": 0.13823,
+      "min_area_ratio": 0.307421,
+      "min_orientation_cosine": 0.097245,
+      "faces_below_signed_min": 6,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.8125,
+      "elevation_l_deg": 135.043,
+      "elevation_r_deg": 135.043,
+      "min_signed_projected_area_ratio": 0.089855,
+      "min_area_ratio": 0.270611,
+      "min_orientation_cosine": 0.037342,
+      "faces_below_signed_min": 18,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.875,
+      "elevation_l_deg": 145.383,
+      "elevation_r_deg": 145.383,
+      "min_signed_projected_area_ratio": 0.054713,
+      "min_area_ratio": 0.183532,
+      "min_orientation_cosine": 0.023707,
+      "faces_below_signed_min": 24,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 0.9375,
+      "elevation_l_deg": 155.694,
+      "elevation_r_deg": 155.694,
+      "min_signed_projected_area_ratio": 0.056762,
+      "min_area_ratio": 0.201009,
+      "min_orientation_cosine": 0.057004,
+      "faces_below_signed_min": 28,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "press_top_rhythm",
+      "fraction": 1.0,
+      "elevation_l_deg": 165.964,
+      "elevation_r_deg": 165.964,
+      "min_signed_projected_area_ratio": 0.06329,
+      "min_area_ratio": 0.256793,
+      "min_orientation_cosine": 0.056971,
+      "faces_below_signed_min": 32,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.0625,
+      "elevation_l_deg": 9.717,
+      "elevation_r_deg": 9.717,
+      "min_signed_projected_area_ratio": 0.999971,
+      "min_area_ratio": 0.999971,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.125,
+      "elevation_l_deg": 19.443,
+      "elevation_r_deg": 19.443,
+      "min_signed_projected_area_ratio": 0.999977,
+      "min_area_ratio": 0.999977,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.1875,
+      "elevation_l_deg": 29.177,
+      "elevation_r_deg": 29.177,
+      "min_signed_projected_area_ratio": 0.999977,
+      "min_area_ratio": 0.999977,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.25,
+      "elevation_l_deg": 38.916,
+      "elevation_r_deg": 38.916,
+      "min_signed_projected_area_ratio": 0.999973,
+      "min_area_ratio": 0.999973,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.3125,
+      "elevation_l_deg": 48.66,
+      "elevation_r_deg": 48.66,
+      "min_signed_projected_area_ratio": 0.941703,
+      "min_area_ratio": 0.941712,
+      "min_orientation_cosine": 0.997393,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.375,
+      "elevation_l_deg": 58.407,
+      "elevation_r_deg": 58.407,
+      "min_signed_projected_area_ratio": 0.784928,
+      "min_area_ratio": 0.784981,
+      "min_orientation_cosine": 0.955814,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.4375,
+      "elevation_l_deg": 68.157,
+      "elevation_r_deg": 68.157,
+      "min_signed_projected_area_ratio": 0.592385,
+      "min_area_ratio": 0.592764,
+      "min_orientation_cosine": 0.825451,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5,
+      "elevation_l_deg": 77.907,
+      "elevation_r_deg": 77.907,
+      "min_signed_projected_area_ratio": 0.401398,
+      "min_area_ratio": 0.405237,
+      "min_orientation_cosine": 0.559469,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.5625,
+      "elevation_l_deg": 87.657,
+      "elevation_r_deg": 87.657,
+      "min_signed_projected_area_ratio": 0.235488,
+      "min_area_ratio": 0.248374,
+      "min_orientation_cosine": 0.376839,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.625,
+      "elevation_l_deg": 97.405,
+      "elevation_r_deg": 97.405,
+      "min_signed_projected_area_ratio": 0.115025,
+      "min_area_ratio": 0.169767,
+      "min_orientation_cosine": 0.252493,
+      "faces_below_signed_min": 4,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.6875,
+      "elevation_l_deg": 107.151,
+      "elevation_r_deg": 107.151,
+      "min_signed_projected_area_ratio": -1.588036,
+      "min_area_ratio": 0.185016,
+      "min_orientation_cosine": -0.580481,
+      "faces_below_signed_min": 10,
+      "faces_below_area_min": 2,
+      "flipped_faces": 2
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.75,
+      "elevation_l_deg": 116.892,
+      "elevation_r_deg": 116.892,
+      "min_signed_projected_area_ratio": 0.018821,
+      "min_area_ratio": 0.208214,
+      "min_orientation_cosine": 0.080265,
+      "faces_below_signed_min": 26,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.8125,
+      "elevation_l_deg": 126.627,
+      "elevation_r_deg": 126.627,
+      "min_signed_projected_area_ratio": 0.030616,
+      "min_area_ratio": 0.176938,
+      "min_orientation_cosine": 0.092736,
+      "faces_below_signed_min": 52,
+      "faces_below_area_min": 4,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.875,
+      "elevation_l_deg": 136.354,
+      "elevation_r_deg": 136.354,
+      "min_signed_projected_area_ratio": 0.073498,
+      "min_area_ratio": 0.166994,
+      "min_orientation_cosine": 0.05186,
+      "faces_below_signed_min": 52,
+      "faces_below_area_min": 4,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 0.9375,
+      "elevation_l_deg": 146.071,
+      "elevation_r_deg": 146.071,
+      "min_signed_projected_area_ratio": 0.047781,
+      "min_area_ratio": 0.192679,
+      "min_orientation_cosine": 0.037072,
+      "faces_below_signed_min": 58,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang",
+      "fraction": 1.0,
+      "elevation_l_deg": 155.772,
+      "elevation_r_deg": 155.772,
+      "min_signed_projected_area_ratio": 0.049043,
+      "min_area_ratio": 0.246198,
+      "min_orientation_cosine": 0.043128,
+      "faces_below_signed_min": 48,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.0625,
+      "elevation_l_deg": 9.708,
+      "elevation_r_deg": 9.708,
+      "min_signed_projected_area_ratio": 0.99997,
+      "min_area_ratio": 0.99997,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.125,
+      "elevation_l_deg": 19.431,
+      "elevation_r_deg": 19.431,
+      "min_signed_projected_area_ratio": 0.999967,
+      "min_area_ratio": 0.999967,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.1875,
+      "elevation_l_deg": 29.168,
+      "elevation_r_deg": 29.168,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.25,
+      "elevation_l_deg": 38.916,
+      "elevation_r_deg": 38.916,
+      "min_signed_projected_area_ratio": 0.999966,
+      "min_area_ratio": 0.999966,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.3125,
+      "elevation_l_deg": 48.671,
+      "elevation_r_deg": 48.671,
+      "min_signed_projected_area_ratio": 0.942107,
+      "min_area_ratio": 0.942114,
+      "min_orientation_cosine": 0.997563,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.375,
+      "elevation_l_deg": 58.432,
+      "elevation_r_deg": 58.432,
+      "min_signed_projected_area_ratio": 0.786867,
+      "min_area_ratio": 0.786917,
+      "min_orientation_cosine": 0.958406,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.4375,
+      "elevation_l_deg": 68.197,
+      "elevation_r_deg": 68.197,
+      "min_signed_projected_area_ratio": 0.596893,
+      "min_area_ratio": 0.597435,
+      "min_orientation_cosine": 0.828588,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5,
+      "elevation_l_deg": 77.962,
+      "elevation_r_deg": 77.962,
+      "min_signed_projected_area_ratio": 0.403218,
+      "min_area_ratio": 0.406956,
+      "min_orientation_cosine": 0.555724,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.5625,
+      "elevation_l_deg": 87.726,
+      "elevation_r_deg": 87.726,
+      "min_signed_projected_area_ratio": 0.236107,
+      "min_area_ratio": 0.250494,
+      "min_orientation_cosine": 0.047668,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.625,
+      "elevation_l_deg": 97.485,
+      "elevation_r_deg": 97.485,
+      "min_signed_projected_area_ratio": 0.112994,
+      "min_area_ratio": 0.176161,
+      "min_orientation_cosine": 0.259794,
+      "faces_below_signed_min": 4,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.6875,
+      "elevation_l_deg": 107.237,
+      "elevation_r_deg": 107.237,
+      "min_signed_projected_area_ratio": -0.108189,
+      "min_area_ratio": 0.199639,
+      "min_orientation_cosine": -0.043965,
+      "faces_below_signed_min": 6,
+      "faces_below_area_min": 2,
+      "flipped_faces": 2
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.75,
+      "elevation_l_deg": 116.979,
+      "elevation_r_deg": 116.979,
+      "min_signed_projected_area_ratio": 0.008036,
+      "min_area_ratio": 0.257484,
+      "min_orientation_cosine": 0.031208,
+      "faces_below_signed_min": 4,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.8125,
+      "elevation_l_deg": 126.708,
+      "elevation_r_deg": 126.708,
+      "min_signed_projected_area_ratio": -1.115185,
+      "min_area_ratio": 0.288381,
+      "min_orientation_cosine": -0.192733,
+      "faces_below_signed_min": 12,
+      "faces_below_area_min": 0,
+      "flipped_faces": 2
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.875,
+      "elevation_l_deg": 136.42,
+      "elevation_r_deg": 136.42,
+      "min_signed_projected_area_ratio": 0.052293,
+      "min_area_ratio": 0.250047,
+      "min_orientation_cosine": 0.067349,
+      "faces_below_signed_min": 18,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 0.9375,
+      "elevation_l_deg": 146.111,
+      "elevation_r_deg": 146.111,
+      "min_signed_projected_area_ratio": 0.053199,
+      "min_area_ratio": 0.192841,
+      "min_orientation_cosine": 0.058453,
+      "faces_below_signed_min": 24,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_hang_rhythm",
+      "fraction": 1.0,
+      "elevation_l_deg": 155.772,
+      "elevation_r_deg": 155.772,
+      "min_signed_projected_area_ratio": 0.057884,
+      "min_area_ratio": 0.184687,
+      "min_orientation_cosine": 0.052111,
+      "faces_below_signed_min": 20,
+      "faces_below_area_min": 2,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.0,
+      "elevation_l_deg": 0.0,
+      "elevation_r_deg": 0.0,
+      "min_signed_projected_area_ratio": 0.999985,
+      "min_area_ratio": 0.999985,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.0625,
+      "elevation_l_deg": 3.902,
+      "elevation_r_deg": 3.902,
+      "min_signed_projected_area_ratio": 0.999983,
+      "min_area_ratio": 0.999983,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.125,
+      "elevation_l_deg": 7.805,
+      "elevation_r_deg": 7.805,
+      "min_signed_projected_area_ratio": 0.999978,
+      "min_area_ratio": 0.999978,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.1875,
+      "elevation_l_deg": 11.708,
+      "elevation_r_deg": 11.708,
+      "min_signed_projected_area_ratio": 0.999971,
+      "min_area_ratio": 0.999971,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.25,
+      "elevation_l_deg": 15.611,
+      "elevation_r_deg": 15.611,
+      "min_signed_projected_area_ratio": 0.999975,
+      "min_area_ratio": 0.999975,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.3125,
+      "elevation_l_deg": 19.515,
+      "elevation_r_deg": 19.515,
+      "min_signed_projected_area_ratio": 0.999979,
+      "min_area_ratio": 0.999979,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.375,
+      "elevation_l_deg": 23.419,
+      "elevation_r_deg": 23.419,
+      "min_signed_projected_area_ratio": 0.999971,
+      "min_area_ratio": 0.999971,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.4375,
+      "elevation_l_deg": 27.323,
+      "elevation_r_deg": 27.323,
+      "min_signed_projected_area_ratio": 0.999957,
+      "min_area_ratio": 0.999957,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5,
+      "elevation_l_deg": 31.227,
+      "elevation_r_deg": 31.227,
+      "min_signed_projected_area_ratio": 0.999968,
+      "min_area_ratio": 0.999968,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.5625,
+      "elevation_l_deg": 35.132,
+      "elevation_r_deg": 35.132,
+      "min_signed_projected_area_ratio": 0.999965,
+      "min_area_ratio": 0.999965,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.625,
+      "elevation_l_deg": 39.036,
+      "elevation_r_deg": 39.036,
+      "min_signed_projected_area_ratio": 0.999972,
+      "min_area_ratio": 0.999972,
+      "min_orientation_cosine": 1.0,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.6875,
+      "elevation_l_deg": 42.941,
+      "elevation_r_deg": 42.941,
+      "min_signed_projected_area_ratio": 0.994575,
+      "min_area_ratio": 0.994577,
+      "min_orientation_cosine": 0.999966,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.75,
+      "elevation_l_deg": 46.846,
+      "elevation_r_deg": 46.846,
+      "min_signed_projected_area_ratio": 0.973461,
+      "min_area_ratio": 0.9735,
+      "min_orientation_cosine": 0.998976,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.8125,
+      "elevation_l_deg": 50.751,
+      "elevation_r_deg": 50.751,
+      "min_signed_projected_area_ratio": 0.938667,
+      "min_area_ratio": 0.938675,
+      "min_orientation_cosine": 0.993646,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.875,
+      "elevation_l_deg": 54.655,
+      "elevation_r_deg": 54.655,
+      "min_signed_projected_area_ratio": 0.889764,
+      "min_area_ratio": 0.889786,
+      "min_orientation_cosine": 0.978051,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 0.9375,
+      "elevation_l_deg": 58.56,
+      "elevation_r_deg": 58.56,
+      "min_signed_projected_area_ratio": 0.829261,
+      "min_area_ratio": 0.829307,
+      "min_orientation_cosine": 0.941986,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    },
+    {
+      "pose": "pullup_top",
+      "fraction": 1.0,
+      "elevation_l_deg": 62.464,
+      "elevation_r_deg": 62.464,
+      "min_signed_projected_area_ratio": 0.702491,
+      "min_area_ratio": 0.758945,
+      "min_orientation_cosine": 0.868546,
+      "faces_below_signed_min": 0,
+      "faces_below_area_min": 0,
+      "flipped_faces": 0
+    }
+  ],
+  "ranked_problem_faces": [
+    {
+      "rank": 1,
+      "triangle_index": 1349,
+      "vertices": [
+        4885,
+        4886,
+        229
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.210706,
+        -0.022229,
+        1.522887
+      ],
+      "min_signed_projected_area_ratio": -7.040738,
+      "min_area_ratio": 0.999994,
+      "min_orientation_cosine": -0.731199,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.5625,
+      "worst_elevation_l_deg": 93.502,
+      "worst_elevation_r_deg": 93.502,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.461539
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.38027
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.157671
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000521
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.503606
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.357001
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.139168
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000226
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.691459
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.286729
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.021358
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000454
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 2,
+      "triangle_index": 1055,
+      "vertices": [
+        4812,
+        4809,
+        191
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.210706,
+        -0.022229,
+        1.522887
+      ],
+      "min_signed_projected_area_ratio": -7.039629,
+      "min_area_ratio": 0.999996,
+      "min_orientation_cosine": -0.731151,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.5625,
+      "worst_elevation_l_deg": 93.502,
+      "worst_elevation_r_deg": 93.502,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.503606
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.357001
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.139168
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000226
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.461539
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.38027
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.157671
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000521
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.691459
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.286729
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.021358
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000454
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 3,
+      "triangle_index": 549,
+      "vertices": [
+        4685,
+        4686,
+        129
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.189014,
+        -0.043651,
+        1.492494
+      ],
+      "min_signed_projected_area_ratio": -1.588036,
+      "min_area_ratio": 0.981772,
+      "min_orientation_cosine": -0.580481,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.6875,
+      "worst_elevation_l_deg": 107.151,
+      "worst_elevation_r_deg": 107.151,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.496644
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.49451
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.008081
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.000766
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.723988
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.215412
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.052837
+          },
+          {
+            "bone": "neck",
+            "weight": 0.007762
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.684882
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.28169
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.033022
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.000406
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 4,
+      "triangle_index": 895,
+      "vertices": [
+        4772,
+        4769,
+        171
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.189014,
+        -0.043651,
+        1.492494
+      ],
+      "min_signed_projected_area_ratio": -1.587969,
+      "min_area_ratio": 0.981794,
+      "min_orientation_cosine": -0.580471,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.6875,
+      "worst_elevation_l_deg": 107.151,
+      "worst_elevation_r_deg": 107.151,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.723988
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.215412
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.052837
+          },
+          {
+            "bone": "neck",
+            "weight": 0.007762
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.496644
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.49451
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.008081
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.000766
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.684882
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.28169
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.033022
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.000406
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 5,
+      "triangle_index": 890,
+      "vertices": [
+        4644,
+        13571,
+        4771
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.189317,
+        -0.043371,
+        1.47088
+      ],
+      "min_signed_projected_area_ratio": -1.115185,
+      "min_area_ratio": 0.999991,
+      "min_orientation_cosine": -0.192733,
+      "worst_pose": "pullup_hang_rhythm",
+      "worst_fraction": 0.8125,
+      "worst_elevation_l_deg": 126.708,
+      "worst_elevation_r_deg": 126.708,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.605291
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.166073
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.142648
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.085988
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.4327
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.424829
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.140896
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.001575
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.418304
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.360518
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.219634
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.001545
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 6,
+      "triangle_index": 544,
+      "vertices": [
+        4683,
+        13528,
+        4515
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.189317,
+        -0.043371,
+        1.47088
+      ],
+      "min_signed_projected_area_ratio": -1.115091,
+      "min_area_ratio": 0.999992,
+      "min_orientation_cosine": -0.192708,
+      "worst_pose": "pullup_hang_rhythm",
+      "worst_fraction": 0.8125,
+      "worst_elevation_l_deg": 126.708,
+      "worst_elevation_r_deg": 126.708,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.418304
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.360518
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.219634
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.001545
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.4327
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.424829
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.140896
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.001575
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.605291
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.166073
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.142648
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.085988
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 7,
+      "triangle_index": 6879,
+      "vertices": [
+        6294,
+        6291,
+        240
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "torso",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.17731,
+        0.005073,
+        1.411567
+      ],
+      "min_signed_projected_area_ratio": 0.008036,
+      "min_area_ratio": 0.16977,
+      "min_orientation_cosine": 0.031208,
+      "worst_pose": "pullup_hang_rhythm",
+      "worst_fraction": 0.75,
+      "worst_elevation_l_deg": 116.979,
+      "worst_elevation_r_deg": 116.979,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.556962
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.366041
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.038665
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.038331
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.529124
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.225904
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.178314
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.066658
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.575969
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.17452
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.15332
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.096191
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 8,
+      "triangle_index": 7013,
+      "vertices": [
+        6313,
+        6314,
+        243
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.17731,
+        0.005073,
+        1.411567
+      ],
+      "min_signed_projected_area_ratio": 0.008036,
+      "min_area_ratio": 0.169767,
+      "min_orientation_cosine": 0.031209,
+      "worst_pose": "pullup_hang_rhythm",
+      "worst_fraction": 0.75,
+      "worst_elevation_l_deg": 116.979,
+      "worst_elevation_r_deg": 116.979,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.529124
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.225904
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.178314
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.066658
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.556962
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.366041
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.038665
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.038331
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.575969
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.17452
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.15332
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.096191
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 9,
+      "triangle_index": 512,
+      "vertices": [
+        4675,
+        13524,
+        4503
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.111427,
+        -0.078293,
+        1.470385
+      ],
+      "min_signed_projected_area_ratio": 0.045786,
+      "min_area_ratio": 0.711933,
+      "min_orientation_cosine": 0.047254,
+      "worst_pose": "press_top",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.697622
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.244915
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.045518
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.011945
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.749656
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.178661
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.061006
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.010676
+          }
+        ],
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.433572
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.416863
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.092961
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.056603
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 10,
+      "triangle_index": 922,
+      "vertices": [
+        4656,
+        13575,
+        4779
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.111427,
+        -0.078293,
+        1.470385
+      ],
+      "min_signed_projected_area_ratio": 0.045786,
+      "min_area_ratio": 0.711932,
+      "min_orientation_cosine": 0.047255,
+      "worst_pose": "press_top",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.433572
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.416863
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.092961
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.056603
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.749656
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.178661
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.061006
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.010676
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.697622
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.244915
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.045518
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.011945
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 11,
+      "triangle_index": 5966,
+      "vertices": [
+        6072,
+        14205,
+        6069
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.150758,
+        0.124029,
+        1.320929
+      ],
+      "min_signed_projected_area_ratio": 0.049182,
+      "min_area_ratio": 0.4793,
+      "min_orientation_cosine": 0.037072,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.521838
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.473449
+          },
+          {
+            "bone": "neck",
+            "weight": 0.002357
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.002357
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 12,
+      "triangle_index": 5876,
+      "vertices": [
+        6049,
+        14194,
+        6050
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.150758,
+        0.124029,
+        1.320929
+      ],
+      "min_signed_projected_area_ratio": 0.049184,
+      "min_area_ratio": 0.479297,
+      "min_orientation_cosine": 0.037073,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.521838
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.473449
+          },
+          {
+            "bone": "neck",
+            "weight": 0.002357
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.002357
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 13,
+      "triangle_index": 1317,
+      "vertices": [
+        4877,
+        4878,
+        225
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.25164,
+        0.055388,
+        1.517532
+      ],
+      "min_signed_projected_area_ratio": 0.058507,
+      "min_area_ratio": 0.999992,
+      "min_orientation_cosine": 0.023707,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 145.383,
+      "worst_elevation_r_deg": 145.383,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.535154
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.329614
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.13477
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000463
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.540419
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.30412
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.155032
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000428
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.652761
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.209174
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.137674
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00039
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 14,
+      "triangle_index": 1087,
+      "vertices": [
+        4820,
+        4817,
+        195
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.25164,
+        0.055388,
+        1.517532
+      ],
+      "min_signed_projected_area_ratio": 0.058519,
+      "min_area_ratio": 0.999993,
+      "min_orientation_cosine": 0.023712,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 145.383,
+      "worst_elevation_r_deg": 145.383,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.540419
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.30412
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.155032
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000428
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.535154
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.329614
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.13477
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000463
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.652761
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.209174
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.137674
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00039
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 15,
+      "triangle_index": 5967,
+      "vertices": [
+        6072,
+        6069,
+        841
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.147823,
+        0.12869,
+        1.324908
+      ],
+      "min_signed_projected_area_ratio": 0.074258,
+      "min_area_ratio": 0.250234,
+      "min_orientation_cosine": 0.114878,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 16,
+      "triangle_index": 5877,
+      "vertices": [
+        6049,
+        6050,
+        831
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.147823,
+        0.12869,
+        1.324908
+      ],
+      "min_signed_projected_area_ratio": 0.074261,
+      "min_area_ratio": 0.250232,
+      "min_orientation_cosine": 0.114882,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 17,
+      "triangle_index": 5961,
+      "vertices": [
+        6069,
+        6008,
+        809
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.14816,
+        0.127105,
+        1.308501
+      ],
+      "min_signed_projected_area_ratio": 0.076507,
+      "min_area_ratio": 0.343462,
+      "min_orientation_cosine": 0.091571,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.657631
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.339119
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00169
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00156
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.606656
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.392328
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000508
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.000508
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 18,
+      "triangle_index": 5875,
+      "vertices": [
+        5986,
+        6049,
+        799
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.14816,
+        0.127105,
+        1.308501
+      ],
+      "min_signed_projected_area_ratio": 0.07651,
+      "min_area_ratio": 0.343462,
+      "min_orientation_cosine": 0.091576,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.657631
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.339119
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00169
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00156
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.606656
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.392328
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000508
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.000508
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 19,
+      "triangle_index": 6131,
+      "vertices": [
+        6050,
+        6113,
+        831
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.147414,
+        0.129225,
+        1.332692
+      ],
+      "min_signed_projected_area_ratio": 0.087416,
+      "min_area_ratio": 0.214775,
+      "min_orientation_cosine": 0.157277,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.953806
+          },
+          {
+            "bone": "neck",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.015398
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 20,
+      "triangle_index": 6217,
+      "vertices": [
+        6133,
+        6072,
+        841
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.147414,
+        0.129225,
+        1.332692
+      ],
+      "min_signed_projected_area_ratio": 0.087423,
+      "min_area_ratio": 0.214775,
+      "min_orientation_cosine": 0.15727,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.953806
+          },
+          {
+            "bone": "neck",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.015398
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 21,
+      "triangle_index": 7023,
+      "vertices": [
+        6316,
+        6313,
+        243
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "torso",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.173751,
+        -0.012008,
+        1.406948
+      ],
+      "min_signed_projected_area_ratio": 0.088636,
+      "min_area_ratio": 0.208222,
+      "min_orientation_cosine": 0.342124,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.75,
+      "worst_elevation_l_deg": 116.892,
+      "worst_elevation_r_deg": 116.892,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.55591
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.258301
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.152217
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.033572
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.529124
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.225904
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.178314
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.066658
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.575969
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.17452
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.15332
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.096191
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 22,
+      "triangle_index": 6869,
+      "vertices": [
+        6291,
+        6292,
+        240
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.173751,
+        -0.012008,
+        1.406948
+      ],
+      "min_signed_projected_area_ratio": 0.088638,
+      "min_area_ratio": 0.208227,
+      "min_orientation_cosine": 0.342141,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.75,
+      "worst_elevation_l_deg": 116.892,
+      "worst_elevation_r_deg": 116.892,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.529124
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.225904
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.178314
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.066658
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.55591
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.258301
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.152217
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.033572
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.575969
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.17452
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.15332
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.096191
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 23,
+      "triangle_index": 1375,
+      "vertices": [
+        4892,
+        4889,
+        231
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.150189,
+        -0.033431,
+        1.5272
+      ],
+      "min_signed_projected_area_ratio": 0.089099,
+      "min_area_ratio": 0.874,
+      "min_orientation_cosine": 0.06731,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.905982
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.04478
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.04018
+          },
+          {
+            "bone": "neck",
+            "weight": 0.009058
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.844614
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.153657
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.001342
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000387
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_r",
+            "weight": 0.891204
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.059662
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.031761
+          },
+          {
+            "bone": "neck",
+            "weight": 0.017373
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 24,
+      "triangle_index": 1029,
+      "vertices": [
+        4805,
+        4806,
+        189
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.150189,
+        -0.033431,
+        1.5272
+      ],
+      "min_signed_projected_area_ratio": 0.0891,
+      "min_area_ratio": 0.873998,
+      "min_orientation_cosine": 0.067309,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.844614
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.153657
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.001342
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000387
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.905982
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.04478
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.04018
+          },
+          {
+            "bone": "neck",
+            "weight": 0.009058
+          }
+        ],
+        [
+          {
+            "bone": "clavicle_l",
+            "weight": 0.891204
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.059662
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.031761
+          },
+          {
+            "bone": "neck",
+            "weight": 0.017373
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 25,
+      "triangle_index": 5960,
+      "vertices": [
+        6069,
+        14205,
+        6008
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.150884,
+        0.123173,
+        1.312766
+      ],
+      "min_signed_projected_area_ratio": 0.096903,
+      "min_area_ratio": 0.681257,
+      "min_orientation_cosine": 0.076993,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.521838
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.473449
+          },
+          {
+            "bone": "neck",
+            "weight": 0.002357
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.002357
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.657631
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.339119
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00169
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00156
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 26,
+      "triangle_index": 5874,
+      "vertices": [
+        5986,
+        14194,
+        6049
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.150884,
+        0.123173,
+        1.312766
+      ],
+      "min_signed_projected_area_ratio": 0.096905,
+      "min_area_ratio": 0.681258,
+      "min_orientation_cosine": 0.076994,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.657631
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.339119
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00169
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00156
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.521838
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.473449
+          },
+          {
+            "bone": "neck",
+            "weight": 0.002357
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.002357
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 27,
+      "triangle_index": 5957,
+      "vertices": [
+        6069,
+        6070,
+        841
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.141093,
+        0.136358,
+        1.324908
+      ],
+      "min_signed_projected_area_ratio": 0.10176,
+      "min_area_ratio": 0.207415,
+      "min_orientation_cosine": 0.233952,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 155.772,
+      "worst_elevation_r_deg": 155.772,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.808472
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.063843
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.063843
+          },
+          {
+            "bone": "neck",
+            "weight": 0.063842
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 28,
+      "triangle_index": 5887,
+      "vertices": [
+        6052,
+        6049,
+        831
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.141093,
+        0.136358,
+        1.324908
+      ],
+      "min_signed_projected_area_ratio": 0.101763,
+      "min_area_ratio": 0.207413,
+      "min_orientation_cosine": 0.233958,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 155.772,
+      "worst_elevation_r_deg": 155.772,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.808472
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.063843
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.063843
+          },
+          {
+            "bone": "neck",
+            "weight": 0.063842
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.578644
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.409631
+          },
+          {
+            "bone": "neck",
+            "weight": 0.005863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.005863
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.784297
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.125637
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.045033
+          },
+          {
+            "bone": "neck",
+            "weight": 0.045033
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 29,
+      "triangle_index": 6130,
+      "vertices": [
+        6050,
+        14226,
+        6113
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.150105,
+        0.125281,
+        1.33644
+      ],
+      "min_signed_projected_area_ratio": 0.114764,
+      "min_area_ratio": 0.259981,
+      "min_orientation_cosine": 0.216851,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.867756
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.096004
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.01812
+          },
+          {
+            "bone": "neck",
+            "weight": 0.01812
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.953806
+          },
+          {
+            "bone": "neck",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.015398
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 30,
+      "triangle_index": 6216,
+      "vertices": [
+        6133,
+        14237,
+        6072
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.150105,
+        0.125281,
+        1.33644
+      ],
+      "min_signed_projected_area_ratio": 0.114767,
+      "min_area_ratio": 0.259987,
+      "min_orientation_cosine": 0.216843,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.953806
+          },
+          {
+            "bone": "neck",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.015398
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.015398
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.867756
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.096004
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.01812
+          },
+          {
+            "bone": "neck",
+            "weight": 0.01812
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 31,
+      "triangle_index": 5965,
+      "vertices": [
+        6071,
+        6072,
+        842
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.156804,
+        0.110359,
+        1.325002
+      ],
+      "min_signed_projected_area_ratio": 0.117747,
+      "min_area_ratio": 0.667836,
+      "min_orientation_cosine": 0.107137,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.575971
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.421695
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.00121
+          },
+          {
+            "bone": "neck",
+            "weight": 0.001124
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.55041
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.445281
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.00244
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00187
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 32,
+      "triangle_index": 5879,
+      "vertices": [
+        6050,
+        6047,
+        830
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.156804,
+        0.110359,
+        1.325002
+      ],
+      "min_signed_projected_area_ratio": 0.117749,
+      "min_area_ratio": 0.667836,
+      "min_orientation_cosine": 0.107139,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.9375,
+      "worst_elevation_l_deg": 146.071,
+      "worst_elevation_r_deg": 146.071,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.688912
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.301069
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00501
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.00501
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.575971
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.421695
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.00121
+          },
+          {
+            "bone": "neck",
+            "weight": 0.001124
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.55041
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.445281
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.00244
+          },
+          {
+            "bone": "neck",
+            "weight": 0.00187
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 33,
+      "triangle_index": 1094,
+      "vertices": [
+        4822,
+        13596,
+        4819
+      ],
+      "side": "left",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        -0.242017,
+        0.077031,
+        1.517172
+      ],
+      "min_signed_projected_area_ratio": 0.117751,
+      "min_area_ratio": 0.913194,
+      "min_orientation_cosine": 0.096049,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 145.383,
+      "worst_elevation_r_deg": 145.383,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.645726
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.18804
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.165826
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000408
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.501541
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.350583
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.147424
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000452
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_l",
+            "weight": 0.552858
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.364895
+          },
+          {
+            "bone": "clavicle_l",
+            "weight": 0.081709
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000538
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 34,
+      "triangle_index": 1308,
+      "vertices": [
+        4875,
+        13623,
+        4876
+      ],
+      "side": "right",
+      "regions": [
+        "shoulder",
+        "shoulder",
+        "shoulder"
+      ],
+      "rest_centroid_m": [
+        0.242017,
+        0.077031,
+        1.517172
+      ],
+      "min_signed_projected_area_ratio": 0.117754,
+      "min_area_ratio": 0.913194,
+      "min_orientation_cosine": 0.096053,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 145.383,
+      "worst_elevation_r_deg": 145.383,
+      "weights": [
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.552858
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.364895
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.081709
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000538
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.501541
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.350583
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.147424
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000452
+          }
+        ],
+        [
+          {
+            "bone": "upperarm_r",
+            "weight": 0.645726
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.18804
+          },
+          {
+            "bone": "clavicle_r",
+            "weight": 0.165826
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000408
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 35,
+      "triangle_index": 6009,
+      "vertices": [
+        6081,
+        6020,
+        815
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.130835,
+        -0.069992,
+        1.309307
+      ],
+      "min_signed_projected_area_ratio": 0.117874,
+      "min_area_ratio": 0.902456,
+      "min_orientation_cosine": 0.114108,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.547578
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.376055
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.042692
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.033675
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.541715
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.333529
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.062997
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.061759
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.670135
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.26907
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.044203
+          },
+          {
+            "bone": "upperarm_r",
+            "weight": 0.016592
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 36,
+      "triangle_index": 5827,
+      "vertices": [
+        5974,
+        6037,
+        793
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.130835,
+        -0.069992,
+        1.309307
+      ],
+      "min_signed_projected_area_ratio": 0.117879,
+      "min_area_ratio": 0.902464,
+      "min_orientation_cosine": 0.114113,
+      "worst_pose": "press_top_rhythm",
+      "worst_fraction": 1.0,
+      "worst_elevation_l_deg": 165.964,
+      "worst_elevation_r_deg": 165.964,
+      "weights": [
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.541715
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.333529
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.062997
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.061759
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.547578
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.376055
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.042692
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.033675
+          }
+        ],
+        [
+          {
+            "bone": "spine_02",
+            "weight": 0.670135
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.26907
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.044203
+          },
+          {
+            "bone": "upperarm_l",
+            "weight": 0.016592
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 37,
+      "triangle_index": 6149,
+      "vertices": [
+        6117,
+        6118,
+        865
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.092673,
+        0.153084,
+        1.346883
+      ],
+      "min_signed_projected_area_ratio": 0.122632,
+      "min_area_ratio": 0.228134,
+      "min_orientation_cosine": 0.512815,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 136.354,
+      "worst_elevation_r_deg": 136.354,
+      "weights": [
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.504617
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.475529
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.019478
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.000377
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.650863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.344663
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.002563
+          },
+          {
+            "bone": "neck",
+            "weight": 0.001911
+          }
+        ],
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.569223
+          },
+          {
+            "bone": "scapula_l",
+            "weight": 0.422992
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.007505
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00028
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 38,
+      "triangle_index": 6207,
+      "vertices": [
+        6132,
+        6129,
+        871
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.092673,
+        0.153084,
+        1.346883
+      ],
+      "min_signed_projected_area_ratio": 0.122636,
+      "min_area_ratio": 0.228136,
+      "min_orientation_cosine": 0.512826,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.875,
+      "worst_elevation_l_deg": 136.354,
+      "worst_elevation_r_deg": 136.354,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.650863
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.344663
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.002563
+          },
+          {
+            "bone": "neck",
+            "weight": 0.001911
+          }
+        ],
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.504617
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.475529
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.019478
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.000377
+          }
+        ],
+        [
+          {
+            "bone": "spine_03",
+            "weight": 0.569223
+          },
+          {
+            "bone": "scapula_r",
+            "weight": 0.422992
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.007505
+          },
+          {
+            "bone": "spine_01",
+            "weight": 0.00028
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 39,
+      "triangle_index": 6468,
+      "vertices": [
+        6197,
+        14268,
+        6198
+      ],
+      "side": "right",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        0.132933,
+        0.140678,
+        1.36331
+      ],
+      "min_signed_projected_area_ratio": 0.125084,
+      "min_area_ratio": 0.290305,
+      "min_orientation_cosine": 0.271658,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.8125,
+      "worst_elevation_l_deg": 126.627,
+      "worst_elevation_r_deg": 126.627,
+      "weights": [
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.997944
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000685
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000685
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000685
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.955297
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.025666
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.009518
+          },
+          {
+            "bone": "neck",
+            "weight": 0.009518
+          }
+        ],
+        [
+          {
+            "bone": "scapula_r",
+            "weight": 0.876876
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.107177
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.007973
+          },
+          {
+            "bone": "neck",
+            "weight": 0.007973
+          }
+        ]
+      ]
+    },
+    {
+      "rank": 40,
+      "triangle_index": 6398,
+      "vertices": [
+        6180,
+        14259,
+        6177
+      ],
+      "side": "left",
+      "regions": [
+        "torso",
+        "torso",
+        "torso"
+      ],
+      "rest_centroid_m": [
+        -0.132933,
+        0.140678,
+        1.36331
+      ],
+      "min_signed_projected_area_ratio": 0.125085,
+      "min_area_ratio": 0.290318,
+      "min_orientation_cosine": 0.271662,
+      "worst_pose": "pullup_hang",
+      "worst_fraction": 0.8125,
+      "worst_elevation_l_deg": 126.627,
+      "worst_elevation_r_deg": 126.627,
+      "weights": [
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.876876
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.107177
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.007973
+          },
+          {
+            "bone": "neck",
+            "weight": 0.007973
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.955297
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.025666
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.009518
+          },
+          {
+            "bone": "neck",
+            "weight": 0.009518
+          }
+        ],
+        [
+          {
+            "bone": "scapula_l",
+            "weight": 0.997944
+          },
+          {
+            "bone": "spine_03",
+            "weight": 0.000685
+          },
+          {
+            "bone": "neck",
+            "weight": 0.000685
+          },
+          {
+            "bone": "spine_02",
+            "weight": 0.000685
+          }
+        ]
+      ]
+    }
+  ],
+  "selection": {
+    "seed_triangle_ids": [
+      512,
+      544,
+      549,
+      890,
+      895,
+      922,
+      1055,
+      1349,
+      5876,
+      5966,
+      6879,
+      7013
+    ],
+    "mirror_closed_triangle_ids": [
+      512,
+      544,
+      549,
+      890,
+      895,
+      922,
+      1055,
+      1349,
+      5876,
+      5966,
+      6879,
+      7013
+    ],
+    "selected_vertex_ids": [
+      129,
+      171,
+      191,
+      229,
+      240,
+      243,
+      4503,
+      4515,
+      4644,
+      4656,
+      4675,
+      4683,
+      4685,
+      4686,
+      4769,
+      4771,
+      4772,
+      4779,
+      4809,
+      4812,
+      4885,
+      4886,
+      6049,
+      6050,
+      6069,
+      6072,
+      6291,
+      6294,
+      6313,
+      6314,
+      13524,
+      13528,
+      13571,
+      13575,
+      14194,
+      14205
+    ],
+    "left_owned_vertex_ids": [
+      129,
+      191,
+      240,
+      4503,
+      4515,
+      4675,
+      4683,
+      4685,
+      4686,
+      4809,
+      4812,
+      6049,
+      6050,
+      6291,
+      6294,
+      13524,
+      13528,
+      14194
+    ],
+    "right_owned_mirror_vertex_ids": [
+      171,
+      229,
+      243,
+      4644,
+      4656,
+      4769,
+      4771,
+      4772,
+      4779,
+      4885,
+      4886,
+      6069,
+      6072,
+      6313,
+      6314,
+      13571,
+      13575,
+      14205
+    ],
+    "mask_vertex_count_total": 36
+  },
+  "production_approved": false
+}

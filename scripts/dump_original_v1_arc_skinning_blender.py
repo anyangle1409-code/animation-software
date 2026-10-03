@@ -106,6 +106,34 @@ def apply_fraction(final, f):
     ns["upd"]()
 
 
+def current_pre_skin_positions():
+    """Return the exact local-space surface entering the armature modifier.
+
+    On pre-corrective candidates this is simply the rest/Basis mesh. On r55+ the
+    pose script actively drives the relative shoulder corrective keys, so those
+    key deltas must be included before validating the linear skinning model.
+    """
+    keys = body.data.shape_keys
+    if keys is None or not keys.key_blocks:
+        return rest
+    blocks = keys.key_blocks
+    basis = blocks.get("Basis") or blocks[0]
+    base = np.array([d.co[:] for d in basis.data], dtype=float)
+    if base.shape != rest.shape or float(np.abs(base - rest).max()) > 1e-9:
+        raise SystemExit("shape-key Basis differs from mesh rest coordinates")
+    pre = base.copy()
+    for kb in blocks:
+        if kb == basis or kb.mute or abs(float(kb.value)) <= 1e-12:
+            continue
+        if kb.relative_key != basis:
+            raise SystemExit(f"unsupported non-Basis relative shape key: {kb.name}")
+        if kb.vertex_group:
+            raise SystemExit(f"unsupported vertex-group-limited shape key: {kb.name}")
+        key_pos = np.array([d.co[:] for d in kb.data], dtype=float)
+        pre += float(kb.value) * (key_pos - base)
+    return pre
+
+
 def record(label):
     rw = np.array(rig.matrix_world)
     bw = np.array(body.matrix_world)
@@ -114,11 +142,14 @@ def record(label):
     dg = bpy.context.evaluated_depsgraph_get()
     ev = body.evaluated_get(dg)
     P = np.array([(ev.matrix_world @ v.co)[:] for v in ev.data.vertices])
-    T = np.einsum("bij,vj->vbi", S[:, :3, :], rest_h)
-    lbs = np.einsum("vb,vbi->vi", W, T)
-    err = float(np.abs(lbs - P).max())
+
+    pre = current_pre_skin_positions()
+    pre_h = np.c_[pre, np.ones(nv)]
+    T = np.einsum("bij,vj->vbi", S[:, :3, :], pre_h)
+    reconstructed = np.einsum("vb,vbi->vi", W, T)
+    err = float(np.abs(reconstructed - P).max())
     if err > 1e-4:
-        raise SystemExit(f"LBS reconstruction mismatch in {label}: {err}")
+        raise SystemExit(f"LBS + active-shape reconstruction mismatch in {label}: {err}")
     mats.append(S)
     evald.append(P)
     pose_names.append(label)

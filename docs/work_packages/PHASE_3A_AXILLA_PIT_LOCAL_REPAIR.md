@@ -86,6 +86,8 @@ Prefer a local first-party weight/corrective edit before changing topology.
 
 The source Blend already contains the r55 corrective, so the next solve is an **incremental delta from zero** on top of r55. Do **not** pass `corr_v8.npz` as `--init`: corr_v8 was solved against r48 and that would double-apply the correction. Cross-source `--init` is now rejected.
 
+The arc dump reconstructs the currently active r55 shape keys before validating the exact LBS surface. The optimizer therefore starts from the actual r55 deformation, not from Basis-only skinning. Its signed-area target remains the same-pose uncorrected LBS surface used by the pit diagnosis. The signed-area gradient is finite-difference tested automatically before every local solve.
+
 The optimizer now supports `--mask-file <declaration.json>` to restrict the solve to the committed local vertices. It also supports:
 
 - `--w-fold`: dihedral fold barrier;

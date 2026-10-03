@@ -2239,3 +2239,7 @@ Added `scripts/audit_original_v1_axilla_pit_blender.py` and `RUN_ORIGINAL_V1_AXI
 
 - **Incremental local-mask plumbing (2026-10-03):** optimizer `--mask-file`, cross-source `--init` rejection, a 180-left-vertex preflight cap, and guarded solve/apply runners now connect the declared pit mask to an incremental correction of r55's existing shape keys. The apply path preserves Basis/weights/topology/bones and emits a complete updated runtime corrective spec.
 - **Area-target reference corrected (2026-10-03):** the signed face-area barrier now targets the same-pose uncorrected LBS surface reconstructed from the source candidate's own rig/weights. r55 remains the additive starting surface, but is no longer the area target; this lets the local delta reopen an existing corrective-induced sliver.
+
+### 2026-10-03 incremental parent reconstruction guard
+
+The r55 local solve reconstructs active relative shape keys before validating the arc dump's LBS model. This is necessary because r55 already carries the broad shoulder corrective: comparing its evaluated surface with Basis-only LBS would fail and prevent the incremental solve. The optimizer starts from the evaluated r55 surface, while its signed-area target remains the same-pose uncorrected LBS surface. A deterministic finite-difference check of the signed-area analytic gradient now runs before each axilla solve. No candidate asset, gate, rig, pose definition or baseline is changed by this guard.

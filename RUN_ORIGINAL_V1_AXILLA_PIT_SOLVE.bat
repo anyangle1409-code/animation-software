@@ -18,6 +18,8 @@ for /f "delims=" %%I in ('git branch --show-current 2^>nul') do set "CURRENT_BRA
 if /I not "%CURRENT_BRANCH%"=="claude/original-v1-blender-o2-20260929" ( echo ERROR: wrong branch & exit /b 2 )
 git diff --quiet HEAD -- scripts\pose_test_original_v1_o4_candidate_blender.py scripts\dump_original_v1_arc_skinning_blender.py scripts\optimize_original_v1_shoulder_corrective.py
 if errorlevel 1 ( echo ERROR: solve inputs have uncommitted changes & exit /b 2 )
+python scripts\test_original_v1_shoulder_corrective_area_gradient.py
+if errorlevel 1 ( echo ERROR: signed-area barrier math self-test failed & exit /b 2 )
 set "BLEND=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%SOURCE_REV%.blend"
 set "MANIFEST=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_%SOURCE_REV%.json"
 set "PREP=ORIGINAL_V1_WORK\candidates\repair_preparation\%TARGET_REV%_axilla_pit_declared"

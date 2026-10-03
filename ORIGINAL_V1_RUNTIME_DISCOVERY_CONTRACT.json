@@ -137,9 +137,19 @@
     "local runtime HEAD equals the current remote branch HEAD",
     "Stage-9 contact semantics verify against that exact runtime checkout",
     "canonical v4 runtime coupling is internally consistent",
+    "runtime canonical-v4 contract declares the exact model rev2c rig identity/revision/bone-count/structure SHA",
     "standalone verification and browser viewport smoke are green on the same exact runtime HEAD",
     "Phase 9 exact final bare/dressed asset hashes and production deformation evidence exist",
     "ORIGINAL-v1 production promotion remains blocked until all explicit gates pass"
   ],
-  "output_status": "DISCOVERY_ONLY"
+  "output_status": "DISCOVERY_ONLY",
+  "model_rig_requirement": {
+    "lock": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
+    "identity": "hgpt_canonical_v4_original",
+    "revision": "rev2_forearm_twist_only",
+    "bone_count": 67,
+    "deform_bone_count": 66,
+    "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+    "rule": "Runtime integration is blocked until CANONICAL_V4_RUNTIME_CONTRACT.json on the exact runtime HEAD declares this same rig identity, revision, bone count and structure SHA. v4_active alone is insufficient."
+  }
 }

@@ -71,9 +71,18 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_local_backup.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_bare_dressed_equivalence.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_blender_smoke.py'
+      - name: Generate exact status snapshot
+        run: python3 scripts/build_original_v1_daily_status.py
+      - name: Upload generated status snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-v1-generated-status
+          path: |
+            ORIGINAL_V1_HIGH_DETAIL_STATUS.json
+            ORIGINAL_V1_CANDIDATE_LEDGER.json
+            docs/ORIGINAL_V1_DAILY_STATUS.md
       - name: Verify generated status is exact
         run: |
-          python3 scripts/build_original_v1_daily_status.py
           git diff -- ORIGINAL_V1_HIGH_DETAIL_STATUS.json ORIGINAL_V1_CANDIDATE_LEDGER.json docs/ORIGINAL_V1_DAILY_STATUS.md
           git diff --quiet -- ORIGINAL_V1_HIGH_DETAIL_STATUS.json ORIGINAL_V1_CANDIDATE_LEDGER.json docs/ORIGINAL_V1_DAILY_STATUS.md
       - name: Verify frozen deformation baseline

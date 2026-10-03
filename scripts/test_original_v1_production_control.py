@@ -22,6 +22,32 @@ class ControlTests(unittest.TestCase):
         self.assertRegex(rev, r'^r\d+$')
         return rev, 'r%d' % (int(rev[1:]) + 1)
 
+    def test_phase_checkpoint_can_be_inherited_by_direct_descendant(self):
+        c=self.module()
+        a={"revision":"r100","sha256":"a"*64,"parent_sha256":None}
+        b={"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64}
+        info=c.phase_checkpoint_on_lineage({"r100":a,"r101":b},"r101","a"*64)
+        self.assertEqual(info,{"revision":"r100","sha256":"a"*64,"depth":1})
+
+    def test_phase_checkpoint_divergent_candidate_is_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":None},
+            "r101":{"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64},
+            "r102":{"revision":"r102","sha256":"c"*64,"parent_sha256":"d"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"not on current candidate lineage"):
+            c.phase_checkpoint_on_lineage(entries,"r102","a"*64)
+
+    def test_phase_checkpoint_cycle_is_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"lineage cycle"):
+            c.phase_checkpoint_on_lineage(entries,"r101","c"*64)
+
     def test_live_evidence_preserves_tradeoff_and_baseline(self):
         c = self.module()
         status, ledger = c.build(ROOT)

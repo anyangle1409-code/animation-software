@@ -311,14 +311,46 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r55_press_top_worst_edges.json"
         }
       ]
+    },
+    "r69": {
+      "candidate_sha256": "1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215",
+      "chosen_parent": "r48",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r69 supersedes r55 as the current experimental continuation. Lineage: r43 (rig rev2c, scapula pivot 35 percent, forearm-only twist helpers) + shoulder weights o45 (o44 trunk anchoring plus new face-area-floor and surface-roughness barriers in the weight solver) + wrist band (o26) = r62; + LOCAL axilla/anterior-shoulder knot weight edit o47 (Option B, declared zone of 168 vertices committed before the solve: ORIGINAL_V1_WORK/candidates/repair_preparation/r68_pit_knot_weights_declared) = r68; + generic humerothoracic-elevation shoulder corrective shape keys (solution corr_v17, 1491 declared left-owned vertices, mirror-symmetric, asymmetry 0) = r69. Trial lineage r49-r54 (r48 base) and r56-r68 are preserved. Option A (barriers) saturated first: r66 vs r67 showed no gain from tighter barriers, so the anterior-shoulder knot of mixed clavicle/upper-arm weights was edited locally (B). Measured under P3: 0 development failures; versus P3B1 23 strict regressions (r55 had 31): self-intersections in overhead poses rise to about 130 (gate 200) and the arm-region ranges widen, all inside every gate; versus r48 18 (r55 had 20). Continuous arc (33 samples per pose): torso edge max 3.31, min 0.455, volume 1.000-1.047 with max step 0.4 percent, drift max 0.147 m; no left/right asymmetry. Scapular second driver investigated and not needed (scapular share changes torso edge stretch by 1.2 before the corrective and 0.19 after). Real renders: tears, slivers and crumpling cleared; remaining visual items are a rounded shoulder cap, stretched pec scoops and one small pointed tip at the front pit top. NOT eligible for Phase 4 freeze: the 23 strict P3B1 regressions remain unresolved and need an owner disposition or further reduction.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_r48.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r69_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r69_corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r69.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r68_pit_knot_weights_declared/pit_knot_zone_declared_before_solve.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r55",
-    "candidate_sha256": "ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7",
+    "candidate_revision": "r69",
+    "candidate_sha256": "1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215",
     "action": "RUN local axilla repair",
-    "reason": "r55 is development-clear but candidate-bound visual and face-area evidence still records a local axilla-pit sliver/crumple; complete the declared local repair before freeze reconciliation",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+    "reason": "r69 supersedes r55 (local knot weight edit plus re-fitted corrective; 0 development failures, 23 vs 31 strict P3B1 regressions) but real renders still show one small pointed tip at the front pit top; complete the declared local repair before freeze reconciliation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

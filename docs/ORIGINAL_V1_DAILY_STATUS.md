@@ -29,7 +29,9 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
+RUN local axilla repair — r69 supersedes r55 (local knot weight edit plus re-fitted corrective; 0 development failures, 23 vs 31 strict P3B1 regressions) but real renders still show one small pointed tip at the front pit top; complete the declared local repair before freeze reconciliation
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69`
+Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

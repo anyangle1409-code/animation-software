@@ -478,9 +478,10 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RECONCILE trial lineage",
-    "reason": "record evidence-backed continuation choice; a trade-off is not auto-promoted",
-    "command": null,
-    "safe_parallel_task": "Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors."
+    "action": "RUN local axilla repair",
+    "reason": "r69 supersedes r55 (local knot weight edit plus re-fitted corrective; 0 development failures, 23 vs 31 strict P3B1 regressions) but real renders still show one small pointed tip at the front pit top; complete the declared local repair before freeze reconciliation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69",
+    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
+    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }
 }

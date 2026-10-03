@@ -32,6 +32,8 @@ if not REVISION.startswith("r") or not REVISION[1:].isdigit():
 OUT.mkdir(parents=True, exist_ok=False)
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from original_v1_locked_rig import load_locked_rig, blender_armature_issues
 PLAN_PATH = ROOT / "ORIGINAL_V1_DRESSED_RANGE_PLAN.json"
 POSE_SCRIPT = ROOT / "scripts/pose_test_original_v1_o4_candidate_blender.py"
 CAPTURE_SCRIPT = Path(__file__).resolve()
@@ -84,10 +86,12 @@ handle = ns["HANDLE"]
 DRESS_MASK = ns.get("DRESS_MASK")
 if shorts is None or shorts.type != "MESH":
     raise SystemExit("named candidate garment required; no body fallback")
-if rig.type != "ARMATURE" or len(rig.data.bones) != 63:
-    raise SystemExit("canonical 63-bone rig required")
+locked_rig = load_locked_rig(ROOT)
+rig_issues = blender_armature_issues(rig, locked_rig)
+if rig_issues:
+    raise SystemExit("locked rev2c rig required: " + "; ".join(rig_issues))
 if body.find_armature() != rig or shorts.find_armature() != rig:
-    raise SystemExit("body and garment must be bound to the same canonical rig")
+    raise SystemExit("body and garment must be bound to the same locked rev2c rig")
 
 declared_waypoints = {w for p in paths for w in p.get("waypoints", [])}
 if not declared_waypoints or not declared_waypoints.issubset(poses):
@@ -292,7 +296,15 @@ report = {
     "candidate_sha256": source_sha,
     "candidate_manifest": MANIFEST.name,
     "candidate_manifest_sha256": digest(MANIFEST),
-    "rig_id": "hgpt_canonical_v4_original",
+    "rig_id": locked_rig["identity"],
+    "locked_rig": {
+        "revision": locked_rig["revision"],
+        "rig_structure_sha256": locked_rig["rig_structure_sha256"],
+        "bone_count": locked_rig["bone_count"],
+        "deform_bone_count": locked_rig["deform_bone_count"],
+        "lock": locked_rig["lock"],
+        "payload": locked_rig["payload"],
+    },
     "plan": PLAN_PATH.relative_to(ROOT).as_posix(),
     "plan_sha256": digest(PLAN_PATH),
     "source_pose_script": POSE_SCRIPT.relative_to(ROOT).as_posix(),

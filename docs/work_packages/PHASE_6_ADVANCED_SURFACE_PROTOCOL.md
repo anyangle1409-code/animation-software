@@ -94,6 +94,14 @@ Each real joint-support record must provide:
 The verifier checks identity/coverage only. It cannot decide that the resulting
 loop structure is visually or biomechanically good.
 
+## Producer identity is fail-closed
+
+The combined verifier requires the raw surface audit to reference the exact current
+`audit_original_v1_surface.py` and `audit_original_v1_changes.py` bytes, and the
+evaluated report to bind the exact current Blender capture script. Raw and evaluated
+reports must carry the same exact source Git commit. A report with valid-looking
+metrics but stale/mixed producer identities is refused.
+
 ## Combined result
 
 `scripts/original_v1_phase6_surface_quality.py` combines:
@@ -118,6 +126,7 @@ exit packet can verify.
 
 ## Current boundary
 
-Do not run this on r29 as a Phase 6 claim. The current project is still in Phase 3.
-This tooling exists now only to reduce future Claude laptop setup and validation
-work once Phases 4 and 5 genuinely pass.
+Do not run this as a Phase 6 claim until live generated production control records
+Phase 5 complete for the machine-selected current candidate. This static protocol
+does not carry a candidate revision. The tooling exists to reduce later laptop setup
+and validation work; it never bypasses Phase 4/5 eligibility or owner review.

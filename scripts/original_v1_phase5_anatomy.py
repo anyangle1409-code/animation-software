@@ -13,10 +13,12 @@ from pathlib import Path
 import re
 import subprocess
 
-from original_v1_production_control import ROOT, build, digest, ensure_finite
+from original_v1_production_control import ROOT, build, digest, ensure_finite, read
 from verify_original_v1_production_promotion import safe_path
+from original_v1_phase5_region_review import load_capture_plan, verify_source_metadata, verify_published_review
 
 PLAN = "ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json"
+CAPTURE_PLAN = "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json"
 HELPER = "scripts/original_v1_phase5_anatomy.py"
 REQUIRED_CHECKS = (
     "scope_bound",
@@ -24,7 +26,7 @@ REQUIRED_CHECKS = (
     "topology_correspondence",
     "mesh_weight_audit",
     "full_deformation_evidence",
-    "comparisons_r2_parent_freeze",
+    "comparisons_epoch_parent_freeze",
     "contacts_preserved",
     "captures_complete",
     "lineage_complete",
@@ -63,6 +65,44 @@ def load_plan(root: Path) -> dict:
             raise ValueError(f"{region} work package missing")
         if not row.get("focused_poses") or not row.get("required_views"):
             raise ValueError(f"{region} coverage definition incomplete")
+    rig = plan.get("rig_contract")
+    if not isinstance(rig, dict):
+        raise ValueError("Phase 5 locked rig contract missing")
+    lock = read(root, rig.get("lock_path", ""))
+    lock_rig = lock.get("rig", {})
+    expected = {
+        "identity": lock_rig.get("identity"),
+        "revision": lock_rig.get("revision"),
+        "rig_structure_sha256": lock_rig.get("rig_structure_sha256"),
+        "bone_count": lock_rig.get("bone_count"),
+        "deform_bone_count": lock_rig.get("deform_bone_count"),
+    }
+    actual = {k: rig.get(k) for k in expected}
+    if actual != expected:
+        raise ValueError("Phase 5 locked rig contract disagrees with skeleton-motion lock")
+    if rig.get("payload") != lock_rig.get("payload", {}).get("path") or rig.get("payload_sha256") != lock_rig.get("payload", {}).get("sha256"):
+        raise ValueError("Phase 5 locked rig payload disagrees with skeleton-motion lock")
+    helpers = lock.get("helper_decisions", {}).get("added", [])
+    expanded_helpers = []
+    for helper in helpers:
+        if isinstance(helper, str) and helper.endswith("_l/r"):
+            base = helper[:-4]
+            expanded_helpers.extend([base + "_l", base + "_r"])
+        else:
+            expanded_helpers.append(helper)
+    declared_helpers = rig.get("helper_bones")
+    if (not isinstance(declared_helpers, list) or len(declared_helpers) != len(set(declared_helpers)) or
+            sorted(declared_helpers) != sorted(expanded_helpers)):
+        raise ValueError("Phase 5 helper-bone contract disagrees with skeleton-motion lock")
+    capture_plan = read(root, CAPTURE_PLAN)
+    if capture_plan.get("schema_version") != 1 or capture_plan.get("status") != "PREPARED_PHASE5_REGION_CAPTURE_PLAN":
+        raise ValueError("Phase 5 regional capture plan identity differs")
+    if set(capture_plan.get("regions", {})) != set(order):
+        raise ValueError("Phase 5 regional capture coverage incomplete")
+    for region in order:
+        capture_ids = [x.get("id") for x in capture_plan["regions"][region].get("captures", [])]
+        if capture_ids != regions[region].get("required_views") or regions[region].get("required_capture_ids") != capture_ids:
+            raise ValueError(f"{region} capture coverage differs from anatomy plan")
     return plan
 
 
@@ -102,7 +142,7 @@ def verify_previous_receipt(root: Path, ref: dict, expected_region: str, expecte
     return receipt
 
 
-def verify_region_report(root: Path, report: dict, plan: dict, region: str) -> list[str]:
+def verify_region_report(root: Path, report: dict, plan: dict, region: str, expected_freeze_sha: str | None = None, expected_epoch_revision: str | None = None, expected_epoch_sha: str | None = None) -> list[str]:
     issues = []
     if not isinstance(report, dict):
         return ["regional anatomy report must be an object"]
@@ -116,6 +156,8 @@ def verify_region_report(root: Path, report: dict, plan: dict, region: str) -> l
     sha = report.get("candidate_sha256")
     parent_sha = report.get("parent_candidate_sha256")
     freeze_sha = report.get("development_freeze_candidate_sha256")
+    epoch_revision = report.get("active_epoch_baseline_revision")
+    epoch_sha = report.get("active_epoch_baseline_candidate_sha256")
 
     if report.get("schema_version") != 1 or report.get("phase") != 5 or report.get("region") != region:
         issues.append("regional report identity/schema differs")
@@ -126,6 +168,16 @@ def verify_region_report(root: Path, report: dict, plan: dict, region: str) -> l
     for value, label in ((sha, "candidate"), (parent_sha, "parent"), (freeze_sha, "development-freeze candidate")):
         if not re.fullmatch(r"[0-9a-f]{64}", str(value or "")):
             issues.append(f"invalid {label} SHA-256")
+    if not isinstance(epoch_revision, str) or not epoch_revision:
+        issues.append("active epoch baseline revision required")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(epoch_sha or "")):
+        issues.append("invalid active epoch baseline candidate SHA-256")
+    if expected_freeze_sha is not None and freeze_sha != expected_freeze_sha:
+        issues.append("development-freeze candidate SHA differs from recorded Phase 4 freeze")
+    if expected_epoch_revision is not None and epoch_revision != expected_epoch_revision:
+        issues.append("active epoch baseline revision differs from generated state")
+    if expected_epoch_sha is not None and epoch_sha != expected_epoch_sha:
+        issues.append("active epoch baseline candidate SHA differs from generated state")
     if sha == parent_sha:
         issues.append("regional candidate must differ from its parent")
     if not re.fullmatch(r"r[0-9]+[a-z]?", str(report.get("candidate_revision", "")), re.I):
@@ -180,11 +232,28 @@ def verify_region_report(root: Path, report: dict, plan: dict, region: str) -> l
     if not isinstance(artifacts, dict) or set(artifacts) != set(required_artifacts):
         issues.append("regional artifact inventory must exactly cover required evidence")
     else:
+        resolved_artifacts = {}
         for key in required_artifacts:
             try:
-                ref_file(root, artifacts[key], key)
+                resolved_artifacts[key] = ref_file(root, artifacts[key], key)
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 issues.append(f"{key}: {exc}")
+        if sha and "actual required render/capture manifest" in resolved_artifacts and "regional review manifest" in resolved_artifacts:
+            try:
+                capture_plan = load_capture_plan(root)
+                source_path = resolved_artifacts["actual required render/capture manifest"]
+                source_data = verify_source_metadata(root, source_path, region, sha, capture_plan)
+                verify_published_review(
+                    root,
+                    resolved_artifacts["regional review manifest"],
+                    region,
+                    sha,
+                    capture_plan,
+                    source_path,
+                    source_data,
+                )
+            except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+                issues.append("regional capture/review evidence: " + str(exc))
 
     prev = predecessor(plan, region)
     if prev is None:
@@ -199,10 +268,13 @@ def verify_region_report(root: Path, report: dict, plan: dict, region: str) -> l
     return list(dict.fromkeys(issues))
 
 
-def make_template(plan: dict, region: str, state: dict) -> dict:
+def make_template(plan: dict, region: str, state: dict, control: dict | None = None) -> dict:
     row = plan["regions"][region]
     prev = predecessor(plan, region)
     required_artifacts = {name: {"path": None, "sha256": None} for name in plan["per_region_required_evidence"]}
+    control = control or {}
+    freeze_record = (control.get("phase_completion_records") or {}).get("4") or {}
+    pinned = state.get("pinned_baseline") or {}
     return {
         "schema_version": 1,
         "phase": 5,
@@ -215,7 +287,9 @@ def make_template(plan: dict, region: str, state: dict) -> dict:
         "candidate_sha256": None,
         "parent_revision": state.get("current_candidate"),
         "parent_candidate_sha256": state.get("last_known_candidate_sha256"),
-        "development_freeze_candidate_sha256": None,
+        "development_freeze_candidate_sha256": freeze_record.get("candidate_sha256"),
+        "active_epoch_baseline_revision": pinned.get("revision"),
+        "active_epoch_baseline_candidate_sha256": pinned.get("candidate_sha256"),
         "source_git_commit": None,
         "evidence_timestamp": None,
         "work_package": row["work_package"],
@@ -234,6 +308,8 @@ def make_template(plan: dict, region: str, state: dict) -> dict:
             "current_subphase": state.get("current_subphase"),
             "phase4_state": state.get("phases", {}).get("4", {}).get("state"),
             "region_predecessor": prev,
+            "locked_rig_revision": plan["rig_contract"]["revision"],
+            "locked_rig_bone_count": plan["rig_contract"]["bone_count"],
         },
         "note": "INCOMPLETE template only. Do not convert placeholders to PASS without actual Blender/model evidence.",
     }
@@ -251,10 +327,11 @@ def main() -> int:
             raise ValueError("Phase 5 anatomy output collision; preserve prior evidence")
         plan = load_plan(ROOT)
         state, _ = build(ROOT)
+        control = read(ROOT, "ORIGINAL_V1_PRODUCTION_CONTROL.json")
         if args.template:
             if args.report is not None:
                 raise ValueError("template mode takes no report")
-            result = make_template(plan, args.region, state)
+            result = make_template(plan, args.region, state, control)
             args.json_out.parent.mkdir(parents=True, exist_ok=True)
             args.json_out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
             print(f"INCOMPLETE {args.region} ANATOMY TEMPLATE — Phase 5 not advanced")
@@ -265,9 +342,18 @@ def main() -> int:
         if not report_path.is_relative_to(ROOT.resolve()):
             raise ValueError("regional report must remain inside repository")
         report = json.loads(report_path.read_text(encoding="utf-8"))
-        issues = verify_region_report(ROOT, report, plan, args.region)
+        freeze_record = (control.get("phase_completion_records") or {}).get("4") or {}
+        pinned = state.get("pinned_baseline") or {}
+        issues = verify_region_report(
+            ROOT, report, plan, args.region,
+            expected_freeze_sha=freeze_record.get("candidate_sha256"),
+            expected_epoch_revision=pinned.get("revision"),
+            expected_epoch_sha=pinned.get("candidate_sha256"),
+        )
         if state.get("phases", {}).get("4", {}).get("state") != "complete":
             issues.append("Phase 4 development freeze is incomplete")
+        elif not freeze_record.get("candidate_sha256"):
+            issues.append("Phase 4 completion record lacks candidate SHA identity")
         if state.get("last_known_candidate_sha256") != report.get("candidate_sha256"):
             issues.append("regional report is not bound to latest complete candidate")
         result = {

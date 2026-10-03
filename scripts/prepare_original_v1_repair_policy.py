@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from original_v1_production_control import ROOT,CAND,RC,build,digest,evidence
 from build_original_v1_diagnostic_brief import summarize
+from original_v1_locked_rig import load_locked_rig
 
 PACKAGES={
     '3C':{'path':'docs/work_packages/PHASE_3C_GRIP_THUMB.md','region_envelope':['thumb','hand','finger'],
@@ -34,6 +35,9 @@ def prepare(root,phase,state):
     if phase not in PACKAGES:raise ValueError('supported repair packages are 3C, 3D and 3E')
     if state['candidate_state']=='rejected':raise ValueError('cannot prepare edits on a rejected candidate')
     package=PACKAGES[phase];rev=state['current_candidate'];sha=state['last_known_candidate_sha256']
+    baseline=state.get('pinned_baseline') or {}
+    baseline_revision=baseline.get('revision') or 'machine-selected active epoch baseline'
+    rig_contract=load_locked_rig(root)
     manifest=f'{CAND}/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.json'
     if json.loads((root/manifest).read_text(encoding='utf-8-sig')).get('candidate_sha256')!=sha:
         raise ValueError('parent manifest differs from current evidence')
@@ -44,6 +48,10 @@ def prepare(root,phase,state):
     context={'schema_version':1,'phase':phase,'candidate_revision':rev,'source_candidate_sha256':sha,
         'diagnostics_state':'AWAITING_PROBES','inspection_vertex_ids':[],'observations':[],
         'edit_authorised':False,'production_approved':False,
+        'active_epoch_baseline':baseline,
+        'locked_rig':{'revision':rig_contract['revision'],'rig_structure_sha256':rig_contract['rig_structure_sha256'],
+            'bone_count':rig_contract['bone_count'],'deform_bone_count':rig_contract['deform_bone_count'],
+            'lock':rig_contract['lock'],'payload':rig_contract['payload']},
         'note':'Inspection IDs never become allowed IDs automatically. No candidate-specific mask exists until an author records the local scope.'}
     folder=root/RC/('remaining_diagnostics_'+rev)
     available=[(folder/name).is_file() for name in ('grip_penetration.json','edge_extremes.json')]
@@ -68,7 +76,9 @@ def prepare(root,phase,state):
         'change_type':None,'local_defect_description':None,'planned_operations':[],
         'permitted_vertex_ids':[],'allowed_regions':[],'allowed_bones':[],
         'mask_basis_evidence':[],'symmetry_plan':None,'index_correspondence_basis':None,
-        'frozen_constraints':['R2 baseline','63-bone canonical rig rest/hierarchy','acceptance thresholds',
+        'frozen_constraints':[f'active immutable stress-pose epoch baseline: {baseline_revision}',
+            f"locked rev2c rig: {rig_contract['revision']} / {rig_contract['bone_count']} bones",
+            'all historical epoch baselines remain immutable','acceptance thresholds',
             'stress poses','equipment handle frames','first-party provenance'],
         'source_evidence':refs,'production_approved':False,
         'note':'Record a pre-edit intent before any candidate edit. Preserve it and append actual operation evidence; do not retrospectively broaden the mask to hide changes.'}
@@ -116,7 +126,7 @@ python scripts/audit_original_v1_changes.py <before.json> <after.json> --policy 
 An audit being written is not a gate PASS. Inspect unexpected vertices/bones,
 normalisation, influences, cross-side weights, symmetry and topology/correspondence.
 Run focused groups **{', '.join(package['focused_checks'])}**, then full 15-pose
-evidence and R2/direct-parent/r28/r29 comparisons. Follow the package's exact gates
+evidence and the active immutable epoch-baseline/direct-parent comparisons plus only specifically relevant historical controls. Do not hard-code R2/r28/r29 as current requirements. Follow the package's exact gates
 and renders. Publish actual review images and record pending NON-BLOCKING review;
 continue safe work. Preserve rejected experiments and all their evidence.
 

@@ -22,7 +22,7 @@ is reported honestly; it is not an assurance of sufficient battery.
 
 The existing exporter now requires explicit revision, source manifest and fresh
 output arguments. Its previous no-argument invocation refuses to run. Historical
-shared GLBs/manifests remain untouched. Only the owned 63-bone rig, body and
+shared GLBs/manifests remain untouched. Only the owned locked rev2c rig (67 total / 66 deform bones; historical 63-bone structure plus four forearm-twist helpers), body and
 existing first-party shorts are selected. Missing shorts stop the paired capture.
 Unrelated objects are excluded. The armature is temporarily REST; authored
 non-armature modifiers follow the recorded export_apply setting. The body mask is
@@ -83,3 +83,6 @@ Commit/push actual evidence where appropriate; review images must come from actu
 candidate renders or runtime capture. Mark OWNER REVIEW pending and continue safe
 work: REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Follow the master's explicit
 pause exceptions. Production promotion stays exclusively in Phase 12.
+
+
+New candidate export manifests bind the exact rev2c skeleton-motion lock, rig-structure SHA and rig payload. Structural GLB audit derives the expected joint count/hierarchy from that manifest-declared payload; historical manifests without a rig_payload field continue to use their historical audit payload. A new rev2c export must never be forced through the old 63-bone default.

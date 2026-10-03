@@ -12,7 +12,7 @@ candidate/asset/runtime hashes, review disposition, camera, scale, lighting,
 pose/frame/time, renderer/version, colour management, crop and dimensions. A new
 reference must not silently replace a pinned comparison or erase a regression.
 Project-authored references may remain experimental while owner review is pending;
-do not label them accepted. R2 remains the deformation baseline.
+do not label them accepted. Use the immutable active stress-pose epoch baseline selected by generated state; historical R2/P2B1/P3B1 records remain preserved and are never silently substituted.
 
 Inputs: actual bare/dressed runtime frames and owned reference inventory. Outputs:
 per-view/per-frame silhouette/crop/visibility/contact/clearance findings, tested

@@ -3,14 +3,16 @@
 Prepared only; NOT STARTED. REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT.
 Read master plan, status and `docs/ORIGINAL_V1_HIGH_DETAIL_ANATOMY_SPEC.md`.
 Entry: Phase 4 freeze recorded; earlier Phase 5 region packages evaluated. Verify
-local Blend/source manifest hash. Pin direct parent and development-freeze candidate
-as separate comparisons; R2 remains unchanged. Choose next unused revision label.
+local Blend/source manifest hash. Pin the active stress-pose epoch baseline, direct
+parent and recorded development-freeze candidate as separate comparisons; preserve
+all historical baselines unchanged. Choose the next unused revision label.
 
 Permitted edit: Local palm/dorsal/finger/thumb forms in documented mask; protect recovered crease spacing, wrist and measured equipment frames.
 Before editing record explicit vertex IDs/region mask and operation plan in a
 candidate-bound audit policy. All distant regions, source identity, dimensions,
-63-bone rest/hierarchy, gates/poses/handle definitions and approved provenance are
-protected. No legacy/third-party surfaces, image planes, scans, projection or
+locked rev2c rig/rest/hierarchy (67 bones total / 66 deform: historical 63-bone
+structure plus four forearm-twist helpers), gates/poses/handle definitions and
+approved provenance are protected. No legacy/third-party surfaces, image planes, scans, projection or
 transferred geometry/weights. No broad remesh or unrecorded vertex renumbering.
 
 Anatomical landmarks: Palm arch; thenar/hypothenar; web; MCP/PIP/DIP and thumb IP; fingertips.
@@ -28,14 +30,17 @@ weight edits without a measured deformation need and declared allowed bones.
 Focused poses: `curl_peak,grip,curl_handle,pullup_bar,pushup_bottom`. Use existing pose tester or repair-group runner with a
 new output label, then `RUN_ORIGINAL_V1_FULL_EVIDENCE.bat <new revision> <parent>`.
 Run unchanged development and production-target evaluators (production deficits
-remain visible), full comparisons with R2, direct parent and development freeze;
-compare r28/r29 for hand/contact changes. No lost poses/contact, new blocker or
-material predecessor severity regression. Clothing cannot hide body failure.
+remain visible), full comparisons with the active epoch baseline, direct parent and
+recorded development freeze. Historical r28/r29 evidence remains preserved but is
+not a mandatory comparison target for new Phase 5 candidates. No lost poses/contact,
+new blocker or material predecessor severity regression. Clothing cannot hide body failure.
 
 Required real renders: Palm/dorsal/thumb neutral, both hands; curl/handle and pull-up/bar, push-up loaded close views.
 Same pose/camera/scale/lighting/crop; candidate SHA labels and capture manifest.
-Generate matched old/new boards; flag mismatched capture settings rather than
-claiming quantitative improvement. Produce full milestone coverage at Phase 5 end.
+Run `RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat 5D <new revision>` for the
+machine-bound regional capture set; its capture IDs must exactly match this
+package's required views. Flag mismatched capture settings rather than claiming
+quantitative improvement. Produce full milestone coverage at Phase 5 end.
 
 Exit: coherent original landmarks/silhouette in all named views, healthy topology,
 region-limited changes, normalized symmetric skinning, unchanged contact and no

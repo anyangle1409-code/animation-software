@@ -14,7 +14,7 @@ surfaces or the early script's nearest-body weight assignment. No third-party
 clothing/templates/textures, broad body changes or hidden body defects.
 
 Permitted edits are garment geometry/weights and its explicitly recorded coverage
-configuration. Freeze the underlying body mesh/weights and canonical rig. Snapshot
+configuration. Freeze the underlying body mesh/weights and the recorded rev2c skeleton-motion lock (67 total / 66 deform bones; historical 63-bone structure plus four forearm-twist helpers). Snapshot
 the body before/after garment work and prove unchanged bare controls. Document any
 intentional body visibility mask; it cannot remove underlying failure measurements.
 
@@ -52,3 +52,6 @@ and source records, separate body/garment audits, both pose streams, actual revi
 manifests/images and verified Phase 7 exit/shared state. Reject foreign lineage,
 masked failures, body drift or missing dressed coverage; preserve experimental
 evidence and return to the previous valid garment. Next: Phase 8 presentation.
+
+
+Rig binding is fail-closed: garment scene evidence must reproduce the locked rev2c hierarchy (bone names/parents), 67/66 total/deform counts, revision and rig-structure identity from `SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json`. A historical 63-bone-only scene receipt is invalid Phase 7 evidence.

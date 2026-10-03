@@ -32,7 +32,7 @@ No unclassified manifold, winding or degenerate defect may be silently waived.
 ## Tests, renders and exit
 
 Run raw surface and before/after change audits, then full bare stress evidence using the shared
-commands. Compare R2, parent, development freeze and hand/contact anchors. Require
+commands. Compare the active immutable stress-pose epoch baseline, direct parent, development freeze and hand/contact anchors. Require
 no new development blocker or material predecessor regression; preserve production
 deficits until Phase 9. Unknown correspondence blocks numerical displacement/weight
 claims; it does not permit a guessed mapping.

@@ -177,7 +177,7 @@ def main():
         state,_=build(ROOT)
         if packet.get('candidate_sha256')!=state['last_known_candidate_sha256']:issues.append('packet is not for latest complete candidate')
         if state['candidate_state']=='rejected':issues.append('candidate is rejected')
-        if state['development_failure_count'] or state['unresolved_regressions']:issues.append('development failures or strict R2 regressions remain')
+        if state['development_failure_count'] or state['unresolved_regressions']:issues.append('development failures or unresolved strict active-epoch regressions remain')
         if state['incomplete_candidates']:issues.append('newer incomplete candidate evidence remains')
         report=next(x['path'] for x in state['latest_evidence'] if x['path'].endswith('_merged_pose_report.json'))
         if evaluate(ROOT,report,'production_target')['failure_count']:issues.append('recomputed production deformation gate fails')

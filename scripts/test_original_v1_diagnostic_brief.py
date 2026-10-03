@@ -38,6 +38,14 @@ class DiagnosticBriefTests(unittest.TestCase):
         self.assertEqual(r['grip_observations'][0]['closing_delta_mm'],0)
         self.assertFalse(r['edit_authorised']);self.assertFalse(r['production_approved'])
         self.assertEqual(r['edge_observations'][0]['inspection_vertex_ids'],[10,11])
+        self.assertTrue(any('strict active-epoch regressions' in x for x in r['limits']))
+    def test_markdown_uses_active_epoch_not_hardcoded_r29(self):
+        c,g,e,p,s=self.fixture();r=c.summarize(g,e,p,'a'*64,'b'*64,s)
+        r.update(candidate_revision='r55',active_epoch_baseline_revision='P3B1',source_evidence=[])
+        md=c.markdown(r)
+        self.assertIn('P3B1',md)
+        self.assertIn('Do not hard-code R2/r28/r29',md)
+
     def test_missing_side_or_pose_refused(self):
         c,g,e,p,s=self.fixture();del g['poses']['curl_handle']['post_close']['r']
         with self.assertRaises(ValueError):c.summarize(g,e,p,'a'*64,'b'*64,s)

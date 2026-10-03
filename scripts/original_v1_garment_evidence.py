@@ -9,6 +9,7 @@ import subprocess
 import sys
 from audit_original_v1_changes import audit,validate
 from original_v1_production_control import ROOT,digest,evidence,ensure_finite
+from original_v1_locked_rig import load_locked_rig,blender_armature_issues
 from verify_original_v1_production_promotion import safe_path
 
 NAMES={'body':'HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE','garment':'HGPT_ORIGINAL_V1_SHORTS_CANDIDATE'}
@@ -22,9 +23,11 @@ def capture(bpy,scope):
     if not source.is_file() or not bpy.context.scene.get('hgpt_not_production'):raise ValueError('saved candidate-only scene required')
     sha=digest(source);data=json.loads(manifest.read_text(encoding='utf-8-sig'))
     if data.get('candidate_sha256')!=sha or data.get('candidate')!=source.name:raise ValueError('source manifest identity differs')
-    rig=bpy.data.objects.get('HGPT_CANONICAL_V4_ORIGINAL');mesh=bpy.data.objects.get(NAMES[scope])
-    if rig is None or rig.type!='ARMATURE' or len(rig.data.bones)!=63:raise ValueError('canonical 63-bone rig required')
-    if mesh is None or mesh.type!='MESH' or mesh.find_armature()!=rig:raise ValueError('owned mesh bound to canonical rig required')
+    contract=load_locked_rig(ROOT)
+    rig=bpy.data.objects.get(contract['object_name']);mesh=bpy.data.objects.get(NAMES[scope])
+    rig_issues=blender_armature_issues(rig,contract)
+    if rig_issues:raise ValueError('locked rev2c rig required: '+'; '.join(rig_issues))
+    if mesh is None or mesh.type!='MESH' or mesh.find_armature()!=rig:raise ValueError('owned mesh bound to locked rev2c rig required')
     coords=[list(v.co) for v in mesh.data.vertices]
     names={g.index:g.name for g in mesh.vertex_groups};deform={b.name for b in rig.data.bones if b.use_deform}
     weights=[{names[g.group]:g.weight for g in v.groups if names[g.group] in deform} for v in mesh.data.vertices]
@@ -48,7 +51,10 @@ def capture(bpy,scope):
         if m.type=='MASK':row.update(vertex_group=m.vertex_group,invert_vertex_group=m.invert_vertex_group,mode=m.mode,threshold=m.threshold)
         if m.type=='ARMATURE':row.update(object=m.object.name if m.object else None,use_vertex_groups=m.use_vertex_groups,use_bone_envelopes=m.use_bone_envelopes,use_deform_preserve_volume=m.use_deform_preserve_volume)
         modifiers.append(row)
-    result={'schema_version':2,'source_candidate':source.name,'candidate_sha256':sha,'rig_id':'hgpt_canonical_v4_original',
+    result={'schema_version':2,'source_candidate':source.name,'candidate_sha256':sha,'rig_id':contract['identity'],
+        'locked_rig':{'revision':contract['revision'],'rig_structure_sha256':contract['rig_structure_sha256'],
+            'bone_count':contract['bone_count'],'deform_bone_count':contract['deform_bone_count'],
+            'lock':contract['lock'],'payload':contract['payload']},
         'scene_unit_scale_length':bpy.context.scene.unit_settings.scale_length,'coordinate_space':'raw mesh local Blender coordinates in metres',
         'vertices':coords,'faces':[list(p.vertices) for p in mesh.data.polygons],'regions':labels,'weights':weights,
         'mirror_pairs':pairs,'ambiguous_mirror_vertex_ids':ambiguous,'left_x_sign':-1 if rig.data.bones['upperarm_l'].head_local.x<0 else 1,
@@ -64,6 +70,25 @@ def capture(bpy,scope):
     if digest(source)!=sha or digest(manifest)!=result['source_candidate_manifest']['sha256']:raise ValueError('source changed during capture')
     return result
 
+
+
+def snapshot_locked_rig_issues(snapshot,contract):
+    issues=[]
+    if snapshot.get('rig_id')!=contract['identity']:issues.append('raw snapshot rig identity differs')
+    rows=snapshot.get('rig_rest_bones')
+    if not isinstance(rows,list):return issues+['raw snapshot rig-rest rows missing']
+    hierarchy=sorted([{'name':str(r.get('name','')),'parent':r.get('parent')} for r in rows],key=lambda r:r['name'])
+    if hierarchy!=contract['bones']:issues.append('raw snapshot locked rev2c hierarchy differs')
+    deform=[r.get('name') for r in rows if r.get('use_deform') is True]
+    if len(deform)!=contract['deform_bone_count']:issues.append('raw snapshot locked rev2c deform count differs')
+    if sorted(snapshot.get('bone_names',[]))!=sorted(deform):issues.append('raw snapshot deform-bone inventory differs')
+    locked=snapshot.get('locked_rig')
+    if locked is not None:
+        expected={'revision':contract['revision'],'rig_structure_sha256':contract['rig_structure_sha256'],
+                  'bone_count':contract['bone_count'],'deform_bone_count':contract['deform_bone_count'],
+                  'lock':contract['lock'],'payload':contract['payload']}
+        if locked!=expected:issues.append('raw snapshot locked-rig receipt differs')
+    return issues
 
 def inspect_pair(body,garment):
     for s,scope in ((body,'body'),(garment,'garment')):
@@ -103,6 +128,13 @@ def main():
         if len(set(paths))!=4 or paths[-1].exists():raise ValueError('output collision/alias; preserve evidence')
         body,garment,manifest=[json.loads(p.read_text(encoding='utf-8-sig')) for p in paths[:3]]
         result=inspect_pair(body,garment)
+        contract=load_locked_rig(ROOT)
+        for snapshot,label in ((body,'body'),(garment,'garment')):
+            rig_issues=snapshot_locked_rig_issues(snapshot,contract)
+            if rig_issues:raise ValueError(label+' snapshot is not locked rev2c: '+'; '.join(rig_issues))
+        result['locked_rig']={'revision':contract['revision'],'rig_structure_sha256':contract['rig_structure_sha256'],
+                              'bone_count':contract['bone_count'],'deform_bone_count':contract['deform_bone_count'],
+                              'lock':contract['lock'],'payload':contract['payload']}
         if manifest.get('candidate_sha256')!=result['candidate_sha256'] or manifest.get('candidate')!=body['source_candidate']:raise ValueError('supplied candidate manifest differs')
         source=safe_path(ROOT,(paths[2].parent/manifest['candidate']).relative_to(ROOT).as_posix())
         result['local_blend_verification']='UNAVAILABLE'

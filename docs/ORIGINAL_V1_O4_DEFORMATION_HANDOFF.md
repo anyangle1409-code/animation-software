@@ -2223,3 +2223,43 @@ Owner review of r41 withdrew the first lock (toes/forefoot and shoulder/axilla n
 NEXT ACTION (evidence-selected): RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r55, then decide between options (a)/(b)/(c) above; r55 has 0 development failures but a visual armpit residual, so Phase 3 exit has not been run.
 
 Status-selected next action: RECONCILE trial lineage (r49-r54 are preserved trial/exploratory candidates leading to r55; r55 is the current evidence candidate). After that, choose corrective option (a)/(b)/(c).
+
+## GPT repository assist — 2026-10-03: r55 lineage reconciled, local axilla repair prepared
+
+- Recorded r55 in `ORIGINAL_V1_PRODUCTION_CONTROL.json` as the current **experimental continuation only**. This is not owner acceptance, baseline promotion, Phase 4 freeze or production approval. r49-r54 remain preserved trial evidence.
+- The continuation decision is evidence-led: r55 has 0 development failures, but 31 strict severity regressions versus P3B1 and a visible axilla-pit sliver/crumple residual. The r55 worst-edge probe is <=3.65, so the remaining visible spike is treated as thin-face collapse/folding rather than a reason to reopen the rev2c skeleton or P3a stress poses.
+- Added a disabled-by-default signed face-area/orientation barrier to `scripts/optimize_original_v1_shoulder_corrective.py` (`--w-area`, `--area-min`). Existing solves are unchanged at the default `--w-area 0`. The barrier detects both sliver collapse and face inversion relative to the uncorrected pose and is intended for the next local corrective attempt.
+- Added `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md` as the next worker package. It requires a declared local mask before editing, preserves the frozen rig/pose/gates, starts with weight/corrective repair before any topology change, and requires full evidence plus continuous-arc and visual checks before Phase 4 can be considered.
+
+**NEXT WORKER ACTION:** follow the axilla-pit package from r55 using the next collision-free candidate label. Do not freeze r55 as-is and do not reopen the rig, P3a pose definition, thresholds or pinned baselines.
+
+## GPT repository assist — 2026-10-03: deterministic axilla preflight
+
+Added `scripts/audit_original_v1_axilla_pit_blender.py` and `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat`. The runner is read-only: it verifies the local source candidate against its committed manifest, refuses target-label collisions, samples the six elevated-arm poses through 17 arc positions, compares the evaluated r55 surface against the same skeletal pose without the corrective, ranks signed face-area collapse/orientation reversal, and writes a mirror-closed one-ring local declaration before any edit. Default invocation for the next free label is `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat r55 r56`.
+
+- **Incremental local-mask plumbing (2026-10-03):** optimizer `--mask-file`, cross-source `--init` rejection, a 180-left-vertex preflight cap, and guarded solve/apply runners now connect the declared pit mask to an incremental correction of r55's existing shape keys. The apply path preserves Basis/weights/topology/bones and emits a complete updated runtime corrective spec.
+- **Area-target reference corrected (2026-10-03):** the signed face-area barrier now targets the same-pose uncorrected LBS surface reconstructed from the source candidate's own rig/weights. r55 remains the additive starting surface, but is no longer the area target; this lets the local delta reopen an existing corrective-induced sliver.
+
+### 2026-10-03 incremental parent reconstruction guard
+
+The r55 local solve reconstructs active relative shape keys before validating the arc dump's LBS model. This is necessary because r55 already carries the broad shoulder corrective: comparing its evaluated surface with Basis-only LBS would fail and prevent the incremental solve. The optimizer starts from the evaluated r55 surface, while its signed-area target remains the same-pose uncorrected LBS surface. A deterministic finite-difference check of the signed-area analytic gradient now runs before each axilla solve. No candidate asset, gate, rig, pose definition or baseline is changed by this guard.
+
+### 2026-10-03 post-edit validation loop
+
+Added `RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat` plus `scripts/audit_original_v1_axilla_candidate_blender.py`. A fresh incremental candidate can now be taken through full 15-pose evidence, predecessor comparison, remaining diagnostics, declared-triangle arc-area/orientation audit, real milestone captures and evidence-closure verification with one command. The local face audit is numeric evidence only and never substitutes for visual review or production gates.
+- **Single-dump numeric axilla sweep (2026-10-03):** added `RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat` and `scripts/run_original_v1_axilla_trial_sweep.py`. One verified source arc dump feeds three area-weight probes (0.25x/1x/4x hinge weight); unsafe trials are rejected before any Blend exists; all trial reports remain preserved; only the selected numerically safe solve is copied to the apply path. This is pre-apply engineering triage, not acceptance/promotion.
+- **Phase 4 freeze preflight refreshed (2026-10-03):** removed stale r29/R2 assumptions from the prepared Phase 4 package. Added `scripts/original_v1_phase4_preflight.py`, tests and `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat`. The preflight derives the current candidate/active epoch baseline from production control and refuses freeze validation while failures, strict regressions, stale continuation lineage, incomplete evidence or mismatched local Blend bytes remain. No freeze or approval is performed.
+
+### 2026-10-03 unified local-repair worker action
+
+Production control now binds the unresolved r55 axilla evidence to the exact r55 SHA, so the evidence-selected next action is no longer the ambiguous generic freeze-regression reconciliation. While r55 remains the current complete candidate, the worker action is:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
+```
+
+Use the next collision-free revision if r56 already exists locally. The pipeline declares the local mask before editing, reuses one r55 arc dump for deterministic numeric trial selection, applies only the selected declared incremental corrective, then runs the full evidence/comparator/local-face/real-render validation loop. Phase 4 preflight remains expected to refuse r55 and any successor that still has unresolved strict regressions. No automatic acceptance, freeze or production promotion is performed.
+- **Phase 5 rig/baseline contract hardened (2026-10-03):** the prepared anatomy plan/verifier now binds the locked rev2c rig (67 total / 66 deform bones; historical 63-bone structure plus four forearm-twist helpers) directly to the skeleton-motion lock. Region reports must bind the generated active stress-pose epoch baseline and the exact candidate SHA from the recorded Phase 4 completion record; obsolete R2-only comparison wording was replaced with active-epoch/direct-parent/freeze comparisons. This is safe parallel preparation only; Phase 5 remains blocked until Phase 4 actually completes.
+- **Dedicated Phase 5 regional capture (2026-10-03):** added `ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json`, `RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat`, a read-only Blender capture script and verified publisher. It covers Phase 5 views missing from the generic 57-view milestone set (including wrist-specific, bilateral palm/dorsal hand and sole views). The Phase 5 plan loader now fails if required-view IDs drift from the actual capture plan. No Phase 5 modelling or completion is inferred.
+- **Phase 7 rig binding hardened (2026-10-03):** garment-scene evidence no longer hard-codes the historical 63-bone structure. It now binds to the rev2c skeleton-motion lock (67 total / 66 deform bones), verifies bone names/parents against the locked payload, and refuses stale 63-bone or hierarchy-drift scene receipts. No clothing modelling or phase completion is implied.
+- **Axilla post-validation disposition (2026-10-03):** added `scripts/original_v1_axilla_disposition.py` and `RUN_ORIGINAL_V1_AXILLA_PIT_DISPOSITION.bat`; the unified r55→next-candidate pipeline now ends with a read-only summary of evidence closure, parent/P3B1 regressions, local face audit and real-review availability. It never auto-records lineage or visual acceptance.

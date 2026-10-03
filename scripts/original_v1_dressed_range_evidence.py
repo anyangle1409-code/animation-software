@@ -12,6 +12,7 @@ import shutil
 import subprocess
 
 from original_v1_production_control import ROOT, CAND, build, digest, ensure_finite, evidence, read
+from original_v1_locked_rig import load_locked_rig
 from original_v1_session_preflight import blender_path, power_info, process_info, repository_issues, run
 
 PLAN = "ORIGINAL_V1_DRESSED_RANGE_PLAN.json"
@@ -68,8 +69,16 @@ def validate_report(report: dict, static: dict, manifest: dict, plan: dict) -> d
         raise ValueError("candidate identity differs across range/static evidence")
     if static.get("status") != "EVIDENCE_ONLY" or static.get("phase_complete") is not False or static.get("production_approved") is not False:
         raise ValueError("static dressed evidence must remain EVIDENCE_ONLY")
-    if report.get("candidate") != manifest.get("candidate") or report.get("rig_id") != "hgpt_canonical_v4_original":
+    locked=load_locked_rig(ROOT)
+    expected_lock={"revision":locked["revision"],"rig_structure_sha256":locked["rig_structure_sha256"],
+                   "bone_count":locked["bone_count"],"deform_bone_count":locked["deform_bone_count"],
+                   "lock":locked["lock"],"payload":locked["payload"]}
+    if report.get("candidate") != manifest.get("candidate") or report.get("rig_id") != locked["identity"]:
         raise ValueError("candidate filename or rig identity differs")
+    if report.get("locked_rig") != expected_lock:
+        raise ValueError("range locked rev2c rig identity differs")
+    if static.get("locked_rig") != expected_lock:
+        raise ValueError("static dressed parent locked rev2c rig identity differs")
     expected = expected_samples(plan)
     rows = report.get("samples")
     if not isinstance(rows, list) or len(rows) != len(expected):
@@ -110,6 +119,7 @@ def validate_report(report: dict, static: dict, manifest: dict, plan: dict) -> d
         "production_approved": False,
         "candidate_revision": report.get("candidate_revision"),
         "candidate_sha256": candidate_sha,
+        "locked_rig": expected_lock,
         "path_count": len(plan["paths"]),
         "sample_count": len(rows),
         "samples_with_raw_contact_findings": findings,

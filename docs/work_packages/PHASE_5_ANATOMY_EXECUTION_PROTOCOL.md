@@ -77,7 +77,7 @@ The required artifact inventory is fixed by the machine plan:
 8. change audit;
 9. mesh/weight audit;
 10. full 15-pose merged report and source receipt;
-11. R2 comparison;
+11. active stress-pose epoch baseline comparison;
 12. direct-parent comparison;
 13. development-freeze comparison;
 14. actual required render/capture manifest;
@@ -97,7 +97,7 @@ source evidence:
 - `topology_correspondence`
 - `mesh_weight_audit`
 - `full_deformation_evidence`
-- `comparisons_r2_parent_freeze`
+- `comparisons_epoch_parent_freeze`
 - `contacts_preserved`
 - `captures_complete`
 - `lineage_complete`
@@ -151,7 +151,7 @@ Claude must still:
 - keep R2 untouched;
 - preserve frozen stress poses and thresholds;
 - use fresh numbered candidates;
-- run full evidence after meaningful changes;
+- run full evidence after meaningful changes and compare against the active epoch baseline, direct parent and recorded development-freeze candidate;
 - publish actual review images;
 - retain rejected/trade-off candidates;
 - avoid topology changes unless explicitly mapped/audited.
@@ -169,3 +169,25 @@ snapshots.
 
 Final owner visual acceptance remains a later explicit requirement for production
 promotion. Routine Phase 5 review snapshots remain non-blocking by default.
+
+## Locked rig and baseline identity
+
+Phase 5 is bound to `ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json`: `hgpt_canonical_v4_original` revision `rev2_forearm_twist_only`, 67 bones total / 66 deform bones, with the original 63-bone v4 structure retained as historical base evidence plus four forearm-twist helpers. The machine plan verifies this identity before producing or accepting region packets.
+
+Regional reports must also bind the current active stress-pose epoch baseline revision/SHA and the exact candidate SHA recorded by the verified Phase 4 completion record. A syntactically valid but unrelated freeze SHA or historical R2-only comparison is refused.
+
+## Dedicated regional real-render capture
+
+The generic 57-view milestone board is not sufficient for every Phase 5 regional check (for example wrist-specific, bilateral hand and sole views). Use the dedicated candidate-bound regional capture:
+
+```bat
+RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat <5A-5G> <rN>
+```
+
+`ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json` is machine-checked against each region's `required_views`. The Blender capture imports the frozen pose definitions read-only, uses fixed/landmark/palm-normal cameras, refuses output collisions, never saves the Blend, and publishes hash-matched actual PNGs under `review/phase5_<region>_<revision>/`.
+
+This evidence remains EXPERIMENTAL and non-blocking. It supplies required real-render coverage only; it cannot complete a region, Phase 5, or production approval.
+
+## Regional capture identity hardening
+
+Phase 5 regional review publication verifies more than filenames and PNG hashes. Every source image must be bound to the exact capture-plan camera dictionary, pose, floor/equipment state, whole-body flag, Workbench renderer, 900x900 presentation resolution, undressed state, pose-definition SHA, regional capture-script SHA and Blender version. Published review rows must preserve the source capture metadata byte-for-byte. A mislabeled or differently framed render is refused rather than treated as valid anatomy evidence.

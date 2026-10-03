@@ -9,7 +9,8 @@ class ClaudeBriefTests(unittest.TestCase):
     def test_markdown_names_actual_work_command(self):
         data={"branch":"model","source_git_commit":"a"*40,"current_phase":3,"current_subphase":"3B",
               "current_candidate":"r29","candidate_classification":"TRADE-OFF","candidate_state":"experimental",
-              "development_failure_count":7,"strict_r2_regression_count":6,
+              "development_failure_count":7,"strict_active_epoch_regression_count":6,
+              "active_epoch_baseline":{"revision":"P3B1","candidate_sha256":"b"*64},
               "next_action":{"action":"RUN r30","command":"RUN_ORIGINAL_V1_R30.bat"},
               "selected_execution_node":{"id":"3B_r30","roadmap":"Phase 3B"},
               "start_commands":["A","B"],"actual_work_command":"RUN_ORIGINAL_V1_R30.bat",
@@ -17,6 +18,9 @@ class ClaudeBriefTests(unittest.TestCase):
         text=b.markdown(data)
         self.assertIn("RUN_ORIGINAL_V1_R30.bat",text)
         self.assertIn("Before ending",text)
+        self.assertIn("strict active-epoch regressions",text)
+        self.assertIn("P3B1",text)
+        self.assertNotIn("strict R2 regressions",text)
 
 
 if __name__=="__main__":

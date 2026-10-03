@@ -123,6 +123,8 @@ def make_template(state: dict) -> dict:
             "development_failure_count": state["development_failure_count"],
             "production_failure_count": state["production_failure_count"],
             "phase_12_state": state["phases"]["12"]["state"],
+            "active_epoch_baseline": state.get("pinned_baseline"),
+            "next_action": state.get("next_action"),
         },
         "note": "INCOMPLETE template only. No gate executed, no owner decision inferred, no production state changed.",
     }
@@ -240,7 +242,7 @@ def verify_final_freeze(root: Path, packet: dict) -> list[str]:
         if state["candidate_state"] == "rejected":
             issues.append("candidate is rejected")
         if state["development_failure_count"] or state["unresolved_regressions"]:
-            issues.append("development failures or strict R2 regressions remain")
+            issues.append("development failures or unresolved strict active-epoch regressions remain")
         if state["incomplete_candidates"]:
             issues.append("newer incomplete candidate evidence remains")
         for n in range(0, 12):

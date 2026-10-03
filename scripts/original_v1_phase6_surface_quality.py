@@ -17,6 +17,9 @@ from verify_original_v1_production_promotion import safe_path
 
 JOINT_TEMPLATE = "ORIGINAL_V1_PHASE6_JOINT_SUPPORT_PLAN.json"
 HELPER = "scripts/original_v1_phase6_surface_quality.py"
+RAW_AUDIT = "scripts/audit_original_v1_surface.py"
+CHANGE_AUDIT = "scripts/audit_original_v1_changes.py"
+EVAL_CAPTURE = "scripts/capture_original_v1_surface_quality_blender.py"
 
 
 def load_ref(root: Path, path: Path, label: str) -> tuple[Path, dict]:
@@ -57,7 +60,7 @@ def evidence_refs(root: Path, refs, label: str) -> list[dict]:
 
 def validate_joint_support(root: Path, joint: dict, candidate_sha: str, raw_vertex_count: int) -> list[str]:
     issues = []
-    template = json.loads((ROOT / JOINT_TEMPLATE).read_text(encoding="utf-8"))
+    template = json.loads((root / JOINT_TEMPLATE).read_text(encoding="utf-8"))
     expected = {row["id"]: row for row in template["joints"]}
     if joint.get("schema_version") != 1 or joint.get("status") != "JOINT_SUPPORT_EVIDENCE_COMPLETE":
         issues.append("joint-support evidence identity/status differs")
@@ -83,6 +86,32 @@ def validate_joint_support(root: Path, joint: dict, candidate_sha: str, raw_vert
             issues.append(str(exc))
     return list(dict.fromkeys(issues))
 
+
+
+def producer_identity_issues(root: Path, raw: dict, evaluated: dict) -> list[str]:
+    issues = []
+    expected_raw = {RAW_AUDIT: digest(root / RAW_AUDIT), CHANGE_AUDIT: digest(root / CHANGE_AUDIT)}
+    try:
+        refs = evidence_refs(root, raw.get("source_evidence"), "raw surface producer")
+        by_path = {row["path"]: row["sha256"] for row in refs}
+        for path, sha in expected_raw.items():
+            if by_path.get(path) != sha:
+                issues.append("raw surface producer identity differs: " + path)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        issues.append("raw surface producer evidence invalid: " + str(exc))
+    capture = evaluated.get("capture_script")
+    expected_capture = {"path": EVAL_CAPTURE, "sha256": digest(root / EVAL_CAPTURE)}
+    if capture != expected_capture:
+        issues.append("evaluated surface capture-script identity differs")
+    raw_commit = raw.get("source_git_commit")
+    eval_commit = evaluated.get("source_git_commit")
+    if not re.fullmatch(r"[0-9a-f]{40}", str(raw_commit or "")):
+        issues.append("raw surface source Git commit missing/invalid")
+    if not re.fullmatch(r"[0-9a-f]{40}", str(eval_commit or "")):
+        issues.append("evaluated surface source Git commit missing/invalid")
+    if re.fullmatch(r"[0-9a-f]{40}", str(raw_commit or "")) and re.fullmatch(r"[0-9a-f]{40}", str(eval_commit or "")) and raw_commit != eval_commit:
+        issues.append("raw/evaluated surface source Git commits differ")
+    return list(dict.fromkeys(issues))
 
 def raw_surface_blockers(raw: dict) -> list[str]:
     fields = (
@@ -118,6 +147,10 @@ def verify_packet(root: Path, raw: dict, evaluated: dict, joint: dict, manifest:
         raise ValueError("raw surface report status differs")
     if evaluated.get("status") != "EVIDENCE_ONLY" or evaluated.get("phase_complete") is not False or evaluated.get("production_approved") is not False:
         raise ValueError("evaluated surface report status differs")
+
+    producer_issues = producer_identity_issues(root, raw, evaluated)
+    if producer_issues:
+        raise ValueError("surface producer identity invalid: " + "; ".join(producer_issues))
 
     blockers = raw_surface_blockers(raw)
     symmetry = raw.get("symmetry", {})
@@ -156,6 +189,12 @@ def verify_packet(root: Path, raw: dict, evaluated: dict, joint: dict, manifest:
         "phase_complete": False,
         "production_approved": False,
         "candidate_sha256": candidate,
+        "source_git_commit": raw.get("source_git_commit"),
+        "producer_identity": {
+            "raw_audit": {"path": RAW_AUDIT, "sha256": digest(root / RAW_AUDIT)},
+            "change_audit": {"path": CHANGE_AUDIT, "sha256": digest(root / CHANGE_AUDIT)},
+            "evaluated_capture": {"path": EVAL_CAPTURE, "sha256": digest(root / EVAL_CAPTURE)},
+        },
         "surface_quality_status": "BLOCKED" if blockers else "EVIDENCE_COMPLETE",
         "blockers": blockers,
         "raw_surface_summary": {

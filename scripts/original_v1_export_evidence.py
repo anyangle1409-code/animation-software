@@ -18,6 +18,22 @@ SETTINGS={'export_format':'GLB','use_selection':True,'export_apply':True,'export
 BODY='HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE'
 SHORTS='HGPT_ORIGINAL_V1_SHORTS_CANDIDATE'
 SCRIPT='scripts/export_original_v1_candidate_glb_blender.py'
+RIG_LOCK='ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json'
+RIG_PAYLOAD='ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json'
+
+
+def locked_rig(root):
+    lock_path=root/RIG_LOCK;payload_path=root/RIG_PAYLOAD
+    lock=json.loads(lock_path.read_text(encoding='utf-8-sig'));rig=lock['rig']
+    if rig.get('payload',{}).get('path')!=RIG_PAYLOAD or digest(payload_path)!=rig.get('payload',{}).get('sha256'):
+        raise ValueError('locked rev2c rig payload identity differs')
+    payload=json.loads(payload_path.read_text(encoding='utf-8-sig'))
+    if (payload.get('identity')!=rig.get('identity') or payload.get('bone_count')!=rig.get('bone_count') or
+        payload.get('rig_structure_sha256')!=rig.get('rig_structure_sha256')):
+        raise ValueError('locked rev2c rig payload contract differs')
+    return {'identity':rig['identity'],'revision':rig['revision'],'bone_count':rig['bone_count'],
+        'deform_bone_count':rig['deform_bone_count'],'rig_structure_sha256':rig['rig_structure_sha256'],
+        'lock':evidence(root,RIG_LOCK),'payload':evidence(root,RIG_PAYLOAD)}
 
 
 def local(root,path):
@@ -67,7 +83,11 @@ def record(root,p,blender_version,git_commit,script_sha,settings):
         path=root/p['output_directory']/name;bound_glb(path,p['candidate_sha256'],p['candidate_revision'],variant)
         exports[variant]={'file':name,'bytes':path.stat().st_size,'sha256':digest(path),
             'candidate_sha256':p['candidate_sha256'],'dressed':variant=='dressed'}
+    rig=locked_rig(root)
     return {'schema_version':2,'stage':'candidate review export (not production)','rig':'hgpt_canonical_v4_original',
+        'rig_revision':rig['revision'],'rig_structure_sha256':rig['rig_structure_sha256'],
+        'rig_bone_count':rig['bone_count'],'rig_deform_bone_count':rig['deform_bone_count'],
+        'rig_lock':rig['lock'],'rig_payload':rig['payload'],
         'candidate_revision':p['candidate_revision'],'candidate_sha256':p['candidate_sha256'],
         'source_candidate':p['source_candidate'],'candidate_manifest':p['candidate_manifest'],
         'output_directory':p['output_directory'],'exports':exports,'export_settings':dict(settings),
@@ -83,6 +103,11 @@ def verify(root,manifest_path):
     if (data.get('schema_version')!=2 or data.get('stage')!='candidate review export (not production)' or
         data.get('rig')!='hgpt_canonical_v4_original' or data.get('production_approved') is not False or data.get('pose_position')!='REST'):
         raise ValueError('candidate export identity/schema differs; historical exports remain unchanged')
+    locked=locked_rig(root)
+    if (data.get('rig_revision')!=locked['revision'] or data.get('rig_structure_sha256')!=locked['rig_structure_sha256'] or
+        data.get('rig_bone_count')!=locked['bone_count'] or data.get('rig_deform_bone_count')!=locked['deform_bone_count'] or
+        data.get('rig_lock')!=locked['lock'] or data.get('rig_payload')!=locked['payload']):
+        raise ValueError('candidate export is not bound to the locked rev2c rig')
     sha=data['candidate_sha256'];revision=data['candidate_revision'];names=filenames(revision)
     if not re.fullmatch('[0-9a-f]{64}',str(sha)):raise ValueError('invalid candidate SHA')
     if data.get('export_settings')!=SETTINGS or any(type(data['export_settings'][k]) is not type(v) for k,v in SETTINGS.items()):raise ValueError('export settings differ')
@@ -142,7 +167,7 @@ def main():
             if head!=start_head or head!=live:raise ValueError('local/live branch advanced during export; preserve output and reconcile')
         manifest=out/'CANDIDATE_GLB_EXPORT.json';result=verify(ROOT,manifest)
         if result['candidate_revision']!=args.revision:raise ValueError('requested export revision differs')
-        structural=audit_candidate_set(manifest,ROOT/'ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json')
+        structural=audit_candidate_set(manifest,ROOT/RIG_PAYLOAD)
         result['structural_audit']=structural
         if receipt:
             receipt.parent.mkdir(parents=True,exist_ok=True)

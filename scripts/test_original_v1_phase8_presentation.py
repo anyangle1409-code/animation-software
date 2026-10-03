@@ -1,6 +1,7 @@
 """Phase 8 numeric material/presentation verifier tests."""
 from __future__ import annotations
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -20,8 +21,20 @@ class Phase8PresentationTests(unittest.TestCase):
 
     def fixture(self,root:Path):
         sha="a"*64
+        import original_v1_locked_rig as locked
+        contract=locked.load_locked_rig()
+        lock_dst=root/contract["lock"]["path"];lock_dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(locked.ROOT/contract["lock"]["path"],lock_dst)
+        payload_dst=root/contract["payload"]["path"];payload_dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(locked.ROOT/contract["payload"]["path"],payload_dst)
+        cap=root/p.CAPTURE;cap.parent.mkdir(parents=True,exist_ok=True);cap.write_text("phase8 capture fixture",encoding="utf-8")
+        locked_local=__import__("original_v1_locked_rig").load_locked_rig(root)
         scene={"status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
                "candidate_sha256":sha,"scene_linked_libraries":[],
+               "rig_id":locked_local["identity"],
+               "locked_rig":{"revision":locked_local["revision"],"rig_structure_sha256":locked_local["rig_structure_sha256"],
+                             "bone_count":locked_local["bone_count"],"deform_bone_count":locked_local["deform_bone_count"],
+                             "lock":locked_local["lock"],"payload":locked_local["payload"]},
+               "capture_script":{"path":p.CAPTURE,"sha256":p.digest(root/p.CAPTURE)},
+               "source_git_commit":"b"*40,
                "materials":{
                    "body":[{"slot_index":0,"slot_name":"Skin","material":self.material("Skin")}],
                    "garment":[{"slot_index":0,"slot_name":"Shorts","material":self.material("Shorts")}]
@@ -53,6 +66,20 @@ class Phase8PresentationTests(unittest.TestCase):
             result=p.verify_scene(root,scene,prov,manifest)
             self.assertEqual(result["material_scene_status"],"EVIDENCE_COMPLETE")
             self.assertFalse(result["phase_complete"])
+
+    def test_stale_rig_receipt_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);scene,prov,manifest=self.fixture(root)
+            scene["locked_rig"]["bone_count"]=63
+            with self.assertRaisesRegex(ValueError,"locked rev2c rig identity differs"):
+                p.verify_scene(root,scene,prov,manifest)
+
+    def test_capture_script_drift_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);scene,prov,manifest=self.fixture(root)
+            scene["capture_script"]["sha256"]="f"*64
+            with self.assertRaisesRegex(ValueError,"capture-script identity differs"):
+                p.verify_scene(root,scene,prov,manifest)
 
     def test_image_texture_blocks(self):
         with tempfile.TemporaryDirectory() as td:

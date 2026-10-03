@@ -7,10 +7,12 @@
   "references": [],
   "rules": [
     "Only actual project-authored capture evidence may be added.",
-    "Every reference entry must use a unique immutable id and bind candidate, asset, runtime commit, capture manifest, source image and mask SHA-256 values.",
-    "owner_review=pending remains experimental and cannot be called accepted.",
+    "Every reference entry uses a unique immutable id.",
+    "Every usable entry must include owner_review=accepted; pending remains experimental and cannot be used as a quantitative production reference.",
+    "Every entry binds capture_manifest {path, sha256}, candidate_sha256, asset_sha256, runtime_commit, source_image_sha256 and mask_sha256 as a complete role-to-SHA-256 map.",
     "A replacement reference is appended as a new entry; never mutate or delete the superseded record to hide a regression.",
-    "Synthetic detector fixtures, generated images, V-series images and third-party images are prohibited."
+    "Synthetic detector fixtures, generated images, V-series images and third-party images are prohibited.",
+    "Presence of a repository file outside this inventory does not make it a reference."
   ],
   "note": "Empty by design. Presence of a file outside this inventory does not make it a visual QA reference."
 }

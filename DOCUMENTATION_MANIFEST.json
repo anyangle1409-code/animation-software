@@ -233,6 +233,34 @@
     "docs/ORIGINAL_V1_EXECUTION_ORCHESTRATION.md": {
       "category": "current_technical",
       "note": "Read-only cross-phase execution map tying prepared Stages 1-12 to the evidence-derived current roadmap node; subordinate to CURRENT_HANDOFF/master plan."
+    },
+    "docs/EXTERNAL_HUMAN_MOVEMENT_REFERENCE_POLICY.md": {
+      "category": "current_technical",
+      "note": "Current clean-room policy for using external human-movement material as reference evidence without importing third-party implementation data."
+    },
+    "docs/ORIGINAL_V1_PUSHUP_FOOT_AND_SHOULDER_REVALIDATION_20261002.md": {
+      "category": "verification",
+      "note": "Owner-triggered push-up foot/toe and shoulder revalidation evidence that led to the P3/rev2c repair path."
+    },
+    "docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md": {
+      "category": "current_technical",
+      "note": "Current first-party joint-angle-driven shoulder/axilla corrective design and runtime contract."
+    },
+    "docs/ORIGINAL_V1_SKELETON_JOINT_VALIDATION_MATRIX.md": {
+      "category": "verification",
+      "note": "Joint-by-joint skeleton validation matrix and evidence requirements."
+    },
+    "docs/ORIGINAL_V1_SKELETON_MOTION_LOCK.md": {
+      "category": "verification",
+      "note": "Recorded skeleton-motion lock and revalidation constraints; not permission to bypass later deformation gates."
+    },
+    "docs/ORIGINAL_V1_SKELETON_REFERENCE_EVIDENCE.md": {
+      "category": "supporting_reference",
+      "note": "Supporting skeleton/reference evidence used for clean-room validation; not an operational entry point."
+    },
+    "docs/SKELETON_HUMAN_MOVEMENT_AND_BONE_SUFFICIENCY_POLICY.md": {
+      "category": "current_technical",
+      "note": "Current policy for human-movement coverage and bone-sufficiency decisions on the ORIGINAL-v1 rig."
     }
   }
 }

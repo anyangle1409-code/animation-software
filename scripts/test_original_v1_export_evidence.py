@@ -9,7 +9,10 @@ import unittest
 class ExportEvidenceTests(unittest.TestCase):
     def module(self):return importlib.import_module('original_v1_export_evidence')
     def fixture(self,root):
-        c=self.module();candidate=root/'candidate_r29.blend';candidate.write_bytes(b'unit-test candidate only')
+        c=self.module()
+        for rel in (c.RIG_LOCK,c.RIG_PAYLOAD):
+            src=c.ROOT/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(src.read_bytes())
+        candidate=root/'candidate_r29.blend';candidate.write_bytes(b'unit-test candidate only')
         manifest=root/'candidate_r29.json';manifest.write_text(json.dumps({'candidate':candidate.name,'candidate_sha256':c.digest(candidate)}))
         return candidate,manifest
     def write_glb(self,path,sha,revision,dressed):
@@ -49,7 +52,7 @@ class ExportEvidenceTests(unittest.TestCase):
         c=self.module()
         with tempfile.TemporaryDirectory() as td:
             out,r=self.capture_fixture(Path(td));self.assertFalse(r['production_approved']);self.assertFalse(r['visual_review_available'])
-            self.assertEqual(r['export_settings'],c.SETTINGS);self.assertEqual(r['pose_position'],'REST')
+            self.assertEqual(r['export_settings'],c.SETTINGS);self.assertEqual(r['pose_position'],'REST');self.assertEqual(r['rig_bone_count'],67);self.assertEqual(r['rig_revision'],'rev2_forearm_twist_only')
             self.assertEqual(set(r['exports']),{'bare','dressed'})
     def test_source_changes_during_capture_are_refused(self):
         c=self.module()
@@ -103,7 +106,7 @@ class ExportEvidenceTests(unittest.TestCase):
             def __init__(self,name,kind,rig=None):
                 super().__init__();self.name=name;self.type=kind;self.rig=rig
                 self.selected=True;self.hidden=True;self.hide_viewport=True;self.hide_render=True
-                self.modifiers={};self.data=types.SimpleNamespace(bones=list(range(63)),pose_position='POSE')
+                self.modifiers={};self.data=types.SimpleNamespace(bones=[],pose_position='POSE')
             def find_armature(self):return self.rig
             def select_get(self):return self.selected
             def select_set(self,value):self.selected=value
@@ -115,7 +118,9 @@ class ExportEvidenceTests(unittest.TestCase):
             root=Path(td);source,manifest=self.fixture(root);folder=root/'scripts';folder.mkdir()
             script=folder/'export_original_v1_candidate_glb_blender.py'
             script.write_bytes((Path(__file__).parent/script.name).read_bytes())
-            rig=Object('HGPT_CANONICAL_V4_ORIGINAL','ARMATURE');body=Object(c.BODY,'MESH',rig);shorts=Object(c.SHORTS,'MESH',rig)
+            rig=Object('HGPT_CANONICAL_V4_ORIGINAL','ARMATURE')
+            rig.data.bones=list(range(c.locked_rig(root)['bone_count']))
+            body=Object(c.BODY,'MESH',rig);shorts=Object(c.SHORTS,'MESH',rig)
             unrelated=Object('UNSELECTED_TEST_FIXTURE','MESH',rig)
             mask=types.SimpleNamespace(show_viewport=False,show_render=True);body.modifiers['HGPT_DRESSED_MASK']=mask
             objects=Objects({o.name:o for o in (rig,body,shorts,unrelated)})

@@ -37,6 +37,60 @@ def revision_key(rev):
     return (int(m[1]), m[2]) if m else (-1, rev)
 
 
+def candidate_lineage(entries, current_revision):
+    """Return current->ancestor candidate rows using exact parent SHA identity.
+
+    Multiple revision labels may legitimately identify identical candidate bytes in
+    historical/synthetic evidence. They are one asset identity when their declared
+    parent SHA is consistent. Conflicting parent identities remain fail-closed.
+    """
+    if current_revision not in entries:
+        raise ValueError("current candidate missing from lineage map")
+    by_sha = {}
+    for revision, row in entries.items():
+        sha = row.get("sha256")
+        if isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha):
+            by_sha.setdefault(sha, []).append(row)
+    for sha, rows in by_sha.items():
+        parents = {row.get("parent_sha256") for row in rows if row.get("parent_sha256")}
+        if len(parents) > 1:
+            raise ValueError("identical candidate SHA has conflicting parent lineage")
+
+    chain = []
+    seen = set()
+    row = entries[current_revision]
+    while row:
+        sha = row.get("sha256")
+        if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{64}", sha):
+            raise ValueError("invalid candidate SHA in lineage")
+        if sha in seen:
+            raise ValueError("candidate lineage cycle")
+        seen.add(sha)
+        chain.append(row)
+        parent_sha = row.get("parent_sha256")
+        if not parent_sha:
+            break
+        parents = by_sha.get(parent_sha)
+        if not parents:
+            # Parent may be the non-candidate original source. Never infer a candidate
+            # ancestor from a filename or revision number when its SHA is unavailable.
+            break
+        # All rows sharing this SHA have already been proven to agree on parent SHA.
+        # Prefer the newest revision label only for deterministic reporting.
+        row = max(parents, key=lambda x: revision_key(x.get("revision", "")))
+    return chain
+
+
+def phase_checkpoint_on_lineage(entries, current_revision, checkpoint_sha):
+    if not isinstance(checkpoint_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", checkpoint_sha):
+        raise ValueError("phase completion candidate SHA invalid")
+    lineage = candidate_lineage(entries, current_revision)
+    for depth, row in enumerate(lineage):
+        if row["sha256"] == checkpoint_sha:
+            return {"revision": row["revision"], "sha256": checkpoint_sha, "depth": depth}
+    raise ValueError("phase completion candidate is not on current candidate lineage")
+
+
 def ensure_finite(value):
     if isinstance(value, float) and not math.isfinite(value): raise ValueError('non-finite evidence')
     if isinstance(value, dict):
@@ -203,7 +257,11 @@ def next_action(status, control):
     decision = control.get('continuation_decisions',{}).get(rev)
     if not decision or decision.get('candidate_sha256')!=status['last_known_candidate_sha256']:
         return {'action':'RECONCILE trial lineage','reason':'record evidence-backed continuation choice; a trade-off is not auto-promoted',
-                'command':None,'safe_parallel_task':'Read-only analysis and review collection; compare R2 and all predecessors.'}
+                'command':None,'safe_parallel_task':'Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors.'}
+    active = control.get('active_local_repair')
+    if isinstance(active,dict) and active.get('candidate_revision')==rev and active.get('candidate_sha256')==status['last_known_candidate_sha256']:
+        return {'action':active['action'],'reason':active['reason'],'command':active.get('command'),
+                'work_package':active.get('work_package'),'safe_parallel_task':active.get('safe_parallel_task')}
     phases = status['phases']
     for phase, action, package in [('3B','REPAIR hands/fingers','PHASE_3B_HANDS.md'),
                                    ('3D','REPAIR wrist','PHASE_3D_WRIST_PUSHUP.md'),
@@ -215,13 +273,23 @@ def next_action(status, control):
     if status['development_failure_count']:
         return {'action':'STOP','reason':'unmapped development blockers','command':None}
     if status['unresolved_regressions']:
-        return {'action':'RECONCILE freeze regressions','reason':'zero blockers is insufficient for strict freeze; inherited R2 regressions remain',
-                'command':None,'safe_parallel_task':'Read-only inherited-regression diagnostics; do not reopen frozen structure.'}
+        return {'action':'RECONCILE freeze regressions','reason':'zero blockers is insufficient for strict freeze; unresolved strict active-epoch regressions remain',
+                'command':None,'safe_parallel_task':'Read-only active-epoch regression diagnostics; do not reopen frozen structure.'}
     if phases['4']['state']!='complete':
         return {'action':'ENTER development freeze validation','reason':'zero blockers and no unresolved strict regressions','command':None,
                 'work_package':'docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md'}
     if phases['5']['state']!='complete':
-        return {'action':'PREPARE Phase 5 anatomy','reason':'development freeze recorded; execute region packages in order','command':None}
+        for region in ('5A','5B','5C','5D','5E','5F','5G'):
+            if phases[region]['state']!='complete':
+                return {'action':f'EXECUTE Phase {region} anatomy',
+                        'reason':'development freeze recorded; execute the next unverified anatomy region in order',
+                        'command':f'RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template {region} <fresh-template.json>',
+                        'work_package':phases[region].get('work_package'),
+                        'review_command':f'RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat {region} <candidate-rN>'}
+        return {'action':'VERIFY Phase 5 exit',
+                'reason':'all 5A-5G regional evidence records are verified; Phase 5 exit packet is still required',
+                'command':'python scripts/verify_original_v1_phase_exit.py --phase 5 --template --json-out <fresh-template.json>',
+                'work_package':'docs/work_packages/PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md'}
     for n in range(6,13):
         if phases[str(n)]['state']!='complete':
             return {'action':f'ENTER Phase {n} validation','reason':'ordered phase dependencies satisfied','command':None}
@@ -357,32 +425,122 @@ def build(root=ROOT):
     wrist=[r for r in regs if r['name']=='pushup_bottom' and r.get('region')=='hand']
     hip=[f for f in fails if f['pose'] in ('lunge','squat_bottom') and f.get('region') in ('pelvis','torso','leg')]
     phases['3']={'state':'active','reason':'Core deformation foundation still under repair.'}
-    phases['3A']={'state':'blocked' if shoulders else 'complete','reason':'Development clear; inherited R2 severity regressions remain separate.'}
+    phases['3A']={'state':'blocked' if shoulders else 'complete','reason':'Development clear; active-epoch severity regressions remain separate.'}
     phases['3B']={'state':'active' if hand or hand_reg or rev=='r29' else 'complete','reason':'Recover finger minima without losing curl_peak clearance.'}
     phases['3C']={'state':'blocked' if grip else 'complete','reason':'Bilateral equipment penetration must satisfy unchanged gates.'}
-    phases['3D']={'state':'refinement' if wrist else 'blocked' if any(f['pose']=='pushup_bottom' for f in fails) else 'complete','reason':'Local wrist-extension severity regression versus R2.'}
+    phases['3D']={'state':'refinement' if wrist else 'blocked' if any(f['pose']=='pushup_bottom' for f in fails) else 'complete','reason':'Local wrist-extension severity regression versus the active epoch baseline.'}
     phases['3E']={'state':'blocked' if hip else 'complete','reason':'Lunge pelvis/torso collapse and stretch; repair local hip transition.'}
     if not fails and not regs and all(phases[p]['state']=='complete' for p in ('3A','3B','3C','3D','3E')):
         phases['3']={'state':'complete','reason':'All development subphases clear; no unresolved strict regressions.'}
     for n in range(4,13): phases[str(n)]={'state':'not_started','reason':'Required ordered exit evidence has not been recorded.'}
-    for p in ('5A','5B','5C','5D','5E','5F','5G'):
+    phase5_order=('5A','5B','5C','5D','5E','5F','5G')
+    phase5_plan=read(root,'ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json')
+    for p in phase5_order:
         phases[p]={'state':'not_started','reason':'Regional anatomy package prepared; modelling not executed.'}
+    previous_checkpoint_depth = None
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
         if record:
             from verify_original_v1_production_promotion import safe_path
             packet_path=safe_path(root,record['evidence']['path'])
-            if record.get('candidate_sha256')!=current['sha256'] or digest(packet_path)!=record['evidence']['sha256']:
-                raise ValueError('stale phase completion record: '+str(n))
+            if digest(packet_path)!=record['evidence']['sha256']:
+                raise ValueError('stale phase completion record evidence: '+str(n))
+            checkpoint = phase_checkpoint_on_lineage(entries, rev, record.get('candidate_sha256'))
+            # Later phases must be recorded on the same or a NEWER descendant checkpoint
+            # than the preceding phase (depth 0=current; larger depth=older ancestor).
+            if previous_checkpoint_depth is not None and checkpoint['depth'] > previous_checkpoint_depth:
+                raise ValueError('phase completion checkpoint order conflicts with candidate lineage: '+str(n))
             packet=read(root,record['evidence']['path'])
             from verify_original_v1_phase_exit import verify_exit
-            exit_issues=verify_exit(root,n,packet,current['sha256'])
+            exit_issues=verify_exit(root,n,packet,checkpoint['sha256'])
             if exit_issues:raise ValueError('invalid phase exit evidence '+str(n)+': '+'; '.join(exit_issues))
-            if n==4 and (fails or regs): raise ValueError('development freeze requires zero blockers and unresolved regressions')
-            if n>4 and phases[str(n-1)]['state']!='complete': raise ValueError('phase completion bypasses dependency')
-            # This model status never grants final promotion, even if a packet claims it.
-            if n==12: raise ValueError('Phase 12 requires separate controlled promotion workflow')
-            phases[str(n)]={'state':'complete','reason':'Candidate-bound exit packet verified.','evidence':record['evidence']}
+            # If Phase 4 is being recorded on the CURRENT candidate, the current
+            # deformation state itself must still be freeze-clean. Descendants may
+            # inherit the immutable Phase 4 checkpoint only through exact SHA lineage;
+            # any new regression reopens Phase 3 independently.
+            if n==4 and checkpoint['depth']==0 and (fails or regs):
+                raise ValueError('development freeze requires zero blockers and unresolved regressions')
+            if n>4 and phases[str(n-1)]['state']!='complete':
+                raise ValueError('phase completion bypasses dependency')
+            if n==12:
+                raise ValueError('Phase 12 requires separate controlled promotion workflow')
+            phases[str(n)]={'state':'complete',
+                            'reason':'Candidate-bound phase checkpoint verified on current lineage.',
+                            'checkpoint_revision':checkpoint['revision'],
+                            'checkpoint_candidate_sha256':checkpoint['sha256'],
+                            'evidence':record['evidence']}
+            previous_checkpoint_depth = checkpoint['depth']
+
+    # Phase 5 regional receipts are evidence checkpoints, separate from the Phase 5
+    # exit record. They advance 5A->5G only when the exact verified receipt/report is
+    # on the current candidate lineage and all prior region records are present.
+    region_records=control.get('phase5_region_records',{})
+    if not isinstance(region_records,dict) or any(k not in phase5_order for k in region_records):
+        raise ValueError('invalid Phase 5 regional record map')
+    if region_records and phases['4']['state']!='complete':
+        raise ValueError('Phase 5 regional records require a verified Phase 4 checkpoint')
+    phase5_plan_obj=None
+    previous_region_depth=None
+    gap_seen=False
+    for region in phase5_order:
+        record=region_records.get(region)
+        if not record:
+            gap_seen=True
+            continue
+        if gap_seen:
+            raise ValueError('Phase 5 regional record order has a gap before '+region)
+        checkpoint=phase_checkpoint_on_lineage(entries,rev,record.get('candidate_sha256'))
+        if previous_region_depth is not None and checkpoint['depth']>previous_region_depth:
+            raise ValueError('Phase 5 regional checkpoint order conflicts with candidate lineage: '+region)
+        receipt_ref=record.get('receipt')
+        if not isinstance(receipt_ref,dict):
+            raise ValueError('Phase 5 regional receipt reference missing: '+region)
+        from verify_original_v1_production_promotion import safe_path
+        receipt_path=safe_path(root,receipt_ref.get('path',''))
+        if digest(receipt_path)!=receipt_ref.get('sha256'):
+            raise ValueError('Phase 5 regional receipt hash differs: '+region)
+        receipt=read(root,receipt_ref['path'])
+        if (receipt.get('schema_version')!=1 or receipt.get('phase')!=5 or receipt.get('region')!=region or
+            receipt.get('contract_status')!='REGION_EVIDENCE_VERIFIED' or
+            receipt.get('candidate_sha256')!=checkpoint['sha256'] or
+            receipt.get('phase_complete') is not False or receipt.get('production_approved') is not False):
+            raise ValueError('Phase 5 regional receipt identity/contract differs: '+region)
+        report_ref=receipt.get('region_report')
+        if not isinstance(report_ref,dict):
+            raise ValueError('Phase 5 regional report reference missing: '+region)
+        report_path=safe_path(root,report_ref.get('path',''))
+        if digest(report_path)!=report_ref.get('sha256'):
+            raise ValueError('Phase 5 regional report hash differs: '+region)
+        if phase5_plan_obj is None:
+            from original_v1_phase5_anatomy import load_plan,verify_region_report
+            phase5_plan_obj=load_plan(root)
+        report=read(root,report_ref['path'])
+        pin_name=pin_of(checkpoint['revision'])
+        freeze_record=(control.get('phase_completion_records',{}).get('4') or {})
+        region_issues=verify_region_report(
+            root,report,phase5_plan_obj,region,
+            expected_freeze_sha=freeze_record.get('candidate_sha256'),
+            expected_epoch_revision=pin_name,
+            expected_epoch_sha=bases[pin_name]['baseline']['candidate_sha256'])
+        if region_issues:
+            raise ValueError('invalid Phase 5 regional evidence '+region+': '+'; '.join(region_issues))
+        phases[region]={'state':'complete',
+                        'reason':'Candidate-bound regional anatomy evidence verified on current lineage.',
+                        'work_package':phase5_plan['regions'][region]['work_package'],
+                        'checkpoint_revision':checkpoint['revision'],
+                        'checkpoint_candidate_sha256':checkpoint['sha256'],
+                        'evidence':receipt_ref}
+        previous_region_depth=checkpoint['depth']
+    if phases['5']['state']=='complete' and any(phases[p]['state']!='complete' for p in phase5_order):
+        raise ValueError('Phase 5 exit record exists without all regional evidence records')
+    if phases['3']['state']=='complete' and phases['4']['state']=='complete' and phases['5']['state']!='complete':
+        for region in phase5_order:
+            if phases[region]['state']!='complete':
+                phases[region]['state']='active'
+                phases[region]['reason']='Next ordered Phase 5 anatomy region; modelling/evidence not yet verified.'
+                phases[region]['work_package']=phase5_plan['regions'][region]['work_package']
+                break
+
     refs=[evidence(root,current['evidence_location']),current['manifest'],evidence(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')]
     if current.get('full_evidence_receipt'): refs.append(current['full_evidence_receipt'])
     for c in current['comparisons'].values(): refs.append(c['evidence'])
@@ -400,7 +558,13 @@ def build(root=ROOT):
             current[kind+'_review_location']=snapshot['evidence']['path']
     status={'schema_version':1,'asset':'HomeGymPT_Male_ORIGINAL_v1','rig':'hgpt_canonical_v4_original',
         'branch':control['branch'],'current_phase':next((n for n in range(3,13) if phases[str(n)]['state']!='complete'),12),
-        'current_subphase':('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4')) if phases['4']['state']!='complete' else next((str(n) for n in range(5,13) if phases[str(n)]['state']!='complete'),'12'),
+        'current_subphase':(
+            ('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4'))
+            if phases['4']['state']!='complete' else
+            (next((p for p in phase5_order if phases[p]['state']!='complete'),'5-exit')
+             if phases['5']['state']!='complete' else
+             next((str(n) for n in range(6,13) if phases[str(n)]['state']!='complete'),'12'))
+        ),
         'current_candidate':rev,'candidate_state':current['state'],'candidate_classification':current['classification'],
         'pinned_baseline':{'revision':current['pinned_baseline_name'],'id':bases[current['pinned_baseline_name']]['baseline']['baseline_id'],'candidate_sha256':bases[current['pinned_baseline_name']]['baseline']['candidate_sha256'],'evidence':evidence(root,bases[current['pinned_baseline_name']]['file'])},
         'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],

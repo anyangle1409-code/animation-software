@@ -9,7 +9,7 @@ Author self-contained numeric skin, clothing and presentation materials. Keep
 athletic everyday anatomy legible at app distance with restrained highlights and
 colour contrast. No third-party textures/HDRIs, image-derived likeness or detail
 that conceals silhouette/contact defects. Geometry, skin weights, garment shape,
-rig/rest, poses/handles, R2 and thresholds are frozen for this package.
+rig/rest, poses/handles, the active immutable stress-pose epoch baseline, historical baseline records and thresholds are frozen for this package.
 
 Prepared numeric material/presentation tooling is documented in
 `PHASE_8_PRESENTATION_PROTOCOL.md`. It provides a strict no-image/no-HDRI material

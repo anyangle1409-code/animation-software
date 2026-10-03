@@ -10,8 +10,7 @@ This is validation, not permission to rewrite a finished model. Pin body, garmen
 candidate manifest, rig/rest, stress protocol and material/capture identities.
 Run the shared full evidence protocol and all three required production_target
 group evaluations. Require zero production failures with the committed 1 mm grip
-penetration and contact-count gates unchanged. Retain development/predecessor/R2
-comparisons; contact classification cannot suppress numerical failures.
+penetration and contact-count gates unchanged. Retain development/direct-parent/active-epoch-baseline comparisons plus immutable historical baseline lineage; contact classification cannot suppress numerical failures.
 
 Use the prepared `DRESSED_RANGE_CONTACT_PROTOCOL.md` and
 `ORIGINAL_V1_DRESSED_RANGE_PLAN.json` as the finite model-range foundation.

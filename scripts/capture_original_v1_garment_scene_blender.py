@@ -212,6 +212,13 @@ try:
             "name": rig.name,
             "library": rig.library.filepath if rig.library else None,
             "bone_count": len(rig.data.bones),
+            "deform_bone_count": sum(1 for b in rig.data.bones if b.use_deform),
+            "bones": sorted(
+                [{"name": b.name, "parent": b.parent.name if b.parent else None} for b in rig.data.bones],
+                key=lambda row: row["name"],
+            ),
+            "lock_revision": "rev2_forearm_twist_only",
+            "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
         },
         "scene_linked_libraries": sorted(lib.filepath for lib in bpy.data.libraries),
         "source_candidate_manifest": body_raw["source_candidate_manifest"],

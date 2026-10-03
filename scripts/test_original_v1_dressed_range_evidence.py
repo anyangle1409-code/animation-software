@@ -19,8 +19,14 @@ class DressedRangeEvidenceTests(unittest.TestCase):
 
     def fixture(self):
         sha = "a" * 64
+        import original_v1_locked_rig as locked
+        rig=locked.load_locked_rig()
+        lock_receipt={"revision":rig["revision"],"rig_structure_sha256":rig["rig_structure_sha256"],
+                      "bone_count":rig["bone_count"],"deform_bone_count":rig["deform_bone_count"],
+                      "lock":rig["lock"],"payload":rig["payload"]}
         manifest = {"candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.blend", "candidate_sha256": sha}
-        static = {"status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False, "candidate_sha256": sha}
+        static = {"status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False, "candidate_sha256": sha,
+                  "locked_rig":copy.deepcopy(lock_receipt)}
         plan = self.plan()
         rows = []
         for exp in r.expected_samples(plan):
@@ -43,7 +49,7 @@ class DressedRangeEvidenceTests(unittest.TestCase):
         report = {
             "status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False,
             "candidate_revision": "r30", "candidate": manifest["candidate"], "candidate_sha256": sha,
-            "rig_id": "hgpt_canonical_v4_original", "samples": rows,
+            "rig_id": rig["identity"], "locked_rig":copy.deepcopy(lock_receipt), "samples": rows,
             "classification_status": "UNCLASSIFIED", "unresolved_checks": ["per_sample_legitimate_contact_classification"],
         }
         return report, static, manifest, plan
@@ -62,6 +68,18 @@ class DressedRangeEvidenceTests(unittest.TestCase):
         self.assertEqual(result["samples_with_raw_contact_findings"], 2)
         self.assertFalse(result["classification_complete"])
         self.assertFalse(result["production_approved"])
+
+    def test_stale_range_lock_refused(self):
+        report, static, manifest, plan = self.fixture()
+        report["locked_rig"]["bone_count"] = 63
+        with self.assertRaisesRegex(ValueError, "range locked rev2c rig identity differs"):
+            r.validate_report(report, static, manifest, plan)
+
+    def test_static_parent_lock_drift_refused(self):
+        report, static, manifest, plan = self.fixture()
+        static["locked_rig"]["rig_structure_sha256"] = "f" * 64
+        with self.assertRaisesRegex(ValueError, "static dressed parent locked rev2c rig identity differs"):
+            r.validate_report(report, static, manifest, plan)
 
     def test_missing_sample_refused(self):
         report, static, manifest, plan = self.fixture(); report["samples"].pop()

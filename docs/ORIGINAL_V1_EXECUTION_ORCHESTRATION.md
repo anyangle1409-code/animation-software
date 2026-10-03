@@ -57,37 +57,41 @@ It does **not**:
 
 ## Current expected node
 
-At preparation time the expected state is:
+The runner always re-reads generated state; this prose is only a checkpoint.
+At the 2026-10-03 reconciled state the selected node is:
 
-- candidate: r29;
-- phase/subphase: 3 / 3B;
-- next action: `RUN r30`;
-- command: `RUN_ORIGINAL_V1_R30.bat`.
+- node: `3A_axilla_local`;
+- candidate: `r55`;
+- phase/subphase: Phase 3 / pre-Phase-4 residual repair;
+- next action: `RUN local axilla repair`;
+- command: `RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56`.
 
-The runner does not trust this prose. It re-reads generated state. If the existing
-next-action selector no longer agrees with the r30 orchestration entry, it stops
-rather than launching or recommending stale work.
+Use the next collision-free target label if `r56` already exists locally. If the
+selector has advanced, follow the generated state instead of this example.
 
 ## Critical path
 
-The machine map carries the execution dependency chain:
+The machine map retains the full historical execution graph so older evidence and
+recovery remain explainable, but the current selector may enter the graph at the
+node appropriate to live state. At the 2026-10-03 checkpoint it enters at
+`3A_axilla_local`, after the earlier 3B/3C/3D/3E work has already been completed.
 
-1. 3B r30 hand/finger recovery;
-2. 3C grip/thumb;
-3. 3D wrist/push-up;
-4. 3E lunge/hip;
-5. Phase 4 development freeze;
-6. Phase 5 high-detail anatomy;
-7. Phase 6 topology/surface;
-8. Phase 7 first-party clothing;
-9. Phase 8 materials/presentation;
-10. Phase 9 production deformation;
-11. Phase 10 real runtime integration;
-12. Phase 11 automated visual QA;
-13. Phase 12 final freeze eligibility;
-14. separate owner-authorised controlled release.
+From the current node the forward path is:
 
-That list is an execution path, not a new numbering scheme. The production roadmap
+1. residual local axilla repair and evidence reconciliation;
+2. Phase 4 development freeze;
+3. Phase 5 high-detail anatomy;
+4. Phase 6 topology/surface;
+5. Phase 7 first-party clothing;
+6. Phase 8 materials/presentation;
+7. Phase 9 production deformation;
+8. Phase 10 real runtime integration;
+9. Phase 11 automated visual QA;
+10. Phase 12 final freeze eligibility;
+11. separate owner-authorised controlled release.
+
+Historical nodes such as `3B_r30` remain in the machine graph; their presence is
+not permission to rerun them when live state has moved on. The production roadmap
 still ends at Phase 12.
 
 ## Prepared support mapping
@@ -113,13 +117,13 @@ phase.
 The orchestration plan names only tasks that can proceed without obscuring the
 critical path.
 
-For the current r30 node, examples include:
+For the current local-axilla node, examples include:
 
 - full milestone capture/publication for a verified candidate;
 - read-only diagnostics;
 - status/handoff regeneration.
 
-Those do not allow a failed r30 or incomplete Phase 3 to be bypassed.
+Those do not allow an unresolved local repair or incomplete Phase 3 to be bypassed.
 
 Owner review snapshots remain non-blocking by default. An owner rejection,
 protected frozen-structure change or contradictory lineage evidence still blocks
@@ -165,26 +169,25 @@ with `production_approved=false`.
 The production activation itself remains a separate, explicit, owner-authorised
 runtime-side release followed by exact-SHA release verification.
 
-## Current action remains unchanged
+## Current action
 
-This orchestration package does not supersede or delay current Blender work.
-
-The expected actual next model action remains:
+This orchestration package does not supersede live production control. At the
+2026-10-03 checkpoint the expected actual model action is:
 
 ```bat
-RUN_ORIGINAL_V1_R30.bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
 ```
 
-subject to live preflight and selector agreement.
-
+subject to live preflight/selector agreement and a collision-free target label.
+A completed pipeline still produces an EXPERIMENTAL candidate plus evidence; it
+does not automatically enter Phase 4.
 
 ## Phase 5 execution gap closure
 
 When the orchestrator eventually selects `5_anatomy`, use the prepared regional
 contract in `PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md`. It converts the existing
 5A-5G briefs into candidate-bound templates/receipts and forces each region to
-inherit from the previous verified regional candidate. This reduces future Claude
-session setup but does not alter the current r30 node.
+inherit from the previous verified regional candidate. This reduces future Claude session setup but does not alter the current local-axilla node or Phase 4 entry requirements.
 
 
 ## Session-close gate

@@ -97,6 +97,54 @@ class FinalFreezeTests(unittest.TestCase):
         }
         receipt_path, receipt_ref = self.write(root, "promotion_receipt.json", receipt)
 
+        # Synthetic but contract-real Phase 4->5 lineage used by the final-freeze verifier.
+        # This keeps the unit test aligned with the production Phase 5 ordered receipt rule.
+        phase5_plan_path, phase5_plan_ref = self.write(
+            root, "ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json",
+            {"schema_version": 1, "fixture": "final-freeze ordered anatomy chain"},
+        )
+        (root / "ORIGINAL_V1_PRODUCTION_CONTROL.json").write_text(json.dumps({
+            "phase_completion_records": {"4": {"candidate_sha256": sha}}
+        }), encoding="utf-8")
+        phase5_receipts = {}
+        previous_region_receipt_ref = None
+        for check_id, region in phase_exit.PHASE5_REGION_CHECKS:
+            region_report = {
+                "schema_version": 1,
+                "phase": 5,
+                "region": region,
+                "status": "REGION_EVIDENCE_COMPLETE",
+                "phase_complete": False,
+                "production_approved": False,
+                "candidate_sha256": sha,
+                "parent_candidate_sha256": sha,
+                "development_freeze_candidate_sha256": sha,
+                "active_epoch_baseline_revision": "P3B1",
+                "active_epoch_baseline_candidate_sha256": "9" * 64,
+                "previous_region_receipt": copy.deepcopy(previous_region_receipt_ref),
+            }
+            region_report_path, region_report_ref = self.write(
+                root, f"phase5/{region}_report.json", region_report
+            )
+            receipt = {
+                "schema_version": 1,
+                "phase": 5,
+                "region": region,
+                "contract_status": "REGION_EVIDENCE_VERIFIED",
+                "phase_complete": False,
+                "production_approved": False,
+                "issues": [],
+                "candidate_sha256": sha,
+                "region_report": region_report_ref,
+                "plan": phase5_plan_ref,
+                "source_git_commit": source_commit,
+            }
+            region_receipt_path, region_receipt_ref = self.write(
+                root, f"phase5/{region}_receipt.json", receipt
+            )
+            phase5_receipts[check_id] = region_receipt_ref
+            previous_region_receipt_ref = region_receipt_ref
+
         phase_refs = {}
         for phase in f.PHASES:
             report = {
@@ -111,7 +159,13 @@ class FinalFreezeTests(unittest.TestCase):
                 "owner_review": "accepted" if phase == "11" else "pending",
                 "blocking": False,
                 "checks": [
-                    {"id": check, "passed": True, "evidence": [raw_ref]}
+                    {
+                        "id": check,
+                        "passed": True,
+                        "evidence": [phase5_receipts[check]]
+                            if phase == "5" and check in phase5_receipts
+                            else [raw_ref],
+                    }
                     for check in phase_exit.REQUIRED_CHECKS[phase]
                 ],
             }

@@ -28,8 +28,15 @@ class RuntimeDiscoveryTests(unittest.TestCase):
             "the accepted v3 humanoid remains the live canonicalSkeleton\n",
             encoding="utf-8",
         )
+        model_rig=d.model_rig_state(d.ROOT)
         (root / "CANONICAL_V4_RUNTIME_CONTRACT.json").write_text(
-            json.dumps({"mode": "v4_active"}) + "\n", encoding="utf-8"
+            json.dumps({
+                "mode":"v4_active",
+                "rig_identity":model_rig["identity"],
+                "rig_revision":model_rig["revision"],
+                "rig_structure_sha256":model_rig["rig_structure_sha256"],
+                "bone_count":model_rig["bone_count"],
+            }) + "\n", encoding="utf-8"
         )
         skeleton = root / "src/rig/skeleton.ts"
         skeleton.parent.mkdir(parents=True, exist_ok=True)
@@ -50,9 +57,21 @@ class RuntimeDiscoveryTests(unittest.TestCase):
             )
         self.assertTrue(report["contact_semantics"]["verified"])
         self.assertTrue(report["runtime_rig"]["v4_default_confirmed"])
+        self.assertTrue(report["runtime_rig"]["rev2c_identity_confirmed"])
+        self.assertEqual(report["model_rig"]["bone_count"],67)
         self.assertFalse(report["runtime_execution_permitted"])
         self.assertFalse(report["integration_ready"])
         self.assertIn("standalone verification", report["blockers"][0])
+
+    def test_v4_active_without_rev2c_identity_stays_blocked(self):
+        contract=self.contract()
+        with tempfile.TemporaryDirectory() as temp:
+            runtime=Path(temp)
+            self.runtime_fixture(runtime,contract)
+            (runtime/"CANONICAL_V4_RUNTIME_CONTRACT.json").write_text(json.dumps({"mode":"v4_active"})+"\n",encoding="utf-8")
+            report=d.build_discovery(d.ROOT,runtime,contract,check_git=False,check_remote=False)
+        self.assertFalse(report["runtime_rig"]["rev2c_identity_confirmed"])
+        self.assertTrue(any("exact locked rev2c rig identity" in x for x in report["blockers"]))
 
     def test_v4_contract_source_mismatch_refused(self):
         contract = self.contract()

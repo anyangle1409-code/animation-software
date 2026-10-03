@@ -21,6 +21,7 @@ from original_v1_production_control import ROOT, ensure_finite
 CONTRACT = "ORIGINAL_V1_RUNTIME_DISCOVERY_CONTRACT.json"
 CONTACT_SPEC = "ORIGINAL_V1_CONTACT_SOURCE_BRIDGE.json"
 HELPER = "scripts/original_v1_runtime_discovery.py"
+MODEL_RIG_LOCK = "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json"
 
 
 def digest(path: Path) -> str:
@@ -86,7 +87,37 @@ def compare_source_bytes(model_root: Path, runtime_root: Path, paths: list[str])
     return rows
 
 
-def runtime_rig_state(runtime_root: Path) -> dict:
+def model_rig_state(model_root: Path) -> dict:
+    lock_path = model_root / MODEL_RIG_LOCK
+    if not lock_path.is_file():
+        raise ValueError("model rev2c skeleton-motion lock missing")
+    lock = json.loads(lock_path.read_text(encoding="utf-8"))
+    rig = lock.get("rig", {})
+    payload_ref = rig.get("payload", {})
+    payload_path = model_root / str(payload_ref.get("path", ""))
+    if not payload_path.is_file() or digest(payload_path) != payload_ref.get("sha256"):
+        raise ValueError("model rev2c rig payload bytes differ")
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    if (
+        payload.get("identity") != rig.get("identity")
+        or payload.get("bone_count") != rig.get("bone_count")
+        or payload.get("rig_structure_sha256") != rig.get("rig_structure_sha256")
+    ):
+        raise ValueError("model rev2c rig lock/payload identity differs")
+    return {
+        "identity": rig.get("identity"),
+        "revision": rig.get("revision"),
+        "rig_structure_sha256": rig.get("rig_structure_sha256"),
+        "bone_count": rig.get("bone_count"),
+        "deform_bone_count": rig.get("deform_bone_count"),
+        "lock_path": MODEL_RIG_LOCK,
+        "lock_sha256": digest(lock_path),
+        "payload_path": payload_ref.get("path"),
+        "payload_sha256": payload_ref.get("sha256"),
+    }
+
+
+def runtime_rig_state(runtime_root: Path, expected_model_rig: dict | None = None) -> dict:
     contract_path = runtime_root / "CANONICAL_V4_RUNTIME_CONTRACT.json"
     skeleton_path = runtime_root / "src/rig/skeleton.ts"
     if not contract_path.is_file() or not skeleton_path.is_file():
@@ -108,6 +139,17 @@ def runtime_rig_state(runtime_root: Path) -> dict:
     ))
     if mode == "v4_active" and not (imports_v4 and constructor_v4_default and canonical_uses_default):
         raise ValueError("runtime contract says v4_active but skeleton source is not v4-default")
+    declared_revision = contract.get("rig_revision")
+    declared_structure = contract.get("rig_structure_sha256")
+    declared_bone_count = contract.get("bone_count")
+    rev2c_identity_confirmed = False
+    if expected_model_rig is not None:
+        rev2c_identity_confirmed = (
+            contract.get("rig_identity") == expected_model_rig.get("identity")
+            and declared_revision == expected_model_rig.get("revision")
+            and declared_structure == expected_model_rig.get("rig_structure_sha256")
+            and declared_bone_count == expected_model_rig.get("bone_count")
+        )
     return {
         "contract_mode": mode,
         "contract_sha256": digest(contract_path),
@@ -116,6 +158,11 @@ def runtime_rig_state(runtime_root: Path) -> dict:
         "constructor_v4_default": constructor_v4_default,
         "canonical_uses_default": canonical_uses_default,
         "v4_default_confirmed": mode == "v4_active" and imports_v4 and constructor_v4_default and canonical_uses_default,
+        "declared_rig_identity": contract.get("rig_identity"),
+        "declared_rig_revision": declared_revision,
+        "declared_rig_structure_sha256": declared_structure,
+        "declared_bone_count": declared_bone_count,
+        "rev2c_identity_confirmed": rev2c_identity_confirmed,
     }
 
 
@@ -186,13 +233,19 @@ def build_discovery(
     if semantic.get("source_bridge_status") != contract["contact_bridge"]["required_semantic_result"]:
         raise ValueError("runtime contact semantics did not satisfy Stage-9 bridge")
     byte_rows = compare_source_bytes(model_root, runtime_root, contract["contact_bridge"]["source_paths"])
-    rig = runtime_rig_state(runtime_root)
+    model_rig = model_rig_state(model_root)
+    rig = runtime_rig_state(runtime_root, model_rig)
     handoff = handoff_checkpoint(runtime_root)
     ci = known_ci_snapshot(contract, runtime_state["head"])
 
     blockers = []
     if not rig["v4_default_confirmed"]:
         blockers.append("canonical v4 is not confirmed as the runtime default")
+    if not rig["rev2c_identity_confirmed"]:
+        blockers.append(
+            "runtime canonical v4 does not declare the exact locked rev2c rig identity "
+            f"({model_rig['bone_count']} bones, {model_rig['rig_structure_sha256'][:12]}...)"
+        )
     if not ci["known_green"]:
         blockers.append("standalone verification and browser smoke are not green on this exact runtime HEAD")
     blockers.extend([
@@ -210,6 +263,7 @@ def build_discovery(
         "runtime_execution_permitted": False,
         "model_checkout": model_state,
         "runtime_checkout": runtime_state,
+        "model_rig": model_rig,
         "runtime_rig": rig,
         "runtime_handoff": handoff,
         "contact_semantics": {

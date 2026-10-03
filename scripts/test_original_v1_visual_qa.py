@@ -22,6 +22,29 @@ def write_p2(path: Path, rows: list[str]) -> None:
     path.write_text(f"P2\n{w} {h}\n255\n" + " ".join(values) + "\n", encoding="ascii")
 
 
+def write_reference_inventory(root: Path, reference_path: Path, manifest: dict, *, owner_review="accepted") -> None:
+    source=manifest["source_image"]
+    masks={row["role"]:row["sha256"] for row in manifest["masks"]}
+    inventory={
+        "schema_version":1,
+        "mode":"explicit_versioned_references_only",
+        "status":"ACTIVE_REFERENCES",
+        "production_approved":False,
+        "phase_complete":False,
+        "references":[{
+            "id":"ref-v1",
+            "owner_review":owner_review,
+            "capture_manifest":{"path":reference_path.relative_to(root).as_posix(),"sha256":q.digest(reference_path)},
+            "candidate_sha256":manifest["candidate_sha256"],
+            "asset_sha256":manifest["asset_sha256"],
+            "runtime_commit":manifest["target_runtime_commit"],
+            "source_image_sha256":source["sha256"],
+            "mask_sha256":masks,
+        }],
+    }
+    (root/q.REFERENCE_INVENTORY).write_text(json.dumps(inventory),encoding="utf-8")
+
+
 class VisualQaTests(unittest.TestCase):
     def contract(self):
         return json.loads((q.ROOT / q.CONTRACT).read_text(encoding="utf-8"))
@@ -146,6 +169,43 @@ class VisualQaTests(unittest.TestCase):
             self.assertEqual(report["comparison"]["status"], "CAPTURE_MISMATCH")
             self.assertIn("capture_key", report["comparison"]["mismatched_fields"])
             self.assertEqual(report["comparison"]["per_role"], [])
+
+    def test_reference_inventory_accepts_exact_owner_accepted_reference(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            ref=self.fixture(root,"accepted",[".....",".###.",".###.",".....","....."])
+            manifest=json.loads(ref.read_text())
+            write_reference_inventory(root,ref,manifest)
+            row=q.verify_reference_inventory(root,ref,manifest)
+            self.assertEqual(row["id"],"ref-v1")
+
+    def test_reference_inventory_rejects_unlisted_reference(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            ref=self.fixture(root,"unlisted",[".....",".###.",".###.",".....","....."])
+            (root/q.REFERENCE_INVENTORY).write_text(json.dumps({
+                "schema_version":1,"mode":"explicit_versioned_references_only",
+                "production_approved":False,"phase_complete":False,"references":[]
+            }),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"not uniquely pinned"):
+                q.verify_reference_inventory(root,ref,json.loads(ref.read_text()))
+
+    def test_reference_inventory_rejects_pending_owner_review(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            ref=self.fixture(root,"pending",[".....",".###.",".###.",".....","....."])
+            manifest=json.loads(ref.read_text())
+            write_reference_inventory(root,ref,manifest,owner_review="pending")
+            with self.assertRaisesRegex(ValueError,"not owner-accepted"):
+                q.verify_reference_inventory(root,ref,manifest)
+
+    def test_invalid_capture_asset_sha_is_refused(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            man=self.fixture(root,"badsha",[".....",".###.",".###.",".....","....."])
+            data=json.loads(man.read_text());data["asset_sha256"]="short";man.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError,"asset SHA-256 invalid"):
+                q.analyse(root,man,self.contract())
 
     def test_mask_hash_drift_refused(self):
         with tempfile.TemporaryDirectory() as temp:

@@ -11,8 +11,14 @@ import original_v1_dressed_evidence as d
 class DressedEvidenceTests(unittest.TestCase):
     def fixture(self):
         sha = "a" * 64
+        import original_v1_locked_rig as locked
+        rig=locked.load_locked_rig()
+        lock_receipt={"revision":rig["revision"],"rig_structure_sha256":rig["rig_structure_sha256"],
+                      "bone_count":rig["bone_count"],"deform_bone_count":rig["deform_bone_count"],
+                      "lock":rig["lock"],"payload":rig["payload"]}
         manifest = {"candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r30.blend", "candidate_sha256": sha}
-        raw = {"status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False, "candidate_sha256": sha}
+        raw = {"status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False, "candidate_sha256": sha,
+               "locked_rig":copy.deepcopy(lock_receipt)}
         poses = []
         for pose in sorted(d.POSES):
             poses.append({
@@ -41,7 +47,7 @@ class DressedEvidenceTests(unittest.TestCase):
         report = {
             "status": "EVIDENCE_ONLY", "phase_complete": False, "production_approved": False,
             "candidate_revision": "r30", "candidate": manifest["candidate"], "candidate_sha256": sha,
-            "rig_id": "hgpt_canonical_v4_original", "poses": poses,
+            "rig_id": rig["identity"], "locked_rig":copy.deepcopy(lock_receipt), "poses": poses,
             "review": {"owner_review": "pending", "blocking": False, "files": files},
             "unresolved_checks": ["continuous_dressed_motion"],
         }
@@ -54,6 +60,18 @@ class DressedEvidenceTests(unittest.TestCase):
         self.assertFalse(result["phase_complete"])
         self.assertEqual(result["pose_count"], len(d.POSES))
         self.assertEqual(result["review_pair_count"], len(d.REVIEW_KEYS))
+
+    def test_stale_locked_rig_receipt_refused(self):
+        report, raw, manifest = self.fixture()
+        report["locked_rig"]["bone_count"] = 63
+        with self.assertRaisesRegex(ValueError, "static dressed locked rev2c rig identity differs"):
+            d.validate(report, raw, manifest)
+
+    def test_raw_pair_locked_rig_drift_refused(self):
+        report, raw, manifest = self.fixture()
+        raw["locked_rig"]["rig_structure_sha256"] = "f" * 64
+        with self.assertRaisesRegex(ValueError, "raw garment pair locked rev2c rig identity differs"):
+            d.validate(report, raw, manifest)
 
     def test_candidate_mismatch_refused(self):
         report, raw, manifest = self.fixture(); raw["candidate_sha256"] = "d" * 64

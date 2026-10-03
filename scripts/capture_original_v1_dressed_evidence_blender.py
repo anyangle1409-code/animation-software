@@ -31,6 +31,8 @@ if not REVISION.startswith("r") or not REVISION[1:].isdigit():
 OUT.mkdir(parents=True, exist_ok=False)
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from original_v1_locked_rig import load_locked_rig, blender_armature_issues
 POSE_SCRIPT = ROOT / "scripts/pose_test_original_v1_o4_candidate_blender.py"
 CAPTURE_SCRIPT = Path(__file__).resolve()
 SOURCE = Path(bpy.data.filepath)
@@ -77,10 +79,12 @@ cam = ns["cam"]
 cam_data = ns["cam_data"]
 if shorts is None or shorts.type != "MESH":
     raise SystemExit("named candidate garment required; no body fallback")
-if rig.type != "ARMATURE" or len(rig.data.bones) != 63:
-    raise SystemExit("canonical 63-bone rig required")
+locked_rig = load_locked_rig(ROOT)
+rig_issues = blender_armature_issues(rig, locked_rig)
+if rig_issues:
+    raise SystemExit("locked rev2c rig required: " + "; ".join(rig_issues))
 if body.find_armature() != rig or shorts.find_armature() != rig:
-    raise SystemExit("body and garment must be bound to the same canonical rig")
+    raise SystemExit("body and garment must be bound to the same locked rev2c rig")
 
 source_pose_report_path = pose_source_dir / "pose_test_report.json"
 source_pose_manifest_path = pose_source_dir / "render_source_manifest.json"
@@ -288,7 +292,15 @@ report = {
     "candidate_sha256": source_sha,
     "candidate_manifest": MANIFEST.name,
     "candidate_manifest_sha256": digest(MANIFEST),
-    "rig_id": "hgpt_canonical_v4_original",
+    "rig_id": locked_rig["identity"],
+    "locked_rig": {
+        "revision": locked_rig["revision"],
+        "rig_structure_sha256": locked_rig["rig_structure_sha256"],
+        "bone_count": locked_rig["bone_count"],
+        "deform_bone_count": locked_rig["deform_bone_count"],
+        "lock": locked_rig["lock"],
+        "payload": locked_rig["payload"],
+    },
     "source_pose_script": POSE_SCRIPT.relative_to(ROOT).as_posix(),
     "source_pose_script_sha256": digest(POSE_SCRIPT),
     "capture_script": CAPTURE_SCRIPT.relative_to(ROOT).as_posix(),

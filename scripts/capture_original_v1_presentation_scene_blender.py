@@ -152,7 +152,7 @@ try:
     result={
         "schema_version":1,"status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
         "candidate_sha256":body_raw["candidate_sha256"],"source_candidate":body_raw["source_candidate"],
-        "rig_id":"hgpt_canonical_v4_original","blender_version":bpy.app.version_string,
+        "rig_id":body_raw["rig_id"],"locked_rig":body_raw.get("locked_rig"),"blender_version":bpy.app.version_string,
         "materials":{"body":object_materials(body),"garment":object_materials(garment)},
         "world":world_receipt,
         "lights":[light_receipt(o) for o in sorted((x for x in scene.objects if x.type=="LIGHT"),key=lambda x:x.name)],

@@ -1,0 +1,1381 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_PHASE5_REGION_CAPTURE_PLAN",
+  "phase": 5,
+  "production_approved": false,
+  "dressed": false,
+  "resolution": [
+    900,
+    900,
+    100
+  ],
+  "renderer": "BLENDER_WORKBENCH",
+  "pose_definition": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+  "purpose": "Candidate-bound real-render coverage for Phase 5 regional anatomy review; supplements the 57-view whole-model milestone board.",
+  "regions": {
+    "5A": {
+      "captures": [
+        {
+          "id": "neutral_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              180,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_three_quarter",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "torso_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "spine_03",
+                "head"
+              ],
+              [
+                "spine_03",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.65,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "back_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "spine_02",
+                "head"
+              ],
+              [
+                "spine_02",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.68,
+            "angles": [
+              145,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "press_top",
+          "pose": "press_top",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "row",
+          "pose": "row",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "squat_bottom",
+          "pose": "squat_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "lunge",
+          "pose": "lunge",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        }
+      ]
+    },
+    "5B": {
+      "captures": [
+        {
+          "id": "neutral_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              180,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "shoulder_front_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "upperarm_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "shoulder_rear_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "upperarm_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              145,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "press_bottom",
+          "pose": "press_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "press_top",
+          "pose": "press_top",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "pullup_hang",
+          "pose": "pullup_hang",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "pullup_top",
+          "pose": "pullup_top",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        }
+      ]
+    },
+    "5C": {
+      "captures": [
+        {
+          "id": "neutral_arm_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "upperarm_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.72,
+            "angles": [
+              0,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_arm_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "upperarm_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.72,
+            "angles": [
+              180,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_arm_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "upperarm_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.72,
+            "angles": [
+              90,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "elbow_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "forearm_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.3,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "wrist_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.24,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "curl_peak",
+          "pose": "curl_peak",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "press_top",
+          "pose": "press_top",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "row",
+          "pose": "row",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "pushup_bottom",
+          "pose": "pushup_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        }
+      ]
+    },
+    "5D": {
+      "captures": [
+        {
+          "id": "palm_left",
+          "pose": "neutral",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "l",
+            "surface": "palm",
+            "oblique": false,
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.24
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": false
+        },
+        {
+          "id": "palm_right",
+          "pose": "neutral",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "r",
+            "surface": "palm",
+            "oblique": false,
+            "anchors": [
+              [
+                "hand_r",
+                "head"
+              ],
+              [
+                "hand_r",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.24
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": false
+        },
+        {
+          "id": "dorsal_left",
+          "pose": "neutral",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "l",
+            "surface": "dorsal",
+            "oblique": false,
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.24
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": false
+        },
+        {
+          "id": "dorsal_right",
+          "pose": "neutral",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "r",
+            "surface": "dorsal",
+            "oblique": false,
+            "anchors": [
+              [
+                "hand_r",
+                "head"
+              ],
+              [
+                "hand_r",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.24
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": false
+        },
+        {
+          "id": "thumb_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "thumb_02_l",
+                "head"
+              ],
+              [
+                "thumb_02_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.18,
+            "angles": [
+              40,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "curl_handle_close",
+          "pose": "curl_handle",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "l",
+            "surface": "palm",
+            "oblique": true,
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.28
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": true
+        },
+        {
+          "id": "pullup_bar_close",
+          "pose": "pullup_bar",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "l",
+            "surface": "palm",
+            "oblique": true,
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.28
+          },
+          "whole_body": false,
+          "show_floor": false,
+          "show_equipment": true
+        },
+        {
+          "id": "pushup_loaded_hand",
+          "pose": "pushup_bottom",
+          "camera": {
+            "mode": "hand_surface",
+            "side": "l",
+            "surface": "dorsal",
+            "oblique": true,
+            "anchors": [
+              [
+                "hand_l",
+                "head"
+              ],
+              [
+                "hand_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.3
+          },
+          "whole_body": false,
+          "show_floor": true,
+          "show_equipment": false
+        }
+      ]
+    },
+    "5E": {
+      "captures": [
+        {
+          "id": "neutral_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              180,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "hip_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "thigh_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.42,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "knee_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "shin_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              0,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "lunge_front",
+          "pose": "lunge",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "lunge_side",
+          "pose": "lunge",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "lunge_three_quarter",
+          "pose": "lunge",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "squat_front",
+          "pose": "squat_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "squat_side",
+          "pose": "squat_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        }
+      ]
+    },
+    "5F": {
+      "captures": [
+        {
+          "id": "neutral_foot_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "foot_l",
+                "head"
+              ],
+              [
+                "foot_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              90,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_foot_top",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "foot_l",
+                "head"
+              ],
+              [
+                "foot_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              35,
+              65
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_sole",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "foot_l",
+                "head"
+              ],
+              [
+                "foot_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              35,
+              -65
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_foot_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "foot_l",
+                "head"
+              ],
+              [
+                "foot_l",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              180,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "ankle_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "foot_l",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.28,
+            "angles": [
+              90,
+              10
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "squat_floor",
+          "pose": "squat_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "lunge_floor",
+          "pose": "lunge",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        },
+        {
+          "id": "pushup_floor",
+          "pose": "pushup_bottom",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": true
+        }
+      ]
+    },
+    "5G": {
+      "captures": [
+        {
+          "id": "neutral_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              180,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_side",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_three_quarter_front",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "neutral_three_quarter_rear",
+          "pose": "neutral",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              0.91
+            ],
+            "orthographic_scale": 2.15,
+            "angles": [
+              145,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "face_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "head",
+                "head"
+              ],
+              [
+                "head",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.42,
+            "angles": [
+              0,
+              5
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "ear_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "head",
+                "head"
+              ],
+              [
+                "head",
+                "tail"
+              ]
+            ],
+            "orthographic_scale": 0.34,
+            "angles": [
+              90,
+              5
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "neck_close",
+          "pose": "neutral",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "neck",
+                "head"
+              ],
+              [
+                "head",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.36,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        },
+        {
+          "id": "press_top_rhythm",
+          "pose": "press_top_rhythm",
+          "camera": {
+            "mode": "fixed",
+            "centre": [
+              0,
+              0,
+              1
+            ],
+            "orthographic_scale": 2.65,
+            "angles": [
+              35,
+              12
+            ]
+          },
+          "whole_body": true,
+          "show_floor": false
+        },
+        {
+          "id": "row_neck",
+          "pose": "row",
+          "camera": {
+            "mode": "anchors",
+            "anchors": [
+              [
+                "neck",
+                "head"
+              ],
+              [
+                "head",
+                "head"
+              ]
+            ],
+            "orthographic_scale": 0.42,
+            "angles": [
+              35,
+              15
+            ]
+          },
+          "whole_body": false,
+          "show_floor": false
+        }
+      ]
+    }
+  },
+  "rules": [
+    "Capture IDs must exactly equal the region required_views in ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json.",
+    "Pose definitions are imported read-only from the frozen project pose script; no pose is changed for presentation.",
+    "Whole-body fixed cameras fail if evaluated body geometry would be cropped.",
+    "Close-up cameras use project-owned rig landmarks or project-owned palm normals.",
+    "Published review images remain EXPERIMENTAL with owner_review pending unless explicitly recorded otherwise.",
+    "This capture plan never marks a region, Phase 5, or production complete."
+  ]
+}

@@ -12,35 +12,60 @@ Read in order:
 
 ## Current exact laptop sequence
 
+Always re-read live HEAD first. Then:
+
 ```bat
 RUN_ORIGINAL_V1_SESSION_PREFLIGHT.bat
 RUN_ORIGINAL_V1_NEXT.bat
 RUN_ORIGINAL_V1_EXECUTION_PLAN.bat
-RUN_ORIGINAL_V1_R30.bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
 ```
 
-Preflight/NEXT are read-only and print the task; NEXT does not silently launch
-Blender. Run r30 only if preflight says SAFE TO START and selector says RUN r30.
-If files already exist, inspect partial/new work; never delete it to obtain green.
-Connect AC for the long solve/evidence run. Battery/runtime information may be
-unknown; preflight never invents availability or completion time.
+If you do not know whether `r56` or another target label already exists locally,
+use the collision-safe wrapper instead:
 
-After r30 completes:
-- Read full_r30 trial summary and R2/r29/r28 comparisons; trade-off is experimental.
-- Run `RUN_ORIGINAL_V1_REMAINING_DIAGNOSTICS.bat r30` read-only if r30 is the
-  verified diagnostic candidate. If rejected, diagnose the previous valid candidate.
-- Collect real review images using source manifests. Record owner_review pending;
-  publish and continue safe work. Do not wait for routine visual approval.
-- Commit/push candidate manifests, reports, comparison/solution evidence and
-  review folders. Re-read live branch before publishing; no force push.
-- Run `python scripts/build_original_v1_daily_status.py`, then `--check`.
-  Update O4 handoff and the ledger/dashboard in the same checkpoint.
-- Record chosen experimental continuation under
-  `ORIGINAL_V1_PRODUCTION_CONTROL.json:continuation_decisions`, keyed by revision
-  with candidate_sha256, reason, comparison evidence references and chosen parent.
-  This records worker execution lineage, not owner acceptance or baseline promotion.
-- Run selector again: wrist → grip/thumb → lunge. If frozen rig/pose change is
-  needed, record the defect and continue independent safe diagnostics/doc tasks.
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r55
+```
+
+It scans actual local candidate/evidence paths, treats partial work as reserving its
+revision, selects one number above the highest observed `rN`, and then calls the
+same guarded pipeline. It is only a label allocator; it does not alter model state,
+accept evidence or bypass any child-stage collision check.
+
+Use the AUTO wrapper when the next collision-free target is uncertain; otherwise the explicit r55→r56 command remains valid while r56 is unused.
+Preflight/NEXT/orchestration are read-only; they must agree that the active action
+is `RUN local axilla repair` before executing the pipeline. If generated status
+has advanced, follow it instead of this embedded example.
+
+The pipeline is fail-closed and preserves every completed child stage. It performs
+the pre-edit pit declaration, one-dump numeric trial sweep, incremental apply and
+full candidate validation/review. It never accepts the candidate, enters Phase 4,
+changes a baseline or marks production approved.
+
+After the local pipeline completes:
+
+- inspect the new candidate's full comparison versus its active epoch baseline
+  (currently P3B1) and versus r55;
+- inspect the declared-face post-edit arc audit and real review renders;
+- preserve a trade-off/rejected result rather than overwriting it;
+- regenerate status/dashboard/ledger and record any evidence-backed continuation
+  decision against the exact candidate SHA. Use the read-only verifier rather than
+  hand-editing the decision blindly:
+  `python scripts/verify_original_v1_continuation_decision.py --template --revision <candidate-rN> --parent r55 --disposition ORIGINAL_V1_WORK/candidates/repair_checks/axilla_<candidate-rN>/post_validation_disposition.json --json-out <fresh-decision-template.json>`;
+  after real-render review, fill only the explicit visual disposition/reason/time fields
+  and verify it with
+  `python scripts/verify_original_v1_continuation_decision.py <decision.json> --json-out <fresh-receipt.json>`.
+  A verified receipt only produces a proposed production-control fragment; it does not
+  edit shared state, authorize Phase 4, promote a baseline or approve production;
+- rerun NEXT/orchestration;
+- only when production control selects `ENTER development freeze validation`,
+  run `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat` and the Phase 4 work package.
+
+The locked rig is rev2c / `rev2_forearm_twist_only`: 67 bones total, 66 deform,
+with the historical 63-bone v4 structure plus four forearm-twist helpers. Do not
+reopen that rig, P3 pose construction, thresholds or epoch baselines merely to
+clear the remaining axilla defect.
 
 ## State and historical evidence
 
@@ -94,6 +119,14 @@ reports from different script versions or candidates.
 fixture runs proving a valid seven-failure / six-regression result remains recorded,
 invalid metrics stop processing, and partial-candidate state remains deterministic.
 Windows batch execution and actual Blender renders still require the laptop.
+
+## Historical r29/r30 recovery reference
+
+The material below documents earlier r29/r30 interruption/recovery and repository
+preparation. It remains useful for understanding evidence lineage, but its embedded
+`r29`, `r30`, `RUN_ORIGINAL_V1_R30.bat` and R2-only “current task” wording is
+**historical**. It must never supersede live generated status, production control,
+the orchestration selector or the current O4 handoff.
 
 ### Inspect an already-created candidate after an interruption
 
@@ -152,8 +185,7 @@ Read `docs/ORIGINAL_V1_PHASE_EXIT_EVIDENCE.md` before recording Phase 4–11 COM
 Use INCOMPLETE templates, execute every named domain test, attach exact source
 references, verify the actual report, then update phase_completion_records. A bare
 PASS object is now refused. Phase 4 has an execution package and a metrics-only
-independent replay utility. Neither makes r29 freeze-eligible; its current seven
-blockers and strict regressions remain visible. Review snapshots stay non-blocking.
+independent replay utility. Neither makes any candidate freeze-eligible by itself; Phase 4 requires the current candidate to satisfy the live zero-blocker/strict-regression and evidence contracts. Review snapshots stay non-blocking.
 
 For future Phase 12 preparation, create an INCOMPLETE packet with
 `python scripts/verify_original_v1_production_promotion.py --template --json-out <fresh packet.json>`.
@@ -175,8 +207,8 @@ brief output paths must be unused. Preserve conflicting/partial evidence on STOP
 Stage 2 adds `python scripts/prepare_original_v1_repair_policy.py <3C|3D|3E>
 --out-dir <fresh repository folder>` (one line). The prepared r29 examples live in
 `ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3C_stage2/` and corresponding
-3D/3E folders. They are INCOMPLETE drafts, not permission to bypass r30. Generate
-a new packet for the actual continuation candidate after hand recovery. Read its
+3D/3E folders. They are INCOMPLETE historical drafts, not permission to bypass the live production-control action. Generate
+a new packet only for the actual machine-selected continuation candidate. Read its
 README, preserve the original drafts and record a local intent before editing.
 
 Stage 3 prepares Phase 6–11 packages under `docs/work_packages/`, with shared
@@ -194,20 +226,20 @@ until real snapshots and the remaining domain checks exist.
 
 Optional source-bound candidate export evidence: follow
 `work_packages/CANDIDATE_EXPORT_PROTOCOL.md` and
-`RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede RUN r30 or
+`RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede the live production-control/orchestration action or
 validate production/runtime motion. Actual laptop capture remains required.
 
 Raw garment/body snapshot evidence is prepared in
 `work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`. Existing snapshot command defaults
 to the body; optional --garment captures the owned shorts. This does not measure
-posed clothing clearance or supersede RUN r30.
+posed clothing clearance or supersede the live production-control next action.
 
 
 Static evaluated clothing evidence is now prepared in
 `work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md` and
 `RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat`. It requires a same-candidate Stage 6
 raw pair receipt and produces EVIDENCE_ONLY static clearance/intersection metrics
-plus matched bare/dressed review pairs. It does not supersede RUN r30, classify
+plus matched bare/dressed review pairs. It does not supersede the live production-control/orchestration action, classify
 legitimate contact, prove continuous dressed motion or complete Phase 7.
 
 
@@ -217,7 +249,7 @@ Stage 8 sampled dressed range/contact tooling is prepared in
 static dressed evidence file. The default contact-classification template leaves
 all real findings UNCLASSIFIED and cannot grant a PASS. The sampler deliberately
 omits unsupported continuous push-up and moving-equipment paths rather than
-inventing them. It does not supersede RUN r30 or prove runtime biomechanics.
+inventing them. It does not supersede the live production-control/orchestration action or prove runtime biomechanics.
 
 
 Stage 9 first-party contact source bridging is prepared in
@@ -227,7 +259,7 @@ and SHA-256 evidence for push-up floor locks, hand-driven curl dumbbells and the
 fixed pull-up rack/socket contact model. It does not run the solver, does not add
 Blender poses and does not declare this model branch to be the live runtime. Use
 it later as a fail-closed comparison contract when Phase 10 discovers the actual
-standalone runtime commit. It does not supersede RUN r30.
+standalone runtime commit. It does not supersede the live production-control next action.
 
 
 Stage 10 live-runtime discovery/harness preparation is available through
@@ -239,7 +271,7 @@ and records SHA-256 source comparisons without editing the runtime. The prepared
 runtime evidence JSON is an INCOMPLETE TEMPLATE only. The current discovered
 runtime HEAD e3a7d915... is not green because focused skeleton parity fails at a
 0.02 m root/root-tail delta; do not use it as integration proof. This does not
-supersede RUN r30.
+supersede the live production-control next action.
 
 
 Stage 11 deterministic visual QA preparation is available through
@@ -249,7 +281,7 @@ crop/visibility/component/symmetry and matched silhouette measurements. Capture
 setting differences are reported as CAPTURE_MISMATCH rather than model regression,
 and unsupported checks remain UNKNOWN. The explicit reference inventory is empty
 until real project-authored Phase 10-bound captures exist. Synthetic detector
-fixtures are never model evidence. This does not supersede RUN r30.
+fixtures are never model evidence. This does not supersede the live production-control next action.
 
 
 Stage 12 final production-freeze preparation is available through
@@ -260,7 +292,7 @@ freeze verifier additionally rechecks Phase 4-11 exit reports, exact bare/dresse
 assets, Phase 9 model commit, Phase 10/11 runtime commit and a separate explicit
 `OWNER AUTHORISED PRODUCTION FREEZE` record. Even successful eligibility keeps
 `production_approved=false`; actual release is a separate controlled runtime-side
-operation. Current r29 cannot pass and this does not supersede RUN r30.
+operation. No current candidate can bypass its required phase prerequisites; this does not supersede the live production-control next action.
 
 
 ## Post-preparation orchestration
@@ -271,7 +303,7 @@ is read-only and should be rerun after each meaningful candidate/phase transitio
 It validates the prepared support artifacts and prints one current critical-path
 node plus relevant support/parallel-safe work. It never launches Blender or
 advances a phase. This is execution navigation only; the roadmap still ends at
-Phase 12. Current expected model action remains RUN r30.
+Phase 12. Current expected model action is determined by live production control; at the 2026-10-03 checkpoint it is the r55 local axilla pipeline.
 
 
 ### Phase 5 anatomy gap-closure tooling
@@ -282,7 +314,7 @@ Once Phase 4 is genuinely frozen, use
 permitted/protected scope, focused poses, required real views and evidence slots.
 5B-5G require a verified predecessor-region receipt whose candidate is the direct
 parent. Templates are INCOMPLETE only; actual Blender anatomy and real review
-evidence are still required. Current work remains Phase 3/r30.
+evidence are still required. Current work remains Phase 3 until live production control advances it; at the 2026-10-03 checkpoint this is the r55 local axilla repair.
 
 
 ### Phase 6 advanced surface gap-closure tooling
@@ -293,7 +325,7 @@ After Phase 5 is actually complete, follow
 `RUN_ORIGINAL_V1_PHASE6_SURFACE.bat <rN> <joint-support.json> <fresh-output-dir>`.
 It runs raw surface audit, evaluated normal capture, exact BVH self-intersection
 capture and joint-support contract verification without saving/repairing Blender.
-Current r29/Phase 3 is not eligible.
+Phase 4/5 eligibility is derived from the current candidate and live completion records; historical r29 is not an execution target.
 
 
 ### Phase 7 garment scene/provenance gap closure
@@ -304,7 +336,7 @@ from `ORIGINAL_V1_PHASE7_GARMENT_AUTHORING_TEMPLATE.json`, then use
 It captures modifier properties, shape keys/drivers, custom-normal state, groups,
 attributes, libraries and material/image references and verifies the operation
 chain. Dressed motion/contact evidence still comes from the existing Stage 7/8
-tools. Current work remains Phase 3/r30.
+tools. Current work remains Phase 3 until live production control advances it; at the 2026-10-03 checkpoint this is the r55 local axilla repair.
 
 
 ### Phase 8 material/presentation gap closure
@@ -315,7 +347,7 @@ After Phase 7 completes, fill the actual owned numeric material record from
 Use `ORIGINAL_V1_PHASE8_PRESENTATION_CAPTURE_PLAN.json` for the required real
 bare/dressed app-distance and close-up review renders. Image textures/HDRIs and
 linked material resources are rejected by the prepared verifier. Readability is
-still a real review, not an automated PASS. Current work remains Phase 3/r30.
+still a real review, not an automated PASS. Current work remains Phase 3 until live production control advances it; at the 2026-10-03 checkpoint this is the r55 local axilla repair.
 
 
 ### First-party visual-QA mask capture

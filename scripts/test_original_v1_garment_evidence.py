@@ -3,6 +3,7 @@ import copy
 import importlib
 import json
 from pathlib import Path
+import shutil
 import tempfile
 from types import SimpleNamespace as NS
 import unittest
@@ -14,7 +15,27 @@ class GarmentEvidenceTests(unittest.TestCase):
         return importlib.import_module('original_v1_garment_evidence')
     def pair(self):
         from test_original_v1_change_audit import AuditTests
+        import original_v1_locked_rig as locked
+        contract=locked.load_locked_rig()
         b=AuditTests().snapshot();g=copy.deepcopy(b)
+        matrix=[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
+        rest=[]
+        deform=[]
+        for i,row in enumerate(contract["bones"]):
+            use_deform=i!=0
+            rest.append({"name":row["name"],"parent":row["parent"],"head":[0,0,0],"tail":[0,0,1],
+                         "matrix":matrix,"use_deform":use_deform})
+            if use_deform:deform.append(row["name"])
+        for snapshot in (b,g):
+            snapshot["rig_id"]=contract["identity"]
+            snapshot["rig_rest_bones"]=copy.deepcopy(rest)
+            snapshot["bone_names"]=sorted(deform)
+            snapshot["rig_matrix_world"]=copy.deepcopy(matrix)
+            snapshot["mesh_matrix_world"]=copy.deepcopy(matrix)
+            snapshot["left_x_sign"]=-1
+            snapshot["locked_rig"]={"revision":contract["revision"],"rig_structure_sha256":contract["rig_structure_sha256"],
+                                     "bone_count":contract["bone_count"],"deform_bone_count":contract["deform_bone_count"],
+                                     "lock":contract["lock"],"payload":contract["payload"]}
         for s,name,scope in ((b,'HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE','body'),(g,'HGPT_ORIGINAL_V1_SHORTS_CANDIDATE','garment')):
             s.update(mesh_object=name,snapshot_scope=scope,source_candidate='candidate_r29.blend',snapshot_script_sha256='c'*64,snapshot_helper_sha256='d'*64,modifiers=[],non_deform_group_weights={},blender_version='5.0')
         g['regions']=['garment']*len(g['vertices']);return b,g
@@ -65,6 +86,10 @@ class GarmentEvidenceTests(unittest.TestCase):
         c=self.module()
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);b,g=self.pair()
+            import original_v1_locked_rig as locked
+            contract=locked.load_locked_rig()
+            for rel in (contract["lock"]["path"],contract["payload"]["path"]):
+                src=locked.ROOT/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
             for name in (c.SCRIPT,c.HELPER,'scripts/audit_original_v1_changes.py'):
                 path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text('test fixture')
             manifest=root/'candidate_r29.json';manifest.write_text(json.dumps({'candidate':b['source_candidate'],'candidate_sha256':b['candidate_sha256']}))
@@ -86,15 +111,36 @@ class GarmentEvidenceTests(unittest.TestCase):
         matrix=[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
         class Bones(list):
             def __getitem__(self,key):return next(b for b in self if b.name==key) if isinstance(key,str) else super().__getitem__(key)
-        bones=Bones([NS(name='upperarm_l' if i==0 else 'bone'+str(i),parent=None,head_local=NS(x=-1),tail_local=[0,0,1],matrix_local=matrix,use_deform=True) for i in range(63)])
-        for bone in bones:bone.head_local=Vec([-1,0,0])
-        rig=NS(type='ARMATURE',data=NS(bones=bones),matrix_world=matrix)
+        import original_v1_locked_rig as locked
+        contract=locked.load_locked_rig()
+        by_name={}
+        for i,row in enumerate(contract["bones"]):
+            by_name[row["name"]]=NS(name=row["name"],parent=None,head_local=Vec([-1,0,0]),
+                                    tail_local=[0,0,1],matrix_local=matrix,use_deform=(i!=0))
+        for row in contract["bones"]:
+            if row["parent"] is not None:by_name[row["name"]].parent=by_name[row["parent"]]
+        bones=Bones([by_name[row["name"]] for row in contract["bones"]])
+        rig=NS(name=contract["object_name"],type='ARMATURE',data=NS(bones=bones),matrix_world=matrix)
         def mesh(name):
             return NS(name=name,type='MESH',find_armature=lambda:rig,matrix_world=matrix,modifiers=[],vertex_groups=[NS(index=0,name='upperarm_l'),NS(index=1,name='covered')],data=NS(vertices=[NS(co=[-.1,0,0],groups=[NS(group=0,weight=.8),NS(group=1,weight=.5)]),NS(co=[.1,0,0],groups=[NS(group=0,weight=1)])],polygons=[NS(vertices=[0,1,0])],attributes={'hgpt_region':NS(data=[NS(value=0),NS(value=0)])}))
         body=mesh('HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE');shorts=mesh('HGPT_ORIGINAL_V1_SHORTS_CANDIDATE')
         scene=Scene(hgpt_not_production=True,hgpt_region_names='["torso"]');scene.unit_settings=NS(scale_length=1)
         bpy=NS(data=NS(filepath=str(source),objects={'HGPT_CANONICAL_V4_ORIGINAL':rig,body.name:body,shorts.name:shorts}),context=NS(scene=scene),app=NS(version_string='5.0'))
         return bpy,body,shorts
+    def test_stale_63_bone_snapshot_is_refused_by_current_lock(self):
+        c=self.module();b,g=self.pair()
+        import original_v1_locked_rig as locked
+        contract=locked.load_locked_rig()
+        b["rig_rest_bones"]=b["rig_rest_bones"][:63]
+        b["bone_names"]=[r["name"] for r in b["rig_rest_bones"] if r["use_deform"]]
+        issues=c.snapshot_locked_rig_issues(b,contract)
+        self.assertTrue(any("hierarchy differs" in x or "deform count differs" in x for x in issues))
+
+    def test_current_rev2c_snapshot_matches_shared_lock(self):
+        c=self.module();b,g=self.pair()
+        import original_v1_locked_rig as locked
+        self.assertEqual(c.snapshot_locked_rig_issues(b,locked.load_locked_rig()),[])
+
     def test_capture_selects_named_garment_and_keeps_raw_non_deform_groups(self):
         c=self.module()
         with tempfile.TemporaryDirectory() as temp:

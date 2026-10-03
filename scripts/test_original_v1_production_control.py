@@ -22,6 +22,52 @@ class ControlTests(unittest.TestCase):
         self.assertRegex(rev, r'^r\d+$')
         return rev, 'r%d' % (int(rev[1:]) + 1)
 
+    def test_phase_checkpoint_can_be_inherited_by_direct_descendant(self):
+        c=self.module()
+        a={"revision":"r100","sha256":"a"*64,"parent_sha256":None}
+        b={"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64}
+        info=c.phase_checkpoint_on_lineage({"r100":a,"r101":b},"r101","a"*64)
+        self.assertEqual(info,{"revision":"r100","sha256":"a"*64,"depth":1})
+
+    def test_phase_checkpoint_divergent_candidate_is_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":None},
+            "r101":{"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64},
+            "r102":{"revision":"r102","sha256":"c"*64,"parent_sha256":"d"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"not on current candidate lineage"):
+            c.phase_checkpoint_on_lineage(entries,"r102","a"*64)
+
+    def test_duplicate_revision_labels_for_identical_bytes_are_allowed_when_parent_agrees(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r99":{"revision":"r99","sha256":"b"*64,"parent_sha256":None},
+        }
+        info=c.phase_checkpoint_on_lineage(entries,"r101","b"*64)
+        self.assertEqual(info["sha256"],"b"*64)
+        self.assertEqual(info["depth"],1)
+
+    def test_duplicate_candidate_bytes_with_conflicting_parent_lineage_are_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"a"*64,"parent_sha256":"c"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"conflicting parent lineage"):
+            c.candidate_lineage(entries,"r101")
+
+    def test_phase_checkpoint_cycle_is_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"b"*64,"parent_sha256":"a"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"lineage cycle"):
+            c.phase_checkpoint_on_lineage(entries,"r101","c"*64)
+
     def test_live_evidence_preserves_tradeoff_and_baseline(self):
         c = self.module()
         status, ledger = c.build(ROOT)
@@ -126,6 +172,18 @@ class ControlTests(unittest.TestCase):
         control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
         control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
         self.assertEqual(c.next_action(status,control)['action'],'RECONCILE freeze regressions')
+
+    def test_candidate_bound_local_repair_precedes_freeze_reconciliation(self):
+        c=self.module();status,_=c.build(ROOT)
+        control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        active=control['active_local_repair']
+        self.assertEqual(status['current_candidate'],active['candidate_revision'])
+        self.assertEqual(status['last_known_candidate_sha256'],active['candidate_sha256'])
+        action=c.next_action(status,control)
+        self.assertEqual(action['action'],active['action'])
+        self.assertEqual(action['command'],active['command'])
+        self.assertEqual(action['work_package'],active['work_package'])
+
 
     def test_frozen_stress_pose_drift_is_refused(self):
         c=self.module();root=self.fixture()

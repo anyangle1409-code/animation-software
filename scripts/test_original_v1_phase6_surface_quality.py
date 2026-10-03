@@ -19,6 +19,10 @@ class Phase6SurfaceQualityTests(unittest.TestCase):
 
     def fixture(self, root: Path):
         sha="a"*64
+        joint_template=self.template()
+        (root/s.JOINT_TEMPLATE).write_text(json.dumps(joint_template),encoding="utf-8")
+        for rel in (s.RAW_AUDIT,s.CHANGE_AUDIT,s.EVAL_CAPTURE):
+            p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text("fixture "+rel,encoding="utf-8")
         raw={
             "status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
             "candidate_sha256":sha,"vertex_count":100,"face_count":200,
@@ -26,19 +30,26 @@ class Phase6SurfaceQualityTests(unittest.TestCase):
             "nonmanifold_vertex_ids":[],"isolated_vertex_ids":[],"repeated_vertex_face_ids":[],
             "duplicate_face_groups":[],"exact_zero_area_face_ids":[],"near_degenerate_face_ids":[],
             "zero_area_fan_face_ids":[],"coincident_coordinate_groups":[],
-            "symmetry":{"full_vertex_coverage":True,"unmatched_face_ids":[]}
+            "symmetry":{"full_vertex_coverage":True,"unmatched_face_ids":[]},
+            "source_git_commit":"b"*40,
+            "source_evidence":[
+                {"path":s.RAW_AUDIT,"sha256":s.digest(root/s.RAW_AUDIT)},
+                {"path":s.CHANGE_AUDIT,"sha256":s.digest(root/s.CHANGE_AUDIT)}
+            ]
         }
         evaluated={
             "status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
             "candidate_sha256":sha,
             "evaluated":{"vertex_count":100,"face_count":200},
             "normals":{"custom_normals_state":False,"invalid_polygon_normal_ids":[],"invalid_vertex_normal_ids":[]},
-            "self_intersection":{"intersecting_face_pair_count":0,"intersecting_face_pairs":[]}
+            "self_intersection":{"intersecting_face_pair_count":0,"intersecting_face_pairs":[]},
+            "capture_script":{"path":s.EVAL_CAPTURE,"sha256":s.digest(root/s.EVAL_CAPTURE)},
+            "source_git_commit":"b"*40
         }
         e=root/"joint_evidence.txt";e.write_text("synthetic joint evidence",encoding="utf-8");eref=self.ref(root,e)
         joint={"schema_version":1,"status":"JOINT_SUPPORT_EVIDENCE_COMPLETE","phase_complete":False,
                "production_approved":False,"candidate_sha256":sha,"joints":[]}
-        for i,row in enumerate(self.template()["joints"]):
+        for i,row in enumerate(joint_template["joints"]):
             joint["joints"].append({"id":row["id"],"support_vertex_ids":[i],"loaded_poses":row["loaded_poses"],"evidence":[eref]})
         manifest={"candidate_sha256":sha}
         return raw,evaluated,joint,manifest
@@ -50,6 +61,20 @@ class Phase6SurfaceQualityTests(unittest.TestCase):
             self.assertEqual(result["surface_quality_status"],"EVIDENCE_COMPLETE")
             self.assertEqual(result["blockers"],[])
             self.assertFalse(result["phase_complete"])
+
+    def test_changed_surface_producer_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);raw,ev,joint,manifest=self.fixture(root)
+            (root/s.RAW_AUDIT).write_text("changed",encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"producer identity"):
+                s.verify_packet(root,raw,ev,joint,manifest)
+
+    def test_mixed_source_commits_are_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);raw,ev,joint,manifest=self.fixture(root)
+            ev["source_git_commit"]="c"*40
+            with self.assertRaisesRegex(ValueError,"source Git commits differ"):
+                s.verify_packet(root,raw,ev,joint,manifest)
 
     def test_self_intersection_blocks(self):
         with tempfile.TemporaryDirectory() as td:

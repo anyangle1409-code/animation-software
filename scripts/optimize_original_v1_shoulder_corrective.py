@@ -40,6 +40,7 @@ def main():
     ap.add_argument("--theta0", type=float, default=40.0)
     ap.add_argument("--theta1", type=float, default=150.0)
     ap.add_argument("--declare-mask")
+    ap.add_argument("--mask-file", help="restrict solve to left_owned_vertex_ids from an existing pre-edit declaration")
     ap.add_argument("--radius", type=float, default=0.30)
     ap.add_argument("--hi", type=float, default=3.2)
     ap.add_argument("--lo", type=float, default=0.30)
@@ -50,9 +51,11 @@ def main():
     ap.add_argument("--trunk-a1", type=float, default=0.20)
     ap.add_argument("--trunk-rb", type=float, default=0.18)
     ap.add_argument("--w-fold", type=float, default=0.0, help="dihedral fold barrier (cos below min(0.2, current-0.05) is penalised)")
+    ap.add_argument("--w-area", type=float, default=0.0, help="signed face-area/orientation barrier for mask triangles; disabled by default")
+    ap.add_argument("--area-min", type=float, default=0.20, help="minimum signed projected double-area ratio versus the uncorrected pose")
     ap.add_argument("--w-prox", type=float, default=0.0, help="no-new-contact barrier between non-neighbouring mask vertices (sheets must not close below min(base distance, --prox-d))")
     ap.add_argument("--prox-d", type=float, default=0.012)
-    ap.add_argument("--w-area", type=float, default=0.0, help="face-area floor: triangles touching the mask whose posed/rest area ratio is below --area-floor are penalised (collapse / sliver)")
+    ap.add_argument("--w-area-rest", type=float, default=0.0, help="rest-relative face-area floor: triangles touching the mask whose posed/rest area ratio is below --area-floor are penalised (collapse / sliver). (Before the merge with the signed-area barrier this option was called --w-area.)")
     ap.add_argument("--area-floor", type=float, default=0.2)
     ap.add_argument("--w-lap", type=float, default=0.0, help="surface roughness barrier: |v - mean(neighbours)| / mean edge length of a mask vertex may exceed its rest value by at most --lap-tol")
     ap.add_argument("--lap-tol", type=float, default=0.35)
@@ -63,6 +66,7 @@ def main():
     ap.add_argument("--w-mag", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--init")
+    ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
     a = ap.parse_args()
 
     d = np.load(a.dump)
@@ -81,8 +85,26 @@ def main():
     regs = np.isin(region, [rn.index(n) for n in ("torso", "shoulder", "arm")])
     Hl = d["heads"][b["upperarm_l"]]
     left_gh = np.linalg.norm(rest - Hl, axis=1)
-    Lset = np.nonzero((rest[:, 0] <= 1e-8) & regs & ((left_gh < a.radius) | (W[:, b["scapula_l"]] > 0.01)))[0]
-    Rset = mir[Lset[rest[Lset, 0] < -1e-8]]                       # right-owned mirror twins of the strictly-left vertices
+    if a.declare_mask and a.mask_file:
+        raise SystemExit("--declare-mask and --mask-file are mutually exclusive")
+    if a.mask_file:
+        decl = json.loads(Path(a.mask_file).read_text(encoding="utf-8"))
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        if decl.get("source_candidate_sha256") != source_sha:
+            raise SystemExit("local mask declaration was created from a different source candidate")
+        ids = decl.get("left_owned_vertex_ids")
+        if not isinstance(ids, list) or not ids or ids != sorted(set(int(v) for v in ids)):
+            raise SystemExit("local mask left_owned_vertex_ids must be non-empty, sorted and unique")
+        Lset = np.asarray(ids, dtype=int)
+        if (Lset < 0).any() or (Lset >= nV).any() or (rest[Lset, 0] > 1e-8).any():
+            raise SystemExit("local mask contains invalid or non-left-owned vertices")
+        expected_right = sorted(int(mir[v]) for v in Lset if rest[v, 0] < -1e-8)
+        declared_right = sorted(int(v) for v in decl.get("mirror_of_strict_left_vertex_ids", []))
+        if declared_right != expected_right:
+            raise SystemExit("local mask mirror set disagrees with source mesh")
+    else:
+        Lset = np.nonzero((rest[:, 0] <= 1e-8) & regs & ((left_gh < a.radius) | (W[:, b["scapula_l"]] > 0.01)))[0]
+    Rset = mir[Lset[rest[Lset, 0] < -1e-8]]
     mask_all = np.unique(np.concatenate([Lset, Rset]))
     mid = Lset[np.abs(rest[Lset, 0]) <= 1e-8]
     if a.declare_mask:
@@ -121,6 +143,9 @@ def main():
     Wt[:, trunk] = W[:, trunk]
     Wt = Wt / np.maximum(Wt.sum(axis=1, keepdims=True), 1e-9)
     rest_h = np.c_[rest, np.ones(nV)]
+    # Same-pose uncorrected LBS surface. P0 may already include corrective shape keys.
+    # The area barrier uses this surface so it can reopen an existing corrective-induced sliver.
+    PUNC = np.stack([np.einsum("vb,vbi->vi", W, np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h)) for p in range(nP)])
     PTR = np.stack([np.einsum("vb,vbi->vi", Wt[Z], np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h[Z])) for p in range(nP)])
     Hr = d["heads"][b["upperarm_r"]]
     rj = np.minimum(np.linalg.norm(rest[Z] - Hl, axis=1), np.linalg.norm(rest[Z] - Hr, axis=1))
@@ -170,6 +195,20 @@ def main():
     LAP0 = np.linalg.norm(lap_vec(rest), axis=1) / LEL
     if a.w_fold > 0 and a.fold_floor is not None:
         FOLD = np.where(SMOOTH_REST[None, :], a.fold_floor, FOLD)
+    # Signed projected face-area/orientation target against the SAME-POSE UNCORRECTED LBS surface.
+    # This is intentionally not P0: P0 may already contain the r55 sliver. A negative ratio
+    # means reversal relative to uncorrected LBS; a small positive ratio means collapse.
+    AREA_N0 = AREA_DEN = None
+    if a.w_area > 0:
+        area_n0, area_den = [], []
+        for p in range(nP):
+            A0_, B0_, C0_ = PUNC[p][Tz[:, 0]], PUNC[p][Tz[:, 1]], PUNC[p][Tz[:, 2]]
+            n0 = np.cross(B0_ - A0_, C0_ - A0_)
+            area_n0.append(n0)
+            area_den.append(np.maximum((n0 * n0).sum(axis=1), 1e-18))
+        AREA_N0 = np.stack(area_n0)
+        AREA_DEN = np.stack(area_den)
+
     # no-new-contact barrier: pairs of mask vertices far apart on the rest surface (>= 3 cm) that are close in a pose
     rZ = rest[Z]
     far_rest = None
@@ -247,14 +286,14 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
                     np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
                     np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
-            if a.w_area > 0:
+            if a.w_area_rest > 0:
                 _A, _B, _C = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
                 _n = np.cross(_B - _A, _C - _A)
                 _ln = np.maximum(np.linalg.norm(_n, axis=1), 1e-12)
                 _ex = np.maximum(a.area_floor - 0.5 * _ln / AREA0, 0.0)
                 if (_ex > 0).any():
-                    total += a.w_area * (_ex ** 2).sum()
-                    _gn = (-2.0 * a.w_area * _ex / AREA0 * 0.5 / _ln)[:, None] * _n          # d penalty / d n
+                    total += a.w_area_rest * (_ex ** 2).sum()
+                    _gn = (-2.0 * a.w_area_rest * _ex / AREA0 * 0.5 / _ln)[:, None] * _n          # d penalty / d n
                     np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
                     np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
                     np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
@@ -267,6 +306,17 @@ def main():
                     _gl = (2.0 * a.w_lap * _ex2 / LEL / _ln2)[:, None] * _l
                     gP[Z] += _gl
                     np.add.at(gP, _du, -(_gl / LDEG[:, None])[LV])
+            if a.w_area > 0:
+                A_, B_, C_ = Pp[Tz[:, 0]], Pp[Tz[:, 1]], Pp[Tz[:, 2]]
+                n = np.cross(B_ - A_, C_ - A_)
+                signed_area_ratio = (n * AREA_N0[p]).sum(axis=1) / AREA_DEN[p]
+                ax = np.maximum(a.area_min - signed_area_ratio, 0.0)
+                if (ax > 0).any():
+                    total += a.w_area * (ax ** 2).sum()
+                    gn = ((-2.0 * a.w_area * ax) / AREA_DEN[p])[:, None] * AREA_N0[p]
+                    np.add.at(gP, Tz[:, 0], np.cross(gn, C_ - B_))
+                    np.add.at(gP, Tz[:, 1], np.cross(gn, A_ - C_))
+                    np.add.at(gP, Tz[:, 2], np.cross(gn, B_ - A_))
             if a.w_prox > 0 and len(PAIRS[p]):
                 pr, dmin = PAIRS[p], PDMIN[p]
                 pi_, pj_ = Z[pr[:, 0]], Z[pr[:, 1]]
@@ -298,6 +348,10 @@ def main():
     x = np.zeros(nL * 3)
     if a.init:
         s0 = np.load(a.init)
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        init_sha = str(s0["source_sha256"].item()) if "source_sha256" in s0 and np.asarray(s0["source_sha256"]).shape == () else str(s0["source_sha256"]) if "source_sha256" in s0 else ""
+        if init_sha != source_sha:
+            raise SystemExit("--init solution was solved against a different source candidate; refusing double-application")
         mp = {int(v): k for k, v in enumerate(s0["vertices"])}
         for k, v in enumerate(Lset):
             if int(v) in mp:
@@ -365,8 +419,9 @@ def main():
             print(f"iter {it:4d} loss {f:.3f} |g| {np.linalg.norm(g):.3e} max|D| {np.abs(x).max():.4f}")
     Dv = x.reshape(nL, 3)
     DL, DR = net_fields(Dv)
-    # report: per entry the metrics before/after on the mask-touching edges and torso drift
+    # report: per entry metrics before/after, including local signed face area vs uncorrected LBS
     rows = []
+    report_rows = []
     for p in range(nP):
         if al[p] <= 0 and ar[p] <= 0:
             continue
@@ -377,12 +432,34 @@ def main():
         r0 = np.exp(cur[p])
         drift = np.linalg.norm(Pp[Z] - PTR[p], axis=1)[TORSO]
         drift0 = np.linalg.norm(P0[p][Z] - PTR[p], axis=1)[TORSO]
-        rows.append((poses[p], float(theta[p, 0]), float(al[p]), float(r0.max()), float(r1.max()), float(r0.min()), float(r1.min()), float(drift0.max()), float(drift.max())))
+        row = (poses[p], float(theta[p, 0]), float(al[p]), float(r0.max()), float(r1.max()), float(r0.min()), float(r1.min()), float(drift0.max()), float(drift.max()))
+        rows.append(row)
+        rr = {"entry": poses[p], "theta_l_deg": float(theta[p, 0]), "activation_l": float(al[p]),
+              "edge_max_before": float(r0.max()), "edge_max_after": float(r1.max()),
+              "edge_min_before": float(r0.min()), "edge_min_after": float(r1.min()),
+              "torso_drift_max_before_m": float(drift0.max()), "torso_drift_max_after_m": float(drift.max())}
+        if AREA_N0 is not None:
+            def signed_area_ratio(P):
+                Aa, Bb, Cc = P[Tz[:, 0]], P[Tz[:, 1]], P[Tz[:, 2]]
+                nn = np.cross(Bb - Aa, Cc - Aa)
+                return (nn * AREA_N0[p]).sum(axis=1) / AREA_DEN[p]
+            sb, sa = signed_area_ratio(P0[p]), signed_area_ratio(Pp)
+            rr.update({"signed_area_min_before": float(sb.min()), "signed_area_min_after": float(sa.min()),
+                       "faces_below_area_min_before": int((sb < a.area_min).sum()), "faces_below_area_min_after": int((sa < a.area_min).sum()),
+                       "flipped_faces_before": int((sb < 0.0).sum()), "flipped_faces_after": int((sa < 0.0).sum())})
+        report_rows.append(rr)
     print("entry                     theta  act  edgeMax before->after   edgeMin before->after   torsoDrift before->after")
     for r in rows:
         if "@" in r[0] and not r[0].endswith(("@0.500", "@0.750", "@0.875")):
             continue
         print(f"{r[0]:26s}{r[1]:6.1f} {r[2]:5.2f}   {r[3]:6.2f} -> {r[4]:6.2f}        {r[5]:6.3f} -> {r[6]:6.3f}        {r[7]:6.3f} -> {r[8]:6.3f}")
+    if a.json_out:
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        report = {"schema_version": 1, "source_candidate": str(d["source"].item()) if np.asarray(d["source"]).shape == () else str(d["source"]),
+                  "source_candidate_sha256": source_sha, "mask_file": a.mask_file, "solution": a.out,
+                  "final_loss": float(f), "max_abs_delta_m": float(np.abs(Dv).max()), "area_reference": "same_pose_uncorrected_lbs",
+                  "parameters": vars(a), "entries": report_rows}
+        Path(a.json_out).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     np.savez_compressed(a.out, vertices=Lset, delta=Dv, theta0=a.theta0, theta1=a.theta1, source=str(d["source"]),
                         source_sha256=str(d["source_sha256"]), params=json.dumps(vars(a)))
     print("SOLUTION", a.out, "loss", f"{f:.3f}", "max |D| %.4f m" % np.abs(Dv).max())

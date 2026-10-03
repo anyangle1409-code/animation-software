@@ -3,10 +3,16 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import sys
 
 import bpy
 import numpy as np
 from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"scripts"))
+from original_v1_locked_rig import blender_armature_issues,load_locked_rig
+LOCKED_RIG=load_locked_rig(ROOT)
 
 
 def digest(path):
@@ -22,9 +28,10 @@ manifest=json.loads(manifest_path.read_text(encoding="utf-8-sig"))
 if manifest.get("candidate")!=source.name or manifest.get("candidate_sha256")!=digest(source):
     raise SystemExit("STOP — candidate Blend/manifest identity differs")
 if not bpy.context.scene.get("hgpt_not_production"):raise SystemExit("STOP — candidate-only scene marker missing")
-rig=bpy.data.objects.get("HGPT_CANONICAL_V4_ORIGINAL")
-if rig is None or rig.type!="ARMATURE" or len(rig.data.bones)!=63:
-    raise SystemExit("STOP — canonical 63-bone v4 rig missing")
+rig=bpy.data.objects.get(LOCKED_RIG["object_name"])
+rig_issues=blender_armature_issues(rig,LOCKED_RIG)
+if rig_issues:
+    raise SystemExit("STOP — "+"; ".join(rig_issues))
 bodies=[o for o in bpy.data.objects if o.type=="MESH" and o.find_armature()==rig and "SHORTS" not in o.name]
 if len(bodies)!=1:raise SystemExit("STOP — expected exactly one owned body mesh bound to canonical rig")
 body=bodies[0]
@@ -40,8 +47,14 @@ print(json.dumps({
     "blender_version":bpy.app.version_string,
     "candidate":source.name,
     "candidate_sha256":manifest["candidate_sha256"],
-    "rig":"HGPT_CANONICAL_V4_ORIGINAL",
+    "rig":LOCKED_RIG["object_name"],
+    "rig_identity":LOCKED_RIG["identity"],
+    "rig_revision":LOCKED_RIG["revision"],
+    "rig_structure_sha256":LOCKED_RIG["rig_structure_sha256"],
     "bone_count":len(rig.data.bones),
+    "deform_bone_count":sum(bool(b.use_deform) for b in rig.data.bones),
+    "rig_lock":LOCKED_RIG["lock"],
+    "rig_payload":LOCKED_RIG["payload"],
     "body":body.name,
     "evaluated_vertices":len(ev.data.vertices),
     "evaluated_faces":len(ev.data.polygons),

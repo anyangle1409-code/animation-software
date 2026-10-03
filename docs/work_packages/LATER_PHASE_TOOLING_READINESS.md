@@ -47,7 +47,7 @@ raw measurements and coverage/limits; do not give it promotion authority.
   character acceptance. Report the additional gates still open.
 
 No missing tool is claimed implemented by these documents. Earlier shorts/GLBs
-remain candidate history and cannot be relabelled as exports of r29 or later models.
+remain candidate history and cannot be relabelled as exports of any later candidate.
 
 Stage 4 now prepares `scripts/audit_original_v1_surface.py`; see
 `SURFACE_AUDIT_PROTOCOL.md`. It supplies raw findings only, not actual shading
@@ -93,8 +93,9 @@ Stage 10 now prepares `ORIGINAL_V1_RUNTIME_DISCOVERY_CONTRACT.json`,
 `RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`. The prepared snapshot found the active
 standalone branch at e3a7d915... with v4 source active but exact-SHA standalone
 verification failing legacy skeleton parity by 0.02 m; therefore it is explicitly
-not integration-ready. A future changed runtime HEAD gets UNKNOWN CI until its own
-exact-SHA gates are inspected.
+not integration-ready. Runtime discovery now also requires the exact locked rev2c
+rig declaration (67 bones + structure SHA); generic v4_active is insufficient.
+A future changed runtime HEAD gets UNKNOWN CI until its own exact-SHA gates are inspected.
 
 
 Stage 11 prepares `ORIGINAL_V1_VISUAL_QA_CONTRACT.json`,
@@ -114,8 +115,7 @@ Stage 12 prepares `ORIGINAL_V1_FINAL_FREEZE_CONTRACT.json`,
 `PHASE_12_PRODUCTION_FREEZE.md`. The existing promotion receipt now binds the exact
 promotion-packet bytes/candidate/runtime. Final-freeze verification rechecks all
 Phase 4-11 exits and exact model/runtime/assets plus separate owner freeze
-authorization, but never changes production state. Current r29 is expected to be
-refused until the roadmap is genuinely complete.
+authorization, but never changes production state. The live current candidate is expected to be refused until the roadmap is genuinely complete; this static document deliberately does not hard-code a revision.
 
 
 Phase 5 gap closure adds `ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json`,

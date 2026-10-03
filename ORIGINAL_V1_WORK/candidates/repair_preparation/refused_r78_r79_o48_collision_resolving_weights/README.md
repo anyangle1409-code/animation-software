@@ -7,3 +7,8 @@ Recipe: r43 + o48 weights (r78, the blended solution `o48_r43_b.npz`) + the wris
 Measured in the real Blender pose test (metrics only), self-intersecting face pairs P3B1 / r62 / r79: press_top 95 / 137 / 250; press_top_rhythm 54 / 148 / 298; pullup_hang 4 / 116 / 66; pullup_hang_rhythm 0 / 126 / 84; squat_bottom 108 / 138 / 154. Development gate: 4 failures (press_top and press_top_rhythm self-intersections > 200, and edge_ratio_p99 2.026 and 2.053 > 2.0) versus 1 for r62.
 
 Disposition: REFUSED. The resolution helps the pull-up poses but makes the press poses far worse (the solver's own per-round intersection counts rose to 462 and 530 in press_top / press_top_rhythm instead of falling), so it is not a safe replacement for o45. No evidence run was spent on r78/r79; the candidate manifests are preserved here (moved out of the candidate manifest folder so the status tooling does not treat a refused experiment as an incomplete candidate), the local Blends stay in place so labels r78/r79 stay reserved. Recreate deterministically from `o48_r43_b.npz` applied to r43 (then `o26_r47_b.npz` for r79).
+
+Preserved Blends (untracked, kept next to this record; moved out of the candidates folder so the session-close identity check, which pairs every candidates/*.blend with a manifest there, and the status tool, which treats a manifest without full evidence as an incomplete candidate, both stay clean):
+- r78 SHA-256 3417a37dc798495f9be8bf3217bec83ea16d2a910f2fe344f47ccc89aaefe6be
+- r79 SHA-256 c962fae9d566672f82a373125f575ed9b98ac264b1a2001ba99bef003dd85b5b
+The labels r78 and r79 stay reserved by this folder name; the next collision-free label is chosen by scripts/select_original_v1_collision_free_revision.py.

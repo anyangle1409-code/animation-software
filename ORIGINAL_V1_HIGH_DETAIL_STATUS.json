@@ -5,9 +5,9 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r73",
+  "current_candidate": "r76",
   "candidate_state": "experimental",
-  "candidate_classification": "EXPERIMENTAL",
+  "candidate_classification": "STRICT IMPROVEMENT",
   "pinned_baseline": {
     "revision": "P3B1",
     "id": "original_v1_o4_p3b1_20261002",
@@ -184,8 +184,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 95.0,
-      "candidate": 134.0,
-      "delta": 39.0,
+      "candidate": 132.0,
+      "delta": 37.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -217,8 +217,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 54.0,
-      "candidate": 120.0,
-      "delta": 66.0,
+      "candidate": 112.0,
+      "delta": 58.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -250,8 +250,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 4.0,
-      "candidate": 100.0,
-      "delta": 96.0,
+      "candidate": 102.0,
+      "delta": 98.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -283,8 +283,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 4.0,
-      "candidate": 100.0,
-      "delta": 96.0,
+      "candidate": 102.0,
+      "delta": 98.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -316,8 +316,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 0.0,
-      "candidate": 124.0,
-      "delta": 124.0,
+      "candidate": 126.0,
+      "delta": 126.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -422,66 +422,51 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
-    },
-    {
-      "checkpoint": "r73 milestone snapshot",
-      "owner_review": "pending",
-      "blocking": false,
-      "candidate_sha256": "db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e",
-      "evidence": {
-        "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r73/visual_review_manifest.json",
-        "sha256": "0f4957ccf4594b04e9c739bdd2fbcee5ce07f6e667adc9d02bb4e371d18a4094"
-      },
-      "review_index": "ORIGINAL_V1_WORK/candidates/review/milestone_r73/README.md"
     }
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_merged_pose_report.json",
-      "sha256": "df32002051219319cf7155667fc219b31252b36fa625a1a5816bf04ace1a19ae"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_merged_pose_report.json",
+      "sha256": "a53c16a3c14350fb42ab607a270fb58fcb1866ae4ba2de5c627c04d47754ee14"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r73.json",
-      "sha256": "737f0a38c81fededc6f8ae1e5bbd4dc2747b62594970fad69ca096ec9a2c076c"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r76.json",
+      "sha256": "dbb120b0c1d07ebd8b946cbd25bc2b893cb29c22816f872eb2123571b07d8cce"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_evidence_manifest.json",
-      "sha256": "46aadaeb45b99aa9cc6402956cb1860c5d98923e08fa875a12b88104a38f9834"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_evidence_manifest.json",
+      "sha256": "e9349af99b39575997960f0ad3c756fdd9781f60d77711ca3ce0fd3b56c2419d"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_P3B1.json",
-      "sha256": "c53fc40ae8908fa742391cfc4c48818ef65c48f9b682999f848cd078eda10019"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_comparison_vs_P3B1.json",
+      "sha256": "b21f6bf921edccdcb27bfeacc358dd22d5e34bd9a02fe28b9d93923515f6303b"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_r72.json",
-      "sha256": "837dae99f49726240b3e19fc3ddcb72e5d866e5834c54f6042a7c045a29db19f"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_comparison_vs_r73.json",
+      "sha256": "cba2b1dee7dda191a715859ece68ea3fe55aadeca1c3e48f32499896f2ba2b1a"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/diagnostic_brief.json",
-      "sha256": "9d3a79fad8fa18790f056813ac51e3b465be37408b5051477b285937ef6bcc48"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/diagnostic_brief.json",
+      "sha256": "ceeafa54ec127910d16b6919db9911f23f056b3f762037c7eecc934e214ca09e"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/edge_extremes.json",
-      "sha256": "6015f70fa9e7fd97606d5eb3a4a9117b5d20484a3b9ab0e4963bd07a153177a0"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/edge_extremes.json",
+      "sha256": "60bb6d15c907d5f451fa063754be55890859161adeba3677646894b94a55347a"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/grip_penetration.json",
-      "sha256": "3f75a445fbe23e6b99f82654aca7050b3be07b20c375dbd72ff4fbc62bb03048"
-    },
-    {
-      "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r73/visual_review_manifest.json",
-      "sha256": "0f4957ccf4594b04e9c739bdd2fbcee5ce07f6e667adc9d02bb4e371d18a4094"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/grip_penetration.json",
+      "sha256": "e536549699f7668edf7e0a4aa5fae06be3f8e2bd4791bb401915f6f2181d5a8d"
     }
   ],
-  "last_known_candidate_sha256": "db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e",
-  "evidence_timestamp": "2026-10-03T17:18:17.449052+00:00",
+  "last_known_candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+  "evidence_timestamp": "2026-10-03T19:26:11.459619+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r73: solution incremental_corrective_solution.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.blend; candidate remains experimental.",
+  "what_changed": "r76: solution incremental_corrective_solution.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r73.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -493,10 +478,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RUN local axilla repair",
-    "reason": "r73 is development-clear with zero strict regressions versus its direct parent r72, but the declared-face audit is not numeric-clear (at most 2 flipped faces per arc sample at mid-arc blend samples) and 23 strict P3B1 regressions remain; diagnose those faces before another local experiment, or take the P3B1 regression set to an owner disposition",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r73",
-    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
-    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
+    "action": "RECONCILE trial lineage",
+    "reason": "record evidence-backed continuation choice; a trade-off is not auto-promoted",
+    "command": null,
+    "safe_parallel_task": "Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors."
   }
 }

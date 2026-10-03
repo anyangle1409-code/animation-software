@@ -1,0 +1,2266 @@
+{
+  "schema_version": 1,
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r76.blend",
+  "source_candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+  "pose_script_sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06",
+  "purpose": "read-only evidence for thumb/finger versus frozen handle-grip pose",
+  "acceptance_gate_mm": 2.0,
+  "poses": {
+    "curl_handle": {
+      "pre_close": {
+        "l": {
+          "max_penetration_mm": 0.0,
+          "inside_vertices": 0,
+          "contact_vertices_within_2mm": 31,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 2930,
+              "signed_distance_mm": 0.6,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.176286,
+                -0.044732,
+                0.844066
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.809827
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.190073
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 16375,
+              "signed_distance_mm": 0.6,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.170779,
+                -0.044262,
+                0.841636
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.619704
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.380296
+                }
+              ]
+            },
+            {
+              "vertex": 10343,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.168089,
+                -0.041564,
+                0.83968
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.619015
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.380985
+                }
+              ]
+            },
+            {
+              "vertex": 10327,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.174096,
+                -0.035957,
+                0.844019
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.918452
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.080593
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.000955
+                }
+              ]
+            },
+            {
+              "vertex": 10344,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.168023,
+                -0.046222,
+                0.839129
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.63203
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.36797
+                }
+              ]
+            },
+            {
+              "vertex": 10341,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.379832
+                }
+              ]
+            },
+            {
+              "vertex": 10360,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 16367,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.177315,
+                -0.038657,
+                0.844702
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.919326
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.079337
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.001337
+                }
+              ]
+            },
+            {
+              "vertex": 16383,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 10328,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.173722,
+                -0.041995,
+                0.843411
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.80847
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.19143
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 10357,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 2931,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.170589,
+                -0.039306,
+                0.841947
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.807191
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.192809
+                }
+              ]
+            }
+          ]
+        },
+        "r": {
+          "max_penetration_mm": 0.0,
+          "inside_vertices": 0,
+          "contact_vertices_within_2mm": 31,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 13419,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 13404,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.168089,
+                -0.041564,
+                0.83968
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.619015
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.380985
+                }
+              ]
+            },
+            {
+              "vertex": 4453,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170589,
+                -0.039306,
+                0.841947
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.807191
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.192809
+                }
+              ]
+            },
+            {
+              "vertex": 4468,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.164855,
+                -0.053903,
+                0.833363
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.937164
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.062836
+                }
+              ]
+            },
+            {
+              "vertex": 17923,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 13418,
+              "signed_distance_mm": 0.6001,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 17915,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170779,
+                -0.044262,
+                0.841636
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.619704
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.380296
+                }
+              ]
+            },
+            {
+              "vertex": 4461,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.166035,
+                -0.043509,
+                0.836984
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.630731
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.369269
+                }
+              ]
+            },
+            {
+              "vertex": 17907,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.177315,
+                -0.038657,
+                0.844703
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.919326
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.079337
+                },
+                {
+                  "bone": "thumb_01_r",
+                  "weight": 0.001337
+                }
+              ]
+            },
+            {
+              "vertex": 4460,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 13387,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.173722,
+                -0.041995,
+                0.843411
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.80847
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.19143
+                },
+                {
+                  "bone": "thumb_01_r",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 13388,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.174096,
+                -0.035957,
+                0.844019
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.918452
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.080593
+                },
+                {
+                  "bone": "thumb_01_r",
+                  "weight": 0.000955
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "post_close": {
+        "l": {
+          "max_penetration_mm": 1.6269,
+          "inside_vertices": 99,
+          "contact_vertices_within_2mm": 269,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 2938,
+              "signed_distance_mm": -1.6269,
+              "penetration_mm": 1.6269,
+              "region": "thumb",
+              "rest_position": [
+                -0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 16382,
+              "signed_distance_mm": -1.5669,
+              "penetration_mm": 1.5669,
+              "region": "thumb",
+              "rest_position": [
+                -0.168804,
+                -0.053765,
+                0.839673
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.834159
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.165841
+                }
+              ]
+            },
+            {
+              "vertex": 10357,
+              "signed_distance_mm": -1.5636,
+              "penetration_mm": 1.5636,
+              "region": "thumb",
+              "rest_position": [
+                -0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 16383,
+              "signed_distance_mm": -1.5393,
+              "penetration_mm": 1.5393,
+              "region": "thumb",
+              "rest_position": [
+                -0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 9606,
+              "signed_distance_mm": -1.5,
+              "penetration_mm": 1.5,
+              "region": "finger",
+              "rest_position": [
+                -0.207883,
+                -0.011659,
+                0.752137
+              ],
+              "top_weights": [
+                {
+                  "bone": "index_03_l",
+                  "weight": 0.951181
+                },
+                {
+                  "bone": "index_02_l",
+                  "weight": 0.048819
+                }
+              ]
+            },
+            {
+              "vertex": 10360,
+              "signed_distance_mm": -1.4992,
+              "penetration_mm": 1.4992,
+              "region": "thumb",
+              "rest_position": [
+                -0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 2768,
+              "signed_distance_mm": -1.4866,
+              "penetration_mm": 1.4866,
+              "region": "finger",
+              "rest_position": [
+                -0.206091,
+                0.040433,
+                0.749696
+              ],
+              "top_weights": [
+                {
+                  "bone": "ring_03_l",
+                  "weight": 0.964823
+                },
+                {
+                  "bone": "ring_02_l",
+                  "weight": 0.034977
+                },
+                {
+                  "bone": "middle_03_l",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "pinky_03_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 2671,
+              "signed_distance_mm": -1.4809,
+              "penetration_mm": 1.4809,
+              "region": "finger",
+              "rest_position": [
+                -0.206702,
+                0.016092,
+                0.742065
+              ],
+              "top_weights": [
+                {
+                  "bone": "middle_03_l",
+                  "weight": 0.963489
+                },
+                {
+                  "bone": "middle_02_l",
+                  "weight": 0.036511
+                }
+              ]
+            },
+            {
+              "vertex": 10341,
+              "signed_distance_mm": -1.4778,
+              "penetration_mm": 1.4778,
+              "region": "thumb",
+              "rest_position": [
+                -0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.379832
+                }
+              ]
+            },
+            {
+              "vertex": 10209,
+              "signed_distance_mm": -1.4685,
+              "penetration_mm": 1.4685,
+              "region": "finger",
+              "rest_position": [
+                -0.203764,
+                0.062354,
+                0.768469
+              ],
+              "top_weights": [
+                {
+                  "bone": "pinky_03_l",
+                  "weight": 0.990274
+                },
+                {
+                  "bone": "pinky_02_l",
+                  "weight": 0.009526
+                },
+                {
+                  "bone": "ring_02_l",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "ring_03_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 10342,
+              "signed_distance_mm": -1.3816,
+              "penetration_mm": 1.3816,
+              "region": "thumb",
+              "rest_position": [
+                -0.171948,
+                -0.051362,
+                0.842751
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.629026
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.370974
+                }
+              ]
+            },
+            {
+              "vertex": 10359,
+              "signed_distance_mm": -1.3717,
+              "penetration_mm": 1.3717,
+              "region": "thumb",
+              "rest_position": [
+                -0.163814,
+                -0.045906,
+                0.833425
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.824573
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.175427
+                }
+              ]
+            }
+          ]
+        },
+        "r": {
+          "max_penetration_mm": 1.6268,
+          "inside_vertices": 99,
+          "contact_vertices_within_2mm": 269,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 4460,
+              "signed_distance_mm": -1.6268,
+              "penetration_mm": 1.6268,
+              "region": "thumb",
+              "rest_position": [
+                0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 17922,
+              "signed_distance_mm": -1.5669,
+              "penetration_mm": 1.5669,
+              "region": "thumb",
+              "rest_position": [
+                0.168804,
+                -0.053765,
+                0.839673
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.834159
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.165841
+                }
+              ]
+            },
+            {
+              "vertex": 13418,
+              "signed_distance_mm": -1.5636,
+              "penetration_mm": 1.5636,
+              "region": "thumb",
+              "rest_position": [
+                0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 17923,
+              "signed_distance_mm": -1.5392,
+              "penetration_mm": 1.5392,
+              "region": "thumb",
+              "rest_position": [
+                0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 12665,
+              "signed_distance_mm": -1.5,
+              "penetration_mm": 1.5,
+              "region": "finger",
+              "rest_position": [
+                0.207883,
+                -0.011659,
+                0.752137
+              ],
+              "top_weights": [
+                {
+                  "bone": "index_03_r",
+                  "weight": 0.951181
+                },
+                {
+                  "bone": "index_02_r",
+                  "weight": 0.048819
+                }
+              ]
+            },
+            {
+              "vertex": 13419,
+              "signed_distance_mm": -1.4992,
+              "penetration_mm": 1.4992,
+              "region": "thumb",
+              "rest_position": [
+                0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 4290,
+              "signed_distance_mm": -1.4866,
+              "penetration_mm": 1.4866,
+              "region": "finger",
+              "rest_position": [
+                0.206091,
+                0.040433,
+                0.749696
+              ],
+              "top_weights": [
+                {
+                  "bone": "ring_03_r",
+                  "weight": 0.964823
+                },
+                {
+                  "bone": "ring_02_r",
+                  "weight": 0.034977
+                },
+                {
+                  "bone": "middle_03_r",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "pinky_03_r",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 4193,
+              "signed_distance_mm": -1.4809,
+              "penetration_mm": 1.4809,
+              "region": "finger",
+              "rest_position": [
+                0.206702,
+                0.016092,
+                0.742065
+              ],
+              "top_weights": [
+                {
+                  "bone": "middle_03_r",
+                  "weight": 0.963489
+                },
+                {
+                  "bone": "middle_02_r",
+                  "weight": 0.036511
+                }
+              ]
+            },
+            {
+              "vertex": 13402,
+              "signed_distance_mm": -1.4777,
+              "penetration_mm": 1.4777,
+              "region": "thumb",
+              "rest_position": [
+                0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.379832
+                }
+              ]
+            },
+            {
+              "vertex": 13270,
+              "signed_distance_mm": -1.4685,
+              "penetration_mm": 1.4685,
+              "region": "finger",
+              "rest_position": [
+                0.203764,
+                0.062354,
+                0.768469
+              ],
+              "top_weights": [
+                {
+                  "bone": "pinky_03_r",
+                  "weight": 0.990274
+                },
+                {
+                  "bone": "pinky_02_r",
+                  "weight": 0.009526
+                },
+                {
+                  "bone": "ring_02_r",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "ring_03_r",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 13401,
+              "signed_distance_mm": -1.3816,
+              "penetration_mm": 1.3816,
+              "region": "thumb",
+              "rest_position": [
+                0.171948,
+                -0.051362,
+                0.842751
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.629026
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.370974
+                }
+              ]
+            },
+            {
+              "vertex": 13420,
+              "signed_distance_mm": -1.3717,
+              "penetration_mm": 1.3717,
+              "region": "thumb",
+              "rest_position": [
+                0.163814,
+                -0.045906,
+                0.833425
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.824573
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.175427
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "handle": {
+        "l": {
+          "centre": [
+            -0.20102,
+            -0.17459,
+            1.524545
+          ],
+          "axis": [
+            0.992595,
+            -0.00233,
+            -0.121451
+          ],
+          "radius_m": 0.017
+        },
+        "r": {
+          "centre": [
+            0.20102,
+            -0.17459,
+            1.524545
+          ],
+          "axis": [
+            -0.992595,
+            -0.00233,
+            -0.121451
+          ],
+          "radius_m": 0.017
+        }
+      }
+    },
+    "pullup_bar": {
+      "pre_close": {
+        "l": {
+          "max_penetration_mm": 0.0,
+          "inside_vertices": 0,
+          "contact_vertices_within_2mm": 31,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 10360,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 16375,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.170779,
+                -0.044262,
+                0.841636
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.619704
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.380296
+                }
+              ]
+            },
+            {
+              "vertex": 16383,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 2946,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.164855,
+                -0.053903,
+                0.833363
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.937164
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.062836
+                }
+              ]
+            },
+            {
+              "vertex": 2938,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 10344,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.168023,
+                -0.046222,
+                0.839129
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.63203
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.36797
+                }
+              ]
+            },
+            {
+              "vertex": 2939,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.166035,
+                -0.043509,
+                0.836984
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.630731
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.369269
+                }
+              ]
+            },
+            {
+              "vertex": 10357,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 10343,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.168089,
+                -0.041564,
+                0.83968
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.619015
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.380985
+                }
+              ]
+            },
+            {
+              "vertex": 10327,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.174096,
+                -0.035957,
+                0.844019
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.918452
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.080593
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.000955
+                }
+              ]
+            },
+            {
+              "vertex": 10328,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.173722,
+                -0.041995,
+                0.843411
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.80847
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.19143
+                },
+                {
+                  "bone": "thumb_01_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 10341,
+              "signed_distance_mm": 0.6005,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                -0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.379832
+                }
+              ]
+            }
+          ]
+        },
+        "r": {
+          "max_penetration_mm": 0.0,
+          "inside_vertices": 0,
+          "contact_vertices_within_2mm": 31,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 13419,
+              "signed_distance_mm": 0.6002,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 4468,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.164855,
+                -0.053903,
+                0.833363
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.937164
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.062836
+                }
+              ]
+            },
+            {
+              "vertex": 4461,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.166035,
+                -0.043509,
+                0.836984
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.630731
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.369269
+                }
+              ]
+            },
+            {
+              "vertex": 17923,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 13418,
+              "signed_distance_mm": 0.6003,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 13403,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.168023,
+                -0.046222,
+                0.83913
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.63203
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.36797
+                }
+              ]
+            },
+            {
+              "vertex": 13404,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.168089,
+                -0.041564,
+                0.83968
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.619015
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.380985
+                }
+              ]
+            },
+            {
+              "vertex": 17915,
+              "signed_distance_mm": 0.6004,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170779,
+                -0.044262,
+                0.841636
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.619704
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.380296
+                }
+              ]
+            },
+            {
+              "vertex": 4460,
+              "signed_distance_mm": 0.6005,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 4453,
+              "signed_distance_mm": 0.6005,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.170589,
+                -0.039306,
+                0.841947
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.807191
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.192809
+                }
+              ]
+            },
+            {
+              "vertex": 17907,
+              "signed_distance_mm": 0.6005,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.177315,
+                -0.038657,
+                0.844703
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.919326
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.079337
+                },
+                {
+                  "bone": "thumb_01_r",
+                  "weight": 0.001337
+                }
+              ]
+            },
+            {
+              "vertex": 13388,
+              "signed_distance_mm": 0.6007,
+              "penetration_mm": 0.0,
+              "region": "thumb",
+              "rest_position": [
+                0.174096,
+                -0.035957,
+                0.844019
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.918452
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.080593
+                },
+                {
+                  "bone": "thumb_01_r",
+                  "weight": 0.000955
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "post_close": {
+        "l": {
+          "max_penetration_mm": 1.6269,
+          "inside_vertices": 99,
+          "contact_vertices_within_2mm": 269,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 2938,
+              "signed_distance_mm": -1.6269,
+              "penetration_mm": 1.6269,
+              "region": "thumb",
+              "rest_position": [
+                -0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 16382,
+              "signed_distance_mm": -1.567,
+              "penetration_mm": 1.567,
+              "region": "thumb",
+              "rest_position": [
+                -0.168804,
+                -0.053765,
+                0.839673
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.834159
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.165841
+                }
+              ]
+            },
+            {
+              "vertex": 10357,
+              "signed_distance_mm": -1.5636,
+              "penetration_mm": 1.5636,
+              "region": "thumb",
+              "rest_position": [
+                -0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 16383,
+              "signed_distance_mm": -1.5392,
+              "penetration_mm": 1.5392,
+              "region": "thumb",
+              "rest_position": [
+                -0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 10360,
+              "signed_distance_mm": -1.4993,
+              "penetration_mm": 1.4993,
+              "region": "thumb",
+              "rest_position": [
+                -0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 2768,
+              "signed_distance_mm": -1.4859,
+              "penetration_mm": 1.4859,
+              "region": "finger",
+              "rest_position": [
+                -0.206091,
+                0.040433,
+                0.749696
+              ],
+              "top_weights": [
+                {
+                  "bone": "ring_03_l",
+                  "weight": 0.964823
+                },
+                {
+                  "bone": "ring_02_l",
+                  "weight": 0.034977
+                },
+                {
+                  "bone": "middle_03_l",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "pinky_03_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 2671,
+              "signed_distance_mm": -1.4812,
+              "penetration_mm": 1.4812,
+              "region": "finger",
+              "rest_position": [
+                -0.206702,
+                0.016092,
+                0.742065
+              ],
+              "top_weights": [
+                {
+                  "bone": "middle_03_l",
+                  "weight": 0.963489
+                },
+                {
+                  "bone": "middle_02_l",
+                  "weight": 0.036511
+                }
+              ]
+            },
+            {
+              "vertex": 10341,
+              "signed_distance_mm": -1.4776,
+              "penetration_mm": 1.4776,
+              "region": "thumb",
+              "rest_position": [
+                -0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.379832
+                }
+              ]
+            },
+            {
+              "vertex": 10209,
+              "signed_distance_mm": -1.4685,
+              "penetration_mm": 1.4685,
+              "region": "finger",
+              "rest_position": [
+                -0.203764,
+                0.062354,
+                0.768469
+              ],
+              "top_weights": [
+                {
+                  "bone": "pinky_03_l",
+                  "weight": 0.990274
+                },
+                {
+                  "bone": "pinky_02_l",
+                  "weight": 0.009526
+                },
+                {
+                  "bone": "ring_02_l",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "ring_03_l",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 9606,
+              "signed_distance_mm": -1.4668,
+              "penetration_mm": 1.4668,
+              "region": "finger",
+              "rest_position": [
+                -0.207883,
+                -0.011659,
+                0.752137
+              ],
+              "top_weights": [
+                {
+                  "bone": "index_03_l",
+                  "weight": 0.951181
+                },
+                {
+                  "bone": "index_02_l",
+                  "weight": 0.048819
+                }
+              ]
+            },
+            {
+              "vertex": 10342,
+              "signed_distance_mm": -1.3816,
+              "penetration_mm": 1.3816,
+              "region": "thumb",
+              "rest_position": [
+                -0.171948,
+                -0.051362,
+                0.842751
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.629026
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.370974
+                }
+              ]
+            },
+            {
+              "vertex": 10359,
+              "signed_distance_mm": -1.3718,
+              "penetration_mm": 1.3718,
+              "region": "thumb",
+              "rest_position": [
+                -0.163814,
+                -0.045906,
+                0.833425
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_l",
+                  "weight": 0.824573
+                },
+                {
+                  "bone": "thumb_02_l",
+                  "weight": 0.175427
+                }
+              ]
+            }
+          ]
+        },
+        "r": {
+          "max_penetration_mm": 1.6268,
+          "inside_vertices": 99,
+          "contact_vertices_within_2mm": 269,
+          "finger_vertices": 2015,
+          "deepest": [
+            {
+              "vertex": 4460,
+              "signed_distance_mm": -1.6268,
+              "penetration_mm": 1.6268,
+              "region": "thumb",
+              "rest_position": [
+                0.170609,
+                -0.048968,
+                0.841097
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.633747
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.366253
+                }
+              ]
+            },
+            {
+              "vertex": 17922,
+              "signed_distance_mm": -1.567,
+              "penetration_mm": 1.567,
+              "region": "thumb",
+              "rest_position": [
+                0.168804,
+                -0.053765,
+                0.839673
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.834159
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.165841
+                }
+              ]
+            },
+            {
+              "vertex": 13418,
+              "signed_distance_mm": -1.5636,
+              "penetration_mm": 1.5636,
+              "region": "thumb",
+              "rest_position": [
+                0.167175,
+                -0.051375,
+                0.837598
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.830789
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.169211
+                }
+              ]
+            },
+            {
+              "vertex": 17923,
+              "signed_distance_mm": -1.5393,
+              "penetration_mm": 1.5393,
+              "region": "thumb",
+              "rest_position": [
+                0.165306,
+                -0.048588,
+                0.835108
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.827393
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.172607
+                }
+              ]
+            },
+            {
+              "vertex": 13419,
+              "signed_distance_mm": -1.4993,
+              "penetration_mm": 1.4993,
+              "region": "thumb",
+              "rest_position": [
+                0.163892,
+                -0.051139,
+                0.831041
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.933766
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.066234
+                }
+              ]
+            },
+            {
+              "vertex": 4290,
+              "signed_distance_mm": -1.4859,
+              "penetration_mm": 1.4859,
+              "region": "finger",
+              "rest_position": [
+                0.206091,
+                0.040433,
+                0.749696
+              ],
+              "top_weights": [
+                {
+                  "bone": "ring_03_r",
+                  "weight": 0.964823
+                },
+                {
+                  "bone": "ring_02_r",
+                  "weight": 0.034977
+                },
+                {
+                  "bone": "middle_03_r",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "pinky_03_r",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 4193,
+              "signed_distance_mm": -1.4812,
+              "penetration_mm": 1.4812,
+              "region": "finger",
+              "rest_position": [
+                0.206702,
+                0.016092,
+                0.742065
+              ],
+              "top_weights": [
+                {
+                  "bone": "middle_03_r",
+                  "weight": 0.963489
+                },
+                {
+                  "bone": "middle_02_r",
+                  "weight": 0.036511
+                }
+              ]
+            },
+            {
+              "vertex": 13402,
+              "signed_distance_mm": -1.4775,
+              "penetration_mm": 1.4775,
+              "region": "thumb",
+              "rest_position": [
+                0.173515,
+                -0.046988,
+                0.842932
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.620168
+                },
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.379832
+                }
+              ]
+            },
+            {
+              "vertex": 13270,
+              "signed_distance_mm": -1.4685,
+              "penetration_mm": 1.4685,
+              "region": "finger",
+              "rest_position": [
+                0.203764,
+                0.062354,
+                0.768469
+              ],
+              "top_weights": [
+                {
+                  "bone": "pinky_03_r",
+                  "weight": 0.990274
+                },
+                {
+                  "bone": "pinky_02_r",
+                  "weight": 0.009526
+                },
+                {
+                  "bone": "ring_02_r",
+                  "weight": 0.0001
+                },
+                {
+                  "bone": "ring_03_r",
+                  "weight": 0.0001
+                }
+              ]
+            },
+            {
+              "vertex": 12665,
+              "signed_distance_mm": -1.4668,
+              "penetration_mm": 1.4668,
+              "region": "finger",
+              "rest_position": [
+                0.207883,
+                -0.011659,
+                0.752137
+              ],
+              "top_weights": [
+                {
+                  "bone": "index_03_r",
+                  "weight": 0.951181
+                },
+                {
+                  "bone": "index_02_r",
+                  "weight": 0.048819
+                }
+              ]
+            },
+            {
+              "vertex": 13401,
+              "signed_distance_mm": -1.3816,
+              "penetration_mm": 1.3816,
+              "region": "thumb",
+              "rest_position": [
+                0.171948,
+                -0.051362,
+                0.842751
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.629026
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.370974
+                }
+              ]
+            },
+            {
+              "vertex": 13420,
+              "signed_distance_mm": -1.3716,
+              "penetration_mm": 1.3716,
+              "region": "thumb",
+              "rest_position": [
+                0.163814,
+                -0.045906,
+                0.833425
+              ],
+              "top_weights": [
+                {
+                  "bone": "thumb_03_r",
+                  "weight": 0.824573
+                },
+                {
+                  "bone": "thumb_02_r",
+                  "weight": 0.175427
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "handle": {
+        "l": {
+          "centre": [
+            -0.464188,
+            -0.007772,
+            2.151191
+          ],
+          "axis": [
+            -0.921785,
+            0.047466,
+            -0.384785
+          ],
+          "radius_m": 0.017
+        },
+        "r": {
+          "centre": [
+            0.464188,
+            -0.007772,
+            2.151191
+          ],
+          "axis": [
+            0.921785,
+            0.047466,
+            -0.384785
+          ],
+          "radius_m": 0.017
+        }
+      }
+    }
+  }
+}

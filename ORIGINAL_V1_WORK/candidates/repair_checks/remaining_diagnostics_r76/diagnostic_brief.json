@@ -1,0 +1,5192 @@
+{
+  "schema_version": 1,
+  "source_candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+  "pose_script_sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06",
+  "grip_observations": [
+    {
+      "pose": "curl_handle",
+      "side": "l",
+      "pre_close_penetration_mm": 0.0,
+      "post_close_penetration_mm": 1.6269,
+      "closing_delta_mm": 1.6269,
+      "penetration_present_before_close": false,
+      "development_penetration_failed": false,
+      "post_close_contact_vertices": 269,
+      "development_contact_failed": false,
+      "handle": {
+        "centre": [
+          -0.20102,
+          -0.17459,
+          1.524545
+        ],
+        "axis": [
+          0.992595,
+          -0.00233,
+          -0.121451
+        ],
+        "radius_m": 0.017
+      },
+      "pre_close_deepest": [
+        {
+          "vertex": 2930,
+          "signed_distance_mm": 0.6,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.176286,
+            -0.044732,
+            0.844066
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.809827
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.190073
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 16375,
+          "signed_distance_mm": 0.6,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.170779,
+            -0.044262,
+            0.841636
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.619704
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.380296
+            }
+          ]
+        },
+        {
+          "vertex": 10343,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.168089,
+            -0.041564,
+            0.83968
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.619015
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.380985
+            }
+          ]
+        },
+        {
+          "vertex": 10327,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.174096,
+            -0.035957,
+            0.844019
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.918452
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.080593
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.000955
+            }
+          ]
+        },
+        {
+          "vertex": 10344,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.168023,
+            -0.046222,
+            0.839129
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.63203
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.36797
+            }
+          ]
+        },
+        {
+          "vertex": 10341,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.379832
+            }
+          ]
+        },
+        {
+          "vertex": 10360,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 16367,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.177315,
+            -0.038657,
+            0.844702
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.919326
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.079337
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.001337
+            }
+          ]
+        },
+        {
+          "vertex": 16383,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 10328,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.173722,
+            -0.041995,
+            0.843411
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.80847
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.19143
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 10357,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 2931,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.170589,
+            -0.039306,
+            0.841947
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.807191
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.192809
+            }
+          ]
+        }
+      ],
+      "post_close_deepest": [
+        {
+          "vertex": 2938,
+          "signed_distance_mm": -1.6269,
+          "penetration_mm": 1.6269,
+          "region": "thumb",
+          "rest_position": [
+            -0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 16382,
+          "signed_distance_mm": -1.5669,
+          "penetration_mm": 1.5669,
+          "region": "thumb",
+          "rest_position": [
+            -0.168804,
+            -0.053765,
+            0.839673
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.834159
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.165841
+            }
+          ]
+        },
+        {
+          "vertex": 10357,
+          "signed_distance_mm": -1.5636,
+          "penetration_mm": 1.5636,
+          "region": "thumb",
+          "rest_position": [
+            -0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 16383,
+          "signed_distance_mm": -1.5393,
+          "penetration_mm": 1.5393,
+          "region": "thumb",
+          "rest_position": [
+            -0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 9606,
+          "signed_distance_mm": -1.5,
+          "penetration_mm": 1.5,
+          "region": "finger",
+          "rest_position": [
+            -0.207883,
+            -0.011659,
+            0.752137
+          ],
+          "top_weights": [
+            {
+              "bone": "index_03_l",
+              "weight": 0.951181
+            },
+            {
+              "bone": "index_02_l",
+              "weight": 0.048819
+            }
+          ]
+        },
+        {
+          "vertex": 10360,
+          "signed_distance_mm": -1.4992,
+          "penetration_mm": 1.4992,
+          "region": "thumb",
+          "rest_position": [
+            -0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 2768,
+          "signed_distance_mm": -1.4866,
+          "penetration_mm": 1.4866,
+          "region": "finger",
+          "rest_position": [
+            -0.206091,
+            0.040433,
+            0.749696
+          ],
+          "top_weights": [
+            {
+              "bone": "ring_03_l",
+              "weight": 0.964823
+            },
+            {
+              "bone": "ring_02_l",
+              "weight": 0.034977
+            },
+            {
+              "bone": "middle_03_l",
+              "weight": 0.0001
+            },
+            {
+              "bone": "pinky_03_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 2671,
+          "signed_distance_mm": -1.4809,
+          "penetration_mm": 1.4809,
+          "region": "finger",
+          "rest_position": [
+            -0.206702,
+            0.016092,
+            0.742065
+          ],
+          "top_weights": [
+            {
+              "bone": "middle_03_l",
+              "weight": 0.963489
+            },
+            {
+              "bone": "middle_02_l",
+              "weight": 0.036511
+            }
+          ]
+        },
+        {
+          "vertex": 10341,
+          "signed_distance_mm": -1.4778,
+          "penetration_mm": 1.4778,
+          "region": "thumb",
+          "rest_position": [
+            -0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.379832
+            }
+          ]
+        },
+        {
+          "vertex": 10209,
+          "signed_distance_mm": -1.4685,
+          "penetration_mm": 1.4685,
+          "region": "finger",
+          "rest_position": [
+            -0.203764,
+            0.062354,
+            0.768469
+          ],
+          "top_weights": [
+            {
+              "bone": "pinky_03_l",
+              "weight": 0.990274
+            },
+            {
+              "bone": "pinky_02_l",
+              "weight": 0.009526
+            },
+            {
+              "bone": "ring_02_l",
+              "weight": 0.0001
+            },
+            {
+              "bone": "ring_03_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 10342,
+          "signed_distance_mm": -1.3816,
+          "penetration_mm": 1.3816,
+          "region": "thumb",
+          "rest_position": [
+            -0.171948,
+            -0.051362,
+            0.842751
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.629026
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.370974
+            }
+          ]
+        },
+        {
+          "vertex": 10359,
+          "signed_distance_mm": -1.3717,
+          "penetration_mm": 1.3717,
+          "region": "thumb",
+          "rest_position": [
+            -0.163814,
+            -0.045906,
+            0.833425
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.824573
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.175427
+            }
+          ]
+        }
+      ],
+      "next_inspection": "Inspect the listed thumb/finger points against the measured handle before editing. Pre-close penetration is an observation, not proof of a rig, weight or geometry cause."
+    },
+    {
+      "pose": "curl_handle",
+      "side": "r",
+      "pre_close_penetration_mm": 0.0,
+      "post_close_penetration_mm": 1.6268,
+      "closing_delta_mm": 1.6268,
+      "penetration_present_before_close": false,
+      "development_penetration_failed": false,
+      "post_close_contact_vertices": 269,
+      "development_contact_failed": false,
+      "handle": {
+        "centre": [
+          0.20102,
+          -0.17459,
+          1.524545
+        ],
+        "axis": [
+          -0.992595,
+          -0.00233,
+          -0.121451
+        ],
+        "radius_m": 0.017
+      },
+      "pre_close_deepest": [
+        {
+          "vertex": 13419,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 13404,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.168089,
+            -0.041564,
+            0.83968
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.619015
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.380985
+            }
+          ]
+        },
+        {
+          "vertex": 4453,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170589,
+            -0.039306,
+            0.841947
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.807191
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.192809
+            }
+          ]
+        },
+        {
+          "vertex": 4468,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.164855,
+            -0.053903,
+            0.833363
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.937164
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.062836
+            }
+          ]
+        },
+        {
+          "vertex": 17923,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 13418,
+          "signed_distance_mm": 0.6001,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 17915,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170779,
+            -0.044262,
+            0.841636
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.619704
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.380296
+            }
+          ]
+        },
+        {
+          "vertex": 4461,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.166035,
+            -0.043509,
+            0.836984
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.630731
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.369269
+            }
+          ]
+        },
+        {
+          "vertex": 17907,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.177315,
+            -0.038657,
+            0.844703
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.919326
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.079337
+            },
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.001337
+            }
+          ]
+        },
+        {
+          "vertex": 4460,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 13387,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.173722,
+            -0.041995,
+            0.843411
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.80847
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.19143
+            },
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 13388,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.174096,
+            -0.035957,
+            0.844019
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.918452
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.080593
+            },
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.000955
+            }
+          ]
+        }
+      ],
+      "post_close_deepest": [
+        {
+          "vertex": 4460,
+          "signed_distance_mm": -1.6268,
+          "penetration_mm": 1.6268,
+          "region": "thumb",
+          "rest_position": [
+            0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 17922,
+          "signed_distance_mm": -1.5669,
+          "penetration_mm": 1.5669,
+          "region": "thumb",
+          "rest_position": [
+            0.168804,
+            -0.053765,
+            0.839673
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.834159
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.165841
+            }
+          ]
+        },
+        {
+          "vertex": 13418,
+          "signed_distance_mm": -1.5636,
+          "penetration_mm": 1.5636,
+          "region": "thumb",
+          "rest_position": [
+            0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 17923,
+          "signed_distance_mm": -1.5392,
+          "penetration_mm": 1.5392,
+          "region": "thumb",
+          "rest_position": [
+            0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 12665,
+          "signed_distance_mm": -1.5,
+          "penetration_mm": 1.5,
+          "region": "finger",
+          "rest_position": [
+            0.207883,
+            -0.011659,
+            0.752137
+          ],
+          "top_weights": [
+            {
+              "bone": "index_03_r",
+              "weight": 0.951181
+            },
+            {
+              "bone": "index_02_r",
+              "weight": 0.048819
+            }
+          ]
+        },
+        {
+          "vertex": 13419,
+          "signed_distance_mm": -1.4992,
+          "penetration_mm": 1.4992,
+          "region": "thumb",
+          "rest_position": [
+            0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 4290,
+          "signed_distance_mm": -1.4866,
+          "penetration_mm": 1.4866,
+          "region": "finger",
+          "rest_position": [
+            0.206091,
+            0.040433,
+            0.749696
+          ],
+          "top_weights": [
+            {
+              "bone": "ring_03_r",
+              "weight": 0.964823
+            },
+            {
+              "bone": "ring_02_r",
+              "weight": 0.034977
+            },
+            {
+              "bone": "middle_03_r",
+              "weight": 0.0001
+            },
+            {
+              "bone": "pinky_03_r",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 4193,
+          "signed_distance_mm": -1.4809,
+          "penetration_mm": 1.4809,
+          "region": "finger",
+          "rest_position": [
+            0.206702,
+            0.016092,
+            0.742065
+          ],
+          "top_weights": [
+            {
+              "bone": "middle_03_r",
+              "weight": 0.963489
+            },
+            {
+              "bone": "middle_02_r",
+              "weight": 0.036511
+            }
+          ]
+        },
+        {
+          "vertex": 13402,
+          "signed_distance_mm": -1.4777,
+          "penetration_mm": 1.4777,
+          "region": "thumb",
+          "rest_position": [
+            0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.379832
+            }
+          ]
+        },
+        {
+          "vertex": 13270,
+          "signed_distance_mm": -1.4685,
+          "penetration_mm": 1.4685,
+          "region": "finger",
+          "rest_position": [
+            0.203764,
+            0.062354,
+            0.768469
+          ],
+          "top_weights": [
+            {
+              "bone": "pinky_03_r",
+              "weight": 0.990274
+            },
+            {
+              "bone": "pinky_02_r",
+              "weight": 0.009526
+            },
+            {
+              "bone": "ring_02_r",
+              "weight": 0.0001
+            },
+            {
+              "bone": "ring_03_r",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 13401,
+          "signed_distance_mm": -1.3816,
+          "penetration_mm": 1.3816,
+          "region": "thumb",
+          "rest_position": [
+            0.171948,
+            -0.051362,
+            0.842751
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.629026
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.370974
+            }
+          ]
+        },
+        {
+          "vertex": 13420,
+          "signed_distance_mm": -1.3717,
+          "penetration_mm": 1.3717,
+          "region": "thumb",
+          "rest_position": [
+            0.163814,
+            -0.045906,
+            0.833425
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.824573
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.175427
+            }
+          ]
+        }
+      ],
+      "next_inspection": "Inspect the listed thumb/finger points against the measured handle before editing. Pre-close penetration is an observation, not proof of a rig, weight or geometry cause."
+    },
+    {
+      "pose": "pullup_bar",
+      "side": "l",
+      "pre_close_penetration_mm": 0.0,
+      "post_close_penetration_mm": 1.6269,
+      "closing_delta_mm": 1.6269,
+      "penetration_present_before_close": false,
+      "development_penetration_failed": false,
+      "post_close_contact_vertices": 269,
+      "development_contact_failed": false,
+      "handle": {
+        "centre": [
+          -0.464188,
+          -0.007772,
+          2.151191
+        ],
+        "axis": [
+          -0.921785,
+          0.047466,
+          -0.384785
+        ],
+        "radius_m": 0.017
+      },
+      "pre_close_deepest": [
+        {
+          "vertex": 10360,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 16375,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.170779,
+            -0.044262,
+            0.841636
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.619704
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.380296
+            }
+          ]
+        },
+        {
+          "vertex": 16383,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 2946,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.164855,
+            -0.053903,
+            0.833363
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.937164
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.062836
+            }
+          ]
+        },
+        {
+          "vertex": 2938,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 10344,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.168023,
+            -0.046222,
+            0.839129
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.63203
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.36797
+            }
+          ]
+        },
+        {
+          "vertex": 2939,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.166035,
+            -0.043509,
+            0.836984
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.630731
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.369269
+            }
+          ]
+        },
+        {
+          "vertex": 10357,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 10343,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.168089,
+            -0.041564,
+            0.83968
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.619015
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.380985
+            }
+          ]
+        },
+        {
+          "vertex": 10327,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.174096,
+            -0.035957,
+            0.844019
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.918452
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.080593
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.000955
+            }
+          ]
+        },
+        {
+          "vertex": 10328,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.173722,
+            -0.041995,
+            0.843411
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.80847
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.19143
+            },
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 10341,
+          "signed_distance_mm": 0.6005,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            -0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.379832
+            }
+          ]
+        }
+      ],
+      "post_close_deepest": [
+        {
+          "vertex": 2938,
+          "signed_distance_mm": -1.6269,
+          "penetration_mm": 1.6269,
+          "region": "thumb",
+          "rest_position": [
+            -0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 16382,
+          "signed_distance_mm": -1.567,
+          "penetration_mm": 1.567,
+          "region": "thumb",
+          "rest_position": [
+            -0.168804,
+            -0.053765,
+            0.839673
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.834159
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.165841
+            }
+          ]
+        },
+        {
+          "vertex": 10357,
+          "signed_distance_mm": -1.5636,
+          "penetration_mm": 1.5636,
+          "region": "thumb",
+          "rest_position": [
+            -0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 16383,
+          "signed_distance_mm": -1.5392,
+          "penetration_mm": 1.5392,
+          "region": "thumb",
+          "rest_position": [
+            -0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 10360,
+          "signed_distance_mm": -1.4993,
+          "penetration_mm": 1.4993,
+          "region": "thumb",
+          "rest_position": [
+            -0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 2768,
+          "signed_distance_mm": -1.4859,
+          "penetration_mm": 1.4859,
+          "region": "finger",
+          "rest_position": [
+            -0.206091,
+            0.040433,
+            0.749696
+          ],
+          "top_weights": [
+            {
+              "bone": "ring_03_l",
+              "weight": 0.964823
+            },
+            {
+              "bone": "ring_02_l",
+              "weight": 0.034977
+            },
+            {
+              "bone": "middle_03_l",
+              "weight": 0.0001
+            },
+            {
+              "bone": "pinky_03_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 2671,
+          "signed_distance_mm": -1.4812,
+          "penetration_mm": 1.4812,
+          "region": "finger",
+          "rest_position": [
+            -0.206702,
+            0.016092,
+            0.742065
+          ],
+          "top_weights": [
+            {
+              "bone": "middle_03_l",
+              "weight": 0.963489
+            },
+            {
+              "bone": "middle_02_l",
+              "weight": 0.036511
+            }
+          ]
+        },
+        {
+          "vertex": 10341,
+          "signed_distance_mm": -1.4776,
+          "penetration_mm": 1.4776,
+          "region": "thumb",
+          "rest_position": [
+            -0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.379832
+            }
+          ]
+        },
+        {
+          "vertex": 10209,
+          "signed_distance_mm": -1.4685,
+          "penetration_mm": 1.4685,
+          "region": "finger",
+          "rest_position": [
+            -0.203764,
+            0.062354,
+            0.768469
+          ],
+          "top_weights": [
+            {
+              "bone": "pinky_03_l",
+              "weight": 0.990274
+            },
+            {
+              "bone": "pinky_02_l",
+              "weight": 0.009526
+            },
+            {
+              "bone": "ring_02_l",
+              "weight": 0.0001
+            },
+            {
+              "bone": "ring_03_l",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 9606,
+          "signed_distance_mm": -1.4668,
+          "penetration_mm": 1.4668,
+          "region": "finger",
+          "rest_position": [
+            -0.207883,
+            -0.011659,
+            0.752137
+          ],
+          "top_weights": [
+            {
+              "bone": "index_03_l",
+              "weight": 0.951181
+            },
+            {
+              "bone": "index_02_l",
+              "weight": 0.048819
+            }
+          ]
+        },
+        {
+          "vertex": 10342,
+          "signed_distance_mm": -1.3816,
+          "penetration_mm": 1.3816,
+          "region": "thumb",
+          "rest_position": [
+            -0.171948,
+            -0.051362,
+            0.842751
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.629026
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.370974
+            }
+          ]
+        },
+        {
+          "vertex": 10359,
+          "signed_distance_mm": -1.3718,
+          "penetration_mm": 1.3718,
+          "region": "thumb",
+          "rest_position": [
+            -0.163814,
+            -0.045906,
+            0.833425
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_l",
+              "weight": 0.824573
+            },
+            {
+              "bone": "thumb_02_l",
+              "weight": 0.175427
+            }
+          ]
+        }
+      ],
+      "next_inspection": "Inspect the listed thumb/finger points against the measured handle before editing. Pre-close penetration is an observation, not proof of a rig, weight or geometry cause."
+    },
+    {
+      "pose": "pullup_bar",
+      "side": "r",
+      "pre_close_penetration_mm": 0.0,
+      "post_close_penetration_mm": 1.6268,
+      "closing_delta_mm": 1.6268,
+      "penetration_present_before_close": false,
+      "development_penetration_failed": false,
+      "post_close_contact_vertices": 269,
+      "development_contact_failed": false,
+      "handle": {
+        "centre": [
+          0.464188,
+          -0.007772,
+          2.151191
+        ],
+        "axis": [
+          0.921785,
+          0.047466,
+          -0.384785
+        ],
+        "radius_m": 0.017
+      },
+      "pre_close_deepest": [
+        {
+          "vertex": 13419,
+          "signed_distance_mm": 0.6002,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 4468,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.164855,
+            -0.053903,
+            0.833363
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.937164
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.062836
+            }
+          ]
+        },
+        {
+          "vertex": 4461,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.166035,
+            -0.043509,
+            0.836984
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.630731
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.369269
+            }
+          ]
+        },
+        {
+          "vertex": 17923,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 13418,
+          "signed_distance_mm": 0.6003,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 13403,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.168023,
+            -0.046222,
+            0.83913
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.63203
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.36797
+            }
+          ]
+        },
+        {
+          "vertex": 13404,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.168089,
+            -0.041564,
+            0.83968
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.619015
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.380985
+            }
+          ]
+        },
+        {
+          "vertex": 17915,
+          "signed_distance_mm": 0.6004,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170779,
+            -0.044262,
+            0.841636
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.619704
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.380296
+            }
+          ]
+        },
+        {
+          "vertex": 4460,
+          "signed_distance_mm": 0.6005,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 4453,
+          "signed_distance_mm": 0.6005,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.170589,
+            -0.039306,
+            0.841947
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.807191
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.192809
+            }
+          ]
+        },
+        {
+          "vertex": 17907,
+          "signed_distance_mm": 0.6005,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.177315,
+            -0.038657,
+            0.844703
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.919326
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.079337
+            },
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.001337
+            }
+          ]
+        },
+        {
+          "vertex": 13388,
+          "signed_distance_mm": 0.6007,
+          "penetration_mm": 0.0,
+          "region": "thumb",
+          "rest_position": [
+            0.174096,
+            -0.035957,
+            0.844019
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.918452
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.080593
+            },
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.000955
+            }
+          ]
+        }
+      ],
+      "post_close_deepest": [
+        {
+          "vertex": 4460,
+          "signed_distance_mm": -1.6268,
+          "penetration_mm": 1.6268,
+          "region": "thumb",
+          "rest_position": [
+            0.170609,
+            -0.048968,
+            0.841097
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.633747
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.366253
+            }
+          ]
+        },
+        {
+          "vertex": 17922,
+          "signed_distance_mm": -1.567,
+          "penetration_mm": 1.567,
+          "region": "thumb",
+          "rest_position": [
+            0.168804,
+            -0.053765,
+            0.839673
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.834159
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.165841
+            }
+          ]
+        },
+        {
+          "vertex": 13418,
+          "signed_distance_mm": -1.5636,
+          "penetration_mm": 1.5636,
+          "region": "thumb",
+          "rest_position": [
+            0.167175,
+            -0.051375,
+            0.837598
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.830789
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.169211
+            }
+          ]
+        },
+        {
+          "vertex": 17923,
+          "signed_distance_mm": -1.5393,
+          "penetration_mm": 1.5393,
+          "region": "thumb",
+          "rest_position": [
+            0.165306,
+            -0.048588,
+            0.835108
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.827393
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.172607
+            }
+          ]
+        },
+        {
+          "vertex": 13419,
+          "signed_distance_mm": -1.4993,
+          "penetration_mm": 1.4993,
+          "region": "thumb",
+          "rest_position": [
+            0.163892,
+            -0.051139,
+            0.831041
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.933766
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.066234
+            }
+          ]
+        },
+        {
+          "vertex": 4290,
+          "signed_distance_mm": -1.4859,
+          "penetration_mm": 1.4859,
+          "region": "finger",
+          "rest_position": [
+            0.206091,
+            0.040433,
+            0.749696
+          ],
+          "top_weights": [
+            {
+              "bone": "ring_03_r",
+              "weight": 0.964823
+            },
+            {
+              "bone": "ring_02_r",
+              "weight": 0.034977
+            },
+            {
+              "bone": "middle_03_r",
+              "weight": 0.0001
+            },
+            {
+              "bone": "pinky_03_r",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 4193,
+          "signed_distance_mm": -1.4812,
+          "penetration_mm": 1.4812,
+          "region": "finger",
+          "rest_position": [
+            0.206702,
+            0.016092,
+            0.742065
+          ],
+          "top_weights": [
+            {
+              "bone": "middle_03_r",
+              "weight": 0.963489
+            },
+            {
+              "bone": "middle_02_r",
+              "weight": 0.036511
+            }
+          ]
+        },
+        {
+          "vertex": 13402,
+          "signed_distance_mm": -1.4775,
+          "penetration_mm": 1.4775,
+          "region": "thumb",
+          "rest_position": [
+            0.173515,
+            -0.046988,
+            0.842932
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.620168
+            },
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.379832
+            }
+          ]
+        },
+        {
+          "vertex": 13270,
+          "signed_distance_mm": -1.4685,
+          "penetration_mm": 1.4685,
+          "region": "finger",
+          "rest_position": [
+            0.203764,
+            0.062354,
+            0.768469
+          ],
+          "top_weights": [
+            {
+              "bone": "pinky_03_r",
+              "weight": 0.990274
+            },
+            {
+              "bone": "pinky_02_r",
+              "weight": 0.009526
+            },
+            {
+              "bone": "ring_02_r",
+              "weight": 0.0001
+            },
+            {
+              "bone": "ring_03_r",
+              "weight": 0.0001
+            }
+          ]
+        },
+        {
+          "vertex": 12665,
+          "signed_distance_mm": -1.4668,
+          "penetration_mm": 1.4668,
+          "region": "finger",
+          "rest_position": [
+            0.207883,
+            -0.011659,
+            0.752137
+          ],
+          "top_weights": [
+            {
+              "bone": "index_03_r",
+              "weight": 0.951181
+            },
+            {
+              "bone": "index_02_r",
+              "weight": 0.048819
+            }
+          ]
+        },
+        {
+          "vertex": 13401,
+          "signed_distance_mm": -1.3816,
+          "penetration_mm": 1.3816,
+          "region": "thumb",
+          "rest_position": [
+            0.171948,
+            -0.051362,
+            0.842751
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.629026
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.370974
+            }
+          ]
+        },
+        {
+          "vertex": 13420,
+          "signed_distance_mm": -1.3716,
+          "penetration_mm": 1.3716,
+          "region": "thumb",
+          "rest_position": [
+            0.163814,
+            -0.045906,
+            0.833425
+          ],
+          "top_weights": [
+            {
+              "bone": "thumb_03_r",
+              "weight": 0.824573
+            },
+            {
+              "bone": "thumb_02_r",
+              "weight": 0.175427
+            }
+          ]
+        }
+      ],
+      "next_inspection": "Inspect the listed thumb/finger points against the measured handle before editing. Pre-close penetration is an observation, not proof of a rig, weight or geometry cause."
+    }
+  ],
+  "edge_observations": [
+    {
+      "pose": "pushup_bottom",
+      "region": "hand",
+      "direction": "max",
+      "extreme_ratio": 4.020093,
+      "development_limit": 5,
+      "development_failed": false,
+      "inspection_vertex_ids": [
+        2378,
+        2387,
+        2406,
+        3900,
+        3909,
+        3928,
+        9220,
+        9238,
+        9240,
+        9271,
+        9272,
+        9273,
+        12279,
+        12297,
+        12299,
+        12331,
+        12332,
+        12334,
+        15837,
+        17377
+      ],
+      "edges": [
+        {
+          "rank": 1,
+          "edge_index": 22652,
+          "vertices": [
+            2378,
+            9220
+          ],
+          "ratio": 4.020093,
+          "rest_length_m": 0.00281264,
+          "posed_length_m": 0.01130707,
+          "rest_midpoint": [
+            -0.234093,
+            0.037911,
+            0.918125
+          ],
+          "posed_midpoint": [
+            -0.40196,
+            -1.306386,
+            0.042338
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "hand_l",
+              "weight": 0.595038
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.161612
+            },
+            {
+              "bone": "metacarpal_ring_l",
+              "weight": 0.127412
+            },
+            {
+              "bone": "metacarpal_pinky_l",
+              "weight": 0.115938
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "forearm_l",
+              "weight": 0.581343
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.264493
+            },
+            {
+              "bone": "metacarpal_ring_l",
+              "weight": 0.090843
+            },
+            {
+              "bone": "metacarpal_pinky_l",
+              "weight": 0.06332
+            }
+          ],
+          "mirror_edge_index": 7784,
+          "mirror_ratio": 4.020093
+        },
+        {
+          "rank": 2,
+          "edge_index": 7784,
+          "vertices": [
+            3900,
+            12279
+          ],
+          "ratio": 4.020093,
+          "rest_length_m": 0.00281264,
+          "posed_length_m": 0.01130707,
+          "rest_midpoint": [
+            0.234093,
+            0.037911,
+            0.918125
+          ],
+          "posed_midpoint": [
+            0.40196,
+            -1.306386,
+            0.042338
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "hand_r",
+              "weight": 0.595038
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.161612
+            },
+            {
+              "bone": "metacarpal_ring_r",
+              "weight": 0.127412
+            },
+            {
+              "bone": "metacarpal_pinky_r",
+              "weight": 0.115938
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "forearm_r",
+              "weight": 0.581343
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.264493
+            },
+            {
+              "bone": "metacarpal_ring_r",
+              "weight": 0.090843
+            },
+            {
+              "bone": "metacarpal_pinky_r",
+              "weight": 0.06332
+            }
+          ],
+          "mirror_edge_index": 22652,
+          "mirror_ratio": 4.020093
+        },
+        {
+          "rank": 3,
+          "edge_index": 31649,
+          "vertices": [
+            2387,
+            9240
+          ],
+          "ratio": 2.890494,
+          "rest_length_m": 0.00273983,
+          "posed_length_m": 0.00791945,
+          "rest_midpoint": [
+            -0.19735,
+            0.022651,
+            0.918125
+          ],
+          "posed_midpoint": [
+            -0.392265,
+            -1.290087,
+            0.017401
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_l",
+              "weight": 0.675169
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.192148
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.075527
+            },
+            {
+              "bone": "metacarpal_index_l",
+              "weight": 0.057156
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "hand_l",
+              "weight": 0.385012
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.368288
+            },
+            {
+              "bone": "metacarpal_index_l",
+              "weight": 0.124026
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.122674
+            }
+          ],
+          "mirror_edge_index": 16768,
+          "mirror_ratio": 2.890494
+        },
+        {
+          "rank": 4,
+          "edge_index": 16768,
+          "vertices": [
+            3909,
+            12299
+          ],
+          "ratio": 2.890494,
+          "rest_length_m": 0.00273983,
+          "posed_length_m": 0.00791945,
+          "rest_midpoint": [
+            0.19735,
+            0.022651,
+            0.918125
+          ],
+          "posed_midpoint": [
+            0.392265,
+            -1.290087,
+            0.017401
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_r",
+              "weight": 0.675169
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.192148
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.075527
+            },
+            {
+              "bone": "metacarpal_index_r",
+              "weight": 0.057156
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "hand_r",
+              "weight": 0.385012
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.368288
+            },
+            {
+              "bone": "metacarpal_index_r",
+              "weight": 0.124026
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.122674
+            }
+          ],
+          "mirror_edge_index": 31649,
+          "mirror_ratio": 2.890494
+        },
+        {
+          "rank": 5,
+          "edge_index": 7834,
+          "vertices": [
+            3928,
+            12331
+          ],
+          "ratio": 2.863473,
+          "rest_length_m": 0.00405787,
+          "posed_length_m": 0.0116196,
+          "rest_midpoint": [
+            0.195919,
+            0.02834,
+            0.90175
+          ],
+          "posed_midpoint": [
+            0.399762,
+            -1.316404,
+            0.006557
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.527316
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.24567
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.122108
+            },
+            {
+              "bone": "metacarpal_pinky_r",
+              "weight": 0.104907
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "hand_r",
+              "weight": 0.58045
+            },
+            {
+              "bone": "metacarpal_pinky_r",
+              "weight": 0.215325
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.115093
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.089132
+            }
+          ],
+          "mirror_edge_index": 22703,
+          "mirror_ratio": 2.863473
+        },
+        {
+          "rank": 6,
+          "edge_index": 22703,
+          "vertices": [
+            2406,
+            9272
+          ],
+          "ratio": 2.863473,
+          "rest_length_m": 0.00405787,
+          "posed_length_m": 0.0116196,
+          "rest_midpoint": [
+            -0.195919,
+            0.02834,
+            0.90175
+          ],
+          "posed_midpoint": [
+            -0.399762,
+            -1.316404,
+            0.006557
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.527316
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.24567
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.122108
+            },
+            {
+              "bone": "metacarpal_pinky_l",
+              "weight": 0.104907
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "hand_l",
+              "weight": 0.58045
+            },
+            {
+              "bone": "metacarpal_pinky_l",
+              "weight": 0.215325
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.115093
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.089132
+            }
+          ],
+          "mirror_edge_index": 7834,
+          "mirror_ratio": 2.863473
+        },
+        {
+          "rank": 7,
+          "edge_index": 16804,
+          "vertices": [
+            12297,
+            17377
+          ],
+          "ratio": 2.859713,
+          "rest_length_m": 0.00839905,
+          "posed_length_m": 0.02401886,
+          "rest_midpoint": [
+            0.196753,
+            0.02565,
+            0.914062
+          ],
+          "posed_midpoint": [
+            0.395106,
+            -1.296443,
+            0.012648
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_r",
+              "weight": 0.678802
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.216961
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.064796
+            },
+            {
+              "bone": "metacarpal_index_r",
+              "weight": 0.03944
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.352782
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.322185
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.176007
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.149025
+            }
+          ],
+          "mirror_edge_index": 22704,
+          "mirror_ratio": 2.859713
+        },
+        {
+          "rank": 8,
+          "edge_index": 22704,
+          "vertices": [
+            9238,
+            15837
+          ],
+          "ratio": 2.859713,
+          "rest_length_m": 0.00839905,
+          "posed_length_m": 0.02401886,
+          "rest_midpoint": [
+            -0.196753,
+            0.02565,
+            0.914062
+          ],
+          "posed_midpoint": [
+            -0.395106,
+            -1.296443,
+            0.012648
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_l",
+              "weight": 0.678802
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.216961
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.064796
+            },
+            {
+              "bone": "metacarpal_index_l",
+              "weight": 0.03944
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.352782
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.322185
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.176007
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.149025
+            }
+          ],
+          "mirror_edge_index": 16804,
+          "mirror_ratio": 2.859713
+        },
+        {
+          "rank": 9,
+          "edge_index": 7839,
+          "vertices": [
+            12332,
+            17377
+          ],
+          "ratio": 2.545766,
+          "rest_length_m": 0.00315911,
+          "posed_length_m": 0.00804235,
+          "rest_midpoint": [
+            0.196559,
+            0.026172,
+            0.91
+          ],
+          "posed_midpoint": [
+            0.396554,
+            -1.304631,
+            0.008537
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "hand_r",
+              "weight": 0.583819
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.183701
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.124074
+            },
+            {
+              "bone": "metacarpal_pinky_r",
+              "weight": 0.108406
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.352782
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.322185
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.176007
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.149025
+            }
+          ],
+          "mirror_edge_index": 31680,
+          "mirror_ratio": 2.545766
+        },
+        {
+          "rank": 10,
+          "edge_index": 31680,
+          "vertices": [
+            9271,
+            15837
+          ],
+          "ratio": 2.545766,
+          "rest_length_m": 0.00315911,
+          "posed_length_m": 0.00804235,
+          "rest_midpoint": [
+            -0.196559,
+            0.026172,
+            0.91
+          ],
+          "posed_midpoint": [
+            -0.396554,
+            -1.304631,
+            0.008537
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "hand_l",
+              "weight": 0.583819
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.183701
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.124074
+            },
+            {
+              "bone": "metacarpal_pinky_l",
+              "weight": 0.108406
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.352782
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.322185
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.176007
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.149025
+            }
+          ],
+          "mirror_edge_index": 7839,
+          "mirror_ratio": 2.545766
+        },
+        {
+          "rank": 11,
+          "edge_index": 31681,
+          "vertices": [
+            2387,
+            9273
+          ],
+          "ratio": 2.543451,
+          "rest_length_m": 0.00852478,
+          "posed_length_m": 0.02168237,
+          "rest_midpoint": [
+            -0.196993,
+            0.02272,
+            0.914062
+          ],
+          "posed_midpoint": [
+            -0.392184,
+            -1.295583,
+            0.013114
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_l",
+              "weight": 0.675169
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.192148
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.075527
+            },
+            {
+              "bone": "metacarpal_index_l",
+              "weight": 0.057156
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_l",
+              "weight": 0.316539
+            },
+            {
+              "bone": "hand_l",
+              "weight": 0.280435
+            },
+            {
+              "bone": "forearm_l",
+              "weight": 0.243705
+            },
+            {
+              "bone": "metacarpal_middle_l",
+              "weight": 0.159321
+            }
+          ],
+          "mirror_edge_index": 16803,
+          "mirror_ratio": 2.543451
+        },
+        {
+          "rank": 12,
+          "edge_index": 16803,
+          "vertices": [
+            3909,
+            12334
+          ],
+          "ratio": 2.543451,
+          "rest_length_m": 0.00852478,
+          "posed_length_m": 0.02168237,
+          "rest_midpoint": [
+            0.196993,
+            0.02272,
+            0.914062
+          ],
+          "posed_midpoint": [
+            0.392184,
+            -1.295583,
+            0.013114
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "forearm_r",
+              "weight": 0.675169
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.192148
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.075527
+            },
+            {
+              "bone": "metacarpal_index_r",
+              "weight": 0.057156
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thumb_01_r",
+              "weight": 0.316539
+            },
+            {
+              "bone": "hand_r",
+              "weight": 0.280435
+            },
+            {
+              "bone": "forearm_r",
+              "weight": 0.243705
+            },
+            {
+              "bone": "metacarpal_middle_r",
+              "weight": 0.159321
+            }
+          ],
+          "mirror_edge_index": 31681,
+          "mirror_ratio": 2.543451
+        }
+      ],
+      "work_package": "docs/work_packages/PHASE_3D_WRIST_PUSHUP.md"
+    },
+    {
+      "pose": "lunge",
+      "region": "pelvis",
+      "direction": "max",
+      "extreme_ratio": 4.57336,
+      "development_limit": 5,
+      "development_failed": false,
+      "inspection_vertex_ids": [
+        1441,
+        1442,
+        1443,
+        7369,
+        7370,
+        7372,
+        7373,
+        7375,
+        7376,
+        7378,
+        10434,
+        10436,
+        10438,
+        14882,
+        14883,
+        14884,
+        16423,
+        16424,
+        16425
+      ],
+      "edges": [
+        {
+          "rank": 1,
+          "edge_index": 20804,
+          "vertices": [
+            1442,
+            7373
+          ],
+          "ratio": 4.57336,
+          "rest_length_m": 0.02210965,
+          "posed_length_m": 0.10111538,
+          "rest_midpoint": [
+            -0.005195,
+            0.008462,
+            0.829684
+          ],
+          "posed_midpoint": [
+            -0.005195,
+            -0.078548,
+            0.636476
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.461343
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.461343
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.077281
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.919707
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.08002
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000273
+            }
+          ],
+          "mirror_edge_index": 23874,
+          "mirror_ratio": 4.540671
+        },
+        {
+          "rank": 2,
+          "edge_index": 23874,
+          "vertices": [
+            1442,
+            10436
+          ],
+          "ratio": 4.540671,
+          "rest_length_m": 0.02210965,
+          "posed_length_m": 0.10039265,
+          "rest_midpoint": [
+            0.005195,
+            0.008462,
+            0.829684
+          ],
+          "posed_midpoint": [
+            0.005195,
+            0.009343,
+            0.590079
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.461343
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.461343
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.077281
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.919707
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.08002
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000273
+            }
+          ],
+          "mirror_edge_index": 20804,
+          "mirror_ratio": 4.57336
+        },
+        {
+          "rank": 3,
+          "edge_index": 32846,
+          "vertices": [
+            7375,
+            16424
+          ],
+          "ratio": 4.520644,
+          "rest_length_m": 0.02243882,
+          "posed_length_m": 0.1014379,
+          "rest_midpoint": [
+            0.005124,
+            -0.012997,
+            0.831346
+          ],
+          "posed_midpoint": [
+            0.005124,
+            -0.006951,
+            0.591207
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.460202
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.460202
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.079563
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.921288
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.078383
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000329
+            }
+          ],
+          "mirror_edge_index": 29779,
+          "mirror_ratio": 4.412166
+        },
+        {
+          "rank": 4,
+          "edge_index": 2858,
+          "vertices": [
+            7372,
+            14883
+          ],
+          "ratio": 4.457098,
+          "rest_length_m": 0.02349668,
+          "posed_length_m": 0.10472699,
+          "rest_midpoint": [
+            -0.005675,
+            0.030889,
+            0.831787
+          ],
+          "posed_midpoint": [
+            -0.005675,
+            -0.06819,
+            0.623762
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.459436
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.459436
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.081096
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.2e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.91822
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.081505
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000275
+            }
+          ],
+          "mirror_edge_index": 5940,
+          "mirror_ratio": 4.200512
+        },
+        {
+          "rank": 5,
+          "edge_index": 29779,
+          "vertices": [
+            7375,
+            14884
+          ],
+          "ratio": 4.412166,
+          "rest_length_m": 0.02243882,
+          "posed_length_m": 0.09900378,
+          "rest_midpoint": [
+            -0.005124,
+            -0.012997,
+            0.831346
+          ],
+          "posed_midpoint": [
+            -0.005124,
+            -0.086204,
+            0.650273
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.460202
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.460202
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.079563
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.921288
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.078383
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000329
+            }
+          ],
+          "mirror_edge_index": 32846,
+          "mirror_ratio": 4.520644
+        },
+        {
+          "rank": 6,
+          "edge_index": 14903,
+          "vertices": [
+            1441,
+            10438
+          ],
+          "ratio": 4.207972,
+          "rest_length_m": 0.024178,
+          "posed_length_m": 0.10174034,
+          "rest_midpoint": [
+            0.005271,
+            -0.032207,
+            0.836586
+          ],
+          "posed_midpoint": [
+            0.005271,
+            -0.021523,
+            0.594635
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.454787
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.454787
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.090394
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.912433
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.087511
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.6e-05
+            }
+          ],
+          "mirror_edge_index": 11834,
+          "mirror_ratio": 3.959803
+        },
+        {
+          "rank": 7,
+          "edge_index": 5940,
+          "vertices": [
+            7372,
+            16423
+          ],
+          "ratio": 4.200512,
+          "rest_length_m": 0.02349668,
+          "posed_length_m": 0.09869806,
+          "rest_midpoint": [
+            0.005675,
+            0.030889,
+            0.831787
+          ],
+          "posed_midpoint": [
+            0.005675,
+            0.026652,
+            0.591389
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.459436
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.459436
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.081096
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.2e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.91822
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.081505
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000275
+            }
+          ],
+          "mirror_edge_index": 2858,
+          "mirror_ratio": 4.457098
+        },
+        {
+          "rank": 8,
+          "edge_index": 29776,
+          "vertices": [
+            1443,
+            7370
+          ],
+          "ratio": 4.08872,
+          "rest_length_m": 0.02633106,
+          "posed_length_m": 0.10766031,
+          "rest_midpoint": [
+            -0.006844,
+            0.05211,
+            0.837484
+          ],
+          "posed_midpoint": [
+            -0.006844,
+            -0.055024,
+            0.612914
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.452404
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.452404
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.09516
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.906969
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.092973
+            },
+            {
+              "bone": "spine_01",
+              "weight": 5.8e-05
+            }
+          ],
+          "mirror_edge_index": 32843,
+          "mirror_ratio": 3.641136
+        },
+        {
+          "rank": 9,
+          "edge_index": 11834,
+          "vertices": [
+            1441,
+            7376
+          ],
+          "ratio": 3.959803,
+          "rest_length_m": 0.024178,
+          "posed_length_m": 0.09574013,
+          "rest_midpoint": [
+            -0.005271,
+            -0.032207,
+            0.836586
+          ],
+          "posed_midpoint": [
+            -0.005271,
+            -0.090309,
+            0.663294
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.454787
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.454787
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.090394
+            },
+            {
+              "bone": "spine_01",
+              "weight": 3.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.912433
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.087511
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.6e-05
+            }
+          ],
+          "mirror_edge_index": 14903,
+          "mirror_ratio": 4.207972
+        },
+        {
+          "rank": 10,
+          "edge_index": 23879,
+          "vertices": [
+            7378,
+            16425
+          ],
+          "ratio": 3.77426,
+          "rest_length_m": 0.02632658,
+          "posed_length_m": 0.09936334,
+          "rest_midpoint": [
+            0.005805,
+            -0.046908,
+            0.844916
+          ],
+          "posed_midpoint": [
+            0.005805,
+            -0.032979,
+            0.599923
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.443079
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.443079
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.113812
+            },
+            {
+              "bone": "spine_02",
+              "weight": 2.9e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.895322
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.104637
+            },
+            {
+              "bone": "spine_01",
+              "weight": 4.1e-05
+            }
+          ],
+          "mirror_edge_index": 20810,
+          "mirror_ratio": 3.48369
+        },
+        {
+          "rank": 11,
+          "edge_index": 11827,
+          "vertices": [
+            7369,
+            14882
+          ],
+          "ratio": 3.667011,
+          "rest_length_m": 0.03022986,
+          "posed_length_m": 0.11085321,
+          "rest_midpoint": [
+            -0.00837,
+            0.070493,
+            0.846194
+          ],
+          "posed_midpoint": [
+            -0.00837,
+            -0.040783,
+            0.605421
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.442037
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.442037
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.115896
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.894771
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.105185
+            },
+            {
+              "bone": "spine_01",
+              "weight": 4.4e-05
+            }
+          ],
+          "mirror_edge_index": 14899,
+          "mirror_ratio": 3.042707
+        },
+        {
+          "rank": 12,
+          "edge_index": 32843,
+          "vertices": [
+            1443,
+            10434
+          ],
+          "ratio": 3.641136,
+          "rest_length_m": 0.02633106,
+          "posed_length_m": 0.09587496,
+          "rest_midpoint": [
+            0.006844,
+            0.05211,
+            0.837484
+          ],
+          "posed_midpoint": [
+            0.006844,
+            0.04329,
+            0.595086
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.452404
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.452404
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.09516
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.906969
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.092973
+            },
+            {
+              "bone": "spine_01",
+              "weight": 5.8e-05
+            }
+          ],
+          "mirror_edge_index": 29776,
+          "mirror_ratio": 4.08872
+        }
+      ],
+      "work_package": "docs/work_packages/PHASE_3E_HIP_LUNGE.md"
+    },
+    {
+      "pose": "lunge",
+      "region": "torso",
+      "direction": "min",
+      "extreme_ratio": 0.185029,
+      "development_limit": 0.15,
+      "development_failed": false,
+      "inspection_vertex_ids": [
+        309,
+        341,
+        374,
+        375,
+        4910,
+        5004,
+        5005,
+        5008,
+        5068,
+        5069,
+        5135,
+        5138,
+        5201,
+        13672,
+        13704,
+        13705,
+        13738,
+        13770
+      ],
+      "edges": [
+        {
+          "rank": 1,
+          "edge_index": 9448,
+          "vertices": [
+            5005,
+            13672
+          ],
+          "ratio": 0.185029,
+          "rest_length_m": 0.01214686,
+          "posed_length_m": 0.00224752,
+          "rest_midpoint": [
+            -0.014808,
+            -0.083627,
+            0.924773
+          ],
+          "posed_midpoint": [
+            -0.014808,
+            -0.065735,
+            0.712652
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.517376
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.467207
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.015364
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.52826
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.466486
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.005202
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "mirror_edge_index": 27461,
+          "mirror_ratio": 1.137469
+        },
+        {
+          "rank": 2,
+          "edge_index": 9517,
+          "vertices": [
+            5005,
+            13704
+          ],
+          "ratio": 0.214059,
+          "rest_length_m": 0.01236594,
+          "posed_length_m": 0.00264704,
+          "rest_midpoint": [
+            -0.014854,
+            -0.086667,
+            0.936645
+          ],
+          "posed_midpoint": [
+            -0.014854,
+            -0.064668,
+            0.714676
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.517376
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.467207
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.015364
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.557646
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.408657
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.033643
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "mirror_edge_index": 27524,
+          "mirror_ratio": 1.128365
+        },
+        {
+          "rank": 3,
+          "edge_index": 9518,
+          "vertices": [
+            309,
+            5068
+          ],
+          "ratio": 0.229986,
+          "rest_length_m": 0.01236493,
+          "posed_length_m": 0.00284376,
+          "rest_midpoint": [
+            -0.029682,
+            -0.085934,
+            0.936654
+          ],
+          "posed_midpoint": [
+            -0.029682,
+            -0.06013,
+            0.722872
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.547356
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.439688
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.012926
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.49087
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.480163
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.028915
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "mirror_edge_index": 27521,
+          "mirror_ratio": 1.122177
+        },
+        {
+          "rank": 4,
+          "edge_index": 9447,
+          "vertices": [
+            309,
+            5004
+          ],
+          "ratio": 0.2434,
+          "rest_length_m": 0.01214587,
+          "posed_length_m": 0.00295631,
+          "rest_midpoint": [
+            -0.02959,
+            -0.082881,
+            0.924786
+          ],
+          "posed_midpoint": [
+            -0.02959,
+            -0.062404,
+            0.721381
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.547356
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.439688
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.012926
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.610411
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.385298
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.004239
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "mirror_edge_index": 27458,
+          "mirror_ratio": 1.141988
+        },
+        {
+          "rank": 5,
+          "edge_index": 18396,
+          "vertices": [
+            4910,
+            13672
+          ],
+          "ratio": 0.26838,
+          "rest_length_m": 0.0119602,
+          "posed_length_m": 0.00320988,
+          "rest_midpoint": [
+            -0.014678,
+            -0.080368,
+            0.91317
+          ],
+          "posed_midpoint": [
+            -0.014678,
+            -0.068197,
+            0.7118
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.591865
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.406889
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.001192
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.52826
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.466486
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.005202
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "mirror_edge_index": 27460,
+          "mirror_ratio": 1.148298
+        },
+        {
+          "rank": 6,
+          "edge_index": 516,
+          "vertices": [
+            5008,
+            13705
+          ],
+          "ratio": 0.26985,
+          "rest_length_m": 0.01236938,
+          "posed_length_m": 0.00333788,
+          "rest_midpoint": [
+            -0.044381,
+            -0.083885,
+            0.936833
+          ],
+          "posed_midpoint": [
+            -0.044381,
+            -0.054625,
+            0.730955
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.635435
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.35333
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.011204
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.57901
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.395618
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.02532
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "mirror_edge_index": 18513,
+          "mirror_ratio": 1.119258
+        },
+        {
+          "rank": 7,
+          "edge_index": 9519,
+          "vertices": [
+            341,
+            5068
+          ],
+          "ratio": 0.272443,
+          "rest_length_m": 0.01253891,
+          "posed_length_m": 0.00341614,
+          "rest_midpoint": [
+            -0.029589,
+            -0.088756,
+            0.94878
+          ],
+          "posed_midpoint": [
+            -0.029589,
+            -0.059037,
+            0.725707
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.512322
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.436775
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.05085
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.49087
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.480163
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.028915
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.2e-05
+            }
+          ],
+          "mirror_edge_index": 27522,
+          "mirror_ratio": 1.114922
+        },
+        {
+          "rank": 8,
+          "edge_index": 9520,
+          "vertices": [
+            5069,
+            13704
+          ],
+          "ratio": 0.286751,
+          "rest_length_m": 0.0125374,
+          "posed_length_m": 0.00359511,
+          "rest_midpoint": [
+            -0.014806,
+            -0.089459,
+            0.948779
+          ],
+          "posed_midpoint": [
+            -0.014806,
+            -0.065028,
+            0.71769
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.59925
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.348628
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.052091
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.557646
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.408657
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.033643
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "mirror_edge_index": 27525,
+          "mirror_ratio": 1.13121
+        },
+        {
+          "rank": 9,
+          "edge_index": 18585,
+          "vertices": [
+            5138,
+            13770
+          ],
+          "ratio": 0.289416,
+          "rest_length_m": 0.01282426,
+          "posed_length_m": 0.00371155,
+          "rest_midpoint": [
+            -0.070185,
+            -0.089381,
+            0.986157
+          ],
+          "posed_midpoint": [
+            -0.070185,
+            -0.032119,
+            0.755294
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.602547
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.314924
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.082456
+            },
+            {
+              "bone": "spine_02",
+              "weight": 7.4e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.525754
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.37361
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.100392
+            },
+            {
+              "bone": "spine_02",
+              "weight": 0.000244
+            }
+          ],
+          "mirror_edge_index": 700,
+          "mirror_ratio": 1.153686
+        },
+        {
+          "rank": 10,
+          "edge_index": 18519,
+          "vertices": [
+            374,
+            5135
+          ],
+          "ratio": 0.29946,
+          "rest_length_m": 0.0127686,
+          "posed_length_m": 0.00382369,
+          "rest_midpoint": [
+            -0.057504,
+            -0.090163,
+            0.97361
+          ],
+          "posed_midpoint": [
+            -0.057504,
+            -0.040933,
+            0.747891
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.520046
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.397123
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.082765
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6.6e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.575354
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.363168
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.061425
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "mirror_edge_index": 18575,
+          "mirror_ratio": 1.110981
+        },
+        {
+          "rank": 11,
+          "edge_index": 27593,
+          "vertices": [
+            375,
+            5201
+          ],
+          "ratio": 0.304469,
+          "rest_length_m": 0.01295302,
+          "posed_length_m": 0.0039438,
+          "rest_midpoint": [
+            -0.083473,
+            -0.084698,
+            0.986267
+          ],
+          "posed_midpoint": [
+            -0.083473,
+            -0.02168,
+            0.757661
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.679483
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.247283
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.073174
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.610529
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.28994
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.099205
+            },
+            {
+              "bone": "spine_02",
+              "weight": 0.000326
+            }
+          ],
+          "mirror_edge_index": 9702,
+          "mirror_ratio": 1.117692
+        },
+        {
+          "rank": 12,
+          "edge_index": 18522,
+          "vertices": [
+            5138,
+            13738
+          ],
+          "ratio": 0.308748,
+          "rest_length_m": 0.01283978,
+          "posed_length_m": 0.00396425,
+          "rest_midpoint": [
+            -0.071442,
+            -0.086527,
+            0.973725
+          ],
+          "posed_midpoint": [
+            -0.071442,
+            -0.031688,
+            0.752113
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.602547
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.314924
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.082456
+            },
+            {
+              "bone": "spine_02",
+              "weight": 7.4e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.65921
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.284814
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.055923
+            },
+            {
+              "bone": "spine_02",
+              "weight": 5.3e-05
+            }
+          ],
+          "mirror_edge_index": 637,
+          "mirror_ratio": 1.103589
+        }
+      ],
+      "work_package": "docs/work_packages/PHASE_3E_HIP_LUNGE.md"
+    },
+    {
+      "pose": "lunge",
+      "region": "torso",
+      "direction": "max",
+      "extreme_ratio": 3.903947,
+      "development_limit": 5,
+      "development_failed": false,
+      "inspection_vertex_ids": [
+        244,
+        260,
+        292,
+        324,
+        576,
+        4908,
+        4911,
+        4954,
+        4955,
+        4957,
+        4959,
+        5002,
+        5035,
+        5038,
+        5603,
+        13640,
+        13655,
+        13656,
+        13671,
+        13688
+      ],
+      "edges": [
+        {
+          "rank": 1,
+          "edge_index": 27351,
+          "vertices": [
+            4955,
+            13656
+          ],
+          "ratio": 3.903947,
+          "rest_length_m": 0.01806498,
+          "posed_length_m": 0.0705247,
+          "rest_midpoint": [
+            0.005803,
+            0.116798,
+            0.898337
+          ],
+          "posed_midpoint": [
+            0.005803,
+            0.099861,
+            0.640389
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.391387
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.304279
+            },
+            {
+              "bone": "thigh_r",
+              "weight": 0.304279
+            },
+            {
+              "bone": "spine_01",
+              "weight": 5.5e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.596693
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.403209
+            },
+            {
+              "bone": "spine_01",
+              "weight": 6.6e-05
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "mirror_edge_index": 27349,
+          "mirror_ratio": 3.365483
+        },
+        {
+          "rank": 2,
+          "edge_index": 418,
+          "vertices": [
+            260,
+            4957
+          ],
+          "ratio": 3.820782,
+          "rest_length_m": 0.02281471,
+          "posed_length_m": 0.08717002,
+          "rest_midpoint": [
+            0.007969,
+            0.106024,
+            0.879672
+          ],
+          "posed_midpoint": [
+            0.007969,
+            0.087558,
+            0.62759
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.370519
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.370519
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.258896
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6.7e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.718101
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.28178
+            },
+            {
+              "bone": "spine_01",
+              "weight": 7.9e-05
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.9e-05
+            }
+          ],
+          "mirror_edge_index": 413,
+          "mirror_ratio": 3.213937
+        },
+        {
+          "rank": 3,
+          "edge_index": 419,
+          "vertices": [
+            292,
+            4959
+          ],
+          "ratio": 3.669702,
+          "rest_length_m": 0.01842946,
+          "posed_length_m": 0.0676306,
+          "rest_midpoint": [
+            0.005997,
+            0.119711,
+            0.908634
+          ],
+          "posed_midpoint": [
+            0.005997,
+            0.103039,
+            0.648859
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.421065
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.289432
+            },
+            {
+              "bone": "thigh_r",
+              "weight": 0.289432
+            },
+            {
+              "bone": "spine_01",
+              "weight": 7.1e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.568372
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.431523
+            },
+            {
+              "bone": "spine_01",
+              "weight": 7.5e-05
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "mirror_edge_index": 417,
+          "mirror_ratio": 3.057495
+        },
+        {
+          "rank": 4,
+          "edge_index": 377,
+          "vertices": [
+            244,
+            4908
+          ],
+          "ratio": 3.518914,
+          "rest_length_m": 0.02019055,
+          "posed_length_m": 0.0710488,
+          "rest_midpoint": [
+            -0.008215,
+            -0.065376,
+            0.878194
+          ],
+          "posed_midpoint": [
+            -0.008215,
+            -0.073501,
+            0.687137
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.39754
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.39754
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.204856
+            },
+            {
+              "bone": "spine_01",
+              "weight": 6.5e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.77904
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.220848
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6.8e-05
+            },
+            {
+              "bone": "spine_01",
+              "weight": 4.4e-05
+            }
+          ],
+          "mirror_edge_index": 453,
+          "mirror_ratio": 3.213214
+        },
+        {
+          "rank": 5,
+          "edge_index": 27426,
+          "vertices": [
+            5035,
+            13688
+          ],
+          "ratio": 3.44024,
+          "rest_length_m": 0.01860812,
+          "posed_length_m": 0.0640164,
+          "rest_midpoint": [
+            0.006194,
+            0.122296,
+            0.919745
+          ],
+          "posed_midpoint": [
+            0.006194,
+            0.106277,
+            0.658368
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.455533
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.272005
+            },
+            {
+              "bone": "thigh_r",
+              "weight": 0.272005
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000458
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.552437
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.446905
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000627
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "mirror_edge_index": 27424,
+          "mirror_ratio": 2.980796
+        },
+        {
+          "rank": 6,
+          "edge_index": 27349,
+          "vertices": [
+            4955,
+            13655
+          ],
+          "ratio": 3.365483,
+          "rest_length_m": 0.01806498,
+          "posed_length_m": 0.06079737,
+          "rest_midpoint": [
+            -0.005803,
+            0.116798,
+            0.898337
+          ],
+          "posed_midpoint": [
+            -0.005803,
+            0.045411,
+            0.607032
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.391387
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.304279
+            },
+            {
+              "bone": "thigh_r",
+              "weight": 0.304279
+            },
+            {
+              "bone": "spine_01",
+              "weight": 5.5e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.596693
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.403209
+            },
+            {
+              "bone": "spine_01",
+              "weight": 6.6e-05
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.1e-05
+            }
+          ],
+          "mirror_edge_index": 27351,
+          "mirror_ratio": 3.903947
+        },
+        {
+          "rank": 7,
+          "edge_index": 487,
+          "vertices": [
+            324,
+            5038
+          ],
+          "ratio": 3.24456,
+          "rest_length_m": 0.0187141,
+          "posed_length_m": 0.06071903,
+          "rest_midpoint": [
+            0.00638,
+            0.124014,
+            0.931147
+          ],
+          "posed_midpoint": [
+            0.00638,
+            0.108149,
+            0.667428
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.469787
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.263388
+            },
+            {
+              "bone": "thigh_r",
+              "weight": 0.263388
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.003438
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.507373
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.488489
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.004138
+            }
+          ],
+          "mirror_edge_index": 486,
+          "mirror_ratio": 2.624328
+        },
+        {
+          "rank": 8,
+          "edge_index": 27389,
+          "vertices": [
+            4911,
+            13671
+          ],
+          "ratio": 3.238167,
+          "rest_length_m": 0.01739999,
+          "posed_length_m": 0.05634408,
+          "rest_midpoint": [
+            0.007184,
+            -0.070473,
+            0.897528
+          ],
+          "posed_midpoint": [
+            0.007184,
+            -0.057945,
+            0.640115
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.372335
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.372335
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.255164
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000166
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.70386
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.29594
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000167
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.3e-05
+            }
+          ],
+          "mirror_edge_index": 27312,
+          "mirror_ratio": 3.186431
+        },
+        {
+          "rank": 9,
+          "edge_index": 413,
+          "vertices": [
+            260,
+            4954
+          ],
+          "ratio": 3.213937,
+          "rest_length_m": 0.02281471,
+          "posed_length_m": 0.07332504,
+          "rest_midpoint": [
+            -0.007969,
+            0.106024,
+            0.879672
+          ],
+          "posed_midpoint": [
+            -0.007969,
+            0.015774,
+            0.597399
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.370519
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.370519
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.258896
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6.7e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.718101
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.28178
+            },
+            {
+              "bone": "spine_01",
+              "weight": 7.9e-05
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.9e-05
+            }
+          ],
+          "mirror_edge_index": 418,
+          "mirror_ratio": 3.820782
+        },
+        {
+          "rank": 10,
+          "edge_index": 453,
+          "vertices": [
+            244,
+            5002
+          ],
+          "ratio": 3.213214,
+          "rest_length_m": 0.02019055,
+          "posed_length_m": 0.06487656,
+          "rest_midpoint": [
+            0.008215,
+            -0.065376,
+            0.878194
+          ],
+          "posed_midpoint": [
+            0.008215,
+            -0.052981,
+            0.624905
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.39754
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.39754
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.204856
+            },
+            {
+              "bone": "spine_01",
+              "weight": 6.5e-05
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.77904
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.220848
+            },
+            {
+              "bone": "spine_02",
+              "weight": 6.8e-05
+            },
+            {
+              "bone": "spine_01",
+              "weight": 4.4e-05
+            }
+          ],
+          "mirror_edge_index": 377,
+          "mirror_ratio": 3.518914
+        },
+        {
+          "rank": 11,
+          "edge_index": 27312,
+          "vertices": [
+            4911,
+            13640
+          ],
+          "ratio": 3.186431,
+          "rest_length_m": 0.01739999,
+          "posed_length_m": 0.05544387,
+          "rest_midpoint": [
+            -0.007184,
+            -0.070473,
+            0.897528
+          ],
+          "posed_midpoint": [
+            -0.007184,
+            -0.066534,
+            0.692896
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "thigh_r",
+              "weight": 0.372335
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.372335
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.255164
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000166
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "thigh_l",
+              "weight": 0.70386
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.29594
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.000167
+            },
+            {
+              "bone": "spine_02",
+              "weight": 3.3e-05
+            }
+          ],
+          "mirror_edge_index": 27389,
+          "mirror_ratio": 3.238167
+        },
+        {
+          "rank": 12,
+          "edge_index": 1047,
+          "vertices": [
+            576,
+            5603
+          ],
+          "ratio": 3.12828,
+          "rest_length_m": 0.01265503,
+          "posed_length_m": 0.03958848,
+          "rest_midpoint": [
+            -0.088493,
+            0.069026,
+            1.136249
+          ],
+          "posed_midpoint": [
+            -0.088493,
+            0.075631,
+            0.855207
+          ],
+          "vertex_a_weights": [
+            {
+              "bone": "spine_01",
+              "weight": 0.541669
+            },
+            {
+              "bone": "spine_02",
+              "weight": 0.20531
+            },
+            {
+              "bone": "pelvis",
+              "weight": 0.133088
+            },
+            {
+              "bone": "thigh_l",
+              "weight": 0.119933
+            }
+          ],
+          "vertex_b_weights": [
+            {
+              "bone": "pelvis",
+              "weight": 0.77067
+            },
+            {
+              "bone": "spine_01",
+              "weight": 0.171702
+            },
+            {
+              "bone": "spine_02",
+              "weight": 0.040499
+            },
+            {
+              "bone": "scapula_l",
+              "weight": 0.017129
+            }
+          ],
+          "mirror_edge_index": 1063,
+          "mirror_ratio": 1.125698
+        }
+      ],
+      "work_package": "docs/work_packages/PHASE_3E_HIP_LUNGE.md"
+    }
+  ],
+  "edit_authorised": false,
+  "production_approved": false,
+  "visual_review_available": false,
+  "limits": [
+    "Inspection IDs are not an edit mask or correspondence proof.",
+    "A single candidate probe cannot prove weight independence or distinguish rest/pose/frame/geometry causes.",
+    "Development-clear edge rows can still contain strict active-epoch regressions; use the machine-selected immutable epoch baseline plus committed lineage comparisons.",
+    "No model, weights, rig, poses, handle frames, baseline or thresholds are changed."
+  ],
+  "candidate_revision": "r76",
+  "active_epoch_baseline_revision": "P3B1",
+  "active_epoch_baseline_candidate_sha256": "1dae552abc041806bdb1f7c579bc0b21d7f5d4269d1c50cd9c80d3407fa7b38f",
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/grip_penetration.json",
+      "sha256": "e536549699f7668edf7e0a4aa5fae06be3f8e2bd4791bb401915f6f2181d5a8d"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r76/edge_extremes.json",
+      "sha256": "60bb6d15c907d5f451fa063754be55890859161adeba3677646894b94a55347a"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_merged_pose_report.json",
+      "sha256": "a53c16a3c14350fb42ab607a270fb58fcb1866ae4ba2de5c627c04d47754ee14"
+    },
+    {
+      "path": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+      "sha256": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95"
+    },
+    {
+      "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+      "sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06"
+    }
+  ]
+}

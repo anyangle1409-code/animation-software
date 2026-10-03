@@ -38,7 +38,14 @@ After the local pipeline completes:
 - inspect the declared-face post-edit arc audit and real review renders;
 - preserve a trade-off/rejected result rather than overwriting it;
 - regenerate status/dashboard/ledger and record any evidence-backed continuation
-  decision against the exact candidate SHA;
+  decision against the exact candidate SHA. Use the read-only verifier rather than
+  hand-editing the decision blindly:
+  `python scripts/verify_original_v1_continuation_decision.py --template --revision <candidate-rN> --parent r55 --disposition ORIGINAL_V1_WORK/candidates/repair_checks/axilla_<candidate-rN>/post_validation_disposition.json --json-out <fresh-decision-template.json>`;
+  after real-render review, fill only the explicit visual disposition/reason/time fields
+  and verify it with
+  `python scripts/verify_original_v1_continuation_decision.py <decision.json> --json-out <fresh-receipt.json>`.
+  A verified receipt only produces a proposed production-control fragment; it does not
+  edit shared state, authorize Phase 4, promote a baseline or approve production;
 - rerun NEXT/orchestration;
 - only when production control selects `ENTER development freeze validation`,
   run `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat` and the Phase 4 work package.

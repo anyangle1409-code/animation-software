@@ -50,13 +50,15 @@
   "non_mutation_rules": [
     "This verifier never sets production_approved=true.",
     "This verifier never edits the standalone runtime branch or production allowlist.",
-    "This verifier never moves/replaces the R2 deformation baseline.",
+    "This verifier never moves/replaces any immutable deformation baseline, including historical R2/P2B1/P3B1 epoch records.",
     "This verifier never creates owner acceptance or authorization from inference.",
     "A successful receipt means prerequisites are satisfied for a separate controlled owner-authorised release operation."
   ],
   "current_state_boundary": {
-    "current_candidate": "r29",
-    "expected_next_model_action": "RUN_ORIGINAL_V1_R30.bat",
-    "note": "Current candidate cannot satisfy Phase 12: Phase 3 is active, development and production failures remain, Phases 4-11 are incomplete, runtime exact-SHA gates are not green, reference inventory is empty, and no final owner acceptance/authorization exists."
+    "state_source": "Evidence-derived live state from scripts/original_v1_production_control.py / ORIGINAL_V1_HIGH_DETAIL_STATUS.json",
+    "candidate_revision_hard_coded": false,
+    "next_model_action_hard_coded": false,
+    "rule": "Phase 12 eligibility must derive the latest complete candidate, active immutable stress-pose epoch baseline, unresolved regressions and next action from live generated state at execution time.",
+    "note": "This static contract intentionally stores no current candidate or intermediate Blender command so it cannot become stale."
   }
 }

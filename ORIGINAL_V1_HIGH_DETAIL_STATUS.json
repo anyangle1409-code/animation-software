@@ -5,7 +5,7 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r69",
+  "current_candidate": "r72",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -173,8 +173,8 @@
       "region": "torso",
       "metric": "region_min_ratio",
       "baseline": 0.698,
-      "candidate": 0.5,
-      "delta": -0.19799999999999995,
+      "candidate": 0.507,
+      "delta": -0.19099999999999995,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
@@ -184,8 +184,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 95.0,
-      "candidate": 126.0,
-      "delta": 31.0,
+      "candidate": 134.0,
+      "delta": 39.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -206,8 +206,8 @@
       "region": "arm",
       "metric": "region_max_ratio",
       "baseline": 2.425,
-      "candidate": 2.852,
-      "delta": 0.42700000000000005,
+      "candidate": 2.82,
+      "delta": 0.395,
       "direction": "lower_is_better",
       "tolerance": 0.1
     },
@@ -217,8 +217,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 54.0,
-      "candidate": 128.0,
-      "delta": 74.0,
+      "candidate": 120.0,
+      "delta": 66.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -250,8 +250,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 4.0,
-      "candidate": 130.0,
-      "delta": 126.0,
+      "candidate": 100.0,
+      "delta": 96.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -283,8 +283,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 4.0,
-      "candidate": 130.0,
-      "delta": 126.0,
+      "candidate": 100.0,
+      "delta": 96.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -316,8 +316,8 @@
       "region": null,
       "metric": "self_intersecting_face_pairs",
       "baseline": 0.0,
-      "candidate": 120.0,
-      "delta": 120.0,
+      "candidate": 124.0,
+      "delta": 124.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
     },
@@ -426,47 +426,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_merged_pose_report.json",
-      "sha256": "f3a61971a17cd994be3ec820a8991e23abd1f22cdfbb36aaa92b948474e54c7a"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_merged_pose_report.json",
+      "sha256": "eb539b7d849b7d183c6229dd8aacd9081c091e4d49815b58588b2052606aeeee"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r69.json",
-      "sha256": "de7551bec474486614c8143a897ef13e9c68d9fb78c86e7fb34ba8d1ae765700"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r72.json",
+      "sha256": "a764b442a5014d4a0f031c49a3fd9eab8232c5d7045f57aa2a4d8f9b57c98a47"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_evidence_manifest.json",
-      "sha256": "4ec1f8410d4adb0eb8eccd4312075629e445431638bd23ef19584e5f96bd7abf"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_evidence_manifest.json",
+      "sha256": "4921420a10fe9f2c7e69171cb72b12a2022c7f1e16cd000d7fdb7f5b51e599c4"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_P3B1.json",
-      "sha256": "ec8d3b1c5a0d414d98992067e573abb34659b17b652cdc835c84d6f02d1a95c3"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_P3B1.json",
+      "sha256": "a0c88e5ef1b588fffa6d77a2acc246f9877af4db411c392905026b175386535a"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r69_comparison_vs_r48.json",
-      "sha256": "d20e23e23292486d32caf2ccb73531b1e1afa5cc8251b18a9ace59665476dcd7"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_r69.json",
+      "sha256": "8bc5da83d6d8816983f96cbf31d23ee5e9ae874ad505986f7249378ac4afac8e"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/diagnostic_brief.json",
-      "sha256": "a7249259e5496a0690692e009010bf5133181dbe10e8a790d5d1012ac61935e0"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/diagnostic_brief.json",
+      "sha256": "614793e8a5d3274ac0e76c3aeff5e4ac7cad4d3a1a562de640e8328d0f515da5"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/edge_extremes.json",
-      "sha256": "ac2b2faaf2eee3af9ffa004b5dec4550badcd683e0396a0775ba178b575b1d2d"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/edge_extremes.json",
+      "sha256": "e3605d5fbc0bf32a954fb1a2da6ab5b7cbb03641e871ee1b3bb6472d6239cfd9"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r69/grip_penetration.json",
-      "sha256": "0c4f6783561dd3e183752aa086e09d06a6285022973bb05d43e0a13d887387c7"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/grip_penetration.json",
+      "sha256": "0044238ff18613e802b83bd01581cd59bbae26a472602fba6857b9eca17bc621"
     }
   ],
-  "last_known_candidate_sha256": "1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215",
-  "evidence_timestamp": "2026-10-02T23:32:22.558779+00:00",
+  "last_known_candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
+  "evidence_timestamp": "2026-10-03T16:19:57.671694+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r69: solution corr_v17.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r68.blend; candidate remains experimental.",
+  "what_changed": "r72: solution incremental_corrective_solution.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r69.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -478,10 +478,9 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RUN local axilla repair",
-    "reason": "r69 supersedes r55 (local knot weight edit plus re-fitted corrective; 0 development failures, 23 vs 31 strict P3B1 regressions) but real renders still show one small pointed tip at the front pit top; complete the declared local repair before freeze reconciliation",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69",
-    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
-    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
+    "action": "RECONCILE trial lineage",
+    "reason": "record evidence-backed continuation choice; a trade-off is not auto-promoted",
+    "command": null,
+    "safe_parallel_task": "Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors."
   }
 }

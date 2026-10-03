@@ -9,18 +9,22 @@ This contract applies to all six packages; it does not change frozen gates.
 Check LIVE model-branch HEAD and preserve newer work. Require the preceding
 phase's actual exit evidence, a sufficiently stable development freeze and the
 machine-selected continuation candidate. Verify the local Blend against its
-manifest. r29's seven blockers prevent entering these phases now. Do not work
-from main or transfer model-branch application code to the standalone branch.
+manifest. Entry is always derived from live generated state; this static contract
+does not carry a candidate revision or historical blocker count. Do not work from
+main or transfer model-branch application code to the standalone branch.
 
 Use a NEW candidate for each model change. Record parent SHA, explicit local
 scope, independently authored operations and permitted IDs/regions/bones before
 editing. Export raw schema-2 snapshots and audit changes through the existing
 change-audit protocol. Topology/order changes require authored correspondence;
 equal counts never prove index identity. No remote edits, legacy/third-party
-content, frozen rig rest/hierarchy, R2, pose/frame or threshold changes.
+content, frozen rev2c rig rest/hierarchy, immutable historical/active epoch
+baselines, pose/frame or threshold changes.
 
-Compare R2, direct parent and the immutable development-freeze candidate.
-Retain r28/r29 controls for hand/contact changes. Report individual regressions;
+Compare the active immutable stress-pose epoch baseline, direct parent and the
+immutable development-freeze candidate. Retain any relevant historical controls
+only as explicitly named evidence; never hard-code old r28/r29 control candidates
+as current requirements. Report individual regressions;
 STRICT IMPROVEMENT cannot hide a TRADE-OFF behind total scores. Reject invalid
 lineage, protected edits, new blockers or unexplained material regressions.
 Preserve rejected candidates, raw reports and images in the ledger/history.

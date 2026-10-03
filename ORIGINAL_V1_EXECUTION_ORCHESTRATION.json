@@ -15,9 +15,9 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_expected_state": {
     "phase": "3A_axilla_local",
-    "candidate": "r55",
+    "candidate": "r72",
     "next_action": "RUN local axilla repair",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72",
     "note": "Runtime values are re-read from generated status. Use the next collision-free target label if r56 already exists locally; this checkpoint does not override newer evidence."
   },
   "global_rules": [
@@ -246,7 +246,7 @@
         "development blockers are zero but strict/visual axilla evidence still blocks freeze",
         "rev2c rig, P3a pose definition, thresholds and pinned baselines remain locked"
       ],
-      "action": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+      "action": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72",
       "support_stages": [
         1,
         2,
@@ -491,8 +491,9 @@
       ]
     },
     "axilla_local_repair": {
-      "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+      "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72",
       "artifacts": [
+        "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat",
         "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat",
         "RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat",
         "RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat",

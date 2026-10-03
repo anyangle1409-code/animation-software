@@ -194,8 +194,7 @@ The optional milestone capture workflow is now prepared: a 57-view bare-body pla
 `RUN_ORIGINAL_V1_MILESTONE_REVIEW.bat`, verified publication/phone index, and
 milestone previous-versus-new comparison mode. See the visual review specification
 for exact commands and limitations. No actual milestone capture is claimed; no
-Phase 5 modelling or phase completion is inferred. Pending snapshots remain
-NON-BLOCKING, and the current deformation next task remains r30 on the laptop.
+Phase 5 modelling or phase completion is inferred. Pending snapshots remained NON-BLOCKING. Historical checkpoint note: on 2026-10-01 the then-current deformation task was r30; this is not a live instruction.
 
 ### Intermediate exit evidence contract — 2026-10-01
 
@@ -210,8 +209,7 @@ record integrity; every referenced domain test still must genuinely pass.
 ## Staged GPT preparation before Blender — 2026-10-01
 
 These stages take preparation off Claude; they do not complete model phases.
-Check back with the owner after each published stage. Routine snapshots remain
-NON-BLOCKING. The actual next deformation action remains RUN r30 on the laptop.
+Check back with the owner after each published stage. Routine snapshots remained NON-BLOCKING. Historical checkpoint note: on 2026-10-01 the then-current deformation action was RUN r30; live action comes only from generated status/orchestration.
 
 | Stage | Preparation | State / boundary |
 |---|---|---|
@@ -250,13 +248,11 @@ PASS. Unknown shading normals, intersections and joint-support review stay open.
 
 Stage 5 export tooling: `docs/work_packages/CANDIDATE_EXPORT_PROTOCOL.md`.
 It isolates candidate exports and binds source/settings/bytes, preserving historical
-GLBs. Next GPT preparation stage: candidate-bound dressed evidence tooling; current
-laptop deformation action remains RUN r30. No later model phase is executed.
+GLBs. Historical next-preparation note: candidate-bound dressed evidence tooling was next on 2026-10-01; the then-current laptop deformation action was RUN r30. This is preserved as history only; no later model phase was executed by that preparation.
 
 Stage 6 raw garment foundation: `docs/work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`.
 Actual snapshots require Blender; no garment modelling or Phase 7 completion is
-claimed. Next GPT preparation: evaluated dressed pose/contact and matched review
-capture. Current laptop task remains RUN r30.
+claimed. Historical next-preparation note: evaluated dressed pose/contact and matched review capture were next on 2026-10-01; the then-current laptop task was RUN r30.
 
 Stage 7 evaluated dressed evidence: `docs/work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md`.
 It reuses the frozen pose functions directly, measures full-body/garment evaluated
@@ -271,8 +267,7 @@ The project-owned plan samples six declared stress-pose paths at 21 points per
 segment, preserves exact body/garment face-pair and floor-vertex evidence, and
 creates a source-bound per-sample classification record. It deliberately leaves
 unsupported push-up and moving-equipment paths open rather than inventing them.
-Actual Blender execution and evidence-backed classifications are still required;
-current laptop deformation priority remains RUN r30.
+Actual Blender execution and evidence-backed classifications were still required; historical 2026-10-01 deformation priority was RUN r30.
 
 Stage 9 contact source bridge: `docs/work_packages/CONTACT_SOURCE_BRIDGE_PROTOCOL.md`.
 It verifies the project-owned exercise/contact source facts that Stage 8 correctly
@@ -284,10 +279,10 @@ be rediscovered and bound at Phase 10. Current laptop deformation priority remai
 RUN r30.
 
 Stage 10 runtime discovery/harness preparation: `docs/work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`.
-The authoritative standalone branch was resolved to `work/standalone-first-party-audit-20260927`; current source shows v4 active, but its live HEAD e3a7d915... is not a green integration checkpoint because focused skeleton parity failed by 0.02 m and downstream gates did not run. The new read-only verifier compares a separate clean runtime checkout against the Stage 9 contact semantics, hashes every source, detects source-vs-handoff discrepancies and never edits either branch. `ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` remains INCOMPLETE until real Phase 10 execution. Current laptop deformation priority remains RUN r30.
+The authoritative standalone branch was resolved to `work/standalone-first-party-audit-20260927`; current source shows v4 active, but its live HEAD e3a7d915... is not a green integration checkpoint because focused skeleton parity failed by 0.02 m and downstream gates did not run. The new read-only verifier compares a separate clean runtime checkout against the Stage 9 contact semantics, hashes every source, detects source-vs-handoff discrepancies and never edits either branch. `ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` remains INCOMPLETE until real Phase 10 execution. Historical 2026-10-01 deformation priority was RUN r30.
 
 Stage 11 automated visual QA preparation: `docs/work_packages/VISUAL_QA_PROTOCOL.md`.
-The first-party detector binds immutable source images to standard-library PGM masks, verifies source/mask hashes and dimensions, detects missing/cropped expected regions, measures connected components and neutral symmetry, and computes matched silhouette IoU/XOR/centroid/bounds only when capture identities match. Capture-setting drift becomes CAPTURE_MISMATCH rather than a model regression. `ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json` is intentionally empty until actual owned captures exist. No external vision service/reference corpus is used and no QA score can approve anatomy. Current laptop deformation priority remains RUN r30.
+The first-party detector binds immutable source images to standard-library PGM masks, verifies source/mask hashes and dimensions, detects missing/cropped expected regions, measures connected components and neutral symmetry, and computes matched silhouette IoU/XOR/centroid/bounds only when capture identities match. Capture-setting drift becomes CAPTURE_MISMATCH rather than a model regression. `ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json` is intentionally empty until actual owned captures exist. No external vision service/reference corpus is used and no QA score can approve anatomy. Historical 2026-10-01 deformation priority was RUN r30.
 
 Stage 12 final-freeze preparation: `docs/work_packages/PHASE_12_PRODUCTION_FREEZE.md`.
 The existing technical promotion verifier now binds successful receipts to the exact
@@ -296,8 +291,7 @@ revalidates that packet, every Phase 4-11 exit report, final asset bytes, Phase 
 model commit, Phase 10/11 runtime commit, current deformation state and a separate
 explicit OWNER AUTHORISED PRODUCTION FREEZE record. Even full eligibility remains
 non-mutating with production_approved=false; actual release is a separate controlled
-asset-only/runtime operation followed by exact-SHA release re-verification. Current
-laptop deformation priority remains RUN r30.
+asset-only/runtime operation followed by exact-SHA release re-verification. Historical 2026-10-01 deformation priority was RUN r30.
 
 
 ### Post-preparation execution orchestration — 2026-10-01
@@ -308,12 +302,9 @@ Use `ORIGINAL_V1_EXECUTION_ORCHESTRATION.json`,
 `RUN_ORIGINAL_V1_EXECUTION_PLAN.bat` to map the evidence-derived current state onto
 one critical-path node and the relevant prepared support tools. The orchestrator is
 read-only: it validates that all Stage 1-12 support artifacts exist, checks the
-critical-path graph, compares the r30 node against the existing next-action
-selector and prints safe parallel work without launching Blender or advancing a
-phase. At the current expected r29 / Phase 3B state, the actual model action remains
-`RUN_ORIGINAL_V1_R30.bat` after live preflight.
+critical-path graph, historically compared the r30 node against the then-current next-action selector and printed safe parallel work without launching Blender or advancing a phase. At that 2026-10-01 checkpoint, the expected r29 / Phase 3B action was `RUN_ORIGINAL_V1_R30.bat`; live orchestration now selects the current node dynamically.
 
-`docs/CURRENT_HANDOFF.md` now points model pickup through the same read-only execution-orchestration runner, so the operational entry point and this roadmap agree on the r30-first critical path.
+`docs/CURRENT_HANDOFF.md` now points model pickup through the same read-only execution-orchestration runner, so the operational entry point and this roadmap agreed on the then-current r30-first critical path. This sentence is historical; live orchestration supersedes it.
 
 
 ### Remaining repo-side tooling gaps closed — 2026-10-01
@@ -323,8 +314,7 @@ packets, Phase 6 evaluated surface/joint-support evidence, Phase 7 garment
 scene+clean-room operation auditing, Phase 8 numeric material/presentation
 capture, first-party QA mask rasterization and a read-only laptop session-close
 gate. These tools reduce future Claude setup/audit work but do not change roadmap
-completion: Phase 3B remains active on r29 and the next real model command remains
-`RUN_ORIGINAL_V1_R30.bat` after live preflight/orchestration agreement.
+completion. Historical checkpoint state was Phase 3B/r29 with `RUN_ORIGINAL_V1_R30.bat`; live generated status supersedes that state.
 
 
 ### Final laptop acceleration layer — 2026-10-01
@@ -333,5 +323,4 @@ The repository now also provides a consolidated read-only Claude start/end workf
 candidate evidence closure/handoff checks, real-review indexing, local Blend identity
 inventory and optional hash-verified local recovery backup. See
 `docs/work_packages/LAPTOP_ACCELERATION_PROTOCOL.md`. These operational tools do not
-advance the roadmap or replace Blender execution; the current evidence-derived action
-remains r30 from Phase 3B.
+advance the roadmap or replace Blender execution. Historical 2026-10-01 evidence-derived action was r30 from Phase 3B; live status/orchestration supersedes it.

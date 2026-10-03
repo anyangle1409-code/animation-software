@@ -15,7 +15,7 @@ import bpy
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from original_v1_export_evidence import BODY,SHORTS,SCRIPT,SETTINGS,plan,record
+from original_v1_export_evidence import BODY,SHORTS,SCRIPT,SETTINGS,plan,record,locked_rig
 from original_v1_production_control import build,digest
 
 
@@ -30,7 +30,9 @@ def main():
     source=Path(bpy.data.filepath);p=plan(ROOT,source,args.candidate_manifest,args.out_dir,args.revision)
     if p['candidate_sha256']!=state['last_known_candidate_sha256']:raise ValueError('source differs from current candidate evidence')
     rig=bpy.data.objects.get('HGPT_CANONICAL_V4_ORIGINAL');body=bpy.data.objects.get(BODY);shorts=bpy.data.objects.get(SHORTS)
-    if rig is None or rig.type!='ARMATURE' or len(rig.data.bones)!=63:raise ValueError('canonical 63-bone rig required')
+    rig_contract=locked_rig(ROOT)
+    if rig is None or rig.type!='ARMATURE' or len(rig.data.bones)!=rig_contract['bone_count']:
+        raise ValueError(f"locked rev2c rig required: expected {rig_contract['bone_count']} bones")
     if body is None or shorts is None or any(o.type!='MESH' or o.find_armature()!=rig for o in (body,shorts)):
         raise ValueError('owned bound body and shorts required; never label a bare export dressed')
     if any(o.get('hgpt_production_ready') for o in (body,shorts)):raise ValueError('candidate export cannot carry a production-ready label')

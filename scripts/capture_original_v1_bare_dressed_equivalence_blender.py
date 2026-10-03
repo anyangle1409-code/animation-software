@@ -25,6 +25,9 @@ if not REV.startswith("r") or not REV[1:].isdigit():raise SystemExit("STOP — n
 OUT.mkdir(parents=True,exist_ok=False)
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"scripts"))
+from original_v1_locked_rig import blender_armature_issues,load_locked_rig
+LOCKED_RIG=load_locked_rig(ROOT)
 POSE_SCRIPT=ROOT/"scripts/pose_test_original_v1_o4_candidate_blender.py"
 SCRIPT=Path(__file__).resolve()
 SOURCE=Path(bpy.data.filepath);MANIFEST=SOURCE.with_suffix(".json")
@@ -55,8 +58,11 @@ body=ns["body"];shorts=ns["shorts"];rig=ns["rig"];poses=ns["POSES"]
 reset=ns["reset"];upd=ns["upd"];measure=ns["measure"];handle=ns["HANDLE"]
 dress_mask=ns.get("DRESS_MASK")
 if shorts is None or shorts.type!="MESH":raise SystemExit("STOP — named candidate garment required")
-if len(rig.data.bones)!=63 or body.find_armature()!=rig or shorts.find_armature()!=rig:
-    raise SystemExit("STOP — shared canonical 63-bone rig required")
+rig_issues=blender_armature_issues(rig,LOCKED_RIG)
+if body.find_armature()!=rig or shorts.find_armature()!=rig:
+    rig_issues.append("body/garment are not bound to the same locked rev2c armature")
+if rig_issues:
+    raise SystemExit("STOP — "+"; ".join(rig_issues))
 
 
 def apply_pose(name):
@@ -127,7 +133,10 @@ for name in poses:
 report={
     "schema_version":1,"status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
     "candidate_revision":REV,"candidate":SOURCE.name,"candidate_sha256":source_sha,
-    "candidate_manifest_sha256":digest(MANIFEST),"rig_id":"hgpt_canonical_v4_original",
+    "candidate_manifest_sha256":digest(MANIFEST),"rig_id":LOCKED_RIG["identity"],
+    "rig_revision":LOCKED_RIG["revision"],"rig_structure_sha256":LOCKED_RIG["rig_structure_sha256"],
+    "rig_bone_count":LOCKED_RIG["bone_count"],"rig_deform_bone_count":LOCKED_RIG["deform_bone_count"],
+    "rig_lock":LOCKED_RIG["lock"],"rig_payload":LOCKED_RIG["payload"],
     "comparison_semantics":"same pose and same full underlying body; garment hidden vs visible; body dressed-mask disabled in both states",
     "pose_count":len(rows),"poses":rows,
     "source_pose_script":POSE_SCRIPT.relative_to(ROOT).as_posix(),"source_pose_script_sha256":digest(POSE_SCRIPT),

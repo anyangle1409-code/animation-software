@@ -20,6 +20,15 @@
     "phase9_exit_evidence": {
       "path": null,
       "sha256": null
+    },
+    "locked_rig": {
+      "identity": "hgpt_canonical_v4_original",
+      "revision": "rev2_forearm_twist_only",
+      "bone_count": 67,
+      "deform_bone_count": 66,
+      "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+      "lock_path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
+      "lock_sha256": null
     }
   },
   "runtime": {
@@ -28,7 +37,12 @@
     "standalone_verification": null,
     "browser_viewport_smoke": null,
     "canonical_v4_contract_sha256": null,
-    "zero_runtime_dependencies_verified": null
+    "zero_runtime_dependencies_verified": null,
+    "rig_identity": null,
+    "rig_revision": null,
+    "rig_structure_sha256": null,
+    "bone_count": null,
+    "rev2c_identity_match": null
   },
   "request_mapping": {
     "first_acceptance_request": "exercise: dumbbell shoulder press",
@@ -142,6 +156,7 @@
     "images_or_clips": []
   },
   "limits": [
+    "Runtime v4_active is insufficient: exact rig identity/revision/bone_count/structure SHA must match model.locked_rig.",
     "Template is not evidence.",
     "Every final result must bind exact runtime commit, model commit, asset SHA-256, command/config and frame times.",
     "Aggregate scores cannot hide a failed contact, range, continuity or round-trip check.",

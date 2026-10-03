@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import original_v1_phase9_production_validation as p9
+import test_original_v1_phase9_production_validation as p9_fixture
 import verify_original_v1_final_freeze as f
 import verify_original_v1_phase_exit as phase_exit
 import verify_original_v1_production_promotion as promotion
@@ -145,6 +147,13 @@ class FinalFreezeTests(unittest.TestCase):
             phase5_receipts[check_id] = region_receipt_ref
             previous_region_receipt_ref = region_receipt_ref
 
+        # Phase 9 uses the stronger architecture: all five Phase 9 exit checks reference the SAME hashed,
+        # candidate-bound PHASE9_VALIDATION_RECEIPT.json. The receipt is built by the Phase 9 test's own
+        # contract-real fixture (isolated copy of the shared spec/evaluator/verifier, synthetic evidence).
+        phase9_receipt, _phase9_ctx = p9_fixture.Phase9ValidationTests(
+            "test_complete_fixture_verifies_without_promoting").fixture(root)
+        _p9_path, phase9_receipt_ref = self.write(root, "phase9/PHASE9_VALIDATION_RECEIPT.json", phase9_receipt)
+
         phase_refs = {}
         for phase in f.PHASES:
             report = {
@@ -164,6 +173,7 @@ class FinalFreezeTests(unittest.TestCase):
                         "passed": True,
                         "evidence": [phase5_receipts[check]]
                             if phase == "5" and check in phase5_receipts
+                            else [copy.deepcopy(phase9_receipt_ref)] if phase == "9"
                             else [raw_ref],
                     }
                     for check in phase_exit.REQUIRED_CHECKS[phase]
@@ -212,8 +222,11 @@ class FinalFreezeTests(unittest.TestCase):
         return packet, state
 
     def verify(self, root, packet, state):
+        # Same isolation the Phase 9 verifier's own tests use: the fixture has no real GLB exporter / candidate set on disk.
         with patch.object(f, "build", return_value=(state, None)), patch.object(
             f, "evaluate", return_value={"failure_count": 0}
+        ), patch.object(p9.export_evidence, "verify", return_value={"candidate_sha256": "a" * 64}), patch.object(
+            p9, "audit_candidate_set", return_value={"pass": True}
         ):
             return f.verify_final_freeze(root, packet)
 
@@ -256,6 +269,20 @@ class FinalFreezeTests(unittest.TestCase):
             packet["model_source_commit"] = "e" * 40
             issues = self.verify(root, packet, state)
             self.assertTrue(any("Phase 9" in x and "model source commit" in x for x in issues))
+
+    def test_phase_9_checks_must_all_bind_one_validation_receipt(self):
+        """The stronger Phase 9 architecture is not optional: swapping one check's evidence for a bare file must be refused."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            packet, state = self.fixture(root)
+            ref = packet["phase_exit_reports"]["9"]
+            path = root / ref["path"]
+            report = json.loads(path.read_text())
+            report["checks"][0]["evidence"] = [self.ref(root, root / "raw.txt")]
+            path.write_text(json.dumps(report))
+            ref["sha256"] = f.digest(path)
+            issues = self.verify(root, packet, state)
+            self.assertTrue(any("exactly one candidate-bound Phase 9 validation receipt" in x for x in issues))
 
     def test_pending_freeze_authorization_refused(self):
         with tempfile.TemporaryDirectory() as td:

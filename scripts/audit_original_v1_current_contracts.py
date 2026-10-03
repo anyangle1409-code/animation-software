@@ -37,6 +37,7 @@ FILES=[
     "scripts/original_v1_runtime_discovery.py",
     "scripts/original_v1_candidate_handoff.py",
     "scripts/verify_original_v1_continuation_decision.py",
+    "scripts/select_original_v1_collision_free_revision.py",
     "scripts/original_v1_progress_summary.py",
     "scripts/original_v1_phase5_anatomy.py",
     "scripts/verify_original_v1_final_freeze.py",

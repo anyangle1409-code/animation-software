@@ -19,6 +19,8 @@ class Phase6SurfaceQualityTests(unittest.TestCase):
 
     def fixture(self, root: Path):
         sha="a"*64
+        joint_template=self.template()
+        (root/s.JOINT_TEMPLATE).write_text(json.dumps(joint_template),encoding="utf-8")
         for rel in (s.RAW_AUDIT,s.CHANGE_AUDIT,s.EVAL_CAPTURE):
             p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text("fixture "+rel,encoding="utf-8")
         raw={
@@ -47,7 +49,7 @@ class Phase6SurfaceQualityTests(unittest.TestCase):
         e=root/"joint_evidence.txt";e.write_text("synthetic joint evidence",encoding="utf-8");eref=self.ref(root,e)
         joint={"schema_version":1,"status":"JOINT_SUPPORT_EVIDENCE_COMPLETE","phase_complete":False,
                "production_approved":False,"candidate_sha256":sha,"joints":[]}
-        for i,row in enumerate(self.template()["joints"]):
+        for i,row in enumerate(joint_template["joints"]):
             joint["joints"].append({"id":row["id"],"support_vertex_ids":[i],"loaded_poses":row["loaded_poses"],"evidence":[eref]})
         manifest={"candidate_sha256":sha}
         return raw,evaluated,joint,manifest

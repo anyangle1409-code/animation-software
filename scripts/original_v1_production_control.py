@@ -279,7 +279,17 @@ def next_action(status, control):
         return {'action':'ENTER development freeze validation','reason':'zero blockers and no unresolved strict regressions','command':None,
                 'work_package':'docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md'}
     if phases['5']['state']!='complete':
-        return {'action':'PREPARE Phase 5 anatomy','reason':'development freeze recorded; execute region packages in order','command':None}
+        for region in ('5A','5B','5C','5D','5E','5F','5G'):
+            if phases[region]['state']!='complete':
+                return {'action':f'EXECUTE Phase {region} anatomy',
+                        'reason':'development freeze recorded; execute the next unverified anatomy region in order',
+                        'command':f'RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template {region} <fresh-template.json>',
+                        'work_package':phases[region].get('work_package'),
+                        'review_command':f'RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat {region} <candidate-rN>'}
+        return {'action':'VERIFY Phase 5 exit',
+                'reason':'all 5A-5G regional evidence records are verified; Phase 5 exit packet is still required',
+                'command':'python scripts/verify_original_v1_phase_exit.py --phase 5 --template --json-out <fresh-template.json>',
+                'work_package':'docs/work_packages/PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md'}
     for n in range(6,13):
         if phases[str(n)]['state']!='complete':
             return {'action':f'ENTER Phase {n} validation','reason':'ordered phase dependencies satisfied','command':None}
@@ -423,8 +433,12 @@ def build(root=ROOT):
     if not fails and not regs and all(phases[p]['state']=='complete' for p in ('3A','3B','3C','3D','3E')):
         phases['3']={'state':'complete','reason':'All development subphases clear; no unresolved strict regressions.'}
     for n in range(4,13): phases[str(n)]={'state':'not_started','reason':'Required ordered exit evidence has not been recorded.'}
-    for p in ('5A','5B','5C','5D','5E','5F','5G'):
-        phases[p]={'state':'not_started','reason':'Regional anatomy package prepared; modelling not executed.'}
+    phase5_order=('5A','5B','5C','5D','5E','5F','5G')
+    phase5_plan=read(root,'ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json')
+    for p in phase5_order:
+        phases[p]={'state':'not_started',
+                   'reason':'Regional anatomy package prepared; modelling not executed.',
+                   'work_package':phase5_plan['regions'][p]['work_package']}
     previous_checkpoint_depth = None
     for n in range(4,13):
         record=control.get('phase_completion_records',{}).get(str(n))
@@ -458,6 +472,76 @@ def build(root=ROOT):
                             'checkpoint_candidate_sha256':checkpoint['sha256'],
                             'evidence':record['evidence']}
             previous_checkpoint_depth = checkpoint['depth']
+
+    # Phase 5 regional receipts are evidence checkpoints, separate from the Phase 5
+    # exit record. They advance 5A->5G only when the exact verified receipt/report is
+    # on the current candidate lineage and all prior region records are present.
+    region_records=control.get('phase5_region_records',{})
+    if not isinstance(region_records,dict) or any(k not in phase5_order for k in region_records):
+        raise ValueError('invalid Phase 5 regional record map')
+    if region_records and phases['4']['state']!='complete':
+        raise ValueError('Phase 5 regional records require a verified Phase 4 checkpoint')
+    phase5_plan_obj=None
+    previous_region_depth=None
+    gap_seen=False
+    for region in phase5_order:
+        record=region_records.get(region)
+        if not record:
+            gap_seen=True
+            continue
+        if gap_seen:
+            raise ValueError('Phase 5 regional record order has a gap before '+region)
+        checkpoint=phase_checkpoint_on_lineage(entries,rev,record.get('candidate_sha256'))
+        if previous_region_depth is not None and checkpoint['depth']>previous_region_depth:
+            raise ValueError('Phase 5 regional checkpoint order conflicts with candidate lineage: '+region)
+        receipt_ref=record.get('receipt')
+        if not isinstance(receipt_ref,dict):
+            raise ValueError('Phase 5 regional receipt reference missing: '+region)
+        from verify_original_v1_production_promotion import safe_path
+        receipt_path=safe_path(root,receipt_ref.get('path',''))
+        if digest(receipt_path)!=receipt_ref.get('sha256'):
+            raise ValueError('Phase 5 regional receipt hash differs: '+region)
+        receipt=read(root,receipt_ref['path'])
+        if (receipt.get('schema_version')!=1 or receipt.get('phase')!=5 or receipt.get('region')!=region or
+            receipt.get('contract_status')!='REGION_EVIDENCE_VERIFIED' or
+            receipt.get('candidate_sha256')!=checkpoint['sha256'] or
+            receipt.get('phase_complete') is not False or receipt.get('production_approved') is not False):
+            raise ValueError('Phase 5 regional receipt identity/contract differs: '+region)
+        report_ref=receipt.get('region_report')
+        if not isinstance(report_ref,dict):
+            raise ValueError('Phase 5 regional report reference missing: '+region)
+        report_path=safe_path(root,report_ref.get('path',''))
+        if digest(report_path)!=report_ref.get('sha256'):
+            raise ValueError('Phase 5 regional report hash differs: '+region)
+        if phase5_plan_obj is None:
+            from original_v1_phase5_anatomy import load_plan,verify_region_report
+            phase5_plan_obj=load_plan(root)
+        report=read(root,report_ref['path'])
+        pin_name=pin_of(checkpoint['revision'])
+        freeze_record=(control.get('phase_completion_records',{}).get('4') or {})
+        region_issues=verify_region_report(
+            root,report,phase5_plan_obj,region,
+            expected_freeze_sha=freeze_record.get('candidate_sha256'),
+            expected_epoch_revision=pin_name,
+            expected_epoch_sha=bases[pin_name]['baseline']['candidate_sha256'])
+        if region_issues:
+            raise ValueError('invalid Phase 5 regional evidence '+region+': '+'; '.join(region_issues))
+        phases[region]={'state':'complete',
+                        'reason':'Candidate-bound regional anatomy evidence verified on current lineage.',
+                        'work_package':phase5_plan['regions'][region]['work_package'],
+                        'checkpoint_revision':checkpoint['revision'],
+                        'checkpoint_candidate_sha256':checkpoint['sha256'],
+                        'evidence':receipt_ref}
+        previous_region_depth=checkpoint['depth']
+    if phases['5']['state']=='complete' and any(phases[p]['state']!='complete' for p in phase5_order):
+        raise ValueError('Phase 5 exit record exists without all regional evidence records')
+    if phases['3']['state']=='complete' and phases['4']['state']=='complete' and phases['5']['state']!='complete':
+        for region in phase5_order:
+            if phases[region]['state']!='complete':
+                phases[region]['state']='active'
+                phases[region]['reason']='Next ordered Phase 5 anatomy region; modelling/evidence not yet verified.'
+                break
+
     refs=[evidence(root,current['evidence_location']),current['manifest'],evidence(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')]
     if current.get('full_evidence_receipt'): refs.append(current['full_evidence_receipt'])
     for c in current['comparisons'].values(): refs.append(c['evidence'])
@@ -475,7 +559,13 @@ def build(root=ROOT):
             current[kind+'_review_location']=snapshot['evidence']['path']
     status={'schema_version':1,'asset':'HomeGymPT_Male_ORIGINAL_v1','rig':'hgpt_canonical_v4_original',
         'branch':control['branch'],'current_phase':next((n for n in range(3,13) if phases[str(n)]['state']!='complete'),12),
-        'current_subphase':('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4')) if phases['4']['state']!='complete' else next((str(n) for n in range(5,13) if phases[str(n)]['state']!='complete'),'12'),
+        'current_subphase':(
+            ('3B' if phases['3B']['state']=='active' else next((p for p in ('3D','3C','3E') if phases[p]['state']!='complete'),'4'))
+            if phases['4']['state']!='complete' else
+            (next((p for p in phase5_order if phases[p]['state']!='complete'),'5-exit')
+             if phases['5']['state']!='complete' else
+             next((str(n) for n in range(6,13) if phases[str(n)]['state']!='complete'),'12'))
+        ),
         'current_candidate':rev,'candidate_state':current['state'],'candidate_classification':current['classification'],
         'pinned_baseline':{'revision':current['pinned_baseline_name'],'id':bases[current['pinned_baseline_name']]['baseline']['baseline_id'],'candidate_sha256':bases[current['pinned_baseline_name']]['baseline']['candidate_sha256'],'evidence':evidence(root,bases[current['pinned_baseline_name']]['file'])},
         'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],

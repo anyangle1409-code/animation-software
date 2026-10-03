@@ -4,7 +4,7 @@ Stage 10 GPT preparation. This package prepares the future Phase 10 runtime
 integration handoff without editing the standalone runtime, copying model-branch
 runtime code, activating candidate assets or claiming any runtime PASS.
 
-The current real model/Blender priority remains `RUN_ORIGINAL_V1_R30.bat`.
+Live model/Blender priority is read from generated production control/orchestration. This dated preparation document does not own the current candidate command.
 
 ## Authority discovered on 2026-10-01
 
@@ -36,6 +36,13 @@ Current source/contract state at the live HEAD shows canonical v4 active:
 - `src/rig/skeleton.ts` imports `HGPT_CANONICAL_V4_ORIGINAL_BONES`;
 - the `Skeleton` constructor defaults to those v4 bones;
 - `canonicalSkeleton = new Skeleton()`.
+
+That proves only generic canonical-v4 activation. The locked model rig has since
+advanced to `rev2_forearm_twist_only`: 67 total / 66 deform bones with rig
+structure SHA `aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197`.
+Phase 10 integration is therefore blocked until the runtime's
+`CANONICAL_V4_RUNTIME_CONTRACT.json` declares that exact rig identity, revision,
+bone count and structure SHA. `mode=v4_active` by itself is insufficient.
 
 Some CURRENT_HANDOFF prose still says the accepted v3 humanoid is the live
 canonical skeleton. Under PROJECT_AUTHORITY, current source plus executable gates
@@ -107,6 +114,7 @@ RUN_ORIGINAL_V1_RUNTIME_DISCOVERY.bat "C:\path\to\standalone-runtime-checkout" "
 - both local HEADs equal their current remote branch HEADs;
 - Stage 9 contact semantics verify against runtime source;
 - runtime v4 contract/source agree;
+- runtime v4 contract declares the exact locked model rev2c rig identity/revision/67-bone count/structure SHA;
 - every compared source file exists and is hashed.
 
 It writes only into a fresh path under the model repository. It never modifies the
@@ -144,7 +152,7 @@ The final packet must bind:
 - verified Phase 9 exit evidence;
 - exact standalone runtime branch + commit;
 - exact-SHA standalone and browser gates;
-- runtime v4 contract hash;
+- runtime v4 contract hash and its exact rev2c rig identity/revision/bone-count/structure SHA;
 - prompt-to-exercise mapping;
 - deterministic duration/config/frame times;
 - real solver frames;
@@ -167,8 +175,7 @@ is green on the model branch.
 It does **not** make roadmap Phase 10 complete. Actual Phase 10 still waits for:
 
 1. Phase 9 approved exact asset evidence;
-2. a current live runtime HEAD with standalone verification and browser smoke green
-   on that same exact SHA;
+2. a current live runtime HEAD whose canonical-v4 contract matches the locked rev2c model rig and whose standalone verification/browser smoke are green on that same exact SHA;
 3. real runtime exercise/contact capture;
 4. export/reimport round-trip evidence;
 5. owner/release gates at their proper later boundaries.

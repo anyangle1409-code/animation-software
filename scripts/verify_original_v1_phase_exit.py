@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 from original_v1_production_control import ROOT,build,digest,ensure_finite
 from verify_original_v1_production_promotion import safe_path
+from original_v1_phase9_production_validation import verify_receipt as verify_phase9_validation_receipt
 
 REQUIRED_CHECKS={
  '4':['development_zero_failures','no_unresolved_regressions','replay_matches_primary',
@@ -129,6 +130,40 @@ def verify_phase5_region_receipts(root,checks,candidate_sha):
     return list(dict.fromkeys(issues))
 
 
+
+def verify_phase9_validation_binding(root,checks,candidate_sha):
+    """All five Phase 9 exit checks must bind one identical verified Phase 9 receipt."""
+    issues=[];by_id={x.get('id'):x for x in checks if isinstance(x,dict)}
+    receipt_keys=[];receipt_data={}
+    for check_id in REQUIRED_CHECKS['9']:
+        check=by_id.get(check_id) or {}
+        matches=[]
+        for item in check.get('evidence',[]) if isinstance(check.get('evidence'),list) else []:
+            try:
+                if not isinstance(item,dict) or not re.fullmatch('[0-9a-f]{64}',str(item.get('sha256',''))):
+                    continue
+                p=safe_path(root,item['path'])
+                if p.suffix.lower()!='.json' or digest(p)!=item['sha256']:
+                    continue
+                data=json.loads(p.read_text(encoding='utf-8-sig'))
+                if (data.get('phase')==9 and data.get('candidate_sha256')==candidate_sha and
+                    data.get('contract_status') in ('PHASE9_VALIDATION_VERIFIED','PHASE9_VALIDATION_BLOCKED')):
+                    matches.append((p,item,data))
+            except (OSError,ValueError,KeyError,TypeError,json.JSONDecodeError):
+                continue
+        if len(matches)!=1:
+            issues.append(check_id+': exactly one candidate-bound Phase 9 validation receipt required')
+            continue
+        p,item,data=matches[0]
+        key=(p.resolve().as_posix(),item['sha256'])
+        receipt_keys.append(key);receipt_data[key]=(p,data)
+    if receipt_keys and len(set(receipt_keys))!=1:
+        issues.append('all Phase 9 checks must reference the same Phase 9 validation receipt')
+    if len(receipt_keys)==len(REQUIRED_CHECKS['9']) and len(set(receipt_keys))==1:
+        _p,data=receipt_data[receipt_keys[0]]
+        issues.extend('phase9_validation: '+x for x in verify_phase9_validation_receipt(root,data,candidate_sha))
+    return list(dict.fromkeys(issues))
+
 def verify_exit(root,phase,packet,candidate_sha):
     phase=str(phase);issues=[]
     if phase=='12':return ['Phase 12 requires the separate controlled production promotion workflow']
@@ -170,6 +205,8 @@ def verify_exit(root,phase,packet,candidate_sha):
             except (OSError,ValueError,KeyError,TypeError) as exc:issues.append(name+': '+str(exc))
     if phase=='5':
         issues += verify_phase5_region_receipts(root,checks,candidate_sha)
+    if phase=='9':
+        issues += verify_phase9_validation_binding(root,checks,candidate_sha)
     return list(dict.fromkeys(issues))
 
 

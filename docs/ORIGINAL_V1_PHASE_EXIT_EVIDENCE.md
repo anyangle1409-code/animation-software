@@ -37,8 +37,7 @@ contract validation does not infer anatomy quality or perform the runtime engine
 | 10 | `real_engine_exercises`, `smooth_human_motion`, `canonical_rig_binding`, `bare_dressed_equivalence`, `export_round_trip`, `standalone_runtime_audit` |
 | 11 | `deterministic_capture`, `automatic_visual_checks`, `pose_camera_region_coverage`, `first_party_reference_policy`, `coverage_limits_recorded`, `candidate_runtime_binding` |
 
-Phase 4 additionally remains blocked by any recomputed development failure or
-unresolved R2 regression. Use its work package for exact replay/snapshot/pinning
+Phase 4 additionally remains blocked by any recomputed development failure or unresolved strict regression against the active immutable stress-pose epoch baseline. Use its work package for exact replay/snapshot/pinning
 commands. Later phases require preceding completion records and their domain evidence.
 Final owner visual acceptance remains mandatory for production promotion.
 

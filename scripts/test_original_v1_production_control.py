@@ -39,6 +39,26 @@ class ControlTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"not on current candidate lineage"):
             c.phase_checkpoint_on_lineage(entries,"r102","a"*64)
 
+    def test_duplicate_revision_labels_for_identical_bytes_are_allowed_when_parent_agrees(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r99":{"revision":"r99","sha256":"b"*64,"parent_sha256":None},
+        }
+        info=c.phase_checkpoint_on_lineage(entries,"r101","b"*64)
+        self.assertEqual(info["sha256"],"b"*64)
+        self.assertEqual(info["depth"],1)
+
+    def test_duplicate_candidate_bytes_with_conflicting_parent_lineage_are_refused(self):
+        c=self.module()
+        entries={
+            "r100":{"revision":"r100","sha256":"a"*64,"parent_sha256":"b"*64},
+            "r101":{"revision":"r101","sha256":"a"*64,"parent_sha256":"c"*64},
+        }
+        with self.assertRaisesRegex(ValueError,"conflicting parent lineage"):
+            c.candidate_lineage(entries,"r101")
+
     def test_phase_checkpoint_cycle_is_refused(self):
         c=self.module()
         entries={

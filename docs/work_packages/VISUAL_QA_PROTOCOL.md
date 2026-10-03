@@ -4,7 +4,7 @@ Stage 11 GPT preparation. This package prepares the first-party visual QA layer
 without executing Phase 11, changing the model, changing the rig, editing poses,
 activating assets or using any external vision model/reference image.
 
-The current real Blender priority remains `RUN_ORIGINAL_V1_R30.bat`.
+The live model priority is selected only by generated production control/orchestration; historical r29/r30 recovery commands are not current Phase 11 instructions.
 
 ## Design boundary
 
@@ -127,8 +127,7 @@ Matched masks report:
 - bounding-box edge deltas.
 
 No universal pass threshold is created here. Future phase-specific tolerances must
-be justified from actual owned captures and may not replace the R2 deformation
-baseline or existing contact/deformation gates.
+be justified from actual owned captures and may not replace the active immutable stress-pose epoch baseline, preserved historical baselines or existing contact/deformation gates.
 
 ## What still requires other evidence
 
@@ -153,6 +152,8 @@ A replacement reference is a **new versioned record**. Never overwrite an old
 reference or silently move the baseline. A reference with owner review pending
 remains experimental; it is not "accepted" merely because the detector can compare
 against it.
+
+The production CLI refuses an unlisted reference. A quantitative reference must be uniquely pinned in `ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json`, have `owner_review=accepted`, and bind the exact capture-manifest bytes, candidate SHA, asset SHA, runtime commit, source-image SHA and complete role→mask-SHA map. Detector unit-test fixtures may call lower-level comparison functions directly, but they never become inventory references or production evidence.
 
 Controlled synthetic/deliberately altered masks are allowed only under
 `SYNTHETIC_TEST_FIXTURE_ONLY` for detector tests. They must never appear in

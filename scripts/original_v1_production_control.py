@@ -40,8 +40,9 @@ def revision_key(rev):
 def candidate_lineage(entries, current_revision):
     """Return current->ancestor candidate rows using exact parent SHA identity.
 
-    Historical/baseline rows without candidate parent identity are not traversed.
-    A repeated SHA or missing declared parent stops inheritance rather than guessing.
+    Multiple revision labels may legitimately identify identical candidate bytes in
+    historical/synthetic evidence. They are one asset identity when their declared
+    parent SHA is consistent. Conflicting parent identities remain fail-closed.
     """
     if current_revision not in entries:
         raise ValueError("current candidate missing from lineage map")
@@ -49,9 +50,12 @@ def candidate_lineage(entries, current_revision):
     for revision, row in entries.items():
         sha = row.get("sha256")
         if isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha):
-            if sha in by_sha and by_sha[sha].get("revision") != row.get("revision"):
-                raise ValueError("candidate SHA appears under multiple revisions")
-            by_sha[sha] = row
+            by_sha.setdefault(sha, []).append(row)
+    for sha, rows in by_sha.items():
+        parents = {row.get("parent_sha256") for row in rows if row.get("parent_sha256")}
+        if len(parents) > 1:
+            raise ValueError("identical candidate SHA has conflicting parent lineage")
+
     chain = []
     seen = set()
     row = entries[current_revision]
@@ -66,12 +70,14 @@ def candidate_lineage(entries, current_revision):
         parent_sha = row.get("parent_sha256")
         if not parent_sha:
             break
-        parent = by_sha.get(parent_sha)
-        if parent is None:
+        parents = by_sha.get(parent_sha)
+        if not parents:
             # Parent may be the non-candidate original source. Never infer a candidate
             # ancestor from a filename or revision number when its SHA is unavailable.
             break
-        row = parent
+        # All rows sharing this SHA have already been proven to agree on parent SHA.
+        # Prefer the newest revision label only for deterministic reporting.
+        row = max(parents, key=lambda x: revision_key(x.get("revision", "")))
     return chain
 
 

@@ -14,16 +14,16 @@
   ],
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_expected_state": {
-    "phase": "3B",
-    "candidate": "r29",
-    "next_action": "RUN r30",
-    "command": "RUN_ORIGINAL_V1_R30.bat",
-    "note": "Runtime values are re-read from generated status; these are preparation-time expectations only."
+    "phase": "3A_axilla_local",
+    "candidate": "r55",
+    "next_action": "RUN local axilla repair",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56",
+    "note": "Runtime values are re-read from generated status. Use the next collision-free target label if r56 already exists locally; this checkpoint does not override newer evidence."
   },
   "global_rules": [
     "Before any write or Blender execution, re-read remote HEAD and preserve newer work.",
     "Never work from main and never merge the model branch wholesale into the standalone runtime branch.",
-    "R2, canonical-v4 structure, acceptance thresholds and frozen stress-pose definitions remain protected.",
+    "Historical epoch baselines, the locked rev2c rig, acceptance thresholds and frozen stress-pose definitions remain protected.",
     "No legacy V-series implementation data or third-party character content may enter ORIGINAL v1.",
     "Routine owner review snapshots are non-blocking; final owner acceptance/freeze authorization remain explicit later gates.",
     "Every candidate/output uses a fresh revision/label/path; never overwrite historical evidence.",
@@ -56,7 +56,10 @@
         "docs/work_packages/PHASE_5_ANATOMY_EXECUTION_PROTOCOL.md",
         "docs/work_packages/PHASE_6_ADVANCED_SURFACE_PROTOCOL.md",
         "docs/work_packages/PHASE_7_GARMENT_SCENE_PROTOCOL.md",
-        "docs/work_packages/PHASE_8_PRESENTATION_PROTOCOL.md"
+        "docs/work_packages/PHASE_8_PRESENTATION_PROTOCOL.md",
+        "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json",
+        "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat",
+        "scripts/original_v1_phase5_region_review.py"
       ],
       "boundary": "packages only; phases not complete"
     },
@@ -497,6 +500,16 @@
         "RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat",
         "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md"
       ]
+    },
+    "phase5_region_review": {
+      "command": "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat <5A-5G> <rN>",
+      "artifacts": [
+        "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json",
+        "scripts/capture_original_v1_phase5_region_blender.py",
+        "scripts/original_v1_phase5_region_review.py",
+        "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat"
+      ],
+      "boundary": "Phase 5 only after verified Phase 4 freeze; review capture is evidence, never regional/phase acceptance."
     }
   }
 }

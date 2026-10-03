@@ -312,6 +312,15 @@ def audit_candidate_set(manifest_path: Path, rig_path: Path) -> dict[str, Any]:
         errors.append(f"unexpected manifest rig {manifest.get('rig')!r}")
     if rig.get("identity") != "hgpt_canonical_v4_original":
         errors.append(f"unexpected rig identity {rig.get('identity')!r}")
+    declared_rig = manifest.get("rig_payload")
+    if isinstance(declared_rig, dict):
+        expected_path = (ROOT / str(declared_rig.get("path", ""))).resolve()
+        if rig_path.resolve() != expected_path or not rig_path.is_file() or sha256(rig_path) != declared_rig.get("sha256"):
+            errors.append("manifest-declared rig payload does not match audit rig")
+        if manifest.get("rig_structure_sha256") != rig.get("rig_structure_sha256"):
+            errors.append("manifest rig structure identity differs from audit rig")
+        if manifest.get("rig_bone_count") != len(rig.get("bones", [])):
+            errors.append("manifest rig bone count differs from audit rig")
 
     exports = manifest.get("exports", {})
     if set(exports) != {"bare", "dressed"}:

@@ -10,7 +10,7 @@ migration is a separate branch/track; never merge this model branch wholesale.
 ## Shared language and authority
 
 PHASE is a numbered roadmap section. CANDIDATE is a named experimental revision.
-BASELINE is the pinned R2 comparison state, never automatically replaced.
+BASELINE means the immutable comparison baseline selected for a candidate's stress-pose epoch. R2 remains the historical original baseline; later pinned epochs such as P2B1/P3B1 are separate immutable baselines and are never silently substituted or overwritten.
 EXPERIMENTAL does not mean accepted. DEVELOPMENT CLEAR means the relevant coarse
 gates pass; it does not mean production-approved. OWNER REVIEW is a visual
 checkpoint; OWNER ACCEPTED and OWNER REJECTED require an explicit owner record
@@ -22,24 +22,35 @@ non-blocking by default. FREEZE protects structure from casual changes.
 
 Priority: live source/executable evidence, current model handoff, this roadmap,
 generated status/ledger, task packages, historical documentation. The old
-`ORIGINAL_V1_CANDIDATE_STATUS.json` verifies the R2/export checkpoint, not latest
-r29 deformation; it remains intact for its existing verifier. O1/O2/O4/O7 are
+`ORIGINAL_V1_CANDIDATE_STATUS.json` verifies the older R2/export checkpoint, not the current deformation candidate; it remains intact for its existing verifier. O1/O2/O4/O7 are
 historical authoring stage labels, not roadmap phase numbers.
 
 ## Current reconciled state
 
-Evidence checked at source HEAD `77d065ccf83ab8ebaafb57b96f356c7168d10590`.
-Phases 0–2 are development foundation COMPLETE (neutral owner review pending).
-3A is DEVELOPMENT CLEAR, with five inherited R2 severity regressions still
-visible and unresolved for strict freeze/promotion. 3B is ACTIVE: r28 has 8
-failures and no regression versus r26; r29 has 7 failures but 12 regressions
-versus r28. r29 is the execution candidate, not a new baseline or accepted model.
-r30/o22 has no valid completed output. 3C has four 5.93 mm penetration failures.
-3D passes coarse development checks but has the R2 hand-max severity regression
-1.915 → 2.032. 3E has three lunge failures (pelvis max 7.559, torso min 0.120,
-torso max 7.200). Actual renders are not committed at this checkpoint; never
-substitute synthetic previews. Existing O7 shorts and GLBs are early candidates,
-not Phase 7 completion or exports of r29.
+Generated state is authoritative if it advances beyond this prose. At the current
+reconciled checkpoint, `r55` is the latest complete experimental candidate under
+the P3 stress-pose epoch, with `P3B1` as its active pinned comparison baseline.
+All Phase 3A–3E development-blocker gates are clear (0 development failures), but
+Phase 3 remains ACTIVE because strict severity regressions and real-render/local
+face evidence still record an axilla-pit sliver/crumple. Production control binds
+that residual to the exact r55 SHA and selects:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56
+```
+
+using the next collision-free revision if r56 already exists locally. That guarded
+pipeline declares the local mask before editing, performs a one-dump numeric trial
+sweep, applies only the selected local incremental corrective, and runs full
+candidate validation/review. A completed child remains EXPERIMENTAL until its
+evidence/disposition is reconciled.
+
+The locked rig is `hgpt_canonical_v4_original` revision
+`rev2_forearm_twist_only`: 67 bones total / 66 deform bones, retaining the
+historical 63-bone v4 structure plus four forearm-twist helpers. Phase 4 development
+freeze has NOT started, and Phase 5 high-detail anatomy has NOT started. R2, P2B1
+and P3B1 remain immutable historical/epoch baselines; no threshold, tolerance or
+frozen pose may be changed to erase a regression.
 
 ## Phase contract
 
@@ -53,9 +64,9 @@ existing, an optimiser finishing, a lower global failure count, or a nice render
 |---|---|---|---|---|
 | 0 First-party foundation / provenance — COMPLETE development | Blank O1 source and independently authored inputs | Preserve blank-source history; audit authoring boundary; record every source and operation | Verified O1 provenance and independent v4 lineage; no legacy/third-party transfer; ongoing gate on every candidate | Provenance evidence visible; non-blocking |
 | 1 Base human form — COMPLETE development | Phase 0 | Proportions, bilateral body, neutral landmarks, O2 numeric health | O2 numeric gate passed; reproducible checkpoint; no claim of high-detail or visual acceptance | Neutral anatomy pending, non-blocking |
-| 2 Production skeleton / rig fit — STRUCTURE BASELINE EXISTS; FUNCTIONAL MOTION SIGNOFF REOPENED | Phases 0–1 | Validate the project-owned rig with mesh hidden: hierarchy/rest/local axes, joint directions/ranges, coupled motion, symmetry and continuous exercise motion; correct the rig if evidence proves it wrong | Skeleton-motion validation passes with no known mechanical joint-direction defect; corrected rig revision/hash recorded and locked before Phase 4; preserve prior rig as historical evidence rather than overwriting it | Skeleton-only motion boards + audit; external human-reference observations |
-| 3 Core deformation — ACTIVE | Phase 2 functional skeleton-motion signoff plus unchanged R2/gates | Separate bone/pose/constraint defects from skinning/topology defects; then repair shoulders/upper torso, hands/fingers/grip, wrist/push-up and hip/pelvis/deep flexion on the validated rig | Full required stress-pose and intermediate-motion coverage, zero development blockers, region-local repairs/full comparisons, inherited regressions explicitly retained | Each meaningful candidate, non-blocking |
-| 4 Development deformation freeze — NOT STARTED | Skeleton-motion lock recorded; Phase 3 zero blockers plus resolved material regressions or explicit evidence-backed owner disposition (no threshold change) | Reproduce all 15 poses plus required intermediate-motion checks; provenance/topology/weight audits; pin a separate development freeze record without replacing R2 | Skeleton rig identity locked; all required evidence complete, zero development failures, comparisons and lineage reconciled; freeze hash and edit boundaries recorded | Freeze snapshot non-blocking; unresolved subjective disposition blocks affected change only |
+| 2 Production skeleton / rig fit — LOCKED rev2c | Phases 0–1 | Preserve the validated project-owned rig; reopen only on direct new skeleton-only evidence of a true rig defect | rev2 forearm-twist-only lock recorded: 67 total / 66 deform bones; original 63-bone structure preserved as history; dependent deformation evidence rerun | Skeleton-only motion boards + audit; external human-reference observations |
+| 3 Core deformation — ACTIVE | Locked rev2c rig plus unchanged active epoch baseline/gates | Separate bone/pose/constraint defects from skinning/topology defects; then repair shoulders/upper torso, hands/fingers/grip, wrist/push-up and hip/pelvis/deep flexion on the validated rig | Full required stress-pose and intermediate-motion coverage, zero development blockers, region-local repairs/full comparisons, inherited regressions explicitly retained | Each meaningful candidate, non-blocking |
+| 4 Development deformation freeze — NOT STARTED | Skeleton-motion lock recorded; Phase 3 zero blockers plus resolved material regressions or explicit evidence-backed owner disposition (no threshold change) | Reproduce all 15 poses plus required intermediate-motion checks; provenance/topology/weight audits; pin a separate development freeze record without replacing any historical/epoch baseline | Skeleton rig identity locked; all required evidence complete, zero development failures, comparisons and lineage reconciled; freeze hash and edit boundaries recorded | Freeze snapshot non-blocking; unresolved subjective disposition blocks affected change only |
 | 5 High-detail anatomy — NOT STARTED | Phase 4 sufficiently stable and freeze recorded | 5A torso; 5B shoulders; 5C arms; 5D hands; 5E pelvis/legs; 5F feet; 5G head/neck. Follow anatomy spec and packages | Each region independently authored, landmarks/silhouette documented, no deformation regression; owner reviews recorded; unresolved visual reviews remain tracked | Each region/milestone non-blocking; irreversible subjective choices deferred |
 | 6 Final topology / surface quality — NOT STARTED | Stable Phase 5 region checkpoints | Manifold/normal/degenerate checks; loops; surface continuity; symmetry; counts and displacement audits | Healthy final mesh, documented intentional exceptions, complete regression evidence; no destructive remesh without correspondence evidence | Topology/surface board non-blocking |
 | 7 First-party clothing — NOT STARTED (early O7 candidate exists) | Stable final body topology | Original shorts construction, coverage, thickness, seams, body clearance and full dressed deformation | Independent garment provenance; dressed/bare parity and no unexplained clipping in all poses | Dressed neutral/exercise boards non-blocking |
@@ -67,36 +78,53 @@ existing, an optimiser finishing, a lower global failure count, or a nice render
 
 ## Frozen structures and prohibited shortcuts
 
-- The prior canonical-v4 63-bone rig remains the historical structural baseline, but functional skeleton-motion correctness is now a required pre-freeze gate. Direct evidence may justify a corrected rig revision. Never overwrite the prior rig evidence; record a new revision/hash and rerun dependent deformation/contact evidence. Preserve the existing semantic contract where possible, but human movement correctness takes priority if evidence proves a structural change is necessary.
-- R2 (`DEFORMATION_BASELINE_R2.json`), acceptance thresholds/comparison tolerances,
-  exercise stress-pose definitions and 63-bone canonical-v4 rest/hierarchy are
-  frozen. Never rebase a metric to erase a regression.
+- The historical 63-bone canonical-v4 structure is preserved as base evidence. The
+  current skeleton-motion lock is rev2c / `rev2_forearm_twist_only`: 67 bones
+  total, 66 deform, with four project-owned forearm-twist helpers. Do not remove,
+  rename, reparent or repurpose those helpers during deformation or anatomy work.
+  Reopen the rig only on direct new skeleton-only evidence of a true mechanical
+  defect; deformation alone is not evidence that a new bone is required.
+- R2, P2B1 and P3B1 are immutable historical/epoch deformation baselines. The
+  active baseline for a candidate is selected by its stress-pose epoch. Acceptance
+  thresholds/comparison tolerances and the current frozen P3 pose definition are
+  immutable inputs; never rebase a metric or select an older baseline to erase a
+  regression.
 - No copied V-series geometry, coordinates, weights, topology, UVs, bind data,
   materials or textures; no projection, shrinkwrap, nearest-surface transfer,
   imported character/scan/image assets or third-party add-ons. Historical lessons
   are abstract reference only. Stock Blender is an authoring tool, not runtime.
-- Existing GLBs describe their own export checkpoint; never relabel them r29/r30.
+- Existing GLBs describe their own export checkpoint; never relabel historical
+  exports as a newer candidate.
 - Do not weaken the 2 mm development / 1 mm production grip gate, alter handle
   frames or frozen poses to manufacture a pass, or mark production from a score.
-- Do not restart 3A merely to polish. Its inherited strict regressions remain a
-  freeze issue; diagnose evidence and request a scoped decision if frozen tools
-  would need change. Continue unrelated safe work.
+- Do not restart the rig or broad shoulder solution merely to polish the remaining
+  axilla residual. Follow the candidate-bound local repair package and preserve all
+  rejected/trade-off evidence.
 
 ## Execution order and coordination
 
-1. Fetch live branch, compare HEAD, preserve newer work. Run session preflight.
-2. Regenerate status/dashboard/ledger; use the next-action selector. Initially
-   run existing `RUN_ORIGINAL_V1_R30.bat`, then full R2/r29/r28 comparisons.
-3. Collect read-only remaining diagnostics. Repair wrist locally, diagnose and
-   repair permitted thumb/local geometry without changing frozen rig/pose, then
-   repair lunge. Hand recovery precedes these; a failed r30 cannot auto-supersede.
-4. Commit each candidate manifest, solution/provenance, complete reports,
-   comparisons, audits, review manifest/images and current state. Blender binaries
-   stay local under existing policy; hashes and reproducible inputs are committed.
-5. Before each commit/push recheck live HEAD. If it advanced, stop stale edits,
-   read changed evidence and reconcile without force push or blind overwrite.
-6. Each agent reads/updates the same files and names. No independent thresholds,
-   baseline promotion or competing plan. Keep runtime work on its separate track.
+1. Fetch live branch, compare HEAD, preserve newer work and run session preflight.
+2. Regenerate/check status/dashboard/ledger and follow the evidence-derived
+   next-action selector. At the current checkpoint the expected model action is
+   `RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56` (or the next collision-free
+   target label), not any historical r29/r30 runner.
+3. Preserve every partial/trial output. Reconcile the new candidate against its
+   active epoch baseline, direct parent and local axilla evidence. Do not enter
+   Phase 4 merely because development-blocker count is zero.
+4. When and only when production control selects
+   `ENTER development freeze validation`, run
+   `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat` and the Phase 4 evidence package.
+5. After a verified Phase 4 record, Phase 5 proceeds 5A→5G on the locked rev2c rig.
+   Use the candidate-bound regional evidence packets and dedicated real-render
+   capture; each region inherits from the previous verified regional candidate.
+6. Commit candidate manifests, provenance/solutions, complete reports,
+   comparisons, audits and review manifests/images. Blender binaries remain local
+   under the existing policy unless a specific controlled artifact workflow says
+   otherwise.
+7. Before each write/push recheck live HEAD. If it advanced, stop stale edits,
+   read the new evidence and reconcile without force push or blind overwrite.
+8. Both agents use the same authority/status files. No independent thresholds,
+   baseline promotion, competing rig, or wholesale runtime/model branch merge.
 
 ## Review without stopping work
 
@@ -114,7 +142,7 @@ reviews never silently become accepted.
 
 ## Repo-side implementation sequence
 
-- [x] Roadmap and authority links; verify against r28/r29/R2 evidence.
+- [x] Roadmap and authority links; verify against historical evidence plus the current candidate's active epoch baseline.
 - [x] Shared evidence parser, immutable candidate history, machine status and
   deterministic phone dashboard; test incomplete/stale/conflicting evidence.
 - [x] Next-action selector and read-only Windows session preflight; test collision,
@@ -125,7 +153,16 @@ reviews never silently become accepted.
 - [x] Verify deterministic regeneration and existing model gates, commit/push
   logical batches; state Windows/Blender checks not executed in cloud.
 
-## Repo-side preparation completion — 2026-10-01
+## Historical preparation log — 2026-10-01
+
+**Historical context only.** Everything in the dated preparation log below records
+what was prepared on 2026-10-01. Any embedded wording such as “current”, “next
+task”, `r29`, `r30`, or R2-only comparison instructions is superseded by live
+generated status, production control, the execution orchestrator and the current
+O4 handoff. Do not execute a dated command from this section merely because it is
+written below.
+
+### Repo-side preparation completion — 2026-10-01
 
 These ticks describe prepared repository controls, not model phase completion.
 
@@ -145,9 +182,7 @@ These ticks describe prepared repository controls, not model phase completion.
 | [✅] L | Raw model snapshot exporter and mesh/weight change audit | Blender snapshot execution and candidate correspondence |
 | [✅] M | Fail-closed production eligibility verifier/workflow | All final gates and owner acceptance remain open |
 
-Verification: 63 Python unittest cases pass; generated outputs reproduce exactly;
-pinned R2 verifier, R2/export candidate status verifier, candidate GLB structural
-audit and documentation hygiene pass. ORIGINAL-v1 Python syntax checks pass;
+Verification is CI/evidence-derived; do not hard-code an old unit-test count. Generated outputs must reproduce exactly; historical baseline verifiers, candidate-status/GLB audits, Phase 5 contract tests and documentation hygiene remain fail-closed. ORIGINAL-v1 Python syntax checks pass;
 original stress-pose AST remains identical apart from metadata-only import.
 No Windows/Blender execution, new candidate render or runtime integration was
 claimed. Repo controls use standard Python/project-owned code; no runtime

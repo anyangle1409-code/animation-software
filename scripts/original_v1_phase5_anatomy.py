@@ -17,6 +17,7 @@ from original_v1_production_control import ROOT, build, digest, ensure_finite, r
 from verify_original_v1_production_promotion import safe_path
 
 PLAN = "ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json"
+CAPTURE_PLAN = "ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json"
 HELPER = "scripts/original_v1_phase5_anatomy.py"
 REQUIRED_CHECKS = (
     "scope_bound",
@@ -83,6 +84,15 @@ def load_plan(root: Path) -> dict:
     helpers = lock.get("helper_decisions", {}).get("added", [])
     if rig.get("helper_bones") != helpers:
         raise ValueError("Phase 5 helper-bone contract disagrees with skeleton-motion lock")
+    capture_plan = read(root, CAPTURE_PLAN)
+    if capture_plan.get("schema_version") != 1 or capture_plan.get("status") != "PREPARED_PHASE5_REGION_CAPTURE_PLAN":
+        raise ValueError("Phase 5 regional capture plan identity differs")
+    if set(capture_plan.get("regions", {})) != set(order):
+        raise ValueError("Phase 5 regional capture coverage incomplete")
+    for region in order:
+        capture_ids = [x.get("id") for x in capture_plan["regions"][region].get("captures", [])]
+        if capture_ids != regions[region].get("required_views") or regions[region].get("required_capture_ids") != capture_ids:
+            raise ValueError(f"{region} capture coverage differs from anatomy plan")
     return plan
 
 

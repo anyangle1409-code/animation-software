@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: original-v1-production-control-${{ github.ref }}
@@ -81,6 +81,16 @@ jobs:
             ORIGINAL_V1_HIGH_DETAIL_STATUS.json
             ORIGINAL_V1_CANDIDATE_LEDGER.json
             docs/ORIGINAL_V1_DAILY_STATUS.md
+      - name: One-off commit regenerated status
+        if: github.event.head_commit.message == 'Regenerate generated state via CI'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- ORIGINAL_V1_HIGH_DETAIL_STATUS.json ORIGINAL_V1_CANDIDATE_LEDGER.json docs/ORIGINAL_V1_DAILY_STATUS.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Regenerate ORIGINAL v1 generated state"
+            git push
+          fi
       - name: Verify generated status is exact
         run: |
           git diff -- ORIGINAL_V1_HIGH_DETAIL_STATUS.json ORIGINAL_V1_CANDIDATE_LEDGER.json docs/ORIGINAL_V1_DAILY_STATUS.md

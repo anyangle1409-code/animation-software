@@ -1,4 +1,4 @@
-﻿"""Multi-pose shoulder/upper-torso skin-weight optimisation for the O4 CANDIDATE.
+"""Multi-pose shoulder/upper-torso skin-weight optimisation for the O4 CANDIDATE.
 
 python scripts/optimize_original_v1_o4_shoulder_weights.py <dump.npz> <solution.npz> [--preset NAME]
 
@@ -224,6 +224,7 @@ PRESETS["o44"] = dict(PRESETS["o41"], w_trunk=1e6, trunk_a0=0.05, trunk_a1=0.20,
 PRESETS["o45"] = dict(PRESETS["o44"], w_area=2e4, area_floor=0.2, w_lap=2e4, lap_tol=0.35)
 PRESETS["o47"] = dict(PRESETS["o45"], zone_mode="vertex_file", symmetric=True, w_lap=1e5, lap_tol=0.1, w_area=1e5, area_floor=0.5, w_fold=1e4, fold_cos=0.5,
                        w_trunk=0.0, tt_resolve=False, iters=400, polish_iters=200, rounds=3)
+PRESETS["o48"] = dict(PRESETS["o45"], prox_mode="tritri", w_prox=5e6, tt_resolve=True, tt_delta=0.001, tt_radius=0.03, rounds=3)
 PRESETS["o46"] =dict(PRESETS["o45"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15)
 PRESETS["o43"] = dict(PRESETS["o41"], w_trunk=5e6, trunk_a0=0.02, trunk_a1=0.10, trunk_rb=0.15, iters=250, polish_iters=150)
 # o40 (rev2 / P2 epoch): shoulder-zone re-solve on the twist-helper rig. The helpers split the upper-arm weight by a fixed rule; the

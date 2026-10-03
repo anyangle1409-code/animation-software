@@ -23,9 +23,11 @@ set "MANIFEST=ORIGINAL_V1_WORK\candidates\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDAT
 set "PREP=ORIGINAL_V1_WORK\candidates\repair_preparation\%TARGET_REV%_axilla_pit_declared"
 set "DECL=%PREP%\axilla_pit_mask_declared_before_edit.json"
 set "SOL=%PREP%\incremental_corrective_solution.npz"
+set "REPORT=%PREP%\incremental_corrective_solution_report.json"
 if not exist "%BLEND%" ( echo ERROR: missing source blend & exit /b 2 )
 if not exist "%DECL%" ( echo ERROR: run AXILLA_PIT_PREP first & exit /b 2 )
 if exist "%SOL%" ( echo ERROR: refusing to overwrite solution & exit /b 2 )
+if exist "%REPORT%" ( echo ERROR: refusing to overwrite solve report & exit /b 2 )
 python scripts\verify_original_v1_local_candidate.py "%BLEND%" "%MANIFEST%" || exit /b 2
 set "BLENDER="
 if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"
@@ -36,10 +38,11 @@ set "DUMP=%TEMP%\hgpt_%SOURCE_REV%_%TARGET_REV%_axilla_arc.npz"
 if exist "%DUMP%" del /q "%DUMP%"
 "%BLENDER%" --background --factory-startup "%BLEND%" --python-exit-code 1 --python scripts\dump_original_v1_arc_skinning_blender.py -- "%DUMP%" "0.25,0.375,0.5,0.625,0.75,0.875"
 if errorlevel 1 goto :fail
-python scripts\optimize_original_v1_shoulder_corrective.py "%DUMP%" "%SOL%" --mask-file "%DECL%" --hi 3.6 --lo 0.30 --w-trunk 3000000 --w-area "%W_AREA%" --area-min "%AREA_MIN%" --w-fold "%W_FOLD%" --w-prox "%W_PROX%" --rounds 3 --w-smooth 300 --w-mag 2 --iters 300
+python scripts\optimize_original_v1_shoulder_corrective.py "%DUMP%" "%SOL%" --mask-file "%DECL%" --hi 3.6 --lo 0.30 --w-trunk 3000000 --w-area "%W_AREA%" --area-min "%AREA_MIN%" --w-fold "%W_FOLD%" --w-prox "%W_PROX%" --rounds 3 --w-smooth 300 --w-mag 2 --iters 300 --json-out "%REPORT%"
 if errorlevel 1 goto :fail
 if exist "%DUMP%" del /q "%DUMP%"
 echo SOLVE COMPLETE: %SOL%
+echo REPORT: %REPORT%
 echo Incremental delta only; DO NOT pass corr_v8 as --init.
 exit /b 0
 :usage

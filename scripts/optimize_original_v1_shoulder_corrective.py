@@ -61,6 +61,7 @@ def main():
     ap.add_argument("--w-mag", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=300)
     ap.add_argument("--init")
+    ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
     a = ap.parse_args()
 
     d = np.load(a.dump)
@@ -374,8 +375,9 @@ def main():
             print(f"iter {it:4d} loss {f:.3f} |g| {np.linalg.norm(g):.3e} max|D| {np.abs(x).max():.4f}")
     Dv = x.reshape(nL, 3)
     DL, DR = net_fields(Dv)
-    # report: per entry the metrics before/after on the mask-touching edges and torso drift
+    # report: per entry metrics before/after, including local signed face area vs uncorrected LBS
     rows = []
+    report_rows = []
     for p in range(nP):
         if al[p] <= 0 and ar[p] <= 0:
             continue
@@ -386,12 +388,34 @@ def main():
         r0 = np.exp(cur[p])
         drift = np.linalg.norm(Pp[Z] - PTR[p], axis=1)[TORSO]
         drift0 = np.linalg.norm(P0[p][Z] - PTR[p], axis=1)[TORSO]
-        rows.append((poses[p], float(theta[p, 0]), float(al[p]), float(r0.max()), float(r1.max()), float(r0.min()), float(r1.min()), float(drift0.max()), float(drift.max())))
+        row = (poses[p], float(theta[p, 0]), float(al[p]), float(r0.max()), float(r1.max()), float(r0.min()), float(r1.min()), float(drift0.max()), float(drift.max()))
+        rows.append(row)
+        rr = {"entry": poses[p], "theta_l_deg": float(theta[p, 0]), "activation_l": float(al[p]),
+              "edge_max_before": float(r0.max()), "edge_max_after": float(r1.max()),
+              "edge_min_before": float(r0.min()), "edge_min_after": float(r1.min()),
+              "torso_drift_max_before_m": float(drift0.max()), "torso_drift_max_after_m": float(drift.max())}
+        if AREA_N0 is not None:
+            def signed_area_ratio(P):
+                Aa, Bb, Cc = P[Tz[:, 0]], P[Tz[:, 1]], P[Tz[:, 2]]
+                nn = np.cross(Bb - Aa, Cc - Aa)
+                return (nn * AREA_N0[p]).sum(axis=1) / AREA_DEN[p]
+            sb, sa = signed_area_ratio(P0[p]), signed_area_ratio(Pp)
+            rr.update({"signed_area_min_before": float(sb.min()), "signed_area_min_after": float(sa.min()),
+                       "faces_below_area_min_before": int((sb < a.area_min).sum()), "faces_below_area_min_after": int((sa < a.area_min).sum()),
+                       "flipped_faces_before": int((sb < 0.0).sum()), "flipped_faces_after": int((sa < 0.0).sum())})
+        report_rows.append(rr)
     print("entry                     theta  act  edgeMax before->after   edgeMin before->after   torsoDrift before->after")
     for r in rows:
         if "@" in r[0] and not r[0].endswith(("@0.500", "@0.750", "@0.875")):
             continue
         print(f"{r[0]:26s}{r[1]:6.1f} {r[2]:5.2f}   {r[3]:6.2f} -> {r[4]:6.2f}        {r[5]:6.3f} -> {r[6]:6.3f}        {r[7]:6.3f} -> {r[8]:6.3f}")
+    if a.json_out:
+        source_sha = str(d["source_sha256"].item()) if np.asarray(d["source_sha256"]).shape == () else str(d["source_sha256"])
+        report = {"schema_version": 1, "source_candidate": str(d["source"].item()) if np.asarray(d["source"]).shape == () else str(d["source"]),
+                  "source_candidate_sha256": source_sha, "mask_file": a.mask_file, "solution": a.out,
+                  "final_loss": float(f), "max_abs_delta_m": float(np.abs(Dv).max()), "area_reference": "same_pose_uncorrected_lbs",
+                  "parameters": vars(a), "entries": report_rows}
+        Path(a.json_out).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     np.savez_compressed(a.out, vertices=Lset, delta=Dv, theta0=a.theta0, theta1=a.theta1, source=str(d["source"]),
                         source_sha256=str(d["source_sha256"]), params=json.dumps(vars(a)))
     print("SOLUTION", a.out, "loss", f"{f:.3f}", "max |D| %.4f m" % np.abs(Dv).max())

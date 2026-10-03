@@ -107,7 +107,7 @@ After Step A:
 RUN_ORIGINAL_V1_AXILLA_PIT_SOLVE.bat r55 r56 <w-area> [area-min] [w-fold] [w-prox]
 ```
 
-The area weight is explicit rather than silently tuned. This writes an incremental solution only and does not save a Blend.
+The area weight is explicit rather than silently tuned. This writes an incremental solution only and does not save a Blend. It also writes `incremental_corrective_solution_report.json` with per-pose before/after edge, torso-drift, signed-area, below-threshold-face and flipped-face metrics, so a parameter trial can be rejected before creating a new Blend.
 
 After inspecting that solve:
 

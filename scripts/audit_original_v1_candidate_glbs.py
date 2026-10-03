@@ -175,8 +175,9 @@ def audit_variant(
     expected_bones = rig.get("bones", [])
     expected_names = [str(b["name"]) for b in expected_bones]
     expected_set = set(expected_names)
-    if len(expected_names) != 63:
-        errors.append(f"rig payload expected 63 bones, got {len(expected_names)}")
+    expected_count = int(rig.get("bone_count", len(expected_names)))
+    if len(expected_names) != expected_count:
+        errors.append(f"rig payload bone list/count disagree: declared {expected_count}, listed {len(expected_names)}")
 
     for bone_name in expected_names:
         count = len(names.get(bone_name, []))
@@ -211,8 +212,8 @@ def audit_variant(
         errors.append("no skins found")
     for i, skin in enumerate(skins):
         joint_names = [nodes[j].get("name") for j in skin.get("joints", []) if 0 <= int(j) < len(nodes)]
-        if len(joint_names) != 63:
-            errors.append(f"skin {i} has {len(joint_names)} joints, expected 63")
+        if len(joint_names) != expected_count:
+            errors.append(f"skin {i} has {len(joint_names)} joints, expected {expected_count}")
         if set(joint_names) != expected_set:
             missing = sorted(expected_set - set(joint_names))
             extra = sorted(set(joint_names) - expected_set)
@@ -347,12 +348,22 @@ def audit_candidate_set(manifest_path: Path, rig_path: Path) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
-    parser.add_argument("--rig", type=Path, default=DEFAULT_RIG)
+    parser.add_argument("--rig", type=Path, help="explicit rig payload; otherwise use manifest rig_payload or historical default")
     parser.add_argument("--json-out", type=Path)
     args = parser.parse_args()
 
     try:
-        result = audit_candidate_set(args.manifest, args.rig)
+        rig_path = args.rig
+        if rig_path is None:
+            probe = json.loads(args.manifest.read_text(encoding="utf-8-sig"))
+            declared = probe.get("rig_payload")
+            if isinstance(declared, dict) and declared.get("path"):
+                rig_path = ROOT / declared["path"]
+                if not rig_path.is_file() or sha256(rig_path) != declared.get("sha256"):
+                    raise ValueError("manifest-declared rig payload bytes differ")
+            else:
+                rig_path = DEFAULT_RIG
+        result = audit_candidate_set(args.manifest, rig_path)
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

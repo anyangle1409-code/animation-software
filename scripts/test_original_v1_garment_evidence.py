@@ -3,6 +3,7 @@ import copy
 import importlib
 import json
 from pathlib import Path
+import shutil
 import tempfile
 from types import SimpleNamespace as NS
 import unittest
@@ -29,6 +30,9 @@ class GarmentEvidenceTests(unittest.TestCase):
             snapshot["rig_id"]=contract["identity"]
             snapshot["rig_rest_bones"]=copy.deepcopy(rest)
             snapshot["bone_names"]=sorted(deform)
+            snapshot["rig_matrix_world"]=copy.deepcopy(matrix)
+            snapshot["mesh_matrix_world"]=copy.deepcopy(matrix)
+            snapshot["left_x_sign"]=-1
             snapshot["locked_rig"]={"revision":contract["revision"],"rig_structure_sha256":contract["rig_structure_sha256"],
                                      "bone_count":contract["bone_count"],"deform_bone_count":contract["deform_bone_count"],
                                      "lock":contract["lock"],"payload":contract["payload"]}
@@ -82,6 +86,10 @@ class GarmentEvidenceTests(unittest.TestCase):
         c=self.module()
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);b,g=self.pair()
+            import original_v1_locked_rig as locked
+            contract=locked.load_locked_rig()
+            for rel in (contract["lock"]["path"],contract["payload"]["path"]):
+                src=locked.ROOT/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
             for name in (c.SCRIPT,c.HELPER,'scripts/audit_original_v1_changes.py'):
                 path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text('test fixture')
             manifest=root/'candidate_r29.json';manifest.write_text(json.dumps({'candidate':b['source_candidate'],'candidate_sha256':b['candidate_sha256']}))

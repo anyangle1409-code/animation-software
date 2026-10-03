@@ -21,8 +21,8 @@ class Phase5AnatomyTests(unittest.TestCase):
 
     def fixture_report(self, root: Path, region: str, parent_sha="b"*64, candidate_sha="c"*64, previous=None):
         plan=self.plan();row=plan["regions"][region]
-        for rel in (rr.CAPTURE_PLAN,rr.PHASE5_PLAN,"ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json"):
-            shutil.copy(a.ROOT/rel,root/rel)
+        for rel in (rr.CAPTURE_PLAN,rr.PHASE5_PLAN,"ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",rr.CAPTURE_SCRIPT,rr.POSE_SCRIPT):
+            dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy(a.ROOT/rel,dst)
         capture_plan=rr.load_capture_plan(root)
         raw=root/"raw.txt";raw.write_text("synthetic unit test evidence only",encoding="utf-8")
         raw_ref=self.ref(root,raw)
@@ -30,19 +30,23 @@ class Phase5AnatomyTests(unittest.TestCase):
         raw_dir=root/"capture";raw_dir.mkdir()
         review_dir=root/"review";review_dir.mkdir()
         expected=rr.expected_files(capture_plan,region)
-        pose_by={x["id"]:x["pose"] for x in capture_plan["regions"][region]["captures"]}
+        planned={x["id"]:x for x in capture_plan["regions"][region]["captures"]}
         image_rows=[];published=[]
         for cid,name in expected.items():
             src=raw_dir/name;src.write_bytes(("synthetic png bytes "+cid).encode("utf-8"))
             sha=a.digest(src)
             dst=review_dir/name;shutil.copyfile(src,dst)
-            image_rows.append({"capture_id":cid,"file":name,"sha256":sha,
-                               "capture":{"region":region,"capture_id":cid,"pose":pose_by[cid]}})
-            published.append({"capture_id":cid,"output":dst.relative_to(root).as_posix(),"sha256":sha})
+            capture=rr.expected_capture_metadata(capture_plan,region,planned[cid])
+            image_rows.append({"capture_id":cid,"file":name,"sha256":sha,"capture":copy.deepcopy(capture)})
+            published.append({"capture_id":cid,"output":dst.relative_to(root).as_posix(),"sha256":sha,
+                              "capture":copy.deepcopy(capture)})
         capture_manifest=root/"render_source_manifest.json"
         capture_manifest.write_text(json.dumps({
             "schema_version":1,"status":"PHASE5_REGION_CAPTURE_COMPLETE","phase":5,"region":region,
             "candidate_sha256":candidate_sha,"capture_plan_sha256":a.digest(root/rr.CAPTURE_PLAN),
+            "render_script_sha256":a.digest(root/rr.CAPTURE_SCRIPT),
+            "pose_definition_sha256":a.digest(root/rr.POSE_SCRIPT),
+            "blender_version":"fixture",
             "phase_complete":False,"production_approved":False,"images":image_rows
         }),encoding="utf-8")
         review_manifest=review_dir/"visual_review_manifest.json"

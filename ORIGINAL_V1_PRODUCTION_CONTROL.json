@@ -393,5 +393,6 @@
       "first_rev": 42,
       "note": "candidates r42+ are measured under stress-pose definition P3; baseline = r42 re-measured under P3"
     }
-  ]
+  ],
+  "phase5_region_records": {}
 }

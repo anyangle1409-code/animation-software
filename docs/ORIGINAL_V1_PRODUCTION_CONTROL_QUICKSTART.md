@@ -188,8 +188,8 @@ brief output paths must be unused. Preserve conflicting/partial evidence on STOP
 Stage 2 adds `python scripts/prepare_original_v1_repair_policy.py <3C|3D|3E>
 --out-dir <fresh repository folder>` (one line). The prepared r29 examples live in
 `ORIGINAL_V1_WORK/candidates/repair_preparation/r29_3C_stage2/` and corresponding
-3D/3E folders. They are INCOMPLETE drafts, not permission to bypass r30. Generate
-a new packet for the actual continuation candidate after hand recovery. Read its
+3D/3E folders. They are INCOMPLETE historical drafts, not permission to bypass the live production-control action. Generate
+a new packet only for the actual machine-selected continuation candidate. Read its
 README, preserve the original drafts and record a local intent before editing.
 
 Stage 3 prepares Phase 6–11 packages under `docs/work_packages/`, with shared
@@ -207,7 +207,7 @@ until real snapshots and the remaining domain checks exist.
 
 Optional source-bound candidate export evidence: follow
 `work_packages/CANDIDATE_EXPORT_PROTOCOL.md` and
-`RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede RUN r30 or
+`RUN_ORIGINAL_V1_CANDIDATE_EXPORT.bat`. This does not supersede the live production-control/orchestration action or
 validate production/runtime motion. Actual laptop capture remains required.
 
 Raw garment/body snapshot evidence is prepared in
@@ -220,7 +220,7 @@ Static evaluated clothing evidence is now prepared in
 `work_packages/DRESSED_EVALUATED_EVIDENCE_PROTOCOL.md` and
 `RUN_ORIGINAL_V1_DRESSED_EVIDENCE.bat`. It requires a same-candidate Stage 6
 raw pair receipt and produces EVIDENCE_ONLY static clearance/intersection metrics
-plus matched bare/dressed review pairs. It does not supersede RUN r30, classify
+plus matched bare/dressed review pairs. It does not supersede the live production-control/orchestration action, classify
 legitimate contact, prove continuous dressed motion or complete Phase 7.
 
 
@@ -230,7 +230,7 @@ Stage 8 sampled dressed range/contact tooling is prepared in
 static dressed evidence file. The default contact-classification template leaves
 all real findings UNCLASSIFIED and cannot grant a PASS. The sampler deliberately
 omits unsupported continuous push-up and moving-equipment paths rather than
-inventing them. It does not supersede RUN r30 or prove runtime biomechanics.
+inventing them. It does not supersede the live production-control/orchestration action or prove runtime biomechanics.
 
 
 Stage 9 first-party contact source bridging is prepared in

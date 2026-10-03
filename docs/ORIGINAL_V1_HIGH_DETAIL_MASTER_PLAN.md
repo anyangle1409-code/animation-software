@@ -260,7 +260,7 @@ surface relationships on all 15 stress poses and captures source-bound matched
 bare/dressed review pairs without changing the pose definitions or approving
 contact. Actual Blender execution is still required. Next GPT preparation is a
 continuous dressed range/contact sampler with explicit per-frame contact
-classification; current laptop deformation task remains RUN r30.
+classification. Live laptop deformation work is selected only by generated production control/orchestration; the former RUN r30 instruction is historical evidence only.
 
 Stage 8 continuous dressed-range evidence: `docs/work_packages/DRESSED_RANGE_CONTACT_PROTOCOL.md`.
 The project-owned plan samples six declared stress-pose paths at 21 points per
@@ -275,8 +275,7 @@ left unsupported: real push-up Top↔Bottom endpoints and fixed hand/toe contact
 hand-matrix-driven dumbbell attachment, and fixed pull-up rack/socket locks. It
 records exact source hashes and fails on semantic drift, but does not execute the
 solver or copy runtime motion into Blender. The live standalone runtime must still
-be rediscovered and bound at Phase 10. Current laptop deformation priority remains
-RUN r30.
+be rediscovered and bound at Phase 10. Historical deformation priorities in this preparation record are not live instructions; use generated production control/orchestration.
 
 Stage 10 runtime discovery/harness preparation: `docs/work_packages/RUNTIME_DISCOVERY_HARNESS_PROTOCOL.md`.
 The authoritative standalone branch was resolved to `work/standalone-first-party-audit-20260927`; current source shows v4 active, but its live HEAD e3a7d915... is not a green integration checkpoint because focused skeleton parity failed by 0.02 m and downstream gates did not run. The new read-only verifier compares a separate clean runtime checkout against the Stage 9 contact semantics, hashes every source, detects source-vs-handoff discrepancies and never edits either branch. `ORIGINAL_V1_RUNTIME_EVIDENCE_TEMPLATE.json` remains INCOMPLETE until real Phase 10 execution. Historical 2026-10-01 deformation priority was RUN r30.

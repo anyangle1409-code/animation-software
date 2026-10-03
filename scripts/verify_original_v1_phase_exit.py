@@ -33,6 +33,91 @@ REQUIRED_CHECKS={
        'first_party_reference_policy','coverage_limits_recorded','candidate_runtime_binding']}
 
 
+PHASE5_REGION_CHECKS=[
+ ('anatomy_5A_torso','5A'),('anatomy_5B_shoulders','5B'),('anatomy_5C_arms','5C'),
+ ('anatomy_5D_hands','5D'),('anatomy_5E_pelvis_legs','5E'),('anatomy_5F_feet','5F'),
+ ('anatomy_5G_head_neck','5G')]
+
+
+def verify_phase5_region_receipts(root,checks,candidate_sha):
+    """Bind Phase 5 exit to the actual ordered 5A->5G verified regional receipts."""
+    issues=[];by_id={x.get('id'):x for x in checks if isinstance(x,dict)}
+    control_path=root/'ORIGINAL_V1_PRODUCTION_CONTROL.json'
+    if not control_path.is_file():
+        return ['Phase 5 requires production-control Phase 4 freeze identity']
+    try:
+        control=json.loads(control_path.read_text(encoding='utf-8-sig'))
+        freeze_sha=((control.get('phase_completion_records') or {}).get('4') or {}).get('candidate_sha256')
+        if not re.fullmatch('[0-9a-f]{64}',str(freeze_sha or '')):
+            issues.append('recorded Phase 4 freeze candidate SHA missing/invalid')
+    except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
+        return ['Phase 5 production-control identity unreadable: '+str(exc)]
+
+    previous=None;freeze_seen=None;epoch_seen=None
+    for check_id,region in PHASE5_REGION_CHECKS:
+        check=by_id.get(check_id) or {}
+        candidates=[]
+        for ref in check.get('evidence',[]) if isinstance(check.get('evidence'),list) else []:
+            try:
+                p=safe_path(root,ref['path'])
+                if p.suffix.lower()!='.json' or digest(p)!=ref.get('sha256'): continue
+                data=json.loads(p.read_text(encoding='utf-8-sig'))
+                if data.get('contract_status')=='REGION_EVIDENCE_VERIFIED' and data.get('region')==region:
+                    candidates.append((p,ref,data))
+            except (OSError,ValueError,KeyError,TypeError,json.JSONDecodeError):
+                continue
+        if len(candidates)!=1:
+            issues.append(f'{check_id}: exactly one verified {region} regional receipt required')
+            previous=None
+            continue
+        receipt_path,receipt_ref,receipt=candidates[0]
+        if (receipt.get('schema_version')!=1 or receipt.get('phase')!=5 or
+            receipt.get('phase_complete') is not False or receipt.get('production_approved') is not False or
+            receipt.get('issues') not in ([],None)):
+            issues.append(f'{check_id}: regional receipt contract differs')
+        rsha=receipt.get('candidate_sha256')
+        if not re.fullmatch('[0-9a-f]{64}',str(rsha or '')):
+            issues.append(f'{check_id}: regional candidate SHA invalid')
+        rr=receipt.get('region_report') or {}
+        try:
+            report_path=safe_path(root,rr['path'])
+            if digest(report_path)!=rr.get('sha256'): raise ValueError('region report hash differs')
+            report=json.loads(report_path.read_text(encoding='utf-8-sig'))
+            if (report.get('schema_version')!=1 or report.get('phase')!=5 or report.get('region')!=region or
+                report.get('status')!='REGION_EVIDENCE_COMPLETE' or report.get('candidate_sha256')!=rsha or
+                report.get('phase_complete') is not False or report.get('production_approved') is not False):
+                issues.append(f'{check_id}: regional report identity/contract differs')
+            rfreeze=report.get('development_freeze_candidate_sha256')
+            epoch=(report.get('active_epoch_baseline_revision'),report.get('active_epoch_baseline_candidate_sha256'))
+            if rfreeze!=freeze_sha: issues.append(f'{check_id}: Phase 4 freeze SHA differs from production control')
+            if freeze_seen is None: freeze_seen=rfreeze
+            elif rfreeze!=freeze_seen: issues.append(f'{check_id}: development-freeze identity changed within Phase 5')
+            if epoch_seen is None: epoch_seen=epoch
+            elif epoch!=epoch_seen: issues.append(f'{check_id}: active epoch baseline changed within Phase 5')
+            prev_ref=report.get('previous_region_receipt')
+            if previous is None:
+                if region=='5A':
+                    if prev_ref not in (None,{}): issues.append('anatomy_5A_torso: 5A must not reference a previous region receipt')
+                    if report.get('parent_candidate_sha256')!=freeze_sha:
+                        issues.append('anatomy_5A_torso: 5A parent must equal recorded Phase 4 freeze candidate')
+                elif region!='5A':
+                    issues.append(f'{check_id}: preceding verified region receipt unavailable')
+            else:
+                prev_path,_prev_ref,prev_receipt=previous
+                expected_ref={'path':prev_path.relative_to(root.resolve()).as_posix(),'sha256':digest(prev_path)}
+                if prev_ref!=expected_ref:
+                    issues.append(f'{check_id}: previous-region receipt reference differs from exact prior receipt')
+                if report.get('parent_candidate_sha256')!=prev_receipt.get('candidate_sha256'):
+                    issues.append(f'{check_id}: parent candidate does not equal prior regional candidate')
+        except (OSError,ValueError,KeyError,TypeError,json.JSONDecodeError) as exc:
+            issues.append(f'{check_id}: regional report invalid: {exc}')
+        previous=(receipt_path,receipt_ref,receipt)
+
+    if previous is not None and previous[2].get('candidate_sha256')!=candidate_sha:
+        issues.append('Phase 5 exit candidate must equal final 5G regional candidate')
+    return list(dict.fromkeys(issues))
+
+
 def verify_exit(root,phase,packet,candidate_sha):
     phase=str(phase);issues=[]
     if phase=='12':return ['Phase 12 requires the separate controlled production promotion workflow']
@@ -72,6 +157,8 @@ def verify_exit(root,phase,packet,candidate_sha):
                 p=safe_path(root,ref['path'])
                 if digest(p)!=ref['sha256']:raise ValueError('source evidence hash differs')
             except (OSError,ValueError,KeyError,TypeError) as exc:issues.append(name+': '+str(exc))
+    if phase=='5':
+        issues += verify_phase5_region_receipts(root,checks,candidate_sha)
     return list(dict.fromkeys(issues))
 
 

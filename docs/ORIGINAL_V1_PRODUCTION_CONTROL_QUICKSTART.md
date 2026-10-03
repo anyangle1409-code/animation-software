@@ -213,7 +213,7 @@ validate production/runtime motion. Actual laptop capture remains required.
 Raw garment/body snapshot evidence is prepared in
 `work_packages/GARMENT_RAW_EVIDENCE_PROTOCOL.md`. Existing snapshot command defaults
 to the body; optional --garment captures the owned shorts. This does not measure
-posed clothing clearance or supersede RUN r30.
+posed clothing clearance or supersede the live production-control next action.
 
 
 Static evaluated clothing evidence is now prepared in
@@ -240,7 +240,7 @@ and SHA-256 evidence for push-up floor locks, hand-driven curl dumbbells and the
 fixed pull-up rack/socket contact model. It does not run the solver, does not add
 Blender poses and does not declare this model branch to be the live runtime. Use
 it later as a fail-closed comparison contract when Phase 10 discovers the actual
-standalone runtime commit. It does not supersede RUN r30.
+standalone runtime commit. It does not supersede the live production-control next action.
 
 
 Stage 10 live-runtime discovery/harness preparation is available through
@@ -252,7 +252,7 @@ and records SHA-256 source comparisons without editing the runtime. The prepared
 runtime evidence JSON is an INCOMPLETE TEMPLATE only. The current discovered
 runtime HEAD e3a7d915... is not green because focused skeleton parity fails at a
 0.02 m root/root-tail delta; do not use it as integration proof. This does not
-supersede RUN r30.
+supersede the live production-control next action.
 
 
 Stage 11 deterministic visual QA preparation is available through
@@ -262,7 +262,7 @@ crop/visibility/component/symmetry and matched silhouette measurements. Capture
 setting differences are reported as CAPTURE_MISMATCH rather than model regression,
 and unsupported checks remain UNKNOWN. The explicit reference inventory is empty
 until real project-authored Phase 10-bound captures exist. Synthetic detector
-fixtures are never model evidence. This does not supersede RUN r30.
+fixtures are never model evidence. This does not supersede the live production-control next action.
 
 
 Stage 12 final production-freeze preparation is available through
@@ -273,7 +273,7 @@ freeze verifier additionally rechecks Phase 4-11 exit reports, exact bare/dresse
 assets, Phase 9 model commit, Phase 10/11 runtime commit and a separate explicit
 `OWNER AUTHORISED PRODUCTION FREEZE` record. Even successful eligibility keeps
 `production_approved=false`; actual release is a separate controlled runtime-side
-operation. Current r29 cannot pass and this does not supersede RUN r30.
+operation. No current candidate can bypass its required phase prerequisites; this does not supersede the live production-control next action.
 
 
 ## Post-preparation orchestration

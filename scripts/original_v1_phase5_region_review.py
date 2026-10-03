@@ -4,10 +4,11 @@ from __future__ import annotations
 import json,re,shutil
 from pathlib import Path
 from original_v1_production_control import ROOT,CAND,RC,digest,ensure_finite,read
-CAPTURE_PLAN="ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json";PHASE5_PLAN="ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json"
+CAPTURE_PLAN="ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json";PHASE5_PLAN="ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json";CAPTURE_SCRIPT="scripts/capture_original_v1_phase5_region_blender.py";POSE_SCRIPT="scripts/pose_test_original_v1_o4_candidate_blender.py"
 def load_capture_plan(root=ROOT):
     plan=read(root,CAPTURE_PLAN);p5=read(root,PHASE5_PLAN);ensure_finite(plan)
     if plan.get("schema_version")!=1 or plan.get("status")!="PREPARED_PHASE5_REGION_CAPTURE_PLAN" or plan.get("phase")!=5 or plan.get("production_approved") is not False or plan.get("dressed") is not False: raise ValueError("unexpected Phase 5 capture-plan contract")
+    if plan.get("renderer")!="BLENDER_WORKBENCH" or plan.get("resolution")!=[900,900,100]: raise ValueError("Phase 5 capture presentation contract differs")
     if set(plan.get("regions",{}))!=set(p5["order"]): raise ValueError("Phase 5 capture regions differ from execution plan")
     known={"neutral"}|set().union(*map(set,read(root,"ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json")["required_pose_groups"].values()))
     for region in p5["order"]:
@@ -19,16 +20,35 @@ def load_capture_plan(root=ROOT):
             if cam.get("mode") not in ("fixed","anchors","hand_surface") or not isinstance(cam.get("orthographic_scale"),(int,float)) or cam["orthographic_scale"]<=0: raise ValueError(region+" invalid camera")
     return plan
 def expected_files(plan,region): return {x["id"]:f"phase5_{region}_{x['id']}.png" for x in plan["regions"][region]["captures"]}
+def expected_capture_metadata(plan,region,row):
+    return {
+        "region":region,
+        "capture_id":row["id"],
+        "pose":row["pose"],
+        "camera":row["camera"],
+        "show_floor":bool(row.get("show_floor")),
+        "show_equipment":bool(row.get("show_equipment")),
+        "whole_body":bool(row.get("whole_body")),
+        "renderer":plan["renderer"],
+        "resolution":plan["resolution"],
+        "dressed":False,
+    }
 def verify_source_metadata(root,path,region,candidate_sha,plan):
     d=json.loads(path.read_text(encoding="utf-8"));ensure_finite(d);exp=expected_files(plan,region)
     if d.get("schema_version")!=1 or d.get("status")!="PHASE5_REGION_CAPTURE_COMPLETE" or d.get("region")!=region or d.get("candidate_sha256")!=candidate_sha: raise ValueError("regional capture identity differs")
     if d.get("production_approved") is not False or d.get("phase_complete") is not False or d.get("capture_plan_sha256")!=digest(root/CAPTURE_PLAN): raise ValueError("regional capture contract/hash differs")
+    if d.get("render_script_sha256")!=digest(root/CAPTURE_SCRIPT): raise ValueError("regional capture script identity differs")
+    if d.get("pose_definition_sha256")!=digest(root/POSE_SCRIPT): raise ValueError("regional pose-definition identity differs")
+    if not isinstance(d.get("blender_version"),str) or not d["blender_version"]: raise ValueError("regional Blender version identity missing")
     rows=d.get("images",[]);ids=[x.get("capture_id") for x in rows]
     if ids!=list(exp): raise ValueError("regional capture coverage/order differs")
-    pose_by={x["id"]:x["pose"] for x in plan["regions"][region]["captures"]}
+    planned={x["id"]:x for x in plan["regions"][region]["captures"]}
     for row in rows:
         cid=row["capture_id"];cap=row.get("capture",{})
-        if row.get("file")!=exp[cid] or not re.fullmatch(r"[0-9a-f]{64}",str(row.get("sha256",""))) or cap.get("capture_id")!=cid or cap.get("region")!=region or cap.get("pose")!=pose_by[cid]: raise ValueError("regional capture row differs")
+        if row.get("file")!=exp[cid] or not re.fullmatch(r"[0-9a-f]{64}",str(row.get("sha256",""))):
+            raise ValueError("regional capture row differs")
+        if cap!=expected_capture_metadata(plan,region,planned[cid]):
+            raise ValueError("regional capture metadata differs from exact plan")
     return d
 def verify_published_review(root,path,region,candidate_sha,plan,source_path,source_data=None):
     data=json.loads(path.read_text(encoding="utf-8"));ensure_finite(data);exp=expected_files(plan,region)
@@ -51,6 +71,7 @@ def verify_published_review(root,path,region,candidate_sha,plan,source_path,sour
             raise ValueError("regional published review image bytes/path differ")
         if row.get("sha256")!=source_by[cid]["sha256"]:
             raise ValueError("regional published image differs from raw capture manifest")
+        if row.get("capture")!=source_by[cid].get("capture"): raise ValueError("regional published capture metadata differs from raw manifest")
     return data
 
 def publish(root,region,revision):

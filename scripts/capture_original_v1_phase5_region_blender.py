@@ -98,6 +98,7 @@ for row in caps:
     records.append({"capture_id":row["id"],"file":name,"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
                     "capture":{"region":REGION,"capture_id":row["id"],"pose":pose,"camera":row["camera"],
                                "show_floor":bool(row.get("show_floor")),"show_equipment":bool(row.get("show_equipment")),
+                               "whole_body":bool(row.get("whole_body")),
                                "renderer":scene.render.engine,"resolution":[scene.render.resolution_x,scene.render.resolution_y,scene.render.resolution_percentage],
                                "dressed":False}})
 clear_equipment();reset()

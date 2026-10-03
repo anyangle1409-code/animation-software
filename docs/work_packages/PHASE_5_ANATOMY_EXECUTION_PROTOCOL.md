@@ -187,3 +187,7 @@ RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat <5A-5G> <rN>
 `ORIGINAL_V1_PHASE5_REGION_CAPTURE_PLAN.json` is machine-checked against each region's `required_views`. The Blender capture imports the frozen pose definitions read-only, uses fixed/landmark/palm-normal cameras, refuses output collisions, never saves the Blend, and publishes hash-matched actual PNGs under `review/phase5_<region>_<revision>/`.
 
 This evidence remains EXPERIMENTAL and non-blocking. It supplies required real-render coverage only; it cannot complete a region, Phase 5, or production approval.
+
+## Regional capture identity hardening
+
+Phase 5 regional review publication verifies more than filenames and PNG hashes. Every source image must be bound to the exact capture-plan camera dictionary, pose, floor/equipment state, whole-body flag, Workbench renderer, 900x900 presentation resolution, undressed state, pose-definition SHA, regional capture-script SHA and Blender version. Published review rows must preserve the source capture metadata byte-for-byte. A mislabeled or differently framed render is refused rather than treated as valid anatomy evidence.

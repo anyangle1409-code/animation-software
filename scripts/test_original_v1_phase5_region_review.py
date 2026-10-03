@@ -14,6 +14,16 @@ class Phase5RegionReviewTests(unittest.TestCase):
             ids=[x["id"] for x in row["captures"]]
             self.assertEqual(len(ids),len(set(ids)),region)
 
+    def test_exact_capture_metadata_contract(self):
+        plan=r.load_capture_plan(r.ROOT)
+        row=next(x for x in plan["regions"]["5D"]["captures"] if x["id"]=="palm_right")
+        meta=r.expected_capture_metadata(plan,"5D",row)
+        self.assertEqual(meta["camera"],row["camera"])
+        self.assertEqual(meta["renderer"],"BLENDER_WORKBENCH")
+        self.assertEqual(meta["resolution"],[900,900,100])
+        self.assertFalse(meta["dressed"])
+        self.assertFalse(meta["whole_body"])
+
     def test_high_detail_views_missing_from_generic_board_are_explicit(self):
         plan=r.load_capture_plan(r.ROOT)
         self.assertIn("wrist_close",{x["id"] for x in plan["regions"]["5C"]["captures"]})

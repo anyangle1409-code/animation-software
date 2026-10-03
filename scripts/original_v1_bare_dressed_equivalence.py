@@ -11,6 +11,7 @@ import subprocess
 
 from original_v1_production_control import ROOT,CAND,digest,ensure_finite
 from original_v1_dressed_evidence import POSES
+from original_v1_locked_rig import load_locked_rig
 
 CAPTURE="scripts/capture_original_v1_bare_dressed_equivalence_blender.py"
 HELPER="scripts/original_v1_bare_dressed_equivalence.py"
@@ -25,7 +26,19 @@ def verify(report:dict,manifest:dict)->dict:
     if not re.fullmatch(r"[0-9a-f]{64}",str(candidate or "")):raise ValueError("candidate manifest SHA invalid")
     if report.get("candidate_sha256")!=candidate or report.get("candidate")!=manifest.get("candidate"):
         raise ValueError("equivalence candidate identity differs")
-    if report.get("rig_id")!="hgpt_canonical_v4_original":raise ValueError("canonical v4 rig identity required")
+    locked=load_locked_rig(ROOT)
+    expected_rig={
+        "rig_id":locked["identity"],
+        "rig_revision":locked["revision"],
+        "rig_structure_sha256":locked["rig_structure_sha256"],
+        "rig_bone_count":locked["bone_count"],
+        "rig_deform_bone_count":locked["deform_bone_count"],
+        "rig_lock":locked["lock"],
+        "rig_payload":locked["payload"],
+    }
+    for key,value in expected_rig.items():
+        if report.get(key)!=value:
+            raise ValueError("equivalence locked rev2c rig identity differs: "+key)
     rows=report.get("poses")
     if not isinstance(rows,list):raise ValueError("equivalence pose rows required")
     by={}
@@ -82,11 +95,15 @@ def main()->int:
         if report.get("candidate_revision")!=args.revision:raise ValueError("report revision differs")
         if report.get("candidate_manifest_sha256")!=digest(manifest_path):raise ValueError("candidate manifest bytes differ from capture")
         result=verify(report,manifest)
+        locked=load_locked_rig(ROOT)
+        result["locked_rig"]=locked
         result["source_evidence"]=[
             {"path":report_path.relative_to(ROOT).as_posix(),"sha256":digest(report_path)},
             {"path":manifest_path.relative_to(ROOT).as_posix(),"sha256":digest(manifest_path)},
             {"path":CAPTURE,"sha256":digest(ROOT/CAPTURE)},
             {"path":HELPER,"sha256":digest(ROOT/HELPER)},
+            result["locked_rig"]["lock"],
+            result["locked_rig"]["payload"],
         ]
         result["source_git_commit"]=subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip()
         result["generated_utc"]=datetime.now(timezone.utc).isoformat()

@@ -15,6 +15,7 @@ class ProgressSummaryTests(unittest.TestCase):
         status={"phases":phases,"current_phase":3,"current_subphase":"3B","current_candidate":"r29",
                 "candidate_state":"experimental","candidate_classification":"TRADE-OFF",
                 "development_failure_count":7,"unresolved_regressions":[1]*6,"production_failure_count":109,
+                "pinned_baseline":{"revision":"P3B1","candidate_sha256":"b"*64},
                 "next_action":{"action":"RUN r30","command":"RUN_ORIGINAL_V1_R30.bat"},
                 "pending_owner_reviews":[],"incomplete_candidates":[],"evidence_timestamp":"x"}
         orchestration={"prepared_support_stages":[{"stage":n} for n in range(1,13)],
@@ -26,6 +27,9 @@ class ProgressSummaryTests(unittest.TestCase):
         self.assertEqual(s["roadmap"]["complete_phases"],["0","1","2"])
         self.assertEqual(s["roadmap"]["next_major_milestone"]["remaining_subphases"],["3B","3C","3D","3E"])
         self.assertEqual(s["prepared_infrastructure"]["support_stages_prepared"],12)
+        self.assertEqual(s["current"]["active_epoch_baseline"]["revision"],"P3B1")
+        self.assertEqual(s["current"]["strict_active_epoch_regressions"],6)
+        self.assertNotIn("strict_r2_regressions",s["current"])
 
     def test_no_percentage_completion_field(self):
         status,orch=self.fixture();s=p.build_summary(status,orch)

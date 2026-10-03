@@ -493,9 +493,10 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "RECONCILE trial lineage",
-    "reason": "record evidence-backed continuation choice; a trade-off is not auto-promoted",
-    "command": null,
-    "safe_parallel_task": "Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors."
+    "action": "RUN local axilla repair",
+    "reason": "r73 is development-clear with zero strict regressions versus its direct parent r72, but the declared-face audit is not numeric-clear (at most 2 flipped faces per arc sample at mid-arc blend samples) and 23 strict P3B1 regressions remain; diagnose those faces before another local experiment, or take the P3B1 regression set to an owner disposition",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r73",
+    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
+    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }
 }

@@ -1,7 +1,7 @@
 """Skin-on close-up renders of a stress pose, optionally with the skeleton proxy overlaid (never saves the .blend).
 
 blender --background --factory-startup <candidate.blend> --python-exit-code 1 ^
-  --python scripts/render_original_v1_pose_closeup_blender.py -- <out_dir> <pose> <focus_bone> <ortho_scale> <tag> [--skeleton] [--pose-script <path>]
+  --python scripts/render_original_v1_pose_closeup_blender.py -- <out_dir> <pose> <focus_bone> <ortho_scale> <tag> [--skeleton] [--pose-script <path>] [--fraction f]
 
 Reuses the exact pose constructors of scripts/pose_test_original_v1_o4_candidate_blender.py (executed up to its metrics
 section), shows the BARE body (dressed mask and shorts hidden so barefoot/skin mechanics are visible), and writes
@@ -50,6 +50,27 @@ rig.location = (0, 0, 0)
 ns["HANDLE"].clear()
 ns["POSES"][POSE]()
 ns["upd"]()
+
+FRACTION = next((float(args[i + 1]) for i, a in enumerate(args) if a == "--fraction"), None)
+if FRACTION is not None:
+    # Replay the pose continuously from rest (0) to the final pose (1) with the same swing/twist interpolation as the
+    # arc audit, so intermediate elevation states (e.g. the corrective's blend zone) can be inspected visually.
+    import math
+    from mathutils import Matrix, Quaternion
+    final = {p.name: (p.matrix_basis.to_quaternion(), p.matrix_basis.to_translation()) for p in rig.pose.bones}
+    for p in rig.pose.bones:
+        q, t = final[p.name]
+        v = Vector((q.x, q.y, q.z))
+        proj = Vector((0, 1, 0)) * v.dot(Vector((0, 1, 0)))
+        tw = Quaternion((q.w, proj.x, proj.y, proj.z))
+        if tw.magnitude < 1e-12:
+            tw = Quaternion((1, 0, 0, 0))
+        tw.normalize()
+        sw = q @ tw.inverted()
+        ang = (2.0 * math.atan2(tw.y, tw.w) + math.pi) % (2.0 * math.pi) - math.pi
+        qf = Quaternion((1, 0, 0, 0)).slerp(sw, FRACTION) @ Quaternion((0.0, 1.0, 0.0), FRACTION * ang)
+        p.matrix_basis = Matrix.Translation(t * FRACTION) @ qf.to_matrix().to_4x4()
+    ns["upd"]()
 
 scene = bpy.context.scene
 scene.render.engine = "BLENDER_WORKBENCH"

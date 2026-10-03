@@ -30,7 +30,9 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
+RUN local axilla repair — r73 is development-clear with zero strict regressions versus its direct parent r72, but the declared-face audit is not numeric-clear (at most 2 flipped faces per arc sample at mid-arc blend samples) and 23 strict P3B1 regressions remain; diagnose those faces before another local experiment, or take the P3B1 regression set to an owner disposition
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r73`
+Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

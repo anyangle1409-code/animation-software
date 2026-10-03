@@ -375,14 +375,49 @@
           "path": "ORIGINAL_V1_WORK/shoulder_corrective_r72.json"
         }
       ]
+    },
+    "r73": {
+      "candidate_sha256": "db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e",
+      "chosen_parent": "r72",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r73 = r72 + one further incremental LOCAL axilla corrective from the guarded pipeline (RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72 with AXILLA_PIT_RINGS=0, AXILLA_PIT_HOLD_REGION_MIN=0.015 and AXILLA_PIT_CONTACT_GUARD=1): declared 12 triangles / 18 left-owned vertices (36 with mirror) before the solve, signed-area/orientation target against the SAME-POSE UNCORRECTED LBS surface, regional-minimum hold, no-new-contact barrier, numeric pre-apply selection with every comparator-tolerance rule unchanged (area_1x_hold selected; the 0.25x and 4x trials were rejected for an edge-minimum drop above 0.02). Lineage: r43 -> o45 shoulder weights (r61) -> wrist band (r62) -> local knot weight edit o47 (r68) -> re-fitted generic elevation corrective (r69) -> local trials r72 -> r73; all refused/earlier attempts (r49-r71) are preserved. Measured under P3: 0 development failures; 0 strict regressions versus the direct parent r72; 23 strict regressions versus P3B1 (unchanged from r69/r72: self-intersections in overhead poses up to about 130 and wider arm/torso ranges, all inside every gate). Declared-face audit LOCAL_FACE_REVIEW_REQUIRED: no collapsed face (min area ratio 0.24), at most 2 flipped faces per arc sample, all at mid-arc samples where the corrective blends (press_top_rhythm 0.5625); real mid-arc renders show a smooth natural shoulder with no visible fold. Real renders at the end poses still show one small pointed tip at the front pit top. Review images are published (milestone set plus pit close-ups plus mid-arc series). NOT eligible for Phase 4 freeze: the 23 strict P3B1 regressions are unresolved and need an owner disposition or further reduction, and the local face audit is not numeric-clear.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_comparison_vs_r72.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r73/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r73/post_edit_face_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r73/post_validation_disposition.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r73_axilla_pit_declared/axilla_pit_mask_declared_before_edit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r73_axilla_pit_declared/numeric_trials/selection.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r73.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r72",
-    "candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
+    "candidate_revision": "r73",
+    "candidate_sha256": "db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e",
     "action": "RUN local axilla repair",
-    "reason": "r72 is development-clear and improves the declared local face statistics over r69, but one strict regression versus its direct parent (press_top self-intersections +8) and a LOCAL_FACE_REVIEW_REQUIRED face audit remain, and real renders still show the small pointed tip at the front pit top; run the contact-guarded local trial family before freeze reconciliation",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72",
+    "reason": "r73 is development-clear with zero strict regressions versus its direct parent r72, but the declared-face audit is not numeric-clear (at most 2 flipped faces per arc sample at mid-arc blend samples) and 23 strict P3B1 regressions remain; diagnose those faces before another local experiment, or take the P3B1 regression set to an owner disposition",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r73",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

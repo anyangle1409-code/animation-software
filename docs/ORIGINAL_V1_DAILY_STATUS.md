@@ -4,11 +4,11 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r55 — TRADE-OFF; EXPERIMENTAL. R2 stays pinned.
+r55 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
 SHA-256: `ccaef8ba1fdde161b9e5769175b7576eeb88d96f4c99e41cdd0147041a93bbd7`
 
 DEVELOPMENT BLOCKERS
-0 failures; 31 separate strict severity regressions versus R2.
+0 failures; 31 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED

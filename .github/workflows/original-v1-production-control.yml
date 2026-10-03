@@ -71,12 +71,14 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_original_v1_local_backup.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_bare_dressed_equivalence.py'
           python3 -m unittest discover -s scripts -p 'test_original_v1_blender_smoke.py'
-      - name: Verify exact generated state and unchanged baseline
-        run: |
-          python3 scripts/build_original_v1_daily_status.py --check
-          python3 scripts/verify_original_v1_deformation_baseline.py
-          python3 scripts/verify_original_v1_candidate_status.py
-          python3 scripts/audit_original_v1_candidate_glbs.py
+      - name: Verify generated status is exact
+        run: python3 scripts/build_original_v1_daily_status.py --check
+      - name: Verify frozen deformation baseline
+        run: python3 scripts/verify_original_v1_deformation_baseline.py
+      - name: Verify candidate-status contract
+        run: python3 scripts/verify_original_v1_candidate_status.py
+      - name: Audit candidate GLB structure
+        run: python3 scripts/audit_original_v1_candidate_glbs.py
       - name: Syntax-check Blender-facing evidence tools
         run: |
           python3 -m py_compile scripts/snapshot_original_v1_model_blender.py scripts/pose_test_original_v1_o4_candidate_blender.py scripts/probe_original_v1_grip_penetration_blender.py scripts/original_v1_milestone_review.py

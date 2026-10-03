@@ -257,7 +257,7 @@ def next_action(status, control):
     decision = control.get('continuation_decisions',{}).get(rev)
     if not decision or decision.get('candidate_sha256')!=status['last_known_candidate_sha256']:
         return {'action':'RECONCILE trial lineage','reason':'record evidence-backed continuation choice; a trade-off is not auto-promoted',
-                'command':None,'safe_parallel_task':'Read-only analysis and review collection; compare R2 and all predecessors.'}
+                'command':None,'safe_parallel_task':'Read-only analysis and review collection; compare the active epoch baseline and all declared predecessors.'}
     active = control.get('active_local_repair')
     if isinstance(active,dict) and active.get('candidate_revision')==rev and active.get('candidate_sha256')==status['last_known_candidate_sha256']:
         return {'action':active['action'],'reason':active['reason'],'command':active.get('command'),
@@ -273,8 +273,8 @@ def next_action(status, control):
     if status['development_failure_count']:
         return {'action':'STOP','reason':'unmapped development blockers','command':None}
     if status['unresolved_regressions']:
-        return {'action':'RECONCILE freeze regressions','reason':'zero blockers is insufficient for strict freeze; inherited R2 regressions remain',
-                'command':None,'safe_parallel_task':'Read-only inherited-regression diagnostics; do not reopen frozen structure.'}
+        return {'action':'RECONCILE freeze regressions','reason':'zero blockers is insufficient for strict freeze; unresolved strict active-epoch regressions remain',
+                'command':None,'safe_parallel_task':'Read-only active-epoch regression diagnostics; do not reopen frozen structure.'}
     if phases['4']['state']!='complete':
         return {'action':'ENTER development freeze validation','reason':'zero blockers and no unresolved strict regressions','command':None,
                 'work_package':'docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md'}
@@ -425,10 +425,10 @@ def build(root=ROOT):
     wrist=[r for r in regs if r['name']=='pushup_bottom' and r.get('region')=='hand']
     hip=[f for f in fails if f['pose'] in ('lunge','squat_bottom') and f.get('region') in ('pelvis','torso','leg')]
     phases['3']={'state':'active','reason':'Core deformation foundation still under repair.'}
-    phases['3A']={'state':'blocked' if shoulders else 'complete','reason':'Development clear; inherited R2 severity regressions remain separate.'}
+    phases['3A']={'state':'blocked' if shoulders else 'complete','reason':'Development clear; active-epoch severity regressions remain separate.'}
     phases['3B']={'state':'active' if hand or hand_reg or rev=='r29' else 'complete','reason':'Recover finger minima without losing curl_peak clearance.'}
     phases['3C']={'state':'blocked' if grip else 'complete','reason':'Bilateral equipment penetration must satisfy unchanged gates.'}
-    phases['3D']={'state':'refinement' if wrist else 'blocked' if any(f['pose']=='pushup_bottom' for f in fails) else 'complete','reason':'Local wrist-extension severity regression versus R2.'}
+    phases['3D']={'state':'refinement' if wrist else 'blocked' if any(f['pose']=='pushup_bottom' for f in fails) else 'complete','reason':'Local wrist-extension severity regression versus the active epoch baseline.'}
     phases['3E']={'state':'blocked' if hip else 'complete','reason':'Lunge pelvis/torso collapse and stretch; repair local hip transition.'}
     if not fails and not regs and all(phases[p]['state']=='complete' for p in ('3A','3B','3C','3D','3E')):
         phases['3']={'state':'complete','reason':'All development subphases clear; no unresolved strict regressions.'}

@@ -2,7 +2,10 @@
 
 > **MODEL BRANCH PICKUP — 2026-10-03:** On `claude/original-v1-blender-o2-20260929`, fetch/re-read the LIVE remote HEAD first and preserve anything newer. For the model track, read `docs/ORIGINAL_V1_HIGH_DETAIL_MASTER_PLAN.md`, `ORIGINAL_V1_HIGH_DETAIL_STATUS.json`, `docs/ORIGINAL_V1_DAILY_STATUS.md`, `docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md`, and the work package selected by production control. Generated status/production control are authoritative if this prose becomes stale. The latest complete experimental model is **r55** under the **P3/P3B1** epoch: development failures are 0, but strict severity regressions and candidate-bound real-render/face-area evidence still record a local axilla-pit sliver/crumple, so Phase 4 is not authorised. The evidence-selected next model command is `RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat r55 r56` (use the next collision-free target label if r56 already exists locally). That pipeline declares the local mask before editing, performs the one-dump numeric sweep, applies only the selected incremental corrective, and runs full evidence/local-face/real-render validation; its output remains EXPERIMENTAL until reconciled. The rig is already skeleton-motion locked as `hgpt_canonical_v4_original` revision `rev2_forearm_twist_only`: **67 bones total / 66 deform**, retaining the historical 63-bone v4 structure plus four forearm-twist helpers. Do not reopen the rev2c rig, P3 pose definition, thresholds or R2/P2B1/P3B1 baselines unless direct new evidence proves a genuine protected-input defect. Run `RUN_ORIGINAL_V1_CLAUDE_START.bat` at laptop pickup and `RUN_ORIGINAL_V1_SESSION_CLOSE.bat` before ending. Never overwrite partial/new evidence and never force-push. Phase 5 anatomy remains NOT STARTED, although its repository-side contracts/capture tooling may be prepared safely in parallel. The standalone-runtime section below is a **separate branch/track** and must not redirect this model session.
 
-## Start here
+## Separate standalone runtime track — not the model pickup
+
+The section below is for the standalone animation-runtime migration branch only.
+Do not switch to it while executing the ORIGINAL-v1 Blender/model task above.
 
 Active branch: `work/standalone-first-party-audit-20260927`.
 

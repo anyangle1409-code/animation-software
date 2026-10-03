@@ -20,6 +20,7 @@ import subprocess
 from original_v1_production_control import ROOT, ensure_finite
 
 CONTRACT = "ORIGINAL_V1_VISUAL_QA_CONTRACT.json"
+REFERENCE_INVENTORY = "ORIGINAL_V1_VISUAL_QA_REFERENCE_INVENTORY.json"
 HELPER = "scripts/original_v1_visual_qa.py"
 
 
@@ -243,6 +244,12 @@ def verify_manifest(root: Path, manifest: dict, contract: dict) -> tuple[dict, d
     missing = [k for k, v in identity.items() if v is None]
     if missing:
         raise ValueError("capture identity incomplete: " + ", ".join(missing))
+    if not re.fullmatch(r"[0-9a-f]{64}", str(identity["candidate_sha256"])):
+        raise ValueError("capture candidate SHA-256 invalid")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(identity["asset_sha256"])):
+        raise ValueError("capture asset SHA-256 invalid")
+    if not re.fullmatch(r"[0-9a-f]{40}", str(identity["target_runtime_commit"])):
+        raise ValueError("capture target runtime commit invalid")
 
     mask_rows = manifest.get("masks")
     if not isinstance(mask_rows, list) or not mask_rows:
@@ -317,6 +324,67 @@ def compare_capture(current_manifest: dict, current_masks: dict[str, dict],
     }
 
 
+
+def verify_reference_inventory(root: Path, reference_path: Path, reference_manifest: dict) -> dict:
+    """Require an immutable owner-accepted first-party reference inventory entry."""
+    inventory_path = root / REFERENCE_INVENTORY
+    if not inventory_path.is_file():
+        raise ValueError("visual QA reference inventory missing")
+    inventory = json.loads(inventory_path.read_text(encoding="utf-8-sig"))
+    ensure_finite(inventory)
+    if (
+        inventory.get("schema_version") != 1
+        or inventory.get("mode") != "explicit_versioned_references_only"
+        or inventory.get("production_approved") is not False
+        or inventory.get("phase_complete") is not False
+    ):
+        raise ValueError("unexpected visual QA reference inventory contract")
+    rows = inventory.get("references")
+    if not isinstance(rows, list):
+        raise ValueError("visual QA reference inventory rows missing")
+    ids = [row.get("id") for row in rows if isinstance(row, dict)]
+    if len(ids) != len(rows) or any(not isinstance(x, str) or not x.strip() for x in ids) or len(ids) != len(set(ids)):
+        raise ValueError("visual QA reference inventory IDs missing/duplicated")
+
+    rel = reference_path.relative_to(root.resolve()).as_posix()
+    sha = digest(reference_path)
+    matches = [
+        row for row in rows
+        if isinstance(row, dict)
+        and row.get("capture_manifest") == {"path": rel, "sha256": sha}
+    ]
+    if len(matches) != 1:
+        raise ValueError("reference manifest is not uniquely pinned in visual QA reference inventory")
+    row = matches[0]
+    if row.get("owner_review") != "accepted":
+        raise ValueError("visual QA reference is not owner-accepted")
+
+    identity = capture_identity(reference_manifest)
+    expected_identity = {
+        "candidate_sha256": identity.get("candidate_sha256"),
+        "asset_sha256": identity.get("asset_sha256"),
+        "target_runtime_commit": identity.get("target_runtime_commit"),
+    }
+    recorded_identity = {
+        "candidate_sha256": row.get("candidate_sha256"),
+        "asset_sha256": row.get("asset_sha256"),
+        "target_runtime_commit": row.get("runtime_commit"),
+    }
+    if recorded_identity != expected_identity:
+        raise ValueError("reference inventory candidate/asset/runtime identity differs")
+
+    source = reference_manifest.get("source_image") or {}
+    if row.get("source_image_sha256") != source.get("sha256"):
+        raise ValueError("reference inventory source-image identity differs")
+    masks = reference_manifest.get("masks")
+    if not isinstance(masks, list):
+        raise ValueError("reference manifest masks missing")
+    actual_masks = {m.get("role"): m.get("sha256") for m in masks if isinstance(m, dict)}
+    recorded_masks = row.get("mask_sha256")
+    if not isinstance(recorded_masks, dict) or recorded_masks != actual_masks:
+        raise ValueError("reference inventory mask identity differs")
+    return row
+
 def analyse(root: Path, capture_path: Path, contract: dict, reference_path: Path | None = None) -> dict:
     capture = json.loads(capture_path.read_text(encoding="utf-8"))
     current, current_masks = verify_manifest(root, capture, contract)
@@ -382,6 +450,13 @@ def main() -> int:
         reference_path = args.reference_manifest.resolve() if args.reference_manifest else None
         if reference_path is not None and not reference_path.is_relative_to(ROOT.resolve()):
             raise ValueError("reference manifest must remain inside repository")
+        reference_inventory_entry = None
+        if reference_path is not None:
+            if not reference_path.is_file():
+                raise ValueError("reference manifest missing")
+            reference_manifest = json.loads(reference_path.read_text(encoding="utf-8"))
+            verify_manifest(ROOT, reference_manifest, contract)
+            reference_inventory_entry = verify_reference_inventory(ROOT, reference_path, reference_manifest)
         out = args.json_out.resolve()
         if not out.is_relative_to(ROOT.resolve()):
             raise ValueError("output must remain inside repository")
@@ -390,6 +465,8 @@ def main() -> int:
         report = analyse(ROOT, capture_path, contract, reference_path)
         report.update({
             "qa_contract": {"path": CONTRACT, "sha256": digest(contract_path)},
+            "reference_inventory": {"path": REFERENCE_INVENTORY, "sha256": digest(ROOT / REFERENCE_INVENTORY)},
+            "selected_reference_inventory_id": reference_inventory_entry.get("id") if reference_inventory_entry else None,
             "verifier": {"path": HELPER, "sha256": digest(ROOT / HELPER)},
             "source_git_commit": subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
             "generated_utc": datetime.now(timezone.utc).isoformat(),

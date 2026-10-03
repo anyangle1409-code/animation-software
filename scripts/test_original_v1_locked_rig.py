@@ -50,5 +50,21 @@ class LockedRigTests(unittest.TestCase):
         self.assertIn("locked rev2c bone hierarchy differs",r.blender_armature_issues(armature,contract))
 
 
+    def test_live_later_phase_scripts_do_not_reintroduce_63_bone_guard(self):
+        live=[
+            "scripts/original_v1_garment_evidence.py",
+            "scripts/audit_original_v1_changes.py",
+            "scripts/capture_original_v1_dressed_evidence_blender.py",
+            "scripts/capture_original_v1_dressed_range_blender.py",
+        ]
+        for rel in live:
+            with self.subTest(rel=rel):
+                text=(r.ROOT/rel).read_text(encoding="utf-8")
+                self.assertNotIn("canonical 63-bone rig required",text)
+                self.assertNotIn("len(rig.data.bones) != 63",text)
+                self.assertIn("original_v1_locked_rig",text)
+
+
+
 if __name__=="__main__":
     unittest.main()

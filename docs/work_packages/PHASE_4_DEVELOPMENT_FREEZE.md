@@ -90,15 +90,20 @@ local repair/diagnostic work. Do not weaken a gate or silently promote a trade-o
 ## After freeze
 
 Prepare/execute Phase 5 region packages in order only with a sufficiently stable
-recorded foundation. Later candidates must compare against the applicable active epoch baseline, the immutable
-recorded development-freeze candidate and their direct parent, plus local audits. Historical
-baseline pins remain preserved and are never rewritten.
-A changed candidate invalidates an old candidate-bound exit report: revalidate the
-current revision and write a new report while preserving the original freeze pin.
-Never rewrite a pinned freeze candidate to follow anatomy experiments. Review
-snapshots remain NON-BLOCKING; continue safe regions/diagnostics while review is pending.
+recorded foundation. Later candidates must compare against the applicable active
+epoch baseline, the immutable recorded development-freeze candidate and their
+direct parent, plus local audits. Historical baseline pins remain preserved and
+are never rewritten.
 
-When old active records prevent status generation after a new candidate, archive
-their exact references under phase_completion_history before clearing the active
-entries for revalidation. Keep the original freeze pin and every old report. This
-allows new experimental evidence to be tested without pretending old gates apply.
+The Phase 4 exit packet remains permanently bound to the exact freeze candidate.
+A later candidate may inherit that checkpoint only when its exact parent-SHA
+lineage reaches the freeze candidate; production control refuses divergent or
+unprovable lineage. Do not relabel or rewrite the Phase 4 packet to follow anatomy
+experiments. Later regional/phase evidence must prove that scoped descendant
+changes preserve the frozen foundation. A new deformation failure may reopen
+Phase 3 even while the historical Phase 4 checkpoint remains recorded.
+
+Use `phase_completion_history` only when a checkpoint is genuinely superseded,
+rejected or belongs to a divergent lineage—not for every routine descendant.
+Review snapshots remain NON-BLOCKING; continue safe regions/diagnostics while
+review is pending.

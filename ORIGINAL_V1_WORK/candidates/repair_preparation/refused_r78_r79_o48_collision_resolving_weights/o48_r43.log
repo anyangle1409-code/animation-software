@@ -1,0 +1,207 @@
+bounds, volume targets and percentiles from ORIGINAL_V1_WORK/candidates/pose_test_report_p3b1.json 
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 340 (dump 340), constraints 2040
+  tritri-resolve press_top_rhythm: intersecting 322 (dump 322), constraints 1932
+  tritri-resolve squat_bottom: intersecting 78 (dump 78), constraints 468
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 232 (dump 232), constraints 1392
+  tritri-resolve pullup_hang_rhythm: intersecting 268 (dump 268), constraints 1608
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 232 (dump 232), constraints 1392
+zone vertices 2570 bones 15 edges 5286 initial loss 17091173.294
+terms [stretch hinge, compress hinge, strain, (volume)] {"neutral": [0.0, 0.0, 0.0, 0.0], "curl_peak": [0.0, 0.0, 0.06, 0.0], "press_bottom": [0.0, 9585.35, 2.93, 0.0, 681.98, 38758.15], "press_top": [0.0, 26933.47, 9.97, 0.0, 374305.33, 4197.85, 801461.26, 1200888.46], "press_top_rhythm": [472.55, 47833.37, 12.12, 0.0, 524843.12, 2069.63, 1629884.88, 2640623.36], "squat_bottom": [0.0, 0.0, 4.59, 0.0, 45530.95, 5909.48, 105944.52], "pushup_bottom": [0.0, 0.0, 0.41, 0.0, 74.85], "pullup_hang": [0.0, 114042.54, 8.89, 0.0, 123937.07, 14142.17, 550891.79, 844685.64], "pullup_hang_rhythm": [56.6, 148750.93, 10.85, 0.0, 222435.65, 10936.99, 1191624.01, 1971594.32], "pullup_top": [0.0, 4694.63, 2.35, 0.0, 389.64, 29599.35], "lunge": [0.0, 0.0, 0.13, 0.0, 10314.13], "row": [0.0, 0.0, 0.75, 0.0, 1126.93], "grip": [0.0, 0.0, 0.0, 0.0], "curl_handle": [0.0, 0.0, 0.06, 0.0], "pullup_bar": [0.0, 114042.54, 8.89, 0.0, 123937.07, 14142.17, 550891.79, 844685.64]}
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 340 (dump 340), constraints 4080
+  tritri-resolve press_top_rhythm: intersecting 322 (dump 322), constraints 3864
+  tritri-resolve squat_bottom: intersecting 78 (dump 78), constraints 936
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 232 (dump 232), constraints 2784
+  tritri-resolve pullup_hang_rhythm: intersecting 268 (dump 268), constraints 3216
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 232 (dump 232), constraints 2784
+iter     1 loss 18104791.1140
+iter    25 loss 8885839.5265
+iter    50 loss 7073490.6998
+iter    75 loss 6051482.1552
+iter   100 loss 5752441.6170
+iter   125 loss 5722746.4071
+iter   150 loss 5704833.0210
+iter   175 loss 5680296.7169
+iter   200 loss 5646142.6792
+iter   225 loss 5486141.9949
+iter   250 loss 5204490.3725
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 306 (dump 340), constraints 5916
+  tritri-resolve press_top_rhythm: intersecting 340 (dump 322), constraints 5904
+  tritri-resolve squat_bottom: intersecting 56 (dump 78), constraints 1272
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 62 (dump 232), constraints 3156
+  tritri-resolve pullup_hang_rhythm: intersecting 104 (dump 268), constraints 3840
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 62 (dump 232), constraints 3156
+round 0 p99 active [0, 0, 0, 129, 205, 58, 0, 71, 133, 0, 0, 0, 0, 0, 71] p01 active [2358, 0, 0, 62, 78, 20, 0, 78, 76, 0, 0, 0, 0, 0, 96]
+round 0 pairs [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+iter     1 loss 6150193.7420
+iter    25 loss 5558037.9619
+iter    50 loss 5275450.0775
+iter    75 loss 4641099.0912
+iter   100 loss 3936102.9207
+iter   125 loss 3750585.7810
+iter   150 loss 3699939.5905
+iter   175 loss 3675311.3723
+iter   200 loss 3646956.0753
+iter   225 loss 3623167.3048
+iter   250 loss 3601970.4496
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 342 (dump 340), constraints 7968
+  tritri-resolve press_top_rhythm: intersecting 386 (dump 322), constraints 8220
+  tritri-resolve squat_bottom: intersecting 110 (dump 78), constraints 1932
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 76 (dump 232), constraints 3612
+  tritri-resolve pullup_hang_rhythm: intersecting 114 (dump 268), constraints 4524
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 76 (dump 232), constraints 3612
+round 1 p99 active [0, 0, 0, 104, 161, 58, 0, 42, 69, 0, 0, 0, 0, 0, 42] p01 active [2373, 0, 0, 30, 50, 22, 0, 52, 50, 0, 0, 0, 0, 0, 68]
+round 1 pairs [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+iter     1 loss 4361449.6562
+iter    25 loss 4184918.9909
+iter    50 loss 4138202.6895
+iter    75 loss 4099643.7140
+iter   100 loss 4063706.5183
+iter   125 loss 4007061.9398
+iter   150 loss 3953436.5786
+iter   175 loss 3906625.9457
+iter   200 loss 3877019.9812
+iter   225 loss 3860404.2260
+iter   250 loss 3839935.6189
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 398 (dump 340), constraints 10356
+  tritri-resolve press_top_rhythm: intersecting 440 (dump 322), constraints 10860
+  tritri-resolve squat_bottom: intersecting 150 (dump 78), constraints 2832
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 96 (dump 232), constraints 4188
+  tritri-resolve pullup_hang_rhythm: intersecting 108 (dump 268), constraints 5172
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 96 (dump 232), constraints 4188
+round 2 p99 active [0, 0, 0, 102, 152, 50, 0, 42, 68, 0, 0, 0, 0, 0, 42] p01 active [2390, 0, 0, 36, 48, 16, 0, 68, 64, 0, 0, 0, 0, 0, 64]
+round 2 pairs [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+iter     1 loss 4736620.8589
+iter    25 loss 4526847.0607
+iter    50 loss 4509411.8567
+iter    75 loss 4501370.8581
+iter   100 loss 4496889.9565
+iter   125 loss 4494580.8019
+iter   150 loss 4494462.2514
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 462 (dump 340), constraints 13128
+  tritri-resolve press_top_rhythm: intersecting 530 (dump 322), constraints 14040
+  tritri-resolve squat_bottom: intersecting 166 (dump 78), constraints 3828
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 108 (dump 232), constraints 4836
+  tritri-resolve pullup_hang_rhythm: intersecting 142 (dump 268), constraints 6024
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 108 (dump 232), constraints 4836
+polish round 0
+lbfgs stalled at iter 1
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 462 (dump 340), constraints 15900
+  tritri-resolve press_top_rhythm: intersecting 530 (dump 322), constraints 17220
+  tritri-resolve squat_bottom: intersecting 166 (dump 78), constraints 4824
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 108 (dump 232), constraints 5484
+  tritri-resolve pullup_hang_rhythm: intersecting 142 (dump 268), constraints 6876
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 108 (dump 232), constraints 5484
+polish round 1
+lbfgs stalled at iter 1
+  tritri-resolve neutral: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_peak: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve press_top: intersecting 462 (dump 340), constraints 18672
+  tritri-resolve press_top_rhythm: intersecting 530 (dump 322), constraints 20400
+  tritri-resolve squat_bottom: intersecting 166 (dump 78), constraints 5820
+  tritri-resolve pushup_bottom: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_hang: intersecting 108 (dump 232), constraints 6132
+  tritri-resolve pullup_hang_rhythm: intersecting 142 (dump 268), constraints 7728
+  tritri-resolve pullup_top: intersecting 0 (dump 0), constraints 0
+  tritri-resolve lunge: intersecting 0 (dump 0), constraints 0
+  tritri-resolve row: intersecting 0 (dump 0), constraints 0
+  tritri-resolve grip: intersecting 0 (dump 0), constraints 0
+  tritri-resolve curl_handle: intersecting 0 (dump 0), constraints 0
+  tritri-resolve pullup_bar: intersecting 108 (dump 232), constraints 6132
+polish round 2
+symmetric: max L1 twin difference 2.8622937353617317e-16
+final terms {"neutral": [0.0, 0.0, 0.0, 0.0], "curl_peak": [2.53, 0.0, 0.06, 25.33], "press_bottom": [2064.25, 421.58, 2.9, 911.97, 969.95, 808.8], "press_top": [296.49, 2489.24, 8.16, 23287.88, 1318115.65, 7196.52, 80515.35, 257542.35], "press_top_rhythm": [1591.97, 1013.56, 9.48, 35834.87, 1843339.16, 7907.69, 164376.62, 689442.0], "squat_bottom": [993.65, 3237.36, 5.17, 21753.25, 654598.42, 6427.34, 8191.81], "pushup_bottom": [103.74, 320.15, 0.48, 6946.08], "pullup_hang": [702.04, 21.04, 7.25, 12556.78, 298755.46, 6567.83, 57715.7, 165254.87], "pullup_hang_rhythm": [1345.59, 4955.25, 8.35, 27999.05, 351895.31, 5282.12, 120903.76, 480367.44], "pullup_top": [2283.2, 868.52, 2.45, 2425.04, 35.45, 712.0], "lunge": [0.0, 0.0, 0.15, 0.0, 4120.0], "row": [0.0, 0.0, 0.8, 4327.15], "grip": [0.0, 0.0, 0.0, 0.0], "curl_handle": [2.53, 0.0, 0.06, 25.33], "pullup_bar": [702.04, 21.04, 7.25, 12556.78, 298755.46, 6567.83, 57715.7, 165254.87]}
+neutral              R2 {"volume_ratio": 1.0, "shoulder": [1.0, 1.0], "torso": [1.0, 1.0], "arm": [1.0, 1.0], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 1.0, "shoulder": [1.0, 1.0], "torso": [1.0, 1.0], "arm": [1.0, 1.0], "neck": [1.0, 1.0]}
+curl_peak            R2 {"volume_ratio": 0.9951, "shoulder": [0.822, 1.32], "torso": [0.87, 1.166], "arm": [0.315, 1.641], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 0.9948, "shoulder": [0.832, 1.264], "torso": [0.858, 1.244], "arm": [0.315, 1.641], "neck": [1.0, 1.0]}
+press_bottom         R2 {"volume_ratio": 1.0373, "shoulder": [0.246, 3.973], "torso": [0.707, 3.256], "arm": [0.271, 2.09], "neck": [0.749, 1.021]} 
+                     NEW {"volume_ratio": 1.0337, "shoulder": [0.414, 2.943], "torso": [0.631, 4.038], "arm": [0.271, 2.162], "neck": [0.749, 1.021]}
+press_top            R2 {"volume_ratio": 1.0282, "shoulder": [0.134, 4.298], "torso": [0.415, 4.052], "arm": [0.689, 2.425], "neck": [0.506, 1.058]} 
+                     NEW {"volume_ratio": 1.0177, "shoulder": [0.203, 3.341], "torso": [0.556, 4.406], "arm": [0.768, 2.643], "neck": [0.506, 1.058]}
+press_top_rhythm     R2 {"volume_ratio": 1.0232, "shoulder": [0.116, 4.183], "torso": [0.414, 4.699], "arm": [0.678, 2.216], "neck": [0.399, 1.087]} 
+                     NEW {"volume_ratio": 1.0128, "shoulder": [0.211, 3.428], "torso": [0.507, 4.693], "arm": [0.734, 2.541], "neck": [0.399, 1.087]}
+squat_bottom         R2 {"volume_ratio": 0.9562, "shoulder": [0.244, 4.214], "torso": [0.207, 3.332], "arm": [0.597, 2.661], "neck": [0.753, 1.132]} 
+                     NEW {"volume_ratio": 0.9534, "shoulder": [0.218, 3.531], "torso": [0.207, 3.857], "arm": [0.48, 2.685], "neck": [0.753, 1.132]}
+pushup_bottom        R2 {"volume_ratio": 1.0131, "shoulder": [0.753, 2.034], "torso": [0.665, 1.425], "arm": [0.235, 1.973], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 1.0142, "shoulder": [0.703, 1.917], "torso": [0.665, 1.546], "arm": [0.235, 1.973], "neck": [1.0, 1.0]}
+pullup_hang          R2 {"volume_ratio": 1.0455, "shoulder": [0.07, 4.075], "torso": [0.269, 3.813], "arm": [0.68, 2.321], "neck": [0.534, 1.052]} 
+                     NEW {"volume_ratio": 1.0359, "shoulder": [0.237, 3.282], "torso": [0.552, 4.287], "arm": [0.84, 2.61], "neck": [0.534, 1.052]}
+pullup_hang_rhythm   R2 {"volume_ratio": 1.0429, "shoulder": [0.104, 3.852], "torso": [0.215, 4.434], "arm": [0.67, 2.186], "neck": [0.431, 1.077]} 
+                     NEW {"volume_ratio": 1.0331, "shoulder": [0.216, 3.157], "torso": [0.563, 4.35], "arm": [0.823, 2.515], "neck": [0.431, 1.077]}
+pullup_top           R2 {"volume_ratio": 1.03, "shoulder": [0.219, 3.776], "torso": [0.693, 3.006], "arm": [0.293, 1.951], "neck": [0.807, 1.015]} 
+                     NEW {"volume_ratio": 1.0278, "shoulder": [0.294, 2.74], "torso": [0.613, 3.76], "arm": [0.293, 2.017], "neck": [0.807, 1.015]}
+lunge                R2 {"volume_ratio": 0.9844, "shoulder": [1.0, 1.0], "torso": [0.185, 3.904], "arm": [1.0, 1.0], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 0.9843, "shoulder": [1.0, 1.0], "torso": [0.185, 3.904], "arm": [1.0, 1.0], "neck": [1.0, 1.0]}
+row                  R2 {"volume_ratio": 0.9844, "shoulder": [0.347, 1.575], "torso": [0.428, 2.223], "arm": [0.26, 1.588], "neck": [0.621, 1.24]} 
+                     NEW {"volume_ratio": 0.9847, "shoulder": [0.346, 1.514], "torso": [0.428, 2.097], "arm": [0.26, 1.588], "neck": [0.621, 1.24]}
+grip                 R2 {"volume_ratio": 0.9966, "shoulder": [1.0, 1.0], "torso": [1.0, 1.0], "arm": [0.265, 1.645], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 0.9966, "shoulder": [1.0, 1.0], "torso": [1.0, 1.0], "arm": [0.265, 1.645], "neck": [1.0, 1.0]}
+curl_handle          R2 {"volume_ratio": 0.9951, "shoulder": [0.822, 1.32], "torso": [0.87, 1.166], "arm": [0.315, 1.641], "neck": [1.0, 1.0]} 
+                     NEW {"volume_ratio": 0.9949, "shoulder": [0.832, 1.264], "torso": [0.858, 1.244], "arm": [0.315, 1.641], "neck": [1.0, 1.0]}
+pullup_bar           R2 {"volume_ratio": 1.0456, "shoulder": [0.07, 4.075], "torso": [0.269, 3.813], "arm": [0.68, 2.321], "neck": [0.534, 1.052]} 
+                     NEW {"volume_ratio": 1.036, "shoulder": [0.237, 3.282], "torso": [0.552, 4.287], "arm": [0.84, 2.61], "neck": [0.534, 1.052]}
+SOLUTION C:\Users\Mark\AppData\Local\Temp\claude\C--Users-Mark-Documents-animation-software\a03a00a6-7deb-42cf-83e5-afef93e56c83\scratchpad\o48_r43.npz loss 17091173.294 -> 7381210.267

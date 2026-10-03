@@ -125,6 +125,16 @@ class Phase5AnatomyTests(unittest.TestCase):
             issues=a.verify_region_report(root,report,self.plan(),"5A")
             self.assertIn("required-view coverage differs from plan",issues)
 
+    def test_tampered_published_region_image_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);report=self.fixture_report(root,"5A")
+            review_ref=report["artifacts"]["regional review manifest"]
+            review=json.loads((root/review_ref["path"]).read_text(encoding="utf-8"))
+            image=root/review["files"][0]["output"]
+            image.write_bytes(image.read_bytes()+b"tampered")
+            issues=a.verify_region_report(root,report,self.plan(),"5A")
+            self.assertTrue(any("regional capture/review evidence" in x for x in issues))
+
     def test_missing_artifact_refused(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);report=self.fixture_report(root,"5A")

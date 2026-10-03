@@ -30,7 +30,9 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
+RUN local axilla repair — r76 is development-clear with zero strict regressions versus its direct parent r73 and a numeric-clear declared-face audit, but real overhead renders still show a rounded front-shoulder bulb with a small residual cusp, over-stretched pectoral skin and a deep scoop under the arm, and 23 strict P3B1 regressions remain unresolved; the next work is a visual-anatomy experiment (not a face-audit one) or an owner disposition of the P3B1 regression set
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r76`
+Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

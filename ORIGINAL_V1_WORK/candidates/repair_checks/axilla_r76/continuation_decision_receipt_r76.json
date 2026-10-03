@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "EXPERIMENTAL_CONTINUATION_DECISION_RECEIPT",
+  "contract_status": "CONTINUATION_DECISION_VERIFIED",
+  "candidate_revision": "r76",
+  "candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+  "parent_revision": "r73",
+  "issues": [],
+  "production_control_fragment": {
+    "candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+    "chosen_parent": "r73",
+    "classification": "STRICT IMPROVEMENT",
+    "reason": "Retained as the current EXPERIMENTAL continuation only; this is not anatomical acceptance. Real renders inspected (milestone set, end-pose and mid-arc pit close-ups): axilla tears, slivers, crumpling and flipped/collapsed declared faces are cleared (declared-face audit LOCAL_FACE_NUMERIC_CLEAR, 0 flipped, min area ratio 0.81; 0 regressions vs direct parent r73; 0 development failures). Remaining visible shortcomings at overhead poses: a rounded front-shoulder bulb with a small residual cusp at the pit top (shorter than r69/r73), over-stretched pectoral skin that reads as padded flanges at full-body scale, and a deep scoop under the arm. 23 strict regressions versus P3B1 remain unresolved and need an owner disposition. Not a Phase 4 candidate.",
+    "comparison_evidence": [
+      {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_comparison_vs_P3B1.json",
+        "sha256": "b21f6bf921edccdcb27bfeacc358dd22d5e34bd9a02fe28b9d93923515f6303b"
+      },
+      {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r76_comparison_vs_r73.json",
+        "sha256": "cba2b1dee7dda191a715859ece68ea3fe55aadeca1c3e48f32499896f2ba2b1a"
+      }
+    ]
+  },
+  "decision_packet": {
+    "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r76/continuation_decision_r76.json",
+    "sha256": "e8b8eb682bbc8a778e7a230179297d734e8804ba43becdf3770792fe96282f47"
+  },
+  "production_approved": false,
+  "baseline_promotion": false,
+  "phase4_authorized": false,
+  "note": "Read-only verification. Copying the fragment into production control remains a separate explicit repository edit."
+}

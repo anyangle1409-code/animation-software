@@ -1,0 +1,26 @@
+﻿{
+    "schema_version":  1,
+    "kind":  "EXPERIMENTAL_CONTINUATION_DECISION",
+    "decision":  "retain_experimental",
+    "candidate_revision":  "r76",
+    "candidate_sha256":  "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+    "parent_revision":  "r73",
+    "parent_candidate_sha256":  "db04a938bc1e696941fd399420680dfd7d3a4111eca6c2e7c6878d5f79f9515e",
+    "classification":  "STRICT IMPROVEMENT",
+    "disposition":  {
+                        "path":  "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r76/post_validation_disposition.json",
+                        "sha256":  "8336a02471ac45ed99d97a9ef5e40bcd8511412c3850f71420375106bb19bb4e"
+                    },
+    "visual_review_manifest":  {
+                                   "path":  "ORIGINAL_V1_WORK/candidates/review/milestone_r76/visual_review_manifest.json",
+                                   "sha256":  "06beeb8d2a1c542cfddc1cf774abf6cce09db3672364bdacd0e673253053d335"
+                               },
+    "visual_disposition":  "retained_after_real_render_review",
+    "reason":  "Retained as the current EXPERIMENTAL continuation only; this is not anatomical acceptance. Real renders inspected (milestone set, end-pose and mid-arc pit close-ups): axilla tears, slivers, crumpling and flipped/collapsed declared faces are cleared (declared-face audit LOCAL_FACE_NUMERIC_CLEAR, 0 flipped, min area ratio 0.81; 0 regressions vs direct parent r73; 0 development failures). Remaining visible shortcomings at overhead poses: a rounded front-shoulder bulb with a small residual cusp at the pit top (shorter than r69/r73), over-stretched pectoral skin that reads as padded flanges at full-body scale, and a deep scoop under the arm. 23 strict regressions versus P3B1 remain unresolved and need an owner disposition. Not a Phase 4 candidate.",
+    "source_git_commit":  "d879f53b780376b5866ae480386890b4c660007a",
+    "evidence_timestamp":  "2026-10-03T20:35:08+01:00",
+    "baseline_promotion":  false,
+    "phase4_authorized":  false,
+    "production_approved":  false,
+    "note":  "INCOMPLETE template. Fill visual_disposition only after inspecting the real review renders; verification is read-only."
+}

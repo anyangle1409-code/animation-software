@@ -7,13 +7,15 @@ import json
 import math
 import re
 from pathlib import Path
-from original_v1_production_control import digest,ensure_finite
+from original_v1_production_control import ROOT,digest,ensure_finite
+from original_v1_locked_rig import load_locked_rig
 
 
 def validate(s):
     ensure_finite(s)
     if s.get('schema_version')!=2:raise ValueError('schema 2 snapshot required; preserve older snapshots and export a new file')
-    if s.get('rig_id')!='hgpt_canonical_v4_original':raise ValueError('canonical original rig identity required')
+    contract=load_locked_rig(ROOT)
+    if s.get('rig_id')!=contract['identity']:raise ValueError('locked rev2c original rig identity required')
     if not re.fullmatch('[0-9a-f]{64}',s.get('candidate_sha256','')):raise ValueError('invalid snapshot candidate hash')
     if s.get('scene_unit_scale_length')!=1.0:raise ValueError('metre coordinate frame requires scene unit scale 1')
     if s.get('coordinate_space')!='raw mesh local Blender coordinates in metres':raise ValueError('unknown snapshot coordinate frame')
@@ -21,13 +23,17 @@ def validate(s):
         matrix=s[key]
         if len(matrix)!=4 or any(len(row)!=4 or any(type(x) not in (int,float) for x in row) for row in matrix):raise ValueError('invalid coordinate frame matrix')
     rest=s['rig_rest_bones'];names=[b['name'] for b in rest]
-    if len(names)!=63 or len(set(names))!=63:raise ValueError('frozen 63-bone rest snapshot required')
+    hierarchy=sorted([{'name':str(b['name']),'parent':b.get('parent')} for b in rest],key=lambda row:row['name'])
+    if hierarchy!=contract['bones']:raise ValueError('locked rev2c rest hierarchy required')
+    if len(names)!=contract['bone_count'] or len(set(names))!=contract['bone_count']:raise ValueError('locked rev2c bone count differs')
     for bone in rest:
         if bone['parent'] is not None and bone['parent'] not in names:raise ValueError('unknown rig parent')
         if len(bone['head'])!=3 or len(bone['tail'])!=3 or any(type(x) not in (int,float) for x in bone['head']+bone['tail']):raise ValueError('invalid rest bone coordinates')
         if len(bone['matrix'])!=4 or any(len(row)!=4 or any(type(x) not in (int,float) for x in row) for row in bone['matrix']):raise ValueError('invalid rest bone matrix')
         if type(bone['use_deform']) is not bool:raise ValueError('invalid deformation bone flag')
-    if not set(s['bone_names']).issubset(names):raise ValueError('unknown bone names in snapshot')
+    deform_names=sorted(b['name'] for b in rest if b['use_deform'])
+    if len(deform_names)!=contract['deform_bone_count']:raise ValueError('locked rev2c deform-bone count differs')
+    if sorted(s['bone_names'])!=deform_names:raise ValueError('snapshot deform-bone inventory differs from rest flags')
     if any(set(row)-set(s['bone_names']) for row in s['weights']):raise ValueError('unknown bone weights in snapshot')
     v=s['vertices']; w=s['weights']; r=s['regions']
     if not v or len(v)!=len(w) or len(v)!=len(r):raise ValueError('invalid snapshot row counts')

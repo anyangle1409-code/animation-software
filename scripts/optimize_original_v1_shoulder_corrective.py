@@ -68,6 +68,7 @@ def main():
     ap.add_argument("--init")
     ap.add_argument("--json-out", help="optional machine-readable before/after solve report")
     ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
+    ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
     ap.add_argument("--hold-region-min", type=float, default=None, help="regional-minimum guard: mask edges may not shorten below (that region's current whole-mesh minimum edge ratio in that pose) minus this margin")
     a = ap.parse_args()
@@ -173,6 +174,13 @@ def main():
         LLO_H = np.full(cur.shape, -1e9)
         LHI_H = np.full(cur.shape, 1e9)
         for p in range(nP):
+            if a.hold_scope == 'local':
+                # bounds taken over the MASK edges of this pose (this is how the axilla trial selection measures edge_min_drop / edge_max_rise)
+                if a.hold_region_min is not None:
+                    LLO_H[p, :] = np.log(max(float(np.exp(cur[p].min())) - a.hold_region_min, 1e-3))
+                if a.hold_region_max is not None:
+                    LHI_H[p, :] = np.log(float(np.exp(cur[p].max())) + a.hold_region_max)
+                continue
             r_all = np.linalg.norm(P0[p][EA] - P0[p][EB], axis=1) / np.maximum(L0_all, 1e-12)
             for rg in np.unique(reg_m[reg_m >= 0]):
                 sel = reg_m == rg

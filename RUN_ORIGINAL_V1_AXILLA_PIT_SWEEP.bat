@@ -43,6 +43,7 @@ if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" set "HOLD_ARG=--hold-region-min %AXILL
 if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" if /I "%AXILLA_PIT_CONTACT_GUARD%"=="1" set "HOLD_ARG=%HOLD_ARG% --contact-guard"
 if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" if not "%AXILLA_PIT_HOLD_REGION_MAX%"=="" set "HOLD_ARG=%HOLD_ARG% --hold-region-max %AXILLA_PIT_HOLD_REGION_MAX%"
 if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" if not "%AXILLA_PIT_HOLD_WEIGHT%"=="" set "HOLD_ARG=%HOLD_ARG% --w-hold %AXILLA_PIT_HOLD_WEIGHT%"
+if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" if not "%AXILLA_PIT_HOLD_SCOPE%"=="" set "HOLD_ARG=%HOLD_ARG% --hold-scope %AXILLA_PIT_HOLD_SCOPE%"
 python scripts\run_original_v1_axilla_trial_sweep.py "%DUMP%" "%DECL%" "%TRIALS%" --canonical-solution "%SOL%" --canonical-report "%REPORT%" %HOLD_ARG%
 if errorlevel 1 goto :fail
 if exist "%DUMP%" del /q "%DUMP%"

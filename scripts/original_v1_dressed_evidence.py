@@ -11,6 +11,7 @@ import shutil
 import subprocess
 
 from original_v1_production_control import ROOT, CAND, build, digest, ensure_finite, evidence, read
+from original_v1_locked_rig import load_locked_rig
 from original_v1_session_preflight import blender_path, power_info, process_info, repository_issues, run
 
 POSES = {
@@ -80,8 +81,14 @@ def validate(report: dict, raw_pair: dict, manifest: dict) -> dict:
         raise ValueError("candidate identity differs across dressed evidence")
     if report.get("candidate") != manifest.get("candidate"):
         raise ValueError("candidate filename differs")
-    if report.get("rig_id") != "hgpt_canonical_v4_original":
-        raise ValueError("canonical v4 rig identity required")
+    locked=load_locked_rig(ROOT)
+    expected_lock={"revision":locked["revision"],"rig_structure_sha256":locked["rig_structure_sha256"],
+                   "bone_count":locked["bone_count"],"deform_bone_count":locked["deform_bone_count"],
+                   "lock":locked["lock"],"payload":locked["payload"]}
+    if report.get("rig_id") != locked["identity"] or report.get("locked_rig") != expected_lock:
+        raise ValueError("static dressed locked rev2c rig identity differs")
+    if raw_pair.get("locked_rig") != expected_lock:
+        raise ValueError("raw garment pair locked rev2c rig identity differs")
     rows = report.get("poses")
     if not isinstance(rows, list):
         raise ValueError("pose evidence rows required")

@@ -238,6 +238,10 @@
       "category": "current_technical",
       "note": "Current clean-room policy for using external human-movement material as reference evidence without importing third-party implementation data."
     },
+    "docs/ORIGINAL_V1_PHASE3_SUBPHASE_EVIDENCE_r76.md": {
+      "category": "verification",
+      "note": "Measured Phase 3A-3E sub-phase evidence and strict-regression attribution for r76; evidence only, accepts nothing."
+    },
     "docs/ORIGINAL_V1_PUSHUP_FOOT_AND_SHOULDER_REVALIDATION_20261002.md": {
       "category": "verification",
       "note": "Owner-triggered push-up foot/toe and shoulder revalidation evidence that led to the P3/rev2c repair path."

@@ -1,0 +1,1817 @@
+{
+ "schema_version": 1,
+ "generated_utc": "2026-10-03T20:30:36.627285+00:00",
+ "purpose": "axial twist / candy-wrapper stress test (read-only)",
+ "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r76.blend",
+ "source_candidate_sha256": "e484dd99907d88838a8ef3633dbbbc932db1a8dc12ae35a63f2df51a1ab3a8fd",
+ "pose_definition_script_sha256": "3f429910dd129cbd0181f662ccacb726cf2410bf764bae5328a9adfadd59cb06",
+ "results": {
+  "forearm": {
+   "bone": "forearm_l",
+   "region": "arm",
+   "vertices": 588,
+   "tests": [
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.931,
+       "rest_mid": [
+        -0.231,
+        0.01,
+        0.947
+       ],
+       "weights_a": {
+        "forearm_l": 0.769,
+        "hand_l": 0.035,
+        "forearm_tw1_l": 0.197
+       },
+       "weights_b": {
+        "forearm_l": 0.672,
+        "hand_l": 0.156,
+        "forearm_tw1_l": 0.172
+       }
+      },
+      {
+       "ratio": 0.952,
+       "rest_mid": [
+        -0.214,
+        0.002,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.746,
+        "hand_l": 0.154,
+        "forearm_tw1_l": 0.1
+       },
+       "weights_b": {
+        "forearm_l": 0.86,
+        "hand_l": 0.025,
+        "forearm_tw1_l": 0.116
+       }
+      },
+      {
+       "ratio": 0.955,
+       "rest_mid": [
+        -0.21,
+        0.002,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.746,
+        "hand_l": 0.154,
+        "forearm_tw1_l": 0.1
+       },
+       "weights_b": {
+        "forearm_l": 0.635,
+        "hand_l": 0.279,
+        "forearm_tw1_l": 0.085
+       }
+      },
+      {
+       "ratio": 1.038,
+       "rest_mid": [
+        -0.225,
+        0.004,
+        0.947
+       ],
+       "weights_a": {
+        "forearm_l": 0.708,
+        "hand_l": 0.111,
+        "forearm_tw1_l": 0.181
+       },
+       "weights_b": {
+        "forearm_l": 0.785,
+        "hand_l": 0.014,
+        "forearm_tw1_l": 0.201
+       }
+      },
+      {
+       "ratio": 1.029,
+       "rest_mid": [
+        -0.225,
+        0.006,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.695,
+        "hand_l": 0.211,
+        "forearm_tw1_l": 0.093
+       },
+       "weights_b": {
+        "forearm_l": 0.804,
+        "hand_l": 0.088,
+        "forearm_tw1_l": 0.108
+       }
+      },
+      {
+       "ratio": 1.028,
+       "rest_mid": [
+        -0.203,
+        0.007,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.644,
+        "hand_l": 0.27,
+        "forearm_tw1_l": 0.087
+       },
+       "weights_b": {
+        "forearm_l": 0.748,
+        "hand_l": 0.151,
+        "forearm_tw1_l": 0.101
+       }
+      }
+     ],
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      0.9956,
+      0.9865,
+      0.9823,
+      0.9808,
+      0.9832,
+      0.9904,
+      0.9973,
+      0.9868,
+      0.9816,
+      0.981,
+      0.9858,
+      0.993
+     ],
+     "min_slice_radius_ratio": 0.9808,
+     "max_slice_radius_ratio": 0.9973,
+     "segment_edge_min_ratio": 0.9312,
+     "segment_edge_max_ratio": 1.0385
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      0.9956,
+      0.9865,
+      0.9823,
+      0.9808,
+      0.9832,
+      0.9904,
+      0.9973,
+      0.9868,
+      0.9816,
+      0.981,
+      0.9858,
+      0.993
+     ],
+     "min_slice_radius_ratio": 0.9808,
+     "max_slice_radius_ratio": 0.9973,
+     "segment_edge_min_ratio": 0.9355,
+     "segment_edge_max_ratio": 1.0497
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.851,
+       "rest_mid": [
+        -0.231,
+        0.01,
+        0.947
+       ],
+       "weights_a": {
+        "forearm_l": 0.769,
+        "hand_l": 0.035,
+        "forearm_tw1_l": 0.197
+       },
+       "weights_b": {
+        "forearm_l": 0.672,
+        "hand_l": 0.156,
+        "forearm_tw1_l": 0.172
+       }
+      },
+      {
+       "ratio": 0.896,
+       "rest_mid": [
+        -0.214,
+        0.002,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.746,
+        "hand_l": 0.154,
+        "forearm_tw1_l": 0.1
+       },
+       "weights_b": {
+        "forearm_l": 0.86,
+        "hand_l": 0.025,
+        "forearm_tw1_l": 0.116
+       }
+      },
+      {
+       "ratio": 0.9,
+       "rest_mid": [
+        -0.21,
+        0.002,
+        0.936
+       ],
+       "weights_a": {
+        "forearm_l": 0.746,
+        "hand_l": 0.154,
+        "forearm_tw1_l": 0.1
+       },
+       "weights_b": {
+        "forearm_l": 0.635,
+        "hand_l": 0.279,
+        "forearm_tw1_l": 0.085
+       }
+      },
+      {
+       "ratio": 1.053,
+       "rest_mid": [
+        -0.171,
+        0.021,
+        1.174
+       ],
+       "weights_a": {
+        "upperarm_l": 0.214,
+        "forearm_tw1_l": 0.124,
+        "forearm_tw0_l": 0.663
+       },
+       "weights_b": {
+        "upperarm_l": 0.343,
+        "forearm_tw1_l": 0.049,
+        "forearm_tw0_l": 0.608
+       }
+      },
+      {
+       "ratio": 1.053,
+       "rest_mid": [
+        -0.173,
+        0.013,
+        1.162
+       ],
+       "weights_a": {
+        "upperarm_l": 0.214,
+        "forearm_tw1_l": 0.124,
+        "forearm_tw0_l": 0.662
+       },
+       "weights_b": {
+        "upperarm_l": 0.12,
+        "forearm_tw1_l": 0.228,
+        "forearm_tw0_l": 0.652
+       }
+      },
+      {
+       "ratio": 1.052,
+       "rest_mid": [
+        -0.173,
+        0.015,
+        1.174
+       ],
+       "weights_a": {
+        "upperarm_l": 0.214,
+        "forearm_tw1_l": 0.124,
+        "forearm_tw0_l": 0.662
+       },
+       "weights_b": {
+        "upperarm_l": 0.343,
+        "forearm_tw1_l": 0.049,
+        "forearm_tw0_l": 0.608
+       }
+      }
+     ],
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      0.9829,
+      0.947,
+      0.9302,
+      0.9239,
+      0.9335,
+      0.9624,
+      0.9895,
+      0.948,
+      0.9272,
+      0.9249,
+      0.9441,
+      0.9727
+     ],
+     "min_slice_radius_ratio": 0.9239,
+     "max_slice_radius_ratio": 0.9895,
+     "segment_edge_min_ratio": 0.8507,
+     "segment_edge_max_ratio": 1.0526
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      0.9829,
+      0.947,
+      0.9302,
+      0.9239,
+      0.9335,
+      0.9624,
+      0.9895,
+      0.948,
+      0.9272,
+      0.9249,
+      0.9441,
+      0.9727
+     ],
+     "min_slice_radius_ratio": 0.9239,
+     "max_slice_radius_ratio": 0.9895,
+     "segment_edge_min_ratio": 0.8503,
+     "segment_edge_max_ratio": 1.0826
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.744,
+       "rest_mid": [
+        -0.231,
+        0.01,
+        0.947
+       ],
+       "weights_a": {
+        "forearm_l": 0.769,
+        "hand_l": 0.035,
+        "forearm_tw1_l": 0.197
+       },
+       "weights_b": {
+        "forearm_l": 0.672,
+        "hand_l": 0.156,
+        "forearm_tw1_l": 0.172
+       }
+      },
+      {
+       "ratio": 0.787,
+       "rest_mid": [
+        -0.191,
+        0.035,
+        0.98
+       ],
+       "weights_a": {
+        "forearm_l": 0.556,
+        "forearm_tw1_l": 0.444
+       },
+       "weights_b": {
+        "forearm_l": 0.554,
+        "forearm_tw1_l": 0.443
+       }
+      },
+      {
+       "ratio": 0.789,
+       "rest_mid": [
+        -0.184,
+        -0.01,
+        1.12
+       ],
+       "weights_a": {
+        "upperarm_l": 0.019,
+        "forearm_tw1_l": 0.509,
+        "forearm_tw0_l": 0.472
+       },
+       "weights_b": {
+        "upperarm_l": 0.018,
+        "forearm_tw1_l": 0.509,
+        "forearm_tw0_l": 0.473
+       }
+      },
+      {
+       "ratio": 1.136,
+       "rest_mid": [
+        -0.228,
+        -0.027,
+        1.129
+       ],
+       "weights_a": {
+        "upperarm_l": 0.064,
+        "forearm_tw1_l": 0.354,
+        "forearm_tw0_l": 0.583
+       },
+       "weights_b": {
+        "upperarm_l": 0.023,
+        "forearm_tw1_l": 0.508,
+        "forearm_tw0_l": 0.469
+       }
+      },
+      {
+       "ratio": 1.134,
+       "rest_mid": [
+        -0.235,
+        -0.024,
+        1.129
+       ],
+       "weights_a": {
+        "upperarm_l": 0.064,
+        "forearm_tw1_l": 0.354,
+        "forearm_tw0_l": 0.582
+       },
+       "weights_b": {
+        "upperarm_l": 0.023,
+        "forearm_tw1_l": 0.508,
+        "forearm_tw0_l": 0.469
+       }
+      },
+      {
+       "ratio": 1.133,
+       "rest_mid": [
+        -0.22,
+        -0.027,
+        1.129
+       ],
+       "weights_a": {
+        "upperarm_l": 0.063,
+        "forearm_tw1_l": 0.354,
+        "forearm_tw0_l": 0.582
+       },
+       "weights_b": {
+        "upperarm_l": 0.023,
+        "forearm_tw1_l": 0.508,
+        "forearm_tw0_l": 0.47
+       }
+      }
+     ],
+     "twist_deg": 150,
+     "slice_radius_ratio_profile": [
+      0.9558,
+      0.8596,
+      0.8119,
+      0.7935,
+      0.8215,
+      0.9018,
+      0.9731,
+      0.8624,
+      0.803,
+      0.7962,
+      0.8512,
+      0.9293
+     ],
+     "min_slice_radius_ratio": 0.7935,
+     "max_slice_radius_ratio": 0.9731,
+     "segment_edge_min_ratio": 0.7438,
+     "segment_edge_max_ratio": 1.1355
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -150,
+     "slice_radius_ratio_profile": [
+      0.9558,
+      0.8596,
+      0.8119,
+      0.7935,
+      0.8215,
+      0.9018,
+      0.9731,
+      0.8624,
+      0.803,
+      0.7962,
+      0.8512,
+      0.9293
+     ],
+     "min_slice_radius_ratio": 0.7935,
+     "max_slice_radius_ratio": 0.9731,
+     "segment_edge_min_ratio": 0.7196,
+     "segment_edge_max_ratio": 1.1637
+    }
+   ]
+  },
+  "upperarm": {
+   "bone": "upperarm_l",
+   "region": "arm",
+   "vertices": 460,
+   "tests": [
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.501,
+       "rest_mid": [
+        -0.211,
+        0.094,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.315,
+        "upperarm_l": 0.684
+       },
+       "weights_b": {
+        "scapula_l": 0.392,
+        "upperarm_l": 0.607
+       }
+      },
+      {
+       "ratio": 0.632,
+       "rest_mid": [
+        -0.195,
+        0.09,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.407,
+        "upperarm_l": 0.592
+       },
+       "weights_b": {
+        "scapula_l": 0.456,
+        "upperarm_l": 0.543
+       }
+      },
+      {
+       "ratio": 0.694,
+       "rest_mid": [
+        -0.206,
+        0.09,
+        1.368
+       ],
+       "weights_a": {
+        "scapula_l": 0.233,
+        "upperarm_l": 0.766
+       },
+       "weights_b": {
+        "scapula_l": 0.284,
+        "upperarm_l": 0.715
+       }
+      },
+      {
+       "ratio": 1.276,
+       "rest_mid": [
+        -0.186,
+        -0.017,
+        1.368
+       ],
+       "weights_a": {
+        "clavicle_l": 0.088,
+        "scapula_l": 0.15,
+        "upperarm_l": 0.761
+       },
+       "weights_b": {
+        "clavicle_l": 0.093,
+        "scapula_l": 0.114,
+        "upperarm_l": 0.793
+       }
+      },
+      {
+       "ratio": 1.257,
+       "rest_mid": [
+        -0.175,
+        -0.029,
+        1.382
+       ],
+       "weights_a": {
+        "clavicle_l": 0.267,
+        "scapula_l": 0.088,
+        "upperarm_l": 0.644
+       },
+       "weights_b": {
+        "clavicle_l": 0.248,
+        "scapula_l": 0.086,
+        "upperarm_l": 0.666
+       }
+      },
+      {
+       "ratio": 1.235,
+       "rest_mid": [
+        -0.204,
+        -0.023,
+        1.368
+       ],
+       "weights_a": {
+        "clavicle_l": 0.102,
+        "scapula_l": 0.025,
+        "upperarm_l": 0.872
+       },
+       "weights_b": {
+        "clavicle_l": 0.075,
+        "upperarm_l": 0.914
+       }
+      }
+     ],
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.9577,
+      0.9692,
+      0.9859,
+      0.9967,
+      0.9999,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9577,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.5008,
+     "segment_edge_max_ratio": 1.2756
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.9577,
+      0.9692,
+      0.9859,
+      0.9967,
+      0.9999,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9577,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.6294,
+     "segment_edge_max_ratio": 1.3717
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.201,
+       "rest_mid": [
+        -0.195,
+        0.09,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.407,
+        "upperarm_l": 0.592
+       },
+       "weights_b": {
+        "scapula_l": 0.456,
+        "upperarm_l": 0.543
+       }
+      },
+      {
+       "ratio": 0.27,
+       "rest_mid": [
+        -0.211,
+        0.094,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.315,
+        "upperarm_l": 0.684
+       },
+       "weights_b": {
+        "scapula_l": 0.392,
+        "upperarm_l": 0.607
+       }
+      },
+      {
+       "ratio": 0.418,
+       "rest_mid": [
+        -0.219,
+        0.094,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.315,
+        "upperarm_l": 0.684
+       },
+       "weights_b": {
+        "scapula_l": 0.277,
+        "upperarm_l": 0.722
+       }
+      },
+      {
+       "ratio": 1.397,
+       "rest_mid": [
+        -0.186,
+        -0.017,
+        1.368
+       ],
+       "weights_a": {
+        "clavicle_l": 0.088,
+        "scapula_l": 0.15,
+        "upperarm_l": 0.761
+       },
+       "weights_b": {
+        "clavicle_l": 0.093,
+        "scapula_l": 0.114,
+        "upperarm_l": 0.793
+       }
+      },
+      {
+       "ratio": 1.368,
+       "rest_mid": [
+        -0.175,
+        -0.029,
+        1.382
+       ],
+       "weights_a": {
+        "clavicle_l": 0.267,
+        "scapula_l": 0.088,
+        "upperarm_l": 0.644
+       },
+       "weights_b": {
+        "clavicle_l": 0.248,
+        "scapula_l": 0.086,
+        "upperarm_l": 0.666
+       }
+      },
+      {
+       "ratio": 1.336,
+       "rest_mid": [
+        -0.193,
+        -0.018,
+        1.35
+       ],
+       "weights_a": {
+        "clavicle_l": 0.029,
+        "scapula_l": 0.03,
+        "upperarm_l": 0.94
+       },
+       "weights_b": {
+        "clavicle_l": 0.037,
+        "scapula_l": 0.055,
+        "upperarm_l": 0.907
+       }
+      }
+     ],
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.8414,
+      0.8862,
+      0.9496,
+      0.9885,
+      0.9997,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.8414,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.2009,
+     "segment_edge_max_ratio": 1.3971
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.8414,
+      0.8862,
+      0.9496,
+      0.9885,
+      0.9997,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.8414,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.1873,
+     "segment_edge_max_ratio": 1.5424
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.074,
+       "rest_mid": [
+        -0.181,
+        0.083,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.46,
+        "upperarm_l": 0.538
+       },
+       "weights_b": {
+        "scapula_l": 0.481,
+        "upperarm_l": 0.517
+       }
+      },
+      {
+       "ratio": 0.257,
+       "rest_mid": [
+        -0.203,
+        0.092,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.407,
+        "upperarm_l": 0.592
+       },
+       "weights_b": {
+        "scapula_l": 0.392,
+        "upperarm_l": 0.607
+       }
+      },
+      {
+       "ratio": 0.326,
+       "rest_mid": [
+        -0.188,
+        0.087,
+        1.385
+       ],
+       "weights_a": {
+        "scapula_l": 0.46,
+        "upperarm_l": 0.538
+       },
+       "weights_b": {
+        "scapula_l": 0.456,
+        "upperarm_l": 0.543
+       }
+      },
+      {
+       "ratio": 1.336,
+       "rest_mid": [
+        -0.186,
+        -0.017,
+        1.368
+       ],
+       "weights_a": {
+        "clavicle_l": 0.088,
+        "scapula_l": 0.15,
+        "upperarm_l": 0.761
+       },
+       "weights_b": {
+        "clavicle_l": 0.093,
+        "scapula_l": 0.114,
+        "upperarm_l": 0.793
+       }
+      },
+      {
+       "ratio": 1.311,
+       "rest_mid": [
+        -0.193,
+        -0.018,
+        1.35
+       ],
+       "weights_a": {
+        "clavicle_l": 0.029,
+        "scapula_l": 0.03,
+        "upperarm_l": 0.94
+       },
+       "weights_b": {
+        "clavicle_l": 0.037,
+        "scapula_l": 0.055,
+        "upperarm_l": 0.907
+       }
+      },
+      {
+       "ratio": 1.304,
+       "rest_mid": [
+        -0.175,
+        -0.029,
+        1.382
+       ],
+       "weights_a": {
+        "clavicle_l": 0.267,
+        "scapula_l": 0.088,
+        "upperarm_l": 0.644
+       },
+       "weights_b": {
+        "clavicle_l": 0.248,
+        "scapula_l": 0.086,
+        "upperarm_l": 0.666
+       }
+      }
+     ],
+     "twist_deg": 135,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.6849,
+      0.7829,
+      0.909,
+      0.9801,
+      0.9995,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.6849,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.0741,
+     "segment_edge_max_ratio": 1.3357
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -135,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      null,
+      0.6849,
+      0.7829,
+      0.909,
+      0.9801,
+      0.9995,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.6849,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.3114,
+     "segment_edge_max_ratio": 1.4836
+    }
+   ]
+  },
+  "thigh": {
+   "bone": "thigh_l",
+   "region": "leg",
+   "vertices": 538,
+   "tests": [
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.905,
+       "rest_mid": [
+        -0.068,
+        0.107,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.042,
+        "thigh_l": 0.958
+       }
+      },
+      {
+       "ratio": 0.909,
+       "rest_mid": [
+        -0.056,
+        0.105,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.079,
+        "thigh_l": 0.921
+       }
+      },
+      {
+       "ratio": 0.921,
+       "rest_mid": [
+        -0.08,
+        0.109,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.026,
+        "thigh_l": 0.974
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.042,
+        "thigh_l": 0.958
+       }
+      },
+      {
+       "ratio": 1.064,
+       "rest_mid": [
+        -0.039,
+        -0.071,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.092,
+        "thigh_l": 0.908
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      },
+      {
+       "ratio": 1.062,
+       "rest_mid": [
+        -0.063,
+        -0.076,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.025,
+        "thigh_l": 0.975
+       }
+      },
+      {
+       "ratio": 1.062,
+       "rest_mid": [
+        -0.05,
+        -0.074,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      }
+     ],
+     "twist_deg": 30,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9946,
+      0.9982,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9946,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9054,
+     "segment_edge_max_ratio": 1.064
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -30,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9946,
+      0.9982,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9946,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9038,
+     "segment_edge_max_ratio": 1.0793
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.86,
+       "rest_mid": [
+        -0.068,
+        0.107,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.042,
+        "thigh_l": 0.958
+       }
+      },
+      {
+       "ratio": 0.863,
+       "rest_mid": [
+        -0.056,
+        0.105,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.079,
+        "thigh_l": 0.921
+       }
+      },
+      {
+       "ratio": 0.884,
+       "rest_mid": [
+        -0.08,
+        0.109,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.026,
+        "thigh_l": 0.974
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.042,
+        "thigh_l": 0.958
+       }
+      },
+      {
+       "ratio": 1.082,
+       "rest_mid": [
+        -0.063,
+        -0.076,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.025,
+        "thigh_l": 0.975
+       }
+      },
+      {
+       "ratio": 1.08,
+       "rest_mid": [
+        -0.039,
+        -0.071,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.092,
+        "thigh_l": 0.908
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      },
+      {
+       "ratio": 1.079,
+       "rest_mid": [
+        -0.05,
+        -0.074,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      }
+     ],
+     "twist_deg": 45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9881,
+      0.9961,
+      0.9994,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9881,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8597,
+     "segment_edge_max_ratio": 1.082
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -45,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9881,
+      0.9961,
+      0.9994,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9881,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8466,
+     "segment_edge_max_ratio": 1.1078
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.765,
+       "rest_mid": [
+        -0.056,
+        0.105,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.079,
+        "thigh_l": 0.921
+       }
+      },
+      {
+       "ratio": 0.773,
+       "rest_mid": [
+        -0.068,
+        0.107,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.061,
+        "thigh_l": 0.939
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.042,
+        "thigh_l": 0.958
+       }
+      },
+      {
+       "ratio": 0.787,
+       "rest_mid": [
+        -0.035,
+        0.095,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.089,
+        "thigh_l": 0.911
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.102,
+        "thigh_l": 0.898
+       }
+      },
+      {
+       "ratio": 1.09,
+       "rest_mid": [
+        -0.063,
+        -0.076,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.025,
+        "thigh_l": 0.975
+       }
+      },
+      {
+       "ratio": 1.072,
+       "rest_mid": [
+        -0.05,
+        -0.074,
+        0.843
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.048,
+        "thigh_l": 0.952
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      },
+      {
+       "ratio": 1.061,
+       "rest_mid": [
+        -0.039,
+        -0.071,
+        0.842
+       ],
+       "weights_a": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.092,
+        "thigh_l": 0.908
+       },
+       "weights_b": {
+        "HGPT_UNDER_SHORTS": 1.0,
+        "pelvis": 0.07,
+        "thigh_l": 0.93
+       }
+      }
+     ],
+     "twist_deg": 90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9583,
+      0.9865,
+      0.9979,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9583,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7645,
+     "segment_edge_max_ratio": 1.09
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -90,
+     "slice_radius_ratio_profile": [
+      null,
+      null,
+      null,
+      0.9583,
+      0.9865,
+      0.9979,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "min_slice_radius_ratio": 0.9583,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.6797,
+     "segment_edge_max_ratio": 1.1347
+    }
+   ]
+  },
+  "shin": {
+   "bone": "shin_l",
+   "region": "leg",
+   "vertices": 592,
+   "tests": [
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.937,
+       "rest_mid": [
+        -0.069,
+        -0.056,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.422,
+        "shin_l": 0.578
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.942,
+       "rest_mid": [
+        -0.061,
+        -0.052,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.385,
+        "shin_l": 0.615
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.947,
+       "rest_mid": [
+        -0.067,
+        -0.06,
+        0.515
+       ],
+       "weights_a": {
+        "thigh_l": 0.559,
+        "shin_l": 0.441
+       },
+       "weights_b": {
+        "thigh_l": 0.544,
+        "shin_l": 0.456
+       }
+      },
+      {
+       "ratio": 1.085,
+       "rest_mid": [
+        -0.137,
+        -0.036,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.509,
+        "shin_l": 0.491
+       },
+       "weights_b": {
+        "thigh_l": 0.354,
+        "shin_l": 0.646
+       }
+      },
+      {
+       "ratio": 1.085,
+       "rest_mid": [
+        -0.133,
+        -0.043,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.514,
+        "shin_l": 0.486
+       },
+       "weights_b": {
+        "thigh_l": 0.361,
+        "shin_l": 0.639
+       }
+      },
+      {
+       "ratio": 1.085,
+       "rest_mid": [
+        -0.141,
+        -0.028,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.505,
+        "shin_l": 0.495
+       },
+       "weights_b": {
+        "thigh_l": 0.348,
+        "shin_l": 0.652
+       }
+      }
+     ],
+     "twist_deg": 20,
+     "slice_radius_ratio_profile": [
+      0.9869,
+      0.9952,
+      0.9991,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9869,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9371,
+     "segment_edge_max_ratio": 1.0852
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -20,
+     "slice_radius_ratio_profile": [
+      0.9869,
+      0.9952,
+      0.9991,
+      0.9999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9869,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.9368,
+     "segment_edge_max_ratio": 1.0468
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.895,
+       "rest_mid": [
+        -0.069,
+        -0.056,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.422,
+        "shin_l": 0.578
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.903,
+       "rest_mid": [
+        -0.061,
+        -0.052,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.385,
+        "shin_l": 0.615
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.909,
+       "rest_mid": [
+        -0.067,
+        -0.06,
+        0.515
+       ],
+       "weights_a": {
+        "thigh_l": 0.559,
+        "shin_l": 0.441
+       },
+       "weights_b": {
+        "thigh_l": 0.544,
+        "shin_l": 0.456
+       }
+      },
+      {
+       "ratio": 1.139,
+       "rest_mid": [
+        -0.133,
+        -0.043,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.514,
+        "shin_l": 0.486
+       },
+       "weights_b": {
+        "thigh_l": 0.361,
+        "shin_l": 0.639
+       }
+      },
+      {
+       "ratio": 1.139,
+       "rest_mid": [
+        -0.137,
+        -0.036,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.509,
+        "shin_l": 0.491
+       },
+       "weights_b": {
+        "thigh_l": 0.354,
+        "shin_l": 0.646
+       }
+      },
+      {
+       "ratio": 1.138,
+       "rest_mid": [
+        -0.141,
+        -0.028,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.505,
+        "shin_l": 0.495
+       },
+       "weights_b": {
+        "thigh_l": 0.348,
+        "shin_l": 0.652
+       }
+      }
+     ],
+     "twist_deg": 30,
+     "slice_radius_ratio_profile": [
+      0.9707,
+      0.9892,
+      0.998,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9707,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8952,
+     "segment_edge_max_ratio": 1.1394
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -30,
+     "slice_radius_ratio_profile": [
+      0.9707,
+      0.9892,
+      0.998,
+      0.9997,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.9707,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.8948,
+     "segment_edge_max_ratio": 1.0868
+    },
+    {
+     "worst_edges": [
+      {
+       "ratio": 0.732,
+       "rest_mid": [
+        -0.069,
+        -0.056,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.422,
+        "shin_l": 0.578
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.748,
+       "rest_mid": [
+        -0.061,
+        -0.052,
+        0.502
+       ],
+       "weights_a": {
+        "thigh_l": 0.385,
+        "shin_l": 0.615
+       },
+       "weights_b": {
+        "thigh_l": 0.403,
+        "shin_l": 0.597
+       }
+      },
+      {
+       "ratio": 0.758,
+       "rest_mid": [
+        -0.067,
+        -0.06,
+        0.515
+       ],
+       "weights_a": {
+        "thigh_l": 0.559,
+        "shin_l": 0.441
+       },
+       "weights_b": {
+        "thigh_l": 0.544,
+        "shin_l": 0.456
+       }
+      },
+      {
+       "ratio": 1.322,
+       "rest_mid": [
+        -0.133,
+        -0.043,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.514,
+        "shin_l": 0.486
+       },
+       "weights_b": {
+        "thigh_l": 0.361,
+        "shin_l": 0.639
+       }
+      },
+      {
+       "ratio": 1.32,
+       "rest_mid": [
+        -0.127,
+        -0.049,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.522,
+        "shin_l": 0.478
+       },
+       "weights_b": {
+        "thigh_l": 0.371,
+        "shin_l": 0.629
+       }
+      },
+      {
+       "ratio": 1.319,
+       "rest_mid": [
+        -0.137,
+        -0.036,
+        0.509
+       ],
+       "weights_a": {
+        "thigh_l": 0.509,
+        "shin_l": 0.491
+       },
+       "weights_b": {
+        "thigh_l": 0.354,
+        "shin_l": 0.646
+       }
+      }
+     ],
+     "twist_deg": 60,
+     "slice_radius_ratio_profile": [
+      0.8854,
+      0.9591,
+      0.9925,
+      0.999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.8854,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7321,
+     "segment_edge_max_ratio": 1.3218
+    },
+    {
+     "worst_edges": [],
+     "twist_deg": -60,
+     "slice_radius_ratio_profile": [
+      0.8854,
+      0.9591,
+      0.9925,
+      0.999,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      null
+     ],
+     "min_slice_radius_ratio": 0.8854,
+     "max_slice_radius_ratio": 1.0,
+     "segment_edge_min_ratio": 0.7311,
+     "segment_edge_max_ratio": 1.2477
+    }
+   ]
+  }
+ }
+}

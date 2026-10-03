@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 rem End-to-end EXPERIMENTAL local axilla repair loop.
 rem Usage: RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat <source-rN> <target-rN>
-rem Runs pre-edit declaration -> one-dump numeric sweep -> incremental apply -> full validation.
+rem Runs pre-edit declaration -> one-dump numeric sweep -> incremental apply -> full validation -> read-only disposition.
 rem Every child runner is fail-closed and refuses collisions. This wrapper never accepts/promotes a candidate.
 
 set "SOURCE_REV=%~1"
@@ -31,25 +31,29 @@ echo Target: %TARGET_REV%
 echo Experimental only. No acceptance or production promotion.
 echo ============================================================
 
-echo [1/4] Declare local pit evidence/mask before edit...
+echo [1/5] Declare local pit evidence/mask before edit...
 call RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat %SOURCE_REV% %TARGET_REV%
 if errorlevel 1 goto :fail
 
-echo [2/4] Run one-dump deterministic numeric trial sweep...
+echo [2/5] Run one-dump deterministic numeric trial sweep...
 call RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat %SOURCE_REV% %TARGET_REV%
 if errorlevel 1 goto :fail
 
-echo [3/4] Apply selected local incremental corrective...
+echo [3/5] Apply selected local incremental corrective...
 call RUN_ORIGINAL_V1_AXILLA_PIT_APPLY.bat %SOURCE_REV% %TARGET_REV%
 if errorlevel 1 goto :fail
 
-echo [4/4] Run full evidence, local-face audit and real review capture...
+echo [4/5] Run full evidence, local-face audit and real review capture...
 call RUN_ORIGINAL_V1_AXILLA_PIT_VALIDATE.bat %TARGET_REV% %SOURCE_REV%
+if errorlevel 1 goto :fail
+
+echo [5/5] Build read-only post-validation disposition summary...
+call RUN_ORIGINAL_V1_AXILLA_PIT_DISPOSITION.bat %TARGET_REV% %SOURCE_REV%
 if errorlevel 1 goto :fail
 
 echo.
 echo PIPELINE COMPLETE: %TARGET_REV%
-echo The candidate remains experimental. Review generated evidence/renders before any continuation or freeze decision.
+echo The candidate remains experimental. Read the disposition summary and real renders before any continuation or freeze decision.
 exit /b 0
 
 :usage

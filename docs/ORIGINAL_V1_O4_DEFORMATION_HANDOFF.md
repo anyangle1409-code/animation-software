@@ -2232,3 +2232,7 @@ Status-selected next action: RECONCILE trial lineage (r49-r54 are preserved tria
 - Added `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md` as the next worker package. It requires a declared local mask before editing, preserves the frozen rig/pose/gates, starts with weight/corrective repair before any topology change, and requires full evidence plus continuous-arc and visual checks before Phase 4 can be considered.
 
 **NEXT WORKER ACTION:** follow the axilla-pit package from r55 using the next collision-free candidate label. Do not freeze r55 as-is and do not reopen the rig, P3a pose definition, thresholds or pinned baselines.
+
+## GPT repository assist — 2026-10-03: deterministic axilla preflight
+
+Added `scripts/audit_original_v1_axilla_pit_blender.py` and `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat`. The runner is read-only: it verifies the local source candidate against its committed manifest, refuses target-label collisions, samples the six elevated-arm poses through 17 arc positions, compares the evaluated r55 surface against the same skeletal pose without the corrective, ranks signed face-area collapse/orientation reversal, and writes a mirror-closed one-ring local declaration before any edit. Default invocation for the next free label is `RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat r55 r56`.

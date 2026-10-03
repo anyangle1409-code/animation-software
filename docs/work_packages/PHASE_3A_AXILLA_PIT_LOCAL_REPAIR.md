@@ -53,9 +53,19 @@ Before authoring, check the live branch. Use the next collision-free revision af
 
 ## Step A — declare the pit mask before editing
 
-Create a candidate-bound declaration under:
+The repository now has a read-only deterministic preflight. From a clean checkout with the verified source candidate present, run:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_PREP.bat r55 r56
+```
+
+Use the next collision-free target revision if `r56` already exists. The runner never saves the Blend. It samples the full shoulder arcs, ranks signed face-area collapse/orientation reversal, mirror-closes the worst local faces, expands one topological ring, and writes both the audit and the declaration before any edit.
+
+It creates:
 
 `ORIGINAL_V1_WORK/candidates/repair_preparation/<rev>_axilla_pit_declared/`
+
+including `face_collapse_audit.json`, `face_collapse_audit.md`, and `axilla_pit_mask_declared_before_edit.json`.
 
 The declaration must include:
 

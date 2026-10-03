@@ -71,6 +71,8 @@ class PhaseExitTests(unittest.TestCase):
         c,temp_root,packet=self.fixture(5)
         control={"phase_completion_records":{"4":{"candidate_sha256":"0"*64}}}
         (temp_root/"ORIGINAL_V1_PRODUCTION_CONTROL.json").write_text(json.dumps(control),encoding="utf-8")
+        phase5_plan=temp_root/"ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json"
+        phase5_plan.write_text(json.dumps({"schema_version":1,"fixture":True}),encoding="utf-8")
         previous_path=None;previous_sha="0"*64
         mapping=[("anatomy_5A_torso","5A"),("anatomy_5B_shoulders","5B"),("anatomy_5C_arms","5C"),
                  ("anatomy_5D_hands","5D"),("anatomy_5E_pelvis_legs","5E"),("anatomy_5F_feet","5F"),
@@ -87,7 +89,9 @@ class PhaseExitTests(unittest.TestCase):
             report_path=temp_root/f"{region}_report.json";report_path.write_text(json.dumps(report),encoding="utf-8")
             receipt={"schema_version":1,"phase":5,"region":region,"contract_status":"REGION_EVIDENCE_VERIFIED",
                      "phase_complete":False,"production_approved":False,"issues":[],"candidate_sha256":candidate_sha,
-                     "region_report":{"path":report_path.name,"sha256":c.digest(report_path)}}
+                     "region_report":{"path":report_path.name,"sha256":c.digest(report_path)},
+                     "plan":{"path":"ORIGINAL_V1_PHASE5_ANATOMY_EXECUTION_PLAN.json","sha256":c.digest(phase5_plan)},
+                     "source_git_commit":"b"*40}
             receipt_path=temp_root/f"{region}_receipt.json";receipt_path.write_text(json.dumps(receipt),encoding="utf-8")
             check=next(x for x in packet["checks"] if x["id"]==check_id)
             check["evidence"]=[{"path":receipt_path.name,"sha256":c.digest(receipt_path)}]
@@ -119,6 +123,24 @@ class PhaseExitTests(unittest.TestCase):
         check["evidence"][0]["sha256"]=c.digest(receipt)
         issues=c.verify_exit(root,5,packet,"a"*64)
         self.assertTrue(any("freeze SHA differs" in x for x in issues))
+
+    def test_phase5_exit_rejects_receipt_plan_drift(self):
+        c,root,packet=self.phase5_fixture()
+        receipt=root/"5C_receipt.json";data=json.loads(receipt.read_text());data["plan"]["sha256"]="f"*64
+        receipt.write_text(json.dumps(data))
+        check=next(x for x in packet["checks"] if x["id"]=="anatomy_5C_arms")
+        check["evidence"][0]["sha256"]=c.digest(receipt)
+        issues=c.verify_exit(root,5,packet,"a"*64)
+        self.assertTrue(any("execution-plan identity differs" in x for x in issues))
+
+    def test_phase5_exit_rejects_missing_receipt_source_commit(self):
+        c,root,packet=self.phase5_fixture()
+        receipt=root/"5B_receipt.json";data=json.loads(receipt.read_text());data["source_git_commit"]=None
+        receipt.write_text(json.dumps(data))
+        check=next(x for x in packet["checks"] if x["id"]=="anatomy_5B_shoulders")
+        check["evidence"][0]["sha256"]=c.digest(receipt)
+        issues=c.verify_exit(root,5,packet,"a"*64)
+        self.assertTrue(any("source Git commit" in x for x in issues))
 
     def test_phase5_exit_rejects_nonfinal_exit_candidate(self):
         c,root,packet=self.phase5_fixture()

@@ -51,19 +51,26 @@ requires an explicit owner production-freeze authorization. It never promotes.
 
 ## Candidate changes and historical reports
 
-Exit records identify the exact current candidate. Preserve older records and
-freeze pins as history; do not relabel them when geometry/weights change. Re-run
-relevant evidence and create new candidate-bound exit reports. R2 remains pinned.
-Pending reviews permit safe follow-on work; owner rejection or conflicting lineage
-blocks only work that depends on that state.
+A phase-exit packet is permanently bound to the exact candidate that passed that
+phase. Later candidates **do not relabel or rewrite** the packet. Instead, production
+control may inherit an earlier phase checkpoint only when the current candidate's
+exact `parent_sha256` chain reaches the checkpoint candidate. A divergent branch,
+missing parent identity, changed checkpoint bytes or out-of-order phase checkpoint
+is refused rather than guessed.
 
-If an experimental candidate change leaves active completion entries stale, first
-copy those entries/reports into explicit phase_completion_history in production
-control, preserving paths/hashes and the immutable freeze pin. Remove only the
-archived entries from active phase_completion_records. Regenerate state so the
-new candidate is experimental and affected phases need revalidation. Do not
-relabel old reports. Create fresh exit packets, then repopulate the active records.
-This is lineage maintenance, not a baseline promotion or deletion of history.
+This means a verified Phase 4 development-freeze candidate can remain the immutable
+foundation checkpoint while Phase 5 creates descendant anatomy candidates. The same
+principle applies to later ordered phases: each phase checkpoint must be on the
+current lineage and at the same or a newer descendant position than its predecessor.
+Later phase/domain evidence is responsible for proving its scoped changes preserve
+earlier requirements; a new deformation failure can still reopen Phase 3 even while
+the historical Phase 4 checkpoint remains recorded.
+
+Use `phase_completion_history` for superseded/rejected/divergent checkpoint
+records or when deliberately replacing an active checkpoint with a newer verified
+checkpoint. Never use history to make an unrelated candidate look like a descendant.
+R2/P2B1/P3B1 and other epoch baselines remain separate immutable comparison inputs,
+not phase-completion records.
 
 Phase 6–11 domain execution packages are now prepared under docs/work_packages.
 Read their shared execution contract and tooling-readiness table. The named check

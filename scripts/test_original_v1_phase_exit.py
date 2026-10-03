@@ -67,6 +67,64 @@ class PhaseExitTests(unittest.TestCase):
         (root/'ORIGINAL_V1_PRODUCTION_CONTROL.json').write_text(json.dumps(rules))
         with self.assertRaisesRegex(ValueError,'phase exit'):control.build(root)
 
+    def phase5_fixture(self):
+        c,temp_root,packet=self.fixture(5)
+        control={"phase_completion_records":{"4":{"candidate_sha256":"0"*64}}}
+        (temp_root/"ORIGINAL_V1_PRODUCTION_CONTROL.json").write_text(json.dumps(control),encoding="utf-8")
+        previous_path=None;previous_sha="0"*64
+        mapping=[("anatomy_5A_torso","5A"),("anatomy_5B_shoulders","5B"),("anatomy_5C_arms","5C"),
+                 ("anatomy_5D_hands","5D"),("anatomy_5E_pelvis_legs","5E"),("anatomy_5F_feet","5F"),
+                 ("anatomy_5G_head_neck","5G")]
+        for i,(check_id,region) in enumerate(mapping):
+            candidate_sha="a"*64 if region=="5G" else format(i+1,"064x")
+            prev_ref=None if previous_path is None else {"path":previous_path.name,"sha256":c.digest(previous_path)}
+            report={"schema_version":1,"phase":5,"region":region,"status":"REGION_EVIDENCE_COMPLETE",
+                    "phase_complete":False,"production_approved":False,
+                    "candidate_sha256":candidate_sha,"parent_candidate_sha256":previous_sha,
+                    "development_freeze_candidate_sha256":"0"*64,
+                    "active_epoch_baseline_revision":"P3B1","active_epoch_baseline_candidate_sha256":"9"*64,
+                    "previous_region_receipt":prev_ref}
+            report_path=temp_root/f"{region}_report.json";report_path.write_text(json.dumps(report),encoding="utf-8")
+            receipt={"schema_version":1,"phase":5,"region":region,"contract_status":"REGION_EVIDENCE_VERIFIED",
+                     "phase_complete":False,"production_approved":False,"issues":[],"candidate_sha256":candidate_sha,
+                     "region_report":{"path":report_path.name,"sha256":c.digest(report_path)}}
+            receipt_path=temp_root/f"{region}_receipt.json";receipt_path.write_text(json.dumps(receipt),encoding="utf-8")
+            check=next(x for x in packet["checks"] if x["id"]==check_id)
+            check["evidence"]=[{"path":receipt_path.name,"sha256":c.digest(receipt_path)}]
+            previous_path=receipt_path;previous_sha=candidate_sha
+        return c,temp_root,packet
+
+    def test_phase5_exit_requires_real_ordered_region_receipts(self):
+        c,root,packet=self.phase5_fixture()
+        self.assertEqual(c.verify_exit(root,5,packet,"a"*64),[])
+
+    def test_phase5_exit_rejects_broken_region_parent_chain(self):
+        c,root,packet=self.phase5_fixture()
+        report=root/"5D_report.json";data=json.loads(report.read_text());data["parent_candidate_sha256"]="f"*64
+        report.write_text(json.dumps(data))
+        receipt=root/"5D_receipt.json";rd=json.loads(receipt.read_text());rd["region_report"]["sha256"]=c.digest(report)
+        receipt.write_text(json.dumps(rd))
+        check=next(x for x in packet["checks"] if x["id"]=="anatomy_5D_hands")
+        check["evidence"][0]["sha256"]=c.digest(receipt)
+        issues=c.verify_exit(root,5,packet,"a"*64)
+        self.assertTrue(any("parent candidate" in x for x in issues))
+
+    def test_phase5_exit_rejects_wrong_freeze_identity(self):
+        c,root,packet=self.phase5_fixture()
+        report=root/"5A_report.json";data=json.loads(report.read_text());data["development_freeze_candidate_sha256"]="e"*64
+        report.write_text(json.dumps(data))
+        receipt=root/"5A_receipt.json";rd=json.loads(receipt.read_text());rd["region_report"]["sha256"]=c.digest(report)
+        receipt.write_text(json.dumps(rd))
+        check=next(x for x in packet["checks"] if x["id"]=="anatomy_5A_torso")
+        check["evidence"][0]["sha256"]=c.digest(receipt)
+        issues=c.verify_exit(root,5,packet,"a"*64)
+        self.assertTrue(any("freeze SHA differs" in x for x in issues))
+
+    def test_phase5_exit_rejects_nonfinal_exit_candidate(self):
+        c,root,packet=self.phase5_fixture()
+        issues=c.verify_exit(root,5,packet,"b"*64)
+        self.assertTrue(any("final 5G" in x for x in issues))
+
     def test_templates_never_satisfy_phase_exit(self):
         c=self.module()
         state={'last_known_candidate_sha256':'a'*64,'current_candidate':'r29',

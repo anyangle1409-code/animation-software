@@ -20,6 +20,35 @@ HELPER = "scripts/original_v1_phase7_garment_scene.py"
 EXPECTED_BODY = "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
 EXPECTED_GARMENT = "HGPT_ORIGINAL_V1_SHORTS_CANDIDATE"
 EXPECTED_RIG = "HGPT_CANONICAL_V4_ORIGINAL"
+RIG_LOCK = "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json"
+
+
+def locked_rig_contract() -> dict:
+    lock = json.loads((ROOT / RIG_LOCK).read_text(encoding="utf-8"))
+    rig = lock["rig"]
+    payload_path = ROOT / rig["payload"]["path"]
+    if digest(payload_path) != rig["payload"]["sha256"]:
+        raise ValueError("locked rev2c rig payload bytes differ")
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    bones = sorted(
+        [{"name": row["name"], "parent": row.get("parent")} for row in payload["bones"]],
+        key=lambda row: row["name"],
+    )
+    if payload.get("rig_structure_sha256") != rig.get("rig_structure_sha256"):
+        raise ValueError("locked rev2c rig payload structure identity differs")
+    return {
+        "name": EXPECTED_RIG,
+        "identity": rig["identity"],
+        "revision": rig["revision"],
+        "rig_structure_sha256": rig["rig_structure_sha256"],
+        "bone_count": rig["bone_count"],
+        "deform_bone_count": rig["deform_bone_count"],
+        "bones": bones,
+        "lock_path": RIG_LOCK,
+        "lock_sha256": digest(ROOT / RIG_LOCK),
+        "payload_path": rig["payload"]["path"],
+        "payload_sha256": rig["payload"]["sha256"],
+    }
 
 
 def file_ref(root: Path, ref: dict, label: str) -> Path:
@@ -145,10 +174,18 @@ def verify_scene(root: Path, scene: dict, authoring: dict, raw_pair: dict, manif
             raise ValueError(f"{label} status differs")
 
     blockers = []
-    if scene.get("rig_id") != "hgpt_canonical_v4_original":
-        blockers.append("canonical v4 rig identity missing")
-    if scene.get("rig", {}).get("name") != EXPECTED_RIG or scene.get("rig", {}).get("bone_count") != 63:
-        blockers.append("canonical 63-bone rig scene receipt differs")
+    locked = locked_rig_contract()
+    if scene.get("rig_id") != locked["identity"]:
+        blockers.append("locked rev2c rig identity missing")
+    scene_rig = scene.get("rig", {})
+    if scene_rig.get("name") != locked["name"]:
+        blockers.append("locked rev2c rig object name differs")
+    if scene_rig.get("bone_count") != locked["bone_count"] or scene_rig.get("deform_bone_count") != locked["deform_bone_count"]:
+        blockers.append("locked rev2c rig bone counts differ")
+    if scene_rig.get("bones") != locked["bones"]:
+        blockers.append("locked rev2c rig hierarchy differs")
+    if scene_rig.get("lock_revision") != locked["revision"] or scene_rig.get("rig_structure_sha256") != locked["rig_structure_sha256"]:
+        blockers.append("locked rev2c rig revision/structure identity differs")
     body = scene.get("body", {})
     garment = scene.get("garment", {})
     if body.get("name") != EXPECTED_BODY or garment.get("name") != EXPECTED_GARMENT:

@@ -26,7 +26,14 @@ class Phase7GarmentSceneTests(unittest.TestCase):
         scene={
             "status":"EVIDENCE_ONLY","phase_complete":False,"production_approved":False,
             "candidate_sha256":sha,"rig_id":"hgpt_canonical_v4_original",
-            "rig":{"name":g.EXPECTED_RIG,"bone_count":63},
+            "rig":{
+                "name":g.EXPECTED_RIG,
+                "bone_count":g.locked_rig_contract()["bone_count"],
+                "deform_bone_count":g.locked_rig_contract()["deform_bone_count"],
+                "bones":g.locked_rig_contract()["bones"],
+                "lock_revision":g.locked_rig_contract()["revision"],
+                "rig_structure_sha256":g.locked_rig_contract()["rig_structure_sha256"],
+            },
             "body":obj(g.EXPECTED_BODY),"garment":obj(g.EXPECTED_GARMENT),
             "scene_linked_libraries":[]
         }
@@ -54,6 +61,20 @@ class Phase7GarmentSceneTests(unittest.TestCase):
             result=g.verify_scene(root,scene,auth,raw,man)
             self.assertEqual(result["garment_scene_status"],"EVIDENCE_COMPLETE")
             self.assertFalse(result["phase_complete"])
+
+    def test_old_63_bone_scene_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);scene,auth,raw,man=self.fixture(root)
+            scene["rig"]["bone_count"]=63
+            result=g.verify_scene(root,scene,auth,raw,man)
+            self.assertTrue(any("bone counts differ" in x for x in result["blockers"]))
+
+    def test_rig_hierarchy_drift_is_refused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);scene,auth,raw,man=self.fixture(root)
+            scene["rig"]["bones"][0]["parent"]="not_the_locked_parent"
+            result=g.verify_scene(root,scene,auth,raw,man)
+            self.assertTrue(any("hierarchy differs" in x for x in result["blockers"]))
 
     def test_linked_library_blocks(self):
         with tempfile.TemporaryDirectory() as td:

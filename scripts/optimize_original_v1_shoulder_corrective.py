@@ -137,6 +137,9 @@ def main():
     Wt[:, trunk] = W[:, trunk]
     Wt = Wt / np.maximum(Wt.sum(axis=1, keepdims=True), 1e-9)
     rest_h = np.c_[rest, np.ones(nV)]
+    # Same-pose uncorrected LBS surface. P0 may already include corrective shape keys.
+    # The area barrier uses this surface so it can reopen an existing corrective-induced sliver.
+    PUNC = np.stack([np.einsum("vb,vbi->vi", W, np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h)) for p in range(nP)])
     PTR = np.stack([np.einsum("vb,vbi->vi", Wt[Z], np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h[Z])) for p in range(nP)])
     Hr = d["heads"][b["upperarm_r"]]
     rj = np.minimum(np.linalg.norm(rest[Z] - Hl, axis=1), np.linalg.norm(rest[Z] - Hr, axis=1))
@@ -167,14 +170,14 @@ def main():
         return n, n1, n2, (n1 * n2).sum(axis=1) / np.maximum(np.linalg.norm(n1, axis=1) * np.linalg.norm(n2, axis=1), 1e-18)
 
     FOLD = np.stack([np.minimum(0.2, dihedral(P0[p])[3] - 0.05) for p in range(nP)]) if a.w_fold > 0 else None
-    # signed projected face-area/orientation reference. A negative ratio means a face flipped;
-    # a small positive ratio means it collapsed into a sliver. This targets the r55 axilla-pit
-    # failure mode that edge-length and dihedral-only checks can miss.
+    # Signed projected face-area/orientation target against the SAME-POSE UNCORRECTED LBS surface.
+    # This is intentionally not P0: P0 may already contain the r55 sliver. A negative ratio
+    # means reversal relative to uncorrected LBS; a small positive ratio means collapse.
     AREA_N0 = AREA_DEN = None
     if a.w_area > 0:
         area_n0, area_den = [], []
         for p in range(nP):
-            A0_, B0_, C0_ = P0[p][Tz[:, 0]], P0[p][Tz[:, 1]], P0[p][Tz[:, 2]]
+            A0_, B0_, C0_ = PUNC[p][Tz[:, 0]], PUNC[p][Tz[:, 1]], PUNC[p][Tz[:, 2]]
             n0 = np.cross(B0_ - A0_, C0_ - A0_)
             area_n0.append(n0)
             area_den.append(np.maximum((n0 * n0).sum(axis=1), 1e-18))

@@ -95,7 +95,7 @@ The optimizer now supports `--mask-file <declaration.json>` to restrict the solv
 
 The face-area barrier is disabled by default, so historical results remain reproducible. For the new experiment, enable it explicitly and record every parameter in the solution manifest.
 
-The signed-area term must stop a triangle from becoming a near-zero-area sliver or flipping orientation even when all individual edge lengths remain inside the existing edge gates.
+The signed-area term must stop a triangle from becoming a near-zero-area sliver or flipping orientation even when all individual edge lengths remain inside the existing edge gates. Its reference is the same-pose **uncorrected LBS surface**, not r55's already-corrected surface, so it can actively reopen an existing r55 sliver rather than only prevent further collapse.
 
 Do not choose parameter values merely to make the aggregate development gate pass; r55 already passes that gate. Choose them to remove the visible fold while avoiding new severity regressions.
 

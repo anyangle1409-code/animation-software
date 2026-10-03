@@ -107,7 +107,7 @@ class FinalFreezeTests(unittest.TestCase):
             "phase_completion_records": {"4": {"candidate_sha256": sha}}
         }), encoding="utf-8")
         phase5_receipts = {}
-        previous_receipt_ref = None
+        previous_region_receipt_ref = None
         for check_id, region in phase_exit.PHASE5_REGION_CHECKS:
             region_report = {
                 "schema_version": 1,
@@ -121,7 +121,7 @@ class FinalFreezeTests(unittest.TestCase):
                 "development_freeze_candidate_sha256": sha,
                 "active_epoch_baseline_revision": "P3B1",
                 "active_epoch_baseline_candidate_sha256": "9" * 64,
-                "previous_region_receipt": copy.deepcopy(previous_receipt_ref),
+                "previous_region_receipt": copy.deepcopy(previous_region_receipt_ref),
             }
             region_report_path, region_report_ref = self.write(
                 root, f"phase5/{region}_report.json", region_report
@@ -139,11 +139,11 @@ class FinalFreezeTests(unittest.TestCase):
                 "plan": phase5_plan_ref,
                 "source_git_commit": source_commit,
             }
-            receipt_path, receipt_ref = self.write(
+            region_receipt_path, region_receipt_ref = self.write(
                 root, f"phase5/{region}_receipt.json", receipt
             )
-            phase5_receipts[check_id] = receipt_ref
-            previous_receipt_ref = receipt_ref
+            phase5_receipts[check_id] = region_receipt_ref
+            previous_region_receipt_ref = region_receipt_ref
 
         phase_refs = {}
         for phase in f.PHASES:

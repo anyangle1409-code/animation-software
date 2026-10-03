@@ -31,9 +31,12 @@ if defined BLENDER_EXE if exist "%BLENDER_EXE%" set "BLENDER=%BLENDER_EXE%"
 if not defined BLENDER for /f "delims=" %%I in ('where blender.exe 2^>nul') do if not defined BLENDER set "BLENDER=%%I"
 if not defined BLENDER for /f "delims=" %%I in ('dir /b /s "C:\Program Files\Blender Foundation\Blender *\blender.exe" 2^>nul') do if not defined BLENDER set "BLENDER=%%I"
 if not defined BLENDER ( echo ERROR: Blender not found & exit /b 2 )
+rem Optional denser arc training (default unchanged): AXILLA_PIT_ARC_FRACTIONS="0.0625,0.125,..." so the solver sees the same samples the face audit measures.
+set "ARC_FRACTIONS=0.25,0.375,0.5,0.625,0.75,0.875"
+if not "%AXILLA_PIT_ARC_FRACTIONS%"=="" set "ARC_FRACTIONS=%AXILLA_PIT_ARC_FRACTIONS%"
 set "DUMP=%TEMP%\hgpt_%SOURCE_REV%_%TARGET_REV%_axilla_sweep.npz"
 if exist "%DUMP%" del /q "%DUMP%"
-"%BLENDER%" --background --factory-startup "%BLEND%" --python-exit-code 1 --python scripts\dump_original_v1_arc_skinning_blender.py -- "%DUMP%" "0.25,0.375,0.5,0.625,0.75,0.875"
+"%BLENDER%" --background --factory-startup "%BLEND%" --python-exit-code 1 --python scripts\dump_original_v1_arc_skinning_blender.py -- "%DUMP%" "%ARC_FRACTIONS%"
 if errorlevel 1 goto :fail
 set "HOLD_ARG="
 if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" set "HOLD_ARG=--hold-region-min %AXILLA_PIT_HOLD_REGION_MIN%"

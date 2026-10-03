@@ -1,0 +1,14 @@
+{
+  "iters": 12,
+  "lam": 0.5,
+  "rings": 0,
+  "zone_vertices": 528,
+  "max_weight_change": 0.4284870218739582,
+  "clavicle_upperarm_edge_jump_mean_before": 0.10215913753077945,
+  "after": 0.06823756418604983,
+  "p90_before": 0.18763628520827358,
+  "p90_after": 0.12352611283163818,
+  "max_before": 0.6642072412113595,
+  "max_after": 0.25863497417166226,
+  "declaration_sha256": "c63c33519553ee8661542486c9dcd741a4234f64926394655723b068c6357f44"
+}

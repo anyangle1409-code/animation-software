@@ -8490,7 +8490,8 @@
       "full_evidence_receipt": {
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r73_evidence_manifest.json",
         "sha256": "46aadaeb45b99aa9cc6402956cb1860c5d98923e08fa875a12b88104a38f9834"
-      }
+      },
+      "milestone_review_location": "ORIGINAL_V1_WORK/candidates/review/milestone_r73/visual_review_manifest.json"
     }
   ]
 }

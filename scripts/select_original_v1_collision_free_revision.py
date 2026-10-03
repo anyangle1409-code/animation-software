@@ -10,6 +10,7 @@ import argparse
 import json
 from pathlib import Path
 import re
+import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 CAND=ROOT/"ORIGINAL_V1_WORK"/"candidates"
@@ -68,7 +69,7 @@ def main()->int:
         print(result["selected_revision"] if args.plain else json.dumps(result,indent=2))
         return 0
     except (OSError,ValueError,TypeError) as exc:
-        print("STOP — "+str(exc))
+        print("STOP — "+str(exc), file=sys.stderr)
         return 2
 
 

@@ -101,6 +101,20 @@ The signed-area term must stop a triangle from becoming a near-zero-area sliver 
 
 Do not choose parameter values merely to make the aggregate development gate pass; r55 already passes that gate. Choose them to remove the visible fold while avoiding new severity regressions.
 
+### Optional deterministic three-point sweep
+
+Preferred first pass when laptop time is limited:
+
+```bat
+RUN_ORIGINAL_V1_AXILLA_PIT_SWEEP.bat r55 r56
+```
+
+It creates one verified Blender arc dump and reuses it for three pure-Python area-barrier solves at 0.25×, 1× and 4× the established edge-hinge weight. The bracket is search instrumentation, not a new acceptance threshold.
+
+A trial is rejected before candidate creation if it introduces face flips, increases below-area faces, exceeds the existing project comparison tolerances for edge severity, worsens torso drift, or lowers the minimum signed face area. Surviving trials are selected deterministically for **apply/full validation only**; this is never owner acceptance or production promotion.
+
+All trial NPZ/JSON files and `selection.json` are preserved under `repair_preparation/<rev>_axilla_pit_declared/numeric_trials/`. Only a numerically safe selected trial is copied into the canonical incremental-solution paths used by the apply runner.
+
 ### Deterministic local solve/apply
 
 After Step A:

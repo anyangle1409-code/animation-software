@@ -130,6 +130,8 @@ def verify_receipt(root: Path, receipt: dict, expected_candidate_sha: str | None
         if (receipt.get("schema_version") != 1 or receipt.get("phase") != 9 or
             receipt.get("phase_complete") is not False or receipt.get("production_approved") is not False):
             issues.append("Phase 9 receipt identity/schema differs")
+        if receipt.get("contract_status") != "PHASE9_VALIDATION_VERIFIED" or receipt.get("issues") not in ([], None):
+            issues.append("Phase 9 receipt is not a verified clear contract")
         if not re.fullmatch(r"[0-9a-f]{64}", str(candidate or "")):
             issues.append("Phase 9 candidate SHA invalid")
         if expected_candidate_sha is not None and candidate != expected_candidate_sha:

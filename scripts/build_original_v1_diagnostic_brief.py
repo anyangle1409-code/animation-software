@@ -118,7 +118,7 @@ def _summarize(grip,edges,primary,sha,script_sha,profile):
         'edit_authorised':False,'production_approved':False,'visual_review_available':False,
         'limits':['Inspection IDs are not an edit mask or correspondence proof.',
             'A single candidate probe cannot prove weight independence or distinguish rest/pose/frame/geometry causes.',
-            'Development-clear edge rows can still contain strict R2 regressions; use all committed comparisons.',
+            'Development-clear edge rows can still contain strict active-epoch regressions; use the machine-selected immutable epoch baseline plus committed lineage comparisons.',
             'No model, weights, rig, poses, handle frames, baseline or thresholds are changed.']}
 
 
@@ -137,8 +137,9 @@ def markdown(result):
             f"Measured ratio: {r['extreme_ratio']}; development limit: {r['development_limit']}; coarse failure: {r['development_failed']}.",
             'Inspection vertex IDs: '+', '.join(map(str,r['inspection_vertex_ids']))+'.',
             'Read `'+r['work_package']+'`. Inspect coordinates, weights and mirror-edge rows in the JSON; record a separate bilateral permitted edit mask before any repair.','']
+    baseline=result.get('active_epoch_baseline_revision','machine-selected active epoch baseline')
     lines += ['## Required continuation','',
-        'Preserve R2, r28, r29 and direct-parent comparisons. Run focused checks, full 15-pose evidence and mesh/weight audits for every NEW repair candidate. Publish actual review images; pending review does not stop safe work.','',
+        f'Preserve the active immutable stress-pose epoch baseline ({baseline}), direct-parent comparison and any specifically relevant committed historical controls. Do not hard-code R2/r28/r29 as current requirements. Run focused checks, full 15-pose evidence and mesh/weight audits for every NEW repair candidate. Publish actual review images; pending review does not stop safe work.','',
         'Source references:',*[f"- `{r['path']}` / `{r['sha256']}`" for r in result['source_evidence']], '',
         *['- '+s for s in result['limits']],'']
     return '\n'.join(lines)
@@ -159,6 +160,8 @@ def main():
             json.loads((ROOT/report).read_text()),state['last_known_candidate_sha256'],digest(ROOT/script),
             json.loads((ROOT/spec).read_text())['profiles']['development_blocker'])
         result['candidate_revision']=args.revision
+        result['active_epoch_baseline_revision']=state['pinned_baseline']['revision']
+        result['active_epoch_baseline_candidate_sha256']=state['pinned_baseline'].get('candidate_sha256')
         result['source_evidence']=[evidence(ROOT,p.relative_to(ROOT).as_posix()) for p in paths]+[evidence(ROOT,p) for p in (report,spec,script)]
         destinations[0].write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
         destinations[1].write_text(markdown(result),encoding='utf-8')

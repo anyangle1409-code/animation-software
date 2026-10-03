@@ -70,6 +70,26 @@
       "state": "active",
       "reason": "Core deformation foundation still under repair."
     },
+    "3A": {
+      "state": "complete",
+      "reason": "Development clear; inherited R2 severity regressions remain separate."
+    },
+    "3B": {
+      "state": "complete",
+      "reason": "Recover finger minima without losing curl_peak clearance."
+    },
+    "3C": {
+      "state": "complete",
+      "reason": "Bilateral equipment penetration must satisfy unchanged gates."
+    },
+    "3D": {
+      "state": "complete",
+      "reason": "Local wrist-extension severity regression versus R2."
+    },
+    "3E": {
+      "state": "complete",
+      "reason": "Lunge pelvis/torso collapse and stretch; repair local hip transition."
+    },
     "4": {
       "state": "not_started",
       "reason": "Required ordered exit evidence has not been recorded."
@@ -105,26 +125,6 @@
     "12": {
       "state": "not_started",
       "reason": "Required ordered exit evidence has not been recorded."
-    },
-    "3A": {
-      "state": "complete",
-      "reason": "Development clear; inherited R2 severity regressions remain separate."
-    },
-    "3B": {
-      "state": "complete",
-      "reason": "Recover finger minima without losing curl_peak clearance."
-    },
-    "3C": {
-      "state": "complete",
-      "reason": "Bilateral equipment penetration must satisfy unchanged gates."
-    },
-    "3D": {
-      "state": "complete",
-      "reason": "Local wrist-extension severity regression versus R2."
-    },
-    "3E": {
-      "state": "complete",
-      "reason": "Lunge pelvis/torso collapse and stretch; repair local hip transition."
     },
     "5A": {
       "state": "not_started",
@@ -183,11 +183,11 @@
       "name": "press_top",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 95,
-      "candidate": 178,
-      "delta": 83,
+      "baseline": 95.0,
+      "candidate": 178.0,
+      "delta": 83.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -227,11 +227,11 @@
       "name": "press_top_rhythm",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 54,
-      "candidate": 164,
-      "delta": 110,
+      "baseline": 54.0,
+      "candidate": 164.0,
+      "delta": 110.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -271,11 +271,11 @@
       "name": "pullup_bar",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 4,
-      "candidate": 98,
-      "delta": 94,
+      "baseline": 4.0,
+      "candidate": 98.0,
+      "delta": 94.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -326,11 +326,11 @@
       "name": "pullup_hang",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 4,
-      "candidate": 98,
-      "delta": 94,
+      "baseline": 4.0,
+      "candidate": 98.0,
+      "delta": 94.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -370,11 +370,11 @@
       "name": "pullup_hang_rhythm",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 0,
-      "candidate": 134,
-      "delta": 134,
+      "baseline": 0.0,
+      "candidate": 134.0,
+      "delta": 134.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -447,11 +447,11 @@
       "name": "pushup_bottom",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 158,
-      "candidate": 164,
-      "delta": 6,
+      "baseline": 158.0,
+      "candidate": 164.0,
+      "delta": 6.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -480,11 +480,11 @@
       "name": "squat_bottom",
       "region": null,
       "metric": "self_intersecting_face_pairs",
-      "baseline": 108,
-      "candidate": 134,
-      "delta": 26,
+      "baseline": 108.0,
+      "candidate": 134.0,
+      "delta": 26.0,
       "direction": "lower_is_better",
-      "tolerance": 5
+      "tolerance": 5.0
     },
     {
       "kind": "severity",

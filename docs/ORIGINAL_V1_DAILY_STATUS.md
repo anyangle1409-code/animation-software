@@ -29,7 +29,7 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
+RECONCILE freeze regressions — zero blockers is insufficient for strict freeze; inherited R2 regressions remain
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

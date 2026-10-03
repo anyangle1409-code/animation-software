@@ -15,6 +15,11 @@ if not defined TARGET_REV (
   echo ERROR: could not select a collision-free target revision.
   exit /b 2
 )
+echo %TARGET_REV%| findstr /r /x "r[0-9][0-9]*" >nul
+if errorlevel 1 (
+  echo ERROR: selector returned invalid target "%TARGET_REV%".
+  exit /b 2
+)
 
 echo Selected collision-free target: %TARGET_REV%
 call RUN_ORIGINAL_V1_AXILLA_PIT_PIPELINE.bat %SOURCE_REV% %TARGET_REV%

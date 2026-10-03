@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Read-only Phase 4 development-freeze eligibility preflight for ORIGINAL v1."""
+from __future__ import annotations
+import argparse, json, re
+from pathlib import Path
+from original_v1_production_control import ROOT, CAND, build, digest, read
+
+def assess(state, control, root=ROOT, require_local_blend=False):
+    issues=[]
+    rev=state.get("current_candidate")
+    sha=state.get("last_known_candidate_sha256")
+    baseline=(state.get("pinned_baseline") or {}).get("revision")
+    if not isinstance(rev,str) or not re.fullmatch(r"r\d+",rev):
+        issues.append("numbered current candidate required")
+    if not isinstance(sha,str) or not re.fullmatch(r"[0-9a-f]{64}",sha):
+        issues.append("current candidate SHA-256 invalid")
+    if state.get("candidate_state")=="rejected":
+        issues.append("current candidate is rejected")
+    if state.get("incomplete_candidates"):
+        issues.append("newer incomplete candidate work remains")
+    if state.get("development_failure_count")!=0:
+        issues.append("development failures remain")
+    if state.get("unresolved_regressions"):
+        issues.append("strict severity regressions remain")
+    phases=state.get("phases",{})
+    for p in ("3A","3B","3C","3D","3E"):
+        if phases.get(p,{}).get("state")!="complete":
+            issues.append(f"Phase {p} is not complete")
+    if phases.get("4",{}).get("state")=="complete":
+        issues.append("Phase 4 is already recorded complete for this state")
+    decision=(control.get("continuation_decisions") or {}).get(rev,{})
+    if decision.get("candidate_sha256")!=sha:
+        issues.append("continuation decision is missing/stale for current candidate")
+    nxt=(state.get("next_action") or {}).get("action")
+    if nxt!="ENTER development freeze validation":
+        issues.append("production control does not select ENTER development freeze validation")
+    refs={x.get("path") for x in state.get("latest_evidence",[]) if isinstance(x,dict)}
+    if rev:
+        if f"ORIGINAL_V1_WORK/candidates/repair_checks/full_{rev}_evidence_manifest.json" not in refs:
+            issues.append("verified full-evidence receipt missing from current evidence")
+        if baseline and f"ORIGINAL_V1_WORK/candidates/repair_checks/full_{rev}_comparison_vs_{baseline}.json" not in refs:
+            issues.append("active epoch-baseline comparison missing from current evidence")
+    if require_local_blend and rev and sha:
+        blend=root/CAND/f"HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.blend"
+        if not blend.is_file():
+            issues.append("local candidate Blend is not present")
+        elif digest(blend)!=sha:
+            issues.append("local candidate Blend hash differs from committed identity")
+    return {
+        "schema_version":1,
+        "candidate":rev,
+        "candidate_sha256":sha,
+        "active_pinned_baseline":baseline,
+        "eligibility":"ELIGIBLE_FOR_PHASE4_VALIDATION" if not issues else "PHASE4_BLOCKED",
+        "issues":list(dict.fromkeys(issues)),
+        "production_approved":False,
+        "note":"Read-only eligibility preflight. It does not create a freeze record, execute replay/audits, or approve production.",
+    }
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--require-local-blend",action="store_true")
+    ap.add_argument("--json-out",type=Path)
+    a=ap.parse_args()
+    try:
+        state,_=build(ROOT)
+        control=read(ROOT,"ORIGINAL_V1_PRODUCTION_CONTROL.json")
+        result=assess(state,control,ROOT,a.require_local_blend)
+        if a.json_out:
+            if a.json_out.exists():
+                raise ValueError("preflight output collision")
+            a.json_out.parent.mkdir(parents=True,exist_ok=True)
+            a.json_out.write_text(json.dumps(result,indent=2)+"\n",encoding="utf-8")
+        print(json.dumps(result,indent=2))
+        return 0 if result["eligibility"]=="ELIGIBLE_FOR_PHASE4_VALIDATION" else 1
+    except (OSError,ValueError,KeyError,TypeError) as exc:
+        print(json.dumps({"eligibility":"PHASE4_BLOCKED","issues":[str(exc)],"production_approved":False},indent=2))
+        return 2
+
+if __name__=="__main__":
+    raise SystemExit(main())

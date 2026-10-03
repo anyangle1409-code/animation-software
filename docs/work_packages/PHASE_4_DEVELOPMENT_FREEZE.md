@@ -1,13 +1,19 @@
 # PHASE 4 — DEVELOPMENT DEFORMATION FREEZE
 
-PREPARED ONLY. Do not execute freeze on r29: seven blockers and six strict R2
-regressions remain. Use the machine-selected latest complete experimental candidate.
-R2 remains the pinned BASELINE throughout. DEVELOPMENT CLEAR is not production approval.
+PREPARED ONLY. Execute only when evidence-led production control selects
+`ENTER development freeze validation` for the machine-selected latest complete
+experimental candidate. Never hard-code an old revision or baseline: use the current
+candidate and its active stress-pose epoch baseline from generated status. Historical
+R2/P2B1/P3B1 pins remain immutable history, but the active comparison baseline is the
+one selected for the current candidate. DEVELOPMENT CLEAR is not production approval.
 
 ## Entry and permitted scope
 
 Read live branch HEAD, master plan, machine status, daily dashboard and O4 handoff.
-Require zero development failures, no unresolved strict regressions, all Phase 3
+First run `RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat`; it is read-only and fails closed
+unless the current candidate, active epoch baseline, continuation lineage, complete
+full-evidence receipt and local candidate bytes all agree. Require zero development
+failures, no unresolved strict regressions, all Phase 3
 subphases clear, complete predecessor/source evidence and reconciled continuation
 lineage. If selector does not say ENTER development freeze validation, continue its
 Phase 3 task. Pending routine owner review never blocks safe evidence collection.
@@ -25,8 +31,10 @@ Replace `<rN>` with the machine-selected candidate; use fresh output paths.
    `python scripts/select_original_v1_next_action.py`. Check clean/live state and
    local candidate bytes. Connect AC where practical; unknown power is not proof
    of availability. Preserve all existing partial/new work.
-2. Read full development report and every R2/direct-parent/frozen-predecessor
-   comparison. Recompute with `python scripts/build_original_v1_daily_status.py --check`.
+2. Read the full development report and every active-epoch-baseline/direct-parent/
+   frozen-predecessor comparison. Historical baseline evidence remains preserved; do
+   not substitute R2 for the current epoch baseline. Recompute with
+   `python scripts/build_original_v1_daily_status.py --check`.
    Zero failures cannot hide individual severity regressions or trade-offs.
 3. Repeat all 15 existing poses in a separate Blender invocation:
    `python scripts/verify_original_v1_replay.py <rN> --capture --json-out ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_<rN>/numeric_replay_verification.json`.
@@ -45,8 +53,9 @@ Replace `<rN>` with the machine-selected candidate; use fresh output paths.
    `docs/ORIGINAL_V1_VISUAL_REVIEW_SPEC.md`. Mark owner_review pending/NON-BLOCKING,
    record candidate SHA and source JSON, commit/push imagery and continue.
 7. Pin a NEW development-freeze record. Record candidate revision/SHA, exact
-   candidate manifest and metrics references, original R2 identity, original frozen
-   rig/gate/pose input hashes, replay and audit references, protected scopes and
+   candidate manifest and metrics references, active epoch-baseline identity plus
+   historical baseline lineage, frozen rig/gate/pose input hashes, replay and audit
+   references, protected scopes and
    permitted next work. This record pins a comparison candidate; it does not replace
    R2 or promote production. Keep every prior freeze/rejection in history.
 8. Prepare the phase exit packet:
@@ -81,8 +90,9 @@ local repair/diagnostic work. Do not weaken a gate or silently promote a trade-o
 ## After freeze
 
 Prepare/execute Phase 5 region packages in order only with a sufficiently stable
-recorded foundation. Later candidates must compare against R2, the immutable
-recorded development-freeze candidate and their direct parent, plus local audits.
+recorded foundation. Later candidates must compare against the applicable active epoch baseline, the immutable
+recorded development-freeze candidate and their direct parent, plus local audits. Historical
+baseline pins remain preserved and are never rewritten.
 A changed candidate invalidates an old candidate-bound exit report: revalidate the
 current revision and write a new report while preserving the original freeze pin.
 Never rewrite a pinned freeze candidate to follow anatomy experiments. Review

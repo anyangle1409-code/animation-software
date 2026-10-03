@@ -48,6 +48,8 @@ def main():
     ap.add_argument("--area-min",type=float,default=0.20)
     ap.add_argument("--area-multipliers",default="0.25,1,4")
     ap.add_argument("--hinge-weight",type=float,default=20000.0)
+    ap.add_argument("--contact-guard",action="store_true",
+                    help="with --hold-region-min: also enable the no-new-contact barrier in the hold trial family (guards against new self-intersections)")
     ap.add_argument("--hold-region-min",type=float,default=None,
                     help="optional extra trial family: also hold each region's current minimum edge ratio (minus this margin) in every pose; selection rules are unchanged")
     ap.add_argument("--canonical-solution",type=Path); ap.add_argument("--canonical-report",type=Path)
@@ -78,6 +80,9 @@ def main():
              "--json-out",str(report)]
         if hold is not None:
             cmd += ["--hold-region-min",str(hold)]
+            if a.contact_guard:
+                # no-new-contact barrier (non-neighbouring mask vertices may not approach closer than in the same-pose base surface)
+                i=cmd.index("--w-prox"); cmd[i+1]="3000000"; cmd += ["--prox-d","0.02"]
         p=subprocess.run(cmd,cwd=ROOT)
         if p.returncode: raise SystemExit(f"trial {label} failed with exit code {p.returncode}")
         m=collect(load(report))

@@ -343,14 +343,46 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r68_pit_knot_weights_declared/pit_knot_zone_declared_before_solve.json"
         }
       ]
+    },
+    "r72": {
+      "candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
+      "chosen_parent": "r69",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval. r72 = r69 + one incremental LOCAL axilla corrective produced by the guarded pipeline (RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69 with AXILLA_PIT_RINGS=0 and AXILLA_PIT_HOLD_REGION_MIN=0.015): declared 116 left-owned pit vertices (232 with mirror) before the solve, signed-area/orientation target against the SAME-POSE UNCORRECTED LBS surface, regional-minimum hold (each region minimum may drop at most 0.015), numeric pre-apply selection with all comparator-tolerance rules unchanged. Refused attempts are preserved (r70 prep refused on the 180-vertex cap with the default 1 ring; r71 trials all rejected for an edge-minimum drop of 0.09-0.12 against the 0.02 tolerance); the hold trial family was added after that evidence. Measured under P3: 0 development failures; 1 strict regression versus the direct parent r69 (press_top self-intersections 126 -> 134, tolerance +5); 23 strict regressions versus P3B1 (same set as r69). Post-edit declared-face audit: LOCAL_FACE_REVIEW_REQUIRED (at most 2 flipped faces and 2 below-area faces per arc sample; some thin faces remain), not numeric-clear. Real renders: visually almost identical to r69 - the small pointed tip at the front pit top remains. NOT eligible for Phase 4 freeze: unresolved strict regressions versus P3B1 and a residual local face finding. Next: contact-guarded local trial family from r72.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_comparison_vs_r69.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r72_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r72/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r72/post_edit_face_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r72_axilla_pit_declared/axilla_pit_mask_declared_before_edit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r72_axilla_pit_declared/numeric_trials/selection.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r72.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r69",
-    "candidate_sha256": "1c433f90a2e88a200357e97402dc409faab506b810c3811ad6552f66c9832215",
+    "candidate_revision": "r72",
+    "candidate_sha256": "c762336c9f2b8922d966a06374519d86db835d862f7b73f7a2a5513644a3446e",
     "action": "RUN local axilla repair",
-    "reason": "r69 supersedes r55 (local knot weight edit plus re-fitted corrective; 0 development failures, 23 vs 31 strict P3B1 regressions) but real renders still show one small pointed tip at the front pit top; complete the declared local repair before freeze reconciliation",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r69",
+    "reason": "r72 is development-clear and improves the declared local face statistics over r69, but one strict regression versus its direct parent (press_top self-intersections +8) and a LOCAL_FACE_REVIEW_REQUIRED face audit remain, and real renders still show the small pointed tip at the front pit top; run the contact-guarded local trial family before freeze reconciliation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

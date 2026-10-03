@@ -29,7 +29,9 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RECONCILE trial lineage — record evidence-backed continuation choice; a trade-off is not auto-promoted
+RUN local axilla repair — r72 is development-clear and improves the declared local face statistics over r69, but one strict regression versus its direct parent (press_top self-intersections +8) and a LOCAL_FACE_REVIEW_REQUIRED face audit remain, and real renders still show the small pointed tip at the front pit top; run the contact-guarded local trial family before freeze reconciliation
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r72`
+Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

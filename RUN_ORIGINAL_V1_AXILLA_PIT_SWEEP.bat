@@ -37,6 +37,7 @@ if exist "%DUMP%" del /q "%DUMP%"
 if errorlevel 1 goto :fail
 set "HOLD_ARG="
 if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" set "HOLD_ARG=--hold-region-min %AXILLA_PIT_HOLD_REGION_MIN%"
+if not "%AXILLA_PIT_HOLD_REGION_MIN%"=="" if /I "%AXILLA_PIT_CONTACT_GUARD%"=="1" set "HOLD_ARG=%HOLD_ARG% --contact-guard"
 python scripts\run_original_v1_axilla_trial_sweep.py "%DUMP%" "%DECL%" "%TRIALS%" --canonical-solution "%SOL%" --canonical-report "%REPORT%" %HOLD_ARG%
 if errorlevel 1 goto :fail
 if exist "%DUMP%" del /q "%DUMP%"

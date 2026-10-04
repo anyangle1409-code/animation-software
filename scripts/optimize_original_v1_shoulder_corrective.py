@@ -73,6 +73,7 @@ def main():
     ap.add_argument("--pen-radius", type=float, default=0.05, help="only vertex/triangle pairs closer than this (posed) are constrained")
     ap.add_argument("--pen-rest-min", type=float, default=0.03, help="vertex/triangle pairs closer than this at rest are neighbours on the same surface and are skipped")
     ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
+    ap.add_argument("--region-floor", default=None, help="comma list region:ratio (e.g. arm:0.765,torso:0.684): absolute minimum edge ratio for mask edges of that region in EVERY pose (no pose names), enforced with the --w-hold hinge; needs --w-hold")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
     ap.add_argument("--hold-region-min", type=float, default=None, help="regional-minimum guard: mask edges may not shorten below (that region's current whole-mesh minimum edge ratio in that pose) minus this margin")
@@ -198,6 +199,19 @@ def main():
             LLO = np.maximum(LLO, LLO_H)
             LHI = np.minimum(LHI, LHI_H)
             LLO_H = LHI_H = None
+    if a.region_floor:
+        if a.w_hold is None:
+            raise SystemExit('--region-floor needs --w-hold')
+        EA, EB = E[:, 0], E[:, 1]
+        reg_e2 = np.where(region[EA] == region[EB], region[EA], -1)
+        reg_m2 = reg_e2[in_mask[EA] | in_mask[EB]]
+        if LLO_H is None:
+            LLO_H = np.full(cur.shape, -1e9)
+            LHI_H = np.full(cur.shape, 1e9)
+        for item in a.region_floor.split(','):
+            rname, fl = item.split(':')
+            sel2 = reg_m2 == rn.index(rname)
+            LLO_H[:, sel2] = np.maximum(LLO_H[:, sel2], np.log(float(fl)))
     # smoothness edges (inside the mask, on the net field)
     Es = E[in_mask[E[:, 0]] & in_mask[E[:, 1]]]
     Esz0, Esz1 = np.array([zpos[int(v)] for v in Es[:, 0]]), np.array([zpos[int(v)] for v in Es[:, 1]])

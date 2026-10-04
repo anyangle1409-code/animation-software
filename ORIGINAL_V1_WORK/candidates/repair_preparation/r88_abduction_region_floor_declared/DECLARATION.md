@@ -1,0 +1,11 @@
+# r88 - abduction corrective re-solved with absolute per-region edge-ratio floors (declaration before any solve)
+
+Retained fallback: r87 (SHA 019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc; 4 strict P3B1 regressions). Skeleton 67 bones, weights, flexion keys and the frozen P3a pose-definition hash are not touched.
+
+Target regressions (treated separately first): (1) press_top arm region minimum edge ratio 0.745 vs P3B1 0.780 (needs >= 0.760); (2) pullup_top torso region minimum 0.669 vs 0.693 (needs >= 0.673).
+
+Diagnosis (scratchpad worst_edges.py, saved here): (1) the worst press_top arm edges (7289 / 4211, rest midpoint (+-0.189, -0.014, 1.350), upper-arm-weighted 0.85 with scapula 0.07 / clavicle 0.06) are STRETCHED 1.294 by the weights alone and COMPRESSED to 0.745 in r87: the compression is created by the abduction corrective (theta 166 deg, lam 1.0, activation 1.0). (2) The worst pullup_top torso edges (28684 / 10770, midpoint (+-0.169, -0.017, 1.403), upper-arm 0.49 / scapula 0.25 / spine_03 0.16) are 0.680 from the weights alone and 0.669 in r87: weights are 0.007 above the target, the corrective adds 0.011. Both edge sets are inside the existing mask and inside the dilated weight zone.
+
+Driver and mask: unchanged from r83 (humerothoracic elevation theta, smoothstep 40-150 deg, times abduction fraction lam; the same 1491 left-owned vertices, mask file in this folder). No pose name appears in the change.
+
+Edit: the abduction corrective is re-solved from the weights-only dump (r81_arc_dump.npz) with all r83 arguments plus --region-floor, an absolute minimum edge ratio for MASK edges of a region in EVERY pose (hinge weight 1e6 like the regional hold guards): probe A arm:0.765; probe B torso:0.684; probe C both. Hypothesis: the corrective currently trades arm/torso compression for the contact/fold/self-intersection barriers; a floor slightly above the P3B1 threshold makes it find another displacement that does not compress these edges. Screen first (numpy-solve then metrics-only 15-pose test); formalise only if strictly preferable to r87 (fewer strict P3B1 regressions, no new one, SI <= P3B1, squat gains kept). If a floor cannot be met without an offsetting regression the line is stopped and the negative evidence kept.

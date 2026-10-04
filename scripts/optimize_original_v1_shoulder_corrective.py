@@ -38,7 +38,7 @@ def main():
     ap.add_argument("dump")
     ap.add_argument("out")
     ap.add_argument("--driver", choices=("abduction", "flexion"), default="abduction", help="abduction: activation = smoothstep(theta) * lam (default, r69-r83); flexion: smoothstep(theta) * (1 - lam), a separate key pair for forward-flexed arms")
-ap.add_argument("--theta0", type=float, default=40.0)
+    ap.add_argument("--theta0", type=float, default=40.0)
     ap.add_argument("--theta1", type=float, default=150.0)
     ap.add_argument("--declare-mask")
     ap.add_argument("--mask-file", help="restrict solve to left_owned_vertex_ids from an existing pre-edit declaration")

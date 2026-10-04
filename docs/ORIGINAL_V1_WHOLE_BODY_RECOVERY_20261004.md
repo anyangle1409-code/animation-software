@@ -81,3 +81,67 @@ No development freeze or later phase may be treated as anatomically accepted unt
 ## Immediate restart point
 
 Open the exact r95 candidate in Blender 5.2 and reproduce the committed overhead press, neutral shoulder and grip views. Confirm the six corrective keys and P3a driver values in each pose. Do not modify weights, shape keys, topology or gates until the failing contribution has been isolated.
+
+## Investigation checkpoint — production-path reproduction
+
+Blender 5.2.1 LTS loaded the recovered r95 candidate and passed the candidate smoke inspection:
+
+- candidate hash matched `8a39a22d...8403bdd`;
+- rig identity `hgpt_canonical_v4_original`;
+- rig revision `rev2_forearm_twist_only`;
+- 67 bones / 66 deform bones;
+- no linked libraries;
+- source scene was not saved or modified.
+
+The P3a pose renderer regenerated neutral, press-top and curl-handle milestone images. Pixel comparison of the regenerated images against the committed r95 milestone PNGs returned no differing pixel for the two shoulder views, press-top three-quarter view or curl-handle three-quarter view. Therefore the owner-rejected appearance is present in the exact frozen candidate and exact production deformation path. It is not an obsolete screenshot, omitted driver or rendering mismatch.
+
+The Windows `python` command is an unavailable Store alias on this laptop. Use the bundled workspace Python at `C:/Users/Mark/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe`, or Blender's Python where appropriate. Blender is at `C:/Program Files/Blender Foundation/Blender 5.2/blender.exe`.
+
+## Investigation checkpoint — corrective-layer isolation
+
+The four high-elevation shoulder poses were rendered from r95 with scene driver configurations disabled in memory. No Blend was saved.
+
+| State | Press-top volume | Compressed edges | Stretched edges | Self-intersections | Visual result |
+|---|---:|---:|---:|---:|---|
+| weights only | 1.0095 | 648 | 853 | 58 | very large lateral torso/axilla wing pulled toward the raised arm |
+| abduction corrective only | 1.0050 | 548 | 877 | 30 | wing folded inward, but deep pec/axilla scoop and membrane introduced |
+| scapular corrective only | 1.0023 | 658 | 859 | 58 | wing reduced to a smaller pointed flap; underlying ownership remains wrong |
+| all r95 correctives | 0.9958 | 556 | 865 | 30 | external wing mostly hidden, but scoop, trench, membrane and pec collapse remain |
+
+The forward-flexion corrective is effectively inactive in the press-top abduction plane, as expected from the driver definition.
+
+### Root-cause conclusion
+
+The first failing boundary is the underlying shoulder/torso skin-weight and support structure. The base weights create the large wing. The abduction and scapular correctives compensate for that wing rather than deforming an anatomically supported anterior/posterior axillary structure. Their combined result trades the external wing for the owner-rejected trench, membrane, chest transport and volume collapse.
+
+This is an architectural limit of the current correction stack, not a single bad threshold. The r49-r95 history already contains many local corrective attempts with migrating trade-offs. Do not add another local patch to r95.
+
+## Selected recovery architecture
+
+The owner delegated model control and requested unattended progress, so the recovery uses the evidence-selected foundational option:
+
+1. Preserve r95 unchanged as the frozen comparator.
+2. Rebuild the shoulder-yoke/axilla foundation in a new candidate with explicit anterior fold, posterior fold, deltoid/pec transition and thoracic support zones.
+3. Re-solve local weights against clavicle, scapula, thorax and humerus motion before fitting new correctives.
+4. Fit generic motion-driven correctives only after the weights-only surface forms plausible folds throughout the elevation arc.
+5. Validate against real-human references and the complete movement/regression matrix.
+
+Rejected alternatives:
+
+- continuing directly into cosmetic Phase 5 sculpting on r95, because the weights-only deformation is already structurally wrong;
+- adding another r95 corrective, because previous layers conceal one failure by producing another;
+- weakening gates or accepting the defect, because the owner explicitly rejected the visual result.
+
+## Power-loss / phone continuation
+
+Authoritative branch: `codex/whole-body-deformation-recovery-20261004`.
+
+On any other device or session:
+
+1. fetch that branch;
+2. read this file before acting;
+3. preserve r95 and all historical evidence;
+4. continue read-only evidence collection or design work if the exact local Blend is unavailable;
+5. do not claim a model correction without a new candidate, production-path renders and complete regression evidence.
+
+Next laptop action: add a read-only deformation-layer diagnostic that records corrective activation and per-zone vertex displacement through the arm-elevation arc, then declare the first anatomical shoulder-yoke repair scope before any mesh or weight edit.

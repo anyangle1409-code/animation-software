@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_HUMAN_MOTION_REALISM_AUDIT",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "production_approved": false,
+  "purpose": "Candidate-bound whole-body visual/anatomical motion realism audit. Additive to existing numerical deformation/contact gates.",
+  "invariants": [
+    "Do not modify or re-pin R2, P2B1, P3B1 or Phase 4 freeze evidence.",
+    "Do not weaken acceptance thresholds, contact tolerances or frozen poses.",
+    "No V-series or third-party geometry, weights, bind data, textures, scans, projection or transferred implementation data.",
+    "External human references are observation evidence only.",
+    "Owner review remains distinct from engineering verification."
+  ],
+  "severities": {
+    "CRITICAL": {
+      "blocks": true,
+      "meaning": "Visually impossible, mechanically broken or contact-destroying deformation."
+    },
+    "HIGH": {
+      "blocks": true,
+      "meaning": "Clearly non-human anatomy visible at ordinary review distance or severe motion pop/collapse."
+    },
+    "MEDIUM": {
+      "blocks": false,
+      "requires_disposition": true,
+      "meaning": "Noticeable secondary-form or close-view realism defect."
+    },
+    "LOW": {
+      "blocks": false,
+      "requires_disposition": false,
+      "meaning": "Minor tertiary/presentation issue without meaningful motion consequence."
+    }
+  },
+  "required_states": [
+    "neutral",
+    "lengthened_or_elevated",
+    "compressed_or_loaded",
+    "intermediate_transition"
+  ],
+  "realism_dimensions": [
+    "skeletal_plausibility",
+    "volume_behaviour",
+    "soft_tissue_sliding",
+    "fold_crease_behaviour",
+    "silhouette_continuity",
+    "surface_continuity",
+    "motion_continuity",
+    "contact_load_response"
+  ],
+  "regions": [
+    {
+      "id": "head_neck_trap",
+      "name": "Head / neck / trapezius",
+      "transitions": [
+        "jaw-neck",
+        "SCM-clavicle",
+        "cervical-trapezius"
+      ],
+      "movement_families": [
+        "neutral_control",
+        "overhead_push",
+        "vertical_pull",
+        "horizontal_pull",
+        "trunk_flexion_extension"
+      ],
+      "expected": [
+        "neck mass remains continuous through head/torso motion",
+        "trapezius changes contour without a rigid collar or rear shelf",
+        "no cervical pinching or hollowing"
+      ]
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "name": "Clavicle / shoulder / deltoid",
+      "transitions": [
+        "clavicle-acromion",
+        "deltoid-upperarm",
+        "deltoid-pectoral",
+        "deltoid-posterior_axilla"
+      ],
+      "movement_families": [
+        "overhead_push",
+        "vertical_pull",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "expected": [
+        "humeral cap remains rounded and attached",
+        "clavicular/acromial landmarks stay plausible",
+        "no cap collapse, shelf, dislocation look or popping"
+      ]
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "name": "Chest / pectorals / anterior axilla",
+      "transitions": [
+        "sternum-pectoral",
+        "pectoral-deltoid",
+        "pectoral-anterior_axillary_fold",
+        "chest-ribcage"
+      ],
+      "movement_families": [
+        "overhead_push",
+        "vertical_pull",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "expected": [
+        "pectoral mass stays continuous with chest",
+        "anterior axillary fold rises/changes angle with humeral elevation",
+        "axillary hollow changes continuously rather than forming a rigid tunnel"
+      ]
+    },
+    {
+      "id": "back_posterior_axilla",
+      "name": "Scapular back / lats / posterior axilla",
+      "transitions": [
+        "scapula-trapezius",
+        "lat-posterior_axillary_fold",
+        "lat-triceps",
+        "thoracic-lumbar"
+      ],
+      "movement_families": [
+        "overhead_push",
+        "vertical_pull",
+        "horizontal_pull",
+        "horizontal_push"
+      ],
+      "expected": [
+        "back drape follows scapular/arm motion",
+        "posterior axillary fold stays continuous",
+        "no floating lobe, rear shelf or fixed crease"
+      ]
+    },
+    {
+      "id": "ribcage_abdomen_lumbar",
+      "name": "Ribcage / abdomen / obliques / lumbar",
+      "transitions": [
+        "ribcage-waist",
+        "rectus-oblique",
+        "oblique-iliac",
+        "thoracic-lumbar"
+      ],
+      "movement_families": [
+        "neutral_control",
+        "overhead_push",
+        "vertical_pull",
+        "squat",
+        "lunge",
+        "hip_hinge",
+        "trunk_flexion_extension",
+        "trunk_rotation"
+      ],
+      "expected": [
+        "torso retains coherent volume",
+        "waist changes softly under flexion/extension",
+        "no rigid six-pack blocks, membrane stretch or barrel collapse"
+      ]
+    },
+    {
+      "id": "upperarm_elbow",
+      "name": "Upper arm / elbow",
+      "transitions": [
+        "deltoid-upperarm",
+        "biceps-elbow",
+        "triceps-olecranon",
+        "antecubital_fold"
+      ],
+      "movement_families": [
+        "elbow_flexion_extension",
+        "overhead_push",
+        "vertical_pull",
+        "horizontal_pull",
+        "horizontal_push"
+      ],
+      "expected": [
+        "biceps/triceps contours change with flexion",
+        "elbow crease appears under compression and relaxes",
+        "no cylindrical hinge or ring crease"
+      ]
+    },
+    {
+      "id": "forearm_wrist",
+      "name": "Forearm / wrist",
+      "transitions": [
+        "elbow-forearm",
+        "radius_ulna-wrist",
+        "wrist-palm"
+      ],
+      "movement_families": [
+        "elbow_flexion_extension",
+        "wrist_loading_rotation",
+        "grip",
+        "horizontal_push"
+      ],
+      "expected": [
+        "forearm mass rotates/tapers plausibly",
+        "wrist narrows without collapse",
+        "loaded extension does not create a hard trench or twist artifact"
+      ]
+    },
+    {
+      "id": "hand_thumb_fingers",
+      "name": "Palm / thumb web / fingers",
+      "transitions": [
+        "wrist-palm",
+        "thenar-thumb",
+        "palm-MCP",
+        "finger_joint_rows"
+      ],
+      "movement_families": [
+        "grip",
+        "wrist_loading_rotation",
+        "vertical_pull",
+        "elbow_flexion_extension",
+        "horizontal_push"
+      ],
+      "expected": [
+        "palm remains volumetric rather than slab-like",
+        "thumb web clears equipment",
+        "finger joints articulate without crease-ring collision",
+        "loaded grip/contact remains credible"
+      ]
+    },
+    {
+      "id": "pelvis_groin_glute",
+      "name": "Pelvis / groin / glute",
+      "transitions": [
+        "abdomen-pelvis",
+        "groin-adductor",
+        "glute-thigh"
+      ],
+      "movement_families": [
+        "squat",
+        "lunge",
+        "hip_hinge",
+        "horizontal_push"
+      ],
+      "expected": [
+        "groin remains continuous under deep flexion",
+        "glute mass changes with hip flexion",
+        "no crotch tunnel, hip shelf or posterior collapse"
+      ]
+    },
+    {
+      "id": "thigh_knee",
+      "name": "Thigh / knee",
+      "transitions": [
+        "hip-thigh",
+        "quad-patella",
+        "hamstring-popliteal",
+        "knee-calf"
+      ],
+      "movement_families": [
+        "squat",
+        "lunge",
+        "hip_hinge",
+        "horizontal_push"
+      ],
+      "expected": [
+        "quad/adductor/hamstring masses remain coherent",
+        "patellar/condylar silhouette stays plausible",
+        "posterior knee compresses without a fixed deep ring"
+      ]
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "name": "Calf / ankle / Achilles",
+      "transitions": [
+        "knee-calf",
+        "calf-Achilles",
+        "ankle-foot"
+      ],
+      "movement_families": [
+        "squat",
+        "lunge",
+        "ankle_loading",
+        "horizontal_push"
+      ],
+      "expected": [
+        "calf tapers naturally",
+        "Achilles remains continuous",
+        "ankle dorsiflexion does not cave, shear or break floor contact"
+      ]
+    },
+    {
+      "id": "foot_toes",
+      "name": "Foot / toes",
+      "transitions": [
+        "ankle-heel",
+        "arch-forefoot",
+        "ball-toes"
+      ],
+      "movement_families": [
+        "neutral_control",
+        "squat",
+        "lunge",
+        "ankle_loading",
+        "horizontal_push"
+      ],
+      "expected": [
+        "heel/arch/ball remain grounded when required",
+        "toe roots and tips retain plausible shape",
+        "no sole collapse, toe fusion or floor penetration"
+      ]
+    }
+  ],
+  "movement_families": [
+    {
+      "id": "neutral_control",
+      "samples": [
+        "neutral"
+      ]
+    },
+    {
+      "id": "overhead_push",
+      "samples": [
+        "press_bottom",
+        "25%",
+        "50%",
+        "75%",
+        "press_top",
+        "return_50%"
+      ]
+    },
+    {
+      "id": "vertical_pull",
+      "samples": [
+        "pullup_hang",
+        "25%",
+        "50%",
+        "75%",
+        "pullup_top",
+        "return_50%"
+      ]
+    },
+    {
+      "id": "horizontal_pull",
+      "samples": [
+        "row_start_or_neutral",
+        "25%",
+        "50%",
+        "75%",
+        "row"
+      ]
+    },
+    {
+      "id": "horizontal_push",
+      "samples": [
+        "pushup_top_or_neutral",
+        "25%",
+        "50%",
+        "75%",
+        "pushup_bottom"
+      ]
+    },
+    {
+      "id": "elbow_flexion_extension",
+      "samples": [
+        "curl_start",
+        "25%",
+        "50%",
+        "75%",
+        "curl_peak",
+        "return_50%"
+      ]
+    },
+    {
+      "id": "wrist_loading_rotation",
+      "samples": [
+        "neutral_wrist",
+        "loaded_extension",
+        "pronation",
+        "supination"
+      ]
+    },
+    {
+      "id": "grip",
+      "samples": [
+        "open_or_relaxed",
+        "contact_onset",
+        "50%_close",
+        "loaded_close",
+        "release"
+      ]
+    },
+    {
+      "id": "squat",
+      "samples": [
+        "stand",
+        "25%",
+        "50%",
+        "75%",
+        "squat_bottom",
+        "return_50%"
+      ]
+    },
+    {
+      "id": "lunge",
+      "samples": [
+        "stand_or_split",
+        "25%",
+        "50%",
+        "75%",
+        "lunge",
+        "return_50%"
+      ]
+    },
+    {
+      "id": "hip_hinge",
+      "samples": [
+        "stand",
+        "25%",
+        "50%",
+        "75%",
+        "deep_hinge"
+      ]
+    },
+    {
+      "id": "ankle_loading",
+      "samples": [
+        "neutral",
+        "dorsiflexed_loaded",
+        "plantarflexed_or_push_off"
+      ]
+    },
+    {
+      "id": "trunk_flexion_extension",
+      "samples": [
+        "neutral",
+        "flexed",
+        "extended",
+        "return_neutral"
+      ]
+    },
+    {
+      "id": "trunk_rotation",
+      "samples": [
+        "neutral",
+        "left_mid",
+        "left_end",
+        "neutral_return",
+        "right_mid",
+        "right_end"
+      ]
+    }
+  ],
+  "axilla_chest_sweep": {
+    "required": true,
+    "sides": [
+      "left",
+      "right"
+    ],
+    "arm_elevation_degrees": [
+      0,
+      45,
+      90,
+      120,
+      150,
+      170
+    ],
+    "include_return_transition": true,
+    "inspect": [
+      "pectoral_to_deltoid_continuity",
+      "anterior_axillary_fold",
+      "axillary_hollow_depth_shape",
+      "posterior_axillary_fold",
+      "lat_triceps_transition",
+      "deltoid_cap_volume",
+      "chest_wall_continuity",
+      "scapular_back_drape",
+      "crease_appearance_disappearance",
+      "symmetry",
+      "absence_of_lobe_shelf_tunnel_hard_pit_or_collapsed_membrane"
+    ]
+  },
+  "defect_ledger_required_fields": [
+    "defect_id",
+    "candidate_revision",
+    "candidate_sha256",
+    "region",
+    "side",
+    "movement_family",
+    "sample",
+    "capture_id",
+    "severity",
+    "observed_defect",
+    "expected_human_behaviour",
+    "reference_observations",
+    "suspected_cause_hypothesis",
+    "before_evidence",
+    "status",
+    "owner_review"
+  ],
+  "allowed_defect_status": [
+    "OPEN",
+    "FIX_IN_PROGRESS",
+    "FIXED_VERIFIED",
+    "ACCEPTED_LIMITATION",
+    "REJECTED_CANDIDATE"
+  ],
+  "exit_rules": [
+    "Every region has neutral, lengthened/elevated, compressed/loaded and intermediate-transition evidence where anatomically applicable.",
+    "Every movement family has been sampled or explicitly marked not applicable with rationale.",
+    "Every CRITICAL and HIGH defect is FIXED_VERIFIED or the affected candidate is REJECTED_CANDIDATE.",
+    "Every MEDIUM defect is FIXED_VERIFIED or explicitly dispositioned.",
+    "No visual repair introduces a development blocker, contact loss or material regression versus direct parent, active epoch baseline or Phase 4 freeze.",
+    "Real renders and manifests are bound to the exact candidate SHA-256.",
+    "Owner visual review is recorded separately and never inferred.",
+    "Passing this audit does not set production_approved true."
+  ]
+}

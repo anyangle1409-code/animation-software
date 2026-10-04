@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "status": "EXPORT_IDENTITY_VERIFIED",
+  "candidate_revision": "r95",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "local_blend_verification": "VERIFIED",
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/CANDIDATE_GLB_EXPORT.json",
+      "sha256": "7197532dd22763e5812e523ee111eed79efb02cb1d01d081f7abc7324e19ac68"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+      "sha256": "4b7a24248e603a6707f68341e63ebcd85b4fb084e3ee95d0c3747800b9085457"
+    },
+    {
+      "path": "scripts/export_original_v1_candidate_glb_blender.py",
+      "sha256": "33ada369f5931886ccc7266ccd7ab3f5c4fb6e7b8a6bfd1a7bffc13816ba5d17"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+      "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_DRESSED.glb",
+      "sha256": "12ba867ed80e54d9e6b6f626ff584f69e996c1437ffaa15bf2f6ae158e00dcbe"
+    }
+  ],
+  "production_approved": false,
+  "visual_review_available": false,
+  "note": "Export identity only; no production/anatomy/dressed/runtime approval. Missing local Blend is reported explicitly.",
+  "structural_audit": {
+    "schema_version": 1,
+    "pass": true,
+    "stage": "candidate_structural_audit_not_production_approval",
+    "manifest": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/CANDIDATE_GLB_EXPORT.json",
+    "rig_payload": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json",
+    "errors": [],
+    "variants": [
+      {
+        "variant": "bare",
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+        "pass": true,
+        "errors": [],
+        "warnings": [],
+        "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+        "bytes": 1496696,
+        "asset": {
+          "generator": "Khronos glTF Blender I/O v5.2.40",
+          "version": "2.0"
+        },
+        "chunk_count": 2,
+        "node_count": 69,
+        "mesh_node_count": 1,
+        "skin_count": 1,
+        "material_names": [
+          "HGPT_ORIGINAL_V1_SKIN_CANDIDATE"
+        ],
+        "image_count": 0,
+        "texture_count": 0,
+        "animation_count": 0,
+        "legacy_token_hits": [],
+        "expected_bone_count": 67
+      },
+      {
+        "variant": "dressed",
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_DRESSED.glb",
+        "pass": true,
+        "errors": [],
+        "warnings": [],
+        "sha256": "12ba867ed80e54d9e6b6f626ff584f69e996c1437ffaa15bf2f6ae158e00dcbe",
+        "bytes": 1126108,
+        "asset": {
+          "generator": "Khronos glTF Blender I/O v5.2.40",
+          "version": "2.0"
+        },
+        "chunk_count": 2,
+        "node_count": 70,
+        "mesh_node_count": 2,
+        "skin_count": 1,
+        "material_names": [
+          "HGPT_ORIGINAL_V1_SHORTS_FABRIC_CANDIDATE",
+          "HGPT_ORIGINAL_V1_SKIN_CANDIDATE"
+        ],
+        "image_count": 0,
+        "texture_count": 0,
+        "animation_count": 0,
+        "legacy_token_hits": [],
+        "expected_bone_count": 67
+      }
+    ],
+    "boundary": "Passing proves structural/self-contained candidate GLB packaging only. It does not approve anatomy, deformation, garment quality, clean-room history or release promotion."
+  }
+}

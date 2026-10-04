@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "stage": "candidate review export (not production)",
+  "rig": "hgpt_canonical_v4_original",
+  "rig_revision": "rev2_forearm_twist_only",
+  "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+  "rig_bone_count": 67,
+  "rig_deform_bone_count": 66,
+  "rig_lock": {
+    "path": "ORIGINAL_V1_WORK/SKELETON_MOTION_LOCK_rev2_forearm_twist_only.json",
+    "sha256": "56dd76634a9c8f8f56716ce15dc3cd1f1e19c7316bb19d809b0eebe12dc8ec5e"
+  },
+  "rig_payload": {
+    "path": "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json",
+    "sha256": "ed5f9699e1bfe2a200af80eae6b92a985b482a2fdf1007c55f097841a590045b"
+  },
+  "candidate_revision": "r95",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "source_candidate": {
+    "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+    "sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+  },
+  "candidate_manifest": {
+    "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+    "sha256": "4b7a24248e603a6707f68341e63ebcd85b4fb084e3ee95d0c3747800b9085457"
+  },
+  "output_directory": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze",
+  "exports": {
+    "bare": {
+      "file": "HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+      "bytes": 1496696,
+      "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "dressed": false
+    },
+    "dressed": {
+      "file": "HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_DRESSED.glb",
+      "bytes": 1126108,
+      "sha256": "12ba867ed80e54d9e6b6f626ff584f69e996c1437ffaa15bf2f6ae158e00dcbe",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "dressed": true
+    }
+  },
+  "export_settings": {
+    "export_format": "GLB",
+    "use_selection": true,
+    "export_apply": true,
+    "export_skins": true,
+    "export_animations": false,
+    "export_yup": true,
+    "export_texcoords": false,
+    "export_materials": "EXPORT",
+    "export_extras": true
+  },
+  "export_script": {
+    "path": "scripts/export_original_v1_candidate_glb_blender.py",
+    "sha256": "33ada369f5931886ccc7266ccd7ab3f5c4fb6e7b8a6bfd1a7bffc13816ba5d17"
+  },
+  "blender_version": "5.2.1 LTS",
+  "source_git_commit": "cc24dbcb51125d98d3b145f12e409ce727bcb4e6",
+  "generated_utc": "2026-10-04T20:22:36.560955+00:00",
+  "pose_position": "REST",
+  "exporter": "Blender bundled io_scene_gltf2",
+  "production_approved": false,
+  "visual_review_available": false,
+  "limits": "Capture identity only. Structural, anatomy, dressed deformation, real runtime and final owner gates remain separate.",
+  "capture_arguments": [
+    "--out-dir",
+    "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\candidates\\exports\\r95_phase4_freeze",
+    "--candidate-manifest",
+    "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\candidates\\HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+    "--revision",
+    "r95"
+  ],
+  "rest_scope": "armature REST; authored non-armature modifiers follow recorded export_apply setting"
+}

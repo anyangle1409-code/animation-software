@@ -1,7 +1,7 @@
 """Skinning dump of the 15 stress poses PLUS continuous-arc samples of the shoulder poses (never saves).
 
 blender --background --factory-startup <candidate.blend> --python-exit-code 1 ^
-  --python scripts/dump_original_v1_arc_skinning_blender.py -- <out.npz> [fractions=0.25,0.375,0.5,0.625,0.75,0.875]
+  --python scripts/dump_original_v1_arc_skinning_blender.py -- <out.npz> [fractions=0.25,0.375,0.5,0.625,0.75,0.875] [extra arc poses, comma list]
 
 Same arrays as dump_original_v1_o4_pose_skinning_blender.py; extra pose entries are named '<pose>@<fraction>' and are built by replaying the
 pose from rest with the swing/twist interpolation of the joint-kinematics audit. Extra array `theta` (poses, 2) = humerothoracic elevation
@@ -22,6 +22,8 @@ args = sys.argv[sys.argv.index("--") + 1:]
 out_path = Path(args[0])
 FRACS = [float(x) for x in args[1].split(",")] if len(args) > 1 and args[1] else [0.25, 0.375, 0.5, 0.625, 0.75, 0.875]
 ARC_POSES = ("press_bottom", "press_top", "press_top_rhythm", "pullup_hang", "pullup_hang_rhythm", "pullup_top")
+if len(args) > 2 and args[2]:
+    ARC_POSES = tuple(ARC_POSES) + tuple(x for x in args[2].split(",") if x and x not in ARC_POSES)   # optional extra arc poses (default behaviour unchanged)
 
 src = Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py").read_text(encoding="utf-8")
 src = src[:src.index("# ---------------------------------------------------------------- metrics")]

@@ -37,7 +37,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("dump")
     ap.add_argument("out")
-    ap.add_argument("--theta0", type=float, default=40.0)
+    ap.add_argument("--driver", choices=("abduction", "flexion"), default="abduction", help="abduction: activation = smoothstep(theta) * lam (default, r69-r83); flexion: smoothstep(theta) * (1 - lam), a separate key pair for forward-flexed arms")
+ap.add_argument("--theta0", type=float, default=40.0)
     ap.add_argument("--theta1", type=float, default=150.0)
     ap.add_argument("--declare-mask")
     ap.add_argument("--mask-file", help="restrict solve to left_owned_vertex_ids from an existing pre-edit declaration")
@@ -143,8 +144,9 @@ def main():
     A = np.einsum("vb,pbij->pvij", W[Z], mats[:, :, :3, :3])           # [pose, zone vertex, 3, 3]
     P0 = evald.copy()
     lam = d["lam"] if "lam" in d.files else np.ones_like(theta)
-    al = smoothstep(theta[:, 0], a.theta0, a.theta1) * lam[:, 0]
-    ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * lam[:, 1]
+    _g = (lambda x: x) if a.driver == "abduction" else (lambda x: 1.0 - x)
+al = smoothstep(theta[:, 0], a.theta0, a.theta1) * _g(lam[:, 0])
+    ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * _g(lam[:, 1])
     # trunk-driven reference positions (trunk bones only, weights renormalised)
     trunk = [b[n] for n in ("root", "pelvis", "spine_01", "spine_02", "spine_03", "neck", "head") if n in b]
     Wt = np.zeros_like(W)

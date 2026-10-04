@@ -38,6 +38,11 @@ saved = sys.argv
 sys.argv = ["blender", "--", tempfile.mkdtemp(), ""]
 ns = {"__name__": "pose_defs", "__file__": pose_script.name}
 exec(compile(src[:src.index("# ---------------------------------------------------------------- metrics")], "pose_test_defs", "exec"), ns)
+import importlib.util as _ilu   # flexion-corrective driver (r86+), installed outside the frozen pose-definition section; no-op without the keys
+_sp = _ilu.spec_from_file_location("original_v1_flexion_driver", str(pose_script.with_name("original_v1_flexion_driver.py")))
+_fd = _ilu.module_from_spec(_sp)
+_sp.loader.exec_module(_fd)
+_fd.install(ns)
 sys.argv = saved
 rig, body, POSES, reset, upd, pb = ns["rig"], ns["body"], ns["POSES"], ns["reset"], ns["upd"], ns["pb"]
 mask = body.modifiers.get("HGPT_DRESSED_MASK")

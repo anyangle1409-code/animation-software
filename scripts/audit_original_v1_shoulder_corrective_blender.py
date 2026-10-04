@@ -17,19 +17,22 @@ import numpy as np
 
 args = sys.argv[sys.argv.index("--") + 1:]
 out, decl_path, spec_path = Path(args[0]), Path(args[1]), Path(args[2])
+FLEX = len(args) > 3 and args[3] == "flexion"          # optional: audit the forward-flexion key pair (HGPT_SHOULDER_FLEX_L/R) instead of the abduction pair
+KL_NAME, KR_NAME = ("HGPT_SHOULDER_FLEX_L", "HGPT_SHOULDER_FLEX_R") if FLEX else ("HGPT_SHOULDER_CORR_L", "HGPT_SHOULDER_CORR_R")
+CFG_KEY = "hgpt_flexion_corrective" if FLEX else "hgpt_shoulder_corrective"
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 me = body.data
 decl = json.loads(decl_path.read_text(encoding="utf-8"))
 spec = json.loads(spec_path.read_text(encoding="utf-8"))
 keys = me.shape_keys.key_blocks
 issues = []
-for n in ("Basis", "HGPT_SHOULDER_CORR_L", "HGPT_SHOULDER_CORR_R"):
+for n in ("Basis", KL_NAME, KR_NAME):
     if n not in keys:
         issues.append("missing key " + n)
 basis = np.array([d.co[:] for d in keys["Basis"].data])
 rest = np.array([v.co[:] for v in me.vertices])
-KL = np.array([d.co[:] for d in keys["HGPT_SHOULDER_CORR_L"].data]) - basis
-KR = np.array([d.co[:] for d in keys["HGPT_SHOULDER_CORR_R"].data]) - basis
+KL = np.array([d.co[:] for d in keys[KL_NAME].data]) - basis
+KR = np.array([d.co[:] for d in keys[KR_NAME].data]) - basis
 nV = len(rest)
 key = {tuple(np.round(rest[i], 5)): i for i in range(nV)}
 mir = np.array([key.get(tuple(np.round(rest[i] * [-1, 1, 1], 5)), -1) for i in range(nV)])
@@ -52,10 +55,10 @@ if asym > 1e-6:
     issues.append(f"mirror asymmetry {asym:.2e} m")
 if float(np.abs(basis - rest).max()) > 1e-12:
     issues.append("Basis differs from rest")
-vals = {n: keys[n].value for n in ("HGPT_SHOULDER_CORR_L", "HGPT_SHOULDER_CORR_R") if n in keys}
+vals = {n: keys[n].value for n in (KL_NAME, KR_NAME) if n in keys}
 if any(abs(v) > 1e-12 for v in vals.values()):
     issues.append("a corrective key is not at value 0 in the saved file")
-cfg = json.loads(bpy.context.scene.get("hgpt_shoulder_corrective", "{}") or "{}")
+cfg = json.loads(bpy.context.scene.get(CFG_KEY, "{}") or "{}")
 rec = {"candidate": Path(bpy.data.filepath).name, "candidate_sha256": hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest(),
        "declaration": decl_path.name, "runtime_spec": spec_path.name, "driver_config": cfg,
        "left_key_moved_vertices": len(movedL), "right_key_moved_vertices": len(movedR), "declared_left_owned": len(left),

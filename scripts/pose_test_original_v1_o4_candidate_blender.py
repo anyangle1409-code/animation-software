@@ -87,12 +87,10 @@ def drive_shoulder_corrective():
     (-spine_03 direction) in the armature frame, a = C1 smoothstep between theta0 and theta1 (stored on the scene) times the abduction fraction lam
     (plane of elevation: share of the humerus' horizontal trunk-frame direction that is lateral; 1 = abduction, 0 = flexion). No-op without the keys."""
     spec = bpy.context.scene.get("hgpt_shoulder_corrective")
-    flex_spec = bpy.context.scene.get("hgpt_flexion_corrective")      # optional second key pair (forward flexion); absent on r69-r83
     keys = body.data.shape_keys
     if not spec or keys is None:
         return False
     cfg = json.loads(spec)
-    fcfg = json.loads(flex_spec) if flex_spec else None
     pose = rig.pose.bones
     down = -(pose["spine_03"].tail - pose["spine_03"].head).normalized()
     changed = False
@@ -109,13 +107,6 @@ def drive_shoulder_corrective():
         if kb is not None and abs(kb.value - a) > 1e-9:
             kb.value = a
             changed = True
-        if fcfg:
-            tf = min(1.0, max(0.0, (math.degrees(h.angle(down)) - fcfg["theta0_deg"]) / (fcfg["theta1_deg"] - fcfg["theta0_deg"])))
-            af = tf * tf * (3.0 - 2.0 * tf) * (1.0 - lam)               # forward-flexion fraction = 1 - abduction fraction
-            kf = keys.key_blocks.get(fcfg["keys"][side])
-            if kf is not None and abs(kf.value - af) > 1e-9:
-                kf.value = af
-                changed = True
     return changed
 
 
@@ -592,6 +583,12 @@ ZONES = {"shoulder": ("upperarm_l", "head", 0.34), "elbow": ("forearm_l", "head"
          "hand": ("hand_l", "tail", 0.22), "hip": ("thigh_l", "head", 0.40), "knee": ("shin_l", "head", 0.34)}
 
 # ---------------------------------------------------------------- metrics
+# Flexion-corrective driver (r86+): installed AFTER the frozen pose-definition section so that section's hash is unchanged; no-op without the keys.
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location('original_v1_flexion_driver', str(Path(__file__).with_name('original_v1_flexion_driver.py')))
+_fd = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_fd)
+_fd.install(globals())
 rest_mesh = body.data
 rest_V = np.array([v.co[:] for v in rest_mesh.vertices])
 edges = np.array([e.vertices[:] for e in rest_mesh.edges])

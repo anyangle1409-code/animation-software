@@ -1,0 +1,12 @@
+{
+  "before_candidate_sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "allowed_regions": [],
+  "allowed_vertex_ids": [],
+  "allowed_bones": [],
+  "index_correspondence_confirmed": true,
+  "change_epsilon": 1e-8,
+  "normalization_tolerance": 1e-6,
+  "max_influences": 4,
+  "note": "r93 -> r95 added only the HGPT_SHOULDER_SCAP_L/R shape-key pair and a post-pin driver; basis mesh, weights, topology and rig are declared unchanged, so no edit is permitted. Same vertex count/order (shape-key addition)."
+}

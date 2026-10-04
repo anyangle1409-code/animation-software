@@ -120,7 +120,7 @@ cam = bpy.data.objects.new("HGPT_CLOSEUP_CAM_TMP", cam_data)
 stage.objects.link(cam)
 scene.camera = cam
 target = rig.matrix_world @ rig.pose.bones[FOCUS].head
-VIEWS = {"front": Vector((0, -4, 0.0)), "side": Vector((4, 0, 0.0)), "three_quarter": Vector((3, -3, 1.0)), "top": Vector((0, -0.01, 4))}
+VIEWS = {"front": Vector((0, -4, 0.0)), "side": Vector((4, 0, 0.0)), "three_quarter": Vector((3, -3, 1.0)), "top": Vector((0, -0.01, 4)), "rear": Vector((0, 4, 0.0)), "rear_three_quarter": Vector((-3, 3, 1.0))}
 written = []
 for view, off in VIEWS.items():
     cam.location = target + off

@@ -1,0 +1,3154 @@
+{
+  "schema_version": 1,
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+  "pose_report_sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d",
+  "blender_version": "5.2.1 LTS",
+  "capture_mode": "milestone",
+  "capture_arguments": [
+    "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\candidates\\repair_checks\\milestone_r95",
+    "",
+    "--milestone"
+  ],
+  "images": [
+    {
+      "file": "milestone_neutral_front.png",
+      "sha256": "c83e3626ec66adf6ce3a1b42c4061400a7fab423c8472fab08946145432b75ec",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.607245922088623
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.1500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_neutral_front.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_neutral_rear.png",
+      "sha256": "15c18aef2308cd0c2bec1388fab55b114b16f898b723078af5a2cd7273533ce2",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -1.0,
+            -8.742277657347586e-08,
+            3.303826599776981e-15,
+            -9.759892665507945e-16
+          ],
+          [
+            7.61939755733465e-09,
+            -0.08715572208166122,
+            0.9961947202682495,
+            7.969557762145996
+          ],
+          [
+            -8.709010046459298e-08,
+            0.9961947202682495,
+            0.08715571463108063,
+            1.607245922088623
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.1500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_neutral_rear.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_neutral_side.png",
+      "sha256": "0072f05f425687b3f9ffa319321b5057729dd5fe9071c69f2ad060dc5df88a0f",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.607245922088623
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.1500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_neutral_side.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_neutral_three_quarter.png",
+      "sha256": "69568dc8c1e42710080f17c37697d9c1a121562bbbfcb9e08e5a4677dcf67564",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.573293447494507
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.1500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_neutral_three_quarter.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_neutral_three_quarter_rear.png",
+      "sha256": "1096321e8a3acb42cba6bcc57bb75c97b06807bfcaded7ec8f989b8d038a3a1a",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191519379615784,
+            0.11925330758094788,
+            -0.5610424876213074,
+            -4.488339424133301
+          ],
+          [
+            -0.5735765099525452,
+            -0.17031125724315643,
+            0.8012515306472778,
+            6.410012722015381
+          ],
+          [
+            3.2575623976072166e-08,
+            0.978147566318512,
+            0.20791172981262207,
+            2.573293447494507
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.1500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_neutral_three_quarter_rear.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_head_neck_1.png",
+      "sha256": "30902f8e2f68d212f096bb532cfd75816e11f0acf8e4cf900a66ffa365f2fefd",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.258819043636322,
+            -0.9659258127212524,
+            -7.7274065017700195
+          ],
+          [
+            0.0,
+            0.9659258127212524,
+            0.258819043636322,
+            3.7305524349212646
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.41999998688697815,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_head_neck_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_head_neck_2.png",
+      "sha256": "82b2391e9a83d4785f48f733ee9c91d0617eb2955df5aff04fba25900b67d1ea",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -6.198155944048267e-08,
+            0.2588191032409668,
+            -0.9659258127212524,
+            -7.7274065017700195
+          ],
+          [
+            -1.0,
+            -6.198155944048267e-08,
+            5.1314749782704894e-08,
+            -4.731671627150331e-16
+          ],
+          [
+            -5.1314749782704894e-08,
+            0.9659258127212524,
+            0.2588191032409668,
+            3.7305524349212646
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.41999998688697815,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_head_neck_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_shoulder_1.png",
+      "sha256": "99f28c581d2acaac141a690755f5c3fe0d6176c58a16cf468ed8046f4215aaf7",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.14845260977745056,
+            -0.5540323257446289,
+            -4.647258281707764
+          ],
+          [
+            -0.5735765099525452,
+            0.21201202273368835,
+            -0.7912402749061584,
+            -6.299920558929443
+          ],
+          [
+            -9.109433563025959e-08,
+            0.965925931930542,
+            0.25881898403167725,
+            3.585552215576172
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_shoulder_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_shoulder_2.png",
+      "sha256": "60e7a7452d75f1e2865baa967d1562eb8ef76996e26d70b4ea7ba225df844642",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191524744033813,
+            0.1484525352716446,
+            -0.5540323853492737,
+            -4.647258281707764
+          ],
+          [
+            -0.5735765695571899,
+            -0.21201235055923462,
+            0.7912403345108032,
+            6.359920978546143
+          ],
+          [
+            5.188521257082357e-08,
+            0.9659260511398315,
+            0.2588188052177429,
+            3.585552215576172
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_shoulder_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_chest_torso_1.png",
+      "sha256": "349a13bbcba6f0bb5f55b0a30108fc87a405acf800ba7e24b98a2cfad63a3e8a",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.258819043636322,
+            -0.9659258127212524,
+            -7.7274065017700195
+          ],
+          [
+            0.0,
+            0.9659258127212524,
+            0.258819043636322,
+            3.4855523109436035
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.6499999761581421,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_chest_torso_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_chest_torso_2.png",
+      "sha256": "978c34eaae7336406237adb6709cdbabba654423e72f16f3aaed160feaef9272",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.14845260977745056,
+            -0.5540323257446289,
+            -4.432258129119873
+          ],
+          [
+            -0.5735765099525452,
+            0.21201202273368835,
+            -0.7912402749061584,
+            -6.329920768737793
+          ],
+          [
+            -9.109433563025959e-08,
+            0.965925931930542,
+            0.25881898403167725,
+            3.4855523109436035
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.6499999761581421,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_chest_torso_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_back_1.png",
+      "sha256": "0ac2b634a3787a2fa2c9da98713aee7487ac0f9a3c7e45b6b190a116ba466b49",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -1.0000003576278687,
+            -8.742278367890322e-08,
+            -7.443330823117371e-15,
+            -9.463343254300662e-16
+          ],
+          [
+            2.2626684526017016e-08,
+            -0.2588193416595459,
+            0.965925931930542,
+            7.7274065017700195
+          ],
+          [
+            -8.444392562978464e-08,
+            0.965925931930542,
+            0.258819043636322,
+            3.330552339553833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.6800000071525574,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_back_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_back_2.png",
+      "sha256": "69dbe3fdae37fb31e5fdefd0fb8e9f1843171b5954c40fa4883030bad0e0eaa8",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191524744033813,
+            0.1484525352716446,
+            -0.5540323853492737,
+            -4.432258129119873
+          ],
+          [
+            -0.5735765695571899,
+            -0.21201235055923462,
+            0.7912403345108032,
+            6.329920768737793
+          ],
+          [
+            5.188521257082357e-08,
+            0.9659260511398315,
+            0.2588188052177429,
+            3.330552339553833
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.6800000071525574,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_back_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_elbow_1.png",
+      "sha256": "f2f1a857b105973fa19976e67c1666d4f9c7968f5834841a36d4dfbdf0603a62",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.14845260977745056,
+            -0.5540323257446289,
+            -4.647258281707764
+          ],
+          [
+            -0.5735765099525452,
+            0.21201202273368835,
+            -0.7912402749061584,
+            -6.299920558929443
+          ],
+          [
+            -9.109433563025959e-08,
+            0.965925931930542,
+            0.25881898403167725,
+            3.260552406311035
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.30000001192092896,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_elbow_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_elbow_2.png",
+      "sha256": "afb8b4f7ee97b99298225a9860adc92b30c16bb11b968ea1731841c55b054b02",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191524744033813,
+            0.1484525352716446,
+            -0.5540323853492737,
+            -4.647258281707764
+          ],
+          [
+            -0.5735765695571899,
+            -0.21201235055923462,
+            0.7912403345108032,
+            6.359920978546143
+          ],
+          [
+            5.188521257082357e-08,
+            0.9659260511398315,
+            0.2588188052177429,
+            3.260552406311035
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.30000001192092896,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_elbow_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_palm_1.png",
+      "sha256": "50033d37988e15c6c1b4aa29d59ca591912d83845f1b68a42eeb1c49efbd1499",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.09152614325284958,
+            0.0,
+            0.9958027005195618,
+            7.751421928405762
+          ],
+          [
+            0.9958027005195618,
+            -1.3687909472537285e-08,
+            -0.09152615815401077,
+            -0.7022092938423157
+          ],
+          [
+            0.0,
+            1.0,
+            -1.3687909472537285e-08,
+            0.8725000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.23999999463558197,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_palm_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_palm_2.png",
+      "sha256": "24f43ae70dd5f7455a8c48ee5920ff401e87eac7faf7192a56c256bb4e3c9f3c",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.09152620285749435,
+            0.32896384596824646,
+            0.9398967027664185,
+            7.304172515869141
+          ],
+          [
+            0.9958027005195618,
+            -0.030235789716243744,
+            -0.0863877683877945,
+            -0.661101758480072
+          ],
+          [
+            5.0473200730039025e-08,
+            0.9438583850860596,
+            -0.33035045862197876,
+            -1.7703032493591309
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.23999999463558197,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_palm_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_dorsal_hand_1.png",
+      "sha256": "9a40131a4f7d53138978ad42cf1489c907dfd16b8e94e95d088d19ef41052bdc",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.09152642637491226,
+            -6.22726332721868e-08,
+            -0.9958028793334961,
+            -8.181422233581543
+          ],
+          [
+            -0.9958028793334961,
+            -2.5185619279000093e-07,
+            0.09152622520923615,
+            0.7622093558311462
+          ],
+          [
+            -6.22726332721868e-08,
+            1.000000238418579,
+            -2.5185619279000093e-07,
+            0.8725000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.23999999463558197,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_dorsal_hand_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_dorsal_hand_2.png",
+      "sha256": "0f1f8ea2cda67e28070da7a6e3c37f6e5245f04bf24cfa5e1af19b7fd5d9f10d",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.09152628481388092,
+            -0.32896384596824646,
+            -0.939896821975708,
+            -7.734172821044922
+          ],
+          [
+            -0.9958028197288513,
+            0.030235575512051582,
+            0.08638769388198853,
+            0.7211018204689026
+          ],
+          [
+            3.857651975636145e-08,
+            0.9438585042953491,
+            -0.3303505778312683,
+            -1.7703032493591309
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.23999999463558197,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_dorsal_hand_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_thumb_1.png",
+      "sha256": "e183ff6e864ea922af1d6ee24046f70189ed398727a0384476546ab7621f3d2e",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660443782806396,
+            0.16636577248573303,
+            -0.6208851933479309,
+            -5.142267227172852
+          ],
+          [
+            -0.6427876949310303,
+            0.19826674461364746,
+            -0.739942193031311,
+            -5.955258369445801
+          ],
+          [
+            -9.725327032583664e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            2.9236483573913574
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.18000000715255737,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_thumb_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_thumb_2.png",
+      "sha256": "22bf5be6691eaf09b56be195edb00859804688b7edea75a01f396e125611f438",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.142267227172852
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.883815765380859
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            2.9236483573913574
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.18000000715255737,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_thumb_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_hip_1.png",
+      "sha256": "b2c285a40a84a8204194157cda4855ea8dff46d34de98472ae6c654848be661e",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.14845260977745056,
+            -0.5540323257446289,
+            -4.524258136749268
+          ],
+          [
+            -0.5735765099525452,
+            0.21201202273368835,
+            -0.7912402749061584,
+            -6.329920768737793
+          ],
+          [
+            -9.109433563025959e-08,
+            0.965925931930542,
+            0.25881898403167725,
+            3.030552387237549
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.41999998688697815,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_hip_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_hip_2.png",
+      "sha256": "052149c22f55bc8bbde7517e835736fba3d9b7daf7a39d5136c543f1adfeb5e8",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191524744033813,
+            0.1484525352716446,
+            -0.5540323853492737,
+            -4.524258136749268
+          ],
+          [
+            -0.5735765695571899,
+            -0.21201235055923462,
+            0.7912403345108032,
+            6.329920768737793
+          ],
+          [
+            5.188521257082357e-08,
+            0.9659260511398315,
+            0.2588188052177429,
+            3.030552387237549
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.41999998688697815,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_hip_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_knee_1.png",
+      "sha256": "5ddc8ef5b59e2f5fa8d528b5dfac2ac41c9b8d59bbddb3e3f97abdeb4286eaa6",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09200000017881393
+          ],
+          [
+            0.0,
+            0.258819043636322,
+            -0.9659258127212524,
+            -7.7274065017700195
+          ],
+          [
+            0.0,
+            0.9659258127212524,
+            0.258819043636322,
+            2.585552453994751
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_knee_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_knee_2.png",
+      "sha256": "b3870d547a14668e3001f098ca3655930e65247c4e30e74bcb6ed003e6b99709",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -6.198155944048267e-08,
+            0.2588191032409668,
+            -0.9659258127212524,
+            -7.819406509399414
+          ],
+          [
+            -1.0,
+            -6.198155944048267e-08,
+            5.1314749782704894e-08,
+            -4.731671627150331e-16
+          ],
+          [
+            -5.1314749782704894e-08,
+            0.9659258127212524,
+            0.2588191032409668,
+            2.585552453994751
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_knee_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_foot_1.png",
+      "sha256": "5c64fb654aeeb61bfab0ee36139b7e0ad0feca80ea37374c25d94ae8371ed025",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.14845260977745056,
+            -0.5540323257446289,
+            -4.524258136749268
+          ],
+          [
+            -0.5735765099525452,
+            0.21201202273368835,
+            -0.7912402749061584,
+            -6.419920921325684
+          ],
+          [
+            -9.109433563025959e-08,
+            0.965925931930542,
+            0.25881898403167725,
+            2.1270525455474854
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_foot_1.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_anatomy_foot_2.png",
+      "sha256": "4b333d87dedbc7c5ef134cc31872c71d5c2a0a607c0d5dc50152a28d3c45b439",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.8191524744033813,
+            0.1484525352716446,
+            -0.5540323853492737,
+            -4.524258136749268
+          ],
+          [
+            -0.5735765695571899,
+            -0.21201235055923462,
+            0.7912403345108032,
+            6.239920616149902
+          ],
+          [
+            5.188521257082357e-08,
+            0.9659260511398315,
+            0.2588188052177429,
+            2.1270525455474854
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_anatomy_foot_2.png",
+        "pose": "neutral"
+      }
+    },
+    {
+      "file": "milestone_curl_peak_front.png",
+      "sha256": "0119e8cfb6ba9d3ae6e5065da5dbe51b6106571260f67e030e1cc1ec39f62dd9",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_peak_front.png",
+        "pose": "curl_peak"
+      }
+    },
+    {
+      "file": "milestone_curl_peak_side.png",
+      "sha256": "2831187fe18747e6005b67ba4db7a36c0555e90e8afee83748046ea2f27396de",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_peak_side.png",
+        "pose": "curl_peak"
+      }
+    },
+    {
+      "file": "milestone_curl_peak_three_quarter.png",
+      "sha256": "dbe61a1a0629b6adca03d0dc4032cdfe6d80286b243daf52e16a79fd509ca93c",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_peak_three_quarter.png",
+        "pose": "curl_peak"
+      }
+    },
+    {
+      "file": "milestone_press_bottom_front.png",
+      "sha256": "7085bf8af59c6229052a5f27cd35b98933a1cad5f3af63bfaa70f5dce69ad565",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_bottom_front.png",
+        "pose": "press_bottom"
+      }
+    },
+    {
+      "file": "milestone_press_bottom_side.png",
+      "sha256": "5379afc74f3daaec3dd046a35bf1153cfc0e395275f485e456c1cbe193083518",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_bottom_side.png",
+        "pose": "press_bottom"
+      }
+    },
+    {
+      "file": "milestone_press_bottom_three_quarter.png",
+      "sha256": "d91471bcb7ceb5632bd90836bd17fb409bdd5f255fe1b0c4d32e6532d473d46f",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_bottom_three_quarter.png",
+        "pose": "press_bottom"
+      }
+    },
+    {
+      "file": "milestone_press_top_front.png",
+      "sha256": "f41e70b316e4c6c05d9202aad440962ad12ca6a68bdc80acb07bb3edf7acd06c",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_top_front.png",
+        "pose": "press_top"
+      }
+    },
+    {
+      "file": "milestone_press_top_side.png",
+      "sha256": "e2eb35021aa1edd7e8e329f84dab8a7d1d1aff18ea439d36e67d56d6b927beac",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_top_side.png",
+        "pose": "press_top"
+      }
+    },
+    {
+      "file": "milestone_press_top_three_quarter.png",
+      "sha256": "fa4121e6a517e3d4ba15a09eb8bc8c933579d367863b39ca056cf119dc9cdaf7",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_press_top_three_quarter.png",
+        "pose": "press_top"
+      }
+    },
+    {
+      "file": "milestone_squat_bottom_front.png",
+      "sha256": "997a817506d7c4d1f3abfd401d28bac887879c89d634522d3bc8b73c5accbe9c",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_squat_bottom_front.png",
+        "pose": "squat_bottom"
+      }
+    },
+    {
+      "file": "milestone_squat_bottom_side.png",
+      "sha256": "fefb4b8bb15d73ffde2ca4cb9de1822d7c924ecbd060b1a4b7d7b9171ae949ab",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_squat_bottom_side.png",
+        "pose": "squat_bottom"
+      }
+    },
+    {
+      "file": "milestone_squat_bottom_three_quarter.png",
+      "sha256": "b9781c1946e90275db3db277edcd532fa42b684bfeded1b7afa83b54ce573b39",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_squat_bottom_three_quarter.png",
+        "pose": "squat_bottom"
+      }
+    },
+    {
+      "file": "milestone_pushup_bottom_front.png",
+      "sha256": "8e322732bb000d63b7692cb15d4dd8f584ad23dbcbe77d5e395e1543924c26d5",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -8.883557319641113
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            0.8872459530830383
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4000000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pushup_bottom_front.png",
+        "pose": "pushup_bottom"
+      }
+    },
+    {
+      "file": "milestone_pushup_bottom_side.png",
+      "sha256": "8121e31cf45667d8920dcd75a6fa9751b7bc66f4d9a973d7a25953c087f96eb9",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -0.9139999747276306
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            0.8872459530830383
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4000000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pushup_bottom_side.png",
+        "pose": "pushup_bottom"
+      }
+    },
+    {
+      "file": "milestone_pushup_bottom_three_quarter.png",
+      "sha256": "1be9b7025a5654d0374d11c21f7d7da13a32e1e773e066eea3df96a5d9c959c1",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -7.324012756347656
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            1.8532934188842773
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4000000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pushup_bottom_three_quarter.png",
+        "pose": "pushup_bottom"
+      }
+    },
+    {
+      "file": "milestone_pullup_hang_front.png",
+      "sha256": "a9d137eb3b40bf75b55148e6c33b9e8a57c82cf0a8918f0b689081ebb3cbf9a0",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_hang_front.png",
+        "pose": "pullup_hang"
+      }
+    },
+    {
+      "file": "milestone_pullup_hang_side.png",
+      "sha256": "564bcd49b34c89b860e6f152bf6067005e65b2005d3ca9d9f9474d4921a0dee7",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_hang_side.png",
+        "pose": "pullup_hang"
+      }
+    },
+    {
+      "file": "milestone_pullup_hang_three_quarter.png",
+      "sha256": "4a8977ec06171a7a7f2d300f59b19f0cb6e38ec6c718c2a441aaa0ed96305b71",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_hang_three_quarter.png",
+        "pose": "pullup_hang"
+      }
+    },
+    {
+      "file": "milestone_pullup_top_front.png",
+      "sha256": "bd6b655eeaeb8db1243bd24a5e15393a7551fa1bfe89543dc14d742061629f98",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_top_front.png",
+        "pose": "pullup_top"
+      }
+    },
+    {
+      "file": "milestone_pullup_top_side.png",
+      "sha256": "68f01f2c4a1dc3a68db6c1aee60b20234c5bb5988567857f0fd5a3a4dc782917",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_top_side.png",
+        "pose": "pullup_top"
+      }
+    },
+    {
+      "file": "milestone_pullup_top_three_quarter.png",
+      "sha256": "acf3f12d2962aa2db210305997edb3eb2b64313b2cdc3d8368625bafeb37b5c1",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_pullup_top_three_quarter.png",
+        "pose": "pullup_top"
+      }
+    },
+    {
+      "file": "milestone_lunge_front.png",
+      "sha256": "7c6e6d8490d2ab87433fb4ef78a4380341565e370566539cd98c0ebbf636fe80",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_lunge_front.png",
+        "pose": "lunge"
+      }
+    },
+    {
+      "file": "milestone_lunge_side.png",
+      "sha256": "4fe3a31690d18a1fd2aafe4178e5970478c121e51c43598f691eaf1675861894",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_lunge_side.png",
+        "pose": "lunge"
+      }
+    },
+    {
+      "file": "milestone_lunge_three_quarter.png",
+      "sha256": "5ab310d67fba5dd3b27a8a6859b83ab1eb186c6fbf600b525a07558f85b2053c",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_lunge_three_quarter.png",
+        "pose": "lunge"
+      }
+    },
+    {
+      "file": "milestone_row_front.png",
+      "sha256": "f274383d011825871c8167a6c9c119ffbe1e507c8244edcd2fc3774ed70b8598",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_row_front.png",
+        "pose": "row"
+      }
+    },
+    {
+      "file": "milestone_row_side.png",
+      "sha256": "590933f4d236c2a58ed40d4bccc7da417eb59ab5b9f35be504a812e3bd6a2f75",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_row_side.png",
+        "pose": "row"
+      }
+    },
+    {
+      "file": "milestone_row_three_quarter.png",
+      "sha256": "0d0a3a5eef0c7e23971094f74c0dde05cc1d3059d0a980e1b3c12f3d84adee88",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_row_three_quarter.png",
+        "pose": "row"
+      }
+    },
+    {
+      "file": "milestone_curl_handle_front.png",
+      "sha256": "da4df2b16813aa2dd13f3d418d08b9f526074d4a3bd00b8cfc337fdad3ae2f65",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            0.0,
+            0.9961947798728943,
+            0.08715571463108063,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_handle_front.png",
+        "pose": "curl_handle"
+      }
+    },
+    {
+      "file": "milestone_curl_handle_side.png",
+      "sha256": "e36af51fbfad0f2bd79a1a25ea8c02ef799cd149618a5b4dff1763a2fc33cd26",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715573698282242,
+            -0.9961948990821838,
+            -7.969557762145996
+          ],
+          [
+            -1.0000001192092896,
+            -1.9432812337072392e-07,
+            -1.5016975396520138e-07,
+            -4.879946332753972e-16
+          ],
+          [
+            -3.627375377845965e-08,
+            0.9961948990821838,
+            0.08715556561946869,
+            1.6972459554672241
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_handle_side.png",
+        "pose": "curl_handle"
+      }
+    },
+    {
+      "file": "milestone_curl_handle_three_quarter.png",
+      "sha256": "4cd449276a233f5d02f2944729bc2b4bc1920e5cd44edfe12795eeb3c2cf1e2e",
+      "capture": {
+        "protocol": "original_v1_milestone_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191520571708679,
+            0.11925319582223892,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031121253967285,
+            -0.8012516498565674,
+            -6.410012722015381
+          ],
+          [
+            1.1114725140259907e-08,
+            0.9781476259231567,
+            0.20791159570217133,
+            2.6632933616638184
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.6500000953674316,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": false,
+        "milestone_plan_sha256": "d8e2414abe2094bca8bd5396ebe040af58f2a94d253618c7497ea64d583a40eb",
+        "view_id": "milestone_curl_handle_three_quarter.png",
+        "pose": "curl_handle"
+      }
+    }
+  ],
+  "owner_review": "pending",
+  "blocking": false,
+  "production_approved": false
+}

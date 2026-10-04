@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "branch": "claude/original-v1-blender-o2-20260929",
+  "branch": "codex/whole-body-deformation-recovery-20261004",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "frozen_inputs": {
     "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95",
@@ -46,6 +46,29 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    }
+  ],
+  "visual_rejections": [
+    {
+      "id": "OWNER-VISUAL-REJECTION-R95-20261004",
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "severity": "Critical",
+      "issue_ids": [
+        "WB-AX-001",
+        "WB-PEC-002",
+        "WB-PEC-003",
+        "WB-QA-011"
+      ],
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_anatomy_shoulder_1.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_anatomy_shoulder_2.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_press_top_three_quarter.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_curl_handle_three_quarter.png"
+      ],
+      "decision_date": "2026-10-04",
+      "status": "open",
+      "owner_statement": "Owner rejected the visible r95 shoulder, chest and axilla deformation after close inspection. The lateral/back wing, deep anterior axillary scoop, chest-to-arm trench/membrane and inadequate visual QA are blockers. The model must deform like a real human and may not advance to Phase 5 until this foundation is repaired using real evidence. Preserve r95 only as an immutable comparator."
     }
   ],
   "owner_accepted_regressions": [

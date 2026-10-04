@@ -2,7 +2,7 @@
   "schema_version": 1,
   "asset": "HomeGymPT_Male_ORIGINAL_v1",
   "rig": "hgpt_canonical_v4_original",
-  "branch": "claude/original-v1-blender-o2-20260929",
+  "branch": "codex/whole-body-deformation-recovery-20261004",
   "current_phase": 5,
   "current_subphase": "5A",
   "current_candidate": "r95",
@@ -240,6 +240,29 @@
       ]
     }
   ],
+  "visual_rejections": [
+    {
+      "id": "OWNER-VISUAL-REJECTION-R95-20261004",
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "severity": "Critical",
+      "issue_ids": [
+        "WB-AX-001",
+        "WB-PEC-002",
+        "WB-PEC-003",
+        "WB-QA-011"
+      ],
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_anatomy_shoulder_1.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_anatomy_shoulder_2.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_press_top_three_quarter.png",
+        "ORIGINAL_V1_WORK/candidates/review/milestone_r95/milestone_curl_handle_three_quarter.png"
+      ],
+      "decision_date": "2026-10-04",
+      "status": "open",
+      "owner_statement": "Owner rejected the visible r95 shoulder, chest and axilla deformation after close inspection. The lateral/back wing, deep anterior axillary scoop, chest-to-arm trench/membrane and inadequate visual QA are blockers. The model must deform like a real human and may not advance to Phase 5 until this foundation is repaired using real evidence. Preserve r95 only as an immutable comparator."
+    }
+  ],
   "phase5_followups": [
     {
       "id": "PHASE5-FU-001",
@@ -286,7 +309,7 @@
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
-      "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
+      "sha256": "67943a44212898bd571ed903cd6d794291950af68c27caacd16b2ca2c8ab51ab"
     },
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json",
@@ -333,10 +356,10 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "EXECUTE Phase 5A anatomy",
-    "reason": "development freeze recorded; execute the next unverified anatomy region in order",
-    "command": "RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template 5A <fresh-template.json>",
-    "work_package": "docs/work_packages/PHASE_5A_TORSO.md",
-    "review_command": "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat 5A <candidate-rN>"
+    "action": "REOPEN shoulder/axilla foundation",
+    "reason": "owner visual rejection is open for the active candidate: WB-AX-001, WB-PEC-002, WB-PEC-003, WB-QA-011",
+    "command": null,
+    "work_package": "docs/superpowers/plans/2026-10-04-shoulder-axilla-foundation-recovery.md",
+    "safe_parallel_task": "Preserve r95 as the immutable comparator; collect real-human evidence and diagnose weights/support topology before editing."
   }
 }

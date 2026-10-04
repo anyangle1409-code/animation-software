@@ -27,14 +27,16 @@ PENDING OWNER REVIEWS
 - O2 neutral anatomy — pending, NON-BLOCKING.
 - O4 deformation candidates — pending, NON-BLOCKING.
 - [r95 milestone snapshot](../ORIGINAL_V1_WORK/candidates/review/milestone_r95/README.md) — pending, NON-BLOCKING.
+
+OWNER VISUAL REJECTIONS
+- Critical OWNER-VISUAL-REJECTION-R95-20261004: WB-AX-001, WB-PEC-002, WB-PEC-003, WB-QA-011 — OPEN.
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-EXECUTE Phase 5A anatomy — development freeze recorded; execute the next unverified anatomy region in order
-`RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template 5A <fresh-template.json>`
-Read `docs/work_packages/PHASE_5A_TORSO.md`.
+REOPEN shoulder/axilla foundation — owner visual rejection is open for the active candidate: WB-AX-001, WB-PEC-002, WB-PEC-003, WB-QA-011
+Read `docs/superpowers/plans/2026-10-04-shoulder-axilla-foundation-recovery.md`.
 
-REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
+OWNER VISUAL REJECTIONS ARE BLOCKING. Pending review snapshots alone remain non-blocking. Production approved: NO.
 
 [✅] Phase 0 Provenance
 [✅] Phase 1 Base body

@@ -23,11 +23,14 @@ def dashboard(s):
     lines += ['- '+p for p in s['what_passed']] or ['- No newly clear subphase.']
     lines += ['', 'PENDING OWNER REVIEWS']
     lines += ['- '+('['+r['checkpoint']+'](../'+r['review_index']+')' if r.get('review_index') else r['checkpoint'])+' — pending, NON-BLOCKING.' for r in s['pending_owner_reviews']]
+    lines += ['', 'OWNER VISUAL REJECTIONS']
+    lines += (['- '+r['severity']+' '+r['id']+': '+', '.join(r['issue_ids'])+' — '+r['status'].upper()+'.' for r in s['visual_rejections']]
+              or ['- None bound to the active candidate.'])
     lines += ['- Latest candidate snapshot remains pending; images must come from real renders.','',
               'NEXT EXACT TASK',nxt['action']+' — '+nxt['reason']]
     if nxt.get('command'): lines.append('`'+nxt['command']+'`')
     if nxt.get('work_package'): lines.append('Read `'+nxt['work_package']+'`.')
-    lines += ['', 'REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.', '']
+    lines += ['', 'OWNER VISUAL REJECTIONS ARE BLOCKING. Pending review snapshots alone remain non-blocking. Production approved: NO.', '']
     for phase,label in LABELS:
         state=s['phases'][phase]['state']
         symbol='✅' if state=='complete' else '🟡' if state=='refinement' else '🔴' if phase=='3E' and state=='blocked' else '🟠' if state in ('active','blocked','pending_owner_review') else ' '

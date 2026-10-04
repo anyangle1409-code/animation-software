@@ -2,8 +2,8 @@
   "schema_version": 1,
   "asset": "HomeGymPT_Male_ORIGINAL_v1",
   "rig": "hgpt_canonical_v4_original",
-  "branch": "claude/original-v1-blender-o2-20260929",
-  "overall_status": "candidate_not_production",
+  "branch": "codex/whole-body-deformation-recovery-20261004",
+  "overall_status": "candidate_rejected_for_anatomical_repair",
   "production_approved": false,
   "first_party_boundary": {
     "historical_v_series_role": "reference_only_lessons_and_failure_cases",
@@ -11,6 +11,12 @@
     "blender_role": "development_tool_not_shipped_runtime"
   },
   "gates": {
+    "owner_visual_anatomy": {
+      "status": "blocked",
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "reason": "Owner rejected visible shoulder, axilla and chest deformation; reopen the foundation before Phase 5."
+    },
     "o1_clean_scaffold_provenance": {
       "status": "verified"
     },
@@ -72,6 +78,7 @@
     }
   },
   "current_blockers": [
+    "owner_visual_anatomy",
     "owner_neutral_anatomy_review",
     "deformation_development",
     "deformation_production",
@@ -83,8 +90,8 @@
   ],
   "next_action": {
     "priority": 1,
-    "group": "shoulder",
-    "instruction": "Repair shoulder girdle/upper-torso deformation first, rerun the grouped shoulder check, reject any severity regression, then regenerate the repair queue."
+    "group": "shoulder_axilla_foundation",
+    "instruction": "Reopen the shoulder/axilla foundation using real-human evidence; diagnose weights and support topology before any new corrective, then rerun visual, numerical and regression gates."
   },
-  "authority": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+  "authority": "docs/ORIGINAL_V1_WHOLE_BODY_RECOVERY_20261004.md"
 }

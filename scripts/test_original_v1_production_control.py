@@ -237,6 +237,39 @@ class ControlTests(unittest.TestCase):
         self.assertFalse(status['production_approved'])
         self.assertEqual(status['development_failure_count'], 0)
 
+    def test_open_owner_visual_rejection_reopens_active_candidate_before_phase5(self):
+        c = self.module()
+        status, _ = c.build(ROOT)
+        self.assertTrue(status['visual_rejections'])
+        self.assertTrue(all(x['candidate_revision'] == status['current_candidate'] for x in status['visual_rejections']))
+        self.assertTrue(all(x['candidate_sha256'] == status['last_known_candidate_sha256'] for x in status['visual_rejections']))
+        self.assertEqual(status['phases']['4']['state'], 'complete')
+        self.assertEqual(status['next_action']['action'], 'REOPEN shoulder/axilla foundation')
+        self.assertNotIn('Phase 5', status['next_action']['action'])
+
+    def test_visual_rejection_for_different_candidate_does_not_rewrite_history(self):
+        c = self.module(); root = self.fixture()
+        cp = root/'ORIGINAL_V1_PRODUCTION_CONTROL.json'
+        ctl = json.loads(cp.read_text(encoding='utf-8-sig'))
+        historical_phase4 = copy.deepcopy(ctl['phase_completion_records']['4'])
+        for rejection in ctl['visual_rejections']:
+            rejection['candidate_sha256'] = 'f' * 64
+        cp.write_text(json.dumps(ctl, indent=2) + '\n', encoding='utf-8')
+        status, _ = c.build(root)
+        self.assertEqual(status['visual_rejections'], [])
+        self.assertEqual(status['phases']['4']['state'], 'complete')
+        self.assertEqual(c.read(root, 'ORIGINAL_V1_PRODUCTION_CONTROL.json')['phase_completion_records']['4'], historical_phase4)
+        self.assertTrue(status['next_action']['action'].startswith('EXECUTE Phase 5'))
+
+    def test_incomplete_visual_rejection_is_refused(self):
+        c = self.module(); root = self.fixture()
+        cp = root/'ORIGINAL_V1_PRODUCTION_CONTROL.json'
+        ctl = json.loads(cp.read_text(encoding='utf-8-sig'))
+        del ctl['visual_rejections'][0]['evidence_paths']
+        cp.write_text(json.dumps(ctl, indent=2) + '\n', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'visual rejection entry incomplete'):
+            c.build(root)
+
 
     def test_frozen_stress_pose_drift_is_refused(self):
         c=self.module();root=self.fixture()

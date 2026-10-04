@@ -246,6 +246,16 @@ def next_action(status, control):
     rev = status['current_candidate']
     if status['candidate_state']=='rejected':
         return {'action':'STOP','reason':'current candidate is rejected; resolve valid parent lineage','command':None}
+    visual_rejections = status.get('visual_rejections', [])
+    if visual_rejections:
+        issue_ids = sorted({issue_id for row in visual_rejections for issue_id in row['issue_ids']})
+        return {
+            'action':'REOPEN shoulder/axilla foundation',
+            'reason':'owner visual rejection is open for the active candidate: '+', '.join(issue_ids),
+            'command':None,
+            'work_package':'docs/superpowers/plans/2026-10-04-shoulder-axilla-foundation-recovery.md',
+            'safe_parallel_task':'Preserve r95 as the immutable comparator; collect real-human evidence and diagnose weights/support topology before editing.'
+        }
     if rev == 'r29':
         return {'action':'RUN r30','reason':'authorised finger-minimum recovery, preserving curl_peak clearance',
                 'command':'RUN_ORIGINAL_V1_R30.bat','execution_parent':'r29'}
@@ -431,6 +441,33 @@ def build(root=ROOT):
             raise ValueError('owner accepted limitation must state it is not a numerical pass and waives no gate: '+lim['id'])
         if lim['candidate_revision']==rev and lim['candidate_sha256']==current['sha256']:
             owner_limitations.append(lim)
+    # A later owner visual rejection supersedes workflow selection without rewriting
+    # the immutable historical phase checkpoint that was valid when recorded.
+    visual_rejections=[]
+    for rejection in control.get('visual_rejections',[]):
+        required=('id','candidate_revision','candidate_sha256','severity','issue_ids',
+                  'evidence_paths','decision_date','status','owner_statement')
+        for key in required:
+            if key not in rejection:
+                raise ValueError('visual rejection entry incomplete: missing '+key)
+        if rejection['severity'] not in ('Critical','High','Medium','Low'):
+            raise ValueError('visual rejection severity invalid: '+rejection['id'])
+        if rejection['status'] not in ('open','in_progress','pending_review','resolved'):
+            raise ValueError('visual rejection status invalid: '+rejection['id'])
+        if (not isinstance(rejection['issue_ids'],list) or not rejection['issue_ids'] or
+            not all(isinstance(x,str) and x for x in rejection['issue_ids'])):
+            raise ValueError('visual rejection issue IDs invalid: '+rejection['id'])
+        if not isinstance(rejection['evidence_paths'],list) or not rejection['evidence_paths']:
+            raise ValueError('visual rejection evidence paths invalid: '+rejection['id'])
+        for path in rejection['evidence_paths']:
+            target=(root/path).resolve()
+            if not target.is_relative_to(root.resolve()) or not target.is_file():
+                raise ValueError('visual rejection evidence missing: '+str(path))
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',str(rejection['decision_date'])):
+            raise ValueError('visual rejection decision date invalid: '+rejection['id'])
+        if (rejection['candidate_revision']==rev and rejection['candidate_sha256']==current['sha256'] and
+            rejection['severity'] in ('Critical','High') and rejection['status']!='resolved'):
+            visual_rejections.append(rejection)
     foundation=read(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')['gates']
     prov=read(root,'ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json')
     if not prov.get('clean_room') or prov.get('starting_geometry')!='blank' or prov.get('legacy_geometry_imported') is not False:
@@ -594,7 +631,7 @@ def build(root=ROOT):
         'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],
         'development_failure_count':ev['failure_count'],'development_failures':fails,
         'production_failure_count':evaluate(root,current['evidence_location'],'production_target')['failure_count'],
-        'production_approved':False,'phases':phases,'unresolved_regressions':regs,'owner_accepted_regressions':owner_accepted,'owner_accepted_limitations':owner_limitations,'phase5_followups':control.get('phase5_followups',[]),'strict_regression_count_before_owner_dispositions':len(regs)+len(owner_accepted),
+        'production_approved':False,'phases':phases,'unresolved_regressions':regs,'owner_accepted_regressions':owner_accepted,'owner_accepted_limitations':owner_limitations,'visual_rejections':visual_rejections,'phase5_followups':control.get('phase5_followups',[]),'strict_regression_count_before_owner_dispositions':len(regs)+len(owner_accepted),
         'pending_owner_reviews':[x for x in control['owner_reviews'] if x['owner_review']=='pending']+snapshot_reviews,
         'latest_evidence':refs,'last_known_candidate_sha256':current['sha256'],
         'evidence_timestamp':current['evidence_timestamp'],'source_head':control['source_head'],

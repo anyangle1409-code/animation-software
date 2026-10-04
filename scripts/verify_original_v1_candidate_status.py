@@ -61,7 +61,8 @@ def verify_status(status_path: Path = STATUS_PATH) -> dict[str, Any]:
         if not condition:
             errors.append(message)
 
-    expect(status.get("overall_status") == "candidate_not_production", "overall status must remain candidate_not_production")
+    expect(status.get("overall_status") in ("candidate_not_production", "candidate_rejected_for_anatomical_repair"),
+           "overall status must remain non-production or record the owner anatomical rejection")
     expect(status.get("production_approved") is False, "production_approved must be false")
     expect(status.get("asset") == "HomeGymPT_Male_ORIGINAL_v1", "asset identity mismatch")
     expect(status.get("rig") == "hgpt_canonical_v4_original", "rig identity mismatch")
@@ -77,6 +78,12 @@ def verify_status(status_path: Path = STATUS_PATH) -> dict[str, Any]:
     )
 
     gates = status.get("gates", {})
+    if status.get("overall_status") == "candidate_rejected_for_anatomical_repair":
+        visual = gates.get("owner_visual_anatomy", {})
+        expect(visual.get("status") == "blocked", "owner visual anatomy gate must be blocked after rejection")
+        expect(visual.get("candidate_revision") == "r95", "owner visual rejection must identify r95")
+        expect(visual.get("candidate_sha256") == "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+               "owner visual rejection candidate SHA-256 mismatch")
 
     o1 = load_json(ROOT / "ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json")
     expect(o1.get("asset_id") == status.get("asset"), "O1 provenance asset identity mismatch")
@@ -182,7 +189,8 @@ def verify_status(status_path: Path = STATUS_PATH) -> dict[str, Any]:
 
     next_action = status.get("next_action", {})
     expect(int(next_action.get("priority", -1)) == int(repair["next_priority"]) == 1, "status next_action priority mismatch")
-    expect(next_action.get("group") == "shoulder", "current next_action group must be shoulder")
+    expected_group = "shoulder_axilla_foundation" if status.get("overall_status") == "candidate_rejected_for_anatomical_repair" else "shoulder"
+    expect(next_action.get("group") == expected_group, "current next_action group must match the recorded recovery state")
 
     return {
         "schema_version": 1,

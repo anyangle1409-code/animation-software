@@ -57,6 +57,17 @@ if not defined BLENDER (
   exit /b 2
 )
 
+set "PYTHON="
+if defined PYTHON_EXE if exist "%PYTHON_EXE%" set "PYTHON=%PYTHON_EXE%"
+if not defined PYTHON if exist "C:\Users\Mark\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" (
+  set "PYTHON=C:\Users\Mark\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+)
+if not defined PYTHON (
+  for /f "delims=" %%I in ('where python.exe 2^>nul') do (
+    if not defined PYTHON set "PYTHON=%%I"
+  )
+)
+
 echo ============================================================
 echo ORIGINAL v1 shoulder/axilla layer diagnostic
 echo Candidate: %CANDIDATE%
@@ -79,7 +90,14 @@ if not exist "%OUT%" (
   exit /b 1
 )
 
-python scripts\validate_original_v1_shoulder_layer_diagnostic.py "%OUT%"
+if defined PYTHON (
+  "%PYTHON%" scripts\validate_original_v1_shoulder_layer_diagnostic.py "%OUT%"
+) else (
+  rem Fallback: Blender's embedded Python can validate the JSON without relying
+  rem on the Windows Store python alias.
+  "%BLENDER%" --background --factory-startup --python-exit-code 1 ^
+    --python scripts\validate_original_v1_shoulder_layer_diagnostic.py -- "%OUT%"
+)
 if errorlevel 1 (
   echo ERROR: diagnostic output failed validation.
   exit /b 1

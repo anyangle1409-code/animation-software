@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "AUDIT_NOT_RUN",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "source_branch": null,
+  "plan_path": "ORIGINAL_V1_HUMAN_MOTION_AUDIT_PLAN.json",
+  "reference_observations": [],
+  "coverage": [],
+  "axilla_chest_sweep": [],
+  "defects": [],
+  "summary": {
+    "engineering_verification": "NOT_RUN",
+    "owner_review": "pending",
+    "critical_open": 0,
+    "high_open": 0,
+    "medium_open": 0,
+    "low_open": 0
+  },
+  "note": "Create a candidate-specific copy. Do not edit this template into an acceptance record."
+}

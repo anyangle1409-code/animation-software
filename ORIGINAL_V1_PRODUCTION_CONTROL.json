@@ -563,14 +563,46 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r87_arc.json"
         }
       ]
+    },
+    "r90": {
+      "candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
+      "chosen_parent": "r87",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r90 = r87 with the forward-flexion corrective (HGPT_SHOULDER_FLEX_L/R; driver smoothstep_C1((theta-45)/75)*(1-lam); 67 bones, weights, abduction keys and frozen P3a pose-definition hash untouched) RE-SOLVED with a mesh-volume floor (--w-vol 1e7 --vol-floor 0.9525; only the squat arc activates the key; mask and driver unchanged, declared and committed before the solve; re-solve bit-identical). Cause analysis (measured): squat volume ratio P3B1 0.9562; r41-r76 0.9551-0.9563; r80 0.9539; r81 0.9500 (dilated weight smoothing, shoulder-region triangles -9.7e-4 m^3); r87 0.9489 (flexion key a further -0.0011). Result, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 3 (r87 4): squat volume deviation now 0.0458 (limit 0.0488; P3B1 0.0438) cleared. Versus r87: 0 regressions, 1 material improvement. Remaining 3, all inside every development gate (smallest margin 0.519): press_top arm min 0.745 vs 0.78 (the corrective compresses edges the weights stretch to 1.294), pullup_top torso min 0.669 vs 0.693 (weights 0.680, corrective -0.011), push-up self-intersections 164 vs 158 (six extra arm|hand pairs at the planted wrist, introduced with the wrist-band weights at r45; a 3D item, not shoulder). Refused beside it: r88 per-region floors A/B/C (each clears one of the press_top arm / pullup_top torso targets but breaks the pull-up arm minimum in two poses: the one displacement field serves both poses), probe lo 0.50 of the flexion corrective, r85, r84, r82. Shoulder self-intersections unchanged (press_top 32, rhythm 28, pull-ups 0, squat 80 versus P3B1 95/54/4,0/108). Both corrective audits CLEAN (asymmetry 0). NOT eligible for Phase 4: 3 strict P3B1 regressions remain unresolved.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_r87.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r90/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r90/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r90/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r90/corrective_audit_flexion.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r90_arc.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r87",
-    "candidate_sha256": "019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc",
+    "candidate_revision": "r90",
+    "candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
     "action": "RUN local axilla repair",
-    "reason": "r87 is development-clear (0 failures) with 4 strict P3B1 regressions (down from r83's 7); the squat arm, squat shoulder and squat p01 regressions are cleared by the forward-flexion corrective; the remaining four (press_top arm and pullup_top torso minimum edge ratios, squat volume deviation, push-up self-intersections) are not addressed by a flexion-gated key: next is an owner decision on them",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r87",
+    "reason": "r90 is development-clear (0 failures) with 3 strict P3B1 regressions (r87 4): press_top arm and pullup_top torso minimum edge ratios sit on a measured trade-off frontier against the pull-up arm minimum (r88), and the push-up self-intersection item is a 3D wrist-band side effect; next is an owner decision on these three or a declared 3D wrist-weight experiment",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r90",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

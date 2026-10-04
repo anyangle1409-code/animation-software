@@ -4,15 +4,15 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r87 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
-SHA-256: `019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc`
+r90 — STRICT IMPROVEMENT; EXPERIMENTAL. P3B1 stays pinned.
+SHA-256: `5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f`
 
 DEVELOPMENT BLOCKERS
-0 failures; 4 separate strict severity regressions versus P3B1.
+0 failures; 3 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED
-r87: solution corr_flex_v1.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.
+r90: solution corr_flex_v2.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -29,8 +29,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r87 is development-clear (0 failures) with 4 strict P3B1 regressions (down from r83's 7); the squat arm, squat shoulder and squat p01 regressions are cleared by the forward-flexion corrective; the remaining four (press_top arm and pullup_top torso minimum edge ratios, squat volume deviation, push-up self-intersections) are not addressed by a flexion-gated key: next is an owner decision on them
-`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r87`
+RUN local axilla repair — r90 is development-clear (0 failures) with 3 strict P3B1 regressions (r87 4): press_top arm and pullup_top torso minimum edge ratios sit on a measured trade-off frontier against the pull-up arm minimum (r88), and the push-up self-intersection item is a 3D wrist-band side effect; next is an owner decision on these three or a declared 3D wrist-weight experiment
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r90`
 Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
@@ -53,18 +53,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-04T12:54:11.077521+00:00
+Evidence timestamp: 2026-10-04T13:42:17.489079+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r87.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_r83.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_r87.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

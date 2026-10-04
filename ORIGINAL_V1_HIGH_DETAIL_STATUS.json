@@ -5,9 +5,9 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r87",
+  "current_candidate": "r90",
   "candidate_state": "experimental",
-  "candidate_classification": "TRADE-OFF",
+  "candidate_classification": "STRICT IMPROVEMENT",
   "pinned_baseline": {
     "revision": "P3B1",
     "id": "original_v1_o4_p3b1_20261002",
@@ -48,7 +48,7 @@
   ],
   "development_failure_count": 0,
   "development_failures": [],
-  "production_failure_count": 104,
+  "production_failure_count": 103,
   "production_approved": false,
   "phases": {
     "0": {
@@ -188,17 +188,6 @@
       "delta": 6.0,
       "direction": "lower_is_better",
       "tolerance": 5.0
-    },
-    {
-      "kind": "severity",
-      "name": "squat_bottom",
-      "region": null,
-      "metric": "volume_deviation_from_1",
-      "baseline": 0.04379999999999995,
-      "candidate": 0.051100000000000034,
-      "delta": 0.007300000000000084,
-      "direction": "lower_is_better",
-      "tolerance": 0.005
     }
   ],
   "pending_owner_reviews": [
@@ -217,47 +206,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_merged_pose_report.json",
-      "sha256": "28407cf5a1e6cfd627a4b64f668abf5875ae5321d825f6085539fce164c23b93"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_merged_pose_report.json",
+      "sha256": "75499483aa2a01aa951f8b779bd1f9214764a6f34069886e80423bcdb5690d08"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r87.json",
-      "sha256": "d1902e6954d63b12a2d01165294aa3251b2568f8cda731549e9d5d54fc48e49c"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.json",
+      "sha256": "4a0396789b4d3ac3fbe596377700a7f86ccbcbaa2a27d76bc094368111af9c52"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_evidence_manifest.json",
-      "sha256": "8b6373d0b5537bf0e0fd3f8eb7f5ce392abaab44adafcdd13c41066e99dbbe11"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_evidence_manifest.json",
+      "sha256": "aaffde21ee32234e46195f9fb6a2113919126a4aa960d03af07a79f0319dfe7e"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_P3B1.json",
-      "sha256": "17f7c1702c168aa701dd2d40f82ab7c8d32f223b9880430c1621b3371f153eef"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_P3B1.json",
+      "sha256": "10b202351e86ef9b6db45cc61d0a534b0126d340d986450115c5ddbfe1e581a9"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_r83.json",
-      "sha256": "e487fe8fdea54ef49f0a7ea4125f9cb76e4dff38edf5849bf1b4e529045d6068"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_r87.json",
+      "sha256": "904fa8332ddbec556d8a5f41e5aab4e54bc85c27c6e9aab180355cc94f545c69"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/diagnostic_brief.json",
-      "sha256": "ba83bc72eeeaa34ada948dca0d5c6470d62fff46d7882d54b19e2c8cb2137697"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/diagnostic_brief.json",
+      "sha256": "f730af7994895281a1d89767049f9cc65bd64d51d6db93168b206f8f82f0e43d"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/edge_extremes.json",
-      "sha256": "f3b1cd01571fee35e3b7bc3c9d173a74e88b9f6d6b5250fda691623579aff3b3"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/edge_extremes.json",
+      "sha256": "081dc6d55e09088e08126db804497f2560d29a13b7aeeff25e43dc6c6635cc32"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/grip_penetration.json",
-      "sha256": "a414561998a2369702f4e9d66cf68730e99d94926a03b6bf18025697fb390e6b"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/grip_penetration.json",
+      "sha256": "365fa1ab020cf4f6800175198953bb1f23ca254a96e9dbf4c5fe5f514daaa200"
     }
   ],
-  "last_known_candidate_sha256": "019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc",
-  "evidence_timestamp": "2026-10-04T12:54:11.077521+00:00",
+  "last_known_candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
+  "evidence_timestamp": "2026-10-04T13:42:17.489079+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r87: solution corr_flex_v1.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.",
+  "what_changed": "r90: solution corr_flex_v2.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -270,8 +259,8 @@
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "RUN local axilla repair",
-    "reason": "r87 is development-clear (0 failures) with 4 strict P3B1 regressions (down from r83's 7); the squat arm, squat shoulder and squat p01 regressions are cleared by the forward-flexion corrective; the remaining four (press_top arm and pullup_top torso minimum edge ratios, squat volume deviation, push-up self-intersections) are not addressed by a flexion-gated key: next is an owner decision on them",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r87",
+    "reason": "r90 is development-clear (0 failures) with 3 strict P3B1 regressions (r87 4): press_top arm and pullup_top torso minimum edge ratios sit on a measured trade-off frontier against the pull-up arm minimum (r88), and the push-up self-intersection item is a 3D wrist-band side effect; next is an owner decision on these three or a declared 3D wrist-weight experiment",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r90",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }

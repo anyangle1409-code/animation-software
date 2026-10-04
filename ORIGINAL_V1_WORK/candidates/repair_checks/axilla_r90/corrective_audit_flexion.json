@@ -1,0 +1,26 @@
+{
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.blend",
+  "candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
+  "declaration": "flexion_corrective_mask_declared_before_solve.json",
+  "runtime_spec": "flexion_corrective_r90.json",
+  "driver_config": {
+    "theta0_deg": 45.0,
+    "theta1_deg": 120.0,
+    "keys": {
+      "l": "HGPT_SHOULDER_FLEX_L",
+      "r": "HGPT_SHOULDER_FLEX_R"
+    }
+  },
+  "left_key_moved_vertices": 1491,
+  "right_key_moved_vertices": 1491,
+  "declared_left_owned": 1491,
+  "max_delta_m": 0.0287,
+  "mirror_asymmetry_m": 0.0,
+  "runtime_spec_max_error_m": 1.0717163085937698e-07,
+  "key_values_saved": {
+    "HGPT_SHOULDER_FLEX_L": 0.0,
+    "HGPT_SHOULDER_FLEX_R": 0.0
+  },
+  "issues": [],
+  "status": "CLEAN"
+}

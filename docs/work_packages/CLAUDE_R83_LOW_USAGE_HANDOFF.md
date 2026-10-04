@@ -111,3 +111,10 @@ Commit/push:
 6. updated authoritative handoff/status.
 
 Small recoverable commits. No force push. No rebase that discards other-agent work.
+
+## Automatic probe decision
+
+After focused comparison JSONs exist, run:
+`python scripts/rank_original_v1_r83_probes.py --r81 ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_P3B1.json --out <r83-dir>/focused_ranking.json <probe-comparison-jsons...>`
+
+Use this to avoid manually interpreting every alpha. A BEST_FOCUSED_CANDIDATE is only permission to continue to the next validation stage; it is never 3A clearance.

@@ -1,0 +1,30 @@
+﻿WING candidates (left torso vertices, scapula weight > 0.10, outward offset from the thorax > 2 cm in r93 press_top): 117
+   rest bbox [-0.166  0.018  1.23 ] [-0.098  0.155  1.395]
+   scapula_l weight: min 0.12 mean 0.55 max 1.00 ; trunk weight (spine_02+spine_03) mean 0.40
+   outward offset (cm) weights-only: mean 4.8 max 9.7 ; r93: mean 4.4 max 8.0
+   correlation(scapula weight, offset) = 0.60 ; slope 3.5 cm per unit weight
+
+   offset by pose (cm) - max over the wing set:
+   neutral            weights-only max 0.0 mean -0.0 | r93 max 0.0 mean -0.0
+   press_bottom       weights-only max 3.8 mean 2.2 | r93 max 3.8 mean 2.1
+   press_top@0.500    weights-only max 5.7 mean 3.3 | r93 max 5.1 mean 3.1
+   press_top@0.625    weights-only max 6.9 mean 3.9 | r93 max 6.1 mean 3.6
+   press_top@0.750    weights-only max 8.0 mean 4.3 | r93 max 6.8 mean 4.0
+   press_top          weights-only max 9.7 mean 4.8 | r93 max 8.0 mean 4.4
+   press_top_rhythm   weights-only max 10.6 mean 5.1 | r93 max 9.3 mean 4.9
+   pullup_hang        weights-only max 9.2 mean 4.7 | r93 max 7.6 mean 4.3
+   pullup_top         weights-only max 3.4 mean 1.6 | r93 max 3.4 mean 1.6
+   squat_bottom       weights-only max 1.4 mean -0.0 | r93 max 1.4 mean -0.0
+   pushup_bottom      weights-only max 1.6 mean 0.2 | r93 max 1.6 mean 0.2
+   row                weights-only max 2.5 mean 0.3 | r93 max 2.5 mean 0.3
+
+   all left torso vertices with scapula weight > 0.10: 312 ; of these in wing set 117
+   left SHOULDER-region vertices with scapula weight > 0.10: 280 (legitimate scapular skin, not touched)
+   v  894 rest [-0.157  0.111  1.369] offset 8.0 cm | scapula_l 0.95 upperarm_l 0.02 spine_02 0.02
+   v 6175 rest [-0.157  0.11   1.36 ] offset 7.8 cm | scapula_l 1.00 spine_02 0.00 neck 0.00
+   v14257 rest [-0.16   0.095  1.36 ] offset 7.8 cm | scapula_l 0.83 spine_02 0.12 upperarm_l 0.04
+   v  862 rest [-0.158  0.108  1.35 ] offset 7.7 cm | scapula_l 0.89 spine_02 0.10 neck 0.00
+   v 6239 rest [-0.156  0.113  1.377] offset 7.6 cm | scapula_l 0.92 upperarm_l 0.04 spine_02 0.02
+   v 6112 rest [-0.16   0.094  1.35 ] offset 7.6 cm | scapula_l 0.79 spine_02 0.20 upperarm_l 0.01
+   v 6178 rest [-0.151  0.125  1.369] offset 7.5 cm | scapula_l 1.00 spine_03 0.00 neck 0.00
+   v 6176 rest [-0.16   0.097  1.369] offset 7.5 cm | scapula_l 0.84 spine_02 0.08 upperarm_l 0.06

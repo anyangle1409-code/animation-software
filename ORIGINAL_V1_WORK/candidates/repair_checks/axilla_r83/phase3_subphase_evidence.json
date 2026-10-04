@@ -1,0 +1,1287 @@
+{
+  "candidate": "r83",
+  "baseline": "P3B1",
+  "pre_corrective": "r81",
+  "groups": {
+    "3A shoulder/axilla": [
+      {
+        "pose": "press_bottom",
+        "region": "shoulder",
+        "min": 0.545,
+        "max": 2.829,
+        "P3B1_min": 0.368,
+        "P3B1_max": 4.053,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.395,
+        "max_margin": 2.171,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_bottom",
+        "region": "torso",
+        "min": 0.681,
+        "max": 2.588,
+        "P3B1_min": 0.698,
+        "P3B1_max": 3.289,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.531,
+        "max_margin": 2.412,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_bottom",
+        "region": "arm",
+        "min": 0.271,
+        "max": 1.823,
+        "P3B1_min": 0.271,
+        "P3B1_max": 2.099,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.121,
+        "max_margin": 3.177,
+        "self_intersections": 80,
+        "P3B1_self_intersections": 80,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "shoulder",
+        "min": 0.449,
+        "max": 3.325,
+        "P3B1_min": 0.185,
+        "P3B1_max": 4.337,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.299,
+        "max_margin": 1.675,
+        "self_intersections": 32,
+        "P3B1_self_intersections": 91,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "torso",
+        "min": 0.532,
+        "max": 3.212,
+        "P3B1_min": 0.403,
+        "P3B1_max": 5.078,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.382,
+        "max_margin": 1.788,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "arm",
+        "min": 0.745,
+        "max": 1.996,
+        "P3B1_min": 0.78,
+        "P3B1_max": 2.425,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.595,
+        "max_margin": 3.004,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": true,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "shoulder",
+        "min": 0.452,
+        "max": 3.3,
+        "P3B1_min": 0.177,
+        "P3B1_max": 4.574,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.302,
+        "max_margin": 1.7,
+        "self_intersections": 28,
+        "P3B1_self_intersections": 50,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "torso",
+        "min": 0.524,
+        "max": 3.614,
+        "P3B1_min": 0.353,
+        "P3B1_max": 5.944,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.374,
+        "max_margin": 1.386,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "arm",
+        "min": 0.728,
+        "max": 1.901,
+        "P3B1_min": 0.679,
+        "P3B1_max": 2.244,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.578,
+        "max_margin": 3.099,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "squat_bottom",
+        "region": "shoulder",
+        "min": 0.182,
+        "max": 2.554,
+        "P3B1_min": 0.244,
+        "P3B1_max": 4.214,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.032,
+        "max_margin": 2.446,
+        "self_intersections": 7,
+        "P3B1_self_intersections": 35,
+        "regression_vs_P3B1": {
+          "min": true,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "squat_bottom",
+        "region": "torso",
+        "min": 0.207,
+        "max": 3.182,
+        "P3B1_min": 0.207,
+        "P3B1_max": 3.332,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.057,
+        "max_margin": 1.818,
+        "self_intersections": 6,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "squat_bottom",
+        "region": "arm",
+        "min": 0.383,
+        "max": 2.259,
+        "P3B1_min": 0.597,
+        "P3B1_max": 2.661,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.233,
+        "max_margin": 2.741,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": true,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "shoulder",
+        "min": 0.46,
+        "max": 3.483,
+        "P3B1_min": 0.215,
+        "P3B1_max": 4.21,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.31,
+        "max_margin": 1.517,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "torso",
+        "min": 0.611,
+        "max": 2.985,
+        "P3B1_min": 0.438,
+        "P3B1_max": 4.752,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.461,
+        "max_margin": 2.015,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "arm",
+        "min": 0.857,
+        "max": 1.964,
+        "P3B1_min": 0.865,
+        "P3B1_max": 2.346,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.707,
+        "max_margin": 3.036,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "shoulder",
+        "min": 0.446,
+        "max": 3.465,
+        "P3B1_min": 0.3,
+        "P3B1_max": 4.224,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.296,
+        "max_margin": 1.535,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "torso",
+        "min": 0.493,
+        "max": 3.357,
+        "P3B1_min": 0.373,
+        "P3B1_max": 5.58,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.343,
+        "max_margin": 1.643,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "arm",
+        "min": 0.847,
+        "max": 1.93,
+        "P3B1_min": 0.838,
+        "P3B1_max": 2.214,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.697,
+        "max_margin": 3.07,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "shoulder",
+        "min": 0.443,
+        "max": 2.509,
+        "P3B1_min": 0.287,
+        "P3B1_max": 3.844,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.293,
+        "max_margin": 2.491,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "torso",
+        "min": 0.669,
+        "max": 2.725,
+        "P3B1_min": 0.693,
+        "P3B1_max": 3.033,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.519,
+        "max_margin": 2.275,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": true,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "arm",
+        "min": 0.293,
+        "max": 1.73,
+        "P3B1_min": 0.293,
+        "P3B1_max": 1.989,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.143,
+        "max_margin": 3.27,
+        "self_intersections": 92,
+        "P3B1_self_intersections": 92,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "shoulder",
+        "min": 0.46,
+        "max": 3.483,
+        "P3B1_min": 0.215,
+        "P3B1_max": 4.21,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.31,
+        "max_margin": 1.517,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "torso",
+        "min": 0.611,
+        "max": 2.985,
+        "P3B1_min": 0.438,
+        "P3B1_max": 4.752,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.461,
+        "max_margin": 2.015,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "arm",
+        "min": 0.857,
+        "max": 1.964,
+        "P3B1_min": 0.865,
+        "P3B1_max": 2.346,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.707,
+        "max_margin": 3.036,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      }
+    ],
+    "3B hands/fingers": [
+      {
+        "pose": "curl_peak",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "curl_peak",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "curl_peak",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_bottom",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_bottom",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.906,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.094,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_bottom",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "press_top_rhythm",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_hang_rhythm",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_top",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "row",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "row",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "row",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "grip",
+        "region": "hand",
+        "min": 0.245,
+        "max": 1.883,
+        "P3B1_min": 0.245,
+        "P3B1_max": 1.883,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.095,
+        "max_margin": 3.117,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "grip",
+        "region": "finger",
+        "min": 0.255,
+        "max": 1.905,
+        "P3B1_min": 0.255,
+        "P3B1_max": 1.905,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.105,
+        "max_margin": 3.095,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "grip",
+        "region": "thumb",
+        "min": 0.562,
+        "max": 1.335,
+        "P3B1_min": 0.562,
+        "P3B1_max": 1.335,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.412,
+        "max_margin": 3.665,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "curl_handle",
+        "region": "hand",
+        "min": 0.337,
+        "max": 1.454,
+        "P3B1_min": 0.337,
+        "P3B1_max": 1.454,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.187,
+        "max_margin": 3.546,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "curl_handle",
+        "region": "finger",
+        "min": 0.263,
+        "max": 1.655,
+        "P3B1_min": 0.262,
+        "P3B1_max": 1.655,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.113,
+        "max_margin": 3.345,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "curl_handle",
+        "region": "thumb",
+        "min": 0.599,
+        "max": 1.325,
+        "P3B1_min": 0.599,
+        "P3B1_max": 1.325,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.449,
+        "max_margin": 3.675,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "hand",
+        "min": 0.337,
+        "max": 1.455,
+        "P3B1_min": 0.337,
+        "P3B1_max": 1.455,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.187,
+        "max_margin": 3.545,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "finger",
+        "min": 0.262,
+        "max": 1.655,
+        "P3B1_min": 0.262,
+        "P3B1_max": 1.655,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.112,
+        "max_margin": 3.345,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pullup_bar",
+        "region": "thumb",
+        "min": 0.599,
+        "max": 1.325,
+        "P3B1_min": 0.599,
+        "P3B1_max": 1.325,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.449,
+        "max_margin": 3.675,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      }
+    ],
+    "3D wrist (push-up hand/arm chain)": [
+      {
+        "pose": "pushup_bottom",
+        "region": "hand",
+        "min": 0.24,
+        "max": 4.02,
+        "P3B1_min": 0.119,
+        "P3B1_max": 4.115,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.09,
+        "max_margin": 0.98,
+        "self_intersections": 41,
+        "P3B1_self_intersections": 38,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "pushup_bottom",
+        "region": "arm",
+        "min": 0.235,
+        "max": 1.973,
+        "P3B1_min": 0.235,
+        "P3B1_max": 1.973,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.085,
+        "max_margin": 3.027,
+        "self_intersections": 117,
+        "P3B1_self_intersections": 114,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      }
+    ],
+    "3E hip/pelvis/legs": [
+      {
+        "pose": "squat_bottom",
+        "region": "pelvis",
+        "min": 0.772,
+        "max": 2.336,
+        "P3B1_min": 0.772,
+        "P3B1_max": 2.336,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.622,
+        "max_margin": 2.664,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "squat_bottom",
+        "region": "torso",
+        "min": 0.207,
+        "max": 3.182,
+        "P3B1_min": 0.207,
+        "P3B1_max": 3.332,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.057,
+        "max_margin": 1.818,
+        "self_intersections": 6,
+        "P3B1_self_intersections": 4,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "squat_bottom",
+        "region": "leg",
+        "min": 0.258,
+        "max": 1.693,
+        "P3B1_min": 0.258,
+        "P3B1_max": 1.693,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.108,
+        "max_margin": 3.307,
+        "self_intersections": 68,
+        "P3B1_self_intersections": 68,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "lunge",
+        "region": "pelvis",
+        "min": 0.574,
+        "max": 4.573,
+        "P3B1_min": 0.574,
+        "P3B1_max": 4.573,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.424,
+        "max_margin": 0.427,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "lunge",
+        "region": "torso",
+        "min": 0.185,
+        "max": 3.904,
+        "P3B1_min": 0.185,
+        "P3B1_max": 3.904,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.035,
+        "max_margin": 1.096,
+        "self_intersections": 0,
+        "P3B1_self_intersections": 0,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      },
+      {
+        "pose": "lunge",
+        "region": "leg",
+        "min": 0.269,
+        "max": 1.615,
+        "P3B1_min": 0.269,
+        "P3B1_max": 1.615,
+        "min_gate": 0.15,
+        "max_gate": 5,
+        "min_margin": 0.119,
+        "max_margin": 3.385,
+        "self_intersections": 7,
+        "P3B1_self_intersections": 7,
+        "regression_vs_P3B1": {
+          "min": false,
+          "max": false,
+          "self_intersections": false
+        }
+      }
+    ]
+  },
+  "grip": [
+    {
+      "pose": "curl_handle",
+      "side": "grip_l",
+      "penetration_mm": 1.63,
+      "contact": 269,
+      "ok": true
+    },
+    {
+      "pose": "curl_handle",
+      "side": "grip_r",
+      "penetration_mm": 1.63,
+      "contact": 269,
+      "ok": true
+    },
+    {
+      "pose": "pullup_bar",
+      "side": "grip_l",
+      "penetration_mm": 1.63,
+      "contact": 269,
+      "ok": true
+    },
+    {
+      "pose": "pullup_bar",
+      "side": "grip_r",
+      "penetration_mm": 1.63,
+      "contact": 269,
+      "ok": true
+    }
+  ],
+  "strict_regressions_by_group": {
+    "3A shoulder/axilla": 4,
+    "3B hands/fingers": 0,
+    "3D wrist (push-up hand/arm chain)": 0,
+    "3E hip/pelvis/legs": 0
+  },
+  "grip_all_ok": true
+}

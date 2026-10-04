@@ -6,4 +6,4 @@ from original_v1_production_control import epoch_baseline, ROOT
 
 if __name__ == '__main__':
     name, path = epoch_baseline(ROOT, sys.argv[1])
-    print(name, path.replace('/', '\'))
+    print(name, path.replace('/', '\\'))

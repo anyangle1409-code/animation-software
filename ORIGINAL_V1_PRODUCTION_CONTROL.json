@@ -502,14 +502,43 @@
           "path": "ORIGINAL_V1_WORK/shoulder_corrective_r81.json"
         }
       ]
+    },
+    "r83": {
+      "candidate_sha256": "bc26867409df7514be9a18bb97e75f6cf8171df8e0f99a9d69648acbe3752b6d",
+      "chosen_parent": "r68",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r83 = r81 weights (identical 834-vertex dilated diffusion-smoothed shoulder-top zone, k=30; intermediate Blend copied to repair_preparation/r83_shoulder_corrective_declared) + a corrective RE-SOLVED with regional hold guards (--hold-region-min 0.02 --hold-region-max 0.1 --hold-scope region --w-hold 1e6: the corrective may not lower any region's minimum edge ratio or raise its maximum, in any pose, beyond the weights-only pose by those margins; mask identical to r81, declared and committed before the solve; solve re-run after the declaration and bit-identical, corr_v22). Hypothesis (measured on r81): the arm/torso compression drops were added by the corrective (pull-up arm weights-only 0.826 versus r81 0.688). Result under P3, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 7 (r81 12, r80 13, r76 23). Remaining 7, all inside every development gate (smallest margin 0.032): press_top arm min 0.745 vs 0.78 (tolerance 0.02), pullup_top torso min 0.669 vs 0.693, squat_bottom arm min 0.383 vs 0.597, squat shoulder min 0.182 vs 0.244, squat volume deviation 0.050 vs 0.044, squat p01 0.579 vs 0.613 (5 inherited from the dilated-zone weights, 1 added by the corrective, 1 outside the shoulder poses: push-up self-intersections 164 vs 158). Self-intersections P3B1 / r81 / r83: press_top 95 / 16 / 32, press_top_rhythm 54 / 12 / 28, pullup_hang 4 / 0 / 0, pullup_hang_rhythm 0 / 0 / 0, squat_bottom 108 / 82 / 82: still below P3B1 everywhere in the shoulder poses; trade versus r81: shoulder self-intersections up by 16 in the two press poses and pull-up volume deviation up 0.005 to 0.012 (P3B1 0.116), against 5 fewer strict regressions. Corrective audit CLEAN (asymmetry 0). Refused beside it: r84 probe (hold margin -0.1, i.e. lift every region minimum: 14 regressions, 4 development failures, press SI 156/196) and r82. NOT eligible for Phase 4: 7 strict P3B1 regressions remain unresolved.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_comparison_vs_r81.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r83/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r83/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r83/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r83_arc.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r81",
-    "candidate_sha256": "fa95c0b4f6f4815202936639aa173f61fdc0db43837f8f0c40a7af95d74d2b0a",
+    "candidate_revision": "r83",
+    "candidate_sha256": "bc26867409df7514be9a18bb97e75f6cf8171df8e0f99a9d69648acbe3752b6d",
     "action": "RUN local axilla repair",
-    "reason": "r81 is development-clear and has removed every shoulder self-intersection regression versus P3B1 (press_top 16, rhythm 12, pull-ups 0), leaving 12 strict regressions that are compression-type minimum-edge-ratio drops in the arm/torso/shoulder regions plus squat volume/p01 and push-up self-intersections, all inside the gates; next is a declared iteration aimed at that compression family (for example more smoothing iterations or a relaxed corrective compression floor), or an owner disposition of the remaining 12",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r81",
+    "reason": "r83 is development-clear (0 failures) with 7 strict P3B1 regressions (down from r81's 12), five of them squat-pose items inherited from the dilated-zone weights: next is a declared change aimed at the squat shoulder/arm minimum edge ratio (weights in the squat-pose arm/shoulder skin only), or an owner disposition of the remaining 7",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r83",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

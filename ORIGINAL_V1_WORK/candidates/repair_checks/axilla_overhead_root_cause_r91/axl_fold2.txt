@@ -1,0 +1,22 @@
+﻿pose press_top | rest-smooth adjacent triangle pairs: 9520 of 53832
+wonly  smooth-at-rest pairs with dihedral cos < 0.3:   98  < 0.0:   66  < -0.3:   48 | min -1.00 | tris with area ratio < 0.35: 698  inverted vs rest(n.n0<0): 9068
+r91    smooth-at-rest pairs with dihedral cos < 0.3:   20  < 0.0:    0  < -0.3:    0 | min 0.20 | tris with area ratio < 0.35: 300  inverted vs rest(n.n0<0): 9054
+r42    smooth-at-rest pairs with dihedral cos < 0.3:  346  < 0.0:  184  < -0.3:  112 | min -1.00 | tris with area ratio < 0.35: 448  inverted vs rest(n.n0<0): 9060
+
+worst 40 folds in r91 (smooth at rest): location cluster
+  pair   1458 rest mid [ 0.189 -0.043  1.467] region shoulder cos r91 0.20 wonly 0.32 r42 -0.24 | upperarm_r/clavicle_r
+  pair    940 rest mid [-0.189 -0.043  1.467] region shoulder cos r91 0.20 wonly 0.32 r42 -0.24 | upperarm_l/clavicle_l
+  pair    939 rest mid [-0.194 -0.043  1.466] region shoulder cos r91 0.21 wonly 0.97 r42 1.00 | upperarm_l/upperarm_l
+  pair   1455 rest mid [ 0.194 -0.043  1.466] region shoulder cos r91 0.21 wonly 0.97 r42 1.00 | upperarm_r/upperarm_r
+  pair   1447 rest mid [ 0.204 -0.041  1.465] region shoulder cos r91 0.24 wonly 0.98 r42 0.97 | upperarm_r/upperarm_r
+  pair    943 rest mid [-0.204 -0.041  1.465] region shoulder cos r91 0.24 wonly 0.98 r42 0.97 | upperarm_l/upperarm_l
+  pair   1450 rest mid [ 0.194 -0.042  1.499] region shoulder cos r91 0.24 wonly -0.73 r42 -0.92 | clavicle_r/clavicle_r
+  pair    961 rest mid [-0.194 -0.042  1.499] region shoulder cos r91 0.24 wonly -0.73 r42 -0.92 | clavicle_l/clavicle_l
+  pair    928 rest mid [-0.168 -0.045  1.47 ] region shoulder cos r91 0.27 wonly -0.02 r42 -0.97 | upperarm_l/clavicle_l
+  pair   1470 rest mid [ 0.168 -0.045  1.47 ] region shoulder cos r91 0.27 wonly -0.02 r42 -0.97 | upperarm_r/clavicle_r
+  pair    738 rest mid [ 0.178 -0.04   1.441] region shoulder cos r91 0.27 wonly 0.99 r42 0.97 | upperarm_r/upperarm_r
+  pair    108 rest mid [-0.178 -0.04   1.441] region shoulder cos r91 0.27 wonly 0.99 r42 0.97 | upperarm_l/upperarm_l
+  pair   1438 rest mid [ 0.216 -0.036  1.497] region shoulder cos r91 0.29 wonly -0.82 r42 -0.50 | upperarm_r/upperarm_r
+  pair    973 rest mid [-0.216 -0.036  1.497] region shoulder cos r91 0.29 wonly -0.82 r42 -0.50 | upperarm_l/upperarm_l
+fold cluster bbox rest min [-0.258 -0.046  1.412] max [0.258 0.098 1.521]
+regions of worst folds: {'shoulder': 40}

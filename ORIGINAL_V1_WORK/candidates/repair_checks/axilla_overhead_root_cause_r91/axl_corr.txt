@@ -1,0 +1,12 @@
+﻿POSE press_top  corrective (r91 minus weights-only), left half, vertices moved > 1 cm: 253  max 0.086 m
+mesh volume weights-only 0.08239 -> r91 0.08116 (change -1.23e-03 m^3, -1.50% of rest 0.08161)
+
+DENTS  (normal displacement < -2 cm): 53 vertices
+   regions {'torso': 53}  normal disp min -0.069 max -0.020
+   cell near rest [-0.104 -0.097  1.301]: 11 verts, mean normal disp -0.050, regions {'torso': 11}, dominant bones ['spine_02', 'spine_03']
+   cell near rest [-0.107 -0.106  1.343]: 11 verts, mean normal disp -0.053, regions {'torso': 11}, dominant bones ['spine_02', 'spine_03']
+   cell near rest [-0.141  0.135  1.343]:  7 verts, mean normal disp -0.035, regions {'torso': 7}, dominant bones ['scapula_l']
+   cell near rest [-0.071 -0.113  1.308]:  5 verts, mean normal disp -0.036, regions {'torso': 5}, dominant bones ['spine_02', 'spine_03']
+   cell near rest [-0.071 -0.124  1.339]:  4 verts, mean normal disp -0.040, regions {'torso': 4}, dominant bones ['spine_03']
+
+BULGES (normal displacement > +2 cm): 0 vertices

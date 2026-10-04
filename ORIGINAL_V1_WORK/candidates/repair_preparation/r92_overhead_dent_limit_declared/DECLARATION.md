@@ -1,0 +1,11 @@
+# r92 - abduction corrective re-solved with a bounded inward displacement (declaration before any solve)
+
+Fallback: r91 (immutable). Diagnosis: ORIGINAL_V1_WORK/candidates/repair_checks/axilla_overhead_root_cause_r91/ROOT_CAUSE.md.
+
+Mechanism: the existing humerothoracic-elevation x abduction-fraction corrective (driver, activation smoothstep 40-150 deg, mask of 1491 left-owned vertices, weights, flexion keys, volume-floored flexion solve all unchanged) is re-solved from the weights-only dump with ONE added term: torso skin may not move inward (along the vertex normal of the uncorrected posed surface) by more than a dent limit relative to the uncorrected pose, hinge weight 1e6 (--dent-limit / --w-dent). All other r83 solve arguments are kept. No pose or exercise name appears; the constraint is geometric and applies in every pose the key is active.
+
+Hypothesis: the 4-7 cm chest pit (and part of the 1.5 percent volume loss) is a free by-product of the solver's missing shape term; with the dent bounded to 2.5 cm (probe) or 4 cm (second probe) the solver must relieve the stretch tail by other means (in-plane motion, smaller tail relief) and the pit becomes shallow while the gates still hold. The knob/web and the weight-driven wing flaps are NOT targeted by this experiment and are reported separately.
+
+Screening (cheap first): solve against the weights-only dump, apply to the weights-only intermediate with the wrist patch, metrics-only 15-pose test, dump-based dent/volume/knob diagnostics (axl_*.py) and renders. Formalise only if the pit/fold is visibly reduced (not merely hidden), there is no development failure, none of r91's cleared metrics regresses (squat items, volume floor, push-up 162 / hand min, self-intersections at or below P3B1, shoulder SI), and the solve re-runs bit-identically.
+
+Stop condition: if bounding the dent breaks a development gate (p99 <= 2.0, region maxima, volume) or reintroduces stretch/wing/knob defects of equal visibility, or adds a strict regression beyond the two existing ones, the line is stopped, evidence preserved, r91 retained. Probes: dent limit 0.025 m and 0.040 m.

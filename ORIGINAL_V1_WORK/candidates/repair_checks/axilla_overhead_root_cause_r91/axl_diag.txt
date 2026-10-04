@@ -1,0 +1,29 @@
+﻿pose press_top
+wonly  torso/shoulder-left vertices 1042 : outward offset dn min -0.057  p1 -0.023  p99 0.040  max 0.060  | #dn<-2cm 14  #dn>+2cm 54
+r91    torso/shoulder-left vertices 1042 : outward offset dn min -0.071  p1 -0.058  p99 0.045  max 0.065  | #dn<-2cm 63  #dn>+2cm 55
+r68    torso/shoulder-left vertices 1043 : outward offset dn min -0.050  p1 -0.021  p99 0.040  max 0.060  | #dn<-2cm 12  #dn>+2cm 52
+r42    torso/shoulder-left vertices 980 : outward offset dn min -0.037  p1 -0.022  p99 0.066  max 0.095  | #dn<-2cm 12  #dn>+2cm 100
+
+corrective footprint (|r91 - weights-only| > 5 mm): 903 vertices, max 0.086 m; by region: {'arm': 54, 'shoulder': 403, 'torso': 446}
+
+PIT (most inward vs trunk reference, r91, left half): 60 vertices; rest bbox min [-0.15  -0.127  1.293] max [-0.061 -0.045  1.391]; mean dn r91 -0.042 / weights-only -0.008 / r42 -0.003; corrective move mean 0.042 m
+   regions {'torso': 60}
+   v  823 rest [-0.093 -0.114  1.329] r91 dn -0.071 wonly dn -0.007 corr 0.067 | spine_03 0.53 spine_02 0.35 clavicle_l 0.08
+   v 6097 rest [-0.094 -0.117  1.34 ] r91 dn -0.070 wonly dn -0.008 corr 0.064 | spine_03 0.56 spine_02 0.30 clavicle_l 0.09
+   v 6036 rest [-0.105 -0.104  1.329] r91 dn -0.070 wonly dn -0.007 corr 0.069 | spine_03 0.51 spine_02 0.35 clavicle_l 0.08
+   v14187 rest [-0.105 -0.102  1.317] r91 dn -0.068 wonly dn 0.004 corr 0.076 | spine_02 0.74 clavicle_l 0.13 spine_03 0.11
+   v 6033 rest [-0.092 -0.11   1.317] r91 dn -0.068 wonly dn 0.001 corr 0.069 | spine_03 0.47 spine_02 0.41 clavicle_l 0.06
+   v14219 rest [-0.107 -0.108  1.34 ] r91 dn -0.068 wonly dn -0.011 corr 0.065 | spine_03 0.54 spine_02 0.30 clavicle_l 0.09
+   v 5972 rest [-0.104 -0.1    1.305] r91 dn -0.060 wonly dn 0.006 corr 0.067 | spine_02 0.48 spine_03 0.39 spine_01 0.07
+   v 6100 rest [-0.108 -0.11   1.35 ] r91 dn -0.059 wonly dn -0.009 corr 0.055 | spine_03 0.56 spine_02 0.26 clavicle_l 0.11
+
+FLAP (most outward vs trunk reference, r91, left half): 60 vertices; rest bbox min [-0.162 -0.02   1.229] max [-0.133  0.142  1.35 ]; mean dn r91 0.032 / weights-only 0.032 / r42 0.087; corrective move mean 0.005 m
+   regions {'torso': 60}
+   v 6048 rest [-0.161  0.091  1.329] r91 dn 0.065 wonly dn 0.060 corr 0.006 | spine_02 0.53 scapula_l 0.46 upperarm_l 0.01
+   v 6047 rest [-0.159  0.105  1.317] r91 dn 0.059 wonly dn 0.057 corr 0.003 | spine_02 0.58 scapula_l 0.42 upperarm_l 0.00
+   v  829 rest [-0.162  0.076  1.329] r91 dn 0.058 wonly dn 0.048 corr 0.012 | spine_02 0.60 scapula_l 0.37 upperarm_l 0.02
+   v14193 rest [-0.161  0.09   1.317] r91 dn 0.057 wonly dn 0.049 corr 0.010 | spine_02 0.63 scapula_l 0.36 upperarm_l 0.01
+   v14224 rest [-0.162  0.061  1.34 ] r91 dn 0.052 wonly dn 0.049 corr 0.004 | spine_02 0.47 scapula_l 0.41 spine_03 0.06
+   v  798 rest [-0.159  0.103  1.305] r91 dn 0.052 wonly dn 0.048 corr 0.006 | spine_02 0.65 scapula_l 0.34 spine_01 0.00
+   v14194 rest [-0.154  0.119  1.317] r91 dn 0.051 wonly dn 0.060 corr 0.012 | spine_02 0.52 scapula_l 0.47 neck 0.00
+   v 5984 rest [-0.161  0.088  1.305] r91 dn 0.048 wonly dn 0.044 corr 0.007 | spine_02 0.68 scapula_l 0.31 spine_01 0.01

@@ -1,0 +1,17 @@
+﻿wonly  upper-left vertices: Laplacian/edge  p99 0.55  max 1.04   (rest p99 0.29)  #> 0.6: 12  #> 0.9: 1
+r91    upper-left vertices: Laplacian/edge  p99 0.45  max 0.85   (rest p99 0.29)  #> 0.6: 1  #> 0.9: 0
+r42    upper-left vertices: Laplacian/edge  p99 1.10  max 1.71   (rest p99 0.29)  #> 0.6: 134  #> 0.9: 40
+
+r91 top-40 curvature-spike vertices (left): rest bbox [-0.237 -0.115  1.293] [0.    0.095 1.598] regions {'arm': 2, 'neck': 15, 'shoulder': 16, 'torso': 7}
+  v 5967 rest [-0.061 -0.111  1.293] lap r91 0.85 wonly 0.01 r42 0.01 rest 0.01 | spine_02 0.58 spine_03 0.33 spine_01 0.08
+  v 5968 rest [-0.046 -0.115  1.305] lap r91 0.59 wonly 0.02 r42 0.02 rest 0.02 | spine_02 0.52 spine_03 0.39 spine_01 0.06
+  v14400 rest [-0.017  0.087  1.595] lap r91 0.58 wonly 0.52 r42 0.50 rest 0.20 | neck 0.60 head 0.23 clavicle_l 0.16
+  v 6417 rest [-0.034  0.083  1.597] lap r91 0.56 wonly 0.53 r42 0.51 rest 0.20 | neck 0.56 clavicle_l 0.22 head 0.22
+  v 6415 rest [-0.045  0.078  1.598] lap r91 0.56 wonly 0.53 r42 0.50 rest 0.20 | neck 0.52 clavicle_l 0.26 head 0.21
+  v14398 rest [-0.04   0.081  1.597] lap r91 0.55 wonly 0.56 r42 0.53 rest 0.20 | neck 0.54 clavicle_l 0.24 head 0.22
+  v14397 rest [-0.05   0.075  1.598] lap r91 0.55 wonly 0.56 r42 0.53 rest 0.20 | neck 0.50 clavicle_l 0.28 head 0.21
+  v 6419 rest [-0.023  0.086  1.596] lap r91 0.55 wonly 0.52 r42 0.50 rest 0.20 | neck 0.59 head 0.22 clavicle_l 0.18
+  v 6413 rest [-0.054  0.071  1.598] lap r91 0.54 wonly 0.51 r42 0.48 rest 0.19 | neck 0.48 clavicle_l 0.30 head 0.21
+  v14399 rest [-0.029  0.085  1.596] lap r91 0.53 wonly 0.55 r42 0.53 rest 0.20 | neck 0.57 head 0.22 clavicle_l 0.20
+  v 6411 rest [-0.062  0.063  1.598] lap r91 0.52 wonly 0.46 r42 0.43 rest 0.18 | neck 0.44 clavicle_l 0.35 head 0.21
+  v14396 rest [-0.059  0.067  1.598] lap r91 0.49 wonly 0.53 r42 0.50 rest 0.19 | neck 0.46 clavicle_l 0.33 head 0.21

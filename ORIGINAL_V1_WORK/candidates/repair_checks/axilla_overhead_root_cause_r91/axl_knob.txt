@@ -1,0 +1,10 @@
+﻿shoulder-top (z>1.44) left vertices moved >1.5 cm: 33  of  375
+   mean |D| 0.021  mean |normal part| 0.007  mean |tangential part| 0.019  max |D| 0.033
+   mean displacement vector (armature frame, m) [ 0.013 -0.014 -0.   ] ; rest centroid [-0.147 -0.036  1.517]
+   triangles inside the moved set: 35; total area weights-only 0.00148 -> r91 0.00289 m^2 (95.4%)
+   v 4806 rest [-0.135 -0.031  1.533] |D| 0.033 normal +0.019 | clavicle_l 0.71 upperarm_l 0.16 neck 0.08
+   v13588 rest [-0.155 -0.041  1.519] |D| 0.031 normal +0.015 | clavicle_l 0.66 upperarm_l 0.24 neck 0.05
+   v 4803 rest [-0.142 -0.042  1.52 ] |D| 0.029 normal +0.012 | clavicle_l 0.67 upperarm_l 0.20 neck 0.07
+   v  189 rest [-0.148 -0.03   1.531] |D| 0.029 normal +0.014 | clavicle_l 0.69 upperarm_l 0.20 scapula_l 0.06
+   v  188 rest [-0.122 -0.031  1.535] |D| 0.029 normal +0.012 | clavicle_l 0.73 upperarm_l 0.13 neck 0.11
+   v13587 rest [-0.13  -0.042  1.523] |D| 0.025 normal +0.013 | clavicle_l 0.67 upperarm_l 0.17 neck 0.10

@@ -75,6 +75,8 @@ def main():
     ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
     ap.add_argument("--w-vol", type=float, default=0.0, help="weight of a mesh-volume floor: in every pose where the key is active, total mesh volume may not fall below --vol-floor x rest volume")
     ap.add_argument("--vol-floor", type=float, default=0.95)
+    ap.add_argument("--dent-limit", type=float, default=None, help="torso skin may not move inward (along the vertex normal of the uncorrected posed surface) by more than this many metres relative to the uncorrected pose; needs --w-dent")
+    ap.add_argument("--w-dent", type=float, default=0.0)
     ap.add_argument("--region-floor", default=None, help="comma list region:ratio (e.g. arm:0.765,torso:0.684): absolute minimum edge ratio for mask edges of that region in EVERY pose (no pose names), enforced with the --w-hold hinge; needs --w-hold")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
@@ -327,6 +329,18 @@ def main():
         return DL, DR
 
     tris_all = d['tris']
+    NDENT = None
+    if a.dent_limit is not None:
+        if a.w_dent <= 0:
+            raise SystemExit('--dent-limit needs --w-dent')
+        NDENT = np.zeros((nP, len(Z), 3))
+        for _p in range(nP):
+            _a, _b, _c = P0[_p][tris_all[:, 0]], P0[_p][tris_all[:, 1]], P0[_p][tris_all[:, 2]]
+            _n = np.cross(_b - _a, _c - _a)
+            _vn = np.zeros_like(P0[_p])
+            for _k in range(3):
+                np.add.at(_vn, tris_all[:, _k], _n)
+            NDENT[_p] = (_vn / np.maximum(np.linalg.norm(_vn, axis=1, keepdims=True), 1e-18))[Z]
     VREST = float(np.einsum('ij,ij->i', rest[tris_all[:, 0]], np.cross(rest[tris_all[:, 1]], rest[tris_all[:, 2]])).sum() / 6.0)
 
     def loss_grad(x):
@@ -389,6 +403,12 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
                     np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
                     np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
+            if NDENT is not None:
+                _dn = ((Pp[Z] - P0[p][Z]) * NDENT[p]).sum(axis=1)
+                _ed = np.where(TORSO, np.maximum(-a.dent_limit - _dn, 0.0), 0.0)
+                if (_ed > 0).any():
+                    total += a.w_dent * (_ed ** 2).sum()
+                    gP[Z] += (-2.0 * a.w_dent * _ed)[:, None] * NDENT[p]
             if a.w_vol > 0:
                 _a, _b, _c = Pp[tris_all[:, 0]], Pp[tris_all[:, 1]], Pp[tris_all[:, 2]]
                 _V = np.einsum('ij,ij->i', _a, np.cross(_b, _c)).sum() / 6.0

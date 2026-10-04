@@ -3,8 +3,8 @@
   "asset": "HomeGymPT_Male_ORIGINAL_v1",
   "rig": "hgpt_canonical_v4_original",
   "branch": "claude/original-v1-blender-o2-20260929",
-  "current_phase": 4,
-  "current_subphase": "4",
+  "current_phase": 5,
+  "current_subphase": "5A",
   "current_candidate": "r95",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
@@ -91,8 +91,14 @@
       "reason": "Lunge pelvis/torso collapse and stretch; repair local hip transition."
     },
     "4": {
-      "state": "not_started",
-      "reason": "Required ordered exit evidence has not been recorded."
+      "state": "complete",
+      "reason": "Candidate-bound phase checkpoint verified on current lineage.",
+      "checkpoint_revision": "r95",
+      "checkpoint_candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/phase_4_exit_ACTUAL.json",
+        "sha256": "0a29c9862734578b872a9207ac458de748957be252d08cd361d4ff4b65976bb3"
+      }
     },
     "5": {
       "state": "not_started",
@@ -127,8 +133,9 @@
       "reason": "Required ordered exit evidence has not been recorded."
     },
     "5A": {
-      "state": "not_started",
-      "reason": "Regional anatomy package prepared; modelling not executed."
+      "state": "active",
+      "reason": "Next ordered Phase 5 anatomy region; modelling/evidence not yet verified.",
+      "work_package": "docs/work_packages/PHASE_5A_TORSO.md"
     },
     "5B": {
       "state": "not_started",
@@ -255,6 +262,17 @@
       "owner_review": "pending",
       "blocking": false,
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+    },
+    {
+      "checkpoint": "r95 milestone snapshot",
+      "owner_review": "pending",
+      "blocking": false,
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json",
+        "sha256": "c2009b2cb8cbe5dc5279c546ed0b3271d6f33c3d66506a7af4f68f0da21e97fe"
+      },
+      "review_index": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/README.md"
     }
   ],
   "latest_evidence": [
@@ -293,6 +311,10 @@
     {
       "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r95/grip_penetration.json",
       "sha256": "ead69e6f159210acb5eddb2db03ef56c848b501dec6710479d7c3965f45443b3"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json",
+      "sha256": "c2009b2cb8cbe5dc5279c546ed0b3271d6f33c3d66506a7af4f68f0da21e97fe"
     }
   ],
   "last_known_candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
@@ -311,9 +333,10 @@
   ],
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
-    "action": "ENTER development freeze validation",
-    "reason": "zero blockers and no unresolved strict regressions",
-    "command": null,
-    "work_package": "docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md"
+    "action": "EXECUTE Phase 5A anatomy",
+    "reason": "development freeze recorded; execute the next unverified anatomy region in order",
+    "command": "RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template 5A <fresh-template.json>",
+    "work_package": "docs/work_packages/PHASE_5A_TORSO.md",
+    "review_command": "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat 5A <candidate-rN>"
   }
 }

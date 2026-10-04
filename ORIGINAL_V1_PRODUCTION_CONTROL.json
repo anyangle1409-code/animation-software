@@ -73,7 +73,19 @@
         "candidate_sha256":  "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
     }
   ],
-  "phase_completion_records": {},
+  "phase_completion_records": {
+    "4": {
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "evidence": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/phase_4_exit_ACTUAL.json",
+        "sha256": "0a29c9862734578b872a9207ac458de748957be252d08cd361d4ff4b65976bb3"
+      },
+      "freeze_record": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/development_freeze_record.json",
+      "verification_receipt": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/phase_4_exit_verification_receipt.json",
+      "note": "Phase 4 development freeze of r95. Development freeze only: owner review pending/non-blocking, not production approval. Owner-accepted pullup_top torso comparator difference and rear trapezius drape limitation remain candidate-bound; PHASE5-FU-001 open."
+    }
+  },
   "continuation_decisions": {
     "r30": {
       "candidate_sha256": "c842992f435ab43bc846782add8989afab3d7f03b59bc199615f9827c9444347",

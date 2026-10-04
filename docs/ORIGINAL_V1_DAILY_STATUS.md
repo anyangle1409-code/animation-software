@@ -1,7 +1,7 @@
 # ORIGINAL v1 daily status (generated)
 
 CURRENT PHASE
-Phase 4 / 4
+Phase 5 / 5A
 
 CURRENT CANDIDATE
 r95 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
@@ -26,11 +26,13 @@ WHAT PASSED
 PENDING OWNER REVIEWS
 - O2 neutral anatomy — pending, NON-BLOCKING.
 - O4 deformation candidates — pending, NON-BLOCKING.
+- [r95 milestone snapshot](../ORIGINAL_V1_WORK/candidates/review/milestone_r95/README.md) — pending, NON-BLOCKING.
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-ENTER development freeze validation — zero blockers and no unresolved strict regressions
-Read `docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md`.
+EXECUTE Phase 5A anatomy — development freeze recorded; execute the next unverified anatomy region in order
+`RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat --template 5A <fresh-template.json>`
+Read `docs/work_packages/PHASE_5A_TORSO.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 
@@ -42,7 +44,7 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [✅] Phase 3C Grip
 [✅] Phase 3D Wrist
 [✅] Phase 3E Hip/lunge
-[ ] Phase 4 Development freeze
+[✅] Phase 4 Development freeze
 [ ] Phase 5 High-detail anatomy
 [ ] Phase 6 Final topology
 [ ] Phase 7 Clothing
@@ -64,6 +66,7 @@ Evidence references (exact content hashes are in machine status):
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r95/diagnostic_brief.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r95/edge_extremes.json`
 - `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r95/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

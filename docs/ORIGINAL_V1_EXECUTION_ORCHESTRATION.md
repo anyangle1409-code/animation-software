@@ -58,23 +58,22 @@ It does **not**:
 ## Current expected node
 
 The runner always re-reads generated state; this prose is only a checkpoint.
-At the 2026-10-03 reconciled state the selected node is:
+At the 2026-10-04 Phase 4 checkpoint (r95 development freeze recorded) the selected node is:
 
-- node: `3A_axilla_local`;
-- candidate: `r55`;
-- phase/subphase: Phase 3 / pre-Phase-4 residual repair;
-- next action: `RUN local axilla repair`;
-- command: `RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95` (the generated status is authoritative; the AUTO wrapper selects a collision-free target).
+- node: `5_anatomy`;
+- candidate: `r95` (frozen, sha256 8a39a22d...3bdd);
+- phase: Phase 4 complete / Phase 5A ready;
+- next action: `EXECUTE Phase 5A anatomy`;
+- Phase 3 residual repair is closed; owner dispositions and PHASE5-FU-001 are recorded in production control.
 
-Use the next collision-free target label if `r56` already exists locally. If the
-selector has advanced, follow the generated state instead of this example.
+If the selector has advanced, follow the generated state instead of this checkpoint.
 
 ## Critical path
 
 The machine map retains the full historical execution graph so older evidence and
 recovery remain explainable, but the current selector may enter the graph at the
-node appropriate to live state. At the 2026-10-03 checkpoint it enters at
-`3A_axilla_local`, after the earlier 3B/3C/3D/3E work has already been completed.
+node appropriate to live state. At the 2026-10-04 checkpoint it enters at
+`5_anatomy`, after Phase 3 (3A-3E) and the Phase 4 development freeze are complete.
 
 From the current node the forward path is:
 

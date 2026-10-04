@@ -14,10 +14,10 @@
   ],
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_expected_state": {
-    "phase": "3A_axilla_local",
+    "phase": "5_anatomy_5A_ready",
     "candidate": "r95",
-    "next_action": "RUN local axilla repair",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95",
+    "next_action": "EXECUTE Phase 5A anatomy",
+    "command": "RUN_ORIGINAL_V1_PHASE5_ANATOMY.bat (templates/receipts bind 5A to the verified r95 parent)",
     "note": "Runtime values are re-read from generated status. Use the next collision-free target label if r56 already exists locally; this checkpoint does not override newer evidence."
   },
   "global_rules": [

@@ -10434,7 +10434,8 @@
       "full_evidence_receipt": {
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json",
         "sha256": "a9f417fb25648ec5669e684886a72c0e38c66d3f47b52c24a6da7fceefa81685"
-      }
+      },
+      "milestone_review_location": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json"
     }
   ]
 }

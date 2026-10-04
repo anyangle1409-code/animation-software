@@ -9,6 +9,7 @@ pose from rest with the swing/twist interpolation of the joint-kinematics audit.
 """
 import hashlib
 import json
+import os
 import math
 import sys
 import tempfile
@@ -32,6 +33,13 @@ saved_argv = sys.argv
 sys.argv = ["blender", "--", tmp, ""]
 ns = {"__name__": "pose_defs", "__file__": "pose_test_original_v1_o4_candidate_blender.py"}
 exec(compile(src, "pose_test_defs", "exec"), ns)
+# optional driver of the post-pin corrective keys (flexion r86+, scapular r95+); only active when the dumped candidate carries them (SCRIPT_DUMP_DRIVER=0 disables)
+if os.environ.get("HGPT_DUMP_DRIVER", "1") != "0":
+    import importlib.util as _ilu
+    _sp = _ilu.spec_from_file_location("original_v1_flexion_driver", str(Path(__file__).with_name("original_v1_flexion_driver.py")))
+    _fd = _ilu.module_from_spec(_sp)
+    _sp.loader.exec_module(_fd)
+    _fd.install(ns)
 sys.argv = saved_argv
 
 rig, body, POSES = ns["rig"], ns["body"], ns["POSES"]

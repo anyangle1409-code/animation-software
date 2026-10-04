@@ -34,6 +34,12 @@ saved = sys.argv
 sys.argv = ["blender", "--", tempfile.mkdtemp(), ""]
 ns = {"__name__": "pose_defs", "__file__": pose_script.name}
 exec(compile(src_defs, "pose_test_defs", "exec"), ns)
+# post-pin corrective drivers (flexion r86+, scapular r95+), installed outside the frozen pose-definition section; no-op without the keys
+import importlib.util as _ilu
+_sp = _ilu.spec_from_file_location("original_v1_flexion_driver", str(Path(__file__).with_name("original_v1_flexion_driver.py")))
+_fd = _ilu.module_from_spec(_sp)
+_sp.loader.exec_module(_fd)
+_fd.install(ns)
 sys.argv = saved
 rig, body = ns["rig"], ns["body"]
 mask = body.modifiers.get("HGPT_DRESSED_MASK")

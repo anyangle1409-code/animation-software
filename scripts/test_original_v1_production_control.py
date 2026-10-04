@@ -98,6 +98,36 @@ class ControlTests(unittest.TestCase):
         for p in ROOT.glob('ORIGINAL_V1*.json'): shutil.copy(p, root/p.name)
         return root
 
+    def test_owner_accepted_regression_is_bound_to_exact_candidate_and_values(self):
+        c = self.module()
+        root = self.fixture()
+        cp = root/'ORIGINAL_V1_PRODUCTION_CONTROL.json'
+        ctl = json.loads(cp.read_text(encoding='utf-8-sig'))
+        acc = ctl.get('owner_accepted_regressions') or []
+        self.assertTrue(acc, 'live control carries the owner disposition')
+        status, _ = c.build(root)
+        # accepted: not unresolved, but still listed with the untouched comparator entry and the strict count before dispositions
+        self.assertEqual(status['unresolved_regressions'], [])
+        self.assertEqual(len(status['owner_accepted_regressions']), len(acc))
+        self.assertEqual(status['strict_regression_count_before_owner_dispositions'], len(acc))
+        rec = status['owner_accepted_regressions'][0]
+        self.assertEqual(rec['comparator_regression']['name'], acc[0]['pose'])
+        self.assertEqual(rec['comparator_regression']['tolerance'], 0.02)           # tolerance untouched
+        self.assertEqual(status['pinned_baseline']['revision'], acc[0]['pinned_baseline'])
+        self.assertFalse(status['production_approved'])
+        # a different candidate hash, a different value or a different baseline leaves the regression unresolved
+        for key, bad in (('candidate_sha256', 'f' * 64), ('candidate_value', 0.6701), ('pinned_baseline', 'P2B1'), ('candidate_revision', 'r999')):
+            broken = json.loads(json.dumps(ctl)); broken['owner_accepted_regressions'][0][key] = bad
+            cp.write_text(json.dumps(broken, indent=2) + '\n', encoding='utf-8')
+            s2, _ = c.build(root)
+            self.assertEqual(len(s2['unresolved_regressions']), len(acc), key)
+            self.assertEqual(s2['owner_accepted_regressions'], [], key)
+        # an incomplete entry is refused loudly
+        broken = json.loads(json.dumps(ctl)); del broken['owner_accepted_regressions'][0]['owner_statement']
+        cp.write_text(json.dumps(broken, indent=2) + '\n', encoding='utf-8')
+        with self.assertRaises(ValueError):
+            c.build(root)
+
     def test_partial_new_candidate_cannot_replace_latest_complete(self):
         c = self.module(); root = self.fixture()
         latest, new = self.latest(c)

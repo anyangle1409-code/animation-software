@@ -1,14 +1,14 @@
 # ORIGINAL v1 daily status (generated)
 
 CURRENT PHASE
-Phase 3 / 4
+Phase 4 / 4
 
 CURRENT CANDIDATE
 r95 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
 SHA-256: `8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd`
 
 DEVELOPMENT BLOCKERS
-0 failures; 1 separate strict severity regressions versus P3B1.
+0 failures; 0 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED
@@ -29,7 +29,7 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r95 reduces the lateral/back lobe (zone offset 7.95 -> 4.18 cm in press_top) with 0 development failures and the single unchanged strict P3B1 regression (pullup_top torso); the final Phase 3A assessment of that residual is presented for the owner decision
+RUN local axilla repair — r95 (0 development failures): the pullup_top torso comparator difference is an explicit OWNER-ACCEPTED disposition (owner_accepted_regressions; P3B1 not re-pinned); the upper-back ledge is assessed as acceptable anatomy; the rear trapezius drape is reported for the owner decision (docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md, r95_ledge_drape_assessment) and the Phase 3 exit validation has NOT been run
 `RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95`
 Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 

@@ -1,0 +1,823 @@
+{
+ "pose": "press_top_rhythm",
+ "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+ "pair_count": 24,
+ "pairs": [
+  {
+   "polys": [
+    30,
+    274
+   ],
+   "verts": [
+    [
+     4511,
+     13467,
+     4512,
+     68
+    ],
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "upperarm_l"
+   ],
+   "posed_mid": [
+    -0.1276,
+    -0.0227,
+    1.5533
+   ],
+   "rest_distance_m": 0.0489
+  },
+  {
+   "polys": [
+    30,
+    275
+   ],
+   "verts": [
+    [
+     4511,
+     13467,
+     4512,
+     68
+    ],
+    [
+     4686,
+     13528,
+     4683,
+     128
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1276,
+    -0.025,
+    1.5518
+   ],
+   "rest_distance_m": 0.0502
+  },
+  {
+   "polys": [
+    31,
+    270
+   ],
+   "verts": [
+    [
+     4512,
+     13467,
+     4508,
+     67
+    ],
+    [
+     4683,
+     13527,
+     4684,
+     128
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1247,
+    -0.0339,
+    1.5448
+   ],
+   "rest_distance_m": 0.0512
+  },
+  {
+   "polys": [
+    31,
+    274
+   ],
+   "verts": [
+    [
+     4512,
+     13467,
+     4508,
+     67
+    ],
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "upperarm_l"
+   ],
+   "posed_mid": [
+    -0.1267,
+    -0.0264,
+    1.5481
+   ],
+   "rest_distance_m": 0.0504
+  },
+  {
+   "polys": [
+    31,
+    275
+   ],
+   "verts": [
+    [
+     4512,
+     13467,
+     4508,
+     67
+    ],
+    [
+     4686,
+     13528,
+     4683,
+     128
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1268,
+    -0.0287,
+    1.5466
+   ],
+   "rest_distance_m": 0.0495
+  },
+  {
+   "polys": [
+    210,
+    446
+   ],
+   "verts": [
+    [
+     4646,
+     13512,
+     4647,
+     113
+    ],
+    [
+     4771,
+     13571,
+     4772,
+     172
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1268,
+    -0.0287,
+    1.5466
+   ],
+   "rest_distance_m": 0.0495
+  },
+  {
+   "polys": [
+    210,
+    447
+   ],
+   "verts": [
+    [
+     4646,
+     13512,
+     4647,
+     113
+    ],
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1267,
+    -0.0264,
+    1.5481
+   ],
+   "rest_distance_m": 0.0504
+  },
+  {
+   "polys": [
+    210,
+    451
+   ],
+   "verts": [
+    [
+     4646,
+     13512,
+     4647,
+     113
+    ],
+    [
+     4774,
+     13572,
+     4771,
+     172
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1247,
+    -0.0339,
+    1.5448
+   ],
+   "rest_distance_m": 0.0512
+  },
+  {
+   "polys": [
+    211,
+    446
+   ],
+   "verts": [
+    [
+     4647,
+     13512,
+     4643,
+     112
+    ],
+    [
+     4771,
+     13571,
+     4772,
+     172
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1276,
+    -0.025,
+    1.5518
+   ],
+   "rest_distance_m": 0.0502
+  },
+  {
+   "polys": [
+    211,
+    447
+   ],
+   "verts": [
+    [
+     4647,
+     13512,
+     4643,
+     112
+    ],
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1276,
+    -0.0227,
+    1.5533
+   ],
+   "rest_distance_m": 0.0489
+  },
+  {
+   "polys": [
+    274,
+    517
+   ],
+   "verts": [
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ],
+    [
+     4688,
+     13589,
+     4807,
+     130
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1265,
+    -0.0203,
+    1.5513
+   ],
+   "rest_distance_m": 0.0195
+  },
+  {
+   "polys": [
+    274,
+    518
+   ],
+   "verts": [
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ],
+    [
+     4807,
+     13589,
+     4808,
+     190
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1235,
+    -0.0232,
+    1.548
+   ],
+   "rest_distance_m": 0.0379
+  },
+  {
+   "polys": [
+    274,
+    520
+   ],
+   "verts": [
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ],
+    [
+     4807,
+     13590,
+     4690,
+     130
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1278,
+    -0.0148,
+    1.5514
+   ],
+   "rest_distance_m": 0.0259
+  },
+  {
+   "polys": [
+    274,
+    523
+   ],
+   "verts": [
+    [
+     4685,
+     13528,
+     4686,
+     129
+    ],
+    [
+     4810,
+     13590,
+     4807,
+     190
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1261,
+    -0.0195,
+    1.5475
+   ],
+   "rest_distance_m": 0.036
+  },
+  {
+   "polys": [
+    276,
+    517
+   ],
+   "verts": [
+    [
+     4685,
+     13529,
+     4518,
+     69
+    ],
+    [
+     4688,
+     13589,
+     4807,
+     130
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1291,
+    -0.0095,
+    1.5589
+   ],
+   "rest_distance_m": 0.0448
+  },
+  {
+   "polys": [
+    276,
+    520
+   ],
+   "verts": [
+    [
+     4685,
+     13529,
+     4518,
+     69
+    ],
+    [
+     4807,
+     13590,
+     4690,
+     130
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1304,
+    -0.004,
+    1.559
+   ],
+   "rest_distance_m": 0.042
+  },
+  {
+   "polys": [
+    279,
+    520
+   ],
+   "verts": [
+    [
+     4688,
+     13529,
+     4685,
+     129
+    ],
+    [
+     4807,
+     13590,
+     4690,
+     130
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "clavicle_l",
+    "clavicle_l"
+   ],
+   "posed_mid": [
+    -0.1284,
+    -0.012,
+    1.5543
+   ],
+   "rest_distance_m": 0.0205
+  },
+  {
+   "polys": [
+    441,
+    677
+   ],
+   "verts": [
+    [
+     4641,
+     13570,
+     4769,
+     111
+    ],
+    [
+     4768,
+     13629,
+     4887,
+     170
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "upperarm_r"
+   ],
+   "posed_mid": [
+    0.1304,
+    -0.004,
+    1.559
+   ],
+   "rest_distance_m": 0.042
+  },
+  {
+   "polys": [
+    441,
+    680
+   ],
+   "verts": [
+    [
+     4641,
+     13570,
+     4769,
+     111
+    ],
+    [
+     4887,
+     13630,
+     4770,
+     170
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1291,
+    -0.0095,
+    1.5589
+   ],
+   "rest_distance_m": 0.0448
+  },
+  {
+   "polys": [
+    442,
+    677
+   ],
+   "verts": [
+    [
+     4769,
+     13570,
+     4770,
+     171
+    ],
+    [
+     4768,
+     13629,
+     4887,
+     170
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "upperarm_r"
+   ],
+   "posed_mid": [
+    0.1284,
+    -0.012,
+    1.5543
+   ],
+   "rest_distance_m": 0.0205
+  },
+  {
+   "polys": [
+    447,
+    677
+   ],
+   "verts": [
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ],
+    [
+     4768,
+     13629,
+     4887,
+     170
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "clavicle_r",
+    "upperarm_r"
+   ],
+   "posed_mid": [
+    0.1278,
+    -0.0148,
+    1.5514
+   ],
+   "rest_distance_m": 0.0259
+  },
+  {
+   "polys": [
+    447,
+    678
+   ],
+   "verts": [
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ],
+    [
+     4887,
+     13629,
+     4888,
+     230
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "clavicle_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1261,
+    -0.0195,
+    1.5475
+   ],
+   "rest_distance_m": 0.036
+  },
+  {
+   "polys": [
+    447,
+    680
+   ],
+   "verts": [
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ],
+    [
+     4887,
+     13630,
+     4770,
+     170
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "clavicle_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1265,
+    -0.0203,
+    1.5513
+   ],
+   "rest_distance_m": 0.0195
+  },
+  {
+   "polys": [
+    447,
+    683
+   ],
+   "verts": [
+    [
+     4772,
+     13571,
+     4769,
+     171
+    ],
+    [
+     4890,
+     13630,
+     4887,
+     230
+    ]
+   ],
+   "regions": [
+    "shoulder",
+    "shoulder"
+   ],
+   "dominant_bones": [
+    "clavicle_r",
+    "clavicle_r"
+   ],
+   "posed_mid": [
+    0.1235,
+    -0.0232,
+    1.548
+   ],
+   "rest_distance_m": 0.0379
+  }
+ ]
+}

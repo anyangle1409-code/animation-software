@@ -48,6 +48,31 @@
       "source": "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
     }
   ],
+  "owner_accepted_regressions": [
+    {
+        "comparator_difference":  0.023,
+        "metric":  "region_min_ratio",
+        "development_gate_margin":  0.52,
+        "candidate_revision":  "r95",
+        "decision_utc":  "2026-10-04T00:00:00Z",
+        "excess_beyond_tolerance":  0.003,
+        "scope":  "Documented historical P3B1 comparator difference accepted by the owner. NOT a numerical pass: the comparator, its tolerance and the P3B1 baseline are unchanged and the strict regression stays listed in the status under owner_accepted_regressions. Bound to this exact candidate SHA-256, the pinned baseline P3B1 and these exact values; any other candidate or value leaves the regression unresolved. Does not waive any other gate.",
+        "region":  "torso",
+        "candidate_value":  0.67,
+        "production_target_margin":  0.17,
+        "pinned_baseline":  "P3B1",
+        "tolerance":  0.02,
+        "baseline_value":  0.693,
+        "evidence":  [
+                         "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json",
+                         "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/p3b1_regression_attribution.md",
+                         "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+                     ],
+        "owner_statement":  "Owner decision (user, 2026-10-04): accept the pullup_top torso minimum = 0.670 vs P3B1 0.693 as a documented acceptable difference against the historical P3B1 comparator, subject to the existing development and production gates remaining green. Do NOT re-pin P3B1. Rationale: comparator difference 0.023; tolerance 0.020; excess beyond tolerance only 0.003; development gate margin about 0.52; production-target margin about 0.17; no corresponding visible anatomical defect found; weights-only is already about 0.680; P3B1 itself compresses the same edge substantially; P3B1 had 14 development failures and materially worse associated metrics; r95 is materially better in torso maximum, volume behaviour, self-intersections and overall deformation quality; previous attempts to force this comparator value introduced genuine pull-up arm regressions. Record as an explicit owner disposition associated with r95, not as a fabricated numerical pass. Do not perform another experiment merely to eliminate this comparator difference.",
+        "pose":  "pullup_top",
+        "candidate_sha256":  "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+    }
+  ],
   "phase_completion_records": {},
   "continuation_decisions": {
     "r30": {
@@ -759,7 +784,7 @@
     "candidate_revision": "r95",
     "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
     "action": "RUN local axilla repair",
-    "reason": "r95 reduces the lateral/back lobe (zone offset 7.95 -> 4.18 cm in press_top) with 0 development failures and the single unchanged strict P3B1 regression (pullup_top torso); the final Phase 3A assessment of that residual is presented for the owner decision",
+    "reason": "r95 (0 development failures): the pullup_top torso comparator difference is an explicit OWNER-ACCEPTED disposition (owner_accepted_regressions; P3B1 not re-pinned); the upper-back ledge is assessed as acceptable anatomy; the rear trapezius drape is reported for the owner decision (docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md, r95_ledge_drape_assessment) and the Phase 3 exit validation has NOT been run",
     "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",

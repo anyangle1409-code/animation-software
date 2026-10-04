@@ -407,6 +407,20 @@ def build(root=ROOT):
         if planned not in incomplete: incomplete.append(planned)
     ev = evaluate(root,current['evidence_location']); fails=ev['failures']
     r2cmp=current['comparisons'][current['pinned_baseline_name']]; regs=r2cmp['regressions']
+    # Explicit OWNER dispositions of individual strict comparator differences. Not a numerical pass and not a re-pin: each entry is bound to ONE candidate
+    # SHA-256, the pinned baseline name and the exact baseline/candidate values; any other candidate, baseline or value leaves the regression unresolved.
+    # The baseline, tolerance and comparator are untouched, the regression stays visible in the status under 'owner_accepted_regressions'.
+    owner_accepted=[]
+    for acc in control.get('owner_accepted_regressions',[]):
+        for k in ('candidate_revision','candidate_sha256','pinned_baseline','pose','region','metric','baseline_value','candidate_value','owner_statement','decision_utc'):
+            if k not in acc: raise ValueError('owner accepted regression entry incomplete: missing '+k)
+        if acc['candidate_revision']!=rev or acc['candidate_sha256']!=current['sha256'] or acc['pinned_baseline']!=current['pinned_baseline_name']:
+            continue                                  # bound to another candidate/baseline: no effect here
+        hit=[r for r in regs if r['name']==acc['pose'] and r.get('region')==acc['region'] and r['metric']==acc['metric']
+             and abs(r['baseline']-acc['baseline_value'])<1e-9 and abs(r['candidate']-acc['candidate_value'])<1e-9]
+        if not hit: continue                          # values changed: the disposition no longer applies
+        owner_accepted.append({'owner_disposition':acc,'comparator_regression':hit[0]})
+        regs=[r for r in regs if r is not hit[0]]
     foundation=read(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')['gates']
     prov=read(root,'ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json')
     if not prov.get('clean_room') or prov.get('starting_geometry')!='blank' or prov.get('legacy_geometry_imported') is not False:
@@ -570,7 +584,7 @@ def build(root=ROOT):
         'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],
         'development_failure_count':ev['failure_count'],'development_failures':fails,
         'production_failure_count':evaluate(root,current['evidence_location'],'production_target')['failure_count'],
-        'production_approved':False,'phases':phases,'unresolved_regressions':regs,
+        'production_approved':False,'phases':phases,'unresolved_regressions':regs,'owner_accepted_regressions':owner_accepted,'strict_regression_count_before_owner_dispositions':len(regs)+len(owner_accepted),
         'pending_owner_reviews':[x for x in control['owner_reviews'] if x['owner_review']=='pending']+snapshot_reviews,
         'latest_evidence':refs,'last_known_candidate_sha256':current['sha256'],
         'evidence_timestamp':current['evidence_timestamp'],'source_head':control['source_head'],

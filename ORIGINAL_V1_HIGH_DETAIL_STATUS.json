@@ -5,7 +5,7 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r92",
+  "current_candidate": "r93",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -48,7 +48,7 @@
   ],
   "development_failure_count": 0,
   "development_failures": [],
-  "production_failure_count": 104,
+  "production_failure_count": 103,
   "production_approved": false,
   "phases": {
     "0": {
@@ -158,23 +158,12 @@
   "unresolved_regressions": [
     {
       "kind": "severity",
-      "name": "press_top",
-      "region": "arm",
-      "metric": "region_min_ratio",
-      "baseline": 0.78,
-      "candidate": 0.758,
-      "delta": -0.02200000000000002,
-      "direction": "higher_is_better",
-      "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
       "name": "pullup_top",
       "region": "torso",
       "metric": "region_min_ratio",
       "baseline": 0.693,
-      "candidate": 0.668,
-      "delta": -0.02499999999999991,
+      "candidate": 0.67,
+      "delta": -0.02299999999999991,
       "direction": "higher_is_better",
       "tolerance": 0.02
     }
@@ -195,47 +184,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_merged_pose_report.json",
-      "sha256": "523d055e515203379a94d77dd1f4cf321c87e1560307e35d6587dca514a58b94"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_merged_pose_report.json",
+      "sha256": "3a9d9b898305d3070a8a9c88a88057edb26b87ce205ea64864661ea43b29576b"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r92.json",
-      "sha256": "df24e7f84d39789847469e62eb32ad5bc24b6967ba95d7c1ddcdfb1273476b49"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r93.json",
+      "sha256": "902ed21299073af9e9ef66e61a0fce33a13757b04f329807d5ad52d429fe81b7"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_evidence_manifest.json",
-      "sha256": "3a73c6bc39fb704c39555a1fe91af9ced28049ad82fc9c714568df86bf50bbb3"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_evidence_manifest.json",
+      "sha256": "8a3dd5a3607fae0714395c1e6f07af491d9e2224d6b938057df986ccbb8587b3"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_P3B1.json",
-      "sha256": "3a91dbf404c64fe2e6827a7d2cfb4232ee5a9c0819753fc9a5b7529e55ff529d"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_comparison_vs_P3B1.json",
+      "sha256": "59d03546304656f210011eb604ff2048efc1aa83b57e44169fa42c575597db4e"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_r91.json",
-      "sha256": "55047aababf7790ebe1a18704ac9e377a335ac7fe5496a38da957bbd88f6cab8"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_comparison_vs_r92.json",
+      "sha256": "5abe0fbc26bd8a30646846e1234f053658d19b7fd6a701b0d282494912d8b4f6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/diagnostic_brief.json",
-      "sha256": "e638be9c2ec00e27453d1c65c4ae41874ea4483fe2b7da2c441e756d28b07370"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r93/diagnostic_brief.json",
+      "sha256": "15f3b7914305122d9fb9bc62505c7f9572787f7d2721a4b9abbe8f54077b60d8"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/edge_extremes.json",
-      "sha256": "f7794d55dafa046603bf364c9d9ab2ff7988a1b09453c4ecb73756b3280ba0ea"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r93/edge_extremes.json",
+      "sha256": "3b87b39ad65252e7f58fc8274a72c5682242be1f6b5fe7f88f16cf3866b1dfdc"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/grip_penetration.json",
-      "sha256": "3fcbe6b7a769911c3ca072455c038d520c4a775b9194545110b4aff872514b74"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r93/grip_penetration.json",
+      "sha256": "acb4a9fea8579ed42617c2a5124d7585e195800dfb0a0a028ada69085169fe11"
     }
   ],
-  "last_known_candidate_sha256": "1cfe04744c6c432daee2fb76a1d6bebf30962f496bdef0b05dc61294df52a108",
-  "evidence_timestamp": "2026-10-04T15:10:58.150462+00:00",
+  "last_known_candidate_sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+  "evidence_timestamp": "2026-10-04T16:31:32.044508+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r92: solution r92_flex.npz on r92_abd.blend; candidate remains experimental.",
+  "what_changed": "r93: solution r93_flex.npz on r93_abd.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -248,8 +237,8 @@
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "RUN local axilla repair",
-    "reason": "r92 removes the overhead chest pit (dent limit on the existing corrective) with 0 development failures and the same 2 strict P3B1 regressions; next: the shoulder-top knob/web (corrective-made) and the lateral/back wing flaps (scapula weights) are still visible in the overhead poses",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r92",
+    "reason": "r93 removes the shoulder-top knobs/web contribution of the corrective (0 development failures, 1 strict P3B1 regression: pullup_top torso); the lateral/back wing flaps (scapula weights) are still visible and are the next declared investigation",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r93",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }

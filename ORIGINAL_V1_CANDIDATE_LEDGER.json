@@ -10214,6 +10214,133 @@
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_evidence_manifest.json",
         "sha256": "3a73c6bc39fb704c39555a1fe91af9ced28049ad82fc9c714568df86bf50bbb3"
       }
+    },
+    {
+      "revision": "r93",
+      "sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+      "parent": "r93_abd.blend",
+      "parent_sha256": "10f4367f8ed99cf7e3bd0c5b1b19c20ef663d8d21b401c4dab03f6ccf5668bc5",
+      "change_type": "O4 candidate: forward-flexion shoulder corrective shape keys (not production)",
+      "weight_solution": "r93_flex.npz",
+      "weight_solution_sha256": "dcc141a0069959edb680586732276f0356ed07092d97abe3b2597ef5e01d62c9",
+      "topology_change": false,
+      "development_failure_count": 0,
+      "regression_count": 1,
+      "improvement_count": 61,
+      "pinned_baseline_name": "P3B1",
+      "comparison_baselines": [
+        "P3B1",
+        "r92"
+      ],
+      "comparisons": {
+        "P3B1": {
+          "baseline_failed_checks": 14,
+          "candidate_failed_checks": 0,
+          "regression_count": 1,
+          "improvement_count": 61,
+          "status": "REGRESSION",
+          "evidence": {
+            "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_comparison_vs_P3B1.json",
+            "sha256": "59d03546304656f210011eb604ff2048efc1aa83b57e44169fa42c575597db4e"
+          },
+          "regressions": [
+            {
+              "kind": "severity",
+              "name": "pullup_top",
+              "region": "torso",
+              "metric": "region_min_ratio",
+              "baseline": 0.693,
+              "candidate": 0.67,
+              "delta": -0.02299999999999991,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            }
+          ]
+        },
+        "r92": {
+          "baseline_failed_checks": 0,
+          "candidate_failed_checks": 0,
+          "regression_count": 5,
+          "improvement_count": 6,
+          "status": "REGRESSION",
+          "evidence": {
+            "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_comparison_vs_r92.json",
+            "sha256": "5abe0fbc26bd8a30646846e1234f053658d19b7fd6a701b0d282494912d8b4f6"
+          },
+          "regressions": [
+            {
+              "kind": "severity",
+              "name": "press_top_rhythm",
+              "region": "shoulder",
+              "metric": "region_min_ratio",
+              "baseline": 0.451,
+              "candidate": 0.427,
+              "delta": -0.02400000000000002,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            },
+            {
+              "kind": "severity",
+              "name": "pullup_bar",
+              "region": "shoulder",
+              "metric": "region_min_ratio",
+              "baseline": 0.467,
+              "candidate": 0.427,
+              "delta": -0.040000000000000036,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            },
+            {
+              "kind": "severity",
+              "name": "pullup_hang",
+              "region": "shoulder",
+              "metric": "region_min_ratio",
+              "baseline": 0.467,
+              "candidate": 0.427,
+              "delta": -0.040000000000000036,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            },
+            {
+              "kind": "severity",
+              "name": "pullup_hang_rhythm",
+              "region": "arm",
+              "metric": "region_min_ratio",
+              "baseline": 0.847,
+              "candidate": 0.821,
+              "delta": -0.026000000000000023,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            },
+            {
+              "kind": "severity",
+              "name": "pullup_hang_rhythm",
+              "region": "shoulder",
+              "metric": "region_min_ratio",
+              "baseline": 0.448,
+              "candidate": 0.403,
+              "delta": -0.044999999999999984,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            }
+          ]
+        }
+      },
+      "classification": "TRADE-OFF",
+      "state": "experimental",
+      "reason": "Experimental evidence only; owner acceptance not recorded.",
+      "owner_review": "pending",
+      "evidence_location": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_merged_pose_report.json",
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r93.json",
+        "sha256": "902ed21299073af9e9ef66e61a0fce33a13757b04f329807d5ad52d429fe81b7"
+      },
+      "visual_review_location": null,
+      "evidence_timestamp": "2026-10-04T16:31:32.044508+00:00",
+      "full_evidence_receipt": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_evidence_manifest.json",
+        "sha256": "8a3dd5a3607fae0714395c1e6f07af491d9e2224d6b938057df986ccbb8587b3"
+      }
     }
   ]
 }

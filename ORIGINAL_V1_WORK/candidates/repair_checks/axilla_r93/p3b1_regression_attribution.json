@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "candidate": "r93",
+  "pre_corrective_candidate": "ORIGINAL_V1_WORK\\candidates\\repair_checks\\full_r92_merged_pose_report.json",
+  "baseline": "P3B1",
+  "regression_count": 1,
+  "attribution_counts": {
+    "INHERITED_FROM_WEIGHTS": 1
+  },
+  "all_inside_development_gate": true,
+  "all_inside_production_target": true,
+  "min_gate_margin": 0.52,
+  "rows": [
+    {
+      "pose": "pullup_top",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline_P3B1": 0.693,
+      "pre_corrective_full_r92_merged_pose_report": 0.668,
+      "candidate_r93": 0.67,
+      "tolerance": 0.02,
+      "worse_than_baseline_by": 0.023,
+      "pre_corrective_worse_than_baseline_by": 0.025,
+      "corrective_added": -0.002,
+      "attribution": "INHERITED_FROM_WEIGHTS",
+      "development_gate": 0.15,
+      "gate_margin": 0.52,
+      "GATE_MARGIN_OK": true,
+      "production_target_limit": 0.5,
+      "production_margin": 0.17,
+      "PRODUCTION_TARGET_OK": true,
+      "si_detail": null
+    }
+  ],
+  "note": "Attribution only. It accepts nothing, changes no tolerance and does not enter Phase 4."
+}

@@ -18,8 +18,9 @@ import numpy as np
 args = sys.argv[sys.argv.index("--") + 1:]
 out, decl_path, spec_path = Path(args[0]), Path(args[1]), Path(args[2])
 FLEX = len(args) > 3 and args[3] == "flexion"          # optional: audit the forward-flexion key pair (HGPT_SHOULDER_FLEX_L/R) instead of the abduction pair
-KL_NAME, KR_NAME = ("HGPT_SHOULDER_FLEX_L", "HGPT_SHOULDER_FLEX_R") if FLEX else ("HGPT_SHOULDER_CORR_L", "HGPT_SHOULDER_CORR_R")
-CFG_KEY = "hgpt_flexion_corrective" if FLEX else "hgpt_shoulder_corrective"
+SCAP = len(args) > 3 and args[3] == "scapular"          # optional: audit the scapular-rotation key pair (HGPT_SHOULDER_SCAP_L/R)
+KL_NAME, KR_NAME = ("HGPT_SHOULDER_SCAP_L", "HGPT_SHOULDER_SCAP_R") if SCAP else (("HGPT_SHOULDER_FLEX_L", "HGPT_SHOULDER_FLEX_R") if FLEX else ("HGPT_SHOULDER_CORR_L", "HGPT_SHOULDER_CORR_R"))
+CFG_KEY = "hgpt_scapular_corrective" if SCAP else ("hgpt_flexion_corrective" if FLEX else "hgpt_shoulder_corrective")
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 me = body.data
 decl = json.loads(decl_path.read_text(encoding="utf-8"))

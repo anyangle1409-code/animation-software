@@ -37,7 +37,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("dump")
     ap.add_argument("out")
-    ap.add_argument("--driver", choices=("abduction", "flexion"), default="abduction", help="abduction: activation = smoothstep(theta) * lam (default, r69-r83); flexion: smoothstep(theta) * (1 - lam), a separate key pair for forward-flexed arms")
+    ap.add_argument("--driver", choices=("abduction", "flexion", "scapular"), default="abduction", help="abduction: activation = smoothstep(theta) * lam (default, r69-r83); flexion: smoothstep(theta) * (1 - lam), a separate key pair for forward-flexed arms")
     ap.add_argument("--theta0", type=float, default=40.0)
     ap.add_argument("--theta1", type=float, default=150.0)
     ap.add_argument("--declare-mask")
@@ -82,6 +82,11 @@ def main():
     ap.add_argument("--slide-limit", type=float, default=None, help="shape-zone vertices may not slide tangentially more than this many metres relative to the uncorrected pose")
     ap.add_argument("--bulge-limit", type=float, default=None, help="shape-zone vertices may not move outward along the uncorrected normal by more than this many metres")
     ap.add_argument("--w-shape", type=float, default=0.0)
+    ap.add_argument("--u0", type=float, default=15.0, help="scapular driver: zero below this scapular rotation relative to the trunk (deg); used by --driver scapular")
+    ap.add_argument("--u1", type=float, default=45.0, help="scapular driver: full activation at and above this rotation (deg)")
+    ap.add_argument("--lobe-zone-file", default=None, help="JSON with left_owned_vertex_ids + mirror_of_strict_left_vertex_ids: vertices whose outward offset from the trunk-rigid surface is limited by --lobe-limit")
+    ap.add_argument("--lobe-limit", type=float, default=None, help="metres: zone vertices may not stand further outside the trunk-rigid surface (along the trunk-transported rest normal) than this")
+    ap.add_argument("--w-lobe", type=float, default=0.0)
     ap.add_argument("--region-floor", default=None, help="comma list region:ratio (e.g. arm:0.765,torso:0.684): absolute minimum edge ratio for mask edges of that region in EVERY pose (no pose names), enforced with the --w-hold hinge; needs --w-hold")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
@@ -155,8 +160,19 @@ def main():
     P0 = evald.copy()
     lam = d["lam"] if "lam" in d.files else np.ones_like(theta)
     _g = (lambda x: x) if a.driver == "abduction" else (lambda x: 1.0 - x)
-    al = smoothstep(theta[:, 0], a.theta0, a.theta1) * _g(lam[:, 0])
-    ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * _g(lam[:, 1])
+    if a.driver == "scapular":
+        def _scap_u(sd):
+            out = np.zeros(nP)
+            for _p in range(nP):
+                _R = mats[_p][b["spine_03"]][:3, :3].T @ mats[_p][b["scapula_" + sd]][:3, :3]
+                out[_p] = np.degrees(np.arccos(np.clip((np.trace(_R) - 1.0) / 2.0, -1.0, 1.0)))
+            return out
+        SCAP_U = (_scap_u("l"), _scap_u("r"))
+        al = smoothstep(SCAP_U[0], a.u0, a.u1)
+        ar = smoothstep(SCAP_U[1], a.u0, a.u1)
+    else:
+        al = smoothstep(theta[:, 0], a.theta0, a.theta1) * _g(lam[:, 0])
+        ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * _g(lam[:, 1])
     # trunk-driven reference positions (trunk bones only, weights renormalised)
     trunk = [b[n] for n in ("root", "pelvis", "spine_01", "spine_02", "spine_03", "neck", "head") if n in b]
     Wt = np.zeros_like(W)
@@ -167,6 +183,24 @@ def main():
     # The area barrier uses this surface so it can reopen an existing corrective-induced sliver.
     PUNC = np.stack([np.einsum("vb,vbi->vi", W, np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h)) for p in range(nP)])
     PTR = np.stack([np.einsum("vb,vbi->vi", Wt[Z], np.einsum("bij,vj->vbi", mats[p][:, :3, :], rest_h[Z])) for p in range(nP)])
+    LOBE = a.lobe_limit is not None
+    if LOBE:
+        if a.w_lobe <= 0 or not a.lobe_zone_file:
+            raise SystemExit('--lobe-limit needs --lobe-zone-file and --w-lobe')
+        _lz = json.loads(Path(a.lobe_zone_file).read_text(encoding='utf-8'))
+        _lzv = np.array(sorted(set(_lz['left_owned_vertex_ids']) | set(_lz['mirror_of_strict_left_vertex_ids'])), dtype=int)
+        _in_lz = np.zeros(nV, bool)
+        _in_lz[_lzv] = True
+        LZI = np.nonzero(_in_lz[Z])[0]                       # positions in Z of the mask vertices that belong to the lobe zone
+        _tr = d['tris']
+        _n = np.cross(rest[_tr[:, 1]] - rest[_tr[:, 0]], rest[_tr[:, 2]] - rest[_tr[:, 0]])
+        _vn = np.zeros_like(rest)
+        for _k in range(3):
+            np.add.at(_vn, _tr[:, _k], _n)
+        _vn = _vn / np.maximum(np.linalg.norm(_vn, axis=1, keepdims=True), 1e-18)
+        NTR = np.stack([np.einsum('vb,bij->vij', Wt[Z], mats[_p][:, :3, :3]) @ _vn[Z][:, :, None] for _p in range(nP)])[..., 0]
+        NTR = NTR / np.maximum(np.linalg.norm(NTR, axis=2, keepdims=True), 1e-18)
+        print('lobe zone: %d vertices (%d inside the mask), limit %.3f m' % (len(_lzv), len(LZI), a.lobe_limit))
     Hr = d["heads"][b["upperarm_r"]]
     rj = np.minimum(np.linalg.norm(rest[Z] - Hl, axis=1), np.linalg.norm(rest[Z] - Hr, axis=1))
     ALLOW = a.trunk_a0 + a.trunk_a1 * np.exp(-(rj / a.trunk_rb) ** 2)
@@ -457,6 +491,12 @@ def main():
                         if (_es > 0).any():
                             total += a.w_shape * (_es ** 2).sum()
                             gP[SZG] += (2.0 * a.w_shape * _es / _tl)[:, None] * _tg
+            if LOBE:
+                _dl = ((Pp[Z[LZI]] - PTR[p][LZI]) * NTR[p][LZI]).sum(axis=1)
+                _el = np.maximum(_dl - a.lobe_limit, 0.0)
+                if (_el > 0).any():
+                    total += a.w_lobe * (_el ** 2).sum()
+                    gP[Z[LZI]] += (2.0 * a.w_lobe * _el)[:, None] * NTR[p][LZI]
             if NDENT is not None:
                 _dn = ((Pp[Z] - P0[p][Z]) * NDENT[p]).sum(axis=1)
                 _ed = np.where(TORSO, np.maximum(-a.dent_limit - _dn, 0.0), 0.0)
@@ -666,7 +706,7 @@ def main():
                   "final_loss": float(f), "max_abs_delta_m": float(np.abs(Dv).max()), "area_reference": "same_pose_uncorrected_lbs",
                   "parameters": vars(a), "entries": report_rows}
         Path(a.json_out).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    np.savez_compressed(a.out, vertices=Lset, delta=Dv, theta0=a.theta0, theta1=a.theta1, source=str(d["source"]),
+    np.savez_compressed(a.out, vertices=Lset, delta=Dv, theta0=a.theta0, theta1=a.theta1, u0=a.u0, u1=a.u1, driver=a.driver, source=str(d["source"]),
                         source_sha256=str(d["source_sha256"]), params=json.dumps(vars(a)))
     print("SOLUTION", a.out, "loss", f"{f:.3f}", "max |D| %.4f m" % np.abs(Dv).max())
 

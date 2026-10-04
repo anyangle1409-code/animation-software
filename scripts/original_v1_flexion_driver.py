@@ -18,15 +18,15 @@ def install(g):
         changed = original()
         flex_spec = bpy.context.scene.get("hgpt_flexion_corrective")
         keys = g["body"].data.shape_keys
-        if not flex_spec or keys is None:
+        if keys is None:
             return changed
-        fcfg = json.loads(flex_spec)
+        fcfg = json.loads(flex_spec) if flex_spec else None
         pose = g["rig"].pose.bones
         rig = g["rig"]
         down = -(pose["spine_03"].tail - pose["spine_03"].head).normalized()
         R = pose["spine_03"].matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()
         lat_t, ant_t = R @ Vector((1, 0, 0)), R @ Vector((0, -1, 0))
-        for side in ("l", "r"):
+        for side in (("l", "r") if fcfg else ()):
             h = (pose[f"upperarm_{side}"].tail - pose[f"upperarm_{side}"].head).normalized()
             t = min(1.0, max(0.0, (math.degrees(h.angle(down)) - fcfg["theta0_deg"]) / (fcfg["theta1_deg"] - fcfg["theta0_deg"])))
             hl, ha = h.dot(lat_t), h.dot(ant_t)
@@ -37,6 +37,23 @@ def install(g):
             if kb is not None and abs(kb.value - a) > 1e-9:
                 kb.value = a
                 changed = True
+        scap_spec = bpy.context.scene.get("hgpt_scapular_corrective")      # optional third key pair (r95+): scapular rotation relative to the trunk
+        if scap_spec:
+            scfg = json.loads(scap_spec)
+            from mathutils import Matrix
+            def skin_rot(name):
+                return (pose[name].matrix @ rig.data.bones[name].matrix_local.inverted()).to_3x3()
+            Rt = skin_rot("spine_03")
+            for side in ("l", "r"):
+                Rrel = Rt.transposed() @ skin_rot(f"scapula_{side}")
+                tr = Rrel[0][0] + Rrel[1][1] + Rrel[2][2]
+                u = math.degrees(math.acos(min(1.0, max(-1.0, (tr - 1.0) / 2.0))))
+                t = min(1.0, max(0.0, (u - scfg["u0_deg"]) / (scfg["u1_deg"] - scfg["u0_deg"])))
+                a = t * t * (3.0 - 2.0 * t)
+                kb = keys.key_blocks.get(scfg["keys"][side])
+                if kb is not None and abs(kb.value - a) > 1e-9:
+                    kb.value = a
+                    changed = True
         return changed
 
     drive_with_flexion._hgpt_flexion_wrapped = True

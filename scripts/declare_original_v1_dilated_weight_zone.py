@@ -20,17 +20,18 @@ ap.add_argument("out")
 ap.add_argument("target")
 ap.add_argument("--rings", type=int, default=2)
 ap.add_argument("--note", default="")
+ap.add_argument("--regions", default="shoulder,torso,arm,neck", help="comma list of regions the zone may contain (the source zone is also restricted to them)")
 a = ap.parse_args()
 d = np.load(a.dump)
 rest, E, region = d["rest"], d["edges"], d["region"]
 rn = [str(x) for x in d["region_names"]]
-ok = np.isin(region, [rn.index(n) for n in ("shoulder", "torso", "arm", "neck")])
+ok = np.isin(region, [rn.index(n) for n in a.regions.split(",")])
 nV = len(rest)
 src = json.loads(Path(a.source).read_text(encoding="utf-8"))
 key = {tuple(np.round(rest[i], 5)): i for i in range(nV)}
 mir = np.array([key[tuple(np.round(rest[i] * [-1, 1, 1], 5))] for i in range(nV)])
 zone = np.zeros(nV, bool)
-zone[src["left_owned_vertex_ids"]] = True
+zone[src["left_owned_vertex_ids"]] = True\nzone &= ok
 for _ in range(a.rings):
     nxt = zone.copy()
     nxt[E[zone[E[:, 0]], 1]] = True
@@ -40,7 +41,7 @@ left = np.nonzero(zone & (rest[:, 0] <= 1e-8))[0]
 right = mir[left[rest[left, 0] < -1e-8]]
 rec = {"schema_version": 1, "declared_utc": datetime.now(timezone.utc).isoformat(), "declared_before_edit": True, "target_revision": a.target,
        "zone_origin": str(a.source).replace("\\", "/"), "zone_origin_sha256": hashlib.sha256(Path(a.source).read_bytes()).hexdigest(),
-       "zone_rule": f"source zone dilated by {a.rings} mesh rings inside shoulder/torso/arm/neck; left-owned x <= 0; right = exact mirror", "rings": a.rings,
+       "zone_rule": f"source zone dilated by {a.rings} mesh rings inside the regions {a.regions}; left-owned x <= 0; right = exact mirror", "rings": a.rings,
        "left_owned_vertex_ids": [int(v) for v in left], "mirror_of_strict_left_vertex_ids": sorted(int(v) for v in right), "vertex_count_total": int(len(left) + len(right)),
        "ids_sha256": hashlib.sha256(np.asarray(left, dtype="<i8").tobytes()).hexdigest(),
        "rest_bbox_min_m": [round(float(x), 5) for x in rest[left].min(axis=0)], "rest_bbox_max_m": [round(float(x), 5) for x in rest[left].max(axis=0)],

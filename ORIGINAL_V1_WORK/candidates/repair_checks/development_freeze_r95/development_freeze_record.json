@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "record_type": "development_freeze",
+  "phase": 4,
+  "candidate_revision": "r95",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "candidate_parent_revision": "r93",
+  "candidate_parent_sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+  "candidate_manifest": {
+    "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+    "sha256": "4b7a24248e603a6707f68341e63ebcd85b4fb084e3ee95d0c3747800b9085457"
+  },
+  "character": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "rig_revision": "rev2_forearm_twist_only",
+  "bone_count": 67,
+  "deform_bone_count": 66,
+  "rig_structure_sha256": "aca64584e42890d27c3a59ee0d7e618fec58791546df9b81299d9746185bf197",
+  "frozen_geometry_and_correctives": {
+    "state_hash_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/frozen_state_hashes_r95.json",
+      "sha256": "c572220e267ecb8a596235531a2be1e9601f18a4e76ac9a58ad74f0f70b1c121"
+    },
+    "vertex_count": 17946,
+    "face_count": 17944,
+    "rest_vertex_coords_f32_sha256": "135631f50df0cec2bd8e527855fcc4a42a2618fbe614ea7d33c0a127685d6129",
+    "topology_face_indices_sha256": "9d08654dcca1b0b0e45214abdb20ff3bf830cae1b13c4cb3b4833568dbbcdcc1",
+    "vertex_weights_rounded_1e-7_sha256": "ccddab10c815787c55bc25b91ed0895b6fdb1c43778087ce83a8eadd95b00347",
+    "shape_keys": {
+      "Basis": "135631f50df0cec2bd8e527855fcc4a42a2618fbe614ea7d33c0a127685d6129",
+      "HGPT_SHOULDER_CORR_L": "3fa9ebc6795b459799619eeae95e62fe1db5811e123dc97214d000a3689ba337",
+      "HGPT_SHOULDER_CORR_R": "3c506498f7e2da95d6323c3936a696c6bb0b629781fdb90308ae47c4a1169523",
+      "HGPT_SHOULDER_FLEX_L": "f974eeaf8348c67fa4852fa79b3f1835cbc89a1c008acbf2fe6c2c3721d455ff",
+      "HGPT_SHOULDER_FLEX_R": "76e6cf9268fce2867e42f5718b5b7da805c0fedcedb3d0919126e4e15faaeea3",
+      "HGPT_SHOULDER_SCAP_L": "7c0b52aa098dfc6474f5c2ebff871432b93efaef469428d290661becddeabbef",
+      "HGPT_SHOULDER_SCAP_R": "540f4df6d47f474289ddd8a5a8a89de2edce95d3aa2d33068c5a2b815d1f85c6"
+    },
+    "bone_names_sha256": "195521dc2addb737920d40eb1ad6c00bbeb4d270f536bf6bc288f6ada0b4e1ca",
+    "bone_rest_head_tail_f32_sha256": "648510e7844afb8a46b4884163cfac1cf00b12a4aab64e485ea4dcf30022f4d6",
+    "driver_state": "Runtime-computed (no fcurve drivers stored in the Blend): drive_shoulder_corrective for HGPT_SHOULDER_CORR_L/R (abduction), plus scripts/original_v1_flexion_driver.py for HGPT_SHOULDER_FLEX_L/R and HGPT_SHOULDER_SCAP_L/R installed after the pinned pose-definition marker. Hashes pinned under driver_and_tool_inputs."
+  },
+  "driver_and_tool_inputs": {
+    "scripts/original_v1_flexion_driver.py": "b41ddfe6131c124c7e9399761807ef150c026e3b296e47799693ed6766499385",
+    "scripts/pose_test_original_v1_o4_candidate_blender.py": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+    "scripts/optimize_original_v1_shoulder_corrective.py": "8d2646f18463c47367aab4aa09013573510461eb4fdf00d3bcfb34b08fdf173c",
+    "scripts/apply_original_v1_flexion_corrective_blender.py": "ea6d31eb10d04a8d09f8a7e3031459ebc73de2eeab4bf513c41f0308a7c91cbb",
+    "scripts/apply_original_v1_scapular_corrective_blender.py": "75a8e25d8cd6e52dc3c8aa14307af31aac21da5fce43fad10950c95558b861d5",
+    "scripts/original_v1_production_control.py": "6a5eb75179dc0da4d762a677e9f209ff94b60cb0f3f134b4cb43d34a8edc0f65",
+    "scripts/verify_original_v1_phase_exit.py": "b327469106a7e4e03e7b5dd9e4564dca995c716ae7c4f4aeda3a239c2d15d281",
+    "scripts/verify_original_v1_replay.py": "45cad35ac703fa11ed3b1f98d3c71b3884bd071d960068c2b3f0cae5956841f5"
+  },
+  "pose_definition_pin": {
+    "revision": "P3a",
+    "sha256": "f9f9006171fb3f385e1638d1fc279bde1627057083175b2d417eb20838bc6d97",
+    "script": "scripts/pose_test_original_v1_o4_candidate_blender.py"
+  },
+  "frozen_rig_gate_baseline_inputs": {
+    "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json": "79e9fe78f2acc23e7dd045c80d8d40a85f152c951d49055dfdd6ae5d4d4b6e95",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234",
+    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original.json": "13bea1a622e73c23751fe7a536528768b7dde26a474e0f358815e13be0f6f768",
+    "src/rig/canonicalV4Original.ts": "303b414e7d333fbfeb72196ff2b10f0bff5e86929505a17c65cd60eaf8ad3fbe",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a",
+    "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+  },
+  "active_epoch_baseline": {
+    "name": "P3B1",
+    "pose_definition": "P3",
+    "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+    "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+  },
+  "historical_baseline_lineage": [
+    {
+      "name": "R2",
+      "pose_definition": "P1",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_R2.json",
+      "sha256": "9519192f02c5d52a007a4b685ca5d51467db8f2ff40176401235ceb0ca5f9234"
+    },
+    {
+      "name": "P2B1",
+      "pose_definition": "P2",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P2B1.json",
+      "sha256": "b7859a8ab4471aa5dd463fd3cf4c6f88e2e47eb0221c94710391ebd98277861a"
+    },
+    {
+      "name": "P3B1",
+      "pose_definition": "P3",
+      "baseline": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+      "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+    }
+  ],
+  "evidence": {
+    "full_pose_evidence_manifest": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/../full_r95_evidence_manifest.json",
+      "sha256": "a9f417fb25648ec5669e684886a72c0e38c66d3f47b52c24a6da7fceefa81685"
+    },
+    "merged_pose_report": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/../full_r95_merged_pose_report.json",
+      "sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d"
+    },
+    "comparison_vs_active_baseline_P3B1": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/../full_r95_comparison_vs_P3B1.json",
+      "sha256": "7fee3e1898948bc433dd7b4d5719eb21f3e8f8fdd8056dd9d33975b55b33f776"
+    },
+    "comparison_vs_direct_parent_r93": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/../full_r95_comparison_vs_r93.json",
+      "sha256": "936408b371e6442dd2a73dffce45f41499ecd4ea7e33137f94d28cb8ddc3f4f8"
+    },
+    "numeric_replay_verification": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/numeric_replay_verification.json",
+      "sha256": "ed1889060905c1a9aba9377cc666d4de0dac97f1e922b7b95b64e720e86d04ac"
+    },
+    "exit_audits": {
+      "rig_structure.json": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/rig_structure.json",
+        "sha256": "cfe0dc93fcd5d6707361225800829f96a9ee0794beda9ef41c44e458394484ab"
+      },
+      "finger_flexion.json": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/finger_flexion.json",
+        "sha256": "88d166cfbcf59ff9af822a7d7b07b57c24bf00e2ec1904892e5b93d70d4d92e4"
+      },
+      "joint_kinematics.json": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/joint_kinematics.json",
+        "sha256": "461af7822ced4da4773229fd2c72d64070ef0f2fa7fc52fb3fedc92fa6329691"
+      },
+      "floor_contact.json": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/floor_contact.json",
+        "sha256": "e0575c024724f2cac407e3c1b4f9b29a1be9d5fec6df198f39f1bb17e1158a7e"
+      },
+      "twist_stress.json": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/twist_stress.json",
+        "sha256": "b988ee25fd3ccd2b78a863474e28ba94f269ac0acc2405119f94b1fc401df027"
+      }
+    },
+    "change_audit": {
+      "audit": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/audit_r93_to_r95.json",
+        "sha256": "3c61b19c42dd0869383e869ed47d990264522d79fd605f16aff4851638d84e9f"
+      },
+      "policy": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/edit_policy_r93_to_r95.json",
+        "sha256": "2266512a95e93e79a57d840246bdb934e2bdc73e26d62ff7f0b19c775a151a59"
+      },
+      "snapshot_r93": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/snapshot_r93.json",
+        "sha256": "2649d1c78c0dbd2d6680bd3f5783e7efbbf0cacb8628639bf4235d7acd2413d8"
+      },
+      "snapshot_r95": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/snapshot_r95.json",
+        "sha256": "5534e73c6f6e0c481c7d5d9d1fd8900b2e60651ef700978cf802a6ac1e3b7f7d"
+      }
+    },
+    "candidate_export": {
+      "verification": {
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/candidate_export_verification.json",
+        "sha256": "6f64eb7cdd7f6fe5c3113f810dd736884218761e21ed7936770e8cfbf66187b0"
+      },
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/CANDIDATE_GLB_EXPORT.json",
+        "sha256": "7197532dd22763e5812e523ee111eed79efb02cb1d01d081f7abc7324e19ac68"
+      },
+      "bare_glb": {
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+        "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85"
+      },
+      "dressed_glb": {
+        "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_DRESSED.glb",
+        "sha256": "12ba867ed80e54d9e6b6f626ff584f69e996c1437ffaa15bf2f6ae158e00dcbe"
+      }
+    },
+    "visual_checkpoint": {
+      "milestone_manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json",
+        "sha256": "c2009b2cb8cbe5dc5279c546ed0b3271d6f33c3d66506a7af4f68f0da21e97fe"
+      },
+      "ledge_drape_assessment_dir": "ORIGINAL_V1_WORK/candidates/review_images/r95_ledge_drape_assessment",
+      "visual_gate_dir": "ORIGINAL_V1_WORK/candidates/review_images/r95_visual_gate"
+    },
+    "arc_audit": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r95_arc.json",
+      "sha256": "c12f139afd71cbd56d5c918b058dae60c64c9bbced6be1d7002f120ef09e6258"
+    }
+  },
+  "owner_dispositions": {
+    "owner_accepted_regressions": [
+      {
+        "comparator_difference": 0.023,
+        "metric": "region_min_ratio",
+        "development_gate_margin": 0.52,
+        "candidate_revision": "r95",
+        "decision_utc": "2026-10-04T00:00:00Z",
+        "excess_beyond_tolerance": 0.003,
+        "scope": "Documented historical P3B1 comparator difference accepted by the owner. NOT a numerical pass: the comparator, its tolerance and the P3B1 baseline are unchanged and the strict regression stays listed in the status under owner_accepted_regressions. Bound to this exact candidate SHA-256, the pinned baseline P3B1 and these exact values; any other candidate or value leaves the regression unresolved. Does not waive any other gate.",
+        "region": "torso",
+        "candidate_value": 0.67,
+        "production_target_margin": 0.17,
+        "pinned_baseline": "P3B1",
+        "tolerance": 0.02,
+        "baseline_value": 0.693,
+        "evidence": [
+          "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json",
+          "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/p3b1_regression_attribution.md",
+          "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+        ],
+        "owner_statement": "Owner decision (user, 2026-10-04): accept the pullup_top torso minimum = 0.670 vs P3B1 0.693 as a documented acceptable difference against the historical P3B1 comparator, subject to the existing development and production gates remaining green. Do NOT re-pin P3B1. Rationale: comparator difference 0.023; tolerance 0.020; excess beyond tolerance only 0.003; development gate margin about 0.52; production-target margin about 0.17; no corresponding visible anatomical defect found; weights-only is already about 0.680; P3B1 itself compresses the same edge substantially; P3B1 had 14 development failures and materially worse associated metrics; r95 is materially better in torso maximum, volume behaviour, self-intersections and overall deformation quality; previous attempts to force this comparator value introduced genuine pull-up arm regressions. Record as an explicit owner disposition associated with r95, not as a fabricated numerical pass. Do not perform another experiment merely to eliminate this comparator difference.",
+        "pose": "pullup_top",
+        "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+      }
+    ],
+    "owner_accepted_limitations": [
+      {
+        "id": "r95_rear_trapezius_drape",
+        "candidate_revision": "r95",
+        "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+        "feature": "rear neck-to-raised-arm / trapezius drape in rear overhead poses (press_top, press_top_rhythm; milder in pull-up hang); cape-like appearance with a 73 degree crease where the raised upper-arm skin meets the neck slope",
+        "classification": "documented temporary model-volume/skinning limitation; NOT an unresolved Phase 3A deformation blocker",
+        "decision_utc": "2026-10-04T00:00:00Z",
+        "owner_statement": "Owner decision (user, 2026-10-04): accept the remaining rear neck-to-raised-arm / trapezius drape in r95 as a documented temporary model-volume/skinning limitation, not as an unresolved Phase 3A deformation blocker. Rationale: deformation is continuous through the elevation arc; no jumps or instability were found; no self-intersections occur in the assessed drape zone; the feature is anatomically plausible in kind; it is substantially improved relative to P3B1; pull-up/hang views can read as a normal trapezius/lat slope; the excessive cloth-like appearance in rear overhead views is attributable primarily to missing underlying trapezius/lat/shoulder muscular volume plus the accepted scapular motion; Phase 5A/5B explicitly introduces the missing back/scapular/deltoid/clavicular/axillary surface volume; Phase 5 protects Phase 3A deformation support; there is no demonstrated small, low-risk Phase 3A fix; further neck/shoulder-sheet changes would reopen already demonstrated squat/press/pull-up trade-offs. Do not modify the model further merely to remove this drape during Phase 3. Do not re-pin P3B1. Do not relax any development gate. Do not hide the limitation. Preserve the assessment images/evidence so it can be explicitly re-reviewed during Phase 5 after anatomical volume is added. The previously accepted pullup_top torso minimum owner disposition remains in force exactly as recorded and bound to r95.",
+        "not_a_numerical_pass": true,
+        "waives_no_gate": true,
+        "measured_state": {
+          "sharpest_fold_press_top_deg": {
+            "r95": 73,
+            "r93": 73,
+            "weights_only": 180,
+            "P3B1": 180
+          },
+          "triangle_area_over_rest_press_top_max_p99": {
+            "r95": [
+              2.47,
+              1.87
+            ],
+            "P3B1": [
+              4.37,
+              2.57
+            ]
+          },
+          "self_intersections_in_zone": 0,
+          "arc": "continuous, monotone, no jumps"
+        },
+        "phase5_followup": "PHASE5-FU-001: re-review this drape explicitly after Phase 5A (back/scapular planes) and 5B (deltoid/clavicular/axillary surface) add the missing trapezius/lat/deltoid volume; re-run the r95 ledge/drape assessment tooling (review_images/r95_ledge_drape_assessment) on the descendant candidate and record the comparison.",
+        "evidence": [
+          "ORIGINAL_V1_WORK/candidates/review_images/r95_ledge_drape_assessment/ledge_drape_geometry_by_pose_and_state.txt",
+          "ORIGINAL_V1_WORK/candidates/review_images/r95_ledge_drape_assessment/arc_stability.txt",
+          "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+        ]
+      }
+    ],
+    "statement": "Both dispositions are candidate-bound to r95, not numerical passes and waive no gate. P3B1 was not re-pinned and no tolerance changed."
+  },
+  "phase5_followups": [
+    {
+      "id": "PHASE5-FU-001",
+      "source": "owner_accepted_limitations/r95_rear_trapezius_drape",
+      "due": "after Phase 5A and 5B",
+      "action": "PHASE5-FU-001: re-review this drape explicitly after Phase 5A (back/scapular planes) and 5B (deltoid/clavicular/axillary surface) add the missing trapezius/lat/deltoid volume; re-run the r95 ledge/drape assessment tooling (review_images/r95_ledge_drape_assessment) on the descendant candidate and record the comparison.",
+      "status": "open"
+    }
+  ],
+  "known_observations_retained_unmodified": [
+    "Inherited raw weight normalisation error up to 1.47e-5 on 107 vertices (unchanged r93->r95; max_weight_delta 0). Not normalised or rewritten.",
+    "Dressed GLB carries no morph targets; the bare GLB carries the 6 shoulder shape keys (67 joints in both). Runtime driver weights are not exported in either GLB."
+  ],
+  "protected_scopes": [
+    "Phase 3A deformation support: r95 shoulder/axilla deformation incl. chest-bowl, clavicle knob/web, scapular lobe, flexion and abduction correctives (HGPT_SHOULDER_CORR/FLEX/SCAP L/R)",
+    "Skeleton: 67 bones, hgpt_canonical_v4_original rev2_forearm_twist_only, rest pose and bone orientation",
+    "Phase 3B-3E accepted behaviour: hands/fingers, grip/thumb, wrist, hip/pelvis",
+    "Floor/contact and planted-foot/hand invariants; biomechanics; joint limits",
+    "Frozen pose-definition P3a (f9f90061...) and all deformation/gate tolerances; P3B1 baseline unchanged",
+    "Topology (17946 vertices / 17944 faces) unless a Phase 5 region package declares and audits a scoped change"
+  ],
+  "permitted_next_work": "Phase 5 region packages in plan order (5A torso/back/scapular planes, 5B shoulders deltoid/clavicular/axillary, ...), each scoped, audited against r95 (frozen), the active P3B1 baseline and its direct parent. PHASE5-FU-001 mandatory re-review of the rear trapezius drape after 5A/5B. No geometry/weight/rig change is permitted by this record itself.",
+  "distinct_states": {
+    "development_freeze": "recorded by this file",
+    "owner_review": "pending, NON-BLOCKING",
+    "production_approved": false
+  },
+  "first_party": {
+    "clean_room": true,
+    "legacy_geometry_imported": false,
+    "third_party_content": false,
+    "note": "Foundation provenance is enforced by production control; legacy V-series material is historical reference only."
+  },
+  "source_git_commit": "204d88761672bba80c28e6835e14a980fe958253",
+  "created_utc": "2026-10-04T20:28:55+00:00",
+  "production_approved": false
+}

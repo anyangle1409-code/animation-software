@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": 4,
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "status": "INCOMPLETE",
+  "production_approved": false,
+  "source_git_commit": null,
+  "evidence_timestamp": null,
+  "command": null,
+  "owner_review": "pending",
+  "blocking": false,
+  "checks": [
+    {
+      "id": "development_zero_failures",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "no_unresolved_regressions",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "replay_matches_primary",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "frozen_rig_baseline_gates",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "source_lineage_verified",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "published_review_snapshot",
+      "passed": null,
+      "evidence": []
+    },
+    {
+      "id": "freeze_record_pinned",
+      "passed": null,
+      "evidence": []
+    }
+  ],
+  "source_context": {
+    "candidate": "r95",
+    "development_failure_count": 0,
+    "pinned_baseline": "P3B1",
+    "next_action": "ENTER development freeze validation"
+  },
+  "note": "Template only; no checks executed. Refresh candidate identity, command/commit/time and actual source hashes after executing every required test. Never turn placeholders into PASS assertions."
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "phase": 4,
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "production_approved": false,
+  "source_git_commit": "5bff3c9d41013cf6ee931c039dbb9d9dcc30199c",
+  "evidence_timestamp": "2026-10-04T20:30:02+00:00",
+  "command": "RUN_ORIGINAL_V1_PHASE4_PREFLIGHT.bat; verify_original_v1_replay.py r95 --capture; run_exit_audits_r95 (rig_structure, finger_flexion, joint_kinematics, floor_contact, twist_stress); original_v1_export_evidence.py r95 --capture; snapshot_original_v1_model_blender.py + audit_original_v1_changes.py r93->r95; original_v1_milestone_review.py r95 --capture; hash_original_v1_shape_key_state_blender.py; development_freeze_record.json",
+  "owner_review": "pending",
+  "blocking": false,
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "development_zero_failures",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_merged_pose_report.json",
+          "sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json",
+          "sha256": "a9f417fb25648ec5669e684886a72c0e38c66d3f47b52c24a6da7fceefa81685"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json",
+          "sha256": "7fee3e1898948bc433dd7b4d5719eb21f3e8f8fdd8056dd9d33975b55b33f776"
+        }
+      ]
+    },
+    {
+      "id": "no_unresolved_regressions",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json",
+          "sha256": "7fee3e1898948bc433dd7b4d5719eb21f3e8f8fdd8056dd9d33975b55b33f776"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_r93.json",
+          "sha256": "936408b371e6442dd2a73dffce45f41499ecd4ea7e33137f94d28cb8ddc3f4f8"
+        }
+      ]
+    },
+    {
+      "id": "replay_matches_primary",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/numeric_replay_verification.json",
+          "sha256": "ed1889060905c1a9aba9377cc666d4de0dac97f1e922b7b95b64e720e86d04ac"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_merged_pose_report.json",
+          "sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d"
+        }
+      ]
+    },
+    {
+      "id": "frozen_rig_baseline_gates",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/rig_structure.json",
+          "sha256": "cfe0dc93fcd5d6707361225800829f96a9ee0794beda9ef41c44e458394484ab"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/finger_flexion.json",
+          "sha256": "88d166cfbcf59ff9af822a7d7b07b57c24bf00e2ec1904892e5b93d70d4d92e4"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/joint_kinematics.json",
+          "sha256": "461af7822ced4da4773229fd2c72d64070ef0f2fa7fc52fb3fedc92fa6329691"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/floor_contact.json",
+          "sha256": "e0575c024724f2cac407e3c1b4f9b29a1be9d5fec6df198f39f1bb17e1158a7e"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/exit_audits/twist_stress.json",
+          "sha256": "b988ee25fd3ccd2b78a863474e28ba94f269ac0acc2405119f94b1fc401df027"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/frozen_state_hashes_r95.json",
+          "sha256": "c572220e267ecb8a596235531a2be1e9601f18a4e76ac9a58ad74f0f70b1c121"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/DEFORMATION_BASELINE_P3B1.json",
+          "sha256": "2548b965948e49e88a7d343d28f212d92aa6e28425632518abd02da809ce1512"
+        }
+      ]
+    },
+    {
+      "id": "source_lineage_verified",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+          "sha256": "4b7a24248e603a6707f68341e63ebcd85b4fb084e3ee95d0c3747800b9085457"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/audit_r93_to_r95.json",
+          "sha256": "3c61b19c42dd0869383e869ed47d990264522d79fd605f16aff4851638d84e9f"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/change_audit/edit_policy_r93_to_r95.json",
+          "sha256": "2266512a95e93e79a57d840246bdb934e2bdc73e26d62ff7f0b19c775a151a59"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/candidate_export_verification.json",
+          "sha256": "6f64eb7cdd7f6fe5c3113f810dd736884218761e21ed7936770e8cfbf66187b0"
+        }
+      ]
+    },
+    {
+      "id": "published_review_snapshot",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/review/milestone_r95/visual_review_manifest.json",
+          "sha256": "c2009b2cb8cbe5dc5279c546ed0b3271d6f33c3d66506a7af4f68f0da21e97fe"
+        }
+      ]
+    },
+    {
+      "id": "freeze_record_pinned",
+      "passed": true,
+      "evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/development_freeze_r95/development_freeze_record.json",
+          "sha256": "434e23614db6f5d2e59cc40403dc95f7cbc240143529fd7e0bb505ce6e729e5a"
+        }
+      ]
+    }
+  ],
+  "source_context": {
+    "candidate": "r95",
+    "pinned_baseline": "P3B1",
+    "owner_accepted_regressions": [
+      "pullup_top torso region_min_ratio 0.693 vs 0.67 (candidate-bound, not a numerical pass)"
+    ],
+    "owner_accepted_limitations": [
+      "r95_rear_trapezius_drape (PHASE5-FU-001)"
+    ]
+  },
+  "note": "Actual Phase 4 development-freeze exit packet for r95. Executed checks only. Development Freeze is not review approval or production approval."
+}

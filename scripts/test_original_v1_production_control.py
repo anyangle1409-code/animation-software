@@ -201,7 +201,13 @@ class ControlTests(unittest.TestCase):
         status['development_failure_count']=0
         control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
         control['continuation_decisions']['r30']={'candidate_sha256':status['last_known_candidate_sha256']}
+        control['active_local_repair']=None
+        # premise stated explicitly (the live candidate may carry an owner-accepted disposition): an UNRESOLVED strict regression must block the freeze
+        status['unresolved_regressions']=[{'name':'pullup_top','region':'torso','metric':'region_min_ratio','baseline':0.693,'candidate':0.67,'tolerance':0.02}]
         self.assertEqual(c.next_action(status,control)['action'],'RECONCILE freeze regressions')
+        # and once none is unresolved (e.g. every strict difference carries a candidate-bound owner disposition) the freeze validation may be entered
+        status['unresolved_regressions']=[]
+        self.assertEqual(c.next_action(status,control)['action'],'ENTER development freeze validation')
 
     def test_candidate_bound_local_repair_precedes_freeze_reconciliation(self):
         c=self.module();status,_=c.build(ROOT)

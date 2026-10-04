@@ -1,0 +1,666 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-04T20:06:34.400597+00:00",
+  "purpose": "fixed-axis finger flexion audit (reversal-proof); read-only",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+  "source_candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "pose_definition_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+  "positive_means": "flexion toward the palm about the neutral-rest flexion axis",
+  "poses": [
+    {
+      "pose": "curl_peak",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.573,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.573,
+              157.573,
+              -147.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.573,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.573,
+              157.573,
+              -147.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.798,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.798,
+          "flags": []
+        }
+      }
+    },
+    {
+      "pose": "press_bottom",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.572,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.572,
+              157.573,
+              -147.428
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.573,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.573,
+              157.573,
+              -147.428
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.799,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.799,
+          "flags": []
+        }
+      }
+    },
+    {
+      "pose": "pushup_bottom",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": -1.924,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              -1.924,
+              -1.924,
+              -1.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": -0.427,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              -0.427,
+              -0.427,
+              -0.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 0.849,
+            "pip_deg": -0.0,
+            "dip_deg": -0.0,
+            "cumulative_deg": [
+              0.849,
+              0.849,
+              0.849
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 2.489,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              2.489,
+              2.489,
+              2.489
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": -1.924,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              -1.924,
+              -1.924,
+              -1.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": -0.427,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              -0.427,
+              -0.427,
+              -0.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 0.849,
+            "pip_deg": -0.0,
+            "dip_deg": -0.0,
+            "cumulative_deg": [
+              0.849,
+              0.849,
+              0.849
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 2.489,
+            "pip_deg": -0.0,
+            "dip_deg": 0.0,
+            "cumulative_deg": [
+              2.489,
+              2.489,
+              2.489
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": -0.0,
+          "ip_deg": 0.0,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": -0.0,
+          "ip_deg": 0.0,
+          "flags": []
+        }
+      }
+    },
+    {
+      "pose": "grip",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.573,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.573,
+              157.573,
+              -147.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": 68.076,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              68.076,
+              156.076,
+              -148.924
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 69.573,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              69.573,
+              157.573,
+              -147.427
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 70.849,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              70.849,
+              158.849,
+              -146.151
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 72.489,
+            "pip_deg": 88.0,
+            "dip_deg": 55.0,
+            "cumulative_deg": [
+              72.489,
+              160.489,
+              -144.511
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.799,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": 29.82,
+          "ip_deg": 37.799,
+          "flags": []
+        }
+      }
+    },
+    {
+      "pose": "curl_handle",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": 37.139,
+            "pip_deg": 71.328,
+            "dip_deg": 39.18,
+            "cumulative_deg": [
+              37.139,
+              108.467,
+              147.646
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 44.885,
+            "pip_deg": 77.988,
+            "dip_deg": 41.836,
+            "cumulative_deg": [
+              44.885,
+              122.873,
+              164.709
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 47.333,
+            "pip_deg": 66.387,
+            "dip_deg": 50.469,
+            "cumulative_deg": [
+              47.333,
+              113.72,
+              164.189
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 44.286,
+            "pip_deg": 34.805,
+            "dip_deg": 60.762,
+            "cumulative_deg": [
+              44.286,
+              79.091,
+              139.853
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": 37.139,
+            "pip_deg": 71.328,
+            "dip_deg": 39.18,
+            "cumulative_deg": [
+              37.139,
+              108.467,
+              147.646
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 44.885,
+            "pip_deg": 77.988,
+            "dip_deg": 41.836,
+            "cumulative_deg": [
+              44.885,
+              122.873,
+              164.709
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 47.333,
+            "pip_deg": 66.387,
+            "dip_deg": 50.469,
+            "cumulative_deg": [
+              47.333,
+              113.72,
+              164.189
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 44.286,
+            "pip_deg": 34.805,
+            "dip_deg": 60.762,
+            "cumulative_deg": [
+              44.286,
+              79.091,
+              139.853
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": 1.085,
+          "ip_deg": 5.065,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": 1.085,
+          "ip_deg": 5.065,
+          "flags": []
+        }
+      }
+    },
+    {
+      "pose": "pullup_bar",
+      "hands": {
+        "l": {
+          "index": {
+            "mcp_deg": 37.139,
+            "pip_deg": 71.328,
+            "dip_deg": 39.014,
+            "cumulative_deg": [
+              37.139,
+              108.467,
+              147.481
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 44.885,
+            "pip_deg": 77.988,
+            "dip_deg": 41.836,
+            "cumulative_deg": [
+              44.885,
+              122.873,
+              164.709
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 47.333,
+            "pip_deg": 66.387,
+            "dip_deg": 50.469,
+            "cumulative_deg": [
+              47.333,
+              113.72,
+              164.189
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 44.286,
+            "pip_deg": 34.805,
+            "dip_deg": 60.762,
+            "cumulative_deg": [
+              44.286,
+              79.091,
+              139.853
+            ],
+            "flags": []
+          }
+        },
+        "r": {
+          "index": {
+            "mcp_deg": 37.139,
+            "pip_deg": 71.328,
+            "dip_deg": 39.18,
+            "cumulative_deg": [
+              37.139,
+              108.467,
+              147.646
+            ],
+            "flags": []
+          },
+          "middle": {
+            "mcp_deg": 44.885,
+            "pip_deg": 77.988,
+            "dip_deg": 41.836,
+            "cumulative_deg": [
+              44.885,
+              122.873,
+              164.709
+            ],
+            "flags": []
+          },
+          "ring": {
+            "mcp_deg": 47.333,
+            "pip_deg": 66.387,
+            "dip_deg": 50.469,
+            "cumulative_deg": [
+              47.333,
+              113.72,
+              164.189
+            ],
+            "flags": []
+          },
+          "pinky": {
+            "mcp_deg": 44.286,
+            "pip_deg": 34.805,
+            "dip_deg": 60.762,
+            "cumulative_deg": [
+              44.286,
+              79.091,
+              139.853
+            ],
+            "flags": []
+          }
+        }
+      },
+      "thumbs": {
+        "l": {
+          "mcp_deg": 1.085,
+          "ip_deg": 5.065,
+          "flags": []
+        },
+        "r": {
+          "mcp_deg": 1.085,
+          "ip_deg": 5.065,
+          "flags": []
+        }
+      }
+    }
+  ],
+  "flagged": []
+}

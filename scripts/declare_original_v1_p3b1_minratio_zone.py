@@ -49,7 +49,7 @@ for item in a.targets:
     p=poses.index(pose); rid=region_names.index(region)
     P=evaluated[p]
     ratio=np.linalg.norm(P[E[:,0]]-P[E[:,1]],axis=1)/L0
-    emask=(regions[E[:,0]]==rid)|(regions[E[:,1]]==rid)
+    # Match the project comparator exactly: by_region assigns an edge from its first endpoint.\n    emask=(regions[E[:,0]]==rid)
     ids=np.nonzero(emask)[0]
     ids=ids[np.argsort(ratio[ids])[:a.top_edges]]
     threshold=float(row["baseline"])-tol

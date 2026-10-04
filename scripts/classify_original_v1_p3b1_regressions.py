@@ -36,15 +36,17 @@ pre_label = Path(pre).stem if pre.endswith(".json") else pre
 rows_p = load_rows(Path(pre) if pre.endswith(".json") else RC / f"full_{pre}_merged_pose_report.json")
 cmp_ = json.loads((RC / f"full_{rev}_comparison_vs_P3B1.json").read_text(encoding="utf-8"))
 tol_key = {"region_min_ratio": "region_min_ratio_drop", "region_max_ratio": "region_max_ratio_rise", "self_intersecting_face_pairs": "self_intersecting_face_pairs_rise",
-           "edge_ratio_p99": "edge_ratio_p99_rise", "edge_ratio_p01": "edge_ratio_p01_drop"}
+           "edge_ratio_p99": "edge_ratio_p99_rise", "edge_ratio_p01": "edge_ratio_p01_drop", "volume_deviation_from_1": "volume_deviation_from_1_rise"}
 limit_key = {"region_min_ratio": ("region_min_ratio_min", "min"), "region_max_ratio": ("region_max_ratio_max", "max"),
              "self_intersecting_face_pairs": ("self_intersecting_face_pairs_max", "max"), "edge_ratio_p99": ("edge_ratio_p99_max", "max"),
-             "edge_ratio_p01": ("edge_ratio_p01_min", "min")}
+             "edge_ratio_p01": ("edge_ratio_p01_min", "min"), "volume_deviation_from_1": ("volume_ratio_max", "max")}
 
 
 def value(row, region, metric):
     if row is None:
         return None
+    if metric == "volume_deviation_from_1":
+        return abs(float(row["volume_ratio"]) - 1.0)
     if region:
         key = {"region_min_ratio": "min_ratio", "region_max_ratio": "max_ratio"}[metric]
         return row.get("by_region", {}).get(region, {}).get(key)
@@ -64,6 +66,8 @@ for x in cmp_["regressions"]:
     tolerance = float(tol[tol_key[metric]])
     gate_name, kind = limit_key[metric]
     gate, ptarget = float(dev[gate_name]), float(prod[gate_name])
+    if metric == "volume_deviation_from_1":                      # gate is on the ratio (<= 1.1): deviation limit is the ratio limit minus 1
+        gate, ptarget = gate - 1.0, ptarget - 1.0
     margin = (cand - gate) if kind == "min" else (gate - cand)
     pmargin = (cand - ptarget) if kind == "min" else (ptarget - cand)
     pre_worse = None if prev is None else worse(metric, base, float(prev))

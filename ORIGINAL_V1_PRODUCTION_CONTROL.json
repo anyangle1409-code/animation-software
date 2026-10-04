@@ -464,14 +464,52 @@
           "path": "ORIGINAL_V1_WORK/shoulder_corrective_r80.json"
         }
       ]
+    },
+    "r81": {
+      "candidate_sha256": "fa95c0b4f6f4815202936639aa173f61fdc0db43837f8f0c40a7af95d74d2b0a",
+      "chosen_parent": "r68",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r81 = r68 (r43 + o45 shoulder weights + wrist band o26 + local knot weights o47; rig rev2c) + deterministic weight DIFFUSION SMOOTHING (30 iterations, lam 0.5, boundary fixed, mirror-symmetrised, top-4 influences, renormalised) of the declared 834-vertex shoulder-top zone (= r80's 528-vertex collision zone dilated by 2 rings; declaration committed before the edit: repair_preparation/r81_dilated_weight_smoothing_declared; intermediate Blend SHA-256 recorded in repair_preparation/r81_shoulder_corrective_declared) + a RE-FITTED generic humerothoracic-elevation shoulder corrective (solution corr_v20; mask declared before the solve; 1491 left-owned vertices; barriers unchanged from r69/r80). Rationale (measured): the shoulder-top self-intersections are clavicle-driven skin crossing upper-arm-driven skin where the clavicle/upper-arm weight changes about 2.5 times more steeply between neighbours (0.062 versus 0.024 per cm); r80's 528-vertex zone had fixed boundary vertices that capped how far the ramp could widen, the dilated zone removes that cap. Weights-only probes (metrics only, on r68): dilated k=30 gives self-intersections press_top 58, press_top_rhythm 72, pullup_hang 0, pullup_hang_rhythm 0, squat 82 before any corrective. Measured under P3, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 12 (r80 13, r76 23, r69 23). Self-intersections P3B1 / r80 / r81: press_top 95 / 58 / 16, press_top_rhythm 54 / 74 / 12, pullup_hang 4 / 40 / 0, pullup_hang_rhythm 0 / 48 / 0, squat_bottom 108 / 100 / 82 - every shoulder self-intersection regression versus P3B1 is gone. Remaining 12 (all inside every development gate, smallest margin 0.032): arm/torso minimum-edge-ratio compression (press_bottom torso 0.526 versus 0.698, press_top arm 0.702 versus 0.78, press_top_rhythm arm 0.621 versus 0.679, pull-up arm 0.688/0.727 versus 0.865/0.838, pullup_top torso 0.654 versus 0.693, squat arm 0.383 versus 0.597 and shoulder 0.182 versus 0.244), squat volume deviation 0.050 versus 0.044 and edge_ratio_p01 0.579 versus 0.613, and push-up self-intersections 164 versus 158 (outside the shoulder poses, unchanged since r48). Continuous arc (17 samples, six shoulder poses): torso edge max 3.58, min 0.490, volume 0.984-1.039 with max step 0.8 percent, drift max 0.145 m; corrective audit CLEAN (left/right asymmetry 0). Refused earlier routes preserved: r77 (anti-penetration barrier with rest-pose side reference), r78/r79 (tri-tri collision-resolving weights). NOT eligible for Phase 4: 12 strict P3B1 regressions remain unresolved (all compression-type minimums plus the squat/push-up items above).",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_r80.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/diagnostic_brief.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r81_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r81/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r81/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r81_dilated_weight_smoothing_declared/weight_smoothing_zone_declared_before_edit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r81_shoulder_corrective_declared/shoulder_corrective_mask_declared_before_solve.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/shoulder_corrective_r81.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r80",
-    "candidate_sha256": "f1859d403626c934d311da93cc4e92ad4472b0225ca83f776d4b1df8bc158eb4",
+    "candidate_revision": "r81",
+    "candidate_sha256": "fa95c0b4f6f4815202936639aa173f61fdc0db43837f8f0c40a7af95d74d2b0a",
     "action": "RUN local axilla repair",
-    "reason": "r80 is development-clear and cuts the strict P3B1 regressions from 23 to 13 and the shoulder-top self-intersections by about 55 percent, but 13 remain (arm/torso minimum-edge compression, self-intersections 40-74 in rhythm and pull-up poses, a thin squat shoulder minimum margin of 0.028) and real renders still show a jagged flap on the right front; next is a second declared smoothing/corrective iteration or an owner disposition of the remaining P3B1 regressions",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r80",
+    "reason": "r81 is development-clear and has removed every shoulder self-intersection regression versus P3B1 (press_top 16, rhythm 12, pull-ups 0), leaving 12 strict regressions that are compression-type minimum-edge-ratio drops in the arm/torso/shoulder regions plus squat volume/p01 and push-up self-intersections, all inside the gates; next is a declared iteration aimed at that compression family (for example more smoothing iterations or a relaxed corrective compression floor), or an owner disposition of the remaining 12",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r81",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

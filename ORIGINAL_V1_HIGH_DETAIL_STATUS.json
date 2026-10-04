@@ -5,7 +5,7 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r80",
+  "current_candidate": "r81",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -48,7 +48,7 @@
   ],
   "development_failure_count": 0,
   "development_failures": [],
-  "production_failure_count": 114,
+  "production_failure_count": 107,
   "production_approved": false,
   "phases": {
     "0": {
@@ -162,8 +162,8 @@
       "region": "torso",
       "metric": "region_min_ratio",
       "baseline": 0.698,
-      "candidate": 0.505,
-      "delta": -0.19299999999999995,
+      "candidate": 0.526,
+      "delta": -0.17199999999999993,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
@@ -173,32 +173,21 @@
       "region": "arm",
       "metric": "region_min_ratio",
       "baseline": 0.78,
-      "candidate": 0.606,
-      "delta": -0.17400000000000004,
+      "candidate": 0.702,
+      "delta": -0.07800000000000007,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
     {
       "kind": "severity",
       "name": "press_top_rhythm",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 54.0,
-      "candidate": 74.0,
-      "delta": 20.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_bar",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 4.0,
-      "candidate": 40.0,
-      "delta": 36.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
+      "region": "arm",
+      "metric": "region_min_ratio",
+      "baseline": 0.679,
+      "candidate": 0.621,
+      "delta": -0.05800000000000005,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
     },
     {
       "kind": "severity",
@@ -206,21 +195,10 @@
       "region": "arm",
       "metric": "region_min_ratio",
       "baseline": 0.865,
-      "candidate": 0.554,
-      "delta": -0.31099999999999994,
+      "candidate": 0.688,
+      "delta": -0.17700000000000005,
       "direction": "higher_is_better",
       "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_hang",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 4.0,
-      "candidate": 40.0,
-      "delta": 36.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -228,21 +206,10 @@
       "region": "arm",
       "metric": "region_min_ratio",
       "baseline": 0.865,
-      "candidate": 0.554,
-      "delta": -0.31099999999999994,
+      "candidate": 0.688,
+      "delta": -0.17700000000000005,
       "direction": "higher_is_better",
       "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "pullup_hang_rhythm",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 0.0,
-      "candidate": 48.0,
-      "delta": 48.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
     },
     {
       "kind": "severity",
@@ -250,8 +217,8 @@
       "region": "arm",
       "metric": "region_min_ratio",
       "baseline": 0.838,
-      "candidate": 0.542,
-      "delta": -0.29599999999999993,
+      "candidate": 0.727,
+      "delta": -0.11099999999999999,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
@@ -261,8 +228,8 @@
       "region": "torso",
       "metric": "region_min_ratio",
       "baseline": 0.693,
-      "candidate": 0.645,
-      "delta": -0.04799999999999993,
+      "candidate": 0.654,
+      "delta": -0.038999999999999924,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
@@ -280,11 +247,33 @@
     {
       "kind": "severity",
       "name": "squat_bottom",
+      "region": null,
+      "metric": "volume_deviation_from_1",
+      "baseline": 0.04379999999999995,
+      "candidate": 0.050000000000000044,
+      "delta": 0.006200000000000094,
+      "direction": "lower_is_better",
+      "tolerance": 0.005
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": null,
+      "metric": "edge_ratio_p01",
+      "baseline": 0.613,
+      "candidate": 0.579,
+      "delta": -0.03400000000000003,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
       "region": "arm",
       "metric": "region_min_ratio",
       "baseline": 0.597,
-      "candidate": 0.413,
-      "delta": -0.184,
+      "candidate": 0.383,
+      "delta": -0.21399999999999997,
       "direction": "higher_is_better",
       "tolerance": 0.02
     },
@@ -294,8 +283,8 @@
       "region": "shoulder",
       "metric": "region_min_ratio",
       "baseline": 0.244,
-      "candidate": 0.178,
-      "delta": -0.066,
+      "candidate": 0.182,
+      "delta": -0.062,
       "direction": "higher_is_better",
       "tolerance": 0.02
     }
@@ -316,47 +305,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_merged_pose_report.json",
-      "sha256": "fdb76b27f3ba16757a57a16bd609015415a2fe8b3427db8f358f365558ccb941"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_merged_pose_report.json",
+      "sha256": "84f8fc0bdfb38c1a43fa214cf558225d7fbb0c0295965cf4b2d994c14fc782c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r80.json",
-      "sha256": "018b0542deb8a84f5d62ce01c44fa7e59ba013797d73f80106a9060e46bd800a"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r81.json",
+      "sha256": "707b3f75f98341ea60d37f63bf7cb56551472c7747626ba6fa6fae3d1add1135"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_evidence_manifest.json",
-      "sha256": "3db31ea5c680f422991563e74dc5248c27e872a242ba73834a9796fa57b2ce0b"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_evidence_manifest.json",
+      "sha256": "589b2e6e451ac22b37511f361727747940c5fa23a0a7bb87d8e63670eae6af83"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_P3B1.json",
-      "sha256": "6b4d5021ec2e25ed0a80e54babd4dca5490c6a68b77562b3072ad2c06cc03212"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_P3B1.json",
+      "sha256": "84d5a54bec13f4de50a330a8af605ef89a4e33215c0fdce4965061100abccb9c"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_r76.json",
-      "sha256": "a97f78c0175a05b1559bfeb64db4cd24939202ae8486a048c7b238c62f69c310"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_r80.json",
+      "sha256": "077951db5c98d5b68d6d508115323d334bd84a399107155badc96d54ad4117bc"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/diagnostic_brief.json",
-      "sha256": "07e9cb4f57cc2576b8c11712665c4390e12bebf01e428a583dfa245b52072634"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/diagnostic_brief.json",
+      "sha256": "a9723437a819fb9810e6b57f5dd7825cb2a5f227ca1abef03c4a3db7cd60eb9f"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/edge_extremes.json",
-      "sha256": "5f5b19cfe970c9e5227b0365c537d675e8b638f775d294fcf8d92528b282f151"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/edge_extremes.json",
+      "sha256": "c461e376084c2b3e4d8b4414e4901f306b6ae358e4f6fed8a162faa1ab709f30"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/grip_penetration.json",
-      "sha256": "1c888d223736767bd2be099c0fb8a1cf7b42b1ed44194db65a1586c058f62863"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/grip_penetration.json",
+      "sha256": "0db6c509c98a844d5242244ec86a64ef180cbb95f2325e707e34df955229b290"
     }
   ],
-  "last_known_candidate_sha256": "f1859d403626c934d311da93cc4e92ad4472b0225ca83f776d4b1df8bc158eb4",
-  "evidence_timestamp": "2026-10-03T22:39:23.574317+00:00",
+  "last_known_candidate_sha256": "fa95c0b4f6f4815202936639aa173f61fdc0db43837f8f0c40a7af95d74d2b0a",
+  "evidence_timestamp": "2026-10-03T23:57:31.785643+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r80: solution corr_v19.npz on r80_weights_intermediate.blend; candidate remains experimental.",
+  "what_changed": "r81: solution corr_v20.npz on r81_weights_intermediate.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -369,8 +358,8 @@
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "RUN local axilla repair",
-    "reason": "r80 is development-clear and cuts the strict P3B1 regressions from 23 to 13 and the shoulder-top self-intersections by about 55 percent, but 13 remain (arm/torso minimum-edge compression, self-intersections 40-74 in rhythm and pull-up poses, a thin squat shoulder minimum margin of 0.028) and real renders still show a jagged flap on the right front; next is a second declared smoothing/corrective iteration or an owner disposition of the remaining P3B1 regressions",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r80",
+    "reason": "r81 is development-clear and has removed every shoulder self-intersection regression versus P3B1 (press_top 16, rhythm 12, pull-ups 0), leaving 12 strict regressions that are compression-type minimum-edge-ratio drops in the arm/torso/shoulder regions plus squat volume/p01 and push-up self-intersections, all inside the gates; next is a declared iteration aimed at that compression family (for example more smoothing iterations or a relaxed corrective compression floor), or an owner disposition of the remaining 12",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r81",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }

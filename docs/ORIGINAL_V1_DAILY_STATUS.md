@@ -4,15 +4,15 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r80 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
-SHA-256: `f1859d403626c934d311da93cc4e92ad4472b0225ca83f776d4b1df8bc158eb4`
+r81 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
+SHA-256: `fa95c0b4f6f4815202936639aa173f61fdc0db43837f8f0c40a7af95d74d2b0a`
 
 DEVELOPMENT BLOCKERS
-0 failures; 13 separate strict severity regressions versus P3B1.
+0 failures; 12 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED
-r80: solution corr_v19.npz on r80_weights_intermediate.blend; candidate remains experimental.
+r81: solution corr_v20.npz on r81_weights_intermediate.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -29,8 +29,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r80 is development-clear and cuts the strict P3B1 regressions from 23 to 13 and the shoulder-top self-intersections by about 55 percent, but 13 remain (arm/torso minimum-edge compression, self-intersections 40-74 in rhythm and pull-up poses, a thin squat shoulder minimum margin of 0.028) and real renders still show a jagged flap on the right front; next is a second declared smoothing/corrective iteration or an owner disposition of the remaining P3B1 regressions
-`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r80`
+RUN local axilla repair — r81 is development-clear and has removed every shoulder self-intersection regression versus P3B1 (press_top 16, rhythm 12, pull-ups 0), leaving 12 strict regressions that are compression-type minimum-edge-ratio drops in the arm/torso/shoulder regions plus squat volume/p01 and push-up self-intersections, all inside the gates; next is a declared iteration aimed at that compression family (for example more smoothing iterations or a relaxed corrective compression floor), or an owner disposition of the remaining 12
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r81`
 Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
@@ -53,18 +53,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-03T22:39:23.574317+00:00
+Evidence timestamp: 2026-10-03T23:57:31.785643+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r80.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r81.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r80_comparison_vs_r76.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r80/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r81_comparison_vs_r80.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r81/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

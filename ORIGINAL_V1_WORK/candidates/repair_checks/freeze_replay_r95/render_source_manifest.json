@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+  "pose_report_sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d",
+  "blender_version": "5.2.1 LTS",
+  "capture_mode": "numeric_replay",
+  "capture_arguments": [
+    "C:\\Users\\Mark\\Documents\\animation-software\\repo\\ORIGINAL_V1_WORK\\candidates\\repair_checks\\freeze_replay_r95",
+    "",
+    "--metrics-only"
+  ],
+  "images": [],
+  "owner_review": "pending",
+  "blocking": false,
+  "production_approved": false
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "gate_id": "original_v1_numeric_replay",
+  "status": "PASS",
+  "candidate_revision": "r95",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "pose_count": 15,
+  "replay_directory": "ORIGINAL_V1_WORK/candidates/repair_checks/freeze_replay_r95",
+  "source_evidence": [
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json",
+      "sha256": "a9f417fb25648ec5669e684886a72c0e38c66d3f47b52c24a6da7fceefa81685"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_merged_pose_report.json",
+      "sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/freeze_replay_r95/render_source_manifest.json",
+      "sha256": "c89a6cca83397aef56cf6480baba3f3f462a2d0f75c1d486e8c9c9064bd872ab"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/freeze_replay_r95/pose_test_report.json",
+      "sha256": "c65a7e67ea38bd69b9edfbed1868d7f941d5e3c453f0a5e00f90cb122914932d"
+    }
+  ],
+  "production_approved": false,
+  "visual_review_available": false,
+  "note": "Identical reported metrics under matching candidate/script/Blender identities. Does not prove production deformation or visual anatomy."
+}

@@ -145,7 +145,7 @@ def main():
     P0 = evald.copy()
     lam = d["lam"] if "lam" in d.files else np.ones_like(theta)
     _g = (lambda x: x) if a.driver == "abduction" else (lambda x: 1.0 - x)
-al = smoothstep(theta[:, 0], a.theta0, a.theta1) * _g(lam[:, 0])
+    al = smoothstep(theta[:, 0], a.theta0, a.theta1) * _g(lam[:, 0])
     ar = smoothstep(theta[:, 1], a.theta0, a.theta1) * _g(lam[:, 1])
     # trunk-driven reference positions (trunk bones only, weights renormalised)
     trunk = [b[n] for n in ("root", "pelvis", "spine_01", "spine_02", "spine_03", "neck", "head") if n in b]

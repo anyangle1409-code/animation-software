@@ -1,0 +1,411 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-04T14:09:55.845386+00:00",
+  "declared_before_edit": true,
+  "target": "push-up self-intersections 164 (r90) vs P3B1 158; the six extra pairs",
+  "fallback": "r90 (SHA 5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f), immutable",
+  "extra_pairs_r90_minus_r47": [
+    {
+      "polys": [
+        9400,
+        9474
+      ],
+      "verts": [
+        [
+          2359,
+          9180,
+          15810,
+          9217
+        ],
+        [
+          2398,
+          9256,
+          15828,
+          9255
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_l",
+        "metacarpal_ring_l"
+      ],
+      "posed_mid_m": [
+        -0.4031,
+        -1.3117,
+        0.0451
+      ],
+      "rest_distance_m": 0.0257
+    },
+    {
+      "polys": [
+        9404,
+        9477
+      ],
+      "verts": [
+        [
+          2360,
+          9182,
+          15811,
+          9219
+        ],
+        [
+          2379,
+          9257,
+          15829,
+          9222
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_l",
+        "forearm_l"
+      ],
+      "posed_mid_m": [
+        -0.4085,
+        -1.3081,
+        0.0438
+      ],
+      "rest_distance_m": 0.0174
+    },
+    {
+      "polys": [
+        9408,
+        9480
+      ],
+      "verts": [
+        [
+          2361,
+          9184,
+          15812,
+          9221
+        ],
+        [
+          2379,
+          9224,
+          15830,
+          9257
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_l",
+        "forearm_l"
+      ],
+      "posed_mid_m": [
+        -0.4133,
+        -1.3064,
+        0.0428
+      ],
+      "rest_distance_m": 0.0174
+    },
+    {
+      "polys": [
+        15563,
+        15633
+      ],
+      "verts": [
+        [
+          3881,
+          12278,
+          17350,
+          12239
+        ],
+        [
+          3920,
+          12316,
+          17368,
+          12315
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_r",
+        "metacarpal_ring_r"
+      ],
+      "posed_mid_m": [
+        0.4031,
+        -1.3117,
+        0.0451
+      ],
+      "rest_distance_m": 0.0257
+    },
+    {
+      "polys": [
+        15567,
+        15638
+      ],
+      "verts": [
+        [
+          3882,
+          12280,
+          17351,
+          12241
+        ],
+        [
+          3901,
+          12281,
+          17369,
+          12318
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_r",
+        "forearm_r"
+      ],
+      "posed_mid_m": [
+        0.4085,
+        -1.3081,
+        0.0438
+      ],
+      "rest_distance_m": 0.0174
+    },
+    {
+      "polys": [
+        15571,
+        15643
+      ],
+      "verts": [
+        [
+          3883,
+          12282,
+          17352,
+          12243
+        ],
+        [
+          3901,
+          12318,
+          17370,
+          12283
+        ]
+      ],
+      "regions": [
+        "arm",
+        "hand"
+      ],
+      "dominant_bones": [
+        "forearm_r",
+        "forearm_r"
+      ],
+      "posed_mid_m": [
+        0.4133,
+        -1.3064,
+        0.0428
+      ],
+      "rest_distance_m": 0.0174
+    }
+  ],
+  "pushup_hand_min": {
+    "P3B1/r47": 0.119,
+    "r90": 0.24,
+    "development_gate_region_min": 0.15,
+    "note": "the hand-minimum edges (r47 4704/34691 at 0.119; r90 16742/31622 at 0.240) sit 1.5-2.6 cm from the pair-vertex centroid"
+  },
+  "region": "left-owned vertices whose rest position is within 0.030 m of the pair-vertex rest centroid [-0.2323, 0.0432, 0.9219] (mirror-folded), plus the exact mirror",
+  "radius_m": 0.03,
+  "centre_m": [
+    -0.2323,
+    0.0432,
+    0.9219
+  ],
+  "left_owned_vertex_ids": [
+    2357,
+    2358,
+    2359,
+    2360,
+    2361,
+    2362,
+    2363,
+    2374,
+    2375,
+    2376,
+    2377,
+    2378,
+    2379,
+    2380,
+    2381,
+    2382,
+    2396,
+    2397,
+    2398,
+    2399,
+    2400,
+    9176,
+    9177,
+    9178,
+    9179,
+    9180,
+    9181,
+    9182,
+    9183,
+    9184,
+    9186,
+    9188,
+    9211,
+    9212,
+    9213,
+    9214,
+    9215,
+    9216,
+    9217,
+    9218,
+    9219,
+    9220,
+    9221,
+    9222,
+    9223,
+    9224,
+    9225,
+    9226,
+    9227,
+    9228,
+    9230,
+    9249,
+    9251,
+    9252,
+    9253,
+    9254,
+    9255,
+    9256,
+    9257,
+    9258,
+    9259,
+    9260,
+    9261,
+    9295,
+    15789,
+    15790,
+    15791,
+    15792,
+    15807,
+    15808,
+    15809,
+    15810,
+    15811,
+    15812,
+    15813,
+    15814,
+    15815,
+    15825,
+    15826,
+    15827,
+    15828,
+    15829,
+    15830,
+    15831,
+    15832,
+    15848,
+    15849
+  ],
+  "mirror_of_strict_left_vertex_ids": [
+    3879,
+    3880,
+    3881,
+    3882,
+    3883,
+    3884,
+    3885,
+    3896,
+    3897,
+    3898,
+    3899,
+    3900,
+    3901,
+    3902,
+    3903,
+    3904,
+    3918,
+    3919,
+    3920,
+    3921,
+    3922,
+    12235,
+    12237,
+    12238,
+    12239,
+    12240,
+    12241,
+    12242,
+    12243,
+    12244,
+    12245,
+    12247,
+    12271,
+    12272,
+    12273,
+    12274,
+    12275,
+    12276,
+    12277,
+    12278,
+    12279,
+    12280,
+    12281,
+    12282,
+    12283,
+    12284,
+    12285,
+    12286,
+    12287,
+    12288,
+    12289,
+    12310,
+    12311,
+    12312,
+    12313,
+    12314,
+    12315,
+    12316,
+    12317,
+    12318,
+    12319,
+    12320,
+    12322,
+    12356,
+    17329,
+    17330,
+    17331,
+    17332,
+    17347,
+    17348,
+    17349,
+    17350,
+    17351,
+    17352,
+    17353,
+    17354,
+    17355,
+    17365,
+    17366,
+    17367,
+    17368,
+    17369,
+    17370,
+    17371,
+    17372,
+    17388,
+    17389
+  ],
+  "vertex_count_total": 174,
+  "left_vertices_with_changed_weights_r47_to_r90": 57,
+  "ids_sha256": "336acbad125a93fce88fe55e3a79376eddbcc5c52d18446d2ebe12b338a20301",
+  "hypothesis": "The six pairs and the hand-minimum improvement come from the same wrist-band weight patch (r47 -> r48). Blending the r90 weights of the declared patch back toward r47's weights by lambda removes some or all six pairs; it either keeps the hand minimum >= 0.15 (then the experiment succeeds) or the hand minimum falls back toward 0.119 (the trade-off is demonstrated and the experiment stops). Screen lambda in {0.25, 0.5, 0.75, 1.0}: numpy hand minimum first, then the metrics-only 15-pose test for pair count and every gate.",
+  "allowed_change": "deform-bone weights of exactly the declared vertices (mirror-symmetric), blended between the r90 and r47 weights, top-4 renormalised; no bone, topology, pose definition, shoulder geometry, corrective, threshold or baseline change",
+  "stop_condition": "if removing the six pairs reintroduces the hand-minimum failure (or any equivalent regression) at every blend strength, the experiment stops, evidence is preserved and r90 is retained",
+  "production_approved": false
+}

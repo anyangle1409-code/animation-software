@@ -5,7 +5,7 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r83",
+  "current_candidate": "r87",
   "candidate_state": "experimental",
   "candidate_classification": "TRADE-OFF",
   "pinned_baseline": {
@@ -48,7 +48,7 @@
   ],
   "development_failure_count": 0,
   "development_failures": [],
-  "production_failure_count": 105,
+  "production_failure_count": 104,
   "production_approved": false,
   "phases": {
     "0": {
@@ -195,43 +195,10 @@
       "region": null,
       "metric": "volume_deviation_from_1",
       "baseline": 0.04379999999999995,
-      "candidate": 0.050000000000000044,
-      "delta": 0.006200000000000094,
+      "candidate": 0.051100000000000034,
+      "delta": 0.007300000000000084,
       "direction": "lower_is_better",
       "tolerance": 0.005
-    },
-    {
-      "kind": "severity",
-      "name": "squat_bottom",
-      "region": null,
-      "metric": "edge_ratio_p01",
-      "baseline": 0.613,
-      "candidate": 0.579,
-      "delta": -0.03400000000000003,
-      "direction": "higher_is_better",
-      "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "squat_bottom",
-      "region": "arm",
-      "metric": "region_min_ratio",
-      "baseline": 0.597,
-      "candidate": 0.383,
-      "delta": -0.21399999999999997,
-      "direction": "higher_is_better",
-      "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "squat_bottom",
-      "region": "shoulder",
-      "metric": "region_min_ratio",
-      "baseline": 0.244,
-      "candidate": 0.182,
-      "delta": -0.062,
-      "direction": "higher_is_better",
-      "tolerance": 0.02
     }
   ],
   "pending_owner_reviews": [
@@ -250,47 +217,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_merged_pose_report.json",
-      "sha256": "4dd579bd7c8c2af2c3a0f3456f3ae2afa8567ff1d6d6e101c4639a950fd1930f"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_merged_pose_report.json",
+      "sha256": "28407cf5a1e6cfd627a4b64f668abf5875ae5321d825f6085539fce164c23b93"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.json",
-      "sha256": "98c2d08b30a070d5da096b6523bfb842e32d3bed67b8103bfc63b11e430efc1c"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r87.json",
+      "sha256": "d1902e6954d63b12a2d01165294aa3251b2568f8cda731549e9d5d54fc48e49c"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_evidence_manifest.json",
-      "sha256": "cf2a0ae07f857eba5a8255ef2992f1781c02e59322f94a7c3aa04078c80cbdf8"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_evidence_manifest.json",
+      "sha256": "8b6373d0b5537bf0e0fd3f8eb7f5ce392abaab44adafcdd13c41066e99dbbe11"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_comparison_vs_P3B1.json",
-      "sha256": "eb5bb38e722c9f27c70c1cf94b82532bbaed72031eab3f74787a6bb99f98dcfb"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_P3B1.json",
+      "sha256": "17f7c1702c168aa701dd2d40f82ab7c8d32f223b9880430c1621b3371f153eef"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r83_comparison_vs_r81.json",
-      "sha256": "04a8e1190ae31c9bd1e6b912149a508ec6402a3428166c78d598a81747cb1808"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_r83.json",
+      "sha256": "e487fe8fdea54ef49f0a7ea4125f9cb76e4dff38edf5849bf1b4e529045d6068"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r83/diagnostic_brief.json",
-      "sha256": "3ad4107a3d3c68c613c69e12d61b69c38f6104c5f1cccdcc36eb3ffd73aef141"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/diagnostic_brief.json",
+      "sha256": "ba83bc72eeeaa34ada948dca0d5c6470d62fff46d7882d54b19e2c8cb2137697"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r83/edge_extremes.json",
-      "sha256": "50017b15d4fb0fd56af2f8a99c806f62ae0a29d03b22f004d192ca6df4d2cdb7"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/edge_extremes.json",
+      "sha256": "f3b1cd01571fee35e3b7bc3c9d173a74e88b9f6d6b5250fda691623579aff3b3"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r83/grip_penetration.json",
-      "sha256": "d2f7747b0fd281858fe9e972aff89c92517441937298871bb421c19910c932bb"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r87/grip_penetration.json",
+      "sha256": "a414561998a2369702f4e9d66cf68730e99d94926a03b6bf18025697fb390e6b"
     }
   ],
-  "last_known_candidate_sha256": "bc26867409df7514be9a18bb97e75f6cf8171df8e0f99a9d69648acbe3752b6d",
-  "evidence_timestamp": "2026-10-04T11:12:20.960833+00:00",
+  "last_known_candidate_sha256": "019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc",
+  "evidence_timestamp": "2026-10-04T12:54:11.077521+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r83: solution corr_v22b.npz on r81_weights_intermediate.blend; candidate remains experimental.",
+  "what_changed": "r87: solution corr_flex_v1.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -303,8 +270,8 @@
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "RUN local axilla repair",
-    "reason": "r83 is development-clear (0 failures) with 7 strict P3B1 regressions (down from r81's 12), five of them squat-pose items inherited from the dilated-zone weights: next is a declared change aimed at the squat shoulder/arm minimum edge ratio (weights in the squat-pose arm/shoulder skin only), or an owner disposition of the remaining 7",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r83",
+    "reason": "r87 is development-clear (0 failures) with 4 strict P3B1 regressions (down from r83's 7); the squat arm, squat shoulder and squat p01 regressions are cleared by the forward-flexion corrective; the remaining four (press_top arm and pullup_top torso minimum edge ratios, squat volume deviation, push-up self-intersections) are not addressed by a flexion-gated key: next is an owner decision on them",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r87",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }

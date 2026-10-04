@@ -9,3 +9,6 @@ Edit region: the same 1491 left-owned vertices (mirror-closed) as the abduction 
 What the forward-flexed shoulder requires (measured on r83 along the squat arc, theta 16-126): the arm/shoulder/torso minimum edge ratios fall steadily from 0.86/0.76/0.82 at 16 deg to 0.50/0.27/0.29 at 110 deg and 0.38/0.18/0.21 at 126 deg (compression of the deltoid front/back skin as the humerus flexes forward; stretch maxima stay <= 2.4 for arm/shoulder), so the field must re-expand compressed edges at high flexion, ramping in from ~45 deg. It is solved by the same barrier-based solver (stretch/compression hinges, fold/area/Laplacian barriers, trunk anchoring, smoothness) with --driver flexion, trained on the 15 stress poses plus the squat arc 1/8..7/8.
 
 Hypothesis: a flexion-gated displacement field can lift the squat arm minimum to >= 0.577, shoulder minimum to >= 0.224 and improve squat volume deviation and p01, without touching any pose where the gate is zero (press/pull-up unchanged). Stop: if the screened probe is not strictly preferable to r83 (no offsetting regression), reject and retain r83.
+## Outcome
+
+Solved (lo 0.60, bit-identical on re-run) and formalised as r86 (superseded: driver inside the frozen section) and r87 (retained: driver outside it). 4 strict P3B1 regressions remain (was 7). See docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md.

@@ -531,14 +531,46 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r83_arc.json"
         }
       ]
+    },
+    "r87": {
+      "candidate_sha256": "019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc",
+      "chosen_parent": "r83",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r87 = r83 (unchanged weights, bones (67), topology, rest geometry and abduction corrective keys) + a NEW second pair of shape keys HGPT_SHOULDER_FLEX_L/R driven by forward flexion: activation a = smoothstep_C1((theta-45)/(120-45)) * (1 - lam), theta = humerothoracic elevation, lam = abduction fraction (0 = flexion); zero below 45 degrees and in pure abduction, maximum 1.0 at theta >= 120 degrees with lam = 0 (measured: squat_bottom 1.0; all abduction poses unchanged: press/pull-up arcs bit-identical to r83). Mask declared and committed before the solve (1491 left-owned vertices, mirror-closed); solved by the existing barrier solver with --driver flexion, --lo 0.60 and regional hold guards, trained on the 15 poses plus a squat arc 1/8..7/8 (max displacement 0.0286 m); solve re-run and bit-identical; r86 (same solution, driver first placed inside the frozen pose section) and r87 (driver installed outside the frozen P3a section; pin hash f9f90061 unchanged) give identical metrics; r86 is superseded lineage. Rationale (measured): the squat raises the arms to 126 degrees by pure flexion where the abduction corrective is gated off, so its four regressions were skin weights with no corrective acting. Result, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 4 (r83 7): squat arm min 0.383 -> cleared, squat shoulder min 0.182 -> cleared, squat p01 0.579 -> cleared. Remaining 4, all inside every development gate (smallest margin 0.0489): press_top arm min 0.745 vs 0.78, pullup_top torso min 0.669 vs 0.693, squat volume deviation 0.0511 vs 0.0438, push-up self-intersections 164 vs 158 (outside the shoulder poses, unchanged since r48). Versus r83 the only worsened metric is squat_bottom shoulder region maximum edge ratio 2.554 -> 3.011 (inside the gate 5.0, not a P3B1 regression). Shoulder self-intersections unchanged: press_top 32, rhythm 28, pull-ups 0, squat 80 (P3B1 95/54/4,0/108). Both corrective audits CLEAN (asymmetry 0). Probe lo 0.50 refused (6 strict regressions). NOT eligible for Phase 4: 4 strict P3B1 regressions remain unresolved.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r87_comparison_vs_r83.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r87/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r87/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r87/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r87/corrective_audit_flexion.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r87_arc.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r83",
-    "candidate_sha256": "bc26867409df7514be9a18bb97e75f6cf8171df8e0f99a9d69648acbe3752b6d",
+    "candidate_revision": "r87",
+    "candidate_sha256": "019891ddcc7d9d49486a2f89917d09129a43e53bb0b45402b7f8e685ee6e84cc",
     "action": "RUN local axilla repair",
-    "reason": "r83 is development-clear (0 failures) with 7 strict P3B1 regressions (down from r81's 12), five of them squat-pose items inherited from the dilated-zone weights: next is a declared change aimed at the squat shoulder/arm minimum edge ratio (weights in the squat-pose arm/shoulder skin only), or an owner disposition of the remaining 7",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r83",
+    "reason": "r87 is development-clear (0 failures) with 4 strict P3B1 regressions (down from r83's 7); the squat arm, squat shoulder and squat p01 regressions are cleared by the forward-flexion corrective; the remaining four (press_top arm and pullup_top torso minimum edge ratios, squat volume deviation, push-up self-intersections) are not addressed by a flexion-gated key: next is an owner decision on them",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r87",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

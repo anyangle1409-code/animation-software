@@ -21,13 +21,29 @@
         "license_use_note": "Link and derived observations only for development review; do not redistribute article media beyond its stated terms."
       },
       "movement_phase": "raising_and_lowering_at_15_degree_then_5_degree_increments",
-      "view": ["direct_bone_3d_kinematics", "flexion", "scapular_plane_abduction", "coronal_abduction"],
+      "view": [
+        "direct_bone_3d_kinematics",
+        "flexion",
+        "scapular_plane_abduction",
+        "coronal_abduction"
+      ],
       "diversity": {
         "subject_count": 12,
         "notes": "Seven men and five women without shoulder abnormality, ages 22-41; small and age-limited cohort, with three right and nine left shoulders tested."
       },
-      "observable_landmarks": ["clavicle", "scapula", "humerus", "sternoclavicular joint", "acromioclavicular joint", "glenohumeral joint"],
-      "permissible_conclusions": ["bone_motion", "movement_timing", "inter_subject_variation"],
+      "observable_landmarks": [
+        "clavicle",
+        "scapula",
+        "humerus",
+        "sternoclavicular joint",
+        "acromioclavicular joint",
+        "glenohumeral joint"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
       "uncertainty": "Invasive but small cohort; controlled planar motion is not identical to free exercise motion, and values should not be treated as one universal ratio.",
       "development_only": true,
       "review_status": "verified"
@@ -43,13 +59,25 @@
         "license_use_note": "Link and derived observations only for development review; do not redistribute article media beyond its stated terms."
       },
       "movement_phase": "unconstrained_reach_from_rest_to_overhead",
-      "view": ["direct_bone_3d_kinematics", "unconstrained_overhead"],
+      "view": [
+        "direct_bone_3d_kinematics",
+        "unconstrained_overhead"
+      ],
       "diversity": {
         "subject_count": 12,
         "notes": "Asymptomatic adult cohort; use reported between-subject variation and do not generalize one subject's trajectory to all bodies."
       },
-      "observable_landmarks": ["scapular plane", "humerus", "thorax", "scapular posterior tilt"],
-      "permissible_conclusions": ["bone_motion", "movement_timing", "inter_subject_variation"],
+      "observable_landmarks": [
+        "scapular plane",
+        "humerus",
+        "thorax",
+        "scapular posterior tilt"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
       "uncertainty": "Bone motion evidence does not directly specify skin thickness or axillary surface shape and cannot alone approve the rendered surface.",
       "development_only": true,
       "review_status": "verified"
@@ -65,13 +93,30 @@
         "license_use_note": "Link and derived anatomical observations only for development review; do not redistribute article media beyond its stated terms."
       },
       "movement_phase": "static_anatomical_boundaries",
-      "view": ["cross_section", "ultrasound", "anatomical_diagram"],
+      "view": [
+        "cross_section",
+        "ultrasound",
+        "anatomical_diagram"
+      ],
       "diversity": {
         "subject_count": null,
         "notes": "Clinical anatomy review rather than a surface-shape cohort; anatomical relationships may vary and require separate visual references."
       },
-      "observable_landmarks": ["pectoralis major", "pectoralis minor", "subclavius", "subscapularis", "teres major", "latissimus dorsi", "serratus anterior", "coracobrachialis", "short head of biceps"],
-      "permissible_conclusions": ["fold_boundaries", "volume_continuity"],
+      "observable_landmarks": [
+        "pectoralis major",
+        "pectoralis minor",
+        "subclavius",
+        "subscapularis",
+        "teres major",
+        "latissimus dorsi",
+        "serratus anterior",
+        "coracobrachialis",
+        "short head of biceps"
+      ],
+      "permissible_conclusions": [
+        "fold_boundaries",
+        "volume_continuity"
+      ],
       "uncertainty": "Deep clinical anatomy constrains structural continuity but does not define a single exterior contour or skin fold depth.",
       "development_only": true,
       "review_status": "verified"
@@ -87,13 +132,28 @@
         "license_use_note": "Inspect hosted clinical figures as development reference only; do not copy or redistribute patient imagery."
       },
       "movement_phase": "arm_by_side_and_static_overhead",
-      "view": ["inferior_axillary_base", "anterior", "cross_section"],
+      "view": [
+        "inferior_axillary_base",
+        "anterior",
+        "cross_section"
+      ],
       "diversity": {
         "subject_count": null,
         "notes": "Clinical figure example is not a diverse morphology sample; use only for fold identity and continuity, never for one canonical contour."
       },
-      "observable_landmarks": ["anterior axillary fold", "posterior axillary fold", "pectoralis major insertion", "latissimus dorsi", "teres major", "humerus"],
-      "permissible_conclusions": ["surface_contour", "fold_boundaries", "volume_continuity"],
+      "observable_landmarks": [
+        "anterior axillary fold",
+        "posterior axillary fold",
+        "pectoralis major insertion",
+        "latissimus dorsi",
+        "teres major",
+        "humerus"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "fold_boundaries",
+        "volume_continuity"
+      ],
       "uncertainty": "Static clinical positioning and limited subjects do not establish dynamic timing, muscle bulk or population-average fold depth.",
       "development_only": true,
       "review_status": "verified"
@@ -109,13 +169,26 @@
         "license_use_note": "Article and included media are CC BY 4.0 unless separately credited; use here remains observation-only and development-only."
       },
       "movement_phase": "rest_to_maximum_flexion_and_return",
-      "view": ["clinical_room_oblique", "bilateral_surface_motion"],
+      "view": [
+        "clinical_room_oblique",
+        "bilateral_surface_motion"
+      ],
       "diversity": {
         "subject_count": 25,
         "notes": "Normative cohort comprised 12 women and 13 men, mean age 37 years (SD 11.1); the supplementary video is a typical session, not footage of all 25 subjects."
       },
-      "observable_landmarks": ["neck-to-shoulder slope", "acromial contour", "deltoid cap", "anterior axillary fold", "lateral chest wall"],
-      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "observable_landmarks": [
+        "neck-to-shoulder slope",
+        "acromial contour",
+        "deltoid cap",
+        "anterior axillary fold",
+        "lateral chest wall"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "movement_timing"
+      ],
       "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources.",
       "development_only": true,
       "review_status": "verified"
@@ -131,13 +204,26 @@
         "license_use_note": "Article and included media are CC BY 4.0 unless separately credited; use here remains observation-only and development-only."
       },
       "movement_phase": "rest_to_maximum_abduction_and_return",
-      "view": ["clinical_room_oblique", "bilateral_surface_motion"],
+      "view": [
+        "clinical_room_oblique",
+        "bilateral_surface_motion"
+      ],
       "diversity": {
         "subject_count": 25,
         "notes": "Normative cohort comprised 12 women and 13 men, mean age 37 years (SD 11.1); the supplementary video is a typical session, not footage of all 25 subjects."
       },
-      "observable_landmarks": ["neck-to-shoulder slope", "scapular region", "deltoid cap", "anterior and posterior axillary folds", "lateral chest wall"],
-      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "observable_landmarks": [
+        "neck-to-shoulder slope",
+        "scapular region",
+        "deltoid cap",
+        "anterior and posterior axillary folds",
+        "lateral chest wall"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "movement_timing"
+      ],
       "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs.",
       "development_only": true,
       "review_status": "verified"
@@ -153,14 +239,180 @@
         "license_use_note": "Inspect hosted supplementary video as development reference only; do not copy or redistribute participant imagery."
       },
       "movement_phase": "internal_to_external_rotation_with_arm_abducted_45_degrees",
-      "view": ["clinical_front_oblique", "seated_surface_motion"],
+      "view": [
+        "clinical_front_oblique",
+        "seated_surface_motion"
+      ],
       "diversity": {
         "subject_count": 30,
         "notes": "Healthy cohort of 15 women and 15 men, mean age 41.6 years (SD 10.3); the demonstration video does not itself show every participant."
       },
-      "observable_landmarks": ["deltoid cap", "proximal upper arm", "anterior axillary fold", "lateral chest wall"],
-      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "observable_landmarks": [
+        "deltoid cap",
+        "proximal upper arm",
+        "anterior axillary fold",
+        "lateral chest wall"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "movement_timing"
+      ],
       "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-GRP-001",
+      "region": "fingers_power_grip",
+      "movement_primitive": "cylindrical_power_grip",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6339738/",
+        "citation": "Shimawaki et al. (2019), Measurement of Flexion Angle of the Finger Joint during Cylinder Gripping Using a Three-Dimensional Bone Model Built by X-Ray Computed Tomography, PMCID PMC6339738.",
+        "license_use_note": "CC BY article; use here remains observation-only and development-only. Do not copy subject geometry or imagery into the character."
+      },
+      "movement_phase": "static_power_grip_on_10_60_120_mm_cylinders",
+      "view": [
+        "CT_derived_3d_bone_kinematics",
+        "index_middle_ring_little_finger"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy Japanese men aged 21-25. Narrow demographic and static CT task; useful for joint-angle/object-diameter relationships, not a universal hand shape."
+      },
+      "observable_landmarks": [
+        "MCP/MP flexion",
+        "PIP flexion",
+        "DIP flexion",
+        "finger-to-cylinder conformance",
+        "object diameter"
+      ],
+      "permissible_conclusions": [
+        "finger_joint_flexion",
+        "diameter_dependent_grip_posture",
+        "joint_coupling"
+      ],
+      "derived_observations": [
+        "Smaller cylinder diameters require greater flexion across the finger joints.",
+        "For the smallest 10 mm cylinder, PIP flexion is substantially greater than DIP and MP flexion; joint contributions are not a uniform curl copied across every segment.",
+        "Finger contribution changes with object diameter, so one fixed per-finger curl recipe is not a general power-grip model.",
+        "The study used five-digit power grip with the thumb opposing the fingers and the wrist constrained near neutral."
+      ],
+      "uncertainty": "Thumb joint angles were not quantified because thumb placement varied markedly between individuals. The cohort is small and young; use as a kinematic constraint, not an exact universal target.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-GRP-002",
+      "region": "thumb_finger_opposition",
+      "movement_primitive": "thumb_to_finger_opposition",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6196073/",
+        "citation": "Sathian et al. (2018), Thumbs up: movements made by the thumb are smoother and larger than fingers in finger-thumb opposition tasks, PMCID PMC6196073.",
+        "license_use_note": "Use derived kinematic observations only for development review; do not transfer subject-specific geometry."
+      },
+      "movement_phase": "finger_thumb_opposition",
+      "view": [
+        "3d_segment_kinematics"
+      ],
+      "diversity": {
+        "subject_count": 8,
+        "notes": "Eight healthy young adults, four male and four female. Opposition task is not a loaded bar grip, so use only for thumb-versus-finger movement character."
+      },
+      "observable_landmarks": [
+        "thumb trajectory",
+        "finger trajectory",
+        "opposition coordination"
+      ],
+      "permissible_conclusions": [
+        "thumb_opposition",
+        "relative_digit_motion",
+        "movement_smoothness"
+      ],
+      "derived_observations": [
+        "Thumb motion contributes substantially to opposition rather than behaving as a passive fifth finger.",
+        "Thumb trajectories are larger and smoother than finger trajectories in the tested opposition task.",
+        "Grip validation should therefore inspect thumb opposition separately from the four-finger flexion chain."
+      ],
+      "uncertainty": "Simple opposition task, not loaded cylindrical grip; combine with grip-specific evidence before defining equipment contact.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-WRI-001",
+      "region": "wrist_forearm_load_path",
+      "movement_primitive": "pushup_extended_vs_neutral_wrist",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28684196/",
+        "citation": "Polovinets et al. (2018), Force transmission through the wrist during performance of push-ups on a hyperextended and a neutral wrist, PMID 28684196.",
+        "license_use_note": "Citation and derived observations only; no article media redistribution."
+      },
+      "movement_phase": "dynamic_pushup",
+      "view": [
+        "motion_capture",
+        "force_plate"
+      ],
+      "diversity": {
+        "subject_count": 14,
+        "notes": "Fourteen volunteers; study compares neutral and hyperextended wrist push-up styles. Use for force-path and alignment constraints, not exact skin shape."
+      },
+      "observable_landmarks": [
+        "wrist extension",
+        "capitate relative to ground reaction force",
+        "forearm load path",
+        "dominant/nondominant loading"
+      ],
+      "permissible_conclusions": [
+        "force_transmission",
+        "wrist_alignment",
+        "load_path"
+      ],
+      "derived_observations": [
+        "Ground-reaction force transmission changes materially between neutral and hyperextended wrist push-ups.",
+        "With wrist hyperextension, force travels more dorsally over a wider area and more ulnarly than in the neutral-wrist condition.",
+        "The hand-wrist-forearm relationship should therefore be validated as a coherent load path, not just as a visually plausible hand angle."
+      ],
+      "uncertainty": "The study informs kinetics and gross alignment, not a single ideal exercise prescription or exterior surface contour.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-WRI-002",
+      "region": "wrist_joint_contact",
+      "movement_primitive": "loaded_extended_wrist_pushup",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29157783/",
+        "citation": "Daly et al. (2018), Effect of Push-Up Position on Wrist Joint Pressures in the Intact Wrist and Following Scapholunate Interosseous Ligament Sectioning, PMID 29157783.",
+        "license_use_note": "Citation and derived observations only; cadaver data constrain loading behaviour but are not surface-shape reference material."
+      },
+      "movement_phase": "static_loaded_pushup_positions",
+      "view": [
+        "intra_articular_pressure_measurement"
+      ],
+      "diversity": {
+        "subject_count": 8,
+        "notes": "Eight fresh cadaveric wrists. Useful for contact-pressure consequences of extension, not living-surface appearance."
+      },
+      "observable_landmarks": [
+        "wrist extension",
+        "radioscaphoid contact",
+        "radiolunate contact",
+        "pressure centroid"
+      ],
+      "permissible_conclusions": [
+        "load_path",
+        "extension_loading",
+        "contact_shift"
+      ],
+      "derived_observations": [
+        "Loaded wrist extension significantly increases peak pressure in the radioscaphoid fossa.",
+        "Moving into extension shifts pressure centroids dorsally, reinforcing that a push-up wrist should be modelled as a real loaded joint configuration rather than an arbitrary hand rotation."
+      ],
+      "uncertainty": "Cadaveric static loading; do not use to infer muscle activation, pain, or a unique healthy-wrist surface shape.",
       "development_only": true,
       "review_status": "verified"
     }

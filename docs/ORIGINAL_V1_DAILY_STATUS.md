@@ -4,15 +4,15 @@ CURRENT PHASE
 Phase 3 / 4
 
 CURRENT CANDIDATE
-r91 — EXPERIMENTAL; EXPERIMENTAL. P3B1 stays pinned.
-SHA-256: `ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0`
+r92 — TRADE-OFF; EXPERIMENTAL. P3B1 stays pinned.
+SHA-256: `1cfe04744c6c432daee2fb76a1d6bebf30962f496bdef0b05dc61294df52a108`
 
 DEVELOPMENT BLOCKERS
 0 failures; 2 separate strict severity regressions versus P3B1.
 
 
 WHAT CHANGED
-r91: solution wrist_weights_lambda0.20.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.blend; candidate remains experimental.
+r92: solution r92_flex.npz on r92_abd.blend; candidate remains experimental.
 
 WHAT PASSED
 - 3A DEVELOPMENT CLEAR
@@ -29,8 +29,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r91 is development-clear (0 failures) with 2 strict P3B1 regressions: press_top arm and pullup_top torso minimum edge ratios, a measured trade-off frontier against the pull-up arm minimum; next is the owner decision informed by the read-only residual assessment in the handoff
-`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r91`
+RUN local axilla repair — r92 removes the overhead chest pit (dent limit on the existing corrective) with 0 development failures and the same 2 strict P3B1 regressions; next: the shoulder-top knob/web (corrective-made) and the lateral/back wing flaps (scapula weights) are still visible in the overhead poses
+`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r92`
 Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
@@ -53,18 +53,18 @@ REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 [ ] Phase 11 Automatic QA
 [ ] Phase 12 Production freeze
 
-Evidence timestamp: 2026-10-04T14:13:27.008103+00:00
+Evidence timestamp: 2026-10-04T15:10:58.150462+00:00
 Evidence references (exact content hashes are in machine status):
 
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_merged_pose_report.json`
-- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r91.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_merged_pose_report.json`
+- `ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r92.json`
 - `ORIGINAL_V1_CANDIDATE_STATUS.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_evidence_manifest.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_P3B1.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_r90.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/diagnostic_brief.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/edge_extremes.json`
-- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/grip_penetration.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_evidence_manifest.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_P3B1.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_r91.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/diagnostic_brief.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/edge_extremes.json`
+- `ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r92/grip_penetration.json`
 
 The older candidate-status contract and committed GLBs verify the R2/export checkpoint, not this latest revision.
 Inherited shoulder/torso regressions remain visible; DEVELOPMENT CLEAR is not strict acceptance.

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "candidate": "r92",
+  "pre_corrective_candidate": "ORIGINAL_V1_WORK\\candidates\\repair_checks\\full_r91_merged_pose_report.json",
+  "baseline": "P3B1",
+  "regression_count": 2,
+  "attribution_counts": {
+    "INHERITED_FROM_WEIGHTS": 2
+  },
+  "all_inside_development_gate": true,
+  "all_inside_production_target": true,
+  "min_gate_margin": 0.518,
+  "rows": [
+    {
+      "pose": "press_top",
+      "region": "arm",
+      "metric": "region_min_ratio",
+      "baseline_P3B1": 0.78,
+      "pre_corrective_full_r91_merged_pose_report": 0.745,
+      "candidate_r92": 0.758,
+      "tolerance": 0.02,
+      "worse_than_baseline_by": 0.022,
+      "pre_corrective_worse_than_baseline_by": 0.035,
+      "corrective_added": -0.013,
+      "attribution": "INHERITED_FROM_WEIGHTS",
+      "development_gate": 0.15,
+      "gate_margin": 0.608,
+      "GATE_MARGIN_OK": true,
+      "production_target_limit": 0.5,
+      "production_margin": 0.258,
+      "PRODUCTION_TARGET_OK": true,
+      "si_detail": null
+    },
+    {
+      "pose": "pullup_top",
+      "region": "torso",
+      "metric": "region_min_ratio",
+      "baseline_P3B1": 0.693,
+      "pre_corrective_full_r91_merged_pose_report": 0.669,
+      "candidate_r92": 0.668,
+      "tolerance": 0.02,
+      "worse_than_baseline_by": 0.025,
+      "pre_corrective_worse_than_baseline_by": 0.024,
+      "corrective_added": 0.001,
+      "attribution": "INHERITED_FROM_WEIGHTS",
+      "development_gate": 0.15,
+      "gate_margin": 0.518,
+      "GATE_MARGIN_OK": true,
+      "production_target_limit": 0.5,
+      "production_margin": 0.168,
+      "PRODUCTION_TARGET_OK": true,
+      "si_detail": null
+    }
+  ],
+  "note": "Attribution only. It accepts nothing, changes no tolerance and does not enter Phase 4."
+}

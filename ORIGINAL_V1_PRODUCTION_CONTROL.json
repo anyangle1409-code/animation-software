@@ -630,14 +630,55 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r91_arc.json"
         }
       ]
+    },
+    "r92": {
+      "candidate_sha256": "1cfe04744c6c432daee2fb76a1d6bebf30962f496bdef0b05dc61294df52a108",
+      "chosen_parent": "r91",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r92 = r91 weights (r81 dilated smoothing + wrist patch lambda 0.20), the abduction corrective RE-SOLVED with one added geometric term (torso skin may not move inward along the uncorrected surface normal by more than 0.025 m, hinge 1e6; mask, driver, all other arguments unchanged) and the volume-floored flexion corrective re-solved on that base (bit-identical re-runs). Prompted by a read-only root-cause investigation of the visible overhead defects (axilla_overhead_root_cause_r91/ROOT_CAUSE.md): the chest pit (53 torso vertices dented up to 6.95 cm, 1.5 percent mesh volume removed in press_top) was produced by the abduction corrective itself, generic in every overhead pose, not pose-specific, and invisible to the comparator metrics; the shoulder-top knob/web is also corrective-made (clavicle skin area doubled) and the lateral/back wing flaps are scapula-weight effects. Result, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 2 (same two: press_top arm 0.758 vs 0.78, closer than r91's 0.745; pullup_top torso 0.668 vs 0.693); deepest chest dent in press_top 3.2 cm (r91 6.95), vertices dented over 2 cm 24 (53), corrective volume loss 0.37 percent (1.50), press_top volume ratio 1.006 (0.9945); renders show the chest bowl removed in press_top, press_top_rhythm and pullup_hang with no new visible defect. All r91 cleared items kept: squat arm/shoulder/p01/volume, push-up 162 pairs and hand min, self-intersections press_top 32, rhythm 36, pull-ups 0, squat 80 (P3B1 95/54/4,0/108). Cost versus r91, all inside P3B1 tolerance and every gate: press_top_rhythm self-intersections 28 -> 36, arm min 0.728 -> 0.701, torso min 0.524 -> 0.477; pull-up torso min 0.611 -> 0.561; pull-up volume deviation 0.0126 -> 0.0241 (P3B1 0.116). NOT addressed: the shoulder-top knob/web and the weight-driven lateral/back wing flaps. NOT eligible for Phase 4: 2 strict P3B1 regressions remain and the overhead pose still has two visible defects. r91 stays the fallback.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r92_comparison_vs_r91.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/corrective_audit_flexion.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/pushup_pair_list.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r92_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r92/dent_and_volume_by_pose.txt"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_overhead_root_cause_r91/ROOT_CAUSE.md"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r91",
-    "candidate_sha256": "ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0",
+    "candidate_revision": "r92",
+    "candidate_sha256": "1cfe04744c6c432daee2fb76a1d6bebf30962f496bdef0b05dc61294df52a108",
     "action": "RUN local axilla repair",
-    "reason": "r91 is development-clear (0 failures) with 2 strict P3B1 regressions: press_top arm and pullup_top torso minimum edge ratios, a measured trade-off frontier against the pull-up arm minimum; next is the owner decision informed by the read-only residual assessment in the handoff",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r91",
+    "reason": "r92 removes the overhead chest pit (dent limit on the existing corrective) with 0 development failures and the same 2 strict P3B1 regressions; next: the shoulder-top knob/web (corrective-made) and the lateral/back wing flaps (scapula weights) are still visible in the overhead poses",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r92",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

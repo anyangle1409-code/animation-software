@@ -1,5 +1,5 @@
 {
-  "declared_utc": "2026-10-04T15:49:15.046703+00:00",
+  "declared_utc": "2026-10-04T15:49:16.786733+00:00",
   "declared_before_edit": true,
   "source_dump": "r92_base_wrist.blend",
   "rule": "left-owned: x <= 0 (midline included), regions torso/shoulder/arm, within radius of the left glenohumeral joint OR scapula_l weight > 0.01; right side = exact mirror",

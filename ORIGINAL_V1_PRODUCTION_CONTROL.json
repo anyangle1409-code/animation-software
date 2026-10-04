@@ -780,16 +780,69 @@
       ]
     }
   },
-  "active_local_repair": {
-    "candidate_revision": "r95",
-    "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
-    "action": "RUN local axilla repair",
-    "reason": "r95 (0 development failures): the pullup_top torso comparator difference is an explicit OWNER-ACCEPTED disposition (owner_accepted_regressions; P3B1 not re-pinned); the upper-back ledge is assessed as acceptable anatomy; the rear trapezius drape is reported for the owner decision (docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md, r95_ledge_drape_assessment) and the Phase 3 exit validation has NOT been run",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95",
-    "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
-    "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
-    "production_approved": false
+  "owner_accepted_limitations": [
+    {
+      "id": "r95_rear_trapezius_drape",
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "feature": "rear neck-to-raised-arm / trapezius drape in rear overhead poses (press_top, press_top_rhythm; milder in pull-up hang); cape-like appearance with a 73 degree crease where the raised upper-arm skin meets the neck slope",
+      "classification": "documented temporary model-volume/skinning limitation; NOT an unresolved Phase 3A deformation blocker",
+      "decision_utc": "2026-10-04T00:00:00Z",
+      "owner_statement": "Owner decision (user, 2026-10-04): accept the remaining rear neck-to-raised-arm / trapezius drape in r95 as a documented temporary model-volume/skinning limitation, not as an unresolved Phase 3A deformation blocker. Rationale: deformation is continuous through the elevation arc; no jumps or instability were found; no self-intersections occur in the assessed drape zone; the feature is anatomically plausible in kind; it is substantially improved relative to P3B1; pull-up/hang views can read as a normal trapezius/lat slope; the excessive cloth-like appearance in rear overhead views is attributable primarily to missing underlying trapezius/lat/shoulder muscular volume plus the accepted scapular motion; Phase 5A/5B explicitly introduces the missing back/scapular/deltoid/clavicular/axillary surface volume; Phase 5 protects Phase 3A deformation support; there is no demonstrated small, low-risk Phase 3A fix; further neck/shoulder-sheet changes would reopen already demonstrated squat/press/pull-up trade-offs. Do not modify the model further merely to remove this drape during Phase 3. Do not re-pin P3B1. Do not relax any development gate. Do not hide the limitation. Preserve the assessment images/evidence so it can be explicitly re-reviewed during Phase 5 after anatomical volume is added. The previously accepted pullup_top torso minimum owner disposition remains in force exactly as recorded and bound to r95.",
+      "not_a_numerical_pass": true,
+      "waives_no_gate": true,
+      "measured_state": {
+        "sharpest_fold_press_top_deg": {
+          "r95": 73,
+          "r93": 73,
+          "weights_only": 180,
+          "P3B1": 180
+        },
+        "triangle_area_over_rest_press_top_max_p99": {
+          "r95": [
+            2.47,
+            1.87
+          ],
+          "P3B1": [
+            4.37,
+            2.57
+          ]
+        },
+        "self_intersections_in_zone": 0,
+        "arc": "continuous, monotone, no jumps"
+      },
+      "phase5_followup": "PHASE5-FU-001: re-review this drape explicitly after Phase 5A (back/scapular planes) and 5B (deltoid/clavicular/axillary surface) add the missing trapezius/lat/deltoid volume; re-run the r95 ledge/drape assessment tooling (review_images/r95_ledge_drape_assessment) on the descendant candidate and record the comparison.",
+      "evidence": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r95_ledge_drape_assessment/ledge_drape_geometry_by_pose_and_state.txt",
+        "ORIGINAL_V1_WORK/candidates/review_images/r95_ledge_drape_assessment/arc_stability.txt",
+        "docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md"
+      ]
+    }
+  ],
+  "phase5_followups": [
+    {
+      "id": "PHASE5-FU-001",
+      "source": "owner_accepted_limitations/r95_rear_trapezius_drape",
+      "due": "after Phase 5A and 5B",
+      "action": "PHASE5-FU-001: re-review this drape explicitly after Phase 5A (back/scapular planes) and 5B (deltoid/clavicular/axillary surface) add the missing trapezius/lat/deltoid volume; re-run the r95 ledge/drape assessment tooling (review_images/r95_ledge_drape_assessment) on the descendant candidate and record the comparison.",
+      "status": "open"
+    }
+  ],
+  "closed_local_repairs": {
+    "r95": {
+      "candidate_revision": "r95",
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "action": "RUN local axilla repair",
+      "reason": "r95 (0 development failures): the pullup_top torso comparator difference is an explicit OWNER-ACCEPTED disposition (owner_accepted_regressions; P3B1 not re-pinned); the upper-back ledge is assessed as acceptable anatomy; the rear trapezius drape is reported for the owner decision (docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md, r95_ledge_drape_assessment) and the Phase 3 exit validation has NOT been run",
+      "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95",
+      "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
+      "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
+      "production_approved": false,
+      "closed_utc": "2026-10-04T00:00:00Z",
+      "closed_reason": "Owner dispositions recorded (pullup_top torso comparator difference; rear trapezius drape); the r95 local repair line is complete and the ledge is documented acceptable anatomy. Closing the record lets production control select the Phase 4 development freeze; nothing else about the candidate changes."
+    }
   },
+  "active_local_repair": null,
   "note": "Completion records require exact candidate SHA and evidence path/hash. Pending visual review never auto-accepts.",
   "frozen_pose_definition": {
     "path": "scripts/pose_test_original_v1_o4_candidate_blender.py",

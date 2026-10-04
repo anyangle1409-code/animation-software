@@ -29,9 +29,8 @@ PENDING OWNER REVIEWS
 - Latest candidate snapshot remains pending; images must come from real renders.
 
 NEXT EXACT TASK
-RUN local axilla repair — r95 (0 development failures): the pullup_top torso comparator difference is an explicit OWNER-ACCEPTED disposition (owner_accepted_regressions; P3B1 not re-pinned); the upper-back ledge is assessed as acceptable anatomy; the rear trapezius drape is reported for the owner decision (docs/ORIGINAL_V1_O4_DEFORMATION_HANDOFF.md, r95_ledge_drape_assessment) and the Phase 3 exit validation has NOT been run
-`RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95`
-Read `docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md`.
+ENTER development freeze validation — zero blockers and no unresolved strict regressions
+Read `docs/work_packages/PHASE_4_DEVELOPMENT_FREEZE.md`.
 
 REVIEW SNAPSHOTS ARE NON-BLOCKING BY DEFAULT. Production approved: NO.
 

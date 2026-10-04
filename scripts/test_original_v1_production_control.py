@@ -212,13 +212,30 @@ class ControlTests(unittest.TestCase):
     def test_candidate_bound_local_repair_precedes_freeze_reconciliation(self):
         c=self.module();status,_=c.build(ROOT)
         control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
-        active=control['active_local_repair']
-        self.assertEqual(status['current_candidate'],active['candidate_revision'])
-        self.assertEqual(status['last_known_candidate_sha256'],active['candidate_sha256'])
+        # the live control may have closed its repair record (closed_local_repairs); the precedence rule is tested with a synthetic candidate-bound record
+        active={'candidate_revision':status['current_candidate'],'candidate_sha256':status['last_known_candidate_sha256'],
+                'action':'RUN local axilla repair','reason':'synthetic','command':'RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat '+status['current_candidate'],
+                'work_package':'docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md'}
+        control['active_local_repair']=active
         action=c.next_action(status,control)
         self.assertEqual(action['action'],active['action'])
         self.assertEqual(action['command'],active['command'])
         self.assertEqual(action['work_package'],active['work_package'])
+        # a record bound to another candidate hash must not take precedence
+        active2=dict(active,candidate_sha256='0'*64)
+        control['active_local_repair']=active2
+        self.assertNotEqual(c.next_action(status,control)['action'],active['action'])
+
+    def test_owner_accepted_limitation_is_candidate_bound_visible_and_waives_nothing(self):
+        c = self.module()
+        status, _ = c.build(ROOT)
+        lims = status['owner_accepted_limitations']
+        self.assertTrue(lims, 'live control carries the documented limitation')
+        self.assertTrue(all(x['not_a_numerical_pass'] is True and x['waives_no_gate'] is True for x in lims))
+        self.assertTrue(all(x['candidate_sha256'] == status['last_known_candidate_sha256'] for x in lims))
+        self.assertTrue(any(f['id'] == lims[0]['id'] or f['source'].endswith(lims[0]['id']) for f in status['phase5_followups']))
+        self.assertFalse(status['production_approved'])
+        self.assertEqual(status['development_failure_count'], 0)
 
 
     def test_frozen_stress_pose_drift_is_refused(self):

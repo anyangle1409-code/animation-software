@@ -421,6 +421,16 @@ def build(root=ROOT):
         if not hit: continue                          # values changed: the disposition no longer applies
         owner_accepted.append({'owner_disposition':acc,'comparator_regression':hit[0]})
         regs=[r for r in regs if r is not hit[0]]
+    # Owner-accepted documented LIMITATIONS (e.g. a skinning/model-volume limitation deferred to a later phase). Candidate-bound like the regression
+    # dispositions, always listed in the status, never counted as a pass and waiving no gate; each must name its later-phase follow-up.
+    owner_limitations=[]
+    for lim in control.get('owner_accepted_limitations',[]):
+        for k in ('id','candidate_revision','candidate_sha256','feature','classification','owner_statement','decision_utc','phase5_followup','not_a_numerical_pass','waives_no_gate'):
+            if k not in lim: raise ValueError('owner accepted limitation entry incomplete: missing '+k)
+        if lim['not_a_numerical_pass'] is not True or lim['waives_no_gate'] is not True:
+            raise ValueError('owner accepted limitation must state it is not a numerical pass and waives no gate: '+lim['id'])
+        if lim['candidate_revision']==rev and lim['candidate_sha256']==current['sha256']:
+            owner_limitations.append(lim)
     foundation=read(root,'ORIGINAL_V1_CANDIDATE_STATUS.json')['gates']
     prov=read(root,'ORIGINAL_V1_WORK/ORIGINAL_V1_PROVENANCE.json')
     if not prov.get('clean_room') or prov.get('starting_geometry')!='blank' or prov.get('legacy_geometry_imported') is not False:
@@ -584,7 +594,7 @@ def build(root=ROOT):
         'historical_pinned_baselines':[{'revision':n,'id':b['baseline']['baseline_id'],'first_candidate_number':b['first_rev'],'evidence':evidence(root,b['file'])} for n,b in bases.items()],
         'development_failure_count':ev['failure_count'],'development_failures':fails,
         'production_failure_count':evaluate(root,current['evidence_location'],'production_target')['failure_count'],
-        'production_approved':False,'phases':phases,'unresolved_regressions':regs,'owner_accepted_regressions':owner_accepted,'strict_regression_count_before_owner_dispositions':len(regs)+len(owner_accepted),
+        'production_approved':False,'phases':phases,'unresolved_regressions':regs,'owner_accepted_regressions':owner_accepted,'owner_accepted_limitations':owner_limitations,'phase5_followups':control.get('phase5_followups',[]),'strict_regression_count_before_owner_dispositions':len(regs)+len(owner_accepted),
         'pending_owner_reviews':[x for x in control['owner_reviews'] if x['owner_review']=='pending']+snapshot_reviews,
         'latest_evidence':refs,'last_known_candidate_sha256':current['sha256'],
         'evidence_timestamp':current['evidence_timestamp'],'source_head':control['source_head'],

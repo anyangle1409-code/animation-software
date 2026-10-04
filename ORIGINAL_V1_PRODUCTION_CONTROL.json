@@ -709,14 +709,58 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r93/dent_and_volume_by_pose.txt"
         }
       ]
+    },
+    "r95": {
+      "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "chosen_parent": "r93",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r95 = r93 + a THIRD mirrored shape-key pair HGPT_SHOULDER_SCAP_L/R (67 bones, weights, abduction and flexion keys, wrist patch and the frozen P3a pose-definition hash untouched) targeting the scapula-driven lateral/back lobe. Driver (declared before the solve, with the lobe offsets measured by pose and elevation): u = angle of R_spine_03^T R_scapula_side (scapular upward rotation; correlation with the lobe offset 0.99 across 50 measured entries, exactly zero in squat, push-up, row), a = smoothstep((u-25)/(75-25)); zero for u <= 25 degrees (the natural lobe of press_bottom u 23.6 and pullup_top u 16.1, offset <= 3.8 cm), full at u >= 75. Zone: 336 left-owned + mirror vertices (the 181-vertex r94 lobe zone dilated by 3 rings, torso/shoulder labels, y > -0.03); geometric limit: outward offset from the trunk-rigid surface of the lobe-zone vertices <= 0.045 m (hinge 1e7); all r93 solve arguments kept; dent limit 0.06 m. Solve and rebuild bit-identical. Declared threshold correction recorded: the first probes used u0 = 15 and moved press_bottom torso (0.671 vs 0.678); the declared zero-activation region was wrong, corrected to 25 before the second solve. Result, full 15-pose evidence: 0 development failures; strict regressions versus P3B1 1 (unchanged from r93: pullup_top torso minimum 0.670 vs 0.693); lobe-zone maximum outward offset press_top 7.95 -> 4.18 cm, press_top_rhythm 9.34 -> 4.51, pullup_hang 7.60 -> 4.03, press_top@0.75 6.84 -> 4.22; press_bottom and pullup_top identical to r93; self-intersections press_top 30, rhythm 24, pull-ups 0, squat 78 (r93 80), push-up 162; squat, volume floor, flexion, wrist, chest and clavicle gains unchanged. Cost versus r93 inside P3B1 tolerance: press_top_rhythm volume deviation 0.001 -> 0.0065 and torso min 0.518 -> 0.497. Visual gate (review_images/r95_visual_gate, r95/r93/weights-only): the wide lateral/back wing is clearly smaller with a more natural silhouette and no dent, pinch or hard boundary; a ledge-like fold across the back and the cape-like trapezius drape between neck and arms remain. NOT eligible for Phase 4 on the evidence alone: one strict P3B1 regression remains and visible residual artefacts are listed. r93 is the fallback.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_r93.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit_flexion.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit_scapular.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/pushup_pair_list.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r95_arc.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/dent_and_volume_by_pose.txt"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/lobe_offsets_r93_vs_r95.txt"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r93",
-    "candidate_sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+    "candidate_revision": "r95",
+    "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
     "action": "RUN local axilla repair",
-    "reason": "r93 removes the shoulder-top knobs/web contribution of the corrective (0 development failures, 1 strict P3B1 regression: pullup_top torso); the lateral/back wing flaps (scapula weights) are still visible and are the next declared investigation",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r93",
+    "reason": "r95 reduces the lateral/back lobe (zone offset 7.95 -> 4.18 cm in press_top) with 0 development failures and the single unchanged strict P3B1 regression (pullup_top torso); the final Phase 3A assessment of that residual is presented for the owner decision",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r95",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

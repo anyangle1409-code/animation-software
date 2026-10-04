@@ -10341,6 +10341,100 @@
         "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r93_evidence_manifest.json",
         "sha256": "8a3dd5a3607fae0714395c1e6f07af491d9e2224d6b938057df986ccbb8587b3"
       }
+    },
+    {
+      "revision": "r95",
+      "sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+      "parent": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r93.blend",
+      "parent_sha256": "6dfcd85a65e77fd832c9eb91cbe7eda04c81dc635201d260d6cbcf0eee508984",
+      "change_type": "O4 candidate: scapular-rotation lateral/back torso corrective shape keys (not production)",
+      "weight_solution": "corr_scapular_v1.npz",
+      "weight_solution_sha256": "4921b19563350dea2d57a5a1676d784a3f09b4f1624be6cb49cb2095d49bfbf0",
+      "topology_change": false,
+      "development_failure_count": 0,
+      "regression_count": 1,
+      "improvement_count": 61,
+      "pinned_baseline_name": "P3B1",
+      "comparison_baselines": [
+        "P3B1",
+        "r93"
+      ],
+      "comparisons": {
+        "P3B1": {
+          "baseline_failed_checks": 14,
+          "candidate_failed_checks": 0,
+          "regression_count": 1,
+          "improvement_count": 61,
+          "status": "REGRESSION",
+          "evidence": {
+            "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_P3B1.json",
+            "sha256": "7fee3e1898948bc433dd7b4d5719eb21f3e8f8fdd8056dd9d33975b55b33f776"
+          },
+          "regressions": [
+            {
+              "kind": "severity",
+              "name": "pullup_top",
+              "region": "torso",
+              "metric": "region_min_ratio",
+              "baseline": 0.693,
+              "candidate": 0.67,
+              "delta": -0.02299999999999991,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            }
+          ]
+        },
+        "r93": {
+          "baseline_failed_checks": 0,
+          "candidate_failed_checks": 0,
+          "regression_count": 2,
+          "improvement_count": 4,
+          "status": "REGRESSION",
+          "evidence": {
+            "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_comparison_vs_r93.json",
+            "sha256": "936408b371e6442dd2a73dffce45f41499ecd4ea7e33137f94d28cb8ddc3f4f8"
+          },
+          "regressions": [
+            {
+              "kind": "severity",
+              "name": "press_top_rhythm",
+              "region": null,
+              "metric": "volume_deviation_from_1",
+              "baseline": 0.0009999999999998899,
+              "candidate": 0.00649999999999995,
+              "delta": 0.00550000000000006,
+              "direction": "lower_is_better",
+              "tolerance": 0.005
+            },
+            {
+              "kind": "severity",
+              "name": "press_top_rhythm",
+              "region": "torso",
+              "metric": "region_min_ratio",
+              "baseline": 0.518,
+              "candidate": 0.497,
+              "delta": -0.02100000000000002,
+              "direction": "higher_is_better",
+              "tolerance": 0.02
+            }
+          ]
+        }
+      },
+      "classification": "TRADE-OFF",
+      "state": "experimental",
+      "reason": "Experimental evidence only; owner acceptance not recorded.",
+      "owner_review": "pending",
+      "evidence_location": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_merged_pose_report.json",
+      "manifest": {
+        "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.json",
+        "sha256": "4b7a24248e603a6707f68341e63ebcd85b4fb084e3ee95d0c3747800b9085457"
+      },
+      "visual_review_location": null,
+      "evidence_timestamp": "2026-10-04T18:41:18.719101+00:00",
+      "full_evidence_receipt": {
+        "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r95_evidence_manifest.json",
+        "sha256": "a9f417fb25648ec5669e684886a72c0e38c66d3f47b52c24a6da7fceefa81685"
+      }
     }
   ]
 }

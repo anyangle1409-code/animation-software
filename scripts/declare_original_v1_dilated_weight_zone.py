@@ -31,7 +31,8 @@ src = json.loads(Path(a.source).read_text(encoding="utf-8"))
 key = {tuple(np.round(rest[i], 5)): i for i in range(nV)}
 mir = np.array([key[tuple(np.round(rest[i] * [-1, 1, 1], 5))] for i in range(nV)])
 zone = np.zeros(nV, bool)
-zone[src["left_owned_vertex_ids"]] = True\nzone &= ok
+zone[src["left_owned_vertex_ids"]] = True
+zone &= ok
 for _ in range(a.rings):
     nxt = zone.copy()
     nxt[E[zone[E[:, 0]], 1]] = True

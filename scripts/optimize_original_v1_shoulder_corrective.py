@@ -73,6 +73,8 @@ def main():
     ap.add_argument("--pen-radius", type=float, default=0.05, help="only vertex/triangle pairs closer than this (posed) are constrained")
     ap.add_argument("--pen-rest-min", type=float, default=0.03, help="vertex/triangle pairs closer than this at rest are neighbours on the same surface and are skipped")
     ap.add_argument("--hold-region-max", type=float, default=None, help="regional-maximum guard: mask edges may not stretch above (that region's current whole-mesh maximum edge ratio in that pose) plus this margin")
+    ap.add_argument("--w-vol", type=float, default=0.0, help="weight of a mesh-volume floor: in every pose where the key is active, total mesh volume may not fall below --vol-floor x rest volume")
+    ap.add_argument("--vol-floor", type=float, default=0.95)
     ap.add_argument("--region-floor", default=None, help="comma list region:ratio (e.g. arm:0.765,torso:0.684): absolute minimum edge ratio for mask edges of that region in EVERY pose (no pose names), enforced with the --w-hold hinge; needs --w-hold")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
@@ -324,6 +326,9 @@ def main():
         np.add.at(DR, Rz, Dv * S)
         return DL, DR
 
+    tris_all = d['tris']
+    VREST = float(np.einsum('ij,ij->i', rest[tris_all[:, 0]], np.cross(rest[tris_all[:, 1]], rest[tris_all[:, 2]])).sum() / 6.0)
+
     def loss_grad(x):
         Dv = x.reshape(nL, 3)
         DL, DR = net_fields(Dv)
@@ -384,6 +389,16 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
                     np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
                     np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
+            if a.w_vol > 0:
+                _a, _b, _c = Pp[tris_all[:, 0]], Pp[tris_all[:, 1]], Pp[tris_all[:, 2]]
+                _V = np.einsum('ij,ij->i', _a, np.cross(_b, _c)).sum() / 6.0
+                _exv = max(a.vol_floor * VREST - _V, 0.0) / VREST
+                if _exv > 0:
+                    total += a.w_vol * _exv ** 2
+                    _s = -2.0 * a.w_vol * _exv / VREST / 6.0
+                    np.add.at(gP, tris_all[:, 0], _s * np.cross(_b, _c))
+                    np.add.at(gP, tris_all[:, 1], _s * np.cross(_c, _a))
+                    np.add.at(gP, tris_all[:, 2], _s * np.cross(_a, _b))
             if a.w_lap > 0:
                 _l = lap_vec(Pp)
                 _ln2 = np.maximum(np.linalg.norm(_l, axis=1), 1e-12)

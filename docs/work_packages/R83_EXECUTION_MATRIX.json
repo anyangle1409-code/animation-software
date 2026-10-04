@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "purpose": "Minimise Claude/Blender usage for r83 strict-P3B1 closure from retained r81",
+  "base_branch": "claude/original-v1-blender-o2-20260929",
+  "base_commit_at_preparation": "0a37c483c02fc485bd9852d09ff16887f9f6b197",
+  "retained_candidate": "r81",
+  "refused_candidate": "r82",
+  "phase_state": {"3A":"ACTIVE","3B":"CLEAR","3C":"CLEAR","3D":"CLEAR","3E":"CLEAR","phase3":"NOT_CLEARED","phase4":"NOT_STARTED"},
+  "strict_regressions_remaining_r81": 12,
+  "attribution": {"INHERITED_FROM_WEIGHTS":7,"ADDED_BY_CORRECTIVE":3,"INHERITED_FROM_WEIGHTS_PLUS_CORRECTIVE":1,"OUTSIDE_3A_POSES":1},
+  "alpha_matrix": [0.05,0.10,0.15,0.20,0.25,0.35,0.50],
+  "preferred_first_pass": [0.10,0.20,0.35],
+  "focused_pose_order": ["press_top","pullup_hang","pullup_hang_rhythm","squat_bottom","press_bottom","pullup_bar","pullup_top","press_top_rhythm"],
+  "sentinel_pose": "pushup_bottom",
+  "rules": [
+    "Never start from r82; r81 is the parent.",
+    "Generate the r81 pose-skinning dump once, then do declaration/restoration candidate generation outside Blender.",
+    "Do not run the full 15-pose suite for every alpha.",
+    "First test 0.10, 0.20, 0.35 on focused poses; bracket/refine only if one improves strict metrics without losing r81 shoulder intersection gains.",
+    "Reject any candidate that creates a development-blocker failure.",
+    "Reject any candidate that materially worsens r81 shoulder-top self-intersection sentinels.",
+    "Do not weaken P3B1 tolerances or acceptance profiles.",
+    "Do not use the pushup_bottom +6 pair delta to justify broad 3A weight changes.",
+    "Only the best Pareto candidate receives corrective refit and full 15-pose evidence.",
+    "Phase 4 remains forbidden until all Phase 3 exit gates pass."
+  ]
+}

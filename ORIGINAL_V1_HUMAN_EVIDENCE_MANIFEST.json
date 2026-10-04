@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "purpose": "Development-only real-human evidence for shoulder, chest and axilla deformation decisions. Sources constrain observable motion and surface continuity; they are not geometry to copy.",
+  "rules": [
+    "No source is production content or permission to copy a person's geometry, texture or identity.",
+    "A source supports only its listed permissible conclusions.",
+    "Population averages are not universal constants; preserve measured variation and stated uncertainty.",
+    "Do not infer a fixed scapulohumeral ratio across the full elevation arc.",
+    "Visual plausibility requires multiple people or cohorts where available and cannot be established from one body alone."
+  ],
+  "entries": [
+    {
+      "id": "HE-SH-001",
+      "region": "clavicle_scapula_humerus",
+      "movement_primitive": "multiplanar_humeral_elevation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/",
+        "citation": "Ludewig et al. (2009), Motion of the Shoulder Complex During Multiplanar Humeral Elevation, PMCID PMC2657311.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute article media beyond its stated terms."
+      },
+      "movement_phase": "raising_and_lowering_at_15_degree_then_5_degree_increments",
+      "view": ["direct_bone_3d_kinematics", "flexion", "scapular_plane_abduction", "coronal_abduction"],
+      "diversity": {
+        "subject_count": 12,
+        "notes": "Seven men and five women without shoulder abnormality, ages 22-41; small and age-limited cohort, with three right and nine left shoulders tested."
+      },
+      "observable_landmarks": ["clavicle", "scapula", "humerus", "sternoclavicular joint", "acromioclavicular joint", "glenohumeral joint"],
+      "permissible_conclusions": ["bone_motion", "movement_timing", "inter_subject_variation"],
+      "uncertainty": "Invasive but small cohort; controlled planar motion is not identical to free exercise motion, and values should not be treated as one universal ratio.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-SH-002",
+      "region": "scapulohumeral_complex",
+      "movement_primitive": "overhead_reach",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841046/",
+        "citation": "Matsuki et al. (2011), In Vivo Assessment of Scapulohumeral Rhythm During Unconstrained Overhead Reaching in Asymptomatic Subjects, PMCID PMC2841046.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute article media beyond its stated terms."
+      },
+      "movement_phase": "unconstrained_reach_from_rest_to_overhead",
+      "view": ["direct_bone_3d_kinematics", "unconstrained_overhead"],
+      "diversity": {
+        "subject_count": 12,
+        "notes": "Asymptomatic adult cohort; use reported between-subject variation and do not generalize one subject's trajectory to all bodies."
+      },
+      "observable_landmarks": ["scapular plane", "humerus", "thorax", "scapular posterior tilt"],
+      "permissible_conclusions": ["bone_motion", "movement_timing", "inter_subject_variation"],
+      "uncertainty": "Bone motion evidence does not directly specify skin thickness or axillary surface shape and cannot alone approve the rendered surface.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-AX-001",
+      "region": "axilla",
+      "movement_primitive": "neutral_and_elevated_arm",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10175532/",
+        "citation": "Ultrasound imaging of the axilla (2023), PMCID PMC10175532.",
+        "license_use_note": "Link and derived anatomical observations only for development review; do not redistribute article media beyond its stated terms."
+      },
+      "movement_phase": "static_anatomical_boundaries",
+      "view": ["cross_section", "ultrasound", "anatomical_diagram"],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Clinical anatomy review rather than a surface-shape cohort; anatomical relationships may vary and require separate visual references."
+      },
+      "observable_landmarks": ["pectoralis major", "pectoralis minor", "subclavius", "subscapularis", "teres major", "latissimus dorsi", "serratus anterior", "coracobrachialis", "short head of biceps"],
+      "permissible_conclusions": ["fold_boundaries", "volume_continuity"],
+      "uncertainty": "Deep clinical anatomy constrains structural continuity but does not define a single exterior contour or skin fold depth.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-AX-002",
+      "region": "anterior_and_posterior_axillary_folds",
+      "movement_primitive": "shoulder_abduction",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+        "citation": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels, Figure 1 photographs of the axillary base with the arm overhead and by the side, PMCID PMC11909697.",
+        "license_use_note": "Inspect hosted clinical figures as development reference only; do not copy or redistribute patient imagery."
+      },
+      "movement_phase": "arm_by_side_and_static_overhead",
+      "view": ["inferior_axillary_base", "anterior", "cross_section"],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Clinical figure example is not a diverse morphology sample; use only for fold identity and continuity, never for one canonical contour."
+      },
+      "observable_landmarks": ["anterior axillary fold", "posterior axillary fold", "pectoralis major insertion", "latissimus dorsi", "teres major", "humerus"],
+      "permissible_conclusions": ["surface_contour", "fold_boundaries", "volume_continuity"],
+      "uncertainty": "Static clinical positioning and limited subjects do not establish dynamic timing, muscle bulk or population-average fold depth.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-001",
+      "region": "shoulder_axilla_chest_surface",
+      "movement_primitive": "shoulder_flexion",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+        "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+        "license_use_note": "Article and included media are CC BY 4.0 unless separately credited; use here remains observation-only and development-only."
+      },
+      "movement_phase": "rest_to_maximum_flexion_and_return",
+      "view": ["clinical_room_oblique", "bilateral_surface_motion"],
+      "diversity": {
+        "subject_count": 25,
+        "notes": "Normative cohort comprised 12 women and 13 men, mean age 37 years (SD 11.1); the supplementary video is a typical session, not footage of all 25 subjects."
+      },
+      "observable_landmarks": ["neck-to-shoulder slope", "acromial contour", "deltoid cap", "anterior axillary fold", "lateral chest wall"],
+      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-002",
+      "region": "shoulder_axilla_back_surface",
+      "movement_primitive": "shoulder_abduction",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+        "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+        "license_use_note": "Article and included media are CC BY 4.0 unless separately credited; use here remains observation-only and development-only."
+      },
+      "movement_phase": "rest_to_maximum_abduction_and_return",
+      "view": ["clinical_room_oblique", "bilateral_surface_motion"],
+      "diversity": {
+        "subject_count": 25,
+        "notes": "Normative cohort comprised 12 women and 13 men, mean age 37 years (SD 11.1); the supplementary video is a typical session, not footage of all 25 subjects."
+      },
+      "observable_landmarks": ["neck-to-shoulder slope", "scapular region", "deltoid cap", "anterior and posterior axillary folds", "lateral chest wall"],
+      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-003",
+      "region": "shoulder_axilla_upper_arm_surface",
+      "movement_primitive": "shoulder_axial_rotation",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8124032/",
+        "citation": "Evaluation of the GRASP method (2021), supplementary Video 1 demonstrating shoulder abduction and internal/external rotation measurement in healthy adults, PMCID PMC8124032.",
+        "license_use_note": "Inspect hosted supplementary video as development reference only; do not copy or redistribute participant imagery."
+      },
+      "movement_phase": "internal_to_external_rotation_with_arm_abducted_45_degrees",
+      "view": ["clinical_front_oblique", "seated_surface_motion"],
+      "diversity": {
+        "subject_count": 30,
+        "notes": "Healthy cohort of 15 women and 15 men, mean age 41.6 years (SD 10.3); the demonstration video does not itself show every participant."
+      },
+      "observable_landmarks": ["deltoid cap", "proximal upper arm", "anterior axillary fold", "lateral chest wall"],
+      "permissible_conclusions": ["surface_contour", "volume_continuity", "movement_timing"],
+      "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges.",
+      "development_only": true,
+      "review_status": "verified"
+    }
+  ]
+}

@@ -2,6 +2,13 @@
   "schema_version": 1,
   "purpose": "Classify every top-level Markdown document under docs/ so no loose or ambiguous handoff/plan file can silently become project authority.",
   "rule": "Every docs/*.md file must appear exactly once here. Only category=authority files may define cross-project operating precedence. Current work starts at docs/CURRENT_HANDOFF.md.",
+  "machine_readable_evidence": {
+    "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_evidence.py",
+      "note": "Development-only real-human source identities, permitted conclusions and uncertainty for anatomical deformation review; never production media or geometry-copy authority."
+    }
+  },
   "categories": {
     "authority": "Read first or use for cross-project precedence.",
     "current_technical": "Current technical specification or task handoff.",

@@ -1,0 +1,6 @@
+﻿variant                    squat arm / squat sho | worst min drop vs r83 | worst max rise vs r83 | #min drops>0.02
+a=0.00 smooth             0.383 / 0.182 | ('pullup_hang_rhythm', 'hand') 0.000 | ('pushup_bottom', 'hand') 0.000 | 0
+a=0.25 smooth             0.450 / 0.198 | ('curl_peak', 'shoulder') 0.003 | ('squat_bottom', 'shoulder') 0.083 | 0
+a=0.50 smooth             0.523 / 0.203 | ('curl_peak', 'shoulder') 0.005 | ('squat_bottom', 'shoulder') 0.166 | 0
+a=0.75 smooth             0.521 / 0.216 | ('press_top_rhythm', 'arm') 0.026 | ('squat_bottom', 'shoulder') 0.250 | 1
+a=1.00 smooth             0.510 / 0.226 | ('press_top_rhythm', 'arm') 0.049 | ('squat_bottom', 'shoulder') 0.333 | 1

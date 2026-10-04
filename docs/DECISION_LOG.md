@@ -186,3 +186,35 @@ These decisions supersede the earlier unresolved-owner-decision wording for the 
 - Refused beside it: r84 probe (hold margin -0.1, lifting every region minimum: 14 regressions, 4 development failures).
 - Tooling fixes: `original_v1_epoch_baseline.py` had an unterminated backslash string; the evidence runner needs `BLENDER_EXE` set and `NoDefaultCurrentDirectoryInExePath` unset.
 - Next: a declared weights change limited to squat arm/shoulder skin, or owner disposition of the remaining 7.
+
+## r83 retained; r85 squat-local weight blend rejected on numerical screening; helper-bone analysis - 2026-10-04 (Claude)
+
+**Retained state.** r83 (SHA `bc26867409df7514be9a18bb97e75f6cf8171df8e0f99a9d69648acbe3752b6d`), HEAD at the time `31e8fb68` plus the r85 evidence commit. 0 development failures; 7 strict P3B1 regressions; Phase 3 open (`unresolved_regressions`), Phase 4 locked. 3B/3C/3D/3E development-clear. r83 is the known-good fallback. P3B1 not re-pinned; nothing accepted on the owner's behalf; skeleton rev2c untouched.
+
+**The seven (candidate vs P3B1; tolerance; gate margin) and their origin** (`repair_checks/axilla_r83/p3b1_regression_attribution.md`):
+
+| # | pose / metric | r83 | P3B1 | tol | dev-gate margin | origin |
+|---|---|---|---|---|---|---|
+| 1 | squat_bottom arm region min edge ratio | 0.383 | 0.597 | 0.02 | 0.233 | weights (dilated smoothing zone) |
+| 2 | squat_bottom shoulder region min | 0.182 | 0.244 | 0.02 | 0.032 | weights |
+| 3 | squat_bottom volume deviation | 0.0500 | 0.0438 | 0.005 | 0.050 | weights |
+| 4 | squat_bottom edge_ratio_p01 | 0.579 | 0.613 | 0.02 | 0.179 | weights |
+| 5 | press_top arm region min | 0.745 | 0.780 | 0.02 | 0.595 | weights (pre-corrective 0.749) |
+| 6 | pullup_top torso region min | 0.669 | 0.693 | 0.02 | 0.519 | added by the corrective (pre 0.680) |
+| 7 | pushup_bottom self-intersecting pairs | 164 | 158 | 5 | 36 | legacy / outside the shoulder poses, unchanged since r48 |
+
+Origin tally: 5 weights, 1 corrective, 1 legacy push-up.
+
+**Squat-local experiment (r85, declared before the edit, rejected).** `repair_preparation/r85_squat_local_weight_blend_declared/` (declaration of 382 vertices, hypothesis, stop condition, scripts, outputs, README). A continuous blend of the smoothed weights back toward r68 weights in the squat-critical sub-zone (numpy LBS verified to 4e-7 m) lifts the squat arm minimum to at most 0.523 (needs 0.577) and the shoulder minimum to at most 0.226 (needs 0.224) only at strengths that add a squat shoulder stretch regression of +0.17 to +0.33 (tolerance 0.1) and a press_top_rhythm arm minimum drop of 0.026-0.049. Hard reverts (height cut, local radius) show the same frontier or worse (shoulder minimum 0.117). Squat volume and p01 are not touched by the sub-zone. No strictly preferable candidate exists, so no Blender candidate or full evidence was produced; r83 retained and the stop condition applied (no further tweaking).
+
+**Evidence that the local skin-weight mechanism is at its frontier.** Weights-only: r68 weights give squat arm 0.529 / shoulder 0.229 but press_top self-intersections 153 / rhythm 168 / pull-ups 126 / 134; dilated k=30 weights give the press/pull-up gains but squat 0.383 / 0.182; shoulder-only k=60 (r82) removes the intersections but loses arm/torso compression; continuous partial blends (r85) interpolate between the two and cannot reach both sets of thresholds. The squat constraint (the same skin that must be smoothed for the shoulder-top intersections must stay near-rigid for forward-flexed arms) is a trade-off of one weight field serving two arm-motion families.
+
+**Key finding: the shoulder corrective is inactive in the squat.** In squat_bottom humerothoracic elevation is 125.9 degrees but the trunk-frame abduction fraction (the corrective's gate) is 0, so the corrective changes nothing there; the four squat regressions are pure skin weights. A second, non-skeletal corrective key driven by shoulder FLEXION (forward elevation) could displace the squat arm/shoulder skin without touching weights or the skeleton.
+
+**Is a helper-bone mechanism technically justified?** Not yet. The measured gap is explained by an unused degree of freedom (the missing flexion-gated corrective), which is a much smaller intervention than a skeleton change; helper bones are justified only if a flexion-gated corrective, solved under the existing barriers and the regional hold guards, cannot lift the squat arm/shoulder minima to P3B1 - 0.02 without regressing the press/pull-up poses.
+
+**Smallest possible skeleton intervention (NOT implemented, needs owner authorisation).** Two mirrored deltoid/shoulder-volume helper bones (e.g. `deltoid_l/r`), parented to the upper arm (or clavicle), no animation keys, driven by a constraint from the humerus swing so they counter-rotate half the forward flexion; ~380 vertices reweighted around the deltoid. Rig rev2c -> rev2d: 69 bones / 68 deform.
+- Blast radius: the locked skeleton (67/66), every pinned baseline that records bone counts or rig hashes (R2, P2B1, P3B1 epochs), the final-freeze and rig-structure audits, the standalone/export engine (new bones and constraint), CI fixtures that assert 67/66, joint-limit and twist-stress audits, hand/grip/wrist/hip evidence (re-run to show no change), determinism and export checks.
+- Validation required: new rig revision declared and committed before the edit, a fresh epoch baseline decision by the owner (re-pin is owner-only), the full 15-pose suite plus arc audits, sub-phase 3A-3E reports, rig-structure/floor-contact/joint-kinematics/twist audits, determinism replay, CI replay, and review imagery.
+
+**Recommended next action:** (1) owner decision on whether to authorise a flexion-gated second corrective (no skeleton change; new driver, apply/audit/runtime-spec changes, declared mask, 15-pose evidence); (2) only if that fails the same strict comparison, owner decision on helper bones or on a documented disposition of the remaining seven.

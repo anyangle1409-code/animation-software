@@ -1,0 +1,13 @@
+﻿zone z range 1.3075000047683716 1.5775747299194336 n 834
+check vs dump 4.438479600521461e-07
+r68          squat_bot/arm 0.529 | squat_bot/sho 0.229 | press_bot/tor 0.673 | press_top/arm 0.721 | pullup_ha/arm 0.798 | pullup_to/tor 0.659 | press_top/arm 0.642
+r81 smooth   squat_bot/arm 0.383 | squat_bot/sho 0.182 | press_bot/tor 0.697 | press_top/arm 0.749 | pullup_ha/arm 0.826 | pullup_to/tor 0.680 | press_top/arm 0.705
+revert z<1.40 squat_bot/arm 0.529 | squat_bot/sho 0.182 | press_bot/tor 0.699 | press_top/arm 0.721 | pullup_ha/arm 0.798 | pullup_to/tor 0.669 | press_top/arm 0.642
+revert z<1.43 squat_bot/arm 0.529 | squat_bot/sho 0.222 | press_bot/tor 0.673 | press_top/arm 0.721 | pullup_ha/arm 0.798 | pullup_to/tor 0.659 | press_top/arm 0.642
+revert z<1.46 squat_bot/arm 0.529 | squat_bot/sho 0.229 | press_bot/tor 0.673 | press_top/arm 0.721 | pullup_ha/arm 0.798 | pullup_to/tor 0.659 | press_top/arm 0.642
+revert z<1.49 squat_bot/arm 0.529 | squat_bot/sho 0.229 | press_bot/tor 0.673 | press_top/arm 0.721 | pullup_ha/arm 0.798 | pullup_to/tor 0.659 | press_top/arm 0.642
+local r=0.02 n=48 squat_bot/arm 0.338 | squat_bot/sho 0.229 | press_bot/tor 0.697 | press_top/arm 0.749 | pullup_ha/arm 0.826 | pullup_to/tor 0.680 | press_top/arm 0.705
+local r=0.03 n=98 squat_bot/arm 0.488 | squat_bot/sho 0.117 | press_bot/tor 0.697 | press_top/arm 0.749 | pullup_ha/arm 0.826 | pullup_to/tor 0.680 | press_top/arm 0.642
+local r=0.04 n=130 squat_bot/arm 0.488 | squat_bot/sho 0.117 | press_bot/tor 0.696 | press_top/arm 0.749 | pullup_ha/arm 0.826 | pullup_to/tor 0.680 | press_top/arm 0.642
+local r=0.05 n=196 squat_bot/arm 0.529 | squat_bot/sho 0.214 | press_bot/tor 0.554 | press_top/arm 0.721 | pullup_ha/arm 0.826 | pullup_to/tor 0.596 | press_top/arm 0.642
+local r=0.07 n=320 squat_bot/arm 0.529 | squat_bot/sho 0.229 | press_bot/tor 0.673 | press_top/arm 0.721 | pullup_ha/arm 0.829 | pullup_to/tor 0.659 | press_top/arm 0.642

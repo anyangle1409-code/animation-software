@@ -77,6 +77,11 @@ def main():
     ap.add_argument("--vol-floor", type=float, default=0.95)
     ap.add_argument("--dent-limit", type=float, default=None, help="torso skin may not move inward (along the vertex normal of the uncorrected posed surface) by more than this many metres relative to the uncorrected pose; needs --w-dent")
     ap.add_argument("--w-dent", type=float, default=0.0)
+    ap.add_argument("--shape-zone-file", default=None, help="JSON with left_owned_vertex_ids + mirror_of_strict_left_vertex_ids: declared zone for --area-cap / --slide-limit / --bulge-limit")
+    ap.add_argument("--area-cap", type=float, default=None, help="triangles touching the shape zone may not exceed this multiple of their REST area (posed corrected area / rest area), hinge --w-shape")
+    ap.add_argument("--slide-limit", type=float, default=None, help="shape-zone vertices may not slide tangentially more than this many metres relative to the uncorrected pose")
+    ap.add_argument("--bulge-limit", type=float, default=None, help="shape-zone vertices may not move outward along the uncorrected normal by more than this many metres")
+    ap.add_argument("--w-shape", type=float, default=0.0)
     ap.add_argument("--region-floor", default=None, help="comma list region:ratio (e.g. arm:0.765,torso:0.684): absolute minimum edge ratio for mask edges of that region in EVERY pose (no pose names), enforced with the --w-hold hinge; needs --w-hold")
     ap.add_argument("--hold-scope", choices=("region", "local"), default="region", help="region: bounds from whole-mesh region min/max (comparator metric); local: bounds from the mask edges of each pose (axilla trial selection metric)")
     ap.add_argument("--w-hold", type=float, default=None, help="separate hinge weight for the regional guards (default: merge them into the ordinary bounds with --w-hinge)")
@@ -329,6 +334,28 @@ def main():
         return DL, DR
 
     tris_all = d['tris']
+    SHAPE = (a.area_cap is not None) or (a.slide_limit is not None) or (a.bulge_limit is not None)
+    if SHAPE:
+        if a.w_shape <= 0 or not a.shape_zone_file:
+            raise SystemExit('--area-cap/--slide-limit/--bulge-limit need --shape-zone-file and --w-shape')
+        _sz = json.loads(Path(a.shape_zone_file).read_text(encoding='utf-8'))
+        _szv = np.array(sorted(set(_sz['left_owned_vertex_ids']) | set(_sz['mirror_of_strict_left_vertex_ids'])), dtype=int)
+        _in_sz = np.zeros(nV, bool)
+        _in_sz[_szv] = True
+        SZI = np.nonzero(_in_sz[Z])[0]                       # positions inside the Z array of mask vertices that belong to the shape zone
+        SZG = Z[SZI]
+        TSZ = tris_all[_in_sz[tris_all].any(axis=1)]         # triangles touching the zone
+        _r0 = rest[TSZ]
+        ASZ0 = 0.5 * np.linalg.norm(np.cross(_r0[:, 1] - _r0[:, 0], _r0[:, 2] - _r0[:, 0]), axis=1)
+        NSZ = np.zeros((nP, len(SZG), 3))
+        for _p in range(nP):
+            _a, _b, _c = P0[_p][tris_all[:, 0]], P0[_p][tris_all[:, 1]], P0[_p][tris_all[:, 2]]
+            _n = np.cross(_b - _a, _c - _a)
+            _vn = np.zeros_like(P0[_p])
+            for _k in range(3):
+                np.add.at(_vn, tris_all[:, _k], _n)
+            NSZ[_p] = (_vn / np.maximum(np.linalg.norm(_vn, axis=1, keepdims=True), 1e-18))[SZG]
+        print('shape zone: %d vertices (%d movable), %d triangles' % (len(_szv), len(SZG), len(TSZ)))
     NDENT = None
     if a.dent_limit is not None:
         if a.w_dent <= 0:
@@ -403,6 +430,33 @@ def main():
                     np.add.at(gP, Tz[:, 0], np.cross(_gn, _C - _B))
                     np.add.at(gP, Tz[:, 1], np.cross(_gn, _A - _C))
                     np.add.at(gP, Tz[:, 2], np.cross(_gn, _B - _A))
+            if SHAPE:
+                if a.area_cap is not None:
+                    _A, _B, _C = Pp[TSZ[:, 0]], Pp[TSZ[:, 1]], Pp[TSZ[:, 2]]
+                    _n = np.cross(_B - _A, _C - _A)
+                    _ln = np.maximum(np.linalg.norm(_n, axis=1), 1e-12)
+                    _ex = np.maximum(0.5 * _ln / ASZ0 - a.area_cap, 0.0)
+                    if (_ex > 0).any():
+                        total += a.w_shape * (_ex ** 2).sum()
+                        _gn = (2.0 * a.w_shape * _ex / ASZ0 * 0.5 / _ln)[:, None] * _n
+                        np.add.at(gP, TSZ[:, 0], np.cross(_gn, _C - _B))
+                        np.add.at(gP, TSZ[:, 1], np.cross(_gn, _A - _C))
+                        np.add.at(gP, TSZ[:, 2], np.cross(_gn, _B - _A))
+                if a.slide_limit is not None or a.bulge_limit is not None:
+                    _D = Pp[SZG] - P0[p][SZG]
+                    _nd = (_D * NSZ[p]).sum(axis=1)
+                    if a.bulge_limit is not None:
+                        _eb = np.maximum(_nd - a.bulge_limit, 0.0)
+                        if (_eb > 0).any():
+                            total += a.w_shape * (_eb ** 2).sum()
+                            gP[SZG] += (2.0 * a.w_shape * _eb)[:, None] * NSZ[p]
+                    if a.slide_limit is not None:
+                        _tg = _D - _nd[:, None] * NSZ[p]
+                        _tl = np.maximum(np.linalg.norm(_tg, axis=1), 1e-12)
+                        _es = np.maximum(_tl - a.slide_limit, 0.0)
+                        if (_es > 0).any():
+                            total += a.w_shape * (_es ** 2).sum()
+                            gP[SZG] += (2.0 * a.w_shape * _es / _tl)[:, None] * _tg
             if NDENT is not None:
                 _dn = ((Pp[Z] - P0[p][Z]) * NDENT[p]).sum(axis=1)
                 _ed = np.where(TORSO, np.maximum(-a.dent_limit - _dn, 0.0), 0.0)

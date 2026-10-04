@@ -1,0 +1,5515 @@
+{
+ "pose": "pushup_bottom",
+ "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r91.blend",
+ "pair_count": 162,
+ "pairs": [
+  {
+   "polys": [
+    8570,
+    8969
+   ],
+   "verts": [
+    [
+     2172,
+     8803,
+     15602,
+     8802
+    ],
+    [
+     2252,
+     9002,
+     15702,
+     8963
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3519,
+    -1.2784,
+    0.2354
+   ],
+   "rest_distance_m": 0.123
+  },
+  {
+   "polys": [
+    8570,
+    8972
+   ],
+   "verts": [
+    [
+     2172,
+     8803,
+     15602,
+     8802
+    ],
+    [
+     2252,
+     8966,
+     15703,
+     9002
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3529,
+    -1.2817,
+    0.2359
+   ],
+   "rest_distance_m": 0.1232
+  },
+  {
+   "polys": [
+    8570,
+    8974
+   ],
+   "verts": [
+    [
+     2172,
+     8803,
+     15602,
+     8802
+    ],
+    [
+     2273,
+     9006,
+     15703,
+     9005
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3525,
+    -1.2856,
+    0.2262
+   ],
+   "rest_distance_m": 0.1438
+  },
+  {
+   "polys": [
+    8570,
+    8975
+   ],
+   "verts": [
+    [
+     2172,
+     8803,
+     15602,
+     8802
+    ],
+    [
+     2272,
+     9002,
+     15703,
+     9006
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3514,
+    -1.2824,
+    0.2257
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    8571,
+    8969
+   ],
+   "verts": [
+    [
+     2171,
+     8804,
+     15602,
+     8803
+    ],
+    [
+     2252,
+     9002,
+     15702,
+     8963
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3491,
+    -1.2769,
+    0.2378
+   ],
+   "rest_distance_m": 0.1232
+  },
+  {
+   "polys": [
+    8573,
+    8978
+   ],
+   "verts": [
+    [
+     2153,
+     8805,
+     15603,
+     8766
+    ],
+    [
+     2274,
+     9008,
+     15704,
+     9007
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3569,
+    -1.3042,
+    0.2191
+   ],
+   "rest_distance_m": 0.166
+  },
+  {
+   "polys": [
+    8573,
+    8979
+   ],
+   "verts": [
+    [
+     2153,
+     8805,
+     15603,
+     8766
+    ],
+    [
+     2273,
+     9005,
+     15704,
+     9008
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3549,
+    -1.3014,
+    0.2186
+   ],
+   "rest_distance_m": 0.1653
+  },
+  {
+   "polys": [
+    8573,
+    8983
+   ],
+   "verts": [
+    [
+     2153,
+     8805,
+     15603,
+     8766
+    ],
+    [
+     2274,
+     9007,
+     15705,
+     9010
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3595,
+    -1.3066,
+    0.2195
+   ],
+   "rest_distance_m": 0.1671
+  },
+  {
+   "polys": [
+    8574,
+    8979
+   ],
+   "verts": [
+    [
+     2173,
+     8806,
+     15603,
+     8805
+    ],
+    [
+     2273,
+     9005,
+     15704,
+     9008
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3606,
+    -1.2926,
+    0.2232
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    8575,
+    8974
+   ],
+   "verts": [
+    [
+     2172,
+     8802,
+     15603,
+     8806
+    ],
+    [
+     2273,
+     9006,
+     15703,
+     9005
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3556,
+    -1.2874,
+    0.2242
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    8575,
+    8979
+   ],
+   "verts": [
+    [
+     2172,
+     8802,
+     15603,
+     8806
+    ],
+    [
+     2273,
+     9005,
+     15704,
+     9008
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3571,
+    -1.2905,
+    0.2247
+   ],
+   "rest_distance_m": 0.1439
+  },
+  {
+   "polys": [
+    8576,
+    8982
+   ],
+   "verts": [
+    [
+     2153,
+     8768,
+     15604,
+     8805
+    ],
+    [
+     2275,
+     9010,
+     15705,
+     9009
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3663,
+    -1.3109,
+    0.2193
+   ],
+   "rest_distance_m": 0.1672
+  },
+  {
+   "polys": [
+    8576,
+    8983
+   ],
+   "verts": [
+    [
+     2153,
+     8768,
+     15604,
+     8805
+    ],
+    [
+     2274,
+     9007,
+     15705,
+     9010
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3632,
+    -1.3091,
+    0.219
+   ],
+   "rest_distance_m": 0.1661
+  },
+  {
+   "polys": [
+    8577,
+    8982
+   ],
+   "verts": [
+    [
+     2154,
+     8807,
+     15604,
+     8768
+    ],
+    [
+     2275,
+     9010,
+     15705,
+     9009
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3699,
+    -1.3135,
+    0.2202
+   ],
+   "rest_distance_m": 0.1661
+  },
+  {
+   "polys": [
+    8577,
+    8987
+   ],
+   "verts": [
+    [
+     2154,
+     8807,
+     15604,
+     8768
+    ],
+    [
+     2275,
+     9009,
+     15706,
+     9012
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3733,
+    -1.3146,
+    0.2205
+   ],
+   "rest_distance_m": 0.1671
+  },
+  {
+   "polys": [
+    8580,
+    8987
+   ],
+   "verts": [
+    [
+     2154,
+     8770,
+     15605,
+     8807
+    ],
+    [
+     2275,
+     9009,
+     15706,
+     9012
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3764,
+    -1.3171,
+    0.2226
+   ],
+   "rest_distance_m": 0.1659
+  },
+  {
+   "polys": [
+    8582,
+    8986
+   ],
+   "verts": [
+    [
+     2175,
+     8810,
+     15605,
+     8809
+    ],
+    [
+     2276,
+     9012,
+     15706,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3875,
+    -1.3109,
+    0.2299
+   ],
+   "rest_distance_m": 0.144
+  },
+  {
+   "polys": [
+    8582,
+    8988
+   ],
+   "verts": [
+    [
+     2175,
+     8810,
+     15605,
+     8809
+    ],
+    [
+     2256,
+     8974,
+     15707,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3939,
+    -1.3092,
+    0.2402
+   ],
+   "rest_distance_m": 0.1256
+  },
+  {
+   "polys": [
+    8582,
+    8991
+   ],
+   "verts": [
+    [
+     2175,
+     8810,
+     15605,
+     8809
+    ],
+    [
+     2276,
+     9011,
+     15707,
+     9014
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3909,
+    -1.3112,
+    0.2299
+   ],
+   "rest_distance_m": 0.1452
+  },
+  {
+   "polys": [
+    8583,
+    8986
+   ],
+   "verts": [
+    [
+     2174,
+     8807,
+     15605,
+     8810
+    ],
+    [
+     2276,
+     9012,
+     15706,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3851,
+    -1.3087,
+    0.2273
+   ],
+   "rest_distance_m": 0.1451
+  },
+  {
+   "polys": [
+    8583,
+    8987
+   ],
+   "verts": [
+    [
+     2174,
+     8807,
+     15605,
+     8810
+    ],
+    [
+     2275,
+     9009,
+     15706,
+     9012
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw1_l"
+   ],
+   "posed_mid": [
+    -0.3817,
+    -1.3081,
+    0.2271
+   ],
+   "rest_distance_m": 0.144
+  },
+  {
+   "polys": [
+    8586,
+    8988
+   ],
+   "verts": [
+    [
+     2176,
+     8812,
+     15606,
+     8811
+    ],
+    [
+     2256,
+     8974,
+     15707,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3977,
+    -1.3128,
+    0.2461
+   ],
+   "rest_distance_m": 0.1233
+  },
+  {
+   "polys": [
+    8587,
+    8988
+   ],
+   "verts": [
+    [
+     2175,
+     8809,
+     15606,
+     8812
+    ],
+    [
+     2256,
+     8974,
+     15707,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.396,
+    -1.3111,
+    0.243
+   ],
+   "rest_distance_m": 0.1242
+  },
+  {
+   "polys": [
+    8648,
+    8891
+   ],
+   "verts": [
+    [
+     2171,
+     8803,
+     15622,
+     8844
+    ],
+    [
+     2251,
+     8964,
+     15682,
+     8963
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3557,
+    -1.2652,
+    0.2509
+   ],
+   "rest_distance_m": 0.0866
+  },
+  {
+   "polys": [
+    8648,
+    8968
+   ],
+   "verts": [
+    [
+     2171,
+     8803,
+     15622,
+     8844
+    ],
+    [
+     2251,
+     8963,
+     15702,
+     9004
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3536,
+    -1.2668,
+    0.2424
+   ],
+   "rest_distance_m": 0.1041
+  },
+  {
+   "polys": [
+    8648,
+    8969
+   ],
+   "verts": [
+    [
+     2171,
+     8803,
+     15622,
+     8844
+    ],
+    [
+     2252,
+     9002,
+     15702,
+     8963
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3542,
+    -1.2701,
+    0.2429
+   ],
+   "rest_distance_m": 0.1044
+  },
+  {
+   "polys": [
+    8665,
+    8910
+   ],
+   "verts": [
+    [
+     2176,
+     8851,
+     15626,
+     8812
+    ],
+    [
+     2257,
+     8974,
+     15687,
+     8973
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4085,
+    -1.301,
+    0.2598
+   ],
+   "rest_distance_m": 0.0883
+  },
+  {
+   "polys": [
+    8665,
+    8911
+   ],
+   "verts": [
+    [
+     2176,
+     8851,
+     15626,
+     8812
+    ],
+    [
+     2256,
+     8971,
+     15687,
+     8974
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4053,
+    -1.3016,
+    0.2597
+   ],
+   "rest_distance_m": 0.0872
+  },
+  {
+   "polys": [
+    8665,
+    8988
+   ],
+   "verts": [
+    [
+     2176,
+     8851,
+     15626,
+     8812
+    ],
+    [
+     2256,
+     8974,
+     15707,
+     9011
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4017,
+    -1.305,
+    0.2513
+   ],
+   "rest_distance_m": 0.1044
+  },
+  {
+   "polys": [
+    8668,
+    8910
+   ],
+   "verts": [
+    [
+     2176,
+     8814,
+     15627,
+     8851
+    ],
+    [
+     2257,
+     8974,
+     15687,
+     8973
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4099,
+    -1.3023,
+    0.2627
+   ],
+   "rest_distance_m": 0.0872
+  },
+  {
+   "polys": [
+    8670,
+    8830
+   ],
+   "verts": [
+    [
+     2197,
+     8854,
+     15627,
+     8853
+    ],
+    [
+     2237,
+     8934,
+     15667,
+     8933
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4196,
+    -1.2893,
+    0.2818
+   ],
+   "rest_distance_m": 0.044
+  },
+  {
+   "polys": [
+    8670,
+    8831
+   ],
+   "verts": [
+    [
+     2197,
+     8854,
+     15627,
+     8853
+    ],
+    [
+     2236,
+     8931,
+     15667,
+     8934
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4171,
+    -1.2898,
+    0.2811
+   ],
+   "rest_distance_m": 0.0438
+  },
+  {
+   "polys": [
+    8670,
+    8909
+   ],
+   "verts": [
+    [
+     2197,
+     8854,
+     15627,
+     8853
+    ],
+    [
+     2237,
+     8973,
+     15687,
+     8934
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4172,
+    -1.2929,
+    0.2772
+   ],
+   "rest_distance_m": 0.0563
+  },
+  {
+   "polys": [
+    8671,
+    8909
+   ],
+   "verts": [
+    [
+     2196,
+     8851,
+     15627,
+     8854
+    ],
+    [
+     2237,
+     8973,
+     15687,
+     8934
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.416,
+    -1.2922,
+    0.2745
+   ],
+   "rest_distance_m": 0.057
+  },
+  {
+   "polys": [
+    8671,
+    8910
+   ],
+   "verts": [
+    [
+     2196,
+     8851,
+     15627,
+     8854
+    ],
+    [
+     2257,
+     8974,
+     15687,
+     8973
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4128,
+    -1.2964,
+    0.2679
+   ],
+   "rest_distance_m": 0.0717
+  },
+  {
+   "polys": [
+    8725,
+    8891
+   ],
+   "verts": [
+    [
+     2171,
+     8844,
+     15641,
+     8841
+    ],
+    [
+     2251,
+     8964,
+     15682,
+     8963
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3533,
+    -1.2637,
+    0.2531
+   ],
+   "rest_distance_m": 0.087
+  },
+  {
+   "polys": [
+    8725,
+    8966
+   ],
+   "verts": [
+    [
+     2171,
+     8844,
+     15641,
+     8841
+    ],
+    [
+     2251,
+     9001,
+     15701,
+     8964
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3528,
+    -1.2605,
+    0.2527
+   ],
+   "rest_distance_m": 0.0867
+  },
+  {
+   "polys": [
+    8726,
+    8966
+   ],
+   "verts": [
+    [
+     2191,
+     8881,
+     15641,
+     8844
+    ],
+    [
+     2251,
+     9001,
+     15701,
+     8964
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3568,
+    -1.2557,
+    0.2575
+   ],
+   "rest_distance_m": 0.0713
+  },
+  {
+   "polys": [
+    8727,
+    8964
+   ],
+   "verts": [
+    [
+     2210,
+     8879,
+     15641,
+     8881
+    ],
+    [
+     2250,
+     8961,
+     15701,
+     8999
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3566,
+    -1.2493,
+    0.2659
+   ],
+   "rest_distance_m": 0.0563
+  },
+  {
+   "polys": [
+    8727,
+    8965
+   ],
+   "verts": [
+    [
+     2210,
+     8879,
+     15641,
+     8881
+    ],
+    [
+     2231,
+     8964,
+     15701,
+     8961
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.357,
+    -1.2523,
+    0.266
+   ],
+   "rest_distance_m": 0.0568
+  },
+  {
+   "polys": [
+    8727,
+    8966
+   ],
+   "verts": [
+    [
+     2210,
+     8879,
+     15641,
+     8881
+    ],
+    [
+     2251,
+     9001,
+     15701,
+     8964
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3548,
+    -1.2542,
+    0.2595
+   ],
+   "rest_distance_m": 0.0718
+  },
+  {
+   "polys": [
+    8749,
+    8828
+   ],
+   "verts": [
+    [
+     2197,
+     8893,
+     15647,
+     8854
+    ],
+    [
+     2216,
+     8894,
+     15667,
+     8931
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "upperarm_l"
+   ],
+   "posed_mid": [
+    -0.4211,
+    -1.2835,
+    0.287
+   ],
+   "rest_distance_m": 0.021
+  },
+  {
+   "polys": [
+    8749,
+    8830
+   ],
+   "verts": [
+    [
+     2197,
+     8893,
+     15647,
+     8854
+    ],
+    [
+     2237,
+     8934,
+     15667,
+     8933
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4219,
+    -1.2852,
+    0.2856
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    8749,
+    8831
+   ],
+   "verts": [
+    [
+     2197,
+     8893,
+     15647,
+     8854
+    ],
+    [
+     2236,
+     8931,
+     15667,
+     8934
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.4194,
+    -1.2857,
+    0.2849
+   ],
+   "rest_distance_m": 0.0318
+  },
+  {
+   "polys": [
+    8801,
+    8882
+   ],
+   "verts": [
+    [
+     2210,
+     8919,
+     15660,
+     8880
+    ],
+    [
+     2250,
+     8960,
+     15680,
+     8959
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3589,
+    -1.24,
+    0.2759
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    8802,
+    8882
+   ],
+   "verts": [
+    [
+     2230,
+     8920,
+     15660,
+     8919
+    ],
+    [
+     2250,
+     8960,
+     15680,
+     8959
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "forearm_tw0_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.36,
+    -1.2382,
+    0.2777
+   ],
+   "rest_distance_m": 0.0207
+  },
+  {
+   "polys": [
+    8804,
+    8882
+   ],
+   "verts": [
+    [
+     2210,
+     8881,
+     15661,
+     8919
+    ],
+    [
+     2250,
+     8960,
+     15680,
+     8959
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3602,
+    -1.2416,
+    0.2741
+   ],
+   "rest_distance_m": 0.0319
+  },
+  {
+   "polys": [
+    8804,
+    8887
+   ],
+   "verts": [
+    [
+     2210,
+     8881,
+     15661,
+     8919
+    ],
+    [
+     2250,
+     8959,
+     15681,
+     8961
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3606,
+    -1.2443,
+    0.2738
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    8804,
+    8964
+   ],
+   "verts": [
+    [
+     2210,
+     8881,
+     15661,
+     8919
+    ],
+    [
+     2250,
+     8961,
+     15701,
+     8999
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_l",
+    "forearm_tw0_l"
+   ],
+   "posed_mid": [
+    -0.3591,
+    -1.2461,
+    0.2696
+   ],
+   "rest_distance_m": 0.0438
+  },
+  {
+   "polys": [
+    9393,
+    9464
+   ],
+   "verts": [
+    [
+     2358,
+     9215,
+     15808,
+     9176
+    ],
+    [
+     2375,
+     9216,
+     15826,
+     9249
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.3894,
+    -1.3081,
+    0.0449
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9393,
+    9465
+   ],
+   "verts": [
+    [
+     2358,
+     9215,
+     15808,
+     9176
+    ],
+    [
+     2376,
+     9251,
+     15826,
+     9216
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.3908,
+    -1.3081,
+    0.0449
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    9396,
+    9465
+   ],
+   "verts": [
+    [
+     2358,
+     9178,
+     15809,
+     9215
+    ],
+    [
+     2376,
+     9251,
+     15826,
+     9216
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.3927,
+    -1.3092,
+    0.0445
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9396,
+    9468
+   ],
+   "verts": [
+    [
+     2358,
+     9178,
+     15809,
+     9215
+    ],
+    [
+     2376,
+     9218,
+     15827,
+     9251
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.3942,
+    -1.3096,
+    0.044
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    9396,
+    9470
+   ],
+   "verts": [
+    [
+     2358,
+     9178,
+     15809,
+     9215
+    ],
+    [
+     2397,
+     9254,
+     15827,
+     9253
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "metacarpal_ring_l"
+   ],
+   "posed_mid": [
+    -0.396,
+    -1.312,
+    0.0452
+   ],
+   "rest_distance_m": 0.0256
+  },
+  {
+   "polys": [
+    9396,
+    9471
+   ],
+   "verts": [
+    [
+     2358,
+     9178,
+     15809,
+     9215
+    ],
+    [
+     2396,
+     9251,
+     15827,
+     9254
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "metacarpal_middle_l"
+   ],
+   "posed_mid": [
+    -0.3943,
+    -1.3122,
+    0.0448
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    9397,
+    9470
+   ],
+   "verts": [
+    [
+     2359,
+     9217,
+     15809,
+     9178
+    ],
+    [
+     2397,
+     9254,
+     15827,
+     9253
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "metacarpal_ring_l"
+   ],
+   "posed_mid": [
+    -0.3979,
+    -1.3123,
+    0.0451
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    9397,
+    9475
+   ],
+   "verts": [
+    [
+     2359,
+     9217,
+     15809,
+     9178
+    ],
+    [
+     2397,
+     9253,
+     15828,
+     9256
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "metacarpal_ring_l"
+   ],
+   "posed_mid": [
+    -0.3997,
+    -1.3121,
+    0.0453
+   ],
+   "rest_distance_m": 0.0257
+  },
+  {
+   "polys": [
+    9400,
+    9472
+   ],
+   "verts": [
+    [
+     2359,
+     9180,
+     15810,
+     9217
+    ],
+    [
+     2377,
+     9220,
+     15828,
+     9253
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.4007,
+    -1.3104,
+    0.0433
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    9400,
+    9473
+   ],
+   "verts": [
+    [
+     2359,
+     9180,
+     15810,
+     9217
+    ],
+    [
+     2378,
+     9255,
+     15828,
+     9220
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.4021,
+    -1.3093,
+    0.0441
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9400,
+    9475
+   ],
+   "verts": [
+    [
+     2359,
+     9180,
+     15810,
+     9217
+    ],
+    [
+     2397,
+     9253,
+     15828,
+     9256
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "metacarpal_ring_l"
+   ],
+   "posed_mid": [
+    -0.4013,
+    -1.3118,
+    0.0454
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    9401,
+    9473
+   ],
+   "verts": [
+    [
+     2360,
+     9219,
+     15810,
+     9180
+    ],
+    [
+     2378,
+     9255,
+     15828,
+     9220
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.4038,
+    -1.309,
+    0.0442
+   ],
+   "rest_distance_m": 0.0173
+  },
+  {
+   "polys": [
+    9401,
+    9476
+   ],
+   "verts": [
+    [
+     2360,
+     9219,
+     15810,
+     9180
+    ],
+    [
+     2378,
+     9222,
+     15829,
+     9255
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.4052,
+    -1.3083,
+    0.0446
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9404,
+    9476
+   ],
+   "verts": [
+    [
+     2360,
+     9182,
+     15811,
+     9219
+    ],
+    [
+     2378,
+     9222,
+     15829,
+     9255
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "hand_l"
+   ],
+   "posed_mid": [
+    -0.4069,
+    -1.3079,
+    0.0445
+   ],
+   "rest_distance_m": 0.0173
+  },
+  {
+   "polys": [
+    9404,
+    9477
+   ],
+   "verts": [
+    [
+     2360,
+     9182,
+     15811,
+     9219
+    ],
+    [
+     2379,
+     9257,
+     15829,
+     9222
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.4085,
+    -1.3081,
+    0.0438
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9405,
+    9477
+   ],
+   "verts": [
+    [
+     2361,
+     9221,
+     15811,
+     9182
+    ],
+    [
+     2379,
+     9257,
+     15829,
+     9222
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.4102,
+    -1.3076,
+    0.0436
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9405,
+    9480
+   ],
+   "verts": [
+    [
+     2361,
+     9221,
+     15811,
+     9182
+    ],
+    [
+     2379,
+     9224,
+     15830,
+     9257
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.4117,
+    -1.3073,
+    0.043
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9408,
+    9480
+   ],
+   "verts": [
+    [
+     2361,
+     9184,
+     15812,
+     9221
+    ],
+    [
+     2379,
+     9224,
+     15830,
+     9257
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_l",
+    "forearm_l"
+   ],
+   "posed_mid": [
+    -0.4133,
+    -1.3063,
+    0.0428
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    9611,
+    9677
+   ],
+   "verts": [
+    [
+     2435,
+     9324,
+     15862,
+     9323
+    ],
+    [
+     2432,
+     9359,
+     15879,
+     9358
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3584,
+    -1.3635,
+    0.0314
+   ],
+   "rest_distance_m": 0.0217
+  },
+  {
+   "polys": [
+    9611,
+    9680
+   ],
+   "verts": [
+    [
+     2435,
+     9324,
+     15862,
+     9323
+    ],
+    [
+     2432,
+     9361,
+     15880,
+     9359
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3568,
+    -1.3632,
+    0.0335
+   ],
+   "rest_distance_m": 0.0184
+  },
+  {
+   "polys": [
+    9611,
+    11472
+   ],
+   "verts": [
+    [
+     2435,
+     9324,
+     15862,
+     9323
+    ],
+    [
+     2432,
+     9358,
+     16328,
+     10247
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3574,
+    -1.362,
+    0.0331
+   ],
+   "rest_distance_m": 0.0229
+  },
+  {
+   "polys": [
+    9680,
+    9686
+   ],
+   "verts": [
+    [
+     2432,
+     9361,
+     15880,
+     9359
+    ],
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_l",
+    "metacarpal_index_l"
+   ],
+   "posed_mid": [
+    -0.3552,
+    -1.3642,
+    0.0323
+   ],
+   "rest_distance_m": 0.0145
+  },
+  {
+   "polys": [
+    9681,
+    9686
+   ],
+   "verts": [
+    [
+     2431,
+     9362,
+     15880,
+     9361
+    ],
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_l",
+    "metacarpal_index_l"
+   ],
+   "posed_mid": [
+    -0.354,
+    -1.363,
+    0.0338
+   ],
+   "rest_distance_m": 0.0108
+  },
+  {
+   "polys": [
+    9682,
+    9686
+   ],
+   "verts": [
+    [
+     2434,
+     9363,
+     15880,
+     9362
+    ],
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "metacarpal_index_l"
+   ],
+   "posed_mid": [
+    -0.355,
+    -1.3679,
+    0.0292
+   ],
+   "rest_distance_m": 0.0109
+  },
+  {
+   "polys": [
+    9684,
+    11469
+   ],
+   "verts": [
+    [
+     2431,
+     9364,
+     15881,
+     9362
+    ],
+    [
+     2432,
+     10247,
+     16327,
+     9361
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3529,
+    -1.3572,
+    0.0368
+   ],
+   "rest_distance_m": 0.0114
+  },
+  {
+   "polys": [
+    9684,
+    11470
+   ],
+   "verts": [
+    [
+     2431,
+     9364,
+     15881,
+     9362
+    ],
+    [
+     2891,
+     10248,
+     16327,
+     10247
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "thumb_01_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3524,
+    -1.3576,
+    0.0359
+   ],
+   "rest_distance_m": 0.0145
+  },
+  {
+   "polys": [
+    9684,
+    11501
+   ],
+   "verts": [
+    [
+     2431,
+     9364,
+     15881,
+     9362
+    ],
+    [
+     2891,
+     10263,
+     16335,
+     10248
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "thumb_01_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3523,
+    -1.3589,
+    0.0342
+   ],
+   "rest_distance_m": 0.0186
+  },
+  {
+   "polys": [
+    9686,
+    11470
+   ],
+   "verts": [
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ],
+    [
+     2891,
+     10248,
+     16327,
+     10247
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3539,
+    -1.3628,
+    0.0332
+   ],
+   "rest_distance_m": 0.0197
+  },
+  {
+   "polys": [
+    9686,
+    11472
+   ],
+   "verts": [
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ],
+    [
+     2432,
+     9358,
+     16328,
+     10247
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3558,
+    -1.3631,
+    0.0319
+   ],
+   "rest_distance_m": 0.02
+  },
+  {
+   "polys": [
+    9686,
+    11475
+   ],
+   "verts": [
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ],
+    [
+     2891,
+     10247,
+     16328,
+     10250
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3552,
+    -1.3633,
+    0.0313
+   ],
+   "rest_distance_m": 0.0223
+  },
+  {
+   "polys": [
+    9686,
+    11501
+   ],
+   "verts": [
+    [
+     2435,
+     9365,
+     15881,
+     9324
+    ],
+    [
+     2891,
+     10263,
+     16335,
+     10248
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3537,
+    -1.3641,
+    0.0316
+   ],
+   "rest_distance_m": 0.0233
+  },
+  {
+   "polys": [
+    9687,
+    11501
+   ],
+   "verts": [
+    [
+     2434,
+     9362,
+     15881,
+     9365
+    ],
+    [
+     2891,
+     10263,
+     16335,
+     10248
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_l",
+    "thumb_01_l"
+   ],
+   "posed_mid": [
+    -0.3532,
+    -1.3652,
+    0.0302
+   ],
+   "rest_distance_m": 0.0191
+  },
+  {
+   "polys": [
+    14728,
+    15130
+   ],
+   "verts": [
+    [
+     3693,
+     11862,
+     17142,
+     11864
+    ],
+    [
+     3774,
+     12022,
+     17242,
+     12063
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3491,
+    -1.2769,
+    0.2378
+   ],
+   "rest_distance_m": 0.1232
+  },
+  {
+   "polys": [
+    14729,
+    15130
+   ],
+   "verts": [
+    [
+     3694,
+     11863,
+     17142,
+     11862
+    ],
+    [
+     3774,
+     12022,
+     17242,
+     12063
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3519,
+    -1.2784,
+    0.2354
+   ],
+   "rest_distance_m": 0.123
+  },
+  {
+   "polys": [
+    14729,
+    15132
+   ],
+   "verts": [
+    [
+     3694,
+     11863,
+     17142,
+     11862
+    ],
+    [
+     3794,
+     12065,
+     17243,
+     12063
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3514,
+    -1.2824,
+    0.2257
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    14729,
+    15133
+   ],
+   "verts": [
+    [
+     3694,
+     11863,
+     17142,
+     11862
+    ],
+    [
+     3795,
+     12066,
+     17243,
+     12065
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3525,
+    -1.2856,
+    0.2262
+   ],
+   "rest_distance_m": 0.1438
+  },
+  {
+   "polys": [
+    14729,
+    15135
+   ],
+   "verts": [
+    [
+     3694,
+     11863,
+     17142,
+     11862
+    ],
+    [
+     3774,
+     12063,
+     17243,
+     12025
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3529,
+    -1.2817,
+    0.2359
+   ],
+   "rest_distance_m": 0.1232
+  },
+  {
+   "polys": [
+    14732,
+    15133
+   ],
+   "verts": [
+    [
+     3694,
+     11865,
+     17143,
+     11863
+    ],
+    [
+     3795,
+     12066,
+     17243,
+     12065
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3556,
+    -1.2874,
+    0.2242
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    14732,
+    15136
+   ],
+   "verts": [
+    [
+     3694,
+     11865,
+     17143,
+     11863
+    ],
+    [
+     3795,
+     12067,
+     17244,
+     12066
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3571,
+    -1.2905,
+    0.2247
+   ],
+   "rest_distance_m": 0.1439
+  },
+  {
+   "polys": [
+    14733,
+    15136
+   ],
+   "verts": [
+    [
+     3695,
+     11866,
+     17143,
+     11865
+    ],
+    [
+     3795,
+     12067,
+     17244,
+     12066
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3606,
+    -1.2926,
+    0.2232
+   ],
+   "rest_distance_m": 0.1432
+  },
+  {
+   "polys": [
+    14734,
+    15136
+   ],
+   "verts": [
+    [
+     3675,
+     11825,
+     17143,
+     11866
+    ],
+    [
+     3795,
+     12067,
+     17244,
+     12066
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3549,
+    -1.3014,
+    0.2186
+   ],
+   "rest_distance_m": 0.1653
+  },
+  {
+   "polys": [
+    14734,
+    15137
+   ],
+   "verts": [
+    [
+     3675,
+     11825,
+     17143,
+     11866
+    ],
+    [
+     3796,
+     12068,
+     17244,
+     12067
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3569,
+    -1.3042,
+    0.2191
+   ],
+   "rest_distance_m": 0.166
+  },
+  {
+   "polys": [
+    14734,
+    15140
+   ],
+   "verts": [
+    [
+     3675,
+     11825,
+     17143,
+     11866
+    ],
+    [
+     3796,
+     12069,
+     17245,
+     12068
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3595,
+    -1.3066,
+    0.2195
+   ],
+   "rest_distance_m": 0.1671
+  },
+  {
+   "polys": [
+    14738,
+    15141
+   ],
+   "verts": [
+    [
+     3676,
+     11827,
+     17144,
+     11868
+    ],
+    [
+     3797,
+     12070,
+     17245,
+     12069
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3699,
+    -1.3135,
+    0.2202
+   ],
+   "rest_distance_m": 0.1661
+  },
+  {
+   "polys": [
+    14738,
+    15144
+   ],
+   "verts": [
+    [
+     3676,
+     11827,
+     17144,
+     11868
+    ],
+    [
+     3797,
+     12071,
+     17246,
+     12070
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3733,
+    -1.3146,
+    0.2205
+   ],
+   "rest_distance_m": 0.1671
+  },
+  {
+   "polys": [
+    14739,
+    15140
+   ],
+   "verts": [
+    [
+     3675,
+     11866,
+     17144,
+     11827
+    ],
+    [
+     3796,
+     12069,
+     17245,
+     12068
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3632,
+    -1.3091,
+    0.219
+   ],
+   "rest_distance_m": 0.1661
+  },
+  {
+   "polys": [
+    14739,
+    15141
+   ],
+   "verts": [
+    [
+     3675,
+     11866,
+     17144,
+     11827
+    ],
+    [
+     3797,
+     12070,
+     17245,
+     12069
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3663,
+    -1.3109,
+    0.2193
+   ],
+   "rest_distance_m": 0.1672
+  },
+  {
+   "polys": [
+    14740,
+    15144
+   ],
+   "verts": [
+    [
+     3696,
+     11869,
+     17145,
+     11868
+    ],
+    [
+     3797,
+     12071,
+     17246,
+     12070
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3817,
+    -1.3081,
+    0.2271
+   ],
+   "rest_distance_m": 0.144
+  },
+  {
+   "polys": [
+    14740,
+    15145
+   ],
+   "verts": [
+    [
+     3696,
+     11869,
+     17145,
+     11868
+    ],
+    [
+     3798,
+     12072,
+     17246,
+     12071
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3851,
+    -1.3087,
+    0.2273
+   ],
+   "rest_distance_m": 0.1451
+  },
+  {
+   "polys": [
+    14741,
+    15145
+   ],
+   "verts": [
+    [
+     3697,
+     11870,
+     17145,
+     11869
+    ],
+    [
+     3798,
+     12072,
+     17246,
+     12071
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3875,
+    -1.3109,
+    0.2299
+   ],
+   "rest_distance_m": 0.144
+  },
+  {
+   "polys": [
+    14741,
+    15148
+   ],
+   "verts": [
+    [
+     3697,
+     11870,
+     17145,
+     11869
+    ],
+    [
+     3798,
+     12073,
+     17247,
+     12072
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3909,
+    -1.3112,
+    0.2299
+   ],
+   "rest_distance_m": 0.1452
+  },
+  {
+   "polys": [
+    14741,
+    15151
+   ],
+   "verts": [
+    [
+     3697,
+     11870,
+     17145,
+     11869
+    ],
+    [
+     3778,
+     12072,
+     17247,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3939,
+    -1.3092,
+    0.2402
+   ],
+   "rest_distance_m": 0.1256
+  },
+  {
+   "polys": [
+    14743,
+    15144
+   ],
+   "verts": [
+    [
+     3676,
+     11868,
+     17145,
+     11829
+    ],
+    [
+     3797,
+     12071,
+     17246,
+     12070
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw1_r"
+   ],
+   "posed_mid": [
+    0.3764,
+    -1.3171,
+    0.2226
+   ],
+   "rest_distance_m": 0.1659
+  },
+  {
+   "polys": [
+    14744,
+    15151
+   ],
+   "verts": [
+    [
+     3697,
+     11871,
+     17146,
+     11870
+    ],
+    [
+     3778,
+     12072,
+     17247,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.396,
+    -1.3111,
+    0.243
+   ],
+   "rest_distance_m": 0.1242
+  },
+  {
+   "polys": [
+    14745,
+    15151
+   ],
+   "verts": [
+    [
+     3698,
+     11872,
+     17146,
+     11871
+    ],
+    [
+     3778,
+     12072,
+     17247,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3977,
+    -1.3128,
+    0.2461
+   ],
+   "rest_distance_m": 0.1233
+  },
+  {
+   "polys": [
+    14811,
+    15048
+   ],
+   "verts": [
+    [
+     3693,
+     11904,
+     17162,
+     11862
+    ],
+    [
+     3773,
+     12022,
+     17222,
+     12024
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3557,
+    -1.2652,
+    0.2509
+   ],
+   "rest_distance_m": 0.0866
+  },
+  {
+   "polys": [
+    14811,
+    15130
+   ],
+   "verts": [
+    [
+     3693,
+     11904,
+     17162,
+     11862
+    ],
+    [
+     3774,
+     12022,
+     17242,
+     12063
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3542,
+    -1.2701,
+    0.2429
+   ],
+   "rest_distance_m": 0.1044
+  },
+  {
+   "polys": [
+    14811,
+    15131
+   ],
+   "verts": [
+    [
+     3693,
+     11904,
+     17162,
+     11862
+    ],
+    [
+     3773,
+     12064,
+     17242,
+     12022
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3536,
+    -1.2668,
+    0.2424
+   ],
+   "rest_distance_m": 0.1041
+  },
+  {
+   "polys": [
+    14826,
+    15068
+   ],
+   "verts": [
+    [
+     3698,
+     11871,
+     17166,
+     11912
+    ],
+    [
+     3778,
+     12033,
+     17227,
+     12032
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4053,
+    -1.3016,
+    0.2597
+   ],
+   "rest_distance_m": 0.0872
+  },
+  {
+   "polys": [
+    14826,
+    15069
+   ],
+   "verts": [
+    [
+     3698,
+     11871,
+     17166,
+     11912
+    ],
+    [
+     3779,
+     12034,
+     17227,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4085,
+    -1.301,
+    0.2598
+   ],
+   "rest_distance_m": 0.0883
+  },
+  {
+   "polys": [
+    14826,
+    15151
+   ],
+   "verts": [
+    [
+     3698,
+     11871,
+     17166,
+     11912
+    ],
+    [
+     3778,
+     12072,
+     17247,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4017,
+    -1.305,
+    0.2513
+   ],
+   "rest_distance_m": 0.1044
+  },
+  {
+   "polys": [
+    14828,
+    15069
+   ],
+   "verts": [
+    [
+     3718,
+     11913,
+     17167,
+     11912
+    ],
+    [
+     3779,
+     12034,
+     17227,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4128,
+    -1.2964,
+    0.2679
+   ],
+   "rest_distance_m": 0.0717
+  },
+  {
+   "polys": [
+    14828,
+    15070
+   ],
+   "verts": [
+    [
+     3718,
+     11913,
+     17167,
+     11912
+    ],
+    [
+     3759,
+     11993,
+     17227,
+     12034
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.416,
+    -1.2922,
+    0.2745
+   ],
+   "rest_distance_m": 0.057
+  },
+  {
+   "polys": [
+    14829,
+    14988
+   ],
+   "verts": [
+    [
+     3719,
+     11914,
+     17167,
+     11913
+    ],
+    [
+     3758,
+     11993,
+     17207,
+     11992
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4171,
+    -1.2898,
+    0.2811
+   ],
+   "rest_distance_m": 0.0438
+  },
+  {
+   "polys": [
+    14829,
+    14989
+   ],
+   "verts": [
+    [
+     3719,
+     11914,
+     17167,
+     11913
+    ],
+    [
+     3759,
+     11994,
+     17207,
+     11993
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4196,
+    -1.2893,
+    0.2818
+   ],
+   "rest_distance_m": 0.044
+  },
+  {
+   "polys": [
+    14829,
+    15070
+   ],
+   "verts": [
+    [
+     3719,
+     11914,
+     17167,
+     11913
+    ],
+    [
+     3759,
+     11993,
+     17227,
+     12034
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4172,
+    -1.2929,
+    0.2772
+   ],
+   "rest_distance_m": 0.0563
+  },
+  {
+   "polys": [
+    14831,
+    15069
+   ],
+   "verts": [
+    [
+     3698,
+     11912,
+     17167,
+     11873
+    ],
+    [
+     3779,
+     12034,
+     17227,
+     12033
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4099,
+    -1.3023,
+    0.2627
+   ],
+   "rest_distance_m": 0.0872
+  },
+  {
+   "polys": [
+    14884,
+    15125
+   ],
+   "verts": [
+    [
+     3732,
+     11941,
+     17181,
+     11940
+    ],
+    [
+     3773,
+     12024,
+     17241,
+     12061
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3548,
+    -1.2542,
+    0.2595
+   ],
+   "rest_distance_m": 0.0718
+  },
+  {
+   "polys": [
+    14884,
+    15126
+   ],
+   "verts": [
+    [
+     3732,
+     11941,
+     17181,
+     11940
+    ],
+    [
+     3753,
+     12021,
+     17241,
+     12024
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.357,
+    -1.2523,
+    0.266
+   ],
+   "rest_distance_m": 0.0568
+  },
+  {
+   "polys": [
+    14884,
+    15127
+   ],
+   "verts": [
+    [
+     3732,
+     11941,
+     17181,
+     11940
+    ],
+    [
+     3772,
+     12060,
+     17241,
+     12021
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3566,
+    -1.2493,
+    0.2659
+   ],
+   "rest_distance_m": 0.0563
+  },
+  {
+   "polys": [
+    14885,
+    15125
+   ],
+   "verts": [
+    [
+     3713,
+     11904,
+     17181,
+     11941
+    ],
+    [
+     3773,
+     12024,
+     17241,
+     12061
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3568,
+    -1.2557,
+    0.2575
+   ],
+   "rest_distance_m": 0.0713
+  },
+  {
+   "polys": [
+    14886,
+    15048
+   ],
+   "verts": [
+    [
+     3693,
+     11901,
+     17181,
+     11904
+    ],
+    [
+     3773,
+     12022,
+     17222,
+     12024
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3533,
+    -1.2637,
+    0.2531
+   ],
+   "rest_distance_m": 0.087
+  },
+  {
+   "polys": [
+    14886,
+    15125
+   ],
+   "verts": [
+    [
+     3693,
+     11901,
+     17181,
+     11904
+    ],
+    [
+     3773,
+     12024,
+     17241,
+     12061
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3528,
+    -1.2605,
+    0.2527
+   ],
+   "rest_distance_m": 0.0867
+  },
+  {
+   "polys": [
+    14910,
+    14988
+   ],
+   "verts": [
+    [
+     3719,
+     11913,
+     17187,
+     11954
+    ],
+    [
+     3758,
+     11993,
+     17207,
+     11992
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4194,
+    -1.2857,
+    0.2849
+   ],
+   "rest_distance_m": 0.0318
+  },
+  {
+   "polys": [
+    14910,
+    14989
+   ],
+   "verts": [
+    [
+     3719,
+     11913,
+     17187,
+     11954
+    ],
+    [
+     3759,
+     11994,
+     17207,
+     11993
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.4219,
+    -1.2852,
+    0.2856
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    14910,
+    14991
+   ],
+   "verts": [
+    [
+     3719,
+     11913,
+     17187,
+     11954
+    ],
+    [
+     3738,
+     11992,
+     17207,
+     11953
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "upperarm_r"
+   ],
+   "posed_mid": [
+    0.4211,
+    -1.2835,
+    0.287
+   ],
+   "rest_distance_m": 0.021
+  },
+  {
+   "polys": [
+    14961,
+    15041
+   ],
+   "verts": [
+    [
+     3752,
+     11980,
+     17200,
+     11979
+    ],
+    [
+     3772,
+     12020,
+     17220,
+     12019
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "forearm_tw0_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.36,
+    -1.2382,
+    0.2777
+   ],
+   "rest_distance_m": 0.0207
+  },
+  {
+   "polys": [
+    14962,
+    15041
+   ],
+   "verts": [
+    [
+     3732,
+     11939,
+     17200,
+     11980
+    ],
+    [
+     3772,
+     12020,
+     17220,
+     12019
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3589,
+    -1.24,
+    0.2759
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    14967,
+    15041
+   ],
+   "verts": [
+    [
+     3732,
+     11980,
+     17201,
+     11941
+    ],
+    [
+     3772,
+     12020,
+     17220,
+     12019
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3602,
+    -1.2416,
+    0.2741
+   ],
+   "rest_distance_m": 0.0319
+  },
+  {
+   "polys": [
+    14967,
+    15044
+   ],
+   "verts": [
+    [
+     3732,
+     11980,
+     17201,
+     11941
+    ],
+    [
+     3772,
+     12021,
+     17221,
+     12020
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3606,
+    -1.2443,
+    0.2738
+   ],
+   "rest_distance_m": 0.0313
+  },
+  {
+   "polys": [
+    14967,
+    15127
+   ],
+   "verts": [
+    [
+     3732,
+     11980,
+     17201,
+     11941
+    ],
+    [
+     3772,
+     12060,
+     17241,
+     12021
+    ]
+   ],
+   "regions": [
+    "arm",
+    "arm"
+   ],
+   "dominant_bones": [
+    "upperarm_r",
+    "forearm_tw0_r"
+   ],
+   "posed_mid": [
+    0.3591,
+    -1.2461,
+    0.2696
+   ],
+   "rest_distance_m": 0.0438
+  },
+  {
+   "polys": [
+    15554,
+    15626
+   ],
+   "verts": [
+    [
+     3880,
+     12235,
+     17348,
+     12276
+    ],
+    [
+     3898,
+     12275,
+     17366,
+     12312
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.3908,
+    -1.3081,
+    0.0449
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    15554,
+    15627
+   ],
+   "verts": [
+    [
+     3880,
+     12235,
+     17348,
+     12276
+    ],
+    [
+     3897,
+     12310,
+     17366,
+     12275
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.3894,
+    -1.3081,
+    0.0449
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15558,
+    15629
+   ],
+   "verts": [
+    [
+     3881,
+     12237,
+     17349,
+     12278
+    ],
+    [
+     3919,
+     12314,
+     17367,
+     12313
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "metacarpal_ring_r"
+   ],
+   "posed_mid": [
+    0.3979,
+    -1.3123,
+    0.0451
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    15558,
+    15632
+   ],
+   "verts": [
+    [
+     3881,
+     12237,
+     17349,
+     12278
+    ],
+    [
+     3919,
+     12315,
+     17368,
+     12314
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "metacarpal_ring_r"
+   ],
+   "posed_mid": [
+    0.3997,
+    -1.3121,
+    0.0453
+   ],
+   "rest_distance_m": 0.0257
+  },
+  {
+   "polys": [
+    15559,
+    15626
+   ],
+   "verts": [
+    [
+     3880,
+     12276,
+     17349,
+     12237
+    ],
+    [
+     3898,
+     12275,
+     17366,
+     12312
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.3927,
+    -1.3092,
+    0.0445
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15559,
+    15628
+   ],
+   "verts": [
+    [
+     3880,
+     12276,
+     17349,
+     12237
+    ],
+    [
+     3918,
+     12313,
+     17367,
+     12312
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "metacarpal_middle_r"
+   ],
+   "posed_mid": [
+    0.3943,
+    -1.3122,
+    0.0448
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    15559,
+    15629
+   ],
+   "verts": [
+    [
+     3880,
+     12276,
+     17349,
+     12237
+    ],
+    [
+     3919,
+     12314,
+     17367,
+     12313
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "metacarpal_ring_r"
+   ],
+   "posed_mid": [
+    0.396,
+    -1.312,
+    0.0452
+   ],
+   "rest_distance_m": 0.0256
+  },
+  {
+   "polys": [
+    15559,
+    15631
+   ],
+   "verts": [
+    [
+     3880,
+     12276,
+     17349,
+     12237
+    ],
+    [
+     3898,
+     12312,
+     17367,
+     12277
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.3942,
+    -1.3096,
+    0.044
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    15562,
+    15634
+   ],
+   "verts": [
+    [
+     3882,
+     12239,
+     17350,
+     12280
+    ],
+    [
+     3900,
+     12279,
+     17368,
+     12316
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.4038,
+    -1.309,
+    0.0442
+   ],
+   "rest_distance_m": 0.0173
+  },
+  {
+   "polys": [
+    15562,
+    15639
+   ],
+   "verts": [
+    [
+     3882,
+     12239,
+     17350,
+     12280
+    ],
+    [
+     3900,
+     12316,
+     17369,
+     12281
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.4052,
+    -1.3083,
+    0.0446
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15563,
+    15632
+   ],
+   "verts": [
+    [
+     3881,
+     12278,
+     17350,
+     12239
+    ],
+    [
+     3919,
+     12315,
+     17368,
+     12314
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "metacarpal_ring_r"
+   ],
+   "posed_mid": [
+    0.4013,
+    -1.3118,
+    0.0454
+   ],
+   "rest_distance_m": 0.0255
+  },
+  {
+   "polys": [
+    15563,
+    15634
+   ],
+   "verts": [
+    [
+     3881,
+     12278,
+     17350,
+     12239
+    ],
+    [
+     3900,
+     12279,
+     17368,
+     12316
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.4021,
+    -1.3093,
+    0.0441
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15563,
+    15635
+   ],
+   "verts": [
+    [
+     3881,
+     12278,
+     17350,
+     12239
+    ],
+    [
+     3899,
+     12314,
+     17368,
+     12279
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.4007,
+    -1.3104,
+    0.0433
+   ],
+   "rest_distance_m": 0.0172
+  },
+  {
+   "polys": [
+    15566,
+    15638
+   ],
+   "verts": [
+    [
+     3883,
+     12241,
+     17351,
+     12282
+    ],
+    [
+     3901,
+     12281,
+     17369,
+     12318
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.4102,
+    -1.3076,
+    0.0436
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15566,
+    15643
+   ],
+   "verts": [
+    [
+     3883,
+     12241,
+     17351,
+     12282
+    ],
+    [
+     3901,
+     12318,
+     17370,
+     12283
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.4117,
+    -1.3073,
+    0.043
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15567,
+    15638
+   ],
+   "verts": [
+    [
+     3882,
+     12280,
+     17351,
+     12241
+    ],
+    [
+     3901,
+     12281,
+     17369,
+     12318
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.4085,
+    -1.3081,
+    0.0438
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15567,
+    15639
+   ],
+   "verts": [
+    [
+     3882,
+     12280,
+     17351,
+     12241
+    ],
+    [
+     3900,
+     12316,
+     17369,
+     12281
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "hand_r"
+   ],
+   "posed_mid": [
+    0.4069,
+    -1.3079,
+    0.0445
+   ],
+   "rest_distance_m": 0.0173
+  },
+  {
+   "polys": [
+    15571,
+    15643
+   ],
+   "verts": [
+    [
+     3883,
+     12282,
+     17352,
+     12243
+    ],
+    [
+     3901,
+     12318,
+     17370,
+     12283
+    ]
+   ],
+   "regions": [
+    "arm",
+    "hand"
+   ],
+   "dominant_bones": [
+    "forearm_r",
+    "forearm_r"
+   ],
+   "posed_mid": [
+    0.4133,
+    -1.3063,
+    0.0428
+   ],
+   "rest_distance_m": 0.0174
+  },
+  {
+   "polys": [
+    15768,
+    15838
+   ],
+   "verts": [
+    [
+     3957,
+     12382,
+     17402,
+     12384
+    ],
+    [
+     3954,
+     12420,
+     17419,
+     12419
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3584,
+    -1.3635,
+    0.0314
+   ],
+   "rest_distance_m": 0.0217
+  },
+  {
+   "polys": [
+    15768,
+    15843
+   ],
+   "verts": [
+    [
+     3957,
+     12382,
+     17402,
+     12384
+    ],
+    [
+     3954,
+     12419,
+     17420,
+     12423
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3568,
+    -1.3632,
+    0.0335
+   ],
+   "rest_distance_m": 0.0184
+  },
+  {
+   "polys": [
+    15768,
+    17635
+   ],
+   "verts": [
+    [
+     3957,
+     12382,
+     17402,
+     12384
+    ],
+    [
+     3954,
+     13308,
+     17868,
+     12420
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3574,
+    -1.362,
+    0.0331
+   ],
+   "rest_distance_m": 0.0229
+  },
+  {
+   "polys": [
+    15841,
+    15845
+   ],
+   "verts": [
+    [
+     3956,
+     12422,
+     17420,
+     12421
+    ],
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "metacarpal_index_r"
+   ],
+   "posed_mid": [
+    0.355,
+    -1.3679,
+    0.0292
+   ],
+   "rest_distance_m": 0.0109
+  },
+  {
+   "polys": [
+    15842,
+    15845
+   ],
+   "verts": [
+    [
+     3953,
+     12423,
+     17420,
+     12422
+    ],
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_r",
+    "metacarpal_index_r"
+   ],
+   "posed_mid": [
+    0.354,
+    -1.363,
+    0.0338
+   ],
+   "rest_distance_m": 0.0108
+  },
+  {
+   "polys": [
+    15843,
+    15845
+   ],
+   "verts": [
+    [
+     3954,
+     12419,
+     17420,
+     12423
+    ],
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_r",
+    "metacarpal_index_r"
+   ],
+   "posed_mid": [
+    0.3552,
+    -1.3642,
+    0.0323
+   ],
+   "rest_distance_m": 0.0145
+  },
+  {
+   "polys": [
+    15844,
+    17662
+   ],
+   "verts": [
+    [
+     3956,
+     12424,
+     17421,
+     12422
+    ],
+    [
+     4413,
+     13307,
+     17875,
+     13324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3532,
+    -1.3652,
+    0.0302
+   ],
+   "rest_distance_m": 0.0191
+  },
+  {
+   "polys": [
+    15845,
+    17629
+   ],
+   "verts": [
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ],
+    [
+     4413,
+     13308,
+     17867,
+     13307
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3539,
+    -1.3628,
+    0.0332
+   ],
+   "rest_distance_m": 0.0197
+  },
+  {
+   "polys": [
+    15845,
+    17632
+   ],
+   "verts": [
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ],
+    [
+     4413,
+     13309,
+     17868,
+     13308
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3552,
+    -1.3633,
+    0.0313
+   ],
+   "rest_distance_m": 0.0223
+  },
+  {
+   "polys": [
+    15845,
+    17635
+   ],
+   "verts": [
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ],
+    [
+     3954,
+     13308,
+     17868,
+     12420
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3558,
+    -1.3631,
+    0.0319
+   ],
+   "rest_distance_m": 0.02
+  },
+  {
+   "polys": [
+    15845,
+    17662
+   ],
+   "verts": [
+    [
+     3957,
+     12384,
+     17421,
+     12424
+    ],
+    [
+     4413,
+     13307,
+     17875,
+     13324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "metacarpal_index_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3537,
+    -1.3641,
+    0.0316
+   ],
+   "rest_distance_m": 0.0233
+  },
+  {
+   "polys": [
+    15847,
+    17629
+   ],
+   "verts": [
+    [
+     3953,
+     12422,
+     17421,
+     12425
+    ],
+    [
+     4413,
+     13308,
+     17867,
+     13307
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "thumb_01_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3524,
+    -1.3576,
+    0.0359
+   ],
+   "rest_distance_m": 0.0145
+  },
+  {
+   "polys": [
+    15847,
+    17630
+   ],
+   "verts": [
+    [
+     3953,
+     12422,
+     17421,
+     12425
+    ],
+    [
+     3954,
+     12423,
+     17867,
+     13308
+    ]
+   ],
+   "regions": [
+    "hand",
+    "hand"
+   ],
+   "dominant_bones": [
+    "thumb_01_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3529,
+    -1.3572,
+    0.0368
+   ],
+   "rest_distance_m": 0.0114
+  },
+  {
+   "polys": [
+    15847,
+    17662
+   ],
+   "verts": [
+    [
+     3953,
+     12422,
+     17421,
+     12425
+    ],
+    [
+     4413,
+     13307,
+     17875,
+     13324
+    ]
+   ],
+   "regions": [
+    "hand",
+    "thumb"
+   ],
+   "dominant_bones": [
+    "thumb_01_r",
+    "thumb_01_r"
+   ],
+   "posed_mid": [
+    0.3523,
+    -1.3589,
+    0.0342
+   ],
+   "rest_distance_m": 0.0186
+  }
+ ]
+}

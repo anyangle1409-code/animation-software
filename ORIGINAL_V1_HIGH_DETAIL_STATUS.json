@@ -5,9 +5,9 @@
   "branch": "claude/original-v1-blender-o2-20260929",
   "current_phase": 3,
   "current_subphase": "4",
-  "current_candidate": "r90",
+  "current_candidate": "r91",
   "candidate_state": "experimental",
-  "candidate_classification": "STRICT IMPROVEMENT",
+  "candidate_classification": "EXPERIMENTAL",
   "pinned_baseline": {
     "revision": "P3B1",
     "id": "original_v1_o4_p3b1_20261002",
@@ -177,17 +177,6 @@
       "delta": -0.02399999999999991,
       "direction": "higher_is_better",
       "tolerance": 0.02
-    },
-    {
-      "kind": "severity",
-      "name": "pushup_bottom",
-      "region": null,
-      "metric": "self_intersecting_face_pairs",
-      "baseline": 158.0,
-      "candidate": 164.0,
-      "delta": 6.0,
-      "direction": "lower_is_better",
-      "tolerance": 5.0
     }
   ],
   "pending_owner_reviews": [
@@ -206,47 +195,47 @@
   ],
   "latest_evidence": [
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_merged_pose_report.json",
-      "sha256": "75499483aa2a01aa951f8b779bd1f9214764a6f34069886e80423bcdb5690d08"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_merged_pose_report.json",
+      "sha256": "935c5ffbfcfc02f0b2512dc75176d4202a3776c27fd1ed62723796060a967078"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.json",
-      "sha256": "4a0396789b4d3ac3fbe596377700a7f86ccbcbaa2a27d76bc094368111af9c52"
+      "path": "ORIGINAL_V1_WORK/candidates/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r91.json",
+      "sha256": "132ebe25a1f1d3b90b95f24cc299e702e80a3b7f59b9ebeb55a82425d6108a6f"
     },
     {
       "path": "ORIGINAL_V1_CANDIDATE_STATUS.json",
       "sha256": "fd883f80d4e6d4507080f1cfa12ff229150308b78c96dbcb5360d0a31d7b77c6"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_evidence_manifest.json",
-      "sha256": "aaffde21ee32234e46195f9fb6a2113919126a4aa960d03af07a79f0319dfe7e"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_evidence_manifest.json",
+      "sha256": "27ecf5ea317d174fcb153ac14716d55dfacb168a7c994ca118bb00ce81093ac7"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_P3B1.json",
-      "sha256": "10b202351e86ef9b6db45cc61d0a534b0126d340d986450115c5ddbfe1e581a9"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_P3B1.json",
+      "sha256": "4131b2e22c8bd7575ba00b6df7191c8c82515210af1644a882909671e16ff0ed"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r90_comparison_vs_r87.json",
-      "sha256": "904fa8332ddbec556d8a5f41e5aab4e54bc85c27c6e9aab180355cc94f545c69"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_r90.json",
+      "sha256": "837dae99f49726240b3e19fc3ddcb72e5d866e5834c54f6042a7c045a29db19f"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/diagnostic_brief.json",
-      "sha256": "f730af7994895281a1d89767049f9cc65bd64d51d6db93168b206f8f82f0e43d"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/diagnostic_brief.json",
+      "sha256": "eb15c1f555a5126ca259aae2033ce95d810c49431bc25ff27894a61a835ddfdc"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/edge_extremes.json",
-      "sha256": "081dc6d55e09088e08126db804497f2560d29a13b7aeeff25e43dc6c6635cc32"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/edge_extremes.json",
+      "sha256": "71a3af3845cd04e288485fd2d96f113c1022530f364805b158d7aa9eade40a15"
     },
     {
-      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r90/grip_penetration.json",
-      "sha256": "365fa1ab020cf4f6800175198953bb1f23ca254a96e9dbf4c5fe5f514daaa200"
+      "path": "ORIGINAL_V1_WORK/candidates/repair_checks/remaining_diagnostics_r91/grip_penetration.json",
+      "sha256": "66f888538e2ed5324548a53e3e96f8f726372d90bbd61b4f8b53694ba0160d73"
     }
   ],
-  "last_known_candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
-  "evidence_timestamp": "2026-10-04T13:42:17.489079+00:00",
+  "last_known_candidate_sha256": "ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0",
+  "evidence_timestamp": "2026-10-04T14:13:27.008103+00:00",
   "source_head": "77d065ccf83ab8ebaafb57b96f356c7168d10590",
   "incomplete_candidates": [],
-  "what_changed": "r90: solution corr_flex_v2.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r83.blend; candidate remains experimental.",
+  "what_changed": "r91: solution wrist_weights_lambda0.20.npz on HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r90.blend; candidate remains experimental.",
   "what_passed": [
     "3A DEVELOPMENT CLEAR",
     "3B DEVELOPMENT CLEAR",
@@ -259,8 +248,8 @@
   "note": "Derived from complete committed evidence; no visual acceptance or production promotion inferred.",
   "next_action": {
     "action": "RUN local axilla repair",
-    "reason": "r90 is development-clear (0 failures) with 3 strict P3B1 regressions (r87 4): press_top arm and pullup_top torso minimum edge ratios sit on a measured trade-off frontier against the pull-up arm minimum (r88), and the push-up self-intersection item is a 3D wrist-band side effect; next is an owner decision on these three or a declared 3D wrist-weight experiment",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r90",
+    "reason": "r91 is development-clear (0 failures) with 2 strict P3B1 regressions: press_top arm and pullup_top torso minimum edge ratios, a measured trade-off frontier against the pull-up arm minimum; next is the owner decision informed by the read-only residual assessment in the handoff",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r91",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines."
   }

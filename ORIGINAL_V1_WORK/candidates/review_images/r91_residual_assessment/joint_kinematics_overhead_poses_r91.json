@@ -1,0 +1,4761 @@
+{
+ "schema_version": 1,
+ "generated_utc": "2026-10-04T14:23:34.459217+00:00",
+ "purpose": "joint kinematics and continuous-motion audit (read-only)",
+ "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r91.blend",
+ "source_candidate_sha256": "ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0",
+ "pose_definition_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+ "fractions": [
+  0.5,
+  1.0
+ ],
+ "poses": [
+  {
+   "pose": "press_bottom",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 3.5953,
+       "twist_deg": 0.7731,
+       "flex_deg": 3.5836,
+       "abd_deg": -0.0474
+      },
+      "scapula_l": {
+       "swing_total_deg": 7.3384,
+       "twist_deg": 3.5159,
+       "flex_deg": -3.164,
+       "abd_deg": -0.4063
+      },
+      "upperarm_l": {
+       "swing_total_deg": 29.4475,
+       "twist_deg": 37.3294,
+       "flex_deg": 8.2544,
+       "abd_deg": 28.2669
+      },
+      "forearm_l": {
+       "swing_total_deg": 48.429,
+       "twist_deg": -10.0116,
+       "flex_deg": 48.429,
+       "abd_deg": 0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0323
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.0116
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 5.0058
+      },
+      "clavicle_r": {
+       "swing_total_deg": 3.5953,
+       "twist_deg": -0.7731,
+       "flex_deg": 3.5836,
+       "abd_deg": -0.0474
+      },
+      "scapula_r": {
+       "swing_total_deg": 7.3384,
+       "twist_deg": -3.5159,
+       "flex_deg": -3.164,
+       "abd_deg": -0.4063
+      },
+      "upperarm_r": {
+       "swing_total_deg": 29.4475,
+       "twist_deg": -37.3294,
+       "flex_deg": 8.2544,
+       "abd_deg": 28.2669
+      },
+      "forearm_r": {
+       "swing_total_deg": 48.429,
+       "twist_deg": 10.0116,
+       "flex_deg": 48.429,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2074
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0503
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.0116
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -5.0058
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 7.1907,
+       "twist_deg": 1.5463,
+       "flex_deg": 7.1673,
+       "abd_deg": -0.0949
+      },
+      "scapula_l": {
+       "swing_total_deg": 14.6769,
+       "twist_deg": 7.0317,
+       "flex_deg": -6.3279,
+       "abd_deg": -0.8126
+      },
+      "upperarm_l": {
+       "swing_total_deg": 58.895,
+       "twist_deg": 74.6587,
+       "flex_deg": 16.5089,
+       "abd_deg": 56.5338
+      },
+      "forearm_l": {
+       "swing_total_deg": 96.858,
+       "twist_deg": -20.0232,
+       "flex_deg": 96.858,
+       "abd_deg": 0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2518
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0555
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2703
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.076
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.704,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4436
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 20.0232
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.0116
+      },
+      "clavicle_r": {
+       "swing_total_deg": 7.1907,
+       "twist_deg": -1.5463,
+       "flex_deg": 7.1673,
+       "abd_deg": -0.0949
+      },
+      "scapula_r": {
+       "swing_total_deg": 14.6769,
+       "twist_deg": -7.0317,
+       "flex_deg": -6.3279,
+       "abd_deg": -0.8126
+      },
+      "upperarm_r": {
+       "swing_total_deg": 58.895,
+       "twist_deg": -74.6587,
+       "flex_deg": 16.5089,
+       "abd_deg": 56.5338
+      },
+      "forearm_r": {
+       "swing_total_deg": 96.858,
+       "twist_deg": 20.0232,
+       "flex_deg": 96.858,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0644
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4436
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -20.0232
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.0116
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pose": "press_top",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 7.301,
+       "twist_deg": 1.5766,
+       "flex_deg": 7.2735,
+       "abd_deg": -0.1964
+      },
+      "scapula_l": {
+       "swing_total_deg": 26.805,
+       "twist_deg": 13.9212,
+       "flex_deg": -9.3821,
+       "abd_deg": -5.8225
+      },
+      "upperarm_l": {
+       "swing_total_deg": 45.5485,
+       "twist_deg": 45.0,
+       "flex_deg": 0.0,
+       "abd_deg": 45.5485
+      },
+      "forearm_l": {
+       "swing_total_deg": 8.4493,
+       "twist_deg": -2.6257,
+       "flex_deg": 8.4493,
+       "abd_deg": 0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.626
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": -0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5202
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 2.6257
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 1.3129
+      },
+      "clavicle_r": {
+       "swing_total_deg": 7.301,
+       "twist_deg": -1.5766,
+       "flex_deg": 7.2735,
+       "abd_deg": -0.1964
+      },
+      "scapula_r": {
+       "swing_total_deg": 26.805,
+       "twist_deg": -13.9212,
+       "flex_deg": -9.3821,
+       "abd_deg": -5.8225
+      },
+      "upperarm_r": {
+       "swing_total_deg": 45.5485,
+       "twist_deg": -45.0,
+       "flex_deg": 0.0,
+       "abd_deg": 45.5485
+      },
+      "forearm_r": {
+       "swing_total_deg": 8.4493,
+       "twist_deg": 2.6257,
+       "flex_deg": 8.4493,
+       "abd_deg": -0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5202
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -2.6257
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -1.3129
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 14.602,
+       "twist_deg": 3.1533,
+       "flex_deg": 14.547,
+       "abd_deg": -0.3928
+      },
+      "scapula_l": {
+       "swing_total_deg": 53.61,
+       "twist_deg": 27.8424,
+       "flex_deg": -18.7643,
+       "abd_deg": -11.645
+      },
+      "upperarm_l": {
+       "swing_total_deg": 91.097,
+       "twist_deg": 90.0,
+       "flex_deg": 0.0001,
+       "abd_deg": 91.097
+      },
+      "forearm_l": {
+       "swing_total_deg": 16.8986,
+       "twist_deg": -5.2515,
+       "flex_deg": 16.8986,
+       "abd_deg": 0.0001
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": -0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0001,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7691,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.704,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 5.2515
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 2.6257
+      },
+      "clavicle_r": {
+       "swing_total_deg": 14.602,
+       "twist_deg": -3.1533,
+       "flex_deg": 14.547,
+       "abd_deg": -0.3928
+      },
+      "scapula_r": {
+       "swing_total_deg": 53.61,
+       "twist_deg": -27.8424,
+       "flex_deg": -18.7643,
+       "abd_deg": -11.645
+      },
+      "upperarm_r": {
+       "swing_total_deg": 91.097,
+       "twist_deg": -90.0,
+       "flex_deg": 0.0001,
+       "abd_deg": 91.097
+      },
+      "forearm_r": {
+       "swing_total_deg": 16.8987,
+       "twist_deg": 5.2514,
+       "flex_deg": 16.8987,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 32.8519,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0001,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7691,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0001,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1004
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -5.2514
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -2.6257
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pose": "press_top_rhythm",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 9.1256,
+       "twist_deg": 1.9768,
+       "flex_deg": 9.0882,
+       "abd_deg": -0.3078
+      },
+      "scapula_l": {
+       "swing_total_deg": 33.3041,
+       "twist_deg": 18.2305,
+       "flex_deg": -10.4201,
+       "abd_deg": -9.4068
+      },
+      "upperarm_l": {
+       "swing_total_deg": 36.1901,
+       "twist_deg": 45.0,
+       "flex_deg": -0.0,
+       "abd_deg": 36.1901
+      },
+      "forearm_l": {
+       "swing_total_deg": 8.4493,
+       "twist_deg": -2.6257,
+       "flex_deg": 8.4493,
+       "abd_deg": -0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": -0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 2.6257
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 1.3129
+      },
+      "clavicle_r": {
+       "swing_total_deg": 9.1256,
+       "twist_deg": -1.9768,
+       "flex_deg": 9.0882,
+       "abd_deg": -0.3078
+      },
+      "scapula_r": {
+       "swing_total_deg": 33.3041,
+       "twist_deg": -18.2305,
+       "flex_deg": -10.4201,
+       "abd_deg": -9.4068
+      },
+      "upperarm_r": {
+       "swing_total_deg": 36.1901,
+       "twist_deg": -45.0,
+       "flex_deg": -0.0,
+       "abd_deg": 36.1901
+      },
+      "forearm_r": {
+       "swing_total_deg": 8.4493,
+       "twist_deg": 2.6257,
+       "flex_deg": 8.4493,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.626
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5202
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -2.6257
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -1.3129
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 18.2511,
+       "twist_deg": 3.9537,
+       "flex_deg": 18.1764,
+       "abd_deg": -0.6156
+      },
+      "scapula_l": {
+       "swing_total_deg": 66.6082,
+       "twist_deg": 36.461,
+       "flex_deg": -20.8402,
+       "abd_deg": -18.8136
+      },
+      "upperarm_l": {
+       "swing_total_deg": 72.3803,
+       "twist_deg": 90.0,
+       "flex_deg": -0.0,
+       "abd_deg": 72.3803
+      },
+      "forearm_l": {
+       "swing_total_deg": 16.8986,
+       "twist_deg": -5.2514,
+       "flex_deg": 16.8986,
+       "abd_deg": -0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": -0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0001,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.704,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7674,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1004
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 5.2514
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 2.6257
+      },
+      "clavicle_r": {
+       "swing_total_deg": 18.2511,
+       "twist_deg": -3.9537,
+       "flex_deg": 18.1764,
+       "abd_deg": -0.6156
+      },
+      "scapula_r": {
+       "swing_total_deg": 66.6082,
+       "twist_deg": -36.4609,
+       "flex_deg": -20.8402,
+       "abd_deg": -18.8136
+      },
+      "upperarm_r": {
+       "swing_total_deg": 72.3802,
+       "twist_deg": -90.0,
+       "flex_deg": -0.0,
+       "abd_deg": 72.3803
+      },
+      "forearm_r": {
+       "swing_total_deg": 16.8987,
+       "twist_deg": 5.2514,
+       "flex_deg": 16.8987,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 32.8519,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6245,
+       "abd_deg": 8.0759
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7691,
+       "abd_deg": 5.034
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.704,
+       "abd_deg": 6.4149
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -5.2514
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -2.6257
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pose": "pullup_hang",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 6.8527,
+       "twist_deg": 1.4788,
+       "flex_deg": 6.8274,
+       "abd_deg": -0.1729
+      },
+      "scapula_l": {
+       "swing_total_deg": 24.3412,
+       "twist_deg": 12.4399,
+       "flex_deg": -8.8197,
+       "abd_deg": -4.7342
+      },
+      "upperarm_l": {
+       "swing_total_deg": 43.714,
+       "twist_deg": 31.4431,
+       "flex_deg": -0.0,
+       "abd_deg": 43.714
+      },
+      "forearm_l": {
+       "swing_total_deg": 2.4689,
+       "twist_deg": 10.9313,
+       "flex_deg": 2.1975,
+       "abd_deg": 1.1252
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.0379
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.9313
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -5.4656
+      },
+      "clavicle_r": {
+       "swing_total_deg": 6.8527,
+       "twist_deg": -1.4788,
+       "flex_deg": 6.8274,
+       "abd_deg": -0.1729
+      },
+      "scapula_r": {
+       "swing_total_deg": 24.3412,
+       "twist_deg": -12.4399,
+       "flex_deg": -8.8197,
+       "abd_deg": -4.7342
+      },
+      "upperarm_r": {
+       "swing_total_deg": 43.714,
+       "twist_deg": -31.4431,
+       "flex_deg": -0.0,
+       "abd_deg": 43.714
+      },
+      "forearm_r": {
+       "swing_total_deg": 2.4689,
+       "twist_deg": -10.9313,
+       "flex_deg": 2.1975,
+       "abd_deg": 1.1252
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": -0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.0379
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0271
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.9313
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 5.4656
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 13.7055,
+       "twist_deg": 2.9577,
+       "flex_deg": 13.6549,
+       "abd_deg": -0.3458
+      },
+      "scapula_l": {
+       "swing_total_deg": 48.6824,
+       "twist_deg": 24.8798,
+       "flex_deg": -17.6393,
+       "abd_deg": -9.4683
+      },
+      "upperarm_l": {
+       "swing_total_deg": 87.4281,
+       "twist_deg": 62.8862,
+       "flex_deg": -0.0,
+       "abd_deg": 87.4281
+      },
+      "forearm_l": {
+       "swing_total_deg": 4.9377,
+       "twist_deg": 21.8625,
+       "flex_deg": 4.3951,
+       "abd_deg": 2.2504
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6306,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -21.8625
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.9313
+      },
+      "clavicle_r": {
+       "swing_total_deg": 13.7055,
+       "twist_deg": -2.9577,
+       "flex_deg": 13.6549,
+       "abd_deg": -0.3458
+      },
+      "scapula_r": {
+       "swing_total_deg": 48.6825,
+       "twist_deg": -24.8798,
+       "flex_deg": -17.6393,
+       "abd_deg": -9.4683
+      },
+      "upperarm_r": {
+       "swing_total_deg": 87.428,
+       "twist_deg": -62.8861,
+       "flex_deg": 0.0,
+       "abd_deg": 87.428
+      },
+      "forearm_r": {
+       "swing_total_deg": 4.9377,
+       "twist_deg": -21.8625,
+       "flex_deg": 4.395,
+       "abd_deg": 2.2504
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": -0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": -0.0,
+       "flex_deg": 32.8519,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7654,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1004
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 21.8626
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.9313
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pose": "pullup_hang_rhythm",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 8.5654,
+       "twist_deg": 1.8536,
+       "flex_deg": 8.5312,
+       "abd_deg": -0.2709
+      },
+      "scapula_l": {
+       "swing_total_deg": 30.2823,
+       "twist_deg": 16.1444,
+       "flex_deg": -10.0261,
+       "abd_deg": -7.6024
+      },
+      "upperarm_l": {
+       "swing_total_deg": 35.171,
+       "twist_deg": 31.4431,
+       "flex_deg": 0.0,
+       "abd_deg": 35.171
+      },
+      "forearm_l": {
+       "swing_total_deg": 2.4689,
+       "twist_deg": 10.9313,
+       "flex_deg": 2.1975,
+       "abd_deg": 1.1252
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.0379
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0272
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.9313
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -5.4656
+      },
+      "clavicle_r": {
+       "swing_total_deg": 8.5654,
+       "twist_deg": -1.8536,
+       "flex_deg": 8.5312,
+       "abd_deg": -0.2709
+      },
+      "scapula_r": {
+       "swing_total_deg": 30.2823,
+       "twist_deg": -16.1444,
+       "flex_deg": -10.0261,
+       "abd_deg": -7.6024
+      },
+      "upperarm_r": {
+       "swing_total_deg": 35.171,
+       "twist_deg": -31.4431,
+       "flex_deg": -0.0,
+       "abd_deg": 35.171
+      },
+      "forearm_r": {
+       "swing_total_deg": 2.4689,
+       "twist_deg": -10.9312,
+       "flex_deg": 2.1975,
+       "abd_deg": 1.1252
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": -0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.0379
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0271
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2074
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0503
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.9312
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 5.4656
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 17.1308,
+       "twist_deg": 3.7071,
+       "flex_deg": 17.0625,
+       "abd_deg": -0.5417
+      },
+      "scapula_l": {
+       "swing_total_deg": 60.5646,
+       "twist_deg": 32.2888,
+       "flex_deg": -20.0523,
+       "abd_deg": -15.2047
+      },
+      "upperarm_l": {
+       "swing_total_deg": 70.342,
+       "twist_deg": 62.8862,
+       "flex_deg": 0.0,
+       "abd_deg": 70.342
+      },
+      "forearm_l": {
+       "swing_total_deg": 4.9377,
+       "twist_deg": 21.8625,
+       "flex_deg": 4.3951,
+       "abd_deg": 2.2504
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0,
+       "flex_deg": 32.8519,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7654,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0001,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7674,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4435
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -21.8625
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -10.9313
+      },
+      "clavicle_r": {
+       "swing_total_deg": 17.1308,
+       "twist_deg": -3.7071,
+       "flex_deg": 17.0625,
+       "abd_deg": -0.5418
+      },
+      "scapula_r": {
+       "swing_total_deg": 60.5645,
+       "twist_deg": -32.2888,
+       "flex_deg": -20.0523,
+       "abd_deg": -15.2047
+      },
+      "upperarm_r": {
+       "swing_total_deg": 70.342,
+       "twist_deg": -62.8861,
+       "flex_deg": -0.0,
+       "abd_deg": 70.342
+      },
+      "forearm_r": {
+       "swing_total_deg": 4.9377,
+       "twist_deg": -21.8625,
+       "flex_deg": 4.3951,
+       "abd_deg": 2.2504
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": -0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": -0.0,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.424
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.0759
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0474
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7041,
+       "abd_deg": 6.4149
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4436
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 21.8625
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 10.9313
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pose": "pullup_top",
+   "samples": [
+    {
+     "fraction": 0.5,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 2.7482,
+       "twist_deg": 0.5906,
+       "flex_deg": 2.7395,
+       "abd_deg": -0.0277
+      },
+      "scapula_l": {
+       "swing_total_deg": 4.734,
+       "twist_deg": 2.26,
+       "flex_deg": -2.0831,
+       "abd_deg": -0.1685
+      },
+      "upperarm_l": {
+       "swing_total_deg": 23.3245,
+       "twist_deg": 40.0919,
+       "flex_deg": 4.9429,
+       "abd_deg": 22.7948
+      },
+      "forearm_l": {
+       "swing_total_deg": 54.3205,
+       "twist_deg": -7.7963,
+       "flex_deg": 54.3205,
+       "abd_deg": -0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 14.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 15.0,
+       "twist_deg": -0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 19.0,
+       "twist_deg": -0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0271
+      },
+      "middle_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2074
+      },
+      "ring_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0322
+      },
+      "ring_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5201
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0502
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 7.7963
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 3.8982
+      },
+      "clavicle_r": {
+       "swing_total_deg": 2.7482,
+       "twist_deg": -0.5906,
+       "flex_deg": 2.7395,
+       "abd_deg": -0.0277
+      },
+      "scapula_r": {
+       "swing_total_deg": 4.734,
+       "twist_deg": -2.26,
+       "flex_deg": -2.0831,
+       "abd_deg": -0.1685
+      },
+      "upperarm_r": {
+       "swing_total_deg": 23.3245,
+       "twist_deg": -40.0919,
+       "flex_deg": 4.9429,
+       "abd_deg": 22.7948
+      },
+      "forearm_r": {
+       "swing_total_deg": 54.3205,
+       "twist_deg": 7.7963,
+       "flex_deg": 54.3205,
+       "abd_deg": 0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 14.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.1033,
+       "abd_deg": -5.6259
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 15.0,
+       "twist_deg": 0.0,
+       "flex_deg": 12.9678,
+       "abd_deg": -6.0278
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 19.0,
+       "twist_deg": 0.0,
+       "flex_deg": 16.4259,
+       "abd_deg": -7.6352
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8507,
+       "abd_deg": 3.212
+      },
+      "index_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8123,
+       "abd_deg": 4.038
+      },
+      "index_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3827,
+       "abd_deg": 2.5237
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": 0.0,
+       "flex_deg": 34.8531,
+       "abd_deg": 3.2034
+      },
+      "middle_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": 0.0,
+       "flex_deg": 43.8153,
+       "abd_deg": 4.0271
+      },
+      "middle_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": 0.0,
+       "flex_deg": 27.3846,
+       "abd_deg": 2.517
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.852,
+       "abd_deg": 3.2075
+      },
+      "ring_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.814,
+       "abd_deg": 4.0323
+      },
+      "ring_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3837,
+       "abd_deg": 2.5202
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 35.0,
+       "twist_deg": -0.0,
+       "flex_deg": 34.8476,
+       "abd_deg": 3.2218
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 44.0,
+       "twist_deg": -0.0,
+       "flex_deg": 43.8084,
+       "abd_deg": 4.0503
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 27.5,
+       "twist_deg": -0.0,
+       "flex_deg": 27.3803,
+       "abd_deg": 2.5314
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -7.7963
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -3.8982
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    },
+    {
+     "fraction": 1.0,
+     "joints": {
+      "pelvis": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_01": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_02": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "spine_03": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "neck": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "head": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "clavicle_l": {
+       "swing_total_deg": 5.4964,
+       "twist_deg": 1.1813,
+       "flex_deg": 5.479,
+       "abd_deg": -0.0554
+      },
+      "scapula_l": {
+       "swing_total_deg": 9.468,
+       "twist_deg": 4.5199,
+       "flex_deg": -4.1662,
+       "abd_deg": -0.3371
+      },
+      "upperarm_l": {
+       "swing_total_deg": 46.6491,
+       "twist_deg": 80.1838,
+       "flex_deg": 9.8858,
+       "abd_deg": 45.5896
+      },
+      "forearm_l": {
+       "swing_total_deg": 108.6411,
+       "twist_deg": -15.5926,
+       "flex_deg": 108.6411,
+       "abd_deg": -0.0
+      },
+      "hand_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_l": {
+       "swing_total_deg": 28.0,
+       "twist_deg": -0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_l": {
+       "swing_total_deg": 30.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_l": {
+       "swing_total_deg": 38.0,
+       "twist_deg": -0.0,
+       "flex_deg": 32.8519,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.4241
+      },
+      "index_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.6245,
+       "abd_deg": 8.076
+      },
+      "index_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.704,
+       "abd_deg": 6.4149
+      },
+      "ring_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0644
+      },
+      "ring_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_l": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4436
+      },
+      "pinky_02_l": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_l": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 15.5926
+      },
+      "forearm_tw1_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 7.7963
+      },
+      "clavicle_r": {
+       "swing_total_deg": 5.4964,
+       "twist_deg": -1.1813,
+       "flex_deg": 5.479,
+       "abd_deg": -0.0554
+      },
+      "scapula_r": {
+       "swing_total_deg": 9.468,
+       "twist_deg": -4.5199,
+       "flex_deg": -4.1662,
+       "abd_deg": -0.3371
+      },
+      "upperarm_r": {
+       "swing_total_deg": 46.6491,
+       "twist_deg": -80.1838,
+       "flex_deg": 9.8858,
+       "abd_deg": 45.5896
+      },
+      "forearm_r": {
+       "swing_total_deg": 108.6411,
+       "twist_deg": 15.5926,
+       "flex_deg": 108.6411,
+       "abd_deg": -0.0
+      },
+      "hand_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thumb_01_r": {
+       "swing_total_deg": 28.0,
+       "twist_deg": 0.0,
+       "flex_deg": 24.2066,
+       "abd_deg": -11.2519
+      },
+      "thumb_02_r": {
+       "swing_total_deg": 30.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 25.9357,
+       "abd_deg": -12.0556
+      },
+      "thumb_03_r": {
+       "swing_total_deg": 38.0,
+       "twist_deg": 0.0,
+       "flex_deg": 32.8518,
+       "abd_deg": -15.2704
+      },
+      "metacarpal_index_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "index_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.7013,
+       "abd_deg": 6.4241
+      },
+      "index_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 87.6246,
+       "abd_deg": 8.076
+      },
+      "index_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7653,
+       "abd_deg": 5.0475
+      },
+      "metacarpal_middle_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "middle_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 69.7062,
+       "abd_deg": 6.4068
+      },
+      "middle_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": 0.0001,
+       "flex_deg": 87.6307,
+       "abd_deg": 8.0543
+      },
+      "middle_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": 0.0,
+       "flex_deg": 54.7692,
+       "abd_deg": 5.0339
+      },
+      "metacarpal_ring_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "ring_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 69.704,
+       "abd_deg": 6.415
+      },
+      "ring_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0001,
+       "flex_deg": 87.628,
+       "abd_deg": 8.0645
+      },
+      "ring_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7675,
+       "abd_deg": 5.0403
+      },
+      "metacarpal_pinky_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "pinky_01_r": {
+       "swing_total_deg": 70.0,
+       "twist_deg": -0.0,
+       "flex_deg": 69.6952,
+       "abd_deg": 6.4436
+      },
+      "pinky_02_r": {
+       "swing_total_deg": 88.0,
+       "twist_deg": -0.0,
+       "flex_deg": 87.6169,
+       "abd_deg": 8.1005
+      },
+      "pinky_03_r": {
+       "swing_total_deg": 55.0,
+       "twist_deg": -0.0,
+       "flex_deg": 54.7605,
+       "abd_deg": 5.0628
+      },
+      "forearm_tw0_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -15.5926
+      },
+      "forearm_tw1_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": -7.7963
+      },
+      "thigh_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_l": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "thigh_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "shin_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "foot_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      },
+      "toe_r": {
+       "swing_total_deg": 0.0,
+       "twist_deg": 0.0,
+       "flex_deg": 0.0,
+       "abd_deg": 0.0
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "path_flags": []
+}

@@ -595,14 +595,49 @@
           "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r90_arc.json"
         }
       ]
+    },
+    "r91": {
+      "candidate_sha256": "ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0",
+      "chosen_parent": "r90",
+      "classification": "TRADEOFF_OR_REGRESSION",
+      "reason": "Worker execution lineage only; not owner acceptance, not a baseline promotion, not production approval, not a Phase 3 exit. r91 = r90 + a declared, bounded wrist-weight blend: the 87 left-owned vertices (+ exact mirror) within 3 cm of the pair-vertex centroid at the ulnar forearm-hand junction are blended 20 percent from their r90 weights back toward r47's pre-wrist-band weights (top-4 renormalised). Declared before the edit with the six exact extra push-up intersection pairs (left polygons 9400/9474, 9404/9477, 9408/9480 and their mirrors), the hand minimum (P3B1 0.119, development gate 0.15, r90 0.240) and the stop condition. Measured: the hand-minimum edges and the six pairs sit within 1.5-2.6 cm of each other, so the trade-off is real and monotonic: blend 0.10 164 pairs / hand min 0.233; 0.15 to 0.70 162 pairs / hand min 0.230 to 0.153; 0.75 hand min 0.146 (fails the gate); full reversion 158 pairs / 0.119 (the original failure). Lambda 0.20 (inside the plateau): 162 pairs (rise 4 within the comparator tolerance 5), hand min 0.226. Two of the six extra pairs (one per side) are removed; the other four are the price of the hand-minimum fix. Full 15-pose evidence: 0 development failures; strict regressions versus P3B1 2 (r90 3); versus r90 unchanged (0 regressions, 0 improvements); applied weights match the declared solution to 3e-8 and only the declared patch changed. Remaining 2, both shoulder trade-off items inside every development gate and the production-target limits (smallest gate margin 0.519): press_top arm region minimum 0.745 vs 0.78 and pullup_top torso region minimum 0.669 vs 0.693. NOT eligible for Phase 4: 2 strict P3B1 regressions remain unresolved.",
+      "comparison_evidence": [
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_evidence_manifest.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_P3B1.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/full_r91_comparison_vs_r90.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r91/p3b1_regression_attribution.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r91/phase3_subphase_evidence.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r91/corrective_audit.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r91/corrective_audit_flexion.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r91/pushup_pair_list.json"
+        },
+        {
+          "path": "ORIGINAL_V1_WORK/candidates/repair_checks/shoulder_corrective_20261002/r91_arc.json"
+        }
+      ]
     }
   },
   "active_local_repair": {
-    "candidate_revision": "r90",
-    "candidate_sha256": "5c408a6d28f23e75ebf024cc9def753c9556f6cf3b7b99b82c9092dee20f4c8f",
+    "candidate_revision": "r91",
+    "candidate_sha256": "ea392845e4d238cd556f86af1587b74ea0f8628abd3d7945c925dbf9b4525ab0",
     "action": "RUN local axilla repair",
-    "reason": "r90 is development-clear (0 failures) with 3 strict P3B1 regressions (r87 4): press_top arm and pullup_top torso minimum edge ratios sit on a measured trade-off frontier against the pull-up arm minimum (r88), and the push-up self-intersection item is a 3D wrist-band side effect; next is an owner decision on these three or a declared 3D wrist-weight experiment",
-    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r90",
+    "reason": "r91 is development-clear (0 failures) with 2 strict P3B1 regressions: press_top arm and pullup_top torso minimum edge ratios, a measured trade-off frontier against the pull-up arm minimum; next is the owner decision informed by the read-only residual assessment in the handoff",
+    "command": "RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat r91",
     "work_package": "docs/work_packages/PHASE_3A_AXILLA_PIT_LOCAL_REPAIR.md",
     "safe_parallel_task": "Read-only review/comparator analysis is safe; do not reopen rev2c rig, P3a poses, thresholds or pinned baselines.",
     "production_approved": false

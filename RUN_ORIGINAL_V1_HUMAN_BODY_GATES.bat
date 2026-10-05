@@ -29,6 +29,7 @@ call :run scripts\validate_original_v1_human_movement_sweep_execution_spec.py ||
 call :run scripts\validate_original_v1_human_movement_sweep_camera_plan.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_visual_renderer_source.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
+call :run scripts\validate_original_v1_operator_runner_links.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_acceptance_template.py || exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling.py || exit /b 1
@@ -92,6 +93,8 @@ call :run scripts\test_original_v1_workspace_requires_diagnostic.py || exit /b 1
 call :run scripts\test_create_original_v1_repair_workspace.py || exit /b 1
 call :run scripts\test_finalize_original_v1_repair_workspace.py || exit /b 1
 call :run scripts\test_build_original_v1_stage1_wave_work_package.py || exit /b 1
+call :run scripts\test_build_original_v1_human_movement_sweep_pipeline_plan.py || exit /b 1
+call :run scripts\test_validate_original_v1_operator_runner_links.py || exit /b 1
 
 echo.
 echo PASS: human-body contract, evidence, movement and coupling gates are internally consistent.

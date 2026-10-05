@@ -14,7 +14,7 @@ from pathlib import Path
 
 import bpy
 import numpy as np
-from mathutils import Matrix,Vector
+from mathutils import Matrix,Quaternion,Vector
 
 ARGS=sys.argv[sys.argv.index("--")+1:] if "--" in sys.argv else []
 if not ARGS:
@@ -118,7 +118,7 @@ def active_joint_state():
     for p in rig.pose.bones:
         q=p.matrix_basis.to_quaternion()
         t=p.matrix_basis.to_translation()
-        if p.name=="root" or q.rotation_difference(type(q)((1,0,0,0))).angle>1e-7 or t.length>1e-9:
+        if p.name=="root" or q.rotation_difference(Quaternion((1,0,0,0))).angle>1e-7 or t.length>1e-9:
             rows[p.name]={
               "quat_wxyz":[round(float(q.w),8),round(float(q.x),8),round(float(q.y),8),round(float(q.z),8)],
               "translation":[round(float(x),8) for x in t],

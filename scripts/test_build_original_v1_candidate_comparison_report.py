@@ -107,4 +107,26 @@ class CandidateComparisonTests(unittest.TestCase):
             self.assertIn("repair_execution_package:RP-PEC-AX-002",report["failed_checks"])
             self.assertFalse(report["engineering_clear_eligible"])
 
+    def test_coupling_scope_cannot_omit_connected_body_regions(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            manifest["scope"]["coupling_system_ids"]=["CP-PEC-AX-002"]
+            report=mod.build(manifest,root)
+            self.assertIn("scope_regions_cover_coupling:CP-PEC-AX-002",report["failed_checks"])
+
+    def test_visual_not_applicable_is_invalid_for_scoped_region(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            manifest["scope"]["region_ids"]=["chest_anterior_axilla"]
+            report=mod.build(manifest,root)
+            self.assertIn("visual_engineering_review_status",report["failed_checks"])
+
+    def test_contact_not_applicable_is_invalid_for_contact_region(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            manifest["scope"]["region_ids"]=["forearm_wrist"]
+            report=mod.build(manifest,root)
+            self.assertIn("contact_status",report["failed_checks"])
+
+
 if __name__=="__main__": unittest.main()

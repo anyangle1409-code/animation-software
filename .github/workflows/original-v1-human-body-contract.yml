@@ -15,6 +15,11 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
+      - "scripts/*sweep_review_workspace*"
+      - "scripts/*sweep_contact_review*"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
@@ -83,6 +88,11 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
+      - "scripts/*sweep_review_workspace*"
+      - "scripts/*sweep_contact_review*"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
@@ -288,3 +298,9 @@ jobs:
         run: python scripts/test_build_original_v1_stage1_laptop_pickup_plan.py
       - name: Run Stage 1 post-edit continuation-plan tests
         run: python scripts/test_build_original_v1_stage1_post_edit_continuation_plan.py
+
+      - name: Run sweep contact-review scaffold tests
+        run: python scripts/test_build_original_v1_human_movement_sweep_contact_review.py
+
+      - name: Run sweep review-workspace tests
+        run: python scripts/test_create_original_v1_human_movement_sweep_review_workspace.py

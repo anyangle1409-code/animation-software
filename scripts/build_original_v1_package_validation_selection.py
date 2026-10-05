@@ -41,9 +41,12 @@ def build(package_ids):
           "pose_fixtures":matched,
           "deterministic_sweep":movement if via_sweep else None,
           "mechanisms":mechanisms,
-          "covered":bool(mechanisms)
+          "validation_definition_present":bool(mechanisms),
+          "immediately_runnable_via_frozen_pose_harness":bool(matched),
+          "requires_generic_sweep_runner":via_sweep and not bool(matched)
         })
-    uncovered=[x["movement_family"] for x in coverage if not x["covered"]]
+    uncovered=[x["movement_family"] for x in coverage if not x["validation_definition_present"]]
+    sweep_only=[x["movement_family"] for x in coverage if x["requires_generic_sweep_runner"]]
     return {
       "schema_version":1,
       "status":"PACKAGE_VALIDATION_SELECTION",
@@ -55,8 +58,10 @@ def build(package_ids):
       "deterministic_sweep_names":[x["movement_family"] for x in coverage if x["deterministic_sweep"]],
       "coverage":coverage,
       "uncovered_proof_movements":uncovered,
-      "coverage_complete":not uncovered,
-      "rule":"Every repair-package proof movement must be evidenced by an existing deterministic pose fixture, a deterministic movement sweep, or both. Neutral is always included as a control pose."
+      "validation_definition_complete":not uncovered,
+      "sweep_only_movements_requiring_generic_runner":sweep_only,
+      "fully_runnable_via_frozen_pose_harness":not sweep_only,
+      "rule":"Every repair-package proof movement must have an existing frozen pose fixture, a deterministic movement-sweep definition, or both. A sweep definition is planning authority only until a separate generic Blender sweep runner executes it; the frozen P3a pose harness must not be modified to manufacture coverage. Neutral is always included as a control pose."
     }
 
 def main():

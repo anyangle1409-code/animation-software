@@ -192,6 +192,11 @@
       "generator": "scripts/create_original_v1_post_edit_evidence_bundle.py",
       "runner": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat",
       "note": "After a repaired Blend has a final SHA, initializes candidate issue ledger, weights-only/coupling/movement/visual records, immutable declaration copies, execution drafts and unified comparison manifest in one candidate folder."
+    },
+    "ORIGINAL_V1_STAGE1_PROGRESS.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_stage1_progress.py",
+      "note": "Fail-closed live Stage 1 progress ledger across 8 dependency waves and 14 repair packages; selects the next operational action without inferring anatomical clearance."
     }
   },
   "categories": {

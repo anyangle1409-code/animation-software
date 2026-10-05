@@ -43,6 +43,14 @@ on:
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
       - "scripts/*pre_repair_diagnostic*"
+      - "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat"
+      - "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat"
+      - "scripts/*post_repair*"
+      - "scripts/*repair_workspace*"
+      - "scripts/*workspace_requires*"
+      - "scripts/*package_validation*"
       - ".github/workflows/original-v1-human-body-contract.yml"
   pull_request:
     paths:
@@ -86,6 +94,14 @@ on:
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
       - "scripts/*pre_repair_diagnostic*"
+      - "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat"
+      - "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat"
+      - "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat"
+      - "scripts/*post_repair*"
+      - "scripts/*repair_workspace*"
+      - "scripts/*workspace_requires*"
+      - "scripts/*package_validation*"
       - ".github/workflows/original-v1-human-body-contract.yml"
 
 permissions:
@@ -182,3 +198,14 @@ jobs:
         run: python scripts/test_create_original_v1_post_edit_evidence_bundle.py
       - name: Run repair regression planner tests
         run: python scripts/test_build_original_v1_repair_regression_plan.py
+
+      - name: Run package validation selector tests
+        run: python scripts/test_build_original_v1_package_validation_selection.py
+      - name: Run package-aware pre-repair bundle tests
+        run: python scripts/test_build_original_v1_pre_repair_diagnostic_bundle.py
+      - name: Run package-specific diagnostic selector tests
+        run: python scripts/test_original_v1_workspace_requires_diagnostic.py
+      - name: Run pre-edit repair workspace tests
+        run: python scripts/test_create_original_v1_repair_workspace.py
+      - name: Run post-edit repair workspace finalizer tests
+        run: python scripts/test_finalize_original_v1_repair_workspace.py

@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "status": "DEFORMATION_FAILURE_SIGNATURE_GUIDE",
+  "production_approved": false,
+  "rule": "Failure signatures prioritize investigation; they do not prove cause. Confirm the earliest failing layer with ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json before editing.",
+  "signatures": [
+    {
+      "id": "FS-MEMBRANE",
+      "symptoms": [
+        "planar membrane",
+        "cloth-like sheet",
+        "wing",
+        "cape-like tissue"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "questions": [
+        "Is too broad a surface owned by one moving bone?",
+        "Does the surface already fail with correctives disabled?",
+        "Does topology bridge attachment sides with insufficient support?"
+      ],
+      "forbidden_shortcut": "add a corrective that merely pushes the membrane inward"
+    },
+    {
+      "id": "FS-TRENCH-PIT",
+      "symptoms": [
+        "deep trench",
+        "hard pit",
+        "artificial hollow",
+        "knife-edge valley"
+      ],
+      "priority_layers": [
+        "corrective_activation",
+        "weights_only_ownership",
+        "topology_support"
+      ],
+      "questions": [
+        "Does the trench appear only when a corrective activates?",
+        "Is there an abrupt weight ownership seam?",
+        "Does edge flow support smooth compression?"
+      ],
+      "forbidden_shortcut": "fill the pit with an unrelated bulge"
+    },
+    {
+      "id": "FS-SPHERE-BALLOON",
+      "symptoms": [
+        "rigid spherical joint",
+        "balloon cap",
+        "central volume balloon"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "base_skinning_mode",
+        "corrective_activation"
+      ],
+      "questions": [
+        "Are multiple attachment sides represented?",
+        "Is Preserve Volume/DQ amplifying bulge?",
+        "Is one corrective uniformly inflating the region?"
+      ],
+      "forbidden_shortcut": "scale the entire region to look better at one endpoint"
+    },
+    {
+      "id": "FS-NECKING",
+      "symptoms": [
+        "abrupt limb necking",
+        "pinched joint transition",
+        "hourglass seam"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "topology_support",
+        "base_skinning_mode"
+      ],
+      "questions": [
+        "Do proximal/distal influences cross smoothly?",
+        "Does the topology have enough rings/support?",
+        "Does skinning formulation collapse blended rotations?"
+      ],
+      "forbidden_shortcut": "blur weights outside the declared repair zone"
+    },
+    {
+      "id": "FS-CORKSCREW",
+      "symptoms": [
+        "skin corkscrew",
+        "twisted sleeve",
+        "spiral crease"
+      ],
+      "priority_layers": [
+        "twist_distribution",
+        "weights_only_ownership",
+        "base_skinning_mode"
+      ],
+      "questions": [
+        "Are twist helper bones distributing rotation?",
+        "Is one segment carrying too much axial rotation?",
+        "Does mode change reduce/increase the artifact under controlled A/B?"
+      ],
+      "forbidden_shortcut": "counter-twist with a pose-name-specific corrective"
+    },
+    {
+      "id": "FS-RING-CREASE",
+      "symptoms": [
+        "fixed ring crease",
+        "hinge line",
+        "joint cylinder"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "questions": [
+        "Does the crease persist outside compression?",
+        "Are crease vertices tied too sharply to one bone?",
+        "Does topology force one circumferential fold?"
+      ],
+      "forbidden_shortcut": "bake a permanent crease into neutral geometry"
+    },
+    {
+      "id": "FS-VOLUME-TELEPORT",
+      "symptoms": [
+        "volume disappears then reappears",
+        "mass jumps sides",
+        "lateral collapse with central balloon"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "corrective_activation",
+        "base_skinning_mode"
+      ],
+      "questions": [
+        "Where does volume first diverge in dense samples?",
+        "Does weights-only already lose the attachment bridge?",
+        "Does corrective contribution move mass rather than refine it?"
+      ],
+      "forbidden_shortcut": "compensate one disappearing area by inflating another"
+    },
+    {
+      "id": "FS-POP",
+      "symptoms": [
+        "mid-motion pop",
+        "sudden shape change",
+        "corrective snap"
+      ],
+      "priority_layers": [
+        "corrective_driver",
+        "corrective_basis",
+        "evaluation_order"
+      ],
+      "questions": [
+        "Which dense sample has largest second difference?",
+        "Do shape-key values change continuously?",
+        "Does weights-only remain smooth?"
+      ],
+      "forbidden_shortcut": "add another endpoint key without fixing interpolation"
+    },
+    {
+      "id": "FS-RETURN-RESIDUAL",
+      "symptoms": [
+        "residual dent",
+        "persistent twist",
+        "crease remains after return",
+        "order-dependent surface"
+      ],
+      "priority_layers": [
+        "driver_state",
+        "evaluation_order",
+        "secondary_dynamics"
+      ],
+      "questions": [
+        "Do identical joint states produce identical evaluated surface outbound and return?",
+        "Is a driver accumulating state?",
+        "Is any dynamic layer failing to settle/reset?"
+      ],
+      "forbidden_shortcut": "reset the mesh manually only at neutral"
+    },
+    {
+      "id": "FS-FLOAT-PENETRATION",
+      "symptoms": [
+        "floating hand/foot",
+        "penetration used as grip",
+        "heel/toe contact inconsistency"
+      ],
+      "priority_layers": [
+        "contact_constraints",
+        "joint_kinematics",
+        "local_contact_response"
+      ],
+      "questions": [
+        "Is skeletal contact target correct?",
+        "Is load propagated through proximal chain?",
+        "Is local soft tissue response compensating for wrong contact?"
+      ],
+      "forbidden_shortcut": "move tissue through the object to make contact look stable"
+    },
+    {
+      "id": "FS-ASYMMETRY",
+      "symptoms": [
+        "left/right mismatch under mirrored input",
+        "one-sided fold or volume difference"
+      ],
+      "priority_layers": [
+        "weights_data",
+        "corrective_driver_data",
+        "pose_definition",
+        "topology_asymmetry"
+      ],
+      "questions": [
+        "Are rig transforms mirrored?",
+        "Are weights/topology intended to be symmetric?",
+        "Do corrective drivers/keys have matched data?"
+      ],
+      "forbidden_shortcut": "accept unexplained asymmetry because one side looks good"
+    },
+    {
+      "id": "FS-RIGID-SKIN",
+      "symptoms": [
+        "skin tracks bone too rigidly",
+        "scapula/femur visible as rigid shell movement",
+        "no soft-tissue sliding"
+      ],
+      "priority_layers": [
+        "weights_only_ownership",
+        "coupling_model",
+        "topology_support"
+      ],
+      "questions": [
+        "Does human evidence show skin sliding relative to bone?",
+        "Are bridge vertices blended across appropriate anchors?",
+        "Is surface deformation distributed spatially?"
+      ],
+      "forbidden_shortcut": "increase bone ownership because marker/bone motion appears numerically clean"
+    }
+  ],
+  "evidence_tools": {
+    "weights_only": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
+    "layer_decomposition": "RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat",
+    "continuity": "RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat",
+    "reversibility": "RUN_ORIGINAL_V1_MOTION_REVERSIBILITY_AUDIT.bat",
+    "base_skinning_ab": "RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat",
+    "coupling_weights": "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat",
+    "diagnosis": "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json"
+  }
+}

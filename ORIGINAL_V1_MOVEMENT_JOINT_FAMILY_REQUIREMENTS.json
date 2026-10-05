@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_MOVEMENT_JOINT_FAMILY_REQUIREMENTS",
+  "production_approved": false,
+  "movement_master": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+  "rule": "Candidate movement evidence must include moved production bones whose trigger-derived joint families cover every required_joint_family for the named movement. Optional families may move when anatomically justified, but cannot substitute for a missing required family.",
+  "joint_families": [
+    "head_cervical",
+    "trunk_pelvis",
+    "clavicle",
+    "scapula",
+    "humerus",
+    "elbow_forearm",
+    "wrist_hand",
+    "digits",
+    "hip_femur",
+    "knee_lower_leg",
+    "ankle_hindfoot",
+    "forefoot_toes"
+  ],
+  "movements": {
+    "neutral_shoulder_control": {
+      "required_joint_families": [],
+      "optional_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus"
+      ],
+      "evidence_role": "control_only"
+    },
+    "shoulder_flexion_elevation": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus"
+      ],
+      "optional_joint_families": [
+        "trunk_pelvis",
+        "elbow_forearm"
+      ],
+      "evidence_role": "active"
+    },
+    "shoulder_abduction_elevation": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus"
+      ],
+      "optional_joint_families": [
+        "trunk_pelvis",
+        "elbow_forearm"
+      ],
+      "evidence_role": "active"
+    },
+    "humeral_internal_external_rotation": {
+      "required_joint_families": [
+        "humerus"
+      ],
+      "optional_joint_families": [
+        "clavicle",
+        "scapula",
+        "elbow_forearm"
+      ],
+      "evidence_role": "active"
+    },
+    "vertical_push": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus",
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "wrist_hand",
+        "digits",
+        "trunk_pelvis"
+      ],
+      "evidence_role": "active"
+    },
+    "vertical_pull_hang": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus"
+      ],
+      "optional_joint_families": [
+        "elbow_forearm",
+        "wrist_hand",
+        "digits",
+        "trunk_pelvis"
+      ],
+      "evidence_role": "active"
+    },
+    "horizontal_push": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus",
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "wrist_hand",
+        "digits",
+        "trunk_pelvis",
+        "ankle_hindfoot",
+        "forefoot_toes"
+      ],
+      "evidence_role": "active"
+    },
+    "horizontal_pull": {
+      "required_joint_families": [
+        "clavicle",
+        "scapula",
+        "humerus",
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "wrist_hand",
+        "digits",
+        "trunk_pelvis"
+      ],
+      "evidence_role": "active"
+    },
+    "elbow_flexion_extension": {
+      "required_joint_families": [
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "humerus",
+        "wrist_hand",
+        "digits"
+      ],
+      "evidence_role": "active"
+    },
+    "forearm_pronation_supination": {
+      "required_joint_families": [
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "wrist_hand",
+        "digits",
+        "humerus"
+      ],
+      "evidence_role": "active"
+    },
+    "wrist_flexion_extension_loaded": {
+      "required_joint_families": [
+        "wrist_hand",
+        "elbow_forearm"
+      ],
+      "optional_joint_families": [
+        "digits",
+        "humerus"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "cylindrical_equipment_grip": {
+      "required_joint_families": [
+        "digits",
+        "wrist_hand"
+      ],
+      "optional_joint_families": [
+        "elbow_forearm"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "grip_release": {
+      "required_joint_families": [
+        "digits",
+        "wrist_hand"
+      ],
+      "optional_joint_families": [
+        "elbow_forearm"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "neutral_braced_trunk": {
+      "required_joint_families": [],
+      "optional_joint_families": [
+        "trunk_pelvis"
+      ],
+      "evidence_role": "control_only"
+    },
+    "trunk_flexion": {
+      "required_joint_families": [
+        "trunk_pelvis"
+      ],
+      "optional_joint_families": [
+        "head_cervical",
+        "hip_femur"
+      ],
+      "evidence_role": "active"
+    },
+    "trunk_extension": {
+      "required_joint_families": [
+        "trunk_pelvis"
+      ],
+      "optional_joint_families": [
+        "head_cervical",
+        "hip_femur"
+      ],
+      "evidence_role": "active"
+    },
+    "trunk_lateral_bend": {
+      "required_joint_families": [
+        "trunk_pelvis"
+      ],
+      "optional_joint_families": [
+        "head_cervical"
+      ],
+      "evidence_role": "active"
+    },
+    "trunk_axial_rotation": {
+      "required_joint_families": [
+        "trunk_pelvis"
+      ],
+      "optional_joint_families": [
+        "head_cervical",
+        "hip_femur"
+      ],
+      "evidence_role": "active"
+    },
+    "loaded_hip_hinge": {
+      "required_joint_families": [
+        "trunk_pelvis",
+        "hip_femur"
+      ],
+      "optional_joint_families": [
+        "knee_lower_leg",
+        "ankle_hindfoot",
+        "forefoot_toes",
+        "head_cervical"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "squat_deep_bilateral_flexion": {
+      "required_joint_families": [
+        "trunk_pelvis",
+        "hip_femur",
+        "knee_lower_leg",
+        "ankle_hindfoot"
+      ],
+      "optional_joint_families": [
+        "forefoot_toes",
+        "head_cervical"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "split_stance_lunge": {
+      "required_joint_families": [
+        "trunk_pelvis",
+        "hip_femur",
+        "knee_lower_leg",
+        "ankle_hindfoot"
+      ],
+      "optional_joint_families": [
+        "forefoot_toes",
+        "head_cervical"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "hip_flexion_extension": {
+      "required_joint_families": [
+        "hip_femur"
+      ],
+      "optional_joint_families": [
+        "trunk_pelvis",
+        "knee_lower_leg"
+      ],
+      "evidence_role": "active"
+    },
+    "hip_abduction_adduction": {
+      "required_joint_families": [
+        "hip_femur"
+      ],
+      "optional_joint_families": [
+        "trunk_pelvis",
+        "knee_lower_leg"
+      ],
+      "evidence_role": "active"
+    },
+    "knee_flexion_extension": {
+      "required_joint_families": [
+        "knee_lower_leg"
+      ],
+      "optional_joint_families": [
+        "hip_femur",
+        "ankle_hindfoot"
+      ],
+      "evidence_role": "active"
+    },
+    "ankle_dorsiflexion": {
+      "required_joint_families": [
+        "ankle_hindfoot"
+      ],
+      "optional_joint_families": [
+        "knee_lower_leg",
+        "forefoot_toes"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "ankle_plantarflexion": {
+      "required_joint_families": [
+        "ankle_hindfoot"
+      ],
+      "optional_joint_families": [
+        "knee_lower_leg",
+        "forefoot_toes"
+      ],
+      "evidence_role": "active_contact"
+    },
+    "loaded_foot_toe_contact": {
+      "required_joint_families": [
+        "ankle_hindfoot",
+        "forefoot_toes"
+      ],
+      "optional_joint_families": [
+        "knee_lower_leg",
+        "hip_femur"
+      ],
+      "evidence_role": "active_contact"
+    }
+  },
+  "rules": [
+    "Control-only movement families are not used to satisfy active repair-package movement proof.",
+    "Required joint families are minimum mechanical participation, not a claim that optional listed families must remain static.",
+    "A movement sample cannot COMPLETE if any required joint family is absent from trigger-derived moved-bone evidence.",
+    "Exercise identity is never used as a deformation driver; this map validates joint-family participation only.",
+    "This authority does not define universal human ROM; angle/range evidence remains in the human movement and sweep authorities."
+  ]
+}

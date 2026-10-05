@@ -6,17 +6,25 @@ contact measurements into the workspace. It pre-fills pointers in the generated
 review/acceptance records but NEVER sets engineering/owner PASS.
 """
 from __future__ import annotations
-import argparse,hashlib,json,os,shutil
+import argparse,hashlib,importlib.util,json,os,shutil
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 CONTACT_REQ=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json"
+RAW_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_report.py"
+CAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
+VISUAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_visual_capture.py"
+CONTACT_RAW_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_contact_raw.py"
 
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 def write(p,d): p.write_text(json.dumps(d,indent=2)+"\n",encoding="utf-8")
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def rel(p,base): return os.path.relpath(str(Path(p)),str(Path(base))).replace("\\","/")
 def stem(s): return s.lower().replace("-","_")
+def module(path,name):
+    sp=importlib.util.spec_from_file_location(name,path)
+    if sp is None or sp.loader is None: raise ValueError("unable to load "+name)
+    m=importlib.util.module_from_spec(sp); sp.loader.exec_module(m); return m
 
 def main():
     ap=argparse.ArgumentParser()
@@ -38,6 +46,8 @@ def main():
         raw_path=Path(a.raw_sweep_report)
         if not raw_path.is_file(): raise ValueError("raw sweep report missing")
         raw=read(raw_path)
+        rv=module(RAW_VALIDATOR,"workspace_raw_sweep_validator")
+        rv.validate(raw,rv.read(rv.SPEC))
         if raw.get("candidate_sha256")!=final: raise ValueError("raw sweep report candidate SHA differs from workspace FINAL SHA")
         missing=sorted(set(required)-set(raw.get("sweeps",{})))
         if missing: raise ValueError(f"raw sweep report missing required sweeps {missing}")
@@ -45,6 +55,8 @@ def main():
         cal_path=Path(a.calibration_record)
         if not cal_path.is_file(): raise ValueError("runner calibration record missing")
         cal=read(cal_path)
+        cv=module(CAL_VALIDATOR,"workspace_sweep_calibration_validator")
+        cv.validate(cal,True)
         if cal.get("runner_id")!="generic_human_movement_sweep_v1": raise ValueError("calibration runner identity differs")
 
         visual_dir=Path(a.visual_dir)
@@ -70,6 +82,8 @@ def main():
             source_manifest=visual_dir/f"human_movement_sweep_visual_{sid}.json"
             if not source_manifest.is_file(): raise ValueError(f"visual manifest missing for {sid}")
             vis=read(source_manifest)
+            vv=module(VISUAL_VALIDATOR,"workspace_visual_validator_"+sstem)
+            vv.validate(vis,source_manifest.parent,False)
             if vis.get("candidate_sha256")!=final or vis.get("sweep_id")!=sid:
                 raise ValueError(f"{sid}: visual manifest identity differs")
             for sample in vis.get("samples",[]):
@@ -95,6 +109,8 @@ def main():
                 raw_contact=contact_dir/f"human_movement_sweep_contact_raw_{sid}.json"
                 if not raw_contact.is_file(): raise ValueError(f"{sid}: raw contact file missing")
                 rc=read(raw_contact)
+                rcv=module(CONTACT_RAW_VALIDATOR,"workspace_contact_raw_validator_"+sstem)
+                rcv.validate(rc)
                 if rc.get("candidate_sha256")!=final or rc.get("sweep_id")!=sid:
                     raise ValueError(f"{sid}: raw contact identity differs")
                 raw_contact_dst=dest/"contact"/raw_contact.name; shutil.copy2(raw_contact,raw_contact_dst)

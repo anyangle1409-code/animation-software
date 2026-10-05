@@ -13,6 +13,7 @@ set "CANDIDATE=%~1"
 set "REV=%~2"
 set "PACKAGES=%~3"
 set "LABEL=%~4"
+set "CALIBRATED=%~5"
 
 if "%CANDIDATE%"=="" (echo ERROR: candidate Blend required.& exit /b 2)
 if "%REV%"=="" (echo ERROR: candidate revision required.& exit /b 2)
@@ -78,12 +79,27 @@ echo Required sweep-only movements: %SWEEPS%
 echo Contact-bearing subset: %CONTACT_SWEEPS%
 echo ============================================================
 
-rem Calibration is authority-wide, so raw execution intentionally runs all 11.
-call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "%CANDIDATE%" "%RAW_LABEL%"
-if errorlevel 1 exit /b 1
+if not "%CALIBRATED%"=="" (
+  if not exist "%CALIBRATED%" (
+    echo ERROR: supplied calibrated runner record not found:
+    echo   %CALIBRATED%
+    exit /b 2
+  )
+  "%PYTHON%" scripts\validate_original_v1_human_movement_sweep_runner_calibration.py "%CALIBRATED%" --require-calibrated
+  if errorlevel 1 exit /b 1
+  set "CAL=%CALIBRATED%"
+  set "RAW_LABEL=%LABEL%_selected"
+  set "RAW=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweeps\%RAW_LABEL%\human_movement_sweeps.json"
+  call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "%CANDIDATE%" "%RAW_LABEL%" "%SWEEPS%"
+  if errorlevel 1 exit /b 1
+) else (
+  rem First-time calibration is authority-wide, so raw execution runs all 11.
+  call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "%CANDIDATE%" "%RAW_LABEL%"
+  if errorlevel 1 exit /b 1
 
-call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat "%RAW%" "%REV%" "%CAL%"
-if errorlevel 1 exit /b 1
+  call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat "%RAW%" "%REV%" "%CAL%"
+  if errorlevel 1 exit /b 1
+)
 
 call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat "%CANDIDATE%" "%REV%" "%VISUAL_LABEL%" "%SWEEPS%"
 if errorlevel 1 exit /b 1
@@ -106,6 +122,7 @@ echo Pipeline plan:
 echo   %PLAN%
 echo Calibration record:
 echo   %CAL%
+if not "%CALIBRATED%"=="" echo Reused existing validated CALIBRATED runner record.
 echo Review workspace:
 echo   %REVIEW%
 echo.

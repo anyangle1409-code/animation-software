@@ -71,7 +71,14 @@ The current shoulder/chest defect is known to be foundational:
 
 ### A. Read-only diagnostics first
 
-Run the shoulder deformation layer diagnostic on the exact comparator/current
+First record the exact saved Blender skinning mode:
+
+`RUN_ORIGINAL_V1_SKINNING_MODE_AUDIT.bat <candidate.blend> <fresh-label>`
+
+Do not change LBS/Preserve Volume/DQ at this point. This establishes what r95
+actually uses so any later A/B test can keep every other variable identical.
+
+Then run the shoulder deformation layer diagnostic on the exact comparator/current
 candidate using a fresh label:
 
 `RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat <candidate.blend> <fresh-label> press_top,pullup_hang 13`

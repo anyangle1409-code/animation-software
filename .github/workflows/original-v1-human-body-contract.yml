@@ -160,6 +160,8 @@ jobs:
         run: python scripts/test_build_original_v1_candidate_comparison_report.py
       - name: Run anatomical repair package tests
         run: python scripts/test_validate_original_v1_anatomical_repair_packages.py
+      - name: Run Stage 1 repair graph tests
+        run: python scripts/test_validate_original_v1_stage1_repair_execution_graph.py
       - name: Run deformation diagnosis tree tests
         run: python scripts/test_validate_original_v1_deformation_diagnosis_tree.py
       - name: Run weights-only acceptance tests

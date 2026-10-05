@@ -36,7 +36,7 @@ def main():
         cp=next(x for x in coupling["coupling_systems"] if x["id"]==cid)
         linked=[x["issue_id"] for x in defects["mappings"] if cid in x["required_coupling_system_ids"]]
         t["status"]="COUPLING_ZONE_DECLARATION_DRAFT"
-        t["candidate_revision"]=a.candidate; t["candidate_sha256"]=a.sha256
+        t["candidate_revision"]=a.candidate; t["candidate_sha256"]=a.sha256; t["pre_edit_candidate_sha256"]=a.sha256
         t["coupling_system_id"]=cid; t["side"]=a.side; t["source_branch"]=a.source_branch
         t["intent"]=f"Execute {pkg['id']} {pkg['name']} at the earliest failing diagnosis layer; no downstream masking."
         t["diagnosis"]["observed_defect_ids"]=linked

@@ -25,6 +25,9 @@ FILES={
  "visual_template":ROOT/"ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json",
  "visual_requirements":ROOT/"ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
  "sweep_acceptance_template":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
+ "sweep_visual_template":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE_TEMPLATE.json",
+ "sweep_contact_template":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REPORT_TEMPLATE.json",
+ "sweep_contact_requirements":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json",
  "sweep_plan":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
  "declaration_template":ROOT/"ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
 }
@@ -141,10 +144,55 @@ def main():
         write_new(out/"surface_visual_review_FINAL_TEMPLATE.json",vr)
 
         sweep_accept_template=read(FILES["sweep_acceptance_template"])
+        sweep_visual_template=read(FILES["sweep_visual_template"])
+        sweep_contact_template=read(FILES["sweep_contact_template"])
+        sweep_contact_req=read(FILES["sweep_contact_requirements"])
         sweep_plan=read(FILES["sweep_plan"])
         sweep_acceptance_templates=[]
         expected_sweep_acceptance_records=[]
+        sweep_visual_templates=[]
+        expected_sweep_visual_records=[]
+        sweep_contact_templates=[]
+        expected_sweep_contact_records=[]
         for sid in validation_selection.get("sweep_only_movements_requiring_generic_runner",[]):
+            stem=sid.lower().replace("-","_")
+            visual_template_name=f"human_movement_sweep_visual_{stem}_FINAL_TEMPLATE.json"
+            visual_final_name=f"human_movement_sweep_visual_{stem}_final.json"
+            sv=copy.deepcopy(sweep_visual_template)
+            sv["status"]="HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE_FINAL_SHA_NOT_BOUND"
+            sv["candidate_revision"]=a.candidate
+            sv["candidate_sha256"]=None
+            sv["sweep_id"]=sid
+            sv["samples"]=[{"label":label,"views":[]} for label in sweep_plan["sweeps"][sid].get("samples",[])]
+            write_new(out/visual_template_name,sv)
+            sweep_visual_templates.append(visual_template_name)
+            expected_sweep_visual_records.append(visual_final_name)
+
+            contact_final_name=None
+            if sid in sweep_contact_req.get("sweeps",{}):
+                contact_template_name=f"human_movement_sweep_contact_{stem}_FINAL_TEMPLATE.json"
+                contact_final_name=f"human_movement_sweep_contact_{stem}_final.json"
+                cr=copy.deepcopy(sweep_contact_template)
+                cr["status"]="HUMAN_MOVEMENT_SWEEP_CONTACT_REPORT_FINAL_SHA_NOT_BOUND"
+                cr["candidate_revision"]=a.candidate
+                cr["candidate_sha256"]=None
+                cr["sweep_id"]=sid
+                cr["samples"]=[]
+                for label,ar in sweep_contact_req["sweeps"][sid]["samples"].items():
+                    row={"label":label,"domains":{}}
+                    for domain in ar.get("required_domains",[]):
+                        row["domains"][domain]={
+                          "classification":"UNCLASSIFIED",
+                          "raw_measurement_ref":None,
+                          "evidence_note":None
+                        }
+                    if "heel_state" in ar:
+                        row["heel_state_observed"]=None
+                    cr["samples"].append(row)
+                write_new(out/contact_template_name,cr)
+                sweep_contact_templates.append(contact_template_name)
+                expected_sweep_contact_records.append(contact_final_name)
+
             sat=copy.deepcopy(sweep_accept_template)
             sat["status"]="HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_FINAL_SHA_NOT_BOUND"
             sat["candidate_revision"]=a.candidate
@@ -152,7 +200,9 @@ def main():
             sat["sweep_id"]=sid
             sat["required_human_evidence_ids"]=list(sweep_plan["sweeps"][sid].get("evidence_ids",[]))
             sat["human_evidence_review_refs"]=[]
-            stem=sid.lower().replace("-","_")
+            sat["visual_capture_manifest_path"]=visual_final_name
+            sat["contact_report_path"]=contact_final_name
+            sat["contact_review_status"]="PENDING" if contact_final_name else "NOT_APPLICABLE"
             template_name=f"human_movement_sweep_acceptance_{stem}_FINAL_TEMPLATE.json"
             final_name=f"human_movement_sweep_acceptance_{stem}_final.json"
             write_new(out/template_name,sat)
@@ -202,6 +252,10 @@ def main():
             "surface_visual_final_template":"surface_visual_review_FINAL_TEMPLATE.json",
             "sweep_acceptance_final_templates":sweep_acceptance_templates,
             "expected_sweep_acceptance_records":expected_sweep_acceptance_records,
+            "sweep_visual_final_templates":sweep_visual_templates,
+            "expected_sweep_visual_records":expected_sweep_visual_records,
+            "sweep_contact_final_templates":sweep_contact_templates,
+            "expected_sweep_contact_records":expected_sweep_contact_records,
             "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
             "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
           },

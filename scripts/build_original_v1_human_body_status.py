@@ -30,6 +30,7 @@ TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
 GRAPH = ROOT / "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
 PROGRESS = ROOT / "ORIGINAL_V1_STAGE1_PROGRESS.json"
+NON_BLENDER = ROOT / "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -39,7 +40,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, sweep_exec, movement_joints, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, SWEEP_EXEC, MOVEMENT_JOINTS, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
+    plan, cov, ledger, human, sweeps, sweep_exec, movement_joints, coupling, triggers, visual, graph, progress, non_blender = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, SWEEP_EXEC, MOVEMENT_JOINTS, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS, NON_BLENDER))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -171,6 +172,7 @@ def build():
             "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
             "stage1_laptop_pickup_plan_runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
             "stage1_post_edit_continuation_plan_runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat",
+            "non_blender_prep_status": "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json",
             "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
             "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
             "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
@@ -194,7 +196,11 @@ def build():
             "note": "Shoulder-yoke remains the repair focus, but no shoulder package may clear until exact-candidate global pre-repair diagnostics are complete.",
         },
         "non_blender_preparation": {
-            "status": "SUBSTANTIALLY_PREPARED",
+            "status": non_blender.get("status"),
+            "defined_backlog_state": non_blender.get("defined_non_blender_backlog_state"),
+            "source_preparation_complete": non_blender.get("defined_non_blender_backlog_state")=="COMPLETE_TO_CURRENT_SCOPE",
+            "non_blender_tasks_remaining": len(non_blender.get("non_blender_tasks_remaining") or []),
+            "blender_or_candidate_bound_remaining": len(non_blender.get("blender_or_candidate_bound_remaining") or []),
             "anatomical_repair_packages": 14,
             "deformation_diagnosis_tree": "READY",
             "weights_only_region_contracts": 12,
@@ -215,13 +221,17 @@ def build():
             "generic_blender_sweep_runner_acceptance_capable": bool(sweep_exec.get("acceptance_capable")),
             "generic_sweep_calibration_chain": "READY_NOT_RUN",
             "generic_sweep_acceptance_gate": "READY_NOT_RUN",
+            "sweep_visual_capture": (sweep_exec.get("separate_evidence_producers") or {}).get("visual_capture",{}).get("state","UNKNOWN"),
+            "sweep_raw_contact_capture": (sweep_exec.get("separate_evidence_producers") or {}).get("raw_contact",{}).get("state","UNKNOWN"),
+            "sweep_review_workspace": (sweep_exec.get("separate_evidence_producers") or {}).get("review_workspace",{}).get("state","UNKNOWN"),
+            "post_repair_sweep_integration": "READY",
             "candidate_sweep_evidence_ready": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("candidate_execution_state")=="EVIDENCE_READY"),
             "stage1_wave_work_package": "READY",
             "stage1_laptop_pickup_plan": "READY",
             "stage1_post_edit_continuation_plan": "READY",
             "laptop_lifecycle": "PRE_EDIT_PICKUP_TO_POST_EDIT_COMPARISON_LINKED",
             "real_human_evidence_records": len(human_entries),
-            "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance.",
+            "interpretation": non_blender.get("interpretation"),
         },
         "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
     }
@@ -298,6 +308,10 @@ def markdown(s):
         "",
         "## Non-Blender preparation",
         "",
+        f"- Defined non-Blender backlog: **{s['non_blender_preparation']['defined_backlog_state']}**",
+        f"- Source/tooling preparation complete: **{'YES' if s['non_blender_preparation']['source_preparation_complete'] else 'NO'}**",
+        f"- Non-Blender tasks remaining: **{s['non_blender_preparation']['non_blender_tasks_remaining']}**",
+        f"- Blender/candidate-bound steps remaining: **{s['non_blender_preparation']['blender_or_candidate_bound_remaining']}**",
         f"- Anatomical repair packages: **{s['non_blender_preparation']['anatomical_repair_packages']} / 14**",
         f"- Stage 1 dependency waves: **{s['non_blender_preparation']['stage1_dependency_waves']}**",
         f"- Pre-repair diagnostic bundle: **{s['non_blender_preparation']['pre_repair_diagnostic_bundle']}**",
@@ -313,6 +327,10 @@ def markdown(s):
         f"- Sweep runner evidence-ready: **{s['non_blender_preparation']['generic_blender_sweep_runner_evidence_readiness']}**",
         f"- Sweep calibration chain: **{s['non_blender_preparation']['generic_sweep_calibration_chain']}**",
         f"- Sweep acceptance gate: **{s['non_blender_preparation']['generic_sweep_acceptance_gate']}**",
+        f"- Sweep visual-capture adapter: **{s['non_blender_preparation']['sweep_visual_capture']}**",
+        f"- Sweep raw-contact adapter: **{s['non_blender_preparation']['sweep_raw_contact_capture']}**",
+        f"- Sweep review workspace: **{s['non_blender_preparation']['sweep_review_workspace']}**",
+        f"- Post-repair sweep integration: **{s['non_blender_preparation']['post_repair_sweep_integration']}**",
         f"- Candidate sweep evidence-ready: **{s['non_blender_preparation']['candidate_sweep_evidence_ready']} / {s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
         f"- Stage 1 wave work package: **{s['non_blender_preparation']['stage1_wave_work_package']}**",
         "",

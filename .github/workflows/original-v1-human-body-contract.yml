@@ -39,6 +39,8 @@ on:
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_STAGE1_PROGRESS.json"
+      - "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
+      - "scripts/*stage1*"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
@@ -90,6 +92,8 @@ on:
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_STAGE1_PROGRESS.json"
+      - "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
+      - "scripts/*stage1*"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
@@ -209,3 +213,6 @@ jobs:
         run: python scripts/test_create_original_v1_repair_workspace.py
       - name: Run post-edit repair workspace finalizer tests
         run: python scripts/test_finalize_original_v1_repair_workspace.py
+
+      - name: Run Stage 1 wave work-package tests
+        run: python scripts/test_build_original_v1_stage1_wave_work_package.py

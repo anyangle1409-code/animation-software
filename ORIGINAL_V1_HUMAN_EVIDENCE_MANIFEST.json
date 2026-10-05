@@ -1239,6 +1239,169 @@
       "uncertainty": "Small cohort, marker setup and clothing obscure detailed exterior soft tissue; use as partial visual evidence only.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-NECK-001",
+      "region": "head_neck_trapezius_surface",
+      "movement_primitive": "cervical_multi_direction_surface_motion",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6862302/",
+        "citation": "Feng et al. (2019), Measurements of cervical range of motion using an optical motion capture system: Repeatability and validity, PMCID PMC6862302; Videos S1-S6.",
+        "license_use_note": "CC BY-NC-ND article/media. Inspect only as development evidence; do not copy, modify, redistribute or ship participant imagery."
+      },
+      "movement_phase": "flexion_return_extension_return_left_right_lateral_bend_return_left_right_rotation_return",
+      "view": [
+        "optical_motion_capture_video",
+        "seated_neck_surface_motion"
+      ],
+      "diversity": {
+        "subject_count": 20,
+        "notes": "Twenty healthy young adults, 13 men and 7 women, mean age 26.8 years. All wore the same marker cat suit, which obscures exposed-skin and detailed trapezius deformation."
+      },
+      "observable_landmarks": [
+        "head",
+        "cervical_column_surface",
+        "neck_to_shoulder_slope",
+        "upper_trunk",
+        "return_to_neutral"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "joint_kinematics",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Six real-human video sequences show slow flexion, extension, bilateral lateral bending and bilateral rotation with return to neutral.",
+        "The source can constrain gross neck/shoulder silhouette and reversibility but cannot close exposed-skin fold or trapezius-detail acceptance because of the cat suit and markers."
+      ],
+      "uncertainty": "Young cohort and cat suit/markers obscure detailed surface anatomy. Use as partial gross surface/timing evidence only.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-ELB-001",
+      "region": "upperarm_elbow_surface",
+      "movement_primitive": "loaded_biceps_curl_surface_motion",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11187402/",
+        "citation": "Database of videos of physical exercise and sedentary behaviours (VPESB), PMCID PMC11187402; male and female biceps-curl video clips.",
+        "license_use_note": "Use linked research videos as observation-only development evidence under their stated terms; do not copy performers, frames, textures or identity into the character."
+      },
+      "movement_phase": "full_biceps_curl_repetitions_over_10_second_clip",
+      "view": [
+        "eye_level_whole_body_video",
+        "upper_limb_visible_in_sportswear"
+      ],
+      "diversity": {
+        "subject_count": 2,
+        "notes": "The database provides one male and one female performer per activity; 196 healthy participants validated the recognisability/effort of the video set but did not themselves perform the clips."
+      },
+      "observable_landmarks": [
+        "upper_arm_silhouette",
+        "elbow_angle",
+        "forearm",
+        "wrist",
+        "shoulder_trunk_control",
+        "return_motion"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "joint_kinematics"
+      ],
+      "derived_observations": [
+        "Real loaded biceps-curl video provides full flexion/extension cycles and return motion with upper-arm/elbow silhouette visible.",
+        "Sportswear and camera distance limit local biceps/triceps, antecubital and posterior-elbow skin-fold conclusions."
+      ],
+      "uncertainty": "Only two performers and sportswear at whole-body camera distance. Use for gross upper-arm/elbow silhouette/timing; exposed close elbow surface evidence is still required.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FARM-001",
+      "region": "forearm_wrist_surface",
+      "movement_primitive": "forearm_pronation_supination_surface_shape",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8079810/",
+        "citation": "Perry et al. (2021), 3D Scanning of the Forearm for Orthosis and HMI Applications, PMCID PMC8079810; paired pronation/supination surface scans and heatmaps.",
+        "license_use_note": "CC BY article. Use derived surface observations only; do not transfer scan point clouds, mesh geometry or subject-specific shape into the production character."
+      },
+      "movement_phase": "near_extreme_supination_vs_functional_pronation",
+      "view": [
+        "white_light_3d_surface_scan",
+        "palmar",
+        "dorsal",
+        "ulnar",
+        "radial"
+      ],
+      "diversity": {
+        "subject_count": 6,
+        "notes": "Six healthy participants were scanned. Small convenience sample and static endpoint scans; not a continuous-motion surface sequence."
+      },
+      "observable_landmarks": [
+        "forearm_surface",
+        "wrist_breadth",
+        "muscle_belly_contour",
+        "skin_marker_displacement",
+        "radial_ulnar_surface"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Forearm surface shape changes significantly between pronation and supination rather than rotating as a rigid cylinder.",
+        "The study reports changes in wrist breadth and skin-marker spacing, confirming skin and underlying bone/muscle do not move as one rigid shell.",
+        "Because the scans are static endpoints, intermediate and return surface timing still require video evidence."
+      ],
+      "uncertainty": "Only six subjects and static scans. Excellent evidence that real forearm surface deforms with rotation, but insufficient alone for continuous-motion/skin-fold acceptance.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-HAND-001",
+      "region": "palm_thumb_fingers_surface",
+      "movement_primitive": "precision_grip_and_release_visual",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9412700/",
+        "citation": "Reichert et al. (2022), Discriminating Free Hand Movements Using Support Vector Machine and Recurrent Neural Network Algorithms, PMCID PMC9412700; Supplementary Video S1.",
+        "license_use_note": "CC BY article. Use participant movement only as development observation evidence; do not copy hand geometry, imagery or identity into production."
+      },
+      "movement_phase": "finger_thumb_contacts_precision_grips_object_rotation_extension_and_return",
+      "view": [
+        "supplementary_video",
+        "hand_task_close_view"
+      ],
+      "diversity": {
+        "subject_count": 34,
+        "notes": "Seventeen younger and seventeen older healthy adults, each group 10 women/7 men. Participants wore an exoskeleton data glove, obscuring exposed skin and some local contour."
+      },
+      "observable_landmarks": [
+        "thumb_opposition",
+        "individual_finger_flexion_extension",
+        "precision_contact",
+        "hand_open",
+        "return_to_rest"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "relative_digit_motion",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Supplementary video shows real healthy hands performing multiple thumb-to-finger precision grips, object manipulation, opening and return.",
+        "The exoskeleton glove makes this strong movement/timing evidence but weak exposed-skin evidence; local palm/finger folds still need minimally obscured close reference."
+      ],
+      "uncertainty": "Exoskeleton glove obscures skin, tendon and crease details. Use only as partial gross hand/digit visual motion evidence.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

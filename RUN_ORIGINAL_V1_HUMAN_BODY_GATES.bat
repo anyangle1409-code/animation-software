@@ -57,6 +57,7 @@ call :run scripts\test_validate_original_v1_deformation_diagnosis_tree.py || exi
 call :run scripts\test_validate_original_v1_weights_only_acceptance.py || exit /b 1
 call :run scripts\test_validate_original_v1_candidate_surface_visual_review.py || exit /b 1
 call :run scripts\test_validate_original_v1_repair_execution_record.py || exit /b 1
+call :run scripts\test_create_original_v1_post_edit_evidence_bundle.py || exit /b 1
 call :run scripts\test_build_original_v1_repair_regression_plan.py || exit /b 1
 
 echo.

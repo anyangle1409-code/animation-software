@@ -159,7 +159,12 @@
     "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
     "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
     "movement_sweep_execution": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
-    "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
+    "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
+    "movement_joint_family_requirements": "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json",
+    "movement_sweep_execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
+    "movement_sweep_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
+    "movement_sweep_runner_calibration_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+    "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -213,7 +218,11 @@
     "deterministic_movement_sweep_definitions": 11,
     "generic_blender_sweep_runner_bound": 11,
     "generic_blender_sweep_runner_unbound": 0,
-    "stage1_wave_work_package": "READY"
+    "stage1_wave_work_package": "READY",
+    "movement_joint_family_contract": "READY_27_OF_27",
+    "generic_sweep_runner_source_contract": "READY",
+    "generic_sweep_calibration_chain": "READY_NOT_RUN",
+    "generic_sweep_acceptance_gate": "READY_NOT_RUN"
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",
@@ -239,6 +248,9 @@
     ],
     "generic_runner_target": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
     "status": "RUNNER_BOUND",
-    "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance."
+    "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
+    "runner_calibration_state": "NOT_RUN",
+    "candidate_sweeps_accepted": 0,
+    "interpretation": "All 11 sweep definitions have a bound read-only execution path. The runner still requires Blender calibration/review, and every required final-candidate sweep must separately pass motion, visual, contact where applicable, and human-reference acceptance. Binding alone is not body evidence."
   }
 }

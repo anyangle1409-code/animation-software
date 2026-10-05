@@ -9,7 +9,8 @@
     "rule": "Open Critical/High whole-body issues override historical phase readiness. Numerical phase completion is necessary evidence, not anatomical sign-off.",
     "historical_phase_4_r95": "preserved_as_immutable_historical_checkpoint_not_current_anatomical_acceptance",
     "anatomical_coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
-    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
@@ -217,10 +218,12 @@
         "source identity",
         "permissible conclusions",
         "uncertainty",
-        "coverage of high-risk regions/movements"
+        "coverage of high-risk regions/movements",
+        "real-human exterior surface photo/video evidence across neutral, lengthened/elevated, compressed/loaded, intermediate and return states"
       ],
       "exit": [
-        "no Critical/High issue blocked from review solely by missing human evidence"
+        "no Critical/High issue blocked from review solely by missing human evidence",
+        "every body region has sufficient visual surface evidence for its Critical/High anatomical claims"
       ]
     },
     {

@@ -30,14 +30,33 @@ if not defined PYTHON if exist "C:\Users\Mark\.cache\codex-runtimes\codex-primar
 if not defined PYTHON for /f "delims=" %%I in ('where python.exe 2^>nul') do if not defined PYTHON set "PYTHON=%%I"
 if not defined PYTHON (echo ERROR: Python not found.& exit /b 2)
 
-"%PYTHON%" scripts\build_original_v1_stage1_laptop_pickup_plan.py ^
-  --candidate "%CANDIDATE%" ^
-  --current-revision "%CURRENT_REV%" ^
-  --new-revision "%NEW_REV%" ^
-  --source-branch "%SOURCE_BRANCH%" ^
-  --side "%SIDE%" ^
-  --label "%LABEL%" ^
-  --workspace "%WORKSPACE%" ^
-  --wave "%WAVE%" ^
-  --out-dir "%OUT_DIR%"
+if defined HGPT_SWEEP_CALIBRATION_RECORD (
+  if not exist "%HGPT_SWEEP_CALIBRATION_RECORD%" (
+    echo ERROR: HGPT_SWEEP_CALIBRATION_RECORD not found:
+    echo   %HGPT_SWEEP_CALIBRATION_RECORD%
+    exit /b 2
+  )
+  "%PYTHON%" scripts\build_original_v1_stage1_laptop_pickup_plan.py ^
+    --candidate "%CANDIDATE%" ^
+    --current-revision "%CURRENT_REV%" ^
+    --new-revision "%NEW_REV%" ^
+    --source-branch "%SOURCE_BRANCH%" ^
+    --side "%SIDE%" ^
+    --label "%LABEL%" ^
+    --workspace "%WORKSPACE%" ^
+    --wave "%WAVE%" ^
+    --calibration-record "%HGPT_SWEEP_CALIBRATION_RECORD%" ^
+    --out-dir "%OUT_DIR%"
+) else (
+  "%PYTHON%" scripts\build_original_v1_stage1_laptop_pickup_plan.py ^
+    --candidate "%CANDIDATE%" ^
+    --current-revision "%CURRENT_REV%" ^
+    --new-revision "%NEW_REV%" ^
+    --source-branch "%SOURCE_BRANCH%" ^
+    --side "%SIDE%" ^
+    --label "%LABEL%" ^
+    --workspace "%WORKSPACE%" ^
+    --wave "%WAVE%" ^
+    --out-dir "%OUT_DIR%"
+)
 exit /b %ERRORLEVEL%

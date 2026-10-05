@@ -46,7 +46,7 @@
     "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json": {
       "category": "verification",
       "validator": "scripts/validate_original_v1_coupling_zone_declaration.py",
-      "note": "Fresh candidate-specific declaration template for auditable shared-tissue weight ownership zones before any edit."
+      "note": "Candidate-specific pre-edit declaration for proximal/bridge/distal shared-tissue zones, protected neighbours, allowed operations/bones, hashes and required after-evidence."
     },
     "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json": {
       "category": "verification",
@@ -78,6 +78,12 @@
       "runner": "RUN_ORIGINAL_V1_MOTION_REVERSIBILITY_AUDIT.bat",
       "validator": "scripts/validate_original_v1_motion_reversibility.py",
       "note": "Read-only Blender audit compares outbound versus return evaluated surfaces and shape-key states at identical joint-state fractions; detects residual/stateful deformation but does not by itself prove anatomy."
+    },
+    "motion_continuity": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat",
+      "validator": "scripts/validate_original_v1_motion_continuity.py",
+      "note": "Read-only dense-sample report separates weights-only and corrective contribution and identifies vertices with largest step/second-difference changes; report-only, not anatomical approval."
     }
   },
   "categories": {

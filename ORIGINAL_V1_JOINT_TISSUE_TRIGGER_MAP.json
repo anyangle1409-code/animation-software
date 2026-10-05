@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_JOINT_TISSUE_TRIGGER_MAP",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "production_approved": false,
+  "coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+  "rule": "Whenever a production validation pose or motion materially changes a matched joint/bone family, every listed coupling system becomes required review scope for that sample unless a candidate-bound evidence record explicitly demonstrates why that system is mechanically quiescent.",
+  "trigger_policy": {
+    "material_motion": "Use the project-owned rig/pose numerical precision to distinguish meaningful motion from floating-point noise; do not invent a new anatomical threshold merely to skip review.",
+    "response_requirement": "Required systems must be inspected at weights-only and final-corrected surface levels through outbound/intermediate/endpoint/return motion.",
+    "quiescent_exception": "A system may record negligible visible response only when both attachment continuity and the expected geometry for that motion are evidence-backed; absence of movement cannot be assumed from low vertex displacement alone.",
+    "propagation": "A distal contact or joint change also activates every proximal load/coupling chain explicitly listed by the matching rule."
+  },
+  "rules": [
+    {
+      "id": "JT-HEAD-001",
+      "bone_patterns": [
+        "^head$",
+        "^neck$"
+      ],
+      "joint_family": "head_cervical",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "rationale": "Head/neck motion distributes through cervical segments and changes neck/trapezius/trunk transition."
+    },
+    {
+      "id": "JT-SPINE-002",
+      "bone_patterns": [
+        "^spine_0[1-3]$",
+        "^pelvis$",
+        "^root$"
+      ],
+      "joint_family": "trunk_pelvis",
+      "required_coupling_system_ids": [
+        "CP-TRUNK-008",
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012"
+      ],
+      "rationale": "Trunk/pelvic motion changes ribcage-waist continuity and also changes proximal attachment state for shoulder, glute, groin, rectus-femoris and hamstring chains."
+    },
+    {
+      "id": "JT-CLAVICLE-003",
+      "bone_patterns": [
+        "^clavicle_[lr]$"
+      ],
+      "joint_family": "clavicle",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-DELTOID-004"
+      ],
+      "rationale": "Clavicle movement changes trapezius/shoulder slope plus proximal pectoral and deltoid attachment state."
+    },
+    {
+      "id": "JT-SCAPULA-004",
+      "bone_patterns": [
+        "^scapula_[lr]$"
+      ],
+      "joint_family": "scapula",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-PEC-AX-002"
+      ],
+      "rationale": "Scapular motion changes back drape, posterior axillary support, deltoid yoke and the chest/shoulder surface relationship."
+    },
+    {
+      "id": "JT-UPPERARM-005",
+      "bone_patterns": [
+        "^upperarm_[lr]$",
+        "^upperarm_tw[01]_[lr]$"
+      ],
+      "joint_family": "humerus",
+      "required_coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-NECK-TRAP-001"
+      ],
+      "rationale": "Humeral motion moves distal pec/posterior-fold/deltoid attachments and changes the complete shoulder girdle surface, not just the arm."
+    },
+    {
+      "id": "JT-FOREARM-006",
+      "bone_patterns": [
+        "^forearm_[lr]$",
+        "^forearm_tw[01]_[lr]$"
+      ],
+      "joint_family": "elbow_forearm",
+      "required_coupling_system_ids": [
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "rationale": "Elbow and forearm motion affects upper-arm/elbow form, wrist load path and hand orientation/tendon chain."
+    },
+    {
+      "id": "JT-HAND-007",
+      "bone_patterns": [
+        "^hand_[lr]$",
+        "^metacarpal_.*_[lr]$"
+      ],
+      "joint_family": "wrist_hand",
+      "required_coupling_system_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "rationale": "Hand/wrist motion must remain continuous with forearm and finger tendon/palm surface."
+    },
+    {
+      "id": "JT-FINGERS-008",
+      "bone_patterns": [
+        "^(index|middle|ring|pinky|thumb)_0[1-3]_[lr]$"
+      ],
+      "joint_family": "digits",
+      "required_coupling_system_ids": [
+        "CP-FINGER-007",
+        "CP-WRIST-HAND-006"
+      ],
+      "rationale": "Digit motion propagates through tendon/pulley/palm structures and loaded grip affects wrist/forearm."
+    },
+    {
+      "id": "JT-THIGH-009",
+      "bone_patterns": [
+        "^thigh_[lr]$"
+      ],
+      "joint_family": "hip_femur",
+      "required_coupling_system_ids": [
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-TRUNK-008"
+      ],
+      "rationale": "Femoral motion changes glute, groin/adductor, rectus/quadriceps, hamstring and pelvic/trunk transition."
+    },
+    {
+      "id": "JT-SHIN-010",
+      "bone_patterns": [
+        "^shin_[lr]$"
+      ],
+      "joint_family": "knee_lower_leg",
+      "required_coupling_system_ids": [
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "rationale": "Knee motion changes extensor chain, hamstring/popliteal chain and gastrocnemius state; lower-leg alignment also affects ankle/foot load."
+    },
+    {
+      "id": "JT-FOOT-011",
+      "bone_patterns": [
+        "^foot_[lr]$"
+      ],
+      "joint_family": "ankle_hindfoot",
+      "required_coupling_system_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "rationale": "Ankle/hindfoot motion changes calf/Achilles continuity and heel/arch/forefoot contact."
+    },
+    {
+      "id": "JT-TOE-012",
+      "bone_patterns": [
+        "^toe_[lr]$"
+      ],
+      "joint_family": "forefoot_toes",
+      "required_coupling_system_ids": [
+        "CP-FOOT-014",
+        "CP-CALF-013"
+      ],
+      "rationale": "Toe/forefoot loading must remain connected to arch/hindfoot and the proximal plantarflexion load path."
+    }
+  ],
+  "failure_rule": "If a matched joint family moves in a validation sample and one of its required coupling systems is absent from candidate evidence, the sample is incomplete and cannot contribute to anatomical clearance."
+}

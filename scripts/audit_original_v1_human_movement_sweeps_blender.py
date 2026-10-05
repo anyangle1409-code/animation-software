@@ -173,35 +173,48 @@ def _owned_positions(names):
     if not ids: return ids,np.empty((0,3),dtype=np.float64)
     return ids,ns["evaluated_positions"](ids)
 
+def _z_stats(names):
+    ids,P=_owned_positions(names)
+    if not len(ids): return {"vertex_count":0}
+    z=P[:,2]
+    return {
+      "vertex_count":len(ids),
+      "min_z_m":round(float(z.min()),7),
+      "p05_z_m":round(float(np.percentile(z,5)),7),
+      "vertices_below_floor":int((z<0).sum()),
+      "vertices_within_2mm_floor":int((np.abs(z)<=0.002).sum())
+    }
+
 def _contact_measurements(sweep,label,variant):
     rec={"label":label,"variant":variant,"domains":{}}
     if sweep=="grip_release":
         ns["OWNERS"]=OWNERS
-        for s in "lr":
-            if s not in HANDLE: continue
-            metrics=ns["grip_metrics"](s)
-            rec["domains"][f"{s}_finger_thumb_to_equipment"]={
-              "max_penetration_mm":metrics["max_penetration_mm"],
-              "contact_vertices_within_2mm":metrics["contact_vertices_within_2mm"],
-              "finger_vertices":metrics["finger_vertices"]
-            }
-    elif sweep in {"loaded_hip_hinge","ankle_plantarflexion"}:
-        for s in "lr":
-            ids,P=_owned_positions([f"foot_{s}",f"toe_{s}"])
-            if len(ids):
-                z=P[:,2]
-                rec["domains"][f"{s}_foot_to_floor"]={
-                  "vertex_count":len(ids),
-                  "min_z_m":round(float(z.min()),7),
-                  "p05_z_m":round(float(np.percentile(z,5)),7),
-                  "vertices_below_floor":int((z<0).sum()),
-                  "vertices_within_2mm_floor":int((np.abs(z)<=0.002).sum())
+        per_side={}
+        wrist_state={}
+        for s,long_side in (("l","left"),("r","right")):
+            if s in HANDLE:
+                metrics=ns["grip_metrics"](s)
+                per_side[long_side]={
+                  "max_penetration_mm":metrics["max_penetration_mm"],
+                  "contact_vertices_within_2mm":metrics["contact_vertices_within_2mm"],
+                  "finger_vertices":metrics["finger_vertices"]
                 }
-            foot=pb(f"foot_{s}")
-            rec["domains"][f"{s}_foot_bone_landmarks"]={
-              "head_z_m":round(float((rig.matrix_world@foot.head).z),7),
-              "tail_z_m":round(float((rig.matrix_world@foot.tail).z),7)
+            wrist_state[long_side]={
+              "forearm_direction":[round(float(x),7) for x in bdir(f"forearm_{s}")],
+              "hand_direction":[round(float(x),7) for x in bdir(f"hand_{s}")]
             }
+        rec["domains"]["finger_thumb_to_equipment"]={"per_side":per_side}
+        rec["domains"]["wrist_forearm_load_path"]={"per_side":wrist_state}
+    elif sweep=="loaded_hip_hinge":
+        for s,long_side in (("l","left"),("r","right")):
+            rec["domains"][f"{long_side}_foot_to_floor"]=_z_stats([f"foot_{s}",f"toe_{s}"])
+    elif sweep=="ankle_plantarflexion":
+        for s,long_side in (("l","left"),("r","right")):
+            rec["domains"][f"{long_side}_forefoot_to_floor"]=_z_stats([f"toe_{s}"])
+            rec["domains"][f"{long_side}_heel_to_floor"]=_z_stats([f"foot_{s}"])
+            foot=pb(f"foot_{s}")
+            rec["domains"][f"{long_side}_heel_to_floor"]["foot_bone_head_z_m"]=round(float((rig.matrix_world@foot.head).z),7)
+            rec["domains"][f"{long_side}_heel_to_floor"]["foot_bone_tail_z_m"]=round(float((rig.matrix_world@foot.tail).z),7)
     return rec
 
 def eval_positions():

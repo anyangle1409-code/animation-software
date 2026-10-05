@@ -36,7 +36,7 @@
   "movement_coverage_counts": {
     "evidence_partial": 27
   },
-  "human_evidence_entry_count": 39,
+  "human_evidence_entry_count": 55,
   "human_evidence_regions": {
     "clavicle_scapula_humerus": 1,
     "scapulohumeral_complex": 1,
@@ -55,7 +55,7 @@
     "hip_knee_ankle": 2,
     "knee": 1,
     "ankle_hindfoot": 1,
-    "calf_achilles_ankle": 1,
+    "calf_achilles_ankle": 3,
     "lumbar_pelvis_hip": 1,
     "trunk_hip_knee": 1,
     "cervical_spine": 1,
@@ -74,7 +74,19 @@
     "palm_thumb_fingers_surface": 1,
     "thigh_knee_surface": 1,
     "ribcage_abdomen_obliques_lumbar": 1,
-    "biceps_brachii_upper_arm": 1
+    "biceps_brachii_upper_arm": 1,
+    "scapular_back_shoulder_surface": 1,
+    "pelvis_groin_glutes_thigh_surface": 1,
+    "foot_arch_surface": 1,
+    "chest_anterior_axilla_surface": 1,
+    "forearm_wrist": 1,
+    "palm_thumb_fingers": 1,
+    "foot_toes": 2,
+    "pelvis_groin_glutes": 1,
+    "thigh_knee": 1,
+    "fingertip_skin_contact": 1,
+    "quadriceps_thigh": 1,
+    "hamstrings_posterior_thigh": 2
   },
   "prepared_movement_sweep_count": 8,
   "prepared_movement_sweeps": [
@@ -90,22 +102,22 @@
   "high_detail_anatomy_allowed": false,
   "why_not_high_detail": "Critical/High whole-body issues remain open.",
   "next_sequence": [
-    "audit_saved_skinning_mode",
-    "run_pose_connected_tissue_scope",
-    "generate_pose_tissue_camera_evidence_plan",
-    "run_shoulder_layer_diagnostic",
-    "identify_first_failing_layer_using_diagnosis_tree",
-    "declare_smallest_repair_scope",
+    "run_pre_repair_diagnostic_bundle",
+    "identify_earliest_failing_layer_using_diagnosis_tree",
+    "create_and_validate_pre_edit_repair_declarations",
     "audit_declared_coupling_weight_ownership",
-    "create_new_numbered_candidate",
-    "repair_earliest_failing_foundational_layer",
-    "prove_weights_only_elevation_sweep_and_region_acceptance",
-    "prove_required_anatomical_coupling_systems",
+    "generate_focused_plus_whole_body_regression_plan",
+    "create_new_numbered_candidate_and_repair_smallest_foundational_layer",
+    "capture_exact_final_candidate_sha",
+    "initialize_post_edit_evidence_bundle",
+    "prove_weights_only_regions_before_correctives",
+    "prove_required_anatomical_and_movement_coupling_systems",
+    "complete_candidate_surface_visual_review",
     "fit_correctives_only_for_residual_anatomy_error",
-    "run_dense_continuity_reversibility_visual_numerical_contact_regression",
-    "build_unified_parent_to_candidate_comparison_report",
+    "run_dense_continuity_reversibility_visual_numerical_contact_change_regression",
+    "run_unified_parent_to_candidate_comparison",
     "close_issue_rows_only_with_committed_closure_evidence",
-    "continue Stage1 rather_than_jump_to_Stage5"
+    "advance_only_by_stage1_dependency_graph"
   ],
   "current_blocking_focus": {
     "region_ids": [
@@ -132,7 +144,11 @@
     "deformation_diagnosis_tree": "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json",
     "weights_only_acceptance": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
     "whole_body_repair_guide": "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md",
-    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
+    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+    "stage1_repair_execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+    "candidate_surface_visual_review_template": "ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json",
+    "repair_execution_record_template": "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json",
+    "post_edit_evidence_bundle_runner": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -173,9 +189,13 @@
     "anatomical_repair_packages": 14,
     "deformation_diagnosis_tree": "READY",
     "weights_only_region_contracts": 12,
+    "stage1_dependency_waves": 8,
     "pose_to_tissue_camera_evidence_planner": "READY",
+    "pre_repair_diagnostic_bundle": "READY",
+    "post_edit_evidence_bundle": "READY",
+    "pre_edit_post_edit_provenance_split": "ENFORCED",
     "unified_candidate_comparison": "READY",
-    "real_human_evidence_records": 39,
+    "real_human_evidence_records": 55,
     "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance."
   }
 }

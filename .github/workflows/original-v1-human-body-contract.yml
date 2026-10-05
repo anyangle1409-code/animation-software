@@ -53,6 +53,8 @@ on:
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_STAGE1_PROGRESS.json"
       - "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
+      - "scripts/build_original_v1_stage1_post_edit_continuation_plan.py"
+      - "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat"
       - "scripts/*stage1*"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
@@ -119,6 +121,8 @@ on:
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_STAGE1_PROGRESS.json"
       - "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
+      - "scripts/build_original_v1_stage1_post_edit_continuation_plan.py"
+      - "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat"
       - "scripts/*stage1*"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
@@ -273,3 +277,14 @@ jobs:
 
       - name: Run generic sweep acceptance tests
         run: python scripts/test_validate_original_v1_human_movement_sweep_acceptance.py
+
+      - name: Run sweep motion-review tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_motion_review.py
+      - name: Run sweep visual-capture tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_visual_capture.py
+      - name: Run sweep contact tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_contact.py
+      - name: Run Stage 1 laptop pickup-plan tests
+        run: python scripts/test_build_original_v1_stage1_laptop_pickup_plan.py
+      - name: Run Stage 1 post-edit continuation-plan tests
+        run: python scripts/test_build_original_v1_stage1_post_edit_continuation_plan.py

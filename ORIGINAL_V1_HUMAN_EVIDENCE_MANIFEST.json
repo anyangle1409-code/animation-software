@@ -1714,6 +1714,174 @@
       "uncertainty": "Static standardized pose and male-only cohort; does not establish dynamic timing or fold depth through the full elevation arc.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FARM-002",
+      "region": "forearm_wrist",
+      "movement_primitive": "forearm_pronation_supination_surface_shape",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8079810/",
+        "citation": "3D Scanning of the Forearm for Orthosis and HMI Applications, PMCID PMC8079810.",
+        "license_use_note": "Use published 3D surface-shape observations only; do not import scan meshes or subject geometry into production."
+      },
+      "movement_phase": "pronation_vs_supination",
+      "view": [
+        "palmar",
+        "dorsal",
+        "ulnar",
+        "radial",
+        "3d_surface_deviation_heatmaps"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Study reports subject-specific 3D forearm scans; use shape-change direction/magnitude as development evidence, not one universal surface."
+      },
+      "observable_landmarks": [
+        "forearm_length",
+        "wrist_breadth",
+        "palmar_surface",
+        "dorsal_surface",
+        "radial_ulnar_surface"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Forearm surface shape changes materially between pronation and supination rather than rotating as a rigid cylinder.",
+        "Wrist breadth and skin-marker spacing change across pronosupination, supporting a distributed soft-tissue response from forearm into wrist.",
+        "Surface displacement is non-uniform by side, so one uniform axial twist field is not a sufficient human model."
+      ],
+      "uncertainty": "The study targets orthosis/HMI shape capture and does not define loaded grip or push-up surface response.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-HAND-002",
+      "region": "palm_thumb_fingers",
+      "movement_primitive": "cylindrical_grip_skin_surface_deformation",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10695991/",
+        "citation": "Zhai et al. (2023), Influence of grasping postures on skin deformation of hand, PMCID PMC10695991.",
+        "license_use_note": "CC BY article. Use derived skin-deformation observations only; do not copy 3D hand scans into the character."
+      },
+      "movement_phase": "straight_hand_and_4_6_8_10_cm_cylindrical_grips",
+      "view": [
+        "dorsal_hand_3d_scan",
+        "finger_surface_landmarks",
+        "thumb_index_web_surface"
+      ],
+      "diversity": {
+        "subject_count": 111,
+        "notes": "111 healthy women aged 18-26, all Chinese, right hands only. Strong sample size but narrow sex/age/ethnicity range; do not universalize exact strain magnitudes."
+      },
+      "observable_landmarks": [
+        "finger_proximal_phalanges",
+        "metacarpal_region",
+        "dorsum",
+        "thumb_index_web_tigers_mouth"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation",
+        "diameter_dependent_grip_posture"
+      ],
+      "derived_observations": [
+        "Hand skin deformation changes significantly with cylindrical grip diameter and is spatially non-uniform.",
+        "Smaller cylinders generally produce greater measured skin relaxation strain across multiple hand regions.",
+        "The thumb-index web behaves differently from many finger/dorsal regions, supporting separate local deformation treatment rather than one global hand scaling."
+      ],
+      "uncertainty": "Only dorsal/upper hand surface was scanned and grip was not externally loaded; palm contact and loaded wrist still require separate evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FOOT-003",
+      "region": "foot_toes",
+      "movement_primitive": "load_induced_whole_foot_surface_deformation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9846431/",
+        "citation": "Foot shape is related to load-induced shape deformations, but neither are good predictors of plantar soft tissue stiffness, PMCID PMC9846431.",
+        "license_use_note": "Use 3D loaded-vs-minimal-load foot shape observations only; do not transfer participant scan meshes into production."
+      },
+      "movement_phase": "minimal_bodyweight_vs_full_bodyweight",
+      "view": [
+        "3d_foot_scan",
+        "whole_foot_surface",
+        "plantar_shape"
+      ],
+      "diversity": {
+        "subject_count": 91,
+        "notes": "91 healthy adults aged 18-40, 46 female and 45 male. Strong population evidence for load-induced shape change."
+      },
+      "observable_landmarks": [
+        "heel",
+        "medial_arch",
+        "lateral_arch",
+        "midfoot",
+        "forefoot",
+        "overall_foot_shape"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation",
+        "contact_shift"
+      ],
+      "derived_observations": [
+        "Healthy foot shape changes measurably between minimal-load and full-bodyweight conditions rather than remaining a rigid block.",
+        "Load-induced deformation varies among people and relates to baseline foot shape, so the validation target should be a plausible range rather than one fixed arch displacement."
+      ],
+      "uncertainty": "Static load conditions rather than continuous squat/lunge/push-up motion; toe extension and heel-rise return still need dynamic evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FOOT-004",
+      "region": "foot_toes",
+      "movement_primitive": "weightbearing_to_tiptoe_arch_and_plantar_soft_tissue_change",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12883456/",
+        "citation": "Foot bone structure and plantar soft tissue deformation behavior in different functional positions, PMCID PMC12883456.",
+        "license_use_note": "Use derived functional-position surface/arch observations only; do not import scan data or subject geometry."
+      },
+      "movement_phase": "non_weightbearing_weightbearing_and_tiptoe",
+      "view": [
+        "3d_plantar_scan",
+        "radiographic_arch_geometry",
+        "tiptoe_position"
+      ],
+      "diversity": {
+        "subject_count": 67,
+        "notes": "67 participants across three functional positions; useful for foot/arch/plantar change but not a substitute for dynamic toe/contact video."
+      },
+      "observable_landmarks": [
+        "calcaneus",
+        "medial_arch",
+        "lateral_arch",
+        "plantar_soft_tissue",
+        "forefoot",
+        "tiptoe_support"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "contact_shift",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Foot bones and plantar soft tissue change significantly across non-weightbearing, weightbearing and tiptoe positions.",
+        "Tiptoe posture materially changes arch geometry/volume, so heel raise cannot be represented by rigidly rotating the foot while leaving plantar/arch form fixed."
+      ],
+      "uncertainty": "Functional positions are discrete rather than a continuous heel-raise cycle; dynamic return and individual toe-joint behavior still need separate evidence.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

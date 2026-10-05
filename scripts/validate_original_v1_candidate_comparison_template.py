@@ -20,6 +20,8 @@ def validate(d):
     if "post-edit execution record" not in rules: raise ValueError("repair execution provenance rule missing")
     if "candidate-bound evidence file" not in rules: raise ValueError("candidate-bound PASS evidence rule missing")
     if "sweep-only proof movement" not in rules: raise ValueError("sweep-only movement acceptance rule missing")
+    if "Every proof movement" not in rules or "movement-coupling evidence" not in rules:
+        raise ValueError("full proof-movement coverage rule missing")
     return {"status":"PASS"}
 
 def main():

@@ -40,7 +40,12 @@
       "evidence_gap": null,
       "defect": "Long membrane-like axillary wall and deep chest-to-arm trench.",
       "acceptance": "Anterior and posterior folds remain distinct, concave and volume-continuous without a planar membrane or knife-edge trench at every elevation sample.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ]
     },
     {
       "id": "WB-PEC-002",
@@ -74,7 +79,10 @@
       "evidence_gap": null,
       "defect": "Excessive lateral pectoral tissue is transported with the humerus instead of preserving a chest-rooted anterior fold.",
       "acceptance": "Pectoral mass remains chest-rooted while its humeral insertion and anterior fold lengthen smoothly through flexion and abduction.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002"
+      ]
     },
     {
       "id": "WB-PEC-003",
@@ -109,7 +117,11 @@
       "evidence_gap": null,
       "defect": "Lateral chest collapses while central pectoral volume balloons during overhead elevation.",
       "acceptance": "Chest volume redistributes gradually without lateral collapse, central ballooning or an abrupt pectoral boundary.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-TRUNK-008"
+      ]
     },
     {
       "id": "WB-AX-004",
@@ -143,7 +155,10 @@
       "evidence_gap": null,
       "defect": "Posterior fold lacks latissimus/teres support and reads as a pointed flap or cloth-like drape.",
       "acceptance": "Posterior fold retains supported latissimus/teres volume with no detached flap, ledge or cape-like sheet.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-POSTAX-003"
+      ]
     },
     {
       "id": "WB-SHO-005",
@@ -175,7 +190,10 @@
       "evidence_gap": null,
       "defect": "Deltoid is an oversized spherical cap with inadequate anterior, middle and posterior regional definition.",
       "acceptance": "Deltoid volume blends into clavicle, scapular spine and humerus with a plausible non-spherical resting contour.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-DELTOID-004"
+      ]
     },
     {
       "id": "WB-SHO-006",
@@ -209,7 +227,11 @@
       "evidence_gap": null,
       "defect": "Abrupt narrowing, pinch and surface discontinuity at the deltoid/upper-arm transition.",
       "acceptance": "The transition preserves a continuous load-bearing silhouette without pinching or a sudden cross-section change.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ]
     },
     {
       "id": "WB-CLV-007",
@@ -246,7 +268,12 @@
       "evidence_gap": null,
       "defect": "Clavicle, scapula and trapezius surface lack convincing coupled motion and supported volume.",
       "acceptance": "Surface landmarks respond continuously to clavicular, scapular and glenohumeral motion without a fixed-ratio or rigid-sheet appearance.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-DELTOID-004",
+        "CP-POSTAX-003"
+      ]
     },
     {
       "id": "WB-SYM-008",
@@ -279,7 +306,13 @@
       "evidence_gap": null,
       "defect": "Left and right shoulder/axilla deformation is inconsistent in a symmetric overhead pose.",
       "acceptance": "Mirrored inputs produce equivalent activation and surface deformation within declared tolerance, absent intentional asymmetry.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ]
     },
     {
       "id": "WB-GRP-009",
@@ -312,7 +345,11 @@
       "evidence_gap": null,
       "defect": "Uniform finger curl, weak thumb opposition and implausible handle conformance.",
       "acceptance": "Finger flexion must vary by joint and object diameter rather than using a uniform copied curl; thumb opposition is reviewed separately and equipment contact remains stable across curl-handle and pull-up-bar diameters.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-FINGER-007",
+        "CP-WRIST-HAND-006"
+      ]
     },
     {
       "id": "WB-WRI-010",
@@ -347,7 +384,10 @@
       "evidence_gap": null,
       "defect": "Wrist and handle alignment is unstable and does not form a convincing load path into the forearm.",
       "acceptance": "Wrist alignment, forearm rotation and hand contact form a continuous load path; extended-wrist push-up loading may not be represented by an arbitrary hand rotation or collapsing wrist surface, and grip poses must preserve coherent wrist-to-forearm alignment.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-WRIST-HAND-006"
+      ]
     },
     {
       "id": "WB-QA-011",
@@ -385,7 +425,23 @@
       "evidence_gap": null,
       "defect": "The workflow allowed numerical/freeze completion despite unresolved obvious anatomy in committed review images.",
       "acceptance": "Every Critical/High visual issue is fail-closed, evidence-bound and blocks freeze or later phases until committed closure evidence passes visual, numerical and regression review.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007",
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ]
     },
     {
       "id": "WB-QA-012",
@@ -430,7 +486,23 @@
       "evidence_gap": null,
       "defect": "The project has not yet candidate-proven whole-body shared-tissue coupling: a body part can still numerically pass while skin/muscle spanning multiple anatomical attachments is incorrectly owned or dragged by one joint/bone.",
       "acceptance": "Every required coupling system is candidate-bound and proves all relevant attachment sides, weights-only deformation, intermediate/return motion, visual continuity, numerical regression and contact/load propagation where applicable; no Critical/High coupling defect remains open.",
-      "closure_evidence": []
+      "closure_evidence": [],
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007",
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ]
     }
   ]
 }

@@ -9,6 +9,7 @@ GRAPH=ROOT/"ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
 SWEEP_STATUS=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
 PACKAGE_VALIDATION=ROOT/"scripts/build_original_v1_package_validation_selection.py"
 WAVE_BUILDER=ROOT/"scripts/build_original_v1_stage1_wave_work_package.py"
+CAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
 
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 def sha_file(p):
@@ -46,6 +47,15 @@ def build(a):
 
     package_csv=",".join(packages)
     sweep_csv=",".join(validation.get("sweep_only_movements_requiring_generic_runner",[]))
+
+    supplied_calibration=None
+    if getattr(a,"calibration_record",None):
+        cp=Path(a.calibration_record)
+        if not cp.is_file(): raise ValueError("supplied calibration record not found")
+        cv=load_module(CAL_VALIDATOR,"sweep_calibration_validator")
+        cv.validate(cv.read(cp),True)
+        supplied_calibration=str(cp)
+
     commands=[]
     commands.append({"phase":"contract","command":"RUN_ORIGINAL_V1_HUMAN_BODY_GATES.bat","blocking":True})
     commands.append({"phase":"wave_packet","command":"RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat "+dq(wave_id)+" "+dq(Path(a.out_dir)/"wave"),"blocking":True})
@@ -53,7 +63,7 @@ def build(a):
     if package_csv: diag+=" "+dq(package_csv)
     commands.append({"phase":"pre_repair_diagnostics","command":diag,"blocking":True})
 
-    calibration_required=sweep_status.get("runner_calibration_state")!="CALIBRATED"
+    calibration_required=supplied_calibration is None and sweep_status.get("runner_calibration_state")!="CALIBRATED"
     sweep_pipeline_label=a.label+"_sweep_pipeline"
     sweep_pipeline_dir=Path("ORIGINAL_V1_WORK/candidates/repair_checks/human_movement_sweep_pipeline")/sweep_pipeline_label
     cal_in_review=sweep_pipeline_dir/"runner_calibration_IN_REVIEW.json"
@@ -61,7 +71,7 @@ def build(a):
     if sweep_csv:
         commands.append({
           "phase":"sweep_pipeline_prepare",
-          "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat "+dq(candidate)+" "+dq(a.current_revision)+" "+dq(package_csv)+" "+dq(sweep_pipeline_label),
+          "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat "+dq(candidate)+" "+dq(a.current_revision)+" "+dq(package_csv)+" "+dq(sweep_pipeline_label)+((" "+dq(supplied_calibration)) if supplied_calibration else ""),
           "blocking":True
         })
         if calibration_required:
@@ -94,7 +104,7 @@ def build(a):
       "sweep_runner_calibration_required":calibration_required,
       "sweep_pipeline_label":sweep_pipeline_label,
       "sweep_pipeline_dir":str(sweep_pipeline_dir),
-      "calibrated_sweep_runner_record":str(cal_final) if sweep_csv and calibration_required else None,
+      "calibrated_sweep_runner_record":supplied_calibration or (str(cal_final) if sweep_csv and calibration_required else None),
       "workspace":a.workspace,
       "post_edit_continuation_command_template":"RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat "+dq(a.workspace)+" <final-candidate.blend> "+dq(a.new_revision)+" "+dq(a.current_revision)+" <fresh-post-label> <calibration-record-or-empty> <fresh-post-plan-dir>",
       "commands":commands,
@@ -122,6 +132,7 @@ def main():
     ap.add_argument("--workspace",required=True)
     ap.add_argument("--wave",default="current")
     ap.add_argument("--expected-sha")
+    ap.add_argument("--calibration-record")
     ap.add_argument("--out-dir",required=True)
     a=ap.parse_args()
     try:

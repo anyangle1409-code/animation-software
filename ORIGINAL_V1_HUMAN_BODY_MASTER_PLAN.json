@@ -367,7 +367,8 @@
       "complete_repair_execution_regression_contact_change_and_visual_records",
       "run_unified_parent_to_candidate_comparison",
       "close_issue_rows_only_with_committed_closure_evidence",
-      "advance_only_by_stage1_dependency_graph"
+      "advance_only_by_stage1_dependency_graph",
+      "continue Stage1 rather_than_jump_to_Stage5"
     ]
   },
   "protected_constraints": [

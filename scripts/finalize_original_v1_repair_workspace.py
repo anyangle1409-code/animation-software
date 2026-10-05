@@ -64,6 +64,32 @@ def main():
         vr["status"]="CANDIDATE_SURFACE_VISUAL_REVIEW"; vr["candidate_revision"]=rev; vr["candidate_sha256"]=final; vr["source_branch"]=branch
         write_new(ws/"surface_visual_review_final.json",vr)
 
+        sweep_visual_paths=[]
+        visual_templates=wm["files"].get("sweep_visual_final_templates",[])
+        visual_expected=wm["files"].get("expected_sweep_visual_records",[])
+        if len(visual_templates)!=len(visual_expected):
+            raise ValueError("sweep visual template/final record count differs")
+        for template_name,out_name in zip(visual_templates,visual_expected):
+            sv=read(ws/template_name)
+            sv["status"]="HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE"
+            sv["candidate_revision"]=rev
+            sv["candidate_sha256"]=final
+            write_new(ws/out_name,sv)
+            sweep_visual_paths.append(out_name)
+
+        sweep_contact_paths=[]
+        contact_templates=wm["files"].get("sweep_contact_final_templates",[])
+        contact_expected=wm["files"].get("expected_sweep_contact_records",[])
+        if len(contact_templates)!=len(contact_expected):
+            raise ValueError("sweep contact template/final record count differs")
+        for template_name,out_name in zip(contact_templates,contact_expected):
+            cr=read(ws/template_name)
+            cr["status"]="HUMAN_MOVEMENT_SWEEP_CONTACT_REPORT"
+            cr["candidate_revision"]=rev
+            cr["candidate_sha256"]=final
+            write_new(ws/out_name,cr)
+            sweep_contact_paths.append(out_name)
+
         sweep_acceptance_paths=[]
         sweep_templates=wm["files"].get("sweep_acceptance_final_templates",[])
         sweep_expected=wm["files"].get("expected_sweep_acceptance_records",[])
@@ -119,6 +145,8 @@ def main():
             "anatomical_coupling_evidence":"anatomical_coupling_evidence_final.json",
             "movement_coupling_evidence":"movement_coupling_evidence_final.json",
             "surface_visual_review":"surface_visual_review_final.json",
+            "human_movement_sweep_visual_records":sweep_visual_paths,
+            "human_movement_sweep_contact_records":sweep_contact_paths,
             "human_movement_sweep_acceptance_records":sweep_acceptance_paths,
             "repair_execution_records":execution_paths,
             "candidate_comparison_manifest":"candidate_comparison_manifest_final.json"
@@ -136,7 +164,7 @@ def main():
         }
         write_new(ws/"workspace_finalization_manifest.json",finalization)
         print("POST-EDIT REPAIR WORKSPACE: FINALIZED")
-        print(json.dumps({"candidate_revision":rev,"pre_edit_sha256":pre,"final_candidate_sha256":final,"execution_records":execution_paths,"sweep_acceptance_records":sweep_acceptance_paths},indent=2))
+        print(json.dumps({"candidate_revision":rev,"pre_edit_sha256":pre,"final_candidate_sha256":final,"execution_records":execution_paths,"sweep_visual_records":sweep_visual_paths,"sweep_contact_records":sweep_contact_paths,"sweep_acceptance_records":sweep_acceptance_paths},indent=2))
         return 0
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
         print("STOP — "+str(exc)); return 2

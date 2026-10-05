@@ -29,6 +29,12 @@ CRITICAL=[
 
 PY_RE=re.compile(r"scripts[\\/]([A-Za-z0-9_.-]+\.py)",re.I)
 BAT_RE=re.compile(r"\bcall\s+(RUN_[A-Za-z0-9_.-]+\.bat)",re.I)
+CONTROL_RE=re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F]")
+MALFORMED_PATTERNS=(
+    "C:Users",
+    "%WORKSPACE%workspace_manifest.json",
+    "%OUT_DIR%laptop_pickup_plan.json",
+)
 
 def validate(root=ROOT):
     missing_files=[]; missing_refs=[]; audited={}
@@ -37,6 +43,11 @@ def validate(root=ROOT):
         if not p.is_file():
             missing_files.append(name); continue
         text=p.read_text(encoding="utf-8",errors="replace")
+        if CONTROL_RE.search(text):
+            missing_refs.append({"from":name,"missing":"INVALID_CONTROL_CHARACTER_IN_BATCH"})
+        for pat in MALFORMED_PATTERNS:
+            if pat in text:
+                missing_refs.append({"from":name,"missing":f"MALFORMED_BATCH_PATH:{pat}"})
         py=sorted(set(PY_RE.findall(text)))
         bats=sorted(set(BAT_RE.findall(text)))
         audited[name]={"python_scripts":py,"nested_runners":bats}

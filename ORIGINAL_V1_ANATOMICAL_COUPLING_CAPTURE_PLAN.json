@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_ANATOMICAL_COUPLING_CAPTURE_PLAN",
+  "production_approved": false,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+  "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+  "common_layers": [
+    "weights_only",
+    "final_corrected"
+  ],
+  "common_motion_states": [
+    "start",
+    "intermediate_early",
+    "intermediate_mid",
+    "intermediate_late",
+    "endpoint",
+    "return_mid",
+    "return_start"
+  ],
+  "common_requirements": [
+    "exact candidate SHA-256",
+    "pose/motion definition hash",
+    "whole-body context and regional close views",
+    "left/right equivalent evidence where the motion is bilateral",
+    "same camera and lighting between weights-only and corrected comparisons",
+    "no crop that removes either attachment side",
+    "source/contact state recorded",
+    "defect-ledger links recorded"
+  ],
+  "systems": [
+    {
+      "id": "CP-NECK-TRAP-001",
+      "priority": "after_current_shoulder_recovery",
+      "proof_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "shoulder_abduction_elevation"
+      ],
+      "views": [
+        "front_upper_body",
+        "rear_upper_body",
+        "side_neck",
+        "rear_three_quarter_neck_trap",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "occiput_to_cervical_surface",
+        "neck_to_trapezius_slope",
+        "clavicle_acromion_end",
+        "scapular_spine_region"
+      ]
+    },
+    {
+      "id": "CP-PEC-AX-002",
+      "priority": "current_blocker",
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_push",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90",
+        "return_45"
+      ],
+      "views": [
+        "front_upper_body",
+        "side_upper_body",
+        "anterior_three_quarter",
+        "inferior_axilla_close",
+        "lateral_chest_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "sternal_pectoral_root",
+        "clavicular_pectoral_root",
+        "anterior_axillary_fold",
+        "humeral_insertion_side",
+        "pec_deltoid_transition"
+      ]
+    },
+    {
+      "id": "CP-POSTAX-003",
+      "priority": "current_blocker",
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "vertical_push"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90",
+        "return_45"
+      ],
+      "views": [
+        "rear_upper_body",
+        "posterior_three_quarter",
+        "side_upper_body",
+        "inferior_axilla_close",
+        "scapular_back_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "posterior_trunk_root",
+        "scapular_drape",
+        "posterior_axillary_fold",
+        "lat_teres_transition",
+        "humeral_insertion_side"
+      ]
+    },
+    {
+      "id": "CP-DELTOID-004",
+      "priority": "current_blocker",
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "horizontal_pull"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90"
+      ],
+      "views": [
+        "front_upper_body",
+        "rear_upper_body",
+        "lateral_shoulder_close",
+        "anterior_three_quarter",
+        "posterior_three_quarter",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine",
+        "deltoid_cap",
+        "deltoid_tuberosity_transition"
+      ]
+    },
+    {
+      "id": "CP-ARM-005",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "elbow_flexion_extension",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "forearm_pronation_supination"
+      ],
+      "views": [
+        "front_arm_close",
+        "side_arm_close",
+        "rear_arm_close",
+        "elbow_antecubital_close",
+        "whole_upper_body"
+      ],
+      "close_landmarks": [
+        "proximal_upperarm",
+        "biceps_triceps_surface",
+        "antecubital_fold",
+        "olecranon_region",
+        "proximal_forearm"
+      ]
+    },
+    {
+      "id": "CP-WRIST-HAND-006",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "horizontal_push"
+      ],
+      "views": [
+        "dorsal_forearm_hand",
+        "volar_forearm_hand",
+        "radial_side",
+        "ulnar_side",
+        "loaded_pushup_close",
+        "whole_upper_body"
+      ],
+      "close_landmarks": [
+        "distal_radius_ulna_surface",
+        "wrist_crease_zone",
+        "carpus_palm_transition",
+        "loaded_palm_contact",
+        "forearm_taper"
+      ]
+    },
+    {
+      "id": "CP-FINGER-007",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "wrist_flexion_extension_loaded"
+      ],
+      "views": [
+        "palm_close",
+        "dorsal_hand_close",
+        "thumb_web_close",
+        "finger_side_close",
+        "equipment_contact_close"
+      ],
+      "close_landmarks": [
+        "thenar_hypothenar",
+        "thumb_web",
+        "MCP_rows",
+        "PIP_DIP_rows",
+        "volar_tendon_path"
+      ]
+    },
+    {
+      "id": "CP-TRUNK-008",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "loaded_hip_hinge"
+      ],
+      "views": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "waist_close"
+      ],
+      "close_landmarks": [
+        "ribcage_waist_transition",
+        "abdomen",
+        "oblique_flanks",
+        "lumbar_surface",
+        "iliac_pelvic_transition"
+      ]
+    },
+    {
+      "id": "CP-GLUTE-009",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "views": [
+        "rear_pelvis_thigh",
+        "side_pelvis_thigh",
+        "rear_three_quarter",
+        "lateral_thigh_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "posterior_pelvic_root",
+        "gluteal_mass",
+        "gluteal_fold",
+        "lateral_thigh_IT_region",
+        "femoral_transition"
+      ]
+    },
+    {
+      "id": "CP-GROIN-010",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "hip_abduction_adduction",
+        "hip_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge"
+      ],
+      "views": [
+        "front_pelvis_thigh",
+        "front_three_quarter",
+        "medial_thigh_close",
+        "side_pelvis_thigh",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "pubic_groin_root",
+        "adductor_surface",
+        "medial_thigh",
+        "pelvis_femur_clearance",
+        "compression_fold_zone"
+      ]
+    },
+    {
+      "id": "CP-QUAD-011",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "knee_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "hip_flexion_extension"
+      ],
+      "views": [
+        "front_thigh_knee",
+        "side_thigh_knee",
+        "front_three_quarter",
+        "patella_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "rectus_femoris_path",
+        "vastus_medialis",
+        "vastus_lateralis",
+        "quadriceps_tendon_region",
+        "patella_tibial_chain"
+      ]
+    },
+    {
+      "id": "CP-HAM-012",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "views": [
+        "rear_thigh_knee",
+        "side_thigh_knee",
+        "rear_three_quarter",
+        "popliteal_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "ischial_root",
+        "posterior_thigh",
+        "distal_medial_hamstring",
+        "distal_lateral_hamstring",
+        "popliteal_fossa"
+      ]
+    },
+    {
+      "id": "CP-CALF-013",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "knee_flexion_extension",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "squat_deep_bilateral_flexion",
+        "loaded_foot_toe_contact"
+      ],
+      "views": [
+        "rear_lower_leg",
+        "side_lower_leg",
+        "front_three_quarter_lower_leg",
+        "Achilles_close",
+        "heel_contact_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "gastrocnemius_heads",
+        "soleus_region",
+        "Achilles_path",
+        "posterior_ankle",
+        "calcaneal_insertion"
+      ]
+    },
+    {
+      "id": "CP-FOOT-014",
+      "priority": "stage1_follow_on",
+      "proof_movements": [
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "horizontal_push"
+      ],
+      "views": [
+        "medial_foot",
+        "lateral_foot",
+        "rear_heel",
+        "dorsal_foot",
+        "plantar_contact_if_available",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "ankle_hindfoot",
+        "heel",
+        "medial_arch",
+        "lateral_arch",
+        "metatarsal_forefoot",
+        "toe_roots"
+      ]
+    }
+  ],
+  "exit_rule": "A coupling system cannot clear until every required proof movement has at least one candidate-bound outbound/intermediate/endpoint/return sequence at both common layers, with all close landmarks visible in at least one view and no linked Critical/High defect left open."
+}

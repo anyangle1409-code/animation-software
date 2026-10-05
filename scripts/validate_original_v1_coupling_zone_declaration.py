@@ -16,6 +16,9 @@ def validate(d,c,h):
     if d.get("production_approved") is not False: raise ValueError("declaration may not claim production approval")
     if not re.fullmatch(r"r\d+[a-z]?",str(d.get("candidate_revision","")),re.I): raise ValueError("candidate_revision invalid")
     if not SHA_RE.fullmatch(str(d.get("candidate_sha256",""))): raise ValueError("candidate_sha256 invalid")
+    if not SHA_RE.fullmatch(str(d.get("pre_edit_candidate_sha256",""))): raise ValueError("pre_edit_candidate_sha256 invalid")
+    if d.get("pre_edit_candidate_sha256")!=d.get("candidate_sha256"): raise ValueError("pre-edit identity fields differ")
+    if d.get("post_edit_execution_record_required") is not True: raise ValueError("post-edit execution record must be required")
     systems={x["id"] for x in c.get("coupling_systems",[])}
     if d.get("coupling_system_id") not in systems: raise ValueError("unknown coupling_system_id")
     ids=d.get("vertex_ids") or []

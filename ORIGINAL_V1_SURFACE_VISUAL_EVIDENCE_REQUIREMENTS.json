@@ -27,13 +27,15 @@
   "regions": [
     {
       "id": "head_neck_trapezius",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-NECK-001"
+      ],
       "needs": [
-        "neck flexion/extension surface",
-        "lateral bend/rotation surface",
-        "neck-to-trapezius transition under shoulder motion"
-      ]
+        "minimally obscured neck/trapezius close sequence for skin/fold detail",
+        "shoulder-girdle motion showing neck-to-trapezius surface coupling"
+      ],
+      "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
     },
     {
       "id": "clavicle_shoulder_deltoid",
@@ -92,34 +94,42 @@
     },
     {
       "id": "upperarm_elbow",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-ELB-001"
+      ],
       "needs": [
-        "elbow flexion/extension biceps-triceps surface",
-        "antecubital and posterior elbow folds",
-        "loaded push/pull"
-      ]
+        "closer exposed/minimally obscured elbow flexion-extension sequence",
+        "antecubital and posterior-elbow fold appearance/release",
+        "biceps/triceps surface through loaded and unloaded flexion"
+      ],
+      "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
     },
     {
       "id": "forearm_wrist",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-FARM-001"
+      ],
       "needs": [
-        "pronation/supination surface",
-        "loaded wrist extension",
-        "grip-to-forearm load path"
-      ]
+        "continuous real-human pronation/supination surface video including return",
+        "loaded wrist flexion/extension close surface sequence",
+        "forearm-to-wrist load path under grip/push"
+      ],
+      "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
     },
     {
       "id": "palm_thumb_fingers",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-HAND-001"
+      ],
       "needs": [
-        "cylindrical grip close surface",
-        "thumb opposition",
-        "grip release sequence",
-        "loaded palm/wrist contact"
-      ]
+        "minimally obscured palm/finger close sequence for skin/tendon/crease detail",
+        "cylindrical equipment grip and release surface sequence",
+        "loaded palm/wrist contact close sequence"
+      ],
+      "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
     },
     {
       "id": "pelvis_groin_glutes",
@@ -180,5 +190,12 @@
       ]
     }
   ],
-  "exit_rule": "Stage 4 visual-evidence closure is blocked while any region is missing the real-human surface states/views needed for its coupling and movement families. A region may remain partial when source limitations are explicitly recorded, but Critical/High visual claims cannot be closed from anatomy/kinematics alone."
+  "exit_rule": "Stage 4 visual-evidence closure is blocked while any region is missing the real-human surface states/views needed for its coupling and movement families. A region may remain partial when source limitations are explicitly recorded, but Critical/High visual claims cannot be closed from anatomy/kinematics alone.",
+  "summary": {
+    "region_count": 12,
+    "complete": 0,
+    "partial": 12,
+    "missing_surface_sequence": 0,
+    "interpretation": "partial means some real-human visual motion/surface evidence exists; it is not sufficient for final exterior skin/muscle acceptance."
+  }
 }

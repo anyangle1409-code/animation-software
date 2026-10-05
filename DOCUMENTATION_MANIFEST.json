@@ -89,6 +89,12 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_defect_coupling_map.py",
       "note": "Maps every current Critical/High whole-body issue to the anatomical coupling systems that must be candidate-proven before the issue may close."
+    },
+    "skinning_mode": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_SKINNING_MODE_AUDIT.bat",
+      "validator": "scripts/validate_original_v1_skinning_mode.py",
+      "note": "Read-only capture of the exact saved Blender Armature modifier skinning mode, including Preserve Volume/Dual Quaternion flag. Evidence only; does not authorize a global mode change."
     }
   },
   "categories": {

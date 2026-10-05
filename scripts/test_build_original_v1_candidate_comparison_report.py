@@ -325,7 +325,12 @@ class CandidateComparisonTests(unittest.TestCase):
                 self.accepted_sweep_fixture(root,"shoulder_abduction_elevation",csha)
             ]
             report=mod.build(manifest,root)
-            self.assertNotIn("sweep_acceptance:shoulder_abduction_elevation",report["failed_checks"])
+            sweep_debug=[x for x in report["checks"] if "sweep_acceptance" in x["name"]]
+            self.assertNotIn(
+                "sweep_acceptance:shoulder_abduction_elevation",
+                report["failed_checks"],
+                msg=json.dumps(sweep_debug,indent=2)
+            )
             self.assertIn("sweep_acceptance:humeral_internal_external_rotation",report["failed_checks"])
 
     def test_raw_sweep_report_path_is_not_an_acceptance_substitute(self):

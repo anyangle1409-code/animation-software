@@ -26,6 +26,9 @@ call :run scripts\validate_original_v1_human_body_master_plan.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweeps.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_execution.py --require-bound || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_execution_spec.py || exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_acceptance_template.py || exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling.py || exit /b 1
 call :run scripts\validate_original_v1_first_party_deformation_architecture.py || exit /b 1
 call :run scripts\validate_original_v1_surface_visual_evidence_requirements.py || exit /b 1
@@ -49,6 +52,9 @@ call :run scripts\test_validate_original_v1_human_body_master_plan.py || exit /b
 call :run scripts\test_validate_original_v1_human_movement_sweeps.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_execution.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_report.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_acceptance.py || exit /b 1
 call :run scripts\test_validate_original_v1_anatomical_coupling.py || exit /b 1
 call :run scripts\test_validate_original_v1_first_party_deformation_architecture.py || exit /b 1
 call :run scripts\test_validate_original_v1_coupling_zone_declaration.py || exit /b 1

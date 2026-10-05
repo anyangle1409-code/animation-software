@@ -65,5 +65,8 @@
     "coupling_system_evidence",
     "full_whole_body_regression",
     "contact_load_regression_if_applicable"
-  ]
+  ],
+  "pre_edit_candidate_sha256": null,
+  "identity_semantics": "candidate_sha256 and pre_edit_candidate_sha256 identify the immutable pre-edit candidate snapshot. The final post-edit SHA belongs in a separate repair execution record.",
+  "post_edit_execution_record_required": true
 }

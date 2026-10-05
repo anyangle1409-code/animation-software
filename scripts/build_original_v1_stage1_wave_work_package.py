@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 GRAPH=ROOT/"ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
 PROGRESS=ROOT/"ORIGINAL_V1_STAGE1_PROGRESS.json"
 PACKAGES=ROOT/"ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json"
+DEFECTS=ROOT/"ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
 
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 
@@ -17,7 +18,7 @@ def load_module(filename):
     m=importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
 
 def build(wave_id):
-    graph=read(GRAPH); progress=read(PROGRESS); packages=read(PACKAGES)
+    graph=read(GRAPH); progress=read(PROGRESS); packages=read(PACKAGES); defects=read(DEFECTS)
     gby={x["id"]:x for x in graph["waves"]}; pby={x["id"]:x for x in progress["waves"]}
     if wave_id=="current": wave_id=progress["active_wave_id"]
     if wave_id not in gby: raise ValueError(f"unknown Stage 1 wave {wave_id}")
@@ -62,10 +63,18 @@ def build(wave_id):
     regression=regression_mod.build(package_ids)
 
     package_by={x["id"]:x for x in packages["packages"]}
+    selected_coupling=[package_by[x]["coupling_system_id"] for x in package_ids]
+    selected_set=set(selected_coupling)
+    closure_defects=[
+      row["issue_id"] for row in defects.get("mappings",[])
+      if set(row.get("required_coupling_system_ids",[]))
+      and set(row.get("required_coupling_system_ids",[])).issubset(selected_set)
+    ]
     out["scope"]={
-      "coupling_system_ids":[package_by[x]["coupling_system_id"] for x in package_ids],
+      "coupling_system_ids":selected_coupling,
       "body_regions":regression["body_regions"],
-      "defect_ids":regression["linked_defect_ids"],
+      "closure_eligible_defect_ids":closure_defects,
+      "regression_linked_defect_ids":regression["linked_defect_ids"],
       "focused_neighbor_coupling_system_ids":regression["focused_neighbor_coupling_system_ids"]
     }
     out["validation"]={
@@ -118,7 +127,7 @@ def markdown(d):
       "## Scope",""
     ]
     lines.append("- Repair packages: "+(", ".join(d["repair_package_ids"]) if d["repair_package_ids"] else "none — global diagnostics"))
-    for key,label in (("coupling_system_ids","Coupling systems"),("body_regions","Body regions"),("defect_ids","Scoped defects")):
+    for key,label in (("coupling_system_ids","Coupling systems"),("body_regions","Body regions"),("closure_eligible_defect_ids","Closure-eligible defects"),("regression_linked_defect_ids","Regression-linked defects")):
         vals=d.get("scope",{}).get(key,[])
         lines.append(f"- {label}: "+(", ".join(vals) if vals else "none"))
     lines += ["","## Validation",""]

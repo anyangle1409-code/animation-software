@@ -153,7 +153,8 @@
     "post_edit_evidence_bundle_runner": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat",
     "pre_edit_repair_workspace_runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
     "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
-    "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat"
+    "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
+    "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -204,5 +205,14 @@
     "unified_candidate_comparison": "READY",
     "real_human_evidence_records": 55,
     "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance."
+  },
+  "stage1_progress": {
+    "active_wave_id": "shoulder_yoke_foundation",
+    "operational_next_action": "complete_global_pre_repair_diagnostics",
+    "waves_total": 8,
+    "waves_clear": 0,
+    "packages_total": 14,
+    "packages_clear": 0,
+    "note": "Shoulder-yoke remains the repair focus, but no shoulder package may clear until exact-candidate global pre-repair diagnostics are complete."
   }
 }

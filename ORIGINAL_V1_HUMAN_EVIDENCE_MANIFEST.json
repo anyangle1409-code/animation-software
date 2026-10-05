@@ -1558,6 +1558,162 @@
       "uncertainty": "2D internal MRI during repeated unloaded/gravity-loaded flexion; do not infer exact exterior biceps bulge magnitude from this alone.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-SCAP-002",
+      "region": "scapular_back_shoulder_surface",
+      "movement_primitive": "upper_limb_elevation_skin_strain",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
+        "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
+        "license_use_note": "Use reported posterior skin-strain fields as observation-only development evidence; do not copy subject geometry/marker coordinates."
+      },
+      "movement_phase": "frontal_sagittal_and_scapular_plane_elevation_to_90_and_maximum",
+      "view": [
+        "posterior_scapular_skin_grid",
+        "multiple_elevation_angles"
+      ],
+      "diversity": {
+        "subject_count": 5,
+        "notes": "Five healthy volunteers; useful direct skin-strain evidence but too small for one canonical strain magnitude."
+      },
+      "observable_landmarks": [
+        "posterior_scapular_skin",
+        "upper_trapezius_surface",
+        "medial_scapular_region",
+        "posterior_deltoid_region"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Posterior scapular skin undergoes large, spatially varying strain during arm elevation rather than tracking the scapula as a rigid cover.",
+        "Strain magnitude and direction vary by elevation plane and angle, supporting angle-dependent back/shoulder drape rather than one fixed corrective shape."
+      ],
+      "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-HIP-003",
+      "region": "pelvis_groin_glutes_thigh_surface",
+      "movement_primitive": "hip_abduction_rotation_soft_tissue_sliding",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9840870/",
+        "citation": "Soft tissue artifact causes significant errors in the calculation of joint angles and range of motion at the hip, PMCID PMC9840870.",
+        "license_use_note": "Use measured skin-marker motion relative to bone as development evidence only; do not copy participant geometry/marker coordinates."
+      },
+      "movement_phase": "walking_hip_abduction_and_hip_rotation",
+      "view": [
+        "dual_fluoroscopy_with_skin_markers",
+        "pelvis_and_thigh_marker_paths"
+      ],
+      "diversity": {
+        "subject_count": 11,
+        "notes": "Eleven asymptomatic young adults; dynamic multi-activity evidence of location- and subject-dependent soft-tissue motion."
+      },
+      "observable_landmarks": [
+        "pelvic_skin",
+        "lateral_thigh_skin",
+        "anterior_thigh_skin",
+        "posterior_thigh_skin",
+        "hip_transition"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "inter_subject_variation",
+        "multi_joint_tissue_behavior"
+      ],
+      "derived_observations": [
+        "Skin/soft tissue at the pelvis and thigh moves relative to the underlying bones during hip motion; the amount depends on location, activity and subject.",
+        "Hip-region deformation therefore must permit tissue sliding/deformation rather than rigidly binding the entire surface to femur or pelvis."
+      ],
+      "uncertainty": "Marker trajectories quantify soft-tissue artifact rather than complete exterior meshes; use to reject rigid skin ownership, not prescribe exact contour.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FOOT-002",
+      "region": "foot_arch_surface",
+      "movement_primitive": "loaded_unloaded_foot_shape_deformation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9846431/",
+        "citation": "Foot shape is related to load-induced shape deformations, but neither are good predictors of plantar soft tissue stiffness (2023), PMCID PMC9846431.",
+        "license_use_note": "CC BY article. Use derived statistical foot-shape/deformation observations only; do not transfer scan meshes or participant geometry."
+      },
+      "movement_phase": "minimal_bodyweight_to_full_bodyweight",
+      "view": [
+        "3d_foot_scan",
+        "longitudinal_and_transverse_arch_shape"
+      ],
+      "diversity": {
+        "subject_count": 91,
+        "notes": "Ninety-one healthy adults, 46 women and 45 men, age 18-40; strong population evidence for variation in loaded foot shape."
+      },
+      "observable_landmarks": [
+        "medial_longitudinal_arch",
+        "transverse_arch",
+        "heel",
+        "midfoot",
+        "forefoot"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Healthy feet show load-induced three-dimensional shape change rather than behaving as rigid blocks.",
+        "Longitudinal arch flattening varies substantially among healthy adults, so the production target should preserve plausible load response without enforcing one exact arch displacement."
+      ],
+      "uncertainty": "Static load conditions rather than dynamic gait/heel raise; combine with dynamic arch/forefoot evidence for movement timing.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-PEC-004",
+      "region": "chest_anterior_axilla_surface",
+      "movement_primitive": "healthy_pectoral_anterior_axillary_fold_reference",
+      "source_type": "photo_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4555516/",
+        "citation": "Utility of the Pectoralis Major Index in the Diagnosis of Structurally Significant Pectoralis Major Tears (2015), PMCID PMC4555516.",
+        "license_use_note": "Use healthy-control photographic morphology measurements as observation-only evidence; do not copy participant images or identity."
+      },
+      "movement_phase": "90_degree_shoulder_abduction_90_degree_external_rotation_military_press_start",
+      "view": [
+        "standardized_front_chest_photograph",
+        "bilateral_anterior_axillary_fold"
+      ],
+      "diversity": {
+        "subject_count": 50,
+        "notes": "Fifty healthy adult men with uninjured pectoralis major anatomy; single standardized arm position, not a full motion sequence."
+      },
+      "observable_landmarks": [
+        "pectoralis_major_curvature",
+        "anterior_axillary_fold",
+        "lateral_chest_wall",
+        "bilateral_symmetry"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "fold_boundaries",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Healthy anterior axillary fold/pectoral curvature is consistently visible and measurable in a standardized 90° abduction/external-rotation posture.",
+        "The healthy-control cohort supports preserving a continuous pectoral curvature into the anterior fold rather than a membrane, trench or missing lateral chest transition."
+      ],
+      "uncertainty": "Static standardized pose and male-only cohort; does not establish dynamic timing or fold depth through the full elevation arc.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

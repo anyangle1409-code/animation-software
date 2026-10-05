@@ -11,7 +11,10 @@
     "anatomical_coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
     "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
     "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
-    "first_party_deformation_architecture": "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json"
+    "first_party_deformation_architecture": "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json",
+    "stage1_repair_execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+    "whole_body_repair_guide": "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md",
+    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
@@ -331,17 +334,22 @@
       "r95_is_immutable_comparator"
     ],
     "next_sequence": [
-      "run_or_read_shoulder_layer_diagnostic",
-      "identify_first_failing_ownership_support_zones",
-      "declare_smallest_repair_scope",
-      "create_new_numbered_candidate",
-      "repair_weights_support_first",
-      "prove_weights_only_elevation_sweep",
-      "prove_required_anatomical_coupling_systems_for_repaired_region",
-      "fit_correctives_only_if_foundation_is_plausible",
-      "run_visual_numerical_symmetry_contact_whole_body_regression",
+      "run_pre_repair_diagnostic_bundle",
+      "identify_earliest_failing_layer_using_diagnosis_tree",
+      "create_and_validate_pre_edit_repair_declarations",
+      "audit_declared_coupling_weight_ownership",
+      "generate_focused_plus_whole_body_regression_plan",
+      "create_new_numbered_candidate_and_repair_smallest_foundational_layer",
+      "capture_exact_final_candidate_sha",
+      "initialize_post_edit_evidence_bundle",
+      "prove_weights_only_regions_before_correctives",
+      "prove_required_anatomical_and_movement_coupling_systems",
+      "complete_candidate_surface_visual_review",
+      "fit_correctives_only_for_residual_anatomy_error",
+      "run_dense_continuity_reversibility_visual_numerical_contact_change_regression",
+      "run_unified_parent_to_candidate_comparison",
       "close_issue_rows_only_with_committed_closure_evidence",
-      "continue Stage1 rather_than_jump_to_Stage5"
+      "advance_only_by_stage1_dependency_graph"
     ]
   },
   "protected_constraints": [

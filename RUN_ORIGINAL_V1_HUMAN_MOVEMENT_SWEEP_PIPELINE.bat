@@ -127,7 +127,11 @@ echo Review workspace:
 echo   %REVIEW%
 echo.
 echo IMPORTANT:
-echo - Calibration is still IN_REVIEW.
+if "%CALIBRATED%"=="" (
+  echo - Newly generated calibration is IN_REVIEW and must be reviewed/finalized.
+) else (
+  echo - Existing CALIBRATED runner record was validated and reused.
+)
 echo - Per-sweep review/acceptance remains PENDING.
 echo - Work must review human evidence, motion, visuals and contact as required.
 echo - No model/anatomy PASS is inferred by this command.

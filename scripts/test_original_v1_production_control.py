@@ -212,6 +212,9 @@ class ControlTests(unittest.TestCase):
     def test_candidate_bound_local_repair_precedes_freeze_reconciliation(self):
         c=self.module();status,_=c.build(ROOT)
         control=c.read(ROOT,'ORIGINAL_V1_PRODUCTION_CONTROL.json')
+        # Isolate the local-repair precedence rule from the newer, deliberately
+        # higher-priority owner visual-rejection gate.
+        status['visual_rejections']=[]
         # the live control may have closed its repair record (closed_local_repairs); the precedence rule is tested with a synthetic candidate-bound record
         active={'candidate_revision':status['current_candidate'],'candidate_sha256':status['last_known_candidate_sha256'],
                 'action':'RUN local axilla repair','reason':'synthetic','command':'RUN_ORIGINAL_V1_AXILLA_PIT_AUTO.bat '+status['current_candidate'],

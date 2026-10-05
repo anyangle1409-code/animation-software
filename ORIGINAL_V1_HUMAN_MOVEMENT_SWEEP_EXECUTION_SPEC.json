@@ -79,7 +79,30 @@
         "pec_root",
         "trap_neck",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-VIS-SCAP-002"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_whole_upper_body",
+        "rear_whole_upper_body",
+        "lateral_shoulder",
+        "anterior_axilla_close",
+        "posterior_axilla_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Checkpoint sequence follows the whole-body acceptance sweep and healthy arm-elevation evidence; exact universal maximum is not claimed.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "humeral_internal_external_rotation": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -130,7 +153,28 @@
         "posterior_axilla",
         "upperarm_twist_distribution",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-VIS-003",
+        "HE-ATT-DEL-001"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "upperarm_elbow"
+      ],
+      "cameras": [
+        "front_three_quarter_shoulder",
+        "rear_three_quarter_shoulder",
+        "lateral_upperarm",
+        "axilla_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Signed rotation values are provisional bounded audit targets with the arm abducted; healthy clinical surface evidence supports the motion class, not one universal endpoint.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "forearm_pronation_supination": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -181,7 +225,28 @@
         "upperarm_not_dragged",
         "hand_orientation",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
+      ],
+      "regions": [
+        "upperarm_elbow",
+        "forearm_wrist",
+        "palm_thumb_fingers"
+      ],
+      "cameras": [
+        "palmar_forearm_close",
+        "dorsal_forearm_close",
+        "radial_side_close",
+        "ulnar_side_close",
+        "whole_upper_limb"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Signed values are provisional near-extreme audit targets; paired human surface scans prove non-rigid surface change but do not prescribe one universal endpoint.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "trunk_flexion": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -224,7 +289,26 @@
         "posterior_lengthening",
         "pelvis_ribcage_continuity",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-TRK-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Magnitude is a conservative project audit target; human evidence supports distributed lumbopelvic motion and return, not one universal angle.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "trunk_extension": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -266,7 +350,27 @@
         "anterior_lengthening",
         "posterior_compression",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-TRK-001",
+        "HE-HNG-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Magnitude is a conservative project audit target; human evidence supports distributed lumbopelvic motion and return, not one universal angle.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "trunk_lateral_bend": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -325,7 +429,26 @@
         "ribcage_pelvis_spacing",
         "bilateral_symmetry",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-TRK-003"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_oblique",
+        "waist_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Magnitude is a conservative project audit target; human evidence supports lumbopelvic sharing and return, not one universal angle.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "trunk_axial_rotation": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -383,7 +506,26 @@
         "oblique_surface",
         "ribcage_pelvis_relative_motion",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-TRK-002"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_three_quarter",
+        "rear_three_quarter",
+        "top_oblique",
+        "waist_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Magnitude is a project audit target; MRI evidence supports distributed segmental rotation, not one universal total angle.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "loaded_hip_hinge": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -436,7 +578,30 @@
         "lumbar_continuity",
         "foot_grounding",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-HNG-001",
+        "HE-TRK-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "pelvis_groin_close",
+        "lumbar_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Fractions describe a project audit hinge sequence; joint sharing/contact must be calibrated against the canonical rig and candidate.",
+      "visual_capture_required": true,
+      "contact_load_required": true,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "hip_abduction_adduction": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -495,7 +660,27 @@
         "pelvis_femur_clearance",
         "knee_alignment",
         "bilateral_symmetry"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-HIP-001",
+        "HE-LNG-001"
+      ],
+      "regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "ribcage_abdomen_obliques_lumbar"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_three_quarter",
+        "groin_glute_close"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Fractions describe a project audit frontal-plane sequence; end angles remain calibration targets rather than universal ROM claims.",
+      "visual_capture_required": true,
+      "contact_load_required": false,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "ankle_plantarflexion": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -539,7 +724,27 @@
         "forefoot_contact",
         "arch_continuity",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-ANK-001",
+        "HE-ACH-001"
+      ],
+      "regions": [
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "cameras": [
+        "side_lower_leg",
+        "rear_lower_leg",
+        "front_three_quarter_foot",
+        "Achilles_close",
+        "whole_body"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Fractions describe a project heel-raise/plantarflexion audit; forefoot contact and Achilles/calf behavior remain calibration requirements.",
+      "visual_capture_required": true,
+      "contact_load_required": true,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     },
     "grip_release": {
       "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
@@ -581,7 +786,28 @@
         "surface_bowstring",
         "wrist_alignment",
         "return_reversibility"
-      ]
+      ],
+      "evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
+      ],
+      "regions": [
+        "palm_thumb_fingers",
+        "forearm_wrist"
+      ],
+      "cameras": [
+        "palm_three_quarter_close",
+        "dorsal_three_quarter_close",
+        "side_close",
+        "whole_upper_body"
+      ],
+      "audit_range_status": "PROVISIONAL_UNCALIBRATED",
+      "audit_range_basis": "Fractions describe a project grip/opening audit; actual equipment contact/release order remains a separate required contact proof.",
+      "visual_capture_required": true,
+      "contact_load_required": true,
+      "candidate_evidence_status": "BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED"
     }
-  }
+  },
+  "range_rule": "All numeric sweep magnitudes are deterministic project audit ranges for validation, not universal human ROM limits. They remain provisional until Blender skeletal calibration and human-evidence review."
 }

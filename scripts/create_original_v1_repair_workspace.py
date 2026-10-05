@@ -24,6 +24,8 @@ FILES={
  "comparison_template":ROOT/"ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
  "visual_template":ROOT/"ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json",
  "visual_requirements":ROOT/"ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
+ "sweep_acceptance_template":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
+ "sweep_plan":ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
  "declaration_template":ROOT/"ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
 }
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
@@ -138,6 +140,25 @@ def main():
                 row["human_evidence_ids"]=list(visual_by[row["id"]].get("current_visual_evidence_ids",[]))
         write_new(out/"surface_visual_review_FINAL_TEMPLATE.json",vr)
 
+        sweep_accept_template=read(FILES["sweep_acceptance_template"])
+        sweep_plan=read(FILES["sweep_plan"])
+        sweep_acceptance_templates=[]
+        expected_sweep_acceptance_records=[]
+        for sid in validation_selection.get("sweep_only_movements_requiring_generic_runner",[]):
+            sat=copy.deepcopy(sweep_accept_template)
+            sat["status"]="HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_FINAL_SHA_NOT_BOUND"
+            sat["candidate_revision"]=a.candidate
+            sat["candidate_sha256"]=None
+            sat["sweep_id"]=sid
+            sat["required_human_evidence_ids"]=list(sweep_plan["sweeps"][sid].get("evidence_ids",[]))
+            sat["human_evidence_review_refs"]=[]
+            stem=sid.lower().replace("-","_")
+            template_name=f"human_movement_sweep_acceptance_{stem}_FINAL_TEMPLATE.json"
+            final_name=f"human_movement_sweep_acceptance_{stem}_final.json"
+            write_new(out/template_name,sat)
+            sweep_acceptance_templates.append(template_name)
+            expected_sweep_acceptance_records.append(final_name)
+
         dt=read(FILES["declaration_template"]); declarations=[]; expected_exec=[]
         for pid in ids:
             pkg=pby[pid]; cp=cby[pkg["coupling_system_id"]]
@@ -162,6 +183,7 @@ def main():
         cm["evidence"]["regression_report_path"]="repair_regression_result.json"
         cm["evidence"]["pose_capture_plan_path"]="pose_capture_evidence_plan_final.json"
         cm["evidence"]["surface_visual_review_path"]="surface_visual_review_final.json"
+        cm["evidence"]["human_movement_sweep_acceptance_paths"]=expected_sweep_acceptance_records
         write_new(out/"candidate_comparison_FINAL_TEMPLATE.json",cm)
 
         workspace={
@@ -178,6 +200,8 @@ def main():
             "coupling_final_template":"anatomical_coupling_evidence_FINAL_TEMPLATE.json",
             "movement_coupling_final_template":"movement_coupling_evidence_FINAL_TEMPLATE.json",
             "surface_visual_final_template":"surface_visual_review_FINAL_TEMPLATE.json",
+            "sweep_acceptance_final_templates":sweep_acceptance_templates,
+            "expected_sweep_acceptance_records":expected_sweep_acceptance_records,
             "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
             "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
           },
@@ -185,7 +209,8 @@ def main():
             "pose_names":validation_selection.get("pose_names",[]),
             "deterministic_sweep_names":validation_selection.get("deterministic_sweep_names",[]),
             "sweep_only_movements_requiring_generic_runner":validation_selection.get("sweep_only_movements_requiring_generic_runner",[]),
-            "validation_definition_complete":validation_selection.get("validation_definition_complete",False)
+            "validation_definition_complete":validation_selection.get("validation_definition_complete",False),
+            "sweep_acceptance_records_required":expected_sweep_acceptance_records
           },
           "next_actions":[
             "complete each pre-edit repair declaration with exact candidate-specific zones/bones/hashes and validate it",
@@ -195,7 +220,7 @@ def main():
             "save repaired Blend and calculate FINAL SHA",
             "finalize workspace to bind final evidence templates/issue ledger/comparison manifest to FINAL SHA",
             "prove weights-only acceptance before corrective refinement",
-            "populate coupling/movement/visual/regression evidence and execution records",
+            "populate coupling/movement/visual/regression evidence, sweep acceptance records and execution records",
             "run unified candidate comparison before any issue closure or progression"
           ],
           "note":"Workspace creation is administrative PRE-EDIT preparation only. Nothing is anatomically clear, owner-accepted or production-approved."

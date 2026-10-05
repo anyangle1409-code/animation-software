@@ -12,6 +12,9 @@ from __future__ import annotations
 import argparse,json
 from pathlib import Path
 
+ROOT=Path(__file__).resolve().parents[1]
+PACKAGES=ROOT/"ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json"
+
 PROFILES={
   "shoulder_layer":{
     "packages":{"RP-NECK-TRAP-001","RP-PEC-AX-002","RP-POSTAX-003","RP-DELTOID-004"}
@@ -30,6 +33,10 @@ def selected_packages(workspace=None,packages=None):
     else:
         selected={x.strip() for x in packages.split(",") if x.strip()}
     if not selected: raise ValueError("repair package selection missing")
+    authority=json.loads(PACKAGES.read_text(encoding="utf-8"))
+    known={x["id"] for x in authority.get("packages",[])}
+    unknown=sorted(selected-known)
+    if unknown: raise ValueError(f"unknown repair packages {unknown}")
     return selected
 
 def main():

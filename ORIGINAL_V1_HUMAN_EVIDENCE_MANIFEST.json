@@ -1563,7 +1563,7 @@
       "id": "HE-VIS-SCAP-002",
       "region": "scapular_back_shoulder_surface",
       "movement_primitive": "upper_limb_elevation_skin_strain",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
         "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
@@ -1595,7 +1595,8 @@
       ],
       "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "Evidence role is the published posterior scapular skin-grid/strain figure series from the underlying primary study; the underlying study design remains primary research."
     },
     {
       "id": "HE-VIS-HIP-003",

@@ -112,10 +112,11 @@
       "id": "forearm_wrist",
       "state": "partial",
       "current_visual_evidence_ids": [
-        "HE-VIS-FARM-001"
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
       ],
       "needs": [
-        "continuous real-human pronation/supination surface video including return",
+        "dynamic pronation/supination return sequence with exposed/minimally obscured forearm surface",
         "loaded wrist flexion/extension close surface sequence",
         "forearm-to-wrist load path under grip/push"
       ],
@@ -125,11 +126,12 @@
       "id": "palm_thumb_fingers",
       "state": "partial",
       "current_visual_evidence_ids": [
-        "HE-VIS-HAND-001"
+        "HE-VIS-HAND-001",
+        "HE-VIS-HAND-002"
       ],
       "needs": [
+        "loaded cylindrical grip/release including palm contact and return; current 3D scans are dorsal/unloaded",
         "minimally obscured palm/finger close sequence for skin/tendon/crease detail",
-        "cylindrical equipment grip and release surface sequence",
         "loaded palm/wrist contact close sequence"
       ],
       "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
@@ -186,12 +188,15 @@
       "current_visual_evidence_ids": [
         "HE-VIS-LOWER-001",
         "HE-VIS-LOWER-002",
-        "HE-VIS-FOOT-002"
+        "HE-VIS-FOOT-002",
+        "HE-VIS-FOOT-003",
+        "HE-VIS-FOOT-004"
       ],
       "needs": [
+        "dynamic loaded arch/forefoot sequence through squat/lunge/push-up rather than discrete positions only",
+        "continuous heel-raise return with toe/forefoot contact visible",
         "dynamic loaded arch/heel/forefoot through heel raise, push-off and return",
         "toe extension under push-up/lunge",
-        "heel raise and return",
         "dorsiflexion contact",
         "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]

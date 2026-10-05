@@ -26,6 +26,8 @@ call :run scripts\validate_original_v1_human_body_master_plan.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweeps.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_execution.py --require-bound || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_execution_spec.py || exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_camera_plan.py || exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_visual_renderer_source.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweep_acceptance_template.py || exit /b 1
@@ -56,6 +58,9 @@ call :run scripts\test_validate_original_v1_human_movement_sweep_report.py || ex
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_acceptance.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_camera_plan.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_visual_renderer_source.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_contact_raw.py || exit /b 1
 call :run scripts\test_build_original_v1_human_movement_sweep_contact_review.py || exit /b 1
 call :run scripts\test_create_original_v1_human_movement_sweep_review_workspace.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_motion_review.py || exit /b 1

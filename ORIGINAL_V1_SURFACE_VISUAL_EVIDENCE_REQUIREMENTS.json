@@ -127,9 +127,11 @@
       "state": "partial",
       "current_visual_evidence_ids": [
         "HE-VIS-HAND-001",
-        "HE-VIS-HAND-002"
+        "HE-VIS-HAND-002",
+        "HE-VIS-FINGER-003"
       ],
       "needs": [
+        "dynamic cylindrical grip and release including palm-side skin/crease response and return",
         "loaded cylindrical grip/release including palm contact and return; current 3D scans are dorsal/unloaded",
         "minimally obscured palm/finger close sequence for skin/tendon/crease detail",
         "loaded palm/wrist contact close sequence"
@@ -174,13 +176,15 @@
       "id": "calf_ankle_achilles",
       "state": "partial",
       "current_visual_evidence_ids": [
-        "HE-VIS-LOWER-002"
+        "HE-VIS-LOWER-002",
+        "HE-ACH-003",
+        "HE-ACH-004"
       ],
       "needs": [
+        "exterior calf/Achilles close video through dorsiflexion, heel rise and return",
         "dorsiflexion calf/Achilles surface",
         "plantarflexion/heel raise",
         "knee-state effect on gastrocnemius",
-        "return sequence",
         "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     },

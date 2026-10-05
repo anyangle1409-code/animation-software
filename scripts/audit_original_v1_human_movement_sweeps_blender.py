@@ -406,13 +406,13 @@ result={
    "corrective_contribution_summary":"IMPLEMENTED",
    "runner_script_hash":"IMPLEMENTED",
    "end_of_run_source_rehash":"IMPLEMENTED",
-   "visual_capture_manifest":"IMPLEMENTED_OPTIONAL_PENDING_BLENDER_CALIBRATION",
-   "required_regional_renders":"IMPLEMENTED_OPTIONAL_PENDING_BLENDER_CALIBRATION",
-   "contact_load_state":"RAW_MEASUREMENTS_IMPLEMENTED_OPTIONAL_PENDING_BLENDER_CALIBRATION"
+   "visual_capture_manifest":"NOT_IMPLEMENTED",
+   "required_regional_renders":"NOT_IMPLEMENTED",
+   "contact_load_state":"NOT_IMPLEMENTED"
  },
  "diagnostic_limitations":[
-   "Visual/contact evidence is produced only when evidence_root + candidate_revision are supplied.",
-   "Raw contact measurements never auto-classify LEGITIMATE_CONTACT or REQUIRED_CLEARANCE; reviewed contact reports remain mandatory.",
+   "The raw sweep report is diagnostic motion/surface evidence only; visual capture is produced by the separate dedicated visual runner.",
+   "Contact/load evidence is produced by the separate dedicated raw-contact runner and never auto-classifies LEGITIMATE_CONTACT or REQUIRED_CLEARANCE.",
    "Audit joint ranges remain provisional until Blender calibration/review.",
    "This output cannot close a human visual, contact, coupling or Stage-1 acceptance gate by itself."
  ],
@@ -463,9 +463,9 @@ for name,cfg in spec["sweeps"].items():
       "plan_regions":plan["sweeps"][name]["regions"],
       "plan_cameras":plan["sweeps"][name]["cameras"],
       "samples":samples,
-      "visual_capture_status":"CAPTURED_PENDING_REVIEW" if EVIDENCE_ROOT is not None else "NOT_REQUESTED",
+      "visual_capture_status":"NOT_IMPLEMENTED",
       "contact_load_required":contact_bearing,
-      "contact_load_status":("RAW_MEASUREMENTS_CAPTURED_PENDING_CLASSIFICATION" if EVIDENCE_ROOT is not None and contact_bearing else "NOT_REQUESTED" if contact_bearing else "NOT_APPLICABLE"),
+      "contact_load_status":"NOT_IMPLEMENTED" if contact_bearing else "NOT_APPLICABLE",
       "engineering_review":"PENDING",
       "owner_review":"PENDING",
     }

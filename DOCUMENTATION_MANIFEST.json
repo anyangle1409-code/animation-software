@@ -95,6 +95,12 @@
       "runner": "RUN_ORIGINAL_V1_SKINNING_MODE_AUDIT.bat",
       "validator": "scripts/validate_original_v1_skinning_mode.py",
       "note": "Read-only capture of the exact saved Blender Armature modifier skinning mode, including Preserve Volume/Dual Quaternion flag. Evidence only; does not authorize a global mode change."
+    },
+    "coupling_weight_audit": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat",
+      "validator": "scripts/validate_original_v1_coupling_weight_audit.py",
+      "note": "Read-only candidate/declaration-bound diagnostic of proximal/distal anchor weight shares and ownership discontinuities inside a declared shared-tissue zone; numeric distribution is diagnostic, not anatomy acceptance."
     }
   },
   "categories": {

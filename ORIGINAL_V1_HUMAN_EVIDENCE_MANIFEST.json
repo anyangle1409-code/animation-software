@@ -744,6 +744,87 @@
       "uncertainty": "Small cohort and ultrasound tracking limitations; use to require changing calf/Achilles form and load-state sensitivity, not a precise tendon-length formula.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-TRK-003",
+      "region": "lumbar_pelvis_hip",
+      "movement_primitive": "trunk_lateral_bend",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5011592/",
+        "citation": "Three-dimensional motion analysis of lumbopelvic rhythm during lateral trunk bending, PMCID PMC5011592.",
+        "license_use_note": "Use derived lumbopelvic coordination observations only; no subject geometry or marker data is production content."
+      },
+      "movement_phase": "upright_to_maximum_lateral_bend_and_return",
+      "view": [
+        "3d_motion_analysis",
+        "lumbar_and_hip_angles"
+      ],
+      "diversity": {
+        "subject_count": 8,
+        "notes": "Eight healthy men, mean age about 33. Small male-only cohort; use the lumbopelvic sharing pattern as plausibility evidence, not a universal angle prescription."
+      },
+      "observable_landmarks": [
+        "lumbar spine",
+        "pelvis",
+        "hip",
+        "lateral trunk angle"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "interjoint_coordination",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Lateral trunk bending is shared between lumbar and pelvic/hip motion rather than occurring as a rigid single-segment side bend.",
+        "The return path is mechanically relevant and should be sampled as well as the end position."
+      ],
+      "uncertainty": "Small male cohort and marker-based motion capture; useful for coordination, not exterior soft-tissue shape.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-HNG-001",
+      "region": "trunk_hip_knee",
+      "movement_primitive": "loaded_hip_hinge",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3878967/",
+        "citation": "Kinetic and kinematic differences between deadlifts and goodmornings, PMCID PMC3878967.",
+        "license_use_note": "Use joint/trunk kinematic and loading relationships for development-only validation; no participant geometry or media is production content."
+      },
+      "movement_phase": "loaded_descent_bottom_and_ascent",
+      "view": [
+        "3d_motion_analysis",
+        "force_plate",
+        "sagittal_joint_moments"
+      ],
+      "diversity": {
+        "subject_count": 13,
+        "notes": "Thirteen subjects performed good mornings and deadlifts under specified external loads. Exercise technique and loading limit generalization to all hinge patterns."
+      },
+      "observable_landmarks": [
+        "trunk angle",
+        "hip flexion",
+        "knee flexion",
+        "L4_L5 loading",
+        "barbell load"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "interjoint_coordination",
+        "force_transmission",
+        "load_path",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Loaded hinge patterns can use substantially different knee motion while retaining similar trunk kinematics.",
+        "Hip and lumbar loading relationships change with exercise and load, so a hinge should not be represented as one fixed trunk-to-thigh angle recipe.",
+        "The model needs separate hip, knee and trunk contributions through descent and ascent."
+      ],
+      "uncertainty": "Exercise-specific loaded tasks and modest sample; use for hinge coordination/load-path constraints, not a canonical deadlift prescription.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

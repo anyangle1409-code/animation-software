@@ -73,6 +73,8 @@ class CandidateComparisonTests(unittest.TestCase):
         cal=builder.build(root/raw_name,"r95")
         for adapter in cal["adapters"]:
             adapter["state"]="CALIBRATED"
+            adapter["engineering_review_status"]="PASS"
+            adapter["human_evidence_review_status"]="PASS"
             adapter["human_evidence_review_refs"]=list(adapter["required_human_evidence_ids"])
         cal["overall_state"]="CALIBRATED"
         cal["engineering_review"]="PASS"

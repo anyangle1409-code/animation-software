@@ -15,7 +15,7 @@
   "regions": [
     {
       "id": "head_neck_trapezius",
-      "state": "not_started",
+      "state": "evidence_partial",
       "movements": [
         "neutral_braced_trunk",
         "shoulder_flexion_elevation",
@@ -30,7 +30,8 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "current_note": "Segmental cervical flexion/extension evidence added; trapezius surface/deformation proof still pending."
     },
     {
       "id": "clavicle_shoulder_deltoid",
@@ -293,7 +294,7 @@
     },
     {
       "id": "grip_release",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "neutral_braced_trunk",
@@ -301,23 +302,23 @@
     },
     {
       "id": "trunk_flexion",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "trunk_extension",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "trunk_lateral_bend",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "trunk_axial_rotation",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "loaded_hip_hinge",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "squat_deep_bilateral_flexion",
@@ -333,7 +334,7 @@
     },
     {
       "id": "hip_abduction_adduction",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "knee_flexion_extension",
@@ -345,7 +346,7 @@
     },
     {
       "id": "ankle_plantarflexion",
-      "state": "not_started"
+      "state": "evidence_partial"
     },
     {
       "id": "loaded_foot_toe_contact",
@@ -359,6 +360,6 @@
       "back_posterior_axilla"
     ],
     "comparator_revision": "r95",
-    "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep"
+    "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep; whole-body evidence expansion continues in parallel"
   }
 }

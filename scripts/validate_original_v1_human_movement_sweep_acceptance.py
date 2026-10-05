@@ -9,6 +9,7 @@ CAL_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibrati
 RAW_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_report.py"
 VISUAL_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_visual_capture.py"
 CONTACT_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_contact.py"
+MOTION_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_motion_review.py"
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 PASS={"PASS","NOT_APPLICABLE"}
 
@@ -116,18 +117,26 @@ def validate(d,base,require_pass=False):
     elif contact not in PASS|{"PENDING","FAIL"}:
         raise ValueError("contact_review_status invalid")
 
-    for label,path_key,status_key in (
-      ("continuity","motion_continuity_evidence_path","continuity_review_status"),
-      ("reversibility","motion_reversibility_evidence_path","reversibility_review_status")
-    ):
-        status=d.get(status_key)
-        if status not in {"PENDING","PASS","FAIL"}: raise ValueError(f"{status_key} invalid")
-        if engineering=="PASS" or require_pass:
-            if status!="PASS": raise ValueError(f"PASS requires {label} review PASS")
-            obj=load(base,d.get(path_key))
-            if obj is None: raise ValueError(f"PASS requires {label} evidence")
-            ok,why=bind(obj,csha,sweep)
-            if not ok: raise ValueError(f"{label} evidence mismatch: {why}")
+    continuity_path=d.get("motion_continuity_evidence_path")
+    reversibility_path=d.get("motion_reversibility_evidence_path")
+    for status_key in ("continuity_review_status","reversibility_review_status"):
+        if d.get(status_key) not in {"PENDING","PASS","FAIL"}:
+            raise ValueError(f"{status_key} invalid")
+    if engineering=="PASS" or require_pass:
+        if d.get("continuity_review_status")!="PASS" or d.get("reversibility_review_status")!="PASS":
+            raise ValueError("PASS requires continuity and reversibility review PASS")
+        if not continuity_path or continuity_path!=reversibility_path:
+            raise ValueError("PASS requires one shared validated motion-review record for continuity and reversibility")
+        motion_obj=load(base,continuity_path)
+        if motion_obj is None: raise ValueError("PASS requires motion review evidence")
+        try:
+            motion_result=load_evidence_validator(MOTION_MOD,"original_v1_sweep_motion").validate(
+                motion_obj,resolve(base,continuity_path).parent,True
+            )
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+            raise ValueError("PASS requires validated continuity/reversibility motion review: "+str(exc)) from exc
+        if motion_result.get("candidate_sha256")!=csha or motion_result.get("sweep_id")!=sweep:
+            raise ValueError("validated motion review identity differs")
 
     required_refs=list(d.get("required_human_evidence_ids") or [])
     if required_refs!=list(row.get("evidence_ids") or []):

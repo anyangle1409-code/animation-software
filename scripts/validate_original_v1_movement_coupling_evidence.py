@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 TRIGGERS=ROOT/"ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 MASTER=ROOT/"ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json"
+MOVEMENT_REQUIREMENTS=ROOT/"ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json"
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 VALID_STATES={"NOT_RUN","COMPLETE","BLOCKED"}
 
@@ -23,7 +24,17 @@ def derive(trigger_map,bones):
             required.update(row.get("required_coupling_system_ids",[]))
     return sorted(required), sorted(matched)
 
-def validate(data,triggers,master,require_complete=False):
+def derive_joint_families(trigger_map,bones):
+    families=set()
+    for row in trigger_map.get("rules",[]):
+        if any(any(re.fullmatch(p,b) for p in row.get("bone_patterns",[])) for b in bones):
+            if row.get("joint_family"):
+                families.add(row["joint_family"])
+    return sorted(families)
+
+def validate(data,triggers,master,require_complete=False,movement_requirements=None):
+    if movement_requirements is None:
+        movement_requirements=read(MOVEMENT_REQUIREMENTS)
     if data.get("schema_version")!=1:
         raise ValueError("schema_version must be 1")
     if data.get("production_approved") is not False:
@@ -56,6 +67,13 @@ def validate(data,triggers,master,require_complete=False):
             raise ValueError(f"{sid}: required coupling systems differ from trigger-derived set; expected {derived}")
         reviewed=set(row.get("reviewed_coupling_system_ids") or [])
         missing=set(derived)-reviewed
+        movement=row.get("movement_family")
+        joint_families=derive_joint_families(triggers,bones)
+        movement_rule=(movement_requirements.get("movements") or {}).get(movement)
+        if movement_rule is None:
+            raise ValueError(f"{sid}: movement joint-family requirement missing")
+        required_joint=set(movement_rule.get("required_joint_families") or [])
+        missing_joint=sorted(required_joint-set(joint_families))
         if row.get("state")=="COMPLETE":
             if missing:
                 raise ValueError(f"{sid}: COMPLETE but missing reviewed coupling systems {sorted(missing)}")
@@ -63,6 +81,10 @@ def validate(data,triggers,master,require_complete=False):
                 raise ValueError(f"{sid}: COMPLETE without evidence_refs")
             if not matched:
                 raise ValueError(f"{sid}: COMPLETE but moved bones matched no trigger rules")
+            if movement_rule.get("evidence_role")=="control_only":
+                raise ValueError(f"{sid}: control-only movement may not satisfy active COMPLETE movement proof")
+            if missing_joint:
+                raise ValueError(f"{sid}: COMPLETE but moved bones miss required joint families {missing_joint}; derived {joint_families}")
         else:
             incomplete.append(sid)
     if len(ids)!=len(set(ids)):
@@ -77,7 +99,7 @@ def main():
     ap.add_argument("--require-complete",action="store_true")
     args=ap.parse_args()
     try:
-        out=validate(read(args.evidence),read(TRIGGERS),read(MASTER),args.require_complete)
+        out=validate(read(args.evidence),read(TRIGGERS),read(MASTER),args.require_complete,read(MOVEMENT_REQUIREMENTS))
         print("MOVEMENT COUPLING EVIDENCE: PASS")
         print(json.dumps(out,indent=2))
         return 0

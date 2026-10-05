@@ -48,15 +48,21 @@ def main():
         if out.exists(): raise ValueError("evidence_post_repair already exists")
         out.mkdir(parents=True)
 
+        wm=read(ws/"workspace_manifest.json")
+        selected=set(wm.get("repair_package_ids") or [])
+        shoulder_packages={"RP-NECK-TRAP-001","RP-PEC-AX-002","RP-POSTAX-003","RP-DELTOID-004"}
+        shoulder_required=bool(selected & shoulder_packages)
+
         sources={
           "skinning_mode":RC/"skinning_mode"/a.label/"skinning_mode.json",
           "pose_coupling_scope":RC/"pose_coupling_scope"/a.label/"pose_coupling_scope.json",
           "pose_capture_evidence_plan":RC/"pose_evidence_plans"/a.label/"pose_capture_evidence_plan.json",
-          "shoulder_layer_diagnostic":RC/"shoulder_layer_diagnostics"/a.label/"shoulder_layer_diagnostic.json",
           "motion_reversibility":RC/"motion_reversibility"/a.label/"motion_reversibility.json",
           "motion_continuity":RC/"motion_continuity"/a.label/"motion_continuity.json",
           "full_evidence_manifest":RC/f"full_{a.revision}_evidence_manifest.json",
         }
+        if shoulder_required:
+            sources["shoulder_layer_diagnostic"]=RC/"shoulder_layer_diagnostics"/a.label/"shoulder_layer_diagnostic.json"
         copied={}
         for name,src in sources.items():
             dst=out/(name+".json")
@@ -108,6 +114,8 @@ def main():
         index={
           "schema_version":1,"status":"POST_REPAIR_EVIDENCE_COLLECTED","production_approved":False,
           "candidate_revision":a.revision,"candidate_sha256":final,"label":a.label,
+          "repair_package_ids":sorted(selected),
+          "package_specific_diagnostics":{"shoulder_layer_required":shoulder_required},
           "files":{k:{"path":str(v.relative_to(ws)).replace("\\","/"),"sha256":digest(v)} for k,v in all_files.items()},
           "visual_capture_manifest_paths":[str(p.relative_to(ws)).replace("\\","/") for p in visual_manifests],
           "comparison_manifest":"candidate_comparison_manifest_post_repair.json",

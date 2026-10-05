@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_BODY_COVERAGE_PREPARED",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "production_approved": false,
+  "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "evidence_states": [
+    "not_started",
+    "evidence_partial",
+    "engineering_clear",
+    "owner_review_pending",
+    "owner_accepted"
+  ],
+  "rule": "engineering_clear requires candidate-bound neutral/lengthened-or-elevated/compressed-or-loaded/intermediate evidence plus relevant regression/contact checks; owner acceptance remains separate.",
+  "regions": [
+    {
+      "id": "head_neck_trapezius",
+      "state": "not_started",
+      "movements": [
+        "neutral_braced_trunk",
+        "shoulder_flexion_elevation",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_axial_rotation"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "state": "evidence_partial",
+      "movements": [
+        "neutral_shoulder_control",
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ],
+      "current_note": "r95 production-path defect reproduced; foundational recovery open."
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "state": "evidence_partial",
+      "movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ],
+      "current_note": "Critical WB-AX-001/WB-PEC-002/WB-PEC-003 open on r95."
+    },
+    {
+      "id": "back_posterior_axilla",
+      "state": "evidence_partial",
+      "movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "horizontal_push"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ],
+      "current_note": "High posterior fold/scapular drape issues open."
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "state": "evidence_partial",
+      "movements": [
+        "neutral_braced_trunk",
+        "vertical_push",
+        "vertical_pull_hang",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge",
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "upperarm_elbow",
+      "state": "evidence_partial",
+      "movements": [
+        "elbow_flexion_extension",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull",
+        "cylindrical_equipment_grip"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "forearm_wrist",
+      "state": "evidence_partial",
+      "movements": [
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ],
+      "current_note": "Human evidence gap closed; WB-WRI-010 still open until candidate repair/validation."
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "state": "evidence_partial",
+      "movements": [
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "wrist_flexion_extension_loaded",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "elbow_flexion_extension"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ],
+      "current_note": "Human grip/thumb evidence gap closed; WB-GRP-009 still open."
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "state": "evidence_partial",
+      "movements": [
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge",
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "horizontal_push"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "thigh_knee",
+      "state": "evidence_partial",
+      "movements": [
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge",
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "horizontal_push"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "state": "evidence_partial",
+      "movements": [
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "horizontal_push"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    },
+    {
+      "id": "foot_toes",
+      "state": "evidence_partial",
+      "movements": [
+        "neutral_braced_trunk",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "horizontal_push"
+      ],
+      "required_states": [
+        "neutral",
+        "lengthened_or_elevated",
+        "compressed_or_loaded",
+        "intermediate_transition"
+      ]
+    }
+  ],
+  "movement_family_status": [
+    {
+      "id": "neutral_shoulder_control",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "shoulder_flexion_elevation",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "shoulder_abduction_elevation",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "humeral_internal_external_rotation",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "vertical_push",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "vertical_pull_hang",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "horizontal_push",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "horizontal_pull",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "elbow_flexion_extension",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "forearm_pronation_supination",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "wrist_flexion_extension_loaded",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "cylindrical_equipment_grip",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "grip_release",
+      "state": "not_started"
+    },
+    {
+      "id": "neutral_braced_trunk",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "trunk_flexion",
+      "state": "not_started"
+    },
+    {
+      "id": "trunk_extension",
+      "state": "not_started"
+    },
+    {
+      "id": "trunk_lateral_bend",
+      "state": "not_started"
+    },
+    {
+      "id": "trunk_axial_rotation",
+      "state": "not_started"
+    },
+    {
+      "id": "loaded_hip_hinge",
+      "state": "not_started"
+    },
+    {
+      "id": "squat_deep_bilateral_flexion",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "split_stance_lunge",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "hip_flexion_extension",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "hip_abduction_adduction",
+      "state": "not_started"
+    },
+    {
+      "id": "knee_flexion_extension",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "ankle_dorsiflexion",
+      "state": "evidence_partial"
+    },
+    {
+      "id": "ankle_plantarflexion",
+      "state": "not_started"
+    },
+    {
+      "id": "loaded_foot_toe_contact",
+      "state": "evidence_partial"
+    }
+  ],
+  "current_blocking_focus": {
+    "region_ids": [
+      "clavicle_shoulder_deltoid",
+      "chest_anterior_axilla",
+      "back_posterior_axilla"
+    ],
+    "comparator_revision": "r95",
+    "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep"
+  }
+}

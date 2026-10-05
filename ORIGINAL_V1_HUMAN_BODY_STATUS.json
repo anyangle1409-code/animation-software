@@ -36,7 +36,7 @@
   "movement_coverage_counts": {
     "evidence_partial": 27
   },
-  "human_evidence_entry_count": 35,
+  "human_evidence_entry_count": 39,
   "human_evidence_regions": {
     "clavicle_scapula_humerus": 1,
     "scapulohumeral_complex": 1,
@@ -59,7 +59,22 @@
     "lumbar_pelvis_hip": 1,
     "trunk_hip_knee": 1,
     "cervical_spine": 1,
-    "fingers_thumb_hand": 1
+    "fingers_thumb_hand": 1,
+    "deltoid_shoulderyoke": 1,
+    "gluteus_maximus_lateral_thigh": 1,
+    "quadriceps_patella_knee": 1,
+    "hamstrings_posterior_thigh_popliteal": 1,
+    "gastrocnemius_soleus_Achilles": 1,
+    "finger_flexor_tendon_pulley_system": 1,
+    "whole_body_lower_extremity_surface": 1,
+    "lower_extremity_multi_movement_surface": 1,
+    "head_neck_trapezius_surface": 1,
+    "upperarm_elbow_surface": 2,
+    "forearm_wrist_surface": 1,
+    "palm_thumb_fingers_surface": 1,
+    "thigh_knee_surface": 1,
+    "ribcage_abdomen_obliques_lumbar": 1,
+    "biceps_brachii_upper_arm": 1
   },
   "prepared_movement_sweep_count": 8,
   "prepared_movement_sweeps": [
@@ -75,14 +90,20 @@
   "high_detail_anatomy_allowed": false,
   "why_not_high_detail": "Critical/High whole-body issues remain open.",
   "next_sequence": [
-    "run_or_read_shoulder_layer_diagnostic",
-    "identify_first_failing_ownership_support_zones",
+    "audit_saved_skinning_mode",
+    "run_pose_connected_tissue_scope",
+    "generate_pose_tissue_camera_evidence_plan",
+    "run_shoulder_layer_diagnostic",
+    "identify_first_failing_layer_using_diagnosis_tree",
     "declare_smallest_repair_scope",
+    "audit_declared_coupling_weight_ownership",
     "create_new_numbered_candidate",
-    "repair_weights_support_first",
-    "prove_weights_only_elevation_sweep",
-    "fit_correctives_only_if_foundation_is_plausible",
-    "run_visual_numerical_symmetry_contact_whole_body_regression",
+    "repair_earliest_failing_foundational_layer",
+    "prove_weights_only_elevation_sweep_and_region_acceptance",
+    "prove_required_anatomical_coupling_systems",
+    "fit_correctives_only_for_residual_anatomy_error",
+    "run_dense_continuity_reversibility_visual_numerical_contact_regression",
+    "build_unified_parent_to_candidate_comparison_report",
     "close_issue_rows_only_with_committed_closure_evidence",
     "continue Stage1 rather_than_jump_to_Stage5"
   ],
@@ -106,7 +127,12 @@
     "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
     "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
     "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
-    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
+    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
+    "anatomical_repair_packages": "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
+    "deformation_diagnosis_tree": "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json",
+    "weights_only_acceptance": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
+    "whole_body_repair_guide": "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md",
+    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -141,5 +167,15 @@
     "declaration_template": "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
     "runner": "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat",
     "status": "PREPARED_NOT_YET_RUN_ON_REPAIRED_CANDIDATE"
+  },
+  "non_blender_preparation": {
+    "status": "SUBSTANTIALLY_PREPARED",
+    "anatomical_repair_packages": 14,
+    "deformation_diagnosis_tree": "READY",
+    "weights_only_region_contracts": 12,
+    "pose_to_tissue_camera_evidence_planner": "READY",
+    "unified_candidate_comparison": "READY",
+    "real_human_evidence_records": 39,
+    "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance."
   }
 }

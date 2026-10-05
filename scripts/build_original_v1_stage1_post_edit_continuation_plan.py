@@ -103,6 +103,11 @@ def build(a):
           "blocking":True,
           "review_gate":True
         })
+        commands.append({
+          "phase":"validate_workspace_sweep_acceptance",
+          "command":"RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat "+dq(ws),
+          "blocking":True
+        })
 
     commands.append({
       "phase":"complete_candidate_records",

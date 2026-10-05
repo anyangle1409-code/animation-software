@@ -68,10 +68,11 @@ def validate(cmap, master, human):
     if missing_moves: raise ValueError(f"coupling map misses movement families {sorted(missing_moves)}")
 
     invariants=cmap.get("global_invariants") or []
-    required_phrases=("all relevant attachment sides","weights-only","return motion","Symmetric","Contact/load")
-    text="\n".join(invariants)
+    required_phrases=("all relevant attachment sides","weights-only","return motion","symmetric","contact/load")
+    text="\n".join(invariants).lower()
     for phrase in required_phrases:
-        if phrase not in text: raise ValueError(f"global invariant missing required concept: {phrase}")
+        if phrase.lower() not in text:
+            raise ValueError(f"global invariant missing required concept: {phrase}")
 
     dims=set(cmap.get("acceptance_dimensions") or [])
     required_dims={

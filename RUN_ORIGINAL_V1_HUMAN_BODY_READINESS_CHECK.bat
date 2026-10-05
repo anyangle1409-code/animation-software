@@ -30,9 +30,9 @@ call :run scripts\validate_original_v1_human_movement_sweeps.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling.py
 if errorlevel 1 exit /b 1
-call :run scripts\validate_original_v1_joint_tissue_trigger_map.py
+call :run scripts\validate_original_v1_joint_tissue_triggers.py
 if errorlevel 1 exit /b 1
-call :run scripts\validate_original_v1_surface_visual_evidence.py
+call :run scripts\validate_original_v1_surface_visual_evidence_requirements.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling_capture_plan.py
 if errorlevel 1 exit /b 1

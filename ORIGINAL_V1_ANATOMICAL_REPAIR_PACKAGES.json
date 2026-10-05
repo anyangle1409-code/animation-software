@@ -1,0 +1,609 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_WHOLE_BODY_REPAIR_PACKAGES",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "production_approved": false,
+  "authority": [
+    "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
+    "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+    "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json"
+  ],
+  "universal_diagnosis_order": [
+    "skeleton_kinematics",
+    "saved_skinning_mode",
+    "weights_only_ownership",
+    "topology_support",
+    "corrective_activation",
+    "contact_load_state",
+    "secondary_dynamics_if_ever_enabled"
+  ],
+  "universal_edit_order": [
+    "declare_candidate_and_zone",
+    "capture_before_evidence",
+    "repair_smallest_foundational_layer",
+    "prove_weights_only_motion",
+    "add_or_refit_corrective_only_for_residual_error",
+    "run_connected_tissue_capture_matrix",
+    "run_whole_body_regression",
+    "close_defects_only_with_committed_evidence"
+  ],
+  "universal_forbidden_shortcuts": [
+    "exercise_name_specific_deformation_patch",
+    "corrective_used_to_hide_wrong_base_weights",
+    "undeclared_weight_smear",
+    "global_skinning_mode_change_without_A_B_evidence",
+    "topology_change_without_correspondence_and_reopen",
+    "threshold_weakening",
+    "baseline_repin_to_manufacture_pass",
+    "lighting_clothing_or_crop_used_to_hide_failure"
+  ],
+  "packages": [
+    {
+      "id": "RP-NECK-TRAP-001",
+      "coupling_system_id": "CP-NECK-TRAP-001",
+      "name": "Neck / trapezius / shoulder-girdle repair",
+      "likely_failure_layers": [
+        "cervical_or_girdle_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does distributed cervical and shoulder-girdle motion create a continuous neck-to-trapezius-to-clavicle/scapular surface before any corrective?",
+      "preserve": [
+        "midline cervical/thoracic root",
+        "clavicle/acromion/scapular landmark continuity",
+        "left_right equivalence under mirrored input"
+      ],
+      "repair_targets": [
+        "neck surface distribution",
+        "trapezius slope",
+        "posterior shoulder drape",
+        "clavicle/scapular transition"
+      ],
+      "weights_only_acceptance": [
+        "no rigid collar",
+        "no rear shoulder shelf",
+        "no floating trapezius lobe",
+        "no neck pinch",
+        "smooth change through intermediate and return frames"
+      ],
+      "residual_corrective_role": [
+        "subtle trap/deltoid blend refinement only after base continuity is plausible"
+      ],
+      "proof_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "shoulder_abduction_elevation"
+      ],
+      "priority": "after_current_shoulder_recovery"
+    },
+    {
+      "id": "RP-PEC-AX-002",
+      "coupling_system_id": "CP-PEC-AX-002",
+      "name": "Pectoral / anterior axillary repair",
+      "likely_failure_layers": [
+        "weights_only_ownership",
+        "skinning_mode",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Can the pec remain chest-rooted while its humeral insertion and anterior fold move continuously with the arm?",
+      "preserve": [
+        "sternal_rib_clavicular chest root",
+        "central pec volume",
+        "humeral insertion continuity"
+      ],
+      "repair_targets": [
+        "lateral pec ownership gradient",
+        "anterior axillary fold",
+        "pec-to-deltoid transition",
+        "lateral chest wall"
+      ],
+      "weights_only_acceptance": [
+        "central/medial pec stays chest-rooted",
+        "humeral insertion follows arm",
+        "no wing membrane trench or detached slab",
+        "volume redistributes continuously",
+        "both sides comparable"
+      ],
+      "residual_corrective_role": [
+        "refine fold depth and volume distribution; never pull the whole lateral chest"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "priority": "current_blocker"
+    },
+    {
+      "id": "RP-POSTAX-003",
+      "coupling_system_id": "CP-POSTAX-003",
+      "name": "Posterior axilla / lat / teres repair",
+      "likely_failure_layers": [
+        "weights_only_ownership",
+        "scapular_kinematics",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does posterior fold tissue remain trunk/scapula-rooted while the distal humeral side follows arm motion?",
+      "preserve": [
+        "broad posterior trunk root",
+        "scapular back drape",
+        "distal humeral fold connection"
+      ],
+      "repair_targets": [
+        "lat/teres ownership gradient",
+        "posterior fold",
+        "scapular-to-humeral transition"
+      ],
+      "weights_only_acceptance": [
+        "no flap cape lobe or posterior trench",
+        "fold changes continuously",
+        "back mass does not translate wholesale with arm",
+        "return removes transient fold changes"
+      ],
+      "residual_corrective_role": [
+        "local posterior-fold shaping only after base support is sound"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "vertical_push"
+      ],
+      "priority": "current_blocker"
+    },
+    {
+      "id": "RP-DELTOID-004",
+      "coupling_system_id": "CP-DELTOID-004",
+      "name": "Deltoid shoulder-yoke repair",
+      "likely_failure_layers": [
+        "girdle_kinematics",
+        "weights_only_ownership",
+        "skinning_mode",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does the deltoid stay coupled to clavicle/acromion/scapular spine and humerus rather than behaving as a rigid sphere?",
+      "preserve": [
+        "origin neighborhoods",
+        "humeral insertion",
+        "shoulder breadth"
+      ],
+      "repair_targets": [
+        "anterior_middle_posterior cap distribution",
+        "upperarm transition",
+        "girdle-to-humerus ownership"
+      ],
+      "weights_only_acceptance": [
+        "no rigid or balloon sphere",
+        "no abrupt upper-arm necking",
+        "no detachment from clavicle/acromion",
+        "plane-dependent contour change present"
+      ],
+      "residual_corrective_role": [
+        "subtle cap/plane refinement across joint-state domain"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "horizontal_pull"
+      ],
+      "priority": "current_blocker"
+    },
+    {
+      "id": "RP-ARM-005",
+      "coupling_system_id": "CP-ARM-005",
+      "name": "Upper arm / elbow / forearm transition repair",
+      "likely_failure_layers": [
+        "elbow_kinematics",
+        "weights_only_ownership",
+        "twist_distribution",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Do upper-arm masses and elbow folds respond to elbow/forearm state without sleeve-like twist or ring creases?",
+      "preserve": [
+        "shoulder-to-upperarm continuity",
+        "joint-centered antecubital/olecranon landmarks",
+        "forearm twist distribution"
+      ],
+      "repair_targets": [
+        "biceps_triceps contour",
+        "elbow compression",
+        "proximal forearm transition"
+      ],
+      "weights_only_acceptance": [
+        "no cylindrical hinge",
+        "no fixed elbow ring",
+        "no upper-arm corkscrew from pronation",
+        "no mass teleport",
+        "fold releases on extension/return"
+      ],
+      "residual_corrective_role": [
+        "localized compression and muscle-shape refinement"
+      ],
+      "proof_movements": [
+        "elbow_flexion_extension",
+        "forearm_pronation_supination",
+        "vertical_pull_hang",
+        "horizontal_push"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-WRIST-HAND-006",
+      "coupling_system_id": "CP-WRIST-HAND-006",
+      "name": "Forearm / wrist / hand load-chain repair",
+      "likely_failure_layers": [
+        "forearm_twist_kinematics",
+        "weights_only_ownership",
+        "contact_load_state",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does hand orientation and external load propagate continuously through wrist into forearm without a local twist seam or collapse?",
+      "preserve": [
+        "wrist centering",
+        "forearm taper",
+        "palm contact integrity"
+      ],
+      "repair_targets": [
+        "distal forearm ownership",
+        "wrist crease/compression",
+        "hand-to-forearm load path"
+      ],
+      "weights_only_acceptance": [
+        "no wrist trench",
+        "no hand float",
+        "no abrupt twist seam",
+        "no contact sustained by penetration",
+        "forearm surface participates in pronation/supination"
+      ],
+      "residual_corrective_role": [
+        "loaded-wrist compression and subtle contour refinement"
+      ],
+      "proof_movements": [
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "horizontal_push"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-FINGER-007",
+      "coupling_system_id": "CP-FINGER-007",
+      "name": "Palm / thumb / finger tendon-chain repair",
+      "likely_failure_layers": [
+        "digit_kinematics",
+        "weights_only_ownership",
+        "contact_constraints",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Do digit surfaces follow non-uniform joint/tendon motion and thumb opposition without bowstringing or robotic copied curls?",
+      "preserve": [
+        "palm tendon path",
+        "joint-centered creases",
+        "equipment contact order"
+      ],
+      "repair_targets": [
+        "MCP_PIP_DIP sequencing",
+        "thumb web/opposition",
+        "volar tendon path",
+        "crease response"
+      ],
+      "weights_only_acceptance": [
+        "no uniform copied curl",
+        "no finger bowstring",
+        "no fixed crease rings",
+        "thumb not a fifth identical finger",
+        "release clears equipment"
+      ],
+      "residual_corrective_role": [
+        "small crease/thenar/thumb-web refinements"
+      ],
+      "proof_movements": [
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "wrist_flexion_extension_loaded"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-TRUNK-008",
+      "coupling_system_id": "CP-TRUNK-008",
+      "name": "Ribcage / abdomen / lumbar / pelvis repair",
+      "likely_failure_layers": [
+        "spine_pelvis_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does trunk motion distribute across thoracic/lumbar/pelvic contributors while preserving continuous ribcage-to-pelvis volume?",
+      "preserve": [
+        "ribcage root",
+        "iliac/pelvic root",
+        "abdominal/lumbar volume continuity"
+      ],
+      "repair_targets": [
+        "waist ownership gradient",
+        "oblique compression",
+        "lumbar stretch",
+        "abdominal fold behavior"
+      ],
+      "weights_only_acceptance": [
+        "no single waist hinge/swivel",
+        "no knife crease",
+        "no back membrane",
+        "no ribcage-pelvis penetration",
+        "return removes twist/folds"
+      ],
+      "residual_corrective_role": [
+        "soft fold and volume refinement only"
+      ],
+      "proof_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "loaded_hip_hinge"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-GLUTE-009",
+      "coupling_system_id": "CP-GLUTE-009",
+      "name": "Glute / pelvis / lateral-thigh repair",
+      "likely_failure_layers": [
+        "hip_pelvis_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does glute mass remain pelvic-rooted while changing length/shape with femur motion and lateral-thigh tension?",
+      "preserve": [
+        "posterior pelvic root",
+        "femoral/lateral-thigh insertion path",
+        "gluteal mass continuity"
+      ],
+      "repair_targets": [
+        "glute fold",
+        "pelvis-to-femur bridge",
+        "lateral thigh transition"
+      ],
+      "weights_only_acceptance": [
+        "no buttock wholesale femur slide",
+        "no glute shelf",
+        "no groin/glute tunnel",
+        "no lateral shear seam",
+        "deep flexion remains volumetrically plausible"
+      ],
+      "residual_corrective_role": [
+        "deep-flexion fold and mass-shape refinement"
+      ],
+      "proof_movements": [
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-GROIN-010",
+      "coupling_system_id": "CP-GROIN-010",
+      "name": "Groin / adductor / medial-thigh repair",
+      "likely_failure_layers": [
+        "hip_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Can the medial thigh lengthen/compress relative to pelvis without crotch tunneling, membranes or persistent creases?",
+      "preserve": [
+        "pubic/ischial pelvic root",
+        "medial femoral line",
+        "pelvis-femur clearance"
+      ],
+      "repair_targets": [
+        "adductor ownership gradient",
+        "groin fold",
+        "medial-thigh transition"
+      ],
+      "weights_only_acceptance": [
+        "no crotch tunnel",
+        "no planar membrane",
+        "no medial-thigh detachment",
+        "no hip pinch",
+        "fold disappears when unloaded"
+      ],
+      "residual_corrective_role": [
+        "soft compression-fold refinement"
+      ],
+      "proof_movements": [
+        "hip_abduction_adduction",
+        "hip_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-QUAD-011",
+      "coupling_system_id": "CP-QUAD-011",
+      "name": "Quadriceps / patella extensor-chain repair",
+      "likely_failure_layers": [
+        "hip_knee_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does anterior thigh and patellar surface respond coherently to both knee and rectus-femoris hip state?",
+      "preserve": [
+        "anterior pelvic/femoral origins",
+        "patella/tibial extensor path",
+        "patellar centering"
+      ],
+      "repair_targets": [
+        "quad-to-patella continuity",
+        "rectus multi-joint behavior",
+        "vastus contour",
+        "deep-flexion compression"
+      ],
+      "weights_only_acceptance": [
+        "no quad detachment",
+        "no patellar trench",
+        "thigh not rigid through flexion",
+        "rectus not driven by knee alone",
+        "no patella surface teleport"
+      ],
+      "residual_corrective_role": [
+        "local tendon/patellar and deep-flexion contour refinement"
+      ],
+      "proof_movements": [
+        "knee_flexion_extension",
+        "hip_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-HAM-012",
+      "coupling_system_id": "CP-HAM-012",
+      "name": "Hamstring / posterior-thigh / popliteal repair",
+      "likely_failure_layers": [
+        "hip_knee_kinematics",
+        "weights_only_ownership",
+        "topology_support",
+        "corrective_activation"
+      ],
+      "foundational_question": "Does posterior-thigh form respond to combined hip+knee state while distal hamstring boundaries preserve the popliteal region?",
+      "preserve": [
+        "ischial/pelvic path",
+        "fibular/tibial distal paths",
+        "posterior-knee clearance"
+      ],
+      "repair_targets": [
+        "posterior-thigh length state",
+        "distal medial/lateral hamstring boundaries",
+        "popliteal surface"
+      ],
+      "weights_only_acceptance": [
+        "no fixed posterior thigh through changing joints",
+        "no popliteal ring crease",
+        "no pelvic detachment",
+        "no posterior-knee tunnel",
+        "no single-joint-only ownership"
+      ],
+      "residual_corrective_role": [
+        "deep-flexion posterior-knee and muscle-shape refinement"
+      ],
+      "proof_movements": [
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-CALF-013",
+      "coupling_system_id": "CP-CALF-013",
+      "name": "Calf / Achilles / calcaneus repair",
+      "likely_failure_layers": [
+        "knee_ankle_kinematics",
+        "weights_only_ownership",
+        "skinning_mode",
+        "topology_support",
+        "contact_load_state"
+      ],
+      "foundational_question": "Does calf/Achilles form respond to both knee and ankle while remaining a continuous force path to the heel?",
+      "preserve": [
+        "proximal gastrocnemius/soleus roots",
+        "Achilles path",
+        "calcaneal insertion"
+      ],
+      "repair_targets": [
+        "gastrocnemius knee-state response",
+        "soleus/ankle response",
+        "Achilles continuity",
+        "posterior ankle"
+      ],
+      "weights_only_acceptance": [
+        "no rigid calf during heel raise",
+        "no Achilles kink/detachment",
+        "knee state affects gastrocnemius",
+        "heel rise preserves declared contact"
+      ],
+      "residual_corrective_role": [
+        "subtle tendon/calf shape refinement under load"
+      ],
+      "proof_movements": [
+        "knee_flexion_extension",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "squat_deep_bilateral_flexion",
+        "loaded_foot_toe_contact"
+      ],
+      "priority": "stage1_follow_on"
+    },
+    {
+      "id": "RP-FOOT-014",
+      "coupling_system_id": "CP-FOOT-014",
+      "name": "Ankle / hindfoot / arch / forefoot repair",
+      "likely_failure_layers": [
+        "ankle_hindfoot_kinematics",
+        "weights_only_ownership",
+        "contact_constraints",
+        "topology_support"
+      ],
+      "foundational_question": "Does the loaded foot behave as a coupled ankle-hindfoot-arch-forefoot chain rather than a rigid block?",
+      "preserve": [
+        "ankle mortise continuity",
+        "heel/arch/forefoot topology",
+        "declared floor contacts"
+      ],
+      "repair_targets": [
+        "hindfoot coupling",
+        "arch response",
+        "forefoot/toe articulation",
+        "contact transfer"
+      ],
+      "weights_only_acceptance": [
+        "no rigid foot block",
+        "no arch collapse",
+        "no forefoot float",
+        "no toe penetration",
+        "no ankle-hindfoot discontinuity"
+      ],
+      "residual_corrective_role": [
+        "only small contact/arch contour refinement if base chain is already sound"
+      ],
+      "proof_movements": [
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "horizontal_push"
+      ],
+      "priority": "stage1_follow_on"
+    }
+  ],
+  "exit_rule": "Every package must be executed on a fresh candidate-specific declaration and must clear its weights-only acceptance before corrective refinement can be considered engineering-clear."
+}

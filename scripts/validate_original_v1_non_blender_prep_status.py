@@ -28,6 +28,16 @@ def validate(d):
         if not evidence: raise ValueError(f"{row.get('id')}: evidence missing")
         for rel in evidence:
             if not (ROOT/rel).exists(): raise ValueError(f"{row.get('id')}: evidence file missing {rel}")
+    required_component_ids={
+        "stage1_orchestration","pre_edit_workspace","post_edit_workspace","candidate_comparison",
+        "generic_movement_sweep_motion_runner","generic_movement_sweep_visual_capture",
+        "generic_movement_sweep_contact_capture","generic_movement_sweep_acceptance",
+        "post_repair_sweep_integration","workspace_sweep_acceptance_preflight",
+        "laptop_workflow_integrity","contract_gates"
+    }
+    missing_components=sorted(required_component_ids-set(ids))
+    if missing_components:
+        raise ValueError(f"required non-Blender prepared components missing {missing_components}")
     remaining=d.get("blender_or_candidate_bound_remaining") or []
     if len(remaining)<8: raise ValueError("Blender/candidate-bound remainder unexpectedly empty")
     model=d.get("current_model_state") or {}

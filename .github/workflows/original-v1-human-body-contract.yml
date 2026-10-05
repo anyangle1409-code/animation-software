@@ -1,0 +1,66 @@
+name: ORIGINAL v1 human-body contract
+
+on:
+  push:
+    paths:
+      - "ORIGINAL_V1_HUMAN_BODY_*.json"
+      - "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+      - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
+      - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+      - "docs/ORIGINAL_V1_HUMAN_BODY_*.md"
+      - "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md"
+      - "scripts/*human_body*"
+      - "scripts/*human_evidence*"
+      - "scripts/*human_movement*"
+      - "scripts/*anatomical_coupling*"
+      - "scripts/*shoulder_layer_diagnostic*"
+      - ".github/workflows/original-v1-human-body-contract.yml"
+  pull_request:
+    paths:
+      - "ORIGINAL_V1_HUMAN_BODY_*.json"
+      - "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+      - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
+      - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+      - "docs/ORIGINAL_V1_HUMAN_BODY_*.md"
+      - "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md"
+      - "scripts/*human_body*"
+      - "scripts/*human_evidence*"
+      - "scripts/*human_movement*"
+      - "scripts/*anatomical_coupling*"
+      - "scripts/*shoulder_layer_diagnostic*"
+      - ".github/workflows/original-v1-human-body-contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate human evidence
+        run: python scripts/validate_original_v1_human_evidence.py
+      - name: Validate human-body master plan
+        run: python scripts/validate_original_v1_human_body_master_plan.py
+      - name: Validate movement sweeps
+        run: python scripts/validate_original_v1_human_movement_sweeps.py
+      - name: Validate anatomical coupling map
+        run: python scripts/validate_original_v1_anatomical_coupling.py
+      - name: Run human evidence tests
+        run: python scripts/test_original_v1_human_evidence.py
+      - name: Run master-plan tests
+        run: python scripts/test_validate_original_v1_human_body_master_plan.py
+      - name: Run movement-sweep tests
+        run: python scripts/test_validate_original_v1_human_movement_sweeps.py
+      - name: Run anatomical-coupling map tests
+        run: python scripts/test_validate_original_v1_anatomical_coupling.py
+      - name: Run anatomical-coupling evidence tests
+        run: python scripts/test_validate_original_v1_anatomical_coupling_evidence.py
+      - name: Run shoulder-layer diagnostic validator tests
+        run: python scripts/test_validate_original_v1_shoulder_layer_diagnostic.py

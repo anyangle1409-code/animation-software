@@ -17,11 +17,18 @@ def parse_packages(text):
     if not ids: raise ValueError("repair packages required")
     return ids
 
-def build(candidate,label,packages,skinning,pose_scope,pose_plan,reversibility,continuity,shoulder=None):
+def build(candidate,label,packages,selection,skinning,pose_scope,pose_plan,reversibility,continuity,shoulder=None):
     candidate=Path(candidate)
     if not candidate.exists(): raise ValueError("candidate file missing")
     csha=sha(candidate)
     selected=set(packages)
+    sel=read(selection)
+    if sel.get("status")!="PACKAGE_VALIDATION_SELECTION":
+        raise ValueError("package validation selection identity invalid")
+    if sel.get("repair_package_ids")!=packages:
+        raise ValueError("package validation selection differs from requested repair packages")
+    if sel.get("validation_definition_complete") is not True or sel.get("uncovered_proof_movements"):
+        raise ValueError("repair package proof-movement validation definition incomplete")
     shoulder_required=bool(selected & SHOULDER_PACKAGES)
     if shoulder_required and shoulder is None:
         raise ValueError("shoulder-layer diagnostic required for selected shoulder package(s)")
@@ -36,6 +43,7 @@ def build(candidate,label,packages,skinning,pose_scope,pose_plan,reversibility,c
       "motion_continuity":read(continuity),
     }
     paths={
+      "package_validation_selection":str(Path(selection)),
       "skinning_mode":str(Path(skinning)),
       "pose_coupling_scope":str(Path(pose_scope)),
       "pose_capture_evidence_plan":str(Path(pose_plan)),
@@ -74,6 +82,9 @@ def build(candidate,label,packages,skinning,pose_scope,pose_plan,reversibility,c
       "evidence_paths":paths,
       "evidence_sha256":{k:sha(v) for k,v in paths.items()},
       "summary":{
+        "proof_movement_count":len(sel.get("proof_movement_families",[])),
+        "selected_pose_names":sel.get("pose_names",[]),
+        "sweep_only_movements_requiring_generic_runner":sel.get("sweep_only_movements_requiring_generic_runner",[]),
         "skinning_preserve_volume":[m.get("use_deform_preserve_volume") for m in docs["skinning_mode"].get("armature_modifiers",[])],
         "pose_count":len(docs["pose_coupling_scope"].get("poses",{})),
         "pose_plan_count":len(docs["pose_capture_evidence_plan"].get("poses",{})),
@@ -81,7 +92,7 @@ def build(candidate,label,packages,skinning,pose_scope,pose_plan,reversibility,c
         "continuity_status":"REPORT_REQUIRES_ENGINEERING_REVIEW",
         "shoulder_layer_status":"DIAGNOSTIC_REQUIRES_ENGINEERING_REVIEW" if shoulder_required else "NOT_REQUIRED_FOR_SELECTED_PACKAGES",
       },
-      "next_action":"Use ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json to identify the earliest failing layer, then create a PRE-EDIT repair workspace and complete its declarations before any edit.",
+      "next_action":"Use ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json to identify the earliest failing layer, then create a PRE-EDIT repair workspace and complete its declarations before any edit. Sweep-only proof movements remain explicit Blender validation work and are never treated as passed by this bundle.",
       "source_saved_or_modified":False
     }
     return report
@@ -91,6 +102,7 @@ def main():
     ap.add_argument("--candidate",required=True)
     ap.add_argument("--label",required=True)
     ap.add_argument("--packages",required=True)
+    ap.add_argument("--selection",required=True)
     ap.add_argument("--skinning",required=True)
     ap.add_argument("--pose-scope",required=True)
     ap.add_argument("--pose-plan",required=True)
@@ -101,7 +113,7 @@ def main():
     a=ap.parse_args()
     try:
         report=build(
-            a.candidate,a.label,parse_packages(a.packages),
+            a.candidate,a.label,parse_packages(a.packages),a.selection,
             a.skinning,a.pose_scope,a.pose_plan,a.reversibility,a.continuity,a.shoulder
         )
         out=Path(a.out)
@@ -114,6 +126,7 @@ def main():
           "packages":report["repair_package_ids"],
           "reversibility":report["summary"]["reversibility_status"],
           "shoulder_layer_required":report["package_specific_diagnostics"]["shoulder_layer_required"],
+          "sweep_only_movements":report["summary"]["sweep_only_movements_requiring_generic_runner"],
           "out":str(out)
         },indent=2))
         return 0

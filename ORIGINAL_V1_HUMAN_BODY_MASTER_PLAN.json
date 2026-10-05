@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_HUMAN_BODY_MASTER_PLAN",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "production_approved": false,
+  "authority": {
+    "markdown": "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
+    "rule": "Open Critical/High whole-body issues override historical phase readiness. Numerical phase completion is necessary evidence, not anatomical sign-off.",
+    "historical_phase_4_r95": "preserved_as_immutable_historical_checkpoint_not_current_anatomical_acceptance"
+  },
+  "product_target": [
+    "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
+    "movement_families_are_proven_before_exercises_are_treated_as_compositions",
+    "weights_only_foundation_is_plausible_before_correctives_refine_it",
+    "real_human_evidence_and_numerical_evidence_are_both_required",
+    "standalone_runtime_requires_no_third_party_human_media"
+  ],
+  "governing_rules": [
+    "foundation_before_cosmetics",
+    "intermediate_motion_required",
+    "visual_anatomical_failure_can_block_despite_numerical_pass",
+    "correctives_refine_not_conceal",
+    "clothing_material_lighting_crop_may_not_hide_body_failures",
+    "owner_acceptance_is_explicit_and_candidate_bound"
+  ],
+  "body_regions": [
+    {
+      "id": "head_neck_trapezius",
+      "stage2_required": true
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "stage2_required": true
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "stage2_required": true
+    },
+    {
+      "id": "back_posterior_axilla",
+      "stage2_required": true
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "stage2_required": true
+    },
+    {
+      "id": "upperarm_elbow",
+      "stage2_required": true
+    },
+    {
+      "id": "forearm_wrist",
+      "stage2_required": true
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "stage2_required": true
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "stage2_required": true
+    },
+    {
+      "id": "thigh_knee",
+      "stage2_required": true
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "stage2_required": true
+    },
+    {
+      "id": "foot_toes",
+      "stage2_required": true
+    }
+  ],
+  "movement_families": [
+    "neutral_shoulder_control",
+    "shoulder_flexion_elevation",
+    "shoulder_abduction_elevation",
+    "humeral_internal_external_rotation",
+    "vertical_push",
+    "vertical_pull_hang",
+    "horizontal_push",
+    "horizontal_pull",
+    "elbow_flexion_extension",
+    "forearm_pronation_supination",
+    "wrist_flexion_extension_loaded",
+    "cylindrical_equipment_grip",
+    "grip_release",
+    "neutral_braced_trunk",
+    "trunk_flexion",
+    "trunk_extension",
+    "trunk_lateral_bend",
+    "trunk_axial_rotation",
+    "loaded_hip_hinge",
+    "squat_deep_bilateral_flexion",
+    "split_stance_lunge",
+    "hip_flexion_extension",
+    "hip_abduction_adduction",
+    "knee_flexion_extension",
+    "ankle_dorsiflexion",
+    "ankle_plantarflexion",
+    "loaded_foot_toe_contact"
+  ],
+  "default_motion_sampling": [
+    "start",
+    "25%",
+    "50%",
+    "75%",
+    "end",
+    "return"
+  ],
+  "current_special_sweeps": {
+    "shoulder_elevation_degrees": [
+      0,
+      45,
+      90,
+      120,
+      150,
+      170
+    ],
+    "both_sides_required": true,
+    "return_required": true
+  },
+  "defect_policy": {
+    "blocking_severities": [
+      "Critical",
+      "High"
+    ],
+    "blocking_states": [
+      "Open",
+      "In Progress",
+      "Pending Review"
+    ],
+    "fixed_verified_requires": [
+      "before_evidence",
+      "candidate_bound_repair_scope",
+      "after_evidence",
+      "relevant_motion_sweep",
+      "numerical_regression_checks",
+      "contact_load_checks_if_applicable",
+      "no_new_critical_or_high_issue",
+      "owner_review_recorded_separately"
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "name": "Human movement foundation",
+      "state": "active",
+      "current_focus": "shoulder_chest_anterior_axilla_posterior_axilla_foundation_recovery",
+      "entry": [
+        "historical provenance/base/rig and deformation evidence available"
+      ],
+      "required": [
+        "diagnose skeleton vs weights vs corrective vs topology cause",
+        "weights_only deformation plausible",
+        "correctives refine rather than conceal",
+        "intermediate motion continuity",
+        "contact and whole_body regression preserved"
+      ],
+      "exit": [
+        "no Critical/High foundation defect in validated regions",
+        "weights_only surface plausible through required sweeps",
+        "corrective layers anatomically justified",
+        "regression/contact evidence passes"
+      ],
+      "historical_mapping": [
+        "Phase0",
+        "Phase1",
+        "Phase2",
+        "Phase3",
+        "Phase4_as_historical_evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Whole-body regional proof",
+      "state": "not_started",
+      "entry": [
+        "Stage1 sufficiently clear to expand region-by-region"
+      ],
+      "required": [
+        "all mandatory body regions receive candidate-bound neutral/lengthened-or-elevated/compressed-or-loaded/intermediate evidence"
+      ],
+      "exit": [
+        "no unresolved Critical/High regional defect"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Whole-body movement-family proof",
+      "state": "not_started",
+      "entry": [
+        "regional foundations stable enough for broad movement envelope"
+      ],
+      "required": [
+        "all mandatory movement families sampled through transitions and return where applicable"
+      ],
+      "exit": [
+        "no unresolved Critical/High movement-specific defect",
+        "whole-body silhouettes/contact remain credible"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Real-human evidence closure",
+      "state": "active_parallel",
+      "required": [
+        "source identity",
+        "permissible conclusions",
+        "uncertainty",
+        "coverage of high-risk regions/movements"
+      ],
+      "exit": [
+        "no Critical/High issue blocked from review solely by missing human evidence"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "High-detail anatomy",
+      "state": "blocked",
+      "suborder": [
+        "5A torso",
+        "5B shoulders",
+        "5C arms",
+        "5D hands",
+        "5E pelvis_legs",
+        "5F feet",
+        "5G head_neck"
+      ],
+      "entry": [
+        "Stages1-4 required gates clear"
+      ],
+      "exit": [
+        "all anatomy regions independently authored and deformation-safe"
+      ],
+      "historical_mapping": [
+        "Phase5"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Final topology and surface quality",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase6"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "First-party clothing",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase7"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Materials and presentation",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase8"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Production deformation validation",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase9"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Animation-engine integration",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase10"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Automatic self-review",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase11"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Whole-body owner review",
+      "state": "blocked"
+    },
+    {
+      "id": 13,
+      "name": "Integration and release verification",
+      "state": "blocked"
+    },
+    {
+      "id": 14,
+      "name": "Production freeze",
+      "state": "blocked",
+      "historical_mapping": [
+        "Phase12"
+      ]
+    }
+  ],
+  "current_position": {
+    "master_stage": 1,
+    "comparator_revision": "r95",
+    "comparator_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+    "active_recovery_branch": "codex/whole-body-deformation-recovery-20261004",
+    "facts": [
+      "owner_rejected_appearance_reproduced_exactly_on_production_path",
+      "weights_only_surface_contains_large_shoulder_axilla_support_failure",
+      "existing_correctives_trade_external_wing_for_trench_membrane_and_chest_volume_failure",
+      "another_cosmetic_r95_patch_is_not_selected",
+      "r95_is_immutable_comparator"
+    ],
+    "next_sequence": [
+      "run_or_read_shoulder_layer_diagnostic",
+      "identify_first_failing_ownership_support_zones",
+      "declare_smallest_repair_scope",
+      "create_new_numbered_candidate",
+      "repair_weights_support_first",
+      "prove_weights_only_elevation_sweep",
+      "fit_correctives_only_if_foundation_is_plausible",
+      "run_visual_numerical_symmetry_contact_whole_body_regression",
+      "close_issue_rows_only_with_committed_closure_evidence",
+      "continue Stage1 rather_than_jump_to_Stage5"
+    ]
+  },
+  "protected_constraints": [
+    "no_third_party_character_content",
+    "no_copied_v_series_geometry_weights_topology_bind_material_data",
+    "no_threshold_weakening",
+    "no_baseline_repin_to_manufacture_pass",
+    "preserve_historical_evidence",
+    "do_not_overwrite_newer_work",
+    "do_not_work_from_main",
+    "do_not_infer_owner_acceptance",
+    "do_not_infer_production_approval"
+  ]
+}

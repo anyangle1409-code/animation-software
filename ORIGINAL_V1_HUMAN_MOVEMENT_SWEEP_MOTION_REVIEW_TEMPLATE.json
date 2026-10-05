@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_MOTION_REVIEW_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "sweep_id": null,
+  "raw_sweep_report_path": null,
+  "raw_sweep_report_sha256": null,
+  "return_pairs": [],
+  "adjacent_pairs": [],
+  "deterministic_replay_status": "NOT_RUN",
+  "continuity_review": "PENDING",
+  "reversibility_review": "PENDING",
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Return pairs are derived from equal normalized joint-state inputs; return_leg metadata itself is ignored when pairing.",
+    "A return pair fails deterministic replay if either joint-state SHA or full snapshot SHA differs.",
+    "Every adjacent sample transition requires explicit engineering disposition and evidence references; no invented jump threshold grants PASS.",
+    "Continuity PASS requires every adjacent transition PASS.",
+    "Reversibility PASS requires every derived return pair to match and explicit engineering review PASS.",
+    "Motion review is candidate/sweep evidence only and never implies owner acceptance or production approval."
+  ]
+}

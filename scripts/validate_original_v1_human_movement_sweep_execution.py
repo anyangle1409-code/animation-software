@@ -53,6 +53,22 @@ def validate(d,plan,packages,posemap,graph,require_bound=False,require_runner_ev
         p=d.get(key)
         if not p or not (ROOT/p).is_file():
             raise ValueError(f"{key} missing or file not found: {p}")
+    producers=d.get("separate_evidence_producers") or {}
+    expected_producers={
+      "visual_capture":("IMPLEMENTED_UNCALIBRATED",("runner","script","validator")),
+      "raw_contact":("IMPLEMENTED_UNCALIBRATED",("runner","script","validator")),
+      "review_workspace":("READY_NON_BLENDER",("runner","builder","contact_scaffold_builder")),
+    }
+    for name,(state,fields) in expected_producers.items():
+        row=producers.get(name)
+        if not isinstance(row,dict):
+            raise ValueError(f"separate evidence producer missing {name}")
+        if row.get("state")!=state:
+            raise ValueError(f"{name}: evidence producer state differs")
+        for field in fields:
+            p=row.get(field)
+            if not p or not (ROOT/p).is_file():
+                raise ValueError(f"{name}: {field} missing or file not found: {p}")
     plan_sweeps=plan.get("sweeps") or {}
     rows=d.get("sweeps") or []
     if [x.get("id") for x in rows]!=list(plan_sweeps):
@@ -121,6 +137,7 @@ def validate(d,plan,packages,posemap,graph,require_bound=False,require_runner_ev
       "candidate_sweeps_executed":sum(1 for x in rows if x.get("candidate_execution_state")!="NOT_RUN"),
       "candidate_sweeps_evidence_ready":ready_count,
       "current_wave_evidence_ready":current_ready,
+      "separate_evidence_producers_ready":True,
       "status":"PASS"
     }
 

@@ -1,0 +1,533 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_EXECUTION_PREPARATION",
+  "production_approved": false,
+  "sweep_plan": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+  "frozen_pose_harness": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+  "generic_runner_target": "scripts/run_original_v1_human_movement_sweep_blender.py",
+  "runner_wrapper_target": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP.bat",
+  "frozen_pose_rule": "Do not modify or repin the frozen P3a stress-pose harness to manufacture sweep coverage. Human-movement sweeps are a separate read-only validation layer.",
+  "current_stage1_wave": "shoulder_yoke_foundation",
+  "current_wave_required_sweeps": [
+    "shoulder_abduction_elevation",
+    "humeral_internal_external_rotation",
+    "trunk_flexion",
+    "trunk_extension",
+    "trunk_lateral_bend",
+    "trunk_axial_rotation"
+  ],
+  "sweeps": [
+    {
+      "id": "grip_release",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "loaded_closed",
+        "unload_contact",
+        "25%_open",
+        "50%_open",
+        "75%_open",
+        "full_open",
+        "return_50%"
+      ],
+      "regions": [
+        "palm_thumb_fingers",
+        "forearm_wrist"
+      ],
+      "cameras": [
+        "palm_three_quarter_close",
+        "dorsal_three_quarter_close",
+        "side_close",
+        "whole_upper_body"
+      ],
+      "evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "trunk_flexion",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "25%_flexion",
+        "50%_flexion",
+        "75%_flexion",
+        "max_audit_flexion",
+        "return_50%",
+        "neutral_return"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "evidence_ids": [
+        "HE-TRK-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "trunk_extension",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "25%_extension",
+        "50%_extension",
+        "75%_extension",
+        "max_audit_extension",
+        "return_50%",
+        "neutral_return"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "evidence_ids": [
+        "HE-TRK-001",
+        "HE-HNG-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "trunk_lateral_bend",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "25%_left",
+        "50%_left",
+        "75%_left",
+        "left_end",
+        "return_neutral",
+        "25%_right",
+        "50%_right",
+        "75%_right",
+        "right_end",
+        "neutral_return"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_oblique",
+        "waist_close"
+      ],
+      "evidence_ids": [
+        "HE-TRK-003"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "trunk_axial_rotation",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "15deg_left",
+        "30deg_left",
+        "45deg_left",
+        "left_end",
+        "return_neutral",
+        "15deg_right",
+        "30deg_right",
+        "45deg_right",
+        "right_end",
+        "neutral_return"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_three_quarter",
+        "rear_three_quarter",
+        "top_oblique",
+        "waist_close"
+      ],
+      "evidence_ids": [
+        "HE-TRK-002"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "loaded_hip_hinge",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "stand_loaded",
+        "25%_descent",
+        "50%_descent",
+        "75%_descent",
+        "bottom_audit",
+        "25%_ascent",
+        "50%_ascent",
+        "75%_ascent",
+        "stand_return"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "pelvis_groin_close",
+        "lumbar_close"
+      ],
+      "evidence_ids": [
+        "HE-HNG-001",
+        "HE-TRK-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "hip_abduction_adduction",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "25%_abduction",
+        "50%_abduction",
+        "75%_abduction",
+        "abduction_end",
+        "return_neutral",
+        "25%_adduction",
+        "50%_adduction",
+        "75%_adduction",
+        "adduction_end",
+        "neutral_return"
+      ],
+      "regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "ribcage_abdomen_obliques_lumbar"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_three_quarter",
+        "groin_glute_close"
+      ],
+      "evidence_ids": [
+        "HE-HIP-001",
+        "HE-LNG-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "ankle_plantarflexion",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral_loaded",
+        "25%_plantarflexion",
+        "50%_plantarflexion",
+        "75%_plantarflexion",
+        "heel_raise_end",
+        "return_50%",
+        "neutral_return"
+      ],
+      "regions": [
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "cameras": [
+        "side_lower_leg",
+        "rear_lower_leg",
+        "front_three_quarter_foot",
+        "Achilles_close",
+        "whole_body"
+      ],
+      "evidence_ids": [
+        "HE-ANK-001",
+        "HE-ACH-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "shoulder_abduction_elevation",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral",
+        "45deg_abduction",
+        "90deg_abduction",
+        "120deg_abduction",
+        "150deg_abduction",
+        "170deg_abduction",
+        "return_120deg",
+        "return_90deg",
+        "return_45deg",
+        "neutral_return"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "head_neck_trapezius"
+      ],
+      "cameras": [
+        "front_whole_upper_body",
+        "rear_whole_upper_body",
+        "lateral_shoulder",
+        "anterior_axilla_close",
+        "posterior_axilla_close"
+      ],
+      "evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-VIS-SCAP-002"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "humeral_internal_external_rotation",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral_45deg_abducted",
+        "25pct_internal_rotation",
+        "50pct_internal_rotation",
+        "internal_rotation_end",
+        "return_neutral",
+        "25pct_external_rotation",
+        "50pct_external_rotation",
+        "external_rotation_end",
+        "neutral_return"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "upperarm_elbow"
+      ],
+      "cameras": [
+        "front_three_quarter_shoulder",
+        "rear_three_quarter_shoulder",
+        "lateral_upperarm",
+        "axilla_close"
+      ],
+      "evidence_ids": [
+        "HE-VIS-003",
+        "HE-ATT-DEL-001"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    },
+    {
+      "id": "forearm_pronation_supination",
+      "definition_status": "READY",
+      "runner_binding_status": "UNBOUND",
+      "blender_adapter_id": null,
+      "samples": [
+        "neutral_mid_rotation",
+        "25pct_pronation",
+        "50pct_pronation",
+        "pronation_end",
+        "return_mid",
+        "25pct_supination",
+        "50pct_supination",
+        "supination_end",
+        "neutral_return"
+      ],
+      "regions": [
+        "upperarm_elbow",
+        "forearm_wrist",
+        "palm_thumb_fingers"
+      ],
+      "cameras": [
+        "palmar_forearm_close",
+        "dorsal_forearm_close",
+        "radial_side_close",
+        "ulnar_side_close",
+        "whole_upper_limb"
+      ],
+      "evidence_ids": [
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
+      ],
+      "candidate_execution_state": "NOT_RUN",
+      "required_outputs": [
+        "exact_candidate_sha256",
+        "sweep_plan_sha256",
+        "runner_script_sha256",
+        "sample_joint_state_manifest",
+        "outbound_and_return_sample_captures",
+        "whole_body_and_required_regional_captures",
+        "motion_continuity_record",
+        "return_reversibility_record",
+        "contact_state_record_if_applicable",
+        "engineering_review_disposition"
+      ]
+    }
+  ],
+  "runner_contract": [
+    "Run read-only against a fresh candidate-specific output directory; never save or overwrite the source Blend.",
+    "Load sweep definitions from ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json; do not hard-code exercise-name deformation logic.",
+    "Bind every output to the exact candidate SHA, sweep-plan SHA and runner-script SHA.",
+    "Record deterministic joint-state inputs for every named sample so the same sweep can be replayed exactly.",
+    "Capture every listed sample including intermediate and return samples; endpoint-only output is invalid.",
+    "Use whole-body context plus every required regional camera/landmark view.",
+    "Record contact/load state whenever the movement or affected region is contact-bearing.",
+    "Do not infer PASS from numerical thresholds; engineering visual review against human evidence remains explicit.",
+    "Do not weaken existing pose, regression, contact, baseline or production gates.",
+    "A sweep runner implementation must be generic by movement/joint state and may not use exercise identity as a deformation driver."
+  ],
+  "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND/NOT_RUN or its candidate-bound evidence is incomplete."
+}

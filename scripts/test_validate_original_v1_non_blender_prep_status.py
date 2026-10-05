@@ -21,4 +21,12 @@ class NonBlenderPrepStatusTests(unittest.TestCase):
     def test_missing_prepared_evidence_file_fails(self):
         bad=copy.deepcopy(self.d); bad["prepared_components"][0]["evidence"]=["DOES_NOT_EXIST.json"]
         with self.assertRaisesRegex(ValueError,"evidence file missing"): mod.validate(bad)
+    def test_complete_status_requires_laptop_workflow_integrity_component(self):
+        bad=copy.deepcopy(self.d)
+        bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="laptop_workflow_integrity"]
+        with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
+    def test_complete_status_requires_sweep_acceptance_preflight_component(self):
+        bad=copy.deepcopy(self.d)
+        bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="workspace_sweep_acceptance_preflight"]
+        with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
 if __name__=="__main__": unittest.main()

@@ -209,6 +209,26 @@
       "validator": "scripts/validate_original_v1_human_movement_sweep_execution.py",
       "work_package": "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md",
       "note": "Separates deterministic sweep-definition readiness from actual Blender runner binding/candidate execution. --require-bound is the future fail-closed implementation gate."
+    },
+    "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_movement_joint_requirements.py",
+      "note": "Maps all 27 movement families to minimum required trigger-derived joint families so movement evidence cannot be satisfied by an unrelated bone chain."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_execution_spec.py",
+      "note": "Separate deterministic validation-motion construction spec for all 11 direct human-movement sweeps; does not alter frozen P3a poses."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_runner_calibration.py",
+      "note": "Evidence-bound calibration record for the generic sweep runner. CALIBRATED requires one immutable all-11-sweep raw report, current source hashes and human-reference review."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_acceptance.py",
+      "note": "Final-candidate sweep acceptance gate combining calibrated runner, raw sweep, motion review, required visual captures, contact/load evidence and human-reference review."
     }
   },
   "categories": {

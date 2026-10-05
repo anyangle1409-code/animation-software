@@ -26,11 +26,15 @@ on:
       - "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_*.json"
       - "ORIGINAL_V1_POSE_MOVEMENT_FAMILY_MAP.json"
       - "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
+      - "ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json"
+      - "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json"
       - "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md"
       - "scripts/*weights_only*"
       - "scripts/*deformation_diagnosis*"
       - "scripts/*pose_evidence*"
       - "scripts/*candidate_comparison*"
+      - "scripts/*candidate_surface*"
+      - "scripts/*repair_execution*"
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
@@ -63,11 +67,15 @@ on:
       - "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_*.json"
       - "ORIGINAL_V1_POSE_MOVEMENT_FAMILY_MAP.json"
       - "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
+      - "ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json"
+      - "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json"
       - "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md"
       - "scripts/*weights_only*"
       - "scripts/*deformation_diagnosis*"
       - "scripts/*pose_evidence*"
       - "scripts/*candidate_comparison*"
+      - "scripts/*candidate_surface*"
+      - "scripts/*repair_execution*"
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
@@ -116,6 +124,10 @@ jobs:
         run: python scripts/validate_original_v1_pose_evidence_planning.py
       - name: Validate candidate comparison template
         run: python scripts/validate_original_v1_candidate_comparison_template.py
+      - name: Validate candidate surface visual review template
+        run: python scripts/validate_original_v1_candidate_surface_visual_review_template.py
+      - name: Validate repair execution record template
+        run: python scripts/validate_original_v1_repair_execution_record_template.py
       - name: Validate Stage 1 repair execution graph
         run: python scripts/validate_original_v1_stage1_repair_execution_graph.py
       - name: Validate deformation failure signature guide
@@ -146,5 +158,15 @@ jobs:
         run: python scripts/test_build_original_v1_pose_capture_evidence_plan.py
       - name: Run unified candidate comparison tests
         run: python scripts/test_build_original_v1_candidate_comparison_report.py
+      - name: Run anatomical repair package tests
+        run: python scripts/test_validate_original_v1_anatomical_repair_packages.py
+      - name: Run deformation diagnosis tree tests
+        run: python scripts/test_validate_original_v1_deformation_diagnosis_tree.py
+      - name: Run weights-only acceptance tests
+        run: python scripts/test_validate_original_v1_weights_only_acceptance.py
+      - name: Run candidate surface visual review tests
+        run: python scripts/test_validate_original_v1_candidate_surface_visual_review.py
+      - name: Run repair execution provenance tests
+        run: python scripts/test_validate_original_v1_repair_execution_record.py
       - name: Run repair regression planner tests
         run: python scripts/test_build_original_v1_repair_regression_plan.py

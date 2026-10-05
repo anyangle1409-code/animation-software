@@ -25,6 +25,7 @@ HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -34,7 +35,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, coupling, triggers = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS))
+    plan, cov, ledger, human, sweeps, coupling, triggers, visual = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -58,6 +59,10 @@ def build():
     for row in human_entries:
         region = row.get("region", "unknown")
         refs_by_region[region] = refs_by_region.get(region, 0) + 1
+
+    visual_counts = {}
+    for row in visual.get("regions", []):
+        visual_counts[row["state"]] = visual_counts.get(row["state"], 0) + 1
 
     status = {
         "schema_version": 1,
@@ -91,9 +96,19 @@ def build():
             "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",
             "blocking_issue_id": "WB-QA-012",
             "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+            "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
             "joint_trigger_rule_count": len(triggers.get("rules") or []),
             "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.",
             "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
+        },
+        "surface_visual_evidence": {
+            "authority": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
+            "counts": visual_counts,
+            "complete_region_count": visual_counts.get("complete", 0),
+            "partial_region_count": visual_counts.get("partial", 0),
+            "missing_surface_sequence_count": visual_counts.get("missing_surface_sequence", 0),
+            "status": "INCOMPLETE" if visual_counts.get("missing_surface_sequence", 0) else "REVIEW",
+            "rule": "Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit.",
         },
         "high_detail_anatomy_allowed": False,
         "why_not_high_detail": (
@@ -156,6 +171,14 @@ def markdown(s):
         s["anatomical_coupling"]["rule"],
         f"- Joint-to-tissue trigger rules: **{s['anatomical_coupling']['joint_trigger_rule_count']}**",
         s["anatomical_coupling"]["trigger_rule"],
+        "",
+        "## Real-human surface visual evidence",
+        "",
+        f"- Complete regions: **{s['surface_visual_evidence']['complete_region_count']}**",
+        f"- Partial regions: **{s['surface_visual_evidence']['partial_region_count']}**",
+        f"- Missing full surface sequences: **{s['surface_visual_evidence']['missing_surface_sequence_count']}**",
+        "",
+        s["surface_visual_evidence"]["rule"],
         "",
         "## High-detail anatomy",
         "",

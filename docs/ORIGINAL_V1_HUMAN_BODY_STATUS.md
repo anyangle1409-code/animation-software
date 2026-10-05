@@ -22,9 +22,12 @@
 
 ## Coverage
 
-- Regions: {"not_started":1,"evidence_partial":11}
-- Movement families: {"evidence_partial":19,"not_started":8}
-- Human-evidence entries: **11**
+- Regions with evidence scaffolding: **12 / 12**
+- Movement families with evidence scaffolding: **27 / 27**
+- Human-evidence entries: **23**
+- Newly prepared deterministic movement sweeps: **8**
+
+> Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.
 
 ## High-detail anatomy
 

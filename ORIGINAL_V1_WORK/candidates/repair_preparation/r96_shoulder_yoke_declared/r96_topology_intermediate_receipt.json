@@ -1,0 +1,990 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-05T18:12:20.824367+00:00",
+  "stage": "r96 declared axillary support topology; weights-only candidate intermediate",
+  "source_candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+  "source_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "declaration": "ORIGINAL_V1_WORK/candidates/repair_preparation/r96_shoulder_yoke_declared/r96_support_ring_declared_before_edit.json",
+  "declaration_sha256": "918e65afef186bf9ada3a029e017660237a0dbdde42c4d33527c059d2464d106",
+  "candidate": "r96_topology.blend",
+  "candidate_sha256": "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd",
+  "vertices_before": 17946,
+  "vertices_after": 18066,
+  "faces_before": 17944,
+  "faces_after": 18064,
+  "new_vertex_ids": [
+    17946,
+    17947,
+    17948,
+    17949,
+    17950,
+    17951,
+    17952,
+    17953,
+    17954,
+    17955,
+    17956,
+    17957,
+    17958,
+    17959,
+    17960,
+    17961,
+    17962,
+    17963,
+    17964,
+    17965,
+    17966,
+    17967,
+    17968,
+    17969,
+    17970,
+    17971,
+    17972,
+    17973,
+    17974,
+    17975,
+    17976,
+    17977,
+    17978,
+    17979,
+    17980,
+    17981,
+    17982,
+    17983,
+    17984,
+    17985,
+    17986,
+    17987,
+    17988,
+    17989,
+    17990,
+    17991,
+    17992,
+    17993,
+    17994,
+    17995,
+    17996,
+    17997,
+    17998,
+    17999,
+    18000,
+    18001,
+    18002,
+    18003,
+    18004,
+    18005,
+    18006,
+    18007,
+    18008,
+    18009,
+    18010,
+    18011,
+    18012,
+    18013,
+    18014,
+    18015,
+    18016,
+    18017,
+    18018,
+    18019,
+    18020,
+    18021,
+    18022,
+    18023,
+    18024,
+    18025,
+    18026,
+    18027,
+    18028,
+    18029,
+    18030,
+    18031,
+    18032,
+    18033,
+    18034,
+    18035,
+    18036,
+    18037,
+    18038,
+    18039,
+    18040,
+    18041,
+    18042,
+    18043,
+    18044,
+    18045,
+    18046,
+    18047,
+    18048,
+    18049,
+    18050,
+    18051,
+    18052,
+    18053,
+    18054,
+    18055,
+    18056,
+    18057,
+    18058,
+    18059,
+    18060,
+    18061,
+    18062,
+    18063,
+    18064,
+    18065
+  ],
+  "new_vertex_source_edges": [
+    {
+      "new_vertex_id": 17946,
+      "endpoint_vertex_ids": [
+        0,
+        4491
+      ]
+    },
+    {
+      "new_vertex_id": 17947,
+      "endpoint_vertex_ids": [
+        4488,
+        13460
+      ]
+    },
+    {
+      "new_vertex_id": 17948,
+      "endpoint_vertex_ids": [
+        4492,
+        13461
+      ]
+    },
+    {
+      "new_vertex_id": 17949,
+      "endpoint_vertex_ids": [
+        4,
+        4499
+      ]
+    },
+    {
+      "new_vertex_id": 17950,
+      "endpoint_vertex_ids": [
+        4504,
+        13465
+      ]
+    },
+    {
+      "new_vertex_id": 17951,
+      "endpoint_vertex_ids": [
+        8,
+        4511
+      ]
+    },
+    {
+      "new_vertex_id": 17952,
+      "endpoint_vertex_ids": [
+        4516,
+        13469
+      ]
+    },
+    {
+      "new_vertex_id": 17953,
+      "endpoint_vertex_ids": [
+        12,
+        4523
+      ]
+    },
+    {
+      "new_vertex_id": 17954,
+      "endpoint_vertex_ids": [
+        4528,
+        13473
+      ]
+    },
+    {
+      "new_vertex_id": 17955,
+      "endpoint_vertex_ids": [
+        16,
+        4535
+      ]
+    },
+    {
+      "new_vertex_id": 17956,
+      "endpoint_vertex_ids": [
+        4540,
+        13477
+      ]
+    },
+    {
+      "new_vertex_id": 17957,
+      "endpoint_vertex_ids": [
+        20,
+        4547
+      ]
+    },
+    {
+      "new_vertex_id": 17958,
+      "endpoint_vertex_ids": [
+        4552,
+        13481
+      ]
+    },
+    {
+      "new_vertex_id": 17959,
+      "endpoint_vertex_ids": [
+        24,
+        4559
+      ]
+    },
+    {
+      "new_vertex_id": 17960,
+      "endpoint_vertex_ids": [
+        4564,
+        13485
+      ]
+    },
+    {
+      "new_vertex_id": 17961,
+      "endpoint_vertex_ids": [
+        28,
+        4571
+      ]
+    },
+    {
+      "new_vertex_id": 17962,
+      "endpoint_vertex_ids": [
+        4576,
+        13489
+      ]
+    },
+    {
+      "new_vertex_id": 17963,
+      "endpoint_vertex_ids": [
+        32,
+        4583
+      ]
+    },
+    {
+      "new_vertex_id": 17964,
+      "endpoint_vertex_ids": [
+        4588,
+        13493
+      ]
+    },
+    {
+      "new_vertex_id": 17965,
+      "endpoint_vertex_ids": [
+        36,
+        4595
+      ]
+    },
+    {
+      "new_vertex_id": 17966,
+      "endpoint_vertex_ids": [
+        4600,
+        13497
+      ]
+    },
+    {
+      "new_vertex_id": 17967,
+      "endpoint_vertex_ids": [
+        40,
+        4607
+      ]
+    },
+    {
+      "new_vertex_id": 17968,
+      "endpoint_vertex_ids": [
+        4612,
+        13501
+      ]
+    },
+    {
+      "new_vertex_id": 17969,
+      "endpoint_vertex_ids": [
+        44,
+        4619
+      ]
+    },
+    {
+      "new_vertex_id": 17970,
+      "endpoint_vertex_ids": [
+        4624,
+        13505
+      ]
+    },
+    {
+      "new_vertex_id": 17971,
+      "endpoint_vertex_ids": [
+        48,
+        4631
+      ]
+    },
+    {
+      "new_vertex_id": 17972,
+      "endpoint_vertex_ids": [
+        4636,
+        13509
+      ]
+    },
+    {
+      "new_vertex_id": 17973,
+      "endpoint_vertex_ids": [
+        52,
+        4643
+      ]
+    },
+    {
+      "new_vertex_id": 17974,
+      "endpoint_vertex_ids": [
+        4648,
+        13513
+      ]
+    },
+    {
+      "new_vertex_id": 17975,
+      "endpoint_vertex_ids": [
+        56,
+        4655
+      ]
+    },
+    {
+      "new_vertex_id": 17976,
+      "endpoint_vertex_ids": [
+        4660,
+        13517
+      ]
+    },
+    {
+      "new_vertex_id": 17977,
+      "endpoint_vertex_ids": [
+        1,
+        4489
+      ]
+    },
+    {
+      "new_vertex_id": 17978,
+      "endpoint_vertex_ids": [
+        4501,
+        13464
+      ]
+    },
+    {
+      "new_vertex_id": 17979,
+      "endpoint_vertex_ids": [
+        5,
+        4502
+      ]
+    },
+    {
+      "new_vertex_id": 17980,
+      "endpoint_vertex_ids": [
+        4513,
+        13468
+      ]
+    },
+    {
+      "new_vertex_id": 17981,
+      "endpoint_vertex_ids": [
+        9,
+        4514
+      ]
+    },
+    {
+      "new_vertex_id": 17982,
+      "endpoint_vertex_ids": [
+        4525,
+        13472
+      ]
+    },
+    {
+      "new_vertex_id": 17983,
+      "endpoint_vertex_ids": [
+        13,
+        4526
+      ]
+    },
+    {
+      "new_vertex_id": 17984,
+      "endpoint_vertex_ids": [
+        4537,
+        13476
+      ]
+    },
+    {
+      "new_vertex_id": 17985,
+      "endpoint_vertex_ids": [
+        17,
+        4538
+      ]
+    },
+    {
+      "new_vertex_id": 17986,
+      "endpoint_vertex_ids": [
+        4549,
+        13480
+      ]
+    },
+    {
+      "new_vertex_id": 17987,
+      "endpoint_vertex_ids": [
+        21,
+        4550
+      ]
+    },
+    {
+      "new_vertex_id": 17988,
+      "endpoint_vertex_ids": [
+        4561,
+        13484
+      ]
+    },
+    {
+      "new_vertex_id": 17989,
+      "endpoint_vertex_ids": [
+        25,
+        4562
+      ]
+    },
+    {
+      "new_vertex_id": 17990,
+      "endpoint_vertex_ids": [
+        4573,
+        13488
+      ]
+    },
+    {
+      "new_vertex_id": 17991,
+      "endpoint_vertex_ids": [
+        29,
+        4574
+      ]
+    },
+    {
+      "new_vertex_id": 17992,
+      "endpoint_vertex_ids": [
+        4585,
+        13492
+      ]
+    },
+    {
+      "new_vertex_id": 17993,
+      "endpoint_vertex_ids": [
+        33,
+        4586
+      ]
+    },
+    {
+      "new_vertex_id": 17994,
+      "endpoint_vertex_ids": [
+        4597,
+        13496
+      ]
+    },
+    {
+      "new_vertex_id": 17995,
+      "endpoint_vertex_ids": [
+        37,
+        4598
+      ]
+    },
+    {
+      "new_vertex_id": 17996,
+      "endpoint_vertex_ids": [
+        4609,
+        13500
+      ]
+    },
+    {
+      "new_vertex_id": 17997,
+      "endpoint_vertex_ids": [
+        41,
+        4610
+      ]
+    },
+    {
+      "new_vertex_id": 17998,
+      "endpoint_vertex_ids": [
+        4621,
+        13504
+      ]
+    },
+    {
+      "new_vertex_id": 17999,
+      "endpoint_vertex_ids": [
+        45,
+        4622
+      ]
+    },
+    {
+      "new_vertex_id": 18000,
+      "endpoint_vertex_ids": [
+        4633,
+        13508
+      ]
+    },
+    {
+      "new_vertex_id": 18001,
+      "endpoint_vertex_ids": [
+        49,
+        4634
+      ]
+    },
+    {
+      "new_vertex_id": 18002,
+      "endpoint_vertex_ids": [
+        4645,
+        13512
+      ]
+    },
+    {
+      "new_vertex_id": 18003,
+      "endpoint_vertex_ids": [
+        53,
+        4646
+      ]
+    },
+    {
+      "new_vertex_id": 18004,
+      "endpoint_vertex_ids": [
+        4657,
+        13516
+      ]
+    },
+    {
+      "new_vertex_id": 18005,
+      "endpoint_vertex_ids": [
+        57,
+        4658
+      ]
+    },
+    {
+      "new_vertex_id": 18006,
+      "endpoint_vertex_ids": [
+        2,
+        4493
+      ]
+    },
+    {
+      "new_vertex_id": 18007,
+      "endpoint_vertex_ids": [
+        4498,
+        13463
+      ]
+    },
+    {
+      "new_vertex_id": 18008,
+      "endpoint_vertex_ids": [
+        6,
+        4505
+      ]
+    },
+    {
+      "new_vertex_id": 18009,
+      "endpoint_vertex_ids": [
+        4510,
+        13467
+      ]
+    },
+    {
+      "new_vertex_id": 18010,
+      "endpoint_vertex_ids": [
+        10,
+        4517
+      ]
+    },
+    {
+      "new_vertex_id": 18011,
+      "endpoint_vertex_ids": [
+        4522,
+        13471
+      ]
+    },
+    {
+      "new_vertex_id": 18012,
+      "endpoint_vertex_ids": [
+        14,
+        4529
+      ]
+    },
+    {
+      "new_vertex_id": 18013,
+      "endpoint_vertex_ids": [
+        4534,
+        13475
+      ]
+    },
+    {
+      "new_vertex_id": 18014,
+      "endpoint_vertex_ids": [
+        18,
+        4541
+      ]
+    },
+    {
+      "new_vertex_id": 18015,
+      "endpoint_vertex_ids": [
+        4546,
+        13479
+      ]
+    },
+    {
+      "new_vertex_id": 18016,
+      "endpoint_vertex_ids": [
+        22,
+        4553
+      ]
+    },
+    {
+      "new_vertex_id": 18017,
+      "endpoint_vertex_ids": [
+        4558,
+        13483
+      ]
+    },
+    {
+      "new_vertex_id": 18018,
+      "endpoint_vertex_ids": [
+        26,
+        4565
+      ]
+    },
+    {
+      "new_vertex_id": 18019,
+      "endpoint_vertex_ids": [
+        4570,
+        13487
+      ]
+    },
+    {
+      "new_vertex_id": 18020,
+      "endpoint_vertex_ids": [
+        30,
+        4577
+      ]
+    },
+    {
+      "new_vertex_id": 18021,
+      "endpoint_vertex_ids": [
+        4582,
+        13491
+      ]
+    },
+    {
+      "new_vertex_id": 18022,
+      "endpoint_vertex_ids": [
+        34,
+        4589
+      ]
+    },
+    {
+      "new_vertex_id": 18023,
+      "endpoint_vertex_ids": [
+        4594,
+        13495
+      ]
+    },
+    {
+      "new_vertex_id": 18024,
+      "endpoint_vertex_ids": [
+        38,
+        4601
+      ]
+    },
+    {
+      "new_vertex_id": 18025,
+      "endpoint_vertex_ids": [
+        4606,
+        13499
+      ]
+    },
+    {
+      "new_vertex_id": 18026,
+      "endpoint_vertex_ids": [
+        42,
+        4613
+      ]
+    },
+    {
+      "new_vertex_id": 18027,
+      "endpoint_vertex_ids": [
+        4618,
+        13503
+      ]
+    },
+    {
+      "new_vertex_id": 18028,
+      "endpoint_vertex_ids": [
+        46,
+        4625
+      ]
+    },
+    {
+      "new_vertex_id": 18029,
+      "endpoint_vertex_ids": [
+        4630,
+        13507
+      ]
+    },
+    {
+      "new_vertex_id": 18030,
+      "endpoint_vertex_ids": [
+        50,
+        4637
+      ]
+    },
+    {
+      "new_vertex_id": 18031,
+      "endpoint_vertex_ids": [
+        4642,
+        13511
+      ]
+    },
+    {
+      "new_vertex_id": 18032,
+      "endpoint_vertex_ids": [
+        54,
+        4649
+      ]
+    },
+    {
+      "new_vertex_id": 18033,
+      "endpoint_vertex_ids": [
+        4654,
+        13515
+      ]
+    },
+    {
+      "new_vertex_id": 18034,
+      "endpoint_vertex_ids": [
+        58,
+        4661
+      ]
+    },
+    {
+      "new_vertex_id": 18035,
+      "endpoint_vertex_ids": [
+        4666,
+        13519
+      ]
+    },
+    {
+      "new_vertex_id": 18036,
+      "endpoint_vertex_ids": [
+        4495,
+        13462
+      ]
+    },
+    {
+      "new_vertex_id": 18037,
+      "endpoint_vertex_ids": [
+        3,
+        4496
+      ]
+    },
+    {
+      "new_vertex_id": 18038,
+      "endpoint_vertex_ids": [
+        4507,
+        13466
+      ]
+    },
+    {
+      "new_vertex_id": 18039,
+      "endpoint_vertex_ids": [
+        7,
+        4508
+      ]
+    },
+    {
+      "new_vertex_id": 18040,
+      "endpoint_vertex_ids": [
+        4519,
+        13470
+      ]
+    },
+    {
+      "new_vertex_id": 18041,
+      "endpoint_vertex_ids": [
+        11,
+        4520
+      ]
+    },
+    {
+      "new_vertex_id": 18042,
+      "endpoint_vertex_ids": [
+        4531,
+        13474
+      ]
+    },
+    {
+      "new_vertex_id": 18043,
+      "endpoint_vertex_ids": [
+        15,
+        4532
+      ]
+    },
+    {
+      "new_vertex_id": 18044,
+      "endpoint_vertex_ids": [
+        4543,
+        13478
+      ]
+    },
+    {
+      "new_vertex_id": 18045,
+      "endpoint_vertex_ids": [
+        19,
+        4544
+      ]
+    },
+    {
+      "new_vertex_id": 18046,
+      "endpoint_vertex_ids": [
+        4555,
+        13482
+      ]
+    },
+    {
+      "new_vertex_id": 18047,
+      "endpoint_vertex_ids": [
+        23,
+        4556
+      ]
+    },
+    {
+      "new_vertex_id": 18048,
+      "endpoint_vertex_ids": [
+        4567,
+        13486
+      ]
+    },
+    {
+      "new_vertex_id": 18049,
+      "endpoint_vertex_ids": [
+        27,
+        4568
+      ]
+    },
+    {
+      "new_vertex_id": 18050,
+      "endpoint_vertex_ids": [
+        4579,
+        13490
+      ]
+    },
+    {
+      "new_vertex_id": 18051,
+      "endpoint_vertex_ids": [
+        31,
+        4580
+      ]
+    },
+    {
+      "new_vertex_id": 18052,
+      "endpoint_vertex_ids": [
+        4591,
+        13494
+      ]
+    },
+    {
+      "new_vertex_id": 18053,
+      "endpoint_vertex_ids": [
+        35,
+        4592
+      ]
+    },
+    {
+      "new_vertex_id": 18054,
+      "endpoint_vertex_ids": [
+        4603,
+        13498
+      ]
+    },
+    {
+      "new_vertex_id": 18055,
+      "endpoint_vertex_ids": [
+        39,
+        4604
+      ]
+    },
+    {
+      "new_vertex_id": 18056,
+      "endpoint_vertex_ids": [
+        4615,
+        13502
+      ]
+    },
+    {
+      "new_vertex_id": 18057,
+      "endpoint_vertex_ids": [
+        43,
+        4616
+      ]
+    },
+    {
+      "new_vertex_id": 18058,
+      "endpoint_vertex_ids": [
+        4627,
+        13506
+      ]
+    },
+    {
+      "new_vertex_id": 18059,
+      "endpoint_vertex_ids": [
+        47,
+        4628
+      ]
+    },
+    {
+      "new_vertex_id": 18060,
+      "endpoint_vertex_ids": [
+        4639,
+        13510
+      ]
+    },
+    {
+      "new_vertex_id": 18061,
+      "endpoint_vertex_ids": [
+        51,
+        4640
+      ]
+    },
+    {
+      "new_vertex_id": 18062,
+      "endpoint_vertex_ids": [
+        4651,
+        13514
+      ]
+    },
+    {
+      "new_vertex_id": 18063,
+      "endpoint_vertex_ids": [
+        55,
+        4652
+      ]
+    },
+    {
+      "new_vertex_id": 18064,
+      "endpoint_vertex_ids": [
+        4663,
+        13518
+      ]
+    },
+    {
+      "new_vertex_id": 18065,
+      "endpoint_vertex_ids": [
+        59,
+        4664
+      ]
+    }
+  ],
+  "original_basis_max_change": 0.0,
+  "original_weight_max_change": 0.0,
+  "original_shape_key_point_max_change": 0.0,
+  "new_shape_key_midpoint_max_error": 5.960464477539063e-08,
+  "new_deform_influence_max": 4,
+  "new_deform_normalisation_max_error": 3.3527612686157227e-08,
+  "all_quad": true,
+  "rig_bones": 67,
+  "correctives_retained": true,
+  "correctives_disabled_during_gate": true,
+  "production_approved": false
+}

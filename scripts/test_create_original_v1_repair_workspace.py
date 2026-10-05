@@ -1,4 +1,4 @@
-"""Tests for complete candidate-bound pre-edit repair workspace creation."""
+"""Tests for complete fail-closed PRE-EDIT repair workspace creation."""
 import importlib.util,json,sys,tempfile
 from pathlib import Path
 import unittest
@@ -7,7 +7,7 @@ SPEC=importlib.util.spec_from_file_location("repair_workspace",MODULE)
 mod=importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(mod)
 
 class RepairWorkspaceTests(unittest.TestCase):
-    def test_workspace_is_candidate_bound_and_fail_closed(self):
+    def test_pre_edit_and_final_identities_are_separated(self):
         with tempfile.TemporaryDirectory() as td:
             out=Path(td)/"ws"; old=sys.argv
             try:
@@ -17,16 +17,25 @@ class RepairWorkspaceTests(unittest.TestCase):
             finally:
                 sys.argv=old
             wm=json.loads((out/"workspace_manifest.json").read_text())
-            self.assertEqual(wm["candidate_sha256"],"b"*64)
+            self.assertEqual(wm["pre_edit_candidate_sha256"],"b"*64)
+            self.assertIsNone(wm["final_candidate_sha256"])
             self.assertEqual(wm["repair_package_ids"],["RP-PEC-AX-002"])
             self.assertIn("CP-PEC-AX-002",wm["coupling_system_ids"])
-            ledger=json.loads((out/"candidate_issue_ledger.json").read_text())
-            blocking=[x for x in ledger["issues"] if x["severity"] in {"Critical","High"}]
+
+            pre=json.loads((out/"candidate_issue_ledger_pre_edit.json").read_text())
+            blocking=[x for x in pre["issues"] if x["severity"] in {"Critical","High"}]
             self.assertTrue(blocking)
             self.assertTrue(all(x["state"]=="Open" and not x["closure_evidence"] for x in blocking))
-            cm=json.loads((out/"candidate_comparison_manifest.json").read_text())
-            self.assertEqual(cm["candidate"]["sha256"],"b"*64)
+            self.assertTrue(all(x["candidate"]["sha256"]=="b"*64 for x in blocking))
+
+            wo=json.loads((out/"weights_only_acceptance_FINAL_TEMPLATE.json").read_text())
+            ce=json.loads((out/"anatomical_coupling_evidence_FINAL_TEMPLATE.json").read_text())
+            cm=json.loads((out/"candidate_comparison_FINAL_TEMPLATE.json").read_text())
+            self.assertIsNone(wo["candidate_sha256"])
+            self.assertIsNone(ce["candidate_sha256"])
+            self.assertIsNone(cm["candidate"]["sha256"])
             self.assertIn("CP-PEC-AX-002",cm["scope"]["coupling_system_ids"])
             self.assertTrue(cm["evidence"]["repair_declaration_paths"])
+            self.assertTrue(cm["evidence"]["repair_execution_record_paths"])
 
 if __name__=="__main__": unittest.main()

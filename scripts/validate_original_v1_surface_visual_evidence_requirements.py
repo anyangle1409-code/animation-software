@@ -14,6 +14,7 @@ def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 
 def validate(req,master,human):
     if req.get("schema_version")!=1: raise ValueError("schema_version must be 1")
+    if req.get("status")!="SURFACE_VISUAL_EVIDENCE_REQUIREMENTS_ACTIVE": raise ValueError("unexpected visual-evidence status")
     if req.get("production_approved") is not False: raise ValueError("visual evidence requirements may not claim production approval")
     expected=[x["id"] for x in master.get("body_regions",[])]
     rows=req.get("regions") or []
@@ -34,6 +35,17 @@ def validate(req,master,human):
         if not isinstance(row.get("needs"),list): raise ValueError(f"{row['id']}: needs must be a list")
     if set(req.get("required_states") or [])!={"neutral","lengthened_or_elevated","compressed_or_loaded","intermediate_transition","return_transition"}:
         raise ValueError("required visual states differ")
+    summary=req.get("summary") or {}
+    counts={
+        "complete":sum(1 for r in rows if r["state"]=="complete"),
+        "partial":sum(1 for r in rows if r["state"]=="partial"),
+        "missing_surface_sequence":sum(1 for r in rows if r["state"]=="missing_surface_sequence"),
+    }
+    if summary.get("region_count")!=len(rows): raise ValueError("summary region_count differs")
+    if summary.get("complete")!=counts["complete"] or summary.get("partial")!=counts["partial"] or summary.get("missing_surface_sequence")!=counts["missing_surface_sequence"]:
+        raise ValueError("summary visual counts differ")
+    if "cannot be closed from anatomy/kinematics alone" not in str(req.get("exit_rule","")):
+        raise ValueError("exit rule must block anatomy-only visual closure")
     return True
 
 def main():

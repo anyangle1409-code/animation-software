@@ -4,8 +4,8 @@
   "production_approved": false,
   "sweep_plan": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
   "frozen_pose_harness": "scripts/pose_test_original_v1_o4_candidate_blender.py",
-  "generic_runner_target": "scripts/run_original_v1_human_movement_sweep_blender.py",
-  "runner_wrapper_target": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP.bat",
+  "generic_runner_target": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
+  "runner_wrapper_target": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
   "frozen_pose_rule": "Do not modify or repin the frozen P3a stress-pose harness to manufacture sweep coverage. Human-movement sweeps are a separate read-only validation layer.",
   "current_stage1_wave": "shoulder_yoke_foundation",
   "current_wave_required_sweeps": [
@@ -20,8 +20,8 @@
     {
       "id": "grip_release",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "loaded_closed",
         "unload_contact",
@@ -50,6 +50,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -57,14 +58,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "trunk_flexion",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "25%_flexion",
@@ -92,6 +95,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -99,14 +103,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "trunk_extension",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "25%_extension",
@@ -135,6 +141,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -142,14 +149,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "trunk_lateral_bend",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "25%_left",
@@ -181,6 +190,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -188,14 +198,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "trunk_axial_rotation",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "15deg_left",
@@ -227,6 +239,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -234,14 +247,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "loaded_hip_hinge",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "stand_loaded",
         "25%_descent",
@@ -275,6 +290,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -282,14 +298,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "hip_abduction_adduction",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "25%_abduction",
@@ -322,6 +340,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -329,14 +348,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "ankle_plantarflexion",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral_loaded",
         "25%_plantarflexion",
@@ -365,6 +386,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -372,14 +394,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "shoulder_abduction_elevation",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral",
         "45deg_abduction",
@@ -414,6 +438,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -421,14 +446,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "humeral_internal_external_rotation",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral_45deg_abducted",
         "25pct_internal_rotation",
@@ -460,6 +487,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -467,14 +495,16 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     },
     {
       "id": "forearm_pronation_supination",
       "definition_status": "READY",
-      "runner_binding_status": "UNBOUND",
-      "blender_adapter_id": null,
+      "runner_binding_status": "BOUND",
+      "blender_adapter_id": "generic_human_movement_sweep_v1",
       "samples": [
         "neutral_mid_rotation",
         "25pct_pronation",
@@ -506,6 +536,7 @@
       "required_outputs": [
         "exact_candidate_sha256",
         "sweep_plan_sha256",
+        "sweep_execution_spec_sha256",
         "runner_script_sha256",
         "sample_joint_state_manifest",
         "outbound_and_return_sample_captures",
@@ -513,7 +544,9 @@
         "motion_continuity_record",
         "return_reversibility_record",
         "contact_state_record_if_applicable",
-        "engineering_review_disposition"
+        "engineering_review_disposition",
+        "weights_only_surface_summary",
+        "corrective_contribution_summary"
       ]
     }
   ],
@@ -529,5 +562,8 @@
     "Do not weaken existing pose, regression, contact, baseline or production gates.",
     "A sweep runner implementation must be generic by movement/joint state and may not use exercise identity as a deformation driver."
   ],
-  "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND/NOT_RUN or its candidate-bound evidence is incomplete."
+  "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
+  "execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
+  "runner_calibration_state": "PREPARED_UNCALIBRATED",
+  "runner_binding_note": "All sweep definitions are bound to a separate read-only generic Blender adapter, but no candidate execution or Blender calibration is inferred. candidate_execution_state remains NOT_RUN until real output exists."
 }

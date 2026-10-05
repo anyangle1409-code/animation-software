@@ -103,24 +103,24 @@
       "note": "Read-only candidate/declaration-bound diagnostic of proximal/distal anchor weight shares and ownership discontinuities inside a declared shared-tissue zone; numeric distribution is diagnostic, not anatomy acceptance."
     },
     "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json": {
-      "category": "verification",
+      "category": "authority",
       "validator": "scripts/validate_original_v1_anatomical_repair_packages.py",
-      "note": "Practical repair packages for all 14 coupling systems: protected anatomy, repair targets, weights-only acceptance, residual corrective role and proof movements."
+      "note": "Practical repair packages for all 14 anatomical coupling systems: failure layers, protected anatomy, weights-only acceptance, residual corrective role and proof movements."
     },
     "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json": {
       "category": "authority",
       "validator": "scripts/validate_original_v1_deformation_diagnosis_tree.py",
-      "note": "Fail-closed earliest-failing-layer decision tree: source -> kinematics -> skinning -> weights -> topology -> correctives -> contact -> continuity -> regression -> human visual."
+      "note": "Fail-closed diagnosis order from source/kinematics through skinning, weights, topology, correctives, contact, continuity, regression and human visual review."
     },
     "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json": {
       "category": "authority",
       "validator": "scripts/validate_original_v1_weights_only_contract.py",
-      "note": "Region-by-region weights-only anatomical acceptance contract; corrective refinement is blocked until base deformation is plausible."
+      "note": "Region-by-region weights-only anatomical acceptance criteria; corrective-free proof required before corrective refinement."
     },
     "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_TEMPLATE.json": {
       "category": "verification",
       "validator": "scripts/validate_original_v1_weights_only_acceptance.py",
-      "note": "Candidate-specific weights-only CLEAR/FAIL evidence for all 12 mandatory body regions."
+      "note": "Candidate-bound 12-region weights-only CLEAR/FAIL record."
     },
     "ORIGINAL_V1_POSE_MOVEMENT_FAMILY_MAP.json": {
       "category": "verification",
@@ -172,6 +172,20 @@
       "runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat",
       "builder": "scripts/create_original_v1_repair_declaration.py",
       "note": "Auto-prefills candidate repair declaration from the selected anatomical package/coupling/defect/evidence authorities; actual vertex zones and allowed bone groups still require candidate-specific declaration."
+    },
+    "ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_candidate_surface_visual_review_template.py",
+      "candidate_validator": "scripts/validate_original_v1_candidate_surface_visual_review.py",
+      "note": "Candidate-bound human exterior surface review requiring five motion states, whole-body context, regional close views and human evidence."
+    },
+    "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_repair_execution_record_template.py",
+      "candidate_validator": "scripts/validate_original_v1_repair_execution_record.py",
+      "generator": "scripts/create_original_v1_repair_execution_record.py",
+      "runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_EXECUTION_RECORD.bat",
+      "note": "Post-edit provenance linking immutable pre-edit declaration to final candidate SHA and proving edits stayed inside declared vertices/bones/operations."
     }
   },
   "categories": {

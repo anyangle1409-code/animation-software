@@ -23,6 +23,9 @@ on:
       - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
+      - "scripts/finalize_original_v1_human_movement_sweep_*"
+      - "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE.bat"
+      - "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
@@ -104,6 +107,9 @@ on:
       - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
+      - "scripts/finalize_original_v1_human_movement_sweep_*"
+      - "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE.bat"
+      - "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
@@ -359,3 +365,8 @@ jobs:
 
       - name: Run finalized workspace sweep acceptance preflight tests
         run: python scripts/test_validate_original_v1_workspace_sweep_acceptance.py
+
+      - name: Run sweep calibration finalizer tests
+        run: python scripts/test_finalize_original_v1_human_movement_sweep_runner_calibration.py
+      - name: Run sweep acceptance finalizer tests
+        run: python scripts/test_finalize_original_v1_human_movement_sweep_acceptance.py

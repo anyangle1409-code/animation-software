@@ -13,12 +13,13 @@ def validate(d):
     parent=d.get("parent") or {}
     if parent.get("revision")!="r95" or not SHA_RE.fullmatch(str(parent.get("sha256",""))): raise ValueError("r95 parent identity invalid")
     ev=d.get("evidence") or {}
-    required={"weights_only_acceptance_path","anatomical_coupling_evidence_path","movement_coupling_evidence_path","motion_reversibility_path","motion_continuity_path","regression_report_path","contact_report_path","visual_capture_manifest_paths","change_audit_path","repair_declaration_paths","repair_execution_record_paths","pose_capture_plan_path","surface_visual_review_path"}
+    required={"weights_only_acceptance_path","anatomical_coupling_evidence_path","movement_coupling_evidence_path","motion_reversibility_path","motion_continuity_path","regression_report_path","contact_report_path","visual_capture_manifest_paths","change_audit_path","repair_declaration_paths","repair_execution_record_paths","pose_capture_plan_path","surface_visual_review_path","human_movement_sweep_acceptance_paths"}
     if not required.issubset(ev): raise ValueError("comparison evidence fields incomplete")
     rules="\n".join(d.get("comparison_rules",[]))
     if "Owner review remains separate" not in rules: raise ValueError("owner-review separation rule missing")
     if "post-edit execution record" not in rules: raise ValueError("repair execution provenance rule missing")
     if "candidate-bound evidence file" not in rules: raise ValueError("candidate-bound PASS evidence rule missing")
+    if "sweep-only proof movement" not in rules: raise ValueError("sweep-only movement acceptance rule missing")
     return {"status":"PASS"}
 
 def main():

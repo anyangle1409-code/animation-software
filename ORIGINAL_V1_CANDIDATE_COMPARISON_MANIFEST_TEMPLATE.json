@@ -59,7 +59,12 @@
     "Every declared repair package must have at least one candidate-bound repair declaration covering its coupling system.",
     "Automatic pose capture planning must be present so moved-joint tissue scope is not hand-minimized.",
     "Visual engineering PASS must be backed by a candidate-bound visual review/capture manifest rather than a status string alone.",
-    "Every executed repair package must have a post-edit execution record that binds the immutable pre-edit declaration to the final candidate SHA."
+    "Every executed repair package must have a post-edit execution record that binds the immutable pre-edit declaration to the final candidate SHA.",
+    "Regression and change audit are mandatory PASS for every repaired candidate; NOT_APPLICABLE is not allowed.",
+    "Every non-empty scoped body region set requires visual engineering PASS backed by candidate-bound review evidence.",
+    "If any scoped body region is contact/load-bearing, contact status must be PASS with candidate-bound contact evidence.",
+    "A scoped coupling system automatically brings every body region listed by that coupling system into comparison scope.",
+    "A defect may be scoped for closure only when all coupling systems required by the defect-to-coupling map are included."
   ],
   "output": "candidate_comparison_report.json"
 }

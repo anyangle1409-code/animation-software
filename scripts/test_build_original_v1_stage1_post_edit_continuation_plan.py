@@ -68,7 +68,7 @@ class PostEditContinuationPlanTests(unittest.TestCase):
             commands="\n".join(x["command"] for x in d["commands"])
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",commands)
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",commands)
-            self.assertIn("collect_original_v1_workspace_sweep_evidence.py",commands)
+            self.assertIn("RUN_ORIGINAL_V1_COLLECT_WORKSPACE_SWEEP_EVIDENCE.bat",commands)
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_MOTION_REVIEW.bat",commands)
 
     def test_contact_bearing_sweep_adds_contact_capture(self):

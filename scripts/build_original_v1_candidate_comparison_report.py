@@ -16,6 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 REPAIR_PACKAGES=ROOT/"ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json"
 COUPLING_MAP=ROOT/"ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 WEIGHTS_CONTRACT=ROOT/"ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json"
+DEFECT_COUPLING=ROOT/"ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
 
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 BLOCKING_STATES={"open","in progress","pending review","not_run","fail","blocked"}
@@ -75,9 +76,12 @@ def build(manifest,base):
     repairs=json.loads(REPAIR_PACKAGES.read_text(encoding="utf-8"))
     coupling=json.loads(COUPLING_MAP.read_text(encoding="utf-8"))
     weights_contract=json.loads(WEIGHTS_CONTRACT.read_text(encoding="utf-8"))
+    defect_coupling=json.loads(DEFECT_COUPLING.read_text(encoding="utf-8"))
     repair_by={x["id"]:x for x in repairs.get("packages",[])}
-    coupling_ids={x["id"] for x in coupling.get("coupling_systems",[])}
+    coupling_by={x["id"]:x for x in coupling.get("coupling_systems",[])}
+    coupling_ids=set(coupling_by)
     region_ids={x["id"] for x in weights_contract.get("regions",[])}
+    defect_by={x["issue_id"]:x for x in defect_coupling.get("mappings",[])}
 
     checks=[]
     failures=[]
@@ -100,6 +104,20 @@ def build(manifest,base):
             cid=repair_by[pid]["coupling_system_id"]
             check(f"scope_repair_maps_to_coupling:{pid}",cid in scope.get("coupling_system_ids",[]),
                   {"required_coupling_system_id":cid})
+
+    scoped_regions=set(scope.get("region_ids",[]))
+    scoped_coupling=set(scope.get("coupling_system_ids",[]))
+    for cid in scope.get("coupling_system_ids",[]):
+        if cid in coupling_by:
+            required_regions=set(coupling_by[cid].get("body_regions",[]))
+            missing=sorted(required_regions-scoped_regions)
+            check(f"scope_regions_cover_coupling:{cid}",not missing,{"missing_regions":missing})
+    for iid in scope.get("defect_ids",[]):
+        row=defect_by.get(iid)
+        check(f"scope_defect_known:{iid}",row is not None,iid)
+        if row is not None:
+            missing=sorted(set(row.get("required_coupling_system_ids",[]))-scoped_coupling)
+            check(f"scope_coupling_covers_defect:{iid}",not missing,{"missing_coupling_systems":missing})
 
     # Ledgers are mandatory because no-new-blocker and scoped-defect closure are
     # core comparison rules.

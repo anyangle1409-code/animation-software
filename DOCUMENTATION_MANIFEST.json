@@ -232,9 +232,9 @@
     },
     "stage1_laptop_pickup_plan": {
       "category": "workflow",
-      "builder": "scripts/build_original_v1_stage1_laptop_pickup_plan.py",
       "runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
-      "note": "Generates exact pre-edit laptop command order, candidate hash, active wave/packages, pose/sweep requirements and stops at the first declared model-edit boundary."
+      "builder": "scripts/build_original_v1_stage1_laptop_pickup_plan.py",
+      "note": "Preferred one-packet laptop pickup planner: exact candidate hash, current Stage-1 wave/packages, gates, required poses/sweeps/calibration, pre-edit workspace and first legitimate model-edit boundary."
     },
     "stage1_post_edit_continuation_plan": {
       "category": "workflow",
@@ -255,16 +255,15 @@
       "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
       "script": "scripts/capture_original_v1_human_movement_sweep_visual_blender.py",
       "validator": "scripts/validate_original_v1_human_movement_sweep_visual_capture.py",
-      "camera_plan": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json",
-      "note": "Dedicated read-only exact-candidate sweep visual capture path. Produces every authoritative sample/camera with hashes; engineering review remains separate."
+      "source_validator": "scripts/validate_original_v1_human_movement_sweep_visual_renderer_source.py",
+      "note": "Read-only exact-candidate render producer for every required sweep sample/camera, including bilateral hip variants; hashes PNGs/camera matrices and never grants anatomical PASS."
     },
     "human_movement_sweep_raw_contact": {
       "category": "verification",
       "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
       "script": "scripts/audit_original_v1_human_movement_sweep_contact_blender.py",
       "validator": "scripts/validate_original_v1_human_movement_sweep_contact_raw.py",
-      "requirements": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json",
-      "note": "Dedicated read-only raw contact/load measurement path for grip release, loaded hip hinge and plantarflexion. Measurements never auto-classify contact."
+      "note": "Read-only raw geometry/contact/load measurements for grip release, loaded hip hinge and plantarflexion; never auto-classifies engineering contact PASS."
     },
     "human_movement_sweep_review_workspace": {
       "category": "workflow",
@@ -273,6 +272,21 @@
       "contact_scaffold_builder": "scripts/build_original_v1_human_movement_sweep_contact_review.py",
       "acceptance_validator": "scripts/validate_original_v1_human_movement_sweep_acceptance.py",
       "note": "Non-Blender assembly step converting raw sweep, visual, contact and calibration evidence into motion-review/contact-review/acceptance workspaces without inferring PASS."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_camera_plan.py",
+      "note": "Authoritative reproducible camera/framing plan for all 36 sweep-view IDs used by the human-movement visual evidence layer."
+    },
+    "workspace_sweep_requirements": {
+      "category": "workflow",
+      "builder": "scripts/get_original_v1_workspace_sweep_requirements.py",
+      "note": "Resolves sweep-only and contact-bearing evidence required by a finalized repair workspace."
+    },
+    "workspace_sweep_evidence_collection": {
+      "category": "workflow",
+      "builder": "scripts/collect_original_v1_workspace_sweep_evidence.py",
+      "note": "Fail-closed collection of validated raw sweep/calibration/visual/contact evidence into a finalized candidate workspace while leaving all review states PENDING."
     }
   },
   "categories": {

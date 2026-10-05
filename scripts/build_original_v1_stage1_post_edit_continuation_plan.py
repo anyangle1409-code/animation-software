@@ -4,11 +4,12 @@
 Planning only: never edits/saves a Blend and never infers PASS.
 """
 from __future__ import annotations
-import argparse,hashlib,json,re
+import argparse,hashlib,importlib.util,json,re
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 CONTACT_REQ=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json"
+CAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
 
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 def sha_file(p):
@@ -18,6 +19,10 @@ def sha_file(p):
     return h.hexdigest()
 def dq(x): return '"' + str(x).replace('"','""') + '"'
 def safe(s): return str(s).lower().replace("-","_")
+def load_calibration_validator():
+    sp=importlib.util.spec_from_file_location("original_v1_sweep_calibration",CAL_VALIDATOR)
+    if sp is None or sp.loader is None: raise ValueError("unable to load sweep calibration validator")
+    mod=importlib.util.module_from_spec(sp); sp.loader.exec_module(mod); return mod
 
 def build(a):
     ws=Path(a.workspace)
@@ -66,7 +71,11 @@ def build(a):
         cal_obj=read(cal)
         if cal_obj.get("runner_id")!="generic_human_movement_sweep_v1":
             raise ValueError("calibration runner identity differs")
-        if cal_obj.get("overall_state")!="CALIBRATED" or cal_obj.get("engineering_review")!="PASS":
+        try:
+            cal_result=load_calibration_validator().validate(cal_obj,True)
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+            raise ValueError("required sweep-only movements need current-authority CALIBRATED runner record: "+str(exc)) from exc
+        if cal_result.get("overall_state")!="CALIBRATED":
             raise ValueError("required sweep-only movements need CALIBRATED runner record with engineering PASS")
         commands.append({
           "phase":"post_repair_required_sweeps",

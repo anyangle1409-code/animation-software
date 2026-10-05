@@ -825,6 +825,89 @@
       "uncertainty": "Exercise-specific loaded tasks and modest sample; use for hinge coordination/load-path constraints, not a canonical deadlift prescription.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-NECK-001",
+      "region": "cervical_spine",
+      "movement_primitive": "neck_flexion_extension",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8145792/",
+        "citation": "The global end-ranges of neck flexion and extension do not represent the maximum rotational ranges of the cervical intervertebral joints in healthy adults, PMCID PMC8145792.",
+        "license_use_note": "Use segmental-motion observations only for development review; fluoroscopy images and subject anatomy are not production assets."
+      },
+      "movement_phase": "continuous_flexion_and_extension_divided_into_10_percent_epochs",
+      "view": [
+        "video_fluoroscopy",
+        "segmental_cervical_rotation"
+      ],
+      "diversity": {
+        "subject_count": 33,
+        "notes": "Thirty-three healthy adults, 21 men and 12 women, mostly young adults. Segmental variability is substantial and should be preserved as a range rather than one rigid neck curve."
+      },
+      "observable_landmarks": [
+        "C0_C1",
+        "C1_C2",
+        "C2_C7_segments",
+        "global_neck_angle",
+        "segmental_rotation"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "joint_kinematics",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Cervical motion is distributed across multiple segments rather than behaving as one rigid neck hinge.",
+        "For roughly half of measured joints, maximum segmental rotation occurred before the global end-range position.",
+        "Intermediate neck frames therefore matter: endpoint-only validation can miss non-human segmental timing."
+      ],
+      "uncertainty": "Controlled seated flexion/extension and mostly young cohort; does not directly define trapezius/skin surface form.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-GRP-003",
+      "region": "fingers_thumb_hand",
+      "movement_primitive": "grip_and_release",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10296280/",
+        "citation": "Finger Kinematics during Human Hand Grip and Release, PMCID PMC10296280.",
+        "license_use_note": "Use dynamic joint sequencing observations only; sensory-glove data and participant anatomy are not production content."
+      },
+      "movement_phase": "rapid_full_grip_then_release_to_full_extension",
+      "view": [
+        "sensory_glove_14_joint_kinematics"
+      ],
+      "diversity": {
+        "subject_count": 22,
+        "notes": "Twenty-two healthy adults, 13 men and 9 women, all right-hand dominant. Rapid unloaded grip/release differs from equipment grip but is strong evidence for joint sequencing."
+      },
+      "observable_landmarks": [
+        "MCP",
+        "PIP",
+        "DIP",
+        "thumb_IP",
+        "thumb_MCP",
+        "finger_sequence"
+      ],
+      "permissible_conclusions": [
+        "finger_joint_flexion",
+        "relative_digit_motion",
+        "movement_smoothness",
+        "movement_timing",
+        "joint_coupling"
+      ],
+      "derived_observations": [
+        "PIP joints showed larger dynamic range and higher peak velocity than MCP and DIP joints.",
+        "Flexion and extension do not simply run the same sequence backwards: PIP tends to lead flexion, while DIP or MCP can initiate extension before PIP.",
+        "A believable release animation therefore needs coordinated but non-identical joint timing rather than uniformly opening all phalanges."
+      ],
+      "uncertainty": "Rapid unloaded hand opening/closing is not release from a loaded handle; combine with cylindrical-grip evidence for equipment-specific contact.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

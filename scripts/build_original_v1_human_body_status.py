@@ -24,6 +24,7 @@ ISSUES = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 SWEEP_EXEC = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
+MOVEMENT_JOINTS = ROOT / "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json"
 COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
@@ -38,7 +39,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, sweep_exec, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, SWEEP_EXEC, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
+    plan, cov, ledger, human, sweeps, sweep_exec, movement_joints, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, SWEEP_EXEC, MOVEMENT_JOINTS, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -162,6 +163,11 @@ def build():
             "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
             "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
             "movement_sweep_execution": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+            "movement_joint_family_requirements": "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json",
+            "movement_sweep_execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
+            "movement_sweep_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
+            "movement_sweep_runner_calibration_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+            "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
             "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
             "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
             "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
@@ -198,12 +204,15 @@ def build():
             "post_repair_validation_bundle": "READY",
             "pre_edit_post_edit_provenance_split": "ENFORCED",
             "unified_candidate_comparison": "READY",
+            "movement_joint_family_contract": f"READY_{len(movement_joints.get('movements') or {})}_OF_27",
             "deterministic_movement_sweep_definitions": len(sweep_exec.get("sweeps") or []),
             "generic_blender_sweep_runner_bound": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")=="BOUND"),
             "generic_blender_sweep_runner_unbound": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")!="BOUND"),
             "generic_blender_sweep_runner_calibration": sweep_exec.get("runner_calibration_state"),
             "generic_blender_sweep_runner_evidence_readiness": sweep_exec.get("runner_evidence_readiness"),
             "generic_blender_sweep_runner_acceptance_capable": bool(sweep_exec.get("acceptance_capable")),
+            "generic_sweep_calibration_chain": "READY_NOT_RUN",
+            "generic_sweep_acceptance_gate": "READY_NOT_RUN",
             "candidate_sweep_evidence_ready": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("candidate_execution_state")=="EVIDENCE_READY"),
             "stage1_wave_work_package": "READY",
             "real_human_evidence_records": len(human_entries),
@@ -292,10 +301,13 @@ def markdown(s):
         f"- Post-repair validation bundle: **{s['non_blender_preparation']['post_repair_validation_bundle']}**",
         f"- Pre-edit/post-edit provenance split: **{s['non_blender_preparation']['pre_edit_post_edit_provenance_split']}**",
         f"- Unified candidate comparison: **{s['non_blender_preparation']['unified_candidate_comparison']}**",
+        f"- Movement → joint-family contract: **{s['non_blender_preparation']['movement_joint_family_contract']}**",
         f"- Deterministic movement sweep definitions: **{s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
         f"- Generic Blender sweep runner bound: **{s['non_blender_preparation']['generic_blender_sweep_runner_bound']} / {s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
         f"- Sweep runner calibration: **{s['non_blender_preparation']['generic_blender_sweep_runner_calibration']}**",
         f"- Sweep runner evidence-ready: **{s['non_blender_preparation']['generic_blender_sweep_runner_evidence_readiness']}**",
+        f"- Sweep calibration chain: **{s['non_blender_preparation']['generic_sweep_calibration_chain']}**",
+        f"- Sweep acceptance gate: **{s['non_blender_preparation']['generic_sweep_acceptance_gate']}**",
         f"- Candidate sweep evidence-ready: **{s['non_blender_preparation']['candidate_sweep_evidence_ready']} / {s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
         f"- Stage 1 wave work package: **{s['non_blender_preparation']['stage1_wave_work_package']}**",
         "",

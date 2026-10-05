@@ -1882,6 +1882,86 @@
       "uncertainty": "Functional positions are discrete rather than a continuous heel-raise cycle; dynamic return and individual toe-joint behavior still need separate evidence.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-PELVIS-003",
+      "region": "pelvis_groin_glutes",
+      "movement_primitive": "standing_to_sitting_hip_soft_tissue_redistribution",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8464815/",
+        "citation": "Study Regarding the Kinematic 3D Human-Body Model Intended for Simulation of Personalized Clothes for a Sitting Posture, PMCID PMC8464815.",
+        "license_use_note": "Use standing-vs-sitting scan observations only; do not copy scan meshes or participant geometry into production."
+      },
+      "movement_phase": "standing_to_seated_hip_flexion",
+      "view": [
+        "standing_3d_body_scan",
+        "sitting_3d_body_scan",
+        "pelvis_hip_thigh_surface_comparison"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "3D scan/model study intended for clothing simulation; useful because it directly exposes soft-tissue redistribution errors in a kinematic armature model, but it is not a broad biomechanics cohort."
+      },
+      "observable_landmarks": [
+        "hip_circumference",
+        "buttock_surface",
+        "upper_thigh",
+        "waist_to_pelvis_transition",
+        "seated_contact_region"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Real sitting scans show measurable redistribution around waist, hips, thighs and knees relative to standing rather than rigid skeletal repositioning.",
+        "The study explicitly reports that a kinematic body model using automatic armature weights moved soft tissue unnaturally toward the abdomen and underestimated seated hip circumference, demonstrating the exact failure class the ORIGINAL-v1 coupling rules are designed to prevent.",
+        "Deep hip flexion therefore requires pelvic/glute/thigh soft-tissue redistribution, not simply rotating the femur under a fixed pelvis surface."
+      ],
+      "uncertainty": "Sitting/clothing-design context rather than squat/lunge loading; exposed groin/adductor detail and dynamic return still require separate evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-THIGH-003",
+      "region": "thigh_knee",
+      "movement_primitive": "anterior_thigh_skin_deformation_during_knee_flexion_extension",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8883732/",
+        "citation": "Effects of Kinesio taping on skin deformation during knee flexion and extension: a preliminary study, PMCID PMC8883732.",
+        "license_use_note": "Use untreated/control skin-marker deformation observations only; do not copy participant imagery or marker coordinates into production."
+      },
+      "movement_phase": "repeated_knee_flexion_extension",
+      "view": [
+        "anterior_thigh_skin_marker_chain",
+        "3d_motion_capture"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy adults. Preliminary study and anterior-thigh-only measurement; use for skin-length redistribution logic rather than universal exact strains."
+      },
+      "observable_landmarks": [
+        "groin_to_femoral_condyle_skin_line",
+        "anterior_thigh",
+        "proximal_thigh",
+        "distal_thigh",
+        "knee_flexion_state"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Anterior-thigh skin deformation is distributed along the thigh during repeated knee flexion/extension rather than localized only at the knee crease.",
+        "The skin path between groin and femoral condyle changes continuously with knee state, supporting a longitudinal deformation gradient rather than a rigid thigh plus one joint fold."
+      ],
+      "uncertainty": "Study focuses on skin-marker distances and taping effects, not complete 3D muscle surface or posterior thigh behavior.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 PLAN=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 CAL_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
+RAW_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_report.py"
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 PASS={"PASS","NOT_APPLICABLE"}
 
@@ -32,6 +33,14 @@ def load_calibration_validator():
     spec.loader.exec_module(mod)
     return mod
 
+def load_raw_report_validator():
+    spec=importlib.util.spec_from_file_location("original_v1_sweep_report",RAW_MOD)
+    if spec is None or spec.loader is None:
+        raise ValueError("unable to load raw sweep report validator")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
 def validate(d,base,require_pass=False):
     plan=read(PLAN)
     if d.get("schema_version")!=1: raise ValueError("schema_version must be 1")
@@ -52,7 +61,10 @@ def validate(d,base,require_pass=False):
     ok,why=bind(raw,csha)
     if not ok: raise ValueError("raw sweep report candidate mismatch: "+why)
     if sweep not in (raw.get("sweeps") or {}): raise ValueError("raw sweep report missing sweep")
-    if raw.get("source_saved_or_modified") is not False: raise ValueError("raw sweep report is not read-only")
+    try:
+        load_raw_report_validator().validate(raw,load_raw_report_validator().read(load_raw_report_validator().SPEC))
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+        raise ValueError("raw sweep report contract failed: "+str(exc)) from exc
 
     cal=load(base,d.get("runner_calibration_record_path"))
     if engineering=="PASS" or require_pass:

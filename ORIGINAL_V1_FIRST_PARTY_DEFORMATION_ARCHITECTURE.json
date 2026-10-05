@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_FIRST_PARTY_DEFORMATION_ARCHITECTURE",
+  "production_approved": false,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+  "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+  "objective": "Produce deterministic human-like whole-body deformation from rig pose and declared contact/load state, independent of exercise names.",
+  "clean_room_rules": [
+    "No external skinning, muscle, character or solver source code is copied into production.",
+    "External literature may justify general mathematical/biomechanical principles only; all production implementation and data are independently authored.",
+    "No third-party character geometry, scan, weight, corrective, texture or bind data enters ORIGINAL v1.",
+    "Legacy V-series implementation data remains historical/reference-only and is not a production source."
+  ],
+  "hard_invariants": [
+    "No deformation driver may branch on an exercise name.",
+    "Every deformation decision is a deterministic function of current rig transforms, candidate-owned deformation data, and explicitly declared contact/load facts.",
+    "Base skinning mode is evidence-selected and must match Blender/runtime parity; it is not changed globally because one academic method is theoretically better.",
+    "Anatomical coupling is evaluated before cosmetic correctives.",
+    "Weights-only/base-skinning deformation must be plausible enough that correctives refine rather than conceal foundational attachment errors.",
+    "Every multi-anchor tissue system uses all relevant proximal/distal attachment state; one moving bone may not wholesale-own the shared tissue.",
+    "Corrective interpolation must be continuous through outbound, intermediate and return motion.",
+    "No candidate is accepted from endpoint-only examples.",
+    "The same joint state must produce the same deformation regardless of which exercise generated it.",
+    "Runtime and Blender reference deformation must agree within an explicit later parity tolerance; no hidden Blender-only feature may remain at production freeze."
+  ],
+  "stack": [
+    {
+      "order": 0,
+      "id": "kinematics",
+      "name": "Canonical skeletal kinematics",
+      "inputs": [
+        "hgpt_canonical_v4_original bone transforms"
+      ],
+      "output": "current canonical bone transforms",
+      "rules": [
+        "Uses validated joint construction and coupled girdle/limb motion.",
+        "No surface correction is allowed to conceal a true skeletal-motion defect."
+      ]
+    },
+    {
+      "order": 1,
+      "id": "base_skinning",
+      "name": "Evidence-selected base skinning",
+      "inputs": [
+        "rest mesh",
+        "canonical bone transforms",
+        "candidate-owned weights",
+        "documented skinning-mode configuration"
+      ],
+      "output": "base deformed surface before anatomical corrective layers",
+      "candidates": [
+        "linear_blend_skinning",
+        "dual_quaternion_or_preserve_volume",
+        "first_party_hybrid_if_independently_implemented_and_evidence_selected"
+      ],
+      "current_decision": "UNRESOLVED_UNTIL_CURRENT_BLEND_SKINNING_MODE_AND_AB_EVIDENCE_ARE_CAPTURED",
+      "rules": [
+        "Record exact Blender Armature modifier settings for each evaluated candidate.",
+        "Do not switch LBS/DQ/hybrid globally without candidate-bound A/B evidence across the whole stress/movement matrix.",
+        "Base skinning is not anatomical acceptance; shared-tissue coupling still applies."
+      ]
+    },
+    {
+      "order": 2,
+      "id": "anatomical_coupling",
+      "name": "Multi-anchor anatomical coupling",
+      "inputs": [
+        "base deformed surface",
+        "proximal/distal anchor transforms",
+        "coupling-zone declarations",
+        "candidate-owned coupling fields"
+      ],
+      "output": "attachment-coherent coupled surface",
+      "data_authority": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+      "driver_features": [
+        "relative proximal-distal transform",
+        "anchor distance or path-length ratio where meaningful",
+        "joint flexion/elevation state",
+        "joint axial rotation/twist state",
+        "plane-of-motion state where anatomically relevant",
+        "neighboring joint state for multi-joint tissues",
+        "declared contact/load state where relevant"
+      ],
+      "rules": [
+        "Coupling fields are generic by tissue system, not by exercise.",
+        "Proximal and distal attachment neighborhoods remain rooted to their anatomical anchors.",
+        "Interior ownership transitions are spatially smooth and candidate-audited.",
+        "Lengthening/compression, volume redistribution and fold logic are coupling outputs to prove, not assumptions."
+      ]
+    },
+    {
+      "order": 3,
+      "id": "pose_space_correction",
+      "name": "Generic joint-state pose-space corrective layer",
+      "inputs": [
+        "coupled surface",
+        "joint/anchor feature vector",
+        "candidate-owned corrective basis fields"
+      ],
+      "output": "quasi-static anatomical surface",
+      "interpolation_requirements": [
+        "deterministic",
+        "continuous",
+        "bounded",
+        "defined outside exact authored sample poses by declared extrapolation/clamping policy",
+        "independent_of_exercise_name"
+      ],
+      "allowed_driver_examples": [
+        "humerothoracic elevation plus plane of elevation",
+        "scapular relative rotation",
+        "elbow flexion plus forearm rotation",
+        "hip flexion plus knee flexion for biarticular posterior/anterior thigh systems",
+        "knee flexion plus ankle angle for gastrocnemius/Achilles-related response",
+        "wrist/forearm state plus grip/contact state"
+      ],
+      "rules": [
+        "Corrective bases are authored/solved only after base and coupling evidence identifies the residual.",
+        "A basis mode must have declared vertex scope, mirror rule, source candidate and evidence.",
+        "Intermediate and reversal sampling are mandatory to reject overshoot/popping.",
+        "Multiple corrective modes compose under an explicit deterministic order or additive/local-frame rule."
+      ]
+    },
+    {
+      "order": 4,
+      "id": "contact_load_response",
+      "name": "Contact/load-aware local response",
+      "inputs": [
+        "quasi-static anatomical surface",
+        "first-party contact anchors",
+        "floor/equipment load/contact facts"
+      ],
+      "output": "contact-consistent surface",
+      "current_state": "PREPARED_FUTURE_LAYER_AFTER_FOUNDATION",
+      "rules": [
+        "Contact state may affect hand/palm/wrist and foot/forefoot/heel local response where evidence supports it.",
+        "Contact deformation may not move skeletal anchors to hide a contact error.",
+        "No contact response may violate the declared whole-chain load path."
+      ]
+    },
+    {
+      "order": 5,
+      "id": "secondary_soft_tissue",
+      "name": "Optional secondary soft-tissue dynamics",
+      "inputs": [
+        "contact-consistent quasi-static surface",
+        "bone velocity/acceleration history if later justified"
+      ],
+      "output": "final dynamic surface",
+      "current_state": "DEFERRED_UNTIL_QUASI_STATIC_BODY_IS_PROVEN",
+      "rules": [
+        "Secondary jiggle/inertia is not required to hide incorrect quasi-static anatomy.",
+        "If implemented, it must be first-party, deterministic under the selected simulation/update contract, bounded, and return-stable.",
+        "Production may freeze without this layer if the product target does not require visible secondary dynamics and the owner accepts the quasi-static result."
+      ]
+    }
+  ],
+  "generic_driver_contract": {
+    "forbidden_inputs": [
+      "exercise_name",
+      "exercise_id",
+      "hard_coded_pose_name_as_runtime_logic"
+    ],
+    "permitted_inputs": [
+      "canonical_bone_transforms",
+      "relative_anchor_transforms",
+      "joint_angles_derived_from_canonical_transforms",
+      "coupling_system_owned_parameters",
+      "first_party_contact_state",
+      "first_party_load_state_if_defined",
+      "time_derivatives_only_for_explicit_secondary_dynamics"
+    ],
+    "determinism": "Same permitted input state and candidate data must yield bitwise-stable or declared numeric-tolerance-equivalent deformation on the same implementation target.",
+    "evidence_rule": "Each driver is validated across its state domain, including interpolated interior states and reversal, not only authored extrema."
+  },
+  "base_skinning_selection_gate": {
+    "required_candidates_to_compare": [
+      "current_saved_blender_mode",
+      "alternate_preserve_volume_mode_if_blender_supports_it_without_other_changes"
+    ],
+    "required_controls": [
+      "same_exact_source_candidate_copy",
+      "same_rest_mesh",
+      "same_rig",
+      "same_pose_definition",
+      "same_weights",
+      "same_corrective_values_or_correctives_disabled_as_declared",
+      "same_render_settings"
+    ],
+    "evaluation": [
+      "all current Critical/High affected poses",
+      "continuous shoulder elevation arc",
+      "elbow flexion and forearm rotation",
+      "deep squat/lunge",
+      "wrist loaded extension",
+      "ankle/foot stress",
+      "whole-body regression metrics",
+      "real-human visual comparison"
+    ],
+    "decision_rule": "Select by whole-body evidence. Neither LBS nor DQ/preserve-volume is assumed globally superior; a hybrid is permitted only if independently implemented and better supported across the complete matrix."
+  },
+  "production_parity_gate": {
+    "blender_reference_required": true,
+    "standalone_runtime_required": true,
+    "requirements": [
+      "same canonical rig inputs",
+      "same base-skinning semantics",
+      "same coupling-zone data",
+      "same pose-space corrective bases and driver definitions",
+      "same contact/load facts where implemented",
+      "candidate/runtime data hashes bound in evidence",
+      "cross-runtime surface comparison over mandatory movement samples"
+    ],
+    "production_blocker": "Any Blender-only deformation mechanism not reproducible by the first-party runtime blocks production freeze."
+  },
+  "research_design_lessons": [
+    {
+      "citation": "Kavan et al. (2007), Skinning with Dual Quaternions",
+      "url": "https://users.cs.utah.edu/~ladislav/kavan07skinning/kavan07skinning.html",
+      "permissible_lesson": "Linear blend skinning has known joint/twist artifacts; nonlinear base skinning is a candidate to test, not a production dependency."
+    },
+    {
+      "citation": "Kim and Han (2014), Bulging-free dual quaternion skinning",
+      "url": "https://doi.org/10.1002/cav.1604",
+      "permissible_lesson": "Dual-quaternion skinning has its own bulging/normal artifacts; do not assume DQ alone solves human anatomy."
+    },
+    {
+      "citation": "Kim et al. (2011), Pose space parameterization and style transfer of skin deformation",
+      "url": "https://doi.org/10.1002/cav.428",
+      "permissible_lesson": "Joint-state parameterization can drive continuous example-based skin deformation; independently author our own driver/basis system."
+    },
+    {
+      "citation": "Yang and Zhang (2006), Automatic muscle generation for character skin deformation",
+      "url": "https://doi.org/10.1002/cav.133",
+      "permissible_lesson": "Anatomy-informed muscle bulging/sliding can complement skeletal skinning in complex regions; no external implementation or muscle geometry is copied."
+    },
+    {
+      "citation": "Murai et al. (2017), Dynamic skin deformation simulation using musculoskeletal model and soft tissue dynamics",
+      "url": "https://doi.org/10.1007/s41095-016-0065-1",
+      "permissible_lesson": "Dynamic/secondary tissue response is a distinct later layer; it should not be confused with fixing quasi-static attachment anatomy."
+    }
+  ],
+  "current_execution_priority": [
+    "audit exact r95 Blender skinning mode",
+    "run shoulder layer diagnostic on r95",
+    "run pose-to-connected-tissue scope audit on r95 stress poses",
+    "declare CP-PEC-AX-002/CP-POSTAX-003/CP-DELTOID-004/CP-NECK-TRAP-001 coupling zones",
+    "audit shared-tissue weight ownership in those zones",
+    "create new candidate and repair multi-anchor weights/support first",
+    "prove weights-only elevation arc",
+    "fit generic joint-state correctives only to residual anatomy errors",
+    "populate candidate coupling evidence and close only verified defects"
+  ]
+}

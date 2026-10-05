@@ -42,6 +42,11 @@
       "category": "authority",
       "validator": "scripts/validate_original_v1_joint_tissue_triggers.py",
       "note": "Maps production bone/joint families to every shared-tissue coupling system that must be reviewed whenever that joint materially moves."
+    },
+    "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_coupling_zone_declaration.py",
+      "note": "Fresh candidate-specific declaration template for auditable shared-tissue weight ownership zones before any edit."
     }
   },
   "categories": {

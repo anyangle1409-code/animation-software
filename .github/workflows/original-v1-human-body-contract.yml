@@ -21,6 +21,8 @@ on:
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
+      - "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
       - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
@@ -94,6 +96,8 @@ on:
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
+      - "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
       - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
@@ -170,6 +174,10 @@ jobs:
         run: python scripts/validate_original_v1_human_movement_sweep_execution.py --require-bound
       - name: Validate human movement sweep execution spec
         run: python scripts/validate_original_v1_human_movement_sweep_execution_spec.py
+      - name: Validate human movement sweep camera plan
+        run: python scripts/validate_original_v1_human_movement_sweep_camera_plan.py
+      - name: Validate human sweep visual renderer source
+        run: python scripts/validate_original_v1_human_movement_sweep_visual_renderer_source.py
       - name: Validate generic sweep runner source contract
         run: python scripts/validate_original_v1_human_movement_sweep_runner_source.py
       - name: Validate sweep runner calibration template
@@ -304,3 +312,18 @@ jobs:
 
       - name: Run sweep review-workspace tests
         run: python scripts/test_create_original_v1_human_movement_sweep_review_workspace.py
+
+      - name: Run human sweep camera-plan tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_camera_plan.py
+
+      - name: Run human sweep visual-renderer source tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_visual_renderer_source.py
+
+      - name: Run human sweep visual-capture tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_visual_capture.py
+
+      - name: Run raw human sweep contact tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_contact_raw.py
+
+      - name: Run human sweep reviewed-contact tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_contact.py

@@ -36,7 +36,7 @@
   "movement_coverage_counts": {
     "evidence_partial": 27
   },
-  "human_evidence_entry_count": 31,
+  "human_evidence_entry_count": 35,
   "human_evidence_regions": {
     "clavicle_scapula_humerus": 1,
     "scapulohumeral_complex": 1,
@@ -117,18 +117,29 @@
     "blocking_issue_id": "WB-QA-012",
     "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
     "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
-    "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope."
+    "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.",
+    "joint_trigger_rule_count": 12
   },
   "surface_visual_evidence": {
     "authority": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
     "counts": {
-      "missing_surface_sequence": 4,
-      "partial": 8
+      "partial": 12
     },
     "complete_region_count": 0,
-    "partial_region_count": 8,
-    "missing_surface_sequence_count": 4,
+    "partial_region_count": 12,
+    "missing_surface_sequence_count": 0,
     "status": "INCOMPLETE",
     "rule": "Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit."
+  },
+  "pose_connected_tissue_scope": {
+    "tool": "scripts/audit_original_v1_pose_coupling_scope_blender.py",
+    "runner": "RUN_ORIGINAL_V1_POSE_COUPLING_SCOPE.bat",
+    "status": "PREPARED_NOT_YET_RUN_ON_LATEST_CANDIDATE",
+    "rule": "Any moved rig bone automatically expands pose review scope to all coupling systems mapped by ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json."
+  },
+  "generic_coupling_weight_audit": {
+    "declaration_template": "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
+    "runner": "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat",
+    "status": "PREPARED_NOT_YET_RUN_ON_REPAIRED_CANDIDATE"
   }
 }

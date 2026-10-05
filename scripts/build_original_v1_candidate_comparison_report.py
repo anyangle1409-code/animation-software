@@ -7,6 +7,7 @@ exist, parse as JSON where required, and bind to the exact candidate SHA.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -162,16 +163,25 @@ def build(manifest,base):
               ev.get("continuity_engineering_review_status")=="PASS",
               ev.get("continuity_engineering_review_status"))
 
-    # Repair declarations are mandatory for every declared repair package.
+    # Repair provenance has two immutable layers:
+    #   pre-edit declaration -> post-edit execution record -> final candidate SHA.
     declarations=[]
+    declaration_hashes=set()
     for path in ev.get("repair_declaration_paths",[]) or []:
         try:
-            obj=load(base,path)
-        except (OSError,json.JSONDecodeError) as exc:
+            q=resolve(base,path)
+            raw=q.read_bytes()
+            obj=json.loads(raw.decode("utf-8"))
+        except (OSError,json.JSONDecodeError,AttributeError) as exc:
             check(f"repair_declaration_present:{path}",False,str(exc))
             continue
         declarations.append(obj)
-        check(f"repair_declaration_sha:{path}",candidate_sha(obj)==csha,candidate_sha(obj))
+        digest=hashlib.sha256(raw).hexdigest()
+        declaration_hashes.add(digest)
+        check(f"repair_declaration_revision:{path}",obj.get("candidate_revision")==cand.get("revision"),
+              obj.get("candidate_revision"))
+        pre=obj.get("pre_edit_candidate_sha256") or obj.get("candidate_sha256")
+        check(f"repair_declaration_pre_edit_sha:{path}",bool(SHA_RE.fullmatch(str(pre))),pre)
     declared_packages={x.get("repair_package_id") for x in declarations}
     declared_coupling={x.get("coupling_system_id") for x in declarations}
     for pid in scope.get("repair_package_ids",[]):
@@ -179,6 +189,29 @@ def build(manifest,base):
         if pid in repair_by:
             cid=repair_by[pid]["coupling_system_id"]
             check(f"repair_declaration_coupling:{cid}",cid in declared_coupling,sorted(x for x in declared_coupling if x))
+
+    executions=[]
+    for path in ev.get("repair_execution_record_paths",[]) or []:
+        try:
+            obj=load(base,path)
+        except (OSError,json.JSONDecodeError,TypeError) as exc:
+            check(f"repair_execution_record_present:{path}",False,str(exc))
+            continue
+        executions.append(obj)
+        check(f"repair_execution_final_sha:{path}",obj.get("final_candidate_sha256")==csha,
+              obj.get("final_candidate_sha256"))
+        check(f"repair_execution_revision:{path}",obj.get("candidate_revision")==cand.get("revision"),
+              obj.get("candidate_revision"))
+        check(f"repair_execution_declaration_hash:{path}",
+              obj.get("repair_declaration_sha256") in declaration_hashes,
+              obj.get("repair_declaration_sha256"))
+    executed_packages={x.get("repair_package_id") for x in executions}
+    executed_coupling={x.get("coupling_system_id") for x in executions}
+    for pid in scope.get("repair_package_ids",[]):
+        check(f"repair_execution_package:{pid}",pid in executed_packages,sorted(x for x in executed_packages if x))
+        if pid in repair_by:
+            cid=repair_by[pid]["coupling_system_id"]
+            check(f"repair_execution_coupling:{cid}",cid in executed_coupling,sorted(x for x in executed_coupling if x))
 
     # PASS statuses for external reports are invalid without an actual,
     # candidate-bound JSON evidence file.

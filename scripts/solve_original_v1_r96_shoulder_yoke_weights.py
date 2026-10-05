@@ -13,11 +13,12 @@ import numpy as np
 SCRIPT = Path(__file__).resolve()
 ROOT = SCRIPT.parents[1]
 sys.path.insert(0, str(SCRIPT.parent))
-from original_v1_shoulder_yoke_declaration import R95_SHA256  # noqa: E402
 from original_v1_shoulder_yoke_probe import (  # noqa: E402
+    R95_SHA256,
     diffuse_permitted_weights,
     limit_influences,
     symmetrise_pairs,
+    validate_probe_parent,
 )
 
 
@@ -43,10 +44,9 @@ def main() -> int:
         raise SystemExit("refusing to overwrite an existing r96 weight probe")
     declaration = json.loads(declaration_path.read_text(encoding="utf-8-sig"))
     dump = np.load(dump_path)
-    if str(dump["source_sha256"].item()) != R95_SHA256:
-        raise SystemExit("exact frozen r95 skinning dump required")
-    if declaration.get("parent", {}).get("sha256") != R95_SHA256 or declaration.get("target_revision") != "r96":
-        raise SystemExit("exact r96 weight subzone declaration required")
+    dump_source_sha = str(dump["source_sha256"].item())
+    if declaration.get("target_revision") != "r96" or not validate_probe_parent(dump_source_sha, declaration.get("parent", {})):
+        raise SystemExit("exact declared r95/topology parent is required")
 
     weights = np.asarray(dump["W"], dtype=float)
     rest = np.asarray(dump["rest"], dtype=float)
@@ -96,8 +96,9 @@ def main() -> int:
         "schema_version": 1,
         "probe_only": True,
         "production_approved": False,
-        "source_revision": "r95",
-        "source_sha256": R95_SHA256,
+        "source_revision": "r95" if dump_source_sha == R95_SHA256 else "r96_support_topology",
+        "source_sha256": dump_source_sha,
+        "lineage_parent_r95_sha256": R95_SHA256,
         "dump_sha256": digest(dump_path),
         "declaration": declaration_path.relative_to(ROOT).as_posix(),
         "declaration_sha256": digest(declaration_path),

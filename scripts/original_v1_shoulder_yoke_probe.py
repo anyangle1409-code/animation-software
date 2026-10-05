@@ -7,6 +7,17 @@ import numpy as np
 
 from original_v1_shoulder_yoke_weights import edge_l1
 
+R95_SHA256 = "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+
+
+def validate_probe_parent(dump_source_sha256: str, parent: dict) -> bool:
+    """Accept exact r95 or an exact declared topology child of r95."""
+    if not isinstance(parent, dict) or parent.get("sha256") != dump_source_sha256:
+        return False
+    if dump_source_sha256 == R95_SHA256:
+        return True
+    return parent.get("lineage_parent_r95_sha256") == R95_SHA256
+
 
 def select_safe_mirror_subzone(
     left_ids: Sequence[int],

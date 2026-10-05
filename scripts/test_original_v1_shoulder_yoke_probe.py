@@ -85,6 +85,16 @@ class ShoulderYokeProbeTests(unittest.TestCase):
         self.assertEqual(limited[0, 4], 0.0)
         self.assertAlmostEqual(float(limited[0].sum()), 1.0)
 
+    def test_topology_parent_must_match_dump_and_retain_r95_lineage(self):
+        parent = {
+            "sha256": "a" * 64,
+            "lineage_parent_r95_sha256": probe.R95_SHA256,
+        }
+        self.assertTrue(probe.validate_probe_parent("a" * 64, parent))
+        self.assertFalse(probe.validate_probe_parent("b" * 64, parent))
+        parent["lineage_parent_r95_sha256"] = "0" * 64
+        self.assertFalse(probe.validate_probe_parent("a" * 64, parent))
+
 
 if __name__ == "__main__":
     unittest.main()

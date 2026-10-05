@@ -10,7 +10,8 @@
     "historical_phase_4_r95": "preserved_as_immutable_historical_checkpoint_not_current_anatomical_acceptance",
     "anatomical_coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
     "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
-    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
+    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
+    "first_party_deformation_architecture": "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
@@ -23,6 +24,7 @@
     "foundation_before_cosmetics",
     "anatomical_attachment_and_shared_tissue_coupling_must_be_candidate_proven",
     "joint_motion_automatically_expands_review_scope_to_all_connected_tissue_systems",
+    "deformation_runtime_logic_must_be_joint_state_driven_not_exercise_name_driven",
     "intermediate_motion_required",
     "visual_anatomical_failure_can_block_despite_numerical_pass",
     "correctives_refine_not_conceal",

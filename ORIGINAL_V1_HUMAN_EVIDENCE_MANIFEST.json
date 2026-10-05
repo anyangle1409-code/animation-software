@@ -1,13 +1,14 @@
 {
   "schema_version": 1,
   "asset": "HomeGymPT_Male_ORIGINAL_v1",
-  "purpose": "Development-only real-human evidence for shoulder, chest and axilla deformation decisions. Sources constrain observable motion and surface continuity; they are not geometry to copy.",
+  "purpose": "Development-only real-human evidence for whole-body movement and deformation decisions. Sources constrain observable motion, coordination, load paths and surface continuity; they are not geometry to copy.",
   "rules": [
     "No source is production content or permission to copy a person's geometry, texture or identity.",
     "A source supports only its listed permissible conclusions.",
     "Population averages are not universal constants; preserve measured variation and stated uncertainty.",
     "Do not infer a fixed scapulohumeral ratio across the full elevation arc.",
-    "Visual plausibility requires multiple people or cohorts where available and cannot be established from one body alone."
+    "Visual plausibility requires multiple people or cohorts where available and cannot be established from one body alone.",
+    "Evidence supports movement/deformation rules, not a single universal set of joint angles or body proportions."
   ],
   "entries": [
     {
@@ -413,6 +414,334 @@
         "Moving into extension shifts pressure centroids dorsally, reinforcing that a push-up wrist should be modelled as a real loaded joint configuration rather than an arbitrary hand rotation."
       ],
       "uncertainty": "Cadaveric static loading; do not use to infer muscle activation, pain, or a unique healthy-wrist surface shape.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-TRK-001",
+      "region": "trunk_lumbar_hip",
+      "movement_primitive": "trunk_flexion_extension",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4326518/",
+        "citation": "Age and gender related neuromuscular changes in trunk flexion-extension, PMCID PMC4326518.",
+        "license_use_note": "Use kinematic/coordination observations only for development review; do not redistribute participant media or infer identity-specific anatomy."
+      },
+      "movement_phase": "standing_half_flexion_full_flexion_and_return",
+      "view": [
+        "3d_accelerometer_lumbar_thoracic",
+        "hip_and_spine_kinematics"
+      ],
+      "diversity": {
+        "subject_count": 49,
+        "notes": "Twenty-four younger and twenty-five older healthy adults, with both sexes represented. Age-related differences mean the project should use the coordination pattern as a range, not one universal waveform."
+      },
+      "observable_landmarks": [
+        "lumbar spine",
+        "thoracic spine",
+        "pelvis",
+        "hip",
+        "trunk flexion angle"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "interjoint_coordination",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Trunk flexion-extension is shared between lumbar spine and hip rather than being a single rigid torso hinge.",
+        "Half-flexion, full-flexion and return are distinct mechanical states and should be sampled rather than validating only endpoints.",
+        "Age and sex affect measured strategies, so exact partitioning between hip and spine should not be treated as universal."
+      ],
+      "uncertainty": "Skin-mounted sensors and standardized flexion task do not define exterior soft-tissue shape; use for coordination and timing only.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-TRK-002",
+      "region": "lumbar_spine_pelvis",
+      "movement_primitive": "trunk_axial_rotation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2223353/",
+        "citation": "Kinematics of the lumbar spine in trunk rotation: in vivo three-dimensional analysis using magnetic resonance imaging, PMCID PMC2223353.",
+        "license_use_note": "Use derived in-vivo motion observations only; do not transfer subject geometry or imaging data into the model."
+      },
+      "movement_phase": "neutral_to_15_30_45_and_maximum_rotation_both_directions",
+      "view": [
+        "3d_MRI_intervertebral_motion"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy adults, six men and four women, ages 23-31. Small young cohort; segmental values constrain plausibility but are not a universal prescription."
+      },
+      "observable_landmarks": [
+        "lumbar vertebral segments",
+        "axial rotation",
+        "coupled translation"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "joint_kinematics",
+        "joint_coupling",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Lumbar axial rotation is distributed across multiple segments rather than occurring as one large rigid twist at a single joint.",
+        "At 45 degrees of trunk rotation, each lumbar segment contributes only a small portion of the total motion.",
+        "Validation should therefore reject a single-waist swivel that leaves the remaining trunk rigid."
+      ],
+      "uncertainty": "MRI posture is controlled and slow, not loaded athletic rotation; use for distributed segmental-motion plausibility.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-SQT-001",
+      "region": "hip_knee_ankle_trunk",
+      "movement_primitive": "deep_squat",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11307177/",
+        "citation": "Relationship among the COM Motion, the Lower Extremity and the Trunk during the Squat, PMCID PMC11307177.",
+        "license_use_note": "Use joint/COM relationships as development constraints only; no participant geometry or imagery enters production."
+      },
+      "movement_phase": "repeated_parallel_squat_descent_and_ascent",
+      "view": [
+        "3d_motion_analysis",
+        "whole_body_COM"
+      ],
+      "diversity": {
+        "subject_count": 26,
+        "notes": "Twenty-six healthy young adults. The task is a parallel squat, so deep-squat extremes and loaded barbell strategies require additional evidence."
+      },
+      "observable_landmarks": [
+        "hip",
+        "knee",
+        "ankle",
+        "trunk",
+        "center_of_mass"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "interjoint_coordination",
+        "center_of_mass_relationship",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Squat depth depends on coordinated knee and ankle motion rather than knee flexion alone.",
+        "Hip, knee and ankle motions all contribute to anterior-posterior COM control.",
+        "The ankle can reach its maximum angle before the other joints, so a perfectly synchronized three-joint hinge is not required or desirable."
+      ],
+      "uncertainty": "Young healthy cohort and parallel-squat task; use coordination relationships, not exact target angles for every squat style.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-LNG-001",
+      "region": "hip_knee_ankle",
+      "movement_primitive": "forward_lunge",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3396296/",
+        "citation": "Biomechanical Analysis of the Anterior Lunge During 4 External-Load Conditions, PMCID PMC3396296.",
+        "license_use_note": "Use kinematic/kinetic relationships for development-only review; no participant imagery or geometry is production content."
+      },
+      "movement_phase": "step_contact_descent_bottom_and_return_under_four_loads",
+      "view": [
+        "3d_motion_analysis",
+        "force_plate"
+      ],
+      "diversity": {
+        "subject_count": 16,
+        "notes": "Sixteen recreationally active college-aged adults, eight men and eight women. Young cohort; external-load findings should be treated as exercise-specific tendencies."
+      },
+      "observable_landmarks": [
+        "lead hip",
+        "lead knee",
+        "lead ankle",
+        "center_of_mass",
+        "ground_contact"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "interjoint_coordination",
+        "force_transmission",
+        "load_path",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "The forward lunge has substantial knee excursion but is kinetically hip-extensor dominant.",
+        "Increasing external load changes hip and ankle work more than knee work while peak flexion angles can remain similar.",
+        "A believable lunge therefore needs coherent hip-knee-ankle load sharing, not just a visually deep front-knee bend."
+      ],
+      "uncertainty": "Sagittal emphasis and young healthy sample; frontal/transverse control and other lunge styles require separate evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-KNE-001",
+      "region": "knee",
+      "movement_primitive": "dynamic_full_knee_flexion",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3591185/",
+        "citation": "In Vivo Healthy Knee Kinematics during Dynamic Full Flexion, PMCID PMC3591185.",
+        "license_use_note": "Use derived healthy-knee motion observations only; do not copy imaging-derived bone geometry."
+      },
+      "movement_phase": "dynamic_lunge_into_full_flexion",
+      "view": [
+        "3d_to_2d_bone_registration",
+        "dynamic_fluoroscopy"
+      ],
+      "diversity": {
+        "subject_count": 5,
+        "notes": "Five healthy men aged 28-30. Very small and narrow cohort; useful for dynamic full-flexion behaviour, not a universal knee template."
+      },
+      "observable_landmarks": [
+        "femur",
+        "tibia",
+        "knee flexion",
+        "femoral translation",
+        "axial rotation"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "joint_kinematics",
+        "joint_coupling",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Healthy deep knee flexion includes coupled femoral translation/rotation relative to the tibia rather than a pure hinge.",
+        "Deep-flexion validation should therefore preserve posterior-knee clearance and changing condylar/patellar relationships instead of rotating two rigid cylinders."
+      ],
+      "uncertainty": "Small male cohort and step-assisted lunge task; use only to reject implausible pure-hinge behaviour.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-HIP-001",
+      "region": "hip_knee_ankle",
+      "movement_primitive": "multi_plane_hip_motion_in_ADL",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5537477/",
+        "citation": "Hip, knee, and ankle kinematics during activities of daily living: a cross-sectional study, PMCID PMC5537477.",
+        "license_use_note": "Use joint-angle coordination observations only for development review; no participant media or geometry is production content."
+      },
+      "movement_phase": "crouching_picking_up_dressing_bathing_toileting",
+      "view": [
+        "3d_motion_analysis",
+        "multi_plane_joint_angles"
+      ],
+      "diversity": {
+        "subject_count": 26,
+        "notes": "Twenty-six healthy subjects, 13 men and 13 women. ADL motions broaden the envelope beyond exercise poses but do not define athletic loading."
+      },
+      "observable_landmarks": [
+        "hip flexion",
+        "hip abduction_adduction",
+        "hip internal_external_rotation",
+        "knee flexion",
+        "ankle motion"
+      ],
+      "permissible_conclusions": [
+        "joint_kinematics",
+        "joint_coupling",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Large hip flexion in real activities is accompanied by meaningful frontal- and transverse-plane hip motion.",
+        "The pelvis/hip should therefore not be validated only in a sagittal squat/lunge plane.",
+        "Multi-plane hip checks are needed before declaring groin/glute deformation generally human-like."
+      ],
+      "uncertainty": "Activities of daily living differ from resistance exercise and loads; use to establish multi-plane movement envelope only.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ANK-001",
+      "region": "ankle_hindfoot",
+      "movement_primitive": "loaded_ankle_hindfoot_coupling",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7878402/",
+        "citation": "Healthy Ankle and Hindfoot Kinematics During Gait: Sex Differences, Asymmetry and Coupled Motion Revealed Through Dynamic Biplane Radiography, PMCID PMC7878402.",
+        "license_use_note": "Use continuous healthy joint-motion observations only; do not copy radiographic bone geometry."
+      },
+      "movement_phase": "support_phase_from_impact_through_push_off",
+      "view": [
+        "dynamic_biplane_radiography",
+        "tibiotalar_and_subtalar_kinematics"
+      ],
+      "diversity": {
+        "subject_count": 20,
+        "notes": "Twenty healthy adults with both sexes represented; side-to-side differences were small but individual curves varied. Gait is lower load than some exercise tasks."
+      },
+      "observable_landmarks": [
+        "tibiotalar joint",
+        "subtalar joint",
+        "plantarflexion",
+        "dorsiflexion",
+        "inversion",
+        "eversion"
+      ],
+      "permissible_conclusions": [
+        "bone_motion",
+        "joint_kinematics",
+        "joint_coupling",
+        "symmetry",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Ankle/hindfoot motion is coupled: tibiotalar plantarflexion is associated with subtalar inversion/eversion changes through stance.",
+        "Healthy dominant and nondominant sides were broadly similar, supporting a symmetry expectation for neutral bilateral tasks.",
+        "The ankle should not be modelled as a single sagittal hinge when the foot is loaded."
+      ],
+      "uncertainty": "Walking support phase is not a squat or calf raise; use for coupled ankle/hindfoot mechanics and symmetry, not exact exercise angles.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ACH-001",
+      "region": "calf_achilles_ankle",
+      "movement_primitive": "ankle_dorsiflexion_plantarflexion_and_heel_raise",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8777463/",
+        "citation": "Ultrasound estimates of Achilles tendon exhibit unexpected shortening during ankle plantarflexion, PMCID PMC8777463.",
+        "license_use_note": "Use tendon/muscle-tendon observations only; ultrasound images and subject anatomy are not production assets."
+      },
+      "movement_phase": "restricted_calf_contraction_free_DF_PF_and_loaded_heel_raise",
+      "view": [
+        "B_mode_ultrasound",
+        "motion_capture",
+        "ground_reaction_force"
+      ],
+      "diversity": {
+        "subject_count": 8,
+        "notes": "Eight healthy adults, five men and three women, mean age about 21. Small young cohort; study also highlights uncertainty in tendon-length estimation during motion."
+      },
+      "observable_landmarks": [
+        "medial_gastrocnemius",
+        "Achilles_tendon",
+        "calcaneus",
+        "ankle_angle",
+        "heel_raise"
+      ],
+      "permissible_conclusions": [
+        "tendon_behavior",
+        "joint_kinematics",
+        "force_transmission",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Calf/Achilles behaviour changes between low-displacement high-force contraction, free ankle motion and loaded heel raise.",
+        "Plantarflexion beyond neutral cannot be represented by merely rotating a rigid foot while leaving the posterior calf/Achilles contour unchanged.",
+        "The paper itself demonstrates measurement uncertainty, so tendon length should not be hard-coded to one simple spring rule."
+      ],
+      "uncertainty": "Small cohort and ultrasound tracking limitations; use to require changing calf/Achilles form and load-state sensitivity, not a precise tendon-length formula.",
       "development_only": true,
       "review_status": "verified"
     }

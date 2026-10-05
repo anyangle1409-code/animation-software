@@ -8,6 +8,9 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+      - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
+      - "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+      - "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json"
       - "docs/ORIGINAL_V1_HUMAN_BODY_*.md"
       - "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md"
       - "scripts/*human_body*"
@@ -15,6 +18,9 @@ on:
       - "scripts/*human_movement*"
       - "scripts/*anatomical_coupling*"
       - "scripts/*shoulder_layer_diagnostic*"
+      - "scripts/*joint_tissue*"
+      - "scripts/*defect_coupling*"
+      - "scripts/*coupling_zone*"
       - ".github/workflows/original-v1-human-body-contract.yml"
   pull_request:
     paths:
@@ -23,6 +29,9 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+      - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
+      - "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+      - "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json"
       - "docs/ORIGINAL_V1_HUMAN_BODY_*.md"
       - "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md"
       - "scripts/*human_body*"
@@ -30,6 +39,9 @@ on:
       - "scripts/*human_movement*"
       - "scripts/*anatomical_coupling*"
       - "scripts/*shoulder_layer_diagnostic*"
+      - "scripts/*joint_tissue*"
+      - "scripts/*defect_coupling*"
+      - "scripts/*coupling_zone*"
       - ".github/workflows/original-v1-human-body-contract.yml"
 
 permissions:
@@ -58,6 +70,10 @@ jobs:
         run: python scripts/validate_original_v1_surface_visual_evidence_requirements.py
       - name: Validate joint-to-tissue trigger map
         run: python scripts/validate_original_v1_joint_tissue_triggers.py
+      - name: Validate anatomical coupling capture plan
+        run: python scripts/validate_original_v1_anatomical_coupling_capture_plan.py
+      - name: Validate blocking defect-to-coupling map
+        run: python scripts/validate_original_v1_defect_coupling_map.py
       - name: Run surface visual evidence requirement tests
         run: python scripts/test_validate_original_v1_surface_visual_evidence_requirements.py
       - name: Run human evidence tests

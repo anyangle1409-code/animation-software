@@ -60,6 +60,10 @@ def main():
         me["status"]="MOVEMENT_COUPLING_EVIDENCE_NOT_RUN"; me["candidate_revision"]=rev; me["candidate_sha256"]=final; me["source_branch"]=branch
         write_new(ws/"movement_coupling_evidence_final.json",me)
 
+        vr=read(ws/wm["files"]["surface_visual_final_template"])
+        vr["status"]="CANDIDATE_SURFACE_VISUAL_REVIEW"; vr["candidate_revision"]=rev; vr["candidate_sha256"]=final; vr["source_branch"]=branch
+        write_new(ws/"surface_visual_review_final.json",vr)
+
         # Draft one post-edit provenance record for each immutable declaration.
         et=read(EXEC_TEMPLATE); execution_paths=[]
         declarations=wm["files"]["repair_declarations"]
@@ -85,6 +89,7 @@ def main():
         cm["evidence"]["weights_only_acceptance_path"]="weights_only_acceptance_final.json"
         cm["evidence"]["anatomical_coupling_evidence_path"]="anatomical_coupling_evidence_final.json"
         cm["evidence"]["movement_coupling_evidence_path"]="movement_coupling_evidence_final.json"
+        cm["evidence"]["surface_visual_review_path"]="surface_visual_review_final.json"
         cm["evidence"]["repair_execution_record_paths"]=execution_paths
         write_new(ws/"candidate_comparison_manifest_final.json",cm)
 
@@ -99,6 +104,7 @@ def main():
             "weights_only_acceptance":"weights_only_acceptance_final.json",
             "anatomical_coupling_evidence":"anatomical_coupling_evidence_final.json",
             "movement_coupling_evidence":"movement_coupling_evidence_final.json",
+            "surface_visual_review":"surface_visual_review_final.json",
             "repair_execution_records":execution_paths,
             "candidate_comparison_manifest":"candidate_comparison_manifest_final.json"
           },

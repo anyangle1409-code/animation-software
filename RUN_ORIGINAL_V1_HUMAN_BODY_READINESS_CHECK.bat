@@ -50,6 +50,10 @@ call :run scripts\validate_original_v1_pose_evidence_planning.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_candidate_comparison_template.py
 if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_stage1_repair_execution_graph.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_deformation_failure_signatures.py
+if errorlevel 1 exit /b 1
 
 echo.
 echo ============================================================

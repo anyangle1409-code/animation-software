@@ -303,6 +303,12 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_laptop_workflow_integrity.py",
       "note": "Non-Blender integrity gate for the preferred Stage-1 laptop pickup -> declared repair -> post-edit continuation -> sweep acceptance -> unified comparison workflow. Fails on missing runners, broken command order or stale authority."
+    },
+    "stage1_laptop_quickstart": {
+      "category": "workflow",
+      "path": "docs/ORIGINAL_V1_STAGE1_LAPTOP_QUICKSTART.md",
+      "preferred_entry_runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+      "note": "Concise preferred laptop workflow: preserve Work, generate pickup packet, run package-aware diagnostics/sweeps, finalize calibration/acceptance, create immutable repair workspace, then post-edit continuation."
     }
   },
   "categories": {

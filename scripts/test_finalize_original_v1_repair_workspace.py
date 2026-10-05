@@ -40,6 +40,18 @@ class FinalizeRepairWorkspaceTests(unittest.TestCase):
             self.assertEqual(rec["final_candidate_sha256"],final_sha)
             self.assertEqual(vr["candidate_sha256"],final_sha)
             self.assertEqual(cm["evidence"]["surface_visual_review_path"],"surface_visual_review_final.json")
+            sweep_paths=cm["evidence"]["human_movement_sweep_acceptance_paths"]
+            self.assertEqual(len(sweep_paths),2)
+            self.assertEqual(set(sweep_paths),{
+              "human_movement_sweep_acceptance_shoulder_abduction_elevation_final.json",
+              "human_movement_sweep_acceptance_humeral_internal_external_rotation_final.json"
+            })
+            for name in sweep_paths:
+                sat=json.loads((ws/name).read_text())
+                self.assertEqual(sat["candidate_sha256"],final_sha)
+                self.assertEqual(sat["candidate_revision"],"r96")
+                self.assertEqual(sat["engineering_review"],"PENDING")
+            self.assertEqual(set(fm["final_records"]["human_movement_sweep_acceptance_records"]),set(sweep_paths))
 
     def test_finalization_rejects_unchanged_candidate_sha(self):
         with tempfile.TemporaryDirectory() as td:

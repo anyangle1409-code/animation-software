@@ -30,6 +30,11 @@ call :run scripts\validate_original_v1_surface_visual_evidence_requirements.py |
 call :run scripts\validate_original_v1_joint_tissue_triggers.py || exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling_capture_plan.py || exit /b 1
 call :run scripts\validate_original_v1_defect_coupling_map.py || exit /b 1
+call :run scripts\validate_original_v1_anatomical_repair_packages.py || exit /b 1
+call :run scripts\validate_original_v1_deformation_diagnosis_tree.py || exit /b 1
+call :run scripts\validate_original_v1_weights_only_contract.py || exit /b 1
+call :run scripts\validate_original_v1_pose_evidence_planning.py || exit /b 1
+call :run scripts\validate_original_v1_candidate_comparison_template.py || exit /b 1
 
 call :run scripts\test_validate_original_v1_surface_visual_evidence_requirements.py || exit /b 1
 call :run scripts\test_original_v1_human_evidence.py || exit /b 1

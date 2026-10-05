@@ -327,3 +327,8 @@ jobs:
 
       - name: Run human sweep reviewed-contact tests
         run: python scripts/test_validate_original_v1_human_movement_sweep_contact.py
+
+      - name: Validate post-repair bundle source contract
+        run: python scripts/validate_original_v1_post_repair_bundle_source.py
+      - name: Run post-repair bundle source tests
+        run: python scripts/test_validate_original_v1_post_repair_bundle_source.py

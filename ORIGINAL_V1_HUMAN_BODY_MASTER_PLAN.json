@@ -14,7 +14,11 @@
     "first_party_deformation_architecture": "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json",
     "stage1_repair_execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
     "whole_body_repair_guide": "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md",
-    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json"
+    "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+    "pre_edit_repair_workspace_runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
+    "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
+    "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
+    "legacy_direct_post_edit_bundle": "compatibility_only_not_canonical"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
@@ -32,7 +36,9 @@
     "visual_anatomical_failure_can_block_despite_numerical_pass",
     "correctives_refine_not_conceal",
     "clothing_material_lighting_crop_may_not_hide_body_failures",
-    "owner_acceptance_is_explicit_and_candidate_bound"
+    "owner_acceptance_is_explicit_and_candidate_bound",
+    "pre_edit_declaration_identity_and_post_edit_acceptance_identity_must_remain_separate",
+    "final_acceptance_evidence_must_bind_to_exact_post_edit_candidate_sha"
   ],
   "body_regions": [
     {
@@ -336,17 +342,19 @@
     "next_sequence": [
       "run_pre_repair_diagnostic_bundle",
       "identify_earliest_failing_layer_using_diagnosis_tree",
-      "create_and_validate_pre_edit_repair_declarations",
+      "create_pre_edit_repair_workspace_for_selected_packages",
+      "complete_and_validate_pre_edit_repair_declarations",
       "audit_declared_coupling_weight_ownership",
-      "generate_focused_plus_whole_body_regression_plan",
+      "use_generated_focused_plus_whole_body_regression_plan",
       "create_new_numbered_candidate_and_repair_smallest_foundational_layer",
-      "capture_exact_final_candidate_sha",
-      "initialize_post_edit_evidence_bundle",
+      "save_repaired_candidate_and_capture_exact_final_sha",
+      "finalize_repair_workspace_against_exact_post_edit_candidate",
+      "run_post_repair_validation_bundle_on_final_candidate",
       "prove_weights_only_regions_before_correctives",
       "prove_required_anatomical_and_movement_coupling_systems",
       "complete_candidate_surface_visual_review",
-      "fit_correctives_only_for_residual_anatomy_error",
-      "run_dense_continuity_reversibility_visual_numerical_contact_change_regression",
+      "fit_correctives_only_for_residual_anatomy_error_then_repeat_final_candidate_evidence",
+      "complete_repair_execution_regression_contact_change_and_visual_records",
       "run_unified_parent_to_candidate_comparison",
       "close_issue_rows_only_with_committed_closure_evidence",
       "advance_only_by_stage1_dependency_graph"

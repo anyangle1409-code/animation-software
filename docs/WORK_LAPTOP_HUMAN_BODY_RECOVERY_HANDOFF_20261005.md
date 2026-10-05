@@ -112,7 +112,16 @@ If the pickup packet reports any stop condition, do not begin editing.
 
 **After editing**
 
-8. Finalize the existing workspace against the saved post-edit Blend:
+8. Immediately generate the exact Stage-1 post-edit continuation packet:
+
+   `RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat <workspace-dir> <final-candidate.blend> <revision> <prior-revision-or-dash> <fresh-post-label> <calibrated-sweep-record-or-empty> <fresh-post-plan-dir>`
+
+   Follow the generated commands in order. The packet verifies/finalizes the
+   workspace against the final candidate SHA and carries required sweep evidence
+   into unified comparison.
+
+   The lower-level workspace finalizer remains available as part of that generated
+   sequence:
 
    `RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-candidate.blend>`
 

@@ -17,10 +17,15 @@ class RepairWorkspaceTests(unittest.TestCase):
             finally:
                 sys.argv=old
             wm=json.loads((out/"workspace_manifest.json").read_text())
+            validation=json.loads((out/"package_validation_selection.json").read_text())
             self.assertEqual(wm["pre_edit_candidate_sha256"],"b"*64)
             self.assertIsNone(wm["final_candidate_sha256"])
             self.assertEqual(wm["repair_package_ids"],["RP-PEC-AX-002"])
             self.assertIn("CP-PEC-AX-002",wm["coupling_system_ids"])
+            self.assertTrue(validation["validation_definition_complete"])
+            self.assertIn("press_top",validation["pose_names"])
+            self.assertIn("shoulder_abduction_elevation",validation["sweep_only_movements_requiring_generic_runner"])
+            self.assertEqual(wm["files"]["package_validation_selection"],"package_validation_selection.json")
 
             pre=json.loads((out/"candidate_issue_ledger_pre_edit.json").read_text())
             blocking=[x for x in pre["issues"] if x["severity"] in {"Critical","High"}]

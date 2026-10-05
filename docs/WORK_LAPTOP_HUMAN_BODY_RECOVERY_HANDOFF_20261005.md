@@ -78,6 +78,13 @@ First record the exact saved Blender skinning mode:
 Do not change LBS/Preserve Volume/DQ at this point. This establishes what r95
 actually uses so any later A/B test can keep every other variable identical.
 
+Next derive the full connected-tissue review scope for the stress poses:
+
+`RUN_ORIGINAL_V1_POSE_COUPLING_SCOPE.bat <candidate.blend> <fresh-label>`
+
+This prevents review from following only the visibly moving limb; every moved
+joint/bone family automatically expands the required tissue scope.
+
 Then run the shoulder deformation layer diagnostic on the exact comparator/current
 candidate using a fresh label:
 
@@ -128,6 +135,14 @@ Declare exact:
 - source/hash identities.
 
 Validate the declaration before any edit.
+
+Then audit the declared weight ownership before editing:
+
+`RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat <candidate.blend> <declaration.json> <fresh-label>`
+
+Use it to identify concentrated one-anchor ownership and abrupt ownership jumps.
+Do not treat any single weight percentage as proof of human anatomy; use the
+weight report to target the visual/motion evidence.
 
 ### C. Create a NEW candidate
 

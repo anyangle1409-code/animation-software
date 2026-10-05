@@ -61,8 +61,15 @@ set "SCOPE=ORIGINAL_V1_WORK\candidates\repair_checks\pose_coupling_scope\%LABEL%
 call RUN_ORIGINAL_V1_POSE_EVIDENCE_PLAN.bat "%SCOPE%" "%LABEL%"
 if errorlevel 1 exit /b 1
 
-call RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat "%CANDIDATE%" "%LABEL%" "press_top,pullup_hang" 13
-if errorlevel 1 exit /b 1
+"%PYTHON%" scripts\original_v1_workspace_requires_diagnostic.py --workspace "%WORKSPACE%" --diagnostic shoulder_layer
+set "DIAG_RC=%ERRORLEVEL%"
+if "%DIAG_RC%"=="2" exit /b 1
+if "%DIAG_RC%"=="0" (
+  call RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat "%CANDIDATE%" "%LABEL%" "press_top,pullup_hang" 13
+  if errorlevel 1 exit /b 1
+) else (
+  echo SKIP: shoulder-layer diagnostic is not required for the selected repair packages.
+)
 
 call RUN_ORIGINAL_V1_MOTION_REVERSIBILITY_AUDIT.bat "%CANDIDATE%" "%LABEL%"
 if errorlevel 1 exit /b 1

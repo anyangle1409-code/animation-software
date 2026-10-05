@@ -1,0 +1,769 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_ANATOMICAL_COUPLING_MAP",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "production_approved": false,
+  "purpose": "Define candidate-bound whole-body anatomical attachment and shared-tissue dependencies so movement of one skeletal segment produces coherent deformation in every connected surface region without dragging unrelated tissue.",
+  "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "global_invariants": [
+    "A shared tissue system is governed by all relevant attachment sides; it may not be owned wholesale by one moving bone.",
+    "Proximal and distal attachment neighborhoods remain continuous with their anatomical anchors throughout motion.",
+    "Influence transitions between anchors must be spatially gradual; abrupt weight ownership boundaries that create shelves, trenches, membranes or pinches fail.",
+    "Lengthening and compression must propagate through the complete connected surface path rather than appearing only at one endpoint.",
+    "Volume may redistribute but may not disappear, balloon abruptly or teleport from one attachment side to the other.",
+    "Folds arise from compression and relax on unloading/return; persistent fixed creases without mechanical cause fail.",
+    "Corrective layers may refine a plausible weights-only path but may not conceal an anatomically wrong attachment/ownership foundation.",
+    "Return motion must restore the neutral surface within declared tolerance without residual twist, dent, lobe or offset.",
+    "Symmetric skeletal inputs require equivalent left/right coupling absent an explicitly asymmetric task.",
+    "Contact/load changes at the hand or foot must propagate through the connected wrist/forearm or ankle/calf chain without local collapse."
+  ],
+  "coupling_systems": [
+    {
+      "id": "CP-NECK-TRAP-001",
+      "name": "cervical_to_trapezius_shoulder_girdle",
+      "body_regions": [
+        "head_neck_trapezius",
+        "clavicle_shoulder_deltoid",
+        "back_posterior_axilla"
+      ],
+      "proximal_anchors": [
+        "occiput",
+        "cervical_spine",
+        "upper_thoracic_spine"
+      ],
+      "distal_anchors": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine"
+      ],
+      "driving_joints": [
+        "cervical_segments",
+        "sternoclavicular",
+        "acromioclavicular",
+        "scapulothoracic_proxy"
+      ],
+      "movement_families": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_push",
+        "vertical_pull_hang"
+      ],
+      "evidence_ids": [
+        "HE-NECK-001",
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "must_move": [
+        "neck surface follows distributed cervical motion rather than one rigid hinge",
+        "trapezius/neck-to-shoulder slope responds to scapular/clavicular motion",
+        "posterior shoulder-girdle surface changes continuously through arm elevation"
+      ],
+      "must_remain_rooted": [
+        "midline cervical/thoracic attachment remains continuous with trunk",
+        "shoulder end remains coupled to clavicle/scapular landmarks"
+      ],
+      "forbidden_failures": [
+        "rigid collar",
+        "rear shoulder shelf",
+        "floating trapezius lobe",
+        "neck pinch",
+        "scapular drape detachment",
+        "persistent asymmetry in symmetric motion"
+      ]
+    },
+    {
+      "id": "CP-PEC-AX-002",
+      "name": "pectoralis_major_anterior_axillary_chain",
+      "body_regions": [
+        "chest_anterior_axilla",
+        "clavicle_shoulder_deltoid",
+        "ribcage_abdomen_obliques_lumbar",
+        "upperarm_elbow"
+      ],
+      "proximal_anchors": [
+        "medial_clavicle",
+        "sternum",
+        "upper_rib_costal_cartilage",
+        "anterior_chest_wall"
+      ],
+      "distal_anchors": [
+        "proximal_humerus_pectoral_insertion"
+      ],
+      "driving_joints": [
+        "sternoclavicular",
+        "glenohumeral",
+        "scapulothoracic_proxy"
+      ],
+      "movement_families": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "must_move": [
+        "humeral insertion side travels with upper arm",
+        "anterior axillary fold changes angle/length with arm elevation and rotation",
+        "lateral pectoral surface lengthens/shortens smoothly between chest and humerus"
+      ],
+      "must_remain_rooted": [
+        "central and medial pectoral mass remains chest-rooted",
+        "sternal/rib/clavicular chest wall continuity remains stable"
+      ],
+      "forbidden_failures": [
+        "whole lateral chest dragged with humerus",
+        "deep chest-to-arm trench",
+        "planar axillary membrane",
+        "central pec balloon with lateral collapse",
+        "knife-edge fold",
+        "detached pec slab"
+      ]
+    },
+    {
+      "id": "CP-POSTAX-003",
+      "name": "latissimus_teres_posterior_axillary_chain",
+      "body_regions": [
+        "back_posterior_axilla",
+        "clavicle_shoulder_deltoid",
+        "ribcage_abdomen_obliques_lumbar",
+        "upperarm_elbow"
+      ],
+      "proximal_anchors": [
+        "posterior_trunk",
+        "thoracolumbar_region",
+        "inferior_scapular_region"
+      ],
+      "distal_anchors": [
+        "proximal_humerus_medial_intertubercular_region"
+      ],
+      "driving_joints": [
+        "glenohumeral",
+        "scapulothoracic_proxy",
+        "thoracic_spine"
+      ],
+      "movement_families": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "horizontal_push"
+      ],
+      "evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-SH-001",
+        "HE-SH-002"
+      ],
+      "must_move": [
+        "posterior axillary fold changes shape with humeral elevation",
+        "lat/teres support follows both trunk and humeral attachment sides",
+        "posterior chest/back drape changes continuously with scapular contribution"
+      ],
+      "must_remain_rooted": [
+        "broad posterior trunk mass remains trunk-rooted",
+        "distal fold remains connected to humeral insertion side"
+      ],
+      "forbidden_failures": [
+        "pointed flap",
+        "cape-like sheet",
+        "floating posterior lobe",
+        "posterior axillary trench",
+        "entire lat surface translating with arm"
+      ]
+    },
+    {
+      "id": "CP-DELTOID-004",
+      "name": "deltoid_shoulder_yoke",
+      "body_regions": [
+        "clavicle_shoulder_deltoid",
+        "upperarm_elbow"
+      ],
+      "proximal_anchors": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine"
+      ],
+      "distal_anchors": [
+        "deltoid_tuberosity_humerus"
+      ],
+      "driving_joints": [
+        "sternoclavicular",
+        "acromioclavicular",
+        "scapulothoracic_proxy",
+        "glenohumeral"
+      ],
+      "movement_families": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "evidence_ids": [
+        "HE-ATT-DEL-001",
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-003"
+      ],
+      "must_move": [
+        "anterior/middle/posterior deltoid surface changes with motion plane",
+        "cap remains coupled to both shoulder girdle and humerus",
+        "upper-arm transition broadens/narrows continuously rather than stepping"
+      ],
+      "must_remain_rooted": [
+        "clavicle/acromion/scapular-spine origin neighborhoods",
+        "humeral insertion neighborhood"
+      ],
+      "forbidden_failures": [
+        "rigid spherical cap",
+        "balloon cap",
+        "abrupt arm necking",
+        "deltoid detached from clavicle/acromion",
+        "single-bone ownership seam"
+      ]
+    },
+    {
+      "id": "CP-ARM-005",
+      "name": "upperarm_elbow_multi_joint_chain",
+      "body_regions": [
+        "upperarm_elbow",
+        "clavicle_shoulder_deltoid",
+        "forearm_wrist"
+      ],
+      "proximal_anchors": [
+        "scapular_and_humeral_upper_arm_origins"
+      ],
+      "distal_anchors": [
+        "proximal_radius_ulna_and_forearm_fascia"
+      ],
+      "driving_joints": [
+        "glenohumeral",
+        "elbow",
+        "radioulnar"
+      ],
+      "movement_families": [
+        "elbow_flexion_extension",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull",
+        "forearm_pronation_supination",
+        "cylindrical_equipment_grip"
+      ],
+      "evidence_ids": [
+        "HE-SH-001",
+        "HE-VIS-003",
+        "HE-WRI-001"
+      ],
+      "must_move": [
+        "upper-arm contour responds to elbow flexion/extension without losing shoulder continuity",
+        "elbow crease appears under compression and releases under extension",
+        "forearm rotation may change distal surface orientation without twisting the upper arm skin as a rigid sleeve"
+      ],
+      "must_remain_rooted": [
+        "shoulder-to-upper-arm continuity",
+        "olecranon/antecubital neighborhoods remain joint-centered"
+      ],
+      "forbidden_failures": [
+        "cylindrical hinge",
+        "fixed elbow ring crease",
+        "upper-arm corkscrew from forearm rotation",
+        "biceps/triceps mass teleport",
+        "shoulder-arm pinch"
+      ]
+    },
+    {
+      "id": "CP-WRIST-HAND-006",
+      "name": "forearm_wrist_hand_load_chain",
+      "body_regions": [
+        "forearm_wrist",
+        "palm_thumb_fingers"
+      ],
+      "proximal_anchors": [
+        "radius_ulna_forearm_soft_tissue"
+      ],
+      "distal_anchors": [
+        "carpus_palm_metacarpals"
+      ],
+      "driving_joints": [
+        "radioulnar",
+        "wrist",
+        "hand_contact"
+      ],
+      "movement_families": [
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "evidence_ids": [
+        "HE-WRI-001",
+        "HE-WRI-002",
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
+      ],
+      "must_move": [
+        "forearm rotation changes wrist/palm orientation through a continuous load path",
+        "loaded wrist extension compresses/changes the wrist surface without collapsing it",
+        "equipment/floor force remains visually continuous into forearm"
+      ],
+      "must_remain_rooted": [
+        "wrist remains centered between forearm and hand",
+        "hand contact does not detach from forearm load path"
+      ],
+      "forbidden_failures": [
+        "wrist trench",
+        "hand floating from forearm",
+        "abrupt twist at wrist crease",
+        "contact held by penetration",
+        "forearm remains visually frozen while palm rotates"
+      ]
+    },
+    {
+      "id": "CP-FINGER-007",
+      "name": "finger_flexor_tendon_and_skin_chain",
+      "body_regions": [
+        "palm_thumb_fingers"
+      ],
+      "proximal_anchors": [
+        "palm_forearm_flexor_path"
+      ],
+      "distal_anchors": [
+        "middle_and_distal_phalanges"
+      ],
+      "driving_joints": [
+        "MCP",
+        "PIP",
+        "DIP",
+        "thumb_opposition"
+      ],
+      "movement_families": [
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "wrist_flexion_extension_loaded"
+      ],
+      "evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003",
+        "HE-ATT-HAND-001"
+      ],
+      "must_move": [
+        "MCP/PIP/DIP do not use an identical copied curve",
+        "volar finger/palm surface follows tendon-guided flexion without bowstring-like detachment",
+        "thumb opposition/release is coordinated separately from four-finger flexion"
+      ],
+      "must_remain_rooted": [
+        "tendon/palm path remains close to finger skeleton",
+        "joint creases remain joint-centered"
+      ],
+      "forbidden_failures": [
+        "uniform robotic curl",
+        "finger surface bowstring",
+        "fixed crease rings",
+        "thumb behaves as fifth identical finger",
+        "release collision with equipment"
+      ]
+    },
+    {
+      "id": "CP-TRUNK-008",
+      "name": "ribcage_abdominal_lumbar_pelvic_cylinder",
+      "body_regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "proximal_anchors": [
+        "ribcage",
+        "thoracic_spine"
+      ],
+      "distal_anchors": [
+        "lumbar_spine",
+        "pelvis_iliac_region"
+      ],
+      "driving_joints": [
+        "thoracic_segments",
+        "lumbar_segments",
+        "pelvis_hip"
+      ],
+      "movement_families": [
+        "neutral_braced_trunk",
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "evidence_ids": [
+        "HE-TRK-001",
+        "HE-TRK-002",
+        "HE-TRK-003",
+        "HE-HNG-001"
+      ],
+      "must_move": [
+        "motion distributes across spinal and pelvic contributors rather than one waist hinge",
+        "compressed side forms reversible soft folds while lengthened side remains continuous",
+        "ribcage-to-pelvis volume changes gradually through flexion/extension/rotation"
+      ],
+      "must_remain_rooted": [
+        "ribcage surface remains tied to thorax",
+        "pelvic/iliac surface remains tied to pelvis"
+      ],
+      "forbidden_failures": [
+        "single waist swivel",
+        "hard abdominal knife crease",
+        "back membrane stretch",
+        "ribcage-pelvis interpenetration",
+        "persistent twist after return"
+      ]
+    },
+    {
+      "id": "CP-GLUTE-009",
+      "name": "glute_pelvis_femur_lateral_thigh_chain",
+      "body_regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee"
+      ],
+      "proximal_anchors": [
+        "posterior_pelvis",
+        "sacral_region"
+      ],
+      "distal_anchors": [
+        "iliotibial_tract",
+        "gluteal_tuberosity_femur"
+      ],
+      "driving_joints": [
+        "hip",
+        "pelvis"
+      ],
+      "movement_families": [
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "evidence_ids": [
+        "HE-ATT-GLU-001",
+        "HE-HIP-001",
+        "HE-SQT-001",
+        "HE-LNG-001",
+        "HE-HNG-001"
+      ],
+      "must_move": [
+        "gluteal mass lengthens/reshapes in hip flexion and shortens/reshapes in extension",
+        "lateral thigh tension/transition changes with hip ab/adduction and load",
+        "pelvis-to-femur connection remains continuous through deep flexion"
+      ],
+      "must_remain_rooted": [
+        "posterior pelvic origin region",
+        "femoral/lateral-thigh insertion region"
+      ],
+      "forbidden_failures": [
+        "buttock mass sliding wholesale with femur",
+        "glute shelf",
+        "groin/glute tunnel",
+        "lateral thigh shear seam",
+        "deep-flexion collapse"
+      ]
+    },
+    {
+      "id": "CP-GROIN-010",
+      "name": "pelvic_adductor_groin_thigh_chain",
+      "body_regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee"
+      ],
+      "proximal_anchors": [
+        "pubic_ischial_pelvic_region"
+      ],
+      "distal_anchors": [
+        "medial_femur_and_knee_side_adductor_path"
+      ],
+      "driving_joints": [
+        "hip",
+        "knee_secondary"
+      ],
+      "movement_families": [
+        "hip_abduction_adduction",
+        "hip_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge"
+      ],
+      "evidence_ids": [
+        "HE-HIP-001",
+        "HE-SQT-001",
+        "HE-LNG-001"
+      ],
+      "must_move": [
+        "groin/adductor surface lengthens with abduction and compresses with adduction/flexion as appropriate",
+        "medial thigh remains continuous with pelvis through deep hip motion",
+        "compression folds resolve on return"
+      ],
+      "must_remain_rooted": [
+        "pelvic groin origin zone",
+        "medial femoral/adductor line zone"
+      ],
+      "forbidden_failures": [
+        "crotch tunnel",
+        "planar groin membrane",
+        "medial thigh detachment",
+        "hip-pelvis pinch",
+        "persistent groin crease in neutral"
+      ]
+    },
+    {
+      "id": "CP-QUAD-011",
+      "name": "quadriceps_rectus_patella_chain",
+      "body_regions": [
+        "thigh_knee",
+        "pelvis_groin_glutes"
+      ],
+      "proximal_anchors": [
+        "anterior_femur_and_AIIS_rectus_origin"
+      ],
+      "distal_anchors": [
+        "quadriceps_tendon",
+        "patella",
+        "patellar_ligament_tibial_tuberosity"
+      ],
+      "driving_joints": [
+        "hip_rectus_component",
+        "knee"
+      ],
+      "movement_families": [
+        "knee_flexion_extension",
+        "hip_flexion_extension",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "loaded_hip_hinge"
+      ],
+      "evidence_ids": [
+        "HE-ATT-QUAD-001",
+        "HE-SQT-001",
+        "HE-LNG-001",
+        "HE-KNE-001"
+      ],
+      "must_move": [
+        "anterior thigh length state responds to knee flexion/extension",
+        "rectus femoris response reflects both hip and knee state",
+        "quadriceps-to-patella surface/tendon path remains continuous through deep flexion"
+      ],
+      "must_remain_rooted": [
+        "femoral/anterior pelvic origin zones",
+        "patella/tibial extensor chain"
+      ],
+      "forbidden_failures": [
+        "quad mass detached from patella",
+        "patellar trench",
+        "anterior thigh rigid during knee flexion",
+        "rectus response driven by knee alone",
+        "knee-cap surface teleport"
+      ]
+    },
+    {
+      "id": "CP-HAM-012",
+      "name": "hamstring_pelvis_thigh_popliteal_chain",
+      "body_regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "calf_ankle_achilles"
+      ],
+      "proximal_anchors": [
+        "ischial_tuberosity_and_posterior_femur_short_head"
+      ],
+      "distal_anchors": [
+        "fibular_head",
+        "posteromedial_tibia"
+      ],
+      "driving_joints": [
+        "hip",
+        "knee"
+      ],
+      "movement_families": [
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "evidence_ids": [
+        "HE-ATT-HAM-001",
+        "HE-HNG-001",
+        "HE-SQT-001",
+        "HE-LNG-001",
+        "HE-KNE-001"
+      ],
+      "must_move": [
+        "posterior-thigh form responds to combined hip and knee configuration",
+        "distal hamstring boundaries change naturally around the popliteal region",
+        "hip flexion plus knee extension produces a visibly lengthened chain relative to shortened configurations"
+      ],
+      "must_remain_rooted": [
+        "ischial/pelvic proximal path",
+        "fibular/tibial distal tendon neighborhoods"
+      ],
+      "forbidden_failures": [
+        "posterior thigh fixed while both joints change",
+        "popliteal ring crease",
+        "hamstring surface detaches from pelvis",
+        "posterior knee collapses into tunnel",
+        "single-joint-only ownership"
+      ]
+    },
+    {
+      "id": "CP-CALF-013",
+      "name": "gastrocnemius_soleus_Achilles_calcaneus_chain",
+      "body_regions": [
+        "calf_ankle_achilles",
+        "foot_toes",
+        "thigh_knee"
+      ],
+      "proximal_anchors": [
+        "femoral_condyles_gastrocnemius",
+        "tibia_fibula_soleus"
+      ],
+      "distal_anchors": [
+        "Achilles_tendon",
+        "calcaneus"
+      ],
+      "driving_joints": [
+        "knee_gastrocnemius_component",
+        "ankle",
+        "subtalar_secondary"
+      ],
+      "movement_families": [
+        "knee_flexion_extension",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "evidence_ids": [
+        "HE-ATT-ACH-001",
+        "HE-ANK-001",
+        "HE-ACH-001",
+        "HE-SQT-001"
+      ],
+      "must_move": [
+        "calf/Achilles shape responds to ankle dorsiflexion/plantarflexion",
+        "gastrocnemius component also responds to knee state",
+        "Achilles remains a continuous force path to calcaneus during heel rise and return"
+      ],
+      "must_remain_rooted": [
+        "proximal calf origin zones",
+        "calcaneal Achilles insertion"
+      ],
+      "forbidden_failures": [
+        "rigid calf during heel raise",
+        "Achilles kink",
+        "posterior ankle detachment",
+        "ankle-only solution ignores knee effect on gastrocnemius",
+        "heel rises through contact penetration"
+      ]
+    },
+    {
+      "id": "CP-FOOT-014",
+      "name": "ankle_hindfoot_arch_forefoot_contact_chain",
+      "body_regions": [
+        "foot_toes",
+        "calf_ankle_achilles"
+      ],
+      "proximal_anchors": [
+        "distal_tibia_fibula",
+        "talus_calcaneus"
+      ],
+      "distal_anchors": [
+        "midfoot_arch",
+        "metatarsal_forefoot",
+        "toe_contact"
+      ],
+      "driving_joints": [
+        "tibiotalar",
+        "subtalar",
+        "midfoot_proxy",
+        "MTP_toes"
+      ],
+      "movement_families": [
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "horizontal_push"
+      ],
+      "evidence_ids": [
+        "HE-ANK-001",
+        "HE-ACH-001"
+      ],
+      "must_move": [
+        "hindfoot coupling accompanies loaded ankle motion",
+        "heel/arch/forefoot contact changes coherently through dorsiflexion and heel rise",
+        "toe articulation supports contact rather than penetrating or floating"
+      ],
+      "must_remain_rooted": [
+        "ankle mortise/hindfoot continuity",
+        "declared floor-contact zones when contact is required"
+      ],
+      "forbidden_failures": [
+        "single rigid foot block",
+        "arch collapse",
+        "forefoot floating while heel load claimed",
+        "toe penetration",
+        "ankle-hindfoot discontinuity"
+      ]
+    }
+  ],
+  "acceptance_dimensions": [
+    "attachment_continuity",
+    "shared_ownership_gradient",
+    "lengthening_compression_logic",
+    "volume_redistribution",
+    "fold_crease_logic",
+    "motion_continuity",
+    "return_reversibility",
+    "bilateral_consistency",
+    "contact_load_propagation"
+  ],
+  "candidate_evidence_required": [
+    "exact_candidate_sha256",
+    "coupling_system_id",
+    "movement_family",
+    "outbound_intermediate_and_return_samples",
+    "weights_only_surface_evidence",
+    "corrective_isolation_if_correctives_exist",
+    "whole_body_and_regional_renders",
+    "numerical_regression_report",
+    "contact_report_if_applicable",
+    "defect_ledger_links",
+    "engineering_disposition",
+    "owner_review_state_separate"
+  ],
+  "exit_rule": "No coupling system is accepted from a static pose or endpoint-only evidence. Every required system must have candidate-bound motion evidence showing that all connected attachment neighborhoods respond coherently, with no open Critical/High defect."
+}

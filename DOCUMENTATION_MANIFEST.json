@@ -72,6 +72,12 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_anatomical_coupling_capture_plan.py",
       "note": "Candidate capture matrix for all 14 coupling systems, requiring weights-only and corrected layers plus intermediate/return motion and close landmarks."
+    },
+    "motion_reversibility": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_MOTION_REVERSIBILITY_AUDIT.bat",
+      "validator": "scripts/validate_original_v1_motion_reversibility.py",
+      "note": "Read-only Blender audit compares outbound versus return evaluated surfaces and shape-key states at identical joint-state fractions; detects residual/stateful deformation but does not by itself prove anatomy."
     }
   },
   "categories": {

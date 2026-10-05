@@ -36,7 +36,7 @@
   "movement_coverage_counts": {
     "evidence_partial": 27
   },
-  "human_evidence_entry_count": 29,
+  "human_evidence_entry_count": 31,
   "human_evidence_regions": {
     "clavicle_scapula_humerus": 1,
     "scapulohumeral_complex": 1,
@@ -122,12 +122,12 @@
   "surface_visual_evidence": {
     "authority": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
     "counts": {
-      "missing_surface_sequence": 9,
-      "partial": 3
+      "missing_surface_sequence": 4,
+      "partial": 8
     },
     "complete_region_count": 0,
-    "partial_region_count": 3,
-    "missing_surface_sequence_count": 9,
+    "partial_region_count": 8,
+    "missing_surface_sequence_count": 4,
     "status": "INCOMPLETE",
     "rule": "Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit."
   }

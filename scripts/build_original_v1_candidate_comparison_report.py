@@ -247,6 +247,12 @@ def build(manifest,base):
             check("surface_visual_review_present",vis_review is not None,ev.get("surface_visual_review_path"))
         if vis_review is not None:
             check("surface_visual_review_candidate_sha",candidate_sha(vis_review)==csha,candidate_sha(vis_review))
+            check("surface_visual_review_engineering_pass",vis_review.get("engineering_review")=="PASS",
+                  vis_review.get("engineering_review"))
+            vis_by={x.get("id"):x for x in vis_review.get("regions",[])}
+            for rid in scope.get("region_ids",[]):
+                state=vis_by.get(rid,{}).get("state")
+                check(f"surface_visual_region:{rid}",state=="PASS",state or "missing")
         manifests=ev.get("visual_capture_manifest_paths",[]) or []
         check("visual_capture_manifests_present",bool(manifests),{"count":len(manifests)})
         for path in manifests:

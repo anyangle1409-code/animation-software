@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "REPAIR_EXECUTION_RECORD_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "source_branch": null,
+  "repair_package_id": null,
+  "coupling_system_id": null,
+  "side": null,
+  "repair_declaration_path": null,
+  "repair_declaration_sha256": null,
+  "pre_edit_candidate_sha256": null,
+  "final_candidate_sha256": null,
+  "executed_operations": [],
+  "edited_vertex_ids": [],
+  "edited_bone_groups": [],
+  "evidence_refs": [],
+  "change_audit_path": null,
+  "regression_report_path": null,
+  "contact_report_path": null,
+  "notes": [],
+  "rules": [
+    "The declaration must predate the edit and remain immutable.",
+    "The final candidate SHA must identify the post-edit Blend actually used for evidence.",
+    "Edited vertices must be a subset of the declaration's allowed_edit_vertex_ids.",
+    "Edited bone groups must be a subset of the declaration's allowed_bones.",
+    "Protected-neighbour vertices may not be edited.",
+    "Forbidden operations from the declaration may not appear in executed_operations.",
+    "This record is engineering provenance only and never implies owner acceptance or production approval."
+  ]
+}

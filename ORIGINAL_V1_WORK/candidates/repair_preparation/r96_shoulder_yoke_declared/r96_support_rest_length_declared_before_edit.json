@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-05T20:00:00+00:00",
+  "declared_before_edit": true,
+  "target_revision": "r96",
+  "parent": {
+    "stage": "r96 declared support topology intermediate",
+    "candidate_path": "work/r96/candidates/r96_topology.blend",
+    "sha256": "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd",
+    "lineage_parent_r95_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+  },
+  "issues": [
+    "WB-AX-001",
+    "WB-PEC-002",
+    "WB-PEC-003"
+  ],
+  "evidence": [
+    "ORIGINAL_V1_WORK/candidates/repair_checks/r96_weights_only_screening/README.md",
+    "ORIGINAL_V1_WORK/candidates/repair_preparation/r96_shoulder_yoke_declared/r96_topology_intermediate_receipt.json"
+  ],
+  "hypothesis": "The straight midpoint support row adds weight resolution but no rest length. A small outward normal bow on only the new support points increases polyline rest length across the chest-to-arm transition and may replace the pointed axillary membrane with a rounded vault before correctives.",
+  "mirror_pairs": [
+    [17948, 18064],
+    [17949, 17975],
+    [17950, 18062],
+    [17959, 17965],
+    [17978, 18033],
+    [17979, 18063],
+    [17984, 18027],
+    [17986, 18025],
+    [18006, 18034],
+    [18007, 18004],
+    [18008, 18032],
+    [18014, 18026],
+    [18017, 17994],
+    [18036, 17976],
+    [18037, 18005],
+    [18038, 17974],
+    [18044, 17968],
+    [18045, 17997],
+    [18047, 17995]
+  ],
+  "new_support_vertex_ids": [
+    17948,
+    17949,
+    17950,
+    17959,
+    17978,
+    17979,
+    17984,
+    17986,
+    18006,
+    18007,
+    18008,
+    18014,
+    18017,
+    18036,
+    18037,
+    18038,
+    18044,
+    18045,
+    18047,
+    18064,
+    17975,
+    18062,
+    17965,
+    18033,
+    18063,
+    18027,
+    18025,
+    18034,
+    18004,
+    18032,
+    18026,
+    17994,
+    17976,
+    18005,
+    17974,
+    17968,
+    17997,
+    17995
+  ],
+  "offset_rule": {
+    "direction": "mirror-averaged outward vertex normal",
+    "lateral_taper_abs_x_m": {
+      "zero_inner": 0.08,
+      "peak": 0.18,
+      "zero_outer": 0.29
+    },
+    "original_vertices_may_move": false
+  },
+  "probe_strengths_m": [
+    0.004,
+    0.008,
+    0.012
+  ],
+  "maximum_displacement_m": 0.012,
+  "shape_key_policy": "same_offset_all_keys",
+  "preserve": [
+    "original_vertices",
+    "weights",
+    "topology",
+    "rig"
+  ],
+  "weights_after_geometry": "reuse only the already-declared topology i1/lambda0.25 weight probe; no new weight solve in this family",
+  "correctives_disabled_during_gate": true,
+  "stop_conditions": [
+    "critical_or_high_defect",
+    "material_regression"
+  ],
+  "production_approved": false
+}

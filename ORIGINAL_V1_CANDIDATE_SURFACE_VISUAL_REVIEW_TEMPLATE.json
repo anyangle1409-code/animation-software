@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "status": "CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "source_branch": null,
+  "scope_region_ids": [],
+  "required_states": [
+    "neutral",
+    "lengthened_or_elevated",
+    "compressed_or_loaded",
+    "intermediate_transition",
+    "return_transition"
+  ],
+  "regions": [
+    {
+      "id": "head_neck_trapezius",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "back_posterior_axilla",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "upperarm_elbow",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "forearm_wrist",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "thigh_knee",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    },
+    {
+      "id": "foot_toes",
+      "state": "NOT_RUN",
+      "human_evidence_ids": [],
+      "whole_body_evidence_refs": [],
+      "regional_close_evidence_refs": [],
+      "state_evidence": {
+        "neutral": [],
+        "lengthened_or_elevated": [],
+        "compressed_or_loaded": [],
+        "intermediate_transition": [],
+        "return_transition": []
+      },
+      "blocking_defect_ids": [],
+      "engineering_notes": []
+    }
+  ],
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Only scope_region_ids are required to clear for a scoped repair, but every scoped region must be represented exactly once.",
+    "PASS requires whole-body context, regional close evidence, all required motion states and relevant human-evidence references.",
+    "PASS is invalid while any Critical/High visual defect remains linked to the region.",
+    "Visual engineering review is separate from owner review and never implies production approval."
+  ]
+}

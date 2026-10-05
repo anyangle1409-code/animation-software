@@ -27,6 +27,16 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_human_movement_sweeps.py",
       "note": "Deterministic audit sweeps for grip release, trunk flexion/extension/lateral bend/rotation, loaded hip hinge, hip ab/adduction and ankle plantarflexion."
+    },
+    "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json": {
+      "category": "authority",
+      "validator": "scripts/validate_original_v1_anatomical_coupling.py",
+      "note": "Authoritative whole-body attachment/shared-tissue dependency map. Covers all master body regions and movement families; correctives may not hide invalid base ownership."
+    },
+    "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_anatomical_coupling_evidence.py",
+      "note": "Candidate-specific template for proving weights-only and corrected anatomical coupling through outbound/intermediate/return motion."
     }
   },
   "categories": {
@@ -300,6 +310,10 @@
     "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md": {
       "category": "verification",
       "note": "Phone-friendly generated whole-body status dashboard; read after the authoritative master plan."
+    },
+    "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md": {
+      "category": "authority",
+      "note": "Human-readable fail-closed shared-tissue/attachment contract; subordinate only to live executable evidence and the human-body master plan."
     }
   }
 }

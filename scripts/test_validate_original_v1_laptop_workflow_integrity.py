@@ -23,6 +23,20 @@ class LaptopWorkflowIntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"required laptop workflow files missing"):
             mod.validate(files,self.contents)
 
+    def test_pickup_integrity_requires_one_command_sweep_pipeline(self):
+        contents=dict(self.contents)
+        p="scripts/build_original_v1_stage1_laptop_pickup_plan.py"
+        contents[p]=contents[p].replace("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat","REMOVED_SWEEP_PIPELINE")
+        with self.assertRaisesRegex(ValueError,"pickup planner command chain incomplete"):
+            mod.validate(self.files,contents)
+
+    def test_calibration_finalizer_cannot_disappear_from_pickup(self):
+        contents=dict(self.contents)
+        p="scripts/build_original_v1_stage1_laptop_pickup_plan.py"
+        contents[p]=contents[p].replace("RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat","REMOVED_CAL_FINALIZER")
+        with self.assertRaisesRegex(ValueError,"pickup planner command chain incomplete"):
+            mod.validate(self.files,contents)
+
     def test_post_edit_acceptance_preflight_cannot_disappear(self):
         contents=dict(self.contents)
         p="scripts/build_original_v1_stage1_post_edit_continuation_plan.py"

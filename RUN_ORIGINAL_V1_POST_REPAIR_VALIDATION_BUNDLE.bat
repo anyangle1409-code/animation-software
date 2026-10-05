@@ -4,13 +4,15 @@ cd /d "%~dp0"
 
 rem Full post-repair validation bundle. READ-ONLY with respect to the Blend.
 rem Usage:
-rem   RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat rN prior_rM workspace_dir fresh-label
+rem   RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat rN prior_rM workspace_dir fresh-label [calibration-record]
 rem prior_rM may be "-" to omit predecessor comparison.
+rem calibration-record is required only when the workspace has sweep-only proof movements.
 
 set "REV=%~1"
 set "PRIOR=%~2"
 set "WORKSPACE=%~3"
 set "LABEL=%~4"
+set "CALIBRATION=%~5"
 if "%REV%"=="" (echo ERROR: revision rN required.& exit /b 2)
 if "%PRIOR%"=="" (echo ERROR: prior revision or - required.& exit /b 2)
 if "%WORKSPACE%"=="" (echo ERROR: finalized repair workspace required.& exit /b 2)
@@ -77,6 +79,58 @@ if errorlevel 1 exit /b 1
 call RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat "%CANDIDATE%" "%LABEL%"
 if errorlevel 1 exit /b 1
 
+rem Resolve and execute package-required generic movement sweeps.
+set "SWEEP_REQ_DIR=%WORKSPACE%\sweep_requirements_%LABEL%"
+"%PYTHON%" scripts\get_original_v1_workspace_sweep_requirements.py --workspace "%WORKSPACE%" --out-dir "%SWEEP_REQ_DIR%"
+if errorlevel 1 exit /b 1
+set "REQUIRED_SWEEPS="
+set "CONTACT_SWEEPS="
+set /p REQUIRED_SWEEPS=<"%SWEEP_REQ_DIR%\required_sweeps.txt"
+set /p CONTACT_SWEEPS=<"%SWEEP_REQ_DIR%\contact_sweeps.txt"
+
+if not "%REQUIRED_SWEEPS%"=="" (
+  if "%CALIBRATION%"=="" (
+    echo ERROR: this workspace requires generic sweep proof but no calibrated runner record was supplied.
+    exit /b 2
+  )
+  if not exist "%CALIBRATION%" (
+    echo ERROR: calibration record not found: %CALIBRATION%
+    exit /b 2
+  )
+  "%PYTHON%" scripts\validate_original_v1_human_movement_sweep_runner_calibration.py "%CALIBRATION%" --require-calibrated
+  if errorlevel 1 exit /b 1
+
+  set "SWEEP_LABEL=%LABEL%_final_sweeps"
+  call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "%CANDIDATE%" "%SWEEP_LABEL%" "%REQUIRED_SWEEPS%"
+  if errorlevel 1 exit /b 1
+  set "RAW_SWEEP=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweeps\%SWEEP_LABEL%\human_movement_sweeps.json"
+
+  set "VIS_LABEL=%LABEL%_final_sweep_visuals"
+  call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat "%CANDIDATE%" "%REV%" "%VIS_LABEL%" "%REQUIRED_SWEEPS%"
+  if errorlevel 1 exit /b 1
+  set "VIS_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_visuals\%VIS_LABEL%"
+
+  set "CONTACT_DIR="
+  if not "%CONTACT_SWEEPS%"=="" (
+    set "CONTACT_LABEL=%LABEL%_final_sweep_contact"
+    call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat "%CANDIDATE%" "%REV%" "%CONTACT_LABEL%" "%CONTACT_SWEEPS%"
+    if errorlevel 1 exit /b 1
+    set "CONTACT_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_contact\%CONTACT_LABEL%"
+  )
+
+  "%PYTHON%" scripts\build_original_v1_workspace_sweep_motion_reviews.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%"
+  if errorlevel 1 exit /b 1
+
+  if "%CONTACT_DIR%"=="" (
+    "%PYTHON%" scripts\collect_original_v1_workspace_sweep_evidence.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%" --visual-dir "%VIS_DIR%" --calibration-record "%CALIBRATION%"
+  ) else (
+    "%PYTHON%" scripts\collect_original_v1_workspace_sweep_evidence.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%" --visual-dir "%VIS_DIR%" --calibration-record "%CALIBRATION%" --contact-dir "%CONTACT_DIR%"
+  )
+  if errorlevel 1 exit /b 1
+) else (
+  echo SKIP: no sweep-only proof movements are required by this workspace.
+)
+
 set "REVIEW_OUT=ORIGINAL_V1_WORK\candidates\review\package_%REV%_%LABEL%"
 call RUN_ORIGINAL_V1_REVIEW_PACKAGE.bat %REV% "%REVIEW_OUT%"
 if errorlevel 1 exit /b 1
@@ -90,5 +144,6 @@ if errorlevel 1 exit /b 1
 
 echo.
 echo PASS: post-repair evidence has been run and collected.
+echo NOTE: required generic sweep motion/visual/contact evidence has been generated where applicable.
 echo NOTE: engineering statuses remain PENDING until evidence is reviewed and final records are populated.
 exit /b 0

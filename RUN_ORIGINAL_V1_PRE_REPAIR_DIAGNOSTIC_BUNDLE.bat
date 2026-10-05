@@ -107,21 +107,32 @@ if errorlevel 1 exit /b 1
 call RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat "%CANDIDATE%" "%LABEL%"
 if errorlevel 1 exit /b 1
 
-set "SHOULDER_ARG="
-if "%DIAG_RC%"=="0" set "SHOULDER_ARG=--shoulder "%SHOULDER%""
-
-"%PYTHON%" scripts\build_original_v1_pre_repair_diagnostic_bundle.py ^
-  --candidate "%CANDIDATE%" ^
-  --label "%LABEL%" ^
-  --packages "%PACKAGES%" ^
-  --selection "%SELECTION%" ^
-  --skinning "%SKIN%" ^
-  --pose-scope "%SCOPE%" ^
-  --pose-plan "%PLAN%" ^
-  %SHOULDER_ARG% ^
-  --reversibility "%REV%" ^
-  --continuity "%CONT%" ^
-  --out "%BUNDLE%"
+if "%DIAG_RC%"=="0" (
+  "%PYTHON%" scripts\build_original_v1_pre_repair_diagnostic_bundle.py ^
+    --candidate "%CANDIDATE%" ^
+    --label "%LABEL%" ^
+    --packages "%PACKAGES%" ^
+    --selection "%SELECTION%" ^
+    --skinning "%SKIN%" ^
+    --pose-scope "%SCOPE%" ^
+    --pose-plan "%PLAN%" ^
+    --shoulder "%SHOULDER%" ^
+    --reversibility "%REV%" ^
+    --continuity "%CONT%" ^
+    --out "%BUNDLE%"
+) else (
+  "%PYTHON%" scripts\build_original_v1_pre_repair_diagnostic_bundle.py ^
+    --candidate "%CANDIDATE%" ^
+    --label "%LABEL%" ^
+    --packages "%PACKAGES%" ^
+    --selection "%SELECTION%" ^
+    --skinning "%SKIN%" ^
+    --pose-scope "%SCOPE%" ^
+    --pose-plan "%PLAN%" ^
+    --reversibility "%REV%" ^
+    --continuity "%CONT%" ^
+    --out "%BUNDLE%"
+)
 if errorlevel 1 exit /b 1
 
 echo.

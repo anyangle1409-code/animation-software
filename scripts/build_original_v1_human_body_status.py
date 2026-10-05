@@ -22,6 +22,7 @@ PLAN = ROOT / "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json"
 COVERAGE = ROOT / "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json"
 ISSUES = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -31,7 +32,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human = map(read, (PLAN, COVERAGE, ISSUES, HUMAN))
+    plan, cov, ledger, human, sweeps = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -79,6 +80,8 @@ def build():
         "movement_coverage_counts": movement_counts,
         "human_evidence_entry_count": len(human_entries),
         "human_evidence_regions": refs_by_region,
+        "prepared_movement_sweep_count": len((sweeps.get("sweeps") or {})),
+        "prepared_movement_sweeps": list((sweeps.get("sweeps") or {}).keys()),
         "high_detail_anatomy_allowed": False,
         "why_not_high_detail": (
             "Critical/High whole-body issues remain open."
@@ -93,6 +96,7 @@ def build():
             "coverage": "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json",
             "issues": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
             "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
+            "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
         },
         "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
     }
@@ -121,6 +125,7 @@ def markdown(s):
         f"- Regions: {json.dumps(s['regional_coverage_counts'], sort_keys=True)}",
         f"- Movement families: {json.dumps(s['movement_coverage_counts'], sort_keys=True)}",
         f"- Human-evidence entries: **{s['human_evidence_entry_count']}**",
+        f"- Prepared deterministic movement sweeps: **{s['prepared_movement_sweep_count']}**",
         "",
         "## High-detail anatomy",
         "",

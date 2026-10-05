@@ -63,6 +63,10 @@ class HumanEvidenceTests(unittest.TestCase):
         manifest=self.valid_manifest(); manifest['entries'][0]['permissible_conclusions']=['invent_missing_muscle']
         self.assertIn('unsupported permissible conclusion', '\n'.join(evidence.validate_manifest(manifest)))
 
+    def test_extended_joint_kinematics_conclusion_is_allowed(self):
+        manifest=self.valid_manifest(); manifest['entries'][0]['permissible_conclusions']=['joint_kinematics','interjoint_coordination']
+        self.assertNotIn('unsupported permissible conclusion', '\n'.join(evidence.validate_manifest(manifest)))
+
     def test_movement_primitive_without_visual_source_is_rejected(self):
         manifest=self.valid_manifest()
         for row in manifest['entries']:

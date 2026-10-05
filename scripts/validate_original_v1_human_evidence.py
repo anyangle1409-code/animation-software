@@ -44,6 +44,10 @@ PERMITTED_CONCLUSIONS = {
     'contact_shift',
     # Tendon / soft-tissue mechanics observations
     'tendon_behavior',
+    'attachment_relationship',
+    'multi_joint_tissue_behavior',
+    'tendon_path_continuity',
+    'surface_load_transfer',
 }
 REVIEW_STATES = {'verified', 'needs_review', 'rejected'}
 REQUIRED_FIELDS = (

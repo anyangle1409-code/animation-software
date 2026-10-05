@@ -164,6 +164,37 @@
         "RUN_ORIGINAL_V1_HUMAN_BODY_READINESS_CHECK.bat"
       ],
       "note": "Static non-Blender gate verifies preferred pickup/post-edit command chain, current handoffs, Stage-1 blocking state and critical runner existence."
+    },
+    {
+      "id": "package_aware_sweep_pipeline",
+      "state": "READY_REQUIRES_BLENDER_EXECUTION_AND_REVIEW",
+      "evidence": [
+        "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat",
+        "scripts/build_original_v1_human_movement_sweep_pipeline_plan.py",
+        "scripts/test_build_original_v1_human_movement_sweep_pipeline_plan.py"
+      ],
+      "note": "Package IDs resolve exact sweep-only movements; first calibration may run all 11, while later candidates can reuse a validated calibrated runner and execute only candidate-specific sweep subsets."
+    },
+    {
+      "id": "controlled_sweep_finalization",
+      "state": "READY_NOT_RUN",
+      "evidence": [
+        "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat",
+        "scripts/finalize_original_v1_human_movement_sweep_runner_calibration.py",
+        "RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE.bat",
+        "scripts/finalize_original_v1_human_movement_sweep_acceptance.py"
+      ],
+      "note": "Controlled state transitions prevent hand-editing calibration/acceptance PASS fields; validators re-run before outputs are promoted."
+    },
+    {
+      "id": "preferred_laptop_quickstart",
+      "state": "READY",
+      "evidence": [
+        "docs/ORIGINAL_V1_STAGE1_LAPTOP_QUICKSTART.md",
+        "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+        "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat"
+      ],
+      "note": "Concise preferred operator entry path from safe branch pickup through post-edit continuation and unified comparison."
     }
   ],
   "non_blender_tasks_remaining": [],
@@ -171,14 +202,14 @@
     "preserve/commit any newer local Work changes before integrating tooling",
     "run the human-body contract/readiness gates in the actual integrated laptop checkout",
     "run exact-candidate pre-repair diagnostics and saved skinning-mode capture",
-    "execute and engineering-review the all-11 generic movement sweep calibration record",
-    "execute required pre-edit candidate sweeps and review human movement construction",
+    "execute and engineering-review the generic movement sweep runner calibration once for the unchanged runner/spec authority, or validate/reuse an existing calibrated record",
+    "execute required pre-edit candidate-specific sweeps and review human movement construction",
     "complete candidate-specific repair declarations including exact vertex zones and allowed bone groups",
     "run candidate/declaration-bound coupling-weight audits",
     "perform the actual Blender deformation repair on a new candidate",
     "finalize the workspace against the exact post-edit Blend SHA",
-    "execute final-candidate raw sweeps, visual captures and raw contact/load measurements",
-    "review motion continuity/reversibility, visual evidence and contact classifications",
+    "execute final-candidate required raw sweeps, visual captures and raw contact/load measurements",
+    "review motion continuity/reversibility, visual evidence and contact classifications; finalize required sweep acceptances",
     "complete weights-only/coupling/movement/regression/change/issue-closure evidence",
     "run unified candidate comparison and separate owner review"
   ],

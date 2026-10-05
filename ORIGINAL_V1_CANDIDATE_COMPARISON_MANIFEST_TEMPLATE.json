@@ -67,7 +67,8 @@
     "A scoped coupling system automatically brings every body region listed by that coupling system into comparison scope.",
     "A defect may be scoped for closure only when all coupling systems required by the defect-to-coupling map are included.",
     "Every sweep-only proof movement required by the scoped repair packages must have a candidate-bound human-movement sweep acceptance record with engineering PASS.",
-    "Raw generic sweep execution reports never satisfy candidate comparison by themselves; the calibrated sweep acceptance gate is mandatory."
+    "Raw generic sweep execution reports never satisfy candidate comparison by themselves; the calibrated sweep acceptance gate is mandatory.",
+    "Every proof movement required by the scoped repair packages must appear in validated candidate-bound movement-coupling evidence as at least one COMPLETE sample; supplying only a subset of movement families is invalid."
   ],
   "output": "candidate_comparison_report.json"
 }

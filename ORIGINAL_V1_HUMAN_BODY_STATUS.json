@@ -105,7 +105,8 @@
     "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
     "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
     "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
-    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+    "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -117,5 +118,17 @@
     "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
     "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
     "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope."
+  },
+  "surface_visual_evidence": {
+    "authority": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
+    "counts": {
+      "missing_surface_sequence": 9,
+      "partial": 3
+    },
+    "complete_region_count": 0,
+    "partial_region_count": 3,
+    "missing_surface_sequence_count": 9,
+    "status": "INCOMPLETE",
+    "rule": "Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit."
   }
 }

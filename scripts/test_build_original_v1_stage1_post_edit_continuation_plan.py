@@ -78,7 +78,8 @@ class PostEditContinuationPlanTests(unittest.TestCase):
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",commands)
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",commands)
             self.assertIn("RUN_ORIGINAL_V1_COLLECT_WORKSPACE_SWEEP_EVIDENCE.bat",commands)
-            self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_MOTION_REVIEW.bat",commands)
+            self.assertIn("RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat",commands)
+            self.assertNotIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_MOTION_REVIEW.bat",commands)
 
     def test_contact_bearing_sweep_adds_contact_capture(self):
         with tempfile.TemporaryDirectory() as td:

@@ -18,7 +18,7 @@ class HumanMovementSweepTests(unittest.TestCase):
     def test_live_plan_valid(self):
         self.assertTrue(mod.validate(self.plan,self.master,self.human))
 
-    def test_all_eight_formerly_missing_families_present(self):
+    def test_all_eleven_direct_sweep_families_present(self):
         self.assertEqual(set(self.plan["sweeps"]),mod.REQUIRED_SWEEPS)
 
     def test_return_motion_is_required(self):
@@ -26,6 +26,10 @@ class HumanMovementSweepTests(unittest.TestCase):
         bad["sweeps"]["trunk_flexion"]["samples"]=["neutral","25%","50%","75%","end","hold"]
         with self.assertRaisesRegex(ValueError,"return-motion"):
             mod.validate(bad,self.master,self.human)
+
+    def test_new_rotation_sweeps_require_return(self):
+        for name in ("shoulder_abduction_elevation","humeral_internal_external_rotation","forearm_pronation_supination"):
+            self.assertTrue(any("return" in str(x) for x in self.plan["sweeps"][name]["samples"]))
 
     def test_unknown_evidence_is_rejected(self):
         bad=copy.deepcopy(self.plan)

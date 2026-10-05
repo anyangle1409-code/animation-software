@@ -1,0 +1,591 @@
+{
+  "schema_version": 1,
+  "status": "STAGE1_HUMAN_FOUNDATION_PROGRESS",
+  "production_approved": false,
+  "master_stage": 1,
+  "execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+  "package_authority": "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
+  "candidate_revision": "r95",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "active_wave_id": "shoulder_yoke_foundation",
+  "waves": [
+    {
+      "wave": 0,
+      "id": "global_foundation",
+      "name": "Global deformation semantics and neutral control",
+      "state": "EVIDENCE_PARTIAL",
+      "depends_on": [],
+      "package_ids": [],
+      "package_statuses": [],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 1,
+      "id": "shoulder_yoke_foundation",
+      "name": "Connected shoulder/chest/back yoke",
+      "state": "ACTIVE",
+      "depends_on": [
+        "global_foundation"
+      ],
+      "package_ids": [
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-NECK-TRAP-001"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-PEC-AX-002",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-POSTAX-003",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-DELTOID-004",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-NECK-TRAP-001",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 2,
+      "id": "trunk_foundation",
+      "name": "Ribcage / abdomen / lumbar / pelvis cylinder",
+      "state": "BLOCKED",
+      "depends_on": [
+        "global_foundation"
+      ],
+      "package_ids": [
+        "RP-TRUNK-008"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-TRUNK-008",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 3,
+      "id": "upper_limb_distal",
+      "name": "Upper arm through hand",
+      "state": "BLOCKED",
+      "depends_on": [
+        "shoulder_yoke_foundation"
+      ],
+      "package_ids": [
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-ARM-005",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-WRIST-HAND-006",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-FINGER-007",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 4,
+      "id": "hip_pelvis_foundation",
+      "name": "Glute / groin / pelvis-to-femur foundations",
+      "state": "BLOCKED",
+      "depends_on": [
+        "trunk_foundation"
+      ],
+      "package_ids": [
+        "RP-GLUTE-009",
+        "RP-GROIN-010"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-GLUTE-009",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-GROIN-010",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 5,
+      "id": "thigh_knee_foundation",
+      "name": "Quadriceps / hamstrings / knee",
+      "state": "BLOCKED",
+      "depends_on": [
+        "hip_pelvis_foundation"
+      ],
+      "package_ids": [
+        "RP-QUAD-011",
+        "RP-HAM-012"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-QUAD-011",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-HAM-012",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 6,
+      "id": "calf_foot_foundation",
+      "name": "Calf / Achilles / ankle / foot / toes",
+      "state": "BLOCKED",
+      "depends_on": [
+        "thigh_knee_foundation"
+      ],
+      "package_ids": [
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-CALF-013",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-FOOT-014",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    },
+    {
+      "wave": 7,
+      "id": "whole_body_integration",
+      "name": "Whole-body cross-chain integration",
+      "state": "BLOCKED",
+      "depends_on": [
+        "shoulder_yoke_foundation",
+        "trunk_foundation",
+        "upper_limb_distal",
+        "hip_pelvis_foundation",
+        "thigh_knee_foundation",
+        "calf_foot_foundation"
+      ],
+      "package_ids": [
+        "RP-NECK-TRAP-001",
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007",
+        "RP-TRUNK-008",
+        "RP-GLUTE-009",
+        "RP-GROIN-010",
+        "RP-QUAD-011",
+        "RP-HAM-012",
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "package_statuses": [
+        {
+          "repair_package_id": "RP-NECK-TRAP-001",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-PEC-AX-002",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-POSTAX-003",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-DELTOID-004",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-ARM-005",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-WRIST-HAND-006",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-FINGER-007",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-TRUNK-008",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-GLUTE-009",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-GROIN-010",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-QUAD-011",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-HAM-012",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-CALF-013",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        },
+        {
+          "repair_package_id": "RP-FOOT-014",
+          "state": "NOT_RUN",
+          "pre_repair_bundle_refs": [],
+          "repair_declaration_refs": [],
+          "repair_execution_record_refs": [],
+          "weights_only_evidence_refs": [],
+          "coupling_evidence_refs": [],
+          "movement_evidence_refs": [],
+          "surface_visual_review_refs": [],
+          "regression_refs": [],
+          "comparison_report_refs": [],
+          "engineering_notes": []
+        }
+      ],
+      "exit_evidence_refs": [],
+      "blockers": [],
+      "engineering_disposition": "NOT_CLEAR",
+      "owner_review": "PENDING"
+    }
+  ],
+  "overall": {
+    "waves_total": 8,
+    "waves_clear": 0,
+    "packages_total": 14,
+    "packages_clear": 0,
+    "coupling_systems_clear": 0,
+    "weights_only_regions_clear": 0,
+    "movement_families_clear": 0,
+    "blocking_critical_high": 12,
+    "high_detail_anatomy_allowed": false,
+    "production_approved": false
+  },
+  "rules": [
+    "Only one earliest uncleared dependency wave may be ACTIVE unless an explicitly parallel-safe wave is declared by authority.",
+    "A wave cannot be CLEAR unless all of its repair packages are CLEAR and every listed exit requirement has candidate-bound evidence.",
+    "A package cannot be CLEAR without validated post-edit execution provenance, weights-only proof, coupling proof, required visual evidence and regression evidence.",
+    "Changing candidate identity reopens any evidence not explicitly proven transferable and candidate-bound.",
+    "Wave 7 whole-body integration is the only Stage 1 exit; high-detail anatomy remains blocked until it is CLEAR.",
+    "Owner review is recorded separately and engineering clearance never implies production approval."
+  ],
+  "note": "Progress ledger starts from current r95 recovery state. EVIDENCE_PARTIAL on wave 0 acknowledges existing rig/baseline evidence but is not a CLEAR."
+}

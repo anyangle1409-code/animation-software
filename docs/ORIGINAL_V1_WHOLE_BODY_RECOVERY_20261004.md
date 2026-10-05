@@ -161,7 +161,9 @@ The deformation-layer diagnostic, declaration controls and first r96 foundation 
 
 The failures are no longer consistent with insufficient mesh density or a simple broad weight-ownership error. The exact high-strain chain already has a smooth thorax-to-arm weight gradient; under extreme elevation, linear blend skinning turns that gradient into either stretched membrane or transported wing. More interpolated vertices inherit the incompatible endpoint motion, while more arm ownership amplifies the torso stretch.
 
-Do not add more support loops, broaden arm-follow weights or fit another compensating corrective without revisiting the deformation mechanism. The next plausible diagnostic is preserve-volume/dual-quaternion skinning, but that changes the Task 6 architecture from topology/weights-only and therefore remains unexecuted pending explicit design approval. Other alternatives are a narrowly scoped auxiliary deformation mechanism or a revised weights-only acceptance premise; both require the same architectural decision.
+Do not add more support loops or broaden arm-follow weights. Preserve-volume/dual-quaternion skinning was considered read-only and rejected as a delivery architecture: Blender's Preserve Volume option uses quaternion deformation, while the required glTF 2.0 runtime skinning path is explicitly a weighted linear sum of joint matrices and has no field for the Blender modifier setting. A Blender-only visual improvement would therefore not reproduce in the application.
+
+The viable path remains the already owner-authorized, generic elevation-driven morph-target architecture in `docs/ORIGINAL_V1_SHOULDER_CORRECTIVE_DESIGN.md`. glTF applies morph-target displacement before skinning, matching that design. Resume Task 7 from the topology-only r96 intermediate, but do not reuse r95's failed displacement field: declare a fresh mask and fit one residual behavior at a time with explicit inward-displacement, volume, fold and whole-body regression guards.
 
 ### Recoverable state
 
@@ -172,4 +174,4 @@ Do not add more support loops, broaden arm-follow weights or fit another compens
 - Correctives stayed disabled for every Task 6 numerical and visual screen.
 - Generated probes remain under ignored `work/r96/`; all decisions, declarations, comparison reports and authoring receipts needed to reproduce them are committed.
 
-Next laptop action: review and approve or reject a bounded preserve-volume skinning diagnostic. Until that decision, keep r96 fail-closed and do not promote any generated probe.
+Next laptop action: begin the already-approved Task 7 residual-corrective declaration from the topology-only r96 intermediate. Keep r96 fail-closed and promote nothing until the complete numerical and visual gates pass.

@@ -9,6 +9,11 @@ on:
       - "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md"
       - "scripts/*movement_sweep_execution*"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
+      - "scripts/*sweep_runner_source*"
+      - "scripts/*sweep_acceptance*"
+      - "scripts/*sweep_runner_calibration*"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
@@ -67,6 +72,11 @@ on:
       - "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md"
       - "scripts/*movement_sweep_execution*"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
+      - "scripts/*sweep_runner_source*"
+      - "scripts/*sweep_acceptance*"
+      - "scripts/*sweep_runner_calibration*"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
@@ -140,6 +150,12 @@ jobs:
         run: python scripts/validate_original_v1_human_movement_sweep_execution.py --require-bound
       - name: Validate human movement sweep execution spec
         run: python scripts/validate_original_v1_human_movement_sweep_execution_spec.py
+      - name: Validate generic sweep runner source contract
+        run: python scripts/validate_original_v1_human_movement_sweep_runner_source.py
+      - name: Validate sweep runner calibration template
+        run: python scripts/validate_original_v1_human_movement_sweep_runner_calibration.py
+      - name: Validate sweep acceptance template
+        run: python scripts/validate_original_v1_human_movement_sweep_acceptance_template.py
       - name: Validate anatomical coupling map
         run: python scripts/validate_original_v1_anatomical_coupling.py
       - name: Validate first-party deformation architecture
@@ -236,3 +252,12 @@ jobs:
 
       - name: Run human movement sweep report contract tests
         run: python scripts/test_validate_original_v1_human_movement_sweep_report.py
+
+      - name: Run generic sweep runner source tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_runner_source.py
+
+      - name: Run generic sweep runner calibration tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_runner_calibration.py
+
+      - name: Run generic sweep acceptance tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_acceptance.py

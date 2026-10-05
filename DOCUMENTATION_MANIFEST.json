@@ -47,6 +47,11 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_coupling_zone_declaration.py",
       "note": "Fresh candidate-specific declaration template for auditable shared-tissue weight ownership zones before any edit."
+    },
+    "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_surface_visual_evidence_requirements.py",
+      "note": "Separates real-human exterior surface photo/video coverage from biomechanics/anatomy evidence; tracks missing/partial visual motion sequences for every mandatory body region."
     }
   },
   "categories": {

@@ -287,6 +287,11 @@
       "category": "workflow",
       "builder": "scripts/collect_original_v1_workspace_sweep_evidence.py",
       "note": "Fail-closed collection of validated raw sweep/calibration/visual/contact evidence into a finalized candidate workspace while leaving all review states PENDING."
+    },
+    "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_non_blender_prep_status.py",
+      "note": "Explicit boundary between completed non-Blender source/tooling preparation and outstanding Blender/candidate-bound anatomy evidence; READY never implies body acceptance."
     }
   },
   "categories": {

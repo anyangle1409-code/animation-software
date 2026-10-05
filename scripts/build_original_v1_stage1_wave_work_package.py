@@ -35,7 +35,7 @@ def build(wave_id):
       "repair_package_ids":package_ids,
       "required_integrated_movements":wave.get("required_integrated_movements",[]) or [],
       "exit_requirements":wave.get("exit",[]) or [],
-      "editing_allowed":deps_clear and wave_id!="whole_body_integration",
+      "editing_allowed":bool(package_ids) and deps_clear and wave_id!="whole_body_integration",
       "diagnostic_capture_allowed":True,
       "owner_review":"PENDING"
     }

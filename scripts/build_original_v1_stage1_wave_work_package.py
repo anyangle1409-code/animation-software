@@ -83,19 +83,27 @@ def build(wave_id):
       "proof_movement_families":validation["proof_movement_families"],
       "deterministic_sweeps":validation["deterministic_sweep_names"],
       "sweep_only_movements_requiring_generic_runner":validation["sweep_only_movements_requiring_generic_runner"],
+      "sweep_only_movements_runner_bound":validation["sweep_only_movements_runner_bound"],
+      "sweep_only_movements_runner_unbound":validation["sweep_only_movements_runner_unbound"],
+      "sweep_movements_requiring_candidate_execution":validation["sweep_movements_requiring_candidate_execution"],
+      "generic_sweep_runner_calibration_state":validation["generic_sweep_runner_calibration_state"],
       "validation_definition_complete":validation["validation_definition_complete"],
+      "validation_execution_path_complete":validation["validation_execution_path_complete"],
+      "candidate_sweep_execution_complete":validation["candidate_sweep_execution_complete"],
       "fully_runnable_via_frozen_pose_harness":validation["fully_runnable_via_frozen_pose_harness"]
     }
     out["human_evidence_brief"]=evidence
     out["regression_plan"]=regression
     out["commands"]=[
       f"RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> {','.join(package_ids)}",
+      (f"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-sweep-label> \"{','.join(validation['sweep_only_movements_requiring_generic_runner'])}\"" if validation["sweep_only_movements_requiring_generic_runner"] else "No separate sweep-only movements required for this package set."),
       f"RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat {','.join(package_ids)} <new-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
       "Complete and validate every generated repair_declaration_*.json before any edit.",
       "Run RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat for every generated declaration.",
       "Make only the smallest declared earliest-layer repair and save a NEW candidate.",
       "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-candidate.blend>",
       "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <revision> <prior-revision-or-dash> <workspace-dir> <fresh-label>",
+      (f"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-sweep-label> \"{','.join(validation['sweep_only_movements_requiring_generic_runner'])}\"" if validation["sweep_only_movements_requiring_generic_runner"] else "No separate sweep-only movements required for this package set."),
       "Complete weights-only/coupling/movement/surface/execution/regression/contact/change evidence against the exact final SHA.",
       "RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat <workspace-dir>\\candidate_comparison_manifest_post_repair.json <fresh-comparison-report.json>",
       "Do not advance the wave until every exit requirement has committed candidate-bound evidence."
@@ -106,11 +114,23 @@ def build(wave_id):
           "type":"DEPENDENCY_WAVES_NOT_CLEAR",
           "waves":[k for k,v in dep_states.items() if v!="CLEAR"]
         })
-    if validation["sweep_only_movements_requiring_generic_runner"]:
+    if validation["sweep_only_movements_runner_unbound"]:
         out["blocking_preconditions"].append({
-          "type":"GENERIC_SWEEP_RUNNER_REQUIRED_FOR_FULL_MOVEMENT_PROOF",
+          "type":"GENERIC_SWEEP_RUNNER_UNBOUND",
+          "movements":validation["sweep_only_movements_runner_unbound"],
+          "note":"A deterministic sweep definition exists but no bound Blender adapter exists. Package clearance is impossible until the adapter is bound."
+        })
+    if validation["sweep_only_movements_requiring_generic_runner"] and validation["generic_sweep_runner_calibration_state"]!="CALIBRATED":
+        out["blocking_preconditions"].append({
+          "type":"GENERIC_SWEEP_RUNNER_CALIBRATION_REQUIRED",
           "movements":validation["sweep_only_movements_requiring_generic_runner"],
-          "note":"Sweep definitions are complete, but these motions are not represented by the frozen P3a pose harness and require separate Blender sweep execution before package clearance."
+          "note":"The generic runner is bound, but remains PREPARED_UNCALIBRATED. Blender calibration/review is required before sweep evidence can support package clearance."
+        })
+    if validation["sweep_movements_requiring_candidate_execution"]:
+        out["blocking_preconditions"].append({
+          "type":"GENERIC_SWEEP_CANDIDATE_EXECUTION_REQUIRED",
+          "movements":validation["sweep_movements_requiring_candidate_execution"],
+          "note":"Runner binding does not count as evidence. These sweeps must run against the exact candidate and produce reviewed candidate-bound evidence."
         })
     out["interpretation"]="This package is execution planning only. It never marks a repair package, wave, owner review or production state clear."
     return out
@@ -135,7 +155,9 @@ def markdown(d):
     lines.append("- Frozen poses: "+", ".join(v.get("pose_names",[])))
     lines.append("- Deterministic sweeps: "+(", ".join(v.get("deterministic_sweeps",[])) or "none"))
     gap=v.get("sweep_only_movements_requiring_generic_runner",[])
-    lines.append("- Sweep-only movements needing the separate Blender sweep runner: "+(", ".join(gap) or "none"))
+    lines.append("- Sweep-only movements using the separate Blender sweep runner: "+(", ".join(gap) or "none"))
+    lines.append("- Generic sweep runner calibration state: "+str(v.get("generic_sweep_runner_calibration_state","n/a")))
+    lines.append("- Sweep movements still needing candidate execution: "+(", ".join(v.get("sweep_movements_requiring_candidate_execution",[])) or "none"))
     if d.get("blocking_preconditions"):
         lines += ["","## Blocking preconditions",""]
         for row in d["blocking_preconditions"]:

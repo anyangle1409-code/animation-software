@@ -15,7 +15,12 @@ class Stage1WaveWorkPackageTests(unittest.TestCase):
         self.assertFalse(out["editing_allowed"])
         kinds={x["type"] for x in out["blocking_preconditions"]}
         self.assertIn("DEPENDENCY_WAVES_NOT_CLEAR",kinds)
-        self.assertIn("GENERIC_SWEEP_RUNNER_REQUIRED_FOR_FULL_MOVEMENT_PROOF",kinds)
+        self.assertNotIn("GENERIC_SWEEP_RUNNER_UNBOUND",kinds)
+        self.assertIn("GENERIC_SWEEP_RUNNER_CALIBRATION_REQUIRED",kinds)
+        self.assertIn("GENERIC_SWEEP_CANDIDATE_EXECUTION_REQUIRED",kinds)
+        self.assertEqual(out["validation"]["generic_sweep_runner_calibration_state"],"PREPARED_UNCALIBRATED")
+        self.assertTrue(out["validation"]["validation_execution_path_complete"])
+        self.assertFalse(out["validation"]["candidate_sweep_execution_complete"])
 
     def test_shoulder_closure_scope_does_not_claim_global_all_body_qa_defect(self):
         out=mod.build("shoulder_yoke_foundation")
@@ -27,7 +32,16 @@ class Stage1WaveWorkPackageTests(unittest.TestCase):
         self.assertEqual(out["repair_package_ids"],["RP-TRUNK-008"])
         self.assertEqual(out["validation"]["pose_names"],["neutral"])
         self.assertTrue({"trunk_flexion","trunk_extension","trunk_lateral_bend","trunk_axial_rotation","loaded_hip_hinge"}.issubset(set(out["validation"]["sweep_only_movements_requiring_generic_runner"])))
+        self.assertEqual(out["validation"]["sweep_only_movements_runner_unbound"],[])
+        self.assertFalse(out["validation"]["candidate_sweep_execution_complete"])
         self.assertFalse(out["editing_allowed"])
+
+    def test_work_package_includes_generic_sweep_commands(self):
+        out=mod.build("shoulder_yoke_foundation")
+        joined="\n".join(out["commands"])
+        self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",joined)
+        self.assertIn("shoulder_abduction_elevation",joined)
+        self.assertIn("humeral_internal_external_rotation",joined)
 
     def test_global_foundation_is_diagnostic_only(self):
         out=mod.build("global_foundation")

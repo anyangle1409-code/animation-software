@@ -57,6 +57,11 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_pose_coupling_scope.py",
       "note": "Candidate-bound read-only pose evidence mapping every materially moved rig joint/bone family to all connected anatomical coupling systems that must be reviewed."
+    },
+    "ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.json": {
+      "category": "authority",
+      "validator": "scripts/validate_original_v1_first_party_deformation_architecture.py",
+      "note": "Authoritative generic deformation stack: canonical kinematics, evidence-selected base skinning, multi-anchor coupling, joint-state pose-space correction, contact response, optional secondary dynamics. Exercise identity is forbidden as a deformation driver."
     }
   },
   "categories": {
@@ -338,6 +343,10 @@
     "docs/work_packages/WHOLE_BODY_HUMAN_DEFORMATION_PICKUP_20261005.md": {
       "category": "current_technical",
       "note": "Laptop pickup package for integrating the GPT whole-body/coupling audit work without overwriting newer Blender recovery work; exact shoulder foundation restart sequence."
+    },
+    "docs/ORIGINAL_V1_FIRST_PARTY_DEFORMATION_ARCHITECTURE.md": {
+      "category": "authority",
+      "note": "Human-readable first-party deformation architecture; prevents exercise-specific patching and requires Blender/runtime deformation parity."
     }
   }
 }

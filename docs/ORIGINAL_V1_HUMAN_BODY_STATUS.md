@@ -7,7 +7,7 @@
 
 ## Blocking state
 
-- Critical/High blockers: **11**
+- Critical/High blockers: **12**
 - WB-AX-001
 - WB-PEC-002
 - WB-PEC-003
@@ -19,15 +19,25 @@
 - WB-GRP-009
 - WB-WRI-010
 - WB-QA-011
+- WB-QA-012
 
 ## Coverage
 
 - Regions with evidence scaffolding: **12 / 12**
 - Movement families with evidence scaffolding: **27 / 27**
-- Human-evidence entries: **23**
-- Newly prepared deterministic movement sweeps: **8**
+- Human-evidence entries: **29**
+- Prepared deterministic movement sweeps: **8**
 
 > Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.
+
+## Anatomical coupling / shared tissue
+
+- Coupling systems defined: **14**
+- Candidate-proven CLEAR: **0**
+- Status: **BLOCKED — NOT YET CANDIDATE-PROVEN**
+- Blocking issue: `WB-QA-012`
+
+Every muscle/soft-tissue system that spans multiple anatomical anchors must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion. A joint may not drag connected skin/muscle wholesale simply because it passes aggregate deformation metrics.
 
 ## High-detail anatomy
 

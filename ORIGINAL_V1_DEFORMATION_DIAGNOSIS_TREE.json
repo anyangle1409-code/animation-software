@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_DEFORMATION_DIAGNOSIS_TREE",
+  "production_approved": false,
+  "purpose": "Identify the first failing deformation layer before editing. Repairs occur at the earliest proven failure boundary; downstream layers may not mask upstream faults.",
+  "inputs_required": [
+    "exact_candidate_sha256",
+    "reproducible_pose_or_motion",
+    "linked_defect_id",
+    "before_visual_evidence",
+    "baseline_regression_identity"
+  ],
+  "nodes": [
+    {
+      "id": "D0_SOURCE",
+      "question": "Is the defect reproduced on the exact candidate and production evaluation path?",
+      "evidence": [
+        "candidate_sha256",
+        "pose_definition_hash",
+        "render_or_evaluated_surface_manifest"
+      ],
+      "if_no": {
+        "action": "STOP_REPRODUCE_EXACT_SOURCE",
+        "allowed_repairs": []
+      },
+      "if_yes": {
+        "next": "D1_KINEMATICS"
+      }
+    },
+    {
+      "id": "D1_KINEMATICS",
+      "question": "Are the canonical bone transforms/joint relationships anatomically plausible for this movement?",
+      "evidence": [
+        "joint_kinematics_report",
+        "bone_transform_trace",
+        "real_human_kinematic_evidence"
+      ],
+      "if_no": {
+        "action": "REOPEN_KINEMATICS_OR_BONE_SUFFICIENCY",
+        "allowed_repairs": [
+          "canonical_joint_rule",
+          "bone_sufficiency_reopen",
+          "driver_input_correction"
+        ],
+        "forbidden": [
+          "weight_smear",
+          "corrective_shape_to_hide_bad_bone_pose"
+        ]
+      },
+      "if_yes": {
+        "next": "D2_SKINNING_MODE"
+      }
+    },
+    {
+      "id": "D2_SKINNING_MODE",
+      "question": "Could the saved base skinning method itself materially create the defect independent of weight ownership?",
+      "evidence": [
+        "saved_skinning_mode_audit",
+        "controlled_LBS_vs_preserve_volume_A_B_if_warranted"
+      ],
+      "decision_rule": "Only run global A/B when the artifact class plausibly depends on the skinning formulation; keep mesh, rig, weights, pose and correctives controlled.",
+      "if_no": {
+        "next": "D3_WEIGHTS_ONLY"
+      },
+      "if_yes": {
+        "action": "SELECT_BASE_SKINNING_BY_WHOLE_BODY_EVIDENCE",
+        "allowed_repairs": [
+          "base_skinning_mode_or_first_party_equivalent"
+        ],
+        "forbidden": [
+          "global_mode_switch_based_on_one_pose"
+        ],
+        "then": "D3_WEIGHTS_ONLY"
+      }
+    },
+    {
+      "id": "D3_WEIGHTS_ONLY",
+      "question": "With correctives disabled, do all shared-tissue attachment sides remain rooted and deform plausibly through intermediate and return motion?",
+      "evidence": [
+        "coupling_zone_weight_audit",
+        "weights_only_motion_sweep",
+        "anatomical_coupling_capture",
+        "joint_tissue_trigger_scope"
+      ],
+      "if_no": {
+        "action": "REPAIR_MULTI_ANCHOR_WEIGHT_OWNERSHIP",
+        "allowed_repairs": [
+          "local_weight_redistribution_with_declared_zone",
+          "twist_distribution_if_evidence_backed"
+        ],
+        "forbidden": [
+          "corrective_shape",
+          "exercise_specific_patch",
+          "undeclared_weight_edit"
+        ],
+        "retest": "D3_WEIGHTS_ONLY"
+      },
+      "if_yes": {
+        "next": "D4_TOPOLOGY"
+      }
+    },
+    {
+      "id": "D4_TOPOLOGY",
+      "question": "Can the existing mesh topology support the required compression, sliding, fold and silhouette without geometric collapse?",
+      "evidence": [
+        "weights_only_surface_views",
+        "edge_face_quality",
+        "fold_path_review",
+        "vertex_correspondence"
+      ],
+      "if_no": {
+        "action": "DECLARE_LOCAL_TOPOLOGY_REOPEN",
+        "allowed_repairs": [
+          "local_edge_flow_support",
+          "local_topology_change_with_correspondence"
+        ],
+        "forbidden": [
+          "global_remesh",
+          "topology_change_without_revalidation"
+        ],
+        "retest": "D3_WEIGHTS_ONLY"
+      },
+      "if_yes": {
+        "next": "D5_CORRECTIVES"
+      }
+    },
+    {
+      "id": "D5_CORRECTIVES",
+      "question": "After a plausible base surface exists, is there a residual anatomy error that requires pose-space correction?",
+      "evidence": [
+        "weights_only_vs_final_layer_decomposition",
+        "dense_motion_continuity",
+        "real_human_surface_evidence"
+      ],
+      "if_no": {
+        "action": "NO_CORRECTIVE_REQUIRED",
+        "then": "D6_CONTACT"
+      },
+      "if_yes": {
+        "action": "FIT_GENERIC_JOINT_STATE_CORRECTIVE",
+        "allowed_repairs": [
+          "coupling_system_owned_pose_space_corrective"
+        ],
+        "forbidden": [
+          "exercise_name_driver",
+          "endpoint_only_key",
+          "corrective_that_reintroduces_attachment_failure"
+        ],
+        "retest": "D5_CORRECTIVES",
+        "then": "D6_CONTACT"
+      }
+    },
+    {
+      "id": "D6_CONTACT",
+      "question": "Does external contact/load propagate coherently through the connected chain without penetration, floating or local collapse?",
+      "evidence": [
+        "floor_or_equipment_contact_report",
+        "load_path_visual_review",
+        "joint_tissue_trigger_scope"
+      ],
+      "if_no": {
+        "action": "REPAIR_CONTACT_OR_LOCAL_LOAD_RESPONSE",
+        "allowed_repairs": [
+          "contact_constraint",
+          "first_party_local_contact_response"
+        ],
+        "forbidden": [
+          "move_skeletal_anchor_to_hide_contact",
+          "penetration_as_grip"
+        ],
+        "retest": "D6_CONTACT"
+      },
+      "if_yes": {
+        "next": "D7_CONTINUITY"
+      }
+    },
+    {
+      "id": "D7_CONTINUITY",
+      "question": "Is the surface continuous through dense intermediate frames and reversible on return?",
+      "evidence": [
+        "motion_continuity_report",
+        "motion_reversibility_report",
+        "intermediate_and_return_renders"
+      ],
+      "if_no": {
+        "action": "TRACE_FAILURE_BACK_TO_FIRST_RESPONSIBLE_LAYER",
+        "next": "D1_KINEMATICS"
+      },
+      "if_yes": {
+        "next": "D8_REGRESSION"
+      }
+    },
+    {
+      "id": "D8_REGRESSION",
+      "question": "Does the repair preserve unrelated regions, symmetry, contacts, existing numerical gates and connected tissue systems?",
+      "evidence": [
+        "whole_body_candidate_comparison",
+        "bilateral_comparison",
+        "existing_pose_regression",
+        "defect_to_coupling_map"
+      ],
+      "if_no": {
+        "action": "REJECT_OR_NARROW_REPAIR_SCOPE",
+        "allowed_repairs": [
+          "smaller_declared_scope",
+          "earlier_layer_repair"
+        ],
+        "forbidden": [
+          "accept_tradeoff_without_disposition"
+        ]
+      },
+      "if_yes": {
+        "next": "D9_HUMAN_VISUAL"
+      }
+    },
+    {
+      "id": "D9_HUMAN_VISUAL",
+      "question": "Does the exact candidate look human through the required motion when compared with permissible real-human surface observations?",
+      "evidence": [
+        "surface_visual_evidence_requirements",
+        "candidate_render_board",
+        "human_evidence_manifest"
+      ],
+      "if_no": {
+        "action": "OPEN_OR_KEEP_DEFECT_AND_RETURN_TO_FIRST_FAILING_LAYER",
+        "next": "D1_KINEMATICS"
+      },
+      "if_yes": {
+        "action": "ENGINEERING_CLEAR_ELIGIBLE_NOT_OWNER_ACCEPTED"
+      }
+    }
+  ],
+  "global_rule": "The repair target is the earliest failing node supported by evidence. Later nodes are not permitted to compensate for an upstream failure.",
+  "output_required": [
+    "first_failing_node",
+    "evidence_refs",
+    "declared_repair_layer",
+    "allowed_scope",
+    "retest_sequence",
+    "remaining_uncertainty"
+  ]
+}

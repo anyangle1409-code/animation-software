@@ -229,6 +229,26 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_human_movement_sweep_acceptance.py",
       "note": "Final-candidate sweep acceptance gate combining calibrated runner, raw sweep, motion review, required visual captures, contact/load evidence and human-reference review."
+    },
+    "stage1_laptop_pickup_plan": {
+      "category": "workflow",
+      "builder": "scripts/build_original_v1_stage1_laptop_pickup_plan.py",
+      "runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+      "note": "Generates exact pre-edit laptop command order, candidate hash, active wave/packages, pose/sweep requirements and stops at the first declared model-edit boundary."
+    },
+    "stage1_post_edit_continuation_plan": {
+      "category": "workflow",
+      "builder": "scripts/build_original_v1_stage1_post_edit_continuation_plan.py",
+      "runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat",
+      "note": "Immediately after saving a repaired candidate, generates exact finalization, post-repair validation, required sweep/visual/contact/motion-review, evidence collection and unified comparison commands. Planning only; never infers PASS."
+    },
+    "human_movement_sweep_runner_calibration": {
+      "category": "verification",
+      "template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+      "builder": "scripts/build_original_v1_human_movement_sweep_runner_calibration.py",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_runner_calibration.py",
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat",
+      "note": "Evidence-bound calibration of all 11 generic sweep adapters. Runner binding alone is insufficient; calibration remains separate from body-candidate acceptance."
     }
   },
   "categories": {

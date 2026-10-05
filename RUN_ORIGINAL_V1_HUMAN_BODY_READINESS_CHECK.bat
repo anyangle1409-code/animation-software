@@ -28,6 +28,20 @@ call :run scripts\validate_original_v1_human_evidence.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_human_movement_sweeps.py
 if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_execution.py --require-bound
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_execution_spec.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_camera_plan.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_runner_source.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_visual_renderer_source.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_runner_calibration.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_human_movement_sweep_acceptance_template.py
+if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_joint_tissue_triggers.py
@@ -51,6 +65,8 @@ if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_candidate_comparison_template.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_stage1_repair_execution_graph.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_stage1_progress.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_deformation_failure_signatures.py
 if errorlevel 1 exit /b 1

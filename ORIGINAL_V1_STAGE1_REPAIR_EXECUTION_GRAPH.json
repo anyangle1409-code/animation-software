@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_STAGE1_REPAIR_EXECUTION_GRAPH",
+  "production_approved": false,
+  "purpose": "Sequence whole-body foundation repairs so downstream tissue chains are not tuned before their upstream anchors and deformation semantics are stable.",
+  "global_preconditions": [
+    "exact candidate and comparator hashes recorded",
+    "non-Blender human-body readiness gates pass",
+    "saved skinning mode captured",
+    "pose-to-connected-tissue scope captured",
+    "deformation diagnosis identifies earliest failing layer",
+    "fresh candidate-specific repair declaration exists before edits"
+  ],
+  "waves": [
+    {
+      "wave": 0,
+      "id": "global_foundation",
+      "name": "Global deformation semantics and neutral control",
+      "package_ids": [],
+      "requirements": [
+        "canonical rig/pose definitions frozen unless explicitly reopened",
+        "base-skinning semantics evidence captured",
+        "neutral symmetry and rest surface recorded"
+      ],
+      "exit": [
+        "no unresolved global rig identity mismatch",
+        "no silent base-skinning-mode change",
+        "diagnostic tooling bound to exact candidate"
+      ]
+    },
+    {
+      "wave": 1,
+      "id": "shoulder_yoke_foundation",
+      "name": "Connected shoulder/chest/back yoke",
+      "package_ids": [
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-NECK-TRAP-001"
+      ],
+      "mode": "solve_as_connected_cluster",
+      "depends_on": [
+        "global_foundation"
+      ],
+      "rationale": "Pec, posterior axilla, deltoid and neck/trapezius share clavicle/scapula/humerus/trunk support. Independent cosmetic fixes can trade one defect for another.",
+      "required_integrated_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "exit": [
+        "all four package weights-only criteria clear",
+        "0/45/90/120/150/170 and return shoulder sweep clear where applicable",
+        "no open Critical/High shoulder-yoke defect",
+        "bilateral symmetry regression clear"
+      ]
+    },
+    {
+      "wave": 2,
+      "id": "trunk_foundation",
+      "name": "Ribcage / abdomen / lumbar / pelvis cylinder",
+      "package_ids": [
+        "RP-TRUNK-008"
+      ],
+      "depends_on": [
+        "global_foundation"
+      ],
+      "required_integrated_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "loaded_hip_hinge"
+      ],
+      "exit": [
+        "weights-only trunk region clear",
+        "return reversibility clear",
+        "no waist hinge/swivel/membrane failure"
+      ]
+    },
+    {
+      "wave": 3,
+      "id": "upper_limb_distal",
+      "name": "Upper arm through hand",
+      "package_ids": [
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007"
+      ],
+      "depends_on": [
+        "shoulder_yoke_foundation"
+      ],
+      "internal_dependencies": {
+        "RP-ARM-005": [],
+        "RP-WRIST-HAND-006": [
+          "RP-ARM-005"
+        ],
+        "RP-FINGER-007": [
+          "RP-WRIST-HAND-006"
+        ]
+      },
+      "required_integrated_movements": [
+        "elbow_flexion_extension",
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "exit": [
+        "upperarm/elbow clear before wrist/hand finalization",
+        "wrist/hand load path clear before finger finalization",
+        "grip/release and loaded wrist contact regressions clear"
+      ]
+    },
+    {
+      "wave": 4,
+      "id": "hip_pelvis_foundation",
+      "name": "Glute / groin / pelvis-to-femur foundations",
+      "package_ids": [
+        "RP-GLUTE-009",
+        "RP-GROIN-010"
+      ],
+      "depends_on": [
+        "trunk_foundation"
+      ],
+      "mode": "solve_as_pelvis_femur_cluster",
+      "required_integrated_movements": [
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "exit": [
+        "glute and groin weights-only criteria clear",
+        "pelvis-femur bridge remains continuous through deep flexion",
+        "no tunnel/shelf/shear seam"
+      ]
+    },
+    {
+      "wave": 5,
+      "id": "thigh_knee_foundation",
+      "name": "Quadriceps / hamstrings / knee",
+      "package_ids": [
+        "RP-QUAD-011",
+        "RP-HAM-012"
+      ],
+      "depends_on": [
+        "hip_pelvis_foundation"
+      ],
+      "mode": "solve_as_anterior_posterior_knee_cluster",
+      "required_integrated_movements": [
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "exit": [
+        "quad/patella and hamstring/popliteal chains clear",
+        "combined hip+knee state tested",
+        "deep-flexion regression clear"
+      ]
+    },
+    {
+      "wave": 6,
+      "id": "calf_foot_foundation",
+      "name": "Calf / Achilles / ankle / foot / toes",
+      "package_ids": [
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "depends_on": [
+        "thigh_knee_foundation"
+      ],
+      "internal_dependencies": {
+        "RP-CALF-013": [],
+        "RP-FOOT-014": [
+          "RP-CALF-013"
+        ]
+      },
+      "required_integrated_movements": [
+        "knee_flexion_extension",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "horizontal_push"
+      ],
+      "exit": [
+        "knee-state effect on calf clear",
+        "Achilles path clear",
+        "loaded arch/heel/forefoot/toe chain clear",
+        "heel-rise and return clear"
+      ]
+    },
+    {
+      "wave": 7,
+      "id": "whole_body_integration",
+      "name": "Whole-body cross-chain integration",
+      "package_ids": [
+        "RP-NECK-TRAP-001",
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007",
+        "RP-TRUNK-008",
+        "RP-GLUTE-009",
+        "RP-GROIN-010",
+        "RP-QUAD-011",
+        "RP-HAM-012",
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "depends_on": [
+        "shoulder_yoke_foundation",
+        "trunk_foundation",
+        "upper_limb_distal",
+        "hip_pelvis_foundation",
+        "thigh_knee_foundation",
+        "calf_foot_foundation"
+      ],
+      "required_integrated_movements": [
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "trunk_axial_rotation",
+        "grip_release",
+        "ankle_plantarflexion"
+      ],
+      "exit": [
+        "14/14 coupling systems candidate-proven clear",
+        "12/12 weights-only body regions clear",
+        "27/27 movement-family proof complete or explicit justified N/A",
+        "no open Critical/High whole-body defect",
+        "candidate comparison engineering-clear eligible",
+        "owner review remains separate"
+      ]
+    }
+  ],
+  "invalid_sequences": [
+    "finalize wrist/hand before upper-arm/elbow foundation is clear",
+    "finalize fingers before wrist/hand load path is clear",
+    "finalize glute/groin before trunk/pelvic cylinder foundation is clear",
+    "finalize knee before pelvis-to-femur foundation is clear",
+    "finalize foot before calf/Achilles chain is clear",
+    "enter high-detail anatomy before whole_body_integration exit"
+  ],
+  "current_position": {
+    "wave": 1,
+    "id": "shoulder_yoke_foundation",
+    "reason": "Existing r95 Critical/High defects are concentrated in connected shoulder/chest/axilla/yoke systems."
+  }
+}

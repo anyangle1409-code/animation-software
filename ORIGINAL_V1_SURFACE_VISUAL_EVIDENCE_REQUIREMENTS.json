@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "status": "SURFACE_VISUAL_EVIDENCE_REQUIREMENTS_ACTIVE",
+  "production_approved": false,
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "rule": "Biomechanics, anatomy and numerical deformation evidence do not prove exterior human appearance. Every body region must also have real-human visual surface evidence through the relevant motion states before whole-body visual validation can close.",
+  "source_rules": [
+    "Prefer real-human video or sequential photography that exposes the relevant surface landmarks.",
+    "Use multiple subjects/body builds where practical; one person's fold depth or muscle contour is not universal.",
+    "Use multiple camera angles when the anatomical transition cannot be established from one view.",
+    "Clothing, sensors or straps may limit a source to gross silhouette/motion conclusions; record that uncertainty.",
+    "External visuals are observation-only development evidence and never production content, copied geometry, texture or identity."
+  ],
+  "required_states": [
+    "neutral",
+    "lengthened_or_elevated",
+    "compressed_or_loaded",
+    "intermediate_transition",
+    "return_transition"
+  ],
+  "required_view_principles": [
+    "whole_body_context",
+    "regional_close_view",
+    "at_least_two_useful_angles_for_3d_transition"
+  ],
+  "regions": [
+    {
+      "id": "head_neck_trapezius",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "neck flexion/extension surface",
+        "lateral bend/rotation surface",
+        "neck-to-trapezius transition under shoulder motion"
+      ]
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-VIS-003"
+      ],
+      "needs": [
+        "more than one visible subject/body build",
+        "full elevation return sequence",
+        "loaded push/pull context"
+      ]
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "needs": [
+        "multi-subject anterior axillary fold through elevation",
+        "horizontal push/pull surface",
+        "return sequence"
+      ]
+    },
+    {
+      "id": "back_posterior_axilla",
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-002"
+      ],
+      "needs": [
+        "multi-subject posterior fold/lat-teres transition",
+        "scapular back drape in pull/push",
+        "return sequence"
+      ]
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "flexion/extension skin folds",
+        "lateral bend compressed/lengthened sides",
+        "axial rotation oblique/lumbar surface",
+        "loaded hinge"
+      ]
+    },
+    {
+      "id": "upperarm_elbow",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "elbow flexion/extension biceps-triceps surface",
+        "antecubital and posterior elbow folds",
+        "loaded push/pull"
+      ]
+    },
+    {
+      "id": "forearm_wrist",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "pronation/supination surface",
+        "loaded wrist extension",
+        "grip-to-forearm load path"
+      ]
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "cylindrical grip close surface",
+        "thumb opposition",
+        "grip release sequence",
+        "loaded palm/wrist contact"
+      ]
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "hip flexion/extension glute transition",
+        "deep squat/lunge groin surface",
+        "hip abduction/adduction",
+        "loaded hinge"
+      ]
+    },
+    {
+      "id": "thigh_knee",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "quadriceps/patella through deep knee flexion",
+        "posterior knee/hamstring surface",
+        "squat and lunge return"
+      ]
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "dorsiflexion calf/Achilles surface",
+        "plantarflexion/heel raise",
+        "knee-state effect on gastrocnemius",
+        "return sequence"
+      ]
+    },
+    {
+      "id": "foot_toes",
+      "state": "missing_surface_sequence",
+      "current_visual_evidence_ids": [],
+      "needs": [
+        "loaded arch/heel/forefoot",
+        "toe extension under push-up/lunge",
+        "heel raise and return",
+        "dorsiflexion contact"
+      ]
+    }
+  ],
+  "exit_rule": "Stage 4 visual-evidence closure is blocked while any region is missing the real-human surface states/views needed for its coupling and movement families. A region may remain partial when source limitations are explicitly recorded, but Critical/High visual claims cannot be closed from anatomy/kinematics alone."
+}

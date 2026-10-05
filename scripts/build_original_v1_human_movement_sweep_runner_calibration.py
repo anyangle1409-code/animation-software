@@ -37,6 +37,8 @@ def build(raw_path,revision):
         adapter["sample_order_evidence"]=ref+"/samples"
         adapter["source_hash_evidence"]=str(raw_path)
         adapter["human_evidence_review_refs"]=[]
+        adapter["engineering_review_status"]="PENDING"
+        adapter["human_evidence_review_status"]="PENDING"
         if sid=="hip_abduction_adduction":
             variants={x.get("variant") for x in samples}
             adapter["mirrored_input_evidence"]=ref+"/variants" if variants=={"l","r"} else None

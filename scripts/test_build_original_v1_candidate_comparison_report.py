@@ -12,6 +12,26 @@ class CandidateComparisonTests(unittest.TestCase):
     def write(self,root,name,obj):
         p=root/name; p.write_text(json.dumps(obj),encoding="utf-8"); return name
 
+    def accepted_sweep_fixture(self,root,sweep,csha):
+        plan=mod.json.loads((mod.SWEEP_PLAN).read_text(encoding="utf-8"))["sweeps"][sweep]
+        raw=self.write(root,f"{sweep}_raw.json",{"candidate_sha256":csha,"source_saved_or_modified":False,"sweeps":{sweep:{}}})
+        cal=self.write(root,f"{sweep}_cal.json",{"overall_state":"CALIBRATED","engineering_review":"PASS"})
+        vis=self.write(root,f"{sweep}_vis.json",{"candidate_sha256":csha,"sweep_id":sweep,"samples":[{"label":x,"views":plan["cameras"]} for x in plan["samples"]]})
+        cont=self.write(root,f"{sweep}_cont.json",{"candidate_sha256":csha,"sweep_id":sweep})
+        rev=self.write(root,f"{sweep}_rev.json",{"candidate_sha256":csha,"sweep_id":sweep})
+        record={
+          "schema_version":1,"status":"HUMAN_MOVEMENT_SWEEP_ACCEPTANCE","production_approved":False,
+          "candidate_revision":"r96","candidate_sha256":csha,"sweep_id":sweep,
+          "raw_sweep_report_path":raw,"runner_calibration_record_path":cal,
+          "visual_capture_manifest_path":vis,"contact_report_path":None,
+          "motion_continuity_evidence_path":cont,"motion_reversibility_evidence_path":rev,
+          "human_evidence_review_refs":plan["evidence_ids"],
+          "continuity_review_status":"PASS","reversibility_review_status":"PASS",
+          "visual_review_status":"PASS","contact_review_status":"NOT_APPLICABLE",
+          "engineering_review":"PASS","owner_review":"PENDING"
+        }
+        return self.write(root,f"{sweep}_accept.json",record)
+
     def base_fixture(self,root,candidate_issues=None):
         psha="a"*64; csha="b"*64
         parent=self.write(root,"parent.json",{"candidate_under_review":{"sha256":psha},"issues":[]})
@@ -46,7 +66,8 @@ class CandidateComparisonTests(unittest.TestCase):
             "visual_capture_manifest_paths":[],
             "visual_engineering_review_status":"NOT_APPLICABLE",
             "change_audit_path":change,
-            "change_audit_status":"PASS"
+            "change_audit_status":"PASS",
+            "human_movement_sweep_acceptance_paths":[]
           }
         }
         return manifest
@@ -127,6 +148,48 @@ class CandidateComparisonTests(unittest.TestCase):
             manifest["scope"]["region_ids"]=["forearm_wrist"]
             report=mod.build(manifest,root)
             self.assertIn("contact_status",report["failed_checks"])
+
+    def test_shoulder_package_requires_both_sweep_only_acceptance_records(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            manifest["scope"]["repair_package_ids"]=["RP-PEC-AX-002"]
+            report=mod.build(manifest,root)
+            self.assertIn("shoulder_abduction_elevation",report["required_sweep_only_movements"])
+            self.assertIn("humeral_internal_external_rotation",report["required_sweep_only_movements"])
+            self.assertIn("sweep_acceptance:shoulder_abduction_elevation",report["failed_checks"])
+            self.assertIn("sweep_acceptance:humeral_internal_external_rotation",report["failed_checks"])
+
+    def test_one_shoulder_sweep_acceptance_does_not_hide_the_other(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            csha=manifest["candidate"]["sha256"]
+            manifest["scope"]["repair_package_ids"]=["RP-PEC-AX-002"]
+            manifest["evidence"]["human_movement_sweep_acceptance_paths"]=[
+                self.accepted_sweep_fixture(root,"shoulder_abduction_elevation",csha)
+            ]
+            report=mod.build(manifest,root)
+            self.assertNotIn("sweep_acceptance:shoulder_abduction_elevation",report["failed_checks"])
+            self.assertIn("sweep_acceptance:humeral_internal_external_rotation",report["failed_checks"])
+
+    def test_raw_sweep_report_path_is_not_an_acceptance_substitute(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            csha=manifest["candidate"]["sha256"]
+            manifest["scope"]["repair_package_ids"]=["RP-PEC-AX-002"]
+            raw=self.write(root,"raw_only.json",{
+              "candidate_sha256":csha,"source_saved_or_modified":False,
+              "sweeps":{"shoulder_abduction_elevation":{}}
+            })
+            manifest["evidence"]["human_movement_sweep_acceptance_paths"]=[raw]
+            report=mod.build(manifest,root)
+            self.assertIn("sweep_acceptance_record:raw_only.json",report["failed_checks"])
+            self.assertIn("sweep_acceptance:shoulder_abduction_elevation",report["failed_checks"])
+
+    def test_empty_scope_requires_no_sweep_acceptance(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); report=mod.build(self.base_fixture(root),root)
+            self.assertEqual(report["required_sweep_only_movements"],[])
+            self.assertEqual(report["accepted_sweep_only_movements"],[])
 
 
 if __name__=="__main__": unittest.main()

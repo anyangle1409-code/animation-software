@@ -82,12 +82,11 @@
       "id": "ribcage_abdomen_obliques_lumbar",
       "state": "partial",
       "current_visual_evidence_ids": [
-        "HE-VIS-LOWER-001"
+        "HE-VIS-LOWER-001",
+        "HE-VIS-LUMBAR-002"
       ],
       "needs": [
-        "flexion/extension skin folds",
-        "lateral bend compressed/lengthened sides",
-        "axial rotation oblique/lumbar surface",
+        "anterior abdominal/ribcage surface through flexion, extension and rotation",
         "loaded hinge",
         "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
@@ -96,11 +95,12 @@
       "id": "upperarm_elbow",
       "state": "partial",
       "current_visual_evidence_ids": [
-        "HE-VIS-ELB-001"
+        "HE-VIS-ELB-001",
+        "HE-VIS-ELB-002"
       ],
       "needs": [
+        "full-ROM exposed elbow fold appearance/release beyond the small-angle skin-stretch study",
         "closer exposed/minimally obscured elbow flexion-extension sequence",
-        "antecubital and posterior-elbow fold appearance/release",
         "biceps/triceps surface through loaded and unloaded flexion"
       ],
       "source_quality_note": "Current evidence is sufficient for partial gross motion/silhouette constraints only; local exposed-surface acceptance remains open."
@@ -151,10 +151,11 @@
       "state": "partial",
       "current_visual_evidence_ids": [
         "HE-VIS-LOWER-001",
-        "HE-VIS-LOWER-002"
+        "HE-VIS-LOWER-002",
+        "HE-VIS-KNEE-002"
       ],
       "needs": [
-        "quadriceps/patella through deep knee flexion",
+        "anterior knee/quadriceps surface beyond 90 degrees through deep flexion and return",
         "posterior knee/hamstring surface",
         "squat and lunge return",
         "exposed-surface or minimally obscured close sequence for skin/fold detail"

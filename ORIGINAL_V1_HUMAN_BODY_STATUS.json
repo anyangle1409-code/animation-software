@@ -171,7 +171,11 @@
     "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
     "stage1_laptop_pickup_plan_runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
     "stage1_post_edit_continuation_plan_runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat",
-    "non_blender_prep_status": "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json"
+    "non_blender_prep_status": "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json",
+    "workspace_sweep_acceptance_preflight": "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat",
+    "movement_sweep_visual_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
+    "movement_sweep_contact_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
+    "movement_sweep_review_workspace_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -235,7 +239,7 @@
     "generic_blender_sweep_runner_acceptance_capable": false,
     "sweep_visual_capture": "IMPLEMENTED_UNCALIBRATED",
     "sweep_raw_contact_capture": "IMPLEMENTED_UNCALIBRATED",
-    "sweep_review_workspace": "READY_NON_BLENDER",
+    "sweep_review_workspace": "READY",
     "post_repair_sweep_integration": "READY",
     "candidate_sweep_evidence_ready": 0,
     "stage1_wave_work_package": "READY",
@@ -243,7 +247,10 @@
     "stage1_laptop_pickup_plan": "READY",
     "stage1_post_edit_continuation_plan": "READY",
     "laptop_lifecycle": "PRE_EDIT_PICKUP_TO_POST_EDIT_COMPARISON_LINKED",
-    "interpretation": "The defined source/tooling/planning work that can be completed without Blender is prepared. This is not anatomical clearance: all candidate-bound execution, model repair, Blender calibration/capture and engineering/owner review remain outstanding."
+    "interpretation": "The defined source/tooling/planning work that can be completed without Blender is prepared. This is not anatomical clearance: all candidate-bound execution, model repair, Blender calibration/capture and engineering/owner review remain outstanding.",
+    "generic_sweep_visual_producer": "IMPLEMENTED_UNCALIBRATED",
+    "generic_sweep_contact_producer": "IMPLEMENTED_UNCALIBRATED",
+    "workspace_sweep_acceptance_preflight": "READY"
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",
@@ -305,6 +312,6 @@
       }
     },
     "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, lacks required visual/contact outputs, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
-    "interpretation": "All 11 sweep definitions have bound motion execution. Separate visual and raw-contact evidence producers are implemented. Candidate execution, calibration, engineering review and acceptance remain outstanding."
+    "interpretation": "All 11 sweep definitions have a bound read-only motion adapter. Dedicated visual/contact evidence producers and review-workspace assembly are implemented; calibration, exact-candidate execution, engineering review and sweep acceptance remain outstanding."
   }
 }

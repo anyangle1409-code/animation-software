@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "CANDIDATE_COMPARISON_MANIFEST_TEMPLATE",
+  "production_approved": false,
+  "parent": {
+    "revision": "r95",
+    "sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+    "issue_ledger_path": null
+  },
+  "candidate": {
+    "revision": null,
+    "sha256": null,
+    "source_branch": null,
+    "issue_ledger_path": null
+  },
+  "scope": {
+    "repair_package_ids": [],
+    "coupling_system_ids": [],
+    "region_ids": [],
+    "defect_ids": []
+  },
+  "evidence": {
+    "weights_only_acceptance_path": null,
+    "anatomical_coupling_evidence_path": null,
+    "movement_coupling_evidence_path": null,
+    "motion_reversibility_path": null,
+    "motion_continuity_path": null,
+    "continuity_engineering_review_status": "PENDING",
+    "regression_report_path": null,
+    "regression_status": "PENDING",
+    "contact_report_path": null,
+    "contact_status": "PENDING",
+    "visual_capture_manifest_paths": [],
+    "visual_engineering_review_status": "PENDING",
+    "change_audit_path": null,
+    "change_audit_status": "PENDING"
+  },
+  "allowed_statuses": [
+    "PENDING",
+    "PASS",
+    "FAIL",
+    "NOT_APPLICABLE"
+  ],
+  "comparison_rules": [
+    "All candidate-bound evidence must identify the exact candidate SHA.",
+    "Every scope region must be CLEAR in weights-only acceptance before final corrective anatomy can pass.",
+    "Every scope coupling system must be CLEAR in candidate coupling evidence.",
+    "Every scope defect must be closed with closure evidence or the candidate is not engineering-clear.",
+    "Motion reversibility must be CLEAN.",
+    "Motion continuity is report-only and therefore requires explicit engineering review PASS rather than an invented threshold.",
+    "Regression, contact where applicable, visual engineering review and change audit must pass.",
+    "No new open Critical/High defect may appear relative to the parent blocker set.",
+    "Owner review remains separate; engineering clearance never implies production approval."
+  ],
+  "output": "candidate_comparison_report.json"
+}

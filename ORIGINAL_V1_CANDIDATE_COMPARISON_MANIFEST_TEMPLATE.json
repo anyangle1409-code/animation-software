@@ -33,7 +33,10 @@
     "visual_capture_manifest_paths": [],
     "visual_engineering_review_status": "PENDING",
     "change_audit_path": null,
-    "change_audit_status": "PENDING"
+    "change_audit_status": "PENDING",
+    "repair_declaration_paths": [],
+    "pose_capture_plan_path": null,
+    "surface_visual_review_path": null
   },
   "allowed_statuses": [
     "PENDING",
@@ -50,7 +53,11 @@
     "Motion continuity is report-only and therefore requires explicit engineering review PASS rather than an invented threshold.",
     "Regression, contact where applicable, visual engineering review and change audit must pass.",
     "No new open Critical/High defect may appear relative to the parent blocker set.",
-    "Owner review remains separate; engineering clearance never implies production approval."
+    "Owner review remains separate; engineering clearance never implies production approval.",
+    "PASS for regression/contact/change audit is invalid without an existing candidate-bound evidence file.",
+    "Every declared repair package must have at least one candidate-bound repair declaration covering its coupling system.",
+    "Automatic pose capture planning must be present so moved-joint tissue scope is not hand-minimized.",
+    "Visual engineering PASS must be backed by a candidate-bound visual review/capture manifest rather than a status string alone."
   ],
   "output": "candidate_comparison_report.json"
 }

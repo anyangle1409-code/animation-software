@@ -24,7 +24,8 @@ ONLY=set(ARGS[1].split(",")) if len(ARGS)>1 and ARGS[1] else None
 if OUT.exists():
     raise SystemExit(f"Refusing to overwrite {OUT}")
 
-ROOT=Path(__file__).resolve().parents[1]
+RUNNER_PATH=Path(__file__).resolve()
+ROOT=RUNNER_PATH.parents[1]
 SPEC_PATH=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
 PLAN_PATH=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 POSE_SCRIPT=Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py")
@@ -60,6 +61,7 @@ candidate=Path(bpy.data.filepath).resolve()
 if not candidate.is_file():
     raise SystemExit("Candidate Blend path unavailable")
 candidate_sha=hashlib.sha256(candidate.read_bytes()).hexdigest()
+runner_sha=hashlib.sha256(RUNNER_PATH.read_bytes()).hexdigest()
 
 region_names=json.loads(bpy.context.scene["hgpt_region_names"])
 vreg=np.array([d.value for d in body.data.attributes["hgpt_region"].data],dtype=np.int32)
@@ -230,13 +232,35 @@ result={
  "production_approved":False,
  "candidate":candidate.name,
  "candidate_sha256":candidate_sha,
+ "candidate_sha256_before":candidate_sha,
+ "candidate_sha256_after":None,
+ "runner_script_sha256":runner_sha,
+ "blender_version":bpy.app.version_string,
  "pose_definition_sha256":hashlib.sha256(POSE_SCRIPT.read_bytes()).hexdigest(),
  "flexion_driver_sha256":hashlib.sha256(_driver_path.read_bytes()).hexdigest(),
  "movement_plan_sha256":hashlib.sha256(PLAN_PATH.read_bytes()).hexdigest(),
  "sweep_execution_spec_sha256":hashlib.sha256(SPEC_PATH.read_bytes()).hexdigest(),
- "source_saved_or_modified":False,
+ "source_saved_or_modified":None,
  "calibration_state":"EXPERIMENTAL_UNCALIBRATED",
- "interpretation":"Diagnostic sampling only. Execution proves that a deterministic audit motion ran; it does not by itself prove anatomical realism or authorize PASS/CLEAR.",
+ "evidence_readiness":"DIAGNOSTIC_ONLY_INCOMPLETE",
+ "runner_capabilities":{
+   "deterministic_joint_state_sampling":"IMPLEMENTED",
+   "per_sample_joint_state_hash":"IMPLEMENTED",
+   "weights_only_surface_summary":"IMPLEMENTED",
+   "corrective_contribution_summary":"IMPLEMENTED",
+   "runner_script_hash":"IMPLEMENTED",
+   "end_of_run_source_rehash":"IMPLEMENTED",
+   "visual_capture_manifest":"NOT_IMPLEMENTED",
+   "required_regional_renders":"NOT_IMPLEMENTED",
+   "contact_load_state":"NOT_IMPLEMENTED"
+ },
+ "diagnostic_limitations":[
+   "No whole-body or regional image captures are produced by this runner yet.",
+   "No contact/load state proof is produced for contact-bearing sweeps yet.",
+   "Audit joint ranges remain provisional until Blender calibration/review.",
+   "This output cannot close a human visual, contact, coupling or Stage-1 acceptance gate by itself."
+ ],
+ "interpretation":"Diagnostic sampling only. Binding/execution proves that a deterministic audit motion ran; it does not by itself prove anatomical realism or authorize PASS/CLEAR.",
  "sweeps":{}
 }
 
@@ -250,25 +274,39 @@ for name,cfg in spec["sweeps"].items():
         for row in cfg["samples"]:
             apply_sample(name,row,variant)
             snap=surface_snapshot()
+            joint_state_bytes=json.dumps(snap["joint_state"],sort_keys=True,separators=(",",":")).encode("utf-8")
+            snapshot_bytes=json.dumps(snap,sort_keys=True,separators=(",",":")).encode("utf-8")
             rec={
               "label":row["label"],
               "return_leg":bool(row.get("return_leg",False)),
               "input":{k:v for k,v in row.items() if k!="label"},
               "variant":variant,
+              "joint_state_sha256":hashlib.sha256(joint_state_bytes).hexdigest(),
+              "snapshot_sha256":hashlib.sha256(snapshot_bytes).hexdigest(),
               "snapshot":snap,
             }
             samples.append(rec)
+    contact_bearing=name in {"grip_release","loaded_hip_hinge","ankle_plantarflexion"}
     result["sweeps"][name]={
       "implementation_status":cfg["implementation_status"],
       "plan_evidence_ids":plan["sweeps"][name]["evidence_ids"],
       "plan_regions":plan["sweeps"][name]["regions"],
+      "plan_cameras":plan["sweeps"][name]["cameras"],
       "samples":samples,
+      "visual_capture_status":"NOT_IMPLEMENTED",
+      "contact_load_required":contact_bearing,
+      "contact_load_status":"NOT_IMPLEMENTED" if contact_bearing else "NOT_APPLICABLE",
       "engineering_review":"PENDING",
       "owner_review":"PENDING",
     }
     print("HUMAN SWEEP",name,"samples",len(samples))
 
 reset()
+candidate_sha_after=hashlib.sha256(candidate.read_bytes()).hexdigest()
+result["candidate_sha256_after"]=candidate_sha_after
+result["source_saved_or_modified"]=candidate_sha_after!=candidate_sha
+if result["source_saved_or_modified"]:
+    raise RuntimeError(f"Source Blend changed during read-only sweep audit: before={candidate_sha} after={candidate_sha_after}")
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_text(json.dumps(result,indent=2)+"\n",encoding="utf-8")
 print("GENERIC HUMAN MOVEMENT SWEEP AUDIT",OUT,"sweeps",len(result["sweeps"]))

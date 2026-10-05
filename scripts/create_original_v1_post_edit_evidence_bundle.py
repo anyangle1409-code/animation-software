@@ -44,7 +44,11 @@ def build(package_ids,candidate,csha,source_branch,declaration_paths,outdir):
     if unknown: raise ValueError(f"unknown repair packages {unknown}")
     selected_cids=uniq([pby[x]["coupling_system_id"] for x in package_ids])
     region_ids=uniq([r for cid in selected_cids for r in cby[cid]["body_regions"]])
-    defect_ids=uniq([x["issue_id"] for x in defects["mappings"] if set(x["required_coupling_system_ids"]) & set(selected_cids)])
+    selected_set=set(selected_cids)
+    defect_ids=uniq([
+        x["issue_id"] for x in defects["mappings"]
+        if set(x["required_coupling_system_ids"]) and set(x["required_coupling_system_ids"]).issubset(selected_set)
+    ])
 
     # Load and verify declarations cover every package before scaffold creation.
     declarations=[]

@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "status": "CURRENT_SHOULDER_YOKE_PRE_DIAGNOSIS_HYPOTHESES",
+  "production_approved": false,
+  "comparator": {
+    "revision": "r95",
+    "sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+  },
+  "rule": "These are evidence-backed investigation priorities, not final root-cause declarations. Reconfirm on the exact live candidate with the new read-only layer/weights/skinning diagnostics before any edit.",
+  "hypotheses": [
+    {
+      "id": "SH-HYP-001",
+      "priority": 1,
+      "confidence": "high_from_retained_r91_r95_evidence",
+      "symptom": "lateral/back wing or lobe through overhead elevation",
+      "suspected_first_layer": "weights_only_ownership",
+      "implicated_coupling_systems": [
+        "CP-POSTAX-003",
+        "CP-PEC-AX-002",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "retained_evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_overhead_root_cause_r91/ROOT_CAUSE.md",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/lobe_offsets_r93_vs_r95.txt"
+      ],
+      "observations": [
+        "r91 retained analysis identified lateral/back wing vertices with approximately spine_02 0.55 + scapula_l 0.45 weights and 5-6.5 cm weights-only outward displacement.",
+        "The retained analysis explicitly classified that wing as a skin-WEIGHT effect, unlike the corrective-caused chest pit/knob.",
+        "r95 reduced lobe-zone maximum outward offsets at overhead states but did not prove the underlying multi-anchor torso/scapula/humerus ownership was anatomically correct."
+      ],
+      "first_tests": [
+        "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat",
+        "weights_only shoulder elevation sweep",
+        "RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat only if formulation remains plausible contributor"
+      ],
+      "forbidden_inference": "Do not copy the old r91 weight values into a new declaration without exact-candidate confirmation."
+    },
+    {
+      "id": "SH-HYP-002",
+      "priority": 2,
+      "confidence": "high_from_retained_corrective_evidence",
+      "symptom": "chest pit / pectoral collapse / clavicle-top web or knob",
+      "suspected_first_layer": "corrective_activation_after_base_weights_are_repaired",
+      "implicated_coupling_systems": [
+        "CP-PEC-AX-002",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "retained_evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_overhead_root_cause_r91/ROOT_CAUSE.md",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit.json",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit_flexion.json",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/corrective_audit_scapular.json",
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/dent_and_volume_by_pose.txt"
+      ],
+      "observations": [
+        "r95 abduction corrective moves 1229 vertices per side with maximum stored delta about 7.184 cm.",
+        "r95 flexion corrective covers 1491 vertices per side with maximum delta about 2.799 cm.",
+        "r95 scapular corrective moves 234 vertices per side with maximum delta about 5.282 cm.",
+        "r95 retained dent/volume sweep reaches roughly 7 cm inward dent around 145 degrees and about 1.45% whole-mesh volume loss in the same overhead range."
+      ],
+      "first_tests": [
+        "RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat",
+        "RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat",
+        "weights-only versus final-corrected visual comparison"
+      ],
+      "repair_rule": "Do not refit or add a corrective until the weights-only shared-tissue path clears."
+    },
+    {
+      "id": "SH-HYP-003",
+      "priority": 3,
+      "confidence": "medium",
+      "symptom": "sharp step at boundary of r95 lobe correction",
+      "suspected_first_layer": "corrective_mask_or_basis_boundary",
+      "implicated_coupling_systems": [
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "retained_evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_r95/lobe_offsets_r93_vs_r95.txt"
+      ],
+      "observations": [
+        "r95 lobe correction reduces high-elevation outward offset from roughly 7.6-9.34 cm in r93 to roughly 4.03-4.51 cm.",
+        "The same evidence reports new boundary steps growing to about 1.64-1.74 cm in overhead pull/press states.",
+        "Minimum edge-ratio values in several overhead samples are slightly worse after the lobe correction, consistent with a trade-off rather than a clean anatomical solution."
+      ],
+      "first_tests": [
+        "layer-isolated surface capture",
+        "dense continuity report",
+        "repair-mask boundary review"
+      ],
+      "repair_rule": "A smaller lobe is not acceptance if a boundary step/trench replaces it."
+    },
+    {
+      "id": "SH-HYP-004",
+      "priority": 4,
+      "confidence": "lower_until_controlled_A_B",
+      "symptom": "base joint volume/twist artifact that persists after local ownership repair",
+      "suspected_first_layer": "base_skinning_mode",
+      "implicated_coupling_systems": [
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-POSTAX-003"
+      ],
+      "retained_evidence": [],
+      "observations": [
+        "No retained r95 evidence proves LBS or Preserve Volume/DQ globally superior for the whole body."
+      ],
+      "first_tests": [
+        "RUN_ORIGINAL_V1_SKINNING_MODE_AUDIT.bat",
+        "RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat"
+      ],
+      "repair_rule": "Do not switch global skinning mode from one shoulder pose; selection requires whole-body visual/regression evidence."
+    },
+    {
+      "id": "SH-HYP-005",
+      "priority": 5,
+      "confidence": "low_from_old_evidence",
+      "symptom": "persistent local collapse after kinematics/weights/skinning are shown plausible",
+      "suspected_first_layer": "topology_support",
+      "implicated_coupling_systems": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "retained_evidence": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/axilla_overhead_root_cause_r91/ROOT_CAUSE.md"
+      ],
+      "observations": [
+        "The r91 retained analysis found no inverted/collapsed triangles in the investigated zone and explicitly ranked topology/rig changes below weight/corrective repairs."
+      ],
+      "first_tests": [
+        "weights-only visual proof after ownership repair",
+        "local edge-flow/fold-path review"
+      ],
+      "repair_rule": "Reopen topology only if a corrected base-weight path still cannot form human compression/sliding without collapse."
+    }
+  ],
+  "selected_diagnosis_order": [
+    "D0_SOURCE",
+    "D1_KINEMATICS",
+    "D2_SKINNING_MODE",
+    "D3_WEIGHTS_ONLY",
+    "D4_TOPOLOGY",
+    "D5_CORRECTIVES",
+    "D6_CONTACT",
+    "D7_CONTINUITY",
+    "D8_REGRESSION",
+    "D9_HUMAN_VISUAL"
+  ],
+  "note": "Historical r91/r95 evidence narrows investigation; it does not authorize editing or closure. The exact current candidate must be re-audited."
+}

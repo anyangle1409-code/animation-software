@@ -71,6 +71,9 @@ if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_deformation_failure_signatures.py
 if errorlevel 1 exit /b 1
 
+call :run scripts\validate_original_v1_laptop_workflow_integrity.py
+if errorlevel 1 exit /b 1
+
 echo.
 echo ============================================================
 echo PASS: HUMAN BODY READINESS CONTROL FILES ARE CONSISTENT

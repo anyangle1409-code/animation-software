@@ -40,8 +40,8 @@
     },
     "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json": {
       "category": "authority",
-      "validator": "scripts/validate_original_v1_joint_tissue_triggers.py",
-      "note": "Maps production bone/joint families to every shared-tissue coupling system that must be reviewed whenever that joint materially moves."
+      "validator": "scripts/validate_original_v1_joint_tissue_trigger_map.py",
+      "note": "Maps material motion of rig bone/joint families to every connected tissue/coupling system that must be reviewed."
     },
     "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json": {
       "category": "verification",
@@ -50,8 +50,8 @@
     },
     "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json": {
       "category": "verification",
-      "validator": "scripts/validate_original_v1_surface_visual_evidence_requirements.py",
-      "note": "Separates real-human exterior surface photo/video coverage from biomechanics/anatomy evidence; tracks missing/partial visual motion sequences for every mandatory body region."
+      "validator": "scripts/validate_original_v1_surface_visual_evidence.py",
+      "note": "Requires real-human exterior surface evidence for all 12 body regions; biomechanics alone cannot close skin/muscle appearance."
     },
     "POSE_COUPLING_SCOPE_OUTPUT": {
       "category": "verification",
@@ -62,6 +62,16 @@
       "category": "authority",
       "validator": "scripts/validate_original_v1_first_party_deformation_architecture.py",
       "note": "Authoritative generic deformation stack: canonical kinematics, evidence-selected base skinning, multi-anchor coupling, joint-state pose-space correction, contact response, optional secondary dynamics. Exercise identity is forbidden as a deformation driver."
+    },
+    "ORIGINAL_V1_MOVEMENT_COUPLING_EVIDENCE_TEMPLATE.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_movement_coupling_evidence.py",
+      "note": "Per-sample candidate evidence template; moved bones automatically trigger required connected tissue systems and COMPLETE is impossible when any triggered system is absent."
+    },
+    "ORIGINAL_V1_ANATOMICAL_COUPLING_CAPTURE_PLAN.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_anatomical_coupling_capture_plan.py",
+      "note": "Candidate capture matrix for all 14 coupling systems, requiring weights-only and corrected layers plus intermediate/return motion and close landmarks."
     }
   },
   "categories": {

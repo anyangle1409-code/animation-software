@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE",
+  "production_approved": false,
+  "runner_id": "generic_human_movement_sweep_v1",
+  "runner_path": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
+  "execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
+  "frozen_pose_source": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+  "calibration_candidate_revision": null,
+  "calibration_candidate_sha256": null,
+  "runner_sha256": null,
+  "execution_spec_sha256": null,
+  "frozen_pose_source_sha256": null,
+  "adapters": [
+    {
+      "id": "grip_release",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "trunk_flexion",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "trunk_extension",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "trunk_lateral_bend",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "trunk_axial_rotation",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "loaded_hip_hinge",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "hip_abduction_adduction",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "ankle_plantarflexion",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "shoulder_abduction_elevation",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "humeral_internal_external_rotation",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    },
+    {
+      "id": "forearm_pronation_supination",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": []
+    }
+  ],
+  "overall_state": "NOT_RUN",
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Calibration proves the audit-motion adapter itself, not the body candidate.",
+    "All 11 adapters must be calibrated against the exact same runner/spec/frozen-pose hashes before overall_state may be CALIBRATED.",
+    "Every adapter must prove deterministic joint-state construction, required sample order, outbound/return behavior and mirrored equivalence where applicable.",
+    "No adapter may use exercise identity as deformation logic.",
+    "The frozen P3a pose source may be read but not modified or repinned to manufacture sweep coverage.",
+    "Calibration never implies human-body clearance, owner acceptance or production approval."
+  ]
+}

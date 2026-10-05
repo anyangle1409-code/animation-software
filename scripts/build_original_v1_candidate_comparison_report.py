@@ -213,16 +213,14 @@ def build(manifest,base):
             cid=repair_by[pid]["coupling_system_id"]
             check(f"repair_execution_coupling:{cid}",cid in executed_coupling,sorted(x for x in executed_coupling if x))
 
-    # PASS statuses for external reports are invalid without an actual,
-    # candidate-bound JSON evidence file.
+    # Regression and change audit are always mandatory for a repaired candidate.
     for status_key,path_key in (
         ("regression_status","regression_report_path"),
-        ("contact_status","contact_report_path"),
         ("change_audit_status","change_audit_path"),
     ):
         status=ev.get(status_key)
         path=ev.get(path_key)
-        check(status_key,status in PASS,status)
+        check(status_key,status=="PASS",status)
         if status=="PASS":
             try:
                 obj=load(base,path)
@@ -233,10 +231,38 @@ def build(manifest,base):
                 if obj is not None:
                     check(f"{path_key}_candidate_sha",candidate_sha(obj)==csha,candidate_sha(obj))
 
-    # Visual PASS requires a candidate-bound visual review and all declared
-    # capture manifests to bind to the exact candidate.
+    # Contact is mandatory whenever any scoped region is contact/load-bearing.
+    contact_by_region={x["id"]:bool(x.get("contact_applicable")) for x in weights_contract.get("regions",[])}
+    contact_required=any(contact_by_region.get(rid,False) for rid in scope.get("region_ids",[]))
+    contact_status=ev.get("contact_status")
+    if contact_required:
+        check("contact_status",contact_status=="PASS",contact_status)
+        if contact_status=="PASS":
+            try:
+                obj=load(base,ev.get("contact_report_path"))
+            except (OSError,json.JSONDecodeError,TypeError) as exc:
+                check("contact_report_path_present",False,f"{ev.get('contact_report_path')}: {exc}")
+            else:
+                check("contact_report_path_present",obj is not None,ev.get("contact_report_path"))
+                if obj is not None:
+                    check("contact_report_path_candidate_sha",candidate_sha(obj)==csha,candidate_sha(obj))
+    else:
+        check("contact_status",contact_status in PASS,contact_status)
+        if contact_status=="PASS":
+            try:
+                obj=load(base,ev.get("contact_report_path"))
+            except (OSError,json.JSONDecodeError,TypeError) as exc:
+                check("contact_report_path_present",False,f"{ev.get('contact_report_path')}: {exc}")
+            else:
+                check("contact_report_path_present",obj is not None,ev.get("contact_report_path"))
+                if obj is not None:
+                    check("contact_report_path_candidate_sha",candidate_sha(obj)==csha,candidate_sha(obj))
+
+    # Every scoped anatomical region requires visual PASS. Only an empty region
+    # scope may use NOT_APPLICABLE.
     vis_status=ev.get("visual_engineering_review_status")
-    check("visual_engineering_review_status",vis_status in PASS,vis_status)
+    visual_required=bool(scope.get("region_ids",[]))
+    check("visual_engineering_review_status",vis_status=="PASS" if visual_required else vis_status in PASS,vis_status)
     if vis_status=="PASS":
         try:
             vis_review=load(base,ev.get("surface_visual_review_path"))

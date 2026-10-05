@@ -298,6 +298,11 @@
       "runner": "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat",
       "validator": "scripts/validate_original_v1_workspace_sweep_acceptance.py",
       "note": "Finalized repair-workspace preflight requiring every sweep-only movement acceptance record to validate as engineering PASS against the exact FINAL candidate SHA before unified comparison."
+    },
+    "laptop_workflow_integrity": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_laptop_workflow_integrity.py",
+      "note": "Non-Blender integrity gate for the preferred Stage-1 laptop pickup -> declared repair -> post-edit continuation -> sweep acceptance -> unified comparison workflow. Fails on missing runners, broken command order or stale authority."
     }
   },
   "categories": {

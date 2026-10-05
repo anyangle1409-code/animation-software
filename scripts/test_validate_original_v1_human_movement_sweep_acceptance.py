@@ -72,7 +72,28 @@ class SweepAcceptanceTests(unittest.TestCase):
         cal_template["overall_state"]="CALIBRATED"
         cal_template["engineering_review"]="PASS"
         cal=self.write(root,"cal.json",cal_template)
-        vis=self.write(root,"vis.json",{"candidate_sha256":csha,"sweep_id":sweep,"samples":[{"label":x,"views":plan["cameras"]} for x in plan["samples"]]})
+        visual_samples=[]
+        for label in plan["samples"]:
+            views=[]
+            for camera in plan["cameras"]:
+                img=root/f"{sweep}_{label}_{camera}.png"
+                img.write_bytes(f"{sweep}|{label}|{camera}".encode("utf-8"))
+                views.append({
+                  "camera_id":camera,"path":img.name,"sha256":hashlib.sha256(img.read_bytes()).hexdigest(),
+                  "capture":{
+                    "candidate_sha256":csha,"sweep_id":sweep,"sample_label":label,"camera_id":camera,
+                    "runner_script_sha256":"3"*64,
+                    "camera_matrix_world":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
+                    "resolution":[900,900,100]
+                  }
+                })
+            visual_samples.append({"label":label,"views":views})
+        vis=self.write(root,"vis.json",{
+          "schema_version":1,"status":"HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE","production_approved":False,
+          "candidate_revision":"r96","candidate_sha256":csha,"sweep_id":sweep,
+          "raw_sweep_report_path":raw,"samples":visual_samples,
+          "engineering_review":"PASS","owner_review":"PENDING"
+        })
         cont=self.write(root,"cont.json",{"candidate_sha256":csha,"sweep_id":sweep})
         rev=self.write(root,"rev.json",{"candidate_sha256":csha,"sweep_id":sweep})
         d={

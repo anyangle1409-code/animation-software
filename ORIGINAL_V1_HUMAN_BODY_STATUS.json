@@ -170,7 +170,8 @@
     "movement_sweep_runner_calibration_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
     "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
     "stage1_laptop_pickup_plan_runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
-    "stage1_post_edit_continuation_plan_runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat"
+    "stage1_post_edit_continuation_plan_runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat",
+    "non_blender_prep_status": "ORIGINAL_V1_NON_BLENDER_PREP_STATUS.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -207,7 +208,11 @@
     "status": "PREPARED_NOT_YET_RUN_ON_REPAIRED_CANDIDATE"
   },
   "non_blender_preparation": {
-    "status": "SUBSTANTIALLY_PREPARED",
+    "status": "NON_BLENDER_PREPARATION_READY_FOR_LAPTOP_EXECUTION",
+    "defined_backlog_state": "COMPLETE_TO_CURRENT_SCOPE",
+    "source_preparation_complete": true,
+    "non_blender_tasks_remaining": 0,
+    "blender_or_candidate_bound_remaining": 13,
     "anatomical_repair_packages": 14,
     "deformation_diagnosis_tree": "READY",
     "weights_only_region_contracts": 12,
@@ -216,26 +221,29 @@
     "pre_repair_diagnostic_bundle": "READY",
     "pre_edit_repair_workspace": "READY",
     "post_edit_workspace_finalizer": "READY",
-    "post_repair_validation_bundle": "READY",
+    "post_repair_validation_bundle": "READY_WITH_SWEEP_MOTION_VISUAL_CONTACT_INTEGRATION",
     "pre_edit_post_edit_provenance_split": "ENFORCED",
     "unified_candidate_comparison": "READY",
     "real_human_evidence_records": 55,
-    "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance.",
     "deterministic_movement_sweep_definitions": 11,
     "generic_blender_sweep_runner_bound": 11,
     "generic_blender_sweep_runner_unbound": 0,
-    "stage1_wave_work_package": "READY",
-    "movement_joint_family_contract": "READY_27_OF_27",
-    "generic_sweep_runner_source_contract": "READY",
     "generic_sweep_calibration_chain": "READY_NOT_RUN",
     "generic_sweep_acceptance_gate": "READY_NOT_RUN",
     "generic_blender_sweep_runner_calibration": "PREPARED_UNCALIBRATED",
     "generic_blender_sweep_runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
     "generic_blender_sweep_runner_acceptance_capable": false,
+    "sweep_visual_capture": "IMPLEMENTED_UNCALIBRATED",
+    "sweep_raw_contact_capture": "IMPLEMENTED_UNCALIBRATED",
+    "sweep_review_workspace": "READY_NON_BLENDER",
+    "post_repair_sweep_integration": "READY",
     "candidate_sweep_evidence_ready": 0,
+    "stage1_wave_work_package": "READY",
+    "movement_joint_family_contract": "READY_27_OF_27",
     "stage1_laptop_pickup_plan": "READY",
     "stage1_post_edit_continuation_plan": "READY",
-    "laptop_lifecycle": "PRE_EDIT_PICKUP_TO_POST_EDIT_COMPARISON_LINKED"
+    "laptop_lifecycle": "PRE_EDIT_PICKUP_TO_POST_EDIT_COMPARISON_LINKED",
+    "interpretation": "The defined source/tooling/planning work that can be completed without Blender is prepared. This is not anatomical clearance: all candidate-bound execution, model repair, Blender calibration/capture and engineering/owner review remain outstanding."
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",
@@ -256,9 +264,11 @@
     "acceptance_capable": false,
     "acceptance_capability_blockers": [
       "runner calibration record is not CALIBRATED",
-      "generic sweep runner visual capture manifest is not implemented",
-      "required regional renders are not implemented",
-      "contact/load state capture is not implemented for contact-bearing sweeps"
+      "candidate-bound sweep execution has not run for the current candidate",
+      "visual capture manifests have not been reviewed to engineering PASS",
+      "contact-bearing sweeps have not completed reviewed contact classification",
+      "motion continuity/reversibility reviews remain pending",
+      "candidate-bound sweep acceptance records remain pending"
     ],
     "candidate_sweeps_executed": 0,
     "candidate_sweeps_evidence_ready": 0,
@@ -274,7 +284,27 @@
     "generic_runner_target": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
     "implementation_status": "BOUND",
     "evidence_status": "DIAGNOSTIC_ONLY_INCOMPLETE",
+    "separate_evidence_producers": {
+      "visual_capture": {
+        "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
+        "script": "scripts/capture_original_v1_human_movement_sweep_visual_blender.py",
+        "validator": "scripts/validate_original_v1_human_movement_sweep_visual_capture.py",
+        "state": "IMPLEMENTED_UNCALIBRATED"
+      },
+      "raw_contact": {
+        "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
+        "script": "scripts/audit_original_v1_human_movement_sweep_contact_blender.py",
+        "validator": "scripts/validate_original_v1_human_movement_sweep_contact_raw.py",
+        "state": "IMPLEMENTED_UNCALIBRATED"
+      },
+      "review_workspace": {
+        "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat",
+        "builder": "scripts/create_original_v1_human_movement_sweep_review_workspace.py",
+        "contact_scaffold_builder": "scripts/build_original_v1_human_movement_sweep_contact_review.py",
+        "state": "READY_NON_BLENDER"
+      }
+    },
     "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, lacks required visual/contact outputs, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
-    "interpretation": "All 11 sweep definitions have a bound read-only execution path. The runner remains uncalibrated/diagnostic-only, and every final-candidate sweep still requires reviewed motion, visual, contact where applicable, and human-reference acceptance."
+    "interpretation": "All 11 sweep definitions have bound motion execution. Separate visual and raw-contact evidence producers are implemented. Candidate execution, calibration, engineering review and acceptance remain outstanding."
   }
 }

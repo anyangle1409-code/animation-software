@@ -166,7 +166,12 @@ def main():
             sv["candidate_revision"]=a.candidate
             sv["candidate_sha256"]=None
             sv["sweep_id"]=sid
-            sv["samples"]=[{"label":label,"views":[]} for label in sweep_plan["sweeps"][sid].get("samples",[])]
+            variants=["l","r"] if sid=="hip_abduction_adduction" else [None]
+            sv["samples"]=[
+                {"label":label,"variant":variant,"views":[]}
+                for variant in variants
+                for label in sweep_plan["sweeps"][sid].get("samples",[])
+            ]
             write_new(out/visual_template_name,sv)
             sweep_visual_templates.append(visual_template_name)
             expected_sweep_visual_records.append(visual_final_name)

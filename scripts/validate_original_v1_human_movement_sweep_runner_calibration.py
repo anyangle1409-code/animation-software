@@ -18,16 +18,27 @@ def validate(d,require_calibrated=False):
     if d.get("production_approved") is not False: raise ValueError("calibration record may not claim production approval")
     if d.get("runner_id")!="generic_human_movement_sweep_v1": raise ValueError("runner_id differs")
     adapters=d.get("adapters") or []
-    spec_ids=list((read(SPEC).get("sweeps") or {}).keys())
+    spec_data=read(SPEC)
+    spec_ids=list((spec_data.get("sweeps") or {}).keys())
     if [x.get("id") for x in adapters]!=spec_ids: raise ValueError("adapter order/coverage differs from execution spec")
     allowed={"NOT_RUN","IN_REVIEW","CALIBRATED","REJECTED"}
     for row in adapters:
         state=row.get("state")
         if state not in allowed: raise ValueError(f"{row.get('id')}: invalid state")
+        required=list(spec_data["sweeps"][row["id"]].get("evidence_ids") or [])
+        if row.get("required_human_evidence_ids")!=required:
+            raise ValueError(f"{row['id']}: required human evidence differs from execution spec")
+        checks=row.get("automatic_checks") or {}
+        for key in ("raw_report_contract_validated","sample_order_validated","return_samples_present","candidate_identity_bound"):
+            if key not in checks: raise ValueError(f"{row['id']}: automatic check missing {key}")
         if state=="CALIBRATED":
             for key in ("skeleton_joint_state_manifest","outbound_return_evidence","sample_order_evidence","source_hash_evidence"):
                 if not row.get(key): raise ValueError(f"{row['id']}: CALIBRATED without {key}")
-            if not row.get("human_evidence_review_refs"): raise ValueError(f"{row['id']}: CALIBRATED without human evidence review")
+            if not all(checks.get(k) is True for k in checks):
+                raise ValueError(f"{row['id']}: CALIBRATED with incomplete automatic checks")
+            refs=set(row.get("human_evidence_review_refs") or [])
+            missing=set(required)-refs
+            if missing: raise ValueError(f"{row['id']}: CALIBRATED without human evidence review {sorted(missing)}")
             if row["id"]=="hip_abduction_adduction" and not row.get("mirrored_input_evidence"):
                 raise ValueError("hip_abduction_adduction: CALIBRATED without mirrored input evidence")
     overall=d.get("overall_state")

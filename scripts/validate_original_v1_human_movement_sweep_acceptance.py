@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate a candidate-bound accepted human movement sweep."""
 from __future__ import annotations
-import argparse,json,re
+import argparse,importlib.util,json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 PLAN=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
@@ -23,6 +23,14 @@ def bind(obj,csha,sweep=None):
     if got!=csha: return False,f"candidate_sha256={got}"
     if sweep is not None and obj.get("sweep_id")!=sweep: return False,f"sweep_id={obj.get('sweep_id')}"
     return True,"ok"
+
+def load_calibration_validator():
+    spec=importlib.util.spec_from_file_location("original_v1_sweep_calibration",CAL_MOD)
+    if spec is None or spec.loader is None:
+        raise ValueError("unable to load runner calibration validator")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 def validate(d,base,require_pass=False):
     plan=read(PLAN)
@@ -49,8 +57,12 @@ def validate(d,base,require_pass=False):
     cal=load(base,d.get("runner_calibration_record_path"))
     if engineering=="PASS" or require_pass:
         if cal is None: raise ValueError("PASS requires runner calibration record")
-        if cal.get("overall_state")!="CALIBRATED" or cal.get("engineering_review")!="PASS":
-            raise ValueError("PASS requires overall CALIBRATED runner record")
+        try:
+            calibration=load_calibration_validator().validate(cal,True)
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+            raise ValueError("PASS requires validated overall CALIBRATED runner record: "+str(exc)) from exc
+        if calibration.get("overall_state")!="CALIBRATED":
+            raise ValueError("PASS requires validated overall CALIBRATED runner record")
 
     vis=load(base,d.get("visual_capture_manifest_path"))
     if engineering=="PASS" or require_pass:

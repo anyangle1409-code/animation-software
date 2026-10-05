@@ -27,6 +27,9 @@ call :run scripts\validate_original_v1_human_movement_sweeps.py || exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling.py || exit /b 1
 call :run scripts\validate_original_v1_first_party_deformation_architecture.py || exit /b 1
 call :run scripts\validate_original_v1_surface_visual_evidence_requirements.py || exit /b 1
+call :run scripts\validate_original_v1_joint_tissue_triggers.py || exit /b 1
+call :run scripts\validate_original_v1_anatomical_coupling_capture_plan.py || exit /b 1
+call :run scripts\validate_original_v1_defect_coupling_map.py || exit /b 1
 
 call :run scripts\test_validate_original_v1_surface_visual_evidence_requirements.py || exit /b 1
 call :run scripts\test_original_v1_human_evidence.py || exit /b 1

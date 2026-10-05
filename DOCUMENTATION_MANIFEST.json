@@ -292,6 +292,12 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_non_blender_prep_status.py",
       "note": "Explicit boundary between completed non-Blender source/tooling preparation and outstanding Blender/candidate-bound anatomy evidence; READY never implies body acceptance."
+    },
+    "workspace_sweep_acceptance_preflight": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat",
+      "validator": "scripts/validate_original_v1_workspace_sweep_acceptance.py",
+      "note": "Finalized repair-workspace preflight requiring every sweep-only movement acceptance record to validate as engineering PASS against the exact FINAL candidate SHA before unified comparison."
     }
   },
   "categories": {

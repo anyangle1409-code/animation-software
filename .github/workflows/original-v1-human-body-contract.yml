@@ -6,6 +6,9 @@ on:
       - "ORIGINAL_V1_HUMAN_BODY_*.json"
       - "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+      - "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md"
+      - "scripts/*movement_sweep_execution*"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
       - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
@@ -59,6 +62,9 @@ on:
       - "ORIGINAL_V1_HUMAN_BODY_*.json"
       - "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+      - "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md"
+      - "scripts/*movement_sweep_execution*"
+      - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
       - "ORIGINAL_V1_ANATOMICAL_COUPLING_*.json"
       - "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
       - "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
@@ -126,6 +132,8 @@ jobs:
         run: python scripts/validate_original_v1_human_body_master_plan.py
       - name: Validate movement sweeps
         run: python scripts/validate_original_v1_human_movement_sweeps.py
+      - name: Validate human movement sweep execution readiness
+        run: python scripts/validate_original_v1_human_movement_sweep_execution.py
       - name: Validate anatomical coupling map
         run: python scripts/validate_original_v1_anatomical_coupling.py
       - name: Validate first-party deformation architecture
@@ -216,3 +224,6 @@ jobs:
 
       - name: Run Stage 1 wave work-package tests
         run: python scripts/test_build_original_v1_stage1_wave_work_package.py
+
+      - name: Run human movement sweep execution readiness tests
+        run: python scripts/test_validate_original_v1_human_movement_sweep_execution.py

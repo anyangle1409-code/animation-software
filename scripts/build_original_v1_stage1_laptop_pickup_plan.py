@@ -83,6 +83,7 @@ def build(a):
       "sweep_runner_calibration_state":sweep_status.get("runner_calibration_state"),
       "sweep_runner_calibration_required":calibration_required,
       "workspace":a.workspace,
+      "post_edit_continuation_command_template":"RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat "+dq(a.workspace)+" <final-candidate.blend> "+dq(a.new_revision)+" "+dq(a.current_revision)+" <fresh-post-label> <calibration-record-or-empty> <fresh-post-plan-dir>",
       "commands":commands,
       "stop_conditions":[
         "human-body gate failure",
@@ -93,7 +94,7 @@ def build(a):
         "edit exceeds declared scope",
         "newer local Work candidate/evidence not preserved"
       ],
-      "note":"Non-Blender orchestration only. The first model edit is deliberately the final command boundary."
+      "note":"Non-Blender orchestration only. The first model edit is deliberately the final command boundary. Immediately after saving the new candidate, generate the post-edit continuation packet using post_edit_continuation_command_template."
     }
 
 def main():

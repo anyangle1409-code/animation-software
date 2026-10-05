@@ -37,6 +37,11 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_anatomical_coupling_evidence.py",
       "note": "Candidate-specific template for proving weights-only and corrected anatomical coupling through outbound/intermediate/return motion."
+    },
+    "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json": {
+      "category": "authority",
+      "validator": "scripts/validate_original_v1_joint_tissue_triggers.py",
+      "note": "Maps production bone/joint families to every shared-tissue coupling system that must be reviewed whenever that joint materially moves."
     }
   },
   "categories": {

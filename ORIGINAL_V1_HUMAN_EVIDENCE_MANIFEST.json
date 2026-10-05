@@ -1402,6 +1402,162 @@
       "uncertainty": "Exoskeleton glove obscures skin, tendon and crease details. Use only as partial gross hand/digit visual motion evidence.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-ELB-002",
+      "region": "upperarm_elbow_surface",
+      "movement_primitive": "elbow_flexion_extension_skin_stretch",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5073131/",
+        "citation": "Kuling, Brenner & Smeets (2016), Proprioceptive Localization of the Hand Changes When Skin Stretch around the Elbow Is Manipulated, PMCID PMC5073131; control experiment/figure reporting skin stretch around the elbow during flexion.",
+        "license_use_note": "Use published skin-stretch observations/figures as development reference only; do not copy participant imagery into production."
+      },
+      "movement_phase": "small_elbow_flexion_extension_change",
+      "view": [
+        "inside_arm_marker_chain",
+        "outside_arm_marker_chain",
+        "elbow_centered_skin_stretch_profile"
+      ],
+      "diversity": {
+        "subject_count": 11,
+        "notes": "Control experiment measured skin stretch in 11 subjects. The movement increment was modest and does not cover full loaded curl ROM."
+      },
+      "observable_landmarks": [
+        "antecubital_skin",
+        "posterior_elbow_skin",
+        "proximal_upperarm_skin",
+        "proximal_forearm_skin"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Skin stretch changes most near the elbow and decreases gradually toward proximal and distal arm regions.",
+        "The inside and outside surfaces exhibit spatially distributed skin response rather than one fixed crease/hinge line."
+      ],
+      "uncertainty": "Small elbow-angle change and skin-marker distances rather than full 3D surface reconstruction; use for local stretch-gradient logic, not exact fold depth.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-KNEE-002",
+      "region": "thigh_knee_surface",
+      "movement_primitive": "knee_flexion_skin_surface_deformation",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13042510/",
+        "citation": "Bali et al. (2026), Rapid Design and Fabrication of Body Conformable Surfaces with Kirigami Cutting and Machine Learning, PMCID PMC13042510; exposed anterior-knee 3D scans at relaxed and 90-degree flexion.",
+        "license_use_note": "CC BY article. Use derived skin-deformation observations only; do not transfer scan meshes/point clouds into the character."
+      },
+      "movement_phase": "relaxed_knee_to_90_degree_flexion",
+      "view": [
+        "anterior_knee_exposed_skin_3d_scan",
+        "grid_deformation",
+        "surface_strain"
+      ],
+      "diversity": {
+        "subject_count": 3,
+        "notes": "Three volunteer subjects; direct exposed-skin scanning is valuable but cohort is too small to define one universal deformation field."
+      },
+      "observable_landmarks": [
+        "anterior_thigh",
+        "patellar_region",
+        "medial_lateral_knee_skin",
+        "proximal_shin"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "volume_continuity",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Anterior knee skin undergoes spatially varying deformation between relaxed and 90-degree flexion rather than behaving as a rigid cover.",
+        "A model should preserve a distributed deformation field around the patella instead of collapsing deformation into a single ring crease."
+      ],
+      "uncertainty": "Only two static joint angles and three subjects; return timing and deep-flexion surface beyond 90 degrees still require other evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-LUMBAR-002",
+      "region": "ribcage_abdomen_obliques_lumbar",
+      "movement_primitive": "multi_direction_lumbar_skin_deformation",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12483186/",
+        "citation": "Experimentally measured lumbar skin strains during functional movements, PMCID PMC12483186; dense exposed-skin marker grid through uniplanar, multiplanar and sit-to-stand movements.",
+        "license_use_note": "Use published strain-field observations/figures as development evidence only; do not copy subject-specific geometry or marker coordinates into production."
+      },
+      "movement_phase": "flexion_extension_lateral_bend_rotation_multiplanar_and_sit_to_stand",
+      "view": [
+        "exposed_lower_back_marker_grid",
+        "dynamic_strain_fields",
+        "posterior_trunk"
+      ],
+      "diversity": {
+        "subject_count": 30,
+        "notes": "Thirty healthy adults, 15 women and 15 men, ages 20-59. Stronger population evidence than most current exterior-surface sources."
+      },
+      "observable_landmarks": [
+        "lumbar_midline",
+        "paraspinal_skin",
+        "lower_lumbar_skin",
+        "lateral_lumbar_skin",
+        "return_to_neutral"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Lumbar skin deformation is large, spatially inhomogeneous and direction-dependent rather than a rigid shell over the spine.",
+        "Flexion, extension, lateral bending and rotation produce distinct skin-strain fields; a single generic waist deformation is not sufficient.",
+        "Measured sex/inter-subject differences reinforce using a plausible range rather than a single exact skin-strain target."
+      ],
+      "uncertainty": "Marker-grid strain fields characterize skin deformation but do not alone establish abdominal/anterior torso folds or deep tissue/muscle contours.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ARM-002",
+      "region": "biceps_brachii_upper_arm",
+      "movement_primitive": "elbow_flexion_muscle_internal_deformation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2322855/",
+        "citation": "Imaging Two-Dimensional Displacements and Strains in Skeletal Muscle during Joint Motion by Cine DENSE MR, PMCID PMC2322855.",
+        "license_use_note": "Use derived muscle strain observations only; MRI images/subject geometry are not production assets."
+      },
+      "movement_phase": "repeated_elbow_flexion_against_gravity",
+      "view": [
+        "cine_DENSE_MRI_upper_arm",
+        "internal_biceps_strain_field"
+      ],
+      "diversity": {
+        "subject_count": 6,
+        "notes": "Six healthy volunteers. Internal 2D muscle strain evidence, not exterior skin shape or a large population sample."
+      },
+      "observable_landmarks": [
+        "biceps_brachii_internal_displacement",
+        "principal_strain_field",
+        "upper_arm_muscle_belly"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "volume_continuity",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Biceps deformation during elbow flexion is spatially non-uniform rather than a rigid uniform shortening.",
+        "Principal shortening direction is not necessarily identical to local fascicle direction, supporting distributed shape change rather than a simple scaled bulge."
+      ],
+      "uncertainty": "2D internal MRI during repeated unloaded/gravity-loaded flexion; do not infer exact exterior biceps bulge magnitude from this alone.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

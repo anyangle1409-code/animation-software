@@ -3,6 +3,7 @@ import importlib.util,json,tempfile
 from argparse import Namespace
 from pathlib import Path
 import unittest
+from unittest import mock
 
 P=Path(__file__).with_name("build_original_v1_stage1_post_edit_continuation_plan.py")
 S=importlib.util.spec_from_file_location("post_edit_plan",P); mod=importlib.util.module_from_spec(S); S.loader.exec_module(mod)
@@ -38,6 +39,11 @@ class PostEditContinuationPlanTests(unittest.TestCase):
           label="postfix",calibration_record=None if cal is None else str(cal),out_dir="unused"
         )
 
+    def calibrated_validator(self):
+        fake=mock.Mock()
+        fake.validate.return_value={"overall_state":"CALIBRATED"}
+        return fake
+
     def test_no_sweep_package_needs_no_calibration_record(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); ws=self.make_workspace(root,packages=["RP-QUAD-011"],sweeps=[])
@@ -53,18 +59,21 @@ class PostEditContinuationPlanTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"need --calibration-record"):
                 mod.build(self.args(ws,candidate))
 
-    def test_unreviewed_calibration_is_rejected(self):
+    def test_unreviewed_or_stale_calibration_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); ws=self.make_workspace(root,packages=["RP-PEC-AX-002"],sweeps=["shoulder_abduction_elevation"])
             candidate=self.make_candidate(root); cal=self.make_calibration(root,"IN_REVIEW","PENDING")
-            with self.assertRaisesRegex(ValueError,"CALIBRATED runner record"):
-                mod.build(self.args(ws,candidate,cal))
+            fake=mock.Mock(); fake.validate.side_effect=ValueError("runner calibration incomplete")
+            with mock.patch.object(mod,"load_calibration_validator",return_value=fake):
+                with self.assertRaisesRegex(ValueError,"current-authority CALIBRATED"):
+                    mod.build(self.args(ws,candidate,cal))
 
     def test_sweep_package_generates_raw_visual_motion_and_collection_commands(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); ws=self.make_workspace(root,packages=["RP-PEC-AX-002"],sweeps=["shoulder_abduction_elevation"])
             candidate=self.make_candidate(root); cal=self.make_calibration(root)
-            d=mod.build(self.args(ws,candidate,cal))
+            with mock.patch.object(mod,"load_calibration_validator",return_value=self.calibrated_validator()):
+                d=mod.build(self.args(ws,candidate,cal))
             commands="\n".join(x["command"] for x in d["commands"])
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",commands)
             self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",commands)
@@ -75,7 +84,8 @@ class PostEditContinuationPlanTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); ws=self.make_workspace(root,packages=["RP-CALF-013"],sweeps=["ankle_plantarflexion"])
             candidate=self.make_candidate(root); cal=self.make_calibration(root)
-            d=mod.build(self.args(ws,candidate,cal))
+            with mock.patch.object(mod,"load_calibration_validator",return_value=self.calibrated_validator()):
+                d=mod.build(self.args(ws,candidate,cal))
             self.assertEqual(d["contact_bearing_required_sweeps"],["ankle_plantarflexion"])
             self.assertTrue(any("HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat" in x["command"] for x in d["commands"]))
 

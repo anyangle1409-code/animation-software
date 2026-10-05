@@ -25,6 +25,7 @@ class HumanMovementSweepExecutionTests(unittest.TestCase):
         self.assertEqual(out["candidate_sweeps_executed"],0)
         self.assertEqual(out["candidate_sweeps_evidence_ready"],0)
         self.assertFalse(out["current_wave_evidence_ready"])
+        self.assertTrue(out["separate_evidence_producers_ready"])
 
     def test_require_bound_passes_without_implying_evidence_readiness(self):
         out=mod.validate(self.d,self.plan,self.packages,self.posemap,self.graph,True)
@@ -45,6 +46,16 @@ class HumanMovementSweepExecutionTests(unittest.TestCase):
           "shoulder_abduction_elevation","humeral_internal_external_rotation",
           "trunk_flexion","trunk_extension","trunk_lateral_bend","trunk_axial_rotation"
         })
+
+    def test_missing_visual_evidence_producer_is_rejected(self):
+        bad=copy.deepcopy(self.d); del bad["separate_evidence_producers"]["visual_capture"]
+        with self.assertRaisesRegex(ValueError,"producer missing visual_capture"):
+            mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
+
+    def test_review_workspace_producer_must_remain_non_blender_ready(self):
+        bad=copy.deepcopy(self.d); bad["separate_evidence_producers"]["review_workspace"]["state"]="BROKEN"
+        with self.assertRaisesRegex(ValueError,"review_workspace: evidence producer state differs"):
+            mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
 
     def test_sweep_sample_drift_is_rejected(self):
         bad=copy.deepcopy(self.d); bad["sweeps"][0]["samples"]=["wrong"]

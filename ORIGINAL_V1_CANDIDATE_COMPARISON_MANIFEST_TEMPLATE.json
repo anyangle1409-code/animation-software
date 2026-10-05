@@ -36,7 +36,8 @@
     "change_audit_status": "PENDING",
     "repair_declaration_paths": [],
     "pose_capture_plan_path": null,
-    "surface_visual_review_path": null
+    "surface_visual_review_path": null,
+    "repair_execution_record_paths": []
   },
   "allowed_statuses": [
     "PENDING",
@@ -57,7 +58,8 @@
     "PASS for regression/contact/change audit is invalid without an existing candidate-bound evidence file.",
     "Every declared repair package must have at least one candidate-bound repair declaration covering its coupling system.",
     "Automatic pose capture planning must be present so moved-joint tissue scope is not hand-minimized.",
-    "Visual engineering PASS must be backed by a candidate-bound visual review/capture manifest rather than a status string alone."
+    "Visual engineering PASS must be backed by a candidate-bound visual review/capture manifest rather than a status string alone.",
+    "Every executed repair package must have a post-edit execution record that binds the immutable pre-edit declaration to the final candidate SHA."
   ],
   "output": "candidate_comparison_report.json"
 }

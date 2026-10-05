@@ -15,6 +15,7 @@ RAW_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_report.py"
 CAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
 VISUAL_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_visual_capture.py"
 CONTACT_RAW_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_contact_raw.py"
+MOTION_BUILDER=ROOT/"scripts/build_original_v1_human_movement_sweep_motion_review.py"
 
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
 def write(p,d): p.write_text(json.dumps(d,indent=2)+"\n",encoding="utf-8")
@@ -74,8 +75,10 @@ def main():
 
         visual_records={}
         contact_records={}
+        motion_records={}
         acceptance_records={}
         copied_images=[]
+        motion_builder=module(MOTION_BUILDER,"workspace_sweep_motion_builder")
 
         for sid in required:
             sstem=stem(sid)
@@ -133,6 +136,14 @@ def main():
                 write(target_contact,cr)
                 contact_records[sid]=target_contact.name
 
+            motion_name=f"human_movement_sweep_motion_{sstem}_final.json"
+            motion_path=ws/motion_name
+            if motion_path.exists():
+                raise ValueError(f"{sid}: motion review record already exists")
+            motion=motion_builder.build(raw_dst,sid,fm["candidate_revision"])
+            write(motion_path,motion)
+            motion_records[sid]=motion_name
+
             acc_path=ws/f"human_movement_sweep_acceptance_{sstem}_final.json"
             acc=read(acc_path)
             if acc.get("engineering_review")!="PENDING": raise ValueError(f"{sid}: acceptance record already reviewed")
@@ -140,7 +151,6 @@ def main():
             acc["runner_calibration_record_path"]=rel(cal_dst,ws)
             acc["visual_capture_manifest_path"]=visual_records[sid]
             acc["contact_report_path"]=target_contact.name if target_contact else None
-            motion_name=f"human_movement_sweep_motion_{sstem}_final.json"
             acc["motion_continuity_evidence_path"]=motion_name
             acc["motion_reversibility_evidence_path"]=motion_name
             write(acc_path,acc)
@@ -157,6 +167,7 @@ def main():
           "runner_calibration_record":{"path":rel(cal_dst,ws),"sha256":digest(cal_dst),"overall_state":cal.get("overall_state")},
           "visual_records":visual_records,
           "contact_records":contact_records,
+          "motion_records":motion_records,
           "acceptance_records":acceptance_records,
           "copied_visual_images":copied_images,
           "engineering_statuses":"PENDING",
@@ -164,7 +175,7 @@ def main():
         }
         write(ws/"workspace_sweep_evidence_index.json",index)
         print("WORKSPACE SWEEP EVIDENCE: COLLECTED")
-        print(json.dumps({"candidate_sha256":final,"sweeps":required,"images":len(copied_images),"contact_sweeps":sorted(contact_records)},indent=2))
+        print(json.dumps({"candidate_sha256":final,"sweeps":required,"images":len(copied_images),"contact_sweeps":sorted(contact_records),"motion_reviews":sorted(motion_records)},indent=2))
         return 0
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError,shutil.Error) as exc:
         print("STOP - "+str(exc)); return 2

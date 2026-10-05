@@ -38,6 +38,12 @@ If a validated CALIBRATED record already exists:
 
 The pickup planner validates it before reuse.
 
+**Calibration reuse rule:** reuse is allowed only while the generic runner,
+execution spec and frozen pose-source hashes still match the calibrated record.
+A repaired body candidate does **not** require recalibrating the runner when those
+authorities are unchanged; the candidate still requires its own selected sweep,
+visual, contact and acceptance evidence.
+
 If no calibrated record exists, leave the variable unset. The pickup sequence
 will generate an IN_REVIEW record and stop at a review gate before model editing.
 

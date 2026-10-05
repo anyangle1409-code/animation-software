@@ -154,10 +154,13 @@ def main():
         expected_sweep_visual_records=[]
         sweep_contact_templates=[]
         expected_sweep_contact_records=[]
+        expected_sweep_motion_review_records=[]
         for sid in validation_selection.get("sweep_only_movements_requiring_generic_runner",[]):
             stem=sid.lower().replace("-","_")
             visual_template_name=f"human_movement_sweep_visual_{stem}_FINAL_TEMPLATE.json"
             visual_final_name=f"human_movement_sweep_visual_{stem}_final.json"
+            motion_final_name=f"human_movement_sweep_motion_{stem}_final.json"
+            expected_sweep_motion_review_records.append(motion_final_name)
             sv=copy.deepcopy(sweep_visual_template)
             sv["status"]="HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE_FINAL_SHA_NOT_BOUND"
             sv["candidate_revision"]=a.candidate
@@ -202,6 +205,8 @@ def main():
             sat["human_evidence_review_refs"]=[]
             sat["visual_capture_manifest_path"]=visual_final_name
             sat["contact_report_path"]=contact_final_name
+            sat["motion_continuity_evidence_path"]=motion_final_name
+            sat["motion_reversibility_evidence_path"]=motion_final_name
             sat["contact_review_status"]="PENDING" if contact_final_name else "NOT_APPLICABLE"
             template_name=f"human_movement_sweep_acceptance_{stem}_FINAL_TEMPLATE.json"
             final_name=f"human_movement_sweep_acceptance_{stem}_final.json"
@@ -256,6 +261,7 @@ def main():
             "expected_sweep_visual_records":expected_sweep_visual_records,
             "sweep_contact_final_templates":sweep_contact_templates,
             "expected_sweep_contact_records":expected_sweep_contact_records,
+            "expected_sweep_motion_review_records":expected_sweep_motion_review_records,
             "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
             "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
           },
@@ -264,7 +270,8 @@ def main():
             "deterministic_sweep_names":validation_selection.get("deterministic_sweep_names",[]),
             "sweep_only_movements_requiring_generic_runner":validation_selection.get("sweep_only_movements_requiring_generic_runner",[]),
             "validation_definition_complete":validation_selection.get("validation_definition_complete",False),
-            "sweep_acceptance_records_required":expected_sweep_acceptance_records
+            "sweep_acceptance_records_required":expected_sweep_acceptance_records,
+            "sweep_motion_review_records_required":expected_sweep_motion_review_records
           },
           "next_actions":[
             "complete each pre-edit repair declaration with exact candidate-specific zones/bones/hashes and validate it",

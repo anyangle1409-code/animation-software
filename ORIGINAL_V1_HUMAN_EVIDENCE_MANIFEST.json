@@ -1147,6 +1147,98 @@
       "uncertainty": "Clinical anatomy reference; exterior skin-fold shape still needs real-hand visual evidence.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-LOWER-001",
+      "region": "whole_body_lower_extremity_surface",
+      "movement_primitive": "overhead_squat",
+      "source_type": "supplementary_video",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11603033/",
+        "citation": "Bae et al. (2024), Concurrent validity and test reliability of the deep learning markerless motion capture system during the overhead squat, PMCID PMC11603033, Supplementary Video 1.",
+        "license_use_note": "Article is open access under CC BY-NC-ND 4.0; inspect the supplementary video only as development evidence. Do not copy, redistribute, modify or ship participant imagery."
+      },
+      "movement_phase": "standing_to_overhead_squat_depth_and_return",
+      "view": [
+        "multi_camera_RGB_video",
+        "whole_body_front_oblique",
+        "marker_based_reference"
+      ],
+      "diversity": {
+        "subject_count": 31,
+        "notes": "Validation dataset used 31 non-symptomatic adults (22 men, 9 women) randomly selected from 71 volunteers. Supplementary video is visual evidence of the task, not footage establishing every participant's surface morphology."
+      },
+      "observable_landmarks": [
+        "shoulder",
+        "trunk",
+        "pelvis",
+        "hip",
+        "knee",
+        "ankle",
+        "heel",
+        "forefoot",
+        "whole_body_silhouette"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "joint_kinematics",
+        "interjoint_coordination",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "The overhead squat is a whole-body coupled movement and should preserve continuous trunk-pelvis-lower-limb silhouette through descent and return.",
+        "Tight-fitting clothing permits gross segment/silhouette review but does not expose skin folds or detailed glute/groin/knee soft-tissue deformation."
+      ],
+      "uncertainty": "Tight-fitting clothing and motion-capture markers obscure skin/muscle detail. Use only for gross silhouette, segment relationship and movement timing; do not close local surface-fold acceptance from this source.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-LOWER-002",
+      "region": "lower_extremity_multi_movement_surface",
+      "movement_primitive": "lower_extremity_movement_set",
+      "source_type": "figure_series",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10494994/",
+        "citation": "Song et al. (2023), Markerless motion capture estimates of lower extremity kinematics and kinetics are comparable to marker-based across 8 movements, PMCID PMC10494994; video-frame examples for eight movements in Supplementary Material 1.",
+        "license_use_note": "Inspect published/supplementary frames as development reference only. Do not copy participant imagery or use it as production texture/geometry."
+      },
+      "movement_phase": "heel_raise_walk_step_down_jump_run_regular_squat_sumo_squat_run_cut",
+      "view": [
+        "eight_high_resolution_video_cameras",
+        "multi_view_video_frames",
+        "whole_lower_body"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy adults (5 men, 5 women), mean age about 22. Clothing/marker setup and small young cohort limit surface-detail generalization."
+      },
+      "observable_landmarks": [
+        "pelvis",
+        "hip",
+        "thigh",
+        "knee",
+        "shank",
+        "ankle",
+        "heel",
+        "forefoot",
+        "lower_body_silhouette"
+      ],
+      "permissible_conclusions": [
+        "surface_contour",
+        "movement_timing",
+        "joint_kinematics",
+        "interjoint_coordination",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "The same healthy subjects were visually captured across heel raises, squats and other lower-limb movements, supporting cross-movement gross silhouette consistency.",
+        "Video/marker evidence is appropriate for segment timing and gross contour but not exposed-skin fold depth or local muscle bulge acceptance."
+      ],
+      "uncertainty": "Small cohort, marker setup and clothing obscure detailed exterior soft tissue; use as partial visual evidence only.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

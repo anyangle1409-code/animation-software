@@ -1,5 +1,5 @@
 """Tests for unified parent->candidate comparison builder."""
-import importlib.util,json,tempfile
+import hashlib,importlib.util,json,tempfile
 from pathlib import Path
 import unittest
 
@@ -15,7 +15,24 @@ class CandidateComparisonTests(unittest.TestCase):
     def accepted_sweep_fixture(self,root,sweep,csha):
         plan=mod.json.loads((mod.SWEEP_PLAN).read_text(encoding="utf-8"))["sweeps"][sweep]
         raw=self.write(root,f"{sweep}_raw.json",{"candidate_sha256":csha,"source_saved_or_modified":False,"sweeps":{sweep:{}}})
-        cal=self.write(root,f"{sweep}_cal.json",{"overall_state":"CALIBRATED","engineering_review":"PASS"})
+        cal_template=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json").read_text(encoding="utf-8"))
+        cal_template["calibration_candidate_revision"]="r95"
+        cal_template["calibration_candidate_sha256"]="f"*64
+        cal_template["runner_sha256"]=hashlib.sha256((mod.ROOT/"scripts/audit_original_v1_human_movement_sweeps_blender.py").read_bytes()).hexdigest()
+        cal_template["execution_spec_sha256"]=hashlib.sha256((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_bytes()).hexdigest()
+        cal_template["frozen_pose_source_sha256"]=hashlib.sha256((mod.ROOT/"scripts/pose_test_original_v1_o4_candidate_blender.py").read_bytes()).hexdigest()
+        for adapter in cal_template["adapters"]:
+            adapter["state"]="CALIBRATED"
+            adapter["skeleton_joint_state_manifest"]="joint.json"
+            adapter["outbound_return_evidence"]="return.json"
+            adapter["sample_order_evidence"]="order.json"
+            adapter["source_hash_evidence"]="hash.json"
+            adapter["human_evidence_review_refs"]=["review"]
+            if adapter["id"]=="hip_abduction_adduction":
+                adapter["mirrored_input_evidence"]="mirror.json"
+        cal_template["overall_state"]="CALIBRATED"
+        cal_template["engineering_review"]="PASS"
+        cal=self.write(root,f"{sweep}_cal.json",cal_template)
         vis=self.write(root,f"{sweep}_vis.json",{"candidate_sha256":csha,"sweep_id":sweep,"samples":[{"label":x,"views":plan["cameras"]} for x in plan["samples"]]})
         cont=self.write(root,f"{sweep}_cont.json",{"candidate_sha256":csha,"sweep_id":sweep})
         rev=self.write(root,f"{sweep}_rev.json",{"candidate_sha256":csha,"sweep_id":sweep})

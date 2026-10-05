@@ -62,6 +62,8 @@ class SweepAcceptanceTests(unittest.TestCase):
         cal_template["frozen_pose_source_sha256"]=hashlib.sha256((mod.ROOT/"scripts/pose_test_original_v1_o4_candidate_blender.py").read_bytes()).hexdigest()
         for adapter in cal_template["adapters"]:
             adapter["state"]="CALIBRATED"
+            for key in adapter["automatic_checks"]:
+                adapter["automatic_checks"][key]=True
             adapter["skeleton_joint_state_manifest"]="joint.json"
             adapter["outbound_return_evidence"]="return.json"
             adapter["sample_order_evidence"]="order.json"

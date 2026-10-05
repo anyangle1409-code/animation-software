@@ -52,6 +52,7 @@ call :run scripts\test_validate_original_v1_shoulder_layer_diagnostic.py || exit
 call :run scripts\test_build_original_v1_pose_capture_evidence_plan.py || exit /b 1
 call :run scripts\test_build_original_v1_candidate_comparison_report.py || exit /b 1
 call :run scripts\test_validate_original_v1_anatomical_repair_packages.py || exit /b 1
+call :run scripts\test_validate_original_v1_stage1_repair_execution_graph.py || exit /b 1
 call :run scripts\test_validate_original_v1_deformation_diagnosis_tree.py || exit /b 1
 call :run scripts\test_validate_original_v1_weights_only_acceptance.py || exit /b 1
 call :run scripts\test_validate_original_v1_candidate_surface_visual_review.py || exit /b 1

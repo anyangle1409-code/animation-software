@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "COUPLING_ZONE_DECLARATION_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "coupling_system_id": null,
+  "side": "unspecified",
+  "vertex_ids": [],
+  "mirror_rule": null,
+  "anchor_groups": [
+    {
+      "name": "proximal_attachment",
+      "bones": [],
+      "meaning": "Bones/rig groups representing the proximal/rooted attachment side."
+    },
+    {
+      "name": "distal_attachment",
+      "bones": [],
+      "meaning": "Bones/rig groups representing the distal/moving attachment side."
+    }
+  ],
+  "allowed_bones": [],
+  "protected_bones": [],
+  "topology_change_allowed": false,
+  "rest_geometry_change_allowed": false,
+  "expected_human_behaviour": [],
+  "forbidden_visual_failures": [],
+  "human_evidence_ids": [],
+  "declaration_note": "Create a fresh candidate-specific declaration before any edit. Vertex ids, anchor groups, allowed bones and expected behaviour must be filled from evidence; never edit this template into a repair record."
+}

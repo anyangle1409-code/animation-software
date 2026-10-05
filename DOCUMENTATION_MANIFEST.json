@@ -314,6 +314,10 @@
     "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md": {
       "category": "authority",
       "note": "Human-readable fail-closed shared-tissue/attachment contract; subordinate only to live executable evidence and the human-body master plan."
+    },
+    "docs/work_packages/WHOLE_BODY_HUMAN_DEFORMATION_PICKUP_20261005.md": {
+      "category": "current_technical",
+      "note": "Laptop pickup package for integrating the GPT whole-body/coupling audit work without overwriting newer Blender recovery work; exact shoulder foundation restart sequence."
     }
   }
 }

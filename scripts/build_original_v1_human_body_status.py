@@ -23,6 +23,7 @@ COVERAGE = ROOT / "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json"
 ISSUES = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+SWEEP_EXEC = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json"
 COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
@@ -37,7 +38,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
+    plan, cov, ledger, human, sweeps, sweep_exec, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, SWEEP_EXEC, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -91,6 +92,16 @@ def build():
         "human_evidence_regions": refs_by_region,
         "prepared_movement_sweep_count": len((sweeps.get("sweeps") or {})),
         "prepared_movement_sweeps": list((sweeps.get("sweeps") or {}).keys()),
+        "movement_sweep_execution": {
+            "authority": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+            "definitions_total": len(sweep_exec.get("sweeps") or []),
+            "runner_bound_count": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")=="BOUND"),
+            "runner_unbound_count": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")!="BOUND"),
+            "current_wave_required_sweeps": sweep_exec.get("current_wave_required_sweeps",[]),
+            "generic_runner_target": sweep_exec.get("generic_runner_target"),
+            "status": "RUNNER_UNBOUND" if any(x.get("runner_binding_status")!="BOUND" for x in sweep_exec.get("sweeps",[])) else "RUNNER_BOUND",
+            "rule": sweep_exec.get("exit_rule"),
+        },
         "anatomical_coupling": {
             "authority": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
             "coupling_system_count": len(coupling.get("coupling_systems") or []),
@@ -139,6 +150,8 @@ def build():
             "issues": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
             "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
             "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+            "movement_sweep_execution": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+            "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
             "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
             "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
             "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
@@ -174,6 +187,10 @@ def build():
             "post_repair_validation_bundle": "READY",
             "pre_edit_post_edit_provenance_split": "ENFORCED",
             "unified_candidate_comparison": "READY",
+            "deterministic_movement_sweep_definitions": len(sweep_exec.get("sweeps") or []),
+            "generic_blender_sweep_runner_bound": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")=="BOUND"),
+            "generic_blender_sweep_runner_unbound": sum(1 for x in sweep_exec.get("sweeps",[]) if x.get("runner_binding_status")!="BOUND"),
+            "stage1_wave_work_package": "READY",
             "real_human_evidence_records": len(human_entries),
             "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance.",
         },
@@ -207,6 +224,15 @@ def markdown(s):
         f"- Prepared deterministic movement sweeps: **{s['prepared_movement_sweep_count']}**",
         "",
         "> Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.",
+        "",
+        "## Movement sweep execution",
+        "",
+        f"- Deterministic sweep definitions: **{s['movement_sweep_execution']['definitions_total']}**",
+        f"- Bound to generic Blender runner: **{s['movement_sweep_execution']['runner_bound_count']}**",
+        f"- Not yet bound: **{s['movement_sweep_execution']['runner_unbound_count']}**",
+        "- Current-wave sweep requirements: " + (", ".join(s['movement_sweep_execution']['current_wave_required_sweeps']) or "none"),
+        "",
+        "> Sweep definitions are planning authority. A movement is not candidate-proven until the separate runner executes it against the exact candidate and candidate-bound evidence is reviewed.",
         "",
         "## Anatomical coupling / shared tissue",
         "",
@@ -246,6 +272,9 @@ def markdown(s):
         f"- Post-repair validation bundle: **{s['non_blender_preparation']['post_repair_validation_bundle']}**",
         f"- Pre-edit/post-edit provenance split: **{s['non_blender_preparation']['pre_edit_post_edit_provenance_split']}**",
         f"- Unified candidate comparison: **{s['non_blender_preparation']['unified_candidate_comparison']}**",
+        f"- Deterministic movement sweep definitions: **{s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
+        f"- Generic Blender sweep runner bound: **{s['non_blender_preparation']['generic_blender_sweep_runner_bound']} / {s['non_blender_preparation']['deterministic_movement_sweep_definitions']}**",
+        f"- Stage 1 wave work package: **{s['non_blender_preparation']['stage1_wave_work_package']}**",
         "",
         "> These are preparation/control tools, not evidence that the body itself is clear.",
         "",

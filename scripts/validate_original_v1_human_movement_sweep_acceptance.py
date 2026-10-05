@@ -7,6 +7,8 @@ ROOT=Path(__file__).resolve().parents[1]
 PLAN=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 CAL_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_runner_calibration.py"
 RAW_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_report.py"
+VISUAL_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_visual_capture.py"
+CONTACT_MOD=ROOT/"scripts/validate_original_v1_human_movement_sweep_contact.py"
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 PASS={"PASS","NOT_APPLICABLE"}
 
@@ -37,6 +39,14 @@ def load_raw_report_validator():
     spec=importlib.util.spec_from_file_location("original_v1_sweep_report",RAW_MOD)
     if spec is None or spec.loader is None:
         raise ValueError("unable to load raw sweep report validator")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+def load_evidence_validator(path,name):
+    spec=importlib.util.spec_from_file_location(name,path)
+    if spec is None or spec.loader is None:
+        raise ValueError(f"unable to load {name} validator")
     mod=importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -79,15 +89,14 @@ def validate(d,base,require_pass=False):
     vis=load(base,d.get("visual_capture_manifest_path"))
     if engineering=="PASS" or require_pass:
         if vis is None: raise ValueError("PASS requires visual capture manifest")
-        ok,why=bind(vis,csha,sweep)
-        if not ok: raise ValueError("visual capture manifest mismatch: "+why)
-        by={x.get("label"):x for x in vis.get("samples",[])}
-        for label in row.get("samples",[]):
-            rec=by.get(label)
-            if rec is None: raise ValueError(f"visual capture missing sample {label}")
-            views=set(rec.get("views") or [])
-            missing=set(row.get("cameras") or [])-views
-            if missing: raise ValueError(f"{label}: visual capture missing cameras {sorted(missing)}")
+        try:
+            visual_result=load_evidence_validator(VISUAL_MOD,"original_v1_sweep_visual").validate(
+                vis,resolve(base,d.get("visual_capture_manifest_path")).parent,True
+            )
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+            raise ValueError("PASS requires validated visual capture manifest: "+str(exc)) from exc
+        if visual_result.get("candidate_sha256")!=csha or visual_result.get("sweep_id")!=sweep:
+            raise ValueError("validated visual capture manifest identity differs")
 
     contact_required=sweep in {"grip_release","loaded_hip_hinge","ankle_plantarflexion"}
     contact=d.get("contact_review_status")
@@ -96,9 +105,14 @@ def validate(d,base,require_pass=False):
             if contact!="PASS": raise ValueError("contact-bearing sweep requires contact PASS")
             obj=load(base,d.get("contact_report_path"))
             if obj is None: raise ValueError("contact-bearing sweep requires contact report")
-            ok,why=bind(obj,csha,sweep)
-            if not ok: raise ValueError("contact report mismatch: "+why)
-            if obj.get("status")!="PASS": raise ValueError("contact report status must be PASS")
+            try:
+                contact_result=load_evidence_validator(CONTACT_MOD,"original_v1_sweep_contact").validate(
+                    obj,resolve(base,d.get("contact_report_path")).parent,True
+                )
+            except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+                raise ValueError("contact-bearing sweep requires validated contact report: "+str(exc)) from exc
+            if contact_result.get("candidate_sha256")!=csha or contact_result.get("sweep_id")!=sweep:
+                raise ValueError("validated contact report identity differs")
     elif contact not in PASS|{"PENDING","FAIL"}:
         raise ValueError("contact_review_status invalid")
 

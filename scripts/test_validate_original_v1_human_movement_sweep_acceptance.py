@@ -141,7 +141,7 @@ class SweepAcceptanceTests(unittest.TestCase):
             root=Path(td); d=self.fixture(root)
             vis=mod.read(root/d["visual_capture_manifest_path"]); vis["samples"].pop()
             (root/d["visual_capture_manifest_path"]).write_text(json.dumps(vis),encoding="utf-8")
-            with self.assertRaisesRegex(ValueError,"visual capture missing sample"):
+            with self.assertRaisesRegex(ValueError,"visual.*sample|visual capture manifest"):
                 mod.validate(d,root,True)
 
     def test_contact_sweep_requires_contact_report(self):

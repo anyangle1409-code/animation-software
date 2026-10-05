@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_HUMAN_SWEEP_CAMERA_PLAN",
+  "production_approved": false,
+  "renderer": {
+    "engine": "BLENDER_WORKBENCH",
+    "resolution": [
+      900,
+      900,
+      100
+    ],
+    "bare_body": true,
+    "show_cavity": true,
+    "show_shadows": true
+  },
+  "cameras": {
+    "palm_three_quarter_close": {
+      "focus_bones": [
+        "hand_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": -35,
+      "elevation_deg": 20,
+      "ortho_scale": 0.28
+    },
+    "dorsal_three_quarter_close": {
+      "focus_bones": [
+        "hand_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": 145,
+      "elevation_deg": 20,
+      "ortho_scale": 0.28
+    },
+    "side_close": {
+      "focus_bones": [
+        "hand_r",
+        "forearm_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -90,
+      "elevation_deg": 5,
+      "ortho_scale": 0.38
+    },
+    "whole_upper_body": {
+      "focus_bones": [
+        "spine_03",
+        "clavicle_l",
+        "clavicle_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 0,
+      "elevation_deg": 4,
+      "ortho_scale": 1.35
+    },
+    "side_whole_body": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -90,
+      "elevation_deg": 2,
+      "ortho_scale": 2.15
+    },
+    "front_three_quarter": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -35,
+      "elevation_deg": 8,
+      "ortho_scale": 2.05
+    },
+    "rear_three_quarter": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 145,
+      "elevation_deg": 8,
+      "ortho_scale": 2.05
+    },
+    "lumbar_abdomen_close": {
+      "focus_bones": [
+        "spine_01",
+        "spine_02",
+        "pelvis"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -25,
+      "elevation_deg": 0,
+      "ortho_scale": 0.72
+    },
+    "front_whole_body": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 0,
+      "elevation_deg": 2,
+      "ortho_scale": 2.15
+    },
+    "rear_whole_body": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 180,
+      "elevation_deg": 2,
+      "ortho_scale": 2.15
+    },
+    "side_oblique": {
+      "focus_bones": [
+        "pelvis",
+        "spine_02"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -65,
+      "elevation_deg": 8,
+      "ortho_scale": 1.45
+    },
+    "waist_close": {
+      "focus_bones": [
+        "spine_01",
+        "spine_02"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 0,
+      "elevation_deg": 0,
+      "ortho_scale": 0.72
+    },
+    "top_oblique": {
+      "focus_bones": [
+        "pelvis",
+        "spine_02"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -35,
+      "elevation_deg": 55,
+      "ortho_scale": 1.45
+    },
+    "pelvis_groin_close": {
+      "focus_bones": [
+        "pelvis",
+        "thigh_l",
+        "thigh_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": 0,
+      "elevation_deg": -5,
+      "ortho_scale": 0.78
+    },
+    "lumbar_close": {
+      "focus_bones": [
+        "spine_01",
+        "spine_02"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 180,
+      "elevation_deg": 3,
+      "ortho_scale": 0.72
+    },
+    "side_three_quarter": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -55,
+      "elevation_deg": 7,
+      "ortho_scale": 2
+    },
+    "groin_glute_close": {
+      "focus_bones": [
+        "pelvis",
+        "thigh_l",
+        "thigh_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": 155,
+      "elevation_deg": 0,
+      "ortho_scale": 0.82
+    },
+    "side_lower_leg": {
+      "focus_bones": [
+        "shin_r",
+        "foot_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -90,
+      "elevation_deg": 0,
+      "ortho_scale": 0.78
+    },
+    "rear_lower_leg": {
+      "focus_bones": [
+        "shin_l",
+        "shin_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 180,
+      "elevation_deg": 0,
+      "ortho_scale": 0.86
+    },
+    "front_three_quarter_foot": {
+      "focus_bones": [
+        "foot_l",
+        "foot_r",
+        "toe_l",
+        "toe_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -30,
+      "elevation_deg": 18,
+      "ortho_scale": 0.75
+    },
+    "Achilles_close": {
+      "focus_bones": [
+        "foot_r",
+        "shin_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": 165,
+      "elevation_deg": 0,
+      "ortho_scale": 0.48
+    },
+    "whole_body": {
+      "focus_bones": [
+        "pelvis",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -30,
+      "elevation_deg": 5,
+      "ortho_scale": 2.15
+    },
+    "front_whole_upper_body": {
+      "focus_bones": [
+        "spine_03",
+        "clavicle_l",
+        "clavicle_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 0,
+      "elevation_deg": 5,
+      "ortho_scale": 1.38
+    },
+    "rear_whole_upper_body": {
+      "focus_bones": [
+        "spine_03",
+        "clavicle_l",
+        "clavicle_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 180,
+      "elevation_deg": 5,
+      "ortho_scale": 1.38
+    },
+    "lateral_shoulder": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": -90,
+      "elevation_deg": 5,
+      "ortho_scale": 0.58
+    },
+    "anterior_axilla_close": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -30,
+      "elevation_deg": 5,
+      "ortho_scale": 0.6
+    },
+    "posterior_axilla_close": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 145,
+      "elevation_deg": 5,
+      "ortho_scale": 0.6
+    },
+    "front_three_quarter_shoulder": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": -35,
+      "elevation_deg": 12,
+      "ortho_scale": 0.62
+    },
+    "rear_three_quarter_shoulder": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r"
+      ],
+      "anchor": "head",
+      "azimuth_deg": 145,
+      "elevation_deg": 12,
+      "ortho_scale": 0.62
+    },
+    "lateral_upperarm": {
+      "focus_bones": [
+        "upperarm_r",
+        "forearm_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -90,
+      "elevation_deg": 2,
+      "ortho_scale": 0.72
+    },
+    "axilla_close": {
+      "focus_bones": [
+        "clavicle_r",
+        "upperarm_r",
+        "spine_03"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -15,
+      "elevation_deg": 8,
+      "ortho_scale": 0.62
+    },
+    "palmar_forearm_close": {
+      "focus_bones": [
+        "forearm_r",
+        "hand_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 0,
+      "elevation_deg": 5,
+      "ortho_scale": 0.62
+    },
+    "dorsal_forearm_close": {
+      "focus_bones": [
+        "forearm_r",
+        "hand_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 180,
+      "elevation_deg": 5,
+      "ortho_scale": 0.62
+    },
+    "radial_side_close": {
+      "focus_bones": [
+        "forearm_r",
+        "hand_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -90,
+      "elevation_deg": 5,
+      "ortho_scale": 0.62
+    },
+    "ulnar_side_close": {
+      "focus_bones": [
+        "forearm_r",
+        "hand_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": 90,
+      "elevation_deg": 5,
+      "ortho_scale": 0.62
+    },
+    "whole_upper_limb": {
+      "focus_bones": [
+        "upperarm_r",
+        "forearm_r",
+        "hand_r"
+      ],
+      "anchor": "mid",
+      "azimuth_deg": -35,
+      "elevation_deg": 6,
+      "ortho_scale": 1.1
+    }
+  },
+  "rules": [
+    "Camera IDs must match the authoritative movement-sweep plan exactly.",
+    "Camera geometry is validation-only and must never affect deformation.",
+    "Camera calibration may refine framing before first accepted sweep capture, but accepted evidence must record camera-plan and render-script hashes.",
+    "Close views do not replace whole-body context; every sweep uses the exact camera set declared by its movement plan.",
+    "The rendered body is bare/minimally obscured; clothing may not hide surface failures."
+  ]
+}

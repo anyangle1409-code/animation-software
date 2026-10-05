@@ -54,13 +54,23 @@ def build(a):
     commands.append({"phase":"pre_repair_diagnostics","command":diag,"blocking":True})
 
     calibration_required=sweep_status.get("runner_calibration_state")!="CALIBRATED"
-    raw=Path("ORIGINAL_V1_WORK/candidates/repair_checks/human_movement_sweeps")/(a.label+"_calibration")/"human_movement_sweeps.json"
-    cal=Path("ORIGINAL_V1_WORK/candidates/repair_checks/human_movement_sweeps")/(a.label+"_calibration")/"runner_calibration.json"
-    if calibration_required:
-        commands.append({"phase":"sweep_calibration_raw","command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "+dq(candidate)+" "+dq(a.label+"_calibration"),"blocking":True})
-        commands.append({"phase":"sweep_calibration_review","command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat "+dq(raw)+" "+dq(a.current_revision)+" "+dq(cal),"blocking":True,"review_gate":True})
+    sweep_pipeline_label=a.label+"_sweep_pipeline"
+    sweep_pipeline_dir=Path("ORIGINAL_V1_WORK/candidates/repair_checks/human_movement_sweep_pipeline")/sweep_pipeline_label
+    cal_in_review=sweep_pipeline_dir/"runner_calibration_IN_REVIEW.json"
+    cal_final=sweep_pipeline_dir/"runner_calibration_CALIBRATED.json"
     if sweep_csv:
-        commands.append({"phase":"pre_edit_sweep_baseline","command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "+dq(candidate)+" "+dq(a.label+"_preedit_sweeps")+" "+dq(sweep_csv),"blocking":True})
+        commands.append({
+          "phase":"sweep_pipeline_prepare",
+          "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat "+dq(candidate)+" "+dq(a.current_revision)+" "+dq(package_csv)+" "+dq(sweep_pipeline_label),
+          "blocking":True
+        })
+        if calibration_required:
+            commands.append({
+              "phase":"sweep_calibration_review_and_finalize",
+              "command":"Review every adapter in "+str(cal_in_review)+"; set per-adapter engineering/human review PASS with required refs, then run RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat "+dq(cal_in_review)+" "+dq(cal_final),
+              "blocking":True,
+              "review_gate":True
+            })
     if package_csv:
         commands.append({"phase":"repair_workspace","command":"RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat "+dq(package_csv)+" "+dq(a.new_revision)+" "+dq(pre_sha)+" "+dq(a.side)+" "+dq(a.source_branch)+" "+dq(a.workspace),"blocking":True})
         commands.append({"phase":"declaration_review","command":"Complete/validate repair_declaration files and run coupling-weight audit before any edit.","blocking":True,"review_gate":True})
@@ -82,6 +92,9 @@ def build(a):
       "required_sweep_only_movements":validation.get("sweep_only_movements_requiring_generic_runner",[]),
       "sweep_runner_calibration_state":sweep_status.get("runner_calibration_state"),
       "sweep_runner_calibration_required":calibration_required,
+      "sweep_pipeline_label":sweep_pipeline_label,
+      "sweep_pipeline_dir":str(sweep_pipeline_dir),
+      "calibrated_sweep_runner_record":str(cal_final) if sweep_csv and calibration_required else None,
       "workspace":a.workspace,
       "post_edit_continuation_command_template":"RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat "+dq(a.workspace)+" <final-candidate.blend> "+dq(a.new_revision)+" "+dq(a.current_revision)+" <fresh-post-label> <calibration-record-or-empty> <fresh-post-plan-dir>",
       "commands":commands,
@@ -90,6 +103,7 @@ def build(a):
         "candidate SHA mismatch",
         "required sweep adapter unbound",
         "required sweep calibration still in review",
+        "required sweep pipeline preparation failure",
         "incomplete repair declaration",
         "edit exceeds declared scope",
         "newer local Work candidate/evidence not preserved"

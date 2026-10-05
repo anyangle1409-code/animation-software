@@ -56,6 +56,11 @@ call :run scripts\test_validate_original_v1_human_movement_sweep_report.py || ex
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_acceptance.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_motion_review.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_visual_capture.py || exit /b 1
+call :run scripts\test_validate_original_v1_human_movement_sweep_contact.py || exit /b 1
+call :run scripts\test_build_original_v1_stage1_laptop_pickup_plan.py || exit /b 1
+call :run scripts\test_build_original_v1_stage1_post_edit_continuation_plan.py || exit /b 1
 call :run scripts\test_validate_original_v1_anatomical_coupling.py || exit /b 1
 call :run scripts\test_validate_original_v1_first_party_deformation_architecture.py || exit /b 1
 call :run scripts\test_validate_original_v1_coupling_zone_declaration.py || exit /b 1

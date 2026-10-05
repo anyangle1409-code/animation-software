@@ -74,6 +74,17 @@ class ShoulderYokeProbeTests(unittest.TestCase):
         np.testing.assert_allclose(sym[0], [0.8, 0.2, 0.0, 0.0])
         np.testing.assert_allclose(sym[1], [0.0, 0.0, 0.8, 0.2])
 
+    def test_influence_limit_keeps_largest_weights_and_normalises(self):
+        weights = np.array([
+            [0.40, 0.30, 0.20, 0.06, 0.04],
+            [0.10, 0.20, 0.30, 0.15, 0.25],
+        ], dtype=float)
+        limited = probe.limit_influences(weights, zone_ids=[0], maximum=4)
+        np.testing.assert_allclose(limited[1], weights[1])
+        self.assertEqual(int((limited[0] > 1e-8).sum()), 4)
+        self.assertEqual(limited[0, 4], 0.0)
+        self.assertAlmostEqual(float(limited[0].sum()), 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()

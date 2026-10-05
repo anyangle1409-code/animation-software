@@ -1,0 +1,202 @@
+{
+  "schema_version": 2,
+  "profile": "development_blocker",
+  "status": "REGRESSION",
+  "baseline_failed_checks": 2,
+  "candidate_failed_checks": 2,
+  "delta_failed_checks": 0,
+  "pose_failure_counts_baseline": {
+    "press_bottom": 0,
+    "press_top": 1,
+    "press_top_rhythm": 1,
+    "squat_bottom": 0,
+    "pullup_hang": 0,
+    "pullup_hang_rhythm": 0,
+    "pullup_top": 0
+  },
+  "pose_failure_counts_candidate": {
+    "press_bottom": 0,
+    "press_top": 1,
+    "press_top_rhythm": 1,
+    "squat_bottom": 0,
+    "pullup_hang": 0,
+    "pullup_hang_rhythm": 0,
+    "pullup_top": 0
+  },
+  "grip_failure_counts_baseline": {},
+  "grip_failure_counts_candidate": {},
+  "comparison_tolerances": {
+    "description": "Maximum numerical drift permitted before a candidate is classified as a severity regression. These are noise/iteration tolerances, not relaxed acceptance limits.",
+    "volume_deviation_from_1_rise": 0.005,
+    "edge_ratio_p01_drop": 0.02,
+    "edge_ratio_p99_rise": 0.05,
+    "region_min_ratio_drop": 0.02,
+    "region_max_ratio_rise": 0.1,
+    "self_intersecting_face_pairs_rise": 5,
+    "lowest_z_drop_m": 0.001,
+    "grip_penetration_rise_mm": 0.25,
+    "grip_contact_fraction_drop": 0.01
+  },
+  "selected_poses": null,
+  "regression_count": 1,
+  "improvement_count": 13,
+  "regressions": [
+    {
+      "kind": "severity",
+      "name": "press_top",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.123,
+      "candidate": 0.1,
+      "delta": -0.022999999999999993,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    }
+  ],
+  "improvements": [
+    {
+      "kind": "severity",
+      "name": "press_bottom",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.385,
+      "candidate": 0.433,
+      "delta": 0.04799999999999999,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "press_bottom",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 2.615,
+      "candidate": 2.257,
+      "delta": -0.3580000000000001,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "press_bottom",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.171,
+      "candidate": 2.8,
+      "delta": -0.371,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "press_top",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.545,
+      "candidate": 3.196,
+      "delta": -0.34899999999999975,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "press_top_rhythm",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.906,
+      "candidate": 3.799,
+      "delta": -0.1070000000000002,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 2.648,
+      "candidate": 2.486,
+      "delta": -0.16199999999999992,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.518,
+      "candidate": 3.175,
+      "delta": -0.34299999999999997,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_hang_rhythm",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.852,
+      "candidate": 3.535,
+      "delta": -0.3169999999999997,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_top",
+      "region": "shoulder",
+      "metric": "region_min_ratio",
+      "baseline": 0.314,
+      "candidate": 0.355,
+      "delta": 0.04099999999999998,
+      "direction": "higher_is_better",
+      "tolerance": 0.02
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_top",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 2.483,
+      "candidate": 2.144,
+      "delta": -0.33899999999999997,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "pullup_top",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 2.96,
+      "candidate": 2.639,
+      "delta": -0.3210000000000002,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "shoulder",
+      "metric": "region_max_ratio",
+      "baseline": 2.554,
+      "candidate": 2.375,
+      "delta": -0.17899999999999983,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    },
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": "torso",
+      "metric": "region_max_ratio",
+      "baseline": 3.182,
+      "candidate": 3.063,
+      "delta": -0.11899999999999977,
+      "direction": "lower_is_better",
+      "tolerance": 0.1
+    }
+  ],
+  "rule": "No baseline pose/grip may disappear, gain gate failures, or materially worsen a tracked severity metric while repairing another region."
+}

@@ -146,3 +146,24 @@ def symmetrise_pairs(
     result[left] = average_left
     result[right] = average_left[:, swap]
     return result
+
+
+def limit_influences(weights: np.ndarray, zone_ids: Sequence[int], maximum: int = 4) -> np.ndarray:
+    """Keep the largest deterministic influences on zone rows and renormalise."""
+    if maximum <= 0:
+        raise ValueError("maximum influences must be positive")
+    result = np.asarray(weights, dtype=float).copy()
+    for vertex in sorted(set(int(item) for item in zone_ids)):
+        row = result[vertex]
+        nonzero = np.flatnonzero(row > 1e-8)
+        if len(nonzero) > maximum:
+            # Stable ordering makes equal-weight ties resolve to lower columns.
+            keep = nonzero[np.argsort(-row[nonzero], kind="stable")[:maximum]]
+            discard = np.ones(len(row), dtype=bool)
+            discard[keep] = False
+            row[discard] = 0.0
+        total = float(row.sum())
+        if total <= 1e-12:
+            raise ValueError("cannot normalise an empty weight row")
+        row /= total
+    return result

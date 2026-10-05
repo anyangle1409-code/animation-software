@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "probe_only": true,
+  "production_approved": false,
+  "source_revision": "r95",
+  "source_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "dump_sha256": "cb1efabe17d212d42e1756f87201861707b159e3cacdfadacff14daa94cb88a2",
+  "declaration": "ORIGINAL_V1_WORK/candidates/repair_preparation/r96_shoulder_yoke_declared/r96_weight_subzone_declared_before_edit.json",
+  "declaration_sha256": "99b94c6ebb5b8a1a8022326c90e69de96a8eed2c1ca0b80fb143c5f573f7d430",
+  "iterations": 2,
+  "lambda": 0.25,
+  "zone_vertex_count": 440,
+  "maximum_weight_change": 0.17790737795178824,
+  "mean_weight_l1_change": 0.020953916444724996,
+  "outside_zone_max_change": 0.0,
+  "non_permitted_column_max_change": 0.0,
+  "mirror_max_error": 0.0,
+  "maximum_influences": 4,
+  "normalisation_max_error": 2.220446049250313e-16,
+  "correctives_disabled_during_gate": true
+}

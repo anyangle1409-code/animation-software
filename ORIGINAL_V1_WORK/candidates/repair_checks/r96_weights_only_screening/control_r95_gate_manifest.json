@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-05T17:54:57.000524+00:00",
+  "weights_only_gate": true,
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95.blend",
+  "candidate_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+  "disabled_scene_properties": [
+    "hgpt_shoulder_corrective",
+    "hgpt_flexion_corrective",
+    "hgpt_scapular_corrective"
+  ],
+  "disabled_shape_keys": [
+    "HGPT_SHOULDER_CORR_L",
+    "HGPT_SHOULDER_CORR_R",
+    "HGPT_SHOULDER_FLEX_L",
+    "HGPT_SHOULDER_FLEX_R",
+    "HGPT_SHOULDER_SCAP_L",
+    "HGPT_SHOULDER_SCAP_R"
+  ],
+  "pose_report_sha256": "e6ce5d90cf641ebbee93d4c31b891d43547ffa5f27219d838478c52022ef69fa",
+  "saved_blend": false,
+  "production_approved": false
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-05T17:55:35.359370+00:00",
+  "weights_only_gate": true,
+  "candidate": "probe_i2_l025.blend",
+  "candidate_sha256": "c68fa4dbd2f239525a647e0231f3b651b039fea025f23d28a9d9c8f003db5334",
+  "disabled_scene_properties": [
+    "hgpt_shoulder_corrective",
+    "hgpt_flexion_corrective",
+    "hgpt_scapular_corrective"
+  ],
+  "disabled_shape_keys": [
+    "HGPT_SHOULDER_CORR_L",
+    "HGPT_SHOULDER_CORR_R",
+    "HGPT_SHOULDER_FLEX_L",
+    "HGPT_SHOULDER_FLEX_R",
+    "HGPT_SHOULDER_SCAP_L",
+    "HGPT_SHOULDER_SCAP_R"
+  ],
+  "pose_report_sha256": "8699ac3466a9e5d8855866cf0a33687daee314cadc5d80f721827b842c52d12e",
+  "saved_blend": false,
+  "production_approved": false
+}

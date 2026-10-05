@@ -12,15 +12,18 @@ class HumanMovementSweepExecutionTests(unittest.TestCase):
         cls.d=mod.read(mod.STATUS); cls.plan=mod.read(mod.PLAN)
         cls.packages=mod.read(mod.PACKAGES); cls.posemap=mod.read(mod.POSEMAP); cls.graph=mod.read(mod.GRAPH)
 
-    def test_live_preparation_state_is_valid_but_not_fully_bound(self):
+    def test_live_preparation_state_is_fully_bound_but_not_run(self):
         out=mod.validate(self.d,self.plan,self.packages,self.posemap,self.graph,False)
         self.assertEqual(out["sweeps_total"],11)
-        self.assertEqual(out["bound"],0)
-        self.assertFalse(out["fully_bound"])
+        self.assertEqual(out["bound"],11)
+        self.assertTrue(out["fully_bound"])
+        self.assertEqual(out["runner_calibration_state"],"PREPARED_UNCALIBRATED")
+        self.assertEqual(out["candidate_sweeps_executed"],0)
 
-    def test_require_bound_blocks_current_unimplemented_state(self):
-        with self.assertRaisesRegex(ValueError,"binding incomplete"):
-            mod.validate(self.d,self.plan,self.packages,self.posemap,self.graph,True)
+    def test_require_bound_now_passes_without_implying_execution(self):
+        out=mod.validate(self.d,self.plan,self.packages,self.posemap,self.graph,True)
+        self.assertTrue(out["fully_bound"])
+        self.assertEqual(out["candidate_sweeps_executed"],0)
 
     def test_current_wave_requires_six_non_pose_sweeps(self):
         out=mod.validate(self.d,self.plan,self.packages,self.posemap,self.graph,False)
@@ -34,14 +37,24 @@ class HumanMovementSweepExecutionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"samples differ"):
             mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
 
-    def test_false_bound_claim_without_adapter_is_rejected(self):
-        bad=copy.deepcopy(self.d); bad["sweeps"][0]["runner_binding_status"]="BOUND"
-        with self.assertRaisesRegex(ValueError,"BOUND without blender_adapter_id"):
+    def test_wrong_adapter_id_is_rejected(self):
+        bad=copy.deepcopy(self.d); bad["sweeps"][0]["blender_adapter_id"]="fake"
+        with self.assertRaisesRegex(ValueError,"canonical blender adapter id"):
             mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
 
     def test_unbound_sweep_cannot_claim_adapter(self):
-        bad=copy.deepcopy(self.d); bad["sweeps"][0]["blender_adapter_id"]="fake"
+        bad=copy.deepcopy(self.d); bad["sweeps"][0]["runner_binding_status"]="UNBOUND"
         with self.assertRaisesRegex(ValueError,"UNBOUND may not claim"):
+            mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
+
+    def test_binding_does_not_equal_candidate_execution(self):
+        bad=copy.deepcopy(self.d); bad["sweeps"][0]["candidate_execution_state"]="EVIDENCE_READY"
+        out=mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
+        self.assertEqual(out["candidate_sweeps_executed"],1)
+
+    def test_runner_cannot_claim_calibrated_state_before_blender_calibration(self):
+        bad=copy.deepcopy(self.d); bad["runner_calibration_state"]="CALIBRATED"
+        with self.assertRaisesRegex(ValueError,"PREPARED_UNCALIBRATED"):
             mod.validate(bad,self.plan,self.packages,self.posemap,self.graph)
 
 if __name__=="__main__": unittest.main()

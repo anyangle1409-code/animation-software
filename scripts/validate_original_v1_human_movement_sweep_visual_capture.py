@@ -22,14 +22,18 @@ def validate(d,base,require_complete=False):
     if sweep not in plan.get("sweeps",{}): raise ValueError("unknown sweep_id")
     authority=plan["sweeps"][sweep]
     expected_labels=list(authority.get("samples") or [])
+    variants=["l","r"] if sweep=="hip_abduction_adduction" else [None]
+    expected_pairs=[(variant,label) for variant in variants for label in expected_labels]
     rows=d.get("samples") or []
-    if require_complete and [x.get("label") for x in rows]!=expected_labels:
+    got_pairs=[(x.get("variant"),x.get("label")) for x in rows]
+    if require_complete and got_pairs!=expected_pairs:
         raise ValueError("visual sample order/coverage differs")
-    if rows and [x.get("label") for x in rows]!=expected_labels[:len(rows)]:
-        raise ValueError("visual samples must follow authoritative order")
+    if rows and got_pairs!=expected_pairs[:len(rows)]:
+        raise ValueError("visual samples must follow authoritative variant/sample order")
     required_cameras=list(authority.get("cameras") or [])
     for row in rows:
-        label=row["label"]
+        label=row["label"]; variant=row.get("variant")
+        if variant not in variants: raise ValueError(f"{label}: invalid variant {variant}")
         views=row.get("views") or []
         camera_ids=[x.get("camera_id") for x in views]
         if len(camera_ids)!=len(set(camera_ids)): raise ValueError(f"{label}: duplicate camera ids")
@@ -49,6 +53,8 @@ def validate(d,base,require_complete=False):
             if cap.get("candidate_sha256")!=csha: raise ValueError(f"{label}/{camera}: candidate identity mismatch")
             if cap.get("sweep_id")!=sweep or cap.get("sample_label")!=label or cap.get("camera_id")!=camera:
                 raise ValueError(f"{label}/{camera}: capture identity mismatch")
+            if cap.get("variant")!=variant:
+                raise ValueError(f"{label}/{camera}: capture variant mismatch")
             if not cap.get("runner_script_sha256") or not SHA_RE.fullmatch(str(cap.get("runner_script_sha256"))):
                 raise ValueError(f"{label}/{camera}: runner hash missing")
             if not cap.get("camera_matrix_world") or not cap.get("resolution"):

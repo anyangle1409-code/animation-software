@@ -87,6 +87,12 @@ set "REQUIRED_SWEEPS="
 set "CONTACT_SWEEPS="
 set /p REQUIRED_SWEEPS=<"%SWEEP_REQ_DIR%\required_sweeps.txt"
 set /p CONTACT_SWEEPS=<"%SWEEP_REQ_DIR%\contact_sweeps.txt"
+set "SWEEP_LABEL=%LABEL%_final_sweeps"
+set "RAW_SWEEP=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweeps\%LABEL%_final_sweeps\human_movement_sweeps.json"
+set "VIS_LABEL=%LABEL%_final_sweep_visuals"
+set "VIS_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_visuals\%LABEL%_final_sweep_visuals"
+set "CONTACT_LABEL=%LABEL%_final_sweep_contact"
+set "CONTACT_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_contact\%LABEL%_final_sweep_contact"
 
 if not "%REQUIRED_SWEEPS%"=="" (
   if "%CALIBRATION%"=="" (
@@ -100,28 +106,21 @@ if not "%REQUIRED_SWEEPS%"=="" (
   "%PYTHON%" scripts\validate_original_v1_human_movement_sweep_runner_calibration.py "%CALIBRATION%" --require-calibrated
   if errorlevel 1 exit /b 1
 
-  set "SWEEP_LABEL=%LABEL%_final_sweeps"
   call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "%CANDIDATE%" "%SWEEP_LABEL%" "%REQUIRED_SWEEPS%"
   if errorlevel 1 exit /b 1
-  set "RAW_SWEEP=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweeps\%SWEEP_LABEL%\human_movement_sweeps.json"
 
-  set "VIS_LABEL=%LABEL%_final_sweep_visuals"
   call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat "%CANDIDATE%" "%REV%" "%VIS_LABEL%" "%REQUIRED_SWEEPS%"
   if errorlevel 1 exit /b 1
-  set "VIS_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_visuals\%VIS_LABEL%"
 
-  set "CONTACT_DIR="
   if not "%CONTACT_SWEEPS%"=="" (
-    set "CONTACT_LABEL=%LABEL%_final_sweep_contact"
     call RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat "%CANDIDATE%" "%REV%" "%CONTACT_LABEL%" "%CONTACT_SWEEPS%"
     if errorlevel 1 exit /b 1
-    set "CONTACT_DIR=ORIGINAL_V1_WORK\candidates\repair_checks\human_movement_sweep_contact\%CONTACT_LABEL%"
   )
 
   "%PYTHON%" scripts\build_original_v1_workspace_sweep_motion_reviews.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%"
   if errorlevel 1 exit /b 1
 
-  if "%CONTACT_DIR%"=="" (
+  if "%CONTACT_SWEEPS%"=="" (
     "%PYTHON%" scripts\collect_original_v1_workspace_sweep_evidence.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%" --visual-dir "%VIS_DIR%" --calibration-record "%CALIBRATION%"
   ) else (
     "%PYTHON%" scripts\collect_original_v1_workspace_sweep_evidence.py --workspace "%WORKSPACE%" --raw-sweep-report "%RAW_SWEEP%" --visual-dir "%VIS_DIR%" --calibration-record "%CALIBRATION%" --contact-dir "%CONTACT_DIR%"

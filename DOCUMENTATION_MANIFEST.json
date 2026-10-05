@@ -249,6 +249,30 @@
       "validator": "scripts/validate_original_v1_human_movement_sweep_runner_calibration.py",
       "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat",
       "note": "Evidence-bound calibration of all 11 generic sweep adapters. Runner binding alone is insufficient; calibration remains separate from body-candidate acceptance."
+    },
+    "human_movement_sweep_visual_capture": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
+      "script": "scripts/capture_original_v1_human_movement_sweep_visual_blender.py",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_visual_capture.py",
+      "camera_plan": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json",
+      "note": "Dedicated read-only exact-candidate sweep visual capture path. Produces every authoritative sample/camera with hashes; engineering review remains separate."
+    },
+    "human_movement_sweep_raw_contact": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
+      "script": "scripts/audit_original_v1_human_movement_sweep_contact_blender.py",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_contact_raw.py",
+      "requirements": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json",
+      "note": "Dedicated read-only raw contact/load measurement path for grip release, loaded hip hinge and plantarflexion. Measurements never auto-classify contact."
+    },
+    "human_movement_sweep_review_workspace": {
+      "category": "workflow",
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat",
+      "builder": "scripts/create_original_v1_human_movement_sweep_review_workspace.py",
+      "contact_scaffold_builder": "scripts/build_original_v1_human_movement_sweep_contact_review.py",
+      "acceptance_validator": "scripts/validate_original_v1_human_movement_sweep_acceptance.py",
+      "note": "Non-Blender assembly step converting raw sweep, visual, contact and calibration evidence into motion-review/contact-review/acceptance workspaces without inferring PASS."
     }
   },
   "categories": {

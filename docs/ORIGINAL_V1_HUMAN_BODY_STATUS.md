@@ -2,37 +2,37 @@
 
 **Master stage:** 1 — Human movement foundation
 **Current focus:** shoulder chest anterior axilla posterior axilla foundation recovery
-**Comparator:** r95 — 8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd
+**Comparator:** r95 — `8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd`
 **Production approved:** NO
 
 ## Blocking state
 
 - Critical/High blockers: **12**
-- WB-AX-001
-- WB-PEC-002
-- WB-PEC-003
-- WB-AX-004
-- WB-SHO-005
-- WB-SHO-006
-- WB-CLV-007
-- WB-SYM-008
-- WB-GRP-009
-- WB-WRI-010
-- WB-QA-011
-- WB-QA-012
+- `WB-AX-001`
+- `WB-PEC-002`
+- `WB-PEC-003`
+- `WB-AX-004`
+- `WB-SHO-005`
+- `WB-SHO-006`
+- `WB-CLV-007`
+- `WB-SYM-008`
+- `WB-GRP-009`
+- `WB-WRI-010`
+- `WB-QA-011`
+- `WB-QA-012`
 
 ## Coverage
 
-- Regions with evidence scaffolding: **12 / 12**
+- Body regions with evidence scaffolding: **12 / 12**
 - Movement families with evidence scaffolding: **27 / 27**
-- Human-evidence entries: **35**
+- Real-human evidence records: **55**
 - Prepared deterministic movement sweeps: **8**
 
-> Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.
+> Evidence scaffolding is not anatomical acceptance. Candidate-bound Blender motion/render/regression evidence is still required.
 
 ## Anatomical coupling / shared tissue
 
-- Coupling systems defined: **14**
+- Coupling systems: **14**
 - Candidate-proven CLEAR: **0**
 - Joint-to-tissue trigger rules: **12**
 - Status: **BLOCKED — NOT YET CANDIDATE-PROVEN**
@@ -40,23 +40,29 @@
 
 Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.
 
-Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.
+Material motion of a production joint/bone automatically expands review scope to all anatomically connected tissue systems mapped to that joint.
 
-### Prepared coupling diagnostics
+## Real-human exterior surface evidence
 
-- Pose → connected-tissue scope: **PREPARED, not yet run on the latest candidate**
-- Generic shared-tissue weight audit: **PREPARED, not yet run on repaired candidate**
-- Candidate coupling evidence template: **PREPARED**
-
-## Real-human surface visual evidence
-
-- Complete regions: **0**
-- Partial regions: **12**
+- Complete body regions: **0 / 12**
+- Partial body regions: **12 / 12**
 - Regions with no visual scaffolding: **0**
 
-Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit.
+Biomechanics and skeletal correctness cannot close exterior skin/muscle appearance. The exact candidate still needs neutral, lengthened/elevated, compressed/loaded, intermediate and return visual evidence.
 
-> All 12 regions now have some real-human visual scaffolding, but all remain PARTIAL. Clothing, markers, gloves, camera distance or static scans limit several sources; those limitations remain blocking for final exterior-surface acceptance.
+## Non-Blender preparation
+
+- Practical anatomical repair packages: **14 / 14**
+- Stage 1 dependency waves: **8**
+- Deformation diagnosis tree: **READY**
+- Weights-only regional acceptance contracts: **12 / 12**
+- Automatic pose → tissue → camera → evidence planning: **READY**
+- Pre-repair diagnostic bundle: **READY**
+- Post-edit evidence workspace generator: **READY**
+- Immutable pre-edit declaration → post-edit execution provenance: **ENFORCED**
+- Unified candidate comparison: **READY**
+
+> These tools make Blender work controlled and repeatable; they do not count as anatomical clearance.
 
 ## High-detail anatomy
 
@@ -64,17 +70,36 @@ Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real
 
 Critical/High whole-body issues remain open.
 
-## Next sequence
+## Current execution sequence
 
-1. run or read shoulder layer diagnostic
-2. identify first failing ownership support zones
-3. declare smallest repair scope
-4. create new numbered candidate
-5. repair weights support first
-6. prove weights only elevation sweep
-7. fit correctives only if foundation is plausible
-8. run visual numerical symmetry contact whole body regression
-9. close issue rows only with committed closure evidence
-10. continue Stage1 rather than jump to Stage5
+1. run pre repair diagnostic bundle
+2. identify earliest failing layer using diagnosis tree
+3. create and validate pre edit repair declarations
+4. audit declared coupling weight ownership
+5. generate focused plus whole body regression plan
+6. create new numbered candidate and repair smallest foundational layer
+7. capture exact final candidate sha
+8. initialize post edit evidence bundle
+9. prove weights only regions before correctives
+10. prove required anatomical and movement coupling systems
+11. complete candidate surface visual review
+12. fit correctives only for residual anatomy error
+13. run dense continuity reversibility visual numerical contact change regression
+14. run unified parent to candidate comparison
+15. close issue rows only with committed closure evidence
+16. advance only by stage1 dependency graph
+
+## Stage 1 current wave
+
+**Wave 1 — connected shoulder/chest/back yoke**
+
+Current connected repair packages:
+
+- `RP-PEC-AX-002`
+- `RP-POSTAX-003`
+- `RP-DELTOID-004`
+- `RP-NECK-TRAP-001`
+
+The cluster must be solved as one connected foundation. Improving the chest/armpit by damaging deltoid, back, clavicle or trapezius is a failed candidate.
 
 Historical Phase 4/r95 evidence remains immutable history; it is not current anatomical sign-off.

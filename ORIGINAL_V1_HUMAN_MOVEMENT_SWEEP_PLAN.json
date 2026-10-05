@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_HUMAN_MOVEMENT_SWEEPS",
+  "production_approved": false,
+  "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+  "purpose": "Deterministic validation sweeps for movement families that were previously unstarted. These are audit motions, not runtime exercise definitions.",
+  "common_rules": [
+    "Use exact candidate SHA and record pose/motion-definition hash.",
+    "Capture outbound and return motion; endpoints alone are insufficient.",
+    "Use whole-body and regional close views where listed.",
+    "Do not edit the model while collecting baseline sweep evidence.",
+    "A numerical pass cannot overrule an obvious Critical/High anatomical defect.",
+    "Audit motions do not silently become exercise definitions.",
+    "Preserve floor/equipment contacts and classify contact changes explicitly."
+  ],
+  "sweeps": {
+    "grip_release": {
+      "evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
+      ],
+      "regions": [
+        "palm_thumb_fingers",
+        "forearm_wrist"
+      ],
+      "samples": [
+        "loaded_closed",
+        "unload_contact",
+        "25%_open",
+        "50%_open",
+        "75%_open",
+        "full_open",
+        "return_50%"
+      ],
+      "cameras": [
+        "palm_three_quarter_close",
+        "dorsal_three_quarter_close",
+        "side_close",
+        "whole_upper_body"
+      ],
+      "inspect": [
+        "MCP_PIP_DIP_nonuniform_timing",
+        "PIP_leads_flexion_not_forced_for_extension",
+        "thumb_opposition_and_release",
+        "finger_clearance_from_equipment",
+        "wrist_alignment",
+        "no_joint_snap_or_uniform_robotic_opening",
+        "contact_release_order"
+      ],
+      "blocking_failures": [
+        "all finger joints open with an identical copied curve",
+        "thumb remains mechanically trapped after finger release",
+        "finger/equipment penetration appears during release",
+        "wrist twists or collapses to manufacture clearance"
+      ]
+    },
+    "trunk_flexion": {
+      "evidence_ids": [
+        "HE-TRK-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "samples": [
+        "neutral",
+        "25%_flexion",
+        "50%_flexion",
+        "75%_flexion",
+        "max_audit_flexion",
+        "return_50%",
+        "neutral_return"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "inspect": [
+        "lumbar_hip_motion_sharing",
+        "abdominal_compression",
+        "posterior_torso_lengthening",
+        "ribcage_pelvis_continuity",
+        "neck_head_compensation",
+        "fold_appearance_and_release",
+        "return_path_continuity"
+      ],
+      "blocking_failures": [
+        "single rigid waist hinge",
+        "abdomen collapses into a sharp crease or self-intersection",
+        "back surface stretches like a membrane",
+        "torso volume pops between samples"
+      ]
+    },
+    "trunk_extension": {
+      "evidence_ids": [
+        "HE-TRK-001",
+        "HE-HNG-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "samples": [
+        "neutral",
+        "25%_extension",
+        "50%_extension",
+        "75%_extension",
+        "max_audit_extension",
+        "return_50%",
+        "neutral_return"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "lumbar_abdomen_close"
+      ],
+      "inspect": [
+        "lumbar_hip_coordination",
+        "anterior_torso_lengthening",
+        "posterior_compression",
+        "pelvis_ribcage_continuity",
+        "neck_control",
+        "return_timing",
+        "no_terminal_pop"
+      ],
+      "blocking_failures": [
+        "extension concentrated at one lumbar hinge",
+        "posterior torso folds into a hard shelf",
+        "abdomen stretches as a flat sheet",
+        "return motion snaps through neutral"
+      ]
+    },
+    "trunk_lateral_bend": {
+      "evidence_ids": [
+        "HE-TRK-003"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "samples": [
+        "neutral",
+        "25%_left",
+        "50%_left",
+        "75%_left",
+        "left_end",
+        "return_neutral",
+        "25%_right",
+        "50%_right",
+        "75%_right",
+        "right_end",
+        "neutral_return"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_oblique",
+        "waist_close"
+      ],
+      "inspect": [
+        "lumbar_pelvic_motion_sharing",
+        "compressed_side_fold",
+        "lengthened_side_continuity",
+        "ribcage_pelvis_spacing",
+        "bilateral_reversibility",
+        "head_neck_balance"
+      ],
+      "blocking_failures": [
+        "single-segment side hinge",
+        "compressed waist forms a fixed ring or deep tunnel",
+        "lengthened side loses volume or tears",
+        "left/right symmetric input produces materially different unaccounted deformation"
+      ]
+    },
+    "trunk_axial_rotation": {
+      "evidence_ids": [
+        "HE-TRK-002"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "head_neck_trapezius"
+      ],
+      "samples": [
+        "neutral",
+        "15deg_left",
+        "30deg_left",
+        "45deg_left",
+        "left_end",
+        "return_neutral",
+        "15deg_right",
+        "30deg_right",
+        "45deg_right",
+        "right_end",
+        "neutral_return"
+      ],
+      "cameras": [
+        "front_three_quarter",
+        "rear_three_quarter",
+        "top_oblique",
+        "waist_close"
+      ],
+      "inspect": [
+        "distributed_spinal_rotation",
+        "pelvis_spine_sharing",
+        "oblique_surface_continuity",
+        "ribcage_pelvis_relative_motion",
+        "no_single_waist_swivel",
+        "return_reversibility"
+      ],
+      "blocking_failures": [
+        "all axial rotation occurs at one torso joint",
+        "skin corkscrews into a narrow crease",
+        "ribcage and pelvis intersect",
+        "surface twist persists after return to neutral"
+      ]
+    },
+    "loaded_hip_hinge": {
+      "evidence_ids": [
+        "HE-HNG-001",
+        "HE-TRK-001"
+      ],
+      "regions": [
+        "ribcage_abdomen_obliques_lumbar",
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "samples": [
+        "stand_loaded",
+        "25%_descent",
+        "50%_descent",
+        "75%_descent",
+        "bottom_audit",
+        "25%_ascent",
+        "50%_ascent",
+        "75%_ascent",
+        "stand_return"
+      ],
+      "cameras": [
+        "side_whole_body",
+        "front_three_quarter",
+        "rear_three_quarter",
+        "pelvis_groin_close",
+        "lumbar_close"
+      ],
+      "inspect": [
+        "hip_dominant_motion_without_rigid_spine",
+        "knee_contribution_declared_by_variant",
+        "glute_thigh_transition",
+        "hamstring_posterior_thigh_continuity",
+        "lumbar_volume",
+        "foot_grounding",
+        "load_path_through_hip_and_trunk",
+        "descent_ascent_continuity"
+      ],
+      "blocking_failures": [
+        "hinge implemented as torso rotation with no hip articulation",
+        "groin or glute collapses at bottom",
+        "posterior thigh tears or forms a fixed crease",
+        "feet lose required floor contact under load"
+      ]
+    },
+    "hip_abduction_adduction": {
+      "evidence_ids": [
+        "HE-HIP-001",
+        "HE-LNG-001"
+      ],
+      "regions": [
+        "pelvis_groin_glutes",
+        "thigh_knee",
+        "ribcage_abdomen_obliques_lumbar"
+      ],
+      "samples": [
+        "neutral",
+        "25%_abduction",
+        "50%_abduction",
+        "75%_abduction",
+        "abduction_end",
+        "return_neutral",
+        "25%_adduction",
+        "50%_adduction",
+        "75%_adduction",
+        "adduction_end",
+        "neutral_return"
+      ],
+      "cameras": [
+        "front_whole_body",
+        "rear_whole_body",
+        "side_three_quarter",
+        "groin_glute_close"
+      ],
+      "inspect": [
+        "femur_pelvis_clearance",
+        "groin_adductor_compression",
+        "glute_side_volume",
+        "pelvic_compensation",
+        "knee_alignment",
+        "bilateral_symmetry",
+        "return_continuity"
+      ],
+      "blocking_failures": [
+        "femur appears to detach from pelvis",
+        "groin forms a tunnel or planar membrane",
+        "glute/thigh junction shears",
+        "pelvis translation hides an otherwise invalid hip motion"
+      ]
+    },
+    "ankle_plantarflexion": {
+      "evidence_ids": [
+        "HE-ANK-001",
+        "HE-ACH-001"
+      ],
+      "regions": [
+        "calf_ankle_achilles",
+        "foot_toes"
+      ],
+      "samples": [
+        "neutral_loaded",
+        "25%_plantarflexion",
+        "50%_plantarflexion",
+        "75%_plantarflexion",
+        "heel_raise_end",
+        "return_50%",
+        "neutral_return"
+      ],
+      "cameras": [
+        "side_lower_leg",
+        "rear_lower_leg",
+        "front_three_quarter_foot",
+        "Achilles_close",
+        "whole_body"
+      ],
+      "inspect": [
+        "calf_shape_change",
+        "Achilles_continuity",
+        "tibiotalar_subtalar_coupling",
+        "heel_rise",
+        "forefoot_toe_contact",
+        "arch_continuity",
+        "return_reversibility"
+      ],
+      "blocking_failures": [
+        "rigid-foot rotation with unchanged calf/Achilles contour",
+        "Achilles kinks or detaches visually",
+        "heel rises by penetrating/losing forefoot contact",
+        "ankle behaves as a single pure sagittal hinge with obvious hindfoot discontinuity"
+      ]
+    }
+  },
+  "exit_rule": "Each sweep is evidence-ready only after its candidate-bound capture manifest exists, all listed samples are present, Critical/High defects are closed or candidate rejected, and whole-body regression/contact checks pass."
+}

@@ -144,4 +144,32 @@ On any other device or session:
 4. continue read-only evidence collection or design work if the exact local Blend is unavailable;
 5. do not claim a model correction without a new candidate, production-path renders and complete regression evidence.
 
-Next laptop action: add a read-only deformation-layer diagnostic that records corrective activation and per-zone vertex displacement through the arm-elevation arc, then declare the first anatomical shoulder-yoke repair scope before any mesh or weight edit.
+## Autonomous r96 checkpoint — 2026-10-05
+
+The deformation-layer diagnostic, declaration controls and first r96 foundation probes are complete and pushed. r95 remains immutable. Production approval remains false and every Critical/High shoulder issue remains open.
+
+### Evidence established
+
+- A declared 120-vertex all-quad support ring preserved all original geometry, weights and shape-key points, but did not remove the pointed axillary notch, membrane or posterior wing.
+- Mild bounded weight diffusion was numerically non-regressive but visually near-identical to r95. Stronger diffusion regressed press-top compression.
+- Declared 4/8/12 mm support-row rest-length probes failed: 4 mm retained the visible defects, while 8/12 mm increased squat self-intersections.
+- A declared 164-vertex anatomical fold transfer toward upper arm/clavicle/scapula failed monotonically. Even 15% increased failed checks from 2 to 10; 45% reached 144 press-top self-intersection pairs and 11.470 torso maximum stretch.
+- Exact edge localization found the dominant lower/anterior axilla strain cells (`6-6290`, `922-6290`, `890-6231`, `6-4507`, `859-6105`) and proved the first support ring crossed the wrong cells.
+- Three newly declared 64-edge lower support rows authored cleanly, but interpolated topology alone increased failed checks from 2 to 3, produced 14 material regressions and zero improvements. Press-top torso maximum stretch rose from 3.545 to 4.690.
+
+### Current technical conclusion
+
+The failures are no longer consistent with insufficient mesh density or a simple broad weight-ownership error. The exact high-strain chain already has a smooth thorax-to-arm weight gradient; under extreme elevation, linear blend skinning turns that gradient into either stretched membrane or transported wing. More interpolated vertices inherit the incompatible endpoint motion, while more arm ownership amplifies the torso stretch.
+
+Do not add more support loops, broaden arm-follow weights or fit another compensating corrective without revisiting the deformation mechanism. The next plausible diagnostic is preserve-volume/dual-quaternion skinning, but that changes the Task 6 architecture from topology/weights-only and therefore remains unexecuted pending explicit design approval. Other alternatives are a narrowly scoped auxiliary deformation mechanism or a revised weights-only acceptance premise; both require the same architectural decision.
+
+### Recoverable state
+
+- Branch: `codex/whole-body-deformation-recovery-20261004`
+- Latest pushed checkpoint: `821db94` (`Reject interpolated r96 lower support rows`)
+- Exact r95 SHA-256: `8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd`
+- Topology-only r96 intermediate SHA-256: `6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd`
+- Correctives stayed disabled for every Task 6 numerical and visual screen.
+- Generated probes remain under ignored `work/r96/`; all decisions, declarations, comparison reports and authoring receipts needed to reproduce them are committed.
+
+Next laptop action: review and approve or reject a bounded preserve-volume skinning diagnostic. Until that decision, keep r96 fail-closed and do not promote any generated probe.

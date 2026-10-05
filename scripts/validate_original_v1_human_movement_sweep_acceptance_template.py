@@ -14,7 +14,7 @@ def validate(d):
       "candidate_revision","candidate_sha256","sweep_id","raw_sweep_report_path",
       "runner_calibration_record_path","visual_capture_manifest_path","contact_report_path",
       "motion_continuity_evidence_path","motion_reversibility_evidence_path",
-      "human_evidence_review_refs","continuity_review_status","reversibility_review_status",
+      "required_human_evidence_ids","human_evidence_review_refs","continuity_review_status","reversibility_review_status",
       "visual_review_status","contact_review_status","engineering_review","owner_review"
     }
     if not required.issubset(d): raise ValueError("template fields incomplete")

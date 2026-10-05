@@ -142,7 +142,7 @@
     "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json": {
       "category": "authority",
       "validator": "scripts/validate_original_v1_stage1_repair_execution_graph.py",
-      "note": "Dependency-aware Stage 1 repair waves: shoulder yoke, trunk, distal upper limb, hip/pelvis, thigh/knee, calf/foot, then whole-body integration."
+      "note": "Dependency-aware 8-wave Stage 1 sequence from global deformation semantics through connected shoulder, trunk, limbs and final whole-body integration."
     },
     "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json": {
       "category": "supporting_reference",
@@ -186,6 +186,12 @@
       "generator": "scripts/create_original_v1_repair_execution_record.py",
       "runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_EXECUTION_RECORD.bat",
       "note": "Post-edit provenance linking immutable pre-edit declaration to final candidate SHA and proving edits stayed inside declared vertices/bones/operations."
+    },
+    "post_edit_evidence_bundle": {
+      "category": "workflow",
+      "generator": "scripts/create_original_v1_post_edit_evidence_bundle.py",
+      "runner": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat",
+      "note": "After a repaired Blend has a final SHA, initializes candidate issue ledger, weights-only/coupling/movement/visual records, immutable declaration copies, execution drafts and unified comparison manifest in one candidate folder."
     }
   },
   "categories": {

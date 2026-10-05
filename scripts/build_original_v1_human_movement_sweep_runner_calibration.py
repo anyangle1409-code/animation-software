@@ -23,6 +23,8 @@ def build(raw_path,revision):
     d["status"]="HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION"
     d["calibration_candidate_revision"]=revision
     d["calibration_candidate_sha256"]=raw["candidate_sha256"]
+    d["raw_sweep_report_path"]=str(raw_path)
+    d["raw_sweep_report_sha256"]=__import__("hashlib").sha256(raw_path.read_bytes()).hexdigest()
     d["runner_sha256"]=raw["runner_script_sha256"]
     d["execution_spec_sha256"]=raw["sweep_execution_spec_sha256"]
     d["frozen_pose_source_sha256"]=raw["pose_definition_sha256"]

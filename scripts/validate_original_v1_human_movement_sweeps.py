@@ -12,7 +12,8 @@ HUMAN=ROOT/"ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 REQUIRED_SWEEPS={
     "grip_release","trunk_flexion","trunk_extension","trunk_lateral_bend",
     "trunk_axial_rotation","loaded_hip_hinge","hip_abduction_adduction",
-    "ankle_plantarflexion",
+    "ankle_plantarflexion","shoulder_abduction_elevation",
+    "humeral_internal_external_rotation","forearm_pronation_supination",
 }
 
 def read(path):
@@ -33,7 +34,7 @@ def validate(plan, master, human):
     if plan.get("production_approved") is not False: raise ValueError("sweep plan may not claim production approval")
     sweeps=plan.get("sweeps") or {}
     if set(sweeps)!=REQUIRED_SWEEPS:
-        raise ValueError("sweep coverage must match the eight formerly-unstarted families")
+        raise ValueError("sweep coverage must match the eleven direct-sweep movement families")
     known_moves=set(master.get("movement_families") or [])
     if not REQUIRED_SWEEPS.issubset(known_moves):
         raise ValueError("sweep family missing from master movement list")

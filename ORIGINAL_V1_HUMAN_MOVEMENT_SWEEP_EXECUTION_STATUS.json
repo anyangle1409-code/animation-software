@@ -579,5 +579,14 @@
     "required_regional_renders": "NOT_IMPLEMENTED",
     "contact_load_state": "NOT_IMPLEMENTED"
   },
-  "candidate_evidence_ready_count": 0
+  "candidate_evidence_ready_count": 0,
+  "runner_calibration_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+  "runner_calibration_record": null,
+  "acceptance_capable": false,
+  "acceptance_capability_blockers": [
+    "runner calibration record is not CALIBRATED",
+    "generic sweep runner visual capture manifest is not implemented",
+    "required regional renders are not implemented",
+    "contact/load state capture is not implemented for contact-bearing sweeps"
+  ]
 }

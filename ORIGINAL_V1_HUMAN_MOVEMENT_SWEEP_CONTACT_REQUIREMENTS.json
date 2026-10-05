@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_HUMAN_SWEEP_CONTACT_REQUIREMENTS",
+  "production_approved": false,
+  "classification_values": [
+    "NO_FINDING",
+    "LEGITIMATE_CONTACT",
+    "REQUIRED_CLEARANCE",
+    "UNCLASSIFIED",
+    "UNEXPLAINED_DEFECT"
+  ],
+  "rules": [
+    "Raw contact geometry is preserved separately from classification; classification never rewrites raw measurements.",
+    "No universal penetration or distance threshold is introduced by this authority.",
+    "LEGITIMATE_CONTACT and REQUIRED_CLEARANCE require concrete evidence notes and exact candidate/sample identity.",
+    "UNCLASSIFIED and UNEXPLAINED_DEFECT block engineering PASS.",
+    "Contact-bearing sweep acceptance requires every required sample/domain classification to satisfy its declared expected state.",
+    "These requirements are validation evidence only and never become exercise-specific deformation drivers."
+  ],
+  "sweeps": {
+    "grip_release": {
+      "domains": [
+        "finger_thumb_to_equipment",
+        "wrist_forearm_load_path"
+      ],
+      "samples": {
+        "loaded_closed": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Closed loaded grip must demonstrate intentional equipment contact without unexplained penetration."
+        },
+        "unload_contact": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Unloading phase must preserve a classified contact state until release begins."
+        },
+        "25%_open": {
+          "expected": "REQUIRED_CLEARANCE",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Opening digits must demonstrate clearance from equipment rather than hidden penetration."
+        },
+        "50%_open": {
+          "expected": "REQUIRED_CLEARANCE",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Mid release requires clear separation."
+        },
+        "75%_open": {
+          "expected": "REQUIRED_CLEARANCE",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Late release requires clear separation."
+        },
+        "full_open": {
+          "expected": "REQUIRED_CLEARANCE",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Full release requires equipment clearance."
+        },
+        "return_50%": {
+          "expected": "REQUIRED_CLEARANCE",
+          "required_domains": [
+            "finger_thumb_to_equipment"
+          ],
+          "note": "Return sample remains a release-state audit unless a separate regrip path is authored."
+        }
+      }
+    },
+    "loaded_hip_hinge": {
+      "domains": [
+        "left_foot_to_floor",
+        "right_foot_to_floor"
+      ],
+      "samples": {
+        "stand_loaded": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "25%_descent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "50%_descent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "75%_descent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "bottom_audit": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "25%_ascent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "50%_ascent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "75%_ascent": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        },
+        "stand_return": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_foot_to_floor",
+            "right_foot_to_floor"
+          ],
+          "note": "Both feet must remain intentionally floor-supported throughout the audit hinge; root translation may not manufacture support."
+        }
+      }
+    },
+    "ankle_plantarflexion": {
+      "domains": [
+        "left_forefoot_to_floor",
+        "right_forefoot_to_floor",
+        "left_heel_to_floor",
+        "right_heel_to_floor"
+      ],
+      "samples": {
+        "neutral_loaded": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "CONTACT_OR_NEAR_SUPPORT"
+        },
+        "25%_plantarflexion": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "RISING"
+        },
+        "50%_plantarflexion": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "RISING"
+        },
+        "75%_plantarflexion": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "CLEAR"
+        },
+        "heel_raise_end": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "CLEAR"
+        },
+        "return_50%": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "RISING_OR_RETURNING"
+        },
+        "neutral_return": {
+          "expected": "LEGITIMATE_CONTACT",
+          "required_domains": [
+            "left_forefoot_to_floor",
+            "right_forefoot_to_floor"
+          ],
+          "heel_state": "CONTACT_OR_NEAR_SUPPORT"
+        }
+      }
+    }
+  }
+}

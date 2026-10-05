@@ -93,14 +93,20 @@ class CandidateComparisonTests(unittest.TestCase):
           "raw_sweep_report_path":raw,"samples":visual_samples,
           "engineering_review":"PASS","owner_review":"PENDING"
         })
-        cont=self.write(root,f"{sweep}_cont.json",{"candidate_sha256":csha,"sweep_id":sweep})
-        rev=self.write(root,f"{sweep}_rev.json",{"candidate_sha256":csha,"sweep_id":sweep})
+        motion_path=mod.ROOT/"scripts/build_original_v1_human_movement_sweep_motion_review.py"
+        msp=importlib.util.spec_from_file_location(f"motion_builder_{sweep}",motion_path)
+        motion_builder=importlib.util.module_from_spec(msp); msp.loader.exec_module(motion_builder)
+        motion=motion_builder.build(root/raw,sweep,"r96")
+        for pair in motion["adjacent_pairs"]:
+            pair["engineering_disposition"]="PASS"; pair["evidence_refs"]=["visual_review"]
+        motion["continuity_review"]="PASS"; motion["reversibility_review"]="PASS"; motion["engineering_review"]="PASS"
+        motion_name=self.write(root,f"{sweep}_motion.json",motion)
         record={
           "schema_version":1,"status":"HUMAN_MOVEMENT_SWEEP_ACCEPTANCE","production_approved":False,
           "candidate_revision":"r96","candidate_sha256":csha,"sweep_id":sweep,
           "raw_sweep_report_path":raw,"runner_calibration_record_path":cal,
           "visual_capture_manifest_path":vis,"contact_report_path":None,
-          "motion_continuity_evidence_path":cont,"motion_reversibility_evidence_path":rev,
+          "motion_continuity_evidence_path":motion_name,"motion_reversibility_evidence_path":motion_name,
           "required_human_evidence_ids":plan["evidence_ids"],
           "human_evidence_review_refs":plan["evidence_ids"],
           "continuity_review_status":"PASS","reversibility_review_status":"PASS",

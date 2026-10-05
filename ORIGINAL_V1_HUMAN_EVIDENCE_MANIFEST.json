@@ -1602,7 +1602,7 @@
       "id": "HE-VIS-HIP-003",
       "region": "pelvis_groin_glutes_thigh_surface",
       "movement_primitive": "hip_abduction_rotation_soft_tissue_sliding",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9840870/",
         "citation": "Soft tissue artifact causes significant errors in the calculation of joint angles and range of motion at the hip, PMCID PMC9840870.",
@@ -1636,13 +1636,14 @@
       ],
       "uncertainty": "Marker trajectories quantify soft-tissue artifact rather than complete exterior meshes; use to reject rigid skin ownership, not prescribe exact contour.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-VIS-FOOT-002",
       "region": "foot_arch_surface",
       "movement_primitive": "loaded_unloaded_foot_shape_deformation",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9846431/",
         "citation": "Foot shape is related to load-induced shape deformations, but neither are good predictors of plantar soft tissue stiffness (2023), PMCID PMC9846431.",
@@ -1676,7 +1677,8 @@
       ],
       "uncertainty": "Static load conditions rather than dynamic gait/heel raise; combine with dynamic arch/forefoot evidence for movement timing.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-VIS-PEC-004",
@@ -1804,7 +1806,7 @@
       "id": "HE-VIS-FOOT-003",
       "region": "foot_toes",
       "movement_primitive": "load_induced_whole_foot_surface_deformation",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9846431/",
         "citation": "Foot shape is related to load-induced shape deformations, but neither are good predictors of plantar soft tissue stiffness, PMCID PMC9846431.",
@@ -1840,13 +1842,14 @@
       ],
       "uncertainty": "Static load conditions rather than continuous squat/lunge/push-up motion; toe extension and heel-rise return still need dynamic evidence.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-VIS-FOOT-004",
       "region": "foot_toes",
       "movement_primitive": "weightbearing_to_tiptoe_arch_and_plantar_soft_tissue_change",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12883456/",
         "citation": "Foot bone structure and plantar soft tissue deformation behavior in different functional positions, PMCID PMC12883456.",
@@ -1882,7 +1885,8 @@
       ],
       "uncertainty": "Functional positions are discrete rather than a continuous heel-raise cycle; dynamic return and individual toe-joint behavior still need separate evidence.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-VIS-PELVIS-003",
@@ -1929,7 +1933,7 @@
       "id": "HE-VIS-THIGH-003",
       "region": "thigh_knee",
       "movement_primitive": "anterior_thigh_skin_deformation_during_knee_flexion_extension",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8883732/",
         "citation": "Effects of Kinesio taping on skin deformation during knee flexion and extension: a preliminary study, PMCID PMC8883732.",
@@ -1962,7 +1966,8 @@
       ],
       "uncertainty": "Study focuses on skin-marker distances and taping effects, not complete 3D muscle surface or posterior thigh behavior.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-ACH-003",
@@ -2043,7 +2048,7 @@
       "id": "HE-VIS-FINGER-003",
       "region": "fingertip_skin_contact",
       "movement_primitive": "fingertip_skin_compression_before_slip",
-      "source_type": "primary_study",
+      "source_type": "figure_series",
       "source": {
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8169108/",
         "citation": "High-resolution imaging of skin deformation shows that afferents from human fingertips signal slip onset, PMCID PMC8169108.",
@@ -2074,7 +2079,8 @@
       ],
       "uncertainty": "Fine fingertip/contact mechanics; not a whole-hand shape source and not a mandate for high-frequency tactile simulation in the app.",
       "development_only": true,
-      "review_status": "verified"
+      "review_status": "verified",
+      "source_format_note": "This manifest entry is used for the published imaging/marker/3D-surface figure series from the underlying primary study; numerical conclusions remain bounded by the stated uncertainty."
     },
     {
       "id": "HE-QUAD-002",

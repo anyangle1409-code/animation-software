@@ -138,6 +138,40 @@
       "validator": "scripts/validate_original_v1_candidate_comparison_template.py",
       "runner": "RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat",
       "note": "Unified parent-to-candidate comparison manifest spanning weights-only, coupling, motion, regression, contact, visual and issue closure evidence."
+    },
+    "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json": {
+      "category": "authority",
+      "validator": "scripts/validate_original_v1_stage1_repair_execution_graph.py",
+      "note": "Dependency-aware Stage 1 repair waves: shoulder yoke, trunk, distal upper limb, hip/pelvis, thigh/knee, calf/foot, then whole-body integration."
+    },
+    "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json": {
+      "category": "supporting_reference",
+      "validator": "scripts/validate_original_v1_deformation_failure_signatures.py",
+      "note": "Visual failure signatures mapped to likely investigation layers and forbidden shortcuts; hypotheses only, never proof of cause."
+    },
+    "PRE_REPAIR_DIAGNOSTIC_BUNDLE_OUTPUT": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat",
+      "builder": "scripts/build_original_v1_pre_repair_diagnostic_bundle.py",
+      "note": "One-command read-only bundle: readiness, saved skinning mode, pose connected-tissue scope, automatic evidence plan, shoulder layer decomposition, reversibility and dense continuity with candidate SHA cross-checking."
+    },
+    "REPAIR_REGRESSION_PLAN_OUTPUT": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat",
+      "builder": "scripts/build_original_v1_repair_regression_plan.py",
+      "note": "Automatically derives directly connected tissue systems, body regions, movements, cameras, landmarks and blockers for focused regression while preserving full whole-body regression."
+    },
+    "BASE_SKINNING_AB_OUTPUT": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat",
+      "validator": "scripts/validate_original_v1_skinning_ab.py",
+      "note": "Controlled read-only weights-only LBS vs Preserve Volume/DQ comparison; restores saved mode and explicitly forbids selecting a mode from numeric difference alone."
+    },
+    "REPAIR_DECLARATION_DRAFT_OUTPUT": {
+      "category": "verification",
+      "runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat",
+      "builder": "scripts/create_original_v1_repair_declaration.py",
+      "note": "Auto-prefills candidate repair declaration from the selected anatomical package/coupling/defect/evidence authorities; actual vertex zones and allowed bone groups still require candidate-specific declaration."
     }
   },
   "categories": {

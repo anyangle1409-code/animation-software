@@ -59,6 +59,7 @@
       "proof_movements": [
         "shoulder_flexion_elevation",
         "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
         "vertical_push",
         "horizontal_push",
         "vertical_pull_hang"

@@ -64,6 +64,19 @@ def main():
         vr["status"]="CANDIDATE_SURFACE_VISUAL_REVIEW"; vr["candidate_revision"]=rev; vr["candidate_sha256"]=final; vr["source_branch"]=branch
         write_new(ws/"surface_visual_review_final.json",vr)
 
+        sweep_acceptance_paths=[]
+        sweep_templates=wm["files"].get("sweep_acceptance_final_templates",[])
+        sweep_expected=wm["files"].get("expected_sweep_acceptance_records",[])
+        if len(sweep_templates)!=len(sweep_expected):
+            raise ValueError("sweep acceptance template/final record count differs")
+        for template_name,out_name in zip(sweep_templates,sweep_expected):
+            sat=read(ws/template_name)
+            sat["status"]="HUMAN_MOVEMENT_SWEEP_ACCEPTANCE"
+            sat["candidate_revision"]=rev
+            sat["candidate_sha256"]=final
+            write_new(ws/out_name,sat)
+            sweep_acceptance_paths.append(out_name)
+
         # Draft one post-edit provenance record for each immutable declaration.
         et=read(EXEC_TEMPLATE); execution_paths=[]
         declarations=wm["files"]["repair_declarations"]
@@ -91,6 +104,7 @@ def main():
         cm["evidence"]["movement_coupling_evidence_path"]="movement_coupling_evidence_final.json"
         cm["evidence"]["surface_visual_review_path"]="surface_visual_review_final.json"
         cm["evidence"]["repair_execution_record_paths"]=execution_paths
+        cm["evidence"]["human_movement_sweep_acceptance_paths"]=sweep_acceptance_paths
         write_new(ws/"candidate_comparison_manifest_final.json",cm)
 
         finalization={
@@ -105,6 +119,7 @@ def main():
             "anatomical_coupling_evidence":"anatomical_coupling_evidence_final.json",
             "movement_coupling_evidence":"movement_coupling_evidence_final.json",
             "surface_visual_review":"surface_visual_review_final.json",
+            "human_movement_sweep_acceptance_records":sweep_acceptance_paths,
             "repair_execution_records":execution_paths,
             "candidate_comparison_manifest":"candidate_comparison_manifest_final.json"
           },
@@ -112,6 +127,7 @@ def main():
             "fill and validate each repair execution record with actual operations/edited vertices/bones and evidence paths",
             "rerun final-candidate pose scope and automatic pose capture plan",
             "run final-candidate reversibility/continuity/full regression/contact/visual evidence",
+            "run every required sweep-only movement on the exact final candidate and complete its generated sweep acceptance record",
             "populate weights-only and coupling evidence against the final SHA",
             "update final issue ledger only from committed closure evidence",
             "run unified candidate comparison; engineering eligibility must remain blocked until all scoped gates pass"
@@ -120,7 +136,7 @@ def main():
         }
         write_new(ws/"workspace_finalization_manifest.json",finalization)
         print("POST-EDIT REPAIR WORKSPACE: FINALIZED")
-        print(json.dumps({"candidate_revision":rev,"pre_edit_sha256":pre,"final_candidate_sha256":final,"execution_records":execution_paths},indent=2))
+        print(json.dumps({"candidate_revision":rev,"pre_edit_sha256":pre,"final_candidate_sha256":final,"execution_records":execution_paths,"sweep_acceptance_records":sweep_acceptance_paths},indent=2))
         return 0
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
         print("STOP — "+str(exc)); return 2

@@ -24,6 +24,7 @@ ISSUES = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
+TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -33,7 +34,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, coupling = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING))
+    plan, cov, ledger, human, sweeps, coupling, triggers = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -89,6 +90,9 @@ def build():
             "candidate_proven_clear_count": 0,
             "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",
             "blocking_issue_id": "WB-QA-012",
+            "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+            "joint_trigger_rule_count": len(triggers.get("rules") or []),
+            "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.",
             "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
         },
         "high_detail_anatomy_allowed": False,
@@ -109,6 +113,7 @@ def build():
             "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
             "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
             "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
+            "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
         },
         "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
     }
@@ -149,6 +154,8 @@ def markdown(s):
         f"- Blocking issue: `{s['anatomical_coupling']['blocking_issue_id']}`",
         "",
         s["anatomical_coupling"]["rule"],
+        f"- Joint-to-tissue trigger rules: **{s['anatomical_coupling']['joint_trigger_rule_count']}**",
+        s["anatomical_coupling"]["trigger_rule"],
         "",
         "## High-detail anatomy",
         "",

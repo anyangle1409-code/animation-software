@@ -116,6 +116,37 @@ The execution order is governed by
 `ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json`. Do not finalize a downstream
 chain before its upstream anchor/foundation wave is clear.
 
+## Post-edit fast path
+
+After the declared repair is made and saved as a **new** candidate:
+
+1. Get the exact final file SHA:
+   `RUN_ORIGINAL_V1_FILE_SHA256.bat <new-candidate.blend>`
+2. Initialize the candidate evidence workspace:
+   `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat <RP-ID[,RP-ID...]> <candidate-revision> <final-sha256> <source-branch> <declaration[,declaration...]> <fresh-output-dir>`
+3. Complete/validate each generated execution record. The record must prove that
+   actual edited vertices, bone groups and operations stayed inside the immutable
+   pre-edit declaration.
+4. Run pose->connected-tissue scope on the **final** candidate and generate the
+   automatic pose capture/evidence plan.
+5. Complete the generated:
+   - `weights_only_acceptance.json`;
+   - `anatomical_coupling_evidence.json`;
+   - `movement_coupling_evidence.json`;
+   - `surface_visual_review.json`;
+   - candidate issue ledger.
+6. Run final-candidate reversibility, dense continuity, regression, contact and
+   change audits.
+7. Fill the generated `candidate_comparison_manifest.json` and run:
+   `RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat <manifest> <fresh-report>`
+
+The candidate comparison now refuses status-only PASS claims: regression/contact/
+change/visual PASS evidence must exist and bind to the exact final candidate SHA.
+
+The pre-edit declaration SHA and final post-edit candidate SHA are deliberately
+different identities. Do not alter the declaration after the edit to make them
+match.
+
 ## Immediate shoulder recovery sequence
 
 ### A. Read-only diagnostics first

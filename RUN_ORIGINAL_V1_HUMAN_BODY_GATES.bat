@@ -45,6 +45,8 @@ call :run scripts\test_validate_original_v1_first_party_deformation_architecture
 call :run scripts\test_validate_original_v1_coupling_zone_declaration.py || exit /b 1
 call :run scripts\test_validate_original_v1_anatomical_coupling_evidence.py || exit /b 1
 call :run scripts\test_validate_original_v1_shoulder_layer_diagnostic.py || exit /b 1
+call :run scripts\test_build_original_v1_pose_capture_evidence_plan.py || exit /b 1
+call :run scripts\test_build_original_v1_candidate_comparison_report.py || exit /b 1
 
 echo.
 echo PASS: human-body contract, evidence, movement and coupling gates are internally consistent.

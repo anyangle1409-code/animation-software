@@ -26,6 +26,7 @@ SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
+GRAPH = ROOT / "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -35,7 +36,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, coupling, triggers, visual = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL))
+    plan, cov, ledger, human, sweeps, coupling, triggers, visual, graph = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL, GRAPH))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -96,6 +97,14 @@ def build():
             "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",
             "blocking_issue_id": "WB-QA-012",
             "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+            "stage1_repair_execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+            "anatomical_repair_packages": "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
+            "deformation_diagnosis_tree": "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json",
+            "weights_only_acceptance": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
+            "candidate_surface_visual_review_template": "ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json",
+            "repair_execution_record_template": "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json",
+            "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+            "whole_body_repair_guide": "docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md",
             "surface_visual_evidence_requirements": "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
             "joint_trigger_rule_count": len(triggers.get("rules") or []),
             "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.",
@@ -129,6 +138,20 @@ def build():
             "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
             "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
             "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+        },
+        "non_blender_preparation": {
+            "status": "SUBSTANTIALLY_PREPARED",
+            "anatomical_repair_packages": 14,
+            "deformation_diagnosis_tree": "READY",
+            "weights_only_region_contracts": 12,
+            "stage1_dependency_waves": len(graph.get("waves") or []),
+            "pose_to_tissue_camera_evidence_planner": "READY",
+            "pre_repair_diagnostic_bundle": "READY",
+            "post_edit_evidence_bundle": "READY",
+            "pre_edit_post_edit_provenance_split": "ENFORCED",
+            "unified_candidate_comparison": "READY",
+            "real_human_evidence_records": len(human_entries),
+            "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance.",
         },
         "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
     }
@@ -179,6 +202,17 @@ def markdown(s):
         f"- Missing full surface sequences: **{s['surface_visual_evidence']['missing_surface_sequence_count']}**",
         "",
         s["surface_visual_evidence"]["rule"],
+        "",
+        "## Non-Blender preparation",
+        "",
+        f"- Anatomical repair packages: **{s['non_blender_preparation']['anatomical_repair_packages']} / 14**",
+        f"- Stage 1 dependency waves: **{s['non_blender_preparation']['stage1_dependency_waves']}**",
+        f"- Pre-repair diagnostic bundle: **{s['non_blender_preparation']['pre_repair_diagnostic_bundle']}**",
+        f"- Post-edit evidence bundle: **{s['non_blender_preparation']['post_edit_evidence_bundle']}**",
+        f"- Pre-edit/post-edit provenance split: **{s['non_blender_preparation']['pre_edit_post_edit_provenance_split']}**",
+        f"- Unified candidate comparison: **{s['non_blender_preparation']['unified_candidate_comparison']}**",
+        "",
+        "> These are preparation/control tools, not evidence that the body itself is clear.",
         "",
         "## High-detail anatomy",
         "",

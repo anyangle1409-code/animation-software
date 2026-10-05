@@ -45,7 +45,13 @@ def build(raw_path,revision,calibration_path,visual_dir,contact_dir,out_dir,swee
     raw=read(raw_path)
     rv=module(RAW_VALIDATOR,"raw_sweep_validator"); rv.validate(raw,rv.read(rv.SPEC))
     cal=read(calibration_path)
-    cv=module(CAL_VALIDATOR,"calibration_validator"); cv.validate(cal,False)
+    cv=module(CAL_VALIDATOR,"calibration_validator"); cal_result=cv.validate(cal,False)
+    if cal.get("overall_state") not in {"IN_REVIEW","CALIBRATED"}:
+        raise ValueError("review workspace requires raw-report-bound IN_REVIEW or CALIBRATED runner calibration")
+    if cal_result.get("calibration_candidate_sha256")!=raw.get("candidate_sha256"):
+        raise ValueError("runner calibration candidate differs from raw sweep report")
+    if cal.get("raw_sweep_report_sha256")!=sha(raw_path):
+        raise ValueError("runner calibration is not bound to this exact raw sweep report")
     plan=read(PLAN)
     selected=list(raw.get("sweeps",{})) if not sweeps else sweeps
     unknown=sorted(set(selected)-set(raw.get("sweeps",{})))

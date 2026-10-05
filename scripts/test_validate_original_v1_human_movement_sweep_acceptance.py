@@ -40,6 +40,7 @@ class SweepAcceptanceTests(unittest.TestCase):
           "raw_sweep_report_path":raw,"runner_calibration_record_path":cal,
           "visual_capture_manifest_path":vis,"contact_report_path":None,
           "motion_continuity_evidence_path":cont,"motion_reversibility_evidence_path":rev,
+          "required_human_evidence_ids":plan["evidence_ids"],
           "human_evidence_review_refs":plan["evidence_ids"],
           "continuity_review_status":"PASS","reversibility_review_status":"PASS",
           "visual_review_status":"PASS","contact_review_status":"NOT_APPLICABLE",

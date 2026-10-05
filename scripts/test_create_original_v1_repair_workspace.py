@@ -31,11 +31,17 @@ class RepairWorkspaceTests(unittest.TestCase):
             wo=json.loads((out/"weights_only_acceptance_FINAL_TEMPLATE.json").read_text())
             ce=json.loads((out/"anatomical_coupling_evidence_FINAL_TEMPLATE.json").read_text())
             cm=json.loads((out/"candidate_comparison_FINAL_TEMPLATE.json").read_text())
+            vr=json.loads((out/"surface_visual_review_FINAL_TEMPLATE.json").read_text())
             self.assertIsNone(wo["candidate_sha256"])
             self.assertIsNone(ce["candidate_sha256"])
+            self.assertIsNone(vr["candidate_sha256"])
             self.assertIsNone(cm["candidate"]["sha256"])
             self.assertIn("CP-PEC-AX-002",cm["scope"]["coupling_system_ids"])
             self.assertTrue(cm["evidence"]["repair_declaration_paths"])
             self.assertTrue(cm["evidence"]["repair_execution_record_paths"])
+            self.assertEqual(cm["evidence"]["surface_visual_review_path"],"surface_visual_review_final.json")
+            self.assertIn("chest_anterior_axilla",vr["scope_region_ids"])
+            # A single pec package may not claim closure of global QA defects that require all coupling systems.
+            self.assertNotIn("WB-QA-012",cm["scope"]["defect_ids"])
 
 if __name__=="__main__": unittest.main()

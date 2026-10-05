@@ -84,9 +84,9 @@ def build(a):
               "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat "+dq(candidate)+" "+dq(a.revision)+" "+dq(a.label+"_post_contact")+" "+dq(contact_csv),
               "blocking":True
             })
-        collect="python scripts\\collect_original_v1_workspace_sweep_evidence.py --workspace "+dq(ws)+" --raw-sweep-report "+dq(raw)+" --visual-dir "+dq(visual_dir)+" --calibration-record "+dq(cal)
+        collect="RUN_ORIGINAL_V1_COLLECT_WORKSPACE_SWEEP_EVIDENCE.bat "+dq(ws)+" "+dq(raw)+" "+dq(visual_dir)+" "+dq(cal)
         if contact_sweeps:
-            collect+=" --contact-dir "+dq(contact_dir)
+            collect+=" "+dq(contact_dir)
         commands.append({"phase":"collect_sweep_evidence","command":collect,"blocking":True})
         for sid in required:
             motion=ws/f"human_movement_sweep_motion_{safe(sid)}_final.json"

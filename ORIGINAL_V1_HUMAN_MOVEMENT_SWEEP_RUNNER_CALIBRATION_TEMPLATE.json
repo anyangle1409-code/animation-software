@@ -13,7 +13,7 @@
   "frozen_pose_source_sha256": null,
   "adapters": [
     {
-      "id": "grip_release",
+      "id": "shoulder_abduction_elevation",
       "state": "NOT_RUN",
       "skeleton_joint_state_manifest": null,
       "mirrored_input_evidence": null,
@@ -23,9 +23,55 @@
       "human_evidence_review_refs": [],
       "calibration_notes": [],
       "required_human_evidence_ids": [
-        "HE-GRP-001",
-        "HE-GRP-002",
-        "HE-GRP-003"
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-VIS-SCAP-002"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
+    },
+    {
+      "id": "humeral_internal_external_rotation",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-VIS-003",
+        "HE-ATT-DEL-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
+    },
+    {
+      "id": "forearm_pronation_supination",
+      "state": "NOT_RUN",
+      "skeleton_joint_state_manifest": null,
+      "mirrored_input_evidence": null,
+      "outbound_return_evidence": null,
+      "sample_order_evidence": null,
+      "source_hash_evidence": null,
+      "human_evidence_review_refs": [],
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
       ],
       "automatic_checks": {
         "raw_report_contract_validated": false,
@@ -195,7 +241,7 @@
       "human_evidence_review_status": "PENDING"
     },
     {
-      "id": "shoulder_abduction_elevation",
+      "id": "grip_release",
       "state": "NOT_RUN",
       "skeleton_joint_state_manifest": null,
       "mirrored_input_evidence": null,
@@ -205,55 +251,9 @@
       "human_evidence_review_refs": [],
       "calibration_notes": [],
       "required_human_evidence_ids": [
-        "HE-AX-002",
-        "HE-VIS-002",
-        "HE-VIS-SCAP-002"
-      ],
-      "automatic_checks": {
-        "raw_report_contract_validated": false,
-        "sample_order_validated": false,
-        "return_samples_present": false,
-        "candidate_identity_bound": false
-      },
-      "engineering_review_status": "PENDING",
-      "human_evidence_review_status": "PENDING"
-    },
-    {
-      "id": "humeral_internal_external_rotation",
-      "state": "NOT_RUN",
-      "skeleton_joint_state_manifest": null,
-      "mirrored_input_evidence": null,
-      "outbound_return_evidence": null,
-      "sample_order_evidence": null,
-      "source_hash_evidence": null,
-      "human_evidence_review_refs": [],
-      "calibration_notes": [],
-      "required_human_evidence_ids": [
-        "HE-VIS-003",
-        "HE-ATT-DEL-001"
-      ],
-      "automatic_checks": {
-        "raw_report_contract_validated": false,
-        "sample_order_validated": false,
-        "return_samples_present": false,
-        "candidate_identity_bound": false
-      },
-      "engineering_review_status": "PENDING",
-      "human_evidence_review_status": "PENDING"
-    },
-    {
-      "id": "forearm_pronation_supination",
-      "state": "NOT_RUN",
-      "skeleton_joint_state_manifest": null,
-      "mirrored_input_evidence": null,
-      "outbound_return_evidence": null,
-      "sample_order_evidence": null,
-      "source_hash_evidence": null,
-      "human_evidence_review_refs": [],
-      "calibration_notes": [],
-      "required_human_evidence_ids": [
-        "HE-VIS-FARM-001",
-        "HE-VIS-FARM-002"
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
       ],
       "automatic_checks": {
         "raw_report_contract_validated": false,

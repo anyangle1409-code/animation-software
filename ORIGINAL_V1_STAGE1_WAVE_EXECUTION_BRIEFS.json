@@ -98,7 +98,7 @@
           "shoulder_abduction_elevation",
           "humeral_internal_external_rotation"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "shoulder_flexion_elevation",
           "shoulder_abduction_elevation",
@@ -108,14 +108,19 @@
           "horizontal_push",
           "horizontal_pull"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"shoulder_abduction_elevation,humeral_internal_external_rotation\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"shoulder_abduction_elevation,humeral_internal_external_rotation\""
       }
     },
     {
@@ -151,7 +156,7 @@
           "trunk_axial_rotation",
           "loaded_hip_hinge"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "trunk_flexion",
           "trunk_extension",
@@ -159,14 +164,19 @@
           "trunk_axial_rotation",
           "loaded_hip_hinge"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-TRUNK-008\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-TRUNK-008\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-TRUNK-008\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"trunk_flexion,trunk_extension,trunk_lateral_bend,trunk_axial_rotation,loaded_hip_hinge\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"trunk_flexion,trunk_extension,trunk_lateral_bend,trunk_axial_rotation,loaded_hip_hinge\""
       }
     },
     {
@@ -215,7 +225,7 @@
           "forearm_pronation_supination",
           "grip_release"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "elbow_flexion_extension",
           "forearm_pronation_supination",
@@ -225,14 +235,19 @@
           "horizontal_push",
           "vertical_pull_hang"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"forearm_pronation_supination,grip_release\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"forearm_pronation_supination,grip_release\""
       }
     },
     {
@@ -268,7 +283,7 @@
           "hip_abduction_adduction",
           "loaded_hip_hinge"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "hip_flexion_extension",
           "hip_abduction_adduction",
@@ -276,14 +291,19 @@
           "squat_deep_bilateral_flexion",
           "split_stance_lunge"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-GLUTE-009,RP-GROIN-010\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-GLUTE-009,RP-GROIN-010\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-GLUTE-009,RP-GROIN-010\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"hip_abduction_adduction,loaded_hip_hinge\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"hip_abduction_adduction,loaded_hip_hinge\""
       }
     },
     {
@@ -318,7 +338,7 @@
         "deterministic_sweep_definitions": [
           "loaded_hip_hinge"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "hip_flexion_extension",
           "knee_flexion_extension",
@@ -326,14 +346,19 @@
           "squat_deep_bilateral_flexion",
           "split_stance_lunge"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-QUAD-011,RP-HAM-012\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-QUAD-011,RP-HAM-012\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-QUAD-011,RP-HAM-012\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"loaded_hip_hinge\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"loaded_hip_hinge\""
       }
     },
     {
@@ -372,7 +397,7 @@
         "deterministic_sweep_definitions": [
           "ankle_plantarflexion"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "knee_flexion_extension",
           "ankle_dorsiflexion",
@@ -382,14 +407,19 @@
           "split_stance_lunge",
           "horizontal_push"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-CALF-013,RP-FOOT-014\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-CALF-013,RP-FOOT-014\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-CALF-013,RP-FOOT-014\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"ankle_plantarflexion\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"ankle_plantarflexion\""
       }
     },
     {
@@ -461,7 +491,7 @@
           "grip_release",
           "ankle_plantarflexion"
         ],
-        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "sweep_runner_status": "RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED",
         "integrated_movement_families": [
           "vertical_push",
           "vertical_pull_hang",
@@ -474,15 +504,24 @@
           "grip_release",
           "ankle_plantarflexion"
         ],
-        "uncovered_definition_count": 0
+        "uncovered_definition_count": 0,
+        "sweep_runner_binding": "BOUND_11_OF_11",
+        "sweep_runner_calibration": "NOT_RUN",
+        "candidate_sweep_acceptance": "NOT_RUN"
       },
       "operator": {
         "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\"",
         "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\" <fresh-regression-plan.json>",
         "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
         "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
-        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>",
+        "pre_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-pre-repair-label> \"loaded_hip_hinge,trunk_axial_rotation,grip_release,ankle_plantarflexion\"",
+        "post_repair_sweeps": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <final-candidate.blend> <fresh-post-repair-label> \"loaded_hip_hinge,trunk_axial_rotation,grip_release,ankle_plantarflexion\""
       }
     }
-  ]
+  ],
+  "movement_joint_family_requirements": "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json",
+  "generic_sweep_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
+  "generic_sweep_runner_calibration": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+  "generic_sweep_acceptance": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
 }

@@ -30,8 +30,17 @@ def validate(b,g,p,pm,s):
         integrated=val.get("integrated_movement_families") or []
         expected=auth.get("required_integrated_movements") or row.get("movements") or integrated
         if integrated!=expected: raise ValueError(f"{wid}: integrated movements differ from graph")
-        for sweep in val.get("deterministic_sweep_definitions") or []:
+        sweeps_for_wave=val.get("deterministic_sweep_definitions") or []
+        for sweep in sweeps_for_wave:
             if sweep not in known_sweeps: raise ValueError(f"{wid}: unknown sweep {sweep}")
+        expected_runner_status="RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED" if sweeps_for_wave else "NOT_REQUIRED"
+        if val.get("sweep_runner_status")!=expected_runner_status:
+            raise ValueError(f"{wid}: sweep runner status differs from live execution state")
+        if sweeps_for_wave:
+            if val.get("sweep_runner_binding")!="BOUND_11_OF_11":
+                raise ValueError(f"{wid}: sweep runner binding state stale")
+            if val.get("candidate_sweep_acceptance")!="NOT_RUN":
+                raise ValueError(f"{wid}: candidate sweep acceptance may not be inferred")
         uncovered=[m for m in integrated if m not in known_sweeps and m not in pose_moves]
         if val.get("uncovered_definition_count")!=len(uncovered): raise ValueError(f"{wid}: uncovered count differs")
         if uncovered: raise ValueError(f"{wid}: uncovered movement definitions {uncovered}")

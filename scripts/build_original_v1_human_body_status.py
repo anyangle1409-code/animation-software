@@ -22,7 +22,8 @@ PLAN = ROOT / "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json"
 COVERAGE = ROOT / "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json"
 ISSUES = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 HUMAN = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
-SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"\nCOUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
+SWEEPS = ROOT / "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -81,7 +82,15 @@ def build():
         "human_evidence_entry_count": len(human_entries),
         "human_evidence_regions": refs_by_region,
         "prepared_movement_sweep_count": len((sweeps.get("sweeps") or {})),
-        "prepared_movement_sweeps": list((sweeps.get("sweeps") or {}).keys()),\n        "anatomical_coupling": {\n            "authority": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",\n            "coupling_system_count": len(coupling.get("coupling_systems") or []),\n            "candidate_proven_clear_count": 0,\n            "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",\n            "blocking_issue_id": "WB-QA-012",\n            "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",\n        },
+        "prepared_movement_sweeps": list((sweeps.get("sweeps") or {}).keys()),
+        "anatomical_coupling": {
+            "authority": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+            "coupling_system_count": len(coupling.get("coupling_systems") or []),
+            "candidate_proven_clear_count": 0,
+            "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",
+            "blocking_issue_id": "WB-QA-012",
+            "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
+        },
         "high_detail_anatomy_allowed": False,
         "why_not_high_detail": (
             "Critical/High whole-body issues remain open."
@@ -96,7 +105,10 @@ def build():
             "coverage": "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json",
             "issues": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
             "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
-            "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",\n            "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",\n            "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",\n            "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
+            "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+            "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+            "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
+            "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
         },
         "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
     }

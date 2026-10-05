@@ -10,23 +10,41 @@ class SweepAcceptanceTests(unittest.TestCase):
     def write(self,root,name,obj):
         p=root/name; p.write_text(json.dumps(obj),encoding="utf-8"); return name
 
-    def fixture(self,root,sweep="trunk_flexion"):
-        csha="a"*64; plan=mod.read(mod.PLAN)["sweeps"][sweep]
+    def raw_report(self,root,name,csha,sweep_ids):
         spec=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_text(encoding="utf-8"))
-        sr=spec["sweeps"][sweep]
-        samples=[]
-        variants=["l","r"] if sweep=="hip_abduction_adduction" else [None]
-        for variant in variants:
-            for sample in sr["samples"]:
-                samples.append({
-                  "label":sample["label"],
-                  "return_leg":bool(sample.get("return_leg",False)),
-                  "input":{k:v for k,v in sample.items() if k!="label"},
-                  "variant":variant,
-                  "joint_state_sha256":"1"*64,
-                  "snapshot_sha256":"2"*64,
-                  "snapshot":{"final_surface":{},"weights_only_surface":{},"corrective_contribution":{},"shape_key_values":{},"joint_state":{}}
-                })
+        sweeps={}
+        for sweep in sweep_ids:
+            sr=spec["sweeps"][sweep]
+            samples=[]
+            variants=["l","r"] if sweep=="hip_abduction_adduction" else [None]
+            for variant in variants:
+                seen={}
+                for sample in sr["samples"]:
+                    norm={k:v for k,v in sample.items() if k not in {"label","return_leg"}}
+                    key=(variant,json.dumps(norm,sort_keys=True))
+                    if sample.get("return_leg") and key in seen:
+                        js,ss=seen[key]
+                    else:
+                        js=hashlib.sha256(f"{sweep}|{variant}|{norm}|joint".encode()).hexdigest()
+                        ss=hashlib.sha256(f"{sweep}|{variant}|{norm}|snapshot".encode()).hexdigest()
+                        seen[key]=(js,ss)
+                    samples.append({
+                      "label":sample["label"],
+                      "return_leg":bool(sample.get("return_leg",False)),
+                      "input":{k:v for k,v in sample.items() if k!="label"},
+                      "variant":variant,
+                      "joint_state_sha256":js,
+                      "snapshot_sha256":ss,
+                      "snapshot":{"final_surface":{},"weights_only_surface":{},"corrective_contribution":{},"shape_key_values":{},"joint_state":{}}
+                    })
+            sweeps[sweep]={
+              "implementation_status":sr["implementation_status"],
+              "plan_evidence_ids":sr["evidence_ids"],"plan_regions":sr["regions"],"plan_cameras":sr["cameras"],
+              "samples":samples,"visual_capture_status":"NOT_IMPLEMENTED",
+              "contact_load_required":bool(sr.get("contact_load_required")),
+              "contact_load_status":"NOT_IMPLEMENTED" if sr.get("contact_load_required") else "NOT_APPLICABLE",
+              "engineering_review":"PENDING","owner_review":"PENDING"
+            }
         raw_obj={
           "schema_version":1,"status":"READ_ONLY_GENERIC_HUMAN_MOVEMENT_SWEEP_AUDIT","production_approved":False,
           "candidate":"candidate.blend","candidate_sha256":csha,"candidate_sha256_before":csha,"candidate_sha256_after":csha,
@@ -43,37 +61,30 @@ class SweepAcceptanceTests(unittest.TestCase):
             "runner_script_hash":"IMPLEMENTED","end_of_run_source_rehash":"IMPLEMENTED",
             "visual_capture_manifest":"NOT_IMPLEMENTED","required_regional_renders":"NOT_IMPLEMENTED","contact_load_state":"NOT_IMPLEMENTED"
           },
-          "diagnostic_limitations":["fixture diagnostic limitations"],
-          "sweeps":{sweep:{
-            "implementation_status":sr["implementation_status"],
-            "plan_evidence_ids":sr["evidence_ids"],"plan_regions":sr["regions"],"plan_cameras":sr["cameras"],
-            "samples":samples,"visual_capture_status":"NOT_IMPLEMENTED",
-            "contact_load_required":bool(sr.get("contact_load_required")),
-            "contact_load_status":"NOT_IMPLEMENTED" if sr.get("contact_load_required") else "NOT_APPLICABLE",
-            "engineering_review":"PENDING","owner_review":"PENDING"
-          }}
+          "diagnostic_limitations":["fixture diagnostic limitations"],"sweeps":sweeps
         }
-        raw=self.write(root,"raw.json",raw_obj)
-        cal_template=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json").read_text(encoding="utf-8"))
-        cal_template["calibration_candidate_revision"]="r95"
-        cal_template["calibration_candidate_sha256"]="f"*64
-        cal_template["runner_sha256"]=hashlib.sha256((mod.ROOT/"scripts/audit_original_v1_human_movement_sweeps_blender.py").read_bytes()).hexdigest()
-        cal_template["execution_spec_sha256"]=hashlib.sha256((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_bytes()).hexdigest()
-        cal_template["frozen_pose_source_sha256"]=hashlib.sha256((mod.ROOT/"scripts/pose_test_original_v1_o4_candidate_blender.py").read_bytes()).hexdigest()
-        for adapter in cal_template["adapters"]:
+        p=root/name; p.write_text(json.dumps(raw_obj),encoding="utf-8"); return p
+
+    def calibrated_runner(self,root):
+        spec=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_text(encoding="utf-8"))
+        raw=self.raw_report(root,"calibration_raw.json","f"*64,list(spec["sweeps"]))
+        bp=mod.ROOT/"scripts/build_original_v1_human_movement_sweep_runner_calibration.py"
+        bsp=importlib.util.spec_from_file_location("cal_builder_fixture",bp)
+        builder=importlib.util.module_from_spec(bsp); bsp.loader.exec_module(builder)
+        cal=builder.build(raw,"r95")
+        for adapter in cal["adapters"]:
             adapter["state"]="CALIBRATED"
-            for key in adapter["automatic_checks"]:
-                adapter["automatic_checks"][key]=True
-            adapter["skeleton_joint_state_manifest"]="joint.json"
-            adapter["outbound_return_evidence"]="return.json"
-            adapter["sample_order_evidence"]="order.json"
-            adapter["source_hash_evidence"]="hash.json"
-            adapter["human_evidence_review_refs"]=["review"]
-            if adapter["id"]=="hip_abduction_adduction":
-                adapter["mirrored_input_evidence"]="mirror.json"
-        cal_template["overall_state"]="CALIBRATED"
-        cal_template["engineering_review"]="PASS"
-        cal=self.write(root,"cal.json",cal_template)
+            adapter["human_evidence_review_refs"]=list(adapter["required_human_evidence_ids"])
+        cal["overall_state"]="CALIBRATED"
+        cal["engineering_review"]="PASS"
+        return self.write(root,"cal.json",cal)
+
+    def fixture(self,root,sweep="trunk_flexion"):
+        csha="a"*64
+        plan=mod.read(mod.PLAN)["sweeps"][sweep]
+        raw_path=self.raw_report(root,"raw.json",csha,[sweep])
+        raw=raw_path.name
+        cal=self.calibrated_runner(root)
         visual_samples=[]
         for label in plan["samples"]:
             views=[]
@@ -84,7 +95,7 @@ class SweepAcceptanceTests(unittest.TestCase):
                   "camera_id":camera,"path":img.name,"sha256":hashlib.sha256(img.read_bytes()).hexdigest(),
                   "capture":{
                     "candidate_sha256":csha,"sweep_id":sweep,"sample_label":label,"camera_id":camera,
-                    "runner_script_sha256":"3"*64,
+                    "runner_script_sha256":hashlib.sha256((mod.ROOT/"scripts/audit_original_v1_human_movement_sweeps_blender.py").read_bytes()).hexdigest(),
                     "camera_matrix_world":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
                     "resolution":[900,900,100]
                   }

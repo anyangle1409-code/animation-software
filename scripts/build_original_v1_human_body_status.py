@@ -27,6 +27,7 @@ COUPLING = ROOT / "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 TRIGGERS = ROOT / "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
 VISUAL = ROOT / "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
 GRAPH = ROOT / "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
+PROGRESS = ROOT / "ORIGINAL_V1_STAGE1_PROGRESS.json"
 OUT_JSON = ROOT / "ORIGINAL_V1_HUMAN_BODY_STATUS.json"
 OUT_MD = ROOT / "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md"
 
@@ -36,7 +37,7 @@ def read(path):
 
 
 def build():
-    plan, cov, ledger, human, sweeps, coupling, triggers, visual, graph = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL, GRAPH))
+    plan, cov, ledger, human, sweeps, coupling, triggers, visual, graph, progress = map(read, (PLAN, COVERAGE, ISSUES, HUMAN, SWEEPS, COUPLING, TRIGGERS, VISUAL, GRAPH, PROGRESS))
     blocking_sev = set(plan["defect_policy"]["blocking_severities"])
     blocking_states = set(plan["defect_policy"]["blocking_states"])
     blockers = [
@@ -98,6 +99,10 @@ def build():
             "blocking_issue_id": "WB-QA-012",
             "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
             "stage1_repair_execution_graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+            "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
+            "pre_edit_repair_workspace_runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
+            "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
+            "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
             "anatomical_repair_packages": "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
             "deformation_diagnosis_tree": "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json",
             "weights_only_acceptance": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
@@ -146,6 +151,15 @@ def build():
             "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
             "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
             "candidate_comparison_template": "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+        },
+        "stage1_progress": {
+            "active_wave_id": progress.get("active_wave_id"),
+            "operational_next_action": "complete_global_pre_repair_diagnostics" if next((x for x in progress.get("waves",[]) if x.get("id")=="global_foundation"),{}).get("state")!="CLEAR" else "execute_active_wave_packages",
+            "waves_total": len(progress.get("waves") or []),
+            "waves_clear": sum(1 for x in progress.get("waves",[]) if x.get("state")=="CLEAR"),
+            "packages_total": progress.get("overall",{}).get("packages_total",14),
+            "packages_clear": progress.get("overall",{}).get("packages_clear",0),
+            "note": "Shoulder-yoke remains the repair focus, but no shoulder package may clear until exact-candidate global pre-repair diagnostics are complete.",
         },
         "non_blender_preparation": {
             "status": "SUBSTANTIALLY_PREPARED",
@@ -212,6 +226,15 @@ def markdown(s):
         f"- Missing full surface sequences: **{s['surface_visual_evidence']['missing_surface_sequence_count']}**",
         "",
         s["surface_visual_evidence"]["rule"],
+        "",
+        "## Stage 1 progress",
+        "",
+        f"- Active repair wave: **{s['stage1_progress']['active_wave_id']}**",
+        f"- Operational next action: **{s['stage1_progress']['operational_next_action'].replace('_',' ')}**",
+        f"- Waves clear: **{s['stage1_progress']['waves_clear']} / {s['stage1_progress']['waves_total']}**",
+        f"- Repair packages clear: **{s['stage1_progress']['packages_clear']} / {s['stage1_progress']['packages_total']}**",
+        "",
+        s["stage1_progress"]["note"],
         "",
         "## Non-Blender preparation",
         "",

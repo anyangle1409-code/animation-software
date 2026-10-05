@@ -248,10 +248,13 @@
   "owner_review": "PENDING",
   "rules": [
     "Calibration proves the audit-motion adapter itself, not the body candidate.",
+    "Calibration evidence must be bound to one validated all-11-sweep raw report; its file hash and exact candidate identity are immutable calibration inputs.",
     "All 11 adapters must be calibrated against the exact same runner/spec/frozen-pose hashes before overall_state may be CALIBRATED.",
     "Every adapter must prove deterministic joint-state construction, required sample order, outbound/return behavior and mirrored equivalence where applicable.",
     "No adapter may use exercise identity as deformation logic.",
     "The frozen P3a pose source may be read but not modified or repinned to manufacture sweep coverage.",
     "Calibration never implies human-body clearance, owner acceptance or production approval."
-  ]
+  ],
+  "raw_sweep_report_path": null,
+  "raw_sweep_report_sha256": null
 }

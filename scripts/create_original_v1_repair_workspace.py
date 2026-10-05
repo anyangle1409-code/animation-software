@@ -88,8 +88,13 @@ def main():
 
         evidence_builder=load_builder("build_original_v1_repair_evidence_brief.py")
         regression_builder=load_builder("build_original_v1_repair_regression_plan.py")
+        validation_builder=load_builder("build_original_v1_package_validation_selection.py")
+        validation_selection=validation_builder.build(ids)
+        if not validation_selection.get("validation_definition_complete") or validation_selection.get("uncovered_proof_movements"):
+            raise ValueError("repair-package validation definition is incomplete")
         write_new(out/"repair_evidence_brief.json",evidence_builder.build(ids))
         write_new(out/"repair_regression_plan.json",regression_builder.build(ids))
+        write_new(out/"package_validation_selection.json",validation_selection)
         write_new(out/"parent_issue_ledger_r95.json",issue_parent)
 
         # PRE-EDIT issue snapshot: blockers remain open and identity is immutable.
@@ -167,6 +172,7 @@ def main():
           "identity_rule":"Declarations/pre-edit snapshot bind pre-edit SHA. Acceptance/coupling/comparison evidence MUST bind final post-edit SHA after the repaired Blend is saved.",
           "files":{
             "evidence_brief":"repair_evidence_brief.json","regression_plan":"repair_regression_plan.json",
+            "package_validation_selection":"package_validation_selection.json",
             "parent_issue_ledger":"parent_issue_ledger_r95.json","pre_edit_issue_ledger":"candidate_issue_ledger_pre_edit.json",
             "weights_only_final_template":"weights_only_acceptance_FINAL_TEMPLATE.json",
             "coupling_final_template":"anatomical_coupling_evidence_FINAL_TEMPLATE.json",
@@ -174,6 +180,12 @@ def main():
             "surface_visual_final_template":"surface_visual_review_FINAL_TEMPLATE.json",
             "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
             "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
+          },
+          "validation_selection":{
+            "pose_names":validation_selection.get("pose_names",[]),
+            "deterministic_sweep_names":validation_selection.get("deterministic_sweep_names",[]),
+            "sweep_only_movements_requiring_generic_runner":validation_selection.get("sweep_only_movements_requiring_generic_runner",[]),
+            "validation_definition_complete":validation_selection.get("validation_definition_complete",False)
           },
           "next_actions":[
             "complete each pre-edit repair declaration with exact candidate-specific zones/bones/hashes and validate it",

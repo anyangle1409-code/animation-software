@@ -3,7 +3,7 @@
   "status": "PREPARED_HUMAN_MOVEMENT_SWEEPS",
   "production_approved": false,
   "master_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
-  "purpose": "Deterministic validation sweeps for movement families that were previously unstarted. These are audit motions, not runtime exercise definitions.",
+  "purpose": "Deterministic validation sweeps for movement families that require direct motion evidence beyond existing static pose fixtures. These are audit motions, not runtime exercise definitions.",
   "common_rules": [
     "Use exact candidate SHA and record pose/motion-definition hash.",
     "Capture outbound and return motion; endpoints alone are insufficient.",
@@ -353,6 +353,144 @@
         "Achilles kinks or detaches visually",
         "heel rises by penetrating/losing forefoot contact",
         "ankle behaves as a single pure sagittal hinge with obvious hindfoot discontinuity"
+      ]
+    },
+    "shoulder_abduction_elevation": {
+      "evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-VIS-SCAP-002"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "head_neck_trapezius"
+      ],
+      "samples": [
+        "neutral",
+        "45deg_abduction",
+        "90deg_abduction",
+        "120deg_abduction",
+        "150deg_abduction",
+        "170deg_abduction",
+        "return_120deg",
+        "return_90deg",
+        "return_45deg",
+        "neutral_return"
+      ],
+      "cameras": [
+        "front_whole_upper_body",
+        "rear_whole_upper_body",
+        "lateral_shoulder",
+        "anterior_axilla_close",
+        "posterior_axilla_close"
+      ],
+      "inspect": [
+        "clavicle_scapula_humerus_coordination",
+        "deltoid_yoke_continuity",
+        "anterior_axillary_fold_rise_and_release",
+        "posterior_axillary_fold_support",
+        "pec_chest_root_stability",
+        "scapular_back_drape",
+        "neck_trapezius_response",
+        "bilateral_symmetry",
+        "return_reversibility"
+      ],
+      "blocking_failures": [
+        "arm elevation creates a chest/axilla membrane or deep artificial tunnel",
+        "deltoid behaves as a rigid spherical cap or detaches from girdle",
+        "posterior fold becomes an unsupported flap/lobe",
+        "chest or back mass translates wholesale with humerus",
+        "return leaves persistent fold/surface offset"
+      ]
+    },
+    "humeral_internal_external_rotation": {
+      "evidence_ids": [
+        "HE-VIS-003",
+        "HE-ATT-DEL-001"
+      ],
+      "regions": [
+        "clavicle_shoulder_deltoid",
+        "chest_anterior_axilla",
+        "back_posterior_axilla",
+        "upperarm_elbow"
+      ],
+      "samples": [
+        "neutral_45deg_abducted",
+        "25pct_internal_rotation",
+        "50pct_internal_rotation",
+        "internal_rotation_end",
+        "return_neutral",
+        "25pct_external_rotation",
+        "50pct_external_rotation",
+        "external_rotation_end",
+        "neutral_return"
+      ],
+      "cameras": [
+        "front_three_quarter_shoulder",
+        "rear_three_quarter_shoulder",
+        "lateral_upperarm",
+        "axilla_close"
+      ],
+      "inspect": [
+        "humeral_rotation_without_torso_drag",
+        "deltoid_anterior_middle_posterior_redistribution",
+        "pec_deltoid_transition",
+        "posterior_axilla_teres_lat_transition",
+        "upperarm_surface_twist_distribution",
+        "return_reversibility"
+      ],
+      "blocking_failures": [
+        "humeral rotation corkscrews the entire shoulder/chest surface",
+        "deltoid cap remains visually rigid through rotation",
+        "axillary folds invert or tunnel",
+        "upper arm develops an abrupt twist seam",
+        "surface offset remains after return"
+      ]
+    },
+    "forearm_pronation_supination": {
+      "evidence_ids": [
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
+      ],
+      "regions": [
+        "upperarm_elbow",
+        "forearm_wrist",
+        "palm_thumb_fingers"
+      ],
+      "samples": [
+        "neutral_mid_rotation",
+        "25pct_pronation",
+        "50pct_pronation",
+        "pronation_end",
+        "return_mid",
+        "25pct_supination",
+        "50pct_supination",
+        "supination_end",
+        "neutral_return"
+      ],
+      "cameras": [
+        "palmar_forearm_close",
+        "dorsal_forearm_close",
+        "radial_side_close",
+        "ulnar_side_close",
+        "whole_upper_limb"
+      ],
+      "inspect": [
+        "distributed_radius_ulna_surface_twist",
+        "wrist_breadth_and_contour_change",
+        "upperarm_not_corkscrewed",
+        "elbow_transition_continuity",
+        "hand_orientation_followthrough",
+        "return_reversibility"
+      ],
+      "blocking_failures": [
+        "forearm rotates as a rigid cylinder",
+        "twist is concentrated into a narrow wrist/elbow seam",
+        "upper arm is dragged by forearm rotation",
+        "hand orientation changes without corresponding forearm surface response",
+        "surface twist persists after return"
       ]
     }
   },

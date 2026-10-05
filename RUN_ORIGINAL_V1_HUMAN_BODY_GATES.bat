@@ -66,6 +66,7 @@ call :run scripts\test_build_original_v1_pre_repair_diagnostic_bundle.py || exit
 call :run scripts\test_original_v1_workspace_requires_diagnostic.py || exit /b 1
 call :run scripts\test_create_original_v1_repair_workspace.py || exit /b 1
 call :run scripts\test_finalize_original_v1_repair_workspace.py || exit /b 1
+call :run scripts\test_build_original_v1_stage1_wave_work_package.py || exit /b 1
 
 echo.
 echo PASS: human-body contract, evidence, movement and coupling gates are internally consistent.

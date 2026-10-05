@@ -565,7 +565,7 @@
   "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, lacks required visual/contact outputs, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
   "execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
   "runner_calibration_state": "PREPARED_UNCALIBRATED",
-  "runner_binding_note": "All 11 sweep definitions are bound to the separate read-only generic Blender adapter. Binding means an implementation path exists only. The runner remains PREPARED_UNCALIBRATED and DIAGNOSTIC_ONLY_INCOMPLETE: required visual captures/contact proof are not yet implemented and every candidate_execution_state remains NOT_RUN until real candidate-bound output is produced and reviewed.",
+  "runner_binding_note": "All 11 sweep definitions are bound to the separate read-only generic Blender motion adapter. Separate visual and raw-contact evidence producers are also implemented. Binding/implementation means an execution path exists only; the runner remains PREPARED_UNCALIBRATED and every candidate_execution_state remains NOT_RUN until real candidate-bound evidence is produced and reviewed.",
   "runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
   "runner_calibration_evidence_path": null,
   "runner_output_capabilities": {
@@ -585,8 +585,30 @@
   "acceptance_capable": false,
   "acceptance_capability_blockers": [
     "runner calibration record is not CALIBRATED",
-    "generic sweep runner visual capture manifest is not implemented",
-    "required regional renders are not implemented",
-    "contact/load state capture is not implemented for contact-bearing sweeps"
-  ]
+    "candidate-bound sweep execution has not run for the current candidate",
+    "visual capture manifests have not been reviewed to engineering PASS",
+    "contact-bearing sweeps have not completed reviewed contact classification",
+    "motion continuity/reversibility reviews remain pending",
+    "candidate-bound sweep acceptance records remain pending"
+  ],
+  "separate_evidence_producers": {
+    "visual_capture": {
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
+      "script": "scripts/capture_original_v1_human_movement_sweep_visual_blender.py",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_visual_capture.py",
+      "state": "IMPLEMENTED_UNCALIBRATED"
+    },
+    "raw_contact": {
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
+      "script": "scripts/audit_original_v1_human_movement_sweep_contact_blender.py",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_contact_raw.py",
+      "state": "IMPLEMENTED_UNCALIBRATED"
+    },
+    "review_workspace": {
+      "runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat",
+      "builder": "scripts/create_original_v1_human_movement_sweep_review_workspace.py",
+      "contact_scaffold_builder": "scripts/build_original_v1_human_movement_sweep_contact_review.py",
+      "state": "READY_NON_BLENDER"
+    }
+  }
 }

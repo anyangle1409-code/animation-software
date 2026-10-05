@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "status": "NON_BLENDER_PREPARATION_READY_FOR_LAPTOP_EXECUTION",
+  "production_approved": false,
+  "anatomical_model_accepted": false,
+  "high_detail_anatomy_allowed": false,
+  "scope": "ORIGINAL-v1 whole-body human deformation recovery preparation that can be implemented without executing Blender or editing a Blend.",
+  "defined_non_blender_backlog_state": "COMPLETE_TO_CURRENT_SCOPE",
+  "prepared_components": [
+    {
+      "id": "master_authority",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+        "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+        "ORIGINAL_V1_STAGE1_PROGRESS.json"
+      ]
+    },
+    {
+      "id": "human_evidence",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
+        "ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json"
+      ],
+      "count": 55
+    },
+    {
+      "id": "repair_architecture",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
+        "ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json",
+        "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json"
+      ],
+      "package_count": 14,
+      "region_count": 12
+    },
+    {
+      "id": "coupling_scope",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+        "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+        "ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
+      ],
+      "coupling_system_count": 14
+    },
+    {
+      "id": "stage1_orchestration",
+      "state": "READY",
+      "evidence": [
+        "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+        "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
+        "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat"
+      ]
+    },
+    {
+      "id": "pre_edit_workspace",
+      "state": "READY",
+      "evidence": [
+        "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
+        "ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
+        "RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat"
+      ]
+    },
+    {
+      "id": "post_edit_workspace",
+      "state": "READY",
+      "evidence": [
+        "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
+        "ORIGINAL_V1_REPAIR_EXECUTION_RECORD_TEMPLATE.json",
+        "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat"
+      ]
+    },
+    {
+      "id": "candidate_comparison",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+        "RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat"
+      ]
+    },
+    {
+      "id": "generic_movement_sweep_definitions",
+      "state": "READY",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json"
+      ],
+      "sweep_count": 11
+    },
+    {
+      "id": "generic_movement_sweep_motion_runner",
+      "state": "BOUND_PREPARED_REQUIRES_BLENDER_CALIBRATION",
+      "evidence": [
+        "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
+        "scripts/audit_original_v1_human_movement_sweeps_blender.py",
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
+      ]
+    },
+    {
+      "id": "generic_movement_sweep_visual_capture",
+      "state": "IMPLEMENTED_REQUIRES_BLENDER_EXECUTION_AND_REVIEW",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CAMERA_PLAN.json",
+        "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat",
+        "scripts/capture_original_v1_human_movement_sweep_visual_blender.py"
+      ],
+      "camera_count": 36
+    },
+    {
+      "id": "generic_movement_sweep_contact_capture",
+      "state": "IMPLEMENTED_REQUIRES_BLENDER_EXECUTION_AND_REVIEW",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json",
+        "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat",
+        "scripts/audit_original_v1_human_movement_sweep_contact_blender.py"
+      ]
+    },
+    {
+      "id": "generic_movement_sweep_acceptance",
+      "state": "READY_NOT_RUN",
+      "evidence": [
+        "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
+        "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
+      ]
+    },
+    {
+      "id": "post_repair_sweep_integration",
+      "state": "READY",
+      "evidence": [
+        "scripts/get_original_v1_workspace_sweep_requirements.py",
+        "scripts/build_original_v1_workspace_sweep_motion_reviews.py",
+        "scripts/collect_original_v1_workspace_sweep_evidence.py",
+        "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat"
+      ]
+    },
+    {
+      "id": "contract_gates",
+      "state": "READY_REQUIRES_GREEN_EXECUTION",
+      "evidence": [
+        "RUN_ORIGINAL_V1_HUMAN_BODY_GATES.bat",
+        "RUN_ORIGINAL_V1_HUMAN_BODY_READINESS_CHECK.bat",
+        ".github/workflows/original-v1-human-body-contract.yml"
+      ]
+    }
+  ],
+  "non_blender_tasks_remaining": [],
+  "blender_or_candidate_bound_remaining": [
+    "preserve/commit any newer local Work changes before integrating tooling",
+    "run the human-body contract/readiness gates in the actual integrated laptop checkout",
+    "run exact-candidate pre-repair diagnostics and saved skinning-mode capture",
+    "execute and engineering-review the all-11 generic movement sweep calibration record",
+    "execute required pre-edit candidate sweeps and review human movement construction",
+    "complete candidate-specific repair declarations including exact vertex zones and allowed bone groups",
+    "run candidate/declaration-bound coupling-weight audits",
+    "perform the actual Blender deformation repair on a new candidate",
+    "finalize the workspace against the exact post-edit Blend SHA",
+    "execute final-candidate raw sweeps, visual captures and raw contact/load measurements",
+    "review motion continuity/reversibility, visual evidence and contact classifications",
+    "complete weights-only/coupling/movement/regression/change/issue-closure evidence",
+    "run unified candidate comparison and separate owner review"
+  ],
+  "current_model_state": {
+    "master_stage": 1,
+    "active_wave": "shoulder_yoke_foundation",
+    "open_critical_high_blockers": 12,
+    "candidate_proven_coupling_systems": 0,
+    "total_coupling_systems": 14,
+    "high_detail_anatomy_allowed": false
+  },
+  "required_entry_point": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+  "contract_gate": "RUN_ORIGINAL_V1_HUMAN_BODY_GATES.bat",
+  "interpretation": "The defined source/tooling/planning work that can be completed without Blender is prepared. This is not anatomical clearance: all candidate-bound execution, model repair, Blender calibration/capture and engineering/owner review remain outstanding.",
+  "rules": [
+    "Do not convert READY tooling into a model PASS.",
+    "Do not skip the laptop contract gate because this preparation ledger is READY.",
+    "Do not overwrite r95 or any newer local candidate.",
+    "Do not mark a generic movement sweep CALIBRATED or accepted without real candidate-bound Blender output and review.",
+    "Do not enter high-detail anatomy while Critical/High whole-body issues or Stage-1 coupling gates remain open."
+  ]
+}

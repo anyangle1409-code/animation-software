@@ -41,6 +41,11 @@ ns={"__name__":"pose_defs","__file__":POSE_SCRIPT.name}
 exec(compile(src[:src.index(marker)],"pose_test_defs","exec"),ns)
 sys.argv=_saved
 
+import importlib.util as _ilu
+_driver_path=POSE_SCRIPT.with_name("original_v1_flexion_driver.py")
+_sp=_ilu.spec_from_file_location("original_v1_flexion_driver",str(_driver_path))
+_fd=_ilu.module_from_spec(_sp); _sp.loader.exec_module(_fd); _fd.install(ns)
+
 rig=ns["rig"]; body=ns["body"]; reset=ns["reset"]; upd=ns["upd"]
 rot=ns["rot"]; aim=ns["aim"]; lat=ns["lat"]; bdir=ns["bdir"]
 girdle_for_elevation=ns["girdle_for_elevation"]
@@ -108,6 +113,18 @@ def region_summary(P):
         }
     return rows
 
+def active_joint_state():
+    rows={}
+    for p in rig.pose.bones:
+        q=p.matrix_basis.to_quaternion()
+        t=p.matrix_basis.to_translation()
+        if p.name=="root" or q.rotation_difference(type(q)((1,0,0,0))).angle>1e-7 or t.length>1e-9:
+            rows[p.name]={
+              "quat_wxyz":[round(float(q.w),8),round(float(q.x),8),round(float(q.y),8),round(float(q.z),8)],
+              "translation":[round(float(x),8) for x in t],
+            }
+    return rows
+
 def surface_snapshot():
     final=eval_positions(); keys=key_values()
     saved=zero_keys(); weights=eval_positions(); restore_keys(saved)
@@ -117,6 +134,7 @@ def surface_snapshot():
       "weights_only_surface":{"min_z":round(float(weights[:,2].min()),7),"max_displacement_from_neutral_m":round(float(np.linalg.norm(weights-REST,axis=1).max()),7),"regions":region_summary(weights)},
       "corrective_contribution":{"max_m":round(float(np.linalg.norm(corr,axis=1).max()),7),"p99_m":round(float(np.percentile(np.linalg.norm(corr,axis=1),99)),7)},
       "shape_key_values":{k:round(v,8) for k,v in sorted(keys.items())},
+      "joint_state":active_joint_state(),
     }
 
 def distributed_trunk(axis,amount,shares=(0.12,0.28,0.30,0.30)):
@@ -213,6 +231,7 @@ result={
  "candidate":candidate.name,
  "candidate_sha256":candidate_sha,
  "pose_definition_sha256":hashlib.sha256(POSE_SCRIPT.read_bytes()).hexdigest(),
+ "flexion_driver_sha256":hashlib.sha256(_driver_path.read_bytes()).hexdigest(),
  "movement_plan_sha256":hashlib.sha256(PLAN_PATH.read_bytes()).hexdigest(),
  "sweep_execution_spec_sha256":hashlib.sha256(SPEC_PATH.read_bytes()).hexdigest(),
  "source_saved_or_modified":False,

@@ -48,6 +48,11 @@ Do NOT reset, rebase, force-push, or overwrite local Work changes.
 - `ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json`
 - `ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json`
 - `ORIGINAL_V1_HUMAN_BODY_STATUS.json`
+- `ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json`
+- `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json`
+- `ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json`
+- `ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json`
+- `docs/ORIGINAL_V1_WHOLE_BODY_REPAIR_GUIDE.md`
 
 Historical Phase 4/r95 remains immutable comparator evidence. It is NOT current
 anatomical sign-off. Historical "Phase 5A next" text is subordinate to the master
@@ -66,6 +71,50 @@ The current shoulder/chest defect is known to be foundational:
 - existing correctives reduce the external wing but trade it for membrane/trench/
   chest-volume defects;
 - another cosmetic r95 patch is not the selected path.
+
+## Preferred fast path after safe branch integration
+
+After preserving any local Work changes and integrating the GPT tooling branch,
+the preferred first command is:
+
+`RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label>`
+
+This one read-only command runs the non-Blender readiness controls plus:
+
+- saved Blender skinning-mode capture;
+- pose -> connected-tissue scope;
+- automatic pose -> tissue -> camera -> human-evidence plan;
+- shoulder deformation-layer decomposition;
+- outbound/return reversibility;
+- dense motion-continuity reporting;
+- exact candidate-SHA cross-check across the resulting evidence bundle.
+
+Do not edit the candidate until this bundle is complete and the earliest failing
+layer has been identified with `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json`.
+
+If the base-skinning method is a plausible root-cause contributor, run the
+controlled weights-only A/B:
+
+`RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat <candidate.blend> <fresh-label>`
+
+This temporarily evaluates LBS and Preserve Volume/DQ, restores the original
+setting, and makes no automatic winner claim. Any mode change requires human
+visual and whole-body regression evidence.
+
+For the selected repair package, create a prefilled declaration:
+
+`RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat <RP-ID> <candidate-revision> <candidate-sha256> <l^|r^|bilateral^|midline> <source-branch> <fresh-declaration.json>`
+
+Then fill the exact candidate-specific vertex zones and allowed bone groups and
+validate the declaration before editing.
+
+Create the focused neighbour + whole-body regression plan:
+
+`RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat <RP-ID[,RP-ID...]> <fresh-regression-plan.json>`
+
+The execution order is governed by
+`ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json`. Do not finalize a downstream
+chain before its upstream anchor/foundation wave is clear.
 
 ## Immediate shoulder recovery sequence
 

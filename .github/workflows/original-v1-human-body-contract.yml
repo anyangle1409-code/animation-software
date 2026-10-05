@@ -20,6 +20,8 @@ on:
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
       - "scripts/*workspace_sweep_acceptance*"
+      - "scripts/test_validate_original_v1_laptop_workflow_integrity.py"
+      - "scripts/validate_original_v1_laptop_workflow_integrity.py"
       - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
@@ -104,6 +106,8 @@ on:
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
       - "scripts/*workspace_sweep_acceptance*"
+      - "scripts/test_validate_original_v1_laptop_workflow_integrity.py"
+      - "scripts/validate_original_v1_laptop_workflow_integrity.py"
       - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
@@ -370,3 +374,8 @@ jobs:
         run: python scripts/test_finalize_original_v1_human_movement_sweep_runner_calibration.py
       - name: Run sweep acceptance finalizer tests
         run: python scripts/test_finalize_original_v1_human_movement_sweep_acceptance.py
+
+      - name: Validate preferred laptop workflow integrity
+        run: python scripts/validate_original_v1_laptop_workflow_integrity.py
+      - name: Run preferred laptop workflow integrity tests
+        run: python scripts/test_validate_original_v1_laptop_workflow_integrity.py

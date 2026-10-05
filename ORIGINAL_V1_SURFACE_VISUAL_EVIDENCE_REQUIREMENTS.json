@@ -78,13 +78,16 @@
     },
     {
       "id": "ribcage_abdomen_obliques_lumbar",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-LOWER-001"
+      ],
       "needs": [
         "flexion/extension skin folds",
         "lateral bend compressed/lengthened sides",
         "axial rotation oblique/lumbar surface",
-        "loaded hinge"
+        "loaded hinge",
+        "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     },
     {
@@ -120,45 +123,60 @@
     },
     {
       "id": "pelvis_groin_glutes",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-LOWER-001",
+        "HE-VIS-LOWER-002"
+      ],
       "needs": [
         "hip flexion/extension glute transition",
         "deep squat/lunge groin surface",
         "hip abduction/adduction",
-        "loaded hinge"
+        "loaded hinge",
+        "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     },
     {
       "id": "thigh_knee",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-LOWER-001",
+        "HE-VIS-LOWER-002"
+      ],
       "needs": [
         "quadriceps/patella through deep knee flexion",
         "posterior knee/hamstring surface",
-        "squat and lunge return"
+        "squat and lunge return",
+        "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     },
     {
       "id": "calf_ankle_achilles",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-LOWER-002"
+      ],
       "needs": [
         "dorsiflexion calf/Achilles surface",
         "plantarflexion/heel raise",
         "knee-state effect on gastrocnemius",
-        "return sequence"
+        "return sequence",
+        "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     },
     {
       "id": "foot_toes",
-      "state": "missing_surface_sequence",
-      "current_visual_evidence_ids": [],
+      "state": "partial",
+      "current_visual_evidence_ids": [
+        "HE-VIS-LOWER-001",
+        "HE-VIS-LOWER-002"
+      ],
       "needs": [
         "loaded arch/heel/forefoot",
         "toe extension under push-up/lunge",
         "heel raise and return",
-        "dorsiflexion contact"
+        "dorsiflexion contact",
+        "exposed-surface or minimally obscured close sequence for skin/fold detail"
       ]
     }
   ],

@@ -37,7 +37,8 @@
     "repair_declaration_paths": [],
     "pose_capture_plan_path": null,
     "surface_visual_review_path": null,
-    "repair_execution_record_paths": []
+    "repair_execution_record_paths": [],
+    "human_movement_sweep_acceptance_paths": []
   },
   "allowed_statuses": [
     "PENDING",
@@ -64,7 +65,9 @@
     "Every non-empty scoped body region set requires visual engineering PASS backed by candidate-bound review evidence.",
     "If any scoped body region is contact/load-bearing, contact status must be PASS with candidate-bound contact evidence.",
     "A scoped coupling system automatically brings every body region listed by that coupling system into comparison scope.",
-    "A defect may be scoped for closure only when all coupling systems required by the defect-to-coupling map are included."
+    "A defect may be scoped for closure only when all coupling systems required by the defect-to-coupling map are included.",
+    "Every sweep-only proof movement required by the scoped repair packages must have a candidate-bound human-movement sweep acceptance record with engineering PASS.",
+    "Raw generic sweep execution reports never satisfy candidate comparison by themselves; the calibrated sweep acceptance gate is mandatory."
   ],
   "output": "candidate_comparison_report.json"
 }

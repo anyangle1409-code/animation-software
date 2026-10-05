@@ -130,6 +130,12 @@ When the workspace requires sweep-only proof movements, the fifth argument is ma
     visual, repair-execution, regression/contact/change and issue-closure records.
 12. Run the generated unified candidate comparison manifest.
 
+Before unified candidate comparison, validate every finalized workspace sweep acceptance record with:
+
+`python scripts\validate_original_v1_workspace_sweep_acceptance.py <workspace-dir>`
+
+when sweep-only proof movements are present. This is fail-closed against the exact final candidate.
+
 The older `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat` path remains a
 lower-level fallback utility. Do not prefer it over the PRE-EDIT workspace ->
 finalization workflow.

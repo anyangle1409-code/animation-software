@@ -126,13 +126,37 @@ class CandidateComparisonTests(unittest.TestCase):
         }
         return self.write(root,f"{sweep}_accept.json",record)
 
+    def movement_sample(self,movement,sample_id=None):
+        trigger_path=mod.ROOT/"ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
+        trigger=json.loads(trigger_path.read_text(encoding="utf-8"))
+        req=json.loads((mod.ROOT/"ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json").read_text(encoding="utf-8"))
+        family_bone={
+          "head_cervical":"neck","trunk_pelvis":"spine_01","clavicle":"clavicle_l","scapula":"scapula_l",
+          "humerus":"upperarm_l","elbow_forearm":"forearm_l","wrist_hand":"hand_l","digits":"index_01_l",
+          "hip_femur":"thigh_l","knee_lower_leg":"shin_l","ankle_hindfoot":"foot_l","forefoot_toes":"toe_l"
+        }
+        families=req["movements"][movement]["required_joint_families"]
+        bones=[family_bone[x] for x in families]
+        mv=mod.load_movement_coupling_validator()
+        coupling,_=mv.derive(trigger,bones)
+        return {
+          "sample_id":sample_id or movement,
+          "movement_family":movement,"fraction":0.5,"moved_bones":bones,
+          "required_coupling_system_ids":coupling,"reviewed_coupling_system_ids":coupling,
+          "evidence_refs":[f"{movement}.json"],"contact_refs":[],"state":"COMPLETE"
+        }
+
     def base_fixture(self,root,candidate_issues=None):
         psha="a"*64; csha="b"*64
         parent=self.write(root,"parent.json",{"candidate_under_review":{"sha256":psha},"issues":[]})
         candidate=self.write(root,"candidate.json",{"candidate_under_review":{"sha256":csha},"issues":candidate_issues or []})
         wo=self.write(root,"wo.json",{"candidate_sha256":csha,"regions":[]})
         ce=self.write(root,"ce.json",{"candidate_sha256":csha,"systems":[]})
-        me=self.write(root,"me.json",{"candidate_sha256":csha,"samples":[]})
+        me=self.write(root,"me.json",{
+          "schema_version":1,"status":"MOVEMENT_COUPLING_EVIDENCE_IN_PROGRESS",
+          "production_approved":False,"candidate_revision":"r96","candidate_sha256":csha,
+          "source_branch":"fixture","samples":[]
+        })
         rev=self.write(root,"rev.json",{"candidate_sha256":csha,"overall_status":"CLEAN"})
         cont=self.write(root,"cont.json",{"candidate_sha256":csha})
         pose=self.write(root,"pose.json",{"candidate_sha256":csha,"poses":{}})
@@ -242,6 +266,43 @@ class CandidateComparisonTests(unittest.TestCase):
             manifest["scope"]["region_ids"]=["forearm_wrist"]
             report=mod.build(manifest,root)
             self.assertIn("contact_status",report["failed_checks"])
+
+    def test_scoped_repair_requires_all_proof_movement_families(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            csha=manifest["candidate"]["sha256"]
+            manifest["scope"]["repair_package_ids"]=["RP-PEC-AX-002"]
+            proof=mod.required_proof_movements(manifest["scope"],{
+              x["id"]:x for x in json.loads(mod.REPAIR_PACKAGES.read_text(encoding="utf-8"))["packages"]
+            })
+            missing="horizontal_push"
+            samples=[self.movement_sample(m) for m in proof if m!=missing]
+            manifest["evidence"]["movement_coupling_evidence_path"]=self.write(root,"me_scope.json",{
+              "schema_version":1,"status":"MOVEMENT_COUPLING_EVIDENCE_IN_PROGRESS",
+              "production_approved":False,"candidate_revision":"r96","candidate_sha256":csha,
+              "source_branch":"fixture","samples":samples
+            })
+            report=mod.build(manifest,root)
+            self.assertIn(f"movement_coupling_proof:{missing}",report["failed_checks"])
+            for movement in proof:
+                if movement!=missing:
+                    self.assertNotIn(f"movement_coupling_proof:{movement}",report["failed_checks"])
+
+    def test_movement_family_cannot_be_credited_with_wrong_joint_chain(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); manifest=self.base_fixture(root)
+            csha=manifest["candidate"]["sha256"]
+            manifest["scope"]["repair_package_ids"]=["RP-TRUNK-008"]
+            bad=self.movement_sample("vertical_push","fake_trunk")
+            bad["movement_family"]="trunk_axial_rotation"
+            manifest["evidence"]["movement_coupling_evidence_path"]=self.write(root,"me_bad_joint.json",{
+              "schema_version":1,"status":"MOVEMENT_COUPLING_EVIDENCE_IN_PROGRESS",
+              "production_approved":False,"candidate_revision":"r96","candidate_sha256":csha,
+              "source_branch":"fixture","samples":[bad]
+            })
+            report=mod.build(manifest,root)
+            self.assertIn("movement_coupling_contract_valid",report["failed_checks"])
+            self.assertIn("movement_coupling_proof:trunk_flexion",report["failed_checks"])
 
     def test_shoulder_package_requires_both_sweep_only_acceptance_records(self):
         with tempfile.TemporaryDirectory() as td:

@@ -70,5 +70,16 @@ if not exist "%OUT%" (
   exit /b 1
 )
 
+set "PYTHON="
+if defined PYTHON_EXE if exist "%PYTHON_EXE%" set "PYTHON=%PYTHON_EXE%"
+if not defined PYTHON if exist "C:\Users\Mark\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" set "PYTHON=C:\Users\Mark\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+if not defined PYTHON for /f "delims=" %%I in ('where python.exe 2^>nul') do if not defined PYTHON set "PYTHON=%%I"
+if defined PYTHON (
+  "%PYTHON%" scripts\validate_original_v1_coupling_weight_audit.py "%OUT%"
+) else (
+  "%BLENDER%" --background --factory-startup --python-exit-code 1 --python scripts\validate_original_v1_coupling_weight_audit.py -- "%OUT%"
+)
+if errorlevel 1 exit /b 1
+
 echo PASS: %OUT%
 exit /b 0

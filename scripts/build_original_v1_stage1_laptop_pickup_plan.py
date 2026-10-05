@@ -106,7 +106,7 @@ def build(a):
       "sweep_pipeline_dir":str(sweep_pipeline_dir),
       "calibrated_sweep_runner_record":supplied_calibration or (str(cal_final) if sweep_csv and calibration_required else None),
       "workspace":a.workspace,
-      "post_edit_continuation_command_template":"RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat "+dq(a.workspace)+" <final-candidate.blend> "+dq(a.new_revision)+" "+dq(a.current_revision)+" <fresh-post-label> <calibration-record-or-empty> <fresh-post-plan-dir>",
+      "post_edit_continuation_command_template":"RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat "+dq(a.workspace)+" <final-candidate.blend> "+dq(a.new_revision)+" "+dq(a.current_revision)+" <fresh-post-label> "+dq(supplied_calibration or (str(cal_final) if sweep_csv and calibration_required else ""))+" <fresh-post-plan-dir>",
       "commands":commands,
       "stop_conditions":[
         "human-body gate failure",
@@ -146,6 +146,7 @@ def main():
             lines.append(str(i)+". "+row["phase"])
             lines.append("   "+row["command"])
             if row.get("review_gate"): lines.append("   REVIEW GATE - do not skip")
+        lines.extend(["","## After saving the new candidate","",d["post_edit_continuation_command_template"]])
         (out/"laptop_pickup_plan.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
         print("STAGE1 LAPTOP PICKUP PLAN: READY")
         print(json.dumps({"wave":d["wave_id"],"candidate_sha256":d["current_candidate"]["sha256"],"packages":d["repair_package_ids"],"commands":len(d["commands"])},indent=2))

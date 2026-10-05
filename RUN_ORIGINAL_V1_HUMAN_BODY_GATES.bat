@@ -35,6 +35,8 @@ call :run scripts\validate_original_v1_deformation_diagnosis_tree.py || exit /b 
 call :run scripts\validate_original_v1_weights_only_contract.py || exit /b 1
 call :run scripts\validate_original_v1_pose_evidence_planning.py || exit /b 1
 call :run scripts\validate_original_v1_candidate_comparison_template.py || exit /b 1
+call :run scripts\validate_original_v1_candidate_surface_visual_review_template.py || exit /b 1
+call :run scripts\validate_original_v1_repair_execution_record_template.py || exit /b 1
 call :run scripts\validate_original_v1_stage1_repair_execution_graph.py || exit /b 1
 call :run scripts\validate_original_v1_deformation_failure_signatures.py || exit /b 1
 
@@ -49,6 +51,11 @@ call :run scripts\test_validate_original_v1_anatomical_coupling_evidence.py || e
 call :run scripts\test_validate_original_v1_shoulder_layer_diagnostic.py || exit /b 1
 call :run scripts\test_build_original_v1_pose_capture_evidence_plan.py || exit /b 1
 call :run scripts\test_build_original_v1_candidate_comparison_report.py || exit /b 1
+call :run scripts\test_validate_original_v1_anatomical_repair_packages.py || exit /b 1
+call :run scripts\test_validate_original_v1_deformation_diagnosis_tree.py || exit /b 1
+call :run scripts\test_validate_original_v1_weights_only_acceptance.py || exit /b 1
+call :run scripts\test_validate_original_v1_candidate_surface_visual_review.py || exit /b 1
+call :run scripts\test_validate_original_v1_repair_execution_record.py || exit /b 1
 call :run scripts\test_build_original_v1_repair_regression_plan.py || exit /b 1
 
 echo.

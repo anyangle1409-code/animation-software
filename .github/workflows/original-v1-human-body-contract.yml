@@ -15,6 +15,9 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
+      - "scripts/*sweep_pipeline_plan*"
+      - "scripts/*operator_runner_links*"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
@@ -90,6 +93,9 @@ on:
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
       - "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat"
+      - "scripts/*sweep_pipeline_plan*"
+      - "scripts/*operator_runner_links*"
+      - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
@@ -180,6 +186,8 @@ jobs:
         run: python scripts/validate_original_v1_human_movement_sweep_visual_renderer_source.py
       - name: Validate generic sweep runner source contract
         run: python scripts/validate_original_v1_human_movement_sweep_runner_source.py
+      - name: Validate operator runner links
+        run: python scripts/validate_original_v1_operator_runner_links.py
       - name: Validate sweep runner calibration template
         run: python scripts/validate_original_v1_human_movement_sweep_runner_calibration.py
       - name: Validate sweep acceptance template
@@ -332,3 +340,8 @@ jobs:
         run: python scripts/validate_original_v1_post_repair_bundle_source.py
       - name: Run post-repair bundle source tests
         run: python scripts/test_validate_original_v1_post_repair_bundle_source.py
+
+      - name: Run sweep pipeline-plan tests
+        run: python scripts/test_build_original_v1_human_movement_sweep_pipeline_plan.py
+      - name: Run operator runner-link tests
+        run: python scripts/test_validate_original_v1_operator_runner_links.py

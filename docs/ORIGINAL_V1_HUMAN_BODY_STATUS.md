@@ -25,7 +25,7 @@
 
 - Regions with evidence scaffolding: **12 / 12**
 - Movement families with evidence scaffolding: **27 / 27**
-- Human-evidence entries: **29**
+- Human-evidence entries: **31**
 - Prepared deterministic movement sweeps: **8**
 
 > Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.
@@ -34,10 +34,21 @@
 
 - Coupling systems defined: **14**
 - Candidate-proven CLEAR: **0**
+- Joint-to-tissue trigger rules: **12**
 - Status: **BLOCKED — NOT YET CANDIDATE-PROVEN**
 - Blocking issue: `WB-QA-012`
 
-Every muscle/soft-tissue system that spans multiple anatomical anchors must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion. A joint may not drag connected skin/muscle wholesale simply because it passes aggregate deformation metrics.
+Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.
+
+Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.
+
+## Real-human surface visual evidence
+
+- Complete regions: **0**
+- Partial regions: **8**
+- Missing full surface sequences: **4**
+
+Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit.
 
 ## High-detail anatomy
 

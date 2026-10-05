@@ -32,6 +32,11 @@ on:
       - "scripts/*pose_evidence*"
       - "scripts/*candidate_comparison*"
       - "scripts/*anatomical_repair*"
+      - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
+      - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
+      - "scripts/*repair_regression*"
+      - "scripts/*skinning_ab*"
+      - "scripts/*pre_repair_diagnostic*"
       - ".github/workflows/original-v1-human-body-contract.yml"
   pull_request:
     paths:
@@ -64,6 +69,11 @@ on:
       - "scripts/*pose_evidence*"
       - "scripts/*candidate_comparison*"
       - "scripts/*anatomical_repair*"
+      - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
+      - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
+      - "scripts/*repair_regression*"
+      - "scripts/*skinning_ab*"
+      - "scripts/*pre_repair_diagnostic*"
       - ".github/workflows/original-v1-human-body-contract.yml"
 
 permissions:
@@ -106,6 +116,10 @@ jobs:
         run: python scripts/validate_original_v1_pose_evidence_planning.py
       - name: Validate candidate comparison template
         run: python scripts/validate_original_v1_candidate_comparison_template.py
+      - name: Validate Stage 1 repair execution graph
+        run: python scripts/validate_original_v1_stage1_repair_execution_graph.py
+      - name: Validate deformation failure signature guide
+        run: python scripts/validate_original_v1_deformation_failure_signatures.py
       - name: Run surface visual evidence requirement tests
         run: python scripts/test_validate_original_v1_surface_visual_evidence_requirements.py
       - name: Run human evidence tests
@@ -132,3 +146,5 @@ jobs:
         run: python scripts/test_build_original_v1_pose_capture_evidence_plan.py
       - name: Run unified candidate comparison tests
         run: python scripts/test_build_original_v1_candidate_comparison_report.py
+      - name: Run repair regression planner tests
+        run: python scripts/test_build_original_v1_repair_regression_plan.py

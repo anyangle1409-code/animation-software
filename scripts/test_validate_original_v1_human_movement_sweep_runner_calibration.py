@@ -66,6 +66,8 @@ class SweepRunnerCalibrationTests(unittest.TestCase):
         d=builder.build(raw,"r95")
         for row in d["adapters"]:
             row["state"]="CALIBRATED"
+            row["engineering_review_status"]="PASS"
+            row["human_evidence_review_status"]="PASS"
             row["human_evidence_review_refs"]=list(row["required_human_evidence_ids"])
         d["overall_state"]="CALIBRATED"; d["engineering_review"]="PASS"
         return d,raw
@@ -112,6 +114,20 @@ class SweepRunnerCalibrationTests(unittest.TestCase):
             d,_=self.reviewed_record(Path(td))
             d["adapters"][0]["human_evidence_review_refs"]=[]
             with self.assertRaisesRegex(ValueError,"without human evidence review"):
+                mod.validate(d,True)
+
+    def test_adapter_engineering_review_is_required_for_calibrated_adapter(self):
+        with tempfile.TemporaryDirectory() as td:
+            d,_=self.reviewed_record(Path(td))
+            d["adapters"][0]["engineering_review_status"]="PENDING"
+            with self.assertRaisesRegex(ValueError,"per-adapter engineering review PASS"):
+                mod.validate(d,True)
+
+    def test_adapter_human_review_status_is_required_for_calibrated_adapter(self):
+        with tempfile.TemporaryDirectory() as td:
+            d,_=self.reviewed_record(Path(td))
+            d["adapters"][0]["human_evidence_review_status"]="PENDING"
+            with self.assertRaisesRegex(ValueError,"per-adapter human-evidence review PASS"):
                 mod.validate(d,True)
 
     def test_unknown_human_evidence_reference_is_rejected(self):

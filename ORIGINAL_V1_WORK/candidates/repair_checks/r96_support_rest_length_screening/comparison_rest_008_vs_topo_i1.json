@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "profile": "development_blocker",
+  "status": "REGRESSION",
+  "baseline_failed_checks": 2,
+  "candidate_failed_checks": 2,
+  "delta_failed_checks": 0,
+  "pose_failure_counts_baseline": {
+    "press_bottom": 0,
+    "press_top": 1,
+    "press_top_rhythm": 1,
+    "squat_bottom": 0,
+    "pullup_hang": 0,
+    "pullup_hang_rhythm": 0,
+    "pullup_top": 0
+  },
+  "pose_failure_counts_candidate": {
+    "neutral": 0,
+    "curl_peak": 0,
+    "press_bottom": 0,
+    "press_top": 1,
+    "press_top_rhythm": 1,
+    "squat_bottom": 0,
+    "pushup_bottom": 0,
+    "pullup_hang": 0,
+    "pullup_hang_rhythm": 0,
+    "pullup_top": 0,
+    "lunge": 0,
+    "row": 0,
+    "grip": 0,
+    "curl_handle": 0,
+    "pullup_bar": 0
+  },
+  "grip_failure_counts_baseline": {},
+  "grip_failure_counts_candidate": {},
+  "comparison_tolerances": {
+    "description": "Maximum numerical drift permitted before a candidate is classified as a severity regression. These are noise/iteration tolerances, not relaxed acceptance limits.",
+    "volume_deviation_from_1_rise": 0.005,
+    "edge_ratio_p01_drop": 0.02,
+    "edge_ratio_p99_rise": 0.05,
+    "region_min_ratio_drop": 0.02,
+    "region_max_ratio_rise": 0.1,
+    "self_intersecting_face_pairs_rise": 5,
+    "lowest_z_drop_m": 0.001,
+    "grip_penetration_rise_mm": 0.25,
+    "grip_contact_fraction_drop": 0.01
+  },
+  "selected_poses": null,
+  "regression_count": 1,
+  "improvement_count": 0,
+  "regressions": [
+    {
+      "kind": "severity",
+      "name": "squat_bottom",
+      "region": null,
+      "metric": "self_intersecting_face_pairs",
+      "baseline": 82.0,
+      "candidate": 96.0,
+      "delta": 14.0,
+      "direction": "lower_is_better",
+      "tolerance": 5.0
+    }
+  ],
+  "improvements": [],
+  "rule": "No baseline pose/grip may disappear, gain gate failures, or materially worsen a tracked severity metric while repairing another region."
+}

@@ -7,6 +7,11 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_human_evidence.py",
       "note": "Development-only real-human source identities, permitted conclusions and uncertainty for anatomical deformation review; never production media or geometry-copy authority."
+    },
+    "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json": {
+      "category": "authority",
+      "validator": "scripts/validate_original_v1_human_body_master_plan.py",
+      "note": "Machine-readable governing plan for whole-body human movement/anatomy progression; open Critical/High whole-body issues override historical phase readiness."
     }
   },
   "categories": {
@@ -272,6 +277,10 @@
     "docs/SKELETON_HUMAN_MOVEMENT_AND_BONE_SUFFICIENCY_POLICY.md": {
       "category": "current_technical",
       "note": "Current policy for human-movement coverage and bone-sufficiency decisions on the ORIGINAL-v1 rig."
+    },
+    "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md": {
+      "category": "authority",
+      "note": "Authoritative ORIGINAL-v1 human-body progression plan. Governs foundation, regional proof, movement-family proof and later high-detail stages; historical Phase 0-12 roadmap is subordinate for anatomical readiness."
     }
   }
 }

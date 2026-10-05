@@ -95,6 +95,46 @@ class ShoulderYokeProbeTests(unittest.TestCase):
         parent["lineage_parent_r95_sha256"] = "0" * 64
         self.assertFalse(probe.validate_probe_parent("a" * 64, parent))
 
+    def test_fold_transfer_splits_anterior_and_posterior_trunk_weight(self):
+        # columns: spine_02, spine_03, upperarm_l, clavicle_l, scapula_l,
+        #          upperarm_r, clavicle_r, scapula_r
+        weights = np.array(
+            [
+                [0.4, 0.2, 0.2, 0.2, 0.0, 0.0, 0.0, 0.0],
+                [0.4, 0.2, 0.2, 0.0, 0.2, 0.0, 0.0, 0.0],
+                [0.4, 0.2, 0.0, 0.0, 0.0, 0.2, 0.2, 0.0],
+                [0.4, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0, 0.2],
+            ]
+        )
+        rest = np.array([[-0.17, -0.02, 1.4], [-0.17, 0.04, 1.4], [0.17, -0.02, 1.4], [0.17, 0.04, 1.4]])
+        solved = probe.transfer_trunk_to_anatomical_folds(
+            weights,
+            rest,
+            [(0, 2), (1, 3)],
+            spine_indices=(0, 1),
+            left_targets={"upperarm": 2, "clavicle": 3, "scapula": 4},
+            right_targets={"upperarm": 5, "clavicle": 6, "scapula": 7},
+            fraction=0.25,
+        )
+        self.assertTrue(np.allclose(solved[0], [0.3, 0.15, 0.29, 0.26, 0.0, 0.0, 0.0, 0.0]))
+        self.assertTrue(np.allclose(solved[1], [0.3, 0.15, 0.275, 0.0, 0.275, 0.0, 0.0, 0.0]))
+        self.assertTrue(np.allclose(solved[2], [0.3, 0.15, 0.0, 0.0, 0.0, 0.29, 0.26, 0.0]))
+        self.assertTrue(np.allclose(solved[3], [0.3, 0.15, 0.0, 0.0, 0.0, 0.275, 0.0, 0.275]))
+
+    def test_fold_subzone_selection_is_mirror_closed_and_bounded(self):
+        rest = np.array(
+            [
+                [-0.17, -0.02, 1.40],
+                [-0.12, -0.02, 1.40],
+                [-0.17, -0.10, 1.40],
+                [0.17, -0.02, 1.40],
+                [0.12, -0.02, 1.40],
+                [0.17, -0.10, 1.40],
+            ]
+        )
+        selected = probe.select_anatomical_fold_pairs(rest, [(0, 3), (1, 4), (2, 5)])
+        self.assertEqual(selected, [(0, 3)])
+
 
 if __name__ == "__main__":
     unittest.main()

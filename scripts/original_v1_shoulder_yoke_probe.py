@@ -19,6 +19,63 @@ def validate_probe_parent(dump_source_sha256: str, parent: dict) -> bool:
     return parent.get("lineage_parent_r95_sha256") == R95_SHA256
 
 
+def transfer_trunk_to_anatomical_folds(
+    weights: np.ndarray,
+    rest: np.ndarray,
+    mirror_pairs: Sequence[tuple[int, int]],
+    *,
+    spine_indices: tuple[int, int],
+    left_targets: dict[str, int],
+    right_targets: dict[str, int],
+    fraction: float,
+    front_back_split_y: float = 0.015,
+) -> np.ndarray:
+    """Move a bounded fraction of trunk weight into paired axillary fold targets."""
+    if fraction < 0.0 or fraction > 1.0:
+        raise ValueError("fraction must be within [0, 1]")
+    result = np.asarray(weights, dtype=float).copy()
+    rest = np.asarray(rest, dtype=float)
+    for left, right in mirror_pairs:
+        if not np.allclose(rest[left] * [-1.0, 1.0, 1.0], rest[right], atol=1.0e-5, rtol=0.0):
+            raise ValueError("fold pair is not rest-space mirrored")
+        for vertex, targets in ((left, left_targets), (right, right_targets)):
+            moved = fraction * float(sum(result[vertex, index] for index in spine_indices))
+            for index in spine_indices:
+                result[vertex, index] *= 1.0 - fraction
+            if rest[vertex, 1] <= front_back_split_y:
+                result[vertex, targets["upperarm"]] += 0.6 * moved
+                result[vertex, targets["clavicle"]] += 0.4 * moved
+            else:
+                result[vertex, targets["upperarm"]] += 0.5 * moved
+                result[vertex, targets["scapula"]] += 0.5 * moved
+    return result
+
+
+def select_anatomical_fold_pairs(
+    rest: np.ndarray,
+    mirror_pairs: Sequence[tuple[int, int]],
+    *,
+    abs_x_bounds: tuple[float, float] = (0.13, 0.22),
+    y_bounds: tuple[float, float] = (-0.09, 0.06),
+    z_bounds: tuple[float, float] = (1.33, 1.47),
+) -> list[tuple[int, int]]:
+    """Select the exact mirrored anterior/posterior axillary fold patch."""
+    rest = np.asarray(rest, dtype=float)
+    selected = []
+    for left, right in mirror_pairs:
+        if not np.allclose(rest[left] * [-1.0, 1.0, 1.0], rest[right], atol=1.0e-5, rtol=0.0):
+            raise ValueError("candidate pair is not rest-space mirrored")
+        point = rest[left]
+        inside = (
+            abs_x_bounds[0] <= abs(float(point[0])) <= abs_x_bounds[1]
+            and y_bounds[0] <= float(point[1]) <= y_bounds[1]
+            and z_bounds[0] <= float(point[2]) <= z_bounds[1]
+        )
+        if inside:
+            selected.append((int(left), int(right)))
+    return selected
+
+
 def select_safe_mirror_subzone(
     left_ids: Sequence[int],
     right_ids: Sequence[int],

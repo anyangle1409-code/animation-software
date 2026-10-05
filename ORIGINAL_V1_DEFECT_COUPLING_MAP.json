@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "status": "ACTIVE_DEFECT_TO_COUPLING_MAP",
+  "production_approved": false,
+  "issue_ledger": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
+  "coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+  "rule": "A Critical/High issue may not close until every mapped anatomical coupling system has candidate-bound closure evidence relevant to that defect, in addition to the issue's own visual/numerical/contact acceptance criteria.",
+  "mappings": [
+    {
+      "issue_id": "WB-AX-001",
+      "required_coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "closure_focus": [
+        "anterior_and_posterior_fold_continuity",
+        "no_membrane_or_trench",
+        "weights_only_support"
+      ]
+    },
+    {
+      "issue_id": "WB-PEC-002",
+      "required_coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-DELTOID-004"
+      ],
+      "closure_focus": [
+        "chest_rooted_pec",
+        "humeral_insertion_motion",
+        "pec_deltoid_transition"
+      ]
+    },
+    {
+      "issue_id": "WB-PEC-003",
+      "required_coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-TRUNK-008"
+      ],
+      "closure_focus": [
+        "chest_volume_redistribution",
+        "lateral_chest_continuity",
+        "no_central_ballooning"
+      ]
+    },
+    {
+      "issue_id": "WB-AX-004",
+      "required_coupling_system_ids": [
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "closure_focus": [
+        "posterior_fold_support",
+        "lat_teres_transition",
+        "scapular_back_drape"
+      ]
+    },
+    {
+      "issue_id": "WB-SHO-005",
+      "required_coupling_system_ids": [
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "closure_focus": [
+        "non_spherical_deltoid_yoke",
+        "anterior_middle_posterior_response",
+        "girdle_humerus_coupling"
+      ]
+    },
+    {
+      "issue_id": "WB-SHO-006",
+      "required_coupling_system_ids": [
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ],
+      "closure_focus": [
+        "shoulder_upperarm_continuity",
+        "no_pinched_necking",
+        "smooth_attachment_transition"
+      ]
+    },
+    {
+      "issue_id": "WB-CLV-007",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-DELTOID-004",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003"
+      ],
+      "closure_focus": [
+        "clavicle_scapula_trap_surface_coupling",
+        "supported_volume",
+        "no_rear_shelf"
+      ]
+    },
+    {
+      "issue_id": "WB-SYM-008",
+      "required_coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-NECK-TRAP-001"
+      ],
+      "closure_focus": [
+        "mirrored_input_equivalence",
+        "bilateral_weight_and_corrective_symmetry"
+      ]
+    },
+    {
+      "issue_id": "WB-GRP-009",
+      "required_coupling_system_ids": [
+        "CP-FINGER-007",
+        "CP-WRIST-HAND-006"
+      ],
+      "closure_focus": [
+        "nonuniform_digit_flexion",
+        "thumb_opposition",
+        "equipment_conformance",
+        "release_clearance"
+      ]
+    },
+    {
+      "issue_id": "WB-WRI-010",
+      "required_coupling_system_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-ARM-005",
+        "CP-FINGER-007"
+      ],
+      "closure_focus": [
+        "hand_wrist_forearm_load_path",
+        "pronation_supination_continuity",
+        "loaded_wrist_surface"
+      ]
+    },
+    {
+      "issue_id": "WB-QA-011",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007",
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "closure_focus": [
+        "workflow_cannot_clear_numerical_only",
+        "visual_and_coupling_gates_enforced"
+      ]
+    },
+    {
+      "issue_id": "WB-QA-012",
+      "required_coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007",
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "closure_focus": [
+        "all_shared_tissue_systems_candidate_proven",
+        "weights_only_and_corrected",
+        "intermediate_and_return_motion"
+      ]
+    }
+  ],
+  "exit_rule": "Every current Critical/High issue must appear exactly once. Issue closure is invalid if any mapped coupling system remains unverified for the candidate and movement context implicated by the defect."
+}

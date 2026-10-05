@@ -8,42 +8,74 @@ When a joint or segment moves, every anatomically connected skin/muscle/tendon c
 
 Repair the **earliest failing layer**. Do not allow a later corrective to hide an upstream kinematic, skinning, weight-ownership or topology defect.
 
-## Preferred two-phase operator path
+## Preferred operator path
 
-### Phase A — before editing
+Use the generated Stage-1 packets as the primary workflow. They resolve the active
+wave, package set, exact candidate identity, required frozen poses, required
+generic sweeps and stop conditions from the live machine authorities.
 
-1. Run `RUN_ORIGINAL_V1_HUMAN_BODY_GATES.bat`.
-2. Run `RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label>`.
-3. Use `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json` to identify the earliest failing layer.
-4. For each selected repair package, create and complete a pre-edit declaration with
-   `RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat`.
-5. Validate each declaration and run `RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat`.
-6. Generate the focused-neighbour + whole-body regression plan with
-   `RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat`.
-7. Only then make the smallest declared model change.
+### Laptop pickup — before editing
 
-The declaration SHA is a **pre-edit identity**. It must not be rewritten to pretend
-that it is the final repaired Blend.
+Generate the exact packet:
 
-### Phase B — after editing
+`RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat <candidate.blend> <current-revision> <new-revision> <source-branch> <l|r|bilateral|midline> <fresh-label> <future-workspace-dir> <fresh-plan-dir> [wave-id]`
 
-1. Save the repaired model as a **new candidate**; never overwrite the comparator.
-2. Capture its exact final SHA with:
-   `RUN_ORIGINAL_V1_FILE_SHA256.bat <repaired-candidate.blend>`
-3. Initialize the full candidate evidence workspace with:
-   `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat <RP-ID[,RP-ID...]> <candidate-revision> <final-sha256> <source-branch> <declaration[,declaration...]> <fresh-output-dir>`
-4. Fill and validate the generated post-edit execution record(s). They prove that
-   actual edited vertices, bone groups and operations stayed inside the immutable
-   pre-edit declaration.
-5. Run final-candidate pose/tissue scope and build the automatic capture plan.
-6. Complete weights-only, coupling, movement-coupling and surface visual evidence.
-7. Run reversibility, dense continuity, numerical regression, contact and change
-   audits.
-8. Populate the generated comparison manifest and run
-   `RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat`.
+The generated run order performs or requests:
 
-A candidate cannot become engineering-clear merely because a status field says
-PASS. PASS evidence must exist and bind to the exact final candidate SHA.
+1. human-body contract gates;
+2. current Stage-1 wave work package;
+3. package-aware read-only pre-repair diagnostics;
+4. one-time all-11 generic sweep calibration when still required;
+5. exact pre-edit sweep baselines required by the selected packages;
+6. a PRE-EDIT repair workspace with immutable declaration templates;
+7. coupling-weight/diagnosis review;
+8. the first legitimate model-edit boundary.
+
+Do not edit before every blocking command/review gate in that packet is satisfied.
+
+### Model edit
+
+- repair only the earliest failing layer selected by
+  `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json`;
+- stay inside the immutable declaration's allowed vertices/bones/operations;
+- repair weights/base support before corrective refinement;
+- save as a **new** numbered candidate;
+- never overwrite r95 or the direct parent.
+
+### Laptop continuation — immediately after saving
+
+Generate the exact post-edit packet:
+
+`RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat <workspace-dir> <final-candidate.blend> <revision> <prior-revision-or-dash> <fresh-label> <calibration-record-or-empty> <fresh-plan-dir>`
+
+The packet then drives:
+
+1. finalization of the PRE-EDIT workspace against the exact FINAL Blend SHA;
+2. core post-repair validation;
+3. every required final-candidate generic movement sweep;
+4. required visual captures for every authoritative sample/camera;
+5. raw contact/load measurements for contact-bearing sweeps;
+6. collection of sweep evidence into the finalized repair workspace;
+7. automatic creation of per-sweep motion-review records;
+8. engineering review of motion, visuals, contact and human evidence;
+9. `RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat` to prove every required sweep acceptance record is engineering PASS and FINAL-SHA-bound;
+10. completion of weights-only, coupling, movement-coupling, surface, execution, regression/contact/change and issue-closure evidence;
+11. unified parent-to-candidate comparison.
+
+Raw sweep execution, renders or contact measurements never grant acceptance by
+themselves. Engineering sweep PASS requires the calibrated runner plus reviewed
+motion continuity/reversibility, required visual evidence, contact evidence where
+applicable and the declared real-human reference review.
+
+### Lower-level utilities
+
+`RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat` and the standalone sweep
+review-workspace builder remain useful recovery/support utilities, but they are not
+the preferred operator route when the PRE-EDIT repair workspace exists.
+
+The pre-edit declaration SHA and final post-edit candidate SHA are intentionally
+different identities. Never rewrite a declaration after the edit to make them
+match.
 
 ## Diagnosis order
 

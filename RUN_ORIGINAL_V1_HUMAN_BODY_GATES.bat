@@ -48,6 +48,7 @@ call :run scripts\validate_original_v1_repair_execution_record_template.py || ex
 call :run scripts\validate_original_v1_stage1_repair_execution_graph.py || exit /b 1
 call :run scripts\validate_original_v1_stage1_progress.py || exit /b 1
 call :run scripts\validate_original_v1_deformation_failure_signatures.py || exit /b 1
+call :run scripts\validate_original_v1_post_repair_bundle_source.py || exit /b 1
 
 call :run scripts\test_validate_original_v1_surface_visual_evidence_requirements.py || exit /b 1
 call :run scripts\test_original_v1_human_evidence.py || exit /b 1
@@ -67,6 +68,7 @@ call :run scripts\test_validate_original_v1_human_movement_sweep_motion_review.p
 call :run scripts\test_validate_original_v1_human_movement_sweep_visual_capture.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_contact.py || exit /b 1
 call :run scripts\test_build_original_v1_stage1_laptop_pickup_plan.py || exit /b 1
+call :run scripts\test_validate_original_v1_post_repair_bundle_source.py || exit /b 1
 call :run scripts\test_build_original_v1_stage1_post_edit_continuation_plan.py || exit /b 1
 call :run scripts\test_validate_original_v1_anatomical_coupling.py || exit /b 1
 call :run scripts\test_validate_original_v1_first_party_deformation_architecture.py || exit /b 1

@@ -22,6 +22,8 @@ FILES={
  "coupling_template":ROOT/"ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
  "movement_template":ROOT/"ORIGINAL_V1_MOVEMENT_COUPLING_EVIDENCE_TEMPLATE.json",
  "comparison_template":ROOT/"ORIGINAL_V1_CANDIDATE_COMPARISON_MANIFEST_TEMPLATE.json",
+ "visual_template":ROOT/"ORIGINAL_V1_CANDIDATE_SURFACE_VISUAL_REVIEW_TEMPLATE.json",
+ "visual_requirements":ROOT/"ORIGINAL_V1_SURFACE_VISUAL_EVIDENCE_REQUIREMENTS.json",
  "declaration_template":ROOT/"ORIGINAL_V1_COUPLING_ZONE_DECLARATION_TEMPLATE.json",
 }
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8"))
@@ -78,7 +80,11 @@ def main():
         if unknown: raise ValueError(f"unknown repair packages {unknown}")
         selected_cids=[pby[x]["coupling_system_id"] for x in ids]
         selected_regions=list(dict.fromkeys(r for cid in selected_cids for r in cby[cid]["body_regions"]))
-        linked_defects=list(dict.fromkeys(x["issue_id"] for x in defects["mappings"] if set(x["required_coupling_system_ids"]) & set(selected_cids)))
+        selected_set=set(selected_cids)
+        linked_defects=list(dict.fromkeys(
+            x["issue_id"] for x in defects["mappings"]
+            if set(x["required_coupling_system_ids"]) and set(x["required_coupling_system_ids"]).issubset(selected_set)
+        ))
 
         evidence_builder=load_builder("build_original_v1_repair_evidence_brief.py")
         regression_builder=load_builder("build_original_v1_repair_regression_plan.py")
@@ -116,6 +122,16 @@ def main():
         me=read(FILES["movement_template"])
         me["status"]="MOVEMENT_COUPLING_EVIDENCE_FINAL_SHA_NOT_BOUND"; me["candidate_revision"]=a.candidate; me["candidate_sha256"]=None; me["source_branch"]=a.source_branch
         write_new(out/"movement_coupling_evidence_FINAL_TEMPLATE.json",me)
+
+        vr=read(FILES["visual_template"]); visual_req=read(FILES["visual_requirements"])
+        vr["status"]="CANDIDATE_SURFACE_VISUAL_REVIEW_FINAL_SHA_NOT_BOUND"
+        vr["candidate_revision"]=a.candidate; vr["candidate_sha256"]=None; vr["source_branch"]=a.source_branch
+        vr["scope_region_ids"]=selected_regions
+        visual_by={x["id"]:x for x in visual_req["regions"]}
+        for row in vr["regions"]:
+            if row["id"] in selected_regions:
+                row["human_evidence_ids"]=list(visual_by[row["id"]].get("current_visual_evidence_ids",[]))
+        write_new(out/"surface_visual_review_FINAL_TEMPLATE.json",vr)
 
         dt=read(FILES["declaration_template"]); declarations=[]; expected_exec=[]
         for pid in ids:
@@ -155,6 +171,7 @@ def main():
             "weights_only_final_template":"weights_only_acceptance_FINAL_TEMPLATE.json",
             "coupling_final_template":"anatomical_coupling_evidence_FINAL_TEMPLATE.json",
             "movement_coupling_final_template":"movement_coupling_evidence_FINAL_TEMPLATE.json",
+            "surface_visual_final_template":"surface_visual_review_FINAL_TEMPLATE.json",
             "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
             "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
           },

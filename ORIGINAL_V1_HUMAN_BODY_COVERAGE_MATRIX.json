@@ -31,7 +31,12 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "Segmental cervical flexion/extension evidence added; trapezius surface/deformation proof still pending."
+      "current_note": "Segmental cervical flexion/extension evidence added; trapezius surface/deformation proof still pending.",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "clavicle_shoulder_deltoid",
@@ -52,7 +57,15 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "r95 production-path defect reproduced; foundational recovery open."
+      "current_note": "r95 production-path defect reproduced; foundational recovery open.",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "chest_anterior_axilla",
@@ -71,7 +84,11 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "Critical WB-AX-001/WB-PEC-002/WB-PEC-003 open on r95."
+      "current_note": "Critical WB-AX-001/WB-PEC-002/WB-PEC-003 open on r95.",
+      "coupling_system_ids": [
+        "CP-PEC-AX-002"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "back_posterior_axilla",
@@ -90,7 +107,12 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "High posterior fold/scapular drape issues open."
+      "current_note": "High posterior fold/scapular drape issues open.",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-POSTAX-003"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "ribcage_abdomen_obliques_lumbar",
@@ -112,7 +134,13 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "upperarm_elbow",
@@ -130,7 +158,14 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "forearm_wrist",
@@ -148,7 +183,12 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "Human evidence gap closed; WB-WRI-010 still open until candidate repair/validation."
+      "current_note": "Human evidence gap closed; WB-WRI-010 still open until candidate repair/validation.",
+      "coupling_system_ids": [
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "palm_thumb_fingers",
@@ -167,7 +207,12 @@
         "compressed_or_loaded",
         "intermediate_transition"
       ],
-      "current_note": "Human grip/thumb evidence gap closed; WB-GRP-009 still open."
+      "current_note": "Human grip/thumb evidence gap closed; WB-GRP-009 still open.",
+      "coupling_system_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "pelvis_groin_glutes",
@@ -185,7 +230,15 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "thigh_knee",
@@ -203,7 +256,15 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "calf_ankle_achilles",
@@ -221,7 +282,13 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "foot_toes",
@@ -240,117 +307,290 @@
         "lengthened_or_elevated",
         "compressed_or_loaded",
         "intermediate_transition"
-      ]
+      ],
+      "coupling_system_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     }
   ],
   "movement_family_status": [
     {
       "id": "neutral_shoulder_control",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "shoulder_flexion_elevation",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "shoulder_abduction_elevation",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "humeral_internal_external_rotation",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-DELTOID-004"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "vertical_push",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "vertical_pull_hang",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "horizontal_push",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "horizontal_pull",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004",
+        "CP-ARM-005"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "elbow_flexion_extension",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-ARM-005"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "forearm_pronation_supination",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "wrist_flexion_extension_loaded",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "cylindrical_equipment_grip",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-ARM-005",
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "grip_release",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-FINGER-007"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "neutral_braced_trunk",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "trunk_flexion",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "trunk_extension",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "trunk_lateral_bend",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "trunk_axial_rotation",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "loaded_hip_hinge",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "squat_deep_bilateral_flexion",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "split_stance_lunge",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-TRUNK-008",
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "hip_flexion_extension",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-QUAD-011",
+        "CP-HAM-012"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "hip_abduction_adduction",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-GLUTE-009",
+        "CP-GROIN-010"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "knee_flexion_extension",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-CALF-013"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "ankle_dorsiflexion",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "ankle_plantarflexion",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     },
     {
       "id": "loaded_foot_toe_contact",
-      "state": "evidence_partial"
+      "state": "evidence_partial",
+      "coupling_system_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "coupling_state": "not_candidate_proven"
     }
   ],
   "current_blocking_focus": {
@@ -361,5 +601,11 @@
     ],
     "comparator_revision": "r95",
     "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep; whole-body evidence expansion continues in parallel"
+  },
+  "coupling_summary": {
+    "authority": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+    "total_systems": 14,
+    "candidate_proven_clear": 0,
+    "rule": "Region/movement evidence cannot become engineering_clear while any required coupling system for that candidate remains unproven or blocked."
   }
 }

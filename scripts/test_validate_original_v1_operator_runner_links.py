@@ -35,4 +35,26 @@ class OperatorRunnerLinkTests(unittest.TestCase):
             finally:
                 mod.CRITICAL=old
 
+    def test_control_character_in_batch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); (root/"scripts").mkdir()
+            old=mod.CRITICAL; mod.CRITICAL=["RUN_TEST.bat"]
+            try:
+                (root/"RUN_TEST.bat").write_text("python scripts\x08uild.py\n",encoding="utf-8")
+                with self.assertRaisesRegex(ValueError,"INVALID_CONTROL_CHARACTER_IN_BATCH"):
+                    mod.validate(root)
+            finally:
+                mod.CRITICAL=old
+
+    def test_malformed_windows_path_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); (root/"scripts").mkdir()
+            old=mod.CRITICAL; mod.CRITICAL=["RUN_TEST.bat"]
+            try:
+                (root/"RUN_TEST.bat").write_text('if exist "C:UsersMarkbad.exe" echo bad\n',encoding="utf-8")
+                with self.assertRaisesRegex(ValueError,"MALFORMED_BATCH_PATH"):
+                    mod.validate(root)
+            finally:
+                mod.CRITICAL=old
+
 if __name__=="__main__": unittest.main()

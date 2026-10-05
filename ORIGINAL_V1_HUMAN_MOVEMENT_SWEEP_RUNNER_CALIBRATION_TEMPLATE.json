@@ -32,7 +32,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "trunk_flexion",
@@ -52,7 +54,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "trunk_extension",
@@ -73,7 +77,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "trunk_lateral_bend",
@@ -93,7 +99,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "trunk_axial_rotation",
@@ -113,7 +121,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "loaded_hip_hinge",
@@ -134,7 +144,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "hip_abduction_adduction",
@@ -155,7 +167,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "ankle_plantarflexion",
@@ -176,7 +190,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "shoulder_abduction_elevation",
@@ -198,7 +214,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "humeral_internal_external_rotation",
@@ -219,7 +237,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     },
     {
       "id": "forearm_pronation_supination",
@@ -240,7 +260,9 @@
         "sample_order_validated": false,
         "return_samples_present": false,
         "candidate_identity_bound": false
-      }
+      },
+      "engineering_review_status": "PENDING",
+      "human_evidence_review_status": "PENDING"
     }
   ],
   "overall_state": "NOT_RUN",
@@ -253,7 +275,8 @@
     "Every adapter must prove deterministic joint-state construction, required sample order, outbound/return behavior and mirrored equivalence where applicable.",
     "No adapter may use exercise identity as deformation logic.",
     "The frozen P3a pose source may be read but not modified or repinned to manufacture sweep coverage.",
-    "Calibration never implies human-body clearance, owner acceptance or production approval."
+    "Calibration never implies human-body clearance, owner acceptance or production approval.",
+    "Every CALIBRATED adapter requires its own engineering_review_status PASS and human_evidence_review_status PASS; the overall PASS cannot substitute for adapter review."
   ],
   "raw_sweep_report_path": null,
   "raw_sweep_report_sha256": null

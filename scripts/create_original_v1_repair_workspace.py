@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Create a complete pre-edit repair workspace for a fresh ORIGINAL-v1 candidate.
+"""Create a complete PRE-EDIT repair workspace for a fresh ORIGINAL-v1 candidate.
 
-Creates data/control files only. It never edits a Blend and never marks anatomy
-clear. All current Critical/High issues remain open until candidate-bound closure
-evidence is added after repair and validation.
+The immutable declaration layer is bound to the PRE-EDIT candidate SHA.
+All acceptance/coupling/comparison records remain FINAL-SHA templates until the
+repaired Blend is saved and finalized. This prevents accidental mixing of
+before-edit and after-edit evidence identities.
 """
 from __future__ import annotations
 import argparse,copy,hashlib,importlib.util,json,re
@@ -33,9 +34,12 @@ def load_builder(name):
     sp=importlib.util.spec_from_file_location(name.replace(".py",""),p)
     m=importlib.util.module_from_spec(sp); sp.loader.exec_module(m); return m
 
-def declaration_for(pkg,cp,linked,template,rev,sha,side,branch):
+def declaration_for(pkg,cp,linked,template,rev,pre_sha,side,branch):
     t=copy.deepcopy(template)
-    t["status"]="COUPLING_ZONE_DECLARATION_DRAFT"; t["candidate_revision"]=rev; t["candidate_sha256"]=sha
+    t["status"]="COUPLING_ZONE_DECLARATION_DRAFT"
+    t["candidate_revision"]=rev
+    t["candidate_sha256"]=pre_sha
+    t["pre_edit_candidate_sha256"]=pre_sha
     t["coupling_system_id"]=cp["id"]; t["side"]=side; t["source_branch"]=branch
     t["intent"]=f"Execute {pkg['id']} {pkg['name']} at the earliest failing diagnosis layer; no downstream masking."
     t["diagnosis"]={"observed_defect_ids":linked,"suspected_layer":None,"human_evidence_ids":cp["evidence_ids"],"before_evidence":[]}
@@ -53,14 +57,14 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--packages",required=True)
     ap.add_argument("--candidate",required=True)
-    ap.add_argument("--sha256",required=True)
+    ap.add_argument("--sha256",required=True,help="PRE-EDIT candidate Blend SHA-256")
     ap.add_argument("--side",required=True,choices=["l","r","bilateral","midline"])
     ap.add_argument("--source-branch",required=True)
     ap.add_argument("--out-dir",required=True)
     a=ap.parse_args()
     try:
         if not re.fullmatch(r"r\d+[a-z]?",a.candidate,re.I): raise ValueError("candidate revision invalid")
-        if not SHA_RE.fullmatch(a.sha256): raise ValueError("candidate sha256 invalid")
+        if not SHA_RE.fullmatch(a.sha256): raise ValueError("pre-edit candidate sha256 invalid")
         ids=[x.strip() for x in a.packages.split(",") if x.strip()]
         if not ids: raise ValueError("repair packages required")
         out=Path(a.out_dir)
@@ -73,106 +77,105 @@ def main():
         unknown=[x for x in ids if x not in pby]
         if unknown: raise ValueError(f"unknown repair packages {unknown}")
         selected_cids=[pby[x]["coupling_system_id"] for x in ids]
-        selected_regions=[]
-        for cid in selected_cids:
-            selected_regions.extend(cby[cid]["body_regions"])
-        selected_regions=list(dict.fromkeys(selected_regions))
-        linked_defects=list(dict.fromkeys([x["issue_id"] for x in defects["mappings"] if set(x["required_coupling_system_ids"]) & set(selected_cids)]))
+        selected_regions=list(dict.fromkeys(r for cid in selected_cids for r in cby[cid]["body_regions"]))
+        linked_defects=list(dict.fromkeys(x["issue_id"] for x in defects["mappings"] if set(x["required_coupling_system_ids"]) & set(selected_cids)))
 
-        # Human-evidence brief + focused regression plan.
         evidence_builder=load_builder("build_original_v1_repair_evidence_brief.py")
         regression_builder=load_builder("build_original_v1_repair_regression_plan.py")
-        evidence_brief=evidence_builder.build(ids)
-        regression=regression_builder.build(ids)
-        write_new(out/"repair_evidence_brief.json",evidence_brief)
-        write_new(out/"repair_regression_plan.json",regression)
-
-        # Immutable comparator ledger copy.
+        write_new(out/"repair_evidence_brief.json",evidence_builder.build(ids))
+        write_new(out/"repair_regression_plan.json",regression_builder.build(ids))
         write_new(out/"parent_issue_ledger_r95.json",issue_parent)
 
-        # Candidate issue ledger starts conservatively with blockers open.
-        issue_candidate=copy.deepcopy(issue_parent)
-        issue_candidate["candidate_under_review"]={"revision":a.candidate,"sha256":a.sha256}
-        for row in issue_candidate.get("issues",[]):
+        # PRE-EDIT issue snapshot: blockers remain open and identity is immutable.
+        pre_ledger=copy.deepcopy(issue_parent)
+        pre_ledger["candidate_under_review"]={"revision":a.candidate,"sha256":a.sha256}
+        for row in pre_ledger.get("issues",[]):
             row["candidate"]={"revision":a.candidate,"sha256":a.sha256}
             if row.get("severity") in {"Critical","High"}:
-                row["state"]="Open"
-                row["closure_evidence"]=[]
-        issue_candidate["policy"]="Candidate-specific ledger. Critical/High issues remain Open until exact-candidate visual + numerical/contact/coupling closure evidence is committed."
-        write_new(out/"candidate_issue_ledger.json",issue_candidate)
+                row["state"]="Open"; row["closure_evidence"]=[]
+        pre_ledger["policy"]="Immutable pre-edit issue snapshot. Critical/High issues remain Open; this file is never used as final closure evidence."
+        write_new(out/"candidate_issue_ledger_pre_edit.json",pre_ledger)
 
-        # Candidate weights-only acceptance record.
-        wo=read(FILES["weights_template"]); wo["status"]="WEIGHTS_ONLY_ACCEPTANCE_NOT_RUN"
-        wo["candidate_revision"]=a.candidate; wo["candidate_sha256"]=a.sha256; wo["source_branch"]=a.source_branch
+        # FINAL-SHA templates: intentionally unbound until repaired Blend exists.
+        wo=read(FILES["weights_template"])
+        wo["status"]="WEIGHTS_ONLY_ACCEPTANCE_FINAL_SHA_NOT_BOUND"
+        wo["candidate_revision"]=a.candidate; wo["candidate_sha256"]=None; wo["source_branch"]=a.source_branch
         wby={x["id"]:x for x in wc["regions"]}
         defect_map={x["issue_id"]:set(x["required_coupling_system_ids"]) for x in defects["mappings"]}
         for row in wo["regions"]:
             region_cids=set(wby[row["id"]]["coupling_ids"])
             row["linked_defect_ids"]=[iid for iid,cids in defect_map.items() if cids & region_cids]
-        write_new(out/"weights_only_acceptance.json",wo)
+        write_new(out/"weights_only_acceptance_FINAL_TEMPLATE.json",wo)
 
-        # Candidate coupling evidence record.
-        ce=read(FILES["coupling_template"]); ce["status"]="COUPLING_EVIDENCE_NOT_RUN"
-        ce["candidate_revision"]=a.candidate; ce["candidate_sha256"]=a.sha256; ce["source_branch"]=a.source_branch
+        ce=read(FILES["coupling_template"])
+        ce["status"]="COUPLING_EVIDENCE_FINAL_SHA_NOT_BOUND"; ce["candidate_revision"]=a.candidate; ce["candidate_sha256"]=None; ce["source_branch"]=a.source_branch
         for row in ce["systems"]:
             row["linked_defect_ids"]=[x["issue_id"] for x in defects["mappings"] if row["coupling_system_id"] in x["required_coupling_system_ids"]]
-        write_new(out/"anatomical_coupling_evidence.json",ce)
+        write_new(out/"anatomical_coupling_evidence_FINAL_TEMPLATE.json",ce)
 
-        # Candidate movement coupling record.
-        me=read(FILES["movement_template"]); me["status"]="MOVEMENT_COUPLING_EVIDENCE_NOT_RUN"
-        me["candidate_revision"]=a.candidate; me["candidate_sha256"]=a.sha256; me["source_branch"]=a.source_branch
-        write_new(out/"movement_coupling_evidence.json",me)
+        me=read(FILES["movement_template"])
+        me["status"]="MOVEMENT_COUPLING_EVIDENCE_FINAL_SHA_NOT_BOUND"; me["candidate_revision"]=a.candidate; me["candidate_sha256"]=None; me["source_branch"]=a.source_branch
+        write_new(out/"movement_coupling_evidence_FINAL_TEMPLATE.json",me)
 
-        # One pre-edit declaration draft per package.
-        dt=read(FILES["declaration_template"]); declarations=[]
+        dt=read(FILES["declaration_template"]); declarations=[]; expected_exec=[]
         for pid in ids:
             pkg=pby[pid]; cp=cby[pkg["coupling_system_id"]]
             linked=[x["issue_id"] for x in defects["mappings"] if cp["id"] in x["required_coupling_system_ids"]]
-            name="repair_declaration_"+pid.lower().replace("-","_")+".json"
+            stem=pid.lower().replace("-","_")
+            name="repair_declaration_"+stem+".json"
             write_new(out/name,declaration_for(pkg,cp,linked,dt,a.candidate,a.sha256,a.side,a.source_branch))
             declarations.append(name)
+            expected_exec.append("repair_execution_"+stem+".json")
 
-        # Candidate comparison manifest prefilled but still blocked/PENDING.
+        # Comparison template is scope-filled but FINAL SHA remains intentionally null.
         cm=read(FILES["comparison_template"])
-        cm["status"]="CANDIDATE_COMPARISON_MANIFEST_IN_PROGRESS"
+        cm["status"]="CANDIDATE_COMPARISON_FINAL_SHA_NOT_BOUND"
         cm["parent"]["issue_ledger_path"]="parent_issue_ledger_r95.json"
-        cm["candidate"]={"revision":a.candidate,"sha256":a.sha256,"source_branch":a.source_branch,"issue_ledger_path":"candidate_issue_ledger.json"}
+        cm["candidate"]={"revision":a.candidate,"sha256":None,"source_branch":a.source_branch,"issue_ledger_path":"candidate_issue_ledger_final.json"}
         cm["scope"]={"repair_package_ids":ids,"coupling_system_ids":selected_cids,"region_ids":selected_regions,"defect_ids":linked_defects}
-        cm["evidence"]["weights_only_acceptance_path"]="weights_only_acceptance.json"
-        cm["evidence"]["anatomical_coupling_evidence_path"]="anatomical_coupling_evidence.json"
-        cm["evidence"]["movement_coupling_evidence_path"]="movement_coupling_evidence.json"
+        cm["evidence"]["weights_only_acceptance_path"]="weights_only_acceptance_final.json"
+        cm["evidence"]["anatomical_coupling_evidence_path"]="anatomical_coupling_evidence_final.json"
+        cm["evidence"]["movement_coupling_evidence_path"]="movement_coupling_evidence_final.json"
         cm["evidence"]["repair_declaration_paths"]=declarations
+        cm["evidence"]["repair_execution_record_paths"]=expected_exec
         cm["evidence"]["regression_report_path"]="repair_regression_result.json"
-        cm["evidence"]["pose_capture_plan_path"]="pose_capture_evidence_plan.json"
-        cm["evidence"]["surface_visual_review_path"]="surface_visual_review.json"
-        write_new(out/"candidate_comparison_manifest.json",cm)
+        cm["evidence"]["pose_capture_plan_path"]="pose_capture_evidence_plan_final.json"
+        cm["evidence"]["surface_visual_review_path"]="surface_visual_review_final.json"
+        write_new(out/"candidate_comparison_FINAL_TEMPLATE.json",cm)
 
         workspace={
           "schema_version":1,"status":"PRE_EDIT_REPAIR_WORKSPACE","production_approved":False,
-          "candidate_revision":a.candidate,"candidate_sha256":a.sha256,"source_branch":a.source_branch,
-          "repair_package_ids":ids,"coupling_system_ids":selected_cids,"body_regions":selected_regions,"defect_ids":linked_defects,
+          "candidate_revision":a.candidate,"pre_edit_candidate_sha256":a.sha256,"final_candidate_sha256":None,
+          "source_branch":a.source_branch,"repair_package_ids":ids,"coupling_system_ids":selected_cids,
+          "body_regions":selected_regions,"defect_ids":linked_defects,
+          "identity_rule":"Declarations/pre-edit snapshot bind pre-edit SHA. Acceptance/coupling/comparison evidence MUST bind final post-edit SHA after the repaired Blend is saved.",
           "files":{
             "evidence_brief":"repair_evidence_brief.json","regression_plan":"repair_regression_plan.json",
-            "parent_issue_ledger":"parent_issue_ledger_r95.json","candidate_issue_ledger":"candidate_issue_ledger.json",
-            "weights_only_acceptance":"weights_only_acceptance.json","anatomical_coupling_evidence":"anatomical_coupling_evidence.json",
-            "movement_coupling_evidence":"movement_coupling_evidence.json","repair_declarations":declarations,
-            "candidate_comparison_manifest":"candidate_comparison_manifest.json"
+            "parent_issue_ledger":"parent_issue_ledger_r95.json","pre_edit_issue_ledger":"candidate_issue_ledger_pre_edit.json",
+            "weights_only_final_template":"weights_only_acceptance_FINAL_TEMPLATE.json",
+            "coupling_final_template":"anatomical_coupling_evidence_FINAL_TEMPLATE.json",
+            "movement_coupling_final_template":"movement_coupling_evidence_FINAL_TEMPLATE.json",
+            "repair_declarations":declarations,"expected_repair_execution_records":expected_exec,
+            "candidate_comparison_final_template":"candidate_comparison_FINAL_TEMPLATE.json"
           },
           "next_actions":[
-            "complete each repair declaration with exact candidate-specific zones/bones/hashes and validate it",
+            "complete each pre-edit repair declaration with exact candidate-specific zones/bones/hashes and validate it",
             "run coupling-weight audit before editing",
             "capture before evidence",
             "repair earliest failing layer only",
+            "save repaired Blend and calculate FINAL SHA",
+            "finalize workspace to bind final evidence templates/issue ledger/comparison manifest to FINAL SHA",
             "prove weights-only acceptance before corrective refinement",
-            "populate coupling/movement/visual/regression evidence",
+            "populate coupling/movement/visual/regression evidence and execution records",
             "run unified candidate comparison before any issue closure or progression"
           ],
-          "note":"Workspace creation is administrative preparation only. Nothing is anatomically clear, owner-accepted or production-approved."
+          "note":"Workspace creation is administrative PRE-EDIT preparation only. Nothing is anatomically clear, owner-accepted or production-approved."
         }
         write_new(out/"workspace_manifest.json",workspace)
         print("PRE-EDIT REPAIR WORKSPACE: CREATED")
-        print(json.dumps({"out_dir":str(out),"packages":ids,"coupling_systems":selected_cids,"defects":linked_defects,"declarations":declarations},indent=2))
+        print(json.dumps({"out_dir":str(out),"candidate_revision":a.candidate,"pre_edit_sha256":a.sha256,"packages":ids,"coupling_systems":selected_cids,"defects":linked_defects},indent=2))
         return 0
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
         print("STOP — "+str(exc)); return 2
+
 if __name__=="__main__": raise SystemExit(main())

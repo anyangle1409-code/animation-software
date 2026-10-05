@@ -21,6 +21,10 @@ class LaptopPickupPlanTests(unittest.TestCase):
             self.assertEqual(d["wave_id"],"shoulder_yoke_foundation")
             self.assertIn("RP-PEC-AX-002",d["repair_package_ids"])
             self.assertTrue(any(x["phase"]=="pre_repair_diagnostics" for x in d["commands"]))
+            self.assertTrue(any(x["phase"]=="sweep_pipeline_prepare" for x in d["commands"]))
+            self.assertTrue(any(x["phase"]=="sweep_calibration_review_and_finalize" for x in d["commands"]))
+            self.assertTrue(any("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat" in x["command"] for x in d["commands"]))
+            self.assertTrue(any("RUN_ORIGINAL_V1_FINALIZE_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat" in x["command"] for x in d["commands"]))
             self.assertTrue(any(x["phase"]=="repair_workspace" for x in d["commands"]))
 
     def test_candidate_sha_is_computed_from_file(self):
@@ -41,6 +45,12 @@ class LaptopPickupPlanTests(unittest.TestCase):
             a=self.args(Path(td),new_rev="r95")
             with self.assertRaisesRegex(ValueError,"new revision must differ"):
                 mod.build(a)
+
+    def test_pickup_exposes_calibrated_runner_output_path(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=mod.build(self.args(Path(td)))
+            self.assertTrue(d["sweep_runner_calibration_required"])
+            self.assertTrue(str(d["calibrated_sweep_runner_record"]).endswith("runner_calibration_CALIBRATED.json"))
 
     def test_pickup_stops_before_actual_model_edit(self):
         with tempfile.TemporaryDirectory() as td:

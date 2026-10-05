@@ -91,6 +91,8 @@ The machine-readable attachment/shared-tissue authority is
 `ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json`, with the human-readable contract at
 `docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md`.
 
+The joint-to-tissue trigger authority is `ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json`: when a rig bone/joint family materially moves, every mapped coupling system is automatically required review scope for that sample.
+
 This requirement is fail-closed:
 
 - if a muscle/soft-tissue chain spans multiple attachment regions, every relevant

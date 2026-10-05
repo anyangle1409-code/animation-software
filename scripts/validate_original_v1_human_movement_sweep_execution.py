@@ -18,6 +18,12 @@ def validate(d,plan,packages,posemap,graph,require_bound=False):
         raise ValueError("invalid sweep execution status identity")
     if d.get("production_approved") is not False:
         raise ValueError("sweep execution status may not claim production approval")
+    if d.get("runner_calibration_state")!="PREPARED_UNCALIBRATED":
+        raise ValueError("runner calibration state must remain PREPARED_UNCALIBRATED until Blender calibration")
+    for key in ("generic_runner_target","runner_wrapper_target","execution_spec"):
+        p=d.get(key)
+        if not p or not (ROOT/p).is_file():
+            raise ValueError(f"{key} missing or file not found: {p}")
     plan_sweeps=plan.get("sweeps") or {}
     rows=d.get("sweeps") or []
     if [x.get("id") for x in rows]!=list(plan_sweeps):
@@ -41,8 +47,8 @@ def validate(d,plan,packages,posemap,graph,require_bound=False):
             raise ValueError(f"{sid}: invalid runner binding status")
         if state=="BOUND":
             bound+=1
-            if not row.get("blender_adapter_id"):
-                raise ValueError(f"{sid}: BOUND without blender_adapter_id")
+            if row.get("blender_adapter_id")!="generic_human_movement_sweep_v1":
+                raise ValueError(f"{sid}: BOUND without canonical blender adapter id")
         elif row.get("blender_adapter_id") is not None:
             raise ValueError(f"{sid}: UNBOUND may not claim blender_adapter_id")
         if row.get("candidate_execution_state") not in {"NOT_RUN","RUN_INCOMPLETE","EVIDENCE_READY"}:
@@ -70,6 +76,8 @@ def validate(d,plan,packages,posemap,graph,require_bound=False):
       "unbound":len(rows)-bound,
       "current_wave_required_sweeps":expected,
       "fully_bound":bound==len(rows),
+      "runner_calibration_state":d.get("runner_calibration_state"),
+      "candidate_sweeps_executed":sum(1 for x in rows if x.get("candidate_execution_state")!="NOT_RUN"),
       "status":"PASS"
     }
 

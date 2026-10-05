@@ -105,7 +105,9 @@
   "high_detail_anatomy_allowed": false,
   "why_not_high_detail": "Critical/High whole-body issues remain open.",
   "next_sequence": [
+    "generate_exact_stage1_laptop_pickup_plan",
     "run_pre_repair_diagnostic_bundle",
+    "calibrate_generic_sweep_runner_once_if_required",
     "identify_earliest_failing_layer_using_diagnosis_tree",
     "create_pre_edit_repair_workspace_for_selected_packages",
     "complete_and_validate_pre_edit_repair_declarations",
@@ -113,8 +115,10 @@
     "use_generated_focused_plus_whole_body_regression_plan",
     "create_new_numbered_candidate_and_repair_smallest_foundational_layer",
     "save_repaired_candidate_and_capture_exact_final_sha",
+    "generate_stage1_post_edit_continuation_plan",
     "finalize_repair_workspace_against_exact_post_edit_candidate",
     "run_post_repair_validation_bundle_on_final_candidate",
+    "execute_required_generic_sweeps_visuals_contact_and_motion_reviews",
     "prove_weights_only_regions_before_correctives",
     "prove_required_anatomical_and_movement_coupling_systems",
     "complete_candidate_surface_visual_review",
@@ -164,7 +168,9 @@
     "movement_sweep_execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
     "movement_sweep_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
     "movement_sweep_runner_calibration_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
-    "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json"
+    "movement_sweep_acceptance_template": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
+    "stage1_laptop_pickup_plan_runner": "RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat",
+    "stage1_post_edit_continuation_plan_runner": "RUN_ORIGINAL_V1_STAGE1_POST_EDIT_CONTINUATION_PLAN.bat"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -226,7 +232,10 @@
     "generic_blender_sweep_runner_calibration": "PREPARED_UNCALIBRATED",
     "generic_blender_sweep_runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
     "generic_blender_sweep_runner_acceptance_capable": false,
-    "candidate_sweep_evidence_ready": 0
+    "candidate_sweep_evidence_ready": 0,
+    "stage1_laptop_pickup_plan": "READY",
+    "stage1_post_edit_continuation_plan": "READY",
+    "laptop_lifecycle": "PRE_EDIT_PICKUP_TO_POST_EDIT_COMPARISON_LINKED"
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",

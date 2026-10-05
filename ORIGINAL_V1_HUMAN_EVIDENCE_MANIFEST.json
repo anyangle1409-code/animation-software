@@ -2074,6 +2074,116 @@
       "uncertainty": "Fine fingertip/contact mechanics; not a whole-hand shape source and not a mandate for high-frequency tactile simulation in the app.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-QUAD-002",
+      "region": "quadriceps_thigh",
+      "movement_primitive": "quadriceps_internal_deformation_during_contraction",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8699899/",
+        "citation": "Dynamics of Quadriceps Muscles during Isometric Contractions: Velocity-Encoded Phase Contrast MRI Study, PMCID PMC8699899.",
+        "license_use_note": "Use compartment displacement observations only; do not transfer MRI geometry or subject-specific coordinates."
+      },
+      "movement_phase": "voluntary_isometric_knee_extension_at_40_percent_MVC",
+      "view": [
+        "velocity_encoded_phase_contrast_MRI",
+        "proximal_mid_distal_thigh_sections"
+      ],
+      "diversity": {
+        "subject_count": 7,
+        "notes": "Seven healthy men; detailed internal displacement field but small demographic sample and isometric rather than full dynamic knee motion."
+      },
+      "observable_landmarks": [
+        "vastus_lateralis",
+        "vastus_medialis",
+        "vastus_intermedius",
+        "rectus_femoris",
+        "central_aponeuroses"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "volume_continuity",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Quadriceps tissue displacement is spatially non-uniform within and between compartments rather than a uniform bulge.",
+        "The four muscles act as one force-generating unit through shared aponeurotic structures while retaining different local displacement patterns."
+      ],
+      "uncertainty": "Internal isometric MRI; does not prescribe exterior skin contour or deep-flexion shape by itself.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-HAM-002",
+      "region": "hamstrings_posterior_thigh",
+      "movement_primitive": "hamstring_joint_configuration_dependent_tissue_state",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7486790/",
+        "citation": "Hip Position Influences Shear Wave Elastography Measurements of the Hamstring Muscles in Healthy Subjects, PMCID PMC7486790.",
+        "license_use_note": "Use joint-configuration/tissue-state observations only; do not copy ultrasound imagery or subject geometry."
+      },
+      "movement_phase": "hip_0_vs_90_degrees_with_knee_flexed_vs_extended",
+      "view": [
+        "ultrasound_shear_wave_elastography_medial_hamstrings"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy subjects with varied ages; controlled multi-joint position evidence but no exterior surface imaging."
+      },
+      "observable_landmarks": [
+        "semitendinosus",
+        "semimembranosus",
+        "posterior_thigh_length_state"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Hamstring tissue state changes with the combination of hip and knee positions; knee angle alone is insufficient to define the chain state.",
+        "Hip flexion plus knee extension produces a substantially more tensioned/lengthened condition than configurations with less combined lengthening."
+      ],
+      "uncertainty": "Elastography measures stiffness rather than direct exterior deformation; combine with visual/posterior-knee evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-HAM-003",
+      "region": "hamstrings_posterior_thigh",
+      "movement_primitive": "individual_hamstring_response_to_passive_lengthening",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4587804/",
+        "citation": "Elastography Study of Hamstring Behaviors during Passive Stretching, PMCID PMC4587804.",
+        "license_use_note": "CC BY article. Use muscle-specific tension/lengthening observations only; no image/geometry transfer."
+      },
+      "movement_phase": "passive_knee_extension_at_multiple_hip_flexion_positions",
+      "view": [
+        "shear_wave_elastography_individual_hamstring_muscles"
+      ],
+      "diversity": {
+        "subject_count": 18,
+        "notes": "Eighteen healthy men; muscle-specific stretch response with limited sex diversity."
+      },
+      "observable_landmarks": [
+        "biceps_femoris_long_head",
+        "semitendinosus",
+        "semimembranosus",
+        "hip_knee_combined_length_state"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "inter_subject_variation"
+      ],
+      "derived_observations": [
+        "Individual hamstring muscles do not all respond identically to passive lengthening; local tissue state depends on muscle and hip position.",
+        "A single uniform posterior-thigh corrective is therefore an oversimplification for large combined hip/knee length changes."
+      ],
+      "uncertainty": "Passive stretch and internal elastography rather than active exercise/exterior contour.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

@@ -30,7 +30,10 @@ class MovementJointRequirementTests(unittest.TestCase):
             mod.validate(bad,self.m,self.t)
 
     def test_control_movement_does_not_require_active_joint(self):
-        bad=copy.deepcopy(self.d); bad["movements"]["neutral_braced_trunk"]["required_joint_families"]=["trunk_pelvis"]
+        bad=copy.deepcopy(self.d)
+        row=bad["movements"]["neutral_braced_trunk"]
+        row["required_joint_families"]=["trunk_pelvis"]
+        row["optional_joint_families"]=[]
         with self.assertRaisesRegex(ValueError,"control-only"):
             mod.validate(bad,self.m,self.t)
 

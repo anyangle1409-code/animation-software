@@ -908,6 +908,245 @@
       "uncertainty": "Rapid unloaded hand opening/closing is not release from a loaded handle; combine with cylindrical-grip evidence for equipment-specific contact.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-DEL-001",
+      "region": "deltoid_shoulderyoke",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK538319/",
+        "citation": "StatPearls, Anatomy, Thorax, Scapula — deltoid origin from lateral clavicle/acromion/scapular spine and insertion at deltoid tuberosity.",
+        "license_use_note": "Use attachment relationships only; no illustration/geometry is production content."
+      },
+      "movement_phase": "static_attachment_relationship",
+      "view": [
+        "anatomical_attachment_map"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "General anatomical reference; describes typical attachment relationships rather than population surface variation."
+      },
+      "observable_landmarks": [
+        "lateral clavicle",
+        "acromion",
+        "scapular spine",
+        "deltoid tuberosity",
+        "deltoid cap"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "multi_joint_tissue_behavior",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "The deltoid is anchored to clavicle/acromion/scapular spine and inserts on the humerus, so shoulder motion must redistribute its surface form between shoulder-girdle and humeral anchors.",
+        "A deltoid cap cannot be treated as a rigid sphere attached only to the humerus."
+      ],
+      "uncertainty": "Anatomical attachment reference does not prescribe exact exterior contour or deformation magnitude.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-GLU-001",
+      "region": "gluteus_maximus_lateral_thigh",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK538193/",
+        "citation": "StatPearls, Anatomy, Bony Pelvis and Lower Limb, Gluteus Maximus Muscle.",
+        "license_use_note": "Use attachment/function observations only; no illustration or subject geometry enters production."
+      },
+      "movement_phase": "static_attachment_relationship",
+      "view": [
+        "anatomical_attachment_map"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "General anatomical reference; attachment proportions vary between individuals."
+      },
+      "observable_landmarks": [
+        "pelvis",
+        "sacrum",
+        "gluteus maximus",
+        "iliotibial tract",
+        "gluteal tuberosity",
+        "femur"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "multi_joint_tissue_behavior",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Gluteus maximus has superficial fibers inserting into the iliotibial tract and deep fibers into the femur, so hip motion couples pelvic, gluteal and lateral-thigh surface behaviour.",
+        "Hip flexion/extension should alter gluteal volume and the glute-thigh transition without allowing the buttock mass to slide wholesale with the femur."
+      ],
+      "uncertainty": "General attachment/function reference; not a surface-shape or exercise-specific kinematic dataset.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-QUAD-001",
+      "region": "quadriceps_patella_knee",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK482445/",
+        "citation": "StatPearls, Anatomy, Bony Pelvis and Lower Limb: Thigh Muscles.",
+        "license_use_note": "Use muscle attachment/function relationships only; no illustration or geometry is copied."
+      },
+      "movement_phase": "static_attachment_relationship",
+      "view": [
+        "anatomical_attachment_map"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "General anatomy reference; detailed quadriceps-tendon layering is variable between individuals."
+      },
+      "observable_landmarks": [
+        "rectus femoris",
+        "vastus lateralis",
+        "vastus medialis",
+        "vastus intermedius",
+        "quadriceps tendon",
+        "patella",
+        "tibial tuberosity"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "multi_joint_tissue_behavior",
+        "tendon_path_continuity",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Quadriceps force is transmitted through the quadriceps tendon/patella/patellar ligament chain, so thigh and anterior-knee surface changes must remain continuous through knee flexion/extension.",
+        "Rectus femoris crosses both hip and knee, so its surface length state depends on both joints rather than knee angle alone."
+      ],
+      "uncertainty": "General reference; does not define exact surface bulge or tendon depth for this character.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-HAM-001",
+      "region": "hamstrings_posterior_thigh_popliteal",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK546688/",
+        "citation": "StatPearls, Anatomy, Bony Pelvis and Lower Limb, Hamstring Muscle.",
+        "license_use_note": "Use attachment and multi-joint relationships only; no imaging or subject geometry enters production."
+      },
+      "movement_phase": "static_attachment_relationship",
+      "view": [
+        "anatomical_attachment_map"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "General anatomy reference; individual myotendinous proportions and contours vary."
+      },
+      "observable_landmarks": [
+        "ischial tuberosity",
+        "biceps femoris",
+        "semitendinosus",
+        "semimembranosus",
+        "fibular head",
+        "tibia",
+        "popliteal fossa"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "multi_joint_tissue_behavior",
+        "tendon_path_continuity",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Most hamstrings cross both hip and knee, so posterior-thigh form must respond to the combination of hip and knee state.",
+        "The distal hamstrings define the upper boundaries of the popliteal fossa, so posterior-knee shape cannot be treated independently from hamstring shortening/lengthening."
+      ],
+      "uncertainty": "General reference; not a direct exterior soft-tissue motion study.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-ACH-001",
+      "region": "gastrocnemius_soleus_Achilles",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15922915/",
+        "citation": "O'Brien (2005), The anatomy of the Achilles tendon, PMID 15922915.",
+        "license_use_note": "Use anatomical continuity observations only; no figures or geometry are copied."
+      },
+      "movement_phase": "static_attachment_relationship",
+      "view": [
+        "anatomical_attachment_map"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Review article describing typical gastrocnemius/soleus/Achilles continuity."
+      },
+      "observable_landmarks": [
+        "gastrocnemius",
+        "soleus",
+        "Achilles tendon",
+        "calcaneus",
+        "knee",
+        "ankle"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "multi_joint_tissue_behavior",
+        "tendon_path_continuity",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Achilles is the conjoined tendon of gastrocnemius and soleus and inserts on the calcaneus.",
+        "Because gastrocnemius crosses knee and ankle while soleus acts at the ankle, posterior-calf/Achilles shape must respond to both knee and ankle state rather than ankle rotation alone."
+      ],
+      "uncertainty": "Anatomical review; does not prescribe exact tendon strain or visible contour for every loading condition.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ATT-HAND-001",
+      "region": "finger_flexor_tendon_pulley_system",
+      "movement_primitive": "shared_tissue_attachment",
+      "source_type": "anatomy_article",
+      "source": {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK624301/",
+        "citation": "NCBI Bookshelf, Wrist and Hand — Flexor Tendons and the Pulley System.",
+        "license_use_note": "Use tendon-path/pulley relationships only; no clinical images or geometry enter production."
+      },
+      "movement_phase": "static_attachment_and_active_flexion_relationship",
+      "view": [
+        "anatomical_tendon_path"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Clinical anatomy reference; pulley/tendon dimensions and hand proportions vary."
+      },
+      "observable_landmarks": [
+        "FDP",
+        "FDS",
+        "A2 pulley",
+        "A4 pulley",
+        "phalanges",
+        "volar finger surface"
+      ],
+      "permissible_conclusions": [
+        "attachment_relationship",
+        "tendon_path_continuity",
+        "multi_joint_tissue_behavior",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Finger flexor tendons glide along the volar digits and are kept close to the phalanges by the pulley system.",
+        "Finger flexion should not visually bowstring the palm/finger soft tissue away from the skeleton or make each phalanx act as an isolated hinge."
+      ],
+      "uncertainty": "Clinical anatomy reference; exterior skin-fold shape still needs real-hand visual evidence.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

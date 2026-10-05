@@ -18,12 +18,32 @@ REQUIRED_VISUAL_PRIMITIVES = (
 VISUAL_SOURCE_TYPES = {'photo_series', 'figure_series', 'supplementary_video', 'clinical_video'}
 SOURCE_TYPES = VISUAL_SOURCE_TYPES | {'primary_study', 'anatomy_article', 'normative_dataset'}
 PERMITTED_CONCLUSIONS = {
+    # Geometry / appearance observations
     'bone_motion',
     'surface_contour',
     'fold_boundaries',
     'volume_continuity',
     'inter_subject_variation',
     'movement_timing',
+    # Joint and coordination observations
+    'joint_kinematics',
+    'joint_coupling',
+    'interjoint_coordination',
+    'center_of_mass_relationship',
+    'symmetry',
+    # Hand / wrist observations
+    'finger_joint_flexion',
+    'diameter_dependent_grip_posture',
+    'thumb_opposition',
+    'relative_digit_motion',
+    'movement_smoothness',
+    'force_transmission',
+    'load_path',
+    'wrist_alignment',
+    'extension_loading',
+    'contact_shift',
+    # Tendon / soft-tissue mechanics observations
+    'tendon_behavior',
 }
 REVIEW_STATES = {'verified', 'needs_review', 'rejected'}
 REQUIRED_FIELDS = (

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_CONTACT_REPORT_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "sweep_id": null,
+  "raw_contact_evidence_refs": [],
+  "samples": [],
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Sample/domain requirements come only from ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_REQUIREMENTS.json.",
+    "Every raw evidence reference must identify an existing immutable file and its SHA-256.",
+    "LEGITIMATE_CONTACT or REQUIRED_CLEARANCE requires a concrete evidence note and raw measurement reference.",
+    "UNCLASSIFIED or UNEXPLAINED_DEFECT blocks contact PASS.",
+    "Contact PASS is engineering evidence only and never implies owner acceptance or production approval."
+  ]
+}

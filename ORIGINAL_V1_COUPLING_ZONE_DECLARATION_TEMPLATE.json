@@ -27,5 +27,43 @@
   "expected_human_behaviour": [],
   "forbidden_visual_failures": [],
   "human_evidence_ids": [],
-  "declaration_note": "Create a fresh candidate-specific declaration before any edit. Vertex ids, anchor groups, allowed bones and expected behaviour must be filled from evidence; never edit this template into a repair record."
+  "declaration_note": "Create a fresh candidate-specific declaration before any edit. Proximal, bridge and distal zones must be contained in allowed_edit_vertex_ids; protected neighbours must not overlap allowed edits. Anchor groups, allowed bones and expected behaviour must be evidence-backed; never edit this template into a repair record.",
+  "intent": null,
+  "diagnosis": {
+    "observed_defect_ids": [],
+    "suspected_layer": null,
+    "human_evidence_ids": [],
+    "before_evidence": []
+  },
+  "zones": {
+    "proximal_anchor_vertex_ids": [],
+    "bridge_tissue_vertex_ids": [],
+    "distal_anchor_vertex_ids": [],
+    "protected_neighbor_vertex_ids": [],
+    "allowed_edit_vertex_ids": []
+  },
+  "allowed_operations": [],
+  "forbidden_operations": [
+    "undeclared_vertex_edit",
+    "undeclared_bone_weight_edit",
+    "threshold_change",
+    "baseline_repin",
+    "pose_definition_change",
+    "rig_change_without_separate_reopen",
+    "topology_change_without_separate_declaration"
+  ],
+  "hashes": {
+    "source_blend_sha256": null,
+    "vertex_ids_sha256": null,
+    "pre_edit_weights_sha256": null,
+    "pre_edit_mesh_sha256": null
+  },
+  "required_after_evidence": [
+    "weights_only_motion_sweep",
+    "corrected_motion_sweep_if_correctives_exist",
+    "intermediate_and_return_samples",
+    "coupling_system_evidence",
+    "full_whole_body_regression",
+    "contact_load_regression_if_applicable"
+  ]
 }

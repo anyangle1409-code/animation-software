@@ -88,7 +88,7 @@
     "quadriceps_thigh": 1,
     "hamstrings_posterior_thigh": 2
   },
-  "prepared_movement_sweep_count": 8,
+  "prepared_movement_sweep_count": 11,
   "prepared_movement_sweeps": [
     "grip_release",
     "trunk_flexion",
@@ -97,7 +97,10 @@
     "trunk_axial_rotation",
     "loaded_hip_hinge",
     "hip_abduction_adduction",
-    "ankle_plantarflexion"
+    "ankle_plantarflexion",
+    "shoulder_abduction_elevation",
+    "humeral_internal_external_rotation",
+    "forearm_pronation_supination"
   ],
   "high_detail_anatomy_allowed": false,
   "why_not_high_detail": "Critical/High whole-body issues remain open.",
@@ -154,7 +157,9 @@
     "pre_edit_repair_workspace_runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
     "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
     "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
-    "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json"
+    "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
+    "movement_sweep_execution": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+    "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -204,7 +209,11 @@
     "pre_edit_post_edit_provenance_split": "ENFORCED",
     "unified_candidate_comparison": "READY",
     "real_human_evidence_records": 55,
-    "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance."
+    "interpretation": "Prepared rules/tools reduce Blender experimentation but do not count as candidate anatomical clearance.",
+    "deterministic_movement_sweep_definitions": 11,
+    "generic_blender_sweep_runner_bound": 11,
+    "generic_blender_sweep_runner_unbound": 0,
+    "stage1_wave_work_package": "READY"
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",
@@ -214,5 +223,22 @@
     "packages_total": 14,
     "packages_clear": 0,
     "note": "Shoulder-yoke remains the repair focus, but no shoulder package may clear until exact-candidate global pre-repair diagnostics are complete."
+  },
+  "movement_sweep_execution": {
+    "authority": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+    "definitions_total": 11,
+    "runner_bound_count": 11,
+    "runner_unbound_count": 0,
+    "current_wave_required_sweeps": [
+      "shoulder_abduction_elevation",
+      "humeral_internal_external_rotation",
+      "trunk_flexion",
+      "trunk_extension",
+      "trunk_lateral_bend",
+      "trunk_axial_rotation"
+    ],
+    "generic_runner_target": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
+    "status": "RUNNER_BOUND",
+    "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance."
   }
 }

@@ -85,6 +85,29 @@ boundary is identified.
 
 ---
 
+## 2A. Anatomical coupling is mandatory
+
+The machine-readable attachment/shared-tissue authority is
+`ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json`, with the human-readable contract at
+`docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md`.
+
+This requirement is fail-closed:
+
+- if a muscle/soft-tissue chain spans multiple attachment regions, every relevant
+  attachment side must contribute to the deformation;
+- the surface may not be dragged wholesale by one moving bone simply because that
+  produces a numerically convenient result;
+- weights-only deformation must preserve the shared attachment relationship before
+  any corrective key is fitted;
+- outbound, intermediate, endpoint and return frames are all required;
+- every mandatory body region and movement family must be covered by at least one
+  coupling system;
+- any Critical/High coupling failure blocks dependent progression.
+
+The user requirement is therefore encoded as an engineering rule: **movement of
+one body part must propagate through all anatomically connected skin/muscle paths
+that should respond, while tissue that should remain rooted must remain rooted.**
+
 # 4. Body regions that must be proven
 
 Every region below is mandatory. A neutral render alone never completes a region.

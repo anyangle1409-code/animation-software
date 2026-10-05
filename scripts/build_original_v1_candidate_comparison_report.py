@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import re
 from pathlib import Path
@@ -17,6 +18,9 @@ REPAIR_PACKAGES=ROOT/"ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json"
 COUPLING_MAP=ROOT/"ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
 WEIGHTS_CONTRACT=ROOT/"ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json"
 DEFECT_COUPLING=ROOT/"ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
+POSE_MOVEMENT_MAP=ROOT/"ORIGINAL_V1_POSE_MOVEMENT_FAMILY_MAP.json"
+SWEEP_PLAN=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
+SWEEP_ACCEPTANCE_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_acceptance.py"
 
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 BLOCKING_STATES={"open","in progress","pending review","not_run","fail","blocked"}
@@ -59,6 +63,31 @@ def blockers(ledger):
         if str(x.get("severity","")).lower() in {"critical","high"} and str(x.get("state","")).lower() in BLOCKING_STATES:
             out[x["id"]]=x
     return out
+
+
+def load_sweep_acceptance_validator():
+    spec=importlib.util.spec_from_file_location("original_v1_sweep_acceptance",SWEEP_ACCEPTANCE_VALIDATOR)
+    if spec is None or spec.loader is None:
+        raise ValueError("unable to load sweep acceptance validator")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def required_sweep_only_movements(scope,repair_by):
+    posemap=json.loads(POSE_MOVEMENT_MAP.read_text(encoding="utf-8"))
+    sweep_plan=json.loads(SWEEP_PLAN.read_text(encoding="utf-8"))
+    pose_moves={m for moves in (posemap.get("mappings") or {}).values() for m in moves}
+    sweep_moves=set((sweep_plan.get("sweeps") or {}).keys())
+    proof=[]
+    for pid in scope.get("repair_package_ids",[]):
+        row=repair_by.get(pid)
+        if row is None:
+            continue
+        for movement in row.get("proof_movements",[]):
+            if movement not in proof:
+                proof.append(movement)
+    return [m for m in proof if m in sweep_moves and m not in pose_moves]
 
 
 def build(manifest,base):
@@ -180,6 +209,34 @@ def build(manifest,base):
         check("motion_continuity_engineering_review",
               ev.get("continuity_engineering_review_status")=="PASS",
               ev.get("continuity_engineering_review_status"))
+
+    # Sweep-only movement proof is separate from the frozen pose harness.
+    # A raw sweep report never counts here: every required sweep must pass the
+    # calibrated visual/continuity/reversibility/contact acceptance gate.
+    required_sweeps=required_sweep_only_movements(scope,repair_by)
+    accepted_sweeps={}
+    sweep_validator=load_sweep_acceptance_validator()
+    for path in ev.get("human_movement_sweep_acceptance_paths",[]) or []:
+        try:
+            record_path=resolve(base,path)
+            obj=json.loads(record_path.read_text(encoding="utf-8"))
+            validated=sweep_validator.validate(obj,record_path.parent,True)
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError,AttributeError) as exc:
+            check(f"sweep_acceptance_record:{path}",False,str(exc))
+            continue
+        sweep_id=validated.get("sweep_id")
+        check(f"sweep_acceptance_candidate_sha:{path}",validated.get("candidate_sha256")==csha,
+              validated.get("candidate_sha256"))
+        if validated.get("candidate_sha256")!=csha or validated.get("engineering_review")!="PASS":
+            continue
+        if sweep_id in accepted_sweeps:
+            check(f"sweep_acceptance_duplicate:{sweep_id}",False,
+                  {"first":accepted_sweeps[sweep_id],"duplicate":path})
+        else:
+            accepted_sweeps[sweep_id]=path
+    for sweep_id in required_sweeps:
+        check(f"sweep_acceptance:{sweep_id}",sweep_id in accepted_sweeps,
+              accepted_sweeps.get(sweep_id) or "missing accepted candidate-bound sweep record")
 
     # Repair provenance has two immutable layers:
     #   pre-edit declaration -> post-edit execution record -> final candidate SHA.
@@ -342,6 +399,8 @@ def build(manifest,base):
       "parent_open_critical_high":sorted(parent_block),
       "candidate_open_critical_high":sorted(cand_block),
       "new_open_critical_high":new_blockers,
+      "required_sweep_only_movements":required_sweeps,
+      "accepted_sweep_only_movements":sorted(x for x in accepted_sweeps if x in required_sweeps),
       "engineering_clear_eligible":eligible,
       "owner_review":"PENDING",
       "production_promotion_allowed":False,

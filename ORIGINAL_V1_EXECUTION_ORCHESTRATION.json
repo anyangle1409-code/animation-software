@@ -8,6 +8,8 @@
     "live branch/source and executable evidence",
     "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
     "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
+    "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+    "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
     "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
     "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
     "ORIGINAL_V1_HIGH_DETAIL_STATUS.json",
@@ -25,7 +27,7 @@
     "candidate": "r95",
     "next_action": "RUN/READ shoulder deformation-layer diagnostic, then declare the smallest shoulder-yoke/axilla ownership/support repair scope before any model edit",
     "command": "RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat <r95.blend> <fresh-label> press_top,pullup_hang 13",
-    "note": "r95 is immutable comparator evidence. Critical/High whole-body issues block high-detail anatomy and every dependent later stage. Weights-only plausibility must be proven before new correctives."
+    "note": "r95 is immutable comparator evidence. Critical/High whole-body issues, including the whole-body anatomical-coupling QA blocker, block high-detail anatomy and every dependent later stage. Diagnose layers, prove multi-anchor tissue ownership, and declare the repair scope before creating a new candidate."
   },
   "blocking_issue_ledger": {
     "path": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
@@ -43,6 +45,9 @@
   "global_rules": [
     "Read docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md before deciding anatomical readiness.",
     "Before any write or Blender execution, re-read remote HEAD and preserve newer work.",
+    "Endpoint-only anatomical proof is invalid; outbound/intermediate/endpoint/return evidence is mandatory for coupling systems.",
+    "A muscle/soft-tissue chain spanning multiple anchors may not be owned wholesale by one moving bone; prove weights-only shared ownership first.",
+    "Before any candidate can clear a body region, validate the relevant systems in ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json.",
     "Do not enter Master Stage 5 / historical Phase 5 or a later dependent stage while the whole-body issue ledger reports a Critical/High blocker.",
     "A numerical pass never closes a visual anatomy issue; Fixed or Accepted requires committed closure evidence.",
     "Weights-only deformation must be anatomically plausible before corrective layers are allowed to provide the final appearance.",

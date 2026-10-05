@@ -19,7 +19,11 @@ class WaveBriefTests(unittest.TestCase):
     def test_sweep_definitions_are_not_mislabelled_as_executed(self):
         for row in self.b["waves"]:
             if row["validation"]["deterministic_sweep_definitions"]:
-                self.assertIn("REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",row["validation"]["sweep_runner_status"])
+                self.assertEqual(row["validation"]["sweep_runner_status"],"RUNNER_BOUND_CALIBRATION_AND_CANDIDATE_EXECUTION_REQUIRED")
+                self.assertEqual(row["validation"]["sweep_runner_binding"],"BOUND_11_OF_11")
+                self.assertEqual(row["validation"]["candidate_sweep_acceptance"],"NOT_RUN")
+                self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",row["operator"]["pre_repair_sweeps"])
+                self.assertIn("RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",row["operator"]["post_repair_sweeps"])
     def test_package_drift_fails(self):
         bad=copy.deepcopy(self.b); bad["waves"][1]["packages"].pop()
         with self.assertRaisesRegex(ValueError,"packages differ"): mod.validate(bad,self.g,self.p,self.pm,self.s)

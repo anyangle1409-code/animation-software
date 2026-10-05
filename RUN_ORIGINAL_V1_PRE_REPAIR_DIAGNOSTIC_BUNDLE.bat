@@ -41,12 +41,15 @@ set "REV=%ROOT%\motion_reversibility\%LABEL%\motion_reversibility.json"
 set "CONT=%ROOT%\motion_continuity\%LABEL%\motion_continuity.json"
 set "BUNDLE_DIR=%ROOT%\pre_repair_bundle\%LABEL%"
 set "BUNDLE=%BUNDLE_DIR%\pre_repair_diagnostic_bundle.json"
+set "SELECTION=%BUNDLE_DIR%\package_validation_selection.json"
+set "POSES_FILE=%BUNDLE_DIR%\selected_pose_names.txt"
 
-if exist "%BUNDLE%" (
-  echo ERROR: bundle already exists. Use a fresh label:
-  echo   %BUNDLE%
+if exist "%BUNDLE_DIR%" (
+  echo ERROR: pre-repair bundle directory already exists. Use a fresh label:
+  echo   %BUNDLE_DIR%
   exit /b 2
 )
+mkdir "%BUNDLE_DIR%"
 
 set "PYTHON="
 if defined PYTHON_EXE if exist "%PYTHON_EXE%" set "PYTHON=%PYTHON_EXE%"
@@ -64,6 +67,16 @@ echo ============================================================
 
 call RUN_ORIGINAL_V1_HUMAN_BODY_READINESS_CHECK.bat
 if errorlevel 1 exit /b 1
+
+if "%POSES%"=="" (
+  "%PYTHON%" scripts\build_original_v1_package_validation_selection.py --packages "%PACKAGES%" --out "%SELECTION%" --poses-out "%POSES_FILE%"
+  if errorlevel 1 exit /b 1
+  set /p POSES=<"%POSES_FILE%"
+) else (
+  "%PYTHON%" scripts\build_original_v1_package_validation_selection.py --packages "%PACKAGES%" --out "%SELECTION%"
+  if errorlevel 1 exit /b 1
+  echo NOTE: caller supplied pose override "%POSES%"; package validation selection remains authoritative for sweep-only movement requirements.
+)
 
 call RUN_ORIGINAL_V1_SKINNING_MODE_AUDIT.bat "%CANDIDATE%" "%LABEL%"
 if errorlevel 1 exit /b 1
@@ -94,8 +107,6 @@ if errorlevel 1 exit /b 1
 call RUN_ORIGINAL_V1_MOTION_CONTINUITY_AUDIT.bat "%CANDIDATE%" "%LABEL%"
 if errorlevel 1 exit /b 1
 
-if not exist "%BUNDLE_DIR%" mkdir "%BUNDLE_DIR%"
-
 set "SHOULDER_ARG="
 if "%DIAG_RC%"=="0" set "SHOULDER_ARG=--shoulder "%SHOULDER%""
 
@@ -103,6 +114,7 @@ if "%DIAG_RC%"=="0" set "SHOULDER_ARG=--shoulder "%SHOULDER%""
   --candidate "%CANDIDATE%" ^
   --label "%LABEL%" ^
   --packages "%PACKAGES%" ^
+  --selection "%SELECTION%" ^
   --skinning "%SKIN%" ^
   --pose-scope "%SCOPE%" ^
   --pose-plan "%PLAN%" ^

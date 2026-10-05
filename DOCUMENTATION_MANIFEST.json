@@ -52,6 +52,11 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_surface_visual_evidence_requirements.py",
       "note": "Separates real-human exterior surface photo/video coverage from biomechanics/anatomy evidence; tracks missing/partial visual motion sequences for every mandatory body region."
+    },
+    "POSE_COUPLING_SCOPE_OUTPUT": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_pose_coupling_scope.py",
+      "note": "Candidate-bound read-only pose evidence mapping every materially moved rig joint/bone family to all connected anatomical coupling systems that must be reviewed."
     }
   },
   "categories": {

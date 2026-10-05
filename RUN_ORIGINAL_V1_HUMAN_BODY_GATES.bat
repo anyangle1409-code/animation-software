@@ -61,6 +61,7 @@ call :run scripts\test_validate_original_v1_human_movement_sweep_report.py || ex
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_source.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_runner_calibration.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_acceptance.py || exit /b 1
+call :run scripts\test_validate_original_v1_workspace_sweep_acceptance.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_camera_plan.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_visual_renderer_source.py || exit /b 1
 call :run scripts\test_validate_original_v1_human_movement_sweep_contact_raw.py || exit /b 1

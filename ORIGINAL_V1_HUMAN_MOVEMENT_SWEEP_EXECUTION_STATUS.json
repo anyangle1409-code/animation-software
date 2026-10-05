@@ -562,8 +562,22 @@
     "Do not weaken existing pose, regression, contact, baseline or production gates.",
     "A sweep runner implementation must be generic by movement/joint state and may not use exercise identity as a deformation driver."
   ],
-  "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
+  "exit_rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, lacks required visual/contact outputs, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
   "execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
   "runner_calibration_state": "PREPARED_UNCALIBRATED",
-  "runner_binding_note": "All sweep definitions are bound to a separate read-only generic Blender adapter, but no candidate execution or Blender calibration is inferred. candidate_execution_state remains NOT_RUN until real output exists."
+  "runner_binding_note": "All 11 sweep definitions are bound to the separate read-only generic Blender adapter. Binding means an implementation path exists only. The runner remains PREPARED_UNCALIBRATED and DIAGNOSTIC_ONLY_INCOMPLETE: required visual captures/contact proof are not yet implemented and every candidate_execution_state remains NOT_RUN until real candidate-bound output is produced and reviewed.",
+  "runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
+  "runner_calibration_evidence_path": null,
+  "runner_output_capabilities": {
+    "deterministic_joint_state_sampling": "IMPLEMENTED",
+    "per_sample_joint_state_hash": "IMPLEMENTED",
+    "weights_only_surface_summary": "IMPLEMENTED",
+    "corrective_contribution_summary": "IMPLEMENTED",
+    "runner_script_hash": "IMPLEMENTED",
+    "end_of_run_source_rehash": "IMPLEMENTED",
+    "visual_capture_manifest": "NOT_IMPLEMENTED",
+    "required_regional_renders": "NOT_IMPLEMENTED",
+    "contact_load_state": "NOT_IMPLEMENTED"
+  },
+  "candidate_evidence_ready_count": 0
 }

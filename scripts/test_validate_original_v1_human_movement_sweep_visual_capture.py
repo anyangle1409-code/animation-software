@@ -36,9 +36,35 @@ class SweepVisualCaptureTests(unittest.TestCase):
             (root/first["path"]).write_bytes(b"changed")
             with self.assertRaisesRegex(ValueError,"SHA mismatch"): mod.validate(d,root,True)
 
+    def hip_fixture(self,root):
+        sweep="hip_abduction_adduction"; plan=mod.read(mod.PLAN)["sweeps"][sweep]; csha="a"*64; samples=[]
+        for variant in ("l","r"):
+            for label in plan["samples"]:
+                views=[]
+                for camera in plan["cameras"]:
+                    p=root/f"{variant}_{label}_{camera}.png"; p.write_bytes(f"{variant}|{label}|{camera}".encode())
+                    views.append({"camera_id":camera,"path":p.name,"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+                      "capture":{"candidate_sha256":csha,"sweep_id":sweep,"sample_label":label,"variant":variant,"camera_id":camera,
+                                 "runner_script_sha256":"b"*64,"camera_matrix_world":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
+                                 "resolution":[900,900,100]}})
+                samples.append({"label":label,"variant":variant,"views":views})
+        return {"schema_version":1,"status":"HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE","production_approved":False,
+                "candidate_revision":"r96","candidate_sha256":csha,"sweep_id":sweep,"raw_sweep_report_path":"raw.json",
+                "samples":samples,"engineering_review":"PASS","owner_review":"PENDING"}
+
     def test_capture_candidate_identity_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); d=self.fixture(root); d["samples"][0]["views"][0]["capture"]["candidate_sha256"]="c"*64
             with self.assertRaisesRegex(ValueError,"candidate identity mismatch"): mod.validate(d,root,True)
+
+    def test_bilateral_hip_visual_sequence_passes(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); out=mod.validate(self.hip_fixture(root),root,True)
+            self.assertEqual(out["samples"],22)
+
+    def test_missing_right_hip_variant_fails(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); d=self.hip_fixture(root); d["samples"]=[x for x in d["samples"] if x["variant"]!="r"]
+            with self.assertRaisesRegex(ValueError,"sample order/coverage differs"): mod.validate(d,root,True)
 
 if __name__=="__main__": unittest.main()

@@ -6,6 +6,8 @@
   "purpose": "Single non-executing orchestration map for recovery after the owner's r95 anatomical rejection. It never launches Blender, edits a model, promotes a phase, or closes a visual issue without committed evidence.",
   "authority_order": [
     "live branch/source and executable evidence",
+    "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
+    "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
     "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
     "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
     "ORIGINAL_V1_HIGH_DETAIL_STATUS.json",
@@ -17,22 +19,34 @@
   ],
   "branch": "codex/whole-body-deformation-recovery-20261004",
   "current_expected_state": {
+    "master_stage": 1,
+    "master_stage_name": "Human movement foundation",
     "phase": "shoulder_axilla_foundation_reopened",
     "candidate": "r95",
-    "next_action": "REOPEN shoulder/axilla foundation",
-    "command": null,
-    "note": "r95 is an immutable comparator. Critical/High issues in the whole-body ledger block Phase 5 and every later phase. Diagnose layers and declare the repair scope before creating a new candidate."
+    "next_action": "RUN/READ shoulder deformation-layer diagnostic, then declare the smallest shoulder-yoke/axilla ownership/support repair scope before any model edit",
+    "command": "RUN_ORIGINAL_V1_SHOULDER_LAYER_DIAGNOSTIC.bat <r95.blend> <fresh-label> press_top,pullup_hang 13",
+    "note": "r95 is immutable comparator evidence. Critical/High whole-body issues block high-detail anatomy and every dependent later stage. Weights-only plausibility must be proven before new correctives."
   },
   "blocking_issue_ledger": {
     "path": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
     "validator": "scripts/original_v1_whole_body_issues.py",
-    "blocking_severities": ["Critical", "High"],
-    "blocking_states": ["Open", "In Progress", "Pending Review"]
+    "blocking_severities": [
+      "Critical",
+      "High"
+    ],
+    "blocking_states": [
+      "Open",
+      "In Progress",
+      "Pending Review"
+    ]
   },
   "global_rules": [
+    "Read docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md before deciding anatomical readiness.",
     "Before any write or Blender execution, re-read remote HEAD and preserve newer work.",
-    "Do not enter Phase 5 or a later phase while the whole-body issue ledger reports a Critical/High blocker.",
+    "Do not enter Master Stage 5 / historical Phase 5 or a later dependent stage while the whole-body issue ledger reports a Critical/High blocker.",
     "A numerical pass never closes a visual anatomy issue; Fixed or Accepted requires committed closure evidence.",
+    "Weights-only deformation must be anatomically plausible before corrective layers are allowed to provide the final appearance.",
+    "Intermediate-motion evidence is mandatory for high-risk movement; endpoints alone do not prove the body.",
     "Never work from main and never merge the model branch wholesale into the standalone runtime branch.",
     "Historical epoch baselines, the locked rev2c rig, acceptance thresholds and frozen stress-pose definitions remain protected.",
     "No legacy V-series implementation data or third-party character content may enter ORIGINAL v1.",

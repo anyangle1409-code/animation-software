@@ -52,8 +52,12 @@ jobs:
         run: python scripts/validate_original_v1_human_movement_sweeps.py
       - name: Validate anatomical coupling map
         run: python scripts/validate_original_v1_anatomical_coupling.py
+      - name: Validate surface visual evidence requirements
+        run: python scripts/validate_original_v1_surface_visual_evidence_requirements.py
       - name: Validate joint-to-tissue trigger map
         run: python scripts/validate_original_v1_joint_tissue_triggers.py
+      - name: Run surface visual evidence requirement tests
+        run: python scripts/test_validate_original_v1_surface_visual_evidence_requirements.py
       - name: Run human evidence tests
         run: python scripts/test_original_v1_human_evidence.py
       - name: Run master-plan tests

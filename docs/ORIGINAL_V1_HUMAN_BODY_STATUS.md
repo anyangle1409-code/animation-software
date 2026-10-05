@@ -1,8 +1,8 @@
 # ORIGINAL v1 human-body status
 
-**Master stage:** 1 — Human movement foundation
-**Current focus:** shoulder chest anterior axilla posterior axilla foundation recovery
-**Comparator:** r95 — `8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd`
+**Master stage:** 1 — Human movement foundation  
+**Current focus:** shoulder chest anterior axilla posterior axilla foundation recovery  
+**Comparator:** r95 — `8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd`  
 **Production approved:** NO
 
 ## Blocking state
@@ -26,21 +26,40 @@
 - Body regions with evidence scaffolding: **12 / 12**
 - Movement families with evidence scaffolding: **27 / 27**
 - Real-human evidence records: **55**
-- Prepared deterministic movement sweeps: **8**
+- Deterministic movement sweep definitions: **11**
 
-> Evidence scaffolding is not anatomical acceptance. Candidate-bound Blender motion/render/regression evidence is still required.
+> Evidence scaffolding is not anatomical acceptance. Exact-candidate Blender motion, renders, contact/load evidence and regression are still required.
 
-## Anatomical coupling / shared tissue
+## Movement sweep execution
 
-- Coupling systems: **14**
-- Candidate-proven CLEAR: **0**
+- Sweep definitions: **11**
+- Generic runner adapters bound: **11 / 11**
+- Runner calibration state: **PREPARED_UNCALIBRATED**
+- Runner evidence readiness: **DIAGNOSTIC_ONLY_INCOMPLETE**
+- Acceptance-capable today: **NO**
+- Candidate sweeps executed: **0 / 11**
+- Candidate sweeps evidence-ready: **0 / 11**
+- Current Wave-1 sweep evidence complete: **NO**
+- Current-wave required sweeps: shoulder_abduction_elevation, humeral_internal_external_rotation, trunk_flexion, trunk_extension, trunk_lateral_bend, trunk_axial_rotation
+
+Current tooling blockers:
+- runner calibration record is not CALIBRATED
+- generic sweep runner visual capture manifest is not implemented
+- required regional renders are not implemented
+- contact/load state capture is not implemented for contact-bearing sweeps
+
+> 11/11 bound means the deterministic motion adapters exist. It does **not** mean the runner is calibrated, any candidate has passed a sweep, or the body is anatomically clear.
+
+## Movement mechanics / shared tissue
+
+- Movement → joint-family requirements: **27 / 27**
 - Joint-to-tissue trigger rules: **12**
-- Status: **BLOCKED — NOT YET CANDIDATE-PROVEN**
-- Blocking issue: `WB-QA-012`
+- Anatomical coupling systems: **14**
+- Candidate-proven coupling systems CLEAR: **0**
+- Coupling status: **BLOCKED — NOT YET CANDIDATE-PROVEN**
+- Blocking QA issue: `WB-QA-012`
 
-Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.
-
-Material motion of a production joint/bone automatically expands review scope to all anatomically connected tissue systems mapped to that joint.
+A movement sample can no longer pass merely by naming the right exercise/movement. Its actual moved bones must cover the movement’s required joint families, and every triggered connected tissue system must be reviewed.
 
 ## Real-human exterior surface evidence
 
@@ -48,21 +67,37 @@ Material motion of a production joint/bone automatically expands review scope to
 - Partial body regions: **12 / 12**
 - Regions with no visual scaffolding: **0**
 
-Biomechanics and skeletal correctness cannot close exterior skin/muscle appearance. The exact candidate still needs neutral, lengthened/elevated, compressed/loaded, intermediate and return visual evidence.
+Biomechanics and numerical deformation cannot close appearance. The exact final candidate still needs the required neutral, lengthened/elevated, compressed/loaded, intermediate and return visual evidence.
+
+## Stage 1 progress
+
+- Active repair wave: **shoulder_yoke_foundation**
+- Operational next action: **complete global pre repair diagnostics**
+- Waves clear: **0 / 8**
+- Repair packages clear: **0 / 14**
+
+Shoulder-yoke remains the repair focus, but no shoulder package may clear until exact-candidate global pre-repair diagnostics are complete.
 
 ## Non-Blender preparation
 
-- Practical anatomical repair packages: **14 / 14**
-- Stage 1 dependency waves: **8**
+- Anatomical repair packages: **14 / 14**
+- Stage-1 dependency waves: **8**
+- Movement → joint-family contract: **READY_27_OF_27**
 - Deformation diagnosis tree: **READY**
-- Weights-only regional acceptance contracts: **12 / 12**
-- Automatic pose → tissue → camera → evidence planning: **READY**
+- Weights-only regional contracts: **12 / 12**
+- Pose → tissue → camera evidence planner: **READY**
 - Pre-repair diagnostic bundle: **READY**
-- Post-edit evidence workspace generator: **READY**
-- Immutable pre-edit declaration → post-edit execution provenance: **ENFORCED**
+- Pre-edit repair workspace: **READY**
+- Post-edit workspace finalizer: **READY**
+- Post-repair validation bundle: **READY**
+- Pre-edit/post-edit provenance split: **ENFORCED**
 - Unified candidate comparison: **READY**
+- Generic sweep runner source contract: **READY**
+- Sweep calibration chain: **READY_NOT_RUN**
+- Sweep acceptance gate: **READY_NOT_RUN**
+- Stage-1 wave work package: **READY**
 
-> These tools make Blender work controlled and repeatable; they do not count as anatomical clearance.
+> These are preparation/control tools. None of them count as evidence that the body itself is clear.
 
 ## High-detail anatomy
 
@@ -74,32 +109,21 @@ Critical/High whole-body issues remain open.
 
 1. run pre repair diagnostic bundle
 2. identify earliest failing layer using diagnosis tree
-3. create and validate pre edit repair declarations
-4. audit declared coupling weight ownership
-5. generate focused plus whole body regression plan
-6. create new numbered candidate and repair smallest foundational layer
-7. capture exact final candidate sha
-8. initialize post edit evidence bundle
-9. prove weights only regions before correctives
-10. prove required anatomical and movement coupling systems
-11. complete candidate surface visual review
-12. fit correctives only for residual anatomy error
-13. run dense continuity reversibility visual numerical contact change regression
-14. run unified parent to candidate comparison
-15. close issue rows only with committed closure evidence
-16. advance only by stage1 dependency graph
-
-## Stage 1 current wave
-
-**Wave 1 — connected shoulder/chest/back yoke**
-
-Current connected repair packages:
-
-- `RP-PEC-AX-002`
-- `RP-POSTAX-003`
-- `RP-DELTOID-004`
-- `RP-NECK-TRAP-001`
-
-The cluster must be solved as one connected foundation. Improving the chest/armpit by damaging deltoid, back, clavicle or trapezius is a failed candidate.
+3. create pre edit repair workspace for selected packages
+4. complete and validate pre edit repair declarations
+5. audit declared coupling weight ownership
+6. use generated focused plus whole body regression plan
+7. create new numbered candidate and repair smallest foundational layer
+8. save repaired candidate and capture exact final sha
+9. finalize repair workspace against exact post edit candidate
+10. run post repair validation bundle on final candidate
+11. prove weights only regions before correctives
+12. prove required anatomical and movement coupling systems
+13. complete candidate surface visual review
+14. fit correctives only for residual anatomy error then repeat final candidate evidence
+15. complete repair execution regression contact change and visual records
+16. run unified parent to candidate comparison
+17. close issue rows only with committed closure evidence
+18. advance only by stage1 dependency graph
 
 Historical Phase 4/r95 evidence remains immutable history; it is not current anatomical sign-off.

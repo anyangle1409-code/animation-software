@@ -222,7 +222,11 @@
     "movement_joint_family_contract": "READY_27_OF_27",
     "generic_sweep_runner_source_contract": "READY",
     "generic_sweep_calibration_chain": "READY_NOT_RUN",
-    "generic_sweep_acceptance_gate": "READY_NOT_RUN"
+    "generic_sweep_acceptance_gate": "READY_NOT_RUN",
+    "generic_blender_sweep_runner_calibration": "PREPARED_UNCALIBRATED",
+    "generic_blender_sweep_runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
+    "generic_blender_sweep_runner_acceptance_capable": false,
+    "candidate_sweep_evidence_ready": 0
   },
   "stage1_progress": {
     "active_wave_id": "shoulder_yoke_foundation",
@@ -238,6 +242,17 @@
     "definitions_total": 11,
     "runner_bound_count": 11,
     "runner_unbound_count": 0,
+    "runner_calibration_state": "PREPARED_UNCALIBRATED",
+    "runner_evidence_readiness": "DIAGNOSTIC_ONLY_INCOMPLETE",
+    "acceptance_capable": false,
+    "acceptance_capability_blockers": [
+      "runner calibration record is not CALIBRATED",
+      "generic sweep runner visual capture manifest is not implemented",
+      "required regional renders are not implemented",
+      "contact/load state capture is not implemented for contact-bearing sweeps"
+    ],
+    "candidate_sweeps_executed": 0,
+    "candidate_sweeps_evidence_ready": 0,
     "current_wave_required_sweeps": [
       "shoulder_abduction_elevation",
       "humeral_internal_external_rotation",
@@ -246,11 +261,11 @@
       "trunk_lateral_bend",
       "trunk_axial_rotation"
     ],
+    "current_wave_sweep_evidence_ready": false,
     "generic_runner_target": "scripts/audit_original_v1_human_movement_sweeps_blender.py",
-    "status": "RUNNER_BOUND",
-    "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
-    "runner_calibration_state": "NOT_RUN",
-    "candidate_sweeps_accepted": 0,
-    "interpretation": "All 11 sweep definitions have a bound read-only execution path. The runner still requires Blender calibration/review, and every required final-candidate sweep must separately pass motion, visual, contact where applicable, and human-reference acceptance. Binding alone is not body evidence."
+    "implementation_status": "BOUND",
+    "evidence_status": "DIAGNOSTIC_ONLY_INCOMPLETE",
+    "rule": "Stage 1 package clearance is blocked whenever a required sweep remains UNBOUND, NOT_RUN, uncalibrated for the candidate/movement, lacks required visual/contact outputs, or its candidate-bound evidence is incomplete. Runner binding alone is never anatomical clearance.",
+    "interpretation": "All 11 sweep definitions have a bound read-only execution path. The runner remains uncalibrated/diagnostic-only, and every final-candidate sweep still requires reviewed motion, visual, contact where applicable, and human-reference acceptance."
   }
 }

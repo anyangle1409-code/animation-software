@@ -1962,6 +1962,118 @@
       "uncertainty": "Study focuses on skin-marker distances and taping effects, not complete 3D muscle surface or posterior thigh behavior.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-ACH-003",
+      "region": "calf_achilles_ankle",
+      "movement_primitive": "regional_Achilles_tendon_deformation_under_load",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5519157/",
+        "citation": "Evaluation of tissue displacement and regional strain in the Achilles tendon using quantitative high-frequency ultrasound, PMCID PMC5519157.",
+        "license_use_note": "Use regional tendon deformation observations only; do not copy ultrasound images or subject geometry."
+      },
+      "movement_phase": "passive_elongation_and_isometric_contraction",
+      "view": [
+        "dynamic_high_frequency_ultrasound",
+        "superficial_middle_deep_tendon_layers"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten asymptomatic subjects with bilateral dynamic ultrasound; direct regional tendon mechanics but not exterior skin contour."
+      },
+      "observable_landmarks": [
+        "Achilles_superficial_layer",
+        "Achilles_middle_layer",
+        "Achilles_deep_layer",
+        "calcaneal_direction"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "tendon_path_continuity",
+        "surface_load_transfer"
+      ],
+      "derived_observations": [
+        "Achilles deformation is regionally non-uniform across tendon depth/layers rather than a single uniformly stretching cable.",
+        "Load response should preserve a continuous tendon path while allowing distributed local deformation."
+      ],
+      "uncertainty": "Internal ultrasound evidence, not exterior skin/calf silhouette. Use to constrain tendon-chain mechanics rather than visible contour.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ACH-004",
+      "region": "calf_achilles_ankle",
+      "movement_primitive": "Achilles_displacement_passive_and_eccentric_loading",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4163107/",
+        "citation": "Non-Uniform Displacements within the Achilles Tendon observed during Passive and Eccentric Loading, PMCID PMC4163107.",
+        "license_use_note": "Use published displacement-pattern observations only; do not copy ultrasound imagery or participant geometry."
+      },
+      "movement_phase": "cyclic_ankle_rotation_passive_and_eccentric_loading",
+      "view": [
+        "ultrasound_tendon_displacement",
+        "ankle_cycle"
+      ],
+      "diversity": {
+        "subject_count": 9,
+        "notes": "Nine healthy young adults; dynamic tendon displacement evidence with limited population diversity."
+      },
+      "observable_landmarks": [
+        "Achilles_subtendon_region",
+        "posterior_ankle",
+        "cyclic_return"
+      ],
+      "permissible_conclusions": [
+        "multi_joint_tissue_behavior",
+        "tendon_path_continuity",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Different Achilles regions move by different amounts during loading; tendon behavior is non-uniform and load-dependent.",
+        "A heel-raise/ankle model should not simply scale or rotate one rigid Achilles strip with the calcaneus."
+      ],
+      "uncertainty": "Internal tendon displacement rather than exterior contour; use with calf/foot visual evidence.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-VIS-FINGER-003",
+      "region": "fingertip_skin_contact",
+      "movement_primitive": "fingertip_skin_compression_before_slip",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8169108/",
+        "citation": "High-resolution imaging of skin deformation shows that afferents from human fingertips signal slip onset, PMCID PMC8169108.",
+        "license_use_note": "Use fingertip contact/deformation observations only; do not copy participant imagery into production."
+      },
+      "movement_phase": "loaded_contact_before_and_during_slip_onset",
+      "view": [
+        "high_resolution_fingertip_contact_imaging",
+        "contact_patch_deformation"
+      ],
+      "diversity": {
+        "subject_count": null,
+        "notes": "Use study-level qualitative contact mechanics; this evidence supplements, not replaces, broader hand morphology sources."
+      },
+      "observable_landmarks": [
+        "fingertip_contact_patch",
+        "skin_compression",
+        "slip_front"
+      ],
+      "permissible_conclusions": [
+        "surface_load_transfer",
+        "surface_contour",
+        "movement_timing"
+      ],
+      "derived_observations": [
+        "Fingertip skin deforms/compresses within the contact patch before slip; stable grasp is not a rigid point-contact condition.",
+        "Contact deformation propagates spatially across the fingertip surface and should be represented separately from skeletal finger flexion."
+      ],
+      "uncertainty": "Fine fingertip/contact mechanics; not a whole-hand shape source and not a mandate for high-frequency tactile simulation in the app.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

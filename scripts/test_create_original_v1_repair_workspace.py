@@ -45,6 +45,18 @@ class RepairWorkspaceTests(unittest.TestCase):
             self.assertTrue(cm["evidence"]["repair_declaration_paths"])
             self.assertTrue(cm["evidence"]["repair_execution_record_paths"])
             self.assertEqual(cm["evidence"]["surface_visual_review_path"],"surface_visual_review_final.json")
+            expected_sweeps={
+              "human_movement_sweep_acceptance_shoulder_abduction_elevation_final.json",
+              "human_movement_sweep_acceptance_humeral_internal_external_rotation_final.json"
+            }
+            self.assertEqual(set(cm["evidence"]["human_movement_sweep_acceptance_paths"]),expected_sweeps)
+            self.assertEqual(set(wm["files"]["expected_sweep_acceptance_records"]),expected_sweeps)
+            self.assertEqual(len(wm["files"]["sweep_acceptance_final_templates"]),2)
+            for name in wm["files"]["sweep_acceptance_final_templates"]:
+                sat=json.loads((out/name).read_text())
+                self.assertIsNone(sat["candidate_sha256"])
+                self.assertTrue(sat["required_human_evidence_ids"])
+                self.assertEqual(sat["human_evidence_review_refs"],[])
             self.assertIn("chest_anterior_axilla",vr["scope_region_ids"])
             # A single pec package may not claim closure of global QA defects that require all coupling systems.
             self.assertNotIn("WB-QA-012",cm["scope"]["defect_ids"])

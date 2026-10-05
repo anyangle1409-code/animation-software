@@ -1,0 +1,958 @@
+{
+  "schema_version": 1,
+  "status": "CURRENT_SHOULDER_YOKE_REPAIR_EVIDENCE_BRIEF",
+  "production_approved": false,
+  "generated_from_live_branch": "gpt/shoulder-layer-diagnostic-20261004",
+  "repair_package_ids": [
+    "RP-PEC-AX-002",
+    "RP-POSTAX-003",
+    "RP-DELTOID-004",
+    "RP-NECK-TRAP-001"
+  ],
+  "human_evidence_manifest_count": 55,
+  "briefs": [
+    {
+      "repair_package_id": "RP-PEC-AX-002",
+      "name": "Pectoral / anterior axillary repair",
+      "coupling_system_id": "CP-PEC-AX-002",
+      "priority": "current_blocker",
+      "body_regions": [
+        "chest_anterior_axilla",
+        "clavicle_shoulder_deltoid",
+        "ribcage_abdomen_obliques_lumbar",
+        "upperarm_elbow"
+      ],
+      "linked_defect_ids": [
+        "WB-AX-001",
+        "WB-PEC-002",
+        "WB-PEC-003",
+        "WB-CLV-007",
+        "WB-SYM-008",
+        "WB-QA-011",
+        "WB-QA-012"
+      ],
+      "foundational_question": "Can the pec remain chest-rooted while its humeral insertion and anterior fold move continuously with the arm?",
+      "proximal_anchors": [
+        "medial_clavicle",
+        "sternum",
+        "upper_rib_costal_cartilage",
+        "anterior_chest_wall"
+      ],
+      "distal_anchors": [
+        "proximal_humerus_pectoral_insertion"
+      ],
+      "driving_joints": [
+        "sternoclavicular",
+        "glenohumeral",
+        "scapulothoracic_proxy"
+      ],
+      "must_move": [
+        "humeral insertion side travels with upper arm",
+        "anterior axillary fold changes angle/length with arm elevation and rotation",
+        "lateral pectoral surface lengthens/shortens smoothly between chest and humerus"
+      ],
+      "must_remain_rooted": [
+        "central and medial pectoral mass remains chest-rooted",
+        "sternal/rib/clavicular chest wall continuity remains stable"
+      ],
+      "forbidden_failures": [
+        "whole lateral chest dragged with humerus",
+        "deep chest-to-arm trench",
+        "planar axillary membrane",
+        "central pec balloon with lateral collapse",
+        "knife-edge fold",
+        "detached pec slab"
+      ],
+      "weights_only_acceptance": [
+        "central/medial pec stays chest-rooted",
+        "humeral insertion follows arm",
+        "no wing membrane trench or detached slab",
+        "volume redistributes continuously",
+        "both sides comparable"
+      ],
+      "regional_weights_only_criteria": {
+        "chest_anterior_axilla": [
+          "medial/central pec remains chest-rooted",
+          "humeral insertion side follows arm",
+          "anterior fold changes angle/length continuously",
+          "lateral chest retains believable volume",
+          "no wing membrane trench or detached slab"
+        ],
+        "clavicle_shoulder_deltoid": [
+          "clavicle/scapula/humerus surface remains coupled",
+          "deltoid remains yoke-like not spherical",
+          "anterior and posterior shoulder transitions stay broad and continuous",
+          "no arm-neck pinch or shelf",
+          "both sides comparable for mirrored input"
+        ],
+        "ribcage_abdomen_obliques_lumbar": [
+          "motion distributed rather than single waist hinge",
+          "compressed side folds while lengthened side remains continuous",
+          "ribcage-to-pelvis volume changes gradually",
+          "no knife crease or membrane stretch",
+          "twist/folds reverse on return"
+        ],
+        "upperarm_elbow": [
+          "upperarm contour changes with elbow state",
+          "antecubital/posterior folds remain joint-centered",
+          "forearm rotation does not corkscrew upper arm",
+          "no cylindrical hinge or fixed ring crease",
+          "shoulder continuity preserved"
+        ]
+      },
+      "residual_corrective_role": [
+        "refine fold depth and volume distribution; never pull the whole lateral chest"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "capture_views": [
+        "front_upper_body",
+        "side_upper_body",
+        "anterior_three_quarter",
+        "inferior_axilla_close",
+        "lateral_chest_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "sternal_pectoral_root",
+        "clavicular_pectoral_root",
+        "anterior_axillary_fold",
+        "humeral_insertion_side",
+        "pec_deltoid_transition"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90",
+        "return_45"
+      ],
+      "human_evidence": [
+        {
+          "id": "HE-AX-001",
+          "region": "axilla",
+          "movement_primitive": "neutral_and_elevated_arm",
+          "citation": "Ultrasound imaging of the axilla (2023), PMCID PMC10175532.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10175532/",
+          "derived_observations": [],
+          "uncertainty": "Deep clinical anatomy constrains structural continuity but does not define a single exterior contour or skin fold depth."
+        },
+        {
+          "id": "HE-AX-002",
+          "region": "anterior_and_posterior_axillary_folds",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels, Figure 1 photographs of the axillary base with the arm overhead and by the side, PMCID PMC11909697.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+          "derived_observations": [],
+          "uncertainty": "Static clinical positioning and limited subjects do not establish dynamic timing, muscle bulk or population-average fold depth."
+        },
+        {
+          "id": "HE-VIS-001",
+          "region": "shoulder_axilla_chest_surface",
+          "movement_primitive": "shoulder_flexion",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources."
+        },
+        {
+          "id": "HE-VIS-002",
+          "region": "shoulder_axilla_back_surface",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs."
+        },
+        {
+          "id": "HE-VIS-PEC-004",
+          "region": "chest_anterior_axilla_surface",
+          "movement_primitive": "healthy_pectoral_anterior_axillary_fold_reference",
+          "citation": "Utility of the Pectoralis Major Index in the Diagnosis of Structurally Significant Pectoralis Major Tears (2015), PMCID PMC4555516.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4555516/",
+          "derived_observations": [
+            "Healthy anterior axillary fold/pectoral curvature is consistently visible and measurable in a standardized 90° abduction/external-rotation posture.",
+            "The healthy-control cohort supports preserving a continuous pectoral curvature into the anterior fold rather than a membrane, trench or missing lateral chest transition."
+          ],
+          "uncertainty": "Static standardized pose and male-only cohort; does not establish dynamic timing or fold depth through the full elevation arc."
+        },
+        {
+          "id": "HE-VIS-003",
+          "region": "shoulder_axilla_upper_arm_surface",
+          "movement_primitive": "shoulder_axial_rotation",
+          "citation": "Evaluation of the GRASP method (2021), supplementary Video 1 demonstrating shoulder abduction and internal/external rotation measurement in healthy adults, PMCID PMC8124032.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8124032/",
+          "derived_observations": [],
+          "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges."
+        },
+        {
+          "id": "HE-VIS-SCAP-002",
+          "region": "scapular_back_shoulder_surface",
+          "movement_primitive": "upper_limb_elevation_skin_strain",
+          "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
+          "derived_observations": [
+            "Posterior scapular skin undergoes large, spatially varying strain during arm elevation rather than tracking the scapula as a rigid cover.",
+            "Strain magnitude and direction vary by elevation plane and angle, supporting angle-dependent back/shoulder drape rather than one fixed corrective shape."
+          ],
+          "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes."
+        },
+        {
+          "id": "HE-VIS-LOWER-001",
+          "region": "whole_body_lower_extremity_surface",
+          "movement_primitive": "overhead_squat",
+          "citation": "Bae et al. (2024), Concurrent validity and test reliability of the deep learning markerless motion capture system during the overhead squat, PMCID PMC11603033, Supplementary Video 1.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11603033/",
+          "derived_observations": [
+            "The overhead squat is a whole-body coupled movement and should preserve continuous trunk-pelvis-lower-limb silhouette through descent and return.",
+            "Tight-fitting clothing permits gross segment/silhouette review but does not expose skin folds or detailed glute/groin/knee soft-tissue deformation."
+          ],
+          "uncertainty": "Tight-fitting clothing and motion-capture markers obscure skin/muscle detail. Use only for gross silhouette, segment relationship and movement timing; do not close local surface-fold acceptance from this source."
+        },
+        {
+          "id": "HE-VIS-LUMBAR-002",
+          "region": "ribcage_abdomen_obliques_lumbar",
+          "movement_primitive": "multi_direction_lumbar_skin_deformation",
+          "citation": "Experimentally measured lumbar skin strains during functional movements, PMCID PMC12483186; dense exposed-skin marker grid through uniplanar, multiplanar and sit-to-stand movements.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12483186/",
+          "derived_observations": [
+            "Lumbar skin deformation is large, spatially inhomogeneous and direction-dependent rather than a rigid shell over the spine.",
+            "Flexion, extension, lateral bending and rotation produce distinct skin-strain fields; a single generic waist deformation is not sufficient.",
+            "Measured sex/inter-subject differences reinforce using a plausible range rather than a single exact skin-strain target."
+          ],
+          "uncertainty": "Marker-grid strain fields characterize skin deformation but do not alone establish abdominal/anterior torso folds or deep tissue/muscle contours."
+        },
+        {
+          "id": "HE-VIS-ELB-001",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "loaded_biceps_curl_surface_motion",
+          "citation": "Database of videos of physical exercise and sedentary behaviours (VPESB), PMCID PMC11187402; male and female biceps-curl video clips.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11187402/",
+          "derived_observations": [
+            "Real loaded biceps-curl video provides full flexion/extension cycles and return motion with upper-arm/elbow silhouette visible.",
+            "Sportswear and camera distance limit local biceps/triceps, antecubital and posterior-elbow skin-fold conclusions."
+          ],
+          "uncertainty": "Only two performers and sportswear at whole-body camera distance. Use for gross upper-arm/elbow silhouette/timing; exposed close elbow surface evidence is still required."
+        },
+        {
+          "id": "HE-VIS-ELB-002",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "elbow_flexion_extension_skin_stretch",
+          "citation": "Kuling, Brenner & Smeets (2016), Proprioceptive Localization of the Hand Changes When Skin Stretch around the Elbow Is Manipulated, PMCID PMC5073131; control experiment/figure reporting skin stretch around the elbow during flexion.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5073131/",
+          "derived_observations": [
+            "Skin stretch changes most near the elbow and decreases gradually toward proximal and distal arm regions.",
+            "The inside and outside surfaces exhibit spatially distributed skin response rather than one fixed crease/hinge line."
+          ],
+          "uncertainty": "Small elbow-angle change and skin-marker distances rather than full 3D surface reconstruction; use for local stretch-gradient logic, not exact fold depth."
+        }
+      ],
+      "open_surface_visual_needs": [
+        "chest_anterior_axilla: multi-subject dynamic anterior axillary fold from arm-by-side through full elevation and return",
+        "chest_anterior_axilla: horizontal push/pull surface",
+        "chest_anterior_axilla: return sequence",
+        "clavicle_shoulder_deltoid: multi-subject exposed/minimally obscured deltoid contour through full elevation and return",
+        "clavicle_shoulder_deltoid: more than one visible subject/body build",
+        "clavicle_shoulder_deltoid: loaded push/pull context",
+        "ribcage_abdomen_obliques_lumbar: anterior abdominal/ribcage surface through flexion, extension and rotation",
+        "ribcage_abdomen_obliques_lumbar: loaded hinge",
+        "ribcage_abdomen_obliques_lumbar: exposed-surface or minimally obscured close sequence for skin/fold detail",
+        "upperarm_elbow: full-ROM exposed elbow fold appearance/release beyond the small-angle skin-stretch study",
+        "upperarm_elbow: closer exposed/minimally obscured elbow flexion-extension sequence",
+        "upperarm_elbow: biceps/triceps surface through loaded and unloaded flexion"
+      ]
+    },
+    {
+      "repair_package_id": "RP-POSTAX-003",
+      "name": "Posterior axilla / lat / teres repair",
+      "coupling_system_id": "CP-POSTAX-003",
+      "priority": "current_blocker",
+      "body_regions": [
+        "back_posterior_axilla",
+        "clavicle_shoulder_deltoid",
+        "ribcage_abdomen_obliques_lumbar",
+        "upperarm_elbow"
+      ],
+      "linked_defect_ids": [
+        "WB-AX-001",
+        "WB-AX-004",
+        "WB-CLV-007",
+        "WB-SYM-008",
+        "WB-QA-011",
+        "WB-QA-012"
+      ],
+      "foundational_question": "Does posterior fold tissue remain trunk/scapula-rooted while the distal humeral side follows arm motion?",
+      "proximal_anchors": [
+        "posterior_trunk",
+        "thoracolumbar_region",
+        "inferior_scapular_region"
+      ],
+      "distal_anchors": [
+        "proximal_humerus_medial_intertubercular_region"
+      ],
+      "driving_joints": [
+        "glenohumeral",
+        "scapulothoracic_proxy",
+        "thoracic_spine"
+      ],
+      "must_move": [
+        "posterior axillary fold changes shape with humeral elevation",
+        "lat/teres support follows both trunk and humeral attachment sides",
+        "posterior chest/back drape changes continuously with scapular contribution"
+      ],
+      "must_remain_rooted": [
+        "broad posterior trunk mass remains trunk-rooted",
+        "distal fold remains connected to humeral insertion side"
+      ],
+      "forbidden_failures": [
+        "pointed flap",
+        "cape-like sheet",
+        "floating posterior lobe",
+        "posterior axillary trench",
+        "entire lat surface translating with arm"
+      ],
+      "weights_only_acceptance": [
+        "no flap cape lobe or posterior trench",
+        "fold changes continuously",
+        "back mass does not translate wholesale with arm",
+        "return removes transient fold changes"
+      ],
+      "regional_weights_only_criteria": {
+        "back_posterior_axilla": [
+          "broad back mass remains trunk-rooted",
+          "posterior fold follows humeral/scapular state",
+          "scapular drape remains continuous",
+          "no flap cape lobe or posterior trench",
+          "return removes transient fold changes"
+        ],
+        "clavicle_shoulder_deltoid": [
+          "clavicle/scapula/humerus surface remains coupled",
+          "deltoid remains yoke-like not spherical",
+          "anterior and posterior shoulder transitions stay broad and continuous",
+          "no arm-neck pinch or shelf",
+          "both sides comparable for mirrored input"
+        ],
+        "ribcage_abdomen_obliques_lumbar": [
+          "motion distributed rather than single waist hinge",
+          "compressed side folds while lengthened side remains continuous",
+          "ribcage-to-pelvis volume changes gradually",
+          "no knife crease or membrane stretch",
+          "twist/folds reverse on return"
+        ],
+        "upperarm_elbow": [
+          "upperarm contour changes with elbow state",
+          "antecubital/posterior folds remain joint-centered",
+          "forearm rotation does not corkscrew upper arm",
+          "no cylindrical hinge or fixed ring crease",
+          "shoulder continuity preserved"
+        ]
+      },
+      "residual_corrective_role": [
+        "local posterior-fold shaping only after base support is sound"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "vertical_pull_hang",
+        "horizontal_pull",
+        "vertical_push"
+      ],
+      "capture_views": [
+        "rear_upper_body",
+        "posterior_three_quarter",
+        "side_upper_body",
+        "inferior_axilla_close",
+        "scapular_back_close",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "posterior_trunk_root",
+        "scapular_drape",
+        "posterior_axillary_fold",
+        "lat_teres_transition",
+        "humeral_insertion_side"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90",
+        "return_45"
+      ],
+      "human_evidence": [
+        {
+          "id": "HE-AX-001",
+          "region": "axilla",
+          "movement_primitive": "neutral_and_elevated_arm",
+          "citation": "Ultrasound imaging of the axilla (2023), PMCID PMC10175532.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10175532/",
+          "derived_observations": [],
+          "uncertainty": "Deep clinical anatomy constrains structural continuity but does not define a single exterior contour or skin fold depth."
+        },
+        {
+          "id": "HE-AX-002",
+          "region": "anterior_and_posterior_axillary_folds",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels, Figure 1 photographs of the axillary base with the arm overhead and by the side, PMCID PMC11909697.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+          "derived_observations": [],
+          "uncertainty": "Static clinical positioning and limited subjects do not establish dynamic timing, muscle bulk or population-average fold depth."
+        },
+        {
+          "id": "HE-VIS-002",
+          "region": "shoulder_axilla_back_surface",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs."
+        },
+        {
+          "id": "HE-SH-001",
+          "region": "clavicle_scapula_humerus",
+          "movement_primitive": "multiplanar_humeral_elevation",
+          "citation": "Ludewig et al. (2009), Motion of the Shoulder Complex During Multiplanar Humeral Elevation, PMCID PMC2657311.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/",
+          "derived_observations": [],
+          "uncertainty": "Invasive but small cohort; controlled planar motion is not identical to free exercise motion, and values should not be treated as one universal ratio."
+        },
+        {
+          "id": "HE-SH-002",
+          "region": "scapulohumeral_complex",
+          "movement_primitive": "overhead_reach",
+          "citation": "Matsuki et al. (2011), In Vivo Assessment of Scapulohumeral Rhythm During Unconstrained Overhead Reaching in Asymptomatic Subjects, PMCID PMC2841046.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841046/",
+          "derived_observations": [],
+          "uncertainty": "Bone motion evidence does not directly specify skin thickness or axillary surface shape and cannot alone approve the rendered surface."
+        },
+        {
+          "id": "HE-VIS-SCAP-002",
+          "region": "scapular_back_shoulder_surface",
+          "movement_primitive": "upper_limb_elevation_skin_strain",
+          "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
+          "derived_observations": [
+            "Posterior scapular skin undergoes large, spatially varying strain during arm elevation rather than tracking the scapula as a rigid cover.",
+            "Strain magnitude and direction vary by elevation plane and angle, supporting angle-dependent back/shoulder drape rather than one fixed corrective shape."
+          ],
+          "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes."
+        },
+        {
+          "id": "HE-VIS-001",
+          "region": "shoulder_axilla_chest_surface",
+          "movement_primitive": "shoulder_flexion",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources."
+        },
+        {
+          "id": "HE-VIS-003",
+          "region": "shoulder_axilla_upper_arm_surface",
+          "movement_primitive": "shoulder_axial_rotation",
+          "citation": "Evaluation of the GRASP method (2021), supplementary Video 1 demonstrating shoulder abduction and internal/external rotation measurement in healthy adults, PMCID PMC8124032.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8124032/",
+          "derived_observations": [],
+          "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges."
+        },
+        {
+          "id": "HE-VIS-LOWER-001",
+          "region": "whole_body_lower_extremity_surface",
+          "movement_primitive": "overhead_squat",
+          "citation": "Bae et al. (2024), Concurrent validity and test reliability of the deep learning markerless motion capture system during the overhead squat, PMCID PMC11603033, Supplementary Video 1.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11603033/",
+          "derived_observations": [
+            "The overhead squat is a whole-body coupled movement and should preserve continuous trunk-pelvis-lower-limb silhouette through descent and return.",
+            "Tight-fitting clothing permits gross segment/silhouette review but does not expose skin folds or detailed glute/groin/knee soft-tissue deformation."
+          ],
+          "uncertainty": "Tight-fitting clothing and motion-capture markers obscure skin/muscle detail. Use only for gross silhouette, segment relationship and movement timing; do not close local surface-fold acceptance from this source."
+        },
+        {
+          "id": "HE-VIS-LUMBAR-002",
+          "region": "ribcage_abdomen_obliques_lumbar",
+          "movement_primitive": "multi_direction_lumbar_skin_deformation",
+          "citation": "Experimentally measured lumbar skin strains during functional movements, PMCID PMC12483186; dense exposed-skin marker grid through uniplanar, multiplanar and sit-to-stand movements.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12483186/",
+          "derived_observations": [
+            "Lumbar skin deformation is large, spatially inhomogeneous and direction-dependent rather than a rigid shell over the spine.",
+            "Flexion, extension, lateral bending and rotation produce distinct skin-strain fields; a single generic waist deformation is not sufficient.",
+            "Measured sex/inter-subject differences reinforce using a plausible range rather than a single exact skin-strain target."
+          ],
+          "uncertainty": "Marker-grid strain fields characterize skin deformation but do not alone establish abdominal/anterior torso folds or deep tissue/muscle contours."
+        },
+        {
+          "id": "HE-VIS-ELB-001",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "loaded_biceps_curl_surface_motion",
+          "citation": "Database of videos of physical exercise and sedentary behaviours (VPESB), PMCID PMC11187402; male and female biceps-curl video clips.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11187402/",
+          "derived_observations": [
+            "Real loaded biceps-curl video provides full flexion/extension cycles and return motion with upper-arm/elbow silhouette visible.",
+            "Sportswear and camera distance limit local biceps/triceps, antecubital and posterior-elbow skin-fold conclusions."
+          ],
+          "uncertainty": "Only two performers and sportswear at whole-body camera distance. Use for gross upper-arm/elbow silhouette/timing; exposed close elbow surface evidence is still required."
+        },
+        {
+          "id": "HE-VIS-ELB-002",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "elbow_flexion_extension_skin_stretch",
+          "citation": "Kuling, Brenner & Smeets (2016), Proprioceptive Localization of the Hand Changes When Skin Stretch around the Elbow Is Manipulated, PMCID PMC5073131; control experiment/figure reporting skin stretch around the elbow during flexion.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5073131/",
+          "derived_observations": [
+            "Skin stretch changes most near the elbow and decreases gradually toward proximal and distal arm regions.",
+            "The inside and outside surfaces exhibit spatially distributed skin response rather than one fixed crease/hinge line."
+          ],
+          "uncertainty": "Small elbow-angle change and skin-marker distances rather than full 3D surface reconstruction; use for local stretch-gradient logic, not exact fold depth."
+        }
+      ],
+      "open_surface_visual_needs": [
+        "back_posterior_axilla: loaded pull/push posterior fold and scapular drape with minimally obscured surface",
+        "back_posterior_axilla: multi-subject posterior fold/lat-teres transition",
+        "back_posterior_axilla: return sequence",
+        "clavicle_shoulder_deltoid: multi-subject exposed/minimally obscured deltoid contour through full elevation and return",
+        "clavicle_shoulder_deltoid: more than one visible subject/body build",
+        "clavicle_shoulder_deltoid: loaded push/pull context",
+        "ribcage_abdomen_obliques_lumbar: anterior abdominal/ribcage surface through flexion, extension and rotation",
+        "ribcage_abdomen_obliques_lumbar: loaded hinge",
+        "ribcage_abdomen_obliques_lumbar: exposed-surface or minimally obscured close sequence for skin/fold detail",
+        "upperarm_elbow: full-ROM exposed elbow fold appearance/release beyond the small-angle skin-stretch study",
+        "upperarm_elbow: closer exposed/minimally obscured elbow flexion-extension sequence",
+        "upperarm_elbow: biceps/triceps surface through loaded and unloaded flexion"
+      ]
+    },
+    {
+      "repair_package_id": "RP-DELTOID-004",
+      "name": "Deltoid shoulder-yoke repair",
+      "coupling_system_id": "CP-DELTOID-004",
+      "priority": "current_blocker",
+      "body_regions": [
+        "clavicle_shoulder_deltoid",
+        "upperarm_elbow"
+      ],
+      "linked_defect_ids": [
+        "WB-AX-001",
+        "WB-PEC-002",
+        "WB-AX-004",
+        "WB-SHO-005",
+        "WB-SHO-006",
+        "WB-CLV-007",
+        "WB-SYM-008",
+        "WB-QA-011",
+        "WB-QA-012"
+      ],
+      "foundational_question": "Does the deltoid stay coupled to clavicle/acromion/scapular spine and humerus rather than behaving as a rigid sphere?",
+      "proximal_anchors": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine"
+      ],
+      "distal_anchors": [
+        "deltoid_tuberosity_humerus"
+      ],
+      "driving_joints": [
+        "sternoclavicular",
+        "acromioclavicular",
+        "scapulothoracic_proxy",
+        "glenohumeral"
+      ],
+      "must_move": [
+        "anterior/middle/posterior deltoid surface changes with motion plane",
+        "cap remains coupled to both shoulder girdle and humerus",
+        "upper-arm transition broadens/narrows continuously rather than stepping"
+      ],
+      "must_remain_rooted": [
+        "clavicle/acromion/scapular-spine origin neighborhoods",
+        "humeral insertion neighborhood"
+      ],
+      "forbidden_failures": [
+        "rigid spherical cap",
+        "balloon cap",
+        "abrupt arm necking",
+        "deltoid detached from clavicle/acromion",
+        "single-bone ownership seam"
+      ],
+      "weights_only_acceptance": [
+        "no rigid or balloon sphere",
+        "no abrupt upper-arm necking",
+        "no detachment from clavicle/acromion",
+        "plane-dependent contour change present"
+      ],
+      "regional_weights_only_criteria": {
+        "clavicle_shoulder_deltoid": [
+          "clavicle/scapula/humerus surface remains coupled",
+          "deltoid remains yoke-like not spherical",
+          "anterior and posterior shoulder transitions stay broad and continuous",
+          "no arm-neck pinch or shelf",
+          "both sides comparable for mirrored input"
+        ],
+        "upperarm_elbow": [
+          "upperarm contour changes with elbow state",
+          "antecubital/posterior folds remain joint-centered",
+          "forearm rotation does not corkscrew upper arm",
+          "no cylindrical hinge or fixed ring crease",
+          "shoulder continuity preserved"
+        ]
+      },
+      "residual_corrective_role": [
+        "subtle cap/plane refinement across joint-state domain"
+      ],
+      "proof_movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "horizontal_pull"
+      ],
+      "capture_views": [
+        "front_upper_body",
+        "rear_upper_body",
+        "lateral_shoulder_close",
+        "anterior_three_quarter",
+        "posterior_three_quarter",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine",
+        "deltoid_cap",
+        "deltoid_tuberosity_transition"
+      ],
+      "special_samples": [
+        "arm_elevation_0",
+        "45",
+        "90",
+        "120",
+        "150",
+        "170",
+        "return_90"
+      ],
+      "human_evidence": [
+        {
+          "id": "HE-ATT-DEL-001",
+          "region": "deltoid_shoulderyoke",
+          "movement_primitive": "shared_tissue_attachment",
+          "citation": "StatPearls, Anatomy, Thorax, Scapula — deltoid origin from lateral clavicle/acromion/scapular spine and insertion at deltoid tuberosity.",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK538319/",
+          "derived_observations": [
+            "The deltoid is anchored to clavicle/acromion/scapular spine and inserts on the humerus, so shoulder motion must redistribute its surface form between shoulder-girdle and humeral anchors.",
+            "A deltoid cap cannot be treated as a rigid sphere attached only to the humerus."
+          ],
+          "uncertainty": "Anatomical attachment reference does not prescribe exact exterior contour or deformation magnitude."
+        },
+        {
+          "id": "HE-SH-001",
+          "region": "clavicle_scapula_humerus",
+          "movement_primitive": "multiplanar_humeral_elevation",
+          "citation": "Ludewig et al. (2009), Motion of the Shoulder Complex During Multiplanar Humeral Elevation, PMCID PMC2657311.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/",
+          "derived_observations": [],
+          "uncertainty": "Invasive but small cohort; controlled planar motion is not identical to free exercise motion, and values should not be treated as one universal ratio."
+        },
+        {
+          "id": "HE-SH-002",
+          "region": "scapulohumeral_complex",
+          "movement_primitive": "overhead_reach",
+          "citation": "Matsuki et al. (2011), In Vivo Assessment of Scapulohumeral Rhythm During Unconstrained Overhead Reaching in Asymptomatic Subjects, PMCID PMC2841046.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841046/",
+          "derived_observations": [],
+          "uncertainty": "Bone motion evidence does not directly specify skin thickness or axillary surface shape and cannot alone approve the rendered surface."
+        },
+        {
+          "id": "HE-VIS-003",
+          "region": "shoulder_axilla_upper_arm_surface",
+          "movement_primitive": "shoulder_axial_rotation",
+          "citation": "Evaluation of the GRASP method (2021), supplementary Video 1 demonstrating shoulder abduction and internal/external rotation measurement in healthy adults, PMCID PMC8124032.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8124032/",
+          "derived_observations": [],
+          "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges."
+        },
+        {
+          "id": "HE-VIS-001",
+          "region": "shoulder_axilla_chest_surface",
+          "movement_primitive": "shoulder_flexion",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources."
+        },
+        {
+          "id": "HE-VIS-002",
+          "region": "shoulder_axilla_back_surface",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs."
+        },
+        {
+          "id": "HE-VIS-SCAP-002",
+          "region": "scapular_back_shoulder_surface",
+          "movement_primitive": "upper_limb_elevation_skin_strain",
+          "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
+          "derived_observations": [
+            "Posterior scapular skin undergoes large, spatially varying strain during arm elevation rather than tracking the scapula as a rigid cover.",
+            "Strain magnitude and direction vary by elevation plane and angle, supporting angle-dependent back/shoulder drape rather than one fixed corrective shape."
+          ],
+          "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes."
+        },
+        {
+          "id": "HE-VIS-ELB-001",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "loaded_biceps_curl_surface_motion",
+          "citation": "Database of videos of physical exercise and sedentary behaviours (VPESB), PMCID PMC11187402; male and female biceps-curl video clips.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11187402/",
+          "derived_observations": [
+            "Real loaded biceps-curl video provides full flexion/extension cycles and return motion with upper-arm/elbow silhouette visible.",
+            "Sportswear and camera distance limit local biceps/triceps, antecubital and posterior-elbow skin-fold conclusions."
+          ],
+          "uncertainty": "Only two performers and sportswear at whole-body camera distance. Use for gross upper-arm/elbow silhouette/timing; exposed close elbow surface evidence is still required."
+        },
+        {
+          "id": "HE-VIS-ELB-002",
+          "region": "upperarm_elbow_surface",
+          "movement_primitive": "elbow_flexion_extension_skin_stretch",
+          "citation": "Kuling, Brenner & Smeets (2016), Proprioceptive Localization of the Hand Changes When Skin Stretch around the Elbow Is Manipulated, PMCID PMC5073131; control experiment/figure reporting skin stretch around the elbow during flexion.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5073131/",
+          "derived_observations": [
+            "Skin stretch changes most near the elbow and decreases gradually toward proximal and distal arm regions.",
+            "The inside and outside surfaces exhibit spatially distributed skin response rather than one fixed crease/hinge line."
+          ],
+          "uncertainty": "Small elbow-angle change and skin-marker distances rather than full 3D surface reconstruction; use for local stretch-gradient logic, not exact fold depth."
+        }
+      ],
+      "open_surface_visual_needs": [
+        "clavicle_shoulder_deltoid: multi-subject exposed/minimally obscured deltoid contour through full elevation and return",
+        "clavicle_shoulder_deltoid: more than one visible subject/body build",
+        "clavicle_shoulder_deltoid: loaded push/pull context",
+        "upperarm_elbow: full-ROM exposed elbow fold appearance/release beyond the small-angle skin-stretch study",
+        "upperarm_elbow: closer exposed/minimally obscured elbow flexion-extension sequence",
+        "upperarm_elbow: biceps/triceps surface through loaded and unloaded flexion"
+      ]
+    },
+    {
+      "repair_package_id": "RP-NECK-TRAP-001",
+      "name": "Neck / trapezius / shoulder-girdle repair",
+      "coupling_system_id": "CP-NECK-TRAP-001",
+      "priority": "after_current_shoulder_recovery",
+      "body_regions": [
+        "head_neck_trapezius",
+        "clavicle_shoulder_deltoid",
+        "back_posterior_axilla"
+      ],
+      "linked_defect_ids": [
+        "WB-AX-004",
+        "WB-SHO-005",
+        "WB-CLV-007",
+        "WB-SYM-008",
+        "WB-QA-011",
+        "WB-QA-012"
+      ],
+      "foundational_question": "Does distributed cervical and shoulder-girdle motion create a continuous neck-to-trapezius-to-clavicle/scapular surface before any corrective?",
+      "proximal_anchors": [
+        "occiput",
+        "cervical_spine",
+        "upper_thoracic_spine"
+      ],
+      "distal_anchors": [
+        "lateral_clavicle",
+        "acromion",
+        "scapular_spine"
+      ],
+      "driving_joints": [
+        "cervical_segments",
+        "sternoclavicular",
+        "acromioclavicular",
+        "scapulothoracic_proxy"
+      ],
+      "must_move": [
+        "neck surface follows distributed cervical motion rather than one rigid hinge",
+        "trapezius/neck-to-shoulder slope responds to scapular/clavicular motion",
+        "posterior shoulder-girdle surface changes continuously through arm elevation"
+      ],
+      "must_remain_rooted": [
+        "midline cervical/thoracic attachment remains continuous with trunk",
+        "shoulder end remains coupled to clavicle/scapular landmarks"
+      ],
+      "forbidden_failures": [
+        "rigid collar",
+        "rear shoulder shelf",
+        "floating trapezius lobe",
+        "neck pinch",
+        "scapular drape detachment",
+        "persistent asymmetry in symmetric motion"
+      ],
+      "weights_only_acceptance": [
+        "no rigid collar",
+        "no rear shoulder shelf",
+        "no floating trapezius lobe",
+        "no neck pinch",
+        "smooth change through intermediate and return frames"
+      ],
+      "regional_weights_only_criteria": {
+        "head_neck_trapezius": [
+          "distributed neck/trunk participation where applicable",
+          "neck-to-trap slope remains continuous",
+          "shoulder-girdle motion does not detach posterior neck/trap surface",
+          "no rigid collar or pinch",
+          "return restores neutral contour"
+        ],
+        "clavicle_shoulder_deltoid": [
+          "clavicle/scapula/humerus surface remains coupled",
+          "deltoid remains yoke-like not spherical",
+          "anterior and posterior shoulder transitions stay broad and continuous",
+          "no arm-neck pinch or shelf",
+          "both sides comparable for mirrored input"
+        ],
+        "back_posterior_axilla": [
+          "broad back mass remains trunk-rooted",
+          "posterior fold follows humeral/scapular state",
+          "scapular drape remains continuous",
+          "no flap cape lobe or posterior trench",
+          "return removes transient fold changes"
+        ]
+      },
+      "residual_corrective_role": [
+        "subtle trap/deltoid blend refinement only after base continuity is plausible"
+      ],
+      "proof_movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "shoulder_abduction_elevation"
+      ],
+      "capture_views": [
+        "front_upper_body",
+        "rear_upper_body",
+        "side_neck",
+        "rear_three_quarter_neck_trap",
+        "whole_body"
+      ],
+      "close_landmarks": [
+        "occiput_to_cervical_surface",
+        "neck_to_trapezius_slope",
+        "clavicle_acromion_end",
+        "scapular_spine_region"
+      ],
+      "special_samples": [],
+      "human_evidence": [
+        {
+          "id": "HE-NECK-001",
+          "region": "cervical_spine",
+          "movement_primitive": "neck_flexion_extension",
+          "citation": "The global end-ranges of neck flexion and extension do not represent the maximum rotational ranges of the cervical intervertebral joints in healthy adults, PMCID PMC8145792.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8145792/",
+          "derived_observations": [
+            "Cervical motion is distributed across multiple segments rather than behaving as one rigid neck hinge.",
+            "For roughly half of measured joints, maximum segmental rotation occurred before the global end-range position.",
+            "Intermediate neck frames therefore matter: endpoint-only validation can miss non-human segmental timing."
+          ],
+          "uncertainty": "Controlled seated flexion/extension and mostly young cohort; does not directly define trapezius/skin surface form."
+        },
+        {
+          "id": "HE-SH-001",
+          "region": "clavicle_scapula_humerus",
+          "movement_primitive": "multiplanar_humeral_elevation",
+          "citation": "Ludewig et al. (2009), Motion of the Shoulder Complex During Multiplanar Humeral Elevation, PMCID PMC2657311.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657311/",
+          "derived_observations": [],
+          "uncertainty": "Invasive but small cohort; controlled planar motion is not identical to free exercise motion, and values should not be treated as one universal ratio."
+        },
+        {
+          "id": "HE-SH-002",
+          "region": "scapulohumeral_complex",
+          "movement_primitive": "overhead_reach",
+          "citation": "Matsuki et al. (2011), In Vivo Assessment of Scapulohumeral Rhythm During Unconstrained Overhead Reaching in Asymptomatic Subjects, PMCID PMC2841046.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841046/",
+          "derived_observations": [],
+          "uncertainty": "Bone motion evidence does not directly specify skin thickness or axillary surface shape and cannot alone approve the rendered surface."
+        },
+        {
+          "id": "HE-VIS-001",
+          "region": "shoulder_axilla_chest_surface",
+          "movement_primitive": "shoulder_flexion",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against other sources."
+        },
+        {
+          "id": "HE-VIS-002",
+          "region": "shoulder_axilla_back_surface",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Parel et al. (2020), supplementary Video 1 showing a typical healthy-adult flexion and abduction measurement session, PMCID PMC7221052.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7221052/",
+          "derived_observations": [],
+          "uncertainty": "Sensors, straps and clothing obscure some skin; use motion continuity and gross contour only, cross-checked against the clinical axilla photographs."
+        },
+        {
+          "id": "HE-VIS-NECK-001",
+          "region": "head_neck_trapezius_surface",
+          "movement_primitive": "cervical_multi_direction_surface_motion",
+          "citation": "Feng et al. (2019), Measurements of cervical range of motion using an optical motion capture system: Repeatability and validity, PMCID PMC6862302; Videos S1-S6.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6862302/",
+          "derived_observations": [
+            "Six real-human video sequences show slow flexion, extension, bilateral lateral bending and bilateral rotation with return to neutral.",
+            "The source can constrain gross neck/shoulder silhouette and reversibility but cannot close exposed-skin fold or trapezius-detail acceptance because of the cat suit and markers."
+          ],
+          "uncertainty": "Young cohort and cat suit/markers obscure detailed surface anatomy. Use as partial gross surface/timing evidence only."
+        },
+        {
+          "id": "HE-VIS-003",
+          "region": "shoulder_axilla_upper_arm_surface",
+          "movement_primitive": "shoulder_axial_rotation",
+          "citation": "Evaluation of the GRASP method (2021), supplementary Video 1 demonstrating shoulder abduction and internal/external rotation measurement in healthy adults, PMCID PMC8124032.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8124032/",
+          "derived_observations": [],
+          "uncertainty": "Passive clinical measurement at 45 degrees abduction is not loaded exercise; use it to reject discontinuities, not to prescribe exact muscle bulges."
+        },
+        {
+          "id": "HE-VIS-SCAP-002",
+          "region": "scapular_back_shoulder_surface",
+          "movement_primitive": "upper_limb_elevation_skin_strain",
+          "citation": "Skin Strain Analysis of the Scapular Region and Wearables Design (2021), PMCID PMC8434297.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8434297/",
+          "derived_observations": [
+            "Posterior scapular skin undergoes large, spatially varying strain during arm elevation rather than tracking the scapula as a rigid cover.",
+            "Strain magnitude and direction vary by elevation plane and angle, supporting angle-dependent back/shoulder drape rather than one fixed corrective shape."
+          ],
+          "uncertainty": "Small cohort and marker-grid measurements; use for distribution/direction logic, not exact production strain magnitudes."
+        },
+        {
+          "id": "HE-AX-002",
+          "region": "anterior_and_posterior_axillary_folds",
+          "movement_primitive": "shoulder_abduction",
+          "citation": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels, Figure 1 photographs of the axillary base with the arm overhead and by the side, PMCID PMC11909697.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+          "derived_observations": [],
+          "uncertainty": "Static clinical positioning and limited subjects do not establish dynamic timing, muscle bulk or population-average fold depth."
+        }
+      ],
+      "open_surface_visual_needs": [
+        "head_neck_trapezius: minimally obscured neck/trapezius close sequence for skin/fold detail",
+        "head_neck_trapezius: shoulder-girdle motion showing neck-to-trapezius surface coupling",
+        "clavicle_shoulder_deltoid: multi-subject exposed/minimally obscured deltoid contour through full elevation and return",
+        "clavicle_shoulder_deltoid: more than one visible subject/body build",
+        "clavicle_shoulder_deltoid: loaded push/pull context",
+        "back_posterior_axilla: loaded pull/push posterior fold and scapular drape with minimally obscured surface",
+        "back_posterior_axilla: multi-subject posterior fold/lat-teres transition",
+        "back_posterior_axilla: return sequence"
+      ]
+    }
+  ],
+  "note": "Current development brief only. Human sources constrain observed behavior; no external subject geometry/images/scans/coordinates are production content."
+}

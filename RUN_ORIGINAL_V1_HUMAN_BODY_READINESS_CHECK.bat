@@ -36,6 +36,20 @@ call :run scripts\validate_original_v1_surface_visual_evidence_requirements.py
 if errorlevel 1 exit /b 1
 call :run scripts\validate_original_v1_anatomical_coupling_capture_plan.py
 if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_first_party_deformation_architecture.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_defect_coupling_map.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_anatomical_repair_packages.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_deformation_diagnosis_tree.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_weights_only_contract.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_pose_evidence_planning.py
+if errorlevel 1 exit /b 1
+call :run scripts\validate_original_v1_candidate_comparison_template.py
+if errorlevel 1 exit /b 1
 
 echo.
 echo ============================================================

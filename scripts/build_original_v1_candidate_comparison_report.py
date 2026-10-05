@@ -21,6 +21,7 @@ DEFECT_COUPLING=ROOT/"ORIGINAL_V1_DEFECT_COUPLING_MAP.json"
 POSE_MOVEMENT_MAP=ROOT/"ORIGINAL_V1_POSE_MOVEMENT_FAMILY_MAP.json"
 SWEEP_PLAN=ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
 SWEEP_ACCEPTANCE_VALIDATOR=ROOT/"scripts/validate_original_v1_human_movement_sweep_acceptance.py"
+MOVEMENT_COUPLING_VALIDATOR=ROOT/"scripts/validate_original_v1_movement_coupling_evidence.py"
 
 SHA_RE=re.compile(r"^[0-9a-f]{64}$")
 BLOCKING_STATES={"open","in progress","pending review","not_run","fail","blocked"}
@@ -74,11 +75,16 @@ def load_sweep_acceptance_validator():
     return mod
 
 
-def required_sweep_only_movements(scope,repair_by):
-    posemap=json.loads(POSE_MOVEMENT_MAP.read_text(encoding="utf-8"))
-    sweep_plan=json.loads(SWEEP_PLAN.read_text(encoding="utf-8"))
-    pose_moves={m for moves in (posemap.get("mappings") or {}).values() for m in moves}
-    sweep_moves=set((sweep_plan.get("sweeps") or {}).keys())
+def load_movement_coupling_validator():
+    spec=importlib.util.spec_from_file_location("original_v1_movement_coupling",MOVEMENT_COUPLING_VALIDATOR)
+    if spec is None or spec.loader is None:
+        raise ValueError("unable to load movement coupling validator")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def required_proof_movements(scope,repair_by):
     proof=[]
     for pid in scope.get("repair_package_ids",[]):
         row=repair_by.get(pid)
@@ -87,6 +93,15 @@ def required_sweep_only_movements(scope,repair_by):
         for movement in row.get("proof_movements",[]):
             if movement not in proof:
                 proof.append(movement)
+    return proof
+
+
+def required_sweep_only_movements(scope,repair_by):
+    posemap=json.loads(POSE_MOVEMENT_MAP.read_text(encoding="utf-8"))
+    sweep_plan=json.loads(SWEEP_PLAN.read_text(encoding="utf-8"))
+    pose_moves={m for moves in (posemap.get("mappings") or {}).values() for m in moves}
+    sweep_moves=set((sweep_plan.get("sweeps") or {}).keys())
+    proof=required_proof_movements(scope,repair_by)
     return [m for m in proof if m in sweep_moves and m not in pose_moves]
 
 
@@ -198,9 +213,24 @@ def build(manifest,base):
             state=by.get(cid,{}).get("engineering_disposition")
             check(f"coupling:{cid}",state=="CLEAR",state or "missing")
 
+    required_movements=required_proof_movements(scope,repair_by)
     if me is not None:
         incomplete=[x.get("sample_id") for x in me.get("samples",[]) if x.get("state")!="COMPLETE"]
         check("movement_coupling_samples_complete",not incomplete,{"incomplete":incomplete})
+        try:
+            mcv=load_movement_coupling_validator()
+            validated=mcv.validate(me,mcv.read(mcv.TRIGGERS),mcv.read(mcv.MASTER),True)
+        except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
+            check("movement_coupling_contract_valid",False,str(exc))
+        else:
+            check("movement_coupling_contract_valid",True,validated)
+        complete_moves={x.get("movement_family") for x in me.get("samples",[]) if x.get("state")=="COMPLETE"}
+        for movement in required_movements:
+            check(f"movement_coupling_proof:{movement}",movement in complete_moves,
+                  {"required_movement":movement,"complete_movement_samples":sorted(x for x in complete_moves if x)})
+    else:
+        for movement in required_movements:
+            check(f"movement_coupling_proof:{movement}",False,"movement coupling evidence missing")
 
     if rev is not None:
         check("motion_reversibility_clean",rev.get("overall_status")=="CLEAN",rev.get("overall_status"))
@@ -399,6 +429,7 @@ def build(manifest,base):
       "parent_open_critical_high":sorted(parent_block),
       "candidate_open_critical_high":sorted(cand_block),
       "new_open_critical_high":new_blockers,
+      "required_proof_movements":required_movements,
       "required_sweep_only_movements":required_sweeps,
       "accepted_sweep_only_movements":sorted(x for x in accepted_sweeps if x in required_sweeps),
       "engineering_clear_eligible":eligible,

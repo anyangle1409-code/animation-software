@@ -22,6 +22,11 @@
       "category": "verification",
       "generator": "scripts/build_original_v1_human_body_status.py",
       "note": "Generated concise whole-body status: current master stage, blockers, coverage and exact next sequence."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweeps.py",
+      "note": "Deterministic audit sweeps for grip release, trunk flexion/extension/lateral bend/rotation, loaded hip hinge, hip ab/adduction and ankle plantarflexion."
     }
   },
   "categories": {

@@ -87,6 +87,10 @@ def validate(d,require_calibrated=False):
             raise ValueError(f"{sid}: required human evidence differs from execution spec")
         unknown_refs=sorted(set(row.get("human_evidence_review_refs") or [])-known_human)
         if unknown_refs: raise ValueError(f"{sid}: unknown human evidence review refs {unknown_refs}")
+        if row.get("engineering_review_status") not in {"PENDING","PASS","FAIL"}:
+            raise ValueError(f"{sid}: engineering_review_status invalid")
+        if row.get("human_evidence_review_status") not in {"PENDING","PASS","FAIL"}:
+            raise ValueError(f"{sid}: human_evidence_review_status invalid")
         checks=row.get("automatic_checks") or {}
         for key in ("raw_report_contract_validated","sample_order_validated","return_samples_present","candidate_identity_bound"):
             if key not in checks: raise ValueError(f"{sid}: automatic check missing {key}")
@@ -108,6 +112,10 @@ def validate(d,require_calibrated=False):
                     raise ValueError("hip_abduction_adduction: mirrored input evidence not bound to raw report")
         if state=="CALIBRATED":
             calibrated+=1
+            if row.get("engineering_review_status")!="PASS":
+                raise ValueError(f"{sid}: CALIBRATED without per-adapter engineering review PASS")
+            if row.get("human_evidence_review_status")!="PASS":
+                raise ValueError(f"{sid}: CALIBRATED without per-adapter human-evidence review PASS")
             if not all(checks.get(k) is True for k in checks):
                 raise ValueError(f"{sid}: CALIBRATED with incomplete automatic checks")
             refs=set(row.get("human_evidence_review_refs") or [])

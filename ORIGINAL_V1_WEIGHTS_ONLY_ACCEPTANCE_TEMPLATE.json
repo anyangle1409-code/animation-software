@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "status": "WEIGHTS_ONLY_ACCEPTANCE_NOT_RUN",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "source_branch": null,
+  "contract": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT.json",
+  "regions": [
+    {
+      "id": "head_neck_trapezius",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "back_posterior_axilla",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "upperarm_elbow",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "forearm_wrist",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "thigh_knee",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    },
+    {
+      "id": "foot_toes",
+      "state": "NOT_RUN",
+      "evidence_refs": [],
+      "linked_defect_ids": [],
+      "checks": {
+        "attachment_continuity": false,
+        "shared_ownership_gradient": false,
+        "volume_conservation_and_redistribution": false,
+        "lengthening_compression_direction": false,
+        "fold_crease_mechanical_logic": false,
+        "silhouette_continuity": false,
+        "dense_motion_continuity": false,
+        "return_reversibility": false,
+        "bilateral_consistency": false,
+        "contact_load_path_if_applicable": null
+      },
+      "notes": []
+    }
+  ],
+  "summary": {
+    "clear": 0,
+    "fail": 0,
+    "not_run": 12,
+    "production_approved": false
+  },
+  "note": "Fresh candidate-specific copy only. CLEAR is engineering clearance of weights-only anatomy, not owner acceptance or production approval."
+}

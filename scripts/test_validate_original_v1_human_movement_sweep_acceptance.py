@@ -12,7 +12,48 @@ class SweepAcceptanceTests(unittest.TestCase):
 
     def fixture(self,root,sweep="trunk_flexion"):
         csha="a"*64; plan=mod.read(mod.PLAN)["sweeps"][sweep]
-        raw=self.write(root,"raw.json",{"candidate_sha256":csha,"source_saved_or_modified":False,"sweeps":{sweep:{}}})
+        spec=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_text(encoding="utf-8"))
+        sr=spec["sweeps"][sweep]
+        samples=[]
+        variants=["l","r"] if sweep=="hip_abduction_adduction" else [None]
+        for variant in variants:
+            for sample in sr["samples"]:
+                samples.append({
+                  "label":sample["label"],
+                  "return_leg":bool(sample.get("return_leg",False)),
+                  "input":{k:v for k,v in sample.items() if k!="label"},
+                  "variant":variant,
+                  "joint_state_sha256":"1"*64,
+                  "snapshot_sha256":"2"*64,
+                  "snapshot":{"final_surface":{},"weights_only_surface":{},"corrective_contribution":{},"shape_key_values":{},"joint_state":{}}
+                })
+        raw_obj={
+          "schema_version":1,"status":"READ_ONLY_GENERIC_HUMAN_MOVEMENT_SWEEP_AUDIT","production_approved":False,
+          "candidate":"candidate.blend","candidate_sha256":csha,"candidate_sha256_before":csha,"candidate_sha256_after":csha,
+          "runner_script_sha256":hashlib.sha256((mod.ROOT/"scripts/audit_original_v1_human_movement_sweeps_blender.py").read_bytes()).hexdigest(),
+          "pose_definition_sha256":hashlib.sha256((mod.ROOT/"scripts/pose_test_original_v1_o4_candidate_blender.py").read_bytes()).hexdigest(),
+          "flexion_driver_sha256":hashlib.sha256((mod.ROOT/"scripts/original_v1_flexion_driver.py").read_bytes()).hexdigest(),
+          "movement_plan_sha256":hashlib.sha256((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json").read_bytes()).hexdigest(),
+          "sweep_execution_spec_sha256":hashlib.sha256((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json").read_bytes()).hexdigest(),
+          "blender_version":"fixture","source_saved_or_modified":False,
+          "calibration_state":"EXPERIMENTAL_UNCALIBRATED","evidence_readiness":"DIAGNOSTIC_ONLY_INCOMPLETE",
+          "runner_capabilities":{
+            "deterministic_joint_state_sampling":"IMPLEMENTED","per_sample_joint_state_hash":"IMPLEMENTED",
+            "weights_only_surface_summary":"IMPLEMENTED","corrective_contribution_summary":"IMPLEMENTED",
+            "runner_script_hash":"IMPLEMENTED","end_of_run_source_rehash":"IMPLEMENTED",
+            "visual_capture_manifest":"NOT_IMPLEMENTED","required_regional_renders":"NOT_IMPLEMENTED","contact_load_state":"NOT_IMPLEMENTED"
+          },
+          "diagnostic_limitations":["fixture diagnostic limitations"],
+          "sweeps":{sweep:{
+            "implementation_status":sr["implementation_status"],
+            "plan_evidence_ids":sr["evidence_ids"],"plan_regions":sr["regions"],"plan_cameras":sr["cameras"],
+            "samples":samples,"visual_capture_status":"NOT_IMPLEMENTED",
+            "contact_load_required":bool(sr.get("contact_load_required")),
+            "contact_load_status":"NOT_IMPLEMENTED" if sr.get("contact_load_required") else "NOT_APPLICABLE",
+            "engineering_review":"PENDING","owner_review":"PENDING"
+          }}
+        }
+        raw=self.write(root,"raw.json",raw_obj)
         cal_template=json.loads((mod.ROOT/"ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json").read_text(encoding="utf-8"))
         cal_template["calibration_candidate_revision"]="r95"
         cal_template["calibration_candidate_sha256"]="f"*64

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate the ORIGINAL-v1 joint-to-tissue trigger map."""
 from __future__ import annotations
-import json, re
+import argparse, json, re
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -51,10 +51,28 @@ def validate(t,c):
     if not t.get("failure_rule"): raise ValueError("failure_rule missing")
     return True
 
+def required_for_bones(t,bones):
+    matched=[]
+    required=set()
+    for row in t.get("rules",[]):
+        hits=[b for b in bones if any(re.fullmatch(p,b) for p in row.get("bone_patterns",[]))]
+        if hits:
+            matched.append({"rule_id":row["id"],"joint_family":row["joint_family"],"bones":sorted(hits),
+                            "required_coupling_system_ids":row["required_coupling_system_ids"]})
+            required.update(row["required_coupling_system_ids"])
+    unmatched=[b for b in bones if not any(re.fullmatch(p,b) for r in t.get("rules",[]) for p in r.get("bone_patterns",[]))]
+    return {"matched_rules":matched,"required_coupling_system_ids":sorted(required),"unmatched_bones":sorted(unmatched)}
+
 def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--bones",help="comma-separated moved bone names")
+    args=ap.parse_args()
     try:
-        validate(read(TRIGGER),read(COUPLING))
+        trigger=read(TRIGGER); validate(trigger,read(COUPLING))
         print("JOINT-TISSUE TRIGGER MAP: PASS")
+        if args.bones:
+            bones=[x.strip() for x in args.bones.split(",") if x.strip()]
+            print(json.dumps(required_for_bones(trigger,bones),indent=2))
         return 0
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError) as exc:
         print("STOP — "+str(exc))

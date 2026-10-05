@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_VISUAL_CAPTURE_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "sweep_id": null,
+  "raw_sweep_report_path": null,
+  "samples": [],
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Sample order and required camera IDs come only from the authoritative sweep plan.",
+    "Every required image must exist, have a recorded SHA-256 and identify the exact candidate/sweep/sample/camera.",
+    "A capture manifest is raw visual evidence; it does not by itself grant anatomical PASS.",
+    "Missing samples, missing required cameras or hash mismatch fail closed.",
+    "Owner review and production approval remain separate."
+  ]
+}

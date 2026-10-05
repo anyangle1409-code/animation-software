@@ -203,6 +203,12 @@
       "generator": "scripts/build_original_v1_stage1_wave_work_package.py",
       "runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
       "note": "Builds an exact dependency-aware Stage 1 wave brief: packages, coupling/body scope, closure-eligible vs regression-linked defects, frozen poses, deterministic sweep requirements, regression neighbours, blockers, exit criteria and operator commands."
+    },
+    "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_movement_sweep_execution.py",
+      "work_package": "docs/work_packages/GENERIC_HUMAN_MOVEMENT_SWEEP_RUNNER_20261005.md",
+      "note": "Separates deterministic sweep-definition readiness from actual Blender runner binding/candidate execution. --require-bound is the future fail-closed implementation gate."
     }
   },
   "categories": {

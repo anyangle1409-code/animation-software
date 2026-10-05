@@ -12,6 +12,16 @@
       "category": "authority",
       "validator": "scripts/validate_original_v1_human_body_master_plan.py",
       "note": "Machine-readable governing plan for whole-body human movement/anatomy progression; open Critical/High whole-body issues override historical phase readiness."
+    },
+    "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json": {
+      "category": "verification",
+      "validator": "scripts/validate_original_v1_human_body_master_plan.py",
+      "note": "Whole-body region and movement-family proof matrix under the authoritative human-body master plan."
+    },
+    "ORIGINAL_V1_HUMAN_BODY_STATUS.json": {
+      "category": "verification",
+      "generator": "scripts/build_original_v1_human_body_status.py",
+      "note": "Generated concise whole-body status: current master stage, blockers, coverage and exact next sequence."
     }
   },
   "categories": {
@@ -281,6 +291,10 @@
     "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md": {
       "category": "authority",
       "note": "Authoritative ORIGINAL-v1 human-body progression plan. Governs foundation, regional proof, movement-family proof and later high-detail stages; historical Phase 0-12 roadmap is subordinate for anatomical readiness."
+    },
+    "docs/ORIGINAL_V1_HUMAN_BODY_STATUS.md": {
+      "category": "verification",
+      "note": "Phone-friendly generated whole-body status dashboard; read after the authoritative master plan."
     }
   }
 }

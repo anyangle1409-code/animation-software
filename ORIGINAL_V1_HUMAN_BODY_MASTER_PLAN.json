@@ -7,7 +7,8 @@
   "authority": {
     "markdown": "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
     "rule": "Open Critical/High whole-body issues override historical phase readiness. Numerical phase completion is necessary evidence, not anatomical sign-off.",
-    "historical_phase_4_r95": "preserved_as_immutable_historical_checkpoint_not_current_anatomical_acceptance"
+    "historical_phase_4_r95": "preserved_as_immutable_historical_checkpoint_not_current_anatomical_acceptance",
+    "anatomical_coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",
@@ -18,6 +19,7 @@
   ],
   "governing_rules": [
     "foundation_before_cosmetics",
+    "anatomical_attachment_and_shared_tissue_coupling_must_be_candidate_proven",
     "intermediate_motion_required",
     "visual_anatomical_failure_can_block_despite_numerical_pass",
     "correctives_refine_not_conceal",
@@ -158,13 +160,15 @@
         "weights_only deformation plausible",
         "correctives refine rather than conceal",
         "intermediate motion continuity",
-        "contact and whole_body regression preserved"
+        "contact and whole_body regression preserved",
+        "all anatomically shared tissue responds to every relevant attachment/joint rather than one-bone ownership"
       ],
       "exit": [
         "no Critical/High foundation defect in validated regions",
         "weights_only surface plausible through required sweeps",
         "corrective layers anatomically justified",
-        "regression/contact evidence passes"
+        "regression/contact evidence passes",
+        "required anatomical coupling systems have candidate-bound outbound/intermediate/return evidence"
       ],
       "historical_mapping": [
         "Phase0",
@@ -326,6 +330,7 @@
       "create_new_numbered_candidate",
       "repair_weights_support_first",
       "prove_weights_only_elevation_sweep",
+      "prove_required_anatomical_coupling_systems_for_repaired_region",
       "fit_correctives_only_if_foundation_is_plausible",
       "run_visual_numerical_symmetry_contact_whole_body_regression",
       "close_issue_rows_only_with_committed_closure_evidence",

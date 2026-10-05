@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "MOVEMENT_COUPLING_EVIDENCE_NOT_RUN",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "source_branch": null,
+  "trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+  "coupling_map": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+  "samples": [],
+  "summary": {
+    "sample_count": 0,
+    "complete_sample_count": 0,
+    "incomplete_sample_count": 0,
+    "production_approved": false
+  },
+  "sample_schema_note": {
+    "sample_id": "stable unique id",
+    "movement_family": "one master-plan movement family",
+    "fraction": "0..1 or named deterministic checkpoint",
+    "moved_bones": [
+      "exact production bone names with material motion"
+    ],
+    "required_coupling_system_ids": [
+      "derived automatically from moved_bones; do not hand-minimize"
+    ],
+    "reviewed_coupling_system_ids": [
+      "systems actually evidenced at this sample"
+    ],
+    "evidence_refs": [
+      "candidate-bound render/report identifiers"
+    ],
+    "contact_refs": [
+      "required when relevant"
+    ],
+    "state": "NOT_RUN | COMPLETE | BLOCKED"
+  },
+  "note": "Create a fresh candidate-specific copy. The required coupling systems are derived from moved bones using the authoritative trigger map; a sample cannot be COMPLETE if any triggered tissue system is absent."
+}

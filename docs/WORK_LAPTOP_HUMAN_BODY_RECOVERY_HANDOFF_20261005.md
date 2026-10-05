@@ -74,78 +74,86 @@ The current shoulder/chest defect is known to be foundational:
 
 ## Preferred fast path after safe branch integration
 
-After preserving any local Work changes and integrating the GPT tooling branch,
-the preferred first command is:
+After preserving local Work changes and safely integrating the GPT tooling branch,
+the preferred entry point is to generate a **Stage-1 laptop pickup packet**:
 
-`RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label>`
+`RUN_ORIGINAL_V1_STAGE1_LAPTOP_PICKUP_PLAN.bat <candidate.blend> <current-revision> <new-revision> <source-branch> <l^|r^|bilateral^|midline> <fresh-label> <future-workspace-dir> <fresh-pickup-plan-dir> [wave-id]`
 
-This one read-only command runs the non-Blender readiness controls plus:
+Use `current` or omit the wave id to follow `ORIGINAL_V1_STAGE1_PROGRESS.json`.
 
-- saved Blender skinning-mode capture;
-- pose -> connected-tissue scope;
-- automatic pose -> tissue -> camera -> human-evidence plan;
-- shoulder deformation-layer decomposition;
-- outbound/return reversibility;
-- dense motion-continuity reporting;
-- exact candidate-SHA cross-check across the resulting evidence bundle.
+The pickup packet:
 
-Do not edit the candidate until this bundle is complete and the earliest failing
-layer has been identified with `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json`.
+- hashes the exact pre-edit Blend;
+- resolves the active dependency wave and repair-package set;
+- runs the human-body contract gates first;
+- selects the relevant frozen validation poses;
+- identifies sweep-only proof movements;
+- inserts the one-time all-11-sweep runner-calibration path when still required;
+- runs the package-aware pre-repair diagnostic bundle;
+- prepares the PRE-EDIT repair workspace;
+- stops at the **first legitimate model-edit boundary**.
 
-If the base-skinning method is a plausible root-cause contributor, run the
-controlled weights-only A/B:
+If the pickup packet reports any stop condition, do not begin editing.
 
-`RUN_ORIGINAL_V1_SKINNING_AB_AUDIT.bat <candidate.blend> <fresh-label>`
+### Preferred repair lifecycle
 
-This temporarily evaluates LBS and Preserve Volume/DQ, restores the original
-setting, and makes no automatic winner claim. Any mode change requires human
-visual and whole-body regression evidence.
+**Before editing**
 
-For the selected repair package, create a prefilled declaration:
+1. Run the pickup plan commands in order.
+2. Complete every generated immutable repair declaration.
+3. Run the candidate/declaration-bound coupling-weight audit.
+4. Confirm the diagnosis tree identifies the earliest failing layer.
+5. Preserve all pre-edit diagnostics and sweep baselines.
 
-`RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat <RP-ID> <candidate-revision> <candidate-sha256> <l^|r^|bilateral^|midline> <source-branch> <fresh-declaration.json>`
+**Edit**
 
-Then fill the exact candidate-specific vertex zones and allowed bone groups and
-validate the declaration before editing.
+6. Make the smallest declared Blender repair.
+7. Save as a **new candidate**. Never overwrite r95 or the direct parent.
 
-Create the focused neighbour + whole-body regression plan:
+**After editing**
 
-`RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat <RP-ID[,RP-ID...]> <fresh-regression-plan.json>`
+8. Finalize the existing workspace against the saved post-edit Blend:
 
-The execution order is governed by
-`ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json`. Do not finalize a downstream
-chain before its upstream anchor/foundation wave is clear.
+   `RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-candidate.blend>`
 
-## Post-edit fast path
+9. Run the final-candidate validation bundle:
 
-After the declared repair is made and saved as a **new** candidate:
+   `RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <revision> <prior-revision-or-dash> <workspace-dir> <fresh-label>`
 
-1. Get the exact final file SHA:
-   `RUN_ORIGINAL_V1_FILE_SHA256.bat <new-candidate.blend>`
-2. Initialize the candidate evidence workspace:
-   `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat <RP-ID[,RP-ID...]> <candidate-revision> <final-sha256> <source-branch> <declaration[,declaration...]> <fresh-output-dir>`
-3. Complete/validate each generated execution record. The record must prove that
-   actual edited vertices, bone groups and operations stayed inside the immutable
-   pre-edit declaration.
-4. Run pose->connected-tissue scope on the **final** candidate and generate the
-   automatic pose capture/evidence plan.
-5. Complete the generated:
-   - `weights_only_acceptance.json`;
-   - `anatomical_coupling_evidence.json`;
-   - `movement_coupling_evidence.json`;
-   - `surface_visual_review.json`;
-   - candidate issue ledger.
-6. Run final-candidate reversibility, dense continuity, regression, contact and
-   change audits.
-7. Fill the generated `candidate_comparison_manifest.json` and run:
-   `RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat <manifest> <fresh-report>`
+10. Run every generated sweep-only movement acceptance path. Raw sweep output is
+    diagnostic input only; candidate comparison requires accepted candidate-bound
+    sweep records backed by calibrated runner, motion review, required visual
+    captures, contact/load evidence where applicable, and human-evidence review.
+11. Complete the generated weights-only, coupling, movement-coupling, surface
+    visual, repair-execution, regression/contact/change and issue-closure records.
+12. Run the generated unified candidate comparison manifest.
 
-The candidate comparison now refuses status-only PASS claims: regression/contact/
-change/visual PASS evidence must exist and bind to the exact final candidate SHA.
+The older `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat` path remains a
+lower-level fallback utility. Do not prefer it over the PRE-EDIT workspace ->
+finalization workflow.
 
-The pre-edit declaration SHA and final post-edit candidate SHA are deliberately
-different identities. Do not alter the declaration after the edit to make them
-match.
+### Generic movement sweep state
+
+All 11 direct sweep definitions now have a bound generic read-only Blender adapter,
+but binding is **not** execution and **not** anatomy clearance.
+
+- runner binding: prepared;
+- runner calibration: evidence-bound calibration workflow prepared;
+- candidate execution: still candidate-specific Blender work;
+- sweep acceptance: prepared and fail-closed;
+- frozen P3a pose definitions remain unchanged.
+
+Calibration is run from one exact all-11-sweep raw report:
+
+`RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat <candidate.blend> <fresh-calibration-label>`
+
+then:
+
+`RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CALIBRATION.bat <all-sweep-raw-report.json> <candidate-revision> <fresh-calibration-record.json>`
+
+The calibration record begins `IN_REVIEW`. Do not mark it `CALIBRATED` until
+every adapter has passed its required joint-construction, return/mirroring and
+human-evidence review.
 
 ## Immediate shoulder recovery sequence
 

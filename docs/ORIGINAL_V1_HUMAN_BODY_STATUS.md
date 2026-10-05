@@ -25,7 +25,7 @@
 
 - Regions with evidence scaffolding: **12 / 12**
 - Movement families with evidence scaffolding: **27 / 27**
-- Human-evidence entries: **31**
+- Human-evidence entries: **35**
 - Prepared deterministic movement sweeps: **8**
 
 > Evidence scaffolding is not anatomical acceptance. Actual candidate-bound renders/motion/regression evidence are still required.
@@ -42,13 +42,21 @@ Every multi-anchor tissue system must prove weights-only shared ownership and ou
 
 Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope.
 
+### Prepared coupling diagnostics
+
+- Pose → connected-tissue scope: **PREPARED, not yet run on the latest candidate**
+- Generic shared-tissue weight audit: **PREPARED, not yet run on repaired candidate**
+- Candidate coupling evidence template: **PREPARED**
+
 ## Real-human surface visual evidence
 
 - Complete regions: **0**
-- Partial regions: **8**
-- Missing full surface sequences: **4**
+- Partial regions: **12**
+- Regions with no visual scaffolding: **0**
 
 Biomechanics/anatomy evidence cannot close exterior skin/muscle appearance; real-human surface photo/video sequences are required before Stage 4 exit.
+
+> All 12 regions now have some real-human visual scaffolding, but all remain PARTIAL. Clothing, markers, gloves, camera distance or static scans limit several sources; those limitations remain blocking for final exterior-surface acceptance.
 
 ## High-detail anatomy
 

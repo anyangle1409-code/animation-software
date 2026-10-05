@@ -38,6 +38,7 @@ on:
       - "scripts/*post_edit*"
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
+      - "ORIGINAL_V1_STAGE1_PROGRESS.json"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
@@ -80,6 +81,7 @@ on:
       - "scripts/*post_edit*"
       - "scripts/*anatomical_repair*"
       - "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json"
+      - "ORIGINAL_V1_STAGE1_PROGRESS.json"
       - "ORIGINAL_V1_DEFORMATION_FAILURE_SIGNATURES.json"
       - "scripts/*repair_regression*"
       - "scripts/*skinning_ab*"
@@ -132,6 +134,8 @@ jobs:
         run: python scripts/validate_original_v1_repair_execution_record_template.py
       - name: Validate Stage 1 repair execution graph
         run: python scripts/validate_original_v1_stage1_repair_execution_graph.py
+      - name: Validate Stage 1 progress ledger
+        run: python scripts/validate_original_v1_stage1_progress.py
       - name: Validate deformation failure signature guide
         run: python scripts/validate_original_v1_deformation_failure_signatures.py
       - name: Run surface visual evidence requirement tests
@@ -164,6 +168,8 @@ jobs:
         run: python scripts/test_validate_original_v1_anatomical_repair_packages.py
       - name: Run Stage 1 repair graph tests
         run: python scripts/test_validate_original_v1_stage1_repair_execution_graph.py
+      - name: Run Stage 1 progress tests
+        run: python scripts/test_validate_original_v1_stage1_progress.py
       - name: Run deformation diagnosis tree tests
         run: python scripts/test_validate_original_v1_deformation_diagnosis_tree.py
       - name: Run weights-only acceptance tests

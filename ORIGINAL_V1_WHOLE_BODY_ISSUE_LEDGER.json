@@ -386,6 +386,51 @@
       "defect": "The workflow allowed numerical/freeze completion despite unresolved obvious anatomy in committed review images.",
       "acceptance": "Every Critical/High visual issue is fail-closed, evidence-bound and blocks freeze or later phases until committed closure evidence passes visual, numerical and regression review.",
       "closure_evidence": []
+    },
+    {
+      "id": "WB-QA-012",
+      "region": "whole-body anatomical coupling validation",
+      "severity": "Critical",
+      "state": "Open",
+      "candidate": {
+        "revision": "r95",
+        "sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd"
+      },
+      "reproduction": {
+        "poses": [
+          "whole_body_movement_family_matrix"
+        ],
+        "views": [
+          "whole_body",
+          "regional_close",
+          "intermediate_motion",
+          "return_motion"
+        ],
+        "description": "For each anatomical coupling system in ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json, inspect exact candidate-bound weights-only and corrected motion across outbound/intermediate/endpoint/return samples."
+      },
+      "evidence_paths": [
+        "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
+        "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
+        "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md"
+      ],
+      "human_evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-ATT-DEL-001",
+        "HE-ATT-GLU-001",
+        "HE-ATT-QUAD-001",
+        "HE-ATT-HAM-001",
+        "HE-ATT-ACH-001",
+        "HE-ATT-HAND-001",
+        "HE-TRK-001",
+        "HE-TRK-002",
+        "HE-HIP-001",
+        "HE-ANK-001"
+      ],
+      "evidence_gap": null,
+      "defect": "The project has not yet candidate-proven whole-body shared-tissue coupling: a body part can still numerically pass while skin/muscle spanning multiple anatomical attachments is incorrectly owned or dragged by one joint/bone.",
+      "acceptance": "Every required coupling system is candidate-bound and proves all relevant attachment sides, weights-only deformation, intermediate/return motion, visual continuity, numerical regression and contact/load propagation where applicable; no Critical/High coupling defect remains open.",
+      "closure_evidence": []
     }
   ]
 }

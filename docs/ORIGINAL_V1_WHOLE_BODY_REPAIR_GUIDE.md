@@ -70,8 +70,9 @@ applicable and the declared real-human reference review.
 ### Lower-level utilities
 
 `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat` and the standalone sweep
-review-workspace builder remain useful recovery/support utilities, but they are not
-the preferred operator route when the PRE-EDIT repair workspace exists.
+review-workspace builder remain useful **lower-level** recovery/support utilities,
+but they are not the preferred operator route when the PRE-EDIT repair workspace
+exists.
 
 The pre-edit declaration SHA and final post-edit candidate SHA are intentionally
 different identities. Never rewrite a declaration after the edit to make them

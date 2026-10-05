@@ -104,7 +104,8 @@
     "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
     "anatomical_coupling": "ORIGINAL_V1_ANATOMICAL_COUPLING_MAP.json",
     "anatomical_coupling_contract": "docs/ORIGINAL_V1_ANATOMICAL_COUPLING_CONTRACT.md",
-    "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json"
+    "anatomical_coupling_evidence_template": "ORIGINAL_V1_ANATOMICAL_COUPLING_EVIDENCE_TEMPLATE.json",
+    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate.",
   "anatomical_coupling": {
@@ -113,6 +114,8 @@
     "candidate_proven_clear_count": 0,
     "status": "BLOCKED_NOT_YET_CANDIDATE_PROVEN",
     "blocking_issue_id": "WB-QA-012",
-    "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression."
+    "rule": "Every multi-anchor tissue system must prove weights-only shared ownership and outbound/intermediate/endpoint/return motion before dependent progression.",
+    "joint_tissue_trigger_map": "ORIGINAL_V1_JOINT_TISSUE_TRIGGER_MAP.json",
+    "trigger_rule": "Material motion of a rig joint/bone family automatically makes every mapped connected tissue system required review scope."
   }
 }

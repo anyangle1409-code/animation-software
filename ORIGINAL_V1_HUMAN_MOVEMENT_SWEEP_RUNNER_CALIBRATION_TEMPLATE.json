@@ -21,7 +21,18 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-GRP-003"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "trunk_flexion",
@@ -32,7 +43,16 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-TRK-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "trunk_extension",
@@ -43,7 +63,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-TRK-001",
+        "HE-HNG-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "trunk_lateral_bend",
@@ -54,7 +84,16 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-TRK-003"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "trunk_axial_rotation",
@@ -65,7 +104,16 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-TRK-002"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "loaded_hip_hinge",
@@ -76,7 +124,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-HNG-001",
+        "HE-TRK-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "hip_abduction_adduction",
@@ -87,7 +145,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-HIP-001",
+        "HE-LNG-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "ankle_plantarflexion",
@@ -98,7 +166,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-ANK-001",
+        "HE-ACH-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "shoulder_abduction_elevation",
@@ -109,7 +187,18 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-AX-002",
+        "HE-VIS-002",
+        "HE-VIS-SCAP-002"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "humeral_internal_external_rotation",
@@ -120,7 +209,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-VIS-003",
+        "HE-ATT-DEL-001"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     },
     {
       "id": "forearm_pronation_supination",
@@ -131,7 +230,17 @@
       "sample_order_evidence": null,
       "source_hash_evidence": null,
       "human_evidence_review_refs": [],
-      "calibration_notes": []
+      "calibration_notes": [],
+      "required_human_evidence_ids": [
+        "HE-VIS-FARM-001",
+        "HE-VIS-FARM-002"
+      ],
+      "automatic_checks": {
+        "raw_report_contract_validated": false,
+        "sample_order_validated": false,
+        "return_samples_present": false,
+        "candidate_identity_bound": false
+      }
     }
   ],
   "overall_state": "NOT_RUN",

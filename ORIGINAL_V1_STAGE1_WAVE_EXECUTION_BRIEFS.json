@@ -1,0 +1,488 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_STAGE1_WAVE_EXECUTION_BRIEFS",
+  "production_approved": false,
+  "current_wave_id": "shoulder_yoke_foundation",
+  "graph": "ORIGINAL_V1_STAGE1_REPAIR_EXECUTION_GRAPH.json",
+  "progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
+  "repair_packages": "ORIGINAL_V1_ANATOMICAL_REPAIR_PACKAGES.json",
+  "package_validation_selector": "scripts/build_original_v1_package_validation_selection.py",
+  "rules": [
+    "Dependency waves must clear in graph order; wave briefs do not override graph dependencies.",
+    "Frozen P3a pose fixtures are never modified to manufacture coverage.",
+    "A deterministic sweep definition is planning authority only until the generic Blender sweep runner executes it on the exact candidate.",
+    "Pre-edit declaration and post-edit final candidate identities remain separate.",
+    "Every package repair still requires focused-neighbor plus whole-body regression.",
+    "No brief can set owner acceptance or production approval."
+  ],
+  "waves": [
+    {
+      "wave": 0,
+      "id": "global_foundation",
+      "name": "Global deformation semantics and neutral control",
+      "packages": [],
+      "depends": [],
+      "movements": [
+        "neutral_shoulder_control",
+        "neutral_braced_trunk"
+      ],
+      "exit": [
+        "no unresolved global rig identity mismatch",
+        "no silent base-skinning-mode change",
+        "diagnostic tooling bound to exact candidate"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "squat_bottom",
+          "pushup_bottom"
+        ],
+        "deterministic_sweep_definitions": [],
+        "sweep_runner_status": "NOT_REQUIRED",
+        "integrated_movement_families": [
+          "neutral_shoulder_control",
+          "neutral_braced_trunk"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label>",
+        "regression_plan": "N/A — global foundation only",
+        "create_workspace": "N/A — global foundation only",
+        "finalize_workspace": "N/A — global foundation only",
+        "post_repair": "N/A — global foundation only"
+      }
+    },
+    {
+      "wave": 1,
+      "id": "shoulder_yoke_foundation",
+      "name": "Connected shoulder/chest/back yoke",
+      "packages": [
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-NECK-TRAP-001"
+      ],
+      "depends": [
+        "global_foundation"
+      ],
+      "movements": [
+        "shoulder_flexion_elevation",
+        "shoulder_abduction_elevation",
+        "humeral_internal_external_rotation",
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "exit": [
+        "all four package weights-only criteria clear",
+        "0/45/90/120/150/170 and return shoulder sweep clear where applicable",
+        "no open Critical/High shoulder-yoke defect",
+        "bilateral symmetry regression clear"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "press_bottom",
+          "press_top",
+          "press_top_rhythm",
+          "pushup_bottom",
+          "pullup_hang",
+          "pullup_hang_rhythm",
+          "pullup_top",
+          "row",
+          "pullup_bar"
+        ],
+        "deterministic_sweep_definitions": [
+          "shoulder_abduction_elevation",
+          "humeral_internal_external_rotation"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "shoulder_flexion_elevation",
+          "shoulder_abduction_elevation",
+          "humeral_internal_external_rotation",
+          "vertical_push",
+          "vertical_pull_hang",
+          "horizontal_push",
+          "horizontal_pull"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-NECK-TRAP-001\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 2,
+      "id": "trunk_foundation",
+      "name": "Ribcage / abdomen / lumbar / pelvis cylinder",
+      "packages": [
+        "RP-TRUNK-008"
+      ],
+      "depends": [
+        "global_foundation"
+      ],
+      "movements": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_lateral_bend",
+        "trunk_axial_rotation",
+        "loaded_hip_hinge"
+      ],
+      "exit": [
+        "weights-only trunk region clear",
+        "return reversibility clear",
+        "no waist hinge/swivel/membrane failure"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral"
+        ],
+        "deterministic_sweep_definitions": [
+          "trunk_flexion",
+          "trunk_extension",
+          "trunk_lateral_bend",
+          "trunk_axial_rotation",
+          "loaded_hip_hinge"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "trunk_flexion",
+          "trunk_extension",
+          "trunk_lateral_bend",
+          "trunk_axial_rotation",
+          "loaded_hip_hinge"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-TRUNK-008\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-TRUNK-008\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-TRUNK-008\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 3,
+      "id": "upper_limb_distal",
+      "name": "Upper arm through hand",
+      "packages": [
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007"
+      ],
+      "depends": [
+        "shoulder_yoke_foundation"
+      ],
+      "movements": [
+        "elbow_flexion_extension",
+        "forearm_pronation_supination",
+        "wrist_flexion_extension_loaded",
+        "cylindrical_equipment_grip",
+        "grip_release",
+        "horizontal_push",
+        "vertical_pull_hang"
+      ],
+      "exit": [
+        "upperarm/elbow clear before wrist/hand finalization",
+        "wrist/hand load path clear before finger finalization",
+        "grip/release and loaded wrist contact regressions clear"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "curl_peak",
+          "press_bottom",
+          "press_top",
+          "press_top_rhythm",
+          "pushup_bottom",
+          "pullup_hang",
+          "pullup_hang_rhythm",
+          "pullup_top",
+          "row",
+          "grip",
+          "curl_handle",
+          "pullup_bar"
+        ],
+        "deterministic_sweep_definitions": [
+          "forearm_pronation_supination",
+          "grip_release"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "elbow_flexion_extension",
+          "forearm_pronation_supination",
+          "wrist_flexion_extension_loaded",
+          "cylindrical_equipment_grip",
+          "grip_release",
+          "horizontal_push",
+          "vertical_pull_hang"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 4,
+      "id": "hip_pelvis_foundation",
+      "name": "Glute / groin / pelvis-to-femur foundations",
+      "packages": [
+        "RP-GLUTE-009",
+        "RP-GROIN-010"
+      ],
+      "depends": [
+        "trunk_foundation"
+      ],
+      "movements": [
+        "hip_flexion_extension",
+        "hip_abduction_adduction",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "exit": [
+        "glute and groin weights-only criteria clear",
+        "pelvis-femur bridge remains continuous through deep flexion",
+        "no tunnel/shelf/shear seam"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "squat_bottom",
+          "lunge"
+        ],
+        "deterministic_sweep_definitions": [
+          "hip_abduction_adduction",
+          "loaded_hip_hinge"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "hip_flexion_extension",
+          "hip_abduction_adduction",
+          "loaded_hip_hinge",
+          "squat_deep_bilateral_flexion",
+          "split_stance_lunge"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-GLUTE-009,RP-GROIN-010\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-GLUTE-009,RP-GROIN-010\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-GLUTE-009,RP-GROIN-010\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 5,
+      "id": "thigh_knee_foundation",
+      "name": "Quadriceps / hamstrings / knee",
+      "packages": [
+        "RP-QUAD-011",
+        "RP-HAM-012"
+      ],
+      "depends": [
+        "hip_pelvis_foundation"
+      ],
+      "movements": [
+        "hip_flexion_extension",
+        "knee_flexion_extension",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge"
+      ],
+      "exit": [
+        "quad/patella and hamstring/popliteal chains clear",
+        "combined hip+knee state tested",
+        "deep-flexion regression clear"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "squat_bottom",
+          "lunge"
+        ],
+        "deterministic_sweep_definitions": [
+          "loaded_hip_hinge"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "hip_flexion_extension",
+          "knee_flexion_extension",
+          "loaded_hip_hinge",
+          "squat_deep_bilateral_flexion",
+          "split_stance_lunge"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-QUAD-011,RP-HAM-012\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-QUAD-011,RP-HAM-012\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-QUAD-011,RP-HAM-012\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 6,
+      "id": "calf_foot_foundation",
+      "name": "Calf / Achilles / ankle / foot / toes",
+      "packages": [
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "depends": [
+        "thigh_knee_foundation"
+      ],
+      "movements": [
+        "knee_flexion_extension",
+        "ankle_dorsiflexion",
+        "ankle_plantarflexion",
+        "loaded_foot_toe_contact",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "horizontal_push"
+      ],
+      "exit": [
+        "knee-state effect on calf clear",
+        "Achilles path clear",
+        "loaded arch/heel/forefoot/toe chain clear",
+        "heel-rise and return clear"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "squat_bottom",
+          "pushup_bottom",
+          "lunge"
+        ],
+        "deterministic_sweep_definitions": [
+          "ankle_plantarflexion"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "knee_flexion_extension",
+          "ankle_dorsiflexion",
+          "ankle_plantarflexion",
+          "loaded_foot_toe_contact",
+          "squat_deep_bilateral_flexion",
+          "split_stance_lunge",
+          "horizontal_push"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-CALF-013,RP-FOOT-014\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-CALF-013,RP-FOOT-014\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-CALF-013,RP-FOOT-014\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    },
+    {
+      "wave": 7,
+      "id": "whole_body_integration",
+      "name": "Whole-body cross-chain integration",
+      "packages": [
+        "RP-NECK-TRAP-001",
+        "RP-PEC-AX-002",
+        "RP-POSTAX-003",
+        "RP-DELTOID-004",
+        "RP-ARM-005",
+        "RP-WRIST-HAND-006",
+        "RP-FINGER-007",
+        "RP-TRUNK-008",
+        "RP-GLUTE-009",
+        "RP-GROIN-010",
+        "RP-QUAD-011",
+        "RP-HAM-012",
+        "RP-CALF-013",
+        "RP-FOOT-014"
+      ],
+      "depends": [
+        "shoulder_yoke_foundation",
+        "trunk_foundation",
+        "upper_limb_distal",
+        "hip_pelvis_foundation",
+        "thigh_knee_foundation",
+        "calf_foot_foundation"
+      ],
+      "movements": [
+        "vertical_push",
+        "vertical_pull_hang",
+        "horizontal_push",
+        "horizontal_pull",
+        "loaded_hip_hinge",
+        "squat_deep_bilateral_flexion",
+        "split_stance_lunge",
+        "trunk_axial_rotation",
+        "grip_release",
+        "ankle_plantarflexion"
+      ],
+      "exit": [
+        "14/14 coupling systems candidate-proven clear",
+        "12/12 weights-only body regions clear",
+        "27/27 movement-family proof complete or explicit justified N/A",
+        "no open Critical/High whole-body defect",
+        "candidate comparison engineering-clear eligible",
+        "owner review remains separate"
+      ],
+      "validation": {
+        "frozen_pose_fixtures": [
+          "neutral",
+          "press_bottom",
+          "press_top",
+          "press_top_rhythm",
+          "squat_bottom",
+          "pushup_bottom",
+          "pullup_hang",
+          "pullup_hang_rhythm",
+          "pullup_top",
+          "lunge",
+          "row",
+          "pullup_bar"
+        ],
+        "deterministic_sweep_definitions": [
+          "loaded_hip_hinge",
+          "trunk_axial_rotation",
+          "grip_release",
+          "ankle_plantarflexion"
+        ],
+        "sweep_runner_status": "PLANNED_DEFINITIONS_REQUIRE_GENERIC_BLENDER_SWEEP_RUNNER",
+        "integrated_movement_families": [
+          "vertical_push",
+          "vertical_pull_hang",
+          "horizontal_push",
+          "horizontal_pull",
+          "loaded_hip_hinge",
+          "squat_deep_bilateral_flexion",
+          "split_stance_lunge",
+          "trunk_axial_rotation",
+          "grip_release",
+          "ankle_plantarflexion"
+        ],
+        "uncovered_definition_count": 0
+      },
+      "operator": {
+        "pre_repair": "RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label> \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\"",
+        "regression_plan": "RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\" <fresh-regression-plan.json>",
+        "create_workspace": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat \"RP-NECK-TRAP-001,RP-PEC-AX-002,RP-POSTAX-003,RP-DELTOID-004,RP-ARM-005,RP-WRIST-HAND-006,RP-FINGER-007,RP-TRUNK-008,RP-GLUTE-009,RP-GROIN-010,RP-QUAD-011,RP-HAM-012,RP-CALF-013,RP-FOOT-014\" <candidate-revision> <pre-edit-sha256> <side> <source-branch> <fresh-workspace-dir>",
+        "finalize_workspace": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat <workspace-dir> <final-repaired-candidate.blend>",
+        "post_repair": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <new-revision> <prior-revision-or-> <workspace-dir> <fresh-label>"
+      }
+    }
+  ]
+}

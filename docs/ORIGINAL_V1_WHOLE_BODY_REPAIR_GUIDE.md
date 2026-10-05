@@ -8,6 +8,43 @@ When a joint or segment moves, every anatomically connected skin/muscle/tendon c
 
 Repair the **earliest failing layer**. Do not allow a later corrective to hide an upstream kinematic, skinning, weight-ownership or topology defect.
 
+## Preferred two-phase operator path
+
+### Phase A — before editing
+
+1. Run `RUN_ORIGINAL_V1_HUMAN_BODY_GATES.bat`.
+2. Run `RUN_ORIGINAL_V1_PRE_REPAIR_DIAGNOSTIC_BUNDLE.bat <candidate.blend> <fresh-label>`.
+3. Use `ORIGINAL_V1_DEFORMATION_DIAGNOSIS_TREE.json` to identify the earliest failing layer.
+4. For each selected repair package, create and complete a pre-edit declaration with
+   `RUN_ORIGINAL_V1_CREATE_REPAIR_DECLARATION.bat`.
+5. Validate each declaration and run `RUN_ORIGINAL_V1_COUPLING_WEIGHT_AUDIT.bat`.
+6. Generate the focused-neighbour + whole-body regression plan with
+   `RUN_ORIGINAL_V1_REPAIR_REGRESSION_PLAN.bat`.
+7. Only then make the smallest declared model change.
+
+The declaration SHA is a **pre-edit identity**. It must not be rewritten to pretend
+that it is the final repaired Blend.
+
+### Phase B — after editing
+
+1. Save the repaired model as a **new candidate**; never overwrite the comparator.
+2. Capture its exact final SHA with:
+   `RUN_ORIGINAL_V1_FILE_SHA256.bat <repaired-candidate.blend>`
+3. Initialize the full candidate evidence workspace with:
+   `RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat <RP-ID[,RP-ID...]> <candidate-revision> <final-sha256> <source-branch> <declaration[,declaration...]> <fresh-output-dir>`
+4. Fill and validate the generated post-edit execution record(s). They prove that
+   actual edited vertices, bone groups and operations stayed inside the immutable
+   pre-edit declaration.
+5. Run final-candidate pose/tissue scope and build the automatic capture plan.
+6. Complete weights-only, coupling, movement-coupling and surface visual evidence.
+7. Run reversibility, dense continuity, numerical regression, contact and change
+   audits.
+8. Populate the generated comparison manifest and run
+   `RUN_ORIGINAL_V1_CANDIDATE_COMPARISON.bat`.
+
+A candidate cannot become engineering-clear merely because a status field says
+PASS. PASS evidence must exist and bind to the exact final candidate SHA.
+
 ## Diagnosis order
 
 1. Exact source/candidate reproduced?

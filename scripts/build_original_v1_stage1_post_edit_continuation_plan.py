@@ -61,6 +61,13 @@ def build(a):
     if required:
         if cal is None:
             raise ValueError("required sweep-only movements need --calibration-record")
+        if not cal.is_file():
+            raise ValueError("calibration record not found")
+        cal_obj=read(cal)
+        if cal_obj.get("runner_id")!="generic_human_movement_sweep_v1":
+            raise ValueError("calibration runner identity differs")
+        if cal_obj.get("overall_state")!="CALIBRATED" or cal_obj.get("engineering_review")!="PASS":
+            raise ValueError("required sweep-only movements need CALIBRATED runner record with engineering PASS")
         commands.append({
           "phase":"post_repair_required_sweeps",
           "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat "+dq(candidate)+" "+dq(a.label+"_post_sweeps")+" "+dq(sweep_csv),

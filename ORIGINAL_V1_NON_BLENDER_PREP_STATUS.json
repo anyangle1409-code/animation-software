@@ -144,6 +144,26 @@
         "RUN_ORIGINAL_V1_HUMAN_BODY_READINESS_CHECK.bat",
         ".github/workflows/original-v1-human-body-contract.yml"
       ]
+    },
+    {
+      "id": "workspace_sweep_acceptance_preflight",
+      "state": "READY",
+      "evidence": [
+        "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat",
+        "scripts/validate_original_v1_workspace_sweep_acceptance.py",
+        "scripts/test_validate_original_v1_workspace_sweep_acceptance.py"
+      ],
+      "note": "Finalized repair workspace cannot reach unified comparison until every required sweep acceptance record is exact-FINAL-SHA-bound and engineering PASS."
+    },
+    {
+      "id": "laptop_workflow_integrity",
+      "state": "READY",
+      "evidence": [
+        "scripts/validate_original_v1_laptop_workflow_integrity.py",
+        "scripts/test_validate_original_v1_laptop_workflow_integrity.py",
+        "RUN_ORIGINAL_V1_HUMAN_BODY_READINESS_CHECK.bat"
+      ],
+      "note": "Static non-Blender gate verifies preferred pickup/post-edit command chain, current handoffs, Stage-1 blocking state and critical runner existence."
     }
   ],
   "non_blender_tasks_remaining": [],

@@ -22,8 +22,21 @@ def validate(s,p):
         if len(labels)!=len(set(labels)): raise ValueError(f"{name}: duplicate sample labels")
         if not any(bool(x.get("return_leg")) for x in row["samples"]): raise ValueError(f"{name}: return-leg sample not declared")
         if not row.get("construction") or not row.get("inspect"): raise ValueError(f"{name}: construction/inspect missing")
+        for key in ("evidence_ids","regions","cameras"):
+            if row.get(key)!=p["sweeps"][name].get(key):
+                raise ValueError(f"{name}: {key} differ from movement plan")
+        if row.get("audit_range_status")!="PROVISIONAL_UNCALIBRATED":
+            raise ValueError(f"{name}: audit range status must remain provisional until Blender calibration")
+        if not row.get("audit_range_basis"):
+            raise ValueError(f"{name}: audit range basis missing")
+        if row.get("visual_capture_required") is not True:
+            raise ValueError(f"{name}: visual capture must remain required")
+        if row.get("candidate_evidence_status")!="BLOCKED_UNTIL_CALIBRATED_AND_CAPTURED":
+            raise ValueError(f"{name}: candidate evidence may not be pre-cleared")
     rule=str(s.get("rule",""))
     if "never become runtime exercise definitions" not in rule: raise ValueError("runtime-separation rule missing")
+    if "not universal human ROM limits" not in str(s.get("range_rule","")):
+        raise ValueError("provisional audit-range rule missing")
     return {"sweeps":len(s["sweeps"]),"status":"PASS"}
 
 def main():

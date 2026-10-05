@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "sweep_id": null,
+  "raw_sweep_report_path": null,
+  "runner_calibration_record_path": null,
+  "visual_capture_manifest_path": null,
+  "contact_report_path": null,
+  "motion_continuity_evidence_path": null,
+  "motion_reversibility_evidence_path": null,
+  "human_evidence_review_refs": [],
+  "continuity_review_status": "PENDING",
+  "reversibility_review_status": "PENDING",
+  "visual_review_status": "PENDING",
+  "contact_review_status": "PENDING",
+  "engineering_review": "PENDING",
+  "owner_review": "PENDING",
+  "rules": [
+    "Raw sweep execution is diagnostic input, not acceptance by itself.",
+    "PASS requires an overall CALIBRATED runner record bound to the same current runner/spec authorities.",
+    "PASS requires exact-candidate visual captures for every named sweep sample and every required plan camera.",
+    "Contact-bearing sweeps require candidate-bound contact/load evidence; NOT_APPLICABLE is invalid for them.",
+    "Continuity and reversibility require explicit reviewed candidate-bound evidence.",
+    "Human-evidence review must cover the sweep plan evidence IDs.",
+    "Engineering PASS never implies owner acceptance or production approval."
+  ]
+}

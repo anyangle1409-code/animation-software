@@ -19,6 +19,8 @@ on:
       - "scripts/*operator_runner_links*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
+      - "scripts/*workspace_sweep_acceptance*"
+      - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
@@ -98,6 +100,8 @@ on:
       - "scripts/*operator_runner_links*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PIPELINE.bat"
       - "scripts/*sweep_review_workspace*"
+      - "scripts/*workspace_sweep_acceptance*"
+      - "RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat"
       - "scripts/*sweep_contact_review*"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_REVIEW_WORKSPACE.bat"
       - "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat"
@@ -352,3 +356,6 @@ jobs:
         run: python scripts/validate_original_v1_non_blender_prep_status.py
       - name: Run non-Blender preparation boundary tests
         run: python scripts/test_validate_original_v1_non_blender_prep_status.py
+
+      - name: Run finalized workspace sweep acceptance preflight tests
+        run: python scripts/test_validate_original_v1_workspace_sweep_acceptance.py

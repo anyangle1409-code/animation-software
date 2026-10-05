@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_GENERIC_HUMAN_SWEEP_EXECUTION_SPEC",
+  "production_approved": false,
+  "pose_definition_source": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+  "movement_plan": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json",
+  "rule": "Execution sweeps are validation-only motions layered on the frozen pose-definition helpers. They never become runtime exercise definitions and never alter the frozen pose script.",
+  "common": {
+    "side": "bilateral_where_applicable",
+    "reset_before_each_sample": true,
+    "source_saved_or_modified": false,
+    "layers": [
+      "weights_only",
+      "final_corrected"
+    ],
+    "output": [
+      "joint_state",
+      "surface_summary",
+      "shape_key_values",
+      "candidate_sha256",
+      "sweep_spec_sha256"
+    ]
+  },
+  "sweeps": {
+    "shoulder_abduction_elevation": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "elevation_deg": 0
+        },
+        {
+          "label": "45deg_abduction",
+          "elevation_deg": 45
+        },
+        {
+          "label": "90deg_abduction",
+          "elevation_deg": 90
+        },
+        {
+          "label": "120deg_abduction",
+          "elevation_deg": 120
+        },
+        {
+          "label": "150deg_abduction",
+          "elevation_deg": 150
+        },
+        {
+          "label": "170deg_abduction",
+          "elevation_deg": 170
+        },
+        {
+          "label": "return_120deg",
+          "elevation_deg": 120,
+          "return_leg": true
+        },
+        {
+          "label": "return_90deg",
+          "elevation_deg": 90,
+          "return_leg": true
+        },
+        {
+          "label": "return_45deg",
+          "elevation_deg": 45,
+          "return_leg": true
+        },
+        {
+          "label": "neutral_return",
+          "elevation_deg": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Use frozen girdle_for_elevation(side,target) plus aim(upperarm_side,target) in pure lateral plane; apply frozen elevation external-rotation helper where defined.",
+      "inspect": [
+        "scapulohumeral_rhythm",
+        "deltoid_yoke",
+        "anterior_axilla",
+        "posterior_axilla",
+        "pec_root",
+        "trap_neck",
+        "return_reversibility"
+      ]
+    },
+    "humeral_internal_external_rotation": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral_45deg_abducted",
+          "rotation_deg": 0
+        },
+        {
+          "label": "25pct_internal_rotation",
+          "rotation_deg": -20
+        },
+        {
+          "label": "50pct_internal_rotation",
+          "rotation_deg": -40
+        },
+        {
+          "label": "internal_rotation_end",
+          "rotation_deg": -70
+        },
+        {
+          "label": "return_neutral",
+          "rotation_deg": 0,
+          "return_leg": true
+        },
+        {
+          "label": "25pct_external_rotation",
+          "rotation_deg": 20
+        },
+        {
+          "label": "50pct_external_rotation",
+          "rotation_deg": 40
+        },
+        {
+          "label": "external_rotation_end",
+          "rotation_deg": 70
+        },
+        {
+          "label": "neutral_return",
+          "rotation_deg": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "First place humerus at 45-degree pure abduction with frozen girdle helper, then rotate upperarm about its posed long axis by signed audit rotation. Distal forearm/hand are carried by hierarchy without adding exercise-specific logic.",
+      "inspect": [
+        "deltoid_planes",
+        "pec_deltoid_transition",
+        "posterior_axilla",
+        "upperarm_twist_distribution",
+        "return_reversibility"
+      ]
+    },
+    "forearm_pronation_supination": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral_mid_rotation",
+          "rotation_deg": 0
+        },
+        {
+          "label": "25pct_pronation",
+          "rotation_deg": -22.5
+        },
+        {
+          "label": "50pct_pronation",
+          "rotation_deg": -45
+        },
+        {
+          "label": "pronation_end",
+          "rotation_deg": -80
+        },
+        {
+          "label": "return_mid",
+          "rotation_deg": 0,
+          "return_leg": true
+        },
+        {
+          "label": "25pct_supination",
+          "rotation_deg": 22.5
+        },
+        {
+          "label": "50pct_supination",
+          "rotation_deg": 45
+        },
+        {
+          "label": "supination_end",
+          "rotation_deg": 80
+        },
+        {
+          "label": "neutral_return",
+          "rotation_deg": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Place upper arm at side and elbow at approximately 90 degrees using frozen hinge helper; rotate forearm about its own posed long axis only. Audit values are bounded validation targets, not production ROM limits.",
+      "inspect": [
+        "radius_ulna_surface_twist",
+        "wrist_transition",
+        "upperarm_not_dragged",
+        "hand_orientation",
+        "return_reversibility"
+      ]
+    },
+    "trunk_flexion": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "fraction": 0
+        },
+        {
+          "label": "25%_flexion",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_flexion",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_flexion",
+          "fraction": 0.75
+        },
+        {
+          "label": "max_audit_flexion",
+          "fraction": 1
+        },
+        {
+          "label": "return_50%",
+          "fraction": 0.5,
+          "return_leg": true
+        },
+        {
+          "label": "neutral_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Distribute a conservative audit flexion target across pelvis, spine_01, spine_02 and spine_03 using fixed relative shares; counter-rotate neck only enough to retain readable head orientation. No single waist hinge.",
+      "inspect": [
+        "distributed_spine_motion",
+        "abdominal_compression",
+        "posterior_lengthening",
+        "pelvis_ribcage_continuity",
+        "return_reversibility"
+      ]
+    },
+    "trunk_extension": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "fraction": 0
+        },
+        {
+          "label": "25%_extension",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_extension",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_extension",
+          "fraction": 0.75
+        },
+        {
+          "label": "max_audit_extension",
+          "fraction": 1
+        },
+        {
+          "label": "return_50%",
+          "fraction": 0.5,
+          "return_leg": true
+        },
+        {
+          "label": "neutral_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Apply the same distributed trunk-chain shares as flexion with opposite sign and conservative audit magnitude.",
+      "inspect": [
+        "distributed_spine_motion",
+        "anterior_lengthening",
+        "posterior_compression",
+        "return_reversibility"
+      ]
+    },
+    "trunk_lateral_bend": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "fraction": 0
+        },
+        {
+          "label": "25%_left",
+          "fraction": -0.25
+        },
+        {
+          "label": "50%_left",
+          "fraction": -0.5
+        },
+        {
+          "label": "75%_left",
+          "fraction": -0.75
+        },
+        {
+          "label": "left_end",
+          "fraction": -1
+        },
+        {
+          "label": "return_neutral",
+          "fraction": 0,
+          "return_leg": true
+        },
+        {
+          "label": "25%_right",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_right",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_right",
+          "fraction": 0.75
+        },
+        {
+          "label": "right_end",
+          "fraction": 1
+        },
+        {
+          "label": "neutral_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Distribute lateral bend across pelvis and three spine segments about character-forward axis with fixed shares; preserve axial rotation at zero for this audit.",
+      "inspect": [
+        "compressed_side_fold",
+        "lengthened_side_continuity",
+        "ribcage_pelvis_spacing",
+        "bilateral_symmetry",
+        "return_reversibility"
+      ]
+    },
+    "trunk_axial_rotation": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "rotation_deg": 0
+        },
+        {
+          "label": "15deg_left",
+          "rotation_deg": -15
+        },
+        {
+          "label": "30deg_left",
+          "rotation_deg": -30
+        },
+        {
+          "label": "45deg_left",
+          "rotation_deg": -45
+        },
+        {
+          "label": "left_end",
+          "rotation_deg": -50
+        },
+        {
+          "label": "return_neutral",
+          "rotation_deg": 0,
+          "return_leg": true
+        },
+        {
+          "label": "15deg_right",
+          "rotation_deg": 15
+        },
+        {
+          "label": "30deg_right",
+          "rotation_deg": 30
+        },
+        {
+          "label": "45deg_right",
+          "rotation_deg": 45
+        },
+        {
+          "label": "right_end",
+          "rotation_deg": 50
+        },
+        {
+          "label": "neutral_return",
+          "rotation_deg": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Distribute axial rotation across pelvis and spine_01..03 with fixed shares about world vertical; no single waist swivel.",
+      "inspect": [
+        "distributed_rotation",
+        "oblique_surface",
+        "ribcage_pelvis_relative_motion",
+        "return_reversibility"
+      ]
+    },
+    "loaded_hip_hinge": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "stand_loaded",
+          "fraction": 0
+        },
+        {
+          "label": "25%_descent",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_descent",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_descent",
+          "fraction": 0.75
+        },
+        {
+          "label": "bottom_audit",
+          "fraction": 1
+        },
+        {
+          "label": "25%_ascent",
+          "fraction": 0.75,
+          "return_leg": true
+        },
+        {
+          "label": "50%_ascent",
+          "fraction": 0.5,
+          "return_leg": true
+        },
+        {
+          "label": "75%_ascent",
+          "fraction": 0.25,
+          "return_leg": true
+        },
+        {
+          "label": "stand_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Use pelvis/hip-dominant audit motion with conservative distributed spine contribution and slight declared knee flexion; preserve both feet grounded.",
+      "inspect": [
+        "hip_dominance",
+        "hamstring_glute_transition",
+        "lumbar_continuity",
+        "foot_grounding",
+        "return_reversibility"
+      ]
+    },
+    "hip_abduction_adduction": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral",
+          "fraction": 0
+        },
+        {
+          "label": "25%_abduction",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_abduction",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_abduction",
+          "fraction": 0.75
+        },
+        {
+          "label": "abduction_end",
+          "fraction": 1
+        },
+        {
+          "label": "return_neutral",
+          "fraction": 0,
+          "return_leg": true
+        },
+        {
+          "label": "25%_adduction",
+          "fraction": -0.25
+        },
+        {
+          "label": "50%_adduction",
+          "fraction": -0.5
+        },
+        {
+          "label": "75%_adduction",
+          "fraction": -0.75
+        },
+        {
+          "label": "adduction_end",
+          "fraction": -1
+        },
+        {
+          "label": "neutral_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Move one test femur at a time in frontal plane from neutral using frozen aim/rotation helpers while keeping pelvis neutral for the primary audit; mirrored side runs separately.",
+      "inspect": [
+        "groin_adductor_length",
+        "glute_lateral_volume",
+        "pelvis_femur_clearance",
+        "knee_alignment",
+        "bilateral_symmetry"
+      ]
+    },
+    "ankle_plantarflexion": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "neutral_loaded",
+          "fraction": 0
+        },
+        {
+          "label": "25%_plantarflexion",
+          "fraction": 0.25
+        },
+        {
+          "label": "50%_plantarflexion",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_plantarflexion",
+          "fraction": 0.75
+        },
+        {
+          "label": "heel_raise_end",
+          "fraction": 1
+        },
+        {
+          "label": "return_50%",
+          "fraction": 0.5,
+          "return_leg": true
+        },
+        {
+          "label": "neutral_return",
+          "fraction": 0,
+          "return_leg": true
+        }
+      ],
+      "construction": "Apply conservative plantarflexion through foot relative to shin while preserving forefoot/toe contact target; heel rise is measured, not manufactured by root translation.",
+      "inspect": [
+        "calf_shape",
+        "Achilles_path",
+        "heel_rise",
+        "forefoot_contact",
+        "arch_continuity",
+        "return_reversibility"
+      ]
+    },
+    "grip_release": {
+      "implementation_status": "READY_FOR_BLENDER_CALIBRATION",
+      "samples": [
+        {
+          "label": "loaded_closed",
+          "fraction": 1
+        },
+        {
+          "label": "unload_contact",
+          "fraction": 0.9
+        },
+        {
+          "label": "25%_open",
+          "fraction": 0.75
+        },
+        {
+          "label": "50%_open",
+          "fraction": 0.5
+        },
+        {
+          "label": "75%_open",
+          "fraction": 0.25
+        },
+        {
+          "label": "full_open",
+          "fraction": 0
+        },
+        {
+          "label": "return_50%",
+          "fraction": 0.5,
+          "return_leg": true
+        }
+      ],
+      "construction": "Use frozen generic grip(side,amount) helper around neutral hand/forearm orientation. Equipment-specific contact remains a separate contact audit.",
+      "inspect": [
+        "nonuniform_digit_timing",
+        "thumb_release",
+        "surface_bowstring",
+        "wrist_alignment",
+        "return_reversibility"
+      ]
+    }
+  }
+}

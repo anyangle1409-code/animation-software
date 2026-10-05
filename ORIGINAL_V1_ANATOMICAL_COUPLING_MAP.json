@@ -570,7 +570,8 @@
         "HE-ATT-QUAD-001",
         "HE-SQT-001",
         "HE-LNG-001",
-        "HE-KNE-001"
+        "HE-KNE-001",
+        "HE-QUAD-002"
       ],
       "must_move": [
         "anterior thigh length state responds to knee flexion/extension",
@@ -620,7 +621,9 @@
         "HE-HNG-001",
         "HE-SQT-001",
         "HE-LNG-001",
-        "HE-KNE-001"
+        "HE-KNE-001",
+        "HE-HAM-002",
+        "HE-HAM-003"
       ],
       "must_move": [
         "posterior-thigh form responds to combined hip and knee configuration",

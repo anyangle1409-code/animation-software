@@ -64,6 +64,8 @@ jobs:
         run: python scripts/test_validate_original_v1_anatomical_coupling.py
       - name: Run joint-to-tissue trigger tests
         run: python scripts/test_validate_original_v1_joint_tissue_triggers.py
+      - name: Run coupling-zone declaration tests
+        run: python scripts/test_validate_original_v1_coupling_zone_declaration.py
       - name: Run anatomical-coupling evidence tests
         run: python scripts/test_validate_original_v1_anatomical_coupling_evidence.py
       - name: Run shoulder-layer diagnostic validator tests

@@ -21,7 +21,14 @@
     "legacy_direct_post_edit_bundle": "compatibility_only_not_canonical",
     "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
     "direct_post_edit_evidence_bundle": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat",
-    "preferred_workspace_rule": "Use the pre-edit repair workspace -> finalization -> post-repair validation bundle as the preferred operator path. The direct post-edit evidence bundle remains a lower-level utility, not the primary path."
+    "preferred_workspace_rule": "Use the pre-edit repair workspace -> finalization -> post-repair validation bundle as the preferred operator path. The direct post-edit evidence bundle remains a lower-level utility, not the primary path.",
+    "movement_joint_family_requirements": "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json",
+    "movement_sweep_execution_status": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_STATUS.json",
+    "movement_sweep_execution_spec": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_EXECUTION_SPEC.json",
+    "movement_sweep_runner": "RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat",
+    "movement_sweep_runner_calibration": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_RUNNER_CALIBRATION_TEMPLATE.json",
+    "movement_sweep_acceptance": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_ACCEPTANCE_TEMPLATE.json",
+    "stage1_wave_work_package_runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat"
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",

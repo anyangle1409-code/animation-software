@@ -103,9 +103,12 @@ def validate(d,base,require_pass=False):
             ok,why=bind(obj,csha,sweep)
             if not ok: raise ValueError(f"{label} evidence mismatch: {why}")
 
+    required_refs=list(d.get("required_human_evidence_ids") or [])
+    if required_refs!=list(row.get("evidence_ids") or []):
+        raise ValueError("required_human_evidence_ids differ from sweep plan")
     refs=set(d.get("human_evidence_review_refs") or [])
     if engineering=="PASS" or require_pass:
-        missing=set(row.get("evidence_ids") or [])-refs
+        missing=set(required_refs)-refs
         if missing: raise ValueError(f"PASS missing human evidence review refs {sorted(missing)}")
         if d.get("visual_review_status")!="PASS": raise ValueError("PASS requires visual review PASS")
     if require_pass and engineering!="PASS": raise ValueError("engineering PASS required")

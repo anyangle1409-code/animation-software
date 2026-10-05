@@ -68,7 +68,7 @@ class PostEditContinuationPlanTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"current-authority CALIBRATED"):
                     mod.build(self.args(ws,candidate,cal))
 
-    def test_sweep_package_generates_raw_visual_motion_and_collection_commands(self):
+    def test_sweep_package_generates_raw_visual_and_automatic_collection_commands(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); ws=self.make_workspace(root,packages=["RP-PEC-AX-002"],sweeps=["shoulder_abduction_elevation"])
             candidate=self.make_candidate(root); cal=self.make_calibration(root)

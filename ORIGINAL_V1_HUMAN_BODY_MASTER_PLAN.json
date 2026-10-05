@@ -18,7 +18,10 @@
     "pre_edit_repair_workspace_runner": "RUN_ORIGINAL_V1_CREATE_REPAIR_WORKSPACE.bat",
     "post_edit_workspace_finalizer": "RUN_ORIGINAL_V1_FINALIZE_REPAIR_WORKSPACE.bat",
     "post_repair_validation_bundle": "RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat",
-    "legacy_direct_post_edit_bundle": "compatibility_only_not_canonical"
+    "legacy_direct_post_edit_bundle": "compatibility_only_not_canonical",
+    "stage1_progress": "ORIGINAL_V1_STAGE1_PROGRESS.json",
+    "direct_post_edit_evidence_bundle": "RUN_ORIGINAL_V1_CREATE_POST_EDIT_EVIDENCE_BUNDLE.bat",
+    "preferred_workspace_rule": "Use the pre-edit repair workspace -> finalization -> post-repair validation bundle as the preferred operator path. The direct post-edit evidence bundle remains a lower-level utility, not the primary path."
   },
   "product_target": [
     "whole_body_moves_and_deforms_plausibly_across_natural_human_movement",

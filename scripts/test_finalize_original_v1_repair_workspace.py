@@ -35,8 +35,11 @@ class FinalizeRepairWorkspaceTests(unittest.TestCase):
             dec=json.loads((ws/"repair_declaration_rp_pec_ax_002.json").read_text())
             self.assertEqual(dec["pre_edit_candidate_sha256"],pre_sha)
             rec=json.loads((ws/"repair_execution_rp_pec_ax_002.json").read_text())
+            vr=json.loads((ws/"surface_visual_review_final.json").read_text())
             self.assertEqual(rec["pre_edit_candidate_sha256"],pre_sha)
             self.assertEqual(rec["final_candidate_sha256"],final_sha)
+            self.assertEqual(vr["candidate_sha256"],final_sha)
+            self.assertEqual(cm["evidence"]["surface_visual_review_path"],"surface_visual_review_final.json")
 
     def test_finalization_rejects_unchanged_candidate_sha(self):
         with tempfile.TemporaryDirectory() as td:

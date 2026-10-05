@@ -24,7 +24,8 @@
     "PASS requires exact-candidate visual captures for every named sweep sample and every required plan camera.",
     "Contact-bearing sweeps require candidate-bound contact/load evidence; NOT_APPLICABLE is invalid for them.",
     "Continuity and reversibility require explicit reviewed candidate-bound evidence.",
-    "Human-evidence review must cover the sweep plan evidence IDs.",
+    "Required human-evidence IDs are predeclared from the sweep plan; engineering PASS requires explicit review refs covering every required ID.",
     "Engineering PASS never implies owner acceptance or production approval."
-  ]
+  ],
+  "required_human_evidence_ids": []
 }

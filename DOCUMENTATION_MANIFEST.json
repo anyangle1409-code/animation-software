@@ -197,6 +197,12 @@
       "category": "verification",
       "validator": "scripts/validate_original_v1_stage1_progress.py",
       "note": "Fail-closed live Stage 1 progress ledger across 8 dependency waves and 14 repair packages; selects the next operational action without inferring anatomical clearance."
+    },
+    "stage1_wave_work_package": {
+      "category": "workflow",
+      "generator": "scripts/build_original_v1_stage1_wave_work_package.py",
+      "runner": "RUN_ORIGINAL_V1_STAGE1_WAVE_WORK_PACKAGE.bat",
+      "note": "Builds an exact dependency-aware Stage 1 wave brief: packages, coupling/body scope, closure-eligible vs regression-linked defects, frozen poses, deterministic sweep requirements, regression neighbours, blockers, exit criteria and operator commands."
     }
   },
   "categories": {

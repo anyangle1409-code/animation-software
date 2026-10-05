@@ -163,6 +163,22 @@ The calibration record begins `IN_REVIEW`. Do not mark it `CALIBRATED` until
 every adapter has passed its required joint-construction, return/mirroring and
 human-evidence review.
 
+
+For every required **final-candidate** sweep after the model edit, use the
+post-edit continuation packet rather than assembling evidence manually. The
+preferred chain is:
+
+1. `RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEPS.bat` — raw deterministic motion/surface evidence;
+2. `RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_VISUALS.bat` — every required sample/camera;
+3. `RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_CONTACT_RAW.bat` for contact-bearing sweeps;
+4. `RUN_ORIGINAL_V1_COLLECT_WORKSPACE_SWEEP_EVIDENCE.bat` — copies exact-FINAL-SHA evidence into the finalized repair workspace, wires visual/contact pointers and automatically creates each deterministic motion-review record;
+5. review/fill the generated visual, contact, motion and acceptance records against the required human evidence;
+6. `RUN_ORIGINAL_V1_VALIDATE_WORKSPACE_SWEEP_ACCEPTANCE.bat <workspace-dir>` — fail-closed preflight requiring every required sweep acceptance record to be engineering PASS before unified comparison.
+
+The raw motion runner remains diagnostic-only by design. Visual/contact evidence
+is produced by separate dedicated read-only runners so raw measurements cannot
+silently become anatomical classifications.
+
 ## Immediate shoulder recovery sequence
 
 ### A. Read-only diagnostics first

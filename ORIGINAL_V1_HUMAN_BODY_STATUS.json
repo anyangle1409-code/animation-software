@@ -30,14 +30,12 @@
     "High": 7
   },
   "regional_coverage_counts": {
-    "not_started": 1,
-    "evidence_partial": 11
+    "evidence_partial": 12
   },
   "movement_coverage_counts": {
-    "evidence_partial": 19,
-    "not_started": 8
+    "evidence_partial": 27
   },
-  "human_evidence_entry_count": 11,
+  "human_evidence_entry_count": 23,
   "human_evidence_regions": {
     "clavicle_scapula_humerus": 1,
     "scapulohumeral_complex": 1,
@@ -49,8 +47,30 @@
     "fingers_power_grip": 1,
     "thumb_finger_opposition": 1,
     "wrist_forearm_load_path": 1,
-    "wrist_joint_contact": 1
+    "wrist_joint_contact": 1,
+    "trunk_lumbar_hip": 1,
+    "lumbar_spine_pelvis": 1,
+    "hip_knee_ankle_trunk": 1,
+    "hip_knee_ankle": 2,
+    "knee": 1,
+    "ankle_hindfoot": 1,
+    "calf_achilles_ankle": 1,
+    "lumbar_pelvis_hip": 1,
+    "trunk_hip_knee": 1,
+    "cervical_spine": 1,
+    "fingers_thumb_hand": 1
   },
+  "prepared_movement_sweep_count": 8,
+  "prepared_movement_sweeps": [
+    "grip_release",
+    "trunk_flexion",
+    "trunk_extension",
+    "trunk_lateral_bend",
+    "trunk_axial_rotation",
+    "loaded_hip_hinge",
+    "hip_abduction_adduction",
+    "ankle_plantarflexion"
+  ],
   "high_detail_anatomy_allowed": false,
   "why_not_high_detail": "Critical/High whole-body issues remain open.",
   "next_sequence": [
@@ -72,14 +92,15 @@
       "back_posterior_axilla"
     ],
     "comparator_revision": "r95",
-    "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep"
+    "next_evidence": "shoulder deformation-layer diagnostic + declared repair scope + new candidate weights-only elevation sweep; whole-body evidence expansion continues in parallel"
   },
   "authority": {
     "master_plan": "docs/ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md",
     "machine_plan": "ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.json",
     "coverage": "ORIGINAL_V1_HUMAN_BODY_COVERAGE_MATRIX.json",
     "issues": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
-    "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+    "human_evidence": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
+    "movement_sweeps": "ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_PLAN.json"
   },
   "note": "Historical Phase 4/r95 evidence is preserved but does not override the current whole-body anatomical gate."
 }

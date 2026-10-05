@@ -118,7 +118,9 @@ If the pickup packet reports any stop condition, do not begin editing.
 
 9. Run the final-candidate validation bundle:
 
-   `RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <revision> <prior-revision-or-dash> <workspace-dir> <fresh-label>`
+   `RUN_ORIGINAL_V1_POST_REPAIR_VALIDATION_BUNDLE.bat <revision> <prior-revision-or-dash> <workspace-dir> <fresh-label> [calibrated-sweep-runner-record]`
+
+When the workspace requires sweep-only proof movements, the fifth argument is mandatory and must be a validated **CALIBRATED** generic-sweep runner record. The post-repair bundle will then automatically run final-candidate raw sweeps, required visual renders, raw contact/load capture where applicable, build motion-review scaffolds, and collect them into the finalized workspace.
 
 10. Run every generated sweep-only movement acceptance path. Raw sweep output is
     diagnostic input only; candidate comparison requires accepted candidate-bound

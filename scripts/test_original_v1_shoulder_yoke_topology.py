@@ -22,6 +22,7 @@ class ShoulderYokeTopologyTests(unittest.TestCase):
             "expected_new_vertices": 3,
             "maximum_new_vertices": 480,
             "maximum_new_faces": 960,
+            "maximum_new_vertex_influences": 4,
             "preserve_original_vertex_ids": True,
             "preserve_original_positions": True,
             "preserve_shape_key_original_points": True,
@@ -48,6 +49,11 @@ class ShoulderYokeTopologyTests(unittest.TestCase):
         errors = topology.validate_topology_declaration(row)
         self.assertTrue(any("edge IDs" in error for error in errors), errors)
         self.assertTrue(any("new vertices" in error for error in errors), errors)
+
+    def test_new_vertex_influence_limit_is_four(self):
+        row = self.fixture()
+        row["maximum_new_vertex_influences"] = 5
+        self.assertTrue(any("influences" in error for error in topology.validate_topology_declaration(row)))
 
     def test_centerline_bridge_must_be_subset_of_endpoints(self):
         row = self.fixture()

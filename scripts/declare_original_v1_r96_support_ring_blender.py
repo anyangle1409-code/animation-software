@@ -116,9 +116,10 @@ def main() -> int:
         "expected_new_faces": len(edge_ids),
         "maximum_new_vertices": maximum["topology_intent"]["maximum_new_vertices"],
         "maximum_new_faces": maximum["topology_intent"]["maximum_new_faces"],
+        "maximum_new_vertex_influences": 4,
         "ring_midpoint_bbox_min_m": [round(min(float(point[i]) for point in mids), 6) for i in range(3)],
         "ring_midpoint_bbox_max_m": [round(max(float(point[i]) for point in mids), 6) for i in range(3)],
-        "new_vertex_rule": "straight midpoint subdivision; every new shape-key point and vertex-group value is Blender's interpolation of the two existing endpoints",
+        "new_vertex_rule": "straight midpoint subdivision; every new shape-key point is Blender's interpolation of the two existing endpoints; deform weights are the interpolated endpoint values reduced deterministically to the largest four and renormalized",
         "existing_vertex_weight_change": False,
         "preserve_original_vertex_ids": True,
         "preserve_original_positions": True,
@@ -138,7 +139,7 @@ def main() -> int:
         "Declared before topology editing on exact frozen r95.\n\n"
         f"- One closed all-quad ring: {len(edge_ids)} split edges / {len(edge_ids)} expected new vertices and faces\n"
         f"- Existing endpoints: {len(endpoint_ids)}; {len(endpoint_ids) - len(centerline)} inside the maximum paired zone plus {len(centerline)} self-mirror shoulder centerline bridges\n"
-        "- Original vertex IDs, positions, weights, and all original shape-key points remain fixed\n"
+        "- Original vertex IDs, positions, weights, and all original shape-key points remain fixed; new deform rows are capped at four influences\n"
         "- Correctives are retained but disabled during the weights-only gate\n"
         "- Production approval remains false\n",
         encoding="utf-8",

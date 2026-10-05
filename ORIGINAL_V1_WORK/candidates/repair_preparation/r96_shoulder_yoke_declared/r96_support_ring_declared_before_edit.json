@@ -386,6 +386,7 @@
   "expected_new_faces": 120,
   "maximum_new_vertices": 480,
   "maximum_new_faces": 960,
+  "maximum_new_vertex_influences": 4,
   "ring_midpoint_bbox_min_m": [
     -0.281424,
     -0.121251,
@@ -396,7 +397,7 @@
     0.15928,
     1.419322
   ],
-  "new_vertex_rule": "straight midpoint subdivision; every new shape-key point and vertex-group value is Blender's interpolation of the two existing endpoints",
+  "new_vertex_rule": "straight midpoint subdivision; every new shape-key point is Blender's interpolation of the two existing endpoints; deform weights are the interpolated endpoint values reduced deterministically to the largest four and renormalized",
   "existing_vertex_weight_change": false,
   "preserve_original_vertex_ids": true,
   "preserve_original_positions": true,

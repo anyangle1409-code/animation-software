@@ -49,6 +49,8 @@ def validate_topology_declaration(data: dict[str, Any]) -> list[str]:
         errors.append("expected new vertices must equal the split edge count")
     if not isinstance(max_faces, int) or not 0 < max_faces <= 960:
         errors.append("maximum new faces must be finite and within 960")
+    if data.get("maximum_new_vertex_influences") != 4:
+        errors.append("new vertices must have at most four deform influences")
 
     for key in (
         "preserve_original_vertex_ids", "preserve_original_positions",

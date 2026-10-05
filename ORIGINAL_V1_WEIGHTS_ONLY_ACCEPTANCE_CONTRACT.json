@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_WEIGHTS_ONLY_ACCEPTANCE_CONTRACT",
+  "production_approved": false,
+  "rule": "A region cannot progress to corrective refinement until its weights-only surface is anatomically plausible through relevant outbound/intermediate/endpoint/return motion. Numeric deformation health is necessary but not sufficient.",
+  "universal_dimensions": [
+    "attachment_continuity",
+    "shared_ownership_gradient",
+    "volume_conservation_and_redistribution",
+    "lengthening_compression_direction",
+    "fold_crease_mechanical_logic",
+    "silhouette_continuity",
+    "dense_motion_continuity",
+    "return_reversibility",
+    "bilateral_consistency",
+    "contact_load_path_if_applicable"
+  ],
+  "universal_failures": [
+    "detached_attachment",
+    "single_bone_wholesale_drag",
+    "abrupt_weight_seam",
+    "membrane",
+    "trench_or_hard_pit",
+    "floating_lobe_or_shelf",
+    "volume_teleport_or_balloon",
+    "persistent_unloaded_crease",
+    "transient_pop",
+    "residual_return_deformation",
+    "unexplained_left_right_asymmetry",
+    "contact_penetration_or_float"
+  ],
+  "regions": [
+    {
+      "id": "head_neck_trapezius",
+      "coupling_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-TRUNK-008"
+      ],
+      "criteria": [
+        "distributed neck/trunk participation where applicable",
+        "neck-to-trap slope remains continuous",
+        "shoulder-girdle motion does not detach posterior neck/trap surface",
+        "no rigid collar or pinch",
+        "return restores neutral contour"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "clavicle_shoulder_deltoid",
+      "coupling_ids": [
+        "CP-NECK-TRAP-001",
+        "CP-PEC-AX-002",
+        "CP-POSTAX-003",
+        "CP-DELTOID-004"
+      ],
+      "criteria": [
+        "clavicle/scapula/humerus surface remains coupled",
+        "deltoid remains yoke-like not spherical",
+        "anterior and posterior shoulder transitions stay broad and continuous",
+        "no arm-neck pinch or shelf",
+        "both sides comparable for mirrored input"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "chest_anterior_axilla",
+      "coupling_ids": [
+        "CP-PEC-AX-002",
+        "CP-TRUNK-008"
+      ],
+      "criteria": [
+        "medial/central pec remains chest-rooted",
+        "humeral insertion side follows arm",
+        "anterior fold changes angle/length continuously",
+        "lateral chest retains believable volume",
+        "no wing membrane trench or detached slab"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "back_posterior_axilla",
+      "coupling_ids": [
+        "CP-POSTAX-003",
+        "CP-NECK-TRAP-001"
+      ],
+      "criteria": [
+        "broad back mass remains trunk-rooted",
+        "posterior fold follows humeral/scapular state",
+        "scapular drape remains continuous",
+        "no flap cape lobe or posterior trench",
+        "return removes transient fold changes"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "ribcage_abdomen_obliques_lumbar",
+      "coupling_ids": [
+        "CP-TRUNK-008"
+      ],
+      "criteria": [
+        "motion distributed rather than single waist hinge",
+        "compressed side folds while lengthened side remains continuous",
+        "ribcage-to-pelvis volume changes gradually",
+        "no knife crease or membrane stretch",
+        "twist/folds reverse on return"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "upperarm_elbow",
+      "coupling_ids": [
+        "CP-ARM-005",
+        "CP-DELTOID-004"
+      ],
+      "criteria": [
+        "upperarm contour changes with elbow state",
+        "antecubital/posterior folds remain joint-centered",
+        "forearm rotation does not corkscrew upper arm",
+        "no cylindrical hinge or fixed ring crease",
+        "shoulder continuity preserved"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "forearm_wrist",
+      "coupling_ids": [
+        "CP-WRIST-HAND-006",
+        "CP-ARM-005"
+      ],
+      "criteria": [
+        "pronation/supination distributes through forearm-to-wrist path",
+        "wrist stays centered",
+        "loaded extension does not collapse wrist surface",
+        "no abrupt twist seam or trench",
+        "hand load remains continuous into forearm"
+      ],
+      "contact_applicable": true
+    },
+    {
+      "id": "palm_thumb_fingers",
+      "coupling_ids": [
+        "CP-FINGER-007",
+        "CP-WRIST-HAND-006"
+      ],
+      "criteria": [
+        "digit joint contributions are non-uniform and coordinated",
+        "thumb opposition is distinct",
+        "volar tendon/palm path remains close to skeleton",
+        "creases remain joint-centered and reversible",
+        "grip/release clears equipment without penetration"
+      ],
+      "contact_applicable": true
+    },
+    {
+      "id": "pelvis_groin_glutes",
+      "coupling_ids": [
+        "CP-GLUTE-009",
+        "CP-GROIN-010",
+        "CP-TRUNK-008"
+      ],
+      "criteria": [
+        "glute remains pelvic-rooted while changing with femur state",
+        "groin/adductor path lengthens/compresses coherently",
+        "pelvis-femur transition stays continuous in deep flexion",
+        "no glute shelf crotch tunnel or planar membrane",
+        "folds reverse on return"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "thigh_knee",
+      "coupling_ids": [
+        "CP-QUAD-011",
+        "CP-HAM-012",
+        "CP-GLUTE-009",
+        "CP-GROIN-010"
+      ],
+      "criteria": [
+        "anterior and posterior thigh respond to combined hip/knee state",
+        "quad-to-patella chain remains continuous",
+        "hamstring boundaries preserve popliteal clearance",
+        "no patellar trench or posterior-knee tunnel",
+        "deep flexion retains plausible volume"
+      ],
+      "contact_applicable": false
+    },
+    {
+      "id": "calf_ankle_achilles",
+      "coupling_ids": [
+        "CP-CALF-013",
+        "CP-FOOT-014"
+      ],
+      "criteria": [
+        "gastrocnemius responds to knee and ankle state",
+        "soleus/Achilles path remains continuous",
+        "heel rise changes calf/Achilles form",
+        "no kink detachment or rigid calf",
+        "contact state propagates coherently"
+      ],
+      "contact_applicable": true
+    },
+    {
+      "id": "foot_toes",
+      "coupling_ids": [
+        "CP-FOOT-014",
+        "CP-CALF-013"
+      ],
+      "criteria": [
+        "ankle/hindfoot/arch/forefoot act as a chain",
+        "arch and heel contact change coherently",
+        "toe articulation supports loading",
+        "no rigid foot block arch collapse float or penetration",
+        "return restores neutral contact geometry"
+      ],
+      "contact_applicable": true
+    }
+  ],
+  "evidence_required_per_region": [
+    "exact_candidate_sha256",
+    "weights_only_capture_manifest",
+    "outbound_intermediate_endpoint_return_frames",
+    "whole_body_context_views",
+    "regional_close_views",
+    "coupling_weight_audit_where_repaired",
+    "dense_motion_continuity",
+    "motion_reversibility",
+    "linked_defect_ids",
+    "engineering_disposition"
+  ],
+  "allowed_dispositions": [
+    "NOT_RUN",
+    "FAIL",
+    "CLEAR"
+  ],
+  "clear_rule": "CLEAR requires every listed criterion and universal dimension applicable to the region to be supported by candidate-bound evidence; no corrective layer may be used in the acceptance images/data.",
+  "result_template": "ORIGINAL_V1_WEIGHTS_ONLY_ACCEPTANCE_TEMPLATE.json"
+}

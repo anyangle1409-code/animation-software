@@ -29,4 +29,19 @@ class NonBlenderPrepStatusTests(unittest.TestCase):
         bad=copy.deepcopy(self.d)
         bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="workspace_sweep_acceptance_preflight"]
         with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
+
+    def test_complete_status_requires_controlled_sweep_finalization(self):
+        bad=copy.deepcopy(self.d)
+        bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="controlled_sweep_finalization"]
+        with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
+
+    def test_complete_status_requires_package_aware_sweep_pipeline(self):
+        bad=copy.deepcopy(self.d)
+        bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="package_aware_sweep_pipeline"]
+        with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
+
+    def test_complete_status_requires_preferred_quickstart(self):
+        bad=copy.deepcopy(self.d)
+        bad["prepared_components"]=[x for x in bad["prepared_components"] if x["id"]!="preferred_laptop_quickstart"]
+        with self.assertRaisesRegex(ValueError,"required non-Blender prepared components missing"): mod.validate(bad)
 if __name__=="__main__": unittest.main()

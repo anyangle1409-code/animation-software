@@ -33,7 +33,14 @@
     "contact_refs": [
       "required when relevant"
     ],
-    "state": "NOT_RUN | COMPLETE | BLOCKED"
+    "state": "NOT_RUN | COMPLETE | BLOCKED",
+    "derived_joint_families": [
+      "trigger-derived joint families from moved_bones"
+    ],
+    "required_joint_families": [
+      "minimum required joint families from movement_joint_requirements"
+    ]
   },
-  "note": "Create a fresh candidate-specific copy. The required coupling systems are derived from moved bones using the authoritative trigger map; a sample cannot be COMPLETE if any triggered tissue system is absent."
+  "note": "Create a fresh candidate-specific copy. Required coupling systems and moved joint families are derived from moved_bones. A sample cannot be COMPLETE if any triggered tissue system is absent or if moved bones fail to cover the named movement family's required joint families.",
+  "movement_joint_requirements": "ORIGINAL_V1_MOVEMENT_JOINT_FAMILY_REQUIREMENTS.json"
 }

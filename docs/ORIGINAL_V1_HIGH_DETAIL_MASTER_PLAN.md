@@ -1,4 +1,4 @@
-# ORIGINAL v1 high-detail master production plan
+> **AUTHORITY UPDATE — 2026-10-05:** This historical Phase 0–12 roadmap is now subordinate to [ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md](ORIGINAL_V1_HUMAN_BODY_MASTER_PLAN.md) for anatomical/body-readiness decisions. The r95 Phase 4 freeze remains immutable historical evidence, but the owner's whole-body visual rejection reopens Master Stage 1. **Do not execute Phase 5A merely because Phase 4 is historically complete.** Open Critical/High whole-body issues block high-detail anatomy and dependent later stages.\n\n# ORIGINAL v1 high-detail master production plan
 
 This is the single authoritative high-level model roadmap for
 `HomeGymPT_Male_ORIGINAL_v1`, rig `hgpt_canonical_v4_original`, on

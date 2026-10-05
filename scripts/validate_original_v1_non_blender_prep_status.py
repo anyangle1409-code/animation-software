@@ -33,7 +33,8 @@ def validate(d):
         "generic_movement_sweep_motion_runner","generic_movement_sweep_visual_capture",
         "generic_movement_sweep_contact_capture","generic_movement_sweep_acceptance",
         "post_repair_sweep_integration","workspace_sweep_acceptance_preflight",
-        "laptop_workflow_integrity","contract_gates"
+        "laptop_workflow_integrity","contract_gates",
+        "package_aware_sweep_pipeline","controlled_sweep_finalization","preferred_laptop_quickstart"
     }
     missing_components=sorted(required_component_ids-set(ids))
     if missing_components:

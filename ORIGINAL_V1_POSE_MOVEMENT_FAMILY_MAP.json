@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORITATIVE_POSE_TO_MOVEMENT_FAMILY_MAP",
+  "production_approved": false,
+  "pose_definition_script": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+  "mappings": {
+    "neutral": [
+      "neutral_shoulder_control",
+      "neutral_braced_trunk"
+    ],
+    "curl_peak": [
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "press_bottom": [
+      "vertical_push",
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "press_top": [
+      "vertical_push",
+      "shoulder_flexion_elevation",
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "press_top_rhythm": [
+      "vertical_push",
+      "shoulder_flexion_elevation",
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "squat_bottom": [
+      "squat_deep_bilateral_flexion",
+      "ankle_dorsiflexion",
+      "loaded_foot_toe_contact",
+      "neutral_braced_trunk"
+    ],
+    "pushup_bottom": [
+      "horizontal_push",
+      "wrist_flexion_extension_loaded",
+      "loaded_foot_toe_contact",
+      "neutral_braced_trunk"
+    ],
+    "pullup_hang": [
+      "vertical_pull_hang",
+      "shoulder_flexion_elevation",
+      "cylindrical_equipment_grip"
+    ],
+    "pullup_hang_rhythm": [
+      "vertical_pull_hang",
+      "shoulder_flexion_elevation",
+      "cylindrical_equipment_grip"
+    ],
+    "pullup_top": [
+      "vertical_pull_hang",
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "lunge": [
+      "split_stance_lunge",
+      "hip_flexion_extension",
+      "knee_flexion_extension",
+      "ankle_dorsiflexion",
+      "loaded_foot_toe_contact"
+    ],
+    "row": [
+      "horizontal_pull",
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "grip": [
+      "cylindrical_equipment_grip"
+    ],
+    "curl_handle": [
+      "elbow_flexion_extension",
+      "cylindrical_equipment_grip"
+    ],
+    "pullup_bar": [
+      "vertical_pull_hang",
+      "cylindrical_equipment_grip"
+    ]
+  },
+  "rule": "Pose names are validation fixtures only. Mapping them to movement families is for evidence planning and must never make pose/exercise identity a deformation driver."
+}

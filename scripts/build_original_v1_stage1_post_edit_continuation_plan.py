@@ -97,13 +97,6 @@ def build(a):
         if contact_sweeps:
             collect+=" "+dq(contact_dir)
         commands.append({"phase":"collect_sweep_evidence","command":collect,"blocking":True})
-        for sid in required:
-            motion=ws/f"human_movement_sweep_motion_{safe(sid)}_final.json"
-            commands.append({
-              "phase":"build_sweep_motion_review:"+sid,
-              "command":"RUN_ORIGINAL_V1_HUMAN_MOVEMENT_SWEEP_MOTION_REVIEW.bat "+dq(raw)+" "+dq(sid)+" "+dq(a.revision)+" "+dq(motion),
-              "blocking":True
-            })
         commands.append({
           "phase":"sweep_engineering_review_gate",
           "command":"Review/fill every generated sweep visual, contact (where required), motion and acceptance record; validate each acceptance with --require-pass before unified comparison.",

@@ -1,0 +1,475 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_WHOLE_BODY_DEFORMATION_AUDIT_PLAN",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "rig": "hgpt_canonical_v4_original",
+  "production_approved": false,
+  "purpose": "Candidate-bound whole-body deformation proof after the shoulder/axilla recovery. The audit is movement-primitive and anatomical-transition based, not exercise-name based, and is fail-closed on visible human-anatomy defects.",
+  "prerequisites": [
+    "Use the live recovery branch and exact candidate hashes; preserve r95 and every historical baseline.",
+    "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json and ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json validate with no missing movement category.",
+    "Use the exact production deformation path for every visual decision.",
+    "Do not weaken ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json thresholds or comparison tolerances.",
+    "Any Critical/High visual defect is entered in ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json and blocks Phase 4 refreeze until closed with committed evidence."
+  ],
+  "temporal_sampling": {
+    "required_classes": [
+      "start",
+      "outbound_intermediate",
+      "peak_or_bottom",
+      "return_intermediate",
+      "end_or_loop_close",
+      "turnaround_neighbourhood"
+    ],
+    "continuous_arc_rule": "For joint ranges with known deformation risk, sample the continuous arc at enough deterministic fractions to expose onset, maximum and reversal behaviour. Endpoint-only evidence is insufficient.",
+    "reversal_rule": "Inspect before, at and after direction reversal to detect popping, corrective hysteresis or discontinuity."
+  },
+  "transition_zones": [
+    {
+      "id": "WBZ-01",
+      "name": "neck_to_shoulder",
+      "structures": [
+        "neck",
+        "upper trapezius",
+        "clavicle",
+        "deltoid"
+      ],
+      "movement_categories": [
+        "vertical_push",
+        "vertical_pull",
+        "shoulder_raise",
+        "trunk_rotation"
+      ],
+      "checks": [
+        "surface continuity",
+        "clavicle/trapezius coupling",
+        "no rigid collar edge",
+        "no neck volume collapse"
+      ]
+    },
+    {
+      "id": "WBZ-02",
+      "name": "clavicle_to_chest",
+      "structures": [
+        "clavicle",
+        "pectoralis major",
+        "upper thorax"
+      ],
+      "movement_categories": [
+        "vertical_push",
+        "horizontal_push",
+        "shoulder_raise"
+      ],
+      "checks": [
+        "chest-rooted pec volume",
+        "clavicular continuity",
+        "no ballooning or trench"
+      ]
+    },
+    {
+      "id": "WBZ-03",
+      "name": "shoulder_to_upper_arm",
+      "structures": [
+        "deltoid",
+        "humerus",
+        "proximal biceps",
+        "proximal triceps"
+      ],
+      "movement_categories": [
+        "vertical_push",
+        "vertical_pull",
+        "shoulder_raise",
+        "forearm_rotation"
+      ],
+      "checks": [
+        "continuous silhouette",
+        "no pinch",
+        "no spherical rigid cap",
+        "axial-rotation response"
+      ]
+    },
+    {
+      "id": "WBZ-04",
+      "name": "chest_to_axilla",
+      "structures": [
+        "pectoralis major",
+        "anterior axillary fold",
+        "serratus region",
+        "upper arm"
+      ],
+      "movement_categories": [
+        "vertical_push",
+        "vertical_pull",
+        "horizontal_push",
+        "shoulder_raise"
+      ],
+      "checks": [
+        "distinct supported anterior fold",
+        "no planar membrane",
+        "no excessive pec transport",
+        "no lateral chest collapse"
+      ]
+    },
+    {
+      "id": "WBZ-05",
+      "name": "back_to_shoulder",
+      "structures": [
+        "latissimus dorsi",
+        "teres major",
+        "posterior axillary fold",
+        "scapular region",
+        "posterior deltoid"
+      ],
+      "movement_categories": [
+        "vertical_pull",
+        "horizontal_push",
+        "vertical_push",
+        "shoulder_raise"
+      ],
+      "checks": [
+        "supported posterior fold",
+        "scapular-region continuity",
+        "no cape/ledge",
+        "no posterior wing"
+      ]
+    },
+    {
+      "id": "WBZ-06",
+      "name": "elbow_transition",
+      "structures": [
+        "distal upper arm",
+        "olecranon region",
+        "proximal forearm"
+      ],
+      "movement_categories": [
+        "elbow_flexion",
+        "elbow_extension",
+        "horizontal_push",
+        "vertical_pull"
+      ],
+      "checks": [
+        "compression on flexion",
+        "stretch on extension",
+        "no candy-wrapper twist",
+        "no volume pinch"
+      ]
+    },
+    {
+      "id": "WBZ-07",
+      "name": "forearm_to_wrist",
+      "structures": [
+        "radius_ulna_region",
+        "forearm flexors/extensors",
+        "wrist"
+      ],
+      "movement_categories": [
+        "forearm_rotation",
+        "wrist_floor_load",
+        "hand_grip"
+      ],
+      "checks": [
+        "twist distributed through forearm",
+        "stable wrist cross-section",
+        "load path continuity",
+        "no abrupt wrist twist"
+      ]
+    },
+    {
+      "id": "WBZ-08",
+      "name": "wrist_to_hand",
+      "structures": [
+        "wrist",
+        "carpus",
+        "palm"
+      ],
+      "movement_categories": [
+        "wrist_floor_load",
+        "hand_grip",
+        "thumb_opposition"
+      ],
+      "checks": [
+        "palm/wrist continuity",
+        "floor-load compression",
+        "equipment alignment",
+        "no detached hand appearance"
+      ]
+    },
+    {
+      "id": "WBZ-09",
+      "name": "palm_to_fingers_thumb",
+      "structures": [
+        "palm arch",
+        "digits",
+        "thumb web",
+        "thenar region"
+      ],
+      "movement_categories": [
+        "hand_grip",
+        "thumb_opposition"
+      ],
+      "checks": [
+        "sequential digit wrap",
+        "thumb opposition",
+        "diameter adaptation",
+        "stable contact",
+        "no uniform finger curl"
+      ]
+    },
+    {
+      "id": "WBZ-10",
+      "name": "thorax_to_abdomen",
+      "structures": [
+        "ribcage surface",
+        "abdominal wall",
+        "obliques"
+      ],
+      "movement_categories": [
+        "trunk_flexion",
+        "trunk_extension",
+        "trunk_rotation",
+        "lateral_flexion",
+        "anti_rotation"
+      ],
+      "checks": [
+        "segmental compression/stretch",
+        "volume continuity",
+        "no rigid torso block",
+        "no accordion fold"
+      ]
+    },
+    {
+      "id": "WBZ-11",
+      "name": "abdomen_to_pelvis",
+      "structures": [
+        "lower abdomen",
+        "iliac region",
+        "pelvis"
+      ],
+      "movement_categories": [
+        "trunk_flexion",
+        "hip_hinge",
+        "deep_squat",
+        "unilateral_lunge"
+      ],
+      "checks": [
+        "lower-abdomen compression",
+        "pelvic transition continuity",
+        "no groin pull from torso",
+        "no volume collapse"
+      ]
+    },
+    {
+      "id": "WBZ-12",
+      "name": "pelvis_to_thigh",
+      "structures": [
+        "hip capsule surface",
+        "upper thigh",
+        "groin"
+      ],
+      "movement_categories": [
+        "hip_hinge",
+        "deep_squat",
+        "unilateral_lunge"
+      ],
+      "checks": [
+        "hip flexion fold",
+        "groin continuity",
+        "no leg-torso membrane",
+        "no upper-thigh pinch"
+      ]
+    },
+    {
+      "id": "WBZ-13",
+      "name": "glute_to_thigh",
+      "structures": [
+        "gluteal region",
+        "posterior upper thigh"
+      ],
+      "movement_categories": [
+        "hip_hinge",
+        "deep_squat",
+        "unilateral_lunge"
+      ],
+      "checks": [
+        "gluteal compression/stretch",
+        "posterior-chain continuity",
+        "no buttock detachment",
+        "no hinge crease artifact"
+      ]
+    },
+    {
+      "id": "WBZ-14",
+      "name": "knee_transition",
+      "structures": [
+        "distal thigh",
+        "patellar region",
+        "proximal calf"
+      ],
+      "movement_categories": [
+        "deep_squat",
+        "unilateral_lunge",
+        "ankle_calf"
+      ],
+      "checks": [
+        "patellar contour continuity",
+        "posterior-knee compression",
+        "no knee collapse",
+        "no thigh/calf interpenetration"
+      ]
+    },
+    {
+      "id": "WBZ-15",
+      "name": "ankle_to_foot",
+      "structures": [
+        "distal calf",
+        "Achilles region",
+        "ankle",
+        "hindfoot"
+      ],
+      "movement_categories": [
+        "ankle_calf",
+        "deep_squat",
+        "unilateral_lunge"
+      ],
+      "checks": [
+        "dorsiflexion/plantarflexion continuity",
+        "Achilles transition",
+        "stable planted contact",
+        "no ankle pinch"
+      ]
+    },
+    {
+      "id": "WBZ-16",
+      "name": "forefoot_to_toes",
+      "structures": [
+        "midfoot",
+        "forefoot",
+        "toes"
+      ],
+      "movement_categories": [
+        "ankle_calf",
+        "deep_squat",
+        "unilateral_lunge"
+      ],
+      "checks": [
+        "forefoot contact continuity",
+        "toe/ball-of-foot articulation where present",
+        "no floating/collapsed forefoot",
+        "no contact drift"
+      ]
+    }
+  ],
+  "movement_categories_required": [
+    "trunk_flexion",
+    "trunk_extension",
+    "trunk_rotation",
+    "lateral_flexion",
+    "anti_rotation",
+    "hip_hinge",
+    "deep_squat",
+    "unilateral_lunge",
+    "ankle_calf",
+    "horizontal_push",
+    "vertical_push",
+    "vertical_pull",
+    "shoulder_raise",
+    "elbow_flexion",
+    "elbow_extension",
+    "forearm_rotation",
+    "wrist_floor_load",
+    "hand_grip",
+    "thumb_opposition"
+  ],
+  "numerical_evidence": {
+    "source": "ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json",
+    "required": [
+      "volume",
+      "edge stretch/compression percentiles",
+      "regional extrema",
+      "self-intersection",
+      "lowest contact height",
+      "grip penetration/contact where applicable",
+      "symmetry where applicable"
+    ],
+    "rule": "Use existing development/production thresholds and existing comparison tolerances. Do not create a lenient local pass threshold to rescue a candidate."
+  },
+  "visual_evidence": {
+    "required_views": [
+      "front",
+      "rear",
+      "left_or_right_side",
+      "front_three_quarter",
+      "rear_three_quarter",
+      "local_closeup_where_transition_is_at_risk"
+    ],
+    "rule": "Visual review is anatomical evidence, not presentation polish. A numerically green candidate with an obvious human-anatomy failure is blocked.",
+    "reference_source": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+  },
+  "execution_order": [
+    {
+      "stage": 1,
+      "name": "shoulder_complex_recovery",
+      "zones": [
+        "WBZ-01",
+        "WBZ-02",
+        "WBZ-03",
+        "WBZ-04",
+        "WBZ-05"
+      ],
+      "note": "Complete r96 Task 7 first; this is the current active work."
+    },
+    {
+      "stage": 2,
+      "name": "hand_wrist_load_path",
+      "zones": [
+        "WBZ-06",
+        "WBZ-07",
+        "WBZ-08",
+        "WBZ-09"
+      ],
+      "note": "Resolve existing WB-GRP-009 and WB-WRI-010 rather than relying on previous numerical pass."
+    },
+    {
+      "stage": 3,
+      "name": "trunk_pelvis_continuity",
+      "zones": [
+        "WBZ-10",
+        "WBZ-11"
+      ],
+      "note": "Prove flexion, extension, lateral flexion, rotation and anti-rotation."
+    },
+    {
+      "stage": 4,
+      "name": "hip_upper_leg",
+      "zones": [
+        "WBZ-12",
+        "WBZ-13"
+      ],
+      "note": "Prove hinge, deep squat and unilateral lunge transitions."
+    },
+    {
+      "stage": 5,
+      "name": "knee_ankle_foot",
+      "zones": [
+        "WBZ-14",
+        "WBZ-15",
+        "WBZ-16"
+      ],
+      "note": "Prove deep-flexion and loaded heel-raise/contact behaviour."
+    }
+  ],
+  "issue_policy": {
+    "ledger": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
+    "blocking_severities": [
+      "Critical",
+      "High"
+    ],
+    "blocking_states": [
+      "Open",
+      "In Progress",
+      "Pending Review"
+    ],
+    "closure_rule": "Fixed/Accepted requires committed candidate-bound closure evidence. Numerical success alone cannot close a visual issue."
+  },
+  "exit_condition": "Every required movement category and transition zone has candidate-bound numerical and production-path visual evidence; no Critical/High blocker remains; whole-body regressions are clear; only then may Phase 4 development-freeze validation be attempted."
+}

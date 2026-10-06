@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "status": "TASK7_VISUAL_REVIEW_TEMPLATE_ONLY",
+  "production_approved": false,
+  "source_candidate_sha256": "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd",
+  "candidate_sha256": null,
+  "source_git_commit": null,
+  "production_path_rendered": null,
+  "visual_pass": null,
+  "symmetry_pass": null,
+  "arc_continuity_pass": null,
+  "whole_body_regression_pass": null,
+  "real_human_reference_checked": null,
+  "critical_high_remaining": null,
+  "renders": [
+    {
+      "pose": "neutral",
+      "view": "front_three_quarter",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "neutral",
+      "view": "rear_three_quarter",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "press_top",
+      "view": "front",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "press_top",
+      "view": "three_quarter",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "press_top",
+      "view": "rear",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pullup_hang",
+      "view": "three_quarter",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pullup_hang",
+      "view": "rear",
+      "path": null,
+      "sha256": null
+    }
+  ],
+  "issue_reviews": [
+    {
+      "id": "WB-AX-001",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-PEC-002",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-PEC-003",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-AX-004",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-AX-001",
+        "HE-AX-002",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-SHO-005",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-SHO-006",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-VIS-003"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-CLV-007",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-SYM-008",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    }
+  ],
+  "instructions": [
+    "Template only: copy to a fresh candidate-specific path; never edit this template into evidence.",
+    "Every render path must be a real production-path image and every SHA-256 must match the committed bytes.",
+    "Each issue row must be reviewed explicitly against its listed real-human evidence and committed candidate renders.",
+    "PASS requires no unresolved membrane/trench, pec transport, chest collapse, unsupported posterior fold, deltoid/junction defect, coupling defect or unexplained bilateral asymmetry.",
+    "The Task 7 gate remains blocked if any field is missing, unknown, or not PASS."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "r97_declaration_amendment",
+  "amends": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r97_declared_before_edit.json",
+  "declared_before_candidate_file": true,
+  "production_approved": false,
+  "context": "Exploration on scratch copies (never committed as a candidate) found causes in the skeleton-mechanics layer, which the original r97 declaration did not cover. This amendment is committed before the r97 candidate file is built.",
+  "skeleton_mechanics": [
+    {
+      "change": "scapula_<l|r> pivot moved to the AC joint (clavicle tail = glenohumeral centre in this rig) by translating head and tail by the same vector",
+      "preserved": "bone direction, length and roll (local rotation axes and their runtime meaning unchanged); rest mesh unchanged; no other bone moved",
+      "evidence": "Through elevation, with the rev2c pivot 35% down the bone, the glenohumeral centre slides medially: x = -0.215 at rest, -0.135 at 150 deg abduction and -0.122 at 170 deg (9.3 cm toward the neck), while the clavicle tip stays at x = -0.204. This detaches the humeral head from the acromion and drives the shoulder top into the neck. With the pivot at the AC joint the centre moves 1.1 cm medially and rises 5.0 cm (clavicular elevation) at 170 deg. The rev2c pivot move had been made to reduce back-skin stretching under r42-era weights; the rebuilt weights limit the scapula share on the back instead.",
+      "rig_revision": "rev2e_scapula_ac_pivot_gh_helpers"
+    },
+    {
+      "change": "add glenohumeral_half_<l|r> (deforming) and glenohumeral_ref_<l|r> (non-deforming), children of scapula_<l|r>, rest frame identical to upperarm_<l|r>",
+      "driver": "glenohumeral_half = half of the humerus' swing plus all of its axial twist relative to the scapula. Blender: COPY_ROTATION(world, upperarm) then DAMPED_TRACK(tail of glenohumeral_ref, influence 0.5) = slerp(swing*twist, twist, 0.5) = swing^0.5 * twist. Runtime: q = slerp(I, swing(q_upperarm_local), 0.5) * twist(q_upperarm_local), twist about bone Y.",
+      "evidence": "Weights-only linear blend skinning across the full glenohumeral angle (up to ~130 deg relative to the scapula) collapses junction tissue onto the chord: on the corrected pivot without the helper, the transition tissue reaches 6.5% of its rest distance from the joint and the matrix has 3006 self-intersecting face pairs; with the helper and the same weights method, 86-90% and 502-1654. Half-twist-only variants put a visible S-bend in the proximal arm (bench-type pose), so the helper carries the full twist. Distinct from the rejected upperarm_tw0/tw1 twist helpers (2026-10-02), which only distributed axial twist along the humerus.",
+      "bone_count": "67 -> 71 (69 deforming)"
+    }
+  ],
+  "weights_scope_amendment": {
+    "permitted_bones_added": ["glenohumeral_half_l", "glenohumeral_half_r"],
+    "arm_extent": "upper arm proximal to z = 1.25 m (the elbow joint is at z = 1.19 m); the original wording limited arm edits to above the humerus mid-shaft (z = 1.35 m)",
+    "evidence": "Holding the solve above the mid-shaft (variant v22) more than doubles self-intersections against the longer arm transition (3628 vs 1552 face pairs over the matrix) and brings collapse back (0.66 vs 0.90)",
+    "unchanged": "every bone outside the declared set (neck, head, pelvis, spine_01, legs, forearms, hands) keeps its r95 weight exactly on every vertex; at most 4 influences per vertex"
+  },
+  "correctives": "unchanged from the declaration: the six r95 shoulder corrective shape keys are retained at value 0 and their driver configs removed from the scene; no corrective fitted",
+  "stop_conditions_unchanged": true
+}

@@ -6,3 +6,12 @@
 - Fidelity check: the repository pose test (`scripts/pose_test_original_v1_o4_candidate_blender.py`, run through `scripts/r97/run_repo_script.py`) on the reconstruction reproduces r95's full-evidence metrics exactly for press_top, press_top_rhythm, pullup_hang and curl_peak (`r95_reconstruction_pose_check.json`).
 - Readiness: `r97_readiness.json` = `BLENDER_FOUNDATION_EDIT_ALLOWED`.
 - Scope, intent and stop conditions: `r97_declared_before_edit.json`.
+
+## Amendment (committed before the candidate file)
+
+`r97_mechanics_and_scope_amendment_declared_before_candidate.json` adds:
+- the skeleton-mechanics layer: scapula pivot moved to the AC joint, and the glenohumeral half-swing helpers;
+- the helper influences;
+- an arm scope extending to just above the elbow.
+
+Each comes with its measured evidence.

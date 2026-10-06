@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Home Gym PT animation export bundle v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generator_version",
+    "rig_version",
+    "character_version",
+    "character_sha256",
+    "character_approval_status",
+    "render_profile_version",
+    "assets"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "generator_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rig_version": {
+      "const": "hgpt_canonical_v4_original"
+    },
+    "character_version": {
+      "const": "HomeGymPT_Male_ORIGINAL_v1"
+    },
+    "character_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "character_approval_status": {
+      "const": "production_approved"
+    },
+    "render_profile_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "exercise_id",
+          "source_exercise_id",
+          "filename",
+          "sha256",
+          "source_animation_sha256",
+          "provenance_classification",
+          "generated_by_first_party_animation_software",
+          "validation_status"
+        ],
+        "properties": {
+          "exercise_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_exercise_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "filename": {
+            "type": "string",
+            "pattern": ".+\\\\.(webm|mp4)$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_animation_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "provenance_classification": {
+            "const": "FIRST_PARTY_CONFIRMED"
+          },
+          "generated_by_first_party_animation_software": {
+            "const": true
+          },
+          "validation_status": {
+            "const": "passed"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

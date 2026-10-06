@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_WHOLE_BODY_HUMAN_EVIDENCE_COVERAGE",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "production_approved": false,
+  "movement_envelope_source": "ORIGINAL_V1_MOVEMENT_ENVELOPE.json",
+  "evidence_manifest_source": "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
+  "rule": "Every required movement category must bind at least one verified real-human evidence item before whole-body anatomical acceptance. Coverage is necessary but not sufficient: candidate-specific production-path visual/numerical evidence is still required.",
+  "categories": [
+    {
+      "id": "trunk_flexion",
+      "evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Isolated healthy-adult trunk flexion; loaded exercise-specific surface validation still required."
+    },
+    {
+      "id": "trunk_extension",
+      "evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Isolated healthy-adult trunk extension; loaded exercise-specific surface validation still required."
+    },
+    {
+      "id": "trunk_rotation",
+      "evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Isolated axial rotation plus dynamic sports motions; exercise-specific load response still required."
+    },
+    {
+      "id": "lateral_flexion",
+      "evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Isolated lateral flexion; loaded side-bend deformation still requires candidate evidence."
+    },
+    {
+      "id": "anti_rotation",
+      "evidence_ids": [
+        "HE-ANTI-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Asymmetric lifting supports anti-rotation/load-response principles but is not a Pallof-press-specific surface reference."
+    },
+    {
+      "id": "hip_hinge",
+      "evidence_ids": [
+        "HE-HINGE-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Bodyweight and loaded hip hinge evidence; detailed joint-angle surface validation still required."
+    },
+    {
+      "id": "deep_squat",
+      "evidence_ids": [
+        "HE-SQUAT-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Whole lower-limb 3D squat kinematics; candidate-specific deep-flexion skin/volume validation still required."
+    },
+    {
+      "id": "unilateral_lunge",
+      "evidence_ids": [
+        "HE-LUNGE-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Forward-lunge lower-body kinematics; candidate-specific groin/hip tissue continuity still required."
+    },
+    {
+      "id": "ankle_calf",
+      "evidence_ids": [
+        "HE-ANKLE-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Loaded heel-raise kinematics with multiple foot orientations; candidate Achilles/calf/forefoot deformation still required."
+    },
+    {
+      "id": "horizontal_push",
+      "evidence_ids": [
+        "HE-PUSH-001",
+        "HE-CHEST-001",
+        "HE-WRI-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Closed- and open-chain push evidence across shoulder/elbow/wrist; hand/floor contact remains candidate-specific."
+    },
+    {
+      "id": "vertical_push",
+      "evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Direct shoulder-complex kinematics and surface-motion evidence; r96 candidate validation remains open."
+    },
+    {
+      "id": "vertical_pull",
+      "evidence_ids": [
+        "HE-PULL-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Exercise-specific pull-up kinematics across front/wide/reverse grips; individual digit contact still candidate-specific."
+    },
+    {
+      "id": "shoulder_raise",
+      "evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-VIS-003"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Elevation and axial-rotation evidence covers general raise mechanics; model must pass full arc."
+    },
+    {
+      "id": "elbow_flexion",
+      "evidence_ids": [
+        "HE-UPPER-001",
+        "HE-CHEST-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Healthy elbow flexion-extension and loaded chest-exercise motion; curl-specific soft tissue still requires candidate evidence."
+    },
+    {
+      "id": "elbow_extension",
+      "evidence_ids": [
+        "HE-UPPER-001",
+        "HE-PUSH-001",
+        "HE-CHEST-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Healthy isolated and closed/open-chain elbow extension evidence."
+    },
+    {
+      "id": "forearm_rotation",
+      "evidence_ids": [
+        "HE-UPPER-001",
+        "HE-WRI-002"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Pronation-supination and grip/load coupling evidence; candidate twist distribution remains to be proven."
+    },
+    {
+      "id": "wrist_floor_load",
+      "evidence_ids": [
+        "HE-WRI-001",
+        "HE-PUSH-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Human push-up wrist load-path and upper-limb kinematics evidence; candidate contact/pressure remains to be proven."
+    },
+    {
+      "id": "hand_grip",
+      "evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Cylindrical joint-angle, thumb-adaptation and pull-up orientation evidence; exact dumbbell/bar contact still requires candidate review."
+    },
+    {
+      "id": "thumb_opposition",
+      "evidence_ids": [
+        "HE-GRP-002"
+      ],
+      "status": "COVERED_WITH_LIMITATIONS",
+      "notes": "Measured thumb opposition/adaptation evidence; exact equipment contact still candidate-specific."
+    }
+  ],
+  "acceptance_boundary": [
+    "Coverage entries do not close any whole-body issue.",
+    "No evidence item may be copied into production geometry, textures or runtime content.",
+    "A category remains blocked for final acceptance until production-path start/intermediate/end/reversal evidence is reviewed.",
+    "Numerical gates cannot override visibly implausible anatomy."
+  ]
+}

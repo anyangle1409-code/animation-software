@@ -51,6 +51,14 @@ for key, F in P['folds'].items():
     side = (co[:, 1] < F['side'][1]) if F['side'][0] == 'y_lt' else (co[:, 1] > F['side'][1])
     f = F['wmax'] * radial * bump * left * side
     if 'z_max' in F: f *= co[:, 2] < F['z_max']
+    if F.get('smooth_iters'):                         # diffuse the band field over the surface graph (no step at the band edge)
+        import scipy.sparse as sp
+        E = np.array([e.vertices[:] for e in me.edges])
+        A = sp.coo_matrix((np.ones(2 * len(E)), (np.r_[E[:, 0], E[:, 1]], np.r_[E[:, 1], E[:, 0]])), shape=(n, n)).tocsr()
+        deg = np.asarray(A.sum(1)).ravel()
+        for _ in range(F['smooth_iters']):
+            f = 0.5 * f + 0.5 * (A @ f) / deg
+        f *= left
     fold_f[key] = f
 # overlapping bands share: total capped at the larger of the two wmax
 tot = sum(fold_f.values()); cap = max(F['wmax'] for F in P['folds'].values())

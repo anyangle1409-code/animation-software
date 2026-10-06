@@ -1,0 +1,1 @@
+{"folds": {"post": {"origin": [-0.12, 0.11, 1.28], "insertion": [-0.205, 0.06, 1.43], "parent": "scapula_<s>", "radius": 0.055, "wmax": 0.5, "side": ["y_gt", 0.03], "s_pow": 1.0, "smooth_iters": 20}}}

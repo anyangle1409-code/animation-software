@@ -542,5 +542,209 @@
     2.34
    ]
   }
+ },
+ "r99P3": {
+  "description": "posterior, band diffused 10 iterations",
+  "subset_self_intersections": 188,
+  "edge_ratio_max": 5.644,
+  "edge_ratio_p99": 3.314,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.61
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.92
+   ],
+   "abduction_150_neutral": [
+    24,
+    4.53
+   ],
+   "abduction_170_neutral": [
+    36,
+    4.79
+   ],
+   "flexion_030_external": [
+    0,
+    2.48
+   ],
+   "flexion_060_external": [
+    34,
+    3.49
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.79
+   ],
+   "flexion_120_neutral": [
+    2,
+    4.71
+   ],
+   "flexion_150_internal": [
+    2,
+    5.18
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.4
+   ],
+   "flexion_150_external": [
+    20,
+    5.64
+   ],
+   "flexion_170_neutral": [
+    34,
+    5.26
+   ],
+   "horizontal_adduction_90": [
+    22,
+    3.68
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
+ },
+ "r99P4": {
+  "description": "posterior, wmax 0.4 + diffusion (effective peak 0.21)",
+  "subset_self_intersections": 282,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.241,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.54
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.94
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.39
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    4,
+    1.96
+   ],
+   "flexion_060_external": [
+    122,
+    2.67
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.19
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.71
+   ],
+   "flexion_150_internal": [
+    2,
+    4.1
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.15
+   ],
+   "flexion_150_external": [
+    22,
+    4.26
+   ],
+   "flexion_170_neutral": [
+    42,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    10,
+    3.45
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
+ },
+ "r99P5": {
+  "description": "posterior, radius 5.5 cm, diffusion 20",
+  "subset_self_intersections": 200,
+  "edge_ratio_max": 5.695,
+  "edge_ratio_p99": 3.257,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.56
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.86
+   ],
+   "abduction_150_neutral": [
+    24,
+    4.53
+   ],
+   "abduction_170_neutral": [
+    36,
+    4.82
+   ],
+   "flexion_030_external": [
+    4,
+    2.42
+   ],
+   "flexion_060_external": [
+    50,
+    3.38
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.59
+   ],
+   "flexion_120_neutral": [
+    0,
+    4.62
+   ],
+   "flexion_150_internal": [
+    2,
+    5.32
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.49
+   ],
+   "flexion_150_external": [
+    22,
+    5.7
+   ],
+   "flexion_170_neutral": [
+    34,
+    5.42
+   ],
+   "horizontal_adduction_90": [
+    14,
+    3.5
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
  }
 }

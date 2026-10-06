@@ -1,0 +1,426 @@
+{
+ "P": {
+  "neutral": {
+   "self_intersections_r98_new": [
+    0,
+    0
+   ],
+   "stretched_r98_new": [
+    0,
+    0
+   ],
+   "compressed_r98_new": [
+    0,
+    0
+   ]
+  },
+  "curl_peak": {
+   "self_intersections_r98_new": [
+    132,
+    132
+   ],
+   "stretched_r98_new": [
+    104,
+    104
+   ],
+   "compressed_r98_new": [
+    468,
+    468
+   ]
+  },
+  "press_bottom": {
+   "self_intersections_r98_new": [
+    80,
+    80
+   ],
+   "stretched_r98_new": [
+    514,
+    512
+   ],
+   "compressed_r98_new": [
+    480,
+    504
+   ]
+  },
+  "press_top": {
+   "self_intersections_r98_new": [
+    0,
+    16
+   ],
+   "stretched_r98_new": [
+    1134,
+    1144
+   ],
+   "compressed_r98_new": [
+    434,
+    438
+   ]
+  },
+  "press_top_rhythm": {
+   "self_intersections_r98_new": [
+    0,
+    19
+   ],
+   "stretched_r98_new": [
+    1187,
+    1193
+   ],
+   "compressed_r98_new": [
+    444,
+    460
+   ]
+  },
+  "squat_bottom": {
+   "self_intersections_r98_new": [
+    76,
+    114
+   ],
+   "stretched_r98_new": [
+    620,
+    622
+   ],
+   "compressed_r98_new": [
+    262,
+    270
+   ]
+  },
+  "pushup_bottom": {
+   "self_intersections_r98_new": [
+    162,
+    162
+   ],
+   "stretched_r98_new": [
+    116,
+    116
+   ],
+   "compressed_r98_new": [
+    180,
+    180
+   ]
+  },
+  "pullup_hang": {
+   "self_intersections_r98_new": [
+    0,
+    11
+   ],
+   "stretched_r98_new": [
+    1042,
+    1060
+   ],
+   "compressed_r98_new": [
+    392,
+    400
+   ]
+  },
+  "pullup_hang_rhythm": {
+   "self_intersections_r98_new": [
+    0,
+    10
+   ],
+   "stretched_r98_new": [
+    1091,
+    1109
+   ],
+   "compressed_r98_new": [
+    408,
+    414
+   ]
+  },
+  "pullup_top": {
+   "self_intersections_r98_new": [
+    92,
+    92
+   ],
+   "stretched_r98_new": [
+    422,
+    444
+   ],
+   "compressed_r98_new": [
+    510,
+    530
+   ]
+  },
+  "lunge": {
+   "self_intersections_r98_new": [
+    7,
+    7
+   ],
+   "stretched_r98_new": [
+    116,
+    116
+   ],
+   "compressed_r98_new": [
+    126,
+    126
+   ]
+  },
+  "row": {
+   "self_intersections_r98_new": [
+    0,
+    0
+   ],
+   "stretched_r98_new": [
+    135,
+    135
+   ],
+   "compressed_r98_new": [
+    521,
+    521
+   ]
+  },
+  "grip": {
+   "self_intersections_r98_new": [
+    42,
+    42
+   ],
+   "stretched_r98_new": [
+    112,
+    112
+   ],
+   "compressed_r98_new": [
+    418,
+    418
+   ]
+  },
+  "curl_handle": {
+   "self_intersections_r98_new": [
+    132,
+    132
+   ],
+   "stretched_r98_new": [
+    24,
+    24
+   ],
+   "compressed_r98_new": [
+    318,
+    318
+   ]
+  },
+  "pullup_bar": {
+   "self_intersections_r98_new": [
+    0,
+    11
+   ],
+   "stretched_r98_new": [
+    962,
+    980
+   ],
+   "compressed_r98_new": [
+    242,
+    250
+   ]
+  }
+ },
+ "P4": {
+  "neutral": {
+   "self_intersections_r98_new": [
+    0,
+    0
+   ],
+   "stretched_r98_new": [
+    0,
+    0
+   ],
+   "compressed_r98_new": [
+    0,
+    0
+   ]
+  },
+  "curl_peak": {
+   "self_intersections_r98_new": [
+    132,
+    132
+   ],
+   "stretched_r98_new": [
+    104,
+    104
+   ],
+   "compressed_r98_new": [
+    468,
+    468
+   ]
+  },
+  "press_bottom": {
+   "self_intersections_r98_new": [
+    80,
+    80
+   ],
+   "stretched_r98_new": [
+    514,
+    506
+   ],
+   "compressed_r98_new": [
+    480,
+    484
+   ]
+  },
+  "press_top": {
+   "self_intersections_r98_new": [
+    0,
+    4
+   ],
+   "stretched_r98_new": [
+    1134,
+    1126
+   ],
+   "compressed_r98_new": [
+    434,
+    446
+   ]
+  },
+  "press_top_rhythm": {
+   "self_intersections_r98_new": [
+    0,
+    4
+   ],
+   "stretched_r98_new": [
+    1187,
+    1155
+   ],
+   "compressed_r98_new": [
+    444,
+    452
+   ]
+  },
+  "squat_bottom": {
+   "self_intersections_r98_new": [
+    76,
+    94
+   ],
+   "stretched_r98_new": [
+    620,
+    622
+   ],
+   "compressed_r98_new": [
+    262,
+    262
+   ]
+  },
+  "pushup_bottom": {
+   "self_intersections_r98_new": [
+    162,
+    162
+   ],
+   "stretched_r98_new": [
+    116,
+    120
+   ],
+   "compressed_r98_new": [
+    180,
+    180
+   ]
+  },
+  "pullup_hang": {
+   "self_intersections_r98_new": [
+    0,
+    4
+   ],
+   "stretched_r98_new": [
+    1042,
+    1024
+   ],
+   "compressed_r98_new": [
+    392,
+    398
+   ]
+  },
+  "pullup_hang_rhythm": {
+   "self_intersections_r98_new": [
+    0,
+    4
+   ],
+   "stretched_r98_new": [
+    1091,
+    1073
+   ],
+   "compressed_r98_new": [
+    408,
+    414
+   ]
+  },
+  "pullup_top": {
+   "self_intersections_r98_new": [
+    92,
+    92
+   ],
+   "stretched_r98_new": [
+    422,
+    418
+   ],
+   "compressed_r98_new": [
+    510,
+    514
+   ]
+  },
+  "lunge": {
+   "self_intersections_r98_new": [
+    7,
+    7
+   ],
+   "stretched_r98_new": [
+    116,
+    116
+   ],
+   "compressed_r98_new": [
+    126,
+    126
+   ]
+  },
+  "row": {
+   "self_intersections_r98_new": [
+    0,
+    0
+   ],
+   "stretched_r98_new": [
+    135,
+    135
+   ],
+   "compressed_r98_new": [
+    521,
+    521
+   ]
+  },
+  "grip": {
+   "self_intersections_r98_new": [
+    42,
+    42
+   ],
+   "stretched_r98_new": [
+    112,
+    112
+   ],
+   "compressed_r98_new": [
+    418,
+    418
+   ]
+  },
+  "curl_handle": {
+   "self_intersections_r98_new": [
+    132,
+    132
+   ],
+   "stretched_r98_new": [
+    24,
+    24
+   ],
+   "compressed_r98_new": [
+    318,
+    318
+   ]
+  },
+  "pullup_bar": {
+   "self_intersections_r98_new": [
+    0,
+    4
+   ],
+   "stretched_r98_new": [
+    962,
+    944
+   ],
+   "compressed_r98_new": [
+    242,
+    248
+   ]
+  }
+ }
+}

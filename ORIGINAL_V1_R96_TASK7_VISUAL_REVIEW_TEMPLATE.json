@@ -11,7 +11,6 @@
   "arc_continuity_pass": null,
   "whole_body_regression_pass": null,
   "real_human_reference_checked": null,
-  "critical_high_remaining": null,
   "renders": [
     {
       "pose": "neutral",
@@ -154,6 +153,7 @@
     "Every render path must be a real production-path image and every SHA-256 must match the committed bytes.",
     "Each issue row must be reviewed explicitly against its listed real-human evidence and committed candidate renders.",
     "PASS requires no unresolved membrane/trench, pec transport, chest collapse, unsupported posterior fold, deltoid/junction defect, coupling defect or unexplained bilateral asymmetry.",
-    "The Task 7 gate remains blocked if any field is missing, unknown, or not PASS."
-  ]
+    "The Task 7 gate remains blocked if any required shoulder issue is not explicitly passed. Other whole-body Critical/High issues remain separate ledger blockers and still prevent Phase 4."
+  ],
+  "required_issue_failures_remaining": null
 }

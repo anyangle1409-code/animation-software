@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "purpose": "Producer-side mirror of PT-App direct-confirmed exercise identities. Only these mappings may be emitted automatically; review_required/no_pt_target remain blocked.",
+  "entries": [
+    {
+      "source_exercise_id": "air_squat",
+      "pt_exercise_id": "air-squat",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_bent_over_row",
+      "pt_exercise_id": "db-bent-over-row",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_bicep_curl",
+      "pt_exercise_id": "db-bicep-curl",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "cable_triceps_pushdown",
+      "pt_exercise_id": "cable-pushdown",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "standing_calf_raise",
+      "pt_exercise_id": "calf-raise",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "crunch",
+      "pt_exercise_id": "crunch",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_bench_press",
+      "pt_exercise_id": "db-bench-press",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_fly",
+      "pt_exercise_id": "db-fly",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "incline_dumbbell_curl",
+      "pt_exercise_id": "db-incline-curl",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "push_up",
+      "pt_exercise_id": "push-up",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_romanian_deadlift",
+      "pt_exercise_id": "db-rdl",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_shoulder_press",
+      "pt_exercise_id": "db-shoulder-press",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "sit_up",
+      "pt_exercise_id": "sit-up",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "split_squat",
+      "pt_exercise_id": "split-squat",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_front_raise",
+      "pt_exercise_id": "front-raise",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_hammer_curl",
+      "pt_exercise_id": "hammer-curl",
+      "status": "direct_confirmed"
+    },
+    {
+      "source_exercise_id": "dumbbell_overhead_triceps_extension",
+      "pt_exercise_id": "overhead-tricep-ext",
+      "status": "direct_confirmed"
+    }
+  ]
+}

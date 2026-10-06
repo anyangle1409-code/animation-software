@@ -143,7 +143,7 @@ class R96Task7GateTests(unittest.TestCase):
             "arc_continuity_pass": True,
             "whole_body_regression_pass": True,
             "real_human_reference_checked": True,
-            "critical_high_remaining": 0,
+            "required_issue_failures_remaining": 0,
         }
 
 

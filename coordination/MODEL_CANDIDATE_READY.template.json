@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "state": "candidate_ready",
+  "phase": "phase_3A_shoulder_foundation_rearchitecture",
+  "candidate_id": "REQUIRED",
+  "candidate_commit": "40_HEX_REQUIRED",
+  "candidate_path": "REQUIRED_BLEND_OR_EXPORT_PATH",
+  "candidate_sha256": "64_HEX_REQUIRED",
+  "author": "claude_blender",
+  "parent_candidate_id": null,
+  "evidence_paths": [],
+  "notes": ""
+}

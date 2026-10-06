@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r101",
+  "parent": {
+    "revision": "r98",
+    "sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0",
+    "candidate_commit": "61f48118e834f4fc188ec715269a646feffd663a",
+    "path": "ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+    "status": "frozen, never written"
+  },
+  "frozen_not_baselines": [
+    "r99 stretch-bone prototypes (145d6561)",
+    "r100 rest-ridge prototypes (e3710d2c)"
+  ],
+  "authorization": "rotation-driven axillary fold-volume helper bones only (user authorisation for r101); no corrective shape keys, pose-space morphs, broad re-rig, bind-pose change or global weight solve",
+  "mechanism": {
+    "bones": {
+      "deforming": [
+        "axvol_ant_l",
+        "axvol_ant_r",
+        "axvol_post_l",
+        "axvol_post_r"
+      ],
+      "non_deforming_probes": [
+        "axvol_probe_l",
+        "axvol_probe_r",
+        "axvol_probe_ref_l",
+        "axvol_probe_ref_r"
+      ]
+    },
+    "structure": "axvol_<fold>_<s> is a child of glenohumeral_half_<s> with a rest frame identical to it, so with zero offset it reproduces the half helper exactly; vertices transfer a fraction of their glenohumeral_half weight to it, so base motion is unchanged and each vertex receives exactly (transferred weight) x (helper offset)",
+    "drive": "helper local location = a_max * smoothstep(d0, d1, d) * n_local, where n is the fold band's outward surface normal (rest, expressed in the half helper's frame, so it rotates with the band) and d is the distance between two probe points 0.2 m along the humerus axis: probe child of upperarm_<s>, probe_ref child of glenohumeral_ref_<s>. Hence d = 0.4 sin(theta_gh/2), a function of glenohumeral swing only (axial twist does not move an on-axis point); monotonic in swing, exactly 0 at rest; d0 > 0 makes the response exactly zero at low elevation",
+    "driver_type": "Blender simple scripted expression (clamp/smoothstep from min/max), LOC_DIFF variable; no Python drivers; no dependency cycle (probes depend on upperarm/ref, helper depends on probes and the half helper, nothing depends on the helper)",
+    "axial_rotation": "not used in the first screen; added only if measured anatomy requires it, with an amendment"
+  },
+  "scope": {
+    "weights": "for small local bands on the anterior and posterior folds only: a fraction (<= band_max 0.8) of each vertex's glenohumeral_half weight moves to the fold helper; all other weights unchanged exactly; mirror-exact; <= 4 influences (the helper replaces part of an existing influence; if a vertex has no half weight it is not in the band)",
+    "max_offset_m": {
+      "conservative": 0.015,
+      "moderate": 0.03,
+      "hard_cap": 0.04
+    },
+    "topology": "none",
+    "rest_shape": "none (r98 kept)",
+    "correctives": "none"
+  },
+  "screens": [
+    "anterior_only",
+    "posterior_only",
+    "both",
+    "x conservative/moderate"
+  ],
+  "measurements": [
+    "driver response d and offset vs abduction/flexion 0-170 x internal/neutral/external",
+    "fold displacement vs r98 for band vertices",
+    "15-pose screening subset",
+    "repo 15 poses for promising",
+    "56-pose matrix for a finalist"
+  ],
+  "rejection": [
+    "hides the membrane from one camera only",
+    "loses rear-deltoid mass",
+    "creates back/chest creases",
+    "regresses r98 press/squat/pull-up collisions or stretch/compression",
+    "nonzero response at rest",
+    "non-monotonic/discontinuous response",
+    "flip or double transform"
+  ],
+  "production_approved": false,
+  "source_git_commit": "e3710d2ca2110187df8865a0a54e01d9d6e6af8c"
+}

@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from original_v1_whole_body_issues import blocking_issues, validate_ledger
+from original_v1_shoulder_acceptance import validate_contract
 from validate_original_v1_human_evidence import validate_coverage, validate_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +22,7 @@ MANIFEST = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
 COVERAGE = ROOT / "ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json"
 ENVELOPE = ROOT / "ORIGINAL_V1_MOVEMENT_ENVELOPE.json"
 LEDGER = ROOT / "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+SHOULDER_CONTRACT = ROOT / "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json"
 
 EXPECTED_ZONE_IDS = tuple(f"WBZ-{i:02d}" for i in range(1, 17))
 
@@ -106,11 +108,14 @@ def assess(
     coverage: dict[str, Any],
     envelope: dict[str, Any],
     ledger: dict[str, Any],
+    shoulder_contract: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     support_errors: list[str] = []
     support_errors += validate_plan(plan, envelope)
     support_errors += validate_manifest(manifest)
     support_errors += validate_coverage(coverage, manifest, envelope)
+    if shoulder_contract is not None:
+        support_errors += ["shoulder acceptance contract: " + x for x in validate_contract(shoulder_contract)]
     ledger_errors = validate_ledger(ledger)
     support_errors += ["issue ledger: " + x for x in ledger_errors]
 
@@ -148,6 +153,7 @@ def main() -> int:
     parser.add_argument("--coverage", type=Path, default=COVERAGE)
     parser.add_argument("--movement-envelope", type=Path, default=ENVELOPE)
     parser.add_argument("--ledger", type=Path, default=LEDGER)
+    parser.add_argument("--shoulder-contract", type=Path, default=SHOULDER_CONTRACT)
     parser.add_argument("--json-out", type=Path)
     args = parser.parse_args()
     try:
@@ -157,6 +163,7 @@ def main() -> int:
             _load(args.coverage),
             _load(args.movement_envelope),
             _load(args.ledger),
+            _load(args.shoulder_contract),
         )
     except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
         result = {

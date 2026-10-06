@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Verify structured closure evidence for ORIGINAL-v1 whole-body anatomy issues.
+"""Verify structured closure evidence for ORIGINAL-v1 Critical/High issues.
 
-The ordinary issue ledger proves that closure files exist. This verifier proves
-that Critical/High Fixed/Accepted rows are backed by candidate-bound numerical,
-production-path visual, human-reference and whole-body regression evidence.
+Two closure contracts exist:
 
-It never mutates the ledger and never grants production approval.
+* model_anatomy for visible/biomechanical model defects. It requires
+  candidate-bound numerical, production-path visual, human-reference and
+  whole-body regression evidence.
+* process_control for validation/workflow failures such as WB-QA-*.
+  It requires committed process evidence proving the fail-closed controls and
+  regression tests, without pretending that a workflow defect needs a human
+  anatomy render.
+
+The verifier never mutates the ledger and never grants production approval.
 """
 from __future__ import annotations
 
@@ -20,6 +26,7 @@ from original_v1_whole_body_issues import validate_ledger
 CLOSURE_STATUS = "ANATOMY_ISSUE_CLOSURE_EVIDENCE"
 CLOSED_STATES = ("Fixed", "Accepted")
 BLOCKING_SEVERITIES = ("Critical", "High")
+CLOSURE_TYPES = ("model_anatomy", "process_control")
 
 
 def _safe_file(root: Path, relative: str) -> Path:
@@ -56,12 +63,7 @@ def _verify_refs(root: Path, refs: object, label: str) -> list[str]:
     return errors
 
 
-def verify_receipt(
-    root: Path,
-    issue: dict[str, Any],
-    receipt: dict[str, Any],
-    human_manifest: dict[str, Any],
-) -> list[str]:
+def _common_receipt_errors(issue: dict[str, Any], receipt: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     issue_id = str(issue.get("id") or "unknown")
     candidate = issue.get("candidate") or {}
@@ -77,7 +79,30 @@ def verify_receipt(
         errors.append(issue_id + ": closure receipt candidate SHA differs")
     if not re.fullmatch(r"[0-9a-f]{40}", str(receipt.get("source_git_commit") or "")):
         errors.append(issue_id + ": closure receipt source Git commit invalid")
+    decision = receipt.get("closure_decision")
+    if decision not in CLOSED_STATES or decision != issue.get("state"):
+        errors.append(issue_id + ": closure decision must match ledger state")
+    note = receipt.get("review_note")
+    if not isinstance(note, str) or not note.strip():
+        errors.append(issue_id + ": closure review note required")
+    closure_type = receipt.get("closure_type")
+    if closure_type not in CLOSURE_TYPES:
+        errors.append(issue_id + ": closure_type invalid")
+    if issue_id.startswith("WB-QA-") and closure_type != "process_control":
+        errors.append(issue_id + ": WB-QA issue requires process_control closure")
+    if not issue_id.startswith("WB-QA-") and closure_type != "model_anatomy":
+        errors.append(issue_id + ": anatomy issue requires model_anatomy closure")
+    return errors
 
+
+def _verify_model_anatomy(
+    root: Path,
+    issue: dict[str, Any],
+    receipt: dict[str, Any],
+    human_manifest: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    issue_id = str(issue.get("id") or "unknown")
     for key in (
         "production_path_rendered",
         "visual_pass",
@@ -87,10 +112,6 @@ def verify_receipt(
     ):
         if receipt.get(key) is not True:
             errors.append(issue_id + ": " + key + " must be true")
-
-    decision = receipt.get("closure_decision")
-    if decision not in CLOSED_STATES or decision != issue.get("state"):
-        errors.append(issue_id + ": closure decision must match ledger state")
 
     errors += [issue_id + ": " + x for x in _verify_refs(root, receipt.get("visual_evidence"), "visual")]
     errors += [issue_id + ": " + x for x in _verify_refs(root, receipt.get("numerical_evidence"), "numerical")]
@@ -110,10 +131,42 @@ def verify_receipt(
         declared = set(issue.get("human_evidence_ids") or [])
         if declared and not (declared & set(human_ids)):
             errors.append(issue_id + ": closure evidence does not overlap issue human-evidence basis")
+    return errors
 
-    note = receipt.get("review_note")
-    if not isinstance(note, str) or not note.strip():
-        errors.append(issue_id + ": closure review note required")
+
+def _verify_process_control(
+    root: Path,
+    issue: dict[str, Any],
+    receipt: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    issue_id = str(issue.get("id") or "unknown")
+    for key in (
+        "process_regression_tests_passed",
+        "fail_closed_visual_blocking_verified",
+        "historical_records_preserved",
+        "production_approval_not_inferred",
+    ):
+        if receipt.get(key) is not True:
+            errors.append(issue_id + ": " + key + " must be true")
+    errors += [issue_id + ": " + x for x in _verify_refs(root, receipt.get("process_evidence"), "process")]
+    command = receipt.get("test_command")
+    if not isinstance(command, str) or not command.strip():
+        errors.append(issue_id + ": test_command required")
+    return errors
+
+
+def verify_receipt(
+    root: Path,
+    issue: dict[str, Any],
+    receipt: dict[str, Any],
+    human_manifest: dict[str, Any],
+) -> list[str]:
+    errors = _common_receipt_errors(issue, receipt)
+    if receipt.get("closure_type") == "model_anatomy":
+        errors += _verify_model_anatomy(root, issue, receipt, human_manifest)
+    elif receipt.get("closure_type") == "process_control":
+        errors += _verify_process_control(root, issue, receipt)
     return list(dict.fromkeys(errors))
 
 
@@ -144,7 +197,7 @@ def verify_closed_issues(
             except (OSError, ValueError, TypeError, json.JSONDecodeError):
                 continue
         if len(candidates) != 1:
-            errors.append(issue_id + ": exactly one structured anatomy closure receipt required")
+            errors.append(issue_id + ": exactly one structured issue closure receipt required")
             continue
         _, receipt = candidates[0]
         errors += verify_receipt(root, issue, receipt, human_manifest)

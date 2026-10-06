@@ -1,5 +1,9 @@
 # ORIGINAL-v1 r96 Task 7 — residual corrective handoff
 
+> **SUPERSEDED FOR EXECUTION — 2026-10-06**  
+> Owner review of the r96 overhead screening renders rejected the current shoulder foundation. Do **not** execute the residual-corrective sequence below as the next model edit. It is retained as historical/prepared evidence only. The active authority is `ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json` plus `ORIGINAL_V1_EXECUTION_ORCHESTRATION.json`. A fresh descendant candidate must first repair and pass the weights-only shoulder-girdle/topology/weight-transfer foundation and the elevation × axial-rotation matrix. Only then may a small generic residual corrective be fitted.
+
+
 Status: PREPARED · no model edit performed by this handoff · production approval remains false.
 
 ## Starting point

@@ -166,6 +166,43 @@ Every issue has a stable ID, body region, movement, evidence, severity, reproduc
 - Arc continuity, self-intersection, contact and volume tests.
 - Mandatory human anatomical review against the reference manifests.
 
+## Owner-confirmed overhead shoulder rejection standard — 2026-10-06
+
+The latest r96 screening renders are diagnostic evidence only and are not acceptable production anatomy. Owner review identified a fundamental connected-deformation failure in overhead elevation: the arm elevates while the shoulder girdle and surrounding torso surface do not reorganise as a believable human shoulder complex.
+
+### Hard visual invariants for overhead elevation
+
+Any shoulder candidate must fail closed if any sampled overhead frame/view shows:
+
+- an elongated or collapsed deltoid instead of preserved shoulder-cap volume;
+- a deep axillary trench, knife-edge cavity, membrane or pointed flap;
+- pectoral tissue dragged into a narrow vertical band instead of a continuous migrating anterior axillary fold;
+- loss of the continuous neck -> elevated shoulder -> upper-arm silhouette;
+- scapular/upper-back grooves caused by deformation rather than plausible surface anatomy;
+- visible volume loss or tissue disappearance at the shoulder/axilla/chest junction;
+- inadequate distinction between matched elevation poses with different humeral axial rotation;
+- torso/chest displacement that substitutes for clavicle/scapula/humerus coordination.
+
+These are blocking anatomical failures even if numerical development tolerances pass.
+
+### Required causal hierarchy
+
+The shoulder package must solve in this order:
+
+1. humerus/clavicle/scapula mechanics and their coupled pose state;
+2. deformation-capable shoulder/axilla/chest/back topology;
+3. weights-first transfer with volume continuity;
+4. rotation-aware generic anatomical deformation;
+5. only small residual pose-space correctives.
+
+A corrective may not be used to conceal a failed earlier layer. Exercise-name-driven deformation remains forbidden.
+
+### Required movement proof before shoulder promotion
+
+At minimum, capture flexion and abduction at 0, 30, 60, 90, 120, 150 degrees and maximum elevation, with internal/neutral/external humeral rotation variants where anatomically valid. Validate front, three-quarter, side, rear-three-quarter and region close-up views. Promotion requires continuity through the arc, not merely acceptable endpoint renders.
+
+The shoulder package is the proving ground for the whole-body method; passing a few named exercises is not evidence that the human deformation system is solved.
+
 ## First implementation package
 
 The first package is limited to evidence/diagnostic infrastructure and the shoulder/chest/axilla foundation. It must produce:

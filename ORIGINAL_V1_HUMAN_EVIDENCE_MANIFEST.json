@@ -491,7 +491,7 @@
       "source_type": "primary_study",
       "source": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/27194401/",
-        "citation": "Estimation of lumbar spinal loading and trunk muscle forces during asymmetric lifting tasks: application of whole-body musculoskeletal modelling in OpenSim (2016), PMID 27194401.",
+        "citation": "Estimation of lumbar spinal loading and trunk muscle forces during asymmetric lifting tasks: application of whole-body musculoskeletal modelling in OpenSim (Ergonomics, 2017; epub 2016), PMID 27194401.",
         "license_use_note": "Link and derived observations only for development review; do not redistribute publisher media."
       },
       "movement_phase": "symmetric_and_asymmetric_7_and_12kg_lifts",

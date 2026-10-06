@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r100",
+  "parent": {
+    "revision": "r98",
+    "sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0",
+    "candidate_commit": "61f48118e834f4fc188ec715269a646feffd663a",
+    "candidate_path": "ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+    "status": "GPT FAIL; frozen diagnostic checkpoint, never written"
+  },
+  "not_a_baseline": [
+    "r99 prototypes P, P4 and all straight-line stretch-bone fold helpers (blocker 145d6561)"
+  ],
+  "hypothesis": "The anterior (pectoral) and posterior (latissimus/teres) axillary folds lack bind-pose cross-sectional volume, so the linear blend across the junction produces a flat membrane overhead; adding a rounded rest ridge gives the blend volume to carry.",
+  "build_rule": "every prototype is built from a fresh copy of the r98 file; r97/r98 mechanics (AC-joint scapula pivot, glenohumeral half-swing helpers), r98 slit repair and r98 weights preserved",
+  "scope": {
+    "rest_shape": {
+      "operation": "mirror-exact outward-normal displacement forming rounded anterior and posterior fold ridges along each fold line (trunk origin to humeral insertion), smooth radial and along-line falloff into chest, lat/teres, deltoid and upper arm; identical delta on Basis and every shape key",
+      "amplitudes_m": {
+        "conservative": 0.003,
+        "moderate": 0.006
+      },
+      "max_displacement_m": 0.008,
+      "region": "left/right axillary fold bands, rest |x| >= 0.08 m, z in [1.15, 1.50] m"
+    },
+    "weights": "unchanged in the geometry-only screen; a tightly localized weight blend (no global solve) only after a geometry-only variant visibly improves fold volume, recorded in a receipt",
+    "topology": "none in the first screen; if the existing topology demonstrably cannot carry a rounded ridge, a narrowly scoped amendment is committed before any minimal local topology change (the r98 support-ring variants are not repeated)",
+    "forbidden": [
+      "correctives",
+      "pose-space keys",
+      "elevation-driven bulge drivers",
+      "broad re-rig",
+      "global weight solve",
+      "force-push",
+      "modifying r97/r98 files"
+    ]
+  },
+  "screens": [
+    "anterior_only",
+    "posterior_only",
+    "both",
+    "x conservative/moderate amplitude"
+  ],
+  "comparison": [
+    "r98",
+    "r99 best prototype (P / P4)"
+  ],
+  "rejection": [
+    "moves the membrane",
+    "adds a crease",
+    "loses rear-deltoid mass",
+    "regresses repo press/squat/pull-up collisions vs r98",
+    "worsens overhead stretch/compression vs r98",
+    "implausible rest silhouette (shelf, tube, groove, chest crease, arm-root cuff)"
+  ],
+  "tests": {
+    "promising": "15 repository poses",
+    "finalist": "full 56-pose matrix with renders"
+  },
+  "production_approved": false,
+  "source_git_commit": "145d6561483aae1c5af46831848c4b851b0ad33f"
+}

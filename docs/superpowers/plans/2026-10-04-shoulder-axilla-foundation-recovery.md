@@ -230,6 +230,21 @@ Commit message: `Build r96 weights-first anatomical shoulder foundation`
 - [x] If the foundation cannot pass without a large corrective, stop r96 iteration and revise topology/weight transfer rather than stacking another patch.
 - [x] Preserve all rejected renders and measurements with candidate/hash identity so later candidates can prove improvement.
 
+### Task 6B: Exhaust non-Blender shoulder-foundation guardrails after owner r96 rejection
+
+- [x] Add machine-readable fail-closed shoulder anatomical acceptance contract.
+- [x] Add candidate-specific review template defaulting every gate to failure.
+- [x] Add pure-Python shoulder acceptance evaluator and safety tests.
+- [x] Supersede direct r96 residual-corrective execution in orchestration and handoff.
+- [x] Add generic fresh-descendant foundation declaration template/validator.
+- [x] Add pre-edit readiness gate binding declaration, issue ledger, human evidence and acceptance contract.
+- [x] Bind whole-body audit readiness to the shoulder acceptance contract.
+- [x] Require a passing candidate-bound shoulder acceptance receipt before Phase 4 eligibility.
+- [x] Update recovery/status documentation so historical Phase 4/Phase 5 fields cannot be mistaken for permission to advance.
+- [x] Prepare weights-first Blender execution handoff.
+
+**Boundary:** the next unresolved work is real Blender candidate authoring and candidate-bound evidence generation. No non-Blender document/test may claim the visible deformation is fixed.
+
 ### Task 7: Fit minimal generic correctives and validate r96
 
 **Files:**

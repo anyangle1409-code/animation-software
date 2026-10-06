@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r102",
+  "parent": {
+    "revision": "r98",
+    "sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0",
+    "path": "ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+    "status": "frozen, never written"
+  },
+  "frozen": [
+    "r98",
+    "r99 prototypes",
+    "r100 prototypes",
+    "r101 prototypes (blocker b02c6395)"
+  ],
+  "measured_basis": "r101 blocker: r98 membrane weight is ~44% torso/girdle, ~23% humerus, ~31-35% half helper; half-helper-only fold volume cannot reach it",
+  "changed_variable": "weight source of the fold-volume helper only. Kept from r101: helper structure (child of glenohumeral_half, same rest frame), elevation drive (smoothstep d0 0.14 / d1 0.33 on the swing-only probe distance), fixed rest band normal, 0.04 m hard offset cap",
+  "scope": {
+    "folds": "anterior only first; posterior only after anterior visibly works, separately bounded",
+    "declared_sources": [
+      "spine_02",
+      "spine_03",
+      "clavicle_l/_r",
+      "scapula_l/_r",
+      "upperarm_l/_r",
+      "glenohumeral_half_l/_r"
+    ],
+    "transfer": "within a narrow mirror-exact anterior fold band, fold weight = share_max x smooth band profile x (sum of declared source weights); taken proportionally from each declared source; per-source changes recorded",
+    "share_screens": {
+      "conservative": 0.25,
+      "moderate": 0.45,
+      "hard_max": 0.6
+    },
+    "invariants": [
+      "out-of-band weights unchanged exactly",
+      "undeclared bones (neck, head, forearm, hand, pelvis, legs, under-shorts group) unchanged exactly",
+      "<=4 influences",
+      "mirror-exact",
+      "no shape keys, global solve, re-rig, topology, bind-pose change, correctives"
+    ]
+  },
+  "base_motion_cost": "measured with the helper offset forced to 0: displacement vs r98 at rest, curl, abduction 30, horizontal adduction 90, axial rotation at the side (+-40), press bottom, pull-up top; reject visible low-elevation drift, chest drag, arm-root cuff, deltoid mass loss, or material displacement outside the band",
+  "measurements": [
+    "fold-band displacement and weight coverage at flexion 170 / abduction 150",
+    "15-pose subset",
+    "close-ups vs r98, r101-Acap",
+    "repo 15 poses if promising",
+    "56-pose matrix for a finalist"
+  ],
+  "deferred": "posed-normal following (separate declaration after weight-source hypothesis is isolated)",
+  "production_approved": false,
+  "source_git_commit": "b02c639514d9bda5e44c28860dc518d4d284125b"
+}

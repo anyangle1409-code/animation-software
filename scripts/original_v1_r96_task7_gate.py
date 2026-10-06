@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -25,9 +26,11 @@ DEFAULT_REQUIRED_ISSUES = (
 
 
 def _is_sha256(value: object) -> bool:
-    return isinstance(value, str) and len(value) == 64 and all(
-        ch in "0123456789abcdef" for ch in value.lower()
-    )
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _is_sha1(value: object) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{40}", value) is not None
 
 
 def _sorted_unique_ints(value: object) -> bool:
@@ -73,6 +76,80 @@ def validate_declaration(record: dict, expected_parent_sha256: str) -> list[str]
     return problems
 
 
+def validate_visual_review(
+    record: dict,
+    *,
+    expected_parent_sha256: str,
+    required_issue_ids: Iterable[str] = DEFAULT_REQUIRED_ISSUES,
+) -> list[str]:
+    """Validate the evidence binding of the explicit Task 7 anatomy review."""
+    reasons: list[str] = []
+    if record.get("schema_version") != 1:
+        reasons.append("visual_review_schema_invalid")
+    if record.get("status") != "TASK7_VISUAL_REVIEW":
+        reasons.append("visual_review_status_invalid")
+    if record.get("source_candidate_sha256") != expected_parent_sha256:
+        reasons.append("visual_review_parent_mismatch")
+    if not _is_sha256(record.get("candidate_sha256")):
+        reasons.append("visual_review_candidate_sha_invalid")
+    if not _is_sha1(record.get("source_git_commit")):
+        reasons.append("visual_review_source_commit_invalid")
+
+    renders = record.get("renders")
+    if not isinstance(renders, list) or not renders:
+        reasons.append("visual_review_renders_missing")
+    else:
+        seen = set()
+        for item in renders:
+            if not isinstance(item, dict):
+                reasons.append("visual_review_render_row_invalid")
+                continue
+            path = item.get("path")
+            sha = item.get("sha256")
+            pose = item.get("pose")
+            view = item.get("view")
+            if not all(isinstance(v, str) and v.strip() for v in (path, pose, view)):
+                reasons.append("visual_review_render_identity_invalid")
+            if not _is_sha256(sha):
+                reasons.append("visual_review_render_sha_invalid")
+            key = (pose, view)
+            if key in seen:
+                reasons.append("visual_review_duplicate_pose_view")
+            seen.add(key)
+
+    required = set(required_issue_ids)
+    issue_rows = record.get("issue_reviews")
+    if not isinstance(issue_rows, list):
+        reasons.append("visual_review_issue_rows_missing")
+        issue_rows = []
+    by_id = {}
+    for row in issue_rows:
+        if not isinstance(row, dict) or not isinstance(row.get("id"), str):
+            reasons.append("visual_review_issue_row_invalid")
+            continue
+        issue_id = row["id"]
+        if issue_id in by_id:
+            reasons.append("visual_review_duplicate_issue:" + issue_id)
+            continue
+        by_id[issue_id] = row
+    missing = sorted(required - set(by_id))
+    if missing:
+        reasons.append("unreviewed_required_issues:" + ",".join(missing))
+    for issue_id in sorted(required & set(by_id)):
+        row = by_id[issue_id]
+        if row.get("status") != "PASS":
+            reasons.append("visual_review_issue_not_passed:" + issue_id)
+        if not isinstance(row.get("evidence_paths"), list) or not row["evidence_paths"]:
+            reasons.append("visual_review_issue_evidence_missing:" + issue_id)
+        if not isinstance(row.get("human_evidence_ids"), list) or not row["human_evidence_ids"]:
+            reasons.append("visual_review_issue_human_evidence_missing:" + issue_id)
+        note = row.get("review_note")
+        if not isinstance(note, str) or not note.strip():
+            reasons.append("visual_review_issue_note_missing:" + issue_id)
+
+    return reasons
+
+
 def evaluate_task7_gate(
     comparison: dict,
     solve_report: dict,
@@ -107,6 +184,14 @@ def evaluate_task7_gate(
     if not solve_report.get("mask_file"):
         reasons.append("solve_mask_not_recorded")
 
+    reasons.extend(
+        validate_visual_review(
+            visual_review,
+            expected_parent_sha256=expected_parent_sha256,
+            required_issue_ids=required_issue_ids,
+        )
+    )
+
     required_true = (
         "production_path_rendered",
         "visual_pass",
@@ -122,21 +207,19 @@ def evaluate_task7_gate(
     if visual_review.get("critical_high_remaining") != 0:
         reasons.append("critical_or_high_shoulder_issues_remain")
 
-    reviewed = set(visual_review.get("reviewed_issue_ids", []))
-    missing = sorted(set(required_issue_ids) - reviewed)
-    if missing:
-        reasons.append("unreviewed_required_issues:" + ",".join(missing))
-
+    reasons = list(dict.fromkeys(reasons))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "PASS" if not reasons else "BLOCKED",
         "production_approved": False,
         "task7_gate_pass": not reasons,
+        "candidate_sha256": visual_review.get("candidate_sha256"),
+        "source_candidate_sha256": expected_parent_sha256,
         "reasons": reasons,
         "rule": (
-            "Task 7 requires zero material numerical regression AND explicit "
-            "production-path anatomical visual approval; numerical evidence "
-            "alone can never promote r96."
+            "Task 7 requires zero material numerical regression AND explicit, "
+            "candidate-bound production-path anatomical visual approval. "
+            "Numerical evidence alone can never promote r96."
         ),
     }
 

@@ -53,6 +53,8 @@ Do not overwrite r96. Before editing, create a fresh numbered descendant candida
 
 Start from `ORIGINAL_V1_SHOULDER_FOUNDATION_DECLARATION_TEMPLATE.json`, copy it to a fresh candidate-specific evidence path, fill the exact parent/hash and scope, then validate it with `scripts/original_v1_shoulder_foundation_declaration.py` before Blender edits. The repository template is intentionally incomplete/fail-closed.
 
+Before Blender editing, run `python scripts/original_v1_shoulder_foundation_readiness.py <candidate-declaration.json> --out <readiness.json>`. Blender foundation editing is allowed only when it returns `ready: true` / `BLENDER_FOUNDATION_EDIT_ALLOWED`.
+
 If declaration identity or parent identity does not match, stop.
 
 ## Required movement proof

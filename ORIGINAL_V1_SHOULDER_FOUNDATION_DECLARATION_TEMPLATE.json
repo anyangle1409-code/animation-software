@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": null,
+  "parent": {
+    "revision": null,
+    "sha256": null,
+    "candidate_path": null
+  },
+  "acceptance_contract": "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
+  "issue_ids": [
+    "WB-AX-001",
+    "WB-PEC-002",
+    "WB-PEC-003",
+    "WB-AX-004",
+    "WB-SHO-005",
+    "WB-SHO-006",
+    "WB-CLV-007",
+    "WB-SYM-008"
+  ],
+  "causal_order": [
+    "skeleton_mechanics",
+    "support_topology",
+    "weights_first_transfer",
+    "rotation_aware_anatomical_deformation",
+    "minimal_residual_correctives"
+  ],
+  "scope": {
+    "permitted_regions": [],
+    "permitted_bones": [],
+    "topology_intent": null,
+    "weight_intent": null,
+    "weights_only_gate_precedes_correctives": true,
+    "exercise_name_driven_deformation_forbidden": true,
+    "threshold_relaxation_forbidden": true
+  },
+  "protected_zones": [
+    "neck_boundary",
+    "pelvis_boundary",
+    "hands",
+    "feet",
+    "head",
+    "clothing",
+    "unrelated_correctives"
+  ],
+  "stop_conditions": [
+    "parent_identity_mismatch",
+    "out_of_scope_edit",
+    "critical_or_high_defect",
+    "material_regression",
+    "weights_only_visual_failure",
+    "axial_rotation_response_failure"
+  ],
+  "evidence_paths": [
+    "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
+    "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
+    "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+  ],
+  "note": "Template is intentionally incomplete and must fail validation until a fresh candidate parent/hash and exact candidate-specific scope are declared before Blender edits."
+}

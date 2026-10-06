@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import unittest
-from original_v1_phase4_preflight import assess
+from original_v1_phase4_preflight import assess, validate_shoulder_acceptance_receipt
 
 SHA="a"*64
 
@@ -48,6 +48,20 @@ def assess_clear(s=None,c=None):
     return assess(s or state(),c or control(),issue_ledger=clear_ledger())
 
 class Phase4PreflightTests(unittest.TestCase):
+    def test_shoulder_acceptance_receipt_is_fail_closed(self):
+        good={
+            "candidate_revision":"r99","pass":True,"production_approved":False,
+            "causal_order_violation":False,"weights_only_foundation_pass":True,
+            "movement_matrix_complete":True,"human_anatomical_review_recorded":True,
+        }
+        self.assertEqual(validate_shoulder_acceptance_receipt(good,"r99"),[])
+        bad=dict(good); bad["weights_only_foundation_pass"]=False
+        self.assertIn("weights-only foundation pass","\n".join(validate_shoulder_acceptance_receipt(bad,"r99")))
+        bad=dict(good); bad["movement_matrix_complete"]=False
+        self.assertIn("complete movement matrix","\n".join(validate_shoulder_acceptance_receipt(bad,"r99")))
+        bad=dict(good); bad["human_anatomical_review_recorded"]=False
+        self.assertIn("human anatomical review","\n".join(validate_shoulder_acceptance_receipt(bad,"r99")))
+
     def test_eligible_contract(self):
         self.assertEqual(assess_clear()["eligibility"],"ELIGIBLE_FOR_PHASE4_VALIDATION")
     def test_regressions_block(self):

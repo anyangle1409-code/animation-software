@@ -1,0 +1,52 @@
+{
+ "rest": {
+  "band_max_mm": 0.0,
+  "band_p90_mm": 0.0,
+  "outside_band_max_mm": 0.0
+ },
+ "curl_top": {
+  "band_max_mm": 5.99,
+  "band_p90_mm": 4.23,
+  "outside_band_max_mm": 0.0
+ },
+ "abduction_030": {
+  "band_max_mm": 10.36,
+  "band_p90_mm": 7.36,
+  "outside_band_max_mm": 0.0
+ },
+ "horizontal_adduction_90": {
+  "band_max_mm": 43.18,
+  "band_p90_mm": 30.77,
+  "outside_band_max_mm": 0.0
+ },
+ "side_internal_40": {
+  "band_max_mm": 15.81,
+  "band_p90_mm": 11.2,
+  "outside_band_max_mm": 0.0
+ },
+ "side_external_40": {
+  "band_max_mm": 15.81,
+  "band_p90_mm": 11.2,
+  "outside_band_max_mm": 0.0
+ },
+ "press_bottom_like": {
+  "band_max_mm": 59.72,
+  "band_p90_mm": 41.8,
+  "outside_band_max_mm": 0.0
+ },
+ "pullup_top_like": {
+  "band_max_mm": 30.84,
+  "band_p90_mm": 21.18,
+  "outside_band_max_mm": 0.0
+ },
+ "flexion_170": {
+  "band_max_mm": 66.0,
+  "band_p90_mm": 46.52,
+  "outside_band_max_mm": 0.0
+ },
+ "abduction_150": {
+  "band_max_mm": 60.58,
+  "band_p90_mm": 41.94,
+  "outside_band_max_mm": 0.0
+ }
+}

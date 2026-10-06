@@ -1,0 +1,52 @@
+{
+ "params": {
+  "folds": {
+   "ant": {
+    "origin": [
+     -0.11,
+     -0.06,
+     1.32
+    ],
+    "insertion": [
+     -0.205,
+     0.0,
+     1.43
+    ],
+    "radius": 0.05,
+    "side": [
+     "y_lt",
+     0.03
+    ]
+   }
+  },
+  "band_max": 0.25,
+  "a_max": 0.0,
+  "d0": 0.14,
+  "d1": 0.33,
+  "profile_gain": 2.0
+ },
+ "band_vertices_per_side": {
+  "ant": 92
+ },
+ "band_normals": {
+  "ant": [
+   -0.4067,
+   -0.7513,
+   -0.5197
+  ]
+ },
+ "changed_vertices": 226,
+ "max_influences": 4,
+ "nondeclared_unchanged": true,
+ "per_source_abs_change_left": {
+  "spine_02": 1.6128649926047116,
+  "spine_03": 2.9609000181329366,
+  "clavicle_l": 0.05895565555133731,
+  "scapula_l": 0.3676431333497743,
+  "upperarm_l": 0.16816617852940643,
+  "glenohumeral_half_l": 8.394781272595997
+ },
+ "over4_drops": 182,
+ "fold_weight_max": 0.2809479720890522,
+ "out_sha256": "d26f6d8c1bf3468925ffe68ed4493ef613f70c3080d7747fa72945bde5b607e8"
+}

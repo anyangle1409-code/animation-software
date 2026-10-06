@@ -29,6 +29,7 @@ TEST_MODULES = (
     "test_original_v1_whole_body_audit_readiness",
     "test_original_v1_whole_body_audit_gate",
     "test_original_v1_phase4_preflight",
+    "test_original_v1_execution_orchestration",
 )
 
 

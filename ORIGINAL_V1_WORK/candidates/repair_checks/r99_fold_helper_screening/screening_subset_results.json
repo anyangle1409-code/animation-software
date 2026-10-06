@@ -1,0 +1,546 @@
+{
+ "L5": {
+  "description": "r98 (reference)",
+  "subset_self_intersections": 346,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.183,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    2,
+    3.31
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r99A": {
+  "description": "anterior only, target on humerus",
+  "subset_self_intersections": 436,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.24,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.63
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.02
+   ],
+   "abduction_150_neutral": [
+    42,
+    3.63
+   ],
+   "abduction_170_neutral": [
+    50,
+    3.97
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    70,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    32,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    56,
+    4.19
+   ],
+   "flexion_150_external": [
+    66,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    54,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    0,
+    3.31
+   ],
+   "arm_behind_torso": [
+    50,
+    2.34
+   ]
+  }
+ },
+ "r99P": {
+  "description": "posterior only, target on humerus",
+  "subset_self_intersections": 196,
+  "edge_ratio_max": 5.19,
+  "edge_ratio_p99": 3.232,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.71
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.48
+   ],
+   "abduction_150_neutral": [
+    30,
+    4.07
+   ],
+   "abduction_170_neutral": [
+    36,
+    4.33
+   ],
+   "flexion_030_external": [
+    0,
+    2.03
+   ],
+   "flexion_060_external": [
+    2,
+    2.89
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.63
+   ],
+   "flexion_120_neutral": [
+    16,
+    4.55
+   ],
+   "flexion_150_internal": [
+    2,
+    5.14
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.05
+   ],
+   "flexion_150_external": [
+    34,
+    4.98
+   ],
+   "flexion_170_neutral": [
+    36,
+    5.19
+   ],
+   "horizontal_adduction_90": [
+    24,
+    3.55
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
+ },
+ "r99B": {
+  "description": "both, targets on humerus",
+  "subset_self_intersections": 362,
+  "edge_ratio_max": 5.19,
+  "edge_ratio_p99": 3.342,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.71
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.48
+   ],
+   "abduction_150_neutral": [
+    42,
+    4.07
+   ],
+   "abduction_170_neutral": [
+    50,
+    4.33
+   ],
+   "flexion_030_external": [
+    0,
+    2.03
+   ],
+   "flexion_060_external": [
+    2,
+    2.89
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.63
+   ],
+   "flexion_120_neutral": [
+    16,
+    4.55
+   ],
+   "flexion_150_internal": [
+    32,
+    5.14
+   ],
+   "flexion_150_neutral": [
+    56,
+    5.05
+   ],
+   "flexion_150_external": [
+    80,
+    4.98
+   ],
+   "flexion_170_neutral": [
+    58,
+    5.19
+   ],
+   "horizontal_adduction_90": [
+    22,
+    3.55
+   ],
+   "arm_behind_torso": [
+    0,
+    2.34
+   ]
+  }
+ },
+ "r99P2": {
+  "description": "posterior, target on half-swing helper",
+  "subset_self_intersections": 226,
+  "edge_ratio_max": 5.615,
+  "edge_ratio_p99": 3.331,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.51
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.31
+   ],
+   "abduction_150_neutral": [
+    30,
+    4.15
+   ],
+   "abduction_170_neutral": [
+    36,
+    4.61
+   ],
+   "flexion_030_external": [
+    2,
+    1.93
+   ],
+   "flexion_060_external": [
+    28,
+    2.67
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.24
+   ],
+   "flexion_120_neutral": [
+    8,
+    4.27
+   ],
+   "flexion_150_internal": [
+    2,
+    5.25
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.28
+   ],
+   "flexion_150_external": [
+    28,
+    5.32
+   ],
+   "flexion_170_neutral": [
+    32,
+    5.62
+   ],
+   "horizontal_adduction_90": [
+    44,
+    3.49
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
+ },
+ "r99A2": {
+  "description": "anterior, medial origin, half-swing target",
+  "subset_self_intersections": 290,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.229,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.74
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.25
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.74
+   ],
+   "abduction_170_neutral": [
+    52,
+    3.97
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    80,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    2,
+    3.31
+   ],
+   "arm_behind_torso": [
+    50,
+    2.34
+   ]
+  }
+ },
+ "r99B2": {
+  "description": "both, half-swing targets",
+  "subset_self_intersections": 238,
+  "edge_ratio_max": 5.615,
+  "edge_ratio_p99": 3.389,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.74
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.31
+   ],
+   "abduction_150_neutral": [
+    30,
+    4.15
+   ],
+   "abduction_170_neutral": [
+    52,
+    4.61
+   ],
+   "flexion_030_external": [
+    2,
+    1.93
+   ],
+   "flexion_060_external": [
+    30,
+    2.67
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.24
+   ],
+   "flexion_120_neutral": [
+    8,
+    4.27
+   ],
+   "flexion_150_internal": [
+    2,
+    5.25
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.28
+   ],
+   "flexion_150_external": [
+    28,
+    5.32
+   ],
+   "flexion_170_neutral": [
+    32,
+    5.62
+   ],
+   "horizontal_adduction_90": [
+    44,
+    3.49
+   ],
+   "arm_behind_torso": [
+    0,
+    2.34
+   ]
+  }
+ },
+ "r99B3": {
+  "description": "medial anterior + posterior, humerus targets",
+  "subset_self_intersections": 332,
+  "edge_ratio_max": 5.19,
+  "edge_ratio_p99": 3.344,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.71
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.48
+   ],
+   "abduction_150_neutral": [
+    52,
+    4.07
+   ],
+   "abduction_170_neutral": [
+    56,
+    4.33
+   ],
+   "flexion_030_external": [
+    0,
+    2.03
+   ],
+   "flexion_060_external": [
+    2,
+    2.89
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.63
+   ],
+   "flexion_120_neutral": [
+    16,
+    4.55
+   ],
+   "flexion_150_internal": [
+    14,
+    5.14
+   ],
+   "flexion_150_neutral": [
+    34,
+    5.05
+   ],
+   "flexion_150_external": [
+    56,
+    4.98
+   ],
+   "flexion_170_neutral": [
+    76,
+    5.19
+   ],
+   "horizontal_adduction_90": [
+    22,
+    3.55
+   ],
+   "arm_behind_torso": [
+    0,
+    2.34
+   ]
+  }
+ }
+}

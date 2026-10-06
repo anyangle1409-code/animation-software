@@ -221,12 +221,14 @@ Commit message: `Build r96 weights-first anatomical shoulder foundation`
 
 **Status:** mandatory before any r96 promotion.
 
-- [ ] Treat existing r96 support-rest-length and weights-only screening renders as diagnostic evidence, not acceptance evidence.
-- [ ] Add explicit fail-closed checks for deltoid volume collapse/elongation, axillary trench or membrane, pec drag, scapular deformation grooves and loss of the continuous neck-to-shoulder-to-arm silhouette.
-- [ ] Require matched elevation poses with humeral internal/neutral/external rotation to produce anatomically meaningful surface differences.
-- [ ] Require the weights-only foundation to pass the overhead visual gate before fitting any residual corrective.
-- [ ] If the foundation cannot pass without a large corrective, stop r96 iteration and revise topology/weight transfer rather than stacking another patch.
-- [ ] Preserve all rejected renders and measurements with candidate/hash identity so later candidates can prove improvement.
+**Machine-readable contract:** `ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json`
+
+- [x] Treat existing r96 support-rest-length and weights-only screening renders as diagnostic evidence, not acceptance evidence.
+- [x] Add explicit fail-closed checks for deltoid volume collapse/elongation, axillary trench or membrane, pec drag, scapular deformation grooves and loss of the continuous neck-to-shoulder-to-arm silhouette.
+- [x] Require matched elevation poses with humeral internal/neutral/external rotation to produce anatomically meaningful surface differences.
+- [x] Require the weights-only foundation to pass the overhead visual gate before fitting any residual corrective.
+- [x] If the foundation cannot pass without a large corrective, stop r96 iteration and revise topology/weight transfer rather than stacking another patch.
+- [x] Preserve all rejected renders and measurements with candidate/hash identity so later candidates can prove improvement.
 
 ### Task 7: Fit minimal generic correctives and validate r96
 

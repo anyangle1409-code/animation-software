@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "state": "candidate_ready",
+  "phase": "phase_3A_shoulder_foundation_rearchitecture",
+  "candidate_id": "r97",
+  "candidate_commit": "2ec9f7ae2da76202773ef7e889013d9b2b8d4f84",
+  "candidate_path": "ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend",
+  "candidate_sha256": "8b2fbe50781dfcf9123178615efc926945847959ed2b897def920f0b3c48962f",
+  "author": "claude_blender",
+  "parent_candidate_id": "r95",
+  "evidence_paths": [
+    "ORIGINAL_V1_WORK/candidates/r97/README.md",
+    "ORIGINAL_V1_WORK/candidates/r97/r97_candidate_manifest.json",
+    "ORIGINAL_V1_WORK/candidates/r97/r97_scope_audit.json",
+    "ORIGINAL_V1_WORK/candidates/r97/r97_shoulder_review.json",
+    "ORIGINAL_V1_WORK/candidates/r97/r97_shoulder_acceptance_result.json",
+    "ORIGINAL_V1_WORK/candidates/review_images/r97_shoulder_weights_only_matrix/matrix_report.json",
+    "ORIGINAL_V1_WORK/candidates/review_images/r95_reconstructed_weights_only_matrix/matrix_report.json",
+    "ORIGINAL_V1_WORK/candidates/review_images/r97_comparison_sheets",
+    "ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/r95_vs_r97_pose_test_comparison.md"
+  ],
+  "notes": "Weights-only shoulder foundation candidate: AC-joint scapula pivot, glenohumeral half-swing helpers, harmonic re-solve of declared-bone weights; topology and non-declared weights identical to r95; no correctives. NOT accepted. Author self-review is BLOCKED and a GPT FAIL is expected on: SH-V02 overhead axillary membrane/crease, SH-V01 rear deltoid dent overhead, SH-V05 back creases at 150+ deg, SH-M03 protected-zone self-intersections nonzero (1536 summed vs r95 1931), SH-M09 regressions (squat_bottom 82->99, pullup_top 92->110 self-int; overhead stretched edges up). Proposed next layer: support topology / bind-pose shape of the axillary folds."
+}

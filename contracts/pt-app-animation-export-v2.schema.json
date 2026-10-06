@@ -55,15 +55,17 @@
         "properties": {
           "exercise_id": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "pattern": "^[a-z0-9-]+$"
           },
           "source_exercise_id": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "pattern": "^[a-z0-9_]+$"
           },
           "filename": {
             "type": "string",
-            "pattern": ".+\\\\.(webm|mp4)$"
+            "pattern": "^[^/\\\\]+\\.(webm|mp4)$"
           },
           "sha256": {
             "type": "string",

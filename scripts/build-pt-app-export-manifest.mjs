@@ -1,7 +1,9 @@
 import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
 const ROOT=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
+const ID_MAP_PATH=path.join(ROOT,'contracts','pt-app-exercise-id-map.json');
 const hex64=x=>typeof x==='string'&&/^[0-9a-f]{64}$/.test(x);
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+export function loadExerciseMap(){const m=JSON.parse(fs.readFileSync(ID_MAP_PATH,'utf8'));return new Map((m.entries??[]).filter(x=>x.status==='direct_confirmed').map(x=>[x.source_exercise_id,x.pt_exercise_id]));}
 export function validatePromotionContract(c){
  const e=[];if(c?.mode!=='approved_for_promotion')e.push('ORIGINAL-v1 promotion contract is not approved_for_promotion');
  if(!/^[0-9a-f]{40}$/.test(c?.source_track?.approved_source_commit??''))e.push('approved source commit missing');
@@ -9,21 +11,25 @@ export function validatePromotionContract(c){
  for(const k of ['bare','dressed'])if(!hex64(c?.production_targets?.[k]?.sha256))e.push(k+' production character SHA-256 missing');
  return e;
 }
-export function buildManifest(input,dir,promotion){
+export function buildManifest(input,dir,promotion,idMap=loadExerciseMap()){
  const e=validatePromotionContract(promotion);
  if(input?.schema_version!==2)e.push('input schema_version must be 2');
  if(input?.rig_version!=='hgpt_canonical_v4_original')e.push('rig_version must be hgpt_canonical_v4_original');
  if(input?.character_version!=='HomeGymPT_Male_ORIGINAL_v1')e.push('character_version must be HomeGymPT_Male_ORIGINAL_v1');
  if(input?.character_approval_status!=='production_approved')e.push('character must be production_approved');
  if(!hex64(input?.character_sha256))e.push('character_sha256 invalid');
+ const approvedHashes=new Set(['bare','dressed'].map(k=>promotion?.production_targets?.[k]?.sha256).filter(hex64));
+ if(hex64(input?.character_sha256)&&approvedHashes.size&& !approvedHashes.has(input.character_sha256))e.push('character_sha256 does not match an approved production target');
  if(!input?.generator_version)e.push('generator_version missing');if(!input?.render_profile_version)e.push('render_profile_version missing');
  if(!Array.isArray(input?.assets)||!input.assets.length)e.push('assets missing');
  const seenE=new Set(),seenF=new Set(),assets=[];
  for(const [i,a] of (input?.assets??[]).entries()){
   const tag='asset['+i+'] ';
   if(!a.exercise_id||!a.source_exercise_id)e.push(tag+'exercise identity missing');
+  const mapped=idMap.get(a.source_exercise_id);if(!mapped)e.push(tag+'source exercise is not direct-confirmed for PT App');else if(mapped!==a.exercise_id)e.push(tag+'source exercise maps to '+mapped+', not '+a.exercise_id);
   if(seenE.has(a.exercise_id))e.push(tag+'duplicate exercise_id');seenE.add(a.exercise_id);
   if(!/\.(webm|mp4)$/i.test(a.filename??''))e.push(tag+'media must be WebM/MP4');
+  if(path.basename(a.filename??'')!==a.filename)e.push(tag+'filename must be a simple file name');
   if(seenF.has(a.filename))e.push(tag+'duplicate filename');seenF.add(a.filename);
   const media=path.resolve(dir,a.filename??'');if(!media.startsWith(path.resolve(dir)+path.sep)||!fs.existsSync(media))e.push(tag+'media missing/outside bundle');
   if(!hex64(a.source_animation_sha256))e.push(tag+'source_animation_sha256 invalid');

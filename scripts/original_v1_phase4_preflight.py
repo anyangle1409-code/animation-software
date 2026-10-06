@@ -16,6 +16,27 @@ def _load_issue_ledger(root):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+def validate_shoulder_acceptance_receipt(receipt, expected_revision):
+    errors=[]
+    if not isinstance(receipt,dict):
+        return ["shoulder acceptance receipt must be an object"]
+    if receipt.get("candidate_revision") != expected_revision:
+        errors.append("shoulder acceptance receipt candidate revision mismatch")
+    if receipt.get("pass") is not True:
+        errors.append("shoulder anatomical acceptance gate has not passed")
+    if receipt.get("production_approved") is not False:
+        errors.append("shoulder acceptance receipt improperly claims production approval")
+    if receipt.get("causal_order_violation") is not False:
+        errors.append("shoulder acceptance receipt reports causal-order violation")
+    if receipt.get("weights_only_foundation_pass") is not True:
+        errors.append("shoulder acceptance receipt lacks weights-only foundation pass")
+    if receipt.get("movement_matrix_complete") is not True:
+        errors.append("shoulder acceptance receipt lacks complete movement matrix")
+    if receipt.get("human_anatomical_review_recorded") is not True:
+        errors.append("shoulder acceptance receipt lacks human anatomical review")
+    return errors
+
+
 def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=None):
     issues=[]
     rev=state.get("current_candidate")
@@ -82,14 +103,7 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
                     issues.append("candidate-bound shoulder acceptance receipt is missing")
                 else:
                     shoulder_acceptance = json.loads(shoulder_acceptance_path.read_text(encoding="utf-8-sig"))
-                    if shoulder_acceptance.get("candidate_revision") != rev:
-                        issues.append("shoulder acceptance receipt candidate revision mismatch")
-                    if shoulder_acceptance.get("pass") is not True:
-                        issues.append("shoulder anatomical acceptance gate has not passed")
-                    if shoulder_acceptance.get("production_approved") is not False:
-                        issues.append("shoulder acceptance receipt improperly claims production approval")
-                    if shoulder_acceptance.get("causal_order_violation") is not False:
-                        issues.append("shoulder acceptance receipt reports causal-order violation")
+                    issues.extend(validate_shoulder_acceptance_receipt(shoulder_acceptance, rev))
                 audit_path = (
                     root / "ORIGINAL_V1_WORK/candidates/repair_checks"
                     / f"whole_body_audit_{rev}" / "whole_body_audit_record.json"

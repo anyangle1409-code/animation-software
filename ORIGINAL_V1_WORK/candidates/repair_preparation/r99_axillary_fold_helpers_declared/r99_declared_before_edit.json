@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r99",
+  "parent": {
+    "revision": "r98",
+    "status": "GPT FAIL; preserved unchanged as diagnostic checkpoint",
+    "candidate_commit": "61f48118e834f4fc188ec715269a646feffd663a",
+    "candidate_path": "ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+    "sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0"
+  },
+  "build_rule": "r99 is built from a copy of the r98 file; r98 is never written. All r98 content (r97 AC-joint scapula pivot, glenohumeral half-swing helpers, r98 rest-slit shape and weights) is preserved except the declared fold-band weight transfer.",
+  "causal_layer": "connected_soft_tissue (anterior and posterior axillary folds)",
+  "targets_from_gpt_fail": [
+    "SH-M03",
+    "SH-M07",
+    "SH-M09",
+    "SH-V01",
+    "SH-V02",
+    "SH-V05",
+    "SH-V09"
+  ],
+  "scope": {
+    "new_bones": {
+      "deforming": [
+        "axfold_ant_l",
+        "axfold_ant_r",
+        "axfold_post_l",
+        "axfold_post_r"
+      ],
+      "non_deforming_targets": [
+        "axfold_ant_ins_l",
+        "axfold_ant_ins_r",
+        "axfold_post_ins_l",
+        "axfold_post_ins_r"
+      ],
+      "anterior": "axfold_ant_<s>: parent spine_03, head at the pectoral fold origin on the anterior chest wall, tail at the pectoralis-major humeral insertion; STRETCH_TO the insertion target (child of upperarm_<s>, lateral lip of the bicipital groove level).",
+      "posterior": "axfold_post_<s>: parent scapula_<s>, head near the scapular inferior-angle/latissimus fold origin, tail at the latissimus/teres-major humeral insertion; STRETCH_TO the insertion target (child of upperarm_<s>).",
+      "runtime_rule": "fold bone world matrix = origin frame from parent, Y axis aimed at the insertion target, Y scaled to the current origin-insertion distance (Blender STRETCH_TO, no volume compensation unless declared in the receipt)"
+    },
+    "weights": {
+      "rule": "local, smooth, mirror-symmetric transfer onto the fold bones within a band around each origin-insertion segment on the fold surface; transferred share taken proportionally from the vertex's existing declared-bone weights only; non-declared bone weights unchanged exactly; at most 4 influences",
+      "max_band_radius_m": 0.05,
+      "max_fold_weight": 0.8,
+      "global_weight_solve": "forbidden"
+    },
+    "permitted_bones_for_weight_change": [
+      "spine_02",
+      "spine_03",
+      "clavicle_l",
+      "clavicle_r",
+      "scapula_l",
+      "scapula_r",
+      "upperarm_l",
+      "upperarm_r",
+      "glenohumeral_half_l",
+      "glenohumeral_half_r",
+      "axfold_ant_l",
+      "axfold_ant_r",
+      "axfold_post_l",
+      "axfold_post_r"
+    ],
+    "topology": "none",
+    "rest_shape": "none (r98 rest shape kept)",
+    "correctives": "none (r95 keys at 0, drivers removed)",
+    "narrow_exceptions": "a change to r97/r98 mechanics or rest shape requires measured evidence and a separate amendment committed before the change"
+  },
+  "prototype_order": [
+    "anterior_only",
+    "posterior_only",
+    "both"
+  ],
+  "measurements": [
+    "kinematics of fold bones through abduction/flexion 0-170 deg and axial internal/neutral/external (length, direction continuity, no flip)",
+    "56-pose movement matrix with renders",
+    "15 repository poses"
+  ],
+  "acceptance_targets": {
+    "no_regression_vs_r98": "repo pose test self-intersections on press_top, press_top_rhythm, press_bottom, squat_bottom, pullup_hang, pullup_hang_rhythm, pullup_top (tolerance 0 above r98, report any change)",
+    "matrix_collisions": "substantial reduction from r98's 708",
+    "stretch_compression": "no worsening of overhead stretched/compressed edge counts vs r98",
+    "visual": "membrane, rear-deltoid dent and back creases must visibly improve in front/axilla/rear close-ups; failure to improve is reported, not hidden"
+  },
+  "forbidden": [
+    "broad re-rig",
+    "global weight solve",
+    "topology churn",
+    "corrective shapes",
+    "modifying r97 or r98 files",
+    "force-push"
+  ],
+  "production_approved": false,
+  "source_git_commit": "b181d8c46ef130fe3a624b20bcbc33aa88a4d041"
+}

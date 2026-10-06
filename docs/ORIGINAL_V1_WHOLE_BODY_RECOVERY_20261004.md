@@ -80,7 +80,19 @@ No development freeze or later phase may be treated as anatomically accepted unt
 
 ## Immediate restart point
 
-Open the exact r95 candidate in Blender 5.2 and reproduce the committed overhead press, neutral shoulder and grip views. Confirm the six corrective keys and P3a driver values in each pose. Do not modify weights, shape keys, topology or gates until the failing contribution has been isolated.
+The original r95 reproduction/isolation step below is complete historical evidence. **Do not restart the investigation from r95.** r95 remains the immutable rejected comparator.
+
+Current restart sequence:
+
+1. fetch the live recovery branch and preserve any newer work;
+2. read `docs/ORIGINAL_V1_R96_TASK7_HANDOFF.md`;
+3. open/hash-verify the topology-only r96 intermediate SHA-256 `6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd`;
+4. reproduce its comparator metrics/renders without editing;
+5. declare a fresh r96 Task 7 corrective mask before any solve;
+6. author the generic elevation-driven morph correction one residual anatomical behaviour at a time;
+7. run the continuous-arc gate, full candidate regression, production-path visual review and fail-closed Task 7 gate.
+
+Do not reuse r95's failed displacement field, add more support loops/broad arm-follow weighting, or use Blender-only Preserve Volume as the delivery mechanism.
 
 ## Investigation checkpoint — production-path reproduction
 
@@ -175,3 +187,18 @@ The viable path remains the already owner-authorized, generic elevation-driven m
 - Generated probes remain under ignored `work/r96/`; all decisions, declarations, comparison reports and authoring receipts needed to reproduce them are committed.
 
 Next laptop action: begin the already-approved Task 7 residual-corrective declaration from the topology-only r96 intermediate. Keep r96 fail-closed and promote nothing until the complete numerical and visual gates pass.
+
+## Non-Blender recovery preparation checkpoint — 2026-10-06
+
+While Blender is unavailable, the repository has been prepared so the next model session can spend its time on actual deformation authoring rather than rebuilding validation infrastructure:
+
+- r96 Task 7 has a candidate-bound fail-closed visual/numerical gate and a separate continuous-arc numerical regression gate;
+- the Task 7 visual record now binds exact parent/candidate identities, source Git commit, production-path render hashes and one explicit evidence-backed decision for every shoulder-complex blocker;
+- real-human evidence has been expanded beyond the shoulder to cylindrical grip/thumb adaptation, loaded wrist/push-up behaviour, pull-up variants, trunk motion, asymmetric loading, hip hinge, squat, lunge, loaded heel raise, horizontal push and upper-limb joint interactions;
+- `ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json` maps every required movement-envelope category to verified development-only evidence with explicit limitations;
+- `ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json` defines 16 anatomical transition zones and requires start/intermediate/peak/return/reversal inspection rather than exercise endpoints alone;
+- the human-evidence validator now cross-checks the coverage map against the live movement envelope and verified evidence identities;
+- the Phase 4 preflight now reads the whole-body issue ledger and refuses re-freeze while any Critical/High anatomy issue is Open, In Progress or Pending Review;
+- orchestration now points to the r96 Task 7 architecture instead of the obsolete r95 axilla-pit shortcut.
+
+These are preparation/guardrail changes only. They do not claim that r96 has been authored or that any visible model defect is fixed. Production approval remains false.

@@ -1,0 +1,77 @@
+{
+ "r95": {
+  "self_intersections_sum": 1931,
+  "poses_with_self_intersections": 28,
+  "edge_ratio_min": 0.031,
+  "edge_ratio_p1": 0.292,
+  "edge_ratio_p99": 3.247,
+  "edge_ratio_max": 4.089,
+  "transition_shrink_min": 0.161,
+  "symmetry_max_mm": 0.31,
+  "arc": {
+   "abduction": {
+    "max_second_difference_ratio": 0.6561303414689678,
+    "at_theta": 120
+   },
+   "flexion": {
+    "max_second_difference_ratio": 0.8287672329212667,
+    "at_theta": 150
+   }
+  },
+  "axial_abd150": {
+   "transition_rms_mm": 26.31073106733846,
+   "zone_rms_mm": 23.67342419639559,
+   "torso_side_rms_mm": 9.03319599083817
+  }
+ },
+ "r97": {
+  "self_intersections_sum": 1536,
+  "poses_with_self_intersections": 27,
+  "edge_ratio_min": 0.078,
+  "edge_ratio_p1": 0.482,
+  "edge_ratio_p99": 3.156,
+  "edge_ratio_max": 4.449,
+  "transition_shrink_min": 0.901,
+  "symmetry_max_mm": 0.31,
+  "arc": {
+   "abduction": {
+    "max_second_difference_ratio": 0.6486748695662081,
+    "at_theta": 90
+   },
+   "flexion": {
+    "max_second_difference_ratio": 0.8222561707798587,
+    "at_theta": 150
+   }
+  },
+  "axial_abd150": {
+   "transition_rms_mm": 45.90359548895889,
+   "zone_rms_mm": 30.39457151500051,
+   "torso_side_rms_mm": 26.03826513018658
+  }
+ },
+ "r98": {
+  "self_intersections_sum": 708,
+  "poses_with_self_intersections": 26,
+  "edge_ratio_min": 0.078,
+  "edge_ratio_p1": 0.478,
+  "edge_ratio_p99": 3.183,
+  "edge_ratio_max": 4.332,
+  "transition_shrink_min": 0.901,
+  "symmetry_max_mm": 0.31,
+  "arc": {
+   "abduction": {
+    "max_second_difference_ratio": 0.6479720754389934,
+    "at_theta": 90
+   },
+   "flexion": {
+    "max_second_difference_ratio": 0.8218261250315342,
+    "at_theta": 150
+   }
+  },
+  "axial_abd150": {
+   "transition_rms_mm": 45.40874848477252,
+   "zone_rms_mm": 30.125748458936158,
+   "torso_side_rms_mm": 25.98991007463215
+  }
+ }
+}

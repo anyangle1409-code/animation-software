@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "candidate_id": "r98",
+  "candidate_revision": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98",
+  "model": "HomeGymPT_Male_ORIGINAL_v1",
+  "lineage": "ORIGINAL-v1 (not legacy V-series)",
+  "candidate_path": "ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+  "candidate_sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0",
+  "parent_candidate_id": "r97",
+  "parent_sha256": "8b2fbe50781dfcf9123178615efc926945847959ed2b897def920f0b3c48962f",
+  "parent_status": "r97 GPT FAIL; retained unmodified as a failed diagnostic candidate",
+  "lineage_root": {
+    "revision": "r95",
+    "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+    "working_reconstruction": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend"
+  },
+  "declaration": "ORIGINAL_V1_WORK/candidates/repair_preparation/r98_axillary_support_declared/r98_declared_before_edit.json",
+  "build_chain": [
+    "scripts/r98/build98.py (params ORIGINAL_V1_WORK/candidates/r98/r98_topology_rest_params.json; receipt ORIGINAL_V1_WORK/candidates/r98/r98_topology_rest_receipt.json)",
+    "scripts/r98/dump_rest98.py",
+    "scripts/r97/scapula_pivot.py",
+    "scripts/r97/add_gh_helper.py",
+    "scripts/r97/helper_swing_half2.py",
+    "scripts/r97/solve_weights.py (params ORIGINAL_V1_WORK/candidates/r98/r98_weight_solve_params.json = r97 params)",
+    "scripts/r98/blend_local.py (params ORIGINAL_V1_WORK/candidates/r98/r98_local_reskin_params.json)",
+    "scripts/r97/apply_weights.py",
+    "scripts/r98/finalize98.py"
+  ],
+  "changes": {
+    "skeleton": "none (r97 AC-joint scapula pivot and glenohumeral half-swing helpers preserved; rig and constraints identical to r97)",
+    "topology": "none: declared support rings were screened and rejected (worse self-intersections and stretch); 17,946 vertices, faces identical to r95/r97",
+    "rest_shape": "axillary slit opened (trunk wall 8 mm, arm inner wall 6 mm along -normal, smooth 5 cm falloff), V apex Laplacian-rounded, smooth cap 11.5 mm (max 10.7 mm), 1086 vertices, mirrored, identical delta on every shape key",
+    "weights": "localized re-skin: r97 solver re-run on the new rest shape, used within 2 rings of edited vertices and blended over 3 rings into r97 weights; non-declared bones exactly r95",
+    "correctives": "none fitted; r95 keys at 0, drivers removed"
+  },
+  "helper_runtime_rule": "unchanged from r97: glenohumeral_half world rotation = slerp(identity, swing(upperarm), 0.5) * twist(upperarm)",
+  "weights_only": true,
+  "production_approved": false,
+  "accepted": false,
+  "evidence": {
+    "scope_audit": "ORIGINAL_V1_WORK/candidates/r98/r98_scope_audit.json",
+    "matrix_summary": "ORIGINAL_V1_WORK/candidates/r98/r98_matrix_summary_vs_r95_r97.json",
+    "self_intersection_regions": "ORIGINAL_V1_WORK/candidates/r98/r98_self_intersection_regions.json",
+    "shoulder_review": "ORIGINAL_V1_WORK/candidates/r98/r98_shoulder_review.json",
+    "shoulder_acceptance_result": "ORIGINAL_V1_WORK/candidates/r98/r98_shoulder_acceptance_result.json",
+    "movement_matrix": "ORIGINAL_V1_WORK/candidates/review_images/r98_axillary_weights_only_matrix",
+    "comparison_sheets": "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets",
+    "repo_pose_test": "ORIGINAL_V1_WORK/candidates/repair_checks/r98_pose_test_weights_only",
+    "support_topology_screening": "ORIGINAL_V1_WORK/candidates/repair_checks/r98_support_topology_screening"
+  },
+  "self_acceptance_disposition": "BLOCKED"
+}

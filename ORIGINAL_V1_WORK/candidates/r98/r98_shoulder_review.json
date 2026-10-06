@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "candidate_revision": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98",
+  "candidate_sha256": "89e98cc74cc7dfd17f6d5a0991a9f0f6954e8de4d99ea3d3b30be2ec617b2ce0",
+  "parent_sha256": "8b2fbe50781dfcf9123178615efc926945847959ed2b897def920f0b3c48962f",
+  "machine_gates": [
+    {
+      "id": "SH-M01",
+      "pass": true,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/r98/r98_candidate_manifest.json"
+      ],
+      "note": "Candidate .blend SHA-256 89e98cc7...2ce0 bound in manifest; parent r97 8b2fbe50...962f (not modified); lineage root r95 c4b8e388...7c85."
+    },
+    {
+      "id": "SH-M02",
+      "pass": true,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/r98/r98_scope_audit.json"
+      ],
+      "note": "Audit vs r95 reconstruction and r97: faces identical (no new vertices), rest edit 1086 vertices within the declared region (|x|>=0.114, z 1.18-1.43) and cap (10.7 mm <= 12 mm), shape-key deltas preserved (7e-9 m), non-declared weights max diff 0.0, rig and constraints identical to r97, mirror error 1.3e-7 m, <=4 influences."
+    },
+    {
+      "id": "SH-M03",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_axillary_weights_only_matrix/matrix_report.json",
+        "ORIGINAL_V1_WORK/candidates/r98/r98_self_intersection_regions.json"
+      ],
+      "note": "FAIL (improved). Protected-zone self-intersection pairs over the 56-pose matrix: r95 1931, r97 1536, r98 708 (26 poses non-zero). Must be zero. Remaining: posterior axilla 316, superior shoulder/trapezius 220, anterior axilla 172 (both sides, region classifier)."
+    },
+    {
+      "id": "SH-M04",
+      "pass": true,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_axillary_weights_only_matrix/matrix_report.json"
+      ],
+      "note": "Arc second-difference ratio: abduction 0.648, flexion 0.822 (r97 0.649/0.822; r95 0.656/0.829). Author measurement."
+    },
+    {
+      "id": "SH-M05",
+      "pass": true,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_axillary_weights_only_matrix/matrix_report.json"
+      ],
+      "note": "Max mirror deviation 0.31 mm (baseline 0.31 mm)."
+    },
+    {
+      "id": "SH-M06",
+      "pass": true,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_axillary_weights_only_matrix/matrix_report.json"
+      ],
+      "note": "Internal vs external surfaces differ at matched elevation (same mechanics as r97; see axial_response in matrix_report.json)."
+    },
+    {
+      "id": "SH-M07",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "note": "FAIL. Weights-only foundation still fails overhead visual gates (SH-V01, SH-V02, SH-V05, SH-V09); correctives not authorised."
+    },
+    {
+      "id": "SH-M08",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "NOT ESTABLISHED. No correctives fitted (r95 keys at 0, drivers removed)."
+    },
+    {
+      "id": "SH-M09",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/repair_checks/r98_pose_test_weights_only/r95_r97_r98_pose_test_comparison.txt"
+      ],
+      "note": "PARTIAL. Self-intersections: no regression vs r95 on any of the 15 repo poses (press_top 58->0, press_top_rhythm 72->0, squat 82->76, pullup_hang 0->0, pullup_hang_rhythm 0->0, pullup_top 92->92, press_bottom 80->80) and none vs r97. Stretched edges >1.6 remain above r95 on overhead/press poses (press_top 853 r95, 1104 r97, 1134 r98; pullup_hang 773/1008/1042; press_bottom 334/522/514), traceable to the preserved r97 AC-pivot mechanics (r95's lower count coincides with crushed shoulder compression: 286 vs 68 compressed shoulder edges in press_top). Squat stretch improves (638/624/620). Marked FAIL because stretch increase vs r95 persists."
+    }
+  ],
+  "visual_gates": [
+    {
+      "id": "SH-V01",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "FAIL. Rear deltoid dent/thinning overhead unchanged from r97 (flexion 150-170, press_top, pullup_hang rear close-ups)."
+    },
+    {
+      "id": "SH-V02",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "FAIL. Overhead axillary membrane/crease unchanged from r97 in the front and axilla close-ups; the rest-slit repair removes low/mid-elevation wall interpenetration but does not change the overhead sheet."
+    },
+    {
+      "id": "SH-V03",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Not passed: chest-to-arm band still stretched overhead (author self-assessment, unchanged from r97)."
+    },
+    {
+      "id": "SH-V04",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Not independently verified; neck-to-shoulder slope unchanged from r97."
+    },
+    {
+      "id": "SH-V05",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "FAIL. Back creases lateral to the scapula at 150+ deg remain."
+    },
+    {
+      "id": "SH-V06",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Not verified; overhead axillary volume reads thin (membrane)."
+    },
+    {
+      "id": "SH-V07",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Author self-assessment: AC-joint pivot preserved; not independently verified."
+    },
+    {
+      "id": "SH-V08",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Not verified."
+    },
+    {
+      "id": "SH-V09",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "FAIL. Overhead stretch and fold discontinuity at the axilla (max edge ratio 4.33; r95 4.09, r97 4.45)."
+    },
+    {
+      "id": "SH-V10",
+      "pass": false,
+      "evidence_paths": [
+        "ORIGINAL_V1_WORK/candidates/review_images/r98_comparison_sheets/r95_r97_r98_overhead_closeups.jpg"
+      ],
+      "review_note": "Author self-assessment: girdle rhythm present; not independently verified."
+    }
+  ],
+  "weights_only_foundation_pass": false,
+  "human_anatomical_review_recorded": false,
+  "open_critical_high_linked_issues": [
+    "SH-M03",
+    "SH-M07",
+    "SH-M09",
+    "SH-V01",
+    "SH-V02",
+    "SH-V05",
+    "SH-V09"
+  ],
+  "movement_matrix_complete": true,
+  "residual_corrective_fitted": false,
+  "review_author": "claude_blender (model author self-review; not the GPT validation record)"
+}

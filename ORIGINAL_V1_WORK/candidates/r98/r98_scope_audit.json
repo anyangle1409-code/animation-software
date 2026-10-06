@@ -1,0 +1,25 @@
+{
+    "r95_parent": "/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend",
+    "r97_reference": "/home/user/wb/ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend",
+    "candidate": "/home/user/wb/ORIGINAL_V1_WORK/candidates/r98/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r98.blend",
+    "vertex_count": [
+        17946,
+        17946
+    ],
+    "faces_identical_to_r95": true,
+    "new_vertices": 0,
+    "rest_moved_vertices": 1086,
+    "rest_max_displacement_m": 0.010689950908358309,
+    "rest_moved_region": {
+        "abs_x_min": 0.11431103944778442,
+        "z_min": 1.1800000667572021,
+        "z_max": 1.4318126440048218
+    },
+    "rest_mirror_symmetry_max_err_m": 1.2753339717619383e-07,
+    "shape_key_delta_preserved_max_err_m": 7.450580596923828e-09,
+    "nondeclared_weight_max_diff_vs_r95": 0.0,
+    "rig_identical_to_r97": true,
+    "constraints_identical_to_r97": true,
+    "max_influences": 4,
+    "pass": true
+}

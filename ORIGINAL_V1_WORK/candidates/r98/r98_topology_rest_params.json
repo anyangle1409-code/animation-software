@@ -1,0 +1,1 @@
+{"mirror_idx_r95": "/home/user/r98/mirror_idx_r95.npy", "rings": [], "open": {"z_min": 1.18, "z_max": 1.44, "reach": 0.04, "full": 0.012, "trunk_m": 0.008, "arm_m": 0.006, "diffuse_iters": 4, "apex_relax_iters": 12, "apex_relax_lambda": 0.4, "apex_dist": 0.022, "apex_z_min": 1.33, "max_disp_m": 0.0115}}

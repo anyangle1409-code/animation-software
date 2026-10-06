@@ -1,0 +1,545 @@
+{
+ "subset_poses": [
+  "abduction_090_neutral",
+  "abduction_150_neutral",
+  "abduction_170_neutral",
+  "flexion_090_neutral",
+  "flexion_150_neutral",
+  "flexion_170_neutral",
+  "flexion_150_internal",
+  "flexion_150_external",
+  "abduction_120_neutral",
+  "flexion_120_neutral",
+  "flexion_060_external",
+  "horizontal_adduction_90",
+  "arm_behind_torso",
+  "flexion_030_external",
+  "abduction_000_external"
+ ],
+ "matrix_subset": {
+  "r97": {
+   "description": "r97 candidate (reference)",
+   "subset_self_intersections": 834,
+   "edge_ratio_max": 4.413,
+   "edge_ratio_p99": 3.156
+  },
+  "t": {
+   "description": "support rings only (torso apex row + arm-root rings, +144 vertices), global re-solve",
+   "subset_self_intersections": 946,
+   "edge_ratio_max": 6.589,
+   "edge_ratio_p99": 3.492
+  },
+  "o": {
+   "description": "rest slit opening 5/4 mm + apex rounding, global re-solve",
+   "subset_self_intersections": 504,
+   "edge_ratio_max": 4.365,
+   "edge_ratio_p99": 3.195
+  },
+  "a": {
+   "description": "rings + opening (o), global re-solve",
+   "subset_self_intersections": 608,
+   "edge_ratio_max": 6.512,
+   "edge_ratio_p99": 3.36
+  },
+  "oA": {
+   "description": "opening (o) + arm-root rings only (+80)",
+   "subset_self_intersections": 554,
+   "edge_ratio_max": 4.542,
+   "edge_ratio_p99": 3.326
+  },
+  "oT": {
+   "description": "opening (o) + torso apex row only (+64)",
+   "subset_self_intersections": 536,
+   "edge_ratio_max": 4.378,
+   "edge_ratio_p99": 3.232
+  },
+  "o2": {
+   "description": "opening 8/6 mm, global re-solve",
+   "subset_self_intersections": 436,
+   "edge_ratio_max": 4.348,
+   "edge_ratio_p99": 3.189
+  },
+  "o3": {
+   "description": "opening 8/6 mm, 5 cm reach, global re-solve",
+   "subset_self_intersections": 380,
+   "edge_ratio_max": 4.351,
+   "edge_ratio_p99": 3.185
+  },
+  "o4": {
+   "description": "opening 8/6 mm, apex rounding x12 (19 mm, exceeds declared cap), global re-solve",
+   "subset_self_intersections": 420,
+   "edge_ratio_max": 4.349,
+   "edge_ratio_p99": 3.21
+  },
+  "o4r": {
+   "description": "o4 geometry, r97 weights unchanged",
+   "subset_self_intersections": 444,
+   "edge_ratio_max": 4.42,
+   "edge_ratio_p99": 3.216
+  },
+  "L1": {
+   "description": "o4 + localized re-skin core2/blend3",
+   "subset_self_intersections": 320,
+   "edge_ratio_max": 4.349,
+   "edge_ratio_p99": 3.21
+  },
+  "L2": {
+   "description": "o4 + localized re-skin core4/blend4",
+   "subset_self_intersections": 334,
+   "edge_ratio_max": 4.349,
+   "edge_ratio_p99": 3.209
+  },
+  "L3": {
+   "description": "o3 + localized re-skin",
+   "subset_self_intersections": 284,
+   "edge_ratio_max": 4.351,
+   "edge_ratio_p99": 3.146
+  },
+  "g1L": {
+   "description": "arm-wall-only opening + localized re-skin",
+   "subset_self_intersections": 438,
+   "edge_ratio_max": 4.31,
+   "edge_ratio_p99": 3.267
+  },
+  "g2L": {
+   "description": "trunk 4/arm 6 mm + localized re-skin",
+   "subset_self_intersections": 340,
+   "edge_ratio_max": 4.298,
+   "edge_ratio_p99": 3.266
+  },
+  "g3L": {
+   "description": "apex rounding only + localized re-skin",
+   "subset_self_intersections": 634,
+   "edge_ratio_max": 5.438,
+   "edge_ratio_p99": 3.29
+  },
+  "L5": {
+   "description": "r98 candidate: o4 with 11.5 mm cap + localized re-skin (protected pruning)",
+   "subset_self_intersections": 346,
+   "edge_ratio_max": 4.331,
+   "edge_ratio_p99": 3.183
+  }
+ },
+ "repo_pose_test_self_intersections_and_stretched_gt_1_6": {
+  "o": {
+   "press_top": [
+    10,
+    1138
+   ],
+   "press_top_rhythm": [
+    12,
+    1199
+   ],
+   "squat_bottom": [
+    80,
+    622
+   ],
+   "pullup_hang": [
+    6,
+    1036
+   ],
+   "pullup_hang_rhythm": [
+    6,
+    1103
+   ],
+   "pullup_top": [
+    92,
+    424
+   ],
+   "press_bottom": [
+    80,
+    538
+   ]
+  },
+  "o2": {
+   "press_top": [
+    10,
+    1138
+   ],
+   "press_top_rhythm": [
+    12,
+    1193
+   ],
+   "squat_bottom": [
+    94,
+    616
+   ],
+   "pullup_hang": [
+    6,
+    1034
+   ],
+   "pullup_hang_rhythm": [
+    6,
+    1105
+   ],
+   "pullup_top": [
+    92,
+    426
+   ],
+   "press_bottom": [
+    80,
+    538
+   ]
+  },
+  "o3": {
+   "press_top": [
+    10,
+    1134
+   ],
+   "press_top_rhythm": [
+    12,
+    1189
+   ],
+   "squat_bottom": [
+    92,
+    614
+   ],
+   "pullup_hang": [
+    2,
+    1032
+   ],
+   "pullup_hang_rhythm": [
+    6,
+    1103
+   ],
+   "pullup_top": [
+    92,
+    426
+   ],
+   "press_bottom": [
+    80,
+    536
+   ]
+  },
+  "o4": {
+   "press_top": [
+    10,
+    1156
+   ],
+   "press_top_rhythm": [
+    12,
+    1213
+   ],
+   "squat_bottom": [
+    76,
+    632
+   ],
+   "pullup_hang": [
+    2,
+    1080
+   ],
+   "pullup_hang_rhythm": [
+    6,
+    1131
+   ],
+   "pullup_top": [
+    92,
+    440
+   ],
+   "press_bottom": [
+    80,
+    546
+   ]
+  },
+  "o4r": {
+   "press_top": [
+    4,
+    1130
+   ],
+   "press_top_rhythm": [
+    0,
+    1163
+   ],
+   "squat_bottom": [
+    100,
+    626
+   ],
+   "pullup_hang": [
+    4,
+    1040
+   ],
+   "pullup_hang_rhythm": [
+    4,
+    1093
+   ],
+   "pullup_top": [
+    92,
+    430
+   ],
+   "press_bottom": [
+    80,
+    536
+   ]
+  },
+  "L1": {
+   "press_top": [
+    0,
+    1148
+   ],
+   "press_top_rhythm": [
+    0,
+    1195
+   ],
+   "squat_bottom": [
+    76,
+    634
+   ],
+   "pullup_hang": [
+    0,
+    1068
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1109
+   ],
+   "pullup_top": [
+    92,
+    428
+   ],
+   "press_bottom": [
+    80,
+    526
+   ]
+  },
+  "L2": {
+   "press_top": [
+    0,
+    1140
+   ],
+   "press_top_rhythm": [
+    0,
+    1189
+   ],
+   "squat_bottom": [
+    76,
+    636
+   ],
+   "pullup_hang": [
+    0,
+    1066
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1117
+   ],
+   "pullup_top": [
+    92,
+    434
+   ],
+   "press_bottom": [
+    80,
+    534
+   ]
+  },
+  "g1L": {
+   "press_top": [
+    2,
+    1158
+   ],
+   "press_top_rhythm": [
+    0,
+    1199
+   ],
+   "squat_bottom": [
+    84,
+    636
+   ],
+   "pullup_hang": [
+    0,
+    1066
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1117
+   ],
+   "pullup_top": [
+    96,
+    434
+   ],
+   "press_bottom": [
+    80,
+    542
+   ]
+  },
+  "g2L": {
+   "press_top": [
+    0,
+    1154
+   ],
+   "press_top_rhythm": [
+    0,
+    1195
+   ],
+   "squat_bottom": [
+    76,
+    636
+   ],
+   "pullup_hang": [
+    0,
+    1070
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1111
+   ],
+   "pullup_top": [
+    92,
+    426
+   ],
+   "press_bottom": [
+    80,
+    528
+   ]
+  },
+  "g3L": {
+   "press_top": [
+    0,
+    1158
+   ],
+   "press_top_rhythm": [
+    0,
+    1199
+   ],
+   "squat_bottom": [
+    68,
+    642
+   ],
+   "pullup_hang": [
+    0,
+    1072
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1125
+   ],
+   "pullup_top": [
+    100,
+    446
+   ],
+   "press_bottom": [
+    80,
+    556
+   ]
+  },
+  "L3": {
+   "press_top": [
+    0,
+    1116
+   ],
+   "press_top_rhythm": [
+    0,
+    1169
+   ],
+   "squat_bottom": [
+    92,
+    612
+   ],
+   "pullup_hang": [
+    0,
+    1014
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1081
+   ],
+   "pullup_top": [
+    92,
+    416
+   ],
+   "press_bottom": [
+    80,
+    522
+   ]
+  },
+  "L5": {
+   "press_top": [
+    0,
+    1134
+   ],
+   "press_top_rhythm": [
+    0,
+    1187
+   ],
+   "squat_bottom": [
+    76,
+    620
+   ],
+   "pullup_hang": [
+    0,
+    1042
+   ],
+   "pullup_hang_rhythm": [
+    0,
+    1091
+   ],
+   "pullup_top": [
+    92,
+    422
+   ],
+   "press_bottom": [
+    80,
+    514
+   ]
+  }
+ },
+ "r95_pose_test_reference": {
+  "press_top": [
+   58,
+   853
+  ],
+  "press_top_rhythm": [
+   72,
+   956
+  ],
+  "squat_bottom": [
+   82,
+   638
+  ],
+  "pullup_hang": [
+   0,
+   773
+  ],
+  "pullup_hang_rhythm": [
+   0,
+   885
+  ],
+  "pullup_top": [
+   92,
+   256
+  ],
+  "press_bottom": [
+   80,
+   334
+  ]
+ },
+ "r97_pose_test_reference": {
+  "press_top": [
+   4,
+   1104
+  ],
+  "press_top_rhythm": [
+   0,
+   1147
+  ],
+  "squat_bottom": [
+   99,
+   624
+  ],
+  "pullup_hang": [
+   8,
+   1008
+  ],
+  "pullup_hang_rhythm": [
+   0,
+   1073
+  ],
+  "pullup_top": [
+   110,
+   418
+  ],
+  "press_bottom": [
+   84,
+   522
+  ]
+ }
+}

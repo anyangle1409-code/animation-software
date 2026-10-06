@@ -1,0 +1,131 @@
+{
+ "total": {
+  "posterior_axilla_back": 316,
+  "superior_shoulder_trapezius": 220,
+  "anterior_axilla_pec": 172
+ },
+ "per_pose": {
+  "abduction_000_internal": {},
+  "abduction_000_neutral": {},
+  "abduction_000_external": {
+   "posterior_axilla_back": 4
+  },
+  "abduction_030_internal": {},
+  "abduction_030_neutral": {},
+  "abduction_030_external": {},
+  "abduction_060_internal": {},
+  "abduction_060_neutral": {},
+  "abduction_060_external": {},
+  "abduction_090_internal": {},
+  "abduction_090_neutral": {},
+  "abduction_090_external": {},
+  "abduction_120_internal": {},
+  "abduction_120_neutral": {
+   "superior_shoulder_trapezius": 2
+  },
+  "abduction_120_external": {
+   "anterior_axilla_pec": 10
+  },
+  "abduction_150_internal": {},
+  "abduction_150_neutral": {
+   "superior_shoulder_trapezius": 16,
+   "posterior_axilla_back": 14
+  },
+  "abduction_150_external": {
+   "superior_shoulder_trapezius": 10,
+   "posterior_axilla_back": 10,
+   "anterior_axilla_pec": 4
+  },
+  "abduction_170_internal": {
+   "posterior_axilla_back": 4,
+   "superior_shoulder_trapezius": 8
+  },
+  "abduction_170_neutral": {
+   "posterior_axilla_back": 12,
+   "superior_shoulder_trapezius": 24
+  },
+  "abduction_170_external": {
+   "posterior_axilla_back": 7,
+   "anterior_axilla_pec": 18,
+   "superior_shoulder_trapezius": 25
+  },
+  "flexion_000_internal": {},
+  "flexion_000_neutral": {},
+  "flexion_000_external": {
+   "posterior_axilla_back": 4
+  },
+  "flexion_030_internal": {},
+  "flexion_030_neutral": {},
+  "flexion_030_external": {
+   "posterior_axilla_back": 10
+  },
+  "flexion_060_internal": {},
+  "flexion_060_neutral": {},
+  "flexion_060_external": {
+   "posterior_axilla_back": 78,
+   "anterior_axilla_pec": 68
+  },
+  "flexion_090_internal": {},
+  "flexion_090_neutral": {},
+  "flexion_090_external": {
+   "posterior_axilla_back": 62,
+   "anterior_axilla_pec": 30
+  },
+  "flexion_120_internal": {
+   "anterior_axilla_pec": 16
+  },
+  "flexion_120_neutral": {},
+  "flexion_120_external": {
+   "posterior_axilla_back": 10
+  },
+  "flexion_150_internal": {
+   "anterior_axilla_pec": 2
+  },
+  "flexion_150_neutral": {
+   "superior_shoulder_trapezius": 6
+  },
+  "flexion_150_external": {
+   "superior_shoulder_trapezius": 20
+  },
+  "flexion_170_internal": {
+   "superior_shoulder_trapezius": 12
+  },
+  "flexion_170_neutral": {
+   "superior_shoulder_trapezius": 27,
+   "posterior_axilla_back": 5
+  },
+  "flexion_170_external": {
+   "posterior_axilla_back": 2,
+   "superior_shoulder_trapezius": 30,
+   "anterior_axilla_pec": 4
+  },
+  "horizontal_adduction_90": {
+   "anterior_axilla_pec": 2
+  },
+  "horizontal_abduction_90": {},
+  "arm_behind_torso": {
+   "anterior_axilla_pec": 6,
+   "posterior_axilla_back": 50
+  },
+  "bent_elbow_elevation_120": {
+   "superior_shoulder_trapezius": 4
+  },
+  "press_bottom_like": {
+   "posterior_axilla_back": 10
+  },
+  "press_top_like": {
+   "posterior_axilla_back": 18,
+   "anterior_axilla_pec": 8,
+   "superior_shoulder_trapezius": 18
+  },
+  "pullup_hang_like": {
+   "posterior_axilla_back": 16,
+   "superior_shoulder_trapezius": 18,
+   "anterior_axilla_pec": 4
+  },
+  "pullup_top_like": {},
+  "bench_bottom_like": {},
+  "pushup_bottom_like": {},
+  "row_top_like": {}
+ }
+}

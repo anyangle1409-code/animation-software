@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r97",
+  "parent": {
+    "revision": "r95",
+    "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+    "candidate_path": "origin/claude/original-v1-blender-o2-20260929:ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+    "r95_blend_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+    "working_reconstruction": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend",
+      "method": "committed r82 .blend (rest mesh, rig rev2c, quads, metadata identical to r95 within 5e-7 m) + r95 skin weights and six corrective shape keys from the identity-verified r95 BARE export, by vertex index",
+      "verification": "repository pose test on the reconstruction reproduces r95 full-evidence metrics exactly for press_top, press_top_rhythm, pullup_hang, curl_peak"
+    }
+  },
+  "acceptance_contract": "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
+  "issue_ids": [
+    "WB-AX-001",
+    "WB-PEC-002",
+    "WB-PEC-003",
+    "WB-AX-004",
+    "WB-SHO-005",
+    "WB-SHO-006",
+    "WB-CLV-007",
+    "WB-SYM-008"
+  ],
+  "causal_order": [
+    "skeleton_mechanics",
+    "support_topology",
+    "weights_first_transfer",
+    "rotation_aware_anatomical_deformation",
+    "minimal_residual_correctives"
+  ],
+  "scope": {
+    "permitted_regions": [
+      "left_and_right_shoulder_girdle_skin: deltoid, axilla, pectoral, latissimus/teres folds, scapular back, upper trapezius slope to the neck base, lateral and anterior upper ribcage (z > 1.10 m), proximal upper arm to the deltoid insertion"
+    ],
+    "permitted_bones": [
+      "spine_02",
+      "spine_03",
+      "clavicle_l",
+      "clavicle_r",
+      "scapula_l",
+      "scapula_r",
+      "upperarm_l",
+      "upperarm_r"
+    ],
+    "permitted_vertex_scope": "vertices whose r95 dominant influence or new influence lies in permitted_bones and that lie above z = 1.10 m on the trunk or above the humerus mid-shaft on the arm; exact ids recorded in the solve receipt",
+    "topology_intent": "none in this declaration: support topology is assessed against the weights-only result; any topology edit requires a new declaration",
+    "weight_intent": "replace the truncated, staircase r95 shoulder weights with a smooth mirror-symmetric harmonic (cotangent-Laplacian) solve on the surface between anatomical anchors (rib cage -> spine, skin over the scapula -> partial scapula, clavicle ridge -> clavicle, arm tube below the axilla -> unchanged arm weights); at most 4 influences per vertex (runtime limit); neck, forearm, hand, pelvis, leg, head weights unchanged",
+    "weights_only_gate_precedes_correctives": true,
+    "exercise_name_driven_deformation_forbidden": true,
+    "threshold_relaxation_forbidden": true,
+    "correctives": "all six r95 shoulder shape keys retained but held at zero for the weights-only gate; no corrective refit authorised by this declaration"
+  },
+  "protected_zones": [
+    "neck_boundary",
+    "pelvis_boundary",
+    "hands",
+    "feet",
+    "head",
+    "clothing",
+    "unrelated_correctives"
+  ],
+  "stop_conditions": [
+    "parent_identity_mismatch",
+    "out_of_scope_edit",
+    "critical_or_high_defect",
+    "material_regression",
+    "weights_only_visual_failure",
+    "axial_rotation_response_failure"
+  ],
+  "evidence_paths": [
+    "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
+    "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
+    "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json"
+  ],
+  "note": "r97 fresh descendant of r95 declared before any edit. Production approval false.",
+  "source_git_commit": "78b7c793df88bd6426e47de65c9693ec6a53b457"
+}

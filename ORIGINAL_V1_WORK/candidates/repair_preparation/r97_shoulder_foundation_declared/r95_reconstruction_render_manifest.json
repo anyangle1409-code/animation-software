@@ -1,0 +1,1162 @@
+{
+  "schema_version": 1,
+  "candidate": "r95_reconstructed.blend",
+  "candidate_sha256": "107706189ff7c65da284807c0a171589e15917bf828f64576e20664278ffcf81",
+  "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+  "pose_report_sha256": "d3db7f0f97d8240e2eead8a82093f2235b63810dca7a970c8f0deb504c70fe6a",
+  "blender_version": "5.2.1 LTS",
+  "capture_mode": "repair",
+  "capture_arguments": [
+    "/home/user/r97/verify_r95",
+    "press_top,press_top_rhythm,pullup_hang,curl_peak"
+  ],
+  "images": [
+    {
+      "file": "pose_curl_peak_front.png",
+      "sha256": "0b02bb4100617e2f0d8945486fdc59265710f522759feb5b15d4adfc1fc6b1d3",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947202682495,
+            -8.024493217468262
+          ],
+          [
+            0.0,
+            0.9961947202682495,
+            0.08715571463108063,
+            1.607245922088623
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.038400173187256,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_side.png",
+      "sha256": "24a6168fc033cc14bc58490560e0f27795be35a5c2f9813ddd0593e7d287b412",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715572953224182,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            -1.0,
+            -8.043211607855483e-08,
+            -3.1073916773038945e-08,
+            -0.054935701191425323
+          ],
+          [
+            -3.1073916773038945e-08,
+            0.9961947798728943,
+            0.08715567737817764,
+            1.607245922088623
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.038400173187256,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_three_quarter.png",
+      "sha256": "f2c8947d4a3206cabb7a1ce039712accdcc968b1e1a47042207e218f88cbb865",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191519975662231,
+            0.1192532554268837,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031118273735046,
+            -0.8012516498565674,
+            -6.464948654174805
+          ],
+          [
+            -4.6748400706064785e-08,
+            0.9781476259231567,
+            0.20791161060333252,
+            2.573293447494507
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.038400173187256,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_close_elbow_a.png",
+      "sha256": "a1df5b80806136b53f6d5c6be4831332a6209e06791bf29e70222b85a19d32cb",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660444378852844,
+            0.16636569797992706,
+            -0.6208852529525757,
+            -5.18208122253418
+          ],
+          [
+            -0.6427876949310303,
+            0.19826677441596985,
+            -0.739942193031311,
+            -5.9471116065979
+          ],
+          [
+            -1.872075472419965e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.265692710876465
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.30000001192092896,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_close_elbow_b.png",
+      "sha256": "fec6b4351412c8c3dcdbda91ae642ca35c4f02af43fe0b4567ce0c0d1be9bcb5",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.18208122253418
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.89196252822876
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.265692710876465
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.30000001192092896,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_close_hand_a.png",
+      "sha256": "e5b6272f2ebc0fd293d33efb3ec6f267a96a9c794dba3c67f7073d9c7a71d67e",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660444378852844,
+            0.16636569797992706,
+            -0.6208852529525757,
+            -5.165472984313965
+          ],
+          [
+            -0.6427876949310303,
+            0.19826677441596985,
+            -0.739942193031311,
+            -6.129800796508789
+          ],
+          [
+            -1.872075472419965e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.5812461376190186
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.2199999988079071,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_curl_peak_close_hand_b.png",
+      "sha256": "3351afbbfb1c3fed0c0dbc955b0dc13e6ed210aeb75ba1995acc640b7553fe9f",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.165472984313965
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.709273338317871
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.5812461376190186
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.2199999988079071,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_front.png",
+      "sha256": "5d223e8cc4ec93dbaeb0f2938ac2ebfa5e692823ffd667aff72f5c12b968658c",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -6.705522537231445e-08
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947202682495,
+            -8.02238655090332
+          ],
+          [
+            0.0,
+            0.9961947202682495,
+            0.08715571463108063,
+            1.8142112493515015
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.502004384994507,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_side.png",
+      "sha256": "fccf6f62fa7b0cffca0ca28dd3bb9561cf5e5cec1490703636a07a59ba1597eb",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715572953224182,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            -1.0,
+            -8.043211607855483e-08,
+            -3.1073916773038945e-08,
+            -0.052829064428806305
+          ],
+          [
+            -3.1073916773038945e-08,
+            0.9961947798728943,
+            0.08715567737817764,
+            1.8142112493515015
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.502004384994507,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_three_quarter.png",
+      "sha256": "fd7c4e5183101942a6815383534dc31905975a96e4cdfceb0ec1155bab7ea9ed",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191519975662231,
+            0.1192532554268837,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031118273735046,
+            -0.8012516498565674,
+            -6.462841987609863
+          ],
+          [
+            -4.6748400706064785e-08,
+            0.9781476259231567,
+            0.20791161060333252,
+            2.7802586555480957
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.502004384994507,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_close_shoulder_a.png",
+      "sha256": "d25e2bc2cf0b6dbad66727b55bd46868326cbbd2d21e7e09893577fbfebb8cd9",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660444378852844,
+            0.16636569797992706,
+            -0.6208852529525757,
+            -5.091233253479004
+          ],
+          [
+            -0.6427876949310303,
+            0.19826677441596985,
+            -0.739942193031311,
+            -5.889537334442139
+          ],
+          [
+            -1.872075472419965e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.6094865798950195
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_close_shoulder_b.png",
+      "sha256": "c9bc8f7553b18c736a1aadebfc286a34c8d7dee308c7ad82fde27e514c71e4b6",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.091233253479004
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.9495368003845215
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.6094865798950195
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_rhythm_front.png",
+      "sha256": "b227b6c7185e8d2518607f9311e566d51101a8a38fca739c6a43a3bcfb7e2e40",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            7.450580596923828e-08
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947202682495,
+            -8.02238655090332
+          ],
+          [
+            0.0,
+            0.9961947202682495,
+            0.08715571463108063,
+            1.8081153631210327
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.488349676132202,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_rhythm_side.png",
+      "sha256": "fd91be9d7442fa1407adb1e82bd1387028264ab9e292b73e4c77616905bfbb21",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715572953224182,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            -1.0,
+            -8.043211607855483e-08,
+            -3.1073916773038945e-08,
+            -0.0528290793299675
+          ],
+          [
+            -3.1073916773038945e-08,
+            0.9961947798728943,
+            0.08715567737817764,
+            1.8081153631210327
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.488349676132202,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_rhythm_three_quarter.png",
+      "sha256": "2b1ac7eac208787a6257932941aa8f39fdfdf6b3f909d53f1b274c0cab5bca4d",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191519975662231,
+            0.1192532554268837,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031118273735046,
+            -0.8012516498565674,
+            -6.462841987609863
+          ],
+          [
+            -4.6748400706064785e-08,
+            0.9781476259231567,
+            0.20791161060333252,
+            2.774162769317627
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.488349676132202,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_rhythm_close_shoulder_a.png",
+      "sha256": "a7f65b25ff103b8429d6d2a5b9fe34c93d328edbc4b8d555ccc44069c2a47432",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660444378852844,
+            0.16636569797992706,
+            -0.6208852529525757,
+            -5.077123641967773
+          ],
+          [
+            -0.6427876949310303,
+            0.19826677441596985,
+            -0.739942193031311,
+            -5.8895368576049805
+          ],
+          [
+            -1.872075472419965e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.597295045852661
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_press_top_rhythm_close_shoulder_b.png",
+      "sha256": "96d40d87fe2d22c432da6f29f4a6a3349248d2bbb745e9e8b7976ce15199a1bc",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.077123641967773
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.94953727722168
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.597295045852661
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_pullup_hang_front.png",
+      "sha256": "26135fed75ef7812c899b4bb4a7da36d2dc0c366b74feccd327c1bdc4dc40eb2",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.4901161193847656e-07
+          ],
+          [
+            0.0,
+            0.08715571463108063,
+            -0.9961947202682495,
+            -8.022407531738281
+          ],
+          [
+            0.0,
+            0.9961947202682495,
+            0.08715571463108063,
+            1.8016771078109741
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4739277362823486,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_pullup_hang_side.png",
+      "sha256": "baeea52cda235e972023f67ea05305d72ec4783b855d03191d862902d4d17a2a",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -2.348411953789764e-08,
+            0.08715572953224182,
+            -0.9961947798728943,
+            -7.969557762145996
+          ],
+          [
+            -1.0,
+            -8.043211607855483e-08,
+            -3.1073916773038945e-08,
+            -0.05284959077835083
+          ],
+          [
+            -3.1073916773038945e-08,
+            0.9961947798728943,
+            0.08715567737817764,
+            1.8016771078109741
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4739277362823486,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_pullup_hang_three_quarter.png",
+      "sha256": "f159ab9eea8dafe542ed1bfacc85579c3a75f400fd73fc4e90cd1e64e11e0782",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.8191519975662231,
+            0.1192532554268837,
+            -0.5610424280166626,
+            -4.488339424133301
+          ],
+          [
+            -0.5735764503479004,
+            0.17031118273735046,
+            -0.8012516498565674,
+            -6.462862491607666
+          ],
+          [
+            -4.6748400706064785e-08,
+            0.9781476259231567,
+            0.20791161060333252,
+            2.7677245140075684
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 2.4739277362823486,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_pullup_hang_close_shoulder_a.png",
+      "sha256": "d4febbb1ce13141182cfa733496773ccae422a22a17e62337e2924d8df2f5ca5",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            0.7660444378852844,
+            0.16636569797992706,
+            -0.6208852529525757,
+            -5.097784042358398
+          ],
+          [
+            -0.6427876949310303,
+            0.19826677441596985,
+            -0.739942193031311,
+            -5.8895368576049805
+          ],
+          [
+            -1.872075472419965e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.6135616302490234
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    },
+    {
+      "file": "pose_pullup_hang_close_shoulder_b.png",
+      "sha256": "7fba83eec22cd577cbfa79ede9db1a2699a73e77c6648635742628a1f49479d1",
+      "capture": {
+        "protocol": "original_v1_stress_render_v1",
+        "render_script_sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+        "camera_matrix_world": [
+          [
+            -0.7660446166992188,
+            0.1663656085729599,
+            -0.6208851337432861,
+            -5.097784042358398
+          ],
+          [
+            -0.6427875757217407,
+            -0.19826699793338776,
+            0.7399422526359558,
+            5.94953727722168
+          ],
+          [
+            -4.947276011080248e-08,
+            0.965925931930542,
+            0.25881895422935486,
+            3.6135616302490234
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "orthographic_scale": 0.3400000035762787,
+        "resolution": [
+          900,
+          900,
+          100
+        ],
+        "engine": "BLENDER_WORKBENCH",
+        "light_direction": [
+          -0.44999998807907104,
+          -0.3499999940395355,
+          0.8199999928474426
+        ],
+        "shading_light": "STUDIO",
+        "shading_color_type": "MATERIAL",
+        "shadows": true,
+        "shadow_intensity": 0.44999998807907104,
+        "cavity": true,
+        "dressed": true
+      }
+    }
+  ],
+  "owner_review": "pending",
+  "blocking": false,
+  "production_approved": false
+}

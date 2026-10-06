@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "ready": true,
+  "production_approved": false,
+  "errors": [],
+  "target_revision": "r97",
+  "parent": {
+    "revision": "r95",
+    "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+    "candidate_path": "origin/claude/original-v1-blender-o2-20260929:ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+    "r95_blend_sha256": "8a39a22d3fec36f82c1cd53f6d0a976748a8cf97de14d81e62b5789178403bdd",
+    "working_reconstruction": {
+      "path": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend",
+      "method": "committed r82 .blend (rest mesh, rig rev2c, quads, metadata identical to r95 within 5e-7 m) + r95 skin weights and six corrective shape keys from the identity-verified r95 BARE export, by vertex index",
+      "verification": "repository pose test on the reconstruction reproduces r95 full-evidence metrics exactly for press_top, press_top_rhythm, pullup_hang, curl_peak"
+    }
+  },
+  "next": "BLENDER_FOUNDATION_EDIT_ALLOWED"
+}

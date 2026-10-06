@@ -7,6 +7,7 @@
   "authority_order": [
     "live branch/source and executable evidence",
     "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
+    "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
     "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json",
     "ORIGINAL_V1_HIGH_DETAIL_STATUS.json",
     "docs/ORIGINAL_V1_WHOLE_BODY_RECOVERY_20261004.md",
@@ -17,15 +18,15 @@
   ],
   "branch": "codex/whole-body-deformation-recovery-20261004",
   "current_expected_state": {
-    "phase": "phase_3A_r96_task7_residual_corrective",
-    "candidate": "r95 immutable comparator; r96 topology-only intermediate is the Task 7 parent",
+    "phase": "phase_3A_shoulder_foundation_rearchitecture",
+    "candidate": "r95 immutable comparator; existing r96 screening is rejected for promotion and retained as diagnostic evidence",
     "topology_only_r96_sha256": "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd",
-    "next_action": "EXECUTE r96 Task 7 generic elevation-driven residual corrective",
+    "next_action": "STOP residual-corrective promotion path. Re-establish shoulder-girdle mechanics/topology/weights-first foundation and prove the overhead movement matrix before any residual corrective fitting.",
     "command": null,
-    "note": "Task 6 proved that more support loops, broader arm-follow weights and Blender-only Preserve Volume are not viable delivery fixes. Declare a fresh r96 Task 7 morph mask from the exact topology-only intermediate, fit one residual anatomical behaviour at a time, and keep r95 immutable.",
+    "note": "Owner-confirmed r96 overhead renders show structural deltoid/axilla/pec/scapular deformation failure. ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json is now authoritative for the shoulder package. A corrective may not conceal a failed weights-only foundation.",
     "active": true,
     "selector_node": "3A_axilla_local",
-    "release_condition": "Deactivate this recovery override only after the r96 Task 7 shoulder gate passes with committed evidence; then point orchestration to the next unresolved Critical/High whole-body issue, not Phase 5."
+    "release_condition": "Deactivate this recovery override only after a descendant shoulder candidate passes the machine-readable acceptance contract with committed weights-only, movement-matrix and human visual evidence; then continue to the next unresolved Critical/High whole-body issue."
   },
   "blocking_issue_ledger": {
     "path": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
@@ -50,7 +51,10 @@
     "Routine owner review snapshots are non-blocking; final owner acceptance/freeze authorization remain explicit later gates.",
     "Every candidate/output uses a fresh revision/label/path; never overwrite historical evidence.",
     "Prepared tooling is not phase completion. Actual execution evidence controls progression.",
-    "A live anatomical-recovery override takes precedence over historically generated phase-complete fields until its evidence-bound release condition is satisfied."
+    "A live anatomical-recovery override takes precedence over historically generated phase-complete fields until its evidence-bound release condition is satisfied.",
+    "Shoulder recovery obeys the causal order skeleton mechanics -> support topology -> weights-first transfer -> rotation-aware anatomical deformation -> minimal residual correctives.",
+    "Do not fit or promote a shoulder residual corrective until the weights-only foundation passes the overhead anatomical visual gate.",
+    "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json is fail-closed and a numerical pass cannot override a visible anatomical failure."
   ],
   "prepared_support_stages": [
     {
@@ -263,14 +267,14 @@
     },
     {
       "id": "3A_axilla_local",
-      "roadmap": "Phase 3A r96 shoulder/axilla anatomical recovery before development refreeze",
+      "roadmap": "Phase 3A shoulder/axilla anatomical foundation recovery before development refreeze",
       "entry": [
-        "r95 remains immutable as the rejected visual comparator",
-        "r96 topology-only intermediate SHA-256 6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd is hash-verified before editing",
-        "Task 6 failure evidence is preserved; no more support-loop/broad-weight or Blender-only Preserve Volume path is used",
-        "fresh Task 7 corrective mask is declared before any edit"
+        "r95 remains immutable as rejected comparator",
+        "existing r96 screening remains diagnostic/rejected for promotion",
+        "fresh candidate identity and repair scope are declared before model edits",
+        "shoulder acceptance contract and human-evidence manifest validate"
       ],
-      "action": "Execute docs/ORIGINAL_V1_R96_TASK7_HANDOFF.md: author the fresh generic elevation-driven morph corrective, run continuous-arc and full candidate regression evidence, complete the candidate-bound visual review, then run the r96 Task 7 fail-closed gate.",
+      "action": "Use ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json. Preserve r95/r96 evidence, diagnose the failed causal layer, repair shoulder-girdle mechanics/topology/weights-first transfer on a fresh declared descendant candidate, run the complete elevation x axial-rotation matrix, and only after a weights-only visual pass permit minimal residual correctives.",
       "support_stages": [
         1,
         2,
@@ -278,14 +282,14 @@
         9
       ],
       "exit": [
-        "r96 Task 7 numerical comparison has zero material regressions",
-        "continuous shoulder-arc numeric regression gate passes on required overhead press and pull-up arcs",
-        "all eight shoulder-complex Critical/High issue reviews pass against production-path renders and real-human evidence",
-        "whole-body regression evidence passes and no unrelated Critical/High blocker is hidden or auto-closed",
-        "candidate disposition and exact hashes are committed; production approval remains false"
+        "weights-only shoulder foundation passes all applicable machine and mandatory visual gates",
+        "required elevation/flexion/abduction x axial-rotation movement matrix is complete and candidate-bound",
+        "any residual corrective is small, generic, rotation-aware and fitted only after foundation pass",
+        "all linked shoulder Critical/High issue reviews pass against production-path renders and real-human evidence",
+        "whole-body regression evidence passes; production approval remains false"
       ],
       "next_on_pass": "3CD_grip_wrist_recovery",
-      "next_on_tradeoff": "Preserve evidence and create a new declared Task 7 experiment from the exact r96 parent; never auto-promote or fall back to r95 corrective data.",
+      "next_on_tradeoff": "Preserve evidence and revise the failed causal layer on a fresh declared candidate; never stack a corrective onto a failed foundation or relax gates.",
       "parallel_safe": [
         "read-only human-evidence coverage validation",
         "whole-body audit tooling",

@@ -29,3 +29,17 @@ def validate_declaration(d:dict[str,Any])->list[str]:
  if scope.get("exercise_name_driven_deformation_forbidden") is not True:e.append("exercise-name deformation must be forbidden")
  if scope.get("threshold_relaxation_forbidden") is not True:e.append("threshold relaxation must be forbidden")
  return list(dict.fromkeys(e))
+
+def main()->int:
+ import argparse
+ ap=argparse.ArgumentParser();ap.add_argument("declaration",type=Path);a=ap.parse_args()
+ try:data=json.loads(a.declaration.read_text(encoding="utf-8-sig"));errors=validate_declaration(data)
+ except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
+  print("SHOULDER FOUNDATION DECLARATION INVALID: "+str(exc));return 2
+ if errors:
+  print("SHOULDER FOUNDATION DECLARATION INVALID")
+  for x in errors:print("- "+x)
+  return 1
+ print("SHOULDER FOUNDATION DECLARATION VERIFIED")
+ return 0
+if __name__=="__main__":raise SystemExit(main())

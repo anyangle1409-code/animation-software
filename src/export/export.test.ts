@@ -275,6 +275,12 @@ describe('baked animation', () => {
 });
 
 describe('json export', () => {
+  it('reports the live canonical v4 rig identity', () => {
+    expect(SKELETON_ID).toBe('hgpt_canonical_v4_original');
+    expect(exportAnimationJson(studioClip, bicepCurl, skeleton, 30).skeleton).toBe(SKELETON_ID);
+    expect(exportMetadataJson(bicepCurl).derived.skeleton).toBe(SKELETON_ID);
+  });
+
   it('writes the legacy Three-compatible JSON shape from first-party baked data', () => {
     const json = exportAnimationJson(studioClip, bicepCurl, skeleton, 30);
     expect(json.format).toBe('hgpt-animation');

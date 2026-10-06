@@ -204,8 +204,8 @@ def evaluate_task7_gate(
         if visual_review.get(key) is not True:
             reasons.append(f"visual_review_{key}_not_passed")
 
-    if visual_review.get("critical_high_remaining") != 0:
-        reasons.append("critical_or_high_shoulder_issues_remain")
+    if visual_review.get("required_issue_failures_remaining") != 0:
+        reasons.append("required_task7_shoulder_issues_remain")
 
     reasons = list(dict.fromkeys(reasons))
     return {
@@ -219,7 +219,7 @@ def evaluate_task7_gate(
         "rule": (
             "Task 7 requires zero material numerical regression AND explicit, "
             "candidate-bound production-path anatomical visual approval. "
-            "Numerical evidence alone can never promote r96."
+            "This gate concerns the eight required Task 7 shoulder-complex issues only; other whole-body Critical/High blockers remain in the issue ledger and still block Phase 4. Numerical evidence alone can never promote r96."
         ),
     }
 

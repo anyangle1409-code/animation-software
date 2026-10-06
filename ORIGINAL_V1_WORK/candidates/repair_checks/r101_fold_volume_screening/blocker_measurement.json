@@ -1,0 +1,20 @@
+{
+    "flexion_170_membrane_vertices": 318,
+    "flexion_170_mean_weight_share": {
+        "trunk_girdle": 0.446,
+        "glenohumeral_half": 0.31,
+        "upperarm": 0.235
+    },
+    "flexion_170_frac_membrane_vertices_half_ge_0.3": 0.393,
+    "abduction_150_membrane_vertices": 233,
+    "abduction_150_mean_weight_share": {
+        "trunk_girdle": 0.44,
+        "glenohumeral_half": 0.349,
+        "upperarm": 0.204
+    },
+    "abduction_150_frac_membrane_vertices_half_ge_0.3": 0.442,
+    "flexion_170_ant_offset_mm": 38.1,
+    "flexion_170_ant_offset_vs_posed_band_normal_deg": 24.8,
+    "abduction_150_ant_offset_mm": 30.9,
+    "abduction_150_ant_offset_vs_posed_band_normal_deg": 23.9
+}

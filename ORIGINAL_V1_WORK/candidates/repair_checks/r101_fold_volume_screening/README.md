@@ -45,3 +45,64 @@ The next exact step within this declaration's bounds:
 - then re-render flexion 170 / abduction 150 / press_top / pullup_hang close-ups against r98.
 
 If the fold still does not read as a rounded band at the cap, record r101 as blocked. The likely remaining causes are either the band normal (fixed in the half helper's frame) not matching the overhead fold orientation, or the membrane being dominated by vertices weighted to the trunk and humerus rather than the half helper. Either would need an amendment to also take share from those bones, with the base-motion change measured.
+
+---
+
+# Cap test and verdict: r101 BLOCKED (no candidate, no READY)
+
+## Cap test
+
+Run inside the existing declaration on fresh copies of r98:
+- **Offset:** `a_max` = 0.04 m, the hard cap.
+- **Fold share:** maximised within `band_max` 0.8 (`profile_gain` 2.5).
+- **Priority:** a smooth ramp favouring vertices with a half-helper weight of at least 0.3 (`min_half` 0.3).
+
+Weight is taken from the half helper only. Torso and humerus bones are untouched, there are no shape keys, and non-declared weights are unchanged.
+
+Verified in the receipts and the matrix:
+- non-declared weights unchanged;
+- at most 4 influences;
+- symmetry 0.31 mm, the same as r98;
+- driver exactly 0 at rest and smooth through 170°.
+
+The corrected mapping stays zero below about 40° of glenohumeral swing, since the response is a smoothstep over d0 = 0.14 to d1 = 0.33.
+
+## 15-pose subset
+
+| Variant | Collisions | Max edge ratio | Horizontal adduction | Flexion 150 neutral | Flexion 170 neutral |
+|---|---:|---:|---:|---:|---:|
+| r98 | 346 | 4.33 | 2 | 6 | 32 |
+| anterior 30 mm (r101-Am) | 348 | 4.33 | 2 | 8 | 32 |
+| both 30 mm (r101-Bm) | 380 | 4.33 | 38 | 8 | 32 |
+| **anterior 40 mm, high share (Acap)** | **388** | 4.33 | 4 | **20** | **38** |
+| **both 40 mm, high share (Bcap)** | **444** | **6.01** | **54** | **20** | **40** |
+
+## Visual check
+
+`images/r98_r101Am30_r101Acap40_r101Bcap40_closeups.jpg`, front / armpit / rear / three-quarter, for flexion 170, abduction 150, press top and pull-up hang:
+- The fold does **not** become a rounded band. In the armpit views the anterior fold edge becomes a sharper ridge line.
+- Bcap adds a pointed flap at the posterior fold in the press-top and pull-up-hang rear views.
+- The membrane, rear dent and back creases are otherwise unchanged.
+
+Both cap variants are rejected: no rounded fold, a new ridge or flap, and collision regressions. The 30 mm variants were already visually inert.
+
+## Measured blocker
+
+`blocker_measurement.json`, from r98 membrane vertices (edges stretched more than 2× in the left shoulder zone) and the Acap helper.
+
+**Weight composition (primary).**
+
+| Pose | Membrane vertices | Torso/girdle | Half helper | Humerus | Vertices with half ≥ 0.3 |
+|---|---:|---:|---:|---:|---:|
+| Flexion 170 | 318 | 0.446 | 0.310 | 0.235 | 39% |
+| Abduction 150 | 233 | 0.440 | 0.349 | 0.204 | 44% |
+
+About two-thirds of the membrane's weight is on torso/girdle and humerus bones. A helper that can only take half-helper weight moves a minority of each membrane vertex and fewer than half of the membrane vertices. Pushing that reachable part harder makes a ridge or flap instead of a rounded fold.
+
+**Fixed-normal orientation (secondary).** The helper's push direction is 24–25° off the posed band normal at flexion 170 and abduction 150. That cuts the outward component by about 10% (cos 25° ≈ 0.91). This is not enough to explain the failure.
+
+## Conclusion
+
+The half-helper-only fold-volume mechanism is stopped. The measured blocker is **torso- and humerus-dominated membrane weights**.
+
+The next step needs a new pre-edit declaration that allows the fold-volume helper to take a bounded share from torso/girdle and humerus weights as well, with the change to base motion measured. A posed-normal-following drive direction could also be considered as a second refinement. Nothing is amended here. r98, r99 and r100 are unchanged.

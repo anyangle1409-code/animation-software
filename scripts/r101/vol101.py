@@ -21,7 +21,10 @@ for key, F in P['folds'].items():
     t = np.clip((co - O) @ seg / (seg @ seg), 0, 1); d = np.linalg.norm(co - (O + t[:, None] * seg), axis=1)
     r = np.clip(d / F['radius'], 0, 1); radial = 0.5 * (1 + np.cos(np.pi * r)); bump = np.sin(np.pi * t)
     side = (co[:, 1] < F['side'][1]) if F['side'][0] == 'y_lt' else (co[:, 1] > F['side'][1])
-    f = P['band_max'] * radial * bump * side * left * (W[:, hh] > 0.02)
+    prof = np.clip(P.get('profile_gain', 1.0) * radial * bump, 0, 1)
+    mh = P.get('min_half', 0.0)
+    hramp = np.clip((W[:, hh] - (mh - 0.15)) / 0.15, 0, 1) if mh > 0 else (W[:, hh] > 0.02).astype(float)   # smooth priority on half weight
+    f = P['band_max'] * prof * hramp * side * left * (W[:, hh] > 0.02)
     nv = (nrm * (f * W[:, hh])[:, None]).sum(0); nv /= np.linalg.norm(nv)
     bands[key] = (f, nv)
 tot = sum(b[0] for b in bands.values()); sc_ = np.where(tot > P['band_max'], P['band_max'] / np.maximum(tot, 1e-12), 1.0)

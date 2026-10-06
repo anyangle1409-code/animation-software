@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "render_profile_version": "pt-demo-render-v1",
+  "status": "interface_frozen_renderer_pending",
+  "purpose": "Deterministic first-party exercise demonstration media for PT-App",
+  "identity": {
+    "character_version": "HomeGymPT_Male_ORIGINAL_v1",
+    "rig_version": "hgpt_canonical_v4_original",
+    "character_approval_status": "production_approved"
+  },
+  "video": {
+    "width": 720,
+    "height": 720,
+    "fps": 30,
+    "pixel_aspect_ratio": "1:1",
+    "orientation": "square",
+    "allowed_containers": [
+      "webm",
+      "mp4"
+    ],
+    "audio": "forbidden"
+  },
+  "timeline": {
+    "start_frame_policy": "validated_clip_start",
+    "end_frame_policy": "validated_clip_end",
+    "loop": "seamless_repetition_boundary",
+    "frame_sampling": "integer_frame_at_declared_fps",
+    "variable_frame_rate": "forbidden"
+  },
+  "camera": {
+    "policy": "exercise_camera_recommendation_resolved_deterministically",
+    "randomness": "forbidden",
+    "auto_reframe_during_clip": "forbidden",
+    "required_fields": [
+      "position",
+      "target",
+      "fov"
+    ]
+  },
+  "scene": {
+    "lighting": "first_party_fixed_profile",
+    "background": "first_party_fixed_profile",
+    "randomness": "forbidden",
+    "external_resources": "forbidden"
+  },
+  "encoding": {
+    "deterministic_input_frames": true,
+    "metadata_must_not_change_visual_output": true,
+    "media_sha256_required": true,
+    "source_animation_sha256_required": true
+  },
+  "compatibility": {
+    "manifest_schema_version": 2,
+    "consumer": "PT-App",
+    "breaking_change_requires_new_render_profile_version": true
+  },
+  "acceptance": [
+    "exact production character and rig identity",
+    "source animation validation passed",
+    "all frames generated from approved character runtime",
+    "stable camera and scene profile",
+    "media hash calculated from final bytes",
+    "PT-App validator and readiness pass",
+    "PT-App dry-run promotion pass"
+  ],
+  "production_approved": false
+}
